@@ -61,7 +61,6 @@
             "idpageviewtime": "1",
             "idsite": "1",
             "idvisit": "1",
-            "idvisitor": "5484eb1bcd82eefe",
             "server_time": "2017-01-02 03:04:04",
             "time_spent": "360"
         },
@@ -73,7 +72,6 @@
             "idpageviewtime": "2",
             "idsite": "1",
             "idvisit": "1",
-            "idvisitor": "5484eb1bcd82eefe",
             "server_time": "2017-01-02 03:10:04",
             "time_spent": "0"
         },
@@ -85,7 +83,6 @@
             "idpageviewtime": "3",
             "idsite": "1",
             "idvisit": "1",
-            "idvisitor": "5484eb1bcd82eefe",
             "server_time": "2017-01-02 03:10:04",
             "time_spent": "0"
         },
@@ -96,7 +93,6 @@
             "idpageviewtime": "4",
             "idsite": "1",
             "idvisit": "1",
-            "idvisitor": "5484eb1bcd82eefe",
             "server_time": "2017-01-02 03:10:04",
             "time_spent": "0"
         }

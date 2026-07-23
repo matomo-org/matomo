@@ -1009,10 +1009,11 @@ cookie_domain =
 ; set to 0 if you want to stop tracking the visitors. Useful if you need to stop all the connections on the DB.
 record_statistics = 1
 
-; Set to 0 to skip recording accurate per-pageview time-spent rows into the log_page_view_time table.
-; This is a temporary safety control (introduced in 6.0.0) — disabling it falls back to the legacy
-; time_spent_ref_action metric. Scheduled for removal in a future major version once the new metric
-; has been validated in production.
+; Set to 0 to stop recording accurate per-pageview time-spent rows into the log_page_view_time table.
+; Only affects data collected while disabled: those pageviews fall back to the legacy
+; time_spent_ref_action metric at archive time, while rows recorded before disabling keep being used.
+; This is a temporary safety control (introduced in 6.0.0), scheduled for removal in a future major
+; version once the new metric has been validated in production.
 record_accurate_page_view_time = 1
 
 ; length of a visit in seconds. If a visitor comes back on the website visit_standard_length seconds

@@ -11618,7 +11618,6 @@
             "idpageviewtime": "1",
             "idsite": "1",
             "idvisit": "1",
-            "idvisitor": "5484eb1bcd82eefe",
             "server_time": "2017-01-02 03:04:04",
             "time_spent": "360"
         },
@@ -11630,7 +11629,6 @@
             "idpageviewtime": "2",
             "idsite": "1",
             "idvisit": "1",
-            "idvisitor": "5484eb1bcd82eefe",
             "server_time": "2017-01-02 03:10:04",
             "time_spent": "0"
         },
@@ -11642,7 +11640,6 @@
             "idpageviewtime": "3",
             "idsite": "1",
             "idvisit": "1",
-            "idvisitor": "5484eb1bcd82eefe",
             "server_time": "2017-01-02 03:10:04",
             "time_spent": "0"
         },
@@ -11653,7 +11650,6 @@
             "idpageviewtime": "4",
             "idsite": "1",
             "idvisit": "1",
-            "idvisitor": "5484eb1bcd82eefe",
             "server_time": "2017-01-02 03:10:04",
             "time_spent": "0"
         },
@@ -11665,7 +11661,6 @@
             "idpageviewtime": "5",
             "idsite": "1",
             "idvisit": "2",
-            "idvisitor": "6f1ccf4b4463998f",
             "server_time": "2017-01-02 01:04:04",
             "time_spent": "0"
         },
@@ -11677,7 +11672,6 @@
             "idpageviewtime": "6",
             "idsite": "1",
             "idvisit": "3",
-            "idvisitor": "6f1ccf4b4463998f",
             "server_time": "2017-01-02 03:04:04",
             "time_spent": "0"
         },
@@ -11689,7 +11683,6 @@
             "idpageviewtime": "7",
             "idsite": "1",
             "idvisit": "4",
-            "idvisitor": "dbfd79b34328023f",
             "server_time": "2016-12-31 08:04:04",
             "time_spent": "360"
         },
@@ -11701,7 +11694,6 @@
             "idpageviewtime": "8",
             "idsite": "1",
             "idvisit": "4",
-            "idvisitor": "dbfd79b34328023f",
             "server_time": "2016-12-31 08:10:04",
             "time_spent": "0"
         },
@@ -11713,7 +11705,6 @@
             "idpageviewtime": "9",
             "idsite": "1",
             "idvisit": "5",
-            "idvisitor": "dbfd79b34328023f",
             "server_time": "2017-01-01 23:04:04",
             "time_spent": "360"
         },
@@ -11725,7 +11716,6 @@
             "idpageviewtime": "10",
             "idsite": "1",
             "idvisit": "5",
-            "idvisitor": "dbfd79b34328023f",
             "server_time": "2017-01-01 23:10:04",
             "time_spent": "0"
         },
@@ -11737,7 +11727,6 @@
             "idpageviewtime": "11",
             "idsite": "1",
             "idvisit": "6",
-            "idvisitor": "dbfd79b34328023f",
             "server_time": "2017-01-02 03:04:04",
             "time_spent": "360"
         },
@@ -11749,7 +11738,6 @@
             "idpageviewtime": "12",
             "idsite": "1",
             "idvisit": "6",
-            "idvisitor": "dbfd79b34328023f",
             "server_time": "2017-01-02 03:10:04",
             "time_spent": "0"
         },
@@ -11761,7 +11749,6 @@
             "idpageviewtime": "13",
             "idsite": "1",
             "idvisit": "7",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2016-12-31 08:04:04",
             "time_spent": "360"
         },
@@ -11773,7 +11760,6 @@
             "idpageviewtime": "14",
             "idsite": "1",
             "idvisit": "7",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2016-12-31 08:10:04",
             "time_spent": "0"
         },
@@ -11785,7 +11771,6 @@
             "idpageviewtime": "15",
             "idsite": "1",
             "idvisit": "7",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2016-12-31 08:10:04",
             "time_spent": "0"
         },
@@ -11797,7 +11782,6 @@
             "idpageviewtime": "16",
             "idsite": "1",
             "idvisit": "8",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-01 09:04:04",
             "time_spent": "360"
         },
@@ -11809,7 +11793,6 @@
             "idpageviewtime": "17",
             "idsite": "1",
             "idvisit": "8",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-01 09:10:04",
             "time_spent": "0"
         },
@@ -11821,7 +11804,6 @@
             "idpageviewtime": "18",
             "idsite": "1",
             "idvisit": "8",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-01 09:10:04",
             "time_spent": "0"
         },
@@ -11833,7 +11815,6 @@
             "idpageviewtime": "19",
             "idsite": "1",
             "idvisit": "9",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-01 14:04:04",
             "time_spent": "360"
         },
@@ -11845,7 +11826,6 @@
             "idpageviewtime": "20",
             "idsite": "1",
             "idvisit": "9",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-01 14:10:04",
             "time_spent": "0"
         },
@@ -11857,7 +11837,6 @@
             "idpageviewtime": "21",
             "idsite": "1",
             "idvisit": "9",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-01 14:10:04",
             "time_spent": "0"
         },
@@ -11869,7 +11848,6 @@
             "idpageviewtime": "22",
             "idsite": "1",
             "idvisit": "10",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-01 19:04:04",
             "time_spent": "360"
         },
@@ -11881,7 +11859,6 @@
             "idpageviewtime": "23",
             "idsite": "1",
             "idvisit": "10",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-01 19:10:04",
             "time_spent": "0"
         },
@@ -11893,7 +11870,6 @@
             "idpageviewtime": "24",
             "idsite": "1",
             "idvisit": "10",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-01 19:10:04",
             "time_spent": "0"
         },
@@ -11905,7 +11881,6 @@
             "idpageviewtime": "25",
             "idsite": "1",
             "idvisit": "11",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-02 00:04:04",
             "time_spent": "360"
         },
@@ -11917,7 +11892,6 @@
             "idpageviewtime": "26",
             "idsite": "1",
             "idvisit": "11",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-02 00:10:04",
             "time_spent": "0"
         },
@@ -11929,7 +11903,6 @@
             "idpageviewtime": "27",
             "idsite": "1",
             "idvisit": "11",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-02 00:10:04",
             "time_spent": "0"
         },
@@ -11941,7 +11914,6 @@
             "idpageviewtime": "28",
             "idsite": "1",
             "idvisit": "12",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-02 02:04:04",
             "time_spent": "360"
         },
@@ -11953,7 +11925,6 @@
             "idpageviewtime": "29",
             "idsite": "1",
             "idvisit": "12",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-02 02:10:04",
             "time_spent": "0"
         },
@@ -11965,7 +11936,6 @@
             "idpageviewtime": "30",
             "idsite": "1",
             "idvisit": "12",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-02 02:10:04",
             "time_spent": "0"
         },
@@ -11977,7 +11947,6 @@
             "idpageviewtime": "31",
             "idsite": "1",
             "idvisit": "13",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-02 03:04:04",
             "time_spent": "360"
         },
@@ -11989,7 +11958,6 @@
             "idpageviewtime": "32",
             "idsite": "1",
             "idvisit": "13",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-02 03:10:04",
             "time_spent": "0"
         },
@@ -12001,7 +11969,6 @@
             "idpageviewtime": "33",
             "idsite": "1",
             "idvisit": "13",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-02 03:10:04",
             "time_spent": "0"
         },
@@ -12013,7 +11980,6 @@
             "idpageviewtime": "34",
             "idsite": "1",
             "idvisit": "14",
-            "idvisitor": "93daa0102b94a590",
             "server_time": "2017-01-02 03:04:04",
             "time_spent": "0"
         },
@@ -12025,7 +11991,6 @@
             "idpageviewtime": "35",
             "idsite": "1",
             "idvisit": "15",
-            "idvisitor": "10b7b3f2a3a3cbc0",
             "server_time": "2017-01-02 00:04:04",
             "time_spent": "360"
         },
@@ -12037,7 +12002,6 @@
             "idpageviewtime": "36",
             "idsite": "1",
             "idvisit": "15",
-            "idvisitor": "10b7b3f2a3a3cbc0",
             "server_time": "2017-01-02 00:10:04",
             "time_spent": "0"
         },
@@ -12048,7 +12012,6 @@
             "idpageviewtime": "37",
             "idsite": "1",
             "idvisit": "15",
-            "idvisitor": "10b7b3f2a3a3cbc0",
             "server_time": "2017-01-02 00:10:04",
             "time_spent": "0"
         },
@@ -12060,7 +12023,6 @@
             "idpageviewtime": "38",
             "idsite": "1",
             "idvisit": "16",
-            "idvisitor": "10b7b3f2a3a3cbc0",
             "server_time": "2017-01-02 03:04:04",
             "time_spent": "360"
         },
@@ -12072,7 +12034,6 @@
             "idpageviewtime": "39",
             "idsite": "1",
             "idvisit": "16",
-            "idvisitor": "10b7b3f2a3a3cbc0",
             "server_time": "2017-01-02 03:10:04",
             "time_spent": "0"
         },
@@ -12084,7 +12045,6 @@
             "idpageviewtime": "40",
             "idsite": "1",
             "idvisit": "17",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-02 01:04:04",
             "time_spent": "360"
         },
@@ -12096,7 +12056,6 @@
             "idpageviewtime": "41",
             "idsite": "1",
             "idvisit": "17",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-02 01:10:04",
             "time_spent": "0"
         },
@@ -12108,7 +12067,6 @@
             "idpageviewtime": "42",
             "idsite": "1",
             "idvisit": "17",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-02 01:10:04",
             "time_spent": "0"
         },
@@ -12120,7 +12078,6 @@
             "idpageviewtime": "43",
             "idsite": "1",
             "idvisit": "18",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-01 22:04:04",
             "time_spent": "360"
         },
@@ -12132,7 +12089,6 @@
             "idpageviewtime": "44",
             "idsite": "1",
             "idvisit": "18",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-01 22:10:04",
             "time_spent": "0"
         },
@@ -12144,7 +12100,6 @@
             "idpageviewtime": "45",
             "idsite": "1",
             "idvisit": "18",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-01 22:10:04",
             "time_spent": "0"
         },
@@ -12156,7 +12111,6 @@
             "idpageviewtime": "46",
             "idsite": "1",
             "idvisit": "19",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-02 00:04:04",
             "time_spent": "360"
         },
@@ -12168,7 +12122,6 @@
             "idpageviewtime": "47",
             "idsite": "1",
             "idvisit": "19",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-02 00:10:04",
             "time_spent": "0"
         },
@@ -12180,7 +12133,6 @@
             "idpageviewtime": "48",
             "idsite": "1",
             "idvisit": "19",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-02 00:10:04",
             "time_spent": "0"
         },
@@ -12192,7 +12144,6 @@
             "idpageviewtime": "49",
             "idsite": "1",
             "idvisit": "20",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-02 03:04:04",
             "time_spent": "360"
         },
@@ -12204,7 +12155,6 @@
             "idpageviewtime": "50",
             "idsite": "1",
             "idvisit": "20",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-02 03:10:04",
             "time_spent": "0"
         },
@@ -12216,7 +12166,6 @@
             "idpageviewtime": "51",
             "idsite": "1",
             "idvisit": "20",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-02 03:10:04",
             "time_spent": "0"
         },
@@ -12228,7 +12177,6 @@
             "idpageviewtime": "52",
             "idsite": "1",
             "idvisit": "21",
-            "idvisitor": "10ad1da713b1d678",
             "server_time": "2017-01-02 00:04:04",
             "time_spent": "0"
         },
@@ -12240,7 +12188,6 @@
             "idpageviewtime": "53",
             "idsite": "1",
             "idvisit": "22",
-            "idvisitor": "10ad1da713b1d678",
             "server_time": "2017-01-02 03:04:04",
             "time_spent": "0"
         },
@@ -12252,7 +12199,6 @@
             "idpageviewtime": "54",
             "idsite": "1",
             "idvisit": "23",
-            "idvisitor": "19c222fa6e2f7922",
             "server_time": "2017-01-01 19:04:04",
             "time_spent": "360"
         },
@@ -12264,7 +12210,6 @@
             "idpageviewtime": "55",
             "idsite": "1",
             "idvisit": "23",
-            "idvisitor": "19c222fa6e2f7922",
             "server_time": "2017-01-01 19:10:04",
             "time_spent": "0"
         },
@@ -12276,7 +12221,6 @@
             "idpageviewtime": "56",
             "idsite": "1",
             "idvisit": "24",
-            "idvisitor": "19c222fa6e2f7922",
             "server_time": "2017-01-02 03:04:04",
             "time_spent": "360"
         },
@@ -12288,7 +12232,6 @@
             "idpageviewtime": "57",
             "idsite": "1",
             "idvisit": "24",
-            "idvisitor": "19c222fa6e2f7922",
             "server_time": "2017-01-02 03:10:04",
             "time_spent": "0"
         },
@@ -12300,7 +12243,6 @@
             "idpageviewtime": "58",
             "idsite": "1",
             "idvisit": "25",
-            "idvisitor": "cb9a53c4ce1dc123",
             "server_time": "2017-01-02 01:04:04",
             "time_spent": "360"
         },
@@ -12312,7 +12254,6 @@
             "idpageviewtime": "59",
             "idsite": "1",
             "idvisit": "25",
-            "idvisitor": "cb9a53c4ce1dc123",
             "server_time": "2017-01-02 01:10:04",
             "time_spent": "0"
         },
@@ -12324,7 +12265,6 @@
             "idpageviewtime": "60",
             "idsite": "1",
             "idvisit": "25",
-            "idvisitor": "cb9a53c4ce1dc123",
             "server_time": "2017-01-02 01:10:04",
             "time_spent": "0"
         },
@@ -12336,7 +12276,6 @@
             "idpageviewtime": "61",
             "idsite": "1",
             "idvisit": "26",
-            "idvisitor": "cb9a53c4ce1dc123",
             "server_time": "2017-01-02 03:04:04",
             "time_spent": "360"
         },
@@ -12348,7 +12287,6 @@
             "idpageviewtime": "62",
             "idsite": "1",
             "idvisit": "26",
-            "idvisitor": "cb9a53c4ce1dc123",
             "server_time": "2017-01-02 03:10:04",
             "time_spent": "0"
         },
@@ -12360,7 +12298,6 @@
             "idpageviewtime": "63",
             "idsite": "1",
             "idvisit": "26",
-            "idvisitor": "cb9a53c4ce1dc123",
             "server_time": "2017-01-02 03:10:04",
             "time_spent": "0"
         },
@@ -12372,7 +12309,6 @@
             "idpageviewtime": "64",
             "idsite": "1",
             "idvisit": "27",
-            "idvisitor": "8311682d2bcc0232",
             "server_time": "2017-01-02 03:04:04",
             "time_spent": "0"
         },
@@ -12383,7 +12319,6 @@
             "idpageviewtime": "65",
             "idsite": "1",
             "idvisit": "27",
-            "idvisitor": "8311682d2bcc0232",
             "server_time": "2017-01-02 03:04:04",
             "time_spent": "0"
         },
@@ -12395,7 +12330,6 @@
             "idpageviewtime": "66",
             "idsite": "1",
             "idvisit": "28",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-02 02:04:04",
             "time_spent": "360"
         },
@@ -12407,7 +12341,6 @@
             "idpageviewtime": "67",
             "idsite": "1",
             "idvisit": "28",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-02 02:10:04",
             "time_spent": "0"
         },
@@ -12419,7 +12352,6 @@
             "idpageviewtime": "68",
             "idsite": "1",
             "idvisit": "29",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-01 14:04:04",
             "time_spent": "360"
         },
@@ -12431,7 +12363,6 @@
             "idpageviewtime": "69",
             "idsite": "1",
             "idvisit": "29",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-01 14:10:04",
             "time_spent": "0"
         },
@@ -12443,7 +12374,6 @@
             "idpageviewtime": "70",
             "idsite": "1",
             "idvisit": "30",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-01 17:04:04",
             "time_spent": "360"
         },
@@ -12455,7 +12385,6 @@
             "idpageviewtime": "71",
             "idsite": "1",
             "idvisit": "30",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-01 17:10:04",
             "time_spent": "0"
         },
@@ -12467,7 +12396,6 @@
             "idpageviewtime": "72",
             "idsite": "1",
             "idvisit": "31",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-01 23:04:04",
             "time_spent": "360"
         },
@@ -12479,7 +12407,6 @@
             "idpageviewtime": "73",
             "idsite": "1",
             "idvisit": "31",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-01 23:10:04",
             "time_spent": "0"
         },
@@ -12491,7 +12418,6 @@
             "idpageviewtime": "74",
             "idsite": "1",
             "idvisit": "32",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-02 03:04:04",
             "time_spent": "360"
         },
@@ -12503,7 +12429,6 @@
             "idpageviewtime": "75",
             "idsite": "1",
             "idvisit": "32",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-02 03:10:04",
             "time_spent": "0"
         },
@@ -12515,7 +12440,6 @@
             "idpageviewtime": "76",
             "idsite": "1",
             "idvisit": "33",
-            "idvisitor": "5484eb1bcd82eefe",
             "server_time": "2017-01-05 03:04:04",
             "time_spent": "360"
         },
@@ -12527,7 +12451,6 @@
             "idpageviewtime": "77",
             "idsite": "1",
             "idvisit": "33",
-            "idvisitor": "5484eb1bcd82eefe",
             "server_time": "2017-01-05 03:10:04",
             "time_spent": "0"
         },
@@ -12539,7 +12462,6 @@
             "idpageviewtime": "78",
             "idsite": "1",
             "idvisit": "33",
-            "idvisitor": "5484eb1bcd82eefe",
             "server_time": "2017-01-05 03:10:04",
             "time_spent": "0"
         },
@@ -12550,7 +12472,6 @@
             "idpageviewtime": "79",
             "idsite": "1",
             "idvisit": "33",
-            "idvisitor": "5484eb1bcd82eefe",
             "server_time": "2017-01-05 03:10:04",
             "time_spent": "0"
         },
@@ -12562,7 +12483,6 @@
             "idpageviewtime": "80",
             "idsite": "1",
             "idvisit": "34",
-            "idvisitor": "6f1ccf4b4463998f",
             "server_time": "2017-01-05 01:04:04",
             "time_spent": "0"
         },
@@ -12574,7 +12494,6 @@
             "idpageviewtime": "81",
             "idsite": "1",
             "idvisit": "35",
-            "idvisitor": "6f1ccf4b4463998f",
             "server_time": "2017-01-05 03:04:04",
             "time_spent": "0"
         },
@@ -12586,7 +12505,6 @@
             "idpageviewtime": "82",
             "idsite": "1",
             "idvisit": "36",
-            "idvisitor": "dbfd79b34328023f",
             "server_time": "2017-01-03 08:04:04",
             "time_spent": "360"
         },
@@ -12598,7 +12516,6 @@
             "idpageviewtime": "83",
             "idsite": "1",
             "idvisit": "36",
-            "idvisitor": "dbfd79b34328023f",
             "server_time": "2017-01-03 08:10:04",
             "time_spent": "0"
         },
@@ -12610,7 +12527,6 @@
             "idpageviewtime": "84",
             "idsite": "1",
             "idvisit": "37",
-            "idvisitor": "dbfd79b34328023f",
             "server_time": "2017-01-04 23:04:04",
             "time_spent": "360"
         },
@@ -12622,7 +12538,6 @@
             "idpageviewtime": "85",
             "idsite": "1",
             "idvisit": "37",
-            "idvisitor": "dbfd79b34328023f",
             "server_time": "2017-01-04 23:10:04",
             "time_spent": "0"
         },
@@ -12634,7 +12549,6 @@
             "idpageviewtime": "86",
             "idsite": "1",
             "idvisit": "38",
-            "idvisitor": "dbfd79b34328023f",
             "server_time": "2017-01-05 03:04:04",
             "time_spent": "360"
         },
@@ -12646,7 +12560,6 @@
             "idpageviewtime": "87",
             "idsite": "1",
             "idvisit": "38",
-            "idvisitor": "dbfd79b34328023f",
             "server_time": "2017-01-05 03:10:04",
             "time_spent": "0"
         },
@@ -12658,7 +12571,6 @@
             "idpageviewtime": "88",
             "idsite": "1",
             "idvisit": "39",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-03 08:04:04",
             "time_spent": "360"
         },
@@ -12670,7 +12582,6 @@
             "idpageviewtime": "89",
             "idsite": "1",
             "idvisit": "39",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-03 08:10:04",
             "time_spent": "0"
         },
@@ -12682,7 +12593,6 @@
             "idpageviewtime": "90",
             "idsite": "1",
             "idvisit": "39",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-03 08:10:04",
             "time_spent": "0"
         },
@@ -12694,7 +12604,6 @@
             "idpageviewtime": "91",
             "idsite": "1",
             "idvisit": "40",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-04 09:04:04",
             "time_spent": "360"
         },
@@ -12706,7 +12615,6 @@
             "idpageviewtime": "92",
             "idsite": "1",
             "idvisit": "40",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-04 09:10:04",
             "time_spent": "0"
         },
@@ -12718,7 +12626,6 @@
             "idpageviewtime": "93",
             "idsite": "1",
             "idvisit": "40",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-04 09:10:04",
             "time_spent": "0"
         },
@@ -12730,7 +12637,6 @@
             "idpageviewtime": "94",
             "idsite": "1",
             "idvisit": "41",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-04 14:04:04",
             "time_spent": "360"
         },
@@ -12742,7 +12648,6 @@
             "idpageviewtime": "95",
             "idsite": "1",
             "idvisit": "41",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-04 14:10:04",
             "time_spent": "0"
         },
@@ -12754,7 +12659,6 @@
             "idpageviewtime": "96",
             "idsite": "1",
             "idvisit": "41",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-04 14:10:04",
             "time_spent": "0"
         },
@@ -12766,7 +12670,6 @@
             "idpageviewtime": "97",
             "idsite": "1",
             "idvisit": "42",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-04 19:04:04",
             "time_spent": "360"
         },
@@ -12778,7 +12681,6 @@
             "idpageviewtime": "98",
             "idsite": "1",
             "idvisit": "42",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-04 19:10:04",
             "time_spent": "0"
         },
@@ -12790,7 +12692,6 @@
             "idpageviewtime": "99",
             "idsite": "1",
             "idvisit": "42",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-04 19:10:04",
             "time_spent": "0"
         },
@@ -12802,7 +12703,6 @@
             "idpageviewtime": "100",
             "idsite": "1",
             "idvisit": "43",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-05 00:04:04",
             "time_spent": "360"
         },
@@ -12814,7 +12714,6 @@
             "idpageviewtime": "101",
             "idsite": "1",
             "idvisit": "43",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-05 00:10:04",
             "time_spent": "0"
         },
@@ -12826,7 +12725,6 @@
             "idpageviewtime": "102",
             "idsite": "1",
             "idvisit": "43",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-05 00:10:04",
             "time_spent": "0"
         },
@@ -12838,7 +12736,6 @@
             "idpageviewtime": "103",
             "idsite": "1",
             "idvisit": "44",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-05 02:04:04",
             "time_spent": "360"
         },
@@ -12850,7 +12747,6 @@
             "idpageviewtime": "104",
             "idsite": "1",
             "idvisit": "44",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-05 02:10:04",
             "time_spent": "0"
         },
@@ -12862,7 +12758,6 @@
             "idpageviewtime": "105",
             "idsite": "1",
             "idvisit": "44",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-05 02:10:04",
             "time_spent": "0"
         },
@@ -12874,7 +12769,6 @@
             "idpageviewtime": "106",
             "idsite": "1",
             "idvisit": "45",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-05 03:04:04",
             "time_spent": "360"
         },
@@ -12886,7 +12780,6 @@
             "idpageviewtime": "107",
             "idsite": "1",
             "idvisit": "45",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-05 03:10:04",
             "time_spent": "0"
         },
@@ -12898,7 +12791,6 @@
             "idpageviewtime": "108",
             "idsite": "1",
             "idvisit": "45",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-05 03:10:04",
             "time_spent": "0"
         },
@@ -12910,7 +12802,6 @@
             "idpageviewtime": "109",
             "idsite": "1",
             "idvisit": "46",
-            "idvisitor": "93daa0102b94a590",
             "server_time": "2017-01-05 03:04:04",
             "time_spent": "0"
         },
@@ -12922,7 +12813,6 @@
             "idpageviewtime": "110",
             "idsite": "1",
             "idvisit": "47",
-            "idvisitor": "10b7b3f2a3a3cbc0",
             "server_time": "2017-01-05 00:04:04",
             "time_spent": "360"
         },
@@ -12934,7 +12824,6 @@
             "idpageviewtime": "111",
             "idsite": "1",
             "idvisit": "47",
-            "idvisitor": "10b7b3f2a3a3cbc0",
             "server_time": "2017-01-05 00:10:04",
             "time_spent": "0"
         },
@@ -12945,7 +12834,6 @@
             "idpageviewtime": "112",
             "idsite": "1",
             "idvisit": "47",
-            "idvisitor": "10b7b3f2a3a3cbc0",
             "server_time": "2017-01-05 00:10:04",
             "time_spent": "0"
         },
@@ -12957,7 +12845,6 @@
             "idpageviewtime": "113",
             "idsite": "1",
             "idvisit": "48",
-            "idvisitor": "10b7b3f2a3a3cbc0",
             "server_time": "2017-01-05 03:04:04",
             "time_spent": "360"
         },
@@ -12969,7 +12856,6 @@
             "idpageviewtime": "114",
             "idsite": "1",
             "idvisit": "48",
-            "idvisitor": "10b7b3f2a3a3cbc0",
             "server_time": "2017-01-05 03:10:04",
             "time_spent": "0"
         },
@@ -12981,7 +12867,6 @@
             "idpageviewtime": "115",
             "idsite": "1",
             "idvisit": "49",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-05 01:04:04",
             "time_spent": "360"
         },
@@ -12993,7 +12878,6 @@
             "idpageviewtime": "116",
             "idsite": "1",
             "idvisit": "49",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-05 01:10:04",
             "time_spent": "0"
         },
@@ -13005,7 +12889,6 @@
             "idpageviewtime": "117",
             "idsite": "1",
             "idvisit": "49",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-05 01:10:04",
             "time_spent": "0"
         },
@@ -13017,7 +12900,6 @@
             "idpageviewtime": "118",
             "idsite": "1",
             "idvisit": "50",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-04 22:04:04",
             "time_spent": "360"
         },
@@ -13029,7 +12911,6 @@
             "idpageviewtime": "119",
             "idsite": "1",
             "idvisit": "50",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-04 22:10:04",
             "time_spent": "0"
         },
@@ -13041,7 +12922,6 @@
             "idpageviewtime": "120",
             "idsite": "1",
             "idvisit": "50",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-04 22:10:04",
             "time_spent": "0"
         },
@@ -13053,7 +12933,6 @@
             "idpageviewtime": "121",
             "idsite": "1",
             "idvisit": "51",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-05 00:04:04",
             "time_spent": "360"
         },
@@ -13065,7 +12944,6 @@
             "idpageviewtime": "122",
             "idsite": "1",
             "idvisit": "51",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-05 00:10:04",
             "time_spent": "0"
         },
@@ -13077,7 +12955,6 @@
             "idpageviewtime": "123",
             "idsite": "1",
             "idvisit": "51",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-05 00:10:04",
             "time_spent": "0"
         },
@@ -13089,7 +12966,6 @@
             "idpageviewtime": "124",
             "idsite": "1",
             "idvisit": "52",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-05 03:04:04",
             "time_spent": "360"
         },
@@ -13101,7 +12977,6 @@
             "idpageviewtime": "125",
             "idsite": "1",
             "idvisit": "52",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-05 03:10:04",
             "time_spent": "0"
         },
@@ -13113,7 +12988,6 @@
             "idpageviewtime": "126",
             "idsite": "1",
             "idvisit": "52",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-05 03:10:04",
             "time_spent": "0"
         },
@@ -13125,7 +12999,6 @@
             "idpageviewtime": "127",
             "idsite": "1",
             "idvisit": "53",
-            "idvisitor": "10ad1da713b1d678",
             "server_time": "2017-01-05 00:04:04",
             "time_spent": "0"
         },
@@ -13137,7 +13010,6 @@
             "idpageviewtime": "128",
             "idsite": "1",
             "idvisit": "54",
-            "idvisitor": "10ad1da713b1d678",
             "server_time": "2017-01-05 03:04:04",
             "time_spent": "0"
         },
@@ -13149,7 +13021,6 @@
             "idpageviewtime": "129",
             "idsite": "1",
             "idvisit": "55",
-            "idvisitor": "19c222fa6e2f7922",
             "server_time": "2017-01-04 19:04:04",
             "time_spent": "360"
         },
@@ -13161,7 +13032,6 @@
             "idpageviewtime": "130",
             "idsite": "1",
             "idvisit": "55",
-            "idvisitor": "19c222fa6e2f7922",
             "server_time": "2017-01-04 19:10:04",
             "time_spent": "0"
         },
@@ -13173,7 +13043,6 @@
             "idpageviewtime": "131",
             "idsite": "1",
             "idvisit": "56",
-            "idvisitor": "19c222fa6e2f7922",
             "server_time": "2017-01-05 03:04:04",
             "time_spent": "360"
         },
@@ -13185,7 +13054,6 @@
             "idpageviewtime": "132",
             "idsite": "1",
             "idvisit": "56",
-            "idvisitor": "19c222fa6e2f7922",
             "server_time": "2017-01-05 03:10:04",
             "time_spent": "0"
         },
@@ -13197,7 +13065,6 @@
             "idpageviewtime": "133",
             "idsite": "1",
             "idvisit": "57",
-            "idvisitor": "cb9a53c4ce1dc123",
             "server_time": "2017-01-05 01:04:04",
             "time_spent": "360"
         },
@@ -13209,7 +13076,6 @@
             "idpageviewtime": "134",
             "idsite": "1",
             "idvisit": "57",
-            "idvisitor": "cb9a53c4ce1dc123",
             "server_time": "2017-01-05 01:10:04",
             "time_spent": "0"
         },
@@ -13221,7 +13087,6 @@
             "idpageviewtime": "135",
             "idsite": "1",
             "idvisit": "57",
-            "idvisitor": "cb9a53c4ce1dc123",
             "server_time": "2017-01-05 01:10:04",
             "time_spent": "0"
         },
@@ -13233,7 +13098,6 @@
             "idpageviewtime": "136",
             "idsite": "1",
             "idvisit": "58",
-            "idvisitor": "cb9a53c4ce1dc123",
             "server_time": "2017-01-05 03:04:04",
             "time_spent": "360"
         },
@@ -13245,7 +13109,6 @@
             "idpageviewtime": "137",
             "idsite": "1",
             "idvisit": "58",
-            "idvisitor": "cb9a53c4ce1dc123",
             "server_time": "2017-01-05 03:10:04",
             "time_spent": "0"
         },
@@ -13257,7 +13120,6 @@
             "idpageviewtime": "138",
             "idsite": "1",
             "idvisit": "58",
-            "idvisitor": "cb9a53c4ce1dc123",
             "server_time": "2017-01-05 03:10:04",
             "time_spent": "0"
         },
@@ -13269,7 +13131,6 @@
             "idpageviewtime": "139",
             "idsite": "1",
             "idvisit": "59",
-            "idvisitor": "8311682d2bcc0232",
             "server_time": "2017-01-05 03:04:04",
             "time_spent": "0"
         },
@@ -13280,7 +13141,6 @@
             "idpageviewtime": "140",
             "idsite": "1",
             "idvisit": "59",
-            "idvisitor": "8311682d2bcc0232",
             "server_time": "2017-01-05 03:04:04",
             "time_spent": "0"
         },
@@ -13292,7 +13152,6 @@
             "idpageviewtime": "141",
             "idsite": "1",
             "idvisit": "60",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-05 02:04:04",
             "time_spent": "360"
         },
@@ -13304,7 +13163,6 @@
             "idpageviewtime": "142",
             "idsite": "1",
             "idvisit": "60",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-05 02:10:04",
             "time_spent": "0"
         },
@@ -13316,7 +13174,6 @@
             "idpageviewtime": "143",
             "idsite": "1",
             "idvisit": "61",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-04 14:04:04",
             "time_spent": "360"
         },
@@ -13328,7 +13185,6 @@
             "idpageviewtime": "144",
             "idsite": "1",
             "idvisit": "61",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-04 14:10:04",
             "time_spent": "0"
         },
@@ -13340,7 +13196,6 @@
             "idpageviewtime": "145",
             "idsite": "1",
             "idvisit": "62",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-04 17:04:04",
             "time_spent": "360"
         },
@@ -13352,7 +13207,6 @@
             "idpageviewtime": "146",
             "idsite": "1",
             "idvisit": "62",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-04 17:10:04",
             "time_spent": "0"
         },
@@ -13364,7 +13218,6 @@
             "idpageviewtime": "147",
             "idsite": "1",
             "idvisit": "63",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-04 23:04:04",
             "time_spent": "360"
         },
@@ -13376,7 +13229,6 @@
             "idpageviewtime": "148",
             "idsite": "1",
             "idvisit": "63",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-04 23:10:04",
             "time_spent": "0"
         },
@@ -13388,7 +13240,6 @@
             "idpageviewtime": "149",
             "idsite": "1",
             "idvisit": "64",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-05 03:04:04",
             "time_spent": "360"
         },
@@ -13400,7 +13251,6 @@
             "idpageviewtime": "150",
             "idsite": "1",
             "idvisit": "64",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-05 03:10:04",
             "time_spent": "0"
         },
@@ -13412,7 +13262,6 @@
             "idpageviewtime": "151",
             "idsite": "1",
             "idvisit": "65",
-            "idvisitor": "5484eb1bcd82eefe",
             "server_time": "2017-01-08 03:04:04",
             "time_spent": "360"
         },
@@ -13424,7 +13273,6 @@
             "idpageviewtime": "152",
             "idsite": "1",
             "idvisit": "65",
-            "idvisitor": "5484eb1bcd82eefe",
             "server_time": "2017-01-08 03:10:04",
             "time_spent": "0"
         },
@@ -13436,7 +13284,6 @@
             "idpageviewtime": "153",
             "idsite": "1",
             "idvisit": "65",
-            "idvisitor": "5484eb1bcd82eefe",
             "server_time": "2017-01-08 03:10:04",
             "time_spent": "0"
         },
@@ -13447,7 +13294,6 @@
             "idpageviewtime": "154",
             "idsite": "1",
             "idvisit": "65",
-            "idvisitor": "5484eb1bcd82eefe",
             "server_time": "2017-01-08 03:10:04",
             "time_spent": "0"
         },
@@ -13459,7 +13305,6 @@
             "idpageviewtime": "155",
             "idsite": "1",
             "idvisit": "66",
-            "idvisitor": "6f1ccf4b4463998f",
             "server_time": "2017-01-08 01:04:04",
             "time_spent": "0"
         },
@@ -13471,7 +13316,6 @@
             "idpageviewtime": "156",
             "idsite": "1",
             "idvisit": "67",
-            "idvisitor": "6f1ccf4b4463998f",
             "server_time": "2017-01-08 03:04:04",
             "time_spent": "0"
         },
@@ -13483,7 +13327,6 @@
             "idpageviewtime": "157",
             "idsite": "1",
             "idvisit": "68",
-            "idvisitor": "dbfd79b34328023f",
             "server_time": "2017-01-06 08:04:04",
             "time_spent": "360"
         },
@@ -13495,7 +13338,6 @@
             "idpageviewtime": "158",
             "idsite": "1",
             "idvisit": "68",
-            "idvisitor": "dbfd79b34328023f",
             "server_time": "2017-01-06 08:10:04",
             "time_spent": "0"
         },
@@ -13507,7 +13349,6 @@
             "idpageviewtime": "159",
             "idsite": "1",
             "idvisit": "69",
-            "idvisitor": "dbfd79b34328023f",
             "server_time": "2017-01-07 23:04:04",
             "time_spent": "360"
         },
@@ -13519,7 +13360,6 @@
             "idpageviewtime": "160",
             "idsite": "1",
             "idvisit": "69",
-            "idvisitor": "dbfd79b34328023f",
             "server_time": "2017-01-07 23:10:04",
             "time_spent": "0"
         },
@@ -13531,7 +13371,6 @@
             "idpageviewtime": "161",
             "idsite": "1",
             "idvisit": "70",
-            "idvisitor": "dbfd79b34328023f",
             "server_time": "2017-01-08 03:04:04",
             "time_spent": "360"
         },
@@ -13543,7 +13382,6 @@
             "idpageviewtime": "162",
             "idsite": "1",
             "idvisit": "70",
-            "idvisitor": "dbfd79b34328023f",
             "server_time": "2017-01-08 03:10:04",
             "time_spent": "0"
         },
@@ -13555,7 +13393,6 @@
             "idpageviewtime": "163",
             "idsite": "1",
             "idvisit": "71",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-06 08:04:04",
             "time_spent": "360"
         },
@@ -13567,7 +13404,6 @@
             "idpageviewtime": "164",
             "idsite": "1",
             "idvisit": "71",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-06 08:10:04",
             "time_spent": "0"
         },
@@ -13579,7 +13415,6 @@
             "idpageviewtime": "165",
             "idsite": "1",
             "idvisit": "71",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-06 08:10:04",
             "time_spent": "0"
         },
@@ -13591,7 +13426,6 @@
             "idpageviewtime": "166",
             "idsite": "1",
             "idvisit": "72",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-07 09:04:04",
             "time_spent": "360"
         },
@@ -13603,7 +13437,6 @@
             "idpageviewtime": "167",
             "idsite": "1",
             "idvisit": "72",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-07 09:10:04",
             "time_spent": "0"
         },
@@ -13615,7 +13448,6 @@
             "idpageviewtime": "168",
             "idsite": "1",
             "idvisit": "72",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-07 09:10:04",
             "time_spent": "0"
         },
@@ -13627,7 +13459,6 @@
             "idpageviewtime": "169",
             "idsite": "1",
             "idvisit": "73",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-07 14:04:04",
             "time_spent": "360"
         },
@@ -13639,7 +13470,6 @@
             "idpageviewtime": "170",
             "idsite": "1",
             "idvisit": "73",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-07 14:10:04",
             "time_spent": "0"
         },
@@ -13651,7 +13481,6 @@
             "idpageviewtime": "171",
             "idsite": "1",
             "idvisit": "73",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-07 14:10:04",
             "time_spent": "0"
         },
@@ -13663,7 +13492,6 @@
             "idpageviewtime": "172",
             "idsite": "1",
             "idvisit": "74",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-07 19:04:04",
             "time_spent": "360"
         },
@@ -13675,7 +13503,6 @@
             "idpageviewtime": "173",
             "idsite": "1",
             "idvisit": "74",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-07 19:10:04",
             "time_spent": "0"
         },
@@ -13687,7 +13514,6 @@
             "idpageviewtime": "174",
             "idsite": "1",
             "idvisit": "74",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-07 19:10:04",
             "time_spent": "0"
         },
@@ -13699,7 +13525,6 @@
             "idpageviewtime": "175",
             "idsite": "1",
             "idvisit": "75",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-08 00:04:04",
             "time_spent": "360"
         },
@@ -13711,7 +13536,6 @@
             "idpageviewtime": "176",
             "idsite": "1",
             "idvisit": "75",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-08 00:10:04",
             "time_spent": "0"
         },
@@ -13723,7 +13547,6 @@
             "idpageviewtime": "177",
             "idsite": "1",
             "idvisit": "75",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-08 00:10:04",
             "time_spent": "0"
         },
@@ -13735,7 +13558,6 @@
             "idpageviewtime": "178",
             "idsite": "1",
             "idvisit": "76",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-08 02:04:04",
             "time_spent": "360"
         },
@@ -13747,7 +13569,6 @@
             "idpageviewtime": "179",
             "idsite": "1",
             "idvisit": "76",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-08 02:10:04",
             "time_spent": "0"
         },
@@ -13759,7 +13580,6 @@
             "idpageviewtime": "180",
             "idsite": "1",
             "idvisit": "76",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-08 02:10:04",
             "time_spent": "0"
         },
@@ -13771,7 +13591,6 @@
             "idpageviewtime": "181",
             "idsite": "1",
             "idvisit": "77",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-08 03:04:04",
             "time_spent": "360"
         },
@@ -13783,7 +13602,6 @@
             "idpageviewtime": "182",
             "idsite": "1",
             "idvisit": "77",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-08 03:10:04",
             "time_spent": "0"
         },
@@ -13795,7 +13613,6 @@
             "idpageviewtime": "183",
             "idsite": "1",
             "idvisit": "77",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-08 03:10:04",
             "time_spent": "0"
         },
@@ -13807,7 +13624,6 @@
             "idpageviewtime": "184",
             "idsite": "1",
             "idvisit": "78",
-            "idvisitor": "93daa0102b94a590",
             "server_time": "2017-01-08 03:04:04",
             "time_spent": "0"
         },
@@ -13819,7 +13635,6 @@
             "idpageviewtime": "185",
             "idsite": "1",
             "idvisit": "79",
-            "idvisitor": "10b7b3f2a3a3cbc0",
             "server_time": "2017-01-08 00:04:04",
             "time_spent": "360"
         },
@@ -13831,7 +13646,6 @@
             "idpageviewtime": "186",
             "idsite": "1",
             "idvisit": "79",
-            "idvisitor": "10b7b3f2a3a3cbc0",
             "server_time": "2017-01-08 00:10:04",
             "time_spent": "0"
         },
@@ -13842,7 +13656,6 @@
             "idpageviewtime": "187",
             "idsite": "1",
             "idvisit": "79",
-            "idvisitor": "10b7b3f2a3a3cbc0",
             "server_time": "2017-01-08 00:10:04",
             "time_spent": "0"
         },
@@ -13854,7 +13667,6 @@
             "idpageviewtime": "188",
             "idsite": "1",
             "idvisit": "80",
-            "idvisitor": "10b7b3f2a3a3cbc0",
             "server_time": "2017-01-08 03:04:04",
             "time_spent": "360"
         },
@@ -13866,7 +13678,6 @@
             "idpageviewtime": "189",
             "idsite": "1",
             "idvisit": "80",
-            "idvisitor": "10b7b3f2a3a3cbc0",
             "server_time": "2017-01-08 03:10:04",
             "time_spent": "0"
         },
@@ -13878,7 +13689,6 @@
             "idpageviewtime": "190",
             "idsite": "1",
             "idvisit": "81",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-08 01:04:04",
             "time_spent": "360"
         },
@@ -13890,7 +13700,6 @@
             "idpageviewtime": "191",
             "idsite": "1",
             "idvisit": "81",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-08 01:10:04",
             "time_spent": "0"
         },
@@ -13902,7 +13711,6 @@
             "idpageviewtime": "192",
             "idsite": "1",
             "idvisit": "81",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-08 01:10:04",
             "time_spent": "0"
         },
@@ -13914,7 +13722,6 @@
             "idpageviewtime": "193",
             "idsite": "1",
             "idvisit": "82",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-07 22:04:04",
             "time_spent": "360"
         },
@@ -13926,7 +13733,6 @@
             "idpageviewtime": "194",
             "idsite": "1",
             "idvisit": "82",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-07 22:10:04",
             "time_spent": "0"
         },
@@ -13938,7 +13744,6 @@
             "idpageviewtime": "195",
             "idsite": "1",
             "idvisit": "82",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-07 22:10:04",
             "time_spent": "0"
         },
@@ -13950,7 +13755,6 @@
             "idpageviewtime": "196",
             "idsite": "1",
             "idvisit": "83",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-08 00:04:04",
             "time_spent": "360"
         },
@@ -13962,7 +13766,6 @@
             "idpageviewtime": "197",
             "idsite": "1",
             "idvisit": "83",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-08 00:10:04",
             "time_spent": "0"
         },
@@ -13974,7 +13777,6 @@
             "idpageviewtime": "198",
             "idsite": "1",
             "idvisit": "83",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-08 00:10:04",
             "time_spent": "0"
         },
@@ -13986,7 +13788,6 @@
             "idpageviewtime": "199",
             "idsite": "1",
             "idvisit": "84",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-08 03:04:04",
             "time_spent": "360"
         },
@@ -13998,7 +13799,6 @@
             "idpageviewtime": "200",
             "idsite": "1",
             "idvisit": "84",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-08 03:10:04",
             "time_spent": "0"
         },
@@ -14010,7 +13810,6 @@
             "idpageviewtime": "201",
             "idsite": "1",
             "idvisit": "84",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-08 03:10:04",
             "time_spent": "0"
         },
@@ -14022,7 +13821,6 @@
             "idpageviewtime": "202",
             "idsite": "1",
             "idvisit": "85",
-            "idvisitor": "10ad1da713b1d678",
             "server_time": "2017-01-08 00:04:04",
             "time_spent": "0"
         },
@@ -14034,7 +13832,6 @@
             "idpageviewtime": "203",
             "idsite": "1",
             "idvisit": "86",
-            "idvisitor": "10ad1da713b1d678",
             "server_time": "2017-01-08 03:04:04",
             "time_spent": "0"
         },
@@ -14046,7 +13843,6 @@
             "idpageviewtime": "204",
             "idsite": "1",
             "idvisit": "87",
-            "idvisitor": "19c222fa6e2f7922",
             "server_time": "2017-01-07 19:04:04",
             "time_spent": "360"
         },
@@ -14058,7 +13854,6 @@
             "idpageviewtime": "205",
             "idsite": "1",
             "idvisit": "87",
-            "idvisitor": "19c222fa6e2f7922",
             "server_time": "2017-01-07 19:10:04",
             "time_spent": "0"
         },
@@ -14070,7 +13865,6 @@
             "idpageviewtime": "206",
             "idsite": "1",
             "idvisit": "88",
-            "idvisitor": "19c222fa6e2f7922",
             "server_time": "2017-01-08 03:04:04",
             "time_spent": "360"
         },
@@ -14082,7 +13876,6 @@
             "idpageviewtime": "207",
             "idsite": "1",
             "idvisit": "88",
-            "idvisitor": "19c222fa6e2f7922",
             "server_time": "2017-01-08 03:10:04",
             "time_spent": "0"
         },
@@ -14094,7 +13887,6 @@
             "idpageviewtime": "208",
             "idsite": "1",
             "idvisit": "89",
-            "idvisitor": "cb9a53c4ce1dc123",
             "server_time": "2017-01-08 01:04:04",
             "time_spent": "360"
         },
@@ -14106,7 +13898,6 @@
             "idpageviewtime": "209",
             "idsite": "1",
             "idvisit": "89",
-            "idvisitor": "cb9a53c4ce1dc123",
             "server_time": "2017-01-08 01:10:04",
             "time_spent": "0"
         },
@@ -14118,7 +13909,6 @@
             "idpageviewtime": "210",
             "idsite": "1",
             "idvisit": "89",
-            "idvisitor": "cb9a53c4ce1dc123",
             "server_time": "2017-01-08 01:10:04",
             "time_spent": "0"
         },
@@ -14130,7 +13920,6 @@
             "idpageviewtime": "211",
             "idsite": "1",
             "idvisit": "90",
-            "idvisitor": "cb9a53c4ce1dc123",
             "server_time": "2017-01-08 03:04:04",
             "time_spent": "360"
         },
@@ -14142,7 +13931,6 @@
             "idpageviewtime": "212",
             "idsite": "1",
             "idvisit": "90",
-            "idvisitor": "cb9a53c4ce1dc123",
             "server_time": "2017-01-08 03:10:04",
             "time_spent": "0"
         },
@@ -14154,7 +13942,6 @@
             "idpageviewtime": "213",
             "idsite": "1",
             "idvisit": "90",
-            "idvisitor": "cb9a53c4ce1dc123",
             "server_time": "2017-01-08 03:10:04",
             "time_spent": "0"
         },
@@ -14166,7 +13953,6 @@
             "idpageviewtime": "214",
             "idsite": "1",
             "idvisit": "91",
-            "idvisitor": "8311682d2bcc0232",
             "server_time": "2017-01-08 03:04:04",
             "time_spent": "0"
         },
@@ -14177,7 +13963,6 @@
             "idpageviewtime": "215",
             "idsite": "1",
             "idvisit": "91",
-            "idvisitor": "8311682d2bcc0232",
             "server_time": "2017-01-08 03:04:04",
             "time_spent": "0"
         },
@@ -14189,7 +13974,6 @@
             "idpageviewtime": "216",
             "idsite": "1",
             "idvisit": "92",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-08 02:04:04",
             "time_spent": "360"
         },
@@ -14201,7 +13985,6 @@
             "idpageviewtime": "217",
             "idsite": "1",
             "idvisit": "92",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-08 02:10:04",
             "time_spent": "0"
         },
@@ -14213,7 +13996,6 @@
             "idpageviewtime": "218",
             "idsite": "1",
             "idvisit": "93",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-07 14:04:04",
             "time_spent": "360"
         },
@@ -14225,7 +14007,6 @@
             "idpageviewtime": "219",
             "idsite": "1",
             "idvisit": "93",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-07 14:10:04",
             "time_spent": "0"
         },
@@ -14237,7 +14018,6 @@
             "idpageviewtime": "220",
             "idsite": "1",
             "idvisit": "94",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-07 17:04:04",
             "time_spent": "360"
         },
@@ -14249,7 +14029,6 @@
             "idpageviewtime": "221",
             "idsite": "1",
             "idvisit": "94",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-07 17:10:04",
             "time_spent": "0"
         },
@@ -14261,7 +14040,6 @@
             "idpageviewtime": "222",
             "idsite": "1",
             "idvisit": "95",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-07 23:04:04",
             "time_spent": "360"
         },
@@ -14273,7 +14051,6 @@
             "idpageviewtime": "223",
             "idsite": "1",
             "idvisit": "95",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-07 23:10:04",
             "time_spent": "0"
         },
@@ -14285,7 +14062,6 @@
             "idpageviewtime": "224",
             "idsite": "1",
             "idvisit": "96",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-08 03:04:04",
             "time_spent": "360"
         },
@@ -14297,7 +14073,6 @@
             "idpageviewtime": "225",
             "idsite": "1",
             "idvisit": "96",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-08 03:10:04",
             "time_spent": "0"
         },
@@ -14309,7 +14084,6 @@
             "idpageviewtime": "226",
             "idsite": "1",
             "idvisit": "97",
-            "idvisitor": "5484eb1bcd82eefe",
             "server_time": "2017-01-11 03:04:04",
             "time_spent": "360"
         },
@@ -14321,7 +14095,6 @@
             "idpageviewtime": "227",
             "idsite": "1",
             "idvisit": "97",
-            "idvisitor": "5484eb1bcd82eefe",
             "server_time": "2017-01-11 03:10:04",
             "time_spent": "0"
         },
@@ -14333,7 +14106,6 @@
             "idpageviewtime": "228",
             "idsite": "1",
             "idvisit": "97",
-            "idvisitor": "5484eb1bcd82eefe",
             "server_time": "2017-01-11 03:10:04",
             "time_spent": "0"
         },
@@ -14344,7 +14116,6 @@
             "idpageviewtime": "229",
             "idsite": "1",
             "idvisit": "97",
-            "idvisitor": "5484eb1bcd82eefe",
             "server_time": "2017-01-11 03:10:04",
             "time_spent": "0"
         },
@@ -14356,7 +14127,6 @@
             "idpageviewtime": "230",
             "idsite": "1",
             "idvisit": "98",
-            "idvisitor": "6f1ccf4b4463998f",
             "server_time": "2017-01-11 01:04:04",
             "time_spent": "0"
         },
@@ -14368,7 +14138,6 @@
             "idpageviewtime": "231",
             "idsite": "1",
             "idvisit": "99",
-            "idvisitor": "6f1ccf4b4463998f",
             "server_time": "2017-01-11 03:04:04",
             "time_spent": "0"
         },
@@ -14380,7 +14149,6 @@
             "idpageviewtime": "232",
             "idsite": "1",
             "idvisit": "100",
-            "idvisitor": "dbfd79b34328023f",
             "server_time": "2017-01-09 08:04:04",
             "time_spent": "360"
         },
@@ -14392,7 +14160,6 @@
             "idpageviewtime": "233",
             "idsite": "1",
             "idvisit": "100",
-            "idvisitor": "dbfd79b34328023f",
             "server_time": "2017-01-09 08:10:04",
             "time_spent": "0"
         },
@@ -14404,7 +14171,6 @@
             "idpageviewtime": "234",
             "idsite": "1",
             "idvisit": "101",
-            "idvisitor": "dbfd79b34328023f",
             "server_time": "2017-01-10 23:04:04",
             "time_spent": "360"
         },
@@ -14416,7 +14182,6 @@
             "idpageviewtime": "235",
             "idsite": "1",
             "idvisit": "101",
-            "idvisitor": "dbfd79b34328023f",
             "server_time": "2017-01-10 23:10:04",
             "time_spent": "0"
         },
@@ -14428,7 +14193,6 @@
             "idpageviewtime": "236",
             "idsite": "1",
             "idvisit": "102",
-            "idvisitor": "dbfd79b34328023f",
             "server_time": "2017-01-11 03:04:04",
             "time_spent": "360"
         },
@@ -14440,7 +14204,6 @@
             "idpageviewtime": "237",
             "idsite": "1",
             "idvisit": "102",
-            "idvisitor": "dbfd79b34328023f",
             "server_time": "2017-01-11 03:10:04",
             "time_spent": "0"
         },
@@ -14452,7 +14215,6 @@
             "idpageviewtime": "238",
             "idsite": "1",
             "idvisit": "103",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-09 08:04:04",
             "time_spent": "360"
         },
@@ -14464,7 +14226,6 @@
             "idpageviewtime": "239",
             "idsite": "1",
             "idvisit": "103",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-09 08:10:04",
             "time_spent": "0"
         },
@@ -14476,7 +14237,6 @@
             "idpageviewtime": "240",
             "idsite": "1",
             "idvisit": "103",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-09 08:10:04",
             "time_spent": "0"
         },
@@ -14488,7 +14248,6 @@
             "idpageviewtime": "241",
             "idsite": "1",
             "idvisit": "104",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-10 09:04:04",
             "time_spent": "360"
         },
@@ -14500,7 +14259,6 @@
             "idpageviewtime": "242",
             "idsite": "1",
             "idvisit": "104",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-10 09:10:04",
             "time_spent": "0"
         },
@@ -14512,7 +14270,6 @@
             "idpageviewtime": "243",
             "idsite": "1",
             "idvisit": "104",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-10 09:10:04",
             "time_spent": "0"
         },
@@ -14524,7 +14281,6 @@
             "idpageviewtime": "244",
             "idsite": "1",
             "idvisit": "105",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-10 14:04:04",
             "time_spent": "360"
         },
@@ -14536,7 +14292,6 @@
             "idpageviewtime": "245",
             "idsite": "1",
             "idvisit": "105",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-10 14:10:04",
             "time_spent": "0"
         },
@@ -14548,7 +14303,6 @@
             "idpageviewtime": "246",
             "idsite": "1",
             "idvisit": "105",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-10 14:10:04",
             "time_spent": "0"
         },
@@ -14560,7 +14314,6 @@
             "idpageviewtime": "247",
             "idsite": "1",
             "idvisit": "106",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-10 19:04:04",
             "time_spent": "360"
         },
@@ -14572,7 +14325,6 @@
             "idpageviewtime": "248",
             "idsite": "1",
             "idvisit": "106",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-10 19:10:04",
             "time_spent": "0"
         },
@@ -14584,7 +14336,6 @@
             "idpageviewtime": "249",
             "idsite": "1",
             "idvisit": "106",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-10 19:10:04",
             "time_spent": "0"
         },
@@ -14596,7 +14347,6 @@
             "idpageviewtime": "250",
             "idsite": "1",
             "idvisit": "107",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-11 00:04:04",
             "time_spent": "360"
         },
@@ -14608,7 +14358,6 @@
             "idpageviewtime": "251",
             "idsite": "1",
             "idvisit": "107",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-11 00:10:04",
             "time_spent": "0"
         },
@@ -14620,7 +14369,6 @@
             "idpageviewtime": "252",
             "idsite": "1",
             "idvisit": "107",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-11 00:10:04",
             "time_spent": "0"
         },
@@ -14632,7 +14380,6 @@
             "idpageviewtime": "253",
             "idsite": "1",
             "idvisit": "108",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-11 02:04:04",
             "time_spent": "360"
         },
@@ -14644,7 +14391,6 @@
             "idpageviewtime": "254",
             "idsite": "1",
             "idvisit": "108",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-11 02:10:04",
             "time_spent": "0"
         },
@@ -14656,7 +14402,6 @@
             "idpageviewtime": "255",
             "idsite": "1",
             "idvisit": "108",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-11 02:10:04",
             "time_spent": "0"
         },
@@ -14668,7 +14413,6 @@
             "idpageviewtime": "256",
             "idsite": "1",
             "idvisit": "109",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-11 03:04:04",
             "time_spent": "360"
         },
@@ -14680,7 +14424,6 @@
             "idpageviewtime": "257",
             "idsite": "1",
             "idvisit": "109",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-11 03:10:04",
             "time_spent": "0"
         },
@@ -14692,7 +14435,6 @@
             "idpageviewtime": "258",
             "idsite": "1",
             "idvisit": "109",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-11 03:10:04",
             "time_spent": "0"
         },
@@ -14704,7 +14446,6 @@
             "idpageviewtime": "259",
             "idsite": "1",
             "idvisit": "110",
-            "idvisitor": "93daa0102b94a590",
             "server_time": "2017-01-11 03:04:04",
             "time_spent": "0"
         },
@@ -14716,7 +14457,6 @@
             "idpageviewtime": "260",
             "idsite": "1",
             "idvisit": "111",
-            "idvisitor": "10b7b3f2a3a3cbc0",
             "server_time": "2017-01-11 00:04:04",
             "time_spent": "360"
         },
@@ -14728,7 +14468,6 @@
             "idpageviewtime": "261",
             "idsite": "1",
             "idvisit": "111",
-            "idvisitor": "10b7b3f2a3a3cbc0",
             "server_time": "2017-01-11 00:10:04",
             "time_spent": "0"
         },
@@ -14739,7 +14478,6 @@
             "idpageviewtime": "262",
             "idsite": "1",
             "idvisit": "111",
-            "idvisitor": "10b7b3f2a3a3cbc0",
             "server_time": "2017-01-11 00:10:04",
             "time_spent": "0"
         },
@@ -14751,7 +14489,6 @@
             "idpageviewtime": "263",
             "idsite": "1",
             "idvisit": "112",
-            "idvisitor": "10b7b3f2a3a3cbc0",
             "server_time": "2017-01-11 03:04:04",
             "time_spent": "360"
         },
@@ -14763,7 +14500,6 @@
             "idpageviewtime": "264",
             "idsite": "1",
             "idvisit": "112",
-            "idvisitor": "10b7b3f2a3a3cbc0",
             "server_time": "2017-01-11 03:10:04",
             "time_spent": "0"
         },
@@ -14775,7 +14511,6 @@
             "idpageviewtime": "265",
             "idsite": "1",
             "idvisit": "113",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-11 01:04:04",
             "time_spent": "360"
         },
@@ -14787,7 +14522,6 @@
             "idpageviewtime": "266",
             "idsite": "1",
             "idvisit": "113",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-11 01:10:04",
             "time_spent": "0"
         },
@@ -14799,7 +14533,6 @@
             "idpageviewtime": "267",
             "idsite": "1",
             "idvisit": "113",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-11 01:10:04",
             "time_spent": "0"
         },
@@ -14811,7 +14544,6 @@
             "idpageviewtime": "268",
             "idsite": "1",
             "idvisit": "114",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-10 22:04:04",
             "time_spent": "360"
         },
@@ -14823,7 +14555,6 @@
             "idpageviewtime": "269",
             "idsite": "1",
             "idvisit": "114",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-10 22:10:04",
             "time_spent": "0"
         },
@@ -14835,7 +14566,6 @@
             "idpageviewtime": "270",
             "idsite": "1",
             "idvisit": "114",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-10 22:10:04",
             "time_spent": "0"
         },
@@ -14847,7 +14577,6 @@
             "idpageviewtime": "271",
             "idsite": "1",
             "idvisit": "115",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-11 00:04:04",
             "time_spent": "360"
         },
@@ -14859,7 +14588,6 @@
             "idpageviewtime": "272",
             "idsite": "1",
             "idvisit": "115",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-11 00:10:04",
             "time_spent": "0"
         },
@@ -14871,7 +14599,6 @@
             "idpageviewtime": "273",
             "idsite": "1",
             "idvisit": "115",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-11 00:10:04",
             "time_spent": "0"
         },
@@ -14883,7 +14610,6 @@
             "idpageviewtime": "274",
             "idsite": "1",
             "idvisit": "116",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-11 03:04:04",
             "time_spent": "360"
         },
@@ -14895,7 +14621,6 @@
             "idpageviewtime": "275",
             "idsite": "1",
             "idvisit": "116",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-11 03:10:04",
             "time_spent": "0"
         },
@@ -14907,7 +14632,6 @@
             "idpageviewtime": "276",
             "idsite": "1",
             "idvisit": "116",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-11 03:10:04",
             "time_spent": "0"
         },
@@ -14919,7 +14643,6 @@
             "idpageviewtime": "277",
             "idsite": "1",
             "idvisit": "117",
-            "idvisitor": "10ad1da713b1d678",
             "server_time": "2017-01-11 00:04:04",
             "time_spent": "0"
         },
@@ -14931,7 +14654,6 @@
             "idpageviewtime": "278",
             "idsite": "1",
             "idvisit": "118",
-            "idvisitor": "10ad1da713b1d678",
             "server_time": "2017-01-11 03:04:04",
             "time_spent": "0"
         },
@@ -14943,7 +14665,6 @@
             "idpageviewtime": "279",
             "idsite": "1",
             "idvisit": "119",
-            "idvisitor": "19c222fa6e2f7922",
             "server_time": "2017-01-10 19:04:04",
             "time_spent": "360"
         },
@@ -14955,7 +14676,6 @@
             "idpageviewtime": "280",
             "idsite": "1",
             "idvisit": "119",
-            "idvisitor": "19c222fa6e2f7922",
             "server_time": "2017-01-10 19:10:04",
             "time_spent": "0"
         },
@@ -14967,7 +14687,6 @@
             "idpageviewtime": "281",
             "idsite": "1",
             "idvisit": "120",
-            "idvisitor": "19c222fa6e2f7922",
             "server_time": "2017-01-11 03:04:04",
             "time_spent": "360"
         },
@@ -14979,7 +14698,6 @@
             "idpageviewtime": "282",
             "idsite": "1",
             "idvisit": "120",
-            "idvisitor": "19c222fa6e2f7922",
             "server_time": "2017-01-11 03:10:04",
             "time_spent": "0"
         },
@@ -14991,7 +14709,6 @@
             "idpageviewtime": "283",
             "idsite": "1",
             "idvisit": "121",
-            "idvisitor": "cb9a53c4ce1dc123",
             "server_time": "2017-01-11 01:04:04",
             "time_spent": "360"
         },
@@ -15003,7 +14720,6 @@
             "idpageviewtime": "284",
             "idsite": "1",
             "idvisit": "121",
-            "idvisitor": "cb9a53c4ce1dc123",
             "server_time": "2017-01-11 01:10:04",
             "time_spent": "0"
         },
@@ -15015,7 +14731,6 @@
             "idpageviewtime": "285",
             "idsite": "1",
             "idvisit": "121",
-            "idvisitor": "cb9a53c4ce1dc123",
             "server_time": "2017-01-11 01:10:04",
             "time_spent": "0"
         },
@@ -15027,7 +14742,6 @@
             "idpageviewtime": "286",
             "idsite": "1",
             "idvisit": "122",
-            "idvisitor": "cb9a53c4ce1dc123",
             "server_time": "2017-01-11 03:04:04",
             "time_spent": "360"
         },
@@ -15039,7 +14753,6 @@
             "idpageviewtime": "287",
             "idsite": "1",
             "idvisit": "122",
-            "idvisitor": "cb9a53c4ce1dc123",
             "server_time": "2017-01-11 03:10:04",
             "time_spent": "0"
         },
@@ -15051,7 +14764,6 @@
             "idpageviewtime": "288",
             "idsite": "1",
             "idvisit": "122",
-            "idvisitor": "cb9a53c4ce1dc123",
             "server_time": "2017-01-11 03:10:04",
             "time_spent": "0"
         },
@@ -15063,7 +14775,6 @@
             "idpageviewtime": "289",
             "idsite": "1",
             "idvisit": "123",
-            "idvisitor": "8311682d2bcc0232",
             "server_time": "2017-01-11 03:04:04",
             "time_spent": "0"
         },
@@ -15074,7 +14785,6 @@
             "idpageviewtime": "290",
             "idsite": "1",
             "idvisit": "123",
-            "idvisitor": "8311682d2bcc0232",
             "server_time": "2017-01-11 03:04:04",
             "time_spent": "0"
         },
@@ -15086,7 +14796,6 @@
             "idpageviewtime": "291",
             "idsite": "1",
             "idvisit": "124",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-11 02:04:04",
             "time_spent": "360"
         },
@@ -15098,7 +14807,6 @@
             "idpageviewtime": "292",
             "idsite": "1",
             "idvisit": "124",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-11 02:10:04",
             "time_spent": "0"
         },
@@ -15110,7 +14818,6 @@
             "idpageviewtime": "293",
             "idsite": "1",
             "idvisit": "125",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-10 14:04:04",
             "time_spent": "360"
         },
@@ -15122,7 +14829,6 @@
             "idpageviewtime": "294",
             "idsite": "1",
             "idvisit": "125",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-10 14:10:04",
             "time_spent": "0"
         },
@@ -15134,7 +14840,6 @@
             "idpageviewtime": "295",
             "idsite": "1",
             "idvisit": "126",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-10 17:04:04",
             "time_spent": "360"
         },
@@ -15146,7 +14851,6 @@
             "idpageviewtime": "296",
             "idsite": "1",
             "idvisit": "126",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-10 17:10:04",
             "time_spent": "0"
         },
@@ -15158,7 +14862,6 @@
             "idpageviewtime": "297",
             "idsite": "1",
             "idvisit": "127",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-10 23:04:04",
             "time_spent": "360"
         },
@@ -15170,7 +14873,6 @@
             "idpageviewtime": "298",
             "idsite": "1",
             "idvisit": "127",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-10 23:10:04",
             "time_spent": "0"
         },
@@ -15182,7 +14884,6 @@
             "idpageviewtime": "299",
             "idsite": "1",
             "idvisit": "128",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-11 03:04:04",
             "time_spent": "360"
         },
@@ -15194,7 +14895,6 @@
             "idpageviewtime": "300",
             "idsite": "1",
             "idvisit": "128",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-11 03:10:04",
             "time_spent": "0"
         },
@@ -15206,7 +14906,6 @@
             "idpageviewtime": "301",
             "idsite": "3",
             "idvisit": "129",
-            "idvisitor": "5484eb1bcd82eefe",
             "server_time": "2017-01-11 03:04:01",
             "time_spent": "360"
         },
@@ -15218,7 +14917,6 @@
             "idpageviewtime": "302",
             "idsite": "3",
             "idvisit": "129",
-            "idvisitor": "5484eb1bcd82eefe",
             "server_time": "2017-01-11 03:10:01",
             "time_spent": "0"
         },
@@ -15230,7 +14928,6 @@
             "idpageviewtime": "303",
             "idsite": "3",
             "idvisit": "129",
-            "idvisitor": "5484eb1bcd82eefe",
             "server_time": "2017-01-11 03:10:01",
             "time_spent": "0"
         },
@@ -15241,7 +14938,6 @@
             "idpageviewtime": "304",
             "idsite": "3",
             "idvisit": "129",
-            "idvisitor": "5484eb1bcd82eefe",
             "server_time": "2017-01-11 03:10:01",
             "time_spent": "0"
         },
@@ -15253,7 +14949,6 @@
             "idpageviewtime": "305",
             "idsite": "3",
             "idvisit": "130",
-            "idvisitor": "6f1ccf4b4463998f",
             "server_time": "2017-01-11 01:04:01",
             "time_spent": "0"
         },
@@ -15265,7 +14960,6 @@
             "idpageviewtime": "306",
             "idsite": "3",
             "idvisit": "131",
-            "idvisitor": "6f1ccf4b4463998f",
             "server_time": "2017-01-11 03:04:01",
             "time_spent": "0"
         },
@@ -15277,7 +14971,6 @@
             "idpageviewtime": "307",
             "idsite": "3",
             "idvisit": "132",
-            "idvisitor": "dbfd79b34328023f",
             "server_time": "2017-01-09 08:04:01",
             "time_spent": "360"
         },
@@ -15289,7 +14982,6 @@
             "idpageviewtime": "308",
             "idsite": "3",
             "idvisit": "132",
-            "idvisitor": "dbfd79b34328023f",
             "server_time": "2017-01-09 08:10:01",
             "time_spent": "0"
         },
@@ -15301,7 +14993,6 @@
             "idpageviewtime": "309",
             "idsite": "3",
             "idvisit": "133",
-            "idvisitor": "dbfd79b34328023f",
             "server_time": "2017-01-10 23:04:01",
             "time_spent": "360"
         },
@@ -15313,7 +15004,6 @@
             "idpageviewtime": "310",
             "idsite": "3",
             "idvisit": "133",
-            "idvisitor": "dbfd79b34328023f",
             "server_time": "2017-01-10 23:10:01",
             "time_spent": "0"
         },
@@ -15325,7 +15015,6 @@
             "idpageviewtime": "311",
             "idsite": "3",
             "idvisit": "134",
-            "idvisitor": "dbfd79b34328023f",
             "server_time": "2017-01-11 03:04:01",
             "time_spent": "360"
         },
@@ -15337,7 +15026,6 @@
             "idpageviewtime": "312",
             "idsite": "3",
             "idvisit": "134",
-            "idvisitor": "dbfd79b34328023f",
             "server_time": "2017-01-11 03:10:01",
             "time_spent": "0"
         },
@@ -15349,7 +15037,6 @@
             "idpageviewtime": "313",
             "idsite": "3",
             "idvisit": "135",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-09 08:04:01",
             "time_spent": "360"
         },
@@ -15361,7 +15048,6 @@
             "idpageviewtime": "314",
             "idsite": "3",
             "idvisit": "135",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-09 08:10:01",
             "time_spent": "0"
         },
@@ -15373,7 +15059,6 @@
             "idpageviewtime": "315",
             "idsite": "3",
             "idvisit": "135",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-09 08:10:01",
             "time_spent": "0"
         },
@@ -15385,7 +15070,6 @@
             "idpageviewtime": "316",
             "idsite": "3",
             "idvisit": "136",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-10 09:04:01",
             "time_spent": "360"
         },
@@ -15397,7 +15081,6 @@
             "idpageviewtime": "317",
             "idsite": "3",
             "idvisit": "136",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-10 09:10:01",
             "time_spent": "0"
         },
@@ -15409,7 +15092,6 @@
             "idpageviewtime": "318",
             "idsite": "3",
             "idvisit": "136",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-10 09:10:01",
             "time_spent": "0"
         },
@@ -15421,7 +15103,6 @@
             "idpageviewtime": "319",
             "idsite": "3",
             "idvisit": "137",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-10 14:04:01",
             "time_spent": "360"
         },
@@ -15433,7 +15114,6 @@
             "idpageviewtime": "320",
             "idsite": "3",
             "idvisit": "137",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-10 14:10:01",
             "time_spent": "0"
         },
@@ -15445,7 +15125,6 @@
             "idpageviewtime": "321",
             "idsite": "3",
             "idvisit": "137",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-10 14:10:01",
             "time_spent": "0"
         },
@@ -15457,7 +15136,6 @@
             "idpageviewtime": "322",
             "idsite": "3",
             "idvisit": "138",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-10 19:04:01",
             "time_spent": "360"
         },
@@ -15469,7 +15147,6 @@
             "idpageviewtime": "323",
             "idsite": "3",
             "idvisit": "138",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-10 19:10:01",
             "time_spent": "0"
         },
@@ -15481,7 +15158,6 @@
             "idpageviewtime": "324",
             "idsite": "3",
             "idvisit": "138",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-10 19:10:01",
             "time_spent": "0"
         },
@@ -15493,7 +15169,6 @@
             "idpageviewtime": "325",
             "idsite": "3",
             "idvisit": "139",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-11 00:04:01",
             "time_spent": "360"
         },
@@ -15505,7 +15180,6 @@
             "idpageviewtime": "326",
             "idsite": "3",
             "idvisit": "139",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-11 00:10:01",
             "time_spent": "0"
         },
@@ -15517,7 +15191,6 @@
             "idpageviewtime": "327",
             "idsite": "3",
             "idvisit": "139",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-11 00:10:01",
             "time_spent": "0"
         },
@@ -15529,7 +15202,6 @@
             "idpageviewtime": "328",
             "idsite": "3",
             "idvisit": "140",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-11 02:04:01",
             "time_spent": "360"
         },
@@ -15541,7 +15213,6 @@
             "idpageviewtime": "329",
             "idsite": "3",
             "idvisit": "140",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-11 02:10:01",
             "time_spent": "0"
         },
@@ -15553,7 +15224,6 @@
             "idpageviewtime": "330",
             "idsite": "3",
             "idvisit": "140",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-11 02:10:01",
             "time_spent": "0"
         },
@@ -15565,7 +15235,6 @@
             "idpageviewtime": "331",
             "idsite": "3",
             "idvisit": "141",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-11 03:04:01",
             "time_spent": "360"
         },
@@ -15577,7 +15246,6 @@
             "idpageviewtime": "332",
             "idsite": "3",
             "idvisit": "141",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-11 03:10:01",
             "time_spent": "0"
         },
@@ -15589,7 +15257,6 @@
             "idpageviewtime": "333",
             "idsite": "3",
             "idvisit": "141",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-11 03:10:01",
             "time_spent": "0"
         },
@@ -15601,7 +15268,6 @@
             "idpageviewtime": "334",
             "idsite": "3",
             "idvisit": "142",
-            "idvisitor": "93daa0102b94a590",
             "server_time": "2017-01-11 03:04:01",
             "time_spent": "0"
         },
@@ -15613,7 +15279,6 @@
             "idpageviewtime": "335",
             "idsite": "3",
             "idvisit": "143",
-            "idvisitor": "10b7b3f2a3a3cbc0",
             "server_time": "2017-01-11 00:04:01",
             "time_spent": "360"
         },
@@ -15625,7 +15290,6 @@
             "idpageviewtime": "336",
             "idsite": "3",
             "idvisit": "143",
-            "idvisitor": "10b7b3f2a3a3cbc0",
             "server_time": "2017-01-11 00:10:01",
             "time_spent": "0"
         },
@@ -15636,7 +15300,6 @@
             "idpageviewtime": "337",
             "idsite": "3",
             "idvisit": "143",
-            "idvisitor": "10b7b3f2a3a3cbc0",
             "server_time": "2017-01-11 00:10:01",
             "time_spent": "0"
         },
@@ -15648,7 +15311,6 @@
             "idpageviewtime": "338",
             "idsite": "3",
             "idvisit": "144",
-            "idvisitor": "10b7b3f2a3a3cbc0",
             "server_time": "2017-01-11 03:04:01",
             "time_spent": "360"
         },
@@ -15660,7 +15322,6 @@
             "idpageviewtime": "339",
             "idsite": "3",
             "idvisit": "144",
-            "idvisitor": "10b7b3f2a3a3cbc0",
             "server_time": "2017-01-11 03:10:01",
             "time_spent": "0"
         },
@@ -15672,7 +15333,6 @@
             "idpageviewtime": "340",
             "idsite": "3",
             "idvisit": "145",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-11 01:04:01",
             "time_spent": "360"
         },
@@ -15684,7 +15344,6 @@
             "idpageviewtime": "341",
             "idsite": "3",
             "idvisit": "145",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-11 01:10:01",
             "time_spent": "0"
         },
@@ -15696,7 +15355,6 @@
             "idpageviewtime": "342",
             "idsite": "3",
             "idvisit": "145",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-11 01:10:01",
             "time_spent": "0"
         },
@@ -15708,7 +15366,6 @@
             "idpageviewtime": "343",
             "idsite": "3",
             "idvisit": "146",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-10 22:04:01",
             "time_spent": "360"
         },
@@ -15720,7 +15377,6 @@
             "idpageviewtime": "344",
             "idsite": "3",
             "idvisit": "146",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-10 22:10:01",
             "time_spent": "0"
         },
@@ -15732,7 +15388,6 @@
             "idpageviewtime": "345",
             "idsite": "3",
             "idvisit": "146",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-10 22:10:01",
             "time_spent": "0"
         },
@@ -15744,7 +15399,6 @@
             "idpageviewtime": "346",
             "idsite": "3",
             "idvisit": "147",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-11 00:04:01",
             "time_spent": "360"
         },
@@ -15756,7 +15410,6 @@
             "idpageviewtime": "347",
             "idsite": "3",
             "idvisit": "147",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-11 00:10:01",
             "time_spent": "0"
         },
@@ -15768,7 +15421,6 @@
             "idpageviewtime": "348",
             "idsite": "3",
             "idvisit": "147",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-11 00:10:01",
             "time_spent": "0"
         },
@@ -15780,7 +15432,6 @@
             "idpageviewtime": "349",
             "idsite": "3",
             "idvisit": "148",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-11 03:04:01",
             "time_spent": "360"
         },
@@ -15792,7 +15443,6 @@
             "idpageviewtime": "350",
             "idsite": "3",
             "idvisit": "148",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-11 03:10:01",
             "time_spent": "0"
         },
@@ -15804,7 +15454,6 @@
             "idpageviewtime": "351",
             "idsite": "3",
             "idvisit": "148",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-11 03:10:01",
             "time_spent": "0"
         },
@@ -15816,7 +15465,6 @@
             "idpageviewtime": "352",
             "idsite": "3",
             "idvisit": "149",
-            "idvisitor": "10ad1da713b1d678",
             "server_time": "2017-01-11 00:04:01",
             "time_spent": "0"
         },
@@ -15828,7 +15476,6 @@
             "idpageviewtime": "353",
             "idsite": "3",
             "idvisit": "150",
-            "idvisitor": "10ad1da713b1d678",
             "server_time": "2017-01-11 03:04:01",
             "time_spent": "0"
         },
@@ -15840,7 +15487,6 @@
             "idpageviewtime": "354",
             "idsite": "3",
             "idvisit": "151",
-            "idvisitor": "19c222fa6e2f7922",
             "server_time": "2017-01-10 19:04:01",
             "time_spent": "360"
         },
@@ -15852,7 +15498,6 @@
             "idpageviewtime": "355",
             "idsite": "3",
             "idvisit": "151",
-            "idvisitor": "19c222fa6e2f7922",
             "server_time": "2017-01-10 19:10:01",
             "time_spent": "0"
         },
@@ -15864,7 +15509,6 @@
             "idpageviewtime": "356",
             "idsite": "3",
             "idvisit": "152",
-            "idvisitor": "19c222fa6e2f7922",
             "server_time": "2017-01-11 03:04:01",
             "time_spent": "360"
         },
@@ -15876,7 +15520,6 @@
             "idpageviewtime": "357",
             "idsite": "3",
             "idvisit": "152",
-            "idvisitor": "19c222fa6e2f7922",
             "server_time": "2017-01-11 03:10:01",
             "time_spent": "0"
         },
@@ -15888,7 +15531,6 @@
             "idpageviewtime": "358",
             "idsite": "3",
             "idvisit": "153",
-            "idvisitor": "cb9a53c4ce1dc123",
             "server_time": "2017-01-11 01:04:01",
             "time_spent": "360"
         },
@@ -15900,7 +15542,6 @@
             "idpageviewtime": "359",
             "idsite": "3",
             "idvisit": "153",
-            "idvisitor": "cb9a53c4ce1dc123",
             "server_time": "2017-01-11 01:10:01",
             "time_spent": "0"
         },
@@ -15912,7 +15553,6 @@
             "idpageviewtime": "360",
             "idsite": "3",
             "idvisit": "153",
-            "idvisitor": "cb9a53c4ce1dc123",
             "server_time": "2017-01-11 01:10:01",
             "time_spent": "0"
         },
@@ -15924,7 +15564,6 @@
             "idpageviewtime": "361",
             "idsite": "3",
             "idvisit": "154",
-            "idvisitor": "cb9a53c4ce1dc123",
             "server_time": "2017-01-11 03:04:01",
             "time_spent": "360"
         },
@@ -15936,7 +15575,6 @@
             "idpageviewtime": "362",
             "idsite": "3",
             "idvisit": "154",
-            "idvisitor": "cb9a53c4ce1dc123",
             "server_time": "2017-01-11 03:10:01",
             "time_spent": "0"
         },
@@ -15948,7 +15586,6 @@
             "idpageviewtime": "363",
             "idsite": "3",
             "idvisit": "154",
-            "idvisitor": "cb9a53c4ce1dc123",
             "server_time": "2017-01-11 03:10:01",
             "time_spent": "0"
         },
@@ -15960,7 +15597,6 @@
             "idpageviewtime": "364",
             "idsite": "3",
             "idvisit": "155",
-            "idvisitor": "8311682d2bcc0232",
             "server_time": "2017-01-11 03:04:01",
             "time_spent": "0"
         },
@@ -15971,7 +15607,6 @@
             "idpageviewtime": "365",
             "idsite": "3",
             "idvisit": "155",
-            "idvisitor": "8311682d2bcc0232",
             "server_time": "2017-01-11 03:04:01",
             "time_spent": "0"
         },
@@ -15983,7 +15618,6 @@
             "idpageviewtime": "366",
             "idsite": "3",
             "idvisit": "156",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-11 02:04:01",
             "time_spent": "360"
         },
@@ -15995,7 +15629,6 @@
             "idpageviewtime": "367",
             "idsite": "3",
             "idvisit": "156",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-11 02:10:01",
             "time_spent": "0"
         },
@@ -16007,7 +15640,6 @@
             "idpageviewtime": "368",
             "idsite": "3",
             "idvisit": "157",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-10 14:04:01",
             "time_spent": "360"
         },
@@ -16019,7 +15651,6 @@
             "idpageviewtime": "369",
             "idsite": "3",
             "idvisit": "157",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-10 14:10:01",
             "time_spent": "0"
         },
@@ -16031,7 +15662,6 @@
             "idpageviewtime": "370",
             "idsite": "3",
             "idvisit": "158",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-10 17:04:01",
             "time_spent": "360"
         },
@@ -16043,7 +15673,6 @@
             "idpageviewtime": "371",
             "idsite": "3",
             "idvisit": "158",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-10 17:10:01",
             "time_spent": "0"
         },
@@ -16055,7 +15684,6 @@
             "idpageviewtime": "372",
             "idsite": "3",
             "idvisit": "159",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-10 23:04:01",
             "time_spent": "360"
         },
@@ -16067,7 +15695,6 @@
             "idpageviewtime": "373",
             "idsite": "3",
             "idvisit": "159",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-10 23:10:01",
             "time_spent": "0"
         },
@@ -16079,7 +15706,6 @@
             "idpageviewtime": "374",
             "idsite": "3",
             "idvisit": "160",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-11 03:04:01",
             "time_spent": "360"
         },
@@ -16091,7 +15717,6 @@
             "idpageviewtime": "375",
             "idsite": "3",
             "idvisit": "160",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-11 03:10:01",
             "time_spent": "0"
         },
@@ -16103,7 +15728,6 @@
             "idpageviewtime": "376",
             "idsite": "5",
             "idvisit": "161",
-            "idvisitor": "5484eb1bcd82eefe",
             "server_time": "2017-01-11 03:03:56",
             "time_spent": "360"
         },
@@ -16115,7 +15739,6 @@
             "idpageviewtime": "377",
             "idsite": "5",
             "idvisit": "161",
-            "idvisitor": "5484eb1bcd82eefe",
             "server_time": "2017-01-11 03:09:56",
             "time_spent": "0"
         },
@@ -16127,7 +15750,6 @@
             "idpageviewtime": "378",
             "idsite": "5",
             "idvisit": "161",
-            "idvisitor": "5484eb1bcd82eefe",
             "server_time": "2017-01-11 03:09:56",
             "time_spent": "0"
         },
@@ -16138,7 +15760,6 @@
             "idpageviewtime": "379",
             "idsite": "5",
             "idvisit": "161",
-            "idvisitor": "5484eb1bcd82eefe",
             "server_time": "2017-01-11 03:09:56",
             "time_spent": "0"
         },
@@ -16150,7 +15771,6 @@
             "idpageviewtime": "380",
             "idsite": "5",
             "idvisit": "162",
-            "idvisitor": "6f1ccf4b4463998f",
             "server_time": "2017-01-11 01:03:56",
             "time_spent": "0"
         },
@@ -16162,7 +15782,6 @@
             "idpageviewtime": "381",
             "idsite": "5",
             "idvisit": "163",
-            "idvisitor": "6f1ccf4b4463998f",
             "server_time": "2017-01-11 03:03:56",
             "time_spent": "0"
         },
@@ -16174,7 +15793,6 @@
             "idpageviewtime": "382",
             "idsite": "5",
             "idvisit": "164",
-            "idvisitor": "dbfd79b34328023f",
             "server_time": "2017-01-09 08:03:56",
             "time_spent": "360"
         },
@@ -16186,7 +15804,6 @@
             "idpageviewtime": "383",
             "idsite": "5",
             "idvisit": "164",
-            "idvisitor": "dbfd79b34328023f",
             "server_time": "2017-01-09 08:09:56",
             "time_spent": "0"
         },
@@ -16198,7 +15815,6 @@
             "idpageviewtime": "384",
             "idsite": "5",
             "idvisit": "165",
-            "idvisitor": "dbfd79b34328023f",
             "server_time": "2017-01-10 23:03:56",
             "time_spent": "360"
         },
@@ -16210,7 +15826,6 @@
             "idpageviewtime": "385",
             "idsite": "5",
             "idvisit": "165",
-            "idvisitor": "dbfd79b34328023f",
             "server_time": "2017-01-10 23:09:56",
             "time_spent": "0"
         },
@@ -16222,7 +15837,6 @@
             "idpageviewtime": "386",
             "idsite": "5",
             "idvisit": "166",
-            "idvisitor": "dbfd79b34328023f",
             "server_time": "2017-01-11 03:03:56",
             "time_spent": "360"
         },
@@ -16234,7 +15848,6 @@
             "idpageviewtime": "387",
             "idsite": "5",
             "idvisit": "166",
-            "idvisitor": "dbfd79b34328023f",
             "server_time": "2017-01-11 03:09:56",
             "time_spent": "0"
         },
@@ -16246,7 +15859,6 @@
             "idpageviewtime": "388",
             "idsite": "5",
             "idvisit": "167",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-09 08:03:56",
             "time_spent": "360"
         },
@@ -16258,7 +15870,6 @@
             "idpageviewtime": "389",
             "idsite": "5",
             "idvisit": "167",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-09 08:09:56",
             "time_spent": "0"
         },
@@ -16270,7 +15881,6 @@
             "idpageviewtime": "390",
             "idsite": "5",
             "idvisit": "167",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-09 08:09:56",
             "time_spent": "0"
         },
@@ -16282,7 +15892,6 @@
             "idpageviewtime": "391",
             "idsite": "5",
             "idvisit": "168",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-10 09:03:56",
             "time_spent": "360"
         },
@@ -16294,7 +15903,6 @@
             "idpageviewtime": "392",
             "idsite": "5",
             "idvisit": "168",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-10 09:09:56",
             "time_spent": "0"
         },
@@ -16306,7 +15914,6 @@
             "idpageviewtime": "393",
             "idsite": "5",
             "idvisit": "168",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-10 09:09:56",
             "time_spent": "0"
         },
@@ -16318,7 +15925,6 @@
             "idpageviewtime": "394",
             "idsite": "5",
             "idvisit": "169",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-10 14:03:56",
             "time_spent": "360"
         },
@@ -16330,7 +15936,6 @@
             "idpageviewtime": "395",
             "idsite": "5",
             "idvisit": "169",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-10 14:09:56",
             "time_spent": "0"
         },
@@ -16342,7 +15947,6 @@
             "idpageviewtime": "396",
             "idsite": "5",
             "idvisit": "169",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-10 14:09:56",
             "time_spent": "0"
         },
@@ -16354,7 +15958,6 @@
             "idpageviewtime": "397",
             "idsite": "5",
             "idvisit": "170",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-10 19:03:56",
             "time_spent": "360"
         },
@@ -16366,7 +15969,6 @@
             "idpageviewtime": "398",
             "idsite": "5",
             "idvisit": "170",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-10 19:09:56",
             "time_spent": "0"
         },
@@ -16378,7 +15980,6 @@
             "idpageviewtime": "399",
             "idsite": "5",
             "idvisit": "170",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-10 19:09:56",
             "time_spent": "0"
         },
@@ -16390,7 +15991,6 @@
             "idpageviewtime": "400",
             "idsite": "5",
             "idvisit": "171",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-11 00:03:56",
             "time_spent": "360"
         },
@@ -16402,7 +16002,6 @@
             "idpageviewtime": "401",
             "idsite": "5",
             "idvisit": "171",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-11 00:09:56",
             "time_spent": "0"
         },
@@ -16414,7 +16013,6 @@
             "idpageviewtime": "402",
             "idsite": "5",
             "idvisit": "171",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-11 00:09:56",
             "time_spent": "0"
         },
@@ -16426,7 +16024,6 @@
             "idpageviewtime": "403",
             "idsite": "5",
             "idvisit": "172",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-11 02:03:56",
             "time_spent": "360"
         },
@@ -16438,7 +16035,6 @@
             "idpageviewtime": "404",
             "idsite": "5",
             "idvisit": "172",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-11 02:09:56",
             "time_spent": "0"
         },
@@ -16450,7 +16046,6 @@
             "idpageviewtime": "405",
             "idsite": "5",
             "idvisit": "172",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-11 02:09:56",
             "time_spent": "0"
         },
@@ -16462,7 +16057,6 @@
             "idpageviewtime": "406",
             "idsite": "5",
             "idvisit": "173",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-11 03:03:56",
             "time_spent": "360"
         },
@@ -16474,7 +16068,6 @@
             "idpageviewtime": "407",
             "idsite": "5",
             "idvisit": "173",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-11 03:09:56",
             "time_spent": "0"
         },
@@ -16486,7 +16079,6 @@
             "idpageviewtime": "408",
             "idsite": "5",
             "idvisit": "173",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-11 03:09:56",
             "time_spent": "0"
         },
@@ -16498,7 +16090,6 @@
             "idpageviewtime": "409",
             "idsite": "5",
             "idvisit": "174",
-            "idvisitor": "93daa0102b94a590",
             "server_time": "2017-01-11 03:03:56",
             "time_spent": "0"
         },
@@ -16510,7 +16101,6 @@
             "idpageviewtime": "410",
             "idsite": "5",
             "idvisit": "175",
-            "idvisitor": "10b7b3f2a3a3cbc0",
             "server_time": "2017-01-11 00:03:56",
             "time_spent": "360"
         },
@@ -16522,7 +16112,6 @@
             "idpageviewtime": "411",
             "idsite": "5",
             "idvisit": "175",
-            "idvisitor": "10b7b3f2a3a3cbc0",
             "server_time": "2017-01-11 00:09:56",
             "time_spent": "0"
         },
@@ -16533,7 +16122,6 @@
             "idpageviewtime": "412",
             "idsite": "5",
             "idvisit": "175",
-            "idvisitor": "10b7b3f2a3a3cbc0",
             "server_time": "2017-01-11 00:09:56",
             "time_spent": "0"
         },
@@ -16545,7 +16133,6 @@
             "idpageviewtime": "413",
             "idsite": "5",
             "idvisit": "176",
-            "idvisitor": "10b7b3f2a3a3cbc0",
             "server_time": "2017-01-11 03:03:56",
             "time_spent": "360"
         },
@@ -16557,7 +16144,6 @@
             "idpageviewtime": "414",
             "idsite": "5",
             "idvisit": "176",
-            "idvisitor": "10b7b3f2a3a3cbc0",
             "server_time": "2017-01-11 03:09:56",
             "time_spent": "0"
         },
@@ -16569,7 +16155,6 @@
             "idpageviewtime": "415",
             "idsite": "5",
             "idvisit": "177",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-11 01:03:56",
             "time_spent": "360"
         },
@@ -16581,7 +16166,6 @@
             "idpageviewtime": "416",
             "idsite": "5",
             "idvisit": "177",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-11 01:09:56",
             "time_spent": "0"
         },
@@ -16593,7 +16177,6 @@
             "idpageviewtime": "417",
             "idsite": "5",
             "idvisit": "177",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-11 01:09:56",
             "time_spent": "0"
         },
@@ -16605,7 +16188,6 @@
             "idpageviewtime": "418",
             "idsite": "5",
             "idvisit": "178",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-10 22:03:56",
             "time_spent": "360"
         },
@@ -16617,7 +16199,6 @@
             "idpageviewtime": "419",
             "idsite": "5",
             "idvisit": "178",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-10 22:09:56",
             "time_spent": "0"
         },
@@ -16629,7 +16210,6 @@
             "idpageviewtime": "420",
             "idsite": "5",
             "idvisit": "178",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-10 22:09:56",
             "time_spent": "0"
         },
@@ -16641,7 +16221,6 @@
             "idpageviewtime": "421",
             "idsite": "5",
             "idvisit": "179",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-11 00:03:56",
             "time_spent": "360"
         },
@@ -16653,7 +16232,6 @@
             "idpageviewtime": "422",
             "idsite": "5",
             "idvisit": "179",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-11 00:09:56",
             "time_spent": "0"
         },
@@ -16665,7 +16243,6 @@
             "idpageviewtime": "423",
             "idsite": "5",
             "idvisit": "179",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-11 00:09:56",
             "time_spent": "0"
         },
@@ -16677,7 +16254,6 @@
             "idpageviewtime": "424",
             "idsite": "5",
             "idvisit": "180",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-11 03:03:56",
             "time_spent": "360"
         },
@@ -16689,7 +16265,6 @@
             "idpageviewtime": "425",
             "idsite": "5",
             "idvisit": "180",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-11 03:09:56",
             "time_spent": "0"
         },
@@ -16701,7 +16276,6 @@
             "idpageviewtime": "426",
             "idsite": "5",
             "idvisit": "180",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-11 03:09:56",
             "time_spent": "0"
         },
@@ -16713,7 +16287,6 @@
             "idpageviewtime": "427",
             "idsite": "5",
             "idvisit": "181",
-            "idvisitor": "10ad1da713b1d678",
             "server_time": "2017-01-11 00:03:56",
             "time_spent": "0"
         },
@@ -16725,7 +16298,6 @@
             "idpageviewtime": "428",
             "idsite": "5",
             "idvisit": "182",
-            "idvisitor": "10ad1da713b1d678",
             "server_time": "2017-01-11 03:03:56",
             "time_spent": "0"
         },
@@ -16737,7 +16309,6 @@
             "idpageviewtime": "429",
             "idsite": "5",
             "idvisit": "183",
-            "idvisitor": "19c222fa6e2f7922",
             "server_time": "2017-01-10 19:03:56",
             "time_spent": "360"
         },
@@ -16749,7 +16320,6 @@
             "idpageviewtime": "430",
             "idsite": "5",
             "idvisit": "183",
-            "idvisitor": "19c222fa6e2f7922",
             "server_time": "2017-01-10 19:09:56",
             "time_spent": "0"
         },
@@ -16761,7 +16331,6 @@
             "idpageviewtime": "431",
             "idsite": "5",
             "idvisit": "184",
-            "idvisitor": "19c222fa6e2f7922",
             "server_time": "2017-01-11 03:03:56",
             "time_spent": "360"
         },
@@ -16773,7 +16342,6 @@
             "idpageviewtime": "432",
             "idsite": "5",
             "idvisit": "184",
-            "idvisitor": "19c222fa6e2f7922",
             "server_time": "2017-01-11 03:09:56",
             "time_spent": "0"
         },
@@ -16785,7 +16353,6 @@
             "idpageviewtime": "433",
             "idsite": "5",
             "idvisit": "185",
-            "idvisitor": "cb9a53c4ce1dc123",
             "server_time": "2017-01-11 01:03:56",
             "time_spent": "360"
         },
@@ -16797,7 +16364,6 @@
             "idpageviewtime": "434",
             "idsite": "5",
             "idvisit": "185",
-            "idvisitor": "cb9a53c4ce1dc123",
             "server_time": "2017-01-11 01:09:56",
             "time_spent": "0"
         },
@@ -16809,7 +16375,6 @@
             "idpageviewtime": "435",
             "idsite": "5",
             "idvisit": "185",
-            "idvisitor": "cb9a53c4ce1dc123",
             "server_time": "2017-01-11 01:09:56",
             "time_spent": "0"
         },
@@ -16821,7 +16386,6 @@
             "idpageviewtime": "436",
             "idsite": "5",
             "idvisit": "186",
-            "idvisitor": "cb9a53c4ce1dc123",
             "server_time": "2017-01-11 03:03:56",
             "time_spent": "360"
         },
@@ -16833,7 +16397,6 @@
             "idpageviewtime": "437",
             "idsite": "5",
             "idvisit": "186",
-            "idvisitor": "cb9a53c4ce1dc123",
             "server_time": "2017-01-11 03:09:56",
             "time_spent": "0"
         },
@@ -16845,7 +16408,6 @@
             "idpageviewtime": "438",
             "idsite": "5",
             "idvisit": "186",
-            "idvisitor": "cb9a53c4ce1dc123",
             "server_time": "2017-01-11 03:09:56",
             "time_spent": "0"
         },
@@ -16857,7 +16419,6 @@
             "idpageviewtime": "439",
             "idsite": "5",
             "idvisit": "187",
-            "idvisitor": "8311682d2bcc0232",
             "server_time": "2017-01-11 03:03:56",
             "time_spent": "0"
         },
@@ -16868,7 +16429,6 @@
             "idpageviewtime": "440",
             "idsite": "5",
             "idvisit": "187",
-            "idvisitor": "8311682d2bcc0232",
             "server_time": "2017-01-11 03:03:56",
             "time_spent": "0"
         },
@@ -16880,7 +16440,6 @@
             "idpageviewtime": "441",
             "idsite": "5",
             "idvisit": "188",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-11 02:03:56",
             "time_spent": "360"
         },
@@ -16892,7 +16451,6 @@
             "idpageviewtime": "442",
             "idsite": "5",
             "idvisit": "188",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-11 02:09:56",
             "time_spent": "0"
         },
@@ -16904,7 +16462,6 @@
             "idpageviewtime": "443",
             "idsite": "5",
             "idvisit": "189",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-10 14:03:56",
             "time_spent": "360"
         },
@@ -16916,7 +16473,6 @@
             "idpageviewtime": "444",
             "idsite": "5",
             "idvisit": "189",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-10 14:09:56",
             "time_spent": "0"
         },
@@ -16928,7 +16484,6 @@
             "idpageviewtime": "445",
             "idsite": "5",
             "idvisit": "190",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-10 17:03:56",
             "time_spent": "360"
         },
@@ -16940,7 +16495,6 @@
             "idpageviewtime": "446",
             "idsite": "5",
             "idvisit": "190",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-10 17:09:56",
             "time_spent": "0"
         },
@@ -16952,7 +16506,6 @@
             "idpageviewtime": "447",
             "idsite": "5",
             "idvisit": "191",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-10 23:03:56",
             "time_spent": "360"
         },
@@ -16964,7 +16517,6 @@
             "idpageviewtime": "448",
             "idsite": "5",
             "idvisit": "191",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-10 23:09:56",
             "time_spent": "0"
         },
@@ -16976,7 +16528,6 @@
             "idpageviewtime": "449",
             "idsite": "5",
             "idvisit": "192",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-11 03:03:56",
             "time_spent": "360"
         },
@@ -16988,7 +16539,6 @@
             "idpageviewtime": "450",
             "idsite": "5",
             "idvisit": "192",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-11 03:09:56",
             "time_spent": "0"
         },
@@ -17000,7 +16550,6 @@
             "idpageviewtime": "451",
             "idsite": "5",
             "idvisit": "193",
-            "idvisitor": "5484eb1bcd82eefe",
             "server_time": "2017-01-05 03:04:00",
             "time_spent": "360"
         },
@@ -17012,7 +16561,6 @@
             "idpageviewtime": "452",
             "idsite": "5",
             "idvisit": "193",
-            "idvisitor": "5484eb1bcd82eefe",
             "server_time": "2017-01-05 03:10:00",
             "time_spent": "0"
         },
@@ -17024,7 +16572,6 @@
             "idpageviewtime": "453",
             "idsite": "5",
             "idvisit": "193",
-            "idvisitor": "5484eb1bcd82eefe",
             "server_time": "2017-01-05 03:10:00",
             "time_spent": "0"
         },
@@ -17035,7 +16582,6 @@
             "idpageviewtime": "454",
             "idsite": "5",
             "idvisit": "193",
-            "idvisitor": "5484eb1bcd82eefe",
             "server_time": "2017-01-05 03:10:00",
             "time_spent": "0"
         },
@@ -17047,7 +16593,6 @@
             "idpageviewtime": "455",
             "idsite": "5",
             "idvisit": "194",
-            "idvisitor": "6f1ccf4b4463998f",
             "server_time": "2017-01-05 01:04:00",
             "time_spent": "0"
         },
@@ -17059,7 +16604,6 @@
             "idpageviewtime": "456",
             "idsite": "5",
             "idvisit": "195",
-            "idvisitor": "6f1ccf4b4463998f",
             "server_time": "2017-01-05 03:04:00",
             "time_spent": "0"
         },
@@ -17071,7 +16615,6 @@
             "idpageviewtime": "457",
             "idsite": "5",
             "idvisit": "196",
-            "idvisitor": "dbfd79b34328023f",
             "server_time": "2017-01-03 08:04:00",
             "time_spent": "360"
         },
@@ -17083,7 +16626,6 @@
             "idpageviewtime": "458",
             "idsite": "5",
             "idvisit": "196",
-            "idvisitor": "dbfd79b34328023f",
             "server_time": "2017-01-03 08:10:00",
             "time_spent": "0"
         },
@@ -17095,7 +16637,6 @@
             "idpageviewtime": "459",
             "idsite": "5",
             "idvisit": "197",
-            "idvisitor": "dbfd79b34328023f",
             "server_time": "2017-01-04 23:04:00",
             "time_spent": "360"
         },
@@ -17107,7 +16648,6 @@
             "idpageviewtime": "460",
             "idsite": "5",
             "idvisit": "197",
-            "idvisitor": "dbfd79b34328023f",
             "server_time": "2017-01-04 23:10:00",
             "time_spent": "0"
         },
@@ -17119,7 +16659,6 @@
             "idpageviewtime": "461",
             "idsite": "5",
             "idvisit": "198",
-            "idvisitor": "dbfd79b34328023f",
             "server_time": "2017-01-05 03:04:00",
             "time_spent": "360"
         },
@@ -17131,7 +16670,6 @@
             "idpageviewtime": "462",
             "idsite": "5",
             "idvisit": "198",
-            "idvisitor": "dbfd79b34328023f",
             "server_time": "2017-01-05 03:10:00",
             "time_spent": "0"
         },
@@ -17143,7 +16681,6 @@
             "idpageviewtime": "463",
             "idsite": "5",
             "idvisit": "199",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-03 08:04:00",
             "time_spent": "360"
         },
@@ -17155,7 +16692,6 @@
             "idpageviewtime": "464",
             "idsite": "5",
             "idvisit": "199",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-03 08:10:00",
             "time_spent": "0"
         },
@@ -17167,7 +16703,6 @@
             "idpageviewtime": "465",
             "idsite": "5",
             "idvisit": "199",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-03 08:10:00",
             "time_spent": "0"
         },
@@ -17179,7 +16714,6 @@
             "idpageviewtime": "466",
             "idsite": "5",
             "idvisit": "200",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-04 09:04:00",
             "time_spent": "360"
         },
@@ -17191,7 +16725,6 @@
             "idpageviewtime": "467",
             "idsite": "5",
             "idvisit": "200",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-04 09:10:00",
             "time_spent": "0"
         },
@@ -17203,7 +16736,6 @@
             "idpageviewtime": "468",
             "idsite": "5",
             "idvisit": "200",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-04 09:10:00",
             "time_spent": "0"
         },
@@ -17215,7 +16747,6 @@
             "idpageviewtime": "469",
             "idsite": "5",
             "idvisit": "201",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-04 14:04:00",
             "time_spent": "360"
         },
@@ -17227,7 +16758,6 @@
             "idpageviewtime": "470",
             "idsite": "5",
             "idvisit": "201",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-04 14:10:00",
             "time_spent": "0"
         },
@@ -17239,7 +16769,6 @@
             "idpageviewtime": "471",
             "idsite": "5",
             "idvisit": "201",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-04 14:10:00",
             "time_spent": "0"
         },
@@ -17251,7 +16780,6 @@
             "idpageviewtime": "472",
             "idsite": "5",
             "idvisit": "202",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-04 19:04:00",
             "time_spent": "360"
         },
@@ -17263,7 +16791,6 @@
             "idpageviewtime": "473",
             "idsite": "5",
             "idvisit": "202",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-04 19:10:00",
             "time_spent": "0"
         },
@@ -17275,7 +16802,6 @@
             "idpageviewtime": "474",
             "idsite": "5",
             "idvisit": "202",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-04 19:10:00",
             "time_spent": "0"
         },
@@ -17287,7 +16813,6 @@
             "idpageviewtime": "475",
             "idsite": "5",
             "idvisit": "203",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-05 00:04:00",
             "time_spent": "360"
         },
@@ -17299,7 +16824,6 @@
             "idpageviewtime": "476",
             "idsite": "5",
             "idvisit": "203",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-05 00:10:00",
             "time_spent": "0"
         },
@@ -17311,7 +16835,6 @@
             "idpageviewtime": "477",
             "idsite": "5",
             "idvisit": "203",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-05 00:10:00",
             "time_spent": "0"
         },
@@ -17323,7 +16846,6 @@
             "idpageviewtime": "478",
             "idsite": "5",
             "idvisit": "204",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-05 02:04:00",
             "time_spent": "360"
         },
@@ -17335,7 +16857,6 @@
             "idpageviewtime": "479",
             "idsite": "5",
             "idvisit": "204",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-05 02:10:00",
             "time_spent": "0"
         },
@@ -17347,7 +16868,6 @@
             "idpageviewtime": "480",
             "idsite": "5",
             "idvisit": "204",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-05 02:10:00",
             "time_spent": "0"
         },
@@ -17359,7 +16879,6 @@
             "idpageviewtime": "481",
             "idsite": "5",
             "idvisit": "205",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-05 03:04:00",
             "time_spent": "360"
         },
@@ -17371,7 +16890,6 @@
             "idpageviewtime": "482",
             "idsite": "5",
             "idvisit": "205",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-05 03:10:00",
             "time_spent": "0"
         },
@@ -17383,7 +16901,6 @@
             "idpageviewtime": "483",
             "idsite": "5",
             "idvisit": "205",
-            "idvisitor": "5ea465f8f6fc61a0",
             "server_time": "2017-01-05 03:10:00",
             "time_spent": "0"
         },
@@ -17395,7 +16912,6 @@
             "idpageviewtime": "484",
             "idsite": "5",
             "idvisit": "206",
-            "idvisitor": "93daa0102b94a590",
             "server_time": "2017-01-05 03:04:00",
             "time_spent": "0"
         },
@@ -17407,7 +16923,6 @@
             "idpageviewtime": "485",
             "idsite": "5",
             "idvisit": "207",
-            "idvisitor": "10b7b3f2a3a3cbc0",
             "server_time": "2017-01-05 00:04:00",
             "time_spent": "360"
         },
@@ -17419,7 +16934,6 @@
             "idpageviewtime": "486",
             "idsite": "5",
             "idvisit": "207",
-            "idvisitor": "10b7b3f2a3a3cbc0",
             "server_time": "2017-01-05 00:10:00",
             "time_spent": "0"
         },
@@ -17430,7 +16944,6 @@
             "idpageviewtime": "487",
             "idsite": "5",
             "idvisit": "207",
-            "idvisitor": "10b7b3f2a3a3cbc0",
             "server_time": "2017-01-05 00:10:00",
             "time_spent": "0"
         },
@@ -17442,7 +16955,6 @@
             "idpageviewtime": "488",
             "idsite": "5",
             "idvisit": "208",
-            "idvisitor": "10b7b3f2a3a3cbc0",
             "server_time": "2017-01-05 03:04:00",
             "time_spent": "360"
         },
@@ -17454,7 +16966,6 @@
             "idpageviewtime": "489",
             "idsite": "5",
             "idvisit": "208",
-            "idvisitor": "10b7b3f2a3a3cbc0",
             "server_time": "2017-01-05 03:10:00",
             "time_spent": "0"
         },
@@ -17466,7 +16977,6 @@
             "idpageviewtime": "490",
             "idsite": "5",
             "idvisit": "209",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-05 01:04:00",
             "time_spent": "360"
         },
@@ -17478,7 +16988,6 @@
             "idpageviewtime": "491",
             "idsite": "5",
             "idvisit": "209",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-05 01:10:00",
             "time_spent": "0"
         },
@@ -17490,7 +16999,6 @@
             "idpageviewtime": "492",
             "idsite": "5",
             "idvisit": "209",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-05 01:10:00",
             "time_spent": "0"
         },
@@ -17502,7 +17010,6 @@
             "idpageviewtime": "493",
             "idsite": "5",
             "idvisit": "210",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-04 22:04:00",
             "time_spent": "360"
         },
@@ -17514,7 +17021,6 @@
             "idpageviewtime": "494",
             "idsite": "5",
             "idvisit": "210",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-04 22:10:00",
             "time_spent": "0"
         },
@@ -17526,7 +17032,6 @@
             "idpageviewtime": "495",
             "idsite": "5",
             "idvisit": "210",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-04 22:10:00",
             "time_spent": "0"
         },
@@ -17538,7 +17043,6 @@
             "idpageviewtime": "496",
             "idsite": "5",
             "idvisit": "211",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-05 00:04:00",
             "time_spent": "360"
         },
@@ -17550,7 +17054,6 @@
             "idpageviewtime": "497",
             "idsite": "5",
             "idvisit": "211",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-05 00:10:00",
             "time_spent": "0"
         },
@@ -17562,7 +17065,6 @@
             "idpageviewtime": "498",
             "idsite": "5",
             "idvisit": "211",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-05 00:10:00",
             "time_spent": "0"
         },
@@ -17574,7 +17076,6 @@
             "idpageviewtime": "499",
             "idsite": "5",
             "idvisit": "212",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-05 03:04:00",
             "time_spent": "360"
         },
@@ -17586,7 +17087,6 @@
             "idpageviewtime": "500",
             "idsite": "5",
             "idvisit": "212",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-05 03:10:00",
             "time_spent": "0"
         },
@@ -17598,7 +17098,6 @@
             "idpageviewtime": "501",
             "idsite": "5",
             "idvisit": "212",
-            "idvisitor": "f92bfd7922b77e32",
             "server_time": "2017-01-05 03:10:00",
             "time_spent": "0"
         },
@@ -17610,7 +17109,6 @@
             "idpageviewtime": "502",
             "idsite": "5",
             "idvisit": "213",
-            "idvisitor": "10ad1da713b1d678",
             "server_time": "2017-01-05 00:04:00",
             "time_spent": "0"
         },
@@ -17622,7 +17120,6 @@
             "idpageviewtime": "503",
             "idsite": "5",
             "idvisit": "214",
-            "idvisitor": "10ad1da713b1d678",
             "server_time": "2017-01-05 03:04:00",
             "time_spent": "0"
         },
@@ -17634,7 +17131,6 @@
             "idpageviewtime": "504",
             "idsite": "5",
             "idvisit": "215",
-            "idvisitor": "19c222fa6e2f7922",
             "server_time": "2017-01-04 19:04:00",
             "time_spent": "360"
         },
@@ -17646,7 +17142,6 @@
             "idpageviewtime": "505",
             "idsite": "5",
             "idvisit": "215",
-            "idvisitor": "19c222fa6e2f7922",
             "server_time": "2017-01-04 19:10:00",
             "time_spent": "0"
         },
@@ -17658,7 +17153,6 @@
             "idpageviewtime": "506",
             "idsite": "5",
             "idvisit": "216",
-            "idvisitor": "19c222fa6e2f7922",
             "server_time": "2017-01-05 03:04:00",
             "time_spent": "360"
         },
@@ -17670,7 +17164,6 @@
             "idpageviewtime": "507",
             "idsite": "5",
             "idvisit": "216",
-            "idvisitor": "19c222fa6e2f7922",
             "server_time": "2017-01-05 03:10:00",
             "time_spent": "0"
         },
@@ -17682,7 +17175,6 @@
             "idpageviewtime": "508",
             "idsite": "5",
             "idvisit": "217",
-            "idvisitor": "cb9a53c4ce1dc123",
             "server_time": "2017-01-05 01:04:00",
             "time_spent": "360"
         },
@@ -17694,7 +17186,6 @@
             "idpageviewtime": "509",
             "idsite": "5",
             "idvisit": "217",
-            "idvisitor": "cb9a53c4ce1dc123",
             "server_time": "2017-01-05 01:10:00",
             "time_spent": "0"
         },
@@ -17706,7 +17197,6 @@
             "idpageviewtime": "510",
             "idsite": "5",
             "idvisit": "217",
-            "idvisitor": "cb9a53c4ce1dc123",
             "server_time": "2017-01-05 01:10:00",
             "time_spent": "0"
         },
@@ -17718,7 +17208,6 @@
             "idpageviewtime": "511",
             "idsite": "5",
             "idvisit": "218",
-            "idvisitor": "cb9a53c4ce1dc123",
             "server_time": "2017-01-05 03:04:00",
             "time_spent": "360"
         },
@@ -17730,7 +17219,6 @@
             "idpageviewtime": "512",
             "idsite": "5",
             "idvisit": "218",
-            "idvisitor": "cb9a53c4ce1dc123",
             "server_time": "2017-01-05 03:10:00",
             "time_spent": "0"
         },
@@ -17742,7 +17230,6 @@
             "idpageviewtime": "513",
             "idsite": "5",
             "idvisit": "218",
-            "idvisitor": "cb9a53c4ce1dc123",
             "server_time": "2017-01-05 03:10:00",
             "time_spent": "0"
         },
@@ -17754,7 +17241,6 @@
             "idpageviewtime": "514",
             "idsite": "5",
             "idvisit": "219",
-            "idvisitor": "8311682d2bcc0232",
             "server_time": "2017-01-05 03:04:00",
             "time_spent": "0"
         },
@@ -17765,7 +17251,6 @@
             "idpageviewtime": "515",
             "idsite": "5",
             "idvisit": "219",
-            "idvisitor": "8311682d2bcc0232",
             "server_time": "2017-01-05 03:04:00",
             "time_spent": "0"
         },
@@ -17777,7 +17262,6 @@
             "idpageviewtime": "516",
             "idsite": "5",
             "idvisit": "220",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-05 02:04:00",
             "time_spent": "360"
         },
@@ -17789,7 +17273,6 @@
             "idpageviewtime": "517",
             "idsite": "5",
             "idvisit": "220",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-05 02:10:00",
             "time_spent": "0"
         },
@@ -17801,7 +17284,6 @@
             "idpageviewtime": "518",
             "idsite": "5",
             "idvisit": "221",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-04 14:04:00",
             "time_spent": "360"
         },
@@ -17813,7 +17295,6 @@
             "idpageviewtime": "519",
             "idsite": "5",
             "idvisit": "221",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-04 14:10:00",
             "time_spent": "0"
         },
@@ -17825,7 +17306,6 @@
             "idpageviewtime": "520",
             "idsite": "5",
             "idvisit": "222",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-04 17:04:00",
             "time_spent": "360"
         },
@@ -17837,7 +17317,6 @@
             "idpageviewtime": "521",
             "idsite": "5",
             "idvisit": "222",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-04 17:10:00",
             "time_spent": "0"
         },
@@ -17849,7 +17328,6 @@
             "idpageviewtime": "522",
             "idsite": "5",
             "idvisit": "223",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-04 23:04:00",
             "time_spent": "360"
         },
@@ -17861,7 +17339,6 @@
             "idpageviewtime": "523",
             "idsite": "5",
             "idvisit": "223",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-04 23:10:00",
             "time_spent": "0"
         },
@@ -17873,7 +17350,6 @@
             "idpageviewtime": "524",
             "idsite": "5",
             "idvisit": "224",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-05 03:04:00",
             "time_spent": "360"
         },
@@ -17885,7 +17361,6 @@
             "idpageviewtime": "525",
             "idsite": "5",
             "idvisit": "224",
-            "idvisitor": "26a1aa089f52e271",
             "server_time": "2017-01-05 03:10:00",
             "time_spent": "0"
         }

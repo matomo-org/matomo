@@ -74,10 +74,6 @@ class PageViewTimeWriter
         }
 
         $idSite = (int) $request->getIdSite();
-        $idVisitor = $visitProperties->getProperty('idvisitor');
-        if (!is_string($idVisitor) || $idVisitor === '') {
-            return;
-        }
 
         $pvId = substr((string) $request->getParam('pv_id'), 0, 6);
         $pvId = $pvId !== '' ? $pvId : null;
@@ -101,7 +97,6 @@ class PageViewTimeWriter
             $this->insertPageView(
                 $idSite,
                 $idVisit,
-                $idVisitor,
                 $idLinkVa,
                 $pvId,
                 (int) $action->getIdActionUrl(),
@@ -172,7 +167,6 @@ class PageViewTimeWriter
     private function insertPageView(
         int $idSite,
         int $idVisit,
-        string $idVisitor,
         int $idLinkVa,
         ?string $pvId,
         int $idActionUrl,
@@ -187,15 +181,14 @@ class PageViewTimeWriter
         // time_spent accumulated between the two runs (heartbeats between the retries can only
         // grow it via GREATEST() in updateTimeSpent()).
         $sql = "INSERT INTO `$table`
-                    (idsite, idvisit, idvisitor, idlink_va, idpageview, idaction_url, idaction_name, server_time, time_spent)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, 0)
+                    (idsite, idvisit, idlink_va, idpageview, idaction_url, idaction_name, server_time, time_spent)
+                VALUES (?, ?, ?, ?, ?, ?, ?, 0)
                 ON DUPLICATE KEY UPDATE
                     idaction_url  = VALUES(idaction_url),
                     idaction_name = VALUES(idaction_name)";
         $db->query($sql, [
             $idSite,
             $idVisit,
-            $idVisitor,
             $idLinkVa,
             $pvId,
             $idActionUrl > 0 ? $idActionUrl : null,

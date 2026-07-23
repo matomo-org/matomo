@@ -282,7 +282,6 @@ class Mysql implements SchemaInterface
                                         idpageviewtime BIGINT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
                                         idsite INTEGER(10) UNSIGNED NOT NULL,
                                         idvisit BIGINT(10) UNSIGNED NOT NULL,
-                                        idvisitor BINARY(8) NOT NULL,
                                         idlink_va BIGINT(10) UNSIGNED NOT NULL,
                                         idpageview CHAR(6) CHARACTER SET ascii COLLATE ascii_bin NULL DEFAULT NULL,
                                         idaction_url INTEGER(10) UNSIGNED NULL DEFAULT NULL,

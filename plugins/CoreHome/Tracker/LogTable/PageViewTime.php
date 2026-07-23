@@ -7,7 +7,7 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Plugins\Actions\Tracker\LogTable;
+namespace Piwik\Plugins\CoreHome\Tracker\LogTable;
 
 use Piwik\Tracker\LogTable;
 
@@ -41,10 +41,5 @@ class PageViewTime extends LogTable
     public function getPrimaryKey()
     {
         return ['idpageviewtime'];
-    }
-
-    public function hasIdVisitorColumn(): bool
-    {
-        return true;
     }
 }
