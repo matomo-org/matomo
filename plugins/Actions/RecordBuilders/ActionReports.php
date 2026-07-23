@@ -853,6 +853,14 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         // to fill in. When accurate did capture time (`time_spent > 0`), the legacy contribution
         // is already covered and we drop the row to avoid double-counting the same visit's
         // outlinks/downloads/content interactions.
+        //
+        // The key is per (visit, action), not per pageview *instance*: when the same page is
+        // viewed twice in one visit and only one instance got accurate time (the other closed
+        // solely by a pv_id-less hit), the other instance's legacy contribution is dropped too
+        // and its seconds are lost. This asymmetry is deliberate — the metric may undercount in
+        // that edge case but can never double-count; an instance-exact anti-join would need a
+        // self-join to the predecessor pageview, which is not worth the query cost. Pinned by
+        // ActionReportsAccurateArchiveTest::testRepeatedUrlClosedByPvIdLessHitOnlyUndercountsNeverInflates().
         $whereUrl = $whereBase . "
                  AND NOT EXISTS (
                         SELECT 1 FROM `$pageViewTimeTable` AS pvt

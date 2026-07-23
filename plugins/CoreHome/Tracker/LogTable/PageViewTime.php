@@ -42,4 +42,9 @@ class PageViewTime extends LogTable
     {
         return ['idpageviewtime'];
     }
+
+    public function getWaysToJoinToOtherLogTables()
+    {
+        return ['log_link_visit_action' => 'idlink_va'];
+    }
 }

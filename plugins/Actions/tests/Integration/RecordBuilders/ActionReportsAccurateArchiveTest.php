@@ -40,6 +40,7 @@ class ActionReportsAccurateArchiveTest extends IntegrationTestCase
 
         Config::getInstance()->General['enable_browser_archiving_triggering'] = 0;
         Config::getInstance()->General['browser_archiving_disabled_enforce'] = 1;
+        Config::getInstance()->General['enable_segments_cache'] = 1;
 
         Cache::deleteTrackerCache();
     }
@@ -221,6 +222,85 @@ class ActionReportsAccurateArchiveTest extends IntegrationTestCase
         );
     }
 
+    public function testSegmentedArchiveWithSegmentsCacheDisabledDoesNotInflateTimeSpent(): void
+    {
+        $day = '2026-06-25';
+
+        $this->setAccurateFlag(true);
+
+        $tracker = Fixture::getTracker($this->idSite, $day . ' 12:00:00', true, true);
+        $tracker->setTokenAuth(Fixture::getTokenAuth());
+
+        $tracker->setUrl('https://example.org/seg-a');
+        $tracker->setPageviewId('aaaaaa');
+        Fixture::checkResponse($tracker->doTrackPageView('Seg A'));
+
+        $tracker->setForceVisitDateTime($day . ' 12:00:30');
+        $tracker->setUrl('https://example.org/seg-b');
+        $tracker->setPageviewId('bbbbbb');
+        Fixture::checkResponse($tracker->doTrackPageView('Seg B'));
+
+        $tracker->setForceVisitDateTime($day . ' 12:01:30');
+        $tracker->setUrl('https://example.org/seg-c');
+        $tracker->setPageviewId('cccccc');
+        Fixture::checkResponse($tracker->doTrackPageView('Seg C'));
+
+        // Without the segment temp table (enable_segments_cache = 0) the segment pulls
+        // log_link_visit_action directly into the accurate query; if that join is per-visit
+        // instead of per-pageview, every time_spent row is multiplied by the number of
+        // matching action rows in the visit.
+        Config::getInstance()->General['enable_browser_archiving_triggering'] = 1;
+        Config::getInstance()->General['browser_archiving_disabled_enforce'] = 0;
+        Config::getInstance()->General['enable_segments_cache'] = 0;
+
+        $rows = $this->readPageUrlRows('day', $day, 'pageUrl=@seg-');
+
+        $this->assertSame(30, (int) ($rows['https://example.org/seg-a']['sum_time_spent'] ?? -1));
+        $this->assertSame(60, (int) ($rows['https://example.org/seg-b']['sum_time_spent'] ?? -1));
+    }
+
+    public function testRepeatedUrlClosedByPvIdLessHitOnlyUndercountsNeverInflates(): void
+    {
+        $day = '2026-06-28';
+
+        $this->setAccurateFlag(true);
+
+        $tracker = Fixture::getTracker($this->idSite, $day . ' 12:00:00', true, true);
+        $tracker->setTokenAuth(Fixture::getTokenAuth());
+
+        $tracker->setUrl('https://example.org/repeat');
+        $tracker->setPageviewId('aaaaaa');
+        Fixture::checkResponse($tracker->doTrackPageView('Repeat'));
+
+        $tracker->setForceVisitDateTime($day . ' 12:00:10');
+        $tracker->setUrl('https://example.org/other');
+        $tracker->setPageviewId('bbbbbb');
+        Fixture::checkResponse($tracker->doTrackPageView('Other'));
+
+        $tracker->setForceVisitDateTime($day . ' 12:00:40');
+        $tracker->setUrl('https://example.org/repeat');
+        $tracker->setPageviewId('cccccc');
+        Fixture::checkResponse($tracker->doTrackPageView('Repeat'));
+
+        // A pv_id-less follow-up hit (older tracker, server-side SDK, log import) cannot close
+        // the second /repeat pageview, so its accurate row stays at 0 seconds.
+        $tracker->setForceVisitDateTime($day . ' 12:01:10');
+        $tracker->setPageviewId('');
+        Fixture::checkResponse($tracker->doTrackAction('https://example.org/file.zip', 'download'));
+
+        (new CronArchive())->main();
+
+        $rows = $this->readPageUrlRows('day', $day);
+
+        // The anti-join drops every legacy contribution for /repeat because the first /repeat
+        // instance has an accurate row with time_spent > 0. The second instance's 30s (credited
+        // only via legacy time_spent_ref_action on the download) is therefore lost: 10s instead
+        // of the true 40s. This asymmetry is deliberate — the metric may undercount in this
+        // edge case but must never double-count. See ActionReports::archiveDayActionsTimeLegacy().
+        $this->assertSame(10, (int) ($rows['https://example.org/repeat']['sum_time_spent'] ?? -1));
+        $this->assertSame(30, (int) ($rows['https://example.org/other']['sum_time_spent'] ?? -1));
+    }
+
     private function readSumTimeSpent(string $period, string $date): int
     {
         $rows = $this->readPageUrlRows($period, $date);
@@ -231,9 +311,9 @@ class ActionReportsAccurateArchiveTest extends IntegrationTestCase
         return $sum;
     }
 
-    private function readPageUrlRows(string $period, string $date): array
+    private function readPageUrlRows(string $period, string $date, $segment = false): array
     {
-        $report = ActionsAPI::getInstance()->getPageUrls($this->idSite, $period, $date, false, false, false, -1, false, 'flat');
+        $report = ActionsAPI::getInstance()->getPageUrls($this->idSite, $period, $date, $segment, false, false, -1, false, 'flat');
         $out = [];
         foreach ($report->getRows() as $row) {
             $label = $row->getMetadata('url') ?: $row->getColumn('label');
