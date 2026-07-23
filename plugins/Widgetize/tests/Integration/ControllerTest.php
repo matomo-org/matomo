@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\Widgetize\tests\Integration;
 
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Plugins\Widgetize\Controller;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
@@ -76,6 +77,13 @@ class ControllerTest extends IntegrationTestCase
         unset(Common::$headersSentInTests['Content-Type']);
 
         parent::tearDown();
+    }
+
+    public function provideContainerConfig()
+    {
+        return [
+            'Piwik\Access' => new FakeAccess(),
+        ];
     }
 
     public function testIframeShouldBootstrapClientRenderedWidgetForLegacyWidgetizeUrls(): void
@@ -152,5 +160,82 @@ class ControllerTest extends IntegrationTestCase
         $method = new \ReflectionMethod(Controller::class, 'assertDispatchedContentIsEmbeddable');
         $method->setAccessible(true);
         $method->invoke($this->controller, $module, $action);
+    }
+
+    public function testIframeThrowsTargetedErrorWhenAnonymousRequestSuppliesTokenAuthInUrl(): void
+    {
+        $_GET['token_auth'] = 'not-a-real-token-just-to-trigger-check';
+        $_REQUEST = $_GET;
+
+        // simulate the state after FrontController failed to reload auth from token_auth: anonymous user
+        FakeAccess::clearAccess(false, [], [], 'anonymous');
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Widgetize_ErrorTokenAuthFailed');
+
+        $this->invokeAssertUrlTokenAuthDidNotFail();
+    }
+
+    public function testIframeErrorMessageMentionsPolicyWhenOnlyAllowSecureAuthTokensIsEnabled(): void
+    {
+        $_GET['token_auth'] = 'not-a-real-token-just-to-trigger-check';
+        $_REQUEST = $_GET;
+
+        FakeAccess::clearAccess(false, [], [], 'anonymous');
+
+        Config::getInstance()->General['only_allow_secure_auth_tokens'] = 1;
+
+        try {
+            $this->expectException(\Exception::class);
+            $this->expectExceptionMessage('Widgetize_ErrorTokenAuthFailedDisabledByPolicy');
+
+            $this->invokeAssertUrlTokenAuthDidNotFail();
+        } finally {
+            Config::getInstance()->General['only_allow_secure_auth_tokens'] = 0;
+        }
+    }
+
+    public function testIframeDoesNotThrowTargetedErrorForAnonymousToken(): void
+    {
+        // token_auth=anonymous intentionally authenticates as the anonymous user, so ending up
+        // anonymous is the expected outcome and must not trigger the targeted error.
+        $_GET['token_auth'] = 'anonymous';
+        $_REQUEST = $_GET;
+
+        FakeAccess::clearAccess(false, [], [], 'anonymous');
+
+        $this->expectNotToPerformAssertions();
+        $this->invokeAssertUrlTokenAuthDidNotFail();
+    }
+
+    public function testIframeDoesNotThrowTargetedErrorWhenNoTokenAuthInUrl(): void
+    {
+        // no token_auth in URL, anonymous user — the targeted "URL token failed" error must not fire.
+        unset($_GET['token_auth']);
+        $_REQUEST = $_GET;
+
+        FakeAccess::clearAccess(false, [], [], 'anonymous');
+
+        $this->expectNotToPerformAssertions();
+        $this->invokeAssertUrlTokenAuthDidNotFail();
+    }
+
+    public function testIframeDoesNotThrowTargetedErrorForAuthenticatedRequest(): void
+    {
+        $_GET['token_auth'] = 'irrelevant-since-user-is-not-anonymous';
+        $_REQUEST = $_GET;
+
+        // authenticated user (non-anonymous identity): the targeted error must not fire.
+        FakeAccess::clearAccess(true, [1], [1], 'superUserLogin');
+
+        $this->expectNotToPerformAssertions();
+        $this->invokeAssertUrlTokenAuthDidNotFail();
+    }
+
+    private function invokeAssertUrlTokenAuthDidNotFail(): void
+    {
+        $method = new \ReflectionMethod(Controller::class, 'assertUrlTokenAuthDidNotFail');
+        $method->setAccessible(true);
+        $method->invoke($this->controller);
     }
 }

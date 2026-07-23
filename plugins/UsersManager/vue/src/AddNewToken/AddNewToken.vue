@@ -174,7 +174,7 @@ export default defineComponent({
     },
     secureOnlyHelp() {
       return (this.forceSecureOnly ? translate('UsersManager_AuthTokenSecureOnlyHelpForced')
-        : translate('UsersManager_AuthTokenSecureOnlyHelp'));
+        : translate('UsersManager_AuthTokenSecureOnlyHelp2'));
     },
     tokenExpireDateHelpText() {
       return translate(
