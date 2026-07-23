@@ -180,7 +180,7 @@ export default defineComponent({
       event.preventDefault();
 
       AjaxHelper.fetch(
-        { module: 'SitesManager', action: 'ignoreNoDataMessage' },
+        { module: 'SitesManager', action: 'dismissNoDataMessage' },
         { createErrorNotification: false },
       ).then(() => {
         this.$emit('dismissed');

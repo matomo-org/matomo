@@ -1,5 +1,6 @@
 includes:
     - phpstan-baseline.neon
+    - tests/PHPUnit/PHPStan/rules.neon
 
 parameters:
     level: 5
@@ -7,6 +8,9 @@ parameters:
     paths:
         - core
         - plugins
+        # the custom rule implementations (their intentionally-violating fixtures live under
+        # tests/PHPUnit/Unit/PHPStan/Rules/data and stay out of the analysed paths)
+        - tests/PHPUnit/PHPStan/Rules
     excludePaths:
         - plugins/*/tests/*
         - plugins/ScheduledReports/config/tcpdf_config.php
@@ -51,9 +55,6 @@ parameters:
         -
             identifier: requireOnce.fileNotFound
             path: core/bootstrap.php
-        -
-            identifier: notEqual.alwaysFalse
-            path: plugins/Diagnostics/Diagnostic/ConfigInformational.php
     universalObjectCratesClasses:
         - Piwik\Config
         - Piwik\View

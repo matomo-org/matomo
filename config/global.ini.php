@@ -1383,15 +1383,6 @@ time_dom_completion_cap_duration_ms = 0
 ; Cap for On load time: avg/high 10ms (recommended value: 1000)
 time_on_load_cap_duration_ms = 0
 
-[APISettings]
-; Any key/value pair can be added in this section, they will be available via the REST call
-; index.php?module=API&method=API.getSettings
-; Access to this API is unrestricted, so do not include any sensitive information here.
-; This can be used to expose values from Matomo, to control for example a Mobile app tracking
-
-SDK_batch_size = 10
-SDK_interval_value = 30
-
 [SitesManager]
 CommonPIIParams[] = account
 CommonPIIParams[] = accountnum

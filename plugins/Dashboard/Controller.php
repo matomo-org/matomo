@@ -11,7 +11,7 @@ namespace Piwik\Plugins\Dashboard;
 
 use Piwik\API\Request;
 use Piwik\Common;
-use Piwik\DataTable\Renderer\Json;
+use Piwik\Http\JsonResponse;
 use Piwik\Piwik;
 use Piwik\Session\SessionNamespace;
 use Piwik\View;
@@ -68,7 +68,8 @@ class Controller extends \Piwik\Plugin\Controller
         return $view->render();
     }
 
-    public function getDashboardLayout($checkToken = true)
+    #[JsonResponse]
+    public function getDashboardLayout($checkToken = true): string
     {
         if ($checkToken) {
             $this->checkTokenInUrl();
@@ -78,7 +79,6 @@ class Controller extends \Piwik\Plugin\Controller
 
         $layout = $this->getLayout($idDashboard);
 
-        Json::sendHeaderJSON();
         return $layout;
     }
 
@@ -105,19 +105,18 @@ class Controller extends \Piwik\Plugin\Controller
     /**
      * Outputs all available dashboards for the current user as a JSON string
      */
-    public function getAllDashboards()
+    #[JsonResponse]
+    public function getAllDashboards(): string
     {
         $this->checkTokenInUrl();
 
         if (Piwik::isUserIsAnonymous()) {
-            Json::sendHeaderJSON();
             return '[]';
         }
 
         $login      = Piwik::getCurrentUserLogin();
         $dashboards = $this->dashboard->getAllDashboards($login);
 
-        Json::sendHeaderJSON();
         return json_encode($dashboards);
     }
 
