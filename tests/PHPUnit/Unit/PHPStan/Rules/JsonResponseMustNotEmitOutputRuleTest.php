@@ -37,6 +37,7 @@ class JsonResponseMustNotEmitOutputRuleTest extends RuleTestCase
             [sprintf($message, 'exitsEarly'), 79],
             [sprintf($message, 'emitsOutput'), 186],
             [sprintf($message, 'emitsOutput'), 187],
+            [sprintf($message, 'emitsOutput'), 188],
         ]);
     }
 }

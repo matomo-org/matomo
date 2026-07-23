@@ -179,13 +179,32 @@ class JsonResponseController extends Controller
         return json_encode([]);
     }
 
-    // D: emitting output before returning -> must be flagged (echo and flush)
+    // D: emitting output before returning -> must be flagged (echo, printf and flush)
     #[JsonResponse]
     public function emitsOutput(): string
     {
         echo 'partial';
+        printf('x');
         flush();
 
         return json_encode([]);
+    }
+
+    // JSON returned via short-ternary / coalesce -> must be flagged
+    public function coalesceJsonReturn(): string
+    {
+        return json_encode(['ok' => true]) ?: '[]';
+    }
+
+    public function ternaryJsonReturn(): string
+    {
+        return self::class !== '' ? json_encode(['ok' => true]) : json_encode(['no' => true]);
+    }
+
+    // a non-JSON media type header must NOT be treated as a raw JSON header
+    public function nonJsonMediaTypeHeaderIsIgnored(): string
+    {
+        \Piwik\Common::sendHeader('Content-Type: application/notjson');
+        return 'plain';
     }
 }

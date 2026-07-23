@@ -32,10 +32,6 @@ class JsonResponseMustNotEmitOutputRule implements Rule
 
     public function processNode(Node $node, Scope $scope): array
     {
-        if (!$node instanceof ClassMethod) {
-            return [];
-        }
-
         if (!JsonResponseRuleHelper::isControllerScope($scope)) {
             return [];
         }

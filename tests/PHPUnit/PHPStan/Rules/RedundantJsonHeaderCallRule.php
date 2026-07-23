@@ -30,10 +30,6 @@ class RedundantJsonHeaderCallRule implements Rule
 
     public function processNode(Node $node, Scope $scope): array
     {
-        if (!$node instanceof ClassMethod) {
-            return [];
-        }
-
         if (!JsonResponseRuleHelper::isControllerScope($scope)) {
             return [];
         }
@@ -46,8 +42,8 @@ class RedundantJsonHeaderCallRule implements Rule
 
         foreach (JsonResponseRuleHelper::findAllJsonHeaderCalls($node, $scope) as $call) {
             $errors[] = RuleErrorBuilder::message(sprintf(
-                'Method %s() carries #[\\Piwik\\Http\\JsonResponse], which already sends the JSON'
-                . ' header; the manual Json::sendHeaderJSON() call is redundant and should be removed.',
+                'Controller action %s() carries #[\\Piwik\\Http\\JsonResponse], which already sends the'
+                . ' JSON header; the manual Json::sendHeaderJSON() call is redundant and should be removed.',
                 $node->name->toString()
             ))
                 ->identifier('matomo.jsonResponse.redundantCall')

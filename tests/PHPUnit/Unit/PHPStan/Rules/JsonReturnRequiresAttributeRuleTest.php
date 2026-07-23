@@ -38,6 +38,8 @@ class JsonReturnRequiresAttributeRuleTest extends RuleTestCase
             [sprintf($message, 'conditionalJsonReturn'), 123],
             [sprintf($message, 'conditionalHeaderUnconditionalJson'), 136],
             [sprintf($message, 'mixedHtmlAndJsonReturn'), 146],
+            [sprintf($message, 'coalesceJsonReturn'), 196],
+            [sprintf($message, 'ternaryJsonReturn'), 201],
         ]);
     }
 }

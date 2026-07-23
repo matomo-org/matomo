@@ -707,7 +707,7 @@ class FrontController extends Singleton
      *
      * @param callable $controller The resolved controller action, an [$object, $method] callable.
      */
-    private function applyResponseHeadersFromAttributes($controller): void
+    private function applyResponseHeadersFromAttributes(callable $controller): void
     {
         // Only array callables built as [$controllerObject, $actionName] can carry an action attribute.
         if (!is_array($controller) || !is_object($controller[0])) {

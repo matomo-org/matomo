@@ -10,11 +10,13 @@
 namespace Piwik\Tests\PHPStan\Rules;
 
 use PhpParser\Node;
+use PhpParser\Node\Expr\BinaryOp\Coalesce;
 use PhpParser\Node\Expr\Cast\String_ as StringCast;
 use PhpParser\Node\Expr\Exit_;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Expr\Print_;
 use PhpParser\Node\Expr\StaticCall;
+use PhpParser\Node\Expr\Ternary;
 use PhpParser\Node\FunctionLike;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
@@ -25,6 +27,7 @@ use PhpParser\Node\Stmt\Echo_;
 use PhpParser\Node\Stmt\Expression;
 use PhpParser\Node\Stmt\Return_;
 use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\ClassReflection;
 
 /**
  * Shared helpers for the #[JsonResponse] PHPStan rules.
@@ -38,7 +41,9 @@ final class JsonResponseRuleHelper
     private const JSON_HEADER_METHOD = 'sendheaderjson';
     private const COMMON_CLASS = 'Piwik\\Common';
     private const SEND_HEADER_METHOD = 'sendheader';
-    private const OUTPUT_FUNCTIONS = ['flush', 'ob_flush', 'ob_end_flush'];
+    private const OUTPUT_FUNCTIONS = [
+        'flush', 'ob_flush', 'ob_end_flush', 'printf', 'vprintf', 'readfile', 'fpassthru', 'passthru',
+    ];
 
     /**
      * Whether the analysed method lives in a Piwik\Plugin\Controller subclass.
@@ -49,10 +54,11 @@ final class JsonResponseRuleHelper
             return false;
         }
 
-        $classReflection = $scope->getClassReflection();
-
-        return $classReflection !== null
-            && in_array(self::CONTROLLER_CLASS, $classReflection->getParentClassesNames(), true);
+        return in_array(
+            self::CONTROLLER_CLASS,
+            $scope->getClassReflection()->getParentClassesNames(),
+            true
+        );
     }
 
     /**
@@ -106,11 +112,14 @@ final class JsonResponseRuleHelper
         return false;
     }
 
-    private static function parentDeclaresAttribute(\PHPStan\Reflection\ClassReflection $parent, string $methodName): bool
+    private static function parentDeclaresAttribute(ClassReflection $parent, string $methodName): bool
     {
+        // Native reflection is used deliberately: PHPStan 2.x exposes no API to read a method's PHP
+        // attributes, and it analyses one class at a time so the parent's AST is not available here.
+        // Any failure (e.g. a parent whose load-time dependencies error) degrades to "no attribute".
         try {
             $native = $parent->getNativeReflection()->getMethod($methodName);
-        } catch (\ReflectionException $e) {
+        } catch (\Throwable $e) {
             return false;
         }
 
@@ -144,7 +153,7 @@ final class JsonResponseRuleHelper
     /**
      * All Json::sendHeaderJSON() calls anywhere within the method body.
      *
-     * @return StaticCall[]
+     * @return Node[] the matched StaticCall nodes
      */
     public static function findAllJsonHeaderCalls(ClassMethod $method, Scope $scope): array
     {
@@ -156,7 +165,7 @@ final class JsonResponseRuleHelper
     /**
      * All Common::sendHeader('Content-Type: ...json...') calls anywhere within the method body.
      *
-     * @return StaticCall[]
+     * @return Node[] the matched StaticCall nodes
      */
     public static function findRawJsonContentTypeCalls(ClassMethod $method, Scope $scope): array
     {
@@ -166,11 +175,12 @@ final class JsonResponseRuleHelper
     }
 
     /**
-     * Whether a JSON header call in this method is guaranteed to be reported by one of the
-     * header-focused rules: a top-level Json::sendHeaderJSON() (MissingJsonResponseAttributeRule) or
-     * any raw Common::sendHeader('...json...') (NoRawJsonHeaderInControllerRule). Used to avoid
-     * double-reporting the same method; a merely conditional Json::sendHeaderJSON() is NOT covered
-     * (neither rule fires on it), so it is intentionally excluded here.
+     * Whether a JSON header call in this method is reported by one of the header-focused rules: a
+     * top-level Json::sendHeaderJSON() (MissingJsonResponseAttributeRule, which however exempts a
+     * method with a top-level exit) or any raw Common::sendHeader('...json...')
+     * (NoRawJsonHeaderInControllerRule). Used to avoid double-reporting the same method; a merely
+     * conditional Json::sendHeaderJSON() is NOT covered (neither rule fires on it), so it is
+     * intentionally excluded here.
      */
     public static function jsonHeaderIsReportedByHeaderRules(ClassMethod $method, Scope $scope): bool
     {
@@ -221,7 +231,7 @@ final class JsonResponseRuleHelper
     /**
      * All exit/die statements in the method's own flow.
      *
-     * @return Exit_[]
+     * @return Node[] the matched Exit_ nodes
      */
     public static function findExits(ClassMethod $method): array
     {
@@ -269,6 +279,18 @@ final class JsonResponseRuleHelper
             return true;
         }
 
+        // a ternary/short-ternary whose result operand is JSON, e.g. `$c ? json_encode($a) : ...`
+        // or `json_encode($x) ?: '[]'`
+        if ($expr instanceof Ternary) {
+            return self::looksLikeJsonExpr($expr->if ?? $expr->cond)
+                || self::looksLikeJsonExpr($expr->else);
+        }
+
+        // a null-coalesce whose either side is JSON, e.g. `json_encode($x) ?? '[]'`
+        if ($expr instanceof Coalesce) {
+            return self::looksLikeJsonExpr($expr->left) || self::looksLikeJsonExpr($expr->right);
+        }
+
         if ($expr instanceof String_) {
             return self::looksLikeJsonLiteral($expr->value);
         }
@@ -302,7 +324,7 @@ final class JsonResponseRuleHelper
      * (closures, arrow functions, nested functions, anonymous classes) are not traversed, since their
      * code runs in a separate frame.
      *
-     * @param Node[] $nodes
+     * @param mixed[] $nodes sub-node values, which may include non-Node scalars/arrays
      * @param callable(Node): bool $matcher
      * @return Node[]
      */
@@ -376,6 +398,11 @@ final class JsonResponseRuleHelper
         }
 
         // anchored to a real Content-Type header start so X-Content-Type etc. do not match
-        return (bool) preg_match('#^\s*content-type\s*:.*json#i', $args[0]->value->value);
+        // match a real JSON media type (application/json or application/<subtype>+json), so headers
+        // such as "application/notjson" or "text/plain; profile=json" are not treated as JSON
+        return (bool) preg_match(
+            '#^\s*content-type\s*:\s*application/(?:[\w.+-]+\+)?json\b#i',
+            $args[0]->value->value
+        );
     }
 }

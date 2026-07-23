@@ -28,8 +28,9 @@ class RedundantJsonHeaderCallRuleTest extends RuleTestCase
     {
         $this->analyse([__DIR__ . '/data/JsonResponseController.php'], [
             [
-                'Method redundantManualCall() carries #[\Piwik\Http\JsonResponse], which already sends the'
-                . ' JSON header; the manual Json::sendHeaderJSON() call is redundant and should be removed.',
+                'Controller action redundantManualCall() carries #[\Piwik\Http\JsonResponse], which already'
+                . ' sends the JSON header; the manual Json::sendHeaderJSON() call is redundant and should be'
+                . ' removed.',
                 48,
             ],
         ]);
