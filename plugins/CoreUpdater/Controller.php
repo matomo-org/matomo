@@ -13,7 +13,7 @@ use Exception;
 use Piwik\AssetManager;
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\DataTable\Renderer\Json;
+use Piwik\Http\JsonResponse;
 use Piwik\DbHelper;
 use Piwik\Development;
 use Piwik\Filechecks;
@@ -188,13 +188,12 @@ class Controller extends \Piwik\Plugin\Controller
         return $result;
     }
 
-    public function oneClickUpdatePartTwo()
+    #[JsonResponse]
+    public function oneClickUpdatePartTwo(): string
     {
         if (!SettingsPiwik::isAutoUpdateEnabled()) {
             throw new Exception('Auto updater is disabled');
         }
-
-        Json::sendHeaderJSON();
 
         $task = "Couldn't update Marketplace plugins.";
 

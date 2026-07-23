@@ -116,6 +116,26 @@ class ControllerTest extends IntegrationTestCase
         Option::delete($ispDownloadChunk . '_expectedDownloadSize');
     }
 
+    public function testJsonActionsReturnErrorAndDoNothingForNonPostRequests()
+    {
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $_GET = ['loc_db' => 'https://example.com/loc.mmdb.gz', 'period' => 'month'];
+        $_POST = [];
+        $_REQUEST = $_GET;
+
+        $expected = ['error' => 'Invalid HTTP method.'];
+
+        // the response body is a JSON error on every non-POST action (the JSON Content-Type itself is
+        // applied by FrontController via #[JsonResponse], covered by the FrontController tests)
+        $this->assertSame($expected, $this->decodeJsonResponse($this->controller->downloadFreeDBIPLiteDB()));
+        $this->assertSame($expected, $this->decodeJsonResponse($this->controller->updateGeoIPLinks()));
+        $this->assertSame($expected, $this->decodeJsonResponse($this->controller->downloadMissingGeoIpDb()));
+
+        // a GET request must not have applied any updater configuration (no download/update side effect)
+        $this->assertFalse(Option::get(GeoIP2AutoUpdater::LOC_URL_OPTION_NAME));
+        $this->assertFalse(Option::get('geoip2.download_url.loc'));
+    }
+
     private function setPostRequest(int $continue, string $key): void
     {
         $_SERVER['REQUEST_METHOD'] = 'POST';

@@ -2026,7 +2026,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         }
         event.preventDefault();
         CoreHome.AjaxHelper.fetch(
-          { module: "SitesManager", action: "ignoreNoDataMessage" },
+          { module: "SitesManager", action: "dismissNoDataMessage" },
           { createErrorNotification: false }
         ).then(() => {
           this.$emit("dismissed");
