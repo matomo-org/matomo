@@ -81,6 +81,47 @@ final class JsonResponseRuleHelper
     }
 
     /**
+     * Whether the method overrides an ancestor declaration that carries #[JsonResponse]. PHP does not
+     * inherit method attributes and FrontController only honours the attribute declared directly on
+     * the dispatched method, so an override of a JSON action must re-declare the attribute; this lets
+     * a rule flag an override that forgot to.
+     */
+    public static function overridesAttributedAction(ClassMethod $method, Scope $scope): bool
+    {
+        $classReflection = $scope->getClassReflection();
+
+        if ($classReflection === null) {
+            return false;
+        }
+
+        $methodName = $method->name->toString();
+        $parent = $classReflection->getParentClass();
+
+        while ($parent !== null) {
+            if ($parent->hasNativeMethod($methodName) && self::parentDeclaresAttribute($parent, $methodName)) {
+                return true;
+            }
+
+            $parent = $parent->getParentClass();
+        }
+
+        return false;
+    }
+
+    private static function parentDeclaresAttribute(\PHPStan\Reflection\ClassReflection $parent, string $methodName): bool
+    {
+        try {
+            $native = $parent->getNativeReflection()->getMethod($methodName);
+        } catch (\ReflectionException $e) {
+            return false;
+        }
+
+        // only the class that actually declares the method here should count its attributes
+        return $native->getDeclaringClass()->getName() === $parent->getName()
+            && count($native->getAttributes(self::ATTRIBUTE_CLASS)) > 0;
+    }
+
+    /**
      * Json::sendHeaderJSON() calls that are unconditional top-level statements of the method body.
      *
      * @return StaticCall[]

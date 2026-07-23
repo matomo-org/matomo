@@ -714,40 +714,11 @@ class FrontController extends Singleton
             return;
         }
 
-        if ($this->actionHasJsonResponseAttribute($controller[0], $controller[1])) {
+        $method = new \ReflectionMethod($controller[0], $controller[1]);
+
+        if (count($method->getAttributes(JsonResponse::class)) > 0) {
             Json::sendHeaderJSON();
         }
-    }
-
-    /**
-     * Whether the given controller action, or any ancestor declaration it overrides, is marked with
-     * the #[JsonResponse] attribute. PHP attributes are not inherited by overriding methods, so a
-     * subclass action that only delegates to an attributed parent would otherwise lose the header.
-     *
-     * @param object $controller
-     * @param string $action
-     */
-    private function actionHasJsonResponseAttribute($controller, $action): bool
-    {
-        $class = new \ReflectionClass($controller);
-
-        while ($class !== false) {
-            if ($class->hasMethod($action)) {
-                $method = $class->getMethod($action);
-
-                // only inspect the declaration that actually lives on this class in the hierarchy
-                if (
-                    $method->getDeclaringClass()->getName() === $class->getName()
-                    && count($method->getAttributes(JsonResponse::class)) > 0
-                ) {
-                    return true;
-                }
-            }
-
-            $class = $class->getParentClass();
-        }
-
-        return false;
     }
 
     /**

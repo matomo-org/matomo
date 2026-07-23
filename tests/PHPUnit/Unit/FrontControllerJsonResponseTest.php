@@ -47,21 +47,6 @@ class FrontControllerJsonResponseTest extends TestCase
         );
     }
 
-    public function testInheritsAttributeFromOverriddenParentAction(): void
-    {
-        // A subclass overrides an attributed parent action without re-declaring the attribute (PHP
-        // does not inherit method attributes) and delegates to the parent. The header must still win.
-        Common::$headersSentInTests = [];
-        Common::sendHeader('Content-Type: text/html; charset=utf-8');
-
-        $this->invokeApplyResponseHeaders([new JsonResponseInheritanceChild(), 'act']);
-
-        $this->assertSame(
-            'application/json; charset=utf-8',
-            trim(Common::$headersSentInTests['Content-Type'])
-        );
-    }
-
     public function testLeavesContentTypeUntouchedForActionWithoutAttribute(): void
     {
         $controller = new class {
@@ -90,22 +75,5 @@ class FrontControllerJsonResponseTest extends TestCase
         $method = new \ReflectionMethod(FrontController::class, 'applyResponseHeadersFromAttributes');
         $method->setAccessible(true);
         $method->invoke(FrontController::getInstance(), $controller);
-    }
-}
-
-class JsonResponseInheritanceParent
-{
-    #[JsonResponse]
-    public function act(): string
-    {
-        return '{}';
-    }
-}
-
-class JsonResponseInheritanceChild extends JsonResponseInheritanceParent
-{
-    public function act(): string
-    {
-        return parent::act();
     }
 }
