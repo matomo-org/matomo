@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<result>
-	<row>
-		<SDK_batch_size>10</SDK_batch_size>
-		<SDK_interval_value>30</SDK_interval_value>
-	</row>
-</result>
