@@ -62,6 +62,9 @@ class DimensionMetadataProvider
                 'idaction_category3',
                 'idaction_category4',
                 'idaction_category5'),
+
+            'log_page_view_time'    => array('idaction_url',
+                'idaction_name'),
         );
 
         $dimensionIdActionColumns = $this->getVisitActionTableActionReferences();
