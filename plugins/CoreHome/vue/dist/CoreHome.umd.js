@@ -2135,8 +2135,12 @@ var __async = (__this, __arguments, generator) => {
    * @link    https://matomo.org
    * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
    */
-  function ucfirst(text) {
-    return text ? text.charAt(0).toUpperCase() + text.slice(1) : "";
+  function ucfirst(text, locale) {
+    if (!text) {
+      return "";
+    }
+    const [firstCharacter, ...remainingCharacters] = Array.from(text);
+    return firstCharacter.toLocaleUpperCase(locale || void 0) + remainingCharacters.join("");
   }
   const _sfc_main$M = vue.defineComponent({
     props: {

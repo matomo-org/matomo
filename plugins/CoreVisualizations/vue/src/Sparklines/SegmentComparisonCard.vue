@@ -79,7 +79,7 @@ export default defineComponent({
     });
     const metricTitle = computed(() => {
       const label = primaryMetric.value?.title || primaryMetric.value?.description;
-      return ucfirst(label);
+      return ucfirst(label, document.documentElement.lang);
     });
     const documentation = computed(
       () => props.allMetricsDocumentation[primaryMetric.value?.column ?? ''] || undefined,

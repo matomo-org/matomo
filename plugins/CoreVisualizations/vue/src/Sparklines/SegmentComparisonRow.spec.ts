@@ -6,14 +6,13 @@
  */
 
 import { mount } from '@vue/test-utils';
-import ucfirst from '../../../../CoreHome/vue/src/ucfirst';
 
 // The row mounts the real MetricValue (Tooltips directive, NumberFormatter) and the reused
 // Sparkline. CoreHome is a cross-plugin import the vitest config aliases to its source, so mock it here.
 vi.mock('CoreHome', () => ({
   Tooltips: {},
-  // ucfirst is a dependency-free helper MetricValue uses; hand the mock its real implementation.
-  ucfirst,
+  // ucfirst is mocked as an identity passthrough; its capitalization is covered by ucfirst.spec.
+  ucfirst: (s?: string) => s ?? '',
   Sparkline: {
     name: 'Sparkline',
     props: ['params', 'seriesIndices', 'width', 'height'],
@@ -66,8 +65,7 @@ describe('CoreVisualizations/SegmentComparisonRow', () => {
     const wrapper = createWrapper();
 
     expect(wrapper.find('.metricValue__number').text()).toBe('10558');
-    expect(wrapper.find('.metricValue__secondaryValue').text()).toBe('9527');
-    expect(wrapper.find('.metricValue__secondaryLabel').text()).toBe('unique visitors');
+    expect(wrapper.find('.metricValue__secondaryLine').text()).toBe('9527 unique visitors');
   });
 
   it('omits the MetricValue title (the card shows the metric name once above the rows)', () => {

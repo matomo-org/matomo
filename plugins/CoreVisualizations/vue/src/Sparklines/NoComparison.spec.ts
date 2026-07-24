@@ -6,15 +6,14 @@
  */
 
 import { mount } from '@vue/test-utils';
-import ucfirst from '../../../../CoreHome/vue/src/ucfirst';
 
 // CoreHome is a package-style cross-plugin import; the vitest config aliases it to its source
 // entry point, so mock it here. Tooltips is the (no-op here) directive used by the real MetricValue
 // this component mounts. The sparkline itself is rendered by the shell, not this body.
 vi.mock('CoreHome', () => ({
   Tooltips: {},
-  // ucfirst is a dependency-free helper; hand the mock its real implementation.
-  ucfirst,
+  // ucfirst is mocked as an identity passthrough; its capitalization is covered by ucfirst.spec.
+  ucfirst: (s?: string) => s ?? '',
 }));
 
 import NoComparison from './NoComparison.vue';
@@ -87,7 +86,7 @@ describe('CoreVisualizations/NoComparison', () => {
     const metricValue = wrapper.findComponent({ name: 'MetricValue' });
     expect(metricValue.props('secondaryValue')).toBe('9,527');
     expect(metricValue.props('secondaryLabel')).toBe('unique');
-    expect(wrapper.find('.metricValue__secondaryValue').text()).toBe('9,527');
+    expect(wrapper.find('.metricValue__secondaryLine').text()).toBe('9,527 unique');
   });
 
   it('omits the secondary line when there is only one metric', () => {

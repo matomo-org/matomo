@@ -26,11 +26,7 @@
       v-if="hasSecondary"
       class="metricValue__secondary"
     >
-      <span class="metricValue__secondaryValue">{{ displaySecondaryValue }}</span>
-      <span
-        v-if="displaySecondaryLabel"
-        class="metricValue__secondaryLabel"
-      >{{ displaySecondaryLabel }}</span>
+      <span class="metricValue__secondaryLine">{{ displaySecondaryLine }}</span>
     </div>
   </div>
 </template>
@@ -57,9 +53,8 @@ export default defineComponent({
       type: [String, Number],
       required: true,
     },
-    // Optional secondary line, formatted the same way as `value`. Value and label are kept
-    // separate so they can be styled independently (e.g. "9,527" darker, "unique visitors" grey).
-    // Matomo hands these out separately as metric.value + metric.description.
+    // Optional secondary line: value and label, combined into one string for display.
+    // Matomo provides these separately as metric.value + metric.description.
     secondaryValue: [String, Number],
     secondaryLabel: String,
     // Optional metric documentation; when set it is shown as the title tooltip (otherwise the
@@ -68,7 +63,7 @@ export default defineComponent({
   },
   computed: {
     displayTitle(): string {
-      return ucfirst(this.title);
+      return ucfirst(this.title, document.documentElement.lang);
     },
     displayValue(): string | number | undefined {
       return this.formatValue(this.value);
@@ -76,8 +71,21 @@ export default defineComponent({
     displaySecondaryValue(): string | number | undefined {
       return this.formatValue(this.secondaryValue);
     },
-    displaySecondaryLabel(): string {
-      return this.stripValuePlaceholder(this.secondaryLabel);
+    displaySecondaryLine(): string {
+      const value = this.displaySecondaryValue;
+      const valueText = value === undefined || value === null ? '' : String(value);
+      const label = this.secondaryLabel;
+      if (!label) {
+        return valueText;
+      }
+      // Merge the value into the label at its printf `%s` slot so word order holds across locales
+      // (some put `%s` last), otherwise prepend it. The replace callback keeps a `$` in the value
+      // (e.g. '$12') from acting as a regex backreference.
+      if (/%(?:\d+\$)?s/.test(label)) {
+        return label.replace(/%(?:\d+\$)?s/g, () => valueText);
+      }
+
+      return `${valueText} ${label}`;
     },
     hasSecondary(): boolean {
       return this.secondaryValue !== undefined
@@ -89,16 +97,6 @@ export default defineComponent({
     // Locale-format raw numbers (plain metrics); leave already-formatted strings untouched.
     formatValue(value?: string | number): string | number | undefined {
       return typeof value === 'number' ? NumberFormatter.formatNumber(value, 2) : value;
-    },
-    // Remove any printf `%s` value placeholder and tidy whitespace. Some sparkline secondary labels
-    // embed `%s` (e.g. "%s of visits", "by %s unique visitors") — a legacy sprintf convention. The
-    // redesigned card renders the value separately, so the placeholder is dropped, not filled.
-    stripValuePlaceholder(label?: string): string {
-      if (!label) {
-        return '';
-      }
-
-      return label.replace(/%s/g, '').replace(/\s+/g, ' ').trim();
     },
   },
 });

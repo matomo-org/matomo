@@ -6,15 +6,14 @@
  */
 
 import { mount } from '@vue/test-utils';
-import ucfirst from '../../../../CoreHome/vue/src/ucfirst';
 
 // The card mounts the real SegmentComparisonRow -> MetricValue + Sparkline chain and derives its
 // data-graph-params via MatomoUrl.parse. CoreHome is a cross-plugin import the vitest config aliases
-// to its source, so mock everything that chain pulls from it. ucfirst is a dependency-free helper,
-// so hand the real implementation to the mock (Vitest hoists an import referenced in the factory).
+// to its source, so mock everything that chain pulls from it. ucfirst is an identity spy here; its
+// casing behavior is covered by ucfirst.spec.
 vi.mock('CoreHome', () => ({
   Tooltips: {},
-  ucfirst,
+  ucfirst: vi.fn((text?: string) => text ?? ''),
   Sparkline: {
     name: 'Sparkline',
     props: ['params', 'seriesIndices', 'width', 'height'],
@@ -34,7 +33,10 @@ vi.mock('CoreHome', () => ({
   },
 }));
 
+import { ucfirst } from 'CoreHome';
 import SegmentComparisonCard from './SegmentComparisonCard.vue';
+
+const ucfirstMock = vi.mocked(ucfirst);
 
 function segment(title: string, seriesIndex: number, value: number) {
   return {
@@ -69,6 +71,17 @@ function createWrapper(props = {}) {
 }
 
 describe('CoreVisualizations/SegmentComparisonCard', () => {
+  const originalDocumentLanguage = document.documentElement.lang;
+
+  beforeEach(() => {
+    document.documentElement.lang = 'en';
+    ucfirstMock.mockClear();
+  });
+
+  afterAll(() => {
+    document.documentElement.lang = originalDocumentLanguage;
+  });
+
   it('shows the metric name once as the card title, not repeated per row', () => {
     const wrapper = createWrapper();
 
@@ -77,27 +90,14 @@ describe('CoreVisualizations/SegmentComparisonCard', () => {
     expect(wrapper.findAll('.metricValue__title').length).toBe(0);
   });
 
-  it('capitalizes the first letter of the metric title', () => {
-    const wrapper = createWrapper({
-      segments: [{
-        url: '?module=API&action=get&columns=nb_plays',
-        metrics: {
-          'Jan 12 - 17, 2012': [
-            {
-              value: 1234, description: 'plays', title: 'plays', column: 'nb_plays',
-            },
-          ],
-        },
-        metricsOrder: ['Jan 12 - 17, 2012'],
-        order: 0,
-        title: 'All visits',
-        group: '0',
-        seriesIndices: [0],
-        graphParams: null,
-      }],
-    });
+  it('capitalizes the metric title using the document language', () => {
+    document.documentElement.lang = 'tr';
+    const segments = [segment('All visits', 0, 10558), segment('Eu visitors', 1, 12558)];
+    segments[0].metrics['Jan 12 - 17, 2012'][0].title = 'istanbul';
 
-    expect(wrapper.find('.sparklineSegmentComparisonCard__title').text()).toBe('Plays');
+    createWrapper({ segments });
+
+    expect(ucfirstMock).toHaveBeenCalledWith('istanbul', 'tr');
   });
 
   it('is the single .sparkline click-to-evolution link, carrying the metric graph params', () => {

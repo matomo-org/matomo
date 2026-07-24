@@ -46,7 +46,7 @@ export default defineComponent({
       const metrics = props.sparkline.metrics || {};
       const firstLabel = (props.sparkline.metricsOrder || [])[0] ?? Object.keys(metrics)[0];
       const primary = firstLabel !== undefined ? metrics[firstLabel]?.[0] : undefined;
-      return ucfirst(primary?.title || primary?.description);
+      return ucfirst(primary?.title || primary?.description, document.documentElement.lang);
     });
 
     return {
