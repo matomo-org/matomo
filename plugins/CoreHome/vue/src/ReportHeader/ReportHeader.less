@@ -1,0 +1,71 @@
+// Shared, widget-first report header: a leading region (title + future feedback actions) on
+// the left, an inline widget-controls row and a reserved report-actions anchor on the right.
+// Controls are visible by default; a host can opt into hover-reveal via the
+// `__reportHeader-onHover` context hook.
+.reportHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  border-radius: 8px;
+  padding: 20px;
+
+  .reportHeader__main {
+    flex: auto;
+    min-width: 0;
+  }
+
+  .reportHeader__title {
+    margin: 0;
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: normal;
+    color: @theme-color-widget-title-text;
+    // The title wraps over several lines rather than being clipped/ellipsised (a plugin like
+    // SingleMetricView also appends a metric-picker dropdown into it that must stay visible).
+    // break-word keeps an overly long word from spilling over the widget controls.
+    overflow-wrap: break-word;
+  }
+
+  .reportHeader__title--clickable {
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .reportHeader__widgetControls {
+    flex: none;
+    display: flex;
+    align-items: safe center;
+    // Visible by default. Hover-reveal is opt-in per host via the `__reportHeader-onHover`
+    // hook (rules below); where the hook is absent the controls stay visible (e.g. a
+    // maximised widget). Uses opacity (not display) so they stay keyboard-focusable.
+    opacity: 1;
+    transition: opacity 0.15s ease;
+
+    &:empty {
+      display: none;
+    }
+  }
+
+  .reportHeader__actions {
+    flex: none;
+    display: flex;
+    align-items: safe center;
+
+    &:empty {
+      display: none;
+    }
+  }
+}
+
+// Opt-in hover-reveal: when the host marks its scope with the `__reportHeader-onHover` context
+// hook (e.g. the dashboard widget), hide the controls until the host is hovered or a control
+// is focused. Absent the hook the controls stay visible (base rule above), which is how a
+// maximised widget keeps them on. The hook is reference-only — see CSS rules, rule 31.
+.__reportHeader-onHover .reportHeader__widgetControls {
+  opacity: 0;
+}
+
+.__reportHeader-onHover:hover .reportHeader__widgetControls,
+.__reportHeader-onHover:focus-within .reportHeader__widgetControls {
+  opacity: 1;
+}

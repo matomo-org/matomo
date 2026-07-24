@@ -277,7 +277,7 @@ export default defineComponent({
 
       $(root.value as HTMLElement)
         .closest('div.widget')
-        .find('.widgetTop > .widgetName > span')
+        .find('.widgetName > span')
         .text(title);
     }
 
@@ -374,7 +374,7 @@ export default defineComponent({
 
     function createSeriesPicker() {
       const element = $(root.value as HTMLElement);
-      const $widgetName = element.closest('div.widget').find('.widgetTop > .widgetName');
+      const $widgetName = element.closest('div.widget').find('.widgetName');
 
       const $seriesPickerElem = $('<div class="single-metric-view-picker"><div></div></div>');
 
