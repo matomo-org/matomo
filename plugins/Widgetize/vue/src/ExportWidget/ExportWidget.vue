@@ -15,6 +15,9 @@
     </div>
     <ContentBlock content-title="Authentication">
       <p v-html="$sanitize(viewableAnonymously)"></p>
+      <p v-if="!onlyAllowSecureAuthTokens">
+        {{ translate('Widgetize_ViewableAnonymouslyUrlTokenRequirement') }}
+      </p>
     </ContentBlock>
     <ContentBlock content-title="Widgetize dashboards">
       <div>
@@ -80,6 +83,10 @@ export default defineComponent({
       type: String,
       required: true,
     },
+    onlyAllowSecureAuthTokens: {
+      type: Boolean,
+      default: false,
+    },
   },
   components: {
     EnrichedHeadline,
@@ -131,6 +138,18 @@ export default defineComponent({
       );
     },
     viewableAnonymously() {
+      if (this.onlyAllowSecureAuthTokens) {
+        return translate(
+          'Widgetize_UrlTokensDisabledByPolicy',
+          `<a
+            href="index.php?module=UsersManager"
+            rel="noreferrer noopener"
+            target="_blank"
+          >`,
+          '</a>',
+        );
+      }
+
       return translate(
         'Widgetize_ViewableAnonymously',
         `<a

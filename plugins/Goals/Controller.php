@@ -12,7 +12,7 @@ namespace Piwik\Plugins\Goals;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\DataTable;
-use Piwik\DataTable\Renderer\Json;
+use Piwik\Http\JsonResponse;
 use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
 use Piwik\FrontController;
 use Piwik\Metrics\Formatter;
@@ -174,7 +174,8 @@ class Controller extends \Piwik\Plugin\Controller
         }
     }
 
-    public function hasConversions()
+    #[JsonResponse]
+    public function hasConversions(): string
     {
         $this->checkSitePermission();
 
@@ -185,8 +186,6 @@ class Controller extends \Piwik\Plugin\Controller
         Piwik::checkUserHasViewAccess($this->idSite);
 
         $conversions = new Conversions();
-
-        Json::sendHeaderJSON();
 
         $numConversions = $conversions->getConversionForGoal($idGoal, $this->idSite, $period, $date);
 

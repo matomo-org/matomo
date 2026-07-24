@@ -45,6 +45,19 @@ describe('CoreVisualizations/MetricValue', () => {
     expect(wrapper.find('.metricValue__secondaryValue').text()).toBe('9527#2');
   });
 
+  it('exposes the displayed value as the number tooltip (recoverable when truncated)', () => {
+    const wrapper = mount(MetricValue as any, {
+      props: {
+        title: 'Visits',
+        value: 10558,
+      },
+    });
+
+    // The formatted value is mirrored into the title attribute so a clipped number stays readable on
+    // hover, matching the title element's own tooltip.
+    expect(wrapper.find('.metricValue__number').attributes('title')).toBe('10558#2');
+  });
+
   it('renders the secondary value and label as separate elements', () => {
     const wrapper = mount(MetricValue as any, {
       props: {

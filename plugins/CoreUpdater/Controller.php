@@ -13,7 +13,7 @@ use Exception;
 use Piwik\AssetManager;
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\DataTable\Renderer\Json;
+use Piwik\Http\JsonResponse;
 use Piwik\DbHelper;
 use Piwik\Development;
 use Piwik\Filechecks;
@@ -167,13 +167,14 @@ class Controller extends \Piwik\Plugin\Controller
 
         $view = new OneClickDone(Piwik::getCurrentUserTokenAuth());
 
-        $useHttps = Common::getRequestVar('https', 1, 'int');
-
         try {
-            $messages = $this->updater->updatePiwik($useHttps);
+            $messages = $this->updater->updatePiwik();
             $this->refreshUpdateDetailsToken();
         } catch (ArchiveDownloadException $e) {
-            $view->httpsFail = $useHttps;
+            // Only show the HTTPS-specific error screen when the download was actually attempted over
+            // HTTPS. A failed plain-HTTP download (force_matomo_http_request enabled) falls back to the
+            // generic update error screen.
+            $view->httpsFail = $this->updater->isUpdatingOverSecureConnection();
             $view->error = $e->getMessage();
             $messages = $e->getUpdateLogMessages();
         } catch (UpdaterException $e) {
@@ -187,13 +188,12 @@ class Controller extends \Piwik\Plugin\Controller
         return $result;
     }
 
-    public function oneClickUpdatePartTwo()
+    #[JsonResponse]
+    public function oneClickUpdatePartTwo(): string
     {
         if (!SettingsPiwik::isAutoUpdateEnabled()) {
             throw new Exception('Auto updater is disabled');
         }
-
-        Json::sendHeaderJSON();
 
         $task = "Couldn't update Marketplace plugins.";
 
@@ -239,7 +239,6 @@ class Controller extends \Piwik\Plugin\Controller
 
         if ($httpsFail) {
             $view = new View('@CoreUpdater/updateHttpsError');
-            $view->nonce = Nonce::getNonce('oneClickUpdate');
             $view->error = $error;
         } elseif ($error) {
             $view = new View('@CoreUpdater/updateHttpError');

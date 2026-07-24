@@ -77,4 +77,14 @@
     margin: 0;
     padding: 16px;
   }
+
+  // Dashboard widgets are narrow, so stack the 2-up no-comparison cards into a single column on
+  // screens <=1400px — far earlier than the base grid's 320px fallback. Comparison cards are already
+  // col s12 (single). max-width keeps it desktop-first; .widget .sparklinesGrid.row .col (0,4,0)
+  // outranks Materialize's .row .col.s6, and 1400 sits below the min-width 1600/1920 tiers.
+  @media (max-width: 1400px) {
+    &.row .col {
+      width: 100%;
+    }
+  }
 }
