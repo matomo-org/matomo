@@ -173,6 +173,26 @@ class Http
         return null;
     }
 
+    /**
+     * Throws when the host matches any `http.blocklist.hosts` wildcard rule.
+     */
+    private static function assertHostNotBlocked(?string $host): void
+    {
+        if (empty($host)) {
+            return;
+        }
+
+        $disallowedHosts = StaticContainer::get('http.blocklist.hosts');
+        foreach ($disallowedHosts as $disallowedHost) {
+            if (preg_match(self::convertWildcardToPattern($disallowedHost), $host) === 1) {
+                throw new Exception(sprintf(
+                    'Hostname %s is in list of disallowed hosts',
+                    $host
+                ));
+            }
+        }
+    }
+
     private static function convertWildcardToPattern(string $wildcardHost): string
     {
         $flexibleStart = $flexibleEnd = false;
@@ -280,23 +300,7 @@ class Http
         }
 
         if ($checkHostIsAllowed) {
-            $disallowedHosts = StaticContainer::get('http.blocklist.hosts');
-
-            $isBlocked = false;
-
-            foreach ($disallowedHosts as $host) {
-                if (!empty($parsedUrl['host']) && preg_match(self::convertWildcardToPattern($host), $parsedUrl['host']) === 1) {
-                    $isBlocked = true;
-                    break;
-                }
-            }
-
-            if ($isBlocked) {
-                throw new Exception(sprintf(
-                    'Hostname %s is in list of disallowed hosts',
-                    $parsedUrl['host']
-                ));
-            }
+            self::assertHostNotBlocked($parsedUrl['host'] ?? null);
         }
 
         // SSRF-safe path: only curl can pin the validated address
@@ -328,6 +332,13 @@ class Http
             // Rewrite the URL to the canonical host when it differs (IDN folding, casing, a trailing dot)
             if ($canonicalHost !== trim((string) ($parsedUrl['host'] ?? ''), '[]')) {
                 $aUrl = self::replaceUrlHost($parsedUrl, $canonicalHost);
+
+                // Re-check the blocklist against the host curl will actually connect to. The check
+                // above ran on the raw host, so canonicalisation (a trailing dot, IDN folding) could
+                // otherwise slip a blocked host like "s3.amazonaws.com." past the wildcard rules.
+                if ($checkHostIsAllowed) {
+                    self::assertHostNotBlocked($canonicalHost);
+                }
             }
 
             // For a DNS host, pin the name to the validated IP so curl cannot re-resolve to
@@ -884,6 +895,7 @@ class Http
             $contentLength = @curl_getinfo($ch, CURLINFO_CONTENT_LENGTH_DOWNLOAD);
             $fileLength = is_resource($file) ? @curl_getinfo($ch, CURLINFO_SIZE_DOWNLOAD) : strlen($response);
             $status = @curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            $elapsed = (float) @curl_getinfo($ch, CURLINFO_TOTAL_TIME);
 
             @curl_close($ch);
             unset($ch);
@@ -907,10 +919,14 @@ class Http
                         $additionalHeaders = array();
                     }
 
+                    // Shrink the timeout by what this hop already spent so the whole redirect chain
+                    // stays within the caller's original budget instead of granting it to every hop.
+                    $remainingTimeout = max(1, (int) floor($timeout - $elapsed));
+
                     return self::sendHttpRequestBy(
                         $method,
                         $redirectUrl,
-                        $timeout,
+                        $remainingTimeout,
                         $userAgent,
                         $destinationPath,
                         $file,
