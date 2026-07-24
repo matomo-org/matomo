@@ -19,6 +19,12 @@ use Piwik\DataTable;
  */
 class GraphTest extends \PHPUnit\Framework\TestCase
 {
+    public function tearDown(): void
+    {
+        unset($_GET['idGoal']);
+        parent::tearDown();
+    }
+
     public function testSelectableColumnsAlreadySet()
     {
         $bar = $this->getMockGraph(array());
@@ -127,6 +133,126 @@ class GraphTest extends \PHPUnit\Framework\TestCase
         $bar->afterAllFiltersAreApplied();
 
         $this->assertEquals(array('nb_actions'), $bar->config->columns_to_display);
+    }
+
+    public function testSelectableColumnsUsesGoalSpecificColumnsWhenSpecificGoalIsSelected()
+    {
+        $_GET['idGoal'] = '1';
+
+        $bar = $this->getMockGraph(array(
+            'label'                 => 'abc',
+            'nb_visits'             => 5,
+            'nb_conversions'        => 12,
+            'revenue'               => 30,
+            'goal_1_nb_conversions' => 3,
+            'goal_1_revenue'        => 8,
+        ));
+        $bar->config->show_goals = true;
+
+        $bar->afterAllFiltersAreApplied();
+
+        $columns = array_column($bar->config->selectable_columns, 'column');
+        // the per-goal columns are offered, not the aggregated (all-goals) ones
+        $this->assertContains('goal_1_nb_conversions', $columns);
+        $this->assertContains('goal_1_revenue', $columns);
+        $this->assertNotContains('nb_conversions', $columns);
+        $this->assertNotContains('revenue', $columns);
+    }
+
+    public function testSelectableColumnsUsesAggregatedGoalColumnsWhenNoSpecificGoalIsSelected()
+    {
+        $bar = $this->getMockGraph(array(
+            'label'          => 'abc',
+            'nb_visits'      => 5,
+            'nb_conversions' => 12,
+            'revenue'        => 30,
+        ));
+        $bar->config->show_goals = true;
+
+        $bar->afterAllFiltersAreApplied();
+
+        $columns = array_column($bar->config->selectable_columns, 'column');
+        $this->assertContains('nb_conversions', $columns);
+        $this->assertContains('revenue', $columns);
+    }
+
+    public function testBeforeLoadDataTableRemapsAggregatedGoalColumnsForSpecificGoal()
+    {
+        $_GET['idGoal'] = '2';
+
+        $bar = $this->getMockGraph(array('label' => 'abc', 'nb_visits' => 5));
+        $bar->config->show_goals = true;
+        $bar->config->columns_to_display = array('label', 'nb_conversions', 'revenue', 'nb_visits');
+
+        $bar->beforeLoadDataTable();
+
+        // aggregated goal columns are swapped for the selected goal's columns, other columns kept
+        $this->assertSame(
+            array('label', 'goal_2_nb_conversions', 'goal_2_revenue', 'nb_visits'),
+            array_values($bar->config->columns_to_display)
+        );
+        // the goal-column processing is triggered so those columns get computed
+        $this->assertSame(2, $bar->requestConfig->request_parameters_to_modify['filter_update_columns_when_show_all_goals']);
+        $this->assertSame(2, $bar->requestConfig->request_parameters_to_modify['filter_show_goal_columns_process_goals']);
+    }
+
+    public function testGoalColumnsNotUsedForActionsPageReport()
+    {
+        // Actions page/entry reports expose goal metrics through different columns
+        // (goal_X_nb_conversions_attrib etc.), so the normal goal columns must not be forced here.
+        $_GET['idGoal'] = '1';
+
+        $bar = $this->getMockGraph(array(
+            'label'                 => 'abc',
+            'nb_visits'             => 5,
+            'nb_conversions'        => 12,
+            'goal_1_nb_conversions' => 3,
+        ));
+        $bar->config->show_goals = true;
+        $bar->requestConfig->apiMethodToRequestDataTable = 'Actions.getPageUrls';
+
+        $bar->afterAllFiltersAreApplied();
+
+        $columns = array_column($bar->config->selectable_columns, 'column');
+        $this->assertContains('nb_conversions', $columns);
+        $this->assertNotContains('goal_1_nb_conversions', $columns);
+    }
+
+    public function testEcommerceOrderGoalUsesGoalSpecificColumns()
+    {
+        $_GET['idGoal'] = 'ecommerceOrder';
+
+        $bar = $this->getMockGraph(array(
+            'label'                             => 'abc',
+            'nb_visits'                         => 5,
+            'nb_conversions'                    => 12,
+            'revenue'                           => 30,
+            'goal_ecommerceOrder_nb_conversions' => 3,
+            'goal_ecommerceOrder_revenue'        => 8,
+        ));
+        $bar->config->show_goals = true;
+
+        $bar->afterAllFiltersAreApplied();
+
+        $columns = array_column($bar->config->selectable_columns, 'column');
+        $this->assertContains('goal_ecommerceOrder_nb_conversions', $columns);
+        $this->assertContains('goal_ecommerceOrder_revenue', $columns);
+        $this->assertNotContains('nb_conversions', $columns);
+    }
+
+    public function testBeforeLoadDataTableKeepsAggregatedGoalColumnsWhenNoSpecificGoal()
+    {
+        $bar = $this->getMockGraph(array('label' => 'abc', 'nb_visits' => 5));
+        $bar->config->show_goals = true;
+        $bar->config->columns_to_display = array('label', 'nb_conversions', 'revenue');
+
+        $bar->beforeLoadDataTable();
+
+        $this->assertSame(
+            array('label', 'nb_conversions', 'revenue'),
+            array_values($bar->config->columns_to_display)
+        );
+        $this->assertArrayNotHasKey('filter_update_columns_when_show_all_goals', $bar->requestConfig->request_parameters_to_modify);
     }
 
     /**
