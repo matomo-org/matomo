@@ -24,14 +24,27 @@ use Piwik\Version;
  */
 class HttpTest extends \PHPUnit\Framework\TestCase
 {
+    /** @var array|null */
+    private $originalBlocklist;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->originalBlocklist = StaticContainer::get('http.blocklist.hosts');
+    }
+
     protected function tearDown(): void
     {
         // Some tests register Http.sendHttpRequest observers to mock responses. Observers
-        // cannot be removed, so replace the dispatcher to keep them from leaking into later tests.
+        // can't be removed, so replace the dispatcher to keep them from leaking into later tests.
         StaticContainer::getContainer()->set(
             EventDispatcher::class,
             new EventDispatcher(Manager::getInstance())
         );
+
+
+        StaticContainer::getContainer()->set('http.blocklist.hosts', $this->originalBlocklist);
 
         parent::tearDown();
     }
