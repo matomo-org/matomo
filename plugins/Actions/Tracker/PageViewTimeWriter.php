@@ -39,6 +39,22 @@ use Piwik\Tracker\Visit\VisitProperties;
  * *earlier* row was most recent — that may be tab B, meaning tab B is credited with any
  * time up to A's server_time. This is an approximation; treat it as "reasonable" rather
  * than "per-tab exact" for interleaved multi-tab sessions.
+ *
+ * Accepted residual inaccuracies (deliberate, do not "fix" without revisiting the design):
+ *  - Cross-midnight visits (only possible with the non-default
+ *    `create_new_visit_after_midnight = 0`): a day-2 hit can close a day-1 row after day 1
+ *    was already archived, leaving that archive stale while the anti-join drops the day-2
+ *    legacy credit. Core accepts the same staleness class for visit metrics under that
+ *    setting (a continuing visit changes yesterday's aggregates without invalidation), and
+ *    invalidating here would re-archive yesterday every day on such installs. With the
+ *    default setting both UPDATEs are scoped to the current visit, which cannot span
+ *    midnight, so day-1 rows are never touched from day 2.
+ *  - Partial failure: if this writer's INSERT fails while the same hit's
+ *    log_link_visit_action INSERT succeeded, the visit has a recorded action without a pvt
+ *    row; a later close can then grow the previous row across the gap while the legacy path
+ *    still credits the missing action, overcounting that interval once. No ordering of, or
+ *    transaction around, the pvt statements alone can prevent this (the inconsistency is
+ *    between llva and pvt), and coupling the two would violate the fault isolation above.
  */
 class PageViewTimeWriter
 {

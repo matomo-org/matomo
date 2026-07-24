@@ -58,7 +58,10 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   recorded that page for the visit. Hits recorded before the new table existed are still counted via the legacy
   path. A temporary `[Tracker] record_accurate_page_view_time` config key (default `1`) is available as a
   kill-switch; disabling it stops recording new accurate rows (data collected while disabled uses the legacy
-  metric), while rows recorded earlier keep being used by the archiver and the visits log.
+  metric), while rows recorded earlier keep being used by the archiver and the visits log. On installs that opt
+  out of the default midnight visit split (`create_new_visit_after_midnight = 0`), time a cross-midnight visit
+  adds to the previous day's last pageview after that day was archived is not re-archived (the previous day's
+  archive is not invalidated), matching how visit metrics already behave for such visits under that setting.
 
 ## Matomo 5.12.0
 
