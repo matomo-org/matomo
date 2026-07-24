@@ -18,6 +18,24 @@ use ReflectionMethod;
  */
 class HttpTest extends \PHPUnit\Framework\TestCase
 {
+    /** @var array|null */
+    private $originalProxyConfig;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->originalProxyConfig = Config::getInstance()->proxy;
+    }
+
+    protected function tearDown(): void
+    {
+        // Several tests mutate the proxy config, restore it so nothing leaks into later tests.
+        Config::getInstance()->proxy = $this->originalProxyConfig;
+
+        parent::tearDown();
+    }
+
     /**
      * @dataProvider getProxyConfigurationTestData
      */
@@ -79,28 +97,20 @@ class HttpTest extends \PHPUnit\Framework\TestCase
 
     public function testSendHttpRequestByWithEgressValidationRejectsConfiguredProxy()
     {
-        $originalProxy = Config::getInstance()->proxy;
         Config::getInstance()->proxy['host'] = 'proxy.example';
         Config::getInstance()->proxy['port'] = '8080';
         Config::getInstance()->proxy['username'] = '';
         Config::getInstance()->proxy['password'] = '';
         Config::getInstance()->proxy['exclude'] = '';
 
-        try {
-            $this->sendEgressValidatedRequest('curl', 'http://example.com/');
-            $this->fail('Expected an exception for a configured proxy');
-        } catch (\Exception $e) {
-            $this->assertSame('SSRF-safe HTTP requests cannot be routed through a configured proxy.', $e->getMessage());
-        } finally {
-            Config::getInstance()->proxy = $originalProxy;
-        }
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('SSRF-safe HTTP requests cannot be routed through a configured proxy.');
+
+        $this->sendEgressValidatedRequest('curl', 'http://example.com/');
     }
 
     public function testSendHttpRequestByWithEgressValidationRejectsPrivateIpTarget()
     {
-        // other tests in this class leave a proxy configured, which would trip the proxy guard first
-        Config::getInstance()->proxy['host'] = '';
-
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Refusing to fetch: host resolves to a private or reserved address.');
 

@@ -89,8 +89,11 @@ class EgressHostValidatorTest extends \PHPUnit\Framework\TestCase
             return $stubbedIps[$host] ?? array();
         }, array());
 
-        if ($expected === false) {
+        if ($expected === false || is_string($expected)) {
             $this->expectException(Exception::class);
+            if (is_string($expected)) {
+                $this->expectExceptionMessage($expected);
+            }
             $validator->resolveTarget($host);
             return;
         }
@@ -162,10 +165,10 @@ class EgressHostValidatorTest extends \PHPUnit\Framework\TestCase
             'loopback literal' => array('127.0.0.1', array(), false),
             'metadata literal' => array('169.254.169.254', array(), false),
             // encoded numeric hosts that libc treats as IP literals are rejected before resolution
-            'decimal encoded ip' => array('2130706433', array(), false),
-            'hex encoded ip' => array('0x7f000001', array(), false),
-            'octal encoded ip' => array('0177.0.0.1', array(), false),
-            'short form ip' => array('127.1', array(), false),
+            'decimal encoded ip' => array('2130706433', array(), 'numeric or encoded host'),
+            'hex encoded ip' => array('0x7f000001', array(), 'numeric or encoded host'),
+            'octal encoded ip' => array('0177.0.0.1', array(), 'numeric or encoded host'),
+            'short form ip' => array('127.1', array(), 'numeric or encoded host'),
             // DNS host resolving to a public address: pin the host to that address
             'public dns host' => array('example.com', array('example.com' => array('93.184.216.34')), array('example.com', '93.184.216.34')),
             // host is normalised (lowercased, trailing dot stripped) for both validation and pin
