@@ -21,7 +21,6 @@
         "AreYouSureRemoveCapability": "Tem certeza de que deseja remover a capacidade %1$s de %2$s por %3$s?",
         "AtLeastView": "Pelo menos visualizar",
         "AuthTokenPurpose": "Para que você está usando este token?",
-        "AuthTokenSecureOnlyHelp": "Habilite esta opção apenas para permitir que este token seja usado de forma segura (por exemplo, requisições POST), isso é recomendado como uma boa prática de segurança. O token então não será válido como um parâmetro URL em requisições GET.",
         "AuthTokenSecureOnlyHelpForced": "O administrador do sistema configurou o Matomo para permitir que tokens somente sejam criados para uso de forma segura (por exemplo, através de requisições POST), você não pode alterar esta opção.",
         "AuthTokens": "Tokens de autenticação",
         "BackToUser": "Voltar para Usuários",
