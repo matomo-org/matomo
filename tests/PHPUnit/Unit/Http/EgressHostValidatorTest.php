@@ -57,7 +57,9 @@ class EgressHostValidatorTest extends \PHPUnit\Framework\TestCase
             // IPv6 transition ranges that could smuggle a private IPv4 destination
             array('2002:7f00:0001::', false), // 6to4 wrapping 127.0.0.1
             array('2001:0:1234::', false),    // Teredo
-            array('64:ff9b::a9fe:a9fe', false), // NAT64 wrapping 169.254.169.254
+            array('64:ff9b::a9fe:a9fe', false),
+            array('64:ff9b:1:7f00:0:100::', false),
+            array('64:ff9b:1::1', false),
             // TEST-NET / documentation ranges and 6to4 relay anycast
             array('192.0.2.1', false),
             array('198.51.100.1', false),

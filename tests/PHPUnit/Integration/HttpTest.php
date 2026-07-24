@@ -519,6 +519,78 @@ class HttpTest extends \PHPUnit\Framework\TestCase
         self::assertStringContainsString('redirects=0', $result['data']);
     }
 
+    public function testSendHttpRequestByWithEgressValidationRejectsRedirectToPrivateHost()
+    {
+        $this->allowEgressValidationForTestHost();
+
+        self::expectException(\Exception::class);
+        self::expectExceptionMessage('Refusing to fetch: host resolves to a private or reserved address.');
+
+        Http::sendHttpRequestBy(
+            'curl',
+            Fixture::getRootUrl() . 'tests/resources/redirector.php?target=' . urlencode('http://10.0.0.1/'),
+            30,
+            null,
+            null,
+            null,
+            0,
+            false,
+            false,
+            false,
+            true,
+            'GET',
+            null,
+            null,
+            null,
+            array(),
+            null,
+            true,
+            true // $validateEgressIp
+        );
+    }
+
+    public function testSendHttpRequestByWithEgressValidationRejectsBlockedHostAfterCanonicalisation()
+    {
+        $this->allowEgressValidationForTestHost();
+
+        $host = (string) parse_url(Fixture::getRootUrl(), PHP_URL_HOST);
+        if (filter_var($host, FILTER_VALIDATE_IP)) {
+            $this->markTestSkipped('Test requires a DNS test host, not an IP literal.');
+        }
+
+        // Blocklist the plain host. The raw request host carries a trailing dot, so it slips the
+        // pre-connection check, but canonicalisation strips the dot and the re-check must catch it.
+        StaticContainer::getContainer()->set('http.blocklist.hosts', [$host]);
+
+        self::expectException(\Exception::class);
+        self::expectExceptionMessage('Hostname ' . $host . ' is in list of disallowed hosts');
+
+        $url = str_replace('://' . $host, '://' . $host . '.', Fixture::getRootUrl())
+            . 'tests/resources/redirector.php';
+
+        Http::sendHttpRequestBy(
+            'curl',
+            $url,
+            30,
+            null,
+            null,
+            null,
+            0,
+            false,
+            false,
+            false,
+            true,
+            'GET',
+            null,
+            null,
+            null,
+            array(),
+            null,
+            true,
+            true // $validateEgressIp
+        );
+    }
+
     public function testSendHttpRequestWithEgressValidationRejectsRedirectWhenDownloadingToFile()
     {
         $this->allowEgressValidationForTestHost();
