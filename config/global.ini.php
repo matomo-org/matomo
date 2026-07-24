@@ -1010,6 +1010,7 @@ cookie_domain =
 record_statistics = 1
 
 ; Set to 0 to stop recording accurate per-pageview time-spent rows into the log_page_view_time table.
+; Can be overridden for a single site via a [Tracker_N] section, where N is the idSite.
 ; Only affects data collected while disabled: those pageviews fall back to the legacy
 ; time_spent_ref_action metric at archive time, while rows recorded before disabling keep being used.
 ; This is a temporary safety control (introduced in 6.0.0), scheduled for removal in a future major

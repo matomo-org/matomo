@@ -108,7 +108,7 @@ class ActionsRequestProcessor extends RequestProcessor
 
         if (
             !$request->getMetadata('CoreHome', 'visitorNotFoundInDb')
-            && PageViewTimeWriter::isEnabled()
+            && PageViewTimeWriter::isEnabled($request->getIdSiteIfExists())
         ) {
             try {
                 // Writer also runs when $action is null (ping requests) so the active pageview row

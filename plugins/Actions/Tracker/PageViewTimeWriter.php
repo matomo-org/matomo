@@ -48,11 +48,12 @@ class PageViewTimeWriter
 
     /**
      * @return bool True when the tracker should write to log_page_view_time. The kill-switch is
-     *              read via TrackerConfig so it picks up per-INI overrides without restart.
+     *              read via TrackerConfig so it picks up per-INI overrides without restart,
+     *              including per-site `[Tracker_N]` sections when an idSite is given.
      */
-    public static function isEnabled(): bool
+    public static function isEnabled(?int $idSite = null): bool
     {
-        $value = TrackerConfig::getConfigValue(self::CONFIG_KEY);
+        $value = TrackerConfig::getConfigValue(self::CONFIG_KEY, $idSite);
         return $value === null ? true : (bool) (int) $value;
     }
 

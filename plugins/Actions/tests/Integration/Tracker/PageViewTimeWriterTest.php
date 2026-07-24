@@ -29,6 +29,7 @@ use Piwik\Tracker\Cache;
  *  - Non-ASCII pv_id is treated as absent (idpageview is an ascii-only column)
  *  - time_spent is capped at visit_standard_length
  *  - Kill-switch (record_accurate_page_view_time = 0) disables all writes
+ *  - Kill-switch can be applied per site via a [Tracker_N] config section
  *
  * @group Actions
  * @group PageViewTime
@@ -58,6 +59,7 @@ class PageViewTimeWriterTest extends IntegrationTestCase
         $tracker = $config->Tracker;
         $tracker['record_accurate_page_view_time'] = 1;
         $config->Tracker = $tracker;
+        $config->Tracker_1 = [];
 
         parent::tearDown();
     }
@@ -280,6 +282,24 @@ class PageViewTimeWriterTest extends IntegrationTestCase
 
         $rows = $this->fetchPageViewTimeRows();
         $this->assertSame([], $rows, 'Kill-switch must prevent any writes to log_page_view_time');
+    }
+
+    public function testKillSwitchCanBeDisabledPerSiteViaTrackerSection()
+    {
+        // A [Tracker_N] section overrides [Tracker] for site N only; the writer reads the
+        // kill-switch with the request's idSite so operators can disable the accurate metric
+        // for a single problematic site.
+        $config = Config::getInstance();
+        $config->Tracker_1 = ['record_accurate_page_view_time' => 0];
+        Cache::deleteTrackerCache();
+
+        $matomoTracker = $this->getTracker($this->baseTime);
+        $matomoTracker->setPageviewId('killit');
+        $matomoTracker->setUrl('https://example.org/off');
+        Fixture::checkResponse($matomoTracker->doTrackPageView('Off'));
+
+        $rows = $this->fetchPageViewTimeRows();
+        $this->assertSame([], $rows, 'Per-site kill-switch must prevent writes for that site');
     }
 
     private function getTracker(string $timestamp): \MatomoTracker
