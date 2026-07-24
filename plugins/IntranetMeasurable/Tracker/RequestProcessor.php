@@ -29,9 +29,11 @@ class RequestProcessor extends \Piwik\Tracker\RequestProcessor
         }
         $isIntranetSite = !empty($site['type']) && $site['type'] === Type::ID;
 
-        if ($isIntranetSite && !StaticContainer::get($this->settingName)) {
-            $this->setTrustCookiesSetting(1);
-            $this->didEnableSetting = true;
+        if ($isIntranetSite) {
+            if (!StaticContainer::get($this->settingName)) {
+                $this->setTrustCookiesSetting(1);
+                $this->didEnableSetting = true;
+            }
         } elseif ($this->didEnableSetting) {
             // we reset it in case of bulk tracking with different sites etc
             $this->setTrustCookiesSetting(0);
