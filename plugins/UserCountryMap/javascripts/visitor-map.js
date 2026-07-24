@@ -620,12 +620,63 @@
             }
 
             /*
+             * kartograph places every city dot with the single mainland projection
+             * (map.lonlat2xy). On maps with corner insets (e.g. USA's Alaska/Hawaii
+             * boxes) a dot whose lon/lat lies inside an inset territory would be
+             * projected to its true mainland position and fall off-frame. The
+             * generator emits <view class="inset"> blocks (which kartograph itself
+             * ignores -- it only reads the first <view>) describing each inset's
+             * local projection and box transform; we route such dots into the
+             * matching inset box here. See generate_maps.py svg_header()/InsetView.
+             */
+            function routeInsetDots(map) {
+                // always restore the stock projection first: a previously loaded
+                // map may have installed inset routing that must not leak here.
+                if (map._insetBase) { map.lonlat2xy = map._insetBase; }
+                else { map._insetBase = map.lonlat2xy; }
+                var stock = map._insetBase, insets = [];
+                try {
+                    // map.svgSrc is kartograph's already-parsed SVG selection
+                    var views = map.svgSrc.find('view');
+                    for (var i = 0; i < views.length; i++) {
+                        var v = views[i];
+                        if (v.getAttribute('class') !== 'inset') continue;
+                        insets.push({
+                            proj: $K.Proj.fromXML(v.getElementsByTagName('proj')[0]),
+                            x0: +v.getAttribute('x0'), y0: +v.getAttribute('y0'),
+                            x1: +v.getAttribute('x1'), y1: +v.getAttribute('y1'),
+                            scale: +v.getAttribute('scale'),
+                            ox: +v.getAttribute('ox'), oy: +v.getAttribute('oy')
+                        });
+                    }
+                } catch (e) { return; } // malformed metadata -> keep stock projection
+                if (!insets.length) return;
+                map.lonlat2xy = function (loc) {
+                    var lon = (loc && loc.length >= 2) ? loc[0] : loc.lon;
+                    var lat = (loc && loc.length >= 2) ? loc[1] : loc.lat;
+                    for (var i = 0; i < insets.length; i++) {
+                        var iv = insets[i], pt = iv.proj.project(lon, lat);
+                        if (pt[0] >= iv.x0 && pt[0] <= iv.x1 && pt[1] >= iv.y0 && pt[1] <= iv.y1) {
+                            // (x-x0)*scale+ox, (y1-y)*scale+oy == InsetView.project, then
+                            // viewBC maps svg coords -> viewport like any other symbol.
+                            return map.viewBC.project([
+                                (pt[0] - iv.x0) * iv.scale + iv.ox,
+                                (iv.y1 - pt[1]) * iv.scale + iv.oy
+                            ]);
+                        }
+                    }
+                    return stock.call(map, loc);
+                };
+            }
+
+            /*
              * updateMap is called by renderCountryMap() and renderWorldMap()
              */
             function _updateMap(svgUrl, callback) {
                 map.loadMap(config.svgBasePath + svgUrl, function () {
 
                     map.clear();
+                    routeInsetDots(map);
                     self.resize();
                     callback();
 
