@@ -370,9 +370,11 @@ describe("WidgetizedDashboard", function () {
         var tokenAuth = "anyInvalidToken";
         await page.goto(url.replace("idDashboard=5", "idDashboard=1") + '&token_auth=' + tokenAuth);
 
-        // should show login page with error message
-        expect(await page.$('#loginPage')).to.be.ok;
-        const errorMessage = await page.evaluate(() => $('.message_container').text());
-        expect(errorMessage).to.contain('You must be logged in to access this functionality.');
+        // widget URLs surface a targeted error explaining the secure-only-token cause
+        // instead of falling through to the generic login page
+        expect(await page.$('#loginPage')).to.be.not.ok;
+        const errorMessage = await page.evaluate(() => document.body.innerText);
+        expect(errorMessage).to.contain('This widget URL could not be authenticated with the supplied');
+        expect(errorMessage).to.contain("'Only allow secure requests' unchecked");
     });
 });
