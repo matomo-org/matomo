@@ -69,8 +69,42 @@ exports.processedScreenshotsDir = "./processed-ui-screenshots";
 exports.screenshotDiffDir = "./screenshot-diffs";
 
 /**
+ * Resolve the browser executable Puppeteer should launch. Puppeteer 24 otherwise looks for the
+ * specific Chrome build it pins (in ~/.cache/puppeteer), which is not provisioned in CI -- the test
+ * runner installs a system google-chrome-stable instead. Prefer an explicit
+ * PUPPETEER_EXECUTABLE_PATH, then a system Chrome/Chromium, and finally fall back to Puppeteer's own
+ * downloaded browser (used on fresh local setups that have neither installed).
+ */
+function resolveBrowserExecutablePath() {
+    if (process.env.PUPPETEER_EXECUTABLE_PATH) {
+        return process.env.PUPPETEER_EXECUTABLE_PATH;
+    }
+
+    const fs = require('fs');
+    const candidates = [
+        '/usr/bin/google-chrome-stable',
+        '/usr/bin/google-chrome',
+        '/usr/bin/chromium',
+        '/usr/bin/chromium-browser',
+    ];
+
+    return candidates.find((candidate) => fs.existsSync(candidate));
+}
+
+/**
  * The config object passed to the headless browser used by Puppeteer
  */
-exports.browserConfig = {
-    args: ['--no-sandbox', '--ignore-certificate-errors']
+const browserConfig = {
+    args: ['--no-sandbox', '--ignore-certificate-errors'],
+    // Puppeteer 24 defaults protocolTimeout to 180s, which is below the 240s mocha test timeout, so
+    // a slow CDP call (e.g. a screenshot or evaluate on a heavy page under CI load) can abort a test
+    // with a ProtocolError before mocha's own timeout applies. Raise it so the mocha timeout governs.
+    protocolTimeout: 300000
 };
+
+const browserExecutablePath = resolveBrowserExecutablePath();
+if (browserExecutablePath) {
+    browserConfig.executablePath = browserExecutablePath;
+}
+
+exports.browserConfig = browserConfig;

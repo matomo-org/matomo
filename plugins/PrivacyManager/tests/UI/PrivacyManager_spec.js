@@ -254,6 +254,7 @@ describe("PrivacyManager", function () {
         await page.waitForSelector('div.randomizeConfigIdField label');
         await page.click('div.randomizeConfigIdField label');
         await page.click('#anonymizeIPAnchor input.btn[value=Save]');
+        await page.waitForSelector('.modal-overlay');
 
         await capturePage('config_id_randomisation_on_password_required');
     });
@@ -424,6 +425,8 @@ describe("PrivacyManager", function () {
         await enterSegmentMatchValue('10');
         await findDataSubjects();
         await page.click('.entityTable tbody tr:nth-child(2) .checkInclude label');
+        // Move the cursor off the row so it isn't left in a :hover state in the capture.
+        await page.mouse.move(0, 0);
 
         await capturePage('gdpr_tools_delete_visit_cancelled_verified_no_data_deleted');
     });

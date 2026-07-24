@@ -10,7 +10,6 @@
 var fs = require('fs'),
   path = require('../../lib/screenshot-testing/support/path');
 
-const request = require('request-promise');
 const exec = require('child_process').exec;
 
 describe("OneClickLastForcedUpdate", function () {
@@ -58,8 +57,9 @@ describe("OneClickLastForcedUpdate", function () {
     });
 
     it('should update successfully and show the finished update screen', async function () {
-        // force_matomo_http_request is enabled for the test install, so the archive is fetched over
-        // HTTP directly and the update completes without the removed HTTP fallback screen.
+        // Wait for the update button to render before clicking: under the modern headless Chrome it
+        // is not always present immediately after the previous (failed-update) step.
+        await page.waitForSelector('#updateAutomatically', { visible: true });
         await page.click('#updateAutomatically');
         await page.waitForNetworkIdle();
         await page.waitForSelector('.content');
@@ -114,14 +114,13 @@ describe("OneClickLastForcedUpdate", function () {
         // track one action
         const trackerUrl = config.piwikUrl + "latestStableInstall/piwik.php?";
 
-        await request({
+        await fetch(trackerUrl, {
             method: 'POST',
-            uri: trackerUrl,
-            form: {
+            body: new URLSearchParams({
                 idsite: 1,
                 url: 'http://piwik.net/test/url',
                 action_name: 'test page',
-            },
+            }),
         });
 
         // run cron archiving

@@ -113,11 +113,11 @@ describe('OptOutJS', function () {
         this.title = parentSuite.title; // to make sure the screenshot prefix is the same
 
         before(async function (){
-            await page.webpage._client.send('Emulation.setDocumentCookieDisabled', {'disabled': true});
+            await page.webpage._client().send('Emulation.setDocumentCookieDisabled', {'disabled': true});
         });
 
         after(async function () {
-            await page.webpage._client.send('Emulation.setDocumentCookieDisabled', {'disabled': false});
+            await page.webpage._client().send('Emulation.setDocumentCookieDisabled', {'disabled': false});
         });
 
         it('should show a warning', async function () {
