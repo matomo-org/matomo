@@ -58,10 +58,11 @@ class PageViewTimeWriter
     }
 
     /**
-     * @return int visit_standard_length in seconds. Shared by writer and archiver so their caps
-     *             cannot drift.
+     * @return int visit_standard_length in seconds, used as the SQL-side cap on time_spent.
+     *             The cap is applied at write time only: the archiver sums the already-capped
+     *             values and does not re-cap.
      */
-    public static function getVisitStandardLength(): int
+    private static function getVisitStandardLength(): int
     {
         $value = Config::getInstance()->Tracker['visit_standard_length'] ?? self::DEFAULT_VISIT_STANDARD_LENGTH;
         return (int) $value;
