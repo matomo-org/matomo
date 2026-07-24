@@ -54,7 +54,7 @@ class OverwriteUserIdFixture extends Fixture
                 $visitDateTime = Date::factory($this->dateTime)->addPeriod($numVisits, 'minute')->addPeriod($key, 'second')->getDatetime();
                 $t->setForceVisitDateTime($visitDateTime);
 
-                self::assertTrue($t->doTrackPageView('incredible title ' . ($numVisits % 3)));
+                self::checkResponse($t->doTrackPageView('incredible title ' . ($numVisits % 3)));
             }
         }
 

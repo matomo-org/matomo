@@ -281,7 +281,7 @@ class UITestFixture extends SqlDump
                     Date::factory($nowTs - $secondsAgo + $p * 5)->getDatetime()
                 );
                 $tracker->setUrl('http://realtime-fixture.example.com/page-' . $idx . '-' . $p);
-                self::assertTrue($tracker->doTrackPageView('Page ' . $idx . '-' . $p));
+                self::checkResponse($tracker->doTrackPageView('Page ' . $idx . '-' . $p));
             }
 
             if (0 === $idx) {
@@ -289,7 +289,7 @@ class UITestFixture extends SqlDump
                     Date::factory($nowTs - $secondsAgo + $pageCount * 5)->getDatetime()
                 );
                 $tracker->setUrl('http://realtime-fixture.example.com/page-' . $idx . '-0');
-                self::assertTrue(
+                self::checkResponse(
                     $tracker->doTrackAction('http://realtime-fixture.example.com/files/download.pdf?a=b&c=d', 'download')
                 );
             }
@@ -382,7 +382,7 @@ class UITestFixture extends SqlDump
                     $t->setUrlReferrer($referrerUrl);
                 }
 
-                self::assertTrue($t->doTrackPageView("page title of $action"));
+                self::checkResponse($t->doTrackPageView("page title of $action"));
             }
         }
 

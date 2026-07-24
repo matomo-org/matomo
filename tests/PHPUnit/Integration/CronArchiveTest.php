@@ -1455,15 +1455,15 @@ LOG;
         foreach ([1,2,3] as $idSite) {
             $tracker->setIdSite($idSite);
             $tracker->setUrl('http://someurl.com');
-            Fixture::assertTrue($tracker->doTrackPageView('abcdefg'));
+            Fixture::checkResponse($tracker->doTrackPageView('abcdefg'));
 
             $tracker->setForceVisitDateTime('2019-12-11 03:04:05');
             $tracker->setUrl('http://someurl.com/2');
-            Fixture::assertTrue($tracker->doTrackPageView('abcdefg2'));
+            Fixture::checkResponse($tracker->doTrackPageView('abcdefg2'));
 
             $tracker->setForceVisitDateTime('2019-12-10 03:04:05');
             $tracker->setUrl('http://someurl.com/3');
-            Fixture::assertTrue($tracker->doTrackPageView('abcdefg3'));
+            Fixture::checkResponse($tracker->doTrackPageView('abcdefg3'));
         }
         $tracker->doBulkTrack();
 

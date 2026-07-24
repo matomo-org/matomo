@@ -147,7 +147,7 @@ class TwoSitesTwoVisitorsDifferentDays extends Fixture
         $visitorB->setUrl('http://example.org/products');
         $visitorB->DEBUG_APPEND_URL = '&_idts=' . Date::factory($dateTime)->addHour(1)->getTimestamp();
         $visitorB->setPerformanceTimings(62, 305, 440, 1159, 356, 440);
-        self::assertTrue($visitorB->doTrackPageView('first page view'));
+        self::checkResponse($visitorB->doTrackPageView('first page view'));
 
         // -
         // Second visitor again on Idsite 1: 2 page views 2 days later, 2010-01-05
@@ -167,23 +167,23 @@ class TwoSitesTwoVisitorsDifferentDays extends Fixture
             }
 
             $visitorB->setPerformanceTimings(27, 268, 356, 1025, 296, 335);
-            self::assertTrue($visitorB->doTrackPageView('second visitor/two days later/a new visit'));
+            self::checkResponse($visitorB->doTrackPageView('second visitor/two days later/a new visit'));
             // Second page view 6 minutes later
             $visitorB->setForceVisitDateTime(Date::factory($dateTime)->addHour($hoursOffset)->addHour(0.1)->getDatetime());
             $visitorB->setUrl('http://example.org/thankyou');
             $visitorB->setPerformanceTimings(0, 199, 289, 998, 198, 299);
-            self::assertTrue($visitorB->doTrackPageView('second visitor/two days later/second page view😀💩😀💩'));
+            self::checkResponse($visitorB->doTrackPageView('second visitor/two days later/second page view😀💩😀💩'));
 
             // testing a strange combination causing an error in r3767
             $visitorB->setForceVisitDateTime(Date::factory($dateTime)->addHour($hoursOffset)->addHour(0.2)->getDatetime());
-            self::assertTrue($visitorB->doTrackAction('mailto:test@example.org', 'link'));
+            self::checkResponse($visitorB->doTrackAction('mailto:test@example.org', 'link'));
             $visitorB->setForceVisitDateTime(Date::factory($dateTime)->addHour($hoursOffset)->addHour(0.25)->getDatetime());
-            self::assertTrue($visitorB->doTrackAction('mailto:test@example.org/strangelink', 'link'));
+            self::checkResponse($visitorB->doTrackAction('mailto:test@example.org/strangelink', 'link'));
 
             // Actions.getPageTitle tested with this title
             $visitorB->setForceVisitDateTime(Date::factory($dateTime)->addHour($hoursOffset)->addHour(0.25)->getDatetime());
             $visitorB->setPerformanceTimings(33, 356, 452, 1499, 356, 269);
-            self::assertTrue($visitorB->doTrackPageView('Checkout / Purchasing...'));
+            self::checkResponse($visitorB->doTrackPageView('Checkout / Purchasing...'));
             self::checkBulkTrackingResponse($visitorB->doBulkTrack());
         }
     }

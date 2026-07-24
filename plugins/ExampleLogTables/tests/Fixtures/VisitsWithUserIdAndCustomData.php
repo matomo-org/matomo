@@ -82,12 +82,12 @@ class VisitsWithUserIdAndCustomData extends Fixture
                     $t->doTrackAction('http://example.org/download.pdf', 'download');
                 }
 
-                self::assertTrue($t->doTrackPageView('incredible title ' . ($numVisits % 3)));
+                self::checkResponse($t->doTrackPageView('incredible title ' . ($numVisits % 3)));
 
                 if ($numVisits % 9 == 0) {
                     $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour($numVisits + 6.1)->getDatetime());
                     $t->addEcommerceItem('SKU VERY nice indeed ' . ($numVisits % 3), 'PRODUCT name ' . ($numVisits % 4), 'category ' . ($numVisits % 5), $numVisits * 2.79);
-                    self::assertTrue($t->doTrackEcommerceCartUpdate($numVisits * 17));
+                    self::checkResponse($t->doTrackEcommerceCartUpdate($numVisits * 17));
                 }
             }
         }

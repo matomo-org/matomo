@@ -119,28 +119,28 @@ class TwoSitesManyVisitsOverSeveralDaysWithSearchEngineReferrers extends Fixture
             $t->setUrl('http://example.org/my/dir/page' . ($daysIntoPast % 4) . '?foo=bar&baz=bar');
             $t->setForceVisitDateTime($visitDateTime);
             $t->setPerformanceTimings(35 + $daysIntoPast, 125 + $daysIntoPast, 356 + $daysIntoPast, 255 + $daysIntoPast, 351 + $daysIntoPast, 66 + $daysIntoPast);
-            self::assertTrue($t->doTrackPageView('incredible title ' . ($daysIntoPast % 3)));
+            self::checkResponse($t->doTrackPageView('incredible title ' . ($daysIntoPast % 3)));
             $t->setForceVisitDateTime(Date::factory($visitDateTime)->addPeriod(1, 'second')->getDatetime());
 
             // Trigger goal n°1 once
-            self::assertTrue($t->doTrackGoal(1));
+            self::checkResponse($t->doTrackGoal(1));
 
             // Trigger goal n°2 twice
-            self::assertTrue($t->doTrackGoal(2));
+            self::checkResponse($t->doTrackGoal(2));
             $t->setForceVisitDateTime(Date::factory($visitDateTime)->addHour(0.1)->getDatetime());
-            self::assertTrue($t->doTrackGoal(2));
+            self::checkResponse($t->doTrackGoal(2));
 
             // VISIT 2: search engine
             $t->setForceVisitDateTime(Date::factory($visitDateTime)->addHour(3)->getDatetime());
             $t->setUrlReferrer('http://google.com/search?q=' . urlencode($this->keywords[$daysIntoPast % 3]));
             $t->setPerformanceTimings(28 + $daysIntoPast, 215 + $daysIntoPast, 288 + $daysIntoPast, 155 + $daysIntoPast, 236 + $daysIntoPast, 50 + $daysIntoPast);
-            self::assertTrue($t->doTrackPageView('not an incredible title '));
+            self::checkResponse($t->doTrackPageView('not an incredible title '));
 
             // VISIT 3: ai assistant
             $t->setForceVisitDateTime(Date::factory($visitDateTime)->addHour(5)->getDatetime());
             $t->setUrlReferrer($this->aiReferrers[$daysIntoPast % 8]);
             $t->setPerformanceTimings(28 + $daysIntoPast, 215 + $daysIntoPast, 288 + $daysIntoPast, 155 + $daysIntoPast, 236 + $daysIntoPast, 50 + $daysIntoPast);
-            self::assertTrue($t->doTrackPageView('not an incredible title '));
+            self::checkResponse($t->doTrackPageView('not an incredible title '));
 
             // VISIT 1 for idSite = 2
             $t->setIdSite($idSite2);
@@ -150,7 +150,7 @@ class TwoSitesManyVisitsOverSeveralDaysWithSearchEngineReferrers extends Fixture
             $t->setForceVisitDateTime($visitDateTime);
             $t->setUrl('http://example.org/');
             $t->setPerformanceTimings(0, 157 + $daysIntoPast, 215 + $daysIntoPast, 322 + $daysIntoPast, 199 + $daysIntoPast, 99 + $daysIntoPast);
-            self::assertTrue($t->doTrackPageView('so-so page title'));
+            self::checkResponse($t->doTrackPageView('so-so page title'));
         }
         self::checkBulkTrackingResponse($t->doBulkTrack());
     }

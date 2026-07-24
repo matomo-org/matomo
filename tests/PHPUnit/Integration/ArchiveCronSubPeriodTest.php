@@ -201,7 +201,7 @@ class ArchiveCronSubPeriodTest extends IntegrationTestCase
         foreach ($period->getSubperiods() as $date) {
             $tracker->setForceVisitDateTime($date->toString('Y-m-d 12:00:00'));
             $tracker->setUrl('https://matomo.url/index');
-            Fixture::assertTrue($tracker->doTrackPageView('index'));
+            Fixture::checkResponse($tracker->doTrackPageView('index'));
         }
 
         Fixture::checkBulkTrackingResponse($tracker->doBulkTrack());

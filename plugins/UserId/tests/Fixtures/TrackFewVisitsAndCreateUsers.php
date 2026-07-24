@@ -45,17 +45,17 @@ class TrackFewVisitsAndCreateUsers extends Fixture
                 $visitDateTime = Date::factory($this->dateTime)->addDay($numVisits)->getDatetime();
                 $t->setForceVisitDateTime($visitDateTime);
 
-                self::assertTrue($t->doTrackPageView('incredible title ' . ($numVisits % 3)));
+                self::checkResponse($t->doTrackPageView('incredible title ' . ($numVisits % 3)));
 
                 if ($numVisits && $numVisits % 5 == 0) {
                     $visitDateTime = Date::factory($this->dateTime)->addDay($numVisits)->addHour(0.02)->getDatetime();
                     $t->setForceVisitDateTime($visitDateTime);
-                    self::assertTrue($t->doTrackSiteSearch('some search term'));
+                    self::checkResponse($t->doTrackSiteSearch('some search term'));
                 }
                 if ($numVisits && $numVisits % 4 == 0) {
                     $visitDateTime = Date::factory($this->dateTime)->addDay($numVisits)->addHour(0.04)->getDatetime();
                     $t->setForceVisitDateTime($visitDateTime);
-                    self::assertTrue($t->doTrackEvent('Event action', 'event cat'));
+                    self::checkResponse($t->doTrackEvent('Event action', 'event cat'));
                 }
             }
         }
