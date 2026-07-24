@@ -292,7 +292,9 @@ class Mysql implements SchemaInterface
                                           UNIQUE KEY unique_idvisit_idlink_va (idvisit, idlink_va),
                                           INDEX index_idvisit_idpageview (idvisit, idpageview),
                                           INDEX index_idvisit_server_time (idvisit, server_time),
-                                          INDEX index_idsite_server_time (idsite, server_time)
+                                          INDEX index_idsite_server_time (idsite, server_time),
+                                          INDEX index_idvisit_idaction_url_time (idvisit, idaction_url, time_spent),
+                                          INDEX index_idvisit_idaction_name_time (idvisit, idaction_name, time_spent)
                                         ) $tableOptions
             ",
 
