@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "aac5bfb98c2c2556f54be01ff7c76c00",
+    "content-hash": "7d3445964e18566ed68c721df4f5c6b7",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -670,21 +670,21 @@
         },
         {
             "name": "matomo/matomo-php-tracker",
-            "version": "3.3.2",
+            "version": "3.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/matomo-php-tracker.git",
-                "reference": "949259d7ffc833ae37bdec14394d13748ebccb64"
+                "reference": "9462dc6eb718c711545ea1b0f590b9ae892a4212"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/matomo-php-tracker/zipball/949259d7ffc833ae37bdec14394d13748ebccb64",
-                "reference": "949259d7ffc833ae37bdec14394d13748ebccb64",
+                "url": "https://api.github.com/repos/matomo-org/matomo-php-tracker/zipball/9462dc6eb718c711545ea1b0f590b9ae892a4212",
+                "reference": "9462dc6eb718c711545ea1b0f590b9ae892a4212",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "php": "^7.2 || ^8.0"
+                "php": "~7.2 || ~7.3 || ~7.4 || ~8.0 || ~8.1 || ~8.2 || ~8.3 || ~8.4 || ~8.5"
             },
             "require-dev": {
                 "phpunit/phpunit": "^8.5 || ^9.3 || ^10.1"
@@ -722,7 +722,7 @@
                 "issues": "https://github.com/matomo-org/matomo-php-tracker/issues",
                 "source": "https://github.com/matomo-org/matomo-php-tracker"
             },
-            "time": "2024-10-09T08:10:30+00:00"
+            "time": "2025-12-20T18:55:41+00:00"
         },
         {
             "name": "matomo/network",
@@ -5829,18 +5829,18 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "lox/xhprof": 20,
-        "matomo-org/matomo-coding-standards": 20,
         "matomo/referrer-spam-list": 20,
-        "matomo/searchengine-and-social-list": 20
+        "matomo/searchengine-and-social-list": 20,
+        "matomo-org/matomo-coding-standards": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
         "php": ">=8.1.0"
     },
-    "platform-dev": {},
+    "platform-dev": [],
     "platform-overrides": {
         "php": "8.1.0"
     },
-    "plugin-api-version": "2.9.0"
+    "plugin-api-version": "2.6.0"
 }
