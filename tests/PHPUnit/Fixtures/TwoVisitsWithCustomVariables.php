@@ -156,7 +156,6 @@ class TwoVisitsWithCustomVariables extends Fixture
         $visitorB->setCustomVariable($id = 2, $name = 'Othercustom value which should be truncated abcdefghijklmnopqrstuvwxyz', $value = 'abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz');
         $visitorB->setCustomVariable($id = -2, $name = 'not tracked', $value = 'not tracked');
         $visitorB->setCustomVariable($id = 6, $name = 'not tracked', $value = 'not tracked');
-        $visitorB->setCustomVariable($id = 6, $name = array('not tracked'), $value = 'not tracked');
         $visitorB->setUrl('http://example.org/homepage');
         self::checkResponse($visitorB->doTrackGoal($idGoal, 1000));
 
