@@ -21,7 +21,6 @@
         "AreYouSureRemoveCapability": "Ziur zaude %1$s gaitasuna kendu nahi diozula %2$s erabiltzaileari %3$s(e)n?",
         "AtLeastView": "Ikusi gutxienez",
         "AuthTokenPurpose": "Zertarako erabiltzen duzu token hau?",
-        "AuthTokenSecureOnlyHelp": "Gaitu aukera hau token hau modu seguruan soilik erabiltzea onartzeko (adibidez POST eskaerak), hau da gomendatutako jardunbide segurua. Ondorioz tokena ez da baliozkoa izango GET eskaeretako URL parametro bezala.",
         "AuthTokenSecureOnlyHelpForced": "Sistemaren administratzaileak tokenak modu seguruan (adibidez POST eskaera bidez) erabiltzeko konfiguratu du Matomo. Ezin duzu aldatu tokenaren aukera hau.",
         "AuthTokens": "Baimen tokenak",
         "BackToUser": "Itzuli erabiltzaileetara",
