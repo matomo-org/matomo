@@ -75,8 +75,12 @@ class PageViewTimeWriter
 
         $idSite = (int) $request->getIdSite();
 
+        // idpageview is CHAR(6) CHARACTER SET ascii, so a pv_id containing non-ASCII bytes
+        // (crafted request or non-JS SDK; the byte-based substr can even split a multibyte
+        // character) would make the INSERT fail under strict SQL mode. The JS tracker only
+        // generates [0-9a-zA-Z]{6}; treat anything else as absent rather than lose the row.
         $pvId = substr((string) $request->getParam('pv_id'), 0, 6);
-        $pvId = $pvId !== '' ? $pvId : null;
+        $pvId = preg_match('/^[0-9a-zA-Z]{1,6}$/D', $pvId) ? $pvId : null;
 
         $serverTimeSql = date('Y-m-d H:i:s', (int) $request->getCurrentTimestamp());
         $cap = self::getVisitStandardLength();

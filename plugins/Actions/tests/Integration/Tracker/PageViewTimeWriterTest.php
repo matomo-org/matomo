@@ -26,6 +26,7 @@ use Piwik\Tracker\Cache;
  *  - A second PV with a *different* pv_id does NOT collapse the first row (per-tab attribution)
  *  - PV without pv_id is recorded with NULL idpageview
  *  - Non-PV without pv_id is skipped (cannot safely attribute in a multi-tab session)
+ *  - Non-ASCII pv_id is treated as absent (idpageview is an ascii-only column)
  *  - time_spent is capped at visit_standard_length
  *  - Kill-switch (record_accurate_page_view_time = 0) disables all writes
  *
@@ -220,6 +221,24 @@ class PageViewTimeWriterTest extends IntegrationTestCase
         $this->assertCount(1, $rows);
         $this->assertNull($rows[0]['idpageview']);
         $this->assertSame(0, (int) $rows[0]['time_spent'], 'Without pv_id we cannot safely attribute; row stays untouched');
+    }
+
+    public function testNonAsciiPvIdIsTreatedAsAbsentInsteadOfFailingTheWrite()
+    {
+        // idpageview is CHAR(6) CHARACTER SET ascii while log_link_visit_action.idpageview is
+        // utf8mb4: a crafted pv_id like 'ééé' (6 bytes of valid UTF-8) passes the llva insert
+        // but would make the pvt INSERT fail under strict SQL mode. The writer must treat such
+        // values as absent so the row is still recorded (with NULL idpageview) and no warning
+        // is logged per hit.
+        $tracker = $this->getTracker($this->baseTime);
+        $tracker->setPageviewId('ééé');
+        $tracker->setUrl('https://example.org/landing');
+        Fixture::checkResponse($tracker->doTrackPageView('Landing'));
+
+        $rows = $this->fetchPageViewTimeRows();
+        $this->assertCount(1, $rows);
+        $this->assertNull($rows[0]['idpageview']);
+        $this->assertSame(0, (int) $rows[0]['time_spent']);
     }
 
     public function testSiteSearchAfterPageviewInsertsSeparateRowAndClosesPreviousPage()
