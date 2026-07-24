@@ -27,11 +27,15 @@ class HttpTest extends \PHPUnit\Framework\TestCase
     /** @var array|null */
     private mixed $originalBlocklist;
 
+    /** @var EgressHostValidator|null */
+    private ?EgressHostValidator $originalEgressValidator;
+
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->originalBlocklist = StaticContainer::get('http.blocklist.hosts');
+        $this->originalEgressValidator = StaticContainer::get(EgressHostValidator::class);
     }
 
     protected function tearDown(): void
@@ -44,6 +48,7 @@ class HttpTest extends \PHPUnit\Framework\TestCase
         );
 
         StaticContainer::getContainer()->set('http.blocklist.hosts', $this->originalBlocklist);
+        StaticContainer::getContainer()->set(EgressHostValidator::class, $this->originalEgressValidator);
 
         parent::tearDown();
     }
@@ -565,7 +570,8 @@ class HttpTest extends \PHPUnit\Framework\TestCase
     {
         $this->allowEgressValidationForTestHost();
 
-        $host = (string) parse_url(Fixture::getRootUrl(), PHP_URL_HOST);
+        // lowercased because the exception reports the canonicalised (lowercased) host
+        $host = strtolower((string) parse_url(Fixture::getRootUrl(), PHP_URL_HOST));
         if (filter_var($host, FILTER_VALIDATE_IP)) {
             $this->markTestSkipped('Test requires a DNS test host, not an IP literal.');
         }
@@ -577,7 +583,7 @@ class HttpTest extends \PHPUnit\Framework\TestCase
         self::expectException(\Exception::class);
         self::expectExceptionMessage('Hostname ' . $host . ' is in list of disallowed hosts');
 
-        $url = str_replace('://' . $host, '://' . $host . '.', Fixture::getRootUrl())
+        $url = str_ireplace('://' . $host, '://' . $host . '.', Fixture::getRootUrl())
             . 'tests/resources/redirector.php';
 
         Http::sendHttpRequestBy(
