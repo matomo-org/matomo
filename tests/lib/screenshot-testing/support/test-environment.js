@@ -38,6 +38,16 @@ TestingEnvironment.prototype.reload = function () {
             this[key] = data[key];
         }
     }
+
+    // DIAGNOSTIC (do not merge): force-enable the SparklinesRedesign feature flag for every UI
+    // test suite, so CI reveals all screenshots affected by the sparklines redesign.
+    if (!this['configOverride']) {
+        this['configOverride'] = {};
+    }
+    if (!this['configOverride']['FeatureFlags']) {
+        this['configOverride']['FeatureFlags'] = {};
+    }
+    this['configOverride']['FeatureFlags']['SparklinesRedesign_feature'] = 'enabled';
 };
 
 /**
