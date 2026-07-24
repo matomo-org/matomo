@@ -299,8 +299,8 @@ var Piwik_Overlay = (function () {
         }
 
         // url is the only framed-page value consumed by an allow-listed method
-        // (Overlay.getFollowingPages).
-        if (typeof requested.url !== 'undefined') {
+        // (Overlay.getFollowingPages), so only forward it to that method.
+        if (requested.method === 'Overlay.getFollowingPages' && typeof requested.url !== 'undefined') {
             params.url = requested.url;
         }
 

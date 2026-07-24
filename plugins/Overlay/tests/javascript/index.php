@@ -86,6 +86,16 @@ test("buildApiRequestParams forwards the url parameter for getFollowingPages", f
     strictEqual(result.params.url, 'https://example.org/page', 'url is decoded and forwarded');
 });
 
+test("buildApiRequestParams forwards url only to getFollowingPages", function () {
+    var result = Piwik_Overlay.buildApiRequestParams(
+        'index.php?method=Overlay.getTranslations&url=' + encodeURIComponent('https://example.org/page'),
+        overlayContext()
+    );
+
+    ok(!result.error, 'the request is accepted');
+    strictEqual(typeof result.params.url, 'undefined', 'url is not forwarded to other allow-listed methods');
+});
+
 test("buildApiRequestParams takes segment from the trusted context", function () {
     var result = Piwik_Overlay.buildApiRequestParams(
         'index.php?method=Overlay.getTranslations&segment=' + encodeURIComponent('countryCode==fr'),
