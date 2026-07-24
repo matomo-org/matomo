@@ -114,7 +114,7 @@ class ActionsRequestProcessor extends RequestProcessor
                 // Writer also runs when $action is null (ping requests) so the active pageview row
                 // accumulates time. Skipped only when the visit row could not be found.
                 (new PageViewTimeWriter())->write($action, $visitProperties, $request);
-            } catch (\Exception $e) {
+            } catch (\Throwable $e) {
                 // The accurate metric is best-effort: rows that are missing here fall back to the
                 // legacy time_spent_ref_action path at archive time (the archiver only drops a
                 // legacy contribution when an accurate row with time_spent > 0 exists). A failure
