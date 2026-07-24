@@ -112,6 +112,18 @@ class UserRepository
         $this->sendInvitationEmail($user, $generatedToken, $expiryInDays);
     }
 
+    /**
+     * Generates a new invitation link token without changing the invitation expiry.
+     */
+    public function refreshInviteLinkToken(string $userLogin): string
+    {
+        $generatedToken = $this->model->generateRandomInviteToken();
+        $this->model->updateUserFields($userLogin, [
+            'invite_link_token' => $this->model->hashTokenAuth($generatedToken),
+        ]);
+        return $generatedToken;
+    }
+
     public function generateInviteToken(string $userLogin, int $expiryInDays): string
     {
         $generatedToken = $this->model->generateRandomInviteToken();
