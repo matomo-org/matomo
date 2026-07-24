@@ -34,7 +34,6 @@
         "AuthTokenNotificationEmailReminder": "Pengingat: Putar ulang token auth Anda setiap %1$s",
         "AuthTokenNotificationEmailSubjectAll": "Pengingat: Putar ulang token auth pribadi Anda untuk instance Matomo %1$s",
         "AuthTokenPurpose": "Untuk apa Anda menggunakan token ini?",
-        "AuthTokenSecureOnlyHelp": "Aktifkan opsi ini untuk hanya mengizinkan token ini digunakan secara aman (misalnya permintaan POST), ini direkomendasikan sebagai praktik keamanan terbaik. Token kemudian tidak akan valid sebagai parameter URL dalam permintaan GET.",
         "AuthTokenSecureOnlyHelpForced": "Administrator sistem telah mengonfigurasi Matomo untuk hanya mengizinkan pembuatan token yang digunakan secara aman (misalnya melalui permintaan POST), Anda tidak dapat mengubah opsi token ini.",
         "AuthTokens": "Token Auth",
         "BackToUser": "Kembali ke Pengguna",
