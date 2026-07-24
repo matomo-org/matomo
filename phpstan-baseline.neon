@@ -145,12 +145,6 @@ parameters:
 			path: core/Access.php
 
 		-
-			message: '#^If condition is always true\.$#'
-			identifier: if.alwaysTrue
-			count: 6
-			path: core/Application/Environment.php
-
-		-
 			message: '#^Method Piwik\\Archive\\ArchiveInvalidator\:\:getSegmentArchiving\(\) is unused\.$#'
 			identifier: method.unused
 			count: 1
@@ -1339,144 +1333,6 @@ parameters:
 			path: core/Request.php
 
 		-
-			message: '#^Parameter \#1 \$hour of function mktime expects int, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/Scheduler/Schedule/Daily.php
-
-		-
-			message: '#^Parameter \#2 \$minute of function mktime expects int\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/Scheduler/Schedule/Daily.php
-
-		-
-			message: '#^Parameter \#3 \$second of function mktime expects int\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/Scheduler/Schedule/Daily.php
-
-		-
-			message: '#^Parameter \#4 \$month of function mktime expects int\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/Scheduler/Schedule/Daily.php
-
-		-
-			message: '#^Parameter \#6 \$year of function mktime expects int\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/Scheduler/Schedule/Daily.php
-
-		-
-			message: '#^Parameter \#3 \$second of function mktime expects int\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/Scheduler/Schedule/Hourly.php
-
-		-
-			message: '#^Parameter \#4 \$month of function mktime expects int\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/Scheduler/Schedule/Hourly.php
-
-		-
-			message: '#^Parameter \#5 \$day of function mktime expects int\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/Scheduler/Schedule/Hourly.php
-
-		-
-			message: '#^Parameter \#6 \$year of function mktime expects int\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/Scheduler/Schedule/Hourly.php
-
-		-
-			message: '#^Parameter \#1 \$hour of function mktime expects int, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/Scheduler/Schedule/Monthly.php
-
-		-
-			message: '#^Parameter \#2 \$minute of function mktime expects int\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/Scheduler/Schedule/Monthly.php
-
-		-
-			message: '#^Parameter \#3 \$second of function mktime expects int\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/Scheduler/Schedule/Monthly.php
-
-		-
-			message: '#^Parameter \#6 \$year of function mktime expects int\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/Scheduler/Schedule/Monthly.php
-
-		-
-			message: '#^Parameter \#3 \$second of function mktime expects int\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/Scheduler/Schedule/Schedule.php
-
-		-
-			message: '#^Parameter \#4 \$month of function mktime expects int\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/Scheduler/Schedule/Schedule.php
-
-		-
-			message: '#^Parameter \#5 \$day of function mktime expects int\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/Scheduler/Schedule/Schedule.php
-
-		-
-			message: '#^Parameter \#6 \$year of function mktime expects int\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/Scheduler/Schedule/Schedule.php
-
-		-
-			message: '#^Call to function is_int\(\) with int will always evaluate to true\.$#'
-			identifier: function.alreadyNarrowedType
-			count: 1
-			path: core/Scheduler/Schedule/Weekly.php
-
-		-
-			message: '#^Parameter \#1 \$hour of function mktime expects int, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/Scheduler/Schedule/Weekly.php
-
-		-
-			message: '#^Parameter \#2 \$minute of function mktime expects int\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/Scheduler/Schedule/Weekly.php
-
-		-
-			message: '#^Parameter \#3 \$second of function mktime expects int\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/Scheduler/Schedule/Weekly.php
-
-		-
-			message: '#^Parameter \#4 \$month of function mktime expects int\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/Scheduler/Schedule/Weekly.php
-
-		-
-			message: '#^Parameter \#6 \$year of function mktime expects int\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/Scheduler/Schedule/Weekly.php
-
-		-
 			message: '#^If condition is always false\.$#'
 			identifier: if.alwaysFalse
 			count: 1
@@ -2501,12 +2357,6 @@ parameters:
 			identifier: parameterByRef.type
 			count: 1
 			path: plugins/BotTracking/BotTracking.php
-
-		-
-			message: '#^Parameter &\$tables by\-ref type of method Piwik\\Plugins\\BotTracking\\RecordBuilders\\AIChatbotReports\:\:populateNumerics\(\) expects array\<string, Piwik\\DataTable\>, array\<string, int\|Piwik\\DataTable\> given\.$#'
-			identifier: parameterByRef.type
-			count: 7
-			path: plugins/BotTracking/RecordBuilders/AIChatbotReports.php
 
 		-
 			message: '#^Call to Piwik\\Plugin\\Report\:\:configureView\(\) on a separate line has no effect\.$#'
