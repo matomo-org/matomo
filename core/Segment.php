@@ -597,8 +597,6 @@ class Segment
      * @param int $offset Specified the offset of the first row to return
      * @param bool $forceGroupBy Force the group by and not using a subquery. Note: This may make the query slower see https://github.com/matomo-org/matomo/issues/9200#issuecomment-183641293
      *                           A $groupBy value needs to be set for this to work.
-     * @param int If set to value >= 1 then the Select query (and All inner queries) will be LIMIT'ed by this value.
-     *              Use only when you're not aggregating or it will sample the data.
      * @return array{sql: string, bind: array<scalar>} The entire select query.
      */
     public function getSelectQuery($select, $from, $where = false, $bind = array(), $orderBy = false, $groupBy = false, $limit = 0, $offset = 0, $forceGroupBy = false, bool $withRollup = false)

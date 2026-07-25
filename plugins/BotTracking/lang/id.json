@@ -84,6 +84,17 @@
         "ColumnServerError5xxRequests": "Permintaan 5XX",
         "ColumnServerError5xxRequestsDocumentation": "Jumlah permintaan bot yang menghasilkan respons HTTP 5xx (server error).",
         "ColumnTotalBrokenRequests": "Total Permintaan Rusak",
-        "ColumnTotalBrokenRequestsDocumentation": "Jumlah permintaan bot yang menghasilkan respons HTTP 404 (Not Found), 410 (Gone), atau 5xx (server error)."
+        "ColumnTotalBrokenRequestsDocumentation": "Jumlah permintaan bot yang menghasilkan respons HTTP 404 (Not Found), 410 (Gone), atau 5xx (server error).",
+        "AIChatbotsAIFavouredPagesTitle": "Halaman yang Disukai AI",
+        "AIChatbotsBrokenContentDocumentation": "Laporan ini mencantumkan URL halaman rusak dan URL dokumen (seperti file PDF, Word, atau Excel) yang diakses oleh chatbot AI (seperti ChatGPT) tetapi mengembalikan error atau tidak tersedia. Ini membantu mengidentifikasi konten yang hilang atau tidak dapat diakses yang coba diambil oleh LLM, sehingga Anda dapat memperbaiki tautan rusak dan meningkatkan keandalan serta keterjangkauan situs Anda.",
+        "AIChatbotsHumanFavouredPagesDocumentation": "Menampilkan halaman yang menerima kunjungan jauh lebih banyak dari manusia dibandingkan dari chatbot AI. Berguna untuk mengidentifikasi konten yang sangat relevan bagi pengguna nyata tetapi kurang terwakili dalam trafik atau rekomendasi berbasis AI.",
+        "AIChatbotsHumanFavouredPagesTitle": "Halaman yang Disukai Manusia",
+        "ColumnAIChatbotRequests": "Permintaan Chatbot AI",
+        "ColumnAIChatbotRequestsDocumentation": "Jumlah total berapa kali URL ini diminta oleh chatbot AI selama periode yang dipilih.",
+        "ColumnDiscrepancyScore": "Skor Kesenjangan",
+        "ColumnDiscrepancyScoreAIFavouredDocumentation": "Skor dari 0 hingga 100 yang menggabungkan seberapa kuat halaman ini condong ke chatbot AI (seberapa jauh lebih sering diminta oleh chatbot dibanding dikunjungi manusia) dengan seberapa besar trafik chatbot-nya relatif terhadap halaman yang paling sering diminta. Semakin tinggi, semakin besar chatbot AI berfokus pada halaman ini dibanding manusia; halaman yang seimbang atau lebih condong ke manusia mendapat skor 0.",
+        "ColumnDiscrepancyScoreHumanFavouredDocumentation": "Skor dari 0 hingga 100 yang menggabungkan seberapa kuat halaman ini condong ke manusia (seberapa jauh lebih sering dikunjungi manusia dibanding diminta oleh chatbot AI) dengan seberapa besar trafik manusia-nya relatif terhadap halaman yang paling sering dikunjungi. Semakin tinggi, semakin besar keterlibatan manusia pada halaman ini dibanding chatbot AI; halaman yang seimbang atau lebih condong ke AI mendapat skor 0.",
+        "ColumnUniqueHumanPageviews": "Tayangan Halaman Unik oleh Manusia",
+        "ColumnUniqueHumanPageviewsDocumentation": "Jumlah kunjungan ketika pengguna nyata melihat URL ini setidaknya satu kali. Trafik dari chatbot AI dan bot lainnya tidak dihitung."
     }
 }

@@ -120,27 +120,40 @@ class UpdateCommunicationTest extends IntegrationTestCase
 
     public function testSendNotificationIfUpdatesAvailableShouldSendCorrectText()
     {
-        $subject = 'CoreUpdater_NotificationSubjectAvailablePluginUpdate';
+        $subject = 'Updates available for your Matomo plugins';
         $rootUrl = Fixture::getTestRootUrl();
+        Fixture::loadAllTranslations();
         $twig = new Twig();
+        $changelogUrl1 = 'https://plugins.matomo.org/MyTest1/changelog';
+        $changelogUrl2 = 'https://plugins.matomo.org/MyTest2/changelog';
+        $changelogUrl3 = 'https://plugins.matomo.org/MyTest3/changelog';
 
-        $message = "<p>ScheduledReports_EmailHello</p>
-<p>CoreUpdater_ThereIsNewPluginVersionAvailableForUpdate</p>
+        $message = "<p>Hello,</p>
+<p>Some plugins you use have been updated on the Marketplace:</p>
 
 <ul>
-<li>MyTest1 33.0.0</li>
-<li>MyTest2 32.0.0</li>
-<li>MyTest3 31.0.0</li>
+<li>
+MyTest1 33.0.0
+ - <a href=\"" . $changelogUrl1 . "\">Changelog</a>
+</li>
+<li>
+MyTest2 32.0.0
+ - <a href=\"" . $changelogUrl2 . "\">Changelog</a>
+</li>
+<li>
+MyTest3 31.0.0
+ - <a href=\"" . $changelogUrl3 . "\">Changelog</a>
+</li>
 </ul>
 
 
 <p>
-CoreUpdater_NotificationClickToUpdatePlugins<br/>
+Click here to update your plugins now:<br/>
 <a href=\"" . piwik_escape_filter($twig->getTwigEnvironment(), $rootUrl, 'html_attr') . "index.php?module=CorePluginsAdmin&action=plugins\">{$rootUrl}index.php?module=CorePluginsAdmin&action=plugins</a>
 </p>
 
 <p>
-Installation_HappyAnalysing
+Happy analysing!
 </p>
 ";
 

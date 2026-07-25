@@ -14,7 +14,7 @@ interface LockBackend
     /**
      * Returns lock keys matching a pattern.
      *
-     * @param $pattern
+     * @param string $pattern
      * @return string[]
      */
     public function getKeysMatchingPattern($pattern);
@@ -22,37 +22,37 @@ interface LockBackend
     /**
      * Set a key value if the key is not already set.
      *
-     * @param $lockKey
-     * @param $lockValue
-     * @param $ttlInSeconds
-     * @return mixed
+     * @param string $lockKey
+     * @param string $lockValue
+     * @param int $ttlInSeconds
+     * @return bool
      */
     public function setIfNotExists($lockKey, $lockValue, $ttlInSeconds);
 
     /**
      * Get the lock value for a key if any.
      *
-     * @param $lockKey
-     * @return mixed
+     * @param string $lockKey
+     * @return string|false
      */
     public function get($lockKey);
 
     /**
      * Delete the lock with key = $lockKey if the lock has the given value.
      *
-     * @param $lockKey
-     * @param $lockValue
-     * @return mixed
+     * @param string $lockKey
+     * @param string $lockValue
+     * @return bool
      */
     public function deleteIfKeyHasValue($lockKey, $lockValue);
 
     /**
      * Update expiration for a lock if the lock with the specified key has the given value.
      *
-     * @param $lockKey
-     * @param $lockValue
-     * @param $ttlInSeconds
-     * @return mixed
+     * @param string $lockKey
+     * @param string $lockValue
+     * @param int $ttlInSeconds
+     * @return bool
      */
     public function expireIfKeyHasValue($lockKey, $lockValue, $ttlInSeconds);
 }

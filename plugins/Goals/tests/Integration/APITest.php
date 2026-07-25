@@ -104,12 +104,46 @@ class APITest extends IntegrationTestCase
         $this->assertGoal($idGoal, 'MyName', '', 'title', 'rere(.*)', 'regex', 1, 50, 1);
     }
 
+    public function testAddGoalShouldPreservePlusCharacterInRegexPattern()
+    {
+        // a "+" must not be turned into a space when saving a goal
+        $idGoal = $this->api->addGoal($this->idSite, 'MyName', 'url', '\/one_\d+\.php$', 'regex');
+
+        $this->assertGoal($idGoal, 'MyName', '', 'url', '\/one_\d+\.php$', 'regex');
+    }
+
+    public function testAddGoalShouldPreservePlusCharacterInNameAndDescription()
+    {
+        // a "+" must not be turned into a space when saving a goal
+        $idGoal = $this->api->addGoal($this->idSite, 'My + Name', 'title', 'a+b', 'contains', false, false, false, 'desc + text');
+
+        $this->assertGoal($idGoal, 'My + Name', 'desc + text', 'title', 'a+b', 'contains');
+    }
+
+    public function testUpdateGoalShouldPreservePlusCharacterInRegexPattern()
+    {
+        // a "+" must not be turned into a space when updating a goal
+        $idGoal = $this->api->addGoal($this->idSite, 'MyName', 'title', 'rere(.*)', 'regex');
+
+        $this->api->updateGoal($this->idSite, $idGoal, 'My + Name', 'title', '(?!Postuler$).+', 'regex', false, false, false, 'desc + text');
+
+        $this->assertGoal($idGoal, 'My + Name', 'desc + text', 'title', '(?!Postuler$).+', 'regex');
+    }
+
     public function testAddGoalShouldThrowExceptionIfPatternTypeIsInvalid()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('General_ValidatorErrorXNotWhitelisted');
 
         $this->api->addGoal($this->idSite, 'MyName', 'external_website', 'www.test.de', 'invalid');
+    }
+
+    public function testAddGoalShouldThrowExceptionIfPatternIsEmptyForExternalWebsite()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('General_PleaseSpecifyValue');
+
+        $this->api->addGoal($this->idSite, 'MyName', 'external_website', '', 'contains');
     }
 
     public function testAddGoalShouldThrowExceptionIfPatternRegexIsInvalid()
@@ -172,6 +206,15 @@ class APITest extends IntegrationTestCase
 
         $idGoal = $this->createAnyGoal();
         $this->api->updateGoal($this->idSite, $idGoal, 'MyName', 'url', 'www.test.de', 'exact');
+    }
+
+    public function testUpdateGoalShouldThrowExceptionIfPatternIsEmptyForExternalWebsite()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('General_PleaseSpecifyValue');
+
+        $idGoal = $this->createAnyGoal();
+        $this->api->updateGoal($this->idSite, $idGoal, 'MyName', 'external_website', '', 'contains');
     }
 
     public function testUpdateGoalShouldNotThrowExceptionIfPatternTypeIsExactAndMatchAttributeIsEvent()

@@ -77,15 +77,20 @@ div.scrollable {
 }
 
 .segment-element {
-    border: 1px solid #a9a399;
-    background-color: #f1f0eb;
-    padding: 6px 4px;
-    border-radius: 3px;
     position: absolute;
-    left: -1px;
-    top: 37px;
     z-index: 999;
+    top: 100%;
+    left: -1px;
+    margin-top: 8px;
+
     width: 940px;
+    padding: 6px 4px;
+    border-radius: 8px;
+    border: 1px solid @theme-color-border;
+    background-color: @theme-color-background-contrast;
+    box-shadow: @theme-shadow-overlay;
+
+    color: @theme-color-text;
 
     @media screen and (max-width: 940px) {
         width: 95vw;
@@ -104,7 +109,7 @@ div.scrollable {
 
 .segment-element .custom_select_search input[type="text"] {
     font-size: 11px !important;
-    color: #454545 !important;
+    color: @theme-color-text !important;
     width: 125px;
     padding: 0 0 3px 7px !important;
     border: none !important;
@@ -129,7 +134,7 @@ div.scrollable {
 .segment-element .segment-content h3 {
     font-size: 16px;
     font-weight: bold;
-    color: #505050;
+    color: @theme-color-text;
     margin: 0 0 0 0;
     text-shadow: 0 1px 0 @theme-color-background-contrast;
 }
@@ -146,7 +151,7 @@ div.scrollable {
 
 .segment-element .segment-top {
     font-size: 11px;
-    color: #505050;
+    color: @theme-color-text-light;
     text-align: left;
     padding: 3px 7px 0 0;
     margin-left: 6px;
@@ -183,8 +188,7 @@ div.scrollable {
 }
 
 .segment-element .segment-footer {
-    background: #eae8e3;
-    border-top: 1px solid @theme-color-background-tinyContrast;
+    border-top: 1px solid @theme-color-border-light;
     text-align: right;
     padding: 7px 10px;
     margin: 0 -4px -6px -4px;

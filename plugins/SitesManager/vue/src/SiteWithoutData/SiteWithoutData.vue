@@ -19,7 +19,7 @@
       {{ headline }}
     </h1>
 
-    <VueEntryContainer id="start-tracking-cta" :html="ctaContent" />
+    <VueEntryContainer id="start-tracking-cta" :html="ctaContent || fetchedCtaContent" />
 
     <ActivityIndicator
       :loading-message="`${translate('SitesManager_DetectingYourSite')}&hellip;`"
@@ -63,7 +63,11 @@
       <div id="start-tracking-skip">
         <h2>{{ translate('SitesManager_SiteWithoutDataNotYetReady') }}</h2>
         <div>{{ translate('SitesManager_SiteWithoutDataTemporarilyHidePage') }}</div>
-        <a :href="ignoreSitesWithoutDataLink" class="ignoreSitesWithoutData">
+        <a
+          :href="ignoreSitesWithoutDataLink"
+          class="ignoreSitesWithoutData"
+          @click="onIgnoreClick"
+        >
           {{ translate('SitesManager_SiteWithoutDataHidePageForHour') }}
         </a>
       </div>
@@ -114,11 +118,15 @@ interface SiteWithoutDataState {
   showMethodDetails: TrackingMethod|null;
   recommendedMethod: TrackingMethod|null,
   trackingMethods: Array<TrackingMethod>,
+  fetchedCtaContent: string,
 }
 
 export default defineComponent({
+  emits: ['dismissed'],
   props: {
     ctaContent: String,
+    // Set by the reporting SPA gate; makes dismissal an in-place Ajax hide, not a link navigation.
+    embeddedInReporting: Boolean,
   },
   components: {
     ActivityIndicator,
@@ -133,6 +141,7 @@ export default defineComponent({
       showMethodDetails: null,
       recommendedMethod: null,
       trackingMethods: [],
+      fetchedCtaContent: '',
     };
   },
   created() {
@@ -144,6 +153,7 @@ export default defineComponent({
     AjaxHelper.fetch(params).then((response) => {
       this.trackingMethods = response.trackingMethods;
       this.recommendedMethod = response.recommendedMethod;
+      this.fetchedCtaContent = response.ctaContent || '';
       this.loading = false;
 
       // set up watch once all data was fetched, to ensure tracking methods are available
@@ -161,6 +171,24 @@ export default defineComponent({
     });
   },
   methods: {
+    onIgnoreClick(event: MouseEvent) {
+      // standalone page: let the link navigate (controller redirects). SPA: hide in place via Ajax.
+      if (!this.embeddedInReporting) {
+        return;
+      }
+
+      event.preventDefault();
+
+      AjaxHelper.fetch(
+        { module: 'SitesManager', action: 'ignoreNoDataMessage' },
+        { createErrorNotification: false },
+      ).then(() => {
+        this.$emit('dismissed');
+      }).catch(() => {
+        // if the Ajax call fails, fall back to the link's normal behaviour
+        window.location.href = this.ignoreSitesWithoutDataLink;
+      });
+    },
     findTrackingMethod(methodId: string|null) {
       if (
         this.recommendedMethod

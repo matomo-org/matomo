@@ -244,9 +244,7 @@ class Mysqli extends Db
      * @param string $query Query
      * @param array $parameters Parameters to bind
      *
-     * @return array
-     *
-     * @throws DbException if an exception occurred
+     * @return array|false
      */
     public function fetch($query, $parameters = array())
     {
@@ -280,8 +278,7 @@ class Mysqli extends Db
      * @param string $query Query
      * @param array|string $parameters Parameters to bind array('idsite'=> 1)
      *
-     * @return bool|resource  false if failed
-     * @throws DbException  if an exception occurred
+     * @return \mysqli_stmt|false  false if failed
      */
     public function query($query, $parameters = array())
     {
@@ -425,20 +422,20 @@ class Mysqli extends Db
     public function beginTransaction()
     {
         if ($this->activeTransaction !== null) {
-            return;
+            return null;
         }
 
         if ($this->connection->autocommit(false)) {
             $this->activeTransaction = uniqid();
             return $this->activeTransaction;
         }
+
+        return null;
     }
 
     /**
      * Commit Transaction
      * @param $xid
-     * @throws DbException
-     * @internal param TransactionID $string from beginTransaction
      */
     public function commit($xid)
     {
@@ -458,8 +455,6 @@ class Mysqli extends Db
     /**
      * Rollback Transaction
      * @param $xid
-     * @throws DbException
-     * @internal param TransactionID $string from beginTransaction
      */
     public function rollBack($xid)
     {

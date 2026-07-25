@@ -20,7 +20,8 @@
 
     <div id="content" class="home">
         {% if content %}{{ content }}{% endif %}
-        <div vue-entry="CoreHome.ReportingPage"></div>
+        <div vue-entry="CoreHome.ReportingPage"
+             groups-without-tracking-requirement="{{ groupsWithoutTrackingRequirement|default([])|json_encode|e('html_attr') }}"></div>
     </div>
     <div class="clear"></div>
 

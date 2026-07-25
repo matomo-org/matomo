@@ -220,11 +220,9 @@ class API extends \Piwik\Plugin\API
 
         $patternType = Common::unsanitizeInputValue($patternType);
 
-        $this->checkPatternIsValid($patternType, $pattern, $matchAttribute);
-        $name = $this->checkName($name);
-        $pattern = $this->checkPattern($pattern, $matchAttribute);
         $patternType = $this->checkPatternType($patternType, $matchAttribute);
-        $description = $this->checkDescription($description);
+        $pattern = $this->checkPattern($pattern, $matchAttribute);
+        $this->checkPatternIsValid($patternType, $pattern, $matchAttribute);
 
         $revenue = Common::forceDotAsSeparatorForDecimalPoint((float)$revenue);
 
@@ -293,8 +291,6 @@ class API extends \Piwik\Plugin\API
 
         $patternType = Common::unsanitizeInputValue($patternType);
 
-        $name = $this->checkName($name);
-        $description = $this->checkDescription($description);
         $patternType = $this->checkPatternType($patternType, $matchAttribute);
         $pattern = $this->checkPattern($pattern, $matchAttribute);
         $this->checkPatternIsValid($patternType, $pattern, $matchAttribute);
@@ -365,16 +361,6 @@ class API extends \Piwik\Plugin\API
         }
     }
 
-    private function checkName(string $name): string
-    {
-        return urldecode($name);
-    }
-
-    private function checkDescription(string $description): string
-    {
-        return urldecode($description);
-    }
-
     /**
      * @param string|null $patternType
      * @param string $matchAttribute
@@ -406,6 +392,10 @@ class API extends \Piwik\Plugin\API
      */
     private function checkPattern($pattern, $matchAttribute): string
     {
+        if ($matchAttribute !== 'manually' && $pattern === '') {
+            throw new \Exception(Piwik::translate('General_PleaseSpecifyValue', ['pattern']));
+        }
+
         if (
             in_array($matchAttribute, GoalManager::$NUMERIC_MATCH_ATTRIBUTES)
             && !is_numeric($pattern)
@@ -413,7 +403,7 @@ class API extends \Piwik\Plugin\API
             throw new \Exception("Invalid pattern for match attribute '$matchAttribute'. (got '$pattern', expected numeric value).");
         }
 
-        return urldecode($pattern);
+        return $pattern;
     }
 
     /**

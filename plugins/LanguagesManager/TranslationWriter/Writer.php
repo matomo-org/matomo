@@ -53,7 +53,7 @@ class Writer
     /**
      * Message why validation failed
      *
-     * @var string|null
+     * @var string|array|null
      */
     protected $validationMessage = null;
 

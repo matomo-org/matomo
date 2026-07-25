@@ -11,6 +11,7 @@ namespace Piwik\Plugins\CoreVisualizations\Visualizations;
 
 use Piwik\API\Request;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Metrics\Formatter as MetricFormatter;
@@ -19,6 +20,8 @@ use Piwik\Plugin\Report;
 use Piwik\Plugin\ReportsProvider;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\API\Filter\DataComparisonFilter;
+use Piwik\Plugins\CoreVisualizations\FeatureFlags\SparklinesRedesign;
+use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Piwik;
 use Piwik\SettingsPiwik;
 use Piwik\View;
@@ -29,7 +32,7 @@ use Piwik\View;
  * the sparklines are shown in one column.
  *
  * The sparklines view currently only supports requesting columns from the same API (the API method of the defining
- * report) via {Sparklines\Config::addSparklineMetric($columns = array('nb_visits', 'nb_unique_visitors'))}.
+ * report) via {Sparklines\Config::addSparklineMetric($columns = array('nb_visits', 'nb_uniq_visitors'))}.
  *
  * Example:
  * $view->config->addSparklineMetric('nb_visits'); // if an array of metrics given, they will be displayed comma separated
@@ -62,7 +65,6 @@ class Sparklines extends ViewDataTable
     }
 
     /**
-     * @see ViewDataTable::main()
      * @return mixed
      */
     public function render()
@@ -113,7 +115,17 @@ class Sparklines extends ViewDataTable
         $view->titleAttributes = $this->config->title_attributes;
         $view->footerMessage = $this->config->show_footer_message;
         $view->areSparklinesLinkable = $this->config->areSparklinesLinkable();
-        $view->isComparing = $this->isComparing();
+
+        // The redesigned Vue card grid (gated by the SparklinesRedesign feature flag) covers the
+        // no-comparison layout, two-date comparison, segment comparison, and segment + date
+        // comparison; comparing three or more dates stays on the legacy Twig layout.
+        $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
+        $comparisonMode = $this->getSupportedRedesignComparisonMode();
+        $view->useNewSparklinesGrid = $featureFlagManager->isFeatureActive(SparklinesRedesign::class)
+            && $comparisonMode !== null;
+        // Layout the grid should render: 'none', 'date', 'segment' or 'segmentDate'
+        // (see getSupportedRedesignComparisonMode()).
+        $view->sparklinesComparisonMode = $comparisonMode ?? 'none';
 
         $view->title = '';
         if ($this->config->show_title) {
@@ -121,6 +133,47 @@ class Sparklines extends ViewDataTable
         }
 
         return $view->render();
+    }
+
+    /**
+     * Which layout the redesigned Vue card grid should render for the current request, or null when
+     * the request is not supported and must fall back to the legacy Twig layout. Supported modes:
+     *
+     *  - 'none'        no comparison
+     *  - 'date'        comparison of exactly two dates (one extra compareDate), without segment comparison
+     *  - 'segment'     segment comparison of any number of segments over a single date
+     *  - 'segmentDate' segment comparison of any number of segments over exactly two dates (one extra
+     *                  compareDate)
+     *
+     * Comparing three or more dates stays on the legacy layout.
+     */
+    private function getSupportedRedesignComparisonMode(): ?string
+    {
+        if (!$this->isComparing()) {
+            return 'none';
+        }
+
+        $request = $this->getRequestArray();
+        $compareSegments = $request['compareSegments'] ?? [];
+        $compareDates = $request['compareDates'] ?? [];
+        $comparedDatesCount = is_array($compareDates) ? count($compareDates) : 0;
+
+        // Date comparison of exactly two dates (one extra compareDate), without segment comparison.
+        if (empty($compareSegments) && $comparedDatesCount === 1) {
+            return 'date';
+        }
+
+        // Segment comparison over a single date, without date comparison.
+        if (!empty($compareSegments) && $comparedDatesCount === 0) {
+            return 'segment';
+        }
+
+        // Segment comparison over exactly two dates (one extra compareDate): the combined mode.
+        if (!empty($compareSegments) && $comparedDatesCount === 1) {
+            return 'segmentDate';
+        }
+
+        return null;
     }
 
     /**
@@ -163,6 +216,7 @@ class Sparklines extends ViewDataTable
         $processedMetrics = Report::getProcessedMetricsForTable($data, $report);
         $metricFormatter = new MetricFormatter();
         $idSite = $this->getRequestArray()['idSite'] ?? false;
+        $metricTranslations = Metrics::getDefaultMetricTranslations();
 
         $firstRow = $data->getFirstRow();
         if ($firstRow) {
@@ -277,6 +331,7 @@ class Sparklines extends ViewDataTable
                             $metricInfo = [
                                 'value' => $formattedValue,
                                 'description' => $compareDescriptions[$i],
+                                'title' => $metricTranslations[$columnToUse[$i]] ?? $compareDescriptions[$i],
                                 'group' => $periodPretty,
                             ];
 
@@ -343,6 +398,7 @@ class Sparklines extends ViewDataTable
                             $idSite
                         ),
                         'description' => $descriptions[$i],
+                        'title' => $metricTranslations[$column[$i]] ?? $descriptions[$i],
                     ];
 
                     $metrics[] = $newMetric;

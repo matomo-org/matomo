@@ -1,5 +1,6 @@
 {
     "CoreHome": {
+        "AIInsights": "AI Insights",
         "CategoryNoData": "No data in this category. Try to \"Include all population\".",
         "ChangeVisualization": "Change visualization",
         "ChangePeriod": "Change period",

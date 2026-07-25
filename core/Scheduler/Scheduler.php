@@ -301,8 +301,8 @@ class Scheduler
      * @param string $className The name of the class that contains the scheduled task method.
      * @param string $methodName The name of the scheduled task method.
      * @param string|null $methodParameter Optional method parameter.
-     * @return mixed int|bool The time in milliseconds when the scheduled task will be executed
-     *                        next or false if it is not scheduled to run.
+     * @return int|false The time (in seconds since the Unix epoch) when the scheduled task will be
+     *                   executed next, or false if it is not scheduled to run.
      */
     public function getScheduledTimeForMethod($className, $methodName, $methodParameter = null)
     {

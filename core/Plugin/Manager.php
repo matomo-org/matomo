@@ -636,7 +636,7 @@ class Manager
      * @param string $componentName     The name of the component you want to look for. In case you request a
      *                                  component named 'Menu' it'll look for a file named 'Menu.php' within the
      *                                  root of all plugin folders that implement a class named
-     *                                  Piwik\Plugin\$PluginName\Menu.
+     *                                  Piwik\Plugins\$PluginName\Menu.
      * @param string $expectedSubclass  If not empty, a check will be performed whether a found file extends the
      *                                  given subclass. If the requested file exists but does not extend this class
      *                                  a warning will be shown to advice a developer to extend this certain class.
@@ -1049,7 +1049,8 @@ class Manager
     }
 
     /**
-     * Returns an array containing the plugins class names (eg. 'UserCountry' and NOT 'UserCountry')
+     * Returns an array containing the names of all loaded plugins (eg. 'UserCountry' and NOT the
+     * fully qualified class name '\Piwik\Plugins\UserCountry\UserCountry').
      *
      * @return list<string>
      */

@@ -36,8 +36,7 @@ class Rss extends Renderer
     /**
      * Computes the output for the given data table
      *
-     * @param DataTable|DataTable\Map $table
-     * @throws Exception
+     * @param DataTable\Map $table Must be keyed by 'date'.
      */
     protected function renderTable($table): string
     {

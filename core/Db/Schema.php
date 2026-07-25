@@ -274,7 +274,7 @@ class Schema extends Singleton
      * Tables will only be optimized if the `[General] enable_sql_optimize_queries` INI config option is
      * set to **1**.
      *
-     * @param string|array $tables The name of the table to optimize or an array of tables to optimize.
+     * @param array $tables The name of the table to optimize or an array of tables to optimize.
      *                             Table names must be prefixed (see {@link Piwik\Common::prefixTable()}).
      * @param bool $force If true, the `OPTIMIZE TABLE` query will be run even if InnoDB tables are being used.
      */

@@ -44,7 +44,7 @@ class Config extends \Piwik\ViewDataTable\Config
 
     /**
      * Adds possibility to set html attributes on the sparklines title / headline.
-     * @var string
+     * @var array
      */
     public $title_attributes = array();
 
@@ -56,7 +56,7 @@ class Config extends \Piwik\ViewDataTable\Config
     /**
      * If supplied, this function is used to compute the evolution percent displayed next to non-comparison sparkline views.
      *
-     * The function is passed three parameters:
+     * The function is passed two parameters:
      * - an array mapping column names with column values ['column' => 123]
      * - an array of \Piwik\Plugin\Metrics objects available for the report - useful for formatting values
      *
@@ -296,6 +296,9 @@ class Config extends \Piwik\ViewDataTable\Config
             'url' => $this->getUrlSparkline($requestParamsForSparkline),
             'tooltip' => $tooltip,
             'metrics' => $groupedMetrics,
+            // Ordered `metrics` group keys = the Vue grid's column order. Sent as an array because JS
+            // re-sorts integer-like object keys (eg year "2025"/"2026"), losing the backend order.
+            'metricsOrder' => array_map('strval', array_keys($groupedMetrics)),
             'order' => $this->getSparklineOrder($order),
             'title' => $title,
             'group' => $group,

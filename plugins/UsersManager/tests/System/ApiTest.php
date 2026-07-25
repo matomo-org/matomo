@@ -9,6 +9,8 @@
 
 namespace Piwik\Plugins\UsersManager\tests\System;
 
+use Piwik\Access;
+use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\API\Request;
 use Piwik\Piwik;
@@ -45,6 +47,19 @@ class ApiTest extends SystemTestCase
 
         $this->api = API::getInstance();
         $this->model = new Model();
+
+        Access::getInstance()->setSuperUserAccess(true);
+    }
+
+    private function setAnonymousUser(): void
+    {
+        $auth = StaticContainer::get('Piwik\Auth');
+        $auth->setLogin('anonymous');
+        $auth->setTokenAuth('anonymous');
+        $auth->setPasswordHash(null);
+
+        Access::getInstance()->setSuperUserAccess(false);
+        Access::getInstance()->reloadAccess($auth);
     }
 
     /**
@@ -136,6 +151,7 @@ class ApiTest extends SystemTestCase
         $this->api->updateUser('login6', $password);
         API::$UPDATE_USER_REQUIRE_PASSWORD_CONFIRMATION = true;
         $this->model->deleteAllTokensForUser('login6');
+        $this->setAnonymousUser();
         $token = $this->api->createAppSpecificTokenAuth('login6', $password, 'test');
         $this->assertMd5($token);
 
@@ -146,6 +162,7 @@ class ApiTest extends SystemTestCase
     public function testCreateAppSpecificTokenAuth()
     {
         $this->model->deleteAllTokensForUser('login1');
+        $this->setAnonymousUser();
         $token = $this->api->createAppSpecificTokenAuth('login1', 'password', 'test');
         $this->assertMd5($token);
 
@@ -156,6 +173,7 @@ class ApiTest extends SystemTestCase
     public function testCreateAppSpecificTokenAuthCanLoginByEmail()
     {
         $this->model->deleteAllTokensForUser('login1');
+        $this->setAnonymousUser();
         $token = $this->api->createAppSpecificTokenAuth('login1@example.com', 'password', 'test');
         $this->assertMd5($token);
 
@@ -169,6 +187,7 @@ class ApiTest extends SystemTestCase
         $this->expectExceptionMessage('The current password you entered is not correct.');
 
         $this->model->deleteAllTokensForUser('login1');
+        $this->setAnonymousUser();
         $this->api->createAppSpecificTokenAuth('login1', 'foooooo', 'test');
     }
 
@@ -178,6 +197,7 @@ class ApiTest extends SystemTestCase
 
         $expiryDate = (new \DateTime())->modify('+1 day');
 
+        $this->setAnonymousUser();
         $token = $this->api->createAppSpecificTokenAuth('login1', 'password', 'test', $expiryDate->format('Y-m-d H:i:s'));
         $this->assertMd5($token);
 
@@ -192,6 +212,7 @@ class ApiTest extends SystemTestCase
     {
         $expireInHours = 48;
         $this->model->deleteAllTokensForUser('login1');
+        $this->setAnonymousUser();
         $token = $this->api->createAppSpecificTokenAuth('login1', 'password', 'test', null, $expireInHours);
         $this->assertMd5($token);
 

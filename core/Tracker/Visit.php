@@ -60,7 +60,7 @@ class Visit implements VisitInterface
     protected $requestProcessors;
 
     /**
-     * @var VisitProperties
+     * @var VisitProperties|null
      */
     protected $visitProperties;
 
@@ -466,7 +466,7 @@ class Visit implements VisitInterface
     /**
      * @param VisitDimension[] $dimensions
      * @param string $hook
-     * @param array|null $valuesToUpdate If null, $this->visitorInfo will be updated
+     * @param array|null $valuesToUpdate If null, $this->visitProperties will be updated
      *
      * @return array|null The updated $valuesToUpdate or null if no $valuesToUpdate given
      */

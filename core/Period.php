@@ -134,7 +134,7 @@ abstract class Period
 
         $periods = $this->getSubperiods();
 
-        /** @var $currentPeriod Period */
+        /** @var Period $currentPeriod */
         $currentPeriod = $periods[0];
         while ($currentPeriod->getNumberOfSubperiods() > 0) {
             $periods       = $currentPeriod->getSubperiods();
@@ -179,7 +179,7 @@ abstract class Period
 
         $periods = $this->getSubperiods();
 
-        /** @var $currentPeriod Period */
+        /** @var Period $currentPeriod */
         $currentPeriod = $periods[count($periods) - 1];
         while ($currentPeriod->getNumberOfSubperiods() > 0) {
             $periods       = $currentPeriod->getSubperiods();

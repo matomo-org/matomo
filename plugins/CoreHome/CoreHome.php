@@ -164,6 +164,8 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/vue/src/PasswordStrength/PasswordStrength.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/EntityDuplicator/EntityDuplicatorModal.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/EntityDuplicator/EntityDuplicatorAction.less";
+        $stylesheets[] = "plugins/CoreHome/vue/src/ReportHeader/ReportHeader.less";
+        $stylesheets[] = "plugins/CoreHome/vue/src/WidgetControls/WidgetControls.less";
     }
 
     public function getJsFiles(&$jsFiles)
@@ -428,6 +430,13 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_CopyX';
         $translationKeys[] = 'CoreHome_CopyXDescription';
         $translationKeys[] = 'CoreHome_WebAnalyticsReports';
+        $translationKeys[] = 'General_Widget';
+        // Widget-control actions rendered by the shared CoreHome.WidgetControls component. Registered
+        // here (not in Dashboard) so the component works wherever CoreHome is loaded.
+        $translationKeys[] = 'General_Refresh';
+        $translationKeys[] = 'Dashboard_Minimise';
+        $translationKeys[] = 'Dashboard_Maximise';
+        $translationKeys[] = 'General_Close';
 
         // add admin menu translations
         if (

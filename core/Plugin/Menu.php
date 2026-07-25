@@ -18,6 +18,7 @@ use Piwik\Period;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\UsersManager\UserPreferences;
 use Piwik\Site;
+use Piwik\Url;
 
 /**
  * Base class of all plugin menu providers. Plugins that define their own menu items can extend this class to easily
@@ -177,6 +178,25 @@ class Menu
             $urlModuleAction,
             $additionalParams
         );
+    }
+
+    /**
+     * Builds a top-menu link that opens a reporting section (group) in the reporting single-page-app.
+     * The section is placed in the URL hash rather than the query string, so it does not leak into the
+     * other top-menu links (which are built from the current query string).
+     *
+     * @param array  $params query parameters for the link (e.g. from urlForModuleActionWithDefaultUserParams)
+     * @param string $group  reporting section id (empty string for the default section)
+     */
+    protected function urlForReportingSection(array $params, string $group): string
+    {
+        $hashParams = array_merge(
+            array_intersect_key($params, array_flip(['idSite', 'period', 'date'])),
+            ['group' => $group]
+        );
+
+        return 'index.php?' . Url::getQueryStringFromParameters($params)
+            . '#?' . Url::getQueryStringFromParameters($hashParams);
     }
 
     /**

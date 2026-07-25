@@ -32,6 +32,7 @@
         "SetAsDefaultWidgetsConfirm": "Apakah Anda yakin ingin menyetel pemilihan widget dan tata letak dasbor saat ini sebagai templat dasbor bawaan?",
         "SetAsDefaultWidgetsConfirmHelp": "Pemilihan widget dan tata letak kolom dasbor ini akan digunakan saat pengguna membuat dasbor baru atau saat fitur \"%s\" digunakan.",
         "TopLinkTooltip": "Lihat laporan Analisis Web untuk %s.",
+        "TopMenuTitle": "Analitik",
         "WidgetNotFound": "Widget tidak ditemukan",
         "WidgetPreview": "Pratinjau widget"
     }

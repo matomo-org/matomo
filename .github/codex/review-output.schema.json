@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "review_body_markdown",
+    "diagnostics_markdown",
+    "highest_severity",
+    "findings",
+    "inline_comments",
+    "unplaced_findings"
+  ],
+  "properties": {
+    "review_body_markdown": {
+      "type": "string",
+      "minLength": 1
+    },
+    "diagnostics_markdown": {
+      "type": "string",
+      "minLength": 1
+    },
+    "highest_severity": {
+      "type": "string",
+      "enum": ["none", "low", "medium", "blocking"]
+    },
+    "findings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["blocking", "medium", "low_polish"],
+      "properties": {
+        "blocking": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "medium": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "low_polish": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "inline_comments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "line", "side", "severity", "body", "rule_source"],
+        "properties": {
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "line": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "side": {
+            "type": "string",
+            "enum": ["LEFT", "RIGHT"]
+          },
+          "severity": {
+            "type": "string",
+            "enum": ["low", "medium", "blocking"]
+          },
+          "body": {
+            "type": "string",
+            "minLength": 1
+          },
+          "rule_source": {
+            "type": ["string", "null"]
+          }
+        }
+      }
+    },
+    "unplaced_findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["severity", "body", "path", "line"],
+        "properties": {
+          "severity": {
+            "type": "string",
+            "enum": ["low", "medium", "blocking"]
+          },
+          "body": {
+            "type": "string",
+            "minLength": 1
+          },
+          "path": {
+            "type": ["string", "null"]
+          },
+          "line": {
+            "type": ["integer", "null"],
+            "minimum": 1
+          }
+        }
+      }
+    }
+  }
+}

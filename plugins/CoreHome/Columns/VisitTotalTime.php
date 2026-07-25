@@ -51,7 +51,7 @@ class VisitTotalTime extends VisitDimension
 
     /**
      * @param Action|null $action
-     * @return int
+     * @return int|false
      */
     public function onConvertedVisit(Request $request, Visitor $visitor, $action)
     {

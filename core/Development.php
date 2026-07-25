@@ -59,7 +59,7 @@ class Development
 
     /**
      * Formats a method call depending on the given class/object and method name. It does not perform any checks whether
-     * does actually exists.
+     * the method actually exists.
      *
      * @param string|object $classOrObject
      * @param string $method
@@ -99,14 +99,14 @@ class Development
     }
 
     /**
-     * Checks whether the given method is actually callable on the given class/object if the development mode is
-     * enabled. En error will be triggered if the method does not exist or is not callable (public) containing a useful
-     * error message for the developer.
+     * Checks whether the given method actually exists on the given class/object if the development mode is
+     * enabled. An error will be triggered if the method does not exist, containing a useful error message
+     * for the developer.
      *
      * @param string|object $classOrObject
      * @param string $method
-     * @param string $prefixMessageIfError You can prepend any string to the error message in case the method is not
-     *                                     callable.
+     * @param string $prefixMessageIfError You can prepend any string to the error message in case the method
+     *                                     does not exist.
      */
     public static function checkMethodExists($classOrObject, $method, $prefixMessageIfError)
     {

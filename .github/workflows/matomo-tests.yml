@@ -1,7 +1,4 @@
 # Action for running tests
-# This file has been automatically created.
-# To recreate it you can run this command
-# ./console generate:test-action --php-versions="7.2,8.2"
 
 name: Matomo Tests
 
@@ -77,7 +74,7 @@ jobs:
             mysql-engine: 'Mysql'
             mysql-version: '8.0'
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           lfs: false
           persist-credentials: false
@@ -108,7 +105,7 @@ jobs:
         type: [ 'SystemTestsCore' ]
         environment: *php-environments
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           lfs: false
           persist-credentials: false
@@ -138,7 +135,7 @@ jobs:
         bucket: &php-buckets [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
         environment: *php-environments
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           lfs: false
           persist-credentials: false
@@ -180,7 +177,7 @@ jobs:
         bucket: *php-buckets
         environment: *php-environments
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           lfs: false
           persist-credentials: false
@@ -222,7 +219,7 @@ jobs:
         bucket: *php-buckets
         environment: *php-environments
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           lfs: false
           persist-credentials: false
@@ -259,7 +256,7 @@ jobs:
           testomatio-force-report: ${{ contains('schedule,push', github.event_name) && github.run_attempt < 2 }}
       - name: Upload bucket processed-files for aggregation
         if: ${{ always() && matrix.environment.php == '7.2' }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: system-plugin-bucket-${{ matrix.bucket }}
           path: matomo/plugins/*/tests/System/processed/
@@ -276,7 +273,7 @@ jobs:
     # cancelled outright.
     if: ${{ always() && needs.PHP-system-plugins.result != 'cancelled' }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           lfs: false
           persist-credentials: false
@@ -284,7 +281,7 @@ jobs:
           path: matomo
           ref: ${{ inputs.ref || github.ref }}
       - name: Download per-bucket processed files
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           pattern: system-plugin-bucket-*
           merge-multiple: true
@@ -307,7 +304,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           lfs: false
           persist-credentials: false
@@ -324,7 +321,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           lfs: false
           persist-credentials: false
@@ -343,7 +340,7 @@ jobs:
       plugin_matrix: ${{ steps.generate.outputs.plugin_matrix }}
       plugin_count: ${{ steps.generate.outputs.plugin_count }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           lfs: false
           persist-credentials: false
@@ -358,14 +355,7 @@ jobs:
 
           plugins=$(find plugins -mindepth 2 -path '*/tests/UI/*_spec.js' \
             ! -path '*/node_modules/*' ! -path '*/vendor/*' \
-            | awk -F/ '{print $2}' | sort -u \
-            | while read -r plugin; do
-                [ -n "$plugin" ] || continue
-
-                if [ ! -e "plugins/$plugin/.git" ]; then
-                  printf '%s\n' "$plugin"
-                fi
-              done)
+            | awk -F/ '{print $2}' | sort -u)
 
           matrix=$(printf '%s\n' "$plugins" \
             | jq -Rsc 'split("\n") | map(select(length>0) | {plugin: .}) | {include: .}')
@@ -384,13 +374,26 @@ jobs:
       max-parallel: &ui-max-parallel ${{ fromJson(vars.MATOMO_UI_MAX_PARALLEL || '10') }}
       matrix: ${{ fromJson(needs.generate-plugin-ui-matrices.outputs.plugin_matrix) }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
-          lfs: true
+          lfs: false
           persist-credentials: false
           submodules: true
           path: matomo
           ref: ${{ inputs.ref || github.ref }}
+      - name: Limit LFS fetch to this plugin's screenshots
+        working-directory: matomo
+        env:
+          PLUGIN: ${{ matrix.plugin }}
+        run: |
+          # Persisted so github-action-tests' own `git lfs pull --exclude=` stays scoped too
+          git config lfs.fetchinclude "plugins/$PLUGIN/tests/UI/expected-screenshots/*"
+          git lfs pull --include "plugins/$PLUGIN/tests/UI/expected-screenshots/*" --exclude=
+
+          # Submodule plugins store expected screenshots in their own repo's LFS.
+          if [ -e "plugins/$PLUGIN/.git" ]; then
+            git -C "plugins/$PLUGIN" lfs pull --include "tests/UI/expected-screenshots/*" --exclude=
+          fi
       - name: running tests
         uses: matomo-org/github-action-tests@main
         with:
@@ -411,13 +414,19 @@ jobs:
       matrix:
         part: [ 0, 1, 2, 3, 4, 5 ]
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
-          lfs: true
+          lfs: false
           persist-credentials: false
           submodules: true
           path: matomo
           ref: ${{ inputs.ref || github.ref }}
+      - name: Limit LFS fetch to core screenshots
+        working-directory: matomo
+        run: |
+          # Persisted so github-action-tests' own `git lfs pull --exclude=` stays scoped too
+          git config lfs.fetchinclude "tests/UI/expected-screenshots/*"
+          git lfs pull --include "tests/UI/expected-screenshots/*" --exclude=
       - name: running tests
         uses: matomo-org/github-action-tests@main
         with:

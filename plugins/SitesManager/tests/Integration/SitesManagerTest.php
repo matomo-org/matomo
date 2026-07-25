@@ -80,100 +80,64 @@ class SitesManagerTest extends IntegrationTestCase
         $this->assertEquals($expected, $archive->getRememberedArchivedReportsThatShouldBeInvalidated());
     }
 
-    /**
-     * @dataProvider getTestDataForRedirectDashboard
-     */
-    public function testRedirectDashboardToWelcomePageDoesNothingIfModuleActionAreIncorrect($module, $action)
+    public function testShouldShowEmptySiteMessageReturnsFalseIfThereIsNoIdSite()
     {
-        $originalModule = $module;
-        $originalAction = $action;
-        $params = [];
-
-        Piwik::postEvent('Request.dispatch', [&$module, &$action, &$params]);
-
-        $this->assertEquals($originalModule, $module);
-        $this->assertEquals($originalAction, $action);
+        $this->assertFalse(SitesManager::shouldShowEmptySiteMessage(0));
     }
 
-    public function getTestDataForRedirectDashboard()
+    public function testShouldShowEmptySiteMessageReturnsFalseIfAVisitWasTrackedInThePast()
     {
-        return [
-            ['CoreHome', 'someothermethod'],
-            ['SitesManager', 'index'],
-        ];
-    }
-
-    public function testRedirectDashboardToWelcomePageDoesNothingIfThereIsNoIdSiteParam()
-    {
-        $module = 'CoreHome';
-        $action = 'index';
-        $params = [];
-
-        Piwik::postEvent('Request.dispatch', [&$module, &$action, &$params]);
-
-        $this->assertEquals('CoreHome', $module);
-        $this->assertEquals('index', $action);
-    }
-
-    public function testRedirectDashboardToWelcomePageDoesNothingIfAVisitWasTrackedInThePast()
-    {
-        $module = 'CoreHome';
-        $action = 'index';
-        $params = [];
-
-        $_GET['idSite'] = $this->siteId;
-
         $tracker = Fixture::getTracker($this->siteId, '2015-02-04 04:12:35');
         $tracker->setUrl('http://example.com/');
         Fixture::checkResponse($tracker->doTrackPageView('a test title'));
 
         $this->assertEquals(false, Option::get('SitesManagerHadTrafficInPast_' . $this->siteId));
 
-        Piwik::postEvent('Request.dispatch', [&$module, &$action, &$params]);
+        $this->assertFalse(SitesManager::shouldShowEmptySiteMessage($this->siteId));
 
+        // tracked traffic is remembered, so the screen stays hidden even if visits are later purged
         $this->assertEquals('1', Option::get('SitesManagerHadTrafficInPast_' . $this->siteId));
-
-        $this->assertEquals('CoreHome', $module);
-        $this->assertEquals('index', $action);
     }
 
-    public function testRedirectDashboardToWelcomePageDoesNothingIfAVisitWasTrackedAndWasLaterPurged()
+    public function testShouldShowEmptySiteMessageReturnsFalseIfAVisitWasTrackedAndWasLaterPurged()
     {
-        $module = 'CoreHome';
-        $action = 'index';
-        $params = [];
-
-        $_GET['idSite'] = $this->siteId;
-
         $tracker = Fixture::getTracker($this->siteId, '2015-02-04 04:12:35');
         $tracker->setUrl('http://example.com/');
         Fixture::checkResponse($tracker->doTrackPageView('a test title'));
 
-        Piwik::postEvent('Request.dispatch', [&$module, &$action, &$params]);
+        $this->assertFalse(SitesManager::shouldShowEmptySiteMessage($this->siteId));
 
         Db::exec('TRUNCATE ' . Common::prefixTable('log_visit'));
 
-        $module = 'CoreHome';
-        $action = 'index';
-
-        $this->assertEquals('CoreHome', $module);
-        $this->assertEquals('index', $action);
+        $this->assertFalse(SitesManager::shouldShowEmptySiteMessage($this->siteId));
     }
 
-    public function testRedirectDashboardToWelcomePageRedirectsIfThereIsNoDataAndAppropriateParams()
+    public function testShouldShowEmptySiteMessageReturnsTrueIfThereIsNoData()
     {
-        $module = 'CoreHome';
-        $action = 'index';
-        $params = [];
-
-        $_GET['idSite'] = $this->siteId;
-
         \Zend_Session::$_unitTestEnabled = true;
 
-        Piwik::postEvent('Request.dispatch', [&$module, &$action, &$params]);
+        $this->assertTrue(SitesManager::shouldShowEmptySiteMessage($this->siteId));
+    }
 
-        $this->assertEquals('SitesManager', $module);
-        $this->assertEquals('siteWithoutData', $action);
+    public function testShouldShowEmptySiteMessageReturnsFalseIfTheMessageWasDismissed()
+    {
+        \Zend_Session::$_unitTestEnabled = true;
+
+        $session = new \Piwik\Session\SessionNamespace('siteWithoutData');
+        $session->ignoreMessage = true;
+
+        $this->assertFalse(SitesManager::shouldShowEmptySiteMessage($this->siteId));
+    }
+
+    public function testShouldShowEmptySiteMessageReturnsFalseIfTheEmptySiteCheckIsDisabled()
+    {
+        \Zend_Session::$_unitTestEnabled = true;
+
+        Piwik::addAction('SitesManager.shouldPerformEmptySiteCheck', function (&$shouldPerformEmptySiteCheck) {
+            $shouldPerformEmptySiteCheck = false;
+        });
+
+        $this->assertFalse(SitesManager::shouldShowEmptySiteMessage($this->siteId));
     }
 
     protected static function configureFixture($fixture)

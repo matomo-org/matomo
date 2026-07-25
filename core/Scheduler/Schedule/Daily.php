@@ -19,7 +19,7 @@ use Exception;
 class Daily extends Schedule
 {
     /**
-     * @see ScheduledTime::getRescheduledTime
+     * @see Schedule::getRescheduledTime
      * @return int
      */
     public function getRescheduledTime()
@@ -44,7 +44,7 @@ class Daily extends Schedule
     }
 
     /**
-     * @see ScheduledTime::setDay
+     * @see Schedule::setDay
      * @param int $_day
      * @throws \Exception
      * @ignore

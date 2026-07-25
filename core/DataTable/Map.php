@@ -429,7 +429,7 @@ class Map implements DataTableInterface
         if ($firstChild instanceof Map) {
             $result = $firstChild->getEmptyClone();
 
-            /** @var $subDataTableMap Map */
+            /** @var Map $subDataTableMap */
             foreach ($this->getDataTables() as $label => $subDataTableMap) {
                 foreach ($subDataTableMap->getDataTables() as $innerLabel => $subTable) {
                     if (!isset($result->array[$innerLabel])) {

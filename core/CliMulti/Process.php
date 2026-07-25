@@ -187,9 +187,10 @@ class Process
     }
 
     /**
-     * Tests only
+     * Writes the given content to the process' PID file.
+     *
      * @internal
-     * @param $content
+     * @param string|int $content
      */
     public function writePidFileContent($content)
     {

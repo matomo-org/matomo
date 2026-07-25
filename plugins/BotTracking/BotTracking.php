@@ -17,6 +17,7 @@ use Piwik\Plugin;
 use Piwik\Plugins\BotTracking\Dao\BotRequestsDao;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Plugins\BotTracking\Metrics as BotMetrics;
+use Piwik\Plugins\BotTracking\Reports\AIChatbotsRealTimeWidgets;
 use Piwik\Tracker\Request;
 
 /**
@@ -51,6 +52,7 @@ class BotTracking extends Plugin
             'Metrics.getDefaultMetricTranslations'              => 'addMetricTranslations',
             'Metrics.getDefaultMetricDocumentationTranslations' => 'addMetricDocumentationTranslations',
             'Metrics.getDefaultMetricSemanticTypes'             => 'addMetricSemanticTypes',
+            'API.addGlossaryItems'                              => 'addGlossaryItems',
         ];
     }
 
@@ -157,6 +159,23 @@ class BotTracking extends Plugin
     public function addMetricSemanticTypes(array &$types): void
     {
         $types = array_merge($types, BotMetrics::getMetricSemanticTypes());
+    }
+
+    /**
+     * @param array<string, array{title: string, entries: array<int, array<string, string>>}> $glossaryItems
+     */
+    public function addGlossaryItems(array &$glossaryItems): void
+    {
+        Piwik::checkUserHasSomeViewAccess();
+
+        $category = Piwik::translate('General_AIAssistants');
+
+        foreach (AIChatbotsRealTimeWidgets::getAllWidgets() as $widget) {
+            $glossaryItems['reports']['entries'][] = [
+                'name'          => sprintf('%s (%s)', Piwik::translate($widget['name']), $category),
+                'documentation' => Piwik::translate($widget['documentation']),
+            ];
+        }
     }
 
     /**

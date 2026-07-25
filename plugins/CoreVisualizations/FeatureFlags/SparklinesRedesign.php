@@ -13,10 +13,10 @@ namespace Piwik\Plugins\CoreVisualizations\FeatureFlags;
 
 use Piwik\Plugins\FeatureFlags\FeatureFlagInterface;
 
-class PlotLinesTweaks implements FeatureFlagInterface
+class SparklinesRedesign implements FeatureFlagInterface
 {
     public function getName(): string
     {
-        return 'PlotLinesTweaks';
+        return 'SparklinesRedesign';
     }
 }

@@ -52,11 +52,11 @@ class LabelFilter extends DataTableManipulator
      * for the recursive search. If the label is not recursive, these parameters
      * are not needed.
      *
-     * @param string $labels the labels to search for
+     * @param string|array $labels the label(s) to search for
      * @param DataTable $dataTable the data table to be filtered
      * @param bool $addLabelIndex Whether to add label_index metadata describing which
      *                            label a row corresponds to.
-     * @return DataTable
+     * @return DataTable\Map|DataTable
      */
     public function filter($labels, $dataTable, $addLabelIndex = false)
     {
@@ -116,7 +116,8 @@ class LabelFilter extends DataTableManipulator
     /**
      * Clean up request for ResponseBuilder to behave correctly
      *
-     * @param $request
+     * @param array $request
+     * @return array
      */
     protected function manipulateSubtableRequest($request)
     {
@@ -176,10 +177,10 @@ class LabelFilter extends DataTableManipulator
     }
 
     /**
-     * Filter a DataTable instance. See @filter for more info.
+     * Filter a DataTable instance. See {@see filter()} for more info.
      *
-     * @param DataTable\Simple|DataTable\Map $dataTable
-     * @return mixed
+     * @param DataTable $dataTable
+     * @return DataTable
      */
     protected function manipulateDataTable($dataTable)
     {

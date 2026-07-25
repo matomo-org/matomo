@@ -20,8 +20,7 @@ use Piwik\UrlHelper;
  * This class represents a search on the site.
  * - Its name is the search keyword
  * - by default the URL is not recorded (since it's not used)
- * - tracks site search result count and site search category as custom variables
- *
+ * - tracks site search result count and site search category
  */
 class ActionSiteSearch extends Action
 {
