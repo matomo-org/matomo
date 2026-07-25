@@ -156,6 +156,7 @@ class TrackerTest extends IntegrationTestCase
         $t->setUserAgent('Gemini-Deep-Research/1.0');
         $t->setUrl('https://matomo.org/faq/123');
         $t->setCustomTrackingParameter('recMode', '1');
+
         Fixture::checkResponse($t->doTrackPageView(''));
 
         $tableName = BotRequestsDao::getPrefixedTableName();
