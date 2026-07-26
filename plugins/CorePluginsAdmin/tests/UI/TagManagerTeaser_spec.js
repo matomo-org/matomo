@@ -11,6 +11,16 @@ describe("TagManagerTeaser", function () {
     var urlBase = '?module=CorePluginsAdmin&action=tagManagerTeaser&idSite=1&period=day&date=2019-01-03',
         pageSelector = '.activateTagManager';
 
+    before(function () {
+        testEnvironment.overrideConfig('FeatureFlags', 'SparklinesRedesign_feature', 'enabled');
+        testEnvironment.save();
+    });
+
+    after(function () {
+        delete testEnvironment.configOverride.FeatureFlags;
+        testEnvironment.save();
+    });
+
     function setPluginsToLoad(plugins)
     {
         testEnvironment.pluginsToLoad = plugins;
