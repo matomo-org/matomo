@@ -52,8 +52,6 @@
     <div
       class="debugViewDetailsTabs"
       role="tablist"
-      @keydown.left.prevent="toggleTab()"
-      @keydown.right.prevent="toggleTab()"
     >
       <button
         type="button"
@@ -65,6 +63,8 @@
         class="debugViewDetailsTab"
         :class="{ 'debugViewDetailsTab--active': activeTab === 'params' }"
         @click="activeTab = 'params'"
+        @keydown.left.prevent="toggleTab()"
+        @keydown.right.prevent="toggleTab()"
       >{{ translate('DebugView_ParametersTab') }}</button>
       <button
         type="button"
@@ -76,6 +76,8 @@
         class="debugViewDetailsTab"
         :class="{ 'debugViewDetailsTab--active': activeTab === 'processed' }"
         @click="activeTab = 'processed'"
+        @keydown.left.prevent="toggleTab()"
+        @keydown.right.prevent="toggleTab()"
       >{{ translate('DebugView_ProcessedTab') }}</button>
     </div>
     <div

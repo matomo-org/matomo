@@ -42,7 +42,10 @@ describe("DebugView", function () {
                     + ' .debugViewHitGap { display: none !important; }'
                     // the macOS overlay scrollbar intermittently flashes into
                     // the capture area when a poll repaints the page
-                    + ' ::-webkit-scrollbar { display: none !important; }';
+                    + ' ::-webkit-scrollbar { display: none !important; }'
+                    // notifications (https hint, incompatible-plugin warnings)
+                    // are environment noise, not part of what these tests pin
+                    + ' #notificationContainer { display: none !important; }';
                 document.head.appendChild(style);
             }
 

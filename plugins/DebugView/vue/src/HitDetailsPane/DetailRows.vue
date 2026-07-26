@@ -46,7 +46,7 @@ import { defineComponent, PropType } from 'vue';
 
 const MAX_DEPTH = 4;
 
-interface DetailEntry {
+export interface DetailEntry {
   key: string;
   text: string;
   children: Record<string, unknown>|null;
