@@ -47,7 +47,7 @@ class RequestCapture
     public function shouldCapture(Request $request): bool
     {
         $parameters = $request->getRawParams();
-        if (!is_array($parameters) || empty($parameters)) {
+        if (empty($parameters)) {
             return false;
         }
 
