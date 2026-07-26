@@ -1,0 +1,63 @@
+.debugViewStream {
+  .debugViewStreamList {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .debugViewStreamItem { margin: 0; }
+
+  .debugViewHitGap {
+    padding: 2px 0 2px 46px;
+    font-size: 11px;
+    color: @theme-color-text-lighter;
+  }
+
+  .debugViewHitRow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 8px 12px;
+    background: none;
+    border: 0;
+    border-radius: 6px;
+    color: @theme-color-text;
+    font-size: 13px;
+    text-align: left;
+    cursor: pointer;
+
+    &:hover { background: @theme-color-background-tinyContrast; }
+
+    &:focus-visible { outline: 2px solid @theme-color-focus-ring; outline-offset: -2px; }
+
+    &--selected { background: @theme-color-background-lowContrast; }
+  }
+
+  .debugViewHitTitle {
+    flex: auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .debugViewHitTime {
+    flex: none;
+    color: @theme-color-text-light;
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  // stream enter animation for new hits
+  .debugViewHitAnim-enter-active { transition: opacity 0.4s ease, transform 0.4s ease; }
+
+  .debugViewHitAnim-enter-from { opacity: 0; transform: translateY(-8px); }
+
+  .debugViewHitAnim-move { transition: transform 0.4s ease; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .debugViewHitAnim-enter-active,
+    .debugViewHitAnim-move { transition: none; }
+  }
+}

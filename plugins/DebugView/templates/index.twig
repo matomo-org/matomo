@@ -1,0 +1,14 @@
+{% extends 'admin.twig' %}
+
+{% set title %}{{ 'DebugView_DebugView'|translate }}{% endset %}
+
+{% block topcontrols %}
+    {% include "@CoreHome/_siteSelectHeader.twig" %}
+{% endblock %}
+
+{% block content %}
+    <div vue-entry="DebugView.DebugViewPage"
+         id-site="{{ idSite|json_encode }}"
+         refresh-interval="{{ refreshInterval|json_encode }}"
+         last-minutes="{{ lastMinutes|json_encode }}"></div>
+{% endblock %}

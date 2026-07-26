@@ -1,0 +1,523 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<hits>
+		<row>
+			<idRawRequest>1</idRawRequest>
+			<idVisit>1</idVisit>
+			<idLinkVa>1</idLinkVa>
+			
+			
+			<type>pageview</type>
+			<title>First Debug Page</title>
+			<subtitle>http://example.org/sub/page</subtitle>
+			<trackingParams>
+				<idsite>1</idsite>
+				<rec>1</rec>
+				<apiv>1</apiv>
+				
+				<cip>156.5.3.2</cip>
+				
+				
+				<fla>1</fla>
+				<java>1</java>
+				<qt>0</qt>
+				<realp>0</realp>
+				<pdf>0</pdf>
+				<wma>0</wma>
+				<ag>0</ag>
+				
+				
+				
+				<res>1024x768</res>
+				<cookie>1</cookie>
+				<cid>0123456789abcdef</cid>
+				<url>http://example.org/sub/page</url>
+				<urlref />
+				
+				<debug>1</debug>
+				<action_name>First Debug Page</action_name>
+				<token_auth>__redacted__</token_auth>
+			</trackingParams>
+			<trackingParamsDefaults>
+				
+				<browserLanguage>fr</browserLanguage>
+				<clientHints>
+				</clientHints>
+				
+			</trackingParamsDefaults>
+			<trackingParamsOther>
+				<isAuthenticated>1</isAuthenticated>
+			</trackingParamsOther>
+			<isBot>0</isBot>
+			<botName />
+		</row>
+		<row>
+			<idRawRequest>2</idRawRequest>
+			<idVisit>1</idVisit>
+			<idLinkVa />
+			
+			
+			<type>ping</type>
+			<title>http://example.org/sub/page</title>
+			<subtitle>http://example.org/sub/page</subtitle>
+			<trackingParams>
+				<idsite>1</idsite>
+				<rec>1</rec>
+				<apiv>1</apiv>
+				
+				<cip>156.5.3.2</cip>
+				
+				
+				<fla>1</fla>
+				<java>1</java>
+				<qt>0</qt>
+				<realp>0</realp>
+				<pdf>0</pdf>
+				<wma>0</wma>
+				<ag>0</ag>
+				
+				
+				
+				<res>1024x768</res>
+				<cookie>1</cookie>
+				<cid>0123456789abcdef</cid>
+				<url>http://example.org/sub/page</url>
+				<urlref />
+				
+				<debug>1</debug>
+				<ping>1</ping>
+				<token_auth>__redacted__</token_auth>
+			</trackingParams>
+			<trackingParamsDefaults>
+				
+				<browserLanguage>fr</browserLanguage>
+				<clientHints>
+				</clientHints>
+				
+			</trackingParamsDefaults>
+			<trackingParamsOther>
+				<isAuthenticated>1</isAuthenticated>
+			</trackingParamsOther>
+			<isBot>0</isBot>
+			<botName />
+		</row>
+		<row>
+			<idRawRequest>3</idRawRequest>
+			<idVisit>1</idVisit>
+			<idLinkVa>2</idLinkVa>
+			
+			
+			<type>event</type>
+			<title>Category – click – label</title>
+			<subtitle>http://example.org/sub/page</subtitle>
+			<trackingParams>
+				<idsite>1</idsite>
+				<rec>1</rec>
+				<apiv>1</apiv>
+				
+				<cip>156.5.3.2</cip>
+				
+				
+				<fla>1</fla>
+				<java>1</java>
+				<qt>0</qt>
+				<realp>0</realp>
+				<pdf>0</pdf>
+				<wma>0</wma>
+				<ag>0</ag>
+				
+				
+				
+				<res>1024x768</res>
+				<cookie>1</cookie>
+				<cid>0123456789abcdef</cid>
+				<url>http://example.org/sub/page</url>
+				<urlref />
+				
+				<debug>1</debug>
+				<e_c>Category</e_c>
+				<e_a>click</e_a>
+				<e_n>label</e_n>
+				<e_v>7</e_v>
+				<token_auth>__redacted__</token_auth>
+			</trackingParams>
+			<trackingParamsDefaults>
+				
+				<browserLanguage>fr</browserLanguage>
+				<clientHints>
+				</clientHints>
+				
+			</trackingParamsDefaults>
+			<trackingParamsOther>
+				<isAuthenticated>1</isAuthenticated>
+			</trackingParamsOther>
+			<isBot>0</isBot>
+			<botName />
+		</row>
+		<row>
+			<idRawRequest>4</idRawRequest>
+			<idVisit>1</idVisit>
+			<idLinkVa>3</idLinkVa>
+			
+			
+			<type>search</type>
+			<title>keyword</title>
+			<subtitle>searchcat</subtitle>
+			<trackingParams>
+				<idsite>1</idsite>
+				<rec>1</rec>
+				<apiv>1</apiv>
+				
+				<cip>156.5.3.2</cip>
+				
+				
+				<fla>1</fla>
+				<java>1</java>
+				<qt>0</qt>
+				<realp>0</realp>
+				<pdf>0</pdf>
+				<wma>0</wma>
+				<ag>0</ag>
+				
+				
+				
+				<res>1024x768</res>
+				<cookie>1</cookie>
+				<cid>0123456789abcdef</cid>
+				<url>http://example.org/sub/page</url>
+				<urlref />
+				
+				<debug>1</debug>
+				<search>keyword</search>
+				<search_cat>searchcat</search_cat>
+				<search_count>2</search_count>
+				<token_auth>__redacted__</token_auth>
+			</trackingParams>
+			<trackingParamsDefaults>
+				
+				<browserLanguage>fr</browserLanguage>
+				<clientHints>
+				</clientHints>
+				
+			</trackingParamsDefaults>
+			<trackingParamsOther>
+				<isAuthenticated>1</isAuthenticated>
+			</trackingParamsOther>
+			<isBot>0</isBot>
+			<botName />
+		</row>
+		<row>
+			<idRawRequest>5</idRawRequest>
+			<idVisit>1</idVisit>
+			<idLinkVa>4</idLinkVa>
+			
+			
+			<type>outlink</type>
+			<title>http://example.org/sub/page</title>
+			<subtitle>http://external.example/partner-site</subtitle>
+			<trackingParams>
+				<idsite>1</idsite>
+				<rec>1</rec>
+				<apiv>1</apiv>
+				
+				<cip>156.5.3.2</cip>
+				
+				
+				<fla>1</fla>
+				<java>1</java>
+				<qt>0</qt>
+				<realp>0</realp>
+				<pdf>0</pdf>
+				<wma>0</wma>
+				<ag>0</ag>
+				
+				
+				
+				<res>1024x768</res>
+				<cookie>1</cookie>
+				<cid>0123456789abcdef</cid>
+				<url>http://example.org/sub/page</url>
+				<urlref />
+				
+				<debug>1</debug>
+				<link>http://external.example/partner-site</link>
+				<token_auth>__redacted__</token_auth>
+			</trackingParams>
+			<trackingParamsDefaults>
+				
+				<browserLanguage>fr</browserLanguage>
+				<clientHints>
+				</clientHints>
+				
+			</trackingParamsDefaults>
+			<trackingParamsOther>
+				<isAuthenticated>1</isAuthenticated>
+			</trackingParamsOther>
+			<isBot>0</isBot>
+			<botName />
+		</row>
+		<row>
+			<idRawRequest>6</idRawRequest>
+			<idVisit>1</idVisit>
+			<idLinkVa>5</idLinkVa>
+			
+			
+			<type>download</type>
+			<title>http://example.org/sub/page</title>
+			<subtitle>http://example.org/files/manual.pdf</subtitle>
+			<trackingParams>
+				<idsite>1</idsite>
+				<rec>1</rec>
+				<apiv>1</apiv>
+				
+				<cip>156.5.3.2</cip>
+				
+				
+				<fla>1</fla>
+				<java>1</java>
+				<qt>0</qt>
+				<realp>0</realp>
+				<pdf>0</pdf>
+				<wma>0</wma>
+				<ag>0</ag>
+				
+				
+				
+				<res>1024x768</res>
+				<cookie>1</cookie>
+				<cid>0123456789abcdef</cid>
+				<url>http://example.org/sub/page</url>
+				<urlref />
+				
+				<debug>1</debug>
+				<download>http://example.org/files/manual.pdf</download>
+				<token_auth>__redacted__</token_auth>
+			</trackingParams>
+			<trackingParamsDefaults>
+				
+				<browserLanguage>fr</browserLanguage>
+				<clientHints>
+				</clientHints>
+				
+			</trackingParamsDefaults>
+			<trackingParamsOther>
+				<isAuthenticated>1</isAuthenticated>
+			</trackingParamsOther>
+			<isBot>0</isBot>
+			<botName />
+		</row>
+		<row>
+			<idRawRequest>7</idRawRequest>
+			<idVisit>1</idVisit>
+			<idLinkVa>6</idLinkVa>
+			
+			
+			<type>content</type>
+			<title>Ad Banner – click</title>
+			<subtitle>http://example.org/sub/page</subtitle>
+			<trackingParams>
+				<idsite>1</idsite>
+				<rec>1</rec>
+				<apiv>1</apiv>
+				
+				<cip>156.5.3.2</cip>
+				
+				
+				<fla>1</fla>
+				<java>1</java>
+				<qt>0</qt>
+				<realp>0</realp>
+				<pdf>0</pdf>
+				<wma>0</wma>
+				<ag>0</ag>
+				
+				
+				
+				<res>1024x768</res>
+				<cookie>1</cookie>
+				<cid>0123456789abcdef</cid>
+				<url>http://example.org/sub/page</url>
+				<urlref />
+				
+				<debug>1</debug>
+				<c_i>click</c_i>
+				<c_n>Ad Banner</c_n>
+				<c_p>banner.jpg</c_p>
+				<c_t>http://ad.example/landing</c_t>
+				<token_auth>__redacted__</token_auth>
+			</trackingParams>
+			<trackingParamsDefaults>
+				
+				<browserLanguage>fr</browserLanguage>
+				<clientHints>
+				</clientHints>
+				
+			</trackingParamsDefaults>
+			<trackingParamsOther>
+				<isAuthenticated>1</isAuthenticated>
+			</trackingParamsOther>
+			<isBot>0</isBot>
+			<botName />
+		</row>
+		<row>
+			<idRawRequest>8</idRawRequest>
+			<idVisit>1</idVisit>
+			<idLinkVa />
+			
+			
+			<type>goal</type>
+			<title>Goal conversion #1</title>
+			<subtitle>http://example.org/sub/page</subtitle>
+			<trackingParams>
+				<idsite>1</idsite>
+				<rec>1</rec>
+				<apiv>1</apiv>
+				
+				<cip>156.5.3.2</cip>
+				
+				
+				<fla>1</fla>
+				<java>1</java>
+				<qt>0</qt>
+				<realp>0</realp>
+				<pdf>0</pdf>
+				<wma>0</wma>
+				<ag>0</ag>
+				
+				
+				
+				<res>1024x768</res>
+				<cookie>1</cookie>
+				<cid>0123456789abcdef</cid>
+				<url>http://example.org/sub/page</url>
+				<urlref />
+				
+				<debug>1</debug>
+				<idgoal>1</idgoal>
+				<revenue>42.5</revenue>
+				<token_auth>__redacted__</token_auth>
+			</trackingParams>
+			<trackingParamsDefaults>
+				
+				<browserLanguage>fr</browserLanguage>
+				<clientHints>
+				</clientHints>
+				
+			</trackingParamsDefaults>
+			<trackingParamsOther>
+				<isAuthenticated>1</isAuthenticated>
+			</trackingParamsOther>
+			<isBot>0</isBot>
+			<botName />
+		</row>
+		<row>
+			<idRawRequest>9</idRawRequest>
+			<idVisit>1</idVisit>
+			<idLinkVa />
+			
+			
+			<type>ecommerceOrder</type>
+			<title>ORDER-1</title>
+			<subtitle>http://example.org/sub/page</subtitle>
+			<trackingParams>
+				<idsite>1</idsite>
+				<rec>1</rec>
+				<apiv>1</apiv>
+				
+				<cip>156.5.3.2</cip>
+				
+				
+				<fla>1</fla>
+				<java>1</java>
+				<qt>0</qt>
+				<realp>0</realp>
+				<pdf>0</pdf>
+				<wma>0</wma>
+				<ag>0</ag>
+				
+				
+				
+				<res>1024x768</res>
+				<cookie>1</cookie>
+				<cid>0123456789abcdef</cid>
+				<url>http://example.org/sub/page</url>
+				<urlref />
+				
+				<debug>1</debug>
+				<idgoal>0</idgoal>
+				<revenue>100.5</revenue>
+				<ec_st>90.5</ec_st>
+				<ec_tx>5.5</ec_tx>
+				<ec_sh>4.5</ec_sh>
+				<ec_items>[[&quot;SKU-1&quot;,&quot;Product One&quot;,&quot;Category A&quot;,&quot;45.25&quot;,2]]</ec_items>
+				<ec_id>ORDER-1</ec_id>
+				<token_auth>__redacted__</token_auth>
+			</trackingParams>
+			<trackingParamsDefaults>
+				
+				<browserLanguage>fr</browserLanguage>
+				<clientHints>
+				</clientHints>
+				
+			</trackingParamsDefaults>
+			<trackingParamsOther>
+				<isAuthenticated>1</isAuthenticated>
+			</trackingParamsOther>
+			<isBot>0</isBot>
+			<botName />
+		</row>
+		<row>
+			<idRawRequest>10</idRawRequest>
+			<idVisit />
+			<idLinkVa />
+			
+			
+			<type>pageview</type>
+			<title>Bot Crawl</title>
+			<subtitle>http://example.org/robots-view</subtitle>
+			<trackingParams>
+				<idsite>1</idsite>
+				<rec>1</rec>
+				<apiv>1</apiv>
+				
+				<cip>156.5.3.2</cip>
+				
+				
+				<fla>1</fla>
+				<java>1</java>
+				<qt>0</qt>
+				<realp>0</realp>
+				<pdf>0</pdf>
+				<wma>0</wma>
+				<ag>0</ag>
+				
+				
+				
+				<res>1024x768</res>
+				<cookie>1</cookie>
+				<cid>0123456789abcdef</cid>
+				<url>http://example.org/robots-view</url>
+				<urlref />
+				
+				<debug>1</debug>
+				<recMode>2</recMode>
+				<action_name>Bot Crawl</action_name>
+				<token_auth>__redacted__</token_auth>
+			</trackingParams>
+			<trackingParamsDefaults>
+				
+				<browserLanguage>fr</browserLanguage>
+				<clientHints>
+				</clientHints>
+				
+			</trackingParamsDefaults>
+			<trackingParamsOther>
+				<isAuthenticated>1</isAuthenticated>
+			</trackingParamsOther>
+			<isBot>1</isBot>
+			<botName>Googlebot</botName>
+		</row>
+	</hits>
+	
+	<timezone>UTC</timezone>
+</result>

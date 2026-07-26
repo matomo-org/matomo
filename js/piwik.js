@@ -2247,6 +2247,10 @@ if (typeof window.Matomo !== 'object') {
                 // This string is appended to the Tracker URL Request (eg. to send data that is not handled by the existing setters/getters)
                 configAppendToTrackingUrl = '',
 
+                // When enabled, every tracking request is sent with the additional debug=1 parameter
+                // so its raw parameters show up in Matomo's Debug View (Administration > Diagnostics)
+                configDebugMode = false,
+
                 // setPagePerformanceTiming sets this manually for SPAs
                 customPagePerformanceTiming = '',
 
@@ -4235,6 +4239,10 @@ if (typeof window.Matomo !== 'object') {
                     request += '&' + configAppendToTrackingUrl;
                 }
 
+                if (configDebugMode) {
+                    request += '&debug=1';
+                }
+
                 if (wasJsTrackingCodeInstallCheckParamProvided()) {
                     request += '&tracker_install_check=' + trackerInstallCheckNonce;
                 }
@@ -5643,6 +5651,31 @@ if (typeof window.Matomo !== 'object') {
              */
             this.appendToTrackingUrl = function (queryString) {
                 configAppendToTrackingUrl = queryString;
+            };
+
+            /**
+             * Enables debug mode: every following tracking request is sent with the
+             * additional debug=1 parameter, so its raw parameters are shown in
+             * Matomo's Debug View (Administration > Diagnostics > Debug View)
+             * while that page is open.
+             */
+            this.enableDebugMode = function () {
+                configDebugMode = true;
+            };
+
+            /**
+             * Disables debug mode again, see enableDebugMode.
+             */
+            this.disableDebugMode = function () {
+                configDebugMode = false;
+            };
+
+            /**
+             * Detect whether debug mode is enabled or not. See enableDebugMode();
+             * @returns {boolean}
+             */
+            this.isDebugModeEnabled = function () {
+              return configDebugMode;
             };
 
             /**
@@ -7627,7 +7660,7 @@ if (typeof window.Matomo !== 'object') {
          * Constructor
          ************************************************************/
 
-        var applyFirst = ['addTracker', 'enableFileTracking', 'forgetCookieConsentGiven', 'requireCookieConsent', 'disableBrowserFeatureDetection', 'disableCampaignParameters', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSessionCookieTimeout', 'setVisitorCookieTimeout', 'setCookieNamePrefix', 'setCookieSameSite', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setReferrerUrlMaxLength', 'setDomains', 'setUserId', 'setVisitorId', 'setSiteId', 'alwaysUseSendBeacon', 'disableAlwaysUseSendBeacon', 'enableLinkTracking', 'setCookieConsentGiven', 'requireConsent', 'setConsentGiven', 'disablePerformanceTracking', 'setPagePerformanceTiming', 'setExcludedQueryParams', 'setExcludedReferrers'];
+        var applyFirst = ['addTracker', 'enableDebugMode', 'enableFileTracking', 'forgetCookieConsentGiven', 'requireCookieConsent', 'disableBrowserFeatureDetection', 'disableCampaignParameters', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSessionCookieTimeout', 'setVisitorCookieTimeout', 'setCookieNamePrefix', 'setCookieSameSite', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setReferrerUrlMaxLength', 'setDomains', 'setUserId', 'setVisitorId', 'setSiteId', 'alwaysUseSendBeacon', 'disableAlwaysUseSendBeacon', 'enableLinkTracking', 'setCookieConsentGiven', 'requireConsent', 'setConsentGiven', 'disablePerformanceTracking', 'setPagePerformanceTiming', 'setExcludedQueryParams', 'setExcludedReferrers'];
 
         function createFirstTracker(matomoUrl, siteId)
         {

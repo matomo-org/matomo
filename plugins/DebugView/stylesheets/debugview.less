@@ -1,0 +1,95 @@
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+// Blocks shared by more than one component (stream rows and the details pane
+// header): the hit type icon circle and the bot badge. Everything owned by a
+// single component lives in that component's sibling .less file.
+
+.debugViewHitIconCircle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: safe center;
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 15px;
+  background: rgba(97, 97, 97, 0.12);
+  color: #616161;
+
+  &--pageview { background: rgba(2, 119, 189, 0.12); color: #0277bd; }
+  &--event { background: rgba(239, 108, 0, 0.12); color: #ef6c00; }
+  &--goal { background: rgba(46, 125, 50, 0.12); color: #2e7d32; }
+  &--download { background: rgba(0, 105, 92, 0.12); color: #00695c; }
+  &--outlink { background: rgba(106, 27, 154, 0.12); color: #6a1b9a; }
+  &--search { background: rgba(40, 53, 147, 0.12); color: #283593; }
+  &--ecommerceOrder { background: rgba(173, 20, 87, 0.12); color: #ad1457; }
+  &--ecommerceAbandonedCart { background: rgba(216, 67, 21, 0.12); color: #d84315; }
+  &--content { background: rgba(0, 131, 143, 0.12); color: #00838f; }
+  &--ping { background: rgba(198, 40, 40, 0.12); color: #c62828; }
+  &--media { background: rgba(69, 90, 100, 0.12); color: #455a64; }
+  &--form { background: rgba(85, 139, 47, 0.12); color: #558b2f; }
+  &--sessionRecording { background: rgba(21, 101, 192, 0.12); color: #1565c0; }
+  &--crash { background: rgba(191, 54, 12, 0.12); color: #bf360c; }
+  &--other { background: rgba(97, 97, 97, 0.12); color: #616161; }
+
+  // image icons: the same assets the visits log shows for these actions
+  img {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+  }
+}
+
+.debugViewBotBadge {
+  flex: none;
+  padding: 1px 7px;
+  border-radius: 9px;
+  border: 1px solid #bdbdbd;
+  color: #616161;
+  font-size: 11px;
+  line-height: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+// dark mode: literal color overrides only (never LESS color functions on
+// theme vars); @theme-color-* values adapt automatically
+.inDarkMode({
+  .debugViewHitIconCircle {
+    background: rgba(189, 189, 189, 0.16);
+    color: #bdbdbd;
+
+    &--pageview { background: rgba(79, 195, 247, 0.16); color: #4fc3f7; }
+    &--event { background: rgba(255, 183, 77, 0.16); color: #ffb74d; }
+    &--goal { background: rgba(129, 199, 132, 0.16); color: #81c784; }
+    &--download { background: rgba(77, 182, 172, 0.16); color: #4db6ac; }
+    &--outlink { background: rgba(206, 147, 216, 0.16); color: #ce93d8; }
+    &--search { background: rgba(159, 168, 218, 0.16); color: #9fa8da; }
+    &--ecommerceOrder { background: rgba(244, 143, 177, 0.16); color: #f48fb1; }
+    &--ecommerceAbandonedCart { background: rgba(255, 171, 145, 0.16); color: #ffab91; }
+    &--content { background: rgba(77, 208, 225, 0.16); color: #4dd0e1; }
+    &--ping { background: rgba(239, 154, 154, 0.16); color: #ef9a9a; }
+    &--media { background: rgba(144, 164, 174, 0.16); color: #90a4ae; }
+    &--form { background: rgba(174, 213, 129, 0.16); color: #aed581; }
+    &--sessionRecording { background: rgba(100, 181, 246, 0.16); color: #64b5f6; }
+    &--crash { background: rgba(255, 138, 101, 0.16); color: #ff8a65; }
+    &--other { background: rgba(189, 189, 189, 0.16); color: #bdbdbd; }
+
+    // keep the visits-log image icons readable on dark surfaces
+    img {
+      background: rgba(255, 255, 255, 0.85);
+      border-radius: 3px;
+      padding: 1px;
+    }
+  }
+
+  .debugViewBotBadge {
+    border-color: #757575;
+    color: #bdbdbd;
+  }
+});

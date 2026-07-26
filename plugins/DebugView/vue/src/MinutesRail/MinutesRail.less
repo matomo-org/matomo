@@ -1,0 +1,112 @@
+.debugViewMinutesRail {
+  flex: 0 0 110px;
+  width: 110px;
+
+  .debugViewPendingBadge {
+    display: flex;
+    align-items: center;
+    justify-content: safe center;
+    width: 44px;
+    height: 44px;
+    margin: 0 0 14px -2px;
+    border: 2px solid #43a047;
+    border-radius: 50%;
+    color: @theme-color-text;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1.1;
+    text-align: center;
+    overflow: hidden;
+
+    &--paused { border-color: #f57c00; }
+  }
+
+  .debugViewMinutesList {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 19px;
+      top: 6px;
+      bottom: 6px;
+      width: 2px;
+      background: @theme-color-background-lowContrast;
+    }
+  }
+
+  .debugViewMinuteItem {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 3px 0;
+    position: relative;
+  }
+
+  .debugViewMinuteDot {
+    position: relative;
+    z-index: 1;
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: safe center;
+    width: 14px;
+    height: 14px;
+    margin-left: 13px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: @theme-color-background-lowContrast;
+    cursor: default;
+
+    &--has-hits {
+      width: 28px;
+      height: 28px;
+      margin-left: 6px;
+      background: #0277bd;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    &--current { box-shadow: 0 0 0 3px rgba(67, 160, 71, 0.4); }
+
+    &--selected { box-shadow: 0 0 0 3px rgba(245, 124, 0, 0.55); }
+
+    &:focus-visible { outline: 2px solid @theme-color-focus-ring; outline-offset: 2px; }
+  }
+
+  .debugViewMinuteCount { pointer-events: none; }
+
+  .debugViewMinuteLabel {
+    font-size: 11px;
+    color: @theme-color-text-light;
+    white-space: nowrap;
+  }
+
+  .inDarkMode({
+    .debugViewPendingBadge {
+      border-color: #66bb6a;
+
+      &--paused { border-color: #ffb74d; }
+    }
+
+    .debugViewMinuteDot {
+      &--has-hits { background: #1565c0; color: #fff; }
+
+      &--current { box-shadow: 0 0 0 3px rgba(102, 187, 106, 0.45); }
+
+      &--selected { box-shadow: 0 0 0 3px rgba(255, 183, 77, 0.55); }
+    }
+  });
+
+  @media (max-width: 960px) {
+    & { flex-basis: 70px; width: 70px; }
+
+    .debugViewMinuteItem:not(.debugViewMinuteItem--has-hits) .debugViewMinuteLabel { display: none; }
+  }
+}

@@ -1,0 +1,119 @@
+@keyframes debugViewPulse {
+  0% { box-shadow: 0 0 0 0 rgba(67, 160, 71, 0.45); }
+  70% { box-shadow: 0 0 0 8px rgba(67, 160, 71, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(67, 160, 71, 0); }
+}
+
+.debugViewPage {
+  .debugViewIntro {
+    color: @theme-color-text-light;
+    max-width: 60em;
+    margin: 0 0 16px;
+  }
+
+  .debugViewTopBar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin: 0 0 20px;
+  }
+
+  .debugViewLiveStatus {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .debugViewLiveDot {
+    display: inline-block;
+    flex: none;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #43a047;
+    animation: debugViewPulse 2s ease-out infinite;
+
+    &--paused { background: #9e9e9e; animation: none; }
+  }
+
+  .debugViewLiveText { font-size: 13px; color: @theme-color-text; }
+
+  .debugViewPauseButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: safe center;
+    flex: none;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    background: none;
+    border: 1px solid @theme-color-border;
+    border-radius: 50%;
+    color: @theme-color-text;
+    font-size: 14px;
+    cursor: pointer;
+
+    &:hover { background: @theme-color-background-tinyContrast; }
+
+    &:focus-visible { outline: 2px solid @theme-color-focus-ring; outline-offset: 1px; }
+  }
+
+  // layout: rail | stream | details
+  .debugViewLayout {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+    position: relative;
+  }
+
+  .debugViewStreamColumn { flex: auto; min-width: 0; }
+
+  .debugViewEmptyState {
+    // flex centering so every child (icon, headline, hint) shares the same
+    // axis even when core styles constrain paragraph widths
+    display: flex;
+    flex-direction: column;
+    align-items: safe center;
+    padding: 48px 24px;
+    text-align: center;
+    color: @theme-color-text-light;
+  }
+
+  .debugViewEmptyIcon {
+    display: block;
+    margin: 0 auto 16px;
+    font-size: 48px;
+    opacity: 0.35;
+  }
+
+  .debugViewEmptyHeadline {
+    display: flex;
+    align-items: center;
+    justify-content: safe center;
+    gap: 10px;
+    margin: 0 0 8px;
+    font-size: 16px;
+    color: @theme-color-text;
+  }
+
+  .debugViewEmptyHint {
+    max-width: 42em;
+    margin: 0 auto;
+    align-self: center;
+    font-size: 13px;
+  }
+
+  .inDarkMode({
+    .debugViewLiveDot {
+      background: #66bb6a;
+
+      &--paused { background: #757575; }
+    }
+  });
+
+  @media (prefers-reduced-motion: reduce) {
+    .debugViewLiveDot { animation: none; }
+  }
+}
