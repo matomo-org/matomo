@@ -30,6 +30,13 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * One Click Update now always downloads the update archive over HTTPS. The insecure "retry over HTTP" fallback screen and the `https` request parameter of the `CoreUpdater.oneClickUpdate` action have been removed, and the `$https` parameter of `Piwik\Plugins\CoreUpdater\Updater::updatePiwik()` and `Piwik\Plugins\CoreUpdater\Updater::getArchiveUrl()` has been removed. HTTP is only used when the `force_matomo_http_request` config option is enabled.
 * Several core controller actions that return JSON now declare a native `string` return type as part of adopting the new `#[Piwik\Http\JsonResponse]` attribute. A plugin that extends one of these controllers and overrides such an action must declare a compatible `string` return type and re-declare `#[Piwik\Http\JsonResponse]` (attributes are not inherited).
 
+### JavaScript Tracker
+
+#### New APIs
+* The methods `enableDebugMode`, `disableDebugMode` and `isDebugModeEnabled` have been added to the JavaScript
+  tracker. While debug mode is enabled, every tracking request carries the `debug=1` URL parameter, which makes the
+  request show up in the new Debug View (Administration > Diagnostic > Debug View) while that page is being watched.
+
 ### New APIs
 * A new `#[Piwik\Http\JsonResponse]` attribute can be applied to a plugin controller action to declare that it returns a JSON response. When present, Matomo (re-)sends the `Content-Type: application/json` header after the action has returned, so it can no longer be overwritten by output produced while the action builds its response (for example a rendered `Piwik\View`, which sends `text/html`). An action using the attribute must return the JSON string, must not send the header itself, and must not emit output (`echo`/`print`/`flush`) or call `exit`/`die` before returning — otherwise the response headers are committed first and the JSON `Content-Type` cannot be applied. The attribute is not inherited: a subclass overriding a JSON action must re-declare it. These requirements are enforced by PHPStan rules.
 
@@ -39,6 +46,10 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   (`force_api_session`) nor the acting user (`token_auth`); outside a session a nested request may still
   authenticate with its own `token_auth`, but may not change the session flag. A nested request whose
   parameters conflict with the outer request's authentication context aborts the whole bulk request.
+* Added the new `DebugView.getRecentHits` API method. It returns the tracking requests ("hits") received for a site
+  within the last minutes, served from the raw requests captured by the new Debug View feature. Only requests sent
+  with the `debug=1` URL parameter are captured, and capturing is only active while the method is being polled (the
+  first call arms it).
 
 ## Matomo 5.12.0
 

@@ -18,6 +18,7 @@
         "PageDescription": "Watch tracking requests arrive in real time. Select a site to see its incoming hits from the last 30 minutes. Note that excluded visits are currently not shown here, and Heatmap & Session Recording requests may not be shown either. Bot requests are shown and marked as such.",
         "ParametersTab": "Parameters",
         "Pause": "Pause",
+        "PluginDescription": "Debug your tracking setup by watching incoming tracking requests arrive in real time. Shows each debug-flagged request's raw parameters and how it was processed.",
         "PollingErrorMessage": "The last request for new hits failed. Retrying automatically…",
         "PollingErrorTitle": "Could not refresh the stream",
         "ProcessedAggregatedHint": "These details are updated over time by multiple tracking requests (for example media progress or form interaction updates). This request is one of them.",

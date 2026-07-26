@@ -80,6 +80,7 @@
     setExcludedQueryParams, setConversionAttributionFirstReferrer, tracker, request,
     disablePerformanceTracking, maq_confirm_opted_in,
     doNotTrack, setDoNotTrack, disableCampaignParameters, msDoNotTrack, getValuesFromVisitorIdCookie,
+    enableDebugMode, disableDebugMode, isDebugModeEnabled,
     enableCrossDomainLinking, disableCrossDomainLinking, isCrossDomainLinkingEnabled, setCrossDomainLinkingTimeout, getCrossDomainLinkingUrlParameter,
     addListener, enableLinkTracking, disableBrowserFeatureDetection, enableBrowserFeatureDetection, enableJSErrorTracking, setLinkTrackingTimer, getLinkTrackingTimer,
     enableHeartBeatTimer, disableHeartBeatTimer, killFrame, redirectFile, setCountPreRendered, setVisitStandardLength,
