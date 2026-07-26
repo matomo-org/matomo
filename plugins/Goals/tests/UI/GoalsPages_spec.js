@@ -8,13 +8,27 @@
  */
 
 describe("GoalsPages", function () {
+  before(function () {
+    testEnvironment.overrideConfig('FeatureFlags', 'SparklinesRedesign_feature', 'enabled');
+    testEnvironment.save();
+  });
+
+  after(function () {
+    delete testEnvironment.configOverride.FeatureFlags;
+    testEnvironment.save();
+  });
+
   var generalParams = 'idSite=1&period=year&date=2012-08-09',
     urlBaseGeneric = 'module=CoreHome&action=index&',
     urlBase = urlBaseGeneric + generalParams;
   const findSparkline = async function (text, childSelector = null) {
     await page.waitForFunction((sparklineText, selector) => {
       const sparkline = window.$('.sparkline').filter((index, element) => {
-        return window.$(element).text().toLowerCase().includes(sparklineText);
+        // The redesigned card deduplicates titles (e.g. "Revenue"), so a distinguishing label
+        // (e.g. "Revenue Left In Cart") may only appear in the evolution badge's title attribute.
+        const $el = window.$(element);
+        return $el.text().toLowerCase().includes(sparklineText)
+          || ($el.find('.evolutionBadge').attr('title') || '').toLowerCase().includes(sparklineText);
       }).first();
 
       if (!sparkline.length) {
@@ -26,7 +40,11 @@ describe("GoalsPages", function () {
 
     return page.evaluateHandle((sparklineText, selector) => {
       const sparkline = window.$('.sparkline').filter((index, element) => {
-        return window.$(element).text().toLowerCase().includes(sparklineText);
+        // The redesigned card deduplicates titles (e.g. "Revenue"), so a distinguishing label
+        // (e.g. "Revenue Left In Cart") may only appear in the evolution badge's title attribute.
+        const $el = window.$(element);
+        return $el.text().toLowerCase().includes(sparklineText)
+          || ($el.find('.evolutionBadge').attr('title') || '').toLowerCase().includes(sparklineText);
       }).first();
 
       return selector ? sparkline.find(selector).get(0) : sparkline.get(0);
@@ -64,10 +82,15 @@ describe("GoalsPages", function () {
     var monthParams = 'idSite=1&period=month&date=2012-01-09';
     await page.goto("?" + urlBase + "#?" + monthParams + "&category=Goals_Ecommerce&subcategory=General_Overview");
     await page.waitForNetworkIdle();
-    const element = await findSparkline('left in cart', '.metricEvolution:last');
-    await element.hover();
-    const tooltip = await page.waitForSelector('.ui-tooltip', { visible: true });
-    expect(await tooltip.screenshot()).to.matchImage('revenue_incart_tooltip');
+
+    // The redesigned evolution badge carries its comparison detail in a native title tooltip
+    // (there is no jQuery .ui-tooltip to screenshot), so assert the badge title text instead.
+    const badge = await findSparkline('left in cart', '.evolutionBadge');
+    const tooltip = await page.evaluate((element) => element.getAttribute('title'), badge);
+
+    expect(tooltip).to.contain('Revenue Left In Cart');
+    expect(tooltip).to.contain('January 2012');
+    expect(tooltip).to.contain('compared to');
   });
 
   it('should show the selected last year comparison period in an ecommerce sparkline tooltip', async function() {
@@ -75,13 +98,11 @@ describe("GoalsPages", function () {
     await page.goto("?" + urlBaseGeneric + compareMonthParams + "#?" + compareMonthParams + "&category=Goals_Ecommerce&subcategory=General_Overview");
     await page.waitForNetworkIdle();
 
-    const element = await findSparkline('left in cart', '.metricEvolution:last');
-    await element.hover();
-    await page.waitForSelector('.ui-tooltip', { visible: true });
-    const tooltipContent = await page.evaluate(() => $('.ui-tooltip:visible').text());
+    const badge = await findSparkline('left in cart', '.evolutionBadge');
+    const tooltip = await page.evaluate((element) => element.getAttribute('title'), badge);
 
-    expect(tooltipContent).to.contain('January 2012');
-    expect(tooltipContent).to.contain('January 2011');
+    expect(tooltip).to.contain('January 2012');
+    expect(tooltip).to.contain('January 2011');
   });
 
   it('should load the goals > overview page correctly', async function () {
@@ -148,9 +169,11 @@ describe("GoalsPages", function () {
     await page.waitForNetworkIdle();
 
     const sparklineImage = await findSparkline('left in cart', 'img');
-    const dataSrc = await page.evaluate((element) => element.getAttribute('data-src'), sparklineImage);
+    // The redesigned Sparkline component renders the chart <img> with a resolved src rather than
+    // the legacy lazy-loaded data-src attribute.
+    const imageSrc = await page.evaluate((element) => element.getAttribute('src'), sparklineImage);
 
-    expect(dataSrc).to.contain('idGoal=ecommerceAbandonedCart');
+    expect(imageSrc).to.contain('idGoal=ecommerceAbandonedCart');
 
     await page.goto("?" + urlBase + "#?" + generalParams + "&category=Goals_Goals&subcategory=1");
     await page.waitForNetworkIdle();

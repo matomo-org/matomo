@@ -12,6 +12,16 @@ describe("BotTracking", function () {
 
     this.fixture = "Piwik\\Plugins\\BotTracking\\tests\\Fixtures\\BotTraffic";
 
+    before(function () {
+        testEnvironment.overrideConfig('FeatureFlags', 'SparklinesRedesign_feature', 'enabled');
+        testEnvironment.save();
+    });
+
+    after(function () {
+        delete testEnvironment.configOverride.FeatureFlags;
+        testEnvironment.save();
+    });
+
     var generalParams = 'idSite=1&period=day&date=2025-02-02',
         urlBase = 'module=CoreHome&action=index&' + generalParams;
 
@@ -54,7 +64,7 @@ describe("BotTracking", function () {
 
         await page.mouse.move(0, 0);
 
-        const sparklines = await page.$$('.sparkline-metrics');
+        const sparklines = await page.$$('.metricValue');
         expect(sparklines.length).to.equal(8);
 
         var elem = await page.$('.pageWrap');
@@ -73,7 +83,7 @@ describe("BotTracking", function () {
         const availableMetrics = await page.$$('.metrics-picker__options input');
         expect(availableMetrics.length).to.equal(6);
 
-        const sparklines = await page.$$('.sparkline-metrics');
+        const sparklines = await page.$$('.metricValue');
         expect(sparklines.length).to.equal(6);
     });
 

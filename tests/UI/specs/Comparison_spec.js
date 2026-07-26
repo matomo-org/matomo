@@ -8,6 +8,16 @@
  */
 
 describe("Comparison", function () {
+    before(function () {
+        testEnvironment.overrideConfig('FeatureFlags', 'SparklinesRedesign_feature', 'enabled');
+        testEnvironment.save();
+    });
+
+    after(function () {
+        delete testEnvironment.configOverride.FeatureFlags;
+        testEnvironment.save();
+    });
+
     const generalParams = 'idSite=1&period=range&date=2012-01-12,2012-01-17',
         urlBase = 'module=CoreHome&action=index&' + generalParams,
         dashboardUrl = "?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=1",
@@ -44,8 +54,23 @@ describe("Comparison", function () {
         "moduleToWidgetize=CoreHome&actionToWidgetize=renderWidgetContainer&disableLink=1&widget=1&idSite=1&period=range&date=2012-01-12,2014-02-12&compareDates[]=2011-01-31,2013-02-31&comparePeriods[]=range"
     ;
 
+    // The widgetized sparklines grid renders a column of sparkline PNGs (loading="lazy", rendered
+    // asynchronously by the Vue cards). On a full-page capture the off-screen ones can still be
+    // undecoded when the shot fires, which makes the screenshot non-deterministic. Strip
+    // lazy-loading and wait for every sparkline image to decode before capturing.
+    async function waitForSparklineImages() {
+        await page.evaluate(function () {
+            return Promise.all(
+                Array.prototype.slice.call(document.querySelectorAll('img.sparklineImg')).map(function (img) {
+                    img.removeAttribute('loading');
+                    return img.decode ? img.decode().catch(function () {}) : Promise.resolve();
+                })
+            );
+        });
+    }
+
     async function getSparklineEvolutionForMetric(metricText) {
-        await page.waitForSelector('.sparkline .metricEvolution');
+        await page.waitForSelector('.sparkline .evolutionBadge');
 
         return page.evaluate(function (text) {
             function normalize(value) {
@@ -56,30 +81,41 @@ describe("Comparison", function () {
             var sparklines = Array.prototype.slice.call(document.querySelectorAll('.sparkline'));
 
             for (var i = 0; i < sparklines.length; i++) {
-                var metrics = Array.prototype.slice.call(sparklines[i].querySelectorAll('.sparkline-metrics'));
-
-                for (var j = 0; j < metrics.length; j++) {
-                    if (normalize(metrics[j].textContent).indexOf(textToFind) === -1) {
-                        continue;
-                    }
-
-                    var evolution = metrics[j].nextElementSibling;
-                    if (!evolution || !evolution.classList.contains('metricEvolution')) {
-                        continue;
-                    }
-
-                    var value = evolution.querySelector('strong');
-                    var image = evolution.querySelector('img');
-                    if (!value || !image) {
-                        continue;
-                    }
-
-                    return {
-                        className: value.className,
-                        image: image.getAttribute('src'),
-                        text: value.textContent.trim(),
-                    };
+                // The redesigned card exposes the metric name in its title (segment/date comparison)
+                // or the metric readout title (no comparison), not inline with the value.
+                var titleEl = sparklines[i].querySelector(
+                    '[class$="Card__title"], .sparklineDateComparison__title, .metricValue__title'
+                );
+                if (!titleEl || normalize(titleEl.textContent).indexOf(textToFind) === -1) {
+                    continue;
                 }
+
+                var badge = sparklines[i].querySelector('.evolutionBadge');
+                if (!badge) {
+                    continue;
+                }
+
+                // Direction comes from the sign of the badge's own percent readout: EvolutionBadge
+                // prepends '+' for an increase and keeps the leading minus (ASCII '-' or localised
+                // U+2212) for a decrease. Polarity (good/bad) is the evolutionBadge--positive /
+                // --negative modifier, checked separately in expectEvolutionPolarity().
+                var value = badge.querySelector('.evolutionBadge__value');
+                var valueText = value ? value.textContent.trim() : '';
+                var sign = valueText.charAt(0);
+                // U+2212 is the localised minus (fi/sv/et/...); the component keeps it for decreases.
+                var localisedMinus = String.fromCharCode(0x2212);
+                var direction = 'neutral';
+                if (sign === '+') {
+                    direction = 'up';
+                } else if (sign === '-' || sign === localisedMinus) {
+                    direction = 'down';
+                }
+
+                return {
+                    className: badge.className,
+                    direction: direction,
+                    text: valueText,
+                };
             }
 
             return null;
@@ -89,33 +125,27 @@ describe("Comparison", function () {
     function expectEvolutionPolarity(evolution, isLowerValueBetter) {
         expect(evolution).to.not.equal(null);
 
-        var isPositive = evolution.className.indexOf('positive-evolution') !== -1;
-        var isNegative = evolution.className.indexOf('negative-evolution') !== -1;
+        var isPositive = evolution.className.indexOf('evolutionBadge--positive') !== -1;
+        var isNegative = evolution.className.indexOf('evolutionBadge--negative') !== -1;
         expect(isPositive || isNegative).to.equal(true);
 
-        var isUp = evolution.image.indexOf('arrow_up') !== -1;
-        var isDown = evolution.image.indexOf('arrow_down') !== -1;
+        var isUp = evolution.direction === 'up';
+        var isDown = evolution.direction === 'down';
         expect(isUp || isDown).to.equal(true);
 
         if (isUp) {
             if (isLowerValueBetter) {
-                expect(evolution.className).to.contain('negative-evolution');
-                expect(evolution.image).to.contain('arrow_up_red.svg');
+                expect(evolution.className).to.contain('evolutionBadge--negative');
             } else {
-                expect(evolution.className).to.contain('positive-evolution');
-                expect(evolution.image).to.contain('arrow_up.svg');
-                expect(evolution.image).to.not.contain('arrow_up_red.svg');
+                expect(evolution.className).to.contain('evolutionBadge--positive');
             }
         }
 
         if (isDown) {
             if (isLowerValueBetter) {
-                expect(evolution.className).to.contain('positive-evolution');
-                expect(evolution.image).to.contain('arrow_down_green.svg');
+                expect(evolution.className).to.contain('evolutionBadge--positive');
             } else {
-                expect(evolution.className).to.contain('negative-evolution');
-                expect(evolution.image).to.contain('arrow_down.svg');
-                expect(evolution.image).to.not.contain('arrow_down_green.svg');
+                expect(evolution.className).to.contain('evolutionBadge--negative');
             }
         }
     }
@@ -370,6 +400,7 @@ describe("Comparison", function () {
     it('should load a widgetized sparklines visualization correctly when comparing a week with a small range', async () => {
         await page.goto(visitOverviewWidgetCompareWeekSmallRange);
         await page.waitForNetworkIdle();
+        await waitForSparklineImages();
         expect(await page.screenshot({ fullPage: true })).to.matchImage('visits_overview_widget_week_smallrange');
     });
 
@@ -389,17 +420,14 @@ describe("Comparison", function () {
         var visitsEvolution = await getSparklineEvolutionForMetric('visits');
         expectEvolutionPolarity(visitsEvolution, false);
 
-        var bounceEvolution = await getSparklineEvolutionForMetric('bounced');
+        var bounceEvolution = await getSparklineEvolutionForMetric('bounce rate');
         expectEvolutionPolarity(bounceEvolution, true);
     });
 
     it('should show evolution metrics correctly formatted in other language', async () => {
         await page.goto(visitOverviewSparklines + '&language=sv');
         await page.waitForNetworkIdle();
-        await page.evaluate(function(){
-            // replace all metric names with `metric name` to avoid test failures when metric translation changes
-            $('.sparkline-metrics').each(function(){ $(this).html($(this).find('strong').prop('outerHTML') + ' metric name') });
-        });
+        await waitForSparklineImages();
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('visits_overview_widget_sv');
     });

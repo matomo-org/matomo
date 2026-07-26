@@ -8,6 +8,16 @@
  */
 
 describe("MultiSitesBotTracking", function () {
+    before(function () {
+        testEnvironment.overrideConfig('FeatureFlags', 'SparklinesRedesign_feature', 'enabled');
+        testEnvironment.save();
+    });
+
+    after(function () {
+        delete testEnvironment.configOverride.FeatureFlags;
+        testEnvironment.save();
+    });
+
     this.fixture = "Piwik\\Plugins\\BotTracking\\tests\\Fixtures\\BotTraffic";
 
     const generalParams = 'idSite=1&period=range&date=2025-02-02,2025-02-06';

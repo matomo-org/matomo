@@ -44,12 +44,14 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             delete testEnvironment.idSitesViewAccess;
         }
         testEnvironment.testUseMockAuth = 1;
+        testEnvironment.overrideConfig('FeatureFlags', 'SparklinesRedesign_feature', 'enabled');
         testEnvironment.save();
     });
 
     after(function () {
         delete testEnvironment.queryParamOverride;
         delete testEnvironment.completeNoChallenge;
+        delete testEnvironment.configOverride.FeatureFlags;
         testEnvironment.testUseMockAuth = 1;
         testEnvironment.save();
     });
@@ -674,6 +676,9 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         });
 
         it('should load the config file page correctly', async function () {
+            // The SparklinesRedesign FeatureFlag override (set in beforeEach) would otherwise be
+            // listed on this diagnostics page; drop it so the config-file screenshot stays stable.
+            delete testEnvironment.configOverride.FeatureFlags;
             testEnvironment.configOverride.mail = {username: '<a href="test">value</a>'};
             testEnvironment.save();
             await page.goto("?" + generalParams + "&module=Diagnostics&action=configfile");
