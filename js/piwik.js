@@ -5676,7 +5676,7 @@ if (typeof window.Matomo !== 'object') {
              * @returns {boolean}
              */
             this.isDebugModeEnabled = function () {
-              return configDebugMode;
+                 return configDebugMode;
             };
 
             /**

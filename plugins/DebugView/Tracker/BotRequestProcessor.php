@@ -44,7 +44,7 @@ class BotRequestProcessor extends \Piwik\Tracker\BotRequestProcessor
                 );
             }
         } catch (\Exception $e) {
-            // avoid debug capturing break tracking
+            // avoid debug capturing breaking tracking
         }
 
         // this processor only captures debug data. The tracker ORs the return

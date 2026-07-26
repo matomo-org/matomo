@@ -73,7 +73,7 @@ class RawRequestProcessor extends RequestProcessor
                 $actionType
             );
         } catch (\Exception $e) {
-            // avoid debug capturing break tracking
+            // avoid debug capturing breaking tracking
         }
     }
 }

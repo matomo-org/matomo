@@ -35,7 +35,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 #### New APIs
 * The methods `enableDebugMode`, `disableDebugMode` and `isDebugModeEnabled` have been added to the JavaScript
   tracker. While debug mode is enabled, every tracking request carries the `debug=1` URL parameter, which makes the
-  request show up in the new Debug View (Administration > Diagnostic > Debug View) while that page is being watched.
+  request show up in the new Debug View (Administration > Diagnostics > Debug View) while that page is being watched.
 
 ### New APIs
 * A new `#[Piwik\Http\JsonResponse]` attribute can be applied to a plugin controller action to declare that it returns a JSON response. When present, Matomo (re-)sends the `Content-Type: application/json` header after the action has returned, so it can no longer be overwritten by output produced while the action builds its response (for example a rendered `Piwik\View`, which sends `text/html`). An action using the attribute must return the JSON string, must not send the header itself, and must not emit output (`echo`/`print`/`flush`) or call `exit`/`die` before returning — otherwise the response headers are committed first and the JSON `Content-Type` cannot be applied. The attribute is not inherited: a subclass overriding a JSON action must re-declare it. These requirements are enforced by PHPStan rules.

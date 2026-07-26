@@ -46,13 +46,6 @@ class HitFlattener
     ];
 
     /**
-     * Derives the hit type. The action type recorded by the tracker (the
-     * Tracker\Action subclass the request was handled by) wins for other
-     * plugins' request kinds; core requests are derived from the raw query
-     * parameters, following the tracker's own precedence for requests that
-     * carry several markers.
-     */
-    /**
      * Tracking parameters are attacker-controlled and PHP parses e.g.
      * e_c[]=x into an array — a stored array value must never reach scalar
      * string functions. Returns '' for any non-scalar value.
