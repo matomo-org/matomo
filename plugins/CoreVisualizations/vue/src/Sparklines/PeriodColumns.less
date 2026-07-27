@@ -16,6 +16,10 @@
 .periodColumns__column {
   flex: auto;
   min-width: 0;
+
+  // Query container so each column's MetricValue sizes to the column width (the nearest container to
+  // the readout, overriding the card frame). See MetricValue.less.
+  container-type: inline-size;
 }
 
 // Divider between adjacent columns. A real element (not a positional sibling selector) so its
