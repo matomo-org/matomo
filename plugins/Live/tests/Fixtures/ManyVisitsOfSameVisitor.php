@@ -96,13 +96,13 @@ class ManyVisitsOfSameVisitor extends Fixture
                 $t->setForceVisitDateTime($visitDateTime);
             }
 
-            self::checkResponse($t->doTrackPageView('incredible title ' . ($numVisits % 3)));
+            self::assertTrue($t->doTrackPageView('incredible title ' . ($numVisits % 3)));
 
             if ($numVisits === -2) {
                 for ($k = 0; $k < 10; $k++) {
                     // we generate many actions to make sure in the test when we segment by page title that it not just
                     // returns one visit but multiple visits to ensure the group by is correct
-                    self::checkResponse($t->doTrackPageView('incredible title 1'));
+                    self::assertTrue($t->doTrackPageView('incredible title 1'));
                 }
             }
         }

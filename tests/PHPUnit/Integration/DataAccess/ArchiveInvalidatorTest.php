@@ -2563,7 +2563,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         for ($i = 0; $i < 10; ++$i) {
             $t->setIdSite($i + 1);
             $t->setUrl('http://test.com');
-            Fixture::checkResponse($t->doTrackPageView('test page'));
+            self::assertTrue($t->doTrackPageView('test page'));
         }
         Fixture::checkBulkTrackingResponse($t->doBulkTrack());
     }

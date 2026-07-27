@@ -166,16 +166,16 @@ class SomeVisitsManyPageviewsWithTransitions extends Fixture
         $visit->setForceVisitDateTime(Date::factory($dateTime)->addHour($timeOffset)->getDatetime());
 
         if ($pageViewType == 'normal') {
-            self::checkResponse($visit->doTrackPageView('page title - ' . $path));
+            self::assertTrue($visit->doTrackPageView('page title - ' . $path));
         } elseif ($pageViewType == 'outlink') {
-            self::checkResponse($visit->doTrackAction($prefix . 'anothersite.com/' . $path, 'link'));
+            self::assertTrue($visit->doTrackAction($prefix . 'anothersite.com/' . $path, 'link'));
         } elseif ($pageViewType == 'download') {
             $downloadUrl = $prefix . 'example.org/downloads/' . $this->prefixCounter . '.tar.gz';
-            self::checkResponse($visit->doTrackAction($downloadUrl, 'download'));
+            self::assertTrue($visit->doTrackAction($downloadUrl, 'download'));
         } elseif ($pageViewType == 'site-search') {
-            self::checkResponse($visit->doTrackSiteSearch($searchKeyword, $searchCategory, $this->prefixCounter));
+            self::assertTrue($visit->doTrackSiteSearch($searchKeyword, $searchCategory, $this->prefixCounter));
         } elseif ($pageViewType == 'event') {
-            self::checkResponse($visit->doTrackEvent($searchCategory, "event name", $searchKeyword, $this->prefixCounter));
+            self::assertTrue($visit->doTrackEvent($searchCategory, "event name", $searchKeyword, $this->prefixCounter));
         }
     }
 }

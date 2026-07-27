@@ -241,9 +241,7 @@ class VisitsWithAllActionsAndDevices extends Fixture
         $t->setUserAgent($useragent);
 
         $t->setUrl('http://example.org/');
-        if (null !== $referrerUrl) {
-            $t->setUrlReferrer($referrerUrl);
-        }
+        $t->setUrlReferrer($referrerUrl);
         $t->setPerformanceTimings(88, 165, 247, 355, 401, 196);
         $t->setDebugStringAppend('bw_bytes=555');
         self::checkResponse($t->doTrackPageView('home'));

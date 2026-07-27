@@ -698,13 +698,6 @@ class Fixture extends \PHPUnit\Framework\Assert
      */
     public static function checkResponse($response)
     {
-        // In bulk tracking mode the request is only queued and the tracker
-        // returns a truthy sentinel instead of the beacon; the flushed bulk
-        // response is verified separately via checkBulkTrackingResponse().
-        if ($response === true || $response === 1 || $response === '1') {
-            return;
-        }
-
         $trans_gif_64 = "R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
         $expectedResponse = base64_decode($trans_gif_64);
 

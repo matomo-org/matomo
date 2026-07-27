@@ -79,7 +79,7 @@ class TwoSitesWithBorderTimezones extends Fixture
             $t->setLocalTime($visitLocalDate->toString('H:i:s'));
             $t->setUrl('http://example.org/time/offset/' . $visitTimeOffset);
 
-            self::checkResponse($t->doTrackPageView('incredible title ' . $visitTimeOffset));
+            self::assertTrue($t->doTrackPageView('incredible title ' . $visitTimeOffset));
         }
 
         self::checkBulkTrackingResponse($t->doBulkTrack());
