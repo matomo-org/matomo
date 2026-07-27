@@ -176,11 +176,14 @@ describe('CoreVisualizations/SparklinesGrid', () => {
     expect(wrapper.find('.metricValue__title').attributes('title')).toBe('The number of visits.');
   });
 
-  it('uses the responsive grid columns (s6 m6 l4 xl3) on reporting pages', () => {
+  it('uses the standard (dense) fluid grid on reporting pages', () => {
     const wrapper = createWrapper();
-    const col = wrapper.find('.row.sparklinesGrid > div');
+    const grid = wrapper.find('.sparklinesGrid');
 
-    expect(col.classes()).toEqual(expect.arrayContaining(['col', 's6', 'm6', 'l4', 'xl3']));
+    // Standard cards: the base grid, none of the wider/framed/fixed-column modifiers.
+    expect(grid.classes()).not.toContain('sparklinesGrid--wide');
+    expect(grid.classes()).not.toContain('sparklinesGrid--framed');
+    expect(wrapper.findAll('.sparklinesGrid__item').length).toBe(3);
   });
 
   it('orders cards by backend `order`, not by numeric group-key iteration order', () => {
@@ -200,33 +203,35 @@ describe('CoreVisualizations/SparklinesGrid', () => {
     expect(titles).toEqual(['First', 'Second', 'Third']);
   });
 
-  it('collapses to two columns in widget mode', () => {
+  it('uses a framed, fluid grid in widget mode', () => {
     const wrapper = createWrapper({ isWidget: true });
-    const col = wrapper.find('.row.sparklinesGrid > div');
+    const grid = wrapper.find('.sparklinesGrid');
 
-    expect(col.classes()).toContain('s6');
-    expect(col.classes()).not.toContain('xl3');
+    expect(grid.classes()).toContain('sparklinesGrid--framed');
+    expect(grid.classes()).toContain('sparklinesGrid--compact');
+    expect(grid.classes()).not.toContain('sparklinesGrid--wide');
   });
 
-  it('uses the wider comparison columns (s12 m12 l6 xl6) in date comparison', () => {
+  it('uses the wider fluid grid in date comparison', () => {
     const wrapper = createWrapper({ sparklines: { 0: [comparisonEntry()] }, comparisonMode: 'date' });
-    const col = wrapper.find('.row.sparklinesGrid > div');
+    const grid = wrapper.find('.sparklinesGrid');
 
-    expect(col.classes()).toEqual(expect.arrayContaining(['col', 's12', 'm12', 'l6', 'xl6']));
+    expect(grid.classes()).toContain('sparklinesGrid--wide');
     // ...and the comparison body is what renders inside.
     expect(wrapper.findComponent({ name: 'DateComparison' }).exists()).toBe(true);
   });
 
-  it('collapses date-comparison cards to a single column in widget mode', () => {
+  it('uses a framed, wider fluid grid for date comparison in widget mode', () => {
     const wrapper = createWrapper({
       sparklines: { 0: [comparisonEntry()] },
       comparisonMode: 'date',
       isWidget: true,
     });
-    const col = wrapper.find('.row.sparklinesGrid > div');
+    const grid = wrapper.find('.sparklinesGrid');
 
-    expect(col.classes()).toContain('s12');
-    expect(col.classes()).not.toContain('xl6');
+    expect(grid.classes()).toContain('sparklinesGrid--framed');
+    expect(grid.classes()).toContain('sparklinesGrid--wide');
+    expect(grid.classes()).not.toContain('sparklinesGrid--compact');
   });
 
   it('renders one SegmentComparisonCard per metric group in segment mode', () => {
@@ -257,14 +262,14 @@ describe('CoreVisualizations/SparklinesGrid', () => {
     expect(wrapper.findAll('.metricValue__number').map((n) => n.text())).toEqual(['10', '20']);
   });
 
-  it('uses the standard (non-wide) grid columns for segment cards', () => {
+  it('uses the standard (non-wide) grid for segment cards', () => {
     const wrapper = createWrapper({
       comparisonMode: 'segment',
       sparklines: { 0: [segmentEntry('All visits', 0, 0)] },
     });
-    const col = wrapper.find('.row.sparklinesGrid > div');
+    const grid = wrapper.find('.sparklinesGrid');
 
-    expect(col.classes()).toEqual(expect.arrayContaining(['col', 's6', 'm6', 'l4', 'xl3']));
+    expect(grid.classes()).not.toContain('sparklinesGrid--wide');
   });
 
   it('orders segment cards by each metric group\'s lowest entry order', () => {
@@ -309,14 +314,14 @@ describe('CoreVisualizations/SparklinesGrid', () => {
     expect(wrapper.findAll('.periodColumns__column').length).toBe(4);
   });
 
-  it('uses the wider comparison columns (s12 m12 l6 xl6) in segment + date mode', () => {
+  it('uses the wider fluid grid in segment + date mode', () => {
     const wrapper = createWrapper({
       comparisonMode: 'segmentDate',
       sparklines: { 0: [segmentDateEntry('NZ visitors', [0, 2], 0, ['23558', '30119'])] },
     });
-    const col = wrapper.find('.row.sparklinesGrid > div');
+    const grid = wrapper.find('.sparklinesGrid');
 
-    expect(col.classes()).toEqual(expect.arrayContaining(['col', 's12', 'm12', 'l6', 'xl6']));
+    expect(grid.classes()).toContain('sparklinesGrid--wide');
   });
 
   it('re-runs the sparkline click-to-evolution wiring after mount', async () => {
