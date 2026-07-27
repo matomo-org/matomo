@@ -52,6 +52,21 @@ a.rowevolution-startmulti {
     display: none;
 }
 
+// Left-align the "Choose metrics" picker on bar and pie graphs. Pie centered it because its legend
+// items are hidden, leaving the picker as the only flex child. Evolution graphs are intentionally
+// NOT included here so their legend stays exactly where it is.
+// (:not(.is-narrow) leaves the stacked, full-width narrow/dashboard layout untouched.)
+.dataTableVizBar .jqplot-legend-footer.has-picker:not(.is-narrow),
+.dataTableVizPie .jqplot-legend-footer.has-picker:not(.is-narrow) {
+    justify-content: flex-start;
+}
+
+// Dashboard widgets do not inherit the report page's left inset.
+.widget .dataTableVizBar .jqplot-legend-footer.has-picker:not(.is-narrow),
+.widget .dataTableVizPie .jqplot-legend-footer.has-picker:not(.is-narrow) {
+    padding-left: 20px;
+}
+
 // When evolution annotations are shown they sit above the legend footer and add
 // their own spacing, so drop the default margin to avoid doubling the gap.
 .evolution-annotations ~ .jqplot-legend-footer {
