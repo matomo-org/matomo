@@ -147,24 +147,21 @@ class APITest extends IntegrationTestCase
         $api->getMostRecentVisitorId(2);
     }
 
-    public function testGetMostRecentVisitsDateTimeExcludesDisabledSitesWithoutThrowing()
+    public function testGetMostRecentVisitsDateTimeIsNotGatedByVisitsLogSetting()
     {
-        Fixture::createWebsite('2010-01-01'); // idSite 2
-
-        // Site 2's visit is later than site 1's, so a leaked max timestamp would surface site 2.
+        // getMostRecentVisitsDateTime is a raw-data existence probe: ReportingPage.vue and
+        // SiteWithoutData.vue read its value to detect that data exists even when reports are not
+        // archived yet. It must keep returning a timestamp when the visits log is disabled, otherwise
+        // the CoreHome_PeriodHasOnlyRawDataNoVisitsLog notification and the "no data yet" poller break.
         $this->trackVisitWithActions('2012-01-01 10:00:00', ['https://s1.example.org/page'], 1);
-        $this->trackVisitWithActions('2012-01-01 12:00:00', ['https://s2.example.org/page'], 2);
 
-        $this->disableVisitorLog(2);
+        $this->disableVisitorLog(1);
         Fixture::clearInMemoryCaches();
 
-        $api = API::getInstance();
-
-        // A disabled site returns an empty string rather than throwing (frontend pollers rely on this).
-        $this->assertSame('', $api->getMostRecentVisitsDateTime(2));
-
-        // A mixed request must reflect the enabled site only, not the disabled site's later visit.
-        $this->assertStringStartsWith('2012-01-01 10:', $api->getMostRecentVisitsDateTime('1,2'));
+        $this->assertStringStartsWith(
+            '2012-01-01 10:',
+            API::getInstance()->getMostRecentVisitsDateTime(1)
+        );
     }
 
     private function disableVisitorLog(int $idSite): void

@@ -136,22 +136,6 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Filters a list of site IDs down to the ones whose visits log is enabled.
-     *
-     * Disabled sites must never reach the SQL scope, so multi-site callers that load visit-level
-     * data use this to drop them before the query is built.
-     *
-     * @param int[] $idSites
-     * @return int[]
-     */
-    private function filterSitesWithVisitorLogEnabled(array $idSites): array
-    {
-        return array_values(array_filter($idSites, function ($idSite) {
-            return Live::isVisitorLogEnabled($idSite);
-        }));
-    }
-
-    /**
      * Returns whether the visitor profile is enabled for the given site selection.
      *
      * @param int|string|int[] $idSite Website ID or site selection to query.
@@ -206,7 +190,11 @@ class API extends \Piwik\Plugin\API
 
         if (Request::isCurrentApiRequestTheRootApiRequest() || !in_array(Request::getRootApiRequestMethod(), ['API.getSuggestedValuesForSegment', 'PrivacyManager.findDataSubjects'])) {
             if (is_array($idSites)) {
-                $idSites = $this->filterSitesWithVisitorLogEnabled($idSites);
+                // Drop disabled sites from the query scope entirely, not just for the emptiness
+                // check below; otherwise a mixed request would still return a disabled site's data.
+                $idSites = array_values(array_filter($idSites, function ($idSite) {
+                    return Live::isVisitorLogEnabled($idSite);
+                }));
                 if (empty($idSites)) {
                     throw new Exception('Visits log is deactivated for all given websites (idSite=' . json_encode($idSite) . ').');
                 }
@@ -401,19 +389,8 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasViewAccess($idSite);
 
-        // Exclude sites whose visits log is disabled; return empty (never throw) so the frontend
-        // "does this site have data yet?" pollers keep working for disabled-log sites.
-        $idSites = Site::getIdSitesFromIdSitesString($idSite, false, true);
-        $idSites = $this->filterSitesWithVisitorLogEnabled($idSites);
-        if (empty($idSites)) {
-            return '';
-        }
-        if (count($idSites) === 1) {
-            $idSites = $idSites[0];
-        }
-
         $model = new Model();
-        return $model->getMostRecentVisitsDateTime($idSites, $period, $date);
+        return $model->getMostRecentVisitsDateTime($idSite, $period, $date);
     }
 
     /**
