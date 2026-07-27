@@ -331,7 +331,7 @@ class Sparklines extends ViewDataTable
                             $metricInfo = [
                                 'value' => $formattedValue,
                                 'description' => $compareDescriptions[$i],
-                                'title' => $metricTranslations[$columnToUse[$i]] ?? $compareDescriptions[$i],
+                                'title' => $this->resolveMetricTitle($columnToUse[$i], $compareDescriptions[$i], $metricTranslations),
                                 'group' => $periodPretty,
                             ];
 
@@ -398,7 +398,7 @@ class Sparklines extends ViewDataTable
                             $idSite
                         ),
                         'description' => $descriptions[$i],
-                        'title' => $metricTranslations[$column[$i]] ?? $descriptions[$i],
+                        'title' => $this->resolveMetricTitle($column[$i], $descriptions[$i], $metricTranslations),
                     ];
 
                     $metrics[] = $newMetric;
@@ -471,6 +471,29 @@ class Sparklines extends ViewDataTable
         }
 
         return [$values, $descriptions, $evolutions];
+    }
+
+    /**
+     * Resolves the card title shown for a sparkline metric in the redesigned grid.
+     *
+     * By default the card title is the generic metric name from
+     * Metrics::getDefaultMetricTranslations() (falling back to the per-metric description). When a
+     * view opts in via {@link Config::$use_metric_labels_as_titles} — e.g. Ecommerce, which relabels
+     * shared columns per section and renders no block title — the view's own metric translation is
+     * used instead, so sections that reuse the same columns stay distinguishable.
+     *
+     * @param string $column
+     * @param string $description already-resolved per-metric description (label, else raw column)
+     * @param array $metricTranslations Metrics::getDefaultMetricTranslations()
+     * @return string
+     */
+    private function resolveMetricTitle($column, $description, array $metricTranslations)
+    {
+        if ($this->config->use_metric_labels_as_titles) {
+            return $this->config->translations[$column] ?? $metricTranslations[$column] ?? $description;
+        }
+
+        return $metricTranslations[$column] ?? $description;
     }
 
     private function removeUniqueVisitorsIfNotEnabledForPeriod($columns, $period)

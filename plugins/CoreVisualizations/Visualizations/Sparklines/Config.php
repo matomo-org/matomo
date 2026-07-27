@@ -66,6 +66,15 @@ class Config extends \Piwik\ViewDataTable\Config
      */
     public $compute_evolution = null;
 
+    /**
+     * When true, the redesigned sparkline card uses this view's own metric translations as the card
+     * title instead of the generic Metrics::getDefaultMetricTranslations() names. Intended for views
+     * that relabel shared columns with section-specific names and render no per-section block title
+     * (show_title = false), e.g. Ecommerce Overview. Default false keeps the generic card titles.
+     * @var bool
+     */
+    public $use_metric_labels_as_titles = false;
+
     public function __construct()
     {
         parent::__construct();
