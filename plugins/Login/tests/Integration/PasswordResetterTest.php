@@ -22,6 +22,7 @@ use Piwik\Plugin\Manager;
 use Piwik\Plugins\Login\PasswordResetter;
 use Piwik\Plugins\Login\PasswordResetUserIsInvalidException;
 use Piwik\Plugins\UsersManager\Model;
+use Piwik\Plugins\UsersManager\Repository\UserRepository;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -271,6 +272,108 @@ class PasswordResetterTest extends IntegrationTestCase
 
             throw $e;
         }
+    }
+
+    public function testPendingUserLookupCanBeOverridden()
+    {
+        Request::processRequest(
+            'UsersManager.inviteUser',
+            [
+                'userLogin' => 'customPendingLookup',
+                'email' => 'custom.pending.lookup@user.io',
+                'initialIdSite' => 1,
+                'expiryInDays' => 7,
+            ]
+        );
+
+        $passwordResetter = new class extends PasswordResetter {
+            protected function getPendingUserInformation(string $loginOrMail): ?array
+            {
+                return null;
+            }
+        };
+
+        $this->expectException(PasswordResetUserIsInvalidException::class);
+
+        $passwordResetter->initiatePasswordResetProcess(
+            'custom.pending.lookup@user.io',
+            self::NEWPASSWORD
+        );
+    }
+
+    /**
+     * @dataProvider provideInvitationInvalidationDuringPasswordReset
+     */
+    public function testPasswordResetDoesNotSendInvitationLinkIfInvitationBecomesInvalidDuringRequest(
+        string $login,
+        string $email,
+        bool $acceptsInvitation
+    ) {
+        Request::processRequest(
+            'UsersManager.inviteUser',
+            [
+                'userLogin' => $login,
+                'email' => $email,
+                'initialIdSite' => 1,
+                'expiryInDays' => 7,
+            ]
+        );
+
+        $model = new Model();
+        $repository = StaticContainer::get(UserRepository::class);
+        $racingRepository = $this->createMock(UserRepository::class);
+        $racingRepository
+            ->method('refreshInviteLinkToken')
+            ->willReturnCallback(function (string $userLogin) use ($acceptsInvitation, $model, $repository) {
+                $fields = $acceptsInvitation
+                    ? [
+                        'invite_token' => null,
+                        'invite_link_token' => null,
+                        'invite_expired_at' => null,
+                    ]
+                    : [
+                        'invite_expired_at' => Date::now()->subDay(1)->getDatetime(),
+                    ];
+                $model->updateUserFields($userLogin, $fields);
+
+                return $repository->refreshInviteLinkToken($userLogin);
+            });
+
+        StaticContainer::getContainer()->set(UserRepository::class, $racingRepository);
+
+        try {
+            $this->passwordResetter->initiatePasswordResetProcess(
+                $email,
+                self::NEWPASSWORD
+            );
+        } finally {
+            StaticContainer::getContainer()->set(UserRepository::class, $repository);
+        }
+
+        $userAfterReset = $model->getUser($login);
+
+        self::assertNull($userAfterReset['invite_link_token']);
+        self::assertNull($this->passwordResetEmailBody);
+        self::assertSame([], $this->eventInitiatedInfo);
+        self::assertFalse(Option::get(
+            PasswordResetter::getPasswordResetInfoOptionName($login)
+        ));
+    }
+
+    public function provideInvitationInvalidationDuringPasswordReset(): array
+    {
+        return [
+            'accepted invitation' => [
+                'acceptedDuringReset',
+                'accepted.during.reset@user.io',
+                true,
+            ],
+            'expired invitation' => [
+                'expiredDuringReset',
+                'expired.during.reset@user.io',
+                false,
+            ],
+        ];
     }
 
     public function testPasswordResetShouldNotWorkForInvalidUserAndThrowException()

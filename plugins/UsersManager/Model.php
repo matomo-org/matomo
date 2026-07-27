@@ -700,6 +700,26 @@ class Model
         ]);
     }
 
+    public function updateInviteLinkTokenForPendingUser(string $userLogin, string $token): bool
+    {
+        $sql = sprintf(
+            'UPDATE `%s`
+             SET `invite_link_token` = ?
+             WHERE `login` = ?
+               AND `invite_token` IS NOT NULL
+               AND `invite_expired_at` IS NOT NULL
+               AND `invite_expired_at` >= ?',
+            $this->userTable
+        );
+        $query = $this->getDb()->query($sql, [
+            $this->hashTokenAuth($token),
+            $userLogin,
+            Date::now()->getDatetime(),
+        ]);
+
+        return $query->rowCount() === 1;
+    }
+
     public function setSuperUserAccess($userLogin, $hasSuperUserAccess)
     {
         $this->updateUserFields($userLogin, array(

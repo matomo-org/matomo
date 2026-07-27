@@ -42,7 +42,9 @@ use Piwik\Url;
  * 3. PasswordResetter will generate a reset token and email the user a link
  *    to confirm that they requested a password reset. (This way an attacker
  *    cannot reset a user's password if they do not have control of the user's
- *    email address.)
+ *    email address.) For a pending invitee, it will instead refresh the
+ *    invitation link token and email an activation link that keeps the
+ *    invitation's original expiry.
  * 4. The user opens the email and clicks on the link. The link leads to
  *    a controller action that finishes the password reset process.
  * 5. When the link is clicked, PasswordResetter will update the user's password
@@ -201,7 +203,9 @@ class PasswordResetter
      * information as an {@link Option} and send an email with the reset confirmation
      * link to the user whose password is being reset.
      *
-     * The email confirmation link will contain the generated reset token.
+     * For an active user, the email confirmation link contains the generated
+     * reset token. For a pending invitee, the email contains an activation link
+     * that preserves the original invitation expiry.
      *
      * @param string $loginOrEmail The user's login or email address.
      * @param string $newPassword The un-hashed/unencrypted password.
@@ -233,7 +237,10 @@ class PasswordResetter
 
         // ... send email with confirmation link
         try {
-            $this->sendEmailConfirmationLink($user, $keySuffix);
+            if (!$this->sendEmailConfirmationLink($user, $keySuffix)) {
+                $this->removePasswordResetInfo($login);
+                return;
+            }
         } catch (Exception $ex) {
             // remove password reset info
             $this->removePasswordResetInfo($login);
@@ -480,14 +487,14 @@ class PasswordResetter
     /**
      * @return array<string, mixed>|null
      */
-    private function getUserInformationForPasswordResetInitiation(string $loginOrMail): ?array
+    protected function getUserInformationForPasswordResetInitiation(string $loginOrMail): ?array
     {
         $user = $this->getUserInformation($loginOrMail);
         if ($user !== null) {
             return $user;
         }
 
-        $pendingUser = UserLoginHelper::findUserByLoginOrEmail($loginOrMail);
+        $pendingUser = $this->getPendingUserInformation($loginOrMail);
         if (empty($pendingUser['invite_token']) || empty($pendingUser['invite_expired_at'])) {
             return null;
         }
@@ -503,6 +510,19 @@ class PasswordResetter
         }
 
         return $pendingUser;
+    }
+
+    /**
+     * Returns pending user information based on a login or email.
+     *
+     * Derived classes can override this method to provide custom pending user
+     * querying logic.
+     *
+     * @return array<string, mixed>|null
+     */
+    protected function getPendingUserInformation(string $loginOrMail): ?array
+    {
+        return UserLoginHelper::findUserByLoginOrEmail($loginOrMail);
     }
 
     /**
@@ -553,8 +573,9 @@ class PasswordResetter
      *
      * @param array $user User info for the requested password reset.
      * @param string $keySuffix The suffix used in generating a token.
+     * @return bool Whether an email send was attempted.
      */
-    private function sendEmailConfirmationLink($user, $keySuffix)
+    private function sendEmailConfirmationLink($user, $keySuffix): bool
     {
         $login = $user['login'];
         $email = $user['email'];
@@ -563,6 +584,10 @@ class PasswordResetter
 
         if (!empty($user['invite_token'])) {
             $inviteToken = StaticContainer::get(UserRepository::class)->refreshInviteLinkToken($login);
+            if ($inviteToken === null) {
+                return false;
+            }
+
             $urlConfirm = Url::getCurrentUrlWithoutQueryString()
                 . '?module=' . urlencode(Piwik::getLoginPluginName())
                 . '&action=acceptInvitation'
@@ -601,6 +626,8 @@ class PasswordResetter
         }
 
         @$mail->send();
+
+        return true;
     }
 
     /**

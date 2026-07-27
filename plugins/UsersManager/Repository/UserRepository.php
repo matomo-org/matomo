@@ -113,14 +113,17 @@ class UserRepository
     }
 
     /**
-     * Generates a new invitation link token without changing the invitation expiry.
+     * Generates a new invitation link token for an unexpired pending user without
+     * changing the invitation expiry.
      */
-    public function refreshInviteLinkToken(string $userLogin): string
+    public function refreshInviteLinkToken(string $userLogin): ?string
     {
         $generatedToken = $this->model->generateRandomInviteToken();
-        $this->model->updateUserFields($userLogin, [
-            'invite_link_token' => $this->model->hashTokenAuth($generatedToken),
-        ]);
+
+        if (!$this->model->updateInviteLinkTokenForPendingUser($userLogin, $generatedToken)) {
+            return null;
+        }
+
         return $generatedToken;
     }
 
