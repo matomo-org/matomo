@@ -1,6 +1,7 @@
 {
     "Actions": {
         "ActionType": "アクションタイプ",
+        "ActionTypeSegmentHelp": "次のようなアクションの一種：%s",
         "ActionTypes": "アクションタイプ",
         "ActionsInVisit": "ビジット単位のアクション数",
         "AvgGenerationTimeTooltip": "%3$s から %4$s の間の %2$s のヒット ( 複数 ) %1$s に基づく平均",
@@ -66,6 +67,7 @@
         "PagesSubcategoryHelp3": "左側のプラス記号とマイナス記号のアイコンをクリックして操作します。",
         "PluginDescription": "ページビューやページタイトルをレポートします。内部のウェブサイトの検索エンジンを測定することができます。外部リンクのクリックやファイルのダウンロードを自動的に追跡します。",
         "RevisitedPages": "複数回閲覧されたページ",
+        "SearchesSegmentHelp": "サイト内検索を利用したすべての訪問者を選択するには、次のように指定してください：%s",
         "SiteSearchCategories": "カテゴリー ( サイト検索 )",
         "SiteSearchCategories1": "このレポートは、ビジターがサイトで検索した時に選択したカテゴリの一覧です。",
         "SiteSearchCategories2": "例えば、e コマースサイトは一般的に \" カテゴリー \" のセレクトを持っていて、ビジターは製品の検索結果を特定のカテゴリーに絞り込みできます。",

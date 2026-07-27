@@ -34,7 +34,6 @@
         "AuthTokenNotificationEmailReminder": "Kujtues: Ndërroni token-ët tuaj të mirëfilltësimit çdo %1$s",
         "AuthTokenNotificationEmailSubjectAll": "Kujtues: Ndërroni token-ët tuaj personalë të mirëfilltësimit për instancën Matomo %1$s",
         "AuthTokenPurpose": "Për çfarë po e përdorni këtë token?",
-        "AuthTokenSecureOnlyHelp": "Aktivizojeni këtë mundësi për të lejuar vetëm që ky token të përdoret në një rrugë të siguruar (p.sh., kërkesa POST), kjo është e rekomanduar si praktika më e mira nga pikëpamja e sigurisë. Token-i mandej s’do të jetë i vlefshëm si parametër URL në kërkesa GET.",
         "AuthTokenSecureOnlyHelpForced": "Përgjegjësi i sistemit e ka formësuar Matomo-n të lejojë vetëm token-ë të krijuar për t’u përdorur në një mënyrë të siguruar (p.sh., përmes kërkesash POST), s’mund tra ndryshoni këtë mundësi token-i.",
         "AuthTokens": "Token-ë mirëfilltësimi",
         "BackToUser": "Mbrapsht te Përdoruesit",

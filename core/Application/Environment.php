@@ -42,7 +42,7 @@ class Environment
 {
     /**
      * @internal
-     * @var EnvironmentManipulator
+     * @var ?EnvironmentManipulator
      */
     private static $globalEnvironmentManipulator = null;
 

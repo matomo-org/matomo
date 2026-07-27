@@ -32,7 +32,6 @@
         "AuthTokenNotificationEmailReminder": "Recuerde: rote sus vales de autoridad cada %1$s",
         "AuthTokenNotificationEmailSubjectAll": "Recordatorio: Rote su vale de autenticación de personal para instancia %1$s de Matomo",
         "AuthTokenPurpose": "¿Para qué estás utilizando este vale?",
-        "AuthTokenSecureOnlyHelp": "Habilite esta opción para permitir que este vale se utilice únicamente de forma segura (p.ej., en solicitudes POST). Esta es una práctica recomendada de seguridad. En ese caso, el vale no será válido como parámetro de URL en las solicitudes GET.",
         "AuthTokenSecureOnlyHelpForced": "El sistema del administrador ha configurado Matomo para solo conceder vales para ser creados para utilizar en manera segura (p.e. solicitudes POST), no se puede cambiar esta opción del vale.",
         "AuthTokens": "Vales de autoridad",
         "BackToUser": "Volver a Usuarios",

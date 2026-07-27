@@ -39,12 +39,12 @@ class Weekly extends Schedule
 
         // Adds correct number of days
         $rescheduledTime = mktime(
-            date('H', $currentTime),
-            date('i', $currentTime),
-            date('s', $currentTime),
-            date('n', $currentTime),
-            date('j', $currentTime) + $daysFromNow,
-            date('Y', $currentTime)
+            (int) date('H', $currentTime),
+            (int) date('i', $currentTime),
+            (int) date('s', $currentTime),
+            (int) date('n', $currentTime),
+            (int) date('j', $currentTime) + $daysFromNow,
+            (int) date('Y', $currentTime)
         );
 
         // Adjusts the scheduled hour
@@ -55,7 +55,7 @@ class Weekly extends Schedule
     }
 
     /**
-     * @param int $day the day to set, has to be >= 1 and < 8
+     * @param int|string $day the day to set, has to be >= 1 and < 8
      * @throws Exception if parameter _day is invalid
      */
     public function setDay($day)

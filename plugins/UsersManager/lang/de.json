@@ -35,7 +35,6 @@
         "AuthTokenNotificationEmailReminder": "Erinnerung: Tauschen Sie Ihre Authentifizierungstoken alle %1$s",
         "AuthTokenNotificationEmailSubjectAll": "Erinnerung: Wechseln Sie Ihr persönliches Authentifizierungs-Token für die Matomo-Instanz %1$s",
         "AuthTokenPurpose": "Wozu benötigen Sie diesen Token?",
-        "AuthTokenSecureOnlyHelp": "Aktivieren Sie diese Option, damit das Token nur auf sichere Weise verwendet werden kann (z. B. bei POST-Anfragen). Dies wird als beste Sicherheitsmethode empfohlen. Das Token ist dann nicht als URL-Parameter in GET-Anfragen gültig.",
         "AuthTokenSecureOnlyHelpForced": "Der Systemadministrator hat Matomo so konfiguriert, dass nur Token für eine sichere Verwendung (z. B. über POST-Anfragen) erstellt werden können. Sie können diese Token-Option nicht ändern.",
         "AuthTokens": "Authentifizierungstoken",
         "BackToUser": "Zurück",
