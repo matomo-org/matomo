@@ -165,7 +165,8 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       return {
         isStarted: true,
         isInitialLoading: true,
-        refreshController: null
+        refreshController: null,
+        lastTotalVisitorsHtml: ""
       };
     },
     computed: {
@@ -218,8 +219,8 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           },
           handleResponse: (response) => {
             if (this.aggregatedOnly) {
-              this.applyTotalVisitors(response);
-              return { updated: true };
+              const updated2 = this.applyTotalVisitors(response);
+              return { updated: updated2 };
             }
             const segment = CoreHome.MatomoUrl.parsed.value.segment;
             const ensured = this.ensureVisitsList(response);
@@ -300,15 +301,19 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       applyTotalVisitors(response) {
         const root = this.$refs.root;
         if (!root) {
-          return;
+          return false;
         }
         const container = root.querySelector("#visitsTotal");
         const wrapper = document.createElement("div");
         wrapper.innerHTML = response;
         const newContent = wrapper.querySelector("#visitsTotal");
         if (!newContent) {
-          return;
+          return false;
         }
+        if (container && response === this.lastTotalVisitorsHtml) {
+          return false;
+        }
+        this.lastTotalVisitorsHtml = response;
         if (!container) {
           const list = root.querySelector("#visitsLive");
           if (list) {
@@ -317,11 +322,12 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
             root.prepend(newContent);
           }
           CoreHome.Matomo.helper.compileVueEntryComponents(root);
-          return;
+          return true;
         }
         CoreHome.Matomo.helper.destroyVueComponent(container);
         container.replaceWith(newContent);
         CoreHome.Matomo.helper.compileVueEntryComponents(root);
+        return true;
       },
       fetchInitialContent() {
         const segment = CoreHome.MatomoUrl.parsed.value.segment;
