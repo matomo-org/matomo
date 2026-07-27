@@ -52,11 +52,11 @@ a.rowevolution-startmulti {
     display: none;
 }
 
-// Left-align the "Choose metrics" picker on bar and pie graphs. Pie centered it because its legend
-// items are hidden, leaving the picker as the only flex child. Evolution graphs are intentionally
-// NOT included here so their legend stays exactly where it is.
+// Left-align the "Choose metrics" picker on pie graphs: pie hides its legend items, so the picker
+// is the only flex child and the footer's justify-content:center centered it. Bar and evolution
+// graphs are intentionally excluded — bar's legend items (flex:auto) already pin the picker left,
+// so justify-content is a no-op there, and evolution keeps its legend where it is.
 // (:not(.is-narrow) leaves the stacked, full-width narrow/dashboard layout untouched.)
-.dataTableVizBar .jqplot-legend-footer.has-picker:not(.is-narrow),
 .dataTableVizPie .jqplot-legend-footer.has-picker:not(.is-narrow) {
     justify-content: flex-start;
 }
