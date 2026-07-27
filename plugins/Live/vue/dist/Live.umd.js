@@ -155,7 +155,8 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   const _sfc_main$5 = vue.defineComponent({
     props: {
       liveRefreshAfterMs: Number,
-      disableLink: Boolean
+      disableLink: Boolean,
+      aggregatedOnly: Boolean
     },
     components: {
       MatomoLoader: CoreHome.MatomoLoader
@@ -207,7 +208,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
             return CoreHome.AjaxHelper.fetch(
               {
                 module: "Live",
-                action: "getLastVisitsStart",
+                action: this.aggregatedOnly ? "ajaxTotalVisitors" : "getLastVisitsStart",
                 segment
               },
               {
@@ -216,6 +217,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
             );
           },
           handleResponse: (response) => {
+            if (this.aggregatedOnly) {
+              this.applyTotalVisitors(response);
+              return { updated: true };
+            }
             const segment = CoreHome.MatomoUrl.parsed.value.segment;
             const ensured = this.ensureVisitsList(response);
             const updated = ensured ? true : this.parseResponse(response);
@@ -289,30 +294,55 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
             format: "html"
           }
         ).then((response) => {
-          const container = root.querySelector("#visitsTotal");
-          const wrapper = document.createElement("div");
-          wrapper.innerHTML = response;
-          const newContent = wrapper.querySelector("#visitsTotal");
-          if (!newContent) {
-            return;
-          }
-          if (!container) {
-            const list = root.querySelector("#visitsLive");
-            if (list) {
-              list.before(newContent);
-            } else {
-              root.prepend(newContent);
-            }
-            CoreHome.Matomo.helper.compileVueEntryComponents(root);
-            return;
-          }
-          CoreHome.Matomo.helper.destroyVueComponent(container);
-          container.replaceWith(newContent);
-          CoreHome.Matomo.helper.compileVueEntryComponents(root);
+          this.applyTotalVisitors(response);
         });
+      },
+      applyTotalVisitors(response) {
+        const root = this.$refs.root;
+        if (!root) {
+          return;
+        }
+        const container = root.querySelector("#visitsTotal");
+        const wrapper = document.createElement("div");
+        wrapper.innerHTML = response;
+        const newContent = wrapper.querySelector("#visitsTotal");
+        if (!newContent) {
+          return;
+        }
+        if (!container) {
+          const list = root.querySelector("#visitsLive");
+          if (list) {
+            list.before(newContent);
+          } else {
+            root.prepend(newContent);
+          }
+          CoreHome.Matomo.helper.compileVueEntryComponents(root);
+          return;
+        }
+        CoreHome.Matomo.helper.destroyVueComponent(container);
+        container.replaceWith(newContent);
+        CoreHome.Matomo.helper.compileVueEntryComponents(root);
       },
       fetchInitialContent() {
         const segment = CoreHome.MatomoUrl.parsed.value.segment;
+        if (this.aggregatedOnly) {
+          CoreHome.AjaxHelper.fetch(
+            {
+              module: "Live",
+              action: "ajaxTotalVisitors",
+              segment
+            },
+            {
+              format: "html"
+            }
+          ).then((response) => {
+            this.applyTotalVisitors(response);
+          }).finally(() => {
+            this.isInitialLoading = false;
+            this.scheduleUpdate(this.getBaseInterval());
+          });
+          return;
+        }
         const visitsPromise = CoreHome.AjaxHelper.fetch(
           {
             module: "Live",
@@ -489,7 +519,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     class: "live-widget-loading"
   };
   const _hoisted_2$2 = { ref: "root" };
-  const _hoisted_3$2 = { class: "visitsLiveFooter" };
+  const _hoisted_3$2 = {
+    key: 1,
+    class: "visitsLiveFooter"
+  };
   const _hoisted_4$2 = ["title"];
   const _hoisted_5$1 = {
     id: "pauseImage",
@@ -513,7 +546,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         vue.createVNode(_component_MatomoLoader)
       ])) : vue.createCommentVNode("", true),
       vue.createElementVNode("div", _hoisted_2$2, null, 512),
-      vue.createElementVNode("div", _hoisted_3$2, [
+      !_ctx.aggregatedOnly ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_3$2, [
         vue.createElementVNode("a", {
           title: _ctx.translate("Live_OnClickPause", _ctx.translate("Live_VisitorsInRealTime")),
           onClick: _cache[0] || (_cache[0] = vue.withModifiers(($event) => _ctx.pause(), ["prevent"]))
@@ -537,7 +570,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
             href: _ctx.visitorLogUrl
           }, vue.toDisplayString(_ctx.translate("Live_LinkVisitorLog")), 9, _hoisted_9$1)
         ])) : vue.createCommentVNode("", true)
-      ])
+      ])) : vue.createCommentVNode("", true)
     ]);
   }
   const LiveWidget = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["render", _sfc_render$5]]);
@@ -910,7 +943,8 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     props: {
       disableLink: Boolean,
       liveRefreshAfterMs: Number,
-      isWidgetized: Boolean
+      isWidgetized: Boolean,
+      aggregatedOnly: Boolean
     },
     components: {
       LiveWidget,
@@ -927,8 +961,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         default: vue.withCtx(() => [
           vue.createVNode(_component_LiveWidget, {
             "live-refresh-after-ms": _ctx.liveRefreshAfterMs,
-            "disable-link": _ctx.disableLink
-          }, null, 8, ["live-refresh-after-ms", "disable-link"])
+            "disable-link": _ctx.disableLink,
+            "aggregated-only": _ctx.aggregatedOnly
+          }, null, 8, ["live-refresh-after-ms", "disable-link", "aggregated-only"])
         ]),
         _: 1
       }, 8, ["content-title"]))
