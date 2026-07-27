@@ -38,7 +38,9 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
     },
     methods: {
       linkTo(params) {
-        return `?${CoreHome.MatomoUrl.stringify(__spreadValues(__spreadValues({}, CoreHome.MatomoUrl.urlParsed.value), params))}`;
+        return `?${CoreHome.MatomoUrl.stringify(__spreadValues(__spreadProps(__spreadValues({}, CoreHome.MatomoUrl.urlParsed.value), {
+          idSite: CoreHome.MatomoUrl.parsed.value.idSite
+        }), params))}`;
       }
     }
   });
@@ -195,7 +197,9 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
         });
       },
       linkTo(params) {
-        return `?${CoreHome.MatomoUrl.stringify(__spreadValues(__spreadValues({}, CoreHome.MatomoUrl.urlParsed.value), params))}`;
+        return `?${CoreHome.MatomoUrl.stringify(__spreadValues(__spreadProps(__spreadValues({}, CoreHome.MatomoUrl.urlParsed.value), {
+          idSite: CoreHome.MatomoUrl.parsed.value.idSite
+        }), params))}`;
       }
     }
   });
@@ -524,10 +528,11 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
         return this.modelValue;
       },
       trialStartNoLicenseAddHereText() {
-        const link = `?${CoreHome.MatomoUrl.stringify({
+        const link = `?${CoreHome.MatomoUrl.stringify(__spreadProps(__spreadValues({}, CoreHome.MatomoUrl.urlParsed.value), {
+          idSite: CoreHome.MatomoUrl.parsed.value.idSite,
           module: "Marketplace",
           action: "manageLicenseKey"
-        })}`;
+        }))}`;
         return CoreHome.translate(
           "Marketplace_TrialStartNoLicenseAddHere",
           `<a href="${link}">`,
@@ -2170,6 +2175,7 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
     computed: {
       manageLicenseKeyIntro() {
         const marketplaceLink = `?${CoreHome.MatomoUrl.stringify(__spreadProps(__spreadValues({}, CoreHome.MatomoUrl.urlParsed.value), {
+          idSite: CoreHome.MatomoUrl.parsed.value.idSite,
           module: "Marketplace",
           action: "overview"
         }))}`;
@@ -2271,6 +2277,7 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
     computed: {
       overviewLink() {
         return `?${CoreHome.MatomoUrl.stringify(__spreadProps(__spreadValues({}, CoreHome.MatomoUrl.urlParsed.value), {
+          idSite: CoreHome.MatomoUrl.parsed.value.idSite,
           module: "Marketplace",
           action: "overview"
         }))}`;
@@ -2331,10 +2338,11 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
     },
     computed: {
       marketplaceOverviewLink() {
-        return `?${CoreHome.MatomoUrl.stringify({
+        return `?${CoreHome.MatomoUrl.stringify(__spreadProps(__spreadValues({}, CoreHome.MatomoUrl.urlParsed.value), {
+          idSite: CoreHome.MatomoUrl.parsed.value.idSite,
           module: "Marketplace",
           action: "overview"
-        })}`;
+        }))}`;
       }
     }
   });
@@ -2421,7 +2429,11 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
         return result;
       },
       overviewLink() {
-        const query = CoreHome.MatomoUrl.stringify({ module: "Marketplace", action: "overview" });
+        const query = CoreHome.MatomoUrl.stringify(__spreadProps(__spreadValues({}, CoreHome.MatomoUrl.urlParsed.value), {
+          idSite: CoreHome.MatomoUrl.parsed.value.idSite,
+          module: "Marketplace",
+          action: "overview"
+        }));
         const hash = CoreHome.MatomoUrl.stringify({ pluginType: "premium" });
         return `?${query}#?${hash}`;
       }
@@ -2697,16 +2709,18 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
     },
     computed: {
       marketplaceOverviewLink() {
-        return `?${CoreHome.MatomoUrl.stringify({
+        return `?${CoreHome.MatomoUrl.stringify(__spreadProps(__spreadValues({}, CoreHome.MatomoUrl.urlParsed.value), {
+          idSite: CoreHome.MatomoUrl.parsed.value.idSite,
           module: "Marketplace",
           action: "overview"
-        })}`;
+        }))}`;
       },
       licenseKeyLink() {
-        return `?${CoreHome.MatomoUrl.stringify({
+        return `?${CoreHome.MatomoUrl.stringify(__spreadProps(__spreadValues({}, CoreHome.MatomoUrl.urlParsed.value), {
+          idSite: CoreHome.MatomoUrl.parsed.value.idSite,
           module: "Marketplace",
           action: "manageLicenseKey"
-        })}`;
+        }))}`;
       },
       missingLicenseText() {
         return CoreHome.translate(
