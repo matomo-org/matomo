@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0b85164dc6a2d56f4140baff4ce73527",
+    "content-hash": "1b9aac1019aa77e750d6e11c4a0b8c57",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -670,16 +670,16 @@
         },
         {
             "name": "matomo/matomo-php-tracker",
-            "version": "dev-modernize-php-8.1-strict-types-static-analysis",
+            "version": "4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/matomo-php-tracker.git",
-                "reference": "e6b94a6d7f15df1467f3993470712bbb137170f4"
+                "reference": "cf976bf0c248c5d979d1c3b873eb0ae8a543cea2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/matomo-php-tracker/zipball/e6b94a6d7f15df1467f3993470712bbb137170f4",
-                "reference": "e6b94a6d7f15df1467f3993470712bbb137170f4",
+                "url": "https://api.github.com/repos/matomo-org/matomo-php-tracker/zipball/cf976bf0c248c5d979d1c3b873eb0ae8a543cea2",
+                "reference": "cf976bf0c248c5d979d1c3b873eb0ae8a543cea2",
                 "shasum": ""
             },
             "require": {
@@ -702,25 +702,7 @@
                     "."
                 ]
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "\\": "tests/"
-                }
-            },
-            "scripts": {
-                "test": [
-                    "phpunit"
-                ],
-                "phpstan": [
-                    "phpstan analyse"
-                ],
-                "phpcs": [
-                    "phpcs"
-                ],
-                "phpcbf": [
-                    "phpcbf"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "BSD-3-Clause"
             ],
@@ -744,7 +726,7 @@
                 "issues": "https://github.com/matomo-org/matomo-php-tracker/issues",
                 "source": "https://github.com/matomo-org/matomo-php-tracker"
             },
-            "time": "2026-07-25T23:45:44+00:00"
+            "time": "2026-07-27T15:18:26+00:00"
         },
         {
             "name": "matomo/network",
@@ -5851,7 +5833,6 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "lox/xhprof": 20,
-        "matomo/matomo-php-tracker": 20,
         "matomo/referrer-spam-list": 20,
         "matomo/searchengine-and-social-list": 20,
         "matomo-org/matomo-coding-standards": 20

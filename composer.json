@@ -37,10 +37,6 @@
         {
             "type": "vcs",
             "url": "https://github.com/matomo-org/matomo-coding-standards.git"
-        },
-        {
-            "type": "vcs",
-            "url": "https://github.com/matomo-org/matomo-php-tracker.git"
         }
     ],
     "require": {
@@ -54,7 +50,7 @@
         "matomo/decompress": "^3.0",
         "matomo/device-detector": "~6.0",
         "matomo/ini": "~3.0",
-        "matomo/matomo-php-tracker": "dev-modernize-php-8.1-strict-types-static-analysis",
+        "matomo/matomo-php-tracker": "^4.0",
         "matomo/network": "~2.0",
         "matomo/referrer-spam-list": "dev-master",
         "matomo/searchengine-and-social-list": "dev-master",
