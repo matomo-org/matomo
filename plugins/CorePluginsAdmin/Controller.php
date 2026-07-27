@@ -98,7 +98,7 @@ class Controller extends Plugin\ControllerAdmin
 
     public function uploadPlugin()
     {
-        static::dieIfPluginsAdminIsDisabled();
+        $this->dieIfPluginsAdminIsDisabled();
         Piwik::checkUserHasSuperUserAccess();
 
         if (!CorePluginsAdmin::isPluginUploadEnabled()) {
