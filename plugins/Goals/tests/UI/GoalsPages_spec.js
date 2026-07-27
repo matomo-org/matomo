@@ -46,7 +46,7 @@ describe("GoalsPages", function () {
     try {
       await action();
     } finally {
-      page.webpage.removeListener('request', requestHandler);
+      page.webpage.off('request', requestHandler);
     }
 
     return requests;

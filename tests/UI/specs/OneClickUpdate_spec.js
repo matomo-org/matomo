@@ -10,7 +10,6 @@
 var fs = require('fs'),
   path = require('../../lib/screenshot-testing/support/path');
 
-const request = require('request-promise');
 const exec = require('child_process').exec;
 
 describe("OneClickUpdate", function () {
@@ -78,9 +77,14 @@ describe("OneClickUpdate", function () {
         await openUpdateScreen();
         fs.chmodSync(path.join(PIWIK_INCLUDE_PATH, '/latestStableInstall/core'), 0o555);
         await page.click('#updateAutomatically');
+        // Let the updater navigation settle, then read the heading with waitForFunction rather than a
+        // bare $eval so an in-flight navigation can't destroy the execution context.
+        await page.waitForNetworkIdle();
         await page.waitForSelector('.alert-danger', { visible: true });
-        const heading = await page.$eval('.header h1', node => node.textContent);
-        expect(heading).to.match(/update error/i);
+        await page.waitForFunction(() => {
+            const h = document.querySelector('.header h1');
+            return !!h && /update error/i.test(h.textContent);
+        });
         expect(await page.$('.alert-danger')).to.be.ok;
         expect(await page.$('.footer a')).to.be.ok;
     });
@@ -90,9 +94,15 @@ describe("OneClickUpdate", function () {
         fs.chmodSync(path.join(PIWIK_INCLUDE_PATH, '/latestStableInstall/core'), 0o777);
         await openUpdateScreen();
         await page.click('#updateAutomatically');
+        // The successful update self-submits through several updater steps; wait for those navigations
+        // to settle and read the heading with waitForFunction rather than a bare $eval, which otherwise
+        // races an in-flight navigation and the execution context is destroyed.
+        await page.waitForNetworkIdle();
         await page.waitForSelector('.footer a', { visible: true });
-        const heading = await page.$eval('.header h1', node => node.textContent);
-        expect(heading).to.match(/successfully updated/i);
+        await page.waitForFunction(() => {
+            const h = document.querySelector('.header h1');
+            return !!h && /successfully updated/i.test(h.textContent);
+        });
         expect(await page.$('.footer a')).to.be.ok;
     });
 
@@ -127,14 +137,13 @@ describe("OneClickUpdate", function () {
         // track one action
         const trackerUrl = config.piwikUrl + "latestStableInstall/piwik.php?";
 
-        await request({
+        await fetch(trackerUrl, {
             method: 'POST',
-            uri: trackerUrl,
-            form: {
+            body: new URLSearchParams({
                 idsite: 1,
                 url: 'http://piwik.net/test/url',
                 action_name: 'test page',
-            },
+            }),
         });
 
         // run cron archiving

@@ -34,7 +34,6 @@
         "AuthTokenNotificationEmailReminder": "Recordatori: feu rodar els vostres token d'autenticació cada %1$s",
         "AuthTokenNotificationEmailSubjectAll": "Recordatori: Rota el teu testimoni d'autenticació personal per a la instància de Matomo %1$s",
         "AuthTokenPurpose": "Per a què fas servir aquest testimoni?",
-        "AuthTokenSecureOnlyHelp": "Activeu aquesta opció per permetre que aquest testimoni només s'utilitzi de manera segura (per exemple, sol·licituds POST), això es recomana com a millor pràctica de seguretat. Així el testimoni no serà vàlid com a paràmetre d'URL a les sol·licituds GET.",
         "AuthTokenSecureOnlyHelpForced": "L'administrador del sistema ha configurat Matomo per permetre que només es creïn testimonis per utilitzar-los de manera segura (per exemple, mitjançant sol·licituds POST), no podeu canviar aquesta opció de testimoni.",
         "AuthTokens": "Testimonis d'autenticació",
         "BackToUser": "Tornar a Usuaris",

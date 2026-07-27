@@ -35,7 +35,6 @@
         "AuthTokenNotificationEmailReminder": "Rappel : remplacez vos jetons d’authentification tous les %1$s",
         "AuthTokenNotificationEmailSubjectAll": "Rappel : renouvelez votre jeton d’authentification personnel pour l’instance Matomo %1$s",
         "AuthTokenPurpose": "Comment allez vous utiliser ce jeton ?",
-        "AuthTokenSecureOnlyHelp": "Activez cette option pour ne permettre l’utilisation de ce jeton que de manière sécurisée (par exemple, les requêtes POST). Cela est recommandé comme bonne pratique de sécurité. Le jeton ne sera alors pas valide en tant que paramètre d'URL dans les requêtes GET.",
         "AuthTokenSecureOnlyHelpForced": "L'administrateur système a configuré Matomo pour n'autoriser la création de jetons que pour une utilisation sécurisée (par exemple, via des requêtes POST), vous ne pouvez pas modifier cette option de jeton.",
         "AuthTokens": "Jetons d'authentification",
         "BackToUser": "Retour aux utilisateurs",

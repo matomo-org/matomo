@@ -331,6 +331,7 @@
         "MediumToHighTrafficItIsRecommendedTo": "Für Webseiten mit mittlerem bis hohem Verkehrsaufkommen empfehlen wir, Berichte für den heutigen Tag maximal jede halbe Stunde (%1$s Sekunden) oder jede Stunde (%2$s Sekunden) abzuarbeiten.",
         "Metadata": "Metadaten",
         "Metric": "Metrik",
+        "MetricNotAvailableForThisPeriod": "Diese Kennzahl ist für diesen Zeitraum nicht verfügbar.",
         "MetricToPlot": "Anzuzeigende Metrik",
         "Metrics": "Metriken",
         "MetricsToPlot": "Anzuzeigende Metriken",

@@ -703,7 +703,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
         it('should load the glossary correctly widgetized', async function () {
             await page.goto("?" + generalParams + "&module=API&action=glossary&widget=1");
-            await page.waitForTimeout(200);
+            await page.waitForNetworkIdle(); // glossary entries load asynchronously
 
             expect(await page.screenshot({fullPage: true})).to.matchImage('glossary_widgetized');
         });

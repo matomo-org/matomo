@@ -35,7 +35,7 @@ var __spreadValues = (a, b) => {
     }
     return target;
   };
-  const _hoisted_1$e = {
+  const _hoisted_1$d = {
     key: 0,
     viewBox: "0 0 16 16"
   };
@@ -48,7 +48,7 @@ var __spreadValues = (a, b) => {
     viewBox: "0 0 16 16"
   };
   function _sfc_render$e(_ctx, _cache, $props, $setup, $data, $options) {
-    return _ctx.direction === "up" ? (vue.openBlock(), vue.createElementBlock("svg", _hoisted_1$e, [..._cache[0] || (_cache[0] = [
+    return _ctx.direction === "up" ? (vue.openBlock(), vue.createElementBlock("svg", _hoisted_1$d, [..._cache[0] || (_cache[0] = [
       vue.createElementVNode("path", {
         d: "M3.77344 11L8.27344 5L12.7734 11H3.77344Z",
         fill: "currentColor"
@@ -139,7 +139,7 @@ var __spreadValues = (a, b) => {
       };
     }
   });
-  const _hoisted_1$d = ["title"];
+  const _hoisted_1$c = ["title"];
   const _hoisted_2$a = {
     class: "evolutionBadge__icon",
     "aria-hidden": "true"
@@ -158,7 +158,7 @@ var __spreadValues = (a, b) => {
         }, null, 8, ["direction"])
       ]),
       vue.createElementVNode("span", _hoisted_3$7, vue.toDisplayString(_ctx.formattedPercent), 1)
-    ], 10, _hoisted_1$d);
+    ], 10, _hoisted_1$c);
   }
   const EvolutionBadge = /* @__PURE__ */ _export_sfc(_sfc_main$d, [["render", _sfc_render$d]]);
   const _sfc_main$c = vue.defineComponent({
@@ -206,7 +206,7 @@ var __spreadValues = (a, b) => {
       }
     }
   });
-  const _hoisted_1$c = { class: "metricValue" };
+  const _hoisted_1$b = { class: "metricValue" };
   const _hoisted_2$9 = ["title"];
   const _hoisted_3$6 = { class: "metricValue__primary" };
   const _hoisted_4$4 = ["title"];
@@ -222,7 +222,7 @@ var __spreadValues = (a, b) => {
   function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
     var _a;
     const _directive_tooltips = vue.resolveDirective("tooltips");
-    return vue.openBlock(), vue.createElementBlock("div", _hoisted_1$c, [
+    return vue.openBlock(), vue.createElementBlock("div", _hoisted_1$b, [
       _ctx.title ? vue.withDirectives((vue.openBlock(), vue.createElementBlock("div", {
         key: 0,
         class: vue.normalizeClass(["metricValue__title", { "metricValue__title--documented": !!_ctx.documentation }]),
@@ -345,7 +345,7 @@ var __spreadValues = (a, b) => {
       }
     }
   });
-  const _hoisted_1$b = {
+  const _hoisted_1$a = {
     key: 0,
     class: "jqplot-seriespicker-popover"
   };
@@ -369,7 +369,7 @@ var __spreadValues = (a, b) => {
         onClick: _cache[0] || (_cache[0] = vue.withModifiers(() => {
         }, ["prevent", "stop"]))
       }, " + "),
-      _ctx.isPopupVisible ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_1$b, [
+      _ctx.isPopupVisible ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_1$a, [
         vue.createElementVNode("p", _hoisted_2$8, vue.toDisplayString(_ctx.translate(_ctx.multiselect ? "General_MetricsToPlot" : "General_MetricToPlot")), 1),
         (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.selectableColumns, (columnConfig) => {
           return vue.openBlock(), vue.createElementBlock("p", {
@@ -474,7 +474,7 @@ var __spreadValues = (a, b) => {
       }
     }
   });
-  const _hoisted_1$a = ["role", "aria-label"];
+  const _hoisted_1$9 = ["role", "aria-label"];
   const _hoisted_2$7 = ["type", "checked", "onChange", "onKeydown"];
   const _hoisted_3$4 = { class: "metrics-picker__title" };
   const _hoisted_4$2 = {
@@ -522,7 +522,7 @@ var __spreadValues = (a, b) => {
           vue.createElementVNode("span", _hoisted_6, vue.toDisplayString(rowConfig.label), 1)
         ]);
       }), 128))
-    ], 8, _hoisted_1$a);
+    ], 8, _hoisted_1$9);
   }
   const MetricsPickerOptions = /* @__PURE__ */ _export_sfc(_sfc_main$a, [["render", _sfc_render$a]]);
   const _sfc_main$9 = vue.defineComponent({
@@ -559,7 +559,7 @@ var __spreadValues = (a, b) => {
       }
     }
   });
-  const _hoisted_1$9 = {
+  const _hoisted_1$8 = {
     ref: "root",
     class: "metrics-picker"
   };
@@ -573,7 +573,7 @@ var __spreadValues = (a, b) => {
   function _sfc_render$9(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_MetricsPickerOptions = vue.resolveComponent("MetricsPickerOptions");
     const _directive_expand_on_click = vue.resolveDirective("expand-on-click");
-    return vue.withDirectives((vue.openBlock(), vue.createElementBlock("div", _hoisted_1$9, [
+    return vue.withDirectives((vue.openBlock(), vue.createElementBlock("div", _hoisted_1$8, [
       vue.createElementVNode("button", _hoisted_2$6, [
         vue.createElementVNode("span", _hoisted_3$3, vue.toDisplayString(_ctx.translate("General_ChooseMetrics")), 1),
         _cache[1] || (_cache[1] = vue.createElementVNode("span", { class: "icon-chevron-down metrics-picker__chevron" }, null, -1))
@@ -884,7 +884,7 @@ var __spreadValues = (a, b) => {
       };
     }
   });
-  const _hoisted_1$8 = {
+  const _hoisted_1$7 = {
     key: 0,
     class: "metric-unavailable"
   };
@@ -899,7 +899,7 @@ var __spreadValues = (a, b) => {
       class: vue.normalizeClass(["singleMetricView", { "loading": _ctx.isLoading }]),
       ref: "root"
     }, [
-      _ctx.isMetricUnavailable ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_1$8, vue.toDisplayString(_ctx.translate("General_MetricNotAvailableForThisPeriod")), 1)) : (vue.openBlock(), vue.createElementBlock(vue.Fragment, { key: 1 }, [
+      _ctx.isMetricUnavailable ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_1$7, vue.toDisplayString(_ctx.translate("General_MetricNotAvailableForThisPeriod")), 1)) : (vue.openBlock(), vue.createElementBlock(vue.Fragment, { key: 1 }, [
         vue.createElementVNode("div", _hoisted_2$5, [
           vue.createVNode(_component_Sparkline, { params: _ctx.sparklineParams }, null, 8, ["params"])
         ]),
@@ -992,11 +992,11 @@ var __spreadValues = (a, b) => {
       };
     }
   });
-  const _hoisted_1$7 = { class: "sparklineNoComparison" };
+  const _hoisted_1$6 = { class: "sparklineNoComparison" };
   function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_EvolutionBadge = vue.resolveComponent("EvolutionBadge");
     const _component_MetricValue = vue.resolveComponent("MetricValue");
-    return vue.openBlock(), vue.createElementBlock("div", _hoisted_1$7, [
+    return vue.openBlock(), vue.createElementBlock("div", _hoisted_1$6, [
       vue.createVNode(_component_MetricValue, {
         class: "metricValue--fixedHeight",
         title: _ctx.title,
@@ -1030,12 +1030,12 @@ var __spreadValues = (a, b) => {
       }
     }
   });
-  const _hoisted_1$6 = ["title"];
+  const _hoisted_1$5 = ["title"];
   function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("div", {
       class: "dateAtom",
       title: _ctx.label
-    }, vue.toDisplayString(_ctx.label), 9, _hoisted_1$6);
+    }, vue.toDisplayString(_ctx.label), 9, _hoisted_1$5);
   }
   const DateAtom = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["render", _sfc_render$6]]);
   const _sfc_main$5 = vue.defineComponent({
@@ -1076,7 +1076,7 @@ var __spreadValues = (a, b) => {
       };
     }
   });
-  const _hoisted_1$5 = { class: "periodColumns" };
+  const _hoisted_1$4 = { class: "periodColumns" };
   const _hoisted_2$4 = {
     key: 0,
     class: "periodColumns__separator"
@@ -1086,7 +1086,7 @@ var __spreadValues = (a, b) => {
     const _component_DateAtom = vue.resolveComponent("DateAtom");
     const _component_EvolutionBadge = vue.resolveComponent("EvolutionBadge");
     const _component_MetricValue = vue.resolveComponent("MetricValue");
-    return vue.openBlock(), vue.createElementBlock("div", _hoisted_1$5, [
+    return vue.openBlock(), vue.createElementBlock("div", _hoisted_1$4, [
       (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.periods, (period, index) => {
         return vue.openBlock(), vue.createElementBlock(vue.Fragment, {
           key: period.label
@@ -1146,11 +1146,11 @@ var __spreadValues = (a, b) => {
       };
     }
   });
-  const _hoisted_1$4 = { class: "sparklineDateComparison" };
+  const _hoisted_1$3 = { class: "sparklineDateComparison" };
   const _hoisted_2$3 = ["title"];
   function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_PeriodColumns = vue.resolveComponent("PeriodColumns");
-    return vue.openBlock(), vue.createElementBlock("div", _hoisted_1$4, [
+    return vue.openBlock(), vue.createElementBlock("div", _hoisted_1$3, [
       vue.createElementVNode("div", {
         class: "sparklineDateComparison__title",
         title: _ctx.metricTitle
@@ -1226,7 +1226,7 @@ var __spreadValues = (a, b) => {
       };
     }
   });
-  const _hoisted_1$3 = ["data-graph-params", "data-series-indices"];
+  const _hoisted_1$2 = ["data-graph-params", "data-series-indices"];
   const _hoisted_2$2 = {
     key: 0,
     class: "sparklineCard__title"
@@ -1260,7 +1260,7 @@ var __spreadValues = (a, b) => {
           "series-indices": (_a = _ctx.sparkline.seriesIndices) != null ? _a : void 0
         }, null, 8, ["width", "params", "series-indices"])
       ], 2)
-    ], 10, _hoisted_1$3);
+    ], 10, _hoisted_1$2);
   }
   const SparklineCard = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$3]]);
   const _sfc_main$2 = vue.defineComponent({
@@ -1286,13 +1286,13 @@ var __spreadValues = (a, b) => {
       };
     }
   });
-  const _hoisted_1$2 = { class: "sparklineSegmentComparisonRow" };
+  const _hoisted_1$1 = { class: "sparklineSegmentComparisonRow" };
   const _hoisted_2$1 = ["title"];
   function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
     var _a;
     const _component_PeriodColumns = vue.resolveComponent("PeriodColumns");
     const _component_Sparkline = vue.resolveComponent("Sparkline");
-    return vue.openBlock(), vue.createElementBlock("div", _hoisted_1$2, [
+    return vue.openBlock(), vue.createElementBlock("div", _hoisted_1$1, [
       vue.createElementVNode("span", {
         class: "sparklineSegmentComparisonRow__chip",
         title: _ctx.segmentLabel
@@ -1371,7 +1371,7 @@ var __spreadValues = (a, b) => {
       };
     }
   });
-  const _hoisted_1$1 = ["data-graph-params", "data-series-indices"];
+  const _hoisted_1 = ["data-graph-params", "data-series-indices"];
   const _hoisted_2 = ["title"];
   const _hoisted_3 = { class: "sparklineSegmentComparisonCard__rows" };
   function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
@@ -1398,7 +1398,7 @@ var __spreadValues = (a, b) => {
           }, null, 8, ["segment"]);
         }), 128))
       ])
-    ], 10, _hoisted_1$1);
+    ], 10, _hoisted_1);
   }
   const SegmentComparisonCard = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render$1]]);
   const _sfc_main = vue.defineComponent({
@@ -1444,12 +1444,15 @@ var __spreadValues = (a, b) => {
       const segmentGroups = vue.computed(
         () => Object.values(props.sparklines || {}).map((group) => group.filter((sparkline) => !!sparkline.url)).filter((group) => group.length > 0).sort((a, b) => Math.min(...a.map((s) => s.order)) - Math.min(...b.map((s) => s.order)))
       );
-      const columnClasses = vue.computed(() => {
-        if (props.comparisonMode === "date" || props.comparisonMode === "segmentDate") {
-          return props.isWidget ? "col s12" : "col s12 m12 l6 xl6";
-        }
-        return props.isWidget ? "col s6" : "col s6 m6 l4 xl3";
-      });
+      const isWideLayout = vue.computed(
+        () => props.comparisonMode === "date" || props.comparisonMode === "segmentDate"
+      );
+      const gridClasses = vue.computed(() => ({
+        sparklinesGrid: true,
+        "sparklinesGrid--wide": isWideLayout.value,
+        "sparklinesGrid--framed": props.isWidget,
+        "sparklinesGrid--compact": props.isWidget && !isWideLayout.value
+      }));
       vue.onMounted(() => {
         vue.nextTick(() => {
           window.initializeSparklines();
@@ -1459,39 +1462,40 @@ var __spreadValues = (a, b) => {
         isSegmentMode,
         flatSparklines,
         segmentGroups,
-        columnClasses
+        gridClasses
       };
     }
   });
-  const _hoisted_1 = { class: "row sparklinesGrid" };
   function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_SegmentComparisonCard = vue.resolveComponent("SegmentComparisonCard");
     const _component_SparklineCard = vue.resolveComponent("SparklineCard");
-    return vue.openBlock(), vue.createElementBlock("div", _hoisted_1, [
+    return vue.openBlock(), vue.createElementBlock("div", {
+      class: vue.normalizeClass(_ctx.gridClasses)
+    }, [
       _ctx.isSegmentMode ? (vue.openBlock(true), vue.createElementBlock(vue.Fragment, { key: 0 }, vue.renderList(_ctx.segmentGroups, (segments, index) => {
         return vue.openBlock(), vue.createElementBlock("div", {
           key: index,
-          class: vue.normalizeClass(_ctx.columnClasses)
+          class: "sparklinesGrid__item"
         }, [
           vue.createVNode(_component_SegmentComparisonCard, {
             segments,
             "are-sparklines-linkable": _ctx.areSparklinesLinkable,
             "all-metrics-documentation": _ctx.allMetricsDocumentation
           }, null, 8, ["segments", "are-sparklines-linkable", "all-metrics-documentation"])
-        ], 2);
+        ]);
       }), 128)) : (vue.openBlock(true), vue.createElementBlock(vue.Fragment, { key: 1 }, vue.renderList(_ctx.flatSparklines, (sparkline, index) => {
         return vue.openBlock(), vue.createElementBlock("div", {
           key: index,
-          class: vue.normalizeClass(_ctx.columnClasses)
+          class: "sparklinesGrid__item"
         }, [
           vue.createVNode(_component_SparklineCard, {
             sparkline,
             "are-sparklines-linkable": _ctx.areSparklinesLinkable,
             "all-metrics-documentation": _ctx.allMetricsDocumentation
           }, null, 8, ["sparkline", "are-sparklines-linkable", "all-metrics-documentation"])
-        ], 2);
+        ]);
       }), 128))
-    ]);
+    ], 2);
   }
   const SparklinesGrid = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render]]);
   exports2.EvolutionBadge = EvolutionBadge;

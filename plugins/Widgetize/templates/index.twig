@@ -14,6 +14,7 @@
 <div
   vue-entry="Widgetize.ExportWidget"
   title="{{ title|default(null)|json_encode|e('html_attr') }}"
+  only-allow-secure-auth-tokens="{{ onlyAllowSecureAuthTokens|json_encode|e('html_attr') }}"
 ></div>
 </div>
 
