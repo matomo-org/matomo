@@ -1097,39 +1097,38 @@ const {
 SingleMetricViewvue_type_script_lang_ts.render = SingleMetricViewvue_type_template_id_20c744f6_render
 
 /* harmony default export */ var SingleMetricView = (SingleMetricViewvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/SparklinesGrid/SparklinesGrid.vue?vue&type=template&id=0d107092
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/SparklinesGrid/SparklinesGrid.vue?vue&type=template&id=15709986
 
-const SparklinesGridvue_type_template_id_0d107092_hoisted_1 = {
-  class: "row sparklinesGrid"
-};
-function SparklinesGridvue_type_template_id_0d107092_render(_ctx, _cache, $props, $setup, $data, $options) {
+function SparklinesGridvue_type_template_id_15709986_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_SegmentComparisonCard = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SegmentComparisonCard");
   const _component_SparklineCard = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SparklineCard");
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SparklinesGridvue_type_template_id_0d107092_hoisted_1, [_ctx.isSegmentMode ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
+    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(_ctx.gridClasses)
+  }, [_ctx.isSegmentMode ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], {
     key: 0
   }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.segmentGroups, (segments, index) => {
     return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
       key: index,
-      class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(_ctx.columnClasses)
+      class: "sparklinesGrid__item"
     }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SegmentComparisonCard, {
       segments: segments,
       "are-sparklines-linkable": _ctx.areSparklinesLinkable,
       "all-metrics-documentation": _ctx.allMetricsDocumentation
-    }, null, 8, ["segments", "are-sparklines-linkable", "all-metrics-documentation"])], 2);
+    }, null, 8, ["segments", "are-sparklines-linkable", "all-metrics-documentation"])]);
   }), 128)) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], {
     key: 1
   }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.flatSparklines, (sparkline, index) => {
     return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
       key: index,
-      class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(_ctx.columnClasses)
+      class: "sparklinesGrid__item"
     }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SparklineCard, {
       sparkline: sparkline,
       "are-sparklines-linkable": _ctx.areSparklinesLinkable,
       "all-metrics-documentation": _ctx.allMetricsDocumentation
-    }, null, 8, ["sparkline", "are-sparklines-linkable", "all-metrics-documentation"])], 2);
-  }), 128))]);
+    }, null, 8, ["sparkline", "are-sparklines-linkable", "all-metrics-documentation"])]);
+  }), 128))], 2);
 }
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/SparklinesGrid/SparklinesGrid.vue?vue&type=template&id=0d107092
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/SparklinesGrid/SparklinesGrid.vue?vue&type=template&id=15709986
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/Sparklines/SparklineCard.vue?vue&type=template&id=4308735a
 
@@ -1837,7 +1836,7 @@ SegmentComparisonCardvue_type_script_lang_ts.render = SegmentComparisonCardvue_t
   },
   setup(props) {
     // Both segment modes render one SegmentComparisonCard per metric group (a row per segment);
-    // they differ only in how many date columns each row shows and in card width (columnClasses).
+    // they differ only in how many date columns each row shows and in card width (isWideLayout).
     const isSegmentMode = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => props.comparisonMode === 'segment' || props.comparisonMode === 'segmentDate');
     // `order` is the backend's source of truth for display order: a total order across
     // all cards (even comparison metrics/segments). Flatten every group and sort by it.
@@ -1848,16 +1847,19 @@ SegmentComparisonCardvue_type_script_lang_ts.render = SegmentComparisonCardvue_t
     // metric in `sparklines`. One card per group (stacking per-segment rows); drop placeholders
     // (no url) and order groups by their lowest entry `order`.
     const segmentGroups = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => Object.values(props.sparklines || {}).map(group => group.filter(sparkline => !!sparkline.url)).filter(group => group.length > 0).sort((a, b) => Math.min(...a.map(s => s.order)) - Math.min(...b.map(s => s.order))));
-    // Per-card column density: date and segment+date cards are wider (compared-date columns + a
-    // full-width sparkline, so fewer per row); no-comparison and segment-only cards share the
-    // standard width; widget mode uses one/two columns. See the .less for the per-tier widths
-    // (xl3/xl6 widened above 1600/1920px).
-    const columnClasses = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
-      if (props.comparisonMode === 'date' || props.comparisonMode === 'segmentDate') {
-        return props.isWidget ? 'col s12' : 'col s12 m12 l6 xl6';
-      }
-      return props.isWidget ? 'col s6' : 'col s6 m6 l4 xl3';
-    });
+    // date / segment+date cards are wider (value columns + a full-width sparkline), so the grid
+    // gives them a lower density. (isSegmentMode = segment || segmentDate is a different split.)
+    const isWideLayout = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => props.comparisonMode === 'date' || props.comparisonMode === 'segmentDate');
+    // Container classes drive the CSS grid (see the .less). Every layout reflows via auto-fill.
+    // Standard cards use --compact (a denser 200px minimum) in a widget; the wide comparison
+    // layouts (date / segment+date) use --wide (350px) on reporting pages and widgets alike.
+    // --framed layers the widget frame (tighter gutter, even padding) over the column modifier.
+    const gridClasses = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => ({
+      sparklinesGrid: true,
+      'sparklinesGrid--wide': isWideLayout.value,
+      'sparklinesGrid--framed': props.isWidget,
+      'sparklinesGrid--compact': props.isWidget && !isWideLayout.value
+    }));
     Object(external_commonjs_vue_commonjs2_vue_root_Vue_["onMounted"])(() => {
       // Wire each sparkline to its evolution graph once the cards are in the DOM (per-segment row
       // in segment mode, per card otherwise). Safe to re-run (it unbinds first); CoreHome's
@@ -1870,7 +1872,7 @@ SegmentComparisonCardvue_type_script_lang_ts.render = SegmentComparisonCardvue_t
       isSegmentMode,
       flatSparklines,
       segmentGroups,
-      columnClasses
+      gridClasses
     };
   }
 }));
@@ -1880,7 +1882,7 @@ SegmentComparisonCardvue_type_script_lang_ts.render = SegmentComparisonCardvue_t
 
 
 
-SparklinesGridvue_type_script_lang_ts.render = SparklinesGridvue_type_template_id_0d107092_render
+SparklinesGridvue_type_script_lang_ts.render = SparklinesGridvue_type_template_id_15709986_render
 
 /* harmony default export */ var SparklinesGrid = (SparklinesGridvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/index.ts
