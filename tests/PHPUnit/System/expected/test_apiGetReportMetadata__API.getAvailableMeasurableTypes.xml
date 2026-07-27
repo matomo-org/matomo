@@ -263,6 +263,22 @@ https://www.example.org/</placeholder>
 						<fullWidth>0</fullWidth>
 					</row>
 					<row>
+						<name>enable_aggregated_realtime_reports</name>
+						<title>Enable aggregated real-time reports</title>
+						<value>0</value>
+						<defaultValue>0</defaultValue>
+						<type>boolean</type>
+						<uiControl>checkbox</uiControl>
+						<uiControlAttributes>
+						</uiControlAttributes>
+						<availableValues />
+						<description />
+						<inlineHelp>Shows privacy-safe aggregated metrics for the &quot;Last 24 hours&quot; and &quot;Last 30 minutes&quot;. No individual visitor, visit, session, or action-level information is displayed.</inlineHelp>
+						<introduction />
+						<condition>disable_visitor_log==1</condition>
+						<fullWidth>0</fullWidth>
+					</row>
+					<row>
 						<name>disable_visitor_profile</name>
 						<title>Turn off visitor profiles</title>
 						<value>0</value>
@@ -566,6 +582,22 @@ https://www.example.org/</placeholder>
 						<inlineHelp>Also removes features that depend on these, like the e-commerce log, the segmented visits-log, the real-time map or the real-time widget. May be required to comply with local privacy laws/guidelines.</inlineHelp>
 						<introduction />
 						<condition />
+						<fullWidth>0</fullWidth>
+					</row>
+					<row>
+						<name>enable_aggregated_realtime_reports</name>
+						<title>Enable aggregated real-time reports</title>
+						<value>0</value>
+						<defaultValue>0</defaultValue>
+						<type>boolean</type>
+						<uiControl>checkbox</uiControl>
+						<uiControlAttributes>
+						</uiControlAttributes>
+						<availableValues />
+						<description />
+						<inlineHelp>Shows privacy-safe aggregated metrics for the &quot;Last 24 hours&quot; and &quot;Last 30 minutes&quot;. No individual visitor, visit, session, or action-level information is displayed.</inlineHelp>
+						<introduction />
+						<condition>disable_visitor_log==1</condition>
 						<fullWidth>0</fullWidth>
 					</row>
 					<row>
