@@ -80,6 +80,7 @@ export default defineComponent({
       isStarted: true,
       isInitialLoading: true,
       refreshController: null as AutoRefreshController<string> | null,
+      lastTotalVisitorsHtml: '',
     };
   },
   computed: {
@@ -135,8 +136,10 @@ export default defineComponent({
         },
         handleResponse: (response) => {
           if (this.aggregatedOnly) {
-            this.applyTotalVisitors(response);
-            return { updated: true };
+            // Report whether the counters actually changed so the auto-refresh can back off
+            // while they are static instead of polling relentlessly.
+            const updated = this.applyTotalVisitors(response);
+            return { updated };
           }
 
           const segment = MatomoUrl.parsed.value.segment as string;
@@ -220,10 +223,10 @@ export default defineComponent({
         this.applyTotalVisitors(response);
       });
     },
-    applyTotalVisitors(response: string) {
+    applyTotalVisitors(response: string): boolean {
       const root = this.$refs.root as HTMLElement | undefined;
       if (!root) {
-        return;
+        return false;
       }
 
       const container = root.querySelector('#visitsTotal');
@@ -231,8 +234,14 @@ export default defineComponent({
       wrapper.innerHTML = response;
       const newContent = wrapper.querySelector('#visitsTotal');
       if (!newContent) {
-        return;
+        return false;
       }
+
+      // If the counters are unchanged, leave the DOM as-is so the auto-refresh can back off.
+      if (container && response === this.lastTotalVisitorsHtml) {
+        return false;
+      }
+      this.lastTotalVisitorsHtml = response;
 
       if (!container) {
         const list = root.querySelector('#visitsLive');
@@ -242,12 +251,13 @@ export default defineComponent({
           root.prepend(newContent);
         }
         Matomo.helper.compileVueEntryComponents(root);
-        return;
+        return true;
       }
 
       Matomo.helper.destroyVueComponent(container as HTMLElement);
       container.replaceWith(newContent);
       Matomo.helper.compileVueEntryComponents(root);
+      return true;
     },
     fetchInitialContent() {
       const segment = MatomoUrl.parsed.value.segment as string;

@@ -102,6 +102,45 @@ class AggregatedRealtimeReportsEnabledTest extends IntegrationTestCase
         $this->assertTrue($config->isEnabled());
     }
 
+    public function testEnablingPerSiteViaUpdateSiteTakesEffect()
+    {
+        // Exercises the same path as the admin UI: SitesManager.updateSite only persists settings
+        // that are writable by the current user, so a regression there would silently drop the value.
+        \Piwik\Plugins\SitesManager\API::getInstance()->updateSite(
+            1,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            [
+                'Live' => [
+                    ['name' => 'disable_visitor_log', 'value' => '1'],
+                    ['name' => 'enable_aggregated_realtime_reports', 'value' => '1'],
+                ],
+            ]
+        );
+
+        $this->assertTrue(AggregatedRealtimeReportsEnabled::getMeasurableValue(1));
+        $this->assertTrue(Live::isAggregatedRealtimeEnabled(1));
+        $this->assertFalse(Live::isVisitorLogEnabled(1));
+        $this->assertTrue(Live::shouldShowAggregatedRealtimeOnly(1));
+
+        // and the per-site value is scoped to the site it was set for
+        $this->assertFalse(AggregatedRealtimeReportsEnabled::getMeasurableValue(2));
+        $this->assertTrue($this->configureWidgetForSite(1)->isEnabled());
+    }
+
     private function configureWidgetForSite(int $idSite): WidgetConfig
     {
         $_GET['idSite'] = $idSite;

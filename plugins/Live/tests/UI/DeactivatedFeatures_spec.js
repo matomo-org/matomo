@@ -81,20 +81,23 @@ describe("DeactivatedFeatures", function () {
         await page.goto("?module=CoreHome&action=index&idSite=1&period=year&date=2009-01-04#?idSite=1&period=year&date=2009-01-04&category=General_Visitors&subcategory=General_Overview");
         await page.waitForSelector('#secondNavBar', {visible: true});
 
-        const vlog = await page.$('#secondNavBar .navbar a[href*="Live_VisitorLog"]');
-        expect(vlog).to.be.not.ok; // detailed visits log stays hidden
-
+        // the aggregated real-time subcategory remains available (wait for the reporting menu to render it)
+        await page.waitForSelector('#secondNavBar .navbar a[href*="General_RealTime"]', {visible: true});
         const realtime = await page.$('#secondNavBar .navbar a[href*="General_RealTime"]');
-        expect(realtime).to.be.ok; // aggregated real-time remains available
+        expect(realtime).to.be.ok;
+
+        // while the detailed visits log stays hidden
+        const vlog = await page.$('#secondNavBar .navbar a[href*="Live_VisitorLog"]');
+        expect(vlog).to.be.not.ok;
     });
 
     it('realtime widget shows aggregated counters only when only aggregated real-time reports enabled', async function () {
         await setFeatures(1, 1, 1, 1);
-        await page.goto("?module=CoreHome&action=index&idSite=1&period=year&date=2009-01-04#?idSite=1&period=year&date=2009-01-04&category=General_Visitors&subcategory=General_RealTime");
-        await page.waitForNetworkIdle();
-        await page.waitForSelector('#visitsTotal', {visible: true});
+        // render the widget in isolation to avoid the reporting page's redirect/polling timing
+        await page.goto("?module=Widgetize&action=iframe&moduleToWidgetize=Live&actionToWidgetize=widget&idSite=1&period=day&date=today");
 
         // the aggregated "Last 24 hours" / "Last 30 minutes" counters are shown
+        await page.waitForSelector('#visitsTotal', {visible: true});
         const total = await page.$('#visitsTotal');
         expect(total).to.be.ok;
 
