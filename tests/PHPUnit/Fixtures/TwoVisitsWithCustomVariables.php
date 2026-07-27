@@ -156,6 +156,10 @@ class TwoVisitsWithCustomVariables extends Fixture
         $visitorB->setCustomVariable($id = 2, $name = 'Othercustom value which should be truncated abcdefghijklmnopqrstuvwxyz', $value = 'abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz');
         $visitorB->setCustomVariable($id = -2, $name = 'not tracked', $value = 'not tracked');
         $visitorB->setCustomVariable($id = 6, $name = 'not tracked', $value = 'not tracked');
+        // A custom variable with a non-string (array) name can no longer go through the
+        // type-safe setCustomVariable(); inject it straight into the cvar payload so we
+        // still verify a malformed custom variable is not tracked.
+        $visitorB->visitorCustomVar[6] = array(array('not tracked'), 'not tracked');
         $visitorB->setUrl('http://example.org/homepage');
         self::checkResponse($visitorB->doTrackGoal($idGoal, 1000));
 
