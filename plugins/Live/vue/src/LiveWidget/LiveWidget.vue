@@ -12,7 +12,7 @@
     </div>
     <div ref="root"></div>
 
-    <div class="visitsLiveFooter">
+    <div v-if="!aggregatedOnly" class="visitsLiveFooter">
       <a
         :title="translate('Live_OnClickPause', translate('Live_VisitorsInRealTime'))"
         @click.prevent="pause()"
@@ -70,6 +70,7 @@ export default defineComponent({
   props: {
     liveRefreshAfterMs: Number,
     disableLink: Boolean,
+    aggregatedOnly: Boolean,
   },
   components: {
     MatomoLoader,
@@ -124,7 +125,7 @@ export default defineComponent({
           return AjaxHelper.fetch(
             {
               module: 'Live',
-              action: 'getLastVisitsStart',
+              action: this.aggregatedOnly ? 'ajaxTotalVisitors' : 'getLastVisitsStart',
               segment,
             },
             {
@@ -133,6 +134,11 @@ export default defineComponent({
           );
         },
         handleResponse: (response) => {
+          if (this.aggregatedOnly) {
+            this.applyTotalVisitors(response);
+            return { updated: true };
+          }
+
           const segment = MatomoUrl.parsed.value.segment as string;
           const ensured = this.ensureVisitsList(response);
           const updated = ensured ? true : this.parseResponse(response);
@@ -211,32 +217,60 @@ export default defineComponent({
           format: 'html',
         },
       ).then((response) => {
-        const container = root.querySelector('#visitsTotal');
-        const wrapper = document.createElement('div');
-        wrapper.innerHTML = response;
-        const newContent = wrapper.querySelector('#visitsTotal');
-        if (!newContent) {
-          return;
-        }
-
-        if (!container) {
-          const list = root.querySelector('#visitsLive');
-          if (list) {
-            list.before(newContent);
-          } else {
-            root.prepend(newContent);
-          }
-          Matomo.helper.compileVueEntryComponents(root);
-          return;
-        }
-
-        Matomo.helper.destroyVueComponent(container as HTMLElement);
-        container.replaceWith(newContent);
-        Matomo.helper.compileVueEntryComponents(root);
+        this.applyTotalVisitors(response);
       });
+    },
+    applyTotalVisitors(response: string) {
+      const root = this.$refs.root as HTMLElement | undefined;
+      if (!root) {
+        return;
+      }
+
+      const container = root.querySelector('#visitsTotal');
+      const wrapper = document.createElement('div');
+      wrapper.innerHTML = response;
+      const newContent = wrapper.querySelector('#visitsTotal');
+      if (!newContent) {
+        return;
+      }
+
+      if (!container) {
+        const list = root.querySelector('#visitsLive');
+        if (list) {
+          list.before(newContent);
+        } else {
+          root.prepend(newContent);
+        }
+        Matomo.helper.compileVueEntryComponents(root);
+        return;
+      }
+
+      Matomo.helper.destroyVueComponent(container as HTMLElement);
+      container.replaceWith(newContent);
+      Matomo.helper.compileVueEntryComponents(root);
     },
     fetchInitialContent() {
       const segment = MatomoUrl.parsed.value.segment as string;
+
+      if (this.aggregatedOnly) {
+        AjaxHelper.fetch(
+          {
+            module: 'Live',
+            action: 'ajaxTotalVisitors',
+            segment,
+          },
+          {
+            format: 'html',
+          },
+        ).then((response) => {
+          this.applyTotalVisitors(response);
+        }).finally(() => {
+          this.isInitialLoading = false;
+          this.scheduleUpdate(this.getBaseInterval());
+        });
+        return;
+      }
+
       const visitsPromise = AjaxHelper.fetch(
         {
           module: 'Live',

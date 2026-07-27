@@ -26,12 +26,13 @@ describe("DeactivatedFeatures", function () {
     });
 
 
-    async function setFeatures(idSite, vLog, vProfile) {
+    async function setFeatures(idSite, vLog, vProfile, vAggregatedRealtime = 0) {
         await testEnvironment.callApi("SitesManager.updateSite", {
             idSite: idSite, settingValues: {
                 Live: [
                     {name: 'disable_visitor_log', value: vLog},
                     {name: 'disable_visitor_profile', value: vProfile},
+                    {name: 'enable_aggregated_realtime_reports', value: vAggregatedRealtime},
                 ]
             }
         });
@@ -73,6 +74,36 @@ describe("DeactivatedFeatures", function () {
 
         const realtimemap = await page.$('#secondNavBar .navbar a[href*="UserCountryMap_RealTimeMap"]');
         expect(realtimemap).to.be.not.ok;
+    });
+
+    it('menu should contain realtime but not visits log when only aggregated real-time reports enabled', async function () {
+        await setFeatures(1, 1, 1, 1);
+        await page.goto("?module=CoreHome&action=index&idSite=1&period=year&date=2009-01-04#?idSite=1&period=year&date=2009-01-04&category=General_Visitors&subcategory=General_Overview");
+        await page.waitForSelector('#secondNavBar', {visible: true});
+
+        const vlog = await page.$('#secondNavBar .navbar a[href*="Live_VisitorLog"]');
+        expect(vlog).to.be.not.ok; // detailed visits log stays hidden
+
+        const realtime = await page.$('#secondNavBar .navbar a[href*="General_RealTime"]');
+        expect(realtime).to.be.ok; // aggregated real-time remains available
+    });
+
+    it('realtime widget shows aggregated counters only when only aggregated real-time reports enabled', async function () {
+        await setFeatures(1, 1, 1, 1);
+        await page.goto("?module=CoreHome&action=index&idSite=1&period=year&date=2009-01-04#?idSite=1&period=year&date=2009-01-04&category=General_Visitors&subcategory=General_RealTime");
+        await page.waitForNetworkIdle();
+        await page.waitForSelector('#visitsTotal', {visible: true});
+
+        // the aggregated "Last 24 hours" / "Last 30 minutes" counters are shown
+        const total = await page.$('#visitsTotal');
+        expect(total).to.be.ok;
+
+        // but no individual visitor stream and no live controls are shown
+        const stream = await page.$('#visitsLive');
+        expect(stream).to.be.not.ok;
+
+        const footer = await page.$('.visitsLiveFooter');
+        expect(footer).to.be.not.ok;
     });
 
     it('it should not show visits log, when opened directly but disabled', async function () {
@@ -286,6 +317,19 @@ describe("DeactivatedFeatures", function () {
 
         const profile = await page.$('[idsite="1"] #disable_visitor_profile');
         expect(profile).to.be.ok;
+    });
+
+    it('measurable aggregated real-time setting is available when the site visits log is disabled', async function () {
+        await setFeatures(1, 1, 0, 0); // disable this site's visits log
+        await page.goto("?module=SitesManager&action=index&idSite=1");
+        await page.waitForNetworkIdle();
+        await page.click('[idsite="1"] .icon-edit');
+        await page.waitForNetworkIdle();
+
+        // the per-site "Enable aggregated real-time reports" setting is shown (condition disable_visitor_log==1)
+        await page.waitForSelector('[idsite="1"] #enable_aggregated_realtime_reports', {visible: true});
+        const aggregated = await page.$('[idsite="1"] #enable_aggregated_realtime_reports');
+        expect(aggregated).to.be.ok;
     });
 
     it('measurable settings for live plugin should be available by default', async function () {
