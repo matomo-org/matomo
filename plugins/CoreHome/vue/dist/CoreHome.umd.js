@@ -134,6 +134,7 @@ __webpack_require__.d(__webpack_exports__, "useExternalPluginComponent", functio
 __webpack_require__.d(__webpack_exports__, "DirectiveUtilities", function() { return /* reexport */ directiveUtilities; });
 __webpack_require__.d(__webpack_exports__, "debounce", function() { return /* reexport */ debounce; });
 __webpack_require__.d(__webpack_exports__, "clone", function() { return /* reexport */ clone; });
+__webpack_require__.d(__webpack_exports__, "ucfirst", function() { return /* reexport */ ucfirst; });
 __webpack_require__.d(__webpack_exports__, "VueEntryContainer", function() { return /* reexport */ VueEntryContainer; });
 __webpack_require__.d(__webpack_exports__, "ActivityIndicator", function() { return /* reexport */ ActivityIndicator; });
 __webpack_require__.d(__webpack_exports__, "MatomoLoader", function() { return /* reexport */ MatomoLoader; });
@@ -2613,6 +2614,24 @@ function clone(p) {
     return p;
   }
   return JSON.parse(JSON.stringify(p));
+}
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ucfirst.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+/**
+ * Uppercase the first character of a string, leaving the rest untouched (e.g. "visits" ->
+ * "Visits"). Uses locale-aware Unicode casing; an empty or missing value yields an empty string.
+ */
+function ucfirst(text, locale) {
+  if (!text) {
+    return '';
+  }
+  const [firstCharacter, ...remainingCharacters] = Array.from(text);
+  return firstCharacter.toLocaleUpperCase(locale || undefined) + remainingCharacters.join('');
 }
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/VueEntryContainer/VueEntryContainer.vue?vue&type=template&id=6cb9164b
 
@@ -14316,6 +14335,7 @@ class EntityDuplicatorStore_EntityDuplicatorStore {
  * @link    https://matomo.org
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 
 
 

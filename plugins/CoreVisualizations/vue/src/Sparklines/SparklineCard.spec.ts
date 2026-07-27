@@ -11,6 +11,8 @@ import { mount } from '@vue/test-utils';
 // directive) and the Sparkline. CoreHome has no jest module mapping, so mock it virtually.
 jest.mock('CoreHome', () => ({
   Tooltips: {},
+  // ucfirst is mocked as an identity passthrough; its capitalization is covered by ucfirst.spec.
+  ucfirst: (s?: string) => s ?? '',
   Sparkline: {
     name: 'Sparkline',
     props: ['params', 'seriesIndices', 'width', 'height'],

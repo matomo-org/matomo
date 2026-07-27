@@ -80,6 +80,7 @@ class Controller extends \Piwik\Plugins\Goals\Controller
             /** @var Sparklines $view */
             $view = ViewDataTableFactory::build(Sparklines::ID, 'Goals.get', 'Ecommerce.' . __METHOD__, true);
             $view->config->show_title = false;
+            $view->config->use_metric_labels_as_titles = true;
             $view->config->custom_parameters = [
                 'idGoal' => $idGoal,
             ];

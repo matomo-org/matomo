@@ -9,9 +9,11 @@ import { mount } from '@vue/test-utils';
 
 // CoreHome has no jest module mapping, so virtual-mock it: Tooltips the directive the real
 // MetricValue registers, and NumberFormatter to format numbers. The sparkline itself is rendered
-// by the shell, not this body.
+// by the shell, not this body. ucfirst is an identity spy here; its casing behavior is
+// covered by ucfirst.spec.
 jest.mock('CoreHome', () => ({
   Tooltips: {},
+  ucfirst: jest.fn((text?: string) => text ?? ''),
   NumberFormatter: {
     formatNumber: (value: number) => String(value),
   },
@@ -19,6 +21,8 @@ jest.mock('CoreHome', () => ({
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const DateComparison = require('./DateComparison.vue').default;
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const ucfirstMock = require('CoreHome').ucfirst as jest.Mock;
 
 function createWrapper(overrides = {}) {
   const sparkline = {
@@ -54,10 +58,35 @@ function createWrapper(overrides = {}) {
 }
 
 describe('CoreVisualizations/DateComparison', () => {
+  const originalDocumentLanguage = document.documentElement.lang;
+
+  beforeEach(() => {
+    document.documentElement.lang = 'en';
+    ucfirstMock.mockClear();
+  });
+
+  afterAll(() => {
+    document.documentElement.lang = originalDocumentLanguage;
+  });
+
   it('renders the metric name as the card title', () => {
     const wrapper = createWrapper();
 
     expect(wrapper.find('.sparklineDateComparison__title').text()).toBe('Visits');
+  });
+
+  it('capitalizes the metric title using the document language', () => {
+    document.documentElement.lang = 'tr';
+
+    createWrapper({
+      metrics: {
+        'Monday, May 4, 2026': [{ value: '10,558', description: 'istanbul', title: 'istanbul' }],
+      },
+      metricsOrder: ['Monday, May 4, 2026'],
+      seriesIndices: [0],
+    });
+
+    expect(ucfirstMock).toHaveBeenCalledWith('istanbul', 'tr');
   });
 
   it('exposes the full title as a title attribute so a clipped metric name stays recoverable', () => {
@@ -97,10 +126,9 @@ describe('CoreVisualizations/DateComparison', () => {
 
     const columns = wrapper.findAll('.periodColumns__column');
     expect(columns[0].find('.metricValue__number').text()).toBe('10,558');
-    expect(columns[0].find('.metricValue__secondaryValue').text()).toBe('9,527');
-    expect(columns[0].find('.metricValue__secondaryLabel').text()).toBe('unique visitors');
+    expect(columns[0].find('.metricValue__secondaryLine').text()).toBe('9,527 unique visitors');
     expect(columns[1].find('.metricValue__number').text()).toBe('12,558');
-    expect(columns[1].find('.metricValue__secondaryValue').text()).toBe('10,527');
+    expect(columns[1].find('.metricValue__secondaryLine').text()).toBe('10,527 unique visitors');
   });
 
   it('renders an EvolutionBadge only for the date that has evolution data', () => {

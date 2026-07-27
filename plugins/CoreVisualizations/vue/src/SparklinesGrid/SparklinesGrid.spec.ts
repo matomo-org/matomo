@@ -7,15 +7,18 @@
 
 import { flushPromises, mount } from '@vue/test-utils';
 
-// The grid mounts the real SparklineCard -> NoComparison -> MetricValue chain (and, in segment mode,
-// SegmentComparisonCard -> SegmentComparisonRow -> MetricValue + Sparkline), so the mock supplies
-// what those chains pull from CoreHome (no jest module mapping): the Tooltips directive, MatomoUrl
-// (data-graph-params) and NumberFormatter (raw numeric values).
+// The grid mounts the real SparklineCard -> NoComparison -> MetricValue chain, so the mock
+// provides everything that chain pulls from CoreHome (no jest module mapping): the Tooltips
+// directive (MetricValue), ucfirst (the title helper), MatomoUrl (SparklineCard derives
+// graph-params from the url) and NumberFormatter (NoComparison formats raw numeric values).
 jest.mock('CoreHome', () => ({
   Tooltips: {},
+  // ucfirst is mocked as an identity passthrough; its capitalization is covered by ucfirst.spec.
+  ucfirst: (s?: string) => s ?? '',
   Sparkline: { template: '<img class="sparkline-stub" />' },
-  // The cards call MatomoUrl.parse for data-graph-params, but no test asserts on it and the fixture
-  // urls carry no columns/rows/idGoal, so an empty object satisfies the `parsed[key]` lookups.
+  // SparklineCard calls MatomoUrl.parse to derive data-graph-params, but no test here
+  // asserts on it and the fixture urls carry no columns/rows/idGoal, so an empty object
+  // is enough to satisfy the `parsed[key]` lookups without crashing.
   MatomoUrl: {
     parse: () => ({}),
   },
@@ -32,7 +35,7 @@ describe('CoreVisualizations/SparklinesGrid', () => {
 
   beforeEach(() => {
     // sparkline.js (which defines window.initializeSparklines) is loaded on every real
-    // Matomo page but not in the jest bootstrap, so stub it here.
+    // Matomo page but not in the test bootstrap, so stub it here.
     initializeSparklinesSpy = jest.fn();
     window.initializeSparklines = initializeSparklinesSpy;
   });
