@@ -352,7 +352,7 @@ abstract class GeneratePluginBase extends ConsoleCommand
     {
         $pluginNames = array();
         foreach (Manager::getPluginsDirectories() as $pluginsDir) {
-            $pluginDirs = glob($pluginsDir . '*', GLOB_ONLYDIR);
+            $pluginDirs = glob($pluginsDir . '*', GLOB_ONLYDIR) ?: [];
 
             foreach ($pluginDirs as $pluginDir) {
                 $pluginNames[] = basename($pluginDir);
@@ -366,7 +366,7 @@ abstract class GeneratePluginBase extends ConsoleCommand
     {
         $pluginNames = array();
         foreach (Manager::getPluginsDirectories() as $pluginsDir) {
-            $pluginDirs = glob($pluginsDir . '*', GLOB_ONLYDIR);
+            $pluginDirs = glob($pluginsDir . '*', GLOB_ONLYDIR) ?: [];
 
             foreach ($pluginDirs as $pluginDir) {
                 if (!file_exists($pluginDir . '/' . $filename)) {

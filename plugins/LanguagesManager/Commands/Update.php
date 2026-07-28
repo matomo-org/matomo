@@ -59,7 +59,7 @@ class Update extends TranslationBase
             // fetch base or specific plugin
             $this->fetchTranslations($plugin);
 
-            $files = glob(FetchTranslations::getDownloadPath() . DIRECTORY_SEPARATOR . '*.json');
+            $files = glob(FetchTranslations::getDownloadPath() . DIRECTORY_SEPARATOR . '*.json') ?: [];
 
             if (count($files) == 0) {
                 $output->writeln("No translation updates available! Skipped.");
