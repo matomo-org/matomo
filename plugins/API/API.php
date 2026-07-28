@@ -135,17 +135,6 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Returns the `[APISettings]` section from `config.ini.php`.
-     *
-     * @return array<string, mixed>
-     * @deprecated May be removed in one of the next major releases
-     */
-    public function getSettings()
-    {
-        return Config::getInstance()->APISettings;
-    }
-
-    /**
      * Returns all available measurable types.
      * Marked as internal so it won't appear on the API page.
      * @return list<array{id:string, name:string, description:string, longDescription:string, howToSetupUrl:string, settings:list<array<string, scalar>>}>

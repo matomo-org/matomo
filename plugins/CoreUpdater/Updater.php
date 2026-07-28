@@ -78,13 +78,12 @@ class Updater
     /**
      * Update Piwik codebase by downloading and installing the latest version.
      *
-     * @param bool $https Whether to use HTTPS if supported of not. If false, will use HTTP.
      * @return string[] Return an array of messages for the user.
      * @throws ArchiveDownloadException
      * @throws UpdaterException
      * @throws Exception
      */
-    public function updatePiwik($https = true)
+    public function updatePiwik()
     {
         if (!$this->isNewVersionAvailable()) {
             throw new Exception($this->translator->translate('CoreUpdater_ExceptionAlreadyLatestVersion', Version::VERSION));
@@ -93,7 +92,7 @@ class Updater
         SettingsServer::setMaxExecutionTime(0);
 
         $newVersion = $this->getLatestVersion();
-        $url = $this->getArchiveUrl($newVersion, $https);
+        $url = $this->getArchiveUrl($newVersion);
         $messages = [];
 
         $pluginManager = PluginManager::getInstance();
@@ -258,7 +257,8 @@ class Updater
         try {
             Http::fetchRemoteFile($url, $archiveFile, 0, self::DOWNLOAD_TIMEOUT);
         } catch (Exception $e) {
-            // We throw a specific exception allowing to offer HTTP download if HTTPS failed
+            // A specific exception so the controller can tell a download failure apart from later
+            // errors and show the matching terminal error screen (secure HTTPS vs generic).
             throw new ArchiveDownloadException($e);
         }
 
@@ -388,7 +388,11 @@ class Updater
          * These files are visible in the web root and are generally
          * served directly by the web server.  May be shared.
          */
-        if (PIWIK_INCLUDE_PATH !== PIWIK_DOCUMENT_ROOT) { // @phpstan-ignore notIdentical.alwaysFalse
+        /** @var string $includePath */
+        $includePath = PIWIK_INCLUDE_PATH;
+        /** @var string $documentRoot */
+        $documentRoot = PIWIK_DOCUMENT_ROOT;
+        if ($includePath !== $documentRoot) {
             // Copy PHP files that expect to be in the document root
             $specialCases = array(
                 '/index.php',
@@ -412,21 +416,26 @@ class Updater
 
     /**
      * @param string $version
-     * @param bool $https Whether to use HTTPS if supported of not. If false, will use HTTP.
      * @return string
      */
-    public function getArchiveUrl($version, $https = true)
+    public function getArchiveUrl($version)
     {
         $channel = $this->releaseChannels->getActiveReleaseChannel();
         $url = $channel->getDownloadUrlWithoutScheme($version);
 
-        if (Http::isUpdatingOverHttps() && $https && GeneralConfig::getConfigValue('force_matomo_http_request') == 0) {
-            $url = 'https' . $url;
-        } else {
-            $url = 'http' . $url;
-        }
+        return ($this->isUpdatingOverSecureConnection() ? 'https' : 'http') . $url;
+    }
 
-        return $url;
+    /**
+     * Whether the update archive is downloaded over a secure HTTPS connection.
+     *
+     * The update is always fetched over HTTPS. Plain HTTP is used only when an administrator
+     * explicitly enables it via the force_matomo_http_request config option, e.g. for environments
+     * where HTTPS to matomo.org cannot be used.
+     */
+    public function isUpdatingOverSecureConnection(): bool
+    {
+        return !GeneralConfig::getBoolConfigValue('force_matomo_http_request', false);
     }
 
     private function getIncompatiblePlugins($piwikVersion)

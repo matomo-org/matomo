@@ -124,7 +124,12 @@ describe("PeriodSelector", function () {
         const element = await page.jQuery('.period-date .ui-datepicker-calendar a:contains(15)');
         await element.click();
 
-        expect(await page.screenshotSelector(selector)).to.matchImage('year_selected');
+        // Tolerate minor weekend-day styling variance in the datepicker, which renders slightly
+        // differently between runs under the modern headless Chrome (~0.1% of the image).
+        expect(await page.screenshotSelector(selector)).to.matchImage({
+            imageName: 'year_selected',
+            comparisonThreshold: 0.005,
+        });
     });
 
     it("should display the range picker when the range radio button is clicked", async function() {

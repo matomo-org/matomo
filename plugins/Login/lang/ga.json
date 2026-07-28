@@ -100,6 +100,8 @@
         "SuspiciousLoginAttemptsInLastHourEmail5": "Socraigh liosta seoltaí IP gan bac a chur air má tá sraith theoranta úsáideoirí nó úsáideoirí IPs ag do Matomo. %1$sLéigh na docs le haghaidh tuilleadh eolais.%2$s",
         "SuspiciousLoginAttemptsInLastHourEmailSubject": "Rinneadh roinnt iarrachtaí logála isteach amhrasacha ag baint úsáide as d'ainm úsáideora …",
         "TimeOfLogin": "Am logáil isteach",
+        "TokenAuthenticationFailed": "Ní féidir fíordheimhniú a dhéanamh leis an gcomhartha a cuireadh ar fáil. Tá sé neamhbhailí nó imithe in éag.",
+        "TokenAuthenticationFailedInsecure": "Ní féidir fíordheimhniú a dhéanamh leis an gcomhartha a cuireadh ar fáil. Tá sé neamhbhailí, imithe in éag nó caithfear é a sheoladh mar pharaiméadar POST nó sa cheanntásc Údaraithe HTTP. Má cruthaíodh an comhartha leis an rogha 'Ní cheadaítear ach iarratais shlána', ní mór é a sheoladh mar pharaiméadar POST nó sa cheanntásc Údaraithe HTTP.",
         "UnblockAllIPs": "Díbhlocáil gach IPanna bactha",
         "WrongPasswordEntered": "Cuir isteach do phasfhocal, le do thoil."
     }

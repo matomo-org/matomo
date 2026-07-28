@@ -293,7 +293,7 @@ class SegmentEditor extends \Piwik\Plugin
 
         // if no visits recorded, data will not appear, so don't show the message
         $liveModel = new \Piwik\Plugins\Live\Model();
-        $visits = $liveModel->queryLogVisits($idSites, $periodStr, $date, $segment->getString(), $offset = 0, $limit = 1, null, null, 'ASC');
+        $visits = $liveModel->queryLogVisits($idSites, $periodStr, $date, $segment->getString(), $offset = 0, $limit = 1, false, false, 'ASC');
         if (empty($visits)) {
             return null;
         }

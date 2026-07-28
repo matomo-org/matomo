@@ -57,7 +57,7 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
     readonly: "true",
     id: "directLinkEmbed"
   };
-  const _hoisted_8 = ["href"];
+  const _hoisted_8$1 = ["href"];
   function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
     const _directive_select_on_focus = vue.resolveDirective("select-on-focus");
     return vue.openBlock(), vue.createElementBlock(vue.Fragment, null, [
@@ -90,7 +90,7 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
             href: _ctx.urlIframe,
             rel: "noreferrer noopener",
             target: "_blank"
-          }, vue.toDisplayString(_ctx.translate("Widgetize_OpenInNewWindow")), 9, _hoisted_8)
+          }, vue.toDisplayString(_ctx.translate("Widgetize_OpenInNewWindow")), 9, _hoisted_8$1)
         ])
       ])
     ], 64);
@@ -153,6 +153,10 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
       title: {
         type: String,
         required: true
+      },
+      onlyAllowSecureAuthTokens: {
+        type: Boolean,
+        default: false
       }
     },
     components: {
@@ -204,6 +208,17 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
         );
       },
       viewableAnonymously() {
+        if (this.onlyAllowSecureAuthTokens) {
+          return CoreHome.translate(
+            "Widgetize_UrlTokensDisabledByPolicy",
+            `<a
+            href="index.php?module=UsersManager"
+            rel="noreferrer noopener"
+            target="_blank"
+          >`,
+            "</a>"
+          );
+        }
         return CoreHome.translate(
           "Widgetize_ViewableAnonymously",
           `<a
@@ -253,10 +268,11 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
   const _hoisted_1 = { class: "widgetize" };
   const _hoisted_2 = ["innerHTML"];
   const _hoisted_3 = ["innerHTML"];
-  const _hoisted_4 = ["innerHTML"];
-  const _hoisted_5 = ["textContent"];
-  const _hoisted_6 = ["innerHTML"];
-  const _hoisted_7 = ["textContent"];
+  const _hoisted_4 = { key: 0 };
+  const _hoisted_5 = ["innerHTML"];
+  const _hoisted_6 = ["textContent"];
+  const _hoisted_7 = ["innerHTML"];
+  const _hoisted_8 = ["textContent"];
   function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_EnrichedHeadline = vue.resolveComponent("EnrichedHeadline");
     const _component_ContentBlock = vue.resolveComponent("ContentBlock");
@@ -283,7 +299,8 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
         default: vue.withCtx(() => [
           vue.createElementVNode("p", {
             innerHTML: _ctx.$sanitize(_ctx.viewableAnonymously)
-          }, null, 8, _hoisted_3)
+          }, null, 8, _hoisted_3),
+          !_ctx.onlyAllowSecureAuthTokens ? (vue.openBlock(), vue.createElementBlock("p", _hoisted_4, vue.toDisplayString(_ctx.translate("Widgetize_ViewableAnonymouslyUrlTokenRequirement")), 1)) : vue.createCommentVNode("", true)
         ]),
         _: 1
       }),
@@ -293,24 +310,24 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
             vue.createElementVNode("p", null, [
               vue.createElementVNode("span", {
                 innerHTML: _ctx.$sanitize(_ctx.displayInIframe)
-              }, null, 8, _hoisted_4),
+              }, null, 8, _hoisted_5),
               _cache[0] || (_cache[0] = vue.createElementVNode("br", null, null, -1))
             ]),
             vue.withDirectives(vue.createElementVNode("pre", {
               textContent: vue.toDisplayString(_ctx.dashboardCode)
-            }, null, 8, _hoisted_5), [
+            }, null, 8, _hoisted_6), [
               [_directive_select_on_focus, {}]
             ]),
             vue.createElementVNode("p", null, [
               _cache[1] || (_cache[1] = vue.createElementVNode("br", null, null, -1)),
               vue.createElementVNode("span", {
                 innerHTML: _ctx.$sanitize(_ctx.displayInIframeAllSites)
-              }, null, 8, _hoisted_6),
+              }, null, 8, _hoisted_7),
               _cache[2] || (_cache[2] = vue.createElementVNode("br", null, null, -1))
             ]),
             vue.withDirectives(vue.createElementVNode("pre", {
               textContent: vue.toDisplayString(_ctx.allWebsitesDashboardCode)
-            }, null, 8, _hoisted_7), [
+            }, null, 8, _hoisted_8), [
               [_directive_select_on_focus, {}]
             ])
           ])

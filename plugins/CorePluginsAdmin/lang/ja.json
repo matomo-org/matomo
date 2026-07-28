@@ -9,7 +9,7 @@
         "AlwaysActivatedPluginsList": "次のプラグインは常に有効になっており、無効にすることはできません：%s",
         "AreThereAnyRisks": "リスクはありますか？",
         "AreThereAnyRisksDetails1": "タグマネージャをアクティブにすると、管理者権限を持つユーザーは、Web サイトで JavaScript を実行できるカスタムの HTML タグ、トリガー、および変数を作成できます。 これらのカスタムテンプレートは、たとえば、ウェブサイト訪問者（%1$sXSS%2$sとして知られる）からの機密情報を盗むために誤用される可能性があります。",
-        "AreThereAnyRisksDetails2": "これらのカスタムテンプレートは、Tag Managerを有効にした後は、「管理→一般設定」で無効にすることができます。 また、これらのテンプレートの使用を特定のユーザーまたはスーパーユーザーのみに制限することもできます。",
+        "AreThereAnyRisksDetails2": "タグマネージャーを有効にした後、「管理 → 一般設定」からこれらのカスタムテンプレートを無効にすることができます。あるいは、これらのテンプレートの使用を特定のユーザーまたはスーパーユーザーのみに制限することも可能です。",
         "AuthorHomepage": "著者ホームページ",
         "ChangeLookByManageThemes": "%1$s テーマの管理 %2$sで Matomo の外観を変更できます。",
         "ChangeSettingsPossible": "このプラグインの%1$s設定%2$sを変えることができます。",
@@ -47,6 +47,9 @@
         "OriginOfficial": "公式",
         "OriginThirdParty": "サードパーティ",
         "PluginActivated": "プラグインの有効化",
+        "PluginFreeTrialStarted": "%1$s「%3$s」の30日間無料トライアルが開始されました%2$s。",
+        "PluginFreeTrialStartedAccountCreatedMessage": "ライセンスキーを追加しました。これにより、%1$sの30日間無料トライアルが開始されました。プラグインをインストールして有効化し、次のステップに進んでください。",
+        "PluginFreeTrialStartedAccountCreatedTitle": "アカウントが作成されました",
         "PluginHomepage": "プラグインのホームページ",
         "PluginNotCompatibleWith": "プラグイン%1$sは%2$sと互換性がありません。",
         "PluginNotDownloadable": "このプラグインはダウンロードできません。",
@@ -74,7 +77,7 @@
         "Themes": "テーマ",
         "ThemesDescription": "テーマは Matomo のユーザーインターフェースの外観を変えることができ、分析レポートを楽しむための全く新しい視覚的体験を提供します。",
         "ThemesManagement": "テーマの管理",
-        "UninstallConfirm": "プラグイン %s をアンインストールしようとしています。これを実行すると、プラグインは完全にプラットフォームから削除され、回復できなくなります。本当にアンインストールを実行してもよろしいですか？",
+        "UninstallConfirm": "プラグイン「%s」をアンインストールしようとしています。このプラグインおよび収集されたすべてのデータは、プラットフォームから完全に削除され、復元することはできません。本当に実行してもよろしいですか？",
         "UpdateSelected": "選択を更新",
         "Version": "バージョン",
         "ViewAllMarketplacePlugins": "マーケットプレイスのプラグインをすべて表示",
@@ -86,6 +89,6 @@
         "WhyUsingATagManager": "なぜ Tag Manager？",
         "WhyUsingATagManagerDetails1": "Tag Manager は皆さんの負担を軽減します！ Tag Manager では、これらの変更を行ったり、ウェブサイトを自分で展開したりするために、開発者がウェブサイト上のファーストパーティ またはサードパーティのスニペットを変更するのを待つ必要がなくなりました。",
         "WhyUsingATagManagerDetails2": "これは未だかつてなく便利で、市場への変更をより迅速にもたらすだけでなく、コストを削減します。",
-        "WhyUsingATagManagerDetails3": "これは、マーケティングチーム、デジタルチーム、そしてITスタッフを幸せにしています。誰もが満足できます！"
+        "WhyUsingATagManagerDetails3": "これで、マーケティングチーム、デジタルチーム、そしてIT担当者の皆が満足できます… まさに、全員にとってウィンウィンの関係です！"
     }
 }

@@ -599,6 +599,11 @@ describe("SegmentManagementPageTest", function () {
   }
 
   async function openPage() {
+    // Navigate via about:blank first to force a real server reload. Under the modern headless Chrome
+    // page.goto to a URL that differs from the current page only in the hash does not reload, so a
+    // freshly-applied testEnvironment identity (e.g. switchToViewUser) would otherwise not take
+    // effect and the page would keep rendering as the previous (super) user.
+    await page.goto('about:blank');
     await page.goto(url);
     await page.waitForNetworkIdle();
   }

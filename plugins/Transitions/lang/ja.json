@@ -7,6 +7,7 @@
         "ErrorBack": "前の操作に戻る",
         "ExitsInline": "%s 終了",
         "FeatureDescription": "トランジションは、が特定ビジターのページを表示する直前と直後に行ったことを示すレポートです。 このページでは、強力な「トランジション」レポートにアクセスし、理解し、使用する方法について説明します。",
+        "FromAIAssistants": "AIアシスタントから",
         "FromCampaigns": "キャンペーンから",
         "FromPreviousPages": "内部ページから",
         "FromPreviousPagesInline": "内部ページからの %s",

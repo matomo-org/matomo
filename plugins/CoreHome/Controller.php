@@ -15,7 +15,7 @@ use Piwik\Category\CategoryList;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
-use Piwik\DataTable\Renderer\Json;
+use Piwik\Http\JsonResponse;
 use Piwik\Date;
 use Piwik\FrontController;
 use Piwik\Log\LoggerInterface;
@@ -177,7 +177,8 @@ class Controller extends \Piwik\Plugin\Controller
         return $view->render();
     }
 
-    public function markNotificationAsRead()
+    #[JsonResponse]
+    public function markNotificationAsRead(): string
     {
         Piwik::checkUserHasSomeViewAccess();
         $this->checkTokenInUrl();
@@ -185,7 +186,6 @@ class Controller extends \Piwik\Plugin\Controller
         $notificationId = Common::getRequestVar('notificationId');
         NotificationManager::cancel($notificationId);
 
-        Json::sendHeaderJSON();
         return json_encode(true);
     }
 

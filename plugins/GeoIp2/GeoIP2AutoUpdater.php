@@ -488,7 +488,7 @@ class GeoIP2AutoUpdater extends Task
         $isValidHost = false;
 
         foreach ($validHosts as $validHost) {
-            if (preg_match('/(^|\.)' . preg_quote($validHost) . '$/i', $host)) {
+            if (preg_match('/(^|\.)' . preg_quote($validHost, '/') . '$/i', $host)) {
                 $isValidHost = true;
                 break;
             }

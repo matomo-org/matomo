@@ -14,7 +14,7 @@ use Piwik\API\ResponseBuilder;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\DataTable\Renderer\Json;
+use Piwik\Http\JsonResponse;
 use Piwik\Mail;
 use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
@@ -299,7 +299,8 @@ class Controller extends ControllerAdmin
         return $this->optOutManager->getOptOutJS();
     }
 
-    public function uploadCustomLogo()
+    #[JsonResponse]
+    public function uploadCustomLogo(): string
     {
         Piwik::checkUserHasSuperUserAccess();
         $this->checkTokenInUrl();
@@ -323,7 +324,6 @@ class Controller extends ControllerAdmin
             $response['favicon'] = $logo->getTempUserFaviconBase64();
         }
 
-        Json::sendHeaderJSON();
         return json_encode($response);
     }
 
