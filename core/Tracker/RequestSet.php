@@ -20,7 +20,7 @@ class RequestSet
      *
      * @var Request[]
      */
-    private $requests = null;
+    private ?array $requests = null;
 
     /**
      * The token auth supplied with a bulk visits POST.

@@ -25,10 +25,7 @@ use Piwik\Config;
  */
 class VisitExcluded
 {
-    /**
-     * @var ReferrerSpamFilter
-     */
-    private $spamFilter;
+    private ReferrerSpamFilter $spamFilter;
 
     private $siteCache = array();
 

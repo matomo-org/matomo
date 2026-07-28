@@ -23,16 +23,12 @@ use Piwik\Plugin\MetadataLoader;
  */
 class PluginList
 {
-    /**
-     * @var GlobalSettingsProvider
-     */
-    private $settings;
+    private GlobalSettingsProvider $settings;
 
     /**
      * Plugins bundled with core package, disabled by default
-     * @var array
      */
-    private $corePluginsDisabledByDefault = array(
+    private array $corePluginsDisabledByDefault = array(
         'ArchivingMetrics',
         'DBStats',
         'ExamplePlugin',

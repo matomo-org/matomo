@@ -72,7 +72,7 @@ class UIControl extends \Piwik\View
      *
      * @var View
      */
-    private $innerView = null;
+    private ?View $innerView = null;
 
     public function __construct()
     {

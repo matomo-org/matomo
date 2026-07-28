@@ -23,7 +23,7 @@ class DimensionMetricFactory
     /**
      * @var Dimension
      */
-    private $dimension = null;
+    private ?Dimension $dimension = null;
 
     /**
      * Generates a new dimension metric factory.

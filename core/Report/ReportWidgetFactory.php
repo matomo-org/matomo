@@ -25,7 +25,7 @@ class ReportWidgetFactory
     /**
      * @var Report
      */
-    private $report = null;
+    private ?Report $report = null;
 
     /**
      * Generates a new report widget factory.

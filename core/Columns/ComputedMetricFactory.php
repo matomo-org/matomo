@@ -22,7 +22,7 @@ class ComputedMetricFactory
     /**
      * @var MetricsList
      */
-    private $metricsList = null;
+    private ?MetricsList $metricsList = null;
 
     /**
      * Generates a new report metric factory.

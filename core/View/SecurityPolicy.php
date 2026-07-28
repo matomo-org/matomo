@@ -27,10 +27,8 @@ class SecurityPolicy
     /**
      * The policies that will generate the CSP header.
      * These are keyed by the directive.
-     *
-     * @var array
      */
-    private $policies = array();
+    private array $policies = array();
 
     private $cspEnabled;
     private $reportOnly;

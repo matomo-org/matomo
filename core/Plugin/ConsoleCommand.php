@@ -35,20 +35,11 @@ use Throwable;
  */
 class ConsoleCommand extends SymfonyCommand implements SignalableCommandInterface
 {
-    /**
-     * @var ProgressBar|null
-     */
-    private $progress = null;
+    private ?ProgressBar $progress = null;
 
-    /**
-     * @var OutputInterface|null
-     */
-    private $output = null;
+    private ?OutputInterface $output = null;
 
-    /**
-     * @var InputInterface|null
-     */
-    private $input = null;
+    private ?InputInterface $input = null;
 
     /**
      * Sends the given message(s) as success message(s) to the output interface (surrounded by empty lines)

@@ -49,7 +49,7 @@ class CliMulti
     /**
      * @var Process[]|ProcessSymfony[]
      */
-    private $processes = [];
+    private array $processes = [];
 
     /**
      * If set it will issue at most concurrentProcessesLimit requests
@@ -60,7 +60,7 @@ class CliMulti
     /**
      * @var OutputInterface[]
      */
-    private $outputs = [];
+    private array $outputs = [];
 
     private $acceptInvalidSSLCertificate = false;
 
@@ -95,10 +95,7 @@ class CliMulti
      */
     private $logger;
 
-    /**
-     * @var int|null
-     */
-    private $signal = null;
+    private ?int $signal = null;
 
     public function __construct(?LoggerInterface $logger = null)
     {

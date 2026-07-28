@@ -62,15 +62,9 @@ class Archiver
 {
     public static $ARCHIVE_DEPENDENT = true;
 
-    /**
-     * @var \Piwik\ArchiveProcessor
-     */
-    private $processor;
+    private \Piwik\ArchiveProcessor $processor;
 
-    /**
-     * @var bool
-     */
-    private $enabled;
+    private bool $enabled;
 
     /**
      * @var mixed
@@ -79,10 +73,8 @@ class Archiver
 
     /**
      * Used if a plugin has RecordBuilders but no Archiver subclass.
-     *
-     * @var string|null
      */
-    private $pluginName = null;
+    private ?string $pluginName = null;
 
     /**
      * @param ArchiveProcessor $processor The ArchiveProcessor instance to use when persisting archive

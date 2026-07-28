@@ -22,7 +22,7 @@ class DimensionSegmentFactory
     /**
      * @var Dimension
      */
-    private $dimension = null;
+    private ?Dimension $dimension = null;
 
     /**
      * Generates a new dimension segment factory.

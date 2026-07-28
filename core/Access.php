@@ -77,12 +77,9 @@ class Access
      *
      * @var Auth
      */
-    private $auth = null;
+    private ?Auth $auth = null;
 
-    /**
-     * @var bool
-     */
-    private $sessionExpired = false;
+    private bool $sessionExpired = false;
 
     /**
      * Gets the singleton instance. Creates it if necessary.

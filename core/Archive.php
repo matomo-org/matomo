@@ -182,10 +182,7 @@ class Archive implements ArchiveQuery
      */
     private $forceIndexedByDate;
 
-    /**
-     * @var Parameters
-     */
-    private $params;
+    private Parameters $params;
 
     /**
      * If true, this Archive instance will not launch the archiving process, even if the current request

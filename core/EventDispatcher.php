@@ -33,10 +33,8 @@ class EventDispatcher
     /**
      * Array of observers (callbacks attached to events) that are not methods
      * of plugin classes.
-     *
-     * @var array
      */
-    private $extraObservers = array();
+    private array $extraObservers = array();
 
     /**
      * Array storing information for all pending events. Each item in the array
@@ -46,17 +44,13 @@ class EventDispatcher
      *     'Event.Name',                  // the event name
      *     array('event', 'parameters')   // the parameters to pass to event observers
      * )
-     *
-     * @var array
      */
-    private $pendingEvents = array();
+    private array $pendingEvents = array();
 
     /**
      * Plugin\Manager instance used to get list of loaded plugins.
-     *
-     * @var \Piwik\Plugin\Manager
      */
-    private $pluginManager;
+    private \Piwik\Plugin\Manager $pluginManager;
 
     private $pluginHooks = array();
 

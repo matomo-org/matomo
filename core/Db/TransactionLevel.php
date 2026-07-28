@@ -18,10 +18,7 @@ class TransactionLevel
 
     private $statusBackup;
 
-    /**
-     * @var TransactionalDatabaseInterface $transactionalDatabase
-     */
-    private $transactionalDatabase;
+    private TransactionalDatabaseInterface $transactionalDatabase;
 
     public function __construct(TransactionalDatabaseInterface $transactionalDatabase)
     {

@@ -16,10 +16,7 @@ use Piwik\Tracker\LogTable;
 
 class LogTablesProvider
 {
-    /**
-     * @var Manager
-     */
-    private $pluginManager;
+    private Manager $pluginManager;
 
     /**
      * @var LogTable[]|null

@@ -32,10 +32,7 @@ class LabelFilter extends DataTableManipulator
     private $isComparing;
     private $labelSeries;
 
-    /**
-     * @var string
-     */
-    private $labelColumn;
+    private string $labelColumn;
 
     public function __construct($apiModule = false, $apiMethod = false, $request = array(), string $labelColumn = 'label')
     {

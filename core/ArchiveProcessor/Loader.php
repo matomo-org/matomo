@@ -41,7 +41,7 @@ class Loader
      *
      * @var boolean
      */
-    private $didReuseArchive = false;
+    private bool $didReuseArchive = false;
 
     /**
      * @var Parameters
@@ -63,15 +63,9 @@ class Loader
      */
     private $logger;
 
-    /**
-     * @var RawLogDao
-     */
-    private $rawLogDao;
+    private RawLogDao $rawLogDao;
 
-    /**
-     * @var Model
-     */
-    private $dataAccessModel;
+    private Model $dataAccessModel;
 
     /**
      * @var bool

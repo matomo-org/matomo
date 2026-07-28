@@ -26,17 +26,17 @@ class Parameters
     /**
      * @var Site
      */
-    private $site = null;
+    private ?Site $site = null;
 
     /**
      * @var Period
      */
-    private $period = null;
+    private ?Period $period = null;
 
     /**
      * @var Segment
      */
-    private $segment = null;
+    private ?Segment $segment = null;
 
     /**
      * @var string|bool Plugin name which triggered this archive processor, or false if none
@@ -53,7 +53,7 @@ class Parameters
     /**
      * @var string[]|null
      */
-    private $foundRequestedReports;
+    private ?array $foundRequestedReports = null;
 
     /**
      * @ignore
