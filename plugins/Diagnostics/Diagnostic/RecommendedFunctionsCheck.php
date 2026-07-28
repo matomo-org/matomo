@@ -36,7 +36,8 @@ class RecommendedFunctionsCheck implements Diagnostic
         foreach ($this->getRecommendedFunctions() as $function) {
             if (! PhpFunctionsCheck::functionExists($function)) {
                 $status = DiagnosticResult::STATUS_WARNING;
-                $comment = $function . '<br/>' . $this->getHelpMessage($function);
+                $help = $this->getHelpMessage($function);
+                $comment = $function . ('' === $help ? '' : '<br/>' . $help);
             } else {
                 $status = DiagnosticResult::STATUS_OK;
                 $comment = $function;
