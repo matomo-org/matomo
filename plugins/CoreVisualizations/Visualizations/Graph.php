@@ -361,7 +361,7 @@ abstract class Graph extends Visualization
             return false;
         }
 
-        $idGoal = Common::getRequestVar('idGoal', '', 'string');
+        $idGoal = (new \Piwik\Request($this->getRequestArray()))->getStringParameter('idGoal', '');
 
         // A specific site goal (positive id) or the ecommerce order goal, both of which expose
         // goal_<idGoal>_nb_conversions / goal_<idGoal>_revenue columns. The goals overview, the full
