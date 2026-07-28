@@ -132,7 +132,7 @@ class RequestSet
 
         $siteIds = array();
         foreach ($this->requests as $request) {
-            $siteIds[] = (int) $request->getIdSite();
+            $siteIds[] = $request->getIdSite();
         }
 
         return array_values(array_unique($siteIds));

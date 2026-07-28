@@ -625,16 +625,21 @@ class Request
         }
     }
 
+    /**
+     * @return int
+     */
     public function getIdSite()
     {
         if (isset($this->idSiteCache)) {
             return $this->idSiteCache;
         }
 
-        $idSite = $this->getIdSiteUnverified();
+        $idSiteUnverified = $this->getIdSiteUnverified();
+        $idSite = (int) $idSiteUnverified;
 
         if ($idSite <= 0) {
-            throw new UnexpectedWebsiteFoundException('Invalid idSite: \'' . $idSite . '\'');
+            // report the value as provided, as casting it may have hidden what was actually wrong with it
+            throw new UnexpectedWebsiteFoundException('Invalid idSite: \'' . $idSiteUnverified . '\'');
         }
 
         // check site actually exists, should throw UnexpectedWebsiteFoundException directly
@@ -851,6 +856,9 @@ class Request
     }
 
 
+    /**
+     * @return string
+     */
     public function getIp()
     {
         return IPUtils::stringToBinaryIP($this->getIpString());
