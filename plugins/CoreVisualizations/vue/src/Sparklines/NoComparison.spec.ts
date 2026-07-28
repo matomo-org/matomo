@@ -12,6 +12,8 @@ import { mount } from '@vue/test-utils';
 // component mounts. The sparkline itself is rendered by the shell, not this body.
 jest.mock('CoreHome', () => ({
   Tooltips: {},
+  // ucfirst is mocked as an identity passthrough; its capitalization is covered by ucfirst.spec.
+  ucfirst: (s?: string) => s ?? '',
 }), { virtual: true });
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -85,7 +87,7 @@ describe('CoreVisualizations/NoComparison', () => {
     const metricValue = wrapper.findComponent({ name: 'MetricValue' });
     expect(metricValue.props('secondaryValue')).toBe('9,527');
     expect(metricValue.props('secondaryLabel')).toBe('unique');
-    expect(wrapper.find('.metricValue__secondaryValue').text()).toBe('9,527');
+    expect(wrapper.find('.metricValue__secondaryLine').text()).toBe('9,527 unique');
   });
 
   it('omits the secondary line when there is only one metric', () => {
