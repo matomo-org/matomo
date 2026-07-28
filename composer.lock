@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "aac5bfb98c2c2556f54be01ff7c76c00",
+    "content-hash": "1b9aac1019aa77e750d6e11c4a0b8c57",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -670,24 +670,28 @@
         },
         {
             "name": "matomo/matomo-php-tracker",
-            "version": "3.3.2",
+            "version": "4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/matomo-php-tracker.git",
-                "reference": "949259d7ffc833ae37bdec14394d13748ebccb64"
+                "reference": "cf976bf0c248c5d979d1c3b873eb0ae8a543cea2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/matomo-php-tracker/zipball/949259d7ffc833ae37bdec14394d13748ebccb64",
-                "reference": "949259d7ffc833ae37bdec14394d13748ebccb64",
+                "url": "https://api.github.com/repos/matomo-org/matomo-php-tracker/zipball/cf976bf0c248c5d979d1c3b873eb0ae8a543cea2",
+                "reference": "cf976bf0c248c5d979d1c3b873eb0ae8a543cea2",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "php": "^7.2 || ^8.0"
+                "php": "^8.1"
             },
             "require-dev": {
-                "phpunit/phpunit": "^8.5 || ^9.3 || ^10.1"
+                "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+                "matomo-org/matomo-coding-standards": "dev-master",
+                "phpstan/phpstan": "^2",
+                "phpunit/phpunit": "^10.5",
+                "squizlabs/php_codesniffer": "^3.10"
             },
             "suggest": {
                 "ext-curl": "Using this extension to issue the HTTPS request to Matomo"
@@ -722,7 +726,7 @@
                 "issues": "https://github.com/matomo-org/matomo-php-tracker/issues",
                 "source": "https://github.com/matomo-org/matomo-php-tracker"
             },
-            "time": "2024-10-09T08:10:30+00:00"
+            "time": "2026-07-27T15:18:26+00:00"
         },
         {
             "name": "matomo/network",
@@ -5829,18 +5833,18 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "lox/xhprof": 20,
-        "matomo-org/matomo-coding-standards": 20,
         "matomo/referrer-spam-list": 20,
-        "matomo/searchengine-and-social-list": 20
+        "matomo/searchengine-and-social-list": 20,
+        "matomo-org/matomo-coding-standards": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
         "php": ">=8.1.0"
     },
-    "platform-dev": {},
+    "platform-dev": [],
     "platform-overrides": {
         "php": "8.1.0"
     },
-    "plugin-api-version": "2.9.0"
+    "plugin-api-version": "2.6.0"
 }
