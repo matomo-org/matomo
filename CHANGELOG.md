@@ -52,6 +52,19 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   authenticate with its own `token_auth`, but may not change the session flag. A nested request whose
   parameters conflict with the outer request's authentication context aborts the whole bulk request.
 
+### Deprecations
+* The component-oriented theme variable `@theme-color-widget-background` (`ThemeStyles::$colorWidgetBackground`)
+  is deprecated and will be removed in Matomo 7; use `@theme-color-background-contrast` instead. It is the generic
+  elevated content surface and is already used well beyond widgets.
+* The component-oriented theme variables `@theme-color-menu-contrast-text`, `@theme-color-menu-contrast-textSelected`,
+  `@theme-color-menu-contrast-textActive`, `@theme-color-menu-contrast-background`,
+  `@theme-color-menu-contrast-backgroundHover`, `@theme-color-widget-border`, `@theme-color-widget-title-text`,
+  `@theme-color-widget-title-background` and `@theme-color-widget-exported-background-base` (and the corresponding
+  `ThemeStyles` properties, also readable via `themeStyles.getPropertyValue()`) are deprecated and will be removed
+  in Matomo 7. Matomo's theming is moving from component-oriented variable names to usage-oriented ones; because
+  these variables fill roles that no existing variable covers, usage-oriented replacements will be defined before
+  they are removed. They keep working until then.
+
 ## Matomo 5.12.0
 
 ### JavaScript Tracker
