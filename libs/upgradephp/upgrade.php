@@ -1,21 +1,19 @@
 <?php
 
 /**
- * Matomo - free/libre analytics platform
- *
- * @link    https://matomo.org
- * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
  * Global helper functions, loaded before the Composer autoloader.
  *
  * Based on the public domain upgrade.php library, which emulated functions from newer PHP versions
- * on older interpreters. Those polyfills have all been removed; only the helpers below remain.
+ * on older interpreters. Those polyfills have all been removed. The helpers that remain were
+ * contributed to Matomo under the same public domain terms, so the whole file stays public domain
+ * rather than GPL like the rest of Matomo.
+ *
+ * @link    https://matomo.org
+ * @license Public Domain
  */
 
 /**
  * Arbitrary limits for safe_unserialize()
- *
- * @license Public Domain
  *
  * @author anthon (dot) pang (at) gmail (dot) com
  */

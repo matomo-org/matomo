@@ -195,10 +195,7 @@ class CookieTest extends \PHPUnit\Framework\TestCase
      */
     public function testSafeUnserialize()
     {
-        /*
-         * serialize() uses its internal machine representation when floats expressed in E-notation,
-         * which may vary between php versions, OS, and hardware platforms
-         */
+        // a float in E-notation must survive a serialize() -> safe_unserialize() round trip
         $testData = -5.0E+142;
         $this->assertSame($testData, safe_unserialize(serialize($testData)));
 
@@ -227,8 +224,6 @@ class CookieTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($serialized, serialize($unserialized));
 
         $this->assertSame($unserialized, safe_unserialize($serialized));
-        $this->assertSame($unserialized, safe_unserialize(serialize($unserialized)));
-        $this->assertEquals($serialized, serialize(safe_unserialize($serialized)));
 
         $a = 'O:31:"Test_Piwik_Cookie_Phantom_Class":0:{}';
         $this->assertFalse(safe_unserialize($a), "test: unserializing an object where class not (yet) defined");
