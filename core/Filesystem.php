@@ -193,10 +193,10 @@ class Filesystem
      */
     public static function globr($sDir, $sPattern, $nFlags = 0)
     {
-        if (($aFiles = \_glob("$sDir/$sPattern", $nFlags)) == false) {
+        if (($aFiles = glob("$sDir/$sPattern", $nFlags)) == false) {
             $aFiles = array();
         }
-        if (($aDirs = \_glob("$sDir/*", GLOB_ONLYDIR)) != false) {
+        if (($aDirs = glob("$sDir/*", GLOB_ONLYDIR)) != false) {
             foreach ($aDirs as $sSubDir) {
                 if (is_link($sSubDir)) {
                     continue;
