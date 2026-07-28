@@ -123,6 +123,9 @@ class Model
         return $return;
     }
 
+    /**
+     * @return array<array-key, string>
+     */
     public function getUsersAccessFromSite($idSite)
     {
         $db = $this->getDb();

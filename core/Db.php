@@ -136,9 +136,10 @@ class Db implements TransactionalDatabaseInterface
 
     /**
      * For tests only.
-     * @param $connection
+     * @param \Piwik\Db\AdapterInterface|null $connection
      * @ignore
      * @internal
+     * @return void
      */
     public static function setDatabaseObject($connection)
     {
@@ -152,6 +153,7 @@ class Db implements TransactionalDatabaseInterface
      *
      * @param array|null $dbConfig Connection parameters in an array. Defaults to the `[database]`
      *                             INI config section.
+     * @return void
      */
     public static function createDatabaseObject($dbConfig = null)
     {
@@ -171,6 +173,8 @@ class Db implements TransactionalDatabaseInterface
      *                             INI config section.
      *
      * @since Matomo 3.12
+     *
+     * @return void
      */
     public static function createReaderDatabaseObject($dbConfig = null)
     {
@@ -200,6 +204,7 @@ class Db implements TransactionalDatabaseInterface
      * Detect whether a database object is initialized / created or not.
      *
      * @internal
+     * @return bool
      */
     public static function hasDatabaseObject()
     {
@@ -210,6 +215,7 @@ class Db implements TransactionalDatabaseInterface
      * Detect whether a database object is initialized / created or not.
      *
      * @internal
+     * @return bool
      */
     public static function hasReaderDatabaseObject()
     {
@@ -220,6 +226,8 @@ class Db implements TransactionalDatabaseInterface
      * Disconnects and destroys the database connection.
      *
      * For tests.
+     *
+     * @return void
      */
     public static function destroyDatabaseObject()
     {
@@ -242,7 +250,7 @@ class Db implements TransactionalDatabaseInterface
      *
      * @param string $sql The SQL query.
      * @throws \Exception If there is an error in the SQL.
-     * @return integer|\Zend_Db_Statement
+     * @return int|\Zend_Db_Statement
      */
     public static function exec($sql)
     {
@@ -475,6 +483,8 @@ class Db implements TransactionalDatabaseInterface
 
     /**
      * Drops all tables
+     *
+     * @return void
      */
     public static function dropAllTables()
     {
@@ -680,6 +690,7 @@ class Db implements TransactionalDatabaseInterface
      * @param int $last The maximum ID to loop to.
      * @param int $step The maximum number of rows to scan in one query.
      * @param array $params Parameters to bind in the query, `array(param1 => value1, param2 => value2)`
+     * @return void
      */
     public static function segmentedQuery($sql, $first, $last, $step, $params = array())
     {
@@ -777,6 +788,9 @@ class Db implements TransactionalDatabaseInterface
         return self::$lockPrivilegeGranted;
     }
 
+    /**
+     * @return void
+     */
     private static function logExtraInfoIfDeadlock($ex)
     {
         if (
@@ -796,6 +810,9 @@ class Db implements TransactionalDatabaseInterface
         }
     }
 
+    /**
+     * @return void
+     */
     private static function logSql($functionName, $sql, $parameters = array())
     {
         self::checkBoundParametersIfInDevMode($sql, $parameters);
@@ -811,6 +828,9 @@ class Db implements TransactionalDatabaseInterface
         Log::debug("Db::%s() executing SQL: %s", $functionName, $sql);
     }
 
+    /**
+     * @return void
+     */
     private static function checkBoundParametersIfInDevMode($sql, $parameters)
     {
         if (!Development::isEnabled()) {
@@ -830,6 +850,7 @@ class Db implements TransactionalDatabaseInterface
 
     /**
      * @param bool $enable
+     * @return void
      */
     public static function enableQueryLog($enable)
     {
@@ -837,7 +858,7 @@ class Db implements TransactionalDatabaseInterface
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public static function isQueryLogEnabled()
     {
