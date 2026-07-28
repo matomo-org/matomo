@@ -39,7 +39,7 @@
         "LoginNotAllowedBecauseBlocked": "Pārāk daudz neveiksmīgu pieslēgšanās mēģinājumu. Lūdzu, pagaidiet un mēģiniet vēlāk vēlreiz.",
         "LoginNotAllowedBecauseUserLoginBlocked": "Pieteikšanās ir izslēgta, jo pēdējā stundā tika veikts aizdomīgi liels neveiksmīgu mēģinājumu skaits.",
         "LoginOrEmail": "Lietotājvārds vai e-pasts",
-        "LoginPasswordNotCorrect": "Lietotājvārds un parole nav korekti",
+        "LoginPasswordNotCorrect": "Nepareizs lietotājvārds un/vai parole.",
         "LostYourPassword": "Pazaudēji savu paroli?",
         "NewPassword": "Jaunā parole",
         "NewPasswordRepeat": "Jaunā parole (vēlreiz)",

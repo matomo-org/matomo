@@ -13,6 +13,7 @@
         "DatabaseSetupTablePrefix": "tabulas prefikss",
         "Email": "E-pasta adrese",
         "Extension": "paplašinājums",
+        "Filesystem": "Datņu sistēma",
         "GoBackAndDefinePrefix": "Dodieties atpakaļ un nodefinējiet Matomo tabulu prefiksu",
         "Installation": "Instalācija",
         "InstallationStatus": "Instalācijas statuss",
@@ -27,9 +28,9 @@
         "Requirements": "Matomo prasības",
         "SetupWebsite": "Iestatiet vietni",
         "SetupWebsiteError": "Vietnes pievienošana izraisīja kļūdu",
-        "SetupWebsiteSetupSuccess": "Vietne %s ir veiksmīgi izveidota!",
+        "SetupWebsiteSetupSuccess": "%s vietne izveidota",
         "SuperUser": "Superlietotājs",
-        "SuperUserSetupSuccess": "Superlietotājs tika veiksmīgi izveidots!",
+        "SuperUserSetupSuccess": "Superlietotājs izveidots.",
         "SystemCheck": "Sistēmas pārbaude",
         "SystemCheckDatabaseHelp": "Matomo vajag vai nu mysqli paplašinājumu vai gan PDO un pdo_mysql paplašinājumus.",
         "SystemCheckExtensions": "Citi vajadzīgie paplašinājumi",
@@ -50,7 +51,7 @@
         "SystemCheckWriteDirsHelp": "Lai salabotu šo kļūdu Jūsu Linux sistēmā, pamēģiniet ierakstīt sekojošas komandas",
         "SystemCheckZlibHelp": "Jums jāiestata un jāpārbūvē PHP ar ieslēgtu \"zlib\" atbalstu, --with-zlib.",
         "Tables": "Tiek izveidotas tabulas",
-        "TablesCreatedSuccess": "Tabulas veiksmīgi izveidotas!",
+        "TablesCreatedSuccess": "Tabulas izveidotas",
         "Welcome": "Esiet sveicināti"
     }
 }
