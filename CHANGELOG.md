@@ -28,6 +28,10 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The deprecated archiving script `./misc/cron/archive.sh` has been removed. Use the console command `core:archive` instead.
 * The `SEO` plugin has been removed, along with its `SEO` widget and the `SEO.getRank` API method.
 * One Click Update now always downloads the update archive over HTTPS. The insecure "retry over HTTP" fallback screen and the `https` request parameter of the `CoreUpdater.oneClickUpdate` action have been removed, and the `$https` parameter of `Piwik\Plugins\CoreUpdater\Updater::updatePiwik()` and `Piwik\Plugins\CoreUpdater\Updater::getArchiveUrl()` has been removed. HTTP is only used when the `force_matomo_http_request` config option is enabled.
+* The global function `_glob()` has been removed. Use the native `glob()` instead.
+* The global functions `safe_serialize()` and `_safe_serialize()` have been removed. Use the native `serialize()` instead. Their counterparts `safe_unserialize()` and `_safe_unserialize()` are kept.
+* The global function `_parse_ini_file()` has been removed. It was unused; use `Piwik\Config` for Matomo's configuration or `Matomo\Ini\IniReader` for other INI files.
+* The polyfills for `mysqli_set_charset()`, `file_get_contents()`, `utf8_encode()`, `utf8_decode()`, `gzopen()`, `fnmatch()`, the `Error` class and the `PHP_INT_SIZE`/`PHP_INT_MAX` constants have been removed from `libs/upgradephp/upgrade.php`. They only ever applied to PHP versions that are no longer supported.
 * Several core controller actions that return JSON now declare a native `string` return type as part of adopting the new `#[Piwik\Http\JsonResponse]` attribute. A plugin that extends one of these controllers and overrides such an action must declare a compatible `string` return type and re-declare `#[Piwik\Http\JsonResponse]` (attributes are not inherited).
 
 ### New APIs
