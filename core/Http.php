@@ -84,8 +84,9 @@ class Http
      *                               hop is re-validated and the connection pinned to it. Use this whenever the URL comes
      *                               from untrusted input (e.g. a site's own configured URL).
      *                               Requires curl, bypasses any configured or environment proxy, retains the method and
-     *                               body across hops, drops credentials and caller headers on an origin change, and does
-     *                               not follow redirects when downloading to a file.
+     *                               body across same-origin hops, drops credentials, caller headers, the body and any
+     *                               relaxed certificate check on an origin change, and does not follow redirects when
+     *                               downloading to a file.
      *
      * @return string|array|bool  If `$destinationPath` is not specified the HTTP response is returned on success. `false`
      *                            is returned on failure.
@@ -409,6 +410,7 @@ class Http
             ], $additionalHeaders))),
             'verifySsl' => !$acceptInvalidSslCertificate,
             'destinationPath' => $destinationPath,
+            'validateEgressIp' => $validateEgressIp,
         );
 
         /**
@@ -424,6 +426,8 @@ class Http
          *                      - 'headers' An array of header strings like array('Accept-Language: en', '...')
          *                      - 'verifySsl' A boolean whether SSL certificate should be verified
          *                      - 'destinationPath' If set, the response of the HTTP request should be saved to this file
+         *                      - 'validateEgressIp' Whether the caller asked for SSRF-safe semantics. A listener
+         *                        resolving the request itself must honour them or leave it unhandled
          * @param string &$response A plugin listening to this event should assign the HTTP response it received to this variable, for example "{value: true}"
          * @param int &$status A plugin listening to this event should assign the HTTP status code it received to this variable, for example "200"
          * @param array &$headers A plugin listening to this event should assign the HTTP headers it received to this variable, eg array('Content-Length' => '5')
@@ -898,6 +902,7 @@ class Http
             $fileLength = is_resource($file) ? @curl_getinfo($ch, CURLINFO_SIZE_DOWNLOAD) : strlen($response);
             $status = @curl_getinfo($ch, CURLINFO_HTTP_CODE);
             $elapsed = (float) @curl_getinfo($ch, CURLINFO_TOTAL_TIME);
+            $curlRedirectUrl = (string) @curl_getinfo($ch, CURLINFO_REDIRECT_URL);
 
             @curl_close($ch);
             unset($ch);
@@ -910,16 +915,17 @@ class Http
                     throw new Exception('SSRF-safe HTTP requests cannot follow redirects when downloading to a file.');
                 }
 
-                $location = $headers['Location'] ?? null;
-                if (is_string($location) && $location !== '') {
-                    $redirectUrl = self::resolveRedirectUrl($aUrl, trim($location));
-
-                    // On an origin change, drop credentials, caller headers and the request body,
-                    // and downgrade to GET so no secret leaks cross-origin
+                // Read from curl, not from $headers: the splitter above keeps the last "HTTP/" block
+                // it finds, so a response body can forge one.
+                $redirectUrl = $curlRedirectUrl;
+                if ($redirectUrl !== '') {
+                    // On an origin change, drop credentials, caller headers, the request body and the
+                    // relaxed certificate check, and downgrade to GET so no secret leaks cross-origin
                     if (!self::urlsSameOrigin($aUrl, $redirectUrl)) {
                         $httpUsername = null;
                         $httpPassword = null;
                         $additionalHeaders = array();
+                        $acceptInvalidSslCertificate = false;
                         $requestBody = null;
                         $httpMethod = 'GET';
                         $forcePost = null;
@@ -983,6 +989,8 @@ class Http
          *                      - 'headers' An array of header strings like array('Accept-Language: en', '...')
          *                      - 'verifySsl' A boolean whether SSL certificate should be verified
          *                      - 'destinationPath' If set, the response of the HTTP request should be saved to this file
+         *                      - 'validateEgressIp' Whether the caller asked for SSRF-safe semantics. A listener
+         *                        resolving the request itself must honour them or leave it unhandled
          * @param string &$response The response of the HTTP request, for example "{value: true}"
          * @param int &$status The returned HTTP status code, for example "200"
          * @param array &$headers The returned headers, eg array('Content-Length' => '5')
@@ -1276,43 +1284,6 @@ class Http
         $portB = isset($b['port']) ? (int) $b['port'] : $defaultPort;
 
         return $portA === $portB;
-    }
-
-    /**
-     * Resolves a redirect `Location` (absolute, protocol-relative, absolute-path, or relative)
-     * against the URL it was returned from. Throws when the base URL lacks a scheme and host.
-     *
-     * Not full RFC 3986 resolution: query-only references (`?page=2`) resolve against the base
-     * directory and dot segments are not normalised. Both stay on the same, re-validated host.
-     */
-    private static function resolveRedirectUrl(string $baseUrl, string $location): string
-    {
-        // @todo when PHP 8.1: the strpos(...) === 0 prefix checks below can become str_starts_with().
-        if (preg_match('~^[a-z][a-z0-9+.-]*://~i', $location)) {
-            return $location;
-        }
-
-        $base = @parse_url($baseUrl);
-        if (empty($base['scheme']) || empty($base['host'])) {
-            throw new Exception('Cannot resolve redirect target from base URL: ' . $baseUrl);
-        }
-
-        if (strpos($location, '//') === 0) {
-            return $base['scheme'] . ':' . $location;
-        }
-
-        $authority = $base['scheme'] . '://' . $base['host']
-            . (isset($base['port']) ? ':' . $base['port'] : '');
-
-        if (strpos($location, '/') === 0) {
-            return $authority . $location;
-        }
-
-        $path = $base['path'] ?? '/';
-        $lastSlash = strrpos($path, '/');
-        $dir = $lastSlash === false ? '/' : substr($path, 0, $lastSlash + 1);
-
-        return $authority . $dir . $location;
     }
 
     /**

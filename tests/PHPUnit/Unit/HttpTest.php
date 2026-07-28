@@ -143,38 +143,6 @@ class HttpTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @dataProvider getResolveRedirectUrlTestData
-     */
-    public function testResolveRedirectUrl($baseUrl, $location, $expected)
-    {
-        $method = new ReflectionMethod('\\Piwik\\Http', 'resolveRedirectUrl');
-
-        if (PHP_VERSION_ID < 80100) {
-            $method->setAccessible(true);
-        }
-
-        $this->assertSame($expected, $method->invoke(null, $baseUrl, $location));
-    }
-
-    public function getResolveRedirectUrlTestData()
-    {
-        return array(
-            // absolute URL is used as-is
-            'absolute' => array('http://a.example/x/y', 'https://b.example/z', 'https://b.example/z'),
-            // protocol-relative keeps the base scheme
-            'protocol relative' => array('https://a.example/x/y', '//b.example/z', 'https://b.example/z'),
-            // absolute-path replaces the whole path, keeps host and port
-            'absolute path' => array('https://a.example:8443/x/y', '/z/w', 'https://a.example:8443/z/w'),
-            // relative reference resolves against the base directory
-            'relative' => array('https://a.example/x/y', 'z', 'https://a.example/x/z'),
-            'relative from dir' => array('https://a.example/x/', 'z', 'https://a.example/x/z'),
-            // documented RFC 3986 limitation: a query-only reference resolves against the base
-            // directory instead of retaining the full base path. Still same host, still re-validated.
-            'query only (documented limitation)' => array('https://a.example/x/y', '?p=2', 'https://a.example/x/?p=2'),
-        );
-    }
-
-    /**
      * @dataProvider getUrlsSameOriginTestData
      */
     public function testUrlsSameOrigin($urlA, $urlB, $expected)

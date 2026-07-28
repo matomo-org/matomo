@@ -112,8 +112,13 @@ class EgressHostValidatorTest extends \PHPUnit\Framework\TestCase
 
         $validator = new EgressHostValidator($resolver, $allowedRanges);
 
+        // Asserted on its own statement with the exact message, so a rejection from anywhere other
+        // than the range check (e.g. the host regex) fails the test.
         if (!$expectAllowed) {
             $this->expectException(Exception::class);
+            $this->expectExceptionMessage('Refusing to fetch: host resolves to a private or reserved address.');
+            $validator->resolveTarget('local.test');
+            return;
         }
 
         $this->assertSame(array('local.test', $resolvedIp), $validator->resolveTarget('local.test'));
@@ -162,8 +167,11 @@ class EgressHostValidatorTest extends \PHPUnit\Framework\TestCase
             // public IP literal: connects directly, no pin needed (canonicalHost === pinnedIp)
             'public ipv4 literal' => array('93.184.216.34', array(), array('93.184.216.34', '93.184.216.34')),
             // private / reserved IP literals are rejected
-            'loopback literal' => array('127.0.0.1', array(), false),
-            'metadata literal' => array('169.254.169.254', array(), false),
+            // an IPv6 literal is unbracketed for both validation and the pin
+            'public ipv6 literal' => array('[2606:2800:220:1:248:1893:25c8:1946]', array(), array('2606:2800:220:1:248:1893:25c8:1946', '2606:2800:220:1:248:1893:25c8:1946')),
+            'loopback literal' => array('127.0.0.1', array(), 'Refusing to fetch: host resolves to a private or reserved address.'),
+            'metadata literal' => array('169.254.169.254', array(), 'Refusing to fetch: host resolves to a private or reserved address.'),
+            'loopback ipv6 literal' => array('[::1]', array(), 'Refusing to fetch: host resolves to a private or reserved address.'),
             // encoded numeric hosts that libc treats as IP literals are rejected before resolution
             'decimal encoded ip' => array('2130706433', array(), 'numeric or encoded host'),
             'hex encoded ip' => array('0x7f000001', array(), 'numeric or encoded host'),
@@ -174,11 +182,18 @@ class EgressHostValidatorTest extends \PHPUnit\Framework\TestCase
             // host is normalised (lowercased, trailing dot stripped) for both validation and pin
             'uppercase dns host' => array('ExAmple.COM', array('example.com' => array('93.184.216.34')), array('example.com', '93.184.216.34')),
             'trailing dot dns host' => array('example.com.', array('example.com' => array('93.184.216.34')), array('example.com', '93.184.216.34')),
+            // an IDN host folds to punycode, so validation and the pin key on the form curl connects to
+            'idn dns host' => array('ünicode.example', array('xn--nicode-2ya.example' => array('93.184.216.34')), array('xn--nicode-2ya.example', '93.184.216.34')),
+            'mixed case idn dns host' => array('MÜNCHEN.example', array('xn--mnchen-3ya.example' => array('93.184.216.34')), array('xn--mnchen-3ya.example', '93.184.216.34')),
+            // a private answer behind an IDN host is still rejected
+            'idn dns host private answer' => array('ünicode.example', array('xn--nicode-2ya.example' => array('10.0.0.5')), 'Refusing to fetch: host resolves to a private or reserved address.'),
             // any private address in the resolved set is rejected (rebinding / mixed answers)
-            'dns host private answer' => array('evil.test', array('evil.test' => array('127.0.0.1')), false),
-            'dns host mixed answers' => array('evil.test', array('evil.test' => array('93.184.216.34', '10.0.0.5')), false),
+            'dns host private answer' => array('evil.test', array('evil.test' => array('127.0.0.1')), 'Refusing to fetch: host resolves to a private or reserved address.'),
+            'dns host mixed answers' => array('evil.test', array('evil.test' => array('93.184.216.34', '10.0.0.5')), 'Refusing to fetch: host resolves to a private or reserved address.'),
+            // an IPv6 zone identifier is not a valid host and must fail closed
+            'ipv6 zone id' => array('[fe80::1%25eth0]', array(), 'Refusing to fetch: host is not a valid IP or DNS name.'),
             // DNS host that does not resolve is rejected
-            'unresolvable host' => array('nowhere.invalid', array(), false),
+            'unresolvable host' => array('nowhere.invalid', array(), 'Refusing to fetch: host could not be resolved.'),
         );
     }
 }

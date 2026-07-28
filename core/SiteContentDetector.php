@@ -380,7 +380,8 @@ class SiteContentDetector
         } catch (\Exception $e) {
             // intentionally fail closed, but leave a diagnostic trail
             StaticContainer::get(LoggerInterface::class)->debug('Site content detection request for {url} failed: {message}', [
-                'url' => $url,
+                // host only, so a configured URL carrying userinfo keeps credentials out of the log
+                'url' => UrlHelper::getHostFromUrl($url),
                 'message' => $e->getMessage(),
             ]);
         }
