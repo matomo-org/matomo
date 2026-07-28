@@ -61,6 +61,7 @@ class PhpFunctionsCheck implements Diagnostic
             'debug_backtrace',
             'escapeshellarg',
             'eval',
+            'glob',
             'hash',
             'gzcompress',
             'gzuncompress',
@@ -103,11 +104,16 @@ class PhpFunctionsCheck implements Diagnostic
         $messages = array(
             'debug_backtrace' => 'Installation_SystemCheckDebugBacktraceHelp',
             'eval'            => 'Installation_SystemCheckEvalHelp',
+            'glob'            => 'Installation_SystemCheckGlobHelp',
             'hash'            => 'Installation_SystemCheckHashHelp',
             'gzcompress'      => 'Installation_SystemCheckGzcompressHelp',
             'gzuncompress'    => 'Installation_SystemCheckGzuncompressHelp',
             'pack'            => 'Installation_SystemCheckPackHelp',
         );
+
+        if (!isset($messages[$missingFunction])) {
+            return '';
+        }
 
         return $this->translator->translate($messages[$missingFunction]);
     }

@@ -48,6 +48,12 @@ if ($minimumPhpInvalid) {
 					To enjoy Matomo, you need to modify php.ini <pre>mbstring.func_overload = 0</pre>, and restart your webserver.</p>";
     }
 
+    if (!function_exists('glob')) {
+        $piwik_errorMessage .= "<p><strong>Matomo requires the <code>glob()</code> function</strong></p>
+					<p>It appears your PHP has disabled this function. Matomo uses it to discover plugins and update scripts, so it cannot run without it.
+					To enjoy Matomo, you need remove <pre>glob</pre> from your <pre>disable_functions</pre> directive in php.ini, and restart your webserver.</p>";
+    }
+
     if (!function_exists('json_encode')) {
         $piwik_errorMessage .= "<p><strong>Matomo requires the php-json extension which provides the functions <code>json_encode()</code> and <code>json_decode()</code></strong></p>
 					<p>It appears your PHP has not yet installed the php-json extension.

@@ -92,7 +92,7 @@
         "SystemCheckShellExecHelp": "It is recommended to turn on this PHP built-in function. %1$sRead this to learn more.%2$s",
         "SystemCheckGDFreeType": "GD &gt; 2.x + FreeType (graphics)",
         "SystemCheckGDHelp": "The sparklines (small graphs) and image graphs (in the Matomo mobile app and email reports) will not work.",
-        "SystemCheckGlobHelp": "This built-in function has been turned off on your host. Matomo will attempt to emulate the function, but may encounter further security restrictions. Functionality may be impacted.",
+        "SystemCheckGlobHelp": "This built-in function has been turned off on your host. Matomo uses it to discover plugins and update scripts and cannot run without it. Please ask your host to enable it.",
         "SystemCheckGzcompressHelp": "You need to turn on the zlib extension and gzcompress function.",
         "SystemCheckGzuncompressHelp": "You need to to turn on the zlib extension and gzuncompress function.",
         "SystemCheckHashHelp": "Configure and rebuild PHP with required hash() support by excluding the option --disable-hash.",
