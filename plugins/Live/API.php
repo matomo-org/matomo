@@ -148,6 +148,8 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Returns the most recent visit details for one or more websites.
+     * Websites with the visits log disabled are excluded from the query, and a request that
+     * targets only disabled websites is rejected.
      *
      * @param int|string|int[] $idSite Website ID(s) to query.
      *                                 - Single site ID (e.g. 1)
@@ -289,6 +291,7 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Returns the visitor ID of the most recent visit.
+     * The visits log must be enabled for the website; the request is rejected otherwise.
      *
      * @param int $idSite The numeric ID of the website to query.
      * @param string|null|false $segment Custom segment to filter the lookup.
