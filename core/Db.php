@@ -244,13 +244,13 @@ class Db implements TransactionalDatabaseInterface
 
     /**
      * Executes an unprepared SQL query. Recommended for DDL statements like `CREATE`,
-     * `DROP` and `ALTER`. The return value is DBMS-specific. For MySQLI, it returns the
-     * number of rows affected. For PDO, it returns a
-     * [Zend_Db_Statement](https://framework.zend.com/manual/1.12/en/zend.db.statement.html) object.
+     * `DROP` and `ALTER`.
+     *
+     * Must not be used during tracker requests, as the tracker database does not provide a profiler.
      *
      * @param string $sql The SQL query.
      * @throws \Exception If there is an error in the SQL.
-     * @return int|\Zend_Db_Statement
+     * @return int The number of rows affected.
      */
     public static function exec($sql)
     {
@@ -344,8 +344,8 @@ class Db implements TransactionalDatabaseInterface
      * @param string $sql The SQL query.
      * @param array $parameters Parameters to bind in the query, eg, `array(param1 => value1, param2 => value2)`.
      * @throws \Exception If there is a problem with the SQL or bind parameters.
-     * @return array The fetched rows, each element is an associative array mapping column names
-     *               with column values.
+     * @return list<array<array-key, string|int|float|null>> The fetched rows, each an associative array of column => value.
+     *                                                       Numeric column names, eg, `SELECT 1`, yield integer keys.
      */
     public static function fetchAll($sql, $parameters = array())
     {
@@ -365,8 +365,9 @@ class Db implements TransactionalDatabaseInterface
      * @param string $sql The SQL query.
      * @param array $parameters Parameters to bind in the query, eg, `array(param1 => value1, param2 => value2)`.
      * @throws \Exception If there is a problem with the SQL or bind parameters.
-     * @return array The fetched row, each element is an associative array mapping column names
-     *               with column values.
+     * @return array<array-key, string|int|float|null>|false The fetched row as column => value, or false when the result
+     *                                                       set is empty. Numeric column names, eg, `SELECT 1`, yield
+     *                                                       integer keys.
      */
     public static function fetchRow($sql, $parameters = array())
     {
@@ -387,7 +388,7 @@ class Db implements TransactionalDatabaseInterface
      * @param string $sql The SQL query.
      * @param array $parameters Parameters to bind in the query, eg, `array(param1 => value1, param2 => value2)`.
      * @throws \Exception If there is a problem with the SQL or bind parameters.
-     * @return string
+     * @return string|int|float|null|false The first column of the first row, or `false` when the result set is empty.
      */
     public static function fetchOne($sql, $parameters = array())
     {
@@ -408,11 +409,8 @@ class Db implements TransactionalDatabaseInterface
      * @param string $sql The SQL query.
      * @param array $parameters Parameters to bind in the query, eg, `array(param1 => value1, param2 => value2)`.
      * @throws \Exception If there is a problem with the SQL or bind parameters.
-     * @return array eg,
-     *               ```
-     *               array('col1value1' => array('col2' => '...', 'col3' => ...),
-     *                     'col1value2' => array('col2' => '...', 'col3' => ...))
-     *               ```
+     * @return array<array-key, array<array-key, string|int|float|null>> The rows indexed by the first selected column,
+     *                                                                  each row an associative array of column => value.
      */
     public static function fetchAssoc($sql, $parameters = array())
     {
@@ -502,7 +500,7 @@ class Db implements TransactionalDatabaseInterface
      *                                   be prefixed (see {@link Piwik\Common::prefixTable()}).
      * @param string|array $tablesToWrite The table or tables to obtain 'write' locks on. Table names must
      *                                    be prefixed (see {@link Piwik\Common::prefixTable()}).
-     * @return \Zend_Db_Statement
+     * @return int The number of rows affected, see {@link exec()}.
      */
     public static function lockTables($tablesToRead, $tablesToWrite = array())
     {
@@ -532,7 +530,7 @@ class Db implements TransactionalDatabaseInterface
      * **NOTE:** Piwik does not require the `LOCK TABLES` privilege to be available. Piwik
      * should still work if it has not been granted.
      *
-     * @return \Zend_Db_Statement
+     * @return int The number of rows affected, see {@link exec()}.
      */
     public static function unlockAllTables()
     {
@@ -575,7 +573,8 @@ class Db implements TransactionalDatabaseInterface
      * @param int $step The maximum number of rows to scan in one query.
      * @param array $params Parameters to bind in the query, eg, `array(param1 => value1, param2 => value2)`
      *
-     * @return string
+     * @return string|int|float|null|false The first value fetched that is not `false`, or `false` if no chunk
+     *                                     returned a value.
      */
     public static function segmentedFetchFirst($sql, $first, $last, $step, $params = array())
     {
@@ -613,7 +612,7 @@ class Db implements TransactionalDatabaseInterface
      * @param int $last The maximum ID to loop to.
      * @param int $step The maximum number of rows to scan in one query.
      * @param array $params Parameters to bind in the query, `array(param1 => value1, param2 => value2)`
-     * @return array An array of primitive values.
+     * @return list<string|int|float|null|false> One fetched value per chunk.
      */
     public static function segmentedFetchOne($sql, $first, $last, $step, $params = array())
     {
@@ -651,8 +650,8 @@ class Db implements TransactionalDatabaseInterface
      * @param int $last The maximum ID to loop to.
      * @param int $step The maximum number of rows to scan in one query.
      * @param array $params Parameters to bind in the query, array( param1 => value1, param2 => value2)
-     * @return array An array of rows that includes the result set of every smaller
-     *               query.
+     * @return list<array<array-key, string|int|float|null>> An array of rows that includes the result set of every
+     *                                                       smaller query.
      */
     public static function segmentedFetchAll($sql, $first, $last, $step, $params = array())
     {
@@ -762,7 +761,7 @@ class Db implements TransactionalDatabaseInterface
      *
      * Public so tests can simulate the situation where the lock tables privilege isn't granted.
      *
-     * @var bool
+     * @var bool|null
      * @ignore
      */
     public static $lockPrivilegeGranted = null;
