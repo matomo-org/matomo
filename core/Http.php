@@ -238,7 +238,8 @@ class Http
      * @param array|string|null $requestBody If $httpMethod is 'POST' this may accept an array of variables or a string that needs to be posted
      * @param array $additionalHeaders List of additional headers to set for the request
      * @param bool|null $forcePost If true, forces POST redirects to remain POST requests (curl only). Ignored on the
-     *                             `$validateEgressIp` path, where the method and body are always retained across hops.
+     *                             `$validateEgressIp` path, where the method and body are retained on same-origin
+     *                             redirects only and cross-origin redirects are downgraded to GET without a body.
      * @param bool $checkHostIsAllowed whether we should check if the target host is allowed or not. This should only
      *                                 be set to false when using a hardcoded URL.
      * @param bool $validateEgressIp when true, the request is served over the SSRF-safe path: public-IP validation,
@@ -912,11 +913,15 @@ class Http
                 if (is_string($location) && $location !== '') {
                     $redirectUrl = self::resolveRedirectUrl($aUrl, trim($location));
 
-                    // On an origin change, drop credentials and caller headers so no secret leaks cross-origin.
+                    // On an origin change, drop credentials, caller headers and the request body,
+                    // and downgrade to GET so no secret leaks cross-origin
                     if (!self::urlsSameOrigin($aUrl, $redirectUrl)) {
                         $httpUsername = null;
                         $httpPassword = null;
                         $additionalHeaders = array();
+                        $requestBody = null;
+                        $httpMethod = 'GET';
+                        $forcePost = null;
                     }
 
                     // Shrink the timeout by what this hop already spent so the whole redirect chain
