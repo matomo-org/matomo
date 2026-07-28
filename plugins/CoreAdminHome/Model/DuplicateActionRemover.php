@@ -50,7 +50,7 @@ class DuplicateActionRemover
      *
      * @var string[]
      */
-    private $idactionColumns = null;
+    private ?array $idactionColumns = null;
 
     public function __construct(?TableMetadata $tableMetadataAccess = null, ?LoggerInterface $logger = null)
     {

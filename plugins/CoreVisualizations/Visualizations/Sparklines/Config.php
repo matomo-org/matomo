@@ -32,15 +32,13 @@ class Config extends \Piwik\ViewDataTable\Config
 
     /**
      * Holds the actual sparkline entries based on fetched data that will be used in the template.
-     * @var array
      */
-    private $sparklines = array();
+    private array $sparklines = array();
 
     /**
      * If false, will not link them with any evolution graph
-     * @var bool
      */
-    private $evolutionGraphLinkable = true;
+    private bool $evolutionGraphLinkable = true;
 
     /**
      * Adds possibility to set html attributes on the sparklines title / headline.

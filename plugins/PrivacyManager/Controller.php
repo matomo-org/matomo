@@ -32,8 +32,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     public const ACTIVATE_DNT_NONCE = 'PrivacyManager.activateDnt';
     public const DEACTIVATE_DNT_NONCE = 'PrivacyManager.deactivateDnt';
 
-    /** @var SiteContentDetector */
-    private $siteContentDetector;
+    private SiteContentDetector $siteContentDetector;
 
     public function __construct(SiteContentDetector $siteContentDetector)
     {

@@ -27,8 +27,7 @@ class OrderIdAnonymization implements
     /** @use CustomGetterTrait<bool> */
     use CustomGetterTrait;
 
-    /** @var bool */
-    private $value;
+    private bool $value;
 
     private function __construct(bool $value)
     {

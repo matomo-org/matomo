@@ -100,29 +100,18 @@ class API extends \Piwik\Plugin\API
     public const OPTION_KEEP_URL_FRAGMENTS_GLOBAL = 'SitesManager_KeepURLFragmentsGlobal';
     public const OPTION_EXCLUDE_TYPE_QUERY_PARAMS_GLOBAL = 'SitesManager_ExcludeTypeQueryParamsGlobal';
 
-    /**
-     * @var SettingsProvider
-     */
-    private $settingsProvider;
+    private SettingsProvider $settingsProvider;
 
-    /**
-     * @var SettingsMetadata
-     */
-    private $settingsMetadata;
+    private SettingsMetadata $settingsMetadata;
 
-    /**
-     * @var Translator
-     */
-    private $translator;
+    private Translator $translator;
 
     /** @var array<string, string> */
     private $timezoneNameCache = [];
 
-    /** @var SiteContentDetector */
-    private $siteContentDetector;
+    private SiteContentDetector $siteContentDetector;
 
-    /** @var TypeManager */
-    private $typeManager;
+    private TypeManager $typeManager;
 
     public function __construct(
         SettingsProvider $provider,

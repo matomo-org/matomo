@@ -18,20 +18,11 @@ use Piwik\Metrics;
 
 abstract class Base extends RecordBuilder
 {
-    /**
-     * @var string
-     */
-    private $recordName;
+    private string $recordName;
 
-    /**
-     * @var string
-     */
-    private $labelSql;
+    private string $labelSql;
 
-    /**
-     * @var bool
-     */
-    private $enrichWithConversionMetrics;
+    private bool $enrichWithConversionMetrics;
 
     public function __construct(string $recordName, string $labelSql, bool $enrichWithConversionMetrics = false)
     {

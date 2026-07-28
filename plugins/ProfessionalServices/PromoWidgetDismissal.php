@@ -16,8 +16,7 @@ class PromoWidgetDismissal
 {
     private const STORE_KEY_DISMISSED_WIDGETS = 'dismissedWidgets';
 
-    /** @var UserScopedSettingsAccessManager */
-    private $accessManager;
+    private UserScopedSettingsAccessManager $accessManager;
 
     public function __construct(UserScopedSettingsAccessManager $accessManager)
     {

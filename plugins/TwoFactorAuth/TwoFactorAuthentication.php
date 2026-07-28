@@ -34,20 +34,11 @@ class TwoFactorAuthentication
      */
     public const BLOCK_TWOFA_CODE_MINUTES = 10;
 
-    /**
-     * @var SystemSettings
-     */
-    private $settings;
+    private SystemSettings $settings;
 
-    /**
-     * @var RecoveryCodeDao
-     */
-    private $recoveryCodeDao;
+    private RecoveryCodeDao $recoveryCodeDao;
 
-    /**
-     * @var TwoFaSecretRandomGenerator
-     */
-    private $secretGenerator;
+    private TwoFaSecretRandomGenerator $secretGenerator;
 
     public function __construct(SystemSettings $systemSettings, RecoveryCodeDao $recoveryCodeDao, TwoFaSecretRandomGenerator $twoFaSecretRandomGenerator)
     {

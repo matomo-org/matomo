@@ -26,10 +26,7 @@ class LogDataAnonymizations
      */
     private $onOutputCallback;
 
-    /**
-     * @var LogDataAnonymizer
-     */
-    private $logDataAnonymizer;
+    private LogDataAnonymizer $logDataAnonymizer;
 
     private $tablePrefixed;
 

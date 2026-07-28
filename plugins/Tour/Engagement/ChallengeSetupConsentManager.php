@@ -16,8 +16,7 @@ use Piwik\SiteContentDetector;
 
 class ChallengeSetupConsentManager extends Challenge
 {
-    /** @var SiteContentDetector */
-    private $siteContentDetector;
+    private SiteContentDetector $siteContentDetector;
 
     /**
      * @var ConsentManagerDetectionAbstract|null

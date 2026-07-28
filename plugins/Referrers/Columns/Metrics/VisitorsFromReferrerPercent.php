@@ -17,15 +17,9 @@ use Piwik\Plugin\ProcessedMetric;
 
 class VisitorsFromReferrerPercent extends ProcessedMetric
 {
-    /**
-     * @var string
-     */
-    private $name;
+    private string $name;
 
-    /**
-     * @var string
-     */
-    private $referrerSourceColumn;
+    private string $referrerSourceColumn;
 
     /**
      * @var numeric

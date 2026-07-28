@@ -18,24 +18,12 @@ use Piwik\View;
 
 class RequestTrialNotificationEmail extends Mail
 {
-    /**
-     * @var string
-     */
-    private $emailAddress;
+    private string $emailAddress;
 
-    /**
-     * @var string
-     */
-    private $login;
+    private string $login;
 
-    /**
-     * @var string
-     */
-    private $pluginName;
-    /**
-     * @var string
-     */
-    private $pluginDisplayName;
+    private string $pluginName;
+    private string $pluginDisplayName;
 
     public function __construct(string $login, string $emailAddress, string $pluginName, string $pluginDisplayName)
     {

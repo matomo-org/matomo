@@ -36,10 +36,7 @@ class ReferrerAnonymisation implements CustomSettingInterface, PolicyComparisonI
      */
     use CustomGetterTrait;
 
-    /**
-     * @var string|null
-     */
-    private $value;
+    private ?string $value;
 
     private function __construct(?string $value)
     {

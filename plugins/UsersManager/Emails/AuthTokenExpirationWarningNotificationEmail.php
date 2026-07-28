@@ -19,16 +19,11 @@ use Piwik\View;
 
 class AuthTokenExpirationWarningNotificationEmail extends Mail
 {
-    /**
-     * @var AuthTokenExpirationWarningEmailNotification
-     */
-    private $notification;
+    private AuthTokenExpirationWarningEmailNotification $notification;
 
-    /** @var string */
-    private $recipient;
+    private string $recipient;
 
-    /** @var array */
-    private $emailData;
+    private array $emailData;
 
     public function __construct(
         AuthTokenExpirationWarningEmailNotification $notification,

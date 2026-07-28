@@ -17,10 +17,7 @@ use Piwik\Plugins\Live\ProfileSummary\ProfileSummaryAbstract;
 
 class ProfileSummaryProvider
 {
-    /**
-     * @var Plugin\Manager
-     */
-    private $pluginManager;
+    private Plugin\Manager $pluginManager;
 
     public function __construct(Plugin\Manager $pluginManager)
     {
