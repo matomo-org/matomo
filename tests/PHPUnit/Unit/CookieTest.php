@@ -52,7 +52,7 @@ class CookieTest extends \PHPUnit\Framework\TestCase
 
     public function testLoadContentFromCookieWontUnserialiseContentIfNotSigned()
     {
-        $val = safe_serialize(['foobar']);
+        $val = serialize(['foobar']);
         $_COOKIE[self::TEST_COOKIE_NAME] = 'hello=' . base64_encode($val) . ':_=foobar';
         $this->cookie = $this->makeCookie();
         $this->assertEquals(Common::sanitizeInputValues($val), $this->cookie->get('hello'));
@@ -60,7 +60,7 @@ class CookieTest extends \PHPUnit\Framework\TestCase
 
     public function testLoadContentFromCookieWillUnserialiseContentIfSigned()
     {
-        $val = safe_serialize(['foobar']);
+        $val = serialize(['foobar']);
         $cookieStr = 'hello=' . base64_encode($val) . ':_=';
         $_COOKIE[self::TEST_COOKIE_NAME] = $cookieStr . sha1($cookieStr . SettingsPiwik::getSalt());
         $this->cookie = $this->makeCookie();
@@ -154,9 +154,9 @@ class CookieTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Dataprovider for testSafeSerialize
+     * Dataprovider for testSafeUnserializeWithNativelySerializedData
      */
-    public function getSafeSerializeData()
+    public function getSafeUnserializeData()
     {
         return array(
             array('null', null),
@@ -183,13 +183,10 @@ class CookieTest extends \PHPUnit\Framework\TestCase
     /**
      * @group Core
      *
-     * @dataProvider getSafeSerializeData
+     * @dataProvider getSafeUnserializeData
      */
-    public function testSafeSerialize($id, $testData)
+    public function testSafeUnserializeWithNativelySerializedData($id, $testData)
     {
-        $this->assertEquals(serialize($testData), safe_serialize($testData), $id);
-        $this->assertEquals($testData, unserialize(safe_serialize($testData)), $id);
-        $this->assertSame($testData, safe_unserialize(safe_serialize($testData)), $id);
         $this->assertSame($testData, safe_unserialize(serialize($testData)), $id);
     }
 
@@ -203,11 +200,6 @@ class CookieTest extends \PHPUnit\Framework\TestCase
          * which may vary between php versions, OS, and hardware platforms
          */
         $testData = -5.0E+142;
-        // intentionally disabled; this doesn't work
-//        $this->assertEquals( safe_serialize($testData), serialize($testData) );
-        $this->assertEquals($testData, unserialize(safe_serialize($testData)));
-        $this->assertSame($testData, safe_unserialize(safe_serialize($testData)));
-        // workaround: cast floats into strings
         $this->assertSame($testData, safe_unserialize(serialize($testData)));
 
         $unserialized = array(
@@ -235,9 +227,8 @@ class CookieTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($serialized, serialize($unserialized));
 
         $this->assertSame($unserialized, safe_unserialize($serialized));
-        $this->assertEquals($serialized, safe_serialize($unserialized));
-        $this->assertSame($unserialized, safe_unserialize(safe_serialize($unserialized)));
-        $this->assertEquals($serialized, safe_serialize(safe_unserialize($serialized)));
+        $this->assertSame($unserialized, safe_unserialize(serialize($unserialized)));
+        $this->assertEquals($serialized, serialize(safe_unserialize($serialized)));
 
         $a = 'O:31:"Test_Piwik_Cookie_Phantom_Class":0:{}';
         $this->assertFalse(safe_unserialize($a), "test: unserializing an object where class not (yet) defined");
