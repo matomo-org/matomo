@@ -21,6 +21,7 @@ use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\Login\PasswordResetter;
 use Piwik\Plugins\Login\PasswordResetUserIsInvalidException;
+use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Plugins\UsersManager\Repository\UserRepository;
 use Piwik\Tests\Framework\Fixture;
@@ -232,16 +233,49 @@ class PasswordResetterTest extends IntegrationTestCase
         $userAfterReset = $model->getUser('pendingUser');
 
         self::assertSame($userBeforeReset['invite_expired_at'], $userAfterReset['invite_expired_at']);
-        self::assertSame($userBeforeReset['invite_token'], $userAfterReset['invite_token']);
+        self::assertNotSame($userBeforeReset['invite_token'], $userAfterReset['invite_token']);
         self::assertNotEmpty($this->capturedActivationToken);
         self::assertSame(
             $model->hashTokenAuth($this->capturedActivationToken),
-            $userAfterReset['invite_link_token']
+            $userAfterReset['invite_token']
         );
+        self::assertNull($userAfterReset['invite_link_token']);
         self::assertStringContainsString('action=3DacceptInvitation', $this->passwordResetEmailBody);
         self::assertStringContainsString('This link will expire in ', $this->passwordResetEmailBody);
         self::assertStringNotContainsString('expire in 24 hours', $this->passwordResetEmailBody);
         self::assertSame(['pendingUser'], $this->eventInitiatedInfo);
+    }
+
+    public function testChangingPendingUserEmailInvalidatesRecoveryActivationLink()
+    {
+        Request::processRequest(
+            'UsersManager.inviteUser',
+            [
+                'userLogin' => 'reassignedPendingUser',
+                'email' => 'previous.pending@user.io',
+                'initialIdSite' => 1,
+                'expiryInDays' => 7,
+            ]
+        );
+
+        $model = new Model();
+
+        $this->passwordResetter->initiatePasswordResetProcess(
+            'previous.pending@user.io',
+            self::NEWPASSWORD
+        );
+
+        self::assertNotEmpty($this->capturedActivationToken);
+        self::assertNotEmpty($model->getUserByInviteToken($this->capturedActivationToken));
+
+        UsersManagerAPI::$UPDATE_USER_REQUIRE_PASSWORD_CONFIRMATION = false;
+        UsersManagerAPI::getInstance()->updateUser(
+            'reassignedPendingUser',
+            false,
+            'new.pending@user.io'
+        );
+
+        self::assertEmpty($model->getUserByInviteToken($this->capturedActivationToken));
     }
 
     public function testPasswordResetShouldNotWorkForPendingUserWithExpiredInvitation()
@@ -323,8 +357,16 @@ class PasswordResetterTest extends IntegrationTestCase
         $repository = StaticContainer::get(UserRepository::class);
         $racingRepository = $this->createMock(UserRepository::class);
         $racingRepository
-            ->method('refreshInviteLinkToken')
-            ->willReturnCallback(function (string $userLogin) use ($acceptsInvitation, $model, $repository) {
+            ->method('refreshInviteToken')
+            ->willReturnCallback(function (
+                string $userLogin,
+                string $expectedInviteToken,
+                string $expectedEmail
+            ) use (
+                $acceptsInvitation,
+                $model,
+                $repository
+            ) {
                 $fields = $acceptsInvitation
                     ? [
                         'invite_token' => null,
@@ -336,7 +378,11 @@ class PasswordResetterTest extends IntegrationTestCase
                     ];
                 $model->updateUserFields($userLogin, $fields);
 
-                return $repository->refreshInviteLinkToken($userLogin);
+                return $repository->refreshInviteToken(
+                    $userLogin,
+                    $expectedInviteToken,
+                    $expectedEmail
+                );
             });
 
         StaticContainer::getContainer()->set(UserRepository::class, $racingRepository);
@@ -374,6 +420,67 @@ class PasswordResetterTest extends IntegrationTestCase
                 false,
             ],
         ];
+    }
+
+    public function testPasswordResetDoesNotSendActivationLinkIfPendingUserEmailChangesDuringRequest()
+    {
+        Request::processRequest(
+            'UsersManager.inviteUser',
+            [
+                'userLogin' => 'emailChangedDuringReset',
+                'email' => 'old.pending@user.io',
+                'initialIdSite' => 1,
+                'expiryInDays' => 7,
+            ]
+        );
+
+        $model = new Model();
+        $userBeforeReset = $model->getUser('emailChangedDuringReset');
+        $repository = StaticContainer::get(UserRepository::class);
+        $racingRepository = $this->createMock(UserRepository::class);
+        $racingRepository
+            ->method('refreshInviteToken')
+            ->willReturnCallback(function (
+                string $userLogin,
+                string $expectedInviteToken,
+                string $expectedEmail
+            ) use ($repository) {
+                UsersManagerAPI::$UPDATE_USER_REQUIRE_PASSWORD_CONFIRMATION = false;
+                UsersManagerAPI::getInstance()->updateUser(
+                    $userLogin,
+                    false,
+                    'new.pending@user.io'
+                );
+
+                return $repository->refreshInviteToken(
+                    $userLogin,
+                    $expectedInviteToken,
+                    $expectedEmail
+                );
+            });
+
+        StaticContainer::getContainer()->set(UserRepository::class, $racingRepository);
+
+        try {
+            $this->passwordResetter->initiatePasswordResetProcess(
+                'old.pending@user.io',
+                self::NEWPASSWORD
+            );
+        } finally {
+            StaticContainer::getContainer()->set(UserRepository::class, $repository);
+        }
+
+        $userAfterReset = $model->getUser('emailChangedDuringReset');
+
+        self::assertSame('new.pending@user.io', $userAfterReset['email']);
+        self::assertNotSame($userBeforeReset['invite_token'], $userAfterReset['invite_token']);
+        self::assertNull($userAfterReset['invite_link_token']);
+        self::assertNull($this->capturedActivationToken);
+        self::assertNull($this->passwordResetEmailBody);
+        self::assertSame([], $this->eventInitiatedInfo);
+        self::assertFalse(Option::get(
+            PasswordResetter::getPasswordResetInfoOptionName('emailChangedDuringReset')
+        ));
     }
 
     public function testPasswordResetShouldNotWorkForInvalidUserAndThrowException()

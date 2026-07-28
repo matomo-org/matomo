@@ -583,7 +583,11 @@ class PasswordResetter
         $linkValidity = null;
 
         if (!empty($user['invite_token'])) {
-            $inviteToken = StaticContainer::get(UserRepository::class)->refreshInviteLinkToken($login);
+            $inviteToken = StaticContainer::get(UserRepository::class)->refreshInviteToken(
+                $login,
+                $user['invite_token'],
+                $email
+            );
             if ($inviteToken === null) {
                 return false;
             }

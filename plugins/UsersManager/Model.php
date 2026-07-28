@@ -688,6 +688,7 @@ class Model
     {
         $this->updateUserFields($userLogin, [
           'invite_token'      => $this->hashTokenAuth($token),
+          'invite_link_token' => null,
           'invite_expired_at' => Date::now()->addDay($expiryInDays)->getDatetime(),
         ]);
     }
@@ -700,13 +701,19 @@ class Model
         ]);
     }
 
-    public function updateInviteLinkTokenForPendingUser(string $userLogin, string $token): bool
-    {
+    public function replaceInviteTokenForPendingUser(
+        string $userLogin,
+        string $token,
+        string $expectedInviteToken,
+        string $expectedEmail
+    ): bool {
         $sql = sprintf(
             'UPDATE `%s`
-             SET `invite_link_token` = ?
+             SET `invite_token` = ?,
+                 `invite_link_token` = NULL
              WHERE `login` = ?
-               AND `invite_token` IS NOT NULL
+               AND `invite_token` = ?
+               AND `email` = ?
                AND `invite_expired_at` IS NOT NULL
                AND `invite_expired_at` >= ?',
             $this->userTable
@@ -714,6 +721,8 @@ class Model
         $query = $this->getDb()->query($sql, [
             $this->hashTokenAuth($token),
             $userLogin,
+            $expectedInviteToken,
+            $expectedEmail,
             Date::now()->getDatetime(),
         ]);
 
