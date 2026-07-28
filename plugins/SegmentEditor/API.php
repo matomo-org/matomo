@@ -398,7 +398,7 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Stars a stored segment.
+     * Stars a stored segment for the current user.
      *
      * @param int $idSegment The ID of the stored segment to star.
      * @return array{result: bool, starred: 1, starred_by: string} The update result and new starred state.
@@ -407,22 +407,18 @@ class API extends \Piwik\Plugin\API
     {
         $segment = $this->getSegmentOrFail($idSegment);
         $login = Piwik::getCurrentUserLogin();
-        $bind = [
-            'starred' => 1,
-            'starred_by' => $login,
-        ];
 
-        $result = $this->getModel()->updateSegment($idSegment, $bind);
+        $this->getModel()->starSegment($idSegment, $login);
 
         return [
-            'result' => $result,
+            'result' => true,
             'starred' => 1,
             'starred_by' => $login,
         ];
     }
 
     /**
-     * Unstars a stored segment.
+     * Unstars a stored segment for the current user.
      *
      * @param int $idSegment The ID of the stored segment to unstar.
      * @return array{result: bool, starred: 0} The update result and new starred state.
@@ -430,16 +426,13 @@ class API extends \Piwik\Plugin\API
     public function unstar(int $idSegment): array
     {
         $segment = $this->getSegmentOrFail($idSegment);
-        $bind = [
-            'starred' => 0,
-            'starred_by' => null,
-        ];
+        $login = Piwik::getCurrentUserLogin();
 
-        $result = $this->getModel()->updateSegment($idSegment, $bind);
+        $this->getModel()->unstarSegment($idSegment, $login);
 
         return [
             'starred' => 0,
-            'result' => $result,
+            'result' => true,
         ];
     }
 
@@ -472,7 +465,9 @@ class API extends \Piwik\Plugin\API
             throw new Exception("This segment is marked as deleted. ");
         }
 
-        return $segment;
+        $login = Piwik::getCurrentUserLogin();
+        $segments = $this->enrichWithStarredStatus([$segment], $login);
+        return $segments[0];
     }
 
     /**
@@ -507,7 +502,27 @@ class API extends \Piwik\Plugin\API
         }
 
         $segments = $this->filterSegmentsWithDisabledElements($segments, $idSite);
+        $segments = $this->enrichWithStarredStatus($segments, $userLogin);
         $segments = $this->sortSegmentsCreatedByUserFirst($segments);
+
+        return $segments;
+    }
+
+    private function enrichWithStarredStatus(array $segments, string $login): array
+    {
+        $starredIds = $this->getModel()->getStarredSegmentIdsForUser($login);
+        $starredIds = array_flip($starredIds);
+
+        foreach ($segments as &$segment) {
+            $id = (int) $segment['idsegment'];
+            if (isset($starredIds[$id])) {
+                $segment['starred'] = 1;
+                $segment['starred_by'] = $login;
+            } else {
+                $segment['starred'] = 0;
+                $segment['starred_by'] = null;
+            }
+        }
 
         return $segments;
     }

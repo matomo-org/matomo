@@ -20,10 +20,16 @@ use Piwik\DbHelper;
 class Model
 {
     private static $rawPrefix = 'segment';
+    private static $starTablePrefix = 'user_segment_star';
 
     protected function getTable()
     {
         return Common::prefixTable(self::$rawPrefix);
+    }
+
+    protected function getStarTable()
+    {
+        return Common::prefixTable(self::$starTablePrefix);
     }
 
     /**
@@ -269,10 +275,37 @@ class Model
         return md5(urldecode($definition));
     }
 
+    public function starSegment(int $idSegment, string $login): void
+    {
+        $table = $this->getStarTable();
+        $sql = "INSERT IGNORE INTO `$table` (`idsegment`, `login`) VALUES (?, ?)";
+        $this->getDb()->query($sql, [$idSegment, $login]);
+    }
+
+    public function unstarSegment(int $idSegment, string $login): void
+    {
+        $table = $this->getStarTable();
+        $sql = "DELETE FROM `$table` WHERE `idsegment` = ? AND `login` = ?";
+        $this->getDb()->query($sql, [$idSegment, $login]);
+    }
+
+    public function getStarredSegmentIdsForUser(string $login): array
+    {
+        $table = $this->getStarTable();
+        $sql = "SELECT `idsegment` FROM `$table` WHERE `login` = ?";
+        $rows = $this->getDb()->fetchAll($sql, [$login]);
+        $ids = [];
+        foreach ($rows as $row) {
+            $ids[] = (int) $row['idsegment'];
+        }
+        return $ids;
+    }
+
     public static function install()
     {
         $segmentTable = "`idsegment` INT(11) NOT NULL AUTO_INCREMENT,
                          `name` VARCHAR(255) NOT NULL,
+                         `definition` TEXT NOT NULL,
                          `definition` TEXT NOT NULL,
                          `hash` CHAR(32) NULL,
                          `login` VARCHAR(100) NOT NULL,
@@ -287,5 +320,11 @@ class Model
                          PRIMARY KEY (`idsegment`)";
 
         DbHelper::createTable(self::$rawPrefix, $segmentTable);
+
+        $starTable = "`idsegment` INT(11) NOT NULL,
+                       `login` VARCHAR(100) NOT NULL,
+                       PRIMARY KEY (`idsegment`, `login`)";
+
+        DbHelper::createTable(self::$starTablePrefix, $starTable);
     }
 }
