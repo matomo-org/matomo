@@ -2,6 +2,7 @@
     "General": {
         "12HourClock": "12hodinový formát",
         "24HourClock": "24hodinový formát",
+        "AIAssistants": "AI Asistenti",
         "API": "API",
         "AbandonedCarts": "Opuštěné košíky",
         "AboutPiwikX": "O Matomo %s",
@@ -330,6 +331,7 @@
         "MediumToHighTrafficItIsRecommendedTo": "U webových stránek se střední až vysokou návštěvností doporučujeme zpracovávat zprávy za dnešní den maximálně každou půlhodinu (%1$s sekund) nebo každou hodinu (%2$s sekund).",
         "Metadata": "Meta data",
         "Metric": "Měření",
+        "MetricNotAvailableForThisPeriod": "Tato metrika není k dispozici pro toto období.",
         "MetricToPlot": "Měření k vykreslení",
         "Metrics": "Měření",
         "MetricsToPlot": "Měření k vykreslení",

@@ -86,4 +86,74 @@ class SparklinesTest extends \PHPUnit\Framework\TestCase
             'comparing without compare params' => [true, [], null],
         ];
     }
+
+    /**
+     * @dataProvider getResolveMetricTitleData
+     */
+    public function testResolveMetricTitle(
+        bool $useMetricLabelsAsTitles,
+        array $viewTranslations,
+        array $metricTranslations,
+        string $description,
+        string $expected
+    ): void {
+        $reflection = new \ReflectionClass(Sparklines::class);
+        $sparklines = $reflection->newInstanceWithoutConstructor();
+        $sparklines->config = new Sparklines\Config();
+        $sparklines->config->use_metric_labels_as_titles = $useMetricLabelsAsTitles;
+        $sparklines->config->translations = $viewTranslations;
+
+        $method = $reflection->getMethod('resolveMetricTitle');
+        $method->setAccessible(true);
+
+        $actual = $method->invoke(
+            $sparklines,
+            'nb_conversions',
+            $description,
+            $metricTranslations
+        );
+
+        $this->assertSame($expected, $actual);
+    }
+
+    public function getResolveMetricTitleData(): array
+    {
+        return [
+            'default mode prefers the generic metric title' => [
+                false,
+                ['nb_conversions' => 'Ecommerce orders'],
+                ['nb_conversions' => 'Conversions'],
+                'converted visits',
+                'Conversions',
+            ],
+            'opt-in mode prefers the view-specific metric title' => [
+                true,
+                ['nb_conversions' => 'Ecommerce orders'],
+                ['nb_conversions' => 'Conversions'],
+                'converted visits',
+                'Ecommerce orders',
+            ],
+            'opt-in mode falls back to the generic metric title' => [
+                true,
+                [],
+                ['nb_conversions' => 'Conversions'],
+                'converted visits',
+                'Conversions',
+            ],
+            'default mode falls back to the description' => [
+                false,
+                ['nb_conversions' => 'Ecommerce orders'],
+                [],
+                'converted visits',
+                'converted visits',
+            ],
+            'opt-in mode falls back to the description' => [
+                true,
+                [],
+                [],
+                'converted visits',
+                'converted visits',
+            ],
+        ];
+    }
 }

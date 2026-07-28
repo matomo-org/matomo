@@ -77,7 +77,7 @@ class CustomLogo
             return true;
         }
 
-        if ($this->isEnabled() && static::logoExists(static::getPathUserSvgLogo())) {
+        if ($this->isEnabled() && self::logoExists(static::getPathUserSvgLogo())) {
             return true;
         }
 
@@ -134,10 +134,10 @@ class CustomLogo
         }
         $themeLogo = sprintf($themeLogo, $themeName);
 
-        if (static::logoExists($themeLogo)) {
+        if (self::logoExists($themeLogo)) {
             $logo = $themeLogo;
         }
-        if ($this->isEnabled() && static::logoExists($customLogo)) {
+        if ($this->isEnabled() && self::logoExists($customLogo)) {
             $logo = $customLogo;
         }
 
@@ -235,7 +235,7 @@ class CustomLogo
      */
     public static function hasUserLogo()
     {
-        return static::logoExists(static::getPathUserLogo());
+        return self::logoExists(static::getPathUserLogo());
     }
 
     /**
@@ -243,7 +243,7 @@ class CustomLogo
      */
     public static function hasUserFavicon()
     {
-        return static::logoExists(static::getPathUserFavicon());
+        return self::logoExists(static::getPathUserFavicon());
     }
 
     private function postLogoChangeEvent($imagePath): void

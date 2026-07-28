@@ -36,7 +36,8 @@ class RecommendedFunctionsCheck implements Diagnostic
         foreach ($this->getRecommendedFunctions() as $function) {
             if (! PhpFunctionsCheck::functionExists($function)) {
                 $status = DiagnosticResult::STATUS_WARNING;
-                $comment = $function . '<br/>' . $this->getHelpMessage($function);
+                $help = $this->getHelpMessage($function);
+                $comment = $function . ('' === $help ? '' : '<br/>' . $help);
             } else {
                 $status = DiagnosticResult::STATUS_OK;
                 $comment = $function;
@@ -58,7 +59,6 @@ class RecommendedFunctionsCheck implements Diagnostic
             'set_time_limit',
             'mail',
             'parse_ini_file',
-            'glob',
             'gzopen',
             'md5_file',
             'hash_file',
@@ -72,13 +72,16 @@ class RecommendedFunctionsCheck implements Diagnostic
             'set_time_limit' => 'Installation_SystemCheckTimeLimitHelp',
             'mail'           => 'Installation_SystemCheckMailHelp',
             'parse_ini_file' => 'Installation_SystemCheckParseIniFileHelp',
-            'glob'           => 'Installation_SystemCheckGlobHelp',
             'gzopen'         => 'Installation_SystemCheckZlibHelp',
         );
 
         $translation_params = [
             'shell_exec'     => [Url::getExternalLinkTag('https://matomo.org/faq/troubleshooting/how-to-make-the-diagnostic-managing-processes-via-cli-to-display-ok/'), '</a>'],
         ];
+
+        if (!isset($messages[$function])) {
+            return '';
+        }
 
         return $this->translator->translate($messages[$function], $translation_params[$function] ?? []);
     }

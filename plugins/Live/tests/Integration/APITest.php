@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Live\tests\Integration;
 
 use Piwik\Date;
 use Piwik\Plugins\Live\API;
+use Piwik\Plugins\Live\MeasurableSettings;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -78,9 +79,101 @@ class APITest extends IntegrationTestCase
         );
     }
 
-    private function trackVisitWithActions(string $dateTime, array $urls): void
+    /**
+     * A View-only user must not be able to read a disabled site's visits by combining it with an
+     * enabled site in one request. The enabled site's data is returned; the disabled site is dropped
+     * from the query entirely, and an all-disabled request is still rejected.
+     */
+    public function testGetLastVisitsDetailsExcludesSitesWithVisitsLogDisabled()
     {
-        $tracker = Fixture::getTracker(1, $dateTime, $defaultInit = true);
+        // setUp() created site 1 with the visits log enabled. Add two more sites, track one visit on
+        // each, then disable the visits log on sites 2 and 3.
+        Fixture::createWebsite('2010-01-01'); // idSite 2
+        Fixture::createWebsite('2010-01-01'); // idSite 3
+
+        $this->trackVisitWithActions('2012-01-01 10:00:00', ['https://s1.example.org/page'], 1);
+        $this->trackVisitWithActions('2012-01-01 11:00:00', ['https://s2.example.org/page'], 2);
+        $this->trackVisitWithActions('2012-01-01 12:00:00', ['https://s3.example.org/page'], 3);
+
+        $this->disableVisitorLog(2);
+        $this->disableVisitorLog(3);
+        Fixture::clearInMemoryCaches();
+
+        $api = API::getInstance();
+
+        // The regression: a mixed request must return the enabled site only, never the disabled one.
+        $mixed = $api->getLastVisitsDetails('1,2', 'day', '2012-01-01');
+        $this->assertSame(1, $mixed->getRowsCount());
+        $this->assertSame(1, (int) $mixed->getFirstRow()->getColumn('idsite'));
+
+        // The enabled site on its own is unchanged.
+        $this->assertSame(1, $api->getLastVisitsDetails(1, 'day', '2012-01-01')->getRowsCount());
+
+        // A single disabled site is denied.
+        try {
+            $api->getLastVisitsDetails(2, 'day', '2012-01-01');
+            $this->fail('Expected getLastVisitsDetails to reject a disabled single site');
+        } catch (\Exception $e) {
+            $this->assertStringContainsString('deactivated', $e->getMessage());
+        }
+
+        // A request containing only disabled sites is denied.
+        try {
+            $api->getLastVisitsDetails('2,3', 'day', '2012-01-01');
+            $this->fail('Expected getLastVisitsDetails to reject an all-disabled request');
+        } catch (\Exception $e) {
+            $this->assertStringContainsString('deactivated', $e->getMessage());
+        }
+    }
+
+    public function testGetMostRecentVisitorIdIsDeniedForSiteWithVisitsLogDisabled()
+    {
+        Fixture::createWebsite('2010-01-01'); // idSite 2
+
+        $this->trackVisitWithActions('2012-01-01 10:00:00', ['https://s1.example.org/page'], 1);
+        $this->trackVisitWithActions('2012-01-01 11:00:00', ['https://s2.example.org/page'], 2);
+
+        $this->disableVisitorLog(2);
+        Fixture::clearInMemoryCaches();
+
+        $api = API::getInstance();
+
+        // The enabled site still resolves a visitor id.
+        $this->assertNotEmpty($api->getMostRecentVisitorId(1));
+
+        // The disabled site is denied outright, so no visitor id is leaked.
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('deactivated');
+        $api->getMostRecentVisitorId(2);
+    }
+
+    public function testGetMostRecentVisitsDateTimeIsNotGatedByVisitsLogSetting()
+    {
+        // getMostRecentVisitsDateTime is a raw-data existence probe: ReportingPage.vue and
+        // SiteWithoutData.vue read its value to detect that data exists even when reports are not
+        // archived yet. It must keep returning a timestamp when the visits log is disabled, otherwise
+        // the CoreHome_PeriodHasOnlyRawDataNoVisitsLog notification and the "no data yet" poller break.
+        $this->trackVisitWithActions('2012-01-01 10:00:00', ['https://s1.example.org/page'], 1);
+
+        $this->disableVisitorLog(1);
+        Fixture::clearInMemoryCaches();
+
+        $this->assertStringStartsWith(
+            '2012-01-01 10:',
+            API::getInstance()->getMostRecentVisitsDateTime(1)
+        );
+    }
+
+    private function disableVisitorLog(int $idSite): void
+    {
+        $settings = new MeasurableSettings($idSite);
+        $settings->disableVisitorLog->setValue(true);
+        $settings->save();
+    }
+
+    private function trackVisitWithActions(string $dateTime, array $urls, int $idSite = 1): void
+    {
+        $tracker = Fixture::getTracker($idSite, $dateTime, $defaultInit = true);
         $tracker->setTokenAuth(Fixture::getTokenAuth());
         $tracker->setNewVisitorId();
 

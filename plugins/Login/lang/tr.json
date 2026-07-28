@@ -100,6 +100,8 @@
         "SuspiciousLoginAttemptsInLastHourEmail5": "Matomo uygulamanıza, sınırlı sayıda kullanıcı ya da IP adresi erişiyorsa bir engellenmeyecek IP adresleri listesi oluşturun. %1$sAyrıntılı bilgi almak için belgeler bölümüne bakabilirsiniz.%2$s",
         "SuspiciousLoginAttemptsInLastHourEmailSubject": "Kullanıcı adınız ile yapılan bazı şüpheli oturum açma girişimleri fark ettik…",
         "TimeOfLogin": "Oturum açma zamanı",
+        "TokenAuthenticationFailed": "Belirtilen kodla kimlik doğrulaması yapılamadı. Geçersiz veya süresi doldu.",
+        "TokenAuthenticationFailedInsecure": "Belirtilen kodla kimlik doğrulaması yapılamadı. Geçersiz, süresi doldu veya POST parametresi olarak ya da HTTP Authorization başlığında gönderilmesi gerekiyor. Kod, ‘Yalnızca güvenli isteklere izin verilsin’ seçeneği ile oluşturulduysa, POST parametresi olarak veya HTTP Authorization başlığında gönderilmesi gerekir.",
         "UnblockAllIPs": "Engellenmiş tüm IP adreslerinin engellemesini kaldır",
         "WrongPasswordEntered": "Lütfen parolanızı yazın."
     }

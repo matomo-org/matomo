@@ -1,14 +1,24 @@
 README
 
-Notes from Piwik developers
+Notes from Matomo developers
 ---
-This library has been added to port some functions that appeared after the
-php 5.1 release.
+This library was originally added to port some functions that appeared after the
+php 5.1 release, and to emulate built-in functions that a host had disabled.
 
-We removed most of the function definitions to only leave the ones that are
-used in Piwik.
+All of those emulations were removed for Matomo 6, because the functions they
+replaced are part of every PHP version Matomo supports. Functions that Matomo
+requires, and that therefore must not be disabled, are verified by
+core/testMinimumPhpVersion.php and by the Diagnostics plugin instead.
 
-Find the full library on http://upgradephp.berlios.de/
----
-Additional functions provided to emulate built-in functions that are
-disabled or unsafe.
+What remains in upgrade.php is not a polyfill:
+
+  safe_unserialize()  a deliberately strict unserializer that accepts only a
+                      subset of PHP's serialization format and never
+                      instantiates objects
+  _readfile()         outputs a byte range of a file, which native readfile()
+                      cannot do
+
+Both are loaded before the Composer autoloader, so they must not depend on any
+Matomo class.
+
+The original library was at http://upgradephp.berlios.de/ (long gone).

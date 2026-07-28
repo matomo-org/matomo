@@ -94,5 +94,6 @@ class CoreVisualizations extends \Piwik\Plugin
         $translationKeys[] = 'General_IncompletePeriod';
         $translationKeys[] = 'General_InvalidatedPeriod';
         $translationKeys[] = 'General_MetricNotAvailableForThisPeriod';
+        $translationKeys[] = 'General_Forecast';
     }
 }

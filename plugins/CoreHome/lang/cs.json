@@ -1,5 +1,6 @@
 {
     "CoreHome": {
+        "AIInsights": "AI náhledy",
         "AdblockIsMaybeUsed": "Pokud používáte blokování reklam, zakažte ho pro tyto stránky, aby Matomo fungovalo správně.",
         "AddTotalsRowDataTable": "Sestava nezobrazuje řádek součtů %s Zobrazit řádek součtů",
         "CategoryNoData": "V této kategorii nejsou k dispozici žádná data. Zkuste \"Zobrazit všechny výsledky\".",
@@ -73,6 +74,15 @@
         "PeriodHasOnlyRawDataNoVisitsLog": "Vypadá to, že hlášení za toto období ještě nebyla zpracována, ale budou k dispozici během několika hodin. Do doby, než budou hlášení vygenerována, můžete zvolit jiné datumové období.",
         "PeriodRange": "Rozsah",
         "PivotBySubtable": "Toto hlášení není zaměřené %1$s Zaměřit na %2$s",
+        "PresetDateLast30Days": "Posledních 30 dní",
+        "PresetDateLast7Days": "Posledních 7 dní",
+        "PresetDateLast90Days": "Posledních 90 dní",
+        "PresetDateLastMonth": "Minulý měsíc",
+        "PresetDateLastQuarter": "Poslední čtvrtletí",
+        "PresetDateLastWeekMonSun": "Minulý týden (Po - Ne)",
+        "PresetDateLastYear": "Poslední rok",
+        "PresetDateThisMonth": "Tento měsíc",
+        "PresetDateThisWeekMonToday": "Tento týden (Po - Dnes)",
         "PresetDateToday": "Dnes",
         "PresetDateYesterday": "Včera",
         "Profilable": "Profilovatelné",

@@ -473,7 +473,7 @@ class CliMulti
     {
         $timeOneWeekAgo = strtotime('-1 week');
 
-        $files = _glob(self::getTmpPath() . '/*');
+        $files = glob(self::getTmpPath() . '/*');
         if (empty($files)) {
             return;
         }

@@ -23,6 +23,7 @@ export { default as useExternalPluginComponent } from './useExternalPluginCompon
 export { default as DirectiveUtilities } from './directiveUtilities';
 export { default as debounce } from './debounce';
 export { default as clone } from './clone';
+export { default as ucfirst } from './ucfirst';
 export { default as VueEntryContainer } from './VueEntryContainer/VueEntryContainer.vue';
 export { default as ActivityIndicator } from './ActivityIndicator/ActivityIndicator.vue';
 export { default as MatomoLoader } from './MatomoLoader/MatomoLoader.vue';

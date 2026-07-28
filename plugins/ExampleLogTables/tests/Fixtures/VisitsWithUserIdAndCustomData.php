@@ -44,7 +44,7 @@ class VisitsWithUserIdAndCustomData extends Fixture
         $t->setTokenAuth(self::getTokenAuth());
         $t->enableBulkTracking();
 
-        foreach (array('user1', 'user2', 'user3', 'user4', false) as $key => $userId) {
+        foreach (array('user1', 'user2', 'user3', 'user4', null) as $key => $userId) {
             for ($numVisits = 0; $numVisits < ($key + 1) * 10; $numVisits++) {
                 $visitDateTime = Date::factory($this->dateTime)->addHour($numVisits)->getDatetime();
                 $t->setForceVisitDateTime($visitDateTime);
