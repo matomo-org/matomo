@@ -371,7 +371,6 @@ abstract class Controller
 
         $pluginName = $this->pluginName;
 
-        /** @var Proxy $apiProxy */
         $apiProxy = Proxy::getInstance();
 
         if (!$apiProxy->isExistingApiAction($pluginName, $apiAction)) {
