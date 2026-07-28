@@ -35,7 +35,7 @@ class RequestProcessor extends \Piwik\Tracker\RequestProcessor
                 $this->didEnableSetting = true;
             }
         } elseif ($this->didEnableSetting) {
-            // we reset it in case of bulk tracking with different sites etc
+            // reset it when a following (bulk-tracking) request is for a non-intranet site
             $this->setTrustCookiesSetting(0);
             $this->didEnableSetting = false;
         }
