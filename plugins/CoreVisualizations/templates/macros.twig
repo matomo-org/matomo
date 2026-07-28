@@ -38,7 +38,7 @@
             {% for metric in group %}
                 <span class="sparkline-metrics" {% if allMetricsDocumentation[metric.column] is defined and allMetricsDocumentation[metric.column] %}title="{{ allMetricsDocumentation[metric.column] }}"{% endif %}>
                 {% if '%s' in metric.description -%}
-                    {{ metric.description|translate("<strong>"~metric.value|number(2)~"</strong>")|raw }}
+                    {{ metric.description|e('html')|replace({'%s': "<strong>"~metric.value|number(2)~"</strong>"})|raw }}
                 {%- else %}
                     <strong>{{ metric.value|number(2) }}</strong> {{ metric.description }}
                 {%- endif %}{% if not loop.last %}, {% endif %}
