@@ -365,10 +365,10 @@ class SiteContentDetector
                 // SSRF-safe fetch of the site's own (user-set) URL
                 validateEgressIp: true
             );
-        } catch (\Exception $e) {
-            // intentionally fail closed, but leave a diagnostic trail
+        } catch (\Exception $e) { // leave diagnostic trail
             StaticContainer::get(LoggerInterface::class)->debug('Site content detection request for {url} failed: {message}', [
-                'url' => $url,
+                // host only, so a configured URL carrying userinfo keeps credentials out of the log
+                'url' => UrlHelper::getHostFromUrl($url),
                 'message' => $e->getMessage(),
             ]);
         }

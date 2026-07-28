@@ -54,6 +54,9 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   whenever the target URL derives from untrusted input, such as a site's configured URL. Requires curl.
   Installations tracking intranet sites on private addresses can allowlist their ranges via the new
   `[General] allowed_private_egress_ranges` INI setting.
+* The `Http.sendHttpRequest` and `Http.sendHttpRequest.end` events pass a new `validateEgressIp` entry in their params
+  array. A listener that resolves the request itself must either honour SSRF-safe semantics (public-IP-only target,
+  re-validated redirects) or leave the request unhandled.
 
 ### HTTP API
 * `API.getBulkRequest` now validates the authentication parameters of each nested request URL against

@@ -434,6 +434,7 @@ class HttpTest extends \PHPUnit\Framework\TestCase
             ),
             'verifySsl' => true,
             'destinationPath' => $destinationPath,
+            'validateEgressIp' => false,
         ), null, null, array()), $params);
 
         $this->assertNotEmpty($params2[4]);// headers
@@ -449,6 +450,7 @@ class HttpTest extends \PHPUnit\Framework\TestCase
             ),
             'verifySsl' => true,
             'destinationPath' => $destinationPath,
+            'validateEgressIp' => false,
         ), '{"adf2":"44","afc23":"ab12","method":"post"}', 200), $params2);
     }
 
@@ -564,6 +566,54 @@ class HttpTest extends \PHPUnit\Framework\TestCase
             true,
             true // $validateEgressIp
         );
+    }
+
+    public function testSendHttpRequestByWithEgressValidationIgnoresForgedLocationInResponseBody()
+    {
+        $this->allowEgressValidationForTestHost();
+
+        $result = Http::sendHttpRequestBy(
+            'curl',
+            Fixture::getRootUrl() . 'tests/resources/redirector.php?redirects=1&forgeLocation='
+                . urlencode('http://169.254.169.254/latest/meta-data/'),
+            30,
+            getExtendedInfo: true,
+            validateEgressIp: true
+        );
+
+        $this->assertEquals(200, $result['status']);
+        self::assertStringContainsString('redirects=0', $result['data']);
+    }
+
+    public function testSendHttpRequestByWithEgressValidationDropsRelaxedCertCheckCrossOrigin()
+    {
+        $this->allowEgressValidationForTestHost();
+
+        // A different port on the same host is a different origin, and stays within the allowlisted
+        // loopback ranges so the hop is validated rather than rejected.
+        $host = (string) parse_url(Fixture::getRootUrl(), PHP_URL_HOST);
+        $target = 'http://' . $host . ':9/';
+
+        $verifySslPerHop = [];
+        Piwik::addAction('Http.sendHttpRequest', function ($url, $params, &$response) use (&$verifySslPerHop) {
+            $verifySslPerHop[] = $params['verifySsl'];
+            if (count($verifySslPerHop) === 2) {
+                $response = 'stopped'; // handle the second hop so it never reaches the network
+            }
+        });
+
+        Http::sendHttpRequestBy(
+            'curl',
+            Fixture::getRootUrl() . 'tests/resources/redirector.php?target=' . urlencode($target),
+            30,
+            acceptInvalidSslCertificate: true,
+            getExtendedInfo: true,
+            validateEgressIp: true
+        );
+
+        // The caller relaxes the certificate check for the site's own URL only, so the cross-origin
+        // hop must not inherit it.
+        $this->assertSame([false, true], $verifySslPerHop);
     }
 
     public function testSendHttpRequestByWithEgressValidationRejectsBlockedHostAfterCanonicalisation()
