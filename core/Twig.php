@@ -290,8 +290,10 @@ class Twig
             'sparkline',
             /**
              * @param string $src
-             * @param int    $width  Displayed width in px (defaults to the standard sparkline size).
-             * @param int    $height Displayed height in px.
+             * @param int $width Display width in px, honored only when the SparklinesRedesign feature
+             *      flag is enabled (otherwise JS forces the legacy 100x25). Defaults to Sparkline::DEFAULT_WIDTH.
+             * @param int $height Display height in px, same flag-dependent behaviour. Defaults to
+             *      Sparkline::DEFAULT_HEIGHT.
              * @return string
              */
             function ($src, $width = Sparkline::DEFAULT_WIDTH, $height = Sparkline::DEFAULT_HEIGHT) use ($twigEnv) {
