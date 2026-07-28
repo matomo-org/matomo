@@ -406,6 +406,7 @@ class API extends \Piwik\Plugin\API
     public function star(int $idSegment): array
     {
         $segment = $this->getSegmentOrFail($idSegment);
+        $this->checkUserCanEditOrDeleteSegment($segment);
         $login = Piwik::getCurrentUserLogin();
         $bind = [
             'starred' => 1,
@@ -430,6 +431,7 @@ class API extends \Piwik\Plugin\API
     public function unstar(int $idSegment): array
     {
         $segment = $this->getSegmentOrFail($idSegment);
+        $this->checkUserCanEditOrDeleteSegment($segment);
         $bind = [
             'starred' => 0,
             'starred_by' => null,
