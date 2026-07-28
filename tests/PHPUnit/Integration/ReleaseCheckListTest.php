@@ -423,7 +423,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         $magicPlugins = 42;
         $this->assertTrue(count($pluginsBundledWithPiwik) > $magicPlugins);
 
-        $plugins = _glob(Manager::getPluginsDirectory() . '*', GLOB_ONLYDIR);
+        $plugins = glob(Manager::getPluginsDirectory() . '*', GLOB_ONLYDIR) ?: [];
         $count = 1;
         foreach ($plugins as $pluginPath) {
             $pluginName = basename($pluginPath);
@@ -661,7 +661,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             if ($manager->isPluginBundledWithCore($pluginName) && !in_array($pluginName, $corePluginsThatAreIndependent)) {
                 $numTestedCorePlugins++;
                 $pathToUpdates = Manager::getPluginDirectory($pluginName) . '/Updates/*.php';
-                $files = _glob($pathToUpdates);
+                $files = glob($pathToUpdates);
                 if (empty($files)) {
                     $files = array();
                 }
@@ -692,7 +692,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
     public function testCoreUpdateFilesDoNotTargetFutureVersions()
     {
         $pathToUpdates = PIWIK_INCLUDE_PATH . '/core/Updates/*.php';
-        $files = _glob($pathToUpdates);
+        $files = glob($pathToUpdates);
         if (empty($files)) {
             $files = array();
         }
