@@ -423,7 +423,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         $magicPlugins = 42;
         $this->assertTrue(count($pluginsBundledWithPiwik) > $magicPlugins);
 
-        $plugins = glob(Manager::getPluginsDirectory() . '*', GLOB_ONLYDIR);
+        $plugins = glob(Manager::getPluginsDirectory() . '*', GLOB_ONLYDIR) ?: [];
         $count = 1;
         foreach ($plugins as $pluginPath) {
             $pluginName = basename($pluginPath);
