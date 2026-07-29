@@ -50,7 +50,7 @@ class EventDispatcher
     /**
      * Plugin\Manager instance used to get list of loaded plugins.
      */
-    private \Piwik\Plugin\Manager $pluginManager;
+    private Plugin\Manager $pluginManager;
 
     private $pluginHooks = array();
 

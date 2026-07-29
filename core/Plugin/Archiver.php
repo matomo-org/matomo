@@ -62,9 +62,9 @@ class Archiver
 {
     public static $ARCHIVE_DEPENDENT = true;
 
-    private \Piwik\ArchiveProcessor $processor;
+    private ArchiveProcessor $processor;
 
-    private bool $enabled;
+    private bool $enabled = true;
 
     /**
      * @var mixed

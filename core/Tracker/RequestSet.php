@@ -18,7 +18,7 @@ class RequestSet
     /**
      * The set of visits to track.
      *
-     * @var Request[]
+     * @var Request[]|null
      */
     private ?array $requests = null;
 

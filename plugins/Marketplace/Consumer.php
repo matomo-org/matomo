@@ -19,9 +19,6 @@ class Consumer
     private $consumer = false;
     private $isValid = null;
 
-    /**
-     * @var array
-     */
     private ?array $pluginLicenseStatus = null;
 
     public function __construct(Api\Client $marketplaceClient)

@@ -75,7 +75,7 @@ class Access
     /**
      * Authentication object (see Auth)
      *
-     * @var Auth
+     * @var Auth|null
      */
     private ?Auth $auth = null;
 
