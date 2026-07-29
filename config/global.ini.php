@@ -874,6 +874,9 @@ enable_general_settings_admin = 1
 ; its plugins and components like the GeoIP database, referrer spam blacklist or search engines and social network definitions
 enable_internet_features = 1
 
+; Maximum number of same-origin pages fetched when analysing a website for goal recommendations
+goal_recommendations_max_crawl_pages = 50
+
 ; By setting this option to 0, it will disable the "Auto update" feature
 enable_auto_update = 1
 
