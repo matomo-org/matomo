@@ -255,7 +255,7 @@ https://www.example.org/</placeholder>
 				<description />
 				<inlineHelp>Shows privacy-safe aggregated metrics for the &quot;Last 24 hours&quot; and &quot;Last 30 minutes&quot;. No individual visitor, visit, session, or action-level information is displayed.</inlineHelp>
 				<introduction />
-				<condition>disable_visitor_log==1</condition>
+				<condition />
 				<fullWidth>0</fullWidth>
 			</row>
 			<row>

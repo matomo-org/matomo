@@ -53,10 +53,17 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
             $field->title = AggregatedRealtimeReportsEnabledSetting::getTitle();
             $field->inlineHelp = AggregatedRealtimeReportsEnabledSetting::getInlineHelp();
             $field->uiControl = FieldConfig::UI_CONTROL_CHECKBOX;
-            $field->condition = 'disable_visitor_log==1';
         });
 
-        $this->addSetting($setting);
+        // Only expose the setting while the Visits log is disabled - it is irrelevant otherwise.
+        // This is gated server-side rather than with a client-side "disable_visitor_log==1" condition
+        // because a non-writable disable_visitor_log (set via config.ini.php or forced globally) is
+        // omitted from the settings payload, which would leave the condition unresolved and hide this
+        // setting in exactly the state it is meant for.
+        if (VisitorLogDisabledSetting::getInstance()->getValue()) {
+            $this->addSetting($setting);
+        }
+
         return $setting;
     }
 

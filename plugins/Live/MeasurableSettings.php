@@ -60,10 +60,13 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
             $field->title = AggregatedRealtimeReportsEnabledSetting::getTitle();
             $field->inlineHelp = AggregatedRealtimeReportsEnabledSetting::getInlineHelp();
             $field->uiControl = FieldConfig::UI_CONTROL_CHECKBOX;
-            $field->condition = 'disable_visitor_log==1';
         });
 
-        $this->addSetting($setting);
+        // Only expose the setting for this site while its Visits log is disabled - see SystemSettings
+        // for why this is gated server-side instead of with a client-side condition.
+        if (VisitorLogDisabledSetting::getInstance($this->idSite)->getValue()) {
+            $this->addSetting($setting);
+        }
 
         return $setting;
     }

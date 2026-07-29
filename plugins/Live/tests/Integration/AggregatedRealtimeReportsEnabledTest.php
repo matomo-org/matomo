@@ -104,32 +104,11 @@ class AggregatedRealtimeReportsEnabledTest extends IntegrationTestCase
 
     public function testEnablingPerSiteViaUpdateSiteTakesEffect()
     {
-        // Exercises the same path as the admin UI: SitesManager.updateSite only persists settings
-        // that are writable by the current user, so a regression there would silently drop the value.
-        \Piwik\Plugins\SitesManager\API::getInstance()->updateSite(
-            1,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            [
-                'Live' => [
-                    ['name' => 'disable_visitor_log', 'value' => '1'],
-                    ['name' => 'enable_aggregated_realtime_reports', 'value' => '1'],
-                ],
-            ]
-        );
+        // Exercises the same path as the admin UI: SitesManager.updateSite only persists settings that
+        // are writable by the current user. The aggregated setting is only exposed (writable) once the
+        // Visits log is disabled, so it has to be enabled in a second step.
+        $this->updateSiteLiveSettings(1, [['name' => 'disable_visitor_log', 'value' => '1']]);
+        $this->updateSiteLiveSettings(1, [['name' => 'enable_aggregated_realtime_reports', 'value' => '1']]);
 
         $this->assertTrue(AggregatedRealtimeReportsEnabled::getMeasurableValue(1));
         $this->assertTrue(Live::isAggregatedRealtimeEnabled(1));
@@ -139,6 +118,54 @@ class AggregatedRealtimeReportsEnabledTest extends IntegrationTestCase
         // and the per-site value is scoped to the site it was set for
         $this->assertFalse(AggregatedRealtimeReportsEnabled::getMeasurableValue(2));
         $this->assertTrue($this->configureWidgetForSite(1)->isEnabled());
+    }
+
+    public function testMeasurableSettingIsOnlyExposedWhenTheSiteVisitsLogIsDisabled()
+    {
+        // Visits log enabled (default): the setting is not registered in the site settings form,
+        // so it does not depend on a client-side condition that can break when disable_visitor_log
+        // is non-writable.
+        $settings = new MeasurableSettings(1);
+        $this->assertNull($settings->getSetting('enable_aggregated_realtime_reports'));
+
+        $this->updateSiteLiveSettings(1, [['name' => 'disable_visitor_log', 'value' => '1']]);
+
+        $settings = new MeasurableSettings(1);
+        $this->assertNotNull($settings->getSetting('enable_aggregated_realtime_reports'));
+    }
+
+    public function testSystemSettingIsOnlyExposedWhenTheVisitsLogIsDisabledGlobally()
+    {
+        $settings = new SystemSettings();
+        $this->assertNull($settings->getSetting('enable_aggregated_realtime_reports'));
+
+        $this->disableVisitorLog(true);
+
+        $settings = new SystemSettings();
+        $this->assertNotNull($settings->getSetting('enable_aggregated_realtime_reports'));
+    }
+
+    private function updateSiteLiveSettings(int $idSite, array $liveSettings): void
+    {
+        \Piwik\Plugins\SitesManager\API::getInstance()->updateSite(
+            $idSite,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            ['Live' => $liveSettings]
+        );
     }
 
     private function configureWidgetForSite(int $idSite): WidgetConfig
