@@ -27,6 +27,10 @@ class CategoryList
     {
         $categoryId = $category->getId();
 
+        if (empty($categoryId)) {
+            throw new \Exception('Category without an id cannot be added');
+        }
+
         if ($this->hasCategory($categoryId)) {
             throw new \Exception(sprintf('Category %s already exists', $categoryId));
         }
@@ -62,7 +66,7 @@ class CategoryList
      */
     public function hasCategory($categoryId)
     {
-        return isset($this->categories[$categoryId]);
+        return null !== $categoryId && isset($this->categories[$categoryId]);
     }
 
     /**

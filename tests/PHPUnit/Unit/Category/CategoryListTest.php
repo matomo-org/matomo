@@ -50,6 +50,30 @@ class CategoryListTest extends \PHPUnit\Framework\TestCase
         $this->addCategory('myTest');
     }
 
+    public function testAddCategoryShouldThrowExceptionIfCategoryHasNoId()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Category without an id cannot be added');
+
+        $this->addCategory(null);
+    }
+
+    public function testAddCategoryShouldThrowExceptionIfCategoryIdIsEmpty()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Category without an id cannot be added');
+
+        $this->addCategory('');
+    }
+
+    public function testNullCategoryIdIsNeverFound()
+    {
+        $this->addCategory('myTest');
+
+        $this->assertFalse($this->categoryList->hasCategory(null));
+        $this->assertNull($this->categoryList->getCategory(null));
+    }
+
     public function testHasCategoryShouldDetectIfCategoryExists()
     {
         $this->assertFalse($this->categoryList->hasCategory('myTest'));

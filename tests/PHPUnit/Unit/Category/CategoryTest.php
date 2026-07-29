@@ -168,6 +168,30 @@ class CategoryTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->category->hasSubcategory('mySomething'));
     }
 
+    public function testAddSubcategoryShouldThrowExceptionIfSubcategoryHasNoId()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Subcategory without an id cannot be added');
+
+        $this->category->addSubcategory($this->createSubcategory(null, 'nullIdName'));
+    }
+
+    public function testAddSubcategoryShouldThrowExceptionIfSubcategoryIdIsEmpty()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Subcategory without an id cannot be added');
+
+        $this->category->addSubcategory($this->createSubcategory('', 'emptyIdName'));
+    }
+
+    public function testNullSubcategoryIdIsNeverFound()
+    {
+        $this->addSubcategories(array('myid' => 'myname'));
+
+        $this->assertFalse($this->category->hasSubcategory(null));
+        $this->assertNull($this->category->getSubcategory(null));
+    }
+
     private function addSubcategories($subcategories)
     {
         foreach ($subcategories as $id => $name) {

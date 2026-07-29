@@ -157,6 +157,10 @@ class Category
     {
         $subcategoryId = $subcategory->getId();
 
+        if (empty($subcategoryId)) {
+            throw new \Exception(sprintf('Subcategory without an id cannot be added to category %s', $this->getId()));
+        }
+
         if ($this->hasSubcategory($subcategoryId)) {
             throw new \Exception(sprintf('Subcategory %s already exists for category %s', $subcategoryId, $this->getId()));
         }
@@ -166,7 +170,7 @@ class Category
 
     public function hasSubcategory($subcategoryId)
     {
-        return isset($this->subcategories[$subcategoryId]);
+        return null !== $subcategoryId && isset($this->subcategories[$subcategoryId]);
     }
 
     public function getSubcategory($subcategoryId)
