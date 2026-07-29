@@ -54,21 +54,6 @@ describe("Comparison", function () {
         "moduleToWidgetize=CoreHome&actionToWidgetize=renderWidgetContainer&disableLink=1&widget=1&idSite=1&period=range&date=2012-01-12,2014-02-12&compareDates[]=2011-01-31,2013-02-31&comparePeriods[]=range"
     ;
 
-    // The widgetized sparklines grid renders a column of sparkline PNGs (loading="lazy", rendered
-    // asynchronously by the Vue cards). On a full-page capture the off-screen ones can still be
-    // undecoded when the shot fires, which makes the screenshot non-deterministic. Strip
-    // lazy-loading and wait for every sparkline image to decode before capturing.
-    async function waitForSparklineImages() {
-        await page.evaluate(function () {
-            return Promise.all(
-                Array.prototype.slice.call(document.querySelectorAll('img.sparklineImg')).map(function (img) {
-                    img.removeAttribute('loading');
-                    return img.decode ? img.decode().catch(function () {}) : Promise.resolve();
-                })
-            );
-        });
-    }
-
     async function getSparklineEvolutionForMetric(metricText) {
         await page.waitForSelector('.sparkline .evolutionBadge');
 
@@ -400,7 +385,6 @@ describe("Comparison", function () {
     it('should load a widgetized sparklines visualization correctly when comparing a week with a small range', async () => {
         await page.goto(visitOverviewWidgetCompareWeekSmallRange);
         await page.waitForNetworkIdle();
-        await waitForSparklineImages();
         expect(await page.screenshot({ fullPage: true })).to.matchImage('visits_overview_widget_week_smallrange');
     });
 
@@ -427,7 +411,13 @@ describe("Comparison", function () {
     it('should show evolution metrics correctly formatted in other language', async () => {
         await page.goto(visitOverviewSparklines + '&language=sv');
         await page.waitForNetworkIdle();
-        await waitForSparklineImages();
+
+        // Series colors only land on jQuery ready, so each sparkline renders uncolored and is then
+        // refetched. Wait for that second round or the screenshot can catch the uncolored images.
+        await page.waitForFunction(
+            () => window.CoreHome.ComparisonsStoreInstance.getAllComparisonSeries().every((s) => !!s.color),
+        );
+        await page.waitForNetworkIdle();
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('visits_overview_widget_sv');
     });

@@ -3524,7 +3524,7 @@ var __async = (__this, __arguments, generator) => {
       }));
       __publicField(this, "state", vue.readonly(this.privateState));
       // for tests
-      __publicField(this, "colors", {});
+      __publicField(this, "colors", vue.ref({}));
       __publicField(this, "segmentComparisons", vue.computed(() => this.parseSegmentComparisons()));
       __publicField(this, "periodComparisons", vue.computed(() => this.parsePeriodComparisons()));
       __publicField(this, "isEnabled", vue.computed(() => this.checkEnabledForCurrentPage()));
@@ -3536,7 +3536,7 @@ var __async = (__this, __arguments, generator) => {
         });
       }
       $(() => {
-        this.colors = this.getAllSeriesColors();
+        this.colors.value = this.getAllSeriesColors();
       });
       vue.watch(
         () => this.getUrlStateWithoutPopoverKey(),
@@ -3576,10 +3576,10 @@ var __async = (__this, __arguments, generator) => {
         segmentComparison.index
       ) % SERIES_COLOR_COUNT;
       if (metricIndex === 0) {
-        return this.colors[`series${seriesIndex}`];
+        return this.colors.value[`series${seriesIndex}`];
       }
       const shadeIndex = metricIndex % SERIES_SHADE_COUNT;
-      return this.colors[`series${seriesIndex}-shade${shadeIndex}`];
+      return this.colors.value[`series${seriesIndex}-shade${shadeIndex}`];
     }
     getSeriesColorName(seriesIndex, metricIndex) {
       let colorName = `series${seriesIndex % SERIES_COLOR_COUNT}`;
@@ -3612,7 +3612,7 @@ var __async = (__this, __arguments, generator) => {
           seriesInfo.push({
             index: seriesIndex,
             params: __spreadValues(__spreadValues({}, segmentComp.params), periodComp.params),
-            color: this.colors[`series${seriesIndex}`]
+            color: this.colors.value[`series${seriesIndex}`]
           });
           seriesIndex += 1;
         });

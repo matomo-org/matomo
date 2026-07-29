@@ -88,9 +88,13 @@ describe("GoalsPages", function () {
     const badge = await findSparkline('left in cart', '.evolutionBadge');
     const tooltip = await page.evaluate((element) => element.getAttribute('title'), badge);
 
-    expect(tooltip).to.contain('Revenue Left In Cart');
-    expect(tooltip).to.contain('January 2012');
-    expect(tooltip).to.contain('compared to');
+    // Assert the complete evolution-badge title (General_EvolutionSummaryGeneric): current value,
+    // current period, previous value, previous period and the evolution %. This restores the
+    // coverage the removed revenue_incart_tooltip screenshot gave, as a debuggable text diff.
+    expect(tooltip).to.equal(
+      '$10,000,007,630.33 Revenue Left In Cart in January 2012 compared to '
+      + '$0 Revenue Left In Cart in December 2011. Evolution: 100%'
+    );
   });
 
   it('should show the selected last year comparison period in an ecommerce sparkline tooltip', async function() {
