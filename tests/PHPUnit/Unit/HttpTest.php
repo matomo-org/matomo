@@ -11,6 +11,7 @@ namespace Piwik\Tests\Unit;
 
 use Piwik\Config;
 use Piwik\Http;
+use Piwik\Http\EgressBlockedException;
 use ReflectionMethod;
 
 /**
@@ -73,7 +74,7 @@ class HttpTest extends \PHPUnit\Framework\TestCase
 
     public function testSendHttpRequestByWithEgressValidationRejectsNonCurlTransport()
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(EgressBlockedException::class);
         $this->expectExceptionMessage('SSRF-safe HTTP requests require the curl transport.');
 
         $this->sendEgressValidatedRequest('socket', 'http://example.com/');
@@ -88,7 +89,7 @@ class HttpTest extends \PHPUnit\Framework\TestCase
         try {
             $this->sendEgressValidatedRequest('curl', 'ftp://example.com/');
             $this->fail('Expected an exception for a non-http scheme');
-        } catch (\Exception $e) {
+        } catch (EgressBlockedException $e) {
             $this->assertSame('SSRF-safe HTTP requests only support the http and https schemes.', $e->getMessage());
         } finally {
             Config::getInstance()->General['allowed_outgoing_protocols'] = $originalProtocols;
@@ -103,7 +104,7 @@ class HttpTest extends \PHPUnit\Framework\TestCase
         Config::getInstance()->proxy['password'] = '';
         Config::getInstance()->proxy['exclude'] = '';
 
-        $this->expectException(\Exception::class);
+        $this->expectException(EgressBlockedException::class);
         $this->expectExceptionMessage('SSRF-safe HTTP requests cannot be routed through a configured proxy.');
 
         $this->sendEgressValidatedRequest('curl', 'http://example.com/');
@@ -111,7 +112,7 @@ class HttpTest extends \PHPUnit\Framework\TestCase
 
     public function testSendHttpRequestByWithEgressValidationRejectsPrivateIpTarget()
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(EgressBlockedException::class);
         $this->expectExceptionMessage('Refusing to fetch: host resolves to a private or reserved address.');
 
         $this->sendEgressValidatedRequest('curl', 'http://10.0.0.1/');

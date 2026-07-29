@@ -12,6 +12,7 @@ namespace Piwik\Tests\Integration;
 use Piwik\Container\StaticContainer;
 use Piwik\EventDispatcher;
 use Piwik\Http;
+use Piwik\Http\EgressBlockedException;
 use Piwik\Http\EgressHostValidator;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
@@ -543,7 +544,7 @@ class HttpTest extends \PHPUnit\Framework\TestCase
     {
         $this->allowEgressValidationForTestHost();
 
-        self::expectException(\Exception::class);
+        self::expectException(EgressBlockedException::class);
         self::expectExceptionMessage('Refusing to fetch: host resolves to a private or reserved address.');
 
         Http::sendHttpRequestBy(
@@ -602,7 +603,7 @@ class HttpTest extends \PHPUnit\Framework\TestCase
         self::assertStringContainsString('redirects=0', $result['data']);
     }
 
-    public function testSendHttpRequestByWithEgressValidationDropsRelaxedCertCheckCrossOrigin()
+    public function testSendHttpRequestByWithEgressValidationDropsSecretsCrossOriginButKeepsRelaxedCertCheck()
     {
         $this->allowEgressValidationForTestHost();
 
@@ -611,10 +612,10 @@ class HttpTest extends \PHPUnit\Framework\TestCase
         $host = (string) parse_url(Fixture::getRootUrl(), PHP_URL_HOST);
         $target = 'http://' . $host . ':9/';
 
-        $verifySslPerHop = array();
-        Piwik::addAction('Http.sendHttpRequest', function ($url, $params, &$response) use (&$verifySslPerHop) {
-            $verifySslPerHop[] = $params['verifySsl'];
-            if (count($verifySslPerHop) === 2) {
+        $hops = array();
+        Piwik::addAction('Http.sendHttpRequest', function ($url, $params, &$response) use (&$hops) {
+            $hops[] = $params;
+            if (count($hops) === 2) {
                 $response = 'stopped'; // handle the second hop so it never reaches the network
             }
         });
@@ -631,19 +632,29 @@ class HttpTest extends \PHPUnit\Framework\TestCase
             true, // $acceptInvalidSslCertificate
             false,
             true, // $getExtendedInfo
-            'GET',
-            null,
-            null,
-            null,
-            array(),
+            'POST',
+            'user', // $httpUsername
+            'secret', // $httpPassword
+            array('a' => 'b'), // $requestBody
+            array('X-Caller: keep-me'), // $additionalHeaders
             null,
             true,
             true // $validateEgressIp
         );
 
-        // The caller relaxes the certificate check for the site's own URL only, so the cross-origin
-        // hop must not inherit it.
-        $this->assertSame(array(false, true), $verifySslPerHop);
+        self::assertCount(2, $hops);
+
+        // credentials, caller headers, the body and the method must not survive the origin change
+        self::assertSame(array('POST', 'GET'), array_column($hops, 'httpMethod'));
+        self::assertSame(array('a' => 'b'), $hops[0]['body']);
+        self::assertNull($hops[1]['body']);
+        self::assertContains('X-Caller: keep-me', $hops[0]['headers']);
+        self::assertNotContains('X-Caller: keep-me', $hops[1]['headers']);
+        self::assertNotEmpty(preg_grep('/^Authorization:/', $hops[0]['headers']));
+        self::assertEmpty(preg_grep('/^Authorization:/', $hops[1]['headers']));
+
+        // the relaxed certificate check does survive, see the rationale in Http::sendHttpRequestBy()
+        self::assertSame(array(false, false), array_column($hops, 'verifySsl'));
     }
 
     public function testSendHttpRequestByWithEgressValidationRejectsBlockedHostAfterCanonicalisation()
@@ -696,9 +707,6 @@ class HttpTest extends \PHPUnit\Framework\TestCase
         $destinationPath = PIWIK_DOCUMENT_ROOT . '/tmp/latest/egress-redirect-test';
 
         try {
-            $this->expectException(\Exception::class);
-            $this->expectExceptionMessage('SSRF-safe HTTP requests cannot follow redirects when downloading to a file.');
-
             Http::sendHttpRequest(
                 Fixture::getRootUrl() . 'tests/resources/redirector.php?redirects=1',
                 30,
@@ -714,6 +722,12 @@ class HttpTest extends \PHPUnit\Framework\TestCase
                 true,
                 true // $validateEgressIp
             );
+            $this->fail('Expected the redirect to be refused while downloading to a file');
+        } catch (EgressBlockedException $e) {
+            self::assertSame('SSRF-safe HTTP requests cannot follow redirects when downloading to a file.', $e->getMessage());
+            // the truncated download must not be left behind for the caller to pick up
+            clearstatcache(true, $destinationPath);
+            self::assertFileNotExists($destinationPath);
         } finally {
             @unlink($destinationPath);
         }

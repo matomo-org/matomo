@@ -13,6 +13,7 @@ use Composer\CaBundle\CaBundle;
 use Exception;
 use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
+use Piwik\Http\EgressBlockedException;
 use Piwik\Http\EgressHostValidator;
 
 /**
@@ -84,9 +85,9 @@ class Http
      *                               hop is re-validated and the connection pinned to it. Use this whenever the URL comes
      *                               from untrusted input (e.g. a site's own configured URL).
      *                               Requires curl, bypasses any configured or environment proxy, retains the method and
-     *                               body across same-origin hops, drops credentials, caller headers, the body and any
-     *                               relaxed certificate check on an origin change, and does not follow redirects when
-     *                               downloading to a file.
+     *                               body across same-origin hops, drops credentials, caller headers and the body on an
+     *                               origin change, and does not follow redirects when downloading to a file.
+     *                               A refused target or unmet precondition throws {@see EgressBlockedException}.
      *
      * @return string|array|bool  If `$destinationPath` is not specified the HTTP response is returned on success. `false`
      *                            is returned on failure.
@@ -126,7 +127,7 @@ class Http
             // The SSRF-safe path only pins and re-validates reliably over curl, so fail
             // closed rather than silently degrade to an unprotected transport.
             if (!self::isCurlEnabled()) {
-                throw new Exception('SSRF-safe HTTP requests require the curl PHP extension.');
+                throw new EgressBlockedException('SSRF-safe HTTP requests require the curl PHP extension.');
             }
             $transport = 'curl';
         }
@@ -311,18 +312,18 @@ class Http
         $pinnedResolveEntry = null;
         if ($validateEgressIp) {
             if ($method !== 'curl') {
-                throw new Exception('SSRF-safe HTTP requests require the curl transport.');
+                throw new EgressBlockedException('SSRF-safe HTTP requests require the curl transport.');
             }
 
             // Restrict to http(s): other schemes have different default ports
             $scheme = strtolower((string) $parsedUrl['scheme']);
             if ($scheme !== 'http' && $scheme !== 'https') {
-                throw new Exception('SSRF-safe HTTP requests only support the http and https schemes.');
+                throw new EgressBlockedException('SSRF-safe HTTP requests only support the http and https schemes.');
             }
 
             [$configuredProxyHost] = self::getProxyConfiguration($aUrl);
             if (!empty($configuredProxyHost)) {
-                throw new Exception('SSRF-safe HTTP requests cannot be routed through a configured proxy.');
+                throw new EgressBlockedException('SSRF-safe HTTP requests cannot be routed through a configured proxy.');
             }
 
             $effectivePort = isset($parsedUrl['port']) ? (int) $parsedUrl['port'] : ($scheme === 'https' ? 443 : 80);
@@ -912,20 +913,23 @@ class Http
                 if (is_resource($file)) {
                     // CURLOPT_HEADER is off for file downloads, so the Location cannot be re-validated: fail closed.
                     @fclose($file);
-                    throw new Exception('SSRF-safe HTTP requests cannot follow redirects when downloading to a file.');
+                    if ($destinationPath) {
+                        @unlink($destinationPath);
+                    }
+                    throw new EgressBlockedException('SSRF-safe HTTP requests cannot follow redirects when downloading to a file.');
                 }
 
                 // Read from curl, not from $headers: the splitter above keeps the last "HTTP/" block
                 // it finds, so a response body can forge one.
                 $redirectUrl = $curlRedirectUrl;
                 if ($redirectUrl !== '') {
-                    // On an origin change, drop credentials, caller headers, the request body and the
-                    // relaxed certificate check, and downgrade to GET so no secret leaks cross-origin
+                    // Cross-origin: drop credentials, caller headers and the body, and downgrade to GET.
+                    // $acceptInvalidSslCertificate stays, since it guards no secret past this point and
+                    // dropping it would fail the common http -> https hop for self-signed sites.
                     if (!self::urlsSameOrigin($aUrl, $redirectUrl)) {
                         $httpUsername = null;
                         $httpPassword = null;
                         $additionalHeaders = array();
-                        $acceptInvalidSslCertificate = false;
                         $requestBody = null;
                         $httpMethod = 'GET';
                         $forcePost = null;
