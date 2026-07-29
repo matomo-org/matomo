@@ -46,12 +46,9 @@ parameters:
         -
             identifier: class.extendsFinalByPhpDoc
             path: plugins/Monolog/Formatter/ConsoleFormatter.php
-        # These messages embed an absolute path that differs between environments (local/ddev vs CI),
-        # so they cannot live in the baseline; ignore them by identifier + relative path instead.
+        # This message embeds an absolute path that differs between environments (local/ddev vs CI),
+        # so it cannot live in the baseline; ignore it by identifier + relative path instead.
         # The required files are generated at build/install time and are absent from a plain checkout.
-        -
-            identifier: requireOnce.fileNotFound
-            path: core/FileIntegrity.php
         -
             identifier: requireOnce.fileNotFound
             path: core/bootstrap.php
