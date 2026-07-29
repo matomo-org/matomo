@@ -22,10 +22,7 @@ use Piwik\Widget\WidgetContainerConfig;
  */
 class ReportWidgetFactory
 {
-    /**
-     * @var Report
-     */
-    private ?Report $report = null;
+    private Report $report;
 
     /**
      * Generates a new report widget factory.

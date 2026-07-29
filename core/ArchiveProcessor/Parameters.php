@@ -23,20 +23,11 @@ use Piwik\Site;
  */
 class Parameters
 {
-    /**
-     * @var Site
-     */
-    private ?Site $site = null;
+    private Site $site;
 
-    /**
-     * @var Period
-     */
-    private ?Period $period = null;
+    private Period $period;
 
-    /**
-     * @var Segment
-     */
-    private ?Segment $segment = null;
+    private Segment $segment;
 
     /**
      * @var string|bool Plugin name which triggered this archive processor, or false if none

@@ -19,10 +19,7 @@ use Piwik\Plugin\Segment;
  */
 class DimensionSegmentFactory
 {
-    /**
-     * @var Dimension
-     */
-    private ?Dimension $dimension = null;
+    private Dimension $dimension;
 
     /**
      * Generates a new dimension segment factory.
