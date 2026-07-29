@@ -339,6 +339,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   }
   const HitsStream = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$3]]);
   const MAX_DEPTH = 4;
+  const REDACTED_SENTINEL = "__redacted__";
   function isSkippedKey(key) {
     const lowerKey = key.toLowerCase();
     return lowerKey.endsWith("icon") || lowerKey.endsWith("iconsvg");
@@ -347,6 +348,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     return value === null || value === void 0 || value === "";
   }
   function toText(value) {
+    if (value === REDACTED_SENTINEL) {
+      return CoreHome.translate("DebugView_Redacted");
+    }
     if (value !== null && typeof value === "object") {
       try {
         return JSON.stringify(value);

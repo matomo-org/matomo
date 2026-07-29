@@ -76,6 +76,7 @@ class DebugView extends \Piwik\Plugin
             'DebugView_ParametersTab',
             'DebugView_ProcessedTab',
             'DebugView_ProcessedVisitDetails',
+            'DebugView_Redacted',
             'DebugView_TrackingParameters',
             'DebugView_DefaultParameters',
             'DebugView_OtherParameters',

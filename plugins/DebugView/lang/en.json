@@ -27,6 +27,7 @@
         "ProcessedNotAvailableBot": "This request was identified as a bot request and was not processed into a visit, so no processed hit or visit details exist.",
         "ProcessedTab": "Processed",
         "ProcessedVisitDetails": "Processed Visit details",
+        "Redacted": "Redacted",
         "Resume": "Resume",
         "SecondsAgoShort": "%1$ss",
         "SecondsStream": "Incoming tracking requests",

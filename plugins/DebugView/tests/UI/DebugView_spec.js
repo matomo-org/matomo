@@ -127,10 +127,36 @@ describe("DebugView", function () {
             }
         });
         await page.waitForSelector('.debugViewDetailsPane');
+        // the sensitive token_auth value is shown translated, never the raw
+        // storage sentinel
+        await page.waitForFunction(function () {
+            var body = document.querySelector('.debugViewDetailsBody');
+            return body && body.textContent.indexOf('Redacted') !== -1
+                && body.textContent.indexOf('__redacted__') === -1;
+        });
         await page.waitForTimeout(1000);
         await normalizeVolatileContent();
+        // position-deterministic even on retries: a failed earlier attempt
+        // may have left the pane scrolled
+        await page.evaluate(function () {
+            document.querySelector('.debugViewDetailsBody').scrollTop = 0;
+        });
 
         await expectScreenshot('site_1_pane_parameters');
+
+        // the pane body scrolls; token_auth sits below the fold — pin the
+        // translated "Redacted" value (and the default/other groups) with an
+        // own screenshot of the pane scrolled to its end
+        await page.evaluate(function () {
+            var body = document.querySelector('.debugViewDetailsBody');
+            body.scrollTop = body.scrollHeight;
+        });
+        await page.waitForTimeout(250);
+        const pane = await page.$('.debugViewDetailsPane');
+        expect(await pane.screenshot()).to.matchImage({
+            imageName: 'site_1_pane_parameters_bottom',
+            comparisonThreshold: 0.00003,
+        });
     });
 
     it('should show the processed details and visit context in the processed tab', async function () {
@@ -142,6 +168,11 @@ describe("DebugView", function () {
         });
         await page.waitForTimeout(500);
         await normalizeVolatileContent();
+        // the pane body element persists across tab switches and the previous
+        // test scrolls it — capture from the top, deterministically
+        await page.evaluate(function () {
+            document.querySelector('.debugViewDetailsBody').scrollTop = 0;
+        });
 
         await expectScreenshot('site_1_pane_processed');
     });

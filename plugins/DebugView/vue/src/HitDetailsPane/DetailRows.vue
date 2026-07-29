@@ -43,8 +43,13 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
+import { translate } from 'CoreHome';
 
 const MAX_DEPTH = 4;
+
+// the capture replaces sensitive values (e.g. token_auth) with this sentinel
+// before storage; it is shown translated in the UI
+const REDACTED_SENTINEL = '__redacted__';
 
 export interface DetailEntry {
   key: string;
@@ -64,6 +69,10 @@ function isSkippedValue(value: unknown): boolean {
 }
 
 function toText(value: unknown): string {
+  if (value === REDACTED_SENTINEL) {
+    return translate('DebugView_Redacted');
+  }
+
   if (value !== null && typeof value === 'object') {
     try {
       return JSON.stringify(value);

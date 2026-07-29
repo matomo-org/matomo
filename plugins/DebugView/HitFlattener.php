@@ -57,6 +57,13 @@ class HitFlattener
         return is_string($value) || is_int($value) || is_float($value) ? (string) $value : '';
     }
 
+    /**
+     * Derives the hit type. The action type recorded by the tracker (the
+     * Tracker\Action subclass the request was handled by) wins for other
+     * plugins' request kinds; core requests are derived from the raw query
+     * parameters, following the tracker's own precedence for requests that
+     * carry several markers.
+     */
     public function deriveType(array $query, ?int $actionType = null): string
     {
         if ($actionType !== null && isset(self::PLUGIN_ACTION_TYPES[$actionType])) {
