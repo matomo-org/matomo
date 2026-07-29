@@ -41,7 +41,6 @@
         "SystemCheckFileIntegrity": "Fájlitegritás",
         "SystemCheckFunctions": "Szükséges funkciók",
         "SystemCheckGDHelp": "A szikravonalak (mini grafikonok) nem fognak működni.",
-        "SystemCheckGlobHelp": "Ez a beépített funkció le van tiltva a szervereden. Matomo megpróbálja emulálni ezt a funkciót, de további biztonsági korlátozások akadályozhatják ezt. A Matomo működésére kihatással lehet mindez.",
         "SystemCheckGzcompressHelp": "Engedélyezned kell a zlib kiterjesztést és a gzcompress funkciót.",
         "SystemCheckGzuncompressHelp": "Engedélyezned kell a zlib kiterjesztést és a gzuncompress funkciót.",
         "SystemCheckMailHelp": "A Matomo fejlesztőknek szóló visszajelzés és az elveszett jelszó pótlása céljából generált e-mail üzenetek nem lesznek elküldve a mail() nélkül.",
