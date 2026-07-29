@@ -745,12 +745,6 @@ parameters:
 			path: core/Db.php
 
 		-
-			message: '#^Call to function is_null\(\) with bool will always evaluate to false\.$#'
-			identifier: function.impossibleType
-			count: 1
-			path: core/Db.php
-
-		-
 			message: '#^Cannot access property \$server_version on object\|resource\.$#'
 			identifier: property.nonObject
 			count: 1
@@ -1919,12 +1913,6 @@ parameters:
 			identifier: catch.neverThrown
 			count: 1
 			path: core/Updates/2.0.4-b5.php
-
-		-
-			message: '#^Binary operation "\+" between string and 1 results in an error\.$#'
-			identifier: binaryOp.invalid
-			count: 1
-			path: core/Updates/2.1.1-b11.php
 
 		-
 			message: '#^Call to an undefined method Piwik\\Db\|Piwik\\Db\\AdapterInterface\|Piwik\\Tracker\\Db\:\:fetchCol\(\)\.$#'
@@ -3727,12 +3715,6 @@ parameters:
 			path: plugins/PrivacyManager/DoNotTrackHeaderChecker.php
 
 		-
-			message: '#^Parameter \#2 \$first of static method Piwik\\Db\:\:segmentedFetchFirst\(\) expects int, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: plugins/PrivacyManager/LogDataPurger.php
-
-		-
 			message: '#^Call to function is_array\(\) with non\-falsy\-string will always evaluate to false\.$#'
 			identifier: function.impossibleType
 			count: 1
@@ -3772,18 +3754,6 @@ parameters:
 			message: '#^Parameter \#2 \$reportDateMonth of static method Piwik\\Plugins\\PrivacyManager\\ReportsPurger\:\:shouldReportBePurged\(\) expects int, string given\.$#'
 			identifier: argument.type
 			count: 1
-			path: plugins/PrivacyManager/ReportsPurger.php
-
-		-
-			message: '#^Parameter \#3 \$last of static method Piwik\\Db\:\:segmentedFetchAll\(\) expects int, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: plugins/PrivacyManager/ReportsPurger.php
-
-		-
-			message: '#^Parameter \#3 \$last of static method Piwik\\Db\:\:segmentedFetchOne\(\) expects int, string given\.$#'
-			identifier: argument.type
-			count: 2
 			path: plugins/PrivacyManager/ReportsPurger.php
 
 		-

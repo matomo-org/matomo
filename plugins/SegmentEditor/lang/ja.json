@@ -1,7 +1,7 @@
 {
     "SegmentEditor": {
         "AddANDorORCondition": "%s の条件を追加",
-        "AddNewSegment": "新しいセグメントを追加",
+        "AddNewSegment": "新しいセグメントを作成する",
         "AddThisToMatomo": "このセグメントを Matomo に追加する",
         "AddingSegmentForAllWebsitesDisabled": "全ウェブサイトに対するセグメントは追加できませんでした。",
         "AreYouSureDeleteSegment": "このセグメントを削除してもよろしいですか？",

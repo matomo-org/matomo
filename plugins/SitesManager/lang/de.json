@@ -59,6 +59,7 @@
         "ExclusionViewListLink": "Liste der Ausschlüsse anzeigen",
         "ExtraInformationNeeded": "Um Matomo auf ihrem System aufzusetzen könnten Sie folgende Informationen benötigen:",
         "FilterPIIParametersSettingTitle": "Personenbezogene Daten wurden herausgefiltert",
+        "FilterPiiParametersSettingRequirementNote": "Daten, die personenbezogene Informationen enthalten, müssen anhand der von Matomo empfohlenen PII-Ausschlussliste gefiltert werden.",
         "Format_Utc": "UTC%s",
         "GADetected": "%1$s wurde auf deiner Website entdeckt. Wussten Sie, dass Sie Ihre historischen Analysedaten und Einstellungen ganz einfach von %2$s zu Matomo migrieren können? %3$s%4$s%5$sErfahren Sie mehr in diesem Leitfaden%6$s",
         "GADetectedEmail": "%1$s wurde auf deiner Website entdeckt. Wussten Sie schon, dass Sie Ihre historischen Analysedaten und Einstellungen ganz einfach von %2$s zu Matomo migrieren können? Erfahren Sie hier mehr: %3$s",

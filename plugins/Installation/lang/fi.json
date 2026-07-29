@@ -86,7 +86,6 @@
         "SystemCheckFunctions": "Vaaditut funktiot",
         "SystemCheckGDFreeType": "GD &gt; 2.x + Freetype (grafiikka)",
         "SystemCheckGDHelp": "Pienet graafit eivät toimi.",
-        "SystemCheckGlobHelp": "Tämä sisäänrakennettu toiminnallisuus on poistettu käytöstä palvelimellasi. Matomo yrittää emuloida toimintoa, mutta saattaa törmätä uusiin turvallisuusrajoituksiin. Suorituskyky heikkenee.",
         "SystemCheckGzcompressHelp": "zlib-laajennus ja gzcompress-funktio täytyy olla käytössä.",
         "SystemCheckGzuncompressHelp": "zlib-laajennus ja gzuncompress-funktio täytyy olla käytössä.",
         "SystemCheckMailHelp": "Palautetta ja unohtuneiden salasanojen muistutuksia ei voida lähettää ilman funktiota mail().",

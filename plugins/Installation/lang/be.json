@@ -39,7 +39,6 @@
         "SystemCheckFileIntegrity": "Цэласнасць файлаў",
         "SystemCheckFunctions": "Патрабаваныя функцыі",
         "SystemCheckGDHelp": "Адлюстраванне тонкіх (маленькіх) графікаў не будзе працаваць.",
-        "SystemCheckGlobHelp": "Гэтая убудаваная функцыя адключана на вашым хосце. Matomo паспрабуе эмуляваць гэтую функцыю, але могуць паўстаць дадатковыя абмежаванні бяспекі. Функцыянальныя магчымасці могуць быць закрануты.",
         "SystemCheckGzcompressHelp": "Вам неабходна ўключыць пашырэнне zlib і функцыю gzcompress.",
         "SystemCheckGzuncompressHelp": "Вам неабходна ўключыць пашырэнне zlib і функцыю gzuncompress.",
         "SystemCheckMailHelp": "Функцыі водгукаў о Matomo і аднаўленне пароляў не будуць працаваць без mail().",

@@ -550,7 +550,7 @@
     },
     "Mobile": {
         "AboutPiwikMobile": "Par Matomo Mobile",
-        "AccessUrlLabel": "Matomo pieejas URL",
+        "AccessUrlLabel": "Matomo piekļuves URL adrese",
         "Account": "Konts",
         "Accounts": "Konti",
         "AddAccount": "Pievienot kontu",

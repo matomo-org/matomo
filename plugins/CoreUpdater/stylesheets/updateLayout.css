@@ -63,7 +63,7 @@ strong {
 }
 
 .ui-button {
-    background-color: #43a047 !important;
+    background-color: var(--theme-color-brand) !important;
 }
 
 .no-close .ui-dialog-titlebar-close {

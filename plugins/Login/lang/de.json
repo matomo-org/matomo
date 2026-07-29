@@ -100,6 +100,8 @@
         "SuspiciousLoginAttemptsInLastHourEmail5": "Definieren Sie eine Liste von IP Adressen, die nie geblockt werden wenn Matomo eine limitierte Anzahl von Benutzern oder IPs hat, von denen Benutzer Zugriff haben. %1$sLesen Sie mehr dazu in der Dokumentation.%2$s",
         "SuspiciousLoginAttemptsInLastHourEmailSubject": "Einige verdächtige Anmeldeversuche wurden mit Ihrem Benutzernamen ausgeführt…",
         "TimeOfLogin": "Anmeldezeitpunkt",
+        "TokenAuthenticationFailed": "Die Authentifizierung mit dem angegebenen Token ist nicht möglich. Er ist entweder ungültig oder abgelaufen.",
+        "TokenAuthenticationFailedInsecure": "Die Authentifizierung mit dem angegebenen Token ist nicht möglich. Der Token ist entweder ungültig, abgelaufen oder muss als POST-Parameter oder im HTTP-Authorization-Header übermittelt werden. Wenn der Token mit der Option „Nur sichere Anfragen zulassen“ erstellt wurde, muss es als POST-Parameter oder im HTTP-Authorization-Header übermittelt werden.",
         "UnblockAllIPs": "Blockierung aller aktuell geblockten IPs aufheben",
         "WrongPasswordEntered": "Bitte geben Sie Ihr Passwort ein."
     }

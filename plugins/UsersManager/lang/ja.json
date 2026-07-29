@@ -35,6 +35,7 @@
         "AuthTokenNotificationEmailReminder": "お知らせ：認証トークンは%1$sごとに更新してください",
         "AuthTokenNotificationEmailSubjectAll": "お知らせ：Matomoインスタンス %1$s の個人認証トークンを更新してください",
         "AuthTokenPurpose": "このトークンを何に使用していますか？",
+        "AuthTokenSecureOnlyHelp2": "このオプションを有効にすると、このトークンは安全な方法（POSTリクエストなど）でのみ使用できるようになります。これはセキュリティ上のベストプラクティスとして推奨されます。これにより、GETリクエストのURLパラメータとしてこのトークンを使用できなくなるため、token_authを含むURLを介してウィジェットを埋め込むことはできなくなります。ウィジェットの埋め込みにURLで使用可能なトークンが特に必要な場合のみ、このチェックを外してください。",
         "AuthTokenSecureOnlyHelpForced": "システム管理者は、Matomoの設定において、トークンの作成を安全な方法（POSTリクエストなど）でのみ許可するように設定しています。このトークンに関する設定を変更することはできません。",
         "AuthTokens": "認証トークン",
         "BackToUser": "ユーザーに戻る",
