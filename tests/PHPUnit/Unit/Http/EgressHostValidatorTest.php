@@ -9,8 +9,8 @@
 
 namespace Piwik\Tests\Unit\Http;
 
-use Exception;
 use Piwik\Config;
+use Piwik\Http\EgressBlockedException;
 use Piwik\Http\EgressHostValidator;
 
 /**
@@ -90,7 +90,7 @@ class EgressHostValidatorTest extends \PHPUnit\Framework\TestCase
         }, array());
 
         if ($expected === false || is_string($expected)) {
-            $this->expectException(Exception::class);
+            $this->expectException(EgressBlockedException::class);
             if (is_string($expected)) {
                 $this->expectExceptionMessage($expected);
             }
@@ -113,7 +113,7 @@ class EgressHostValidatorTest extends \PHPUnit\Framework\TestCase
         $validator = new EgressHostValidator($resolver, $allowedRanges);
 
         if (!$expectAllowed) {
-            $this->expectException(Exception::class);
+            $this->expectException(EgressBlockedException::class);
             $this->expectExceptionMessage('Refusing to fetch: host resolves to a private or reserved address.');
             $validator->resolveTarget('local.test');
             return;

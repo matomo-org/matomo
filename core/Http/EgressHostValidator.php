@@ -11,7 +11,6 @@ declare(strict_types=1);
 
 namespace Piwik\Http;
 
-use Exception;
 use Matomo\Network\IP;
 use Piwik\Config\GeneralConfig;
 
@@ -66,26 +65,26 @@ class EgressHostValidator
     }
 
     /**
-     * Canonicalises and validates a host for connection pinning. Fails with an exception
-     * when the host is unparseable or resolves to a non-public address.
+     * Canonicalises and validates a host for connection pinning.
      *
      * @return array{0: string, 1: string} `[canonicalHost, pinnedIp]`; equal when the host is an IP literal (no pin needed).
+     * @throws EgressBlockedException when the host is unparseable or resolves to a non-public address.
      */
     public function resolveTarget(string $host): array
     {
         $host = trim($host, '[]');
         if ($host === '') {
-            throw new Exception('Refusing to fetch: empty host.');
+            throw new EgressBlockedException('Refusing to fetch: empty host.');
         }
 
         // Fold IDN to the ASCII form the transport parses, so validation and pin match it.
         if (preg_match('/[^\x20-\x7e]/', $host)) {
             if (!function_exists('idn_to_ascii')) {
-                throw new Exception('Refusing to fetch: cannot normalise internationalised host without the intl extension.');
+                throw new EgressBlockedException('Refusing to fetch: cannot normalise internationalised host without the intl extension.');
             }
             $ascii = idn_to_ascii($host, IDNA_DEFAULT, INTL_IDNA_VARIANT_UTS46);
             if ($ascii === false || $ascii === '') {
-                throw new Exception('Refusing to fetch: host cannot be converted to ASCII.');
+                throw new EgressBlockedException('Refusing to fetch: host cannot be converted to ASCII.');
             }
             $host = $ascii;
         }
@@ -93,13 +92,13 @@ class EgressHostValidator
         // Normalise to the lowercase, dot-trimmed form the pin keys on, so it matches the lookup.
         $host = rtrim(strtolower($host), '.');
         if ($host === '') {
-            throw new Exception('Refusing to fetch: empty host.');
+            throw new EgressBlockedException('Refusing to fetch: empty host.');
         }
 
         // An IP literal connects directly (no DNS, no rebinding window): validate it, skip pinning.
         if (filter_var($host, FILTER_VALIDATE_IP)) {
             if (!$this->isAllowedIp($host)) {
-                throw new Exception('Refusing to fetch: host resolves to a private or reserved address.');
+                throw new EgressBlockedException('Refusing to fetch: host resolves to a private or reserved address.');
             }
             return [$host, $host];
         }
@@ -107,20 +106,20 @@ class EgressHostValidator
         // Reject numeric/hex hosts (e.g. 2130706433, 0x7f000001, 127.1) since libc treats these as IP
         // literals via inet_aton, which would sidestep the resolve pin.
         if (preg_match('/^0x[0-9a-f]+$/i', $host) || preg_match('/^[0-9.]+$/', $host)) {
-            throw new Exception('Refusing to fetch: numeric or encoded host is not allowed.');
+            throw new EgressBlockedException('Refusing to fetch: numeric or encoded host is not allowed.');
         }
 
         if (!preg_match('/^(?=.{1,253}$)([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?)(\.[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?)*$/i', $host)) {
-            throw new Exception('Refusing to fetch: host is not a valid IP or DNS name.');
+            throw new EgressBlockedException('Refusing to fetch: host is not a valid IP or DNS name.');
         }
 
         $ips = ($this->resolver)($host);
         if (empty($ips)) {
-            throw new Exception('Refusing to fetch: host could not be resolved.');
+            throw new EgressBlockedException('Refusing to fetch: host could not be resolved.');
         }
         foreach ($ips as $ip) {
             if (!$this->isAllowedIp($ip)) {
-                throw new Exception('Refusing to fetch: host resolves to a private or reserved address.');
+                throw new EgressBlockedException('Refusing to fetch: host resolves to a private or reserved address.');
             }
         }
 

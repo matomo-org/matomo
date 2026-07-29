@@ -43,6 +43,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The deprecated jQuery UI widget `$.fn.liveWidget` (`piwik.liveWidget`) has been removed together with the file `plugins/Live/javascripts/live.js` that defined it. Use the `Live.AutoRefreshWidget` Vue component instead.
 * Less variables that were only used within a single stylesheet have been inlined or renamed to private `@_`-prefixed names, and are therefore no longer visible to other stylesheets: `@top-menu-nav-color` (`plugins/CoreHome/stylesheets/layout.less`), `@color-period-selector`, `@color-period-selector-input-radio`, `@color-period-selector-options-hover-background`, `@color-period-selector-calendar-hover-background` (`PeriodSelector.less`), `@add-widget-padding`, `@add-widget-border`, `@add-widget-space-or-radius`, `@add-widget-categories`, `@add-widget-widgets`, `@add-widget-preview`, `@add-widget-height`, `@add-widget-item-height` (`AddWidgetModal.less`) and `@calendarHeaderBackground`, `@calendarHeaderColor`, `@calendarCurrentStateHover`, `@calendarBorder` (`plugins/Morpheus/stylesheets/ui/_components.less`). These were never theme variables; use the `@theme-color-*` variable they were derived from instead.
 * `CoreHome.EnrichedHeadline` no longer derives a report's inline help from the DOM. It used to look for a `.reportDocumentation[data-content]` element inside the next sibling of its headline and show that text behind a help icon; the text now comes from its `inline-help` attribute. The `piwik:reportChanged` DOM event, which told a headline to re-read that element, has been removed with it. Headlines rendered by `Piwik\View::singleReport()`, or by a template reproducing its shape, therefore lose their help icon unless `inline-help` is passed explicitly.
+* Site content detection (used by the tracking-code setup page and consent-manager detection) now fetches the site URL over the SSRF-safe request path. It refuses targets resolving to private, loopback or reserved IP addresses, and requires the curl extension instead of falling back to the `fopen` or `socket` transports. Installations tracking intranet sites on private addresses must allowlist their ranges via the new `[General] allowed_private_egress_ranges` setting. Refusals are logged at `WARN` level.
 
 ### New APIs
 * The sparklines visualization has been redesigned as a responsive card grid of metric tiles. Plugin-facing additions that come with it:
@@ -53,7 +54,8 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   parameter enabling an SSRF-safe request path (public-IP validation, redirect re-validation, IP pinning). Use it
   whenever the target URL derives from untrusted input, such as a site's configured URL. Requires curl.
   Installations tracking intranet sites on private addresses can allowlist their ranges via the new
-  `[General] allowed_private_egress_ranges` INI setting.
+  `[General] allowed_private_egress_ranges` INI setting. A refused target or unmet precondition throws the new
+  `Piwik\Http\EgressBlockedException`, so callers can tell a policy rejection from a transient network failure.
 * The `Http.sendHttpRequest` and `Http.sendHttpRequest.end` events pass a new `validateEgressIp` entry in their params
   array. A listener that resolves the request itself must either honour SSRF-safe semantics (public-IP-only target,
   re-validated redirects) or leave the request unhandled.
