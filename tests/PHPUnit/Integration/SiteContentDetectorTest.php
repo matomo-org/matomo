@@ -55,11 +55,11 @@ class SiteContentDetectorTest extends IntegrationTestCase
 
     public function testSiteOnPrivateAddressLogsRefusalAtTheDefaultLogLevel()
     {
-        $general = Config::getInstance()->General;
+        $original = Config::getInstance()->General;
+
+        $general = $original;
         $general['enable_internet_features'] = 1;
         Config::getInstance()->General = $general;
-
-        $idSite = Fixture::createWebsite('2014-01-01 00:00:00', 0, 'intranet', 'http://10.0.0.1/');
 
         $logger = new class extends AbstractLogger implements LoggerInterface {
             /** @var array<int, array{0: string, 1: string}> */
@@ -72,7 +72,12 @@ class SiteContentDetectorTest extends IntegrationTestCase
         };
         StaticContainer::getContainer()->set(LoggerInterface::class, $logger);
 
-        (new SiteContentDetector())->detectContent([], $idSite);
+        try {
+            $idSite = Fixture::createWebsite('2014-01-01 00:00:00', 0, 'intranet', 'http://10.0.0.1/');
+            (new SiteContentDetector())->detectContent([], $idSite);
+        } finally {
+            Config::getInstance()->General = $original;
+        }
 
         // an intranet site is refused by default now, so the reason must clear the default WARN level
         $refusals = array_filter($logger->records, function (array $record): bool {
