@@ -59,15 +59,12 @@ export default defineComponent({
 
       const colors = JSON.stringify(sparklineColors);
 
-      // The redesign lets sparklines be rendered server-side at a custom size; without it the
-      // width/height props only control the displayed size and the server uses its defaults.
       // The width/height props are the displayed size; the PNG is rendered at twice that so it
-      // stays crisp on hi-DPI screens (matching the legacy 200x50-render / 100x25-display ratio).
-      const redesignEnabled = document.body.classList.contains('sparklines-redesign-enabled');
-      const sizeParams = redesignEnabled ? {
+      // stays crisp on hi-DPI screens.
+      const sizeParams = {
         ...(typeof this.width === 'number' ? { width: this.width * 2 } : {}),
         ...(typeof this.height === 'number' ? { height: this.height * 2 } : {}),
-      } : {};
+      };
 
       const defaultParams = {
         forceView: '1',

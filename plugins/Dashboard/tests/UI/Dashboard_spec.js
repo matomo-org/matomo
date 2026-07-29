@@ -7,16 +7,6 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 describe("Dashboard", function () {
-  before(function () {
-    testEnvironment.overrideConfig('FeatureFlags', 'SparklinesRedesign_feature', 'enabled');
-    testEnvironment.save();
-  });
-
-  after(function () {
-    delete testEnvironment.configOverride.FeatureFlags;
-    testEnvironment.save();
-  });
-
 
   var generalParams = 'idSite=1&period=year&date=2012-08-09',
     urlBase = 'module=CoreHome&action=index&' + generalParams;

@@ -8,16 +8,6 @@
  */
 
 describe("UnprocessedSegmentTest", function () {
-    before(function () {
-        testEnvironment.overrideConfig('FeatureFlags', 'SparklinesRedesign_feature', 'enabled');
-        testEnvironment.save();
-    });
-
-    after(function () {
-        delete testEnvironment.configOverride.FeatureFlags;
-        testEnvironment.save();
-    });
-
     this.fixture = 'Piwik\\Tests\\Fixtures\\OneVisitorTwoVisits';
 
     var generalParams = 'idSite=1&period=range&date=2010-03-06,2010-03-08';

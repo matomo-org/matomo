@@ -11,16 +11,6 @@ describe("TagManagerTeaser", function () {
     var urlBase = '?module=CorePluginsAdmin&action=tagManagerTeaser&idSite=1&period=day&date=2019-01-03',
         pageSelector = '.activateTagManager';
 
-    before(function () {
-        testEnvironment.overrideConfig('FeatureFlags', 'SparklinesRedesign_feature', 'enabled');
-        testEnvironment.save();
-    });
-
-    after(function () {
-        delete testEnvironment.configOverride.FeatureFlags;
-        testEnvironment.save();
-    });
-
     function setPluginsToLoad(plugins)
     {
         testEnvironment.pluginsToLoad = plugins;
@@ -88,7 +78,6 @@ describe("TagManagerTeaser", function () {
     });
 
     it('should be possible to disable page and redirect to home', async function () {
-        testEnvironment.overrideConfig('FeatureFlags', 'SparklinesRedesign_feature', 'enabled');
         unloadTagManager();
         setAdminUser();
         await page.click('.activateTagManager .dontShowAgainBtn');
@@ -97,9 +86,6 @@ describe("TagManagerTeaser", function () {
         await page.waitForNetworkIdle();
 
         expect(await page.screenshotSelector('.pageWrap')).to.matchImage('admin_page_disable');
-
-        delete testEnvironment.configOverride.FeatureFlags;
-        testEnvironment.save();
     });
 
 });
