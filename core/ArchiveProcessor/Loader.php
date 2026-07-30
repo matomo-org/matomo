@@ -38,8 +38,6 @@ class Loader
 
     /**
      * Tracks whether the current prepareArchive run reused an existing archive instead of processing.
-     *
-     * @var boolean
      */
     private bool $didReuseArchive = false;
 
