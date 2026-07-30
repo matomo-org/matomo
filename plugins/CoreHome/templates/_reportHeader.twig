@@ -1,0 +1,22 @@
+{#
+The shared report/widget header, rendered for a full-page report. `enriched` decides whether the
+title carries the help icon, inline help and rate-feature widget - a report shown without a
+content block card never had them.
+
+Every attribute is emitted unconditionally, even when empty, because
+piwikHelper.compileVueEntryComponents builds the component's template from the attributes present
+at compile time: an attribute missing here could not be updated later either, and dataTable.js
+pushes the new title and documentation into this app when a related report is loaded.
+#}
+{% set isEnriched = enriched|default(false) %}
+{% set lastUpdated = reportLastUpdatedMessage is defined ? reportLastUpdatedMessage : '' %}
+<div vue-entry="CoreHome.ReportHeader"
+     context="fullPage"
+     heading-level="h2"
+     report-title="{{ properties.title|json_encode }}"
+     feature-name="{{ (isEnriched ? properties.title : '')|json_encode }}"
+     inline-help="{{ (isEnriched ? properties.documentation|default('') : '')|json_encode }}"
+     help-url="{{ (isEnriched ? properties.onlineGuideUrl|default('')|safelink : '')|json_encode }}"
+     report-generated="{{ (isEnriched ? lastUpdated : '')|json_encode }}"
+     edit-url="{{ (isEnriched ? properties.title_edit_entity_url|default('') : '')|json_encode }}"
+></div>

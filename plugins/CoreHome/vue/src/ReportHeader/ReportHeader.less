@@ -1,7 +1,7 @@
-// Shared, widget-first report header: a leading region (title + future feedback actions) on
-// the left, an inline widget-controls row and a reserved report-actions anchor on the right.
-// Controls are visible by default; a host can opt into hover-reveal via the
-// `__reportHeader-onHover` context hook.
+// The shared report header, used by both a dashboard widget and a full-page report: a leading
+// region (title, help and rating) on the left, an inline widget-controls row and the
+// report-actions anchor on the right. Widget controls are visible by default; a host can opt
+// into hover-reveal via the `__reportHeader-onHover` context hook.
 .reportHeader {
   display: flex;
   align-items: flex-start;
@@ -16,6 +16,10 @@
 
   .reportHeader__title {
     margin: 0;
+    // Neutralises the global `h2 { padding: 16px 0; width: 100% }` / `.widget h3` padding the
+    // heading tag would otherwise bring into the header row.
+    padding: 0;
+    width: auto;
     font-size: 20px;
     line-height: 24px;
     font-weight: normal;
@@ -54,6 +58,22 @@
     &:empty {
       display: none;
     }
+  }
+}
+
+// A full-page report header sits in a container that already supplies the surrounding padding
+// (`.card > .card-content` for a report shown as a content block), so it only keeps the bottom
+// gap the `h2.card-title` margin used to create.
+.reportHeader--flush {
+  padding: 0;
+  margin-bottom: 20px;
+}
+
+// The title and the report actions share one row; on narrow screens let the actions wrap
+// underneath instead of squeezing the title.
+@media (max-width: 600px) {
+  .reportHeader {
+    flex-wrap: wrap;
   }
 }
 

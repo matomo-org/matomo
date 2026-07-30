@@ -22,13 +22,26 @@ vi.mock('../translate', () => ({
   },
 }));
 
+// EnrichedHeadline reaches for Matomo globals and $sanitize; this ticket only cares that it is
+// rendered with the right props.
+const EnrichedHeadlineStub = {
+  name: 'EnrichedHeadline',
+  props: ['featureName', 'inlineHelp', 'reportGenerated', 'editUrl', 'helpUrl'],
+  template: '<div class="enrichedHeadline"><slot/></div>',
+};
+
 describe('ReportHeader', () => {
   function mountComponent(customProps = {}) {
     return mount(ReportHeader, {
       props: {
         context: 'dashboard',
-        title: 'Visits Over Time',
+        reportTitle: 'Visits Over Time',
         ...customProps,
+      },
+      global: {
+        stubs: {
+          EnrichedHeadline: EnrichedHeadlineStub,
+        },
       },
     });
   }
@@ -109,5 +122,72 @@ describe('ReportHeader', () => {
     const title = wrapper.find('.reportHeader__title');
     expect(title.classes()).not.toContain('reportHeader__title--clickable');
     expect(title.attributes('role')).toBeUndefined();
+  });
+
+  it('should render no controls in the fullPage context', () => {
+    const wrapper = mountComponent({ context: 'fullPage' });
+
+    expect(wrapper.find('.widgetControls').exists()).toBe(false);
+    expect(wrapper.findAll('.widgetControls__action').length).toBe(0);
+  });
+
+  it('should not announce a full-page report as a widget', () => {
+    expect(mountComponent().find('.u-visuallyHidden').exists()).toBe(true);
+    expect(mountComponent({ context: 'fullPage' }).find('.u-visuallyHidden').exists()).toBe(false);
+  });
+
+  it('should render the title as an h3 by default and as an h2 when asked', () => {
+    expect(mountComponent().find('.reportHeader__title').element.tagName).toBe('H3');
+    expect(
+      mountComponent({ headingLevel: 'h2' }).find('.reportHeader__title').element.tagName,
+    ).toBe('H2');
+  });
+
+  it('should fall back to an h3 for an unexpected heading level', () => {
+    const wrapper = mountComponent({ headingLevel: 'script' });
+
+    expect(wrapper.find('.reportHeader__title').element.tagName).toBe('H3');
+  });
+
+  it('should keep the plain .widgetName > span markup when not enriched', () => {
+    const wrapper = mountComponent();
+
+    expect(wrapper.find('.enrichedHeadline').exists()).toBe(false);
+    expect(wrapper.find('.reportHeader__title.widgetName > span').text()).toBe('Visits Over Time');
+  });
+
+  it('should render the title through EnrichedHeadline when enrichment is given', () => {
+    const wrapper = mountComponent({
+      context: 'fullPage',
+      headingLevel: 'h2',
+      featureName: 'Pages',
+      inlineHelp: 'What this report shows',
+      reportGenerated: 'generated 5 min ago',
+      editUrl: 'index.php?module=Foo',
+      helpUrl: 'https://matomo.org/guide',
+    });
+
+    const headline = wrapper.findComponent(EnrichedHeadlineStub);
+    expect(headline.exists()).toBe(true);
+    expect(headline.props()).toEqual({
+      featureName: 'Pages',
+      // the documentation is plain text; EnrichedHeadline's help panel is styled for a paragraph
+      inlineHelp: '<p>What this report shows</p>',
+      reportGenerated: 'generated 5 min ago',
+      editUrl: 'index.php?module=Foo',
+      helpUrl: 'https://matomo.org/guide',
+    });
+    expect(wrapper.find('.reportHeader__title.widgetName .enrichedHeadline span').text())
+      .toBe('Visits Over Time');
+  });
+
+  it('should enrich the title when only one enrichment prop is given', () => {
+    expect(mountComponent({ inlineHelp: 'help' }).find('.enrichedHeadline').exists()).toBe(true);
+    expect(mountComponent({ helpUrl: 'x' }).find('.enrichedHeadline').exists()).toBe(true);
+  });
+
+  it('should add the flush modifier only for a full-page report', () => {
+    expect(mountComponent().classes()).not.toContain('reportHeader--flush');
+    expect(mountComponent({ context: 'fullPage' }).classes()).toContain('reportHeader--flush');
   });
 });

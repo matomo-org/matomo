@@ -112,6 +112,9 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         this.isEmpty = $('.pk-emptyDataTable', domElem).length > 0;
         window.Vue.nextTick().then(() => {
           this.bindEventsAndApplyStyle(domElem);
+          // must run after the actions have been bound, and before _init so a visualization
+          // can already see its final position
+          this.adoptTableActionsIntoReportHeader(domElem);
           this._init(domElem);
           this.enableStickHead(domElem);
           this.initialized = true;
@@ -346,6 +349,8 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
         var idToReplace = workingDivId || $(content).attr('id');
         var dataTableSel = $('#' + idToReplace);
+
+        this._removeAdoptedTableActions(idToReplace);
 
         // if the current dataTable is located inside another datatable
         table = $(content).parents('table.dataTable');
@@ -1006,6 +1011,15 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         if (this.isEmpty && !currentPattern) {
             $searchAction.css({display: 'none'});
         }
+
+        // An open search field is sized against the width of its control bar, and on a full-page
+        // report that control bar is moved into the report header right after this runs (see
+        // adoptTableActionsIntoReportHeader). Expose a hook so the width can be re-measured there.
+        self._reapplySearchFieldWidth = function () {
+            if ($searchAction.hasClass('searchActive')) {
+                $searchAction.css('width', getOptimalWidthForSearchField($searchAction) + 'px');
+            }
+        };
     },
 
     //behaviour for '< prev' 'next >' links and page count
@@ -1712,27 +1726,32 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 return;
             }
 
-            var $title = '';
-            var $headline = domElem.prev('h2');
-
-            if ($headline.length) {
-                $title = $headline.find('.title:not(.ng-hide)');
-            } else {
-                var $widget = domElem.parents('.widget');
-                if ($widget.length) {
-                    $title = $widget.find('.widgetName > span');
-                }
+            // The report header is rendered outside the reloaded datatable and is not
+            // re-mounted, so push the new report's title and documentation into its Vue app
+            // rather than rewriting the rendered DOM.
+            var headerApp = domElem.prev('[vue-entry="CoreHome.ReportHeader"]')
+                .data('vueAppInstance');
+            if (headerApp) {
+                var $documentation = $('.reportDocumentation', domElem);
+                headerApp.reportTitle_ = relatedReportName;
+                headerApp.featureName_ = relatedReportName;
+                headerApp.inlineHelp_ = $documentation.attr('data-content') || '';
+                headerApp.helpUrl_ = $documentation.find('.onlineGuide').attr('href') || '';
+                return;
             }
 
-            if ($title.length) {
-                $title.text(relatedReportName);
+            // inside a widget the widget chrome owns the title
+            var $widget = domElem.parents('.widget');
+            if (!$widget.length) {
+                return;
+            }
 
-                // The EnrichedHeadline Vue component is rendered outside the reloaded
-                // datatable and is not re-mounted, so notify it (native event, no jQuery)
-                // to re-read the new report's title and documentation from the updated DOM.
-                if ($headline.length) {
-                    $headline[0].dispatchEvent(new CustomEvent('piwik:reportChanged'));
-                }
+            var widgetApp = $widget.find('.widgetTop [vue-entry="CoreHome.ReportHeader"]')
+                .data('vueAppInstance');
+            if (widgetApp) {
+                widgetApp.reportTitle_ = relatedReportName;
+            } else {
+                $widget.find('.widgetName > span').text(relatedReportName);
             }
         }
 
@@ -2005,17 +2024,100 @@ $.extend(DataTable.prototype, UIControl.prototype, {
     },
 
     _findReportHeader: function (domElem) {
-        var h2 = false;
-        if (domElem.prev().is('h2')) {
-            h2 = domElem.prev();
+        var $prev = domElem.prev();
+        if ($prev.is('h2')) {
+            return $prev;
         }
-        else if (this.param.viewDataTable == 'tableGoals') {
-            h2 = $('#titleGoalsByDimension');
+        // a full-page report renders its heading inside the shared report header component
+        if ($prev.find('.reportHeader').length) {
+            return $prev;
         }
-        else if ($('h2', domElem)) {
-            h2 = $('h2', domElem);
+        return $('h2', domElem);
+    },
+
+    /**
+     * A full-page report renders its header (title, help, rating and the action anchor) as the
+     * element before .dataTable, because an ajax reload drops the showtitle parameter and
+     * replaces the whole .dataTable element (see dataTableLoaded) - a header inside it would not
+     * survive the first sort.
+     *
+     * The action icons cannot live there to begin with: their state (active visualization,
+     * flatten availability, search keyword, period) only arrives with the reload response, and
+     * the handlers above bind to them scoped to .dataTable. So they are rendered inside the
+     * table, bound there, and only then moved into the header's anchor - on every render.
+     */
+    adoptTableActionsIntoReportHeader: function (domElem) {
+        var $anchor = domElem.prev().find('.reportHeader__actions').first();
+        if (!$anchor.length) {
+            // no own header: dashboard widget, widget preview, popover or subtable
+            return;
         }
-        return h2;
+
+        // a widgetized embed keeps its icons in the table, where its own styling expects them
+        if ($('body').hasClass('widgetized')) {
+            return;
+        }
+
+        // an empty report keeps them in place too, so that the
+        // `.dataTable.isDataTableEmpty:not(.hasSearchKeyword)` rule can go on hiding them
+        if (this.isEmpty && !domElem.hasClass('hasSearchKeyword')) {
+            return;
+        }
+
+        // addressed by path rather than by find(), so that an expanded subtable's own header
+        // controls and footer can never be picked up instead
+        var $wrapper = domElem.children('.dataTableWrapper');
+        var $actions = $wrapper.children('.dataTableHeaderControls');
+        if (!$actions.length) {
+            return;
+        }
+
+        // the anchor may still hold the previous render's actions - that is a mounted Vue app,
+        // so unmount it rather than just dropping the nodes
+        piwikHelper.destroyVueComponent($anchor);
+        $anchor.empty();
+
+        // stamp the datatable it belongs to: it is no longer a descendant of .dataTable, so it
+        // can neither be found via closest() nor removed by replaceWith()
+        $actions.attr('data-datatable-id', this.workingDivId).appendTo($anchor);
+
+        // with the icons in the header the footer's second copy is a duplicate
+        var $footerNavigation = $wrapper.children('.dataTableFeatures')
+            .children('.dataTableFooterNavigation');
+        var $footerControls = $footerNavigation.find('.dataTableControls');
+        if ($footerControls.length) {
+            piwikHelper.destroyVueComponent($footerControls);
+            $footerControls.remove();
+
+            // the limit selector shared that grid row with the icons and is now alone in it
+            $footerNavigation.find('.limitSelection')
+                .removeClass('s3 m3')
+                .addClass('s12 m12');
+        }
+
+        // ... and the footer navigation may now have nothing left to show. Only hide the
+        // navigation, never .dataTableFeatures: that also holds the loading indicator
+        // reloadAjaxDataTable shows on every subsequent reload.
+        if (!$footerNavigation.find('.dataTablePaginationControl, .limitSelection, .datatableRelatedReports').length) {
+            $footerNavigation.hide();
+        }
+
+        // the search field was sized against the width it had inside the table
+        if (this._reapplySearchFieldWidth) {
+            this._reapplySearchFieldWidth();
+        }
+    },
+
+    /**
+     * Drops the action row a previous render moved into the report header. replaceWith() cannot
+     * do it: the node is not a descendant of .dataTable any more.
+     */
+    _removeAdoptedTableActions: function (idToReplace) {
+        var $stale = $('[data-datatable-id="' + idToReplace + '"]');
+        if ($stale.length) {
+            piwikHelper.destroyVueComponent($stale);
+            $stale.remove();
+        }
     },
 
     _createDivId: function () {

@@ -290,7 +290,7 @@
                 // widget's persisted state so a widget restored collapsed shows the collapsed
                 // controls (maximise/close) rather than the full set.
                 piwikHelper.compileVueEntryComponents($('.widgetTop', widgetElement), {
-                    title: titleText,
+                    'report-title': titleText,
                     context: self.options.isHidden ? 'collapsed' : 'dashboard'
                 });
 

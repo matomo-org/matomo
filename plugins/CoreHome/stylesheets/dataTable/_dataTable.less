@@ -670,9 +670,6 @@ td.cellSubDataTable .loadingPiwik {
   }
 }
 .dataTableHeaderControls {
-  margin-top: -10px;
-  margin-bottom: 5px;
-
   .widgetpreview-preview .widget &,
   #dashboardWidgetsArea .widget &,
   .dataTable.isDataTableEmpty:not(.hasSearchKeyword) & {
@@ -682,6 +679,14 @@ td.cellSubDataTable .loadingPiwik {
   .widgetized .dataTable.dataTableVizHtmlTable .dataTableWrapper & {
     margin-top: 0;
   }
+}
+
+// Spacing for the in-table position only. On a full-page report this row is moved out of the
+// table and into the report header (see dataTable.js `adoptTableActionsIntoReportHeader`),
+// which lays it out itself.
+.dataTableWrapper .dataTableHeaderControls {
+  margin-top: -10px;
+  margin-bottom: 5px;
 }
 
 .theWidgetContent .card .card-content, table.dataTable {

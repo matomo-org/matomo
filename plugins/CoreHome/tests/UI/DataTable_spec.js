@@ -13,6 +13,7 @@ describe('DataTable', function () {
   };
 
   const devicesUrl = "?module=CoreHome&action=index&idSite=3&period=day&date=yesterday&category=General_Visitors&subcategory=DevicesDetection_Devices";
+  const emptyDevicesUrl = "?module=CoreHome&action=index&idSite=3&period=day&date=2011-01-01&category=General_Visitors&subcategory=DevicesDetection_Devices";
   const widgetSelector = '#widgetDevicesDetectiongetType';
   const selectors = {
     metricColumn: `${widgetSelector} #nb_uniq_visitors`,
@@ -97,6 +98,88 @@ describe('DataTable', function () {
       await page.waitForNetworkIdle();
     }
   }
+
+  // The action row is rendered inside .dataTable so the datatable javascript can bind to it, and
+  // is then moved into the report header (see dataTable.js adoptTableActionsIntoReportHeader).
+  // .dataTable is replaced wholesale on every reload while the header persists, so both the
+  // single-row invariant and the id stamp linking them have to survive each interaction.
+  async function readHeaderLayout() {
+    return page.evaluate((widgetSel) => {
+      const widget = document.querySelector(widgetSel);
+      const dataTable = widget.querySelector('.dataTable');
+      const adopted = widget.querySelectorAll('.reportHeader__actions .dataTableHeaderControls');
+
+      return {
+        headers: widget.querySelectorAll('.reportHeader').length,
+        headingTag: widget.querySelector('.reportHeader__title').tagName,
+        title: widget.querySelector('.reportHeader__title').innerText.trim(),
+        actionRows: widget.querySelectorAll('.dataTableHeaderControls').length,
+        adoptedActionRows: adopted.length,
+        actionRowsLeftInTable: dataTable.querySelectorAll('.dataTableHeaderControls').length,
+        footerActionRows: dataTable.querySelectorAll('.dataTableFooterNavigation .dataTableControls').length,
+        stampedId: adopted.length ? adopted[0].getAttribute('data-datatable-id') : null,
+        dataTableId: dataTable.getAttribute('id'),
+        widgetControls: widget.querySelectorAll('.reportHeader .widgetControls__action').length,
+      };
+    }, widgetSelector);
+  }
+
+  function expectExactlyOneAdoptedActionRow(layout) {
+    expect(layout.headers).to.be.equal(1);
+    expect(layout.actionRows).to.be.equal(1);
+    expect(layout.adoptedActionRows).to.be.equal(1);
+    expect(layout.actionRowsLeftInTable).to.be.equal(0);
+    expect(layout.footerActionRows).to.be.equal(0);
+    expect(layout.stampedId).to.be.equal(layout.dataTableId);
+  }
+
+  it('should render the report header once, with the action icons moved into it', async function () {
+    await loadWidget();
+
+    const layout = await readHeaderLayout();
+    expectExactlyOneAdoptedActionRow(layout);
+    // a full-page report owns the page's report heading level
+    expect(layout.headingTag).to.be.equal('H2');
+    // and shows no widget controls
+    expect(layout.widgetControls).to.be.equal(0);
+    // the widget name from the metadata still wins over the report's own title
+    expect(layout.title).to.be.equal('Device type');
+  });
+
+  it('should render the header of a report without data, leaving its hidden actions in the table', async function () {
+    await page.goto(emptyDevicesUrl);
+    await page.waitForNetworkIdle();
+    await page.waitForSelector(`${widgetSelector} .dataTable.isDataTableEmpty`, { visible: true });
+    await page.waitForNetworkIdle();
+
+    const layout = await readHeaderLayout();
+
+    // the title still renders...
+    expect(layout.headers).to.be.equal(1);
+    expect(layout.title).to.be.equal('Device type');
+    // ...but the actions stay inside the datatable, where the
+    // `.dataTable.isDataTableEmpty:not(.hasSearchKeyword)` rule keeps hiding them, so the
+    // header's anchor stays empty and collapses
+    expect(layout.adoptedActionRows).to.be.equal(0);
+    expect(layout.actionRowsLeftInTable).to.be.equal(1);
+    expect(await page.evaluate((sel) => {
+      const anchor = document.querySelector(`${sel} .reportHeader__actions`);
+      return window.getComputedStyle(anchor).display;
+    }, widgetSelector)).to.be.equal('none');
+  });
+
+  it('should keep a single header and action row across sorting, limit and visualization changes', async function () {
+    await loadWidget();
+
+    await interactWithColumnSortingAndLimit();
+    expectExactlyOneAdoptedActionRow(await readHeaderLayout());
+
+    await changeVisualization();
+    expectExactlyOneAdoptedActionRow(await readHeaderLayout());
+
+    await toggleTotalsRow();
+    expectExactlyOneAdoptedActionRow(await readHeaderLayout());
+  });
 
   it('should allow saving of preference for normal user when changing sorting and table limits', async function () {
     await loadWidget();

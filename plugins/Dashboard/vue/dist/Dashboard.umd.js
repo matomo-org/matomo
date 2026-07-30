@@ -504,11 +504,11 @@ var __async = (__this, __arguments, generator) => {
       _ctx.previewWidget ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_2$2, [
         vue.createVNode(_component_ReportHeader, {
           context: "preview",
-          title: _ctx.translate("Dashboard_WidgetPreview"),
+          "report-title": _ctx.translate("Dashboard_WidgetPreview"),
           "title-clickable": "",
           "title-click-hint": _ctx.translate("Dashboard_AddPreviewedWidget"),
           onTitleClick: _cache[0] || (_cache[0] = ($event) => _ctx.$emit("select", _ctx.previewWidget.uniqueId))
-        }, null, 8, ["title", "title-click-hint"]),
+        }, null, 8, ["report-title", "title-click-hint"]),
         vue.createElementVNode("div", _hoisted_3$2, [
           (vue.openBlock(), vue.createBlock(_component_Widget, {
             key: _ctx.previewWidget.uniqueId,

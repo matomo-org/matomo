@@ -14,19 +14,21 @@ can be renamed to show_header and show_header_icons
 #}
 {% set showTableActionsInHeader = properties.show_footer and properties.show_footer_icons %}
 
+{#
+The header stays outside `.dataTable` on purpose: an ajax reload drops the `showtitle` parameter
+and replaces the whole `.dataTable` element (see dataTable.js), so a header rendered inside it
+would be destroyed on the first sort. The report actions are the other way round - they are
+rendered inside `.dataTable` below and moved into the header afterwards.
+#}
 {% if showCardAsContentBlock  %}
 <div class="card">
 <div class="card-content">
     {% if properties.title %}
-        <h2 class="card-title"
-            {% if properties.title_edit_entity_url %}edit-url="{{ properties.title_edit_entity_url }}"{% endif %}
-            report-generated="{% if reportLastUpdatedMessage is defined %}{{ reportLastUpdatedMessage|raw }}{% endif %}"
-              vue-entry="CoreHome.EnrichedHeadline"
-        >{{ properties.title }}</h2>
+        {% include "@CoreHome/_reportHeader.twig" with { enriched: true } %}
     {% endif %}
 {% elseif showOnlyTitleWithoutCard %}
     <div>
-    <h2>{{ properties.title }}</h2>
+    {% include "@CoreHome/_reportHeader.twig" with { enriched: false } %}
 {% endif %}
 
 {% set showCardTableIsEmpty = not properties.show_as_content_block and isDataTableEmpty and not isWidget %}
@@ -57,9 +59,15 @@ can be renamed to show_header and show_header_icons
         {% if error is defined %}
             <div vue-entry="CoreHome.Alert" severity="danger">{{ error.message }}</div>
         {% else %}
+            {#
+            Rendered here so the datatable javascript can bind to the actions and so their state
+            comes from the reload response; dataTable.js then moves this block into the report
+            header's `.reportHeader__actions` anchor. No materialize grid classes - inside the
+            header it is a flex item, not a row.
+            #}
             {% if showTableActionsInHeader %}
-                <div class="row dataTableHeaderControls">
-                    <div class="col dataTableControls s12">
+                <div class="dataTableHeaderControls">
+                    <div class="dataTableControls">
                         {% include "@CoreHome/_dataTableActions.twig" with { placement: 'top' } %}
                     </div>
                 </div>

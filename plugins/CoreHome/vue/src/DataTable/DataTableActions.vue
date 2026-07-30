@@ -350,10 +350,17 @@ export default defineComponent({
   },
   methods: {
     showExportImage(event: Event) {
-      $(event.target as HTMLElement)
-        .closest('.dataTable')
-        .find('div.jqplot-target')
-        .trigger('piwikExportAsImage');
+      const $target = $(event.target as HTMLElement);
+      let $dataTable = $target.closest('.dataTable');
+
+      if (!$dataTable.length) {
+        // on a full-page report this action row was moved into the report header, outside the
+        // datatable it belongs to, and carries its id (see dataTable.js)
+        const dataTableId = $target.closest('[data-datatable-id]').attr('data-datatable-id');
+        $dataTable = $(`#${dataTableId}`);
+      }
+
+      $dataTable.find('div.jqplot-target').trigger('piwikExportAsImage');
     },
   },
   computed: {

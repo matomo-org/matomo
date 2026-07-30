@@ -109,8 +109,11 @@ var SegmentedVisitorLog = function() {
         var callback = function (html) {
             Piwik_Popover.setContent(html);
 
-            // remove title returned from the server
-            var title = box.find('.enrichedHeadline').closest('h2');
+            // remove title returned from the server. A report renders its heading inside the
+            // shared ReportHeader component, so drop that whole host element rather than just
+            // the heading, which would leave the header shell behind.
+            var title = box.find('.enrichedHeadline')
+                .closest('[vue-entry="CoreHome.ReportHeader"], h2');
 
             // if the enriched headline has been already parsed, there might be additional content,
             // so we prefer using the original title, which is placed in div with class "title"

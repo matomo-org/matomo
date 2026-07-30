@@ -282,6 +282,8 @@
             var oldReportsElem = $('.datatableRelatedReports', dataTableSel);
             $('.datatableRelatedReports', content).replaceWith(oldReportsElem);
 
+            this._removeAdoptedTableActions(idToReplace);
+
             dataTableSel.replaceWith(content);
 
             content.trigger('piwik:dataTableLoaded');
