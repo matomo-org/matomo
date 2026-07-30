@@ -127,10 +127,12 @@ class Goals extends HtmlTable
         $idGoal = Common::getRequestVar('idGoal', AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW, 'string');
 
         $goalsToProcess = null;
+        $isSingleGoalView = false;
         if (Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER == $idGoal) {
             $this->setPropertiesForEcommerceView();
 
             $goalsToProcess = [$idGoal];
+            $isSingleGoalView = true;
         } elseif (AddColumnsProcessedMetricsGoal::GOALS_FULL_TABLE == $idGoal) {
             $this->setPropertiesForGoals($idSite, 'all');
 
@@ -143,11 +145,19 @@ class Goals extends HtmlTable
             $this->setPropertiesForGoals($idSite, [$idGoal]);
 
             $goalsToProcess = [$idGoal];
+            $isSingleGoalView = true;
         }
 
         // add goals columns
         $this->requestConfig->request_parameters_to_modify['filter_update_columns_when_show_all_goals'] = $idGoal;
         $this->requestConfig->request_parameters_to_modify['filter_show_goal_columns_process_goals'] = implode(',', $goalsToProcess);
+
+        // When a single goal is displayed, restrict the export to the columns shown in the table so
+        // the exported data matches the displayed goal-specific data, rather than dumping the
+        // aggregated all-goals columns and every other goal's columns.
+        if ($isSingleGoalView) {
+            $this->config->export_parameters_to_modify['showColumns'] = implode(',', $this->config->columns_to_display);
+        }
     }
 
     private function setPropertiesForEcommerceView()

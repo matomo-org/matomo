@@ -52,6 +52,13 @@ abstract class Graph extends Visualization
             [$conversionsColumn, $revenueColumn] = $this->getGoalMetricColumns();
             $this->config->translations[$conversionsColumn] = Piwik::translate('Goals_ColumnConversions');
             $this->config->translations[$revenueColumn] = Piwik::translate('General_TotalRevenue');
+
+            // When a specific goal's metric is charted, keep the data export aligned with the
+            // charted goal-specific column(s) rather than dumping the aggregated all-goals data.
+            if (false !== $this->getSpecificGoalId() && array_intersect([$conversionsColumn, $revenueColumn], $this->config->columns_to_display)) {
+                $exportColumns = array_merge(['label'], $this->config->columns_to_display);
+                $this->config->export_parameters_to_modify['showColumns'] = implode(',', array_unique($exportColumns));
+            }
         }
     }
 

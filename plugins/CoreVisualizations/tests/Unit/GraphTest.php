@@ -240,6 +240,48 @@ class GraphTest extends \PHPUnit\Framework\TestCase
         $this->assertNotContains('nb_conversions', $columns);
     }
 
+    public function testBeforeRenderRestrictsExportColumnsWhenChartingSpecificGoalMetric()
+    {
+        $_GET['idGoal'] = '1';
+
+        $bar = $this->getMockGraph(array('label' => 'abc', 'goal_1_nb_conversions' => 3));
+        $bar->config->show_goals = true;
+        $bar->config->columns_to_display = array('goal_1_nb_conversions');
+
+        $bar->beforeRender();
+
+        // export is restricted to the charted goal column so the exported data matches the chart
+        $this->assertSame(
+            'label,goal_1_nb_conversions',
+            $bar->config->export_parameters_to_modify['showColumns']
+        );
+    }
+
+    public function testBeforeRenderDoesNotRestrictExportForNonGoalMetric()
+    {
+        $_GET['idGoal'] = '1';
+
+        $bar = $this->getMockGraph(array('label' => 'abc', 'nb_visits' => 5));
+        $bar->config->show_goals = true;
+        // charting a non-goal metric while a goal is selected must not restrict the export
+        $bar->config->columns_to_display = array('nb_visits');
+
+        $bar->beforeRender();
+
+        $this->assertArrayNotHasKey('showColumns', $bar->config->export_parameters_to_modify);
+    }
+
+    public function testBeforeRenderDoesNotRestrictExportWhenNoSpecificGoal()
+    {
+        $bar = $this->getMockGraph(array('label' => 'abc', 'nb_conversions' => 5));
+        $bar->config->show_goals = true;
+        $bar->config->columns_to_display = array('nb_conversions');
+
+        $bar->beforeRender();
+
+        $this->assertArrayNotHasKey('showColumns', $bar->config->export_parameters_to_modify);
+    }
+
     public function testBeforeLoadDataTableKeepsAggregatedGoalColumnsWhenNoSpecificGoal()
     {
         $bar = $this->getMockGraph(array('label' => 'abc', 'nb_visits' => 5));
