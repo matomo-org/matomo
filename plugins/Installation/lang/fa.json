@@ -58,7 +58,6 @@
         "SystemCheckFileIntegrity": "یکپارچگی فایل",
         "SystemCheckFunctions": "عملیات ضروری",
         "SystemCheckGDHelp": "The sparklines (small graphs) will not work.",
-        "SystemCheckGlobHelp": "این تابع ساخته شده در میزبان خود را غیر فعال شده است. Matomo تلاش خواهد کرد این تابع برای شبیه سازی است اما ممکن است محدودیت های امنیتی بیشتر روبرو می شوند. کارکرد ممکن است تأثیر داشته است.",
         "SystemCheckGzcompressHelp": "شما نیاز به فعال کردن پسوند zlib می و gzcompress تابع.",
         "SystemCheckGzuncompressHelp": "شما نیاز به فعال کردن پسوند zlib می و gzuncompress تابع.",
         "SystemCheckMailHelp": "انتقادات و پیشنهادات و پیامهای رمز عبور را فراموش کرده اید بدون پست الکترونیکی () ارسال نخواهد شد.",

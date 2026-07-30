@@ -110,7 +110,6 @@
         "SystemCheckFunctions": "必須関数",
         "SystemCheckGDFreeType": "GD &gt; 2.x + Freetype (graphics)",
         "SystemCheckGDHelp": "スパークライン (小さなグラフ) とイメージ グラフ (Matomo モバイル アプリと電子メール レポート) は機能しません。",
-        "SystemCheckGlobHelp": "この組み込み関数は、ホストでオフになっています。 Matomo は機能をエミュレートしようとしますが、さらなるセキュリティ制限に遭遇する可能性があります。 また、機能に影響が出る場合があります。",
         "SystemCheckGzcompressHelp": "zlib 拡張機能と gzcompress 関数を有効にする必要があります。",
         "SystemCheckGzuncompressHelp": "zlib 拡張機能と gzuncompress 関数を有効にする必要があります。",
         "SystemCheckHashHelp": "オプション --disable-hash を除外して、必要な hash() サポートを使用して PHP を構成および再構築します。",

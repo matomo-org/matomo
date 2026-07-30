@@ -2,6 +2,7 @@
     "WebsiteMeasurable": {
         "Website": "Webseite",
         "WebsiteDescription": "Eine Webseite besteht aus mehreren Webseiten die typischerweise von einer einzelnen Domain ausgeliefert werden.",
+        "WebsiteLongDescription": "Tracke Besucherinteraktionen wie Seitenaufrufe, Klicks, Downloads und Ereignisse auf einer öffentlich zugänglichen Website. Ein einzelner Messwert kann mehrere Domains und Subdomains umfassen, oder Sie können für jede davon separate Messwerte anlegen.",
         "Websites": "Webseiten"
     }
 }

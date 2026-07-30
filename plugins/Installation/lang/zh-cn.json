@@ -110,7 +110,6 @@
         "SystemCheckFunctions": "必需的功能",
         "SystemCheckGDFreeType": "GD &gt; 2.x + Freetype（图形功能）",
         "SystemCheckGDHelp": "迷你图（小图）和图像图（在 Matomo 移动应用程序和电子邮件报告中）将不起作用。",
-        "SystemCheckGlobHelp": "您的主机上已关闭此内置功能。 Matomo 将尝试模拟该功能，但可能会遇到进一步的安全限制。功能可能会受到影响。",
         "SystemCheckGzcompressHelp": "需要开启zlib扩展和gzcompress功能。",
         "SystemCheckGzuncompressHelp": "您需要打开zlib扩展和gzuncompress功能。",
         "SystemCheckHashHelp": "通过排除选项 --disable-hash 来配置和重建 PHP，使其具有所需的 hash() 支持。",

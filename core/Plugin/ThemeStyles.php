@@ -22,7 +22,7 @@ class ThemeStyles
         'fontFamilyBase' => 'theme-fontFamily-base',
         'colorBrand' => 'theme-color-brand',
         'colorBrandContrast' => 'theme-color-brand-contrast',
-        'colorNewBrand' => 'theme-color-new-brand',
+        'colorSuccess' => 'theme-color-success',
         'colorFocusRing' => 'theme-color-focus-ring',
         'colorFocusRingAlternative' => 'theme-color-focus-ring-alternative',
         'colorTextHighContrast' => 'theme-color-text-highContrast',
@@ -80,7 +80,7 @@ class ThemeStyles
     /**
      * @var string|array<string>
      */
-    public $colorBrand = ['#43a047', '#778fd4'];
+    public $colorBrand = ['#00b4be', '#00d7e3'];
 
     /**
      * @var string|array<string>
@@ -88,9 +88,12 @@ class ThemeStyles
     public $colorBrandContrast = ['#fff', '#ffffff'];
 
     /**
+     * Semantic "all is fine / success / positive" green. Kept theme-independent from
+     * $colorBrand so that success states stay green even when a theme overrides the brand.
+     *
      * @var string|array<string>
      */
-    public $colorNewBrand = '#00b4be';
+    public $colorSuccess = ['#43a047', '#66bb6a'];
 
     /**
      * @var string|array<string>

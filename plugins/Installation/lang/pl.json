@@ -97,7 +97,6 @@
         "SystemCheckFunctions": "Wymagane funkcje",
         "SystemCheckGDFreeType": "GD &gt; 2.x + Freetype (graphics)",
         "SystemCheckGDHelp": "Linie przerywane (mała grafika sparklines) nie będzie wyświetlana.",
-        "SystemCheckGlobHelp": "Ta wbudowana funkcja została wyłączona przez twój hosting. Matomo podejmie próbę jej emulowania, ale może napotkać kolejne ograniczenia związane z bezpieczeństwem. Może to mieć wpływ na funkcjonalność.",
         "SystemCheckGzcompressHelp": "Musisz włączyć rozszerzenie zlib i funkcję gzcompress.",
         "SystemCheckGzuncompressHelp": "Musisz włączyć rozszerzenie zlib i funkcję gzuncompress.",
         "SystemCheckHashHelp": "Musisz skonfigurować i przebudować swoją instalację PHP usuwając opcję --disable-hash, aby włączyć wsparcie dla funkcji hash().",
