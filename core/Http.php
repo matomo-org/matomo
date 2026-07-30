@@ -315,6 +315,10 @@ class Http
                 throw new EgressBlockedException('SSRF-safe HTTP requests require the curl transport.');
             }
 
+            if (!self::isCurlEnabled()) {
+                throw new EgressBlockedException('SSRF-safe HTTP requests require the curl PHP extension.');
+            }
+
             // Restrict to http(s): other schemes have different default ports
             $scheme = strtolower((string) $parsedUrl['scheme']);
             if ($scheme !== 'http' && $scheme !== 'https') {
