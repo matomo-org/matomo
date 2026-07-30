@@ -40,20 +40,11 @@ class Controller extends Plugin\ControllerAdmin
     public const DEACTIVATE_NONCE = 'CorePluginsAdmin.deactivatePlugin';
     public const UNINSTALL_NONCE = 'CorePluginsAdmin.uninstallPlugin';
 
-    /**
-     * @var Translator
-     */
-    private $translator;
+    private Translator $translator;
 
-    /**
-     * @var Plugin\SettingsProvider
-     */
-    private $settingsProvider;
+    private Plugin\SettingsProvider $settingsProvider;
 
-    /**
-     * @var PluginInstaller
-     */
-    private $pluginInstaller;
+    private PluginInstaller $pluginInstaller;
     /**
      * @var Plugin\Manager
      */
@@ -64,10 +55,7 @@ class Controller extends Plugin\ControllerAdmin
      */
     private $marketplacePlugins;
 
-    /**
-     * @var PasswordVerifier
-     */
-    private $passwordVerify;
+    private PasswordVerifier $passwordVerify;
 
     /**
      * Controller constructor.

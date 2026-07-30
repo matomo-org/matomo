@@ -21,10 +21,7 @@ use Piwik\DbHelper;
  */
 class Updates_3_6_0_b2 extends PiwikUpdates
 {
-    /**
-     * @var MigrationFactory
-     */
-    private $migration;
+    private MigrationFactory $migration;
 
     private $pluginSettingsTable = 'plugin_setting';
     private $siteSettingsTable = 'site_setting';

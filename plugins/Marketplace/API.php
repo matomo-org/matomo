@@ -29,35 +29,17 @@ use Piwik\Validators\NotEmpty;
  */
 class API extends \Piwik\Plugin\API
 {
-    /**
-     * @var Client
-     */
-    private $marketplaceClient;
+    private Client $marketplaceClient;
 
-    /**
-     * @var Service
-     */
-    private $marketplaceService;
+    private Service $marketplaceService;
 
-    /**
-     * @var InvalidLicenses
-     */
-    private $expired;
+    private InvalidLicenses $expired;
 
-    /**
-     * @var PluginManager
-     */
-    private $pluginManager;
+    private PluginManager $pluginManager;
 
-    /**
-     * @var Environment
-     */
-    private $environment;
+    private Environment $environment;
 
-    /**
-     * @var PluginTrialService
-     */
-    private $pluginTrialService;
+    private PluginTrialService $pluginTrialService;
 
     public function __construct(
         Service $service,

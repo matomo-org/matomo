@@ -15,20 +15,11 @@ use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 
 class Tasks extends \Piwik\Plugin\Tasks
 {
-    /**
-     * @var LogDataAnonymizations
-     */
-    private $logDataAnonymizations;
+    private LogDataAnonymizations $logDataAnonymizations;
 
-    /**
-     * @var DataSubjects
-     */
-    private $dataSubjects;
+    private DataSubjects $dataSubjects;
 
-    /**
-     * @var SitesManagerAPI
-     */
-    private $sitesManagerAPI;
+    private SitesManagerAPI $sitesManagerAPI;
 
     public function __construct(LogDataAnonymizations $logDataAnonymizations, DataSubjects $dataSubjects, SitesManagerAPI $sitesManagerAPI)
     {

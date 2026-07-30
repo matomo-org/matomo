@@ -23,20 +23,11 @@ use Piwik\Site;
  */
 class Parameters
 {
-    /**
-     * @var Site
-     */
-    private $site = null;
+    private Site $site;
 
-    /**
-     * @var Period
-     */
-    private $period = null;
+    private Period $period;
 
-    /**
-     * @var Segment
-     */
-    private $segment = null;
+    private Segment $segment;
 
     /**
      * @var string|bool Plugin name which triggered this archive processor, or false if none
@@ -53,7 +44,7 @@ class Parameters
     /**
      * @var string[]|null
      */
-    private $foundRequestedReports;
+    private ?array $foundRequestedReports = null;
 
     /**
      * @ignore

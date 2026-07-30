@@ -19,10 +19,7 @@ use Piwik\Widget\WidgetConfig;
 
 class GetNewPlugins extends Widget
 {
-    /**
-     * @var Client
-     */
-    private $marketplaceApiClient;
+    private Client $marketplaceApiClient;
 
     public function __construct(Client $marketplaceApiClient)
     {

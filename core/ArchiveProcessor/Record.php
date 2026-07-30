@@ -28,50 +28,26 @@ class Record
      */
     private $name;
 
-    /**
-     * @var string|null
-     */
-    private $plugin = null;
+    private ?string $plugin = null;
 
     /**
      * @var string|int
      */
     private $columnToSortByBeforeTruncation;
 
-    /**
-     * @var int|null
-     */
-    private $maxRowsInTable;
+    private ?int $maxRowsInTable = null;
 
-    /**
-     * @var int|null
-     */
-    private $maxRowsInSubtable;
+    private ?int $maxRowsInSubtable = null;
 
-    /**
-     * @var string|null
-     */
-    private $countOfRecordName = null;
+    private ?string $countOfRecordName = null;
 
-    /**
-     * @var bool
-     */
-    private $countOfRecordNameIsRecursive = false;
+    private bool $countOfRecordNameIsRecursive = false;
 
-    /**
-     * @var bool
-     */
-    private $countOfRecordNameIsForLeafs = false;
+    private bool $countOfRecordNameIsForLeafs = false;
 
-    /**
-     * @var array|null
-     */
-    private $columnToRenameAfterAggregation = null;
+    private ?array $columnToRenameAfterAggregation = null;
 
-    /**
-     * @var array|null
-     */
-    private $blobColumnAggregationOps = null;
+    private ?array $blobColumnAggregationOps = null;
 
     /**
      * @var callable|null
@@ -83,10 +59,7 @@ class Record
      */
     private $aggregatedRecordTransform = null;
 
-    /**
-     * @var string|null
-     */
-    private $builtFromFlatRecord = null;
+    private ?string $builtFromFlatRecord = null;
 
     /**
      * @var callable|null

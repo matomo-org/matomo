@@ -15,10 +15,7 @@ use Piwik\Plugin\LogTablesProvider;
 
 class JoinTables extends \ArrayObject
 {
-    /**
-     * @var LogTablesProvider
-     */
-    private $logTableProvider;
+    private LogTablesProvider $logTableProvider;
 
     // NOTE: joins can be specified explicitly as arrays w/ 'joinOn' keys or implicitly as table names. when
     // table names are used, the joins dependencies are assumed based on how we want to order those joins.

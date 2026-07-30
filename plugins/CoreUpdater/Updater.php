@@ -34,15 +34,9 @@ class Updater
     public const PATH_TO_EXTRACT_LATEST_VERSION = '/latest/';
     public const DOWNLOAD_TIMEOUT = 720;
 
-    /**
-     * @var Translator
-     */
-    private $translator;
+    private Translator $translator;
 
-    /**
-     * @var ReleaseChannels
-     */
-    private $releaseChannels;
+    private ReleaseChannels $releaseChannels;
 
     /**
      * @var string

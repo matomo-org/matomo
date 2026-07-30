@@ -22,10 +22,7 @@ use Piwik\Url;
  */
 class DatabaseAbilitiesCheck implements Diagnostic
 {
-    /**
-     * @var Translator
-     */
-    private $translator;
+    private Translator $translator;
 
     public function __construct(Translator $translator)
     {

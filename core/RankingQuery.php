@@ -49,16 +49,14 @@ class RankingQuery
     /**
      * Contains the labels of the inner query.
      * Format: "label" => true (to make sure labels don't appear twice)
-     * @var array
      */
-    private $labelColumns = array();
+    private array $labelColumns = array();
 
     /**
      * The columns of the inner query that are not labels
      * Format: "label" => "aggregation function" or false for no aggregation
-     * @var array
      */
-    private $additionalColumns = array();
+    private array $additionalColumns = array();
 
     /**
      * The limit for each group

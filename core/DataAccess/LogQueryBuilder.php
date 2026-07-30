@@ -19,10 +19,7 @@ class LogQueryBuilder
 {
     public const FORCE_INNER_GROUP_BY_NO_SUBSELECT = '__##nosubquery##__';
 
-    /**
-     * @var LogTablesProvider
-     */
-    private $logTableProvider;
+    private LogTablesProvider $logTableProvider;
 
     /**
      * Forces to use a subselect when generating the query. Set value to the FORCE_INNER_GROUP_BY_NO_SUBSELECT constant to force not using a subselect.

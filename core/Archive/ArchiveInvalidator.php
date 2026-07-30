@@ -63,20 +63,11 @@ class ArchiveInvalidator
 
     private $rememberArchivedReportIdStart = 'report_to_invalidate_';
 
-    /**
-     * @var Model
-     */
-    private $model;
+    private Model $model;
 
-    /**
-     * @var SegmentArchiving|null
-     */
-    private $segmentArchiving;
+    private ?SegmentArchiving $segmentArchiving;
 
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private LoggerInterface $logger;
 
     /**
      * @var int[]

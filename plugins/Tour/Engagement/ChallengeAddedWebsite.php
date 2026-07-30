@@ -15,10 +15,7 @@ use Piwik\Url;
 
 class ChallengeAddedWebsite extends Challenge
 {
-    /**
-     * @var DataFinder
-     */
-    private $finder;
+    private DataFinder $finder;
 
     /**
      * @var null|bool

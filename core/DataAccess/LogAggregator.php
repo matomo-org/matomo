@@ -158,15 +158,9 @@ class LogAggregator
      */
     private $logger;
 
-    /**
-     * @var bool
-     */
-    private $allowUsageSegmentCache = false;
+    private bool $allowUsageSegmentCache = false;
 
-    /**
-     * @var Parameters
-     */
-    private $params;
+    private Parameters $params;
 
     public function __construct(Parameters $params, ?LoggerInterface $logger = null)
     {

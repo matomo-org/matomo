@@ -39,7 +39,7 @@ class RowEvolution
     /**
      * @var string[]
      */
-    private static $actionsUrlReports = [
+    private static array $actionsUrlReports = [
         'getPageUrls',
         'getPageUrlsFollowingSiteSearch',
         'getEntryPageUrls',

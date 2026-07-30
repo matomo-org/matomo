@@ -30,10 +30,7 @@ class ThirdPartyCookies implements
      */
     use PolicyComparisonTrait;
 
-    /**
-     * @var bool|null
-     */
-    private $value;
+    private ?bool $value;
 
     private function __construct(?bool $value)
     {

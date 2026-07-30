@@ -21,7 +21,7 @@ abstract class Settings
      *
      * @var Setting[]
      */
-    private $settings = array();
+    private array $settings = array();
 
     protected $pluginName;
 

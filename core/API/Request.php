@@ -87,10 +87,8 @@ class Request
 {
     /**
      * The count of nested API request invocations. Used to determine if the currently executing request is the root or not.
-     *
-     * @var int
      */
-    private static $nestedApiInvocationCount = 0;
+    private static int $nestedApiInvocationCount = 0;
 
     private $request = null;
 

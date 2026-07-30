@@ -21,7 +21,7 @@ class FailureLogMessageDetector extends AbstractHandler
     /**
      * @var boolean
      */
-    private $hasEncounteredImportantLog = false;
+    private bool $hasEncounteredImportantLog = false;
 
     public function __construct($level = Logger::WARNING)
     {

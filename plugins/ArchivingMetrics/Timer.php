@@ -20,20 +20,11 @@ use Piwik\Plugins\ArchivingMetrics\Writer\WriterInterface;
 
 final class Timer
 {
-    /**
-     * @var bool
-     */
-    private $isArchivePhpTriggered;
+    private bool $isArchivePhpTriggered;
 
-    /**
-     * @var ClockInterface
-     */
-    private $clock;
+    private ClockInterface $clock;
 
-    /**
-     * @var WriterInterface
-     */
-    private $writer;
+    private WriterInterface $writer;
 
     /**
      * @var array<string, array<string, mixed>>

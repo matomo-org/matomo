@@ -29,7 +29,7 @@ class StylesheetUIAssetMerger extends UIAssetMerger
     /**
      * @var UIAsset[]
      */
-    private $cssAssetsToReplace = array();
+    private array $cssAssetsToReplace = array();
 
     public function __construct($mergedAsset, $assetFetcher, $cacheBuster)
     {

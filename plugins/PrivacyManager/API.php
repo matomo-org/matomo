@@ -39,20 +39,11 @@ use Piwik\Validators\BaseValidator;
  */
 class API extends \Piwik\Plugin\API
 {
-    /**
-     * @var DataSubjects
-     */
-    private $gdpr;
+    private DataSubjects $gdpr;
 
-    /**
-     * @var LogDataAnonymizations
-     */
-    private $logDataAnonymizations;
+    private LogDataAnonymizations $logDataAnonymizations;
 
-    /**
-     * @var LogDataAnonymizer
-     */
-    private $logDataAnonymizer;
+    private LogDataAnonymizer $logDataAnonymizer;
 
     public function __construct(
         DataSubjects $gdpr,

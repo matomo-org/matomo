@@ -35,10 +35,7 @@ class API extends \Piwik\Plugin\API
      */
     public const FILTER_BY_DISAPPEARED = 'disappeared';
 
-    /**
-     * @var Model
-     */
-    private $model;
+    private Model $model;
 
     public function __construct(Model $model)
     {

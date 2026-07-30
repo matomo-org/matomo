@@ -26,10 +26,7 @@ use Piwik\Plugins\Goals\Commands\CalculateConversionPages;
  */
 class Updates_5_0_0_b1 extends PiwikUpdates
 {
-    /**
-     * @var Factory
-     */
-    private $migration;
+    private Factory $migration;
     private $tableName;
     private $indexName;
     private $newIndexName;

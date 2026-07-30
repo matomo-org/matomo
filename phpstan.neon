@@ -46,17 +46,18 @@ parameters:
         -
             identifier: class.extendsFinalByPhpDoc
             path: plugins/Monolog/Formatter/ConsoleFormatter.php
-        # These messages embed an absolute path that differs between environments (local/ddev vs CI),
-        # so they cannot live in the baseline; ignore them by identifier + relative path instead.
-        # The required files are generated at build/install time and are absent from a plain checkout.
-        -
-            identifier: requireOnce.fileNotFound
-            path: core/FileIntegrity.php
-        -
-            identifier: requireOnce.fileNotFound
-            path: core/bootstrap.php
     universalObjectCratesClasses:
         - Piwik\Config
         - Piwik\View
         - Piwik\ViewDataTable\Config
         - Piwik\Session\SessionNamespace
+    # These constants point at the installation directory, so any require() built from them
+    # resolves differently per environment (local/ddev vs CI) and per analysis mode: parallel
+    # workers do not see the bootstrapped values, the single-process analyser does. Treating
+    # them as dynamic keeps requireOnce.fileNotFound from appearing and disappearing, which
+    # an ignore entry cannot follow.
+    dynamicConstantNames:
+        PIWIK_INCLUDE_PATH: string
+        PIWIK_VENDOR_PATH: string
+        PIWIK_DOCUMENT_ROOT: string
+        PIWIK_USER_PATH: string

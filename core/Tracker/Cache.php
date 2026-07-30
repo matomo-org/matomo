@@ -33,9 +33,8 @@ class Cache
 
     /**
      * {@see self::withDelegatedCacheClears()}
-     * @var array
      */
-    private static $delegatedClears = [];
+    private static array $delegatedClears = [];
 
     private static $cacheIdGeneral = 'general';
 

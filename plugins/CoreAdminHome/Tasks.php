@@ -40,20 +40,11 @@ use Piwik\SettingsPiwik;
 class Tasks extends \Piwik\Plugin\Tasks
 {
     public const TRACKING_CODE_CHECK_FLAG = 'trackingCodeExistsCheck';
-    /**
-     * @var ArchivePurger
-     */
-    private $archivePurger;
+    private ArchivePurger $archivePurger;
 
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private LoggerInterface $logger;
 
-    /**
-     * @var Failures
-     */
-    private $trackingFailures;
+    private Failures $trackingFailures;
 
     public function __construct(ArchivePurger $archivePurger, LoggerInterface $logger, Failures $failures)
     {

@@ -16,15 +16,9 @@ use Matomo\Cache\Lazy;
  */
 class LoaderCache implements LoaderInterface
 {
-    /**
-     * @var LoaderInterface
-     */
-    private $loader;
+    private LoaderInterface $loader;
 
-    /**
-     * @var Lazy
-     */
-    private $cache;
+    private Lazy $cache;
 
     public function __construct(LoaderInterface $loader, Lazy $cache)
     {

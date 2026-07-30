@@ -31,8 +31,7 @@ class CampaignParameterValuesMasked implements
 
     public const DISCARDED_CAMPAIGN_PLACEHOLDER = '__discarded_by_policy__';
 
-    /** @var bool */
-    private $value;
+    private bool $value;
 
     protected function __construct(bool $value)
     {
