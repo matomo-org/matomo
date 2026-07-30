@@ -1,22 +1,22 @@
 const { join } = require('path');
-const os = require('os');
 
 /**
- * Pins the exact Chrome for Testing build Puppeteer downloads (on `npm ci`) and launches for UI
- * screenshot tests, so CI and local runs render with the byte-identical browser binary.
+ * Pins the Chrome for Testing version Puppeteer downloads (on `npm ci`) and launches for UI
+ * screenshot tests. CI and local linux/x64 runs (incl. DDEV as amd64 under Rosetta) use the same
+ * binary; native linux/arm64 has no Chrome for Testing build and falls back to a system browser
+ * (see tests/UI/config.dist.js).
  *
  * Bumping this version is a deliberate event: it changes rendering, so ALL expected screenshots
  * (core and plugins) must be re-generated against the new browser.
  */
 module.exports = {
-  // Keep the browser inside the harness directory (like Puppeteer 8's node_modules/.local-chromium)
-  // so it survives DDEV container rebuilds and lives in the same place on CI checkouts.
+  // Keep the browser inside the harness dir so it survives DDEV container rebuilds
+  // (as Puppeteer 8's node_modules/.local-chromium did).
   cacheDirectory: join(__dirname, '.chrome-cache'),
   chrome: {
     version: '150.0.7871.124',
-    // Chrome for Testing publishes no linux/arm64 build; skip the download there so `npm ci`
-    // succeeds (tests/UI/config.dist.js then falls back to a system browser with a warning).
-    skipDownload: os.arch() !== 'x64' && process.platform === 'linux',
+    // No linux/arm64 build exists; skip the download there so `npm ci` succeeds.
+    skipDownload: process.arch !== 'x64' && process.platform === 'linux',
   },
   // Unused: tests run the default "new" headless mode of the full Chrome binary.
   'chrome-headless-shell': { skipDownload: true },
