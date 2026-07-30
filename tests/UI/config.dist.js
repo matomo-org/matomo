@@ -98,10 +98,12 @@ function resolveBrowserExecutablePath() {
         const { computeExecutablePath } = require(
             require.resolve('@puppeteer/browsers', { paths: [puppeteerDir] })
         );
+        // Apply the same environment overrides Puppeteer applies when it downloads the browser,
+        // otherwise the browser gets downloaded to one location and looked for in another.
         const pinnedBrowser = computeExecutablePath({
             browser: 'chrome',
-            buildId: pinnedConfig.chrome.version,
-            cacheDir: pinnedConfig.cacheDirectory,
+            buildId: process.env.PUPPETEER_CHROME_VERSION || pinnedConfig.chrome.version,
+            cacheDir: process.env.PUPPETEER_CACHE_DIR || pinnedConfig.cacheDirectory,
         });
         if (fs.existsSync(pinnedBrowser)) {
             return pinnedBrowser;
