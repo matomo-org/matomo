@@ -69,11 +69,11 @@ exports.processedScreenshotsDir = "./processed-ui-screenshots";
 exports.screenshotDiffDir = "./screenshot-diffs";
 
 /**
- * Resolve the browser executable Puppeteer should launch. Puppeteer 24 otherwise looks for the
- * specific Chrome build it pins (in ~/.cache/puppeteer), which is not provisioned in CI -- the test
- * runner installs a system google-chrome-stable instead. Prefer an explicit
- * PUPPETEER_EXECUTABLE_PATH, then a system Chrome/Chromium, and finally fall back to Puppeteer's own
- * downloaded browser (used on fresh local setups that have neither installed).
+ * Resolve the browser executable Puppeteer should launch. Prefer an explicit
+ * PUPPETEER_EXECUTABLE_PATH, then the Chrome for Testing version pinned in
+ * tests/lib/screenshot-testing/.puppeteerrc.cjs (downloaded by `npm ci` there). A system
+ * Chrome/Chromium is a last resort (e.g. native linux/arm64, which has no Chrome for Testing
+ * build): it renders differently, so UI screenshots generated with it will NOT match CI.
  */
 function resolveBrowserExecutablePath() {
     if (process.env.PUPPETEER_EXECUTABLE_PATH) {
@@ -81,6 +81,33 @@ function resolveBrowserExecutablePath() {
     }
 
     const fs = require('fs');
+    const path = require('path');
+    const harnessDir = path.join(__dirname, '..', 'lib', 'screenshot-testing');
+
+    let pinnedConfig;
+    try {
+        pinnedConfig = require(path.join(harnessDir, '.puppeteerrc.cjs'));
+        // Compute the pinned browser's path from the harness config directly: Puppeteer's own
+        // executablePath() reads .puppeteerrc.cjs relative to process.cwd(), so it misses the pin
+        // when not run from the harness directory (e.g. the JS test runner).
+        const puppeteerDir = path.dirname(
+            require.resolve('puppeteer/package.json', { paths: [harnessDir] })
+        );
+        const { computeExecutablePath } = require(
+            require.resolve('@puppeteer/browsers', { paths: [puppeteerDir] })
+        );
+        const pinnedBrowser = computeExecutablePath({
+            browser: 'chrome',
+            buildId: pinnedConfig.chrome.version,
+            cacheDir: pinnedConfig.cacheDirectory,
+        });
+        if (fs.existsSync(pinnedBrowser)) {
+            return pinnedBrowser;
+        }
+    } catch (e) {
+        // fall through to the system browsers below
+    }
+
     const candidates = [
         '/usr/bin/google-chrome-stable',
         '/usr/bin/google-chrome',
@@ -88,7 +115,19 @@ function resolveBrowserExecutablePath() {
         '/usr/bin/chromium-browser',
     ];
 
-    return candidates.find((candidate) => fs.existsSync(candidate));
+    const systemBrowser = candidates.find((candidate) => fs.existsSync(candidate));
+
+    if (systemBrowser) {
+        const reason = (pinnedConfig && pinnedConfig.chrome.skipDownload)
+            ? 'no Chrome for Testing build exists for this platform'
+            : 'the pinned Chrome for Testing browser was not found (run "npm ci" in '
+                + 'tests/lib/screenshot-testing to download it)';
+        console.warn('WARNING: ' + reason + '. Falling back to the system browser at '
+            + systemBrowser + ' -- any UI screenshots generated with this browser will NOT match '
+            + 'the CI-generated expected ones.');
+    }
+
+    return systemBrowser;
 }
 
 /**
