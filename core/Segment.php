@@ -435,11 +435,23 @@ class Segment
             // then we would join an extra table per segment when we ideally want to join each table only once. However, we still need
             // to see which table/column it joins to join it accurately each table extra if the same table is joined with different columns;
             $tableAlias = $join->getTable() . '_segment_' . str_replace('.', '', $sqlName ?: '');
+
+            $joinConditions = [$sqlName . ' = ' . $tableAlias . '.' . $join->getColumn()];
+
+            // additional key columns scope the join to the same row on both tables (eg the site id),
+            // so a value cannot match a row that only shares the primary join column
+            $sourceTable = strpos((string) $sqlName, '.') !== false ? strstr($sqlName, '.', true) : null;
+            if ($sourceTable !== null) {
+                foreach ($join->getAdditionalKeyColumns() as $keyColumn) {
+                    $joinConditions[] = $sourceTable . '.' . $keyColumn . ' = ' . $tableAlias . '.' . $keyColumn;
+                }
+            }
+
             $joinTable = [
                 'table' => $join->getTable(),
                 'tableAlias' => $tableAlias,
                 'field' => $tableAlias . '.' . $join->getTargetColumn(),
-                'joinOn' => $sqlName . ' = ' . $tableAlias . '.' . $join->getColumn(),
+                'joinOn' => implode(' AND ', $joinConditions),
             ];
 
             if ($dbDiscriminator) {
