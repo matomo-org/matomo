@@ -74,6 +74,14 @@ class CategoryListTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($this->categoryList->getCategory(null));
     }
 
+    public function testCategoryWithZeroIdIsAcceptedAndRetrievable()
+    {
+        $category = $this->addCategory('0');
+
+        $this->assertTrue($this->categoryList->hasCategory('0'));
+        $this->assertSame($category, $this->categoryList->getCategory('0'));
+    }
+
     public function testHasCategoryShouldDetectIfCategoryExists()
     {
         $this->assertFalse($this->categoryList->hasCategory('myTest'));

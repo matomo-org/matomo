@@ -27,7 +27,7 @@ class CategoryList
     {
         $categoryId = $category->getId();
 
-        if (empty($categoryId)) {
+        if ($categoryId === null || $categoryId === '') {
             throw new \Exception('Category without an id cannot be added');
         }
 

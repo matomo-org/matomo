@@ -192,6 +192,16 @@ class CategoryTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($this->category->getSubcategory(null));
     }
 
+    public function testSubcategoryWithZeroIdIsAcceptedAndRetrievable()
+    {
+        $subcategory = $this->createSubcategory('0', 'zeroIdName');
+
+        $this->category->addSubcategory($subcategory);
+
+        $this->assertTrue($this->category->hasSubcategory('0'));
+        $this->assertSame($subcategory, $this->category->getSubcategory('0'));
+    }
+
     private function addSubcategories($subcategories)
     {
         foreach ($subcategories as $id => $name) {

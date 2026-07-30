@@ -33,7 +33,7 @@ class Subcategory
      * For example you might want to have the actual GoalId (eg '4') in the URL but the actual goal name in the
      * submenu (eg 'Downloads'). In this case one should specify `$id=4;$name='Downloads'`.
      *
-     * @var string eg 'General_Overview' or 'VisitTime_ByServerTimeWidgetName'.
+     * @var string|null eg 'General_Overview' or 'VisitTime_ByServerTimeWidgetName'.
      */
     protected $id = '';
 
@@ -60,7 +60,7 @@ class Subcategory
     /**
      * Sets (overwrites) the id of the subcategory see {@link $id}.
      *
-     * @param string $id A translation key eg 'General_Overview'.
+     * @param string|null $id A translation key eg 'General_Overview'.
      * @return static
      */
     public function setId($id)
@@ -71,7 +71,7 @@ class Subcategory
 
     /**
      * Get the id of the subcategory.
-     * @return string
+     * @return string|null
      */
     public function getId()
     {

@@ -31,7 +31,7 @@ class Category
      * {@link Piwik\Plugin\Report::getCategoryId()}. The id is used as the name in the menu and will be visible in the
      * URL.
      *
-     * @var string Should be a translation key, eg 'General_Visits'
+     * @var string|null Should be a translation key, eg 'General_Visits'
      */
     protected $id = '';
 
@@ -92,12 +92,19 @@ class Category
         return $this->order;
     }
 
+    /**
+     * @param string|null $id A translation key, eg 'General_Visits'
+     * @return static
+     */
     public function setId($id)
     {
         $this->id = $id;
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getId()
     {
         return $this->id;
@@ -157,7 +164,7 @@ class Category
     {
         $subcategoryId = $subcategory->getId();
 
-        if (empty($subcategoryId)) {
+        if ($subcategoryId === null || $subcategoryId === '') {
             throw new \Exception(sprintf('Subcategory without an id cannot be added to category %s', $this->getId()));
         }
 
