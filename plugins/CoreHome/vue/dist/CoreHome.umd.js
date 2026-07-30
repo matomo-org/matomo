@@ -10998,12 +10998,34 @@ var __async = (__this, __arguments, generator) => {
    * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
    */
   const { $: $$6 } = window;
+  function findActionDataTable(element) {
+    const $element = $$6(element);
+    const $dataTable = $element.closest("[data-report]");
+    if ($dataTable.length) {
+      return $dataTable;
+    }
+    const dataTableId = $element.closest("[data-datatable-id]").attr("data-datatable-id");
+    return dataTableId ? $$6(`#${dataTableId}`) : $$6();
+  }
+  function isBooleanLikeSet(value) {
+    return !!value && value !== "0";
+  }
+  function resolveExportSupportsFlat(reportSupportsFlatten, flatParam) {
+    return reportSupportsFlatten || isBooleanLikeSet(flatParam);
+  }
+  /*!
+   * Matomo - free/libre analytics platform
+   *
+   * @link    https://matomo.org
+   * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+   */
+  const { $: $$5 } = window;
   const ReportExport = {
     mounted(el, binding) {
       el.addEventListener("click", () => {
         var _a2;
         const popoverParamBackup = instance$1.hashParsed.value.popover;
-        const dataTable = $$6(el).closest("[data-report]").data("uiControlObject");
+        const dataTable = findActionDataTable(el).data("uiControlObject");
         const popover = window.Piwik_Popover.showLoading("Export");
         const formats = binding.value.reportFormats;
         let reportLimit = dataTable.param.filter_limit;
@@ -11079,7 +11101,7 @@ var __async = (__this, __arguments, generator) => {
         });
         setTimeout(() => {
           popover.dialog();
-          $$6(".exportFullUrl, .btn", popover).tooltip({
+          $$5(".exportFullUrl, .btn", popover).tooltip({
             track: true,
             show: false,
             hide: false
@@ -11343,7 +11365,7 @@ var __async = (__this, __arguments, generator) => {
       unregisterResponsiveContentTable(el);
     }
   };
-  const { $: $$5 } = window;
+  const { $: $$4 } = window;
   const _sfc_main$7 = vue.defineComponent({
     props: {
       formData: {
@@ -11367,7 +11389,7 @@ var __async = (__this, __arguments, generator) => {
     },
     emits: ["update:modelValue"],
     mounted() {
-      $$5(this.$refs.root).on("click", "input[type=submit]", () => {
+      $$4(this.$refs.root).on("click", "input[type=submit]", () => {
         this.submitForm();
       });
     },
@@ -11430,19 +11452,6 @@ var __async = (__this, __arguments, generator) => {
     return vue.renderSlot(_ctx.$slots, "default");
   }
   const Passthrough = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["render", _sfc_render$6]]);
-  /*!
-   * Matomo - free/libre analytics platform
-   *
-   * @link    https://matomo.org
-   * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
-   */
-  function isBooleanLikeSet(value) {
-    return !!value && value !== "0";
-  }
-  function resolveExportSupportsFlat(reportSupportsFlatten, flatParam) {
-    return reportSupportsFlatten || isBooleanLikeSet(flatParam);
-  }
-  const { $: $$4 } = window;
   function getSingleStateIconText(text, addDefault, replacement) {
     if (/(%(.\$)?s+)/g.test(translate(text))) {
       const values = ['<br /><span class="action">'];
@@ -11534,13 +11543,7 @@ var __async = (__this, __arguments, generator) => {
     },
     methods: {
       showExportImage(event) {
-        const $target = $$4(event.target);
-        let $dataTable = $target.closest(".dataTable");
-        if (!$dataTable.length) {
-          const dataTableId = $target.closest("[data-datatable-id]").attr("data-datatable-id");
-          $dataTable = $$4(`#${dataTableId}`);
-        }
-        $dataTable.find("div.jqplot-target").trigger("piwikExportAsImage");
+        findActionDataTable(event.target).find("div.jqplot-target").trigger("piwikExportAsImage");
       }
     },
     computed: {

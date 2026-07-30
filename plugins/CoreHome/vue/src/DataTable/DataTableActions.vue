@@ -234,7 +234,11 @@ import Passthrough from '../Passthrough/Passthrough.vue';
 import DropdownButton from '../DropdownButton/DropdownButton';
 import ReportExport from '../ReportExport/ReportExport';
 import { translate } from '../translate';
-import { isBooleanLikeSet, resolveExportSupportsFlat } from './DataTableActions.utils';
+import {
+  findActionDataTable,
+  isBooleanLikeSet,
+  resolveExportSupportsFlat,
+} from './DataTableActions.utils';
 
 interface FooterIcon {
   id: string;
@@ -350,17 +354,9 @@ export default defineComponent({
   },
   methods: {
     showExportImage(event: Event) {
-      const $target = $(event.target as HTMLElement);
-      let $dataTable = $target.closest('.dataTable');
-
-      if (!$dataTable.length) {
-        // on a full-page report this action row was moved into the report header, outside the
-        // datatable it belongs to, and carries its id (see dataTable.js)
-        const dataTableId = $target.closest('[data-datatable-id]').attr('data-datatable-id');
-        $dataTable = $(`#${dataTableId}`);
-      }
-
-      $dataTable.find('div.jqplot-target').trigger('piwikExportAsImage');
+      findActionDataTable(event.target as HTMLElement)
+        .find('div.jqplot-target')
+        .trigger('piwikExportAsImage');
     },
   },
   computed: {

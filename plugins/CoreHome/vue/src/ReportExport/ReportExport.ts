@@ -11,6 +11,7 @@ import { translate } from '../translate';
 import ReportExportPopover from './ReportExportPopover.vue';
 import Matomo from '../Matomo/Matomo';
 import createVueApp from '../createVueApp';
+import { findActionDataTable } from '../DataTable/DataTableActions.utils';
 
 export interface ReportExportArgs {
   reportTitle: string;
@@ -29,7 +30,7 @@ export default {
     el.addEventListener('click', () => {
       const popoverParamBackup = MatomoUrl.hashParsed.value.popover;
 
-      const dataTable = $(el).closest('[data-report]').data('uiControlObject');
+      const dataTable = findActionDataTable(el).data('uiControlObject');
       const popover = window.Piwik_Popover.showLoading('Export');
 
       const formats = binding.value.reportFormats;
