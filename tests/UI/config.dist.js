@@ -89,7 +89,9 @@ function resolveBrowserExecutablePath() {
         pinnedConfig = require(path.join(harnessDir, '.puppeteerrc.cjs'));
         // Compute the pinned browser's path from the harness config directly: Puppeteer's own
         // executablePath() reads .puppeteerrc.cjs relative to process.cwd(), so it misses the pin
-        // when not run from the harness directory (e.g. the JS test runner).
+        // when not run from the harness directory (e.g. the JS test runner). @puppeteer/browsers is
+        // deliberately resolved through Puppeteer's own tree rather than declared as a dependency
+        // here, so it always matches the exact version the installed Puppeteer pins.
         const puppeteerDir = path.dirname(
             require.resolve('puppeteer/package.json', { paths: [harnessDir] })
         );
