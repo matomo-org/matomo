@@ -110,7 +110,6 @@
         "SystemCheckFunctions": "Vyžadované funkce",
         "SystemCheckGDFreeType": "GT &gt; 2.x + Freetype (grafika)",
         "SystemCheckGDHelp": "Prskavky (malé grafy) a obrázkové grafy (v mobilní aplikaci Matomo a e-mailových zprávách) nebudou fungovat.",
-        "SystemCheckGlobHelp": "Tato vestavěná funkce byla na vašem hostiteli vypnuta. Matomo se pokusí tuto funkci emulovat, ale můžete zaznamenat další bezpečnostní omezení. Toto může mít vliv na fungování.",
         "SystemCheckGzcompressHelp": "Je třeba zapnout rozšíření zlib a funkci gzcompress.",
         "SystemCheckGzuncompressHelp": "Je třeba zapnout rozšíření zlib a funkci gzuncompress.",
         "SystemCheckHashHelp": "Konfigurace a obnovení PHP s požadovanou podporou hash() vyloučením volby --disable-hash.",

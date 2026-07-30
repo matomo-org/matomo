@@ -237,7 +237,7 @@ describe("Overlay", function () {
             await icon.click()
         ]);
 
-        await popup.waitForTimeout(2500);
+        await new Promise(resolve => setTimeout(resolve, 2500));
 
         await removeOptOutIframe(popup);
 

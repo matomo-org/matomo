@@ -364,7 +364,7 @@ class Updater
             }
 
             if (!empty($pathToUpdates)) {
-                $files = _glob($pathToUpdates);
+                $files = glob($pathToUpdates);
                 if ($files == false) {
                     $files = array();
                 }

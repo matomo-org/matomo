@@ -189,21 +189,31 @@ describe("PagePerformance", function () {
   });
 
   it("should not show row evolution icon for subtable rows in Behaviour > Performance", async function () {
-    // Check page url report
-    let subtableLabel = await page.waitForSelector(pageUrlsReportId + ' tr.subDataTable .label');
-    await subtableLabel.click();
-
+    // Check the subtable parent row shows its row actions on hover, before expanding it.
     let rowWithSubtable = await page.waitForSelector(pageUrlsReportId + ' tr.subDataTable');
-    let rowActionsSubtable = await rowWithSubtable.$('td .dataTableRowActions');
-    expect(rowActionsSubtable).to.not.equal(null);
-
-    let rowActionLinks = await rowActionsSubtable.$$('.dataTableRowActions a');
+    // Scroll the row to the centre so it is not hidden behind the sticky table header (otherwise the
+    // hover lands on the header), move the mouse away so a fresh mouseenter fires (row actions are
+    // added on mouseenter), then wait for the actions in the live DOM via a page-level selector --
+    // an element-scoped waitForSelector does not reliably observe them being inserted under Chrome 149.
+    await rowWithSubtable.evaluate(el => el.scrollIntoView({ block: 'center' }));
+    await page.mouse.move(0, 0);
+    await rowWithSubtable.hover();
+    await page.waitForSelector(pageUrlsReportId + ' tr.subDataTable .dataTableRowActions');
+    let rowActionLinks = await rowWithSubtable.$$('.dataTableRowActions a');
     expect(rowActionLinks.length).to.equal(2);
 
-    // hover first row
+    // Expand the subtable. A synthesised mouse click can miss and trigger a column sort instead of
+    // expanding under the modern headless Chrome, so use a JS click which reliably triggers it.
+    let subtableLabel = await rowWithSubtable.$('.label');
+    await subtableLabel.evaluate(el => el.click());
+    await page.waitForNetworkIdle();
+
+    // hover first sub row
     let row = await page.waitForSelector(pageUrlsReportId + ' tr.subDataTable.level0 + tr.level1');
+    await row.evaluate(el => el.scrollIntoView({ block: 'center' }));
+    await page.mouse.move(0, 0);
     await row.hover();
-    await page.waitForTimeout(50);
+    await page.waitForSelector(pageUrlsReportId + ' tr.subDataTable.level0 + tr.level1 .dataTableRowActions a');
     rowActionLinks = await row.$$('.dataTableRowActions a');
     expect(rowActionLinks.length).to.equal(4);
 

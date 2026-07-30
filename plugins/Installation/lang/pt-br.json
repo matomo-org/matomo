@@ -110,7 +110,6 @@
         "SystemCheckFunctions": "Funções requeridas",
         "SystemCheckGDFreeType": "GD &gt; 2.x + Freetype (gráficos)",
         "SystemCheckGDHelp": "Os minigráficos e os gráficos de imagem (no aplicativo móvel Matomo e nos relatórios por e-mail) não funcionarão.",
-        "SystemCheckGlobHelp": "Esta função integrada foi desativada em seu host. Matomo tentará emular a função, mas poderá encontrar restrições de segurança. A funcionalidade poderá ser afetada.",
         "SystemCheckGzcompressHelp": "Você precisa ativar a extensão zlib e a função gzcompress.",
         "SystemCheckGzuncompressHelp": "Você precisa ativar a extensão zlib e a função gzuncompress.",
         "SystemCheckHashHelp": "Configure e reconstrua o PHP com o suporte necessário para hash() excluindo a opção --disable-hash.",

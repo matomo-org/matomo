@@ -13,7 +13,7 @@ use Exception;
 use Piwik\Common;
 use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
-use Piwik\DataTable\Renderer\Json;
+use Piwik\Http\JsonResponse;
 use Piwik\Date;
 use Piwik\Filesystem;
 use Piwik\Log;
@@ -157,10 +157,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         ));
     }
 
-    public function getPaidPluginsToInstallAtOnceParams()
+    #[JsonResponse]
+    public function getPaidPluginsToInstallAtOnceParams(): string
     {
         Piwik::checkUserHasSuperUserAccess();
-        Json::sendHeaderJSON();
 
         if (!$this->isInstallAllPaidPluginsVisible()) {
             return json_encode([]);
@@ -294,6 +294,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         return $view->render();
     }
 
+    #[JsonResponse]
     public function updateOverview(): string
     {
         Piwik::checkUserIsNotAnonymous();
@@ -304,10 +305,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'isValidConsumer' => $this->consumer->isValidConsumer(),
         ];
 
-        Json::sendHeaderJSON();
         return json_encode($updateData);
     }
 
+    #[JsonResponse]
     public function searchPlugins(): string
     {
         Piwik::checkUserIsNotAnonymous();
@@ -338,7 +339,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             }
         }
 
-        Json::sendHeaderJSON();
         return json_encode($plugins);
     }
 

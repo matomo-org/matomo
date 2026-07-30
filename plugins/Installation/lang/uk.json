@@ -110,7 +110,6 @@
         "SystemCheckFunctions": "Необхідні функції",
         "SystemCheckGDFreeType": "GD &gt; 2.x + FreeType (графіка)",
         "SystemCheckGDHelp": "Мінідіаграми (невеликі графіки) та графіки зображень (у мобільному застосунку Matomo та звітах електронною поштою) не працюватимуть.",
-        "SystemCheckGlobHelp": "Цю вбудовану функцію вимкнено на вашому хості. Matomo спробує емулювати цю функцію, але може зіткнутися з додатковими обмеженнями безпеки. Це може вплинути на функціональність.",
         "SystemCheckGzcompressHelp": "Необхідно увімкнути розширення zlib і функцію gzcompress.",
         "SystemCheckGzuncompressHelp": "Необхідно увімкнути розширення zlib і функцію gzuncompress.",
         "SystemCheckHashHelp": "Налаштуйте та перебудуйте PHP з підтримкою hash(), не використавши --disable-hash.",

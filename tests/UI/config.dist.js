@@ -69,8 +69,81 @@ exports.processedScreenshotsDir = "./processed-ui-screenshots";
 exports.screenshotDiffDir = "./screenshot-diffs";
 
 /**
+ * Resolve the browser executable Puppeteer should launch. Prefer an explicit
+ * PUPPETEER_EXECUTABLE_PATH, then the Chrome for Testing version pinned in
+ * tests/lib/screenshot-testing/.puppeteerrc.cjs (downloaded by `npm ci` there). A system
+ * Chrome/Chromium is a last resort (e.g. native linux/arm64, which has no Chrome for Testing
+ * build): it renders differently, so UI screenshots generated with it will NOT match CI.
+ */
+function resolveBrowserExecutablePath() {
+    if (process.env.PUPPETEER_EXECUTABLE_PATH) {
+        return process.env.PUPPETEER_EXECUTABLE_PATH;
+    }
+
+    const fs = require('fs');
+    const path = require('path');
+    const harnessDir = path.join(__dirname, '..', 'lib', 'screenshot-testing');
+
+    let pinnedConfig;
+    try {
+        pinnedConfig = require(path.join(harnessDir, '.puppeteerrc.cjs'));
+        // Compute the pinned browser's path from the harness config directly: Puppeteer's own
+        // executablePath() reads .puppeteerrc.cjs relative to process.cwd(), so it misses the pin
+        // when not run from the harness directory (e.g. the JS test runner).
+        const puppeteerDir = path.dirname(
+            require.resolve('puppeteer/package.json', { paths: [harnessDir] })
+        );
+        const { computeExecutablePath } = require(
+            require.resolve('@puppeteer/browsers', { paths: [puppeteerDir] })
+        );
+        const pinnedBrowser = computeExecutablePath({
+            browser: 'chrome',
+            buildId: pinnedConfig.chrome.version,
+            cacheDir: pinnedConfig.cacheDirectory,
+        });
+        if (fs.existsSync(pinnedBrowser)) {
+            return pinnedBrowser;
+        }
+    } catch (e) {
+        // fall through to the system browsers below
+    }
+
+    const candidates = [
+        '/usr/bin/google-chrome-stable',
+        '/usr/bin/google-chrome',
+        '/usr/bin/chromium',
+        '/usr/bin/chromium-browser',
+    ];
+
+    const systemBrowser = candidates.find((candidate) => fs.existsSync(candidate));
+
+    if (systemBrowser) {
+        const reason = (pinnedConfig && pinnedConfig.chrome.skipDownload)
+            ? 'no Chrome for Testing build exists for this platform'
+            : 'the pinned Chrome for Testing browser was not found (run "npm ci" in '
+                + 'tests/lib/screenshot-testing to download it)';
+        console.warn('WARNING: ' + reason + '. Falling back to the system browser at '
+            + systemBrowser + ' -- any UI screenshots generated with this browser will NOT match '
+            + 'the CI-generated expected ones.');
+    }
+
+    return systemBrowser;
+}
+
+/**
  * The config object passed to the headless browser used by Puppeteer
  */
-exports.browserConfig = {
-    args: ['--no-sandbox', '--ignore-certificate-errors']
+const browserConfig = {
+    args: ['--no-sandbox', '--ignore-certificate-errors'],
+    // Puppeteer 24 defaults protocolTimeout to 180s, which is below the 240s mocha test timeout, so
+    // a slow CDP call (e.g. a screenshot or evaluate on a heavy page under CI load) can abort a test
+    // with a ProtocolError before mocha's own timeout applies. Raise it so the mocha timeout governs.
+    protocolTimeout: 300000
 };
+
+const browserExecutablePath = resolveBrowserExecutablePath();
+if (browserExecutablePath) {
+    browserConfig.executablePath = browserExecutablePath;
+}
+
+exports.browserConfig = browserConfig;

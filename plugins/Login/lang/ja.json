@@ -64,6 +64,9 @@
         "SuspiciousLoginAttemptsInLastHourEmail4": "2 要素認証を設定して、攻撃者がログインするためにパスワード以外のものが必要になるようにします。",
         "SuspiciousLoginAttemptsInLastHourEmail5": "Matomo のユーザーのセットが限られている場合、またはユーザーがアクセスする IP アドレスのセットが制限されている場合、ブロックしないように IP アドレスのリストを設定します。 詳細については、%1$sドキュメントを参照してください。%2$s",
         "SuspiciousLoginAttemptsInLastHourEmailSubject": "あなたのユーザー名を使用して不審なログイン試行が行われました…",
+        "TimeOfLogin": "ログイン日時",
+        "TokenAuthenticationFailed": "指定されたトークンでの認証に失敗しました。トークンが無効か、有効期限が切れている可能性があります。",
+        "TokenAuthenticationFailedInsecure": "指定されたトークンでの認証に失敗しました。トークンが無効であるか、有効期限が切れているか、あるいはPOSTパラメータまたはHTTP Authorizationヘッダーとして送信する必要があるためです。「セキュアなリクエストのみ許可」オプションを指定してトークンが作成された場合、そのトークンはPOSTパラメータまたはHTTP Authorizationヘッダーとして送信する必要があります。",
         "UnblockAllIPs": "ブロックされたすべての IP のブロックを解除する",
         "WrongPasswordEntered": "パスワードを入力してください。"
     }

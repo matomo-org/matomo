@@ -97,7 +97,7 @@ class Request
     public function changeParam($name, $newValue)
     {
         $url = $this->getUrl();
-        $url = preg_replace('/([&?])' . preg_quote($name) . '=[^&]*/', '$1' . $name . '=' . $newValue, $url);
+        $url = preg_replace('/([&?])' . preg_quote($name, '/') . '=[^&]*/', '$1' . $name . '=' . $newValue, $url);
         $this->setUrl($url);
     }
 }

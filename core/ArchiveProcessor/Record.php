@@ -98,6 +98,9 @@ class Record
      */
     private $legacyHierarchyToFlatReducerCallback = null;
 
+    /**
+     * @return self
+     */
     public static function make($type, $name)
     {
         $record = new Record();

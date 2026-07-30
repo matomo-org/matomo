@@ -14,8 +14,15 @@
 }
 
 .periodColumns__column {
-  flex: auto;
+  // flex: 1 (an even 1fr-style share, basis 0) not flex: auto (basis = content width): the columns
+  // must be equal width regardless of content so the separator stays centered — a wider value or an
+  // evolution badge in one period must not push the divider off-centre.
+  flex: 1;
   min-width: 0;
+
+  // Query container so each column's MetricValue sizes to the column width (the nearest container to
+  // the readout, overriding the card frame). See MetricValue.less.
+  container-type: inline-size;
 }
 
 // Divider between adjacent columns. A real element (not a positional sibling selector) so its

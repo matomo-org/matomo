@@ -64,7 +64,6 @@
         "SystemCheckFunctions": "Mga kinakailangang function",
         "SystemCheckGDFreeType": "GD &gt; 2.x + Freetype (graphics)",
         "SystemCheckGDHelp": "Ang sparklines (maliit na mga graph) at graph ng imahe (sa app at Email ulat ng Matomo Mobile) ay hindi gagana.",
-        "SystemCheckGlobHelp": "Ang mga gawa ng function na ito ay hindi gumagana sa iyong host. Ang Matomo ay susubukan na ito ay gayahin ngunit maaring magkaroon ng karagdagang paghihipit sa seguridad. Ang functionality nito ay lubos na maapektuhan.",
         "SystemCheckGzcompressHelp": "Kailangan mong i-enable ang zlib extension at gzcompress function.",
         "SystemCheckGzuncompressHelp": "Kailangan mong i-enable ang zlib extension at gzuncompress function.",
         "SystemCheckMailHelp": "Ang Feedback at mga mensahe ng Nawalang Password ay hindi ipapadala nang walang mail ().",

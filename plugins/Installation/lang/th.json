@@ -49,7 +49,6 @@
         "SystemCheckFileIntegrity": "ความสมบูรณ์ของไฟล์",
         "SystemCheckFunctions": "จำเป็นต้องใช้ฟังก์ชัน",
         "SystemCheckGDHelp": "sparklines (กราฟเล็กๆ)จะไม่ทำงาน",
-        "SystemCheckGlobHelp": "ฟังก์ชันที่มีอยู่ภายในนี้ได้ถูกปิดการใช้งานบนโฮสต์ของคุณ Matomo จะพยายามทำการจำลองฟังก์ชันนี้ แต่อาจพบเพิ่มเติมข้อบังคับด้านความปลอดภัย ฟังก์ชันการทำงานอาจจะโดนผลกระทบ",
         "SystemCheckGzcompressHelp": "คุณต้องเปิดใช้ส่วนขยาย zlib และฟังก์ชั่น gzcompress",
         "SystemCheckGzuncompressHelp": "คุณต้องเปิดใช้ส่วนขยาย zlib และฟังก์ชั่น gzuncompress",
         "SystemCheckMailHelp": "ความคิดเห็นและลืมรหัสผ่านจะไม่สามารถส่งข้อความโดยไม่ต้องรวมกับ mail()",

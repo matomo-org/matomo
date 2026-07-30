@@ -13,7 +13,7 @@ use Exception;
 use Piwik\API\ResponseBuilder;
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\DataTable\Renderer\Json;
+use Piwik\Http\JsonResponse;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\SitesManager\SiteContentDetection\Matomo;
@@ -128,23 +128,39 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         return $toReturn;
     }
 
+    /**
+     * Dismisses the no-data message and redirects back to the dashboard. Used by the standalone
+     * empty-site page's link (a full-page navigation) and as the reporting UI's fallback when its
+     * Ajax dismissal fails. The reporting UI itself dismisses via {@see self::dismissNoDataMessage()}.
+     */
     public function ignoreNoDataMessage()
     {
         Piwik::checkUserHasSomeViewAccess();
 
-        $session = new Session\SessionNamespace('siteWithoutData');
-        $session->ignoreMessage = true;
-        $session->setExpirationSeconds($oneHour = 60 * 60);
-
-        // The reporting UI dismisses via Ajax and stays in place; only non-Ajax (bookmarked) requests
-        // still need redirecting back to the dashboard.
-        if (Common::isXmlHttpRequest()) {
-            Json::sendHeaderJSON();
-            return json_encode(['result' => 'success']);
-        }
+        $this->markNoDataMessageIgnored();
 
         $url = Url::getCurrentUrlWithoutQueryString() . Url::getCurrentQueryStringWithParametersModified(array('module' => 'CoreHome', 'action' => 'index'));
         Url::redirectToUrl($url);
+    }
+
+    /**
+     * Dismisses the no-data message for the reporting UI, which stays on the page. Returns JSON.
+     */
+    #[JsonResponse]
+    public function dismissNoDataMessage(): string
+    {
+        Piwik::checkUserHasSomeViewAccess();
+
+        $this->markNoDataMessageIgnored();
+
+        return json_encode(['result' => 'success']);
+    }
+
+    private function markNoDataMessageIgnored(): void
+    {
+        $session = new Session\SessionNamespace('siteWithoutData');
+        $session->ignoreMessage = true;
+        $session->setExpirationSeconds($oneHour = 60 * 60);
     }
 
     public function siteWithoutData()
@@ -161,15 +177,16 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      * Ajax endpoint for the reporting UI gate: returns a JSON boolean (true = show the tracker-setup
      * screen). Requires view access. See SitesManager::shouldShowEmptySiteMessage().
      */
-    public function getSiteEmptyState()
+    #[JsonResponse]
+    public function getSiteEmptyState(): string
     {
         $this->checkSitePermission();
 
-        Json::sendHeaderJSON();
         return json_encode(SitesManager::shouldShowEmptySiteMessage((int) $this->idSite));
     }
 
-    public function getTrackingMethodsForSite()
+    #[JsonResponse]
+    public function getTrackingMethodsForSite(): string
     {
         $this->checkSitePermission();
 
@@ -304,20 +321,19 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             unset($trackingMethods[$matomoIndex]);
         }
 
-        Json::sendHeaderJSON();
-        echo json_encode([
+        return json_encode([
             'trackingMethods' => $trackingMethods,
             'recommendedMethod' => $recommendedMethod,
             // The standalone page gets this as a template variable; the SPA gate has to fetch it.
             'ctaContent' => $this->renderSiteWithoutDataCta(),
         ]);
-        exit;
     }
 
     private function renderSiteWithoutDataCta(): string
     {
         $view = new View('@SitesManager/_siteWithoutDataCta');
         $view->inviteUserLink = $this->getInviteUserLink();
+        $view->sendHeadersWhenRendering = false;
         return $view->render();
     }
 

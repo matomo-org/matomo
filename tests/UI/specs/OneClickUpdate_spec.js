@@ -10,7 +10,6 @@
 var fs = require('fs'),
   path = require('../../lib/screenshot-testing/support/path');
 
-const request = require('request-promise');
 const exec = require('child_process').exec;
 
 describe("OneClickUpdate", function () {
@@ -19,32 +18,14 @@ describe("OneClickUpdate", function () {
     const latestStableUrl = config.piwikUrl + '/latestStableInstall/index.php';
     const settingsUrl = latestStableUrl + '?module=CoreAdminHome&action=home&idSite=1&period=day&date=yesterday';
 
-    async function openHttpsFailureScreen() {
-        // Recreate the HTTPS failure state directly so the rest of the test
-        // does not depend on browser history or transport-specific behavior.
-        await page.evaluate((oneClickResultsUrl) => {
-            const form = document.createElement('form');
-            form.method = 'POST';
-            form.action = oneClickResultsUrl;
-
-            [
-                ['httpsFail', '1'],
-                ['error', 'Simulated SSL certificate failure'],
-                ['messages', 'a:0:{}'],
-            ].forEach(([name, value]) => {
-                const input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = name;
-                input.value = value;
-                form.appendChild(input);
-            });
-
-            document.body.appendChild(form);
-            form.submit();
-        }, latestStableUrl + '?module=CoreUpdater&action=oneClickResults');
-
+    async function openUpdateScreen() {
+        await page.goto(settingsUrl);
         await page.waitForNetworkIdle();
-        await page.waitForSelector('#updateUsingHttp', { visible: true });
+        await page.waitForSelector('#header_message', { visible: true });
+
+        await page.click('#header_message');
+        await page.waitForNetworkIdle();
+        await page.waitForSelector('#updateAutomatically', { visible: true });
     }
 
     before(async function () {
@@ -88,33 +69,40 @@ describe("OneClickUpdate", function () {
         expect(await page.screenshot({ fullPage: true })).to.matchImage('update_screen');
     });
 
-    it('should fail to automatically update when trying to update over https fails', async function () {
-        await openHttpsFailureScreen();
-        expect(await page.$('#updateUsingHttp')).to.be.ok;
-        expect(await page.$('#updateUsingHttps')).to.be.ok;
-        expect(await page.$('.alert-warning')).to.be.ok;
-    });
-
     it('should fail when a directory is not writable', async function () {
-        await openHttpsFailureScreen();
-        // Force the updater to hit the writable-directory error path.
+        // Open the update screen while everything is still writable, so canAutoUpdate() shows the
+        // automatic-update button, then make core read-only so the update fails while installing the
+        // new files. force_matomo_http_request is enabled for the test install, so the archive is
+        // fetched over HTTP without the removed fallback screen.
+        await openUpdateScreen();
         fs.chmodSync(path.join(PIWIK_INCLUDE_PATH, '/latestStableInstall/core'), 0o555);
-        await page.click('#updateUsingHttp');
+        await page.click('#updateAutomatically');
+        // Let the updater navigation settle, then read the heading with waitForFunction rather than a
+        // bare $eval so an in-flight navigation can't destroy the execution context.
+        await page.waitForNetworkIdle();
         await page.waitForSelector('.alert-danger', { visible: true });
-        const heading = await page.$eval('.header h1', node => node.textContent);
-        expect(heading).to.match(/update error/i);
+        await page.waitForFunction(() => {
+            const h = document.querySelector('.header h1');
+            return !!h && /update error/i.test(h.textContent);
+        });
         expect(await page.$('.alert-danger')).to.be.ok;
         expect(await page.$('.footer a')).to.be.ok;
     });
 
     it('should update successfully and show the finished update screen', async function () {
-        await openHttpsFailureScreen();
         // Restore permissions so the same flow can complete successfully.
         fs.chmodSync(path.join(PIWIK_INCLUDE_PATH, '/latestStableInstall/core'), 0o777);
-        await page.click('#updateUsingHttp');
+        await openUpdateScreen();
+        await page.click('#updateAutomatically');
+        // The successful update self-submits through several updater steps; wait for those navigations
+        // to settle and read the heading with waitForFunction rather than a bare $eval, which otherwise
+        // races an in-flight navigation and the execution context is destroyed.
+        await page.waitForNetworkIdle();
         await page.waitForSelector('.footer a', { visible: true });
-        const heading = await page.$eval('.header h1', node => node.textContent);
-        expect(heading).to.match(/successfully updated/i);
+        await page.waitForFunction(() => {
+            const h = document.querySelector('.header h1');
+            return !!h && /successfully updated/i.test(h.textContent);
+        });
         expect(await page.$('.footer a')).to.be.ok;
     });
 
@@ -149,14 +137,13 @@ describe("OneClickUpdate", function () {
         // track one action
         const trackerUrl = config.piwikUrl + "latestStableInstall/piwik.php?";
 
-        await request({
+        await fetch(trackerUrl, {
             method: 'POST',
-            uri: trackerUrl,
-            form: {
+            body: new URLSearchParams({
                 idsite: 1,
                 url: 'http://piwik.net/test/url',
                 action_name: 'test page',
-            },
+            }),
         });
 
         // run cron archiving

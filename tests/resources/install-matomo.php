@@ -166,6 +166,9 @@ $config->General['trusted_hosts'] = [
     'localhost',
     '127.0.0.1',
 ];
+// The UI test web server only serves HTTP. The One Click Update forces HTTPS unless this option is
+// enabled, so allow HTTP here to let the update archive be fetched from the local (HTTP-only) server.
+$config->General['force_matomo_http_request'] = 1;
 $config->Cache['backend'] = 'file';
 $config->forceSave();
 

@@ -62,6 +62,10 @@
         'date',
         'period',
         'segment',
+        // Extra segment intersected at the visit level by Live\Model (see Model::queryLogVisits
+        // $intersectSegment). Like `segment` it is a segment definition validated server-side by
+        // the Segment class, so it grants no capability beyond the already-allowed `segment` key.
+        'intersectSegment',
     ];
 
     // Filter a parsed extraParams object against the allowlist. Returns a new
@@ -89,27 +93,45 @@
     };
 
     DataTable_RowActions_SegmentVisitorLog.prototype.trigger = function (tr, e, subTableLabel) {
-        var segment = getRawSegmentValueFromRow(tr);
+        var clickedSegment = getRawSegmentValueFromRow(tr);
+        var currentSegment = this.dataTable.param.segment || '';
+        var suffix = this.dataTable.props.segmented_visitor_log_segment_suffix || '';
+        var extraParams = {};
 
-        if (this.dataTable.param.segment) {
-            segment = decodeURIComponent(this.dataTable.param.segment) + ';' + segment;
+        // The main segment is the report's own context: its current segment (if any) plus any
+        // report-defined suffix, ANDed together at the action level. The clicked row's segment is
+        // always intersected at the visit level instead (see Model::queryLogVisits $intersectSegment),
+        // so a same-dimension condition — e.g. current pageUrl==X with clicked pageUrl==Y — is not
+        // collapsed onto a single action row, which would match nothing.
+        var parts = [];
+        if (currentSegment) {
+            parts.push(decodeURIComponent(currentSegment));
+        }
+        if (suffix) {
+            parts.push(suffix);
+        }
+        var segment = parts.join(';');
+
+        if (segment) {
+            extraParams.intersectSegment = clickedSegment;
+        } else {
+            // No report context at all: the clicked segment is the whole segment. Evaluating it at
+            // the action level is fine here because there is no other condition to collide with.
+            segment = clickedSegment;
         }
 
-        if (this.dataTable.props.segmented_visitor_log_segment_suffix) {
-            segment = segment + ';' + this.dataTable.props.segmented_visitor_log_segment_suffix;
-        }
-
-        this.performAction(segment, tr, e);
+        this.performAction(segment, tr, e, null, extraParams);
     };
 
-    DataTable_RowActions_SegmentVisitorLog.prototype.performAction = function (segment, tr, e, originalRow) {
+    DataTable_RowActions_SegmentVisitorLog.prototype.performAction = function (segment, tr, e, originalRow, extraParamsOverride) {
 
         var apiMethod = this.dataTable.param.module + '.' + this.dataTable.param.action;
 
-        var extraParams = {};
+        var extraParams = extraParamsOverride || {};
 
         if (this.dataTable.param.date && this.dataTable.param.period) {
-            extraParams = {date: this.dataTable.param.date, period: this.dataTable.param.period};
+            extraParams.date = this.dataTable.param.date;
+            extraParams.period = this.dataTable.param.period;
         }
 
         var paramOverride = $(originalRow || tr).data('param-override');

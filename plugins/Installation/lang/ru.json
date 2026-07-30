@@ -110,7 +110,6 @@
         "SystemCheckFunctions": "Необходимые функции",
         "SystemCheckGDFreeType": "GD &gt; 2.x + FreeType (graphics)",
         "SystemCheckGDHelp": "Спарклайны (тонкие графики) и изображения графиков (в мобильном приложении Matomo и отчетах по электронной почте) не будут работать.",
-        "SystemCheckGlobHelp": "Эта встроенная функция отключена на сервере. Matomo попытается сэмулировать её вызов, но могут возникнуть ограничения безопасности. Это также может нанести вред общей функциональности системы.",
         "SystemCheckGzcompressHelp": "Вам необходимо включить расширение zlib и функцию gzcompress.",
         "SystemCheckGzuncompressHelp": "Вам необходимо включить расширение zlib и функцию gzuncompress.",
         "SystemCheckHashHelp": "Настройте и пересоберите PHP с необходимой поддержкой hash(), исключив параметр --disable-hash.",

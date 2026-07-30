@@ -7,6 +7,14 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ## Matomo 6.0.0
 
 ### Breaking Changes
+* The deprecated method `Piwik\Archive::getBlob()` has been removed. Use one of the `Piwik\Archive::getDataTable*()` methods instead.
+* The deprecated method `Piwik\Archive::clearStaticCache()` has been removed. It was a no-op kept only for backwards compatibility.
+* The deprecated method `Piwik\ArchiveProcessor\Parameters::setIsPartialArchive()` has been removed. Use `Piwik\ArchiveProcessor\Parameters::setArchiveOnlyReport()` instead.
+* The deprecated method `Piwik\Db\Adapter::getDefaultPortForAdapter()` has been removed. Use `Piwik\Db\Schema::getDefaultPortForSchema()` instead.
+* The deprecated method `Piwik\Url::saveCORSHostnameInConfig()` has been removed. It was no longer in use.
+* The deprecated method `Piwik\Plugin\Report::getThirdLeveltableDimension()` has been removed. Use `Piwik\Plugin\Report::getNthLevelTableDimension(2)` instead.
+* The deprecated `API.getSettings` API method has been removed, along with the default `[APISettings]` section shipped in `config/global.ini.php` that it exposed. There is no replacement; integrations that fetched key/value pairs from that section over the REST API must migrate to another mechanism. Any `[APISettings]` entries in a local `config.ini.php` simply become inert.
+* The deprecated static method `getDefaultPort()` has been removed from `Piwik\Db\AdapterInterface` and its implementations (`Piwik\Db\Adapter\Mysqli`, `Piwik\Db\Adapter\Pdo\Mysql`). Use `Piwik\Db\Schema::getDefaultPortForSchema()` instead.
 * The deprecated method `Piwik\Plugins\Overlay\API::getExcludedQueryParameters()` has been removed. Use the `SitesManager.getExcludedQueryParameters` API method instead.
 * The deprecated method `Piwik\Db::optimizeTables()` has been removed. Use `Piwik\Db\Schema::getInstance()->optimizeTables()` instead.
 * The deprecated method `Piwik\Db::isOptimizeInnoDBSupported()` has been removed. Use `Piwik\Db\Schema::getInstance()->isOptimizeInnoDBSupported()` instead.
@@ -19,6 +27,17 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   dependency injection or extend `Piwik\Log\Logger` are not affected.
 * The deprecated archiving script `./misc/cron/archive.sh` has been removed. Use the console command `core:archive` instead.
 * The `SEO` plugin has been removed, along with its `SEO` widget and the `SEO.getRank` API method.
+* One Click Update now always downloads the update archive over HTTPS. The insecure "retry over HTTP" fallback screen and the `https` request parameter of the `CoreUpdater.oneClickUpdate` action have been removed, and the `$https` parameter of `Piwik\Plugins\CoreUpdater\Updater::updatePiwik()` and `Piwik\Plugins\CoreUpdater\Updater::getArchiveUrl()` has been removed. HTTP is only used when the `force_matomo_http_request` config option is enabled.
+* The global function `_glob()` has been removed. Use the native `glob()` instead. As a consequence `glob()` must no longer be listed in the `disable_functions` php.ini directive: Matomo now refuses to start with an explicit error message instead of emulating it. `glob()`, `fnmatch()` and `file_get_contents()` have also moved from the recommended to the required functions in the system check, which additionally catches a Suhosin function blacklist.
+* The global functions `safe_serialize()` and `_safe_serialize()` have been removed. Use the native `serialize()` instead. Note that the retained `safe_unserialize()` accepts only a strict subset of PHP's serialization format, so native `serialize()` is a drop-in replacement only for values that contain no objects, no references and no resources. A reference produces an `R:` token, which `safe_unserialize()` rejects; a resource is serialized as `i:0;`, which it silently reads back as the integer `0` where `safe_serialize()` used to refuse to serialize it at all.
+* The global function `_parse_ini_file()` has been removed. It was unused; use `Piwik\Config` for Matomo's configuration or `Matomo\Ini\IniReader` for other INI files.
+* The global functions `safe_unserialize()` and `_safe_unserialize()` in `libs/upgradephp/upgrade.php` are kept. Note that these are a different, stricter implementation than `Piwik\Common::safe_unserialize()`, which wraps the native `unserialize()` with `allowed_classes => false` and applies none of the `MAX_SERIALIZED_*` input limits.
+* The conditional fallback definitions for `mysqli_set_charset()`, `file_get_contents()`, `utf8_encode()`, `utf8_decode()`, `fnmatch()`, the `Error` class and the `PHP_INT_SIZE`/`PHP_INT_MAX` constants have been removed from `libs/upgradephp/upgrade.php`. All of these are provided natively by every supported PHP version; the fallbacks only ever activated on PHP versions that are no longer supported, or when the function had been turned off via `disable_functions`.
+* The `gzopen()` fallback has also been removed from `libs/upgradephp/upgrade.php`. It aliased `gzopen()` to `gzopen64()` on distribution builds where zlib exposes only the latter, which is a packaging issue rather than a PHP version or `disable_functions` one. On such a build `Piwik\Unzip` now falls back to `PclZip`.
+* Several core controller actions that return JSON now declare a native `string` return type as part of adopting the new `#[Piwik\Http\JsonResponse]` attribute. A plugin that extends one of these controllers and overrides such an action must declare a compatible `string` return type and re-declare `#[Piwik\Http\JsonResponse]` (attributes are not inherited).
+
+### New APIs
+* A new `#[Piwik\Http\JsonResponse]` attribute can be applied to a plugin controller action to declare that it returns a JSON response. When present, Matomo (re-)sends the `Content-Type: application/json` header after the action has returned, so it can no longer be overwritten by output produced while the action builds its response (for example a rendered `Piwik\View`, which sends `text/html`). An action using the attribute must return the JSON string, must not send the header itself, and must not emit output (`echo`/`print`/`flush`) or call `exit`/`die` before returning — otherwise the response headers are committed first and the JSON `Content-Type` cannot be applied. The attribute is not inherited: a subclass overriding a JSON action must re-declare it. These requirements are enforced by PHPStan rules.
 
 ### HTTP API
 * `API.getBulkRequest` now validates the authentication parameters of each nested request URL against

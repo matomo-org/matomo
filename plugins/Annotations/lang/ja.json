@@ -1,22 +1,22 @@
 {
     "Annotations": {
-        "AddAnnotationsFor": "%sのアノテーションを追加…",
+        "AddAnnotationsFor": "%s に注釈を追加…",
         "AnnotationOnDate": "%1$sのアノテーション: %2$s",
         "Annotations": "アノテーション",
         "ClickToDelete": "クリックしてこの注釈を削除します。",
         "ClickToEdit": "クリックしてこの注釈を編集します。",
         "ClickToEditOrAdd": "クリックして、新しい注釈を編集または追加します。",
         "ClickToStarOrUnstar": "クリックして、この注釈にスターを付けたり外したりします。",
-        "CreateNewAnnotation": "新しい注釈を作成します…",
-        "EnterAnnotationText": "メモを入力して下さい…",
-        "HideAnnotationsFor": "%sのアノテーションを非表示にする…",
+        "CreateNewAnnotation": "新しい注釈を作成…",
+        "EnterAnnotationText": "メモを入力してください…",
+        "HideAnnotationsFor": "%s の注釈を非表示にする…",
         "IconDesc": "この期間のメモを表示します。",
         "IconDescHideNotes": "この期間のメモを非表示にします。",
         "InlineQuickHelp": "データの分析結果や重要と思うものを記録するために、特別なイベントとしてアノテーションを作成できます ( 新しいブログの投稿、ウェブサイトのリニューアルなど ) 。",
         "LoginToAnnotate": "アノテーションを作成するにはログインしてください。",
         "NoAnnotations": "この日付範囲の注釈はありません。",
         "PluginDescription": "ウェブサイトに加えられた変更をマークしたり、データに関して行った分析を保存したり、あなたの考えを同僚と共有したりするために、それぞれの日にノートを添付することができます。 データにアノテーションを付けることで、そのデータの根拠を思い出すきっかけになります。",
-        "ViewAndAddAnnotations": "%sの注釈を表示して追加します…",
+        "ViewAndAddAnnotations": "%s の注釈を表示・追加する…",
         "YouCannotModifyThisNote": "あなたが生成したアノテーションではないか、このサイトの管理者権限がないため、このアノテーションは変更できません。"
     }
 }

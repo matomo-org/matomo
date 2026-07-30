@@ -21,7 +21,6 @@
         "AreYouSureRemoveCapability": "Är du säker på att du vill ta bort %1$s möjligheten från %2$s för %3$s?",
         "AtLeastView": "Åtminstone visa",
         "AuthTokenPurpose": "Vad använder du denna token till?",
-        "AuthTokenSecureOnlyHelp": "Aktivera detta val för att token enbart får användas på ett säkert sätt (det vill säga med POST-anrop). Det är rekommenderad som bästa praxis. Token kommer inte fungera som en URL-parameter i GET-anrop.",
         "AuthTokenSecureOnlyHelpForced": "Systemadministratören har konfigurerat Matomo att endast tillåta tokens skapade för säker användning (det vill säga via POST-anrop), du kan inte ändra detta alternativ för din token.",
         "AuthTokens": "Auth-tokens",
         "BackToUser": "Tillbaka till Användare",

@@ -417,7 +417,7 @@ class DbHelper
         $newHintName = substr($hint, 0, $newHintNameEnd);
 
         // only add new hints
-        if (preg_match('/(?:^|\s)' . preg_quote($newHintName) . '(?:\\(|\s|$)/i', $hints)) {
+        if (preg_match('/(?:^|\s)' . preg_quote($newHintName, '/') . '(?:\\(|\s|$)/i', $hints)) {
             return $sql;
         }
 

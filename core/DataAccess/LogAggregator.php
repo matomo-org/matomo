@@ -934,6 +934,9 @@ class LogAggregator
         return in_array($metricId, $metricsRequested);
     }
 
+    /**
+     * @return string
+     */
     public function getWhereStatement($tableName, $datetimeField, $extraWhere = false)
     {
         $where = "$tableName.$datetimeField >= ?

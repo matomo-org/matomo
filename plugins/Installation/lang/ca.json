@@ -110,7 +110,6 @@
         "SystemCheckFunctions": "Funcions necessàries",
         "SystemCheckGDFreeType": "GD &gt; 2.x + FreeType (gràfics)",
         "SystemCheckGDHelp": "Les espurnes (gràfics petits) i els gràfics d'imatge (a l'aplicació mòbil Matomo i als informes de correu electrònic) no funcionaran.",
-        "SystemCheckGlobHelp": "Aquesta funció integrada s'ha desactivat al vostre hoste. Matomo intentarà emular la funció, però pot trobar més restriccions de seguretat. La funcionalitat es pot veure afectada.",
         "SystemCheckGzcompressHelp": "Heu d'activar l'extensió zlib i la funció gzcompress.",
         "SystemCheckGzuncompressHelp": "Heu d'activar l'extensió zlib i la funció gzuncompress.",
         "SystemCheckHashHelp": "Configureu i reconstruïu PHP amb el suport hash() necessari excloent l'opció --disable-hash.",

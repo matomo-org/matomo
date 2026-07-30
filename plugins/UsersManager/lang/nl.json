@@ -28,7 +28,6 @@
         "AuthTokenNotificationEmail05": "Beheer uw toegangstokens",
         "AuthTokenNotificationEmailReminder": "Herinnering: Wissel uw auth tokens elke %1$s",
         "AuthTokenPurpose": "Waarvoor gebruik je dit token?",
-        "AuthTokenSecureOnlyHelp": "Activeer deze optie om het token uitsluitend op een veilige manier te gebruiken (bvb. POST requests), dit is aanbevolen als een beste praktijk voor beveiliging. Het token zal dan niet geldig zijn als een URL parameter in GET requests.",
         "AuthTokenSecureOnlyHelpForced": "De systeembeheerder heeft Matomo zo geconfigureerd dat aangemaakte tokens uitsluitend op een veilige manier gebruikt kunnen worden (bvb. via POST requests). U kan deze tokenoptie niet wijzigen.",
         "AuthTokens": "Auth tokens",
         "BackToUser": "Terug naar Gebruikers",

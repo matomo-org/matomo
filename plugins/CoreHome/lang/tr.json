@@ -1,5 +1,6 @@
 {
     "CoreHome": {
+        "AIInsights": "Yapay Zeka İçgörüleri",
         "AdblockIsMaybeUsed": "Bir reklam engelleyici kullanıyorsanız, Matomo uygulamasının sorunsuz çalışmasını sağlamak için etkisizleştirin.",
         "AddTotalsRowDataTable": "Raporda toplamlar satırı görüntülenmiyor. Toplamlar satırını eklemek için %s",
         "CategoryNoData": "Bu kategoride henüz bir veri yok. \"Tüm dağılımlar katılsın\" seçeneğini deneyin.",

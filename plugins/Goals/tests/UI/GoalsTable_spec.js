@@ -24,9 +24,24 @@ describe("GoalsTable", function () {
     it("should show columns for all goals when idGoal is 0", async function () {
         const allGoalsUrl = page.url().replace(/viewDataTable=[^&]*/, "viewDataTable=tableGoals") + "&idGoal=0";
         await page.goto(allGoalsUrl);
+        await page.waitForNetworkIdle();
+
+        // The all-goals table is wider than the viewport, so it renders inside a horizontally
+        // scrollable container (.dataTableScroller). An element screenshot of the table would then
+        // capture only the columns within the viewport width, leaving the rest blank. Widen the
+        // viewport to the table's full width first so every goal's columns are captured.
+        const fullWidth = await page.evaluate(() => {
+            const scroller = document.querySelector('.dataTableScroller');
+            const table = document.querySelector('table.dataTable');
+            return Math.ceil(Math.max(scroller ? scroller.scrollWidth : 0, table ? table.scrollWidth : 0));
+        });
+        await page.webpage.setViewport({ width: fullWidth + 40, height: 768 });
+        await page.waitForNetworkIdle();
 
         const table = await page.$('table.dataTable');
-        expect(await table.screenshot()).to.matchImage('goals_table_full');
+        const screenshot = await table.screenshot();
+        await page.webpage.setViewport({ width: 1350, height: 768 });
+        expect(screenshot).to.matchImage('goals_table_full');
     });
 
     it("should show columns for a single goal when idGoal is 1", async function () {

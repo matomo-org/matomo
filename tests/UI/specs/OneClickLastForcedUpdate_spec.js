@@ -10,7 +10,6 @@
 var fs = require('fs'),
   path = require('../../lib/screenshot-testing/support/path');
 
-const request = require('request-promise');
 const exec = require('child_process').exec;
 
 describe("OneClickLastForcedUpdate", function () {
@@ -57,15 +56,11 @@ describe("OneClickLastForcedUpdate", function () {
       expect(await page.screenshot({ fullPage: true })).to.matchImage('update_screen');
     });
 
-    it('should fail to automatically update when trying to update over https fails', async function () {
-        await page.click('#updateAutomatically');
-        await page.waitForNetworkIdle();
-        await page.waitForSelector('.content');
-        expect(await page.screenshot({ fullPage: true })).to.matchImage('update_fail');
-    });
-
     it('should update successfully and show the finished update screen', async function () {
-        await page.click('#updateUsingHttp');
+        // Wait for the update button to render before clicking: under the modern headless Chrome it
+        // is not always present immediately after the previous (failed-update) step.
+        await page.waitForSelector('#updateAutomatically', { visible: true });
+        await page.click('#updateAutomatically');
         await page.waitForNetworkIdle();
         await page.waitForSelector('.content');
 
@@ -119,14 +114,13 @@ describe("OneClickLastForcedUpdate", function () {
         // track one action
         const trackerUrl = config.piwikUrl + "latestStableInstall/piwik.php?";
 
-        await request({
+        await fetch(trackerUrl, {
             method: 'POST',
-            uri: trackerUrl,
-            form: {
+            body: new URLSearchParams({
                 idsite: 1,
                 url: 'http://piwik.net/test/url',
                 action_name: 'test page',
-            },
+            }),
         });
 
         // run cron archiving

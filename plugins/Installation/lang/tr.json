@@ -110,7 +110,6 @@
         "SystemCheckFunctions": "Gerekli işlevler",
         "SystemCheckGDFreeType": "GD &gt; 2.x + FreeType (grafikler)",
         "SystemCheckGDHelp": "Çizgi çizelgeler (küçük çizelgeler) ve görsel çizelgeleri (Matomo mobil uygulaması ve e-posta bildirimleri) çalışmayacak.",
-        "SystemCheckGlobHelp": "Sunucunuzda bu iç işlev kapatılmış. Matomo bu işlevi taklit etmeye çalışacak ancak başka güvenlik kısıtlamaları ile karşılaşabilir ve işlevsellik etkilenebilir.",
         "SystemCheckGzcompressHelp": "zlib eklentisini ve gzcompress işlevini etkinleştirmelisiniz.",
         "SystemCheckGzuncompressHelp": "zlib eklentisini ve gzuncompress işlevini etkinleştirmelisiniz.",
         "SystemCheckHashHelp": "Gerekli hash() desteğini sağlamak için PHP yazılımını -disable hash seçeneğini kaldırarak yapılandırın ve yeniden derleyin.",
