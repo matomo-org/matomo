@@ -69,11 +69,13 @@ exports.processedScreenshotsDir = "./processed-ui-screenshots";
 exports.screenshotDiffDir = "./screenshot-diffs";
 
 /**
- * Resolve the browser executable Puppeteer should launch. Puppeteer 24 otherwise looks for the
- * specific Chrome build it pins (in ~/.cache/puppeteer), which is not provisioned in CI -- the test
- * runner installs a system google-chrome-stable instead. Prefer an explicit
- * PUPPETEER_EXECUTABLE_PATH, then a system Chrome/Chromium, and finally fall back to Puppeteer's own
- * downloaded browser (used on fresh local setups that have neither installed).
+ * Resolve the browser executable Puppeteer should launch. Prefer an explicit
+ * PUPPETEER_EXECUTABLE_PATH, then the exact Chrome for Testing build pinned in
+ * tests/lib/screenshot-testing/.puppeteerrc.cjs (downloaded by `npm ci` there). CI and local runs
+ * both use that pinned binary, which is what keeps locally generated screenshots comparable to the
+ * CI-generated expected ones. A system Chrome/Chromium is only a last resort (e.g. on linux/arm64,
+ * where no Chrome for Testing build exists): it renders differently, so screenshots generated with
+ * it will NOT match CI.
  */
 function resolveBrowserExecutablePath() {
     if (process.env.PUPPETEER_EXECUTABLE_PATH) {
@@ -81,6 +83,20 @@ function resolveBrowserExecutablePath() {
     }
 
     const fs = require('fs');
+    const path = require('path');
+
+    try {
+        const puppeteer = require(require.resolve('puppeteer', {
+            paths: [path.join(__dirname, '..', 'lib', 'screenshot-testing')],
+        }));
+        const pinnedBrowser = puppeteer.executablePath();
+        if (pinnedBrowser && fs.existsSync(pinnedBrowser)) {
+            return pinnedBrowser;
+        }
+    } catch (e) {
+        // fall through to the system browsers below
+    }
+
     const candidates = [
         '/usr/bin/google-chrome-stable',
         '/usr/bin/google-chrome',
@@ -88,7 +104,15 @@ function resolveBrowserExecutablePath() {
         '/usr/bin/chromium-browser',
     ];
 
-    return candidates.find((candidate) => fs.existsSync(candidate));
+    const systemBrowser = candidates.find((candidate) => fs.existsSync(candidate));
+
+    if (systemBrowser) {
+        console.warn('WARNING: the pinned Chrome for Testing browser was not found (run "npm ci" in '
+            + 'tests/lib/screenshot-testing to download it). Falling back to the system browser at '
+            + systemBrowser + ' -- generated screenshots will NOT match the CI-generated expected ones.');
+    }
+
+    return systemBrowser;
 }
 
 /**
