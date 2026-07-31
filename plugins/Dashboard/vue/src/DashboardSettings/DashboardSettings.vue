@@ -228,7 +228,7 @@ export default defineComponent({
       }
       this.$nextTick(() => {
         const firstAction = (this.$refs.root as HTMLElement)
-          .querySelector<HTMLButtonElement>('.mtm-dropdownPanel__menu button:not([disabled])');
+          .querySelector<HTMLElement>('.mtm-dropdownPanel__menuLink:not([disabled])');
         if (firstAction) {
           firstAction.focus();
         }

@@ -1,6 +1,6 @@
 // A reusable floating panel that hosts a menu of actions.
 // Positioning is intentionally NOT owned here — the consumer places the panel.
-// Named with the `mtm-` prefix because to avoid name conflicts.
+// Named with the `mtm-` prefix to avoid name conflicts.
 
 .mtm-dropdownPanel {
   font-size: 14px;
@@ -60,8 +60,7 @@
     }
   }
 
-  // Non-interactive state. A modifier class is used instead of `[disabled]` so the block
-  // stays attribute-selector free (matomo-css-development-rules).
+  // A modifier class rather than `[disabled]`, for elements that cannot or should not use it.
   .mtm-dropdownPanel__menuLink--disabled {
     color: @theme-color-text-disabled;
     cursor: default;
