@@ -2764,4 +2764,79 @@ SQL;
             $dimensions[] = $thingCategoryDimension;
         });
     }
+
+    public function testJoinExposesNoAdditionalKeyColumnsByDefault()
+    {
+        $join = new \Piwik\Columns\Join('goal', 'idgoal', 'name');
+        $this->assertSame([], $join->getAdditionalKeyColumns());
+    }
+
+    public function testGoalNameJoinIsScopedBySite()
+    {
+        $join = new \Piwik\Columns\Join\GoalNameJoin();
+        $this->assertSame(['idsite'], $join->getAdditionalKeyColumns());
+    }
+
+    /**
+     * A goal is identified by the pair (idsite, idgoal), so the goal-name join must match on both
+     * columns and not on idgoal alone.
+     */
+    public function testVisitConvertedGoalNameSegmentScopesGoalJoinBySite()
+    {
+        $segment = new Segment('visitConvertedGoalName==name', $idSites = [1]);
+
+        $query = $segment->getSelectQuery('log_visit.*', 'log_visit', false);
+        $this->assertQueryDoesNotFail($query);
+
+        $sql = self::removeExtraWhiteSpaces($query['sql']);
+        $alias = 'goal_segment_log_conversionidgoal';
+
+        $this->assertStringContainsString('log_conversion.idgoal = ' . $alias . '.idgoal', $sql);
+        $this->assertStringContainsString('log_conversion.idsite = ' . $alias . '.idsite', $sql);
+    }
+
+    /**
+     * The join is built the same way regardless of which log table the query starts from, so the site
+     * scoping must also hold when the query is based on log_conversion directly.
+     */
+    public function testVisitConvertedGoalNameSegmentScopesGoalJoinBySiteWhenBasedOnConversion()
+    {
+        $segment = new Segment('visitConvertedGoalName==name', $idSites = [1]);
+
+        $query = $segment->getSelectQuery('log_conversion.*', 'log_conversion', false);
+        $this->assertQueryDoesNotFail($query);
+
+        $sql = self::removeExtraWhiteSpaces($query['sql']);
+
+        $this->assertStringContainsString('log_conversion.idsite = goal_segment_log_conversionidgoal.idsite', $sql);
+    }
+
+    /**
+     * The join is assembled before the match type is applied, so the site scoping must hold for every
+     * operator that can carry a goal name.
+     *
+     * @dataProvider getGoalNameSegmentOperators
+     */
+    public function testVisitConvertedGoalNameSegmentScopesGoalJoinBySiteForEveryOperator($operator)
+    {
+        $segment = new Segment('visitConvertedGoalName' . $operator . 'name', $idSites = [1]);
+
+        $query = $segment->getSelectQuery('log_visit.*', 'log_visit', false);
+        $this->assertQueryDoesNotFail($query);
+
+        $sql = self::removeExtraWhiteSpaces($query['sql']);
+        $this->assertStringContainsString('log_conversion.idsite = goal_segment_log_conversionidgoal.idsite', $sql);
+    }
+
+    public function getGoalNameSegmentOperators()
+    {
+        return [
+            'equals'       => ['=='],
+            'not equals'   => ['!='],
+            'contains'     => ['=@'],
+            'not contains' => ['!@'],
+            'starts with'  => ['=^'],
+            'ends with'    => ['=$'],
+        ];
+    }
 }
