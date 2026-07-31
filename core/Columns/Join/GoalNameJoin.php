@@ -21,4 +21,10 @@ class GoalNameJoin extends Columns\Join
     {
         parent::__construct('goal', 'idgoal', 'name');
     }
+
+    public function getAdditionalKeyColumns()
+    {
+        // a goal is identified by (idsite, idgoal), so the site must match too
+        return ['idsite'];
+    }
 }
