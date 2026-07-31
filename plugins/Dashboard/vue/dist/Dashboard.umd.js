@@ -865,7 +865,7 @@ var __async = (__this, __arguments, generator) => {
   const _hoisted_8 = { class: "mtm-dropdownPanel__menuLabel" };
   const _hoisted_9 = ["onClick", "disabled", "title", "data-action"];
   const _hoisted_10 = { class: "mtm-dropdownPanel__menuLabel" };
-  const _hoisted_11 = { class: "mtm-dropdownPanel__menuItem mtm-dropdownPanel__menuItem--addWidget" };
+  const _hoisted_11 = { class: "mtm-dropdownPanel__menuItem" };
   const _hoisted_12 = { class: "mtm-dropdownPanel__menuLabel" };
   function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_AddWidgetModal = vue.resolveComponent("AddWidgetModal");
@@ -901,7 +901,7 @@ var __async = (__this, __arguments, generator) => {
                   type: "button",
                   tabindex: "4",
                   onClick: ($event) => _ctx.onClickAction($event, actionName),
-                  class: vue.normalizeClass(["mtm-dropdownPanel__menuLink mtm-dropdownPanel__menuLink--generalAction", { "mtm-dropdownPanel__menuLink--disabled": _ctx.isActionDisabled[actionName] }]),
+                  class: vue.normalizeClass(["mtm-dropdownPanel__menuLink", { "mtm-dropdownPanel__menuLink--disabled": _ctx.isActionDisabled[actionName] }]),
                   disabled: _ctx.isActionDisabled[actionName] ? true : void 0,
                   title: _ctx.actionTooltips[actionName] || void 0,
                   "data-action": actionName

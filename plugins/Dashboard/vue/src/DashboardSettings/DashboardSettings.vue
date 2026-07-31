@@ -39,7 +39,7 @@
               type="button"
               tabindex="4"
               @click="onClickAction($event, actionName)"
-              class="mtm-dropdownPanel__menuLink mtm-dropdownPanel__menuLink--generalAction"
+              class="mtm-dropdownPanel__menuLink"
               :class="{ 'mtm-dropdownPanel__menuLink--disabled': isActionDisabled[actionName] }"
               :disabled="isActionDisabled[actionName] ? true : undefined"
               :title="actionTooltips[actionName] || undefined"
@@ -79,7 +79,7 @@
               <span class="mtm-dropdownPanel__menuLabel">{{ translate(title) }}</span>
             </button>
           </li>
-          <li class="mtm-dropdownPanel__menuItem mtm-dropdownPanel__menuItem--addWidget">
+          <li class="mtm-dropdownPanel__menuItem">
             <button
               type="button"
               tabindex="4"
