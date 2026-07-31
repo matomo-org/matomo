@@ -69,10 +69,8 @@ class UIControl extends \Piwik\View
 
     /**
      * The inner view that renders the actual control content.
-     *
-     * @var View
      */
-    private $innerView = null;
+    private View $innerView;
 
     public function __construct()
     {

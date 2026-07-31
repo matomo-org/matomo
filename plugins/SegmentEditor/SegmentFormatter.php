@@ -16,10 +16,7 @@ use Piwik\Segment\SegmentExpression;
 
 class SegmentFormatter
 {
-    /**
-     * @var Segment\SegmentsList
-     */
-    private $segmentList;
+    private Segment\SegmentsList $segmentList;
 
     private $matchesMetric = array(
         SegmentExpression::MATCH_EQUAL => 'General_OperationEquals',

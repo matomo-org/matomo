@@ -139,12 +139,6 @@ parameters:
 			path: core/API/ResponseBuilder.php
 
 		-
-			message: '#^Property Piwik\\Access\:\:\$auth \(Piwik\\Auth\) in isset\(\) is not nullable\.$#'
-			identifier: isset.property
-			count: 1
-			path: core/Access.php
-
-		-
 			message: '#^Method Piwik\\Archive\\ArchiveInvalidator\:\:getSegmentArchiving\(\) is unused\.$#'
 			identifier: method.unused
 			count: 1
@@ -1759,18 +1753,6 @@ parameters:
 			path: core/Tracker/Request.php
 
 		-
-			message: '#^Call to function is_array\(\) with array\<Piwik\\Tracker\\Request\> will always evaluate to true\.$#'
-			identifier: function.alreadyNarrowedType
-			count: 1
-			path: core/Tracker/RequestSet.php
-
-		-
-			message: '#^Call to function is_null\(\) with array\<Piwik\\Tracker\\Request\> will always evaluate to false\.$#'
-			identifier: function.impossibleType
-			count: 1
-			path: core/Tracker/RequestSet.php
-
-		-
 			message: '#^Call to function is_null\(\) with string will always evaluate to false\.$#'
 			identifier: function.impossibleType
 			count: 1
@@ -1785,7 +1767,7 @@ parameters:
 		-
 			message: '#^Unreachable statement \- code above always terminates\.$#'
 			identifier: deadCode.unreachable
-			count: 2
+			count: 1
 			path: core/Tracker/RequestSet.php
 
 		-

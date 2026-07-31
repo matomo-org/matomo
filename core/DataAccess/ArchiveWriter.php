@@ -110,10 +110,7 @@ class ArchiveWriter
      */
     private $period;
 
-    /**
-     * @var ArchiveProcessor\Parameters
-     */
-    private $parameters;
+    private ArchiveProcessor\Parameters $parameters;
 
     /**
      * @var string

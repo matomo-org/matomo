@@ -31,17 +31,13 @@ class LogDataPurger
 
     /**
      * LogDeleter service used to delete visits.
-     *
-     * @var LogDeleter
      */
-    private $logDeleter;
+    private LogDeleter $logDeleter;
 
     /**
      * DAO class that is used to delete unused actions.
-     *
-     * @var RawLogDao
      */
-    private $rawLogDao;
+    private RawLogDao $rawLogDao;
 
     public function __construct(LogDeleter $logDeleter, RawLogDao $rawLogDao)
     {

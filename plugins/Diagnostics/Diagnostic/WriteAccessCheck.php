@@ -19,10 +19,7 @@ use Piwik\Translation\Translator;
  */
 class WriteAccessCheck implements Diagnostic
 {
-    /**
-     * @var Translator
-     */
-    private $translator;
+    private Translator $translator;
 
     /**
      * Path to the temp directory.

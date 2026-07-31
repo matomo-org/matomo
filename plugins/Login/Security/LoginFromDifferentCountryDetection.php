@@ -19,15 +19,9 @@ use Piwik\Plugins\UsersManager\Model as UsersModel;
 
 class LoginFromDifferentCountryDetection
 {
-    /**
-     * @var Model
-     */
-    private $model;
+    private Model $model;
 
-    /**
-     * @var UsersModel
-     */
-    private $usersModel;
+    private UsersModel $usersModel;
 
     public function __construct(Model $model, UsersModel $usersModel)
     {

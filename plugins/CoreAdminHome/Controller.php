@@ -41,16 +41,11 @@ use Piwik\Plugins\UsersManager\UserPreferences;
 
 class Controller extends ControllerAdmin
 {
-    /**
-     * @var Translator
-     */
-    private $translator;
+    private Translator $translator;
 
-    /** @var OptOutManager */
-    private $optOutManager;
+    private OptOutManager $optOutManager;
 
-    /** @var PasswordVerifier */
-    private $passwordVerify;
+    private PasswordVerifier $passwordVerify;
 
     public function __construct(Translator $translator, OptOutManager $optOutManager, PasswordVerifier $passwordVerify)
     {

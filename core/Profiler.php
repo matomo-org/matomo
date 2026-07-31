@@ -27,10 +27,8 @@ class Profiler
 {
     /**
      * Whether xhprof has been setup or not.
-     *
-     * @var bool
      */
-    private static $isXhprofSetup = false;
+    private static bool $isXhprofSetup = false;
 
     /**
      * Returns memory usage

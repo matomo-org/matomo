@@ -43,25 +43,13 @@ use Piwik\Plugins\UsersManager\Model as UsersModel;
  */
 class API extends \Piwik\Plugin\API
 {
-    /**
-     * @var Scheduler
-     */
-    private $scheduler;
+    private Scheduler $scheduler;
 
-    /**
-     * @var ArchiveInvalidator
-     */
-    private $invalidator;
+    private ArchiveInvalidator $invalidator;
 
-    /**
-     * @var Failures
-     */
-    private $trackingFailures;
+    private Failures $trackingFailures;
 
-    /**
-     * @var OptOutManager
-     */
-    private $optOutManager;
+    private OptOutManager $optOutManager;
 
     public function __construct(
         Scheduler $scheduler,

@@ -42,10 +42,7 @@ class Controller extends \Piwik\Plugin\Controller
     private $errorMessages = array();
     private $deactivatedPlugins = array();
 
-    /**
-     * @var Updater
-     */
-    private $updater;
+    private Updater $updater;
 
     /**
      * @var Plugins

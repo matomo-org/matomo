@@ -20,20 +20,11 @@ use Piwik\Plugins\Marketplace\Input\Sort;
 
 class Plugins
 {
-    /**
-     * @var Api\Client
-     */
-    private $marketplaceClient;
+    private Api\Client $marketplaceClient;
 
-    /**
-     * @var Consumer
-     */
-    private $consumer;
+    private Consumer $consumer;
 
-    /**
-     * @var Advertising
-     */
-    private $advertising;
+    private Advertising $advertising;
 
     /**
      * @var Plugin\Manager

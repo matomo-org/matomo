@@ -20,10 +20,7 @@ use Piwik\Piwik;
  */
 class API extends \Piwik\Plugin\API
 {
-    /**
-     * @var MySQLMetadataProvider
-     */
-    private $metadataProvider;
+    private MySQLMetadataProvider $metadataProvider;
 
     public function __construct(MySQLMetadataProvider $metadataProvider)
     {

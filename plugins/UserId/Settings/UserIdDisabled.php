@@ -28,8 +28,7 @@ class UserIdDisabled implements
     /** @use MeasurableGetterTrait<bool> */
     use MeasurableGetterTrait;
 
-    /** @var bool */
-    private $value;
+    private bool $value;
 
     protected function __construct(bool $value)
     {

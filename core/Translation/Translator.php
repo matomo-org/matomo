@@ -24,20 +24,15 @@ class Translator
 {
     /**
      * Contains the translated messages, indexed by the language name.
-     *
-     * @var array
      */
-    private $translations = [];
+    private array $translations = [];
 
     /**
      * @var string
      */
     private $currentLanguage;
 
-    /**
-     * @var string
-     */
-    private $fallback = 'en';
+    private string $fallback = 'en';
 
     /**
      * Directories containing the translations to load.
@@ -46,10 +41,7 @@ class Translator
      */
     private $directories = [];
 
-    /**
-     * @var LoaderInterface
-     */
-    private $loader;
+    private LoaderInterface $loader;
 
     private const LIST_TYPE_AND = 'And';
     private const LIST_TYPE_OR = 'Or';

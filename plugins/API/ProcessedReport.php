@@ -47,10 +47,7 @@ use Piwik\Timer;
  */
 class ProcessedReport
 {
-    /**
-     * @var ReportsProvider
-     */
-    private $reportsProvider;
+    private ReportsProvider $reportsProvider;
 
     private const PERFORMANCE_METRICS_TO_FORMAT = [
         'avg_time_network',

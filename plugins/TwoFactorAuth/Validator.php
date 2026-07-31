@@ -18,10 +18,7 @@ use Piwik\SettingsPiwik;
 
 class Validator
 {
-    /**
-     * @var TwoFactorAuthentication
-     */
-    private $twoFa;
+    private TwoFactorAuthentication $twoFa;
 
     public function __construct(TwoFactorAuthentication $twoFactorAuthentication)
     {

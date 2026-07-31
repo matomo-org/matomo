@@ -21,7 +21,7 @@ class UrlHelper
     /**
      * @var string[]
      */
-    private static $validLinkProtocols = [
+    private static array $validLinkProtocols = [
         'http',
         'https',
         'tel',

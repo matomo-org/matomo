@@ -24,15 +24,9 @@ class Auth implements \Piwik\Auth
     protected $token_auth;
     protected $hashedPassword;
 
-    /**
-     * @var Model
-     */
-    private $userModel;
+    private Model $userModel;
 
-    /**
-     * @var Password
-     */
-    private $passwordHelper;
+    private Password $passwordHelper;
 
     public function __construct()
     {

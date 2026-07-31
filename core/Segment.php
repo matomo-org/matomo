@@ -99,10 +99,7 @@ class Segment
      */
     private $isSegmentEncoded;
 
-    /**
-     * @var Exception|null
-     */
-    private $missingDatesException = null;
+    private ?Exception $missingDatesException = null;
 
     /**
      * Truncate the Segments to 8k
