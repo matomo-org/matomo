@@ -11,23 +11,25 @@
     class="quickAccessInside"
     v-focus-anywhere-but-here="{ blur: onBlur }"
   >
-    <span
-      class="icon-search"
-      @mouseenter="searchActive = true"
-    />
-    <input
-      class="quickAccessInput browser-default"
-      @keydown="onKeypress($event)"
-      @focus="searchActive = true"
-      v-model="searchTerm"
-      type="text"
-      tabindex="5"
-      v-focus-if="{ focused: searchActive }"
-      v-tooltips
-      :title="quickAccessTitle"
-      :placeholder="translate('General_Search')"
-      ref="input"
-    />
+    <!-- TODO: use the SearchInput component here instead of recreating its DOM. -->
+    <div class="mtm-searchInput">
+      <span class="mtm-searchInput__icon">
+        <span class="icon-search" />
+      </span>
+      <input
+        class="mtm-searchInput__input browser-default"
+        @keydown="onKeypress($event)"
+        @focus="searchActive = true"
+        v-model="searchTerm"
+        type="text"
+        tabindex="5"
+        v-focus-if="{ focused: searchActive }"
+        v-tooltips
+        :title="quickAccessTitle"
+        :placeholder="translate('General_Search')"
+        ref="input"
+      />
+    </div>
     <div
       class="dropdown quickAccessDropdown"
       v-show="searchTerm && searchActive"

@@ -5667,7 +5667,7 @@ var __async = (__this, __arguments, generator) => {
   const _hoisted_9$6 = { class: "custom_select_container" };
   const _hoisted_10$5 = ["onClick"];
   const _hoisted_11$5 = ["innerHTML", "href", "title"];
-  const _hoisted_12$4 = { class: "custom_select_ul_list" };
+  const _hoisted_12$5 = { class: "custom_select_ul_list" };
   const _hoisted_13$4 = { class: "noresult" };
   const _hoisted_14$3 = { key: 1 };
   function _sfc_render$u(_ctx, _cache, $props, $setup, $data, $options) {
@@ -5766,7 +5766,7 @@ var __async = (__this, __arguments, generator) => {
               ]);
             }), 128))
           ]),
-          vue.withDirectives(vue.createElementVNode("ul", _hoisted_12$4, [
+          vue.withDirectives(vue.createElementVNode("ul", _hoisted_12$5, [
             vue.createElementVNode("li", null, [
               vue.createElementVNode("div", _hoisted_13$4, vue.toDisplayString(_ctx.translate("SitesManager_NotFound") + " " + _ctx.searchTerm), 1)
             ])
@@ -6418,43 +6418,45 @@ var __async = (__this, __arguments, generator) => {
     ref: "root",
     class: "quickAccessInside"
   };
-  const _hoisted_2$m = ["title", "placeholder"];
-  const _hoisted_3$j = { class: "dropdown quickAccessDropdown" };
-  const _hoisted_4$e = { class: "no-result" };
-  const _hoisted_5$d = ["onClick"];
-  const _hoisted_6$9 = ["onMouseenter", "onClick"];
-  const _hoisted_7$6 = { class: "quickAccessMatomoSearch" };
-  const _hoisted_8$6 = ["onMouseenter", "onClick"];
-  const _hoisted_9$5 = ["textContent"];
-  const _hoisted_10$4 = { class: "quick-access-category helpCategory" };
-  const _hoisted_11$4 = ["href"];
+  const _hoisted_2$m = { class: "mtm-searchInput" };
+  const _hoisted_3$j = ["title", "placeholder"];
+  const _hoisted_4$e = { class: "dropdown quickAccessDropdown" };
+  const _hoisted_5$d = { class: "no-result" };
+  const _hoisted_6$9 = ["onClick"];
+  const _hoisted_7$6 = ["onMouseenter", "onClick"];
+  const _hoisted_8$6 = { class: "quickAccessMatomoSearch" };
+  const _hoisted_9$5 = ["onMouseenter", "onClick"];
+  const _hoisted_10$4 = ["textContent"];
+  const _hoisted_11$4 = { class: "quick-access-category helpCategory" };
+  const _hoisted_12$4 = ["href"];
   function _sfc_render$t(_ctx, _cache, $props, $setup, $data, $options) {
     const _directive_focus_if = vue.resolveDirective("focus-if");
     const _directive_tooltips = vue.resolveDirective("tooltips");
     const _directive_focus_anywhere_but_here = vue.resolveDirective("focus-anywhere-but-here");
     return vue.withDirectives((vue.openBlock(), vue.createElementBlock("div", _hoisted_1$r, [
-      vue.createElementVNode("span", {
-        class: "icon-search",
-        onMouseenter: _cache[0] || (_cache[0] = ($event) => _ctx.searchActive = true)
-      }, null, 32),
-      vue.withDirectives(vue.createElementVNode("input", {
-        class: "quickAccessInput browser-default",
-        onKeydown: _cache[1] || (_cache[1] = ($event) => _ctx.onKeypress($event)),
-        onFocus: _cache[2] || (_cache[2] = ($event) => _ctx.searchActive = true),
-        "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => _ctx.searchTerm = $event),
-        type: "text",
-        tabindex: "5",
-        title: _ctx.quickAccessTitle,
-        placeholder: _ctx.translate("General_Search"),
-        ref: "input"
-      }, null, 40, _hoisted_2$m), [
-        [vue.vModelText, _ctx.searchTerm],
-        [_directive_focus_if, { focused: _ctx.searchActive }],
-        [_directive_tooltips]
+      vue.createElementVNode("div", _hoisted_2$m, [
+        _cache[4] || (_cache[4] = vue.createElementVNode("span", { class: "mtm-searchInput__icon" }, [
+          vue.createElementVNode("span", { class: "icon-search" })
+        ], -1)),
+        vue.withDirectives(vue.createElementVNode("input", {
+          class: "mtm-searchInput__input browser-default",
+          onKeydown: _cache[0] || (_cache[0] = ($event) => _ctx.onKeypress($event)),
+          onFocus: _cache[1] || (_cache[1] = ($event) => _ctx.searchActive = true),
+          "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => _ctx.searchTerm = $event),
+          type: "text",
+          tabindex: "5",
+          title: _ctx.quickAccessTitle,
+          placeholder: _ctx.translate("General_Search"),
+          ref: "input"
+        }, null, 40, _hoisted_3$j), [
+          [vue.vModelText, _ctx.searchTerm],
+          [_directive_focus_if, { focused: _ctx.searchActive }],
+          [_directive_tooltips]
+        ])
       ]),
-      vue.withDirectives(vue.createElementVNode("div", _hoisted_3$j, [
+      vue.withDirectives(vue.createElementVNode("div", _hoisted_4$e, [
         vue.withDirectives(vue.createElementVNode("ul", null, [
-          vue.createElementVNode("li", _hoisted_4$e, vue.toDisplayString(_ctx.translate("General_SearchNoResults")), 1)
+          vue.createElementVNode("li", _hoisted_5$d, vue.toDisplayString(_ctx.translate("General_SearchNoResults")), 1)
         ], 512), [
           [vue.vShow, !(_ctx.numMenuItems > 0 || _ctx.sites.length)]
         ]),
@@ -6468,7 +6470,7 @@ var __async = (__this, __arguments, generator) => {
                 _ctx.searchTerm = subcategory.title;
                 _ctx.searchMenu(_ctx.searchTerm);
               }
-            }, vue.toDisplayString(subcategory.title), 9, _hoisted_5$d),
+            }, vue.toDisplayString(subcategory.title), 9, _hoisted_6$9),
             (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(subcategory.items, (submenuEntry) => {
               return vue.openBlock(), vue.createElementBlock("li", {
                 class: vue.normalizeClass(["result", { selected: submenuEntry.menuIndex === _ctx.searchIndex }]),
@@ -6480,11 +6482,11 @@ var __async = (__this, __arguments, generator) => {
                 key: submenuEntry.index
               }, [
                 vue.createElementVNode("a", null, vue.toDisplayString(submenuEntry.name.trim()), 1)
-              ], 42, _hoisted_6$9);
+              ], 42, _hoisted_7$6);
             }), 128))
           ]);
         }), 128)),
-        vue.createElementVNode("ul", _hoisted_7$6, [
+        vue.createElementVNode("ul", _hoisted_8$6, [
           vue.withDirectives(vue.createElementVNode("li", { class: "quick-access-category websiteCategory" }, vue.toDisplayString(_ctx.translate("SitesManager_Sites")), 513), [
             [vue.vShow, _ctx.hasSitesSelector && _ctx.sites.length || _ctx.isLoading]
           ]),
@@ -6500,22 +6502,22 @@ var __async = (__this, __arguments, generator) => {
             }, [
               vue.createElementVNode("a", {
                 textContent: vue.toDisplayString(site.name)
-              }, null, 8, _hoisted_9$5)
-            ], 42, _hoisted_8$6)), [
+              }, null, 8, _hoisted_10$4)
+            ], 42, _hoisted_9$5)), [
               [vue.vShow, _ctx.hasSitesSelector && !_ctx.isLoading]
             ]);
           }), 128))
         ]),
         vue.createElementVNode("ul", null, [
-          vue.createElementVNode("li", _hoisted_10$4, vue.toDisplayString(_ctx.translate("General_HelpResources")), 1),
+          vue.createElementVNode("li", _hoisted_11$4, vue.toDisplayString(_ctx.translate("General_HelpResources")), 1),
           vue.createElementVNode("li", {
             class: vue.normalizeClass([{ selected: _ctx.searchIndex === "help" }, "quick-access-help"]),
-            onMouseenter: _cache[4] || (_cache[4] = ($event) => _ctx.searchIndex = "help")
+            onMouseenter: _cache[3] || (_cache[3] = ($event) => _ctx.searchIndex = "help")
           }, [
             vue.createElementVNode("a", {
               href: `https://matomo.org?mtm_campaign=App_Help&mtm_source=Matomo_App&mtm_keyword=QuickSearch&s=${encodeURIComponent(_ctx.searchTerm)}`,
               target: "_blank"
-            }, vue.toDisplayString(_ctx.translate("CoreHome_SearchOnMatomo", _ctx.searchTerm)), 9, _hoisted_11$4)
+            }, vue.toDisplayString(_ctx.translate("CoreHome_SearchOnMatomo", _ctx.searchTerm)), 9, _hoisted_12$4)
           ], 34)
         ])
       ], 512), [
@@ -6559,13 +6561,15 @@ var __async = (__this, __arguments, generator) => {
       }
     }
   });
-  const _hoisted_1$q = { class: "searchInputContainer" };
+  const _hoisted_1$q = { class: "mtm-searchInput" };
   const _hoisted_2$l = ["value", "placeholder"];
   function _sfc_render$s(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("div", _hoisted_1$q, [
-      _cache[2] || (_cache[2] = vue.createElementVNode("span", { class: "icon-search" }, null, -1)),
+      _cache[2] || (_cache[2] = vue.createElementVNode("span", { class: "mtm-searchInput__icon" }, [
+        vue.createElementVNode("span", { class: "icon-search" })
+      ], -1)),
       vue.createElementVNode("input", vue.mergeProps({
-        class: "searchInputField browser-default",
+        class: "mtm-searchInput__input browser-default",
         type: "text",
         value: _ctx.modelValue,
         placeholder: _ctx.resolvedPlaceholder
@@ -6575,7 +6579,7 @@ var __async = (__this, __arguments, generator) => {
       _ctx.showClear && _ctx.modelValue ? (vue.openBlock(), vue.createElementBlock("button", {
         key: 0,
         type: "button",
-        class: "searchInputClear",
+        class: "mtm-searchInput__clear",
         onClick: _cache[1] || (_cache[1] = ($event) => _ctx.onClear())
       })) : vue.createCommentVNode("", true)
     ]);
