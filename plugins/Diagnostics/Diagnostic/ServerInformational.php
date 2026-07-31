@@ -18,10 +18,7 @@ use Piwik\SettingsPiwik;
  */
 class ServerInformational implements Diagnostic
 {
-    /**
-     * @var Translator
-     */
-    private $translator;
+    private Translator $translator;
 
     public function __construct(Translator $translator)
     {

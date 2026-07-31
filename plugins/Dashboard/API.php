@@ -23,15 +23,9 @@ use Piwik\Piwik;
  */
 class API extends \Piwik\Plugin\API
 {
-    /**
-     * @var Dashboard
-     */
-    private $dashboard;
+    private Dashboard $dashboard;
 
-    /**
-     * @var Model
-     */
-    private $model;
+    private Model $model;
 
     public function __construct(Dashboard $dashboard, Model $model)
     {

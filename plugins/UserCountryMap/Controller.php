@@ -26,10 +26,7 @@ class Controller extends \Piwik\Plugin\Controller
     // By default plot up to the last 3 days of visitors on the map, for low traffic sites
     public const REAL_TIME_WINDOW = 'last3';
 
-    /**
-     * @var Translator
-     */
-    private $translator;
+    private Translator $translator;
 
     public function __construct(Translator $translator)
     {

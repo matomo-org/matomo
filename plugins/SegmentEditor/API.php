@@ -48,15 +48,9 @@ use Piwik\Url;
  */
 class API extends \Piwik\Plugin\API
 {
-    /**
-     * @var Model
-     */
-    private $model;
+    private Model $model;
 
-    /**
-     * @var SegmentArchiving
-     */
-    private $segmentArchiving;
+    private SegmentArchiving $segmentArchiving;
 
     /**
      * @var string

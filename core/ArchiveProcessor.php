@@ -85,25 +85,16 @@ class ArchiveProcessor
      */
     public static $isRootArchivingRequest = true;
 
-    /**
-     * @var \Piwik\DataAccess\ArchiveWriter
-     */
-    private $archiveWriter;
+    private ArchiveWriter $archiveWriter;
 
-    /**
-     * @var \Piwik\DataAccess\LogAggregator
-     */
-    private $logAggregator;
+    private LogAggregator $logAggregator;
 
     /**
      * @var \Piwik\Archive\ArchiveQuery|null
      */
     public $archive = null;
 
-    /**
-     * @var Parameters
-     */
-    private $params;
+    private Parameters $params;
 
     /**
      * @var int|false

@@ -20,15 +20,9 @@ use Piwik\Log\LoggerInterface;
  */
 class PageSpeedCheck implements Diagnostic
 {
-    /**
-     * @var Translator
-     */
-    private $translator;
+    private Translator $translator;
 
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private LoggerInterface $logger;
 
     public function __construct(Translator $translator, LoggerInterface $logger)
     {

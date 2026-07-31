@@ -26,25 +26,16 @@ class Client
     public const CACHE_TIMEOUT_IN_SECONDS = 3600;
     public const HTTP_REQUEST_TIMEOUT = 60;
 
-    /**
-     * @var Service
-     */
-    private $service;
+    private Service $service;
 
-    /**
-     * @var Lazy
-     */
-    private $cache;
+    private Lazy $cache;
 
     /**
      * @var Plugin\Manager
      */
     private $pluginManager;
 
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private LoggerInterface $logger;
 
     /**
      * @var Environment

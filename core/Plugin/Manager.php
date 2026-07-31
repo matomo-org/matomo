@@ -123,10 +123,7 @@ class Manager
      */
     private $trackerPluginsNotToLoad = [];
 
-    /**
-     * @var PluginList
-     */
-    private $pluginList;
+    private PluginList $pluginList;
 
     public function __construct(PluginList $pluginList)
     {

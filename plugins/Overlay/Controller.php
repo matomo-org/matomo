@@ -27,10 +27,7 @@ use Piwik\Plugins\SitesManager;
 
 class Controller extends \Piwik\Plugin\Controller
 {
-    /**
-     * @var SegmentFormatter
-     */
-    private $segmentFormatter;
+    private SegmentFormatter $segmentFormatter;
 
     public function __construct(SegmentFormatter $segmentFormatter)
     {

@@ -602,15 +602,9 @@ class API extends \Piwik\Plugin\API
         return 'url';
     }
 
-    /**
-     * @var int
-     */
-    private $limitBeforeGrouping = 5;
+    private int $limitBeforeGrouping = 5;
 
-    /**
-     * @var int
-     */
-    private $totalTransitionsToFollowingPages = 0;
+    private int $totalTransitionsToFollowingPages = 0;
 
     /**
      * Get the sum of all transitions to following actions (pages, outlinks, downloads).

@@ -28,16 +28,12 @@ class Storage
     // for lazy loading of setting values
     private $settingValuesLoaded = false;
 
-    /**
-     * @var Backend\BackendInterface
-     */
-    private $backend;
+    private Backend\BackendInterface $backend;
 
     /**
      * Defines whether a value has changed since the settings were loaded or not.
-     * @var bool
      */
-    private $isDirty = false;
+    private bool $isDirty = false;
 
     public function __construct(Backend\BackendInterface $backend)
     {

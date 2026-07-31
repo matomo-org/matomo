@@ -21,10 +21,7 @@ use Piwik\Updater\Migration\Factory as MigrationFactory;
  */
 class Updates_4_12_0_b3 extends PiwikUpdates
 {
-    /**
-     * @var MigrationFactory
-     */
-    private $migration;
+    private MigrationFactory $migration;
 
     public function __construct(MigrationFactory $factory)
     {

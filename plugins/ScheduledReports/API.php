@@ -94,10 +94,7 @@ class API extends \Piwik\Plugin\API
     public const OUTPUT_INLINE = 3;
     public const OUTPUT_RETURN = 4;
 
-    /**
-     * @var bool
-     */
-    private $enableSaveReportOnDisk = false;
+    private bool $enableSaveReportOnDisk = false;
 
     /**
      * static cache storing reports
@@ -106,10 +103,7 @@ class API extends \Piwik\Plugin\API
      */
     public static $cache = [];
 
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private LoggerInterface $logger;
 
     public function __construct(LoggerInterface $logger)
     {

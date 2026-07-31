@@ -51,10 +51,7 @@ class Environment
      */
     private $environment;
 
-    /**
-     * @var array
-     */
-    private $definitions;
+    private array $definitions;
 
     /**
      * @var Container

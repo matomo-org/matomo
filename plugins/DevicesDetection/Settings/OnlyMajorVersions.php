@@ -19,8 +19,7 @@ class OnlyMajorVersions implements
     /** @use PolicyComparisonTrait<bool> */
     use PolicyComparisonTrait;
 
-    /** @var bool */
-    private $value;
+    private bool $value;
 
     protected function __construct(bool $value)
     {

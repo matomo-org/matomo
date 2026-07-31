@@ -21,10 +21,7 @@ use Piwik\Translation\Translator;
  */
 class DatabaseInformational implements Diagnostic
 {
-    /**
-     * @var Translator
-     */
-    private $translator;
+    private Translator $translator;
 
     public function __construct(Translator $translator)
     {

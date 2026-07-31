@@ -14,18 +14,12 @@ namespace Piwik\Plugins\Marketplace;
  */
 class Consumer
 {
-    /**
-     * @var Api\Client
-     */
-    private $marketplaceClient;
+    private Api\Client $marketplaceClient;
 
     private $consumer = false;
     private $isValid = null;
 
-    /**
-     * @var array
-     */
-    private $pluginLicenseStatus = null;
+    private ?array $pluginLicenseStatus = null;
 
     public function __construct(Api\Client $marketplaceClient)
     {

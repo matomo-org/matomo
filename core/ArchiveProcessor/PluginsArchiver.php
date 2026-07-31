@@ -43,10 +43,7 @@ class PluginsArchiver
      */
     protected $params;
 
-    /**
-     * @var LogAggregator
-     */
-    private $logAggregator;
+    private LogAggregator $logAggregator;
 
     /**
      * Public only for tests. Won't be necessary after DI changes are complete.

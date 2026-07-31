@@ -19,15 +19,9 @@ use Piwik\Updates;
 
 class Updates_3_0_0_b4 extends Updates
 {
-    /**
-     * @var MigrationFactory
-     */
-    private $migration;
+    private MigrationFactory $migration;
 
-    /**
-     * @var string
-     */
-    private $userTable = 'user';
+    private string $userTable = 'user';
 
     public function __construct(MigrationFactory $factory)
     {

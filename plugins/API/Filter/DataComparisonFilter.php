@@ -65,10 +65,7 @@ use Piwik\Site;
  */
 class DataComparisonFilter
 {
-    /**
-     * @var \Piwik\Request
-     */
-    private $request;
+    private \Piwik\Request $request;
 
     /**
      * @var int
@@ -115,10 +112,7 @@ class DataComparisonFilter
      */
     private $isRequestMultiplePeriod;
 
-    /**
-     * @var ComparisonRowGenerator
-     */
-    private $comparisonRowGenerator;
+    private ComparisonRowGenerator $comparisonRowGenerator;
 
     /**
      * @var array

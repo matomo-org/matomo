@@ -26,15 +26,9 @@ use Piwik\Access;
  */
 class UserAccessFilter
 {
-    /**
-     * @var Model
-     */
-    private $model;
+    private Model $model;
 
-    /**
-     * @var Access
-     */
-    private $access;
+    private Access $access;
 
     /**
      * Holds a list of all idSites the current user has admin access to. Only used for caching.

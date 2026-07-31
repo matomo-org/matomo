@@ -84,10 +84,7 @@ class FrontController extends Singleton
      */
     public static $enableDispatch = true;
 
-    /**
-     * @var bool
-     */
-    private $initialized = false;
+    private bool $initialized = false;
 
     /**
      * @param $lastError
