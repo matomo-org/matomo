@@ -35,6 +35,8 @@ class Goals extends HtmlTable
 
     private $displayType = self::GOALS_DISPLAY_NORMAL;
 
+    private $isSingleGoalView = false;
+
     public function beforeLoadDataTable()
     {
         $request = $this->getRequestArray();
@@ -98,6 +100,14 @@ class Goals extends HtmlTable
             $this->removeUnusedRevenueColumns();
         }
 
+        // When a single goal is displayed, restrict the export to the columns shown in the table so
+        // the exported data matches the displayed goal-specific data, rather than dumping the
+        // aggregated all-goals columns and every other goal's columns. (The label column is always
+        // kept by ColumnDelete, and flattened dimension columns are preserved by the API.)
+        if ($this->isSingleGoalView) {
+            $this->config->export_parameters_to_modify['showColumns'] = implode(',', $this->config->columns_to_display);
+        }
+
         parent::beforeRender();
     }
 
@@ -152,12 +162,9 @@ class Goals extends HtmlTable
         $this->requestConfig->request_parameters_to_modify['filter_update_columns_when_show_all_goals'] = $idGoal;
         $this->requestConfig->request_parameters_to_modify['filter_show_goal_columns_process_goals'] = implode(',', $goalsToProcess);
 
-        // When a single goal is displayed, restrict the export to the columns shown in the table so
-        // the exported data matches the displayed goal-specific data, rather than dumping the
-        // aggregated all-goals columns and every other goal's columns.
-        if ($isSingleGoalView) {
-            $this->config->export_parameters_to_modify['showColumns'] = implode(',', $this->config->columns_to_display);
-        }
+        // The export column restriction is applied in beforeRender(), once columns_to_display is
+        // final (beforeRender() prunes empty revenue columns for the page display types).
+        $this->isSingleGoalView = $isSingleGoalView;
     }
 
     private function setPropertiesForEcommerceView()

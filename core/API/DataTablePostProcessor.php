@@ -355,6 +355,14 @@ class DataTablePostProcessor
         $showColumns = Common::getRequestVar('showColumns', '', 'string', $this->request);
         $hideColumnsRecursively = Common::getRequestVar('hideColumnsRecursively', intval($this->report && $this->report->getModule() == 'Live'), 'int', $this->request);
         $showRawMetrics = Common::getRequestVar('showRawMetrics', 0, 'int', $this->request);
+
+        if (!empty($showColumns)) {
+            // Flattening with "show dimensions" adds dimension columns whose names only exist after
+            // flattening, so a caller-provided showColumns allowlist cannot include them. Keep those
+            // dimension columns so an allowlist does not discard the flattened breakdown.
+            $showColumns = $this->addFlattenedDimensionsToShowColumns($showColumns, $dataTable);
+        }
+
         if (
             !empty($hideColumns)
             || !empty($showColumns)
@@ -365,6 +373,48 @@ class DataTablePostProcessor
         }
 
         return $dataTable;
+    }
+
+    /**
+     * Appends any dimension columns added by the flattener to a showColumns allowlist so they are
+     * not dropped by {@link ColumnDelete}. Dimension column names only exist after flattening, so
+     * callers that set showColumns cannot include them up front.
+     */
+    private function addFlattenedDimensionsToShowColumns(string $showColumns, DataTableInterface $dataTable): string
+    {
+        $dimensions = $this->getFlattenedDimensions($dataTable);
+        if (empty($dimensions)) {
+            return $showColumns;
+        }
+
+        $columns = array_filter(array_map('trim', explode(',', $showColumns)), static function ($column) {
+            return $column !== '';
+        });
+
+        return implode(',', array_values(array_unique(array_merge($columns, $dimensions))));
+    }
+
+    private function getFlattenedDimensions(DataTableInterface $dataTable): array
+    {
+        if ($dataTable instanceof DataTable\Map) {
+            foreach ($dataTable->getDataTables() as $childTable) {
+                $dimensions = $this->getFlattenedDimensions($childTable);
+                if (!empty($dimensions)) {
+                    return $dimensions;
+                }
+            }
+
+            return [];
+        }
+
+        if ($dataTable instanceof DataTable) {
+            $dimensions = $dataTable->getMetadata('dimensions');
+            if (is_array($dimensions)) {
+                return $dimensions;
+            }
+        }
+
+        return [];
     }
 
     public function removeTemporaryMetrics(DataTableInterface $dataTable)

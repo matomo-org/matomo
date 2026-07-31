@@ -251,8 +251,9 @@ class GraphTest extends \PHPUnit\Framework\TestCase
         $bar->beforeRender();
 
         // export is restricted to the charted goal column so the exported data matches the chart
+        // (label is always kept by ColumnDelete, so it is not listed explicitly)
         $this->assertSame(
-            'label,goal_1_nb_conversions',
+            'goal_1_nb_conversions',
             $bar->config->export_parameters_to_modify['showColumns']
         );
     }

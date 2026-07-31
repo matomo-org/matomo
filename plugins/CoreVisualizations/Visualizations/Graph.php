@@ -55,9 +55,9 @@ abstract class Graph extends Visualization
 
             // When a specific goal's metric is charted, keep the data export aligned with the
             // charted goal-specific column(s) rather than dumping the aggregated all-goals data.
+            // (The label column is always kept by ColumnDelete, so it needs no explicit entry.)
             if (false !== $this->getSpecificGoalId() && array_intersect([$conversionsColumn, $revenueColumn], $this->config->columns_to_display)) {
-                $exportColumns = array_merge(['label'], $this->config->columns_to_display);
-                $this->config->export_parameters_to_modify['showColumns'] = implode(',', array_unique($exportColumns));
+                $this->config->export_parameters_to_modify['showColumns'] = implode(',', $this->config->columns_to_display);
             }
         }
     }
