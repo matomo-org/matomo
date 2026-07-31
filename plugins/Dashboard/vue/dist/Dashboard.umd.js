@@ -768,7 +768,7 @@ var __async = (__this, __arguments, generator) => {
           return;
         }
         this.$nextTick(() => {
-          const firstAction = this.$refs.root.querySelector(".mtm-dropdownPanel__menu button:not([disabled])");
+          const firstAction = this.$refs.root.querySelector(".mtm-dropdownPanel__menuLink:not([disabled])");
           if (firstAction) {
             firstAction.focus();
           }
