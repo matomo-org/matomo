@@ -35,7 +35,7 @@ class Goals extends HtmlTable
 
     private $displayType = self::GOALS_DISPLAY_NORMAL;
 
-    private $isSingleGoalView = false;
+    private bool $isSingleGoalView = false;
 
     public function beforeLoadDataTable()
     {
@@ -137,12 +137,14 @@ class Goals extends HtmlTable
         $idGoal = Common::getRequestVar('idGoal', AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW, 'string');
 
         $goalsToProcess = null;
-        $isSingleGoalView = false;
+        // the export column restriction itself is applied in beforeRender(), once
+        // columns_to_display is final (beforeRender() prunes empty revenue columns)
+        $this->isSingleGoalView = false;
         if (Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER == $idGoal) {
             $this->setPropertiesForEcommerceView();
 
             $goalsToProcess = [$idGoal];
-            $isSingleGoalView = true;
+            $this->isSingleGoalView = true;
         } elseif (AddColumnsProcessedMetricsGoal::GOALS_FULL_TABLE == $idGoal) {
             $this->setPropertiesForGoals($idSite, 'all');
 
@@ -155,16 +157,12 @@ class Goals extends HtmlTable
             $this->setPropertiesForGoals($idSite, [$idGoal]);
 
             $goalsToProcess = [$idGoal];
-            $isSingleGoalView = true;
+            $this->isSingleGoalView = true;
         }
 
         // add goals columns
         $this->requestConfig->request_parameters_to_modify['filter_update_columns_when_show_all_goals'] = $idGoal;
         $this->requestConfig->request_parameters_to_modify['filter_show_goal_columns_process_goals'] = implode(',', $goalsToProcess);
-
-        // The export column restriction is applied in beforeRender(), once columns_to_display is
-        // final (beforeRender() prunes empty revenue columns for the page display types).
-        $this->isSingleGoalView = $isSingleGoalView;
     }
 
     private function setPropertiesForEcommerceView()

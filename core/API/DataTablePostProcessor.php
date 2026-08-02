@@ -407,14 +407,25 @@ class DataTablePostProcessor
             return [];
         }
 
-        if ($dataTable instanceof DataTable) {
-            $dimensions = $dataTable->getMetadata('dimensions');
-            if (is_array($dimensions)) {
-                return $dimensions;
-            }
+        if (!$dataTable instanceof DataTable) {
+            return [];
         }
 
-        return [];
+        $dimensions = $dataTable->getMetadata('dimensions');
+        if (!is_array($dimensions) || empty($dimensions)) {
+            return [];
+        }
+
+        // The flattener records the dimensions it walked on every flat request, but only adds them
+        // as columns when "show dimensions" is requested and the report has more than one dimension.
+        // Keep the ones that ended up as columns, so a caller's allowlist is never widened by names
+        // that are not columns at all.
+        $firstRow = $dataTable->getFirstRow();
+        if (false === $firstRow) {
+            return [];
+        }
+
+        return array_values(array_intersect($dimensions, array_keys($firstRow->getColumns())));
     }
 
     public function removeTemporaryMetrics(DataTableInterface $dataTable)

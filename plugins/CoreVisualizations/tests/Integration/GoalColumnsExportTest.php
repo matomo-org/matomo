@@ -9,7 +9,6 @@
 
 namespace Piwik\Plugins\CoreVisualizations\tests\Integration;
 
-use Piwik\API\DataTablePostProcessor;
 use Piwik\API\Request;
 use Piwik\DataTable;
 use Piwik\Plugins\Goals\API as GoalsApi;
@@ -36,6 +35,10 @@ class GoalColumnsExportTest extends IntegrationTestCase
     {
         parent::setUp();
 
+        // tracking a visit in the past requires an authenticated request, and IntegrationTestCase
+        // does not create the super user its token belongs to
+        Fixture::createSuperUser();
+
         if (!Fixture::siteCreated($this->idSite)) {
             Fixture::createWebsite($this->dateTime);
         }
@@ -53,8 +56,10 @@ class GoalColumnsExportTest extends IntegrationTestCase
 
     private function trackGoalConversion(): void
     {
-        // a direct visit that converts the goal (attributed to the "Direct Entry" referrer type)
+        // a visit from a search engine (so the referrer type report has a subtable, ie, more than
+        // one dimension when flattened) that converts the goal
         $tracker = Fixture::getTracker($this->idSite, $this->dateTime, true);
+        $tracker->setUrlReferrer('https://www.google.com/search?q=matomo');
         $tracker->setUrl('http://example.org/thank-you');
         Fixture::checkResponse($tracker->doTrackPageView('Thank you'));
     }
@@ -98,29 +103,42 @@ class GoalColumnsExportTest extends IntegrationTestCase
 
     public function testShowColumnsDoesNotDropFlattenedDimensionColumns()
     {
-        // A flattened report adds a column per dimension (names only exist after flattening), which
-        // an allowlist cannot know up front; DataTablePostProcessor must keep them.
-        $table = new DataTable();
-        $table->addRowFromSimpleArray([
-            'label'      => 'foo',
-            'nb_visits'  => 5,
-            'mydimension' => 'bar',
-            'nb_actions' => 9,
-        ]);
-        $table->setMetadata('dimensions', ['mydimension']);
+        // A flattened report adds a column per dimension, whose names only exist after flattening
+        // and so cannot be part of a showColumns allowlist; they must not be dropped by it.
+        $this->trackGoalConversion();
 
-        $processor = new DataTablePostProcessor('Referrers', 'getReferrerType', ['showColumns' => 'label,nb_visits']);
-        $processor->applyRequestedColumnDeletion($table);
+        $flatParams = [
+            'flat'            => 1,
+            'show_dimensions' => 1,
+        ];
 
-        $row = $table->getFirstRow();
-        $this->assertSame('bar', $row->getColumn('mydimension'), 'flattened dimension column should be kept');
-        $this->assertEquals(5, $row->getColumn('nb_visits'));
+        // the search engines report is flattened into search engine + keyword, ie, two dimensions
+        $unrestricted = $this->requestReport('Referrers.getSearchEngines', $flatParams);
+        $dimensions   = $unrestricted->getMetadata('dimensions');
+
+        $this->assertIsArray($dimensions);
+        $this->assertGreaterThan(1, count($dimensions), 'flattening should add a column per dimension');
+        $this->assertNotFalse($unrestricted->getFirstRow()->getColumn('nb_actions'));
+
+        $restricted = $this->requestReport('Referrers.getSearchEngines', $flatParams + ['showColumns' => 'label,nb_visits']);
+        $row        = $restricted->getFirstRow();
+
+        foreach ($dimensions as $dimension) {
+            $this->assertNotFalse($row->getColumn($dimension), $dimension . ' column should be kept');
+        }
+
+        $this->assertEquals(1, $row->getColumn('nb_visits'));
         $this->assertFalse($row->getColumn('nb_actions'), 'a non-allowlisted metric should still be removed');
     }
 
     private function requestReferrerTypes(array $extraParams): DataTable
     {
-        return Request::processRequest('Referrers.getReferrerType', array_merge([
+        return $this->requestReport('Referrers.getReferrerType', $extraParams);
+    }
+
+    private function requestReport(string $method, array $extraParams): DataTable
+    {
+        return Request::processRequest($method, array_merge([
             'idSite'       => $this->idSite,
             'period'       => 'day',
             'date'         => $this->dateTime,
