@@ -139,7 +139,7 @@ describe("WidgetizedDashboard", function () {
 
         await page.click('.dashboard-manager .title');
         await page.waitForTimeout(50);
-        await page.click('.dashboard-manager .addWidget-button');
+        await page.click('button[data-action="addWidget"]');
         await page.waitForSelector(modalSelector);
         await page.waitForSelector(modalSelector + ' .widgetpreview-categorylist>li button');
 

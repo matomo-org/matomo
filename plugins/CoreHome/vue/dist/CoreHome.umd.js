@@ -2604,7 +2604,7 @@ var __async = (__this, __arguments, generator) => {
     if ((_a2 = binding.value) == null ? void 0 : _a2.onExpand) {
       binding.value.onExpand(event);
     }
-    const positionElement = element.querySelector(".dropdown.positionInViewport");
+    const positionElement = element.querySelector(".positionInViewport");
     if (positionElement) {
       Matomo.helper.setMarginLeftToBeInViewport(positionElement);
     }
@@ -2691,7 +2691,7 @@ var __async = (__this, __arguments, generator) => {
    */
   function onMouseEnter(element) {
     element.classList.add("expanded");
-    const positionElement = element.querySelector(".dropdown.positionInViewport");
+    const positionElement = element.querySelector(".positionInViewport");
     if (positionElement) {
       Matomo.helper.setMarginLeftToBeInViewport(positionElement);
     }

@@ -23,7 +23,7 @@ export interface ExpandOnHoverArgs {
 function onMouseEnter(element: HTMLElement) {
   element.classList.add('expanded');
 
-  const positionElement = element.querySelector('.dropdown.positionInViewport');
+  const positionElement = element.querySelector('.positionInViewport');
   if (positionElement) {
     Matomo.helper.setMarginLeftToBeInViewport(positionElement);
   }
