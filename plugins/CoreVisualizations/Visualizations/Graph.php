@@ -313,7 +313,7 @@ abstract class Graph extends Visualization
      *
      * @return string[] [$conversionsColumn, $revenueColumn]
      */
-    protected function getGoalMetricColumns(): array
+    private function getGoalMetricColumns(): array
     {
         $idGoal = $this->getSpecificGoalId();
 
@@ -362,7 +362,7 @@ abstract class Graph extends Visualization
      *
      * @return int|string|false
      */
-    protected function getSpecificGoalId()
+    private function getSpecificGoalId()
     {
         if (!$this->config->show_goals) {
             return false;
