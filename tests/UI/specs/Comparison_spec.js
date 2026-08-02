@@ -419,6 +419,19 @@ describe("Comparison", function () {
         );
         await page.waitForNetworkIdle();
 
+        await page.evaluate(function(){
+            // replace all metric names with `metric name` to avoid test failures when metric
+            // translation changes.
+            $('.sparklineSegmentComparisonCard__title, .sparklineDateComparison__title, .metricValue__title')
+                .each(function(){ $(this).text('metric name') });
+            // Secondary lines merge the value and its (translated) label into a single string, with
+            // a locale-dependent word order, so keep the value and replace everything else.
+            $('.metricValue__secondaryLine').each(function(){
+                var value = $(this).text().match(/\d+(?:[.,\s\u00a0]\d+)*\s*%?/);
+                $(this).text((value ? value[0].trim() + ' ' : '') + 'metric name');
+            });
+        });
+
         expect(await page.screenshot({ fullPage: true })).to.matchImage('visits_overview_widget_sv');
     });
 });
