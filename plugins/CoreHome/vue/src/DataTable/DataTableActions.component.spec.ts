@@ -76,6 +76,12 @@ describe('DataTableActions percentage values setting', () => {
     expect(wrapper.find('a.dropdownConfigureIcon').exists()).toBe(false);
   });
 
+  it('should not offer the setting on an empty table, like the totals row item', () => {
+    const wrapper = mountComponent({ isDataTableEmpty: true });
+
+    expect(wrapper.find(percentageItem).exists()).toBe(false);
+  });
+
   it('should offer the setting, unhighlighted, when the report shows absolute values', () => {
     const wrapper = mountComponent({ clientSideParameters: {} });
 

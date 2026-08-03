@@ -398,7 +398,7 @@ describe('DataTable', function () {
       expect(cell.value).to.match(/%$/);
       // comparison rows append their period over period change, which stays next to the
       // hover value exactly as it did before percentages could be shown
-      expect(cell.hover).to.match(/^[\d,.]+( \([+-]\d+(\.\d+)?%\))?$/);
+      expect(cell.hover).to.match(/^[\d,.]+( \([+-][\d,.]+%\))?$/);
     });
   });
 

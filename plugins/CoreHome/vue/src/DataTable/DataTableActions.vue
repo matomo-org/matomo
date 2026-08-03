@@ -180,7 +180,7 @@
           v-html="$sanitize(keepTotalsRowText)"
         ></div>
       </li>
-      <li v-if="reportSupportsPercentageValues">
+      <li v-if="showPercentageValuesConfigItem">
         <div
           class="configItem dataTableShowPercentageValues"
           :aria-label="percentageValuesLabel"
@@ -428,6 +428,9 @@ export default defineComponent({
     showTotalsConfigItem() {
       return !this.isDataTableEmpty && this.showTotalsRow;
     },
+    showPercentageValuesConfigItem() {
+      return !this.isDataTableEmpty && this.reportSupportsPercentageValues;
+    },
     hasConfigItems() {
       return this.showFlattenTable
         || this.showDimensionsConfigItem
@@ -435,7 +438,7 @@ export default defineComponent({
         || this.showTotalsConfigItem
         || this.showExcludeLowPopulation
         || this.showPivotBySubtable
-        || this.reportSupportsPercentageValues;
+        || this.showPercentageValuesConfigItem;
     },
     flattenItemText() {
       const params = this.clientSideParameters as Record<string, string|number|boolean>;
