@@ -69,7 +69,8 @@ describe("Comparison", function () {
                 // The redesigned card exposes the metric name in its title (segment/date comparison)
                 // or the metric readout title (no comparison), not inline with the value.
                 var titleEl = sparklines[i].querySelector(
-                    '[class$="Card__title"], .sparklineDateComparison__title, .metricValue__title'
+                    '.sparklineCard__title, .sparklineSegmentComparisonCard__title,'
+                    + ' .sparklineDateComparison__title, .metricValue__title'
                 );
                 if (!titleEl || normalize(titleEl.textContent).indexOf(textToFind) === -1) {
                     continue;
