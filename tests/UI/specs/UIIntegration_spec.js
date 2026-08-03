@@ -44,12 +44,14 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             delete testEnvironment.idSitesViewAccess;
         }
         testEnvironment.testUseMockAuth = 1;
+        testEnvironment.overrideConfig('FeatureFlags', 'SparklinesRedesign_feature', 'enabled');
         testEnvironment.save();
     });
 
     after(function () {
         delete testEnvironment.queryParamOverride;
         delete testEnvironment.completeNoChallenge;
+        delete testEnvironment.configOverride.FeatureFlags;
         testEnvironment.testUseMockAuth = 1;
         testEnvironment.save();
     });
@@ -522,10 +524,16 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         });
 
         it('should load sparklines view correctly even when there is no matching row', async function () {
-            await page.goto('?forceView=1&viewDataTable=sparklines&module=ExampleUI&action=getTemperaturesEvolution&label=example32323.matomo.org&'+generalParams+'&segment=&showtitle=1');
+            // Widgetized rather than a bare forceView render: the sparklines grid mounts from a
+            // vue-entry, so it needs the page assets a raw visualization fragment does not load.
+            // No widget=1, so this still captures the reporting page (non-widget) grid layout.
+            await page.goto('?' + widgetizeParams + '&moduleToWidgetize=ExampleUI&actionToWidgetize=getTemperaturesEvolution'
+                + '&forceView=1&viewDataTable=sparklines&label=example32323.matomo.org&' + generalParams + '&segment=&showtitle=1');
             await page.waitForNetworkIdle();
+            // Fails loudly if the grid never mounts, rather than silently capturing a blank card.
+            await page.waitForSelector('.sparklineCard img.sparklineImg');
 
-            pageWrap = await page.$('body');
+            const pageWrap = await page.$('body');
             expect(await pageWrap.screenshot()).to.matchImage('exampleui_sparklines_no_matching_row');
         });
     });
@@ -674,6 +682,9 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         });
 
         it('should load the config file page correctly', async function () {
+            // The SparklinesRedesign FeatureFlag override (set in beforeEach) would otherwise be
+            // listed on this diagnostics page; drop it so the config-file screenshot stays stable.
+            delete testEnvironment.configOverride.FeatureFlags;
             testEnvironment.configOverride.mail = {username: '<a href="test">value</a>'};
             testEnvironment.save();
             await page.goto("?" + generalParams + "&module=Diagnostics&action=configfile");

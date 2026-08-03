@@ -8,6 +8,16 @@
  */
 
 describe("RowEvolution", function () {
+    before(function () {
+        testEnvironment.overrideConfig('FeatureFlags', 'SparklinesRedesign_feature', 'enabled');
+        testEnvironment.save();
+    });
+
+    after(function () {
+        delete testEnvironment.configOverride.FeatureFlags;
+        testEnvironment.save();
+    });
+
     const viewDataTableUrl = "?module=Widgetize&action=iframe&moduleToWidgetize=Referrers&idSite=1&period=week&date=2012-02-09&"
                          + "actionToWidgetize=getKeywords&viewDataTable=table&filter_limit=5";
 
