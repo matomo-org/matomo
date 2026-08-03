@@ -5,6 +5,8 @@
     <div class="contentForm loginForm">
         {% embed 'contentBlock.twig' with {'title': 'Login_LogIn'|translate} %}
             {% block content %}
+                <p class="loginForm__intro">{{ 'Login_SignInIntro'|translate }}</p>
+
                 <div class="message_container">
 
                     {{ include('@Login/_formErrors.twig', {formErrors: form_data.errors } )  }}

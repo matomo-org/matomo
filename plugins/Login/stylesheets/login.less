@@ -1,22 +1,34 @@
 /* LOGO
 ***********************/
 #loginPage {
-    nav {
-        background-color: @theme-color-header-background;
+    background-color: @theme-color-background-contrast;
+
+    /* Fill the viewport so the login layout can centre both of its columns vertically. */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+
+    /* The shared layout footer sits outside .loginLayout, at the very bottom of the page.
+       Its links are rendered under the sign in form instead, so drop it entirely — that also
+       reclaims its fixed spacer height for the layout. */
+    #pageFooter {
+        display: none;
     }
+
     #logo {
         padding-top: 6px;
+        padding-left: 0;
 
         img.default-piwik-logo {
             width: 171px;
+            /* Invert the stock wordmark in dark mode, as the app header does. Custom logos
+               don't carry this class and are deliberately left untouched. */
+            filter: @theme-filter-on-illustration;
         }
 
         img {
             max-height: 32px;
         }
-    }
-    #logo:not(.center) {
-        padding-left: 16px;
     }
 
     .message_container {
@@ -39,16 +51,15 @@
     ***********************/
 
     .loginSection {
-        margin-top: 32px;
+        margin-top: 40px;
 
         > .col {
             max-width: 750px;
-        }
-        > .col:not(.invite-form-section-div):not(.onboardingImage){
             float: none;
             margin-left: auto;
             margin-right: auto;
         }
+
         .icon.prefix {
             font-size: 1.5rem;
             width: 2.5rem;
@@ -64,8 +75,25 @@
         }
 
         .btn {
-            margin-top: 0;
+            margin: 0;
             font-weight: bold;
+            box-shadow: none;
+            &:hover {
+                box-shadow: none;
+            }
+        }
+
+        /* override: the global form styles float submit buttons to the right; the refreshed
+           login forms lay them out in the flow like every other row. */
+        .submit {
+            float: none;
+        }
+
+        /* The decline confirmation is a yes/no prompt rather than a form to fill in, so its
+           button keeps the right alignment, spaced off the text above it. */
+        .invitationDecline .submit {
+            float: right;
+            margin-top: 24px;
         }
 
         .btn.disabled,
@@ -83,15 +111,45 @@
         }
     }
 
-    #login_form {
+    .loginForm__intro {
+        /* Absorbs part of the card title's bottom margin so the intro reads as a subtitle
+           of "Sign in" rather than as a separate paragraph. */
+        margin: -8px 0 0;
+        font-size: 14px;
+        line-height: 1.5;
+        color: @theme-color-text-light;
+    }
+
+    /* The sign in form and the set password form share the same field and row rhythm. */
+    #login_form,
+    #invitationForm form {
         margin-top: 16px;
+        .row {
+            margin-bottom: 16px;
+        }
+        /* override: Materialize's grid gutter indents every field by 12px; the refreshed
+           form aligns them flush with the logo and the "Sign in" heading instead. */
+        .row .col {
+            padding-left: 0;
+            padding-right: 0;
+            margin-bottom: 0;
+        }
+
+        /* override: Materialize offsets the floating label by the same 12px gutter. */
+        .input-field label {
+            left: 0;
+        }
 
         .row:last-child {
             margin-bottom: 0;
         }
 
+        .row.actions {
+            margin-bottom: 24px;
+        }
+
         .row.actions a {
-            color: #777777;
+            color: @theme-color-link;
         }
     }
 
@@ -141,65 +199,178 @@
     }
 }
 
-.onboarding {
-    background: white;
+.cancelResetPassword {
+    .alert {
+        margin-top: 20px;
+    }
+}
 
-    h1 {
-        margin-top: 4rem;
-        margin-bottom: 1.5rem;
-        line-height: 24px;
+/* REFRESHED LOGIN LAYOUT
+   Logo + login form centred in the primary column, "What's New" panel on a rounded,
+   brand-tinted surface filling the secondary column. Columns stack on tablet/mobile.
+***********************/
+.loginLayout {
+    @_panelInset: 24px;
+    @_panelPadding: 40px;
+    @_panelRadius: 24px;
+
+    display: flex;
+    align-items: stretch;
+    flex: auto;
+    box-sizing: border-box;
+
+    .loginLayout__primary {
+        display: flex;
+        flex-direction: column;
+        justify-content: safe center;
+        flex: auto;
+        box-sizing: border-box;
+        padding: @_panelInset;
     }
 
-    .description {
-        margin-bottom: 1.5rem;
-        line-height: 24px;
+    /* Both sides are vertically centred; the primary column keeps its content in a
+       fixed-width, horizontally centred stack so logo and form stay left-aligned. */
+    .loginLayout__logo,
+    .loginLayout__content,
+    .loginLayout__footerLinks {
+        box-sizing: border-box;
+        width: 450px;
+        /* Fixed width, but never wider than the viewport it sits in. */
+        max-width: 100%;
+        margin-left: auto;
+        margin-right: auto;
     }
 
-    label {
-        font-weight: 600;
-        color: unset !important;
+    .loginLayout__footerLinks {
+        margin-top: 24px;
     }
 
-    .formSubmitButton {
-        text-transform: uppercase;
-        float: unset;
+    .loginLayout__secondary {
+        display: flex;
+        flex-direction: column;
+        justify-content: safe center;
+        /* Stretch, don't centre: the panel fills the padding box, so the teal frame is the
+           padding itself and stays equal on every side. */
+        align-items: stretch;
+        flex: none;
+        box-sizing: border-box;
+        width: 50%;
+        margin: @_panelInset @_panelInset @_panelInset 0;
+        /* Uniform on all four sides: the panel stretches to fill it, so the teal shows as
+           an even frame around the panel. */
+        padding: @_panelPadding;
+        border-radius: @_panelRadius;
+        /* Decorative brand surface, layered radial highlights over a vertical base wash. */
+        background-image: ~"radial-gradient(166.67% 208.33% at 258.33% 66.67%, rgba(229, 255, 252, 0.60) 0%, rgba(229, 255, 252, 0.00) 100%), radial-gradient(192.31% 138.89% at 63.89% -111.54%, rgba(209, 255, 247, 0.60) 0%, rgba(209, 255, 247, 0.00) 100%), radial-gradient(142.86% 178.57% at -85.71% 50%, rgba(204, 252, 255, 0.65) 0%, rgba(204, 255, 245, 0.00) 100%), radial-gradient(166.67% 156.25% at 75% 210%, rgba(224, 255, 250, 0.70) 0%, rgba(224, 255, 250, 0.00) 100%), radial-gradient(125% 113.64% at 145.45% -20%, rgba(154, 255, 241, 0.55) 0%, rgba(51, 204, 184, 0.00) 100%), radial-gradient(113.64% 125% at -12.5% 113.64%, rgba(102, 242, 229, 0.55) 0%, rgba(102, 242, 229, 0.00) 100%), radial-gradient(90.91% 90.91% at -8.18% -13.64%, rgba(0, 180, 190, 0.60) 0%, rgba(0, 190, 174, 0.00) 100%), radial-gradient(104.17% 86.21% at 127.59% 141.67%, rgba(49, 238, 241, 0.65) 0%, rgba(77, 224, 204, 0.00) 100%), linear-gradient(183deg, #F2FFFF 17.92%, #5DC7CD 132.86%)";
     }
 
-    #footerLinks {
-        display: none;
+    /* Tighten the legacy form spacing now that the logo sits directly above the form. */
+    .loginSection {
+        margin-top: 0;
     }
 
-    .onboardingImage {
-        max-width: 620px;
+    /* override: the sign-in form reads as a plain column in the refreshed design, so strip
+       the Morpheus/Materialize card chrome that contentBlock.twig wraps it in. */
+    .card {
+        border: 0;
+        margin: 0;
+        border-radius: 0;
+        background-color: transparent;
     }
 
-    .actions {
-        label {
-            font-weight: unset;
+    .card-content {
+        padding: 0;
+
+        .card-title {
+            font-size: 28px;
+            font-weight: 600;
+            line-height: 36px;
+            margin-bottom: 16px;
         }
     }
 
-    @media screen {
-        @media (max-width: 999px) {
-            .formSubmitButtonRow {
-                position: fixed;
-                width: 100%;
-                bottom: 0;
-            }
-
-            .formSubmitButton {
-                width: 100% !important;
-            }
-
-            h1 {
-                margin-top: 0;
-            }
+    /* Tablet and below: drop the secondary column so the sign in form has the page to
+       itself. Matches the Materialize hide-on-med-and-down boundary this layout replaced. */
+    @media (max-width: 992px) {
+        .loginLayout__secondary {
+            display: none;
         }
     }
 }
 
-.cancelResetPassword {
-    .alert {
-        margin-top: 20px;
+/* WHAT'S NEW PANEL
+***********************/
+.loginWhatsNew {
+    @_cardRadius: 16px;
+    @_iconSize: 36px;
+    @_iconBackground: #e3f5f5;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: safe center;
+    gap: 8px;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 32px;
+    border-radius: @_cardRadius;
+    background-color: @theme-color-background-contrast;
+
+    .loginWhatsNew__heading {
+        margin-bottom: 9px;
+        padding: 0;
+        font-size: 24px;
+        font-weight: 600;
+        color: @theme-color-text;
+    }
+
+    .loginWhatsNew__entry {
+        display: flex;
+        gap: 16px;
+        padding: 20px;
+        border: 1px solid @theme-color-border-alternative;
+        border-radius: 8px;
+        background-color: @theme-color-background-contrast;
+    }
+
+    .loginWhatsNew__icon {
+        display: flex;
+        align-items: safe center;
+        justify-content: safe center;
+        flex: none;
+        width: @_iconSize;
+        height: @_iconSize;
+        border-radius: 8px;
+        background-color: @_iconBackground;
+    }
+
+    .loginWhatsNew__body {
+        flex: auto;
+        min-width: 0;
+    }
+
+    .loginWhatsNew__title {
+        margin: 0 0 8px;
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 24px;
+        color: @theme-color-text;
+        overflow-wrap: anywhere;
+    }
+
+    .loginWhatsNew__description {
+        font-size: 14px;
+        line-height: 20px;
+        color: @theme-color-text-light;
+        overflow-wrap: anywhere;
+    }
+
+    .loginWhatsNew__link {
+        display: inline-block;
+        margin-top: 12px;
+        font-size: 13px;
+        font-weight: 400;
+        line-height: 18px;
+        color: @theme-color-link;
+        overflow-wrap: anywhere;
     }
 }

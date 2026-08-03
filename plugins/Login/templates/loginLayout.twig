@@ -15,8 +15,6 @@
 
 {% set bodyId = 'loginPage' %}
 
-{% set colClass %}{{ colClassOverride|default('col s12 m6 l4') }}{% endset %}
-
 {% block body %}
 
     {{ postEvent("Template.beforeTopBar", "login") }}
@@ -26,30 +24,39 @@
 
     <div id="notificationContainer">
     </div>
-    <nav>
-        <div class="nav-wrapper">
-            {% include "@CoreHome/_logo.twig" with { 'logoLink': 'https://matomo.org', 'centeredLogo': (isCenteredLogo ?? true), 'useLargeLogo': false } %}
+
+    <div class="loginLayout">
+        <div class="loginLayout__primary">
+            <div class="loginLayout__logo">
+                {% include "@CoreHome/_logo.twig" with { 'logoLink': 'https://matomo.org', 'centeredLogo': false, 'useLargeLogo': false } %}
+            </div>
+
+            <div class="loginLayout__content loginSection">
+                {# untrusted host warning #}
+                {% if (isValidHost is defined and invalidHostMessage is defined and isValidHost == false) %}
+                    {% include '@CoreHome/_warningInvalidHost.twig' %}
+                {% else %}
+                    {% block loginContent %}
+                    {% endblock %}
+                {% endif %}
+            </div>
+
+            {# Imprint / privacy policy / terms links. The shared page footer that normally
+               carries them sits outside this layout, at the very bottom of the page, so render
+               them under the form instead and hide that one in CSS. #}
+            {% set footerLinks %}{{ postEvent('Template.pageFooter') }}{% endset %}
+
+            {% if footerLinks|trim is not empty %}
+                <div class="loginLayout__footerLinks">{{ footerLinks|raw }}</div>
+            {% endif %}
         </div>
-    </nav>
 
-    <section class="loginSection row">
-        <div class="{{ colClass }}">
-
-        {# untrusted host warning #}
-        {% if (isValidHost is defined and invalidHostMessage is defined and isValidHost == false) %}
-            {% include '@CoreHome/_warningInvalidHost.twig' %}
-        {% else %}
-            {% block loginContent %}
-            {% endblock %}
+        {# The secondary column is dropped entirely when there is nothing to show in it. #}
+        {% if whatsNewChanges is defined and whatsNewChanges is not empty %}
+            <div class="loginLayout__secondary">
+                {% include '@Login/_whatsNewPanel.twig' with { 'changes': whatsNewChanges } %}
+            </div>
         {% endif %}
-
-        </div>
-
-        {% if showImageDiv is defined and imageToShow is defined %}
-        <div class="col l4 hide-on-med-and-down onboardingImage">
-            <img class="responsive-img" src="{{ imageToShow }}">
-        </div>
-        {% endif %}
-    </section>
+    </div>
 
 {% endblock %}
