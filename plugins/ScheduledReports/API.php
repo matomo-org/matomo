@@ -672,6 +672,9 @@ class API extends \Piwik\Plugin\API
                     // regardless of the parameters present in the original request.
                     'disable_queued_filters' => 0,
                     'disable_generic_filters' => 0,
+                    // scheduled reports render every processed report column, adding the
+                    // percent-of-total columns would bloat the emailed tables
+                    'percent_of_total' => 0,
                 ];
 
                 // all Websites dashboard should not be truncated in the report
