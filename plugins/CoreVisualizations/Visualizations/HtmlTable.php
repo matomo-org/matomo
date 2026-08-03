@@ -167,10 +167,8 @@ class HtmlTable extends Visualization
     /**
      * Returns whether at least one displayed column has a meaningful percentage value, using the
      * same eligibility rule as the individual cells (see _dataTableViz_htmlTable_ratio.twig).
-     *
-     * @return bool
      */
-    private function supportsPercentageValues()
+    private function supportsPercentageValues(): bool
     {
         $totals = $this->dataTable ? $this->dataTable->getMetadata('totals') : null;
 

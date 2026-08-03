@@ -89,7 +89,13 @@
                 'rowPercentage': rowPercentage,
                 'showAbsoluteValueOnHover': showPercentageValues
             } %}
-            <span class="value">{% if showPercentageValues %}{{ rowPercentage }}{% else %}{{ columnValue|default(0)|number(2,0)|rawSafeDecoded }}{% endif %}</span>
+            <span class="value">
+                {%- if showPercentageValues -%}
+                    {{- rowPercentage -}}
+                {%- else -%}
+                    {{- columnValue|default(0)|number(2,0)|rawSafeDecoded -}}
+                {%- endif -%}
+            </span>
         </td>
         {% endif %}
         {% endfor %}
