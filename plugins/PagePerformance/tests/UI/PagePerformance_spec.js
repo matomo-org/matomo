@@ -10,6 +10,16 @@
 describe("PagePerformance", function () {
     this.fixture = "Piwik\\Plugins\\PagePerformance\\tests\\Fixtures\\VisitsWithPagePerformanceMetrics";
 
+    before(function () {
+        testEnvironment.overrideConfig('FeatureFlags', 'SparklinesRedesign_feature', 'enabled');
+        testEnvironment.save();
+    });
+
+    after(function () {
+        delete testEnvironment.configOverride.FeatureFlags;
+        testEnvironment.save();
+    });
+
     const generalParams = 'idSite=1&period=day&date=2010-03-12',
         urlBase = 'module=CoreHome&action=index&' + generalParams;
     const pageUrlsReportId = '#widgetActionsgetPageUrlsforceView1viewDataTabletablePerformanceColumnsperformance1';

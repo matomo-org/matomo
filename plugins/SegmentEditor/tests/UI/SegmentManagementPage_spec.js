@@ -8,6 +8,16 @@
  */
 
 describe("SegmentManagementPageTest", function () {
+  before(function () {
+    testEnvironment.overrideConfig('FeatureFlags', 'SparklinesRedesign_feature', 'enabled');
+    testEnvironment.save();
+  });
+
+  after(function () {
+    delete testEnvironment.configOverride.FeatureFlags;
+    testEnvironment.save();
+  });
+
   this.fixture = 'Piwik\\Plugins\\SegmentEditor\\tests\\Fixtures\\SegmentManagementPageFixture';
 
   const defaultViewport = { width: 1350, height: 768 };

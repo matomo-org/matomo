@@ -10,6 +10,16 @@
 describe('AIAgents', function () {
   this.fixture = 'Piwik\\Plugins\\AIAgents\\tests\\Fixtures\\AIAgents';
 
+  before(function () {
+    testEnvironment.overrideConfig('FeatureFlags', 'SparklinesRedesign_feature', 'enabled');
+    testEnvironment.save();
+  });
+
+  after(function () {
+    delete testEnvironment.configOverride.FeatureFlags;
+    testEnvironment.save();
+  });
+
   const url = '?module=CoreHome&action=index&category=General_AIAssistants&subcategory=AIAgents_AIAgentsOverview&idSite=1&period=day&date=2025-07-20';
 
   it('should display the AI agents overview', async function () {
@@ -38,7 +48,20 @@ describe('AIAgents', function () {
     const sparklines = await page.$$('.sparkline.linked');
 
     expect(sparklines.length).to.equal(10);
-    await sparklines[5].click();
+
+    // click the "Human Visits" sparkline (a non-default metric) and confirm the metric picker
+    // follows the click. The redesigned grid keeps the card title in .metricValue__title, so find
+    // the card by title rather than a fixed index (the order differs from the legacy markup).
+    const titles = await page.evaluate(() => Array.prototype.map.call(
+      document.querySelectorAll('.sparkline.linked'),
+      (card) => {
+        const title = card.querySelector('.metricValue__title');
+        return title ? title.textContent.trim() : '';
+      },
+    ));
+    const humanVisitsIndex = titles.indexOf('Human Visits');
+    expect(humanVisitsIndex).to.be.greaterThan(-1);
+    await sparklines[humanVisitsIndex].click();
     await page.waitForNetworkIdle();
 
     const selectedMetrics = await page.$$('.metrics-picker__options input:checked');
