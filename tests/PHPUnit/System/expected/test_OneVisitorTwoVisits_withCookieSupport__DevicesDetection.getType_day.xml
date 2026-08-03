@@ -24,84 +24,104 @@
 		</goals>
 		<nb_conversions>2</nb_conversions>
 		<revenue>43</revenue>
+		<nb_visits_percent_of_total>100%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>100%</nb_uniq_visitors_percent_of_total>
+		<nb_actions_percent_of_total>100%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>100%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>100%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>100%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>100%</revenue_percent_of_total>
 		<segment>deviceType==desktop</segment>
 		<logo>plugins/Morpheus/icons/dist/devices/desktop.png</logo>
 	</row>
 	<row>
 		<label>Camera</label>
 		<nb_visits>0</nb_visits>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 		<segment>deviceType==camera</segment>
 		<logo>plugins/Morpheus/icons/dist/devices/camera.png</logo>
 	</row>
 	<row>
 		<label>Car browser</label>
 		<nb_visits>0</nb_visits>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 		<segment>deviceType==car+browser</segment>
 		<logo>plugins/Morpheus/icons/dist/devices/car_browser.png</logo>
 	</row>
 	<row>
 		<label>Console</label>
 		<nb_visits>0</nb_visits>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 		<segment>deviceType==console</segment>
 		<logo>plugins/Morpheus/icons/dist/devices/console.png</logo>
 	</row>
 	<row>
 		<label>Feature phone</label>
 		<nb_visits>0</nb_visits>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 		<segment>deviceType==feature+phone</segment>
 		<logo>plugins/Morpheus/icons/dist/devices/feature_phone.png</logo>
 	</row>
 	<row>
 		<label>Peripheral</label>
 		<nb_visits>0</nb_visits>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 		<segment>deviceType==peripheral</segment>
 		<logo>plugins/Morpheus/icons/dist/devices/peripheral.png</logo>
 	</row>
 	<row>
 		<label>Phablet</label>
 		<nb_visits>0</nb_visits>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 		<segment>deviceType==phablet</segment>
 		<logo>plugins/Morpheus/icons/dist/devices/phablet.png</logo>
 	</row>
 	<row>
 		<label>Portable media player</label>
 		<nb_visits>0</nb_visits>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 		<segment>deviceType==portable+media+player</segment>
 		<logo>plugins/Morpheus/icons/dist/devices/portable_media_player.png</logo>
 	</row>
 	<row>
 		<label>Smart display</label>
 		<nb_visits>0</nb_visits>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 		<segment>deviceType==smart+display</segment>
 		<logo>plugins/Morpheus/icons/dist/devices/smart_display.png</logo>
 	</row>
 	<row>
 		<label>Smartphone</label>
 		<nb_visits>0</nb_visits>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 		<segment>deviceType==smartphone</segment>
 		<logo>plugins/Morpheus/icons/dist/devices/smartphone.png</logo>
 	</row>
 	<row>
 		<label>Smart speaker</label>
 		<nb_visits>0</nb_visits>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 		<segment>deviceType==smart+speaker</segment>
 		<logo>plugins/Morpheus/icons/dist/devices/smart_speaker.png</logo>
 	</row>
 	<row>
 		<label>Tablet</label>
 		<nb_visits>0</nb_visits>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 		<segment>deviceType==tablet</segment>
 		<logo>plugins/Morpheus/icons/dist/devices/tablet.png</logo>
 	</row>
 	<row>
 		<label>Tv</label>
 		<nb_visits>0</nb_visits>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 		<segment>deviceType==tv</segment>
 		<logo>plugins/Morpheus/icons/dist/devices/tv.png</logo>
 	</row>
 	<row>
 		<label>Wearable</label>
 		<nb_visits>0</nb_visits>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 		<segment>deviceType==wearable</segment>
 		<logo>plugins/Morpheus/icons/dist/devices/wearable.png</logo>
 	</row>

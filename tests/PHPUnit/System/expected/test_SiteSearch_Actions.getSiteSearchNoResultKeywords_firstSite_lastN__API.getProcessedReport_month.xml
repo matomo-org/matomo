@@ -36,12 +36,16 @@
 		<label>Keyword with No Search Result</label>
 		<nb_visits>Searches</nb_visits>
 		<exit_rate>% Search Exits</exit_rate>
+		<nb_visits_percent_of_total>Searches (% of total)</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>Pageviews (% of total)</nb_hits_percent_of_total>
 	</columns>
 	<reportData>
 		<result prettyDate="January 2010">
 			<row>
 				<label>No Result Keyword!</label>
 				<nb_visits>2</nb_visits>
+				<nb_visits_percent_of_total>100%</nb_visits_percent_of_total>
+				<nb_hits_percent_of_total>100%</nb_hits_percent_of_total>
 				<exit_rate>0%</exit_rate>
 			</row>
 		</result>

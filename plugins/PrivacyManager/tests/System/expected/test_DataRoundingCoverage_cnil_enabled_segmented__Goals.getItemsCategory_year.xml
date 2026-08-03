@@ -8,6 +8,9 @@
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<nb_visits_percent_of_total>23.8%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>20.4%</nb_actions_percent_of_total>
+		<revenue_percent_of_total>31.2%</revenue_percent_of_total>
 		<avg_price>1000</avg_price>
 		<avg_quantity>10</avg_quantity>
 		<conversion_rate>100%</conversion_rate>
@@ -21,6 +24,9 @@
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<nb_visits_percent_of_total>23.8%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>20.4%</nb_actions_percent_of_total>
+		<revenue_percent_of_total>12.5%</revenue_percent_of_total>
 		<avg_price>500</avg_price>
 		<avg_quantity>10</avg_quantity>
 		<conversion_rate>100%</conversion_rate>
@@ -34,6 +40,9 @@
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<nb_visits_percent_of_total>23.8%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>20.4%</nb_actions_percent_of_total>
+		<revenue_percent_of_total>12.5%</revenue_percent_of_total>
 		<avg_price>500</avg_price>
 		<avg_quantity>10</avg_quantity>
 		<conversion_rate>100%</conversion_rate>
@@ -47,6 +56,9 @@
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<nb_visits_percent_of_total>23.8%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>20.4%</nb_actions_percent_of_total>
+		<revenue_percent_of_total>12.5%</revenue_percent_of_total>
 		<avg_price>500</avg_price>
 		<avg_quantity>10</avg_quantity>
 		<conversion_rate>100%</conversion_rate>
@@ -60,6 +72,9 @@
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<nb_visits_percent_of_total>23.8%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>20.4%</nb_actions_percent_of_total>
+		<revenue_percent_of_total>12.5%</revenue_percent_of_total>
 		<avg_price>500</avg_price>
 		<avg_quantity>10</avg_quantity>
 		<conversion_rate>100%</conversion_rate>
@@ -70,6 +85,7 @@
 		<revenue>700</revenue>
 		<quantity>10</quantity>
 		<orders>10</orders>
+		<revenue_percent_of_total>8.7%</revenue_percent_of_total>
 		<avg_price>100</avg_price>
 		<avg_quantity>10</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
@@ -83,6 +99,9 @@
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<nb_visits_percent_of_total>23.8%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>20.4%</nb_actions_percent_of_total>
+		<revenue_percent_of_total>7.6%</revenue_percent_of_total>
 		<avg_price>55.61</avg_price>
 		<avg_quantity>10</avg_quantity>
 		<conversion_rate>100%</conversion_rate>
@@ -93,6 +112,7 @@
 		<revenue>200</revenue>
 		<quantity>10</quantity>
 		<orders>10</orders>
+		<revenue_percent_of_total>2.5%</revenue_percent_of_total>
 		<avg_price>100</avg_price>
 		<avg_quantity>10</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
@@ -104,6 +124,8 @@
 		<nb_actions>10</nb_actions>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<avg_price>69.6</avg_price>
+		<nb_visits_percent_of_total>23.8%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>20.4%</nb_actions_percent_of_total>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
 		<segment>productCategory==Category1</segment>
@@ -114,6 +136,8 @@
 		<nb_actions>10</nb_actions>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<avg_price>52.2</avg_price>
+		<nb_visits_percent_of_total>23.8%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>20.4%</nb_actions_percent_of_total>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
 		<segment>productCategory==Category2</segment>
@@ -124,6 +148,8 @@
 		<nb_actions>10</nb_actions>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<avg_price>52.2</avg_price>
+		<nb_visits_percent_of_total>23.8%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>20.4%</nb_actions_percent_of_total>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
 		<segment>productCategory==Category3</segment>
@@ -134,6 +160,8 @@
 		<nb_actions>10</nb_actions>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<avg_price>17.4</avg_price>
+		<nb_visits_percent_of_total>23.8%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>20.4%</nb_actions_percent_of_total>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
 		<segment>productCategory==Category4</segment>
@@ -144,6 +172,8 @@
 		<nb_actions>10</nb_actions>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<avg_price>17.4</avg_price>
+		<nb_visits_percent_of_total>23.8%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>20.4%</nb_actions_percent_of_total>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
 		<segment>productCategory==Category7</segment>
@@ -154,6 +184,8 @@
 		<nb_actions>10</nb_actions>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<avg_price>0</avg_price>
+		<nb_visits_percent_of_total>23.8%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>20.4%</nb_actions_percent_of_total>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
 		<segment>productCategory==Category+TWO+LEFT+in+cart</segment>
@@ -164,6 +196,8 @@
 		<nb_actions>10</nb_actions>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<avg_price>0</avg_price>
+		<nb_visits_percent_of_total>23.8%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>20.4%</nb_actions_percent_of_total>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
 		<segment>productCategory==second+category</segment>

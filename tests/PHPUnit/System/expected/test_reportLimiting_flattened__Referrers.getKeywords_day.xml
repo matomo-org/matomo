@@ -10,6 +10,11 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>7</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>58.3%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>58.3%</nb_uniq_visitors_percent_of_total>
+		<nb_actions_percent_of_total>58.3%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>58.3%</bounce_count_percent_of_total>
 		<is_summary>1</is_summary>
 		<Referrers_Keyword>Others</Referrers_Keyword>
 	</row>
@@ -23,6 +28,11 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>2</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>16.7%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>16.7%</nb_uniq_visitors_percent_of_total>
+		<nb_actions_percent_of_total>16.7%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>16.7%</bounce_count_percent_of_total>
 		<logo>plugins/Morpheus/icons/dist/searchEngines/xx.png</logo>
 		<Referrers_Keyword>this search term</Referrers_Keyword>
 		<is_summary>1</is_summary>
@@ -38,6 +48,11 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>8.3%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>8.3%</nb_uniq_visitors_percent_of_total>
+		<nb_actions_percent_of_total>8.3%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>8.3%</bounce_count_percent_of_total>
 		<url>http://alexa.com/search?q=search+term+2</url>
 		<logo>plugins/Morpheus/icons/dist/searchEngines/alexa.com.png</logo>
 		<Referrers_Keyword>search term 2</Referrers_Keyword>
@@ -53,6 +68,11 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>8.3%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>8.3%</nb_uniq_visitors_percent_of_total>
+		<nb_actions_percent_of_total>8.3%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>8.3%</bounce_count_percent_of_total>
 		<url>http://search.babylon.com/?q=search+term+2</url>
 		<logo>plugins/Morpheus/icons/dist/searchEngines/search.babylon.com.png</logo>
 		<Referrers_Keyword>search term 2</Referrers_Keyword>
@@ -68,6 +88,11 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>8.3%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>8.3%</nb_uniq_visitors_percent_of_total>
+		<nb_actions_percent_of_total>8.3%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>8.3%</bounce_count_percent_of_total>
 		<url>http://ask.com/web?q=this+search+term</url>
 		<logo>plugins/Morpheus/icons/dist/searchEngines/ask.com.png</logo>
 		<Referrers_Keyword>this search term</Referrers_Keyword>

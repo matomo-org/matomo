@@ -39,6 +39,11 @@
 		<avg_time_dom_completion>0.566</avg_time_dom_completion>
 		<avg_time_on_load>0.2</avg_time_on_load>
 		<avg_page_load_time>2.059</avg_page_load_time>
+		<nb_visits_percent_of_total>100%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>100%</nb_uniq_visitors_percent_of_total>
+		<nb_hits_percent_of_total>100%</nb_hits_percent_of_total>
+		<exit_nb_visits_percent_of_total>100%</exit_nb_visits_percent_of_total>
+		<exit_nb_uniq_visitors_percent_of_total>100%</exit_nb_uniq_visitors_percent_of_total>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>

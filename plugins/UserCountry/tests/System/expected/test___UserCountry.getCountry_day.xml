@@ -24,6 +24,13 @@
 		</goals>
 		<nb_conversions>3</nb_conversions>
 		<revenue>15</revenue>
+		<nb_visits_percent_of_total>25%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>25%</nb_uniq_visitors_percent_of_total>
+		<nb_actions_percent_of_total>25%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>25%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>25%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>25%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>25%</revenue_percent_of_total>
 		<code>ca</code>
 		<logo>plugins/Morpheus/icons/dist/flags/ca.png</logo>
 		<segment>countryCode==ca</segment>
@@ -53,6 +60,13 @@
 		</goals>
 		<nb_conversions>3</nb_conversions>
 		<revenue>15</revenue>
+		<nb_visits_percent_of_total>25%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>25%</nb_uniq_visitors_percent_of_total>
+		<nb_actions_percent_of_total>25%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>25%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>25%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>25%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>25%</revenue_percent_of_total>
 		<code>fr</code>
 		<logo>plugins/Morpheus/icons/dist/flags/fr.png</logo>
 		<segment>countryCode==fr</segment>
@@ -82,6 +96,13 @@
 		</goals>
 		<nb_conversions>3</nb_conversions>
 		<revenue>15</revenue>
+		<nb_visits_percent_of_total>25%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>25%</nb_uniq_visitors_percent_of_total>
+		<nb_actions_percent_of_total>25%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>25%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>25%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>25%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>25%</revenue_percent_of_total>
 		<code>it</code>
 		<logo>plugins/Morpheus/icons/dist/flags/it.png</logo>
 		<segment>countryCode==it</segment>
@@ -111,6 +132,13 @@
 		</goals>
 		<nb_conversions>3</nb_conversions>
 		<revenue>15</revenue>
+		<nb_visits_percent_of_total>25%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>25%</nb_uniq_visitors_percent_of_total>
+		<nb_actions_percent_of_total>25%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>25%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>25%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>25%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>25%</revenue_percent_of_total>
 		<code>gb</code>
 		<logo>plugins/Morpheus/icons/dist/flags/gb.png</logo>
 		<segment>countryCode==gb</segment>

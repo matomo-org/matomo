@@ -24,6 +24,12 @@
 		<revenue>180</revenue>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>10</sum_daily_nb_users>
+		<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>37.6%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>21.6%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>20.4%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>19.5%</revenue_percent_of_total>
 		<segment>referrerName==referrer.com</segment>
 		<subtable>
 			<row>
@@ -36,6 +42,10 @@
 				<nb_visits_converted>10</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>15%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 			</row>
 			<row>
 				
@@ -47,6 +57,10 @@
 				<nb_visits_converted>10</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>15%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 			</row>
 			<row>
 				
@@ -58,6 +72,10 @@
 				<nb_visits_converted>10</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>7.5%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 			</row>
 			<row>
 				
@@ -69,6 +87,10 @@
 				<nb_visits_converted>10</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>10</sum_daily_nb_users>
+				<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>7.5%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>20.4%</bounce_count_percent_of_total>
 			</row>
 			<row>
 				
@@ -80,6 +102,10 @@
 				<nb_visits_converted>10</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>10</sum_daily_nb_users>
+				<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>7.5%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>20.4%</bounce_count_percent_of_total>
 			</row>
 		</subtable>
 	</row>
@@ -107,6 +133,12 @@
 		<revenue>110</revenue>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>7.5%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>10.8%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>20.4%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>11.9%</revenue_percent_of_total>
 		<segment>referrerName==www.referrer1.com</segment>
 		<subtable>
 			<row>
@@ -119,6 +151,10 @@
 				<nb_visits_converted>10</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>7.5%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>20.4%</bounce_count_percent_of_total>
 			</row>
 			<row>
 				
@@ -130,6 +166,10 @@
 				<nb_visits_converted>10</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>7.5%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>20.4%</bounce_count_percent_of_total>
 			</row>
 			<row>
 				
@@ -141,6 +181,10 @@
 				<nb_visits_converted>10</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>7.5%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 			</row>
 			<row>
 				
@@ -152,6 +196,10 @@
 				<nb_visits_converted>10</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>7.5%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 			</row>
 		</subtable>
 	</row>
@@ -179,6 +227,12 @@
 		<revenue>110</revenue>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>7.5%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>10.8%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>20.4%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>11.9%</revenue_percent_of_total>
 		<segment>referrerName==www.referrer2.com</segment>
 		<subtable>
 			<row>
@@ -191,6 +245,10 @@
 				<nb_visits_converted>10</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>7.5%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>20.4%</bounce_count_percent_of_total>
 			</row>
 			<row>
 				
@@ -202,6 +260,10 @@
 				<nb_visits_converted>10</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>7.5%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>20.4%</bounce_count_percent_of_total>
 			</row>
 			<row>
 				
@@ -213,6 +275,10 @@
 				<nb_visits_converted>10</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>7.5%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 			</row>
 			<row>
 				
@@ -224,6 +290,10 @@
 				<nb_visits_converted>10</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>7.5%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 			</row>
 		</subtable>
 	</row>
@@ -251,6 +321,12 @@
 		<revenue>110</revenue>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>7.5%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>10.8%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>20.4%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>11.9%</revenue_percent_of_total>
 		<segment>referrerName==www.referrer3.com</segment>
 		<subtable>
 			<row>
@@ -263,6 +339,10 @@
 				<nb_visits_converted>10</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>7.5%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>20.4%</bounce_count_percent_of_total>
 			</row>
 			<row>
 				
@@ -274,6 +354,10 @@
 				<nb_visits_converted>10</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>7.5%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>20.4%</bounce_count_percent_of_total>
 			</row>
 			<row>
 				
@@ -285,6 +369,10 @@
 				<nb_visits_converted>10</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>7.5%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 			</row>
 			<row>
 				
@@ -296,6 +384,10 @@
 				<nb_visits_converted>10</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>7.5%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 			</row>
 		</subtable>
 	</row>
@@ -323,6 +415,12 @@
 		<revenue>105</revenue>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>7.5%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>10.8%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>20.4%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>11.4%</revenue_percent_of_total>
 		<segment>referrerName==www.referrer0.com</segment>
 		<subtable>
 			<row>
@@ -335,6 +433,10 @@
 				<nb_visits_converted>10</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>7.5%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>20.4%</bounce_count_percent_of_total>
 			</row>
 			<row>
 				
@@ -346,6 +448,10 @@
 				<nb_visits_converted>10</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>7.5%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>20.4%</bounce_count_percent_of_total>
 			</row>
 		</subtable>
 	</row>
@@ -373,6 +479,12 @@
 		<revenue>90</revenue>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>7.5%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>10.8%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>20.4%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>9.7%</revenue_percent_of_total>
 		<segment>referrerName==www.referrer4.com</segment>
 		<subtable>
 			<row>
@@ -385,6 +497,10 @@
 				<nb_visits_converted>10</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>7.5%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>20.4%</bounce_count_percent_of_total>
 			</row>
 			<row>
 				
@@ -396,6 +512,10 @@
 				<nb_visits_converted>10</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>7.5%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>20.4%</bounce_count_percent_of_total>
 			</row>
 		</subtable>
 	</row>
@@ -423,6 +543,12 @@
 		<revenue>40</revenue>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>10</sum_daily_nb_users>
+		<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>7.5%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>5.4%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>20.4%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>4.3%</revenue_percent_of_total>
 		<segment>referrerName==whatever0.com</segment>
 		<subtable>
 			<row>
@@ -435,6 +561,10 @@
 				<nb_visits_converted>10</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>10</sum_daily_nb_users>
+				<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>7.5%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>20.4%</bounce_count_percent_of_total>
 			</row>
 			<row>
 				
@@ -446,6 +576,10 @@
 				<nb_visits_converted>10</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>10</sum_daily_nb_users>
+				<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>7.5%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>20.4%</bounce_count_percent_of_total>
 			</row>
 			<row>
 				
@@ -457,6 +591,10 @@
 				<nb_visits_converted>10</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>10</sum_daily_nb_users>
+				<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>7.5%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>20.4%</bounce_count_percent_of_total>
 			</row>
 		</subtable>
 	</row>
@@ -484,6 +622,12 @@
 		<revenue>40</revenue>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>7.5%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>5.4%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>20.4%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>4.3%</revenue_percent_of_total>
 		<segment>referrerName==anothersite.com</segment>
 		<subtable>
 			<row>
@@ -496,6 +640,10 @@
 				<nb_visits_converted>10</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>7.5%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>20.4%</bounce_count_percent_of_total>
 			</row>
 			<row>
 				
@@ -507,6 +655,10 @@
 				<nb_visits_converted>10</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>7.5%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 			</row>
 		</subtable>
 	</row>
@@ -520,6 +672,10 @@
 		<nb_visits_converted>10</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>7.5%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>20.4%</bounce_count_percent_of_total>
 		<segment>referrerName==mutantrights.org</segment>
 		<subtable>
 			<row>
@@ -532,6 +688,10 @@
 				<nb_visits_converted>10</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>7.5%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>20.4%</bounce_count_percent_of_total>
 			</row>
 		</subtable>
 	</row>
@@ -559,6 +719,12 @@
 		<revenue>20</revenue>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>10</sum_daily_nb_users>
+		<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>7.5%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>5.4%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>20.4%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>2.2%</revenue_percent_of_total>
 		<segment>referrerName==whatever1.com</segment>
 		<subtable>
 			<row>
@@ -571,6 +737,10 @@
 				<nb_visits_converted>10</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>10</sum_daily_nb_users>
+				<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>7.5%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>20.4%</bounce_count_percent_of_total>
 			</row>
 			<row>
 				
@@ -582,6 +752,10 @@
 				<nb_visits_converted>10</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>10</sum_daily_nb_users>
+				<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>7.5%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>20.4%</bounce_count_percent_of_total>
 			</row>
 		</subtable>
 	</row>
@@ -609,6 +783,12 @@
 		<revenue>45</revenue>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>7.5%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>5.4%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>4.9%</revenue_percent_of_total>
 		<segment>referrerName==www.external.com.vn</segment>
 		<subtable>
 			<row>
@@ -621,6 +801,10 @@
 				<nb_visits_converted>10</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>7.5%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 			</row>
 			<row>
 				
@@ -632,6 +816,10 @@
 				<nb_visits_converted>10</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>7.5%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 			</row>
 		</subtable>
 	</row>
@@ -645,6 +833,10 @@
 		<nb_visits_converted>10</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>7.5%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>20.4%</bounce_count_percent_of_total>
 		<segment>referrerName==xavierinstitute.org</segment>
 		<subtable>
 			<row>
@@ -657,6 +849,10 @@
 				<nb_visits_converted>10</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>7.5%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>20.4%</bounce_count_percent_of_total>
 			</row>
 		</subtable>
 	</row>
@@ -670,6 +866,10 @@
 		<nb_visits_converted>10</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>7.5%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>20.4%</bounce_count_percent_of_total>
 		<segment>referrerName==apocalypsenow.org</segment>
 		<subtable>
 			<row>
@@ -682,6 +882,10 @@
 				<nb_visits_converted>10</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>7.5%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>20.4%</bounce_count_percent_of_total>
 			</row>
 		</subtable>
 	</row>
@@ -709,6 +913,12 @@
 		<revenue>10</revenue>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>7.5%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>5.4%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>20.4%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>1.1%</revenue_percent_of_total>
 		<segment>referrerName==mutantregistration.com</segment>
 		<subtable>
 			<row>
@@ -721,6 +931,10 @@
 				<nb_visits_converted>10</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>7.5%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>20.4%</bounce_count_percent_of_total>
 			</row>
 		</subtable>
 	</row>
@@ -748,6 +962,12 @@
 		<revenue>15</revenue>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>7.5%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>5.4%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>1.6%</revenue_percent_of_total>
 		<segment>referrerName==myotherreferrerwebsite.com</segment>
 		<subtable>
 			<row>
@@ -760,6 +980,10 @@
 				<nb_visits_converted>10</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>7.5%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 			</row>
 		</subtable>
 	</row>
@@ -787,6 +1011,12 @@
 		<revenue>10</revenue>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>7.5%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>5.4%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>20.4%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>1.1%</revenue_percent_of_total>
 		<segment>referrerName==myreferrerwebsite.com</segment>
 		<subtable>
 			<row>
@@ -799,6 +1029,10 @@
 				<nb_visits_converted>10</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>7.5%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>20.4%</bounce_count_percent_of_total>
 			</row>
 		</subtable>
 	</row>
@@ -826,6 +1060,12 @@
 		<revenue>10</revenue>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>7.5%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>5.4%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>1.1%</revenue_percent_of_total>
 		<segment>referrerName==piwik.org</segment>
 		<subtable>
 			<row>
@@ -838,6 +1078,10 @@
 				<nb_visits_converted>10</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>7.5%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 			</row>
 		</subtable>
 	</row>
@@ -865,6 +1109,12 @@
 		<revenue>10</revenue>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>7.5%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>5.4%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>1.1%</revenue_percent_of_total>
 		<segment>referrerName==sn110w.snt110.mail.live.com</segment>
 		<subtable>
 			<row>
@@ -877,6 +1127,10 @@
 				<nb_visits_converted>10</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>7.5%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 			</row>
 		</subtable>
 	</row>
@@ -904,6 +1158,12 @@
 		<revenue>10</revenue>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>10</sum_daily_nb_users>
+		<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>7.5%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>5.4%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>20.4%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>1.1%</revenue_percent_of_total>
 		<segment>referrerName==whatever.com1</segment>
 		<subtable>
 			<row>
@@ -916,6 +1176,10 @@
 				<nb_visits_converted>10</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>10</sum_daily_nb_users>
+				<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>7.5%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>20.4%</bounce_count_percent_of_total>
 			</row>
 		</subtable>
 	</row>
@@ -943,6 +1207,12 @@
 		<revenue>10</revenue>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>10</sum_daily_nb_users>
+		<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>7.5%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>5.4%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>20.4%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>1.1%</revenue_percent_of_total>
 		<segment>referrerName==whatever3.com</segment>
 		<subtable>
 			<row>
@@ -955,6 +1225,10 @@
 				<nb_visits_converted>10</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>10</sum_daily_nb_users>
+				<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>7.5%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>14.1%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>20.4%</bounce_count_percent_of_total>
 			</row>
 		</subtable>
 	</row>

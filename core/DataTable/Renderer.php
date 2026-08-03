@@ -15,6 +15,7 @@ use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Piwik;
+use Piwik\Plugins\CoreHome\Columns\Metrics\PercentOfReportTotal;
 use Piwik\BaseFactory;
 
 /**
@@ -253,6 +254,14 @@ abstract class Renderer extends BaseFactory
             foreach (array('metrics', 'processedMetrics', 'metricsGoal', 'processedMetricsGoal') as $index) {
                 if (isset($meta[$index]) && is_array($meta[$index])) {
                     $t = array_merge($t, $meta[$index]);
+                }
+            }
+
+            // derive translations for the percent-of-total metrics from their base metric translation
+            foreach ($t as $name => $translation) {
+                $percentOfTotalName = $name . PercentOfReportTotal::COLUMN_NAME_SUFFIX;
+                if (!isset($t[$percentOfTotalName])) {
+                    $t[$percentOfTotalName] = Piwik::translate('General_ColumnPercentOfReportTotal', $translation);
                 }
             }
 

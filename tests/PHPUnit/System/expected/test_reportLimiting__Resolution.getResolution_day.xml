@@ -10,6 +10,11 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>40</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>28%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>18.6%</nb_uniq_visitors_percent_of_total>
+		<nb_actions_percent_of_total>13.6%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>51.9%</bounce_count_percent_of_total>
 		<segment>resolution==1920x1080</segment>
 	</row>
 	<row>
@@ -22,6 +27,11 @@
 		<sum_visit_length>25</sum_visit_length>
 		<bounce_count>15</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>21%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>14%</nb_uniq_visitors_percent_of_total>
+		<nb_actions_percent_of_total>10.2%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>19.5%</bounce_count_percent_of_total>
 		<segment>resolution==1280x1024</segment>
 	</row>
 	<row>
@@ -34,5 +44,10 @@
 		<sum_visit_length>56</sum_visit_length>
 		<bounce_count>22</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>51%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>67.4%</nb_uniq_visitors_percent_of_total>
+		<nb_actions_percent_of_total>76.2%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>28.6%</bounce_count_percent_of_total>
 	</row>
 </result>

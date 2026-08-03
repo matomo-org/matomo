@@ -42,6 +42,8 @@
 		<label>Destination Page</label>
 		<nb_hits_following_search>Clicked in search results</nb_hits_following_search>
 		<nb_hits>Pageviews</nb_hits>
+		<nb_visits_percent_of_total>Visits (% of total)</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>Pageviews (% of total)</nb_hits_percent_of_total>
 	</columns>
 	<reportData>
 		<result prettyDate="January 2010">
@@ -49,11 +51,15 @@
 				<label> Im just a page</label>
 				<nb_hits>1</nb_hits>
 				<nb_hits_following_search>1</nb_hits_following_search>
+				<nb_visits_percent_of_total>50%</nb_visits_percent_of_total>
+				<nb_hits_percent_of_total>33.3%</nb_hits_percent_of_total>
 			</row>
 			<row>
 				<label> This is a pageview, not a Search - IS_FOLLOWING_SEARCH ONCE</label>
 				<nb_hits>2</nb_hits>
 				<nb_hits_following_search>1</nb_hits_following_search>
+				<nb_visits_percent_of_total>50%</nb_visits_percent_of_total>
+				<nb_hits_percent_of_total>66.7%</nb_hits_percent_of_total>
 			</row>
 		</result>
 		<result prettyDate="February 2010" />

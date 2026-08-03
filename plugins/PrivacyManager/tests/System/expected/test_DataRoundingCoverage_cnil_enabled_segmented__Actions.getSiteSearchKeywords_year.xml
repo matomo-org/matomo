@@ -12,6 +12,9 @@
 		<exit_nb_visits>20</exit_nb_visits>
 		<nb_pages_per_search>10</nb_pages_per_search>
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>26.3%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>26%</nb_hits_percent_of_total>
+		<exit_nb_visits_percent_of_total>28.2%</exit_nb_visits_percent_of_total>
 		<avg_time_on_page>600</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -29,6 +32,9 @@
 		<exit_nb_visits>10</exit_nb_visits>
 		<nb_pages_per_search>10</nb_pages_per_search>
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>13.2%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>13%</nb_hits_percent_of_total>
+		<exit_nb_visits_percent_of_total>14.1%</exit_nb_visits_percent_of_total>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -46,6 +52,9 @@
 		<exit_nb_visits>10</exit_nb_visits>
 		<nb_pages_per_search>10</nb_pages_per_search>
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>13.2%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>13%</nb_hits_percent_of_total>
+		<exit_nb_visits_percent_of_total>14.1%</exit_nb_visits_percent_of_total>
 		<avg_time_on_page>90</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -76,6 +85,8 @@
 		</goals>
 		<nb_pages_per_search>10</nb_pages_per_search>
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>13.2%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>13%</nb_hits_percent_of_total>
 		<avg_time_on_page>27</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
@@ -93,6 +104,9 @@
 		<exit_nb_visits>10</exit_nb_visits>
 		<nb_pages_per_search>10</nb_pages_per_search>
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>13.2%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>13%</nb_hits_percent_of_total>
+		<exit_nb_visits_percent_of_total>14.1%</exit_nb_visits_percent_of_total>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -110,6 +124,9 @@
 		<exit_nb_visits>10</exit_nb_visits>
 		<nb_pages_per_search>10</nb_pages_per_search>
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>13.2%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>13%</nb_hits_percent_of_total>
+		<exit_nb_visits_percent_of_total>14.1%</exit_nb_visits_percent_of_total>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -127,6 +144,9 @@
 		<exit_nb_visits>10</exit_nb_visits>
 		<nb_pages_per_search>10</nb_pages_per_search>
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>13.2%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>13%</nb_hits_percent_of_total>
+		<exit_nb_visits_percent_of_total>14.1%</exit_nb_visits_percent_of_total>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -144,6 +164,9 @@
 		<exit_nb_visits>10</exit_nb_visits>
 		<nb_pages_per_search>10</nb_pages_per_search>
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>13.2%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>13%</nb_hits_percent_of_total>
+		<exit_nb_visits_percent_of_total>14.1%</exit_nb_visits_percent_of_total>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -161,6 +184,9 @@
 		<exit_nb_visits>10</exit_nb_visits>
 		<nb_pages_per_search>10</nb_pages_per_search>
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>13.2%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>13%</nb_hits_percent_of_total>
+		<exit_nb_visits_percent_of_total>14.1%</exit_nb_visits_percent_of_total>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -178,6 +204,9 @@
 		<exit_nb_visits>10</exit_nb_visits>
 		<nb_pages_per_search>10</nb_pages_per_search>
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>13.2%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>13%</nb_hits_percent_of_total>
+		<exit_nb_visits_percent_of_total>14.1%</exit_nb_visits_percent_of_total>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -195,6 +224,9 @@
 		<exit_nb_visits>10</exit_nb_visits>
 		<nb_pages_per_search>10</nb_pages_per_search>
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>13.2%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>13%</nb_hits_percent_of_total>
+		<exit_nb_visits_percent_of_total>14.1%</exit_nb_visits_percent_of_total>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -212,6 +244,9 @@
 		<exit_nb_visits>10</exit_nb_visits>
 		<nb_pages_per_search>10</nb_pages_per_search>
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>13.2%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>13%</nb_hits_percent_of_total>
+		<exit_nb_visits_percent_of_total>14.1%</exit_nb_visits_percent_of_total>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -229,6 +264,9 @@
 		<exit_nb_visits>10</exit_nb_visits>
 		<nb_pages_per_search>10</nb_pages_per_search>
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>13.2%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>13%</nb_hits_percent_of_total>
+		<exit_nb_visits_percent_of_total>14.1%</exit_nb_visits_percent_of_total>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -246,6 +284,9 @@
 		<exit_nb_visits>10</exit_nb_visits>
 		<nb_pages_per_search>10</nb_pages_per_search>
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>13.2%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>13%</nb_hits_percent_of_total>
+		<exit_nb_visits_percent_of_total>14.1%</exit_nb_visits_percent_of_total>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -263,6 +304,9 @@
 		<exit_nb_visits>10</exit_nb_visits>
 		<nb_pages_per_search>10</nb_pages_per_search>
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>13.2%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>13%</nb_hits_percent_of_total>
+		<exit_nb_visits_percent_of_total>14.1%</exit_nb_visits_percent_of_total>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -280,6 +324,9 @@
 		<exit_nb_visits>10</exit_nb_visits>
 		<nb_pages_per_search>10</nb_pages_per_search>
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>13.2%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>13%</nb_hits_percent_of_total>
+		<exit_nb_visits_percent_of_total>14.1%</exit_nb_visits_percent_of_total>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -297,6 +344,9 @@
 		<exit_nb_visits>10</exit_nb_visits>
 		<nb_pages_per_search>10</nb_pages_per_search>
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>13.2%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>13%</nb_hits_percent_of_total>
+		<exit_nb_visits_percent_of_total>14.1%</exit_nb_visits_percent_of_total>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -314,6 +364,9 @@
 		<exit_nb_visits>10</exit_nb_visits>
 		<nb_pages_per_search>10</nb_pages_per_search>
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>13.2%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>13%</nb_hits_percent_of_total>
+		<exit_nb_visits_percent_of_total>14.1%</exit_nb_visits_percent_of_total>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -331,6 +384,9 @@
 		<exit_nb_visits>10</exit_nb_visits>
 		<nb_pages_per_search>10</nb_pages_per_search>
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>13.2%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>13%</nb_hits_percent_of_total>
+		<exit_nb_visits_percent_of_total>14.1%</exit_nb_visits_percent_of_total>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -348,6 +404,9 @@
 		<exit_nb_visits>10</exit_nb_visits>
 		<nb_pages_per_search>10</nb_pages_per_search>
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>13.2%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>13%</nb_hits_percent_of_total>
+		<exit_nb_visits_percent_of_total>14.1%</exit_nb_visits_percent_of_total>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -365,6 +424,9 @@
 		<exit_nb_visits>10</exit_nb_visits>
 		<nb_pages_per_search>10</nb_pages_per_search>
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>13.2%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>13%</nb_hits_percent_of_total>
+		<exit_nb_visits_percent_of_total>14.1%</exit_nb_visits_percent_of_total>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -382,6 +444,9 @@
 		<exit_nb_visits>10</exit_nb_visits>
 		<nb_pages_per_search>10</nb_pages_per_search>
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>13.2%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>13%</nb_hits_percent_of_total>
+		<exit_nb_visits_percent_of_total>14.1%</exit_nb_visits_percent_of_total>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -399,6 +464,9 @@
 		<exit_nb_visits>10</exit_nb_visits>
 		<nb_pages_per_search>10</nb_pages_per_search>
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>13.2%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>13%</nb_hits_percent_of_total>
+		<exit_nb_visits_percent_of_total>14.1%</exit_nb_visits_percent_of_total>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -416,6 +484,9 @@
 		<exit_nb_visits>10</exit_nb_visits>
 		<nb_pages_per_search>10</nb_pages_per_search>
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>13.2%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>13%</nb_hits_percent_of_total>
+		<exit_nb_visits_percent_of_total>14.1%</exit_nb_visits_percent_of_total>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -433,6 +504,9 @@
 		<exit_nb_visits>10</exit_nb_visits>
 		<nb_pages_per_search>10</nb_pages_per_search>
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>13.2%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>13%</nb_hits_percent_of_total>
+		<exit_nb_visits_percent_of_total>14.1%</exit_nb_visits_percent_of_total>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -450,6 +524,9 @@
 		<exit_nb_visits>10</exit_nb_visits>
 		<nb_pages_per_search>10</nb_pages_per_search>
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>13.2%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>13%</nb_hits_percent_of_total>
+		<exit_nb_visits_percent_of_total>14.1%</exit_nb_visits_percent_of_total>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -467,6 +544,9 @@
 		<exit_nb_visits>10</exit_nb_visits>
 		<nb_pages_per_search>10</nb_pages_per_search>
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>13.2%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>13%</nb_hits_percent_of_total>
+		<exit_nb_visits_percent_of_total>14.1%</exit_nb_visits_percent_of_total>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -484,6 +564,9 @@
 		<exit_nb_visits>10</exit_nb_visits>
 		<nb_pages_per_search>10</nb_pages_per_search>
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>13.2%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>13%</nb_hits_percent_of_total>
+		<exit_nb_visits_percent_of_total>14.1%</exit_nb_visits_percent_of_total>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -501,6 +584,9 @@
 		<exit_nb_visits>10</exit_nb_visits>
 		<nb_pages_per_search>10</nb_pages_per_search>
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>13.2%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>13%</nb_hits_percent_of_total>
+		<exit_nb_visits_percent_of_total>14.1%</exit_nb_visits_percent_of_total>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -518,6 +604,9 @@
 		<exit_nb_visits>10</exit_nb_visits>
 		<nb_pages_per_search>10</nb_pages_per_search>
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>13.2%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>13%</nb_hits_percent_of_total>
+		<exit_nb_visits_percent_of_total>14.1%</exit_nb_visits_percent_of_total>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -535,6 +624,9 @@
 		<exit_nb_visits>10</exit_nb_visits>
 		<nb_pages_per_search>10</nb_pages_per_search>
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>13.2%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>13%</nb_hits_percent_of_total>
+		<exit_nb_visits_percent_of_total>14.1%</exit_nb_visits_percent_of_total>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -552,6 +644,9 @@
 		<exit_nb_visits>10</exit_nb_visits>
 		<nb_pages_per_search>10</nb_pages_per_search>
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>13.2%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>13%</nb_hits_percent_of_total>
+		<exit_nb_visits_percent_of_total>14.1%</exit_nb_visits_percent_of_total>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -569,6 +664,9 @@
 		<exit_nb_visits>10</exit_nb_visits>
 		<nb_pages_per_search>10</nb_pages_per_search>
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>13.2%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>13%</nb_hits_percent_of_total>
+		<exit_nb_visits_percent_of_total>14.1%</exit_nb_visits_percent_of_total>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -586,6 +684,9 @@
 		<exit_nb_visits>10</exit_nb_visits>
 		<nb_pages_per_search>10</nb_pages_per_search>
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>13.2%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>13%</nb_hits_percent_of_total>
+		<exit_nb_visits_percent_of_total>14.1%</exit_nb_visits_percent_of_total>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -603,6 +704,9 @@
 		<exit_nb_visits>10</exit_nb_visits>
 		<nb_pages_per_search>10</nb_pages_per_search>
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>13.2%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>13%</nb_hits_percent_of_total>
+		<exit_nb_visits_percent_of_total>14.1%</exit_nb_visits_percent_of_total>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -620,6 +724,9 @@
 		<exit_nb_visits>10</exit_nb_visits>
 		<nb_pages_per_search>10</nb_pages_per_search>
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>13.2%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>13%</nb_hits_percent_of_total>
+		<exit_nb_visits_percent_of_total>14.1%</exit_nb_visits_percent_of_total>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -637,6 +744,9 @@
 		<exit_nb_visits>10</exit_nb_visits>
 		<nb_pages_per_search>10</nb_pages_per_search>
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>13.2%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>13%</nb_hits_percent_of_total>
+		<exit_nb_visits_percent_of_total>14.1%</exit_nb_visits_percent_of_total>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -654,6 +764,9 @@
 		<exit_nb_visits>10</exit_nb_visits>
 		<nb_pages_per_search>10</nb_pages_per_search>
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>13.2%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>13%</nb_hits_percent_of_total>
+		<exit_nb_visits_percent_of_total>14.1%</exit_nb_visits_percent_of_total>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -671,6 +784,9 @@
 		<exit_nb_visits>10</exit_nb_visits>
 		<nb_pages_per_search>10</nb_pages_per_search>
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>13.2%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>13%</nb_hits_percent_of_total>
+		<exit_nb_visits_percent_of_total>14.1%</exit_nb_visits_percent_of_total>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -688,6 +804,9 @@
 		<exit_nb_visits>10</exit_nb_visits>
 		<nb_pages_per_search>10</nb_pages_per_search>
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>13.2%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>13%</nb_hits_percent_of_total>
+		<exit_nb_visits_percent_of_total>14.1%</exit_nb_visits_percent_of_total>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -705,6 +824,9 @@
 		<exit_nb_visits>10</exit_nb_visits>
 		<nb_pages_per_search>10</nb_pages_per_search>
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>13.2%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>13%</nb_hits_percent_of_total>
+		<exit_nb_visits_percent_of_total>14.1%</exit_nb_visits_percent_of_total>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -722,6 +844,9 @@
 		<exit_nb_visits>10</exit_nb_visits>
 		<nb_pages_per_search>10</nb_pages_per_search>
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>13.2%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>13%</nb_hits_percent_of_total>
+		<exit_nb_visits_percent_of_total>14.1%</exit_nb_visits_percent_of_total>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -739,6 +864,9 @@
 		<exit_nb_visits>10</exit_nb_visits>
 		<nb_pages_per_search>10</nb_pages_per_search>
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>13.2%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>13%</nb_hits_percent_of_total>
+		<exit_nb_visits_percent_of_total>14.1%</exit_nb_visits_percent_of_total>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -756,6 +884,9 @@
 		<exit_nb_visits>10</exit_nb_visits>
 		<nb_pages_per_search>10</nb_pages_per_search>
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>13.2%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>13%</nb_hits_percent_of_total>
+		<exit_nb_visits_percent_of_total>14.1%</exit_nb_visits_percent_of_total>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -786,6 +917,8 @@
 		</goals>
 		<nb_pages_per_search>10</nb_pages_per_search>
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>13.2%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>13%</nb_hits_percent_of_total>
 		<avg_time_on_page>360</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
@@ -802,6 +935,8 @@
 		<max_bandwidth />
 		<nb_pages_per_search>10</nb_pages_per_search>
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>13.2%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>13%</nb_hits_percent_of_total>
 		<avg_time_on_page>252</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
@@ -819,6 +954,9 @@
 		<exit_nb_visits>10</exit_nb_visits>
 		<nb_pages_per_search>10</nb_pages_per_search>
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>13.2%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>13%</nb_hits_percent_of_total>
+		<exit_nb_visits_percent_of_total>14.1%</exit_nb_visits_percent_of_total>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -849,6 +987,8 @@
 		</goals>
 		<nb_pages_per_search>10</nb_pages_per_search>
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>13.2%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>13%</nb_hits_percent_of_total>
 		<avg_time_on_page>360</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
@@ -866,6 +1006,9 @@
 		<exit_nb_visits>10</exit_nb_visits>
 		<nb_pages_per_search>10</nb_pages_per_search>
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>13.2%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>13%</nb_hits_percent_of_total>
+		<exit_nb_visits_percent_of_total>14.1%</exit_nb_visits_percent_of_total>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>

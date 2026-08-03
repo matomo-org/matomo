@@ -147,8 +147,14 @@ class PercentOfReportTotal extends ProcessedMetric
 
         $metrics = [];
         foreach (array_unique($eligibleNames) as $metricName) {
-            if (isset($totals[$metricName]) && is_numeric($totals[$metricName])) {
-                $metrics[] = new self($metricName, $translations[$metricName] ?? $metricName, $totals[$metricName]);
+            // totals are keyed by metric id instead of name when queued filters are disabled
+            // for the request (eg, the requests DataComparisonFilter uses to fetch compared series)
+            $totalKeys = array_merge([$metricName], array_keys(Metrics::$mappingFromIdToName, $metricName, true));
+            foreach ($totalKeys as $totalKey) {
+                if (isset($totals[$totalKey]) && is_numeric($totals[$totalKey])) {
+                    $metrics[] = new self($metricName, $translations[$metricName] ?? $metricName, $totals[$totalKey]);
+                    break;
+                }
             }
         }
 

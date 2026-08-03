@@ -26,440 +26,546 @@
 	<columns>
 		<label>Days since last visit</label>
 		<nb_visits>Visits</nb_visits>
+		<nb_visits_percent_of_total>Visits (% of total)</nb_visits_percent_of_total>
 	</columns>
 	<reportData>
 		<result prettyDate="Sunday, January 3, 2010">
 			<row>
 				<label>New visits</label>
 				<nb_visits>2</nb_visits>
+				<nb_visits_percent_of_total>100%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>0 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>1 day</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>2 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>3 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>4 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>5 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>6 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>7 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>8-14 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>15-30 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>31-60 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>61-120 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>121-364 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>365+ days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 		</result>
 		<result prettyDate="Monday, January 4, 2010">
 			<row>
 				<label>New visits</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>0 days</label>
 				<nb_visits>1</nb_visits>
+				<nb_visits_percent_of_total>100%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>1 day</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>2 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>3 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>4 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>5 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>6 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>7 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>8-14 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>15-30 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>31-60 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>61-120 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>121-364 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>365+ days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 		</result>
 		<result prettyDate="Tuesday, January 5, 2010">
 			<row>
 				<label>New visits</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>0 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>1 day</label>
 				<nb_visits>1</nb_visits>
+				<nb_visits_percent_of_total>100%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>2 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>3 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>4 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>5 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>6 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>7 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>8-14 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>15-30 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>31-60 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>61-120 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>121-364 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>365+ days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 		</result>
 		<result prettyDate="Wednesday, January 6, 2010">
 			<row>
 				<label>New visits</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>0 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>1 day</label>
 				<nb_visits>1</nb_visits>
+				<nb_visits_percent_of_total>100%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>2 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>3 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>4 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>5 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>6 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>7 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>8-14 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>15-30 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>31-60 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>61-120 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>121-364 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>365+ days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 		</result>
 		<result prettyDate="Thursday, January 7, 2010">
 			<row>
 				<label>New visits</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>0 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>1 day</label>
 				<nb_visits>1</nb_visits>
+				<nb_visits_percent_of_total>100%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>2 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>3 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>4 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>5 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>6 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>7 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>8-14 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>15-30 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>31-60 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>61-120 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>121-364 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>365+ days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 		</result>
 		<result prettyDate="Friday, January 8, 2010">
 			<row>
 				<label>New visits</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>0 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>1 day</label>
 				<nb_visits>1</nb_visits>
+				<nb_visits_percent_of_total>100%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>2 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>3 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>4 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>5 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>6 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>7 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>8-14 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>15-30 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>31-60 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>61-120 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>121-364 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>365+ days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 		</result>
 		<result prettyDate="Saturday, January 9, 2010">
 			<row>
 				<label>New visits</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>0 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>1 day</label>
 				<nb_visits>1</nb_visits>
+				<nb_visits_percent_of_total>100%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>2 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>3 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>4 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>5 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>6 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>7 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>8-14 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>15-30 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>31-60 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>61-120 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>121-364 days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>365+ days</label>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 			</row>
 		</result>
 	</reportData>

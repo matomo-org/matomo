@@ -35,6 +35,8 @@
 		<nb_visits>Searches</nb_visits>
 		<nb_pages_per_search>Search Results pages</nb_pages_per_search>
 		<exit_rate>% Search Exits</exit_rate>
+		<nb_visits_percent_of_total>Searches (% of total)</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>Actions (% of total)</nb_actions_percent_of_total>
 	</columns>
 	<reportData>
 		<result prettyDate="January 2010">
@@ -42,18 +44,24 @@
 				<label>Search Category</label>
 				<nb_visits>2</nb_visits>
 				<nb_pages_per_search>1.5</nb_pages_per_search>
+				<nb_visits_percent_of_total>50%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>60%</nb_actions_percent_of_total>
 				<exit_rate>0%</exit_rate>
 			</row>
 			<row>
 				<label>Bad No Result Category :(</label>
 				<nb_visits>1</nb_visits>
 				<nb_pages_per_search>1</nb_pages_per_search>
+				<nb_visits_percent_of_total>25%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>20%</nb_actions_percent_of_total>
 				<exit_rate>0%</exit_rate>
 			</row>
 			<row>
 				<label>Category</label>
 				<nb_visits>1</nb_visits>
 				<nb_pages_per_search>1</nb_pages_per_search>
+				<nb_visits_percent_of_total>25%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>20%</nb_actions_percent_of_total>
 				<exit_rate>0%</exit_rate>
 			</row>
 		</result>

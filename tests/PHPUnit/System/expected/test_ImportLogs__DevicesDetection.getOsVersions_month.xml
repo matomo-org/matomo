@@ -10,6 +10,10 @@
 		<nb_visits_converted>10</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>11</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>25.6%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>27.5%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>25.6%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>23.7%</bounce_count_percent_of_total>
 		<segment>operatingSystemCode==MAC;operatingSystemVersion==10.6</segment>
 		<logo>plugins/Morpheus/icons/dist/os/MAC.png</logo>
 	</row>
@@ -23,6 +27,10 @@
 		<nb_visits_converted>8</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>8</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>18.6%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>15.7%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>20.5%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>21.1%</bounce_count_percent_of_total>
 		<segment>operatingSystemCode==LIN;operatingSystemVersion==</segment>
 		<logo>plugins/Morpheus/icons/dist/os/LIN.png</logo>
 	</row>
@@ -36,6 +44,10 @@
 		<nb_visits_converted>7</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>7</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
+		<nb_visits_percent_of_total>16.3%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>13.7%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>17.9%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>18.4%</bounce_count_percent_of_total>
 		<segment>operatingSystemCode==WIN;operatingSystemVersion==7</segment>
 		<logo>plugins/Morpheus/icons/dist/os/WIN.png</logo>
 	</row>
@@ -49,6 +61,10 @@
 		<nb_visits_converted>3</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
+		<nb_visits_percent_of_total>7%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>9.8%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>7.7%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>5.3%</bounce_count_percent_of_total>
 		<segment>operatingSystemCode==MAC;operatingSystemVersion==10.10</segment>
 		<logo>plugins/Morpheus/icons/dist/os/MAC.png</logo>
 	</row>
@@ -62,6 +78,10 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>7%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>5.9%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>7.9%</bounce_count_percent_of_total>
 		<segment>operatingSystemCode==UNK;operatingSystemVersion==UNK</segment>
 		<logo>plugins/Morpheus/icons/dist/os/UNK.png</logo>
 	</row>
@@ -75,6 +95,10 @@
 		<nb_visits_converted>3</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>7%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>5.9%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>7.7%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>7.9%</bounce_count_percent_of_total>
 		<segment>operatingSystemCode==WIN;operatingSystemVersion==XP</segment>
 		<logo>plugins/Morpheus/icons/dist/os/WIN.png</logo>
 	</row>
@@ -88,6 +112,10 @@
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>3.9%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>5.1%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>5.3%</bounce_count_percent_of_total>
 		<segment>operatingSystemCode==AND;operatingSystemVersion==2.3</segment>
 		<logo>plugins/Morpheus/icons/dist/os/AND.png</logo>
 	</row>
@@ -101,6 +129,10 @@
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
+		<nb_visits_percent_of_total>2.3%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>5.9%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>2.6%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 		<segment>operatingSystemCode==AND;operatingSystemVersion==4.4</segment>
 		<logo>plugins/Morpheus/icons/dist/os/AND.png</logo>
 	</row>
@@ -114,6 +146,10 @@
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>2.3%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>2%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>2.6%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>2.6%</bounce_count_percent_of_total>
 		<segment>operatingSystemCode==BOT;operatingSystemVersion==UNK</segment>
 		<logo>plugins/Morpheus/icons/dist/os/UNK.png</logo>
 	</row>
@@ -127,6 +163,10 @@
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>2.3%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>2%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>2.6%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>2.6%</bounce_count_percent_of_total>
 		<segment>operatingSystemCode==IOS;operatingSystemVersion==7.1</segment>
 		<logo>plugins/Morpheus/icons/dist/os/IOS.png</logo>
 	</row>
@@ -140,6 +180,10 @@
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>2.3%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>2%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>2.6%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>2.6%</bounce_count_percent_of_total>
 		<segment>operatingSystemCode==MAC;operatingSystemVersion==</segment>
 		<logo>plugins/Morpheus/icons/dist/os/MAC.png</logo>
 	</row>
@@ -153,6 +197,10 @@
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>2.3%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>2%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>2.6%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>2.6%</bounce_count_percent_of_total>
 		<segment>operatingSystemCode==MAC;operatingSystemVersion==10.8</segment>
 		<logo>plugins/Morpheus/icons/dist/os/MAC.png</logo>
 	</row>
@@ -166,6 +214,10 @@
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>2.3%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>3.9%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>2.6%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 		<segment>operatingSystemCode==WIN;operatingSystemVersion==</segment>
 		<logo>plugins/Morpheus/icons/dist/os/WIN.png</logo>
 	</row>

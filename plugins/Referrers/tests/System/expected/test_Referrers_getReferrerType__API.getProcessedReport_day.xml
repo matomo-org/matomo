@@ -69,6 +69,13 @@
 		<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 		<bounce_rate>Bounce Rate</bounce_rate>
 		<revenue>Revenue</revenue>
+		<nb_visits_percent_of_total>Visits (% of total)</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>Unique visitors (% of total)</nb_uniq_visitors_percent_of_total>
+		<nb_actions_percent_of_total>Actions (% of total)</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>Visits with Conversions (% of total)</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>Conversions (% of total)</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>Bounces (% of total)</bounce_count_percent_of_total>
+		<revenue_percent_of_total>Revenue (% of total)</revenue_percent_of_total>
 	</columns>
 	<reportData>
 		<result prettyDate="Friday, January 1, 2010" />
@@ -112,10 +119,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Search Engines</label>
@@ -123,10 +137,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Websites</label>
@@ -135,6 +156,13 @@
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
 				<revenue>$0</revenue>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>100%</nb_visits_converted_percent_of_total>
+				<nb_conversions_percent_of_total>100%</nb_conversions_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:06:05</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
@@ -147,10 +175,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Search Engines</label>
@@ -158,10 +193,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Websites</label>
@@ -170,6 +212,13 @@
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
 				<revenue>$0</revenue>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>100%</nb_visits_converted_percent_of_total>
+				<nb_conversions_percent_of_total>100%</nb_conversions_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:06:05</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
@@ -182,10 +231,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Search Engines</label>
@@ -193,10 +249,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Websites</label>
@@ -205,6 +268,13 @@
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
 				<revenue>$0</revenue>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>100%</nb_visits_converted_percent_of_total>
+				<nb_conversions_percent_of_total>100%</nb_conversions_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:06:05</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
@@ -217,10 +287,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Search Engines</label>
@@ -228,10 +305,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Websites</label>
@@ -240,6 +324,13 @@
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
 				<revenue>$0</revenue>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>100%</nb_visits_converted_percent_of_total>
+				<nb_conversions_percent_of_total>100%</nb_conversions_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:06:05</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
@@ -252,10 +343,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Search Engines</label>
@@ -263,10 +361,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Websites</label>
@@ -275,6 +380,13 @@
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
 				<revenue>$0</revenue>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>100%</nb_visits_converted_percent_of_total>
+				<nb_conversions_percent_of_total>100%</nb_conversions_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:06:05</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
@@ -287,10 +399,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Search Engines</label>
@@ -298,10 +417,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Websites</label>
@@ -310,6 +436,13 @@
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
 				<revenue>$0</revenue>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>100%</nb_visits_converted_percent_of_total>
+				<nb_conversions_percent_of_total>100%</nb_conversions_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:06:05</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
@@ -322,10 +455,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Search Engines</label>
@@ -333,10 +473,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Websites</label>
@@ -345,6 +492,13 @@
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
 				<revenue>$0</revenue>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>100%</nb_visits_converted_percent_of_total>
+				<nb_conversions_percent_of_total>100%</nb_conversions_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:06:05</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
@@ -357,10 +511,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Search Engines</label>
@@ -368,10 +529,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Websites</label>
@@ -380,6 +548,13 @@
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
 				<revenue>$0</revenue>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>100%</nb_visits_converted_percent_of_total>
+				<nb_conversions_percent_of_total>100%</nb_conversions_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:06:05</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
@@ -392,10 +567,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Search Engines</label>
@@ -403,10 +585,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Websites</label>
@@ -415,6 +604,13 @@
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
 				<revenue>$0</revenue>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>100%</nb_visits_converted_percent_of_total>
+				<nb_conversions_percent_of_total>100%</nb_conversions_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:06:05</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
@@ -427,10 +623,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Search Engines</label>
@@ -438,10 +641,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Websites</label>
@@ -450,6 +660,13 @@
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
 				<revenue>$0</revenue>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>100%</nb_visits_converted_percent_of_total>
+				<nb_conversions_percent_of_total>100%</nb_conversions_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:06:05</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
@@ -462,10 +679,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Search Engines</label>
@@ -473,10 +697,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Websites</label>
@@ -485,6 +716,13 @@
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
 				<revenue>$0</revenue>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>100%</nb_visits_converted_percent_of_total>
+				<nb_conversions_percent_of_total>100%</nb_conversions_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:06:05</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
@@ -497,10 +735,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Search Engines</label>
@@ -508,10 +753,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Websites</label>
@@ -520,6 +772,13 @@
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
 				<revenue>$0</revenue>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>100%</nb_visits_converted_percent_of_total>
+				<nb_conversions_percent_of_total>100%</nb_conversions_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:06:05</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
@@ -532,10 +791,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Search Engines</label>
@@ -543,10 +809,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Websites</label>
@@ -555,6 +828,13 @@
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
 				<revenue>$0</revenue>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>100%</nb_visits_converted_percent_of_total>
+				<nb_conversions_percent_of_total>100%</nb_conversions_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:06:05</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
@@ -567,10 +847,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Search Engines</label>
@@ -578,10 +865,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Websites</label>
@@ -590,6 +884,13 @@
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
 				<revenue>$0</revenue>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>100%</nb_visits_converted_percent_of_total>
+				<nb_conversions_percent_of_total>100%</nb_conversions_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:06:05</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
@@ -602,10 +903,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Search Engines</label>
@@ -613,10 +921,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Websites</label>
@@ -625,6 +940,13 @@
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
 				<revenue>$0</revenue>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>100%</nb_visits_converted_percent_of_total>
+				<nb_conversions_percent_of_total>100%</nb_conversions_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:06:05</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
@@ -637,10 +959,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Search Engines</label>
@@ -648,10 +977,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Websites</label>
@@ -660,6 +996,13 @@
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
 				<revenue>$0</revenue>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>100%</nb_visits_converted_percent_of_total>
+				<nb_conversions_percent_of_total>100%</nb_conversions_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:06:05</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
@@ -672,10 +1015,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Search Engines</label>
@@ -683,10 +1033,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Websites</label>
@@ -695,6 +1052,13 @@
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
 				<revenue>$0</revenue>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>100%</nb_visits_converted_percent_of_total>
+				<nb_conversions_percent_of_total>100%</nb_conversions_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:06:05</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
@@ -707,10 +1071,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Search Engines</label>
@@ -718,10 +1089,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Websites</label>
@@ -730,6 +1108,13 @@
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
 				<revenue>$0</revenue>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>100%</nb_visits_converted_percent_of_total>
+				<nb_conversions_percent_of_total>100%</nb_conversions_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:06:05</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
@@ -742,10 +1127,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Search Engines</label>
@@ -753,10 +1145,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Websites</label>
@@ -765,6 +1164,13 @@
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
 				<revenue>$0</revenue>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>100%</nb_visits_converted_percent_of_total>
+				<nb_conversions_percent_of_total>100%</nb_conversions_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:06:05</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
@@ -777,10 +1183,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Search Engines</label>
@@ -788,10 +1201,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Websites</label>
@@ -800,6 +1220,13 @@
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
 				<revenue>$0</revenue>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>100%</nb_visits_converted_percent_of_total>
+				<nb_conversions_percent_of_total>100%</nb_conversions_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:06:05</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
@@ -812,10 +1239,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Search Engines</label>
@@ -823,10 +1257,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Websites</label>
@@ -835,6 +1276,13 @@
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
 				<revenue>$0</revenue>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>100%</nb_visits_converted_percent_of_total>
+				<nb_conversions_percent_of_total>100%</nb_conversions_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:06:05</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
@@ -847,10 +1295,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Search Engines</label>
@@ -858,10 +1313,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Websites</label>
@@ -870,6 +1332,13 @@
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
 				<revenue>$0</revenue>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>100%</nb_visits_converted_percent_of_total>
+				<nb_conversions_percent_of_total>100%</nb_conversions_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:06:05</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
@@ -882,10 +1351,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Search Engines</label>
@@ -893,10 +1369,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Websites</label>
@@ -905,6 +1388,13 @@
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
 				<revenue>$0</revenue>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>100%</nb_visits_converted_percent_of_total>
+				<nb_conversions_percent_of_total>100%</nb_conversions_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:06:05</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
@@ -917,10 +1407,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Search Engines</label>
@@ -928,10 +1425,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Websites</label>
@@ -940,6 +1444,13 @@
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
 				<revenue>$0</revenue>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>100%</nb_visits_converted_percent_of_total>
+				<nb_conversions_percent_of_total>100%</nb_conversions_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:06:05</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
@@ -952,10 +1463,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Search Engines</label>
@@ -963,10 +1481,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Websites</label>
@@ -975,6 +1500,13 @@
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
 				<revenue>$0</revenue>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>100%</nb_visits_converted_percent_of_total>
+				<nb_conversions_percent_of_total>100%</nb_conversions_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:06:05</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
@@ -987,10 +1519,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Search Engines</label>
@@ -998,10 +1537,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Websites</label>
@@ -1010,6 +1556,13 @@
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
 				<revenue>$0</revenue>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>100%</nb_visits_converted_percent_of_total>
+				<nb_conversions_percent_of_total>100%</nb_conversions_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:06:05</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
@@ -1022,10 +1575,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Search Engines</label>
@@ -1033,10 +1593,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Websites</label>
@@ -1045,6 +1612,13 @@
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
 				<revenue>$0</revenue>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>100%</nb_visits_converted_percent_of_total>
+				<nb_conversions_percent_of_total>100%</nb_conversions_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:06:05</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
@@ -1057,10 +1631,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Search Engines</label>
@@ -1068,10 +1649,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Websites</label>
@@ -1080,6 +1668,13 @@
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
 				<revenue>$0</revenue>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>100%</nb_visits_converted_percent_of_total>
+				<nb_conversions_percent_of_total>100%</nb_conversions_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:06:05</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
@@ -1092,10 +1687,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Search Engines</label>
@@ -1103,10 +1705,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Websites</label>
@@ -1115,6 +1724,13 @@
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
 				<revenue>$0</revenue>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>100%</nb_visits_converted_percent_of_total>
+				<nb_conversions_percent_of_total>100%</nb_conversions_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:06:05</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
@@ -1127,10 +1743,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Search Engines</label>
@@ -1138,10 +1761,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Websites</label>
@@ -1150,6 +1780,13 @@
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
 				<revenue>$0</revenue>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>100%</nb_visits_converted_percent_of_total>
+				<nb_conversions_percent_of_total>100%</nb_conversions_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:06:05</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
@@ -1162,10 +1799,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Search Engines</label>
@@ -1173,10 +1817,17 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				<revenue>$0</revenue>
+				<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 			</row>
 			<row>
 				<label>Websites</label>
@@ -1185,6 +1836,13 @@
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
 				<revenue>$0</revenue>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>100%</nb_visits_converted_percent_of_total>
+				<nb_conversions_percent_of_total>100%</nb_conversions_percent_of_total>
+				<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:06:05</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>

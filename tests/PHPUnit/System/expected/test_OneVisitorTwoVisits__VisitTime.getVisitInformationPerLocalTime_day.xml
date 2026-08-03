@@ -9,6 +9,11 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>0%</nb_uniq_visitors_percent_of_total>
+		<nb_actions_percent_of_total>0%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 		<segment>visitLocalHour==0</segment>
 	</row>
 	<row>
@@ -20,6 +25,11 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>0%</nb_uniq_visitors_percent_of_total>
+		<nb_actions_percent_of_total>0%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 		<segment>visitLocalHour==1</segment>
 	</row>
 	<row>
@@ -31,6 +41,11 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>0%</nb_uniq_visitors_percent_of_total>
+		<nb_actions_percent_of_total>0%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 		<segment>visitLocalHour==2</segment>
 	</row>
 	<row>
@@ -42,6 +57,11 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>0%</nb_uniq_visitors_percent_of_total>
+		<nb_actions_percent_of_total>0%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 		<segment>visitLocalHour==3</segment>
 	</row>
 	<row>
@@ -53,6 +73,11 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>0%</nb_uniq_visitors_percent_of_total>
+		<nb_actions_percent_of_total>0%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 		<segment>visitLocalHour==4</segment>
 	</row>
 	<row>
@@ -64,6 +89,11 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>0%</nb_uniq_visitors_percent_of_total>
+		<nb_actions_percent_of_total>0%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 		<segment>visitLocalHour==5</segment>
 	</row>
 	<row>
@@ -75,6 +105,11 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>0%</nb_uniq_visitors_percent_of_total>
+		<nb_actions_percent_of_total>0%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 		<segment>visitLocalHour==6</segment>
 	</row>
 	<row>
@@ -86,6 +121,11 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>0%</nb_uniq_visitors_percent_of_total>
+		<nb_actions_percent_of_total>0%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 		<segment>visitLocalHour==7</segment>
 	</row>
 	<row>
@@ -97,6 +137,11 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>0%</nb_uniq_visitors_percent_of_total>
+		<nb_actions_percent_of_total>0%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 		<segment>visitLocalHour==8</segment>
 	</row>
 	<row>
@@ -108,6 +153,11 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>0%</nb_uniq_visitors_percent_of_total>
+		<nb_actions_percent_of_total>0%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 		<segment>visitLocalHour==9</segment>
 	</row>
 	<row>
@@ -119,6 +169,11 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>0%</nb_uniq_visitors_percent_of_total>
+		<nb_actions_percent_of_total>0%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 		<segment>visitLocalHour==10</segment>
 	</row>
 	<row>
@@ -130,6 +185,11 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>0%</nb_uniq_visitors_percent_of_total>
+		<nb_actions_percent_of_total>0%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 		<segment>visitLocalHour==11</segment>
 	</row>
 	<row>
@@ -141,6 +201,11 @@
 		<sum_visit_length>1622</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>2</nb_visits_converted>
+		<nb_visits_percent_of_total>100%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>100%</nb_uniq_visitors_percent_of_total>
+		<nb_actions_percent_of_total>100%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>100%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>100%</bounce_count_percent_of_total>
 		<segment>visitLocalHour==12</segment>
 	</row>
 	<row>
@@ -152,6 +217,11 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>0%</nb_uniq_visitors_percent_of_total>
+		<nb_actions_percent_of_total>0%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 		<segment>visitLocalHour==13</segment>
 	</row>
 	<row>
@@ -163,6 +233,11 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>0%</nb_uniq_visitors_percent_of_total>
+		<nb_actions_percent_of_total>0%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 		<segment>visitLocalHour==14</segment>
 	</row>
 	<row>
@@ -174,6 +249,11 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>0%</nb_uniq_visitors_percent_of_total>
+		<nb_actions_percent_of_total>0%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 		<segment>visitLocalHour==15</segment>
 	</row>
 	<row>
@@ -185,6 +265,11 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>0%</nb_uniq_visitors_percent_of_total>
+		<nb_actions_percent_of_total>0%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 		<segment>visitLocalHour==16</segment>
 	</row>
 	<row>
@@ -196,6 +281,11 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>0%</nb_uniq_visitors_percent_of_total>
+		<nb_actions_percent_of_total>0%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 		<segment>visitLocalHour==17</segment>
 	</row>
 	<row>
@@ -207,6 +297,11 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>0%</nb_uniq_visitors_percent_of_total>
+		<nb_actions_percent_of_total>0%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 		<segment>visitLocalHour==18</segment>
 	</row>
 	<row>
@@ -218,6 +313,11 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>0%</nb_uniq_visitors_percent_of_total>
+		<nb_actions_percent_of_total>0%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 		<segment>visitLocalHour==19</segment>
 	</row>
 	<row>
@@ -229,6 +329,11 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>0%</nb_uniq_visitors_percent_of_total>
+		<nb_actions_percent_of_total>0%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 		<segment>visitLocalHour==20</segment>
 	</row>
 	<row>
@@ -240,6 +345,11 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>0%</nb_uniq_visitors_percent_of_total>
+		<nb_actions_percent_of_total>0%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 		<segment>visitLocalHour==21</segment>
 	</row>
 	<row>
@@ -251,6 +361,11 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>0%</nb_uniq_visitors_percent_of_total>
+		<nb_actions_percent_of_total>0%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 		<segment>visitLocalHour==22</segment>
 	</row>
 	<row>
@@ -262,6 +377,11 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>0%</nb_uniq_visitors_percent_of_total>
+		<nb_actions_percent_of_total>0%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 		<segment>visitLocalHour==23</segment>
 	</row>
 </result>

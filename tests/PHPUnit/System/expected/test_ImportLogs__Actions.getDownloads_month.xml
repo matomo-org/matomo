@@ -10,6 +10,8 @@
 		<min_bandwidth>4334745</min_bandwidth>
 		<max_bandwidth>4334745</max_bandwidth>
 		<avg_bandwidth>1083686</avg_bandwidth>
+		<nb_visits_percent_of_total>100%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>100%</nb_hits_percent_of_total>
 		<subtable>
 			<row>
 				<label>/19.pdf</label>
@@ -21,6 +23,8 @@
 				<min_bandwidth>4324023</min_bandwidth>
 				<max_bandwidth>4324023</max_bandwidth>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+				<nb_visits_percent_of_total>25%</nb_visits_percent_of_total>
+				<nb_hits_percent_of_total>25%</nb_hits_percent_of_total>
 				<url>http://piwik.net/19.pdf</url>
 				<segment>downloadUrl==http%253A%252F%252Fpiwik.net%252F19.pdf</segment>
 			</row>
@@ -34,6 +38,8 @@
 				<min_bandwidth>3574</min_bandwidth>
 				<max_bandwidth>3574</max_bandwidth>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+				<nb_visits_percent_of_total>25%</nb_visits_percent_of_total>
+				<nb_hits_percent_of_total>25%</nb_hits_percent_of_total>
 				<url>http://piwik.net/other.png</url>
 				<segment>downloadUrl==http%253A%252F%252Fpiwik.net%252Fother.png</segment>
 			</row>
@@ -47,6 +53,8 @@
 				<min_bandwidth>3574</min_bandwidth>
 				<max_bandwidth>3574</max_bandwidth>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+				<nb_visits_percent_of_total>25%</nb_visits_percent_of_total>
+				<nb_hits_percent_of_total>25%</nb_hits_percent_of_total>
 				<url>http://piwik.net/thing.css</url>
 				<segment>downloadUrl==http%253A%252F%252Fpiwik.net%252Fthing.css</segment>
 			</row>
@@ -60,6 +68,8 @@
 				<min_bandwidth>3574</min_bandwidth>
 				<max_bandwidth>3574</max_bandwidth>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+				<nb_visits_percent_of_total>25%</nb_visits_percent_of_total>
+				<nb_hits_percent_of_total>25%</nb_hits_percent_of_total>
 				<url>http://piwik.net/thing.js</url>
 				<segment>downloadUrl==http%253A%252F%252Fpiwik.net%252Fthing.js</segment>
 			</row>

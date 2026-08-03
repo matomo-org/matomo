@@ -10,6 +10,11 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>3</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>16.7%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>7.1%</nb_uniq_visitors_percent_of_total>
+		<nb_actions_percent_of_total>16.7%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>16.7%</bounce_count_percent_of_total>
 		<segment>languageCode==pl</segment>
 	</row>
 	<row>
@@ -22,6 +27,11 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>2</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>11.1%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>7.1%</nb_uniq_visitors_percent_of_total>
+		<nb_actions_percent_of_total>11.1%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>11.1%</bounce_count_percent_of_total>
 		<segment>languageCode==en</segment>
 	</row>
 	<row>
@@ -34,6 +44,11 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>2</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>11.1%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>7.1%</nb_uniq_visitors_percent_of_total>
+		<nb_actions_percent_of_total>11.1%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>11.1%</bounce_count_percent_of_total>
 		<segment>languageCode==fr-be</segment>
 	</row>
 	<row>
@@ -46,6 +61,11 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>5.6%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>7.1%</nb_uniq_visitors_percent_of_total>
+		<nb_actions_percent_of_total>5.6%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>5.6%</bounce_count_percent_of_total>
 		<segment>languageCode==ar-qa</segment>
 	</row>
 	<row>
@@ -58,6 +78,11 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>5.6%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>7.1%</nb_uniq_visitors_percent_of_total>
+		<nb_actions_percent_of_total>5.6%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>5.6%</bounce_count_percent_of_total>
 		<segment>languageCode==eu-es</segment>
 	</row>
 	<row>
@@ -70,6 +95,11 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>5.6%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>7.1%</nb_uniq_visitors_percent_of_total>
+		<nb_actions_percent_of_total>5.6%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>5.6%</bounce_count_percent_of_total>
 		<segment>languageCode==zh-sg</segment>
 	</row>
 	<row>
@@ -82,6 +112,11 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>5.6%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>7.1%</nb_uniq_visitors_percent_of_total>
+		<nb_actions_percent_of_total>5.6%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>5.6%</bounce_count_percent_of_total>
 		<segment>languageCode==cs-cz</segment>
 	</row>
 	<row>
@@ -94,6 +129,11 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>5.6%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>7.1%</nb_uniq_visitors_percent_of_total>
+		<nb_actions_percent_of_total>5.6%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>5.6%</bounce_count_percent_of_total>
 		<segment>languageCode==fr</segment>
 	</row>
 	<row>
@@ -106,6 +146,11 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>5.6%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>7.1%</nb_uniq_visitors_percent_of_total>
+		<nb_actions_percent_of_total>5.6%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>5.6%</bounce_count_percent_of_total>
 		<segment>languageCode==fr-ch</segment>
 	</row>
 	<row>
@@ -118,6 +163,11 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>5.6%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>7.1%</nb_uniq_visitors_percent_of_total>
+		<nb_actions_percent_of_total>5.6%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>5.6%</bounce_count_percent_of_total>
 		<segment>languageCode==de</segment>
 	</row>
 	<row>
@@ -130,6 +180,11 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>5.6%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>7.1%</nb_uniq_visitors_percent_of_total>
+		<nb_actions_percent_of_total>5.6%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>5.6%</bounce_count_percent_of_total>
 		<segment>languageCode==el-gr</segment>
 	</row>
 	<row>
@@ -142,6 +197,11 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>5.6%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>7.1%</nb_uniq_visitors_percent_of_total>
+		<nb_actions_percent_of_total>5.6%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>5.6%</bounce_count_percent_of_total>
 		<segment>languageCode==sr-rs</segment>
 	</row>
 	<row>
@@ -154,6 +214,11 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>5.6%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>7.1%</nb_uniq_visitors_percent_of_total>
+		<nb_actions_percent_of_total>5.6%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>5.6%</bounce_count_percent_of_total>
 		<segment>languageCode==th</segment>
 	</row>
 	<row>
@@ -166,6 +231,11 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>5.6%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>7.1%</nb_uniq_visitors_percent_of_total>
+		<nb_actions_percent_of_total>5.6%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>5.6%</bounce_count_percent_of_total>
 		<segment>languageCode==xx</segment>
 	</row>
 </result>

@@ -73,12 +73,24 @@
 		<entry_nb_visits>Entrances</entry_nb_visits>
 		<entry_bounce_count>Bounces</entry_bounce_count>
 		<bounce_rate>Bounce Rate</bounce_rate>
+		<nb_visits_percent_of_total>Visits (% of total)</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>Unique visitors (% of total)</nb_uniq_visitors_percent_of_total>
+		<nb_hits_percent_of_total>Pageviews (% of total)</nb_hits_percent_of_total>
+		<entry_bounce_count_percent_of_total>Bounces (% of total)</entry_bounce_count_percent_of_total>
+		<entry_nb_visits_percent_of_total>Entrances (% of total)</entry_nb_visits_percent_of_total>
+		<entry_nb_actions_percent_of_total>Actions after entering here (% of total)</entry_nb_actions_percent_of_total>
 	</columns>
 	<reportData>
 		<row>
 			<label> Page A - index.html</label>
 			<entry_nb_visits>4</entry_nb_visits>
 			<entry_bounce_count>0</entry_bounce_count>
+			<nb_visits_percent_of_total>100%</nb_visits_percent_of_total>
+			<nb_uniq_visitors_percent_of_total>100%</nb_uniq_visitors_percent_of_total>
+			<nb_hits_percent_of_total>100%</nb_hits_percent_of_total>
+			<entry_bounce_count_percent_of_total>0%</entry_bounce_count_percent_of_total>
+			<entry_nb_visits_percent_of_total>100%</entry_nb_visits_percent_of_total>
+			<entry_nb_actions_percent_of_total>100%</entry_nb_actions_percent_of_total>
 			<bounce_rate>0%</bounce_rate>
 			<goal_1_conversion_rate>75%</goal_1_conversion_rate>
 			<goal_1_nb_conversions>3</goal_1_nb_conversions>

@@ -37,6 +37,11 @@
 		
 		
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>92.6%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>92.6%</nb_uniq_visitors_percent_of_total>
+		<nb_hits_percent_of_total>92.6%</nb_hits_percent_of_total>
+		<bounce_count_percent_of_total>90.3%</bounce_count_percent_of_total>
+		<exit_nb_visits_percent_of_total>92.4%</exit_nb_visits_percent_of_total>
 		<avg_time_on_dimension>0</avg_time_on_dimension>
 		
 		
@@ -81,6 +86,11 @@
 		
 		
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>2%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>2%</nb_uniq_visitors_percent_of_total>
+		<nb_hits_percent_of_total>2%</nb_hits_percent_of_total>
+		<bounce_count_percent_of_total>1.6%</bounce_count_percent_of_total>
+		<exit_nb_visits_percent_of_total>3%</exit_nb_visits_percent_of_total>
 		<avg_time_on_dimension>0</avg_time_on_dimension>
 		
 		
@@ -125,6 +135,11 @@
 		
 		
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>2%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>2%</nb_uniq_visitors_percent_of_total>
+		<nb_hits_percent_of_total>2%</nb_hits_percent_of_total>
+		<bounce_count_percent_of_total>1.6%</bounce_count_percent_of_total>
+		<exit_nb_visits_percent_of_total>1.5%</exit_nb_visits_percent_of_total>
 		<avg_time_on_dimension>0</avg_time_on_dimension>
 		
 		
@@ -169,6 +184,11 @@
 		
 		
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>1.6%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>1.6%</nb_uniq_visitors_percent_of_total>
+		<nb_hits_percent_of_total>1.6%</nb_hits_percent_of_total>
+		<bounce_count_percent_of_total>3.2%</bounce_count_percent_of_total>
+		<exit_nb_visits_percent_of_total>1.5%</exit_nb_visits_percent_of_total>
 		<avg_time_on_dimension>0</avg_time_on_dimension>
 		
 		
@@ -213,6 +233,11 @@
 		
 		
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>1.6%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>1.6%</nb_uniq_visitors_percent_of_total>
+		<nb_hits_percent_of_total>1.6%</nb_hits_percent_of_total>
+		<bounce_count_percent_of_total>3.2%</bounce_count_percent_of_total>
+		<exit_nb_visits_percent_of_total>1.5%</exit_nb_visits_percent_of_total>
 		<avg_time_on_dimension>0</avg_time_on_dimension>
 		
 		

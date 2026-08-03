@@ -133,6 +133,20 @@ class PercentOfReportTotalTest extends IntegrationTestCase
         );
     }
 
+    public function testAddMetricsToTableSupportsTotalsKeyedByMetricId()
+    {
+        // totals stay keyed by metric id when queued filters are disabled for the request,
+        // eg the requests DataComparisonFilter uses to fetch compared series
+        $table = $this->makeTableWithTotals([Metrics::INDEX_NB_VISITS => 200, Metrics::INDEX_REVENUE => 1000]);
+
+        PercentOfReportTotal::addMetricsToTable($table, null);
+
+        $this->assertEquals(
+            ['nb_visits_percent_of_total', 'revenue_percent_of_total'],
+            $this->getRegisteredMetricNames($table)
+        );
+    }
+
     public function testAddMetricsToTableIgnoresNonNumericTotals()
     {
         $table = $this->makeTableWithTotals(['nb_visits' => '12%', 'goals' => ['idgoal=1' => ['nb_conversions' => 2]]]);

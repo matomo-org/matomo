@@ -11,6 +11,11 @@
 			<sum_visit_length>0</sum_visit_length>
 			<bounce_count>1</bounce_count>
 			<nb_visits_converted>0</nb_visits_converted>
+			<nb_visits_percent_of_total>100%</nb_visits_percent_of_total>
+			<nb_uniq_visitors_percent_of_total>100%</nb_uniq_visitors_percent_of_total>
+			<nb_actions_percent_of_total>100%</nb_actions_percent_of_total>
+			<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+			<bounce_count_percent_of_total>100%</bounce_count_percent_of_total>
 			<segment>referrerName==referrer.com</segment>
 			<subtable>
 				<row>
@@ -23,6 +28,11 @@
 					<sum_visit_length>0</sum_visit_length>
 					<bounce_count>1</bounce_count>
 					<nb_visits_converted>0</nb_visits_converted>
+					<nb_visits_percent_of_total>100%</nb_visits_percent_of_total>
+					<nb_uniq_visitors_percent_of_total>100%</nb_uniq_visitors_percent_of_total>
+					<nb_actions_percent_of_total>100%</nb_actions_percent_of_total>
+					<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+					<bounce_count_percent_of_total>100%</bounce_count_percent_of_total>
 				</row>
 			</subtable>
 		</row>
@@ -38,6 +48,11 @@
 			<sum_visit_length>0</sum_visit_length>
 			<bounce_count>1</bounce_count>
 			<nb_visits_converted>0</nb_visits_converted>
+			<nb_visits_percent_of_total>100%</nb_visits_percent_of_total>
+			<nb_uniq_visitors_percent_of_total>100%</nb_uniq_visitors_percent_of_total>
+			<nb_actions_percent_of_total>100%</nb_actions_percent_of_total>
+			<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+			<bounce_count_percent_of_total>100%</bounce_count_percent_of_total>
 			<segment>referrerName==referrer.com</segment>
 			<subtable>
 				<row>
@@ -50,6 +65,11 @@
 					<sum_visit_length>0</sum_visit_length>
 					<bounce_count>1</bounce_count>
 					<nb_visits_converted>0</nb_visits_converted>
+					<nb_visits_percent_of_total>100%</nb_visits_percent_of_total>
+					<nb_uniq_visitors_percent_of_total>100%</nb_uniq_visitors_percent_of_total>
+					<nb_actions_percent_of_total>100%</nb_actions_percent_of_total>
+					<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+					<bounce_count_percent_of_total>100%</bounce_count_percent_of_total>
 				</row>
 			</subtable>
 		</row>
@@ -68,6 +88,11 @@
 			<sum_visit_length>901</sum_visit_length>
 			<bounce_count>0</bounce_count>
 			<nb_visits_converted>0</nb_visits_converted>
+			<nb_visits_percent_of_total>100%</nb_visits_percent_of_total>
+			<nb_uniq_visitors_percent_of_total>100%</nb_uniq_visitors_percent_of_total>
+			<nb_actions_percent_of_total>100%</nb_actions_percent_of_total>
+			<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+			<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 			<segment>referrerName==referrer.com</segment>
 			<subtable>
 				<row>
@@ -80,6 +105,11 @@
 					<sum_visit_length>901</sum_visit_length>
 					<bounce_count>0</bounce_count>
 					<nb_visits_converted>0</nb_visits_converted>
+					<nb_visits_percent_of_total>100%</nb_visits_percent_of_total>
+					<nb_uniq_visitors_percent_of_total>100%</nb_uniq_visitors_percent_of_total>
+					<nb_actions_percent_of_total>100%</nb_actions_percent_of_total>
+					<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+					<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 				</row>
 			</subtable>
 		</row>
@@ -95,6 +125,11 @@
 			<sum_visit_length>901</sum_visit_length>
 			<bounce_count>0</bounce_count>
 			<nb_visits_converted>0</nb_visits_converted>
+			<nb_visits_percent_of_total>100%</nb_visits_percent_of_total>
+			<nb_uniq_visitors_percent_of_total>100%</nb_uniq_visitors_percent_of_total>
+			<nb_actions_percent_of_total>100%</nb_actions_percent_of_total>
+			<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+			<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 			<segment>referrerName==referrer.com</segment>
 			<subtable>
 				<row>
@@ -107,6 +142,11 @@
 					<sum_visit_length>901</sum_visit_length>
 					<bounce_count>0</bounce_count>
 					<nb_visits_converted>0</nb_visits_converted>
+					<nb_visits_percent_of_total>100%</nb_visits_percent_of_total>
+					<nb_uniq_visitors_percent_of_total>100%</nb_uniq_visitors_percent_of_total>
+					<nb_actions_percent_of_total>100%</nb_actions_percent_of_total>
+					<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+					<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 				</row>
 			</subtable>
 		</row>

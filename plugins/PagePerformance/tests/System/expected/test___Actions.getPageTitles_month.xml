@@ -38,6 +38,9 @@
 		<avg_time_dom_completion>0.315</avg_time_dom_completion>
 		<avg_time_on_load>0.162</avg_time_on_load>
 		<avg_page_load_time>2.006</avg_page_load_time>
+		<nb_visits_percent_of_total>50%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>66.7%</nb_hits_percent_of_total>
+		<exit_nb_visits_percent_of_total>100%</exit_nb_visits_percent_of_total>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -84,6 +87,11 @@
 		<avg_time_dom_completion>0.395</avg_time_dom_completion>
 		<avg_time_on_load>0.226</avg_time_on_load>
 		<avg_page_load_time>2.291</avg_page_load_time>
+		<nb_visits_percent_of_total>50%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>33.3%</nb_hits_percent_of_total>
+		<entry_bounce_count_percent_of_total>0%</entry_bounce_count_percent_of_total>
+		<entry_nb_visits_percent_of_total>100%</entry_nb_visits_percent_of_total>
+		<entry_nb_actions_percent_of_total>100%</entry_nb_actions_percent_of_total>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>

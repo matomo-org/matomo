@@ -9,6 +9,11 @@
 		
 		<bounce_count>1</bounce_count>
 		
+		<nb_visits_percent_of_total>100%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>100%</nb_uniq_visitors_percent_of_total>
+		<nb_actions_percent_of_total>100%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>100%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>100%</bounce_count_percent_of_total>
 		<segment>operatingSystemCode==WXP;operatingSystemVersion==XP</segment>
 		<logo>plugins/Morpheus/icons/dist/os/WIN.png</logo>
 	</row>

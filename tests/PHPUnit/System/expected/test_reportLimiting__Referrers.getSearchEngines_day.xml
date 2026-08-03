@@ -10,6 +10,11 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>3</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>25%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>25%</nb_uniq_visitors_percent_of_total>
+		<nb_actions_percent_of_total>25%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>25%</bounce_count_percent_of_total>
 		<segment>referrerType==search;referrerName==Google</segment>
 		<url>http://google.com</url>
 		<logo>plugins/Morpheus/icons/dist/searchEngines/google.com.png</logo>
@@ -24,6 +29,11 @@
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>1</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
+				<nb_visits_percent_of_total>8.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>8.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>8.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>8.3%</bounce_count_percent_of_total>
 			</row>
 			<row>
 				<label>Others</label>
@@ -35,6 +45,11 @@
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>2</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
+				<nb_visits_percent_of_total>16.7%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>16.7%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>16.7%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>16.7%</bounce_count_percent_of_total>
 			</row>
 		</subtable>
 	</row>
@@ -48,6 +63,11 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>3</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>25%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>25%</nb_uniq_visitors_percent_of_total>
+		<nb_actions_percent_of_total>25%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>25%</bounce_count_percent_of_total>
 		<segment>referrerType==search;referrerName==Yahoo%21</segment>
 		<url>http://search.yahoo.com</url>
 		<logo>plugins/Morpheus/icons/dist/searchEngines/search.yahoo.com.png</logo>
@@ -62,6 +82,11 @@
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>1</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
+				<nb_visits_percent_of_total>8.3%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>8.3%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>8.3%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>8.3%</bounce_count_percent_of_total>
 			</row>
 			<row>
 				<label>Others</label>
@@ -73,6 +98,11 @@
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>2</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
+				<nb_visits_percent_of_total>16.7%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>16.7%</nb_uniq_visitors_percent_of_total>
+				<nb_actions_percent_of_total>16.7%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>16.7%</bounce_count_percent_of_total>
 			</row>
 		</subtable>
 	</row>
@@ -86,6 +116,11 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>6</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>50%</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>50%</nb_uniq_visitors_percent_of_total>
+		<nb_actions_percent_of_total>50%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>50%</bounce_count_percent_of_total>
 		<url>URL unknown!</url>
 		<logo>plugins/Morpheus/icons/dist/searchEngines/xx.png</logo>
 	</row>

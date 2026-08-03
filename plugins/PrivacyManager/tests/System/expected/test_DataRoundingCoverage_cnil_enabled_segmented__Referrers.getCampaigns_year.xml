@@ -34,6 +34,12 @@
 		<revenue>92.59</revenue>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>66.7%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>71.4%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>66.7%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>25%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>71.4%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>7%</revenue_percent_of_total>
 		<segment>referrerType==campaign;referrerName==ga+campaign</segment>
 		<subtable>
 			<row>
@@ -60,6 +66,12 @@
 				<revenue>57.26</revenue>
 				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<nb_visits_percent_of_total>66.7%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>71.4%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>66.7%</nb_visits_converted_percent_of_total>
+				<nb_conversions_percent_of_total>25%</nb_conversions_percent_of_total>
+				<bounce_count_percent_of_total>71.4%</bounce_count_percent_of_total>
+				<revenue_percent_of_total>4.3%</revenue_percent_of_total>
 			</row>
 			<row>
 				
@@ -85,6 +97,12 @@
 				<revenue>10</revenue>
 				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<nb_visits_percent_of_total>66.7%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>71.4%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>66.7%</nb_visits_converted_percent_of_total>
+				<nb_conversions_percent_of_total>25%</nb_conversions_percent_of_total>
+				<bounce_count_percent_of_total>71.4%</bounce_count_percent_of_total>
+				<revenue_percent_of_total>0.8%</revenue_percent_of_total>
 			</row>
 			<row>
 				
@@ -110,6 +128,12 @@
 				<revenue>10</revenue>
 				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<nb_visits_percent_of_total>66.7%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>71.4%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>66.7%</nb_visits_converted_percent_of_total>
+				<nb_conversions_percent_of_total>25%</nb_conversions_percent_of_total>
+				<bounce_count_percent_of_total>71.4%</bounce_count_percent_of_total>
+				<revenue_percent_of_total>0.8%</revenue_percent_of_total>
 			</row>
 			<row>
 				
@@ -138,6 +162,9 @@
 				<nb_conversions>10</nb_conversions>
 				<revenue>15.33</revenue>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
+				<nb_conversions_percent_of_total>25%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>1.2%</revenue_percent_of_total>
 			</row>
 		</subtable>
 	</row>
@@ -165,6 +192,12 @@
 		<revenue>40</revenue>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>66.7%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>71.4%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>66.7%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>25%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>71.4%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>3%</revenue_percent_of_total>
 		<segment>referrerType==campaign;referrerName==goal-matching-url-parameter</segment>
 		<subtable>
 			<row>
@@ -191,6 +224,12 @@
 				<revenue>40</revenue>
 				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<nb_visits_percent_of_total>66.7%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>71.4%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>66.7%</nb_visits_converted_percent_of_total>
+				<nb_conversions_percent_of_total>25%</nb_conversions_percent_of_total>
+				<bounce_count_percent_of_total>71.4%</bounce_count_percent_of_total>
+				<revenue_percent_of_total>3%</revenue_percent_of_total>
 			</row>
 		</subtable>
 	</row>
@@ -218,6 +257,12 @@
 		<revenue>20</revenue>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>66.7%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>71.4%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>66.7%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>25%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>71.4%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>1.5%</revenue_percent_of_total>
 		<segment>referrerType==campaign;referrerName==adwords+campaign</segment>
 		<subtable>
 			<row>
@@ -244,6 +289,12 @@
 				<revenue>10</revenue>
 				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<nb_visits_percent_of_total>66.7%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>71.4%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>66.7%</nb_visits_converted_percent_of_total>
+				<nb_conversions_percent_of_total>25%</nb_conversions_percent_of_total>
+				<bounce_count_percent_of_total>71.4%</bounce_count_percent_of_total>
+				<revenue_percent_of_total>0.8%</revenue_percent_of_total>
 			</row>
 			<row>
 				
@@ -269,6 +320,12 @@
 				<revenue>10</revenue>
 				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<nb_visits_percent_of_total>66.7%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>71.4%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>66.7%</nb_visits_converted_percent_of_total>
+				<nb_conversions_percent_of_total>25%</nb_conversions_percent_of_total>
+				<bounce_count_percent_of_total>71.4%</bounce_count_percent_of_total>
+				<revenue_percent_of_total>0.8%</revenue_percent_of_total>
 			</row>
 		</subtable>
 	</row>
@@ -296,6 +353,12 @@
 		<revenue>10</revenue>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>66.7%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>71.4%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>66.7%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>25%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>71.4%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>0.8%</revenue_percent_of_total>
 		<segment>referrerType==campaign;referrerName==adwords+%28text%29</segment>
 		<subtable>
 			<row>
@@ -322,6 +385,12 @@
 				<revenue>10</revenue>
 				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<nb_visits_percent_of_total>66.7%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>71.4%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>66.7%</nb_visits_converted_percent_of_total>
+				<nb_conversions_percent_of_total>25%</nb_conversions_percent_of_total>
+				<bounce_count_percent_of_total>71.4%</bounce_count_percent_of_total>
+				<revenue_percent_of_total>0.8%</revenue_percent_of_total>
 			</row>
 		</subtable>
 	</row>
@@ -349,6 +418,12 @@
 		<revenue>10</revenue>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>66.7%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>71.4%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>66.7%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>25%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>71.4%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>0.8%</revenue_percent_of_total>
 		<segment>referrerType==campaign;referrerName==adwords+%28text_image%29</segment>
 		<subtable>
 			<row>
@@ -375,6 +450,12 @@
 				<revenue>10</revenue>
 				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<nb_visits_percent_of_total>66.7%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>71.4%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>66.7%</nb_visits_converted_percent_of_total>
+				<nb_conversions_percent_of_total>25%</nb_conversions_percent_of_total>
+				<bounce_count_percent_of_total>71.4%</bounce_count_percent_of_total>
+				<revenue_percent_of_total>0.8%</revenue_percent_of_total>
 			</row>
 		</subtable>
 	</row>
@@ -397,6 +478,12 @@
 		<revenue>24</revenue>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>66.7%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>0%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>66.7%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>25%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>71.4%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>1.8%</revenue_percent_of_total>
 		<segment>referrerType==campaign;referrerName==credited+to+another+goal</segment>
 		<subtable>
 			<row>
@@ -418,6 +505,12 @@
 				<revenue>24</revenue>
 				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<nb_visits_percent_of_total>66.7%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>0%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>66.7%</nb_visits_converted_percent_of_total>
+				<nb_conversions_percent_of_total>25%</nb_conversions_percent_of_total>
+				<bounce_count_percent_of_total>71.4%</bounce_count_percent_of_total>
+				<revenue_percent_of_total>1.8%</revenue_percent_of_total>
 			</row>
 		</subtable>
 	</row>
@@ -440,6 +533,12 @@
 		<revenue>42</revenue>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>66.7%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>0%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>66.7%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>25%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>71.4%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>3.2%</revenue_percent_of_total>
 		<segment>referrerType==campaign;referrerName==credited+to+goal+please</segment>
 		<subtable>
 			<row>
@@ -461,6 +560,12 @@
 				<revenue>42</revenue>
 				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<nb_visits_percent_of_total>66.7%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>0%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>66.7%</nb_visits_converted_percent_of_total>
+				<nb_conversions_percent_of_total>25%</nb_conversions_percent_of_total>
+				<bounce_count_percent_of_total>71.4%</bounce_count_percent_of_total>
+				<revenue_percent_of_total>3.2%</revenue_percent_of_total>
 			</row>
 		</subtable>
 	</row>
@@ -488,6 +593,12 @@
 		<revenue>10</revenue>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>66.7%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>71.4%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>66.7%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>25%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>71.4%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>0.8%</revenue_percent_of_total>
 		<segment>referrerType==campaign;referrerName==testcampaign</segment>
 		<subtable>
 			<row>
@@ -514,6 +625,12 @@
 				<revenue>10</revenue>
 				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<nb_visits_percent_of_total>66.7%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>71.4%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>66.7%</nb_visits_converted_percent_of_total>
+				<nb_conversions_percent_of_total>25%</nb_conversions_percent_of_total>
+				<bounce_count_percent_of_total>71.4%</bounce_count_percent_of_total>
+				<revenue_percent_of_total>0.8%</revenue_percent_of_total>
 			</row>
 		</subtable>
 	</row>
@@ -534,6 +651,9 @@
 		<nb_conversions>10</nb_conversions>
 		<revenue>1010</revenue>
 		<nb_visits>0</nb_visits>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
+		<nb_conversions_percent_of_total>25%</nb_conversions_percent_of_total>
+		<revenue_percent_of_total>76.6%</revenue_percent_of_total>
 		<segment>referrerType==campaign;referrerName==campaign+name+-+yeah%21</segment>
 		<subtable>
 			<row>
@@ -553,6 +673,9 @@
 				<nb_conversions>10</nb_conversions>
 				<revenue>1010</revenue>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
+				<nb_conversions_percent_of_total>25%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>76.6%</revenue_percent_of_total>
 			</row>
 		</subtable>
 	</row>
@@ -583,6 +706,9 @@
 		<nb_conversions>10</nb_conversions>
 		<revenue>27.4</revenue>
 		<nb_visits>0</nb_visits>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
+		<nb_conversions_percent_of_total>25%</nb_conversions_percent_of_total>
+		<revenue_percent_of_total>2.1%</revenue_percent_of_total>
 		<segment>referrerType==campaign;referrerName==gifted+search</segment>
 	</row>
 	<row>
@@ -612,6 +738,9 @@
 		<nb_conversions>10</nb_conversions>
 		<revenue>32.9</revenue>
 		<nb_visits>0</nb_visits>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
+		<nb_conversions_percent_of_total>25%</nb_conversions_percent_of_total>
+		<revenue_percent_of_total>2.5%</revenue_percent_of_total>
 		<segment>referrerType==campaign;referrerName==recruiting+drive</segment>
 		<subtable>
 			<row>
@@ -641,6 +770,9 @@
 				<nb_conversions>10</nb_conversions>
 				<revenue>32.9</revenue>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
+				<nb_conversions_percent_of_total>25%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>2.5%</revenue_percent_of_total>
 			</row>
 		</subtable>
 	</row>

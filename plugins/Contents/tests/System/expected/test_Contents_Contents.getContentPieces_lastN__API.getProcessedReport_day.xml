@@ -38,6 +38,8 @@
 		<nb_impressions>Impressions</nb_impressions>
 		<nb_interactions>Content Interactions</nb_interactions>
 		<interaction_rate>Interaction Rate</interaction_rate>
+		<nb_visits_percent_of_total>Visits (% of total)</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>Unique visitors (% of total)</nb_uniq_visitors_percent_of_total>
 	</columns>
 	<reportData>
 		<result prettyDate="Sunday, January 3, 2010">
@@ -45,42 +47,56 @@
 				<label>Click to download Piwik now</label>
 				<nb_impressions>4</nb_impressions>
 				<nb_interactions>2</nb_interactions>
+				<nb_visits_percent_of_total>25%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>25%</nb_uniq_visitors_percent_of_total>
 				<interaction_rate>50%</interaction_rate>
 			</row>
 			<row>
 				<label>/path/ad.jpg</label>
 				<nb_impressions>2</nb_impressions>
 				<nb_interactions>2</nb_interactions>
+				<nb_visits_percent_of_total>12.5%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>12.5%</nb_uniq_visitors_percent_of_total>
 				<interaction_rate>100%</interaction_rate>
 			</row>
 			<row>
 				<label>/path/ad2.jpg</label>
 				<nb_impressions>2</nb_impressions>
 				<nb_interactions>0</nb_interactions>
+				<nb_visits_percent_of_total>12.5%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>12.5%</nb_uniq_visitors_percent_of_total>
 				<interaction_rate>0%</interaction_rate>
 			</row>
 			<row>
 				<label>Click NOW</label>
 				<nb_impressions>2</nb_impressions>
 				<nb_interactions>2</nb_interactions>
+				<nb_visits_percent_of_total>12.5%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>12.5%</nb_uniq_visitors_percent_of_total>
 				<interaction_rate>100%</interaction_rate>
 			</row>
 			<row>
 				<label>Content Piece not defined</label>
 				<nb_impressions>2</nb_impressions>
 				<nb_interactions>0</nb_interactions>
+				<nb_visits_percent_of_total>12.5%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>12.5%</nb_uniq_visitors_percent_of_total>
 				<interaction_rate>0%</interaction_rate>
 			</row>
 			<row>
 				<label>movie.mov</label>
 				<nb_impressions>4</nb_impressions>
 				<nb_interactions>0</nb_interactions>
+				<nb_visits_percent_of_total>12.5%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>12.5%</nb_uniq_visitors_percent_of_total>
 				<interaction_rate>0%</interaction_rate>
 			</row>
 			<row>
 				<label>Unknown</label>
 				<nb_impressions>2</nb_impressions>
 				<nb_interactions>0</nb_interactions>
+				<nb_visits_percent_of_total>12.5%</nb_visits_percent_of_total>
+				<nb_uniq_visitors_percent_of_total>12.5%</nb_uniq_visitors_percent_of_total>
 				<interaction_rate>0%</interaction_rate>
 			</row>
 		</result>

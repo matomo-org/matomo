@@ -52,6 +52,10 @@
 		<avg_price>Average Price</avg_price>
 		<avg_quantity>Average Quantity</avg_quantity>
 		<conversion_rate>Product Conversion Rate</conversion_rate>
+		<nb_visits_percent_of_total>Visits (% of total)</nb_visits_percent_of_total>
+		<nb_uniq_visitors_percent_of_total>Unique visitors (% of total)</nb_uniq_visitors_percent_of_total>
+		<nb_actions_percent_of_total>Actions (% of total)</nb_actions_percent_of_total>
+		<revenue_percent_of_total>Product Revenue (% of total)</revenue_percent_of_total>
 	</columns>
 	<reportData>
 		<row>
@@ -60,6 +64,10 @@
 			<quantity>1</quantity>
 			<orders>1</orders>
 			<nb_visits>1</nb_visits>
+			<nb_visits_percent_of_total>16.7%</nb_visits_percent_of_total>
+			<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+			<nb_actions_percent_of_total>9.1%</nb_actions_percent_of_total>
+			<revenue_percent_of_total>48.2%</revenue_percent_of_total>
 			<avg_price>$1,500</avg_price>
 			<avg_quantity>1</avg_quantity>
 			<conversion_rate>100%</conversion_rate>
@@ -70,6 +78,10 @@
 			<quantity>3</quantity>
 			<orders>2</orders>
 			<nb_visits>3</nb_visits>
+			<nb_visits_percent_of_total>50%</nb_visits_percent_of_total>
+			<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+			<nb_actions_percent_of_total>72.7%</nb_actions_percent_of_total>
+			<revenue_percent_of_total>32.5%</revenue_percent_of_total>
 			<avg_price>$255.61</avg_price>
 			<avg_quantity>1.5</avg_quantity>
 			<conversion_rate>66.67%</conversion_rate>
@@ -79,20 +91,28 @@
 			<revenue>$600</revenue>
 			<quantity>6</quantity>
 			<orders>1</orders>
+			<revenue_percent_of_total>19.3%</revenue_percent_of_total>
 			<avg_price>$100</avg_price>
 			<avg_quantity>6</avg_quantity>
 			<conversion_rate>0%</conversion_rate>
 			<nb_visits>0</nb_visits>
+			<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
+			<nb_uniq_visitors_percent_of_total>0%</nb_uniq_visitors_percent_of_total>
+			<nb_actions_percent_of_total>0%</nb_actions_percent_of_total>
 		</row>
 		<row>
 			<label>SKU IN ABANDONED CART TWO</label>
 			<nb_visits>2</nb_visits>
 			<avg_price>$0</avg_price>
+			<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+			<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
+			<nb_actions_percent_of_total>18.2%</nb_actions_percent_of_total>
 			<avg_quantity>0</avg_quantity>
 			<conversion_rate>0%</conversion_rate>
 			<revenue>$0</revenue>
 			<quantity>0</quantity>
 			<orders>0</orders>
+			<revenue_percent_of_total>0%</revenue_percent_of_total>
 		</row>
 	</reportData>
 	<reportMetadata>
