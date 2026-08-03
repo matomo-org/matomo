@@ -351,9 +351,6 @@ class Google extends AIProvider
         } else {
             $texts = [];
             foreach ($mcpContent as $block) {
-                if (!is_array($block)) {
-                    continue;
-                }
                 if (($block['type'] ?? null) === 'text' && is_string($block['text'] ?? null)) {
                     $texts[] = $block['text'];
                     continue;

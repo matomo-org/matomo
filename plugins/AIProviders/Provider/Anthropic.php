@@ -331,9 +331,6 @@ class Anthropic extends AIProvider
 
         $blocks = [];
         foreach ($mcpContent as $block) {
-            if (!is_array($block)) {
-                continue;
-            }
             if (($block['type'] ?? null) === 'text' && is_string($block['text'] ?? null)) {
                 $blocks[] = ['type' => 'text', 'text' => $block['text']];
                 continue;

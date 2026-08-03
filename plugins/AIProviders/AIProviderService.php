@@ -283,7 +283,7 @@ class AIProviderService
      * provider forced by a managed environment — it must not be used as a general
      * completion entry point; use {@link complete()} for that.
      *
-     * @param array<string, string> $configuration
+     * @param array{apiKey?: string, endpointUrl?: string, model?: string, useFipsEndpoint?: bool} $configuration
      */
     public function testProviderConnection(AIProvider $provider, array $configuration): void
     {
@@ -294,7 +294,7 @@ class AIProviderService
      * Executes the request against the given provider and guards against an empty
      * completion. Used by {@link complete()}.
      *
-     * @param array<string, string> $configuration
+     * @param array{apiKey?: string, endpointUrl?: string, model?: string, useFipsEndpoint?: bool} $configuration
      */
     private function runWithProvider(AIProvider $provider, array $configuration, AIRequest $request): AIProviderResponse
     {
