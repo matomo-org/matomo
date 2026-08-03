@@ -5,6 +5,152 @@
   @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 -->
 
+<template>
+  <div class="ai-providers-page">
+    <header class="ai-providers-page-header">
+      <h2 class="ai-providers-page-title">
+        <EnrichedHeadline>
+          {{ translate('AIProviders_MenuTitle') }}
+        </EnrichedHeadline>
+      </h2>
+      <p class="ai-providers-page-subtitle">
+        {{ translate('AIProviders_ConfigurationIntro') }}
+      </p>
+    </header>
+
+    <ActivityIndicator
+      v-if="isLoading"
+      :loading="isLoading"
+    />
+
+    <template v-else-if="settings">
+      <ContentBlock class="ai-providers-content">
+      <span
+        class="ai-providers-unsaved-changes"
+        :class="{ 'is-visible': hasUnsavedChanges }"
+      >
+        {{ translate('AIProviders_UnsavedChanges') }}
+      </span>
+      <div v-form class="ai-providers">
+        <Alert
+          v-if="!canEditProviderConfiguration"
+          severity="info"
+        >
+          {{ translate('AIProviders_ManagedConfigurationHelp') }}
+        </Alert>
+
+        <h3 class="ai-providers-defaults-title">
+          {{ translate('AIProviders_DefaultsTitle') }}
+        </h3>
+
+        <section class="ai-providers-section">
+          <h4 class="ai-providers-subsection-title">
+            {{ translate('AIProviders_DefaultProvider') }}
+          </h4>
+          <p class="ai-providers-section-help">
+            {{ translate('AIProviders_DefaultProviderHelp') }}
+          </p>
+
+          <div
+            :aria-label="translate('AIProviders_DefaultProvider')"
+            class="ai-providers-cards"
+            role="radiogroup"
+          >
+            <ProviderCard
+              v-for="provider in providers"
+              :key="provider.id"
+              :available-models="availableModels[provider.id] || []"
+              :can-edit="canEditProviderConfiguration"
+              :configuration="providerConfigurations[provider.id]"
+              :is-disconnecting="!!disconnectingProviders[provider.id]"
+              :is-testing="!!testingProviders[provider.id]"
+              :provider="provider"
+              :selected="defaultProviderId === provider.id"
+              :usable-as-default="provider.configuration.isUsable"
+              @disconnect="disconnectProvider(provider.id)"
+              @select="provider.configuration.isUsable ? defaultProviderId = provider.id : null"
+              @test="testConnection(provider.id)"
+              @update:api-key="updateApiKey(provider.id, $event)"
+              @update:endpoint-url="updateEndpointUrl(provider.id, $event)"
+              @update:model="updateModel(provider.id, $event)"
+              @update:use-fips-endpoint="updateUseFipsEndpoint(provider.id, $event)"
+            />
+          </div>
+
+          <Alert
+            v-if="!hasUsableProvider"
+            class="ai-providers-default-warning"
+            severity="warning"
+          >
+            {{ translate('AIProviders_NoDefaultProviderWarning') }}
+          </Alert>
+        </section>
+
+        <section
+          v-if="canEditCapabilityLevel"
+          class="ai-providers-section"
+        >
+          <h4 class="ai-providers-subsection-title">
+            {{ translate('AIProviders_DefaultCapabilityLevel') }}
+          </h4>
+          <p class="ai-providers-section-help">
+            {{ translate('AIProviders_DefaultCapabilityLevelHelp') }}
+          </p>
+
+          <div
+            :aria-label="translate('AIProviders_DefaultCapabilityLevel')"
+            class="ai-providers-capability-cards"
+            role="radiogroup"
+          >
+            <label
+              v-for="capability in capabilityLevelOptions"
+              :key="capability.id"
+              :class="{ 'is-selected': defaultCapabilityLevel === capability.id }"
+              class="ai-providers-capability-card"
+            >
+              <div class="ai-providers-capability-header">
+                <input
+                  v-model="defaultCapabilityLevel"
+                  :value="capability.id"
+                  name="defaultCapabilityLevel"
+                  type="radio"
+                />
+                <span class="ai-providers-capability-label">{{ capability.label }}</span>
+              </div>
+              <div
+                v-if="capability.description"
+                class="ai-providers-capability-description"
+              >
+                {{ capability.description }}
+              </div>
+            </label>
+          </div>
+        </section>
+      </div>
+      </ContentBlock>
+    </template>
+
+    <div
+      v-if="settings"
+      class="ai-providers-footer"
+    >
+      <button
+        :disabled="isSaving || !hasUnsavedChanges"
+        class="btn btn-outline"
+        type="button"
+        @click="cancelChanges()"
+      >
+        {{ translate('General_Cancel') }}
+      </button>
+      <SaveButton
+        :disabled="!hasUnsavedChanges"
+        :saving="isSaving"
+        @confirm="saveSettings()"
+      />
+    </div>
+  </div>
+</template>
+
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
 import {
@@ -334,152 +480,6 @@ async function saveSettings() {
 
 onMounted(loadSettings);
 </script>
-
-<template>
-  <div class="ai-providers-page">
-    <header class="ai-providers-page-header">
-      <h2 class="ai-providers-page-title">
-        <EnrichedHeadline>
-          {{ translate('AIProviders_MenuTitle') }}
-        </EnrichedHeadline>
-      </h2>
-      <p class="ai-providers-page-subtitle">
-        {{ translate('AIProviders_ConfigurationIntro') }}
-      </p>
-    </header>
-
-    <ActivityIndicator
-      v-if="isLoading"
-      :loading="isLoading"
-    />
-
-    <template v-else-if="settings">
-      <ContentBlock class="ai-providers-content">
-      <span
-        class="ai-providers-unsaved-changes"
-        :class="{ 'is-visible': hasUnsavedChanges }"
-      >
-        {{ translate('AIProviders_UnsavedChanges') }}
-      </span>
-      <div v-form class="ai-providers">
-        <Alert
-          v-if="!canEditProviderConfiguration"
-          severity="info"
-        >
-          {{ translate('AIProviders_ManagedConfigurationHelp') }}
-        </Alert>
-
-        <h3 class="ai-providers-defaults-title">
-          {{ translate('AIProviders_DefaultsTitle') }}
-        </h3>
-
-        <section class="ai-providers-section">
-          <h4 class="ai-providers-subsection-title">
-            {{ translate('AIProviders_DefaultProvider') }}
-          </h4>
-          <p class="ai-providers-section-help">
-            {{ translate('AIProviders_DefaultProviderHelp') }}
-          </p>
-
-          <div
-            :aria-label="translate('AIProviders_DefaultProvider')"
-            class="ai-providers-cards"
-            role="radiogroup"
-          >
-            <ProviderCard
-              v-for="provider in providers"
-              :key="provider.id"
-              :available-models="availableModels[provider.id] || []"
-              :can-edit="canEditProviderConfiguration"
-              :configuration="providerConfigurations[provider.id]"
-              :is-disconnecting="!!disconnectingProviders[provider.id]"
-              :is-testing="!!testingProviders[provider.id]"
-              :provider="provider"
-              :selected="defaultProviderId === provider.id"
-              :usable-as-default="provider.configuration.isUsable"
-              @disconnect="disconnectProvider(provider.id)"
-              @select="provider.configuration.isUsable ? defaultProviderId = provider.id : null"
-              @test="testConnection(provider.id)"
-              @update:api-key="updateApiKey(provider.id, $event)"
-              @update:endpoint-url="updateEndpointUrl(provider.id, $event)"
-              @update:model="updateModel(provider.id, $event)"
-              @update:use-fips-endpoint="updateUseFipsEndpoint(provider.id, $event)"
-            />
-          </div>
-
-          <Alert
-            v-if="!hasUsableProvider"
-            class="ai-providers-default-warning"
-            severity="warning"
-          >
-            {{ translate('AIProviders_NoDefaultProviderWarning') }}
-          </Alert>
-        </section>
-
-        <section
-          v-if="canEditCapabilityLevel"
-          class="ai-providers-section"
-        >
-          <h4 class="ai-providers-subsection-title">
-            {{ translate('AIProviders_DefaultCapabilityLevel') }}
-          </h4>
-          <p class="ai-providers-section-help">
-            {{ translate('AIProviders_DefaultCapabilityLevelHelp') }}
-          </p>
-
-          <div
-            :aria-label="translate('AIProviders_DefaultCapabilityLevel')"
-            class="ai-providers-capability-cards"
-            role="radiogroup"
-          >
-            <label
-              v-for="capability in capabilityLevelOptions"
-              :key="capability.id"
-              :class="{ 'is-selected': defaultCapabilityLevel === capability.id }"
-              class="ai-providers-capability-card"
-            >
-              <div class="ai-providers-capability-header">
-                <input
-                  v-model="defaultCapabilityLevel"
-                  :value="capability.id"
-                  name="defaultCapabilityLevel"
-                  type="radio"
-                />
-                <span class="ai-providers-capability-label">{{ capability.label }}</span>
-              </div>
-              <div
-                v-if="capability.description"
-                class="ai-providers-capability-description"
-              >
-                {{ capability.description }}
-              </div>
-            </label>
-          </div>
-        </section>
-      </div>
-      </ContentBlock>
-    </template>
-
-    <div
-      v-if="settings"
-      class="ai-providers-footer"
-    >
-      <button
-        :disabled="isSaving || !hasUnsavedChanges"
-        class="btn btn-outline"
-        type="button"
-        @click="cancelChanges()"
-      >
-        {{ translate('General_Cancel') }}
-      </button>
-      <SaveButton
-        :disabled="!hasUnsavedChanges"
-        :saving="isSaving"
-        @confirm="saveSettings()"
-      />
-    </div>
-  </div>
-</template>
 
 <style lang="less">
 .ai-providers-page {

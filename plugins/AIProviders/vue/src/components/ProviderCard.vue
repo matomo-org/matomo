@@ -5,61 +5,6 @@
   @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 -->
 
-<script setup lang="ts">
-import { computed } from 'vue';
-import { AutoClearPassword as vAutoClearPassword, translate } from 'CoreHome';
-import { Field } from 'CorePluginsAdmin';
-import type { Provider, ProviderConfiguration } from '../types';
-
-const props = defineProps<{
-  provider: Provider;
-  configuration: ProviderConfiguration | undefined;
-  availableModels: string[];
-  selected: boolean;
-  usableAsDefault: boolean;
-  canEdit: boolean;
-  isTesting: boolean;
-  isDisconnecting: boolean;
-}>();
-
-/* eslint-disable func-call-spacing, no-spaced-func */
-const emit = defineEmits<{
-  (e: 'select'): void;
-  (e: 'update:apiKey', value: string): void;
-  (e: 'update:endpointUrl', value: string): void;
-  (e: 'update:useFipsEndpoint', value: boolean): void;
-  (e: 'update:model', value: string): void;
-  (e: 'test'): void;
-  (e: 'disconnect'): void;
-}>();
-/* eslint-enable func-call-spacing, no-spaced-func */
-
-const hasPendingKey = computed(() => (props.configuration?.apiKey ?? '') !== '');
-const hasEndpointUrl = computed(() => (props.configuration?.endpointUrl ?? '') !== '');
-const hasKey = computed(() => hasPendingKey.value || props.provider.configuration.hasApiKey);
-
-// Providers with a default endpoint (e.g. AWS Bedrock) only need the key;
-// fully custom servers need the URL and commonly run without authentication.
-const canTest = computed(() => {
-  if (!props.provider.supportsCustomEndpoint || props.provider.defaultEndpointUrl) {
-    return hasKey.value;
-  }
-  return hasEndpointUrl.value;
-});
-
-const modelOptions = computed(() => {
-  const options: Record<string, string> = {};
-  props.availableModels.forEach((model) => { options[model] = model; });
-  return options;
-});
-
-function selectProvider() {
-  if (props.usableAsDefault) {
-    emit('select');
-  }
-}
-</script>
-
 <template>
   <div
     :aria-checked="selected"
@@ -210,6 +155,61 @@ function selectProvider() {
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+import { computed } from 'vue';
+import { AutoClearPassword as vAutoClearPassword, translate } from 'CoreHome';
+import { Field } from 'CorePluginsAdmin';
+import type { Provider, ProviderConfiguration } from '../types';
+
+const props = defineProps<{
+  provider: Provider;
+  configuration: ProviderConfiguration | undefined;
+  availableModels: string[];
+  selected: boolean;
+  usableAsDefault: boolean;
+  canEdit: boolean;
+  isTesting: boolean;
+  isDisconnecting: boolean;
+}>();
+
+/* eslint-disable func-call-spacing, no-spaced-func */
+const emit = defineEmits<{
+  (e: 'select'): void;
+  (e: 'update:apiKey', value: string): void;
+  (e: 'update:endpointUrl', value: string): void;
+  (e: 'update:useFipsEndpoint', value: boolean): void;
+  (e: 'update:model', value: string): void;
+  (e: 'test'): void;
+  (e: 'disconnect'): void;
+}>();
+/* eslint-enable func-call-spacing, no-spaced-func */
+
+const hasPendingKey = computed(() => (props.configuration?.apiKey ?? '') !== '');
+const hasEndpointUrl = computed(() => (props.configuration?.endpointUrl ?? '') !== '');
+const hasKey = computed(() => hasPendingKey.value || props.provider.configuration.hasApiKey);
+
+// Providers with a default endpoint (e.g. AWS Bedrock) only need the key;
+// fully custom servers need the URL and commonly run without authentication.
+const canTest = computed(() => {
+  if (!props.provider.supportsCustomEndpoint || props.provider.defaultEndpointUrl) {
+    return hasKey.value;
+  }
+  return hasEndpointUrl.value;
+});
+
+const modelOptions = computed(() => {
+  const options: Record<string, string> = {};
+  props.availableModels.forEach((model) => { options[model] = model; });
+  return options;
+});
+
+function selectProvider() {
+  if (props.usableAsDefault) {
+    emit('select');
+  }
+}
+</script>
 
 <style lang="less">
 .ai-providers-card {

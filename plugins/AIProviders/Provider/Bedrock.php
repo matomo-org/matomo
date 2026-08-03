@@ -481,9 +481,7 @@ class Bedrock extends AIProvider
             $bedrockMessages[] = ['role' => $role, 'content' => $blocks];
         }
 
-        // array_values keeps this a list after the index-keyed coalescing
-        // merges above.
-        return array_values($bedrockMessages);
+        return $bedrockMessages;
     }
 
     /**
@@ -563,9 +561,6 @@ class Bedrock extends AIProvider
 
         $bedrockBlocks = [];
         foreach ($mcpContent as $block) {
-            if (!is_array($block)) {
-                continue;
-            }
             if (($block['type'] ?? null) === 'text' && is_string($block['text'] ?? null)) {
                 $bedrockBlocks[] = ['text' => $block['text']];
                 continue;

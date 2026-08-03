@@ -183,7 +183,7 @@ abstract class AIProvider
      * max tokens, and temperature, and populate token usage on the response
      * when the provider reports it.
      *
-     * @param array<string, string> $configuration
+     * @param array{apiKey?: string, endpointUrl?: string, model?: string, useFipsEndpoint?: bool} $configuration
      */
     abstract public function complete(AIRequest $request, array $configuration): AIProviderResponse;
 
@@ -209,7 +209,7 @@ abstract class AIProvider
      * mapping exists. Providers that override this method must also override
      * {@link supportsConversations()} to return true.
      *
-     * @param array<string, string> $configuration
+     * @param array{apiKey?: string, endpointUrl?: string, model?: string, useFipsEndpoint?: bool} $configuration
      */
     public function converse(AIConversationRequest $request, array $configuration): AIConversationResponse
     {
@@ -227,7 +227,7 @@ abstract class AIProvider
      * (e.g. a models listing) should override this to avoid spending
      * generation tokens. Returns normally when the connection works.
      *
-     * @param array<string, string> $configuration
+     * @param array{apiKey?: string, endpointUrl?: string, model?: string, useFipsEndpoint?: bool} $configuration
      */
     public function verifyConnection(array $configuration): void
     {
@@ -238,7 +238,7 @@ abstract class AIProvider
      * Probes the connection with completion. Providers with a cheaper
      * probe override verifyConnection() but can reuse this.
      *
-     * @param array<string, string> $configuration
+     * @param array{apiKey?: string, endpointUrl?: string, model?: string, useFipsEndpoint?: bool} $configuration
      */
     protected function verifyConnectionWithCompletion(array $configuration): void
     {
@@ -259,7 +259,7 @@ abstract class AIProvider
      * The default implementation returns no models; providers that can discover
      * them (e.g. an OpenAI-compatible `/models` listing) should override this.
      *
-     * @param array<string, string> $configuration
+     * @param array{apiKey?: string, endpointUrl?: string, model?: string, useFipsEndpoint?: bool} $configuration
      * @return list<string>
      */
     public function listModels(array $configuration): array
@@ -277,7 +277,7 @@ abstract class AIProvider
      * whose credentials are supplied by the environment (rather than stored
      * configuration) should override this method.
      *
-     * @param array<string, string> $configuration
+     * @param array{apiKey?: string, endpointUrl?: string, model?: string, useFipsEndpoint?: bool} $configuration
      */
     public function isConfigured(array $configuration): bool
     {
@@ -676,9 +676,6 @@ abstract class AIProvider
 
         $parts = [];
         foreach ($mcpContent as $block) {
-            if (!is_array($block)) {
-                continue;
-            }
             if (($block['type'] ?? null) === 'text' && is_string($block['text'] ?? null)) {
                 $parts[] = $block['text'];
                 continue;
@@ -1046,10 +1043,6 @@ abstract class AIProvider
                     'Could not connect to %s.',
                     $this->getName()
                 ), 0, $e);
-            }
-
-            if (!is_array($response)) {
-                throw new AIProviderException(sprintf('%s returned an invalid response.', $this->getName()));
             }
 
             $status = (int) ($response['status'] ?? 0);
