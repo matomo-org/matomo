@@ -13,7 +13,7 @@
     >
       <ReportHeader
         context="preview"
-        :title="translate('Dashboard_WidgetPreview')"
+        :report-title="translate('Dashboard_WidgetPreview')"
         title-clickable
         :title-click-hint="translate('Dashboard_AddPreviewedWidget')"
         @title-click="$emit('select', previewWidget.uniqueId)"
