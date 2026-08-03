@@ -251,6 +251,12 @@ class DataTablePostProcessor
             return $dataTable;
         }
 
+        if (Common::getRequestVar('pivotBy', false, 'string', $this->request)) {
+            // pivoted tables have one column per pivot dimension value, a percentage of
+            // the report total is not meaningful there
+            return $dataTable;
+        }
+
         $report = $this->report;
         $dataTable->filter(function (DataTable $table) use ($report) {
             PercentOfReportTotal::addMetricsToTable($table, $report);
