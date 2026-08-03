@@ -241,6 +241,7 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_ShowPercentageValuesDataTable';
         $translationKeys[] = 'CoreHome_ShowAbsoluteValuesDataTable';
         $translationKeys[] = 'CoreHome_ShowPercentageValues';
+        $translationKeys[] = 'CoreHome_ShowAbsoluteValues';
         $translationKeys[] = 'CoreHome_PeriodHasOnlyRawData';
         $translationKeys[] = 'CoreHome_PeriodHasOnlyRawDataNoVisitsLog';
         $translationKeys[] = 'SitesManager_NotFound';

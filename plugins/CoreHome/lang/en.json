@@ -92,6 +92,7 @@
         "ShowPercentageValuesDataTable": "The report is showing absolute values %s Show percentages",
         "ShowAbsoluteValuesDataTable": "The report is showing percentages %s Show absolute values",
         "ShowPercentageValues": "Show percentages",
+        "ShowAbsoluteValues": "Show absolute values",
         "ViewAllPiwikVideoTutorials": "View all Matomo Video Tutorials",
         "WebAnalyticsReports": "Web Analytics Reports",
         "YouAreUsingTheLatestVersion": "You are using the latest version of Matomo!",

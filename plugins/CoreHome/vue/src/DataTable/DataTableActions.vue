@@ -183,7 +183,7 @@
       <li v-if="reportSupportsPercentageValues">
         <div
           class="configItem dataTableShowPercentageValues"
-          :aria-label="translate('CoreHome_ShowPercentageValues')"
+          :aria-label="percentageValuesLabel"
           v-html="$sanitize(percentageValuesText)"
         ></div>
       </li>
@@ -460,6 +460,14 @@ export default defineComponent({
         'CoreHome_ShowAbsoluteValuesDataTable',
         'CoreHome_ShowPercentageValuesDataTable',
       );
+    },
+    // the accessible name must describe the action the item performs, so it follows the state:
+    // an aria-label overrides the visible text, and would otherwise announce the opposite action
+    percentageValuesLabel() {
+      const params = this.clientSideParameters as Record<string, string|number|boolean>;
+      return isBooleanLikeSet(params.show_percentage_values)
+        ? translate('CoreHome_ShowAbsoluteValues')
+        : translate('CoreHome_ShowPercentageValues');
     },
     includeAggregateRowsText() {
       const params = this.clientSideParameters as Record<string, string|number|boolean>;
