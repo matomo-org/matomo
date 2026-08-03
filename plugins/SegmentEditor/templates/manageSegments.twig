@@ -82,7 +82,8 @@
                                 <td class="entityTable_Sparkline">
                                     {% if segment.sparklineUrl is defined %}
                                         <div class="sparkline" {% if sparklineTooltipKey -%} title="{{ sparklineTooltipKey|translate(segment.name) }}" {%- endif %}>
-                                            {{ sparkline(segment.sparklineUrl) }}
+                                            {# Keep the legacy 100x25 display size so the SparklinesRedesign flag does not enlarge this management-table sparkline #}
+                                            {{ sparkline(segment.sparklineUrl, 100, 25) }}
                                         </div>
                                     {% endif %}
                                 </td>

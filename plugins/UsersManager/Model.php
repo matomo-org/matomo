@@ -688,6 +688,7 @@ class Model
     {
         $this->updateUserFields($userLogin, [
           'invite_token'      => $this->hashTokenAuth($token),
+          'invite_link_token' => null,
           'invite_expired_at' => Date::now()->addDay($expiryInDays)->getDatetime(),
         ]);
     }
@@ -698,6 +699,34 @@ class Model
             'invite_link_token' => $this->hashTokenAuth($token),
             'invite_expired_at' => Date::now()->addDay($expiryInDays)->getDatetime(),
         ]);
+    }
+
+    public function replaceInviteTokenForPendingUser(
+        string $userLogin,
+        string $token,
+        string $expectedInviteToken,
+        string $expectedEmail
+    ): bool {
+        $sql = sprintf(
+            'UPDATE `%s`
+             SET `invite_token` = ?,
+                 `invite_link_token` = NULL
+             WHERE `login` = ?
+               AND `invite_token` = ?
+               AND `email` = ?
+               AND `invite_expired_at` IS NOT NULL
+               AND `invite_expired_at` >= ?',
+            $this->userTable
+        );
+        $query = $this->getDb()->query($sql, [
+            $this->hashTokenAuth($token),
+            $userLogin,
+            $expectedInviteToken,
+            $expectedEmail,
+            Date::now()->getDatetime(),
+        ]);
+
+        return $query->rowCount() === 1;
     }
 
     public function setSuperUserAccess($userLogin, $hasSuperUserAccess)

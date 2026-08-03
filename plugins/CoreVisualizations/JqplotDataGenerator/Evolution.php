@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 
+use Piwik\API\Request as ApiRequest;
 use Piwik\Archive\ArchiveState;
 use Piwik\Archive\DataTableFactory;
 use Piwik\Common;
@@ -19,6 +20,7 @@ use Piwik\Period;
 use Piwik\Period\Factory;
 use Piwik\Plugins\API\Filter\DataComparisonFilter;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
+use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution as JqplotEvolutionGraph;
 use Piwik\Site;
 use Piwik\Url;
 
@@ -27,6 +29,22 @@ use Piwik\Url;
  */
 class Evolution extends JqplotDataGenerator
 {
+    /**
+     * Narrow the parent's untyped `$graph` to the evolution visualization, since
+     * `JqplotDataGenerator\Evolution` is only ever constructed by
+     * {@see JqplotEvolutionGraph::makeDataGenerator()}. Lets later code call
+     * forecast-specific accessors without redundant `instanceof` checks.
+     *
+     * @var JqplotEvolutionGraph
+     */
+    protected $graph;
+
+    /** @var ForecastMetricClassifier|null */
+    private $forecastClassifier;
+
+    /** @var ForecastSubPeriodFetcher|null */
+    private $forecastSubPeriodFetcher;
+
     protected function getUnitsForColumnsToDisplay()
     {
         $idSite = Common::getRequestVar('idSite', null, 'int');
@@ -77,26 +95,26 @@ class Evolution extends JqplotDataGenerator
         [$seriesMetadata, $seriesUnits, $seriesLabels, $seriesToXAxis] =
             $this->getSeriesMetadata($rowsToDisplay, $columnsToDisplay, $units, $dataTables);
 
-        // collect series data to show. each row-to-display/column-to-display permutation creates a series.
-        $allSeriesData = [];
-        foreach ($rowsToDisplay as $rowIdentifier) {
-            $rowLabel = $rowIdentifier;
+        if ($this->isComparing) {
+            // Comparing graphs never render a forecast, so we only need the chart-rendering
+            // data, not the forecast-state machinery the seriesState wrapper carries.
+            $allSeriesData = $this->collectComparisonSeriesData(
+                $rowsToDisplay,
+                $columnsToDisplay,
+                $seriesLabels,
+                $dataTable
+            );
+        } else {
+            // Reuse the per-series state precomputed in
+            // JqplotGraph\Evolution::afterAllFiltersAreApplied() whenever a forecast was
+            // produced, instead of running the same row × column collection loop again. When
+            // no state was stashed the forecast is not being rendered (no incomplete tick, bar
+            // mode, or disabled), so the fallback collects data-only series and skips the
+            // forecast classifier work.
+            $seriesState = $this->graph->getForecastSeriesState()
+                ?? $this->collectForecastSeriesState($rowsToDisplay, $columnsToDisplay, $units, $dataTable, false);
 
-            if (!empty($this->properties['selectable_rows'])) {
-                foreach ($this->properties['selectable_rows'] as $row) {
-                    if ($rowIdentifier === $row['matcher']) {
-                        $rowLabel = $row['label'];
-                    }
-                }
-            }
-
-            foreach ($columnsToDisplay as $columnName) {
-                if (!$this->isComparing) {
-                    $this->setNonComparisonSeriesData($allSeriesData, $rowLabel, $columnName, $dataTable);
-                } else {
-                    $this->setComparisonSeriesData($allSeriesData, $seriesLabels, $rowLabel, $columnName, $dataTable);
-                }
-            }
+            $allSeriesData = $seriesState->getAllSeriesData();
         }
 
         $visualization->properties = $this->properties;
@@ -141,11 +159,56 @@ class Evolution extends JqplotDataGenerator
         }
 
         $this->setDataStates($visualization, $dataTables);
+        $visualization->setForecastData($this->buildForecastData());
     }
 
-    private function getSeriesData($rowLabel, $columnName, DataTable\Map $dataTable)
+    /**
+     * Return the forecast values precomputed in
+     * {@see JqplotEvolutionGraph::afterAllFiltersAreApplied()}. Comparing graphs and graphs
+     * with forecast disabled both short-circuit to an empty payload — precompute would
+     * have returned [] anyway, but checking here saves a property lookup on the cold path.
+     *
+     * @return array<int, array<int, float|null>>
+     */
+    protected function buildForecastData(): array
+    {
+        if (empty($this->properties['show_forecast']) || $this->isComparing) {
+            return [];
+        }
+
+        return $this->graph->getForecastData();
+    }
+
+    /**
+     * Memoised access to the metric classifier. Protected so subclasses can substitute a
+     * classifier instantiated with an explicit semantic-type map (avoids seeding the global
+     * transient cache that backs {@see Metrics::getDefaultMetricSemanticTypes()}).
+     */
+    protected function getForecastClassifier(): ForecastMetricClassifier
+    {
+        if (null === $this->forecastClassifier) {
+            $this->forecastClassifier = new ForecastMetricClassifier();
+        }
+        return $this->forecastClassifier;
+    }
+
+    /**
+     * Memoised access to the sub-period sample fetcher. Protected so subclasses can
+     * substitute an alternative fetcher (one that returns canned sample maps without
+     * issuing inner API requests) instead of touching the Matomo bootstrap.
+     */
+    protected function getForecastSubPeriodFetcher(): ForecastSubPeriodFetcher
+    {
+        if (null === $this->forecastSubPeriodFetcher) {
+            $this->forecastSubPeriodFetcher = new ForecastSubPeriodFetcher();
+        }
+        return $this->forecastSubPeriodFetcher;
+    }
+
+    private function getSeriesData($rowLabel, $columnName, DataTable\Map $dataTable, &$seriesDataAvailability)
     {
         $seriesData = array();
+        $seriesDataAvailability = array();
         foreach ($dataTable->getDataTables() as $childTable) {
             // get the row for this label (use the first if $rowLabel is false)
             if ($rowLabel === false) {
@@ -157,11 +220,27 @@ class Evolution extends JqplotDataGenerator
             // get series data point. defaults to 0 if no row or no column value.
             if ($row === false) {
                 $seriesData[] = 0;
+                $seriesDataAvailability[] = false;
             } else {
-                $seriesData[] = $row->getColumn($columnName) ? : 0;
+                $value = $row->getColumn($columnName);
+                // Preserve the legacy `?: 0` coercion for the rendered series data so '0' /
+                // 0.0 values continue to flow through as plain int 0 (downstream consumers
+                // doing `=== 0` rely on it). The hasColumnValue check below tracks the
+                // separate "real 0 vs missing" distinction the forecast builder needs.
+                $seriesData[] = $value ?: 0;
+                $seriesDataAvailability[] = $this->hasColumnValue($value);
             }
         }
         return $seriesData;
+    }
+
+    /**
+     * Single source of truth for whether a column value should count as "this tick has data".
+     * Numeric 0 (and "0") counts as data; only false, null, and '' are treated as missing.
+     */
+    private function hasColumnValue($value): bool
+    {
+        return $value !== false && $value !== null && $value !== '';
     }
 
     /**
@@ -245,16 +324,133 @@ class Evolution extends JqplotDataGenerator
         }
     }
 
-    private function setNonComparisonSeriesData(array &$allSeriesData, $rowLabel, $columnName, DataTable\Map $dataTable)
-    {
-        $seriesLabel = $this->getSeriesLabel($rowLabel, $columnName);
+    /**
+     * Run the row × column collection loop and produce the per-series state. Shared by
+     * initChartObjectData() (render path) and precomputeForecast() so the two paths produce
+     * identical state. Comparing graphs go through {@see self::collectComparisonSeriesData()}
+     * instead — they only need the chart-rendering series data and never consume the
+     * forecast-state fields.
+     *
+     * @param array<int, mixed> $rowsToDisplay
+     * @param array<int, string> $columnsToDisplay
+     * @param array<string, string|false> $units
+     * @param bool $forecastEnabled When false, only the per-series chart data is collected and
+     *                              the forecast precision/monotonicity classifiers are skipped.
+     *                              Those classifiers touch the metric semantic-type registry and
+     *                              run a cluster of string searches per column, so the render
+     *                              fallback (which is only reached when no forecast was produced)
+     *                              passes false to keep dashboards full of historical-only
+     *                              evolution graphs from paying for a feature they are not
+     *                              rendering. precomputeForecast() passes true.
+     */
+    private function collectForecastSeriesState(
+        array $rowsToDisplay,
+        array $columnsToDisplay,
+        array $units,
+        DataTable\Map $dataTable,
+        bool $forecastEnabled
+    ): ForecastSeriesState {
+        $builder = new ForecastSeriesStateBuilder();
 
-        $seriesData = $this->getSeriesData($rowLabel, $columnName, $dataTable);
-        $allSeriesData[$seriesLabel] = $seriesData;
+        foreach ($rowsToDisplay as $rowIdentifier) {
+            $rowLabel = $this->resolveRowLabel($rowIdentifier);
+
+            foreach ($columnsToDisplay as $columnName) {
+                $seriesLabel = $this->getSeriesLabel($rowLabel, $columnName);
+                $seriesData = $this->getSeriesData($rowLabel, $columnName, $dataTable, $seriesDataAvailability);
+
+                if (!$forecastEnabled) {
+                    $builder->addDataOnlySeries($seriesLabel, $seriesData);
+                    continue;
+                }
+
+                $columnUnit = $units[$columnName] ?? false;
+                $columnMonotonicity = $this->getForecastClassifier()->getColumnMonotonicity($columnName, $columnUnit);
+
+                $builder->addForecastSeries(
+                    $seriesLabel,
+                    $seriesData,
+                    $seriesDataAvailability,
+                    $columnMonotonicity,
+                    $this->getForecastClassifier()->getForecastPrecisionForColumn(
+                        $columnName,
+                        $columnUnit,
+                        $columnMonotonicity
+                    ),
+                    $columnName,
+                    $rowLabel
+                );
+            }
+        }
+
+        return $builder->build();
     }
 
-    private function setComparisonSeriesData(array &$allSeriesData, array $seriesLabels, $rowLabel, $columnName, DataTable\Map $dataTable)
+    /**
+     * Comparing-only twin of {@see self::collectForecastSeriesState()}: walks the same
+     * row × column grid but only populates the chart-rendering data, since comparing graphs
+     * never reach the forecast builder.
+     *
+     * @param array<int, mixed> $rowsToDisplay
+     * @param array<int, string> $columnsToDisplay
+     * @param array<int, string> $seriesLabels
+     * @return array<array-key, array<int, mixed>>
+     */
+    private function collectComparisonSeriesData(
+        array $rowsToDisplay,
+        array $columnsToDisplay,
+        array $seriesLabels,
+        DataTable\Map $dataTable
+    ): array {
+        $allSeriesData = [];
+
+        foreach ($rowsToDisplay as $rowIdentifier) {
+            $rowLabel = $this->resolveRowLabel($rowIdentifier);
+
+            foreach ($columnsToDisplay as $columnName) {
+                $this->setComparisonSeriesData(
+                    $allSeriesData,
+                    $seriesLabels,
+                    $rowLabel,
+                    $columnName,
+                    $dataTable
+                );
+            }
+        }
+
+        return $allSeriesData;
+    }
+
+    /**
+     * Apply the `selectable_rows` matcher → label translation that both collection paths
+     * share, keeping the loop body identical between comparing and non-comparing.
+     *
+     * @param mixed $rowIdentifier
+     * @return mixed
+     */
+    private function resolveRowLabel($rowIdentifier)
     {
+        if (!empty($this->properties['selectable_rows'])) {
+            foreach ($this->properties['selectable_rows'] as $row) {
+                if ($rowIdentifier === $row['matcher']) {
+                    return $row['label'];
+                }
+            }
+        }
+        return $rowIdentifier;
+    }
+
+    /**
+     * @param array<array-key, array<int, mixed>> $allSeriesData
+     * @param array<int, string> $seriesLabels
+     */
+    private function setComparisonSeriesData(
+        array &$allSeriesData,
+        array $seriesLabels,
+        $rowLabel,
+        $columnName,
+        DataTable\Map $dataTable
+    ): void {
         foreach ($dataTable->getDataTables() as $label => $childTable) {
             // get the row for this label (use the first if $rowLabel is false)
             if ($rowLabel === false) {
@@ -330,10 +526,25 @@ class Evolution extends JqplotDataGenerator
     /**
      * @param array<DataTable> $dataTables
      */
-    private function setDataStates(Chart $visualization, array $dataTables): void
+    private function setDataStates(Chart $visualization, array $dataTables): array
+    {
+        $dataStates = $this->computeDataStates($dataTables);
+        $visualization->setDataStates($dataStates);
+
+        return $dataStates;
+    }
+
+    /**
+     * Pure data-state computation. Returns the per-tick archive state for the given
+     * per-period DataTables, ordered by the original DataTable\Map keys.
+     *
+     * @param array<DataTable> $dataTables
+     * @return array<int, string>
+     */
+    public function computeDataStates(array $dataTables): array
     {
         if (0 === count($dataTables)) {
-            return;
+            return [];
         }
 
         $dataTableDates = array_keys($dataTables);
@@ -347,9 +558,8 @@ class Evolution extends JqplotDataGenerator
         $previousState = ArchiveState::COMPLETE;
 
         foreach ($dataTableDates as $dataTableDate) {
-            /** @var Period $period */
-            $period = $dataTables[$dataTableDate]->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX);
-            $state = $dataTables[$dataTableDate]->getMetadata(DataTable::ARCHIVE_STATE_METADATA_NAME);
+            $childTable = $dataTables[$dataTableDate];
+            $state = $childTable->getMetadata(DataTable::ARCHIVE_STATE_METADATA_NAME);
 
             if (false === $state) {
                 // Missing archive state information should only occur if no
@@ -361,7 +571,7 @@ class Evolution extends JqplotDataGenerator
                     : ArchiveState::COMPLETE;
             }
 
-            if ($siteToday <= $period->getDateEnd()->getTimestamp()) {
+            if (self::isIncompleteTick($childTable, $siteToday)) {
                 $state = ArchiveState::INCOMPLETE;
             }
 
@@ -369,6 +579,93 @@ class Evolution extends JqplotDataGenerator
             $previousState = $state;
         }
 
-        $visualization->setDataStates(array_values($dataStates));
+        return array_values($dataStates);
+    }
+
+    /**
+     * Decides whether a single child table from an evolution Map represents an
+     * incomplete tick. Two signals can mark a tick incomplete: an explicit
+     * INCOMPLETE archive_state metadata flag (set by the archiver when ts_archived
+     * falls before the period end), or the tick's period running on/past the
+     * site's "today". The siteToday rule exists because the archiver may not
+     * write numeric records for periods with no data (low-volume Goals/Ecommerce
+     * reports hit this), in which case the metadata is absent even though the
+     * period is, by definition, still in progress.
+     *
+     * Called from {@see computeDataStates()} as the override that forces the
+     * per-tick state to INCOMPLETE.
+     */
+    public static function isIncompleteTick(DataTable $childTable, int $siteToday): bool
+    {
+        if (ArchiveState::INCOMPLETE === $childTable->getMetadata(DataTable::ARCHIVE_STATE_METADATA_NAME)) {
+            return true;
+        }
+
+        $period = $childTable->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX);
+
+        return $period instanceof Period && $siteToday <= $period->getDateEnd()->getTimestamp();
+    }
+
+    /**
+     * Compute forecast values for the given DataTable\Map without rendering a chart.
+     * Called by the visualization in afterAllFiltersAreApplied() so the always-on forecast
+     * is computed once, ahead of render.
+     *
+     * The collected per-series state is stashed on the visualization so the later
+     * initChartObjectData() call can reuse it instead of running the same loop again.
+     *
+     * @return array<int, array<int, float|null>>
+     */
+    public function precomputeForecast(DataTable\Map $dataTable): array
+    {
+        if ($this->isComparing) {
+            return [];
+        }
+
+        $dataTables = $dataTable->getDataTables();
+        if ([] === $dataTables) {
+            return [];
+        }
+
+        // Cheap gate: without at least one incomplete tick the builder cannot
+        // produce a forecast value, so skip the per-series construction below.
+        // This runs on every evolution graph render, so the early exit matters
+        // for dashboards full of historical-only graphs.
+        $dataStates = $this->computeDataStates($dataTables);
+        if (!in_array(ArchiveState::INCOMPLETE, $dataStates, true)) {
+            return [];
+        }
+
+        $units = $this->getUnitsForColumnsToDisplay();
+
+        $rowsToDisplay = $this->properties['rows_to_display']
+            ?: array_unique($dataTable->getColumn('label'))
+                ?: [false];
+
+        $columnsToDisplay = array_values($this->properties['columns_to_display']);
+
+        [, $seriesUnits] = $this->getSeriesMetadata($rowsToDisplay, $columnsToDisplay, $units, $dataTables);
+
+        $seriesState = $this->collectForecastSeriesState($rowsToDisplay, $columnsToDisplay, $units, $dataTable, true);
+
+        $this->graph->setForecastSeriesState($seriesState);
+
+        $subPeriodSamples = $this->getForecastSubPeriodFetcher()->collect(
+            $dataTables,
+            $seriesState,
+            $this->graph->requestConfig->apiMethodToRequestDataTable,
+            Common::getRequestVar('idSite', 0, 'int'),
+            (string) ApiRequest::getRawSegmentFromRequest()
+        );
+
+        return (new ForecastBuilder())->build(
+            $seriesState,
+            $dataTables,
+            $dataStates,
+            $seriesUnits,
+            $subPeriodSamples['daily'],
+            $subPeriodSamples['monthly'],
+            $subPeriodSamples['earliestDataDate'] ?? null
+        );
     }
 }

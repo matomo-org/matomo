@@ -86,7 +86,12 @@ export default defineComponent({
       return result;
     },
     overviewLink() {
-      const query = MatomoUrl.stringify({ module: 'Marketplace', action: 'overview' });
+      const query = MatomoUrl.stringify({
+        ...MatomoUrl.urlParsed.value,
+        idSite: MatomoUrl.parsed.value.idSite,
+        module: 'Marketplace',
+        action: 'overview',
+      });
       const hash = MatomoUrl.stringify({ pluginType: 'premium' });
 
       return `?${query}#?${hash}`;

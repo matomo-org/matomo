@@ -11,7 +11,7 @@
         margin: 0;
         padding: 12px 10px 7px;
     }
-    h3 {
+    h3:where(:not(.reportHeader__title)) {
         font-weight: normal;
         font-size: 15px;
         margin: 0;
@@ -37,33 +37,11 @@
         font-weight: normal;
         border-radius: 8px;
         background: @theme-color-widget-title-background;
-        h3 {
+
+        h3:where(:not(.reportHeader__title)) {
             .font-default(20px, 24px);
             color: @theme-color-widget-title-text;
             padding: 20px !important;
-        }
-        .button {
-            margin: 16px 8px 0 0;
-            opacity: 0.8;
-            cursor: pointer;
-            float: right;
-        }
-        .buttons {
-            right: 8px;
-            float: right;
-            position: absolute;
-            padding-left: 50px;
-            display: none;
-            top: 7px;
-            color: @theme-color-widget-title-text;
-            background: -moz-linear-gradient(left, rgba(255,255,255,0) 0%, @theme-color-widget-title-background 45px);
-            background: -webkit-linear-gradient(left,rgba(255,255,255,0) 0%, @theme-color-widget-title-background 45px);
-            background: linear-gradient(to right, rgba(255,255,255,0) 0%, @theme-color-widget-title-background 45px);
-            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='@{theme-color-widget-title-background}',GradientType=1 );
-        }
-
-        &:hover .buttons {
-            display:block;
         }
     }
 
@@ -130,12 +108,6 @@
     }
 }
 
-.widget.hiddenContent .widgetTop.widgetTopHover {
-    .button#minimise,.button#refresh {
-        display:none;
-    }
-}
-
 .widget table.dataTable tr td {
   background-color: @theme-color-widget-background;
 }
@@ -152,10 +124,4 @@
   .widget, .ui-dialog-content {
       position: static;
   }
-}
-
-.ui-dialog .widget .widgetTop .buttons {
-    right: 30px;
-    top: 2px;
-    display: block;
 }

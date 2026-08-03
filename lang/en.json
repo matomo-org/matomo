@@ -273,6 +273,7 @@
         "ForExampleShort": "eg.",
         "ForceSSLRecommended": "We recommend using Matomo over secure SSL connections only. To prevent insecure access over http, add %1$s to the %2$s section in your Matomo config/config.ini.php file.",
         "ForcedSSL": "Forced SSL Connection",
+        "Forecast": "Forecast",
         "Forums": "Forums",
         "FromReferrer": "from",
         "GeneralInformation": "General Information",

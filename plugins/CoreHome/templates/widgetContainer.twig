@@ -1,20 +1,7 @@
 <div>
     <div
         vue-entry="CoreHome.Widget"
-        containerid="{{ containerId|json_encode }}"
+        containerid="{{ containerId|e('html_attr') }}"
         widgetized="{% if isWidgetized %}true{% else %}false{% endif %}"
     ></div>
-
-    <script type="text/javascript">
-        $(function () {
-
-            var piwikWidget = $('[vue-entry="CoreHome.Widget"][containerid={{ containerId|e('js') }}]');
-            var isExportedAsWidget = $('body > .widget').length;
-
-            if (!isExportedAsWidget) {
-                piwikHelper.compileVueEntryComponents(piwikWidget);
-            }
-
-        });
-    </script>
 </div>

@@ -77,6 +77,7 @@
         "PasswordResetEmailAppTokens": "Changing your password does not automatically revoke your app-specific tokens. If you suspect unauthorised access, please delete your existing tokens and generate new ones in the token management section.",
         "PasswordResetEmailLinkCancel": "This wasn't me",
         "PasswordResetEmailLinkReset": "Reset your password",
+        "PasswordResetEmailLinkValidity": "This link will expire in %1$s for security reasons.",
         "PasswordResetEmailSubject": "Reset your Matomo account password",
         "PasswordsDoNotMatch": "Mismatching passwords.",
         "PleaseNote": "Please note",
