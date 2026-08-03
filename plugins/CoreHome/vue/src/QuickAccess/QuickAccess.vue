@@ -11,25 +11,17 @@
     class="quickAccessInside"
     v-focus-anywhere-but-here="{ blur: onBlur }"
   >
-    <!-- TODO: use the SearchInput component here instead of recreating its DOM. -->
-    <div class="mtm-searchInput">
-      <span class="mtm-searchInput__icon">
-        <span class="icon-search" />
-      </span>
-      <input
-        class="mtm-searchInput__input browser-default"
-        @keydown="onKeypress($event)"
-        @focus="searchActive = true"
-        v-model="searchTerm"
-        type="text"
-        tabindex="5"
-        v-focus-if="{ focused: searchActive }"
-        v-tooltips
-        :title="quickAccessTitle"
-        :placeholder="translate('General_Search')"
-        ref="input"
-      />
-    </div>
+    <!-- attrs/listeners fall through to the input; v-tooltips lands on SearchInput's root -->
+    <SearchInput
+      ref="searchInput"
+      v-model="searchTerm"
+      :focused="searchActive"
+      v-tooltips
+      :title="quickAccessTitle"
+      tabindex="5"
+      @keydown="onKeypress($event)"
+      @focus="searchActive = true"
+    />
     <div
       class="dropdown quickAccessDropdown"
       v-show="searchTerm && searchActive"
@@ -102,7 +94,7 @@
 <script lang="ts">
 import { DeepReadonly, defineComponent } from 'vue';
 import FocusAnywhereButHere from '../FocusAnywhereButHere/FocusAnywhereButHere';
-import FocusIf from '../FocusIf/FocusIf';
+import SearchInput from '../SearchInput/SearchInput.vue';
 import { translate } from '../translate';
 import SitesStore from '../SiteSelector/SitesStore';
 import Site from '../SiteSelector/Site';
@@ -177,9 +169,11 @@ function scrollFirstElementIntoView(element: HTMLElement) {
 
 export default defineComponent({
   name: 'QuickAccess',
+  components: {
+    SearchInput,
+  },
   directives: {
     FocusAnywhereButHere,
-    FocusIf,
     Tooltips,
   },
   watch: {
@@ -336,9 +330,7 @@ export default defineComponent({
     deactivateSearch() {
       this.searchTerm = '';
       this.searchActive = false;
-      if (this.$refs.input) {
-        (this.$refs.input as HTMLElement).blur();
-      }
+      (this.$refs.searchInput as { blur?: () => void } | undefined)?.blur?.();
     },
     makeSureSelectedItemIsInViewport() {
       const element = this.getCurrentlySelectedElement();
