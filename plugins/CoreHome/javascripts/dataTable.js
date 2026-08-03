@@ -916,7 +916,23 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
         delete self.param.totalRows;
 
-        self.reloadAjaxDataTable(true, callbackSuccess);
+        // Search-as-you-type fires overlapping reloads; responses can arrive out of order, so a
+        // stale one must not overwrite a newer one. Tag each search and, on response, render only
+        // if no later search has superseded it.
+        self._searchGeneration = (self._searchGeneration || 0) + 1;
+        var searchGeneration = self._searchGeneration;
+        var applyIfLatest = function (response) {
+            if (searchGeneration !== self._searchGeneration) {
+                return;
+            }
+            if (callbackSuccess) {
+                callbackSuccess(response);
+            } else {
+                self.dataTableLoaded(response, self.workingDivId);
+            }
+        };
+
+        self.reloadAjaxDataTable(true, applyIfLatest);
     },
 
     //behaviour for '< prev' 'next >' links and page count
