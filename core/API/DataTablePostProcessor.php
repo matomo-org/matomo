@@ -24,6 +24,7 @@ use Piwik\Plugin\Report;
 use Piwik\Plugin\ReportsProvider;
 use Piwik\Plugins\API\Filter\DataComparisonFilter;
 use Piwik\Plugins\CoreHome\Columns\Metrics\EvolutionMetric;
+use Piwik\Plugins\CoreHome\Columns\Metrics\PercentOfReportTotal;
 use Piwik\Plugins\PrivacyManager\DataRounding;
 use Piwik\Request;
 
@@ -111,6 +112,7 @@ class DataTablePostProcessor
         $dataTable = $this->applyPivotByFilter($dataTable);
         $dataTable = $this->applyTotalsCalculator($dataTable);
         $dataTable = $this->applyFlattener($dataTable);
+        $dataTable = $this->applyPercentOfTotalMetrics($dataTable);
 
         if ($this->callbackBeforeGenericFilters) {
             call_user_func($this->callbackBeforeGenericFilters, $dataTable);
@@ -220,6 +222,40 @@ class DataTablePostProcessor
             $calculator = new ReportTotalsCalculator($this->apiModule, $this->apiMethod, $this->request, $this->report);
             $dataTable  = $calculator->calculate($dataTable);
         }
+        return $dataTable;
+    }
+
+    /**
+     * Registers processed metrics exposing each row's metric value as a percentage of the
+     * report total (eg, 'nb_visits_percent_of_total'), based on the totals calculated by
+     * ReportTotalsCalculator. Can be disabled with percent_of_total=0.
+     *
+     * @param DataTableInterface $dataTable
+     * @return DataTableInterface
+     */
+    public function applyPercentOfTotalMetrics($dataTable)
+    {
+        if (1 != Common::getRequestVar('percent_of_total', '1', 'integer', $this->request)) {
+            return $dataTable;
+        }
+
+        // tables can inherit totals metadata from another API request (eg, Referrers.getAll),
+        // disabling totals should disable the percentages based on them as well
+        if (1 != Common::getRequestVar('totals', '1', 'integer', $this->request)) {
+            return $dataTable;
+        }
+
+        if (!$this->report || !$this->report->getDimension()) {
+            // without a report dimension there is a single row (eg, VisitsSummary.get),
+            // a percentage of the total is not meaningful
+            return $dataTable;
+        }
+
+        $report = $this->report;
+        $dataTable->filter(function (DataTable $table) use ($report) {
+            PercentOfReportTotal::addMetricsToTable($table, $report);
+        });
+
         return $dataTable;
     }
 
