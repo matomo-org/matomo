@@ -210,6 +210,18 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         // crsf token: don't trust the submitted value; generate/fetch it from session data
         $view->nonce = Nonce::getNonce('Login.login');
+
+        $view->whatsNewChanges = $this->getWhatsNewChanges();
+    }
+
+    /**
+     * Returns the "What's New" entries rendered by the shared login layout.
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    private function getWhatsNewChanges(): array
+    {
+        return StaticContainer::get(WhatsNewProvider::class)->getChanges();
     }
 
     public function confirmPassword()
@@ -246,6 +258,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
           'nonce'             => Nonce::getNonce($nonceKey),
           'AccessErrorString' => $messageNoAccess,
           'loginPlugin'       => Piwik::getLoginPluginName(),
+          'whatsNewChanges'   => $this->getWhatsNewChanges(),
         ]);
     }
 
@@ -516,6 +529,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'loginPlugin' => Piwik::getLoginPluginName(),
             'login' => $login,
             'resetToken' => $resetToken,
+            'whatsNewChanges' => $this->getWhatsNewChanges(),
         ], 'basic');
     }
 
@@ -558,7 +572,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         return $this->renderTemplateAs(
             '@Login/cancelResetPassword',
-            ['cancelResetPasswordContent' => $cancelResetPasswordContent],
+            [
+                'cancelResetPasswordContent' => $cancelResetPasswordContent,
+                'whatsNewChanges' => $this->getWhatsNewChanges(),
+            ],
             'basic'
         );
     }
@@ -621,6 +638,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
           'nonce'        => $nonce,
           'errorMessage' => $errorMessage,
           'loginPlugin' => Piwik::getLoginPluginName(),
+          'whatsNewChanges' => $this->getWhatsNewChanges(),
         ], 'basic');
     }
 
