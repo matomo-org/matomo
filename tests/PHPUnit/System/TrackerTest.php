@@ -20,6 +20,8 @@ use Piwik\Scheduler\Schedule\Schedule;
 use Piwik\Scheduler\Task;
 use Piwik\Scheduler\Timetable;
 use Piwik\SettingsPiwik;
+use Piwik\Access;
+use Piwik\Container\StaticContainer;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -82,12 +84,22 @@ class TrackerTest extends IntegrationTestCase
     {
         \Piwik\Filesystem::deleteAllCacheOnUpdate();
 
+        // a token is created from an unauthenticated request by providing the credentials
+        $auth = StaticContainer::get('Piwik\Auth');
+        $auth->setLogin('anonymous');
+        $auth->setTokenAuth('anonymous');
+        $auth->setPasswordHash(null);
+        Access::getInstance()->setSuperUserAccess(false);
+        Access::getInstance()->reloadAccess($auth);
+
         $token = Request::processRequest('UsersManager.createAppSpecificTokenAuth', [
             'userLogin'            => Fixture::ADMIN_USER_LOGIN,
             'passwordConfirmation' => Fixture::ADMIN_USER_PASSWORD,
             'description'          => 'secure one',
             'secureOnly'           => true,
         ]);
+
+        Access::getInstance()->setSuperUserAccess(true);
 
         $this->issueBulkTrackingRequest($token, true, 2, 0);
     }

@@ -87,7 +87,7 @@
         "ExceptionLoginExists": "O nome de usuário '%s' já existe.",
         "ExceptionLoginExistsAsEmail": "Nome de usuário '%s' já usado como e-mail.",
         "ExceptionMultipleRoleSet": "Apenas um perfil pode ser definido, mas vários foram definidos. Use somente um desses: %s",
-        "ExceptionNoCapabilitiesWithoutRole": "Não é possível conceder nenhum recurso ao usuário %1$s para site ID %2$s. O usuário precisa pelo menos acesso de visualização.",
+        "ExceptionNoCapabilitiesWithoutRole": "Não foi possível conceder nenhuma permissão ao usuário %1$s para o idSite %2$s. O usuário precisa de, pelo menos, acesso de visualização.",
         "ExceptionNoRoleSet": "Nenhum perfil está definido, mas um desses precisa ser definido: %s",
         "ExceptionNoValueForUsernameOrEmail": "Por favor, digite um nome de usuário ou endereço de e-mail.",
         "ExceptionPasswordMD5HashExpected": "UsersManager.getTokenAuth está esperando por um hash MD5 da senha (32 caracteres). Por favor, chame a função md5() na senha antes de chamar este método.",

@@ -116,6 +116,15 @@ PageRenderer.prototype.createPage = async function () {
       this.activeRequestCount = 0;
     }
 
+    // Present the test browser as a regular Chrome rather than headless Chrome. Puppeteer reports a
+    // "HeadlessChrome" user agent and Sec-CH-UA brand, which the TrackingSpamPrevention plugin blocks
+    // by default (block_headless). Without this, any tracking that originates from the test browser -
+    // the JS tracker, and server-side requests that inherit the browser user agent - is treated as a
+    // headless bot and excluded, so those tests record no visits/data.
+    const defaultUserAgent = await this.browser.userAgent();
+    const chromeUserAgent = defaultUserAgent.replace('HeadlessChrome', 'Chrome');
+    await this.webpage.setUserAgent(chromeUserAgent);
+
     PAGE_PROPERTIES_TO_PROXY.forEach((propertyName) => {
       Object.defineProperty(this, propertyName, {
         value: this.webpage[propertyName],

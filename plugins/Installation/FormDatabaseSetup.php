@@ -136,8 +136,7 @@ class FormDatabaseSetup extends QuickForm2
     /**
      * Creates database object based on form data.
      *
-     * @throws Exception|Zend_Db_Adapter_Exception
-     * @return array The database connection info. Can be passed into Piwik::createDatabaseObject.
+     * @return array The database connection info. Can be passed into Db::createDatabaseObject.
      */
     public function createDatabaseObject()
     {

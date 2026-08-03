@@ -23,7 +23,7 @@ class ArchiveState
     public const INVALIDATED = 'invalidated';
 
     /**
-     * @param array{date1: string, date2: string, idsite: string, ts_archived: string} $archiveData
+     * @param array<array{date1: string, date2: string, idsite: string, ts_archived: string}> $archiveData
      * @param array<string, array<int>> $archiveIds archives ids indexed by period
      * @param array<int, array<string, array<int, int>>> $archiveStates archive states indexed by site and period
      */

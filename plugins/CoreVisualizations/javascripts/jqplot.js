@@ -13,11 +13,6 @@ function rowEvolutionGetMetricNameFromRow(tr)
     return $(tr).find('td [data-name]').text().trim();
 }
 
-function isPlotLinesTweaksEnabled()
-{
-    return $('body').hasClass('plotlines-tweaks-enabled');
-}
-
 function getOrCreateLegendFooter($dataTable)
 {
     var $legendFooter = $dataTable.find('.jqplot-legend-footer');
@@ -267,6 +262,7 @@ function applyFooterLegendRowLimit($dataTable)
                 metricsToPlot: _pk_translate('General_MetricsToPlot'),
                 metricToPlot: _pk_translate('General_MetricToPlot'),
                 recordsToPlot: _pk_translate('General_RecordsToPlot'),
+                forecast: _pk_translate('General_Forecast'),
                 incompletePeriod: _pk_translate('General_IncompletePeriod'),
                 invalidatedPeriod: _pk_translate('General_InvalidatedPeriod')
             };
@@ -285,6 +281,7 @@ function applyFooterLegendRowLimit($dataTable)
             this.data = graphData.data;
             this._setJqplotParameters(graphData.params);
             this._setDataStates(graphData.dataStates);
+            this._setForecastData(graphData.forecastData);
 
             if (this.props.display_percentage_in_tooltip) {
                 this._setTooltipPercentages();
@@ -311,6 +308,14 @@ function applyFooterLegendRowLimit($dataTable)
 
             if (Array.isArray(dataStates)) {
                 this.jqplotParams.dataStates = dataStates;
+            }
+        },
+
+        _setForecastData: function (forecastData) {
+            this.jqplotParams.forecastData = [];
+
+            if (Array.isArray(forecastData)) {
+                this.jqplotParams.forecastData = forecastData;
             }
         },
 
@@ -669,16 +674,15 @@ function applyFooterLegendRowLimit($dataTable)
         /** Export the chart as an image */
         exportAsImage: function (container, lang) {
             var pixelRatio = window.devicePixelRatio || 1;
-            var plotLinesTweaksEnabled = isPlotLinesTweaksEnabled();
             var dataTable = container.closest('.dataTable');
             var legendFooter = dataTable.find('.jqplot-legend-footer.has-legend');
-            var hasFooterLegend = plotLinesTweaksEnabled && legendFooter.length > 0;
+            var hasFooterLegend = legendFooter.length > 0;
             var legendHeight = hasFooterLegend ? legendFooter[0].getBoundingClientRect().height : 0;
             var legendGraphGap = hasFooterLegend ? FOOTER_LEGEND_EXPORT_GRAPH_GAP : 0;
             var exportCanvas = document.createElement('canvas');
-            var exportWidth = plotLinesTweaksEnabled ? container.outerWidth() : container.width();
+            var exportWidth = container.outerWidth();
             var dataTableWidth = dataTable.innerWidth();
-            if (plotLinesTweaksEnabled && dataTableWidth) {
+            if (dataTableWidth) {
                 exportWidth = Math.max(exportWidth, dataTableWidth);
             }
             exportCanvas.width = Math.round(exportWidth * pixelRatio);
@@ -689,10 +693,8 @@ function applyFooterLegendRowLimit($dataTable)
                 return;
             }
             var exportCtx = exportCanvas.getContext('2d');
-            if (plotLinesTweaksEnabled) {
-                exportCtx.fillStyle = (this.jqplotParams.grid && this.jqplotParams.grid.background) || '#ffffff';
-                exportCtx.fillRect(0, 0, exportCanvas.width, exportCanvas.height);
-            }
+            exportCtx.fillStyle = (this.jqplotParams.grid && this.jqplotParams.grid.background) || '#ffffff';
+            exportCtx.fillRect(0, 0, exportCanvas.width, exportCanvas.height);
 
             var canvases = container.find('canvas');
 
@@ -856,72 +858,27 @@ function applyFooterLegendRowLimit($dataTable)
             for (var i = 2; typeof this.jqplotParams.axes['y' + i + 'axis'] != 'undefined'; i++) {
                 this.setYTicksForAxis('y' + i + 'axis', this.jqplotParams.axes['y' + i + 'axis']);
             }
-
-            this.adjustWidthForLegacyRightAxes();
-        },
-
-        adjustWidthForLegacyRightAxes: function () {
-            var $graph = $('.piwik-graph', this.$element);
-
-            if (
-                isPlotLinesTweaksEnabled()
-                || !this.jqplotParams.canvasLegend
-                || !this.jqplotParams.canvasLegend.show
-            ) {
-                $graph.css('width', '');
-                return;
-            }
-
-            var axesShown = {};
-            this.jqplotParams.series.forEach(function (series) {
-                axesShown[series.yaxis] = true;
-            });
-
-            if (Object.keys(axesShown).length <= 1) {
-                $graph.css('width', '');
-                return;
-            }
-
-            // The legacy canvas legend pins gridPadding.right to 0. In that
-            // mode jqPlot draws extra right axes outside the target, so shrink
-            // the target by the rendered axis width to avoid page overflow.
-            var $tempAxisElement = $('<div>')
-                .attr('class', 'jqplot-axis jqplot-y2axis')
-                .css({'visibility': 'hidden', 'display': 'inline-block'});
-            $('<span>').appendTo($tempAxisElement);
-            $('body').append($tempAxisElement);
-
-            var axisLength = 10;
-            for (var i = 2; typeof this.jqplotParams.axes['y' + i + 'axis'] != 'undefined'; i++) {
-                axisLength += getAxisWidth(this.jqplotParams.axes['y' + i + 'axis']);
-            }
-
-            $graph.css('width', 'calc(100% - ' + axisLength + 'px)');
-            $tempAxisElement.remove();
-
-            function getAxisWidth(axis) {
-                var maxWidth = 0;
-                axis.ticks.forEach(function (tick) {
-                    var tickFormatted = $.jqplot.NumberFormatter(axis.tickOptions.formatString || '%s', tick);
-                    $tempAxisElement.find('span').text(tickFormatted);
-                    maxWidth = Math.max(maxWidth, $tempAxisElement.width());
-                });
-                return maxWidth;
-            }
         },
 
         setYTicksForAxis: function (axisName, axis) {
-            // calculate maximum x value of all data sets
-            var maxCrossDataSets = 0;
+            // calculate maximum y value of all data sets
+            var maxDataValue = 0;
             for (var i = 0; i < this.data.length; i++) {
                 if (this.jqplotParams.series[i].yaxis == axisName) {
                     var maxValue = Math.max.apply(Math, this.data[i]);
-                    if (maxValue > maxCrossDataSets) {
-                        maxCrossDataSets = maxValue;
+                    if (maxValue > maxDataValue) {
+                        maxDataValue = maxValue;
                     }
-                    maxCrossDataSets = parseFloat(maxCrossDataSets);
+                    maxDataValue = parseFloat(maxDataValue);
                 }
             }
+
+            // forecast values live in a parallel array invisible to jqplot's auto-axis,
+            // so widen the tick span only when a forecast point would otherwise fall
+            // above every actual data point. axis.max is set further down only in that case.
+            var maxForecastValue = this.getMaxForecastValueForAxis(axisName);
+            var forecastExceedsData = maxForecastValue > maxDataValue;
+            var maxCrossDataSets = forecastExceedsData ? maxForecastValue : maxDataValue;
 
             // add little padding on top
             maxCrossDataSets += Math.max(1, Math.round(maxCrossDataSets * .03));
@@ -953,6 +910,38 @@ function applyFooterLegendRowLimit($dataTable)
                 ticks.push(i * tickDistance);
             }
             axis.ticks = ticks;
+
+            if (forecastExceedsData) {
+                // jqplot would otherwise auto-cap axis.max at the actual data max and
+                // the forecast renderer's series_u2p clamp would pin the marker at the
+                // top edge instead of plotting it at its real value.
+                axis.max = ticks[ticks.length - 1];
+            }
+        },
+
+        getMaxForecastValueForAxis: function (axisName) {
+            var forecastData = this.jqplotParams.forecastData;
+            if (!Array.isArray(forecastData)) {
+                return 0;
+            }
+
+            var maxForecastValue = 0;
+            for (var i = 0; i < forecastData.length; i++) {
+                var series = this.jqplotParams.series && this.jqplotParams.series[i];
+                if (!series || series.yaxis !== axisName) {
+                    continue;
+                }
+
+                var seriesForecast = forecastData[i] || [];
+                for (var j = 0; j < seriesForecast.length; j++) {
+                    var value = seriesForecast[j];
+                    if (Number.isFinite(value) && value > maxForecastValue) {
+                        maxForecastValue = value;
+                    }
+                }
+            }
+
+            return maxForecastValue;
         },
 
         /** Get a formatted y values (with unit) */
@@ -1050,9 +1039,8 @@ function applyFooterLegendRowLimit($dataTable)
             this.jqplotParams.grid.borderColor = colorManager.getColor(namespace, 'grid-border');
             this.tickColor = colorManager.getColor(namespace, 'ticks');
 
-            // Under PlotLinesTweaks, evolution and bar gridlines use a lighter tick color.
-            if (isPlotLinesTweaksEnabled()
-                && (graphType === 'evolution' || graphType === 'bar')) {
+            // Evolution and bar gridlines use a lighter tick color.
+            if (graphType === 'evolution' || graphType === 'bar') {
                 var TICK_OPACITY = 0.5;
                 var tickRgb = colorManager.getRgb(this.tickColor);
                 this.tickColor = 'rgba(' + tickRgb[0] + ', ' + tickRgb[1] + ', '
@@ -1089,10 +1077,9 @@ function applyFooterLegendRowLimit($dataTable)
                     var seriesColorName = comparisonService.getSeriesColorName(s.seriesIndex, s.metricIndex);
                     seriesColorNames.push(seriesColorName);
                 });
-            } else if (isPlotLinesTweaksEnabled()
-                && (namespace === 'evolution-graph-colors'
-                    || namespace === 'bar-graph-colors'
-                    || namespace === 'pie-graph-colors')) {
+            } else if (namespace === 'evolution-graph-colors'
+                || namespace === 'bar-graph-colors'
+                || namespace === 'pie-graph-colors') {
                 seriesColorNames = getPlotLinesSeriesColorNames();
             } else {
                 seriesColorNames = ['series0', 'series1', 'series2', 'series3', 'series4', 'series5',
@@ -1178,6 +1165,7 @@ JQPlotExternalSeriesToggle.prototype = {
         config.params.series = [];
         config.params.axes = {xaxis: this.originalAxes.xaxis};
         config.params.seriesColors = [];
+        config.params.forecastData = [];
 
         for (var j = 0; j < this.activated.length; j++) {
             // find index of series and data
@@ -1192,6 +1180,11 @@ JQPlotExternalSeriesToggle.prototype = {
                     config.data.push(this.originalData[k]);
                     config.params.seriesColors.push(this.originalSeriesColors[k]);
                     config.params.series.push($.extend(true, {}, this.originalSeries[k]));
+                    config.params.forecastData.push(
+                        (this.originalParams.forecastData && this.originalParams.forecastData[k])
+                            ? this.originalParams.forecastData[k]
+                            : []
+                    );
                     // build array of used axes
                     var axis = this.originalSeries[k].yaxis;
                     if ($.inArray(axis, usedAxes) == -1) {
@@ -1464,6 +1457,40 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         plot.plugins.piwikTicks.currentXTick = false;
     }
 
+    function drawForecastHighlightMarker(ctx, x, y, color, backgroundColor) {
+        var outerSize = 3;
+        var haloOuterSize = 7;
+        var rgba = $.jqplot.getColorComponents(color);
+        var alpha = rgba[3] * .4;
+        var haloColor = 'rgba(' + rgba[0] + ',' + rgba[1] + ',' + rgba[2] + ',' + alpha + ')';
+
+        ctx.save();
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = color;
+        ctx.fillStyle = backgroundColor;
+
+        // subtle hover background in diamond shape
+        ctx.beginPath();
+        ctx.fillStyle = haloColor;
+        ctx.moveTo(x, y - haloOuterSize);
+        ctx.lineTo(x + haloOuterSize, y);
+        ctx.lineTo(x, y + haloOuterSize);
+        ctx.lineTo(x - haloOuterSize, y);
+        ctx.closePath();
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.fillStyle = backgroundColor;
+        ctx.moveTo(x, y - outerSize);
+        ctx.lineTo(x + outerSize, y);
+        ctx.lineTo(x, y + outerSize);
+        ctx.lineTo(x - outerSize, y);
+        ctx.closePath();
+        ctx.stroke();
+
+        ctx.restore();
+    }
+
     // highlight a marker
     function highlight(plot, tick) {
         var c = plot.plugins.piwikTicks;
@@ -1474,25 +1501,46 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
 
         unHighlight(plot);
 
-        var plotLinesTweaksEnabled = isPlotLinesTweaksEnabled();
-
         for (var i = 0; i < plot.series.length; i++) {
             var series = plot.series[i];
             var seriesMarkerRenderer = series.markerRenderer;
 
             c.markerRenderer.style = seriesMarkerRenderer.style;
-            c.markerRenderer.size = plotLinesTweaksEnabled ? 8 : seriesMarkerRenderer.size + 5;
+            c.markerRenderer.size = 8;
 
             var rgba = $.jqplot.getColorComponents(seriesMarkerRenderer.color);
             var newrgb = [rgba[0], rgba[1], rgba[2]];
-            // Use a stronger hover dot with PlotLinesTweaks enabled.
-            var alpha = plotLinesTweaksEnabled ? rgba[3] : rgba[3] * .4;
+            var alpha = rgba[3];
             c.markerRenderer.color = 'rgba(' + newrgb[0] + ',' + newrgb[1] + ',' + newrgb[2] + ',' + alpha + ')';
             c.markerRenderer.init();
 
             var position = series.gridData[tick];
             if (typeof position !== 'undefined') {
                 c.markerRenderer.draw(position[0], position[1], c.piwikHighlightCanvas._ctx);
+
+                var forecastValues = plot.options.forecastData && plot.options.forecastData[i];
+                var dataState = plot.options.dataStates && plot.options.dataStates[tick];
+                var forecastValue = Array.isArray(forecastValues) ? forecastValues[tick] : null;
+
+                if (
+                    dataState === 'incomplete'
+                    && Number.isFinite(forecastValue)
+                    && series._yaxis
+                ) {
+                    var boundedForecastValue = Math.min(
+                        series._yaxis.max,
+                        Math.max(series._yaxis.min, forecastValue)
+                    );
+                    var forecastY = series._yaxis.series_u2p(boundedForecastValue);
+
+                    drawForecastHighlightMarker(
+                        c.piwikHighlightCanvas._ctx,
+                        position[0],
+                        forecastY,
+                        seriesMarkerRenderer.color,
+                        plot.grid.background
+                    );
+                }
             }
         }
     }
@@ -1529,15 +1577,9 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         this.plugins.canvasLegend = new $.jqplot.CanvasLegendRenderer(options.canvasLegend);
 
         if (this.plugins.canvasLegend.show) {
-            if (isPlotLinesTweaksEnabled()) {
-                options.gridPadding = $.extend({}, options.gridPadding, {
-                    top: Math.max((options.gridPadding && options.gridPadding.top) || 0, 21)
-                });
-            } else {
-                options.gridPadding = {
-                    top: 21, right: 0
-                };
-            }
+            options.gridPadding = $.extend({}, options.gridPadding, {
+                top: Math.max((options.gridPadding && options.gridPadding.top) || 0, 21)
+            });
         }
     };
 
@@ -1547,11 +1589,6 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         var legend = plot.plugins.canvasLegend;
 
         if (!legend.show) {
-            return;
-        }
-
-        if (!isPlotLinesTweaksEnabled()) {
-            $.jqplot.CanvasLegendRenderer.renderLegacyLegend.call(this, plot, legend);
             return;
         }
 
@@ -1604,56 +1641,6 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         updateLegendFooterStacking($legendFooter);
     };
 
-    $.jqplot.CanvasLegendRenderer.renderLegacyLegend = function (plot, legend) {
-        var padding = {top: 0, right: this._gridPadding.right, bottom: 0, left: this._gridPadding.left};
-        var dimensions = {width: this._plotDimensions.width, height: this._gridPadding.top};
-        var width = this._plotDimensions.width - this._gridPadding.left - this._gridPadding.right;
-
-        legend.legendCanvas = new $.jqplot.GenericCanvas();
-        this.eventCanvas._elem.before(legend.legendCanvas.createElement(
-            padding, 'jqplot-legend-canvas', dimensions, plot));
-        legend.legendCanvas.setContext();
-
-        var ctx = legend.legendCanvas._ctx;
-        ctx.save();
-        ctx.font = '11px ' + require('piwik/UI').getLabelFontFamily();
-
-        var x = 0;
-        var series = plot.legend && plot.legend._series ? plot.legend._series : [];
-        for (var i = 0; i < series.length; i++) {
-            var s = series[i];
-            var label;
-            if (legend.labels && legend.labels[i]) {
-                label = legend.labels[i];
-            } else {
-                label = s.label.toString();
-            }
-
-            ctx.fillStyle = s.color;
-            if (legend.singleMetric) {
-                ctx.fillStyle = legend.singleMetricColor;
-            }
-
-            ctx.fillRect(x, 10, 10, 2);
-            x += 15;
-
-            var nextX = x + ctx.measureText(label).width + 20;
-
-            if (nextX + 70 > width) {
-                ctx.fillText("[...]", x, 15);
-                x += ctx.measureText("[...]").width + 20;
-                break;
-            }
-
-            ctx.fillText(label, x, 15);
-            x = nextX;
-        }
-
-        legend.width = x;
-
-        ctx.restore();
-    };
-
     $.jqplot.preInitHooks.push($.jqplot.CanvasLegendRenderer.init);
     $.jqplot.postDrawHooks.push($.jqplot.CanvasLegendRenderer.postDraw);
 
@@ -1674,30 +1661,23 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         var SeriesPicker = require('piwik/DataTableVisualizations/Widgets').SeriesPicker;
         var seriesPicker = new SeriesPicker(dataTable);
 
-        // when the PlotLinesTweaks feature flag is enabled, render the "Choose metrics"
-        // button variant and place it in the legend footer instead of above the chart
-        seriesPicker.useChooseMetricsButton = isPlotLinesTweaksEnabled();
+        // render the "Choose metrics" button variant and place it in the legend
+        // footer instead of above the chart
+        seriesPicker.useChooseMetricsButton = true;
 
         // handle placeSeriesPicker event
         var plot = this;
         $(seriesPicker).bind('placeSeriesPicker', function () {
-            if (isPlotLinesTweaksEnabled()) {
-                var $dataTable = $(plot.targetId).closest('.dataTable');
-                var $legendFooter = getOrCreateLegendFooter($dataTable);
-                var $pickerSlot = $legendFooter.find('.jqplot-legend-picker');
-                if (!$pickerSlot.length) {
-                    $pickerSlot = $('<div class="jqplot-legend-picker"></div>').prependTo($legendFooter);
-                }
-                // replace any previously rendered picker so redraws don't stack duplicates
-                $pickerSlot.empty().append(this.domElem);
-                $legendFooter.addClass('has-picker');
-                updateLegendFooterStacking($legendFooter);
-                return;
+            var $dataTable = $(plot.targetId).closest('.dataTable');
+            var $legendFooter = getOrCreateLegendFooter($dataTable);
+            var $pickerSlot = $legendFooter.find('.jqplot-legend-picker');
+            if (!$pickerSlot.length) {
+                $pickerSlot = $('<div class="jqplot-legend-picker"></div>').prependTo($legendFooter);
             }
-
-            this.domElem.css('margin-left', plot._gridPadding.left + 'px');
-            $('.jqplot-legend-canvas', $(plot.targetId)).css({paddingLeft: '34px'});
-            plot.baseCanvas._elem.before(this.domElem);
+            // replace any previously rendered picker so redraws don't stack duplicates
+            $pickerSlot.empty().append(this.domElem);
+            $legendFooter.addClass('has-picker');
+            updateLegendFooterStacking($legendFooter);
         });
 
         // handle seriesPicked event
@@ -1715,9 +1695,7 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         // without the "Choose metrics" button. Now that the button is placed and
         // mounted (and has taken its share of the footer width), recompute the limit
         // so the legend items wrap against the real available width.
-        if (isPlotLinesTweaksEnabled()) {
-            applyFooterLegendRowLimit($(this.targetId).closest('.dataTable'));
-        }
+        applyFooterLegendRowLimit($(this.targetId).closest('.dataTable'));
     });
 })(jQuery, require);
 
@@ -1866,6 +1844,54 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
 // ------------------------------------------------------------
 
 (function ($) {
+    function drawForecastMarker(ctx, x, y, color, backgroundColor) {
+        var outerSize = 3;
+        var innerSize = 2;
+
+        ctx.save();
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = color;
+        ctx.fillStyle = backgroundColor;
+
+        ctx.beginPath();
+        ctx.moveTo(x, y - outerSize);
+        ctx.lineTo(x + outerSize, y);
+        ctx.lineTo(x, y + outerSize);
+        ctx.lineTo(x - outerSize, y);
+        ctx.closePath();
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(x, y - innerSize);
+        ctx.lineTo(x + innerSize, y);
+        ctx.lineTo(x, y + innerSize);
+        ctx.lineTo(x - innerSize, y);
+        ctx.closePath();
+        ctx.fill();
+
+        ctx.restore();
+    }
+
+    function drawForecastConnector(ctx, fromX, fromY, toX, toY, color) {
+        var deltaX = toX - fromX;
+        var deltaY = toY - fromY;
+        var distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+        if (distance < 1) {
+            return;
+        }
+
+        ctx.save();
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 1;
+        ctx.setLineDash([2, 2]);
+        ctx.beginPath();
+        ctx.moveTo(fromX, fromY);
+        ctx.lineTo(toX, toY);
+        ctx.stroke();
+        ctx.closePath();
+        ctx.restore();
+    }
 
     $.jqplot.LineRenderer.prototype.draw = function(ctx, gd, options, plot) {
         var i;
@@ -1880,6 +1906,14 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         // Only change in this overridden method, to pass the option to the renderers
         if (plot.options.hasOwnProperty('dataStates')) {
             opts.dataStates = plot.options.dataStates;
+        }
+
+        if (
+            plot.options.hasOwnProperty('forecastData')
+            && Array.isArray(plot.options.forecastData)
+            && Array.isArray(plot.options.forecastData[this.index])
+        ) {
+            opts.forecastData = plot.options.forecastData[this.index];
         }
 
         if (!Array.isArray(opts.dataStates)) {
@@ -2091,6 +2125,7 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
                 if (this.renderer.smooth) {
                     gd = this.gridData;
                 }
+
                 for (i = 0; i < gd.length; i++) {
                     if (gd[i][0] === null || gd[i][1] === null) {
                         continue;
@@ -2102,6 +2137,89 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
                     markerOptions.incompleteFillColor = plot.grid.background;
 
                     this.markerRenderer.draw(gd[i][0], gd[i][1], ctx, markerOptions);
+                }
+            }
+
+            // Draw the forecast indicator independently of the regular markers. The dashed
+            // connector to the forecast value is always rendered when a forecast is available,
+            // so it stays visible even though evolution line graphs hide the per-point markers.
+            // The static diamond is only drawn alongside the regular markers; when markers are
+            // hidden the diamond is reserved for the hover highlight.
+            if (!fill) {
+                if (this.renderer.smooth) {
+                    gd = this.gridData;
+                }
+                let previousForecastPoint = null;
+
+                for (i = 0; i < gd.length; i++) {
+                    if (gd[i][0] === null || gd[i][1] === null) {
+                        previousForecastPoint = null;
+                        continue;
+                    }
+
+                    const forecastValue = Array.isArray(opts.forecastData) ? opts.forecastData[i] : null;
+
+                    if (opts.dataStates[i] === 'incomplete' && Number.isFinite(forecastValue)) {
+                        const forecastX = gd[i][0];
+                        const boundedForecastValue = Math.min(
+                            this._yaxis.max,
+                            Math.max(this._yaxis.min, forecastValue)
+                        );
+                        const forecastY = this._yaxis.series_u2p(boundedForecastValue);
+
+                        // When the forecast coincides with the tick's tracked value (e.g. an
+                        // additive metric rendered "flat at current"), the incomplete-period
+                        // dashed segment already covers this exact path, so the forecast
+                        // connector and diamond would only overdraw it. Skip the drawing, but
+                        // keep the point in the chain so a later diverging forecast still
+                        // connects from here -- the tooltip continues to report the value.
+                        if (Math.abs(forecastY - gd[i][1]) < 0.5) {
+                            previousForecastPoint = [forecastX, forecastY];
+                            continue;
+                        }
+
+                        const forecastColor = opts.color || this.color;
+                        let connectorStart = previousForecastPoint;
+
+                        if (!connectorStart) {
+                            let previousPointIndex = i - 1;
+                            while (
+                                previousPointIndex >= 0
+                                && (gd[previousPointIndex][0] === null || gd[previousPointIndex][1] === null)
+                            ) {
+                                previousPointIndex -= 1;
+                            }
+
+                            if (previousPointIndex >= 0) {
+                                connectorStart = gd[previousPointIndex];
+                            }
+                        }
+
+                        if (connectorStart) {
+                            drawForecastConnector(
+                                ctx,
+                                connectorStart[0],
+                                connectorStart[1],
+                                forecastX,
+                                forecastY,
+                                forecastColor
+                            );
+                        }
+
+                        if (this.markerRenderer.show) {
+                            drawForecastMarker(
+                                ctx,
+                                forecastX,
+                                forecastY,
+                                forecastColor,
+                                plot.grid.background
+                            );
+                        }
+
+                        previousForecastPoint = [forecastX, forecastY];
+                    } else {
+                        previousForecastPoint = null;
+                    }
                 }
             }
         }

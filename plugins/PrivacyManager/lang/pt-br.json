@@ -112,7 +112,7 @@
         "GdprTools": "Ferramentas GDPR",
         "GdprToolsOverviewHint": "Caso você não saiba o que é GDPR, consulte a %1$svisão geral do GDPR%2$s.",
         "GdprToolsPageIntro1": "Esta página foi projetada para que você exerça os direitos dos titulares de dados.",
-        "GdprToolsPageIntro2": "Aqui você pode exercer os direitos dos seus usuários com nossos procedimentos compatíveis com o GDPR:",
+        "GdprToolsPageIntro2": "Você pode se exercitar:",
         "GdprToolsPageIntroAccessRight": "o direito de acesso a todos os seus dados (e o direito à portabilidade dos dados).",
         "GdprToolsPageIntroEraseRight": "o direito de apagar alguns ou todos os seus dados (e o direito de retificação).",
         "GeolocationAnonymizeIpNote": "Obs: A geolocalização terá aproximadamente os mesmos resultados com 1 byte anonimizado. Com 2 bytes ou mais, a geolocalização será imprecisa.",

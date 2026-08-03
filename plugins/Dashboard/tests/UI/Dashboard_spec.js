@@ -45,6 +45,7 @@ describe("Dashboard", function () {
     await page.waitForSelector('.widget');
     await page.waitForNetworkIdle();
 
+    await page.mouse.move(-10, -10); // move off any widget so its hover-revealed controls stay hidden
     pageWrap = await page.$('.pageWrap');
     expect(await pageWrap.screenshot()).to.matchImage('dashboard3');
   });
@@ -63,6 +64,7 @@ describe("Dashboard", function () {
       );
     });
     await page.waitForTimeout(100);
+    await page.mouse.move(-10, -10); // move off any widget so its hover-revealed controls stay hidden
     pageWrap = await page.$('.pageWrap');
     expect(await pageWrap.screenshot()).to.matchImage('dashboard4');
   });
@@ -73,8 +75,16 @@ describe("Dashboard", function () {
     await page.waitForSelector('.widget');
     await page.waitForNetworkIdle();
 
+    await page.mouse.move(-10, -10); // move off any widget so its hover-revealed controls stay hidden
     pageWrap = await page.$('.pageWrap');
-    expect(await pageWrap.screenshot()).to.matchImage('dashboard5');
+    // A report label (e.g. "Provence-Alpes-Côte-d'Azur, France" in the Region widget) sits right on the
+    // CSS text-overflow:ellipsis truncation boundary. Headless Chrome's sub-pixel text layout is not fully
+    // deterministic, so it occasionally truncates one character earlier ("Fr…" vs "Fra…"). Allow a tiny
+    // difference so this purely cosmetic variance doesn't make the test flaky.
+    expect(await pageWrap.screenshot()).to.matchImage({
+      imageName: 'dashboard5',
+      comparisonThreshold: 0.001
+    });
   });
 
   it("should display dashboard correctly on a mobile phone", async function () {

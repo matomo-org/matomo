@@ -56,7 +56,7 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
     private $percentStep;
 
     /**
-     * @var int
+     * @var float
      */
     private $processedPercent = 0;
 

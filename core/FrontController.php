@@ -218,7 +218,7 @@ class FrontController extends Singleton
      * @param string $module The name of the plugin whose controller to execute, eg, `'UserCountryMap'`.
      * @param string $actionName The controller action name, eg, `'realtimeMap'`.
      * @param array $parameters Array of parameters to pass to the controller action method.
-     * @return string The `echo`'d data or the return value of the controller action.
+     * @return mixed The `echo`'d data (as a string) or the return value of the controller action.
      */
     public function fetchDispatch($module = null, $actionName = null, $parameters = null)
     {

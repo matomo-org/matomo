@@ -682,39 +682,35 @@ function hasHoverCapablePointer() {
 WidgetsListvue_type_script_lang_ts.render = WidgetsListvue_type_template_id_840d3c14_render
 
 /* harmony default export */ var WidgetsList = (WidgetsListvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Dashboard/vue/src/AddWidgetModal/WidgetPreview.vue?vue&type=template&id=307f9336
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Dashboard/vue/src/AddWidgetModal/WidgetPreview.vue?vue&type=template&id=c67e35ce
 
-const WidgetPreviewvue_type_template_id_307f9336_hoisted_1 = {
+const WidgetPreviewvue_type_template_id_c67e35ce_hoisted_1 = {
   class: "widgetpreview-preview"
 };
-const WidgetPreviewvue_type_template_id_307f9336_hoisted_2 = {
+const WidgetPreviewvue_type_template_id_c67e35ce_hoisted_2 = {
   key: 0,
   class: "widget"
 };
-const WidgetPreviewvue_type_template_id_307f9336_hoisted_3 = ["title"];
-const WidgetPreviewvue_type_template_id_307f9336_hoisted_4 = {
-  class: "widgetName"
-};
-const WidgetPreviewvue_type_template_id_307f9336_hoisted_5 = {
+const WidgetPreviewvue_type_template_id_c67e35ce_hoisted_3 = {
   class: "widgetContent"
 };
-function WidgetPreviewvue_type_template_id_307f9336_render(_ctx, _cache, $props, $setup, $data, $options) {
+function WidgetPreviewvue_type_template_id_c67e35ce_render(_ctx, _cache, $props, $setup, $data, $options) {
+  const _component_ReportHeader = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ReportHeader");
   const _component_Widget = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Widget");
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", WidgetPreviewvue_type_template_id_307f9336_hoisted_1, [_ctx.previewWidget ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", WidgetPreviewvue_type_template_id_307f9336_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
-    class: "widgetTop",
-    title: _ctx.translate('Dashboard_AddPreviewedWidget'),
-    role: "button",
-    tabindex: "0",
-    onClick: _cache[0] || (_cache[0] = $event => _ctx.$emit('select', _ctx.previewWidget.uniqueId)),
-    onKeydown: [_cache[1] || (_cache[1] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withKeys"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])($event => _ctx.$emit('select', _ctx.previewWidget.uniqueId), ["prevent"]), ["enter"])), _cache[2] || (_cache[2] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withKeys"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])($event => _ctx.$emit('select', _ctx.previewWidget.uniqueId), ["prevent"]), ["space"]))]
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h3", WidgetPreviewvue_type_template_id_307f9336_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Dashboard_WidgetPreview')), 1)], 40, WidgetPreviewvue_type_template_id_307f9336_hoisted_3), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", WidgetPreviewvue_type_template_id_307f9336_hoisted_5, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_Widget, {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", WidgetPreviewvue_type_template_id_c67e35ce_hoisted_1, [_ctx.previewWidget ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", WidgetPreviewvue_type_template_id_c67e35ce_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ReportHeader, {
+    context: "preview",
+    title: _ctx.translate('Dashboard_WidgetPreview'),
+    "title-clickable": "",
+    "title-click-hint": _ctx.translate('Dashboard_AddPreviewedWidget'),
+    onTitleClick: _cache[0] || (_cache[0] = $event => _ctx.$emit('select', _ctx.previewWidget.uniqueId))
+  }, null, 8, ["title", "title-click-hint"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", WidgetPreviewvue_type_template_id_c67e35ce_hoisted_3, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_Widget, {
     key: _ctx.previewWidget.uniqueId,
     widget: _ctx.previewWidget,
     widgetized: true,
     "suppress-notifications": true
   }, null, 8, ["widget"]))])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]);
 }
-// CONCATENATED MODULE: ./plugins/Dashboard/vue/src/AddWidgetModal/WidgetPreview.vue?vue&type=template&id=307f9336
+// CONCATENATED MODULE: ./plugins/Dashboard/vue/src/AddWidgetModal/WidgetPreview.vue?vue&type=template&id=c67e35ce
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Dashboard/vue/src/AddWidgetModal/WidgetPreview.vue?vue&type=script&lang=ts
 
@@ -722,6 +718,7 @@ function WidgetPreviewvue_type_template_id_307f9336_render(_ctx, _cache, $props,
 /* harmony default export */ var WidgetPreviewvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   name: 'WidgetPreview',
   components: {
+    ReportHeader: external_CoreHome_["ReportHeader"],
     Widget: external_CoreHome_["Widget"]
   },
   props: {
@@ -817,7 +814,7 @@ function WidgetPreviewvue_type_template_id_307f9336_render(_ctx, _cache, $props,
 
 
 
-WidgetPreviewvue_type_script_lang_ts.render = WidgetPreviewvue_type_template_id_307f9336_render
+WidgetPreviewvue_type_script_lang_ts.render = WidgetPreviewvue_type_template_id_c67e35ce_render
 
 /* harmony default export */ var WidgetPreview = (WidgetPreviewvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Dashboard/vue/src/AddWidgetModal/AddWidgetModal.vue?vue&type=script&lang=ts

@@ -39,7 +39,7 @@ class DataTableSummaryRow extends Row
     }
 
     /**
-     * Reset this row to an empty one and sums the associated subtable again.
+     * Re-sums the associated subtable's rows into this row's existing column values.
      */
     public function recalculate()
     {

@@ -31,10 +31,10 @@ class ReportTotalsCalculator extends DataTableManipulator
     private $report;
 
     /**
-     * @param bool $apiModule
-     * @param bool $apiMethod
+     * @param string|bool $apiModule
+     * @param string|bool $apiMethod
      * @param array $request
-     * @param Report $report
+     * @param Report|null $report
      */
     public function __construct($apiModule = false, $apiMethod = false, $request = array(), $report = null)
     {
@@ -66,7 +66,7 @@ class ReportTotalsCalculator extends DataTableManipulator
     }
 
     /**
-     * Adds ratio metrics if possible.
+     * Computes the report totals and stores them as 'totals'/'totalsUnformatted' metadata on the table.
      *
      * @param  DataTable $dataTable
      * @return DataTable

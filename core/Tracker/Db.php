@@ -164,7 +164,7 @@ abstract class Db implements TransactionalDatabaseInterface
      * @see fetch()
      * @param string $query Query
      * @param array $parameters Parameters to bind
-     * @return
+     * @return array|false
      */
     public function fetchRow($query, $parameters = array())
     {
@@ -191,7 +191,7 @@ abstract class Db implements TransactionalDatabaseInterface
      * @see fetch()
      * @param string $query Query
      * @param array $parameters Parameters to bind
-     * @return
+     * @return array|false
      */
     public function exec($query, $parameters = array())
     {
@@ -229,7 +229,7 @@ abstract class Db implements TransactionalDatabaseInterface
      * Test error number
      *
      * @param Exception $e
-     * @param string $errno
+     * @param string|int $errno
      * @return bool  True if error number matches; false otherwise
      */
     abstract public function isErrNo($e, $errno);

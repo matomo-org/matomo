@@ -21,7 +21,9 @@ use Piwik\Piwik;
 use Piwik\Plugins\API\API;
 use Piwik\Plugins\API\BulkRequestLimit;
 use Piwik\Plugins\CoreAdminHome\API as CoreAdminHomeAPI;
+use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 use Piwik\Plugins\UsersManager\Model as UsersManagerModel;
+use Piwik\Request\AuthenticationToken;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -198,6 +200,211 @@ class APITest extends IntegrationTestCase
         $response = $this->getBulkRequestAsRootApiRequest([$this->makeArchiveReportsBulkUrl(1, Fixture::getTokenAuth())]);
         $this->assertCount(1, $response);
         $this->assertResponseIsSuccess($response[0]);
+    }
+
+    /**
+     * In a session, a nested force_api_session differing from the root aborts the whole bulk request.
+     */
+    public function testGetBulkRequestSessionRootRejectsNestedForceApiSessionDowngrade()
+    {
+        $this->enterSessionRootScope();
+
+        $this->expectException(BadRequestException::class);
+        $this->expectExceptionMessage(Piwik::translate('General_ConflictingAuthenticationParametersProvided'));
+
+        try {
+            $this->getBulkRequestAsRootApiRequest([
+                $this->makeBulkUrl(['method' => 'VisitsSummary.get', 'idSite' => 1, 'period' => 'day', 'date' => '2012-01-01', 'force_api_session' => 0]),
+            ]);
+        } finally {
+            $this->leaveRootScope();
+        }
+    }
+
+    /**
+     * In a session, a nested token_auth differing from the root aborts the request, even when it
+     * also downgrades force_api_session.
+     */
+    public function testGetBulkRequestSessionRootRejectsNestedDifferentTokenAuthWithDowngrade()
+    {
+        $this->enterSessionRootScope();
+
+        $this->expectException(BadRequestException::class);
+        $this->expectExceptionMessage(Piwik::translate('General_ConflictingAuthenticationParametersProvided'));
+
+        try {
+            $this->getBulkRequestAsRootApiRequest([
+                $this->makeBulkUrl(['method' => 'VisitsSummary.get', 'idSite' => 1, 'period' => 'day', 'date' => '2012-01-01', 'token_auth' => 'aDifferentToken', 'force_api_session' => 0]),
+            ]);
+        } finally {
+            $this->leaveRootScope();
+        }
+    }
+
+    /**
+     * In a session, a nested token_auth differing from the root aborts the request on its own.
+     */
+    public function testGetBulkRequestSessionRootRejectsNestedDifferentTokenAuthWithoutDowngrade()
+    {
+        $this->enterSessionRootScope();
+
+        $this->expectException(BadRequestException::class);
+        $this->expectExceptionMessage(Piwik::translate('General_ConflictingAuthenticationParametersProvided'));
+
+        try {
+            $this->getBulkRequestAsRootApiRequest([
+                $this->makeBulkUrl(['method' => 'VisitsSummary.get', 'idSite' => 1, 'period' => 'day', 'date' => '2012-01-01', 'token_auth' => 'aDifferentToken']),
+            ]);
+        } finally {
+            $this->leaveRootScope();
+        }
+    }
+
+    /**
+     * With a real-token (non-session) root, a nested force_api_session aborts the whole bulk request.
+     */
+    public function testGetBulkRequestRealTokenRootRejectsNestedForceApiSessionUpgrade()
+    {
+        $this->enterRealTokenRootScope();
+
+        $this->expectException(BadRequestException::class);
+        $this->expectExceptionMessage(Piwik::translate('General_ConflictingAuthenticationParametersProvided'));
+
+        try {
+            $this->getBulkRequestAsRootApiRequest([
+                $this->makeBulkUrl(['method' => 'VisitsSummary.get', 'idSite' => 1, 'period' => 'day', 'date' => '2012-01-01', 'force_api_session' => 1]),
+            ]);
+        } finally {
+            $this->leaveRootScope();
+        }
+    }
+
+    /**
+     * With an anonymous (non-session) root, a nested force_api_session aborts the whole bulk request.
+     */
+    public function testGetBulkRequestAnonymousRootRejectsNestedForceApiSessionUpgrade()
+    {
+        $this->enterAnonymousRootScope();
+
+        $this->expectException(BadRequestException::class);
+        $this->expectExceptionMessage(Piwik::translate('General_ConflictingAuthenticationParametersProvided'));
+
+        try {
+            $this->getBulkRequestAsRootApiRequest([
+                $this->makeBulkUrl(['method' => 'VisitsSummary.get', 'idSite' => 1, 'period' => 'day', 'date' => '2012-01-01', 'token_auth' => 'aDifferentToken', 'force_api_session' => 1]),
+            ]);
+        } finally {
+            $this->leaveRootScope();
+        }
+    }
+
+    /**
+     * A session root allows a nested sub-request that carries no auth params (inherits the root).
+     */
+    public function testGetBulkRequestSessionRootAllowsInheritedNestedAuth()
+    {
+        $this->enterSessionRootScope();
+
+        try {
+            $response = $this->getBulkRequestAsRootApiRequest([
+                $this->makeBulkUrl(['method' => 'VisitsSummary.get', 'idSite' => 1, 'period' => 'day', 'date' => '2012-01-01']),
+            ]);
+            $this->assertCount(1, $response);
+            $this->assertResponseIsSuccess($response[0]);
+        } finally {
+            $this->leaveRootScope();
+        }
+    }
+
+    /**
+     * A session root allows a nested sub-request that repeats the root's own token_auth and
+     * force_api_session.
+     */
+    public function testGetBulkRequestSessionRootAllowsMatchingNestedAuth()
+    {
+        $this->enterSessionRootScope();
+
+        try {
+            $response = $this->getBulkRequestAsRootApiRequest([
+                $this->makeBulkUrl(['method' => 'VisitsSummary.get', 'idSite' => 1, 'period' => 'day', 'date' => '2012-01-01', 'token_auth' => Fixture::getTokenAuth(), 'force_api_session' => 1]),
+            ]);
+            $this->assertCount(1, $response);
+            $this->assertResponseIsSuccess($response[0]);
+        } finally {
+            $this->leaveRootScope();
+        }
+    }
+
+    /**
+     * Outside a session, a nested sub-request may authenticate with its own token_auth and then runs
+     * under that identity (here a view-only user, so only site 1), not the root's.
+     */
+    public function testGetBulkRequestRealTokenRootAllowsNestedDifferentTokenAuth()
+    {
+        $secondToken = $this->createSecondUserTokenWithViewAccessToSite1();
+        $this->enterRealTokenRootScope();
+
+        try {
+            $response = $this->getBulkRequestAsRootApiRequest([
+                $this->makeBulkUrl(['method' => 'SitesManager.getSitesIdWithAtLeastViewAccess', 'token_auth' => $secondToken]),
+            ]);
+            $this->assertCount(1, $response);
+            // the sub-request ran as the view-only user (site 1 only), not the super user root
+            $this->assertEquals([1], $response[0]);
+        } finally {
+            $this->leaveRootScope();
+        }
+    }
+
+    private function makeBulkUrl(array $params): string
+    {
+        return rawurlencode(http_build_query($params, '', '&', PHP_QUERY_RFC3986));
+    }
+
+    private function enterSessionRootScope(): void
+    {
+        $_POST['token_auth'] = Fixture::getTokenAuth();
+        $_POST['force_api_session'] = 1;
+        StaticContainer::getContainer()->set(AuthenticationToken::class, new AuthenticationToken());
+        $this->setSuperUserContext();
+    }
+
+    private function enterRealTokenRootScope(): void
+    {
+        $_POST['token_auth'] = Fixture::getTokenAuth();
+        unset($_POST['force_api_session']);
+        StaticContainer::getContainer()->set(AuthenticationToken::class, new AuthenticationToken());
+        $this->setSuperUserContext();
+    }
+
+    private function enterAnonymousRootScope(): void
+    {
+        unset($_POST['token_auth'], $_POST['force_api_session']);
+        StaticContainer::getContainer()->set(AuthenticationToken::class, new AuthenticationToken());
+        $this->setAnonymousContext();
+    }
+
+    private function leaveRootScope(): void
+    {
+        unset($_POST['token_auth'], $_POST['force_api_session']);
+        StaticContainer::getContainer()->set(AuthenticationToken::class, new AuthenticationToken());
+        $this->setAnonymousContext();
+    }
+
+    private function createSecondUserTokenWithViewAccessToSite1(): string
+    {
+        Access::doAsSuperUser(function () {
+            $api = UsersManagerAPI::getInstance();
+            if (!$api->userExists('bulk_viewer')) {
+                $api->addUser('bulk_viewer', 'BulkViewer!2026abc', 'bulk_viewer@example.test');
+            }
+            $api->setUserAccess('bulk_viewer', 'view', [1]);
+        });
+
+        // the token is created from an unauthenticated request using the user's credentials
+        $this->setAnonymousContext();
+
+        return UsersManagerAPI::getInstance()->createAppSpecificTokenAuth('bulk_viewer', 'BulkViewer!2026abc', 'bulk viewer token');
     }
 
     public function testArchiveReportsAllowsViewAccessForNonBulkRootApiMethod()

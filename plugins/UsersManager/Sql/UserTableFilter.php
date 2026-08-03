@@ -15,7 +15,7 @@ use Piwik\Piwik;
 class UserTableFilter
 {
     /**
-     * @var string
+     * @var string|null
      */
     private $filterByRole;
 

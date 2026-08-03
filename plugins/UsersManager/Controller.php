@@ -186,7 +186,6 @@ class Controller extends ControllerAdmin
      * Returns the enabled dates that users can select,
      * in their User Settings page "Report date to load by default"
      *
-     * @throws
      * @return array
      */
     protected function getDefaultDates()

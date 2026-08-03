@@ -97,7 +97,7 @@ class Urls extends \Piwik\Settings\Measurable\MeasurableProperty
      * - if the parameter is a string make it an array
      * - remove the trailing slashes if found
      *
-     * @param string|array urls
+     * @param string|array $urls
      * @return array the array of cleaned URLs
      */
     public function cleanParameterUrls($urls)

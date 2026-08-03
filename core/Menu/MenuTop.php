@@ -44,7 +44,8 @@ class MenuTop extends MenuAbstract
     }
 
     /**
-     * Triggers the Menu.Top.addItems hook and returns the menu.
+     * Builds the top menu by letting each plugin's Menu class configure it (via configureTopMenu())
+     * and returns the resulting menu.
      *
      * @return array
      */

@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\CoreHome\tests\Integration;
 
+use Piwik\Category\CategoryList;
 use Piwik\Category\Subcategory;
 use Piwik\EventDispatcher;
 use Piwik\Menu\MenuTop;
@@ -69,6 +70,15 @@ class ReportingMenuGroupsTest extends IntegrationTestCase
 
         // the entry is tagged so the active highlight can be synced client-side from the hash
         $this->assertSame('data-reporting-group="CoreHome_AIInsights"', $menu['CoreHome_AIInsights']['_attribute']);
+    }
+
+    public function testCategoryListExposesGroupsWithoutTrackingRequirement()
+    {
+        // AI Insights is exempt from the tracker-setup screen, the default Analytics group is not.
+        $groups = CategoryList::get()->getGroupsWithoutTrackingRequirement();
+
+        $this->assertContains('CoreHome_AIInsights', $groups);
+        $this->assertNotContains('', $groups);
     }
 
     public function testTopMenuDoesNotCreateEntriesForDefaultGroupCategories()

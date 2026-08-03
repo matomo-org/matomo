@@ -29,16 +29,7 @@ use Piwik\Validators\CharacterLength;
 use Piwik\Validators\NotEmpty;
 
 /**
- * The UsersManager API lets you Manage Users and their permissions to access specific websites.
- *
- * You can create users via "addUser", update existing users via "updateUser" and delete users via "deleteUser".
- * There are many ways to list users based on their login "getUser" and "getUsers", their email "getUserByEmail",
- * or which users have permission (view or admin) to access the specified websites "getUsersWithSiteAccess".
- *
- * Existing Permissions are listed given a login via "getSitesAccessFromUser", or a website ID via "getUsersAccessFromSite",
- * or you can list all users and websites for a given permission via "getUsersSitesFromAccess". Permissions are set and updated
- * via the method "setUserAccess".
- * See also the documentation about <a href='https://matomo.org/docs/manage-users/' rel='noreferrer' target='_blank'>Managing Users</a> in Piwik.
+ * Persists and reads users, their auth tokens and their site access from the database backend.
  *
  * @phpstan-type UserRow array{
  *     login: string,
@@ -440,7 +431,7 @@ class Model
      * @param string|null $tokenAuth    The token auth string
      * @param bool $isTokenSecured      True if the token was sent via a secure mechanism (POST request, Auth header)
      *
-     * @return array|bool               An array representing the token record, or null if not found
+     * @return array|bool               An array representing the token record, or false if not found
      * @throws \Exception
      */
     private function getTokenByTokenAuthIfNotExpired(
@@ -697,6 +688,7 @@ class Model
     {
         $this->updateUserFields($userLogin, [
           'invite_token'      => $this->hashTokenAuth($token),
+          'invite_link_token' => null,
           'invite_expired_at' => Date::now()->addDay($expiryInDays)->getDatetime(),
         ]);
     }
@@ -707,6 +699,34 @@ class Model
             'invite_link_token' => $this->hashTokenAuth($token),
             'invite_expired_at' => Date::now()->addDay($expiryInDays)->getDatetime(),
         ]);
+    }
+
+    public function replaceInviteTokenForPendingUser(
+        string $userLogin,
+        string $token,
+        string $expectedInviteToken,
+        string $expectedEmail
+    ): bool {
+        $sql = sprintf(
+            'UPDATE `%s`
+             SET `invite_token` = ?,
+                 `invite_link_token` = NULL
+             WHERE `login` = ?
+               AND `invite_token` = ?
+               AND `email` = ?
+               AND `invite_expired_at` IS NOT NULL
+               AND `invite_expired_at` >= ?',
+            $this->userTable
+        );
+        $query = $this->getDb()->query($sql, [
+            $this->hashTokenAuth($token),
+            $userLogin,
+            $expectedInviteToken,
+            $expectedEmail,
+            Date::now()->getDatetime(),
+        ]);
+
+        return $query->rowCount() === 1;
     }
 
     public function setSuperUserAccess($userLogin, $hasSuperUserAccess)
@@ -859,7 +879,7 @@ class Model
          * This event should be used to clean up any data that is related to the now deleted user.
          * The **Dashboard** plugin, for example, uses this event to remove the user's dashboards.
          *
-         * @param string $userLogins The login handle of the deleted user.
+         * @param string $userLogin The login handle of the deleted user.
          */
         try {
             Piwik::postEvent('UsersManager.deleteUser', array($userLogin));

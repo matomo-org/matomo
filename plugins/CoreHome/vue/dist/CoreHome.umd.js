@@ -134,6 +134,7 @@ __webpack_require__.d(__webpack_exports__, "useExternalPluginComponent", functio
 __webpack_require__.d(__webpack_exports__, "DirectiveUtilities", function() { return /* reexport */ directiveUtilities; });
 __webpack_require__.d(__webpack_exports__, "debounce", function() { return /* reexport */ debounce; });
 __webpack_require__.d(__webpack_exports__, "clone", function() { return /* reexport */ clone; });
+__webpack_require__.d(__webpack_exports__, "ucfirst", function() { return /* reexport */ ucfirst; });
 __webpack_require__.d(__webpack_exports__, "VueEntryContainer", function() { return /* reexport */ VueEntryContainer; });
 __webpack_require__.d(__webpack_exports__, "ActivityIndicator", function() { return /* reexport */ ActivityIndicator; });
 __webpack_require__.d(__webpack_exports__, "MatomoLoader", function() { return /* reexport */ MatomoLoader; });
@@ -205,6 +206,8 @@ __webpack_require__.d(__webpack_exports__, "ReportingMenuStore", function() { re
 __webpack_require__.d(__webpack_exports__, "ReportingPagesStore", function() { return /* reexport */ ReportingPages_store; });
 __webpack_require__.d(__webpack_exports__, "ReportMetadataStore", function() { return /* reexport */ ReportMetadata_store; });
 __webpack_require__.d(__webpack_exports__, "WidgetsStore", function() { return /* reexport */ Widgets_store; });
+__webpack_require__.d(__webpack_exports__, "ReportHeader", function() { return /* reexport */ ReportHeader; });
+__webpack_require__.d(__webpack_exports__, "WidgetControls", function() { return /* reexport */ WidgetControls; });
 __webpack_require__.d(__webpack_exports__, "WidgetLoader", function() { return /* reexport */ WidgetLoader; });
 __webpack_require__.d(__webpack_exports__, "ClientWidgetRenderer", function() { return /* reexport */ ClientWidgetRenderer; });
 __webpack_require__.d(__webpack_exports__, "WidgetContainer", function() { return /* reexport */ WidgetContainer; });
@@ -1398,7 +1401,13 @@ class AjaxHelper_AjaxHelper {
       const segmentValue = parameters.segment;
       delete parameters.segment;
       if (segmentValue !== null && typeof segmentValue !== 'undefined') {
-        url = `${url}segment=${segmentValue}&`;
+        // We can't run the segment through a full encode helper here, as legacy callers may
+        // already pass a pre-encoded value and we would double-encode it. So we manually escape
+        // the few characters that carry query-string meaning to keep the value a single
+        // parameter. A correctly encoded segment never contains these literally, so this leaves
+        // already-encoded values untouched.
+        const safeSegmentValue = `${segmentValue}`.replace(/&/g, '%26').replace(/#/g, '%23').replace(/\?/g, '%3F');
+        url = `${url}segment=${safeSegmentValue}&`;
       }
     }
     if (parameters.date) {
@@ -2606,6 +2615,24 @@ function clone(p) {
   }
   return JSON.parse(JSON.stringify(p));
 }
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ucfirst.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+/**
+ * Uppercase the first character of a string, leaving the rest untouched (e.g. "visits" ->
+ * "Visits"). Uses locale-aware Unicode casing; an empty or missing value yields an empty string.
+ */
+function ucfirst(text, locale) {
+  if (!text) {
+    return '';
+  }
+  const [firstCharacter, ...remainingCharacters] = Array.from(text);
+  return firstCharacter.toLocaleUpperCase(locale || undefined) + remainingCharacters.join('');
+}
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/VueEntryContainer/VueEntryContainer.vue?vue&type=template&id=6cb9164b
 
 const _hoisted_1 = {
@@ -2908,12 +2935,53 @@ function doFocusIf(el, binding) {
 const {
   $: Tooltips_$
 } = window;
+// Tracks the MutationObserver attached to each tooltip host so it can be
+// disconnected again when the host element is unmounted.
+const observers = new WeakMap();
 function defaultContentTransform() {
   const title = Tooltips_$(this).attr('title') || '';
   return window.vueSanitize(title.replace(/\n/g, '<br />'));
 }
+/**
+ * jQuery UI shows a single, delegated tooltip for every descendant of the host
+ * element that has a `title`. It only auto-closes a tooltip when its target
+ * receives mouseleave/focusout, or when the target is removed through jQuery's
+ * own `remove` event. Vue removes elements natively (eg. a v-if swap on an
+ * inline action button), which triggers neither - so a tooltip that was open
+ * over a now-removed element is left orphaned on screen.
+ *
+ * After any descendant is removed, close every open tooltip whose target is no
+ * longer attached to the document. Triggering mouseleave/focusout routes to the
+ * close handlers jQuery UI bound on the target, and the `ui-tooltip-id` data it
+ * stored survives native removal, so the orphaned tooltip is cleaned up.
+ */
+function closeOrphanedTooltips(el) {
+  if (!document.querySelector('.ui-tooltip')) {
+    return; // nothing open, so there's nothing to check
+  }
+  let instance;
+  try {
+    instance = Tooltips_$(el).tooltip('instance');
+  } catch (e) {
+    return; // tooltip not initialised (or already destroyed)
+  }
+  if (!instance || !instance.tooltips) {
+    return;
+  }
+  // Snapshot the ids first - closing a tooltip mutates instance.tooltips.
+  Object.keys(instance.tooltips).forEach(id => {
+    var _instance;
+    const target = (_instance = instance) === null || _instance === void 0 || (_instance = _instance.tooltips[id]) === null || _instance === void 0 || (_instance = _instance.element) === null || _instance === void 0 ? void 0 : _instance[0];
+    if (target && !target.isConnected) {
+      Tooltips_$(target).trigger('mouseleave').trigger('focusout');
+    }
+  });
+}
 function setupTooltips(el, binding) {
   var _binding$value, _binding$value2, _binding$value3, _binding$value4, _binding$value5, _binding$value6;
+  if (!el.isConnected) {
+    return;
+  }
   Tooltips_$(el).tooltip({
     track: true,
     content: ((_binding$value = binding.value) === null || _binding$value === void 0 ? void 0 : _binding$value.content) || defaultContentTransform,
@@ -2924,6 +2992,18 @@ function setupTooltips(el, binding) {
     hide: false,
     tooltipClass: (_binding$value6 = binding.value) === null || _binding$value6 === void 0 ? void 0 : _binding$value6.tooltipClass
   });
+  if (!observers.has(el)) {
+    const observer = new MutationObserver(mutations => {
+      if (mutations.some(mutation => mutation.removedNodes.length > 0)) {
+        closeOrphanedTooltips(el);
+      }
+    });
+    observer.observe(el, {
+      childList: true,
+      subtree: true
+    });
+    observers.set(el, observer);
+  }
 }
 /* harmony default export */ var Tooltips = ({
   mounted(el, binding) {
@@ -2933,6 +3013,11 @@ function setupTooltips(el, binding) {
     setTimeout(() => setupTooltips(el, binding));
   },
   beforeUnmount(el) {
+    const observer = observers.get(el);
+    if (observer) {
+      observer.disconnect();
+      observers.delete(el);
+    }
     try {
       window.$(el).tooltip('destroy');
     } catch (e) {
@@ -10151,6 +10236,215 @@ class ReportMetadata_store_ReportMetadataStore {
   }
 }
 /* harmony default export */ var ReportMetadata_store = (new ReportMetadata_store_ReportMetadataStore());
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/ReportHeader/ReportHeader.vue?vue&type=template&id=4974b272
+
+const ReportHeadervue_type_template_id_4974b272_hoisted_1 = {
+  class: "reportHeader"
+};
+const ReportHeadervue_type_template_id_4974b272_hoisted_2 = {
+  class: "reportHeader__main"
+};
+const ReportHeadervue_type_template_id_4974b272_hoisted_3 = ["role", "tabindex", "title"];
+const ReportHeadervue_type_template_id_4974b272_hoisted_4 = {
+  class: "u-visuallyHidden"
+};
+const ReportHeadervue_type_template_id_4974b272_hoisted_5 = {
+  class: "reportHeader__widgetControls"
+};
+const ReportHeadervue_type_template_id_4974b272_hoisted_6 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
+  class: "reportHeader__actions"
+}, null, -1);
+function ReportHeadervue_type_template_id_4974b272_render(_ctx, _cache, $props, $setup, $data, $options) {
+  const _component_WidgetControls = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("WidgetControls");
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", ReportHeadervue_type_template_id_4974b272_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ReportHeadervue_type_template_id_4974b272_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h3", {
+    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["reportHeader__title widgetName", {
+      'reportHeader__title--clickable': _ctx.titleClickable
+    }]),
+    role: _ctx.titleClickable ? 'button' : undefined,
+    tabindex: _ctx.titleClickable ? 0 : undefined,
+    title: _ctx.titleClickable ? _ctx.titleClickHint : undefined,
+    onClick: _cache[0] || (_cache[0] = (...args) => _ctx.onTitleClick && _ctx.onTitleClick(...args)),
+    onKeydown: [_cache[1] || (_cache[1] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withKeys"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])((...args) => _ctx.onTitleClick && _ctx.onTitleClick(...args), ["prevent"]), ["enter"])), _cache[2] || (_cache[2] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withKeys"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])((...args) => _ctx.onTitleClick && _ctx.onTitleClick(...args), ["prevent"]), ["space"]))]
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.title), 1)], 42, ReportHeadervue_type_template_id_4974b272_hoisted_3), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", ReportHeadervue_type_template_id_4974b272_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Widget')), 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ReportHeadervue_type_template_id_4974b272_hoisted_5, [_ctx.hasControls ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_WidgetControls, {
+    key: 0,
+    "can-minimise": _ctx.controls.minimise,
+    "can-maximise": _ctx.controls.maximise,
+    "can-refresh": _ctx.controls.refresh,
+    "can-close": _ctx.controls.close,
+    onMinimise: _cache[3] || (_cache[3] = $event => _ctx.onControl('minimise')),
+    onMaximise: _cache[4] || (_cache[4] = $event => _ctx.onControl('maximise')),
+    onRefresh: _cache[5] || (_cache[5] = $event => _ctx.onControl('refresh')),
+    onClose: _cache[6] || (_cache[6] = $event => _ctx.onControl('close'))
+  }, null, 8, ["can-minimise", "can-maximise", "can-refresh", "can-close"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), ReportHeadervue_type_template_id_4974b272_hoisted_6]);
+}
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ReportHeader/ReportHeader.vue?vue&type=template&id=4974b272
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/WidgetControls/WidgetControls.vue?vue&type=template&id=4a7a326c
+
+const WidgetControlsvue_type_template_id_4a7a326c_hoisted_1 = {
+  class: "widgetControls"
+};
+const WidgetControlsvue_type_template_id_4a7a326c_hoisted_2 = ["title", "aria-label", "onClick"];
+function WidgetControlsvue_type_template_id_4a7a326c_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", WidgetControlsvue_type_template_id_4a7a326c_hoisted_1, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.visibleControls, control => {
+    return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("button", {
+      key: control.id,
+      type: "button",
+      class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["widgetControls__action", `widgetControls__action--${control.id}`]),
+      title: control.label,
+      "aria-label": control.label,
+      onClick: $event => _ctx.$emit(control.id)
+    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+      class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["widgetControls__icon", control.icon])
+    }, null, 2)], 10, WidgetControlsvue_type_template_id_4a7a326c_hoisted_2);
+  }), 128))]);
+}
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/WidgetControls/WidgetControls.vue?vue&type=template&id=4a7a326c
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/WidgetControls/WidgetControls.vue?vue&type=script&lang=ts
+
+
+/* harmony default export */ var WidgetControlsvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    canMinimise: Boolean,
+    canMaximise: Boolean,
+    canRefresh: Boolean,
+    canClose: Boolean
+  },
+  emits: ['minimise', 'maximise', 'refresh', 'close'],
+  computed: {
+    visibleControls() {
+      const controls = [{
+        id: 'refresh',
+        icon: 'icon-reload',
+        label: translate('General_Refresh'),
+        visible: this.canRefresh
+      }, {
+        id: 'minimise',
+        icon: 'icon-minimise',
+        label: translate('Dashboard_Minimise'),
+        visible: this.canMinimise
+      }, {
+        id: 'maximise',
+        icon: 'icon-fullscreen',
+        label: translate('Dashboard_Maximise'),
+        visible: this.canMaximise
+      }, {
+        id: 'close',
+        icon: 'icon-close',
+        label: translate('General_Close'),
+        visible: this.canClose
+      }];
+      return controls.filter(control => control.visible);
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/WidgetControls/WidgetControls.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/WidgetControls/WidgetControls.vue
+
+
+
+WidgetControlsvue_type_script_lang_ts.render = WidgetControlsvue_type_template_id_4a7a326c_render
+
+/* harmony default export */ var WidgetControls = (WidgetControlsvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/ReportHeader/ReportHeader.vue?vue&type=script&lang=ts
+
+
+
+// Which widget controls each context exposes. Kept here so every surface that renders
+// the header stays consistent with the redesign spec. `dashboard` is the normal widget state
+// (all controls only make sense on a dashboard); `maximised`/`collapsed` are its state
+// variants; `widgetized`/`preview` render no controls. Consumers outside a widget (e.g.
+// full-page reports) pass a no-control context.
+const CONTROLS_BY_CONTEXT = {
+  dashboard: {
+    minimise: true,
+    maximise: true,
+    refresh: true,
+    close: true
+  },
+  maximised: {
+    minimise: true,
+    maximise: false,
+    refresh: true,
+    close: false
+  },
+  collapsed: {
+    minimise: false,
+    maximise: true,
+    refresh: false,
+    close: true
+  },
+  widgetized: {
+    minimise: false,
+    maximise: false,
+    refresh: false,
+    close: false
+  },
+  preview: {
+    minimise: false,
+    maximise: false,
+    refresh: false,
+    close: false
+  }
+};
+/* harmony default export */ var ReportHeadervue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    context: {
+      type: String,
+      default: 'dashboard'
+    },
+    title: {
+      type: String,
+      default: ''
+    },
+    titleClickable: Boolean,
+    titleClickHint: {
+      type: String,
+      default: ''
+    }
+  },
+  components: {
+    WidgetControls: WidgetControls
+  },
+  emits: ['minimise', 'maximise', 'refresh', 'close', 'titleClick'],
+  computed: {
+    controls() {
+      return CONTROLS_BY_CONTEXT[this.context] || CONTROLS_BY_CONTEXT.widgetized;
+    },
+    hasControls() {
+      const c = this.controls;
+      return c.minimise || c.maximise || c.refresh || c.close;
+    }
+  },
+  methods: {
+    translate: translate,
+    onTitleClick() {
+      if (this.titleClickable) {
+        this.$emit('titleClick');
+      }
+    },
+    onControl(intent) {
+      // Re-emit for Vue-native consumers...
+      this.$emit(intent);
+      // ...and dispatch a bubbling native event so non-Vue owners (the jQuery dashboard
+      // widget) can bridge control intents back to their existing handlers.
+      this.$el.dispatchEvent(new CustomEvent(`widgetcontrol:${intent}`, {
+        bubbles: true
+      }));
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ReportHeader/ReportHeader.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ReportHeader/ReportHeader.vue
+
+
+
+ReportHeadervue_type_script_lang_ts.render = ReportHeadervue_type_template_id_4974b272_render
+
+/* harmony default export */ var ReportHeader = (ReportHeadervue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/WidgetLoader/WidgetLoader.vue?vue&type=template&id=24b8f926
 
 const WidgetLoadervue_type_template_id_24b8f926_hoisted_1 = {
@@ -10895,23 +11189,30 @@ function findContainer(widgetsByCategory, containerId) {
 Widgetvue_type_script_lang_ts.render = Widgetvue_type_template_id_17541248_render
 
 /* harmony default export */ var Widget_Widget = (Widgetvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/ReportingPage/ReportingPage.vue?vue&type=template&id=16afd136
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/ReportingPage/ReportingPage.vue?vue&type=template&id=f759ac26
 
-const ReportingPagevue_type_template_id_16afd136_hoisted_1 = {
+const ReportingPagevue_type_template_id_f759ac26_hoisted_1 = {
   class: "reporting-page"
 };
-const ReportingPagevue_type_template_id_16afd136_hoisted_2 = {
+const ReportingPagevue_type_template_id_f759ac26_hoisted_2 = {
   key: 1,
   class: "col s12 l6 leftWidgetColumn"
 };
-const ReportingPagevue_type_template_id_16afd136_hoisted_3 = {
+const ReportingPagevue_type_template_id_f759ac26_hoisted_3 = {
   key: 2,
   class: "col s12 l6 rightWidgetColumn"
 };
-function ReportingPagevue_type_template_id_16afd136_render(_ctx, _cache, $props, $setup, $data, $options) {
+function ReportingPagevue_type_template_id_f759ac26_render(_ctx, _cache, $props, $setup, $data, $options) {
+  const _component_SiteWithoutData = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SiteWithoutData");
   const _component_ActivityIndicator = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ActivityIndicator");
   const _component_Widget = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Widget");
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", ReportingPagevue_type_template_id_16afd136_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ActivityIndicator, {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", ReportingPagevue_type_template_id_f759ac26_hoisted_1, [_ctx.showEmptySiteScreen ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_SiteWithoutData, {
+    key: 0,
+    "embedded-in-reporting": true,
+    onDismissed: _ctx.onNoDataDismissed
+  }, null, 8, ["onDismissed"])) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], {
+    key: 1
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ActivityIndicator, {
     loading: _ctx.loading
   }, null, 8, ["loading"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CoreHome_NoSuchPage')), 513), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.hasNoPage]]), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.widgets, widget => {
     return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
@@ -10921,20 +11222,20 @@ function ReportingPagevue_type_template_id_16afd136_render(_ctx, _cache, $props,
       key: 0,
       class: "col s12 fullWidgetColumn",
       widget: widget
-    }, null, 8, ["widget"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), widget.group ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", ReportingPagevue_type_template_id_16afd136_hoisted_2, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(widget.left, widgetInGroup => {
+    }, null, 8, ["widget"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), widget.group ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", ReportingPagevue_type_template_id_f759ac26_hoisted_2, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(widget.left, widgetInGroup => {
       return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_Widget, {
         widget: widgetInGroup,
         key: widgetInGroup.uniqueId
       }, null, 8, ["widget"]);
-    }), 128))])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), widget.group ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", ReportingPagevue_type_template_id_16afd136_hoisted_3, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(widget.right, widgetInGroup => {
+    }), 128))])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), widget.group ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", ReportingPagevue_type_template_id_f759ac26_hoisted_3, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(widget.right, widgetInGroup => {
       return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_Widget, {
         widget: widgetInGroup,
         key: widgetInGroup.uniqueId
       }, null, 8, ["widget"]);
     }), 128))])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]);
-  }), 128))]);
+  }), 128))], 64))]);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ReportingPage/ReportingPage.vue?vue&type=template&id=16afd136
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ReportingPage/ReportingPage.vue?vue&type=template&id=f759ac26
 
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ReportingPage/ReportingPage.store.ts
 function ReportingPage_store_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -11069,6 +11370,12 @@ class ReportingPage_store_ReportingPageStore {
 
 
 
+
+
+const SiteWithoutData = useExternalPluginComponent('SitesManager', 'SiteWithoutData');
+// Reuse the standalone page's id so its styling (SitesManager.less) and detection
+// (broadcast.isNoDataPage, UI tests) also apply to the in-SPA gate.
+const SITE_WITHOUT_DATA_BODY_ID = 'site-without-data';
 function showOnlyRawDataNotification() {
   const params = 'category=General_Visitors&subcategory=Live_VisitorLog';
   const url = window.broadcast.buildReportingUrl(params);
@@ -11090,7 +11397,15 @@ function hideOnlyRawDataNoticifation() {
 /* harmony default export */ var ReportingPagevue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   components: {
     ActivityIndicator: ActivityIndicator,
-    Widget: Widget_Widget
+    Widget: Widget_Widget,
+    SiteWithoutData
+  },
+  props: {
+    // groups the empty-site gate is skipped for (e.g. AI Insights), resolved server-side
+    groupsWithoutTrackingRequirement: {
+      type: Array,
+      default: () => []
+    }
   },
   data() {
     return {
@@ -11098,13 +11413,22 @@ function hideOnlyRawDataNoticifation() {
       hasRawData: false,
       hasNoVisits: false,
       dateLastChecked: null,
-      hasNoPage: false
+      hasNoPage: false,
+      siteHasNoData: false,
+      noDataDismissed: false
     };
   },
   created() {
     ReportingPage_store.resetPage();
     this.loading = true; // we only set loading on initial load
     this.renderInitialPage();
+    // Fetched in parallel (not awaited) so the common has-data case isn't delayed by a round-trip.
+    // A no-data site therefore starts rendering the report first; the gate replaces it once this
+    // resolves. The discarded fetch is cheap (a no-data site has nothing to archive).
+    this.fetchSiteEmptyState();
+    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(() => this.showEmptySiteScreen, active => {
+      this.updateSiteWithoutDataBodyId(active);
+    });
     Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(() => src_MatomoUrl_MatomoUrl.parsed.value, (newValue, oldValue) => {
       if (newValue.category === oldValue.category && newValue.subcategory === oldValue.subcategory && newValue.period === oldValue.period && newValue.date === oldValue.date && newValue.segment === oldValue.segment && JSON.stringify(newValue.compareDates) === JSON.stringify(oldValue.compareDates) && JSON.stringify(newValue.comparePeriods) === JSON.stringify(oldValue.comparePeriods) && JSON.stringify(newValue.compareSegments) === JSON.stringify(oldValue.compareSegments) && JSON.stringify(newValue.columns || '') === JSON.stringify(oldValue.columns || '')) {
         // this page is already loaded
@@ -11123,13 +11447,57 @@ function hideOnlyRawDataNoticifation() {
       this.renderPage(category, subcategory, parsedUrl.period, parsedUrl.date, parsedUrl.segment);
     });
   },
+  unmounted() {
+    this.updateSiteWithoutDataBodyId(false);
+  },
   computed: {
     widgets() {
       return ReportingPage_store.widgets.value;
+    },
+    showEmptySiteScreen() {
+      if (!this.siteHasNoData || this.noDataDismissed) {
+        return false;
+      }
+      const activeGroup = src_MatomoUrl_MatomoUrl.parsed.value.group || DEFAULT_GROUP;
+      return !this.groupsWithoutTrackingRequirement.includes(activeGroup);
     }
   },
   methods: {
+    fetchSiteEmptyState() {
+      AjaxHelper_AjaxHelper.fetch({
+        module: 'SitesManager',
+        action: 'getSiteEmptyState',
+        idSite: Matomo_Matomo.idSite
+      }, {
+        createErrorNotification: false
+      }).then(response => {
+        this.siteHasNoData = response === true;
+      }).catch(() => {
+        // ignore errors - don't block the dashboard on the empty-site check
+        this.siteHasNoData = false;
+      });
+    },
+    onNoDataDismissed() {
+      // stay on the current page and load it now that the screen is gone
+      this.noDataDismissed = true;
+      this.renderInitialPage();
+    },
+    updateSiteWithoutDataBodyId(active) {
+      if (active) {
+        document.body.id = SITE_WITHOUT_DATA_BODY_ID;
+      } else if (document.body.id === SITE_WITHOUT_DATA_BODY_ID) {
+        document.body.id = '';
+      }
+    },
     renderPage(category, subcategory, period, date, segment) {
+      // No report to render while the gate is shown; rendering would emit matomoPageChange and
+      // abort the requests the just-mounted SiteWithoutData component fired. Still clear transient
+      // notifications from the page we navigated away from (e.g. an archiving notice).
+      if (this.showEmptySiteScreen) {
+        Notifications_store.clearTransientNotifications();
+        this.loading = false;
+        return;
+      }
       if (!category || !subcategory) {
         ReportingPage_store.resetPage();
         this.loading = false;
@@ -11244,7 +11612,7 @@ function hideOnlyRawDataNoticifation() {
 
 
 
-ReportingPagevue_type_script_lang_ts.render = ReportingPagevue_type_template_id_16afd136_render
+ReportingPagevue_type_script_lang_ts.render = ReportingPagevue_type_template_id_f759ac26_render
 
 /* harmony default export */ var ReportingPage = (ReportingPagevue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/ReportExport/ReportExportPopover.vue?vue&type=template&id=67216619
@@ -11925,10 +12293,10 @@ const {
     });
   }
 });
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/Sparkline/Sparkline.vue?vue&type=template&id=e8b188a6
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/Sparkline/Sparkline.vue?vue&type=template&id=6902c51a
 
-const Sparklinevue_type_template_id_e8b188a6_hoisted_1 = ["src", "width", "height"];
-function Sparklinevue_type_template_id_e8b188a6_render(_ctx, _cache, $props, $setup, $data, $options) {
+const Sparklinevue_type_template_id_6902c51a_hoisted_1 = ["src", "width", "height"];
+function Sparklinevue_type_template_id_6902c51a_render(_ctx, _cache, $props, $setup, $data, $options) {
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("img", {
     class: "sparklineImg",
     loading: "lazy",
@@ -11936,9 +12304,9 @@ function Sparklinevue_type_template_id_e8b188a6_render(_ctx, _cache, $props, $se
     src: _ctx.sparklineUrl,
     width: _ctx.width,
     height: _ctx.height
-  }, null, 8, Sparklinevue_type_template_id_e8b188a6_hoisted_1);
+  }, null, 8, Sparklinevue_type_template_id_6902c51a_hoisted_1);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Sparkline/Sparkline.vue?vue&type=template&id=e8b188a6
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Sparkline/Sparkline.vue?vue&type=template&id=6902c51a
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/Sparkline/Sparkline.vue?vue&type=script&lang=ts
 
@@ -11980,19 +12348,30 @@ function Sparklinevue_type_template_id_e8b188a6_render(_ctx, _cache, $props, $se
         sparklineColors.lineColor = sparklineColors.lineColor.filter((c, index) => seriesIndices.indexOf(index) !== -1);
       }
       const colors = JSON.stringify(sparklineColors);
-      const defaultParams = {
+      // The redesign lets sparklines be rendered server-side at a custom size; without it the
+      // width/height props only control the displayed size and the server uses its defaults.
+      // The width/height props are the displayed size; the PNG is rendered at twice that so it
+      // stays crisp on hi-DPI screens (matching the legacy 200x50-render / 100x25-display ratio).
+      const redesignEnabled = document.body.classList.contains('sparklines-redesign-enabled');
+      const sizeParams = redesignEnabled ? Object.assign(Object.assign({}, typeof this.width === 'number' ? {
+        width: this.width * 2
+      } : {}), typeof this.height === 'number' ? {
+        height: this.height * 2
+      } : {}) : {};
+      const defaultParams = Object.assign(Object.assign({
         forceView: '1',
         viewDataTable: 'sparkline',
         widget: this.isWidget ? '1' : '0',
         showtitle: '1',
         colors,
         random: Date.now(),
-        date: this.defaultDate,
+        date: this.defaultDate
+      }, sizeParams), {}, {
         // mixinDefaultGetParams() will use the raw, encoded value from the URL (legacy behavior),
         // which means MatomoUrl.stringify() will end up double encoding it if we don't set it
         // ourselves here.
         segment: src_MatomoUrl_MatomoUrl.parsed.value.segment
-      };
+      });
       const givenParams = typeof params === 'object' ? params : src_MatomoUrl_MatomoUrl.parse(params.substring(params.indexOf('?') + 1));
       const helper = new AjaxHelper_AjaxHelper();
       const urlParams = helper.mixinDefaultGetParams(Object.assign(Object.assign({}, defaultParams), givenParams));
@@ -12030,7 +12409,7 @@ function Sparklinevue_type_template_id_e8b188a6_render(_ctx, _cache, $props, $se
 
 
 
-Sparklinevue_type_script_lang_ts.render = Sparklinevue_type_template_id_e8b188a6_render
+Sparklinevue_type_script_lang_ts.render = Sparklinevue_type_template_id_6902c51a_render
 
 /* harmony default export */ var Sparkline = (Sparklinevue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/Progressbar/Progressbar.vue?vue&type=template&id=f800d6ec
@@ -13956,6 +14335,9 @@ class EntityDuplicatorStore_EntityDuplicatorStore {
  * @link    https://matomo.org
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
+
+
 
 
 

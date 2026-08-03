@@ -15,6 +15,7 @@ jest.mock('CoreHome', () => ({
   translate: (key: string) => key,
   Widget: { template: '<div class="stub-widget" />' },
   WidgetType: {},
+  ReportHeader: { template: '<div />' },
 }), { virtual: true });
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires

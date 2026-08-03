@@ -10,7 +10,6 @@
 namespace Piwik\Plugins\CoreVisualizations;
 
 use Piwik\Container\StaticContainer;
-use Piwik\Plugins\CoreVisualizations\FeatureFlags\PlotLinesTweaks;
 use Piwik\Plugins\CoreVisualizations\FeatureFlags\SparklinesRedesign;
 use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\ViewDataTable\Manager as ViewDataTableManager;
@@ -47,18 +46,9 @@ class CoreVisualizations extends \Piwik\Plugin
         $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
 
         // The sparklines redesign refreshes sparkline styling app-wide (gated by the flag),
-        // so it is not limited to the dashboard/widgetized surfaces the plot-line tweak below
-        // targets - sparklines also appear on other page types (e.g. admin).
+        // so sparklines also appear on other page types (e.g. admin).
         if ($featureFlagManager->isFeatureActive(SparklinesRedesign::class)) {
             $out .= ' sparklines-redesign-enabled';
-        }
-
-        if (!in_array($type, ['dashboard', 'widgetized'], true)) {
-            return;
-        }
-
-        if ($featureFlagManager->isFeatureActive(PlotLinesTweaks::class)) {
-            $out .= ' plotlines-tweaks-enabled';
         }
     }
 
@@ -70,6 +60,12 @@ class CoreVisualizations extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreVisualizations/vue/src/MetricsPicker/MetricsPicker.less";
         $stylesheets[] = "plugins/CoreVisualizations/vue/src/SingleMetricView/SingleMetricView.less";
         $stylesheets[] = "plugins/CoreVisualizations/vue/src/SparklinesGrid/SparklinesGrid.less";
+        $stylesheets[] = "plugins/CoreVisualizations/vue/src/Sparklines/SparklineCard.less";
+        $stylesheets[] = "plugins/CoreVisualizations/vue/src/Sparklines/DateAtom.less";
+        $stylesheets[] = "plugins/CoreVisualizations/vue/src/Sparklines/PeriodColumns.less";
+        $stylesheets[] = "plugins/CoreVisualizations/vue/src/Sparklines/DateComparison.less";
+        $stylesheets[] = "plugins/CoreVisualizations/vue/src/Sparklines/SegmentComparisonCard.less";
+        $stylesheets[] = "plugins/CoreVisualizations/vue/src/Sparklines/SegmentComparisonRow.less";
 
         $stylesheets[] = "plugins/CoreVisualizations/stylesheets/dataTableVisualizations.less";
         $stylesheets[] = "plugins/CoreVisualizations/stylesheets/jqplot.less";
@@ -97,5 +93,6 @@ class CoreVisualizations extends \Piwik\Plugin
         $translationKeys[] = 'General_EvolutionSummaryGeneric';
         $translationKeys[] = 'General_IncompletePeriod';
         $translationKeys[] = 'General_InvalidatedPeriod';
+        $translationKeys[] = 'General_Forecast';
     }
 }

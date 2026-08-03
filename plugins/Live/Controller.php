@@ -192,7 +192,7 @@ class Controller extends \Piwik\Plugin\Controller
     }
 
     /**
-     * Echo's HTML for visitor profile popup.
+     * Returns the rendered HTML for the visitor profile popup.
      */
     public function getVisitorProfilePopup()
     {

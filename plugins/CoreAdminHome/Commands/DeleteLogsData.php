@@ -110,7 +110,7 @@ class DeleteLogsData extends ConsoleCommand
     }
 
     /**
-     * @return Date[]
+     * @return string[]
      */
     private function getDateRangeToDeleteFrom()
     {

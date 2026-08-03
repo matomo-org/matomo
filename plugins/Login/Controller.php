@@ -404,7 +404,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 if (
                     !empty($host) && !empty($currentHost) && $host == $currentHost && Url::isValidHost($host)
                 ) {
-                    $urlToRedirect = $redirect;
+                    // rebuild the url from its parsed parts, consistent with the handling of the url parameter above
+                    $urlToRedirect = (strpos($redirect, '//') === 0 ? '//' : '') . UrlHelper::getParseUrlReverse(parse_url($redirect));
                 }
             }
         }
@@ -679,7 +680,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $request = Request::fromRequest();
 
         $token = $request->getStringParameter('token');
-        $form = $request->getStringParameter('invitation_form', '');
+        // the invitation form is only processed when submitted via POST
+        $form = Request::fromPost()->getStringParameter('invitation_form', '');
 
         $settings = new SystemSettings();
         $termsAndConditionUrl = $settings->termsAndConditionUrl->getValue();
@@ -692,16 +694,17 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             throw new RedirectException(Piwik::translate('Login_InvalidOrExpiredTokenV2'), SettingsPiwik::getPiwikUrl(), 3);
         }
 
-        if (!empty($user['invite_expired_at']) && Date::factory($user['invite_expired_at'])->isEarlier(Date::now())) {
+        if (empty($user['invite_expired_at']) || Date::factory($user['invite_expired_at'])->isEarlier(Date::now())) {
             throw new RedirectException(Piwik::translate('Login_InvalidOrExpiredTokenV2'), SettingsPiwik::getPiwikUrl(), 3);
         }
 
         // if form was sent
         if (!empty($form)) {
             $error = null;
-            $password = $request->getStringParameter('password', '');
-            $passwordConfirmation = $request->getStringParameter('passwordConfirmation', '');
-            $conditionCheck = $request->getBoolParameter('conditionCheck', false);
+            $postRequest = Request::fromPost();
+            $password = $postRequest->getStringParameter('password', '');
+            $passwordConfirmation = $postRequest->getStringParameter('passwordConfirmation', '');
+            $conditionCheck = $postRequest->getBoolParameter('conditionCheck', false);
 
             if (empty($password)) {
                 $error = Piwik::translate('Login_PasswordRequired');

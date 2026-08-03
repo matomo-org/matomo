@@ -1,0 +1,97 @@
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+// Shared card frame. Defined as a mixin (the parens keep it out of the compiled CSS) so every
+// sparkline card block can apply the frame to its own root instead of borrowing another component's
+// block class. Reused by SegmentComparisonCard.less: all sparkline `.less` compile in a single pass
+// (StylesheetUIAssetMerger), and this file is registered before it, so the mixin is in scope there.
+.sparklineCardFrame() {
+  box-sizing: border-box;
+  padding: 16px;
+  background: @theme-color-widget-background;
+  border: 1px solid @theme-color-border-alternative;
+  border-radius: 8px;
+  width: 100%;
+  margin-top: 0;
+  margin-bottom: 0;
+
+  // Query container for the metric readout: MetricValue's number + heights scale with this width via
+  // cqi units. Standalone readouts have no nearer container, so they size to the card; comparison
+  // columns set their own container and override it. inline-size contains only the inline axis, so
+  // the card's height still grows with its content.
+  container-type: inline-size;
+}
+
+// Clickable-card treatment, shared by SparklineCard and SegmentComparisonCard. A mixin (parens keep
+// it out of compiled CSS) applied to `.sparkline.<block>`, so `&.linked` / `&:hover` resolve against
+// the caller. Overrides two legacy Morpheus `div.sparkline` rules (main.less): `display: flex` →
+// block (a flex item's min-width:auto would let a long nowrap title overflow instead of truncate),
+// and the dashed grey `.linked:hover` bottom-border → a solid focus-ring border on all sides. Kept
+// component-side (not excluded at the Morpheus source) because the hover must react to the runtime
+// `.linked` class; theme tokens keep the colours right in light/dark.
+.sparklineCardClickable() {
+  display: block;
+
+  // Clickable cards (initializeSparklines adds .linked): pointer cursor + hover border so they
+  // read as interactive.
+  &.linked {
+    cursor: pointer;
+    border-bottom-color: @theme-color-border-alternative;
+
+    &:hover,
+    &:focus {
+      border-color: @theme-color-focus-ring-alternative;
+      border-bottom: 1px solid @theme-color-focus-ring-alternative;
+    }
+  }
+}
+
+// The card carries the legacy `.sparkline` class because initializeSparklines (CoreHome sparkline.js)
+// wires the click-to-evolution link by that selector — it's a JS contract, not decoration. Downside:
+// global `.sparkline` rules (Morpheus/CoreHome, and Dashboard's `.widget .widgetContent .sparkline`)
+// would override the frame's padding/margins. So we qualify each frame selector with `.sparkline` to
+// out-specify them; without it the cards lose their padding when rendered as a widget.
+.widget .widgetContent .sparkline.sparklineCard,
+.sparkline.sparklineCard {
+  .sparklineCardFrame();
+}
+
+// Clickable-card treatment (same `.sparkline.sparklineCard` compound as the frame above).
+.sparkline.sparklineCard {
+  .sparklineCardClickable();
+}
+
+// Shared sparkline slot, rendered by the shell after either body (both put the sparkline last).
+// Fixed height keeps the card height constant regardless of the image; centering sits the image
+// mid-slot once it scales shorter than the slot, and stops flex's default `stretch` from forcing
+// it back to full height. `safe` keeps it reachable if it ever overflows.
+.sparklineCard__sparkline {
+  // Displayed sparkline size: the height pins the slot; the width caps the fluid image so it never
+  // renders taller than the slot. The width must match the <Sparkline :width> in SparklineCard.vue
+  // (the PNG is rendered at 2x that). Height stays 40 in both modes.
+  @_height: 40px;
+  @_width: 380px;
+
+  height: @_height;
+  display: flex;
+  align-items: safe center;
+
+  // override: the reused CoreHome Sparkline renders an external <img class="sparklineImg"> we can't
+  // rename; size it fluidly to the slot (height from the width:40 aspect ratio, capped at the base
+  // width so it never exceeds the fixed slot). The 2x source stays crisp as it scales.
+  .sparklineImg {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-width: @_width;
+  }
+}
+
+// Comparison cards are wider, so their sparkline gets a wider cap to fill the extra room. 760 must
+// match the wide <Sparkline :width> in SparklineCard.vue (the PNG is rendered at 2x that).
+.sparklineCard__sparkline--wide .sparklineImg {
+  max-width: 760px;
+}

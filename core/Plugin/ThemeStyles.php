@@ -31,6 +31,7 @@ class ThemeStyles
         'colorTextLight' => 'theme-color-text-light',
         'colorTextLighter' => 'theme-color-text-lighter',
         'colorTextOnDisabled' => 'theme-color-text-on-disabled',
+        'colorTextPlaceholder' => 'theme-color-text-placeholder',
         'colorTextInvert' => 'theme-color-text-invert',
         'colorTextInvertContrast' => 'theme-color-text-invert-contrast',
         'colorTextInvertLight' => 'theme-color-text-invert-light',
@@ -130,6 +131,12 @@ class ThemeStyles
      * @var string|array<string>
      */
     public $colorTextOnDisabled = ['#666666', '#999'];
+
+    /**
+     * @var string|array<string>
+     * @since Matomo 5.12.0
+     */
+    public $colorTextPlaceholder = ['#d1d1d1', '#565656'];
 
     /**
      * @var string|array<string>
