@@ -58,6 +58,25 @@ describe('ReportHeader', () => {
     expect(wrapper.find('.reportHeader__actions').exists()).toBe(true);
   });
 
+  it('should render the title by default', () => {
+    expect(mountComponent().find('.reportHeader__title').exists()).toBe(true);
+  });
+
+  it('should render nothing when there is nothing to show', () => {
+    const wrapper = mountComponent({ context: 'widgetized', showTitle: false });
+
+    expect(wrapper.find('.reportHeader').exists()).toBe(false);
+    expect(wrapper.find('.reportHeader__title').exists()).toBe(false);
+    expect(wrapper.find('.reportHeader__actions').exists()).toBe(false);
+  });
+
+  it('should render the full header when a widgetized report keeps its title', () => {
+    const wrapper = mountComponent({ context: 'widgetized' });
+
+    expect(wrapper.find('.reportHeader').exists()).toBe(true);
+    expect(wrapper.find('.reportHeader__title').exists()).toBe(true);
+  });
+
   it('should show all four controls in the dashboard context', () => {
     const wrapper = mountComponent({ context: 'dashboard' });
 
