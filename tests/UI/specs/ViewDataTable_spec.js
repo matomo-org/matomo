@@ -128,10 +128,10 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
     });
 
     it("should search in subtable dimensions even when they are displayed separately", async function () {
-        await page.click('.dataTableAction.searchAction');
-        await page.focus('.searchAction .dataTableSearchInput');
+        await page.focus('.reportHeader__search .mtm-searchInput__input');
         await page.keyboard.type('Bing');
-        await page.click('.searchAction .icon-search');
+        // let the debounced search fire, then wait for the reload to settle
+        await page.waitForTimeout(500);
         await page.waitForNetworkIdle();
         await page.evaluate(() => document.activeElement.blur());
         await page.waitForTimeout(500);
@@ -196,11 +196,11 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
         expect(await page.screenshot({ fullPage: true })).to.matchImage('subtables_loaded');
     });
 
-    it("should search the table when a search string is entered and the search button clicked", async function () {
-        await page.click('.dataTableAction.searchAction');
-        await page.focus('.searchAction .dataTableSearchInput');
+    it("should search the table when a search string is entered in the header search", async function () {
+        await page.focus('.reportHeader__search .mtm-searchInput__input');
         await page.keyboard.type('term');
-        await page.click('.searchAction .icon-search');
+        // let the debounced search fire, then wait for the reload to settle
+        await page.waitForTimeout(500);
         await page.waitForNetworkIdle();
         await page.evaluate(() => document.activeElement.blur());
         await page.waitForTimeout(500);

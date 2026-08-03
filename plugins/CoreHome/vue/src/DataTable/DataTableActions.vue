@@ -118,24 +118,9 @@
       style="margin-right:3.5px"
     ><span class="icon-annotation"></span></a>
 
-    <a
-      v-if="showSearch"
-      class="dropdown-button dataTableAction searchAction"
-      href=""
-      :title="translate('General_Search')"
-      style="margin-right:3.5px"
-      draggable="false"
-      @click.prevent
-    >
-      <span class="icon-search" draggable="false"></span>
-      <span class="icon-close" draggable="false" :title="translate('CoreHome_CloseSearch')"></span>
-      <input
-        :id="`widgetSearch_${reportId}_${placement}`"
-        :title="translate('CoreHome_DataTableHowToSearch')"
-        type="text"
-        class="dataTableSearchInput"
-      />
-    </a>
+    <!-- Report search moved into the shared ReportHeader (see ReportHeader.vue / dataTable.js).
+         `showSearch` is still received: dataTable.js reads it to decide whether the header shows a
+         search input for this report. -->
 
     <a
       v-for="action in dataTableActions"

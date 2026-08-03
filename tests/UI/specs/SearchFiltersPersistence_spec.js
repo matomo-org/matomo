@@ -18,11 +18,11 @@ describe("SearchFilterPersistenceTest", function () {
         expect(await page.screenshot({ fullPage: true })).to.matchImage('load_ok');
     });
 
-    it("should search the table when a search string is entered and the search button clicked", async function () {
-        await page.click('.dataTableAction.searchAction');
-        await page.focus('.searchAction .dataTableSearchInput');
+    it("should search the table when a search string is entered in the header search", async function () {
+        await page.focus('.reportHeader__search .mtm-searchInput__input');
         await page.keyboard.type('lo');
-        await page.click('.searchAction .icon-search');
+        // let the debounced search fire, then wait for the reload to settle
+        await page.waitForTimeout(500);
         await page.waitForNetworkIdle();
         await page.evaluate(() => document.activeElement.blur());
         await page.mouse.move(-10, -10);

@@ -249,79 +249,8 @@ table.dataTable td #urlLink {
   .font-default(13px, 14px);
 }
 
-.dataTableSearchInput {
-  display: inline-block;
-  opacity: 0;
-  color: #adadad !important;
-  min-height: 30px !important;
-  padding-left: 25px !important;
-  transition: opacity 0.3s ease !important;
-  box-shadow: 0 0 !important;
-  visibility: hidden;
-  height: 1rem !important;
-  width: calc(~'100% - 25px') !important;
-}
-
-.searchAction:hover {
-  .dataTableSearchInput {
-    &:hover,
-    &:focus {
-      color: #333 !important;
-    }
-  }
-}
-
-.searchAction {
-  transition: width 0.3s ease !important;
-  text-align: left !important;
-  padding-left: 10px;
-  position: relative;
-  cursor: pointer;
-
-  .icon-search {
-    display: inline-block;
-    cursor: pointer;
-    z-index: 1;
-    position: absolute;
-    top: 8px;
-    left: 8px;
-  }
-
-  .icon-close {
-    display: none;
-  }
-}
-
-.searchAction.searchActive {
-  cursor: text;
-
-  .dataTableSearchInput {
-    visibility: visible;
-    opacity: 1;
-  }
-
-  .icon-close {
-    display: inline-block;
-    font-size: 10px;
-    cursor: pointer;
-    position: absolute;
-    top: 12px;
-    right: 10px;
-    color: #adadad !important;
-    &:hover,
-    &:focus {
-      color: #333 !important;
-    }
-  }
-  .icon-search {
-    cursor: pointer;
-    color: #adadad !important;
-    &:hover,
-    &:focus {
-      color: #333 !important;
-    }
-  }
-}
+// The report search input moved from this footer action row into the shared ReportHeader
+// (see ReportHeader.vue / SearchInput.less); its former styles lived here.
 
 .dataTableNext,
 .dataTablePrevious {

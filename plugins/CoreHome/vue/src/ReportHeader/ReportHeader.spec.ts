@@ -269,4 +269,77 @@ describe('ReportHeader', () => {
     expect(mountComponent().classes()).not.toContain('reportHeader--flush');
     expect(mountComponent({ context: 'fullPage' }).classes()).toContain('reportHeader--flush');
   });
+
+  describe('report search', () => {
+    it('should not render the search input by default', () => {
+      expect(mountComponent().find('.reportHeader__search').exists()).toBe(false);
+    });
+
+    it('should render the search input when showSearch is set', () => {
+      const wrapper = mountComponent({ showSearch: true });
+
+      expect(wrapper.find('.reportHeader__search .mtm-searchInput__input').exists()).toBe(true);
+    });
+
+    it('should seed the search field from searchQuery', () => {
+      const wrapper = mountComponent({ showSearch: true, searchQuery: 'pages' });
+
+      const input = wrapper.find('.mtm-searchInput__input').element as HTMLInputElement;
+      expect(input.value).toBe('pages');
+    });
+
+    it('should debounce typing into a single search dispatch', async () => {
+      vi.useFakeTimers();
+      try {
+        const wrapper = mountComponent({ showSearch: true });
+        const input = wrapper.find('.mtm-searchInput__input');
+
+        await input.setValue('a');
+        await input.setValue('ab');
+        // nothing dispatched within the debounce window
+        expect(wrapper.emitted('search')).toBeUndefined();
+
+        vi.advanceTimersByTime(300);
+        expect(wrapper.emitted('search')).toEqual([[{ keyword: 'ab' }]]);
+      } finally {
+        vi.useRealTimers();
+      }
+    });
+
+    it('should dispatch a bubbling reportheader:search CustomEvent for the jQuery bridge', async () => {
+      vi.useFakeTimers();
+      try {
+        const wrapper = mountComponent({ showSearch: true });
+        const received: string[] = [];
+        wrapper.element.addEventListener('reportheader:search', (e) => {
+          received.push((e as CustomEvent).detail.keyword);
+        });
+
+        await wrapper.find('.mtm-searchInput__input').setValue('term');
+        vi.advanceTimersByTime(300);
+
+        expect(received).toEqual(['term']);
+      } finally {
+        vi.useRealTimers();
+      }
+    });
+
+    it('should apply a clear immediately, without waiting for the debounce', async () => {
+      const wrapper = mountComponent({ showSearch: true, searchQuery: 'term' });
+
+      await wrapper.find('.mtm-searchInput__clear').trigger('click');
+
+      expect(wrapper.emitted('search')).toEqual([[{ keyword: '' }]]);
+    });
+
+    it('should sync the field from searchQuery without dispatching a search', async () => {
+      const wrapper = mountComponent({ showSearch: true });
+
+      await wrapper.setProps({ searchQuery: 'pushed' });
+
+      const input = wrapper.find('.mtm-searchInput__input').element as HTMLInputElement;
+      expect(input.value).toBe('pushed');
+      expect(wrapper.emitted('search')).toBeUndefined();
+    });
+  });
 });

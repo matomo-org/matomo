@@ -41,6 +41,20 @@
         <span v-else>{{ titleText }}</span>
       </component>
       <span v-if="!isFullPage" class="u-visuallyHidden">{{ translate('General_Widget') }}</span>
+      <!-- Report search. Owns the debounce and bridges the keyword to the jQuery DataTable
+           through a bubbling `reportheader:search` event (mirrors the `widgetcontrol:*`
+           bridge). The current server-side pattern is pushed back via the `searchQuery` prop. -->
+      <div
+        v-if="showSearch"
+        class="reportHeader__search"
+      >
+        <SearchInput
+          :model-value="query"
+          :placeholder="searchPlaceholder"
+          :show-clear="true"
+          @update:model-value="onQueryInput"
+        />
+      </div>
     </div>
 
     <!-- Widget controls: an inline action row, hidden until the widget is hovered/focused.
@@ -68,8 +82,13 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import EnrichedHeadline from '../EnrichedHeadline/EnrichedHeadline.vue';
+import SearchInput from '../SearchInput/SearchInput.vue';
 import WidgetControls from '../WidgetControls/WidgetControls.vue';
 import { translate } from '../translate';
+
+// How long typing pauses before a search is dispatched. A search is a full DataTable AJAX
+// reload, so debouncing avoids a reload on every keystroke.
+const SEARCH_DEBOUNCE_MS = 300;
 
 export interface ControlVisibility {
   minimise: boolean;
@@ -161,12 +180,42 @@ export default defineComponent({
       type: String,
       default: '',
     },
+    // Renders the report search input under the title. dataTable.js drives this from the
+    // report's `show_search` config.
+    showSearch: Boolean,
+    // The current server-side search pattern, pushed back after each reload so the field stays
+    // in sync (prefill on load, related-report switch, programmatic clear).
+    searchQuery: {
+      type: String,
+      default: '',
+    },
+    searchPlaceholder: {
+      type: String,
+      default: '',
+    },
   },
   components: {
     EnrichedHeadline,
+    SearchInput,
     WidgetControls,
   },
-  emits: ['minimise', 'maximise', 'refresh', 'close', 'titleClick'],
+  emits: ['minimise', 'maximise', 'refresh', 'close', 'titleClick', 'search'],
+  data() {
+    return {
+      // Local mirror of the search field. Seeded from `searchQuery`; user input schedules a
+      // debounced search, a `searchQuery` change syncs it back without re-triggering one.
+      query: this.searchQuery,
+      searchDebounceTimer: null as ReturnType<typeof setTimeout> | null,
+    };
+  },
+  watch: {
+    searchQuery(value: string) {
+      // Server-driven update; reflect it into the field without dispatching another search.
+      if (value !== this.query) {
+        this.query = value;
+      }
+    },
+  },
   computed: {
     controls(): ControlVisibility {
       return CONTROLS_BY_CONTEXT[this.context] || CONTROLS_BY_CONTEXT.widgetized;
@@ -210,6 +259,35 @@ export default defineComponent({
       // widget) can bridge control intents back to their existing handlers.
       this.$el.dispatchEvent(new CustomEvent(`widgetcontrol:${intent}`, { bubbles: true }));
     },
+    onQueryInput(value: string) {
+      this.query = value;
+      if (this.searchDebounceTimer) {
+        clearTimeout(this.searchDebounceTimer);
+        this.searchDebounceTimer = null;
+      }
+      if (!value) {
+        // Clearing applies immediately so all results come back without a pause.
+        this.dispatchSearch();
+        return;
+      }
+      this.searchDebounceTimer = setTimeout(() => this.dispatchSearch(), SEARCH_DEBOUNCE_MS);
+    },
+    dispatchSearch() {
+      this.searchDebounceTimer = null;
+      // Re-emit for Vue-native consumers...
+      this.$emit('search', { keyword: this.query });
+
+      // ...and dispatch a bubbling native event so the jQuery DataTable can apply the filter.
+      this.$el.dispatchEvent(new CustomEvent('reportheader:search', {
+        bubbles: true,
+        detail: { keyword: this.query },
+      }));
+    },
+  },
+  beforeUnmount() {
+    if (this.searchDebounceTimer) {
+      clearTimeout(this.searchDebounceTimer);
+    }
   },
 });
 </script>

@@ -416,8 +416,6 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_ReportConfigure';
         $translationKeys[] = 'General_ExportThisReport';
         $translationKeys[] = 'Annotations_Annotations';
-        $translationKeys[] = 'CoreHome_CloseSearch';
-        $translationKeys[] = 'CoreHome_DataTableHowToSearch';
         $translationKeys[] = 'CoreHome_ChangePeriod';
         $translationKeys[] = 'General_NewUpdatePiwikX';
         $translationKeys[] = 'CoreHome_SeeAvailableVersions';

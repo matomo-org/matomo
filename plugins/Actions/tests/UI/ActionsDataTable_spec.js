@@ -111,23 +111,23 @@ describe("ActionsDataTable", function () {
         expect(await page.screenshot({ fullPage: true })).to.matchImage('unique_pageview_percentages');
     });
 
-    it("should show the search when clicking on the search icon", async function() {
-        await page.click('.dataTableAction.searchAction');
+    it("should show the search input in the report header", async function() {
         await page.mouse.move(-10, -10);
         await page.waitForTimeout(500);
         expect(await page.screenshot({ fullPage: true })).to.matchImage('search_visible');
     });
 
-    it("should search through table when search input entered and search button clicked and input should be visible", async function() {
-        await page.type('.searchAction .dataTableSearchInput', 'i');
-        await page.click('.searchAction .icon-search');
+    it("should search through the table as a keyword is typed in the header search", async function() {
+        await page.type('.reportHeader__search .mtm-searchInput__input', 'i');
+        // let the debounced search fire, then wait for the reload to settle
+        await page.waitForTimeout(500);
         await page.waitForNetworkIdle();
         await page.mouse.move(-10, -10);
         expect(await page.screenshot({ fullPage: true })).to.matchImage('search');
     });
 
-    it("should close search when clicking on the x icon", async function() {
-        await page.click('.searchAction .icon-close');
+    it("should clear the search when clicking the clear button", async function() {
+        await page.click('.reportHeader__search .mtm-searchInput__clear');
         await page.waitForNetworkIdle();
         await page.mouse.move(-10, -10);
         expect(await page.screenshot({ fullPage: true })).to.matchImage('search_closed');
