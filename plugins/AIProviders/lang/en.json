@@ -37,6 +37,7 @@
         "Model": "Model",
         "NoDefaultProviderWarning": "No AI provider can be set as the default yet. Connect a provider first.",
         "OpenAIDefaultModelDescription": "Default model: gpt-5.4-mini",
+        "PluginDescription": "Configure AI provider connections and default model settings used by Matomo AI features.",
         "RefreshModels": "Refresh models",
         "RequestFailed": "AI provider request failed: %s",
         "SettingsSaveSuccess": "AI provider settings saved.",
