@@ -159,6 +159,28 @@ class HtmlTable extends Visualization
         $this->assignTemplateVar('periodTitlePretty', $period ? $period->getLocalizedShortString() : '');
 
         $this->assignFilteredTotalsRowVars();
+
+        // Note: This needs to be done last, as it depends on the final columns to display
+        $this->config->report_supports_percentage_values = $this->supportsPercentageValues();
+    }
+
+    /**
+     * Returns whether at least one displayed column has a meaningful percentage value, using the
+     * same eligibility rule as the individual cells (see _dataTableViz_htmlTable_ratio.twig).
+     *
+     * @return bool
+     */
+    private function supportsPercentageValues()
+    {
+        $totals = $this->dataTable ? $this->dataTable->getMetadata('totals') : null;
+
+        if (empty($totals) || empty($this->config->columns_to_display)) {
+            return false;
+        }
+
+        $ratioColumns = array_intersect($this->config->report_ratio_columns, array_keys($totals));
+
+        return !empty(array_intersect($this->config->columns_to_display, $ratioColumns));
     }
 
     /**

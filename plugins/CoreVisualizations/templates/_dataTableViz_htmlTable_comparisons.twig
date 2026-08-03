@@ -63,6 +63,14 @@
                 {% set columnChange = row.getColumn(column ~ '_change')|default('+0%') %}
                 {% set comparisonTooltipSuffix = 'General_ComparisonRatioTooltip'|translate(columnChange, row.getMetadata('compareSegmentPretty'), comparedPeriodPretty) %}
             {% endif %}
+            {%- set showPercentageValues = properties.show_percentage_values|default(false)
+                and column in properties.report_ratio_columns|default([])
+                and rowComparisonTotals and column in rowComparisonTotals|keys -%}
+            {%- set rowPercentage = '' -%}
+            {%- if showPercentageValues -%}
+                {%- set rowPercentage = row.getMetadata(column ~ '_row_percentage')
+                    ?: columnValue|default(0)|percentage(rowComparisonTotals[column]|default(0), 1) -%}
+            {%- endif %}
 
             {% include "@CoreVisualizations/_dataTableViz_htmlTable_ratio.twig" with {
                 'changePercentage': columnChange,
@@ -73,9 +81,11 @@
                 'tooltipSuffix': comparisonTooltipSuffix,
                 'translations': properties.translations,
                 'segmentTitlePretty': row.getMetadata('compareSegmentPretty'),
-                'periodTitlePretty': row.getMetadata('comparePeriodPretty')
+                'periodTitlePretty': row.getMetadata('comparePeriodPretty'),
+                'rowPercentage': rowPercentage,
+                'showAbsoluteValueOnHover': showPercentageValues
             } %}
-            <span class="value">{{ columnValue|default(0)|number(2,0)|rawSafeDecoded }}</span>
+            <span class="value">{% if showPercentageValues %}{{ rowPercentage }}{% else %}{{ columnValue|default(0)|number(2,0)|rawSafeDecoded }}{% endif %}</span>
         </td>
         {% endif %}
         {% endfor %}

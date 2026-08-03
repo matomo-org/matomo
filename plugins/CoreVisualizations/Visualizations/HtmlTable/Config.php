@@ -109,6 +109,13 @@ class Config extends VisualizationConfig
     public $report_ratio_columns = array();
 
     /**
+     * Whether this report displays at least one column that has a meaningful percentage value,
+     * ie. whether the setting to show percentage values should be offered for this report.
+     * @var bool
+     */
+    public $report_supports_percentage_values = false;
+
+    /**
      * The minimum width for the label column in table visualizations.
      *
      * @var null|int

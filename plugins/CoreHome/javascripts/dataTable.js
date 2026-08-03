@@ -1345,6 +1345,10 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         $('.dataTableShowTotalsRow', domElem)
             .click(generateClickCallback('keep_totals_row'));
 
+        // handle percentage values
+        $('.dataTableShowPercentageValues', domElem)
+            .click(generateClickCallback('show_percentage_values'));
+
         $('.dataTableIncludeAggregateRows', domElem)
             .click(generateClickCallback('include_aggregate_rows', function () {
                 if (self.param.include_aggregate_rows == 1) {
