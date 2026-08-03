@@ -43,11 +43,14 @@
     transform: translateY(-50%);
     padding: 0;
     border: 0;
-    background: transparent;
-    cursor: pointer;
-  }
-
-  &:hover .mtm-searchInput__clear {
+    // it only renders when there is a value to clear, so it stays painted rather than
+    // appearing on hover: a hover-only affordance is unreachable for keyboard users
     background: url(plugins/CoreHome/images/reset_search.png);
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: 2px solid @theme-color-focus-ring;
+      outline-offset: 2px;
+    }
   }
 }

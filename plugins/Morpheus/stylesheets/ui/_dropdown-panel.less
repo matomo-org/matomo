@@ -13,10 +13,20 @@
   box-shadow: @theme-shadow-overlay; // theme token, already light/dark aware
   overflow: hidden;
 
+  // Nest element: the search input block sits alone in here, so the panel never styles it.
+  .mtm-dropdownPanel__search {
+    margin-bottom: 8px;
+  }
+
   .mtm-dropdownPanel__menu {
     margin: 0;
     padding: 0;
     list-style: none;
+  }
+
+  .mtm-dropdownPanel__menu--scrollable {
+    max-height: 250px;
+    overflow-y: auto;
   }
 
   .mtm-dropdownPanel__menuItem {
@@ -78,8 +88,22 @@
   }
 
   .mtm-dropdownPanel__menuLabel {
-    // lets the label shrink/ellipsis when a consumer constrains the panel width
+    // a flex item will not shrink below its content width without min-width: 0, which would
+    // widen the panel instead of truncating the label
     min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .mtm-dropdownPanel__searchMatch {
+    color: @theme-color-link;
+    font-weight: bold;
+  }
+
+  .mtm-dropdownPanel__noResult {
+    padding: 8px;
+    color: @theme-color-text-lighter;
+    font-style: italic;
   }
 }
 

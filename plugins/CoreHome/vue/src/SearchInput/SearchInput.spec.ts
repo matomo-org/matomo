@@ -55,6 +55,17 @@ describe('CoreHome/SearchInput', () => {
     expect(wrapper.emitted('update:modelValue')?.[0]).toEqual(['']);
   });
 
+  it('gives the clear button a translated title', () => {
+    const wrapper = mount(SearchInput, {
+      props: {
+        modelValue: 'country',
+        showClear: true,
+      },
+    });
+
+    expect(wrapper.find('.mtm-searchInput__clear').attributes('title')).toBe('General_Clear');
+  });
+
   it('applies attributes set on the component to the input, not to the wrapper', () => {
     const wrapper = mount(SearchInput, {
       props: {
