@@ -256,6 +256,20 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             };
         }
 
+        // Each reload supersedes any still-pending one on this table: tag it and apply only the
+        // latest response, so an out-of-order response (e.g. a slow search-as-you-type reload)
+        // cannot overwrite a newer reload - another search, a sort, paging, a period or a
+        // visualization change. Errors from a superseded reload are dropped too.
+        self._reloadGeneration = (self._reloadGeneration || 0) + 1;
+        var reloadGeneration = self._reloadGeneration;
+        var originalCallbackSuccess = callbackSuccess;
+        callbackSuccess = function (response) {
+            if (reloadGeneration !== self._reloadGeneration) {
+                return;
+            }
+            originalCallbackSuccess(response);
+        };
+
         if (displayLoading) {
             $('#' + self.workingDivId + ' .loadingPiwik').last().css('display', 'block');
         }
@@ -319,7 +333,8 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             }
         );
         ajaxRequest.setErrorCallback(function (deferred, status) {
-            if (status == 'abort' || !deferred || deferred.status < 400 || deferred.status >= 600) {
+            if (reloadGeneration !== self._reloadGeneration
+                || status == 'abort' || !deferred || deferred.status < 400 || deferred.status >= 600) {
                 return;
             }
 
@@ -916,23 +931,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
         delete self.param.totalRows;
 
-        // Search-as-you-type fires overlapping reloads; responses can arrive out of order, so a
-        // stale one must not overwrite a newer one. Tag each search and, on response, render only
-        // if no later search has superseded it.
-        self._searchGeneration = (self._searchGeneration || 0) + 1;
-        var searchGeneration = self._searchGeneration;
-        var applyIfLatest = function (response) {
-            if (searchGeneration !== self._searchGeneration) {
-                return;
-            }
-            if (callbackSuccess) {
-                callbackSuccess(response);
-            } else {
-                self.dataTableLoaded(response, self.workingDivId);
-            }
-        };
-
-        self.reloadAjaxDataTable(true, applyIfLatest);
+        self.reloadAjaxDataTable(true, callbackSuccess);
     },
 
     //behaviour for '< prev' 'next >' links and page count

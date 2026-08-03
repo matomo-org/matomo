@@ -118,10 +118,9 @@ describe("ActionsDataTable", function () {
     });
 
     it("should search through the table as a keyword is typed in the header search", async function() {
-        // the search is debounced; wait for the filtered reload it triggers, then for it to settle
-        const searchReloaded = page.waitForResponse((r) => r.url().includes('filter_pattern'));
         await page.type('.reportHeader__search .mtm-searchInput__input', 'i');
-        await searchReloaded;
+        // the search is debounced; waitForNetworkIdle waits it out (its idle threshold exceeds the
+        // debounce delay) and then for the reload it triggers to settle
         await page.waitForNetworkIdle();
         await page.mouse.move(-10, -10);
         expect(await page.screenshot({ fullPage: true })).to.matchImage('search');

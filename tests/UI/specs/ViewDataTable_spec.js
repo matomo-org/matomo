@@ -129,10 +129,9 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
 
     it("should search in subtable dimensions even when they are displayed separately", async function () {
         await page.focus('.reportHeader__search .mtm-searchInput__input');
-        // the search is debounced; wait for the filtered reload it triggers, then for it to settle
-        const searchReloaded = page.waitForResponse((r) => r.url().includes('filter_pattern'));
         await page.keyboard.type('Bing');
-        await searchReloaded;
+        // the search is debounced; waitForNetworkIdle waits it out (its idle threshold exceeds the
+        // debounce delay) and then for the reload it triggers to settle
         await page.waitForNetworkIdle();
         await page.evaluate(() => document.activeElement.blur());
         await page.waitForTimeout(500);
@@ -199,10 +198,9 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
 
     it("should search the table when a search string is entered in the header search", async function () {
         await page.focus('.reportHeader__search .mtm-searchInput__input');
-        // the search is debounced; wait for the filtered reload it triggers, then for it to settle
-        const searchReloaded = page.waitForResponse((r) => r.url().includes('filter_pattern'));
         await page.keyboard.type('term');
-        await searchReloaded;
+        // the search is debounced; waitForNetworkIdle waits it out (its idle threshold exceeds the
+        // debounce delay) and then for the reload it triggers to settle
         await page.waitForNetworkIdle();
         await page.evaluate(() => document.activeElement.blur());
         await page.waitForTimeout(500);
