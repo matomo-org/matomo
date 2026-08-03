@@ -208,8 +208,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             'include_aggregate_rows',
             'totalRows',
             'pivotBy',
-            'pivotByColumn',
-            'filter_trigger_id'
+            'pivotByColumn'
         ];
 
         for (var key = 0; key < filters.length; key++) {
@@ -824,9 +823,8 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         }
     },
 
-    // Drives the report search rendered in the shared ReportHeader. Search used to live in the
-    // footer action row; it now sits under the report title. The input and its debounce belong to
-    // the Vue ReportHeader - here we only push state into it and apply the keyword it emits.
+    // Drives the report search rendered in the shared ReportHeader. The input and its debounce
+    // belong to the Vue component; here we only push state into it and apply the keyword it emits.
     handleSearchBox: function (domElem, callbackSuccess) {
         var self = this;
 
@@ -858,9 +856,8 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             }
         });
 
-        // Whether this report offers search is carried by the footer actions component, which is
-        // present exactly when a footer search used to be (show_footer && show_footer_icons &&
-        // show_search) - so the set of searchable reports is unchanged.
+        // show_search is a report config flag, exposed to the client only on the footer actions
+        // component (DataTableActions); read it from there, and default to no search when absent.
         var showSearch = false;
         var $actions = $('[vue-entry="CoreHome.DataTableActions"]', domElem);
         if ($actions.length) {
@@ -868,12 +865,13 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             showSearch = !!(actionsApp && actionsApp.showSearch_);
         }
 
-        // Hide the input on an empty table unless a search is active, so a user can always clear a
-        // search that produced no rows (mirrors the old footer behaviour).
+        // Hide the input on an empty table, but keep it while a search is active so a no-result
+        // search can still be cleared.
         header.app.showSearch_ = showSearch && (!self.isEmpty || !!currentPattern);
         header.app.searchQuery_ = currentPattern;
 
-        $('.dataTable', domElem).first().toggleClass('hasSearchKeyword', !!currentPattern);
+        // domElem is the root div.dataTable, the element the empty-state CSS keys off.
+        domElem.closest('.dataTable').toggleClass('hasSearchKeyword', !!currentPattern);
 
         // Bridge the header's debounced search back to this table. Rebinding on every render is
         // safe: the namespaced handler is removed first, and the header persists across reloads.

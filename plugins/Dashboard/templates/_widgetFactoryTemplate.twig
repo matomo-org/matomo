@@ -6,9 +6,7 @@
            Its title + controls are rendered by the shared ReportHeader Vue component,
            hydrated per-widget in dashboardWidget.js with the widget name + context. #}
         <div class="widgetTop">
-            {# show-search / search-query are emitted so dataTable.js can drive the header search
-               from the loaded report (see compileVueEntryComponents: only declared attributes are
-               settable later). #}
+            {# declared (even empty) so dataTable.js can set them later, see compileVueEntryComponents #}
             <div vue-entry="CoreHome.ReportHeader"
                  context="dashboard"
                  show-search="{{ false|json_encode }}"

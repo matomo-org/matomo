@@ -118,10 +118,6 @@
       style="margin-right:3.5px"
     ><span class="icon-annotation"></span></a>
 
-    <!-- Report search moved into the shared ReportHeader (see ReportHeader.vue / dataTable.js).
-         `showSearch` is still received: dataTable.js reads it to decide whether the header shows a
-         search input for this report. -->
-
     <a
       v-for="action in dataTableActions"
       :key="action.id"
@@ -277,6 +273,8 @@ export default defineComponent({
     showPeriods: Boolean,
     showFooter: Boolean,
     showFooterIcons: Boolean,
+    // Not used in this component: dataTable.js reads it to decide whether the ReportHeader shows
+    // a search input for this report.
     showSearch: Boolean,
     showFlattenTable: Boolean,
     reportSupportsFlatten: Boolean,

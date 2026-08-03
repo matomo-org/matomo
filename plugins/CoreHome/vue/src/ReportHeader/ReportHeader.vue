@@ -41,11 +41,8 @@
         <span v-else>{{ titleText }}</span>
       </component>
       <span v-if="!isFullPage" class="u-visuallyHidden">{{ translate('General_Widget') }}</span>
-      <!-- Report search. Owns the debounce and bridges the keyword to the jQuery DataTable
-           through a bubbling `reportheader:search` event (mirrors the `widgetcontrol:*`
-           bridge). The current server-side pattern is pushed back via the `searchQuery` prop. -->
       <div
-        v-if="showSearch"
+        v-if="canSearch"
         class="reportHeader__search"
       >
         <SearchInput
@@ -86,8 +83,7 @@ import SearchInput from '../SearchInput/SearchInput.vue';
 import WidgetControls from '../WidgetControls/WidgetControls.vue';
 import { translate } from '../translate';
 
-// How long typing pauses before a search is dispatched. A search is a full DataTable AJAX
-// reload, so debouncing avoids a reload on every keystroke.
+// A search is a full DataTable reload, so debounce to avoid one on every keystroke.
 const SEARCH_DEBOUNCE_MS = 300;
 
 export interface ControlVisibility {
@@ -180,11 +176,9 @@ export default defineComponent({
       type: String,
       default: '',
     },
-    // Renders the report search input under the title. dataTable.js drives this from the
-    // report's `show_search` config.
+    // Shows the search input; dataTable.js drives it from the report's `show_search` config.
     showSearch: Boolean,
-    // The current server-side search pattern, pushed back after each reload so the field stays
-    // in sync (prefill on load, related-report switch, programmatic clear).
+    // Current server-side pattern, pushed back after each reload to keep the field in sync.
     searchQuery: {
       type: String,
       default: '',
@@ -202,8 +196,7 @@ export default defineComponent({
   emits: ['minimise', 'maximise', 'refresh', 'close', 'titleClick', 'search'],
   data() {
     return {
-      // Local mirror of the search field. Seeded from `searchQuery`; user input schedules a
-      // debounced search, a `searchQuery` change syncs it back without re-triggering one.
+      // Local mirror of the field, seeded from `searchQuery`.
       query: this.searchQuery,
       searchDebounceTimer: null as ReturnType<typeof setTimeout> | null,
     };
@@ -211,6 +204,11 @@ export default defineComponent({
   watch: {
     searchQuery(value: string) {
       // Server-driven update; reflect it into the field without dispatching another search.
+      // Skip while a search is pending: a reload syncing the previous pattern back would
+      // otherwise revert the user's in-flight typing.
+      if (this.searchDebounceTimer) {
+        return;
+      }
       if (value !== this.query) {
         this.query = value;
       }
@@ -231,6 +229,10 @@ export default defineComponent({
     },
     isFullPage(): boolean {
       return this.context === 'fullPage';
+    },
+    // Search is offered on real reports, but never in the widget preview (a static thumbnail).
+    canSearch(): boolean {
+      return this.showSearch && this.context !== 'preview';
     },
     titleText(): string {
       return this.reportTitle || this.title;
@@ -267,20 +269,20 @@ export default defineComponent({
       }
       if (!value) {
         // Clearing applies immediately so all results come back without a pause.
-        this.dispatchSearch();
+        this.dispatchSearch(value);
         return;
       }
-      this.searchDebounceTimer = setTimeout(() => this.dispatchSearch(), SEARCH_DEBOUNCE_MS);
+      this.searchDebounceTimer = setTimeout(() => this.dispatchSearch(value), SEARCH_DEBOUNCE_MS);
     },
-    dispatchSearch() {
+    dispatchSearch(keyword: string) {
       this.searchDebounceTimer = null;
       // Re-emit for Vue-native consumers...
-      this.$emit('search', { keyword: this.query });
+      this.$emit('search', { keyword });
 
       // ...and dispatch a bubbling native event so the jQuery DataTable can apply the filter.
       this.$el.dispatchEvent(new CustomEvent('reportheader:search', {
         bubbles: true,
-        detail: { keyword: this.query },
+        detail: { keyword },
       }));
     },
   },
