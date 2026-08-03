@@ -46,6 +46,11 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * A new `#[Piwik\Http\JsonResponse]` attribute can be applied to a plugin controller action to declare that it returns a JSON response. When present, Matomo (re-)sends the `Content-Type: application/json` header after the action has returned, so it can no longer be overwritten by output produced while the action builds its response (for example a rendered `Piwik\View`, which sends `text/html`). An action using the attribute must return the JSON string, must not send the header itself, and must not emit output (`echo`/`print`/`flush`) or call `exit`/`die` before returning — otherwise the response headers are committed first and the JSON `Content-Type` cannot be applied. The attribute is not inherited: a subclass overriding a JSON action must re-declare it. These requirements are enforced by PHPStan rules.
 
 ### HTTP API
+* Report rows now include a percentage-of-report-total value for each metric the report processes totals for, as an additional
+  `{metric}_percent_of_total` column (eg, `nb_visits_percent_of_total`). The values match the ratio percentages the report tables
+  show on hover, follow `format_metrics` like other percent metrics, and are included in all export formats. They can be disabled
+  by setting the new `percent_of_total=0` request parameter (or `totals=0`). Note for CSV/TSV consumers parsing columns by
+  position: the new columns change the header and column count, pass `percent_of_total=0` to keep the previous output.
 * `API.getBulkRequest` now validates the authentication parameters of each nested request URL against
   the outer request. Within a browser session a nested request may change neither the session flag
   (`force_api_session`) nor the acting user (`token_auth`); outside a session a nested request may still
