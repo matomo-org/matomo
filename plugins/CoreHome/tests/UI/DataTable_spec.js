@@ -349,6 +349,32 @@ describe('DataTable', function () {
     expect(ajaxRequestCount).to.be.equal(2);
   });
 
+  it('should keep showing percentages in an expanded subtable', async function () {
+    const subtablesUrl = "?module=Widgetize&action=iframe&moduleToWidgetize=Referrers"
+      + "&actionToWidgetize=getWebsites&idSite=1&period=year&date=2012-01-12&viewDataTable=table"
+      + "&show_percentage_values=1";
+
+    await page.goto(subtablesUrl);
+    await page.waitForNetworkIdle();
+    await page.waitForSelector('tr.subDataTable', { visible: true });
+
+    await page.click('tr.subDataTable td.label');
+    await page.waitForNetworkIdle();
+    await page.waitForSelector('.subDataTableContainer table.dataTable tbody tr td.column', { visible: true });
+
+    const subtableCell = await page.evaluate(() => {
+      const cell = document.querySelector('.subDataTableContainer table.dataTable tbody tr td.column');
+
+      return {
+        value: cell.querySelector('span.value').textContent.trim(),
+        hover: cell.querySelector('span.ratio')?.textContent.trim() ?? null,
+      };
+    });
+
+    expect(subtableCell.value).to.match(/%$/);
+    expect(subtableCell.hover).to.match(/^[\d,.]+$/);
+  });
+
   it('should show percentages on comparison rows as well as on their parent row', async function () {
     const comparingUrl = "?module=Widgetize&action=iframe&moduleToWidgetize=Referrers"
       + "&actionToWidgetize=getWebsites&idSite=1&period=year&date=2012-01-12&viewDataTable=table"
