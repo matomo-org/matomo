@@ -461,8 +461,6 @@ export default defineComponent({
         'CoreHome_ShowPercentageValuesDataTable',
       );
     },
-    // the accessible name must describe the action the item performs, so it follows the state:
-    // an aria-label overrides the visible text, and would otherwise announce the opposite action
     percentageValuesLabel() {
       const params = this.clientSideParameters as Record<string, string|number|boolean>;
       return isBooleanLikeSet(params.show_percentage_values)
