@@ -46,10 +46,7 @@ class SessionAuth implements Auth
 
     private $tokenAuth;
 
-    /**
-     * @var bool
-     */
-    private $sessionExpired = false;
+    private bool $sessionExpired = false;
 
     public function __construct(?UsersModel $userModel = null, $shouldDestroySession = true)
     {

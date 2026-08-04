@@ -19,8 +19,7 @@ use Piwik\Piwik;
  */
 class PasswordStrength
 {
-    /** @var bool */
-    private $enabled;
+    private bool $enabled;
 
     public function __construct(bool $featureEnabled)
     {

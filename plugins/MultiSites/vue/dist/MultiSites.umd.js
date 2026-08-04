@@ -537,9 +537,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           );
           sparklineDate = `${CoreHome.format(startDate)},${CoreHome.format(endDate)}`;
         }
-        const redesignEnabled = document.body.classList.contains("sparklines-redesign-enabled");
-        const sizeParams = redesignEnabled ? { width: 200, height: 50 } : {};
-        const sparklineParams = CoreHome.MatomoUrl.stringify(__spreadValues({
+        const sparklineParams = CoreHome.MatomoUrl.stringify({
           module: "MultiSites",
           action: "getEvolutionGraph",
           date: sparklineDate,
@@ -548,8 +546,12 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           columns: this.sparklineMetric,
           evolutionBy: this.sparklineMetric,
           colors: JSON.stringify(CoreHome.Matomo.getSparklineColors()),
-          viewDataTable: "sparkline"
-        }, sizeParams));
+          viewDataTable: "sparkline",
+          // The render size is twice the display size (the img is shown at 100x25) so the
+          // PNG renders at 2x pixel density.
+          width: 200,
+          height: 50
+        });
         return `?${sparklineParams}${this.tokenParam}`;
       },
       evolutionTrend() {

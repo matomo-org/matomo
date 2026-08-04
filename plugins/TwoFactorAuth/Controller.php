@@ -35,30 +35,15 @@ class Controller extends \Piwik\Plugin\Controller
     public const REGENERATE_CODES_2FA_NONCE = 'TwoFactorAuth.regenerateCodes';
     public const VERIFY_PASSWORD_NONCE = 'TwoFactorAuth.verifyPassword';
 
-    /**
-     * @var SystemSettings
-     */
-    private $settings;
+    private SystemSettings $settings;
 
-    /**
-     * @var RecoveryCodeDao
-     */
-    private $recoveryCodeDao;
+    private RecoveryCodeDao $recoveryCodeDao;
 
-    /**
-     * @var PasswordVerifier
-     */
-    private $passwordVerify;
+    private PasswordVerifier $passwordVerify;
 
-    /**
-     * @var TwoFactorAuthentication
-     */
-    private $twoFa;
+    private TwoFactorAuthentication $twoFa;
 
-    /**
-     * @var Validator
-     */
-    private $validator;
+    private Validator $validator;
 
     public function __construct(SystemSettings $systemSettings, RecoveryCodeDao $recoveryCodeDao, PasswordVerifier $passwordVerify, TwoFactorAuthentication $twoFa, Validator $validator)
     {
@@ -186,7 +171,11 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function onLoginSetupTwoFactorAuth()
     {
-        // called when 2fa is required, but user has not yet set up 2fa
+        // login-only setup screen: available only while 2fa is enforced and the user has not enrolled yet
+        $this->validator->checkCanUseTwoFa();
+        $this->validator->checkCurrentUserMatchesSessionUser();
+        $this->validator->check2FaIsRequired();
+        $this->validator->check2FaNotEnabled();
 
         return $this->setupTwoFactorAuth($standalone = true);
     }

@@ -34,10 +34,7 @@ class ReturningMetric extends ProcessedMetric
         'nb_users_new' => 'VisitFrequency_ColumnNewUsers',
     );
 
-    /**
-     * @var ProcessedMetric
-     */
-    private $wrapped;
+    private ProcessedMetric $wrapped;
 
     private $suffix;
 

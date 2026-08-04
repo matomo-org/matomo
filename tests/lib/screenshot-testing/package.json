@@ -4,21 +4,26 @@
   "main": "index.js",
   "author": "Matomo Team",
   "license": "GPL-3.0+",
+  "engines": {
+    "node": ">=24.0.0 <25.0.0"
+  },
+  "scripts": {
+    "install-browser": "puppeteer browsers install chrome"
+  },
   "dependencies": {
-    "chai": "^4.3.4",
+    "chai": "^4.5.0",
     "chai-files": "^1.4.0",
-    "chai-image-assert": "^1.2.0",
-    "fs-extra": "^7.0.1",
-    "mocha": "^8.2.0",
-    "puppeteer": "^8.0.0",
-    "request": "^2.88.2",
-    "request-promise": "^4.2.6",
-    "url-parse": "^1.5.3",
-    "@testomatio/reporter": "^1.0.9",
+    "fs-extra": "^11.3.5",
+    "mocha": "^11.7.6",
+    "puppeteer": "^24.0.0",
+    "qs": "^6.14.0",
+    "@testomatio/reporter": "^1.6.17",
     "mocha-multi-reporters": "^1.5.1"
   },
   "overrides": {
-    "shell-quote": "^1.8.3",
     "axios": "^1.12.2"
+  },
+  "allowScripts": {
+    "puppeteer": true
   }
 }

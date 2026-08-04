@@ -55,7 +55,7 @@ describe("SegmentSelectorEditorTest", function () {
 
     async function searchForSegment(searchTerm)
     {
-        const selector = '.segmentationContainer .searchInputField';
+        const selector = '.segmentationContainer .mtm-searchInput__input';
 
         await page.waitForSelector(selector);
         await page.evaluate((inputSelector) => {
@@ -486,7 +486,14 @@ describe("SegmentSelectorEditorTest", function () {
         });
 
         await page.waitForNetworkIdle();
-        await page.waitForSelector('.dataTable');
+        // Applying the segment in-page does not reliably re-render the report under the modern headless
+        // Chrome (the SPA navigation to the segmented report ends up a no-op), so force a full reload to
+        // fetch the report for the now-applied segment.
+        await page.reload();
+        // Saving & applying this multi-condition segment triggers on-demand archiving of the whole
+        // year for the segment, which can take well over the default selector timeout - and noticeably
+        // longer on CI than locally - so allow plenty of time for the report to finish processing.
+        await page.waitForSelector('.dataTable', { timeout: 300000 });
         await page.waitForNetworkIdle();
 
         expect(await page.screenshot()).to.matchImage('complex_segment');

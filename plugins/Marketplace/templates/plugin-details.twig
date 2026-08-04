@@ -135,7 +135,7 @@
                             {% endif %}
                         </div>
 
-                        {% if plugin.specialOffer is defined and plugin.specialOffer %}<p style="color: green;">{{ plugin.specialOffer }}<br /><br /></p>{% endif %}
+                        {% if plugin.specialOffer is defined and plugin.specialOffer %}<p style="color: var(--theme-color-brand);">{{ plugin.specialOffer }}<br /><br /></p>{% endif %}
 
                         <dl>
                             {% if not isBundle %}

@@ -16,15 +16,9 @@ use Piwik\Plugins\UsersManager\UserNotifications\UserNotifierTask;
 
 class Tasks extends \Piwik\Plugin\Tasks
 {
-    /**
-     * @var Model
-     */
-    private $usersModel;
+    private Model $usersModel;
 
-    /**
-     * @var API
-     */
-    private $usersManagerApi;
+    private API $usersManagerApi;
 
     public function __construct(Model $usersModel, API $usersManagerApi)
     {

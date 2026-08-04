@@ -262,7 +262,7 @@ class ReportsPurger
 
     private function getNumericTableDeleteCount($table)
     {
-        $maxIdArchive = Db::fetchOne("SELECT MAX(idarchive) FROM `$table`");
+        $maxIdArchive = (int) Db::fetchOne("SELECT MAX(idarchive) FROM `$table`");
 
         $sql = "SELECT COUNT(*) FROM `$table`
                  WHERE name NOT IN ('" . implode("','", $this->metricsToKeep) . "')
@@ -276,7 +276,7 @@ class ReportsPurger
 
     private function getBlobTableDeleteCount($oldNumericTables, $table)
     {
-        $maxIdArchive = Db::fetchOne("SELECT MAX(idarchive) FROM `$table`");
+        $maxIdArchive = (int) Db::fetchOne("SELECT MAX(idarchive) FROM `$table`");
 
         $blobTableWhere = $this->getBlobTableWhereExpr($oldNumericTables, $table);
         if (empty($blobTableWhere)) {
@@ -329,7 +329,7 @@ class ReportsPurger
         foreach ($numericTables as $table) {
             $tableDate = ArchiveTableCreator::getDateFromTableName($table);
 
-            $maxIdArchive = Db::fetchOne("SELECT MAX(idarchive) FROM `$table`");
+            $maxIdArchive = (int) Db::fetchOne("SELECT MAX(idarchive) FROM `$table`");
 
             $sql = "SELECT idarchive FROM `$table`
                      WHERE name != 'done'

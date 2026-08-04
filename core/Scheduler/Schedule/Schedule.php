@@ -166,10 +166,10 @@ abstract class Schedule
             $rescheduledTime = mktime(
                 $this->hour,
                 0,
-                date('s', $rescheduledTime),
-                date('n', $rescheduledTime),
-                date('j', $rescheduledTime),
-                date('Y', $rescheduledTime)
+                (int) date('s', $rescheduledTime),
+                (int) date('n', $rescheduledTime),
+                (int) date('j', $rescheduledTime),
+                (int) date('Y', $rescheduledTime)
             );
         }
         return $rescheduledTime;

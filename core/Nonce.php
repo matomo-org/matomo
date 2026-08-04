@@ -157,7 +157,7 @@ class Nonce
         }
 
         $referrerHost = Url::getHostFromUrl($referrer);
-        return preg_match('/(^|\.)' . preg_quote($allowedReferrerHost) . '$/i', $referrerHost);
+        return preg_match('/(^|\.)' . preg_quote($allowedReferrerHost, '/') . '$/i', $referrerHost);
     }
 
     /**

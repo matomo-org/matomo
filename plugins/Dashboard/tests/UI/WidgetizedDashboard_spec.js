@@ -139,7 +139,7 @@ describe("WidgetizedDashboard", function () {
 
         await page.click('.dashboard-manager .title');
         await page.waitForTimeout(50);
-        await page.click('.dashboard-manager .addWidget-button');
+        await page.click('button[data-action="addWidget"]');
         await page.waitForSelector(modalSelector);
         await page.waitForSelector(modalSelector + ' .widgetpreview-categorylist>li button');
 
@@ -227,10 +227,11 @@ describe("WidgetizedDashboard", function () {
         await clickDashboardMenuItem('copyDashboardToUser');
         await page.waitForSelector('.modal.open');
 
+        // Set the name directly rather than typing it: under the modern headless Chrome page.type
+        // drops the space preceding the multi-byte emoji, producing "new <dash>💩".
         await page.evaluate(function () {
-            $('#copyDashboardName').val('');
+            $('#copyDashboardName').val('new <dash> 💩').change();
         });
-        await page.type('#copyDashboardName', 'new <dash> 💩');
         await page.waitForSelector('#copyDashboardUser [value="superUserLogin"]');
         await page.select('#copyDashboardUser', 'superUserLogin');
         var button = await page.jQuery('.modal.open .modal-footer a:contains(Ok)');
@@ -370,9 +371,11 @@ describe("WidgetizedDashboard", function () {
         var tokenAuth = "anyInvalidToken";
         await page.goto(url.replace("idDashboard=5", "idDashboard=1") + '&token_auth=' + tokenAuth);
 
-        // should show login page with error message
-        expect(await page.$('#loginPage')).to.be.ok;
-        const errorMessage = await page.evaluate(() => $('.message_container').text());
-        expect(errorMessage).to.contain('You must be logged in to access this functionality.');
+        // widget URLs surface a targeted error explaining the secure-only-token cause
+        // instead of falling through to the generic login page
+        expect(await page.$('#loginPage')).to.be.not.ok;
+        const errorMessage = await page.evaluate(() => document.body.innerText);
+        expect(errorMessage).to.contain('This widget URL could not be authenticated with the supplied');
+        expect(errorMessage).to.contain("'Only allow secure requests' unchecked");
     });
 });

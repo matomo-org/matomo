@@ -19,15 +19,9 @@ use Piwik\Settings as PiwikSettings;
  */
 class ConfigReader
 {
-    /**
-     * @var GlobalSettingsProvider
-     */
-    private $settings;
+    private GlobalSettingsProvider $settings;
 
-    /**
-     * @var IniReader
-     */
-    private $iniReader;
+    private IniReader $iniReader;
 
     public function __construct(GlobalSettingsProvider $settings, IniReader $iniReader)
     {

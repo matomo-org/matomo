@@ -34,15 +34,9 @@ class Updater
     public const PATH_TO_EXTRACT_LATEST_VERSION = '/latest/';
     public const DOWNLOAD_TIMEOUT = 720;
 
-    /**
-     * @var Translator
-     */
-    private $translator;
+    private Translator $translator;
 
-    /**
-     * @var ReleaseChannels
-     */
-    private $releaseChannels;
+    private ReleaseChannels $releaseChannels;
 
     /**
      * @var string
@@ -388,7 +382,11 @@ class Updater
          * These files are visible in the web root and are generally
          * served directly by the web server.  May be shared.
          */
-        if (PIWIK_INCLUDE_PATH !== PIWIK_DOCUMENT_ROOT) { // @phpstan-ignore notIdentical.alwaysFalse
+        /** @var string $includePath */
+        $includePath = PIWIK_INCLUDE_PATH;
+        /** @var string $documentRoot */
+        $documentRoot = PIWIK_DOCUMENT_ROOT;
+        if ($includePath !== $documentRoot) {
             // Copy PHP files that expect to be in the document root
             $specialCases = array(
                 '/index.php',

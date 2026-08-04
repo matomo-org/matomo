@@ -1,5 +1,3 @@
-const fs = require('fs');
-
 exports.piwikUrl = "https://matomo.ddev.site/";
 exports.phpServer = {
     HTTP_HOST: 'matomo.ddev.site',
@@ -7,16 +5,9 @@ exports.phpServer = {
     REMOTE_ADDR: '127.0.0.1'
 };
 
-const browserConfig = {
-  args: ['--no-sandbox', '--ignore-certificate-errors']
-};
-
-// Puppeteer's bundled Chromium is amd64-only. When running on an arm64
-// container (e.g. Apple Silicon without Rosetta), fall back to the system
-// Chromium so UI tests still execute -- screenshots won't match CI in that
-// case (the configure-platform.sh hook prints a warning).
-if (process.arch !== 'x64' && fs.existsSync('/usr/bin/chromium')) {
-  browserConfig.executablePath = '/usr/bin/chromium';
-}
-
-exports.browserConfig = browserConfig;
+// browserConfig (including the Chrome executable path) is provided by tests/UI/config.dist.js,
+// which resolves the Chrome for Testing version pinned in
+// tests/lib/screenshot-testing/.puppeteerrc.cjs -- the same browser CI uses, so local screenshots
+// should match the expected ones. If it warns about falling back to the ddev web image's Chromium
+// instead, the pinned browser has not been downloaded yet: run
+// `ddev exec 'cd tests/lib/screenshot-testing && npm run install-browser'`.

@@ -42,7 +42,7 @@ class Environment
 {
     /**
      * @internal
-     * @var EnvironmentManipulator
+     * @var ?EnvironmentManipulator
      */
     private static $globalEnvironmentManipulator = null;
 
@@ -51,10 +51,7 @@ class Environment
      */
     private $environment;
 
-    /**
-     * @var array
-     */
-    private $definitions;
+    private array $definitions;
 
     /**
      * @var Container

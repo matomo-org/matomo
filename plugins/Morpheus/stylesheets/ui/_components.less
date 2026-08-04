@@ -1,22 +1,19 @@
 //colors calendar
-@calendarHeaderBackground: @theme-color-background-contrast;
-@calendarHeaderColor: #999;
-@calendarCurrentStateHover: @theme-color-background-base;
-@calendarBorder: @theme-color-border;
+@_calendar_headerBackground: @theme-color-background-contrast;
 
 .ui-datepicker {
   th,
   th.ui-datepicker-week-end {
-    background: @calendarHeaderBackground !important;
-    color: @calendarHeaderColor !important;
+    background: @_calendar_headerBackground !important;
+    color: #999 !important;
   }
 
   .ui-state-default {
-    border-color: @calendarBorder !important;
+    border-color: @theme-color-border !important;
   }
 
   .ui-datepicker-header {
-    background: @calendarHeaderBackground !important;
+    background: @_calendar_headerBackground !important;
     border-color: @color-gray;
     border-bottom-width: 0;
   }
@@ -60,7 +57,7 @@
  .ui-datepicker td.ui-datepicker-current-period a.ui-state-active,
  .ui-datepicker td.ui-datepicker-week-end .ui-state-active,
  .ui-datepicker td.ui-datepicker-other-month.ui-datepicker-current-period {
-  background: @calendarCurrentStateHover;
+  background: @theme-color-background-base;
 }
 
 .segment-element {

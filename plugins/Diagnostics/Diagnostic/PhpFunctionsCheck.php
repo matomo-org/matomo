@@ -16,10 +16,7 @@ use Piwik\Translation\Translator;
  */
 class PhpFunctionsCheck implements Diagnostic
 {
-    /**
-     * @var Translator
-     */
-    private $translator;
+    private Translator $translator;
 
     public function __construct(Translator $translator)
     {
@@ -35,12 +32,12 @@ class PhpFunctionsCheck implements Diagnostic
         foreach ($this->getRequiredFunctions() as $function) {
             if (! self::functionExists($function)) {
                 $status = DiagnosticResult::STATUS_ERROR;
-                $comment = sprintf(
-                    '%s <br/><br/><em>%s</em><br/><em>%s</em><br/>',
-                    $function,
-                    $this->getHelpMessage($function),
-                    $this->translator->translate('Installation_RestartWebServer')
-                );
+                $help = $this->getHelpMessage($function);
+                $comment = $function . ' <br/><br/>';
+                if ('' !== $help) {
+                    $comment .= '<em>' . $help . '</em><br/>';
+                }
+                $comment .= sprintf('<em>%s</em><br/>', $this->translator->translate('Installation_RestartWebServer'));
             } else {
                 $status = DiagnosticResult::STATUS_OK;
                 $comment = $function;
@@ -61,6 +58,9 @@ class PhpFunctionsCheck implements Diagnostic
             'debug_backtrace',
             'escapeshellarg',
             'eval',
+            'file_get_contents',
+            'fnmatch',
+            'glob',
             'hash',
             'gzcompress',
             'gzuncompress',
@@ -108,6 +108,10 @@ class PhpFunctionsCheck implements Diagnostic
             'gzuncompress'    => 'Installation_SystemCheckGzuncompressHelp',
             'pack'            => 'Installation_SystemCheckPackHelp',
         );
+
+        if (!isset($messages[$missingFunction])) {
+            return '';
+        }
 
         return $this->translator->translate($messages[$missingFunction]);
     }

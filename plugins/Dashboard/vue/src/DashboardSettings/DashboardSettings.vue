@@ -24,64 +24,77 @@
       <span class="icon icon-dashboard-customize"></span>
       {{ translate('Dashboard_ManageDashboard') }}
     </button>
-    <div
-      class="dropdown positionInViewport"
-      v-tooltips="{show: false}"
-    >
-      <ul class="submenu">
-        <li
-          v-for="(title, actionName) of generalActions"
-          :key="actionName"
-        >
-          <button
-            type="button"
-            tabindex="4"
-            @click="onClickAction($event, actionName)"
-            class="generalAction"
-            :disabled="isActionDisabled[actionName] ? true : undefined"
-            :title="actionTooltips[actionName] || undefined"
-            :data-action="actionName"
+    <div class="piwikSelector__dropdown positionInViewport">
+      <div
+        class="mtm-dropdownPanel mtm-dropdownPanel--wide"
+        v-tooltips="{show: false}"
+      >
+        <ul class="mtm-dropdownPanel__menu">
+          <li
+            v-for="(title, actionName) of generalActions"
+            :key="actionName"
+            class="mtm-dropdownPanel__menuItem"
           >
-            {{ translate(title) }}
-          </button>
-        </li>
-        <li>
-          <button
-            type="button"
-            tabindex="4"
-            class="exportDashboard"
-            data-action="exportDashboard"
-            @click="onClickExportDashboard()"
+            <button
+              type="button"
+              tabindex="4"
+              @click="onClickAction($event, actionName)"
+              class="mtm-dropdownPanel__menuLink"
+              :class="{ 'mtm-dropdownPanel__menuLink--disabled': isActionDisabled[actionName] }"
+              :disabled="isActionDisabled[actionName] ? true : undefined"
+              :title="actionTooltips[actionName] || undefined"
+              :data-action="actionName"
+            >
+              <span class="mtm-dropdownPanel__menuLabel">{{ translate(title) }}</span>
+            </button>
+          </li>
+          <li class="mtm-dropdownPanel__menuItem">
+            <button
+              type="button"
+              tabindex="4"
+              class="mtm-dropdownPanel__menuLink"
+              data-action="exportDashboard"
+              @click="onClickExportDashboard()"
+            >
+              <span class="mtm-dropdownPanel__menuLabel">
+                {{ translate('Dashboard_ExportThisDashboard') }}
+              </span>
+            </button>
+          </li>
+          <li
+            v-for="(title, actionName) of dashboardActions"
+            :key="actionName"
+            class="mtm-dropdownPanel__menuItem"
           >
-            {{ translate('Dashboard_ExportThisDashboard') }}
-          </button>
-        </li>
-        <li
-          v-for="(title, actionName) of dashboardActions"
-          :key="actionName"
-        >
-          <button
-            type="button"
-            tabindex="4"
-            @click="onClickAction($event, actionName)"
-            :disabled="isActionDisabled[actionName] ? true : undefined"
-            :title="actionTooltips[actionName] || undefined"
-            :data-action="actionName"
-          >
-            {{ translate(title) }}
-          </button>
-        </li>
-        <li class="addWidget">
-          <button
-            type="button"
-            tabindex="4"
-            class="addWidget-button"
-            @click="openAddWidget()"
-          >
-            <span class="icon icon-add1"></span>{{ translate('Dashboard_AddAWidget') }}
-          </button>
-        </li>
-      </ul>
+            <button
+              type="button"
+              tabindex="4"
+              @click="onClickAction($event, actionName)"
+              class="mtm-dropdownPanel__menuLink"
+              :class="{ 'mtm-dropdownPanel__menuLink--disabled': isActionDisabled[actionName] }"
+              :disabled="isActionDisabled[actionName] ? true : undefined"
+              :title="actionTooltips[actionName] || undefined"
+              :data-action="actionName"
+            >
+              <span class="mtm-dropdownPanel__menuLabel">{{ translate(title) }}</span>
+            </button>
+          </li>
+          <li class="mtm-dropdownPanel__menuItem">
+            <button
+              type="button"
+              tabindex="4"
+              class="mtm-dropdownPanel__menuLink"
+              data-action="addWidget"
+              @click="openAddWidget()"
+            >
+              <span class="icon icon-add1 mtm-dropdownPanel__menuIcon"></span>
+              <span class="mtm-dropdownPanel__menuLabel">
+                {{ translate('Dashboard_AddAWidget') }}
+              </span>
+            </button>
+          </li>
+        </ul>
+      </div>
     </div>
     <AddWidgetModal
       @select="onWidgetSelected"
@@ -215,7 +228,7 @@ export default defineComponent({
       }
       this.$nextTick(() => {
         const firstAction = (this.$refs.root as HTMLElement)
-          .querySelector<HTMLButtonElement>('.submenu button:not([disabled])');
+          .querySelector<HTMLElement>('.mtm-dropdownPanel__menuLink:not([disabled])');
         if (firstAction) {
           firstAction.focus();
         }

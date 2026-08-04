@@ -17,10 +17,7 @@ use Piwik\Updater\Migration\Factory as MigrationFactory;
 
 class Updates_2_9_0_b7 extends Updates
 {
-    /**
-     * @var MigrationFactory
-     */
-    private $migration;
+    private MigrationFactory $migration;
 
     private $sequenceTable = 'sequence';
 

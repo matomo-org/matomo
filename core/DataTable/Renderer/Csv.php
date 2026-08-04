@@ -61,7 +61,7 @@ class Csv extends Renderer
     /**
      * @var string[]
      */
-    private $unsupportedColumns = [];
+    private array $unsupportedColumns = [];
 
     /**
      * Computes the dataTable output and returns the string/binary

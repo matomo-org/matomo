@@ -27,8 +27,7 @@ use Piwik\View;
 
 class Controller extends \Piwik\Plugin\ControllerAdmin
 {
-    /** @var SiteContentDetector */
-    private $siteContentDetector;
+    private SiteContentDetector $siteContentDetector;
 
     public function __construct(SiteContentDetector $siteContentDetector)
     {

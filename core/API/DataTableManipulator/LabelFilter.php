@@ -32,10 +32,7 @@ class LabelFilter extends DataTableManipulator
     private $isComparing;
     private $labelSeries;
 
-    /**
-     * @var string
-     */
-    private $labelColumn;
+    private string $labelColumn;
 
     public function __construct($apiModule = false, $apiMethod = false, $request = array(), string $labelColumn = 'label')
     {
@@ -204,8 +201,11 @@ class LabelFilter extends DataTableManipulator
 
                             $row = $comparisons->getRowFromId($labelSeriesIndex);
 
+                            // the suffix is appended after labels are sanitized, so encode it to match
+                            $comparisonSuffix = Common::sanitizeInputValue((string) $row->getMetadata('compareSeriesPretty'));
+
                             // add label and make sure it is the first column
-                            $columns = array_merge(['label' => $originalLabel . ' ' . $row->getMetadata('compareSeriesPretty')], $row->getColumns());
+                            $columns = array_merge(['label' => $originalLabel . ' ' . $comparisonSuffix], $row->getColumns());
                             $row->setColumns($columns);
                         }
                     }

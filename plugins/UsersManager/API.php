@@ -72,20 +72,11 @@ class API extends \Piwik\Plugin\API
      */
     public static $SET_SUPERUSER_ACCESS_REQUIRE_PASSWORD_CONFIRMATION = true;
 
-    /**
-     * @var Model
-     */
-    private $model;
+    private Model $model;
 
-    /**
-     * @var Password
-     */
-    private $password;
+    private Password $password;
 
-    /**
-     * @var UserAccessFilter
-     */
-    private $userFilter;
+    private UserAccessFilter $userFilter;
 
     /**
      * @var Access
@@ -112,10 +103,7 @@ class API extends \Piwik\Plugin\API
      */
     private $allowedEmailDomain;
 
-    /**
-     * @var UserRepository
-     */
-    private $userRepository;
+    private UserRepository $userRepository;
 
     public const PREFERENCE_THEME_MODE = 'themeMode';
     public const PREFERENCE_DEFAULT_THEME_MODE = ThemeStyles::LIGHT_MODE;

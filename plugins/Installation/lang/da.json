@@ -88,7 +88,6 @@
         "SystemCheckFunctions": "Nødvendige funktioner",
         "SystemCheckGDFreeType": "GD &gt; 2.x + Freetype (grafik)",
         "SystemCheckGDHelp": "Mindre grafiske elementer (i Matomo Mobile app og e-mailrapporter) vil ikke fungere som ønsket.",
-        "SystemCheckGlobHelp": "Den indbyggede funktion er blevet deaktiveret på din vært. Matomo vil forsøge at efterligne funktionen, men kan støde yderligere sikkerhedsrestriktioner. Funktionaliteten kan blive påvirket.",
         "SystemCheckGzcompressHelp": "zlib udvidelsen og gzcompress funktionen skal aktiveres.",
         "SystemCheckGzuncompressHelp": "zlib udvidelsen og gzuncompress funktionen skal aktiveres.",
         "SystemCheckHashHelp": "Du mangler at konfigurere og genopbygge PHP med hash() understøttelse aktiveret ved at ekskludere valget --disable-hash.",

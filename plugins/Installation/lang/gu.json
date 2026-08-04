@@ -102,7 +102,6 @@
         "SystemCheckFunctions": "આવશ્યક ફંકશન્સ",
         "SystemCheckGDFreeType": "GD &gt; 2.x + ફ્રીટાઇપ (ગ્રાફિક્સ)",
         "SystemCheckGDHelp": "સ્પાર્કલાઇન્સ (નાના ગ્રાફ્સ) અને ઈમેજ ગ્રાફ્સ (Matomo મોબાઇલ એપ્લિકેશન અને ઇમેઇલ અહેવાલોમાં) કામ નહીં કરશે.",
-        "SystemCheckGlobHelp": "આ બિલ્ટ-ઇન ફંક્શન તમારા હોસ્ટ પર બંધ કરવામાં આવ્યું છે. Matomo ફંક્શનનું અનુકરણ કરવાનો પ્રયાસ કરશે, પરંતુ વધુ સુરક્ષા પ્રતિબંધોનો સામનો કરી શકે છે. કાર્યક્ષમતા પ્રભાવિત થઈ શકે છે.",
         "SystemCheckGzcompressHelp": "તમારે zlib એક્સ્ટેંશન અને gzcompress ફંક્શન ચાલુ કરવાની જરૂર છે.",
         "SystemCheckGzuncompressHelp": "તમારે zlib એક્સ્ટેંશન અને gzuncompress ફંક્શન ચાલુ કરવાની જરૂર છે.",
         "SystemCheckHashHelp": "--disable-hash વિકલ્પને બાદ કરીને જરૂરી hash() સપોર્ટ સાથે PHP ને કન્ફિગર કરીને પુનઃબીલ્ડ કરો.",

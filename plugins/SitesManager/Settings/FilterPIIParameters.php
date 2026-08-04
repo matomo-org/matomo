@@ -26,8 +26,7 @@ class FilterPIIParameters implements
     /** @use PolicyComparisonTrait<string> */
     use PolicyComparisonTrait;
 
-    /** @var string $value */
-    private $value;
+    private string $value;
 
     protected function __construct(string $value)
     {

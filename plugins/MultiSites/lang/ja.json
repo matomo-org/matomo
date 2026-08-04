@@ -1,6 +1,9 @@
 {
     "MultiSites": {
+        "AiChatbotsRequests": "AIチャットボットへのリクエスト",
+        "AiChatbotsSegmentationTooltip": "この指標ではセグメンテーション機能を利用できません。これは、AIチャットボットからのリクエスト（ChatGPTなど）が、通常の訪問や訪問者と関連付けられていないためです。",
         "AllWebsitesDashboardDocumentation": "このレポートは、訪問者に関する最も一般的なメトリックを含む、各Webサイトの情報の概要を提供します。",
+        "AllWebsitesDashboardErrorMessage": "現在、データが利用できません。これは、一時的なサーバーの問題、またはレポートに含まれるデータ量が多すぎるためである可能性があります。しばらくしてから再度お試しください。問題が解決しない場合は、Matomoの管理者にお問い合わせください。",
         "AllWebsitesDashboardTitle": "全ウェブサイト",
         "Evolution": "推移",
         "EvolutionComparisonDay": "%1$s %2$sこの日%3$s %2$sと比べた前の部分期間（%4$s）の進化：%5$s",
@@ -9,10 +12,28 @@
         "EvolutionComparisonProportional": "前の期間も %1$s 完了していた場合、推定 %2$s %3$s でした\n(前期の合計 %4$s %3$s のうち)。",
         "EvolutionComparisonWeek": "%1$s %2$sこの週%3$s %2$sと比べた前の部分期間（%4$s）の進化：%5$s",
         "EvolutionComparisonYear": "%1$s %2$sこの年%3$s %2$sと比べた前の部分期間（%4$s）の進化：%5$s",
+        "EvolutionFromPreviousDay": "前日から",
+        "EvolutionFromPreviousMonth": "前月より",
+        "EvolutionFromPreviousPeriod": "前期より",
+        "EvolutionFromPreviousWeek": "先週から",
+        "EvolutionFromPreviousYear": "前年度から",
         "LoadingWebsites": "ウェブサイトをロード中",
+        "MetricDocumentationAiChatbotsRequests": "このウェブサイトで記録されたAIチャットボットへのリクエスト総数。",
+        "MetricDocumentationEvolution": "このウェブサイトにおける、この指標の前期間との比較での変化率です。正の値は増加を示し、負の値は減少を示します。",
+        "MetricDocumentationHits": "このウェブサイトにおける、ページビュー、ダウンロード、外部リンクを含む、記録されたアクションの総数。",
+        "MetricDocumentationHitsIncludingAi": "このウェブサイトにおける、ページビュー、ダウンロード、外部リンク、およびAIチャットボットによるリクエストを含む、記録されたアクションの総数。",
+        "MetricDocumentationPageviews": "このウェブサイトでの総ページビュー数。これには、1人の訪問者による同一ページの複数回の閲覧も含まれます。",
+        "MetricDocumentationRevenue": "このウェブサイトで追跡された総収益です。この指標は、Eコマース追跡が有効になっている場合に利用可能で、購入額または目標ベースの収益を反映しています。",
+        "MetricDocumentationVisits": "このウェブサイトで記録された訪問総数です。訪問は、ユーザーがサイトにアクセスした時点で開始され、一定時間操作がない場合、またはセッションが終了した時点で終了します。",
+        "MetricDocumentationWebsite": "ダッシュボードに表示される追跡対象のウェブサイトのリストです。各行は、それぞれのウェブサイトとその分析データを表しています。",
         "PluginDescription": "この便利な「すべてのウェブサイト」ダッシュボードで、すべてのウェブサイトとアプリケーションを見て、比較してください。",
+        "SegmentationNotSupported": "セグメンテーションはサポートされていません",
         "SingleWebsitesDashboardDocumentation": "このレポートは、訪問者に関する最も一般的なメトリックを含む、特定のWebサイトの情報の概要を提供します。",
         "TopLinkTooltip": "あなたの全ウェブサイトに対するウェブ解析統計情報を比較してください。",
-        "TotalPageviews": "総ページビュー"
+        "TotalAiChatbotsRequests": "AIチャットボットへのリクエスト総数",
+        "TotalHits": "総アクセス数",
+        "TotalHitsIncludingAiTooltip": "総ヒット数：人間によるすべてのヒットとAIチャットボットからのリクエストを含む",
+        "TotalPageviews": "総ページビュー",
+        "TotalVisits": "総訪問数"
     }
 }

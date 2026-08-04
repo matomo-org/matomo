@@ -52,6 +52,9 @@ class Proxy
         $this->noDefaultValue = new NoDefaultValue();
     }
 
+    /**
+     * @return self
+     */
     public static function getInstance()
     {
         return StaticContainer::get(self::class);
@@ -423,6 +426,8 @@ class Proxy
 
     /**
      * Check if given method name is deprecated or not.
+     *
+     * @return bool
      */
     public function isDeprecatedMethod($class, $methodName)
     {

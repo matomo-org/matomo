@@ -14,30 +14,22 @@ use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugins\Marketplace\Api\Client;
 use Piwik\Plugins\Marketplace\Plugins;
+use Piwik\Plugins\Marketplace\SiteAwareLinks;
 use Piwik\Translation\Translator;
 use Piwik\Url;
 
 class InvalidLicenses
 {
-    /**
-     * @var Client
-     */
-    private $client;
+    private Client $client;
 
     /**
      * @var Plugin\Manager
      */
     private $pluginManager;
 
-    /**
-     * @var Translator
-     */
-    private $translator;
+    private Translator $translator;
 
-    /**
-     * @var Eager
-     */
-    private $cache;
+    private Eager $cache;
 
     /**
      * @var array
@@ -162,10 +154,7 @@ class InvalidLicenses
 
     private function getSubscritionSummaryMessage()
     {
-        $url = Url::getCurrentQueryStringWithParametersModified(array(
-            'module' => 'Marketplace', 'action' => 'subscriptionOverview',
-        ));
-
+        $url = (new SiteAwareLinks())->getActionUrl('subscriptionOverview');
         $link = '<a href="' . $url . '">';
 
         return "<br/>" .  $this->translator->translate('Marketplace_ViewSubscriptionsSummary', array($link, '</a>'));

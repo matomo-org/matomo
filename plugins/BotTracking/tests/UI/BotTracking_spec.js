@@ -54,7 +54,7 @@ describe("BotTracking", function () {
 
         await page.mouse.move(0, 0);
 
-        const sparklines = await page.$$('.sparkline-metrics');
+        const sparklines = await page.$$('.metricValue');
         expect(sparklines.length).to.equal(8);
 
         var elem = await page.$('.pageWrap');
@@ -73,7 +73,7 @@ describe("BotTracking", function () {
         const availableMetrics = await page.$$('.metrics-picker__options input');
         expect(availableMetrics.length).to.equal(6);
 
-        const sparklines = await page.$$('.sparkline-metrics');
+        const sparklines = await page.$$('.metricValue');
         expect(sparklines.length).to.equal(6);
     });
 
@@ -267,6 +267,16 @@ describe("BotTracking", function () {
         };
         expect(await sameRow(docsWidgetId, brokenWidgetId)).to.equal(1);
         expect(await sameRow(humanWidgetId, aiWidgetId)).to.equal(1);
+
+        // The first (wide) report's DataTable header can be left mis-positioned after the layout reflows
+        // (help notification dismissal) under the modern headless Chrome. Scroll to top and trigger a
+        // resize so the tables recompute their header/column layout before capturing.
+        await page.evaluate(() => {
+            window.scrollTo(0, 0);
+            window.dispatchEvent(new Event('resize'));
+        });
+        await page.waitForTimeout(250);
+        await page.waitForNetworkIdle();
 
         var elem = await page.$('.pageWrap');
         expect(await elem.screenshot()).to.matchImage('bot_content_requests');

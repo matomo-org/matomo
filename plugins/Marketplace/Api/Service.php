@@ -28,9 +28,8 @@ class Service
 
     /**
      * API version to use on the Marketplace
-     * @var string
      */
-    private $version = '2.0';
+    private string $version = '2.0';
 
     public function __construct($domain)
     {

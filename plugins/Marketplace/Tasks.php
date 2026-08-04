@@ -11,15 +11,9 @@ namespace Piwik\Plugins\Marketplace;
 
 class Tasks extends \Piwik\Plugin\Tasks
 {
-    /**
-     * @var UpdateCommunication
-     */
-    private $updateCommunication;
+    private UpdateCommunication $updateCommunication;
 
-    /**
-     * @var Api\Client
-     */
-    private $api;
+    private Api\Client $api;
 
     public function __construct(UpdateCommunication $updateCommunication, Api\Client $api)
     {

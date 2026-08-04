@@ -110,7 +110,6 @@
         "SystemCheckFunctions": "Funksione të domosdoshëm",
         "SystemCheckGDFreeType": "GD &gt; 2.x + FreeType (elemente grafike)",
         "SystemCheckGDHelp": "Grafikët vijëzorë (grafikë të veckël) dhe grafikët figurë (te aplikacioni Matomo për celular dhe te raportet me email) s’do të funksionojnë.",
-        "SystemCheckGlobHelp": "Ky funksion i trupëzuar është i çaktivizuar te streha juaj. Matomo do të përpiqet ta emulojë këtë funksion, por mund të hasë kufizime të mëtejshme të lidhura me sigurinë. Kjo mund të ketë ndikim te funksionimi.",
         "SystemCheckGzcompressHelp": "Lypset të aktivizoni zgjerimin zlib dhe funksionin gzcompress.",
         "SystemCheckGzuncompressHelp": "Lypset të aktivizoni zgjerimin zlib dhe funksionin gzuncompress.",
         "SystemCheckHashHelp": "Formësojeni dhe rimontoni PHP-në me mbulim të hash() të aktivizuar, duke përjashtuar mundësinë --disable-hash.",
