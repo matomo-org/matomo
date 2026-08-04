@@ -32,7 +32,7 @@
       <ul v-for="subcategory in menuItems" :key="subcategory.title">
         <li
           class="quick-access-category"
-          @click="searchTerm = subcategory.title;searchMenu(searchTerm)"
+          @click="searchTerm = subcategory.title"
         >
           {{ subcategory.title }}
         </li>
@@ -177,6 +177,15 @@ export default defineComponent({
     Tooltips,
   },
   watch: {
+    // driven by the field's value rather than by keydown, so that changes made without a keystroke
+    // (committing an IME candidate with the mouse, pasting from the context menu) also search
+    searchTerm(newValue: string) {
+      if (!newValue) {
+        return;
+      }
+
+      this.searchMenu(newValue);
+    },
     searchActive(newValue: boolean) {
       const root = this.$refs.root as HTMLElement;
       if (!root || !root.parentElement) {
@@ -276,6 +285,12 @@ export default defineComponent({
       const isTabKey = event.which === 9;
       const isEscKey = event.which === 27;
 
+      // while an IME is composing, these keys belong to the candidate window, not to the results
+      if (event.isComposing) {
+        this.searchActive = true;
+        return;
+      }
+
       if (event.which === 38) {
         this.highlightPreviousItem();
         event.preventDefault();
@@ -291,9 +306,9 @@ export default defineComponent({
       } else if (isTabKey) {
         this.searchActive = false;
       } else {
+        // the search itself runs off the searchTerm watcher
         setTimeout(() => {
           this.searchActive = true;
-          this.searchMenu(this.searchTerm);
         });
       }
     },

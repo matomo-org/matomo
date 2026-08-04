@@ -20,8 +20,12 @@ vi.hoisted(() => {
 import QuickAccess from './QuickAccess.vue';
 
 // jsdom only populates event.which via the constructor, and trigger() throws assigning it
-function pressKey(element: Element, which: number): void {
-  element.dispatchEvent(new KeyboardEvent('keydown', { which, bubbles: true } as KeyboardEventInit));
+function pressKey(element: Element, which: number, isComposing = false): void {
+  element.dispatchEvent(new KeyboardEvent('keydown', {
+    which,
+    isComposing,
+    bubbles: true,
+  } as KeyboardEventInit));
 }
 
 function mountQuickAccess() {
@@ -33,6 +37,14 @@ function mountQuickAccess() {
     },
     attachTo: document.body,
   });
+}
+
+// searchMenu is replaced by its debounced wrapper in created(), so stub it on the instance to
+// observe the searches a change to the field triggers without waiting out the debounce
+function stubSearchMenu(wrapper: ReturnType<typeof mountQuickAccess>) {
+  const searchMenu = vi.fn();
+  (wrapper.vm as unknown as { searchMenu: unknown }).searchMenu = searchMenu;
+  return searchMenu;
 }
 
 describe('CoreHome/QuickAccess', () => {
@@ -97,6 +109,78 @@ describe('CoreHome/QuickAccess', () => {
     expect(vm.searchTerm).toBe('');
     expect(vm.searchActive).toBe(false);
     expect(document.activeElement).not.toBe(wrapper.find('input').element);
+
+    wrapper.unmount();
+  });
+
+  it('searches when an IME candidate is committed without a further keystroke', async () => {
+    const wrapper = mountQuickAccess();
+    const searchMenu = stubSearchMenu(wrapper);
+
+    const input = wrapper.find('input');
+    const element = input.element as HTMLInputElement;
+
+    await input.trigger('compositionstart');
+    element.value = 'にほn';
+    await input.trigger('input');
+
+    expect(searchMenu).not.toHaveBeenCalled();
+
+    // committing with the mouse fires compositionend, never a keydown
+    element.value = '日本';
+    await input.trigger('compositionend');
+
+    expect(searchMenu).toHaveBeenCalledWith('日本');
+
+    wrapper.unmount();
+  });
+
+  it('searches when text arrives without a keystroke, as when pasted', async () => {
+    const wrapper = mountQuickAccess();
+    const searchMenu = stubSearchMenu(wrapper);
+
+    const input = wrapper.find('input');
+    (input.element as HTMLInputElement).value = 'pages';
+    await input.trigger('input');
+
+    expect(searchMenu).toHaveBeenCalledWith('pages');
+
+    wrapper.unmount();
+  });
+
+  it('does not act on keys belonging to the IME candidate window', async () => {
+    const wrapper = mountQuickAccess();
+    const clickItem = vi.fn();
+    (wrapper.vm as unknown as { clickQuickAccessMenuItem: unknown })
+      .clickQuickAccessMenuItem = clickItem;
+
+    await wrapper.find('input').setValue('page');
+    await wrapper.find('input').trigger('focus');
+
+    pressKey(wrapper.find('input').element, 13, true);
+    await wrapper.vm.$nextTick();
+
+    expect(clickItem).not.toHaveBeenCalled();
+
+    // once composition has ended, Enter selects again
+    pressKey(wrapper.find('input').element, 13);
+    await wrapper.vm.$nextTick();
+
+    expect(clickItem).toHaveBeenCalled();
+
+    wrapper.unmount();
+  });
+
+  it('does not search when the field is cleared', async () => {
+    const wrapper = mountQuickAccess();
+
+    await wrapper.find('input').setValue('page');
+    const searchMenu = stubSearchMenu(wrapper);
+
+    (wrapper.vm as unknown as { deactivateSearch: () => void }).deactivateSearch();
+    await wrapper.vm.$nextTick();
+
+    expect(searchMenu).not.toHaveBeenCalled();
 
     wrapper.unmount();
   });
