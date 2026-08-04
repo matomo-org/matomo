@@ -4367,7 +4367,7 @@ class Comparisons_store_ComparisonsStore {
     }));
     Comparisons_store_defineProperty(this, "state", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(this.privateState));
     // for tests
-    Comparisons_store_defineProperty(this, "colors", {});
+    Comparisons_store_defineProperty(this, "colors", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])({}));
     Comparisons_store_defineProperty(this, "segmentComparisons", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => this.parseSegmentComparisons()));
     Comparisons_store_defineProperty(this, "periodComparisons", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => this.parsePeriodComparisons()));
     Comparisons_store_defineProperty(this, "isEnabled", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => this.checkEnabledForCurrentPage()));
@@ -4379,7 +4379,7 @@ class Comparisons_store_ComparisonsStore {
       });
     }
     $(() => {
-      this.colors = this.getAllSeriesColors();
+      this.colors.value = this.getAllSeriesColors();
     });
     Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(() => this.getUrlStateWithoutPopoverKey(), () => Matomo_Matomo.postEvent('piwikComparisonsChanged'));
   }
@@ -4413,10 +4413,10 @@ class Comparisons_store_ComparisonsStore {
   getSeriesColor(segmentComparison, periodComparison, metricIndex = 0) {
     const seriesIndex = this.getComparisonSeriesIndex(periodComparison.index, segmentComparison.index) % SERIES_COLOR_COUNT;
     if (metricIndex === 0) {
-      return this.colors[`series${seriesIndex}`];
+      return this.colors.value[`series${seriesIndex}`];
     }
     const shadeIndex = metricIndex % SERIES_SHADE_COUNT;
-    return this.colors[`series${seriesIndex}-shade${shadeIndex}`];
+    return this.colors.value[`series${seriesIndex}-shade${shadeIndex}`];
   }
   getSeriesColorName(seriesIndex, metricIndex) {
     let colorName = `series${seriesIndex % SERIES_COLOR_COUNT}`;
@@ -4449,7 +4449,7 @@ class Comparisons_store_ComparisonsStore {
         seriesInfo.push({
           index: seriesIndex,
           params: Object.assign(Object.assign({}, segmentComp.params), periodComp.params),
-          color: this.colors[`series${seriesIndex}`]
+          color: this.colors.value[`series${seriesIndex}`]
         });
         seriesIndex += 1;
       });

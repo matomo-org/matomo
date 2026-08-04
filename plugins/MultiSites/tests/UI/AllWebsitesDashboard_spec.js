@@ -22,6 +22,8 @@ describe('AllWebsitesDashboard', function () {
             all_websites_website_per_page: 10,
         });
 
+        testEnvironment.overrideConfig('FeatureFlags', 'SparklinesRedesign_feature', 'enabled');
+
         testEnvironment.save();
     });
 
