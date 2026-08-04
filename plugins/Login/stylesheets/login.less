@@ -1,22 +1,27 @@
 /* LOGO
 ***********************/
 #loginPage {
-    nav {
-        background-color: @theme-color-header-background;
-    }
+    background-color: @theme-color-background-contrast;
+
+    /* Fill the viewport so the login layout can centre both of its columns vertically. */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+
     #logo {
         padding-top: 6px;
+        padding-left: 0;
 
         img.default-piwik-logo {
             width: 171px;
+            /* Invert the stock wordmark in dark mode, as the app header does. Custom logos
+               don't carry this class and are deliberately left untouched. */
+            filter: @theme-filter-on-illustration;
         }
 
         img {
             max-height: 32px;
         }
-    }
-    #logo:not(.center) {
-        padding-left: 16px;
     }
 
     .message_container {
@@ -39,16 +44,15 @@
     ***********************/
 
     .loginSection {
-        margin-top: 32px;
+        margin-top: 40px;
 
         > .col {
             max-width: 750px;
-        }
-        > .col:not(.invite-form-section-div):not(.onboardingImage){
             float: none;
             margin-left: auto;
             margin-right: auto;
         }
+
         .icon.prefix {
             font-size: 1.5rem;
             width: 2.5rem;
@@ -64,8 +68,25 @@
         }
 
         .btn {
-            margin-top: 0;
+            margin: 0;
             font-weight: bold;
+            box-shadow: none;
+            &:hover {
+                box-shadow: none;
+            }
+        }
+
+        /* override: the global form styles float submit buttons to the right; the refreshed
+           login forms lay them out in the flow like every other row. */
+        .submit {
+            float: none;
+        }
+
+        /* The decline confirmation is a yes/no prompt rather than a form to fill in, so its
+           button keeps the right alignment, spaced off the text above it. */
+        .invitationDecline .submit {
+            float: right;
+            margin-top: 24px;
         }
 
         fieldset {
@@ -77,20 +98,13 @@
         }
     }
 
-    #login_form {
-        margin-top: 16px;
-
-        .row:last-child {
-            margin-bottom: 0;
-        }
-
-        .row.actions a {
-            color: #777777;
-        }
-    }
-
-    #login_form_rememberme {
-        vertical-align: middle;
+    .loginForm__intro {
+        /* Absorbs part of the card title's bottom margin so the intro reads as a subtitle
+           of "Sign in" rather than as a separate paragraph. */
+        margin: -8px 0 0;
+        font-size: 14px;
+        line-height: 1.5;
+        color: @theme-color-text-light;
     }
 
     /* FIELDS
@@ -135,65 +149,120 @@
     }
 }
 
-.onboarding {
-    background: white;
-
-    h1 {
-        margin-top: 4rem;
-        margin-bottom: 1.5rem;
-        line-height: 24px;
-    }
-
-    .description {
-        margin-bottom: 1.5rem;
-        line-height: 24px;
-    }
-
-    label {
-        font-weight: 600;
-        color: unset !important;
-    }
-
-    .formSubmitButton {
-        text-transform: uppercase;
-        float: unset;
-    }
-
-    #footerLinks {
-        display: none;
-    }
-
-    .onboardingImage {
-        max-width: 620px;
-    }
-
-    .actions {
-        label {
-            font-weight: unset;
-        }
-    }
-
-    @media screen {
-        @media (max-width: 999px) {
-            .formSubmitButtonRow {
-                position: fixed;
-                width: 100%;
-                bottom: 0;
-            }
-
-            .formSubmitButton {
-                width: 100% !important;
-            }
-
-            h1 {
-                margin-top: 0;
-            }
-        }
-    }
-}
-
 .cancelResetPassword {
     .alert {
         margin-top: 20px;
     }
+}
+
+/* REFRESHED LOGIN LAYOUT
+   Logo + login form centred in the primary column, which fills the page on its own.
+***********************/
+.loginLayout {
+    @_panelInset: 24px;
+
+    display: flex;
+    align-items: stretch;
+    flex: auto;
+    box-sizing: border-box;
+
+    .loginLayout__primary {
+        display: flex;
+        flex-direction: column;
+        justify-content: safe center;
+        flex: auto;
+        /* A flex item won't shrink past its content by default, and this column's content is
+           a fixed 450px wide, so without this the two columns overflow the page instead of
+           letting the max-width below take effect. */
+        min-width: 0;
+        box-sizing: border-box;
+        padding: @_panelInset;
+    }
+
+    /* Both sides are vertically centred; the primary column keeps its content in a
+       fixed-width, horizontally centred stack so logo and form stay left-aligned. */
+    .loginLayout__logo,
+    .loginLayout__content,
+    .loginLayout__footerLinks {
+        box-sizing: border-box;
+        width: 450px;
+        /* Fixed width, but never wider than the viewport it sits in. */
+        max-width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .loginLayout__footerLinks {
+        margin-top: 24px;
+    }
+
+    /* Tighten the legacy form spacing now that the logo sits directly above the form. */
+    .loginSection {
+        margin-top: 0;
+    }
+
+    /* override: the sign-in form reads as a plain column in the refreshed design, so strip
+       the Morpheus/Materialize card chrome that contentBlock.twig wraps it in. */
+    .card {
+        border: 0;
+        margin: 0;
+        border-radius: 0;
+        background-color: transparent;
+    }
+
+    .card-content {
+        padding: 0;
+
+        .card-title {
+            font-size: 28px;
+            font-weight: 600;
+            line-height: 36px;
+            margin-bottom: 16px;
+        }
+    }
+}
+
+/* SIGN IN / SET PASSWORD FORM
+   Row and field rhythm shared by the sign in form and the invitation (set password) form.
+   Deliberately not nested inside #loginPage: these rules only need their own classes, and the
+   id would add specificity that the rest of the component then has to fight.
+***********************/
+.loginForm .loginForm__form {
+    margin-top: 16px;
+}
+
+.loginForm .loginForm__row {
+    margin-bottom: 16px;
+}
+
+.loginForm .loginForm__row--spacious {
+    margin-bottom: 24px;
+}
+
+.loginForm .loginForm__row--noGap {
+    margin-bottom: 0;
+}
+
+.loginForm .loginForm__link {
+    color: @theme-color-link;
+}
+
+.loginForm .loginForm__rememberMe {
+    vertical-align: middle;
+}
+
+/* override: Materialize's grid gutter indents every field by 12px (`.row .col`); the refreshed
+   form aligns them flush with the logo and the "Sign in" heading instead. */
+.loginForm .loginForm__field {
+    padding-left: 0;
+    padding-right: 0;
+    margin-bottom: 0;
+}
+
+/* override: Materialize offsets the floating label by the same 12px gutter via
+   `.input-field.col label`, which outranks any two-class selector of ours - so this rule has to
+   match Materialize's own shape instead. Scoped to .loginForm__form so it reaches only the two
+   refreshed forms and leaves the other login pages untouched. */
+.loginForm__form .input-field.col label {
+    left: 0;
 }

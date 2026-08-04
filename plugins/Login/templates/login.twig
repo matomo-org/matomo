@@ -5,6 +5,8 @@
     <div class="contentForm loginForm">
         {% embed 'contentBlock.twig' with {'title': 'Login_LogIn'|translate} %}
             {% block content %}
+                <p class="loginForm__intro">{{ 'Login_SignInIntro'|translate }}</p>
+
                 <div class="message_container">
 
                     {{ include('@Login/_formErrors.twig', {formErrors: form_data.errors } )  }}
@@ -21,9 +23,9 @@
                         <div class="alert alert-info">{{ infoMessage|raw }}</div>
                     {% endif %}
                 </div>
-                <form {{ form_data.attributes|raw }}>
-                    <div class="row">
-                        <div class="col s12 input-field">
+                <form class="loginForm__form" {{ form_data.attributes|raw }}>
+                    <div class="row loginForm__row">
+                        <div class="col s12 input-field loginForm__field">
                             <input type="text" name="form_login" id="login_form_login" class="input" value="" size="20"
                                    placeholder="" autocomplete="username" autocorrect="off" autocapitalize="none"
                                    spellcheck="false" tabindex="10" autofocus="autofocus" required />
@@ -33,8 +35,8 @@
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col s12 input-field">
+                    <div class="row loginForm__row">
+                        <div class="col s12 input-field loginForm__field">
                             <input type="hidden" name="form_nonce" id="login_form_nonce" value="{{ nonce }}"/>
                             <input type="hidden" name="form_redirect" id="login_form_redirect" value=""/>
                             <input type="password" name="form_password" id="login_form_password" class="input"
@@ -47,24 +49,24 @@
                         </div>
                     </div>
 
-                    <div class="row actions">
-                        <div class="col s6">
+                    <div class="row actions loginForm__row loginForm__row--spacious">
+                        <div class="col s6 loginForm__field">
                             <label>
                                 <input name="form_rememberme" type="checkbox" id="login_form_rememberme" value="1"
-                                       tabindex="90"
+                                       class="loginForm__rememberMe" tabindex="90"
                                        {% if form_data.form_rememberme.value %}checked="checked" {% endif %}/>
                                 <span>{{ 'Login_RememberMe'|translate }}</span>
                             </label>
                         </div>
-                        <div class="col s6 right-align">
-                            <a id="login_form_nav" href="#" tabindex="95"
+                        <div class="col s6 right-align loginForm__field">
+                            <a id="login_form_nav" class="loginForm__link" href="#" tabindex="95"
                                title="{{ 'Login_LostYourPassword'|translate }}">
                                 {{ 'Login_LostYourPassword'|translate }}
                             </a>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col s12">
+                    <div class="row loginForm__row loginForm__row--noGap">
+                        <div class="col s12 loginForm__field">
                             <input class="submit btn btn-block" id="login_form_submit" type="submit"
                                    value="{{ 'Login_LogIn'|translate }}" tabindex="100"
                             />

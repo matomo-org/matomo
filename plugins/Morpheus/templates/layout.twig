@@ -47,9 +47,13 @@
 
     {% endblock %}
 
-        <div id="pageFooter">
-            {{ postEvent('Template.pageFooter') }}
-        </div>
+        {# Overridable so a layout that shows the footer links elsewhere can move them without
+           posting Template.pageFooter a second time. #}
+        {% block pageFooter %}
+            <div id="pageFooter">
+                {{ postEvent('Template.pageFooter') }}
+            </div>
+        {% endblock %}
 
         {% include "@CoreHome/_adblockDetect.twig" %}
 
