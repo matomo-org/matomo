@@ -10,16 +10,6 @@
 describe('IncompletePeriodVisualisation', function () {
     this.fixture = 'Piwik\\Tests\\Fixtures\\SomeVisitsLastYearAndThisYear';
 
-    before(function () {
-        testEnvironment.overrideConfig('FeatureFlags', 'SparklinesRedesign_feature', 'enabled');
-        testEnvironment.save();
-    });
-
-    after(function () {
-        delete testEnvironment.configOverride.FeatureFlags;
-        testEnvironment.save();
-    });
-
     const generalParams = 'idSite=1&period=year&date=today';
     const pageUrl = '?module=CoreHome&action=index&' + generalParams;
 

@@ -8,16 +8,6 @@
  */
 
 describe("DashboardManager", function () {
-    before(function () {
-        testEnvironment.overrideConfig('FeatureFlags', 'SparklinesRedesign_feature', 'enabled');
-        testEnvironment.save();
-    });
-
-    after(function () {
-        delete testEnvironment.configOverride.FeatureFlags;
-        testEnvironment.save();
-    });
-
     const managerSelector = '.dashboard-manager,.dashboard-manager .dropdown';
     const modalSelector = '.modal.open.add-widget-modal';
 
