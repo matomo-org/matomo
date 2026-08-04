@@ -19,27 +19,21 @@ class DiagnosticReport
     /**
      * @var DiagnosticResult[]
      */
-    private $mandatoryDiagnosticResults;
+    private array $mandatoryDiagnosticResults;
 
     /**
      * @var DiagnosticResult[]
      */
-    private $optionalDiagnosticResults;
+    private array $optionalDiagnosticResults;
 
     /**
      * @var DiagnosticResult[]
      */
-    private $informationalResults;
+    private array $informationalResults;
 
-    /**
-     * @var int
-     */
-    private $errorCount = 0;
+    private int $errorCount = 0;
 
-    /**
-     * @var int
-     */
-    private $warningCount = 0;
+    private int $warningCount = 0;
 
     /**
      * @param DiagnosticResult[] $mandatoryDiagnosticResults

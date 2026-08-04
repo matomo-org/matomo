@@ -2412,7 +2412,7 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
     computed: {
       trialHintsText() {
         const link = CoreHome.externalRawLink("https://shop.matomo.org/free-trial/");
-        const linkStyle = "color:#5bb75b;text-decoration: underline;";
+        const linkStyle = "color:var(--theme-color-brand);text-decoration: underline;";
         return CoreHome.translate(
           "Marketplace_TrialHints",
           `<a style="${linkStyle}" href="${link}" target="_blank" rel="noreferrer noopener">`,
@@ -2445,7 +2445,7 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
     class: "col s12 m12"
   };
   const _hoisted_3$3 = ["innerHTML"];
-  const _hoisted_4$2 = { style: { "margin-bottom": "28px", "color": "#5bb75b" } };
+  const _hoisted_4$2 = { style: { "margin-bottom": "28px", "color": "var(--theme-color-brand)" } };
   const _hoisted_5$1 = { class: "pluginName" };
   const _hoisted_6$1 = {
     key: 0,
@@ -2465,7 +2465,7 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
         }, [
           index === 0 ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_2$3, [
             vue.createElementVNode("h3", {
-              style: { "font-weight": "bold", "color": "#5bb75b" },
+              style: { "font-weight": "bold", "color": "var(--theme-color-brand)" },
               innerHTML: _ctx.$sanitize(_ctx.trialHintsText)
             }, null, 8, _hoisted_3$3),
             vue.createElementVNode("h3", _hoisted_4$2, [

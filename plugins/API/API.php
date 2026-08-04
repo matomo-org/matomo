@@ -60,15 +60,9 @@ require_once PIWIK_INCLUDE_PATH . '/core/Config.php';
  */
 class API extends \Piwik\Plugin\API
 {
-    /**
-     * @var SettingsProvider
-     */
-    private $settingsProvider;
+    private SettingsProvider $settingsProvider;
 
-    /**
-     * @var ProcessedReport
-     */
-    private $processedReport;
+    private ProcessedReport $processedReport;
 
     /**
      * For Testing purpose only

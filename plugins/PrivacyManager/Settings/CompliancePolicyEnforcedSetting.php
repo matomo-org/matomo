@@ -19,8 +19,7 @@ abstract class CompliancePolicyEnforcedSetting implements
     /** @use PolicyComparisonTrait<bool> */
     use PolicyComparisonTrait;
 
-    /** @var bool */
-    private $value;
+    private bool $value;
 
     abstract public static function getTitle(): string;
 

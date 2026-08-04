@@ -1,0 +1,23 @@
+{# `inCard` is what separates the two kinds of full-page report: one shown as a content block
+   carries the help icon and rating and matches the card title, one shown without a card had
+   only a plain `h2` and neither.
+
+   Attributes are emitted even when empty: compileVueEntryComponents builds the component's
+   template from the ones present here, so an omitted attribute could not be set later either -
+   and dataTable.js sets the title and help on this app when a related report is loaded. #}
+{% set isInCard = inCard|default(false) %}
+{# defined but null when the report has no archived-on date, and `null` would reach the component
+   as a value distinct from '' and render an empty date #}
+{% set lastUpdated = reportLastUpdatedMessage is defined and reportLastUpdatedMessage ? reportLastUpdatedMessage : '' %}
+<div vue-entry="CoreHome.ReportHeader"
+     context="fullPage"
+     heading-level="h2"
+     report-title="{{ properties.title|json_encode }}"
+     enriched="{{ isInCard|json_encode }}"
+     plain-title="{{ (not isInCard)|json_encode }}"
+     feature-name="{{ ''|json_encode }}"
+     inline-help="{{ (isInCard ? properties.documentation|default('') : '')|json_encode }}"
+     help-url="{{ (isInCard ? properties.onlineGuideUrl|default('')|safelink : '')|json_encode }}"
+     report-generated="{{ (isInCard ? lastUpdated : '')|json_encode }}"
+     edit-url="{{ (isInCard ? properties.title_edit_entity_url|default('') : '')|json_encode }}"
+></div>

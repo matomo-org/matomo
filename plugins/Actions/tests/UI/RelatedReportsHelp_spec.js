@@ -18,6 +18,15 @@ describe("RelatedReportsHelp", function () {
     const entryPagesUrl = '?' + urlBase + '#?' + generalParams
         + '&category=General_Actions&subcategory=Actions_SubmenuPagesEntry';
 
+    // the archived-on date is pushed into the header alongside the help text, from the reloaded
+    // report's own `.reportDocumentation`
+    async function archivedOnDate() {
+        return page.evaluate(function () {
+            const el = document.querySelector('.enrichedHeadline .helpDate');
+            return el ? el.textContent.trim() : 'NO DATE ELEMENT';
+        });
+    }
+
     async function inlineHelpText() {
         return page.evaluate(function () {
             const help = document.querySelector('.enrichedHeadline .inlineHelp');
@@ -53,6 +62,9 @@ describe("RelatedReportsHelp", function () {
         const entryPagesFeatureName = await rateFeatureTitle();
         expect(entryPagesFeatureName).to.contain('Entry pages');
 
+        const entryPagesDate = await archivedOnDate();
+        expect(entryPagesDate).to.contain('Report generated');
+
         // switch to the related "Entry page titles" report
         await (await page.jQuery('.datatableRelatedReports span:contains(Entry page titles)')).click();
         await page.waitForNetworkIdle();
@@ -71,5 +83,9 @@ describe("RelatedReportsHelp", function () {
         const entryPageTitlesFeatureName = await rateFeatureTitle();
         expect(entryPageTitlesFeatureName).to.not.equal(entryPagesFeatureName);
         expect(entryPageTitlesFeatureName).to.contain('Entry page titles');
+
+        // the date must survive the switch: it is re-read from the reloaded report, so a failed
+        // lookup would silently blank it
+        expect(await archivedOnDate()).to.contain('Report generated');
     });
 });

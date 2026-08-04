@@ -20,10 +20,8 @@ class DimensionMetadataProvider
      * Overrids for the result of the getActionReferenceColumnsByTable() method. Exists so Piwik
      * instances can be monkey patched, in case there are idaction columns that this class does not
      * naturally discover.
-     *
-     * @var array
      */
-    private $actionReferenceColumnsOverride;
+    private array $actionReferenceColumnsOverride;
 
     public function __construct(array $actionReferenceColumnsOverride = array())
     {

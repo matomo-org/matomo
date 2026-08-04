@@ -56,10 +56,7 @@ class DataTablePostProcessor
      */
     private $apiMethod;
 
-    /**
-     * @var Inconsistencies
-     */
-    private $apiInconsistencies;
+    private Inconsistencies $apiInconsistencies;
 
     /**
      * @var Formatter

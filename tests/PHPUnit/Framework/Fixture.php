@@ -765,6 +765,8 @@ class Fixture extends \PHPUnit\Framework\Assert
         if (!empty($user)) {
             return self::ADMIN_USER_TOKEN;
         }
+
+        return '';
     }
 
     public static function createSuperUser($removeExisting = true)

@@ -1,1 +1,5 @@
-{}
+{
+    "ArchivingMetrics": {
+        "PluginDescription": "アーカイブのパフォーマンスに関する指標を記録します。"
+    }
+}

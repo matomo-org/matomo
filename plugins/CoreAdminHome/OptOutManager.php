@@ -47,20 +47,16 @@ class OptOutManager
     /** @var DoNotTrackHeaderChecker */
     private $doNotTrackHeaderChecker;
 
-    /** @var array */
-    private $javascripts;
+    private array $javascripts;
 
-    /** @var array */
-    private $stylesheets;
+    private array $stylesheets;
 
     /** @var string */
     private $title;
 
-    /** @var View|null */
-    private $view;
+    private ?View $view = null;
 
-    /** @var array */
-    private $queryParameters = array();
+    private array $queryParameters = array();
 
     public function __construct(?DoNotTrackHeaderChecker $doNotTrackHeaderChecker = null)
     {

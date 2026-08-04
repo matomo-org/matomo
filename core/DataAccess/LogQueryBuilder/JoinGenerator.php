@@ -21,20 +21,11 @@ class JoinGenerator
      */
     protected $tables;
 
-    /**
-     * @var bool
-     */
-    private $joinWithSubSelect = false;
+    private bool $joinWithSubSelect = false;
 
-    /**
-     * @var string
-     */
-    private $joinString = '';
+    private string $joinString = '';
 
-    /**
-     * @var array
-     */
-    private $nonVisitJoins = array();
+    private array $nonVisitJoins = array();
 
     public function __construct(JoinTables $tables)
     {

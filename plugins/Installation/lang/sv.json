@@ -110,7 +110,6 @@
         "SystemCheckFunctions": "Funktioner som krävs",
         "SystemCheckGDFreeType": "GD &gt; 2.x + Fristil (grafik)",
         "SystemCheckGDHelp": "Graflinjerna och bildgraferna (i Matomos app och epostrapporter) kommer inte fungera.",
-        "SystemCheckGlobHelp": "Denna inbyggda funktionen har stängts av på din värd. Matomo försöker emulera denna funktion men kan stöta på ytterligare säkerhetsrestriktioner. Funktionalitet kan påverkas.",
         "SystemCheckGzcompressHelp": "Du behöver aktivera tillägget zlib- och gzcompress-funktionen.",
         "SystemCheckGzuncompressHelp": "Du behöver aktivera tillägget zlib-tillägget och funktionen gzuncompress.",
         "SystemCheckHashHelp": "Konfigurera och bygg om PHP med stöd för hash() genom att ta bort alternativet --disable-hash.",

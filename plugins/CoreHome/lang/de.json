@@ -2,7 +2,7 @@
     "CoreHome": {
         "AIInsights": "KI-Einblicke",
         "AdblockIsMaybeUsed": "Für den Fall, dass Sie einen Ad-Blocker verwenden, deaktivieren Sie diesen bitte für diese Seite, um sicherzustellen, dass Matomo problemlos läuft.",
-        "AddTotalsRowDataTable": "Der Bericht zeigt die Totalzeile nicht %s Zeige Totalzeile",
+        "AddTotalsRowDataTable": "Der Bericht zeigt die Summenzeile nicht %s Zeige Summenzeile",
         "CategoryNoData": "Keine Daten in dieser Kategorie. Probieren Sie \"Gesamte Daten einbeziehen\".",
         "ChangeCurrentWebsite": "Wählen Sie eine Webseite, aktuell gewählte Webseite: %s",
         "ChangePeriod": "Zeitraum ändern",
@@ -97,7 +97,7 @@
         "QuickAccessTitle": "Suche nach '%s'. Benutzen Sie die Pfeiltasten um durch die Ergebnisse zu navigieren. Tastenkürzel: Drücken Sie 'f' um zu suchen.",
         "QuickLinks": "Schnelllinks",
         "ReadMoreOnlineGuide": "Lesen Sie mehr zu diesem Thema in der Online-Anleitung.",
-        "RemoveTotalsRowDataTable": "Der Bericht zeigt die Totalzeile %s Entferne Totalzeile",
+        "RemoveTotalsRowDataTable": "Der Bericht zeigt die Summenzeile %s an. Summenzeile entfernen",
         "ReportConfigure": "Diesen Bericht konfigurieren",
         "ReportGeneratedOn": "Bericht erzeugt am %s",
         "ReportGeneratedXAgo": "Bericht erzeugt vor %s",

@@ -744,7 +744,7 @@ abstract class Base extends VisitDimension
 
         if (
             $type === Common::REFERRER_TYPE_CAMPAIGN
-            && CampaignParameterValuesMasked::isEnabled((int) $request->getIdSite())
+            && CampaignParameterValuesMasked::isEnabled($request->getIdSite())
         ) {
             $name = CampaignParameterValuesMasked::getPlaceholderValue();
             $keyword = CampaignParameterValuesMasked::getPlaceholderValue();

@@ -102,7 +102,6 @@
         "SystemCheckFunctions": "Beharrezko funtzioak",
         "SystemCheckGDFreeType": "GD &gt; 2.x + FreeType (grafikoak)",
         "SystemCheckGDHelp": "Grafika txikiek (sparkline) eta irudi-grafikoek (Matomoren mugikorreko aplikazioan eta e-posta bidezko txostenetan) ez dute funtzionatuko.",
-        "SystemCheckGlobHelp": "Funtzio integratu hau desaktibatu du zure ostalariak. Matomo funtzioa emulatzen saiatuko da, baina segurtasun muga gehiago aurkitu ditzake. Funtzionalitatean eragina izango du.",
         "SystemCheckGzcompressHelp": "zlib hedapena eta gzcompress funtzioa aktibatu behar dituzu.",
         "SystemCheckGzuncompressHelp": "zlib hedapena eta gzuncompress funtzioa aktibatu behar dituzu.",
         "SystemCheckHashHelp": "Konfiguratu eta berriz eraiki PHP beharrezko hash() euskarriarekin, --disable-hash aukera baztertuz.",

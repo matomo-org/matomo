@@ -134,12 +134,12 @@ class VisitsSummaryTest extends IntegrationTestCase
 
     private function trackPageviewsWithUsers()
     {
-        $this->trackPageviewsWithDifferentUsers(array('user1', false, 'user3'));
+        $this->trackPageviewsWithDifferentUsers(array('user1', null, 'user3'));
     }
 
     private function trackPageviewsWithoutUsers()
     {
-        $this->trackPageviewsWithDifferentUsers(array(false, false, false));
+        $this->trackPageviewsWithDifferentUsers(array(null, null, null));
     }
 
     private function trackPageviewsWithDifferentUsers($userIds)

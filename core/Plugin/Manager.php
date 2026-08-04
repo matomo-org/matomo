@@ -123,10 +123,7 @@ class Manager
      */
     private $trackerPluginsNotToLoad = [];
 
-    /**
-     * @var PluginList
-     */
-    private $pluginList;
+    private PluginList $pluginList;
 
     public function __construct(PluginList $pluginList)
     {
@@ -360,7 +357,7 @@ class Manager
     {
         $result = array();
         foreach (self::getPluginsDirectories() as $pluginsDir) {
-            $pluginsName = _glob($pluginsDir . '*', GLOB_ONLYDIR);
+            $pluginsName = glob($pluginsDir . '*', GLOB_ONLYDIR);
             if ($pluginsName != false) {
                 foreach ($pluginsName as $path) {
                     if (self::pluginStructureLooksValid($path)) {

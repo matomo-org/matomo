@@ -1712,27 +1712,32 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 return;
             }
 
-            var $title = '';
-            var $headline = domElem.prev('h2');
-
-            if ($headline.length) {
-                $title = $headline.find('.title:not(.ng-hide)');
-            } else {
-                var $widget = domElem.parents('.widget');
-                if ($widget.length) {
-                    $title = $widget.find('.widgetName > span');
-                }
+            // The header sits outside the reloaded datatable and is not re-mounted, so push
+            // the new values into its Vue app instead of rewriting the rendered DOM.
+            var headerApp = domElem.prev('[vue-entry="CoreHome.ReportHeader"]')
+                .data('vueAppInstance');
+            if (headerApp) {
+                var $documentation = $('.reportDocumentation', domElem);
+                headerApp.reportTitle_ = relatedReportName;
+                headerApp.featureName_ = relatedReportName;
+                headerApp.inlineHelp_ = $documentation.attr('data-content') || '';
+                headerApp.helpUrl_ = $documentation.find('.onlineGuide').attr('href') || '';
+                headerApp.reportGenerated_ = $documentation.find('.helpDate').html() || '';
+                return;
             }
 
-            if ($title.length) {
-                $title.text(relatedReportName);
+            // inside a widget the widget chrome owns the title
+            var $widget = domElem.parents('.widget');
+            if (!$widget.length) {
+                return;
+            }
 
-                // The EnrichedHeadline Vue component is rendered outside the reloaded
-                // datatable and is not re-mounted, so notify it (native event, no jQuery)
-                // to re-read the new report's title and documentation from the updated DOM.
-                if ($headline.length) {
-                    $headline[0].dispatchEvent(new CustomEvent('piwik:reportChanged'));
-                }
+            var widgetApp = $widget.find('.widgetTop [vue-entry="CoreHome.ReportHeader"]')
+                .data('vueAppInstance');
+            if (widgetApp) {
+                widgetApp.reportTitle_ = relatedReportName;
+            } else {
+                $widget.find('.widgetName > span').text(relatedReportName);
             }
         }
 
@@ -2005,17 +2010,15 @@ $.extend(DataTable.prototype, UIControl.prototype, {
     },
 
     _findReportHeader: function (domElem) {
-        var h2 = false;
-        if (domElem.prev().is('h2')) {
-            h2 = domElem.prev();
+        var $prev = domElem.prev();
+        if ($prev.is('h2')) {
+            return $prev;
         }
-        else if (this.param.viewDataTable == 'tableGoals') {
-            h2 = $('#titleGoalsByDimension');
+        // a full-page report renders its heading inside the shared report header component
+        if ($prev.find('.reportHeader').length) {
+            return $prev;
         }
-        else if ($('h2', domElem)) {
-            h2 = $('h2', domElem);
-        }
-        return h2;
+        return $('h2', domElem);
     },
 
     _createDivId: function () {

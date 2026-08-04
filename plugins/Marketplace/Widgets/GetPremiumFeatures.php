@@ -18,10 +18,7 @@ use Piwik\Widget\WidgetConfig;
 
 class GetPremiumFeatures extends Widget
 {
-    /**
-     * @var Client
-     */
-    private $marketplaceApiClient;
+    private Client $marketplaceApiClient;
 
     public function __construct(Client $marketplaceApiClient)
     {

@@ -20,10 +20,7 @@ use Piwik\Request;
  */
 class API extends \Piwik\Plugin\API
 {
-    /**
-     * @var PromoWidgetDismissal
-     */
-    private $promoWidgetDismissal;
+    private PromoWidgetDismissal $promoWidgetDismissal;
 
     public function __construct(PromoWidgetDismissal $promoWidgetDismissal)
     {

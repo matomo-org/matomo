@@ -20,10 +20,7 @@ use Piwik\Plugins\UsersManager\UsersManager;
 
 class Challenges
 {
-    /**
-     * @var DataFinder
-     */
-    private $finder;
+    private DataFinder $finder;
 
     public function __construct(DataFinder $dataFinder)
     {

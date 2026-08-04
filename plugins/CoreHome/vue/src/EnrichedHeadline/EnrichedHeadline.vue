@@ -21,7 +21,7 @@
     </div>
     <a
       v-if="editUrl"
-      class="title"
+      class="title enrichedHeadline__editableTitle"
       :href="editUrl"
       :title="translate('CoreHome_ClickToEditX', htmlEntities(actualFeatureName || ''))"
     >
@@ -139,6 +139,12 @@ export default defineComponent({
   watch: {
     inlineHelp(newValue: string) {
       this.actualInlineHelp = newValue;
+
+      // A related report may have no documentation; close the popup rather than leave it open
+      // and blank, since the icon that reopens it is hidden without help.
+      if (!newValue) {
+        this.showInlineHelp = false;
+      }
     },
     featureName(newValue: string) {
       this.actualFeatureName = newValue;
@@ -160,16 +166,8 @@ export default defineComponent({
           // this alternate inline help node is styled visible, so drop it once consumed
           setTimeout(() => inlineHelpNode.remove(), 0);
         }
-      } else {
-        // hack for reports :( - the documentation is embedded in the adjacent DataTable
-        this.actualInlineHelp = this.readReportDocumentation();
       }
     }
-
-    // A related report can be loaded into the adjacent DataTable in place, without
-    // re-mounting this headline (see dataTable.js). Re-read the documentation on that
-    // event so the inline help does not keep showing the previous report's text.
-    root.parentElement?.addEventListener('piwik:reportChanged', this.onReportChanged);
 
     if (!this.actualFeatureName) {
       this.actualFeatureName = this.readReportFeatureName();
@@ -194,10 +192,6 @@ export default defineComponent({
       }
     }
   },
-  beforeUnmount() {
-    const root = this.$refs.root as HTMLElement;
-    root?.parentElement?.removeEventListener('piwik:reportChanged', this.onReportChanged);
-  },
   methods: {
     // Expose the plugin component to `<component :is>` as a plain Component.
     asComponent(component: unknown): Component {
@@ -206,35 +200,9 @@ export default defineComponent({
     htmlEntities(v: string) {
       return Matomo.helper.htmlEntities(v);
     },
-    onReportChanged() {
-      // Re-read the now-current report's documentation after a related report was loaded
-      // into the adjacent DataTable in place.
-      this.actualInlineHelp = this.readReportDocumentation();
-
-      // Also re-read the feature name, otherwise the rate-feature widget would submit
-      // feedback under the previous report's name.
-      const featureName = this.readReportFeatureName();
-      if (featureName) {
-        this.actualFeatureName = featureName;
-      }
-
-      // The new report may have no documentation; close the popup instead of leaving it
-      // open and blank (the info icon that would reopen it is hidden when there is no help).
-      if (!this.actualInlineHelp) {
-        this.showInlineHelp = false;
-      }
-    },
     readReportFeatureName(): string {
       const root = this.$refs.root as HTMLElement;
       return root?.querySelector('.title')?.textContent?.trim() || '';
-    },
-    readReportDocumentation(): string {
-      const root = this.$refs.root as HTMLElement;
-      const helpDocs = root?.parentElement?.nextElementSibling
-        ?.querySelector('.reportDocumentation')
-        ?.getAttribute('data-content')?.trim();
-
-      return helpDocs && helpDocs.length ? `<p>${helpDocs}</p>` : '';
     },
   },
   computed: {

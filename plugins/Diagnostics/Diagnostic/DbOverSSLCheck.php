@@ -12,10 +12,7 @@ use Piwik\Url;
  */
 class DbOverSSLCheck implements Diagnostic
 {
-    /**
-     * @var Translator
-     */
-    private $translator;
+    private Translator $translator;
 
     public function __construct(Translator $translator)
     {

@@ -1,20 +1,17 @@
-@add-widget-padding: 16px;
-@add-widget-border: 1px;
-@add-widget-space-or-radius: 8px;
-@add-widget-categories: 200px + @add-widget-space-or-radius + @add-widget-border;
-@add-widget-widgets: 270px + @add-widget-padding + @add-widget-border;
-@add-widget-preview: 407px;
-@add-widget-height: 600px;
-@add-widget-item-height: 32px;
+@_addWidget_padding: 16px;
+@_addWidget_border: 1px;
+@_addWidget_spaceOrRadius: 8px;
+@_addWidget_categories: 200px + @_addWidget_spaceOrRadius + @_addWidget_border;
+@_addWidget_widgets: 270px + @_addWidget_padding + @_addWidget_border;
 
 
 // 60px comes from padding (32px on the left and 28px on the right)
 .modal.add-widget-modal {
   width: 1000px;
   max-width: 90%;
-  height: @add-widget-height;
+  height: 600px;
   max-height: 90vh;
-  border-radius: @add-widget-space-or-radius;
+  border-radius: @_addWidget_spaceOrRadius;
 
   .widgetpreview-categorylist .widgetpreview-choosen,
   .widgetpreview-widgetlist .widgetpreview-choosen {
@@ -73,8 +70,8 @@
 
   .add-widget-modal-body {
     display: grid;
-    grid-template-columns: @add-widget-categories @add-widget-widgets @add-widget-preview;
-    gap: @add-widget-padding;
+    grid-template-columns: @_addWidget_categories @_addWidget_widgets 407px;
+    gap: @_addWidget_padding;
     flex: 1 1 auto;
     min-height: 0;
     width: max-content;
@@ -92,13 +89,13 @@
   .add-widget-modal-widgets {
     overflow-y: auto;
     overscroll-behavior: contain;
-    border-right: @add-widget-border solid @theme-color-background-tinyContrast;
+    border-right: @_addWidget_border solid @theme-color-background-tinyContrast;
   }
   .add-widget-modal-categories {
-    padding-right: @add-widget-space-or-radius;
+    padding-right: @_addWidget_spaceOrRadius;
   }
   .add-widget-modal-widgets {
-    padding-right: @add-widget-padding;
+    padding-right: @_addWidget_padding;
   }
   .add-widget-modal-preview {
     overflow-x: hidden;
@@ -156,7 +153,7 @@
   // Overrides the global `ul.widgetpreview-widgetlist li { padding: 0 25px 0 5px }`
   .category-list-item,
   .widget-list-item {
-    border-radius: @add-widget-space-or-radius;
+    border-radius: @_addWidget_spaceOrRadius;
     padding: 0;
   }
 
@@ -164,13 +161,13 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: @add-widget-space-or-radius;
+    gap: @_addWidget_spaceOrRadius;
   }
 
   .category-button-item,
   .widget-button-item {
     width: 100%;
-    min-height: @add-widget-item-height;
+    min-height: 32px;
     border: 0;
     background: transparent;
     box-sizing: border-box;
@@ -180,7 +177,7 @@
     cursor: inherit;
     font-size: 14px;
     line-height: 20px;
-    padding: 4px @add-widget-space-or-radius;
+    padding: 4px @_addWidget_spaceOrRadius;
     white-space: normal;
   }
 
@@ -202,7 +199,7 @@
   .widgetpreview-widgetlist .widget-button-item:focus-visible {
     outline: 2px solid @theme-color-focus-ring;
     outline-offset: -2px;
-    border-radius: @add-widget-space-or-radius;
+    border-radius: @_addWidget_spaceOrRadius;
   }
 
 
@@ -227,6 +224,6 @@
   // Transient "added" confirmation: the leading "+" becomes a green check on the
   // row just added, reverting once the hover moves elsewhere (see WidgetsList).
   .widgetpreview-widgetlist .widgetpreview-add-check {
-    color: @color-green-matomo;
+    color: @theme-color-success;
   }
 }

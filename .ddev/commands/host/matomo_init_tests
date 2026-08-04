@@ -22,6 +22,11 @@ ddev matomo:console tests:setup-fixture OmniFixture
 echo "Install the JavaScript dependencies for the UI tests ..."
 ddev exec 'cd tests/lib/screenshot-testing && npm install'
 
+# npm only runs Puppeteer's postinstall (which downloads the browser) when it actually reinstalls
+# Puppeteer, so an existing node_modules would otherwise keep the pinned browser missing.
+echo "Download the pinned browser for the UI tests ..."
+ddev exec 'cd tests/lib/screenshot-testing && npm run install-browser'
+
 echo "TODO: Locally install the git-lfs extension to be able to download and commit UI screenshots."
 echo "@see https://github.com/git-lfs/git-lfs#installing"
 echo "@see https://git-lfs.com/"

@@ -118,15 +118,9 @@ class Option
         $option->all = array();
     }
 
-    /**
-     * @var array
-     */
-    private $all = array();
+    private array $all = array();
 
-    /**
-     * @var bool
-     */
-    private $loaded = false;
+    private bool $loaded = false;
 
     /**
      * Singleton instance

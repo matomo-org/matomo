@@ -109,7 +109,6 @@
         "SystemCheckFunctions": "Vereiste functies",
         "SystemCheckGDFreeType": "GD &gt; 2.x + FreeType (afbeeldingen)",
         "SystemCheckGDHelp": "De sparklines (kleine grafieken) en grafiekafbeeldingen (in de Matomo mobiele app en e-mailrapporten) zullen niet werken.",
-        "SystemCheckGlobHelp": "Deze ingebouwde functie is uitgeschakeld op uw webhost. Matomo zal proberen deze functie te emuleren, maar kan tegen andere veiligheidsbeperkingen aanlopen. De functionaliteit kan hierdoor hinder ondervinden.",
         "SystemCheckGzcompressHelp": "U moet de zlib-extensie en gzcompress-functie inschakelen.",
         "SystemCheckGzuncompressHelp": "U moet de zlib-extensie en gzuncompress-functie inschakelen.",
         "SystemCheckHashHelp": "Configureer en herbouw PHP met hash() ondersteuning door de optie --disable-hash weg te laten.",

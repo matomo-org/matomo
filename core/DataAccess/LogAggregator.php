@@ -158,15 +158,9 @@ class LogAggregator
      */
     private $logger;
 
-    /**
-     * @var bool
-     */
-    private $allowUsageSegmentCache = false;
+    private bool $allowUsageSegmentCache = false;
 
-    /**
-     * @var Parameters
-     */
-    private $params;
+    private Parameters $params;
 
     public function __construct(Parameters $params, ?LoggerInterface $logger = null)
     {
@@ -934,6 +928,9 @@ class LogAggregator
         return in_array($metricId, $metricsRequested);
     }
 
+    /**
+     * @return string
+     */
     public function getWhereStatement($tableName, $datetimeField, $extraWhere = false)
     {
         $where = "$tableName.$datetimeField >= ?

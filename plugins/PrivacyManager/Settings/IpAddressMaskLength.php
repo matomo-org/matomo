@@ -35,10 +35,7 @@ class IpAddressMaskLength implements CustomSettingInterface, PolicyComparisonInt
      */
     use CustomGetterTrait;
 
-    /**
-     * @var int|null
-     */
-    private $value;
+    private ?int $value;
 
     private function __construct(?int $value)
     {
