@@ -78,7 +78,6 @@ describe("TagManagerTeaser", function () {
     });
 
     it('should be possible to disable page and redirect to home', async function () {
-        testEnvironment.overrideConfig('FeatureFlags', 'SparklinesRedesign_feature', 'enabled');
         unloadTagManager();
         setAdminUser();
         await page.click('.activateTagManager .dontShowAgainBtn');
@@ -87,9 +86,6 @@ describe("TagManagerTeaser", function () {
         await page.waitForNetworkIdle();
 
         expect(await page.screenshotSelector('.pageWrap')).to.matchImage('admin_page_disable');
-
-        delete testEnvironment.configOverride.FeatureFlags;
-        testEnvironment.save();
     });
 
 });

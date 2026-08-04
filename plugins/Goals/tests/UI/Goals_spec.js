@@ -10,16 +10,6 @@
 describe("Goals", function () {
     this.fixture = 'Piwik\\Tests\\Fixtures\\SomePageGoalVisitsWithConversions';
 
-    before(function () {
-        testEnvironment.overrideConfig('FeatureFlags', 'SparklinesRedesign_feature', 'enabled');
-        testEnvironment.save();
-    });
-
-    after(function () {
-        delete testEnvironment.configOverride.FeatureFlags;
-        testEnvironment.save();
-    });
-
     it('should show the goals overview', async function() {
         await page.goto("?module=CoreHome&action=index&idSite=1&period=year&date=2009-01-01#?idSite=1&period=year&date=2009-01-01&category=Goals_Goals&subcategory=General_Overview");
 

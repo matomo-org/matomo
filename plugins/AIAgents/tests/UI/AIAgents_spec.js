@@ -10,16 +10,6 @@
 describe('AIAgents', function () {
   this.fixture = 'Piwik\\Plugins\\AIAgents\\tests\\Fixtures\\AIAgents';
 
-  before(function () {
-    testEnvironment.overrideConfig('FeatureFlags', 'SparklinesRedesign_feature', 'enabled');
-    testEnvironment.save();
-  });
-
-  after(function () {
-    delete testEnvironment.configOverride.FeatureFlags;
-    testEnvironment.save();
-  });
-
   const url = '?module=CoreHome&action=index&category=General_AIAssistants&subcategory=AIAgents_AIAgentsOverview&idSite=1&period=day&date=2025-07-20';
 
   it('should display the AI agents overview', async function () {

@@ -8,16 +8,6 @@
  */
 
 describe("Comparison", function () {
-    before(function () {
-        testEnvironment.overrideConfig('FeatureFlags', 'SparklinesRedesign_feature', 'enabled');
-        testEnvironment.save();
-    });
-
-    after(function () {
-        delete testEnvironment.configOverride.FeatureFlags;
-        testEnvironment.save();
-    });
-
     const generalParams = 'idSite=1&period=range&date=2012-01-12,2012-01-17',
         urlBase = 'module=CoreHome&action=index&' + generalParams,
         dashboardUrl = "?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=1",

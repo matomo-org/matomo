@@ -7,16 +7,6 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 describe("Overlay", function () {
-    before(function () {
-        testEnvironment.overrideConfig('FeatureFlags', 'SparklinesRedesign_feature', 'enabled');
-        testEnvironment.save();
-    });
-
-    after(function () {
-        delete testEnvironment.configOverride.FeatureFlags;
-        testEnvironment.save();
-    });
-
     async function removeOptOutIframe(page) {
         const frame = page.frames().find(f => f.name() === 'overlayIframe');
         if (frame) {
