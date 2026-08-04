@@ -1425,22 +1425,25 @@
             w = map.container.width();
             h = w / ratio;
 
-            // special handling for widgetize mode
-            // Widgetize iframe mode: clamp the map height to the viewport so the SVG
-            // fits the embedded frame. The previous gate (a `.widget` ancestor) also
-            // matched dashboard widgets and the AddWidget preview, where `$('html').height()`
-            // far exceeds the viewport and made `maxHeight` go negative.
-            if (!this.theWidget && $('body').hasClass('widgetized')) {
-                var maxHeight = $(window).height() - ($('html').height() - map.container.height());
-                h = Math.min(maxHeight, h);
-            }
-
-            // never let a tall/portrait country map (Liechtenstein, Chile, ...) grow
-            // past the viewport, otherwise it overflows the screen; leave ~15% for
-            // widget chrome (title bar, controls) above/below the map.
+            // Fit the map height to the viewport. These two clamps are mutually
+            // exclusive on purpose:
+            //  - Widgetize iframe mode already accounts for the real chrome (window
+            //    height minus the non-map page height), so use that alone. Applying
+            //    the 0.85 clamp on top of it would reserve chrome space twice and
+            //    leave ~15% of the frame permanently blank. The `.widget` ancestor
+            //    gate is avoided because it also matched dashboard widgets and the
+            //    AddWidget preview, where $('html').height() far exceeds the viewport
+            //    and made maxHeight go negative.
+            //  - Everywhere else (dashboard widget, standalone, AddWidget preview)
+            //    nothing subtracts chrome, so cap a tall/portrait map (Liechtenstein,
+            //    Chile, ...) at 85% of the viewport to keep it from overflowing and to
+            //    leave room for widget chrome (title bar, controls).
             var maxViewportHeightRatio = 0.85;
             var winHeight = $(window).height();
-            if (winHeight > 0) {
+            if (!this.theWidget && $('body').hasClass('widgetized')) {
+                var maxHeight = winHeight - ($('html').height() - map.container.height());
+                h = Math.min(maxHeight, h);
+            } else if (winHeight > 0) {
                 h = Math.min(h, winHeight * maxViewportHeightRatio);
             }
 
