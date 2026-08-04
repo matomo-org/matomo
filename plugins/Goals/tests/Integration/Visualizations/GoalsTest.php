@@ -55,6 +55,9 @@ class GoalsTest extends IntegrationTestCase
             $view->config->export_parameters_to_modify['showColumns']
         );
         $this->assertStringContainsString('goal_1_nb_conversions', $view->config->export_parameters_to_modify['showColumns']);
+
+        // a flattened export must keep its dimension columns despite the allowlist
+        $this->assertSame(1, $view->config->export_parameters_to_modify['keep_flattened_dimension_columns']);
     }
 
     public function testExportIsNotRestrictedForTheGoalsOverview(): void
@@ -64,6 +67,7 @@ class GoalsTest extends IntegrationTestCase
         $view->beforeRender();
 
         $this->assertArrayNotHasKey('showColumns', $view->config->export_parameters_to_modify);
+        $this->assertArrayNotHasKey('keep_flattened_dimension_columns', $view->config->export_parameters_to_modify);
     }
 
     private function buildGoalsView(): Goals

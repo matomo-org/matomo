@@ -256,6 +256,8 @@ class GraphTest extends \PHPUnit\Framework\TestCase
             'goal_1_nb_conversions',
             $bar->config->export_parameters_to_modify['showColumns']
         );
+        // a flattened export must keep its dimension columns despite the allowlist
+        $this->assertSame(1, $bar->config->export_parameters_to_modify['keep_flattened_dimension_columns']);
     }
 
     public function testBeforeRenderDoesNotRestrictExportForNonGoalMetric()
@@ -269,7 +271,7 @@ class GraphTest extends \PHPUnit\Framework\TestCase
 
         $bar->beforeRender();
 
-        $this->assertArrayNotHasKey('showColumns', $bar->config->export_parameters_to_modify);
+        $this->assertSame([], $bar->config->export_parameters_to_modify);
     }
 
     public function testBeforeRenderDoesNotRestrictExportWhenNoSpecificGoal()
@@ -280,7 +282,7 @@ class GraphTest extends \PHPUnit\Framework\TestCase
 
         $bar->beforeRender();
 
-        $this->assertArrayNotHasKey('showColumns', $bar->config->export_parameters_to_modify);
+        $this->assertSame([], $bar->config->export_parameters_to_modify);
     }
 
     public function testBeforeLoadDataTableKeepsAggregatedGoalColumnsWhenNoSpecificGoal()

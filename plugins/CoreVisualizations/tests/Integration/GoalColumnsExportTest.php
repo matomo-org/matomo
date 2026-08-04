@@ -20,7 +20,8 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  * that requesting a dimension report for a specific goal actually produces the
  * goal_<idGoal>_nb_conversions column through the archiving/DataTablePostProcessor pipeline, that
  * the export column restriction keeps only the goal's columns, and that restricting columns via
- * showColumns does not drop the columns a flattened report adds for its dimensions.
+ * showColumns drops the columns a flattened report adds for its dimensions unless the request opts
+ * in with keep_flattened_dimension_columns.
  *
  * @group CoreVisualizations
  * @group Goals
@@ -101,27 +102,20 @@ class GoalColumnsExportTest extends IntegrationTestCase
         $this->assertFalse($row->getColumn('nb_conversions'), 'aggregate nb_conversions must be excluded from the export');
     }
 
-    public function testShowColumnsDoesNotDropFlattenedDimensionColumns()
+    public function testShowColumnsKeepsFlattenedDimensionColumnsWhenRequested()
     {
         // A flattened report adds a column per dimension, whose names only exist after flattening
-        // and so cannot be part of a showColumns allowlist; they must not be dropped by it.
+        // and so cannot be part of a showColumns allowlist. keep_flattened_dimension_columns lets a
+        // caller (ie, the goals table and graph exports) keep them anyway.
         $this->trackGoalConversion();
 
-        $flatParams = [
-            'flat'            => 1,
-            'show_dimensions' => 1,
-        ];
+        $dimensions = $this->getFlattenedSearchEngineDimensions();
 
-        // the search engines report is flattened into search engine + keyword, ie, two dimensions
-        $unrestricted = $this->requestReport('Referrers.getSearchEngines', $flatParams);
-        $dimensions   = $unrestricted->getMetadata('dimensions');
-
-        $this->assertIsArray($dimensions);
-        $this->assertGreaterThan(1, count($dimensions), 'flattening should add a column per dimension');
-        $this->assertNotFalse($unrestricted->getFirstRow()->getColumn('nb_actions'));
-
-        $restricted = $this->requestReport('Referrers.getSearchEngines', $flatParams + ['showColumns' => 'label,nb_visits']);
-        $row        = $restricted->getFirstRow();
+        $restricted = $this->requestFlattenedSearchEngines([
+            'showColumns'                      => 'label,nb_visits',
+            'keep_flattened_dimension_columns' => 1,
+        ]);
+        $row = $restricted->getFirstRow();
 
         foreach ($dimensions as $dimension) {
             $this->assertNotFalse($row->getColumn($dimension), $dimension . ' column should be kept');
@@ -129,6 +123,53 @@ class GoalColumnsExportTest extends IntegrationTestCase
 
         $this->assertEquals(1, $row->getColumn('nb_visits'));
         $this->assertFalse($row->getColumn('nb_actions'), 'a non-allowlisted metric should still be removed');
+    }
+
+    public function testShowColumnsDropsFlattenedDimensionColumnsByDefault()
+    {
+        // showColumns is a public API parameter, so an allowlist must not be widened unless the
+        // caller opts in: without the flag the dimension columns are dropped like any other column.
+        $this->trackGoalConversion();
+
+        $dimensions = $this->getFlattenedSearchEngineDimensions();
+
+        $restricted = $this->requestFlattenedSearchEngines(['showColumns' => 'label,nb_visits']);
+        $row        = $restricted->getFirstRow();
+
+        foreach ($dimensions as $dimension) {
+            $this->assertFalse($row->getColumn($dimension), $dimension . ' column should be dropped');
+        }
+
+        $this->assertEquals(1, $row->getColumn('nb_visits'));
+    }
+
+    /**
+     * The search engines report is flattened into search engine + keyword, ie, two dimensions, which
+     * is what makes the flattener add them as columns. Asserts the premise of the tests above.
+     */
+    private function getFlattenedSearchEngineDimensions(): array
+    {
+        $unrestricted = $this->requestFlattenedSearchEngines([]);
+        $dimensions   = $unrestricted->getMetadata('dimensions');
+
+        $this->assertIsArray($dimensions);
+        $this->assertGreaterThan(1, count($dimensions), 'flattening should add a column per dimension');
+
+        $row = $unrestricted->getFirstRow();
+        foreach ($dimensions as $dimension) {
+            $this->assertNotFalse($row->getColumn($dimension), $dimension . ' should be a column');
+        }
+        $this->assertNotFalse($row->getColumn('nb_actions'));
+
+        return $dimensions;
+    }
+
+    private function requestFlattenedSearchEngines(array $extraParams): DataTable
+    {
+        return $this->requestReport('Referrers.getSearchEngines', $extraParams + [
+            'flat'            => 1,
+            'show_dimensions' => 1,
+        ]);
     }
 
     private function requestReferrerTypes(array $extraParams): DataTable

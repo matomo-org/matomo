@@ -356,10 +356,15 @@ class DataTablePostProcessor
         $hideColumnsRecursively = Common::getRequestVar('hideColumnsRecursively', intval($this->report && $this->report->getModule() == 'Live'), 'int', $this->request);
         $showRawMetrics = Common::getRequestVar('showRawMetrics', 0, 'int', $this->request);
 
-        if (!empty($showColumns)) {
+        $keepFlattenedDimensionColumns = (new Request($this->request))
+            ->getBoolParameter('keep_flattened_dimension_columns', false);
+
+        if ($keepFlattenedDimensionColumns && !empty($showColumns)) {
             // Flattening with "show dimensions" adds dimension columns whose names only exist after
             // flattening, so a caller-provided showColumns allowlist cannot include them. Keep those
-            // dimension columns so an allowlist does not discard the flattened breakdown.
+            // dimension columns so an allowlist does not discard the flattened breakdown. This is
+            // opt-in: showColumns is a public API parameter, so an allowlist is never widened
+            // unless the caller asks for it.
             $showColumns = $this->addFlattenedDimensionsToShowColumns($showColumns, $dataTable);
         }
 
@@ -379,6 +384,8 @@ class DataTablePostProcessor
      * Appends any dimension columns added by the flattener to a showColumns allowlist so they are
      * not dropped by {@link ColumnDelete}. Dimension column names only exist after flattening, so
      * callers that set showColumns cannot include them up front.
+     *
+     * Only called when the request opts in with keep_flattened_dimension_columns=1.
      */
     private function addFlattenedDimensionsToShowColumns(string $showColumns, DataTableInterface $dataTable): string
     {

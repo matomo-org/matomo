@@ -58,6 +58,9 @@ abstract class Graph extends Visualization
             // (The label column is always kept by ColumnDelete, so it needs no explicit entry.)
             if (false !== $this->getSpecificGoalId() && array_intersect([$conversionsColumn, $revenueColumn], $this->config->columns_to_display)) {
                 $this->config->export_parameters_to_modify['showColumns'] = implode(',', $this->config->columns_to_display);
+                // a flattened export adds a column per dimension, whose names only exist after
+                // flattening and so cannot be part of the allowlist above
+                $this->config->export_parameters_to_modify['keep_flattened_dimension_columns'] = 1;
             }
         }
     }
