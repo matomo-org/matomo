@@ -12,7 +12,6 @@ namespace Piwik\Plugins\TwoFactorAuth;
 use Piwik\Access;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
-use Piwik\IP;
 use Piwik\Nonce;
 use Piwik\Piwik;
 use Piwik\Plugins\Login\PasswordVerifier;
@@ -89,14 +88,7 @@ class Controller extends \Piwik\Plugin\Controller
                     Url::redirectToUrl(Url::getCurrentUrl());
                 } else {
                     $messageNoAccess = Piwik::translate('TwoFactorAuth_InvalidAuthCode');
-                    try {
-                        $bruteForce = StaticContainer::get('Piwik\Plugins\Login\Security\BruteForceDetection');
-                        if ($bruteForce->isEnabled()) {
-                            $bruteForce->addFailedAttempt(IP::getIpFromHeader(), Piwik::getCurrentUserLogin());
-                        }
-                    } catch (Exception $e) {
-                        // ignore error eg if login plugin is disabled
-                    }
+                    $this->twoFa->recordFailedAuthAttempt(Piwik::getCurrentUserLogin());
                 }
             }
         }
@@ -142,26 +134,58 @@ class Controller extends \Piwik\Plugin\Controller
             throw new Exception('Two-factor authentication cannot be disabled as it is enforced');
         }
 
-        $nonce = Common::getRequestVar('disableNonce', null, 'string');
+        $nonce = Common::getRequestVar('disableNonce', '', 'string');
         $params = array('module' => 'TwoFactorAuth', 'action' => 'disableTwoFactorAuth', 'disableNonce' => $nonce);
 
-        if ($this->passwordVerify->requirePasswordVerifiedRecently($params)) {
-            Nonce::checkNonce(self::DISABLE_2FA_NONCE, $nonce);
-
-            $this->twoFa->disable2FAforUser(Piwik::getCurrentUserLogin());
-            $this->passwordVerify->forgetVerifiedPassword();
-
-            $container = StaticContainer::getContainer();
-            $email = $container->make(TwoFactorAuthDisabledEmail::class, array(
-                'login' => Piwik::getCurrentUserLogin(),
-                'emailAddress' => Piwik::getCurrentUserEmail(),
-            ));
-            $email->safeSend();
-
-            $this->redirectToIndex('UsersManager', 'userSecurity', null, null, null, array(
-                'disableNonce' => false,
-            ));
+        if (!$this->passwordVerify->requirePasswordVerifiedRecently($params)) {
+            // redirected to confirm the password first
+            return;
         }
+
+        // On top of the password, a valid 2FA code is required to disable 2FA. The nonce is only consumed once
+        // 2FA is actually turned off, so it stays valid while the auth code is being entered.
+        if (!Nonce::verifyNonce(self::DISABLE_2FA_NONCE, $nonce)) {
+            throw new Exception(Piwik::translate('General_ExceptionSecurityCheckFailed'));
+        }
+
+        $login = Piwik::getCurrentUserLogin();
+        $authCode = Common::getRequestVar('authCode', '', 'string');
+        $accessErrorString = null;
+
+        if ($authCode !== '') {
+            $authCode = str_replace('-', '', $authCode);
+            $authCode = strtoupper($authCode); // recovery codes are stored upper case, app codes are only numbers
+            $authCode = trim($authCode);
+
+            if ($this->twoFa->validateAuthCode($login, $authCode)) {
+                Nonce::discardNonce(self::DISABLE_2FA_NONCE);
+
+                $this->twoFa->disable2FAforUser($login);
+                $this->passwordVerify->forgetVerifiedPassword();
+
+                $container = StaticContainer::getContainer();
+                $email = $container->make(TwoFactorAuthDisabledEmail::class, array(
+                    'login' => $login,
+                    'emailAddress' => Piwik::getCurrentUserEmail(),
+                ));
+                $email->safeSend();
+
+                $this->redirectToIndex('UsersManager', 'userSecurity', null, null, null, array(
+                    'disableNonce' => false,
+                ));
+                return;
+            }
+
+            $accessErrorString = Piwik::translate('TwoFactorAuth_InvalidAuthCode');
+            $this->twoFa->recordFailedAuthAttempt($login);
+        }
+
+        $view = new View('@TwoFactorAuth/disableTwoFactorAuth');
+        $this->setBasicVariablesView($view);
+        $view->AccessErrorString = $accessErrorString;
+        $view->disableNonce = $nonce;
+
+        return $view->render();
     }
 
     private function make2faSession()

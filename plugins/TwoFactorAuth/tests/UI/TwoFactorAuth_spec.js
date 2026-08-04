@@ -183,7 +183,7 @@ describe("TwoFactorAuth", function () {
         expect(await modal.screenshot()).to.matchImage('usersettings_twofa_disable_step1');
     });
 
-    it('should be possible to disable two factor step 2 confirmed', async function () {
+    it('should be possible to disable two factor step 2 confirm password', async function () {
         await selectModalButton('Yes');
 
         const element = await page.waitForSelector('.loginSection', {visible: true});
@@ -191,8 +191,27 @@ describe("TwoFactorAuth", function () {
         expect(await element.screenshot()).to.matchImage('usersettings_twofa_disable_step2');
     });
 
-    it('should be possible to disable two factor step 3 verified', async function () {
+    it('should ask for the auth code after confirming the password', async function () {
         await confirmPassword();
+        const element = await page.waitForSelector('.disableTwoFactorAuthForm', {visible: true});
+        await page.waitForTimeout(150);
+        expect(await element.screenshot()).to.matchImage('usersettings_twofa_disable_authcode');
+    });
+
+    it('should show an error when providing a wrong auth code while disabling', async function () {
+        await page.type('#disable_2fa_authcode', '555555');
+        await page.click('#disable_2fa_submit');
+        await page.waitForNetworkIdle();
+        const element = await page.waitForSelector('.loginSection', {visible: true});
+        await page.waitForTimeout(150);
+        expect(await element.screenshot()).to.matchImage('usersettings_twofa_disable_authcode_wrong');
+    });
+
+    it('should be possible to disable two factor step 3 verified', async function () {
+        // 123456 is a valid recovery code for this user (see fixture)
+        await page.type('#disable_2fa_authcode', '123456');
+        await page.click('#disable_2fa_submit');
+        await page.waitForNetworkIdle();
         await page.waitForSelector('.userSettings2FA');
         const elem = await page.$('.userSettings2FA');
         expect(await elem.screenshot()).to.matchImage('usersettings_twofa_disable_step3');
