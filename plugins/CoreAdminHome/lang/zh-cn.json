@@ -38,6 +38,7 @@
         "ImportFromGoogleAnalytics": "从 Google Analytics（谷歌网站分析）导入",
         "ImportFromGoogleAnalyticsDescription": "如果您拥有 Google Analytics（谷歌网站分析）资源，并且要切换到Matomo，则可以使用%1$s GoogleAnalyticsImporter%2$s插件导入现有数据。",
         "ImportingServerLogsDesc": "除了通过浏览器（用 JavaScript 或图片链接）追踪访客，另外一种方法是持续导入服务器日志。更多详情请参见 %1$s服务器日志分析%2$s。",
+        "InvalidPluginsAdminDisabled": "如需更新或卸载这些插件，请联系您的 Matomo 管理员，管理员可以使用命令行或直接更新配置。",
         "InvalidPluginsWarning": "以下插件不兼容 %1$s，无法加载：%2$s。",
         "InvalidPluginsYouCanUninstall": "您可以在%1$s插件管理%2$s页面更新或者卸载这些插件。",
         "JSTrackingDocumentationHelp": "为了方便访问，下方提供了最受欢迎的高级选项。有关更多选项（包括如何跟踪目标、自定义变量、电子商务订单和废弃购物车），请查看%1$s Matomo Javascript跟踪文档%2$s。",

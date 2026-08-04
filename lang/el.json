@@ -274,6 +274,7 @@
         "ForExampleShort": "π.χ.",
         "ForceSSLRecommended": "Προτείνουμε τη χρήση του Matomo μόνο πάνω από συνδέσεις SSL. Για την αποφυγή μη ασφαλούς πρόσβασης μέσω http, προσθέστε το %1$s στο τμήμα %2$s στο αρχείο config/config.ini.php του Matomo σας.",
         "ForcedSSL": "Υποχρεωτική Σύνδεση SSL",
+        "Forecast": "Πρόβλεψη",
         "Forums": "Φόρουμ",
         "FromReferrer": "από",
         "GeneralInformation": "Γενικές Πληροφορίες",
