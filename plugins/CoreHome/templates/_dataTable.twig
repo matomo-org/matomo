@@ -14,19 +14,17 @@ can be renamed to show_header and show_header_icons
 #}
 {% set showTableActionsInHeader = properties.show_footer and properties.show_footer_icons %}
 
+{# The header must stay outside `.dataTable`, which an ajax reload replaces wholesale without a
+   `showtitle` parameter (see dataTable.js) - inside it, it would not survive the first sort. #}
 {% if showCardAsContentBlock  %}
 <div class="card">
 <div class="card-content">
     {% if properties.title %}
-        <h2 class="card-title"
-            {% if properties.title_edit_entity_url %}edit-url="{{ properties.title_edit_entity_url }}"{% endif %}
-            report-generated="{% if reportLastUpdatedMessage is defined %}{{ reportLastUpdatedMessage|raw }}{% endif %}"
-              vue-entry="CoreHome.EnrichedHeadline"
-        >{{ properties.title }}</h2>
+        {% include "@CoreHome/_reportHeader.twig" with { inCard: true } %}
     {% endif %}
 {% elseif showOnlyTitleWithoutCard %}
     <div>
-    <h2>{{ properties.title }}</h2>
+    {% include "@CoreHome/_reportHeader.twig" with { inCard: false } %}
 {% endif %}
 
 {% set showCardTableIsEmpty = not properties.show_as_content_block and isDataTableEmpty and not isWidget %}

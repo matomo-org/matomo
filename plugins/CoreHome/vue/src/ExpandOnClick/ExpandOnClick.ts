@@ -37,7 +37,7 @@ function expand(
     binding.value.onExpand(event);
   }
 
-  const positionElement = element.querySelector('.dropdown.positionInViewport');
+  const positionElement = element.querySelector('.positionInViewport');
   if (positionElement) {
     Matomo.helper.setMarginLeftToBeInViewport(positionElement);
   }

@@ -1,25 +1,25 @@
-.searchInputContainer {
+.mtm-searchInput {
   position: relative;
   width: 100%;
 
-  .icon-search {
+  .mtm-searchInput__icon {
     position: absolute;
-    font-size: 14px;
     top: 50%;
     left: 12px;
     transform: translateY(-50%);
+    font-size: 14px;
     line-height: 1;
-    color: @theme-color-border;
+    color: @theme-color-text-placeholder;
     pointer-events: none;
   }
 
-  .searchInputField {
+  .mtm-searchInput__input {
     height: 38px;
     font-size: 14px;
     line-height: 18px;
-    padding: 10px 12px 10px 38px;
+    padding: 10px 12px 10px 35px;
     border: 1px solid @theme-color-border;
-    border-radius: @_selector-dropdown_border-radius;
+    border-radius: 8px;
     background: @theme-color-background-contrast;
     width: 100%;
 
@@ -34,7 +34,7 @@
     }
   }
 
-  .searchInputClear {
+  .mtm-searchInput__clear {
     position: absolute;
     width: 13px;
     height: 13px;
@@ -45,5 +45,9 @@
     border: 0;
     background: transparent;
     cursor: pointer;
+  }
+
+  &:hover .mtm-searchInput__clear {
+    background: url(plugins/CoreHome/images/reset_search.png);
   }
 }

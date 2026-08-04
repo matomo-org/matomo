@@ -11,7 +11,6 @@ namespace Piwik\Plugins\CoreVisualizations\Visualizations;
 
 use Piwik\API\Request;
 use Piwik\Common;
-use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Metrics\Formatter as MetricFormatter;
@@ -20,8 +19,6 @@ use Piwik\Plugin\Report;
 use Piwik\Plugin\ReportsProvider;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\API\Filter\DataComparisonFilter;
-use Piwik\Plugins\CoreVisualizations\FeatureFlags\SparklinesRedesign;
-use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Piwik;
 use Piwik\SettingsPiwik;
 use Piwik\View;
@@ -116,13 +113,11 @@ class Sparklines extends ViewDataTable
         $view->footerMessage = $this->config->show_footer_message;
         $view->areSparklinesLinkable = $this->config->areSparklinesLinkable();
 
-        // The redesigned Vue card grid (gated by the SparklinesRedesign feature flag) covers the
-        // no-comparison layout, two-date comparison, segment comparison, and segment + date
-        // comparison; comparing three or more dates stays on the legacy Twig layout.
-        $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
+        // The redesigned Vue card grid covers the no-comparison layout, two-date comparison,
+        // segment comparison, and segment + date comparison; comparing three or more dates
+        // stays on the legacy Twig layout.
         $comparisonMode = $this->getSupportedRedesignComparisonMode();
-        $view->useNewSparklinesGrid = $featureFlagManager->isFeatureActive(SparklinesRedesign::class)
-            && $comparisonMode !== null;
+        $view->useNewSparklinesGrid = $comparisonMode !== null;
         // Layout the grid should render: 'none', 'date', 'segment' or 'segmentDate'
         // (see getSupportedRedesignComparisonMode()).
         $view->sparklinesComparisonMode = $comparisonMode ?? 'none';

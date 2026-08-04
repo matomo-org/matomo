@@ -23,11 +23,7 @@
 
   .metricValue__primary {
     display: flex;
-    // flex-end, not baseline: the number is now a scroll container (overflow:hidden, for truncation),
-    // and a scroll container synthesises its baseline from its bottom edge, which would drop the
-    // evolution badge ~a line below the number's text baseline. Bottom-aligning keeps the small pill
-    // sitting with the number instead.
-    align-items: flex-end;
+    align-items: safe center;
     gap: 8px;
   }
 
