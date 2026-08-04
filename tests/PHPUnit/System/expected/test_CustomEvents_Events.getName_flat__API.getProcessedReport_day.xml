@@ -63,7 +63,6 @@
 		<nb_events_with_value>Events with a value</nb_events_with_value>
 		<avg_event_value>The average of all values for this event</avg_event_value>
 		<nb_visits_percent_of_total>Visits (% of total)</nb_visits_percent_of_total>
-		<nb_uniq_visitors_percent_of_total>Unique visitors (% of total)</nb_uniq_visitors_percent_of_total>
 	</columns>
 	<reportData>
 		<result prettyDate="Sunday, January 3, 2010">
@@ -77,7 +76,6 @@
 				<min_event_value>0</min_event_value>
 				<max_event_value>0</max_event_value>
 				<nb_visits_percent_of_total>9.3%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>4.9%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -90,7 +88,6 @@
 				<min_event_value>9.66</min_event_value>
 				<max_event_value>9.66</max_event_value>
 				<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>4.9%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>9.66</avg_event_value>
 			</row>
 			<row>
@@ -103,7 +100,6 @@
 				<min_event_value>0</min_event_value>
 				<max_event_value>0</max_event_value>
 				<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>4.9%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -116,7 +112,6 @@
 				<min_event_value>0</min_event_value>
 				<max_event_value>0</max_event_value>
 				<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>4.9%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -129,7 +124,6 @@
 				<min_event_value>0</min_event_value>
 				<max_event_value>0</max_event_value>
 				<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>4.9%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -142,7 +136,6 @@
 				<min_event_value>0</min_event_value>
 				<max_event_value>0</max_event_value>
 				<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>4.9%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -155,7 +148,6 @@
 				<min_event_value>0</min_event_value>
 				<max_event_value>0</max_event_value>
 				<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>4.9%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -168,7 +160,6 @@
 				<min_event_value>0</min_event_value>
 				<max_event_value>0</max_event_value>
 				<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>4.9%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -181,7 +172,6 @@
 				<min_event_value>9</min_event_value>
 				<max_event_value>10</max_event_value>
 				<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>4.9%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>9.5</avg_event_value>
 			</row>
 			<row>
@@ -194,7 +184,6 @@
 				<min_event_value>0</min_event_value>
 				<max_event_value>0</max_event_value>
 				<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>4.9%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -207,7 +196,6 @@
 				<min_event_value>0</min_event_value>
 				<max_event_value>0</max_event_value>
 				<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>4.9%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -220,7 +208,6 @@
 				<min_event_value>0</min_event_value>
 				<max_event_value>0</max_event_value>
 				<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>4.9%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -233,7 +220,6 @@
 				<min_event_value>0</min_event_value>
 				<max_event_value>0</max_event_value>
 				<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>4.9%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -246,7 +232,6 @@
 				<min_event_value>0</min_event_value>
 				<max_event_value>0</max_event_value>
 				<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>4.9%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -259,7 +244,6 @@
 				<min_event_value>0</min_event_value>
 				<max_event_value>0</max_event_value>
 				<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>4.9%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -272,7 +256,6 @@
 				<min_event_value>0</min_event_value>
 				<max_event_value>0</max_event_value>
 				<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>4.9%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -285,7 +268,6 @@
 				<min_event_value>0</min_event_value>
 				<max_event_value>0</max_event_value>
 				<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>4.9%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -298,7 +280,6 @@
 				<min_event_value>0</min_event_value>
 				<max_event_value>0</max_event_value>
 				<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>4.9%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -311,7 +292,6 @@
 				<min_event_value>0</min_event_value>
 				<max_event_value>0</max_event_value>
 				<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>4.9%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -324,7 +304,6 @@
 				<min_event_value>9.66</min_event_value>
 				<max_event_value>9.66</max_event_value>
 				<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>4.9%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>9.66</avg_event_value>
 			</row>
 			<row>
@@ -337,7 +316,6 @@
 				<min_event_value>0</min_event_value>
 				<max_event_value>23</max_event_value>
 				<nb_visits_percent_of_total>2.3%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>2.4%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>11.5</avg_event_value>
 			</row>
 		</result>
@@ -352,7 +330,6 @@
 				<min_event_value>0</min_event_value>
 				<max_event_value>0</max_event_value>
 				<nb_visits_percent_of_total>9.5%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>5%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -365,7 +342,6 @@
 				<min_event_value>9.66</min_event_value>
 				<max_event_value>9.66</max_event_value>
 				<nb_visits_percent_of_total>4.8%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>5%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>9.66</avg_event_value>
 			</row>
 			<row>
@@ -378,7 +354,6 @@
 				<min_event_value>0</min_event_value>
 				<max_event_value>0</max_event_value>
 				<nb_visits_percent_of_total>4.8%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>5%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -391,7 +366,6 @@
 				<min_event_value>0</min_event_value>
 				<max_event_value>0</max_event_value>
 				<nb_visits_percent_of_total>4.8%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>5%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -404,7 +378,6 @@
 				<min_event_value>0</min_event_value>
 				<max_event_value>0</max_event_value>
 				<nb_visits_percent_of_total>4.8%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>5%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -417,7 +390,6 @@
 				<min_event_value>0</min_event_value>
 				<max_event_value>0</max_event_value>
 				<nb_visits_percent_of_total>4.8%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>5%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -430,7 +402,6 @@
 				<min_event_value>0</min_event_value>
 				<max_event_value>0</max_event_value>
 				<nb_visits_percent_of_total>4.8%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>5%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -443,7 +414,6 @@
 				<min_event_value>0</min_event_value>
 				<max_event_value>0</max_event_value>
 				<nb_visits_percent_of_total>4.8%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>5%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -456,7 +426,6 @@
 				<min_event_value>9</min_event_value>
 				<max_event_value>10</max_event_value>
 				<nb_visits_percent_of_total>4.8%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>5%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>9.5</avg_event_value>
 			</row>
 			<row>
@@ -469,7 +438,6 @@
 				<min_event_value>0</min_event_value>
 				<max_event_value>0</max_event_value>
 				<nb_visits_percent_of_total>4.8%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>5%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -482,7 +450,6 @@
 				<min_event_value>0</min_event_value>
 				<max_event_value>0</max_event_value>
 				<nb_visits_percent_of_total>4.8%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>5%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -495,7 +462,6 @@
 				<min_event_value>0</min_event_value>
 				<max_event_value>0</max_event_value>
 				<nb_visits_percent_of_total>4.8%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>5%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -508,7 +474,6 @@
 				<min_event_value>0</min_event_value>
 				<max_event_value>0</max_event_value>
 				<nb_visits_percent_of_total>4.8%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>5%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -521,7 +486,6 @@
 				<min_event_value>0</min_event_value>
 				<max_event_value>0</max_event_value>
 				<nb_visits_percent_of_total>4.8%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>5%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -534,7 +498,6 @@
 				<min_event_value>0</min_event_value>
 				<max_event_value>0</max_event_value>
 				<nb_visits_percent_of_total>4.8%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>5%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -547,7 +510,6 @@
 				<min_event_value>0</min_event_value>
 				<max_event_value>0</max_event_value>
 				<nb_visits_percent_of_total>4.8%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>5%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -560,7 +522,6 @@
 				<min_event_value>0</min_event_value>
 				<max_event_value>0</max_event_value>
 				<nb_visits_percent_of_total>4.8%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>5%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -573,7 +534,6 @@
 				<min_event_value>0</min_event_value>
 				<max_event_value>0</max_event_value>
 				<nb_visits_percent_of_total>4.8%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>5%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -586,7 +546,6 @@
 				<min_event_value>0</min_event_value>
 				<max_event_value>0</max_event_value>
 				<nb_visits_percent_of_total>4.8%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>5%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -599,7 +558,6 @@
 				<min_event_value>9.66</min_event_value>
 				<max_event_value>9.66</max_event_value>
 				<nb_visits_percent_of_total>4.8%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>5%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>9.66</avg_event_value>
 			</row>
 		</result>

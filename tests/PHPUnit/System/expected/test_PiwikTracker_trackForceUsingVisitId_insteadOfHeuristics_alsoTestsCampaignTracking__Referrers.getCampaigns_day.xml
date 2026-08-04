@@ -30,7 +30,6 @@
 		<nb_conversions>2</nb_conversions>
 		<revenue>47.59</revenue>
 		<nb_visits_percent_of_total>40%</nb_visits_percent_of_total>
-		<nb_uniq_visitors_percent_of_total>40%</nb_uniq_visitors_percent_of_total>
 		<nb_actions_percent_of_total>55.6%</nb_actions_percent_of_total>
 		<nb_visits_converted_percent_of_total>33.3%</nb_visits_converted_percent_of_total>
 		<nb_conversions_percent_of_total>28.6%</nb_conversions_percent_of_total>
@@ -58,7 +57,6 @@
 				<nb_conversions>1</nb_conversions>
 				<revenue>42.26</revenue>
 				<nb_visits_percent_of_total>20%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>20%</nb_uniq_visitors_percent_of_total>
 				<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
 				<nb_visits_converted_percent_of_total>33.3%</nb_visits_converted_percent_of_total>
 				<nb_conversions_percent_of_total>14.3%</nb_conversions_percent_of_total>
@@ -76,7 +74,6 @@
 				<bounce_count>1</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
 				<nb_visits_percent_of_total>10%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>10%</nb_uniq_visitors_percent_of_total>
 				<nb_actions_percent_of_total>11.1%</nb_actions_percent_of_total>
 				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
 				<bounce_count_percent_of_total>11.1%</bounce_count_percent_of_total>
@@ -92,7 +89,6 @@
 				<bounce_count>1</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
 				<nb_visits_percent_of_total>10%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>10%</nb_uniq_visitors_percent_of_total>
 				<nb_actions_percent_of_total>11.1%</nb_actions_percent_of_total>
 				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
 				<bounce_count_percent_of_total>11.1%</bounce_count_percent_of_total>
@@ -131,7 +127,6 @@
 		<bounce_count>2</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<nb_visits_percent_of_total>20%</nb_visits_percent_of_total>
-		<nb_uniq_visitors_percent_of_total>20%</nb_uniq_visitors_percent_of_total>
 		<nb_actions_percent_of_total>22.2%</nb_actions_percent_of_total>
 		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
 		<bounce_count_percent_of_total>22.2%</bounce_count_percent_of_total>
@@ -148,7 +143,6 @@
 				<bounce_count>1</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
 				<nb_visits_percent_of_total>10%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>10%</nb_uniq_visitors_percent_of_total>
 				<nb_actions_percent_of_total>11.1%</nb_actions_percent_of_total>
 				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
 				<bounce_count_percent_of_total>11.1%</bounce_count_percent_of_total>
@@ -164,7 +158,6 @@
 				<bounce_count>1</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
 				<nb_visits_percent_of_total>10%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>10%</nb_uniq_visitors_percent_of_total>
 				<nb_actions_percent_of_total>11.1%</nb_actions_percent_of_total>
 				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
 				<bounce_count_percent_of_total>11.1%</bounce_count_percent_of_total>
@@ -182,7 +175,6 @@
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<nb_visits_percent_of_total>10%</nb_visits_percent_of_total>
-		<nb_uniq_visitors_percent_of_total>10%</nb_uniq_visitors_percent_of_total>
 		<nb_actions_percent_of_total>11.1%</nb_actions_percent_of_total>
 		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
 		<bounce_count_percent_of_total>11.1%</bounce_count_percent_of_total>
@@ -199,7 +191,6 @@
 				<bounce_count>1</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
 				<nb_visits_percent_of_total>10%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>10%</nb_uniq_visitors_percent_of_total>
 				<nb_actions_percent_of_total>11.1%</nb_actions_percent_of_total>
 				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
 				<bounce_count_percent_of_total>11.1%</bounce_count_percent_of_total>
@@ -217,7 +208,6 @@
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<nb_visits_percent_of_total>10%</nb_visits_percent_of_total>
-		<nb_uniq_visitors_percent_of_total>10%</nb_uniq_visitors_percent_of_total>
 		<nb_actions_percent_of_total>11.1%</nb_actions_percent_of_total>
 		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
 		<bounce_count_percent_of_total>11.1%</bounce_count_percent_of_total>
@@ -234,7 +224,6 @@
 				<bounce_count>1</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
 				<nb_visits_percent_of_total>10%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>10%</nb_uniq_visitors_percent_of_total>
 				<nb_actions_percent_of_total>11.1%</nb_actions_percent_of_total>
 				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
 				<bounce_count_percent_of_total>11.1%</bounce_count_percent_of_total>
@@ -261,7 +250,6 @@
 		<nb_conversions>1</nb_conversions>
 		<revenue>24</revenue>
 		<nb_visits_percent_of_total>10%</nb_visits_percent_of_total>
-		<nb_uniq_visitors_percent_of_total>10%</nb_uniq_visitors_percent_of_total>
 		<nb_actions_percent_of_total>0%</nb_actions_percent_of_total>
 		<nb_visits_converted_percent_of_total>33.3%</nb_visits_converted_percent_of_total>
 		<nb_conversions_percent_of_total>14.3%</nb_conversions_percent_of_total>
@@ -289,7 +277,6 @@
 				<nb_conversions>1</nb_conversions>
 				<revenue>24</revenue>
 				<nb_visits_percent_of_total>10%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>10%</nb_uniq_visitors_percent_of_total>
 				<nb_actions_percent_of_total>0%</nb_actions_percent_of_total>
 				<nb_visits_converted_percent_of_total>33.3%</nb_visits_converted_percent_of_total>
 				<nb_conversions_percent_of_total>14.3%</nb_conversions_percent_of_total>
@@ -318,7 +305,6 @@
 		<nb_conversions>1</nb_conversions>
 		<revenue>42</revenue>
 		<nb_visits_percent_of_total>10%</nb_visits_percent_of_total>
-		<nb_uniq_visitors_percent_of_total>10%</nb_uniq_visitors_percent_of_total>
 		<nb_actions_percent_of_total>0%</nb_actions_percent_of_total>
 		<nb_visits_converted_percent_of_total>33.3%</nb_visits_converted_percent_of_total>
 		<nb_conversions_percent_of_total>14.3%</nb_conversions_percent_of_total>
@@ -346,7 +332,6 @@
 				<nb_conversions>1</nb_conversions>
 				<revenue>42</revenue>
 				<nb_visits_percent_of_total>10%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>10%</nb_uniq_visitors_percent_of_total>
 				<nb_actions_percent_of_total>0%</nb_actions_percent_of_total>
 				<nb_visits_converted_percent_of_total>33.3%</nb_visits_converted_percent_of_total>
 				<nb_conversions_percent_of_total>14.3%</nb_conversions_percent_of_total>

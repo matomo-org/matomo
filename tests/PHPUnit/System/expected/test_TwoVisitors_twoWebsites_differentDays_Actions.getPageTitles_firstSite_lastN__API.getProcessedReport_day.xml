@@ -77,13 +77,11 @@
 		<bounce_rate>Bounce Rate</bounce_rate>
 		<exit_rate>Exit rate</exit_rate>
 		<nb_visits_percent_of_total>Unique Pageviews (% of total)</nb_visits_percent_of_total>
-		<nb_uniq_visitors_percent_of_total>Unique visitors (% of total)</nb_uniq_visitors_percent_of_total>
 		<nb_hits_percent_of_total>Pageviews (% of total)</nb_hits_percent_of_total>
 		<entry_bounce_count_percent_of_total>Bounces (% of total)</entry_bounce_count_percent_of_total>
 		<entry_nb_visits_percent_of_total>Entrances (% of total)</entry_nb_visits_percent_of_total>
 		<entry_nb_actions_percent_of_total>Actions after entering here (% of total)</entry_nb_actions_percent_of_total>
 		<exit_nb_visits_percent_of_total>Exits (% of total)</exit_nb_visits_percent_of_total>
-		<exit_nb_uniq_visitors_percent_of_total>Unique exits (% of total)</exit_nb_uniq_visitors_percent_of_total>
 	</columns>
 	<reportData>
 		<result prettyDate="Sunday, January 3, 2010">
@@ -92,13 +90,11 @@
 				<nb_visits>2</nb_visits>
 				<nb_hits>2</nb_hits>
 				<nb_visits_percent_of_total>100%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>100%</nb_uniq_visitors_percent_of_total>
 				<nb_hits_percent_of_total>100%</nb_hits_percent_of_total>
 				<entry_bounce_count_percent_of_total>100%</entry_bounce_count_percent_of_total>
 				<entry_nb_visits_percent_of_total>100%</entry_nb_visits_percent_of_total>
 				<entry_nb_actions_percent_of_total>100%</entry_nb_actions_percent_of_total>
 				<exit_nb_visits_percent_of_total>100%</exit_nb_visits_percent_of_total>
-				<exit_nb_uniq_visitors_percent_of_total>100%</exit_nb_uniq_visitors_percent_of_total>
 				<bounce_rate>100%</bounce_rate>
 				<avg_time_on_page>00:00:00</avg_time_on_page>
 				<exit_rate>100%</exit_rate>
@@ -110,7 +106,6 @@
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
 				<nb_visits_percent_of_total>100%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>100%</nb_uniq_visitors_percent_of_total>
 				<nb_hits_percent_of_total>100%</nb_hits_percent_of_total>
 				<bounce_rate>0%</bounce_rate>
 				<avg_time_on_page>00:00:00</avg_time_on_page>
@@ -119,7 +114,6 @@
 				<entry_nb_visits_percent_of_total>0%</entry_nb_visits_percent_of_total>
 				<entry_nb_actions_percent_of_total>0%</entry_nb_actions_percent_of_total>
 				<exit_nb_visits_percent_of_total>0%</exit_nb_visits_percent_of_total>
-				<exit_nb_uniq_visitors_percent_of_total>0%</exit_nb_uniq_visitors_percent_of_total>
 			</row>
 		</result>
 		<result prettyDate="Tuesday, January 5, 2010">
@@ -128,10 +122,8 @@
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
 				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
 				<nb_hits_percent_of_total>33.3%</nb_hits_percent_of_total>
 				<exit_nb_visits_percent_of_total>100%</exit_nb_visits_percent_of_total>
-				<exit_nb_uniq_visitors_percent_of_total>100%</exit_nb_uniq_visitors_percent_of_total>
 				<bounce_rate>0%</bounce_rate>
 				<avg_time_on_page>00:00:00</avg_time_on_page>
 				<exit_rate>100%</exit_rate>
@@ -144,7 +136,6 @@
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
 				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
 				<nb_hits_percent_of_total>33.3%</nb_hits_percent_of_total>
 				<entry_bounce_count_percent_of_total>0%</entry_bounce_count_percent_of_total>
 				<entry_nb_visits_percent_of_total>100%</entry_nb_visits_percent_of_total>
@@ -153,14 +144,12 @@
 				<avg_time_on_page>00:06:00</avg_time_on_page>
 				<exit_rate>0%</exit_rate>
 				<exit_nb_visits_percent_of_total>0%</exit_nb_visits_percent_of_total>
-				<exit_nb_uniq_visitors_percent_of_total>0%</exit_nb_uniq_visitors_percent_of_total>
 			</row>
 			<row>
 				<label> second visitor/two days later/second page view😀💩😀💩</label>
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
 				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
 				<nb_hits_percent_of_total>33.3%</nb_hits_percent_of_total>
 				<bounce_rate>0%</bounce_rate>
 				<avg_time_on_page>00:09:00</avg_time_on_page>
@@ -169,7 +158,6 @@
 				<entry_nb_visits_percent_of_total>0%</entry_nb_visits_percent_of_total>
 				<entry_nb_actions_percent_of_total>0%</entry_nb_actions_percent_of_total>
 				<exit_nb_visits_percent_of_total>0%</exit_nb_visits_percent_of_total>
-				<exit_nb_uniq_visitors_percent_of_total>0%</exit_nb_uniq_visitors_percent_of_total>
 			</row>
 		</result>
 		<result prettyDate="Wednesday, January 6, 2010">
@@ -178,10 +166,8 @@
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
 				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
 				<nb_hits_percent_of_total>33.3%</nb_hits_percent_of_total>
 				<exit_nb_visits_percent_of_total>100%</exit_nb_visits_percent_of_total>
-				<exit_nb_uniq_visitors_percent_of_total>100%</exit_nb_uniq_visitors_percent_of_total>
 				<bounce_rate>0%</bounce_rate>
 				<avg_time_on_page>00:00:00</avg_time_on_page>
 				<exit_rate>100%</exit_rate>
@@ -194,7 +180,6 @@
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
 				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
 				<nb_hits_percent_of_total>33.3%</nb_hits_percent_of_total>
 				<entry_bounce_count_percent_of_total>0%</entry_bounce_count_percent_of_total>
 				<entry_nb_visits_percent_of_total>100%</entry_nb_visits_percent_of_total>
@@ -203,14 +188,12 @@
 				<avg_time_on_page>00:06:00</avg_time_on_page>
 				<exit_rate>0%</exit_rate>
 				<exit_nb_visits_percent_of_total>0%</exit_nb_visits_percent_of_total>
-				<exit_nb_uniq_visitors_percent_of_total>0%</exit_nb_uniq_visitors_percent_of_total>
 			</row>
 			<row>
 				<label> second visitor/two days later/second page view😀💩😀💩</label>
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
 				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
 				<nb_hits_percent_of_total>33.3%</nb_hits_percent_of_total>
 				<bounce_rate>0%</bounce_rate>
 				<avg_time_on_page>00:09:00</avg_time_on_page>
@@ -219,7 +202,6 @@
 				<entry_nb_visits_percent_of_total>0%</entry_nb_visits_percent_of_total>
 				<entry_nb_actions_percent_of_total>0%</entry_nb_actions_percent_of_total>
 				<exit_nb_visits_percent_of_total>0%</exit_nb_visits_percent_of_total>
-				<exit_nb_uniq_visitors_percent_of_total>0%</exit_nb_uniq_visitors_percent_of_total>
 			</row>
 		</result>
 		<result prettyDate="Thursday, January 7, 2010">
@@ -228,10 +210,8 @@
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
 				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
 				<nb_hits_percent_of_total>33.3%</nb_hits_percent_of_total>
 				<exit_nb_visits_percent_of_total>100%</exit_nb_visits_percent_of_total>
-				<exit_nb_uniq_visitors_percent_of_total>100%</exit_nb_uniq_visitors_percent_of_total>
 				<bounce_rate>0%</bounce_rate>
 				<avg_time_on_page>00:00:00</avg_time_on_page>
 				<exit_rate>100%</exit_rate>
@@ -244,7 +224,6 @@
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
 				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
 				<nb_hits_percent_of_total>33.3%</nb_hits_percent_of_total>
 				<entry_bounce_count_percent_of_total>0%</entry_bounce_count_percent_of_total>
 				<entry_nb_visits_percent_of_total>100%</entry_nb_visits_percent_of_total>
@@ -253,14 +232,12 @@
 				<avg_time_on_page>00:06:00</avg_time_on_page>
 				<exit_rate>0%</exit_rate>
 				<exit_nb_visits_percent_of_total>0%</exit_nb_visits_percent_of_total>
-				<exit_nb_uniq_visitors_percent_of_total>0%</exit_nb_uniq_visitors_percent_of_total>
 			</row>
 			<row>
 				<label> second visitor/two days later/second page view😀💩😀💩</label>
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
 				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
 				<nb_hits_percent_of_total>33.3%</nb_hits_percent_of_total>
 				<bounce_rate>0%</bounce_rate>
 				<avg_time_on_page>00:09:00</avg_time_on_page>
@@ -269,7 +246,6 @@
 				<entry_nb_visits_percent_of_total>0%</entry_nb_visits_percent_of_total>
 				<entry_nb_actions_percent_of_total>0%</entry_nb_actions_percent_of_total>
 				<exit_nb_visits_percent_of_total>0%</exit_nb_visits_percent_of_total>
-				<exit_nb_uniq_visitors_percent_of_total>0%</exit_nb_uniq_visitors_percent_of_total>
 			</row>
 		</result>
 		<result prettyDate="Friday, January 8, 2010">
@@ -278,10 +254,8 @@
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
 				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
 				<nb_hits_percent_of_total>33.3%</nb_hits_percent_of_total>
 				<exit_nb_visits_percent_of_total>100%</exit_nb_visits_percent_of_total>
-				<exit_nb_uniq_visitors_percent_of_total>100%</exit_nb_uniq_visitors_percent_of_total>
 				<bounce_rate>0%</bounce_rate>
 				<avg_time_on_page>00:00:00</avg_time_on_page>
 				<exit_rate>100%</exit_rate>
@@ -294,7 +268,6 @@
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
 				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
 				<nb_hits_percent_of_total>33.3%</nb_hits_percent_of_total>
 				<entry_bounce_count_percent_of_total>0%</entry_bounce_count_percent_of_total>
 				<entry_nb_visits_percent_of_total>100%</entry_nb_visits_percent_of_total>
@@ -303,14 +276,12 @@
 				<avg_time_on_page>00:06:00</avg_time_on_page>
 				<exit_rate>0%</exit_rate>
 				<exit_nb_visits_percent_of_total>0%</exit_nb_visits_percent_of_total>
-				<exit_nb_uniq_visitors_percent_of_total>0%</exit_nb_uniq_visitors_percent_of_total>
 			</row>
 			<row>
 				<label> second visitor/two days later/second page view😀💩😀💩</label>
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
 				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
 				<nb_hits_percent_of_total>33.3%</nb_hits_percent_of_total>
 				<bounce_rate>0%</bounce_rate>
 				<avg_time_on_page>00:09:00</avg_time_on_page>
@@ -319,7 +290,6 @@
 				<entry_nb_visits_percent_of_total>0%</entry_nb_visits_percent_of_total>
 				<entry_nb_actions_percent_of_total>0%</entry_nb_actions_percent_of_total>
 				<exit_nb_visits_percent_of_total>0%</exit_nb_visits_percent_of_total>
-				<exit_nb_uniq_visitors_percent_of_total>0%</exit_nb_uniq_visitors_percent_of_total>
 			</row>
 		</result>
 		<result prettyDate="Saturday, January 9, 2010">
@@ -328,10 +298,8 @@
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
 				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
 				<nb_hits_percent_of_total>33.3%</nb_hits_percent_of_total>
 				<exit_nb_visits_percent_of_total>100%</exit_nb_visits_percent_of_total>
-				<exit_nb_uniq_visitors_percent_of_total>100%</exit_nb_uniq_visitors_percent_of_total>
 				<bounce_rate>0%</bounce_rate>
 				<avg_time_on_page>00:00:00</avg_time_on_page>
 				<exit_rate>100%</exit_rate>
@@ -344,7 +312,6 @@
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
 				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
 				<nb_hits_percent_of_total>33.3%</nb_hits_percent_of_total>
 				<entry_bounce_count_percent_of_total>0%</entry_bounce_count_percent_of_total>
 				<entry_nb_visits_percent_of_total>100%</entry_nb_visits_percent_of_total>
@@ -353,14 +320,12 @@
 				<avg_time_on_page>00:06:00</avg_time_on_page>
 				<exit_rate>0%</exit_rate>
 				<exit_nb_visits_percent_of_total>0%</exit_nb_visits_percent_of_total>
-				<exit_nb_uniq_visitors_percent_of_total>0%</exit_nb_uniq_visitors_percent_of_total>
 			</row>
 			<row>
 				<label> second visitor/two days later/second page view😀💩😀💩</label>
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
 				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
 				<nb_hits_percent_of_total>33.3%</nb_hits_percent_of_total>
 				<bounce_rate>0%</bounce_rate>
 				<avg_time_on_page>00:09:00</avg_time_on_page>
@@ -369,7 +334,6 @@
 				<entry_nb_visits_percent_of_total>0%</entry_nb_visits_percent_of_total>
 				<entry_nb_actions_percent_of_total>0%</entry_nb_actions_percent_of_total>
 				<exit_nb_visits_percent_of_total>0%</exit_nb_visits_percent_of_total>
-				<exit_nb_uniq_visitors_percent_of_total>0%</exit_nb_uniq_visitors_percent_of_total>
 			</row>
 		</result>
 	</reportData>

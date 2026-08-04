@@ -12,7 +12,6 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<avg_bandwidth>0</avg_bandwidth>
 		<nb_visits_percent_of_total>20%</nb_visits_percent_of_total>
-		<nb_uniq_visitors_percent_of_total>20%</nb_uniq_visitors_percent_of_total>
 		<nb_actions_percent_of_total>20%</nb_actions_percent_of_total>
 		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
 		<bounce_count_percent_of_total>20%</bounce_count_percent_of_total>
@@ -33,7 +32,6 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<avg_bandwidth>0</avg_bandwidth>
 		<nb_visits_percent_of_total>20%</nb_visits_percent_of_total>
-		<nb_uniq_visitors_percent_of_total>20%</nb_uniq_visitors_percent_of_total>
 		<nb_actions_percent_of_total>20%</nb_actions_percent_of_total>
 		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
 		<bounce_count_percent_of_total>20%</bounce_count_percent_of_total>
@@ -54,7 +52,6 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<avg_bandwidth>0</avg_bandwidth>
 		<nb_visits_percent_of_total>60%</nb_visits_percent_of_total>
-		<nb_uniq_visitors_percent_of_total>60%</nb_uniq_visitors_percent_of_total>
 		<nb_actions_percent_of_total>60%</nb_actions_percent_of_total>
 		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
 		<bounce_count_percent_of_total>60%</bounce_count_percent_of_total>

@@ -35,7 +35,6 @@
 		<nb_conversions>3</nb_conversions>
 		<revenue>3121.11</revenue>
 		<nb_visits_percent_of_total>37.5%</nb_visits_percent_of_total>
-		<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
 		<nb_actions_percent_of_total>37.1%</nb_actions_percent_of_total>
 		<nb_visits_converted_percent_of_total>40%</nb_visits_converted_percent_of_total>
 		<nb_conversions_percent_of_total>37.5%</nb_conversions_percent_of_total>
@@ -84,7 +83,6 @@
 				<nb_conversions>3</nb_conversions>
 				<revenue>3121.11</revenue>
 				<nb_visits_percent_of_total>37.5%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
 				<nb_actions_percent_of_total>37.1%</nb_actions_percent_of_total>
 				<nb_visits_converted_percent_of_total>40%</nb_visits_converted_percent_of_total>
 				<nb_conversions_percent_of_total>37.5%</nb_conversions_percent_of_total>
@@ -128,7 +126,6 @@
 		<nb_conversions>3</nb_conversions>
 		<revenue>3121.11</revenue>
 		<nb_visits_percent_of_total>37.5%</nb_visits_percent_of_total>
-		<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
 		<nb_actions_percent_of_total>37.1%</nb_actions_percent_of_total>
 		<nb_visits_converted_percent_of_total>40%</nb_visits_converted_percent_of_total>
 		<nb_conversions_percent_of_total>37.5%</nb_conversions_percent_of_total>
@@ -177,7 +174,6 @@
 				<nb_conversions>3</nb_conversions>
 				<revenue>3121.11</revenue>
 				<nb_visits_percent_of_total>37.5%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
 				<nb_actions_percent_of_total>37.1%</nb_actions_percent_of_total>
 				<nb_visits_converted_percent_of_total>40%</nb_visits_converted_percent_of_total>
 				<nb_conversions_percent_of_total>37.5%</nb_conversions_percent_of_total>
@@ -216,7 +212,6 @@
 		<nb_conversions>2</nb_conversions>
 		<revenue>3111.11</revenue>
 		<nb_visits_percent_of_total>25%</nb_visits_percent_of_total>
-		<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
 		<nb_actions_percent_of_total>25.7%</nb_actions_percent_of_total>
 		<nb_visits_converted_percent_of_total>20%</nb_visits_converted_percent_of_total>
 		<nb_conversions_percent_of_total>25%</nb_conversions_percent_of_total>
@@ -260,7 +255,6 @@
 				<nb_conversions>2</nb_conversions>
 				<revenue>3111.11</revenue>
 				<nb_visits_percent_of_total>25%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
 				<nb_actions_percent_of_total>25.7%</nb_actions_percent_of_total>
 				<nb_visits_converted_percent_of_total>20%</nb_visits_converted_percent_of_total>
 				<nb_conversions_percent_of_total>25%</nb_conversions_percent_of_total>

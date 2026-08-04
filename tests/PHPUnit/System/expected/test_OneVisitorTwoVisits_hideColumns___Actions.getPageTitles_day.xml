@@ -110,13 +110,11 @@
 					</row>
 				</goals>
 				<nb_visits_percent_of_total>25%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
 				<nb_hits_percent_of_total>25%</nb_hits_percent_of_total>
 				<entry_bounce_count_percent_of_total>100%</entry_bounce_count_percent_of_total>
 				<entry_nb_visits_percent_of_total>50%</entry_nb_visits_percent_of_total>
 				<entry_nb_actions_percent_of_total>12.5%</entry_nb_actions_percent_of_total>
 				<exit_nb_visits_percent_of_total>50%</exit_nb_visits_percent_of_total>
-				<exit_nb_uniq_visitors_percent_of_total>100%</exit_nb_uniq_visitors_percent_of_total>
 				<avg_time_on_page>0</avg_time_on_page>
 				<exit_rate>100%</exit_rate>
 				<segment>pageTitle==Checkout%252FPurchasing...</segment>
@@ -178,7 +176,6 @@
 		<avg_time_on_load>0.222</avg_time_on_load>
 		<avg_page_load_time>2.28</avg_page_load_time>
 		<nb_visits_percent_of_total>25%</nb_visits_percent_of_total>
-		<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
 		<nb_hits_percent_of_total>25%</nb_hits_percent_of_total>
 		<entry_bounce_count_percent_of_total>0%</entry_bounce_count_percent_of_total>
 		<entry_nb_visits_percent_of_total>50%</entry_nb_visits_percent_of_total>
@@ -227,10 +224,8 @@
 		<avg_time_on_load>0.333</avg_time_on_load>
 		<avg_page_load_time>2.665</avg_page_load_time>
 		<nb_visits_percent_of_total>25%</nb_visits_percent_of_total>
-		<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
 		<nb_hits_percent_of_total>25%</nb_hits_percent_of_total>
 		<exit_nb_visits_percent_of_total>50%</exit_nb_visits_percent_of_total>
-		<exit_nb_uniq_visitors_percent_of_total>100%</exit_nb_uniq_visitors_percent_of_total>
 		<avg_time_on_page>0</avg_time_on_page>
 		<exit_rate>100%</exit_rate>
 		<segment>pageTitle==Looking%2Bat%2Bhomepage%2B%2528again%2529...</segment>
@@ -286,7 +281,6 @@
 		<avg_time_on_load>0.152</avg_time_on_load>
 		<avg_page_load_time>2.446</avg_page_load_time>
 		<nb_visits_percent_of_total>25%</nb_visits_percent_of_total>
-		<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
 		<nb_hits_percent_of_total>25%</nb_hits_percent_of_total>
 		<avg_time_on_page>900</avg_time_on_page>
 		<exit_rate>0%</exit_rate>

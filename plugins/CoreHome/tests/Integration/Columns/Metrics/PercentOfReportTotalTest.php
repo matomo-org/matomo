@@ -109,6 +109,27 @@ class PercentOfReportTotalTest extends IntegrationTestCase
         );
     }
 
+    public function testAddMetricsToTableSkipsNonAdditiveMetrics()
+    {
+        // unique visitor/user totals are plain sums of non-summable values, so their
+        // percentages would be meaningless (and can differ between the flat and the
+        // hierarchical Actions record a report is served from)
+        $table = $this->makeTableWithTotals([
+            'nb_visits' => 200,
+            'nb_uniq_visitors' => 150,
+            'nb_users' => 30,
+            'exit_nb_uniq_visitors' => 20,
+            'sum_daily_nb_uniq_visitors' => 400,
+        ]);
+
+        PercentOfReportTotal::addMetricsToTable($table, null);
+
+        $this->assertEquals(
+            ['nb_visits_percent_of_total'],
+            $this->getRegisteredMetricNames($table)
+        );
+    }
+
     public function testAddMetricsToTableRegistersMetricsTheReportProcessesTotalsFor()
     {
         $table = $this->makeTableWithTotals(['nb_visits' => 200, 'my_custom_metric' => 50]);

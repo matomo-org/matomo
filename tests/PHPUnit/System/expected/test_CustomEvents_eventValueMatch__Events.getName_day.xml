@@ -10,7 +10,6 @@
 		<min_event_value>9.66</min_event_value>
 		<max_event_value>9.66</max_event_value>
 		<nb_visits_percent_of_total>43.2%</nb_visits_percent_of_total>
-		<nb_uniq_visitors_percent_of_total>43.2%</nb_uniq_visitors_percent_of_total>
 		<avg_event_value>9.66</avg_event_value>
 		<segment>eventName==Spirited+Away+%28%E5%8D%83%E3%81%A8%E5%8D%83%E5%B0%8B%E3%81%AE%E7%A5%9E%E9%9A%A0%E3%81%97%29</segment>
 		<subtable>
@@ -24,7 +23,6 @@
 				<min_event_value />
 				<max_event_value />
 				<nb_visits_percent_of_total>5.4%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>5.4%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -37,7 +35,6 @@
 				<min_event_value />
 				<max_event_value />
 				<nb_visits_percent_of_total>5.4%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>5.4%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -50,7 +47,6 @@
 				<min_event_value />
 				<max_event_value />
 				<nb_visits_percent_of_total>5.4%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>5.4%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -63,7 +59,6 @@
 				<min_event_value />
 				<max_event_value />
 				<nb_visits_percent_of_total>5.4%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>5.4%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -76,7 +71,6 @@
 				<min_event_value />
 				<max_event_value />
 				<nb_visits_percent_of_total>5.4%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>5.4%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -89,7 +83,6 @@
 				<min_event_value />
 				<max_event_value />
 				<nb_visits_percent_of_total>5.4%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>5.4%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -102,7 +95,6 @@
 				<min_event_value />
 				<max_event_value />
 				<nb_visits_percent_of_total>5.4%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>5.4%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -115,7 +107,6 @@
 				<min_event_value>9.66</min_event_value>
 				<max_event_value>9.66</max_event_value>
 				<nb_visits_percent_of_total>5.4%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>5.4%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>9.66</avg_event_value>
 			</row>
 		</subtable>
@@ -130,7 +121,6 @@
 		<min_event_value>9</min_event_value>
 		<max_event_value>10</max_event_value>
 		<nb_visits_percent_of_total>32.4%</nb_visits_percent_of_total>
-		<nb_uniq_visitors_percent_of_total>32.4%</nb_uniq_visitors_percent_of_total>
 		<avg_event_value>9.5</avg_event_value>
 		<segment>eventName==La+fianc%C3%A9e+de+l%26%23039%3Beau</segment>
 		<subtable>
@@ -144,7 +134,6 @@
 				<min_event_value />
 				<max_event_value />
 				<nb_visits_percent_of_total>5.4%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>5.4%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -157,7 +146,6 @@
 				<min_event_value />
 				<max_event_value />
 				<nb_visits_percent_of_total>5.4%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>5.4%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -170,7 +158,6 @@
 				<min_event_value />
 				<max_event_value />
 				<nb_visits_percent_of_total>5.4%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>5.4%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -183,7 +170,6 @@
 				<min_event_value />
 				<max_event_value />
 				<nb_visits_percent_of_total>5.4%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>5.4%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -196,7 +182,6 @@
 				<min_event_value />
 				<max_event_value />
 				<nb_visits_percent_of_total>5.4%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>5.4%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -209,7 +194,6 @@
 				<min_event_value>9</min_event_value>
 				<max_event_value>10</max_event_value>
 				<nb_visits_percent_of_total>5.4%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>5.4%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>9.5</avg_event_value>
 			</row>
 		</subtable>
@@ -224,7 +208,6 @@
 		<min_event_value>9.66</min_event_value>
 		<max_event_value>9.66</max_event_value>
 		<nb_visits_percent_of_total>5.4%</nb_visits_percent_of_total>
-		<nb_uniq_visitors_percent_of_total>5.4%</nb_uniq_visitors_percent_of_total>
 		<avg_event_value>9.66</avg_event_value>
 		<segment>eventName==event+name+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+---%26gt%3B+SHOULD+APPEAR+IN+TEST+OUTPUT+NOT+TRUNCATED+%26lt%3B---</segment>
 		<subtable>
@@ -238,7 +221,6 @@
 				<min_event_value>9.66</min_event_value>
 				<max_event_value>9.66</max_event_value>
 				<nb_visits_percent_of_total>5.4%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>5.4%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>9.66</avg_event_value>
 			</row>
 		</subtable>
@@ -253,7 +235,6 @@
 		<min_event_value />
 		<max_event_value />
 		<nb_visits_percent_of_total>5.4%</nb_visits_percent_of_total>
-		<nb_uniq_visitors_percent_of_total>5.4%</nb_uniq_visitors_percent_of_total>
 		<avg_event_value>0</avg_event_value>
 		<segment>eventName==Ponyo+%28%E5%B4%96%E3%81%AE%E4%B8%8A%E3%81%AE%E3%83%9D%E3%83%8B%E3%83%A7%29</segment>
 		<subtable>
@@ -267,7 +248,6 @@
 				<min_event_value />
 				<max_event_value />
 				<nb_visits_percent_of_total>5.4%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>5.4%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 		</subtable>
@@ -282,7 +262,6 @@
 		<min_event_value />
 		<max_event_value />
 		<nb_visits_percent_of_total>5.4%</nb_visits_percent_of_total>
-		<nb_uniq_visitors_percent_of_total>5.4%</nb_uniq_visitors_percent_of_total>
 		<avg_event_value>0</avg_event_value>
 		<segment>eventName==Princess+Mononoke+%28%E3%82%82%E3%81%AE%E3%81%AE%E3%81%91%E5%A7%AB%29</segment>
 		<subtable>
@@ -296,7 +275,6 @@
 				<min_event_value />
 				<max_event_value />
 				<nb_visits_percent_of_total>5.4%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>5.4%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 		</subtable>
@@ -311,7 +289,6 @@
 		<min_event_value />
 		<max_event_value />
 		<nb_visits_percent_of_total>5.4%</nb_visits_percent_of_total>
-		<nb_uniq_visitors_percent_of_total>5.4%</nb_uniq_visitors_percent_of_total>
 		<avg_event_value>0</avg_event_value>
 		<segment>eventName==Search+query+here</segment>
 		<subtable>
@@ -325,7 +302,6 @@
 				<min_event_value />
 				<max_event_value />
 				<nb_visits_percent_of_total>5.4%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>5.4%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 		</subtable>
@@ -340,7 +316,6 @@
 		<min_event_value>0</min_event_value>
 		<max_event_value>23</max_event_value>
 		<nb_visits_percent_of_total>2.7%</nb_visits_percent_of_total>
-		<nb_uniq_visitors_percent_of_total>2.7%</nb_uniq_visitors_percent_of_total>
 		<avg_event_value>11.5</avg_event_value>
 		<subtable>
 			<row>
@@ -353,7 +328,6 @@
 				<min_event_value>0</min_event_value>
 				<max_event_value>23</max_event_value>
 				<nb_visits_percent_of_total>2.7%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>2.7%</nb_uniq_visitors_percent_of_total>
 				<avg_event_value>11.5</avg_event_value>
 			</row>
 		</subtable>

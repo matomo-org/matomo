@@ -7,7 +7,6 @@
 		<nb_impressions>4</nb_impressions>
 		<nb_interactions>2</nb_interactions>
 		<nb_visits_percent_of_total>25%</nb_visits_percent_of_total>
-		<nb_uniq_visitors_percent_of_total>25%</nb_uniq_visitors_percent_of_total>
 		<interaction_rate>50%</interaction_rate>
 		<segment>contentPiece==Click+to+download+Piwik+now</segment>
 	</row>
@@ -18,7 +17,6 @@
 		<nb_impressions>2</nb_impressions>
 		<nb_interactions>2</nb_interactions>
 		<nb_visits_percent_of_total>12.5%</nb_visits_percent_of_total>
-		<nb_uniq_visitors_percent_of_total>12.5%</nb_uniq_visitors_percent_of_total>
 		<interaction_rate>100%</interaction_rate>
 		<segment>contentPiece==%2Fpath%2Fad.jpg</segment>
 	</row>
@@ -29,7 +27,6 @@
 		<nb_impressions>2</nb_impressions>
 		<nb_interactions>0</nb_interactions>
 		<nb_visits_percent_of_total>12.5%</nb_visits_percent_of_total>
-		<nb_uniq_visitors_percent_of_total>12.5%</nb_uniq_visitors_percent_of_total>
 		<interaction_rate>0%</interaction_rate>
 		<segment>contentPiece==%2Fpath%2Fad2.jpg</segment>
 	</row>
@@ -40,7 +37,6 @@
 		<nb_impressions>2</nb_impressions>
 		<nb_interactions>2</nb_interactions>
 		<nb_visits_percent_of_total>12.5%</nb_visits_percent_of_total>
-		<nb_uniq_visitors_percent_of_total>12.5%</nb_uniq_visitors_percent_of_total>
 		<interaction_rate>100%</interaction_rate>
 		<segment>contentPiece==Click+NOW</segment>
 	</row>
@@ -51,7 +47,6 @@
 		<nb_impressions>2</nb_impressions>
 		<nb_interactions>0</nb_interactions>
 		<nb_visits_percent_of_total>12.5%</nb_visits_percent_of_total>
-		<nb_uniq_visitors_percent_of_total>12.5%</nb_uniq_visitors_percent_of_total>
 		<interaction_rate>0%</interaction_rate>
 	</row>
 	<row>
@@ -61,7 +56,6 @@
 		<nb_impressions>4</nb_impressions>
 		<nb_interactions>0</nb_interactions>
 		<nb_visits_percent_of_total>12.5%</nb_visits_percent_of_total>
-		<nb_uniq_visitors_percent_of_total>12.5%</nb_uniq_visitors_percent_of_total>
 		<interaction_rate>0%</interaction_rate>
 		<segment>contentPiece==movie.mov</segment>
 	</row>
@@ -72,7 +66,6 @@
 		<nb_impressions>2</nb_impressions>
 		<nb_interactions>0</nb_interactions>
 		<nb_visits_percent_of_total>12.5%</nb_visits_percent_of_total>
-		<nb_uniq_visitors_percent_of_total>12.5%</nb_uniq_visitors_percent_of_total>
 		<interaction_rate>0%</interaction_rate>
 		<segment>contentPiece==Unknown</segment>
 	</row>

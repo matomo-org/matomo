@@ -69,7 +69,6 @@
 		<bounce_rate>Bounce Rate</bounce_rate>
 		<revenue>Revenue</revenue>
 		<nb_visits_percent_of_total>Visits (% of total)</nb_visits_percent_of_total>
-		<nb_uniq_visitors_percent_of_total>Unique visitors (% of total)</nb_uniq_visitors_percent_of_total>
 		<nb_actions_percent_of_total>Actions (% of total)</nb_actions_percent_of_total>
 		<nb_visits_converted_percent_of_total>Visits with Conversions (% of total)</nb_visits_converted_percent_of_total>
 		<nb_conversions_percent_of_total>Conversions (% of total)</nb_conversions_percent_of_total>
@@ -85,7 +84,6 @@
 			<nb_users>0</nb_users>
 			<revenue>$20</revenue>
 			<nb_visits_percent_of_total>50%</nb_visits_percent_of_total>
-			<nb_uniq_visitors_percent_of_total>50%</nb_uniq_visitors_percent_of_total>
 			<nb_actions_percent_of_total>50%</nb_actions_percent_of_total>
 			<nb_visits_converted_percent_of_total>50%</nb_visits_converted_percent_of_total>
 			<nb_conversions_percent_of_total>50%</nb_conversions_percent_of_total>
@@ -102,7 +100,6 @@
 					<nb_users>0</nb_users>
 					<revenue>$20</revenue>
 					<nb_visits_percent_of_total>50%</nb_visits_percent_of_total>
-					<nb_uniq_visitors_percent_of_total>50%</nb_uniq_visitors_percent_of_total>
 					<nb_actions_percent_of_total>50%</nb_actions_percent_of_total>
 					<nb_visits_converted_percent_of_total>50%</nb_visits_converted_percent_of_total>
 					<nb_conversions_percent_of_total>50%</nb_conversions_percent_of_total>
@@ -122,7 +119,6 @@
 					<bounce_rate_change>+0%</bounce_rate_change>
 					<revenue_change>+0%</revenue_change>
 					<nb_visits_percent_of_total_change>+0%</nb_visits_percent_of_total_change>
-					<nb_uniq_visitors_percent_of_total_change>+0%</nb_uniq_visitors_percent_of_total_change>
 					<nb_actions_percent_of_total_change>+0%</nb_actions_percent_of_total_change>
 					<nb_visits_converted_percent_of_total_change>+0%</nb_visits_converted_percent_of_total_change>
 					<nb_conversions_percent_of_total_change>+0%</nb_conversions_percent_of_total_change>
@@ -143,7 +139,6 @@
 					<nb_users>0</nb_users>
 					<revenue>$5</revenue>
 					<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
-					<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
 					<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
 					<nb_visits_converted_percent_of_total>33.3%</nb_visits_converted_percent_of_total>
 					<nb_conversions_percent_of_total>33.3%</nb_conversions_percent_of_total>
@@ -163,7 +158,6 @@
 					<bounce_rate_change>+0%</bounce_rate_change>
 					<revenue_change>+0%</revenue_change>
 					<nb_visits_percent_of_total_change>+0%</nb_visits_percent_of_total_change>
-					<nb_uniq_visitors_percent_of_total_change>+0%</nb_uniq_visitors_percent_of_total_change>
 					<nb_actions_percent_of_total_change>+0%</nb_actions_percent_of_total_change>
 					<nb_visits_converted_percent_of_total_change>+0%</nb_visits_converted_percent_of_total_change>
 					<nb_conversions_percent_of_total_change>+0%</nb_conversions_percent_of_total_change>
@@ -205,11 +199,9 @@
 					<label>0</label>
 					<nb_uniq_visitors>0</nb_uniq_visitors>
 					<nb_users>0</nb_users>
-					<nb_uniq_visitors_percent_of_total>0%</nb_uniq_visitors_percent_of_total>
 					<label_change>+0%</label_change>
 					<nb_uniq_visitors_change>+0%</nb_uniq_visitors_change>
 					<nb_users_change>+0%</nb_users_change>
-					<nb_uniq_visitors_percent_of_total_change>+0%</nb_uniq_visitors_percent_of_total_change>
 					<compareSegment />
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>week</comparePeriod>
@@ -225,7 +217,6 @@
 					<nb_users>0</nb_users>
 					<revenue>$0</revenue>
 					<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
-					<nb_uniq_visitors_percent_of_total>0%</nb_uniq_visitors_percent_of_total>
 					<nb_actions_percent_of_total>0%</nb_actions_percent_of_total>
 					<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
 					<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
@@ -240,7 +231,6 @@
 					<nb_users_change>+0%</nb_users_change>
 					<revenue_change>-100%</revenue_change>
 					<nb_visits_percent_of_total_change>-100%</nb_visits_percent_of_total_change>
-					<nb_uniq_visitors_percent_of_total_change>-100%</nb_uniq_visitors_percent_of_total_change>
 					<nb_actions_percent_of_total_change>-100%</nb_actions_percent_of_total_change>
 					<nb_visits_converted_percent_of_total_change>-100%</nb_visits_converted_percent_of_total_change>
 					<nb_conversions_percent_of_total_change>-100%</nb_conversions_percent_of_total_change>
@@ -269,7 +259,6 @@
 			<nb_users>0</nb_users>
 			<revenue>$15</revenue>
 			<nb_visits_percent_of_total>37.5%</nb_visits_percent_of_total>
-			<nb_uniq_visitors_percent_of_total>37.5%</nb_uniq_visitors_percent_of_total>
 			<nb_actions_percent_of_total>37.5%</nb_actions_percent_of_total>
 			<nb_visits_converted_percent_of_total>37.5%</nb_visits_converted_percent_of_total>
 			<nb_conversions_percent_of_total>37.5%</nb_conversions_percent_of_total>
@@ -286,7 +275,6 @@
 					<nb_users>0</nb_users>
 					<revenue>$15</revenue>
 					<nb_visits_percent_of_total>37.5%</nb_visits_percent_of_total>
-					<nb_uniq_visitors_percent_of_total>37.5%</nb_uniq_visitors_percent_of_total>
 					<nb_actions_percent_of_total>37.5%</nb_actions_percent_of_total>
 					<nb_visits_converted_percent_of_total>37.5%</nb_visits_converted_percent_of_total>
 					<nb_conversions_percent_of_total>37.5%</nb_conversions_percent_of_total>
@@ -306,7 +294,6 @@
 					<bounce_rate_change>+0%</bounce_rate_change>
 					<revenue_change>+0%</revenue_change>
 					<nb_visits_percent_of_total_change>+0%</nb_visits_percent_of_total_change>
-					<nb_uniq_visitors_percent_of_total_change>+0%</nb_uniq_visitors_percent_of_total_change>
 					<nb_actions_percent_of_total_change>+0%</nb_actions_percent_of_total_change>
 					<nb_visits_converted_percent_of_total_change>+0%</nb_visits_converted_percent_of_total_change>
 					<nb_conversions_percent_of_total_change>+0%</nb_conversions_percent_of_total_change>
@@ -327,7 +314,6 @@
 					<nb_users>0</nb_users>
 					<revenue>$5</revenue>
 					<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
-					<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
 					<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
 					<nb_visits_converted_percent_of_total>33.3%</nb_visits_converted_percent_of_total>
 					<nb_conversions_percent_of_total>33.3%</nb_conversions_percent_of_total>
@@ -347,7 +333,6 @@
 					<bounce_rate_change>+0%</bounce_rate_change>
 					<revenue_change>+0%</revenue_change>
 					<nb_visits_percent_of_total_change>+0%</nb_visits_percent_of_total_change>
-					<nb_uniq_visitors_percent_of_total_change>+0%</nb_uniq_visitors_percent_of_total_change>
 					<nb_actions_percent_of_total_change>+0%</nb_actions_percent_of_total_change>
 					<nb_visits_converted_percent_of_total_change>+0%</nb_visits_converted_percent_of_total_change>
 					<nb_conversions_percent_of_total_change>+0%</nb_conversions_percent_of_total_change>
@@ -368,7 +353,6 @@
 					<nb_users>0</nb_users>
 					<revenue>$0</revenue>
 					<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
-					<nb_uniq_visitors_percent_of_total>0%</nb_uniq_visitors_percent_of_total>
 					<nb_actions_percent_of_total>0%</nb_actions_percent_of_total>
 					<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
 					<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
@@ -383,7 +367,6 @@
 					<nb_users_change>+0%</nb_users_change>
 					<revenue_change>-100%</revenue_change>
 					<nb_visits_percent_of_total_change>-100%</nb_visits_percent_of_total_change>
-					<nb_uniq_visitors_percent_of_total_change>-100%</nb_uniq_visitors_percent_of_total_change>
 					<nb_actions_percent_of_total_change>-100%</nb_actions_percent_of_total_change>
 					<nb_visits_converted_percent_of_total_change>-100%</nb_visits_converted_percent_of_total_change>
 					<nb_conversions_percent_of_total_change>-100%</nb_conversions_percent_of_total_change>
@@ -409,7 +392,6 @@
 					<nb_users>0</nb_users>
 					<revenue>$0</revenue>
 					<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
-					<nb_uniq_visitors_percent_of_total>0%</nb_uniq_visitors_percent_of_total>
 					<nb_actions_percent_of_total>0%</nb_actions_percent_of_total>
 					<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
 					<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
@@ -424,7 +406,6 @@
 					<nb_users_change>+0%</nb_users_change>
 					<revenue_change>-100%</revenue_change>
 					<nb_visits_percent_of_total_change>-100%</nb_visits_percent_of_total_change>
-					<nb_uniq_visitors_percent_of_total_change>-100%</nb_uniq_visitors_percent_of_total_change>
 					<nb_actions_percent_of_total_change>-100%</nb_actions_percent_of_total_change>
 					<nb_visits_converted_percent_of_total_change>-100%</nb_visits_converted_percent_of_total_change>
 					<nb_conversions_percent_of_total_change>-100%</nb_conversions_percent_of_total_change>
@@ -454,7 +435,6 @@
 			<nb_users>0</nb_users>
 			<revenue>$5</revenue>
 			<nb_visits_percent_of_total>12.5%</nb_visits_percent_of_total>
-			<nb_uniq_visitors_percent_of_total>12.5%</nb_uniq_visitors_percent_of_total>
 			<nb_actions_percent_of_total>12.5%</nb_actions_percent_of_total>
 			<nb_visits_converted_percent_of_total>12.5%</nb_visits_converted_percent_of_total>
 			<nb_conversions_percent_of_total>12.5%</nb_conversions_percent_of_total>
@@ -471,7 +451,6 @@
 					<nb_users>0</nb_users>
 					<revenue>$5</revenue>
 					<nb_visits_percent_of_total>12.5%</nb_visits_percent_of_total>
-					<nb_uniq_visitors_percent_of_total>12.5%</nb_uniq_visitors_percent_of_total>
 					<nb_actions_percent_of_total>12.5%</nb_actions_percent_of_total>
 					<nb_visits_converted_percent_of_total>12.5%</nb_visits_converted_percent_of_total>
 					<nb_conversions_percent_of_total>12.5%</nb_conversions_percent_of_total>
@@ -491,7 +470,6 @@
 					<bounce_rate_change>+0%</bounce_rate_change>
 					<revenue_change>+0%</revenue_change>
 					<nb_visits_percent_of_total_change>+0%</nb_visits_percent_of_total_change>
-					<nb_uniq_visitors_percent_of_total_change>+0%</nb_uniq_visitors_percent_of_total_change>
 					<nb_actions_percent_of_total_change>+0%</nb_actions_percent_of_total_change>
 					<nb_visits_converted_percent_of_total_change>+0%</nb_visits_converted_percent_of_total_change>
 					<nb_conversions_percent_of_total_change>+0%</nb_conversions_percent_of_total_change>
@@ -512,7 +490,6 @@
 					<nb_users>0</nb_users>
 					<revenue>$5</revenue>
 					<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
-					<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
 					<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
 					<nb_visits_converted_percent_of_total>33.3%</nb_visits_converted_percent_of_total>
 					<nb_conversions_percent_of_total>33.3%</nb_conversions_percent_of_total>
@@ -532,7 +509,6 @@
 					<bounce_rate_change>+0%</bounce_rate_change>
 					<revenue_change>+0%</revenue_change>
 					<nb_visits_percent_of_total_change>+0%</nb_visits_percent_of_total_change>
-					<nb_uniq_visitors_percent_of_total_change>+0%</nb_uniq_visitors_percent_of_total_change>
 					<nb_actions_percent_of_total_change>+0%</nb_actions_percent_of_total_change>
 					<nb_visits_converted_percent_of_total_change>+0%</nb_visits_converted_percent_of_total_change>
 					<nb_conversions_percent_of_total_change>+0%</nb_conversions_percent_of_total_change>
@@ -574,11 +550,9 @@
 					<label>0</label>
 					<nb_uniq_visitors>0</nb_uniq_visitors>
 					<nb_users>0</nb_users>
-					<nb_uniq_visitors_percent_of_total>0%</nb_uniq_visitors_percent_of_total>
 					<label_change>+0%</label_change>
 					<nb_uniq_visitors_change>+0%</nb_uniq_visitors_change>
 					<nb_users_change>+0%</nb_users_change>
-					<nb_uniq_visitors_percent_of_total_change>+0%</nb_uniq_visitors_percent_of_total_change>
 					<compareSegment />
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>week</comparePeriod>
@@ -615,11 +589,9 @@
 					<label>0</label>
 					<nb_uniq_visitors>0</nb_uniq_visitors>
 					<nb_users>0</nb_users>
-					<nb_uniq_visitors_percent_of_total>0%</nb_uniq_visitors_percent_of_total>
 					<label_change>+0%</label_change>
 					<nb_uniq_visitors_change>+0%</nb_uniq_visitors_change>
 					<nb_users_change>+0%</nb_users_change>
-					<nb_uniq_visitors_percent_of_total_change>+0%</nb_uniq_visitors_percent_of_total_change>
 					<compareSegment>browserCode%3D%3Die</compareSegment>
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>week</comparePeriod>

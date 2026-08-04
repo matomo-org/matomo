@@ -48,7 +48,8 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ### HTTP API
 * Report rows now include a percentage-of-report-total value for each metric the report processes totals for, as an additional
   `{metric}_percent_of_total` column (eg, `nb_visits_percent_of_total`). The values match the ratio percentages the report tables
-  show on hover, follow `format_metrics` like other percent metrics, and are included in all export formats. They can be disabled
+  show on hover, follow `format_metrics` like other percent metrics, and are included in all export formats. Non-additive metrics
+  (unique visitors and users) are excluded, as their report total is not a meaningful denominator. The columns can be disabled
   by setting the new `percent_of_total=0` request parameter (or `totals=0`). Note for CSV/TSV consumers parsing columns by
   position: the new columns change the header and column count, pass `percent_of_total=0` to keep the previous output.
 * `API.getBulkRequest` now validates the authentication parameters of each nested request URL against

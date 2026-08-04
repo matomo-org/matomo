@@ -32,6 +32,23 @@ class PercentOfReportTotal extends ProcessedMetric
     public const COLUMN_NAME_SUFFIX = '_percent_of_total';
 
     /**
+     * Unique visitor / user counts cannot be summed over rows, so the report total computed
+     * for them by ReportTotalsCalculator (a plain sum) is not a meaningful denominator: the
+     * percentages could exceed 100% and would differ depending on which archived record a
+     * report is served from (eg the flat vs the hierarchical Actions record).
+     */
+    private const NON_ADDITIVE_METRIC_NAMES = [
+        'nb_uniq_visitors',
+        'nb_users',
+        'entry_nb_uniq_visitors',
+        'exit_nb_uniq_visitors',
+        'sum_daily_nb_uniq_visitors',
+        'sum_daily_nb_users',
+        'sum_daily_entry_nb_uniq_visitors',
+        'sum_daily_exit_nb_uniq_visitors',
+    ];
+
+    /**
      * @var string
      */
     private $metricName;
@@ -144,6 +161,8 @@ class PercentOfReportTotal extends ProcessedMetric
 
             $translations = array_merge($translations, $report->getMetrics() ?: []);
         }
+
+        $eligibleNames = array_diff($eligibleNames, self::NON_ADDITIVE_METRIC_NAMES);
 
         $metrics = [];
         foreach (array_unique($eligibleNames) as $metricName) {

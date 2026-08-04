@@ -12,7 +12,6 @@
 		<Events_EventCategory>Movie</Events_EventCategory>
 		<Events_EventAction>playTrailer</Events_EventAction>
 		<nb_visits_percent_of_total>14%</nb_visits_percent_of_total>
-		<nb_uniq_visitors_percent_of_total>14.6%</nb_uniq_visitors_percent_of_total>
 		<avg_event_value>0</avg_event_value>
 	</row>
 	<row>
@@ -27,7 +26,6 @@
 		<Events_EventCategory>Movie</Events_EventCategory>
 		<Events_EventAction>Search</Events_EventAction>
 		<nb_visits_percent_of_total>14%</nb_visits_percent_of_total>
-		<nb_uniq_visitors_percent_of_total>9.8%</nb_uniq_visitors_percent_of_total>
 		<avg_event_value>0</avg_event_value>
 	</row>
 	<row>
@@ -42,7 +40,6 @@
 		<Events_EventCategory>event category Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</Events_EventCategory>
 		<Events_EventAction>event action Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</Events_EventAction>
 		<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
-		<nb_uniq_visitors_percent_of_total>4.9%</nb_uniq_visitors_percent_of_total>
 		<avg_event_value>9.66</avg_event_value>
 	</row>
 	<row>
@@ -57,7 +54,6 @@
 		<Events_EventCategory>Movie</Events_EventCategory>
 		<Events_EventAction>clickBuyNow</Events_EventAction>
 		<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
-		<nb_uniq_visitors_percent_of_total>4.9%</nb_uniq_visitors_percent_of_total>
 		<avg_event_value>0</avg_event_value>
 	</row>
 	<row>
@@ -72,7 +68,6 @@
 		<Events_EventCategory>Movie</Events_EventCategory>
 		<Events_EventAction>play25%</Events_EventAction>
 		<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
-		<nb_uniq_visitors_percent_of_total>4.9%</nb_uniq_visitors_percent_of_total>
 		<avg_event_value>0</avg_event_value>
 	</row>
 	<row>
@@ -87,7 +82,6 @@
 		<Events_EventCategory>Movie</Events_EventCategory>
 		<Events_EventAction>play50%</Events_EventAction>
 		<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
-		<nb_uniq_visitors_percent_of_total>4.9%</nb_uniq_visitors_percent_of_total>
 		<avg_event_value>0</avg_event_value>
 	</row>
 	<row>
@@ -102,7 +96,6 @@
 		<Events_EventCategory>Movie</Events_EventCategory>
 		<Events_EventAction>play75%</Events_EventAction>
 		<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
-		<nb_uniq_visitors_percent_of_total>4.9%</nb_uniq_visitors_percent_of_total>
 		<avg_event_value>0</avg_event_value>
 	</row>
 	<row>
@@ -117,7 +110,6 @@
 		<Events_EventCategory>Movie</Events_EventCategory>
 		<Events_EventAction>playEnd</Events_EventAction>
 		<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
-		<nb_uniq_visitors_percent_of_total>4.9%</nb_uniq_visitors_percent_of_total>
 		<avg_event_value>0</avg_event_value>
 	</row>
 	<row>
@@ -132,7 +124,6 @@
 		<Events_EventCategory>Movie</Events_EventCategory>
 		<Events_EventAction>playStart</Events_EventAction>
 		<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
-		<nb_uniq_visitors_percent_of_total>4.9%</nb_uniq_visitors_percent_of_total>
 		<avg_event_value>0</avg_event_value>
 	</row>
 	<row>
@@ -147,7 +138,6 @@
 		<Events_EventCategory>Movie</Events_EventCategory>
 		<Events_EventAction>Purchase</Events_EventAction>
 		<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
-		<nb_uniq_visitors_percent_of_total>4.9%</nb_uniq_visitors_percent_of_total>
 		<avg_event_value>0</avg_event_value>
 	</row>
 	<row>
@@ -162,7 +152,6 @@
 		<Events_EventCategory>Movie</Events_EventCategory>
 		<Events_EventAction>rating</Events_EventAction>
 		<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
-		<nb_uniq_visitors_percent_of_total>4.9%</nb_uniq_visitors_percent_of_total>
 		<avg_event_value>9.66</avg_event_value>
 	</row>
 	<row>
@@ -177,7 +166,6 @@
 		<Events_EventCategory>Music</Events_EventCategory>
 		<Events_EventAction>play</Events_EventAction>
 		<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
-		<nb_uniq_visitors_percent_of_total>4.9%</nb_uniq_visitors_percent_of_total>
 		<avg_event_value>0</avg_event_value>
 	</row>
 	<row>
@@ -192,7 +180,6 @@
 		<Events_EventCategory>Music</Events_EventCategory>
 		<Events_EventAction>play25%</Events_EventAction>
 		<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
-		<nb_uniq_visitors_percent_of_total>4.9%</nb_uniq_visitors_percent_of_total>
 		<avg_event_value>0</avg_event_value>
 	</row>
 	<row>
@@ -207,7 +194,6 @@
 		<Events_EventCategory>Music</Events_EventCategory>
 		<Events_EventAction>play50%</Events_EventAction>
 		<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
-		<nb_uniq_visitors_percent_of_total>4.9%</nb_uniq_visitors_percent_of_total>
 		<avg_event_value>0</avg_event_value>
 	</row>
 	<row>
@@ -222,7 +208,6 @@
 		<Events_EventCategory>Music</Events_EventCategory>
 		<Events_EventAction>play75%</Events_EventAction>
 		<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
-		<nb_uniq_visitors_percent_of_total>4.9%</nb_uniq_visitors_percent_of_total>
 		<avg_event_value>0</avg_event_value>
 	</row>
 	<row>
@@ -237,7 +222,6 @@
 		<Events_EventCategory>Music</Events_EventCategory>
 		<Events_EventAction>playEnd</Events_EventAction>
 		<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
-		<nb_uniq_visitors_percent_of_total>4.9%</nb_uniq_visitors_percent_of_total>
 		<avg_event_value>0</avg_event_value>
 	</row>
 	<row>
@@ -252,7 +236,6 @@
 		<Events_EventCategory>Music</Events_EventCategory>
 		<Events_EventAction>rating</Events_EventAction>
 		<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
-		<nb_uniq_visitors_percent_of_total>4.9%</nb_uniq_visitors_percent_of_total>
 		<avg_event_value>9.5</avg_event_value>
 	</row>
 	<row>
@@ -267,7 +250,6 @@
 		<Events_EventCategory>CategoryTriggersGoal here</Events_EventCategory>
 		<Events_EventAction>This is an event without a URL</Events_EventAction>
 		<nb_visits_percent_of_total>2.3%</nb_visits_percent_of_total>
-		<nb_uniq_visitors_percent_of_total>2.4%</nb_uniq_visitors_percent_of_total>
 		<avg_event_value>11.5</avg_event_value>
 	</row>
 </result>

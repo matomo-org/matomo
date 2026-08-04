@@ -77,10 +77,8 @@
 		<bounce_rate>Bounce Rate</bounce_rate>
 		<exit_rate>Exit rate</exit_rate>
 		<nb_visits_percent_of_total>Unique Pageviews (% of total)</nb_visits_percent_of_total>
-		<nb_uniq_visitors_percent_of_total>Unique visitors (% of total)</nb_uniq_visitors_percent_of_total>
 		<nb_hits_percent_of_total>Pageviews (% of total)</nb_hits_percent_of_total>
 		<exit_nb_visits_percent_of_total>Exits (% of total)</exit_nb_visits_percent_of_total>
-		<exit_nb_uniq_visitors_percent_of_total>Unique exits (% of total)</exit_nb_uniq_visitors_percent_of_total>
 	</columns>
 	<reportData>
 		<result prettyDate="Sunday, January 3, 2010">
@@ -89,23 +87,19 @@
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
 				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
 				<nb_hits_percent_of_total>25%</nb_hits_percent_of_total>
 				<bounce_rate>0%</bounce_rate>
 				<avg_time_on_page>00:00:36</avg_time_on_page>
 				<exit_rate>0%</exit_rate>
 				<exit_nb_visits_percent_of_total>0%</exit_nb_visits_percent_of_total>
-				<exit_nb_uniq_visitors_percent_of_total>0%</exit_nb_uniq_visitors_percent_of_total>
 			</row>
 			<row>
 				<label>/index.htm?gkwd=SHOULD be a PageView, NOT a search</label>
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
 				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
 				<nb_hits_percent_of_total>25%</nb_hits_percent_of_total>
 				<exit_nb_visits_percent_of_total>100%</exit_nb_visits_percent_of_total>
-				<exit_nb_uniq_visitors_percent_of_total>100%</exit_nb_uniq_visitors_percent_of_total>
 				<bounce_rate>0%</bounce_rate>
 				<avg_time_on_page>00:00:00</avg_time_on_page>
 				<exit_rate>100%</exit_rate>
@@ -115,13 +109,11 @@
 				<nb_visits>1</nb_visits>
 				<nb_hits>2</nb_hits>
 				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
-				<nb_uniq_visitors_percent_of_total>33.3%</nb_uniq_visitors_percent_of_total>
 				<nb_hits_percent_of_total>50%</nb_hits_percent_of_total>
 				<bounce_rate>0%</bounce_rate>
 				<avg_time_on_page>00:01:48</avg_time_on_page>
 				<exit_rate>0%</exit_rate>
 				<exit_nb_visits_percent_of_total>0%</exit_nb_visits_percent_of_total>
-				<exit_nb_uniq_visitors_percent_of_total>0%</exit_nb_uniq_visitors_percent_of_total>
 			</row>
 		</result>
 		<result prettyDate="Monday, January 4, 2010" />

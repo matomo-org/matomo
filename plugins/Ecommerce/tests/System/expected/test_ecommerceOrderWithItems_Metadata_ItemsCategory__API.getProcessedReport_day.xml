@@ -53,7 +53,6 @@
 		<avg_quantity>Average Quantity</avg_quantity>
 		<conversion_rate>Product Conversion Rate</conversion_rate>
 		<nb_visits_percent_of_total>Visits (% of total)</nb_visits_percent_of_total>
-		<nb_uniq_visitors_percent_of_total>Unique visitors (% of total)</nb_uniq_visitors_percent_of_total>
 		<nb_actions_percent_of_total>Actions (% of total)</nb_actions_percent_of_total>
 		<revenue_percent_of_total>Product Revenue (% of total)</revenue_percent_of_total>
 	</columns>
@@ -65,7 +64,6 @@
 			<orders>2</orders>
 			<nb_visits>3</nb_visits>
 			<nb_visits_percent_of_total>21.4%</nb_visits_percent_of_total>
-			<nb_uniq_visitors_percent_of_total>22.2%</nb_uniq_visitors_percent_of_total>
 			<nb_actions_percent_of_total>31.6%</nb_actions_percent_of_total>
 			<revenue_percent_of_total>35.2%</revenue_percent_of_total>
 			<avg_price>$1,000</avg_price>
@@ -79,7 +77,6 @@
 			<orders>1</orders>
 			<nb_visits>1</nb_visits>
 			<nb_visits_percent_of_total>7.1%</nb_visits_percent_of_total>
-			<nb_uniq_visitors_percent_of_total>11.1%</nb_uniq_visitors_percent_of_total>
 			<nb_actions_percent_of_total>5.3%</nb_actions_percent_of_total>
 			<revenue_percent_of_total>14.1%</revenue_percent_of_total>
 			<avg_price>$500</avg_price>
@@ -93,7 +90,6 @@
 			<orders>1</orders>
 			<nb_visits>1</nb_visits>
 			<nb_visits_percent_of_total>7.1%</nb_visits_percent_of_total>
-			<nb_uniq_visitors_percent_of_total>11.1%</nb_uniq_visitors_percent_of_total>
 			<nb_actions_percent_of_total>5.3%</nb_actions_percent_of_total>
 			<revenue_percent_of_total>14.1%</revenue_percent_of_total>
 			<avg_price>$500</avg_price>
@@ -107,7 +103,6 @@
 			<orders>1</orders>
 			<nb_visits>1</nb_visits>
 			<nb_visits_percent_of_total>7.1%</nb_visits_percent_of_total>
-			<nb_uniq_visitors_percent_of_total>11.1%</nb_uniq_visitors_percent_of_total>
 			<nb_actions_percent_of_total>5.3%</nb_actions_percent_of_total>
 			<revenue_percent_of_total>14.1%</revenue_percent_of_total>
 			<avg_price>$500</avg_price>
@@ -121,7 +116,6 @@
 			<orders>1</orders>
 			<nb_visits>1</nb_visits>
 			<nb_visits_percent_of_total>7.1%</nb_visits_percent_of_total>
-			<nb_uniq_visitors_percent_of_total>11.1%</nb_uniq_visitors_percent_of_total>
 			<nb_actions_percent_of_total>5.3%</nb_actions_percent_of_total>
 			<revenue_percent_of_total>14.1%</revenue_percent_of_total>
 			<avg_price>$500</avg_price>
@@ -135,7 +129,6 @@
 			<orders>2</orders>
 			<nb_visits>3</nb_visits>
 			<nb_visits_percent_of_total>21.4%</nb_visits_percent_of_total>
-			<nb_uniq_visitors_percent_of_total>11.1%</nb_uniq_visitors_percent_of_total>
 			<nb_actions_percent_of_total>26.3%</nb_actions_percent_of_total>
 			<revenue_percent_of_total>8.6%</revenue_percent_of_total>
 			<avg_price>$55.61</avg_price>
@@ -147,7 +140,6 @@
 			<nb_visits>2</nb_visits>
 			<avg_price>$0</avg_price>
 			<nb_visits_percent_of_total>14.3%</nb_visits_percent_of_total>
-			<nb_uniq_visitors_percent_of_total>11.1%</nb_uniq_visitors_percent_of_total>
 			<nb_actions_percent_of_total>10.5%</nb_actions_percent_of_total>
 			<avg_quantity>0</avg_quantity>
 			<conversion_rate>0%</conversion_rate>
@@ -161,7 +153,6 @@
 			<nb_visits>2</nb_visits>
 			<avg_price>$0</avg_price>
 			<nb_visits_percent_of_total>14.3%</nb_visits_percent_of_total>
-			<nb_uniq_visitors_percent_of_total>11.1%</nb_uniq_visitors_percent_of_total>
 			<nb_actions_percent_of_total>10.5%</nb_actions_percent_of_total>
 			<avg_quantity>0</avg_quantity>
 			<conversion_rate>0%</conversion_rate>
