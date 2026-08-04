@@ -187,11 +187,11 @@ class Manager
 
         foreach ($nonCoreVisualizations as $id => $klass) {
             if ($klass::canDisplayViewDataTable($view) || $view::ID == $id) {
-                $footerIcon = static::getFooterIconFor($id);
+                $footerIcon = self::getFooterIconFor($id);
                 if (Insight::ID == $footerIcon['id']) {
-                    $insightsViewIcons['buttons'][] = static::getFooterIconFor($id);
+                    $insightsViewIcons['buttons'][] = self::getFooterIconFor($id);
                 } else {
-                    $graphViewIcons['buttons'][] = static::getFooterIconFor($id);
+                    $graphViewIcons['buttons'][] = self::getFooterIconFor($id);
                 }
             }
         }
@@ -370,15 +370,15 @@ class Manager
         );
 
         if ($view->config->show_table) {
-            $normalViewIcons['buttons'][] = static::getFooterIconFor(HtmlTable::ID);
+            $normalViewIcons['buttons'][] = self::getFooterIconFor(HtmlTable::ID);
         }
 
         if ($view->config->show_table_all_columns) {
-            $normalViewIcons['buttons'][] = static::getFooterIconFor(HtmlTable\AllColumns::ID);
+            $normalViewIcons['buttons'][] = self::getFooterIconFor(HtmlTable\AllColumns::ID);
         }
 
         if ($view->config->show_goals) {
-            $goalButton = static::getFooterIconFor(Goals::ID);
+            $goalButton = self::getFooterIconFor(Goals::ID);
             if (Common::getRequestVar('idGoal', false) == 'ecommerceOrder') {
                 $goalButton['icon'] = 'icon-ecommerce-order';
             }
@@ -417,15 +417,15 @@ class Manager
 
         if ($view->config->show_all_views_icons) {
             if ($view->config->show_bar_chart) {
-                $graphViewIcons['buttons'][] = static::getFooterIconFor(Bar::ID);
+                $graphViewIcons['buttons'][] = self::getFooterIconFor(Bar::ID);
             }
 
             if ($view->config->show_pie_chart) {
-                $graphViewIcons['buttons'][] = static::getFooterIconFor(Pie::ID);
+                $graphViewIcons['buttons'][] = self::getFooterIconFor(Pie::ID);
             }
 
             if ($view->config->show_tag_cloud) {
-                $graphViewIcons['buttons'][] = static::getFooterIconFor(Cloud::ID);
+                $graphViewIcons['buttons'][] = self::getFooterIconFor(Cloud::ID);
             }
         }
 

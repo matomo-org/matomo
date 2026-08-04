@@ -60,15 +60,9 @@ require_once PIWIK_INCLUDE_PATH . '/core/Config.php';
  */
 class API extends \Piwik\Plugin\API
 {
-    /**
-     * @var SettingsProvider
-     */
-    private $settingsProvider;
+    private SettingsProvider $settingsProvider;
 
-    /**
-     * @var ProcessedReport
-     */
-    private $processedReport;
+    private ProcessedReport $processedReport;
 
     /**
      * For Testing purpose only
@@ -132,17 +126,6 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSomeViewAccess();
         return IP::getIpFromHeader();
-    }
-
-    /**
-     * Returns the `[APISettings]` section from `config.ini.php`.
-     *
-     * @return array<string, mixed>
-     * @deprecated May be removed in one of the next major releases
-     */
-    public function getSettings()
-    {
-        return Config::getInstance()->APISettings;
     }
 
     /**

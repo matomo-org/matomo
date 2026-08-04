@@ -122,11 +122,25 @@
                         const value = self.formatY(valueUnformatted, d);
                         const series = self.jqplotParams.series[d].label;
                         const seriesColor = self.jqplotParams.seriesColors[d];
+                        const forecastValueUnformatted =
+                            self.jqplotParams.forecastData
+                            && self.jqplotParams.forecastData[d]
+                            ? self.jqplotParams.forecastData[d][tick]
+                            : null;
 
-                        dataByAxis[axis].push(
+                        let valueContent =
                             `<span class="tooltip-series-color" style="background-color: ${seriesColor}"></span>` +
-                            `<strong>${value}</strong> ${piwikHelper.htmlEntities(series)}`
-                        );
+                            `<strong>${value}</strong> ${piwikHelper.htmlEntities(series)}`;
+
+                        if (
+                            self.jqplotParams.dataStates[tick] === 'incomplete'
+                            && Number.isFinite(forecastValueUnformatted)
+                        ) {
+                            const forecastValue = self.formatY(forecastValueUnformatted, d);
+                            valueContent += `<br />${self._lang.forecast}: <strong>${forecastValue}</strong>`;
+                        }
+
+                        dataByAxis[axis].push(valueContent);
                     }
 
                     let xAxisCount = 0;

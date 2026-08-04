@@ -364,8 +364,8 @@ var __async = (__this, __arguments, generator) => {
   };
   const _hoisted_2$3 = ["uniqueid"];
   const _hoisted_3$3 = ["onMouseenter", "onMouseleave", "onFocus", "onBlur", "onClick", "onKeydown"];
-  const _hoisted_4$3 = { class: "widgetpreview-widgetname" };
-  const _hoisted_5$3 = {
+  const _hoisted_4$2 = { class: "widgetpreview-widgetname" };
+  const _hoisted_5$2 = {
     class: "widgetpreview-add-hint",
     "aria-hidden": "true"
   };
@@ -373,7 +373,7 @@ var __async = (__this, __arguments, generator) => {
     key: 0,
     class: "icon-ok widgetpreview-add-check"
   };
-  const _hoisted_7 = {
+  const _hoisted_7$1 = {
     key: 1,
     class: "widgetpreview-add-plus"
   };
@@ -401,9 +401,9 @@ var __async = (__this, __arguments, generator) => {
               vue.withKeys(vue.withModifiers(($event) => _ctx.onActivate(widget), ["prevent"]), ["space"])
             ]
           }, [
-            vue.createElementVNode("span", _hoisted_4$3, vue.toDisplayString(widget.name), 1),
-            vue.createElementVNode("span", _hoisted_5$3, [
-              _ctx.isJustAdded(widget) ? (vue.openBlock(), vue.createElementBlock("i", _hoisted_6$2)) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_7, "+")),
+            vue.createElementVNode("span", _hoisted_4$2, vue.toDisplayString(widget.name), 1),
+            vue.createElementVNode("span", _hoisted_5$2, [
+              _ctx.isJustAdded(widget) ? (vue.openBlock(), vue.createElementBlock("i", _hoisted_6$2)) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_7$1, "+")),
               vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate(_ctx.isJustAdded(widget) ? "General_Added" : "General_Add")), 1)
             ])
           ], 40, _hoisted_3$3)
@@ -415,6 +415,7 @@ var __async = (__this, __arguments, generator) => {
   const _sfc_main$2 = vue.defineComponent({
     name: "WidgetPreview",
     components: {
+      ReportHeader: CoreHome.ReportHeader,
       Widget: CoreHome.Widget
     },
     props: {
@@ -495,27 +496,20 @@ var __async = (__this, __arguments, generator) => {
     key: 0,
     class: "widget"
   };
-  const _hoisted_3$2 = ["title"];
-  const _hoisted_4$2 = { class: "widgetName" };
-  const _hoisted_5$2 = { class: "widgetContent" };
+  const _hoisted_3$2 = { class: "widgetContent" };
   function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
+    const _component_ReportHeader = vue.resolveComponent("ReportHeader");
     const _component_Widget = vue.resolveComponent("Widget");
     return vue.openBlock(), vue.createElementBlock("div", _hoisted_1$2, [
       _ctx.previewWidget ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_2$2, [
-        vue.createElementVNode("div", {
-          class: "widgetTop",
-          title: _ctx.translate("Dashboard_AddPreviewedWidget"),
-          role: "button",
-          tabindex: "0",
-          onClick: _cache[0] || (_cache[0] = ($event) => _ctx.$emit("select", _ctx.previewWidget.uniqueId)),
-          onKeydown: [
-            _cache[1] || (_cache[1] = vue.withKeys(vue.withModifiers(($event) => _ctx.$emit("select", _ctx.previewWidget.uniqueId), ["prevent"]), ["enter"])),
-            _cache[2] || (_cache[2] = vue.withKeys(vue.withModifiers(($event) => _ctx.$emit("select", _ctx.previewWidget.uniqueId), ["prevent"]), ["space"]))
-          ]
-        }, [
-          vue.createElementVNode("h3", _hoisted_4$2, vue.toDisplayString(_ctx.translate("Dashboard_WidgetPreview")), 1)
-        ], 40, _hoisted_3$2),
-        vue.createElementVNode("div", _hoisted_5$2, [
+        vue.createVNode(_component_ReportHeader, {
+          context: "preview",
+          "report-title": _ctx.translate("Dashboard_WidgetPreview"),
+          "title-clickable": "",
+          "title-click-hint": _ctx.translate("Dashboard_AddPreviewedWidget"),
+          onTitleClick: _cache[0] || (_cache[0] = ($event) => _ctx.$emit("select", _ctx.previewWidget.uniqueId))
+        }, null, 8, ["report-title", "title-click-hint"]),
+        vue.createElementVNode("div", _hoisted_3$2, [
           (vue.openBlock(), vue.createBlock(_component_Widget, {
             key: _ctx.previewWidget.uniqueId,
             widget: _ctx.previewWidget,
@@ -774,7 +768,7 @@ var __async = (__this, __arguments, generator) => {
           return;
         }
         this.$nextTick(() => {
-          const firstAction = this.$refs.root.querySelector(".submenu button:not([disabled])");
+          const firstAction = this.$refs.root.querySelector(".mtm-dropdownPanel__menuLink:not([disabled])");
           if (firstAction) {
             firstAction.focus();
           }
@@ -862,11 +856,17 @@ var __async = (__this, __arguments, generator) => {
     }
   });
   const _hoisted_1 = ["title"];
-  const _hoisted_2 = { class: "dropdown positionInViewport" };
-  const _hoisted_3 = { class: "submenu" };
-  const _hoisted_4 = ["onClick", "disabled", "title", "data-action"];
+  const _hoisted_2 = { class: "piwikSelector__dropdown positionInViewport" };
+  const _hoisted_3 = { class: "mtm-dropdownPanel mtm-dropdownPanel--wide" };
+  const _hoisted_4 = { class: "mtm-dropdownPanel__menu" };
   const _hoisted_5 = ["onClick", "disabled", "title", "data-action"];
-  const _hoisted_6 = { class: "addWidget" };
+  const _hoisted_6 = { class: "mtm-dropdownPanel__menuLabel" };
+  const _hoisted_7 = { class: "mtm-dropdownPanel__menuItem" };
+  const _hoisted_8 = { class: "mtm-dropdownPanel__menuLabel" };
+  const _hoisted_9 = ["onClick", "disabled", "title", "data-action"];
+  const _hoisted_10 = { class: "mtm-dropdownPanel__menuLabel" };
+  const _hoisted_11 = { class: "mtm-dropdownPanel__menuItem" };
+  const _hoisted_12 = { class: "mtm-dropdownPanel__menuLabel" };
   function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_AddWidgetModal = vue.resolveComponent("AddWidgetModal");
     const _directive_tooltips = vue.resolveDirective("tooltips");
@@ -889,56 +889,72 @@ var __async = (__this, __arguments, generator) => {
       ], 8, _hoisted_1)), [
         [_directive_tooltips]
       ]),
-      vue.withDirectives((vue.openBlock(), vue.createElementBlock("div", _hoisted_2, [
-        vue.createElementVNode("ul", _hoisted_3, [
-          (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.generalActions, (title, actionName) => {
-            return vue.openBlock(), vue.createElementBlock("li", { key: actionName }, [
+      vue.createElementVNode("div", _hoisted_2, [
+        vue.withDirectives((vue.openBlock(), vue.createElementBlock("div", _hoisted_3, [
+          vue.createElementVNode("ul", _hoisted_4, [
+            (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.generalActions, (title, actionName) => {
+              return vue.openBlock(), vue.createElementBlock("li", {
+                key: actionName,
+                class: "mtm-dropdownPanel__menuItem"
+              }, [
+                vue.createElementVNode("button", {
+                  type: "button",
+                  tabindex: "4",
+                  onClick: ($event) => _ctx.onClickAction($event, actionName),
+                  class: vue.normalizeClass(["mtm-dropdownPanel__menuLink", { "mtm-dropdownPanel__menuLink--disabled": _ctx.isActionDisabled[actionName] }]),
+                  disabled: _ctx.isActionDisabled[actionName] ? true : void 0,
+                  title: _ctx.actionTooltips[actionName] || void 0,
+                  "data-action": actionName
+                }, [
+                  vue.createElementVNode("span", _hoisted_6, vue.toDisplayString(_ctx.translate(title)), 1)
+                ], 10, _hoisted_5)
+              ]);
+            }), 128)),
+            vue.createElementVNode("li", _hoisted_7, [
               vue.createElementVNode("button", {
                 type: "button",
                 tabindex: "4",
-                onClick: ($event) => _ctx.onClickAction($event, actionName),
-                class: "generalAction",
-                disabled: _ctx.isActionDisabled[actionName] ? true : void 0,
-                title: _ctx.actionTooltips[actionName] || void 0,
-                "data-action": actionName
-              }, vue.toDisplayString(_ctx.translate(title)), 9, _hoisted_4)
-            ]);
-          }), 128)),
-          vue.createElementVNode("li", null, [
-            vue.createElementVNode("button", {
-              type: "button",
-              tabindex: "4",
-              class: "exportDashboard",
-              "data-action": "exportDashboard",
-              onClick: _cache[0] || (_cache[0] = ($event) => _ctx.onClickExportDashboard())
-            }, vue.toDisplayString(_ctx.translate("Dashboard_ExportThisDashboard")), 1)
-          ]),
-          (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.dashboardActions, (title, actionName) => {
-            return vue.openBlock(), vue.createElementBlock("li", { key: actionName }, [
+                class: "mtm-dropdownPanel__menuLink",
+                "data-action": "exportDashboard",
+                onClick: _cache[0] || (_cache[0] = ($event) => _ctx.onClickExportDashboard())
+              }, [
+                vue.createElementVNode("span", _hoisted_8, vue.toDisplayString(_ctx.translate("Dashboard_ExportThisDashboard")), 1)
+              ])
+            ]),
+            (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.dashboardActions, (title, actionName) => {
+              return vue.openBlock(), vue.createElementBlock("li", {
+                key: actionName,
+                class: "mtm-dropdownPanel__menuItem"
+              }, [
+                vue.createElementVNode("button", {
+                  type: "button",
+                  tabindex: "4",
+                  onClick: ($event) => _ctx.onClickAction($event, actionName),
+                  class: vue.normalizeClass(["mtm-dropdownPanel__menuLink", { "mtm-dropdownPanel__menuLink--disabled": _ctx.isActionDisabled[actionName] }]),
+                  disabled: _ctx.isActionDisabled[actionName] ? true : void 0,
+                  title: _ctx.actionTooltips[actionName] || void 0,
+                  "data-action": actionName
+                }, [
+                  vue.createElementVNode("span", _hoisted_10, vue.toDisplayString(_ctx.translate(title)), 1)
+                ], 10, _hoisted_9)
+              ]);
+            }), 128)),
+            vue.createElementVNode("li", _hoisted_11, [
               vue.createElementVNode("button", {
                 type: "button",
                 tabindex: "4",
-                onClick: ($event) => _ctx.onClickAction($event, actionName),
-                disabled: _ctx.isActionDisabled[actionName] ? true : void 0,
-                title: _ctx.actionTooltips[actionName] || void 0,
-                "data-action": actionName
-              }, vue.toDisplayString(_ctx.translate(title)), 9, _hoisted_5)
-            ]);
-          }), 128)),
-          vue.createElementVNode("li", _hoisted_6, [
-            vue.createElementVNode("button", {
-              type: "button",
-              tabindex: "4",
-              class: "addWidget-button",
-              onClick: _cache[1] || (_cache[1] = ($event) => _ctx.openAddWidget())
-            }, [
-              _cache[5] || (_cache[5] = vue.createElementVNode("span", { class: "icon icon-add1" }, null, -1)),
-              vue.createTextVNode(vue.toDisplayString(_ctx.translate("Dashboard_AddAWidget")), 1)
+                class: "mtm-dropdownPanel__menuLink",
+                "data-action": "addWidget",
+                onClick: _cache[1] || (_cache[1] = ($event) => _ctx.openAddWidget())
+              }, [
+                _cache[5] || (_cache[5] = vue.createElementVNode("span", { class: "icon icon-add1 mtm-dropdownPanel__menuIcon" }, null, -1)),
+                vue.createElementVNode("span", _hoisted_12, vue.toDisplayString(_ctx.translate("Dashboard_AddAWidget")), 1)
+              ])
             ])
           ])
+        ])), [
+          [_directive_tooltips, { show: false }]
         ])
-      ])), [
-        [_directive_tooltips, { show: false }]
       ]),
       vue.createVNode(_component_AddWidgetModal, { onSelect: _ctx.onWidgetSelected }, null, 8, ["onSelect"])
     ], 32)), [

@@ -22,17 +22,18 @@ describe("CustomDimensions", function () {
 
     var popupSelector = '.ui-dialog:visible';
 
-    async function capturePageWrap (screenName, test) {
-        await captureSelector(screenName, '.pageWrap', test)
+    async function capturePageWrap (screenName, test, comparisonThreshold) {
+        await captureSelector(screenName, '.pageWrap', test, comparisonThreshold)
     }
 
-    async function captureSelector(screenName, selector, test) {
+    async function captureSelector(screenName, selector, test, comparisonThreshold) {
         await page.webpage.setViewport({
             width: 1350,
             height: 768,
         });
         await test();
-        expect(await page.screenshotSelector(selector)).to.matchImage(screenName);
+        const expectation = comparisonThreshold ? { imageName: screenName, comparisonThreshold } : screenName;
+        expect(await page.screenshotSelector(selector)).to.matchImage(expectation);
     }
 
     async function closeOpenedPopover()
@@ -117,7 +118,8 @@ describe("CustomDimensions", function () {
 
             await page.click('.extraction1 .icon-plus');
             await page.type('.extraction2 #pattern2', 'thirdpattern_(.+)test');
-        });
+        // tolerate minor text-edge anti-aliasing variance (~0.01%) between runs on the new Chrome
+        }, 0.001);
     });
 
     it('should be possible to remove a defined extraction', async function () {
@@ -153,6 +155,8 @@ describe("CustomDimensions", function () {
         await capturePageWrap('manage_edit_action_dimension_updated', async function () {
             await page.click('.editCustomDimension .update');
             await page.waitForNetworkIdle();
+            // Move the cursor off the re-rendered list so no row is left in a :hover state.
+            await page.mouse.move(0, 0);
         });
     });
 
@@ -165,12 +169,27 @@ describe("CustomDimensions", function () {
     it('should go back to list when pressing cancel', async function () {
         await capturePageWrap('manage_edit_action_dimension_cancel', async function () {
             await page.click('.editCustomDimension .cancel');
+            // Cancelling re-renders the list including the "increase available dimensions" block with its
+            // two console-command code snippets. Those render slightly after the list, so wait until both
+            // are present and populated - otherwise the screenshot is captured truncated (missing one or
+            // both snippets).
+            await page.waitForFunction(() => {
+                const codes = document.querySelectorAll('#customDimensionsCreateMoreDimensions pre code');
+                return codes.length >= 2
+                    && Array.prototype.every.call(codes, (c) => c.textContent.trim().length > 0);
+            });
+            // Move the cursor off the re-rendered list so no row is left in a :hover state.
+            await page.mouse.move(0, 0);
         });
     });
 
     it('should disable configure button when no dimensions are left for a scope', async function () {
         await capturePageWrap('manage_configure_button_disabled', async function () {
             await page.click('.scope-visit .btn');
+            // Wait for the edit form to render before typing: this test opens the form and types in
+            // the same step (unlike the earlier create tests which split those across steps), so the
+            // form is not yet present otherwise under the modern headless Chrome.
+            await page.waitForSelector('.editCustomDimension #name');
             await page.type(".editCustomDimension #name", 'Last Name');
             await page.click('.editCustomDimension .create');
             await page.waitForNetworkIdle();

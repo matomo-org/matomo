@@ -47,30 +47,18 @@ class Controller extends ControllerAdmin
     public const NONCE_DELETE_AUTH_TOKEN = 'deleteAuthTokenNonce';
     public const NONCE_SET_IGNORE_COOKIE = 'setIgnoreCookieNonce';
 
-    /**
-     * @var Translator
-     */
-    private $translator;
+    private Translator $translator;
 
-    /**
-     * @var PasswordVerifier
-     */
-    private $passwordVerify;
+    private PasswordVerifier $passwordVerify;
 
     /**
      * @var Plugin\Manager
      */
     private $pluginManager;
 
-    /**
-     * @var Model
-     */
-    private $userModel;
+    private Model $userModel;
 
-    /**
-     * @var PasswordStrength
-     */
-    private $passwordStrength;
+    private PasswordStrength $passwordStrength;
 
     public function __construct(
         Translator $translator,

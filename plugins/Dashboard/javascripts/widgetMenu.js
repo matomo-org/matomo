@@ -529,6 +529,14 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
                     );
                     previewElement.html(emptyWidgetHtml);
 
+                    // Render the shared ReportHeader (title only, no controls) into the preview
+                    // chrome. The widget title lives in ReportHeader now, not in a `.widgetName`
+                    // node, so it must be passed as the `report-title` prop here.
+                    piwikHelper.compileVueEntryComponents($('.widgetTop', previewElement), {
+                        'report-title': _pk_translate('Dashboard_WidgetPreview'),
+                        context: 'preview'
+                    });
+
                     var onWidgetLoadedCallback = function (response) {
                         var widgetElement = previewElement.children('.widget').first();
                         $('.widgetContent', widgetElement).html($(response));

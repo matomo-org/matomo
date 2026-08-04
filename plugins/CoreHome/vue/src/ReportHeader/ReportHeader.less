@@ -1,0 +1,93 @@
+// Widget controls are visible unless the host opts into hover-reveal with the
+// `__reportHeader-onHover` hook.
+.reportHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  border-radius: 8px;
+  padding: 20px;
+
+  .reportHeader__main {
+    flex: auto;
+    min-width: 0;
+  }
+
+  .reportHeader__title {
+    margin: 0;
+    // Neutralises the global padding applied to title tags
+    padding: 0;
+    width: auto;
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: normal;
+    color: @theme-color-widget-title-text;
+    // The title wraps over several lines rather than being clipped/ellipsised (a plugin like
+    // SingleMetricView also appends a metric-picker dropdown into it that must stay visible).
+    // break-word keeps an overly long word from spilling over the widget controls.
+    overflow-wrap: break-word;
+  }
+
+  .reportHeader__title--clickable {
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .reportHeader__widgetControls {
+    flex: none;
+    display: flex;
+    align-items: safe center;
+    // Visible by default. Hover-reveal is opt-in per host via the `__reportHeader-onHover`
+    // hook (rules below); where the hook is absent the controls stay visible (e.g. a
+    // maximised widget). Uses opacity (not display) so they stay keyboard-focusable.
+    opacity: 1;
+    transition: opacity 0.15s ease;
+
+    &:empty {
+      display: none;
+    }
+  }
+
+  .reportHeader__actions {
+    flex: none;
+    display: flex;
+    align-items: safe center;
+
+    &:empty {
+      display: none;
+    }
+  }
+}
+
+// The container already pads a full-page report, so only the gap the `h2.card-title` margin
+// used to create is kept.
+.reportHeader--flush {
+  padding: 0;
+  margin-bottom: 20px;
+}
+
+// A report shown without a card had a plain `h2`, not a card title. These values reproduce it
+// exactly so the page does not shift: size and padding from the global `h2` (Morpheus
+// main.less), line height from materialize, colour from Morpheus general/_typography.less.
+.reportHeader--plainTitle {
+  padding: 0;
+
+  .reportHeader__title {
+    font-size: 24px;
+    line-height: 110%;
+    color: @theme-color-headline-alternative;
+    padding: 16px 0;
+  }
+}
+
+// Opt-in hover-reveal: when the host marks its scope with the `__reportHeader-onHover` context
+// hook (e.g. the dashboard widget), hide the controls until the host is hovered or a control
+// is focused. Absent the hook the controls stay visible (base rule above), which is how a
+// maximised widget keeps them on. The hook is reference-only — see CSS rules, rule 31.
+.__reportHeader-onHover .reportHeader__widgetControls {
+  opacity: 0;
+}
+
+.__reportHeader-onHover:hover .reportHeader__widgetControls,
+.__reportHeader-onHover:focus-within .reportHeader__widgetControls {
+  opacity: 1;
+}

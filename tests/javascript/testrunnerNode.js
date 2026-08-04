@@ -9,6 +9,8 @@
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0; // ignore ssl errors
 
 const puppeteer = require('puppeteer');
+// Reuse the UI tests' browser config so this runner follows the same browser-selection policy.
+const { browserConfig } = require('../UI/config.dist');
 const baseUrl = process.argv[2] || 'http://localhost/tests/javascript/';
 
 const pluginArg = process.argv.find((arg) => /--plugin=(.*?)/.test(arg));
@@ -18,7 +20,7 @@ main();
 
 async function main() {
 
-    const browser = await puppeteer.launch({args: ['--no-sandbox', '--ignore-certificate-errors']});
+    const browser = await puppeteer.launch(browserConfig);
     const page = await browser.newPage();
 
     page.on('console', async (consoleMessage) => {

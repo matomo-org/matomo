@@ -103,7 +103,6 @@
         "SystemCheckFunctions": "必要功能",
         "SystemCheckGDFreeType": "GD &gt; 2.x + FreeType（圖形）",
         "SystemCheckGDHelp": "（Matomo 應用程式和報表信件中的）迷你圖（小圖表）和圖片圖表將無法運作。",
-        "SystemCheckGlobHelp": "這個內建函式已被你的主機商關閉。Matomo 將嘗試模擬此函式，但可能會遇到安全限制。功能可能受到影響。",
         "SystemCheckGzcompressHelp": "你必須開啟 zlib 擴充功能和 gzcompress 函式。",
         "SystemCheckGzuncompressHelp": "你必須開啟 zlib 擴充功能和 gzuncompress 函式。",
         "SystemCheckHashHelp": "忽略 --disable-hash 選項，以要求啟用 hash() 然後配置並重新編譯 PHP。",

@@ -23,20 +23,11 @@ use Piwik\Site;
  */
 class Parameters
 {
-    /**
-     * @var Site
-     */
-    private $site = null;
+    private Site $site;
 
-    /**
-     * @var Period
-     */
-    private $period = null;
+    private Period $period;
 
-    /**
-     * @var Segment
-     */
-    private $segment = null;
+    private Segment $segment;
 
     /**
      * @var string|bool Plugin name which triggered this archive processor, or false if none
@@ -51,14 +42,9 @@ class Parameters
     private $archiveOnlyReport = null;
 
     /**
-     * @var bool
-     */
-    private $isArchiveOnlyReportHandled = false;
-
-    /**
      * @var string[]|null
      */
-    private $foundRequestedReports;
+    private ?array $foundRequestedReports = null;
 
     /**
      * @ignore
@@ -288,24 +274,7 @@ class Parameters
             return false;
         }
 
-        if (!empty($this->getArchiveOnlyReport())) {
-            return true;
-        }
-
-        return $this->isArchiveOnlyReportHandled;
-    }
-
-    /**
-     * If a plugin's archiver handles the setArchiveOnlyReport() setting, it should call this method
-     * so it is known that the archive only contains the requested report. This should be called
-     * in an Archiver's __construct method.
-     *
-     * @param bool $isArchiveOnlyReportHandled
-     * @deprecated use `setArchiveOnlyReport` instead
-     */
-    public function setIsPartialArchive($isArchiveOnlyReportHandled)
-    {
-        $this->isArchiveOnlyReportHandled = $isArchiveOnlyReportHandled;
+        return !empty($this->getArchiveOnlyReport());
     }
 
     public function getArchiveOnlyReportAsArray()

@@ -13,6 +13,7 @@ describe('DataTable', function () {
   };
 
   const devicesUrl = "?module=CoreHome&action=index&idSite=3&period=day&date=yesterday&category=General_Visitors&subcategory=DevicesDetection_Devices";
+  const emptyDevicesUrl = "?module=CoreHome&action=index&idSite=3&period=day&date=2011-01-01&category=General_Visitors&subcategory=DevicesDetection_Devices";
   const widgetSelector = '#widgetDevicesDetectiongetType';
   const selectors = {
     metricColumn: `${widgetSelector} #nb_uniq_visitors`,
@@ -55,7 +56,7 @@ describe('DataTable', function () {
     try {
       await action();
     } finally {
-      page.webpage.removeListener('request', requestHandler);
+      page.webpage.off('request', requestHandler);
     }
     return ajaxRequestCount;
   }
@@ -167,6 +168,94 @@ describe('DataTable', function () {
     expect(footerMessage).to.contain('are not recalculated by the filter');
 
     await toggleTotalsRow();
+  });
+  
+  async function readHeaderLayout() {
+    return page.evaluate((widgetSel) => {
+      const widget = document.querySelector(widgetSel);
+      const dataTable = widget.querySelector('.dataTable');
+      const title = widget.querySelector('.reportHeader__title');
+
+      return {
+        headers: widget.querySelectorAll('.reportHeader').length,
+        headingTag: title.tagName,
+        title: title.innerText.trim(),
+        actionRowsInTable: dataTable.querySelectorAll('.dataTableHeaderControls').length,
+        widgetControls: widget.querySelectorAll('.reportHeader .widgetControls__action').length,
+      };
+    }, widgetSelector);
+  }
+
+  it('should render the report header once, with no widget controls', async function () {
+    await loadWidget();
+
+    const layout = await readHeaderLayout();
+    expect(layout.headers).to.be.equal(1);
+    expect(layout.headingTag).to.be.equal('H2');
+    // the widget name from the metadata still wins over the report's own title
+    expect(layout.title).to.be.equal('Device type');
+    expect(layout.widgetControls).to.be.equal(0);
+    expect(layout.actionRowsInTable).to.be.equal(1);
+  });
+
+  it('should keep the header across sorting, limit and visualization changes', async function () {
+    await loadWidget();
+
+    await interactWithColumnSortingAndLimit();
+    expect((await readHeaderLayout()).headers).to.be.equal(1);
+
+    await changeVisualization();
+    expect((await readHeaderLayout()).headers).to.be.equal(1);
+
+    await toggleTotalsRow();
+    const layout = await readHeaderLayout();
+    expect(layout.headers).to.be.equal(1);
+    expect(layout.title).to.be.equal('Device type');
+  });
+
+  it('should render the header of a report without data', async function () {
+    await page.goto(emptyDevicesUrl);
+    await page.waitForNetworkIdle();
+    await page.waitForSelector(`${widgetSelector} .dataTable.isDataTableEmpty`, { visible: true });
+    await page.waitForNetworkIdle();
+
+    const layout = await readHeaderLayout();
+    expect(layout.headers).to.be.equal(1);
+    expect(layout.title).to.be.equal('Device type');
+  });
+
+  // A report shown without a content block card keeps the metrics of the plain `h2` it used to
+  // be, and ReportHeader.less carries hand-copied values to do so. Compare against a real `h2`
+  // rendered in the same page so the copies fail loudly if the global heading styles ever change.
+  it('should give a report shown without a card the metrics of a plain heading', async function () {
+    const ecommerceLog = "?module=CoreHome&action=index&idSite=1&period=year&date=2012-08-09"
+      + "#?idSite=1&period=year&date=2012-08-09&category=Goals_Ecommerce&subcategory=Goals_EcommerceLog";
+
+    await page.goto(ecommerceLog);
+    await page.waitForNetworkIdle();
+    await page.waitForSelector('.reportHeader--plainTitle', { visible: true });
+
+    const parity = await page.evaluate(() => {
+      const header = document.querySelector('.reportHeader--plainTitle');
+      const title = header.querySelector('.reportHeader__title');
+      const probe = document.createElement('h2');
+      probe.textContent = title.innerText;
+      header.parentNode.insertBefore(probe, header);
+      const of = getComputedStyle(title);
+      const op = getComputedStyle(probe);
+      const result = {
+        height: [header.offsetHeight, probe.offsetHeight],
+        fontSize: [of.fontSize, op.fontSize],
+        lineHeight: [of.lineHeight, op.lineHeight],
+        color: [of.color, op.color],
+      };
+      probe.remove();
+      return result;
+    });
+
+    Object.keys(parity).forEach((k) => {
+      expect(parity[k][0], k).to.be.equal(parity[k][1]);
+    });
   });
 
   it('should allow saving of preference for normal user when changing sorting and table limits', async function () {

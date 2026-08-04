@@ -331,6 +331,7 @@
         "MediumToHighTrafficItIsRecommendedTo": "I gcás suíomhanna gréasáin tráchta meánach go hard, molaimid tuairiscí a phróiseáil don lá inniu ar a mhéad gach leathuair an chloig (%1$s soicind) nó gach uair an chloig (%2$s soicind).",
         "Metadata": "Meiteashonraí",
         "Metric": "Méadrach",
+        "MetricNotAvailableForThisPeriod": "Níl an mhéadrach seo ar fáil don tréimhse seo.",
         "MetricToPlot": "Méadrach le breacadh",
         "Metrics": "Méadracht",
         "MetricsToPlot": "Méadracht le breacadh",

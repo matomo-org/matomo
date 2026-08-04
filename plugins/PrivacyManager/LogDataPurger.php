@@ -31,17 +31,13 @@ class LogDataPurger
 
     /**
      * LogDeleter service used to delete visits.
-     *
-     * @var LogDeleter
      */
-    private $logDeleter;
+    private LogDeleter $logDeleter;
 
     /**
      * DAO class that is used to delete unused actions.
-     *
-     * @var RawLogDao
      */
-    private $rawLogDao;
+    private RawLogDao $rawLogDao;
 
     public function __construct(LogDeleter $logDeleter, RawLogDao $rawLogDao)
     {
@@ -141,17 +137,16 @@ class LogDataPurger
     }
 
     /**
-     * get highest idVisit to delete rows from
-     * @return string|false
+     * get highest idVisit to delete rows from, or 0 when there is nothing to purge
      */
-    private function getDeleteIdVisitOffset($deleteLogsOlderThan)
+    private function getDeleteIdVisitOffset($deleteLogsOlderThan): int
     {
         $logVisit = Common::prefixTable("log_visit");
 
         // get max idvisit
-        $maxIdVisit = Db::fetchOne("SELECT MAX(idvisit) FROM `$logVisit`");
+        $maxIdVisit = (int) Db::fetchOne("SELECT MAX(idvisit) FROM `$logVisit`");
         if (empty($maxIdVisit)) {
-            return false;
+            return 0;
         }
 
         // select highest idvisit to delete from
@@ -164,7 +159,7 @@ class LogDataPurger
 		      ORDER BY idvisit DESC
 		         LIMIT 1";
 
-        return Db::segmentedFetchFirst($sql, $maxIdVisit, 0, -self::$selectSegmentSize);
+        return (int) Db::segmentedFetchFirst($sql, $maxIdVisit, 0, -self::$selectSegmentSize);
     }
 
     private function getLogTableDeleteCount($table, $maxIdVisit)

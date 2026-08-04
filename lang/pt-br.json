@@ -331,6 +331,7 @@
         "MediumToHighTrafficItIsRecommendedTo": "Para sites com tráfego de médio a alto, nós recomendamos processar relatórios diários no máximo a cada meia hora (%1$s segundos) ou a cada hora (%2$s segundos).",
         "Metadata": "Metadados",
         "Metric": "Métrica",
+        "MetricNotAvailableForThisPeriod": "Esta métrica não está disponível para este período.",
         "MetricToPlot": "Métrica para exibir",
         "Metrics": "Métricas",
         "MetricsToPlot": "Metricas para exibir",

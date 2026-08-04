@@ -71,20 +71,11 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
     /** @var Setting */
     public $ecommerce;
 
-    /**
-     * @var SitesManager\API
-     */
-    private $sitesManagerApi;
+    private SitesManager\API $sitesManagerApi;
 
-    /**
-     * @var TypeManager
-     */
-    private $typeManager;
+    private TypeManager $typeManager;
 
-    /**
-     * @var bool
-     */
-    private $unsetSiteSearchKeywords = false;
+    private bool $unsetSiteSearchKeywords = false;
 
     public function __construct(
         SitesManager\API $api,

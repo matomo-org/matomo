@@ -83,7 +83,7 @@ class API extends \Piwik\Plugin\API
             return $this->languageNames[$cacheKey];
         }
         $path = PIWIK_INCLUDE_PATH . "/lang/";
-        $languagesPath = _glob($path . "*.json");
+        $languagesPath = glob($path . "*.json");
 
         $pathLength = strlen($path);
         $filesystemLanguages = array();

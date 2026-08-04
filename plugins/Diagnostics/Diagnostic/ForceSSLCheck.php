@@ -21,10 +21,7 @@ use Piwik\View;
  */
 class ForceSSLCheck implements Diagnostic
 {
-    /**
-     * @var Translator
-     */
-    private $translator;
+    private Translator $translator;
 
     public function __construct(Translator $translator)
     {

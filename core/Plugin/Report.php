@@ -901,19 +901,6 @@ class Report
     }
 
     /**
-     * Returns the Dimension instance of the subtable report of this report's subtable report.
-     *
-     * @return Dimension|null The subtable report's dimension or null if there is no subtable report or
-     *                        no dimension for the subtable report.
-     * @deprecated since 5.3.0, use getNthLevelTableDimension(2) instead
-     * @api
-     */
-    public function getThirdLeveltableDimension()
-    {
-        return $this->getNthLevelTableDimension($level = 2);
-    }
-
-    /**
      * Returns the Dimension instance of the subtable report of this report's subtable report based on level.
      *
      * @param int $level The subTable level for which dimension is to be determined, zero-based

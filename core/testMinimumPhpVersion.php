@@ -39,13 +39,19 @@ if ($minimumPhpInvalid) {
     if (!function_exists('ini_set')) {
         $piwik_errorMessage .= "<p><strong>Matomo and Zend_Session require the <code>ini_set()</code> function</strong></p>
 					<p>It appears your PHP has disabled this function.
-					To enjoy Matomo, you need remove <pre>ini_set</pre> from your <pre>disable_functions</pre> directive in php.ini, and restart your webserver.</p>";
+					To enjoy Matomo, you need to remove <pre>ini_set</pre> from your <pre>disable_functions</pre> directive in php.ini, and restart your webserver.</p>";
     }
 
     if (ini_get('mbstring.func_overload')) {
         $piwik_errorMessage .= "<p><strong>Matomo does not work when PHP is configured with <pre>mbstring.func_overload = " . ini_get('mbstring.func_overload') . "</pre></strong></p>
 					<p>It appears your mbstring extension in PHP is configured to override string functions.
 					To enjoy Matomo, you need to modify php.ini <pre>mbstring.func_overload = 0</pre>, and restart your webserver.</p>";
+    }
+
+    if (!function_exists('glob')) {
+        $piwik_errorMessage .= "<p><strong>Matomo requires the <code>glob()</code> function</strong></p>
+					<p>It appears your PHP has disabled this function. Matomo uses it to discover plugins and update scripts, so it cannot run without it.
+					To enjoy Matomo, you need to remove <pre>glob</pre> from your <pre>disable_functions</pre> directive in php.ini, and restart your webserver.</p>";
     }
 
     if (!function_exists('json_encode')) {

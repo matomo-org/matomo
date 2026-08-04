@@ -182,10 +182,7 @@ class Archive implements ArchiveQuery
      */
     private $forceIndexedByDate;
 
-    /**
-     * @var Parameters
-     */
-    private $params;
+    private Parameters $params;
 
     /**
      * If true, this Archive instance will not launch the archiving process, even if the current request
@@ -322,23 +319,6 @@ class Archive implements ArchiveQuery
         }
 
         return $result;
-    }
-
-    /**
-     * Queries and returns blob records without turning them into DataTables.
-     *
-     * Unlike other methods, this returns a DataCollection instance directly. Use it to directly access
-     * and process blob data.
-     *
-     * @param string|string[] $names One or more archive names, eg, `'nb_visits'`, `'Referrers_distinctKeywords'`, etc.
-     * @param int|string|null $idSubtable
-     * @return DataCollection the queried data.
-     *
-     * @deprecated remove with Matomo 6
-     */
-    public function getBlob($names, $idSubtable = null)
-    {
-        return $this->get($names, 'blob', $idSubtable);
     }
 
     /**
@@ -1064,15 +1044,6 @@ class Archive implements ArchiveQuery
         }
 
         return [$archiveIdsByMonth, $archiveStatesByMonth];
-    }
-
-    /**
-     * Only kept for BC
-     * @return void
-     * @deprecated Remove with Matomo 6
-     */
-    public static function clearStaticCache()
-    {
     }
 
     /**

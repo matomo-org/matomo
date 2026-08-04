@@ -38,10 +38,8 @@ class Loader
 
     /**
      * Tracks whether the current prepareArchive run reused an existing archive instead of processing.
-     *
-     * @var boolean
      */
-    private $didReuseArchive = false;
+    private bool $didReuseArchive = false;
 
     /**
      * @var Parameters
@@ -63,15 +61,9 @@ class Loader
      */
     private $logger;
 
-    /**
-     * @var RawLogDao
-     */
-    private $rawLogDao;
+    private RawLogDao $rawLogDao;
 
-    /**
-     * @var Model
-     */
-    private $dataAccessModel;
+    private Model $dataAccessModel;
 
     /**
      * @var bool

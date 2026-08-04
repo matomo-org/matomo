@@ -33,6 +33,11 @@ class Chart
     protected $dataStates = [];
 
     /**
+     * @var array<int, array<int, float|null>>
+     */
+    protected $forecastData = [];
+
+    /**
      * @var LoggerInterface
      */
     protected $logger;
@@ -169,6 +174,7 @@ class Chart
             ],
             'data' => &$this->data,
             'dataStates' => &$this->dataStates,
+            'forecastData' => &$this->forecastData,
         ];
 
         return $data;
@@ -199,6 +205,16 @@ class Chart
     public function setDataStates(array $dataStates): void
     {
         $this->dataStates = $dataStates;
+    }
+
+    /**
+     * Set forecast values for all series/ticks.
+     *
+     * @param array<int, array<int, float|null>> $forecastData
+     */
+    public function setForecastData(array $forecastData): void
+    {
+        $this->forecastData = $forecastData;
     }
 
     private function getXAxis($index)

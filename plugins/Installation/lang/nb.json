@@ -103,7 +103,6 @@
         "SystemCheckFunctions": "Nødvendige funksjoner",
         "SystemCheckGDFreeType": "GD &gt; 2.x + FreeType (grafikk)",
         "SystemCheckGDHelp": "Mindre grafiske elementer vil ikke fungere som ønsket.",
-        "SystemCheckGlobHelp": "Denne innebygde funksjonen har blitt skrudd av på din server. Matomo vil prøve å emulere denne funksjonen, men kan støte på flere sikkerhetsrestriksjoner. Funksjonaliteten kan bli påvirket.",
         "SystemCheckGzcompressHelp": "Du må skru på zlib utvidelsen og gzcompress-funksjonen.",
         "SystemCheckGzuncompressHelp": "Du må skru på zlib utvidelsen og gzuncompress-funksjonen.",
         "SystemCheckHashHelp": "Sett opp og bygg PHP igjen med «hash()»-støtte ved å utelate alternativet «--disable-hash».",

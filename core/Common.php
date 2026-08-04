@@ -410,10 +410,10 @@ class Common
         // escape
         $tmp = @htmlspecialchars($value, self::HTML_ENCODING_QUOTE_STYLE, 'UTF-8');
 
-        // note: php 5.2.5 and above, htmlspecialchars is destructive if input is not UTF-8
+        // note: htmlspecialchars is destructive if input is not UTF-8
         if ($value !== '' && $tmp === '') {
             // convert and escape
-            $value = utf8_encode($value);
+            $value = mb_convert_encoding($value, 'UTF-8', 'ISO-8859-1');
             $tmp = htmlspecialchars($value, self::HTML_ENCODING_QUOTE_STYLE, 'UTF-8');
             return $tmp;
         }

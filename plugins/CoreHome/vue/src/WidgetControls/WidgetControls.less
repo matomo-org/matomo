@@ -1,0 +1,45 @@
+// Inline row of widget-control icon buttons. Idle icons are light grey and darken on
+// hover/focus; the host (ReportHeader) hides/reveals the whole row.
+.widgetControls {
+  display: inline-flex;
+  align-items: safe center;
+  gap: 8px;
+  height: 24px;
+
+  .widgetControls__action {
+    display: inline-flex;
+    align-items: safe center;
+    justify-content: safe center;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    border: 0;
+    border-radius: 4px;
+    line-height: 0;
+    cursor: pointer;
+    appearance: none;
+    color: @theme-color-text-lighter; // idle
+
+    &:hover,
+    &:focus-visible {
+      color: @theme-color-text; // hover / keyboard focus
+    }
+
+    // no ring on mouse focus; show it only for keyboard nav, hugging the 20px button
+    &:focus {
+      outline: none;
+    }
+
+    &:focus-visible {
+      outline: 2px solid @theme-color-focus-ring;
+      outline-offset: 2px;
+    }
+  }
+
+  .widgetControls__icon {
+    font-size: 16px;
+    line-height: 1;
+  }
+}

@@ -24,10 +24,7 @@ use Piwik\Translation\Translator;
  */
 class ReportInformational implements Diagnostic
 {
-    /**
-     * @var Translator
-     */
-    private $translator;
+    private Translator $translator;
 
     private $idSiteCache;
 

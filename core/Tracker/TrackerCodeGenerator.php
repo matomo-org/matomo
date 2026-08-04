@@ -25,9 +25,8 @@ class TrackerCodeGenerator
 {
     /**
      * whether matomo.js|php should be forced over piwik.js|php
-     * @var bool
      */
-    private $shouldForceMatomoEndpoint = false;
+    private bool $shouldForceMatomoEndpoint = false;
 
     public function forceMatomoEndpoint()
     {

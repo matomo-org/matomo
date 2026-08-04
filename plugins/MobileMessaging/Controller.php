@@ -10,7 +10,7 @@
 namespace Piwik\Plugins\MobileMessaging;
 
 use Piwik\Common;
-use Piwik\DataTable\Renderer\Json;
+use Piwik\Http\JsonResponse;
 use Piwik\Intl\Data\Provider\RegionDataProvider;
 use Piwik\IP;
 use Piwik\Piwik;
@@ -24,15 +24,9 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
 
 class Controller extends ControllerAdmin
 {
-    /**
-     * @var RegionDataProvider
-     */
-    private $regionDataProvider;
+    private RegionDataProvider $regionDataProvider;
 
-    /**
-     * @var Translator
-     */
-    private $translator;
+    private Translator $translator;
 
     public function __construct(RegionDataProvider $regionDataProvider, Translator $translator)
     {
@@ -135,7 +129,8 @@ class Controller extends ControllerAdmin
         $this->setBasicVariablesView($view);
     }
 
-    public function getCredentialFields()
+    #[JsonResponse]
+    public function getCredentialFields(): string
     {
         $provider = Common::getRequestVar('provider', '');
 
@@ -148,7 +143,6 @@ class Controller extends ControllerAdmin
             }
         }
 
-        Json::sendHeaderJSON();
         return json_encode($credentialFields);
     }
 }

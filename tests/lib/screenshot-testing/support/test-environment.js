@@ -10,7 +10,7 @@
 var fs = require('fs'),
     path = require('path'),
     resolveUrl = require('url').resolve,
-    request = require('request-promise'),
+    qs = require('qs'),
     testingEnvironmentOverridePath = path.join(PIWIK_INCLUDE_PATH, '/tmp/testingPathOverride.json');
 
 var DEFAULT_UI_TEST_FIXTURE_NAME = "Piwik\\Tests\\Fixtures\\UITestFixture";
@@ -95,20 +95,12 @@ TestingEnvironment.prototype.callController = function (method, params) {
 };
 
 TestingEnvironment.prototype._call = async function (params) {
-    let queryString = Object.keys(params).reduce(function (obj, name) {
-        if (params[name] instanceof Array) {
-            params[name].forEach(function(value, index) {
-                obj[name+'['+index+']'] = value;
-            });
-            return obj;
-        }
-        obj[name] = params[name];
-        return obj;
-    }, {});
-    let response = await request({
-        uri: resolveUrl(config.piwikUrl, '/tests/PHPUnit/proxy/index.php'),
-        qs: queryString,
-    });
+    // qs.stringify serialises nested objects/arrays using bracket notation (e.g.
+    // settingValues[Live][0][name]=...), which is what request's "qs" option did and what the PHP
+    // proxy expects. URLSearchParams cannot do this (it stringifies nested values as [object Object]).
+    const uri = resolveUrl(config.piwikUrl, '/tests/PHPUnit/proxy/index.php');
+    const httpResponse = await fetch(uri + '?' + qs.stringify(params));
+    let response = await httpResponse.text();
 
     if (response === '') {
         return '';
@@ -119,11 +111,11 @@ TestingEnvironment.prototype._call = async function (params) {
     try {
         response = JSON.parse(response);
     } catch (e) {
-        throw new Error("Unable to parse JSON response: " + response + " for query " + JSON.stringify(queryString));
+        throw new Error("Unable to parse JSON response: " + response + " for query " + JSON.stringify(params));
     }
 
     if (response.result === "error") {
-        throw new Error("API returned error: " + response.message + " for query " + JSON.stringify(queryString));
+        throw new Error("API returned error: " + response.message + " for query " + JSON.stringify(params));
     }
 
     return response;

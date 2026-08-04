@@ -10,7 +10,9 @@
 namespace Piwik\Plugins\CoreUpdater\tests\Integration;
 
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Nonce;
+use Piwik\Plugins\CoreUpdater\ArchiveDownloadException;
 use Piwik\Plugins\CoreUpdater\Controller;
 use Piwik\Plugins\CoreUpdater\Updater;
 use Piwik\Tests\Framework\Mock\FakeAccess;
@@ -27,9 +29,11 @@ class ControllerTest extends IntegrationTestCase
     private $originalEnableAutoUpdate;
     private $originalEnableInternetFeatures;
     private $originalUpdateDetailsToken;
+    private $originalForceHttpRequest;
     private $hadEnableAutoUpdate = false;
     private $hadEnableInternetFeatures = false;
     private $hadUpdateDetailsToken = false;
+    private $hadForceHttpRequest = false;
 
     public function setUp(): void
     {
@@ -42,9 +46,11 @@ class ControllerTest extends IntegrationTestCase
         $this->hadEnableAutoUpdate = array_key_exists('enable_auto_update', $general);
         $this->hadEnableInternetFeatures = array_key_exists('enable_internet_features', $general);
         $this->hadUpdateDetailsToken = array_key_exists('update_details_token', $general);
+        $this->hadForceHttpRequest = array_key_exists('force_matomo_http_request', $general);
         $this->originalEnableAutoUpdate = $general['enable_auto_update'] ?? null;
         $this->originalEnableInternetFeatures = $general['enable_internet_features'] ?? null;
         $this->originalUpdateDetailsToken = $general['update_details_token'] ?? null;
+        $this->originalForceHttpRequest = $general['force_matomo_http_request'] ?? null;
 
         Config::getInstance()->General['enable_auto_update'] = 1;
         Config::getInstance()->General['enable_internet_features'] = 1;
@@ -74,6 +80,12 @@ class ControllerTest extends IntegrationTestCase
             $config->General['update_details_token'] = $this->originalUpdateDetailsToken;
         } else {
             unset($config->General['update_details_token']);
+        }
+
+        if ($this->hadForceHttpRequest) {
+            $config->General['force_matomo_http_request'] = $this->originalForceHttpRequest;
+        } else {
+            unset($config->General['force_matomo_http_request']);
         }
 
         $config->forceSave();
@@ -153,6 +165,73 @@ class ControllerTest extends IntegrationTestCase
         self::assertSame(1, preg_match('/^[a-f0-9]{32}$/', $rotatedToken));
     }
 
+    public function testOneClickResultsHttpsFailScreenDoesNotOfferHttpFallback()
+    {
+        FakeAccess::clearAccess(true);
+
+        $_GET = [];
+        $_POST = [
+            'httpsFail' => '1',
+            'error' => 'Simulated SSL certificate failure',
+        ];
+
+        $result = $this->buildController()->oneClickResults();
+
+        self::assertStringContainsString('Simulated SSL certificate failure', $result);
+        // The insecure HTTP fallback must no longer be offered, and no retry form should reappear.
+        self::assertStringNotContainsString('updateUsingHttp', $result);
+        self::assertStringNotContainsString('name="https"', $result);
+        self::assertStringNotContainsString('value="oneClickUpdate"', $result);
+    }
+
+    public function testOneClickUpdateMarksHttpsFailureWhenSecureDownloadFails()
+    {
+        FakeAccess::clearAccess(true);
+        Config::getInstance()->General['force_matomo_http_request'] = 0;
+
+        $_GET = [];
+        $_POST = [];
+        $_GET['nonce'] = Nonce::getNonce('oneClickUpdate');
+
+        $output = $this->captureOneClickUpdateOutput();
+
+        self::assertStringContainsString('name="httpsFail" value="1"', $output);
+    }
+
+    public function testOneClickUpdateDoesNotMarkHttpsFailureWhenHttpIsForced()
+    {
+        FakeAccess::clearAccess(true);
+        Config::getInstance()->General['force_matomo_http_request'] = 1;
+
+        $_GET = [];
+        $_POST = [];
+        $_GET['nonce'] = Nonce::getNonce('oneClickUpdate');
+
+        $output = $this->captureOneClickUpdateOutput();
+
+        self::assertStringContainsString('name="httpsFail" value="0"', $output);
+    }
+
+    public function testGetArchiveUrlUsesHttpsByDefault()
+    {
+        Config::getInstance()->General['force_matomo_http_request'] = 0;
+
+        $updater = StaticContainer::get(Updater::class);
+
+        self::assertTrue($updater->isUpdatingOverSecureConnection());
+        self::assertStringStartsWith('https://', $updater->getArchiveUrl('5.0.0'));
+    }
+
+    public function testGetArchiveUrlUsesHttpOnlyWhenHttpIsForced()
+    {
+        Config::getInstance()->General['force_matomo_http_request'] = 1;
+
+        $updater = StaticContainer::get(Updater::class);
+
+        self::assertFalse($updater->isUpdatingOverSecureConnection());
+        self::assertStringStartsWith('http://', $updater->getArchiveUrl('5.0.0'));
+    }
+
     public function provideContainerConfig()
     {
         return array(
@@ -160,11 +239,40 @@ class ControllerTest extends IntegrationTestCase
         );
     }
 
-    private function buildController(): Controller
+    private function buildController(?Updater $updater = null): Controller
     {
-        $updater = $this->createMock(Updater::class);
-        $updater->method('updatePiwik')->willReturn(array());
+        if ($updater === null) {
+            $updater = $this->createMock(Updater::class);
+            $updater->method('updatePiwik')->willReturn(array());
+        }
 
         return new Controller($updater);
+    }
+
+    private function buildFailingDownloadController(): Controller
+    {
+        // Only stub the download itself so isUpdatingOverSecureConnection() keeps its real,
+        // config-driven behaviour and the controller derives httpsFail from the actual scheme.
+        $updater = $this->getMockBuilder(Updater::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['updatePiwik'])
+            ->getMock();
+        $updater->method('updatePiwik')->willThrowException(
+            new ArchiveDownloadException(new \Exception('Simulated SSL certificate failure'))
+        );
+
+        return new Controller($updater);
+    }
+
+    private function captureOneClickUpdateOutput(): string
+    {
+        ob_start();
+        try {
+            $this->buildFailingDownloadController()->oneClickUpdate();
+            return ob_get_clean();
+        } catch (\Throwable $e) {
+            ob_end_clean();
+            throw $e;
+        }
     }
 }

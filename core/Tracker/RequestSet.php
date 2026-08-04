@@ -18,9 +18,9 @@ class RequestSet
     /**
      * The set of visits to track.
      *
-     * @var Request[]
+     * @var Request[]|null
      */
-    private $requests = null;
+    private ?array $requests = null;
 
     /**
      * The token auth supplied with a bulk visits POST.
@@ -132,7 +132,7 @@ class RequestSet
 
         $siteIds = array();
         foreach ($this->requests as $request) {
-            $siteIds[] = (int) $request->getIdSite();
+            $siteIds[] = $request->getIdSite();
         }
 
         return array_values(array_unique($siteIds));

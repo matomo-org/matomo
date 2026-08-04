@@ -72,6 +72,10 @@ describe("UnprocessedSegmentTest", function () {
         };
         testEnvironment.save();
 
+        // This navigates to the same segment URL as the previous test, only the config differs. The modern
+        // headless Chrome doesn't reload on an unchanged URL, so force a fresh load (via about:blank) to
+        // pick up the changed config - otherwise the previous test's notification is captured.
+        await page.goto('about:blank');
         await page.goto(url + '&segment=' + encodeURIComponent(segment));
 
         expect(await page.screenshotSelector('.pageWrap,#notificationContainer')).to.matchImage('unprocessed_segment');

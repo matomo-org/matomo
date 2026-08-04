@@ -30,20 +30,11 @@ class BruteForceDetection
     private $table = self::TABLE_NAME;
     private $tablePrefixed = '';
 
-    /**
-     * @var SystemSettings
-     */
-    private $settings;
+    private SystemSettings $settings;
 
-    /**
-     * @var Updater
-     */
-    private $updater;
+    private Updater $updater;
 
-    /**
-     * @var Model
-     */
-    private $model;
+    private Model $model;
 
     public function __construct(SystemSettings $systemSettings, Model $model)
     {

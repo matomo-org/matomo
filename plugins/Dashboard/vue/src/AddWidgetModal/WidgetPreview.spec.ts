@@ -20,6 +20,7 @@ vi.mock('CoreHome', () => ({
   translate: (key: string) => key,
   Widget: { template: '<div class="stub-widget" />' },
   WidgetType: {},
+  ReportHeader: { template: '<div />' },
 }));
 
 import WidgetPreview from './WidgetPreview.vue';

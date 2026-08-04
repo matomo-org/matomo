@@ -84,7 +84,7 @@ class API extends \Piwik\Plugin\API
     /**
      * @var array[]
      */
-    private static $DEFAULT_GRAPH_TYPE_OVERRIDE = array(
+    private static array $DEFAULT_GRAPH_TYPE_OVERRIDE = array(
         'Referrers_getReferrerType' => array(
             false // override if !$isMultiplePeriod
             => StaticGraph::GRAPH_TYPE_HORIZONTAL_BAR,

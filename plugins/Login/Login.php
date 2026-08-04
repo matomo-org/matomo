@@ -27,20 +27,11 @@ use Piwik\SettingsServer;
 
 class Login extends \Piwik\Plugin
 {
-    /**
-     * @var bool
-     */
-    private $hasAddedFailedAttempt = false;
+    private bool $hasAddedFailedAttempt = false;
 
-    /**
-     * @var bool
-     */
-    private $hasPerformedBruteForceCheck = false;
+    private bool $hasPerformedBruteForceCheck = false;
 
-    /**
-     * @var bool
-     */
-    private $hasPerformedBruteForceCheckForUserPwdLogin = false;
+    private bool $hasPerformedBruteForceCheckForUserPwdLogin = false;
 
     /**
      * @see \Piwik\Plugin::registerEvents
@@ -266,7 +257,6 @@ class Login extends \Piwik\Plugin
     public function getStylesheetFiles(&$stylesheetFiles)
     {
         $stylesheetFiles[] = "plugins/Login/stylesheets/login.less";
-        $stylesheetFiles[] = "plugins/Login/stylesheets/variables.less";
     }
 
     /**

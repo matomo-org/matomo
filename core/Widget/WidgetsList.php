@@ -30,7 +30,7 @@ class WidgetsList
      *
      * @var WidgetConfig[]
      */
-    private $widgets = array();
+    private array $widgets = array();
 
     /**
      * @var WidgetContainerConfig[]

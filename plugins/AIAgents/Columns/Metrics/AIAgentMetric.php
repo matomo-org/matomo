@@ -34,15 +34,9 @@ class AIAgentMetric extends ProcessedMetric
         'nb_actions_per_visit_human'    => 'AIAgents_ColumnHumanAvgActionsPerVisit',
     ];
 
-    /**
-     * @var ProcessedMetric
-     */
-    private $wrapped;
+    private ProcessedMetric $wrapped;
 
-    /**
-     * @var string
-     */
-    private $suffix;
+    private string $suffix;
 
     public function __construct(ProcessedMetric $wrapped, string $suffix)
     {

@@ -13,7 +13,7 @@ use Exception;
 use Piwik\Common;
 use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
-use Piwik\DataTable\Renderer\Json;
+use Piwik\Http\JsonResponse;
 use Piwik\Date;
 use Piwik\Filesystem;
 use Piwik\Log;
@@ -42,44 +42,23 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     public const INSTALL_NONCE = 'Marketplace.installPlugin';
     public const DOWNLOAD_NONCE_PREFIX = 'Marketplace.downloadPlugin.';
 
-    /**
-     * @var LicenseKey
-     */
-    private $licenseKey;
-    /**
-     * @var Plugins
-     */
-    private $plugins;
+    private LicenseKey $licenseKey;
+    private Plugins $plugins;
 
-    /**
-     * @var Api\Client
-     */
-    private $marketplaceApi;
+    private Api\Client $marketplaceApi;
 
-    /**
-     * @var Consumer
-     */
-    private $consumer;
+    private Consumer $consumer;
 
-    /**
-     * @var PluginInstaller
-     */
-    private $pluginInstaller;
+    private PluginInstaller $pluginInstaller;
 
     /**
      * @var Plugin\Manager
      */
     private $pluginManager;
 
-    /**
-     * @var Environment
-     */
-    private $environment;
+    private Environment $environment;
 
-    /**
-     * @var PasswordVerifier
-     */
-    private $passwordVerify;
+    private PasswordVerifier $passwordVerify;
 
     /**
      * @var array<int, array<string, mixed>>|null
@@ -157,10 +136,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         ));
     }
 
-    public function getPaidPluginsToInstallAtOnceParams()
+    #[JsonResponse]
+    public function getPaidPluginsToInstallAtOnceParams(): string
     {
         Piwik::checkUserHasSuperUserAccess();
-        Json::sendHeaderJSON();
 
         if (!$this->isInstallAllPaidPluginsVisible()) {
             return json_encode([]);
@@ -294,6 +273,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         return $view->render();
     }
 
+    #[JsonResponse]
     public function updateOverview(): string
     {
         Piwik::checkUserIsNotAnonymous();
@@ -304,10 +284,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'isValidConsumer' => $this->consumer->isValidConsumer(),
         ];
 
-        Json::sendHeaderJSON();
         return json_encode($updateData);
     }
 
+    #[JsonResponse]
     public function searchPlugins(): string
     {
         Piwik::checkUserIsNotAnonymous();
@@ -338,7 +318,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             }
         }
 
-        Json::sendHeaderJSON();
         return json_encode($plugins);
     }
 

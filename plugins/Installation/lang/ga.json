@@ -110,7 +110,6 @@
         "SystemCheckFunctions": "Feidhmeanna riachtanacha",
         "SystemCheckGDFreeType": "GD &gt; 2.x + FreeType (grafaicí)",
         "SystemCheckGDHelp": "Ní oibreoidh na sparklines (graif bheaga) agus graif íomhá (san aip soghluaiste Matomo agus i dtuarascálacha ríomhphoist).",
-        "SystemCheckGlobHelp": "Tá an fheidhm ionsuite seo casta as ar do óstach. Déanfaidh Matomo iarracht aithris a dhéanamh ar an bhfeidhm, ach d'fhéadfadh srianta slándála breise a bheith i gceist. D'fhéadfadh tionchar a bheith ag feidhmiúlacht.",
         "SystemCheckGzcompressHelp": "Ní mór duit an síneadh zlib agus an fheidhm gzcompress a chasadh air.",
         "SystemCheckGzuncompressHelp": "Ní mór duit an síneadh zlib agus an fheidhm gzuncompress a chasadh air.",
         "SystemCheckHashHelp": "Cumraigh agus atógáil PHP le tacaíocht hash riachtanach () tríd an rogha a eisiamh --disable-hash.",

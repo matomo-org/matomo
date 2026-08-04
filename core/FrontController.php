@@ -17,12 +17,14 @@ use Piwik\Request\AuthenticationToken;
 use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable\Manager;
+use Piwik\DataTable\Renderer\Json;
 use Piwik\Exception\AuthenticationFailedException;
 use Piwik\Exception\DatabaseSchemaIsNewerThanCodebaseException;
 use Piwik\Exception\PluginDeactivatedException;
 use Piwik\Exception\PluginRequiresInternetException;
 use Piwik\Exception\StylesheetLessCompileException;
 use Piwik\Http\ControllerResolver;
+use Piwik\Http\JsonResponse;
 use Piwik\Http\Router;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Session\SessionAuth;
@@ -82,10 +84,7 @@ class FrontController extends Singleton
      */
     public static $enableDispatch = true;
 
-    /**
-     * @var bool
-     */
-    private $initialized = false;
+    private bool $initialized = false;
 
     /**
      * @param $lastError
@@ -691,7 +690,32 @@ class FrontController extends Singleton
          */
         Piwik::postEvent('Request.dispatch.end', array(&$result, $module, $action, $parameters));
 
+        $this->applyResponseHeadersFromAttributes($controller);
+
         return $result;
+    }
+
+    /**
+     * Applies response headers declared via attributes on the dispatched controller action.
+     *
+     * This runs after the action has fully returned (and after the dispatch events), so re-sending
+     * the header here guarantees it wins over anything the action did while building its response,
+     * such as rendering a View that resets the Content-Type to text/html.
+     *
+     * @param callable $controller The resolved controller action, an [$object, $method] callable.
+     */
+    private function applyResponseHeadersFromAttributes(callable $controller): void
+    {
+        // Only array callables built as [$controllerObject, $actionName] can carry an action attribute.
+        if (!is_array($controller) || !is_object($controller[0])) {
+            return;
+        }
+
+        $method = new \ReflectionMethod($controller[0], $controller[1]);
+
+        if (count($method->getAttributes(JsonResponse::class)) > 0) {
+            Json::sendHeaderJSON();
+        }
     }
 
     /**

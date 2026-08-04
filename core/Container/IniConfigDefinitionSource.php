@@ -23,10 +23,7 @@ use Piwik\Application\Kernel\GlobalSettingsProvider;
  */
 class IniConfigDefinitionSource implements DefinitionSource
 {
-    /**
-     * @var GlobalSettingsProvider
-     */
-    private $config;
+    private GlobalSettingsProvider $config;
 
     /**
      * @var string

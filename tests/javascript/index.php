@@ -3274,9 +3274,9 @@ function PiwikTest() {
         var tracker = Piwik.getTracker();
 
         equal( typeof tracker.hook.test._utf8_encode, 'function', 'utf8_encode' );
-        equal(tracker.hook.test._utf8_encode('hello world'), '<?php echo @utf8_encode("hello world"); ?>', 'utf8_encode("hello world")');
-        equal(tracker.hook.test._utf8_encode('Gesamtgröße'), '<?php echo @utf8_encode("Gesamtgröße"); ?>', 'utf8_encode("Gesamtgröße")');
-        equal(tracker.hook.test._utf8_encode('您好'), '<?php echo @utf8_encode("您好"); ?>', 'utf8_encode("您好")');
+        equal(tracker.hook.test._utf8_encode('hello world'), '<?php echo mb_convert_encoding("hello world", "UTF-8", "ISO-8859-1"); ?>', 'utf8_encode("hello world")');
+        equal(tracker.hook.test._utf8_encode('Gesamtgröße'), '<?php echo mb_convert_encoding("Gesamtgröße", "UTF-8", "ISO-8859-1"); ?>', 'utf8_encode("Gesamtgröße")');
+        equal(tracker.hook.test._utf8_encode('您好'), '<?php echo mb_convert_encoding("您好", "UTF-8", "ISO-8859-1"); ?>', 'utf8_encode("您好")');
 
         equal( typeof tracker.hook.test._sha1, 'function', 'sha1' );
         equal( tracker.hook.test._sha1('hello world'), '<?php echo sha1("hello world"); ?>', 'sha1("hello world")' );

@@ -13,10 +13,8 @@ abstract class UserNotification implements UserNotificationInterface
 {
     /**
      * Data to hold for users, keyed by their username.
-     *
-     * @var array
      */
-    private $users;
+    private array $users;
 
     public function __construct(
         array $users

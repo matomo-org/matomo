@@ -110,7 +110,6 @@
         "SystemCheckFunctions": "Fungsi yang dibutuhkan",
         "SystemCheckGDFreeType": "GD &gt; 2.x + FreeType (grafik)",
         "SystemCheckGDHelp": "Grafik mini (grafik kecil) dan grafik gambar (dalam aplikasi Matomo Mobile dan laporan surel) tidak akan berfungsi.",
-        "SystemCheckGlobHelp": "Fungsi bawaan ini telah dimatikan di host Anda. Matomo akan mencoba untuk meniru fungsi tersebut, tetapi mungkin mengalami pembatasan keamanan lebih lanjut. Fungsionalitas mungkin terpengaruh.",
         "SystemCheckGzcompressHelp": "Anda perlu mengaktifkan ekstensi zlib dan fungsi gzcompress.",
         "SystemCheckGzuncompressHelp": "Anda perlu mengaktifkan ekstensi zlib dan fungsi gzuncompress.",
         "SystemCheckHashHelp": "Konfigurasikan dan bangun kembali PHP dengan dukungan hash() yang diperlukan dengan mengecualikan opsi --disable-hash.",

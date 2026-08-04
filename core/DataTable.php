@@ -1526,15 +1526,14 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     }
 
     /** @var string[] */
-    private static $previousRowClasses = [
+    private static array $previousRowClasses = [
         'O:39:"Piwik\DataTable\Row\DataTableSummaryRow"',
         'O:19:"Piwik\DataTable\Row"',
         'O:36:"Piwik_DataTable_Row_DataTableSummary"',
         'O:19:"Piwik_DataTable_Row"',
     ];
 
-    /** @var string */
-    private static $rowClassToUseForUnserialize = 'O:29:"Piwik_DataTable_SerializedRow"';
+    private static string $rowClassToUseForUnserialize = 'O:29:"Piwik_DataTable_SerializedRow"';
 
     /**
      * It is faster to unserialize existing serialized Row instances to "Piwik_DataTable_SerializedRow" and access the

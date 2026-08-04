@@ -36,10 +36,7 @@ class VisitorLogDisabled implements MeasurableSettingInterface, PolicyComparison
      */
     use SystemGetterTrait;
 
-    /**
-     * @var bool
-     */
-    private $value;
+    private bool $value;
 
     private function __construct(bool $value)
     {

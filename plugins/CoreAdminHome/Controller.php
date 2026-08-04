@@ -14,7 +14,7 @@ use Piwik\API\ResponseBuilder;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\DataTable\Renderer\Json;
+use Piwik\Http\JsonResponse;
 use Piwik\Mail;
 use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
@@ -41,16 +41,11 @@ use Piwik\Plugins\UsersManager\UserPreferences;
 
 class Controller extends ControllerAdmin
 {
-    /**
-     * @var Translator
-     */
-    private $translator;
+    private Translator $translator;
 
-    /** @var OptOutManager */
-    private $optOutManager;
+    private OptOutManager $optOutManager;
 
-    /** @var PasswordVerifier */
-    private $passwordVerify;
+    private PasswordVerifier $passwordVerify;
 
     public function __construct(Translator $translator, OptOutManager $optOutManager, PasswordVerifier $passwordVerify)
     {
@@ -299,7 +294,8 @@ class Controller extends ControllerAdmin
         return $this->optOutManager->getOptOutJS();
     }
 
-    public function uploadCustomLogo()
+    #[JsonResponse]
+    public function uploadCustomLogo(): string
     {
         Piwik::checkUserHasSuperUserAccess();
         $this->checkTokenInUrl();
@@ -323,7 +319,6 @@ class Controller extends ControllerAdmin
             $response['favicon'] = $logo->getTempUserFaviconBase64();
         }
 
-        Json::sendHeaderJSON();
         return json_encode($response);
     }
 

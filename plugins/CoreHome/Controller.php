@@ -15,7 +15,7 @@ use Piwik\Category\CategoryList;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
-use Piwik\DataTable\Renderer\Json;
+use Piwik\Http\JsonResponse;
 use Piwik\Date;
 use Piwik\FrontController;
 use Piwik\Log\LoggerInterface;
@@ -40,15 +40,9 @@ use Piwik\Widget\WidgetConfig;
 
 class Controller extends \Piwik\Plugin\Controller
 {
-    /**
-     * @var Translator
-     */
-    private $translator;
+    private Translator $translator;
 
-    /**
-     * @var FeatureFlagManager
-     */
-    private $featureFlagManager;
+    private FeatureFlagManager $featureFlagManager;
 
     public function __construct(Translator $translator)
     {
@@ -113,6 +107,7 @@ class Controller extends \Piwik\Plugin\Controller
                 strpos($content, '<h2') !== false
                 || strpos($content, ' content-title=') !== false
                 || strpos($content, 'CoreHome.EnrichedHeadline') !== false
+                || strpos($content, 'CoreHome.ReportHeader') !== false
                 || strpos($content, '<h1') !== false
             ) {
                 // already includes title
@@ -177,7 +172,8 @@ class Controller extends \Piwik\Plugin\Controller
         return $view->render();
     }
 
-    public function markNotificationAsRead()
+    #[JsonResponse]
+    public function markNotificationAsRead(): string
     {
         Piwik::checkUserHasSomeViewAccess();
         $this->checkTokenInUrl();
@@ -185,7 +181,6 @@ class Controller extends \Piwik\Plugin\Controller
         $notificationId = Common::getRequestVar('notificationId');
         NotificationManager::cancel($notificationId);
 
-        Json::sendHeaderJSON();
         return json_encode(true);
     }
 
