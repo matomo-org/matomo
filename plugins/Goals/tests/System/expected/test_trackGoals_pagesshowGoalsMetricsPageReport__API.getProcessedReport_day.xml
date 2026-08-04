@@ -120,7 +120,7 @@
 			<goal_2_nb_conversions_attrib>0.4</goal_2_nb_conversions_attrib>
 			<goal_2_revenue_attrib>$4</goal_2_revenue_attrib>
 			<goal_2_nb_conversions_page_rate>100%</goal_2_nb_conversions_page_rate>
-			<avg_time_on_page>00:01:30</avg_time_on_page>
+			<avg_time_on_page>00:07:30</avg_time_on_page>
 			<exit_rate>100%</exit_rate>
 		</row>
 		<row>
@@ -236,7 +236,7 @@
 		<nb_visits>12</nb_visits>
 		<nb_uniq_visitors>12</nb_uniq_visitors>
 		<nb_hits>14</nb_hits>
-		<sum_time_spent>3600</sum_time_spent>
+		<sum_time_spent>5040</sum_time_spent>
 		<sum_bandwidth>0</sum_bandwidth>
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 		<entry_nb_uniq_visitors>4</entry_nb_uniq_visitors>

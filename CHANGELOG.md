@@ -35,6 +35,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The conditional fallback definitions for `mysqli_set_charset()`, `file_get_contents()`, `utf8_encode()`, `utf8_decode()`, `fnmatch()`, the `Error` class and the `PHP_INT_SIZE`/`PHP_INT_MAX` constants have been removed from `libs/upgradephp/upgrade.php`. All of these are provided natively by every supported PHP version; the fallbacks only ever activated on PHP versions that are no longer supported, or when the function had been turned off via `disable_functions`.
 * The `gzopen()` fallback has also been removed from `libs/upgradephp/upgrade.php`. It aliased `gzopen()` to `gzopen64()` on distribution builds where zlib exposes only the latter, which is a packaging issue rather than a PHP version or `disable_functions` one. On such a build `Piwik\Unzip` now falls back to `PclZip`.
 * Several core controller actions that return JSON now declare a native `string` return type as part of adopting the new `#[Piwik\Http\JsonResponse]` attribute. A plugin that extends one of these controllers and overrides such an action must declare a compatible `string` return type and re-declare `#[Piwik\Http\JsonResponse]` (attributes are not inherited).
+* When two log tables can be joined both via a join declared in `Piwik\Tracker\LogTable::getWaysToJoinToOtherLogTables()` and via the generic `idvisit` join (both tables implementing `getColumnToJoinOnIdVisit()`), the segment query builder now uses the declared join. Previously the generic `idvisit` join silently won. A plugin log table that declares a way-join to another `idvisit`-joinable table will see its declared join columns used in segmented queries from now on; note that a declared join also bypasses the partner table's `shouldJoinWithSubSelect()` wrapping, which only ever applied to the generic `idvisit` join (relevant when declaring a way-join directly to `log_visit`).
 * The deprecated Piwik-era color aliases `@color-black-piwik`, `@color-blue-piwik`, `@color-red-piwik` and `@color-green-piwik` have been removed from `plugins/Morpheus/stylesheets/base/colors.less`. Use `@color-black-matomo`, `@color-blue-matomo`, `@color-red-matomo` and `@color-green-matomo` instead.
 * The third-party brand color variables `@color-orange-brand` (`#f57c00`), `@color-green-brandSocial` (`#009874`), `@color-blue-brandSocial` (`#3b5998`), `@color-blue-brandSocialLight` (`#1c87bd`) and `@color-blue-brandSocialVeryLight` (`#00aced`) have been removed. They described other companies' brands rather than Matomo's own palette; a plugin that still needs one of these colors should use the literal value.
 * The never-referenced palette tokens `@color-gray-light` (`#f0f0f0`), `@color-gray-bright` (`#EBF2EB`), `@color-gray-400` (`#BCBCBC`), `@color-jetstream` (`#c3d9c4`), `@color-silver-l14`, `@color-silver-l50`, `@color-silver-l70` and `@color-silver-l98` have been removed. Use one of the remaining `@color-silver-*` variables, a `@theme-color-*` variable or a literal value instead.
@@ -58,6 +59,11 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   parameters conflict with the outer request's authentication context aborts the whole bulk request.
 
 ### Deprecations
+* `Piwik\Tracker\Visit::getTimeSpentReferrerAction()` and the `log_link_visit_action.time_spent_ref_action` column are
+  deprecated. The accurate per-pageview time-on-page metric is now sourced from the new `log_page_view_time` log table
+  written by `Piwik\Plugins\Actions\Tracker\PageViewTimeWriter`. The deprecated method and column remain functional
+  through 6.x for the fallback archive path (behind the `record_accurate_page_view_time` kill-switch) and are scheduled
+  for removal in a future major version.
 * The component-oriented theme variable `@theme-color-widget-background` (`ThemeStyles::$colorWidgetBackground`)
   is deprecated and will be removed in Matomo 7; use `@theme-color-background-contrast` instead. It is the generic
   elevated content surface and is already used well beyond widgets.
@@ -69,6 +75,21 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   in Matomo 7. Matomo's theming is moving from component-oriented variable names to usage-oriented ones; because
   these variables fill roles that no existing variable covers, usage-oriented replacements will be defined before
   they are removed. They keep working until then.
+
+### Schema
+* New log table `log_page_view_time` (one row per `(idvisit, idlink_va)`) records the accurate time each pageview /
+  site-search hit was visible, populated by the tracker on every recordable hit. It participates in raw-log purging
+  via the `Piwik\Plugins\CoreHome\Tracker\LogTable\PageViewTime` `LogTable`. The archiver in
+  `Piwik\Plugins\Actions\RecordBuilders\ActionReports` runs two queries per period: an accurate query summing
+  `log_page_view_time.time_spent`, and the legacy `log_link_visit_action.time_spent_ref_action` query anti-joined
+  against `log_page_view_time` so legacy contributions to a page are dropped whenever the writer has already
+  recorded that page for the visit. Hits recorded before the new table existed are still counted via the legacy
+  path. A temporary `[Tracker] record_accurate_page_view_time` config key (default `1`) is available as a
+  kill-switch; disabling it stops recording new accurate rows (data collected while disabled uses the legacy
+  metric), while rows recorded earlier keep being used by the archiver and the visits log. On installs that opt
+  out of the default midnight visit split (`create_new_visit_after_midnight = 0`), time a cross-midnight visit
+  adds to the previous day's last pageview after that day was archived is not re-archived (the previous day's
+  archive is not invalidated), matching how visit metrics already behave for such visits under that setting.
 
 ## Matomo 5.12.0
 

@@ -9,7 +9,7 @@
 				<nb_visits>3</nb_visits>
 				<nb_hits>3</nb_hits>
 				<bounce_rate>100%</bounce_rate>
-				<avg_time_on_page>0</avg_time_on_page>
+				<avg_time_on_page>120</avg_time_on_page>
 				<exit_rate>100%</exit_rate>
 			</row>
 		</result>
@@ -31,6 +31,8 @@
 			</nb_visits>
 			<avg_time_on_page>
 				<name>Avg. time on page</name>
+				<min>0</min>
+				<max>120</max>
 			</avg_time_on_page>
 			<bounce_rate>
 				<name>Bounce Rate</name>

@@ -47,7 +47,7 @@
 		<label> 404/URL = http://hello.example.com/hello/world/6,681965</label>
 		<nb_visits>2</nb_visits>
 		<nb_hits>2</nb_hits>
-		<sum_time_spent>0</sum_time_spent>
+		<sum_time_spent>1800</sum_time_spent>
 		<nb_hits_with_time_server>2</nb_hits_with_time_server>
 		<min_time_server>0.3590</min_time_server>
 		<max_time_server>0.3590</max_time_server>
@@ -81,7 +81,7 @@
 		<avg_bandwidth>0</avg_bandwidth>
 		<avg_time_server>0.359</avg_time_server>
 		<avg_page_load_time>0.359</avg_page_load_time>
-		<avg_time_on_page>0</avg_time_on_page>
+		<avg_time_on_page>900</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<segment>entryPageTitle==404%252FURL%2B%253D%2Bhttp%25253A%25252F%25252Fhello.example.com%25252Fhello%25252Fworld%25252F6%25252C681965</segment>

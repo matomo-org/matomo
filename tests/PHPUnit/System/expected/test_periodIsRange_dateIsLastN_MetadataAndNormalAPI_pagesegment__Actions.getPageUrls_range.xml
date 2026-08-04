@@ -4,7 +4,7 @@
 		<label>/homepage</label>
 		<nb_visits>2</nb_visits>
 		<nb_hits>2</nb_hits>
-		<sum_time_spent>359</sum_time_spent>
+		<sum_time_spent>360</sum_time_spent>
 		<sum_bandwidth>0</sum_bandwidth>
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 		<min_bandwidth />
@@ -57,7 +57,7 @@
 		<label>user</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>2</nb_hits>
-		<sum_time_spent>1</sum_time_spent>
+		<sum_time_spent>2</sum_time_spent>
 		<sum_bandwidth>0</sum_bandwidth>
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 		<min_bandwidth />
@@ -85,7 +85,7 @@
 				<label>/profile</label>
 				<nb_visits>1</nb_visits>
 				<nb_hits>2</nb_hits>
-				<sum_time_spent>1</sum_time_spent>
+				<sum_time_spent>2</sum_time_spent>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth />

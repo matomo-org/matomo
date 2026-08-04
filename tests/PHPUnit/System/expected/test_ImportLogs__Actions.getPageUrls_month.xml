@@ -933,7 +933,7 @@
 		<label>hello</label>
 		<nb_visits>3</nb_visits>
 		<nb_hits>4</nb_hits>
-		<sum_time_spent>0</sum_time_spent>
+		<sum_time_spent>1800</sum_time_spent>
 		<nb_hits_with_time_server>4</nb_hits_with_time_server>
 		<min_time_server>0.3590</min_time_server>
 		<max_time_server>0.3590</max_time_server>
@@ -964,7 +964,7 @@
 		<avg_bandwidth>0</avg_bandwidth>
 		<avg_time_server>0.359</avg_time_server>
 		<avg_page_load_time>0.359</avg_page_load_time>
-		<avg_time_on_page>0</avg_time_on_page>
+		<avg_time_on_page>450</avg_time_on_page>
 		<bounce_rate>50%</bounce_rate>
 		<exit_rate>67%</exit_rate>
 		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fhello</segment>
@@ -973,7 +973,7 @@
 				<label>world</label>
 				<nb_visits>2</nb_visits>
 				<nb_hits>2</nb_hits>
-				<sum_time_spent>0</sum_time_spent>
+				<sum_time_spent>1800</sum_time_spent>
 				<nb_hits_with_time_server>2</nb_hits_with_time_server>
 				<min_time_server>0.3590</min_time_server>
 				<max_time_server>0.3590</max_time_server>
@@ -1001,7 +1001,7 @@
 						<nb_conversions_entry>1</nb_conversions_entry>
 					</row>
 				</goals>
-				<avg_time_on_page>0</avg_time_on_page>
+				<avg_time_on_page>900</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>50%</exit_rate>
 				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fhello%252Fworld</segment>
@@ -1010,7 +1010,7 @@
 						<label>/6,681965</label>
 						<nb_visits>2</nb_visits>
 						<nb_hits>2</nb_hits>
-						<sum_time_spent>0</sum_time_spent>
+						<sum_time_spent>1800</sum_time_spent>
 						<nb_hits_with_time_server>2</nb_hits_with_time_server>
 						<min_time_server>0.3590</min_time_server>
 						<max_time_server>0.3590</max_time_server>
@@ -1041,7 +1041,7 @@
 						<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 						<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 						<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
-						<avg_time_on_page>0</avg_time_on_page>
+						<avg_time_on_page>900</avg_time_on_page>
 						<bounce_rate>100%</bounce_rate>
 						<exit_rate>50%</exit_rate>
 						<url>http://hello.example.com/hello/world/6,681965</url>
