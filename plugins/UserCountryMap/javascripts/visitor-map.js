@@ -852,6 +852,16 @@
                             // it when no real region shape matched, so a map that also
                             // carries real region paths never subtracts the country
                             // total twice in the unlocated count below.
+                            //
+                            // A map is __ALL__ when the geolocation providers (MaxMind /
+                            // DB-IP) emit no region code for that country -- which is
+                            // decided by what the providers actually return, not by
+                            // whether ISO 3166-2 defines subdivisions. Some countries
+                            // (e.g. Madagascar) have real ISO provinces but providers
+                            // report an empty region for every visit, so they are drawn
+                            // as __ALL__ on purpose; individual provinces would only ever
+                            // render permanently grey. This is intentional, not a lost
+                            // regional breakdown.
                             if (regionExistsInMap('__ALL__')) {
                                 var anyRegionMatched = false;
                                 $.each(regionDict, function (code) {
