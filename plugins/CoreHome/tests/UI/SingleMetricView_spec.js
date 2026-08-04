@@ -13,16 +13,6 @@ describe('SingleMetricView', function () {
     var rangeUrl = "?module=Widgetize&action=iframe&idSite=1&period=range&date=2012-08-07,2012-08-10&moduleToWidgetize=Dashboard&"
         + "actionToWidgetize=index&idDashboard=1";
 
-    before(function () {
-        testEnvironment.overrideConfig('FeatureFlags', 'SparklinesRedesign_feature', 'enabled');
-        testEnvironment.save();
-    });
-
-    after(function () {
-        delete testEnvironment.configOverride.FeatureFlags;
-        testEnvironment.save();
-    });
-
     it('should load correctly', async function () {
         await page.goto(url);
         await page.waitForNetworkIdle();

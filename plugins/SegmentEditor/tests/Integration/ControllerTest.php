@@ -174,9 +174,9 @@ class ControllerTest extends IntegrationTestCase
         @$document->loadHTML($html);
         $xpath = new \DOMXPath($document);
 
-        // The management table renders sparklines through the legacy sparkline() Twig helper. With the
-        // SparklinesRedesign flag on, refreshSparklines() honors the img width/height as the display
-        // size, so the helper must keep requesting the legacy 100x25 size here (see PR #24927).
+        // The management table renders sparklines through the sparkline() Twig helper.
+        // refreshSparklines() honors the img width/height as the display size, so the helper
+        // must keep requesting the compact 100x25 size here (see PR #24927).
         $sparklineImages = $xpath->query('//td[contains(@class,"entityTable_Sparkline")]//img');
         $this->assertNotFalse($sparklineImages);
         $this->assertGreaterThan(0, $sparklineImages->length, 'Expected at least one management-table sparkline image');

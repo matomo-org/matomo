@@ -12,16 +12,6 @@ describe("BotTracking", function () {
 
     this.fixture = "Piwik\\Plugins\\BotTracking\\tests\\Fixtures\\BotTraffic";
 
-    before(function () {
-        testEnvironment.overrideConfig('FeatureFlags', 'SparklinesRedesign_feature', 'enabled');
-        testEnvironment.save();
-    });
-
-    after(function () {
-        delete testEnvironment.configOverride.FeatureFlags;
-        testEnvironment.save();
-    });
-
     var generalParams = 'idSite=1&period=day&date=2025-02-02',
         urlBase = 'module=CoreHome&action=index&' + generalParams;
 

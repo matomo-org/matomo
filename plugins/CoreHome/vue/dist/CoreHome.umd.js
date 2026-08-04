@@ -11134,8 +11134,7 @@ var __async = (__this, __arguments, generator) => {
           );
         }
         const colors = JSON.stringify(sparklineColors);
-        const redesignEnabled = document.body.classList.contains("sparklines-redesign-enabled");
-        const sizeParams = redesignEnabled ? __spreadValues(__spreadValues({}, typeof this.width === "number" ? { width: this.width * 2 } : {}), typeof this.height === "number" ? { height: this.height * 2 } : {}) : {};
+        const sizeParams = __spreadValues(__spreadValues({}, typeof this.width === "number" ? { width: this.width * 2 } : {}), typeof this.height === "number" ? { height: this.height * 2 } : {});
         const defaultParams = __spreadProps(__spreadValues({
           forceView: "1",
           viewDataTable: "sparkline",
