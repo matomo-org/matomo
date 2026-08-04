@@ -22,7 +22,7 @@ final class Version
      * The current Matomo version.
      * @var string
      */
-    public const VERSION = '5.13.0-alpha';
+    public const VERSION = '5.13.0-alpha.20260804013846';
 
     public const MAJOR_VERSION = 5;
 
