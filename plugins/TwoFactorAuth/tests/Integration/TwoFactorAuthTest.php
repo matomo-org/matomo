@@ -96,9 +96,9 @@ class TwoFactorAuthTest extends IntegrationTestCase
     public function tearDown(): void
     {
         $this->bruteForceDetection->deleteAll();
-        $this->setTwoFaRequired(false);
         unset($_GET['authCode'], $_GET['authCodeNonce'], $_GET['module'], $_GET['action']);
-        unset($_POST['authCode'], $_POST['authCodeNonce']);
+        // the session is not reset between tests, so leftover fingerprints or setup secrets would leak
+        $_SESSION = [];
     }
 
     public function testLoginTwoFactorAuthRequiresFreshLoginWhenCurrentUserDoesNotMatchPendingSessionUser()
@@ -136,7 +136,52 @@ class TwoFactorAuthTest extends IntegrationTestCase
 
         $result = StaticContainer::get(Controller::class)->onLoginSetupTwoFactorAuth();
 
+        // standalone="true" is only rendered by the login-only template
+        $this->assertStringContainsString('standalone="true"', $result);
         $this->assertStringContainsString('auth-code-nonce', $result);
+    }
+
+    public function testOnLoginSetupTwoFactorAuthRendersWhenTwoFactorAuthWasResetDuringAVerifiedSession()
+    {
+        $this->setTwoFaRequired(true);
+        $this->setCurrentUser($this->userWithout2Fa);
+
+        // a superuser may reset a user's 2fa while that user has an already verified session, which leaves
+        // them unenrolled but still verified - they have to be able to enroll again
+        $sessionFingerprint = new SessionFingerprint();
+        $sessionFingerprint->initialize($this->userWithout2Fa, 'pending-session-token');
+        $sessionFingerprint->setTwoFactorAuthenticationVerified($this->userWithout2Fa);
+
+        $result = StaticContainer::get(Controller::class)->onLoginSetupTwoFactorAuth();
+
+        $this->assertStringContainsString('standalone="true"', $result);
+    }
+
+    public function testOnLoginSetupTwoFactorAuthEnrollsUserWhenEnforcedAndCodeIsValid()
+    {
+        $this->setTwoFaRequired(true);
+        $this->setCurrentUser($this->userWithout2Fa);
+
+        $sessionFingerprint = new SessionFingerprint();
+        $sessionFingerprint->initialize($this->userWithout2Fa, 'pending-session-token');
+
+        $this->dao->createRecoveryCodesForLogin($this->userWithout2Fa);
+
+        $newSecret = $this->twoFa->generateSecret();
+        $session = new SessionNamespace('TwoFactorAuthenticator');
+        $session->secret = $newSecret;
+        $_GET['authCode'] = $this->generateValidAuthCode($newSecret);
+        $_GET['authCodeNonce'] = Nonce::getNonce(Controller::AUTH_CODE_NONCE);
+
+        try {
+            StaticContainer::get(Controller::class)->onLoginSetupTwoFactorAuth();
+        } catch (\Exception $e) {
+            // the setup redirects once finished, which cannot complete outside of a web request
+        }
+
+        $user = (new Model())->getUser($this->userWithout2Fa);
+        $this->assertSame($newSecret, $user['twofactor_secret']);
+        $this->assertTrue($sessionFingerprint->hasVerifiedTwoFactor());
     }
 
     public function testOnLoginSetupTwoFactorAuthNotAvailableWhenUserAlreadyUsesTwoFactorAuth()
@@ -205,7 +250,8 @@ class TwoFactorAuthTest extends IntegrationTestCase
 
         $user = (new Model())->getUser($this->userWith2Fa);
         $this->assertSame($this->user2faSecret, $user['twofactor_secret']);
-        $this->assertSame('not available', $exception ? $exception->getMessage() : null);
+        $this->assertNotNull($exception, 'An exception should have been thrown');
+        $this->assertSame('not available', $exception->getMessage());
     }
 
     public function testOnRequestDispatchRequiresFreshLoginWhenDifferentUserIsAuthenticatedDuringPendingSession()
@@ -448,7 +494,8 @@ class TwoFactorAuthTest extends IntegrationTestCase
 
     private function setTwoFaRequired(bool $isRequired): void
     {
-        // the container instance is the one observed by the validator and the controller
+        // must go through the container: resolving it applies the test config decoration, which would
+        // otherwise reset the value afterwards
         Access::doAsSuperUser(function () use ($isRequired) {
             StaticContainer::get(SystemSettings::class)->twoFactorAuthRequired->setValue($isRequired ? 1 : 0);
         });
