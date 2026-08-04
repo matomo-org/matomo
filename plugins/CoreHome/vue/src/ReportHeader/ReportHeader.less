@@ -1,7 +1,5 @@
-// Shared, widget-first report header: a leading region (title + future feedback actions) on
-// the left, an inline widget-controls row and a reserved report-actions anchor on the right.
-// Controls are visible by default; a host can opt into hover-reveal via the
-// `__reportHeader-onHover` context hook.
+// Widget controls are visible unless the host opts into hover-reveal with the
+// `__reportHeader-onHover` hook.
 .reportHeader {
   display: flex;
   align-items: flex-start;
@@ -16,6 +14,9 @@
 
   .reportHeader__title {
     margin: 0;
+    // Neutralises the global padding applied to title tags
+    padding: 0;
+    width: auto;
     font-size: 20px;
     line-height: 24px;
     font-weight: normal;
@@ -54,6 +55,27 @@
     &:empty {
       display: none;
     }
+  }
+}
+
+// The container already pads a full-page report, so only the gap the `h2.card-title` margin
+// used to create is kept.
+.reportHeader--flush {
+  padding: 0;
+  margin-bottom: 20px;
+}
+
+// A report shown without a card had a plain `h2`, not a card title. These values reproduce it
+// exactly so the page does not shift: size and padding from the global `h2` (Morpheus
+// main.less), line height from materialize, colour from Morpheus general/_typography.less.
+.reportHeader--plainTitle {
+  padding: 0;
+
+  .reportHeader__title {
+    font-size: 24px;
+    line-height: 110%;
+    color: @theme-color-headline-alternative;
+    padding: 16px 0;
   }
 }
 

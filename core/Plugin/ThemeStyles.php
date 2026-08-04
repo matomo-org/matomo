@@ -41,13 +41,6 @@ class ThemeStyles
         'colorHeadlineAlternative' => 'theme-color-headline-alternative',
         'colorHeaderBackground' => 'theme-color-header-background',
         'colorHeaderText' => 'theme-color-header-text',
-        'colorMenuContrastText' => 'theme-color-menu-contrast-text',
-        'colorMenuContrastTextSelected' => 'theme-color-menu-contrast-textSelected',
-        'colorMenuContrastTextActive' => 'theme-color-menu-contrast-textActive',
-        'colorMenuContrastBackground' => 'theme-color-menu-contrast-background',
-        'colorWidgetExportedBackgroundBase' => 'theme-color-widget-exported-background-base',
-        'colorWidgetTitleText' => 'theme-color-widget-title-text',
-        'colorWidgetTitleBackground' => 'theme-color-widget-title-background',
         'colorBackgroundBase' => 'theme-color-background-base',
         'colorBackgroundTinyContrast' => 'theme-color-background-tinyContrast',
         'colorBackgroundLowContrast' => 'theme-color-background-lowContrast',
@@ -61,10 +54,22 @@ class ThemeStyles
         'shadowOverlay' => 'theme-shadow-overlay',
         'colorCode' => 'theme-color-code',
         'colorCodeBackground' => 'theme-color-code-background',
+        'filterOnIllustration' => 'theme-filter-on-illustration',
+
+        // Deprecated since Matomo 6.0.0, will be removed in Matomo 7. These names are
+        // component-oriented: they are named after the component they were first created for rather
+        // than the role they fill. Matomo's theming is moving to usage-oriented names. See the
+        // @deprecated tag on each property below for the replacement, where one already exists.
+        'colorMenuContrastText' => 'theme-color-menu-contrast-text',
+        'colorMenuContrastTextSelected' => 'theme-color-menu-contrast-textSelected',
+        'colorMenuContrastTextActive' => 'theme-color-menu-contrast-textActive',
+        'colorMenuContrastBackground' => 'theme-color-menu-contrast-background',
+        'colorMenuContrastBackgroundHover' => 'theme-color-menu-contrast-backgroundHover',
         'colorWidgetBackground' => 'theme-color-widget-background',
         'colorWidgetBorder' => 'theme-color-widget-border',
-        'filterOnIllustration' => 'theme-filter-on-illustration',
-        'colorMenuContrastBackgroundHover' => 'theme-color-menu-contrast-backgroundHover',
+        'colorWidgetTitleText' => 'theme-color-widget-title-text',
+        'colorWidgetTitleBackground' => 'theme-color-widget-title-background',
+        'colorWidgetExportedBackgroundBase' => 'theme-color-widget-exported-background-base',
     ];
 
     /**
@@ -188,41 +193,75 @@ class ThemeStyles
 
     /**
      * @var string|array<string>
+     * @deprecated since Matomo 6.0.0, will be removed in Matomo 7 (`@theme-color-menu-contrast-text`)
+     *             - component-oriented naming. Despite the name this no longer colours menu item
+     *             labels; it only remains for the menu dropdown caret. A usage-oriented replacement
+     *             will be defined before this is removed.
      */
     public $colorMenuContrastText;
 
     /**
      * @var string|array<string>
+     * @deprecated since Matomo 6.0.0, will be removed in Matomo 7
+     *             (`@theme-color-menu-contrast-textSelected`) - component-oriented naming. No core
+     *             stylesheet reads this variable, so setting it has no effect on Matomo's own UI.
      */
     public $colorMenuContrastTextSelected;
 
     /**
      * @var string|array<string>
+     * @deprecated since Matomo 6.0.0, will be removed in Matomo 7
+     *             (`@theme-color-menu-contrast-textActive`) - component-oriented naming. In practice
+     *             this is the app-wide hover/focus/active accent and is used well beyond menus. A
+     *             usage-oriented replacement will be defined before this is removed.
      */
     public $colorMenuContrastTextActive = ['#1976D2', '#fff'];
 
     /**
      * @var string|array<string>
+     * @deprecated since Matomo 6.0.0, will be removed in Matomo 7
+     *             (`@theme-color-menu-contrast-backgroundHover`) - component-oriented naming. In
+     *             practice this is the hover and focus background of a row on the navigation
+     *             surface. A usage-oriented replacement will be defined before this is removed.
      */
     public $colorMenuContrastBackgroundHover = ['#eff0f1', '#151819'];
 
     /**
      * @var string|array<string>
+     * @deprecated since Matomo 6.0.0, will be removed in Matomo 7
+     *             (`@theme-color-menu-contrast-background`) - component-oriented naming. In practice
+     *             this is the navigation surface, which themes intentionally tint differently from
+     *             card surfaces. A usage-oriented replacement will be defined before this is removed.
      */
     public $colorMenuContrastBackground;
 
     /**
      * @var string|array<string>
+     * @deprecated since Matomo 6.0.0, will be removed in Matomo 7
+     *             (`@theme-color-widget-exported-background-base`) - component-oriented naming, and
+     *             misleading: this is the page canvas for embedded and exported output, which
+     *             deliberately differs from the app canvas $colorBackgroundBase so that embedded
+     *             widgets blend into a host page. A usage-oriented replacement will be defined
+     *             before this is removed.
      */
     public $colorWidgetExportedBackgroundBase;
 
     /**
      * @var string|array<string>
+     * @deprecated since Matomo 6.0.0, will be removed in Matomo 7 (`@theme-color-widget-title-text`)
+     *             - component-oriented naming. In practice this is the text of the widget and report
+     *             header strip, which themes intentionally colour differently from $colorText. A
+     *             usage-oriented replacement will be defined before this is removed.
      */
     public $colorWidgetTitleText;
 
     /**
      * @var string|array<string>
+     * @deprecated since Matomo 6.0.0, will be removed in Matomo 7
+     *             (`@theme-color-widget-title-background`) - component-oriented naming. In practice
+     *             this is the widget and report header strip, which themes intentionally tint
+     *             differently from the card surface $colorBackgroundContrast. A usage-oriented
+     *             replacement will be defined before this is removed.
      */
     public $colorWidgetTitleBackground;
 
@@ -298,11 +337,19 @@ class ThemeStyles
 
     /**
      * @var string|array<string>
+     * @deprecated since Matomo 6.0.0, will be removed in Matomo 7 (`@theme-color-widget-background`)
+     *             - component-oriented naming. This is the generic elevated content surface and is
+     *             used well beyond widgets. Use $colorBackgroundContrast
+     *             (`@theme-color-background-contrast`) instead.
      */
     public $colorWidgetBackground;
 
     /**
      * @var string|array<string>
+     * @deprecated since Matomo 6.0.0, will be removed in Matomo 7 (`@theme-color-widget-border`)
+     *             - component-oriented naming. No core stylesheet reads this variable, so setting it
+     *             has no effect on Matomo's own UI. Note that core draws the widget border with
+     *             $colorBackgroundLowContrast, not with this variable.
      */
     public $colorWidgetBorder;
 

@@ -35,8 +35,19 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The conditional fallback definitions for `mysqli_set_charset()`, `file_get_contents()`, `utf8_encode()`, `utf8_decode()`, `fnmatch()`, the `Error` class and the `PHP_INT_SIZE`/`PHP_INT_MAX` constants have been removed from `libs/upgradephp/upgrade.php`. All of these are provided natively by every supported PHP version; the fallbacks only ever activated on PHP versions that are no longer supported, or when the function had been turned off via `disable_functions`.
 * The `gzopen()` fallback has also been removed from `libs/upgradephp/upgrade.php`. It aliased `gzopen()` to `gzopen64()` on distribution builds where zlib exposes only the latter, which is a packaging issue rather than a PHP version or `disable_functions` one. On such a build `Piwik\Unzip` now falls back to `PclZip`.
 * Several core controller actions that return JSON now declare a native `string` return type as part of adopting the new `#[Piwik\Http\JsonResponse]` attribute. A plugin that extends one of these controllers and overrides such an action must declare a compatible `string` return type and re-declare `#[Piwik\Http\JsonResponse]` (attributes are not inherited).
+* The deprecated Piwik-era color aliases `@color-black-piwik`, `@color-blue-piwik`, `@color-red-piwik` and `@color-green-piwik` have been removed from `plugins/Morpheus/stylesheets/base/colors.less`. Use `@color-black-matomo`, `@color-blue-matomo`, `@color-red-matomo` and `@color-green-matomo` instead.
+* The third-party brand color variables `@color-orange-brand` (`#f57c00`), `@color-green-brandSocial` (`#009874`), `@color-blue-brandSocial` (`#3b5998`), `@color-blue-brandSocialLight` (`#1c87bd`) and `@color-blue-brandSocialVeryLight` (`#00aced`) have been removed. They described other companies' brands rather than Matomo's own palette; a plugin that still needs one of these colors should use the literal value.
+* The never-referenced palette tokens `@color-gray-light` (`#f0f0f0`), `@color-gray-bright` (`#EBF2EB`), `@color-gray-400` (`#BCBCBC`), `@color-jetstream` (`#c3d9c4`), `@color-silver-l14`, `@color-silver-l50`, `@color-silver-l70` and `@color-silver-l98` have been removed. Use one of the remaining `@color-silver-*` variables, a `@theme-color-*` variable or a literal value instead.
+* The stylesheet `plugins/Morpheus/stylesheets/base/mode-colors.less` has been removed together with the variables it defined, `@color-mode-black` and `@color-mode-white`. Use the `.inDarkMode()` mixin (still available from `plugins/Morpheus/stylesheets/base/mixins.less`) or the relevant `@theme-color-*` variable instead.
+* The stylesheet `plugins/Login/stylesheets/variables.less` has been removed together with the variable it defined, `@login-section-background`. A plugin that registers this file in `getStylesheetFiles()` must drop that line, otherwise stylesheet merging fails with `The ui asset with 'href' = .../plugins/Login/stylesheets/variables.less is not readable`.
+* The deprecated jQuery UI widget `$.fn.liveWidget` (`piwik.liveWidget`) has been removed together with the file `plugins/Live/javascripts/live.js` that defined it. Use the `Live.AutoRefreshWidget` Vue component instead.
+* Less variables that were only used within a single stylesheet have been inlined or renamed to private `@_`-prefixed names, and are therefore no longer visible to other stylesheets: `@top-menu-nav-color` (`plugins/CoreHome/stylesheets/layout.less`), `@color-period-selector`, `@color-period-selector-input-radio`, `@color-period-selector-options-hover-background`, `@color-period-selector-calendar-hover-background` (`PeriodSelector.less`), `@add-widget-padding`, `@add-widget-border`, `@add-widget-space-or-radius`, `@add-widget-categories`, `@add-widget-widgets`, `@add-widget-preview`, `@add-widget-height`, `@add-widget-item-height` (`AddWidgetModal.less`) and `@calendarHeaderBackground`, `@calendarHeaderColor`, `@calendarCurrentStateHover`, `@calendarBorder` (`plugins/Morpheus/stylesheets/ui/_components.less`). These were never theme variables; use the `@theme-color-*` variable they were derived from instead.
+* `CoreHome.EnrichedHeadline` no longer derives a report's inline help from the DOM. It used to look for a `.reportDocumentation[data-content]` element inside the next sibling of its headline and show that text behind a help icon; the text now comes from its `inline-help` attribute. The `piwik:reportChanged` DOM event, which told a headline to re-read that element, has been removed with it. Headlines rendered by `Piwik\View::singleReport()`, or by a template reproducing its shape, therefore lose their help icon unless `inline-help` is passed explicitly.
 
 ### New APIs
+* The sparklines visualization has been redesigned as a responsive card grid of metric tiles. Plugin-facing additions that come with it:
+  * The new `Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines\Config::$use_metric_labels_as_titles` property lets a sparklines view use its own metric translations as the card titles instead of the generic metric names. Intended for views that relabel shared columns with section-specific names, e.g. the Ecommerce Overview.
+  * The `sparkline(src, width, height)` Twig helper accepts optional `width`/`height` display-size parameters (in px, defaults `Piwik\Visualization\Sparkline::DEFAULT_WIDTH`/`DEFAULT_HEIGHT`); the sparkline PNG is rendered at twice the displayed size for hi-DPI screens.
 * A new `#[Piwik\Http\JsonResponse]` attribute can be applied to a plugin controller action to declare that it returns a JSON response. When present, Matomo (re-)sends the `Content-Type: application/json` header after the action has returned, so it can no longer be overwritten by output produced while the action builds its response (for example a rendered `Piwik\View`, which sends `text/html`). An action using the attribute must return the JSON string, must not send the header itself, and must not emit output (`echo`/`print`/`flush`) or call `exit`/`die` before returning — otherwise the response headers are committed first and the JSON `Content-Type` cannot be applied. The attribute is not inherited: a subclass overriding a JSON action must re-declare it. These requirements are enforced by PHPStan rules.
 
 ### HTTP API
@@ -45,6 +56,19 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   (`force_api_session`) nor the acting user (`token_auth`); outside a session a nested request may still
   authenticate with its own `token_auth`, but may not change the session flag. A nested request whose
   parameters conflict with the outer request's authentication context aborts the whole bulk request.
+
+### Deprecations
+* The component-oriented theme variable `@theme-color-widget-background` (`ThemeStyles::$colorWidgetBackground`)
+  is deprecated and will be removed in Matomo 7; use `@theme-color-background-contrast` instead. It is the generic
+  elevated content surface and is already used well beyond widgets.
+* The component-oriented theme variables `@theme-color-menu-contrast-text`, `@theme-color-menu-contrast-textSelected`,
+  `@theme-color-menu-contrast-textActive`, `@theme-color-menu-contrast-background`,
+  `@theme-color-menu-contrast-backgroundHover`, `@theme-color-widget-border`, `@theme-color-widget-title-text`,
+  `@theme-color-widget-title-background` and `@theme-color-widget-exported-background-base` (and the corresponding
+  `ThemeStyles` properties, also readable via `themeStyles.getPropertyValue()`) are deprecated and will be removed
+  in Matomo 7. Matomo's theming is moving from component-oriented variable names to usage-oriented ones; because
+  these variables fill roles that no existing variable covers, usage-oriented replacements will be defined before
+  they are removed. They keep working until then.
 
 ## Matomo 5.12.0
 

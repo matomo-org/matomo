@@ -58,4 +58,17 @@ class Join
     {
         return $this->targetColumn;
     }
+
+    /**
+     * Columns that must additionally match between the joined-from table and the joined table
+     * to identify a row, given as column names present on both tables. Use this when the primary
+     * join column is not unique on its own and needs a composite key (for example the site id).
+     *
+     * @return string[]
+     * @since 5.13.0
+     */
+    public function getAdditionalKeyColumns()
+    {
+        return [];
+    }
 }
