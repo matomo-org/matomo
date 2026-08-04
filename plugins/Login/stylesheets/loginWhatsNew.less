@@ -1,0 +1,56 @@
+/* WHAT'S NEW PANEL
+***********************/
+.loginWhatsNew {
+    @_cardRadius: 16px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: safe center;
+    gap: 8px;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 32px;
+    border-radius: @_cardRadius;
+    background-color: @theme-color-background-contrast;
+
+    .loginWhatsNew__heading {
+        margin-bottom: 9px;
+        padding: 0;
+        font-size: 24px;
+        font-weight: 600;
+        color: @theme-color-text;
+    }
+
+    .loginWhatsNew__entry {
+        padding: 20px;
+        border: 1px solid @theme-color-border-alternative;
+        border-radius: 8px;
+        background-color: @theme-color-background-contrast;
+    }
+
+    .loginWhatsNew__title {
+        margin: 0 0 8px;
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 24px;
+        color: @theme-color-text;
+        overflow-wrap: anywhere;
+    }
+
+    .loginWhatsNew__description {
+        font-size: 14px;
+        line-height: 20px;
+        color: @theme-color-text-light;
+        overflow-wrap: anywhere;
+    }
+
+    .loginWhatsNew__link {
+        display: inline-block;
+        margin-top: 12px;
+        font-size: 13px;
+        font-weight: 400;
+        line-height: 18px;
+        color: @theme-color-link;
+        overflow-wrap: anywhere;
+    }
+}

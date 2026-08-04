@@ -16,6 +16,7 @@ use Piwik\IP;
 use Piwik\Nonce;
 use Piwik\Piwik;
 use Piwik\Plugins\Login\PasswordVerifier;
+use Piwik\Plugins\Login\WhatsNewProvider;
 use Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeDao;
 use Piwik\Session\SessionFingerprint;
 use Piwik\Session\SessionNamespace;
@@ -54,6 +55,17 @@ class Controller extends \Piwik\Plugin\Controller
         $this->validator = $validator;
 
         parent::__construct();
+    }
+
+    /**
+     * Returns the "What's New" entries rendered by the shared login layout, reusing Login's provider
+     * (TwoFactorAuth already depends on Login's layout).
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    private function getWhatsNewChanges(): array
+    {
+        return StaticContainer::get(WhatsNewProvider::class)->getChanges();
     }
 
     public function loginTwoFactorAuth()
@@ -105,6 +117,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->AccessErrorString = $messageNoAccess;
         $view->addForm($form);
         $this->setBasicVariablesView($view);
+        $view->whatsNewChanges = $this->getWhatsNewChanges();
         $view->nonce = Nonce::getNonce(self::LOGIN_2FA_NONCE);
 
         return $view->render();
@@ -193,6 +206,7 @@ class Controller extends \Piwik\Plugin\Controller
         if ($standalone) {
             $view = new View('@TwoFactorAuth/setupTwoFactorAuthStandalone');
             $this->setBasicVariablesView($view);
+            $view->whatsNewChanges = $this->getWhatsNewChanges();
             $view->submitAction = 'onLoginSetupTwoFactorAuth';
         } else {
             $view = new View('@TwoFactorAuth/setupTwoFactorAuth');

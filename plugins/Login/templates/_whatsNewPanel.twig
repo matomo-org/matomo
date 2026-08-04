@@ -1,0 +1,20 @@
+<div class="loginWhatsNew">
+    <h2 class="loginWhatsNew__heading">{{ 'CoreAdminHome_WhatIsNewTitle'|translate }}</h2>
+
+    {% for change in changes %}
+        <div class="loginWhatsNew__entry">
+            <h3 class="loginWhatsNew__title">
+                {% if change.showPluginPrefix %}{{ change.plugin_name }} - {% endif %}{{ change.title }}
+            </h3>
+
+            <div class="loginWhatsNew__description">{{ change.description }}</div>
+
+            {% if change.link is not empty and change.link_name is not empty %}
+                <a class="loginWhatsNew__link"
+                   href="{{ change.link|safelink|e('html_attr') }}"
+                   target="_blank"
+                   rel="noreferrer noopener">{{ change.link_name }}</a>
+            {% endif %}
+        </div>
+    {% endfor %}
+</div>
