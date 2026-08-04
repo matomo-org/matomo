@@ -13,8 +13,8 @@
       :key="index"
     >
       <div class="col s12 m12" v-if="index === 0">
-        <h3 style="font-weight: bold;color: #5bb75b" v-html="$sanitize(trialHintsText)"></h3>
-        <h3 style="margin-bottom: 28px;color: #5bb75b">
+        <h3 style="font-weight: bold;color: var(--theme-color-brand)" v-html="$sanitize(trialHintsText)"></h3>
+        <h3 style="margin-bottom: 28px;color: var(--theme-color-brand)">
           {{ translate('Marketplace_SupportMatomoThankYou') }} <i class='icon-heart red-text'></i>
         </h3>
       </div>
@@ -69,7 +69,7 @@ export default defineComponent({
   computed: {
     trialHintsText() {
       const link = externalRawLink('https://shop.matomo.org/free-trial/');
-      const linkStyle = 'color:#5bb75b;text-decoration: underline;';
+      const linkStyle = 'color:var(--theme-color-brand);text-decoration: underline;';
       return translate(
         'Marketplace_TrialHints',
         `<a style="${linkStyle}" href="${link}" target="_blank" rel="noreferrer noopener">`,
