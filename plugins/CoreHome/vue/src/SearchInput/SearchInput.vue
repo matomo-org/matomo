@@ -6,10 +6,12 @@
 -->
 
 <template>
-  <div class="searchInputContainer">
-    <span class="icon-search" />
+  <div class="mtm-searchInput">
+    <span class="mtm-searchInput__icon">
+      <span class="icon-search" />
+    </span>
     <input
-      class="searchInputField browser-default"
+      class="mtm-searchInput__input browser-default"
       type="text"
       :value="modelValue"
       :placeholder="resolvedPlaceholder"
@@ -19,7 +21,7 @@
     <button
       v-if="showClear && modelValue"
       type="button"
-      class="searchInputClear"
+      class="mtm-searchInput__clear"
       @click="onClear()"
     />
   </div>

@@ -19,7 +19,9 @@ describe("Annotations", function () {
         await page.waitForNetworkIdle();
 
         await page.click(".evolution-annotations span[title^=\"View and add annotations\"]");
-        await page.waitForTimeout(200);
+        // wait for the manager itself rather than a fixed delay: it is fetched over ajax, and a
+        // slow response left the screenshot with nothing to capture
+        await page.waitForSelector(".isFirstWidgetInPage .annotation-manager", { visible: true });
 
         expect(await page.screenshotSelector(".isFirstWidgetInPage .annotation-manager")).to.matchImage("list_annotations");
     });

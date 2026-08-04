@@ -50,7 +50,7 @@ describe('CoreHome/SearchInput', () => {
       },
     });
 
-    await wrapper.find('.searchInputClear').trigger('click');
+    await wrapper.find('.mtm-searchInput__clear').trigger('click');
 
     expect(wrapper.emitted('update:modelValue')?.[0]).toEqual(['']);
   });

@@ -5,19 +5,6 @@
   border-radius: 8px;
   width: 200px;
 
-  &:hover,
-  &.expanded,
-  &.active {
-    border-color: transparent;
-
-    .quickAccessInside .quickAccessInput {
-      background-color: @theme-color-background-contrast;
-      border: 1px solid @theme-color-focus-ring;
-      outline: 0;
-      box-shadow: none;
-    }
-  }
-
   .quickAccessInside {
     flex: auto;
   }
@@ -34,26 +21,6 @@
     color: @theme-color-text-lighter;
   }
 
-  .icon-search {
-    position: absolute;
-    font-size: 14px;
-    top: 13px;
-    left: 12px;
-    color: @theme-color-border;
-  }
-
-  .quickAccessInside .quickAccessInput {
-    height: 38px;
-    font-size: 14px;
-    padding: 10px 12px 10px 38px;
-    border: 1px solid @theme-color-border;
-    border-radius: 8px;
-    width: 100%;
-    &:focus-visible {
-      border: 1px solid @theme-color-focus-ring;
-      outline: 1px solid @theme-color-focus-ring;
-    }
-  }
   .quickAccessInside .quickAccessDropdown.dropdown {
     padding: 8px;
     border-radius: 8px;
@@ -67,9 +34,6 @@
     }
    }
 
-  .quickAccessInput::placeholder {
-    color: @theme-color-text-placeholder;
-  }
   .selected {
     background-color: @theme-color-background-tinyContrast !important;
     border-radius: 8px;

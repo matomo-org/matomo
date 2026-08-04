@@ -522,10 +522,16 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         });
 
         it('should load sparklines view correctly even when there is no matching row', async function () {
-            await page.goto('?forceView=1&viewDataTable=sparklines&module=ExampleUI&action=getTemperaturesEvolution&label=example32323.matomo.org&'+generalParams+'&segment=&showtitle=1');
+            // Widgetized rather than a bare forceView render: the sparklines grid mounts from a
+            // vue-entry, so it needs the page assets a raw visualization fragment does not load.
+            // No widget=1, so this still captures the reporting page (non-widget) grid layout.
+            await page.goto('?' + widgetizeParams + '&moduleToWidgetize=ExampleUI&actionToWidgetize=getTemperaturesEvolution'
+                + '&forceView=1&viewDataTable=sparklines&label=example32323.matomo.org&' + generalParams + '&segment=&showtitle=1');
             await page.waitForNetworkIdle();
+            // Fails loudly if the grid never mounts, rather than silently capturing a blank card.
+            await page.waitForSelector('.sparklineCard img.sparklineImg');
 
-            pageWrap = await page.$('body');
+            const pageWrap = await page.$('body');
             expect(await pageWrap.screenshot()).to.matchImage('exampleui_sparklines_no_matching_row');
         });
     });

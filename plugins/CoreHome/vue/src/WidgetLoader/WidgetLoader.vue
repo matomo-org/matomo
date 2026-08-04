@@ -213,15 +213,26 @@ export default defineComponent({
         const $content = window.$(widgetContent).children();
 
         if (this.widgetName) {
-          // we need to respect the widget title, which overwrites a possibly set report title
-          let $title = $content.find('> .card-content .card-title');
-          if (!$title.length) {
-            $title = $content.find('> h2');
-          }
+          // we need to respect the widget title, which overwrites a possibly set report title.
+          // ReportHeader is not mounted yet, so the name goes in as its prop, not as text.
+          // the two shapes _dataTable.twig emits, so a nested report's header is never stamped
+          const $header = $content.find(
+            '> [vue-entry="CoreHome.ReportHeader"], > .card-content > [vue-entry="CoreHome.ReportHeader"]',
+          ).first();
 
-          if ($title.length) {
-            // required to use htmlEntities since it also escapes '{{' format items
-            $title.html(Matomo.helper.htmlEntities(this.widgetName));
+          if ($header.length) {
+            $header.attr('report-title', JSON.stringify(this.widgetName));
+          } else {
+            // other widgets (content blocks, sparklines) still render a plain headline
+            let $title = $content.find('> .card-content .card-title');
+            if (!$title.length) {
+              $title = $content.find('> h2');
+            }
+
+            if ($title.length) {
+              // required to use htmlEntities since it also escapes '{{' format items
+              $title.html(Matomo.helper.htmlEntities(this.widgetName));
+            }
           }
         }
 

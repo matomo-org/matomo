@@ -5,8 +5,12 @@
 .enrichedHeadline {
     min-height: 22px;
 
-    a.title {
+    // Not `.title`: that is the hook this component and SegmentedVisitorLog read the text
+    // from, and it is shared with the non-editable case.
+    .enrichedHeadline__editableTitle {
         cursor: pointer;
+        // an editable title still takes the colour of its heading, not the link colour
+        color: inherit;
     }
 
     .title {
