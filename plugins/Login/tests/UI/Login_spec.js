@@ -71,24 +71,39 @@ describe("Login", function () {
       expect(element).to.be.ok;
     });
 
-    // Enable/disable login button.
-    it('should enable the login button when username and password are entered', async function () {
+    // Empty field validation.
+    it('should report the empty fields instead of submitting the login form', async function () {
       await page.goto('?module=CoreHome&action=index&idSite=1&period=week&date=2017-06-04');
 
-      // Assert that the button starts off disabled.
-      await page.waitForSelector('#login_form_submit[disabled]');
-
-      // Button still disabled with user, but not password entered.
-      await page.type('#login_form_login', 'u');
-      await page.waitForSelector('#login_form_submit[disabled]');
-
-      // Button enabled with user and password both entered.
-      await page.type('#login_form_password', 'p');
+      // The button is always enabled, and native validation is off now that the handler is bound.
       await page.waitForSelector('#login_form_submit:not([disabled])');
+      await page.waitForSelector('#login_form[novalidate]');
 
-      // Button disabled again if a field is now blank.
-      await page.keyboard.press('Backspace');
-      await page.waitForSelector('#login_form_submit[disabled]');
+      const urlBeforeSubmit = page.url();
+
+      // Both fields empty: both are reported, and the form is not submitted.
+      await page.click('#login_form_submit');
+      await page.waitForSelector('#login_form_errors .notification');
+
+      let errors = await page.$eval('#login_form_errors', el => el.innerText);
+      expect(errors).to.contain('Username or e-mail required');
+      expect(errors).to.contain('Password required');
+      expect(page.url()).to.equal(urlBeforeSubmit);
+
+      // Only the password missing: only that is reported, and the banners don't stack.
+      await page.type('#login_form_login', 'u');
+      await page.click('#login_form_submit');
+      await page.waitForFunction(
+        () => !$('#login_form_errors').text().includes('Username or e-mail required')
+      );
+
+      errors = await page.$eval('#login_form_errors', el => el.innerText);
+      expect(errors).to.contain('Password required');
+      expect(await page.$$('#login_form_errors .notification')).to.have.lengthOf(1);
+      expect(page.url()).to.equal(urlBeforeSubmit);
+
+      // Reset the field for the tests that follow.
+      await page.evaluate(() => { $('#login_form_login').val(''); });
     });
 
     it("should fail when incorrect credentials are supplied", async function() {

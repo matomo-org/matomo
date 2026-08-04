@@ -47,12 +47,57 @@
             }
         }
 
-        var disableOrEnableLoginSubmitButton = function () {
-          if ($('#login_form_login').val() === '' || $('#login_form_password').val() === '') {
-            $('#login_form_submit').attr('disabled', 'disabled');
-          } else {
-            $('#login_form_submit').removeAttr('disabled');
-          }
+        // Reports the empty fields of a login page form through the same error banner the server
+        // renders for them, instead of leaving it to the browser, so that the message reads like
+        // every other error on the page. The markup keeps its `required` attributes as the
+        // fallback for when this script never runs, so native validation is only turned off here,
+        // where a handler replaces it.
+        //
+        // `fields` is a list of { selector, label }, where label is a translation key.
+        var validateRequiredFields = function (formSelector, fields) {
+            $(formSelector).attr('novalidate', 'novalidate').on('submit', function () {
+                var errors = {},
+                    firstEmpty = null;
+
+                $.each(fields, function (index, field) {
+                    var $input = $(field.selector);
+
+                    // Compared against '' rather than trimmed, to stay in step with the server
+                    // side 'required' rule on the same fields.
+                    if ($input.val() !== '') {
+                        return;
+                    }
+
+                    errors[$input.attr('name')] = _pk_translate('General_Required', [
+                        _pk_translate(field.label)
+                    ]);
+                    firstEmpty = firstEmpty || $input;
+                });
+
+                // Emptied on every attempt so repeated submits don't stack banners.
+                var $errors = $('#login_form_errors').empty();
+
+                if (firstEmpty === null) {
+                    return true;
+                }
+
+                if (!$errors.length) {
+                    // Appended rather than replacing the container, which also holds the errors
+                    // and notifications rendered server side.
+                    $errors = $('<div id="login_form_errors"></div>')
+                        .appendTo($('.loginForm .message_container'));
+                }
+
+                var $entry = $('<div vue-entry="Login.FormErrors"></div>')
+                    .attr('form-errors', JSON.stringify(errors))
+                    .appendTo($errors);
+
+                piwikHelper.compileVueEntryComponents($entry);
+
+                firstEmpty.focus();
+
+                return false;
+            });
         };
 
         // set login form redirect url
@@ -111,10 +156,14 @@
             return false;
         });
 
-        // Disable login submit button when there is no user & password entered.
-        $('#login_form_login').on('input', disableOrEnableLoginSubmitButton);
-        $('#login_form_password').on('input', disableOrEnableLoginSubmitButton);
-        disableOrEnableLoginSubmitButton();
+        validateRequiredFields('#login_form', [
+            { selector: '#login_form_login', label: 'Login_LoginOrEmail' },
+            { selector: '#login_form_password', label: 'General_Password' }
+        ]);
+
+        validateRequiredFields('#confirm_password_form', [
+            { selector: '#login_form_password', label: 'General_Password' }
+        ]);
 
         $('#login_form_login').focus();
 
