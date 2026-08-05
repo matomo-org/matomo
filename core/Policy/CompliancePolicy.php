@@ -240,6 +240,44 @@ abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSet
     }
 
     /**
+     * Sets the enforcement state of the given policy-controlled setting.
+     *
+     * Mirrors the scope rules of {@link setActiveStatus()}: disabling a setting
+     * for one site while it has explicit instance-wide enforcement state also
+     * clears that instance-wide state. Enforcement that is only inherited from
+     * the legacy whole-policy flag is not modified here; the migration
+     * materialises that state into explicit per-setting values.
+     *
+     * @param class-string<PolicyComparisonInterface<mixed>> $settingClass
+     */
+    public static function setEnforcedForSetting(string $settingClass, bool $enforced, ?int $idSite = null): void
+    {
+        if (isset($idSite)) {
+            static::setSettingEnforcementMeasurableValue($settingClass, $idSite, $enforced);
+            if (!$enforced && static::getSettingEnforcementSystemValue($settingClass) === true) {
+                static::setSettingEnforcementSystemValue($settingClass, false);
+            }
+        } else {
+            static::setSettingEnforcementSystemValue($settingClass, $enforced);
+        }
+
+        /**
+         * This event is triggered when the enforcement state of a single policy-controlled
+         * setting changes, and is to be used to perform extra actions when the enforcement
+         * of a setting is enabled/disabled. It is also posted for every toggleable setting
+         * when a whole policy is activated/deactivated.
+         *
+         * The enforcement state cannot be changed via this event.
+         *
+         * @param bool $enforced Whether enforcement of the setting is being enabled or disabled
+         * @param int|null $idSite
+         * @param class-string<CompliancePolicy> The compliance policy in question
+         * @param class-string<PolicyComparisonInterface<mixed>> The policy-controlled setting in question
+         */
+        Piwik::postEvent('CompliancePolicy.setSettingEnforcedStatus', [$enforced, $idSite, static::class, $settingClass]);
+    }
+
+    /**
      * Instance-wide enforcement state of the given setting, or null when no state was ever stored.
      *
      * @param class-string<PolicyComparisonInterface<mixed>> $settingClass
@@ -277,5 +315,38 @@ abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSet
         $value = $setting->getValue();
 
         return is_null($value) ? null : (bool) $value;
+    }
+
+    /**
+     * @param class-string<PolicyComparisonInterface<mixed>> $settingClass
+     */
+    protected static function setSettingEnforcementSystemValue(string $settingClass, bool $value): void
+    {
+        $setting = new SystemSetting(
+            static::getSettingEnforcementName($settingClass),
+            null,
+            FieldConfig::TYPE_BOOL,
+            Piwik::getPluginNameOfMatomoClass(static::class)
+        );
+
+        $setting->setValue($value);
+        $setting->save();
+    }
+
+    /**
+     * @param class-string<PolicyComparisonInterface<mixed>> $settingClass
+     */
+    protected static function setSettingEnforcementMeasurableValue(string $settingClass, int $idSite, bool $value): void
+    {
+        $setting = new MeasurableSetting(
+            static::getSettingEnforcementName($settingClass),
+            null,
+            FieldConfig::TYPE_BOOL,
+            Piwik::getPluginNameOfMatomoClass(static::class),
+            $idSite
+        );
+
+        $setting->setValue($value);
+        $setting->save();
     }
 }

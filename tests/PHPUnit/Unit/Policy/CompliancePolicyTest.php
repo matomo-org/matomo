@@ -132,6 +132,47 @@ class CompliancePolicyTest extends TestCase
         $this->assertFalse(TestPolicy::isEnforcedForSetting(FakePolicySetting::class, 99));
     }
 
+    public function testSetEnforcedForSettingInstanceLevelAppliesToAllSites(): void
+    {
+        TestPolicy::setEnforcedForSetting(FakePolicySetting::class, true);
+
+        $this->assertTrue(TestPolicy::isEnforcedForSetting(FakePolicySetting::class));
+        $this->assertTrue(TestPolicy::isEnforcedForSetting(FakePolicySetting::class, 99));
+
+        TestPolicy::setEnforcedForSetting(FakePolicySetting::class, false);
+
+        $this->assertFalse(TestPolicy::isEnforcedForSetting(FakePolicySetting::class));
+        $this->assertFalse(TestPolicy::isEnforcedForSetting(FakePolicySetting::class, 99));
+    }
+
+    public function testSetEnforcedForSettingSiteLevelOnlyAffectsTheSite(): void
+    {
+        TestPolicy::setEnforcedForSetting(FakePolicySetting::class, true, 99);
+
+        $this->assertTrue(TestPolicy::isEnforcedForSetting(FakePolicySetting::class, 99));
+        $this->assertFalse(TestPolicy::isEnforcedForSetting(FakePolicySetting::class, 100));
+        $this->assertFalse(TestPolicy::isEnforcedForSetting(FakePolicySetting::class));
+    }
+
+    public function testSetEnforcedForSettingDisablingForSiteClearsInstanceLevelState(): void
+    {
+        TestPolicy::setEnforcedForSetting(FakePolicySetting::class, true);
+        TestPolicy::setEnforcedForSetting(FakePolicySetting::class, false, 99);
+
+        $this->assertFalse(TestPolicy::isEnforcedForSetting(FakePolicySetting::class, 99));
+        $this->assertFalse(TestPolicy::isEnforcedForSetting(FakePolicySetting::class));
+        $this->assertFalse(TestPolicy::isEnforcedForSetting(FakePolicySetting::class, 100));
+    }
+
+    public function testSetEnforcedForSettingEnablingForSiteKeepsInstanceLevelState(): void
+    {
+        TestPolicy::setEnforcedForSetting(FakePolicySetting::class, true);
+        TestPolicy::setEnforcedForSetting(FakePolicySetting::class, true, 99);
+
+        $this->assertTrue(TestPolicy::isEnforcedForSetting(FakePolicySetting::class));
+        $this->assertTrue(TestPolicy::isEnforcedForSetting(FakePolicySetting::class, 100));
+    }
+
     /**
      * @dataProvider possibleStatesForPolicyActive
      */
