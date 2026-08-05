@@ -17,6 +17,9 @@
       />
     </div>
     <p v-html="$sanitize(description)" />
+    <p class="granularComplianceStatusExplanation">
+      {{ translate('PrivacyManager_ComplianceStatusExplanation') }}
+    </p>
     <ActivityIndicator :loading="state.loading"/>
     <template v-if="!state.loading">
       <div v-if="state.fetchError" class="notification system notification-error">
