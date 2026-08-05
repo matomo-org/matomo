@@ -59,18 +59,32 @@ describe("LoginLayout", function () {
         });
     });
 
-    it("should centre the form vertically in the page", async function () {
-        const offCentre = await page.evaluate(function () {
-            const centreOf = function (selector) {
-                const rect = document.querySelector(selector).getBoundingClientRect();
-                return rect.top + (rect.height / 2);
-            };
+    it("should fill the viewport and centre the column's content vertically", async function () {
+        const layout = await page.evaluate(function () {
+            const primary = document.querySelector('.loginLayout__primary');
+            const styles = getComputedStyle(primary);
+            const box = primary.getBoundingClientRect();
 
-            // A couple of pixels of rounding either way is fine.
-            return Math.abs(centreOf('.loginLayout__content') - centreOf('.loginLayout'));
+            // The logo, the form and the footer links are centred as one stack, so the free
+            // space above the first of them has to match the space left below the last.
+            const visible = Array.prototype.filter.call(primary.children, function (el) {
+                return el.offsetParent !== null;
+            });
+            const first = visible[0].getBoundingClientRect();
+            const last = visible[visible.length - 1].getBoundingClientRect();
+
+            return {
+                layoutHeight: document.querySelector('.loginLayout').getBoundingClientRect().height,
+                viewportHeight: document.documentElement.clientHeight,
+                spaceAbove: first.top - (box.top + parseFloat(styles.paddingTop)),
+                spaceBelow: (box.bottom - parseFloat(styles.paddingBottom)) - last.bottom,
+            };
         });
 
-        expect(offCentre).to.be.below(3);
+        // The layout fills the viewport rather than the body doing it, so that pages which
+        // borrow bodyId="loginPage" without this layout keep their own grid.
+        expect(layout.layoutHeight).to.be.at.least(layout.viewportHeight);
+        expect(Math.abs(layout.spaceAbove - layout.spaceBelow)).to.be.below(2);
     });
 
     it("should keep the form visible and the page free of overflow on tablet and mobile", async function () {

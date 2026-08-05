@@ -1,12 +1,9 @@
 /* LOGO
 ***********************/
 #loginPage {
-    background-color: @theme-color-background-contrast;
-
-    /* Fill the viewport so the login layout can centre both of its columns vertically. */
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+    nav {
+        background-color: @theme-color-header-background;
+    }
 
     #logo {
         padding-top: 6px;
@@ -163,8 +160,13 @@
 
     display: flex;
     align-items: stretch;
-    flex: auto;
     box-sizing: border-box;
+    /* Fills the viewport so the columns can centre their content vertically. Deliberately set
+       here rather than on #loginPage: other pages borrow that id without using this layout
+       (@ScheduledReports/unsubscribe.twig), and making the body a flex column collapses their
+       Materialize grid. */
+    min-height: 100vh;
+    background-color: @theme-color-background-contrast;
 
     .loginLayout__primary {
         display: flex;
