@@ -41,7 +41,7 @@
     ***********************/
 
     .loginSection {
-        margin-top: 40px;
+        margin-top: 32px;
 
         > .col {
             max-width: 750px;
@@ -65,25 +65,8 @@
         }
 
         .btn {
-            margin: 0;
+            margin-top: 0;
             font-weight: bold;
-            box-shadow: none;
-            &:hover {
-                box-shadow: none;
-            }
-        }
-
-        /* override: the global form styles float submit buttons to the right; the refreshed
-           login forms lay them out in the flow like every other row. */
-        .submit {
-            float: none;
-        }
-
-        /* The decline confirmation is a yes/no prompt rather than a form to fill in, so its
-           button keeps the right alignment, spaced off the text above it. */
-        .invitationDecline .submit {
-            float: right;
-            margin-top: 24px;
         }
 
         fieldset {
@@ -163,6 +146,31 @@
     flex-direction: column;
     min-height: 100vh;
     background-color: @theme-color-background-contrast;
+
+    .loginSection {
+        margin-top: 40px;
+
+        .btn {
+            margin: 0;
+            box-shadow: none;
+            &:hover {
+                box-shadow: none;
+            }
+        }
+
+        /* override: the global form styles float submit buttons to the right; the refreshed
+           login forms lay them out in the flow like every other row. */
+        .submit {
+            float: none;
+        }
+
+        /* The decline confirmation is a yes/no prompt rather than a form to fill in, so its
+           button keeps the right alignment, spaced off the text above it. */
+        .invitationDecline .submit {
+            float: right;
+            margin-top: 24px;
+        }
+    }
 }
 
 /* REFRESHED LOGIN LAYOUT
@@ -207,11 +215,6 @@
 
     .loginLayout__footerLinks {
         margin-top: 24px;
-    }
-
-    /* Tighten the legacy form spacing now that the logo sits directly above the form. */
-    .loginSection {
-        margin-top: 0;
     }
 
     /* override: the sign-in form reads as a plain column in the refreshed design, so strip

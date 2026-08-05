@@ -59,7 +59,11 @@ describe("LoginLayout", function () {
         });
     });
 
-    it("should fill the viewport and centre the column's content vertically", async function () {
+    it("should reach the bottom of the viewport and centre the column's content vertically", async function () {
+        await page.webpage.setViewport({ width: 1440, height: 900 });
+        await page.goto(loginUrl);
+        await page.waitForSelector('.loginLayout__primary');
+
         const layout = await page.evaluate(function () {
             const primary = document.querySelector('.loginLayout__primary');
             const styles = getComputedStyle(primary);
@@ -74,16 +78,19 @@ describe("LoginLayout", function () {
             const last = visible[visible.length - 1].getBoundingClientRect();
 
             return {
-                layoutHeight: document.querySelector('.loginLayout').getBoundingClientRect().height,
+                layoutBottom: document.querySelector('.loginLayout').getBoundingClientRect().bottom,
                 viewportHeight: document.documentElement.clientHeight,
                 spaceAbove: first.top - (box.top + parseFloat(styles.paddingTop)),
                 spaceBelow: (box.bottom - parseFloat(styles.paddingBottom)) - last.bottom,
             };
         });
 
-        // The layout fills the viewport rather than the body doing it, so that pages which
-        // borrow bodyId="loginPage" without this layout keep their own grid.
-        expect(layout.layoutHeight).to.be.at.least(layout.viewportHeight);
+        // Reaching the bottom edge is the real requirement. Comparing heights instead would
+        // break the moment anything else is added to the page above the layout, without the
+        // layout itself being wrong.
+        expect(layout.viewportHeight - layout.layoutBottom).to.be.below(4);
+        // Guards against the assertion below passing when there is no free space to share.
+        expect(layout.spaceAbove).to.be.above(0);
         expect(Math.abs(layout.spaceAbove - layout.spaceBelow)).to.be.below(2);
     });
 
