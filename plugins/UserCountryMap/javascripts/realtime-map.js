@@ -657,6 +657,11 @@
             // adaptive: the widget takes each loaded map's own aspect ratio
             ratio = map.viewAB.width / map.viewAB.height;
             w = map.container.width();
+            // The realtime map deliberately uses a simpler height clamp than
+            // visitor-map's resize(): this widget carries its own datetime/legend
+            // overlay and derives the visit-dot radius from `h`, and a flat 30px
+            // reservation already fills a Widgetize iframe without visitor-map's
+            // chrome-subtraction / 0.85 branches (so it has no double-clamp issue).
             h = Math.min(w / ratio, $(window).height() - 30);
 
             var radScale = Math.pow((h * ratio * h) / 130000, 0.3);
