@@ -115,7 +115,7 @@ class ComplianceSettingsProvider
                 'id' => $policyClass::getName() . '.' . ($unknownSetting['id'] ?? 'unknown' . $index),
                 'name' => $unknownSetting['title'],
                 'whatItDoes' => $unknownSetting['note'],
-                'impact' => '',
+                'impact' => $unknownSetting['impact'] ?? '',
                 'status' => self::STATUS_MANUAL,
                 'enforced' => null,
                 'toggleable' => false,

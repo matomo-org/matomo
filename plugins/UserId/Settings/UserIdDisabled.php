@@ -60,6 +60,16 @@ class UserIdDisabled implements
         return Piwik::translate("UserId_UserIdDisabledSettingTitle");
     }
 
+    public static function getWhatItDoes(): string
+    {
+        return Piwik::translate('UserId_UserIdDisabledSettingWhatItDoes');
+    }
+
+    public static function getImpact(): string
+    {
+        return Piwik::translate('UserId_UserIdDisabledSettingImpact');
+    }
+
     public static function getInstance(?int $idSite = null): self
     {
         $values = self::getPolicyRequiredValues($idSite);
