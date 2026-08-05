@@ -877,12 +877,6 @@ parameters:
 			path: core/Http.php
 
 		-
-			message: '#^Strict comparison using \=\=\= between array\{scheme\?\: string, host\?\: string, port\?\: int\<0, 65535\>, user\?\: string, pass\?\: string, path\?\: string, query\?\: string, fragment\?\: string\} and false will always evaluate to false\.$#'
-			identifier: identical.alwaysFalse
-			count: 1
-			path: core/Http.php
-
-		-
 			message: '#^Method Piwik\\Log\:\:getInstance\(\) should return static\(Piwik\\Log\) but returns Piwik\\Log\.$#'
 			identifier: return.type
 			count: 1
