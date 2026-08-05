@@ -885,6 +885,13 @@ enable_update_communication = 1
 ; If you may need to download GeoIP updates or other stuff using other protocols like ftp you may need to extend this list.
 allowed_outgoing_protocols = 'http,https'
 
+; HTTP requests fetching a user-configured URL (e.g. a site's URL for site content detection) refuse to
+; contact private, loopback or otherwise reserved IP addresses, so they cannot be pointed at other servers
+; in this Matomo's network. If this Matomo tracks intranet sites hosted on such addresses, allowlist their
+; ranges here. Accepts single IPs, CIDR notation and wildcards, both IPv4 and IPv6.
+; allowed_private_egress_ranges[] = "10.0.0.0/8"
+; allowed_private_egress_ranges[] = "192.168.1.*"
+
 ; This option forces matomo marketplace and matomo api requests to use HTTP, as default we use HTTPS to improve security
 ; If you have a problem loading the marketplace, please enable this config option
 force_matomo_http_request = 0
