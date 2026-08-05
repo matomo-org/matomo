@@ -231,6 +231,45 @@ class ActionTest extends IntegrationTestCase
         $this->assertEquals($filteredUrl, PageUrl::excludeQueryParametersFromUrl($url, $idSite));
     }
 
+    public function getTestSensitiveTokenUrls()
+    {
+        return [
+            ['https://www.example.com?token_auth=abc123', 'https://www.example.com'],
+            ['https://www.example.com?token=abc123', 'https://www.example.com'],
+            // preserves unrelated params, strips only the credential
+            ['https://www.example.com/path?token_auth=abc123&random=1', 'https://www.example.com/path?random=1'],
+            // matching is case-insensitive (PageUrl lowercases the excluded parameter names)
+            ['https://www.example.com?Token_Auth=abc123', 'https://www.example.com'],
+        ];
+    }
+
+    /**
+     * Sensitive auth tokens must be stripped from tracked URLs by the shipped default exclusion list
+     *
+     * @dataProvider getTestSensitiveTokenUrls
+     */
+    public function testExcludeQueryParametersSensitiveTokens($url, $filteredUrl)
+    {
+        $this->setUpRootAccess();
+        $idSite = API::getInstance()->addSite(
+            "site1",
+            array('http://example.org'),
+            $ecommerce = 0,
+            $siteSearch = 1,
+            $searchKeywordParameters = null,
+            $searchCategoryParameters = null,
+            $excludedIps = '',
+            $excludedQueryParameters = '',
+            $timezone = null,
+            $currency = null,
+            $group = null,
+            $startDate = null,
+            $excludedUserAgents = null,
+            $keepURLFragments = 1
+        );
+        $this->assertEquals($filteredUrl, PageUrl::excludeQueryParametersFromUrl($url, $idSite));
+    }
+
     public function getTestUrlsHashtag()
     {
         $urls = array(
