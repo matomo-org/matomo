@@ -72,6 +72,17 @@ class ThirdPartyCookies implements
         return Piwik::translate('General_ThirdPartyCookieSettingNote');
     }
 
+    public static function getPolicySettingId(): string
+    {
+        // Piwik::getPluginNameOfMatomoClass() would derive "Config" from the namespace
+        return 'Core.ThirdPartyCookies';
+    }
+
+    public static function isExternallyManagedByPolicyPage(): bool
+    {
+        return true;
+    }
+
     protected static function compareStrictness($value1, $value2): bool
     {
         if ($value1 === true && $value2 === true) {

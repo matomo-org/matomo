@@ -38,4 +38,19 @@ class PolicyComparisonTraitTest extends TestCase
             PolicyComparisonTraitImpl::isControlledBySpecificPolicy(TestPolicy::class)
         );
     }
+
+    public function testGetPolicySettingIdDefaultsToPluginAndShortClassName()
+    {
+        $this->assertSame(
+            'Framework.PolicyComparisonTraitImpl',
+            PolicyComparisonTraitImpl::getPolicySettingId()
+        );
+    }
+
+    public function testDefaultPolicyPageMetadata()
+    {
+        $this->assertFalse(PolicyComparisonTraitImpl::isExternallyManagedByPolicyPage());
+        $this->assertSame('', PolicyComparisonTraitImpl::getWhatItDoes());
+        $this->assertSame('', PolicyComparisonTraitImpl::getImpact());
+    }
 }
