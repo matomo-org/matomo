@@ -157,11 +157,18 @@
              * projection (map.lonlat2xy). On maps with corner insets (e.g. USA's
              * Alaska/Hawaii boxes) a dot whose lon/lat lies inside an inset
              * territory would be projected to its true mainland position and fall
-             * off-frame. The generator emits <view class="inset"> blocks (which
-             * kartograph itself ignores -- it only reads the first <view>)
-             * describing each inset's local projection and box transform; we route
-             * such dots into the matching inset box here. See generate_maps.py
-             * svg_header()/InsetView for the exact mapping we reproduce.
+             * off-frame, so we route it into the matching inset box instead.
+             *
+             * The maps carry the needed metadata: kartograph reads only the first
+             * <view> (the mainland projection), and each inset adds its own
+             * <view class="inset"> element that kartograph ignores, holding
+             *   <proj ...>                a local projection for that inset, and
+             *   x0,y0,x1,y1               the inset's projected bounds, and
+             *   scale,ox,oy               its box transform.
+             * A point is inside the inset when its inset-projected (x,y) falls within
+             * [x0,x1] x [y0,y1]; it then maps to the box as
+             *   ((x - x0) * scale + ox, (y1 - y) * scale + oy)
+             * after which viewBC scales svg coords to the viewport like any symbol.
              */
             function routeInsetDots(map) {
                 // always restore the stock projection first: a previously loaded
@@ -191,8 +198,8 @@
                     for (var i = 0; i < insets.length; i++) {
                         var iv = insets[i], pt = iv.proj.project(lon, lat);
                         if (pt[0] >= iv.x0 && pt[0] <= iv.x1 && pt[1] >= iv.y0 && pt[1] <= iv.y1) {
-                            // (x-x0)*scale+ox, (y1-y)*scale+oy == InsetView.project, then
-                            // viewBC maps svg coords -> viewport like any other symbol.
+                            // map the inset-projected point into the box, then let
+                            // viewBC scale svg coords -> viewport like any other symbol.
                             return map.viewBC.project([
                                 (pt[0] - iv.x0) * iv.scale + iv.ox,
                                 (iv.y1 - pt[1]) * iv.scale + iv.oy
