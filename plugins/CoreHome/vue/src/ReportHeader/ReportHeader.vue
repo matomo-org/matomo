@@ -7,14 +7,14 @@
 
 <template>
   <div
-    v-if="!isEmpty"
     class="reportHeader"
     :class="{
       'reportHeader--flush': isFullPage && !plainTitle,
       'reportHeader--plainTitle': plainTitle,
     }"
   >
-    <div class="reportHeader__main">
+    <!-- First line: the title, the widget controls and the report's own menu. -->
+    <div v-if="!isEmpty" class="reportHeader__header">
       <!-- `.widgetName` and the nested <span> are an external hook dataTable.js,
            SingleMetricView and UserCountryMap look for. `.self` stops the key handlers
            cancelling links EnrichedHeadline renders inside the heading. -->
@@ -41,10 +41,34 @@
         <span v-else>{{ titleText }}</span>
       </component>
       <span v-if="!isFullPage" class="u-visuallyHidden">{{ translate('General_Widget') }}</span>
-      <div
-        v-if="canSearch"
-        class="reportHeader__search"
-      >
+
+      <!-- Widget controls: hidden until the widget is hovered/focused. Each action emits an
+           intent that onControl() bridges to the jQuery widget. -->
+      <div class="reportHeader__widgetControls">
+        <WidgetControls
+          v-if="hasControls"
+          :can-minimise="controls.minimise"
+          :can-maximise="controls.maximise"
+          :can-refresh="controls.refresh"
+          :can-close="controls.close"
+          @minimise="onControl('minimise')"
+          @maximise="onControl('maximise')"
+          @refresh="onControl('refresh')"
+          @close="onControl('close')"
+        />
+      </div>
+
+      <!-- Reserved anchor for the report's 3-dots menu, which will host the report actions
+           (visualisation switcher, export, ...). Filled by a later story; left with no children
+           here so it stays `:empty` and claims none of the header's gap. -->
+      <div class="reportHeader__toolbar" />
+    </div>
+
+    <!-- Second line, mounted independently of the first so a titleless report still gets its
+         search. Only the search lives here today; a later story adding a sibling must widen the
+         condition below. -->
+    <div v-if="canSearch" class="reportHeader__subheader">
+      <div class="reportHeader__search">
         <SearchInput
           :model-value="query"
           :placeholder="searchPlaceholder"
@@ -53,26 +77,6 @@
         />
       </div>
     </div>
-
-    <!-- Widget controls: an inline action row, hidden until the widget is hovered/focused.
-         Each action emits an intent that onControl() bridges to the jQuery widget. -->
-    <div class="reportHeader__widgetControls">
-      <WidgetControls
-        v-if="hasControls"
-        :can-minimise="controls.minimise"
-        :can-maximise="controls.maximise"
-        :can-refresh="controls.refresh"
-        :can-close="controls.close"
-        @minimise="onControl('minimise')"
-        @maximise="onControl('maximise')"
-        @refresh="onControl('refresh')"
-        @close="onControl('close')"
-      />
-    </div>
-
-    <!-- Reserved anchor for report actions (visualisation switcher, export, ...).
-         Populated by a later story; intentionally empty here. -->
-    <div class="reportHeader__actions" />
   </div>
 </template>
 
@@ -148,7 +152,7 @@ export default defineComponent({
     enriched: Boolean,
     // Keeps the plain heading metrics of a report that is not shown in a card.
     plainTitle: Boolean,
-    // A titleless widgetized embed still mounts the header as an actions anchor, so only the
+    // A titleless widgetized embed still mounts the subheader for its search, so only the
     // heading is suppressed, not the whole component.
     showTitle: {
       type: Boolean,
@@ -222,11 +226,10 @@ export default defineComponent({
       const c = this.controls;
       return c.minimise || c.maximise || c.refresh || c.close;
     },
-    // Nothing to render: no title, no controls, no search. A titleless widgetized report has no
-    // controls either, so without the search check the header would swallow its own search input.
-    // Actions are always empty today; a later story that adds them must widen this too.
+    // Whether the header line has nothing to render. Only that line is dropped: the subheader
+    // below it is mounted independently, so a titleless widgetized report still gets its search.
     isEmpty(): boolean {
-      return !this.showTitle && !this.hasControls && !this.canSearch;
+      return !this.showTitle && !this.hasControls;
     },
     isFullPage(): boolean {
       return this.context === 'fullPage';

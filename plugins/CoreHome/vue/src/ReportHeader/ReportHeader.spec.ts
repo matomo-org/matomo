@@ -52,22 +52,30 @@ describe('ReportHeader', () => {
     expect(wrapper.find('.reportHeader__title').text()).toBe('Visits Over Time');
   });
 
-  it('should always render the reserved (empty) report-actions region', () => {
+  it('should render the reserved (empty) toolbar anchor on the header line', () => {
     const wrapper = mountComponent();
 
-    expect(wrapper.find('.reportHeader__actions').exists()).toBe(true);
+    expect(wrapper.find('.reportHeader__header .reportHeader__toolbar').exists()).toBe(true);
   });
 
   it('should render the title by default', () => {
     expect(mountComponent().find('.reportHeader__title').exists()).toBe(true);
   });
 
-  it('should render nothing when there is nothing to show', () => {
+  it('should render no line at all when there is nothing to show', () => {
     const wrapper = mountComponent({ context: 'widgetized', showTitle: false });
 
-    expect(wrapper.find('.reportHeader').exists()).toBe(false);
-    expect(wrapper.find('.reportHeader__title').exists()).toBe(false);
-    expect(wrapper.find('.reportHeader__actions').exists()).toBe(false);
+    expect(wrapper.find('.reportHeader__header').exists()).toBe(false);
+    expect(wrapper.find('.reportHeader__subheader').exists()).toBe(false);
+    // Leaves the host `:empty`, which the stylesheet collapses.
+    expect(wrapper.find('.reportHeader').element.children.length).toBe(0);
+  });
+
+  it('should keep the subheader when only the search is left', () => {
+    const wrapper = mountComponent({ context: 'widgetized', showTitle: false, showSearch: true });
+
+    expect(wrapper.find('.reportHeader__header').exists()).toBe(false);
+    expect(wrapper.find('.reportHeader__subheader .reportHeader__search').exists()).toBe(true);
   });
 
   it('should render the full header when a widgetized report keeps its title', () => {
