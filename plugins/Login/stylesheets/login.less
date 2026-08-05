@@ -11,8 +11,7 @@
 
         img.default-piwik-logo {
             width: 171px;
-            /* Invert the stock wordmark in dark mode, as the app header does. Custom logos
-               don't carry this class and are deliberately left untouched. */
+            /* Invert the stock wordmark in dark mode; custom logos lack this class. */
             filter: @theme-filter-on-illustration;
         }
 
@@ -78,6 +77,7 @@
         }
     }
 
+    /* The id is load-bearing: `.card .card-content p` would otherwise win on specificity. */
     .loginForm__intro {
         /* Absorbs part of the card title's bottom margin so the intro reads as a subtitle
            of "Sign in" rather than as a separate paragraph. */
@@ -135,13 +135,10 @@
     }
 }
 
-/* Only the pages that actually use the refreshed layout fill the viewport. Other pages borrow
-   bodyId="loginPage" without extending @Login/loginLayout.twig (@ScheduledReports/unsubscribe.twig),
-   and making the body a flex column collapses their Materialize grid. Filling the viewport from
-   the body rather than from .loginLayout keeps the siblings that sit outside `block body` - the
-   #bottomAd adblock probe - inside the height budget, so there is no leftover scroll or a strip
-   of the wrong background below the layout. */
-#loginPage:has(.loginLayout) {
+/* Only the pages using this layout fill the viewport. @ScheduledReports/unsubscribe.twig borrows
+   the same bodyId without the layout, and a flex column would collapse its Materialize grid. The
+   height and background sit on the body so the #bottomAd probe below the layout stays inside them. */
+#loginPage.app-loginLayout {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
@@ -158,14 +155,12 @@
             }
         }
 
-        /* override: the global form styles float submit buttons to the right; the refreshed
-           login forms lay them out in the flow like every other row. */
+        /* override: global form styles float submit buttons right; these forms keep them in flow. */
         .submit {
             float: none;
         }
 
-        /* The decline confirmation is a yes/no prompt rather than a form to fill in, so its
-           button keeps the right alignment, spaced off the text above it. */
+        /* The decline screen is a yes/no prompt, so its button keeps the right alignment. */
         .invitationDecline .submit {
             float: right;
             margin-top: 24px;
@@ -177,14 +172,10 @@
    Logo + login form centred in the primary column, which fills the page on its own.
 ***********************/
 .loginLayout {
-    @_panelInset: 24px;
-
     display: flex;
     align-items: stretch;
     box-sizing: border-box;
-    /* Grows into whatever height the body has left over, so the columns can centre their
-       content vertically. The body is only made a flex column when this layout is actually
-       present - see the `:has()` rule above. */
+    /* Grows into the height the body has left over, so the column can centre its content. */
     flex: auto;
 
     .loginLayout__primary {
@@ -192,22 +183,18 @@
         flex-direction: column;
         justify-content: safe center;
         flex: auto;
-        /* A flex item won't shrink past its content by default, and this column's content is
-           a fixed 450px wide, so without this the two columns overflow the page instead of
-           letting the max-width below take effect. */
+        /* Without this the fixed-width content below keeps the column from ever shrinking. */
         min-width: 0;
         box-sizing: border-box;
-        padding: @_panelInset;
+        padding: 24px;
     }
 
-    /* Both sides are vertically centred; the primary column keeps its content in a
-       fixed-width, horizontally centred stack so logo and form stay left-aligned. */
+    /* A fixed-width, horizontally centred stack keeps logo, form and links on one left edge. */
     .loginLayout__logo,
     .loginLayout__content,
     .loginLayout__footerLinks {
         box-sizing: border-box;
         width: 450px;
-        /* Fixed width, but never wider than the viewport it sits in. */
         max-width: 100%;
         margin-left: auto;
         margin-right: auto;
@@ -226,6 +213,7 @@
         background-color: transparent;
     }
 
+    /* override: Materialize pads the card; the refreshed layout sets its own spacing instead. */
     .card-content {
         padding: 0;
 
@@ -235,6 +223,17 @@
             line-height: 36px;
             margin-bottom: 16px;
         }
+    }
+
+    /* override: Materialize insets grid columns by 12px (`.row .col`) and shifts the floating
+       label to match (`.input-field.col label`); every page here lines up with the logo. */
+    .row .col {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .input-field.col label {
+        left: 0;
     }
 }
 
@@ -267,18 +266,7 @@
     vertical-align: middle;
 }
 
-/* override: Materialize's grid gutter indents every field by 12px (`.row .col`); the refreshed
-   form aligns them flush with the logo and the "Sign in" heading instead. */
+/* override: the rows above carry the vertical rhythm, so drop Materialize's own field margin. */
 .loginForm .loginForm__field {
-    padding-left: 0;
-    padding-right: 0;
     margin-bottom: 0;
-}
-
-/* override: Materialize offsets the floating label by the same 12px gutter via
-   `.input-field.col label`, which outranks any two-class selector of ours - so this rule has to
-   match Materialize's own shape instead. Scoped to .loginForm__form so it reaches only the two
-   refreshed forms and leaves the other login pages untouched. */
-.loginForm__form .input-field.col label {
-    left: 0;
 }

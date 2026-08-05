@@ -14,6 +14,7 @@
 {% block pageDescription %}{{ 'General_OpenSourceWebAnalytics'|translate }}{% endblock %}
 
 {% set bodyId = 'loginPage' %}
+{% set bodyClass = 'app-loginLayout' %}
 
 {% block body %}
 
@@ -41,10 +42,8 @@
                 {% endif %}
             </div>
 
-            {# Imprint / privacy policy / terms links. The shared page footer that normally carries
-               them sits at the very bottom of the page, outside this layout, so render them under
-               the form instead. This is the only place the event is posted: the parent's own footer
-               block is emptied at the end of this template. #}
+            {# The shared page footer sits outside this layout, so render its links under the form.
+               The parent's footer block is emptied below, so the event is still posted only once. #}
             {% set footerLinks %}{{ postEvent('Template.pageFooter') }}{% endset %}
 
             {% if footerLinks|trim is not empty %}
@@ -55,6 +54,5 @@
 
 {% endblock %}
 
-{# Emptied rather than re-posted: the footer links are rendered inside the layout above, and
-   Template.pageFooter must only be dispatched once per request. #}
+{# Emptied because the layout above already renders the footer links. #}
 {% block pageFooter %}{% endblock %}
