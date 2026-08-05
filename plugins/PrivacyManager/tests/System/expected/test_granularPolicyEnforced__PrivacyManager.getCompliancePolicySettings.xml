@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<policy>cnil_v1</policy>
+	<title>CNIL Website Analytics Compliance</title>
+	<description>This table shows how specific Matomo configuration settings align with &lt;a href=&quot;https://matomo.org/faq/how-to/how-do-i-configure-matomo-without-tracking-consent-for-french-visitors-cnil-exemption/?mtm_campaign=Matomo_App&amp;mtm_source=Matomo_App_OnPremise&amp;mtm_medium=App.PrivacyManager.compliance&quot; target=&quot;_blank&quot; rel=&quot;noreferrer noopener&quot;&gt;CNIL guidance&lt;/a&gt; on consent-exempt audience measurement. It is provided for &lt;b&gt;informational purposes only&lt;/b&gt; and does not constitute legal advice or guarantee full compliance. To rely on CNIL's consent exemption, &lt;b&gt;all&lt;/b&gt; required configurations must be correctly implemented.&lt;br/&gt;&lt;br/&gt;&lt;ul class='browser-default'&gt;&lt;li&gt;If a setting is marked &lt;b&gt;non-compliant&lt;/b&gt;, the exemption conditions are not satisfied and valid user consent must be obtained.&lt;/li&gt;&lt;li&gt;If a setting is marked &lt;b&gt;unknown&lt;/b&gt;, Matomo cannot determine whether the requirement has been met; these items must be verified manually by you, the publisher/controller.&lt;/li&gt;&lt;/ul&gt;&lt;br/&gt;To assess your overall compliance make sure you consult your legal advisors for a definitive compliance assessment.&lt;br/&gt;Click &lt;a href=&quot;https://matomo.org/faq/how-to/how-do-i-configure-matomo-without-tracking-consent-for-french-visitors-cnil-exemption/?mtm_campaign=Matomo_App&amp;mtm_source=Matomo_App_OnPremise&amp;mtm_medium=App.PrivacyManager.compliance&quot; target=&quot;_blank&quot; rel=&quot;noreferrer noopener&quot;&gt;here&lt;/a&gt; to access the Matomo Self-Assessment, learn more about the CNIL criteria for consent-exempt analytics and understand how to configure Matomo for CNIL exemption.&lt;br/&gt;&lt;b&gt;Compliance cannot be guaranteed with the use of third-party plugins.&lt;/b&gt;</description>
+	<configControlled>0</configControlled>
+	<policyEnforced>1</policyEnforced>
+	<settings>
+		<row>
+			<id>DevicesDetection.DeviceModelDetectionDisabled</id>
+			<name>Device model detection disabled</name>
+			<whatItDoes />
+			<impact />
+			<status>enforced</status>
+			<enforced>1</enforced>
+			<toggleable>1</toggleable>
+			<section>settings</section>
+		</row>
+		<row>
+			<id>DevicesDetection.OnlyMajorVersions</id>
+			<name>Only Major versions</name>
+			<whatItDoes />
+			<impact />
+			<status>enforced</status>
+			<enforced>1</enforced>
+			<toggleable>1</toggleable>
+			<section>settings</section>
+		</row>
+		<row>
+			<id>Ecommerce.EcommerceRestricted</id>
+			<name>Ecommerce Restricted</name>
+			<whatItDoes />
+			<impact />
+			<status>enforced</status>
+			<enforced>1</enforced>
+			<toggleable>1</toggleable>
+			<section>settings</section>
+		</row>
+		<row>
+			<id>Ecommerce.OrderIdAnonymization</id>
+			<name>Ecommerce - Order ID anonymisation</name>
+			<whatItDoes />
+			<impact />
+			<status>enforced</status>
+			<enforced>1</enforced>
+			<toggleable>1</toggleable>
+			<section>settings</section>
+		</row>
+		<row>
+			<id>SitesManager.FilterPIIParameters</id>
+			<name>PII data filtered</name>
+			<whatItDoes />
+			<impact />
+			<status>enforced</status>
+			<enforced>1</enforced>
+			<toggleable>1</toggleable>
+			<section>settings</section>
+		</row>
+		<row>
+			<id>Live.VisitorLogDisabled</id>
+			<name>Turn off Visits log and Visitor profiles</name>
+			<whatItDoes />
+			<impact />
+			<status>enforced</status>
+			<enforced>1</enforced>
+			<toggleable>1</toggleable>
+			<section>settings</section>
+		</row>
+		<row>
+			<id>PrivacyManager.CampaignParameterValuesMasked</id>
+			<name>Campaign parameter values masked</name>
+			<whatItDoes />
+			<impact />
+			<status>enforced</status>
+			<enforced>1</enforced>
+			<toggleable>1</toggleable>
+			<section>settings</section>
+		</row>
+		<row>
+			<id>PrivacyManager.DataRoundingEnabled</id>
+			<name>Segmented data rounding enabled</name>
+			<whatItDoes />
+			<impact />
+			<status>enforced</status>
+			<enforced>1</enforced>
+			<toggleable>1</toggleable>
+			<section>settings</section>
+		</row>
+		<row>
+			<id>PrivacyManager.IPAnonymisation</id>
+			<name>IP Anonymisation Enabled</name>
+			<whatItDoes />
+			<impact />
+			<status>enforced</status>
+			<enforced>1</enforced>
+			<toggleable>1</toggleable>
+			<section>settings</section>
+		</row>
+		<row>
+			<id>PrivacyManager.IpAddressMaskLength</id>
+			<name>IP Address Mask Length</name>
+			<whatItDoes />
+			<impact />
+			<status>enforced</status>
+			<enforced>1</enforced>
+			<toggleable>1</toggleable>
+			<section>settings</section>
+		</row>
+		<row>
+			<id>PrivacyManager.ReferrerAnonymisation</id>
+			<name>Referrer Anonymisation</name>
+			<whatItDoes />
+			<impact />
+			<status>enforced</status>
+			<enforced>1</enforced>
+			<toggleable>1</toggleable>
+			<section>settings</section>
+		</row>
+		<row>
+			<id>PrivacyManager.ReportRetention</id>
+			<name>Data retention period</name>
+			<whatItDoes />
+			<impact />
+			<status>compliant</status>
+			<enforced>1</enforced>
+			<toggleable>1</toggleable>
+			<section>settings</section>
+		</row>
+		<row>
+			<id>SegmentEditor.LimitSegments</id>
+			<name>Limit available segments</name>
+			<whatItDoes />
+			<impact />
+			<status>enforced</status>
+			<enforced>1</enforced>
+			<toggleable>1</toggleable>
+			<section>settings</section>
+		</row>
+		<row>
+			<id>Resolution.ScreenResolutionDetectionDisabled</id>
+			<name>Screen resolution detection disabled</name>
+			<whatItDoes />
+			<impact />
+			<status>enforced</status>
+			<enforced>1</enforced>
+			<toggleable>1</toggleable>
+			<section>settings</section>
+		</row>
+		<row>
+			<id>UserId.UserIdDisabled</id>
+			<name>User ID disabled</name>
+			<whatItDoes />
+			<impact />
+			<status>enforced</status>
+			<enforced>1</enforced>
+			<toggleable>1</toggleable>
+			<section>settings</section>
+		</row>
+		<row>
+			<id>Core.ThirdPartyCookies</id>
+			<name>Third-party cookies</name>
+			<whatItDoes />
+			<impact />
+			<status>on_by_default</status>
+			<enforced />
+			<toggleable>0</toggleable>
+			<section>external</section>
+		</row>
+		<row>
+			<id>cnil_v1.optOut</id>
+			<name>Opt out</name>
+			<whatItDoes>Opt out must be manually set up and configured. &lt;a href=&quot;https://matomo.org/faq/general/faq_20000/?mtm_campaign=Matomo_App&amp;mtm_source=Matomo_App_OnPremise&amp;mtm_medium=App.PrivacyManager.compliance&quot; target=&quot;_blank&quot; rel=&quot;noreferrer noopener&quot;&gt;Learn more&lt;/a&gt;</whatItDoes>
+			<impact />
+			<status>manual</status>
+			<enforced />
+			<toggleable>0</toggleable>
+			<section>external</section>
+		</row>
+	</settings>
+</result>
