@@ -15,7 +15,8 @@
 
   // Nest element: the search input block sits alone in here, so the panel never styles it.
   .mtm-dropdownPanel__search {
-    margin-bottom: 8px;
+    margin-bottom: 4px;
+    padding: 8px;
   }
 
   .mtm-dropdownPanel__menu {
@@ -24,9 +25,20 @@
     list-style: none;
   }
 
+  // Up to four fifths of the viewport, less the ~58px a `__search` block above it takes (its
+  // 38px input, 8px padding each side and 4px margin), so the whole panel stays within 80vh.
+  // A cut-off row is what says it scrolls, and a fixed pixel cap would leave a tall screen
+  // under-used.
   .mtm-dropdownPanel__menu--scrollable {
-    max-height: 250px;
+    max-height: ~"calc(80vh - 60px)";
     overflow-y: auto;
+  }
+
+  // Horizontal gutter so the rows share their left/right edges with the search input above,
+  // and so an overlay scrollbar sits over the gutter rather than over a label. No vertical
+  // padding: the cut-off row must be cut by the scroll box, not padded away.
+  .mtm-dropdownPanel__menu--gutter {
+    padding: 0 8px;
   }
 
   .mtm-dropdownPanel__menuItem {
@@ -108,6 +120,9 @@
 }
 
 // Wider variant for menus with longer labels (e.g. the Dashboard manager).
+// A fixed width, not a floor: `__menuLink` never wraps, so a shrink-to-fit panel is as wide as
+// its longest row and resizes whenever the rows change — most visibly when a search collapses
+// the menu to a single `__noResult`. Labels ellipsise through `__menuLabel` instead.
 .mtm-dropdownPanel--wide {
-  min-width: 240px;
+  width: 254px;
 }
