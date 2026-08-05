@@ -152,6 +152,19 @@
     }
 }
 
+/* Only the pages that actually use the refreshed layout fill the viewport. Other pages borrow
+   bodyId="loginPage" without extending @Login/loginLayout.twig (@ScheduledReports/unsubscribe.twig),
+   and making the body a flex column collapses their Materialize grid. Filling the viewport from
+   the body rather than from .loginLayout keeps the siblings that sit outside `block body` - the
+   #bottomAd adblock probe - inside the height budget, so there is no leftover scroll or a strip
+   of the wrong background below the layout. */
+#loginPage:has(.loginLayout) {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: @theme-color-background-contrast;
+}
+
 /* REFRESHED LOGIN LAYOUT
    Logo + login form centred in the primary column, which fills the page on its own.
 ***********************/
@@ -161,12 +174,10 @@
     display: flex;
     align-items: stretch;
     box-sizing: border-box;
-    /* Fills the viewport so the columns can centre their content vertically. Deliberately set
-       here rather than on #loginPage: other pages borrow that id without using this layout
-       (@ScheduledReports/unsubscribe.twig), and making the body a flex column collapses their
-       Materialize grid. */
-    min-height: 100vh;
-    background-color: @theme-color-background-contrast;
+    /* Grows into whatever height the body has left over, so the columns can centre their
+       content vertically. The body is only made a flex column when this layout is actually
+       present - see the `:has()` rule above. */
+    flex: auto;
 
     .loginLayout__primary {
         display: flex;
