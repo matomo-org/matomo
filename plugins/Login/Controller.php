@@ -694,7 +694,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             throw new RedirectException(Piwik::translate('Login_InvalidOrExpiredTokenV2'), SettingsPiwik::getPiwikUrl(), 3);
         }
 
-        if (!empty($user['invite_expired_at']) && Date::factory($user['invite_expired_at'])->isEarlier(Date::now())) {
+        if (empty($user['invite_expired_at']) || Date::factory($user['invite_expired_at'])->isEarlier(Date::now())) {
             throw new RedirectException(Piwik::translate('Login_InvalidOrExpiredTokenV2'), SettingsPiwik::getPiwikUrl(), 3);
         }
 
