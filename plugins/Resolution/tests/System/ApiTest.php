@@ -11,9 +11,7 @@ namespace Piwik\Plugins\Resolution\tests\System;
 
 use Exception;
 use Piwik\API\Request;
-use Piwik\Config;
 use Piwik\DataTable;
-use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
 use Piwik\Plugins\Resolution\tests\Fixtures\TwoSitesWithResolutions;
 use Piwik\Policy\PolicyManager;
 use Piwik\Policy\CnilPolicy;
@@ -32,7 +30,6 @@ class ApiTest extends SystemTestCase
 
     protected function tearDown(): void
     {
-        $this->setComplianceFeatureFlag(false);
         PolicyManager::setPolicyActiveStatus(CnilPolicy::class, false, self::$fixture->idSite);
         PolicyManager::setPolicyActiveStatus(CnilPolicy::class, false, self::$fixture->idSite2);
         PolicyManager::setPolicyActiveStatus(CnilPolicy::class, false, null);
@@ -42,7 +39,6 @@ class ApiTest extends SystemTestCase
 
     public function testGetResolutionReturnsOnlyAllowedSitesForSpecificSiteList(): void
     {
-        $this->setComplianceFeatureFlag(true);
         PolicyManager::setPolicyActiveStatus(CnilPolicy::class, true, self::$fixture->idSite);
 
         $this->assertSame(
@@ -53,7 +49,6 @@ class ApiTest extends SystemTestCase
 
     public function testGetResolutionReturnsOnlyAllowedSitesForAll(): void
     {
-        $this->setComplianceFeatureFlag(true);
         PolicyManager::setPolicyActiveStatus(CnilPolicy::class, true, self::$fixture->idSite);
 
         $this->assertSame(['1024x768'], $this->getResolutionLabelsForSiteRequest('all'));
@@ -61,7 +56,6 @@ class ApiTest extends SystemTestCase
 
     public function testGetResolutionReturnsErrorWhenSingleRequestedSiteIsDisallowed(): void
     {
-        $this->setComplianceFeatureFlag(true);
         PolicyManager::setPolicyActiveStatus(CnilPolicy::class, true, self::$fixture->idSite);
 
         $this->expectException(Exception::class);
@@ -84,16 +78,6 @@ class ApiTest extends SystemTestCase
         ]);
 
         return array_values($report->getColumn('label'));
-    }
-
-    private function setComplianceFeatureFlag(bool $enableFlag): void
-    {
-        $featureFlag = new PrivacyCompliance();
-        $featureFlagConfig = $featureFlag->getName() . '_feature';
-
-        Config::getInstance()->FeatureFlags = [
-            $featureFlagConfig => $enableFlag ? 'enabled' : 'disabled',
-        ];
     }
 }
 

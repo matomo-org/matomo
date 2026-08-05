@@ -567,12 +567,8 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_UseSiteSpecificSettingsHelpText';
         $translationKeys[] = 'PrivacyManager_Compliance';
         $translationKeys[] = 'PrivacyManager_ComplianceSelectSite';
-        $translationKeys[] = 'PrivacyManager_ComplianceEnforceCheckboxIntro';
-        $translationKeys[] = 'PrivacyManager_ComplianceEnforceCheckboxTitle';
-        $translationKeys[] = 'PrivacyManager_ComplianceEnforceCheckboxHelp';
         $translationKeys[] = 'PrivacyManager_ComplianceTableSettingName';
         $translationKeys[] = 'PrivacyManager_ComplianceTableSettingStatus';
-        $translationKeys[] = 'PrivacyManager_ComplianceTableSettingNotes';
         $translationKeys[] = 'PrivacyManager_ComplianceCompliant';
         $translationKeys[] = 'PrivacyManager_ComplianceNonCompliant';
         $translationKeys[] = 'PrivacyManager_ComplianceComplianceUnknown';
