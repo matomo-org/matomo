@@ -1429,7 +1429,7 @@ $.extend(UserCountryMap, {
     // boxes. When the loaded SVG defines an #insets group, add a non-interactive
     // layer that frames each box using the given (theme-aware) stroke colour.
     addInsetsLayer: function (map, strokeColor) {
-        if (map.svgSrc && $(map.svgSrc).find('#insets').length) {
+        if (map.svgSrc && map.svgSrc.find('#insets').length) {
             map.addLayer('insets', {
                 styles: { stroke: strokeColor, 'stroke-width': 0.7, fill: 'none' }
             });
