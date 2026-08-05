@@ -620,71 +620,13 @@
             }
 
             /*
-             * kartograph places every city dot with the single mainland projection
-             * (map.lonlat2xy). On maps with corner insets (e.g. USA's Alaska/Hawaii
-             * boxes) a dot whose lon/lat lies inside an inset territory would be
-             * projected to its true mainland position and fall off-frame, so we route
-             * it into the matching inset box instead.
-             *
-             * The maps carry the needed metadata: kartograph reads only the first
-             * <view> (the mainland projection), and each inset adds its own
-             * <view class="inset"> element that kartograph ignores, holding
-             *   <proj ...>                a local projection for that inset, and
-             *   x0,y0,x1,y1               the inset's projected bounds, and
-             *   scale,ox,oy               its box transform.
-             * A point is inside the inset when its inset-projected (x,y) falls within
-             * [x0,x1] x [y0,y1]; it then maps to the box as
-             *   ((x - x0) * scale + ox, (y1 - y) * scale + oy)
-             * after which viewBC scales svg coords to the viewport like any symbol.
-             */
-            function routeInsetDots(map) {
-                // always restore the stock projection first: a previously loaded
-                // map may have installed inset routing that must not leak here.
-                if (map._insetBase) { map.lonlat2xy = map._insetBase; }
-                else { map._insetBase = map.lonlat2xy; }
-                var stock = map._insetBase, insets = [];
-                try {
-                    // map.svgSrc is kartograph's already-parsed SVG selection
-                    var views = map.svgSrc.find('view');
-                    for (var i = 0; i < views.length; i++) {
-                        var v = views[i];
-                        if (v.getAttribute('class') !== 'inset') continue;
-                        insets.push({
-                            proj: $K.Proj.fromXML(v.getElementsByTagName('proj')[0]),
-                            x0: +v.getAttribute('x0'), y0: +v.getAttribute('y0'),
-                            x1: +v.getAttribute('x1'), y1: +v.getAttribute('y1'),
-                            scale: +v.getAttribute('scale'),
-                            ox: +v.getAttribute('ox'), oy: +v.getAttribute('oy')
-                        });
-                    }
-                } catch (e) { return; } // malformed metadata -> keep stock projection
-                if (!insets.length) return;
-                map.lonlat2xy = function (loc) {
-                    var lon = (loc && loc.length >= 2) ? loc[0] : loc.lon;
-                    var lat = (loc && loc.length >= 2) ? loc[1] : loc.lat;
-                    for (var i = 0; i < insets.length; i++) {
-                        var iv = insets[i], pt = iv.proj.project(lon, lat);
-                        if (pt[0] >= iv.x0 && pt[0] <= iv.x1 && pt[1] >= iv.y0 && pt[1] <= iv.y1) {
-                            // map the inset-projected point into the box, then let
-                            // viewBC scale svg coords -> viewport like any other symbol.
-                            return map.viewBC.project([
-                                (pt[0] - iv.x0) * iv.scale + iv.ox,
-                                (iv.y1 - pt[1]) * iv.scale + iv.oy
-                            ]);
-                        }
-                    }
-                    return stock.call(map, loc);
-                };
-            }
-
-            /*
              * updateMap is called by renderCountryMap() and renderWorldMap()
              */
             function _updateMap(svgUrl, callback) {
                 map.loadMap(config.svgBasePath + svgUrl, function () {
 
                     map.clear();
-                    routeInsetDots(map);
+                    UserCountryMap.routeInsetDots(map);
                     self.resize();
                     callback();
 
@@ -1492,6 +1434,56 @@ $.extend(UserCountryMap, {
                 styles: { stroke: strokeColor, 'stroke-width': 0.7, fill: 'none' }
             });
         }
+    },
+
+    // kartograph places every visitor dot with the single mainland projection
+    // (map.lonlat2xy). On maps with corner insets (e.g. USA's Alaska/Hawaii boxes) a
+    // dot whose lon/lat lies inside an inset territory would be projected to its true
+    // mainland position and fall off-frame, so route it into the matching inset box
+    // instead. kartograph reads only the first <view> (the mainland projection);
+    // each inset adds its own <view class="inset"> element (ignored by kartograph)
+    // holding a <proj>, the inset's projected bounds x0/y0/x1/y1, and a scale/ox/oy
+    // box transform. A point inside [x0,x1] x [y0,y1] maps to the box as
+    // ((x - x0) * scale + ox, (y1 - y) * scale + oy), after which viewBC scales svg
+    // coords to the viewport like any symbol. Shared by visitor-map and realtime-map.
+    routeInsetDots: function (map) {
+        // always restore the stock projection first: a previously loaded map may
+        // have installed inset routing that must not leak here.
+        if (map._insetBase) { map.lonlat2xy = map._insetBase; }
+        else { map._insetBase = map.lonlat2xy; }
+        var stock = map._insetBase, insets = [];
+        try {
+            // map.svgSrc is kartograph's already-parsed SVG selection
+            var views = map.svgSrc.find('view');
+            for (var i = 0; i < views.length; i++) {
+                var v = views[i];
+                if (v.getAttribute('class') !== 'inset') continue;
+                insets.push({
+                    proj: $K.Proj.fromXML(v.getElementsByTagName('proj')[0]),
+                    x0: +v.getAttribute('x0'), y0: +v.getAttribute('y0'),
+                    x1: +v.getAttribute('x1'), y1: +v.getAttribute('y1'),
+                    scale: +v.getAttribute('scale'),
+                    ox: +v.getAttribute('ox'), oy: +v.getAttribute('oy')
+                });
+            }
+        } catch (e) { return; } // malformed metadata -> keep stock projection
+        if (!insets.length) return;
+        map.lonlat2xy = function (loc) {
+            var lon = (loc && loc.length >= 2) ? loc[0] : loc.lon;
+            var lat = (loc && loc.length >= 2) ? loc[1] : loc.lat;
+            for (var i = 0; i < insets.length; i++) {
+                var iv = insets[i], pt = iv.proj.project(lon, lat);
+                if (pt[0] >= iv.x0 && pt[0] <= iv.x1 && pt[1] >= iv.y0 && pt[1] <= iv.y1) {
+                    // map the inset-projected point into the box, then let viewBC
+                    // scale svg coords -> viewport like any other symbol.
+                    return map.viewBC.project([
+                        (pt[0] - iv.x0) * iv.scale + iv.ox,
+                        (iv.y1 - pt[1]) * iv.scale + iv.oy
+                    ]);
+                }
+            }
+            return stock.call(map, loc);
+        };
     },
 
     // iso alpha-2 --> iso alpha-3
