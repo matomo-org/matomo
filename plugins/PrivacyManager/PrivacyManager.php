@@ -576,6 +576,17 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_ComplianceCompliant';
         $translationKeys[] = 'PrivacyManager_ComplianceNonCompliant';
         $translationKeys[] = 'PrivacyManager_ComplianceComplianceUnknown';
+        $translationKeys[] = 'PrivacyManager_ComplianceReviewAndSave';
+        $translationKeys[] = 'PrivacyManager_ComplianceEnforceAllTitle';
+        $translationKeys[] = 'PrivacyManager_ComplianceEnforceAllDescription';
+        $translationKeys[] = 'PrivacyManager_ComplianceEnforceAllSettings';
+        $translationKeys[] = 'PrivacyManager_ComplianceTableWhatItDoes';
+        $translationKeys[] = 'PrivacyManager_ComplianceTableImpact';
+        $translationKeys[] = 'PrivacyManager_ComplianceStatusEnforced';
+        $translationKeys[] = 'PrivacyManager_ComplianceStatusAppliesOnSave';
+        $translationKeys[] = 'PrivacyManager_ComplianceStatusOnByDefault';
+        $translationKeys[] = 'PrivacyManager_ComplianceStatusManual';
+        $translationKeys[] = 'PrivacyManager_ComplianceManagedOutsideTitle';
         $translationKeys[] = 'General_ErrorTryAgain';
         $translationKeys[] = 'General_ExceptionContactSupportGeneric';
         $translationKeys[] = 'PrivacyManager_ComplianceCNILTitle';
