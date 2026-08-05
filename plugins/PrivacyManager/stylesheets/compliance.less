@@ -35,4 +35,85 @@
       font-size: 0.65rem
     }
   }
+
+  // granular per-setting dashboard: status label text stays neutral,
+  // only the icons carry colour
+  .granularCompliance {
+    .status {
+      color: @theme-color-text;
+
+      &.compliant .icon,
+      &.enforced .icon {
+        color: #5D9E52;
+      }
+
+      &.applies-on-save .icon {
+        color: #E8A33D;
+      }
+
+      &.on-by-default .icon,
+      &.manual .icon {
+        color: @theme-color-text-light;
+      }
+    }
+
+    .settingName {
+      font-weight: bold;
+      white-space: normal;
+    }
+
+    .toggleColumn {
+      width: 4rem;
+      text-align: right;
+    }
+
+    td {
+      vertical-align: top;
+    }
+  }
+
+  .granularComplianceHeaderActions {
+    float: right;
+    margin-top: -3rem;
+  }
+
+  .granularComplianceEnforceAll {
+    display: flex;
+    align-items: safe center;
+    justify-content: space-between;
+    gap: 1rem;
+    border: 1px solid @theme-color-background-tinyContrast;
+    border-radius: 4px;
+    padding: 1rem;
+    margin: 1rem 0;
+
+    h3 {
+      .font-default(15px, 22px);
+      font-weight: bold;
+      margin: 0 0 0.5rem;
+    }
+
+    p {
+      margin: 0;
+    }
+
+    .granularComplianceEnforceAllButton {
+      flex-shrink: 0;
+    }
+  }
+
+  .granularComplianceExternalTitle {
+    .font-default(15px, 22px);
+    font-weight: bold;
+    margin: 1.5rem 0 0.5rem;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
 }
