@@ -84,6 +84,7 @@ describe('CoreHome/SiteSelector', () => {
 
     expect(wrapper.find('.piwikSelector__dropdown .mtm-dropdownPanel').exists()).toBe(true);
     expect(wrapper.find('.mtm-dropdownPanel__menu--scrollable').exists()).toBe(true);
+    expect(wrapper.find('.mtm-dropdownPanel__menu--gutter').exists()).toBe(true);
     expect(wrapper.find('.dropdown').exists()).toBe(false);
   });
 

@@ -59,7 +59,7 @@
         <!-- Closing the panel is handled per entry, not here: this element scrolls, and a click
              on its scrollbar or on the no-result row must not dismiss the panel. -->
         <ul
-          class="mtm-dropdownPanel__menu mtm-dropdownPanel__menu--scrollable"
+          class="mtm-dropdownPanel__menu mtm-dropdownPanel__menu--scrollable mtm-dropdownPanel__menu--gutter"
           v-tooltips="{ content: tooltipContent }"
         >
           <li
