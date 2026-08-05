@@ -287,6 +287,12 @@ describe('ReportHeader', () => {
       expect(wrapper.find('.reportHeader__search').exists()).toBe(false);
     });
 
+    it('should render the search input on a titleless widgetized report', () => {
+      const wrapper = mountComponent({ context: 'widgetized', showTitle: false, showSearch: true });
+
+      expect(wrapper.find('.reportHeader__search .mtm-searchInput__input').exists()).toBe(true);
+    });
+
     it('should seed the search field from searchQuery', () => {
       const wrapper = mountComponent({ showSearch: true, searchQuery: 'pages' });
 

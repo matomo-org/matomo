@@ -222,10 +222,11 @@ export default defineComponent({
       const c = this.controls;
       return c.minimise || c.maximise || c.refresh || c.close;
     },
-    // No title and no controls to render. Actions are always empty today; a later story that adds
-    // them must widen this so the full header comes back.
+    // Nothing to render: no title, no controls, no search. A titleless widgetized report has no
+    // controls either, so without the search check the header would swallow its own search input.
+    // Actions are always empty today; a later story that adds them must widen this too.
     isEmpty(): boolean {
-      return !this.showTitle && !this.hasControls;
+      return !this.showTitle && !this.hasControls && !this.canSearch;
     },
     isFullPage(): boolean {
       return this.context === 'fullPage';
