@@ -190,9 +190,9 @@ abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSet
      * this function will return true for all sites.
      *
      * @deprecated since Matomo 6.0, enforcement is now stored per setting — use
-     *             {@link isEnforcedForSetting()} instead. This flag remains as the
-     *             whole-policy state written by {@link setActiveStatus()} and as the
-     *             fallback for scopes without per-setting enforcement state.
+     *             {@link isEnforcedForSetting()} instead. This flag only reflects the
+     *             whole-policy state written by {@link setActiveStatus()}; it no longer
+     *             participates in enforcement resolution.
      */
     public static function isActive(?int $idSite): bool
     {
@@ -228,8 +228,6 @@ abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSet
      *  1. config-level enforcement of the whole policy
      *  2. explicit per-setting enforcement state; an enabled instance-wide state
      *     applies to all sites, like {@link isActive()} does for the whole policy
-     *  3. the whole-policy enforcement flag, for scopes where no per-setting
-     *     state has been stored yet
      *
      * @param class-string<PolicyComparisonInterface<mixed>> $settingClass
      */
@@ -251,11 +249,7 @@ abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSet
             }
         }
 
-        if (!is_null($systemValue)) {
-            return false;
-        }
-
-        return static::isActive($idSite);
+        return false;
     }
 
     /**

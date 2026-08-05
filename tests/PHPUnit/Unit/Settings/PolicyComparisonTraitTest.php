@@ -17,11 +17,16 @@ class PolicyComparisonTraitTest extends TestCase
 
     public function testGetPolicyValuesPolicyActive()
     {
-        PolicyManager::setPolicyActiveStatus(TestPolicy::class, true);
-        $values = PolicyComparisonTraitImpl::getPolicyRequiredValues();
-        $this->assertCount(1, $values);
-        $this->assertArrayHasKey(TestPolicy::class, $values);
-        $this->assertNotNull($values[TestPolicy::class]);
+        TestPolicy::setSettingEnforcementSystemValue(PolicyComparisonTraitImpl::class, true);
+
+        try {
+            $values = PolicyComparisonTraitImpl::getPolicyRequiredValues();
+            $this->assertCount(1, $values);
+            $this->assertArrayHasKey(TestPolicy::class, $values);
+            $this->assertNotNull($values[TestPolicy::class]);
+        } finally {
+            TestPolicy::setSettingEnforcementSystemValue(PolicyComparisonTraitImpl::class, null);
+        }
     }
 
     public function testGetPolicyValuesPolicyInactive()
@@ -68,19 +73,23 @@ class PolicyComparisonTraitTest extends TestCase
 
     public function testGetPolicyValuesNulledWhileEnforcementIsBypassed()
     {
-        PolicyManager::setPolicyActiveStatus(TestPolicy::class, true);
+        TestPolicy::setSettingEnforcementSystemValue(PolicyComparisonTraitImpl::class, true);
 
-        $values = PolicyEnforcementBypass::run(function () {
-            return PolicyComparisonTraitImpl::getPolicyRequiredValues();
-        });
+        try {
+            $values = PolicyEnforcementBypass::run(function () {
+                return PolicyComparisonTraitImpl::getPolicyRequiredValues();
+            });
 
-        $this->assertCount(1, $values);
-        $this->assertArrayHasKey(TestPolicy::class, $values);
-        $this->assertNull($values[TestPolicy::class]);
+            $this->assertCount(1, $values);
+            $this->assertArrayHasKey(TestPolicy::class, $values);
+            $this->assertNull($values[TestPolicy::class]);
 
-        // the bypass must not leak outside of the callable
-        $valuesAfterBypass = PolicyComparisonTraitImpl::getPolicyRequiredValues();
-        $this->assertNotNull($valuesAfterBypass[TestPolicy::class]);
+            // the bypass must not leak outside of the callable
+            $valuesAfterBypass = PolicyComparisonTraitImpl::getPolicyRequiredValues();
+            $this->assertNotNull($valuesAfterBypass[TestPolicy::class]);
+        } finally {
+            TestPolicy::setSettingEnforcementSystemValue(PolicyComparisonTraitImpl::class, null);
+        }
     }
 
     public function testBypassIsClearedWhenCallableThrows()

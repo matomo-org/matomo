@@ -34,6 +34,8 @@ class CoreAdminHome extends \Piwik\Plugin
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'System.addSystemSummaryItems' => 'addSystemSummaryItems',
             'FrontController.modifyErrorPage' => 'onModifyErrorPage',
+            'PluginManager.pluginActivated' => 'reconcileCompliancePolicyEnforcement',
+            'CompliancePolicy.setActiveStatus' => 'invalidateCompliancePolicyLegacyBackup',
         );
     }
 
@@ -113,6 +115,26 @@ class CoreAdminHome extends \Piwik\Plugin
         }
 
         return $output;
+    }
+
+    /**
+     * Settings of plugins that were deactivated while the 6.0.0-b2 compliance
+     * migration ran could not receive their per-setting enforcement state; give
+     * it to them when the plugin comes back.
+     */
+    public function reconcileCompliancePolicyEnforcement($pluginName)
+    {
+        Commands\MigrateCompliancePolicyEnforcement::reconcileEnforcementForPlugin($pluginName);
+    }
+
+    /**
+     * Once the whole-policy state is changed deliberately after the migration,
+     * the migration backup no longer reflects the intended enforcement and must
+     * not be replayed onto plugins activated later.
+     */
+    public function invalidateCompliancePolicyLegacyBackup($isActive, $idSite, $policyClass)
+    {
+        Commands\MigrateCompliancePolicyEnforcement::deleteLegacyBackup($policyClass);
     }
 
     public function addSystemSummaryItems(&$systemSummary)

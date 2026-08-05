@@ -276,13 +276,19 @@ class APITest extends SystemTestCase
 
     public function testGetCompliancePolicySettingsReturnsErrorWhenFeatureNotEnabled(): void
     {
-        $this->runApiTests('PrivacyManager.getCompliancePolicySettings', [
-            'testSuffix' => 'granularFeatureDisabled',
-            'otherRequestParameters' => [
-                'idSite' => '1',
-                'compliancePolicy' => 'cnil_v1',
-            ],
-        ]);
+        Config::getInstance()->FeatureFlags = ['GranularPrivacyCompliance_feature' => 'disabled'];
+
+        try {
+            $this->runApiTests('PrivacyManager.getCompliancePolicySettings', [
+                'testSuffix' => 'granularFeatureDisabled',
+                'otherRequestParameters' => [
+                    'idSite' => '1',
+                    'compliancePolicy' => 'cnil_v1',
+                ],
+            ]);
+        } finally {
+            Config::getInstance()->FeatureFlags = null;
+        }
     }
 
     public function testGetCompliancePolicySettingsReturnsAllSettings(): void

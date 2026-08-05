@@ -115,20 +115,9 @@ class CompliancePolicyTest extends TestCase
         $this->assertFalse(TestPolicy::isEnforcedForSetting(FakePolicySetting::class, 100));
     }
 
-    public function testIsEnforcedForSettingExplicitSystemOffSuppressesLegacyFlag(): void
+    public function testIsEnforcedForSettingIsFalseWithoutAnyState(): void
     {
-        TestPolicy::setState(true, 99);
-        TestPolicy::setSettingEnforcementSystemValue(FakePolicySetting::class, false);
-
         $this->assertFalse(TestPolicy::isEnforcedForSetting(FakePolicySetting::class));
-        $this->assertFalse(TestPolicy::isEnforcedForSetting(FakePolicySetting::class, 99));
-    }
-
-    public function testIsEnforcedForSettingExplicitSiteOffSuppressesLegacyFlag(): void
-    {
-        TestPolicy::setState(false, 99);
-        TestPolicy::setSettingEnforcementMeasurableValue(FakePolicySetting::class, 99, false);
-
         $this->assertFalse(TestPolicy::isEnforcedForSetting(FakePolicySetting::class, 99));
     }
 
@@ -173,28 +162,12 @@ class CompliancePolicyTest extends TestCase
         $this->assertTrue(TestPolicy::isEnforcedForSetting(FakePolicySetting::class, 100));
     }
 
-    /**
-     * @dataProvider possibleStatesForPolicyActive
-     */
-    public function testIsEnforcedForSettingFallsBackToLegacyPolicyFlag(
-        $idSite,
-        $newActiveState,
-        $currentInstanceState,
-        $currentSiteState,
-        $expectedInstanceState,
-        $expectedSiteState
-    ): void {
-        // without any per-setting state, enforcement must exactly mirror the legacy whole-policy flag
-        TestPolicy::setState($currentInstanceState, $currentSiteState ? 99 : false);
-        TestPolicy::setActiveStatus($idSite, $newActiveState);
+    public function testIsEnforcedForSettingIgnoresTheLegacyWholePolicyFlag(): void
+    {
+        // the legacy flag is converted to per-setting state by a migration and no longer resolves
+        TestPolicy::setState(true, 99);
 
-        $this->assertSame(
-            $expectedInstanceState,
-            TestPolicy::isEnforcedForSetting(FakePolicySetting::class)
-        );
-        $this->assertSame(
-            $expectedSiteState,
-            TestPolicy::isEnforcedForSetting(FakePolicySetting::class, 99)
-        );
+        $this->assertFalse(TestPolicy::isEnforcedForSetting(FakePolicySetting::class));
+        $this->assertFalse(TestPolicy::isEnforcedForSetting(FakePolicySetting::class, 99));
     }
 }
