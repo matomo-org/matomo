@@ -40,6 +40,32 @@ class PolicyComparisonTraitTest extends TestCase
         );
     }
 
+    public function testGetPolicyValuesPresentWhenSettingEnforcementIsEnabledWithoutPolicyFlag()
+    {
+        PolicyManager::setPolicyActiveStatus(TestPolicy::class, false);
+        TestPolicy::setSettingEnforcementSystemValue(PolicyComparisonTraitImpl::class, true);
+
+        try {
+            $values = PolicyComparisonTraitImpl::getPolicyRequiredValues();
+            $this->assertNotNull($values[TestPolicy::class]);
+        } finally {
+            TestPolicy::setSettingEnforcementSystemValue(PolicyComparisonTraitImpl::class, null);
+        }
+    }
+
+    public function testGetPolicyValuesNulledWhenSettingEnforcementIsDisabledDespiteActivePolicyFlag()
+    {
+        PolicyManager::setPolicyActiveStatus(TestPolicy::class, true);
+        TestPolicy::setSettingEnforcementSystemValue(PolicyComparisonTraitImpl::class, false);
+
+        try {
+            $values = PolicyComparisonTraitImpl::getPolicyRequiredValues();
+            $this->assertNull($values[TestPolicy::class]);
+        } finally {
+            TestPolicy::setSettingEnforcementSystemValue(PolicyComparisonTraitImpl::class, null);
+        }
+    }
+
     public function testGetPolicyValuesNulledWhileEnforcementIsBypassed()
     {
         PolicyManager::setPolicyActiveStatus(TestPolicy::class, true);

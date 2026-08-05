@@ -29,7 +29,10 @@ trait PolicyComparisonTrait
 
         /** @var class-string<CompliancePolicy> $policy */
         foreach (array_keys($policyValues) as $policy) {
-            if (PolicyEnforcementBypass::isActive() || !$policy::isActive($idSite)) {
+            if (
+                PolicyEnforcementBypass::isActive()
+                || !$policy::isEnforcedForSetting(static::class, $idSite)
+            ) {
                 $policyValues[$policy] = null;
             }
         }
@@ -80,7 +83,9 @@ trait PolicyComparisonTrait
 
     public static function isControlledBySpecificPolicy(string $policy, ?int $idSite = null): bool
     {
-        return array_key_exists($policy, self::getPolicyRequiredValues($idSite));
+        // key existence is all that matters here; evaluating the enforcement
+        // state would query storage for every discovered setting
+        return array_key_exists($policy, static::getPolicyRequirements());
     }
 
     public static function getPolicySettingId(): string

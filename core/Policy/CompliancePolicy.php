@@ -9,6 +9,8 @@
 
 namespace Piwik\Policy;
 
+use Piwik\Common;
+use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Settings\FieldConfig;
@@ -146,6 +148,9 @@ abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSet
      * If the policy is active at the instance level,
      * disabling the policy for a site will also disable it
      * for the instance.
+     *
+     * Additionally sets the enforcement state of every toggleable setting the
+     * policy controls, so whole-policy and per-setting enforcement stay in sync.
      */
     public static function setActiveStatus(?int $idSite, bool $isActive): void
     {
@@ -157,6 +162,15 @@ abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSet
         } else {
             static::setSystemValue($isActive);
         }
+
+        foreach (PolicyManager::getAllControlledSettings(static::class, $idSite) as $settingClass) {
+            if ($settingClass::isExternallyManagedByPolicyPage()) {
+                continue;
+            }
+            static::setEnforcedForSetting($settingClass, $isActive, $idSite);
+        }
+
+        static::alignStoredSettingEnforcementRows($idSite, $isActive);
 
         /**
          * This event is triggered when the status of a compliance policy changes, and
@@ -174,6 +188,11 @@ abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSet
     /**
      * If the policy is active at the instance level, then
      * this function will return true for all sites.
+     *
+     * @deprecated since Matomo 6.0, enforcement is now stored per setting — use
+     *             {@link isEnforcedForSetting()} instead. This flag remains as the
+     *             whole-policy state written by {@link setActiveStatus()} and as the
+     *             fallback for scopes without per-setting enforcement state.
      */
     public static function isActive(?int $idSite): bool
     {
@@ -315,6 +334,76 @@ abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSet
         $value = $setting->getValue();
 
         return is_null($value) ? null : (bool) $value;
+    }
+
+    /**
+     * Aligns every stored per-setting enforcement row of this policy with the
+     * whole-policy state, including rows of settings whose plugin is currently
+     * deactivated and therefore not discoverable — otherwise stale enforcement
+     * would survive a whole-policy toggle and resurface on plugin reactivation.
+     *
+     * Rows are enumerated directly but written through the settings storage, so
+     * request-cached storage instances stay coherent with the aligned values.
+     */
+    protected static function alignStoredSettingEnforcementRows(?int $idSite, bool $isActive): void
+    {
+        if (is_null($idSite)) {
+            foreach (self::fetchStoredSettingEnforcementNames(null) as $settingName) {
+                self::writeSettingEnforcementValue($settingName, null, $isActive);
+            }
+            return;
+        }
+
+        foreach (self::fetchStoredSettingEnforcementNames($idSite) as $settingName) {
+            self::writeSettingEnforcementValue($settingName, $idSite, $isActive);
+        }
+
+        if (!$isActive) {
+            // mirror the explicit-clear rule: disabling for one site also clears
+            // instance-wide enforcement, including rows of undiscoverable settings
+            foreach (self::fetchStoredSettingEnforcementNames(null) as $settingName) {
+                self::writeSettingEnforcementValue($settingName, null, false);
+            }
+        }
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    private static function fetchStoredSettingEnforcementNames(?int $idSite): array
+    {
+        $namePrefix = str_replace('_', '\_', preg_replace('/\s+/', '', static::getName()) . '_enforce__') . '%';
+        $pluginName = Piwik::getPluginNameOfMatomoClass(static::class);
+
+        if (is_null($idSite)) {
+            $rows = Db::fetchAll(
+                'SELECT setting_name FROM ' . Common::prefixTable('plugin_setting')
+                . ' WHERE plugin_name = ? AND user_login = ? AND setting_name LIKE ?',
+                [$pluginName, '', $namePrefix]
+            );
+        } else {
+            $rows = Db::fetchAll(
+                'SELECT setting_name FROM ' . Common::prefixTable('site_setting')
+                . ' WHERE idsite = ? AND plugin_name = ? AND setting_name LIKE ?',
+                [$idSite, $pluginName, $namePrefix]
+            );
+        }
+
+        return array_column($rows, 'setting_name');
+    }
+
+    private static function writeSettingEnforcementValue(string $settingName, ?int $idSite, bool $value): void
+    {
+        $pluginName = Piwik::getPluginNameOfMatomoClass(static::class);
+
+        if (is_null($idSite)) {
+            $setting = new SystemSetting($settingName, null, FieldConfig::TYPE_BOOL, $pluginName);
+        } else {
+            $setting = new MeasurableSetting($settingName, null, FieldConfig::TYPE_BOOL, $pluginName, $idSite);
+        }
+
+        $setting->setValue($value);
+        $setting->save();
     }
 
     /**

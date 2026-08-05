@@ -246,17 +246,18 @@ class PolicyManager
         $settings = [];
 
         foreach ($policies as $policyClass) {
-            if (false === $policyClass::isActive($idSite)) {
-                continue;
-            }
             $controlledSettings = self::getAllControlledSettings($policyClass, $idSite, $settingType);
 
             foreach ($controlledSettings as $controlledSetting) {
-                if ($settingName === call_user_func([$controlledSetting, self::$settingTypesMap[$settingType]['method']])) {
-                    $settings[$policyClass::getName()] = [
-                        'requiredValue' => $controlledSetting::getPolicyRequirements()[$policyClass],
-                    ];
+                if ($settingName !== call_user_func([$controlledSetting, self::$settingTypesMap[$settingType]['method']])) {
+                    continue;
                 }
+                if (!$policyClass::isEnforcedForSetting($controlledSetting, $idSite)) {
+                    continue;
+                }
+                $settings[$policyClass::getName()] = [
+                    'requiredValue' => $controlledSetting::getPolicyRequirements()[$policyClass],
+                ];
             }
         }
 

@@ -88,6 +88,11 @@ class TestPolicy extends \Piwik\Policy\CompliancePolicy
         self::$configValue = $value;
     }
 
+    protected static function alignStoredSettingEnforcementRows(?int $idSite, bool $isActive): void
+    {
+        // no database in unit tests; the in-memory state is fully covered by the fan-out
+    }
+
     protected static function getSettingEnforcementSystemValue(string $settingClass): ?bool
     {
         return self::$settingEnforcementSystem[$settingClass] ?? null;
