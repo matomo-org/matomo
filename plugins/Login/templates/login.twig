@@ -90,16 +90,16 @@
             {% endblock %}
         {% endembed %}
     </div>
-    <div class="contentForm resetForm" style="display:none;">
+    <div class="contentForm resetForm loginForm" style="display:none;">
         {% embed 'contentBlock.twig' with {'title': 'Login_ChangeYourPassword'|translate} %}
             {% block content %}
 
                 <div class="message_container">
                 </div>
 
-                <form id="reset_form" method="post">
-                    <div class="row">
-                        <div class="col s12 input-field">
+                <form id="reset_form" class="loginForm__form" method="post">
+                    <div class="row loginForm__row">
+                        <div class="col s12 input-field loginForm__field">
                             <input type="hidden" name="form_nonce" id="reset_form_nonce" value="{{ nonce }}"/>
                             <input type="text" placeholder="" name="form_login" id="reset_form_login" class="input" value="" size="20"
                                    autocorrect="off" autocapitalize="none"
@@ -107,8 +107,8 @@
                             <label for="reset_form_login"><i class="icon-user icon"></i> {{ 'Login_LoginOrEmail'|translate }}</label>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col s12 input-field">
+                    <div class="row loginForm__row">
+                        <div class="col s12 input-field loginForm__field">
                             <input type="password" placeholder="" name="form_password" id="reset_form_password" class="input" value="" size="20"
                                    autocorrect="off" autocapitalize="none" spellcheck="false"
                                    tabindex="20" autocomplete="off"
@@ -120,8 +120,8 @@
                             <label for="reset_form_password"><i class="icon-locked icon"></i> {{ 'Login_NewPassword'|translate }}</label>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col s12 input-field">
+                    <div class="row loginForm__row">
+                        <div class="col s12 input-field loginForm__field">
                             <input type="password" placeholder="" name="form_password_bis" id="reset_form_password_bis" class="input" value=""
                                    autocorrect="off" autocapitalize="none" spellcheck="false"
                                    size="20" tabindex="30" autocomplete="off"
@@ -134,8 +134,8 @@
                         </div>
                     </div>
 
-                    <div class="row actions">
-                        <div class="col s12">
+                    <div class="row actions loginForm__row">
+                        <div class="col s12 loginForm__field">
                             <input class="submit btn btn-block" id='reset_form_submit' type="submit"
                                    value="{{ 'General_ChangePassword'|translate }}" tabindex="100"/>
 
