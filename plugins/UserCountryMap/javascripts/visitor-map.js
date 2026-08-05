@@ -848,10 +848,13 @@
                             // breakdown are drawn as a single shape tagged "__ALL__".
                             // Colour it with the country total so region mode shows a
                             // number instead of a blank outline. label is left unset
-                            // so it isn't treated as a clickable (region) row. Only add
-                            // it when no real region shape matched, so a map that also
-                            // carries real region paths never subtracts the country
-                            // total twice in the unlocated count below.
+                            // so it isn't treated as a clickable (region) row. The
+                            // generator only emits __ALL__ for a country with no other
+                            // region shapes, so a map never carries both __ALL__ and real
+                            // regions; the anyRegionMatched check below is a defensive
+                            // guard for that invariant -- were it ever violated, adding
+                            // __ALL__ would subtract the country total twice in the
+                            // unlocated count below.
                             //
                             // A map is __ALL__ when the geolocation providers (MaxMind /
                             // DB-IP) emit no region code for that country -- which is
