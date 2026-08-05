@@ -71,6 +71,7 @@ class CnilPolicy extends CompliancePolicy
                         '" target="_blank" rel="noreferrer noopener">',
                         '</a>',
                     ]),
+                'impact' => Piwik::translate('General_ComplianceCNILUnknownSettingOptOutImpact'),
             ],
         ];
     }

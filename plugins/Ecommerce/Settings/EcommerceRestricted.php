@@ -22,6 +22,16 @@ class EcommerceRestricted extends CompliancePolicyEnforcedSetting
         return Piwik::translate('Ecommerce_EcommercePolicySettingTitle');
     }
 
+    public static function getWhatItDoes(): string
+    {
+        return Piwik::translate('Ecommerce_EcommercePolicySettingWhatItDoes');
+    }
+
+    public static function getImpact(): string
+    {
+        return Piwik::translate('Ecommerce_EcommercePolicySettingImpact');
+    }
+
     public static function getComplianceRequirementNote(?int $idSite = null): string
     {
         $idSites = self::getIdSitesToCheck($idSite);

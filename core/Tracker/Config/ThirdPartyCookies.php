@@ -96,6 +96,16 @@ class ThirdPartyCookies implements
         return Piwik::translate('General_ThirdPartyCookieSettingTitle');
     }
 
+    public static function getWhatItDoes(): string
+    {
+        return Piwik::translate('General_ThirdPartyCookieSettingWhatItDoes');
+    }
+
+    public static function getImpact(): string
+    {
+        return Piwik::translate('General_ThirdPartyCookieSettingImpact');
+    }
+
     public static function getInstance(?int $idSite = null): self
     {
         $values = self::getPolicyRequiredValues($idSite);
