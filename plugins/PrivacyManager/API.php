@@ -655,6 +655,7 @@ class API extends \Piwik\Plugin\API
      * @param string $complianceType Compliance policy name to inspect.
      * @return array<string, bool|array<int, array<string, string>>> Compliance status including enforcement state,
      *                                                               config control flag, and requirement details.
+     * @deprecated since Matomo 6.0, use {@link getCompliancePolicySettings()} instead.
      * @internal
      *
      */
@@ -722,13 +723,123 @@ class API extends \Piwik\Plugin\API
             throw new Exception('Invalid compliance policy');
         }
 
-        if ($idSite === 'all') {
-            $idSite = null;
-        } else {
-            $idSite = intval($idSite);
-        }
+        $idSite = $this->resolveCompliancePolicyIdSite($idSite);
 
         return $this->complianceSettingsProvider->getPolicySettings($policy, $idSite);
+    }
+
+    /**
+     * @param int|string $idSite
+     * @throws Exception when the site does not exist
+     */
+    private function resolveCompliancePolicyIdSite($idSite): ?int
+    {
+        if ($idSite === 'all') {
+            return null;
+        }
+
+        $idSite = intval($idSite);
+        new Site($idSite); // throws for unknown site ids
+
+        return $idSite;
+    }
+
+    /**
+     * Sets the enforcement state of individual compliance policy settings.
+     *
+     * Only the settings present in `settingValues` are changed; all other settings keep
+     * their current enforcement state. Enforcing a setting overrides the underlying Matomo
+     * setting at read time, the underlying configuration itself is never modified.
+     *
+     * @param int|string $idSite Site ID to update, or `all` for the instance-wide state.
+     * @param string $compliancePolicy Compliance policy id to update, e.g. `cnil_v1`.
+     * @param array<string, int|string|bool> $settingValues Map of policy setting id => whether to
+     *                                                      enforce it, e.g. settingValues[PrivacyManager.IPAnonymisation]=1
+     * @param string|null $passwordConfirmation Current user password confirmation when required.
+     * @return array<string, mixed> The updated payload, as returned by {@link getCompliancePolicySettings()}.
+     * @internal
+     *
+     */
+    public function setCompliancePolicySettings(
+        $idSite,
+        string $compliancePolicy,
+        array $settingValues,
+        #[\SensitiveParameter]
+        ?string $passwordConfirmation = null
+    ): array {
+        $policy = $this->checkCompliancePolicySettingsWriteAccess($compliancePolicy, $passwordConfirmation);
+
+        $idSite = $this->resolveCompliancePolicyIdSite($idSite);
+
+        PolicyManager::setPolicySettingEnforcedStatuses($policy, $settingValues, $idSite);
+
+        return $this->complianceSettingsProvider->getPolicySettings($policy, $idSite);
+    }
+
+    /**
+     * Enables enforcement of every toggleable setting of a compliance policy at once.
+     *
+     * This enforces each of the policy's toggleable settings individually; every setting
+     * stays individually toggleable afterwards. Settings managed outside the compliance
+     * page are left untouched.
+     *
+     * @param int|string $idSite Site ID to update, or `all` for the instance-wide state.
+     * @param string $compliancePolicy Compliance policy id to enforce, e.g. `cnil_v1`.
+     * @param string|null $passwordConfirmation Current user password confirmation when required.
+     * @return array<string, mixed> The updated payload, as returned by {@link getCompliancePolicySettings()}.
+     * @internal
+     *
+     */
+    public function enforceCompliancePolicySettings(
+        $idSite,
+        string $compliancePolicy,
+        #[\SensitiveParameter]
+        ?string $passwordConfirmation = null
+    ): array {
+        $policy = $this->checkCompliancePolicySettingsWriteAccess($compliancePolicy, $passwordConfirmation);
+
+        $idSite = $this->resolveCompliancePolicyIdSite($idSite);
+
+        $settingValues = [];
+        foreach (PolicyManager::getAllControlledSettings($policy, $idSite) as $settingClass) {
+            if ($settingClass::isExternallyManagedByPolicyPage()) {
+                continue;
+            }
+            $settingValues[$settingClass::getPolicySettingId()] = true;
+        }
+
+        PolicyManager::setPolicySettingEnforcedStatuses($policy, $settingValues, $idSite);
+
+        return $this->complianceSettingsProvider->getPolicySettings($policy, $idSite);
+    }
+
+    /**
+     * @return class-string<CompliancePolicy>
+     */
+    private function checkCompliancePolicySettingsWriteAccess(
+        string $compliancePolicy,
+        #[\SensitiveParameter]
+        ?string $passwordConfirmation
+    ): string {
+        Piwik::checkUserHasSuperUserAccess();
+
+        $this->checkGranularComplianceFeatureIsEnabled();
+
+        if (StaticContainer::get(AuthenticationToken::class)->isSessionToken()) {
+            $this->confirmCurrentUserPassword($passwordConfirmation);
+        }
+
+        $policy = PolicyManager::getPolicyByName($compliancePolicy);
+
+        if (is_null($policy)) {
+            throw new Exception('Invalid compliance policy');
+        }
+
+        if (PolicyManager::isPolicyConfigControlled($policy)) {
+            throw new Exception('The compliance policy is controlled by the config file and cannot be changed');
+        }
+
+        return $policy;
     }
 
     private function checkGranularComplianceFeatureIsEnabled(): void
@@ -746,6 +857,8 @@ class API extends \Piwik\Plugin\API
      * @param bool $enforce `true` to enforce the selected policy, `false` to disable enforcement.
      * @param string|null $passwordConfirmation Current user password confirmation when required.
      * @return bool `true` if the policy is enabled after the update, `false` otherwise.
+     * @deprecated since Matomo 6.0, use {@link setCompliancePolicySettings()} or
+     *             {@link enforceCompliancePolicySettings()} instead.
      * @internal
      *
      */
