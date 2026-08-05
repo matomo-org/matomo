@@ -90,9 +90,6 @@ class UpdateRegionCodes extends ConsoleCommand
             ];
         }
 
-
-        ksort($newRegions);
-
         $currentRegions = include $regionsFile;
 
         foreach ($currentRegions as $countryCode => $regions) {
