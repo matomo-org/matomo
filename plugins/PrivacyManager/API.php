@@ -17,7 +17,10 @@ use Piwik\Piwik;
 use Piwik\Config as PiwikConfig;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\CustomJsTracker\File;
+use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Plugins\Live\Live;
+use Piwik\Plugins\PrivacyManager\Compliance\ComplianceSettingsProvider;
+use Piwik\Plugins\PrivacyManager\FeatureFlags\GranularPrivacyCompliance;
 use Piwik\Plugins\PrivacyManager\Model\DataSubjects;
 use Piwik\Plugins\PrivacyManager\Dao\LogDataAnonymizer;
 use Piwik\Plugins\PrivacyManager\Model\LogDataAnonymizations;
@@ -45,14 +48,22 @@ class API extends \Piwik\Plugin\API
 
     private LogDataAnonymizer $logDataAnonymizer;
 
+    private ComplianceSettingsProvider $complianceSettingsProvider;
+
+    private FeatureFlagManager $featureFlagManager;
+
     public function __construct(
         DataSubjects $gdpr,
         LogDataAnonymizations $logDataAnonymizations,
-        LogDataAnonymizer $logDataAnonymizer
+        LogDataAnonymizer $logDataAnonymizer,
+        ComplianceSettingsProvider $complianceSettingsProvider,
+        FeatureFlagManager $featureFlagManager
     ) {
         $this->gdpr = $gdpr;
         $this->logDataAnonymizations = $logDataAnonymizations;
         $this->logDataAnonymizer = $logDataAnonymizer;
+        $this->complianceSettingsProvider = $complianceSettingsProvider;
+        $this->featureFlagManager = $featureFlagManager;
     }
 
     /**
@@ -682,6 +693,49 @@ class API extends \Piwik\Plugin\API
             ];
         }
         return $payload;
+    }
+
+    /**
+     * Returns the granular per-setting enforcement configuration and compliance status of a compliance policy.
+     *
+     * Each returned setting contains its stable identifier, translated texts, current compliance
+     * status (`compliant` when the underlying Matomo setting satisfies the requirement on its own,
+     * `enforced` when the requirement is only met through policy enforcement, `non_compliant`
+     * otherwise) and, for toggleable settings, its current enforcement state.
+     *
+     * @param int|string $idSite Site ID to inspect, or `all` for the instance-wide view.
+     * @param string $compliancePolicy Compliance policy id to inspect, e.g. `cnil_v1`.
+     * @return array<string, mixed> Policy details, config control flag, derived whole-policy
+     *                              enforcement state and the list of settings.
+     * @internal
+     *
+     */
+    public function getCompliancePolicySettings($idSite, string $compliancePolicy): array
+    {
+        Piwik::checkUserHasSuperUserAccess();
+
+        $this->checkGranularComplianceFeatureIsEnabled();
+
+        $policy = PolicyManager::getPolicyByName($compliancePolicy);
+
+        if (is_null($policy)) {
+            throw new Exception('Invalid compliance policy');
+        }
+
+        if ($idSite === 'all') {
+            $idSite = null;
+        } else {
+            $idSite = intval($idSite);
+        }
+
+        return $this->complianceSettingsProvider->getPolicySettings($policy, $idSite);
+    }
+
+    private function checkGranularComplianceFeatureIsEnabled(): void
+    {
+        if (!$this->featureFlagManager->isFeatureActive(GranularPrivacyCompliance::class)) {
+            throw new Exception('Granular compliance configuration is not enabled');
+        }
     }
 
     /**
