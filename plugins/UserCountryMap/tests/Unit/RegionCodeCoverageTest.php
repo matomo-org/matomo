@@ -94,8 +94,11 @@ class RegionCodeCoverageTest extends \PHPUnit\Framework\TestCase
     private function buildIso3ToIso2Map(): array
     {
         $js = file_get_contents(PIWIK_INCLUDE_PATH . '/plugins/UserCountryMap/javascripts/visitor-map.js');
-        $this->assertSame(1, preg_match('/ISO2toISO3:\s*(\{.*?\})/s', $js, $m),
-            'Could not locate the ISO2toISO3 mapping in visitor-map.js');
+        $this->assertSame(
+            1,
+            preg_match('/ISO2toISO3:\s*(\{.*?\})/s', $js, $m),
+            'Could not locate the ISO2toISO3 mapping in visitor-map.js'
+        );
         $iso2ToIso3 = json_decode($m[1], true);
         $this->assertIsArray($iso2ToIso3, 'ISO2toISO3 in visitor-map.js is not valid JSON');
         return array_flip($iso2ToIso3);
