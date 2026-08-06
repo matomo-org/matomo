@@ -38,7 +38,20 @@ describe('AIAgents', function () {
     const sparklines = await page.$$('.sparkline.linked');
 
     expect(sparklines.length).to.equal(10);
-    await sparklines[5].click();
+
+    // click the "Human Visits" sparkline (a non-default metric) and confirm the metric picker
+    // follows the click. The redesigned grid keeps the card title in .metricValue__title, so find
+    // the card by title rather than a fixed index (the order differs from the legacy markup).
+    const titles = await page.evaluate(() => Array.prototype.map.call(
+      document.querySelectorAll('.sparkline.linked'),
+      (card) => {
+        const title = card.querySelector('.metricValue__title');
+        return title ? title.textContent.trim() : '';
+      },
+    ));
+    const humanVisitsIndex = titles.indexOf('Human Visits');
+    expect(humanVisitsIndex).to.be.greaterThan(-1);
+    await sparklines[humanVisitsIndex].click();
     await page.waitForNetworkIdle();
 
     const selectedMetrics = await page.$$('.metrics-picker__options input:checked');

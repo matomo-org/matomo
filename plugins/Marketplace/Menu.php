@@ -16,10 +16,12 @@ class Menu extends \Piwik\Plugin\Menu
 {
     public function configureAdminMenu(MenuAdmin $menu)
     {
+        $idSiteParameter = (new SiteAwareLinks())->getIdSiteParameter();
+
         if (!Piwik::isUserIsAnonymous()) {
             $menu->addPlatformItem(
                 'Marketplace_Marketplace',
-                $this->urlForAction('overview', ['activated' => '', 'mode' => 'admin', 'type' => '', 'show' => '']),
+                $this->urlForAction('overview', array_merge($idSiteParameter, ['activated' => '', 'mode' => 'admin', 'type' => '', 'show' => ''])),
                 5
             );
         }
@@ -27,12 +29,12 @@ class Menu extends \Piwik\Plugin\Menu
         if (Piwik::hasUserSuperUserAccess()) {
             $menu->addPluginItem(
                 Piwik::translate('Marketplace_LicenseKey'),
-                $this->urlForAction('manageLicenseKey'),
+                $this->urlForAction('manageLicenseKey', $idSiteParameter),
                 10
             );
             $menu->addPluginItem(
                 Piwik::translate('General_ManageSubscriptions'),
-                $this->urlForAction('subscriptionOverview'),
+                $this->urlForAction('subscriptionOverview', $idSiteParameter),
                 20
             );
         }

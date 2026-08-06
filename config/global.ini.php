@@ -885,6 +885,13 @@ enable_update_communication = 1
 ; If you may need to download GeoIP updates or other stuff using other protocols like ftp you may need to extend this list.
 allowed_outgoing_protocols = 'http,https'
 
+; HTTP requests fetching a user-configured URL (e.g. a site's URL for site content detection) refuse to
+; contact private, loopback or otherwise reserved IP addresses, so they cannot be pointed at other servers
+; in this Matomo's network. If this Matomo tracks intranet sites hosted on such addresses, allowlist their
+; ranges here. Accepts single IPs, CIDR notation and wildcards, both IPv4 and IPv6.
+; allowed_private_egress_ranges[] = "10.0.0.0/8"
+; allowed_private_egress_ranges[] = "192.168.1.*"
+
 ; This option forces matomo marketplace and matomo api requests to use HTTP, as default we use HTTPS to improve security
 ; If you have a problem loading the marketplace, please enable this config option
 force_matomo_http_request = 0
@@ -1028,7 +1035,7 @@ default_time_one_page_visit = 0
 
 ; Comma separated list of URL query string variable names that will be removed from your tracked URLs
 ; By default, Matomo will remove the most common parameters which are known to change often (eg. session ID parameters)
-url_query_parameter_to_exclude_from_url = "gclid,fbclid,msclkid,twclid,wbraid,gbraid,yclid,fb_xd_fragment,fb_comment_id,phpsessid,jsessionid,sessionid,aspsessionid,doing_wp_cron,sid,pk_vid,li_fat_id"
+url_query_parameter_to_exclude_from_url = "gclid,fbclid,msclkid,twclid,wbraid,gbraid,yclid,fb_xd_fragment,fb_comment_id,phpsessid,jsessionid,sessionid,aspsessionid,doing_wp_cron,sid,pk_vid,li_fat_id,token_auth,token"
 
 ; If set to 1, Matomo will use the default provider if no other provider is configured.
 ; In addition the default provider will be used as a fallback when the configure provider does not return any results.
