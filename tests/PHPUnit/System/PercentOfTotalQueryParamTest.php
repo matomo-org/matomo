@@ -107,6 +107,17 @@ class PercentOfTotalQueryParamTest extends SystemTestCase
         ]);
     }
 
+    public function testProcessedReportKeepsMetricsDocumentationHidden()
+    {
+        // hideMetricsDoc=1 must not get the metricsDocumentation block recreated with only
+        // the percent-of-total entries in it
+        $this->assertApiResponseEqualsExpected("API.getProcessedReport", $this->defaultParams() + [
+            'apiModule' => 'Referrers',
+            'apiAction' => 'getKeywords',
+            'hideMetricsDoc' => 1,
+        ]);
+    }
+
     public function testPercentOfTotalMetricsWithMultiplePeriods()
     {
         $this->assertApiResponseEqualsExpected("Referrers.getKeywords", [

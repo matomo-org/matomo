@@ -668,7 +668,12 @@ class ProcessedReport
                 if ($metric instanceof PercentOfReportTotal) {
                     $columns[$metric->getName()] = $metric->getTranslatedName();
                     $reportMetadata['metricTypes'][$metric->getName()] = $metric->getSemanticType();
-                    $reportMetadata['metricsDocumentation'][$metric->getName()] = $metric->getDocumentation();
+
+                    // hideMetricsDoc=1 removes the documentation from the metadata entirely,
+                    // recreating the key here would undo that
+                    if (isset($reportMetadata['metricsDocumentation'])) {
+                        $reportMetadata['metricsDocumentation'][$metric->getName()] = $metric->getDocumentation();
+                    }
                 }
             }
         }
