@@ -16,6 +16,23 @@ describe("LoginWhatsNew", function () {
 
     const loginUrl = "?module=Login&action=login";
 
+    // Pages that only need to show the layout holds next to the panel assert geometry instead of
+    // taking another full page screenshot.
+    const panelBesideForm = { entries: 3, panelRightOfForm: true, panelVisible: true, noOverflow: true };
+
+    function measurePanelBesideForm() {
+        const de = document.documentElement;
+        const primary = document.querySelector('.loginLayout__primary').getBoundingClientRect();
+        const panel = document.querySelector('.loginWhatsNew').getBoundingClientRect();
+
+        return {
+            entries: document.querySelectorAll('.loginWhatsNew__entry').length,
+            panelRightOfForm: panel.left >= primary.right,
+            panelVisible: panel.width > 0 && panel.height > 0,
+            noOverflow: de.scrollWidth <= de.clientWidth,
+        };
+    }
+
     before(function () {
         testEnvironment.testUseMockAuth = 0;
         // Without this the test environment swaps Piwik\Changes\Model for FakeChangesModel, which
@@ -135,9 +152,9 @@ describe("LoginWhatsNew", function () {
         });
     });
 
-    // The forgot password form is the other shape the primary column takes for an anonymous visitor,
-    // and it needs no token to reach. Kept ahead of the responsive test below, which shrinks the
-    // viewport.
+    // The forgot password form is the other shape the primary column takes for a logged out visitor.
+    // The panel has its own baseline above, so this only has to show the layout holds beside it. Kept
+    // ahead of the responsive test below, which shrinks the viewport.
     it("should render the forgot password form beside the panel", async function () {
         await page.webpage.setViewport({ width: 1440, height: 900 });
         await page.goto(loginUrl);
@@ -146,7 +163,7 @@ describe("LoginWhatsNew", function () {
         await page.waitForNetworkIdle();
         await page.waitForSelector('.loginWhatsNew__entry');
 
-        expect(await page.screenshot({ fullPage: true })).to.matchImage('forgot_password');
+        expect(await page.evaluate(measurePanelBesideForm)).to.deep.equal(panelBesideForm);
     });
 
     it("should hide the panel and leave the form alone on tablet and mobile", async function () {

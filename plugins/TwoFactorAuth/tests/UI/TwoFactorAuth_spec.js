@@ -110,11 +110,10 @@ describe("TwoFactorAuth", function () {
         expect(widgetsCount).to.equal(1);
     });
 
-    // The 2FA screens extend @Login/loginLayout.twig, so they get the What's New panel too. Every
-    // other baseline here is element scoped and so never shows it; this one is full page on purpose.
-    // The panel needs the real changes model - the test environment otherwise swaps in
-    // FakeChangesModel, which reads back no changes. Restored in a finally so a failure cannot leak
-    // the panel into the baselines below.
+    // The 2FA screens extend @Login/loginLayout.twig, so they get the What's New panel too. The panel
+    // has its own baseline in the Login specs, so this only checks the auth code screen sits beside
+    // it. Tests only see change data when they ask for it, and the flag is cleared in a finally so it
+    // cannot leak into the tests below.
     it('should show the auth code screen beside the What\'s New panel', async function () {
         testEnvironment.loadChanges = 1;
         testEnvironment.save();
@@ -122,7 +121,23 @@ describe("TwoFactorAuth", function () {
         try {
             await loginUser('with2FA', false);
             await page.waitForSelector('.loginWhatsNew__entry');
-            expect(await page.screenshot({ fullPage: true })).to.matchImage('logme_not_verified_whats_new');
+
+            const layout = await page.evaluate(function () {
+                const de = document.documentElement;
+                const primary = document.querySelector('.loginLayout__primary').getBoundingClientRect();
+                const panel = document.querySelector('.loginWhatsNew').getBoundingClientRect();
+
+                return {
+                    entries: document.querySelectorAll('.loginWhatsNew__entry').length,
+                    panelRightOfForm: panel.left >= primary.right,
+                    panelVisible: panel.width > 0 && panel.height > 0,
+                    noOverflow: de.scrollWidth <= de.clientWidth,
+                };
+            });
+
+            expect(layout).to.deep.equal({
+                entries: 3, panelRightOfForm: true, panelVisible: true, noOverflow: true,
+            });
         } finally {
             delete testEnvironment.loadChanges;
             testEnvironment.save();
