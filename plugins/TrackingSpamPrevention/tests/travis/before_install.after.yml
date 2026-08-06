@@ -1,1 +1,0 @@
-- if [[ "${TEST_SUITE}" == "UITests" ]]; then git lfs fetch; git lfs checkout; fi
