@@ -1,0 +1,6 @@
+{
+    "TrackingSpamPrevention": {
+        "SettingMaxActionsDescription": "預設值為「0」將記錄所有動作。大多數網站通常不會超過 100 到 300 條記錄。可以簡單假設其他活動會是追蹤垃圾郵件、機器人或攻擊。Matomo 不會記錄進一步的操作並封鎖它們的IP地址，以減少伺服器負載並保持數據準確性，封鎖時間長達 24 小時。",
+        "SettingMaxActionsTitle": "每次訪問記錄的最大動作數"
+    }
+}

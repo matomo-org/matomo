@@ -1,0 +1,20 @@
+{
+    "TrackingSpamPrevention": {
+        "BanIpNotificationMailSubject": "Une adresse IP a été bannie car elle a réalisé trop d'actions.",
+        "BlockCloudNoteInternetDisabled": "Comme internet est désactivé dans la configuration de Matomo, cette fonctionnalité ne marchera pas.",
+        "SettingBlockCloudDescription": "S'il est activé, il bloquera les demandes de suivi provenant de fournisseurs de nuages comme AWS, Azure, Digital Ocean, Google Cloud et Oracle. Si vous n'effectuez un suivi qu'à l'aide du tracker JavaScript, vous pouvez activer ce paramètre en toute sécurité, car les demandes de suivi provenant de l'homme ne proviennent pas de ces nuages. Cependant, il peut aussi bloquer à tort quelques requêtes lorsqu'un visiteur utilise un VPN (réseau privé virtuel) via l'un de ces fournisseurs de nuages. Il ne devrait cependant s'agir que de très peu de visiteurs. Ce paramètre s'applique à tous vos sites. En activant cette fonction, votre serveur récupère la liste actualisée des plages d'adresses IP des serveurs Google, AWS et Azure.",
+        "SettingBlockCloudTitle": "Bloquer les requêtes de suivi émanant du cloud",
+        "SettingBlockHeadlessDescription": "Les navigateurs \"headless\" sont des navigateurs ne disposant pas d'une interface utilisateur et sont principalement utilisés de manière automatisée. Si vous avez uniquement des sites web classiques ou des applications, il serait sage d'activer ce paramètre. Il pourra ainsi bloquer les robots et les requêtes de spam qui passeraient autrement inaperçues.",
+        "SettingBlockHeadlessTitle": "Bloquer les navigateurs \"headless\"",
+        "SettingBlockServerSideLibrariesDescription": "Activez cette fonctionnalité si vous effectuez le suivi uniquement à l'aide de %1$sJavaScript Tracker%2$s. Il bloquera les demandes de suivi des bibliothèques côté serveur telles que curl, HTTP, Guzzle et Postman. En règle générale, si vous effectuez le suivi des données uniquement via JavaScript Tracker, les demandes de ces bibliothèques côté serveur indiquent un spam et vous pouvez activer cette fonctionnalité en toute sécurité.%3$s%1$sRemarque : Si vous utilisez un SDK côté serveur comme notre PHP SDK de suivi, SDK Java, SDK Python, SDK Android ou iOS, ou d'autres langages de programmation côté serveur pour suivre les données, vous ne devez pas activer cette fonctionnalité.%2$s",
+        "SettingBlockServerSideLibrariesTitle": "Bloquer les demandes de suivi des bibliothèques côté serveur",
+        "SettingExcludedCountriesDescription": "Ne suivez pas les visiteurs de ces pays. Les visiteurs hors de votre zone cible seront probablement des bots ou des spammeurs. Vous pouvez également utiliser ceci pour éviter d'avoir à vous conformer aux lois sur la confidentialité d'autres juridictions.",
+        "SettingExcludedCountriesTitle": "Exclure des pays",
+        "SettingIncludedCountriesDescription": "Cela exclut tous les autres pays. Le paramètre \"exclure les pays\" contient plus d'informations.",
+        "SettingIncludedCountriesTitle": "Ne suivre que les visiteurs de ces pays",
+        "SettingMaxActionsDescription": "Par défaut, la valeur « 0 » enregistre toutes les actions. La plupart des sites n'en enregistrent généralement pas plus de 100 à 300. On peut supposer sans risque que les autres activités correspondent à du spam, à un bot ou à une attaque. Matomo cesse alors d'enregistrer les actions suivantes et bloque les adresses IP concernées pendant 24 heures maximum afin de réduire la charge du serveur et de garantir l'exactitude des données.",
+        "SettingMaxActionsTitle": "Nombre maximal d'actions à enregistrer par visite",
+        "SettingNotificationEmailDescription": "Cette adresse email sera notifiée à chaque fois qu'une IP est bannie pour avoir réalisé trop d'actions. Dans le futur, d'autres motifs de notification pourront être ajoutés.",
+        "SettingNotificationEmailTitle": "Notification par email"
+    }
+}

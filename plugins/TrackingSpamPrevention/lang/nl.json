@@ -1,0 +1,20 @@
+{
+    "TrackingSpamPrevention": {
+        "BanIpNotificationMailSubject": "Een IP werd uitgesloten wegens het genereren van te veel activiteit.",
+        "BlockCloudNoteInternetDisabled": "Als Internet uit staat in uw Matomo-configuratie, zal deze functionaliteit niet werken.",
+        "SettingBlockCloudDescription": "Blokkeert volgverzoeken die afkomstig zijn van cloud providers zoals AWS, Azure, Digital Ocean, Google Cloud en Oracle door een lijst van hun IP-bereiken op te halen. Het zou veilig moeten zijn om aan te zetten indien u enkel de Javascript-tracker gebruikt, omdat hun trackingverzoeken niet uit de cloud afkomstig zijn, tenzij men een VPN gebruikt die gegevens door cloud providers routeert. De instelling geldt voor al uw sites.",
+        "SettingBlockCloudTitle": "Blokkeert volgverzoeken vanuit de cloud",
+        "SettingBlockHeadlessDescription": "Dit zijn browsers zonder gebruikersinterface, meestal toegepast bij automatisering. Het zou veilig moeten zijn om dit in te schakelen als u alleen gewone websites of apps hebt. Dit kan extra bots en spamverzoeken blokkeren die anders niet zouden worden gedetecteerd.",
+        "SettingBlockHeadlessTitle": "Blokkeer headless browsers",
+        "SettingBlockServerSideLibrariesDescription": "Gebruik dit enkel indien u %1$sJavascript Tracker%2$s gebruikt, aangezien ander verkeer aanvallen of spam zal zijn. Het blokkeert volgverzoeken van cURL, HTTP, Guzzle, en Postman.%3$s%1$sOpmerking: gebruik dit niet bij volggegevens komende van een SDK aan serverzijde zoals de Matomo PHP tracking SDK, Java SDK, Python SDK, Android of iOS SDK, of andere programmeertalen aan de serverzijde.%2$s",
+        "SettingBlockServerSideLibrariesTitle": "Blokkeer volgverzoeken van bibliotheken aan serverzijde",
+        "SettingExcludedCountriesDescription": "Volg geen bezoekers uit deze landen. Bezoekers buiten uw doelgebied zijn waarschijnlijk bots of spammers, of u kunt het gebruiken om privacywetgeving in andere rechtsgebieden te vermijden.",
+        "SettingExcludedCountriesTitle": "Landen uitsluiten",
+        "SettingIncludedCountriesDescription": "Dit sluit alle andere landen uit. De \"landen uitsluiten\" instelling geeft meer informatie.",
+        "SettingIncludedCountriesTitle": "Volg alleen bezoekers uit deze landen",
+        "SettingMaxActionsDescription": "Een standaard \"0\" registreert alle activiteit. De meeste sites hebben er doorgaans niet meer dan 100 tot 300. Het is waarschijnlijk veiliger om aan te nemen dat de overige activiteit spam, een bot of een aanval is. Matomo stopt het registreren van verdere activiteit en blokkeert hun IP-adressen tot 24 uren om de serverbelasting te beperken en voor de betrouwbaarheid van de gegevens.",
+        "SettingMaxActionsTitle": "Maximum activiteiten te registreren per bezoek",
+        "SettingNotificationEmailDescription": "Dit e-mailadres krijgt een notificatie wanneer een IP uitgesloten is wegens te veel activiteit. In de toekomst kunnen mogelijks notificatieredenen worden toegevoegd.",
+        "SettingNotificationEmailTitle": "Notificatie e-mail"
+    }
+}

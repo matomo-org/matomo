@@ -1,0 +1,20 @@
+{
+    "TrackingSpamPrevention": {
+        "BanIpNotificationMailSubject": "U dëbua një IP, për shkak prodhimi të shumë veprimeve.",
+        "BlockCloudNoteInternetDisabled": "Ngaqë te formësimi juaj i Matomo-s interneti është i çaktivizuar, kjo veçori s’do të funksionojë.",
+        "SettingBlockCloudDescription": "Bllokon kërkesa ndjekjeje të ardhura nga shërbime Resh, të tillë si AWS, Azure, Digital Ocean, Google Cloud dhe Oracle, duke sjellë një listë intervalesh IP-sh të tyre. Aktivizimi i kësaj do të duhej të ishte pa rrezik, nëse ndiqni vetëm duke përdorur ndjekësin JavaScript, ngaqë kërkesat e tyre për ndjekje nuk e kanë origjinën te retë, hiq rastin kur përdoret një VPN që i kalon të dhënat përmes shërbimesh resh. Këto rregullime vlejnë për krejt sajtet tuaj.",
+        "SettingBlockCloudTitle": "Blloko kërkesa ndjekjeje nga Re",
+        "SettingBlockHeadlessDescription": "Shfletuesit “headless” janë shfletues pa një ndërfaqe përdoruesi dhe kryesisht përdoren për automatizim. Nëse keni vetëm sajte ose aplikacione të rregullt, përdorimi i këtij rregullimi është pa zarar, në u aktivizoftë. Mund të bllokojë robotë dhe kërkesa spam shtesë, që ndryshe s’do të pikasen.",
+        "SettingBlockHeadlessTitle": "Blloko shfletues nën mënyrën “headless”",
+        "SettingBlockServerSideLibrariesDescription": "Përdoreni këtë vetëm nëse përdoret %1$sNdjekës JavaScript%2$s, ngaqë trafik tjetër, sido që të jetë, do të jenë sulme ose spam. Bllokon kërkesa ndjekjeje nga cURL, HTTP, Guzzle dhe Postman.%3$s%1$sShënim: Mos e përdorni, nëse ndiqen të dhëna duke përdorur një SDK më anë të klientit, bie fjala, SDK Matomo ndjekjeje me PHP, SDK Java, SDK Python, SDK Android ose iOS, ose të tjera gjuhë programimi më anë të shërbyesit.%2$s",
+        "SettingBlockServerSideLibrariesTitle": "Blloko kërkesa ndjekjeje nga biblioteka më anë të shërbyesit",
+        "SettingExcludedCountriesDescription": "Mos ndiq vizitorë nga këto vende. Vizitorët jashtë zonës së synuar nga ju ka shumë gjasa të jenë robotë ose dërgues mesazhesh të padëshiruar, ose mund ta përdorni për të shmangur ligje privatësie në juridiksione të tjera.",
+        "SettingExcludedCountriesTitle": "Përjashtoni Vende",
+        "SettingIncludedCountriesDescription": "Kjo përjashton krejt vendet e tjera. Rregullimi “përjashtoni vende” përmban më tepër hollësi.",
+        "SettingIncludedCountriesTitle": "Ndiq vetëm vizitorë nga këto vende",
+        "SettingMaxActionsDescription": "Një vlerë parazgjedhje “0” sjell regjistrimin e krejt veprimeve. Shumica e sajteve zakonisht s’kanë më tepër se 100 deri në 300. Mund të jetë pa rrezik të pranohet se veprimtari tjetër është ndjekje spam-i, një robot ose një sulm. Matomo resht së regjistruari veprime të tjera dhe bllokon adresat e tyre IP për deri në 24 orë, për të ulur ngarkesën e shërbyesit dhe për të ruajtur përpikërinë e të dhënave.",
+        "SettingMaxActionsTitle": "Maksimum veprimesh në një vizitë për t’u regjistruar",
+        "SettingNotificationEmailDescription": "Kjo adresë email do të njoftohet kurdo që dëbohet një IP për shkak se ka pasur shumë veprime. Në të ardhmen mund të shtohen arsye të mëtejshme njoftimi.",
+        "SettingNotificationEmailTitle": "Email njoftimesh"
+    }
+}

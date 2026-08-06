@@ -1,0 +1,20 @@
+{
+    "TrackingSpamPrevention": {
+        "BanIpNotificationMailSubject": "IP diblokir karena menghasilkan terlalu banyak tindakan.",
+        "BlockCloudNoteInternetDisabled": "Karena dalam konfigurasi Matomo Anda internetnya tidak aktif, fitur ini tidak akan berfungsi.",
+        "SettingBlockCloudDescription": "Memblokir permintaan pelacakan yang berasal dari penyedia awan seperti AWS, Azure, Digital Ocean, Google Cloud, dan Oracle dengan mengambil daftar rentang IP mereka. Seharusnya ini aman untuk diaktifkan jika Anda hanya melacak menggunakan pelacak JavaScript karena permintaan pelacakan mereka tidak berasal dari awan, kecuali jika mereka menggunakan VPN yang merutekan data melalui penyedia awan. Pengaturan ini berlaku untuk semua situs Anda.",
+        "SettingBlockCloudTitle": "Blokir permintaan pelacakan dari awan",
+        "SettingBlockHeadlessDescription": "Ini adalah peramban web tanpa antarmuka pengguna, sebagian besar digunakan untuk otomatisasi. Seharusnya ini aman untuk diaktifkan jika Anda hanya memiliki situs web atau aplikasi biasa. Hal tersebut dapat memblokir bot tambahan dan permintaan spam yang tidak terdeteksi.",
+        "SettingBlockHeadlessTitle": "Blokir peramban web tanpa antarmuka",
+        "SettingBlockServerSideLibrariesDescription": "Gunakan ini jika Anda hanya menggunakan %1$sJavaScript Tracker%2$s karena lalu lintas lainnya akan menjadi spam atau serangan. Ini memblokir permintaan pelacakan dari cURL, HTTP, Guzzle, dan Postman.%3$s%1$sCatatan: Jangan gunakan ini jika Anda melacak data menggunakan SDK sisi server seperti Matomo PHP tracking SDK, Java SDK, Python SDK, Android atau iOS SDK, atau bahasa pemrograman sisi server lainnya.%2$s",
+        "SettingBlockServerSideLibrariesTitle": "Blokir permintaan pelacakan dari pustaka sisi server",
+        "SettingExcludedCountriesDescription": "Jangan lacak pengunjung dari negara-negara ini. Pengunjung di luar target area Anda kemungkinan besar adalah bot atau penyebar spam, atau Anda dapat menggunakannya untuk menghindari undang-undang privasi di yurisdiksi lain.",
+        "SettingExcludedCountriesTitle": "Mengecualikan Negara",
+        "SettingIncludedCountriesDescription": "Ini tidak termasuk semua negara lain. Pengaturan \"kecualikan negara\" memiliki info lebih lanjut.",
+        "SettingIncludedCountriesTitle": "Hanya melacak pengunjung dari negara-negara ini",
+        "SettingMaxActionsDescription": "Nilai bawaan \"0\" merekam semua tindakan. Sebagian besar situs biasanya punya tidak lebih dari 100 sampai 300. Mungkin akan aman untuk menganggap aktivitas lain melacak spam, bot, atau serangan. Matomo berhenti merekam tindakan lebih lanjut dan memblokir alamat IP mereka hingga 24 jam untuk mengurangi beban server dan menjaga tingkat akurasi data.",
+        "SettingMaxActionsTitle": "Tindakan maksimal untuk merekam tiap kunjungan",
+        "SettingNotificationEmailDescription": "Alamat surel ini akan diberitahukan setiap kali IP diblokir karena terlalu banyak tindakan. Di masa mendatang, alasan pemberitahuan lebih lanjut mungkin akan ditambahkan.",
+        "SettingNotificationEmailTitle": "Surel notifikasi"
+    }
+}

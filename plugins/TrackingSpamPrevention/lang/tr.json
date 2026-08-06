@@ -1,0 +1,20 @@
+{
+    "TrackingSpamPrevention": {
+        "BanIpNotificationMailSubject": "Çok fazla işlem yapılan bir IP adresi engellendi.",
+        "BlockCloudNoteInternetDisabled": "Matomo yapılandırmasında internet kapalı olduğundan bu özellik çalışmaz.",
+        "SettingBlockCloudDescription": "IP aralıkları alınarak, AWS, Azure, Digital Ocean, Google Cloud ve Oracle gibi bulut hizmeti sağlayıcılarından yapılan izleme istekleri engellenir. Kişisel verilerini bulut sağlayıcıları üzerinden yönelten bir VPN kullanmadıkları sürece, izleme istekleri bulut hizmetlerinden kaynaklanmayacağında, izleme için yalnızca JavaScript izleyiciyi kullanıyorsanız bu ayarı açmak güvenli olmalıdır. Ayar, tüm sitelerinize uygulanır.",
+        "SettingBlockCloudTitle": "Buluttan gelen izleme istekleri engellensin",
+        "SettingBlockHeadlessDescription": "Kullanıcı arayüzü olmayan tarayıcılar vardır ve çoğunlukla otomasyon işlemleri için kullanılır. Yalnızca normal siteleriniz ve uygulamalarınız varsa, bu ayarın açılması güvenli olmalıdır. Başka şekilde belirlenemeyen ek bot ve spam isteklerini engelleyebilir.",
+        "SettingBlockHeadlessTitle": "Başlıksız tarayıcılar engellensin",
+        "SettingBlockServerSideLibrariesDescription": "Diğer trafik saldırı ya da spam gibi bir şey olabileceğinden, bu ayarı yalnızca izleme için %1$sJavaScript Tracker%2$s kullanıyorsanız açın. Bu ayar, curl, HTTP, Guzzle ve Postman gibi sunucu tarafından gelen izleme isteklerini engeller.%3$s%1$sNot: Verileri izlemek için SDK, Java SDK, Python SDK, Android veya iOS SDK veya diğer sunucu tarafı programlama dilleri ile sunucu tarafında bir SDK kullanıyorsanız, bu özelliği açmayın.%2$s",
+        "SettingBlockServerSideLibrariesTitle": "Sunucu tarafı kitaplıklardan gelen izleme istekleri engellensin",
+        "SettingExcludedCountriesDescription": "Bu ülkelerden gelen ziyaretçiler izlenmez. Hedef alanınızın dışındaki ziyaretçiler muhtemelen bot veya spam göndereciler olacaktır veya bunu diğer yargı yetki alanlarındaki gizlilik yasalarından kaçınmak için kullanabilirsiniz.",
+        "SettingExcludedCountriesTitle": "Katılmayacak ülkeler",
+        "SettingIncludedCountriesDescription": "Bu seçenek diğer ülkelerin katılmamasını sağlar . Ayrıntılı bilgi almak için \"katılmayacak ülkeler\" seçeneğine bakabilirsiniz.",
+        "SettingIncludedCountriesTitle": "Yalnızca şu ülkelerden gelen ziyaretçiler izlensin",
+        "SettingMaxActionsDescription": "Varsayılan \"0\" değeri tüm işlemleri kaydeder. Çoğu sitede, genellikle 100 ile 300 arasındadır. Daha yüksek işlem sayısının spam, bir bot ya da bir saldırı izlemesi olduğunu varsaymak güvenli olabilir. Bu durumda Matomo, sunucu yükünü azaltmak ve veri tutarlılığını korumak için bu IP adreslerini 24 saat süreyle engelleyerek işlemlerini kaydetmeyi durdurur.",
+        "SettingMaxActionsTitle": "Bir ziyarette kaydedilecek en fazla işlem",
+        "SettingNotificationEmailDescription": "Çok fazla işlem yapılan bir IP adresi engellendiğinde bu e-posta adresine bildirim gönderilir. Gelecekte başka bildirim nedenleri de eklenebilir.",
+        "SettingNotificationEmailTitle": "Bildirim e-postası"
+    }
+}

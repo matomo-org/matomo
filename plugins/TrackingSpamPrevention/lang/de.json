@@ -1,0 +1,24 @@
+{
+    "TrackingSpamPrevention": {
+        "BanIpNotificationMailSubject": "Eine IP wurde gesperrt, weil sie zu viele Aktionen generiert hat.",
+        "BlockCloudNoteInternetDisabled": "Da das Internet in der Matomo-Konfiguration deaktiviert ist, wird diese Funktion nicht funktionieren.",
+        "SettingBlockCloudDescription": "Blockiert Tracking Anfragen von Cloud Anbietern wie AWS, Azure, Digital Ocean, Google Cloud und Oracle durch das Abrufen einer Liste mit deren IP Bereichen. Es sollte sicher sein diese Einstellung zu aktivieren, wenn Sie nur mit Hilfe des JavaScript Trackers tracken, weil Tracking Anfragen üblicherweise nicht aus der Cloud kommen, ausser es wird ein VPN verwendet welcher Daten durch den Cloud Anbieter routet. Die Einstellung gilt für alle Ihre Seiten.",
+        "SettingBlockCloudTitle": "Tracking request aus der Cloud blockieren",
+        "SettingBlockHeadlessDescription": "Dies sind Browser ohne Benutzeroberfläche, die meist für die Automatisierung verwendet werden. Es sollte sicher sein, diese Funktion zu aktivieren, wenn Sie nur normale Webseiten oder Anwendungen nutzen. Sie kann zusätzliche Bots und Spam-Anfragen blockieren, die sonst nicht erkannt werden würden.",
+        "SettingBlockHeadlessTitle": "Headless-Browser blockieren",
+        "SettingBlockServerSideLibrariesDescription": "Verwenden Sie dieses Feature, wenn Sie nur den %1$sJavascript Tracker%2$s verwenden, da anderer Traffic sowieso Attacken oder Spam beinhaltet. Es blockiert Tracking-Anfragen von cURL, HTTP, Guzzle und Postman. %3$s%1$sHinweis: Nicht verwenden wenn Sie eine serverseitige SDK wie die Matomo PHP trackende SDK, Java SDK, Python SDK, Android oder iOS SDK oder sonstige serverseitige Programmiersprachen eingesetzt wird.%2$s",
+        "SettingBlockServerSideLibrariesTitle": "Tracking-Anfragen von serverseitigen Bibliotheken blockieren",
+        "SettingExcludedCountriesDescription": "Keine Besucher aus diesen Ländern tracken. Besucher außerhalb Ihres Zielbereichs sind wahrscheinlich Bots oder Spammer, oder Sie können die Einstellung nutzen um Datenschutzrechtsprobleme in anderen Jurisdiktionen zu vermeiden.",
+        "SettingExcludedCountriesTitle": "Länder ausschließen",
+        "SettingIncludedCountriesDescription": "Dies schließt alle anderen Länder aus. Die Einstellung \"Länder ausschließen\" enthält weitere Informationen.",
+        "SettingIncludedCountriesTitle": "Nur Besucher aus diesen Ländern erfassen",
+        "SettingIpAllowListHelp": "Geben Sie die IP-Adressen oder CIDR-Bereiche an, von denen Tracking-Anfragen gesendet werden dürfen. Geben Sie pro Zeile einen Wert ein.",
+        "SettingIpAllowListTitle": "IP Allow-Liste",
+        "SettingIpBlockListHelp": "Geben Sie die IP-Adressen oder CIDR-Bereiche an, die vom Senden von Tracking-Anfragen geblockt werden. Geben Sie einen Wert pro Zeile ein. Matomo blockiert möglicherweise automatisch weitere IP-Adressen, die nicht in dieser Liste aufgeführt sind, beispielsweise IP-Bereiche von Cloud-Anbietern, die täglich abgerufen werden, wenn die Option „Tracking-Anfragen aus der Cloud blockieren“ aktiviert ist, oder IP-Adressen, die wegen Überschreitung des maximalen Aktionslimits vorübergehend gesperrt wurden.",
+        "SettingIpBlockListTitle": "IP Block-Liste",
+        "SettingMaxActionsDescription": "Ein Standardwert von \"0\" zeichnet alle Aktionen auf. Die meisten Webseiten haben normalerweise nicht mehr als 100 bis 300. Es kann davon ausgegangen werden, dass es sich bei anderen Aktivitäten um Spam, einen Bot oder einen Angriff handelt. Matomo stoppt die Aufzeichnung weiterer Aktionen und blockiert deren IP-Adressen für bis zu 24 Stunden, um die Serverlast zu reduzieren und die Datengenauigkeit zu wahren.",
+        "SettingMaxActionsTitle": "Maximale aufzuzeichnende Aktionen pro Besuch",
+        "SettingNotificationEmailDescription": "Diese E-Mail-Adresse wird informiert, wenn eine IP verbannt wurde, weil sie zu viele Aktionen ausgeführt hat. In Zukunft werden möglicherweise weitere Gründe für Benachrichtigungen dazukommen.",
+        "SettingNotificationEmailTitle": "Benachrichtigungs-E-Mail"
+    }
+}

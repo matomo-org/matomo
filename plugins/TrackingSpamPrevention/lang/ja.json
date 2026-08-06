@@ -1,0 +1,20 @@
+{
+    "TrackingSpamPrevention": {
+        "BanIpNotificationMailSubject": "あまりにも多くのアクションを生成するため、IP が禁止されました。",
+        "BlockCloudNoteInternetDisabled": "Matomo 構成でインターネットがオフになっているため、この機能は動作しません。",
+        "SettingBlockCloudDescription": "IP 範囲のリストを取得することで、AWS、Azure、Digital Ocean、Google Cloud、Oracle などのクラウド プロバイダーからのトラッキング リクエストをブロックします。 クラウド プロバイダーを介してデータをルーティングする VPN を使用しない限り、トラッキング リクエストはクラウドから発信されないため、JavaScript トラッカーのみを使用してトラッキングしている場合は、オンにしても安全です。 この設定は、すべてのサイトに適用されます。",
+        "SettingBlockCloudTitle": "クラウドからの追跡リクエストをブロックする",
+        "SettingBlockHeadlessDescription": "これらは、主に自動化に使用される、ユーザー インターフェイスのないブラウザーです。 通常の Web サイトまたはアプリしかない場合は、これをオンにしても安全です。 他の方法では検出されない追加のボットやスパム リクエストをブロックできます。",
+        "SettingBlockHeadlessTitle": "ヘッドレス ブラウザをブロックする",
+        "SettingBlockServerSideLibrariesDescription": "%1$sJavaScript Tracker%2$s のみを使用している場合は、これを使用してください。他のトラフィックはとにかく攻撃またはスパムになります。 cURL、HTTP、Guzzle、および Postman からの追跡リクエストをブロックします。%3$s%1$s注: Matomo PHP 追跡 SDK、Java SDK、Python SDK、Android などのサーバー側 SDK を使用してデータを追跡する場合は使用しないでください。 または iOS SDK、またはその他のサーバー側プログラミング言語。%2$s",
+        "SettingBlockServerSideLibrariesTitle": "サーバー側ライブラリからのトラッキング リクエストをブロックする",
+        "SettingExcludedCountriesDescription": "これらの国からのビジターを追跡しないでください。 ターゲット エリア外のビジターはボットまたはスパマーである可能性が高く、他の法域のプライバシー法を回避するために使用できます。",
+        "SettingExcludedCountriesTitle": "国を除外する",
+        "SettingIncludedCountriesDescription": "これは他のすべての国を除外します。 「国を除外する」設定に詳細があります。",
+        "SettingIncludedCountriesTitle": "これらの国からのビジターのみを追跡します",
+        "SettingMaxActionsDescription": "デフォルトの「0」では、すべてのアクションが記録されます。 通常、ほとんどのサイトには 100 ～ 300 個しかありません。他のアクティビティがスパム、ボット、または攻撃を追跡していると想定しても安全かもしれません。 Matomo はそれ以上のアクションの記録を停止し、IP アドレスを最大 24 時間ブロックして、サーバーの負荷を軽減し、データの正確性を維持します。",
+        "SettingMaxActionsTitle": "ビジットごとに記録する最大アクション",
+        "SettingNotificationEmailDescription": "この電子メール アドレスは、アクションが多すぎるために IP が禁止されるたびに通知されます。 今後、さらに通知理由が追加される可能性があります。",
+        "SettingNotificationEmailTitle": "通知のメール"
+    }
+}

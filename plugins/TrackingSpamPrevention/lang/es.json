@@ -1,0 +1,20 @@
+{
+    "TrackingSpamPrevention": {
+        "BanIpNotificationMailSubject": "Una IP ha sido baneada porque generaba demasiadas acciones.",
+        "BlockCloudNoteInternetDisabled": "Debido a que su configuración de Matomo tiene Internet deshabilitado, esta función no funcionará.",
+        "SettingBlockCloudDescription": "Bloquea las solicitudes de seguimiento entrantes de los servicios en la nube, como AWS, Azure, Digital Ocean, Google Cloud y Oracle, devolviendo una lista de sus rangos de IP. Habilitar esto debería estar libre de riesgos si solo realiza un seguimiento con el rastreador de JavaScript, ya que sus solicitudes de seguimiento no se originan en la nube, excepto cuando se usa una VPN que pasa datos a través de servicios en la nube. Estos ajustes se aplican a todos sus sitios.",
+        "SettingBlockCloudTitle": "Bloquear solicitudes de seguimiento desde la nube",
+        "SettingBlockHeadlessDescription": "Estos son navegadores sin interfaz de usuario, que se utilizan principalmente para la automatización. Debería ser seguro activar esto si solo tiene sitios web o aplicaciones regulares. Puede bloquear bots adicionales y solicitudes de spam que de otro modo no se detectarían.",
+        "SettingBlockHeadlessTitle": "Bloquear navegadores sin cabeza",
+        "SettingBlockServerSideLibrariesDescription": "Use esto solo si se está usando el rastreador %1$sJavaScript%2$s, ya que el resto del tráfico será ataques o spam. Bloquea las solicitudes de seguimiento de cURL, HTTP, Guzzle y Postman.%3$s%1$sNota: no lo use si los datos se rastrean mediante un SDK del lado del cliente, es decir, Matomo PHP Tracking SDK, Java SDK, Python SDK, Android o iOS SDK u otros lenguajes de programación del lado del servidor.%2$s",
+        "SettingBlockServerSideLibrariesTitle": "Bloquee las solicitudes de seguimiento de la biblioteca a través del servidor",
+        "SettingExcludedCountriesDescription": "No realice un seguimiento de los visitantes de estos países. Los visitantes fuera de su área de destino probablemente serán bots o spammers, o puede usarlo para evitar las leyes de privacidad en otras jurisdicciones.",
+        "SettingExcludedCountriesTitle": "Excluir países",
+        "SettingIncludedCountriesDescription": "Esto excluye a todos los demás países. Él La configuración \"excluir países\" tiene más información.",
+        "SettingIncludedCountriesTitle": "Seguir solo a los visitantes de estos países",
+        "SettingMaxActionsDescription": "Un valor predeterminado de \"0\" da como resultado el registro de todas las acciones. La mayoría de los sitios normalmente no tienen más de 100 a 300. Puede ser seguro asumir que otra actividad está rastreando spam, un bot o un ataque. Matomo deja de registrar otras actividades y bloquea sus direcciones IP hasta por 24 horas para reducir la carga del servidor y mantener la precisión de los datos.",
+        "SettingMaxActionsTitle": "Número máximo de acciones para registrar por visita",
+        "SettingNotificationEmailDescription": "Esta dirección de correo electrónico será notificada cada vez que una IP sea baneada por tener demasiadas acciones. En el futuro podrían añadirse otros motivos de notificación.",
+        "SettingNotificationEmailTitle": "Correo electrónico para notificaciones"
+    }
+}

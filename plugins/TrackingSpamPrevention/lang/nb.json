@@ -1,0 +1,20 @@
+{
+    "TrackingSpamPrevention": {
+        "BanIpNotificationMailSubject": "En IP-adresse ble bannlyst siden for mange handlinger ble sporet.",
+        "BlockCloudNoteInternetDisabled": "Siden Internett er avskrudd i Matomo-oppsettet vil ikke denne funksjonen fungere.",
+        "SettingBlockCloudDescription": "Blokkerer sporingsforespørsler med opphav i skytilbydere som AWS, Azure, Digital Ocean, Google Cloud og Oracle, ved å hente en liste over IP-tallfølgene deres. Det bør være trygt å skru dette på hvis du kun sporer med JavaScript-Sporeren, siden sporingsforespørslene deres ikke har sitt opphav i skyen, med mindre de bruker en VPN som ruter data gjennom skytilbydere. Denne innstillingen brukes på alle sidene dine.",
+        "SettingBlockCloudTitle": "Blokker sporingsforespørsler fra skyen",
+        "SettingBlockHeadlessDescription": "Dette er nettlesere uten brukergrensesnitt, og brukes for det meste til automasjon. Hvis du kun har vanlige nettsider eller programmer bør dette være trygt å slå på. Det kan blokkere ytterligere botter og spam-forespørsler som ellers ikke ville blitt oppdaget.",
+        "SettingBlockHeadlessTitle": "Blokker hodeløse nettlesere",
+        "SettingBlockServerSideLibrariesDescription": "Kun bruk dette sammen med %1$sJavaScript-sporer%2$s, siden annen trafikk vil være angrep eller søppelpost uansett. Det blokkerer sporingsforespørsler fra cURL, HTTP, Guzzle, og Postman.%3$s%1$sMerk: Ikke bruk det hvis sporingsdata bruker en SDK på tjenersiden, som Matomo PHP-sporings-SDK, Java SDK, Python SDK, Android eller iOS SDK, eller andre programmeringsspråk som kjøres på tjenersiden.%2$s",
+        "SettingBlockServerSideLibrariesTitle": "Blokker sporingsforespørsler fra bibliotek på tjenersiden",
+        "SettingExcludedCountriesDescription": "Ikke spor besøk fra disse landene. Besøkende utenfor målområdet ditt vil antagelig være botter eller søppelpostere, eller du kan bruke det til å unngå personvernslover i andre juridiske områder.",
+        "SettingExcludedCountriesTitle": "Ekskluder land",
+        "SettingIncludedCountriesDescription": "Dette utelater alle andre land. «Utelat land»-innstillingen har mer info.",
+        "SettingIncludedCountriesTitle": "Kun spor besøkende fra disse landene",
+        "SettingMaxActionsDescription": "Forvalget «0» lagrer alle handlinger. De fleste sider har ikke mer enn 100-300. Det kan være trygt å anta at annen aktivitet sporer søppelaktivitet, en bott, eller et angrep. Matomo stopper opptak av videre handlinger og blokkerer IP-adressene deres opptil 24 timer for å redusere tjenerlast og ivareta datanøyaktighet.",
+        "SettingMaxActionsTitle": "Maks. antall handlinger å registrere per besøk",
+        "SettingNotificationEmailDescription": "Denne e-postadressen vil få en merknad når en IP bannlyses for å ha sendt for mange forespørsler. I fremtiden kan det hende andre merknadsgrunner blir lagt til.",
+        "SettingNotificationEmailTitle": "Merknads-e-post"
+    }
+}

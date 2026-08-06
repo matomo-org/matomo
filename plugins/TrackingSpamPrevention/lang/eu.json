@@ -1,0 +1,20 @@
+{
+    "TrackingSpamPrevention": {
+        "BanIpNotificationMailSubject": "IP bat debekatu da ekintza gehiegi sortzeagatik.",
+        "BlockCloudNoteInternetDisabled": "Zure Matomo konfigurazioan Internet desaktibatuta dagoenez, ezaugarri honek ez du funtzionatuko.",
+        "SettingBlockCloudDescription": "AWS, Azure, Digital Ocean, Google Cloud eta Oracle bezalako hodeiko hornitzaileetatik datozen jarraipen eskaerak blokeatzen ditu, haien IP tarteen zerrenda eskuratuz. Jarraipena egiteko JavaScript aztarnaria erabiltzen baduzu segurua izan daiteke aktibatzea, jarraipen eskaera horiek ez baitira hodeitik etortzen, beti ere ez badute erabiltzen trafikoa hornitzaile horietatik zehar bideratzen duen VPN bat. Ezarpen honek zure gune guztiei eragiten die.",
+        "SettingBlockCloudTitle": "Blokeatu hodeiko jarraipen eskaerak",
+        "SettingBlockHeadlessDescription": "Erabiltzaile interfazerik gabeko nabigatzaileak dira hauek. Nagusiki automatizaziorako erabiltzen dira. Hau aktibatzeak segurua izan beharko luke webgune edo aplikazio arruntak soilik badituzu. Bestela detektatuko ez liratekeen bot eta spam eskaerak ere blokeatu ditzake.",
+        "SettingBlockHeadlessTitle": "Blokeatu burugabeko nabigatzaileak",
+        "SettingBlockServerSideLibrariesDescription": "Erabili hau %1$sJavaScript aztarnaria%2$s soilik erabiltzen baduzu, gainerako trafikoa ziur aski erasoak edo spama izango baitira. cURL, HTTP, Guzzle eta Postman erabiliz egindako jarraipen eskaerak blokeatzen ditu. %3$s%1$sOharra: Ez erabili jarraipena egiteko zerbitzari aldeko SDK bat erabiltzen baduzu, adibidez, Matomo PHP jarraipen SDK, Python SDK, Android edo iOS SDK, edo zerbitzari aldeko beste programazio lengoaiak.%2$s",
+        "SettingBlockServerSideLibrariesTitle": "Blokeatu zerbitzari aldeko liburutegien jarraipen eskaerak",
+        "SettingExcludedCountriesDescription": "Ez egin herrialde hauetako bisitarien jarraipenik. Zure helburuko eskualdetik kanpoko bisitariak botak edo spam egileak izango dira ziur aski. Beste jurisdikzio batzuetako pribatutasun legeekin arazorik ez izateko ere erabil daiteke.",
+        "SettingExcludedCountriesTitle": "Baztertu herrialdeak",
+        "SettingIncludedCountriesDescription": "Honek kanpo uzten ditu gainerako herrialdeak. \"baztertu herrialdeak\" ezarpenean informazio gehiago dago.",
+        "SettingIncludedCountriesTitle": "Jarraitu soilik herrialde hauetako bisitariak",
+        "SettingMaxActionsDescription": "\"0\" balio lehenetsiak ekintza guztiak erregistratuko ditu. Gune gehienek normalean ez dituzte izango 100 edo 300 baino gehiago. Hortik gorako aktibitatea spama, botak edo erasoak direla suposatu daiteke. Muga hori gainditzean Matomok ekintzak erregistratzeari utziko dio eta IP helbideak blokeatuko ditu 24 orduz, zerbitzariaren karga txikiagotu eta datuen zehaztasuna babesteko.",
+        "SettingMaxActionsTitle": "Bisitako gehienez erregistratu beharreko ekintza kopurua",
+        "SettingNotificationEmailDescription": "Helbide elektroniko honetara jakinarazpen bat bidaliko da IP bat ekintza gehiegi izateagatik blokeatzen denean. Etorkizunean jakinarazpenak bidaltzeko arrazoi gehiago gehitu daitezke.",
+        "SettingNotificationEmailTitle": "Jakinarazpenen e-posta"
+    }
+}

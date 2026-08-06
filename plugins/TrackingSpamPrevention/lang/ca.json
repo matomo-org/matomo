@@ -1,0 +1,20 @@
+{
+    "TrackingSpamPrevention": {
+        "BanIpNotificationMailSubject": "S'ha prohibit una IP per generar massa accions.",
+        "BlockCloudNoteInternetDisabled": "Com que Internet està desactivat a la configuració de Matomo, aquesta opció no funcionarà.",
+        "SettingBlockCloudDescription": "Bloqueja les sol·licituds de seguiment provinents de proveïdors de núvol com AWS, Azure, Digital Ocean, Google Cloud i Oracle obtenint una llista dels seus rangs d'IP. Hauria de ser segur activar-ho si només feu el seguiment mitjançant el rastrejador de JavaScript, ja que les seves sol·licituds de seguiment no provenen dels núvols, tret que utilitzin una VPN que encamini les dades a través de proveïdors de núvol. La configuració s'aplica a tots els vostres llocs.",
+        "SettingBlockCloudTitle": "Bloqueja les sol·licituds de seguiment del núvol",
+        "SettingBlockHeadlessDescription": "Es tracta de navegadors sense interfície d'usuari, utilitzats principalment per a l'automatització. Hauria de ser segur activar-ho si només teniu llocs web o aplicacions habituals. Pot bloquejar robots addicionals i sol·licituds de correu brossa que d'altra manera no es detectarien.",
+        "SettingBlockHeadlessTitle": "Bloqueja els navegadors sense cap",
+        "SettingBlockServerSideLibrariesDescription": "Utilitzeu-ho si només feu servir %1$sJavaScript Tracker%2$s, ja que l'altre trànsit serà atacs o correu brossa de totes maneres. Bloqueja les sol·licituds de seguiment de cURL, HTTP, Guzzle i Postman.%3$s%1$sNota: no l'utilitzeu si feu un seguiment de les dades amb un SDK del servidor com l'SDK de seguiment PHP de Matomo, l'SDK Java, l'SDK Python, Android o SDK d'iOS, o altres llenguatges de programació del costat servidor.%2$s",
+        "SettingBlockServerSideLibrariesTitle": "Bloqueja les sol·licituds de seguiment de les biblioteques del servidor",
+        "SettingExcludedCountriesDescription": "No feu un seguiment dels visitants d'aquests països. És probable que els visitants fora de la vostra àrea objectiu siguin robots o spammers, o podeu utilitzar-ho per evitar les lleis de privadesa en altres jurisdiccions.",
+        "SettingExcludedCountriesTitle": "Excloure països",
+        "SettingIncludedCountriesDescription": "Això exclou tots els altres països. La configuració \"exclou països\" proporciona més informació.",
+        "SettingIncludedCountriesTitle": "Feu un seguiment només dels visitants d'aquests països",
+        "SettingMaxActionsDescription": "Un valor predeterminat de \"0\" registra totes les accions. La majoria de llocs no en solen tenir més de 100 a 300. Potser seria segur suposar que una altra activitat és el seguiment del correu brossa, un bot o un atac. Matomo deixa de gravar més accions i bloqueja les seves adreces IP fins a 24 hores per reduir la càrrega del servidor i preservar la precisió de les dades.",
+        "SettingMaxActionsTitle": "Màxim d'accions per registrar per visita",
+        "SettingNotificationEmailDescription": "Aquesta adreça de correu electrònic serà notificada cada cop que es prohibeix una IP per haver fet massa accions. En el futur es podrien afegir altres motius de notificació.",
+        "SettingNotificationEmailTitle": "Correu electrònic de notificació"
+    }
+}
