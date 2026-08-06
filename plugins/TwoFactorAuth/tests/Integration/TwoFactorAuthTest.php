@@ -13,7 +13,9 @@ use Piwik\Access;
 use Piwik\API\Request;
 use Piwik\Auth;
 use Piwik\AuthResult;
+use Piwik\Nonce;
 use Piwik\Session\SessionFingerprint;
+use Piwik\Session\SessionNamespace;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugins\Login\Security\BruteForceDetection;
 use Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeDao;
@@ -24,6 +26,7 @@ use Piwik\Plugins\TwoFactorAuth\Controller;
 use Piwik\Plugins\TwoFactorAuth\TwoFactorAuth;
 use Piwik\Plugins\TwoFactorAuth\Validator;
 use Piwik\Plugins\UsersManager\API;
+use Piwik\Plugins\UsersManager\Model;
 use Piwik\Plugins\UsersManager\UserUpdater;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -93,7 +96,9 @@ class TwoFactorAuthTest extends IntegrationTestCase
     public function tearDown(): void
     {
         $this->bruteForceDetection->deleteAll();
-        unset($_GET['authCode'], $_GET['module'], $_GET['action']);
+        unset($_GET['authCode'], $_GET['authCodeNonce'], $_GET['module'], $_GET['action']);
+        // the session is not reset between tests, so leftover fingerprints or setup secrets would leak
+        $_SESSION = [];
     }
 
     public function testLoginTwoFactorAuthRequiresFreshLoginWhenCurrentUserDoesNotMatchPendingSessionUser()
@@ -119,6 +124,134 @@ class TwoFactorAuthTest extends IntegrationTestCase
 
         $result = StaticContainer::get(Controller::class)->loginTwoFactorAuth();
         $this->assertStringContainsString('form_authcode', $result);
+    }
+
+    public function testOnLoginSetupTwoFactorAuthRendersWhenEnforcedAndUserNotEnrolled()
+    {
+        $this->setTwoFaRequired(true);
+        $this->setCurrentUser($this->userWithout2Fa);
+
+        $sessionFingerprint = new SessionFingerprint();
+        $sessionFingerprint->initialize($this->userWithout2Fa, 'pending-session-token');
+
+        $result = StaticContainer::get(Controller::class)->onLoginSetupTwoFactorAuth();
+
+        // standalone="true" is only rendered by the login-only template
+        $this->assertStringContainsString('standalone="true"', $result);
+        $this->assertStringContainsString('auth-code-nonce', $result);
+    }
+
+    public function testOnLoginSetupTwoFactorAuthRendersWhenTwoFactorAuthWasResetDuringAVerifiedSession()
+    {
+        $this->setTwoFaRequired(true);
+        $this->setCurrentUser($this->userWithout2Fa);
+
+        // a superuser may reset a user's 2fa while that user has an already verified session, which leaves
+        // them unenrolled but still verified - they have to be able to enroll again
+        $sessionFingerprint = new SessionFingerprint();
+        $sessionFingerprint->initialize($this->userWithout2Fa, 'pending-session-token');
+        $sessionFingerprint->setTwoFactorAuthenticationVerified($this->userWithout2Fa);
+
+        $result = StaticContainer::get(Controller::class)->onLoginSetupTwoFactorAuth();
+
+        $this->assertStringContainsString('standalone="true"', $result);
+    }
+
+    public function testOnLoginSetupTwoFactorAuthEnrollsUserWhenEnforcedAndCodeIsValid()
+    {
+        $this->setTwoFaRequired(true);
+        $this->setCurrentUser($this->userWithout2Fa);
+
+        $sessionFingerprint = new SessionFingerprint();
+        $sessionFingerprint->initialize($this->userWithout2Fa, 'pending-session-token');
+
+        $this->dao->createRecoveryCodesForLogin($this->userWithout2Fa);
+
+        $newSecret = $this->twoFa->generateSecret();
+        $session = new SessionNamespace('TwoFactorAuthenticator');
+        $session->secret = $newSecret;
+        $_GET['authCode'] = $this->generateValidAuthCode($newSecret);
+        $_GET['authCodeNonce'] = Nonce::getNonce(Controller::AUTH_CODE_NONCE);
+
+        try {
+            StaticContainer::get(Controller::class)->onLoginSetupTwoFactorAuth();
+        } catch (\Exception $e) {
+            // the setup redirects once finished, which cannot complete outside of a web request
+        }
+
+        $user = (new Model())->getUser($this->userWithout2Fa);
+        $this->assertSame($newSecret, $user['twofactor_secret']);
+        $this->assertTrue($sessionFingerprint->hasVerifiedTwoFactor());
+    }
+
+    public function testOnLoginSetupTwoFactorAuthNotAvailableWhenUserAlreadyUsesTwoFactorAuth()
+    {
+        $this->setTwoFaRequired(true);
+        $this->setCurrentUser($this->userWith2Fa);
+
+        $sessionFingerprint = new SessionFingerprint();
+        $sessionFingerprint->initialize($this->userWith2Fa, 'pending-session-token');
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('not available');
+
+        StaticContainer::get(Controller::class)->onLoginSetupTwoFactorAuth();
+    }
+
+    public function testOnLoginSetupTwoFactorAuthNotAvailableWhenTwoFactorAuthIsNotEnforced()
+    {
+        $this->setCurrentUser($this->userWithout2Fa);
+
+        $sessionFingerprint = new SessionFingerprint();
+        $sessionFingerprint->initialize($this->userWithout2Fa, 'pending-session-token');
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('not available');
+
+        StaticContainer::get(Controller::class)->onLoginSetupTwoFactorAuth();
+    }
+
+    public function testOnLoginSetupTwoFactorAuthNotAvailableWhenSessionUserDoesNotMatchCurrentUser()
+    {
+        $this->setTwoFaRequired(true);
+        $this->setCurrentUser($this->userWithout2Fa);
+
+        $sessionFingerprint = new SessionFingerprint();
+        $sessionFingerprint->initialize($this->otherUserWith2Fa, 'pending-session-token');
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('not available');
+
+        StaticContainer::get(Controller::class)->onLoginSetupTwoFactorAuth();
+    }
+
+    public function testOnLoginSetupTwoFactorAuthKeepsExistingSecretWhenNotAvailable()
+    {
+        $this->setTwoFaRequired(true);
+        $this->setCurrentUser($this->userWith2Fa);
+
+        $sessionFingerprint = new SessionFingerprint();
+        $sessionFingerprint->initialize($this->userWith2Fa, 'pending-session-token');
+
+        // simulate a submitted setup form holding a valid code for a freshly generated secret
+        $replacementSecret = $this->twoFa->generateSecret();
+        $session = new SessionNamespace('TwoFactorAuthenticator');
+        $session->secret = $replacementSecret;
+        $_GET['authCode'] = $this->generateValidAuthCode($replacementSecret);
+        $_GET['authCodeNonce'] = Nonce::getNonce(Controller::AUTH_CODE_NONCE);
+
+        $exception = null;
+
+        try {
+            StaticContainer::get(Controller::class)->onLoginSetupTwoFactorAuth();
+        } catch (\Exception $e) {
+            $exception = $e;
+        }
+
+        $user = (new Model())->getUser($this->userWith2Fa);
+        $this->assertSame($this->user2faSecret, $user['twofactor_secret']);
+        $this->assertNotNull($exception, 'An exception should have been thrown');
+        $this->assertSame('not available', $exception->getMessage());
     }
 
     public function testOnRequestDispatchRequiresFreshLoginWhenDifferentUserIsAuthenticatedDuringPendingSession()
@@ -357,6 +490,15 @@ class TwoFactorAuthTest extends IntegrationTestCase
         Request::processRequest('UsersManager.deleteUser', array(
             'userLogin' => $this->userWithout2Fa,
         ));
+    }
+
+    private function setTwoFaRequired(bool $isRequired): void
+    {
+        // must go through the container: resolving it applies the test config decoration, which would
+        // otherwise reset the value afterwards
+        Access::doAsSuperUser(function () use ($isRequired) {
+            StaticContainer::get(SystemSettings::class)->twoFactorAuthRequired->setValue($isRequired ? 1 : 0);
+        });
     }
 
     private function generateValidAuthCode($secret)
