@@ -119,8 +119,10 @@ trait PolicyComparisonTrait
     /**
      * Name to show for this setting in the compliance table.
      *
-     * Defaults to the setting title. Override this when the setting title also labels a
-     * real settings field, where the compliance table wording would read wrong.
+     * The compliance table phrases every row as the state the policy requires, which reads
+     * differently from the setting's own name. Override this when getTitle() would read
+     * wrong there. It defaults to getTitle() so that third-party implementers using this
+     * trait keep working without changes.
      */
     public static function getComplianceTitle(?int $idSite = null): string
     {

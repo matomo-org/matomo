@@ -38,6 +38,11 @@ class FilterPIIParameters implements
         return Piwik::translate('SitesManager_FilterPIIParametersSettingTitle');
     }
 
+    public static function getComplianceTitle(?int $idSite = null): string
+    {
+        return Piwik::translate('SitesManager_FilterPiiParametersComplianceTitle');
+    }
+
     public static function getInstance(?int $idSite = null)
     {
         $values = self::getPolicyRequiredValues($idSite);

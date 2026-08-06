@@ -60,6 +60,11 @@ class UserIdDisabled implements
         return Piwik::translate("UserId_UserIdDisabledSettingTitle");
     }
 
+    public static function getComplianceTitle(?int $idSite = null): string
+    {
+        return Piwik::translate("UserId_UserIdDisabledComplianceTitle");
+    }
+
     public static function getInstance(?int $idSite = null): self
     {
         $values = self::getPolicyRequiredValues($idSite);

@@ -63,6 +63,11 @@ class CampaignParameterValuesMasked implements
         return Piwik::translate('PrivacyManager_CampaignParameterValuesMaskedSettingTitle');
     }
 
+    public static function getComplianceTitle(?int $idSite = null): string
+    {
+        return Piwik::translate('PrivacyManager_CampaignParameterValuesMaskedComplianceTitle');
+    }
+
     public static function getInstance(?int $idSite = null): self
     {
         $values = self::getPolicyRequiredValues($idSite);

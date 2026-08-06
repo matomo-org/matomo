@@ -57,7 +57,7 @@ class CnilPolicy extends CompliancePolicy
     {
         return [
             [
-                'title' => Piwik::translate('General_ComplianceCNILUnknownSettingOptOutTitle'),
+                'title' => Piwik::translate('General_ComplianceCNILUnknownSettingOptOutConfiguredTitle'),
                 'note' =>
                     Piwik::translate('General_ComplianceCNILUnknownSettingOptOutDescription', [
                         '<a href="' .

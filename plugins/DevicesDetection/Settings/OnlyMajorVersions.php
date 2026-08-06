@@ -36,6 +36,11 @@ class OnlyMajorVersions implements
         return Piwik::translate("DevicesDetection_OnlyMajorVersionsSettingTitle");
     }
 
+    public static function getComplianceTitle(?int $idSite = null): string
+    {
+        return Piwik::translate("DevicesDetection_OnlyMajorVersionsComplianceTitle");
+    }
+
     public static function getInstance(?int $idSite = null): self
     {
         $values = self::getPolicyRequiredValues($idSite);

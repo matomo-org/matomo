@@ -63,6 +63,11 @@ class IpAddressMaskLength implements CustomSettingInterface, PolicyComparisonInt
         return Piwik::translate('PrivacyManager_AnonymizeIpMaskLengthSettingTitle');
     }
 
+    public static function getComplianceTitle(?int $idSite = null): string
+    {
+        return Piwik::translate('PrivacyManager_AnonymizeIpMaskLengthComplianceTitle');
+    }
+
     public static function getComplianceRequirementNote(?int $idSite = null): string
     {
         $requiredValue = self::getPolicyRequirements()[CnilPolicy::class];

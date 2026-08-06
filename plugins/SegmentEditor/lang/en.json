@@ -71,8 +71,8 @@
         "Test": "Test",
         "UpdatingAllSitesSegmentPermittedToSuperUser": "This segment was made accessible to all sites by the super user. Now, only super users are allowed to update or remove it.",
         "UpdatingForeignSegmentPermittedToSuperUser": "You can only edit and delete custom segments that you have created yourself. This segment was created and 'shared with you' by the Super User. To modify this segment, you can first create a new one by clicking on 'Add new segment'. Then you can customize the segment's definition.",
-        "LimitSegmentsSettingTitle": "Segment Availability Restricted",
-        "LimitSegmentsSettingRequirementNote": "Limit the available segments to be compliant.",
+        "LimitSegmentsSettingTitle": "Limit available segments",
+        "LimitSegmentsComplianceTitle": "Segment Availability Restricted",
         "LimitSegmentsComplianceDescription": "Segments based on Visitor IP Address, Site Time - Hour representing the time of the last action, and Ad Click ID are disabled.<br /><br />This prevents these detailed attributes from being filtered or combined to identify a specific visitor.",
         "LimitSegmentsComplianceImpact": "Visitor IP Address, Site Time - Hour, and Ad Click ID cannot be used when creating or applying segments."
     }
