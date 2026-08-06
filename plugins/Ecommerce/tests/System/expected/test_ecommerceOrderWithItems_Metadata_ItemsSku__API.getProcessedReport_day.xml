@@ -24,6 +24,9 @@
 			<avg_quantity>The average quantity of this Product SKU sold in Ecommerce orders.</avg_quantity>
 			<nb_visits>The number of visits on the Product/Category page. This is also used to process the Product SKU conversion rate. This metric is in the report if Ecommerce view tracking was setup on Product/Category pages.</nb_visits>
 			<conversion_rate>The Product SKU conversion rate is the number of orders containing this product divided by number of visits on the product page.</conversion_rate>
+			<nb_visits_percent_of_total>The percentage of the report's total Visits that this row represents.</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>The percentage of the report's total Actions that this row represents.</nb_actions_percent_of_total>
+			<revenue_percent_of_total>The percentage of the report's total Product Revenue that this row represents.</revenue_percent_of_total>
 		</metricsDocumentation>
 		<processedMetrics>
 			<avg_price>Average Price</avg_price>
@@ -38,6 +41,9 @@
 			<avg_price>money</avg_price>
 			<avg_quantity>number</avg_quantity>
 			<conversion_rate>percent</conversion_rate>
+			<nb_visits_percent_of_total>percent</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>percent</nb_actions_percent_of_total>
+			<revenue_percent_of_total>percent</revenue_percent_of_total>
 		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getItemsSku&amp;period=day&amp;date=2011-04-05</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getItemsSku&amp;period=day&amp;date=2011-03-07,2011-04-05</imageGraphEvolutionUrl>

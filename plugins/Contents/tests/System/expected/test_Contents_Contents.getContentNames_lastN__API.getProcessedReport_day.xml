@@ -19,6 +19,7 @@
 			<nb_impressions>The number of times a content block, such as a banner or an ad, was displayed on a page.</nb_impressions>
 			<nb_interactions>The number of times a content block was interacted with (eg, a 'click' on a banner or ad).</nb_interactions>
 			<interaction_rate>The ratio of content impressions to interactions.</interaction_rate>
+			<nb_visits_percent_of_total>The percentage of the report's total Visits that this row represents.</nb_visits_percent_of_total>
 		</metricsDocumentation>
 		<processedMetrics>
 			<interaction_rate>Interaction Rate</interaction_rate>
@@ -27,6 +28,7 @@
 			<nb_impressions>number</nb_impressions>
 			<nb_interactions>number</nb_interactions>
 			<interaction_rate>percent</interaction_rate>
+			<nb_visits_percent_of_total>percent</nb_visits_percent_of_total>
 		</metricTypes>
 		<actionToLoadSubTables>getContentNames</actionToLoadSubTables>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Contents&amp;apiAction=getContentNames&amp;period=range&amp;date=2010-01-03,2010-01-09</imageGraphUrl>

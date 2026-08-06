@@ -12,12 +12,24 @@
 		<documentation>This report contains information about the titles of the pages that have been visited. &lt;br /&gt; The page title is the HTML &lt;title&gt; Tag that most browsers show in their window title.</documentation>
 		<metricsDocumentation>
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
+			<nb_visits_percent_of_total>The percentage of the report's total Unique Pageviews that this row represents.</nb_visits_percent_of_total>
+			<nb_hits_percent_of_total>The percentage of the report's total Pageviews that this row represents.</nb_hits_percent_of_total>
+			<entry_bounce_count_percent_of_total>The percentage of the report's total Bounces that this row represents.</entry_bounce_count_percent_of_total>
+			<entry_nb_visits_percent_of_total>The percentage of the report's total Entrances that this row represents.</entry_nb_visits_percent_of_total>
+			<entry_nb_actions_percent_of_total>The percentage of the report's total Actions after entering here that this row represents.</entry_nb_actions_percent_of_total>
+			<exit_nb_visits_percent_of_total>The percentage of the report's total Exits that this row represents.</exit_nb_visits_percent_of_total>
 		</metricsDocumentation>
 		<processedMetrics>
 			<exit_rate>Exit rate</exit_rate>
 		</processedMetrics>
 		<metricTypes>
 			<exit_rate>percent</exit_rate>
+			<nb_visits_percent_of_total>percent</nb_visits_percent_of_total>
+			<nb_hits_percent_of_total>percent</nb_hits_percent_of_total>
+			<entry_bounce_count_percent_of_total>percent</entry_bounce_count_percent_of_total>
+			<entry_nb_visits_percent_of_total>percent</entry_nb_visits_percent_of_total>
+			<entry_nb_actions_percent_of_total>percent</entry_nb_actions_percent_of_total>
+			<exit_nb_visits_percent_of_total>percent</exit_nb_visits_percent_of_total>
 		</metricTypes>
 		<actionToLoadSubTables>getPageTitles</actionToLoadSubTables>
 		<relatedReports>

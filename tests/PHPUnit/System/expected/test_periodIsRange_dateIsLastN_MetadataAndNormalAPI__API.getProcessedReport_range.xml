@@ -23,6 +23,12 @@
 			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
 			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
 			<conversion_rate>The percentage of visits that triggered a conversion. The conversion rate is calculated using the number of visits that converted at least one goal. Visits converting multiple goals are only counted once in the conversion rate.</conversion_rate>
+			<nb_visits_percent_of_total>The percentage of the report's total Visits that this row represents.</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>The percentage of the report's total Actions that this row represents.</nb_actions_percent_of_total>
+			<nb_visits_converted_percent_of_total>The percentage of the report's total Visits with Conversions that this row represents.</nb_visits_converted_percent_of_total>
+			<nb_conversions_percent_of_total>The percentage of the report's total Conversions that this row represents.</nb_conversions_percent_of_total>
+			<bounce_count_percent_of_total>The percentage of the report's total Bounces that this row represents.</bounce_count_percent_of_total>
+			<revenue_percent_of_total>The percentage of the report's total Revenue that this row represents.</revenue_percent_of_total>
 		</metricsDocumentation>
 		<processedMetrics>
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
@@ -38,6 +44,12 @@
 			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
+			<nb_visits_percent_of_total>percent</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>percent</nb_actions_percent_of_total>
+			<nb_visits_converted_percent_of_total>percent</nb_visits_converted_percent_of_total>
+			<nb_conversions_percent_of_total>percent</nb_conversions_percent_of_total>
+			<bounce_count_percent_of_total>percent</bounce_count_percent_of_total>
+			<revenue_percent_of_total>percent</revenue_percent_of_total>
 		</metricTypes>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>

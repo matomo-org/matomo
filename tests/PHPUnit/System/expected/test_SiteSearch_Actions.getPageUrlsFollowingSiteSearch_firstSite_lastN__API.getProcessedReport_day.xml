@@ -18,6 +18,8 @@
 		<metricsDocumentation>
 			<nb_hits_following_search>The number of times this Page was visited after a visitor did a search on your website, and clicked on this page in the search results.</nb_hits_following_search>
 			<nb_hits>The number of times this page was visited.</nb_hits>
+			<nb_visits_percent_of_total>The percentage of the report's total Visits that this row represents.</nb_visits_percent_of_total>
+			<nb_hits_percent_of_total>The percentage of the report's total Pageviews that this row represents.</nb_hits_percent_of_total>
 		</metricsDocumentation>
 		<metricTypes>
 			<nb_hits_following_search>number</nb_hits_following_search>
@@ -26,6 +28,8 @@
 			<bounce_rate>percent</bounce_rate>
 			<exit_rate>percent</exit_rate>
 			<avg_time_generation>duration_s</avg_time_generation>
+			<nb_visits_percent_of_total>percent</nb_visits_percent_of_total>
+			<nb_hits_percent_of_total>percent</nb_hits_percent_of_total>
 		</metricTypes>
 		<relatedReports>
 			<row>

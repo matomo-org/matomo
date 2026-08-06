@@ -15,9 +15,11 @@
 		</metrics>
 		<metricsDocumentation>
 			<nb_conversions>The total number of goal conversions that occurred within each time range. Represents how many days passed between a visitor's first interaction and their conversion.</nb_conversions>
+			<nb_conversions_percent_of_total>The percentage of the report's total Conversions that this row represents.</nb_conversions_percent_of_total>
 		</metricsDocumentation>
 		<metricTypes>
 			<nb_conversions>number</nb_conversions>
+			<nb_conversions_percent_of_total>percent</nb_conversions_percent_of_total>
 		</metricTypes>
 		<constantRowsCount>1</constantRowsCount>
 		<metricsGoal>
