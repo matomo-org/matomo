@@ -22,8 +22,9 @@ use Piwik\Plugin\Manager as PluginManager;
  * (`@Login/loginLayout.twig`, used by Login and TwoFactorAuth).
  *
  * It reuses the existing 6-month change data ({@see ChangesModel::getChangeItems()}), selects the
- * three most recent entries and renders a call-to-action only for links on {@see self::ALLOWED_LINK_HOSTS}.
- * The entry itself (title and description) always stays visible; only its link is removed.
+ * three most recent entries and renders a call-to-action only for links a logged out visitor can
+ * actually follow ({@see self::ALLOWED_LINK_HOSTS}). The entry itself (title and description) always
+ * stays visible; only its link is removed.
  *
  * Since this runs on a public endpoint, the processed entries are cached across requests
  * ({@see self::loadChanges()}).
@@ -41,10 +42,16 @@ class WhatsNewProvider
     /**
      * Hosts whose links may render a call to action, each also covering its subdomains.
      *
-     * An allowlist rather than a check against this instance's own hostnames: it behaves the same on
-     * every installation, and it also keeps a link recorded by a third party plugin from pointing an
-     * unauthenticated visitor at an arbitrary domain. Extend this if announcements need to link
-     * somewhere else.
+     * This is a product filter, not a security control. A change's link comes from the plugin's own
+     * `changes.json` ({@see \Piwik\Plugin::getChanges()}), read off the local filesystem when a
+     * superuser activates or updates the plugin - so it is trusted content on the same footing as
+     * that plugin's PHP, and never anything a visitor or a request can influence.
+     *
+     * What it earns us is that links a logged out visitor cannot follow do not render: bundled
+     * plugins ship internal `index.php?...&idSite=1` links, which on this page would lead to a login
+     * bounce or a 404. An allowlist rather than a check against this instance's own hostnames so it
+     * behaves the same on every installation, whatever `trusted_hosts` says. Extend it if
+     * announcements need to link somewhere else.
      */
     private const ALLOWED_LINK_HOSTS = ['matomo.org'];
 
@@ -116,6 +123,12 @@ class WhatsNewProvider
         // Folds the loaded plugin list and the language into the id, so activating or deactivating
         // a plugin invalidates immediately. Nothing request specific is part of the cached value,
         // so the id stays fixed and cannot be influenced by a visitor.
+        //
+        // Identity is deliberately not part of the id either: the panel shows the same public
+        // announcements to everyone, and it renders mostly for anonymous visitors who have no
+        // identity at all. One consequence worth knowing - a `Changes.filterChanges` listener that
+        // filtered per user would not be honoured here, because whichever request populates the
+        // entry serves every later one within the lifetime.
         $cacheKey = CacheId::pluginAware(self::CACHE_KEY);
 
         $cached = $cache->fetch($cacheKey);
@@ -204,44 +217,25 @@ class WhatsNewProvider
      */
     private function isDisplayableExternalLink($link, $linkName): bool
     {
-        if (!is_string($link) || !is_string($linkName)) {
+        if (!is_string($link) || !is_string($linkName) || trim($linkName) === '') {
             return false;
         }
 
-        $link = trim($link);
-        $linkName = trim($linkName);
+        // An empty or relative link parses without a host, which is what rules it out - as does a
+        // protocol-relative one, since it carries no scheme for the check below.
+        $parsed = @parse_url(trim($link));
 
-        if ($link === '' || $linkName === '') {
+        if (!is_array($parsed) || empty($parsed['host'])) {
             return false;
         }
 
-        // Protocol-relative URLs (//example.org) inherit the current scheme and can point anywhere.
-        if (strpos($link, '//') === 0) {
-            return false;
-        }
-
-        $parsed = @parse_url($link);
-
-        if (!is_array($parsed)) {
-            return false;
-        }
-
-        // Must be an absolute URL with an explicit scheme and host.
-        if (empty($parsed['scheme']) || empty($parsed['host'])) {
-            return false;
-        }
-
-        $scheme = strtolower($parsed['scheme']);
-
-        if ($scheme !== 'http' && $scheme !== 'https') {
+        if (!in_array(strtolower($parsed['scheme'] ?? ''), ['http', 'https'], true)) {
             return false;
         }
 
         // parse_url() has already split any port off into its own component, so the host needs
         // nothing beyond case folding and dropping a trailing root dot.
-        $host = rtrim(strtolower($parsed['host']), '.');
-
-        return $this->isAllowedLinkHost($host);
+        return $this->isAllowedLinkHost(rtrim(strtolower($parsed['host']), '.'));
     }
 
     /**

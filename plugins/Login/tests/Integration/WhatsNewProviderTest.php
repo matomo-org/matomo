@@ -125,19 +125,36 @@ class WhatsNewProviderTest extends IntegrationTestCase
         $this->assertSame([], (new WhatsNewProvider($model))->getChanges());
     }
 
-    public function testKeepsLinksOnTheAllowedHostAndItsSubdomains(): void
+    /**
+     * One link per case on purpose: seeding several at once means MAX_ENTRIES silently drops all but
+     * the first three, so any case past the third would never actually be exercised.
+     *
+     * @dataProvider getAllowedHostLinks
+     */
+    public function testKeepsLinksOnTheAllowedHostAndItsSubdomains(string $link): void
     {
         $provider = $this->makeProvider([
-            $this->change(['link' => 'https://matomo.org/changelog/', 'link_name' => 'Read more']),
-            $this->change(['link' => 'https://plugins.matomo.org/SomePlugin', 'link_name' => 'Marketplace']),
-            $this->change(['link' => 'https://MATOMO.org/faq/', 'link_name' => 'Different casing']),
-            $this->change(['link' => 'https://matomo.org./faq/', 'link_name' => 'Trailing root dot']),
-            $this->change(['link' => 'https://matomo.org:8443/faq/', 'link_name' => 'Explicit port']),
+            $this->change(['link' => $link, 'link_name' => 'Read more']),
         ]);
 
-        foreach ($provider->getChanges() as $index => $change) {
-            $this->assertNotSame('', $change['link'], 'entry ' . $index . ' should have kept its call to action');
-        }
+        $changes = $provider->getChanges();
+
+        $this->assertCount(1, $changes);
+        $this->assertSame($link, $changes[0]['link'], 'the call to action should have been kept');
+        $this->assertSame('Read more', $changes[0]['link_name']);
+    }
+
+    public function getAllowedHostLinks(): array
+    {
+        return [
+            'apex host'          => ['https://matomo.org/changelog/'],
+            'subdomain'          => ['https://plugins.matomo.org/SomePlugin'],
+            'www subdomain'      => ['https://www.matomo.org'],
+            'different casing'   => ['https://MATOMO.org/faq/'],
+            'trailing root dot'  => ['https://matomo.org./faq/'],
+            'explicit port'      => ['https://matomo.org:8443/faq/'],
+            'plain http'         => ['http://matomo.org/news'],
+        ];
     }
 
     public function testKeepsEntryWithoutAnyLink(): void
@@ -152,20 +169,6 @@ class WhatsNewProviderTest extends IntegrationTestCase
         $this->assertSame('No link', $changes[0]['title']);
         $this->assertSame('', $changes[0]['link']);
         $this->assertSame('', $changes[0]['link_name']);
-    }
-
-    public function testRetainsBothHttpAndHttpsLinksOnAnAllowedHost(): void
-    {
-        $provider = $this->makeProvider([
-            $this->change(['link' => 'https://matomo.org/blog', 'link_name' => 'Read more']),
-            $this->change(['link' => 'http://matomo.org/news', 'link_name' => 'News']),
-        ]);
-
-        $changes = $provider->getChanges();
-
-        $this->assertSame('https://matomo.org/blog', $changes[0]['link']);
-        $this->assertSame('Read more', $changes[0]['link_name']);
-        $this->assertSame('http://matomo.org/news', $changes[1]['link']);
     }
 
     /**
