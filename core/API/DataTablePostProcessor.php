@@ -249,6 +249,13 @@ class DataTablePostProcessor
                 $genericFilter->disableFilters(array('Limit', 'Truncate'));
             }
 
+            $totalsCalculator = new ReportTotalsCalculator($this->apiModule, $this->apiMethod, $this->request, $this->report);
+            $genericFilter->setCallbackBeforeRowLimitingFilters(function (DataTable $table) use ($totalsCalculator) {
+                // the table still holds every row matching the request here, so the totals row can be
+                // recalculated for the table search before the rows are limited to the requested page
+                $totalsCalculator->calculateFilteredTotals($table);
+            });
+
             $genericFilter->filter($dataTable);
         }
 

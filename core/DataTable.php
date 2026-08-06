@@ -201,6 +201,14 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public const GENERIC_FILTERS_TO_DISABLE_METADATA_NAME = 'generic_filters_to_disable';
 
+    /**
+     * Name for metadata that describes whether the totals row only totals the rows matching the
+     * table search of the request, instead of every row of the report.
+     *
+     * The report totals stay available in the `totals` metadata when this is set.
+     */
+    public const TOTALS_ROW_IS_FILTERED_METADATA_NAME = 'totalsRowIsFiltered';
+
     /** The ID of the Summary Row. */
     public const ID_SUMMARY_ROW = -1;
 
