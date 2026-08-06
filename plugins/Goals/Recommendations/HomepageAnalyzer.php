@@ -14,8 +14,10 @@ namespace Piwik\Plugins\Goals\Recommendations;
 use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\Http;
+use Piwik\Http\EgressBlockedException;
 use Piwik\Site;
 use Piwik\SiteContentDetector;
+use Piwik\UrlHelper;
 use Piwik\Plugins\SitesManager\SiteContentDetection\SiteContentDetectionAbstract;
 use Psr\Log\LoggerInterface;
 
@@ -138,6 +140,14 @@ class HomepageAnalyzer
                 true, // $checkHostIsAllowed
                 true // $validateEgressIp: SSRF-safe fetch (public-IP only, per-redirect revalidation, pinned)
             );
+        } catch (EgressBlockedException $e) {
+            // admin-fixable rejection, not a transient network error, so it must clear the default WARN level
+            $this->getLogger()->warning(
+                'Goals recommendations: homepage fetch for {url} was refused: {message}',
+                // host only, so a configured URL carrying userinfo keeps credentials out of the log
+                ['url' => UrlHelper::getHostFromUrl($url), 'message' => $e->getMessage()]
+            );
+            return null;
         } catch (\Exception $e) {
             $this->getLogger()->debug(
                 'Goals recommendations: homepage fetch failed for {url}: {message}',

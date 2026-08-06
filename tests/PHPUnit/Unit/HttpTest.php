@@ -11,6 +11,7 @@ namespace Piwik\Tests\Unit;
 
 use Piwik\Config;
 use Piwik\Http;
+use Piwik\Http\EgressBlockedException;
 use ReflectionMethod;
 
 /**
@@ -18,6 +19,24 @@ use ReflectionMethod;
  */
 class HttpTest extends \PHPUnit\Framework\TestCase
 {
+    /** @var array|null */
+    private $originalProxyConfig;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->originalProxyConfig = Config::getInstance()->proxy;
+    }
+
+    protected function tearDown(): void
+    {
+        // Several tests mutate the proxy config, restore it so nothing leaks into later tests.
+        Config::getInstance()->proxy = $this->originalProxyConfig;
+
+        parent::tearDown();
+    }
+
     /**
      * @dataProvider getProxyConfigurationTestData
      */
@@ -53,35 +72,74 @@ class HttpTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * @dataProvider getResolveRedirectUrlTestData
-     */
-    public function testResolveRedirectUrl($baseUrl, $location, $expected)
+    public function testSendHttpRequestByWithEgressValidationRejectsNonCurlTransport()
     {
-        $method = new ReflectionMethod('\\Piwik\\Http', 'resolveRedirectUrl');
+        $this->expectException(EgressBlockedException::class);
+        $this->expectExceptionMessage('SSRF-safe HTTP requests require the curl transport.');
 
-        if (PHP_VERSION_ID < 80100) {
-            $method->setAccessible(true);
-        }
-
-        $this->assertSame($expected, $method->invoke(null, $baseUrl, $location));
+        $this->sendEgressValidatedRequest('socket', 'http://example.com/');
     }
 
-    public function getResolveRedirectUrlTestData()
+    public function testSendHttpRequestByWithEgressValidationRejectsNonHttpScheme()
     {
-        return array(
-            // absolute URL is used as-is
-            'absolute' => array('http://a.example/x/y', 'https://b.example/z', 'https://b.example/z'),
-            // protocol-relative keeps the base scheme
-            'protocol relative' => array('https://a.example/x/y', '//b.example/z', 'https://b.example/z'),
-            // absolute-path replaces the whole path, keeps host and port
-            'absolute path' => array('https://a.example:8443/x/y', '/z/w', 'https://a.example:8443/z/w'),
-            // relative reference resolves against the base directory
-            'relative' => array('https://a.example/x/y', 'z', 'https://a.example/x/z'),
-            'relative from dir' => array('https://a.example/x/', 'z', 'https://a.example/x/z'),
-            // documented RFC 3986 limitation: a query-only reference resolves against the base
-            // directory instead of retaining the full base path. Still same host, still re-validated.
-            'query only (documented limitation)' => array('https://a.example/x/y', '?p=2', 'https://a.example/x/?p=2'),
+        $originalProtocols = Config::getInstance()->General['allowed_outgoing_protocols'] ?? 'http,https';
+        // allow ftp through the generic protocol check so the SSRF-safe scheme guard is what rejects it
+        Config::getInstance()->General['allowed_outgoing_protocols'] = 'http,https,ftp';
+
+        try {
+            $this->sendEgressValidatedRequest('curl', 'ftp://example.com/');
+            $this->fail('Expected an exception for a non-http scheme');
+        } catch (EgressBlockedException $e) {
+            $this->assertSame('SSRF-safe HTTP requests only support the http and https schemes.', $e->getMessage());
+        } finally {
+            Config::getInstance()->General['allowed_outgoing_protocols'] = $originalProtocols;
+        }
+    }
+
+    public function testSendHttpRequestByWithEgressValidationRejectsConfiguredProxy()
+    {
+        Config::getInstance()->proxy['host'] = 'proxy.example';
+        Config::getInstance()->proxy['port'] = '8080';
+        Config::getInstance()->proxy['username'] = '';
+        Config::getInstance()->proxy['password'] = '';
+        Config::getInstance()->proxy['exclude'] = '';
+
+        $this->expectException(EgressBlockedException::class);
+        $this->expectExceptionMessage('SSRF-safe HTTP requests cannot be routed through a configured proxy.');
+
+        $this->sendEgressValidatedRequest('curl', 'http://example.com/');
+    }
+
+    public function testSendHttpRequestByWithEgressValidationRejectsPrivateIpTarget()
+    {
+        $this->expectException(EgressBlockedException::class);
+        $this->expectExceptionMessage('Refusing to fetch: host resolves to a private or reserved address.');
+
+        $this->sendEgressValidatedRequest('curl', 'http://10.0.0.1/');
+    }
+
+    private function sendEgressValidatedRequest($transport, $url)
+    {
+        return Http::sendHttpRequestBy(
+            $transport,
+            $url,
+            5,
+            null,
+            null,
+            null,
+            0,
+            false,
+            false,
+            false,
+            false,
+            'GET',
+            null,
+            null,
+            null,
+            array(),
+            null,
+            false, // $checkHostIsAllowed: skip the container-based blocklist in a unit test
+            true // $validateEgressIp
         );
     }
 

@@ -6,6 +6,23 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ## Matomo 5.13.0
 
+### Breaking Changes
+* Site content detection (used by the tracking-code setup page and consent-manager detection) now fetches the site URL over the SSRF-safe request path. It refuses targets resolving to private, loopback or reserved IP addresses, and requires the curl extension instead of falling back to the `fopen` or `socket` transports. Installations tracking intranet sites on private addresses must allowlist their ranges via the new `[General] allowed_private_egress_ranges` setting. Refusals are logged at `WARN` level. A configured `[proxy] host` also makes these requests fail closed, as the proxy resolves the target itself and the validated IP cannot be pinned. Where the site host is reachable directly, add it to `[proxy] exclude` (exact hostnames, no wildcards).
+
+### New APIs
+* The sparklines visualization has been redesigned as a responsive card grid of metric tiles. Plugin-facing additions that come with it:
+  * The new `Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines\Config::$use_metric_labels_as_titles` property lets a sparklines view use its own metric translations as the card titles instead of the generic metric names. Intended for views that relabel shared columns with section-specific names, e.g. the Ecommerce Overview.
+  * The `sparkline(src, width, height)` Twig helper accepts optional `width`/`height` display-size parameters (in px, defaults `Piwik\Visualization\Sparkline::DEFAULT_WIDTH`/`DEFAULT_HEIGHT`); the sparkline PNG is rendered at twice the displayed size for hi-DPI screens.
+* `Piwik\Http::sendHttpRequest()` and `Piwik\Http::sendHttpRequestBy()` accept a new optional `$validateEgressIp`
+  parameter enabling an SSRF-safe request path (public-IP validation, redirect re-validation, IP pinning). Use it
+  whenever the target URL derives from untrusted input, such as a site's configured URL. Requires curl.
+  Installations tracking intranet sites on private addresses can allowlist their ranges via the new
+  `[General] allowed_private_egress_ranges` INI setting. A refused target or unmet precondition throws the new
+  `Piwik\Http\EgressBlockedException`, so callers can tell a policy rejection from a transient network failure.
+* The `Http.sendHttpRequest` and `Http.sendHttpRequest.end` events pass a new `validateEgressIp` entry in their params
+  array. A listener that resolves the request itself must either honour SSRF-safe semantics (public-IP-only target,
+  re-validated redirects) or leave the request unhandled.
+
 ### HTTP API
 * `API.getBulkRequest` now validates the authentication parameters of each nested request URL against
   the outer request. Within a browser session a nested request may change neither the session flag

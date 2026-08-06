@@ -10,10 +10,7 @@
 namespace Piwik\Visualization;
 
 use Piwik\Common;
-use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
-use Piwik\Plugins\CoreVisualizations\FeatureFlags\SparklinesRedesign;
-use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\View\ViewInterface;
 
 /**
@@ -24,10 +21,8 @@ class Sparkline implements ViewInterface
 {
     public const DEFAULT_WIDTH = 200;
     public const DEFAULT_HEIGHT = 50;
-    public const DEFAULT_LINE_THICKNESS = 1;
-    public const REDESIGN_LINE_THICKNESS = 4;
-    public const DEFAULT_POINT_SIZE = 5;
-    public const REDESIGN_POINT_SIZE = 6;
+    public const LINE_THICKNESS = 4;
+    public const POINT_SIZE = 6;
     // We now create different sized width for Sparklines based on the card designs
     // This max width will still be adjusted as we create new Sparkline modes.
     public const MAX_WIDTH = 1000;
@@ -117,11 +112,10 @@ class Sparkline implements ViewInterface
 
         $sparkline->setWidth($this->getWidth());
         $sparkline->setHeight($this->getHeight());
-        $sparkline->setLineThickness($this->getLineThickness());
+        $sparkline->setLineThickness(self::LINE_THICKNESS);
         // Pad by at least the point radius so edge dots (first/last, and min/max at the
-        // top/bottom) aren't clipped by the image boundary. Legacy used a fixed 5, which
-        // happened to equal the legacy point size; keep them coupled as the point size grows.
-        $sparkline->setPadding((string) $this->getPointSize());
+        // top/bottom) aren't clipped by the image boundary.
+        $sparkline->setPadding((string) self::POINT_SIZE);
 
         $this->sparkline = $sparkline;
     }
@@ -220,7 +214,7 @@ class Sparkline implements ViewInterface
         } else {
             $sparkline->deactivateFillColor();
         }
-        $pointSize = $this->getPointSize();
+        $pointSize = self::POINT_SIZE;
         if ($this->shouldApplyColor($colors['minPointColor'])) {
             $sparkline->addPoint("minimum", $pointSize, $colors['minPointColor'], $seriesIndex);
         }
@@ -230,29 +224,6 @@ class Sparkline implements ViewInterface
         if ($this->shouldApplyColor($colors['lastPointColor'])) {
             $sparkline->addPoint("last", $pointSize, $colors['lastPointColor'], $seriesIndex);
         }
-    }
-
-    private function getLineThickness(): int
-    {
-        if ($this->isSparklinesRedesignEnabled()) {
-            return self::REDESIGN_LINE_THICKNESS;
-        }
-
-        return self::DEFAULT_LINE_THICKNESS;
-    }
-
-    private function getPointSize(): int
-    {
-        if ($this->isSparklinesRedesignEnabled()) {
-            return self::REDESIGN_POINT_SIZE;
-        }
-
-        return self::DEFAULT_POINT_SIZE;
-    }
-
-    private function isSparklinesRedesignEnabled(): bool
-    {
-        return StaticContainer::get(FeatureFlagManager::class)->isFeatureActive(SparklinesRedesign::class);
     }
 
     private function shouldApplyColor($color): bool
