@@ -17,7 +17,7 @@ class Oracle implements IpRangeProviderInterface
     {
         $ranges = [];
 
-        $oracle = Http::sendHttpRequest('https://docs.cloud.oracle.com/en-us/iaas/tools/public_ip_ranges.json', 120);
+        $oracle = Http::sendHttpRequest('https://docs.oracle.com/en-us/iaas/tools/public_ip_ranges.json', 120);
 
         if (empty($oracle)) {
             throw new \Exception('Failed to retrieve oracle IP ranges');
