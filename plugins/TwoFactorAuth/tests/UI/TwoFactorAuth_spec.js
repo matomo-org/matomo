@@ -110,6 +110,25 @@ describe("TwoFactorAuth", function () {
         expect(widgetsCount).to.equal(1);
     });
 
+    // The 2FA screens extend @Login/loginLayout.twig, so they get the What's New panel too. Every
+    // other baseline here is element scoped and so never shows it; this one is full page on purpose.
+    // The panel needs the real changes model - the test environment otherwise swaps in
+    // FakeChangesModel, which reads back no changes. Restored in a finally so a failure cannot leak
+    // the panel into the baselines below.
+    it('should show the auth code screen beside the What\'s New panel', async function () {
+        testEnvironment.loadChanges = 1;
+        testEnvironment.save();
+
+        try {
+            await loginUser('with2FA', false);
+            await page.waitForSelector('.loginWhatsNew__entry');
+            expect(await page.screenshot({ fullPage: true })).to.matchImage('logme_not_verified_whats_new');
+        } finally {
+            delete testEnvironment.loadChanges;
+            testEnvironment.save();
+        }
+    });
+
     it('when logging in through logme and not providing auth code it should show auth code screen', async function () {
         await loginUser('with2FA', false);
         const section = await page.waitForSelector('.loginSection');

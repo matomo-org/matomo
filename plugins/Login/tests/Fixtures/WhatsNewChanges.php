@@ -33,7 +33,7 @@ class WhatsNewChanges extends Fixture
     public function setUp(): void
     {
         $this->setUpWebsite();
-        $this->setUpChanges();
+        self::recordPanelChanges();
         $this->setUpTermsAndPrivacy();
     }
 
@@ -50,7 +50,13 @@ class WhatsNewChanges extends Fixture
         }
     }
 
-    private function setUpChanges(): void
+    /**
+     * Static so any other fixture can give its spec a What's New baseline without duplicating these
+     * entries - a spec only has to set `testEnvironment.loadChanges` for the test that wants the
+     * panel. Recording them is inert until it does, since the test environment otherwise swaps in
+     * FakeChangesModel and no change is ever read back.
+     */
+    public static function recordPanelChanges(): void
     {
         // Intentionally not resolved through the container: the test environment swaps
         // Piwik\Changes\Model for FakeChangesModel, whose addChange() is a no-op. The spec sets

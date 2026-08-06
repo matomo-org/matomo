@@ -135,6 +135,20 @@ describe("LoginWhatsNew", function () {
         });
     });
 
+    // The forgot password form is the other shape the primary column takes for an anonymous visitor,
+    // and it needs no token to reach. Kept ahead of the responsive test below, which shrinks the
+    // viewport.
+    it("should render the forgot password form beside the panel", async function () {
+        await page.webpage.setViewport({ width: 1440, height: 900 });
+        await page.goto(loginUrl);
+        await page.waitForSelector('a#login_form_nav');
+        await page.click('a#login_form_nav');
+        await page.waitForNetworkIdle();
+        await page.waitForSelector('.loginWhatsNew__entry');
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('forgot_password');
+    });
+
     it("should hide the panel and leave the form alone on tablet and mobile", async function () {
         const measure = function () {
             const de = document.documentElement;
