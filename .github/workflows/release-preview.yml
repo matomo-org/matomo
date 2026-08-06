@@ -82,14 +82,16 @@ jobs:
             core.setFailed('User is not allowed to release.')
       # The target branch ends up as a checkout ref, as the force-push target
       # and as the ref the release workflow builds from, so validate it here
-      # instead of relying on the input staying a restricted choice.
+      # instead of relying on the input staying a restricted choice. Each
+      # supported branch also needs a test job below, so failing early is
+      # better than skipping the release later on.
       - name: Determine preview branch
         id: target
         run: |
-          if ! [[ $TARGET_BRANCH =~ ^[0-9]+\.x-dev$ ]]; then
-            echo "Unsupported target branch: $TARGET_BRANCH"
-            exit 1
-          fi
+          case "$TARGET_BRANCH" in
+            5.x-dev|6.x-dev) ;;
+            *) echo "Unsupported target branch: $TARGET_BRANCH"; exit 1 ;;
+          esac
 
           echo "PREVIEW_BRANCH=${TARGET_BRANCH%-dev}-preview" >> "$GITHUB_ENV"
           echo "preview_branch=${TARGET_BRANCH%-dev}-preview" >> "$GITHUB_OUTPUT"
@@ -202,14 +204,35 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  run_matomo_tests:
+  # A workflow started from a branch always calls the reusable workflows of that
+  # same branch, which would test the code of the target branch with the PHP,
+  # MySQL and Node versions of the branch this workflow was started from. As the
+  # called workflow can not be chosen dynamically, there is one job per target
+  # branch, so the tests always run with the matching versions.
+  run_matomo_tests_5x:
+    needs: [prepare_preview_version]
+    uses: matomo-org/matomo/.github/workflows/matomo-tests.yml@5.x-dev
+    if: |
+      always() &&
+      needs.prepare_preview_version.result == 'success' &&
+      needs.prepare_preview_version.outputs.do_release == '1' &&
+      needs.prepare_preview_version.outputs.has_new_version == '1' &&
+      needs.prepare_preview_version.outputs.preview_branch == '5.x-preview'
+    with:
+      is_preview: true
+      ref: ${{ needs.prepare_preview_version.outputs.preview_branch }}
+    secrets:
+      ARTIFACTS_PASS: ${{ secrets.ARTIFACTS_PASS }}
+
+  run_matomo_tests_6x:
     needs: [prepare_preview_version]
     uses: ./.github/workflows/matomo-tests.yml
     if: |
-      always() && 
-      needs.prepare_preview_version.result == 'success' && 
-      needs.prepare_preview_version.outputs.do_release == '1' && 
-      needs.prepare_preview_version.outputs.has_new_version == '1'
+      always() &&
+      needs.prepare_preview_version.result == 'success' &&
+      needs.prepare_preview_version.outputs.do_release == '1' &&
+      needs.prepare_preview_version.outputs.has_new_version == '1' &&
+      needs.prepare_preview_version.outputs.preview_branch == '6.x-preview'
     with:
       is_preview: true
       ref: ${{ needs.prepare_preview_version.outputs.preview_branch }}
@@ -217,13 +240,17 @@ jobs:
       ARTIFACTS_PASS: ${{ secrets.ARTIFACTS_PASS }}
 
   release_preview_version:
-    needs: [prepare_preview_version, run_matomo_tests]
+    needs: [prepare_preview_version, run_matomo_tests_5x, run_matomo_tests_6x]
     uses: ./.github/workflows/release.yml
+    # exactly one of the test jobs runs, the other one is always skipped
     if: |
-      always() && 
-      needs.prepare_preview_version.result == 'success' && 
-      needs.run_matomo_tests.result == 'success' && 
-      needs.prepare_preview_version.outputs.do_release == '1' && 
+      always() &&
+      needs.prepare_preview_version.result == 'success' &&
+      (
+        (needs.run_matomo_tests_5x.result == 'success' && needs.run_matomo_tests_6x.result == 'skipped') ||
+        (needs.run_matomo_tests_6x.result == 'success' && needs.run_matomo_tests_5x.result == 'skipped')
+      ) &&
+      needs.prepare_preview_version.outputs.do_release == '1' &&
       needs.prepare_preview_version.outputs.has_new_version == '1'
     with:
       is_preview: true
