@@ -118,8 +118,8 @@
     }
 
     /* Tablet and below: drop the secondary column so the sign in form has the page to
-       itself. */
-    @media (max-width: 760px) {
+       itself. Any narrower and the two columns fight over the width. */
+    @media (max-width: 1040px) {
         .loginLayout__secondary {
             display: none;
         }

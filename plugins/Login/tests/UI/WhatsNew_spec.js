@@ -173,21 +173,44 @@ describe("LoginWhatsNew", function () {
             };
         };
 
-        // The panel is dropped at `max-width: 760px` (login.less), so 720 is inside that range.
-        await page.webpage.setViewport({ width: 720, height: 820 });
-        await page.goto(loginUrl);
-        await page.waitForSelector('#login_form_login');
-        const tablet = await page.evaluate(measure);
+        // The panel is dropped at `max-width: 1040px` (loginLayout.less), so 960 is inside that range.
+        const results = [];
 
-        await page.webpage.setViewport({ width: 380, height: 820 });
-        await page.goto(loginUrl);
-        await page.waitForSelector('#login_form_login');
-        const mobile = await page.evaluate(measure);
+        for (const width of [960, 720, 380]) {
+            await page.webpage.setViewport({ width: width, height: 820 });
+            await page.goto(loginUrl);
+            await page.waitForSelector('#login_form_login');
+            results.push(await page.evaluate(measure));
+        }
 
-        [tablet, mobile].forEach(function (result) {
+        results.forEach(function (result) {
             expect(result.noOverflow).to.be.true;
             expect(result.panelHidden).to.be.true;
             expect(result.formVisible).to.be.true;
         });
+    });
+
+    // The other way round: where the panel does show, the form must still be full width.
+    // 1120 leaves room above the breakpoint so a scrollbar can't push us under it.
+    it("should keep the sign in form at its full width wherever the panel shows", async function () {
+        await page.webpage.setViewport({ width: 1120, height: 900 });
+        await page.goto(loginUrl);
+        await page.waitForSelector('.loginWhatsNew__entry');
+
+        const layout = await page.evaluate(function () {
+            const de = document.documentElement;
+
+            return {
+                panelVisible: document.querySelector('.loginWhatsNew').offsetParent !== null,
+                formWidth: Math.round(
+                    document.querySelector('.loginLayout__content').getBoundingClientRect().width
+                ),
+                noOverflow: de.scrollWidth <= de.clientWidth,
+            };
+        });
+
+        expect(layout.panelVisible).to.be.true;
+        expect(layout.noOverflow).to.be.true;
+        expect(layout.formWidth).to.equal(450);
     });
 });

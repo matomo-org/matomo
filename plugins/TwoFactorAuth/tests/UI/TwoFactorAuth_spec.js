@@ -111,8 +111,8 @@ describe("TwoFactorAuth", function () {
     });
 
     // The 2FA screens extend @Login/loginLayout.twig, so they get the panel too. Geometry only -
-    // it has its own baseline in the Login specs. The flag is cleared in a finally so it cannot
-    // leak into the tests below.
+    // it has its own baseline in the Login specs. The finally only clears the flag: the panel
+    // itself stays cached for the tests below, which is fine as they all crop to .loginSection.
     it('should show the auth code screen beside the What\'s New panel', async function () {
         testEnvironment.loadChanges = 1;
         testEnvironment.save();
