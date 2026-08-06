@@ -224,6 +224,13 @@ class WhatsNewProvider
             return false;
         }
 
+        // Reject userinfo: PHP splits the authority on the last `@`, browsers end the host at the
+        // first `\`, so `https://evil.example\@matomo.org/` is matomo.org here and evil.example
+        // there. Announcement links never carry credentials.
+        if (isset($parsed['user']) || isset($parsed['pass'])) {
+            return false;
+        }
+
         // parse_url() has already split any port off into its own component, so the host needs
         // nothing beyond case folding and dropping a trailing root dot.
         return $this->isAllowedLinkHost(rtrim(strtolower($parsed['host']), '.'));

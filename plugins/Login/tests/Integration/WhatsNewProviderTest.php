@@ -252,6 +252,11 @@ class WhatsNewProviderTest extends IntegrationTestCase
             // Look-alikes: neither is a subdomain of an allowed host.
             'allowed host as a suffix'    => ['https://evil-matomo.org/phishing'],
             'allowed host as a prefix'    => ['https://matomo.org.example.com/phishing'],
+            // parse_url() splits the authority on the last `@` and reads matomo.org as the host;
+            // browsers end it at the first `\` and go to evil.example instead.
+            'userinfo hides the real host' => ['https://evil.example\@matomo.org/path'],
+            'userinfo percent-encoded'     => ['https://evil.example%5C@matomo.org/path'],
+            'userinfo credentials'         => ['https://user:pw@matomo.org/changelog/'],
             'protocol-relative url'       => ['//evil.example.org/path'],
             'invalid url'                 => ['http://'],
             'javascript scheme'           => ['javascript:alert(1)'],
