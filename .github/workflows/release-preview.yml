@@ -47,6 +47,14 @@ on:
   schedule:
     - cron: '0 1 * * *' # 1am daily
 
+# Two builds for the same target would force-push the same preview branch and
+# race for the same version number, so they are queued instead of cancelled.
+# The default needs to be repeated here, as the concurrency group cannot access
+# the env context.
+concurrency:
+  group: preview-${{ inputs.target_branch || '5.x-dev' }}
+  cancel-in-progress: false
+
 env:
   RELEASE_PASSWORD: ${{ secrets.RELEASE_PASSWORD }}
 jobs:
