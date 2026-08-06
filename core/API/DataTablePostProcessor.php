@@ -235,7 +235,7 @@ class DataTablePostProcessor
      */
     public function applyPercentOfTotalMetrics($dataTable)
     {
-        if (1 != Common::getRequestVar('percent_of_total', '1', 'integer', $this->request)) {
+        if (!(new Request($this->request))->getBoolParameter('percent_of_total', true)) {
             return $dataTable;
         }
 
@@ -292,6 +292,12 @@ class DataTablePostProcessor
             }
 
             $genericFilter->filter($dataTable);
+
+            // when the percent-of-total columns were computed before the generic filters ran,
+            // the Truncate filter summed the per row quotients into its summary row
+            $dataTable->filter(function (DataTable $table) {
+                PercentOfReportTotal::recomputeSummaryRows($table);
+            });
         }
 
         return $dataTable;

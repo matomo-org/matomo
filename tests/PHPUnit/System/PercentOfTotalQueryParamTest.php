@@ -47,6 +47,25 @@ class PercentOfTotalQueryParamTest extends SystemTestCase
         ]);
     }
 
+    public function testPercentOfTotalParamAcceptsBooleanStrings()
+    {
+        $this->assertApiResponseEqualsExpected("Referrers.getKeywords", $this->defaultParams() + [
+            'percent_of_total' => 'false',
+        ]);
+    }
+
+    public function testTruncationSummaryRowGetsTheQuotientOfItsSummedMetrics()
+    {
+        // sorting by a percent-of-total column computes the processed metrics before the
+        // Truncate filter runs; the summary row percentage must still be the quotient of its
+        // summed metric values, not the sum of the per row quotients
+        $this->assertApiResponseEqualsExpected("Referrers.getKeywords", $this->defaultParams() + [
+            'filter_truncate' => 1,
+            'filter_sort_column' => 'nb_visits_percent_of_total',
+            'format_metrics' => 0,
+        ]);
+    }
+
     public function testPercentOfTotalMetricsAreNotFormattedWhenMetricFormattingIsOff()
     {
         $this->assertApiResponseEqualsExpected("Referrers.getKeywords", $this->defaultParams() + [

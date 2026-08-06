@@ -604,7 +604,7 @@ class ProcessedReport
             }
         }
 
-        $columns = $this->addPercentOfTotalColumns($dataTable, $columns);
+        $columns = $this->addPercentOfTotalColumns($dataTable, $columns, $reportMetadata);
         $columns = $this->hideShowMetrics($columns);
         $totals = [];
 
@@ -648,15 +648,17 @@ class ProcessedReport
     }
 
     /**
-     * Adds column translations for the percent-of-total metrics the DataTablePostProcessor
-     * registered on the table (eg, 'nb_visits_percent_of_total'), so their values are kept
-     * in the processed report data.
+     * Adds column translations, metric types and metric documentation for the percent-of-total
+     * metrics the DataTablePostProcessor registered on the table (eg,
+     * 'nb_visits_percent_of_total'), so their values are kept in the processed report data
+     * and described in its metadata.
      *
      * @param DataTable|DataTable\Map $dataTable
      * @param array $columns
+     * @param array $reportMetadata
      * @return array
      */
-    private function addPercentOfTotalColumns($dataTable, $columns)
+    private function addPercentOfTotalColumns($dataTable, $columns, &$reportMetadata)
     {
         $tables = $dataTable instanceof DataTable\Map ? $dataTable->getDataTables() : [$dataTable];
 
@@ -665,6 +667,8 @@ class ProcessedReport
             foreach ($extraProcessedMetrics as $metric) {
                 if ($metric instanceof PercentOfReportTotal) {
                     $columns[$metric->getName()] = $metric->getTranslatedName();
+                    $reportMetadata['metricTypes'][$metric->getName()] = $metric->getSemanticType();
+                    $reportMetadata['metricsDocumentation'][$metric->getName()] = $metric->getDocumentation();
                 }
             }
         }

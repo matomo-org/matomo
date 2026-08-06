@@ -3,19 +3,19 @@
 	<row>
 		
 		<nb_visits>150</nb_visits>
-		<nb_visits_percent_of_total>36.5%</nb_visits_percent_of_total>
+		<nb_visits_percent_of_total>34.9%</nb_visits_percent_of_total>
 		<segment>visitorType==new</segment>
 	</row>
 	<row>
 		
 		<nb_visits>250</nb_visits>
-		<nb_visits_percent_of_total>60.8%</nb_visits_percent_of_total>
+		<nb_visits_percent_of_total>58.1%</nb_visits_percent_of_total>
 		<segment>daysSinceLastVisit==0</segment>
 	</row>
 	<row>
 		
 		<nb_visits>10</nb_visits>
-		<nb_visits_percent_of_total>2.4%</nb_visits_percent_of_total>
+		<nb_visits_percent_of_total>2.3%</nb_visits_percent_of_total>
 		<segment>daysSinceLastVisit==1</segment>
 	</row>
 	<row>
@@ -51,13 +51,13 @@
 	<row>
 		
 		<nb_visits>10</nb_visits>
-		<nb_visits_percent_of_total>2.4%</nb_visits_percent_of_total>
+		<nb_visits_percent_of_total>2.3%</nb_visits_percent_of_total>
 		<segment>daysSinceLastVisit==7</segment>
 	</row>
 	<row>
 		
 		<nb_visits>10</nb_visits>
-		<nb_visits_percent_of_total>2.4%</nb_visits_percent_of_total>
+		<nb_visits_percent_of_total>2.3%</nb_visits_percent_of_total>
 		<segment>daysSinceLastVisit&gt;=8;daysSinceLastVisit&lt;=14</segment>
 	</row>
 	<row>

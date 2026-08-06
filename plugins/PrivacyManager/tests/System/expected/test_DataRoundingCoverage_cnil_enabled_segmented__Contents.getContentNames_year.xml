@@ -6,7 +6,7 @@
 		<nb_impressions>10</nb_impressions>
 		<nb_interactions>10</nb_interactions>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
-		<nb_visits_percent_of_total>24.4%</nb_visits_percent_of_total>
+		<nb_visits_percent_of_total>25%</nb_visits_percent_of_total>
 		<interaction_rate>100%</interaction_rate>
 		<segment>contentName==ImageAd</segment>
 	</row>
@@ -16,7 +16,7 @@
 		<nb_impressions>10</nb_impressions>
 		<nb_interactions>10</nb_interactions>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
-		<nb_visits_percent_of_total>24.4%</nb_visits_percent_of_total>
+		<nb_visits_percent_of_total>25%</nb_visits_percent_of_total>
 		<interaction_rate>100%</interaction_rate>
 		<segment>contentName==Text+Ad</segment>
 	</row>
@@ -26,7 +26,7 @@
 		<nb_impressions>10</nb_impressions>
 		<nb_interactions>10</nb_interactions>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
-		<nb_visits_percent_of_total>24.4%</nb_visits_percent_of_total>
+		<nb_visits_percent_of_total>25%</nb_visits_percent_of_total>
 		<interaction_rate>100%</interaction_rate>
 		<segment>contentName==content+name+20</segment>
 	</row>
@@ -36,7 +36,7 @@
 		<nb_impressions>10</nb_impressions>
 		<nb_interactions>0</nb_interactions>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
-		<nb_visits_percent_of_total>24.4%</nb_visits_percent_of_total>
+		<nb_visits_percent_of_total>25%</nb_visits_percent_of_total>
 		<interaction_rate>0%</interaction_rate>
 		<segment>contentName==content+name+21</segment>
 	</row>
@@ -46,7 +46,7 @@
 		<nb_impressions>10</nb_impressions>
 		<nb_interactions>10</nb_interactions>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
-		<nb_visits_percent_of_total>24.4%</nb_visits_percent_of_total>
+		<nb_visits_percent_of_total>25%</nb_visits_percent_of_total>
 		<interaction_rate>100%</interaction_rate>
 		<segment>contentName==content+name+22</segment>
 	</row>
@@ -56,7 +56,7 @@
 		<nb_impressions>10</nb_impressions>
 		<nb_interactions>0</nb_interactions>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
-		<nb_visits_percent_of_total>24.4%</nb_visits_percent_of_total>
+		<nb_visits_percent_of_total>25%</nb_visits_percent_of_total>
 		<interaction_rate>0%</interaction_rate>
 		<segment>contentName==content+name+23</segment>
 	</row>
@@ -66,7 +66,7 @@
 		<nb_impressions>10</nb_impressions>
 		<nb_interactions>10</nb_interactions>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
-		<nb_visits_percent_of_total>24.4%</nb_visits_percent_of_total>
+		<nb_visits_percent_of_total>25%</nb_visits_percent_of_total>
 		<interaction_rate>100%</interaction_rate>
 		<segment>contentName==content+name+24</segment>
 	</row>
@@ -76,7 +76,7 @@
 		<nb_impressions>10</nb_impressions>
 		<nb_interactions>0</nb_interactions>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
-		<nb_visits_percent_of_total>24.4%</nb_visits_percent_of_total>
+		<nb_visits_percent_of_total>25%</nb_visits_percent_of_total>
 		<interaction_rate>0%</interaction_rate>
 		<segment>contentName==Video+Ad</segment>
 	</row>

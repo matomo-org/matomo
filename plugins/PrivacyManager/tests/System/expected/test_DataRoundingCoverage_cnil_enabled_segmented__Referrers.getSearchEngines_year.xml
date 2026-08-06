@@ -30,11 +30,11 @@
 		<revenue>617</revenue>
 		<sum_daily_nb_uniq_visitors>50</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>10</sum_daily_nb_users>
-		<nb_visits_percent_of_total>78.1%</nb_visits_percent_of_total>
-		<nb_actions_percent_of_total>80.4%</nb_actions_percent_of_total>
-		<nb_visits_converted_percent_of_total>78.1%</nb_visits_converted_percent_of_total>
-		<nb_conversions_percent_of_total>75.9%</nb_conversions_percent_of_total>
-		<bounce_count_percent_of_total>84.7%</bounce_count_percent_of_total>
+		<nb_visits_percent_of_total>83.3%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>81.8%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>83.3%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>75%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>83.3%</bounce_count_percent_of_total>
 		<revenue_percent_of_total>74.6%</revenue_percent_of_total>
 		<segment>referrerType==search;referrerName==Google</segment>
 		<url>http://google.com</url>
@@ -306,11 +306,11 @@
 		<revenue>60</revenue>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>10</sum_daily_nb_users>
-		<nb_visits_percent_of_total>15.6%</nb_visits_percent_of_total>
-		<nb_actions_percent_of_total>8.9%</nb_actions_percent_of_total>
-		<nb_visits_converted_percent_of_total>15.6%</nb_visits_converted_percent_of_total>
+		<nb_visits_percent_of_total>16.7%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>9.1%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>16.7%</nb_visits_converted_percent_of_total>
 		<nb_conversions_percent_of_total>6.3%</nb_conversions_percent_of_total>
-		<bounce_count_percent_of_total>16.9%</bounce_count_percent_of_total>
+		<bounce_count_percent_of_total>16.7%</bounce_count_percent_of_total>
 		<revenue_percent_of_total>7.3%</revenue_percent_of_total>
 		<segment>referrerType==search;referrerName==Yahoo%21</segment>
 		<url>http://search.yahoo.com</url>
@@ -417,11 +417,11 @@
 		<revenue>90</revenue>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>10</sum_daily_nb_users>
-		<nb_visits_percent_of_total>15.6%</nb_visits_percent_of_total>
-		<nb_actions_percent_of_total>17.9%</nb_actions_percent_of_total>
-		<nb_visits_converted_percent_of_total>15.6%</nb_visits_converted_percent_of_total>
-		<nb_conversions_percent_of_total>12.7%</nb_conversions_percent_of_total>
-		<bounce_count_percent_of_total>16.9%</bounce_count_percent_of_total>
+		<nb_visits_percent_of_total>16.7%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>18.2%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>16.7%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>12.5%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>16.7%</bounce_count_percent_of_total>
 		<revenue_percent_of_total>10.9%</revenue_percent_of_total>
 		<segment>referrerType==search;referrerName==Bing</segment>
 		<url>http://bing.com</url>
@@ -498,11 +498,11 @@
 		<revenue>20</revenue>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>10</sum_daily_nb_users>
-		<nb_visits_percent_of_total>15.6%</nb_visits_percent_of_total>
-		<nb_actions_percent_of_total>8.9%</nb_actions_percent_of_total>
-		<nb_visits_converted_percent_of_total>15.6%</nb_visits_converted_percent_of_total>
+		<nb_visits_percent_of_total>16.7%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>9.1%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>16.7%</nb_visits_converted_percent_of_total>
 		<nb_conversions_percent_of_total>6.3%</nb_conversions_percent_of_total>
-		<bounce_count_percent_of_total>16.9%</bounce_count_percent_of_total>
+		<bounce_count_percent_of_total>16.7%</bounce_count_percent_of_total>
 		<revenue_percent_of_total>2.4%</revenue_percent_of_total>
 		<segment>referrerType==search;referrerName==Ask</segment>
 		<url>http://ask.com</url>
@@ -564,11 +564,11 @@
 		<revenue>10</revenue>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>10</sum_daily_nb_users>
-		<nb_visits_percent_of_total>15.6%</nb_visits_percent_of_total>
-		<nb_actions_percent_of_total>8.9%</nb_actions_percent_of_total>
-		<nb_visits_converted_percent_of_total>15.6%</nb_visits_converted_percent_of_total>
+		<nb_visits_percent_of_total>16.7%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>9.1%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>16.7%</nb_visits_converted_percent_of_total>
 		<nb_conversions_percent_of_total>6.3%</nb_conversions_percent_of_total>
-		<bounce_count_percent_of_total>16.9%</bounce_count_percent_of_total>
+		<bounce_count_percent_of_total>16.7%</bounce_count_percent_of_total>
 		<revenue_percent_of_total>1.2%</revenue_percent_of_total>
 		<segment>referrerType==search;referrerName==Alexa</segment>
 		<url>http://alexa.com</url>
@@ -615,11 +615,11 @@
 		<revenue>10</revenue>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>10</sum_daily_nb_users>
-		<nb_visits_percent_of_total>15.6%</nb_visits_percent_of_total>
-		<nb_actions_percent_of_total>8.9%</nb_actions_percent_of_total>
-		<nb_visits_converted_percent_of_total>15.6%</nb_visits_converted_percent_of_total>
+		<nb_visits_percent_of_total>16.7%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>9.1%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>16.7%</nb_visits_converted_percent_of_total>
 		<nb_conversions_percent_of_total>6.3%</nb_conversions_percent_of_total>
-		<bounce_count_percent_of_total>16.9%</bounce_count_percent_of_total>
+		<bounce_count_percent_of_total>16.7%</bounce_count_percent_of_total>
 		<revenue_percent_of_total>1.2%</revenue_percent_of_total>
 		<segment>referrerType==search;referrerName==Babylon</segment>
 		<url>http://search.babylon.com</url>
@@ -666,11 +666,11 @@
 		<revenue>10</revenue>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<nb_visits_percent_of_total>15.6%</nb_visits_percent_of_total>
-		<nb_actions_percent_of_total>8.9%</nb_actions_percent_of_total>
-		<nb_visits_converted_percent_of_total>15.6%</nb_visits_converted_percent_of_total>
+		<nb_visits_percent_of_total>16.7%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>9.1%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>16.7%</nb_visits_converted_percent_of_total>
 		<nb_conversions_percent_of_total>6.3%</nb_conversions_percent_of_total>
-		<bounce_count_percent_of_total>16.9%</bounce_count_percent_of_total>
+		<bounce_count_percent_of_total>16.7%</bounce_count_percent_of_total>
 		<revenue_percent_of_total>1.2%</revenue_percent_of_total>
 		<segment>referrerType==search;referrerName==Bing+Images</segment>
 		<url>http://bing.com/images/search</url>
@@ -717,11 +717,11 @@
 		<revenue>10</revenue>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<nb_visits_percent_of_total>15.6%</nb_visits_percent_of_total>
-		<nb_actions_percent_of_total>8.9%</nb_actions_percent_of_total>
-		<nb_visits_converted_percent_of_total>15.6%</nb_visits_converted_percent_of_total>
+		<nb_visits_percent_of_total>16.7%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>9.1%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>16.7%</nb_visits_converted_percent_of_total>
 		<nb_conversions_percent_of_total>6.3%</nb_conversions_percent_of_total>
-		<bounce_count_percent_of_total>16.9%</bounce_count_percent_of_total>
+		<bounce_count_percent_of_total>16.7%</bounce_count_percent_of_total>
 		<revenue_percent_of_total>1.2%</revenue_percent_of_total>
 		<segment>referrerType==search;referrerName==Yahoo%21+Images</segment>
 		<url>http://images.search.yahoo.com</url>

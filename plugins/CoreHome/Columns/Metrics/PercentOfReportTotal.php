@@ -100,6 +100,27 @@ class PercentOfReportTotal extends ProcessedMetric
         return Piwik::translate('General_ColumnPercentOfReportTotalDocumentation', $this->metricTranslation);
     }
 
+    /**
+     * The report total may change after the metric is registered: DataRounding rounds the
+     * 'totalsUnformatted' metadata together with the row values before recomputing percent
+     * metrics, so refresh the total to keep the quotient consistent with the row values.
+     * Subtables do not carry the totals metadata and keep the first level report total.
+     */
+    public function beforeCompute($report, DataTable $table)
+    {
+        $totals = $table->getMetadata('totalsUnformatted');
+        if (is_array($totals)) {
+            foreach (array_merge([$this->metricName], $this->metricIds) as $totalKey) {
+                if (isset($totals[$totalKey]) && is_numeric($totals[$totalKey])) {
+                    $this->total = $totals[$totalKey];
+                    break;
+                }
+            }
+        }
+
+        return parent::beforeCompute($report, $table);
+    }
+
     public function compute(Row $row)
     {
         $value = $row->getColumn($this->metricName);
@@ -179,6 +200,51 @@ class PercentOfReportTotal extends ProcessedMetric
 
         if (!empty($metrics)) {
             self::addMetricsToTableRecursively($table, $metrics);
+        }
+    }
+
+    /**
+     * Recomputes the percent-of-total columns on truncation summary rows. When a generic filter
+     * needs processed metrics (eg, filter_sort_column=nb_visits_percent_of_total), the percent
+     * columns are computed before the Truncate filter runs and Truncate sums the per row
+     * quotients into its summary row. The sum of the rounded quotients can drift far from the
+     * actual percentage (small values round to 0 and disappear from the sum entirely), so
+     * replace it with the quotient of the summed metric values.
+     */
+    public static function recomputeSummaryRows(DataTable $table): void
+    {
+        $extraProcessedMetrics = $table->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME) ?: [];
+
+        $metrics = [];
+        foreach ($extraProcessedMetrics as $metric) {
+            if ($metric instanceof self) {
+                $metrics[] = $metric;
+            }
+        }
+
+        if (empty($metrics)) {
+            return;
+        }
+
+        $summaryRow = $table->getRowFromId(DataTable::ID_SUMMARY_ROW);
+        if ($summaryRow) {
+            foreach ($metrics as $metric) {
+                if (!$summaryRow->hasColumn($metric->getName())) {
+                    continue;
+                }
+
+                $value = $metric->compute($summaryRow);
+                if ($value !== false) {
+                    $summaryRow->setColumn($metric->getName(), $value);
+                }
+            }
+        }
+
+        foreach ($table->getRows() as $row) {
+            $subtable = $row->getSubtable();
+            if ($subtable) {
+                self::recomputeSummaryRows($subtable);
+            }
         }
     }
 
