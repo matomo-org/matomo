@@ -108,7 +108,8 @@ class WhatsNewProvider
     }
 
     /**
-     * The finished entries, cached across requests so this public page doesn't query on every hit.
+     * The finished entries, cached across requests for logged out visitors so this public page
+     * doesn't query on every hit.
      *
      * @return array<int, array<string, mixed>>
      */
@@ -119,23 +120,24 @@ class WhatsNewProvider
         // The plugin list and language are part of the id, so activating a plugin invalidates it.
         $cacheKey = CacheId::pluginAware(self::CACHE_KEY);
 
-        $cached = $cache->fetch($cacheKey);
+        // Only a logged out visitor may read or fill this. `Changes.filterChanges` can rewrite the
+        // list per user, so an authenticated request builds its own instead of inheriting somebody
+        // else's.
+        $isAnonymous = Piwik::isUserIsAnonymous();
 
-        if (is_array($cached) && !empty($cached)) {
-            return $cached;
+        if ($isAnonymous) {
+            $cached = $cache->fetch($cacheKey);
+
+            if (is_array($cached) && !empty($cached)) {
+                return $cached;
+            }
         }
 
         $changes = $this->buildChanges();
 
-        // Only save when nobody is logged in. The panel also shows on the confirm password and 2FA
-        // screens, and a plugin can filter the list per user through `Changes.filterChanges`, so a
-        // logged in visit must never be the one that fills a cache everyone else reads. Reading it
-        // back is fine for anyone: the event filters entries out, so the logged out list is the
-        // shortest one.
-        //
-        // An empty result isn't saved either. A fresh install has no changes yet, and pinning that
-        // would leave the panel empty for an hour after the first one arrives.
-        if (!empty($changes) && Piwik::isUserIsAnonymous()) {
+        // Never pin an empty result: a fresh install records its first change eventually, and the
+        // panel should show it without waiting out the TTL.
+        if ($isAnonymous && !empty($changes)) {
             $cache->save($cacheKey, $changes, self::CACHE_TTL);
         }
 

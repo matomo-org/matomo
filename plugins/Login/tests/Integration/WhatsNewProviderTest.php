@@ -116,13 +116,13 @@ class WhatsNewProviderTest extends IntegrationTestCase
     }
 
     /**
-     * Reading the cache is fine for anyone, so the confirm password and 2FA screens stay as cheap as
-     * the login page.
+     * `Changes.filterChanges` runs inside the model, so an authenticated request that reused the
+     * cache would never filter for its own user.
      */
-    public function testALoggedInRequestReusesWhatALoggedOutVisitorCached(): void
+    public function testALoggedInRequestIgnoresWhatALoggedOutVisitorCached(): void
     {
         $model = $this->createMock(ChangesModel::class);
-        $model->expects($this->once())->method('getChangeItems')->willReturn([$this->change([])]);
+        $model->expects($this->exactly(2))->method('getChangeItems')->willReturn([$this->change([])]);
 
         $this->assertCount(1, $this->getChangesAsLoggedOutVisitor($this->provider($model)));
         $this->assertCount(1, $this->provider($model)->getChanges());
