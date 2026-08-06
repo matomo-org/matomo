@@ -7,6 +7,7 @@
                 {% if change.showPluginPrefix %}{{ change.plugin_name }} - {% endif %}{{ change.title }}
             </h3>
 
+            {# Escaped, unlike the admin popover — this page is public. #}
             <div class="loginWhatsNew__description">{{ change.description }}</div>
 
             {% if change.link is not empty and change.link_name is not empty %}

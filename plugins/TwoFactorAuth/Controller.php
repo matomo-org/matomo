@@ -48,8 +48,14 @@ class Controller extends \Piwik\Plugin\Controller
 
     private WhatsNewProvider $whatsNewProvider;
 
-    public function __construct(SystemSettings $systemSettings, RecoveryCodeDao $recoveryCodeDao, PasswordVerifier $passwordVerify, TwoFactorAuthentication $twoFa, Validator $validator, WhatsNewProvider $whatsNewProvider)
-    {
+    public function __construct(
+        SystemSettings $systemSettings,
+        RecoveryCodeDao $recoveryCodeDao,
+        PasswordVerifier $passwordVerify,
+        TwoFactorAuthentication $twoFa,
+        Validator $validator,
+        WhatsNewProvider $whatsNewProvider
+    ) {
         $this->settings = $systemSettings;
         $this->recoveryCodeDao = $recoveryCodeDao;
         $this->passwordVerify = $passwordVerify;

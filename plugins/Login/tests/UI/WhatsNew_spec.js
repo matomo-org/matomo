@@ -91,7 +91,9 @@ describe("LoginWhatsNew", function () {
         expect(panelIsRightOfForm).to.be.true;
     });
 
-    it("should render the sign in form without card chrome and flush with the logo", async function () {
+    // Same invariants LoginLayout_spec asserts without the panel, re-checked against the narrower
+    // primary column the secondary one leaves behind.
+    it("should keep the sign in form flush with the logo with the panel beside it", async function () {
         const form = await page.evaluate(function () {
             const styles = getComputedStyle(document.querySelector('.loginLayout__content .card'));
             const leftOf = function (selector) {

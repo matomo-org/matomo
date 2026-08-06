@@ -1,8 +1,6 @@
 /* WHAT'S NEW PANEL
 ***********************/
 .loginWhatsNew {
-    @_cardRadius: 16px;
-
     display: flex;
     flex-direction: column;
     justify-content: safe center;
@@ -10,7 +8,7 @@
     box-sizing: border-box;
     width: 100%;
     padding: 32px;
-    border-radius: @_cardRadius;
+    border-radius: 16px;
     background-color: @theme-color-background-contrast;
 
     .loginWhatsNew__heading {
@@ -25,7 +23,6 @@
         padding: 20px;
         border: 1px solid @theme-color-border-alternative;
         border-radius: 8px;
-        background-color: @theme-color-background-contrast;
     }
 
     .loginWhatsNew__title {
