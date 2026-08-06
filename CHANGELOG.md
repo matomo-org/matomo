@@ -80,6 +80,13 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   these variables fill roles that no existing variable covers, usage-oriented replacements will be defined before
   they are removed. They keep working until then.
 
+### Internal Changes
+* `./console vue:build` no longer emits the unminified `plugins/<Plugin>/vue/dist/<Plugin>.umd.js` bundle. Only the
+  minified `<Plugin>.umd.min.js` was ever loaded by Matomo, and development mode uses the `<Plugin>.development.umd.js`
+  produced by `./console vue:build --watch`. Plugin authors can delete the committed `vue/dist/<Plugin>.umd.js` file
+  from their repository and add `/vue/dist/*.umd.js` to their `.gitignore`. Nothing else needs to change; the file is
+  simply no longer regenerated.
+
 ## Matomo 5.12.0
 
 ### JavaScript Tracker
