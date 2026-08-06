@@ -33,17 +33,17 @@ class SystemSettingsTest extends IntegrationTestCase
         $this->settings = new SystemSettings();
     }
 
-    public function test_max_actions_default()
+    public function testMaxActionsDefault()
     {
         $this->assertSame(0, $this->settings->max_actions->getValue());
     }
 
-    public function test_block_cloud_default()
+    public function testBlockCloudDefault()
     {
         $this->assertSame(false, $this->settings->block_clouds->getValue());
     }
 
-    public function test_block_cloud_hasSettingsIntroduction()
+    public function testBlockCloudHasSettingsIntroduction()
     {
         $field = $this->settings->block_clouds->configureField();
 
@@ -53,187 +53,187 @@ class SystemSettingsTest extends IntegrationTestCase
         );
     }
 
-    public function test_block_cloud_enable_getOldValue()
+    public function testBlockCloudEnableGetOldValue()
     {
         $this->settings->block_clouds->setValue(1);
         $this->assertSame(true, $this->settings->block_clouds->getValue());
         $this->assertSame(false, $this->settings->block_clouds->getOldValue());
     }
 
-    public function test_block_headless_default()
+    public function testBlockHeadlessDefault()
     {
         $this->assertSame(true, $this->settings->blockHeadless->getValue());
     }
 
-    public function test_block_Headless_disable()
+    public function testBlockHeadlessDisable()
     {
         $this->settings->blockHeadless->setValue(0);
         $this->assertSame(false, $this->settings->blockHeadless->getValue());
     }
 
-    public function test_notification_email_default()
+    public function testNotificationEmailDefault()
     {
         $this->assertSame('', $this->settings->notification_email->getValue());
     }
 
-    public function test_notification_email_errrosWhenNotValidEmail()
+    public function testNotificationEmailErrrosWhenNotValidEmail()
     {
         $this->expectException(\Exception::class);
         $this->settings->notification_email->setValue('foo');
     }
 
-    public function test_notification_email_setValidEmail()
+    public function testNotificationEmailSetValidEmail()
     {
         $this->settings->notification_email->setValue('foo@matomo.org');
         $this->assertSame('foo@matomo.org', $this->settings->notification_email->getValue());
     }
 
-    public function test_notification_email_setEmptyValue()
+    public function testNotificationEmailSetEmptyValue()
     {
         $this->settings->notification_email->setValue('');
         $this->assertSame('', $this->settings->notification_email->getValue());
     }
 
-    public function test_exclude_countries_default()
+    public function testExcludeCountriesDefault()
     {
         $this->assertSame([], $this->settings->excludedCountries->getValue());
     }
 
-    public function test_exclude_getExcludedCountryCodes_default()
+    public function testExcludeGetExcludedCountryCodesDefault()
     {
         $this->assertSame([], $this->settings->getExcludedCountryCodes());
     }
 
-    public function test_exclude_countries()
+    public function testExcludeCountries()
     {
         $this->settings->excludedCountries->setValue([
-            ['country' => 'de'],['country' => 'fr'], ['country' => 'nz']
+            ['country' => 'de'],['country' => 'fr'], ['country' => 'nz'],
         ]);
         $this->assertSame(['de', 'fr', 'nz'], $this->settings->getExcludedCountryCodes());
     }
 
-    public function test_excludeCountries_setInvalidValue()
+    public function testExcludeCountriesSetInvalidValue()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Invalid country code');
         $this->settings->excludedCountries->setValue([
-            ['country' => 'de'],['country' => 'foo']
+            ['country' => 'de'],['country' => 'foo'],
         ]);
     }
 
-    public function test_include_countries_default()
+    public function testIncludeCountriesDefault()
     {
         $this->assertSame([], $this->settings->includedCountries->getValue());
     }
 
-    public function test_include_countries()
+    public function testIncludeCountries()
     {
         $this->settings->includedCountries->setValue([
-            ['country' => 'de'],['country' => 'fr'], ['country' => 'nz']
+            ['country' => 'de'],['country' => 'fr'], ['country' => 'nz'],
         ]);
         $this->assertSame(['de', 'fr', 'nz'], $this->settings->getIncludedCountryCodes());
     }
 
-    public function test_includeCountries_setInvalidValue()
+    public function testIncludeCountriesSetInvalidValue()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Invalid country code');
         $this->settings->includedCountries->setValue([
-            ['country' => 'de'],['country' => 'foo']
+            ['country' => 'de'],['country' => 'foo'],
         ]);
     }
 
-    public function test_include_getIncludedCountryCodes_default()
+    public function testIncludeGetIncludedCountryCodesDefault()
     {
         $this->assertSame([], $this->settings->getIncludedCountryCodes());
     }
 
-    public function test_ipAllowList_default()
+    public function testIpAllowListDefault()
     {
         $this->assertSame([], $this->settings->ipAllowList->getValue());
     }
 
-    public function test_getAllowedIpRanges_default()
+    public function testGetAllowedIpRangesDefault()
     {
         $this->assertSame([], $this->settings->getAllowedIpRanges());
     }
 
-    public function test_ipAllowList_transformTrimsFiltersAndDeduplicates()
+    public function testIpAllowListTransformTrimsFiltersAndDeduplicates()
     {
         $this->settings->ipAllowList->setValue([' 10.10.0.0/21 ', '', '10.10.0.0/21', '12.14.15.16', '  ', 'f::f']);
         $this->assertSame(['10.10.0.0/21', '12.14.15.16', 'f::f'], $this->settings->ipAllowList->getValue());
     }
 
-    public function test_ipAllowList_acceptsValidIpsRangesAndCidrNotations()
+    public function testIpAllowListAcceptsValidIpsRangesAndCidrNotations()
     {
         $ranges = ['10.10.0.1', '10.10.0.0/21', '10.10.*.*', 'f::f', '2001:db8::/64'];
         $this->settings->ipAllowList->setValue($ranges);
         $this->assertSame($ranges, $this->settings->ipAllowList->getValue());
     }
 
-    public function test_ipAllowList_rejectsInvalidEntries()
+    public function testIpAllowListRejectsInvalidEntries()
     {
         $this->expectException(\Exception::class);
         $this->settings->ipAllowList->setValue(['10.10.0.1', 'foobar']);
     }
 
-    public function test_getAllowedIpRanges_returnsCleanedValues()
+    public function testGetAllowedIpRangesReturnsCleanedValues()
     {
         $this->settings->ipAllowList->setValue(['10.10.0.0/21', '12.14.15.16']);
         $this->assertSame(['10.10.0.0/21', '12.14.15.16'], $this->settings->getAllowedIpRanges());
     }
 
-    public function test_ipBlockList_default()
+    public function testIpBlockListDefault()
     {
         $this->assertSame([], $this->settings->ipBlockList->getValue());
     }
 
-    public function test_getBlockListIpRanges_default()
+    public function testGetBlockListIpRangesDefault()
     {
         $this->assertSame([], $this->settings->getBlockListIpRanges());
     }
 
-    public function test_ipBlockList_transformTrimsFiltersAndDeduplicates()
+    public function testIpBlockListTransformTrimsFiltersAndDeduplicates()
     {
         $this->settings->ipBlockList->setValue([' 10.10.0.0/21 ', '', '10.10.0.0/21', '12.14.15.16', '  ', 'f::f']);
         $this->assertSame(['10.10.0.0/21', '12.14.15.16', 'f::f'], $this->settings->ipBlockList->getValue());
     }
 
-    public function test_ipBlockList_rejectsInvalidEntries()
+    public function testIpBlockListRejectsInvalidEntries()
     {
         $this->expectException(\Exception::class);
         $this->settings->ipBlockList->setValue(['10.10.0.1', 'foobar']);
     }
 
-    public function test_getBlockListIpRanges_returnsCleanedValues()
+    public function testGetBlockListIpRangesReturnsCleanedValues()
     {
         $this->settings->ipBlockList->setValue(['10.10.0.0/21', '12.14.15.16']);
         $this->assertSame(['10.10.0.0/21', '12.14.15.16'], $this->settings->getBlockListIpRanges());
     }
 
-    public function test_organisationBlockList_default()
+    public function testOrganisationBlockListDefault()
     {
         $this->assertSame(Configuration::DEFAULT_GEOIP_MATCH_PROVIDERS, $this->settings->organisationBlockList->getValue());
     }
 
-    public function test_getBlockedOrganisations_default()
+    public function testGetBlockedOrganisationsDefault()
     {
         $this->assertSame(Configuration::DEFAULT_GEOIP_MATCH_PROVIDERS, $this->settings->getBlockedOrganisations());
     }
 
-    public function test_organisationBlockList_transformLowercasesTrimsFiltersAndDeduplicates()
+    public function testOrganisationBlockListTransformLowercasesTrimsFiltersAndDeduplicates()
     {
         $this->settings->organisationBlockList->setValue([' ExampleOrg ', '', 'exampleorg', 'Another Org', '  ']);
         $this->assertSame(['exampleorg', 'another org'], $this->settings->organisationBlockList->getValue());
     }
 
-    public function test_getBlockedOrganisations_returnsCleanedValues()
+    public function testGetBlockedOrganisationsReturnsCleanedValues()
     {
         $this->settings->organisationBlockList->setValue(['ExampleOrg', 'Another Org']);
         $this->assertSame(['exampleorg', 'another org'], $this->settings->getBlockedOrganisations());
     }
 
-    public function test_save_shouldSyncWhenEnabled()
+    public function testSaveShouldSyncWhenEnabled()
     {
         $ranges = $this->makeRanges();
         $this->assertEmpty($ranges->getBlockedRanges());
@@ -242,7 +242,7 @@ class SystemSettingsTest extends IntegrationTestCase
         $this->assertNotEmpty($ranges->getBlockedRanges());
     }
 
-    public function test_save_shouldEmptyRangesWhenDisabledButNoChange()
+    public function testSaveShouldEmptyRangesWhenDisabledButNoChange()
     {
         $ranges = $this->makeRanges();
         $ranges->updateBlockedIpRanges();
@@ -252,7 +252,7 @@ class SystemSettingsTest extends IntegrationTestCase
         $this->assertNotEmpty($ranges->getBlockedRanges());
     }
 
-    public function test_save_shouldEmptyRangesWhenDisabled()
+    public function testSaveShouldEmptyRangesWhenDisabled()
     {
         $ranges = $this->makeRanges();
         $ranges->updateBlockedIpRanges();

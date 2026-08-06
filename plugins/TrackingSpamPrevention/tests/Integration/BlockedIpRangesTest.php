@@ -56,12 +56,12 @@ class BlockedIpRangesTest extends IntegrationTestCase
         parent::tearDown();
     }
 
-    public function test_getBlockedRanges_nothingStored()
+    public function testGetBlockedRangesNothingStored()
     {
         $this->assertSame([], $this->ranges->getBlockedRanges());
     }
 
-    public function test_setBlockedRanges_getBlockedRanges_unsetAllIpRanges()
+    public function testSetBlockedRangesGetBlockedRangesUnsetAllIpRanges()
     {
         $this->ranges->setBlockedRanges(['10.' => ['10.10.10.10/21'], '172.' => ['172.172.0.0/22']]);
         $this->assertSame(['10.' => ['10.10.10.10/21'], '172.' => ['172.172.0.0/22']], $this->ranges->getBlockedRanges());
@@ -70,7 +70,7 @@ class BlockedIpRangesTest extends IntegrationTestCase
         $this->assertSame([], $this->ranges->getBlockedRanges());
     }
 
-    public function test_banIp()
+    public function testBanIp()
     {
         $this->ranges->banIp('10.10.10.10');
         $this->assertSame(['10.' => ['10.10.10.10/32']], $this->ranges->getBlockedRanges());
@@ -82,7 +82,7 @@ class BlockedIpRangesTest extends IntegrationTestCase
         $this->assertSame(['10.' => ['10.10.10.10/32'], '172.' => ['172.172.0.0/32', '172.172.1.0/32'], '2000:' => ['2000::/128']], $this->ranges->getBlockedRanges());
     }
 
-    public function test_banIpWontBanSameIpTwice()
+    public function testBanIpWontBanSameIpTwice()
     {
         $this->ranges->banIp('10.10.10.10');
         $this->assertSame(['10.' => ['10.10.10.10/32']], $this->ranges->getBlockedRanges());
@@ -91,7 +91,7 @@ class BlockedIpRangesTest extends IntegrationTestCase
         $this->assertSame(['10.' => ['10.10.10.10/32']], $this->ranges->getBlockedRanges());
     }
 
-    public function test_updateBlockedIpRanges()
+    public function testUpdateBlockedIpRanges()
     {
         $this->ranges->updateBlockedIpRanges();
         $this->assertEquals(array (
@@ -135,7 +135,7 @@ class BlockedIpRangesTest extends IntegrationTestCase
         ), $this->ranges->getBlockedRanges());
     }
 
-    public function test_updateBlockedIpRanges_withExceptionButCaught()
+    public function testUpdateBlockedIpRangesWithExceptionButCaught()
     {
         $ranges = [
             new BlockedIpRanges\VariableRange([
@@ -151,11 +151,11 @@ class BlockedIpRangesTest extends IntegrationTestCase
         $this->ranges->updateBlockedIpRanges();
         $this->assertSame([
             '15.' => ['15.15.15.0/21'],
-            '16.' => ['16.16.16.0/21']
+            '16.' => ['16.16.16.0/21'],
         ], $this->ranges->getBlockedRanges());
     }
 
-    public function test_updateBlockedIpRanges_ignoresValuesThatAreNotIpRanges()
+    public function testUpdateBlockedIpRangesIgnoresValuesThatAreNotIpRanges()
     {
         $ranges = [
             new BlockedIpRanges\VariableRange([
@@ -177,7 +177,7 @@ class BlockedIpRangesTest extends IntegrationTestCase
         ], $this->ranges->getBlockedRanges());
     }
 
-    public function test_updateBlockedIpRanges_withExceptionNotCaught()
+    public function testUpdateBlockedIpRangesWithExceptionNotCaught()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Failed to get any range');
@@ -197,27 +197,28 @@ class BlockedIpRangesTest extends IntegrationTestCase
         $ranges->updateBlockedIpRanges();
     }
 
-    public function isExcluded_ipv4()
+    public function testIsExcludedIpv4()
     {
-        $this->ranges->banIp(['10.10.10.10']);
+        $this->ranges->banIp('10.10.10.10');
         $this->assertTrue($this->ranges->isExcluded('10.10.10.10'));
         $this->assertFalse($this->ranges->isExcluded('10.10.10.9'));
         $this->assertFalse($this->ranges->isExcluded('10.10.10.11'));
     }
 
-    public function isExcluded_ipv6()
+    public function testIsExcludedIpv6()
     {
-        $this->ranges->banIp(['2001:db8::']);
+        $this->ranges->banIp('2001:db8::');
         $this->assertTrue($this->ranges->isExcluded('2001:db8::'));
-        $this->assertTrue($this->ranges->isExcluded('2001:db8:0000:0000:ffff:ffff:ffff:ffff'));
-        $this->assertFalse($this->ranges->isExcluded('2001:db8:0000:0000:ffff:ffff:ffff:fffe'));
-        $this->assertFalse($this->ranges->isExcluded('2002:db8:0000:0000:ffff:ffff:ffff:fffe'));
+        // banning a single IP only blocks that IP, not its neighbours
+        $this->assertFalse($this->ranges->isExcluded('2001:db8::1'));
+        // no range is indexed for this IP at all
+        $this->assertFalse($this->ranges->isExcluded('2002:db8::'));
     }
 
-    public function isExcluded_manyRanges()
+    public function testIsExcludedManyRanges()
     {
         $this->ranges->updateBlockedIpRanges();
-        $this->ranges->banIp(['10.10.10.10']);
+        $this->ranges->banIp('10.10.10.10');
         $this->assertTrue($this->ranges->isExcluded('10.10.0.0'));
         $this->assertTrue($this->ranges->isExcluded('10.10.0.1'));
         $this->assertTrue($this->ranges->isExcluded('192.168.10.0'));
@@ -225,8 +226,10 @@ class BlockedIpRangesTest extends IntegrationTestCase
         $this->assertFalse($this->ranges->isExcluded('192.168.11.0'));
         $this->assertFalse($this->ranges->isExcluded('18.18.18.17'));
 
+        // 2001:db8::/42 spans 2001:db8:: to 2001:db8:3f:ffff:ffff:ffff:ffff:ffff
         $this->assertTrue($this->ranges->isExcluded('2001:db8:0000:0000:ffff:ffff:ffff:ffff'));
-        $this->assertFalse($this->ranges->isExcluded('2001:db8:0000:0000:ffff:ffff:ffff:fffe'));
+        $this->assertTrue($this->ranges->isExcluded('2001:db8:003f:ffff:ffff:ffff:ffff:ffff'));
+        $this->assertFalse($this->ranges->isExcluded('2001:db8:0040::'));
         $this->assertFalse($this->ranges->isExcluded('2002:db8:0000:0000:ffff:ffff:ffff:fffe'));
     }
 }

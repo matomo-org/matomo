@@ -38,7 +38,7 @@ class BlockListIpRangeTest extends IntegrationTestCase
         $this->blockList = new BlockListIpRange($this->settings);
     }
 
-    public function test_isBlocked()
+    public function testIsBlocked()
     {
         $this->settings->ipBlockList->setValue(['10.10.0.0/21', '15.15.0.0/21', '2001:db8::/64']);
 
@@ -56,7 +56,7 @@ class BlockListIpRangeTest extends IntegrationTestCase
         $this->assertFalse($this->blockList->isBlocked('2002:db8:0000:0000:ffff:ffff:ffff:fffe'));
     }
 
-    public function test_isBlocked_bareIpsMatchWithoutExplicitRange()
+    public function testIsBlockedBareIpsMatchWithoutExplicitRange()
     {
         $this->settings->ipBlockList->setValue(['12.14.15.16', 'f::f']);
 
@@ -67,7 +67,7 @@ class BlockListIpRangeTest extends IntegrationTestCase
         $this->assertFalse($this->blockList->isBlocked('f::e'));
     }
 
-    public function test_isBlocked_emptyList()
+    public function testIsBlockedEmptyList()
     {
         $this->assertFalse($this->blockList->isBlocked('10.10.0.0'));
     }

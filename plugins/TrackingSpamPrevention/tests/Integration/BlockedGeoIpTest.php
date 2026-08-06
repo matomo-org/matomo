@@ -35,7 +35,7 @@ class BlockedGeoIpTest extends IntegrationTestCase
         $this->blockedGeoIp = new BlockedGeoIp($settings);
     }
 
-    public function test_detectLocation()
+    public function testDetectLocation()
     {
         $this->assertEquals([  'country_code' => 'xx',
         'continent_code' => 'unk',
@@ -43,31 +43,31 @@ class BlockedGeoIpTest extends IntegrationTestCase
         'country_name' => 'General_Unknown'], $this->blockedGeoIp->detectLocation('127.0.0.1', 'en'));
     }
 
-    public function test_isExcludedCountry_noCountriesGiven()
+    public function testIsExcludedCountryNoCountriesGiven()
     {
         $this->assertFalse($this->blockedGeoIp->isExcludedCountry('127.0.0.1', 'en', [], []));
     }
 
-    public function test_isExcludedCountry_excludedCountriesGiven()
+    public function testIsExcludedCountryExcludedCountriesGiven()
     {
         // this IP matches country "xx"
         $this->assertTrue($this->blockedGeoIp->isExcludedCountry('127.0.0.1', 'en', ['fr', 'xx'], []));
         $this->assertFalse($this->blockedGeoIp->isExcludedCountry('127.0.0.1', 'en', ['de', 'nz'], []));
     }
 
-    public function test_isExcludedCountry_includedCountriesGiven()
+    public function testIsExcludedCountryIncludedCountriesGiven()
     {
         // this IP matches country "xx"
         $this->assertFalse($this->blockedGeoIp->isExcludedCountry('127.0.0.1', 'en', [], ['fr', 'xx']));
         $this->assertTrue($this->blockedGeoIp->isExcludedCountry('127.0.0.1', 'en', [], ['de', 'nz']));
     }
 
-    public function test_isExcluded()
+    public function testIsExcluded()
     {
         $this->assertFalse($this->blockedGeoIp->isExcludedProvider('127.0.0.1', 'en'));
     }
 
-    public function test_isExcluded_When_UserCountryPluginIsDisabled()
+    public function testIsExcludedWhenUserCountryPluginIsDisabled()
     {
         \Piwik\Plugin\Manager::getInstance()->deactivatePlugin('UserCountry');
         $this->assertFalse($this->blockedGeoIp->isExcludedProvider('127.0.0.1', 'en'));

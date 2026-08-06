@@ -27,7 +27,7 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/TrackingSpamPrevention/Updates/5.2.0
  */
 class UpdatesTest extends IntegrationTestCase
 {
-    public function test_update_migratesConfigValuesToSystemSetting()
+    public function testUpdateMigratesConfigValuesToSystemSetting()
     {
         Config::getInstance()->TrackingSpamPrevention = [
             Configuration::KEY_RANGE_ALLOW_LIST => [' 10.10.0.0/21 ', '', 'foobar', '12.14.15.16', '10.10.0.0/21', 'f::f'],
@@ -39,7 +39,7 @@ class UpdatesTest extends IntegrationTestCase
         $this->assertArrayNotHasKey(Configuration::KEY_RANGE_ALLOW_LIST, Config::getInstance()->TrackingSpamPrevention);
     }
 
-    public function test_update_installDefaultOnly_doesNotWriteSettingButRemovesKey()
+    public function testUpdateInstallDefaultOnlyDoesNotWriteSettingButRemovesKey()
     {
         Config::getInstance()->TrackingSpamPrevention = [
             Configuration::KEY_RANGE_ALLOW_LIST => Configuration::DEFAULT_RANGE_ALLOW_LIST,
@@ -51,7 +51,7 @@ class UpdatesTest extends IntegrationTestCase
         $this->assertArrayNotHasKey(Configuration::KEY_RANGE_ALLOW_LIST, Config::getInstance()->TrackingSpamPrevention);
     }
 
-    public function test_update_configKeyAbsent_isNoOp()
+    public function testUpdateConfigKeyAbsentIsNoOp()
     {
         Config::getInstance()->TrackingSpamPrevention = [];
 
@@ -60,7 +60,7 @@ class UpdatesTest extends IntegrationTestCase
         $this->assertSame([], $this->makeSettings()->getAllowedIpRanges());
     }
 
-    public function test_update_doesNotOverwriteExistingSettingValue()
+    public function testUpdateDoesNotOverwriteExistingSettingValue()
     {
         $settings = $this->makeSettings();
         $settings->ipAllowList->setValue(['20.20.0.0/21']);
@@ -76,7 +76,7 @@ class UpdatesTest extends IntegrationTestCase
         $this->assertArrayNotHasKey(Configuration::KEY_RANGE_ALLOW_LIST, Config::getInstance()->TrackingSpamPrevention);
     }
 
-    public function test_update520_migratesCustomOrganisationsToSystemSetting()
+    public function testUpdate520MigratesCustomOrganisationsToSystemSetting()
     {
         Config::getInstance()->TrackingSpamPrevention = [
             Configuration::KEY_GEOIP_MATCH_PROVIDERS => [' My Custom Org ', '', 'ANOTHER ORG', 'my custom org'],
@@ -88,7 +88,7 @@ class UpdatesTest extends IntegrationTestCase
         $this->assertArrayNotHasKey(Configuration::KEY_GEOIP_MATCH_PROVIDERS, Config::getInstance()->TrackingSpamPrevention);
     }
 
-    public function test_update520_defaultListOnly_doesNotStoreSettingButRemovesKey()
+    public function testUpdate520DefaultListOnlyDoesNotStoreSettingButRemovesKey()
     {
         // older updates merged the defaults into the config in a different order than the constant's
         Config::getInstance()->TrackingSpamPrevention = [
@@ -102,7 +102,7 @@ class UpdatesTest extends IntegrationTestCase
         $this->assertArrayNotHasKey(Configuration::KEY_GEOIP_MATCH_PROVIDERS, Config::getInstance()->TrackingSpamPrevention);
     }
 
-    public function test_update520_emptiedList_storesEmptyListToKeepBlockingDisabled()
+    public function testUpdate520EmptiedListStoresEmptyListToKeepBlockingDisabled()
     {
         Config::getInstance()->TrackingSpamPrevention = [
             Configuration::KEY_GEOIP_MATCH_PROVIDERS => ['', ' '],
@@ -116,7 +116,7 @@ class UpdatesTest extends IntegrationTestCase
         $this->assertArrayNotHasKey(Configuration::KEY_GEOIP_MATCH_PROVIDERS, Config::getInstance()->TrackingSpamPrevention);
     }
 
-    public function test_update520_configKeyAbsent_isNoOp()
+    public function testUpdate520ConfigKeyAbsentIsNoOp()
     {
         Config::getInstance()->TrackingSpamPrevention = [];
 
@@ -125,7 +125,7 @@ class UpdatesTest extends IntegrationTestCase
         $this->assertSame(Configuration::DEFAULT_GEOIP_MATCH_PROVIDERS, $this->makeSettings()->organisationBlockList->getValue());
     }
 
-    public function test_update520_configOverrideForNewSetting_storesNothingButRemovesOldKey()
+    public function testUpdate520ConfigOverrideForNewSettingStoresNothingButRemovesOldKey()
     {
         Config::getInstance()->TrackingSpamPrevention = [
             Configuration::KEY_GEOIP_MATCH_PROVIDERS => ['config org'],
@@ -141,7 +141,7 @@ class UpdatesTest extends IntegrationTestCase
         $this->assertSame(['override org'], $this->makeSettings()->getBlockedOrganisations());
     }
 
-    public function test_update520_doesNotOverwriteExistingSettingValue()
+    public function testUpdate520DoesNotOverwriteExistingSettingValue()
     {
         $settings = $this->makeSettings();
         $settings->organisationBlockList->setValue(['stored org']);

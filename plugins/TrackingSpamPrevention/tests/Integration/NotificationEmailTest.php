@@ -31,12 +31,12 @@ class NotificationEmailTest extends IntegrationTestCase
         $this->email = new BanIpNotificationEmail();
     }
 
-    public function test_send_noValidEmail()
+    public function testSendNoValidEmail()
     {
         $this->assertNull($this->email->send('10.10.10.10/32', '10.10.10.10', 'foo', 100, ['test'], '2020-12-14 01:42:27'));
     }
 
-    public function test_send_ValidEmail()
+    public function testSendValidEmail()
     {
         $this->assertEquals(
             'This is for your information. The following IP was banned because visit tried to track more than 112 actions:

@@ -30,7 +30,7 @@ class BanIpNotificationEmail
         if (
             empty($mail->getFromName()) || in_array($mail->getFromName(), [
                 'CoreHome_WebAnalyticsReports',
-                'TagManager_MatomoTagName'
+                'TagManager_MatomoTagName',
             ])
         ) {
             $mail->setFrom($mail->getFrom(), 'Web Analytics Reports');

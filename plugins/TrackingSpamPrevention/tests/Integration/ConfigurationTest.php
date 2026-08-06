@@ -36,7 +36,7 @@ class ConfigurationTest extends IntegrationTestCase
         $this->configuration->install();
     }
 
-    public function test_shouldInstallConfig()
+    public function testShouldInstallConfig()
     {
         // reset the section as the local config of the instance running the tests may contain different values
         Config::getInstance()->TrackingSpamPrevention = [];
@@ -49,7 +49,7 @@ class ConfigurationTest extends IntegrationTestCase
         ), $configs);
     }
 
-    public function test_defaultBlockList_containsNewlyAddedHostingProviders()
+    public function testDefaultBlockListContainsNewlyAddedHostingProviders()
     {
         $providers = Configuration::DEFAULT_GEOIP_MATCH_PROVIDERS;
 
@@ -69,7 +69,7 @@ class ConfigurationTest extends IntegrationTestCase
         }
     }
 
-    public function test_defaultBlockList_entriesAreLowercaseAndUnique()
+    public function testDefaultBlockListEntriesAreLowercaseAndUnique()
     {
         $providers = Configuration::DEFAULT_GEOIP_MATCH_PROVIDERS;
 
@@ -79,23 +79,23 @@ class ConfigurationTest extends IntegrationTestCase
         }
     }
 
-    public function test_shouldThrowExceptionOnIpRangeSync_default()
+    public function testShouldThrowExceptionOnIpRangeSyncDefault()
     {
         $this->assertFalse($this->configuration->shouldThrowExceptionOnIpRangeSync());
     }
 
-    public function test_shouldThrowExceptionOnIpRangeSync_enabled()
+    public function testShouldThrowExceptionOnIpRangeSyncEnabled()
     {
         Config::getInstance()->TrackingSpamPrevention[Configuration::KEY_RANGE_THROW_EXCEPTION] = 1;
         $this->assertTrue($this->configuration->shouldThrowExceptionOnIpRangeSync());
     }
 
-    public function test_getIpRangesAlwaysAllowed_byDefault()
+    public function testGetIpRangesAlwaysAllowedByDefault()
     {
         $this->assertSame([], $this->configuration->getIpRangesAlwaysAllowed());
     }
 
-    public function test_getIpRangesAlwaysAllowed_delegatesToSystemSetting()
+    public function testGetIpRangesAlwaysAllowedDelegatesToSystemSetting()
     {
         StaticContainer::get(SystemSettings::class)->ipAllowList->setValue(['10.12.13.14/32', 'f::f/52', '11.12.13.14/21']);
 

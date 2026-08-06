@@ -21,7 +21,7 @@ use Piwik\Tests\Framework\TestCase\ConsoleCommandTestCase;
  */
 class BlockGeoIpOrganisationTest extends ConsoleCommandTestCase
 {
-    public function test_addsOrganisationToSetting()
+    public function testAddsOrganisationToSetting()
     {
         // the fixture is shared across the test methods of this class, and the local config file may still
         // contain a legacy `block_geoip_organisations` key, so assert relative to the observed state
@@ -42,7 +42,7 @@ class BlockGeoIpOrganisationTest extends ConsoleCommandTestCase
         $this->assertEquals($configBefore, Config::getInstance()->TrackingSpamPrevention);
     }
 
-    public function test_doesNotAddDuplicates()
+    public function testDoesNotAddDuplicates()
     {
         // "contabo" is on the default list, so it is already present whatever state earlier tests left
         $organisationsBefore = $this->getBlockedOrganisations();
@@ -57,7 +57,7 @@ class BlockGeoIpOrganisationTest extends ConsoleCommandTestCase
         $this->assertSame($organisationsBefore, $this->getBlockedOrganisations());
     }
 
-    public function test_failsWhenConfigOverrideExists()
+    public function testFailsWhenConfigOverrideExists()
     {
         $sectionBefore = Config::getInstance()->TrackingSpamPrevention;
 
@@ -79,7 +79,7 @@ class BlockGeoIpOrganisationTest extends ConsoleCommandTestCase
         }
     }
 
-    public function test_rejectsWhitespaceOnlyOrganisationName()
+    public function testRejectsWhitespaceOnlyOrganisationName()
     {
         $organisationsBefore = $this->getBlockedOrganisations();
 

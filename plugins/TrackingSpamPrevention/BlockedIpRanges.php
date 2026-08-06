@@ -35,7 +35,6 @@ class BlockedIpRanges
 
     /**
      * @param IpRangeProviderInterface[] $providers
-     * @param Configuration $configuration
      */
     public function __construct($providers, Configuration $configuration)
     {
@@ -108,7 +107,7 @@ class BlockedIpRanges
 
         $trackerCache = Cache::getCacheGeneral();
         if (empty($trackerCache[self::OPTION_KEY][$indexed])) {
-            return;
+            return false;
         }
 
         $ip  = IP::fromStringIP($ip);

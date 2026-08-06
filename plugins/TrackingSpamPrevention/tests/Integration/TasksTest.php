@@ -49,7 +49,7 @@ class TasksTest extends IntegrationTestCase
         parent::tearDown();
     }
 
-    public function test_updateBlockedIpRanges_blockCloudDisabled_shouldEmptyQueue()
+    public function testUpdateBlockedIpRangesBlockCloudDisabledShouldEmptyQueue()
     {
         $this->ranges->setBlockedRanges(['11.' => ['11.12.10.10/1']]);
         $this->settings->block_clouds->setValue(false);
@@ -57,7 +57,7 @@ class TasksTest extends IntegrationTestCase
         $this->assertSame([], $this->ranges->getBlockedRanges());
     }
 
-    public function test_updateBlockedIpRanges_blockCloudEnabled()
+    public function testUpdateBlockedIpRangesBlockCloudEnabled()
     {
         $this->settings->block_clouds->setValue(true);
         $this->task->updateBlockedIpRanges();

@@ -31,7 +31,7 @@ class DigitalOceanTest extends TestCase
         $this->provider = new DigitalOcean();
     }
 
-    public function test_parseRanges_readsTheRangeFromTheFirstColumnOfEveryLine()
+    public function testParseRangesReadsTheRangeFromTheFirstColumnOfEveryLine()
     {
         $csv = $this->makeCsv([
             '5.101.96.0/21,NL,NL-NH,Amsterdam,1098 XH',
@@ -49,7 +49,7 @@ class DigitalOceanTest extends TestCase
     /**
      * @dataProvider getLineEndings
      */
-    public function test_parseRanges_supportsAnyLineEnding($lineEnding)
+    public function testParseRangesSupportsAnyLineEnding($lineEnding)
     {
         $csv = implode($lineEnding, [
             '5.101.96.0/21,NL,NL-NH,Amsterdam,1098 XH',
@@ -64,7 +64,7 @@ class DigitalOceanTest extends TestCase
         return [["\n"], ["\r\n"], ["\r"]];
     }
 
-    public function test_parseRanges_skipsBlankLines()
+    public function testParseRangesSkipsBlankLines()
     {
         $csv = $this->makeCsv([
             '',
@@ -80,7 +80,7 @@ class DigitalOceanTest extends TestCase
     /**
      * @dataProvider getEmptyResponses
      */
-    public function test_parseRanges_emptyResponse($csv)
+    public function testParseRangesEmptyResponse($csv)
     {
         $this->assertSame([], $this->provider->parseRanges($csv));
     }
@@ -90,14 +90,14 @@ class DigitalOceanTest extends TestCase
         return [[''], [' '], ["\n"], ["\n \n"], ["\r\n\r\n"]];
     }
 
-    public function test_parseRanges_errorPageServedWithStatus200()
+    public function testParseRangesErrorPageServedWithStatus200()
     {
         $csv = $this->makeCsv(['<html>', '<body>Something went wrong</body>', '</html>']);
 
         $this->assertSame([], $this->provider->parseRanges($csv));
     }
 
-    public function test_parseRanges_ignoresAHeaderRowShouldOneBeAdded()
+    public function testParseRangesIgnoresAHeaderRowShouldOneBeAdded()
     {
         $csv = $this->makeCsv([
             'range,country,region,city,postcode',
@@ -107,14 +107,14 @@ class DigitalOceanTest extends TestCase
         $this->assertSame(['5.101.96.0/21'], $this->provider->parseRanges($csv));
     }
 
-    public function test_parseRanges_handlesQuotedFieldContainingASeparator()
+    public function testParseRangesHandlesQuotedFieldContainingASeparator()
     {
         $csv = $this->makeCsv(['5.101.96.0/21,US,US-CA,"Santa Clara, CA",95054']);
 
         $this->assertSame(['5.101.96.0/21'], $this->provider->parseRanges($csv));
     }
 
-    public function test_parseRanges_dropsInvalidRanges()
+    public function testParseRangesDropsInvalidRanges()
     {
         $csv = $this->makeCsv([
             'notanip,NL,NL-NH,Amsterdam,1098 XH',
@@ -128,7 +128,7 @@ class DigitalOceanTest extends TestCase
         $this->assertSame(['5.101.96.0/21', '165.22.0.0/20'], $this->provider->parseRanges($csv));
     }
 
-    public function test_parseRanges_normalisesSingleIpsAndWildcards()
+    public function testParseRangesNormalisesSingleIpsAndWildcards()
     {
         $csv = $this->makeCsv([
             '1.2.3.4,NL,NL-NH,Amsterdam,1098 XH',
@@ -139,7 +139,7 @@ class DigitalOceanTest extends TestCase
         $this->assertSame(['1.2.3.4/32', '1.2.3.0/24', '165.22.0.0/20'], $this->provider->parseRanges($csv));
     }
 
-    public function test_parseRanges_stripsAUtf8ByteOrderMark()
+    public function testParseRangesStripsAUtf8ByteOrderMark()
     {
         $csv = "\xEF\xBB\xBF" . $this->makeCsv(['5.101.96.0/21,NL,NL-NH,Amsterdam,1098 XH']);
 

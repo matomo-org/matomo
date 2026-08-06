@@ -38,7 +38,7 @@ class AllowListIpRangeTest extends IntegrationTestCase
         $this->allowList = new AllowListIpRange($this->settings);
     }
 
-    public function test_isAllowed()
+    public function testIsAllowed()
     {
         $this->settings->ipAllowList->setValue(['10.10.0.0/21', '15.15.0.0/21', '2001:db8::/64']);
 
@@ -56,7 +56,7 @@ class AllowListIpRangeTest extends IntegrationTestCase
         $this->assertFalse($this->allowList->isAllowed('2002:db8:0000:0000:ffff:ffff:ffff:fffe'));
     }
 
-    public function test_isAllowed_bareIpsMatchWithoutExplicitRange()
+    public function testIsAllowedBareIpsMatchWithoutExplicitRange()
     {
         $this->settings->ipAllowList->setValue(['12.14.15.16', 'f::f']);
 
@@ -67,7 +67,7 @@ class AllowListIpRangeTest extends IntegrationTestCase
         $this->assertFalse($this->allowList->isAllowed('f::e'));
     }
 
-    public function test_isAllowed_emptyList()
+    public function testIsAllowedEmptyList()
     {
         $this->assertFalse($this->allowList->isAllowed('10.10.0.0'));
     }

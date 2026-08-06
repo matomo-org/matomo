@@ -239,7 +239,9 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
                     return [];
                 }
                 $ips = array_map('trim', $value);
-                $ips = array_filter($ips, 'strlen');
+                $ips = array_filter($ips, function ($ip) {
+                    return $ip !== '';
+                });
                 return array_values(array_unique($ips));
             };
         });
@@ -259,7 +261,9 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
                 $organisations = array_map(function ($organisation) {
                     return mb_strtolower(trim((string) $organisation));
                 }, $value);
-                $organisations = array_filter($organisations, 'strlen');
+                $organisations = array_filter($organisations, function ($organisation) {
+                    return $organisation !== '';
+                });
                 return array_values(array_unique($organisations));
             };
         });
@@ -295,7 +299,9 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
         }
 
         // values set through a config file override skip the setting's transform, so clean them up here too
-        return array_values(array_filter(array_map('trim', $value), 'strlen'));
+        return array_values(array_filter(array_map('trim', $value), function ($range) {
+            return $range !== '';
+        }));
     }
 
     public function getBlockedOrganisations(): array
@@ -311,7 +317,9 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
             return mb_strtolower(trim((string) $organisation));
         }, $value);
 
-        return array_values(array_filter($organisations, 'strlen'));
+        return array_values(array_filter($organisations, function ($organisation) {
+            return $organisation !== '';
+        }));
     }
 
     public function getExcludedCountryCodes()

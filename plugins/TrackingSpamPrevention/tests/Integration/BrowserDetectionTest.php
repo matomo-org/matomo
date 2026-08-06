@@ -34,7 +34,7 @@ class BrowserDetectionTest extends IntegrationTestCase
     /**
      * @dataProvider getHeadlessBrowsersProvider
      */
-    public function test_isHeadlessBrowser($expected, $userAgent)
+    public function testIsHeadlessBrowser($expected, $userAgent)
     {
         $this->assertSame($expected, $this->browser->isHeadlessBrowser($userAgent));
     }
@@ -55,7 +55,7 @@ class BrowserDetectionTest extends IntegrationTestCase
     /**
      * @dataProvider getServerSideLibraries
      */
-    public function test_isLibrary($expected, $userAgent)
+    public function testIsLibrary($expected, $userAgent)
     {
         $this->assertSame($expected, $this->browser->isLibrary($userAgent));
     }

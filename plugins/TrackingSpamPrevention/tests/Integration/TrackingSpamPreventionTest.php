@@ -42,16 +42,16 @@ class TrackingSpamPreventionTest extends IntegrationTestCase
         return new VisitExcluded($req);
     }
 
-    public function test_trackerCache()
+    public function testTrackerCache()
     {
         $cache = Cache::getCacheGeneral();
         $this->assertEquals([
             '10.' => ['10.10.0.0/21'],
-            '200.' => ['200.200.0.0/21']
+            '200.' => ['200.200.0.0/21'],
         ], $cache[BlockedIpRanges::OPTION_KEY]);
     }
 
-    public function test_isExcludedVisit_whenBlockedUserAgentWhenGoodUserAgentWontBlock()
+    public function testIsExcludedVisitWhenBlockedUserAgentWhenGoodUserAgentWontBlock()
     {
         StaticContainer::get(SystemSettings::class)->blockHeadless->setValue(1);
         Cache::clearCacheGeneral();
@@ -63,7 +63,7 @@ class TrackingSpamPreventionTest extends IntegrationTestCase
         $this->assertFalse($isExcluded);
     }
 
-    public function test_isExcludedVisit_whenBlockedUserAgent()
+    public function testIsExcludedVisitWhenBlockedUserAgent()
     {
         StaticContainer::get(SystemSettings::class)->blockHeadless->setValue(1);
         Cache::clearCacheGeneral();
@@ -75,7 +75,7 @@ class TrackingSpamPreventionTest extends IntegrationTestCase
         $this->assertTrue($isExcluded);
     }
 
-    public function test_isExcludedVisit_whenHeadlessClientHint()
+    public function testIsExcludedVisitWhenHeadlessClientHint()
     {
         StaticContainer::get(SystemSettings::class)->blockHeadless->setValue(1);
         Cache::clearCacheGeneral();
@@ -89,7 +89,7 @@ class TrackingSpamPreventionTest extends IntegrationTestCase
         $this->assertTrue($isExcluded);
     }
 
-    public function test_isExcludedVisit_whenBlockedUserAgentDisabled()
+    public function testIsExcludedVisitWhenBlockedUserAgentDisabled()
     {
         StaticContainer::get(SystemSettings::class)->blockHeadless->setValue(0);
         Cache::clearCacheGeneral();
@@ -101,14 +101,14 @@ class TrackingSpamPreventionTest extends IntegrationTestCase
         $this->assertFalse($isExcluded);
     }
 
-    public function test_isExcludedVisit_whenNothingBlocked()
+    public function testIsExcludedVisitWhenNothingBlocked()
     {
         StaticContainer::get(BlockedIpRanges::class)->unsetAllIpRanges();
         $excluded = $this->makeExcluded('10.10.0.3');
         $this->assertFalse($excluded->isExcluded());
     }
 
-    public function test_isExcludedVisit_whenBlockServerSideLibraryDisabledAndNotServerSideUserAgent()
+    public function testIsExcludedVisitWhenBlockServerSideLibraryDisabledAndNotServerSideUserAgent()
     {
         StaticContainer::get(SystemSettings::class)->blockServerSideLibraries->setValue(0);
         Cache::clearCacheGeneral();
@@ -120,7 +120,7 @@ class TrackingSpamPreventionTest extends IntegrationTestCase
         $this->assertFalse($isExcluded);
     }
 
-    public function test_isExcludedVisit_whenBlockServerSideLibraryDisabledAndServerSideUserAgent()
+    public function testIsExcludedVisitWhenBlockServerSideLibraryDisabledAndServerSideUserAgent()
     {
         StaticContainer::get(SystemSettings::class)->blockServerSideLibraries->setValue(0);
         Cache::clearCacheGeneral();
@@ -132,7 +132,7 @@ class TrackingSpamPreventionTest extends IntegrationTestCase
         $this->assertFalse($isExcluded);
     }
 
-    public function test_isExcludedVisit_whenBlockServerSideLibraryEnabledAndNotServerSideUserAgent()
+    public function testIsExcludedVisitWhenBlockServerSideLibraryEnabledAndNotServerSideUserAgent()
     {
         StaticContainer::get(SystemSettings::class)->blockServerSideLibraries->setValue(1);
         Cache::clearCacheGeneral();
@@ -144,7 +144,7 @@ class TrackingSpamPreventionTest extends IntegrationTestCase
         $this->assertFalse($isExcluded);
     }
 
-    public function test_isExcludedVisit_whenBlockServerSideLibraryEnabledAndServerSideUserAgent()
+    public function testIsExcludedVisitWhenBlockServerSideLibraryEnabledAndServerSideUserAgent()
     {
         StaticContainer::get(SystemSettings::class)->blockServerSideLibraries->setValue(1);
         Cache::clearCacheGeneral();
@@ -160,7 +160,7 @@ class TrackingSpamPreventionTest extends IntegrationTestCase
         }
     }
 
-    public function test_isExcludedVisit_whenIpBlocked()
+    public function testIsExcludedVisitWhenIpBlocked()
     {
         $excluded = $this->makeExcluded('10.10.0.3');
         $this->assertTrue($excluded->isExcluded());
@@ -168,7 +168,7 @@ class TrackingSpamPreventionTest extends IntegrationTestCase
         $this->assertTrue($excluded->isExcluded());
     }
 
-    public function test_isExcludedVisit_whenWhiteListUsed()
+    public function testIsExcludedVisitWhenWhiteListUsed()
     {
         StaticContainer::get(SystemSettings::class)->ipAllowList->setValue([
             '10.10.0.4/32', '10.10.0.3/32',
@@ -186,13 +186,13 @@ class TrackingSpamPreventionTest extends IntegrationTestCase
         $this->assertTrue($excluded->isExcluded());
     }
 
-    public function test_isExcludedVisit_whenIpNotBlocked()
+    public function testIsExcludedVisitWhenIpNotBlocked()
     {
         $excluded = $this->makeExcluded('20.20.20.20');
         $this->assertFalse($excluded->isExcluded());
     }
 
-    public function test_isExcludedVisit_whenIpOnBlockList()
+    public function testIsExcludedVisitWhenIpOnBlockList()
     {
         StaticContainer::get(SystemSettings::class)->ipBlockList->setValue([
             '203.0.113.88/32', '198.51.100.0/24',
@@ -205,7 +205,7 @@ class TrackingSpamPreventionTest extends IntegrationTestCase
         $this->assertFalse($this->makeExcluded('198.51.101.1')->isExcluded());
     }
 
-    public function test_isExcludedVisit_allowListTakesPrecedenceOverBlockList()
+    public function testIsExcludedVisitAllowListTakesPrecedenceOverBlockList()
     {
         $settings = StaticContainer::get(SystemSettings::class);
         $settings->ipAllowList->setValue(['203.0.113.88/32']);
@@ -215,7 +215,7 @@ class TrackingSpamPreventionTest extends IntegrationTestCase
         $this->assertTrue($this->makeExcluded('203.0.113.89')->isExcluded());
     }
 
-    public function test_isExcludedVisit_excludeCountries()
+    public function testIsExcludedVisitExcludeCountries()
     {
         StaticContainer::get(SystemSettings::class)->excludedCountries->setValue(
             [['country' => 'xx'],['country' => 'fr'], ['country' => 'nz'], ['country' => 'de'], ['country' => 'us']]
@@ -232,7 +232,7 @@ class TrackingSpamPreventionTest extends IntegrationTestCase
         $this->assertFalse($excluded->isExcluded());
     }
 
-    public function test_isExcludedVisit_includeCountries()
+    public function testIsExcludedVisitIncludeCountries()
     {
         StaticContainer::get(SystemSettings::class)->includedCountries->setValue(
             [['country' => 'xx'],['country' => 'fr'], ['country' => 'nz'], ['country' => 'de'], ['country' => 'us']]

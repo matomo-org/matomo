@@ -23,7 +23,7 @@ class ProvidersTest extends IntegrationTestCase
     /**
      * @dataProvider getIpRangeProviderDataProvider
      */
-    public function test_getRanges(BlockedIpRanges\IpRangeProviderInterface $provider, bool $expectsIpv6)
+    public function testGetRanges(BlockedIpRanges\IpRangeProviderInterface $provider, bool $expectsIpv6)
     {
         $ranges = $provider->getRanges();
         $this->assertNotEmpty($ranges);
@@ -55,7 +55,7 @@ class ProvidersTest extends IntegrationTestCase
         }
     }
 
-    public function test_getDownloadUrl_Azure()
+    public function testGetDownloadUrlAzure()
     {
         $azure = new BlockedIpRanges\Azure();
         $url = $azure->getDownloadUrl();

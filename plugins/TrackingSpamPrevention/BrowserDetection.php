@@ -29,7 +29,7 @@ class BrowserDetection
             'https://k6.io/', // Load test, Added full URL to handle case where UA can be fook6bar or fook6/
             'Radview', // Load test
             'Locust', // Load test
-            'Cypress' //Testing Tool
+            'Cypress', //Testing Tool
         ];
         foreach ($browsers as $browser) {
             if (stripos($userAgent, $browser) !== false) {

@@ -41,13 +41,13 @@ class RequestProcessor extends Tracker\RequestProcessor
         $maxActions = $this->systemSettings->max_actions->getValue();
 
         if (empty($maxActions) || !is_numeric($maxActions) || $maxActions <= 0) {
-            return; // unlimited
+            return false; // unlimited
         }
         if ((int)$actions >= $maxActions) {
             $ipString = $request->getIpString();
             if (StaticContainer::get(AllowListIpRange::class)->isAllowed($ipString)) {
                 Common::printDebug("Ignoring max visits as the visit matches an IP range that is always allowed");
-                return;
+                return false;
             }
 
             $this->blockedIpRanges->banIp($ipString);
@@ -55,5 +55,7 @@ class RequestProcessor extends Tracker\RequestProcessor
             Common::printDebug("Stop tracking as max number of actions reached");
             return true; // abort
         }
+
+        return false;
     }
 }

@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\TrackingSpamPrevention;
 
 use Piwik\Config;
+use Piwik\Settings\Storage\Backend\PluginSettingsTable;
 use Piwik\Settings\Storage\Factory;
 use Piwik\Updater;
 use Piwik\Updates as PiwikUpdates;
@@ -24,6 +25,7 @@ class Updates_5_0_11 extends PiwikUpdates
             return;
         }
 
+        /** @var PluginSettingsTable $backend */
         $backend = (new Factory())->getPluginStorage('TrackingSpamPrevention', '')->getBackend();
         $currentValue = $backend->loadValue('block_headless', null);
 
