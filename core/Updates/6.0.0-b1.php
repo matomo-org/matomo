@@ -38,6 +38,11 @@ class Updates_6_0_0_b1 extends PiwikUpdates
         $migrations[] = $this->migration->plugin->deactivate('SEO');
         $migrations[] = $this->migration->plugin->uninstall('SEO');
 
+        // TrackingSpamPrevention is bundled with core and activated by default since Matomo 6.
+        // When it was installed but deactivated, the updater has already collected the components to
+        // update, so its own update files only run during the next update.
+        $migrations[] = $this->migration->plugin->activate('TrackingSpamPrevention');
+
         return $migrations;
     }
 
