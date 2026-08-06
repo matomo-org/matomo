@@ -15,9 +15,8 @@ describe('Decline', function () {
 
   var pendingUserUrl = '?module=Login&action=declineInvitation&token=13cb9dcef6cc70b02a640cee30dc8ce9';
 
-  // Tests only see change data when they ask for it - the test environment otherwise swaps in
-  // FakeChangesModel, which reads back nothing. Restored in a finally so a failure here cannot leak
-  // the panel into the baselines below.
+  // Swaps FakeChangesModel for the real one, so only this test sees the panel. Restored in a
+  // finally so a failure here cannot leak it into the baselines below.
   async function withWhatsNewPanel(assertions) {
     testEnvironment.loadChanges = 1;
     testEnvironment.save();
@@ -43,9 +42,8 @@ describe('Decline', function () {
     };
   }
 
-  // Runs before the test below declines the invitation and spends the token. The panel has its own
-  // baseline in LoginWhatsNew, so this only checks the decline page sits beside it. The viewport is
-  // deliberately left alone - setViewport would persist into the baselines below.
+  // Runs before the test below spends the token. Geometry only - the panel has its own baseline in
+  // LoginWhatsNew. The viewport is left alone: setViewport would persist into the baselines below.
   it('should display decline invite page beside the What\'s New panel', async function () {
     await withWhatsNewPanel(async function () {
       await page.goto(pendingUserUrl);

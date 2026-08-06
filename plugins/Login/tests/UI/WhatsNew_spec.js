@@ -1,11 +1,8 @@
 /*!
  * Matomo - free/libre analytics platform
  *
- * "What's New" panel on the refreshed login layout.
- *
- * Mostly DOM/security invariants, plus one baseline of the panel itself. The entries come from the
- * WhatsNewChanges fixture rather than from whatever the installation happens to have recorded (it
- * records nothing), so both the assertions and the baseline are stable.
+ * "What's New" panel on the refreshed login layout: mostly DOM/security invariants, plus one
+ * baseline of the panel itself. Entries come from the WhatsNewChanges fixture, so they are stable.
  *
  * @link    https://matomo.org
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -16,8 +13,7 @@ describe("LoginWhatsNew", function () {
 
     const loginUrl = "?module=Login&action=login";
 
-    // Pages that only need to show the layout holds next to the panel assert geometry instead of
-    // taking another full page screenshot.
+    // Pages that only need to show the layout holds assert geometry instead of taking a baseline.
     const panelBesideForm = { entries: 3, panelRightOfForm: true, panelVisible: true, noOverflow: true };
 
     function measurePanelBesideForm() {
@@ -35,8 +31,7 @@ describe("LoginWhatsNew", function () {
 
     before(function () {
         testEnvironment.testUseMockAuth = 0;
-        // Without this the test environment swaps Piwik\Changes\Model for FakeChangesModel, which
-        // returns no changes at all, so the panel would never render whatever the fixture records.
+        // Swaps FakeChangesModel, which reads back nothing, for the real one.
         testEnvironment.loadChanges = 1;
         testEnvironment.save();
     });
@@ -154,9 +149,8 @@ describe("LoginWhatsNew", function () {
         });
     });
 
-    // The forgot password form is the other shape the primary column takes for a logged out visitor.
-    // The panel has its own baseline above, so this only has to show the layout holds beside it. Kept
-    // ahead of the responsive test below, which shrinks the viewport.
+    // The other shape the primary column takes for a logged out visitor. Kept ahead of the
+    // responsive test below, which shrinks the viewport.
     it("should render the forgot password form beside the panel", async function () {
         await page.webpage.setViewport({ width: 1440, height: 900 });
         await page.goto(loginUrl);

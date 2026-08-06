@@ -71,16 +71,14 @@
         display: flex;
         flex-direction: column;
         justify-content: safe center;
-        /* Stretch, don't centre: the panel fills the padding box, so the teal frame is the
-           padding itself and stays equal on every side. */
+        /* Stretch rather than centre: the panel fills the padding box, so the padding itself is
+           the teal frame around it - hence uniform on all four sides. */
         align-items: stretch;
         flex: none;
         box-sizing: border-box;
         width: 50%;
         /* Same 24px inset the primary column uses, but not on the side facing it. */
         margin: 24px 24px 24px 0;
-        /* Uniform on all four sides: the panel stretches to fill it, so the teal shows as
-           an even frame around the panel. */
         padding: 40px;
         border-radius: 24px;
         /* Decorative brand surface, layered radial highlights over a vertical base wash. */

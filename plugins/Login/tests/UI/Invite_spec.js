@@ -16,9 +16,8 @@ describe('Invite', function () {
   var pendingUserUrl = '?module=Login&action=acceptInvitation&token=13cb9dcef6cc70b02a640cee30dc8ce9';
   var wrongUserUrl = '?module=Login&action=acceptInvitation&token=123';
 
-  // The panel only renders once the changes model is the real one - the test environment otherwise
-  // swaps in FakeChangesModel, which reads back no changes. Restored in a finally so a failure here
-  // cannot leak the panel into the baselines below.
+  // Swaps FakeChangesModel for the real one, so only this test sees the panel. Restored in a
+  // finally so a failure here cannot leak it into the baselines below.
   async function withWhatsNewPanel(assertions) {
     testEnvironment.loadChanges = 1;
     testEnvironment.save();
@@ -36,12 +35,12 @@ describe('Invite', function () {
     expect(await page.screenshot({ fullPage: true })).to.matchImage('error');
   });
 
-  // Runs before the tests below consume the invite token. This is the tallest form sharing the login
-  // layout, so it is the one worth verifying next to the panel.
+  // Runs before the tests below consume the token. The tallest form sharing the login layout, so
+  // the one worth a baseline next to the panel.
   it('should display set password page beside the What\'s New panel', async function () {
     await withWhatsNewPanel(async function () {
-      // The error page above leaves a 3s redirect timer pending, which otherwise aborts the
-      // navigation below. Same guard loginUser() uses in the TwoFactorAuth spec.
+      // The error page above leaves a 3s redirect timer pending, which would abort the navigation
+      // below. Same guard loginUser() uses in the TwoFactorAuth spec.
       await page.goto('about:blank');
 
       await page.goto(pendingUserUrl);

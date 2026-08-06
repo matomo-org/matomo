@@ -14,16 +14,10 @@ use Piwik\Plugins\PrivacyManager\SystemSettings;
 use Piwik\Tests\Framework\Fixture;
 
 /**
- * Records a known set of changes so the login "What's New" panel has something to render.
- *
- * The installation itself never records a change, so without this the panel is empty and every
- * assertion about it is vacuous.
- *
- * Four entries are added, oldest first. The model returns them by descending id and the provider
- * keeps only the three most recent, so the entry added first is deliberately left out - that is what
- * makes the "at most three entries" assertion meaningful rather than trivially true. The three that
- * do show cover each way a call to action can end up: an external link that renders, an internal
- * link whose call to action must be stripped, and an entry carrying no link at all.
+ * Records four changes, oldest first, so the login "What's New" panel has something to render -
+ * the installation itself never records any. The provider keeps the three most recent, so the
+ * first is deliberately left out, and the three that show cover each link outcome: external
+ * (kept), internal (stripped), none.
  */
 class WhatsNewChanges extends Fixture
 {
@@ -51,19 +45,15 @@ class WhatsNewChanges extends Fixture
     }
 
     /**
-     * Static so any other fixture can give its spec a What's New baseline without duplicating these
-     * entries - a spec only has to set `testEnvironment.loadChanges` for the test that wants the
-     * panel. Recording them is inert until it does, since the test environment otherwise swaps in
-     * FakeChangesModel and no change is ever read back.
+     * Static so other fixtures can reuse these entries. Inert until a spec sets
+     * `testEnvironment.loadChanges`, which is what swaps FakeChangesModel back for the real one.
      */
     public static function recordPanelChanges(): void
     {
-        // Intentionally not resolved through the container: the test environment swaps
-        // Piwik\Changes\Model for FakeChangesModel, whose addChange() is a no-op. The spec sets
-        // testEnvironment.loadChanges so the web request gets the real model back.
+        // Not resolved through the container: FakeChangesModel::addChange() is a no-op.
         $model = new ChangesModel();
 
-        // Oldest first: this one falls outside the three most recent and must not be rendered.
+        // Oldest first, so this one falls outside the three most recent.
         $model->addChange('CoreHome', [
             'version'     => '5.0.0',
             'title'       => 'This entry is left out of the panel',
@@ -94,8 +84,8 @@ class WhatsNewChanges extends Fixture
     }
 
     /**
-     * The imprint / privacy / terms links only render for anonymous visitors once these are set, so
-     * the panel baseline also covers the footer links under the sign in form.
+     * The footer links only render for anonymous visitors once these are set, so the panel
+     * baseline covers them too.
      */
     private function setUpTermsAndPrivacy(): void
     {

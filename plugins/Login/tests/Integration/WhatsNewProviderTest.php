@@ -31,8 +31,7 @@ class WhatsNewProviderTest extends IntegrationTestCase
     {
         parent::setUp();
 
-        // The provider caches the processed entries in the lazy cache under a fixed id, so an entry
-        // left behind by another test would be picked up here.
+        // The cache id is fixed, so an entry left behind by another test would be picked up here.
         Cache::flushAll();
     }
 
@@ -76,22 +75,19 @@ class WhatsNewProviderTest extends IntegrationTestCase
         $model = $this->createMock(ChangesModel::class);
         $model->expects($this->once())->method('getChangeItems')->willReturn([$this->change([])]);
 
-        // Two separate providers stand in for two separate requests; only the first may read the
-        // changes table.
+        // Two providers stand in for two requests; only the first may read the changes table.
         $this->assertCount(1, $this->getChangesAsLoggedOutVisitor($this->provider($model)));
         $this->assertCount(1, $this->getChangesAsLoggedOutVisitor($this->provider($model)));
     }
 
     /**
-     * The panel also shows on the confirm password and 2FA screens, and a plugin can filter the list
-     * per user through `Changes.filterChanges`, so a logged in request must never fill the cache a
-     * logged out visitor reads.
+     * A logged in request must never fill the cache a logged out visitor reads, since
+     * `Changes.filterChanges` may have filtered its list for that one user.
      */
     public function testALoggedInRequestDoesNotFillTheCacheALoggedOutVisitorReads(): void
     {
         $model = $this->createMock(ChangesModel::class);
-        // Both build their own list: the logged in one because it may not save, the logged out one
-        // because it must find nothing saved.
+        // Both build their own: the logged in one may not save, the logged out one finds nothing.
         $model->expects($this->exactly(2))->method('getChangeItems')->willReturn([$this->change([])]);
 
         $this->assertFalse(Piwik::isUserIsAnonymous(), 'this only means anything as a logged in request');
@@ -101,8 +97,7 @@ class WhatsNewProviderTest extends IntegrationTestCase
     }
 
     /**
-     * A logged in request saves nothing at all, so two different users can never serve each other a
-     * list that was filtered for one of them.
+     * A logged in request saves nothing, so two users can never serve each other a filtered list.
      */
     public function testNeverFillsTheCacheForALoggedInRequest(): void
     {
@@ -129,9 +124,8 @@ class WhatsNewProviderTest extends IntegrationTestCase
     }
 
     /**
-     * End to end against the real model and the real changes table, mirroring what the
-     * WhatsNewChanges UI fixture records - the mocked tests above can't catch a break between the
-     * provider, the model, the cache and the database.
+     * End to end against the real model and table, which the mocked tests above cannot cover.
+     * Mirrors what the WhatsNewChanges UI fixture records.
      */
     public function testReturnsTheThreeMostRecentEntriesFromTheRealChangesTable(): void
     {
@@ -168,9 +162,8 @@ class WhatsNewProviderTest extends IntegrationTestCase
     public function testDoesNotCacheAnEmptyResult(): void
     {
         $model = $this->createMock(ChangesModel::class);
-        // An empty result must not be pinned: on a fresh install the login page can be reached
-        // before any change is recorded, and the panel has to appear as soon as one exists. Checked
-        // logged out, the only request that saves anything.
+        // A fresh install reaches the login page before recording anything, and the panel has to
+        // appear as soon as the first change arrives. Checked logged out, the only request that saves.
         $model->expects($this->exactly(2))->method('getChangeItems')->willReturn([]);
 
         $this->assertSame([], $this->getChangesAsLoggedOutVisitor($this->provider($model)));
@@ -178,8 +171,8 @@ class WhatsNewProviderTest extends IntegrationTestCase
     }
 
     /**
-     * One link per case on purpose: seeding several at once means MAX_ENTRIES silently drops all but
-     * the first three, so any case past the third would never actually be exercised.
+     * One link per case: seeding several at once would let MAX_ENTRIES silently drop everything
+     * past the third, so those cases would never be exercised.
      *
      * @dataProvider getAllowedHostLinks
      */
@@ -275,8 +268,8 @@ class WhatsNewProviderTest extends IntegrationTestCase
 
         $changes = $provider->getChanges();
 
-        // The check runs on the trimmed URL, so storing the raw one would leave `|safelink` to reject
-        // it and the template to render an empty href.
+        // The check runs on the trimmed URL, so storing the raw one would leave `|safelink` to
+        // reject it and the template to render an empty href.
         $this->assertSame('https://matomo.org/changelog/', $changes[0]['link']);
         $this->assertSame('Read more', $changes[0]['link_name']);
     }
@@ -361,9 +354,8 @@ class WhatsNewProviderTest extends IntegrationTestCase
     }
 
     /**
-     * Runs the provider as a logged out visitor, which is what a hit on the login page looks like -
-     * IntegrationTestCase grants super user access in setUp(). Undone in a finally, so nothing leaks
-     * into the next test.
+     * Runs the provider as a logged out visitor, which is what a login page hit looks like -
+     * IntegrationTestCase grants super user access in setUp(). Undone in a finally.
      *
      * @return array<int, array<string, mixed>>
      */

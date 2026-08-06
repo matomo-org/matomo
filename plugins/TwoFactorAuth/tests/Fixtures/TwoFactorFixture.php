@@ -54,9 +54,8 @@ class TwoFactorFixture extends Fixture
         $this->setUpUsers();
         $this->trackFirstVisit();
 
-        // Lets the 2FA spec take one What's New baseline, since its login screens extend the same
-        // @Login/loginLayout.twig. Inert for every other test, which sees FakeChangesModel and so
-        // reads no changes back at all.
+        // Lets the 2FA spec assert against the What's New panel, since its login screens extend
+        // the same @Login/loginLayout.twig. Inert for every other test, which reads nothing back.
         WhatsNewChanges::recordPanelChanges();
     }
 

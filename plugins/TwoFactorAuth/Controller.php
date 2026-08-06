@@ -67,8 +67,8 @@ class Controller extends \Piwik\Plugin\Controller
     }
 
     /**
-     * The "What's New" entries shown by the shared login layout. Reuses Login's provider, since these
-     * screens already extend Login's layout.
+     * The "What's New" entries shown by the shared login layout. Reuses Login's provider, since
+     * these screens already extend Login's layout.
      *
      * @return array<int, array<string, mixed>>
      */

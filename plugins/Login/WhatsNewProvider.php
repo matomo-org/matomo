@@ -21,37 +21,21 @@ use Piwik\Plugin\Manager as PluginManager;
  * The "What's New" entries shown on the login layout (`@Login/loginLayout.twig`, shared by Login
  * and TwoFactorAuth).
  *
- * Takes the three most recent changes from the last six months and keeps a link only when a logged
- * out visitor could follow it ({@see self::ALLOWED_LINK_HOSTS}). An entry always keeps its title and
- * description; only the link goes.
- *
- * The page is public, so the result is cached ({@see self::loadChanges()}). Any failure is logged
+ * Takes the three most recent changes and keeps a link only when a logged out visitor could follow
+ * it. An entry always keeps its title and description; only the link goes. Any failure is logged
  * and returns an empty list, so the login page always renders.
  */
 class WhatsNewProvider
 {
-    /**
-     * Number of most recent entries displayed in the panel.
-     */
     private const MAX_ENTRIES = 3;
 
     /**
-     * Hosts whose links may show a call to action, subdomains included.
-     *
-     * This is a product filter, not a security check. Links come from each plugin's own
-     * `changes.json` ({@see \Piwik\Plugin::getChanges()}), read off disk when a superuser installs or
-     * updates that plugin, so nothing a visitor sends can reach this.
-     *
-     * Relative and internal links are already dropped for having no host at all
-     * ({@see self::isDisplayableExternalLink()}). What this list adds is dropping an absolute link
-     * back to this instance, which a logged out visitor could not follow either. Being a private
-     * constant, config and plugins cannot change it.
+     * Hosts whose links may show a call to action, subdomains included. Anything else keeps its
+     * entry and loses the link - including an absolute link back to this instance, which a logged
+     * out visitor could not follow either.
      */
     private const ALLOWED_LINK_HOSTS = ['matomo.org'];
 
-    /**
-     * Cache id of the processed entries.
-     */
     private const CACHE_KEY = 'Login.whatsNewPanel';
 
     /**
@@ -59,15 +43,9 @@ class WhatsNewProvider
      */
     private const CACHE_TTL = 3600;
 
-    /**
-     * @var ChangesModel
-     */
-    private $changesModel;
+    private ChangesModel $changesModel;
 
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private LoggerInterface $logger;
 
     /**
      * Per-request cache of the processed entries.
@@ -180,8 +158,7 @@ class WhatsNewProvider
             $link = $change['link'] ?? '';
             $linkName = $change['link_name'] ?? '';
 
-            // Store what was checked: the check parses the trimmed URL, and `|safelink` would reject
-            // a padded one, leaving the template to render an empty href.
+            // Store the trimmed URL: that is what was checked, and `|safelink` rejects a padded one.
             if ($this->isDisplayableExternalLink($link, $linkName)) {
                 $entry['link'] = trim($link);
                 $entry['link_name'] = trim($linkName);
@@ -200,8 +177,8 @@ class WhatsNewProvider
 
     /**
      * A link keeps its call to action only when it is an absolute http/https URL on an allowed host
-     * ({@see self::ALLOWED_LINK_HOSTS}) and has a label. Everything else loses the link while the
-     * entry itself stays visible.
+     * and has a label. This is a product filter rather than a security boundary: links come from
+     * each plugin's own `changes.json`, so nothing a visitor sends can reach it.
      *
      * @param mixed $link
      * @param mixed $linkName
@@ -212,8 +189,7 @@ class WhatsNewProvider
             return false;
         }
 
-        // An empty or relative link parses without a host, which is what rules it out - as does a
-        // protocol-relative one, since it carries no scheme for the check below.
+        // No host means empty or relative; no scheme means protocol-relative.
         $parsed = parse_url(trim($link));
 
         if (!is_array($parsed) || empty($parsed['host'])) {
@@ -231,15 +207,13 @@ class WhatsNewProvider
             return false;
         }
 
-        // parse_url() has already split any port off into its own component, so the host needs
-        // nothing beyond case folding and dropping a trailing root dot.
+        // parse_url() already split the port off; just fold case and drop a trailing root dot.
         return $this->isAllowedLinkHost(rtrim(strtolower($parsed['host']), '.'));
     }
 
     /**
-     * Whether a host may render a call to action: an exact match on an allowed host, or one of its
-     * subdomains. Anchoring the suffix on a dot is what keeps look-alikes such as
-     * `evil-matomo.org` and `matomo.org.example.com` out.
+     * An exact match on an allowed host or one of its subdomains. Anchoring the suffix on a dot is
+     * what keeps `evil-matomo.org` and `matomo.org.example.com` out.
      */
     private function isAllowedLinkHost(string $host): bool
     {

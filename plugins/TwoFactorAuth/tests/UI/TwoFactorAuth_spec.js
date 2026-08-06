@@ -110,10 +110,9 @@ describe("TwoFactorAuth", function () {
         expect(widgetsCount).to.equal(1);
     });
 
-    // The 2FA screens extend @Login/loginLayout.twig, so they get the What's New panel too. The panel
-    // has its own baseline in the Login specs, so this only checks the auth code screen sits beside
-    // it. Tests only see change data when they ask for it, and the flag is cleared in a finally so it
-    // cannot leak into the tests below.
+    // The 2FA screens extend @Login/loginLayout.twig, so they get the panel too. Geometry only -
+    // it has its own baseline in the Login specs. The flag is cleared in a finally so it cannot
+    // leak into the tests below.
     it('should show the auth code screen beside the What\'s New panel', async function () {
         testEnvironment.loadChanges = 1;
         testEnvironment.save();

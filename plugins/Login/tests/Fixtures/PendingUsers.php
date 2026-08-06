@@ -36,8 +36,8 @@ class PendingUsers extends Fixture
         $this->setUpUser();
         $this->setUpTermsAndPrivacy();
 
-        // Lets the invite specs take one What's New baseline. Inert for every other test, which sees
-        // FakeChangesModel and so reads no changes back at all.
+        // Lets the invite specs take one What's New baseline. Inert for every other test, which
+        // sees FakeChangesModel and reads nothing back.
         WhatsNewChanges::recordPanelChanges();
     }
 
