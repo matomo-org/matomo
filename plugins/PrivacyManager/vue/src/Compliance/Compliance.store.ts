@@ -5,6 +5,7 @@ export interface ComplianceRequirement {
   name: string;
   value: string;
   notes: string;
+  impact: string;
 }
 
 interface ComplianceStatus {

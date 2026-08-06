@@ -16,7 +16,10 @@
           {{ translate('PrivacyManager_ComplianceTableSettingStatus') }}
         </th>
         <th class="label">
-          {{ translate('PrivacyManager_ComplianceTableSettingNotes') }}
+          {{ translate('PrivacyManager_ComplianceTableSettingDescription') }}
+        </th>
+        <th class="label">
+          {{ translate('PrivacyManager_ComplianceTableSettingImpact') }}
         </th>
       </tr>
     </thead>
@@ -28,6 +31,7 @@
           {{ translate(getStatusText(item.value)) }}
         </td>
         <td v-html="$sanitize(item.notes)" />
+        <td v-html="$sanitize(item.impact)" />
       </tr>
     </tbody>
   </table>

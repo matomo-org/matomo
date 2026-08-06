@@ -82,7 +82,7 @@ abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSet
     }
 
     /**
-     * @return array<array<string>> of [['id' => (string) 'ID', 'title' => (string) 'TITLE', 'note' => (string) 'NOTE']]
+     * @return array<array<string>> of [['id' => (string) 'ID', 'title' => (string) 'TITLE', 'note' => (string) 'NOTE', 'impact' => (string) 'IMPACT']]
      */
     abstract public static function getUnknownSettings(): array;
 

@@ -34,29 +34,45 @@ class EcommerceRestrictedTest extends IntegrationTestCase
         parent::tearDown();
     }
 
-    public function testReturnsCompliantMessageWhenEcommerceDisabled(): void
-    {
-        $note = EcommerceRestricted::getComplianceRequirementNote($this->nonEcommerceSite);
-
-        $this->assertEquals('Ecommerce_EcommercePolicySettingCompliantSingle', $note);
-    }
-
-    public function testReturnsNonCompliantMessageWhenPolicyNotEnforced(): void
-    {
-        CnilPolicy::setActiveStatus(null, false);
-        $note = EcommerceRestricted::getComplianceRequirementNote($this->ecommerceSite);
-
-        $this->assertEquals('Ecommerce_EcommercePolicySettingNonCompliantNote', $note);
-    }
-
-    public function testReturnsRequirementNoteWithLinkWhenPolicyEnforced(): void
+    /**
+     * The description states what the policy requires, so it does not vary with the state of
+     * the instance. Only the impact note does.
+     */
+    public function testReturnsTheSameDescriptionRegardlessOfEcommerceState(): void
     {
         CnilPolicy::setActiveStatus(null, true);
-        $_GET = [];
 
-        $note = EcommerceRestricted::getComplianceRequirementNote($this->ecommerceSite);
+        $this->assertEquals(
+            'Ecommerce_EcommercePolicyComplianceDescription',
+            EcommerceRestricted::getComplianceRequirementNote($this->ecommerceSite)
+        );
+        $this->assertEquals(
+            'Ecommerce_EcommercePolicyComplianceDescription',
+            EcommerceRestricted::getComplianceRequirementNote($this->nonEcommerceSite)
+        );
 
-        $this->assertEquals('Ecommerce_EcommercePolicySettingRequirementNote', $note);
+        CnilPolicy::setActiveStatus(null, false);
+
+        $this->assertEquals(
+            'Ecommerce_EcommercePolicyComplianceDescription',
+            EcommerceRestricted::getComplianceRequirementNote($this->ecommerceSite)
+        );
+    }
+
+    public function testReturnsNoImpactMessageWhenEcommerceDisabled(): void
+    {
+        $impact = EcommerceRestricted::getComplianceImpactNote($this->nonEcommerceSite);
+
+        $this->assertEquals('Ecommerce_EcommercePolicyComplianceImpactNoEcommerceSingle', $impact);
+    }
+
+    public function testReturnsImpactMessageWhenEcommerceEnabled(): void
+    {
+        CnilPolicy::setActiveStatus(null, true);
+
+        $impact = EcommerceRestricted::getComplianceImpactNote($this->ecommerceSite);
+
+        $this->assertEquals('Ecommerce_EcommercePolicyComplianceImpact', $impact);
     }
 
     public function testIsCompliantWhenEcommerceDisabled(): void

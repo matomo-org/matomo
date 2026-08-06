@@ -59,7 +59,7 @@ class CnilPolicy extends CompliancePolicy
             [
                 'title' => Piwik::translate('General_ComplianceCNILUnknownSettingOptOutTitle'),
                 'note' =>
-                    Piwik::translate('General_ComplianceCNILUnknownSettingOptOutNotes', [
+                    Piwik::translate('General_ComplianceCNILUnknownSettingOptOutDescription', [
                         '<a href="' .
                         Url::addCampaignParametersToMatomoLink(
                             'https://matomo.org/faq/general/faq_20000/',
@@ -70,6 +70,7 @@ class CnilPolicy extends CompliancePolicy
                         '" target="_blank" rel="noreferrer noopener">',
                         '</a>',
                     ]),
+                'impact' => Piwik::translate('General_ComplianceCNILUnknownSettingOptOutImpact'),
             ],
         ];
     }

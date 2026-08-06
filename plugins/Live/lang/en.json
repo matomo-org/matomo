@@ -66,6 +66,9 @@
         "VisitorLogSubcategoryHelp3": "Learn more in the visit-log guide.",
         "RealTimeHelp1": "The visits in the real-time report show the real-time flow of visits to your website. It includes a real-time counter of your visits and page views in the last 24 hours and the previous 30 minutes.",
         "RealTimeHelp2": "This report refreshes every 5 seconds and displays new visits (or existing visitors that view a new page) at the top of the list with a fade-in effect.",
-        "VisitorLogPolicySettingRequirementNote": "Visits log is required to be disabled."
+        "VisitorLogPolicySettingRequirementNote": "Visits log is required to be disabled.",
+        "VisitorLogPolicyComplianceTitle": "Visits Log and Visitor Profiles Disabled",
+        "VisitorLogPolicyComplianceDescription": "Visits Log and Visitor Profile features are disabled.<br /><br />This prevents an individual visitor's browsing path and detailed visit-level behaviour from being reconstructed.",
+        "VisitorLogPolicyComplianceImpact": "Visitors > Visits Log and Visitor Profile views are unavailable."
     }
 }

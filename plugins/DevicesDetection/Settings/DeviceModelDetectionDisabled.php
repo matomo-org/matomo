@@ -15,7 +15,12 @@ class DeviceModelDetectionDisabled extends CompliancePolicyEnforcedSetting
 
     public static function getComplianceRequirementNote(?int $idSite = null): string
     {
-        return Piwik::translate('DevicesDetection_DeviceModelDetectionDisabledRequirementNote');
+        return Piwik::translate('DevicesDetection_DeviceModelDetectionComplianceDescription');
+    }
+
+    public static function getComplianceImpactNote(?int $idSite = null): string
+    {
+        return Piwik::translate('DevicesDetection_DeviceModelDetectionComplianceImpact');
     }
 
     public static function getPolicyRequirements(): array

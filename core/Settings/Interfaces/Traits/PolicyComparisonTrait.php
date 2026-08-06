@@ -105,6 +105,29 @@ trait PolicyComparisonTrait
     }
 
     /**
+     * Human readable explanation of what enabling this setting changes on the instance.
+     *
+     * Returns an empty string by default so that settings which have not defined an
+     * impact note (including third-party implementers using this trait) never break
+     * the compliance table. Core settings override this method.
+     */
+    public static function getComplianceImpactNote(?int $idSite = null): string
+    {
+        return '';
+    }
+
+    /**
+     * Name to show for this setting in the compliance table.
+     *
+     * Defaults to the setting title. Override this when the setting title also labels a
+     * real settings field, where the compliance table wording would read wrong.
+     */
+    public static function getComplianceTitle(?int $idSite = null): string
+    {
+        return static::getTitle();
+    }
+
+    /**
      * @param T $value1
      * @param T $value2
      *

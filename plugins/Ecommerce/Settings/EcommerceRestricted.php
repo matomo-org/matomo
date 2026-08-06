@@ -13,7 +13,6 @@ use Piwik\Piwik;
 use Piwik\Plugins\PrivacyManager\Settings\CompliancePolicyEnforcedSetting;
 use Piwik\Policy\CnilPolicy;
 use Piwik\Site;
-use Piwik\Url;
 
 class EcommerceRestricted extends CompliancePolicyEnforcedSetting
 {
@@ -24,33 +23,22 @@ class EcommerceRestricted extends CompliancePolicyEnforcedSetting
 
     public static function getComplianceRequirementNote(?int $idSite = null): string
     {
+        return Piwik::translate('Ecommerce_EcommercePolicyComplianceDescription');
+    }
+
+    public static function getComplianceImpactNote(?int $idSite = null): string
+    {
         $idSites = self::getIdSitesToCheck($idSite);
 
         if (!self::hasEcommerceEnabledSite($idSites)) {
-            return self::getCompliantMessage($idSite, $idSites);
+            if ($idSite !== null && count($idSites) === 1) {
+                return Piwik::translate('Ecommerce_EcommercePolicyComplianceImpactNoEcommerceSingle');
+            }
+
+            return Piwik::translate('Ecommerce_EcommercePolicyComplianceImpactNoEcommerceAll');
         }
 
-        if (self::getInstance($idSite)->getValue() === false) {
-            return Piwik::translate('Ecommerce_EcommercePolicySettingNonCompliantNote');
-        }
-
-        $manageUrl = 'index.php' . Url::getCurrentQueryStringWithParametersModified(self::getManageParams($idSite));
-
-        return Piwik::translate('Ecommerce_EcommercePolicySettingRequirementNote', ['<a href="' . $manageUrl . '">', '</a>']);
-    }
-
-    private static function getManageParams(?int $idSite): array
-    {
-        $params = [
-            'module' => 'SitesManager',
-            'action' => 'index',
-        ];
-
-        if ($idSite !== null) {
-            $params['idSite'] = $idSite;
-        }
-
-        return $params;
+        return Piwik::translate('Ecommerce_EcommercePolicyComplianceImpact');
     }
 
     public static function isCompliant(string $policy, ?int $idSite = null): bool
@@ -94,14 +82,5 @@ class EcommerceRestricted extends CompliancePolicyEnforcedSetting
         }
 
         return false;
-    }
-
-    private static function getCompliantMessage(?int $idSite, array $idSites): string
-    {
-        if ($idSite !== null && count($idSites) === 1) {
-            return Piwik::translate('Ecommerce_EcommercePolicySettingCompliantSingle');
-        }
-
-        return Piwik::translate('Ecommerce_EcommercePolicySettingCompliantAll');
     }
 }

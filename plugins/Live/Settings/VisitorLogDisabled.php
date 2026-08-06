@@ -83,10 +83,23 @@ class VisitorLogDisabled implements MeasurableSettingInterface, PolicyComparison
         return Piwik::translate('Live_DisableVisitsLogAndProfile');
     }
 
+    /**
+     * getTitle() labels the real settings field, where the compliance table wording would
+     * read wrong on a checkbox, so the compliance table gets its own phrasing.
+     */
+    public static function getComplianceTitle(?int $idSite = null): string
+    {
+        return Piwik::translate('Live_VisitorLogPolicyComplianceTitle');
+    }
+
     public static function getComplianceRequirementNote(?int $idSite = null): string
     {
-        // TODO add dynamic messaging
-        return Piwik::translate('Live_VisitorLogPolicySettingRequirementNote');
+        return Piwik::translate('Live_VisitorLogPolicyComplianceDescription');
+    }
+
+    public static function getComplianceImpactNote(?int $idSite = null): string
+    {
+        return Piwik::translate('Live_VisitorLogPolicyComplianceImpact');
     }
 
     public static function getInlineHelp(): string

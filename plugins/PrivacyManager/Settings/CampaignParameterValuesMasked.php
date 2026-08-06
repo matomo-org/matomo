@@ -116,7 +116,12 @@ class CampaignParameterValuesMasked implements
 
     public static function getComplianceRequirementNote(?int $idSite = null): string
     {
-        return Piwik::translate('PrivacyManager_CampaignParameterValuesMaskedSettingRequirementNote');
+        return Piwik::translate('PrivacyManager_CampaignParameterValuesMaskedComplianceDescription');
+    }
+
+    public static function getComplianceImpactNote(?int $idSite = null): string
+    {
+        return Piwik::translate('PrivacyManager_CampaignParameterValuesMaskedComplianceImpact');
     }
 
     public static function isEnabled(?int $idSite = null): bool

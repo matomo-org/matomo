@@ -65,9 +65,18 @@ class IpAddressMaskLength implements CustomSettingInterface, PolicyComparisonInt
 
     public static function getComplianceRequirementNote(?int $idSite = null): string
     {
-        // TODO add in logic for generating message for different policy requirements
+        $requiredValue = self::getPolicyRequirements()[CnilPolicy::class];
         $currentValue = self::getCurrentMaskLength($idSite);
-        return Piwik::translate('PrivacyManager_AnonymizeIpMaskLengthSettingRequirementNote', [ 2, $currentValue ]);
+        return Piwik::translate(
+            'PrivacyManager_AnonymizeIpMaskLengthComplianceDescription',
+            [$currentValue, $requiredValue]
+        );
+    }
+
+    public static function getComplianceImpactNote(?int $idSite = null): string
+    {
+        $currentValue = self::getCurrentMaskLength($idSite);
+        return Piwik::translate('PrivacyManager_AnonymizeIpMaskLengthComplianceImpact', $currentValue);
     }
 
     public static function getInlineHelp(): string

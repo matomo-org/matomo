@@ -23,7 +23,12 @@ class DataRoundingEnabled extends CompliancePolicyEnforcedSetting
 
     public static function getComplianceRequirementNote(?int $idSite = null): string
     {
-        return Piwik::translate('PrivacyManager_SegmentedDataRoundingSettingRequirementNote');
+        return Piwik::translate('PrivacyManager_SegmentedDataRoundingComplianceDescription');
+    }
+
+    public static function getComplianceImpactNote(?int $idSite = null): string
+    {
+        return Piwik::translate('PrivacyManager_SegmentedDataRoundingComplianceImpact');
     }
 
     public static function getPolicyRequirements(): array

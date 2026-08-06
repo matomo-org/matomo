@@ -69,7 +69,12 @@ class ThirdPartyCookies implements
 
     public static function getComplianceRequirementNote(?int $idSite = null): string
     {
-        return Piwik::translate('General_ThirdPartyCookieSettingNote');
+        return Piwik::translate('General_ThirdPartyCookieComplianceDescription');
+    }
+
+    public static function getComplianceImpactNote(?int $idSite = null): string
+    {
+        return Piwik::translate('General_ThirdPartyCookieComplianceImpact');
     }
 
     public static function getPolicySettingId(): string

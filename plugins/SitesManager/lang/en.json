@@ -220,7 +220,9 @@
         "ExceptionEmptyQueryParamsForCustomType": "Query parameters to exclude must be provided when exclusion type is custom",
         "ExceptionNonEmptyQueryParamsForNonCustomType": "Query parameters to exclude must not be provided when exclusion type is not custom",
         "AddSensibleExclusionsToMyCustomListButtonText": "Add Matomo-recommended PII parameters",
-        "FilterPIIParametersSettingTitle": "PII data filtered",
-        "FilterPiiParametersSettingRequirementNote": "Personally Identifiable Information (PII) data must be filtered by the Matomo-recommended PII exclusion list."
+        "FilterPIIParametersSettingTitle": "PII Data Filtering Enabled",
+        "FilterPiiParametersSettingRequirementNote": "Personally Identifiable Information (PII) data must be filtered by the Matomo-recommended PII exclusion list.",
+        "FilterPiiParametersComplianceDescription": "Personally identifiable information is filtered from URL query parameters using Matomo's recommended PII exclusion list.<br /><br />This prevents information such as names, email addresses, phone numbers, and account identifiers from being stored in URLs and reports.",
+        "FilterPiiParametersComplianceImpact": "Matching personal information is removed from tracked and stored URLs. Reports cannot display or analyse the filtered values."
     }
 }

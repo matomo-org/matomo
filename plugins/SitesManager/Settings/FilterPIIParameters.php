@@ -60,7 +60,12 @@ class FilterPIIParameters implements
 
     public static function getComplianceRequirementNote(?int $idSite = null): string
     {
-        return Piwik::translate('SitesManager_FilterPiiParametersSettingRequirementNote');
+        return Piwik::translate('SitesManager_FilterPiiParametersComplianceDescription');
+    }
+
+    public static function getComplianceImpactNote(?int $idSite = null): string
+    {
+        return Piwik::translate('SitesManager_FilterPiiParametersComplianceImpact');
     }
 
     public function getValue()

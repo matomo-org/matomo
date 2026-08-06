@@ -163,7 +163,7 @@ class PolicyManager
 
     /**
      * @param class-string<CompliancePolicy> $policyClass
-     * @return array<array<string>> of [['title' => (string) 'TITLE', 'note' => (string) 'NOTE']]
+     * @return array<array<string>> of [['title' => (string) 'TITLE', 'note' => (string) 'NOTE', 'impact' => (string) 'IMPACT']]
      * @throws CompliancePolicyNotFoundException when $policyClass is not a valid policy
      */
     public static function getAllUnknownSettings(string $policyClass): array
