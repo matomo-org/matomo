@@ -135,11 +135,11 @@ class Date
             $date = self::yesterday();
         } elseif ($dateString === 'yesterdaySameTime') {
             $date = self::yesterdaySameTime();
-        } elseif (is_string($dateString) && preg_match('/last[ -]?week/i', urldecode($dateString))) {
+        } elseif (is_string($dateString) && preg_match('/^last[ -]?week$/i', urldecode($dateString))) {
             $date = self::lastWeek();
-        } elseif (is_string($dateString) && preg_match('/last[ -]?month/i', urldecode($dateString))) {
+        } elseif (is_string($dateString) && preg_match('/^last[ -]?month$/i', urldecode($dateString))) {
             $date = self::lastMonth();
-        } elseif (is_string($dateString) && preg_match('/last[ -]?year/i', urldecode($dateString))) {
+        } elseif (is_string($dateString) && preg_match('/^last[ -]?year$/i', urldecode($dateString))) {
             $date = self::lastYear();
         } elseif (
             !is_int($dateString)

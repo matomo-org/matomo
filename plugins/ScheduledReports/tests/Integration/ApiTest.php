@@ -415,6 +415,29 @@ class ApiTest extends IntegrationTestCase
         $this->assertReportsEqual($report, $data);
     }
 
+    public function testAddReportNormalisesSegmentIdToInteger()
+    {
+        $idSegment = APISegmentEditor::getInstance()->add('some-segment', 'visitServerHour>=0', $this->idSite);
+
+        // a non-integer segment id must be stored as its integer value, never rounded to a different id
+        $idReport = APIScheduledReports::getInstance()->addReport(
+            $this->idSite,
+            'segment normalisation',
+            Schedule::PERIOD_DAY,
+            '4',
+            'email',
+            'pdf',
+            array('UserCountry_getCountry'),
+            array('displayFormat' => '1', 'emailMe' => true, 'evolutionGraph' => false),
+            $idSegment . '.9'
+        );
+
+        $reports = APIScheduledReports::getInstance()->getReports($this->idSite, false, $idReport);
+        $report  = reset($reports);
+
+        $this->assertSame($idSegment, (int) $report['idsegment']);
+    }
+
     public function testAddReportDefaultsEnforceOrderToFalse()
     {
         $data = self::getDailyPDFReportData($this->idSite);

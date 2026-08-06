@@ -149,6 +149,8 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserIsNotAnonymous();
         Piwik::checkUserHasViewAccess($idSite);
 
+        $idSegment = self::normalizeIdSegment($idSegment);
+
         $currentUser = Piwik::getCurrentUserLogin();
         self::ensureLanguageSetForUser($currentUser);
 
@@ -239,6 +241,8 @@ class API extends \Piwik\Plugin\API
     ): void {
         Piwik::checkUserIsNotAnonymous();
         Piwik::checkUserHasViewAccess($idSite);
+
+        $idSegment = self::normalizeIdSegment($idSegment);
 
         $scheduledReports = $this->getReports($idSite, $periodSearch = false, $idReport);
         $report   = reset($scheduledReports);
@@ -885,11 +889,12 @@ class API extends \Piwik\Plugin\API
                 Log::info("Skipping report as user does no longer have access to configured site");
                 return;
             } catch (\Throwable $e) {
-                $this->enableSaveReportOnDisk = false;
                 throw new RetryableException($e->getMessage());
+            } finally {
+                // Always clear the flag, regardless of how we leave the block. This is a singleton, so a value
+                // left behind here would stay set for the rest of the process and affect later requests.
+                $this->enableSaveReportOnDisk = false;
             }
-
-            $this->enableSaveReportOnDisk = false;
 
             if (!file_exists($outputFilename)) {
                 throw new Exception("The report file wasn't found in $outputFilename");
@@ -1324,6 +1329,22 @@ class API extends \Piwik\Plugin\API
         Piwik::postEvent(self::GET_REPORT_RECIPIENTS_EVENT, [&$recipients, $report['type'], $report]);
 
         return $recipients;
+    }
+
+    /**
+     * Normalises a segment id to a strict integer (or false when no segment is configured), so the value that
+     * gets validated is exactly the value stored in the integer `idsegment` column.
+     *
+     * @param mixed $idSegment
+     * @return int|false
+     */
+    private static function normalizeIdSegment($idSegment)
+    {
+        if (false === $idSegment || null === $idSegment || '' === $idSegment) {
+            return false;
+        }
+
+        return (int) $idSegment;
     }
 
     /**
