@@ -24,6 +24,10 @@ describe('DataTable', function () {
     visualizationButtons: `${widgetSelector} .dataTableHeaderControls .dataTableControls ul.dropdown-content.dataTableFooterIcons li .tableIcon[data-footer-icon-id]`,
     configureTrigger: `${widgetSelector} .dataTableHeaderControls .dataTableControls a.dropdownConfigureIcon`,
     totalsRowToggle: '.dataTableShowTotalsRow',
+    searchTrigger: `${widgetSelector} .dataTableHeaderControls .dataTableControls a.dataTableAction.searchAction`,
+    searchInput: `${widgetSelector} .dataTableHeaderControls .dataTableControls input.dataTableSearchInput`,
+    totalsRow: `${widgetSelector} table.dataTable tr.totalsRow`,
+    footerMessage: `${widgetSelector} .datatableFooterMessage`,
   };
 
   async function openDevicesDetectionWidget() {
@@ -97,6 +101,73 @@ describe('DataTable', function () {
       await page.waitForNetworkIdle();
     }
   }
+
+  async function searchForPattern(pattern) {
+    await page.waitForSelector(selectors.searchTrigger, { visible: true });
+    await page.click(selectors.searchTrigger);
+    await page.waitForSelector(selectors.searchInput, { visible: true });
+    await page.type(selectors.searchInput, pattern);
+    await page.keyboard.press('Enter');
+    await page.waitForNetworkIdle();
+  }
+
+  function toNumber(formattedValue) {
+    return parseInt(String(formattedValue).replace(/[^0-9]/g, ''), 10);
+  }
+
+  async function readTotalsRow() {
+    return page.$eval(selectors.totalsRow, (row) => ({
+      isFiltered: row.classList.contains('filteredTotalsRow'),
+      label: row.querySelector('td.label').innerText.trim(),
+      notes: Array.from(row.querySelectorAll('.totalsRowNote')).map((note) => note.innerText.trim()),
+      firstMetric: row.querySelector('td.column .value').innerText.trim(),
+    }));
+  }
+
+  it('should total every row of the report when no table search is active', async function () {
+    await loadWidget();
+    await toggleTotalsRow();
+
+    const totalsRow = await readTotalsRow();
+
+    expect(totalsRow.isFiltered).to.be.false;
+    expect(totalsRow.label).to.equal('Totals');
+    expect(totalsRow.notes).to.be.empty;
+    expect(await page.$(selectors.footerMessage)).to.be.null;
+
+    await toggleTotalsRow();
+  });
+
+  it('should only total the rows matching the table search when a search is active', async function () {
+    await loadWidget();
+    await toggleTotalsRow();
+
+    const reportTotal = (await readTotalsRow()).firstMetric;
+    const rowCount = (await page.$$(`${widgetSelector} table.dataTable tbody tr:not(.totalsRow)`)).length;
+
+    const firstRowLabel = await page.$eval(
+      `${widgetSelector} table.dataTable tbody tr:not(.totalsRow) td.label .value`,
+      (cell) => cell.innerText.trim(),
+    );
+    await searchForPattern(firstRowLabel);
+
+    const filteredRowCount = (await page.$$(`${widgetSelector} table.dataTable tbody tr:not(.totalsRow)`)).length;
+    expect(filteredRowCount).to.be.below(rowCount);
+
+    const totalsRow = await readTotalsRow();
+
+    expect(totalsRow.isFiltered).to.be.true;
+    expect(totalsRow.label).to.contain('Filtered total');
+    expect(totalsRow.label).to.contain('Matching current table filter');
+    expect(totalsRow.notes.some((note) => /(of .* report total|overall .*)/.test(note))).to.be.true;
+    expect(toNumber(totalsRow.firstMetric)).to.be.below(toNumber(reportTotal));
+
+    const footerMessage = await page.$eval(selectors.footerMessage, (node) => node.innerText.trim());
+    expect(footerMessage).to.contain('Note: Showing filtered results.');
+    expect(footerMessage).to.contain('are not recalculated by the filter');
+
+    await toggleTotalsRow();
+  });
 
   it('should allow saving of preference for normal user when changing sorting and table limits', async function () {
     await loadWidget();
