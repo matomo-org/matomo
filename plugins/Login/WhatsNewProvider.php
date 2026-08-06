@@ -13,24 +13,20 @@ use Piwik\Cache;
 use Piwik\CacheId;
 use Piwik\Changes\Model as ChangesModel;
 use Piwik\Common;
-use Piwik\Container\StaticContainer;
 use Piwik\Log\LoggerInterface;
+use Piwik\Piwik;
 use Piwik\Plugin\Manager as PluginManager;
 
 /**
- * Provides the "What's New" entries shown on the shared, pre-authentication login layout
- * (`@Login/loginLayout.twig`, used by Login and TwoFactorAuth).
+ * The "What's New" entries shown on the login layout (`@Login/loginLayout.twig`, shared by Login
+ * and TwoFactorAuth).
  *
- * It reuses the existing 6-month change data ({@see ChangesModel::getChangeItems()}), selects the
- * three most recent entries and renders a call-to-action only for links a logged out visitor can
- * actually follow ({@see self::ALLOWED_LINK_HOSTS}). The entry itself (title and description) always
- * stays visible; only its link is removed.
+ * Takes the three most recent changes from the last six months and keeps a link only when a logged
+ * out visitor could follow it ({@see self::ALLOWED_LINK_HOSTS}). An entry always keeps its title and
+ * description; only the link goes.
  *
- * Since this runs on a public endpoint, the processed entries are cached across requests
- * ({@see self::loadChanges()}).
- *
- * This is purely decorative content: any failure while gathering the entries is logged and results in
- * an empty list so the login page always renders.
+ * The page is public, so the result is cached ({@see self::loadChanges()}). Any failure is logged
+ * and returns an empty list, so the login page always renders.
  */
 class WhatsNewProvider
 {
@@ -40,26 +36,16 @@ class WhatsNewProvider
     private const MAX_ENTRIES = 3;
 
     /**
-     * Hosts whose links may render a call to action, each also covering its subdomains.
+     * Hosts whose links may show a call to action, subdomains included.
      *
-     * This is a product filter, not a security control. A change's link comes from the plugin's own
-     * `changes.json` ({@see \Piwik\Plugin::getChanges()}), read off the local filesystem when a
-     * superuser activates or updates the plugin - so it is trusted content on the same footing as
-     * that plugin's PHP, and never anything a visitor or a request can influence.
+     * This is a product filter, not a security check. Links come from each plugin's own
+     * `changes.json` ({@see \Piwik\Plugin::getChanges()}), read off disk when a superuser installs or
+     * updates that plugin, so nothing a visitor sends can reach this.
      *
-     * Note what this constant does and does not do. Relative and internal `index.php?...` links,
-     * and every non-http scheme, are already rejected for having no host at all
-     * ({@see self::isDisplayableExternalLink()}) - not by this list. What the allowlist uniquely adds
-     * is rejecting an absolute URL pointing back at this instance, which a logged out visitor could
-     * not follow either.
-     *
-     * It is deliberately an allowlist rather than a check against this instance's own hostnames.
-     * {@see \Piwik\Url::isLocalUrl()} cannot do that job here: it treats every host as local when
-     * `enable_trusted_host_check = 0`, which would strip every call to action, and it reads the
-     * current request's host while these entries are cached under an id with no host in it.
-     *
-     * Being a private constant in core, this cannot be extended by a plugin or by configuration. A
-     * change linking anywhere else keeps its title and description but renders no call to action.
+     * Relative and internal links are already dropped for having no host at all
+     * ({@see self::isDisplayableExternalLink()}). What this list adds is dropping an absolute link
+     * back to this instance, which a logged out visitor could not follow either. Being a private
+     * constant, config and plugins cannot change it.
      */
     private const ALLOWED_LINK_HOSTS = ['matomo.org'];
 
@@ -79,15 +65,21 @@ class WhatsNewProvider
     private $changesModel;
 
     /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
      * Per-request cache of the processed entries.
      *
      * @var array<int, array<string, mixed>>|null
      */
     private $changes = null;
 
-    public function __construct(ChangesModel $changesModel)
+    public function __construct(ChangesModel $changesModel, LoggerInterface $logger)
     {
         $this->changesModel = $changesModel;
+        $this->logger = $logger;
     }
 
     /**
@@ -105,7 +97,7 @@ class WhatsNewProvider
         try {
             $this->changes = $this->loadChanges();
         } catch (\Throwable $e) {
-            StaticContainer::get(LoggerInterface::class)->warning(
+            $this->logger->warning(
                 'Unable to build the login What\'s New panel entries: {message}',
                 ['message' => $e->getMessage(), 'exception' => $e]
             );
@@ -116,11 +108,7 @@ class WhatsNewProvider
     }
 
     /**
-     * The processed entries, cached across requests.
-     *
-     * Nothing about them depends on the request, so the finished list is what gets cached - this is
-     * a public endpoint, and it would otherwise read the changes table and dispatch
-     * `Changes.filterChanges` on every anonymous hit.
+     * The finished entries, cached across requests so this public page doesn't query on every hit.
      *
      * @return array<int, array<string, mixed>>
      */
@@ -128,15 +116,7 @@ class WhatsNewProvider
     {
         $cache = Cache::getLazyCache();
 
-        // Folds the loaded plugin list and the language into the id, so activating or deactivating
-        // a plugin invalidates immediately. Nothing request specific is part of the cached value,
-        // so the id stays fixed and cannot be influenced by a visitor.
-        //
-        // Identity is deliberately not part of the id either: the panel shows the same public
-        // announcements to everyone, and it renders mostly for anonymous visitors who have no
-        // identity at all. One consequence worth knowing - a `Changes.filterChanges` listener that
-        // filtered per user would not be honoured here, because whichever request populates the
-        // entry serves every later one within the lifetime.
+        // The plugin list and language are part of the id, so activating a plugin invalidates it.
         $cacheKey = CacheId::pluginAware(self::CACHE_KEY);
 
         $cached = $cache->fetch($cacheKey);
@@ -147,15 +127,15 @@ class WhatsNewProvider
 
         $changes = $this->buildChanges();
 
-        // An empty result is deliberately NOT cached. It happens on a fresh install (and in the UI
-        // test fixture) where the login page can be reached before any change has been recorded, and
-        // pinning it would leave the panel empty for a whole cache lifetime after the entries exist.
-        // The query behind an empty result is a single index lookup on a tiny table, so re-running it
-        // costs nothing; the case worth caching - an install that does have entries - is fully
-        // cached. Core and plugin updates flush this cache anyway
-        // (Filesystem::deleteAllCacheOnUpdate()), so the lifetime is only a backstop for entries
-        // added outside an update.
-        if (!empty($changes)) {
+        // Only save when nobody is logged in. The panel also shows on the confirm password and 2FA
+        // screens, and a plugin can filter the list per user through `Changes.filterChanges`, so a
+        // logged in visit must never be the one that fills a cache everyone else reads. Reading it
+        // back is fine for anyone: the event filters entries out, so the logged out list is the
+        // shortest one.
+        //
+        // An empty result isn't saved either. A fresh install has no changes yet, and pinning that
+        // would leave the panel empty for an hour after the first one arrives.
+        if (!empty($changes) && Piwik::isUserIsAnonymous()) {
             $cache->save($cacheKey, $changes, self::CACHE_TTL);
         }
 
@@ -198,9 +178,11 @@ class WhatsNewProvider
             $link = $change['link'] ?? '';
             $linkName = $change['link_name'] ?? '';
 
+            // Store what was checked: the check parses the trimmed URL, and `|safelink` would reject
+            // a padded one, leaving the template to render an empty href.
             if ($this->isDisplayableExternalLink($link, $linkName)) {
-                $entry['link'] = $link;
-                $entry['link_name'] = $linkName;
+                $entry['link'] = trim($link);
+                $entry['link_name'] = trim($linkName);
             }
 
             $result[] = $entry;
@@ -215,10 +197,9 @@ class WhatsNewProvider
     }
 
     /**
-     * A link only renders its CTA when it is an absolute http/https URL on an allowed host
-     * ({@see self::ALLOWED_LINK_HOSTS}), with both a URL and a label. Everything else - relative and
-     * internal links, protocol-relative links, invalid URLs, non-http schemes and any other host -
-     * has its CTA stripped while the entry itself stays visible.
+     * A link keeps its call to action only when it is an absolute http/https URL on an allowed host
+     * ({@see self::ALLOWED_LINK_HOSTS}) and has a label. Everything else loses the link while the
+     * entry itself stays visible.
      *
      * @param mixed $link
      * @param mixed $linkName
@@ -231,7 +212,7 @@ class WhatsNewProvider
 
         // An empty or relative link parses without a host, which is what rules it out - as does a
         // protocol-relative one, since it carries no scheme for the check below.
-        $parsed = @parse_url(trim($link));
+        $parsed = parse_url(trim($link));
 
         if (!is_array($parsed) || empty($parsed['host'])) {
             return false;

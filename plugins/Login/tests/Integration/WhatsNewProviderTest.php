@@ -9,10 +9,15 @@
 
 namespace Piwik\Plugins\Login\tests\Integration;
 
+use Piwik\Access;
 use Piwik\Cache;
 use Piwik\Changes\Model as ChangesModel;
+use Piwik\Container\StaticContainer;
+use Piwik\Log\LoggerInterface;
+use Piwik\Piwik;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\Login\WhatsNewProvider;
+use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
@@ -60,21 +65,67 @@ class WhatsNewProviderTest extends IntegrationTestCase
         $model = $this->createMock(ChangesModel::class);
         $model->expects($this->once())->method('getChangeItems')->willReturn([$this->change([])]);
 
-        $provider = new WhatsNewProvider($model);
+        $provider = $this->provider($model);
 
         $provider->getChanges();
         $provider->getChanges();
     }
 
-    public function testCachesProcessedEntriesAcrossRequests(): void
+    public function testCachesProcessedEntriesAcrossRequestsForLoggedOutVisitors(): void
     {
         $model = $this->createMock(ChangesModel::class);
         $model->expects($this->once())->method('getChangeItems')->willReturn([$this->change([])]);
 
         // Two separate providers stand in for two separate requests; only the first may read the
         // changes table.
-        $this->assertCount(1, (new WhatsNewProvider($model))->getChanges());
-        $this->assertCount(1, (new WhatsNewProvider($model))->getChanges());
+        $this->assertCount(1, $this->getChangesAsLoggedOutVisitor($this->provider($model)));
+        $this->assertCount(1, $this->getChangesAsLoggedOutVisitor($this->provider($model)));
+    }
+
+    /**
+     * The panel also shows on the confirm password and 2FA screens, and a plugin can filter the list
+     * per user through `Changes.filterChanges`, so a logged in request must never fill the cache a
+     * logged out visitor reads.
+     */
+    public function testALoggedInRequestDoesNotFillTheCacheALoggedOutVisitorReads(): void
+    {
+        $model = $this->createMock(ChangesModel::class);
+        // Both build their own list: the logged in one because it may not save, the logged out one
+        // because it must find nothing saved.
+        $model->expects($this->exactly(2))->method('getChangeItems')->willReturn([$this->change([])]);
+
+        $this->assertFalse(Piwik::isUserIsAnonymous(), 'this only means anything as a logged in request');
+        $this->assertCount(1, $this->provider($model)->getChanges());
+
+        $this->assertCount(1, $this->getChangesAsLoggedOutVisitor($this->provider($model)));
+    }
+
+    /**
+     * A logged in request saves nothing at all, so two different users can never serve each other a
+     * list that was filtered for one of them.
+     */
+    public function testNeverFillsTheCacheForALoggedInRequest(): void
+    {
+        $model = $this->createMock(ChangesModel::class);
+        $model->expects($this->exactly(2))->method('getChangeItems')->willReturn([$this->change([])]);
+
+        $this->assertFalse(Piwik::isUserIsAnonymous(), 'this only means anything as a logged in request');
+
+        $this->assertCount(1, $this->provider($model)->getChanges());
+        $this->assertCount(1, $this->provider($model)->getChanges());
+    }
+
+    /**
+     * Reading the cache is fine for anyone, so the confirm password and 2FA screens stay as cheap as
+     * the login page.
+     */
+    public function testALoggedInRequestReusesWhatALoggedOutVisitorCached(): void
+    {
+        $model = $this->createMock(ChangesModel::class);
+        $model->expects($this->once())->method('getChangeItems')->willReturn([$this->change([])]);
+
+        $this->assertCount(1, $this->getChangesAsLoggedOutVisitor($this->provider($model)));
+        $this->assertCount(1, $this->provider($model)->getChanges());
     }
 
     /**
@@ -102,7 +153,7 @@ class WhatsNewProviderTest extends IntegrationTestCase
             'link'        => 'https://matomo.org/changelog/',
         ]);
 
-        $changes = (new WhatsNewProvider(new ChangesModel()))->getChanges();
+        $changes = $this->provider(new ChangesModel())->getChanges();
 
         $this->assertSame(
             ['External link', 'Internal link', 'No link'],
@@ -118,11 +169,12 @@ class WhatsNewProviderTest extends IntegrationTestCase
     {
         $model = $this->createMock(ChangesModel::class);
         // An empty result must not be pinned: on a fresh install the login page can be reached
-        // before any change is recorded, and the panel has to appear as soon as one exists.
+        // before any change is recorded, and the panel has to appear as soon as one exists. Checked
+        // logged out, the only request that saves anything.
         $model->expects($this->exactly(2))->method('getChangeItems')->willReturn([]);
 
-        $this->assertSame([], (new WhatsNewProvider($model))->getChanges());
-        $this->assertSame([], (new WhatsNewProvider($model))->getChanges());
+        $this->assertSame([], $this->getChangesAsLoggedOutVisitor($this->provider($model)));
+        $this->assertSame([], $this->getChangesAsLoggedOutVisitor($this->provider($model)));
     }
 
     /**
@@ -210,6 +262,20 @@ class WhatsNewProviderTest extends IntegrationTestCase
         ];
     }
 
+    public function testStoresTheTrimmedLinkSoTheHrefStaysUsable(): void
+    {
+        $provider = $this->makeProvider([
+            $this->change(['link' => '  https://matomo.org/changelog/  ', 'link_name' => '  Read more  ']),
+        ]);
+
+        $changes = $provider->getChanges();
+
+        // The check runs on the trimmed URL, so storing the raw one would leave `|safelink` to reject
+        // it and the template to render an empty href.
+        $this->assertSame('https://matomo.org/changelog/', $changes[0]['link']);
+        $this->assertSame('Read more', $changes[0]['link_name']);
+    }
+
     public function testStripsCtaWhenLinkNameIsMissingEvenIfUrlIsValid(): void
     {
         $provider = $this->makeProvider([
@@ -248,7 +314,7 @@ class WhatsNewProviderTest extends IntegrationTestCase
         $model = $this->createMock(ChangesModel::class);
         $model->method('getChangeItems')->willThrowException(new \Exception('db down'));
 
-        $provider = new WhatsNewProvider($model);
+        $provider = $this->provider($model);
 
         $this->assertSame([], $provider->getChanges());
     }
@@ -281,7 +347,34 @@ class WhatsNewProviderTest extends IntegrationTestCase
         $model = $this->createMock(ChangesModel::class);
         $model->method('getChangeItems')->willReturn($items);
 
-        return new WhatsNewProvider($model);
+        return $this->provider($model);
+    }
+
+    private function provider(ChangesModel $model): WhatsNewProvider
+    {
+        return new WhatsNewProvider($model, StaticContainer::get(LoggerInterface::class));
+    }
+
+    /**
+     * Runs the provider as a logged out visitor, which is what a hit on the login page looks like -
+     * IntegrationTestCase grants super user access in setUp(). Undone in a finally, so nothing leaks
+     * into the next test.
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    private function getChangesAsLoggedOutVisitor(WhatsNewProvider $provider): array
+    {
+        $realAccess = Access::getInstance();
+        $anonymous = new FakeAccess($superUser = false, $idSitesAdmin = [], $idSitesView = [], $identity = 'anonymous');
+        StaticContainer::getContainer()->set('Piwik\Access', $anonymous);
+
+        try {
+            $this->assertTrue(Piwik::isUserIsAnonymous(), 'the swap should have made this logged out');
+
+            return $provider->getChanges();
+        } finally {
+            StaticContainer::getContainer()->set('Piwik\Access', $realAccess);
+        }
     }
 
     /**

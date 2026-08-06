@@ -46,26 +46,29 @@ class Controller extends \Piwik\Plugin\Controller
 
     private Validator $validator;
 
-    public function __construct(SystemSettings $systemSettings, RecoveryCodeDao $recoveryCodeDao, PasswordVerifier $passwordVerify, TwoFactorAuthentication $twoFa, Validator $validator)
+    private WhatsNewProvider $whatsNewProvider;
+
+    public function __construct(SystemSettings $systemSettings, RecoveryCodeDao $recoveryCodeDao, PasswordVerifier $passwordVerify, TwoFactorAuthentication $twoFa, Validator $validator, WhatsNewProvider $whatsNewProvider)
     {
         $this->settings = $systemSettings;
         $this->recoveryCodeDao = $recoveryCodeDao;
         $this->passwordVerify = $passwordVerify;
         $this->twoFa = $twoFa;
         $this->validator = $validator;
+        $this->whatsNewProvider = $whatsNewProvider;
 
         parent::__construct();
     }
 
     /**
-     * Returns the "What's New" entries rendered by the shared login layout, reusing Login's provider
-     * (TwoFactorAuth already depends on Login's layout).
+     * The "What's New" entries shown by the shared login layout. Reuses Login's provider, since these
+     * screens already extend Login's layout.
      *
      * @return array<int, array<string, mixed>>
      */
     private function getWhatsNewChanges(): array
     {
-        return StaticContainer::get(WhatsNewProvider::class)->getChanges();
+        return $this->whatsNewProvider->getChanges();
     }
 
     public function loginTwoFactorAuth()

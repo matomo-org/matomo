@@ -85,6 +85,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     private $passwordStrength;
 
     /**
+     * @var WhatsNewProvider
+     */
+    private $whatsNewProvider;
+
+    /**
      * @param PasswordResetter $passwordResetter
      * @param \Piwik\Auth $auth
      * @param SessionInitializer $sessionInitializer
@@ -92,6 +97,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      * @param BruteForceDetection $bruteForceDetection
      * @param SystemSettings $systemSettings
      * @param PasswordStrength $passwordStrength
+     * @param WhatsNewProvider $whatsNewProvider
      */
     public function __construct(
         $passwordResetter = null,
@@ -100,7 +106,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $passwordVerify = null,
         $bruteForceDetection = null,
         $systemSettings = null,
-        $passwordStrength = null
+        $passwordStrength = null,
+        $whatsNewProvider = null
     ) {
         parent::__construct();
 
@@ -138,6 +145,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $passwordStrength = StaticContainer::get('Piwik\Auth\PasswordStrength');
         }
         $this->passwordStrength = $passwordStrength;
+
+        if (empty($whatsNewProvider)) {
+            $whatsNewProvider = StaticContainer::get(WhatsNewProvider::class);
+        }
+        $this->whatsNewProvider = $whatsNewProvider;
     }
 
     /**
@@ -215,13 +227,13 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     }
 
     /**
-     * Returns the "What's New" entries rendered by the shared login layout.
+     * The "What's New" entries shown by the shared login layout.
      *
      * @return array<int, array<string, mixed>>
      */
     private function getWhatsNewChanges(): array
     {
-        return StaticContainer::get(WhatsNewProvider::class)->getChanges();
+        return $this->whatsNewProvider->getChanges();
     }
 
     public function confirmPassword()
