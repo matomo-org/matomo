@@ -14,7 +14,9 @@
 {% block pageDescription %}{{ 'General_OpenSourceWebAnalytics'|translate }}{% endblock %}
 
 {% set bodyId = 'loginPage' %}
-{% set bodyClass = 'app-loginLayout' %}
+{# Appended rather than assigned: this runs after the extending template's own sets, so a
+   plain assignment would silently drop a body class the child asked for. #}
+{% set bodyClass = ('app-loginLayout ' ~ bodyClass|default(''))|trim %}
 
 {% block body %}
 
