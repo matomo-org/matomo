@@ -47,11 +47,19 @@ class WhatsNewProvider
      * superuser activates or updates the plugin - so it is trusted content on the same footing as
      * that plugin's PHP, and never anything a visitor or a request can influence.
      *
-     * What it earns us is that links a logged out visitor cannot follow do not render: bundled
-     * plugins ship internal `index.php?...&idSite=1` links, which on this page would lead to a login
-     * bounce or a 404. An allowlist rather than a check against this instance's own hostnames so it
-     * behaves the same on every installation, whatever `trusted_hosts` says. Extend it if
-     * announcements need to link somewhere else.
+     * Note what this constant does and does not do. Relative and internal `index.php?...` links,
+     * and every non-http scheme, are already rejected for having no host at all
+     * ({@see self::isDisplayableExternalLink()}) - not by this list. What the allowlist uniquely adds
+     * is rejecting an absolute URL pointing back at this instance, which a logged out visitor could
+     * not follow either.
+     *
+     * It is deliberately an allowlist rather than a check against this instance's own hostnames.
+     * {@see \Piwik\Url::isLocalUrl()} cannot do that job here: it treats every host as local when
+     * `enable_trusted_host_check = 0`, which would strip every call to action, and it reads the
+     * current request's host while these entries are cached under an id with no host in it.
+     *
+     * Being a private constant in core, this cannot be extended by a plugin or by configuration. A
+     * change linking anywhere else keeps its title and description but renders no call to action.
      */
     private const ALLOWED_LINK_HOSTS = ['matomo.org'];
 
