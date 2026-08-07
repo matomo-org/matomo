@@ -59,12 +59,12 @@ class OrderIdAnonymization implements
         return Piwik::translate('Ecommerce_OrderIdAnonymizationComplianceTitle');
     }
 
-    public static function getComplianceRequirementNote(?int $idSite = null): string
+    public static function getWhatItDoes(?int $idSite = null): string
     {
         return Piwik::translate('Ecommerce_OrderIdAnonymizationComplianceDescription');
     }
 
-    public static function getComplianceImpactNote(?int $idSite = null): string
+    public static function getImpact(?int $idSite = null): string
     {
         return Piwik::translate('Ecommerce_OrderIdAnonymizationComplianceImpact');
     }

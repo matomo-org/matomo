@@ -30,7 +30,7 @@ class PolicyComparisonTraitImpl implements PolicyComparisonInterface
         return true;
     }
 
-    public static function getComplianceRequirementNote(?int $idSite = null): string
+    public static function getWhatItDoes(?int $idSite = null): string
     {
         return 'test PolicyComparisonTrait';
     }

@@ -7,7 +7,8 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ## Matomo 6.0.0
 
 ### Breaking Changes
-* The interface `Piwik\Settings\Interfaces\PolicyComparisonInterface` gained four methods used by the granular compliance dashboard: `getPolicySettingId()`, `isExternallyManagedByPolicyPage()`, `getWhatItDoes()` and `getImpact()`. Plugins that implement the interface directly must implement them. Plugins using `Piwik\Settings\Interfaces\Traits\PolicyComparisonTrait` (as all known implementers do) inherit default implementations and are not affected.
+* The interface `Piwik\Settings\Interfaces\PolicyComparisonInterface` gained five methods used by the granular compliance dashboard: `getPolicySettingId()`, `isExternallyManagedByPolicyPage()`, `getWhatItDoes(?int $idSite = null)`, `getImpact(?int $idSite = null)` and `getComplianceTitle(?int $idSite = null)`. Plugins that implement the interface directly must implement them. Plugins using `Piwik\Settings\Interfaces\Traits\PolicyComparisonTrait` (as all known implementers do) inherit default implementations and are not affected.
+* `Piwik\Settings\Interfaces\PolicyComparisonInterface::getComplianceRequirementNote()` is deprecated in favour of `getWhatItDoes()`, which supersedes it and additionally accepts the scope being described. It remains on the interface and `PolicyComparisonTrait` now delegates it to `getWhatItDoes()`, so existing callers and implementers keep working; it is expected to be removed in Matomo 7.
 * The deprecated method `Piwik\Archive::getBlob()` has been removed. Use one of the `Piwik\Archive::getDataTable*()` methods instead.
 * The deprecated method `Piwik\Archive::clearStaticCache()` has been removed. It was a no-op kept only for backwards compatibility.
 * The deprecated method `Piwik\ArchiveProcessor\Parameters::setIsPartialArchive()` has been removed. Use `Piwik\ArchiveProcessor\Parameters::setArchiveOnlyReport()` instead.

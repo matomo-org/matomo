@@ -41,6 +41,11 @@ interface PolicyComparisonInterface
 
     public static function isControlledBySpecificPolicy(string $policy, ?int $idSite = null): bool;
 
+    /**
+     * @deprecated since Matomo 6.0.0 — use {@link getWhatItDoes()} instead. Kept as a
+     *             compatibility wrapper; {@link PolicyComparisonTrait} delegates to
+     *             getWhatItDoes() so implementers need not define both.
+     */
     public static function getComplianceRequirementNote(?int $idSite = null): string;
 
     /**
@@ -62,14 +67,31 @@ interface PolicyComparisonInterface
     /**
      * Short description of what enforcing this setting does.
      *
+     * Accepts the scope being described so implementations can report the setting's current
+     * state, not only the requirement in the abstract. Pass null for instance-wide scope.
+     *
      * @since Matomo 6.0.0 — {@link PolicyComparisonTrait} provides a default.
      */
-    public static function getWhatItDoes(): string;
+    public static function getWhatItDoes(?int $idSite = null): string;
 
     /**
      * Short description of the impact enforcing this setting has on reports and tracking.
      *
+     * Accepts the scope being described so implementations can report the setting's current
+     * state, not only the requirement in the abstract. Pass null for instance-wide scope.
+     *
      * @since Matomo 6.0.0 — {@link PolicyComparisonTrait} provides a default.
      */
-    public static function getImpact(): string;
+    public static function getImpact(?int $idSite = null): string;
+
+    /**
+     * Name to show for this setting on the compliance dashboard.
+     *
+     * The dashboard phrases every row as the state the policy requires, which reads differently
+     * from the setting's own name. Override this where getTitle() would read wrong there, rather
+     * than renaming the setting's title, so the settings field keeps its own label.
+     *
+     * @since Matomo 6.0.0 — {@link PolicyComparisonTrait} defaults this to getTitle().
+     */
+    public static function getComplianceTitle(?int $idSite = null): string;
 }

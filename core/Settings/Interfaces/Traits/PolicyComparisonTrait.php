@@ -94,35 +94,33 @@ trait PolicyComparisonTrait
         return false;
     }
 
-    public static function getWhatItDoes(): string
+    public static function getWhatItDoes(?int $idSite = null): string
     {
         return '';
     }
 
-    public static function getImpact(): string
+    public static function getImpact(?int $idSite = null): string
     {
         return '';
     }
 
     /**
-     * Human readable explanation of what enabling this setting changes on the instance.
+     * @deprecated since Matomo 6.0.0 — use {@link getWhatItDoes()} instead.
      *
-     * Returns an empty string by default so that settings which have not defined an
-     * impact note (including third-party implementers using this trait) never break
-     * the compliance table. Core settings override this method.
+     * Delegates so that settings which already moved to getWhatItDoes() need not define both,
+     * and so third-party callers of this method keep receiving the same text.
      */
-    public static function getComplianceImpactNote(?int $idSite = null): string
+    public static function getComplianceRequirementNote(?int $idSite = null): string
     {
-        return '';
+        return static::getWhatItDoes($idSite);
     }
 
     /**
-     * Name to show for this setting in the compliance table.
+     * Name to show for this setting on the compliance dashboard.
      *
-     * The compliance table phrases every row as the state the policy requires, which reads
-     * differently from the setting's own name. Override this when getTitle() would read
-     * wrong there. It defaults to getTitle() so that third-party implementers using this
-     * trait keep working without changes.
+     * The dashboard phrases every row as the state the policy requires, which reads differently
+     * from the setting's own name. Override this where getTitle() would read wrong there. It
+     * defaults to getTitle() so that implementers using this trait keep working unchanged.
      */
     public static function getComplianceTitle(?int $idSite = null): string
     {

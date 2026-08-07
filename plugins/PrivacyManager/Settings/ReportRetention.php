@@ -72,7 +72,7 @@ class ReportRetention implements
         return Piwik::translate('PrivacyManager_RetentionPeriodPolicyComplianceTitle');
     }
 
-    public static function getComplianceRequirementNote(?int $idSite = null): string
+    public static function getWhatItDoes(?int $idSite = null): string
     {
         $currentValue = self::getInstance($idSite)->getValue();
         $maxValue = self::getPolicyRequirements()[CnilPolicy::class];
@@ -82,7 +82,7 @@ class ReportRetention implements
         );
     }
 
-    public static function getComplianceImpactNote(?int $idSite = null): string
+    public static function getImpact(?int $idSite = null): string
     {
         $currentValue = self::getInstance($idSite)->getValue();
         return Piwik::translate('PrivacyManager_RetentionPeriodPolicyComplianceImpact', $currentValue);

@@ -116,12 +116,12 @@ class UserIdDisabled implements
         return $this->value;
     }
 
-    public static function getComplianceRequirementNote(?int $idSite = null): string
+    public static function getWhatItDoes(?int $idSite = null): string
     {
         return Piwik::translate("UserId_UserIdDisabledComplianceDescription");
     }
 
-    public static function getComplianceImpactNote(?int $idSite = null): string
+    public static function getImpact(?int $idSite = null): string
     {
         return Piwik::translate("UserId_UserIdDisabledComplianceImpact");
     }

@@ -23,7 +23,7 @@ abstract class CompliancePolicyEnforcedSetting implements
 
     abstract public static function getTitle(): string;
 
-    abstract public static function getComplianceRequirementNote(?int $idSite = null): string;
+    abstract public static function getWhatItDoes(?int $idSite = null): string;
 
     abstract public static function getPolicyRequirements(): array;
 

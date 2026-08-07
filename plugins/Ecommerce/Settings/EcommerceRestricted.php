@@ -26,7 +26,7 @@ class EcommerceRestricted extends CompliancePolicyEnforcedSetting
         return Piwik::translate('Ecommerce_EcommercePolicyComplianceTitle');
     }
 
-    public static function getComplianceRequirementNote(?int $idSite = null): string
+    public static function getWhatItDoes(?int $idSite = null): string
     {
         $keys = self::getComplianceStateTranslationKeys($idSite);
 
@@ -38,7 +38,7 @@ class EcommerceRestricted extends CompliancePolicyEnforcedSetting
             . Piwik::translate('Ecommerce_EcommercePolicyComplianceDescriptionRationale');
     }
 
-    public static function getComplianceImpactNote(?int $idSite = null): string
+    public static function getImpact(?int $idSite = null): string
     {
         return Piwik::translate(self::getComplianceStateTranslationKeys($idSite)['impact']);
     }

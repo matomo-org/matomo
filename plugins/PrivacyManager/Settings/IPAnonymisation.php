@@ -63,12 +63,12 @@ class IPAnonymisation implements CustomSettingInterface, PolicyComparisonInterfa
         return Piwik::translate('PrivacyManager_AnonymizeIpPolicySettingTitle');
     }
 
-    public static function getComplianceRequirementNote(?int $idSite = null): string
+    public static function getWhatItDoes(?int $idSite = null): string
     {
         return Piwik::translate('PrivacyManager_AnonymizeIpPolicyComplianceDescription');
     }
 
-    public static function getComplianceImpactNote(?int $idSite = null): string
+    public static function getImpact(?int $idSite = null): string
     {
         return Piwik::translate('PrivacyManager_AnonymizeIpPolicyComplianceImpact');
     }

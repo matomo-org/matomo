@@ -37,7 +37,7 @@ class EcommerceRestrictedTest extends IntegrationTestCase
 
         $this->assertEquals(
             $this->description('Ecommerce_EcommercePolicyComplianceDescription'),
-            EcommerceRestricted::getComplianceRequirementNote($idSite)
+            EcommerceRestricted::getWhatItDoes($idSite)
         );
     }
 
@@ -47,7 +47,7 @@ class EcommerceRestrictedTest extends IntegrationTestCase
 
         $this->assertEquals(
             $this->description('Ecommerce_EcommercePolicyComplianceDescriptionNoEcommerceSingle'),
-            EcommerceRestricted::getComplianceRequirementNote($idSite)
+            EcommerceRestricted::getWhatItDoes($idSite)
         );
     }
 
@@ -58,7 +58,7 @@ class EcommerceRestrictedTest extends IntegrationTestCase
 
         $this->assertEquals(
             $this->description('Ecommerce_EcommercePolicyComplianceDescription'),
-            EcommerceRestricted::getComplianceRequirementNote(null)
+            EcommerceRestricted::getWhatItDoes(null)
         );
     }
 
@@ -69,7 +69,7 @@ class EcommerceRestrictedTest extends IntegrationTestCase
 
         $this->assertEquals(
             $this->description('Ecommerce_EcommercePolicyComplianceDescriptionNoEcommerceAll'),
-            EcommerceRestricted::getComplianceRequirementNote(null)
+            EcommerceRestricted::getWhatItDoes(null)
         );
     }
 
@@ -79,7 +79,7 @@ class EcommerceRestrictedTest extends IntegrationTestCase
 
         $this->assertEquals(
             'Ecommerce_EcommercePolicyComplianceImpactNoEcommerceSingle',
-            EcommerceRestricted::getComplianceImpactNote($idSite)
+            EcommerceRestricted::getImpact($idSite)
         );
     }
 
@@ -90,7 +90,7 @@ class EcommerceRestrictedTest extends IntegrationTestCase
 
         $this->assertEquals(
             'Ecommerce_EcommercePolicyComplianceImpact',
-            EcommerceRestricted::getComplianceImpactNote($idSite)
+            EcommerceRestricted::getImpact($idSite)
         );
     }
 
@@ -101,7 +101,7 @@ class EcommerceRestrictedTest extends IntegrationTestCase
 
         $this->assertEquals(
             'Ecommerce_EcommercePolicyComplianceImpactNoEcommerceAll',
-            EcommerceRestricted::getComplianceImpactNote(null)
+            EcommerceRestricted::getImpact(null)
         );
     }
 
@@ -126,11 +126,11 @@ class EcommerceRestrictedTest extends IntegrationTestCase
 
         $this->assertEquals(
             $this->description('Ecommerce_EcommercePolicyComplianceDescription' . $expectedSuffix),
-            EcommerceRestricted::getComplianceRequirementNote($idSiteToCheck)
+            EcommerceRestricted::getWhatItDoes($idSiteToCheck)
         );
         $this->assertEquals(
             'Ecommerce_EcommercePolicyComplianceImpact' . $expectedSuffix,
-            EcommerceRestricted::getComplianceImpactNote($idSiteToCheck)
+            EcommerceRestricted::getImpact($idSiteToCheck)
         );
     }
 

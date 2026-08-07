@@ -667,21 +667,11 @@ class API extends \Piwik\Plugin\API
         $payload['complianceConfigControlled'] = PolicyManager::isPolicyConfigControlled($policy);
         $settingsUnderPolicy = PolicyManager::getAllControlledSettings($policy, $idSite);
         foreach ($settingsUnderPolicy as $setting) {
-            // getComplianceImpactNote() and getComplianceTitle() are provided by
-            // PolicyComparisonTrait, but the published PolicyComparisonInterface does not
-            // require them, so guard the calls for third-party implementers that do not
-            // use the trait.
-            $impact = is_callable([$setting, 'getComplianceImpactNote'])
-                ? $setting::getComplianceImpactNote($idSite)
-                : '';
-            $name = is_callable([$setting, 'getComplianceTitle'])
-                ? $setting::getComplianceTitle($idSite)
-                : $setting::getTitle();
             $payload['complianceRequirements'][] = [
-                'name' => $name,
+                'name' => $setting::getComplianceTitle($idSite),
                 'value' => $setting::isCompliant($policy, $idSite) ? 'compliant' : 'non_compliant',
-                'notes' => $setting::getComplianceRequirementNote($idSite),
-                'impact' => $impact,
+                'notes' => $setting::getWhatItDoes($idSite),
+                'impact' => $setting::getImpact($idSite),
             ];
         }
         $unknownSettings = PolicyManager::getAllUnknownSettings($policy);

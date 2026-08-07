@@ -82,7 +82,14 @@ class PolicyComparisonTraitTest extends TestCase
     public function testDefaultPolicyPageMetadata()
     {
         $this->assertFalse(PolicyComparisonTraitImpl::isExternallyManagedByPolicyPage());
-        $this->assertSame('', PolicyComparisonTraitImpl::getWhatItDoes());
         $this->assertSame('', PolicyComparisonTraitImpl::getImpact());
+    }
+
+    public function testGetComplianceRequirementNoteDelegatesToGetWhatItDoes()
+    {
+        $this->assertSame(
+            PolicyComparisonTraitImpl::getWhatItDoes(),
+            PolicyComparisonTraitImpl::getComplianceRequirementNote()
+        );
     }
 }
