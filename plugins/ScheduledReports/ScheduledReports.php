@@ -124,6 +124,7 @@ class ScheduledReports extends \Piwik\Plugin
 
     public function getClientSideTranslationKeys(&$translationKeys)
     {
+        $translationKeys[] = "ScheduledReports_ReorderReport";
         $translationKeys[] = "ScheduledReports_ReportSent";
         $translationKeys[] = "ScheduledReports_ReportUpdated";
         $translationKeys[] = "ScheduledReports_ReportHourWithUtcOnly";

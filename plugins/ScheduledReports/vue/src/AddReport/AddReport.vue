@@ -308,6 +308,7 @@
       <div
         v-if="allowMultipleReportsByReportType[report.type] && selectedReportsForCurrentType.length"
         class="draggableListPanel selectedReportsWrapper"
+        @dragstart="closeReorderTooltips()"
       >
         <div class="draggableListHeading selectedReportsHeading">
           <h3>{{ translate('ScheduledReports_SelectedReports') }}</h3>
@@ -322,7 +323,10 @@
           @reorder="onSelectedReportsReorder"
         >
           <template #default="{ item: reportItem }">
-            <DragHandle />
+            <DragHandle
+              :title="translate('ScheduledReports_ReorderReport')"
+              @pointerdown="closeReorderTooltips()"
+            />
             <span>{{ decode((reportItem as ReportMetadata).name) }}</span>
           </template>
         </DraggableList>
@@ -454,6 +458,14 @@ export default defineComponent({
     this.onEvolutionPeriodN = debounce(this.onEvolutionPeriodN, 50);
   },
   methods: {
+    closeReorderTooltips() {
+      // routes to the close handlers jQuery UI binds on the handles, cancelling
+      // pending and open tooltips; during a drag no mouse event fires that
+      // could otherwise close them
+      window.$('.selectedReportsWrapper .dragHandle')
+        .trigger('mouseleave')
+        .trigger('focusout');
+    },
     onEvolutionPeriodN(event: Event) {
       this.$emit('change', {
         prop: 'evolutionPeriodN',

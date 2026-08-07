@@ -36,6 +36,7 @@
         "ReportSent": "Report sent",
         "ReportsIncluded": "Select the reports to include",
         "ReportsIncludedHelp": "Choose at least one report to include in this scheduled report.",
+        "ReorderReport": "Reorder report",
         "SelectedReports": "Preview of your report",
         "SelectedReportsHelp": "Drag and drop to re-order the report sections.",
         "ReportType": "Send report via",

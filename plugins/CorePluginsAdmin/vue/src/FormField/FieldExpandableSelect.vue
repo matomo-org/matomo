@@ -8,7 +8,7 @@
 <template>
   <div class="expandableSelector" v-focus-anywhere-but-here="{ blur: onBlur }">
     <div
-      @click="showSelect = !showSelect"
+      @click="toggleSelect()"
       class="select-wrapper"
       :class="{ expanded: showSelect }"
     >
@@ -27,7 +27,11 @@
           v-focus-if="{ focused: showSelect }"
         />
       </div>
-      <ul class="collection firstLevel">
+      <ul
+        class="collection firstLevel"
+        ref="optionsList"
+        :style="optionsListStyle"
+      >
         <li
           v-for="(options, index) in availableOptions"
           class="collection-item"
@@ -154,9 +158,16 @@ export default defineComponent({
       showSelect: false,
       searchTerm: '',
       showCategory: '',
+      optionsListMaxHeight: 0,
     };
   },
   computed: {
+    optionsListStyle() {
+      if (!this.optionsListMaxHeight) {
+        return {};
+      }
+      return { maxHeight: `${this.optionsListMaxHeight}px` };
+    },
     searchTermLowercase() {
       return this.searchTerm.toLowerCase();
     },
@@ -184,6 +195,26 @@ export default defineComponent({
     },
   },
   methods: {
+    toggleSelect() {
+      this.showSelect = !this.showSelect;
+
+      if (this.showSelect) {
+        this.$nextTick(() => {
+          const list = this.$refs.optionsList as HTMLElement|undefined;
+
+          if (!list) {
+            return;
+          }
+
+          const available = Math.floor(
+            window.innerHeight - list.getBoundingClientRect().top,
+          ) - 16;
+
+          // keep a usable minimum; the page scrolls for the rest
+          this.optionsListMaxHeight = Math.max(150, available);
+        });
+      }
+    },
     normalize(value: string) {
       return Matomo.helper.normalize(value);
     },
