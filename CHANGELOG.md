@@ -60,6 +60,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The `Http.sendHttpRequest` and `Http.sendHttpRequest.end` events pass a new `validateEgressIp` entry in their params
   array. A listener that resolves the request itself must either honour SSRF-safe semantics (public-IP-only target,
   re-validated redirects) or leave the request unhandled.
+* The `SearchInput` component exported from `CoreHome` gained a `focused` prop and a `blur()` method: setting `focused` to `true` moves focus to the inner input and calling `blur()` on the component removes it, both of which were previously impossible because binding `v-focus-if` or an element ref to the component targeted its non-focusable wrapper. `CoreHome.QuickAccess` now renders this component instead of duplicating its markup, so its search field is no longer a separate `input` that happens to carry the same classes. Quick search also runs off the field's value rather than off keystrokes, so text that arrives without one (a pasted term, an IME candidate committed with the mouse) now searches too, and keys that belong to an open IME candidate window no longer act on the result list.
 
 ### HTTP API
 * `API.getBulkRequest` now validates the authentication parameters of each nested request URL against

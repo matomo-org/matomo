@@ -11,12 +11,13 @@
       <span class="icon-search" />
     </span>
     <input
+      ref="input"
       class="mtm-searchInput__input browser-default"
       type="text"
-      :value="modelValue"
+      v-model="searchValue"
       :placeholder="resolvedPlaceholder"
       v-bind="$attrs"
-      @input="onInput($event)"
+      v-focus-if="{ focused }"
     >
     <button
       v-if="showClear && modelValue"
@@ -29,10 +30,12 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import FocusIf from '../FocusIf/FocusIf';
 import { translate } from '../translate';
 
 export default defineComponent({
   name: 'SearchInput',
+  // keep false so a parent's attrs and listeners reach the input rather than the wrapper
   inheritAttrs: false,
   props: {
     modelValue: {
@@ -47,20 +50,36 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    focused: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: ['update:modelValue'],
+  directives: {
+    FocusIf,
+  },
   computed: {
-    resolvedPlaceholder() {
+    // v-model, not :value + @input, so Vue's IME composition handling applies
+    searchValue: {
+      get(): string {
+        return this.modelValue;
+      },
+      set(value: string) {
+        this.$emit('update:modelValue', value);
+      },
+    },
+    resolvedPlaceholder(): string {
       return this.placeholder || translate('General_Search');
     },
   },
   methods: {
     translate,
-    onInput(event: Event) {
-      this.$emit('update:modelValue', (event.target as HTMLInputElement).value);
-    },
     onClear() {
       this.$emit('update:modelValue', '');
+    },
+    blur() {
+      (this.$refs.input as HTMLInputElement | undefined)?.blur();
     },
   },
 });
