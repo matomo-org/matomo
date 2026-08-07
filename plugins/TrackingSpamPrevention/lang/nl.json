@@ -6,8 +6,6 @@
         "SettingBlockCloudTitle": "Blokkeert volgverzoeken vanuit de cloud",
         "SettingBlockHeadlessDescription": "Dit zijn browsers zonder gebruikersinterface, meestal toegepast bij automatisering. Het zou veilig moeten zijn om dit in te schakelen als u alleen gewone websites of apps hebt. Dit kan extra bots en spamverzoeken blokkeren die anders niet zouden worden gedetecteerd.",
         "SettingBlockHeadlessTitle": "Blokkeer headless browsers",
-        "SettingBlockServerSideLibrariesDescription": "Gebruik dit enkel indien u %1$sJavascript Tracker%2$s gebruikt, aangezien ander verkeer aanvallen of spam zal zijn. Het blokkeert volgverzoeken van cURL, HTTP, Guzzle, en Postman.%3$s%1$sOpmerking: gebruik dit niet bij volggegevens komende van een SDK aan serverzijde zoals de Matomo PHP tracking SDK, Java SDK, Python SDK, Android of iOS SDK, of andere programmeertalen aan de serverzijde.%2$s",
-        "SettingBlockServerSideLibrariesTitle": "Blokkeer volgverzoeken van bibliotheken aan serverzijde",
         "SettingExcludedCountriesDescription": "Volg geen bezoekers uit deze landen. Bezoekers buiten uw doelgebied zijn waarschijnlijk bots of spammers, of u kunt het gebruiken om privacywetgeving in andere rechtsgebieden te vermijden.",
         "SettingExcludedCountriesTitle": "Landen uitsluiten",
         "SettingIncludedCountriesDescription": "Dit sluit alle andere landen uit. De \"landen uitsluiten\" instelling geeft meer informatie.",

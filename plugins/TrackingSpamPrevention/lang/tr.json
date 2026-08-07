@@ -6,8 +6,6 @@
         "SettingBlockCloudTitle": "Buluttan gelen izleme istekleri engellensin",
         "SettingBlockHeadlessDescription": "Kullanıcı arayüzü olmayan tarayıcılar vardır ve çoğunlukla otomasyon işlemleri için kullanılır. Yalnızca normal siteleriniz ve uygulamalarınız varsa, bu ayarın açılması güvenli olmalıdır. Başka şekilde belirlenemeyen ek bot ve spam isteklerini engelleyebilir.",
         "SettingBlockHeadlessTitle": "Başlıksız tarayıcılar engellensin",
-        "SettingBlockServerSideLibrariesDescription": "Diğer trafik saldırı ya da spam gibi bir şey olabileceğinden, bu ayarı yalnızca izleme için %1$sJavaScript Tracker%2$s kullanıyorsanız açın. Bu ayar, curl, HTTP, Guzzle ve Postman gibi sunucu tarafından gelen izleme isteklerini engeller.%3$s%1$sNot: Verileri izlemek için SDK, Java SDK, Python SDK, Android veya iOS SDK veya diğer sunucu tarafı programlama dilleri ile sunucu tarafında bir SDK kullanıyorsanız, bu özelliği açmayın.%2$s",
-        "SettingBlockServerSideLibrariesTitle": "Sunucu tarafı kitaplıklardan gelen izleme istekleri engellensin",
         "SettingExcludedCountriesDescription": "Bu ülkelerden gelen ziyaretçiler izlenmez. Hedef alanınızın dışındaki ziyaretçiler muhtemelen bot veya spam göndereciler olacaktır veya bunu diğer yargı yetki alanlarındaki gizlilik yasalarından kaçınmak için kullanabilirsiniz.",
         "SettingExcludedCountriesTitle": "Katılmayacak ülkeler",
         "SettingIncludedCountriesDescription": "Bu seçenek diğer ülkelerin katılmamasını sağlar . Ayrıntılı bilgi almak için \"katılmayacak ülkeler\" seçeneğine bakabilirsiniz.",

@@ -6,8 +6,6 @@
         "SettingBlockCloudTitle": "クラウドからの追跡リクエストをブロックする",
         "SettingBlockHeadlessDescription": "これらは、主に自動化に使用される、ユーザー インターフェイスのないブラウザーです。 通常の Web サイトまたはアプリしかない場合は、これをオンにしても安全です。 他の方法では検出されない追加のボットやスパム リクエストをブロックできます。",
         "SettingBlockHeadlessTitle": "ヘッドレス ブラウザをブロックする",
-        "SettingBlockServerSideLibrariesDescription": "%1$sJavaScript Tracker%2$s のみを使用している場合は、これを使用してください。他のトラフィックはとにかく攻撃またはスパムになります。 cURL、HTTP、Guzzle、および Postman からの追跡リクエストをブロックします。%3$s%1$s注: Matomo PHP 追跡 SDK、Java SDK、Python SDK、Android などのサーバー側 SDK を使用してデータを追跡する場合は使用しないでください。 または iOS SDK、またはその他のサーバー側プログラミング言語。%2$s",
-        "SettingBlockServerSideLibrariesTitle": "サーバー側ライブラリからのトラッキング リクエストをブロックする",
         "SettingExcludedCountriesDescription": "これらの国からのビジターを追跡しないでください。 ターゲット エリア外のビジターはボットまたはスパマーである可能性が高く、他の法域のプライバシー法を回避するために使用できます。",
         "SettingExcludedCountriesTitle": "国を除外する",
         "SettingIncludedCountriesDescription": "これは他のすべての国を除外します。 「国を除外する」設定に詳細があります。",

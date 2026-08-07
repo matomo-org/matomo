@@ -6,8 +6,6 @@
         "SettingBlockCloudTitle": "Tracking request aus der Cloud blockieren",
         "SettingBlockHeadlessDescription": "Dies sind Browser ohne Benutzeroberfläche, die meist für die Automatisierung verwendet werden. Es sollte sicher sein, diese Funktion zu aktivieren, wenn Sie nur normale Webseiten oder Anwendungen nutzen. Sie kann zusätzliche Bots und Spam-Anfragen blockieren, die sonst nicht erkannt werden würden.",
         "SettingBlockHeadlessTitle": "Headless-Browser blockieren",
-        "SettingBlockServerSideLibrariesDescription": "Verwenden Sie dieses Feature, wenn Sie nur den %1$sJavascript Tracker%2$s verwenden, da anderer Traffic sowieso Attacken oder Spam beinhaltet. Es blockiert Tracking-Anfragen von cURL, HTTP, Guzzle und Postman. %3$s%1$sHinweis: Nicht verwenden wenn Sie eine serverseitige SDK wie die Matomo PHP trackende SDK, Java SDK, Python SDK, Android oder iOS SDK oder sonstige serverseitige Programmiersprachen eingesetzt wird.%2$s",
-        "SettingBlockServerSideLibrariesTitle": "Tracking-Anfragen von serverseitigen Bibliotheken blockieren",
         "SettingExcludedCountriesDescription": "Keine Besucher aus diesen Ländern tracken. Besucher außerhalb Ihres Zielbereichs sind wahrscheinlich Bots oder Spammer, oder Sie können die Einstellung nutzen um Datenschutzrechtsprobleme in anderen Jurisdiktionen zu vermeiden.",
         "SettingExcludedCountriesTitle": "Länder ausschließen",
         "SettingIncludedCountriesDescription": "Dies schließt alle anderen Länder aus. Die Einstellung \"Länder ausschließen\" enthält weitere Informationen.",

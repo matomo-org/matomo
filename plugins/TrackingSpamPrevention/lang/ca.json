@@ -6,8 +6,6 @@
         "SettingBlockCloudTitle": "Bloqueja les sol·licituds de seguiment del núvol",
         "SettingBlockHeadlessDescription": "Es tracta de navegadors sense interfície d'usuari, utilitzats principalment per a l'automatització. Hauria de ser segur activar-ho si només teniu llocs web o aplicacions habituals. Pot bloquejar robots addicionals i sol·licituds de correu brossa que d'altra manera no es detectarien.",
         "SettingBlockHeadlessTitle": "Bloqueja els navegadors sense cap",
-        "SettingBlockServerSideLibrariesDescription": "Utilitzeu-ho si només feu servir %1$sJavaScript Tracker%2$s, ja que l'altre trànsit serà atacs o correu brossa de totes maneres. Bloqueja les sol·licituds de seguiment de cURL, HTTP, Guzzle i Postman.%3$s%1$sNota: no l'utilitzeu si feu un seguiment de les dades amb un SDK del servidor com l'SDK de seguiment PHP de Matomo, l'SDK Java, l'SDK Python, Android o SDK d'iOS, o altres llenguatges de programació del costat servidor.%2$s",
-        "SettingBlockServerSideLibrariesTitle": "Bloqueja les sol·licituds de seguiment de les biblioteques del servidor",
         "SettingExcludedCountriesDescription": "No feu un seguiment dels visitants d'aquests països. És probable que els visitants fora de la vostra àrea objectiu siguin robots o spammers, o podeu utilitzar-ho per evitar les lleis de privadesa en altres jurisdiccions.",
         "SettingExcludedCountriesTitle": "Excloure països",
         "SettingIncludedCountriesDescription": "Això exclou tots els altres països. La configuració \"exclou països\" proporciona més informació.",

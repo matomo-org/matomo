@@ -4,7 +4,6 @@
         "BlockCloudNoteInternetDisabled": "Budući da je internet isključen u tvojoj Matomo konfiguraciji, ova funkcija neće raditi.",
         "SettingBlockCloudTitle": "Blokiraj zahtjeve za praćenje iz oblaka",
         "SettingBlockHeadlessTitle": "Blokiraj „headless” preglednike (bez grafičkog korisničkog sučelja)",
-        "SettingBlockServerSideLibrariesTitle": "Blokiraj zahtjeve za praćenje od serverskih biblioteka",
         "SettingExcludedCountriesTitle": "Isključi zemlje",
         "SettingIncludedCountriesDescription": "Ovo isključuje sve ostale zemlje. Postavka „Isključi zemlje” sadrži više informacija.",
         "SettingIncludedCountriesTitle": "Prati samo posjetitelje iz ovih zemalja",

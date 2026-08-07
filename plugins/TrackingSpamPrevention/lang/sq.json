@@ -6,8 +6,6 @@
         "SettingBlockCloudTitle": "Blloko kërkesa ndjekjeje nga Re",
         "SettingBlockHeadlessDescription": "Shfletuesit “headless” janë shfletues pa një ndërfaqe përdoruesi dhe kryesisht përdoren për automatizim. Nëse keni vetëm sajte ose aplikacione të rregullt, përdorimi i këtij rregullimi është pa zarar, në u aktivizoftë. Mund të bllokojë robotë dhe kërkesa spam shtesë, që ndryshe s’do të pikasen.",
         "SettingBlockHeadlessTitle": "Blloko shfletues nën mënyrën “headless”",
-        "SettingBlockServerSideLibrariesDescription": "Përdoreni këtë vetëm nëse përdoret %1$sNdjekës JavaScript%2$s, ngaqë trafik tjetër, sido që të jetë, do të jenë sulme ose spam. Bllokon kërkesa ndjekjeje nga cURL, HTTP, Guzzle dhe Postman.%3$s%1$sShënim: Mos e përdorni, nëse ndiqen të dhëna duke përdorur një SDK më anë të klientit, bie fjala, SDK Matomo ndjekjeje me PHP, SDK Java, SDK Python, SDK Android ose iOS, ose të tjera gjuhë programimi më anë të shërbyesit.%2$s",
-        "SettingBlockServerSideLibrariesTitle": "Blloko kërkesa ndjekjeje nga biblioteka më anë të shërbyesit",
         "SettingExcludedCountriesDescription": "Mos ndiq vizitorë nga këto vende. Vizitorët jashtë zonës së synuar nga ju ka shumë gjasa të jenë robotë ose dërgues mesazhesh të padëshiruar, ose mund ta përdorni për të shmangur ligje privatësie në juridiksione të tjera.",
         "SettingExcludedCountriesTitle": "Përjashtoni Vende",
         "SettingIncludedCountriesDescription": "Kjo përjashton krejt vendet e tjera. Rregullimi “përjashtoni vende” përmban më tepër hollësi.",

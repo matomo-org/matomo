@@ -6,8 +6,6 @@
         "SettingBlockCloudTitle": "Förhindra begäran om spårning från molnet",
         "SettingBlockHeadlessDescription": "Detta är webbläsare utan ett användargränssnitt som oftast används för automatisering. Det borde vara ofarligt att aktivera detta om vanliga webbsidor eller program används. Den kan spärra övriga bottar och skräpanrop som annars inte hade upptäckts.",
         "SettingBlockHeadlessTitle": "Spärra huvudlösa webbläsare",
-        "SettingBlockServerSideLibrariesDescription": "Använd denna endast om du har %1$sJavascript-spårning%2$s, annan trafik kommer vara attacker eller spam ändå. Den blockerar spårningsförfrågningar från cURL, HTTP, Guzzle, och Postman.%3$s%1$sNotera: Använd inte ifall du spårar data med ett SDK på serversidan, som Matomos PHP tracking SDK, Java SDK, Python SDK, Android eller iOS SDK, eller andra programmeringsspråk som körs på serversidan.%2$s",
-        "SettingBlockServerSideLibrariesTitle": "Spärra begäran om spårning från bibliotek på server-sidan",
         "SettingExcludedCountriesDescription": "Spåra inte besökare från dessa länder. Besökare utanför ditt målområde är mest troligen bottar eller spammare eller så kan du använda det för att undvika integritetslagstiftningar i andra territorier.",
         "SettingExcludedCountriesTitle": "Utelämna länder",
         "SettingIncludedCountriesDescription": "Detta utesluter alla andra länder. I \"Uteslut länder\" inställningen ger mer detaljer.",

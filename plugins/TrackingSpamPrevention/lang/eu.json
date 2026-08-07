@@ -6,8 +6,6 @@
         "SettingBlockCloudTitle": "Blokeatu hodeiko jarraipen eskaerak",
         "SettingBlockHeadlessDescription": "Erabiltzaile interfazerik gabeko nabigatzaileak dira hauek. Nagusiki automatizaziorako erabiltzen dira. Hau aktibatzeak segurua izan beharko luke webgune edo aplikazio arruntak soilik badituzu. Bestela detektatuko ez liratekeen bot eta spam eskaerak ere blokeatu ditzake.",
         "SettingBlockHeadlessTitle": "Blokeatu burugabeko nabigatzaileak",
-        "SettingBlockServerSideLibrariesDescription": "Erabili hau %1$sJavaScript aztarnaria%2$s soilik erabiltzen baduzu, gainerako trafikoa ziur aski erasoak edo spama izango baitira. cURL, HTTP, Guzzle eta Postman erabiliz egindako jarraipen eskaerak blokeatzen ditu. %3$s%1$sOharra: Ez erabili jarraipena egiteko zerbitzari aldeko SDK bat erabiltzen baduzu, adibidez, Matomo PHP jarraipen SDK, Python SDK, Android edo iOS SDK, edo zerbitzari aldeko beste programazio lengoaiak.%2$s",
-        "SettingBlockServerSideLibrariesTitle": "Blokeatu zerbitzari aldeko liburutegien jarraipen eskaerak",
         "SettingExcludedCountriesDescription": "Ez egin herrialde hauetako bisitarien jarraipenik. Zure helburuko eskualdetik kanpoko bisitariak botak edo spam egileak izango dira ziur aski. Beste jurisdikzio batzuetako pribatutasun legeekin arazorik ez izateko ere erabil daiteke.",
         "SettingExcludedCountriesTitle": "Baztertu herrialdeak",
         "SettingIncludedCountriesDescription": "Honek kanpo uzten ditu gainerako herrialdeak. \"baztertu herrialdeak\" ezarpenean informazio gehiago dago.",

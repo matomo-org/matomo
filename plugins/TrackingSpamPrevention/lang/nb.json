@@ -6,8 +6,6 @@
         "SettingBlockCloudTitle": "Blokker sporingsforespørsler fra skyen",
         "SettingBlockHeadlessDescription": "Dette er nettlesere uten brukergrensesnitt, og brukes for det meste til automasjon. Hvis du kun har vanlige nettsider eller programmer bør dette være trygt å slå på. Det kan blokkere ytterligere botter og spam-forespørsler som ellers ikke ville blitt oppdaget.",
         "SettingBlockHeadlessTitle": "Blokker hodeløse nettlesere",
-        "SettingBlockServerSideLibrariesDescription": "Kun bruk dette sammen med %1$sJavaScript-sporer%2$s, siden annen trafikk vil være angrep eller søppelpost uansett. Det blokkerer sporingsforespørsler fra cURL, HTTP, Guzzle, og Postman.%3$s%1$sMerk: Ikke bruk det hvis sporingsdata bruker en SDK på tjenersiden, som Matomo PHP-sporings-SDK, Java SDK, Python SDK, Android eller iOS SDK, eller andre programmeringsspråk som kjøres på tjenersiden.%2$s",
-        "SettingBlockServerSideLibrariesTitle": "Blokker sporingsforespørsler fra bibliotek på tjenersiden",
         "SettingExcludedCountriesDescription": "Ikke spor besøk fra disse landene. Besøkende utenfor målområdet ditt vil antagelig være botter eller søppelpostere, eller du kan bruke det til å unngå personvernslover i andre juridiske områder.",
         "SettingExcludedCountriesTitle": "Ekskluder land",
         "SettingIncludedCountriesDescription": "Dette utelater alle andre land. «Utelat land»-innstillingen har mer info.",

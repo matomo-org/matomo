@@ -6,8 +6,6 @@
         "SettingBlockCloudTitle": "Bloquear solicitações de rastreamento da nuvem",
         "SettingBlockHeadlessDescription": "São navegadores sem interface de usuário, usados principalmente para automação. Deve ser seguro ativar isso se você tiver apenas sites ou aplicativos regulares. Ele pode bloquear bots adicionais e solicitações de spam que, de outra forma, não seriam detectadas.",
         "SettingBlockHeadlessTitle": "Bloquear navegadores headless",
-        "SettingBlockServerSideLibrariesDescription": "Use-o se estiver usando apenas %1$sRastreador JavaScript%2$s, pois outro tráfego será ataques ou spam de qualquer maneira. Ele bloqueia solicitações de rastreamento de cURL, HTTP, Guzzle e Postman. %3$s%1$sObservação: Não use se rastrear dados usando um SDK do lado do servidor, como o SDK de rastreamento pelo SDK em PHP do Matomo, SDK do Java, Python, Android, iOS ou outras linguagens de programação do lado do servidor.%2$s",
-        "SettingBlockServerSideLibrariesTitle": "Bloquear solicitações de rastreamento de bibliotecas do lado do servidor",
         "SettingExcludedCountriesDescription": "Não rastrear visitantes desses países. Os visitantes fora de sua área de destino provavelmente serão bots ou spammers, ou você pode usá-lo para evitar leis de privacidade em outras jurisdições.",
         "SettingExcludedCountriesTitle": "Excluir países",
         "SettingIncludedCountriesDescription": "Isso exclui todos os outros países. A configuração \"excluir países\" tem mais informações.",
