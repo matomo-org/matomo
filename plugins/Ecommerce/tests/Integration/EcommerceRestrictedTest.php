@@ -16,16 +16,13 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 class EcommerceRestrictedTest extends IntegrationTestCase
 {
-    private $ecommerceSite;
-    private $nonEcommerceSite;
+    private const RATIONALE = 'Ecommerce_EcommercePolicyComplianceDescriptionRationale';
 
     public function setUp(): void
     {
         parent::setUp();
 
         Fixture::createSuperUser();
-        $this->ecommerceSite = Fixture::createWebsite('2024-01-01 00:00:00', $ecommerce = 1);
-        $this->nonEcommerceSite = Fixture::createWebsite('2024-01-02 00:00:00', $ecommerce = 0);
     }
 
     public function tearDown(): void
@@ -34,71 +31,157 @@ class EcommerceRestrictedTest extends IntegrationTestCase
         parent::tearDown();
     }
 
-    /**
-     * The description states what the policy requires, so it does not vary with the state of
-     * the instance. Only the impact note does.
-     */
-    public function testReturnsTheSameDescriptionRegardlessOfEcommerceState(): void
+    public function testDescriptionSaysEcommerceIsEnabledForSiteUsingEcommerce(): void
     {
-        CnilPolicy::setActiveStatus(null, true);
+        $idSite = $this->createEcommerceSite();
 
         $this->assertEquals(
-            'Ecommerce_EcommercePolicyComplianceDescription',
-            EcommerceRestricted::getComplianceRequirementNote($this->ecommerceSite)
+            $this->description('Ecommerce_EcommercePolicyComplianceDescription'),
+            EcommerceRestricted::getComplianceRequirementNote($idSite)
         );
+    }
+
+    public function testDescriptionSaysEcommerceIsNotEnabledForSiteNotUsingEcommerce(): void
+    {
+        $idSite = $this->createNonEcommerceSite();
+
         $this->assertEquals(
-            'Ecommerce_EcommercePolicyComplianceDescription',
-            EcommerceRestricted::getComplianceRequirementNote($this->nonEcommerceSite)
+            $this->description('Ecommerce_EcommercePolicyComplianceDescriptionNoEcommerceSingle'),
+            EcommerceRestricted::getComplianceRequirementNote($idSite)
         );
+    }
 
-        CnilPolicy::setActiveStatus(null, false);
+    public function testDescriptionSaysEcommerceIsEnabledForAllSitesWhenAnySiteUsesEcommerce(): void
+    {
+        $this->createNonEcommerceSite();
+        $this->createEcommerceSite();
 
         $this->assertEquals(
-            'Ecommerce_EcommercePolicyComplianceDescription',
-            EcommerceRestricted::getComplianceRequirementNote($this->ecommerceSite)
+            $this->description('Ecommerce_EcommercePolicyComplianceDescription'),
+            EcommerceRestricted::getComplianceRequirementNote(null)
+        );
+    }
+
+    public function testDescriptionSaysEcommerceIsNotEnabledForAllSitesWhenNoSiteUsesEcommerce(): void
+    {
+        $this->createNonEcommerceSite();
+        $this->createNonEcommerceSite();
+
+        $this->assertEquals(
+            $this->description('Ecommerce_EcommercePolicyComplianceDescriptionNoEcommerceAll'),
+            EcommerceRestricted::getComplianceRequirementNote(null)
         );
     }
 
     public function testReturnsNoImpactMessageWhenEcommerceDisabled(): void
     {
-        $impact = EcommerceRestricted::getComplianceImpactNote($this->nonEcommerceSite);
+        $idSite = $this->createNonEcommerceSite();
 
-        $this->assertEquals('Ecommerce_EcommercePolicyComplianceImpactNoEcommerceSingle', $impact);
+        $this->assertEquals(
+            'Ecommerce_EcommercePolicyComplianceImpactNoEcommerceSingle',
+            EcommerceRestricted::getComplianceImpactNote($idSite)
+        );
     }
 
     public function testReturnsImpactMessageWhenEcommerceEnabled(): void
     {
         CnilPolicy::setActiveStatus(null, true);
+        $idSite = $this->createEcommerceSite();
 
-        $impact = EcommerceRestricted::getComplianceImpactNote($this->ecommerceSite);
+        $this->assertEquals(
+            'Ecommerce_EcommercePolicyComplianceImpact',
+            EcommerceRestricted::getComplianceImpactNote($idSite)
+        );
+    }
 
-        $this->assertEquals('Ecommerce_EcommercePolicyComplianceImpact', $impact);
+    public function testReturnsNoImpactMessageForAllSitesWhenNoSiteUsesEcommerce(): void
+    {
+        $this->createNonEcommerceSite();
+        $this->createNonEcommerceSite();
+
+        $this->assertEquals(
+            'Ecommerce_EcommercePolicyComplianceImpactNoEcommerceAll',
+            EcommerceRestricted::getComplianceImpactNote(null)
+        );
+    }
+
+    /**
+     * The description and the impact are two columns of the same row, so they must never describe
+     * different states. Both take their keys from getComplianceStateTranslationKeys().
+     *
+     * @dataProvider getComplianceStateScenarios
+     */
+    public function testDescriptionAndImpactAlwaysDescribeTheSameState(
+        array $ecommerceFlags,
+        bool $forAllSites,
+        string $expectedSuffix
+    ): void {
+        $idSite = null;
+
+        foreach ($ecommerceFlags as $hasEcommerce) {
+            $idSite = $hasEcommerce ? $this->createEcommerceSite() : $this->createNonEcommerceSite();
+        }
+
+        $idSiteToCheck = $forAllSites ? null : $idSite;
+
+        $this->assertEquals(
+            $this->description('Ecommerce_EcommercePolicyComplianceDescription' . $expectedSuffix),
+            EcommerceRestricted::getComplianceRequirementNote($idSiteToCheck)
+        );
+        $this->assertEquals(
+            'Ecommerce_EcommercePolicyComplianceImpact' . $expectedSuffix,
+            EcommerceRestricted::getComplianceImpactNote($idSiteToCheck)
+        );
+    }
+
+    public function getComplianceStateScenarios(): iterable
+    {
+        yield 'single site using ecommerce' => [[true], false, ''];
+        yield 'single site not using ecommerce' => [[false], false, 'NoEcommerceSingle'];
+        yield 'all sites, one uses ecommerce' => [[false, true], true, ''];
+        yield 'all sites, none use ecommerce' => [[false, false], true, 'NoEcommerceAll'];
     }
 
     public function testIsCompliantWhenEcommerceDisabled(): void
     {
         CnilPolicy::setActiveStatus(null, true);
+        $idSite = $this->createNonEcommerceSite();
 
-        $this->assertTrue(
-            EcommerceRestricted::isCompliant(CnilPolicy::class, $this->nonEcommerceSite)
-        );
+        $this->assertTrue(EcommerceRestricted::isCompliant(CnilPolicy::class, $idSite));
     }
 
     public function testIsCompliantWhenEcommerceEnabledAndPolicyEnforced(): void
     {
         CnilPolicy::setActiveStatus(null, true);
+        $idSite = $this->createEcommerceSite();
 
-        $this->assertTrue(
-            EcommerceRestricted::isCompliant(CnilPolicy::class, $this->ecommerceSite)
-        );
+        $this->assertTrue(EcommerceRestricted::isCompliant(CnilPolicy::class, $idSite));
     }
 
     public function testIsCompliantWhenEcommerceEnabledAndPolicyNotEnforced(): void
     {
         CnilPolicy::setActiveStatus(null, false);
+        $idSite = $this->createEcommerceSite();
 
-        $this->assertFalse(
-            EcommerceRestricted::isCompliant(CnilPolicy::class, $this->ecommerceSite)
-        );
+        $this->assertFalse(EcommerceRestricted::isCompliant(CnilPolicy::class, $idSite));
+    }
+
+    /**
+     * Translations are not loaded in integration tests, so Piwik::translate() returns the key. The
+     * description is built from two keys joined by the paragraph separator.
+     */
+    private function description(string $key): string
+    {
+        return $key . '<br /><br />' . self::RATIONALE;
+    }
+
+    private function createEcommerceSite(): int
+    {
+        return Fixture::createWebsite('2024-01-01 00:00:00', $ecommerce = 1);
+    }
+
+    private function createNonEcommerceSite(): int
+    {
+        return Fixture::createWebsite('2024-01-02 00:00:00', $ecommerce = 0);
     }
 }

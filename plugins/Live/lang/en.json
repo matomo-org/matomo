@@ -68,6 +68,6 @@
         "RealTimeHelp2": "This report refreshes every 5 seconds and displays new visits (or existing visitors that view a new page) at the top of the list with a fade-in effect.",
         "VisitorLogPolicyComplianceTitle": "Visits Log and Visitor Profiles Disabled",
         "VisitorLogPolicyComplianceDescription": "Visits Log and Visitor Profile features are disabled.<br /><br />This prevents an individual visitor's browsing path and detailed visit-level behaviour from being reconstructed.",
-        "VisitorLogPolicyComplianceImpact": "Visitors > Visits Log and Visitor Profile views are unavailable."
+        "VisitorLogPolicyComplianceImpact": "<b>Visitors > Visits Log</b> and Visitor Profile views are unavailable."
     }
 }

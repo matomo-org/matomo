@@ -7,18 +7,18 @@
 			<name>Device Model Detection Disabled</name>
 			<value>non_compliant</value>
 			<notes>Device model detection is disabled.&lt;br /&gt;&lt;br /&gt;This reduces the risk of identifying visitors based on their specific device characteristics.</notes>
-			<impact>The Visitors &gt; Devices &gt; Device Model report is unavailable, and device model information is not collected.</impact>
+			<impact>The &lt;b&gt;Visitors &gt; Devices &gt; Device&lt;/b&gt; Model report is unavailable, and device model information is not collected.</impact>
 		</row>
 		<row>
 			<name>Major Browser and OS Versions</name>
 			<value>non_compliant</value>
 			<notes>Only major browser and operating system versions are stored. Minor and patch versions are removed. For example, Chrome 136 or iOS 18 may be stored, but not Chrome 136.0.7103 or iOS 18.5.1.&lt;br /&gt;&lt;br /&gt;This reduces the risk of identifying visitors using detailed browser and operating system information.</notes>
-			<impact>Browser and operating system version reports under Visitors &gt; Software only show major versions. Detailed version analysis and segmentation are unavailable.</impact>
+			<impact>Browser and operating system version reports under &lt;b&gt;Visitors &gt; Software&lt;/b&gt; only show major versions. Detailed version analysis and segmentation are unavailable.</impact>
 		</row>
 		<row>
 			<name>Ecommerce Data Collection Restricted</name>
 			<value>non_compliant</value>
-			<notes>Ecommerce analytics remains enabled, but the collection and use of detailed order-level and product-level information is restricted.&lt;br /&gt;&lt;br /&gt;This prevents order and product information from being used to identify individual visitors or purchases.</notes>
+			<notes>Ecommerce analytics remains &lt;b&gt;enabled&lt;/b&gt;, but the collection and use of detailed order-level and product-level information is restricted.&lt;br /&gt;&lt;br /&gt;This prevents order and product information from being used to identify individual visitors or purchases.</notes>
 			<impact>Overall ecommerce conversion and revenue metrics remain available. Segments based on Order ID, Order Revenue, Product Price, Product Name, and Product SKU are unavailable.</impact>
 		</row>
 		<row>
@@ -37,7 +37,7 @@
 			<name>Visits Log and Visitor Profiles Disabled</name>
 			<value>non_compliant</value>
 			<notes>Visits Log and Visitor Profile features are disabled.&lt;br /&gt;&lt;br /&gt;This prevents an individual visitor's browsing path and detailed visit-level behaviour from being reconstructed.</notes>
-			<impact>Visitors &gt; Visits Log and Visitor Profile views are unavailable.</impact>
+			<impact>&lt;b&gt;Visitors &gt; Visits Log&lt;/b&gt; and Visitor Profile views are unavailable.</impact>
 		</row>
 		<row>
 			<name>Campaign Parameter Masking Enabled</name>
@@ -85,7 +85,7 @@
 			<name>Screen Resolution Detection Disabled</name>
 			<value>non_compliant</value>
 			<notes>Screen resolution detection is disabled.&lt;br /&gt;&lt;br /&gt;This reduces the risk of identifying visitors based on their screen configuration.</notes>
-			<impact>Screen resolution information is not collected, and screen resolution reports under Visitors &gt; Devices are unavailable.</impact>
+			<impact>Screen resolution information is not collected, and screen resolution reports under &lt;b&gt;Visitors &gt; Devices&lt;/b&gt; are unavailable.</impact>
 		</row>
 		<row>
 			<name>User ID Tracking Disabled</name>

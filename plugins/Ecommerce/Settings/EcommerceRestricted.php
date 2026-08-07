@@ -28,22 +28,19 @@ class EcommerceRestricted extends CompliancePolicyEnforcedSetting
 
     public static function getComplianceRequirementNote(?int $idSite = null): string
     {
-        return Piwik::translate('Ecommerce_EcommercePolicyComplianceDescription');
+        $keys = self::getComplianceStateTranslationKeys($idSite);
+
+        // The closing paragraph is identical in all three states, so it lives in its own key rather
+        // than being repeated in each. Both keys are complete, standalone paragraphs, so the block
+        // separator belongs here and not inside a translation where it could be dropped per locale.
+        return Piwik::translate($keys['description'])
+            . '<br /><br />'
+            . Piwik::translate('Ecommerce_EcommercePolicyComplianceDescriptionRationale');
     }
 
     public static function getComplianceImpactNote(?int $idSite = null): string
     {
-        $idSites = self::getIdSitesToCheck($idSite);
-
-        if (!self::hasEcommerceEnabledSite($idSites)) {
-            if ($idSite !== null && count($idSites) === 1) {
-                return Piwik::translate('Ecommerce_EcommercePolicyComplianceImpactNoEcommerceSingle');
-            }
-
-            return Piwik::translate('Ecommerce_EcommercePolicyComplianceImpactNoEcommerceAll');
-        }
-
-        return Piwik::translate('Ecommerce_EcommercePolicyComplianceImpact');
+        return Piwik::translate(self::getComplianceStateTranslationKeys($idSite)['impact']);
     }
 
     public static function isCompliant(string $policy, ?int $idSite = null): bool
@@ -64,6 +61,39 @@ class EcommerceRestricted extends CompliancePolicyEnforcedSetting
     {
         return [
             CnilPolicy::class => true,
+        ];
+    }
+
+    /**
+     * Resolves the description and impact keys for the current ecommerce state.
+     *
+     * Both compliance columns describe the same three states, so they take their keys from this one
+     * place and cannot end up describing different states within the same row.
+     *
+     * A non-null $idSite always resolves to exactly one site, so it alone distinguishes the
+     * single-site wording from the all-websites wording.
+     *
+     * @return array{description: string, impact: string}
+     */
+    private static function getComplianceStateTranslationKeys(?int $idSite): array
+    {
+        if (self::hasEcommerceEnabledSite(self::getIdSitesToCheck($idSite))) {
+            return [
+                'description' => 'Ecommerce_EcommercePolicyComplianceDescription',
+                'impact' => 'Ecommerce_EcommercePolicyComplianceImpact',
+            ];
+        }
+
+        if ($idSite !== null) {
+            return [
+                'description' => 'Ecommerce_EcommercePolicyComplianceDescriptionNoEcommerceSingle',
+                'impact' => 'Ecommerce_EcommercePolicyComplianceImpactNoEcommerceSingle',
+            ];
+        }
+
+        return [
+            'description' => 'Ecommerce_EcommercePolicyComplianceDescriptionNoEcommerceAll',
+            'impact' => 'Ecommerce_EcommercePolicyComplianceImpactNoEcommerceAll',
         ];
     }
 
