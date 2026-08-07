@@ -1,5 +1,6 @@
 {
     "TrackingSpamPrevention": {
+        "PluginDescription": "This plugin offers various options to prevent spammers and bots from making your data inaccurate so you can rely on your data again.",
         "SettingsIntroduction": "Spam and bot traffic can inflate tracking requests and introduce unwanted data into your reports. Configure these settings to reduce this traffic before it affects your analytics.",
         "SettingMaxActionsTitle": "Max actions to record per visit",
         "SettingMaxActionsDescription": "A default of \"0\" records all actions. Most sites usually have no more than 100 to 300. It might be safe to assume other activity is tracking spam, a bot or an attack. Matomo stops recording further actions and blocks their IP addresses for up to 24 hours to reduce server load and preserve data accuracy.",
