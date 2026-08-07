@@ -16,7 +16,12 @@
       <span class="select-chevron icon icon-chevron-down" />
     </div>
 
-    <div v-show="showSelect" class="expandableList">
+    <div
+      v-show="showSelect"
+      class="expandableList"
+      :class="{ 'expandableList--above': openAbove }"
+      ref="expandableList"
+    >
 
       <div class="searchContainer">
         <input
@@ -159,6 +164,7 @@ export default defineComponent({
       searchTerm: '',
       showCategory: '',
       optionsListMaxHeight: 0,
+      openAbove: false,
     };
   },
   computed: {
@@ -197,23 +203,45 @@ export default defineComponent({
   methods: {
     toggleSelect() {
       this.showSelect = !this.showSelect;
+      this.openAbove = false;
 
       if (this.showSelect) {
-        this.$nextTick(() => {
-          const list = this.$refs.optionsList as HTMLElement|undefined;
-
-          if (!list) {
-            return;
-          }
-
-          const available = Math.floor(
-            window.innerHeight - list.getBoundingClientRect().top,
-          ) - 16;
-
-          // keep a usable minimum; the page scrolls for the rest
-          this.optionsListMaxHeight = Math.max(150, available);
-        });
+        this.$nextTick(() => this.fitOptionsList());
       }
+    },
+    fitOptionsList() {
+      const list = this.$refs.optionsList as HTMLElement|undefined;
+      const dropdown = this.$refs.expandableList as HTMLElement|undefined;
+
+      if (!list || !dropdown) {
+        return;
+      }
+
+      const minUsableHeight = 150;
+      const margin = 16;
+      const listRect = list.getBoundingClientRect();
+      const spaceBelow = Math.floor(window.innerHeight - listRect.top) - margin;
+
+      if (spaceBelow >= minUsableHeight) {
+        this.optionsListMaxHeight = spaceBelow;
+        return;
+      }
+
+      // not enough room below: open above the field when that side offers more
+      const dropdownRect = dropdown.getBoundingClientRect();
+      const wrapperRect = (this.$el as HTMLElement)
+        .querySelector('.select-wrapper')!.getBoundingClientRect();
+      const chromeAboveList = listRect.top - dropdownRect.top;
+      const spaceAbove = Math.floor(wrapperRect.top - 8 - chromeAboveList) - margin;
+
+      if (spaceAbove > spaceBelow) {
+        this.openAbove = true;
+        this.optionsListMaxHeight = Math.max(minUsableHeight, spaceAbove);
+        return;
+      }
+
+      // keep a usable minimum on the larger side; the page scrolls for the rest
+      this.optionsListMaxHeight = Math.max(minUsableHeight, spaceBelow);
     },
     normalize(value: string) {
       return Matomo.helper.normalize(value);

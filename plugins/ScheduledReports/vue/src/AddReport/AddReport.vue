@@ -308,6 +308,7 @@
       <div
         v-if="allowMultipleReportsByReportType[report.type] && selectedReportsForCurrentType.length"
         class="draggableListPanel selectedReportsWrapper"
+        v-tooltips="{ duration: 200, delay: 200 }"
         @dragstart="closeReorderTooltips()"
       >
         <div class="draggableListHeading selectedReportsHeading">
@@ -356,6 +357,7 @@ import {
   closeTooltips,
   DraggableList,
   DragHandle,
+  Tooltips,
   Matomo,
   MatomoUrl,
   translate,
@@ -454,6 +456,7 @@ export default defineComponent({
   },
   directives: {
     Form,
+    Tooltips,
   },
   created() {
     this.onEvolutionPeriodN = debounce(this.onEvolutionPeriodN, 50);

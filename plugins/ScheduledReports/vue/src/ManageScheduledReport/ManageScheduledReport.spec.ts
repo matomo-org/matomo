@@ -85,6 +85,7 @@ vi.mock('CoreHome', () => ({
   DraggableList: { template: '<div><slot /></div>' },
   DragHandle: { template: '<span class="dragHandle"></span>' },
   closeTooltips: vi.fn(),
+  Tooltips: {},
   debounce: (fn: unknown) => fn,
   externalLink: () => '',
 }));

@@ -99,4 +99,54 @@ describe('CorePluginsAdmin/FormField/FieldExpandableSelect', () => {
       expect(visible.map((v: any) => v.value)).toEqual(['Carrot', 'Potato']);
     });
   });
+
+  describe('viewport fitting', () => {
+    function mockRect(element: Element, top: number) {
+      Object.defineProperty(element, 'getBoundingClientRect', {
+        value: () => ({
+          top, bottom: top, left: 0, right: 0, width: 0, height: 0,
+        }),
+      });
+    }
+
+    it('clamps the list to the space below the field when enough remains', async () => {
+      const wrapper = mountSelect();
+      vi.stubGlobal('innerHeight', 800);
+      mockRect(wrapper.find('.firstLevel').element, 300);
+
+      await wrapper.find('.select-wrapper').trigger('click');
+      await wrapper.vm.$nextTick();
+
+      expect(wrapper.find('.expandableList').classes()).not.toContain('expandableList--above');
+      expect((wrapper.find('.firstLevel').element as HTMLElement).style.maxHeight).toBe('484px');
+    });
+
+    it('opens above the field when the space below is too small', async () => {
+      const wrapper = mountSelect();
+      vi.stubGlobal('innerHeight', 400);
+      mockRect(wrapper.find('.firstLevel').element, 350);
+      mockRect(wrapper.find('.expandableList').element, 300);
+      mockRect(wrapper.find('.select-wrapper').element, 292);
+
+      await wrapper.find('.select-wrapper').trigger('click');
+      await wrapper.vm.$nextTick();
+
+      expect(wrapper.find('.expandableList').classes()).toContain('expandableList--above');
+      expect((wrapper.find('.firstLevel').element as HTMLElement).style.maxHeight).toBe('218px');
+    });
+
+    it('keeps a usable minimum below when neither side has room', async () => {
+      const wrapper = mountSelect();
+      vi.stubGlobal('innerHeight', 400);
+      mockRect(wrapper.find('.firstLevel').element, 350);
+      mockRect(wrapper.find('.expandableList').element, 300);
+      mockRect(wrapper.find('.select-wrapper').element, 60);
+
+      await wrapper.find('.select-wrapper').trigger('click');
+      await wrapper.vm.$nextTick();
+
+      expect(wrapper.find('.expandableList').classes()).not.toContain('expandableList--above');
+      expect((wrapper.find('.firstLevel').element as HTMLElement).style.maxHeight).toBe('150px');
+    });
+  });
 });
