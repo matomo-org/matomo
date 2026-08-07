@@ -53,6 +53,7 @@ vi.mock('CoreHome', () => ({
   },
   DraggableList: { template: '<div><slot /></div>' },
   DragHandle: { template: '<span class="dragHandle"></span>' },
+  closeTooltips: vi.fn(),
   Matomo: mockMatomo,
   MatomoUrl: {
     stringify: () => 'module=CoreHome',

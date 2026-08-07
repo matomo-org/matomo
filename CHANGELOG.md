@@ -47,6 +47,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ### New APIs
 * The new `DragHandle` Vue component in CoreHome renders the standard 6-dot drag-handle icon, for use inside `DraggableList` rows. The `DraggableList` component's `handle` option now also works with real browser drags, which retarget `dragstart` to the draggable element (previously the handle was only recognised in synthetically dispatched events).
+* The new `closeTooltips()` helper in CoreHome closes the jQuery UI tooltips bound to a selector's elements, including pending delayed shows — for cases where no mouse event will fire that would close them, eg. once an HTML5 drag has started.
 * The sparklines visualization has been redesigned as a responsive card grid of metric tiles. Plugin-facing additions that come with it:
   * The new `Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines\Config::$use_metric_labels_as_titles` property lets a sparklines view use its own metric translations as the card titles instead of the generic metric names. Intended for views that relabel shared columns with section-specific names, e.g. the Ecommerce Overview.
   * The `sparkline(src, width, height)` Twig helper accepts optional `width`/`height` display-size parameters (in px, defaults `Piwik\Visualization\Sparkline::DEFAULT_WIDTH`/`DEFAULT_HEIGHT`); the sparkline PNG is rendered at twice the displayed size for hi-DPI screens.

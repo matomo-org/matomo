@@ -353,6 +353,7 @@ import {
 } from 'vue';
 import {
   ContentBlock,
+  closeTooltips,
   DraggableList,
   DragHandle,
   Matomo,
@@ -459,12 +460,7 @@ export default defineComponent({
   },
   methods: {
     closeReorderTooltips() {
-      // routes to the close handlers jQuery UI binds on the handles, cancelling
-      // pending and open tooltips; during a drag no mouse event fires that
-      // could otherwise close them
-      window.$('.selectedReportsWrapper .dragHandle')
-        .trigger('mouseleave')
-        .trigger('focusout');
+      closeTooltips('.selectedReportsWrapper .dragHandle');
     },
     onEvolutionPeriodN(event: Event) {
       this.$emit('change', {
