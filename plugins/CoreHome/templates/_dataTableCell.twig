@@ -10,10 +10,27 @@
 {% set totals = dataTable.getMetadata('totals') %}
 {% set labelColumn   = columns_to_display|first %}
 {% set reportLabel   = row.getColumn(labelColumn)|truncate(40)|rawSafeDecoded %}
+{#- the totals row is not part of the report rows, so its percentage would always be 100% -#}
+{%- set showPercentageValues = properties.show_percentage_values|default(false)
+    and rowId|default != 'totalsRow'
+    and column in properties.report_ratio_columns|default([])
+    and totals and column in totals|keys -%}
+{%- set rowPercentage = '' -%}
+{%- if showPercentageValues -%}
+    {%- if row.getMetadata(column ~ '_row_percentage') != false -%}
+        {%- set rowPercentage = row.getMetadata(column ~ '_row_percentage') -%}
+    {%- elseif row.getColumn(column)|default(0) is numeric and totals[column]|default(0) is numeric -%}
+        {%- set rowPercentage = row.getColumn(column)|percentage(totals[column], 1) -%}
+    {%- endif -%}
+    {#- with no percentage to show there is nothing to swap in, so the cell keeps its absolute value -#}
+    {%- set showPercentageValues = rowPercentage is not empty -%}
+{%- endif %}
 {% include "@CoreVisualizations/_dataTableViz_htmlTable_ratio.twig" with {
     'label': reportLabel,
     'labelColumn': labelColumn,
-    'translations': properties.translations
+    'translations': properties.translations,
+    'rowPercentage': rowPercentage,
+    'showAbsoluteValueOnHover': showPercentageValues
 } %}
 
 {% set dimensions = dataTable.getMetadata('dimensions')|default([]) %}
@@ -31,7 +48,20 @@
         {% endif %}
         {% if row.getMetadata('html_label_prefix') %}<span class='label-prefix'>{{ row.getMetadata('html_label_prefix') | raw }}&nbsp;</span>{% endif -%}
 {% endif %}<span class="value">
-    {%- if row.getColumn(column) or (column=='label' and (row.getColumn(column) is same as("0") or row.getColumn(column) is same as(0))) %}{% if column=='label' %}{{- row.getColumn(column)|rawSafeDecoded -}}{% else %}{% if row.getMetadata('html_column_' ~ column ~ '_prefix') %}<span class='column-prefix'>{{ row.getMetadata('html_column_' ~ column ~ '_prefix') | raw }}</span>{% endif -%}{{- row.getColumn(column)|number(2,0)|rawSafeDecoded -}}{% if row.getMetadata('html_column_' ~ column ~ '_suffix') %}<span class='column-suffix'>{{ row.getMetadata('html_column_' ~ column ~ '_suffix') | raw }}</span>{% endif -%}{% endif %}
+    {%- if row.getColumn(column) or (column=='label' and (row.getColumn(column) is same as("0") or row.getColumn(column) is same as(0))) -%}
+        {%- if column=='label' -%}
+            {{- row.getColumn(column)|rawSafeDecoded -}}
+        {%- elseif showPercentageValues -%}
+            {{- rowPercentage -}}
+        {%- else -%}
+            {%- if row.getMetadata('html_column_' ~ column ~ '_prefix') -%}
+                <span class='column-prefix'>{{ row.getMetadata('html_column_' ~ column ~ '_prefix') | raw }}</span>
+            {%- endif -%}
+            {{- row.getColumn(column)|number(2,0)|rawSafeDecoded -}}
+            {%- if row.getMetadata('html_column_' ~ column ~ '_suffix') -%}
+                <span class='column-suffix'>{{ row.getMetadata('html_column_' ~ column ~ '_suffix') | raw }}</span>
+            {%- endif -%}
+        {%- endif -%}
     {%- else -%}-
     {%- endif -%}</span>
 {% if column=='label' %}{%- if row.getMetadata('html_label_suffix') %}<span class='label-suffix'>{{ row.getMetadata('html_label_suffix') | raw }}</span>{% endif -%}</span>{% endif %}
