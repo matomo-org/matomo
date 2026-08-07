@@ -1,6 +1,10 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
+    // The root tslib is 1.14.1, which predates __spreadArray, so importing the helpers instead of
+    // emitting them makes any spread throw at runtime under Jest. The production build is
+    // unaffected and keeps importing them from tsconfig.json.
+    "importHelpers": false,
     "types": [
       "webpack-env",
       "jquery",

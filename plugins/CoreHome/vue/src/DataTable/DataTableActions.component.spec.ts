@@ -8,7 +8,7 @@
 import { mount } from '@vue/test-utils';
 import DataTableActions from './DataTableActions.vue';
 
-function translateStub(key: string, ...args: string[]) {
+function mockTranslateStub(key: string, ...args: string[]) {
   const messages: Record<string, string> = {
     CoreHome_ShowPercentageValuesDataTable: 'The report is showing absolute values %s Show percentages',
     CoreHome_ShowAbsoluteValuesDataTable: 'The report is showing percentages %s Show absolute values',
@@ -26,15 +26,15 @@ function translateStub(key: string, ...args: string[]) {
     return message;
   }
 
-  const values = [...args];
+  const values = args.slice();
 
   return message.replace(/%(\d\$)?s/g, () => values.shift() || '');
 }
 
-vi.mock('../translate', () => ({ translate: (...args: string[]) => translateStub(...(args as [string])) }));
+jest.mock('../translate', () => ({ translate: mockTranslateStub }));
 
-vi.mock('../DropdownButton/DropdownButton', () => ({ default: {} }));
-vi.mock('../ReportExport/ReportExport', () => ({ default: {} }));
+jest.mock('../DropdownButton/DropdownButton', () => ({ default: {} }));
+jest.mock('../ReportExport/ReportExport', () => ({ default: {} }));
 
 describe('DataTableActions percentage values setting', () => {
   const percentageItem = '.configItem.dataTableShowPercentageValues';
@@ -60,7 +60,7 @@ describe('DataTableActions percentage values setting', () => {
         // the template calls `translate` as a global property, not the imported helper
         config: {
           globalProperties: {
-            translate: translateStub,
+            translate: mockTranslateStub,
             $sanitize: (value: string) => value,
           } as any,
         },
