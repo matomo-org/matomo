@@ -52,6 +52,7 @@ vi.mock('CoreHome', () => ({
     props: ['contentTitle'],
   },
   DraggableList: { template: '<div><slot /></div>' },
+  DragHandle: { template: '<span class="dragHandle"></span>' },
   Matomo: mockMatomo,
   MatomoUrl: {
     stringify: () => 'module=CoreHome',
