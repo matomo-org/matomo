@@ -2,6 +2,41 @@
 
   position: relative;
 
+  // border/radius/shadow values mirror the selector look in
+  // plugins/CoreHome/stylesheets/selector.less (@_selector-* variables)
+  .select-wrapper {
+    display: flex;
+    align-items: center;
+    border: 1px solid @theme-color-border;
+    border-radius: 8px;
+    background: @theme-color-background-contrast;
+    cursor: pointer;
+
+    &:hover,
+    &:focus-within,
+    &.expanded {
+      border-color: @theme-color-link;
+    }
+
+    input.select-dropdown {
+      flex: auto;
+      height: auto;
+      font-size: 14px;
+      line-height: 20px;
+      margin: 0;
+      padding: 8px 16px;
+      border: 0;
+      background: transparent;
+      color: @theme-color-text;
+      cursor: pointer;
+    }
+
+    .select-chevron {
+      padding-right: 16px;
+      color: @theme-color-text;
+    }
+  }
+
   .secondary-content {
     font-size: 16px;
     margin-top: -3px;
@@ -13,10 +48,12 @@
     min-width: 250px;
 
     &.collection.firstLevel {
-      border-top: 0;
+      border: 0;
       margin-top: 0;
       margin-bottom: 0;
       font-size: 12px;
+      max-height: 50vh;
+      overflow-y: auto;
 
       > li {
         padding: 0 !important;
@@ -65,9 +102,7 @@
   .searchContainer {
     padding: 5px;
     background: @theme-color-background-contrast;
-    border-left: 1px solid @theme-color-border;
-    border-right: 1px solid @theme-color-border;
-    border-top: 1px solid @theme-color-border;
+    border-bottom: 1px solid @theme-color-border;
   }
 
   .expandableSearch {
@@ -83,9 +118,17 @@
   .expandableList {
     position: absolute;
     z-index: 9999;
-    margin-top: -48px;
+    margin-top: 8px;
     background: @theme-color-background-contrast;
     color: @theme-color-text;
+    border: 1px solid @theme-color-border;
+    border-radius: 8px;
+    box-shadow: 0 0 3px #A5B1CA4D, 0 10px 40px #A5B1CA4D;
+    overflow: hidden;
+
+    .inDarkMode({
+      box-shadow: 0 0 3px #00000080, 0 10px 40px #00000080;
+    });
 
     .collection {
       background: @theme-color-background-contrast;

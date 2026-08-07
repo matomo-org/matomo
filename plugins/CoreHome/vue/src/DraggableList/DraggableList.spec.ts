@@ -150,4 +150,37 @@ describe('CoreHome/DraggableList', () => {
 
     expect(dataTransfer.setData).toHaveBeenCalledWith('text/plain', 'first');
   });
+
+  // browsers dispatch dragstart on the draggable element rather than on the
+  // handle the press landed on, so the handle is recognised from the pointerdown
+  it('should start dragging when the press was on the handle and dragstart targets the item', async () => {
+    const wrapper = createWrapper({
+      handle: '.dragHandle',
+    });
+    const item = wrapper.find('.draggableListItem');
+    const handle = wrapper.find('.dragHandle');
+    const dataTransfer = createDataTransfer();
+
+    await handle.trigger('pointerdown');
+    await item.trigger('dragstart', {
+      dataTransfer,
+    });
+
+    expect(dataTransfer.setData).toHaveBeenCalledWith('text/plain', 'first');
+  });
+
+  it('should not start dragging when the press was outside the handle', async () => {
+    const wrapper = createWrapper({
+      handle: '.dragHandle',
+    });
+    const item = wrapper.find('.draggableListItem');
+    const dataTransfer = createDataTransfer();
+
+    await item.trigger('pointerdown');
+    await item.trigger('dragstart', {
+      dataTransfer,
+    });
+
+    expect(dataTransfer.setData).not.toHaveBeenCalled();
+  });
 });

@@ -7,14 +7,16 @@
 
 <template>
   <div class="expandableSelector" v-focus-anywhere-but-here="{ blur: onBlur }">
-    <div @click="showSelect = !showSelect" class="select-wrapper">
-      <svg class="caret" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
-        <path d="M7 10l5 5 5-5z"></path><path d="M0 0h24v24H0z" fill="none"></path>
-      </svg>
+    <div
+      @click="showSelect = !showSelect"
+      class="select-wrapper"
+      :class="{ expanded: showSelect }"
+    >
       <input type="text" class="select-dropdown" readonly :value="modelValueText"/>
+      <span class="select-chevron icon icon-chevron-down" />
     </div>
 
-    <div v-show="showSelect" class="expandableList z-depth-2">
+    <div v-show="showSelect" class="expandableList">
 
       <div class="searchContainer">
         <input

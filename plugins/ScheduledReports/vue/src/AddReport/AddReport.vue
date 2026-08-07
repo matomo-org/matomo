@@ -322,7 +322,7 @@
           @reorder="onSelectedReportsReorder"
         >
           <template #default="{ item: reportItem }">
-            <span class="icon-menu-hamburger drag-icon"></span>
+            <DragHandle />
             <span>{{ decode((reportItem as ReportMetadata).name) }}</span>
           </template>
         </DraggableList>
@@ -350,6 +350,7 @@ import {
 import {
   ContentBlock,
   DraggableList,
+  DragHandle,
   Matomo,
   MatomoUrl,
   translate,
@@ -442,6 +443,7 @@ export default defineComponent({
   components: {
     ContentBlock,
     DraggableList,
+    DragHandle,
     Field,
     SaveButton,
   },
