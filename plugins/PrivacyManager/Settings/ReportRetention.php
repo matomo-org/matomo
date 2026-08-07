@@ -96,7 +96,7 @@ class ReportRetention implements
     public static function getPolicyRequirements(): array
     {
         $policyValues = [];
-        $policyValues[CnilPolicy::class] = 744;
+        $policyValues[CnilPolicy::class] = 759;
 
         return $policyValues;
     }

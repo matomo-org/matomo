@@ -60,8 +60,8 @@
 		<row>
 			<name>IP Address Mask Length Configured</name>
 			<value>compliant</value>
-			<notes>IP anonymisation is configured to mask 2 bytes of each visitor's IP address.&lt;br /&gt;At least 2 bytes must be masked to provide the required level of anonymisation.&lt;br /&gt;&lt;br /&gt;This reduces the ability to identify visitors or determine their precise location.</notes>
-			<impact>2 bytes of each visitor IP address are removed before processing.&lt;br /&gt;&lt;br /&gt;Geolocation accuracy may be reduced, particularly at city level.</impact>
+			<notes>IP anonymisation is configured to mask 2 byte(s) of each visitor's IP address.&lt;br /&gt;At least 2 byte(s) must be masked to provide the required level of anonymisation.&lt;br /&gt;&lt;br /&gt;This reduces the ability to identify visitors or determine their precise location.</notes>
+			<impact>2 byte(s) of each visitor IP address are removed before processing.&lt;br /&gt;&lt;br /&gt;Geolocation accuracy may be reduced, particularly at city level.</impact>
 		</row>
 		<row>
 			<name>Referrer Anonymisation Enabled</name>
@@ -72,8 +72,8 @@
 		<row>
 			<name>Raw Data Retention Configured</name>
 			<value>compliant</value>
-			<notes>Raw data retention is configured to 180 days. It must be set to a maximum of 744 days, approximately 25 months.&lt;br /&gt;&lt;br /&gt;This limits how long detailed visitor information is retained and reduces the risk of it being used to identify someone.</notes>
-			<impact>Raw visit data older than 180 days is automatically deleted.&lt;br /&gt;&lt;br /&gt;Historical aggregated reports may remain available according to the configured report-retention settings.</impact>
+			<notes>Raw data retention is configured to 180 day(s). It must be set to a maximum of 759 day(s), approximately 25 months.&lt;br /&gt;&lt;br /&gt;This limits how long detailed visitor information is retained and reduces the risk of it being used to identify someone.</notes>
+			<impact>Raw visit data older than 180 day(s) is automatically deleted.&lt;br /&gt;&lt;br /&gt;Historical aggregated reports may remain available according to the configured report-retention settings.</impact>
 		</row>
 		<row>
 			<name>Segment Availability Restricted</name>
