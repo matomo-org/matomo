@@ -262,13 +262,6 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         // visualization change. Errors from a superseded reload are dropped too.
         self._reloadGeneration = (self._reloadGeneration || 0) + 1;
         var reloadGeneration = self._reloadGeneration;
-        var originalCallbackSuccess = callbackSuccess;
-        callbackSuccess = function (response) {
-            if (reloadGeneration !== self._reloadGeneration) {
-                return;
-            }
-            originalCallbackSuccess(response);
-        };
 
         if (displayLoading) {
             $('#' + self.workingDivId + ' .loadingPiwik').last().css('display', 'block');
@@ -327,6 +320,12 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
         ajaxRequest.setCallback(
             function (response) {
+                // Bail before the teardown below, not just before applying the response: destroying
+                // the plot and unbinding its handler would otherwise leave the newer reload's graph
+                // torn down with nothing drawn in its place.
+                if (reloadGeneration !== self._reloadGeneration) {
+                    return;
+                }
                 container.trigger('piwikDestroyPlot');
                 container.off('piwikDestroyPlot');
                 callbackSuccess(response);
