@@ -11,6 +11,7 @@ namespace Piwik\Settings\Interfaces\Traits;
 
 use Piwik\Piwik;
 use Piwik\Policy\CompliancePolicy;
+use Piwik\Policy\PolicyEnforcementBypass;
 
 /**
  * @template T of mixed
@@ -28,7 +29,7 @@ trait PolicyComparisonTrait
 
         /** @var class-string<CompliancePolicy> $policy */
         foreach (array_keys($policyValues) as $policy) {
-            if (!$policy::isActive($idSite)) {
+            if (PolicyEnforcementBypass::isActive() || !$policy::isActive($idSite)) {
                 $policyValues[$policy] = null;
             }
         }

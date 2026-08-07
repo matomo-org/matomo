@@ -13,10 +13,22 @@ class TestPolicy extends \Piwik\Policy\CompliancePolicy
     /** @var array<int,bool> */
     private static $perSite = [];
 
+    /** @var array<string,bool> */
+    private static $settingEnforcementSystem = [];
+
+    /** @var array<int,array<string,bool>> */
+    private static $settingEnforcementPerSite = [];
+
+    /** @var bool|null */
+    private static $configValue = null;
+
     public static function reset(): void
     {
         self::$system = false;
         self::$perSite = [];
+        self::$settingEnforcementSystem = [];
+        self::$settingEnforcementPerSite = [];
+        self::$configValue = null;
     }
 
     public static function getName(): string
@@ -64,6 +76,44 @@ class TestPolicy extends \Piwik\Policy\CompliancePolicy
         $manager = new MockManager();
         $manager->setActivatedPlugins([]);
         return $manager;
+    }
+
+    public static function getConfigValue(?int $idSite = null)
+    {
+        return self::$configValue;
+    }
+
+    public static function setConfigValue(?bool $value): void
+    {
+        self::$configValue = $value;
+    }
+
+    protected static function getSettingEnforcementSystemValue(string $settingClass): ?bool
+    {
+        return self::$settingEnforcementSystem[$settingClass] ?? null;
+    }
+
+    protected static function getSettingEnforcementMeasurableValue(string $settingClass, int $idSite): ?bool
+    {
+        return self::$settingEnforcementPerSite[$idSite][$settingClass] ?? null;
+    }
+
+    public static function setSettingEnforcementSystemValue(string $settingClass, ?bool $value): void
+    {
+        if (is_null($value)) {
+            unset(self::$settingEnforcementSystem[$settingClass]);
+        } else {
+            self::$settingEnforcementSystem[$settingClass] = $value;
+        }
+    }
+
+    public static function setSettingEnforcementMeasurableValue(string $settingClass, int $idSite, ?bool $value): void
+    {
+        if (is_null($value)) {
+            unset(self::$settingEnforcementPerSite[$idSite][$settingClass]);
+        } else {
+            self::$settingEnforcementPerSite[$idSite][$settingClass] = $value;
+        }
     }
 
     public static function setState($instanceLevel, $siteLevel)
