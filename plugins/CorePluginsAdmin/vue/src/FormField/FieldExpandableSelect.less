@@ -7,6 +7,7 @@
   .select-wrapper {
     display: flex;
     align-items: center;
+    align-items: safe center;
     border: 1px solid @theme-color-border;
     border-radius: 8px;
     background: @theme-color-background-contrast;
@@ -18,7 +19,7 @@
       border-color: @theme-color-link;
     }
 
-    input.select-dropdown {
+    .select-dropdown {
       flex: auto;
       height: auto;
       font-size: 14px;
@@ -31,7 +32,7 @@
       cursor: pointer;
     }
 
-    .select-chevron {
+    .expandableSelector__chevron {
       padding-right: 16px;
       color: @theme-color-text;
     }
@@ -120,8 +121,8 @@
     z-index: 9999;
     margin-top: 8px;
 
-    &--above {
-      bottom: calc(100% + 8px);
+    &.expandableList--above {
+      bottom: ~"calc(100% + 8px)";
       margin-top: 0;
     }
     background: @theme-color-background-contrast;

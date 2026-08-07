@@ -13,7 +13,7 @@
       :class="{ expanded: showSelect }"
     >
       <input type="text" class="select-dropdown" readonly :value="modelValueText"/>
-      <span class="select-chevron icon icon-chevron-down" />
+      <span class="expandableSelector__chevron icon icon-chevron-down" />
     </div>
 
     <div
