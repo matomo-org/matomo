@@ -1444,7 +1444,7 @@ $.extend(UserCountryMap, {
     // each inset adds its own <view class="inset"> element (ignored by kartograph)
     // holding a <proj>, the inset's projected bounds x0/y0/x1/y1, and a scale/ox/oy
     // box transform. A point inside [x0,x1] x [y0,y1] maps to the box as
-    // ((x - x0) * scale + ox, (y1 - y) * scale + oy), after which viewBC scales svg
+    // ((x - x0) * scale + ox, (y - y0) * scale + oy), after which viewBC scales svg
     // coords to the viewport like any symbol. Shared by visitor-map and realtime-map.
     routeInsetDots: function (map) {
         // always restore the stock projection first: a previously loaded map may
@@ -1478,7 +1478,7 @@ $.extend(UserCountryMap, {
                     // scale svg coords -> viewport like any other symbol.
                     return map.viewBC.project([
                         (pt[0] - iv.x0) * iv.scale + iv.ox,
-                        (iv.y1 - pt[1]) * iv.scale + iv.oy
+                        (pt[1] - iv.y0) * iv.scale + iv.oy
                     ]);
                 }
             }
