@@ -394,6 +394,28 @@ describe('CoreHome/Comparisons.store', () => {
 
       expect(piwikComparisonsService.getAllComparisonSeries()).toEqual([]);
     });
+
+    it('should still resolve colours when they could not be read at construction', async () => {
+      await setHash('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment&compareSegments[]=');
+
+      // The state a sparkline used to build its image URL in: the colours could not be read when
+      // the store set them up, so every series came back undefined and the server fell back to a
+      // colour of its own. Keep them unreadable until after the document-ready hook has run.
+      const colorManager = window.piwik.ColorManager;
+      delete (window.piwik as { ColorManager?: ColorManagerService }).ColorManager;
+      const store = new ComparisonsStore();
+      await new Promise((resolve) => { setTimeout(resolve, 0); });
+      window.piwik.ColorManager = colorManager;
+
+      expect(store.getAllComparisonSeries().map((series) => series.color)).toEqual([
+        'comparison-series-color.series0',
+        'comparison-series-color.series1',
+        'comparison-series-color.series2',
+        'comparison-series-color.series3',
+        'comparison-series-color.series4',
+        'comparison-series-color.series5',
+      ]);
+    });
   });
 
   describe('#isComparing()', () => {

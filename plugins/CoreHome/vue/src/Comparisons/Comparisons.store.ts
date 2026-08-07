@@ -103,6 +103,8 @@ export default class ComparisonsStore {
       });
     }
 
+    // Refresh once the document is ready, so a stylesheet that only lands then is picked up.
+    // Reads do not wait for this: see seriesColors().
     $(() => {
       this.colors.value = this.getAllSeriesColors() as { [key: string]: string };
     });
@@ -164,11 +166,26 @@ export default class ComparisonsStore {
     ) % SERIES_COLOR_COUNT;
 
     if (metricIndex === 0) {
-      return this.colors.value[`series${seriesIndex}`];
+      return this.seriesColors()[`series${seriesIndex}`];
     }
 
     const shadeIndex = metricIndex % SERIES_SHADE_COUNT;
-    return this.colors.value[`series${seriesIndex}-shade${shadeIndex}`];
+    return this.seriesColors()[`series${seriesIndex}-shade${shadeIndex}`];
+  }
+
+  /**
+   * The series colours, resolved on first read.
+   *
+   * They used to be filled only on document ready, so anything reading them earlier - a sparkline
+   * building its image URL, for instance - got undefined and the server fell back to a colour the
+   * design no longer uses. Resolving on demand removes that ordering dependency.
+   */
+  private seriesColors(): { [key: string]: string } {
+    if (!Object.keys(this.colors.value).length) {
+      this.colors.value = this.getAllSeriesColors() as { [key: string]: string };
+    }
+
+    return this.colors.value;
   }
 
   getSeriesColorName(seriesIndex: number, metricIndex: number): string {
@@ -211,7 +228,7 @@ export default class ComparisonsStore {
         seriesInfo.push({
           index: seriesIndex,
           params: { ...segmentComp.params, ...periodComp.params },
-          color: this.colors.value[`series${seriesIndex}`],
+          color: this.seriesColors()[`series${seriesIndex}`],
         });
         seriesIndex += 1;
       });
