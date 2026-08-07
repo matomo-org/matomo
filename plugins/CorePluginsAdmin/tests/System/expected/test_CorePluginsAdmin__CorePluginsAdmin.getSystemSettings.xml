@@ -796,6 +796,8 @@
 				<type>array</type>
 				<uiControl>textarea</uiControl>
 				<uiControlAttributes>
+					<placeholder>Cloud Hosting Provider A
+Cloud Hosting Provider B</placeholder>
 				</uiControlAttributes>
 				<availableValues />
 				<description />
@@ -822,7 +824,7 @@
 			</row>
 			<row>
 				<name>blockServerSideLibraries</name>
-				<title>Block tracking requests from server-side libraries</title>
+				<title>Block traffic from SDKs and server-side libraries</title>
 				<value>0</value>
 				<defaultValue>0</defaultValue>
 				<type>boolean</type>
@@ -831,7 +833,7 @@
 				</uiControlAttributes>
 				<availableValues />
 				<description />
-				<inlineHelp>Use this if only using &lt;strong&gt;JavaScript Tracker&lt;/strong&gt;, as other traffic will be attacks or spam anyway. It blocks tracking requests from cURL, HTTP, Guzzle, and Postman.&lt;br&gt;&lt;strong&gt;Note: Do not use it if track data using a server-side SDK like the Matomo PHP tracking SDK, Java SDK, Python SDK, Android or iOS SDK, or other server-side programming languages.&lt;/strong&gt;</inlineHelp>
+				<inlineHelp>Enable this option only if tracking is performed using the JavaScript Tracker or Matomo Tag Manager. It blocks tracking requests sent by HTTP clients and non-JavaScript tracking libraries, including tools such as cURL, Guzzle, and Postman.&lt;br&gt;&lt;strong&gt;Note:&lt;/strong&gt; Do not enable this option if you send tracking data using the Matomo PHP Tracking SDK, Java SDK, Python SDK, Android SDK, iOS SDK, or other non-JavaScript tracking libraries.</inlineHelp>
 				<introduction />
 				<condition />
 				<fullWidth>0</fullWidth>

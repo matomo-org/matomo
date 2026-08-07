@@ -219,8 +219,8 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
     private function createBlockServerSideLibrariesSetting()
     {
         return $this->makeSetting('blockServerSideLibraries', false, FieldConfig::TYPE_BOOL, function (FieldConfig $field) {
-            $field->title = Piwik::translate('TrackingSpamPrevention_SettingBlockServerSideLibrariesTitle');
-            $field->inlineHelp = Piwik::translate('TrackingSpamPrevention_SettingBlockServerSideLibrariesDescription', array('<strong>','</strong>','<br>'));
+            $field->title = Piwik::translate('TrackingSpamPrevention_SettingBlockSdksAndLibrariesTitle');
+            $field->inlineHelp = Piwik::translate('TrackingSpamPrevention_SettingBlockSdksAndLibrariesHelp', ['<strong>', '</strong>', '<br>']);
             $field->uiControl = FieldConfig::UI_CONTROL_CHECKBOX;
         });
     }
@@ -253,6 +253,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
             $field->title = Piwik::translate('TrackingSpamPrevention_SettingOrganisationBlockListTitle');
             $field->inlineHelp = Piwik::translate('TrackingSpamPrevention_SettingOrganisationBlockListHelp', ['<strong>', '</strong>', '<br>']);
             $field->uiControl = FieldConfig::UI_CONTROL_TEXTAREA;
+            $field->uiControlAttributes['placeholder'] = Piwik::translate('TrackingSpamPrevention_SettingOrganisationBlockListPlaceholder', ["\n"]);
             $field->condition = 'block_clouds';
             $field->transform = function ($value) {
                 if (empty($value) || !is_array($value)) {

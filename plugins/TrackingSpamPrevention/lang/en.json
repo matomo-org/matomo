@@ -11,8 +11,8 @@
         "BlockCloudNoteInternetDisabled": "As Internet is off in your Matomo configuration, this feature won't work.",
         "BanIpNotificationMailSubject": "An IP was banned for generating too many actions.",
         "SettingBlockCloudDescription": "Blocks tracking requests originating from cloud providers like AWS, Azure, Digital Ocean, Google Cloud and Oracle by fetching a list of their IP ranges. It should be safe to turn on if you are only tracking using the JavaScript tracker, as their tracking requests do not orginate from clouds, unless they use a VPN that routes data through cloud providers. The setting applies to all your sites.",
-        "SettingBlockServerSideLibrariesTitle": "Block tracking requests from server-side libraries",
-        "SettingBlockServerSideLibrariesDescription": "Use this if only using %1$sJavaScript Tracker%2$s, as other traffic will be attacks or spam anyway. It blocks tracking requests from cURL, HTTP, Guzzle, and Postman.%3$s%1$sNote: Do not use it if track data using a server-side SDK like the Matomo PHP tracking SDK, Java SDK, Python SDK, Android or iOS SDK, or other server-side programming languages.%2$s",
+        "SettingBlockSdksAndLibrariesTitle": "Block traffic from SDKs and server-side libraries",
+        "SettingBlockSdksAndLibrariesHelp": "Enable this option only if tracking is performed using the JavaScript Tracker or Matomo Tag Manager. It blocks tracking requests sent by HTTP clients and non-JavaScript tracking libraries, including tools such as cURL, Guzzle, and Postman.%3$s%1$sNote:%2$s Do not enable this option if you send tracking data using the Matomo PHP Tracking SDK, Java SDK, Python SDK, Android SDK, iOS SDK, or other non-JavaScript tracking libraries.",
         "SettingExcludedCountriesTitle": "Exclude Countries",
         "SettingExcludedCountriesDescription": "Don't track visitors from these countries. Visitors outside your target area will likely be bots or spammers, or you can use it to avoid privacy laws in other jurisdictions.",
         "SettingIncludedCountriesTitle": "Only track visitors from these countries",
@@ -22,6 +22,7 @@
         "SettingIpBlockListTitle": "IP block list",
         "SettingIpBlockListHelp": "Specify the IP addresses or CIDR ranges to block from sending tracking requests. Enter one value per line. Matomo may block additional IPs automatically that won't appear in this list, such as cloud provider IP ranges fetched daily when \"Block tracking requests from the cloud\" is enabled, or IPs banned temporarily for exceeding the max actions limit.",
         "SettingOrganisationBlockListTitle": "Organisation block list",
-        "SettingOrganisationBlockListHelp": "Block tracking requests when the visitor's IP address belongs to a specified organisation, such as a hosting or cloud provider. Enter one organisation per line. Use specific names to avoid unintended matches. Any organisation with a name containing the value you enter will be matched. This list only applies when \"Block tracking requests from the cloud\" is enabled.%3$s%1$sNote:%2$s Clearing the list disables organisation blocking; it does not restore the default list."
+        "SettingOrganisationBlockListHelp": "Block tracking requests when the visitor's IP address belongs to a specified organisation, such as a hosting or cloud provider. Enter one organisation per line. Use specific names to avoid unintended matches. Any organisation with a name containing the value you enter will be matched. This list only applies when \"Block tracking requests from the cloud\" is enabled.%3$s%1$sNote:%2$s Clearing the list disables organisation blocking; it does not restore the default list.",
+        "SettingOrganisationBlockListPlaceholder": "Cloud Hosting Provider A%1$sCloud Hosting Provider B"
     }
 }
