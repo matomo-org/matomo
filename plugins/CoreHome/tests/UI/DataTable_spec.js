@@ -25,6 +25,7 @@ describe('DataTable', function () {
     visualizationButtons: `${widgetSelector} .dataTableHeaderControls .dataTableControls ul.dropdown-content.dataTableFooterIcons li .tableIcon[data-footer-icon-id]`,
     configureTrigger: `${widgetSelector} .dataTableHeaderControls .dataTableControls a.dropdownConfigureIcon`,
     totalsRowToggle: '.dataTableShowTotalsRow',
+    percentageValuesToggle: '.dataTableShowPercentageValues',
     searchTrigger: `${widgetSelector} .dataTableHeaderControls .dataTableControls a.dataTableAction.searchAction`,
     searchInput: `${widgetSelector} .dataTableHeaderControls .dataTableControls input.dataTableSearchInput`,
     totalsRow: `${widgetSelector} table.dataTable tr.totalsRow`,
@@ -103,6 +104,16 @@ describe('DataTable', function () {
     }
   }
 
+  async function togglePercentageValues(times = 1) {
+    await page.waitForSelector(selectors.configureTrigger, { visible: true });
+    for (let i = 0; i < times; i += 1) {
+      await page.click(selectors.configureTrigger);
+      await page.waitForSelector(selectors.percentageValuesToggle, { visible: true });
+      await page.click(selectors.percentageValuesToggle);
+      await page.waitForNetworkIdle();
+    }
+  }
+
   async function searchForPattern(pattern) {
     await page.waitForSelector(selectors.searchTrigger, { visible: true });
     await page.click(selectors.searchTrigger);
@@ -169,7 +180,7 @@ describe('DataTable', function () {
 
     await toggleTotalsRow();
   });
-  
+
   async function readHeaderLayout() {
     return page.evaluate((widgetSel) => {
       const widget = document.querySelector(widgetSel);
@@ -182,6 +193,21 @@ describe('DataTable', function () {
         title: title.innerText.trim(),
         actionRowsInTable: dataTable.querySelectorAll('.dataTableHeaderControls').length,
         widgetControls: widget.querySelectorAll('.reportHeader .widgetControls__action').length,
+      };
+    }, widgetSelector);
+  }
+
+  async function readFirstMetricCell() {
+    return page.evaluate((widgetSel) => {
+      const cell = document.querySelector(`${widgetSel} table.dataTable tbody tr td.column`);
+
+      return {
+        // the hover value is `visibility: hidden` until the column is hovered, so innerText is empty
+        value: cell.querySelector('span.value').textContent.trim(),
+        hover: cell.querySelector('span.ratio').textContent.trim(),
+        configureHighlighted: !!document.querySelector(
+          `${widgetSel} .dataTableControls a.dropdownConfigureIcon.highlighted`,
+        ),
       };
     }, widgetSelector);
   }
@@ -288,6 +314,92 @@ describe('DataTable', function () {
     });
 
     expect(ajaxRequestCount).to.be.equal(2);
+  });
+
+  it('should swap absolute and percentage values when the percentage setting is toggled', async function () {
+    await loadWidget();
+
+    const absolute = await readFirstMetricCell();
+    expect(absolute.value).to.match(/^[\d,.]+$/);
+    expect(absolute.hover).to.match(/%$/);
+    expect(absolute.configureHighlighted).to.be.equal(false);
+
+    await togglePercentageValues();
+
+    const percentage = await readFirstMetricCell();
+    expect(percentage.value).to.be.equal(absolute.hover);
+    expect(percentage.hover).to.be.equal(absolute.value);
+    expect(percentage.configureHighlighted).to.be.equal(true);
+
+    await togglePercentageValues();
+
+    const restored = await readFirstMetricCell();
+    expect(restored.value).to.be.equal(absolute.value);
+    expect(restored.hover).to.be.equal(absolute.hover);
+    expect(restored.configureHighlighted).to.be.equal(false);
+  });
+
+  it('should allow saving preference when toggling percentage values via the configuration menu', async function () {
+    await loadWidget();
+
+    const ajaxRequestCount = await trackViewDataTableRequests(async () => {
+      await togglePercentageValues(2);
+    });
+
+    expect(ajaxRequestCount).to.be.equal(2);
+  });
+
+  it('should keep showing percentages in an expanded subtable', async function () {
+    const subtablesUrl = "?module=Widgetize&action=iframe&moduleToWidgetize=Referrers"
+      + "&actionToWidgetize=getWebsites&idSite=1&period=year&date=2012-01-12&viewDataTable=table"
+      + "&show_percentage_values=1";
+
+    await page.goto(subtablesUrl);
+    await page.waitForNetworkIdle();
+    await page.waitForSelector('tr.subDataTable', { visible: true });
+
+    await page.click('tr.subDataTable td.label');
+    await page.waitForNetworkIdle();
+    await page.waitForSelector('.subDataTableContainer table.dataTable tbody tr td.column', { visible: true });
+
+    const subtableCell = await page.evaluate(() => {
+      const cell = document.querySelector('.subDataTableContainer table.dataTable tbody tr td.column');
+
+      return {
+        value: cell.querySelector('span.value').textContent.trim(),
+        hover: cell.querySelector('span.ratio')?.textContent.trim() ?? null,
+      };
+    });
+
+    expect(subtableCell.value).to.match(/%$/);
+    expect(subtableCell.hover).to.match(/^[\d,.]+$/);
+  });
+
+  it('should show percentages on comparison rows as well as on their parent row', async function () {
+    const comparingUrl = "?module=Widgetize&action=iframe&moduleToWidgetize=Referrers"
+      + "&actionToWidgetize=getWebsites&idSite=1&period=year&date=2012-01-12&viewDataTable=table"
+      + "&compareDates[]=2011-01-31&comparePeriods[]=year&show_percentage_values=1";
+
+    await page.goto(comparingUrl);
+    await page.waitForNetworkIdle();
+    await page.waitForSelector('tr.comparisonRow', { visible: true });
+
+    const cells = await page.evaluate(() => ['tr.parentComparisonRow', 'tr.comparisonRow']
+      .map((rowSelector) => {
+        const cell = document.querySelector(`${rowSelector} td.column`);
+
+        return {
+          value: cell.querySelector('span.value').textContent.trim(),
+          hover: cell.querySelector('span.ratio').textContent.trim(),
+        };
+      }));
+
+    cells.forEach((cell) => {
+      expect(cell.value).to.match(/%$/);
+      // comparison rows append their period over period change, which stays next to the
+      // hover value exactly as it did before percentages could be shown
+      expect(cell.hover).to.match(/^[\d,.]+( \([+-][\d,.]+%\))?$/);
+    });
   });
 
   describe('As anonymous user', function () {

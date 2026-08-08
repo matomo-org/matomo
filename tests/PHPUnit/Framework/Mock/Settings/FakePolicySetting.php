@@ -52,6 +52,26 @@ class FakePolicySetting implements PolicyComparisonInterface, SettingValueInterf
         return 'fake policy setting compliance note';
     }
 
+    public static function getPolicySettingId(): string
+    {
+        return 'Fake.FakePolicySetting';
+    }
+
+    public static function isExternallyManagedByPolicyPage(): bool
+    {
+        return false;
+    }
+
+    public static function getWhatItDoes(): string
+    {
+        return 'fake policy setting what it does';
+    }
+
+    public static function getImpact(): string
+    {
+        return 'fake policy setting impact';
+    }
+
     public static function getInstance(?int $idSite = null)
     {
         return new self(true);

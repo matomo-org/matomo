@@ -37,5 +37,16 @@
 
     <span class="ratio"
           title="{{ reportRatioTooltip|rawSafeDecoded|raw }} {{ totalRatioTooltip|rawSafeDecoded|e('html_attr') }}{% if tooltipSuffix|default is not empty %}<br/><br/> {{ tooltipSuffix|rawSafeDecoded|e('html_attr') }}{% endif %}"
-    >&nbsp;{{ rowPercentage }} {% if changePercentage|default is not empty %}({{ changePercentage }}){% endif %}</span>
+    >&nbsp;
+        {%- if showAbsoluteValueOnHover|default -%}
+            {%- if row.getMetadata('html_column_' ~ column ~ '_prefix') -%}
+                <span class='column-prefix'>{{ row.getMetadata('html_column_' ~ column ~ '_prefix') | raw }}</span>
+            {%- endif -%}
+            {{- row.getColumn(column)|default(0)|number(2,0)|rawSafeDecoded -}}
+            {%- if row.getMetadata('html_column_' ~ column ~ '_suffix') -%}
+                <span class='column-suffix'>{{ row.getMetadata('html_column_' ~ column ~ '_suffix') | raw }}</span>
+            {%- endif -%}
+        {%- else -%}
+            {{- rowPercentage -}}
+        {%- endif %} {% if changePercentage|default is not empty %}({{ changePercentage }}){% endif %}</span>
 {%- endif %}

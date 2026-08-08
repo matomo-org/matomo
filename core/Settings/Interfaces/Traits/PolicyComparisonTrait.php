@@ -9,7 +9,9 @@
 
 namespace Piwik\Settings\Interfaces\Traits;
 
+use Piwik\Piwik;
 use Piwik\Policy\CompliancePolicy;
+use Piwik\Policy\PolicyEnforcementBypass;
 
 /**
  * @template T of mixed
@@ -27,7 +29,7 @@ trait PolicyComparisonTrait
 
         /** @var class-string<CompliancePolicy> $policy */
         foreach (array_keys($policyValues) as $policy) {
-            if (!$policy::isActive($idSite)) {
+            if (PolicyEnforcementBypass::isActive() || !$policy::isActive($idSite)) {
                 $policyValues[$policy] = null;
             }
         }
@@ -79,6 +81,27 @@ trait PolicyComparisonTrait
     public static function isControlledBySpecificPolicy(string $policy, ?int $idSite = null): bool
     {
         return array_key_exists($policy, self::getPolicyRequiredValues($idSite));
+    }
+
+    public static function getPolicySettingId(): string
+    {
+        $shortClassName = substr(strrchr(static::class, '\\'), 1);
+        return Piwik::getPluginNameOfMatomoClass(static::class) . '.' . $shortClassName;
+    }
+
+    public static function isExternallyManagedByPolicyPage(): bool
+    {
+        return false;
+    }
+
+    public static function getWhatItDoes(): string
+    {
+        return '';
+    }
+
+    public static function getImpact(): string
+    {
+        return '';
     }
 
     /**
