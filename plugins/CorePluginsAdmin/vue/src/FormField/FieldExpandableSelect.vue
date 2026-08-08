@@ -9,8 +9,8 @@
   <div class="expandableSelector" v-focus-anywhere-but-here="{ blur: onBlur }">
     <div
       @click="toggleSelect()"
-      class="select-wrapper"
-      :class="{ expanded: showSelect }"
+      class="select-wrapper expandableSelector__wrapper"
+      :class="{ 'expandableSelector__wrapper--expanded': showSelect }"
     >
       <input type="text" class="select-dropdown" readonly :value="modelValueText"/>
       <span class="expandableSelector__chevron icon icon-chevron-down" />
