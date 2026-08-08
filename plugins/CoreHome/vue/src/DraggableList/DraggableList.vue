@@ -11,6 +11,7 @@
     :class="{
       isDragging: draggedId !== null,
       isDisabled: disabled,
+      '__dragHandle-disabledList': disabled,
     }"
   >
     <li

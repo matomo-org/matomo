@@ -169,6 +169,21 @@ describe('CoreHome/DraggableList', () => {
     expect(dataTransfer.setData).toHaveBeenCalledWith('text/plain', 'first');
   });
 
+
+  it('should mark the list for the drag handles while disabled', () => {
+    const wrapper = createWrapper({
+      disabled: true,
+    });
+
+    expect(wrapper.find('.draggableList').classes()).toContain('__dragHandle-disabledList');
+  });
+
+  it('should not mark the list for the drag handles while enabled', () => {
+    const wrapper = createWrapper();
+
+    expect(wrapper.find('.draggableList').classes()).not.toContain('__dragHandle-disabledList');
+  });
+
   it('should not start dragging when the press was outside the handle', async () => {
     const wrapper = createWrapper({
       handle: '.dragHandle',
