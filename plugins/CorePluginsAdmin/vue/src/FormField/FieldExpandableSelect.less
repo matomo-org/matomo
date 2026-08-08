@@ -114,43 +114,47 @@
   }
 }
 
-// border/radius/shadow values mirror the selector look in
-// plugins/CoreHome/stylesheets/selector.less (@_selector-* variables)
-.expandableSelector__wrapper {
-  display: flex;
-  align-items: center;
-  align-items: safe center;
-  border: 1px solid @theme-color-border;
-  border-radius: 8px;
-  background: @theme-color-background-contrast;
-  cursor: pointer;
+// nested under the block so the rules keep the specificity the pre-BEM
+// selectors had against legacy styles targeting the Materialize classes
+.expandableSelector {
+  // border/radius/shadow values mirror the selector look in
+  // plugins/CoreHome/stylesheets/selector.less (@_selector-* variables)
+  .expandableSelector__wrapper {
+    display: flex;
+    align-items: center;
+    align-items: safe center;
+    border: 1px solid @theme-color-border;
+    border-radius: 8px;
+    background: @theme-color-background-contrast;
+    cursor: pointer;
 
-  &:hover,
-  &:focus-within {
+    &:hover,
+    &:focus-within {
+      border-color: @theme-color-link;
+    }
+
+    // override: Materialize's select input underline, sizing and text styles
+    // inside our restyled wrapper
+    input.select-dropdown {
+      flex: auto;
+      height: auto;
+      font-size: 14px;
+      line-height: 20px;
+      margin: 0;
+      padding: 8px 16px;
+      border: 0;
+      background: transparent;
+      color: @theme-color-text;
+      cursor: pointer;
+    }
+  }
+
+  .expandableSelector__wrapper--expanded {
     border-color: @theme-color-link;
   }
 
-  // override: Materialize's select input underline, sizing and text styles
-  // inside our restyled wrapper
-  input.select-dropdown {
-    flex: auto;
-    height: auto;
-    font-size: 14px;
-    line-height: 20px;
-    margin: 0;
-    padding: 8px 16px;
-    border: 0;
-    background: transparent;
+  .expandableSelector__chevron {
+    padding-right: 16px;
     color: @theme-color-text;
-    cursor: pointer;
   }
-}
-
-.expandableSelector__wrapper--expanded {
-  border-color: @theme-color-link;
-}
-
-.expandableSelector__chevron {
-  padding-right: 16px;
-  color: @theme-color-text;
 }
