@@ -120,11 +120,6 @@
     position: absolute;
     z-index: 9999;
     margin-top: 8px;
-
-    &.expandableList--above {
-      bottom: ~"calc(100% + 8px)";
-      margin-top: 0;
-    }
     background: @theme-color-background-contrast;
     color: @theme-color-text;
     border: 1px solid @theme-color-border;
@@ -146,5 +141,11 @@
       border-color: @theme-color-border;
       color: @theme-color-text;
     }
+  }
+
+  // placed after the .expandableList rule so the equal-specificity margin wins
+  .expandableSelector__list--above {
+    bottom: ~"calc(100% + 8px)";
+    margin-top: 0;
   }
 }

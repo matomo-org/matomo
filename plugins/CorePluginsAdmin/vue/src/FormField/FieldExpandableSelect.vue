@@ -19,7 +19,7 @@
     <div
       v-show="showSelect"
       class="expandableList"
-      :class="{ 'expandableList--above': openAbove }"
+      :class="{ 'expandableSelector__list--above': openAbove }"
       ref="expandableList"
     >
 

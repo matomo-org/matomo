@@ -117,7 +117,7 @@ describe('CorePluginsAdmin/FormField/FieldExpandableSelect', () => {
       await wrapper.find('.select-wrapper').trigger('click');
       await wrapper.vm.$nextTick();
 
-      expect(wrapper.find('.expandableList').classes()).not.toContain('expandableList--above');
+      expect(wrapper.find('.expandableList').classes()).not.toContain('expandableSelector__list--above');
       expect((wrapper.find('.firstLevel').element as HTMLElement).style.maxHeight).toBe('484px');
     });
 
@@ -131,7 +131,7 @@ describe('CorePluginsAdmin/FormField/FieldExpandableSelect', () => {
       await wrapper.find('.select-wrapper').trigger('click');
       await wrapper.vm.$nextTick();
 
-      expect(wrapper.find('.expandableList').classes()).toContain('expandableList--above');
+      expect(wrapper.find('.expandableList').classes()).toContain('expandableSelector__list--above');
       expect((wrapper.find('.firstLevel').element as HTMLElement).style.maxHeight).toBe('218px');
     });
 
@@ -145,7 +145,7 @@ describe('CorePluginsAdmin/FormField/FieldExpandableSelect', () => {
       await wrapper.find('.select-wrapper').trigger('click');
       await wrapper.vm.$nextTick();
 
-      expect(wrapper.find('.expandableList').classes()).not.toContain('expandableList--above');
+      expect(wrapper.find('.expandableList').classes()).not.toContain('expandableSelector__list--above');
       expect((wrapper.find('.firstLevel').element as HTMLElement).style.maxHeight).toBe('150px');
     });
   });
