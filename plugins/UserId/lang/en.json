@@ -7,9 +7,9 @@
         "PluginDescription": "Shows user reports",
         "VisitorsUserSubcategoryHelp": "The user ID report shows visits associated with all your registered and logged in users. Understand website usage by its specific users and find out who your most and least active users are.",
         "ThereIsNoDataForThisReportHelp" : "%1$sRead the user guide to learn how to generate data for this report.%2$s",
-        "UserIdDisabledSettingTitle": "User ID disabled",
-        "UserIdDisabledComplianceTitle": "User ID Tracking Disabled",
         "UserIdDisabledComplianceDescription": "User ID tracking is disabled. Tracking implementations must not send User IDs using setUserId or equivalent methods.<br /><br />This prevents visitors from being directly identified and associated across visits or devices.",
-        "UserIdDisabledComplianceImpact": "User ID values are not collected. User ID reports, segments, and cross-visit analysis based on User ID are unavailable."
+        "UserIdDisabledComplianceImpact": "User ID values are not collected. User ID reports, segments, and cross-visit analysis based on User ID are unavailable.",
+        "UserIdDisabledComplianceTitle": "User ID Tracking Disabled",
+        "UserIdDisabledSettingTitle": "User ID disabled"
     }
 }
