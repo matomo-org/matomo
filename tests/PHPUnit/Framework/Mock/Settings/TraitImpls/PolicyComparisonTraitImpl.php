@@ -34,4 +34,9 @@ class PolicyComparisonTraitImpl implements PolicyComparisonInterface
     {
         return 'test PolicyComparisonTrait';
     }
+
+    public static function getTitle(): string
+    {
+        return 'test PolicyComparisonTrait title';
+    }
 }

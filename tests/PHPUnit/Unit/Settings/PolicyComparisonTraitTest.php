@@ -92,4 +92,12 @@ class PolicyComparisonTraitTest extends TestCase
             PolicyComparisonTraitImpl::getComplianceRequirementNote()
         );
     }
+
+    public function testGetComplianceTitleDefaultsToGetTitle()
+    {
+        $this->assertSame(
+            PolicyComparisonTraitImpl::getTitle(),
+            PolicyComparisonTraitImpl::getComplianceTitle()
+        );
+    }
 }

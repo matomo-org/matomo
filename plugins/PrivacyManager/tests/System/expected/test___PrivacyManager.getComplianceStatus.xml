@@ -7,7 +7,7 @@
 			<name>Device Model Detection Disabled</name>
 			<value>non_compliant</value>
 			<notes>Device model detection is disabled.&lt;br /&gt;&lt;br /&gt;This reduces the risk of identifying visitors based on their specific device characteristics.</notes>
-			<impact>The &lt;b&gt;Visitors &gt; Devices &gt; Device&lt;/b&gt; Model report is unavailable, and device model information is not collected.</impact>
+			<impact>The &lt;b&gt;Visitors &gt; Devices &gt; Device Model&lt;/b&gt; report is unavailable, and device model information is not collected.</impact>
 		</row>
 		<row>
 			<name>Major Browser and OS Versions</name>

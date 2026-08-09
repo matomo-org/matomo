@@ -116,6 +116,13 @@ trait PolicyComparisonTrait
     }
 
     /**
+     * Declared so that the getComplianceTitle() default below cannot fail at runtime. Every
+     * setting reaching the compliance dashboard already has it via SettingValueInterface; naming
+     * it here turns a missing implementation into a load-time error rather than a fatal on render.
+     */
+    abstract public static function getTitle(): string;
+
+    /**
      * Name to show for this setting on the compliance dashboard.
      *
      * The dashboard phrases every row as the state the policy requires, which reads differently
