@@ -393,6 +393,19 @@ class Request
     }
 
     /**
+     * Checks if the currently executing API request is running inside another API request.
+     *
+     * This is true only for "child" API requests, i.e. requests that were dispatched
+     * programmatically from within another API method (for example the sub-requests run by
+     * {@link \Piwik\Plugins\API\API::getBulkRequest()}). It is false for the root request and
+     * when no API request is currently being processed.
+     */
+    public static function isCurrentApiRequestNestedInAnotherApiRequest(): bool
+    {
+        return self::$nestedApiInvocationCount > 1;
+    }
+
+    /**
      * Detect if request is an API request. Meaning the module is 'API' and an API method having a valid format was
      * specified. Note that this method will return true even if the actual request is for example a regular UI
      * reporting page request but within this request we are currently processing an API request (eg a

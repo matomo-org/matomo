@@ -407,6 +407,22 @@ class RequestTest extends IntegrationTestCase
         }
     }
 
+    public function testIsCurrentApiRequestNestedInAnotherApiRequestReflectsInvocationDepth()
+    {
+        try {
+            $this->setNestedApiInvocationCount(0);
+            $this->assertFalse(Request::isCurrentApiRequestNestedInAnotherApiRequest());
+
+            $this->setNestedApiInvocationCount(1);
+            $this->assertFalse(Request::isCurrentApiRequestNestedInAnotherApiRequest());
+
+            $this->setNestedApiInvocationCount(2);
+            $this->assertTrue(Request::isCurrentApiRequestNestedInAnotherApiRequest());
+        } finally {
+            $this->setNestedApiInvocationCount(0);
+        }
+    }
+
     private function assertSameUserAsBeforeIsAuthenticated()
     {
         $this->assertEquals($this->userAuthToken, $this->access->getTokenAuth());

@@ -171,6 +171,12 @@ class API extends \Piwik\Plugin\API
     ) {
         Piwik::checkUserHasViewAccess($idSite);
 
+        // a graph may only be streamed to the browser by the top-level request, so it is checked
+        // upfront and no graph is rendered for an output mode that will be refused anyway
+        if (self::isStreamingOutputType($outputType) && Request::isCurrentApiRequestNestedInAnotherApiRequest()) {
+            throw new Exception('A graph can only be sent to the browser by the top-level request.');
+        }
+
         // Health check - should we also test for GD2 only?
         if (!SettingsServer::isGdExtensionEnabled()) {
             throw new Exception('Error: To create graphs in Matomo, please enable GD php extension (with Freetype support) in php.ini,
@@ -585,6 +591,15 @@ class API extends \Piwik\Plugin\API
                 $graph->sendToBrowser();
                 exit;
         }
+    }
+
+    /**
+     * Whether the given output mode streams the graph to the browser. Mirrors the output modes
+     * handled by the switch in {@see get()}, where any unknown mode means inline.
+     */
+    private static function isStreamingOutputType(int $outputType): bool
+    {
+        return !in_array($outputType, [self::GRAPH_OUTPUT_FILE, self::GRAPH_OUTPUT_PHP], true);
     }
 
     private function setFilterTruncate(int $default): void

@@ -165,12 +165,16 @@ class Pdf extends ReportRenderer
 
     public function sendToBrowserDownload($filename)
     {
+        self::checkStreamingToBrowserIsAllowed();
+
         $filename = ReportRenderer::makeFilenameWithExtension($filename, self::PDF_CONTENT_TYPE);
         $this->TCPDF->Output($filename, 'D');
     }
 
     public function sendToBrowserInline($filename)
     {
+        self::checkStreamingToBrowserIsAllowed();
+
         $filename = ReportRenderer::makeFilenameWithExtension($filename, self::PDF_CONTENT_TYPE);
         $this->TCPDF->Output($filename, 'I');
     }
