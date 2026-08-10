@@ -27,8 +27,6 @@ class Controller extends \Piwik\Plugin\Controller
     public function index()
     {
         $tokenAuth = StaticContainer::get(AuthenticationToken::class)->getAuthToken() ?: 'anonymous';
-        $format = Common::getRequestVar('format', false);
-        $serialize = Common::getRequestVar('serialize', false);
 
         // when calling the API through http, we limit the number of returned results
         if (!isset($_GET['filter_limit'])) {
@@ -45,12 +43,8 @@ class Controller extends \Piwik\Plugin\Controller
         $response = $request->process();
 
         if (is_array($response)) {
-            if (
-                $format == 'original'
-                && $serialize != 1
-            ) {
-                Original::sendPlainTextHeader();
-            }
+            // var_export() output is a plain-text PHP structure dump and is always served as such
+            Original::sendPlainTextHeader();
 
             $response = var_export($response, true);
         }
