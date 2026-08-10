@@ -388,7 +388,12 @@ class Controller extends ControllerAdmin
     {
         Piwik::checkUserIsNotAnonymous();
 
-        $idTokenAuth = \Piwik\Request::fromPost()->getStringParameter('idtokenauth', '');
+        // the form submits via POST, but after a password confirmation the action is re-dispatched
+        // as a GET request carrying the parameters below
+        $idTokenAuth = \Piwik\Request::fromPost()->getStringParameter(
+            'idtokenauth',
+            \Piwik\Request::fromGet()->getStringParameter('idtokenauth', '')
+        );
 
         if (!empty($idTokenAuth)) {
             $params = array(
