@@ -558,6 +558,11 @@ class API extends \Piwik\Plugin\API
             $outputType = self::OUTPUT_DOWNLOAD;
         }
 
+        // checked upfront so no report is rendered for an output mode that will be refused anyway
+        if (self::isStreamingOutputType($outputType)) {
+            ReportRenderer::checkStreamingToBrowserIsAllowed();
+        }
+
         /** @var Translator $translator */
         $translator = StaticContainer::get('Piwik\Translation\Translator');
 
@@ -834,6 +839,17 @@ class API extends \Piwik\Plugin\API
                 $reportRenderer->sendToBrowserDownload($filename);
                 break;
         }
+    }
+
+    /**
+     * Whether the given output mode streams the report to the browser. Mirrors the output modes
+     * handled by the switch in {@see generateReport()}, where any unknown mode means download.
+     *
+     * @param int|false $outputType
+     */
+    private static function isStreamingOutputType($outputType): bool
+    {
+        return !in_array($outputType, [self::OUTPUT_SAVE_ON_DISK, self::OUTPUT_RETURN]);
     }
 
     /**

@@ -10,11 +10,12 @@
    as a value distinct from '' and render an empty date #}
 {% set lastUpdated = reportLastUpdatedMessage is defined and reportLastUpdatedMessage ? reportLastUpdatedMessage : '' %}
 <div vue-entry="CoreHome.ReportHeader"
-     context="fullPage"
+     context="{{ context|default('fullPage') }}"
+     show-title="{{ (showTitle is defined ? showTitle : true)|json_encode }}"
      heading-level="h2"
      report-title="{{ properties.title|json_encode }}"
      enriched="{{ isInCard|json_encode }}"
-     plain-title="{{ (not isInCard)|json_encode }}"
+     plain-title="{{ (not isInCard and (context|default('fullPage')) == 'fullPage')|json_encode }}"
      feature-name="{{ ''|json_encode }}"
      inline-help="{{ (isInCard ? properties.documentation|default('') : '')|json_encode }}"
      help-url="{{ (isInCard ? properties.onlineGuideUrl|default('')|safelink : '')|json_encode }}"
