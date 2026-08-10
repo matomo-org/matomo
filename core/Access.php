@@ -697,6 +697,23 @@ class Access
     }
 
     /**
+     * Returns the access level the token that authenticated this request is scoped to, or null when the
+     * request is not scoped by a token (password or session login, or an unscoped token).
+     *
+     * Access checks apply the scope on their own, so callers do not need this to decide what the current
+     * request may read or write. It is meant for the few places that have to reason about the credential
+     * itself rather than about the access it currently grants, such as refusing to issue a new token that
+     * would be less restricted than the one asking for it.
+     *
+     * @return string|null One of the levels in {@see getTokenAccessLevels()}, 'noaccess' when the scope
+     *                     could not be established, or null when the request carries no token scope.
+     */
+    public function getTokenAccessLevel(): ?string
+    {
+        return $this->tokenAccessLevel;
+    }
+
+    /**
      * Returns an array of ID sites for which the user has at least a VIEW access.
      * Which means VIEW OR WRITE or ADMIN or SUPERUSER.
      *

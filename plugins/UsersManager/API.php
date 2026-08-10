@@ -1596,11 +1596,45 @@ class API extends \Piwik\Plugin\API
             $accessLevel = null;
         }
         $accessLevel = $this->model->normalizeAndValidateTokenAccessLevelForUser($userLogin, $accessLevel, false);
+        $this->checkTokenScopeOfRequestAllowsIssuing($accessLevel);
 
         $generatedToken = $this->model->generateRandomTokenAuth();
         $this->model->addTokenAuth($userLogin, $generatedToken, $description, Date::now()->getDatetime(), $expireDate, false, $secureOnly, $accessLevel);
 
         return $generatedToken;
+    }
+
+    /**
+     * Rejects issuing a token that would be less restricted than the token authenticating this request.
+     *
+     * Without this a scoped token escapes its own scope by minting a fresh one, which would leave the cap
+     * meaningless for the case it exists for: handing a limited credential to something that should stay
+     * limited. The current password is still required to reach this point, so this does not defend against
+     * someone who already knows it; it keeps the scope a property of the credential rather than of a single
+     * request made with it.
+     *
+     * A request that is not scoped by a token (password or session login, or an unscoped token) is
+     * unaffected, and so is a token scoped to 'superuser', which is not a restriction.
+     *
+     * @param string|null $accessLevel Access level the new token would carry, null meaning unscoped.
+     */
+    private function checkTokenScopeOfRequestAllowsIssuing(?string $accessLevel): void
+    {
+        $requestAccessLevel = Access::getInstance()->getTokenAccessLevel();
+        if ($requestAccessLevel === null || $requestAccessLevel === 'superuser') {
+            return;
+        }
+
+        $rankings = Access::getTokenAccessLevelRankings();
+
+        // An unscoped token is the least restricted outcome there is, so rank it above every level.
+        $requestedRanking = $accessLevel === null
+            ? $rankings['superuser']
+            : ($rankings[$accessLevel] ?? $rankings['superuser']);
+
+        if ($requestedRanking > ($rankings[$requestAccessLevel] ?? 0)) {
+            throw new Exception(Piwik::translate('UsersManager_ExceptionCreateTokenAuthAboveRequestTokenScope'));
+        }
     }
 
     /**
