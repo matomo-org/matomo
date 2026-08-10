@@ -105,6 +105,7 @@ abstract class Dimension
     /**
      * By defining a segment name a user will be able to filter their visitors by this column. If you do not want to
      * define a segment for this dimension, simply leave the name empty.
+     * @var string
      * @api since Piwik 3.2.0
      */
     protected $segmentName = '';
