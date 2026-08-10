@@ -1,0 +1,7 @@
+[
+  {
+    "title": "New: Debug View",
+    "description": "Watch tracking requests arrive in real time to debug your tracking setup. Debug View shows each debug-flagged request's raw parameters and how it was processed, right as it comes in. You find it under Administration > Diagnostic > Debug View.",
+    "version": "6.0.0-b1"
+  }
+]

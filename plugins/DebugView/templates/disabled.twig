@@ -1,0 +1,16 @@
+{% extends 'admin.twig' %}
+
+{% set title %}{{ 'DebugView_DebugView'|translate }}{% endset %}
+
+{% block topcontrols %}
+    {% include "@CoreHome/_siteSelectHeader.twig" %}
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-content">
+            <h2 class="card-title">{{ 'DebugView_VisitsLogDisabledTitle'|translate }}</h2>
+            <p>{{ noticeMessage }}</p>
+        </div>
+    </div>
+{% endblock %}

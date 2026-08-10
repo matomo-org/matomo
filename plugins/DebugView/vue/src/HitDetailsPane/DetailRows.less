@@ -1,0 +1,64 @@
+.debugViewDetailRows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  &--nested {
+    margin: 2px 0 6px;
+    padding-left: 14px;
+    border-left: 2px solid @theme-color-border-light;
+  }
+
+  .debugViewDetailRow { margin: 0; }
+
+  .debugViewDetailNested > .debugViewDetailKey {
+    display: block;
+    padding: 6px 8px 2px;
+    font-size: 12px;
+    font-weight: 600;
+    color: @theme-color-text;
+  }
+
+  .debugViewDetailValueRow {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    width: 100%;
+    padding: 5px 8px;
+    background: none;
+    border: 0;
+    border-radius: 4px;
+    color: @theme-color-text;
+    font-size: 12px;
+    text-align: left;
+    cursor: pointer;
+
+    &:hover { background: @theme-color-background-tinyContrast; }
+
+    &:focus-visible { outline: 2px solid @theme-color-focus-ring; outline-offset: -2px; }
+
+    .debugViewDetailKey {
+      flex: 0 0 42%;
+      max-width: 42%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: @theme-color-text-light;
+    }
+
+    .debugViewDetailValue {
+      flex: auto;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    &--expanded .debugViewDetailValue {
+      overflow: visible;
+      text-overflow: clip;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+  }
+}

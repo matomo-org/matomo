@@ -1343,6 +1343,7 @@ Plugins[] = JsTrackerInstallCheck
 Plugins[] = FeatureFlags
 Plugins[] = AIAgents
 Plugins[] = BotTracking
+Plugins[] = DebugView
 
 [PluginsInstalled]
 PluginsInstalled[] = Diagnostics

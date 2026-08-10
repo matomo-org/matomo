@@ -1,0 +1,122 @@
+.debugViewDetailsPane {
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 380px;
+  width: 380px;
+  min-width: 0;
+  max-height: 75vh;
+  padding: 16px;
+  border: 1px solid @theme-color-border-light;
+  border-radius: 8px;
+  background: @theme-color-background-contrast;
+
+  .debugViewDetailsHeader {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .debugViewDetailsTitle {
+    flex: auto;
+    min-width: 0;
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 15px;
+    color: @theme-color-text;
+  }
+
+  .debugViewDetailsClose {
+    display: inline-flex;
+    align-items: center;
+    justify-content: safe center;
+    flex: none;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    background: none;
+    border: 1px solid @theme-color-border;
+    border-radius: 50%;
+    color: @theme-color-text;
+    font-size: 14px;
+    cursor: pointer;
+
+    &:hover { background: @theme-color-background-tinyContrast; }
+
+    &:focus-visible { outline: 2px solid @theme-color-focus-ring; outline-offset: 1px; }
+  }
+
+  .debugViewDetailsTabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid @theme-color-border-light;
+  }
+
+  .debugViewDetailsTab {
+    padding: 8px 12px;
+    background: none;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    color: @theme-color-text-light;
+    font-size: 13px;
+    cursor: pointer;
+
+    &--active { color: @theme-color-brand; border-bottom-color: @theme-color-brand; }
+
+    &:focus-visible { outline: 2px solid @theme-color-focus-ring; outline-offset: -2px; }
+  }
+
+  .debugViewDetailsBody {
+    flex: auto;
+    min-height: 0;
+    overflow-y: auto;
+  }
+
+  .debugViewDetailsSection {
+    margin: 12px 12px 4px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    color: @theme-color-text-light;
+
+    &:first-child {
+      margin-top: 8px;
+    }
+  }
+
+  .debugViewLazyLoading {
+    padding: 12px;
+    text-align: center;
+  }
+
+  .debugViewVisitUnavailable,
+  .debugViewProcessedHint {
+    margin: 12px;
+    font-size: 12px;
+    font-style: italic;
+    color: @theme-color-text-light;
+  }
+
+  .debugViewProcessedHint {
+    margin-top: 4px;
+  }
+
+  @media (max-width: 960px) {
+    & {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 1050;
+      width: 380px;
+      max-width: 92vw;
+      max-height: none;
+      border-radius: 0;
+      box-shadow: -4px 0 16px rgba(0, 0, 0, 0.25);
+    }
+  }
+}

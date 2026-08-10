@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<hits>
+		<row>
+			<idRawRequest>11</idRawRequest>
+			<idVisit>2</idVisit>
+			<idLinkVa>8</idLinkVa>
+			
+			
+			<type>pageview</type>
+			<title>Site Two Start</title>
+			<subtitle>http://site-two.example/start</subtitle>
+			<trackingParams>
+				<idsite>2</idsite>
+				<rec>1</rec>
+				<apiv>1</apiv>
+				
+				<cip>156.5.3.2</cip>
+				
+				
+				<fla>1</fla>
+				<java>1</java>
+				<qt>0</qt>
+				<realp>0</realp>
+				<pdf>0</pdf>
+				<wma>0</wma>
+				<ag>0</ag>
+				
+				
+				
+				<res>1024x768</res>
+				<cookie>1</cookie>
+				<cid>fedcba9876543210</cid>
+				<url>http://site-two.example/start</url>
+				<urlref />
+				
+				<debug>1</debug>
+				<action_name>Site Two Start</action_name>
+				<token_auth>__redacted__</token_auth>
+			</trackingParams>
+			<trackingParamsDefaults>
+				
+				<browserLanguage>fr</browserLanguage>
+				<clientHints>
+				</clientHints>
+				
+			</trackingParamsDefaults>
+			<trackingParamsOther>
+				<isAuthenticated>1</isAuthenticated>
+			</trackingParamsOther>
+			<isBot>0</isBot>
+			<botName />
+		</row>
+		<row>
+			<idRawRequest>12</idRawRequest>
+			<idVisit>2</idVisit>
+			<idLinkVa>9</idLinkVa>
+			
+			
+			<type>download</type>
+			<title>http://site-two.example/start</title>
+			<subtitle>http://downloads.example/tool.zip</subtitle>
+			<trackingParams>
+				<idsite>2</idsite>
+				<rec>1</rec>
+				<apiv>1</apiv>
+				
+				<cip>156.5.3.2</cip>
+				
+				
+				<fla>1</fla>
+				<java>1</java>
+				<qt>0</qt>
+				<realp>0</realp>
+				<pdf>0</pdf>
+				<wma>0</wma>
+				<ag>0</ag>
+				
+				
+				
+				<res>1024x768</res>
+				<cookie>1</cookie>
+				<cid>fedcba9876543210</cid>
+				<url>http://site-two.example/start</url>
+				<urlref />
+				
+				<debug>1</debug>
+				<download>http://downloads.example/tool.zip</download>
+				<token_auth>__redacted__</token_auth>
+			</trackingParams>
+			<trackingParamsDefaults>
+				
+				<browserLanguage>fr</browserLanguage>
+				<clientHints>
+				</clientHints>
+				
+			</trackingParamsDefaults>
+			<trackingParamsOther>
+				<isAuthenticated>1</isAuthenticated>
+			</trackingParamsOther>
+			<isBot>0</isBot>
+			<botName />
+		</row>
+		<row>
+			<idRawRequest>13</idRawRequest>
+			<idVisit>2</idVisit>
+			<idLinkVa>10</idLinkVa>
+			
+			
+			<type>outlink</type>
+			<title>http://site-two.example/start</title>
+			<subtitle>http://external.example/partner</subtitle>
+			<trackingParams>
+				<idsite>2</idsite>
+				<rec>1</rec>
+				<apiv>1</apiv>
+				
+				<cip>156.5.3.2</cip>
+				
+				
+				<fla>1</fla>
+				<java>1</java>
+				<qt>0</qt>
+				<realp>0</realp>
+				<pdf>0</pdf>
+				<wma>0</wma>
+				<ag>0</ag>
+				
+				
+				
+				<res>1024x768</res>
+				<cookie>1</cookie>
+				<cid>fedcba9876543210</cid>
+				<url>http://site-two.example/start</url>
+				<urlref />
+				
+				<debug>1</debug>
+				<link>http://external.example/partner</link>
+				<token_auth>__redacted__</token_auth>
+			</trackingParams>
+			<trackingParamsDefaults>
+				
+				<browserLanguage>fr</browserLanguage>
+				<clientHints>
+				</clientHints>
+				
+			</trackingParamsDefaults>
+			<trackingParamsOther>
+				<isAuthenticated>1</isAuthenticated>
+			</trackingParamsOther>
+			<isBot>0</isBot>
+			<botName />
+		</row>
+	</hits>
+	
+	<timezone>UTC</timezone>
+</result>

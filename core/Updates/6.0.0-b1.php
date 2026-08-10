@@ -37,6 +37,8 @@ class Updates_6_0_0_b1 extends PiwikUpdates
         // remove discontinued SEO plugin
         $migrations[] = $this->migration->plugin->deactivate('SEO');
         $migrations[] = $this->migration->plugin->uninstall('SEO');
+        // add new plugin DebugView
+        $migrations[] = $this->migration->plugin->activate('DebugView');
 
         return $migrations;
     }
