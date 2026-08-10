@@ -11,7 +11,6 @@ namespace Piwik\Plugins\CoreVisualizations\Visualizations;
 
 use Piwik\API\Request;
 use Piwik\Common;
-use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Metrics\Formatter as MetricFormatter;
@@ -20,8 +19,6 @@ use Piwik\Plugin\Report;
 use Piwik\Plugin\ReportsProvider;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\API\Filter\DataComparisonFilter;
-use Piwik\Plugins\CoreVisualizations\FeatureFlags\SparklinesRedesign;
-use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Piwik;
 use Piwik\SettingsPiwik;
 use Piwik\View;
@@ -115,13 +112,15 @@ class Sparklines extends ViewDataTable
         $view->titleAttributes = $this->config->title_attributes;
         $view->footerMessage = $this->config->show_footer_message;
         $view->areSparklinesLinkable = $this->config->areSparklinesLinkable();
-        $view->isComparing = $this->isComparing();
 
-        // The redesigned Vue card grid (gated by the SparklinesRedesign feature flag) currently only
-        // covers the no-comparison layout, so fall back to the legacy Twig layout while comparing.
-        $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
-        $view->useNewSparklinesGrid = $featureFlagManager->isFeatureActive(SparklinesRedesign::class)
-            && !$this->isComparing();
+        // The redesigned Vue card grid covers the no-comparison layout, two-date comparison,
+        // segment comparison, and segment + date comparison; comparing three or more dates
+        // stays on the legacy Twig layout.
+        $comparisonMode = $this->getSupportedRedesignComparisonMode();
+        $view->useNewSparklinesGrid = $comparisonMode !== null;
+        // Layout the grid should render: 'none', 'date', 'segment' or 'segmentDate'
+        // (see getSupportedRedesignComparisonMode()).
+        $view->sparklinesComparisonMode = $comparisonMode ?? 'none';
 
         $view->title = '';
         if ($this->config->show_title) {
@@ -129,6 +128,47 @@ class Sparklines extends ViewDataTable
         }
 
         return $view->render();
+    }
+
+    /**
+     * Which layout the redesigned Vue card grid should render for the current request, or null when
+     * the request is not supported and must fall back to the legacy Twig layout. Supported modes:
+     *
+     *  - 'none'        no comparison
+     *  - 'date'        comparison of exactly two dates (one extra compareDate), without segment comparison
+     *  - 'segment'     segment comparison of any number of segments over a single date
+     *  - 'segmentDate' segment comparison of any number of segments over exactly two dates (one extra
+     *                  compareDate)
+     *
+     * Comparing three or more dates stays on the legacy layout.
+     */
+    private function getSupportedRedesignComparisonMode(): ?string
+    {
+        if (!$this->isComparing()) {
+            return 'none';
+        }
+
+        $request = $this->getRequestArray();
+        $compareSegments = $request['compareSegments'] ?? [];
+        $compareDates = $request['compareDates'] ?? [];
+        $comparedDatesCount = is_array($compareDates) ? count($compareDates) : 0;
+
+        // Date comparison of exactly two dates (one extra compareDate), without segment comparison.
+        if (empty($compareSegments) && $comparedDatesCount === 1) {
+            return 'date';
+        }
+
+        // Segment comparison over a single date, without date comparison.
+        if (!empty($compareSegments) && $comparedDatesCount === 0) {
+            return 'segment';
+        }
+
+        // Segment comparison over exactly two dates (one extra compareDate): the combined mode.
+        if (!empty($compareSegments) && $comparedDatesCount === 1) {
+            return 'segmentDate';
+        }
+
+        return null;
     }
 
     /**
@@ -286,7 +326,7 @@ class Sparklines extends ViewDataTable
                             $metricInfo = [
                                 'value' => $formattedValue,
                                 'description' => $compareDescriptions[$i],
-                                'title' => $metricTranslations[$columnToUse[$i]] ?? $compareDescriptions[$i],
+                                'title' => $this->resolveMetricTitle($columnToUse[$i], $compareDescriptions[$i], $metricTranslations),
                                 'group' => $periodPretty,
                             ];
 
@@ -353,7 +393,7 @@ class Sparklines extends ViewDataTable
                             $idSite
                         ),
                         'description' => $descriptions[$i],
-                        'title' => $metricTranslations[$column[$i]] ?? $descriptions[$i],
+                        'title' => $this->resolveMetricTitle($column[$i], $descriptions[$i], $metricTranslations),
                     ];
 
                     $metrics[] = $newMetric;
@@ -426,6 +466,29 @@ class Sparklines extends ViewDataTable
         }
 
         return [$values, $descriptions, $evolutions];
+    }
+
+    /**
+     * Resolves the card title shown for a sparkline metric in the redesigned grid.
+     *
+     * By default the card title is the generic metric name from
+     * Metrics::getDefaultMetricTranslations() (falling back to the per-metric description). When a
+     * view opts in via {@link Config::$use_metric_labels_as_titles} — e.g. Ecommerce, which relabels
+     * shared columns per section and renders no block title — the view's own metric translation is
+     * used instead, so sections that reuse the same columns stay distinguishable.
+     *
+     * @param string $column
+     * @param string $description already-resolved per-metric description (label, else raw column)
+     * @param array $metricTranslations Metrics::getDefaultMetricTranslations()
+     * @return string
+     */
+    private function resolveMetricTitle($column, $description, array $metricTranslations)
+    {
+        if ($this->config->use_metric_labels_as_titles) {
+            return $this->config->translations[$column] ?? $metricTranslations[$column] ?? $description;
+        }
+
+        return $metricTranslations[$column] ?? $description;
     }
 
     private function removeUniqueVisitorsIfNotEnabledForPeriod($columns, $period)

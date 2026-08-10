@@ -70,6 +70,7 @@ class TokenSecureOnlyTest extends IntegrationTestCase
 
         $this->assertEquals(401, $responseInfo["http_code"]);
         $this->assertStringContainsString("or is required to be sent as a POST parameter", $out);
+        $this->assertStringContainsString("Only allow secure requests", $out);
     }
 
     /**

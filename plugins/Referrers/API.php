@@ -254,10 +254,38 @@ class API extends \Piwik\Plugin\API
         }
 
         $dataTable = $dataTable->mergeSubtables($labelColumn = 'referer_type', $useMetadataColumn = true);
+
+        // getReferrerType above is fetched with queued filters disabled so the raw subtables can be
+        // merged, but that also stops the report totals calculator from mapping the metric indexes in
+        // the totals metadata to names. Do that mapping here so the totals are named like every other
+        // report instead of being exposed as raw Metrics::INDEX_* integers.
+        $this->replaceColumnNamesInTotalsMetadata($dataTable);
+
         $dataTable->queueFilter('ReplaceColumnNames');
         $dataTable->queueFilter('ReplaceSummaryRowLabel');
 
         return $dataTable;
+    }
+
+    /**
+     * Maps the metric-index keys in the 'totals'/'totalsUnformatted' metadata to metric names,
+     * reusing the same ReplaceColumnNames logic (including goal column flattening) that the row
+     * columns go through. A no-op for totals that are already named.
+     */
+    private function replaceColumnNamesInTotalsMetadata(DataTable $dataTable): void
+    {
+        foreach (['totals', 'totalsUnformatted'] as $metadataName) {
+            $totals = $dataTable->getMetadata($metadataName);
+            if (empty($totals) || !is_array($totals)) {
+                continue;
+            }
+
+            $totalsTable = new DataTable();
+            $totalsTable->addRow(new DataTable\Row([DataTable\Row::COLUMNS => $totals]));
+            $totalsTable->filter('ReplaceColumnNames');
+
+            $dataTable->setMetadata($metadataName, $totalsTable->getFirstRow()->getColumns());
+        }
     }
 
     /**

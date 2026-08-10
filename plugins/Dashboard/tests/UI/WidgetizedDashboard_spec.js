@@ -93,7 +93,7 @@ describe("WidgetizedDashboard", function () {
         var widget = await page.$('.widgetTop');
         await widget.hover();
 
-        await page.click('.button#refresh');
+        await page.click('.widgetControls__action--refresh');
         await page.mouse.move(-10, -10);
 
         await page.waitForNetworkIdle();
@@ -104,7 +104,7 @@ describe("WidgetizedDashboard", function () {
     it("should minimise widget when widget minimise icon clicked", async function() {
         var widget = await page.$('.widgetTop');
         await widget.hover();
-        await page.click('.button#minimise');
+        await page.click('.widgetControls__action--minimise');
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('widget_minimised');
     });
@@ -112,7 +112,7 @@ describe("WidgetizedDashboard", function () {
     it("should unminimise widget when widget maximise icon is clicked after being minimised", async function() {
         var widget = await page.$('.widgetTop');
         await widget.hover();
-        await page.click('.button#maximise');
+        await page.click('.widgetControls__action--maximise');
         await page.mouse.move(-10, -10);
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('widget_unminimise');
@@ -121,7 +121,7 @@ describe("WidgetizedDashboard", function () {
     it("should maximise widget when widget maximise icon is clicked", async function() {
         var widget = await page.$('.widgetTop');
         await widget.hover();
-        await page.click('.button#maximise');
+        await page.click('.widgetControls__action--maximise');
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('widget_maximise');
     });
@@ -129,7 +129,7 @@ describe("WidgetizedDashboard", function () {
     it("should close maximise dialog when minimise icon is clicked", async function() {
         var widget = await page.$('.widgetTop');
         await widget.hover();
-        await page.click('.button#minimise');
+        await page.click('.widgetControls__action--minimise');
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('widget_unmaximise');
     });
@@ -185,7 +185,7 @@ describe("WidgetizedDashboard", function () {
         var titlebar = await page.$(widget + ' .widgetTop');
         await titlebar.hover();
 
-        var icon = await page.$(widget + ' .button#close');
+        var icon = await page.$(widget + ' .widgetControls__action--close');
         await icon.click();
 
         var button = await page.jQuery('.modal.open .modal-footer a:contains(Yes)');
@@ -370,9 +370,11 @@ describe("WidgetizedDashboard", function () {
         var tokenAuth = "anyInvalidToken";
         await page.goto(url.replace("idDashboard=5", "idDashboard=1") + '&token_auth=' + tokenAuth);
 
-        // should show login page with error message
-        expect(await page.$('#loginPage')).to.be.ok;
-        const errorMessage = await page.evaluate(() => $('.message_container').text());
-        expect(errorMessage).to.contain('You must be logged in to access this functionality.');
+        // widget URLs surface a targeted error explaining the secure-only-token cause
+        // instead of falling through to the generic login page
+        expect(await page.$('#loginPage')).to.be.not.ok;
+        const errorMessage = await page.evaluate(() => document.body.innerText);
+        expect(errorMessage).to.contain('This widget URL could not be authenticated with the supplied');
+        expect(errorMessage).to.contain("'Only allow secure requests' unchecked");
     });
 });

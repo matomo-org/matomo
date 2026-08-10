@@ -320,7 +320,7 @@ avg_time_network	avg_time_server	avg_time_transfer	avg_time_dom_processing	avg_t
 
 Referrers Overview
 Referrers_visitorsFromSearchEngines	Referrers_visitorsFromSocialNetworks	Referrers_visitorsFromAIAssistants	Referrers_visitorsFromDirectEntry	Referrers_visitorsFromWebsites	Referrers_visitorsFromCampaigns	Referrers_distinctSearchEngines	Referrers_distinctSocialNetworks	Referrers_distinctAIAssistants	Referrers_distinctKeywords	Referrers_distinctWebsites	Referrers_distinctCampaigns	Referrers_visitorsFromDirectEntry_percent	Referrers_visitorsFromSearchEngines_percent	Referrers_visitorsFromAIAssistants_percent	Referrers_visitorsFromCampaigns_percent	Referrers_visitorsFromSocialNetworks_percent	Referrers_visitorsFromWebsites_percent
-0	0	0	1	6	4	0	0	0	0	1	1	9%	0%	0%	36%	0%	55%
+0	0	0	1	6	4	0	0	0	0	1	1	9.09%	0%	0%	36.36%	0%	54.55%
 
 Channel Type
 label	nb_visits	nb_actions	nb_actions_per_visit	avg_time_on_site	bounce_rate	revenue

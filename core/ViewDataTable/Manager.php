@@ -282,7 +282,7 @@ class Manager
      */
     public static function saveViewDataTableParameters($login, $controllerAction, $parametersToOverride, $containerId = null)
     {
-        $params = self::getViewDataTableParameters($login, $controllerAction);
+        $params = self::getViewDataTableParameters($login, $controllerAction, $containerId);
 
         self::unsetComparisonParams($params);
 

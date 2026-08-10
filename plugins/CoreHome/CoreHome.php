@@ -22,8 +22,6 @@ use Piwik\Piwik;
 use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\ComputedMetric;
 use Piwik\Plugin\ThemeStyles;
-use Piwik\Plugins\CoreHome\FeatureFlags\ReportHeaderRedesign;
-use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Plugins\SegmentEditor\Settings\LimitSegments;
 use Piwik\Segment\SegmentsList;
 use Piwik\SettingsPiwik;
@@ -55,20 +53,7 @@ class CoreHome extends \Piwik\Plugin
             'Request.dispatchCoreAndPluginUpdatesScreen' => ['function' => 'checkAllowedIpsOnAuthentication', 'before' => true],
             'Tracker.setTrackerCacheGeneral'             => 'setTrackerCacheGeneral',
             'Segment.filterSegments'                     => 'filterSegments',
-            'Template.bodyClass'                         => 'addBodyClass',
         );
-    }
-
-    public function addBodyClass(&$out, $type)
-    {
-        $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
-
-        // The report header redesign moves widget controls and report actions to a shared
-        // top-right header. It is gated app-wide by this flag so later tickets can scope
-        // CSS/JS with `body.report-header-redesign-enabled` across every report surface.
-        if ($featureFlagManager->isFeatureActive(ReportHeaderRedesign::class)) {
-            $out .= ' report-header-redesign-enabled';
-        }
     }
 
     public function isTrackerPlugin()
@@ -179,6 +164,8 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/vue/src/PasswordStrength/PasswordStrength.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/EntityDuplicator/EntityDuplicatorModal.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/EntityDuplicator/EntityDuplicatorAction.less";
+        $stylesheets[] = "plugins/CoreHome/vue/src/ReportHeader/ReportHeader.less";
+        $stylesheets[] = "plugins/CoreHome/vue/src/WidgetControls/WidgetControls.less";
     }
 
     public function getJsFiles(&$jsFiles)
@@ -251,6 +238,10 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_Menu';
         $translationKeys[] = 'CoreHome_AddTotalsRowDataTable';
         $translationKeys[] = 'CoreHome_RemoveTotalsRowDataTable';
+        $translationKeys[] = 'CoreHome_ShowPercentageValuesDataTable';
+        $translationKeys[] = 'CoreHome_ShowAbsoluteValuesDataTable';
+        $translationKeys[] = 'CoreHome_ShowPercentageValues';
+        $translationKeys[] = 'CoreHome_ShowAbsoluteValues';
         $translationKeys[] = 'CoreHome_PeriodHasOnlyRawData';
         $translationKeys[] = 'CoreHome_PeriodHasOnlyRawDataNoVisitsLog';
         $translationKeys[] = 'SitesManager_NotFound';
@@ -443,6 +434,13 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_CopyX';
         $translationKeys[] = 'CoreHome_CopyXDescription';
         $translationKeys[] = 'CoreHome_WebAnalyticsReports';
+        $translationKeys[] = 'General_Widget';
+        // Widget-control actions rendered by the shared CoreHome.WidgetControls component. Registered
+        // here (not in Dashboard) so the component works wherever CoreHome is loaded.
+        $translationKeys[] = 'General_Refresh';
+        $translationKeys[] = 'Dashboard_Minimise';
+        $translationKeys[] = 'Dashboard_Maximise';
+        $translationKeys[] = 'General_Close';
 
         // add admin menu translations
         if (

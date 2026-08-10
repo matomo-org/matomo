@@ -201,8 +201,24 @@ abstract class ReportRenderer extends BaseFactory
         return $outputFilename;
     }
 
+    /**
+     * Streaming a report writes response headers and body directly, so it is reserved for the
+     * top-level request. A report generated as a nested API sub-request must be returned to the
+     * calling request instead.
+     *
+     * @throws Exception
+     */
+    public static function checkStreamingToBrowserIsAllowed(): void
+    {
+        if (Request::isCurrentApiRequestNestedInAnotherApiRequest()) {
+            throw new Exception('A report can only be sent to the browser by the top-level request.');
+        }
+    }
+
     protected static function sendToBrowser($filename, $extension, $contentType, $content)
     {
+        self::checkStreamingToBrowserIsAllowed();
+
         $filename = ReportRenderer::makeFilenameWithExtension($filename, $extension);
 
         ProxyHttp::overrideCacheControlHeaders();
@@ -216,6 +232,8 @@ abstract class ReportRenderer extends BaseFactory
 
     protected static function inlineToBrowser($contentType, $content)
     {
+        self::checkStreamingToBrowserIsAllowed();
+
         Common::sendHeader('Content-Type: ' . $contentType);
         echo $content;
     }

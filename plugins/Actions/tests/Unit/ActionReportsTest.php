@@ -81,12 +81,14 @@ class ActionReportsTest extends \PHPUnit\Framework\TestCase
 
             $rowsByRecordName = [
                 $flatRecordName => [[
+                    'idsite' => 1,
                     'date1' => '2026-01-01',
                     'date2' => '2026-01-01',
                     'name' => $flatRecordName,
                     'value' => $flatPeriodTable,
                 ]],
                 $hierarchicalRecordName => [[
+                    'idsite' => 1,
                     'date1' => '2026-01-02',
                     'date2' => '2026-01-02',
                     'name' => $hierarchicalRecordName,
@@ -177,12 +179,14 @@ class ActionReportsTest extends \PHPUnit\Framework\TestCase
 
             $rowsByRecordName = [
                 $flatRecordName => [[
+                    'idsite' => 1,
                     'date1' => '2026-01-01',
                     'date2' => '2026-01-01',
                     'name' => $flatRecordName,
                     'value' => $flatPeriodTable,
                 ]],
                 $hierarchicalRecordName => [[
+                    'idsite' => 1,
                     'date1' => '2026-01-02',
                     'date2' => '2026-01-02',
                     'name' => $hierarchicalRecordName,
@@ -614,9 +618,21 @@ class ActionReportsTest extends \PHPUnit\Framework\TestCase
                 return $this->period;
             }
 
+            public function getSubPeriods(): array
+            {
+                // unlike the real Parameters::getSubPeriods() this fake does not special-case
+                // day periods, so it must only be used with non-day periods
+                return $this->period->getSubperiods();
+            }
+
             public function getSite(): object
             {
                 return $this->site;
+            }
+
+            public function getIdSites(): array
+            {
+                return [$this->site->getId()];
             }
 
             public function getSegment()

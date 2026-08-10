@@ -1,38 +1,78 @@
+// Container-relative readout sizing: the number and secondary line scale with the width of their nearest
+// `container-type: inline-size` ancestor — the card frame (standalone) or period column (comparison) —
+// via the cqi clamps below. Anchors are PROVISIONAL (tuned to today's float-grid widths), to retune when
+// the CSS Grid PR fixes column widths. Values are ~"" escaped so less.php emits the clamp()/cqi verbatim.
 .metricValue {
-  &__title {
+  @_number-line-height: ~"clamp(24px, 14px + 5cqi, 32px)";
+  @_secondary-line: 16px;                    // tighter than the 24px default so a wrapped secondary's two
+  @_secondary-block: (@_secondary-line * 2); // lines sit close; reserve + cap 2 so a 1- vs 2-line
+                                             // secondary doesn't change the card height
+
+  --metric-value-content-height: ~"calc(@{_number-line-height} + @{_secondary-block})";
+
+  .metricValue__title {
     color: @theme-color-text;
     font-size: 18px;
     line-height: 24px;
-
-    // Signals the title carries a documentation tooltip.
-    &--documented {
-      cursor: help;
-    }
   }
 
-  &__primary {
+  // Signals the title carries a documentation tooltip.
+  .metricValue__title--documented {
+    cursor: help;
+  }
+
+  .metricValue__primary {
     display: flex;
-    align-items: baseline;
+    align-items: safe center;
     gap: 8px;
   }
 
-  &__number {
-    font-size: 28px;
+  .metricValue__number {
+    font-size: ~"clamp(16px, 6px + 5cqi, 24px)";
     font-weight: 600;
-    line-height: 36px;
+    line-height: @_number-line-height;
     color: @theme-color-text;
+
+    // Truncate with an ellipsis if the value can't fit even at the smallest fluid size (a long number or
+    // duration in a narrow container), mirroring the title. min-width:0 lets it shrink inside the flex
+    // row; the evolution badge holds its own width, so the number is the shrink target. Full value on hover.
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
-  &__secondaryValue {
-    color: @theme-color-text;
-    font-size: 14px;
-    line-height: 24px;
-  }
-
-  &__secondaryLabel {
-    margin-left: 4px;
-    font-size: 12px;
-    line-height: 24px;
+  // Secondary line (value + label as one string): one supporting-text style. Font-size tracks the
+  // container like the number, one band lower; the .metricValue__secondary block owns the height.
+  .metricValue__secondaryLine {
     color: @theme-color-text-lighter;
+    font-size: ~"clamp(12px, 9.5px + 1.25cqi, 14px)";
   }
+
+  // Cap the secondary at two tight lines: a long value/label wraps without growing the card; a shorter
+  // one just leaves the reserved space empty.
+  .metricValue__secondary {
+    line-height: @_secondary-line;
+    max-height: @_secondary-block;
+    overflow: hidden;
+  }
+}
+
+// min-height reserves the full readout height so 1- vs 2-line secondaries — and secondary-less cards —
+// all align. Tracks the fluid number line-height + fixed title (24px) + the 2-line secondary block.
+.metricValue--noTitle {
+  min-height: var(--metric-value-content-height);
+}
+
+.metricValue--fixedHeight {
+  min-height: ~"calc(var(--metric-value-content-height) + 24px)";
+  margin-bottom: 12px;
+}
+
+// Clamp the title to one line so a long metric name can't grow the card (full title shows on hover).
+.metricValue--fixedHeight .metricValue__title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 24px;
 }
