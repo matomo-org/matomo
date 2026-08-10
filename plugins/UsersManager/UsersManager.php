@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\UsersManager;
 
 use Exception;
+use Piwik\Access;
 use Piwik\Access\Role\Admin;
 use Piwik\Access\Role\Write;
 use Piwik\API\Request;
@@ -56,6 +57,35 @@ class UsersManager extends \Piwik\Plugin
         Piwik::checkUserIsNotAnonymous();
         if (!self::isUsersAdminEnabled()) {
             throw new \Exception('Creating, updating, and deleting users has been disabled.');
+        }
+    }
+
+    /**
+     * Rejects issuing a token that would be less restricted than the token authenticating this request.
+     *
+     * Without this a scoped token escapes its own scope by minting a fresh one. Deliberately not in
+     * {@see Model::addTokenAuth()}, which also writes system tokens mid-request
+     * ({@see \Piwik\Piwik::requestTemporarySystemAuthToken()}) that a request-scope rule would refuse.
+     *
+     * @param string|null $accessLevel Access level the new token would carry, null meaning unscoped.
+     * @throws Exception
+     */
+    public static function checkTokenScopeOfRequestAllowsIssuing(?string $accessLevel): void
+    {
+        $requestAccessLevel = Access::getInstance()->getTokenAccessLevel();
+        if ($requestAccessLevel === null || $requestAccessLevel === 'superuser') {
+            return;
+        }
+
+        $rankings = Access::getTokenAccessLevelRankings();
+
+        // An unscoped token is the least restricted outcome there is, so rank it above every level.
+        $requestedRanking = $accessLevel === null
+            ? $rankings['superuser']
+            : ($rankings[$accessLevel] ?? $rankings['superuser']);
+
+        if ($requestedRanking > ($rankings[$requestAccessLevel] ?? 0)) {
+            throw new Exception(Piwik::translate('UsersManager_ExceptionCreateTokenAuthAboveRequestTokenScope'));
         }
     }
 

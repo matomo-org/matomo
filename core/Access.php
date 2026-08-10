@@ -11,6 +11,7 @@ namespace Piwik;
 
 use Exception;
 use Piwik\Access\CapabilitiesProvider;
+use Piwik\Access\Capability;
 use Piwik\Access\Role\Admin;
 use Piwik\Access\Role\View;
 use Piwik\Access\Role\Write;
@@ -417,13 +418,8 @@ class Access
     }
 
     /**
-     * Applies token-level role clamping after initial access + event modifications are loaded.
-     *
-     * Sites that the user only reaches via a manually-granted capability row (no role row) are
-     * filtered out here, because such sites never enter {@see buildSiteRoleMap()}. A scoped token
-     * therefore loses access to those sites entirely, even if the capability would otherwise be
-     * compatible with the clamped role. Users that rely on capability-only access should issue
-     * unscoped tokens.
+     * Caps the loaded roles at the token's access level and rebuilds capabilities from them. Must run after
+     * the access-modification event, so a listener cannot grant past the cap.
      */
     private function applyTokenAccessLevelRestrictionToLoadedSites(): void
     {
@@ -521,11 +517,9 @@ class Access
     }
 
     /**
-     * Scoped tokens are role-only: capabilities are derived from the capped effective role,
-     * and separately granted capability rows are ignored. A user with a manual capability grant on a
-     * site (and no role on that site) loses the capability under any scoped token, even when the
-     * capability's role tier would be compatible with the clamp; "Inherit user access" is the only
-     * way to keep such grants.
+     * Rebuilds each capability's site list from the capped roles, plus the explicitly granted rows the
+     * token's access level still carries - a site the user reaches only through such a grant has no role
+     * row, so clearing them wholesale would silently drop it.
      *
      * @param array<int|string,string> $rolesBySite
      */
@@ -533,24 +527,59 @@ class Access
     {
         $capabilities = $this->capabilityProvider->getAllCapabilities();
 
-        foreach ($capabilities as $capability) {
-            $this->idsitesByAccess[$capability->getId()] = [];
-        }
-
+        // Group by capped role first - a capped superuser token puts every site in one group, so a
+        // per-(site, capability) build allocates sites x capabilities entries.
+        $siteIdsByRole = [];
         foreach ($rolesBySite as $idSite => $role) {
-            foreach ($capabilities as $capability) {
-                if (!$capability->hasRoleCapability($role)) {
-                    continue;
-                }
-
-                $this->idsitesByAccess[$capability->getId()][] = $idSite;
-            }
+            $siteIdsByRole[$role][] = $idSite;
         }
 
         foreach ($capabilities as $capability) {
             $capabilityId = $capability->getId();
-            $this->idsitesByAccess[$capabilityId] = array_values(array_unique($this->idsitesByAccess[$capabilityId]));
+            $grantedSiteIds = $this->isCapabilityWithinTokenAccessLevel($capability)
+                ? ($this->idsitesByAccess[$capabilityId] ?? [])
+                : [];
+
+            $roleSiteIdLists = [];
+            foreach ($siteIdsByRole as $role => $siteIds) {
+                if ($capability->hasRoleCapability((string) $role)) {
+                    $roleSiteIdLists[] = $siteIds;
+                }
+            }
+
+            // Each per-role list holds every site once, so a single one needs no de-duplication.
+            if ($grantedSiteIds === [] && count($roleSiteIdLists) === 1) {
+                $this->idsitesByAccess[$capabilityId] = $roleSiteIdLists[0];
+                continue;
+            }
+
+            $this->idsitesByAccess[$capabilityId] = array_values(
+                array_unique(array_merge($grantedSiteIds, ...$roleSiteIdLists))
+            );
         }
+    }
+
+    /**
+     * A capability becomes available at the lowest role that includes it, so a token capped at or above
+     * that level carries it. One no role includes cannot be placed on the scale, and is not carried.
+     */
+    private function isCapabilityWithinTokenAccessLevel(Capability $capability): bool
+    {
+        $rankings = self::getTokenAccessLevelRankings();
+        $lowestIncludingRoleRank = null;
+
+        foreach ($capability->getIncludedInRoles() as $role) {
+            $roleRank = $rankings[$role] ?? null;
+            if ($roleRank !== null && ($lowestIncludingRoleRank === null || $roleRank < $lowestIncludingRoleRank)) {
+                $lowestIncludingRoleRank = $roleRank;
+            }
+        }
+
+        if ($lowestIncludingRoleRank === null) {
+            return false;
+        }
+
+        return ($rankings[$this->tokenAccessLevel] ?? 0) >= $lowestIncludingRoleRank;
     }
 
     private function isSuperUserRestrictedByTokenAccessLevel(): bool
@@ -793,6 +822,21 @@ class Access
     public function getTokenAuth()
     {
         return $this->token_auth;
+    }
+
+    /**
+     * Returns the access level the token that authenticated this request is scoped to, or null when the
+     * request is not scoped by a token (password or session login, or an unscoped token).
+     *
+     * Access checks apply the scope on their own; this is for the few places that reason about the
+     * credential itself rather than the access it grants.
+     *
+     * @return string|null One of the levels in {@see getTokenAccessLevels()}, 'noaccess' when the scope
+     *                     could not be established, or null when the request carries no token scope.
+     */
+    public function getTokenAccessLevel(): ?string
+    {
+        return $this->tokenAccessLevel;
     }
 
     /**

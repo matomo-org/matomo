@@ -1533,11 +1533,10 @@ class API extends \Piwik\Plugin\API
      * @param bool $secureOnly `true` if the token must not be accepted in GET requests.
      * @param string|null $accessLevel Optional maximum permission to embed in the generated token, one of `view`,
      *                                 `write`, `admin` or `superuser`, and never above the user's own highest
-     *                                 access. If omitted, `null`, or an empty string, the token remains unscoped
-     *                                 and preserves the user's normal token behavior. A scoped token derives its
-     *                                 capabilities from the capped role alone, so capabilities granted to the user
-     *                                 outside a role are not honoured by it, and sites the user reaches only
-     *                                 through such a grant become inaccessible; leave this unset to keep them.
+     *                                 access. Omitted, `null` or empty leaves the token unscoped. When the
+     *                                 request is itself made with a scoped token, the new token may be no less
+     *                                 restricted than that one, so a higher level is refused and so is leaving
+     *                                 this unset - a `view`-scoped token can only issue `view`.
      * @return string Newly generated app-specific token.
      */
     public function createAppSpecificTokenAuth(
@@ -1597,6 +1596,7 @@ class API extends \Piwik\Plugin\API
             $accessLevel = null;
         }
         $accessLevel = $this->model->normalizeAndValidateTokenAccessLevelForUser($userLogin, $accessLevel, false);
+        UsersManager::checkTokenScopeOfRequestAllowsIssuing($accessLevel);
 
         $generatedToken = $this->model->generateRandomTokenAuth();
         $this->model->addTokenAuth(

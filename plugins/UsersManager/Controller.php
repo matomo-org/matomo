@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\UsersManager;
 
 use Exception;
+use Piwik\Access;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Auth\PasswordStrength;
@@ -499,6 +500,10 @@ class Controller extends ControllerAdmin
             $secureOnly = $postRequest->getBoolParameter('secure_only', false);
             $hasTokenExpiry = $postRequest->getBoolParameter('has_expiration', false);
 
+            // The same rule the API applies: both ways of issuing a token have to agree on what may be
+            // issued, rather than one of them holding it.
+            UsersManager::checkTokenScopeOfRequestAllowsIssuing($tokenAccessLevel);
+
             $generatedToken = $this->userModel->generateRandomTokenAuth();
 
             $this->userModel->addTokenAuth(
@@ -534,7 +539,10 @@ class Controller extends ControllerAdmin
             'initialExpireDate' => $today->addDay($defaultExpireDays)->toString(),
             'defaultExpirationDays' => $defaultExpireDays,
             'expirationReminderDays' => GeneralConfig::getConfigValue('auth_token_expiration_notification_days'),
-            'allowedAccessLevels' => $this->getTokenAccessLevelOptions($allowedTokenAccessLevels),
+            'allowedAccessLevels' => $this->getTokenAccessLevelOptions(
+                $allowedTokenAccessLevels,
+                $tokenAccessLevelState['allowsInheritedAccessLevel']
+            ),
             'selectedAccessLevel' => $selectedAccessLevel,
         ]);
     }
@@ -542,6 +550,7 @@ class Controller extends ControllerAdmin
     /**
      * @return array{
      *     allowedAccessLevels: string[],
+     *     allowsInheritedAccessLevel: bool,
      *     selectedAccessLevel: string,
      *     tokenAccessLevel: string|null,
      *     invalidAccessLevel: bool
@@ -549,12 +558,31 @@ class Controller extends ControllerAdmin
      */
     private function getTokenAccessLevelStateForTokenForm(string $login, \Piwik\Request $postRequest): array
     {
+        // A scoped token can reach this form, so the user's own access is not the only bound on what may
+        // be offered - what the request's own token carries is the other.
+        $requestAccessLevel = Access::getInstance()->getTokenAccessLevel();
+        $isRequestScoped = $requestAccessLevel !== null && $requestAccessLevel !== 'superuser';
+
         $allowedAccessLevels = $this->userModel->getAllowedTokenAccessLevelsForUser($login);
+        if ($isRequestScoped) {
+            $allowedAccessLevels = $this->capAccessLevelsByRequestScope($allowedAccessLevels, $requestAccessLevel);
+        }
+
         $selectedAccessLevel = $postRequest->getStringParameter('access_level', '');
         $tokenAccessLevel = null;
         $invalidAccessLevel = false;
 
-        if ($selectedAccessLevel !== '') {
+        if ($isRequestScoped && $selectedAccessLevel === '') {
+            // "Inherit user access" is unscoped, which is more than a scoped request may hand out. A first
+            // render falls back to the most it carries; a submission asking for it gets the form's error.
+            if (count($postRequest->getParameters())) {
+                $invalidAccessLevel = true;
+            } else {
+                $selectedAccessLevel = (string) end($allowedAccessLevels);
+            }
+        }
+
+        if (false === $invalidAccessLevel && $selectedAccessLevel !== '') {
             try {
                 $tokenAccessLevel = $this->userModel->normalizeAndValidateTokenAccessLevelForUser(
                     $login,
@@ -566,8 +594,16 @@ class Controller extends ControllerAdmin
             }
         }
 
+        if ($tokenAccessLevel !== null && !in_array($tokenAccessLevel, $allowedAccessLevels, true)) {
+            // A level this user may hold, but above what the request's own token carries.
+            $selectedAccessLevel = '';
+            $tokenAccessLevel = null;
+            $invalidAccessLevel = true;
+        }
+
         return [
             'allowedAccessLevels' => $allowedAccessLevels,
+            'allowsInheritedAccessLevel' => false === $isRequestScoped,
             'selectedAccessLevel' => $selectedAccessLevel,
             'tokenAccessLevel' => $tokenAccessLevel,
             'invalidAccessLevel' => $invalidAccessLevel,
@@ -576,14 +612,34 @@ class Controller extends ControllerAdmin
 
     /**
      * @param string[] $accessLevels
+     * @return string[]
+     */
+    private function capAccessLevelsByRequestScope(array $accessLevels, string $requestAccessLevel): array
+    {
+        $rankings = Access::getTokenAccessLevelRankings();
+        $maxRanking = $rankings[$requestAccessLevel] ?? 0;
+
+        $capped = array_filter($accessLevels, static function (string $accessLevel) use ($rankings, $maxRanking) {
+            return isset($rankings[$accessLevel]) && $rankings[$accessLevel] <= $maxRanking;
+        });
+
+        return array_values($capped);
+    }
+
+    /**
+     * @param string[] $accessLevels
      * @return array<int,array<string,string>>
      */
-    private function getTokenAccessLevelOptions(array $accessLevels): array
+    private function getTokenAccessLevelOptions(array $accessLevels, bool $withInheritedOption = true): array
     {
-        $options = [[
-            'key' => '',
-            'value' => $this->getTokenAccessLevelLabel(null),
-        ]];
+        $options = [];
+
+        if ($withInheritedOption) {
+            $options[] = [
+                'key' => '',
+                'value' => $this->getTokenAccessLevelLabel(null),
+            ];
+        }
 
         foreach ($accessLevels as $accessLevel) {
             $options[] = [
