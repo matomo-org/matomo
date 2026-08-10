@@ -29,7 +29,7 @@ class SimpleTest extends \PHPUnit\Framework\TestCase
     /**
      * All your actual test methods should start with the name "test"
      */
-    public function testSimpleAddition()
+    public function testSimpleAddition(): void
     {
         $this->assertEquals(2, 1 + 1);
     }

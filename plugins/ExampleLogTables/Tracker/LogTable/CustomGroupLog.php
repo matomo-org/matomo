@@ -23,11 +23,17 @@ class CustomGroupLog extends LogTable
         return 'group';
     }
 
+    /**
+     * @return string[]
+     */
     public function getPrimaryKey()
     {
         return ['group'];
     }
 
+    /**
+     * @return array<string, string>
+     */
     public function getWaysToJoinToOtherLogTables()
     {
         return ['log_custom' => 'group'];

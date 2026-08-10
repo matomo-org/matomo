@@ -22,12 +22,18 @@ class SimpleTable extends Visualization
     public const FOOTER_ICON_TITLE = 'Simple Table';
     public const FOOTER_ICON       = 'plugins/ExampleVisualization/images/table.png';
 
+    /**
+     * @return void
+     */
     public function beforeLoadDataTable()
     {
         // Here you can change the request that is sent to the API, for instance
         // $this->requestConfig->filter_sort_order = 'desc';
     }
 
+    /**
+     * @return void
+     */
     public function beforeGenericFiltersAreAppliedToLoadedDataTable()
     {
         // this hook is executed before generic filters like "filter_limit" and "filter_offset" are applied
@@ -35,6 +41,9 @@ class SimpleTable extends Visualization
         // $this->dateTable->filter($nameOrClosure);
     }
 
+    /**
+     * @return void
+     */
     public function afterGenericFiltersAreAppliedToLoadedDataTable()
     {
         // this hook is executed after generic filters like "filter_limit" and "filter_offset" are applied
@@ -42,6 +51,9 @@ class SimpleTable extends Visualization
         // $this->dateTable->filter($nameOrClosure, $parameters);
     }
 
+    /**
+     * @return void
+     */
     public function afterAllFiltersAreApplied()
     {
         // this hook is executed after the data table is loaded and after all filteres are applied.
@@ -50,6 +62,9 @@ class SimpleTable extends Visualization
         $this->assignTemplateVar('vizTitle', 'MyAwesomeTitle');
     }
 
+    /**
+     * @return void
+     */
     public function beforeRender()
     {
         // Configure how your visualization should look like, for instance you can disable search

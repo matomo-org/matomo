@@ -19,11 +19,8 @@ use Piwik\Updater\Migration\Factory as MigrationFactory;
  */
 class Updates_0_0_2 extends PiwikUpdates
 {
-    private MigrationFactory $migration;
-
-    public function __construct(MigrationFactory $factory)
+    public function __construct(private readonly MigrationFactory $migration)
     {
-        $this->migration = $factory;
     }
 
     /**
@@ -41,12 +38,12 @@ class Updates_0_0_2 extends PiwikUpdates
         // many different migrations are available to be used via $this->migration factory
         $migration1 = $this->migration->db->changeColumnType('log_visit', 'example', 'BOOLEAN NOT NULL');
         // you can also define custom SQL migrations. If you need to bind parameters, use `->boundSql()`
-        $migration2 = $this->migration->db->sql($sqlQuery = 'SELECT 1');
+        $migration2 = $this->migration->db->sql('SELECT 1');
 
-        return array(
+        return [
             // $migration1,
-            // $migration2
-        );
+            // $migration2,
+        ];
     }
 
     /**
@@ -54,6 +51,8 @@ class Updates_0_0_2 extends PiwikUpdates
      *
      * This method should perform all updating logic. If you define queries in the `getMigrations()` method,
      * you must call {@link Updater::executeMigrations()} here.
+     *
+     * @return void
      */
     public function doUpdate(Updater $updater)
     {
