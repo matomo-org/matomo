@@ -11,6 +11,7 @@ import { translate } from '../translate';
 import ReportExportPopover from './ReportExportPopover.vue';
 import Matomo from '../Matomo/Matomo';
 import createVueApp from '../createVueApp';
+import findReportRoot from '../DataTable/reportScope';
 
 export interface ReportExportArgs {
   reportTitle: string;
@@ -29,7 +30,9 @@ export default {
     el.addEventListener('click', () => {
       const popoverParamBackup = MatomoUrl.hashParsed.value.popover;
 
-      const dataTable = $(el).closest('[data-report]').data('uiControlObject');
+      // `data-report` sits on `.dataTable`, so this must resolve through the report scope: the
+      // export icon is moving up into the header, which is rendered outside the table.
+      const dataTable = findReportRoot(el).data('uiControlObject');
       const popover = window.Piwik_Popover.showLoading('Export');
 
       const formats = binding.value.reportFormats;
