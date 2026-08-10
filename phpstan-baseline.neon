@@ -3067,30 +3067,6 @@ parameters:
 			path: plugins/Events/Reports/Base.php
 
 		-
-			message: '#^Parameter \#3 \$escapeComment of static method Piwik\\Plugins\\Diagnostics\\Diagnostic\\DiagnosticResult\:\:informationalResult\(\) expects bool, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: plugins/ExamplePlugin/Diagnostic/ExampleCheck.php
-
-		-
-			message: '#^Parameter \#2 \$value of static method Piwik\\Option\:\:set\(\) expects string, int given\.$#'
-			identifier: argument.type
-			count: 1
-			path: plugins/ExamplePlugin/RecordBuilders/ExampleMetric2.php
-
-		-
-			message: '#^Strict comparison using \=\=\= between false and string will always evaluate to false\.$#'
-			identifier: identical.alwaysFalse
-			count: 1
-			path: plugins/ExampleTracker/Columns/ExampleActionDimension.php
-
-		-
-			message: '#^Property Piwik\\Notification\:\:\$flags \(int\) does not accept null\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: plugins/ExampleUI/Controller.php
-
-		-
 			message: '#^Dead catch \- Exception is never thrown in the try block\.$#'
 			identifier: catch.neverThrown
 			count: 1
