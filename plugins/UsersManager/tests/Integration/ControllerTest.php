@@ -9,7 +9,9 @@
 
 namespace Piwik\Plugins\UsersManager\tests\Integration;
 
+use Piwik\Common;
 use Piwik\Config;
+use Piwik\Exception\NoWebsiteFoundException;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Plugins\UsersManager\Controller;
 use Piwik\Nonce;
@@ -46,9 +48,14 @@ class ControllerTest extends IntegrationTestCase
      * @var PasswordVerifier
      */
     private $passwordVerify;
+    /**
+     * @var Model
+     */
+    private $userModel;
     private $post;
     private $get;
     private $request;
+    private $session;
     private $enableUsersAdmin;
     private $superUser;
     private $identity;
@@ -59,22 +66,24 @@ class ControllerTest extends IntegrationTestCase
         parent::setUp();
 
         $this->passwordVerify = new PasswordVerifier();
+        $this->userModel = new Model();
         $this->controller = new Controller(
             $translator = new Translator(new DevelopmentLoader(new JsonFileLoader())),
             $this->passwordVerify,
-            $userModel = new Model(),
+            $this->userModel,
             $passwordStrength = new PasswordStrength(true)
         );
         $this->post = $_POST;
         $this->get = $_GET;
         $this->request = $_REQUEST;
+        $this->session = $_SESSION ?? [];
         $this->enableUsersAdmin = Config::getInstance()->General['enable_users_admin'];
         $this->superUser = FakeAccess::$superUser;
         $this->identity = FakeAccess::$identity;
         $this->superUserLogin = FakeAccess::$superUserLogin;
 
         FakeAccess::$superUser = true;
-        $userModel->deleteUser(self::CURRENT_USER_LOGIN);
+        $this->userModel->deleteUser(self::CURRENT_USER_LOGIN);
         UsersManagerAPI::getInstance()->addUser(
             self::CURRENT_USER_LOGIN,
             'Password111!',
@@ -90,6 +99,7 @@ class ControllerTest extends IntegrationTestCase
         $_POST = $this->post;
         $_GET = $this->get;
         $_REQUEST = $this->request;
+        $_SESSION = $this->session;
         Config::getInstance()->General['enable_users_admin'] = $this->enableUsersAdmin;
         FakeAccess::$superUser = $this->superUser;
         FakeAccess::$identity = $this->identity;
@@ -235,14 +245,14 @@ class ControllerTest extends IntegrationTestCase
         $this->controller->recordPasswordChange();
     }
 
-    public function testDeleteTokenReadsIdTokenAuthFromPost()
+    public function testDeleteTokenRequiresRecentPasswordVerification()
     {
         // don't redirect to the password confirmation, so the failed verification throws
         $this->passwordVerify->setDisableRedirect();
 
         $_POST = [
             'idtokenauth' => '1',
-            'nonce' => Nonce::getNonce('deleteTokenNonce'),
+            'nonce' => Nonce::getNonce(Controller::NONCE_DELETE_AUTH_TOKEN),
         ];
         $_GET = [];
         $_REQUEST = $_POST;
@@ -250,6 +260,78 @@ class ControllerTest extends IntegrationTestCase
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Not allowed');
         $this->controller->deleteToken();
+    }
+
+    public function testDeleteTokenDeletesTokenAfterPasswordConfirmationRedirect()
+    {
+        $idTokenAuth = $this->addTokenForCurrentUser('token submitted for deletion');
+
+        $_POST = [
+            'idtokenauth' => (string) $idTokenAuth,
+            'nonce' => Nonce::getNonce(Controller::NONCE_DELETE_AUTH_TOKEN),
+        ];
+        $_GET = ['module' => 'UsersManager', 'action' => 'deleteToken'];
+        $_REQUEST = $_GET + $_POST;
+
+        // the password has not been confirmed yet, so the action redirects to the confirmation form
+        $redirectUrl = $this->captureRedirect(function () {
+            $this->controller->deleteToken();
+        });
+        $this->assertStringContainsString('action=confirmPassword', $redirectUrl);
+
+        // confirming the password redirects back to the action with the stored parameters
+        $redirectUrl = $this->captureRedirect(function () {
+            $this->passwordVerify->setPasswordVerifiedCorrectly(self::CURRENT_USER_LOGIN);
+        });
+        $this->assertStringContainsString('action=deleteToken', $redirectUrl);
+        $this->assertStringContainsString('idtokenauth=' . $idTokenAuth, $redirectUrl);
+
+        // that redirect is a GET request, so the parameters arrive without a post body
+        parse_str((string) parse_url($redirectUrl, PHP_URL_QUERY), $_GET);
+        $_POST = [];
+        $_REQUEST = $_GET;
+
+        $this->callDeleteTokenIgnoringFinalRedirect();
+
+        $this->assertSame([], $this->getTokenIdsForCurrentUser());
+    }
+
+    public function testDeleteTokenPrefersPostedIdTokenAuth()
+    {
+        $idTokenAuthInPost = $this->addTokenForCurrentUser('token named in the post body');
+        $idTokenAuthInQuery = $this->addTokenForCurrentUser('token named in the query string');
+
+        $this->markPasswordAsVerified();
+
+        $_POST = [
+            'idtokenauth' => (string) $idTokenAuthInPost,
+            'nonce' => Nonce::getNonce(Controller::NONCE_DELETE_AUTH_TOKEN),
+        ];
+        $_GET = ['idtokenauth' => (string) $idTokenAuthInQuery];
+        $_REQUEST = $_GET + $_POST;
+
+        $this->callDeleteTokenIgnoringFinalRedirect();
+
+        $this->assertSame([(string) $idTokenAuthInQuery], $this->getTokenIdsForCurrentUser());
+    }
+
+    public function testDeleteTokenIgnoresEmptyPostedIdTokenAuth()
+    {
+        $idTokenAuthInQuery = $this->addTokenForCurrentUser('token named in the query string');
+
+        $this->markPasswordAsVerified();
+
+        // an empty posted value is a value, so the query string is not consulted for it
+        $_POST = [
+            'idtokenauth' => '',
+            'nonce' => Nonce::getNonce(Controller::NONCE_DELETE_AUTH_TOKEN),
+        ];
+        $_GET = ['idtokenauth' => (string) $idTokenAuthInQuery];
+        $_REQUEST = $_GET + $_POST;
+
+        $this->callDeleteTokenIgnoringFinalRedirect();
+
+        $this->assertSame([(string) $idTokenAuthInQuery], $this->getTokenIdsForCurrentUser());
     }
 
     public function testUserSettingsShouldExposeMatchBrowserThemeModeOption()
@@ -293,6 +375,66 @@ class ControllerTest extends IntegrationTestCase
     public function testThemeModeShouldDefaultToLightForNewUsers()
     {
         $this->assertSame(ThemeStyles::LIGHT_MODE, (new UserPreferences())->getThemeMode());
+    }
+
+    private function addTokenForCurrentUser(string $description): string
+    {
+        return (string) $this->userModel->addTokenAuth(
+            self::CURRENT_USER_LOGIN,
+            'token' . Common::generateUniqId(),
+            $description,
+            Date::now()->getDatetime()
+        );
+    }
+
+    private function getTokenIdsForCurrentUser(): array
+    {
+        $tokens = $this->userModel->getAllNonSystemTokensForLogin(self::CURRENT_USER_LOGIN);
+
+        return array_map('strval', array_column($tokens, 'idusertokenauth'));
+    }
+
+    private function markPasswordAsVerified(): void
+    {
+        // the password only counts as verified while a verification is pending, so the redirect has
+        // to be initiated first
+        $this->passwordVerify->setDisableRedirect();
+        $this->passwordVerify->requirePasswordVerifiedRecently([
+            'module' => 'UsersManager',
+            'action' => 'deleteToken',
+        ]);
+        $this->passwordVerify->setPasswordVerifiedCorrectly(self::CURRENT_USER_LOGIN);
+    }
+
+    /**
+     * Runs a callable that is expected to redirect and returns the url it redirected to. Redirects
+     * throw instead of sending a header when running on the command line.
+     */
+    private function captureRedirect(callable $callable): string
+    {
+        unset(Common::$headersSentInTests['Location']);
+
+        try {
+            $callable();
+        } catch (\Exception $e) {
+            $this->assertStringContainsString('would redirect you to this URL', $e->getMessage());
+
+            return trim(Common::$headersSentInTests['Location'] ?? '');
+        }
+
+        $this->fail('the call was expected to redirect');
+    }
+
+    private function callDeleteTokenIgnoringFinalRedirect(): void
+    {
+        // the action ends by redirecting to the user security page, which cannot be followed here as
+        // no site exists to build the url from
+        try {
+            $this->controller->deleteToken();
+            $this->fail('deleteToken() was expected to end in a redirect');
+        } catch (NoWebsiteFoundException $e) {
+            // expected
+        }
     }
 
     private function setupPostStateWithPassword(string $password)
