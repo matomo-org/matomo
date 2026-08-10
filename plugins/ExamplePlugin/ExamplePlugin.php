@@ -9,20 +9,10 @@
 
 namespace Piwik\Plugins\ExamplePlugin;
 
+/**
+ * This plugin does not need to hook into any event, so the plugin class stays empty. Have a look at
+ * ExampleLogTables or ExampleTheme to see how events are registered via `registerEvents()`.
+ */
 class ExamplePlugin extends \Piwik\Plugin
 {
-    public function registerEvents()
-    {
-        return [
-            'CronArchive.getArchivingAPIMethodForPlugin' => 'getArchivingAPIMethodForPlugin',
-        ];
-    }
-
-    // support archiving just this plugin via core:archive
-    public function getArchivingAPIMethodForPlugin(&$method, $plugin)
-    {
-        if ($plugin == 'ExamplePlugin') {
-            $method = 'ExamplePlugin.getExampleArchivedMetric';
-        }
-    }
 }
