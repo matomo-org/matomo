@@ -49,7 +49,7 @@
             {% set footerLinks %}{{ postEvent('Template.pageFooter') }}{% endset %}
 
             {% if footerLinks|trim is not empty %}
-                <div class="loginLayout__footerLinks">{{ footerLinks|raw }}</div>
+                <div class="loginLayout__footerLinks">{{ footerLinks }}</div>
             {% endif %}
         </div>
     </div>
