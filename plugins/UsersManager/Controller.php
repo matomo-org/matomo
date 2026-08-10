@@ -376,7 +376,7 @@ class Controller extends ControllerAdmin
     {
         Piwik::checkUserIsNotAnonymous();
 
-        $idTokenAuth = Common::getRequestVar('idtokenauth', '', 'string');
+        $idTokenAuth = \Piwik\Request::fromPost()->getStringParameter('idtokenauth', '');
 
         if (!empty($idTokenAuth)) {
             $params = array(
@@ -605,13 +605,14 @@ class Controller extends ControllerAdmin
      */
     public function recordAnonymousUserSettings()
     {
-        $response = new ResponseBuilder(Common::getRequestVar('format'));
+        $response = new ResponseBuilder(\Piwik\Request::fromRequest()->getStringParameter('format'));
         try {
             Piwik::checkUserHasSuperUserAccess();
             $this->checkTokenInUrl();
 
-            $anonymousDefaultReport = Common::getRequestVar('anonymousDefaultReport');
-            $anonymousDefaultDate = Common::getRequestVar('anonymousDefaultDate');
+            $request = \Piwik\Request::fromPost();
+            $anonymousDefaultReport = $request->getStringParameter('anonymousDefaultReport');
+            $anonymousDefaultDate = $request->getStringParameter('anonymousDefaultDate');
             $userLogin = 'anonymous';
             APIUsersManager::getInstance()->setUserPreference(
                 $userLogin,
@@ -637,15 +638,16 @@ class Controller extends ControllerAdmin
      */
     public function recordUserSettings()
     {
-        $response = new ResponseBuilder(Common::getRequestVar('format'));
+        $response = new ResponseBuilder(\Piwik\Request::fromRequest()->getStringParameter('format'));
         try {
             $this->checkTokenInUrl();
 
-            $themeMode = $this->getValidatedThemeMode(Common::getRequestVar('themeMode'));
-            $defaultReport = Common::getRequestVar('defaultReport');
-            $defaultDate = Common::getRequestVar('defaultDate');
-            $language = Common::getRequestVar('language');
-            $timeFormat = Common::getRequestVar('timeformat');
+            $request = \Piwik\Request::fromPost();
+            $themeMode = $this->getValidatedThemeMode($request->getStringParameter('themeMode'));
+            $defaultReport = $request->getStringParameter('defaultReport');
+            $defaultDate = $request->getStringParameter('defaultDate');
+            $language = $request->getStringParameter('language');
+            $timeFormat = $request->getStringParameter('timeformat');
             $userLogin = Piwik::getCurrentUserLogin();
 
             Piwik::checkUserHasSuperUserAccessOrIsTheUser($userLogin);
@@ -735,7 +737,7 @@ class Controller extends ControllerAdmin
             throw new Exception("Cannot change email with untrusted hostname!");
         }
 
-        $request = \Piwik\Request::fromRequest();
+        $request = \Piwik\Request::fromPost();
         $email = $request->getStringParameter('email');
         $passwordCurrent = $request->getStringParameter('passwordConfirmation', '');
 
@@ -758,7 +760,7 @@ class Controller extends ControllerAdmin
             throw new Exception("Cannot change password with untrusted hostname!");
         }
 
-        $request = \Piwik\Request::fromRequest();
+        $request = \Piwik\Request::fromPost();
         $newPassword = $request->getStringParameter('password', '');
         $passwordBis = $request->getStringParameter('passwordBis', '');
         $passwordCurrent = $request->getStringParameter('passwordConfirmation', '');

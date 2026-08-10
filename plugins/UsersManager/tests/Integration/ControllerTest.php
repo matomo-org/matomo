@@ -42,6 +42,10 @@ class ControllerTest extends IntegrationTestCase
      * @var Controller
      */
     private $controller;
+    /**
+     * @var PasswordVerifier
+     */
+    private $passwordVerify;
     private $post;
     private $get;
     private $request;
@@ -54,9 +58,10 @@ class ControllerTest extends IntegrationTestCase
     {
         parent::setUp();
 
+        $this->passwordVerify = new PasswordVerifier();
         $this->controller = new Controller(
             $translator = new Translator(new DevelopmentLoader(new JsonFileLoader())),
-            $passwordVerify = new PasswordVerifier(),
+            $this->passwordVerify,
             $userModel = new Model(),
             $passwordStrength = new PasswordStrength(true)
         );
@@ -141,19 +146,110 @@ class ControllerTest extends IntegrationTestCase
 
         $_GET = [
             'format' => 'json',
+        ];
+        $_POST = [
             'themeMode' => 'invalid',
             'defaultReport' => '1',
             'defaultDate' => 'today',
             'language' => 'en',
             'timeformat' => '0',
         ];
-        $_POST = [];
-        $_REQUEST = $_GET;
+        $_REQUEST = $_GET + $_POST;
 
         $response = $this->controller->recordUserSettings();
 
         $this->assertStringContainsString('Invalid theme mode', $response);
         $this->assertSame(ThemeStyles::LIGHT_MODE, (new UserPreferences())->getThemeMode());
+    }
+
+    public function testRecordUserSettingsReadsSettingsFromPost()
+    {
+        Config::getInstance()->General['enable_users_admin'] = 0;
+
+        // settings are read from the post body, not the query string
+        $_GET = [
+            'format' => 'json',
+            'themeMode' => 'invalid',
+        ];
+        $_POST = [
+            'themeMode' => ThemeStyles::LIGHT_MODE,
+            'defaultReport' => '1',
+            'defaultDate' => 'today',
+            'language' => 'en',
+            'timeformat' => '0',
+        ];
+        $_REQUEST = $_GET + $_POST;
+
+        $response = $this->controller->recordUserSettings();
+
+        $this->assertStringNotContainsString('Invalid theme mode', $response);
+    }
+
+    public function testRecordAnonymousUserSettingsReadsSettingsFromPost()
+    {
+        (new Model())->addUser('anonymous', '', 'anonymous@example.com', Date::now()->getDatetime());
+
+        // settings are read from the post body, not the query string
+        $_GET = [
+            'format' => 'json',
+            'anonymousDefaultReport' => 'MultiSites',
+            'anonymousDefaultDate' => 'week',
+        ];
+        $_POST = [
+            'anonymousDefaultReport' => '1',
+            'anonymousDefaultDate' => 'today',
+        ];
+        $_REQUEST = $_GET + $_POST;
+
+        $this->controller->recordAnonymousUserSettings();
+
+        $storedReport = UsersManagerAPI::getInstance()->getUserPreference(
+            UsersManagerAPI::PREFERENCE_DEFAULT_REPORT,
+            'anonymous'
+        );
+        $storedDate = UsersManagerAPI::getInstance()->getUserPreference(
+            UsersManagerAPI::PREFERENCE_DEFAULT_REPORT_DATE,
+            'anonymous'
+        );
+
+        $this->assertSame('1', (string) $storedReport);
+        $this->assertSame('today', (string) $storedDate);
+    }
+
+    public function testRecordPasswordChangeReadsPasswordFromPost()
+    {
+        // password is read from the post body, not the query string
+        $this->setupPostStateWithPassword('Password111!');
+        $_GET['password'] = 'weak';
+        $_GET['passwordBis'] = 'weak';
+
+        // create user to get test in a repeatable state
+        $userLogin = 'super user was set';
+        $userEmail = 'test@test.com';
+        $usersModel = new Model();
+        $usersModel->addUser($userLogin, $passwordHash = '', $userEmail, Date::now()->getDatetime());
+
+        // expect test to get past strength check and fail when checking existing password
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_ConfirmWithReAuthentication');
+        $this->controller->recordPasswordChange();
+    }
+
+    public function testDeleteTokenReadsIdTokenAuthFromPost()
+    {
+        // don't redirect to the password confirmation, so the failed verification throws
+        $this->passwordVerify->setDisableRedirect();
+
+        $_POST = [
+            'idtokenauth' => '1',
+            'nonce' => Nonce::getNonce('deleteTokenNonce'),
+        ];
+        $_GET = [];
+        $_REQUEST = $_POST;
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Not allowed');
+        $this->controller->deleteToken();
     }
 
     public function testUserSettingsShouldExposeMatchBrowserThemeModeOption()
