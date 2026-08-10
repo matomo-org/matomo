@@ -5,6 +5,7 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 import nock from 'nock';
+import { computed, watch } from 'vue';
 import '../Periods/Day';
 import '../Periods/Week';
 import '../Periods/Month';
@@ -415,6 +416,62 @@ describe('CoreHome/Comparisons.store', () => {
         'comparison-series-color.series4',
         'comparison-series-color.series5',
       ]);
+    });
+
+    it('should return undefined colours when they cannot be read at all', async () => {
+      await setHash('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment&compareSegments[]=');
+
+      // A stylesheet that never defines the colours: ColorManager keeps coming back empty.
+      window.piwik.ColorManager = {
+        getColors() {
+          return {};
+        }
+      } as unknown as ColorManagerService;
+      const store = new ComparisonsStore();
+
+      const first = store.getAllComparisonSeries();
+      const second = store.getAllComparisonSeries();
+
+      expect(first.map((series) => series.color)).toEqual([
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+      ]);
+      expect(second).toEqual(first);
+    });
+
+    it('should not store the colours again when they cannot be read at all', async () => {
+      await setHash('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment&compareSegments[]=');
+
+      window.piwik.ColorManager = {
+        getColors() {
+          return {};
+        }
+      } as unknown as ColorManagerService;
+      const store = new ComparisonsStore();
+      while (!store.state.comparisonsDisabledFor.length) {
+        await wait();
+      }
+
+      const series = computed(() => store.getAllComparisonSeries());
+      let invalidations = 0;
+      const stopWatching = watch(series, () => { invalidations += 1; });
+
+      try {
+        expect(series.value).toHaveLength(6);
+
+        // Storing the empty result a second time would invalidate everything reading the colours:
+        // every comparison sparkline would rebuild its image URL and ask for a new PNG.
+        store.getAllComparisonSeries();
+        await wait();
+
+        expect(invalidations).toBe(0);
+      } finally {
+        stopWatching();
+      }
     });
   });
 
