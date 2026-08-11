@@ -98,6 +98,9 @@ class Login extends \Piwik\Plugin
         $translations[] = 'Login_UnblockAllIPs';
         $translations[] = 'Login_CurrentlyBlockedIPsUnblockConfirm';
         $translations[] = 'Login_IPsAlwaysBlocked';
+        $translations[] = 'Login_LoginOrEmail';
+        $translations[] = 'General_Password';
+        $translations[] = 'General_Required';
     }
 
     /**

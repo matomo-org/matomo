@@ -71,27 +71,54 @@ describe("Login", function () {
       expect(element).to.be.ok;
     });
 
-    // Enable/disable login button.
-    it('should enable the login button when username and password are entered', async function () {
+    // Empty field validation.
+    it('should report the empty fields instead of submitting the login form', async function () {
+      // Reached while logged out, so the server has already rendered its own "you must be logged
+      // in" error. Reporting the empty fields has to replace that, not stack on top of it.
       await page.goto('?module=CoreHome&action=index&idSite=1&period=week&date=2017-06-04');
 
-      // Assert that the button starts off disabled.
-      await page.waitForSelector('#login_form_submit[disabled]');
-
-      // Button still disabled with user, but not password entered.
-      await page.type('#login_form_login', 'u');
-      await page.waitForSelector('#login_form_submit[disabled]');
-
-      // Button enabled with user and password both entered.
-      await page.type('#login_form_password', 'p');
+      // The button is always enabled, and native validation is off now that the handler is bound.
       await page.waitForSelector('#login_form_submit:not([disabled])');
+      await page.waitForSelector('#login_form[novalidate]');
 
-      // Button disabled again if a field is now blank.
-      await page.keyboard.press('Backspace');
-      await page.waitForSelector('#login_form_submit[disabled]');
+      const urlBeforeSubmit = page.url();
+      const notifications = async () => (await page.$$('.loginForm .message_container .notification')).length;
+
+      expect(await notifications()).to.equal(1);
+
+      // Both fields empty: both are reported, and the form is not submitted.
+      await page.click('#login_form_submit');
+      await page.waitForSelector('#login_form_errors .notification');
+
+      let errors = await page.$eval('#login_form_errors', el => el.innerText);
+      expect(errors).to.contain('Username or e-mail required');
+      expect(errors).to.contain('Password required');
+      expect(page.url()).to.equal(urlBeforeSubmit);
+
+      // The server's error is gone rather than left stranded above the new one.
+      expect(await notifications()).to.equal(1);
+      expect(await page.evaluate(() => document.activeElement.id)).to.equal('login_form_login');
+
+      // Only the password missing: only that is reported, and the banners don't stack.
+      await page.type('#login_form_login', 'u');
+      await page.click('#login_form_submit');
+      await page.waitForFunction(
+        () => {
+          const banner = document.querySelector('#login_form_errors');
+          return banner && banner.innerText.indexOf('Password required') !== -1
+            && banner.innerText.indexOf('Username or e-mail required') === -1;
+        }
+      );
+
+      expect(await notifications()).to.equal(1);
+      expect(page.url()).to.equal(urlBeforeSubmit);
+      expect(await page.evaluate(() => document.activeElement.id)).to.equal('login_form_password');
     });
 
     it("should fail when incorrect credentials are supplied", async function() {
+        await page.goto('');
+        await page.waitForSelector('#login_form[novalidate]');
+
         await page.type('#login_form_login', 'superUserLogin');
         await page.type('#login_form_password', 'wrongpassword');
         await page.evaluate(function(){
