@@ -780,9 +780,10 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         }
     },
     handlePeriod: function (domElem) {
-        var $periodSelect = $('.dataTablePeriods .tableIcon', domElem);
-
         var self = this;
+        // the periods dropdown is part of the action bar, so it is resolved through the report
+        var scope = self._findReportScope(domElem);
+        var $periodSelect = $('.dataTablePeriods .tableIcon', scope);
         $periodSelect.click(function () {
             var period = $(this).attr('data-period');
             if (!period || period == self.param['period']) {
@@ -802,7 +803,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             endDateOfPeriod = formatDate(endDateOfPeriod);
 
             var newPeriod = piwikPeriods.get(period);
-            $('.periodName', domElem).html(newPeriod.getDisplayText());
+            $('.periodName', scope).html(newPeriod.getDisplayText());
 
             self.param['period'] = period;
             self.param['date'] = endDateOfPeriod;
@@ -1020,8 +1021,11 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
     handleEvolutionAnnotations: function (domElem) {
         var self = this;
+        // the annotation icon that gates this row belongs to the action bar, so look for it in the
+        // report scope; everything it then renders stays inside the table
+        var scope = self._findReportScope(domElem);
         if ((self.param.viewDataTable === 'graphEvolution' || self.param.viewDataTable === 'graphStackedBarEvolution')
-            && $('.annotationView', domElem).length > 0) {
+            && $('.annotationView', scope).length > 0) {
             // get dates w/ annotations across evolution period (have to do it through AJAX since we
             // determine placement using the elements created by jqplot)
 
@@ -1084,7 +1088,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                                 undefined, // lastN
                                 function (manager) {
                                     manager.attr('data-is-range', 0);
-                                    $('.annotationView', domElem)
+                                    $('.annotationView', scope)
                                         .attr('title', _pk_translate('Annotations_IconDesc'));
 
                                     var viewAndAdd = _pk_translate('Annotations_ViewAndAddAnnotations'),
@@ -1979,8 +1983,11 @@ $.extend(DataTable.prototype, UIControl.prototype, {
     // rendered without a title and without a wrapper - because widening there would reach into a
     // sibling report on the same page.
     _findReportScope: function (domElem) {
-        if (typeof this.parentId != "undefined" && this.parentId != '') {
-            // subtables reuse the parent report's header and have no controls of their own
+        // Subtables reuse the parent report's header and have no controls of their own, so they must
+        // never widen: doing so would rebind the parent's controls to the subtable's instance.
+        // Both signals are needed - `parentId` is only set by ActionsDataTable, while a generic
+        // expandable subtable is a fresh instance that carries `idSubtable` in its params.
+        if ((typeof this.parentId != "undefined" && this.parentId != '') || this.param.idSubtable) {
             return domElem;
         }
 
