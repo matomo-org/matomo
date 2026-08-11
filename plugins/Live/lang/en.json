@@ -41,6 +41,8 @@
         "VisitsLog": "Visits Log",
         "DisableVisitsLogAndProfile": "Turn off Visits log and Visitor profiles",
         "DisableVisitsLogAndProfileDescription": "Also removes features that depend on these, like the e-commerce log, the segmented visits-log, the real-time map or the real-time widget. May be required to comply with local privacy laws\/guidelines.",
+        "EnableAggregatedRealtimeReports": "Enable aggregated real-time reports",
+        "EnableAggregatedRealtimeReportsDescription": "Shows privacy-safe aggregated metrics for the \"Last 24 hours\" and \"Last 30 minutes\". No individual visitor, visit, session, or action-level information is displayed.",
         "QueryMaxExecutionTimeExceeded": "Could not run the query in time.",
         "QueryMaxExecutionTimeExceededReasonDateRange": "Maybe the selected date range is too wide?",
         "QueryMaxExecutionTimeExceededReasonSegment": "Maybe the selected segment didn't match any visits?",
