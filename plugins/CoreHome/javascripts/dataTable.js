@@ -784,7 +784,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         // the periods dropdown is part of the action bar, so it is resolved through the report
         var scope = self._findReportScope(domElem);
         var $periodSelect = $('.dataTablePeriods .tableIcon', scope);
-        $periodSelect.click(function () {
+        $periodSelect.off('click.reportAction').on('click.reportAction', function () {
             var period = $(this).attr('data-period');
             if (!period || period == self.param['period']) {
                 return;
@@ -1166,7 +1166,8 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
         // the trigger is scoped to the report, so it keeps working once it moves up into the
         // header; the manager it toggles stays inside the table
-        $('.annotationView', self._findReportScope(domElem)).click(function () {
+        $('.annotationView', self._findReportScope(domElem))
+            .off('click.reportAction').on('click.reportAction', function () {
             var annotationManager = $('.annotation-manager', domElem);
 
             if (annotationManager.length > 0
@@ -1215,7 +1216,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
         $('.tableAllColumnsSwitch a', scope).show();
 
-        $('.dataTableFooterIcons .tableIcon', scope).click(function () {
+        $('.dataTableFooterIcons .tableIcon', scope).off('click.reportAction').on('click.reportAction', function () {
             var id = $(this).attr('data-footer-icon-id');
             if (!id) {
                 return;
@@ -1285,22 +1286,22 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
         // handle low population
         $('.dataTableExcludeLowPopulation', scope)
-            .click(generateClickCallback('enable_filter_excludelowpop'));
+            .off('click.reportAction').on('click.reportAction', generateClickCallback('enable_filter_excludelowpop'));
 
         // handle flatten
         $('.dataTableFlatten', scope)
-            .click(generateClickCallback('flat'));
+            .off('click.reportAction').on('click.reportAction', generateClickCallback('flat'));
 
         // handle flatten
         $('.dataTableShowTotalsRow', scope)
-            .click(generateClickCallback('keep_totals_row'));
+            .off('click.reportAction').on('click.reportAction', generateClickCallback('keep_totals_row'));
 
         // handle percentage values
         $('.dataTableShowPercentageValues', scope)
-            .click(generateClickCallback('show_percentage_values'));
+            .off('click.reportAction').on('click.reportAction', generateClickCallback('show_percentage_values'));
 
         $('.dataTableIncludeAggregateRows', scope)
-            .click(generateClickCallback('include_aggregate_rows', function () {
+            .off('click.reportAction').on('click.reportAction', generateClickCallback('include_aggregate_rows', function () {
                 if (self.param.include_aggregate_rows == 1) {
                     // when including aggregate rows is enabled, we remove the sorting
                     // this way, the aggregate rows appear directly before their children
@@ -1310,11 +1311,11 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             }));
 
         $('.dataTableShowDimensions', scope)
-            .click(generateClickCallback('show_dimensions'));
+            .off('click.reportAction').on('click.reportAction', generateClickCallback('show_dimensions'));
 
         // handle pivot by
         $('.dataTablePivotBySubtable', scope)
-            .click(generateClickCallback('pivotBy', null, function () {
+            .off('click.reportAction').on('click.reportAction', generateClickCallback('pivotBy', null, function () {
                 if (self.param.pivotBy
                     && self.param.pivotBy != '0'
                 ) {
@@ -1991,9 +1992,17 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             return domElem;
         }
 
-        if (domElem.prev('[vue-entry="CoreHome.ReportHeader"]').length) {
-            // full-page report: the header is the table's previous sibling inside the wrapper
-            return domElem.parent();
+        // Full-page report: the header precedes the table inside the wrapper. Usually it is the
+        // table's own previous sibling, but an empty titled report gets an extra `.card >
+        // .card-content` between the two (_dataTable.twig), so climb a couple of levels looking for
+        // it. Only a level that actually has the header beside it widens, so a report without one
+        // still cannot reach a sibling report.
+        var $node = domElem;
+        for (var depth = 0; depth < 3 && $node.length; depth += 1) {
+            if ($node.prev('[vue-entry="CoreHome.ReportHeader"]').length) {
+                return $node.parent();
+            }
+            $node = $node.parent();
         }
 
         var $widget = domElem.parents('.widget').first();

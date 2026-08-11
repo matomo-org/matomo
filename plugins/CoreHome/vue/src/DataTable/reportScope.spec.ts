@@ -52,6 +52,22 @@ describe('findReportRoot', () => {
     expect(findReportRoot(control('icon'))[0]).toBe(document.querySelector('#report'));
   });
 
+  // An empty titled report gets an extra `.card > .card-content` between the wrapper and the table,
+  // so the table is not the header's own next sibling.
+  it('should reach the table of an empty report wrapped in a card', () => {
+    document.body.innerHTML = `
+      <div>
+        <div vue-entry="CoreHome.ReportHeader"><a id="icon"></a></div>
+        <div class="card">
+          <div class="card-content">
+            <div class="dataTable isDataTableEmpty" id="report"></div>
+          </div>
+        </div>
+      </div>`;
+
+    expect(findReportRoot(control('icon'))[0]).toBe(document.querySelector('#report'));
+  });
+
   it('should reach the table from a control in the widget chrome', () => {
     document.body.innerHTML = `
       <div class="widget">
