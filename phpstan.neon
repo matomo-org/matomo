@@ -27,7 +27,6 @@ parameters:
         - plugins/SecurityInfo
         - plugins/TagManager
         - plugins/TasksTimetable
-        - plugins/TrackingSpamPrevention
         - plugins/TreemapVisualization
         - plugins/VisitorGenerator
     bootstrapFiles:

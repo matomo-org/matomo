@@ -1,0 +1,25 @@
+{
+    "TrackingSpamPrevention": {
+        "BanIpNotificationMailSubject": "Cuireadh cosc ar IP as an iomarca gníomhartha a ghiniúint.",
+        "BlockCloudNoteInternetDisabled": "Toisc go bhfuil an Idirlíon múchta i do chumraíocht Matomo, ní oibreoidh an ghné seo.",
+        "SettingBlockCloudDescription": "Cuir bac ar iarratais a rianú a thagann ó sholáthraithe néil mar AWS, Azure, Digital Ocean, Google Cloud agus Oracle trí liosta dá raonta IP a fháil. Ba cheart go mbeadh sé sábháilte é a chur ar siúl mura bhfuil tú ag rianú ach ag baint úsáide as an rianaitheoir JavaScript, toisc nach dtagann a n-iarratais rianaithe ó scamaill, ach amháin má úsáideann siad VPN a sheolann sonraí trí sholáthraithe scamall. Baineann an socrú le do shuíomhanna go léir.",
+        "SettingBlockCloudTitle": "Cuir bac ar iarratais rianaithe ón néal",
+        "SettingBlockHeadlessDescription": "Brabhsálaithe iad seo gan comhéadan úsáideora, a úsáidtear go príomha le haghaidh uathoibriú. Ba cheart go mbeadh sé sábháilte é seo a chur ar siúl mura bhfuil ach suíomhanna gréasáin nó aipeanna rialta agat. Féadann sé róbónna breise agus iarratais turscair a bhlocáil nach n-aimseofaí murach sin.",
+        "SettingBlockHeadlessTitle": "Bloc brabhsálaithe gan ceann",
+        "SettingExcludedCountriesDescription": "Ná rianaigh cuairteoirí ó na tíortha seo. Is dócha gur róbónna nó spammers a bheidh i gcuairteoirí lasmuigh de do sprioclimistéar, nó is féidir leat é a úsáid chun dlíthe príobháideachta i ndlínsí eile a sheachaint.",
+        "SettingExcludedCountriesTitle": "Fág Tíortha",
+        "SettingIncludedCountriesDescription": "Ní bhaineann sé seo le gach tír eile. Tá tuilleadh eolais sa socrú \"eisiamh tíortha\".",
+        "SettingIncludedCountriesTitle": "Ná rianaigh ach cuairteoirí ó na tíortha seo",
+        "SettingIpAllowListHelp": "Sonraigh na seoltaí IP nó na raonta CIDR a bhfuil cead acu iarratais rianaithe a sheoladh. Cuir isteach luach amháin in aghaidh an líne.",
+        "SettingIpAllowListTitle": "Liosta ceadaithe IP",
+        "SettingIpBlockListHelp": "Sonraigh na seoltaí IP nó na raonta CIDR le bac a chur orthu ó iarratais rianaithe a sheoladh. Cuir isteach luach amháin in aghaidh an líne. Féadfaidh Matomo IPanna breise a bhac go huathoibríoch nach mbeidh le feiceáil sa liosta seo, amhail raonta IP soláthraithe scamall a fhaightear go laethúil nuair a bhíonn \"Bac iarratais rianaithe ón scamall\" cumasaithe, nó IPanna atá toirmiscthe go sealadach as an uasteorainn gníomhartha a shárú.",
+        "SettingIpBlockListTitle": "Liosta blocála IP",
+        "SettingMaxActionsDescription": "Is é an réamhshocrú \"0\" a thaifeadann gach gníomh. De ghnáth, níl níos mó ná 100 go 300 ag an gcuid is mó de na láithreáin. B'fhéidir go mbeadh sé sábháilte glacadh leis go bhfuil gníomhaíocht eile ag rianú spam, bot, nó ionsaí. Stopann Matomo ag taifeadadh gníomhartha breise agus cuireann sé bac ar a seoltaí IP ar feadh suas le 24 uair an chloig chun an t-ualach freastalaí a laghdú agus cruinneas sonraí a chaomhnú.",
+        "SettingMaxActionsTitle": "Uasmhéid gníomhartha le taifeadadh in aghaidh na cuairte",
+        "SettingNotificationEmailDescription": "Cuirfear an seoladh r-phoist seo ar an eolas nuair a chuirtear toirmeasc ar IP mar gheall ar an iomarca gníomhartha a bheith aige. D'fhéadfaí tuilleadh cúiseanna fógartha a chur leis amach anseo.",
+        "SettingNotificationEmailTitle": "Ríomhphost fógra",
+        "SettingOrganisationBlockListHelp": "Cuir bac ar iarratais rianaithe nuair a bhaineann seoladh IP an chuairteora le heagraíocht shonraithe, amhail soláthraí óstála nó scamall. Cuir isteach eagraíocht amháin in aghaidh gach líne. Bain úsáid as ainmneacha sonracha chun meaitseálacha neamhbheartaithe a sheachaint. Déanfar aon eagraíocht a bhfuil ainm aici ina bhfuil an luach a chuireann tú isteach a mheaitseáil. Ní bhaineann an liosta seo ach nuair a bhíonn \"Bac ar iarratais rianaithe ón scamall\" cumasaithe.%3$s%1$sNóta:%2$s Díchumasaíonn glanadh an liosta blocáil eagraíochta; ní athchóiríonn sé an liosta réamhshocraithe.",
+        "SettingOrganisationBlockListTitle": "Liosta blocála eagraíochta",
+        "SettingsIntroduction": "Is féidir le trácht turscair agus bot iarratais rianaithe a bhorradh agus sonraí nach dteastaíonn a thabhairt isteach i do thuairiscí. Cumraigh na socruithe seo chun an trácht seo a laghdú sula ndéanann sé difear do d’anailísíocht."
+    }
+}

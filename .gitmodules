@@ -58,10 +58,6 @@
     path = plugins/CustomVariables
     url = https://github.com/matomo-org/plugin-CustomVariables.git
     branch = 5.x-dev
-[submodule "plugins/TrackingSpamPrevention"]
-    path = plugins/TrackingSpamPrevention
-    url = https://github.com/matomo-org/plugin-TrackingSpamPrevention.git
-    branch = 5.x-dev
 
 
 # Add new Plugin submodule above this line ^^
