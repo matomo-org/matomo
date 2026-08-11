@@ -24,52 +24,74 @@
                     {% endif %}
                 </div>
                 <form class="loginForm__form" {{ form_data.attributes|raw }}>
-                    <div class="row loginForm__row">
-                        <div class="col s12 input-field loginForm__field">
-                            <input type="text" name="form_login" id="login_form_login" class="input" value="" size="20"
-                                   placeholder="" autocomplete="username" autocorrect="off" autocapitalize="none"
-                                   spellcheck="false" tabindex="10" autofocus="autofocus" required />
-                            <label for="login_form_login">
-                                <i class="icon-user icon"></i> {{ 'Login_LoginOrEmail'|translate }}
-                            </label>
+                    <div class="loginForm__row">
+                        <div class="row">
+                            <div class="col s12">
+                                <div class="loginForm__field">
+                                    <div class="input-field">
+                                        <input type="text" name="form_login" id="login_form_login" class="input" value="" size="20"
+                                               placeholder="" autocomplete="username" autocorrect="off" autocapitalize="none"
+                                               spellcheck="false" tabindex="10" autofocus="autofocus" required />
+                                        <label for="login_form_login">
+                                            <i class="icon-user icon"></i> {{ 'Login_LoginOrEmail'|translate }}
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="row loginForm__row">
-                        <div class="col s12 input-field loginForm__field">
-                            <input type="hidden" name="form_nonce" id="login_form_nonce" value="{{ nonce }}"/>
-                            <input type="hidden" name="form_redirect" id="login_form_redirect" value=""/>
-                            <input type="password" name="form_password" id="login_form_password" class="input"
-                                   value="" size="20" placeholder="" autocomplete="current-password" autocorrect="off"
-                                   autocapitalize="none" spellcheck="false" tabindex="20" required
-                                   vue-directive="CoreHome.AutoClearPassword" />
-                            <label for="login_form_password">
-                                <i class="icon-locked icon"></i> {{ 'General_Password'|translate }}
-                            </label>
+                    <div class="loginForm__row">
+                        <div class="row">
+                            <div class="col s12">
+                                <div class="loginForm__field">
+                                    <div class="input-field">
+                                        <input type="hidden" name="form_nonce" id="login_form_nonce" value="{{ nonce }}"/>
+                                        <input type="hidden" name="form_redirect" id="login_form_redirect" value=""/>
+                                        <input type="password" name="form_password" id="login_form_password" class="input"
+                                               value="" size="20" placeholder="" autocomplete="current-password" autocorrect="off"
+                                               autocapitalize="none" spellcheck="false" tabindex="20" required
+                                               vue-directive="CoreHome.AutoClearPassword" />
+                                        <label for="login_form_password">
+                                            <i class="icon-locked icon"></i> {{ 'General_Password'|translate }}
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="row actions loginForm__row loginForm__row--spacious">
-                        <div class="col s6 loginForm__field">
-                            <label>
-                                <input name="form_rememberme" type="checkbox" id="login_form_rememberme" value="1"
-                                       class="loginForm__rememberMe" tabindex="90"
-                                       {% if form_data.form_rememberme.value %}checked="checked" {% endif %}/>
-                                <span>{{ 'Login_RememberMe'|translate }}</span>
-                            </label>
-                        </div>
-                        <div class="col s6 right-align loginForm__field">
-                            <a id="login_form_nav" class="loginForm__link" href="#" tabindex="95"
-                               title="{{ 'Login_LostYourPassword'|translate }}">
-                                {{ 'Login_LostYourPassword'|translate }}
-                            </a>
+                    <div class="loginForm__row loginForm__row--spacious">
+                        <div class="row actions">
+                            <div class="col s6">
+                                <div class="loginForm__field">
+                                    <label>
+                                        <input name="form_rememberme" type="checkbox" id="login_form_rememberme" value="1"
+                                               class="loginForm__rememberMe" tabindex="90"
+                                               {% if form_data.form_rememberme.value %}checked="checked" {% endif %}/>
+                                        <span>{{ 'Login_RememberMe'|translate }}</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col s6 right-align">
+                                <div class="loginForm__field">
+                                    <a id="login_form_nav" class="loginForm__link" href="#" tabindex="95"
+                                       title="{{ 'Login_LostYourPassword'|translate }}">
+                                        {{ 'Login_LostYourPassword'|translate }}
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="row loginForm__row loginForm__row--noGap">
-                        <div class="col s12 loginForm__field">
-                            <input class="submit btn btn-block" id="login_form_submit" type="submit"
-                                   value="{{ 'Login_LogIn'|translate }}" tabindex="100"
-                            />
+                    <div class="loginForm__row loginForm__row--noGap">
+                        <div class="row">
+                            <div class="col s12">
+                                <div class="loginForm__field">
+                                    <input class="submit btn btn-block" id="login_form_submit" type="submit"
+                                           value="{{ 'Login_LogIn'|translate }}" tabindex="100"
+                                    />
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </form>
@@ -98,50 +120,72 @@
                 </div>
 
                 <form id="reset_form" class="loginForm__form" method="post">
-                    <div class="row loginForm__row">
-                        <div class="col s12 input-field loginForm__field">
-                            <input type="hidden" name="form_nonce" id="reset_form_nonce" value="{{ nonce }}"/>
-                            <input type="text" placeholder="" name="form_login" id="reset_form_login" class="input" value="" size="20"
-                                   autocorrect="off" autocapitalize="none"
-                                   tabindex="10"/>
-                            <label for="reset_form_login"><i class="icon-user icon"></i> {{ 'Login_LoginOrEmail'|translate }}</label>
+                    <div class="loginForm__row">
+                        <div class="row">
+                            <div class="col s12">
+                                <div class="loginForm__field">
+                                    <div class="input-field">
+                                        <input type="hidden" name="form_nonce" id="reset_form_nonce" value="{{ nonce }}"/>
+                                        <input type="text" placeholder="" name="form_login" id="reset_form_login" class="input" value="" size="20"
+                                               autocorrect="off" autocapitalize="none"
+                                               tabindex="10"/>
+                                        <label for="reset_form_login"><i class="icon-user icon"></i> {{ 'Login_LoginOrEmail'|translate }}</label>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="row loginForm__row">
-                        <div class="col s12 input-field loginForm__field">
-                            <input type="password" placeholder="" name="form_password" id="reset_form_password" class="input" value="" size="20"
-                                   autocorrect="off" autocapitalize="none" spellcheck="false"
-                                   tabindex="20" autocomplete="off"
-                                   vue-directive="CoreHome.AutoClearPassword" />
-                            <div vue-entry="CoreHome.PasswordStrength"
-                                 external-input-selector="#reset_form_password"
-                                 validation-rules="{{ passwordStrengthValidationRules|json_encode }}"
-                            ></div>
-                            <label for="reset_form_password"><i class="icon-locked icon"></i> {{ 'Login_NewPassword'|translate }}</label>
+                    <div class="loginForm__row">
+                        <div class="row">
+                            <div class="col s12">
+                                <div class="loginForm__field">
+                                    <div class="input-field">
+                                        <input type="password" placeholder="" name="form_password" id="reset_form_password" class="input" value="" size="20"
+                                               autocorrect="off" autocapitalize="none" spellcheck="false"
+                                               tabindex="20" autocomplete="off"
+                                               vue-directive="CoreHome.AutoClearPassword" />
+                                        <div vue-entry="CoreHome.PasswordStrength"
+                                             external-input-selector="#reset_form_password"
+                                             validation-rules="{{ passwordStrengthValidationRules|json_encode }}"
+                                        ></div>
+                                        <label for="reset_form_password"><i class="icon-locked icon"></i> {{ 'Login_NewPassword'|translate }}</label>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="row loginForm__row">
-                        <div class="col s12 input-field loginForm__field">
-                            <input type="password" placeholder="" name="form_password_bis" id="reset_form_password_bis" class="input" value=""
-                                   autocorrect="off" autocapitalize="none" spellcheck="false"
-                                   size="20" tabindex="30" autocomplete="off"
-                                   vue-directive="CoreHome.AutoClearPassword" />
-                            <div vue-entry="CoreHome.PasswordStrength"
-                                 external-input-selector="#reset_form_password_bis"
-                                 validation-rules="{{ passwordStrengthValidationRules|json_encode }}"
-                            ></div>
-                            <label for="reset_form_password_bis"><i class="icon-locked icon"></i> {{ 'Login_NewPasswordRepeat'|translate }}</label>
+                    <div class="loginForm__row">
+                        <div class="row">
+                            <div class="col s12">
+                                <div class="loginForm__field">
+                                    <div class="input-field">
+                                        <input type="password" placeholder="" name="form_password_bis" id="reset_form_password_bis" class="input" value=""
+                                               autocorrect="off" autocapitalize="none" spellcheck="false"
+                                               size="20" tabindex="30" autocomplete="off"
+                                               vue-directive="CoreHome.AutoClearPassword" />
+                                        <div vue-entry="CoreHome.PasswordStrength"
+                                             external-input-selector="#reset_form_password_bis"
+                                             validation-rules="{{ passwordStrengthValidationRules|json_encode }}"
+                                        ></div>
+                                        <label for="reset_form_password_bis"><i class="icon-locked icon"></i> {{ 'Login_NewPasswordRepeat'|translate }}</label>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="row actions loginForm__row">
-                        <div class="col s12 loginForm__field">
-                            <input class="submit btn btn-block" id='reset_form_submit' type="submit"
-                                   value="{{ 'General_ChangePassword'|translate }}" tabindex="100"/>
+                    <div class="loginForm__row">
+                        <div class="row actions">
+                            <div class="col s12">
+                                <div class="loginForm__field">
+                                    <input class="submit btn btn-block" id='reset_form_submit' type="submit"
+                                           value="{{ 'General_ChangePassword'|translate }}" tabindex="100"/>
 
-                            <span class="loadingPiwik" style="display:none;">
-                                {% include "@CoreHome/_loader.twig" %}
-                            </span>
+                                    <span class="loadingPiwik" style="display:none;">
+                                        {% include "@CoreHome/_loader.twig" %}
+                                    </span>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
