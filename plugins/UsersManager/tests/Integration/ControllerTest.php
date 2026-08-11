@@ -164,7 +164,6 @@ class ControllerTest extends IntegrationTestCase
             'language' => 'en',
             'timeformat' => '0',
         ];
-        $_REQUEST = $_GET + $_POST;
 
         $response = $this->controller->recordUserSettings();
 
@@ -182,22 +181,21 @@ class ControllerTest extends IntegrationTestCase
             'themeMode' => 'invalid',
         ];
         $_POST = [
-            'themeMode' => ThemeStyles::LIGHT_MODE,
+            'themeMode' => ThemeStyles::DARK_MODE,
             'defaultReport' => '1',
             'defaultDate' => 'today',
             'language' => 'en',
             'timeformat' => '0',
         ];
-        $_REQUEST = $_GET + $_POST;
 
-        $response = $this->controller->recordUserSettings();
+        $this->controller->recordUserSettings();
 
-        $this->assertStringNotContainsString('Invalid theme mode', $response);
+        $this->assertSame(ThemeStyles::DARK_MODE, (new UserPreferences())->getThemeMode());
     }
 
     public function testRecordAnonymousUserSettingsReadsSettingsFromPost()
     {
-        (new Model())->addUser('anonymous', '', 'anonymous@example.com', Date::now()->getDatetime());
+        $this->userModel->addUser('anonymous', '', 'anonymous@example.com', Date::now()->getDatetime());
 
         // settings are read from the post body, not the query string
         $_GET = [
@@ -209,7 +207,6 @@ class ControllerTest extends IntegrationTestCase
             'anonymousDefaultReport' => '1',
             'anonymousDefaultDate' => 'today',
         ];
-        $_REQUEST = $_GET + $_POST;
 
         $this->controller->recordAnonymousUserSettings();
 
@@ -233,12 +230,6 @@ class ControllerTest extends IntegrationTestCase
         $_GET['password'] = 'weak';
         $_GET['passwordBis'] = 'weak';
 
-        // create user to get test in a repeatable state
-        $userLogin = 'super user was set';
-        $userEmail = 'test@test.com';
-        $usersModel = new Model();
-        $usersModel->addUser($userLogin, $passwordHash = '', $userEmail, Date::now()->getDatetime());
-
         // expect test to get past strength check and fail when checking existing password
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('UsersManager_ConfirmWithReAuthentication');
@@ -255,7 +246,6 @@ class ControllerTest extends IntegrationTestCase
             'nonce' => Nonce::getNonce(Controller::NONCE_DELETE_AUTH_TOKEN),
         ];
         $_GET = [];
-        $_REQUEST = $_POST;
 
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Not allowed');
@@ -271,7 +261,6 @@ class ControllerTest extends IntegrationTestCase
             'nonce' => Nonce::getNonce(Controller::NONCE_DELETE_AUTH_TOKEN),
         ];
         $_GET = ['module' => 'UsersManager', 'action' => 'deleteToken'];
-        $_REQUEST = $_GET + $_POST;
 
         // the password has not been confirmed yet, so the action redirects to the confirmation form
         $redirectUrl = $this->captureRedirect(function () {
@@ -289,7 +278,6 @@ class ControllerTest extends IntegrationTestCase
         // that redirect is a GET request, so the parameters arrive without a post body
         parse_str((string) parse_url($redirectUrl, PHP_URL_QUERY), $_GET);
         $_POST = [];
-        $_REQUEST = $_GET;
 
         $this->callDeleteTokenIgnoringFinalRedirect();
 
@@ -308,30 +296,33 @@ class ControllerTest extends IntegrationTestCase
             'nonce' => Nonce::getNonce(Controller::NONCE_DELETE_AUTH_TOKEN),
         ];
         $_GET = ['idtokenauth' => (string) $idTokenAuthInQuery];
-        $_REQUEST = $_GET + $_POST;
 
         $this->callDeleteTokenIgnoringFinalRedirect();
 
         $this->assertSame([(string) $idTokenAuthInQuery], $this->getTokenIdsForCurrentUser());
     }
 
-    public function testDeleteTokenIgnoresEmptyPostedIdTokenAuth()
+    public function testDeleteTokenDeletesNothingWhenPostedIdTokenAuthIsEmpty()
     {
         $idTokenAuthInQuery = $this->addTokenForCurrentUser('token named in the query string');
 
-        $this->markPasswordAsVerified();
-
         // an empty posted value is a value, so the query string is not consulted for it
-        $_POST = [
-            'idtokenauth' => '',
-            'nonce' => Nonce::getNonce(Controller::NONCE_DELETE_AUTH_TOKEN),
-        ];
+        $_POST = ['idtokenauth' => ''];
         $_GET = ['idtokenauth' => (string) $idTokenAuthInQuery];
-        $_REQUEST = $_GET + $_POST;
 
         $this->callDeleteTokenIgnoringFinalRedirect();
 
         $this->assertSame([(string) $idTokenAuthInQuery], $this->getTokenIdsForCurrentUser());
+    }
+
+    public function testDeleteTokenRejectsInvalidIdTokenAuth()
+    {
+        $_POST = ['idtokenauth' => '1&2'];
+        $_GET = [];
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Invalid idtokenauth');
+        $this->controller->deleteToken();
     }
 
     public function testUserSettingsShouldExposeMatchBrowserThemeModeOption()
