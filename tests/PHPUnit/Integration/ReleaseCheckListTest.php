@@ -619,7 +619,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             // Don't run the test on local dev machine, as we may have other files (not in GIT) that would fail this test
             $this->markTestSkipped("Skipped this test on local dev environment.");
         }
-        $maximumTotalFilesizesExpectedInMb = 64;
+        $maximumTotalFilesizesExpectedInMb = 65;
         $minimumTotalFilesizesExpectedInMb = 38;
         $minimumExpectedFilesCount = 7000;
 
@@ -655,7 +655,9 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         $numTestedCorePlugins = 0;
 
         // eg these plugins are managed in a submodule and they are installing all tables/columns as part of their plugin install method etc.
-        $corePluginsThatAreIndependent = array('TagManager', 'Provider', 'CustomVariables');
+        // TrackingSpamPrevention keeps the update files it had before it became a core plugin, as they need to
+        // run based on the version the plugin was installed at, not based on the core version.
+        $corePluginsThatAreIndependent = array('TagManager', 'Provider', 'CustomVariables', 'TrackingSpamPrevention');
 
         foreach ($plugins as $pluginName => $info) {
             if ($manager->isPluginBundledWithCore($pluginName) && !in_array($pluginName, $corePluginsThatAreIndependent)) {

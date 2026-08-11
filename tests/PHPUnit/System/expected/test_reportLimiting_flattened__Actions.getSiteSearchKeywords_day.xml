@@ -12,6 +12,9 @@
 		<exit_nb_visits>37</exit_nb_visits>
 		<nb_pages_per_search>1</nb_pages_per_search>
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>74%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>74%</nb_hits_percent_of_total>
+		<exit_nb_visits_percent_of_total>74%</exit_nb_visits_percent_of_total>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -30,6 +33,9 @@
 		<exit_nb_visits>10</exit_nb_visits>
 		<nb_pages_per_search>1</nb_pages_per_search>
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>20%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>20%</nb_hits_percent_of_total>
+		<exit_nb_visits_percent_of_total>20%</exit_nb_visits_percent_of_total>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -48,6 +54,9 @@
 		<exit_nb_visits>1</exit_nb_visits>
 		<nb_pages_per_search>1</nb_pages_per_search>
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>2%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>2%</nb_hits_percent_of_total>
+		<exit_nb_visits_percent_of_total>2%</exit_nb_visits_percent_of_total>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -66,6 +75,9 @@
 		<exit_nb_visits>1</exit_nb_visits>
 		<nb_pages_per_search>1</nb_pages_per_search>
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>2%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>2%</nb_hits_percent_of_total>
+		<exit_nb_visits_percent_of_total>2%</exit_nb_visits_percent_of_total>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -84,6 +96,9 @@
 		<exit_nb_visits>1</exit_nb_visits>
 		<nb_pages_per_search>1</nb_pages_per_search>
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>2%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>2%</nb_hits_percent_of_total>
+		<exit_nb_visits_percent_of_total>2%</exit_nb_visits_percent_of_total>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>

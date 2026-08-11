@@ -682,10 +682,22 @@ class DataRounding
                 return;
             }
         } elseif (!self::isAnyRequestedSiteEnabled($requestedSiteIds, $isSiteEnabled)) {
-            return;
+            // tables with site tagged rows (eg, MultiSites) can contain rows of sites with
+            // rounding enabled beyond the requested sites; the per row gating decides there,
+            // so the output does not depend on the site the request was made for
+            if (!($dataTable instanceof DataTable && self::tableHasSiteTaggedRows($dataTable))) {
+                return;
+            }
         }
 
         self::roundDataTableForRequestedSites($dataTable, $requestedSiteIds, $report, $currentSiteId, $isSiteEnabled);
+    }
+
+    private static function tableHasSiteTaggedRows(DataTable $table): bool
+    {
+        $firstRow = $table->getFirstRow();
+
+        return !empty($firstRow) && self::extractSiteIdFromRow($firstRow) !== null;
     }
 
     /**
@@ -778,6 +790,7 @@ class DataRounding
         $metricTypes = self::getMetricTypes($dataTable, $report);
         $columnsToRound = self::collectColumnsToRound($dataTable, $metricTypes);
         $shouldRoundFallbackRows = self::isAnyRequestedSiteEnabled($requestedSiteIds, $isSiteEnabled);
+        $anyRowSiteEnabled = false;
 
         if (!empty($columnsToRound)) {
             foreach ($dataTable->getRows() as $row) {
@@ -785,6 +798,7 @@ class DataRounding
                 $shouldRoundRow = $rowSiteId !== null
                     ? (bool) call_user_func($isSiteEnabled, $rowSiteId)
                     : $shouldRoundFallbackRows;
+                $anyRowSiteEnabled = $anyRowSiteEnabled || ($rowSiteId !== null && $shouldRoundRow);
 
                 if (!$shouldRoundRow) {
                     $subtable = $row->getSubtable();
@@ -804,7 +818,11 @@ class DataRounding
             }
         }
 
-        if ($shouldRoundFallbackRows) {
+        // also process the table level totals when rows of a rounding enabled site are part of
+        // the table even though no requested site has rounding enabled (eg, a MultiSites table
+        // requested with an ambient idSite of another site), so totals and the percent metrics
+        // based on them do not depend on which site the request was made for
+        if ($shouldRoundFallbackRows || $anyRowSiteEnabled) {
             self::roundTotalsRowIfPresent($dataTable, $columnsToRound, $metricTypes, $report);
             self::roundTotalsMetadataIfPresent($dataTable, $metricTypes);
             self::reconcileTotalsFromRoundedRowsForConstantRowsReport($dataTable, $columnsToRound, $report);

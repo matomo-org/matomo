@@ -55,6 +55,12 @@
 		<revenue>16848.59</revenue>
 		<sum_daily_nb_uniq_visitors>60</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>10</sum_daily_nb_users>
+		<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>44.6%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>32.3%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>37.8%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>28%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>86%</revenue_percent_of_total>
 		<code>Europe</code>
 	</row>
 	<row>
@@ -81,6 +87,12 @@
 		<revenue>1485</revenue>
 		<sum_daily_nb_uniq_visitors>50</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>10</sum_daily_nb_users>
+		<nb_visits_percent_of_total>28.6%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>19.6%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>38.7%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>40.5%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>40%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>7.6%</revenue_percent_of_total>
 		<code>Unknown</code>
 	</row>
 	<row>
@@ -123,6 +135,12 @@
 		<revenue>622.22</revenue>
 		<sum_daily_nb_uniq_visitors>30</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>10</sum_daily_nb_users>
+		<nb_visits_percent_of_total>16.7%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>14.1%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>12.9%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>10.8%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>16%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>3.2%</revenue_percent_of_total>
 		<code>North America</code>
 	</row>
 	<row>
@@ -159,6 +177,12 @@
 		<revenue>562.22</revenue>
 		<sum_daily_nb_uniq_visitors>30</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>10</sum_daily_nb_users>
+		<nb_visits_percent_of_total>14.3%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>15.2%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>9.7%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>9.5%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>8%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>2.9%</revenue_percent_of_total>
 		<code>Asia</code>
 	</row>
 	<row>
@@ -185,6 +209,12 @@
 		<revenue>50</revenue>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>10</sum_daily_nb_users>
+		<nb_visits_percent_of_total>7.1%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>4.3%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>3.2%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>1.4%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>8%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>0.3%</revenue_percent_of_total>
 		<code>Oceania</code>
 	</row>
 	<row>
@@ -211,6 +241,12 @@
 		<revenue>30</revenue>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>2.4%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>1.1%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>3.2%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>1.4%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>0.2%</revenue_percent_of_total>
 		<code>South America</code>
 	</row>
 </result>

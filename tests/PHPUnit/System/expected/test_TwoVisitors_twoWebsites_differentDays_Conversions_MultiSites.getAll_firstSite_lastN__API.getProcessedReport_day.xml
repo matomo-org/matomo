@@ -25,6 +25,10 @@
 			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
 			<nb_pageviews>The number of times this page was visited.</nb_pageviews>
 			<hits>The total count of all interactions recorded on your website, including page views, link clicks, downloads, and events.</hits>
+			<nb_visits_percent_of_total>The percentage of the report's total Visits that this row represents.</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>The percentage of the report's total Actions that this row represents.</nb_actions_percent_of_total>
+			<hits_percent_of_total>The percentage of the report's total Hits that this row represents.</hits_percent_of_total>
+			<revenue_percent_of_total>The percentage of the report's total Revenue that this row represents.</revenue_percent_of_total>
 		</metricsDocumentation>
 		<processedMetrics>
 			<visits_evolution>Visits Evolution</visits_evolution>
@@ -56,6 +60,10 @@
 			<nb_conversions_evolution>percent</nb_conversions_evolution>
 			<orders_evolution>percent</orders_evolution>
 			<ecommerce_revenue_evolution>percent</ecommerce_revenue_evolution>
+			<nb_visits_percent_of_total>percent</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>percent</nb_actions_percent_of_total>
+			<hits_percent_of_total>percent</hits_percent_of_total>
+			<revenue_percent_of_total>percent</revenue_percent_of_total>
 		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=MultiSites&amp;apiAction=getAll&amp;period=range&amp;date=2010-01-03,2010-01-09</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=MultiSites&amp;apiAction=getAll&amp;period=day&amp;date=2010-01-03,2010-01-09</imageGraphEvolutionUrl>
@@ -81,6 +89,10 @@
 		<nb_conversions_evolution>Conversions Evolution</nb_conversions_evolution>
 		<orders_evolution>Ecommerce Orders Evolution</orders_evolution>
 		<ecommerce_revenue_evolution>Product Revenue Evolution</ecommerce_revenue_evolution>
+		<nb_visits_percent_of_total>Visits (% of total)</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>Actions (% of total)</nb_actions_percent_of_total>
+		<hits_percent_of_total>Hits (% of total)</hits_percent_of_total>
+		<revenue_percent_of_total>Revenue (% of total)</revenue_percent_of_total>
 	</columns>
 	<reportData>
 		<result prettyDate="Sunday, January 3, 2010">
@@ -98,6 +110,10 @@
 				<hits_evolution>100%</hits_evolution>
 				<ai_chatbots_requests_evolution>0%</ai_chatbots_requests_evolution>
 				<revenue_evolution>100%</revenue_evolution>
+				<nb_visits_percent_of_total>100%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>100%</nb_actions_percent_of_total>
+				<hits_percent_of_total>100%</hits_percent_of_total>
+				<revenue_percent_of_total>100%</revenue_percent_of_total>
 				<nb_conversions>0</nb_conversions>
 				<orders>0</orders>
 				<ecommerce_revenue>$0</ecommerce_revenue>
@@ -121,6 +137,10 @@
 				<hits_evolution>-50%</hits_evolution>
 				<ai_chatbots_requests_evolution>0%</ai_chatbots_requests_evolution>
 				<revenue_evolution>-100%</revenue_evolution>
+				<nb_visits_percent_of_total>50%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>25%</nb_actions_percent_of_total>
+				<hits_percent_of_total>25%</hits_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 				<nb_conversions>0</nb_conversions>
 				<orders>0</orders>
 				<ecommerce_revenue>$0</ecommerce_revenue>
@@ -142,6 +162,10 @@
 				<hits_evolution>100%</hits_evolution>
 				<ai_chatbots_requests_evolution>0%</ai_chatbots_requests_evolution>
 				<revenue_evolution>0%</revenue_evolution>
+				<nb_visits_percent_of_total>50%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>75%</nb_actions_percent_of_total>
+				<hits_percent_of_total>75%</hits_percent_of_total>
+				<revenue_percent_of_total>0%</revenue_percent_of_total>
 				<nb_conversions>0</nb_conversions>
 				<orders>0</orders>
 				<ecommerce_revenue>$0</ecommerce_revenue>
@@ -165,6 +189,10 @@
 				<hits_evolution>400%</hits_evolution>
 				<ai_chatbots_requests_evolution>0%</ai_chatbots_requests_evolution>
 				<revenue_evolution>100%</revenue_evolution>
+				<nb_visits_percent_of_total>100%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>100%</nb_actions_percent_of_total>
+				<hits_percent_of_total>100%</hits_percent_of_total>
+				<revenue_percent_of_total>100%</revenue_percent_of_total>
 				<nb_conversions>0</nb_conversions>
 				<orders>0</orders>
 				<ecommerce_revenue>$0</ecommerce_revenue>
@@ -188,6 +216,10 @@
 				<hits_evolution>0%</hits_evolution>
 				<ai_chatbots_requests_evolution>0%</ai_chatbots_requests_evolution>
 				<revenue_evolution>0%</revenue_evolution>
+				<nb_visits_percent_of_total>100%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>100%</nb_actions_percent_of_total>
+				<hits_percent_of_total>100%</hits_percent_of_total>
+				<revenue_percent_of_total>100%</revenue_percent_of_total>
 				<nb_conversions>0</nb_conversions>
 				<orders>0</orders>
 				<ecommerce_revenue>$0</ecommerce_revenue>
@@ -211,6 +243,10 @@
 				<hits_evolution>0%</hits_evolution>
 				<ai_chatbots_requests_evolution>0%</ai_chatbots_requests_evolution>
 				<revenue_evolution>0%</revenue_evolution>
+				<nb_visits_percent_of_total>100%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>100%</nb_actions_percent_of_total>
+				<hits_percent_of_total>100%</hits_percent_of_total>
+				<revenue_percent_of_total>100%</revenue_percent_of_total>
 				<nb_conversions>0</nb_conversions>
 				<orders>0</orders>
 				<ecommerce_revenue>$0</ecommerce_revenue>
@@ -234,6 +270,10 @@
 				<hits_evolution>0%</hits_evolution>
 				<ai_chatbots_requests_evolution>0%</ai_chatbots_requests_evolution>
 				<revenue_evolution>0%</revenue_evolution>
+				<nb_visits_percent_of_total>100%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>100%</nb_actions_percent_of_total>
+				<hits_percent_of_total>100%</hits_percent_of_total>
+				<revenue_percent_of_total>100%</revenue_percent_of_total>
 				<nb_conversions>0</nb_conversions>
 				<orders>0</orders>
 				<ecommerce_revenue>$0</ecommerce_revenue>
@@ -257,6 +297,10 @@
 				<hits_evolution>0%</hits_evolution>
 				<ai_chatbots_requests_evolution>0%</ai_chatbots_requests_evolution>
 				<revenue_evolution>0%</revenue_evolution>
+				<nb_visits_percent_of_total>100%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>100%</nb_actions_percent_of_total>
+				<hits_percent_of_total>100%</hits_percent_of_total>
+				<revenue_percent_of_total>100%</revenue_percent_of_total>
 				<nb_conversions>0</nb_conversions>
 				<orders>0</orders>
 				<ecommerce_revenue>$0</ecommerce_revenue>

@@ -9,6 +9,7 @@
 		<min_event_value>9.66</min_event_value>
 		<max_event_value>9.66</max_event_value>
 		<sum_daily_nb_uniq_visitors>39</sum_daily_nb_uniq_visitors>
+		<nb_visits_percent_of_total>65.6%</nb_visits_percent_of_total>
 		<avg_event_value>9.66</avg_event_value>
 		<segment>eventCategory==Movie</segment>
 		<subtable>
@@ -21,6 +22,7 @@
 				<min_event_value />
 				<max_event_value />
 				<sum_daily_nb_uniq_visitors>9</sum_daily_nb_uniq_visitors>
+				<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -32,6 +34,7 @@
 				<min_event_value />
 				<max_event_value />
 				<sum_daily_nb_uniq_visitors>6</sum_daily_nb_uniq_visitors>
+				<nb_visits_percent_of_total>14.1%</nb_visits_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -43,6 +46,7 @@
 				<min_event_value />
 				<max_event_value />
 				<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
+				<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -54,6 +58,7 @@
 				<min_event_value />
 				<max_event_value />
 				<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
+				<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -65,6 +70,7 @@
 				<min_event_value />
 				<max_event_value />
 				<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
+				<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -76,6 +82,7 @@
 				<min_event_value />
 				<max_event_value />
 				<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
+				<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -87,6 +94,7 @@
 				<min_event_value />
 				<max_event_value />
 				<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
+				<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -98,6 +106,7 @@
 				<min_event_value />
 				<max_event_value />
 				<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
+				<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -109,6 +118,7 @@
 				<min_event_value />
 				<max_event_value />
 				<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
+				<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -120,6 +130,7 @@
 				<min_event_value>9.66</min_event_value>
 				<max_event_value>9.66</max_event_value>
 				<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
+				<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
 				<avg_event_value>9.66</avg_event_value>
 			</row>
 		</subtable>
@@ -133,6 +144,7 @@
 		<min_event_value>9</min_event_value>
 		<max_event_value>10</max_event_value>
 		<sum_daily_nb_uniq_visitors>18</sum_daily_nb_uniq_visitors>
+		<nb_visits_percent_of_total>28.1%</nb_visits_percent_of_total>
 		<avg_event_value>9.5</avg_event_value>
 		<segment>eventCategory==Music</segment>
 		<subtable>
@@ -145,6 +157,7 @@
 				<min_event_value />
 				<max_event_value />
 				<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
+				<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -156,6 +169,7 @@
 				<min_event_value />
 				<max_event_value />
 				<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
+				<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -167,6 +181,7 @@
 				<min_event_value />
 				<max_event_value />
 				<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
+				<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -178,6 +193,7 @@
 				<min_event_value />
 				<max_event_value />
 				<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
+				<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -189,6 +205,7 @@
 				<min_event_value />
 				<max_event_value />
 				<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
+				<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -200,6 +217,7 @@
 				<min_event_value>9</min_event_value>
 				<max_event_value>10</max_event_value>
 				<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
+				<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
 				<avg_event_value>9.5</avg_event_value>
 			</row>
 		</subtable>
@@ -213,6 +231,7 @@
 		<min_event_value>9.66</min_event_value>
 		<max_event_value>9.66</max_event_value>
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
+		<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
 		<avg_event_value>9.66</avg_event_value>
 		<segment>eventCategory==event+category+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+---%26gt%3B+SHOULD+APPEAR+IN+TEST+OUTPUT+NOT+TRUNCATED+%26lt%3B---</segment>
 		<subtable>
@@ -225,6 +244,7 @@
 				<min_event_value>9.66</min_event_value>
 				<max_event_value>9.66</max_event_value>
 				<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
+				<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
 				<avg_event_value>9.66</avg_event_value>
 			</row>
 		</subtable>
@@ -238,6 +258,7 @@
 		<min_event_value>0</min_event_value>
 		<max_event_value>23</max_event_value>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<nb_visits_percent_of_total>1.6%</nb_visits_percent_of_total>
 		<avg_event_value>11.5</avg_event_value>
 		<segment>eventCategory==CategoryTriggersGoal+here</segment>
 		<subtable>
@@ -250,6 +271,7 @@
 				<min_event_value>0</min_event_value>
 				<max_event_value>23</max_event_value>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+				<nb_visits_percent_of_total>1.6%</nb_visits_percent_of_total>
 				<avg_event_value>11.5</avg_event_value>
 			</row>
 		</subtable>

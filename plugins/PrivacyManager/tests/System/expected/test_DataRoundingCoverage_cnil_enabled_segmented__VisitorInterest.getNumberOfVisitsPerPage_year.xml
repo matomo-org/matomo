@@ -3,51 +3,61 @@
 	<row>
 		
 		<nb_visits>220</nb_visits>
+		<nb_visits_percent_of_total>55%</nb_visits_percent_of_total>
 		<segment>actions==1</segment>
 	</row>
 	<row>
 		
 		<nb_visits>100</nb_visits>
+		<nb_visits_percent_of_total>25%</nb_visits_percent_of_total>
 		<segment>actions==2</segment>
 	</row>
 	<row>
 		
 		<nb_visits>10</nb_visits>
+		<nb_visits_percent_of_total>2.5%</nb_visits_percent_of_total>
 		<segment>actions==3</segment>
 	</row>
 	<row>
 		
 		<nb_visits>10</nb_visits>
+		<nb_visits_percent_of_total>2.5%</nb_visits_percent_of_total>
 		<segment>actions==4</segment>
 	</row>
 	<row>
 		
 		<nb_visits>10</nb_visits>
+		<nb_visits_percent_of_total>2.5%</nb_visits_percent_of_total>
 		<segment>actions==5</segment>
 	</row>
 	<row>
 		
 		<nb_visits>20</nb_visits>
+		<nb_visits_percent_of_total>5%</nb_visits_percent_of_total>
 		<segment>actions&gt;=6;actions&lt;=7</segment>
 	</row>
 	<row>
 		
 		<nb_visits>10</nb_visits>
+		<nb_visits_percent_of_total>2.5%</nb_visits_percent_of_total>
 		<segment>actions&gt;=8;actions&lt;=10</segment>
 	</row>
 	<row>
 		
 		<nb_visits>10</nb_visits>
+		<nb_visits_percent_of_total>2.5%</nb_visits_percent_of_total>
 		<segment>actions&gt;=11;actions&lt;=14</segment>
 	</row>
 	<row>
 		
 		<nb_visits>10</nb_visits>
+		<nb_visits_percent_of_total>2.5%</nb_visits_percent_of_total>
 		<segment>actions&gt;=15;actions&lt;=20</segment>
 	</row>
 	<row>
 		
 		<nb_visits>0</nb_visits>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 		<segment>actions&gt;=21</segment>
 	</row>
 </result>

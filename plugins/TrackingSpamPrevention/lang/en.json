@@ -1,0 +1,29 @@
+{
+    "TrackingSpamPrevention": {
+        "PluginDescription": "This plugin offers various options to prevent spammers and bots from making your data inaccurate so you can rely on your data again.",
+        "SettingsIntroduction": "Spam and bot traffic can inflate tracking requests and introduce unwanted data into your reports. Configure these settings to reduce this traffic before it affects your analytics.",
+        "SettingMaxActionsTitle": "Max actions to record per visit",
+        "SettingMaxActionsDescription": "A default of \"0\" records all actions. Most sites usually have no more than 100 to 300. It might be safe to assume other activity is tracking spam, a bot or an attack. Matomo stops recording further actions and blocks their IP addresses for up to 24 hours to reduce server load and preserve data accuracy.",
+        "SettingNotificationEmailTitle": "Notification email",
+        "SettingNotificationEmailDescription": "This e-mail address will be notified whenever an IP is banned for having too many actions. In the future further notification reasons might be added.",
+        "SettingBlockHeadlessTitle": "Block headless browsers",
+        "SettingBlockHeadlessDescription": "These are browsers without a user interface, mostly used for automation. It should be safe to turn this on if you only have regular websites or apps. It can block additional bots and spam requests that otherwise would not be detected.",
+        "SettingBlockCloudTitle": "Block tracking requests from the cloud",
+        "BlockCloudNoteInternetDisabled": "As Internet is off in your Matomo configuration, this feature won't work.",
+        "BanIpNotificationMailSubject": "An IP was banned for generating too many actions.",
+        "SettingBlockCloudDescription": "Blocks tracking requests originating from cloud providers like AWS, Azure, Digital Ocean, Google Cloud and Oracle by fetching a list of their IP ranges. It should be safe to turn on if you are only tracking using the JavaScript tracker, as their tracking requests do not orginate from clouds, unless they use a VPN that routes data through cloud providers. The setting applies to all your sites.",
+        "SettingBlockSdksAndLibrariesTitle": "Block traffic from SDKs and server-side libraries",
+        "SettingBlockSdksAndLibrariesHelp": "Enable this option only if tracking is performed using the JavaScript Tracker or Matomo Tag Manager. It blocks tracking requests sent by HTTP clients and non-JavaScript tracking libraries, including tools such as cURL, Guzzle, and Postman.%3$s%1$sNote:%2$s Do not enable this option if you send tracking data using the Matomo PHP Tracking SDK, Java SDK, Python SDK, Android SDK, iOS SDK, or other non-JavaScript tracking libraries.",
+        "SettingExcludedCountriesTitle": "Exclude Countries",
+        "SettingExcludedCountriesDescription": "Don't track visitors from these countries. Visitors outside your target area will likely be bots or spammers, or you can use it to avoid privacy laws in other jurisdictions.",
+        "SettingIncludedCountriesTitle": "Only track visitors from these countries",
+        "SettingIncludedCountriesDescription": "This excludes all other countries. The \"exclude countries\" setting has more info.",
+        "SettingIpAllowListTitle": "IP allow list",
+        "SettingIpAllowListHelp": "Specify the IP addresses or CIDR ranges that are allowed to send tracking requests. Enter one value per line.",
+        "SettingIpBlockListTitle": "IP block list",
+        "SettingIpBlockListHelp": "Specify the IP addresses or CIDR ranges to block from sending tracking requests. Enter one value per line. Matomo may block additional IPs automatically that won't appear in this list, such as cloud provider IP ranges fetched daily when \"Block tracking requests from the cloud\" is enabled, or IPs banned temporarily for exceeding the max actions limit.",
+        "SettingOrganisationBlockListTitle": "Organisation block list",
+        "SettingOrganisationBlockListHelp": "Block tracking requests when the visitor's IP address belongs to a specified organisation, such as a hosting or cloud provider. Enter one organisation per line. Use specific names to avoid unintended matches. Any organisation with a name containing the value you enter will be matched. This list only applies when \"Block tracking requests from the cloud\" is enabled.%3$s%1$sNote:%2$s Clearing the list disables organisation blocking; it does not restore the default list.",
+        "SettingOrganisationBlockListPlaceholder": "Cloud Hosting Provider A%1$sCloud Hosting Provider B"
+    }
+}
