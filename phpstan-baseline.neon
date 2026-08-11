@@ -1729,24 +1729,6 @@ parameters:
 			path: core/Tracker/Request.php
 
 		-
-			message: '#^Parameter \#1 \$password of method Piwik\\Auth\:\:setPassword\(\) expects string, null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/Tracker/Request.php
-
-		-
-			message: '#^Parameter \#1 \$passwordHash of method Piwik\\Auth\:\:setPasswordHash\(\) expects string, null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/Tracker/Request.php
-
-		-
-			message: '#^Variable \$access in empty\(\) always exists and is not falsy\.$#'
-			identifier: empty.variable
-			count: 1
-			path: core/Tracker/Request.php
-
-		-
 			message: '#^Call to function is_null\(\) with string will always evaluate to false\.$#'
 			identifier: function.impossibleType
 			count: 1
@@ -2414,18 +2396,6 @@ parameters:
 
 		-
 			message: '#^Parameter \#1 \$login of method Piwik\\Auth\:\:setLogin\(\) expects string, null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: plugins/BulkTracking/Tracker/Handler.php
-
-		-
-			message: '#^Parameter \#1 \$password of method Piwik\\Auth\:\:setPassword\(\) expects string, null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: plugins/BulkTracking/Tracker/Handler.php
-
-		-
-			message: '#^Parameter \#1 \$passwordHash of method Piwik\\Auth\:\:setPasswordHash\(\) expects string, null given\.$#'
 			identifier: argument.type
 			count: 1
 			path: plugins/BulkTracking/Tracker/Handler.php
@@ -3527,12 +3497,6 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: plugins/Login/PasswordResetter.php
-
-		-
-			message: '#^Parameter \#1 \$passwordHash of method Piwik\\Auth\:\:setPasswordHash\(\) expects string, null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: plugins/Login/PasswordVerifier.php
 
 		-
 			message: '#^Binary operation "\+" between int\<1, max\> and string results in an error\.$#'

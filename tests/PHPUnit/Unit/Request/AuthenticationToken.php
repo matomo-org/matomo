@@ -10,6 +10,30 @@
 namespace Piwik\Tests\Unit\Request;
 
 use Piwik\Cache;
+use Piwik\Plugins\UsersManager\Model as UsersModel;
+
+class StubUsersModel extends UsersModel
+{
+    public function __construct()
+    {
+    }
+
+    public function getTokenMetadataByTokenAuthWithSecurityState(
+        #[\SensitiveParameter]
+        ?string $tokenAuth,
+        bool $isTokenProvidedSecurely
+    ): ?array {
+        return null;
+    }
+}
+
+class AuthenticationTokenForTest extends \Piwik\Request\AuthenticationToken
+{
+    protected function getUsersModel(): UsersModel
+    {
+        return new StubUsersModel();
+    }
+}
 
 class AuthenticationToken extends \PHPUnit\Framework\TestCase
 {
@@ -31,7 +55,7 @@ class AuthenticationToken extends \PHPUnit\Framework\TestCase
         $_POST = $postParams;
         $_SERVER['HTTP_AUTHORIZATION'] = $authorizationHeader;
 
-        $token = new \Piwik\Request\AuthenticationToken();
+        $token = new AuthenticationTokenForTest();
         self::assertEquals($expectedToken, $token->getAuthToken($requestParams));
         self::assertEquals($isSecure, $token->wasTokenAuthProvidedSecurely());
         self::assertEquals($isSessionToken, $token->isSessionToken());
@@ -213,7 +237,7 @@ class AuthenticationToken extends \PHPUnit\Framework\TestCase
         $_POST = $postParams;
         $_SERVER['HTTP_AUTHORIZATION'] = $authorizationHeader;
 
-        $token = new \Piwik\Request\AuthenticationToken();
+        $token = new AuthenticationTokenForTest();
         $token->getAuthToken();
     }
 
@@ -272,7 +296,7 @@ class AuthenticationToken extends \PHPUnit\Framework\TestCase
         $_POST = $postParams;
         $_SERVER['HTTP_AUTHORIZATION'] = $authorizationHeader;
 
-        $token = new \Piwik\Request\AuthenticationToken();
+        $token = new AuthenticationTokenForTest();
         self::assertEquals($expectedToken, $token->getAuthToken());
         self::assertSame($expectedSessionToken, $token->isSessionToken());
     }

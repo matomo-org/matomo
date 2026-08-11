@@ -42,6 +42,7 @@ class ControllerTest extends IntegrationTestCase
      * @var Controller
      */
     private $controller;
+    private $passwordVerifier;
     private $post;
     private $get;
     private $request;
@@ -54,9 +55,14 @@ class ControllerTest extends IntegrationTestCase
     {
         parent::setUp();
 
+        \Zend_Session::$_unitTestEnabled = true;
+
+        $this->passwordVerifier = new PasswordVerifier();
+        $this->passwordVerifier->setDisableRedirect();
+
         $this->controller = new Controller(
             $translator = new Translator(new DevelopmentLoader(new JsonFileLoader())),
-            $passwordVerify = new PasswordVerifier(),
+            $this->passwordVerifier,
             $userModel = new Model(),
             $passwordStrength = new PasswordStrength(true)
         );
@@ -197,6 +203,42 @@ class ControllerTest extends IntegrationTestCase
     public function testThemeModeShouldDefaultToLightForNewUsers()
     {
         $this->assertSame(ThemeStyles::LIGHT_MODE, (new UserPreferences())->getThemeMode());
+    }
+
+    public function testAddNewTokenShouldStoreNullAccessLevelWhenDefaultOptionIsSubmitted()
+    {
+        $idSite = $this->createSiteWithUser();
+        $this->markPasswordAsVerifiedForAddToken();
+
+        $_GET = ['idSite' => $idSite];
+
+        $_POST = [
+            'nonce' => Nonce::getNonce(Controller::NONCE_ADD_AUTH_TOKEN),
+            'description' => 'default scope token',
+            'secure_only' => '1',
+            'has_expiration' => '1',
+            'token_expire_date' => Date::now()->addDay(5)->toString('Y-m-d'),
+            'access_level' => '',
+        ];
+        $_REQUEST = array_merge($_GET, $_POST);
+
+        $this->controller->addNewToken();
+
+        $tokens = (new Model())->getAllNonSystemTokensForLogin(self::CURRENT_USER_LOGIN);
+        $tokenMetadata = end($tokens);
+
+        $this->assertNotNull($tokenMetadata);
+        $this->assertNull($tokenMetadata['access_level']);
+        $this->assertSame(self::CURRENT_USER_LOGIN, $tokenMetadata['login']);
+        $this->assertSame('default scope token', $tokenMetadata['description']);
+    }
+
+    private function markPasswordAsVerifiedForAddToken(): void
+    {
+        $params = ['module' => 'UsersManager', 'action' => 'addNewToken'];
+        $this->assertNull($this->passwordVerifier->requirePasswordVerifiedRecently($params));
+        $this->passwordVerifier->setPasswordVerifiedCorrectly();
+        $this->assertTrue($this->passwordVerifier->requirePasswordVerifiedRecently($params));
     }
 
     private function setupPostStateWithPassword(string $password)

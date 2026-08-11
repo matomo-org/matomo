@@ -47,6 +47,13 @@ class Controller extends ControllerAdmin
     public const NONCE_DELETE_AUTH_TOKEN = 'deleteAuthTokenNonce';
     public const NONCE_SET_IGNORE_COOKIE = 'setIgnoreCookieNonce';
 
+    private const TOKEN_ACCESS_LEVEL_LABEL_KEYS = [
+        'view'      => 'UsersManager_PrivView',
+        'write'     => 'UsersManager_PrivWrite',
+        'admin'     => 'UsersManager_PrivAdmin',
+        'superuser' => 'Installation_SuperUser',
+    ];
+
     private Translator $translator;
 
     private PasswordVerifier $passwordVerify;
@@ -356,6 +363,7 @@ class Controller extends ControllerAdmin
                     $token[$key] = Date::factory($token[$key])->getLocalized(Date::DATE_FORMAT_LONG);
                 }
             }
+            $token['access_level_label'] = $this->getTokenAccessLevelLabel($token['access_level'] ?? null);
             unset($token['password']);
             return $token;
         }, $tokens);
@@ -463,13 +471,17 @@ class Controller extends ControllerAdmin
 
         $description = $postRequest->getStringParameter('description', '');
         $noDescription = empty($description);
+        $login = Piwik::getCurrentUserLogin();
+        $tokenAccessLevelState = $this->getTokenAccessLevelStateForTokenForm($login, $postRequest);
+        $allowedTokenAccessLevels = $tokenAccessLevelState['allowedAccessLevels'];
+        $selectedAccessLevel = $tokenAccessLevelState['selectedAccessLevel'];
+        $tokenAccessLevel = $tokenAccessLevelState['tokenAccessLevel'];
+        $invalidAccessLevel = $tokenAccessLevelState['invalidAccessLevel'];
 
-        if (false === $noDescription && false === $invalidExpireDate) {
+        if (false === $noDescription && false === $invalidExpireDate && false === $invalidAccessLevel) {
             Nonce::checkNonce(self::NONCE_ADD_AUTH_TOKEN);
             $secureOnly = $postRequest->getBoolParameter('secure_only', false);
             $hasTokenExpiry = $postRequest->getBoolParameter('has_expiration', false);
-
-            $login = Piwik::getCurrentUserLogin();
 
             $generatedToken = $this->userModel->generateRandomTokenAuth();
 
@@ -480,7 +492,8 @@ class Controller extends ControllerAdmin
                 $today->getDatetime(),
                 $hasTokenExpiry ? $tokenExpireDate : null,
                 false,
-                $secureOnly
+                $secureOnly,
+                $tokenAccessLevel
             );
 
             $container = StaticContainer::getContainer();
@@ -500,11 +513,79 @@ class Controller extends ControllerAdmin
             'nonce' => Nonce::getNonce(self::NONCE_ADD_AUTH_TOKEN),
             'noDescription' => $postRequestHasData && $noDescription,
             'invalidExpireDate' => $postRequestHasData && $invalidExpireDate,
+            'invalidAccessLevel' => $postRequestHasData && $invalidAccessLevel,
             'forceSecureOnly' => GeneralConfig::getBoolConfigValue('only_allow_secure_auth_tokens', false),
             'initialExpireDate' => $today->addDay($defaultExpireDays)->toString(),
             'defaultExpirationDays' => $defaultExpireDays,
             'expirationReminderDays' => GeneralConfig::getConfigValue('auth_token_expiration_notification_days'),
+            'allowedAccessLevels' => $this->getTokenAccessLevelOptions($allowedTokenAccessLevels),
+            'selectedAccessLevel' => $selectedAccessLevel,
         ]);
+    }
+
+    /**
+     * @return array{
+     *     allowedAccessLevels: string[],
+     *     selectedAccessLevel: string,
+     *     tokenAccessLevel: string|null,
+     *     invalidAccessLevel: bool
+     * }
+     */
+    private function getTokenAccessLevelStateForTokenForm(string $login, \Piwik\Request $postRequest): array
+    {
+        $allowedAccessLevels = $this->userModel->getAllowedTokenAccessLevelsForUser($login);
+        $selectedAccessLevel = $postRequest->getStringParameter('access_level', '');
+        $tokenAccessLevel = null;
+        $invalidAccessLevel = false;
+
+        if ($selectedAccessLevel !== '') {
+            try {
+                $tokenAccessLevel = $this->userModel->normalizeAndValidateTokenAccessLevelForUser(
+                    $login,
+                    $selectedAccessLevel
+                );
+            } catch (Exception $e) {
+                $selectedAccessLevel = '';
+                $invalidAccessLevel = true;
+            }
+        }
+
+        return [
+            'allowedAccessLevels' => $allowedAccessLevels,
+            'selectedAccessLevel' => $selectedAccessLevel,
+            'tokenAccessLevel' => $tokenAccessLevel,
+            'invalidAccessLevel' => $invalidAccessLevel,
+        ];
+    }
+
+    /**
+     * @param string[] $accessLevels
+     * @return array<int,array<string,string>>
+     */
+    private function getTokenAccessLevelOptions(array $accessLevels): array
+    {
+        $options = [[
+            'key' => '',
+            'value' => $this->getTokenAccessLevelLabel(null),
+        ]];
+
+        foreach ($accessLevels as $accessLevel) {
+            $options[] = [
+                'key' => $accessLevel,
+                'value' => $this->getTokenAccessLevelLabel($accessLevel),
+            ];
+        }
+        return $options;
+    }
+
+    private function getTokenAccessLevelLabel(?string $accessLevel): string
+    {
+        if ($accessLevel === null || $accessLevel === '') {
+            return Piwik::translate('UsersManager_TokenAccessLevelInherited');
+        }
+
+        $key = self::TOKEN_ACCESS_LEVEL_LABEL_KEYS[$accessLevel] ?? null;
+        return $key !== null ? Piwik::translate($key) : $accessLevel;
     }
 
     /**
