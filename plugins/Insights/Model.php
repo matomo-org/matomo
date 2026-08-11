@@ -20,10 +20,7 @@ use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
  */
 class Model
 {
-    /**
-     * @var ProcessedReport
-     */
-    private $processedReport;
+    private ProcessedReport $processedReport;
 
     public function __construct(ProcessedReport $processedReport)
     {

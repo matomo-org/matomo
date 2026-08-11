@@ -90,7 +90,7 @@
                 colorManager = piwik.ColorManager,
                 colors = colorManager.getColors('realtime-map', ['white-bg', 'white-fill', 'black-bg', 'black-fill', 'visit-stroke',
                                                                  'website-referrer-color', 'direct-referrer-color', 'search-referrer-color',
-                                                                 'live-widget-highlight', 'live-widget-unhighlight', 'symbol-animate-fill', 'region-stroke-color']),
+                                                                 'live-widget-highlight', 'live-widget-unhighlight', 'symbol-animate-fill', 'region-stroke-color', 'inset-stroke-color']),
                 currentTheme = 'white',
                 colorTheme = {
                     white: {
@@ -159,6 +159,7 @@
                 if (svgUrl === undefined) return;
                 map.loadMap(config.svgBasePath + svgUrl, function () {
                     map.clear();
+                    UserCountryMap.routeInsetDots(map);
                     self.resize();
                     callback();
                     $('.ui-tooltip').remove(); // remove all existing tooltips
@@ -547,6 +548,7 @@
                             stroke: colors['region-stroke-color']
                         }
                     });
+                    UserCountryMap.addInsetsLayer(map, colors['inset-stroke-color']);
                 }
                 refreshVisits(true);
             }
@@ -652,8 +654,14 @@
          */
         resize: function () {
             var ratio, w, h, map = this.map;
+            // adaptive: the widget takes each loaded map's own aspect ratio
             ratio = map.viewAB.width / map.viewAB.height;
             w = map.container.width();
+            // The realtime map deliberately uses a simpler height clamp than
+            // visitor-map's resize(): this widget carries its own datetime/legend
+            // overlay and derives the visit-dot radius from `h`, and a flat 30px
+            // reservation already fills a Widgetize iframe without visitor-map's
+            // chrome-subtraction / 0.85 branches (so it has no double-clamp issue).
             h = Math.min(w / ratio, $(window).height() - 30);
 
             var radScale = Math.pow((h * ratio * h) / 130000, 0.3);

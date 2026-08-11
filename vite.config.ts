@@ -18,15 +18,13 @@ import path from 'node:path';
 //   MATOMO_VUE_PHASE       which artifact this invocation produces (see below)
 //
 // The phase controls the emitted file name and whether declarations are generated:
-//   "prod"  -> <Plugin>.umd.js          (+ TypeScript declarations into @types/<Plugin>)
-//   "min"   -> <Plugin>.umd.min.js      (minified, no declarations)
-//   "dev"   -> <Plugin>.development.umd.js (watch mode, unminified, no declarations)
+//   "min"   -> <Plugin>.umd.min.js          (+ TypeScript declarations into @types/<Plugin>)
+//   "dev"   -> <Plugin>.development.umd.js  (watch mode, unminified, no declarations)
 const rootDir = __dirname;
 const pluginPath = process.env.MATOMO_CURRENT_PLUGIN || '';
 const pluginName = path.basename(pluginPath);
-const phase = process.env.MATOMO_VUE_PHASE || 'prod';
+const phase = process.env.MATOMO_VUE_PHASE || 'min';
 const isDev = phase === 'dev';
-const isMin = phase === 'min';
 
 if (!pluginPath) {
   throw new Error('The MATOMO_CURRENT_PLUGIN environment variable is not set!');
@@ -80,10 +78,6 @@ function umdMetadataPlugin(): Plugin {
   return {
     name: 'matomo-umd-metadata',
     writeBundle() {
-      if (isMin) {
-        // The minified pass reuses the dependencies detected by the prod pass; don't overwrite.
-        return;
-      }
       fs.mkdirSync(distDir, { recursive: true });
       fs.writeFileSync(
         path.join(distDir, 'umd.metadata.json'),
@@ -100,10 +94,9 @@ export default defineConfig({
     // previous vue-loader behaviour which left such bare paths untouched.
     vue({ template: { transformAssetUrls: false } }),
     umdMetadataPlugin(),
-    // Declarations are only needed for the canonical prod build; skip them for the minified pass
-    // and during watch mode (matching the previous behaviour of only emitting types when
-    // NODE_ENV !== 'development').
-    ...(phase === 'prod'
+    // Declarations are not needed during watch mode (matching the previous behaviour of only
+    // emitting types when NODE_ENV !== 'development').
+    ...(!isDev
       ? [dts({
         outDir: path.join(rootDir, '@types', pluginName),
         entryRoot: path.join(rootDir, pluginPath, 'vue', 'src'),
@@ -132,14 +125,14 @@ export default defineConfig({
   },
   build: {
     outDir: distDir,
-    // Never wipe dist between the prod and min passes. dist is committed and regenerated with
-    // stable filenames (<Plugin>.umd.js / .umd.min.js / .development.umd.js), so nothing needs to
-    // clear it between passes.
+    // dist is committed and regenerated with stable filenames (<Plugin>.umd.min.js /
+    // .development.umd.js), so it never needs to be wiped. Clearing it would also drop the
+    // committed bundle whenever a watch build runs.
     emptyOutDir: false,
     target: 'es2015',
     // Keep the single scoped SFC style (ExampleVue) emitted as <Plugin>.css, as before.
     cssCodeSplit: false,
-    minify: isMin ? 'terser' : false,
+    minify: isDev ? false : 'terser',
     sourcemap: false,
     // These bundles are loaded as plain <script> tags; bundle-size warnings are not relevant.
     chunkSizeWarningLimit: 100000,
@@ -148,12 +141,7 @@ export default defineConfig({
       name: pluginName,
       formats: ['umd'],
       cssFileName: pluginName,
-      fileName: () => {
-        if (isDev) {
-          return `${pluginName}.development.umd.js`;
-        }
-        return isMin ? `${pluginName}.umd.min.js` : `${pluginName}.umd.js`;
-      },
+      fileName: () => (isDev ? `${pluginName}.development.umd.js` : `${pluginName}.umd.min.js`),
     },
     rollupOptions: {
       external: isExternal,

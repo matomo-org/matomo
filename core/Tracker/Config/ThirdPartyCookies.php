@@ -30,10 +30,7 @@ class ThirdPartyCookies implements
      */
     use PolicyComparisonTrait;
 
-    /**
-     * @var bool|null
-     */
-    private $value;
+    private ?bool $value;
 
     private function __construct(?bool $value)
     {
@@ -73,6 +70,17 @@ class ThirdPartyCookies implements
     public static function getComplianceRequirementNote(?int $idSite = null): string
     {
         return Piwik::translate('General_ThirdPartyCookieSettingNote');
+    }
+
+    public static function getPolicySettingId(): string
+    {
+        // Piwik::getPluginNameOfMatomoClass() would derive "Config" from the namespace
+        return 'Core.ThirdPartyCookies';
+    }
+
+    public static function isExternallyManagedByPolicyPage(): bool
+    {
+        return true;
     }
 
     protected static function compareStrictness($value1, $value2): bool

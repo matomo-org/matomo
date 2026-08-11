@@ -36,14 +36,25 @@ class PasswordResetEmail extends Mail
      */
     protected $resetUrl;
 
-    public function __construct(string $login, string $ip, string $resetUrl, string $cancelUrl)
-    {
+    /**
+     * @var string|null
+     */
+    protected $linkValidity;
+
+    public function __construct(
+        string $login,
+        string $ip,
+        string $resetUrl,
+        string $cancelUrl,
+        ?string $linkValidity = null
+    ) {
         parent::__construct();
 
         $this->login = $login;
         $this->ip = $ip;
         $this->resetUrl = $resetUrl;
         $this->cancelUrl = $cancelUrl;
+        $this->linkValidity = $linkValidity;
 
         $this->setUpEmail();
     }
@@ -88,5 +99,6 @@ class PasswordResetEmail extends Mail
         $view->ip = $this->ip;
         $view->resetUrl = $this->resetUrl;
         $view->cancelUrl = $this->cancelUrl;
+        $view->linkValidity = $this->linkValidity;
     }
 }

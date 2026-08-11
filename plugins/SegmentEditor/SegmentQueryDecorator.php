@@ -23,10 +23,7 @@ use Piwik\SettingsServer;
  */
 class SegmentQueryDecorator extends LogQueryBuilder
 {
-    /**
-     * @var StoredSegmentService
-     */
-    private $storedSegmentService;
+    private StoredSegmentService $storedSegmentService;
 
     public function __construct(StoredSegmentService $storedSegmentService, LogTablesProvider $logTablesProvider)
     {

@@ -17,15 +17,9 @@ use Piwik\Widget\WidgetConfig;
 
 class PromoServices extends \Piwik\Widget\Widget
 {
-    /**
-     * @var Advertising
-     */
-    private $advertising;
+    private Advertising $advertising;
 
-    /**
-     * @var Promo
-     */
-    private $promo;
+    private Promo $promo;
 
     public function __construct(Advertising $advertising, Promo $promo)
     {

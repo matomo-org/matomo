@@ -28,10 +28,7 @@ use Piwik\Tracker;
 
 class CustomDimension extends RecordBuilder
 {
-    /**
-     * @var array
-     */
-    private $dimensionInfo;
+    private array $dimensionInfo;
 
     /**
      * @var int

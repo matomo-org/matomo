@@ -7,6 +7,7 @@
 
 import {
   reactive,
+  ref,
   watch,
   computed,
   readonly,
@@ -77,6 +78,16 @@ function normalizeUrlState(value: unknown): unknown {
   return value;
 }
 
+function isSameColorSet(
+  current: { [key: string]: string },
+  resolved: { [key: string]: string },
+): boolean {
+  const names = Object.keys(resolved);
+
+  return names.length === Object.keys(current).length
+    && names.every((name) => current[name] === resolved[name]);
+}
+
 export default class ComparisonsStore {
   private privateState = reactive<ComparisonsStoreState>({
     comparisonsDisabledFor: [],
@@ -84,7 +95,7 @@ export default class ComparisonsStore {
 
   readonly state = readonly(this.privateState); // for tests
 
-  private colors: { [key: string]: string } = {};
+  private colors = ref<{ [key: string]: string }>({});
 
   readonly segmentComparisons = computed(() => this.parseSegmentComparisons());
 
@@ -102,8 +113,11 @@ export default class ComparisonsStore {
       });
     }
 
+    // Refresh once the document is ready, so a stylesheet that only lands then is picked up. Reads
+    // do not wait for this: see seriesColors(). Nothing is stored when the colours did not change,
+    // so the sparklines already showing them are not asked to rebuild their image URL.
     $(() => {
-      this.colors = this.getAllSeriesColors() as { [key: string]: string };
+      this.refreshSeriesColors();
     });
 
     watch(
@@ -163,11 +177,46 @@ export default class ComparisonsStore {
     ) % SERIES_COLOR_COUNT;
 
     if (metricIndex === 0) {
-      return this.colors[`series${seriesIndex}`];
+      return this.seriesColors()[`series${seriesIndex}`];
     }
 
     const shadeIndex = metricIndex % SERIES_SHADE_COUNT;
-    return this.colors[`series${seriesIndex}-shade${shadeIndex}`];
+    return this.seriesColors()[`series${seriesIndex}-shade${shadeIndex}`];
+  }
+
+  /**
+   * The series colours, resolved on first read.
+   *
+   * They used to be filled only on document ready, so anything reading them earlier - a sparkline
+   * building its image URL, for instance - got undefined and the server fell back to a colour the
+   * design no longer uses. Resolving on demand removes that ordering dependency.
+   */
+  private seriesColors(): { [key: string]: string } {
+    if (!Object.keys(this.colors.value).length) {
+      this.refreshSeriesColors();
+    }
+
+    return this.colors.value;
+  }
+
+  /**
+   * Reads the series colours from the stylesheet and stores them when they changed.
+   *
+   * A write invalidates everything reading the colours - every comparison sparkline rebuilds its
+   * image URL from them, and the server renders a new PNG - so an unreadable or an unchanged
+   * result keeps the current value. Two components reading unreadable colours would otherwise
+   * re-render each other forever.
+   */
+  private refreshSeriesColors(): void {
+    const resolvedColors = this.getAllSeriesColors();
+
+    if (!Object.keys(resolvedColors).length
+      || isSameColorSet(this.colors.value, resolvedColors)
+    ) {
+      return;
+    }
+
+    this.colors.value = resolvedColors;
   }
 
   getSeriesColorName(seriesIndex: number, metricIndex: number): string {
@@ -203,6 +252,7 @@ export default class ComparisonsStore {
 
   getAllComparisonSeries(): ComparisonSeriesInfo[] {
     const seriesInfo: ComparisonSeriesInfo[] = [];
+    const colors = this.seriesColors();
 
     let seriesIndex = 0;
     this.getPeriodComparisons().forEach((periodComp) => {
@@ -210,7 +260,7 @@ export default class ComparisonsStore {
         seriesInfo.push({
           index: seriesIndex,
           params: { ...segmentComp.params, ...periodComp.params },
-          color: this.colors[`series${seriesIndex}`],
+          color: colors[`series${seriesIndex}`],
         });
         seriesIndex += 1;
       });
@@ -317,10 +367,10 @@ export default class ComparisonsStore {
     });
   }
 
-  private getAllSeriesColors() {
+  private getAllSeriesColors(): { [key: string]: string } {
     const { ColorManager } = Matomo;
     if (!ColorManager) {
-      return [];
+      return {};
     }
 
     const seriesColorNames = [];
@@ -332,7 +382,10 @@ export default class ComparisonsStore {
       }
     }
 
-    return ColorManager.getColors('comparison-series-color', seriesColorNames);
+    return ColorManager.getColors(
+      'comparison-series-color',
+      seriesColorNames,
+    ) as { [key: string]: string };
   }
 
   private loadComparisonsDisabledFor() {

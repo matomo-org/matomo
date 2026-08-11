@@ -84,7 +84,7 @@ class API extends \Piwik\Plugin\API
     /**
      * @var array[]
      */
-    private static $DEFAULT_GRAPH_TYPE_OVERRIDE = array(
+    private static array $DEFAULT_GRAPH_TYPE_OVERRIDE = array(
         'Referrers_getReferrerType' => array(
             false // override if !$isMultiplePeriod
             => StaticGraph::GRAPH_TYPE_HORIZONTAL_BAR,
@@ -170,6 +170,12 @@ class API extends \Piwik\Plugin\API
         $idDimension = false
     ) {
         Piwik::checkUserHasViewAccess($idSite);
+
+        // a graph may only be streamed to the browser by the top-level request, so it is checked
+        // upfront and no graph is rendered for an output mode that will be refused anyway
+        if (self::isStreamingOutputType($outputType) && Request::isCurrentApiRequestNestedInAnotherApiRequest()) {
+            throw new Exception('A graph can only be sent to the browser by the top-level request.');
+        }
 
         // Health check - should we also test for GD2 only?
         if (!SettingsServer::isGdExtensionEnabled()) {
@@ -585,6 +591,15 @@ class API extends \Piwik\Plugin\API
                 $graph->sendToBrowser();
                 exit;
         }
+    }
+
+    /**
+     * Whether the given output mode streams the graph to the browser. Mirrors the output modes
+     * handled by the switch in {@see get()}, where any unknown mode means inline.
+     */
+    private static function isStreamingOutputType(int $outputType): bool
+    {
+        return !in_array($outputType, [self::GRAPH_OUTPUT_FILE, self::GRAPH_OUTPUT_PHP], true);
     }
 
     private function setFilterTruncate(int $default): void

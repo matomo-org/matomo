@@ -2,6 +2,7 @@
     "MobileAppMeasurable": {
         "MobileApp": "モバイルアプリ",
         "MobileAppDescription": "IOS、Android や他のモバイル オペレーティング システムのネイティブ モバイル アプリケーション。",
+        "MobileAppLongDescription": "iOSおよびAndroidのネイティブアプリ内でのユーザーアクティビティを追跡します。収集されるデータには、画面表示、アプリ内イベント、デバイスの詳細、ユーザーセッションなどが含まれます。この測定項目は、MatomoのモバイルSDKを使用しているアプリ向けに設計されています。",
         "MobileApps": "モバイルアプリ"
     }
 }

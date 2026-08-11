@@ -201,6 +201,14 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public const GENERIC_FILTERS_TO_DISABLE_METADATA_NAME = 'generic_filters_to_disable';
 
+    /**
+     * Name for metadata that describes whether the totals row only totals the rows matching the
+     * table search of the request, instead of every row of the report.
+     *
+     * The report totals stay available in the `totals` metadata when this is set.
+     */
+    public const TOTALS_ROW_IS_FILTERED_METADATA_NAME = 'totalsRowIsFiltered';
+
     /** The ID of the Summary Row. */
     public const ID_SUMMARY_ROW = -1;
 
@@ -1518,15 +1526,14 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     }
 
     /** @var string[] */
-    private static $previousRowClasses = [
+    private static array $previousRowClasses = [
         'O:39:"Piwik\DataTable\Row\DataTableSummaryRow"',
         'O:19:"Piwik\DataTable\Row"',
         'O:36:"Piwik_DataTable_Row_DataTableSummary"',
         'O:19:"Piwik_DataTable_Row"',
     ];
 
-    /** @var string */
-    private static $rowClassToUseForUnserialize = 'O:29:"Piwik_DataTable_SerializedRow"';
+    private static string $rowClassToUseForUnserialize = 'O:29:"Piwik_DataTable_SerializedRow"';
 
     /**
      * It is faster to unserialize existing serialized Row instances to "Piwik_DataTable_SerializedRow" and access the

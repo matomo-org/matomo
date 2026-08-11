@@ -40,10 +40,8 @@ class Config
 {
     /**
      * If provided, tells the config to only apply to a specific site ID.
-     *
-     * @var int|null
      */
-    private $idSite;
+    private ?int $idSite = null;
 
     public function __construct(?int $idSite = null)
     {

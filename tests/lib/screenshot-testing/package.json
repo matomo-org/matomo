@@ -7,13 +7,15 @@
   "engines": {
     "node": ">=24.0.0 <25.0.0"
   },
+  "scripts": {
+    "install-browser": "puppeteer browsers install chrome"
+  },
   "dependencies": {
     "chai": "^4.5.0",
     "chai-files": "^1.4.0",
     "fs-extra": "^11.3.5",
     "mocha": "^11.7.6",
     "puppeteer": "^24.0.0",
-    "@puppeteer/browsers": "2.13.2",
     "qs": "^6.14.0",
     "@testomatio/reporter": "^1.6.17",
     "mocha-multi-reporters": "^1.5.1"

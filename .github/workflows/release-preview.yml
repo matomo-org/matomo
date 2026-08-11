@@ -1,5 +1,11 @@
 # Matomo release action for automated PREVIEW releases
 #
+# The branch to build a preview from is selectable. Scheduled runs always use
+# the default (5.x-dev), because Matomo Cloud is still on Matomo 5 and needs to
+# keep receiving 5.x previews even though the repository's default branch is
+# switching to 6.x-dev. Previews for another major can be built by dispatching
+# this workflow manually with a different target branch.
+#
 # Slack notifications on failure and automatic retries live in the
 # separate preview-retry-handler.yml workflow, which reacts to this
 # workflow's completion. Attempts 1 and 2 get rerun automatically;
@@ -26,22 +32,41 @@ permissions:
   statuses: none
 
 on:
-  # TODO: remove manual dispatch after testing and enable cron
   workflow_dispatch:
     inputs:
       password:
         description: 'Release password'
         required: true
+      target_branch:
+        description: 'Branch to build the preview from'
+        type: choice
+        default: '5.x-dev'
+        options:
+          - '5.x-dev'
+          - '6.x-dev'
   schedule:
     - cron: '0 1 * * *' # 1am daily
+
+# Two builds for the same target would force-push the same preview branch and
+# race for the same version number, so they are queued instead of cancelled.
+# The default needs to be repeated here, as the concurrency group cannot access
+# the env context.
+concurrency:
+  group: preview-${{ inputs.target_branch || '5.x-dev' }}
+  cancel-in-progress: false
+
 env:
   RELEASE_PASSWORD: ${{ secrets.RELEASE_PASSWORD }}
 jobs:
   prepare_preview_version:
     runs-on: ubuntu-24.04
+    # inputs is empty for scheduled runs, so the default has to be repeated here
+    env:
+      TARGET_BRANCH: ${{ inputs.target_branch || '5.x-dev' }}
     outputs:
       do_release: ${{ steps.changes.outputs.do_release }}
       has_new_version: ${{ steps.version.outputs.has_new_version }}
+      preview_branch: ${{ steps.target.outputs.preview_branch }}
     steps:
       - name: "Check release password"
         if: ${{ github.event_name != 'schedule' && github.event.inputs.password != env.RELEASE_PASSWORD }}
@@ -55,12 +80,29 @@ jobs:
         with:
           script: |
             core.setFailed('User is not allowed to release.')
+      # The target branch ends up as a checkout ref, as the force-push target
+      # and as the ref the release workflow builds from, so validate it here
+      # instead of relying on the input staying a restricted choice. Each
+      # supported branch also needs a test job below, so failing early is
+      # better than skipping the release later on.
+      - name: Determine preview branch
+        id: target
+        run: |
+          case "$TARGET_BRANCH" in
+            5.x-dev|6.x-dev) ;;
+            *) echo "Unsupported target branch: $TARGET_BRANCH"; exit 1 ;;
+          esac
+
+          echo "PREVIEW_BRANCH=${TARGET_BRANCH%-dev}-preview" >> "$GITHUB_ENV"
+          echo "preview_branch=${TARGET_BRANCH%-dev}-preview" >> "$GITHUB_OUTPUT"
+
       - uses: actions/checkout@v7
         with:
           lfs: false
           fetch-tags: true
           fetch-depth: 0
           persist-credentials: false
+          ref: ${{ env.TARGET_BRANCH }}
 
       - name: Prepare git config
         run: |
@@ -70,21 +112,40 @@ jobs:
       - name: Check if there are any changes to create a preview release for
         id: changes
         run: |
-          LATEST_PREVIEW=$(git tag --sort=-creatordate | grep -E '\.[0-9]{14}$' | head -n 1)
-          
-          DIFF=""
-          if [ -n "$LATEST_PREVIEW" ]; then
-            # using || true to always exit either with a diff or a success exit code to not fail the whole workflow
-            DIFF=$(git diff "$LATEST_PREVIEW..6.x-dev" --unified=0 | grep -vE "^\+\+\+|---" | grep "^[+-]" | grep -v "public const VERSION = '.*';" || true)
+          MAJOR=$(php -r "include_once 'core/Version.php'; echo \Piwik\Version::MAJOR_VERSION;")
+
+          if [ "$MAJOR" != "${TARGET_BRANCH%%.*}" ]; then
+            echo "core/Version.php on ${TARGET_BRANCH} reports major version ${MAJOR}."
+            exit 1
           fi
-          
-          if [ -z "$DIFF" ]; then
-            echo "No changes in 6.x-dev since last preview version was created."
-            DO_RELEASE=0
-          else
+
+          PREVIEW_TAGS=$(git tag --sort=-creatordate | grep -E '\.[0-9]{14}$' || true)
+
+          # not finding any preview tag at all means they were not fetched correctly,
+          # which must not be mistaken for a major that has no previews yet
+          if [ -z "$PREVIEW_TAGS" ]; then
+            echo "No preview tags found at all."
+            exit 1
+          fi
+
+          # previews of another major are no valid base to compare against
+          LATEST_PREVIEW=$(printf '%s\n' "$PREVIEW_TAGS" | grep -E "^${MAJOR}\." | head -n 1 || true)
+
+          if [ -z "$LATEST_PREVIEW" ]; then
+            echo "No preview version has been created for Matomo ${MAJOR} yet."
             DO_RELEASE=1
+          else
+            # using || true to always exit either with a diff or a success exit code to not fail the whole workflow
+            DIFF=$(git diff "$LATEST_PREVIEW..HEAD" --unified=0 | grep -vE "^\+\+\+|---" | grep "^[+-]" | grep -v "public const VERSION = '.*';" || true)
+
+            if [ -z "$DIFF" ]; then
+              echo "No changes in ${TARGET_BRANCH} since last preview version was created."
+              DO_RELEASE=0
+            else
+              DO_RELEASE=1
+            fi
           fi
-          
+
           echo "do_release=$DO_RELEASE" >> "$GITHUB_OUTPUT"
 
       - name: Determine new preview version number
@@ -110,7 +171,7 @@ jobs:
         if: steps.changes.outputs.do_release == '1' && steps.version.outputs.has_new_version == '1'
         run: |
           if [[ $OLD_VERSION =~ -rc[0-9]+$ ]]; then
-            echo "Preview releases are skipped while VERSION is an RC ($OLD_VERSION). Set VERSION to the next -alpha on 6.x-dev."
+            echo "Preview releases are skipped while VERSION is an RC ($OLD_VERSION). Set VERSION to the next -alpha on ${TARGET_BRANCH}."
             exit 1
           fi
 
@@ -125,11 +186,6 @@ jobs:
             exit 1
           fi
 
-      - name: Update 6.x-preview branch to latest 6.x-dev
-        if: steps.changes.outputs.do_release == '1' && steps.version.outputs.has_new_version == '1'
-        run: |
-          git checkout -B 6.x-preview
-
       - name: Update version file with new version
         if: steps.changes.outputs.do_release == '1' && steps.version.outputs.has_new_version == '1'
         run: |
@@ -141,39 +197,64 @@ jobs:
           git add core/Version.php
           git commit -m "Update version to ${NEW_VERSION}"
 
-      - name: Push changes to 5.x-preview
+      - name: Push changes to ${{ steps.target.outputs.preview_branch }}
         if: steps.changes.outputs.do_release == '1' && steps.version.outputs.has_new_version == '1'
         run: |
-          git push -f "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}" 5.x-preview
+          git push -f "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}" "HEAD:refs/heads/${PREVIEW_BRANCH}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  run_matomo_tests:
+  # A workflow started from a branch always calls the reusable workflows of that
+  # same branch, which would test the code of the target branch with the PHP,
+  # MySQL and Node versions of the branch this workflow was started from. As the
+  # called workflow can not be chosen dynamically, there is one job per target
+  # branch, so the tests always run with the matching versions.
+  run_matomo_tests_5x:
+    needs: [prepare_preview_version]
+    uses: matomo-org/matomo/.github/workflows/matomo-tests.yml@5.x-dev
+    if: |
+      always() &&
+      needs.prepare_preview_version.result == 'success' &&
+      needs.prepare_preview_version.outputs.do_release == '1' &&
+      needs.prepare_preview_version.outputs.has_new_version == '1' &&
+      needs.prepare_preview_version.outputs.preview_branch == '5.x-preview'
+    with:
+      is_preview: true
+      ref: ${{ needs.prepare_preview_version.outputs.preview_branch }}
+    secrets:
+      ARTIFACTS_PASS: ${{ secrets.ARTIFACTS_PASS }}
+
+  run_matomo_tests_6x:
     needs: [prepare_preview_version]
     uses: ./.github/workflows/matomo-tests.yml
     if: |
-      always() && 
-      needs.prepare_preview_version.result == 'success' && 
-      needs.prepare_preview_version.outputs.do_release == '1' && 
-      needs.prepare_preview_version.outputs.has_new_version == '1'
+      always() &&
+      needs.prepare_preview_version.result == 'success' &&
+      needs.prepare_preview_version.outputs.do_release == '1' &&
+      needs.prepare_preview_version.outputs.has_new_version == '1' &&
+      needs.prepare_preview_version.outputs.preview_branch == '6.x-preview'
     with:
       is_preview: true
-      ref: 5.x-preview
+      ref: ${{ needs.prepare_preview_version.outputs.preview_branch }}
     secrets:
       ARTIFACTS_PASS: ${{ secrets.ARTIFACTS_PASS }}
 
   release_preview_version:
-    needs: [prepare_preview_version, run_matomo_tests]
+    needs: [prepare_preview_version, run_matomo_tests_5x, run_matomo_tests_6x]
     uses: ./.github/workflows/release.yml
+    # exactly one of the test jobs runs, the other one is always skipped
     if: |
-      always() && 
-      needs.prepare_preview_version.result == 'success' && 
-      needs.run_matomo_tests.result == 'success' && 
-      needs.prepare_preview_version.outputs.do_release == '1' && 
+      always() &&
+      needs.prepare_preview_version.result == 'success' &&
+      (
+        (needs.run_matomo_tests_5x.result == 'success' && needs.run_matomo_tests_6x.result == 'skipped') ||
+        (needs.run_matomo_tests_6x.result == 'success' && needs.run_matomo_tests_5x.result == 'skipped')
+      ) &&
+      needs.prepare_preview_version.outputs.do_release == '1' &&
       needs.prepare_preview_version.outputs.has_new_version == '1'
     with:
       is_preview: true
-      ref: 5.x-preview
+      ref: ${{ needs.prepare_preview_version.outputs.preview_branch }}
     secrets:
       RELEASE_PASSWORD: ${{ secrets.RELEASE_PASSWORD }}
       GPG_CERTIFICATE: ${{ secrets.GPG_CERTIFICATE }}

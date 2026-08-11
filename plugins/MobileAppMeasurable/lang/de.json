@@ -2,6 +2,7 @@
     "MobileAppMeasurable": {
         "MobileApp": "Mobile App",
         "MobileAppDescription": "Eine native Mobile App für iOS, Android oder ein anderes mobiles Betriebssystem.",
+        "MobileAppLongDescription": "Tracken Sie die Nutzeraktivitäten in nativen iOS- und Android-Anwendungen. Zu den erfassten Daten können Bildschirmaufrufe, In-App-Ereignisse, Gerätedaten und Benutzersitzungen gehören. Diese Messgröße ist für Apps vorgesehen, welche die mobilen SDKs von Matomo verwenden.",
         "MobileApps": "Mobile Apps"
     }
 }

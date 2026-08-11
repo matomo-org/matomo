@@ -42,44 +42,23 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     public const INSTALL_NONCE = 'Marketplace.installPlugin';
     public const DOWNLOAD_NONCE_PREFIX = 'Marketplace.downloadPlugin.';
 
-    /**
-     * @var LicenseKey
-     */
-    private $licenseKey;
-    /**
-     * @var Plugins
-     */
-    private $plugins;
+    private LicenseKey $licenseKey;
+    private Plugins $plugins;
 
-    /**
-     * @var Api\Client
-     */
-    private $marketplaceApi;
+    private Api\Client $marketplaceApi;
 
-    /**
-     * @var Consumer
-     */
-    private $consumer;
+    private Consumer $consumer;
 
-    /**
-     * @var PluginInstaller
-     */
-    private $pluginInstaller;
+    private PluginInstaller $pluginInstaller;
 
     /**
      * @var Plugin\Manager
      */
     private $pluginManager;
 
-    /**
-     * @var Environment
-     */
-    private $environment;
+    private Environment $environment;
 
-    /**
-     * @var PasswordVerifier
-     */
-    private $passwordVerify;
+    private PasswordVerifier $passwordVerify;
 
     /**
      * @var array<int, array<string, mixed>>|null

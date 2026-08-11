@@ -26,10 +26,7 @@ use Piwik\Log\LoggerInterface;
 
 class DataSubjects
 {
-    /**
-     * @var LogTablesProvider
-     */
-    private $logTablesProvider;
+    private LogTablesProvider $logTablesProvider;
 
     public function __construct(LogTablesProvider $logTablesProvider)
     {

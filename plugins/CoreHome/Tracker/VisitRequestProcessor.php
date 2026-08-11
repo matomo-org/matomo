@@ -54,20 +54,11 @@ class VisitRequestProcessor extends RequestProcessor
 {
     // TODO: much of the logic in this class should be moved to new service class
 
-    /**
-     * @var EventDispatcher
-     */
-    private $eventDispatcher;
+    private EventDispatcher $eventDispatcher;
 
-    /**
-     * @var VisitorRecognizer
-     */
-    private $visitorRecognizer;
+    private VisitorRecognizer $visitorRecognizer;
 
-    /**
-     * @var Settings
-     */
-    private $userSettings;
+    private Settings $userSettings;
 
     /**
      * @var int

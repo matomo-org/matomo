@@ -26,10 +26,7 @@ use Piwik\Log\LoggerInterface;
 
 class QueueConsumer
 {
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private LoggerInterface $logger;
 
     /**
      * @var FixedSiteIds|SharedSiteIds
@@ -46,30 +43,18 @@ class QueueConsumer
      */
     private $pid;
 
-    /**
-     * @var Model
-     */
-    private $model;
+    private Model $model;
 
     /**
      * @var ArchiveFilter
      */
     private $archiveFilter;
 
-    /**
-     * @var SegmentArchiving
-     */
-    private $segmentArchiving;
+    private SegmentArchiving $segmentArchiving;
 
-    /**
-     * @var CronArchive
-     */
-    private $cronArchive;
+    private CronArchive $cronArchive;
 
-    /**
-     * @var array
-     */
-    private $invalidationsToExclude;
+    private array $invalidationsToExclude;
 
     /**
      * @var string[]

@@ -8,7 +8,7 @@
  */
 
 describe("DashboardManager", function () {
-    const managerSelector = '.dashboard-manager,.dashboard-manager .dropdown';
+    const managerSelector = '.dashboard-manager,.dashboard-manager .piwikSelector__dropdown';
     const modalSelector = '.modal.open.add-widget-modal';
 
     const generalParams = 'idSite=1&period=day&date=2012-01-01';
@@ -28,7 +28,7 @@ describe("DashboardManager", function () {
     });
 
     it("should show widget for a category when category label hovered", async function() {
-        await page.click('.dashboard-manager .addWidget-button');
+        await page.click('button[data-action="addWidget"]');
         await page.waitForSelector(modalSelector);
         await page.waitForSelector(modalSelector + ' .widgetpreview-categorylist>li button');
 

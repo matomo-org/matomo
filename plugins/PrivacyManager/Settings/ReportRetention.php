@@ -35,10 +35,7 @@ class ReportRetention implements
 
     use OptionGetterTrait;
 
-    /**
-     * @var int|null
-     */
-    private $value;
+    private ?int $value;
 
     private function __construct(?int $value)
     {

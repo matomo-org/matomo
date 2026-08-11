@@ -97,15 +97,9 @@ class Twig
     public const SPARKLINE_TEMPLATE = '<img loading="lazy" alt="" data-src="%s" width="%d" height="%d" />
     <script type="text/javascript">$(function() { piwik.initSparklines(); });</script>';
 
-    /**
-     * @var Environment
-     */
-    private $twig;
+    private Environment $twig;
 
-    /**
-     * @var Formatter
-     */
-    private $formatter;
+    private Formatter $formatter;
 
     public function __construct()
     {
@@ -290,10 +284,8 @@ class Twig
             'sparkline',
             /**
              * @param string $src
-             * @param int $width Display width in px, honored only when the SparklinesRedesign feature
-             *      flag is enabled (otherwise JS forces the legacy 100x25). Defaults to Sparkline::DEFAULT_WIDTH.
-             * @param int $height Display height in px, same flag-dependent behaviour. Defaults to
-             *      Sparkline::DEFAULT_HEIGHT.
+             * @param int $width Display width in px. Defaults to Sparkline::DEFAULT_WIDTH.
+             * @param int $height Display height in px. Defaults to Sparkline::DEFAULT_HEIGHT.
              * @return string
              */
             function ($src, $width = Sparkline::DEFAULT_WIDTH, $height = Sparkline::DEFAULT_HEIGHT) use ($twigEnv) {

@@ -7,6 +7,12 @@
 {% set showCardAsContentBlock = (properties.show_as_content_block and properties.show_title and not isWidget) %}
 {% set showOnlyTitleWithoutCard = not showCardAsContentBlock and properties.title and properties.show_title %}
 
+{# Mount the header even when the iframe shows no title, so a later story can host the report
+   actions from the same anchor as a full-page report. #}
+{% set widgetizedIframe = isWidgetizedIframe|default(false) %}
+{% set renderStandaloneHeader = not showCardAsContentBlock and (showOnlyTitleWithoutCard or widgetizedIframe) %}
+{% set headerContext = widgetizedIframe ? 'widgetized' : 'fullPage' %}
+
 {#
 using the show_footer to control the header actions as well since this is going to be refactored with the goal
 of moving the table actions to the top of the report for all reports, at which point the config for the report
@@ -14,19 +20,17 @@ can be renamed to show_header and show_header_icons
 #}
 {% set showTableActionsInHeader = properties.show_footer and properties.show_footer_icons %}
 
+{# The header must stay outside `.dataTable`, which an ajax reload replaces wholesale without a
+   `showtitle` parameter (see dataTable.js) - inside it, it would not survive the first sort. #}
 {% if showCardAsContentBlock  %}
 <div class="card">
 <div class="card-content">
     {% if properties.title %}
-        <h2 class="card-title"
-            {% if properties.title_edit_entity_url %}edit-url="{{ properties.title_edit_entity_url }}"{% endif %}
-            report-generated="{% if reportLastUpdatedMessage is defined %}{{ reportLastUpdatedMessage|raw }}{% endif %}"
-              vue-entry="CoreHome.EnrichedHeadline"
-        >{{ properties.title }}</h2>
+        {% include "@CoreHome/_reportHeader.twig" with { inCard: true } %}
     {% endif %}
-{% elseif showOnlyTitleWithoutCard %}
+{% elseif renderStandaloneHeader %}
     <div>
-    <h2>{{ properties.title }}</h2>
+    {% include "@CoreHome/_reportHeader.twig" with { inCard: false, context: headerContext, showTitle: showOnlyTitleWithoutCard } %}
 {% endif %}
 
 {% set showCardTableIsEmpty = not properties.show_as_content_block and isDataTableEmpty and not isWidget %}
@@ -108,7 +112,7 @@ can be renamed to show_header and show_header_icons
 
 {% if showCardAsContentBlock %}
     </div></div>
-{% elseif showOnlyTitleWithoutCard %}
+{% elseif renderStandaloneHeader %}
     </div>
 {% endif %}
 

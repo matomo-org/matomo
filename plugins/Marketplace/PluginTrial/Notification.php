@@ -17,15 +17,9 @@ use Piwik\Url;
 
 class Notification
 {
-    /**
-     * @var string
-     */
-    private $pluginName;
+    private string $pluginName;
 
-    /**
-     * @var Storage
-     */
-    private $storage;
+    private Storage $storage;
 
     public function __construct(string $pluginName, Storage $storage)
     {

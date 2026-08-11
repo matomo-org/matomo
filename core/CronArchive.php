@@ -223,20 +223,14 @@ class CronArchive
      */
     private $periodIdsToLabels;
 
-    /**
-     * @var ArchiveFilter
-     */
-    private $archiveFilter;
+    private ArchiveFilter $archiveFilter;
 
     /**
      * @var bool|mixed
      */
     private $supportsAsync;
 
-    /**
-     * @var null|int
-     */
-    private $signal = null;
+    private ?int $signal = null;
 
     /**
      * @var CliMulti|null

@@ -6,28 +6,41 @@
 -->
 
 <template>
-  <div class="reportHeader">
+  <div
+    v-if="!isEmpty"
+    class="reportHeader"
+    :class="{
+      'reportHeader--flush': isFullPage && !plainTitle,
+      'reportHeader--plainTitle': plainTitle,
+    }"
+  >
     <div class="reportHeader__main">
-      <!-- The title text lives in a nested <span> to preserve the legacy `.widgetName > span`
-           contract other plugins hook into (dataTable related reports, UserCountryMap map
-           title, SingleMetricView metric title + series picker). The `widgetName` class is
-           kept only as that external hook — styling goes through `.reportHeader__title`. -->
-      <h3
+      <!-- `.widgetName` and the nested <span> are an external hook dataTable.js,
+           SingleMetricView and UserCountryMap look for. `.self` stops the key handlers
+           cancelling links EnrichedHeadline renders inside the heading. -->
+      <component
+        v-if="showTitle"
+        :is="titleTag"
         class="reportHeader__title widgetName"
         :class="{ 'reportHeader__title--clickable': titleClickable }"
         :role="titleClickable ? 'button' : undefined"
         :tabindex="titleClickable ? 0 : undefined"
         :title="titleClickable ? titleClickHint : undefined"
         @click="onTitleClick"
-        @keydown.enter.prevent="onTitleClick"
-        @keydown.space.prevent="onTitleClick"
+        @keydown.enter.self.prevent="onTitleClick"
+        @keydown.space.self.prevent="onTitleClick"
       >
-        <span>{{ title }}</span>
-      </h3>
-      <!-- Visually-hidden label so assistive tech announces the region as a widget,
-           restoring the old `.widgetNameOffScreen` text. -->
-      <span class="u-visuallyHidden">{{ translate('General_Widget') }}</span>
-      <!-- future: report-feedback actions live here alongside the title -->
+        <EnrichedHeadline
+          v-if="enriched"
+          :feature-name="featureName"
+          :inline-help="wrappedInlineHelp"
+          :report-generated="reportGenerated"
+          :edit-url="editUrl"
+          :help-url="helpUrl"
+        ><span>{{ titleText }}</span></EnrichedHeadline>
+        <span v-else>{{ titleText }}</span>
+      </component>
+      <span v-if="!isFullPage" class="u-visuallyHidden">{{ translate('General_Widget') }}</span>
     </div>
 
     <!-- Widget controls: an inline action row, hidden until the widget is hovered/focused.
@@ -54,6 +67,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import EnrichedHeadline from '../EnrichedHeadline/EnrichedHeadline.vue';
 import WidgetControls from '../WidgetControls/WidgetControls.vue';
 import { translate } from '../translate';
 
@@ -67,8 +81,7 @@ export interface ControlVisibility {
 // Which widget controls each context exposes. Kept here so every surface that renders
 // the header stays consistent with the redesign spec. `dashboard` is the normal widget state
 // (all controls only make sense on a dashboard); `maximised`/`collapsed` are its state
-// variants; `widgetized`/`preview` render no controls. Consumers outside a widget (e.g.
-// full-page reports) pass a no-control context.
+// variants; `widgetized`/`preview`/`fullPage` render no controls.
 const CONTROLS_BY_CONTEXT: Record<string, ControlVisibility> = {
   dashboard: {
     minimise: true, maximise: true, refresh: true, close: true,
@@ -85,6 +98,9 @@ const CONTROLS_BY_CONTEXT: Record<string, ControlVisibility> = {
   preview: {
     minimise: false, maximise: false, refresh: false, close: false,
   },
+  fullPage: {
+    minimise: false, maximise: false, refresh: false, close: false,
+  },
 };
 
 export default defineComponent({
@@ -93,6 +109,14 @@ export default defineComponent({
       type: String,
       default: 'dashboard',
     },
+    // Not `title`: that attribute on the twig host is picked up by the widget's v-tooltips
+    // directive and shown as a tooltip repeating the heading. Core passes `report-title`.
+    reportTitle: {
+      type: String,
+      default: '',
+    },
+    // @deprecated 6.0.0 - use `reportTitle`. 5.x only had `title`. Vue templates only: as a
+    // twig host attribute it would trigger the tooltip above.
     title: {
       type: String,
       default: '',
@@ -102,8 +126,44 @@ export default defineComponent({
       type: String,
       default: '',
     },
+    headingLevel: {
+      type: String,
+      default: 'h3',
+    },
+    enriched: Boolean,
+    // Keeps the plain heading metrics of a report that is not shown in a card.
+    plainTitle: Boolean,
+    // A titleless widgetized embed still mounts the header as an actions anchor, so only the
+    // heading is suppressed, not the whole component.
+    showTitle: {
+      type: Boolean,
+      default: true,
+    },
+    // Left empty on purpose: EnrichedHeadline then names the rated feature after the rendered
+    // title, i.e. the widget name. Only dataTable.js sets it, to follow a related report.
+    featureName: {
+      type: String,
+      default: '',
+    },
+    inlineHelp: {
+      type: String,
+      default: '',
+    },
+    reportGenerated: {
+      type: String,
+      default: '',
+    },
+    editUrl: {
+      type: String,
+      default: '',
+    },
+    helpUrl: {
+      type: String,
+      default: '',
+    },
   },
   components: {
+    EnrichedHeadline,
     WidgetControls,
   },
   emits: ['minimise', 'maximise', 'refresh', 'close', 'titleClick'],
@@ -114,6 +174,25 @@ export default defineComponent({
     hasControls(): boolean {
       const c = this.controls;
       return c.minimise || c.maximise || c.refresh || c.close;
+    },
+    // No title and no controls to render. Actions are always empty today; a later story that adds
+    // them must widen this so the full header comes back.
+    isEmpty(): boolean {
+      return !this.showTitle && !this.hasControls;
+    },
+    isFullPage(): boolean {
+      return this.context === 'fullPage';
+    },
+    titleText(): string {
+      return this.reportTitle || this.title;
+    },
+    // Whitelisted so the prop can never inject an arbitrary tag.
+    titleTag(): string {
+      return this.headingLevel === 'h2' ? 'h2' : 'h3';
+    },
+    // The help panel is styled for a paragraph, which the old scrape also added.
+    wrappedInlineHelp(): string {
+      return this.inlineHelp ? `<p>${this.inlineHelp}</p>` : '';
     },
   },
   methods: {

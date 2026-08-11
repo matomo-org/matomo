@@ -44,10 +44,7 @@ class Controller extends \Piwik\Plugin\Controller
         'items'             => 'General_PurchasedProducts',
     );
 
-    /**
-     * @var Translator
-     */
-    private $translator;
+    private Translator $translator;
     private $goals;
 
     private function formatConversionRate($conversionRate, $columnName = 'conversion_rate')

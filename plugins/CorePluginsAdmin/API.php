@@ -25,15 +25,9 @@ use Piwik\Plugins\Marketplace\Marketplace;
  */
 class API extends \Piwik\Plugin\API
 {
-    /**
-     * @var SettingsMetadata
-     */
-    private $settingsMetadata;
+    private SettingsMetadata $settingsMetadata;
 
-    /**
-     * @var SettingsProvider
-     */
-    private $settingsProvider;
+    private SettingsProvider $settingsProvider;
 
     public function __construct(SettingsProvider $settingsProvider, SettingsMetadata $settingsMetadata)
     {

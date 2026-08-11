@@ -87,10 +87,8 @@ class Request
 {
     /**
      * The count of nested API request invocations. Used to determine if the currently executing request is the root or not.
-     *
-     * @var int
      */
-    private static $nestedApiInvocationCount = 0;
+    private static int $nestedApiInvocationCount = 0;
 
     private $request = null;
 
@@ -392,6 +390,19 @@ class Request
     public static function isCurrentApiRequestTheRootApiRequest()
     {
         return self::$nestedApiInvocationCount == 1;
+    }
+
+    /**
+     * Checks if the currently executing API request is running inside another API request.
+     *
+     * This is true only for "child" API requests, i.e. requests that were dispatched
+     * programmatically from within another API method (for example the sub-requests run by
+     * {@link \Piwik\Plugins\API\API::getBulkRequest()}). It is false for the root request and
+     * when no API request is currently being processed.
+     */
+    public static function isCurrentApiRequestNestedInAnotherApiRequest(): bool
+    {
+        return self::$nestedApiInvocationCount > 1;
     }
 
     /**

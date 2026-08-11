@@ -175,7 +175,6 @@ class Live extends \Piwik\Plugin
     public function getJsFiles(&$jsFiles)
     {
         $jsFiles[] = "node_modules/visibilityjs/lib/visibility.core.js";
-        $jsFiles[] = "plugins/Live/javascripts/live.js";
         $jsFiles[] = "plugins/Live/javascripts/SegmentedVisitorLog.js";
         $jsFiles[] = "plugins/Live/javascripts/visitorActions.js";
         $jsFiles[] = "plugins/Live/javascripts/visitorProfile.js";

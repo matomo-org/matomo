@@ -9,12 +9,18 @@
 
 namespace Piwik\Tests\Integration;
 
+use Piwik\Config;
+use Piwik\Container\StaticContainer;
+use Piwik\Log\LoggerInterface;
 use Piwik\Plugins\SitesManager\SiteContentDetection\Cloudflare;
 use Piwik\Plugins\SitesManager\SiteContentDetection\Osano;
 use Piwik\Plugins\SitesManager\SiteContentDetection\ReactJs;
 use Piwik\Plugins\SitesManager\SiteContentDetection\WordPress;
 use Piwik\SiteContentDetector;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Psr\Log\AbstractLogger;
+use Psr\Log\LogLevel;
 
 /**
  * @group Core
@@ -45,5 +51,39 @@ class SiteContentDetectorTest extends IntegrationTestCase
         self::assertTrue($scd->wasDetected(ReactJs::getId()));
         self::assertTrue($scd->wasDetected(Cloudflare::getId()));
         self::assertContains(Osano::getId(), $scd->connectedConsentManagers);
+    }
+
+    public function testSiteOnPrivateAddressLogsRefusalAtTheDefaultLogLevel()
+    {
+        $original = Config::getInstance()->General;
+
+        $general = $original;
+        $general['enable_internet_features'] = 1;
+        Config::getInstance()->General = $general;
+
+        $logger = new class extends AbstractLogger implements LoggerInterface {
+            /** @var array<int, array{0: string, 1: string}> */
+            public array $records = [];
+
+            public function log($level, $message, array $context = array()): void
+            {
+                $this->records[] = [(string) $level, (string) $message];
+            }
+        };
+        StaticContainer::getContainer()->set(LoggerInterface::class, $logger);
+
+        try {
+            $idSite = Fixture::createWebsite('2014-01-01 00:00:00', 0, 'intranet', 'http://10.0.0.1/');
+            (new SiteContentDetector())->detectContent([], $idSite);
+        } finally {
+            Config::getInstance()->General = $original;
+        }
+
+        // an intranet site is refused by default now, so the reason must clear the default WARN level
+        $refusals = array_filter($logger->records, function (array $record): bool {
+            return $record[0] === LogLevel::WARNING && strpos($record[1], 'was refused') !== false;
+        });
+
+        self::assertCount(1, $refusals, 'expected one WARNING refusal, got: ' . var_export($logger->records, true));
     }
 }

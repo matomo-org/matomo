@@ -20,25 +20,16 @@ use Piwik\Url;
 
 class InvalidLicenses
 {
-    /**
-     * @var Client
-     */
-    private $client;
+    private Client $client;
 
     /**
      * @var Plugin\Manager
      */
     private $pluginManager;
 
-    /**
-     * @var Translator
-     */
-    private $translator;
+    private Translator $translator;
 
-    /**
-     * @var Eager
-     */
-    private $cache;
+    private Eager $cache;
 
     /**
      * @var array

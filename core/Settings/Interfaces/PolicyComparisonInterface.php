@@ -12,6 +12,11 @@ namespace Piwik\Settings\Interfaces;
 use Piwik\Policy\CompliancePolicy;
 
 /**
+ * Implement this interface via {@link \Piwik\Settings\Interfaces\Traits\PolicyComparisonTrait},
+ * which provides default implementations for all dashboard-metadata methods.
+ * Methods may be added to this interface in major releases; the trait always
+ * ships matching defaults, so trait users are unaffected.
+ *
  * @template T of mixed
  */
 interface PolicyComparisonInterface
@@ -37,4 +42,34 @@ interface PolicyComparisonInterface
     public static function isControlledBySpecificPolicy(string $policy, ?int $idSite = null): bool;
 
     public static function getComplianceRequirementNote(?int $idSite = null): string;
+
+    /**
+     * Stable identifier of this policy-controlled setting, e.g. used to store
+     * and address its per-policy enforcement state.
+     *
+     * @since Matomo 6.0.0 — {@link PolicyComparisonTrait} provides a default.
+     */
+    public static function getPolicySettingId(): string;
+
+    /**
+     * Whether this setting cannot be enforced from the compliance dashboard and
+     * is instead managed outside of it (e.g. via a config file).
+     *
+     * @since Matomo 6.0.0 — {@link PolicyComparisonTrait} provides a default.
+     */
+    public static function isExternallyManagedByPolicyPage(): bool;
+
+    /**
+     * Short description of what enforcing this setting does.
+     *
+     * @since Matomo 6.0.0 — {@link PolicyComparisonTrait} provides a default.
+     */
+    public static function getWhatItDoes(): string;
+
+    /**
+     * Short description of the impact enforcing this setting has on reports and tracking.
+     *
+     * @since Matomo 6.0.0 — {@link PolicyComparisonTrait} provides a default.
+     */
+    public static function getImpact(): string;
 }

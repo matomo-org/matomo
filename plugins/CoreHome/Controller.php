@@ -40,15 +40,9 @@ use Piwik\Widget\WidgetConfig;
 
 class Controller extends \Piwik\Plugin\Controller
 {
-    /**
-     * @var Translator
-     */
-    private $translator;
+    private Translator $translator;
 
-    /**
-     * @var FeatureFlagManager
-     */
-    private $featureFlagManager;
+    private FeatureFlagManager $featureFlagManager;
 
     public function __construct(Translator $translator)
     {
@@ -113,6 +107,7 @@ class Controller extends \Piwik\Plugin\Controller
                 strpos($content, '<h2') !== false
                 || strpos($content, ' content-title=') !== false
                 || strpos($content, 'CoreHome.EnrichedHeadline') !== false
+                || strpos($content, 'CoreHome.ReportHeader') !== false
                 || strpos($content, '<h1') !== false
             ) {
                 // already includes title

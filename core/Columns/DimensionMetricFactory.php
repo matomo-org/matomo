@@ -20,10 +20,7 @@ use Piwik\Plugin\ComputedMetric;
  */
 class DimensionMetricFactory
 {
-    /**
-     * @var Dimension
-     */
-    private $dimension = null;
+    private Dimension $dimension;
 
     /**
      * Generates a new dimension metric factory.

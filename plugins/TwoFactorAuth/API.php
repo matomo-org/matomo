@@ -18,10 +18,7 @@ use Piwik\Piwik;
  */
 class API extends \Piwik\Plugin\API
 {
-    /**
-     * @var TwoFactorAuthentication
-     */
-    private $twoFa;
+    private TwoFactorAuthentication $twoFa;
 
     public function __construct(TwoFactorAuthentication $twoFa)
     {

@@ -83,7 +83,7 @@
         "NoDataCloudflareInstructions2": "Stellen Sie den Worker (Node.js) bereit und geben Sie Ihre Matomo-L und Ihre Website-ID ein.",
         "NoDataCloudflareInstructions3": "Weisen Sie den Worker Ihrer Zone oder Route zu, damit er inline mit den Anfragen ausgeführt wird.",
         "NoDataCloudflareInstructions4": "Überprüfen Sie die Einrichtung, indem Sie sich vergewissern, dass die Zugriffe von KI-Chatbots in den Tracking-Berichten angezeigt werden.",
-        "NoDataHttpTrackingApiDescription": "Wenn Sie eine benutzerdefinierte Integration benötigen, können Sie mit der HTTP-Tracking-API Anfragen an KI-Chatbots direkt erfassen. Beginnen Sie mit der %1$sTracking-API-Wissensdatenbank\n%2$s und nutzen Sie die %3$sHTTP Tracking-API-Referenz%4$s für die neuesten Bot-Tracking-Parameter und -Verhaltensweisen.",
+        "NoDataHttpTrackingApiDescription": "Wenn Sie eine benutzerdefinierte Integration benötigen, können Sie mit der HTTP-Tracking-API Anfragen an KI-Chatbots direkt erfassen. Beginnen Sie mit der %1$sTracking-API-Wissensdatenbank%2$s und nutzen Sie die %3$sHTTP Tracking-API-Referenz%4$s für die neuesten Bot-Tracking-Parameter und -Verhaltensweisen.",
         "NoDataLinkKnowledgeBase": "Dokumentation: %1$sMatomo-Wissensdatenbank%2$s",
         "NoDataLinkSourceCode": "Quellcode: %1$sGitHub-Repository%2$s",
         "NoDataMissingOneContactUs": "Fehlt Eine? Kontaktieren Sie uns",

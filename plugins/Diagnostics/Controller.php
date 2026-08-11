@@ -15,10 +15,7 @@ use Piwik\Plugin\SettingsProvider;
 
 class Controller extends \Piwik\Plugin\ControllerAdmin
 {
-    /**
-     * @var ConfigReader
-     */
-    private $configReader;
+    private ConfigReader $configReader;
 
     public function __construct(ConfigReader $configReader)
     {

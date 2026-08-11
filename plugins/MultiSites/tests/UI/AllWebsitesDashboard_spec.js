@@ -34,7 +34,6 @@ describe('AllWebsitesDashboard', function () {
     });
 
     after(function () {
-        delete testEnvironment.configOverride.FeatureFlags;
         delete testEnvironment.configOverride.General;
 
         testEnvironment.save();
