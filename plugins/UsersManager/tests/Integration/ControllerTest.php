@@ -76,7 +76,7 @@ class ControllerTest extends IntegrationTestCase
         $this->post = $_POST;
         $this->get = $_GET;
         $this->request = $_REQUEST;
-        $this->session = $_SESSION ?? [];
+        $this->session = $_SESSION ?? null;
         $this->enableUsersAdmin = Config::getInstance()->General['enable_users_admin'];
         $this->superUser = FakeAccess::$superUser;
         $this->identity = FakeAccess::$identity;
@@ -99,7 +99,14 @@ class ControllerTest extends IntegrationTestCase
         $_POST = $this->post;
         $_GET = $this->get;
         $_REQUEST = $this->request;
-        $_SESSION = $this->session;
+
+        // leave $_SESSION undefined for later tests if it was not defined before
+        if (isset($this->session)) {
+            $_SESSION = $this->session;
+        } else {
+            unset($_SESSION);
+        }
+
         Config::getInstance()->General['enable_users_admin'] = $this->enableUsersAdmin;
         FakeAccess::$superUser = $this->superUser;
         FakeAccess::$identity = $this->identity;
@@ -193,9 +200,99 @@ class ControllerTest extends IntegrationTestCase
         $this->assertSame(ThemeStyles::DARK_MODE, (new UserPreferences())->getThemeMode());
     }
 
+    public function testRecordUserSettingsReadsEmailFromPost()
+    {
+        // the email is only processed while the users admin is enabled
+        Config::getInstance()->General['enable_users_admin'] = 1;
+        $idSite = $this->createSiteWithUser();
+
+        // the email is read from the post body, not the query string
+        $_GET = [
+            'format' => 'json',
+            'email' => 'from-the-query-string@example.com',
+        ];
+        $_POST = [
+            'email' => self::CURRENT_USER_EMAIL,
+            'themeMode' => ThemeStyles::LIGHT_MODE,
+            'defaultReport' => (string) $idSite,
+            'defaultDate' => 'today',
+            'language' => 'en',
+            'timeformat' => '0',
+        ];
+
+        $response = $this->controller->recordUserSettings();
+
+        $this->assertStringContainsString('"result":"success"', $response);
+        $this->assertSame(
+            self::CURRENT_USER_EMAIL,
+            $this->userModel->getUser(self::CURRENT_USER_LOGIN)['email']
+        );
+    }
+
+    public function testRecordUserSettingsRejectsEmptyDefaultReport()
+    {
+        Config::getInstance()->General['enable_users_admin'] = 0;
+
+        $_GET = ['format' => 'json'];
+        $_POST = [
+            'themeMode' => ThemeStyles::LIGHT_MODE,
+            'defaultReport' => '',
+            'defaultDate' => 'today',
+            'language' => 'en',
+            'timeformat' => '0',
+        ];
+
+        $response = $this->controller->recordUserSettings();
+
+        // an empty default report would leave the user settings page unable to render
+        $this->assertStringContainsString('Invalid default report', $response);
+        $this->assertFalse($this->getStoredPreference(UsersManagerAPI::PREFERENCE_DEFAULT_REPORT));
+    }
+
+    public function testRecordUserSettingsRejectsDefaultReportForSiteWithoutViewAccess()
+    {
+        FakeAccess::$superUser = false;
+        FakeAccess::$idSitesView = [];
+
+        $_GET = ['format' => 'json'];
+        $_POST = [
+            'themeMode' => ThemeStyles::LIGHT_MODE,
+            'defaultReport' => '1',
+            'defaultDate' => 'today',
+            'language' => 'en',
+            'timeformat' => '0',
+        ];
+
+        $response = $this->controller->recordUserSettings();
+
+        $this->assertStringContainsString('Invalid default report', $response);
+        $this->assertFalse($this->getStoredPreference(UsersManagerAPI::PREFERENCE_DEFAULT_REPORT));
+    }
+
+    public function testRecordUserSettingsRejectsInvalidDefaultDate()
+    {
+        $idSite = $this->createSiteWithUser();
+        Config::getInstance()->General['enable_users_admin'] = 0;
+
+        $_GET = ['format' => 'json'];
+        $_POST = [
+            'themeMode' => ThemeStyles::LIGHT_MODE,
+            'defaultReport' => (string) $idSite,
+            // survives getDefaultDateWithoutValidation() verbatim and would end up in menu urls
+            'defaultDate' => 'last7&module=CoreAdminHome',
+            'language' => 'en',
+            'timeformat' => '0',
+        ];
+
+        $response = $this->controller->recordUserSettings();
+
+        $this->assertStringContainsString('Invalid default date', $response);
+        $this->assertFalse($this->getStoredPreference(UsersManagerAPI::PREFERENCE_DEFAULT_REPORT_DATE));
+    }
+
     public function testRecordAnonymousUserSettingsReadsSettingsFromPost()
     {
-        $this->userModel->addUser('anonymous', '', 'anonymous@example.com', Date::now()->getDatetime());
+        $idSite = $this->addSiteAnonymousCanView();
 
         // settings are read from the post body, not the query string
         $_GET = [
@@ -204,7 +301,7 @@ class ControllerTest extends IntegrationTestCase
             'anonymousDefaultDate' => 'week',
         ];
         $_POST = [
-            'anonymousDefaultReport' => '1',
+            'anonymousDefaultReport' => (string) $idSite,
             'anonymousDefaultDate' => 'today',
         ];
 
@@ -219,8 +316,45 @@ class ControllerTest extends IntegrationTestCase
             'anonymous'
         );
 
-        $this->assertSame('1', (string) $storedReport);
+        $this->assertSame((string) $idSite, (string) $storedReport);
         $this->assertSame('today', (string) $storedDate);
+    }
+
+    public function testRecordAnonymousUserSettingsRejectsSiteOnlyTheCurrentUserCanView()
+    {
+        $this->userModel->addUser('anonymous', '', 'anonymous@example.com', Date::now()->getDatetime());
+
+        // the site is viewable by the super user recording the settings, but not by anonymous
+        $idSite = $this->createSiteWithUser();
+
+        $_GET = ['format' => 'json'];
+        $_POST = [
+            'anonymousDefaultReport' => (string) $idSite,
+            'anonymousDefaultDate' => 'today',
+        ];
+
+        $response = $this->controller->recordAnonymousUserSettings();
+
+        $this->assertStringContainsString('Invalid default report', $response);
+        $this->assertFalse($this->getStoredPreference(UsersManagerAPI::PREFERENCE_DEFAULT_REPORT, 'anonymous'));
+    }
+
+    public function testRecordAnonymousUserSettingsRejectsInvalidDefaultDate()
+    {
+        $idSite = $this->addSiteAnonymousCanView();
+
+        $_GET = ['format' => 'json'];
+        $_POST = [
+            'anonymousDefaultReport' => (string) $idSite,
+            'anonymousDefaultDate' => 'last7&module=CoreAdminHome',
+        ];
+
+        $response = $this->controller->recordAnonymousUserSettings();
+
+        $this->assertStringContainsString('Invalid default date', $response);
+        $this->assertFalse(
+            $this->getStoredPreference(UsersManagerAPI::PREFERENCE_DEFAULT_REPORT_DATE, 'anonymous')
+        );
     }
 
     public function testRecordPasswordChangeReadsPasswordFromPost()
@@ -302,6 +436,25 @@ class ControllerTest extends IntegrationTestCase
         $this->assertSame([(string) $idTokenAuthInQuery], $this->getTokenIdsForCurrentUser());
     }
 
+    public function testDeleteTokenDeletesAllTokens()
+    {
+        $this->addTokenForCurrentUser('first token');
+        $this->addTokenForCurrentUser('second token');
+
+        $this->markPasswordAsVerified();
+
+        // what the "delete all tokens" form submits
+        $_POST = [
+            'idtokenauth' => 'all',
+            'nonce' => Nonce::getNonce(Controller::NONCE_DELETE_AUTH_TOKEN),
+        ];
+        $_GET = [];
+
+        $this->callDeleteTokenIgnoringFinalRedirect();
+
+        $this->assertSame([], $this->getTokenIdsForCurrentUser());
+    }
+
     public function testDeleteTokenDeletesNothingWhenPostedIdTokenAuthIsEmpty()
     {
         $idTokenAuthInQuery = $this->addTokenForCurrentUser('token named in the query string');
@@ -366,6 +519,32 @@ class ControllerTest extends IntegrationTestCase
     public function testThemeModeShouldDefaultToLightForNewUsers()
     {
         $this->assertSame(ThemeStyles::LIGHT_MODE, (new UserPreferences())->getThemeMode());
+    }
+
+    private function addSiteAnonymousCanView(): int
+    {
+        $this->userModel->addUser('anonymous', '', 'anonymous@example.com', Date::now()->getDatetime());
+
+        $idSite = SitesManagerAPI::getInstance()->addSite(
+            'Anonymous site',
+            ['https://anonymous.example.test']
+        );
+        UsersManagerAPI::getInstance()->setUserAccess('anonymous', 'view', [$idSite]);
+
+        return $idSite;
+    }
+
+    /**
+     * @return mixed the stored value, or false when nothing was stored
+     */
+    private function getStoredPreference(string $preferenceName, string $userLogin = self::CURRENT_USER_LOGIN)
+    {
+        return StaticContainer::get(UserScopedSettingsAccessManager::class)->get(
+            'UsersManager',
+            $userLogin,
+            $preferenceName,
+            false
+        );
     }
 
     private function addTokenForCurrentUser(string $description): string

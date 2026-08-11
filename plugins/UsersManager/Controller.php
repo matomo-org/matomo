@@ -396,7 +396,7 @@ class Controller extends ControllerAdmin
 
         if (!empty($idTokenAuth)) {
             // the forms only submit 'all' or a token id
-            if ($idTokenAuth !== 'all' && !is_numeric($idTokenAuth)) {
+            if ($idTokenAuth !== 'all' && !ctype_digit($idTokenAuth)) {
                 throw new Exception('Invalid idtokenauth');
             }
 
@@ -428,7 +428,7 @@ class Controller extends ControllerAdmin
                     'all' => true,
                 ));
                 $email->safeSend();
-            } elseif (is_numeric($idTokenAuth)) {
+            } else {
                 $description = $this->userModel->getUserTokenDescriptionByIdTokenAuth($idTokenAuth, Piwik::getCurrentUserLogin());
                 $this->userModel->deleteToken($idTokenAuth, Piwik::getCurrentUserLogin());
 
@@ -631,10 +631,15 @@ class Controller extends ControllerAdmin
             Piwik::checkUserHasSuperUserAccess();
             $this->checkTokenInUrl();
 
-            $request = \Piwik\Request::fromPost();
-            $anonymousDefaultReport = $request->getStringParameter('anonymousDefaultReport');
-            $anonymousDefaultDate = $request->getStringParameter('anonymousDefaultDate');
             $userLogin = 'anonymous';
+            $request = \Piwik\Request::fromPost();
+            $anonymousDefaultReport = $this->getValidatedDefaultReport(
+                $request->getStringParameter('anonymousDefaultReport'),
+                $userLogin
+            );
+            $anonymousDefaultDate = $this->getValidatedDefaultDate(
+                $request->getStringParameter('anonymousDefaultDate')
+            );
             APIUsersManager::getInstance()->setUserPreference(
                 $userLogin,
                 APIUsersManager::PREFERENCE_DEFAULT_REPORT,
@@ -663,13 +668,16 @@ class Controller extends ControllerAdmin
         try {
             $this->checkTokenInUrl();
 
+            $userLogin = Piwik::getCurrentUserLogin();
             $request = \Piwik\Request::fromPost();
             $themeMode = $this->getValidatedThemeMode($request->getStringParameter('themeMode'));
-            $defaultReport = $request->getStringParameter('defaultReport');
-            $defaultDate = $request->getStringParameter('defaultDate');
+            $defaultReport = $this->getValidatedDefaultReport(
+                $request->getStringParameter('defaultReport'),
+                $userLogin
+            );
+            $defaultDate = $this->getValidatedDefaultDate($request->getStringParameter('defaultDate'));
             $language = $request->getStringParameter('language');
             $timeFormat = $request->getStringParameter('timeformat');
-            $userLogin = Piwik::getCurrentUserLogin();
 
             Piwik::checkUserHasSuperUserAccessOrIsTheUser($userLogin);
 
@@ -726,6 +734,47 @@ class Controller extends ControllerAdmin
         }
 
         return $themeMode;
+    }
+
+    /**
+     * @throws Exception if the date is not one the settings forms offer
+     */
+    private function getValidatedDefaultDate(string $defaultDate): string
+    {
+        if (!array_key_exists($defaultDate, $this->getDefaultDates())) {
+            throw new Exception('Invalid default date');
+        }
+
+        return $defaultDate;
+    }
+
+    /**
+     * @param string $userLogin the user the report is stored for, which is not necessarily the current user
+     * @throws Exception if the report is neither a known screen nor a site the user may view
+     */
+    private function getValidatedDefaultReport(string $defaultReport, string $userLogin): string
+    {
+        if (in_array($defaultReport, ['MultiSites', Piwik::getLoginPluginName()], true)) {
+            return $defaultReport;
+        }
+
+        if (ctype_digit($defaultReport) && $this->isSiteViewableByUser((int) $defaultReport, $userLogin)) {
+            return $defaultReport;
+        }
+
+        throw new Exception('Invalid default report');
+    }
+
+    private function isSiteViewableByUser(int $idSite, string $userLogin): bool
+    {
+        if ($userLogin === Piwik::getCurrentUserLogin()) {
+            return Piwik::isUserHasViewAccess($idSite);
+        }
+
+        // a super user may record settings for another login, whose access has to be looked up directly
+        $idSites = array_column($this->userModel->getSitesAccessFromUser($userLogin), 'site');
+
+        return in_array($idSite, array_map('intval', $idSites), true);
     }
 
 
