@@ -29,6 +29,7 @@ use Piwik\Metrics\Formatter;
 use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugin\ReportsProvider;
+use Piwik\Plugins\CoreHome\Columns\Metrics\PercentOfReportTotal;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Timer;
@@ -603,6 +604,7 @@ class ProcessedReport
             }
         }
 
+        $columns = $this->addPercentOfTotalColumns($dataTable, $columns, $reportMetadata);
         $columns = $this->hideShowMetrics($columns);
         $totals = [];
 
@@ -643,6 +645,40 @@ class ProcessedReport
             $rowsMetadata,
             $totals,
         ];
+    }
+
+    /**
+     * Adds column translations, metric types and metric documentation for the percent-of-total
+     * metrics the DataTablePostProcessor registered on the table (eg,
+     * 'nb_visits_percent_of_total'), so their values are kept in the processed report data
+     * and described in its metadata.
+     *
+     * @param DataTable|DataTable\Map $dataTable
+     * @param array $columns
+     * @param array $reportMetadata
+     * @return array
+     */
+    private function addPercentOfTotalColumns($dataTable, $columns, &$reportMetadata)
+    {
+        $tables = $dataTable instanceof DataTable\Map ? $dataTable->getDataTables() : [$dataTable];
+
+        foreach ($tables as $table) {
+            $extraProcessedMetrics = $table->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME) ?: [];
+            foreach ($extraProcessedMetrics as $metric) {
+                if ($metric instanceof PercentOfReportTotal) {
+                    $columns[$metric->getName()] = $metric->getTranslatedName();
+                    $reportMetadata['metricTypes'][$metric->getName()] = $metric->getSemanticType();
+
+                    // hideMetricsDoc=1 removes the documentation from the metadata entirely,
+                    // recreating the key here would undo that
+                    if (isset($reportMetadata['metricsDocumentation'])) {
+                        $reportMetadata['metricsDocumentation'][$metric->getName()] = $metric->getDocumentation();
+                    }
+                }
+            }
+        }
+
+        return $columns;
     }
 
     /**
@@ -985,6 +1021,12 @@ class ProcessedReport
 
         if (strpos($columnName, '_change') !== false) { // comparison change columns are formatted by DataComparisonFilter
             return $value == '0' ? '+0%' : $value;
+        }
+
+        // percent-of-total metrics are quotients, this must be checked before the money/time
+        // formatting below so eg 'revenue_percent_of_total' is not formatted as money
+        if (strpos($columnName, PercentOfReportTotal::COLUMN_NAME_SUFFIX) !== false) {
+            return $formatter->getPrettyPercentFromQuotient($value);
         }
 
         // Display time in human readable

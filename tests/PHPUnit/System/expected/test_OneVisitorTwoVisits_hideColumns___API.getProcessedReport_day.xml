@@ -12,12 +12,24 @@
 		<documentation>This report contains information about the titles of the pages that have been visited. &lt;br /&gt; The page title is the HTML &lt;title&gt; Tag that most browsers show in their window title.</documentation>
 		<metricsDocumentation>
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
+			<nb_visits_percent_of_total>The percentage of the report's total Unique Pageviews that this row represents.</nb_visits_percent_of_total>
+			<nb_hits_percent_of_total>The percentage of the report's total Pageviews that this row represents.</nb_hits_percent_of_total>
+			<entry_bounce_count_percent_of_total>The percentage of the report's total Bounces that this row represents.</entry_bounce_count_percent_of_total>
+			<entry_nb_visits_percent_of_total>The percentage of the report's total Entrances that this row represents.</entry_nb_visits_percent_of_total>
+			<entry_nb_actions_percent_of_total>The percentage of the report's total Actions after entering here that this row represents.</entry_nb_actions_percent_of_total>
+			<exit_nb_visits_percent_of_total>The percentage of the report's total Exits that this row represents.</exit_nb_visits_percent_of_total>
 		</metricsDocumentation>
 		<processedMetrics>
 			<exit_rate>Exit rate</exit_rate>
 		</processedMetrics>
 		<metricTypes>
 			<exit_rate>percent</exit_rate>
+			<nb_visits_percent_of_total>percent</nb_visits_percent_of_total>
+			<nb_hits_percent_of_total>percent</nb_hits_percent_of_total>
+			<entry_bounce_count_percent_of_total>percent</entry_bounce_count_percent_of_total>
+			<entry_nb_visits_percent_of_total>percent</entry_nb_visits_percent_of_total>
+			<entry_nb_actions_percent_of_total>percent</entry_nb_actions_percent_of_total>
+			<exit_nb_visits_percent_of_total>percent</exit_nb_visits_percent_of_total>
 		</metricTypes>
 		<actionToLoadSubTables>getPageTitles</actionToLoadSubTables>
 		<relatedReports>
@@ -56,23 +68,53 @@
 	<columns>
 		<label>Page Title</label>
 		<exit_rate>Exit rate</exit_rate>
+		<nb_visits_percent_of_total>Unique Pageviews (% of total)</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>Pageviews (% of total)</nb_hits_percent_of_total>
+		<entry_bounce_count_percent_of_total>Bounces (% of total)</entry_bounce_count_percent_of_total>
+		<entry_nb_visits_percent_of_total>Entrances (% of total)</entry_nb_visits_percent_of_total>
+		<entry_nb_actions_percent_of_total>Actions after entering here (% of total)</entry_nb_actions_percent_of_total>
+		<exit_nb_visits_percent_of_total>Exits (% of total)</exit_nb_visits_percent_of_total>
 	</columns>
 	<reportData>
 		<row>
 			<label>Checkout</label>
+			<nb_visits_percent_of_total>25%</nb_visits_percent_of_total>
+			<nb_hits_percent_of_total>25%</nb_hits_percent_of_total>
+			<entry_bounce_count_percent_of_total>100%</entry_bounce_count_percent_of_total>
+			<entry_nb_visits_percent_of_total>50%</entry_nb_visits_percent_of_total>
+			<entry_nb_actions_percent_of_total>12.5%</entry_nb_actions_percent_of_total>
+			<exit_nb_visits_percent_of_total>50%</exit_nb_visits_percent_of_total>
 			<exit_rate>100%</exit_rate>
 		</row>
 		<row>
 			<label> incredible title!</label>
+			<nb_visits_percent_of_total>25%</nb_visits_percent_of_total>
+			<nb_hits_percent_of_total>25%</nb_hits_percent_of_total>
+			<entry_bounce_count_percent_of_total>0%</entry_bounce_count_percent_of_total>
+			<entry_nb_visits_percent_of_total>50%</entry_nb_visits_percent_of_total>
+			<entry_nb_actions_percent_of_total>87.5%</entry_nb_actions_percent_of_total>
 			<exit_rate>0%</exit_rate>
+			<exit_nb_visits_percent_of_total>0%</exit_nb_visits_percent_of_total>
 		</row>
 		<row>
 			<label> Looking at homepage (again)...</label>
+			<nb_visits_percent_of_total>25%</nb_visits_percent_of_total>
+			<nb_hits_percent_of_total>25%</nb_hits_percent_of_total>
+			<exit_nb_visits_percent_of_total>50%</exit_nb_visits_percent_of_total>
 			<exit_rate>100%</exit_rate>
+			<entry_bounce_count_percent_of_total>0%</entry_bounce_count_percent_of_total>
+			<entry_nb_visits_percent_of_total>0%</entry_nb_visits_percent_of_total>
+			<entry_nb_actions_percent_of_total>0%</entry_nb_actions_percent_of_total>
 		</row>
 		<row>
 			<label> Second page view - should be registered as URL</label>
+			<nb_visits_percent_of_total>25%</nb_visits_percent_of_total>
+			<nb_hits_percent_of_total>25%</nb_hits_percent_of_total>
 			<exit_rate>0%</exit_rate>
+			<entry_bounce_count_percent_of_total>0%</entry_bounce_count_percent_of_total>
+			<entry_nb_visits_percent_of_total>0%</entry_nb_visits_percent_of_total>
+			<entry_nb_actions_percent_of_total>0%</entry_nb_actions_percent_of_total>
+			<exit_nb_visits_percent_of_total>0%</exit_nb_visits_percent_of_total>
 		</row>
 	</reportData>
 	<reportMetadata>

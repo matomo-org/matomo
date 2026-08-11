@@ -6,6 +6,8 @@
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_actions>1</nb_actions>
 		<avg_price>7.5</avg_price>
+		<nb_visits_percent_of_total>4%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>4%</nb_actions_percent_of_total>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
 		<segment>productName==Book0</segment>
@@ -16,6 +18,8 @@
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_actions>1</nb_actions>
 		<avg_price>7.5</avg_price>
+		<nb_visits_percent_of_total>4%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>4%</nb_actions_percent_of_total>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
 		<segment>productName==Book1</segment>
@@ -26,6 +30,8 @@
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_actions>1</nb_actions>
 		<avg_price>7.5</avg_price>
+		<nb_visits_percent_of_total>4%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>4%</nb_actions_percent_of_total>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
 		<segment>productName==Book2</segment>
@@ -36,6 +42,8 @@
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_actions>1</nb_actions>
 		<avg_price>7.5</avg_price>
+		<nb_visits_percent_of_total>4%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>4%</nb_actions_percent_of_total>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
 		<segment>productName==Book3</segment>
@@ -46,6 +54,8 @@
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_actions>1</nb_actions>
 		<avg_price>7.5</avg_price>
+		<nb_visits_percent_of_total>4%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>4%</nb_actions_percent_of_total>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
 		<segment>productName==Book4</segment>
@@ -56,6 +66,8 @@
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_actions>1</nb_actions>
 		<avg_price>7.5</avg_price>
+		<nb_visits_percent_of_total>4%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>4%</nb_actions_percent_of_total>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
 		<segment>productName==Book5</segment>
@@ -66,6 +78,8 @@
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_actions>1</nb_actions>
 		<avg_price>7.5</avg_price>
+		<nb_visits_percent_of_total>4%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>4%</nb_actions_percent_of_total>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
 		<segment>productName==Book6</segment>
@@ -76,6 +90,8 @@
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_actions>1</nb_actions>
 		<avg_price>7.5</avg_price>
+		<nb_visits_percent_of_total>4%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>4%</nb_actions_percent_of_total>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
 		<segment>productName==Book7</segment>
@@ -86,6 +102,8 @@
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_actions>1</nb_actions>
 		<avg_price>7.5</avg_price>
+		<nb_visits_percent_of_total>4%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>4%</nb_actions_percent_of_total>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
 		<segment>productName==Book8</segment>
@@ -96,6 +114,8 @@
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_actions>1</nb_actions>
 		<avg_price>7.5</avg_price>
+		<nb_visits_percent_of_total>4%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>4%</nb_actions_percent_of_total>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
 		<segment>productName==Book9</segment>
@@ -106,6 +126,8 @@
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_actions>1</nb_actions>
 		<avg_price>7.5</avg_price>
+		<nb_visits_percent_of_total>4%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>4%</nb_actions_percent_of_total>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
 		<segment>productName==Book10</segment>
@@ -116,6 +138,8 @@
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_actions>1</nb_actions>
 		<avg_price>7.5</avg_price>
+		<nb_visits_percent_of_total>4%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>4%</nb_actions_percent_of_total>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
 		<segment>productName==Book11</segment>
@@ -126,6 +150,8 @@
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_actions>1</nb_actions>
 		<avg_price>7.5</avg_price>
+		<nb_visits_percent_of_total>4%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>4%</nb_actions_percent_of_total>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
 		<segment>productName==Book12</segment>
@@ -136,6 +162,8 @@
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_actions>1</nb_actions>
 		<avg_price>7.5</avg_price>
+		<nb_visits_percent_of_total>4%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>4%</nb_actions_percent_of_total>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
 		<segment>productName==Book13</segment>
@@ -146,6 +174,8 @@
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_actions>1</nb_actions>
 		<avg_price>7.5</avg_price>
+		<nb_visits_percent_of_total>4%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>4%</nb_actions_percent_of_total>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
 		<segment>productName==Book14</segment>
@@ -156,6 +186,8 @@
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_actions>1</nb_actions>
 		<avg_price>7.5</avg_price>
+		<nb_visits_percent_of_total>4%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>4%</nb_actions_percent_of_total>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
 		<segment>productName==Book15</segment>
@@ -166,6 +198,8 @@
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_actions>1</nb_actions>
 		<avg_price>7.5</avg_price>
+		<nb_visits_percent_of_total>4%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>4%</nb_actions_percent_of_total>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
 		<segment>productName==Book16</segment>
@@ -176,6 +210,8 @@
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_actions>1</nb_actions>
 		<avg_price>7.5</avg_price>
+		<nb_visits_percent_of_total>4%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>4%</nb_actions_percent_of_total>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
 		<segment>productName==Book17</segment>
@@ -186,6 +222,8 @@
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_actions>1</nb_actions>
 		<avg_price>7.5</avg_price>
+		<nb_visits_percent_of_total>4%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>4%</nb_actions_percent_of_total>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
 		<segment>productName==Book18</segment>
@@ -196,6 +234,8 @@
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_actions>1</nb_actions>
 		<avg_price>7.5</avg_price>
+		<nb_visits_percent_of_total>4%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>4%</nb_actions_percent_of_total>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
 		<segment>productName==Book19</segment>
@@ -206,6 +246,8 @@
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_actions>1</nb_actions>
 		<avg_price>7.5</avg_price>
+		<nb_visits_percent_of_total>4%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>4%</nb_actions_percent_of_total>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
 		<segment>productName==Book20</segment>
@@ -216,6 +258,8 @@
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_actions>1</nb_actions>
 		<avg_price>7.5</avg_price>
+		<nb_visits_percent_of_total>4%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>4%</nb_actions_percent_of_total>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
 		<segment>productName==Book21</segment>
@@ -226,6 +270,8 @@
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_actions>1</nb_actions>
 		<avg_price>7.5</avg_price>
+		<nb_visits_percent_of_total>4%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>4%</nb_actions_percent_of_total>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
 		<segment>productName==Book22</segment>
@@ -236,6 +282,8 @@
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_actions>1</nb_actions>
 		<avg_price>7.5</avg_price>
+		<nb_visits_percent_of_total>4%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>4%</nb_actions_percent_of_total>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
 		<segment>productName==Book23</segment>
@@ -246,6 +294,8 @@
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_actions>1</nb_actions>
 		<avg_price>7.5</avg_price>
+		<nb_visits_percent_of_total>4%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>4%</nb_actions_percent_of_total>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
 		<segment>productName==Book24</segment>

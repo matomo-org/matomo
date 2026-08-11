@@ -55,6 +55,12 @@
 		<revenue>17637.7</revenue>
 		<sum_daily_nb_uniq_visitors>110</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>20</sum_daily_nb_users>
+		<nb_visits_percent_of_total>50%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>55.4%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>51.6%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>56.8%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>52%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>90%</revenue_percent_of_total>
 		<logo>plugins/Morpheus/icons/dist/browsers/FF.png</logo>
 		<segment>browserCode==FF</segment>
 	</row>
@@ -82,6 +88,12 @@
 		<revenue>1017</revenue>
 		<sum_daily_nb_uniq_visitors>50</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>21.4%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>17.4%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>29%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>27%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>28%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>5.2%</revenue_percent_of_total>
 		<logo>plugins/Morpheus/icons/dist/browsers/UNK.png</logo>
 		<segment>browserCode==UNK</segment>
 	</row>
@@ -119,6 +131,12 @@
 		<revenue>321.11</revenue>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>10</sum_daily_nb_users>
+		<nb_visits_percent_of_total>9.5%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>7.6%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>6.5%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>5.4%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>12%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>1.6%</revenue_percent_of_total>
 		<logo>plugins/Morpheus/icons/dist/browsers/CH.png</logo>
 		<segment>browserCode==CH</segment>
 	</row>
@@ -156,6 +174,12 @@
 		<revenue>231.11</revenue>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>10</sum_daily_nb_users>
+		<nb_visits_percent_of_total>7.1%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>7.6%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>3.2%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>4.1%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>4%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>1.2%</revenue_percent_of_total>
 		<logo>plugins/Morpheus/icons/dist/browsers/IE.png</logo>
 		<segment>browserCode==IE</segment>
 	</row>
@@ -183,6 +207,12 @@
 		</goals>
 		<nb_conversions>10</nb_conversions>
 		<revenue>20</revenue>
+		<nb_visits_percent_of_total>2.4%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>1.1%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>3.2%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>1.4%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>4%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>0.1%</revenue_percent_of_total>
 		<logo>plugins/Morpheus/icons/dist/browsers/SF.png</logo>
 		<segment>browserCode==SF</segment>
 	</row>
@@ -210,6 +240,12 @@
 		</goals>
 		<nb_conversions>10</nb_conversions>
 		<revenue>10</revenue>
+		<nb_visits_percent_of_total>2.4%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>2.2%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>3.2%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>1.4%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>4%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>0.1%</revenue_percent_of_total>
 		<logo>plugins/Morpheus/icons/dist/browsers/OP.png</logo>
 		<segment>browserCode==OP</segment>
 	</row>
@@ -237,6 +273,12 @@
 		<revenue>100</revenue>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>2.4%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>3.3%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>3.2%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>2.7%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>0.5%</revenue_percent_of_total>
 		<logo>plugins/Morpheus/icons/dist/browsers/RM.png</logo>
 		<segment>browserCode==RM</segment>
 	</row>
@@ -250,6 +292,10 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>10</sum_daily_nb_users>
+		<nb_visits_percent_of_total>2.4%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>1.1%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>4%</bounce_count_percent_of_total>
 		<logo>plugins/Morpheus/icons/dist/browsers/MF.png</logo>
 		<segment>browserCode==MF</segment>
 	</row>
@@ -287,6 +333,12 @@
 		<revenue>171.11</revenue>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>2.4%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>2.2%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>3.2%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>1.4%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>4%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>0.9%</revenue_percent_of_total>
 		<logo>plugins/Morpheus/icons/dist/browsers/AN.png</logo>
 		<segment>browserCode==AN</segment>
 	</row>
@@ -314,6 +366,12 @@
 		<revenue>50</revenue>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>2.4%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>1.1%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>3.2%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>1.4%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>0.3%</revenue_percent_of_total>
 		<logo>plugins/Morpheus/icons/dist/browsers/EP.png</logo>
 		<segment>browserCode==EP</segment>
 	</row>
@@ -341,6 +399,12 @@
 		<revenue>20</revenue>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>2.4%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>1.1%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>3.2%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>1.4%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>4%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>0.1%</revenue_percent_of_total>
 		<logo>plugins/Morpheus/icons/dist/browsers/CM.png</logo>
 		<segment>browserCode==CM</segment>
 	</row>
@@ -368,6 +432,12 @@
 		<revenue>20</revenue>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>2.4%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>1.1%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>3.2%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>1.4%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>4%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>0.1%</revenue_percent_of_total>
 		<logo>plugins/Morpheus/icons/dist/browsers/QQ.png</logo>
 		<segment>browserCode==QQ</segment>
 	</row>
@@ -381,6 +451,10 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>2.4%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>1.1%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 		<logo>plugins/Morpheus/icons/dist/browsers/UNK.png</logo>
 	</row>
 </result>

@@ -247,6 +247,8 @@ class API extends \Piwik\Plugin\API
             'disable_generic_filters' => true,
             'disable_queued_filters' => true,
             '_setReferrerTypeLabel' => 0,
+            // percent-of-total metrics are computed for the merged table of this request instead
+            'percent_of_total' => 0,
         ], []);
 
         if ($dataTable instanceof DataTable\Map) {

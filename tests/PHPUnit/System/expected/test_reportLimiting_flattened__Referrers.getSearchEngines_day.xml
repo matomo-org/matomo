@@ -10,6 +10,10 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>6</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>50%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>50%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>50%</bounce_count_percent_of_total>
 		<logo>plugins/Morpheus/icons/dist/searchEngines/xx.png</logo>
 		<is_summary>1</is_summary>
 		<Referrers_SearchEngine>Others</Referrers_SearchEngine>
@@ -24,6 +28,10 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>2</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>16.7%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>16.7%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>16.7%</bounce_count_percent_of_total>
 		<logo>plugins/Morpheus/icons/dist/searchEngines/google.com.png</logo>
 		<Referrers_SearchEngine>Google</Referrers_SearchEngine>
 		<is_summary>1</is_summary>
@@ -39,6 +47,10 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>2</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>16.7%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>16.7%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>16.7%</bounce_count_percent_of_total>
 		<logo>plugins/Morpheus/icons/dist/searchEngines/search.yahoo.com.png</logo>
 		<Referrers_SearchEngine>Yahoo!</Referrers_SearchEngine>
 		<is_summary>1</is_summary>
@@ -54,6 +66,10 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>8.3%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>8.3%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>8.3%</bounce_count_percent_of_total>
 		<url>http://google.com/search?q=search+term+3</url>
 		<logo>plugins/Morpheus/icons/dist/searchEngines/google.com.png</logo>
 		<Referrers_SearchEngine>Google</Referrers_SearchEngine>
@@ -69,6 +85,10 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>8.3%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>8.3%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>8.3%</bounce_count_percent_of_total>
 		<url>http://search.yahoo.com/search?p=search+term+4</url>
 		<logo>plugins/Morpheus/icons/dist/searchEngines/search.yahoo.com.png</logo>
 		<Referrers_SearchEngine>Yahoo!</Referrers_SearchEngine>

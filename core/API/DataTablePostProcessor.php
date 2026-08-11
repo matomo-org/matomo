@@ -24,6 +24,7 @@ use Piwik\Plugin\Report;
 use Piwik\Plugin\ReportsProvider;
 use Piwik\Plugins\API\Filter\DataComparisonFilter;
 use Piwik\Plugins\CoreHome\Columns\Metrics\EvolutionMetric;
+use Piwik\Plugins\CoreHome\Columns\Metrics\PercentOfReportTotal;
 use Piwik\Plugins\PrivacyManager\DataRounding;
 use Piwik\Request;
 
@@ -111,6 +112,7 @@ class DataTablePostProcessor
         $dataTable = $this->applyPivotByFilter($dataTable);
         $dataTable = $this->applyTotalsCalculator($dataTable);
         $dataTable = $this->applyFlattener($dataTable);
+        $dataTable = $this->applyPercentOfTotalMetrics($dataTable);
 
         if ($this->callbackBeforeGenericFilters) {
             call_user_func($this->callbackBeforeGenericFilters, $dataTable);
@@ -224,6 +226,46 @@ class DataTablePostProcessor
     }
 
     /**
+     * Registers processed metrics exposing each row's metric value as a percentage of the
+     * report total (eg, 'nb_visits_percent_of_total'), based on the totals calculated by
+     * ReportTotalsCalculator. Can be disabled with percent_of_total=0.
+     *
+     * @param DataTableInterface $dataTable
+     * @return DataTableInterface
+     */
+    public function applyPercentOfTotalMetrics($dataTable)
+    {
+        if (!(new Request($this->request))->getBoolParameter('percent_of_total', true)) {
+            return $dataTable;
+        }
+
+        // tables can inherit totals metadata from another API request (eg, Referrers.getAll),
+        // disabling totals should disable the percentages based on them as well
+        if (1 != Common::getRequestVar('totals', '1', 'integer', $this->request)) {
+            return $dataTable;
+        }
+
+        if (!$this->report || !$this->report->getDimension()) {
+            // without a report dimension there is a single row (eg, VisitsSummary.get),
+            // a percentage of the total is not meaningful
+            return $dataTable;
+        }
+
+        if (Common::getRequestVar('pivotBy', false, 'string', $this->request)) {
+            // pivoted tables have one column per pivot dimension value, a percentage of
+            // the report total is not meaningful there
+            return $dataTable;
+        }
+
+        $report = $this->report;
+        $dataTable->filter(function (DataTable $table) use ($report) {
+            PercentOfReportTotal::addMetricsToTable($table, $report);
+        });
+
+        return $dataTable;
+    }
+
+    /**
      * @param DataTableInterface $dataTable
      * @return DataTableInterface
      */
@@ -257,6 +299,12 @@ class DataTablePostProcessor
             });
 
             $genericFilter->filter($dataTable);
+
+            // when the percent-of-total columns were computed before the generic filters ran,
+            // the Truncate filter summed the per row quotients into its summary row
+            $dataTable->filter(function (DataTable $table) {
+                PercentOfReportTotal::recomputeSummaryRows($table);
+            });
         }
 
         return $dataTable;

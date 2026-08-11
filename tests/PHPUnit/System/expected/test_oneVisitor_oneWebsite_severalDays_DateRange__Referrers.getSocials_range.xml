@@ -11,6 +11,10 @@
 			<nb_visits_converted>0</nb_visits_converted>
 			<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<nb_visits_percent_of_total>30%</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+			<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+			<bounce_count_percent_of_total>20%</bounce_count_percent_of_total>
 			<url>facebook.com</url>
 			<logo>plugins/Morpheus/icons/dist/socials/facebook.com.png</logo>
 			<segment>referrerType==social;referrerName==Facebook</segment>
@@ -25,6 +29,10 @@
 					<nb_visits_converted>0</nb_visits_converted>
 					<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 					<sum_daily_nb_users>0</sum_daily_nb_users>
+					<nb_visits_percent_of_total>10%</nb_visits_percent_of_total>
+					<nb_actions_percent_of_total>13.3%</nb_actions_percent_of_total>
+					<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+					<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 				</row>
 				<row>
 					<label>http://fb.me/?q=sdlfjs&amp;n=slfjsd</label>
@@ -36,6 +44,10 @@
 					<nb_visits_converted>0</nb_visits_converted>
 					<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 					<sum_daily_nb_users>0</sum_daily_nb_users>
+					<nb_visits_percent_of_total>10%</nb_visits_percent_of_total>
+					<nb_actions_percent_of_total>13.3%</nb_actions_percent_of_total>
+					<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+					<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 				</row>
 				<row>
 					<label>http://www.facebook.com/another/path</label>
@@ -47,6 +59,10 @@
 					<nb_visits_converted>0</nb_visits_converted>
 					<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 					<sum_daily_nb_users>0</sum_daily_nb_users>
+					<nb_visits_percent_of_total>10%</nb_visits_percent_of_total>
+					<nb_actions_percent_of_total>6.7%</nb_actions_percent_of_total>
+					<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+					<bounce_count_percent_of_total>20%</bounce_count_percent_of_total>
 				</row>
 			</subtable>
 		</row>
@@ -60,6 +76,10 @@
 			<nb_visits_converted>0</nb_visits_converted>
 			<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<nb_visits_percent_of_total>30%</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>26.7%</nb_actions_percent_of_total>
+			<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+			<bounce_count_percent_of_total>40%</bounce_count_percent_of_total>
 			<url>twitter.com</url>
 			<logo>plugins/Morpheus/icons/dist/socials/twitter.com.png</logo>
 			<segment>referrerType==social;referrerName==Twitter</segment>
@@ -74,6 +94,10 @@
 					<nb_visits_converted>0</nb_visits_converted>
 					<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 					<sum_daily_nb_users>0</sum_daily_nb_users>
+					<nb_visits_percent_of_total>10%</nb_visits_percent_of_total>
+					<nb_actions_percent_of_total>6.7%</nb_actions_percent_of_total>
+					<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+					<bounce_count_percent_of_total>20%</bounce_count_percent_of_total>
 				</row>
 				<row>
 					<label>http://twitter.com/whatever2</label>
@@ -85,6 +109,10 @@
 					<nb_visits_converted>0</nb_visits_converted>
 					<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 					<sum_daily_nb_users>0</sum_daily_nb_users>
+					<nb_visits_percent_of_total>10%</nb_visits_percent_of_total>
+					<nb_actions_percent_of_total>6.7%</nb_actions_percent_of_total>
+					<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+					<bounce_count_percent_of_total>20%</bounce_count_percent_of_total>
 				</row>
 				<row>
 					<label>http://www.twitter.com/index?a=2334</label>
@@ -96,6 +124,10 @@
 					<nb_visits_converted>0</nb_visits_converted>
 					<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 					<sum_daily_nb_users>0</sum_daily_nb_users>
+					<nb_visits_percent_of_total>10%</nb_visits_percent_of_total>
+					<nb_actions_percent_of_total>13.3%</nb_actions_percent_of_total>
+					<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+					<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 				</row>
 			</subtable>
 		</row>
@@ -109,6 +141,10 @@
 			<nb_visits_converted>0</nb_visits_converted>
 			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<nb_visits_percent_of_total>10%</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>13.3%</nb_actions_percent_of_total>
+			<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+			<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 			<url>flickr.com</url>
 			<logo>plugins/Morpheus/icons/dist/socials/flickr.com.png</logo>
 			<segment>referrerType==social;referrerName==Flickr</segment>
@@ -123,6 +159,10 @@
 					<nb_visits_converted>0</nb_visits_converted>
 					<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 					<sum_daily_nb_users>0</sum_daily_nb_users>
+					<nb_visits_percent_of_total>10%</nb_visits_percent_of_total>
+					<nb_actions_percent_of_total>13.3%</nb_actions_percent_of_total>
+					<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+					<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 				</row>
 			</subtable>
 		</row>
@@ -136,6 +176,10 @@
 			<nb_visits_converted>0</nb_visits_converted>
 			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<nb_visits_percent_of_total>10%</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>6.7%</nb_actions_percent_of_total>
+			<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+			<bounce_count_percent_of_total>20%</bounce_count_percent_of_total>
 			<url>mixi.jp</url>
 			<logo>plugins/Morpheus/icons/dist/socials/mixi.jp.png</logo>
 			<segment>referrerType==social;referrerName==Mixi</segment>
@@ -150,6 +194,10 @@
 					<nb_visits_converted>0</nb_visits_converted>
 					<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 					<sum_daily_nb_users>0</sum_daily_nb_users>
+					<nb_visits_percent_of_total>10%</nb_visits_percent_of_total>
+					<nb_actions_percent_of_total>6.7%</nb_actions_percent_of_total>
+					<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+					<bounce_count_percent_of_total>20%</bounce_count_percent_of_total>
 				</row>
 			</subtable>
 		</row>
@@ -163,6 +211,10 @@
 			<nb_visits_converted>0</nb_visits_converted>
 			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<nb_visits_percent_of_total>10%</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>13.3%</nb_actions_percent_of_total>
+			<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+			<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 			<url>skyrock.com</url>
 			<logo>plugins/Morpheus/icons/dist/socials/skyrock.com.png</logo>
 			<segment>referrerType==social;referrerName==Skyrock</segment>
@@ -177,6 +229,10 @@
 					<nb_visits_converted>0</nb_visits_converted>
 					<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 					<sum_daily_nb_users>0</sum_daily_nb_users>
+					<nb_visits_percent_of_total>10%</nb_visits_percent_of_total>
+					<nb_actions_percent_of_total>13.3%</nb_actions_percent_of_total>
+					<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+					<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 				</row>
 			</subtable>
 		</row>
@@ -190,6 +246,10 @@
 			<nb_visits_converted>0</nb_visits_converted>
 			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<nb_visits_percent_of_total>10%</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>6.7%</nb_actions_percent_of_total>
+			<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+			<bounce_count_percent_of_total>20%</bounce_count_percent_of_total>
 			<url>xanga.com</url>
 			<logo>plugins/Morpheus/icons/dist/socials/xanga.com.png</logo>
 			<segment>referrerType==social;referrerName==Xanga</segment>
@@ -204,6 +264,10 @@
 					<nb_visits_converted>0</nb_visits_converted>
 					<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 					<sum_daily_nb_users>0</sum_daily_nb_users>
+					<nb_visits_percent_of_total>10%</nb_visits_percent_of_total>
+					<nb_actions_percent_of_total>6.7%</nb_actions_percent_of_total>
+					<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+					<bounce_count_percent_of_total>20%</bounce_count_percent_of_total>
 				</row>
 			</subtable>
 		</row>
@@ -219,6 +283,10 @@
 			<nb_visits_converted>0</nb_visits_converted>
 			<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<nb_visits_percent_of_total>66.7%</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>66.7%</nb_actions_percent_of_total>
+			<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+			<bounce_count_percent_of_total>66.7%</bounce_count_percent_of_total>
 			<url>twitter.com</url>
 			<logo>plugins/Morpheus/icons/dist/socials/twitter.com.png</logo>
 			<segment>referrerType==social;referrerName==Twitter</segment>
@@ -233,6 +301,10 @@
 					<nb_visits_converted>0</nb_visits_converted>
 					<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 					<sum_daily_nb_users>0</sum_daily_nb_users>
+					<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+					<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+					<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+					<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				</row>
 				<row>
 					<label>http://twitter.com/whatever2</label>
@@ -244,6 +316,10 @@
 					<nb_visits_converted>0</nb_visits_converted>
 					<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 					<sum_daily_nb_users>0</sum_daily_nb_users>
+					<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+					<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+					<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+					<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				</row>
 			</subtable>
 		</row>
@@ -257,6 +333,10 @@
 			<nb_visits_converted>0</nb_visits_converted>
 			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+			<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+			<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 			<url>facebook.com</url>
 			<logo>plugins/Morpheus/icons/dist/socials/facebook.com.png</logo>
 			<segment>referrerType==social;referrerName==Facebook</segment>
@@ -271,6 +351,10 @@
 					<nb_visits_converted>0</nb_visits_converted>
 					<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 					<sum_daily_nb_users>0</sum_daily_nb_users>
+					<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+					<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+					<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+					<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 				</row>
 			</subtable>
 		</row>

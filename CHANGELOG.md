@@ -63,6 +63,12 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The `SearchInput` component exported from `CoreHome` gained a `focused` prop and a `blur()` method: setting `focused` to `true` moves focus to the inner input and calling `blur()` on the component removes it, both of which were previously impossible because binding `v-focus-if` or an element ref to the component targeted its non-focusable wrapper. `CoreHome.QuickAccess` now renders this component instead of duplicating its markup, so its search field is no longer a separate `input` that happens to carry the same classes. Quick search also runs off the field's value rather than off keystrokes, so text that arrives without one (a pasted term, an IME candidate committed with the mouse) now searches too, and keys that belong to an open IME candidate window no longer act on the result list.
 
 ### HTTP API
+* Report rows now include a percentage-of-report-total value for each metric the report processes totals for, as an additional
+  `{metric}_percent_of_total` column (eg, `nb_visits_percent_of_total`). The values match the ratio percentages the report tables
+  show on hover, follow `format_metrics` like other percent metrics, and are included in all export formats. Non-additive metrics
+  (unique visitors and users) are excluded, as their report total is not a meaningful denominator. The columns can be disabled
+  by setting the new `percent_of_total=0` request parameter (or `totals=0`). Note for CSV/TSV consumers parsing columns by
+  position: the new columns change the header and column count, pass `percent_of_total=0` to keep the previous output.
 * `API.getBulkRequest` now validates the authentication parameters of each nested request URL against
   the outer request. Within a browser session a nested request may change neither the session flag
   (`force_api_session`) nor the acting user (`token_auth`); outside a session a nested request may still

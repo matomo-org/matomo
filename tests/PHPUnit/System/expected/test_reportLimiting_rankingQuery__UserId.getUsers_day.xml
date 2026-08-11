@@ -10,6 +10,10 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>5</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>3.5%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>1.7%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>6.5%</bounce_count_percent_of_total>
 		
 		<segment>userId==user0</segment>
 	</row>
@@ -23,6 +27,10 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>5</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>3.5%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>1.7%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>6.5%</bounce_count_percent_of_total>
 		
 		<segment>userId==user1</segment>
 	</row>
@@ -36,5 +44,9 @@
 		<sum_visit_length>81</sum_visit_length>
 		<bounce_count>67</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>93%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>96.6%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>87%</bounce_count_percent_of_total>
 	</row>
 </result>

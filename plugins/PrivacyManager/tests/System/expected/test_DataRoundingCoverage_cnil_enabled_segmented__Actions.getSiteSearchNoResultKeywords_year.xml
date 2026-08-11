@@ -12,6 +12,9 @@
 		<exit_nb_visits>20</exit_nb_visits>
 		<nb_pages_per_search>10</nb_pages_per_search>
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>100%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>100%</nb_hits_percent_of_total>
+		<exit_nb_visits_percent_of_total>100%</exit_nb_visits_percent_of_total>
 		<avg_time_on_page>600</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -28,6 +31,8 @@
 		<max_bandwidth />
 		<nb_pages_per_search>10</nb_pages_per_search>
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>50%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>50%</nb_hits_percent_of_total>
 		<avg_time_on_page>252</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>

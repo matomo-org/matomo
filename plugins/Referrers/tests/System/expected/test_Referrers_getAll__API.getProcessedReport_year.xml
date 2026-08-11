@@ -23,6 +23,12 @@
 			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
 			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
 			<conversion_rate>The percentage of visits that triggered a conversion. The conversion rate is calculated using the number of visits that converted at least one goal. Visits converting multiple goals are only counted once in the conversion rate.</conversion_rate>
+			<nb_visits_percent_of_total>The percentage of the report's total Visits that this row represents.</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>The percentage of the report's total Actions that this row represents.</nb_actions_percent_of_total>
+			<nb_visits_converted_percent_of_total>The percentage of the report's total Visits with Conversions that this row represents.</nb_visits_converted_percent_of_total>
+			<nb_conversions_percent_of_total>The percentage of the report's total Conversions that this row represents.</nb_conversions_percent_of_total>
+			<bounce_count_percent_of_total>The percentage of the report's total Bounces that this row represents.</bounce_count_percent_of_total>
+			<revenue_percent_of_total>The percentage of the report's total Revenue that this row represents.</revenue_percent_of_total>
 		</metricsDocumentation>
 		<processedMetrics>
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
@@ -39,6 +45,12 @@
 			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
+			<nb_visits_percent_of_total>percent</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>percent</nb_actions_percent_of_total>
+			<nb_visits_converted_percent_of_total>percent</nb_visits_converted_percent_of_total>
+			<nb_conversions_percent_of_total>percent</nb_conversions_percent_of_total>
+			<bounce_count_percent_of_total>percent</bounce_count_percent_of_total>
+			<revenue_percent_of_total>percent</revenue_percent_of_total>
 		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referrers&amp;apiAction=getAll&amp;period=year&amp;date=2010-01-01</imageGraphUrl>
 		<uniqueId>Referrers_getAll</uniqueId>
@@ -51,57 +63,99 @@
 		<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 		<bounce_rate>Bounce Rate</bounce_rate>
 		<conversion_rate>Conversion Rate</conversion_rate>
+		<nb_visits_percent_of_total>Visits (% of total)</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>Actions (% of total)</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>Visits with Conversions (% of total)</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>Conversions (% of total)</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>Bounces (% of total)</bounce_count_percent_of_total>
+		<revenue_percent_of_total>Revenue (% of total)</revenue_percent_of_total>
 	</columns>
 	<reportData>
 		<row>
 			<label>ChatGPT</label>
 			<nb_visits>12</nb_visits>
 			<nb_actions>12</nb_actions>
+			<nb_visits_percent_of_total>12.9%</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>12.9%</nb_actions_percent_of_total>
+			<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+			<bounce_count_percent_of_total>12.9%</bounce_count_percent_of_total>
 			<conversion_rate>0%</conversion_rate>
 			<nb_actions_per_visit>1</nb_actions_per_visit>
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>100%</bounce_rate>
+			<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+			<revenue_percent_of_total>0%</revenue_percent_of_total>
 		</row>
 		<row>
 			<label>free &gt; proprietary</label>
 			<nb_visits>11</nb_visits>
 			<nb_actions>11</nb_actions>
+			<nb_visits_percent_of_total>11.8%</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>11.8%</nb_actions_percent_of_total>
+			<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+			<bounce_count_percent_of_total>11.8%</bounce_count_percent_of_total>
 			<conversion_rate>0%</conversion_rate>
 			<nb_actions_per_visit>1</nb_actions_per_visit>
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>100%</bounce_rate>
+			<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+			<revenue_percent_of_total>0%</revenue_percent_of_total>
 		</row>
 		<row>
 			<label>justice )(&amp;^#%$ not '&quot; corruption!</label>
 			<nb_visits>10</nb_visits>
 			<nb_actions>10</nb_actions>
+			<nb_visits_percent_of_total>10.8%</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>10.8%</nb_actions_percent_of_total>
+			<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+			<bounce_count_percent_of_total>10.8%</bounce_count_percent_of_total>
 			<conversion_rate>0%</conversion_rate>
 			<nb_actions_per_visit>1</nb_actions_per_visit>
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>100%</bounce_rate>
+			<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+			<revenue_percent_of_total>0%</revenue_percent_of_total>
 		</row>
 		<row>
 			<label>peace &quot;,&quot; not war</label>
 			<nb_visits>10</nb_visits>
 			<nb_actions>10</nb_actions>
+			<nb_visits_percent_of_total>10.8%</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>10.8%</nb_actions_percent_of_total>
+			<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+			<bounce_count_percent_of_total>10.8%</bounce_count_percent_of_total>
 			<conversion_rate>0%</conversion_rate>
 			<nb_actions_per_visit>1</nb_actions_per_visit>
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>100%</bounce_rate>
+			<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+			<revenue_percent_of_total>0%</revenue_percent_of_total>
 		</row>
 		<row>
 			<label>Perplexity</label>
 			<nb_visits>8</nb_visits>
 			<nb_actions>8</nb_actions>
+			<nb_visits_percent_of_total>8.6%</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>8.6%</nb_actions_percent_of_total>
+			<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+			<bounce_count_percent_of_total>8.6%</bounce_count_percent_of_total>
 			<conversion_rate>0%</conversion_rate>
 			<nb_actions_per_visit>1</nb_actions_per_visit>
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>100%</bounce_rate>
+			<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+			<revenue_percent_of_total>0%</revenue_percent_of_total>
 		</row>
 		<row>
 			<label>www.referrer0.com</label>
 			<nb_visits>7</nb_visits>
 			<nb_actions>7</nb_actions>
+			<nb_visits_percent_of_total>7.5%</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>7.5%</nb_actions_percent_of_total>
+			<nb_visits_converted_percent_of_total>22.6%</nb_visits_converted_percent_of_total>
+			<nb_conversions_percent_of_total>22.6%</nb_conversions_percent_of_total>
+			<bounce_count_percent_of_total>7.5%</bounce_count_percent_of_total>
+			<revenue_percent_of_total>0%</revenue_percent_of_total>
 			<conversion_rate>100%</conversion_rate>
 			<nb_actions_per_visit>1</nb_actions_per_visit>
 			<avg_time_on_site>00:06:05</avg_time_on_site>
@@ -111,6 +165,12 @@
 			<label>www.referrer1.com</label>
 			<nb_visits>6</nb_visits>
 			<nb_actions>6</nb_actions>
+			<nb_visits_percent_of_total>6.5%</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>6.5%</nb_actions_percent_of_total>
+			<nb_visits_converted_percent_of_total>19.4%</nb_visits_converted_percent_of_total>
+			<nb_conversions_percent_of_total>19.4%</nb_conversions_percent_of_total>
+			<bounce_count_percent_of_total>6.5%</bounce_count_percent_of_total>
+			<revenue_percent_of_total>0%</revenue_percent_of_total>
 			<conversion_rate>100%</conversion_rate>
 			<nb_actions_per_visit>1</nb_actions_per_visit>
 			<avg_time_on_site>00:06:05</avg_time_on_site>
@@ -120,6 +180,12 @@
 			<label>www.referrer2.com</label>
 			<nb_visits>6</nb_visits>
 			<nb_actions>6</nb_actions>
+			<nb_visits_percent_of_total>6.5%</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>6.5%</nb_actions_percent_of_total>
+			<nb_visits_converted_percent_of_total>19.4%</nb_visits_converted_percent_of_total>
+			<nb_conversions_percent_of_total>19.4%</nb_conversions_percent_of_total>
+			<bounce_count_percent_of_total>6.5%</bounce_count_percent_of_total>
+			<revenue_percent_of_total>0%</revenue_percent_of_total>
 			<conversion_rate>100%</conversion_rate>
 			<nb_actions_per_visit>1</nb_actions_per_visit>
 			<avg_time_on_site>00:06:05</avg_time_on_site>
@@ -129,6 +195,12 @@
 			<label>www.referrer3.com</label>
 			<nb_visits>6</nb_visits>
 			<nb_actions>6</nb_actions>
+			<nb_visits_percent_of_total>6.5%</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>6.5%</nb_actions_percent_of_total>
+			<nb_visits_converted_percent_of_total>19.4%</nb_visits_converted_percent_of_total>
+			<nb_conversions_percent_of_total>19.4%</nb_conversions_percent_of_total>
+			<bounce_count_percent_of_total>6.5%</bounce_count_percent_of_total>
+			<revenue_percent_of_total>0%</revenue_percent_of_total>
 			<conversion_rate>100%</conversion_rate>
 			<nb_actions_per_visit>1</nb_actions_per_visit>
 			<avg_time_on_site>00:06:05</avg_time_on_site>
@@ -138,6 +210,12 @@
 			<label>www.referrer4.com</label>
 			<nb_visits>6</nb_visits>
 			<nb_actions>6</nb_actions>
+			<nb_visits_percent_of_total>6.5%</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>6.5%</nb_actions_percent_of_total>
+			<nb_visits_converted_percent_of_total>19.4%</nb_visits_converted_percent_of_total>
+			<nb_conversions_percent_of_total>19.4%</nb_conversions_percent_of_total>
+			<bounce_count_percent_of_total>6.5%</bounce_count_percent_of_total>
+			<revenue_percent_of_total>0%</revenue_percent_of_total>
 			<conversion_rate>100%</conversion_rate>
 			<nb_actions_per_visit>1</nb_actions_per_visit>
 			<avg_time_on_site>00:06:05</avg_time_on_site>
@@ -147,28 +225,46 @@
 			<label>Claude</label>
 			<nb_visits>4</nb_visits>
 			<nb_actions>4</nb_actions>
+			<nb_visits_percent_of_total>4.3%</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>4.3%</nb_actions_percent_of_total>
+			<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+			<bounce_count_percent_of_total>4.3%</bounce_count_percent_of_total>
 			<conversion_rate>0%</conversion_rate>
 			<nb_actions_per_visit>1</nb_actions_per_visit>
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>100%</bounce_rate>
+			<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+			<revenue_percent_of_total>0%</revenue_percent_of_total>
 		</row>
 		<row>
 			<label>Gemini</label>
 			<nb_visits>4</nb_visits>
 			<nb_actions>4</nb_actions>
+			<nb_visits_percent_of_total>4.3%</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>4.3%</nb_actions_percent_of_total>
+			<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+			<bounce_count_percent_of_total>4.3%</bounce_count_percent_of_total>
 			<conversion_rate>0%</conversion_rate>
 			<nb_actions_per_visit>1</nb_actions_per_visit>
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>100%</bounce_rate>
+			<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+			<revenue_percent_of_total>0%</revenue_percent_of_total>
 		</row>
 		<row>
 			<label>Le Chat</label>
 			<nb_visits>3</nb_visits>
 			<nb_actions>3</nb_actions>
+			<nb_visits_percent_of_total>3.2%</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>3.2%</nb_actions_percent_of_total>
+			<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+			<bounce_count_percent_of_total>3.2%</bounce_count_percent_of_total>
 			<conversion_rate>0%</conversion_rate>
 			<nb_actions_per_visit>1</nb_actions_per_visit>
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>100%</bounce_rate>
+			<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
+			<revenue_percent_of_total>0%</revenue_percent_of_total>
 		</row>
 	</reportData>
 	<reportMetadata>
