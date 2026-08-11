@@ -842,8 +842,10 @@ $.extend(DataTable.prototype, UIControl.prototype, {
     handleSearchBox: function (domElem, callbackSuccess) {
         var self = this;
 
-        if (typeof self.parentId != "undefined" && self.parentId != '') {
-            // subtables reuse the parent report's header, they have no search of their own
+        // Subtables reuse the parent report's header and have no search of their own. Both signals
+        // are needed: `parentId` is only set by ActionsDataTable, while a generic expandable
+        // subtable is a fresh instance that carries `idSubtable` in its params.
+        if ((typeof self.parentId != "undefined" && self.parentId != '') || self.param.idSubtable) {
             return;
         }
 
