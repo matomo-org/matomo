@@ -13,7 +13,7 @@
           {{ translate('PrivacyManager_ComplianceTableSettingName') }}
         </th>
         <th class="label">
-          {{ translate('PrivacyManager_ComplianceTableWhatItDoes') }}
+          {{ translate('General_Description') }}
         </th>
         <th class="label">
           {{ translate('PrivacyManager_ComplianceTableImpact') }}
