@@ -16,6 +16,7 @@ use Piwik\Piwik;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\ReportRenderer;
 use Piwik\TCPDF;
+use Piwik\UrlHelper;
 use TCPDF_FONTS;
 
 /**
@@ -598,6 +599,9 @@ class Pdf extends ReportRenderer
     }
 
     /**
+     * Renders the clickable label link (when the row carries a linkable URL) and,
+     * when available, the row's logo image.
+     *
      * @param false|string $url
      * @param array<string, mixed> $rowMetadata
      */
@@ -611,8 +615,9 @@ class Pdf extends ReportRenderer
         float &$logoWidth,
         float &$logoHeight
     ): void {
-        if ($url) {
-            $this->TCPDF->Link($posX, $posY, $this->labelCellWidth, $rowHeight, $url);
+        $linkUrl = $url ? $this->getRenderableLabelLinkUrl($url) : false;
+        if ($linkUrl !== false) {
+            $this->TCPDF->Link($posX, $posY, $this->labelCellWidth, $rowHeight, $linkUrl);
         }
         $this->TCPDF->SetXY($posX + $this->labelCellWidth, $posY);
 
@@ -640,6 +645,27 @@ class Pdf extends ReportRenderer
             $this->TCPDF->Image($path, $posX + ($leftMargin = 2), $posY + $topMargin, $logoWidth / 4);
         }
         $this->TCPDF->SetXY($restoreX, $restoreY);
+    }
+
+    /**
+     * Returns the URL a row's label should link to, or false to render it as plain text.
+     *
+     * Scheme-less values are completed with https, so bare domain rows stay clickable.
+     * Schemes outside the link allowlist are not linked.
+     *
+     * @return false|string
+     */
+    private function getRenderableLabelLinkUrl(string $url)
+    {
+        // parse_url(), not a regex: example.com:8080/path is a host and port, not a scheme.
+        if (!parse_url($url, PHP_URL_SCHEME)) {
+            $url = $this->isUrl($url);
+            if ($url === false) {
+                return false;
+            }
+        }
+
+        return UrlHelper::isLookLikeSafeUrl($url) ? $url : false;
     }
 
     /**
