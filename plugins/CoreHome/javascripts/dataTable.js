@@ -208,8 +208,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             'include_aggregate_rows',
             'totalRows',
             'pivotBy',
-            'pivotByColumn',
-            'filter_trigger_id'
+            'pivotByColumn'
         ];
 
         for (var key = 0; key < filters.length; key++) {
@@ -256,6 +255,27 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 self.dataTableLoaded(response, self.workingDivId);
             };
         }
+
+        // Each reload of the root table supersedes any still-pending one: tag it and apply only the
+        // latest response, so an out-of-order response (e.g. a slow search-as-you-type reload)
+        // cannot overwrite a newer reload - another search, a sort, paging, a period or a
+        // visualization change. Errors from a superseded reload are dropped too.
+        //
+        // Loading a subtable is deliberately left out of that sequence. It reuses the parent's
+        // instance but renders into its own div, so it neither supersedes a pending root reload nor
+        // is superseded by one. Guarding it would strand the row for good: handleSubDataTable()
+        // marks it loaded synchronously, so a dropped response never gets refetched.
+        var isSubtableLoad = !!self.param.idSubtable;
+        var reloadGeneration = null;
+
+        if (!isSubtableLoad) {
+            self._reloadGeneration = (self._reloadGeneration || 0) + 1;
+            reloadGeneration = self._reloadGeneration;
+        }
+
+        var isSupersededReload = function () {
+            return reloadGeneration !== null && reloadGeneration !== self._reloadGeneration;
+        };
 
         if (displayLoading) {
             $('#' + self.workingDivId + ' .loadingPiwik').last().css('display', 'block');
@@ -314,13 +334,20 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
         ajaxRequest.setCallback(
             function (response) {
+                // Bail before the teardown below, not just before applying the response: destroying
+                // the plot and unbinding its handler would otherwise leave the newer reload's graph
+                // torn down with nothing drawn in its place.
+                if (isSupersededReload()) {
+                    return;
+                }
                 container.trigger('piwikDestroyPlot');
                 container.off('piwikDestroyPlot');
                 callbackSuccess(response);
             }
         );
         ajaxRequest.setErrorCallback(function (deferred, status) {
-            if (status == 'abort' || !deferred || deferred.status < 400 || deferred.status >= 600) {
+            if (isSupersededReload()
+                || status == 'abort' || !deferred || deferred.status < 400 || deferred.status >= 600) {
                 return;
             }
 
@@ -824,188 +851,102 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         }
     },
 
-    //behaviour for the DataTable 'search box'
-    handleSearchBox: function (domElem, callbackSuccess) {
+    // Drives the report search rendered in the shared ReportHeader. The input and its debounce
+    // belong to the Vue component; here we only push state into it and apply the keyword it emits.
+    handleSearchBox: function (domElem) {
         var self = this;
 
-        var currentPattern = self.param.filter_pattern;
-        if (typeof self.param.filter_pattern != "undefined"
-            && self.param.filter_pattern.length > 0) {
-            currentPattern = self.param.filter_pattern;
+        // Subtables reuse the parent report's header and have no search of their own. Both signals
+        // are needed: `parentId` is only set by ActionsDataTable, while a generic expandable
+        // subtable is a fresh instance that carries `idSubtable` in its params.
+        if ((typeof self.parentId != "undefined" && self.parentId != '') || self.param.idSubtable) {
+            return;
         }
-        else if (typeof self.param.filter_pattern_recursive != "undefined"
+
+        var header = self._findReportHeaderApp(domElem);
+        if (!header || !header.app) {
+            // no shared header in this context (search has no other home now)
+            return;
+        }
+
+        var currentPattern = '';
+        if (self.param.filter_pattern && self.param.filter_pattern.length > 0) {
+            currentPattern = self.param.filter_pattern;
+        } else if (self.param.filter_pattern_recursive
             && self.param.filter_pattern_recursive.length > 0) {
             currentPattern = self.param.filter_pattern_recursive;
         }
-        else {
-            currentPattern = '';
-        }
         currentPattern = piwikHelper.htmlDecode(currentPattern);
 
-        var patternsToReplace = [{from: '?', to: '\\?'}, {from: '+', to: '\\+'}, {from: '*', to: '\\*'}]
-
+        // Un-escape a leading regex special char for display (searchForPattern re-escapes it).
+        var patternsToReplace = [{from: '?', to: '\\?'}, {from: '+', to: '\\+'}, {from: '*', to: '\\*'}];
         $.each(patternsToReplace, function (index, pattern) {
             if (0 === currentPattern.indexOf(pattern.to)) {
                 currentPattern = pattern.from + currentPattern.slice(2);
             }
         });
 
-        var $searchAction = $('.dataTableAction.searchAction', domElem);
-        if (!$searchAction.length) {
+        // show_search is a report config flag, exposed to the client only on the footer actions
+        // component (DataTableActions); read it from there, and default to no search when absent.
+        var showSearch = false;
+        var $actions = $('[vue-entry="CoreHome.DataTableActions"]', domElem);
+        if ($actions.length) {
+            var actionsApp = $actions.first().data('vueAppInstance');
+            showSearch = !!(actionsApp && actionsApp.showSearch_);
+        }
+
+        // Hide the input on an empty table, but keep it while a search is active so a no-result
+        // search can still be cleared.
+        header.app.showSearch_ = showSearch && (!self.isEmpty || !!currentPattern);
+        header.app.searchQuery_ = currentPattern;
+
+        // domElem is the root div.dataTable, the element the empty-state CSS keys off.
+        domElem.closest('.dataTable').toggleClass('hasSearchKeyword', !!currentPattern);
+
+        // Bridge the header's debounced search back to this table. Rebinding on every render is
+        // safe: the namespaced handler is removed first, and the header persists across reloads.
+        header.$el
+            .off('reportheader:search.dataTableSearch')
+            .on('reportheader:search.dataTableSearch', function (e) {
+                self.searchForPattern(e.originalEvent.detail.keyword);
+            });
+    },
+
+    // Applies a search keyword to the report and reloads it. An empty keyword clears a previous
+    // search. Called from the ReportHeader search bridge in handleSearchBox.
+    searchForPattern: function (keyword) {
+        var self = this;
+        keyword = keyword || '';
+
+        var hasCurrentPattern = (self.param.filter_pattern && self.param.filter_pattern.length > 0)
+            || (self.param.filter_pattern_recursive
+                && self.param.filter_pattern_recursive.length > 0);
+
+        if (!keyword && !hasCurrentPattern) {
+            // nothing to search for, and no previous search to clear
             return;
         }
 
-        $searchAction.on('click', showSearch);
-        $searchAction.find('.icon-close').on('click', hideSearch);
+        self.param.filter_offset = 0;
 
-        var $searchInput = $('.dataTableSearchInput', domElem);
-
-        function getOptimalWidthForSearchField($searchAction) {
-            var controlBarWidth = $searchAction.parents('.dataTableControls').first().width();
-            var spaceLeft = controlBarWidth - $searchAction.position().left;
-            var idealWidthForSearchBar = 250;
-            var minimalWidthForSearchBar = 150; // if it's only 150 pixel we still show it on same line
-            var width = idealWidthForSearchBar;
-            if (spaceLeft > minimalWidthForSearchBar && spaceLeft < idealWidthForSearchBar) {
-                width = spaceLeft;
-            }
-
-            if (width > controlBarWidth) {
-                width = controlBarWidth;
-            }
-
-            return width;
-        }
-
-        function hideSearch(event) {
-            event.preventDefault();
-            event.stopPropagation();
-
-            var $searchAction = $(this).parents('.searchAction').first();
-            $searchAction.removeClass('searchActive active forceActionVisible');
-            $searchAction.css('width', '');
-            $searchAction.on('click', showSearch);
-            $searchAction.find('.icon-search').off('click', searchForPattern);
-
-            $searchInput.val('');
-
-            if (currentPattern) {
-                // we search for this pattern so if there was a search term before, and someone closes the search
-                // we show all results again
-                searchForPattern();
-            }
-        }
-
-        function getTriggerField(event) {
-          if (typeof self.param.filter_trigger_id !== "undefined" &&
-            self.param.filter_trigger_id.length > 0) {
-            return document.getElementById(self.param.filter_trigger_id);
-          } else {
-            if (event && event.target) {
-              if (event.target.nodeName.toLowerCase() === 'span') {
-                return $(event.target).siblings('input');
-              } else {
-                return $(event.target).children('input');
-              }
-            }
-          }
-        }
-
-        function restoreSearchFieldFocus(event)
-        {
-            var triggerField = getTriggerField(event);
-
-            if (triggerField) {
-              triggerField.focus();
-            }
-        }
-
-        function showSearchInputFields($searchAction) {
-            $searchAction.addClass('searchActive forceActionVisible');
-            var width = getOptimalWidthForSearchField($searchAction);
-            $searchAction.css('width', width + 'px');
-            $searchAction.find('.icon-search').on('click', searchForPattern);
-            $searchAction.off('click', showSearch);
-        }
-
-        function showSearch(event) {
-            event.preventDefault();
-            event.stopPropagation();
-
-            showSearchInputFields($(this));
-            restoreSearchFieldFocus(event);
-        }
-
-
-        function searchForPattern(event) {
-            var keyword = '';
-            if (event) {
-                var $input;
-                if (event.target.tagName.toLowerCase() === 'input') {
-                    $input = $(event.target);
-                } else if (event.target.tagName.toLowerCase() === 'span') {
-                    $input = $(event.target).siblings('input');
-                }
-
-                if ($input && $input.length) {
-                    keyword = $input.val();
-                    self.param.filter_trigger_id = $input.attr('id');
-                }
-            }
-
-            if (!keyword && !currentPattern) {
-                // we search only if a keyword is actually given, or if no keyword is given and a search was performed
-                // before (in this case we want to clear the search basically.)
-                return;
-            }
-
-            self.param.filter_offset = 0;
-
-            $.each(patternsToReplace, function (index, pattern) {
-                if (0 === keyword.indexOf(pattern.from)) {
-                    keyword = pattern.to + keyword.slice(1);
-                }
-            });
-
-            if (self.param.search_recursive) {
-                self.param.filter_column_recursive = 'label';
-                self.param.filter_pattern_recursive = keyword;
-            }
-            else {
-                self.param.filter_column = 'label';
-                self.param.filter_pattern = keyword;
-            }
-
-            delete self.param.totalRows;
-
-            self.reloadAjaxDataTable(true, callbackSuccess);
-        }
-
-        $searchInput.on("keyup", function (e) {
-            if (isEnterKey(e)) {
-                searchForPattern(e);
-            } else if (isEscapeKey(e)) {
-                $searchAction.find('.icon-close').click();
+        var patternsToReplace = [{from: '?', to: '\\?'}, {from: '+', to: '\\+'}, {from: '*', to: '\\*'}];
+        $.each(patternsToReplace, function (index, pattern) {
+            if (0 === keyword.indexOf(pattern.from)) {
+                keyword = pattern.to + keyword.slice(1);
             }
         });
 
-        $searchInput.on("blur", function () {
-            delete self.param.filter_trigger_id;
-        });
-
-        var $dataTable = $searchInput.parents('.dataTable').first();
-        if (currentPattern) {
-            $dataTable.addClass('hasSearchKeyword');
-            $searchInput.val(currentPattern);
-            showSearchInputFields($searchAction);
-            restoreSearchFieldFocus();
+        if (self.param.search_recursive) {
+            self.param.filter_column_recursive = 'label';
+            self.param.filter_pattern_recursive = keyword;
         } else {
-            $dataTable.removeClass('hasSearchKeyword');
+            self.param.filter_column = 'label';
+            self.param.filter_pattern = keyword;
         }
 
-        if (this.isEmpty && !currentPattern) {
-            $searchAction.css({display: 'none'});
-        }
+        delete self.param.totalRows;
+
+        self.reloadAjaxDataTable(true);
     },
 
     //behaviour for '< prev' 'next >' links and page count
@@ -2023,6 +1964,21 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             return $prev;
         }
         return $('h2', domElem);
+    },
+
+    // Returns { $el, app } for the shared ReportHeader Vue app that titles this report, or null.
+    // A full-page report renders it as the table's previous sibling; a widget renders it in the
+    // widget chrome (.widgetTop). This is the same app replaceReportTitleAndHelp() pushes into.
+    _findReportHeaderApp: function (domElem) {
+        var $header = domElem.prev('[vue-entry="CoreHome.ReportHeader"]');
+        if (!$header.length) {
+            $header = domElem.parents('.widget').first()
+                .find('.widgetTop [vue-entry="CoreHome.ReportHeader"]').first();
+        }
+        if (!$header.length) {
+            return null;
+        }
+        return { $el: $header, app: $header.data('vueAppInstance') };
     },
 
     _createDivId: function () {
