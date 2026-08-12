@@ -11,6 +11,7 @@ namespace Piwik\Plugins\CoreAdminHome\Commands;
 
 use Piwik\Common;
 use Piwik\Db;
+use Piwik\DbHelper;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\ConsoleCommand;
@@ -132,6 +133,16 @@ class MigrateCompliancePolicyEnforcement extends ConsoleCommand
      */
     private static function fetchLegacyPolicyFlags(string $policyClass): array
     {
+        // The legacy flags live in the plugin_setting / site_setting tables. When the
+        // instance is upgraded from a schema that predates them there is nothing to
+        // migrate, and the updater must not fail while listing the pending migrations.
+        if (
+            !DbHelper::tableExists(Common::prefixTable('plugin_setting'))
+            || !DbHelper::tableExists(Common::prefixTable('site_setting'))
+        ) {
+            return [false, []];
+        }
+
         $pluginName = Piwik::getPluginNameOfMatomoClass($policyClass);
         $flagName = $policyClass::getSystemSettingShortName();
 
