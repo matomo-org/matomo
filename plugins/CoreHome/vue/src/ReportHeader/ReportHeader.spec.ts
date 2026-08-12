@@ -369,6 +369,26 @@ describe('ReportHeader', () => {
       expect(wrapper.emitted('search')).toBeUndefined();
     });
 
+    it('should release a pending search when the header is torn down', async () => {
+      vi.useFakeTimers();
+      try {
+        const wrapper = mountComponent({ showSearch: true });
+        const input = wrapper.find('.mtm-searchInput__input');
+
+        (input.element as HTMLInputElement).value = 'gone';
+        await input.trigger('input');
+        expect(vi.getTimerCount()).toBe(1);
+
+        wrapper.unmount();
+
+        // a reload replaces the table under a header that stays put, so a debounce left running
+        // here would outlive the component it belongs to
+        expect(vi.getTimerCount()).toBe(0);
+      } finally {
+        vi.useRealTimers();
+      }
+    });
+
     it('should not let a server-pushed query revert what is being typed', async () => {
       vi.useFakeTimers();
       try {
