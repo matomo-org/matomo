@@ -52,22 +52,30 @@ describe('ReportHeader', () => {
     expect(wrapper.find('.reportHeader__title').text()).toBe('Visits Over Time');
   });
 
-  it('should always render the reserved (empty) report-actions region', () => {
+  it('should render the reserved (empty) toolbar anchor on the header line', () => {
     const wrapper = mountComponent();
 
-    expect(wrapper.find('.reportHeader__actions').exists()).toBe(true);
+    expect(wrapper.find('.reportHeader__header .reportHeader__toolbar').exists()).toBe(true);
   });
 
   it('should render the title by default', () => {
     expect(mountComponent().find('.reportHeader__title').exists()).toBe(true);
   });
 
-  it('should render nothing when there is nothing to show', () => {
+  it('should render no line at all when there is nothing to show', () => {
     const wrapper = mountComponent({ context: 'widgetized', showTitle: false });
 
-    expect(wrapper.find('.reportHeader').exists()).toBe(false);
-    expect(wrapper.find('.reportHeader__title').exists()).toBe(false);
-    expect(wrapper.find('.reportHeader__actions').exists()).toBe(false);
+    expect(wrapper.find('.reportHeader__header').exists()).toBe(false);
+    expect(wrapper.find('.reportHeader__subheader').exists()).toBe(false);
+    // Leaves the host `:empty`, which the stylesheet collapses.
+    expect(wrapper.find('.reportHeader').element.children.length).toBe(0);
+  });
+
+  it('should keep the subheader when only the search is left', () => {
+    const wrapper = mountComponent({ context: 'widgetized', showTitle: false, showSearch: true });
+
+    expect(wrapper.find('.reportHeader__header').exists()).toBe(false);
+    expect(wrapper.find('.reportHeader__subheader .reportHeader__search').exists()).toBe(true);
   });
 
   it('should render the full header when a widgetized report keeps its title', () => {
@@ -268,5 +276,140 @@ describe('ReportHeader', () => {
   it('should add the flush modifier only for a full-page report', () => {
     expect(mountComponent().classes()).not.toContain('reportHeader--flush');
     expect(mountComponent({ context: 'fullPage' }).classes()).toContain('reportHeader--flush');
+  });
+
+  describe('report search', () => {
+    it('should not render the search input by default', () => {
+      expect(mountComponent().find('.reportHeader__search').exists()).toBe(false);
+    });
+
+    it('should render the search input when showSearch is set', () => {
+      const wrapper = mountComponent({ showSearch: true });
+
+      expect(wrapper.find('.reportHeader__search .mtm-searchInput__input').exists()).toBe(true);
+    });
+
+    it('should not render the search input on a minimised widget', () => {
+      // the dashboard hides .widgetContent in this state, so there is no table left to search
+      const wrapper = mountComponent({ context: 'collapsed', showSearch: true });
+
+      expect(wrapper.find('.reportHeader__search').exists()).toBe(false);
+    });
+
+    it('should not render the search input in the widget preview', () => {
+      const wrapper = mountComponent({ context: 'preview', showSearch: true });
+
+      expect(wrapper.find('.reportHeader__search').exists()).toBe(false);
+    });
+
+    it('should render the search input on a titleless widgetized report', () => {
+      const wrapper = mountComponent({ context: 'widgetized', showTitle: false, showSearch: true });
+
+      expect(wrapper.find('.reportHeader__search .mtm-searchInput__input').exists()).toBe(true);
+    });
+
+    it('should seed the search field from searchQuery', () => {
+      const wrapper = mountComponent({ showSearch: true, searchQuery: 'pages' });
+
+      const input = wrapper.find('.mtm-searchInput__input').element as HTMLInputElement;
+      expect(input.value).toBe('pages');
+    });
+
+    it('should debounce typing into a single search dispatch', async () => {
+      vi.useFakeTimers();
+      try {
+        const wrapper = mountComponent({ showSearch: true });
+        const input = wrapper.find('.mtm-searchInput__input');
+
+        await input.setValue('a');
+        await input.setValue('ab');
+        // nothing dispatched within the debounce window
+        expect(wrapper.emitted('search')).toBeUndefined();
+
+        vi.advanceTimersByTime(300);
+        expect(wrapper.emitted('search')).toEqual([[{ keyword: 'ab' }]]);
+      } finally {
+        vi.useRealTimers();
+      }
+    });
+
+    it('should dispatch a bubbling reportheader:search CustomEvent for the jQuery bridge', async () => {
+      vi.useFakeTimers();
+      try {
+        const wrapper = mountComponent({ showSearch: true });
+        const received: string[] = [];
+        wrapper.element.addEventListener('reportheader:search', (e) => {
+          received.push((e as CustomEvent).detail.keyword);
+        });
+
+        await wrapper.find('.mtm-searchInput__input').setValue('term');
+        vi.advanceTimersByTime(300);
+
+        expect(received).toEqual(['term']);
+      } finally {
+        vi.useRealTimers();
+      }
+    });
+
+    it('should apply a clear immediately, without waiting for the debounce', async () => {
+      const wrapper = mountComponent({ showSearch: true, searchQuery: 'term' });
+
+      await wrapper.find('.mtm-searchInput__clear').trigger('click');
+
+      expect(wrapper.emitted('search')).toEqual([[{ keyword: '' }]]);
+    });
+
+    it('should sync the field from searchQuery without dispatching a search', async () => {
+      const wrapper = mountComponent({ showSearch: true });
+
+      await wrapper.setProps({ searchQuery: 'pushed' });
+
+      const input = wrapper.find('.mtm-searchInput__input').element as HTMLInputElement;
+      expect(input.value).toBe('pushed');
+      expect(wrapper.emitted('search')).toBeUndefined();
+    });
+
+    it('should release a pending search when the header is torn down', async () => {
+      vi.useFakeTimers();
+      try {
+        const wrapper = mountComponent({ showSearch: true });
+        const input = wrapper.find('.mtm-searchInput__input');
+
+        (input.element as HTMLInputElement).value = 'gone';
+        await input.trigger('input');
+        expect(vi.getTimerCount()).toBe(1);
+
+        wrapper.unmount();
+
+        // a reload replaces the table under a header that stays put, so a debounce left running
+        // here would outlive the component it belongs to
+        expect(vi.getTimerCount()).toBe(0);
+      } finally {
+        vi.useRealTimers();
+      }
+    });
+
+    it('should not let a server-pushed query revert what is being typed', async () => {
+      vi.useFakeTimers();
+      try {
+        const wrapper = mountComponent({ showSearch: true });
+        const input = wrapper.find('.mtm-searchInput__input');
+
+        (input.element as HTMLInputElement).value = 'typing';
+        await input.trigger('input');
+
+        // a reload settling mid-debounce syncs the pattern it was started with
+        await wrapper.setProps({ searchQuery: 'stale' });
+
+        expect((input.element as HTMLInputElement).value).toBe('typing');
+
+        vi.runAllTimers();
+        await wrapper.vm.$nextTick();
+        expect(wrapper.emitted('search')).toEqual([[{ keyword: 'typing' }]]);
+      } finally {
+        vi.useRealTimers();
+      }
+    });
+
   });
 });
