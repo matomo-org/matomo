@@ -58,7 +58,9 @@ class ControllerTest extends IntegrationTestCase
     private $session;
     private $enableUsersAdmin;
     private $enabledPeriodsUi;
+    private $defaultDay;
     private $superUser;
+    private $idSitesView;
     private $identity;
     private $superUserLogin;
 
@@ -80,7 +82,9 @@ class ControllerTest extends IntegrationTestCase
         $this->session = $_SESSION ?? null;
         $this->enableUsersAdmin = Config::getInstance()->General['enable_users_admin'];
         $this->enabledPeriodsUi = Config::getInstance()->General['enabled_periods_UI'];
+        $this->defaultDay = Config::getInstance()->General['default_day'];
         $this->superUser = FakeAccess::$superUser;
+        $this->idSitesView = FakeAccess::$idSitesView;
         $this->identity = FakeAccess::$identity;
         $this->superUserLogin = FakeAccess::$superUserLogin;
 
@@ -111,7 +115,9 @@ class ControllerTest extends IntegrationTestCase
 
         Config::getInstance()->General['enable_users_admin'] = $this->enableUsersAdmin;
         Config::getInstance()->General['enabled_periods_UI'] = $this->enabledPeriodsUi;
+        Config::getInstance()->General['default_day'] = $this->defaultDay;
         FakeAccess::$superUser = $this->superUser;
+        FakeAccess::$idSitesView = $this->idSitesView;
         FakeAccess::$identity = $this->identity;
         FakeAccess::$superUserLogin = $this->superUserLogin;
     }
@@ -298,7 +304,7 @@ class ControllerTest extends IntegrationTestCase
     {
         Config::getInstance()->General['enable_users_admin'] = 0;
 
-        // the current user is a super user, for whom the view access check passes for any site id
+        // a super user passes the view access check for any site id
         $_GET = ['format' => 'json'];
         $_POST = [
             'themeMode' => ThemeStyles::LIGHT_MODE,
@@ -352,7 +358,7 @@ class ControllerTest extends IntegrationTestCase
         // an admin has since dropped the range period the stored date belongs to
         Config::getInstance()->General['enabled_periods_UI'] = 'day,week,month,year';
 
-        // the form still pre-fills the stored date, so it is posted back along with everything else
+        // the form pre-fills the stored date, so it is posted back with everything else
         $_GET = ['format' => 'json'];
         $_POST = [
             'themeMode' => ThemeStyles::DARK_MODE,
@@ -369,8 +375,35 @@ class ControllerTest extends IntegrationTestCase
             'last30',
             (string) $this->getStoredPreference(UsersManagerAPI::PREFERENCE_DEFAULT_REPORT_DATE)
         );
-        // the rest of the form was saved rather than lost to the rejected date
+        // the rest of the form was saved too
         $this->assertSame(ThemeStyles::DARK_MODE, (new UserPreferences())->getThemeMode());
+    }
+
+    public function testRecordUserSettingsAcceptsConfiguredLastNDefaultDay()
+    {
+        $idSite = $this->createSiteWithUser();
+        Config::getInstance()->General['enable_users_admin'] = 0;
+
+        // an admin may configure any lastN or previousN
+        Config::getInstance()->General['default_day'] = 'last14';
+
+        // with no stored date the form pre-fills the configured default and posts it back
+        $_GET = ['format' => 'json'];
+        $_POST = [
+            'themeMode' => ThemeStyles::DARK_MODE,
+            'defaultReport' => (string) $idSite,
+            'defaultDate' => 'last14',
+            'language' => 'en',
+            'timeformat' => '0',
+        ];
+
+        $response = $this->controller->recordUserSettings();
+
+        $this->assertStringContainsString('"result":"success"', $response);
+        $this->assertSame(
+            'last14',
+            (string) $this->getStoredPreference(UsersManagerAPI::PREFERENCE_DEFAULT_REPORT_DATE)
+        );
     }
 
     public function testUserSettingsShouldNotOfferDatesOfPeriodsDisabledInTheUi()
@@ -380,9 +413,9 @@ class ControllerTest extends IntegrationTestCase
 
         $response = $this->controller->userSettings();
 
-        // the dates the form offers are json encoded into an attribute
-        $this->assertStringNotContainsString('&quot;last30&quot;', $response);
-        $this->assertStringContainsString('&quot;yesterday&quot;', $response);
+        // the offered dates are key/label pairs, the pre-filled date is a bare string
+        $this->assertStringNotContainsString('&quot;last30&quot;:', $response);
+        $this->assertStringContainsString('&quot;yesterday&quot;:', $response);
     }
 
     public function testRecordAnonymousUserSettingsReadsSettingsFromPost()
