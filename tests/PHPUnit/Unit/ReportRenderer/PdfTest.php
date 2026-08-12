@@ -11,6 +11,7 @@ namespace Piwik\Tests\Unit\ReportRenderer;
 
 use Piwik\ReportRenderer\Pdf;
 use PHPUnit\Framework\TestCase;
+use ReflectionClass;
 use ReflectionMethod;
 use ReflectionProperty;
 
@@ -19,17 +20,12 @@ use ReflectionProperty;
  */
 class PdfTest extends TestCase
 {
-    /**
-     * @return false|string
-     */
-    private function getRenderableLabelLinkUrl(string $url)
+    private function getRenderableLabelLinkUrl(string $url): ?string
     {
-        // Exercise the label link target in isolation, without building a TCPDF document.
-        $renderer = (new \ReflectionClass(Pdf::class))->newInstanceWithoutConstructor();
         $method = new ReflectionMethod(Pdf::class, 'getRenderableLabelLinkUrl');
         $method->setAccessible(true);
 
-        return $method->invoke($renderer, $url);
+        return $method->invoke($this->newRenderer(), $url);
     }
 
     public function getTestDataForGetRenderableLabelLinkUrl(): array
@@ -52,24 +48,23 @@ class PdfTest extends TestCase
 
             // A token that only looks like a scheme is a host and port, so it is completed
             // like any other scheme-less value and then dropped for not naming a domain.
-            ['http:8080/report', false],
+            ['http:8080/report', null],
 
             // Other schemes are not linkable, they render as plain label text.
-            ['ftp://example.com/quarterly-report.pdf', false],
-            ['webcal://example.com/calendar.ics', false],
+            ['ftp://example.com/quarterly-report.pdf', null],
+            ['webcal://example.com/calendar.ics', null],
 
             // Values that cannot form a usable link render as plain label text.
-            ['//example.com/report', false],
-            ['/relative/path', false],
-            ['', false],
+            ['//example.com/report', null],
+            ['/relative/path', null],
+            ['', null],
         ];
     }
 
     /**
      * @dataProvider getTestDataForGetRenderableLabelLinkUrl
-     * @param false|string $expected
      */
-    public function testGetRenderableLabelLinkUrl(string $url, $expected): void
+    public function testGetRenderableLabelLinkUrl(string $url, ?string $expected): void
     {
         self::assertSame($expected, $this->getRenderableLabelLinkUrl($url));
     }
@@ -109,7 +104,7 @@ class PdfTest extends TestCase
             }
         };
 
-        $renderer = (new \ReflectionClass(Pdf::class))->newInstanceWithoutConstructor();
+        $renderer = $this->newRenderer();
         $this->setPrivateProperty($renderer, 'TCPDF', $tcpdf);
         $this->setPrivateProperty($renderer, 'labelCellWidth', 80.0);
 
@@ -123,9 +118,17 @@ class PdfTest extends TestCase
     }
 
     /**
+     * Exercises the label rendering in isolation, without building a TCPDF document.
+     */
+    private function newRenderer(): Pdf
+    {
+        return (new ReflectionClass(Pdf::class))->newInstanceWithoutConstructor();
+    }
+
+    /**
      * @param mixed $value
      */
-    private function setPrivateProperty(object $renderer, string $name, $value): void
+    private function setPrivateProperty(Pdf $renderer, string $name, $value): void
     {
         $property = new ReflectionProperty(Pdf::class, $name);
         $property->setAccessible(true);

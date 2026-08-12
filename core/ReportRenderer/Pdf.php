@@ -615,8 +615,8 @@ class Pdf extends ReportRenderer
         float &$logoWidth,
         float &$logoHeight
     ): void {
-        $linkUrl = $url ? $this->getRenderableLabelLinkUrl($url) : false;
-        if ($linkUrl !== false) {
+        $linkUrl = $url ? $this->getRenderableLabelLinkUrl($url) : null;
+        if ($linkUrl !== null) {
             $this->TCPDF->Link($posX, $posY, $this->labelCellWidth, $rowHeight, $linkUrl);
         }
         $this->TCPDF->SetXY($posX + $this->labelCellWidth, $posY);
@@ -648,24 +648,22 @@ class Pdf extends ReportRenderer
     }
 
     /**
-     * Returns the URL a row's label should link to, or false to render it as plain text.
+     * Returns the URL a row's label should link to, or null to render it as plain text.
      *
      * Scheme-less values are completed with https, so bare domain rows stay clickable.
      * Schemes outside the link allowlist are not linked.
-     *
-     * @return false|string
      */
-    private function getRenderableLabelLinkUrl(string $url)
+    private function getRenderableLabelLinkUrl(string $url): ?string
     {
         // parse_url(), not a regex: example.com:8080/path is a host and port, not a scheme.
         if (!parse_url($url, PHP_URL_SCHEME)) {
             $url = $this->isUrl($url);
             if ($url === false) {
-                return false;
+                return null;
             }
         }
 
-        return UrlHelper::isLookLikeSafeUrl($url) ? $url : false;
+        return UrlHelper::isLookLikeSafeUrl($url) ? $url : null;
     }
 
     /**
