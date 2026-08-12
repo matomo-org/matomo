@@ -41,7 +41,7 @@
         "VisitsLog": "Visits Log",
         "DisableVisitsLogAndProfile": "Turn off Visits log and Visitor profiles",
         "VisitsLogAndProfileDisabledPolicySettingTitle": "Visits Log and Visitor Profiles Disabled",
-        "DisableVisitsLogAndProfileWhatItDoes": "Visits Log and Visitor Profile features are disabled. This prevents an individual visitor's browsing path and detailed visit-level behaviour from being reconstructed.",
+        "DisableVisitsLogAndProfileWhatItDoes": "Visits Log and Visitor Profile features are disabled.<br><br>This prevents an individual visitor's browsing path and detailed visit-level behaviour from being reconstructed.",
         "DisableVisitsLogAndProfileImpact": "Visitors > Visits Log and Visitor Profile views are unavailable.",
         "DisableVisitsLogAndProfileDescription": "Also removes features that depend on these, like the e-commerce log, the segmented visits-log, the real-time map or the real-time widget. May be required to comply with local privacy laws\/guidelines.",
         "EnableAggregatedRealtimeReports": "Enable aggregated real-time reports",
