@@ -17,6 +17,7 @@ use Piwik\Common;
 use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
+use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Nonce;
 use Piwik\Notification;
 use Piwik\Option;
@@ -174,9 +175,13 @@ class Controller extends ControllerAdmin
      * Returns the enabled dates that users can select,
      * in their User Settings page "Report date to load by default"
      *
+     * @param bool $includeDisabledPeriods whether to also return the dates whose period is not
+     *                                     enabled in [General] enabled_periods_UI. The forms must
+     *                                     not offer those, but a date stored before an admin
+     *                                     narrowed that setting is still submitted back by them.
      * @return array
      */
-    protected function getDefaultDates()
+    protected function getDefaultDates(bool $includeDisabledPeriods = false)
     {
         $dates = array(
             'today'      => $this->translator->translate('Intl_Today'),
@@ -207,9 +212,11 @@ class Controller extends ControllerAdmin
             throw new Exception("some metadata is missing in getDefaultDates()");
         }
 
-        $allowedPeriods = self::getEnabledPeriodsInUI();
-        $allowedDates = array_intersect($mappingDatesToPeriods, $allowedPeriods);
-        $dates = array_intersect_key($dates, $allowedDates);
+        if (!$includeDisabledPeriods) {
+            $allowedPeriods = self::getEnabledPeriodsInUI();
+            $allowedDates = array_intersect($mappingDatesToPeriods, $allowedPeriods);
+            $dates = array_intersect_key($dates, $allowedDates);
+        }
 
         /**
          * Triggered when the list of available dates is requested, for example for the
@@ -376,11 +383,13 @@ class Controller extends ControllerAdmin
     {
         Piwik::checkUserIsNotAnonymous();
 
-        // after a password confirmation the action arrives as a GET
-        $idTokenAuth = \Piwik\Request::fromPost()->getStringParameter(
-            'idtokenauth',
-            \Piwik\Request::fromGet()->getStringParameter('idtokenauth', '')
-        );
+        $postRequest = \Piwik\Request::fromPost();
+        $postRequestHasData = count($postRequest->getParameters());
+
+        // after a password confirmation the action arrives as a GET, without a post body
+        $idTokenAuth = $postRequestHasData
+            ? $postRequest->getStringParameter('idtokenauth', '')
+            : \Piwik\Request::fromGet()->getStringParameter('idtokenauth', '');
 
         if (!empty($idTokenAuth)) {
             // the forms only submit 'all' or a token id
@@ -725,11 +734,16 @@ class Controller extends ControllerAdmin
     }
 
     /**
-     * @throws Exception if the date is not one the settings forms offer
+     * The unfiltered list is used on purpose: the forms pre-fill the stored date, which does not
+     * have to belong to a period that is still enabled in the UI. Rejecting it would leave the
+     * whole form unsavable. Storing it stays harmless, as UserPreferences falls back to the system
+     * default when it reads a date whose period is disabled.
+     *
+     * @throws Exception if the date is not one of the known default dates
      */
     private function getValidatedDefaultDate(string $defaultDate): string
     {
-        if (!array_key_exists($defaultDate, $this->getDefaultDates())) {
+        if (!array_key_exists($defaultDate, $this->getDefaultDates(true))) {
             throw new Exception('Invalid default date');
         }
 
@@ -746,8 +760,13 @@ class Controller extends ControllerAdmin
             return $defaultReport;
         }
 
-        if (ctype_digit($defaultReport) && $this->isSiteViewableByUser((int) $defaultReport, $userLogin)) {
-            return $defaultReport;
+        if (ctype_digit($defaultReport)) {
+            $idSite = (int) $defaultReport;
+
+            if ($this->isSiteViewableByUser($idSite, $userLogin)) {
+                // normalised, so that a padded id such as '007' is not stored verbatim
+                return (string) $idSite;
+            }
         }
 
         throw new Exception('Invalid default report');
@@ -756,7 +775,18 @@ class Controller extends ControllerAdmin
     private function isSiteViewableByUser(int $idSite, string $userLogin): bool
     {
         if ($userLogin === Piwik::getCurrentUserLogin()) {
-            return Piwik::isUserHasViewAccess($idSite);
+            if (!Piwik::isUserHasViewAccess($idSite)) {
+                return false;
+            }
+
+            try {
+                // view access short-circuits for super users, so confirm the site still exists
+                new Site($idSite);
+            } catch (UnexpectedWebsiteFoundException $e) {
+                return false;
+            }
+
+            return true;
         }
 
         // a super user may record settings for another login, whose access has to be looked up directly
