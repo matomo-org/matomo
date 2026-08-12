@@ -262,6 +262,7 @@ class Login extends \Piwik\Plugin
         $stylesheetFiles[] = "plugins/Login/stylesheets/login.less";
         $stylesheetFiles[] = "plugins/Login/stylesheets/loginLayout.less";
         $stylesheetFiles[] = "plugins/Login/stylesheets/loginForm.less";
+        $stylesheetFiles[] = "plugins/Login/stylesheets/loginWhatsNew.less";
     }
 
     /**

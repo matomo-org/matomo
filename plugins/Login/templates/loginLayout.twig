@@ -52,6 +52,13 @@
                 <div class="loginLayout__footerLinks">{{ footerLinks }}</div>
             {% endif %}
         </div>
+
+        {# The secondary column is dropped entirely when there is nothing to show in it. #}
+        {% if whatsNewChanges is defined and whatsNewChanges is not empty %}
+            <div class="loginLayout__secondary">
+                {% include '@Login/_whatsNewPanel.twig' with { 'changes': whatsNewChanges } %}
+            </div>
+        {% endif %}
     </div>
 
 {% endblock %}
