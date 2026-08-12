@@ -1,18 +1,35 @@
 // Widget controls are visible unless the host opts into hover-reveal with the
 // `__reportHeader-onHover` hook.
 .reportHeader {
+  // One element per line: the header, then the subheader. Both are mounted only when they have
+  // something to show, so the gap never applies to a line that is not there.
   display: flex;
-  align-items: flex-start;
-  gap: 20px;
+  flex-direction: column;
+  gap: 12px;
   border-radius: 8px;
   padding: 20px;
 
-  .reportHeader__main {
-    flex: auto;
-    min-width: 0;
+  // A titleless widgetized report with no search has neither line; collapse instead of leaving
+  // a padded box behind.
+  &:empty {
+    display: none;
+  }
+
+  .reportHeader__header {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .reportHeader__subheader {
+    display: flex;
+    align-items: safe center;
+    gap: 20px;
   }
 
   .reportHeader__title {
+    flex: auto;
+    min-width: 0;
     margin: 0;
     // Neutralises the global padding applied to title tags
     padding: 0;
@@ -32,6 +49,11 @@
     text-decoration: none;
   }
 
+  .reportHeader__search {
+    flex: auto;
+    max-width: 300px;
+  }
+
   .reportHeader__widgetControls {
     flex: none;
     display: flex;
@@ -47,7 +69,7 @@
     }
   }
 
-  .reportHeader__actions {
+  .reportHeader__toolbar {
     flex: none;
     display: flex;
     align-items: safe center;

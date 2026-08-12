@@ -119,25 +119,6 @@
     ><span class="icon-annotation"></span></a>
 
     <a
-      v-if="showSearch"
-      class="dropdown-button dataTableAction searchAction"
-      href=""
-      :title="translate('General_Search')"
-      style="margin-right:3.5px"
-      draggable="false"
-      @click.prevent
-    >
-      <span class="icon-search" draggable="false"></span>
-      <span class="icon-close" draggable="false" :title="translate('CoreHome_CloseSearch')"></span>
-      <input
-        :id="`widgetSearch_${reportId}_${placement}`"
-        :title="translate('CoreHome_DataTableHowToSearch')"
-        type="text"
-        class="dataTableSearchInput"
-      />
-    </a>
-
-    <a
       v-for="action in dataTableActions"
       :key="action.id"
       :class="`dataTableAction ${action.id}`"
@@ -292,6 +273,8 @@ export default defineComponent({
     showPeriods: Boolean,
     showFooter: Boolean,
     showFooterIcons: Boolean,
+    // Not used in this component: dataTable.js reads it to decide whether the ReportHeader shows
+    // a search input for this report.
     showSearch: Boolean,
     showFlattenTable: Boolean,
     reportSupportsFlatten: Boolean,
