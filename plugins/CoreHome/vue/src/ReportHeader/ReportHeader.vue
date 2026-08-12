@@ -234,9 +234,10 @@ export default defineComponent({
     isFullPage(): boolean {
       return this.context === 'fullPage';
     },
-    // Search is offered on real reports, but never in the widget preview (a static thumbnail).
+    // Search is offered on real reports, but not where there is no table to search: the widget
+    // preview is a static thumbnail, and a minimised widget has its content hidden.
     canSearch(): boolean {
-      return this.showSearch && this.context !== 'preview';
+      return this.showSearch && this.context !== 'preview' && this.context !== 'collapsed';
     },
     titleText(): string {
       return this.reportTitle || this.title;

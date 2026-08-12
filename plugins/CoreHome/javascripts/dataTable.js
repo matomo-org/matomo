@@ -256,12 +256,26 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             };
         }
 
-        // Each reload supersedes any still-pending one on this table: tag it and apply only the
+        // Each reload of the root table supersedes any still-pending one: tag it and apply only the
         // latest response, so an out-of-order response (e.g. a slow search-as-you-type reload)
         // cannot overwrite a newer reload - another search, a sort, paging, a period or a
         // visualization change. Errors from a superseded reload are dropped too.
-        self._reloadGeneration = (self._reloadGeneration || 0) + 1;
-        var reloadGeneration = self._reloadGeneration;
+        //
+        // Loading a subtable is deliberately left out of that sequence. It reuses the parent's
+        // instance but renders into its own div, so it neither supersedes a pending root reload nor
+        // is superseded by one. Guarding it would strand the row for good: handleSubDataTable()
+        // marks it loaded synchronously, so a dropped response never gets refetched.
+        var isSubtableLoad = !!self.param.idSubtable;
+        var reloadGeneration = null;
+
+        if (!isSubtableLoad) {
+            self._reloadGeneration = (self._reloadGeneration || 0) + 1;
+            reloadGeneration = self._reloadGeneration;
+        }
+
+        var isSupersededReload = function () {
+            return reloadGeneration !== null && reloadGeneration !== self._reloadGeneration;
+        };
 
         if (displayLoading) {
             $('#' + self.workingDivId + ' .loadingPiwik').last().css('display', 'block');
@@ -323,7 +337,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 // Bail before the teardown below, not just before applying the response: destroying
                 // the plot and unbinding its handler would otherwise leave the newer reload's graph
                 // torn down with nothing drawn in its place.
-                if (reloadGeneration !== self._reloadGeneration) {
+                if (isSupersededReload()) {
                     return;
                 }
                 container.trigger('piwikDestroyPlot');
@@ -332,7 +346,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             }
         );
         ajaxRequest.setErrorCallback(function (deferred, status) {
-            if (reloadGeneration !== self._reloadGeneration
+            if (isSupersededReload()
                 || status == 'abort' || !deferred || deferred.status < 400 || deferred.status >= 600) {
                 return;
             }
@@ -839,7 +853,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
     // Drives the report search rendered in the shared ReportHeader. The input and its debounce
     // belong to the Vue component; here we only push state into it and apply the keyword it emits.
-    handleSearchBox: function (domElem, callbackSuccess) {
+    handleSearchBox: function (domElem) {
         var self = this;
 
         // Subtables reuse the parent report's header and have no search of their own. Both signals
@@ -900,7 +914,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
     // Applies a search keyword to the report and reloads it. An empty keyword clears a previous
     // search. Called from the ReportHeader search bridge in handleSearchBox.
-    searchForPattern: function (keyword, callbackSuccess) {
+    searchForPattern: function (keyword) {
         var self = this;
         keyword = keyword || '';
 
@@ -932,7 +946,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
         delete self.param.totalRows;
 
-        self.reloadAjaxDataTable(true, callbackSuccess);
+        self.reloadAjaxDataTable(true);
     },
 
     //behaviour for '< prev' 'next >' links and page count

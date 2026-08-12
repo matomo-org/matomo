@@ -73,7 +73,7 @@
                 };
 
                 self.handleConfigurationBox(domElem, dataTableLoadedProxy);
-                self.handleSearchBox(domElem, dataTableLoadedProxy);
+                self.handleSearchBox(domElem);
             }
 
             self.handleColumnDocumentation(domElem);

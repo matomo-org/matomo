@@ -289,6 +289,13 @@ describe('ReportHeader', () => {
       expect(wrapper.find('.reportHeader__search .mtm-searchInput__input').exists()).toBe(true);
     });
 
+    it('should not render the search input on a minimised widget', () => {
+      // the dashboard hides .widgetContent in this state, so there is no table left to search
+      const wrapper = mountComponent({ context: 'collapsed', showSearch: true });
+
+      expect(wrapper.find('.reportHeader__search').exists()).toBe(false);
+    });
+
     it('should not render the search input in the widget preview', () => {
       const wrapper = mountComponent({ context: 'preview', showSearch: true });
 
@@ -361,5 +368,28 @@ describe('ReportHeader', () => {
       expect(input.value).toBe('pushed');
       expect(wrapper.emitted('search')).toBeUndefined();
     });
+
+    it('should not let a server-pushed query revert what is being typed', async () => {
+      vi.useFakeTimers();
+      try {
+        const wrapper = mountComponent({ showSearch: true });
+        const input = wrapper.find('.mtm-searchInput__input');
+
+        (input.element as HTMLInputElement).value = 'typing';
+        await input.trigger('input');
+
+        // a reload settling mid-debounce syncs the pattern it was started with
+        await wrapper.setProps({ searchQuery: 'stale' });
+
+        expect((input.element as HTMLInputElement).value).toBe('typing');
+
+        vi.runAllTimers();
+        await wrapper.vm.$nextTick();
+        expect(wrapper.emitted('search')).toEqual([[{ keyword: 'typing' }]]);
+      } finally {
+        vi.useRealTimers();
+      }
+    });
+
   });
 });
