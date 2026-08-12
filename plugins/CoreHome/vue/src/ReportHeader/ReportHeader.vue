@@ -7,14 +7,14 @@
 
 <template>
   <div
-    v-if="!isEmpty"
     class="reportHeader"
     :class="{
       'reportHeader--flush': isFullPage && !plainTitle,
       'reportHeader--plainTitle': plainTitle,
     }"
   >
-    <div class="reportHeader__main">
+    <!-- First line: the title, the widget controls and the report's own menu. -->
+    <div v-if="!isEmpty" class="reportHeader__header">
       <!-- `.widgetName` and the nested <span> are an external hook dataTable.js,
            SingleMetricView and UserCountryMap look for. `.self` stops the key handlers
            cancelling links EnrichedHeadline renders inside the heading. -->
@@ -41,35 +41,54 @@
         <span v-else>{{ titleText }}</span>
       </component>
       <span v-if="!isFullPage" class="u-visuallyHidden">{{ translate('General_Widget') }}</span>
+
+      <!-- Widget controls: hidden until the widget is hovered/focused. Each action emits an
+           intent that onControl() bridges to the jQuery widget. -->
+      <div class="reportHeader__widgetControls">
+        <WidgetControls
+          v-if="hasControls"
+          :can-minimise="controls.minimise"
+          :can-maximise="controls.maximise"
+          :can-refresh="controls.refresh"
+          :can-close="controls.close"
+          @minimise="onControl('minimise')"
+          @maximise="onControl('maximise')"
+          @refresh="onControl('refresh')"
+          @close="onControl('close')"
+        />
+      </div>
+
+      <!-- Reserved anchor for the report's 3-dots menu, which will host the report actions
+           (visualisation switcher, export, ...). Filled by a later story; left with no children
+           here so it stays `:empty` and claims none of the header's gap. -->
+      <div class="reportHeader__toolbar" />
     </div>
 
-    <!-- Widget controls: an inline action row, hidden until the widget is hovered/focused.
-         Each action emits an intent that onControl() bridges to the jQuery widget. -->
-    <div class="reportHeader__widgetControls">
-      <WidgetControls
-        v-if="hasControls"
-        :can-minimise="controls.minimise"
-        :can-maximise="controls.maximise"
-        :can-refresh="controls.refresh"
-        :can-close="controls.close"
-        @minimise="onControl('minimise')"
-        @maximise="onControl('maximise')"
-        @refresh="onControl('refresh')"
-        @close="onControl('close')"
-      />
+    <!-- Second line, mounted independently of the first so a titleless report still gets its
+         search. Only the search lives here today; a later story adding a sibling must widen the
+         condition below. -->
+    <div v-if="canSearch" class="reportHeader__subheader">
+      <div class="reportHeader__search">
+        <SearchInput
+          :model-value="query"
+          :placeholder="searchPlaceholder"
+          :show-clear="true"
+          @update:model-value="onQueryInput"
+        />
+      </div>
     </div>
-
-    <!-- Reserved anchor for report actions (visualisation switcher, export, ...).
-         Populated by a later story; intentionally empty here. -->
-    <div class="reportHeader__actions" />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 import EnrichedHeadline from '../EnrichedHeadline/EnrichedHeadline.vue';
+import SearchInput from '../SearchInput/SearchInput.vue';
 import WidgetControls from '../WidgetControls/WidgetControls.vue';
 import { translate } from '../translate';
+
+// A search is a full DataTable reload, so debounce to avoid one on every keystroke.
+const SEARCH_DEBOUNCE_MS = 300;
 
 export interface ControlVisibility {
   minimise: boolean;
@@ -133,7 +152,7 @@ export default defineComponent({
     enriched: Boolean,
     // Keeps the plain heading metrics of a report that is not shown in a card.
     plainTitle: Boolean,
-    // A titleless widgetized embed still mounts the header as an actions anchor, so only the
+    // A titleless widgetized embed still mounts the subheader for its search, so only the
     // heading is suppressed, not the whole component.
     showTitle: {
       type: Boolean,
@@ -161,12 +180,44 @@ export default defineComponent({
       type: String,
       default: '',
     },
+    // Shows the search input; dataTable.js drives it from the report's `show_search` config.
+    showSearch: Boolean,
+    // Current server-side pattern, pushed back after each reload to keep the field in sync.
+    searchQuery: {
+      type: String,
+      default: '',
+    },
+    searchPlaceholder: {
+      type: String,
+      default: '',
+    },
   },
   components: {
     EnrichedHeadline,
+    SearchInput,
     WidgetControls,
   },
-  emits: ['minimise', 'maximise', 'refresh', 'close', 'titleClick'],
+  emits: ['minimise', 'maximise', 'refresh', 'close', 'titleClick', 'search'],
+  data() {
+    return {
+      // Local mirror of the field, seeded from `searchQuery`.
+      query: this.searchQuery,
+      searchDebounceTimer: null as ReturnType<typeof setTimeout> | null,
+    };
+  },
+  watch: {
+    searchQuery(value: string) {
+      // Server-driven update; reflect it into the field without dispatching another search.
+      // Skip while a search is pending: a reload syncing the previous pattern back would
+      // otherwise revert the user's in-flight typing.
+      if (this.searchDebounceTimer) {
+        return;
+      }
+      if (value !== this.query) {
+        this.query = value;
+      }
+    },
+  },
   computed: {
     controls(): ControlVisibility {
       return CONTROLS_BY_CONTEXT[this.context] || CONTROLS_BY_CONTEXT.widgetized;
@@ -175,13 +226,18 @@ export default defineComponent({
       const c = this.controls;
       return c.minimise || c.maximise || c.refresh || c.close;
     },
-    // No title and no controls to render. Actions are always empty today; a later story that adds
-    // them must widen this so the full header comes back.
+    // Whether the header line has nothing to render. Only that line is dropped: the subheader
+    // below it is mounted independently, so a titleless widgetized report still gets its search.
     isEmpty(): boolean {
       return !this.showTitle && !this.hasControls;
     },
     isFullPage(): boolean {
       return this.context === 'fullPage';
+    },
+    // Search is offered on real reports, but not where there is no table to search: the widget
+    // preview is a static thumbnail, and a minimised widget has its content hidden.
+    canSearch(): boolean {
+      return this.showSearch && this.context !== 'preview' && this.context !== 'collapsed';
     },
     titleText(): string {
       return this.reportTitle || this.title;
@@ -210,6 +266,35 @@ export default defineComponent({
       // widget) can bridge control intents back to their existing handlers.
       this.$el.dispatchEvent(new CustomEvent(`widgetcontrol:${intent}`, { bubbles: true }));
     },
+    onQueryInput(value: string) {
+      this.query = value;
+      if (this.searchDebounceTimer) {
+        clearTimeout(this.searchDebounceTimer);
+        this.searchDebounceTimer = null;
+      }
+      if (!value) {
+        // Clearing applies immediately so all results come back without a pause.
+        this.dispatchSearch(value);
+        return;
+      }
+      this.searchDebounceTimer = setTimeout(() => this.dispatchSearch(value), SEARCH_DEBOUNCE_MS);
+    },
+    dispatchSearch(keyword: string) {
+      this.searchDebounceTimer = null;
+      // Re-emit for Vue-native consumers...
+      this.$emit('search', { keyword });
+
+      // ...and dispatch a bubbling native event so the jQuery DataTable can apply the filter.
+      this.$el.dispatchEvent(new CustomEvent('reportheader:search', {
+        bubbles: true,
+        detail: { keyword },
+      }));
+    },
+  },
+  beforeUnmount() {
+    if (this.searchDebounceTimer) {
+      clearTimeout(this.searchDebounceTimer);
+    }
   },
 });
 </script>

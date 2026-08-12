@@ -111,23 +111,23 @@ describe("ActionsDataTable", function () {
         expect(await page.screenshot({ fullPage: true })).to.matchImage('unique_pageview_percentages');
     });
 
-    it("should show the search when clicking on the search icon", async function() {
-        await page.click('.dataTableAction.searchAction');
+    it("should show the search input in the report header", async function() {
         await page.mouse.move(-10, -10);
         await page.waitForTimeout(500);
         expect(await page.screenshot({ fullPage: true })).to.matchImage('search_visible');
     });
 
-    it("should search through table when search input entered and search button clicked and input should be visible", async function() {
-        await page.type('.searchAction .dataTableSearchInput', 'i');
-        await page.click('.searchAction .icon-search');
+    it("should search through the table as a keyword is typed in the header search", async function() {
+        await page.type('.reportHeader__search .mtm-searchInput__input', 'i');
+        // the search is debounced; waitForNetworkIdle waits it out (its idle threshold exceeds the
+        // debounce delay) and then for the reload it triggers to settle
         await page.waitForNetworkIdle();
         await page.mouse.move(-10, -10);
         expect(await page.screenshot({ fullPage: true })).to.matchImage('search');
     });
 
-    it("should close search when clicking on the x icon", async function() {
-        await page.click('.searchAction .icon-close');
+    it("should clear the search when clicking the clear button", async function() {
+        await page.click('.reportHeader__search .mtm-searchInput__clear');
         await page.waitForNetworkIdle();
         await page.mouse.move(-10, -10);
         expect(await page.screenshot({ fullPage: true })).to.matchImage('search_closed');
@@ -172,5 +172,34 @@ describe("ActionsDataTable", function () {
         // fix it dumped the raw combined segment instead, e.g. 'Segment is "visitCount>=1 and
         // pageUrl==http://example.org/index.htm"', leaking the applied segment and the raw operator.
         expect(title).to.equal('Visits log showing visits where Page URL is "http://example.org/index.htm"');
+    });
+
+    it("should load both subtables when two rows are expanded before either responds", async function () {
+        await page.goto(url);
+        await page.waitForNetworkIdle();
+
+        // Both clicks land in the same tick, so the second request starts while the first is still
+        // in flight. Subtable loads run through the parent's reloadAjaxDataTable(), so a reload
+        // generation shared with the root table dropped the first response here - and the row is
+        // marked loaded synchronously, so clicking it again never refetched: the spinner stayed.
+        const opened = await page.evaluate(function () {
+            var rows = document.querySelectorAll('tr.subDataTable');
+            rows[0].click();
+            rows[2].click();
+            // each click inserts a placeholder row carrying the spinner, replaced once its response
+            // is applied
+            return document.querySelectorAll('tr.cellSubDataTable').length;
+        });
+        expect(opened).to.equal(2);
+
+        await page.waitForNetworkIdle();
+
+        // a dropped response leaves its placeholder spinning for good: the row is already marked
+        // loaded, so clicking it again never refetches
+        const stillLoading = await page.$$eval(
+            'tr.cellSubDataTable .loadingPiwik',
+            function (els) { return els.length; }
+        );
+        expect(stillLoading).to.equal(0);
     });
 });
