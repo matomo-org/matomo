@@ -39,8 +39,37 @@
   // granular per-setting dashboard: status label text stays neutral,
   // only the icons carry colour
   .granularCompliance {
+    // fixed layout keeps the column widths stable so toggling a setting (which
+    // changes the status label and icon) never reflows the table, and gives the
+    // description and impact columns the room they need to stay readable
+    table-layout: fixed;
+    width: 100%;
+
+    th:nth-child(1),
+    td:nth-child(1) {
+      width: 16%;
+    }
+
+    th:nth-child(2),
+    td:nth-child(2) {
+      width: 34%;
+    }
+
+    th:nth-child(3),
+    td:nth-child(3) {
+      width: 30%;
+    }
+
+    th:nth-child(4),
+    td:nth-child(4) {
+      width: 13%;
+    }
+
     .status {
       color: @theme-color-text;
+      // fixed layout holds the width, so a long label like "Applies on save"
+      // wraps within the column instead of forcing the table wider
+      white-space: normal;
 
       &.compliant .icon,
       &.enforced .icon {
@@ -63,7 +92,7 @@
     }
 
     .toggleColumn {
-      width: 4rem;
+      width: 7%;
       text-align: right;
     }
 

@@ -581,7 +581,7 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_ComplianceEnforceAllDescription';
         $translationKeys[] = 'PrivacyManager_ComplianceStatusExplanation';
         $translationKeys[] = 'PrivacyManager_ComplianceEnforceAllSettings';
-        $translationKeys[] = 'PrivacyManager_ComplianceTableWhatItDoes';
+        $translationKeys[] = 'General_Description';
         $translationKeys[] = 'PrivacyManager_ComplianceTableImpact';
         $translationKeys[] = 'PrivacyManager_ComplianceStatusEnforced';
         $translationKeys[] = 'PrivacyManager_ComplianceStatusAppliesOnSave';
