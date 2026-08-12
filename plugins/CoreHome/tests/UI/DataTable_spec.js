@@ -26,8 +26,8 @@ describe('DataTable', function () {
     configureTrigger: `${widgetSelector} .dataTableHeaderControls .dataTableControls a.dropdownConfigureIcon`,
     totalsRowToggle: '.dataTableShowTotalsRow',
     percentageValuesToggle: '.dataTableShowPercentageValues',
-    searchTrigger: `${widgetSelector} .dataTableHeaderControls .dataTableControls a.dataTableAction.searchAction`,
-    searchInput: `${widgetSelector} .dataTableHeaderControls .dataTableControls input.dataTableSearchInput`,
+    // scoped to the widget: the page shows four reports, each with its own header search
+    searchInput: `${widgetSelector} .reportHeader__search .mtm-searchInput__input`,
     totalsRow: `${widgetSelector} table.dataTable tr.totalsRow`,
     footerMessage: `${widgetSelector} .datatableFooterMessage`,
   };
@@ -115,11 +115,11 @@ describe('DataTable', function () {
   }
 
   async function searchForPattern(pattern) {
-    await page.waitForSelector(selectors.searchTrigger, { visible: true });
-    await page.click(selectors.searchTrigger);
     await page.waitForSelector(selectors.searchInput, { visible: true });
-    await page.type(selectors.searchInput, pattern);
-    await page.keyboard.press('Enter');
+    await page.focus(selectors.searchInput);
+    await page.keyboard.type(pattern);
+    // the search is debounced; waitForNetworkIdle waits it out (its idle threshold exceeds the
+    // debounce delay) and then for the reload it triggers to settle
     await page.waitForNetworkIdle();
   }
 
