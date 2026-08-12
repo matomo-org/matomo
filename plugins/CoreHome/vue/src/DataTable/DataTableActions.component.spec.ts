@@ -150,6 +150,9 @@ describe('DataTableActions rendered actions', () => {
     });
   }
 
+  // The next two lock the contract the move into the header must preserve, not the move itself:
+  // they pass against the pre-move component too. Third-party plugins reach their own actions
+  // through `a.dataTableAction.<id>`, so that selector holding still is what keeps them working.
   it('should render each action only when its own flag is set', () => {
     const off = mountComponent();
     expect(off.find('a.activateExportSelection').exists()).toBe(false);

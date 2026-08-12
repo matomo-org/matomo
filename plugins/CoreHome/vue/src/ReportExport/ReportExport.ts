@@ -33,6 +33,13 @@ export default {
       // `data-report` sits on `.dataTable`, so this must resolve through the report scope: the
       // export icon is moving up into the header, which is rendered outside the table.
       const dataTable = findReportRoot(el).data('uiControlObject');
+      if (!dataTable) {
+        // The report this icon belongs to has no table yet, so there is nothing to describe. Bail
+        // before opening the popover: it has no close button while loading, so a throw past this
+        // point strands it on screen.
+        return;
+      }
+
       const popover = window.Piwik_Popover.showLoading('Export');
 
       const formats = binding.value.reportFormats;

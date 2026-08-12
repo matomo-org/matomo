@@ -117,6 +117,40 @@ describe('findReportRoot', () => {
     expect(findReportRoot(control('icon'))[0]).toBe(document.querySelector('#inner'));
   });
 
+  // A widget renders its header before its table, so between the two there is a window where the
+  // control exists and its own report does not. Climbing past the report then lands on whatever
+  // wrapper holds the column, whose first table belongs to the *next* widget down.
+  it('should not resolve to a neighbouring report while its own report has no table yet', () => {
+    document.body.innerHTML = `
+      <div class="col">
+        <div class="widget" id="loading">
+          <div class="widgetTop"><div vue-entry="CoreHome.ReportHeader"><a id="icon"></a></div></div>
+          <div class="widgetContent"></div>
+        </div>
+        <div class="widget">
+          <div class="widgetTop"><div vue-entry="CoreHome.ReportHeader"></div></div>
+          <div class="widgetContent"><div class="dataTable" id="neighbour"></div></div>
+        </div>
+      </div>`;
+
+    expect(findReportRoot(control('icon')).length).toBe(0);
+  });
+
+  // Same ambiguity without the loading window: a container widget pairing two reports under one
+  // header gives its chrome controls no single report to act on.
+  it('should return an empty set for a control shared by two reports', () => {
+    document.body.innerHTML = `
+      <div class="widget">
+        <div class="widgetTop"><div vue-entry="CoreHome.ReportHeader"><a id="icon"></a></div></div>
+        <div class="widgetContent">
+          <div class="dataTable" id="first"></div>
+          <div class="dataTable" id="second"></div>
+        </div>
+      </div>`;
+
+    expect(findReportRoot(control('icon')).length).toBe(0);
+  });
+
   it('should return an empty set when there is no report to find', () => {
     document.body.innerHTML = '<div class="pageWrap"><a id="icon"></a></div>';
 

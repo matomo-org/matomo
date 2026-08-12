@@ -1976,13 +1976,42 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         return $('h2', domElem);
     },
 
+    // Locates the shared ReportHeader that titles this report, together with the element that
+    // scopes the two of them. Returns empty sets when this report has no header beside it.
+    // _findReportScope() needs the scope and _findReportHeaderApp() needs the header, and the two
+    // have to recognise the same DOM shapes: a report whose controls are widened into the header
+    // but whose header is not found loses its search, and vice versa.
+    _locateReportHeader: function (domElem) {
+        // Full-page report: the header precedes the table inside the wrapper. Usually it is the
+        // table's own previous sibling, but an empty titled report gets an extra `.card >
+        // .card-content` between the two (_dataTable.twig), so climb a couple of levels looking
+        // for it.
+        var $node = domElem;
+        for (var depth = 0; depth < 3 && $node.length; depth += 1) {
+            var $header = $node.prev('[vue-entry="CoreHome.ReportHeader"]');
+            if ($header.length) {
+                return { $header: $header, $scope: $node.parent() };
+            }
+            $node = $node.parent();
+        }
+
+        // A widget renders it in the widget chrome instead.
+        var $widget = domElem.parents('.widget').first();
+        var $widgetHeader = $widget.find('.widgetTop [vue-entry="CoreHome.ReportHeader"]').first();
+        if ($widgetHeader.length) {
+            return { $header: $widgetHeader, $scope: $widget };
+        }
+
+        return { $header: $(), $scope: $() };
+    },
+
     // Returns the element that scopes one report: the wrapper holding both the shared ReportHeader
     // and this table, so an action handler finds its controls whether they are rendered inside the
-    // table or up in the header. Mirrors the two adjacencies _findReportHeaderApp() relies on.
+    // table or up in the header.
     //
-    // Falls back to the table itself whenever no header is adjacent - a subtable, or a report
-    // rendered without a title and without a wrapper - because widening there would reach into a
-    // sibling report on the same page.
+    // Falls back to the table itself whenever widening cannot be attributed to this report alone -
+    // a subtable, a report rendered without a title and without a wrapper, or a container widget
+    // holding several reports - because widening there would reach into another report.
     _findReportScope: function (domElem) {
         // Subtables reuse the parent report's header and have no controls of their own, so they must
         // never widen: doing so would rebind the parent's controls to the subtable's instance.
@@ -1992,36 +2021,25 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             return domElem;
         }
 
-        // Full-page report: the header precedes the table inside the wrapper. Usually it is the
-        // table's own previous sibling, but an empty titled report gets an extra `.card >
-        // .card-content` between the two (_dataTable.twig), so climb a couple of levels looking for
-        // it. Only a level that actually has the header beside it widens, so a report without one
-        // still cannot reach a sibling report.
-        var $node = domElem;
-        for (var depth = 0; depth < 3 && $node.length; depth += 1) {
-            if ($node.prev('[vue-entry="CoreHome.ReportHeader"]').length) {
-                return $node.parent();
-            }
-            $node = $node.parent();
+        var $scope = this._locateReportHeader(domElem).$scope;
+        if (!$scope.length) {
+            return domElem;
         }
 
-        var $widget = domElem.parents('.widget').first();
-        if ($widget.length && $widget.find('.widgetTop [vue-entry="CoreHome.ReportHeader"]').length) {
-            return $widget;
+        // Several reports can sit under one header, as in a container widget. Every handler rebinds
+        // with `.off('click.reportAction')`, so widening there would let whichever instance finishes
+        // loading last take over its siblings' controls - and those loads race.
+        if ($scope.find('.dataTable').not('.dataTable .dataTable').length > 1) {
+            return domElem;
         }
 
-        return domElem;
+        return $scope;
     },
 
     // Returns { $el, app } for the shared ReportHeader Vue app that titles this report, or null.
-    // A full-page report renders it as the table's previous sibling; a widget renders it in the
-    // widget chrome (.widgetTop). This is the same app replaceReportTitleAndHelp() pushes into.
+    // This is the same app replaceReportTitleAndHelp() pushes into.
     _findReportHeaderApp: function (domElem) {
-        var $header = domElem.prev('[vue-entry="CoreHome.ReportHeader"]');
-        if (!$header.length) {
-            $header = domElem.parents('.widget').first()
-                .find('.widgetTop [vue-entry="CoreHome.ReportHeader"]').first();
-        }
+        var $header = this._locateReportHeader(domElem).$header;
         if (!$header.length) {
             return null;
         }
