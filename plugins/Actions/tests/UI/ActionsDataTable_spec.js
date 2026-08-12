@@ -173,4 +173,33 @@ describe("ActionsDataTable", function () {
         // pageUrl==http://example.org/index.htm"', leaking the applied segment and the raw operator.
         expect(title).to.equal('Visits log showing visits where Page URL is "http://example.org/index.htm"');
     });
+
+    it("should load both subtables when two rows are expanded before either responds", async function () {
+        await page.goto(url);
+        await page.waitForNetworkIdle();
+
+        // Both clicks land in the same tick, so the second request starts while the first is still
+        // in flight. Subtable loads run through the parent's reloadAjaxDataTable(), so a reload
+        // generation shared with the root table dropped the first response here - and the row is
+        // marked loaded synchronously, so clicking it again never refetched: the spinner stayed.
+        const opened = await page.evaluate(function () {
+            var rows = document.querySelectorAll('tr.subDataTable');
+            rows[0].click();
+            rows[2].click();
+            // each click inserts a placeholder row carrying the spinner, replaced once its response
+            // is applied
+            return document.querySelectorAll('tr.cellSubDataTable').length;
+        });
+        expect(opened).to.equal(2);
+
+        await page.waitForNetworkIdle();
+
+        // a dropped response leaves its placeholder spinning for good: the row is already marked
+        // loaded, so clicking it again never refetches
+        const stillLoading = await page.$$eval(
+            'tr.cellSubDataTable .loadingPiwik',
+            function (els) { return els.length; }
+        );
+        expect(stillLoading).to.equal(0);
+    });
 });
