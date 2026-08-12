@@ -154,4 +154,15 @@ describe('CoreHome/SearchInput', () => {
 
     expect(wrapper.emitted('update:modelValue')).toEqual([['日本']]);
   });
+
+  it('gives the icon-only clear button an accessible name', () => {
+    const wrapper = mount(SearchInput, {
+      props: {
+        modelValue: 'country',
+        showClear: true,
+      },
+    });
+
+    expect(wrapper.find('.mtm-searchInput__clear').attributes('aria-label')).toBe('General_Clear');
+  });
 });
