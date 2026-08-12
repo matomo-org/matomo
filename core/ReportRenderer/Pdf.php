@@ -491,7 +491,7 @@ class Pdf extends ReportRenderer
         if (isset($rowMetrics['label'])) {
             $labelText = trim($rowMetrics['label']);
             $urlString = $this->isUrl($labelText);
-            if (!$url && $urlString !== false) {
+            if (!$url && $urlString !== null) {
                 $url = $urlString;
             }
             $labelText = $this->limitTextLength($labelText, $this->maxLabelCharacter);
@@ -658,7 +658,7 @@ class Pdf extends ReportRenderer
         // parse_url(), not a regex: example.com:8080/path is a host and port, not a scheme.
         if (!parse_url($url, PHP_URL_SCHEME)) {
             $url = $this->isUrl($url);
-            if ($url === false) {
+            if ($url === null) {
                 return null;
             }
         }
@@ -668,10 +668,9 @@ class Pdf extends ReportRenderer
 
     /**
      * Checks if a string might be a url or not
-     * Will return the string with an 'https' protocol if it is a valid url
-     * @return false|string
+     * Will return the string with an 'https' protocol if it is a valid url, null otherwise
      */
-    private function isUrl(string $value)
+    private function isUrl(string $value): ?string
     {
         $candidate = $value;
         if (!preg_match('~^[a-z][a-z0-9+.-]*://~i', $candidate)) {
@@ -680,7 +679,7 @@ class Pdf extends ReportRenderer
         $host = parse_url($candidate, PHP_URL_HOST);
         $isValidHost = $host && strpos($host, '.') !== false;
         $isValidUrl = filter_var($candidate, FILTER_VALIDATE_URL) !== false && $isValidHost;
-        return $isValidUrl ? $candidate : false;
+        return $isValidUrl ? $candidate : null;
     }
 
     /**
