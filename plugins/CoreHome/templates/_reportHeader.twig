@@ -21,4 +21,6 @@
      help-url="{{ (isInCard ? properties.onlineGuideUrl|default('')|safelink : '')|json_encode }}"
      report-generated="{{ (isInCard ? lastUpdated : '')|json_encode }}"
      edit-url="{{ (isInCard ? properties.title_edit_entity_url|default('') : '')|json_encode }}"
+     show-search="{{ properties.show_search|default(false)|json_encode }}"
+     search-query="{{ ''|json_encode }}"
 ></div>

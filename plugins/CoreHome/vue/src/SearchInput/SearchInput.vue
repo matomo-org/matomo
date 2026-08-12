@@ -25,6 +25,7 @@
       class="mtm-searchInput__clear"
       :tabindex="$attrs.tabindex"
       :title="translate('General_Clear')"
+      :aria-label="translate('General_Clear')"
       @click="onClear()"
     />
   </div>
