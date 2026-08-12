@@ -57,6 +57,7 @@ class ControllerTest extends IntegrationTestCase
     private $request;
     private $session;
     private $enableUsersAdmin;
+    private $enabledPeriodsUi;
     private $superUser;
     private $identity;
     private $superUserLogin;
@@ -78,6 +79,7 @@ class ControllerTest extends IntegrationTestCase
         $this->request = $_REQUEST;
         $this->session = $_SESSION ?? null;
         $this->enableUsersAdmin = Config::getInstance()->General['enable_users_admin'];
+        $this->enabledPeriodsUi = Config::getInstance()->General['enabled_periods_UI'];
         $this->superUser = FakeAccess::$superUser;
         $this->identity = FakeAccess::$identity;
         $this->superUserLogin = FakeAccess::$superUserLogin;
@@ -108,6 +110,7 @@ class ControllerTest extends IntegrationTestCase
         }
 
         Config::getInstance()->General['enable_users_admin'] = $this->enableUsersAdmin;
+        Config::getInstance()->General['enabled_periods_UI'] = $this->enabledPeriodsUi;
         FakeAccess::$superUser = $this->superUser;
         FakeAccess::$identity = $this->identity;
         FakeAccess::$superUserLogin = $this->superUserLogin;
@@ -180,6 +183,7 @@ class ControllerTest extends IntegrationTestCase
 
     public function testRecordUserSettingsReadsSettingsFromPost()
     {
+        $idSite = $this->createSiteWithUser();
         Config::getInstance()->General['enable_users_admin'] = 0;
 
         // settings are read from the post body, not the query string
@@ -189,7 +193,7 @@ class ControllerTest extends IntegrationTestCase
         ];
         $_POST = [
             'themeMode' => ThemeStyles::DARK_MODE,
-            'defaultReport' => '1',
+            'defaultReport' => (string) $idSite,
             'defaultDate' => 'today',
             'language' => 'en',
             'timeformat' => '0',
@@ -288,6 +292,97 @@ class ControllerTest extends IntegrationTestCase
 
         $this->assertStringContainsString('Invalid default date', $response);
         $this->assertFalse($this->getStoredPreference(UsersManagerAPI::PREFERENCE_DEFAULT_REPORT_DATE));
+    }
+
+    public function testRecordUserSettingsRejectsDefaultReportForSiteThatDoesNotExist()
+    {
+        Config::getInstance()->General['enable_users_admin'] = 0;
+
+        // the current user is a super user, for whom the view access check passes for any site id
+        $_GET = ['format' => 'json'];
+        $_POST = [
+            'themeMode' => ThemeStyles::LIGHT_MODE,
+            'defaultReport' => '999999',
+            'defaultDate' => 'today',
+            'language' => 'en',
+            'timeformat' => '0',
+        ];
+
+        $response = $this->controller->recordUserSettings();
+
+        $this->assertStringContainsString('Invalid default report', $response);
+        $this->assertFalse($this->getStoredPreference(UsersManagerAPI::PREFERENCE_DEFAULT_REPORT));
+    }
+
+    public function testRecordUserSettingsStoresNormalisedDefaultReport()
+    {
+        $idSite = $this->createSiteWithUser();
+        Config::getInstance()->General['enable_users_admin'] = 0;
+
+        $_GET = ['format' => 'json'];
+        $_POST = [
+            'themeMode' => ThemeStyles::LIGHT_MODE,
+            // a padded id passes ctype_digit() and must not reach storage verbatim
+            'defaultReport' => '0' . $idSite,
+            'defaultDate' => 'today',
+            'language' => 'en',
+            'timeformat' => '0',
+        ];
+
+        $response = $this->controller->recordUserSettings();
+
+        $this->assertStringContainsString('"result":"success"', $response);
+        $this->assertSame(
+            (string) $idSite,
+            (string) $this->getStoredPreference(UsersManagerAPI::PREFERENCE_DEFAULT_REPORT)
+        );
+    }
+
+    public function testRecordUserSettingsAcceptsStoredDefaultDateOfPeriodDisabledInTheUi()
+    {
+        $idSite = $this->createSiteWithUser();
+        Config::getInstance()->General['enable_users_admin'] = 0;
+
+        UsersManagerAPI::getInstance()->setUserPreference(
+            self::CURRENT_USER_LOGIN,
+            UsersManagerAPI::PREFERENCE_DEFAULT_REPORT_DATE,
+            'last30'
+        );
+
+        // an admin has since dropped the range period the stored date belongs to
+        Config::getInstance()->General['enabled_periods_UI'] = 'day,week,month,year';
+
+        // the form still pre-fills the stored date, so it is posted back along with everything else
+        $_GET = ['format' => 'json'];
+        $_POST = [
+            'themeMode' => ThemeStyles::DARK_MODE,
+            'defaultReport' => (string) $idSite,
+            'defaultDate' => 'last30',
+            'language' => 'en',
+            'timeformat' => '0',
+        ];
+
+        $response = $this->controller->recordUserSettings();
+
+        $this->assertStringContainsString('"result":"success"', $response);
+        $this->assertSame(
+            'last30',
+            (string) $this->getStoredPreference(UsersManagerAPI::PREFERENCE_DEFAULT_REPORT_DATE)
+        );
+        // the rest of the form was saved rather than lost to the rejected date
+        $this->assertSame(ThemeStyles::DARK_MODE, (new UserPreferences())->getThemeMode());
+    }
+
+    public function testUserSettingsShouldNotOfferDatesOfPeriodsDisabledInTheUi()
+    {
+        Config::getInstance()->General['enabled_periods_UI'] = 'day,week,month,year';
+        $this->createSiteWithUser();
+
+        $response = $this->controller->userSettings();
+
+        // the dates the form offers are json encoded into an attribute
+        $this->assertStringNotContainsString('&quot;last30&quot;', $response);
+        $this->assertStringContainsString('&quot;yesterday&quot;', $response);
     }
 
     public function testRecordAnonymousUserSettingsReadsSettingsFromPost()
