@@ -184,13 +184,11 @@ class Controller extends ControllerAdmin
     }
 
     /**
-     * Returns the enabled dates that users can select,
+     * Returns the dates that users can select,
      * in their User Settings page "Report date to load by default"
      *
-     * @param bool $includeDisabledPeriods whether to also return the dates whose period is not
-     *                                     enabled in [General] enabled_periods_UI. The forms must
-     *                                     not offer those, but a date stored before an admin
-     *                                     narrowed that setting is still submitted back by them.
+     * @param bool $includeDisabledPeriods whether to include dates whose period is disabled in
+     *                                     [General] enabled_periods_UI
      * @return array
      */
     protected function getDefaultDates(bool $includeDisabledPeriods = false)
@@ -746,16 +744,17 @@ class Controller extends ControllerAdmin
     }
 
     /**
-     * The unfiltered list is used on purpose: the forms pre-fill the stored date, which does not
-     * have to belong to a period that is still enabled in the UI. Rejecting it would leave the
-     * whole form unsavable. Storing it stays harmless, as UserPreferences falls back to the system
-     * default when it reads a date whose period is disabled.
+     * The forms pre-fill the stored date, which is not always one they offer: its period may be
+     * disabled in the UI, and [General] default_day accepts any lastN or previousN.
      *
-     * @throws Exception if the date is not one of the known default dates
+     * @throws Exception if the date is neither a known default date nor a lastN/previousN range
      */
     private function getValidatedDefaultDate(string $defaultDate): string
     {
-        if (!array_key_exists($defaultDate, $this->getDefaultDates(true))) {
+        if (
+            !array_key_exists($defaultDate, $this->getDefaultDates(true))
+            && !preg_match('/^(last|previous)[0-9]+$/', $defaultDate)
+        ) {
             throw new Exception('Invalid default date');
         }
 
@@ -776,7 +775,7 @@ class Controller extends ControllerAdmin
             $idSite = (int) $defaultReport;
 
             if ($this->isSiteViewableByUser($idSite, $userLogin)) {
-                // normalised, so that a padded id such as '007' is not stored verbatim
+                // normalised, so '007' is not stored verbatim
                 return (string) $idSite;
             }
         }
