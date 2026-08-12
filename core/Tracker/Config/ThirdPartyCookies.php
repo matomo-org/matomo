@@ -75,6 +75,20 @@ class ThirdPartyCookies implements
         return Piwik::translate('General_ThirdPartyCookieSettingNote');
     }
 
+    public static function getPolicySettingId(): string
+    {
+        // this setting lives in core rather than in a plugin, so the plugin name cannot be
+        // derived from its namespace the way it can be for every other policy setting
+        return 'Core.ThirdPartyCookies';
+    }
+
+    public static function isExternallyManagedByPolicyPage(): bool
+    {
+        // this setting can only be configured in config.ini.php, so its enforcement state
+        // is not toggleable from the compliance page and is never stored
+        return true;
+    }
+
     protected static function compareStrictness($value1, $value2): bool
     {
         if ($value1 === true && $value2 === true) {

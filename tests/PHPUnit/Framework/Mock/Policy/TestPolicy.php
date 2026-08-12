@@ -13,10 +13,27 @@ class TestPolicy extends \Piwik\Policy\CompliancePolicy
     /** @var array<int,bool> */
     private static $perSite = [];
 
+    /** @var bool|null */
+    private static $configValue = null;
+
     public static function reset(): void
     {
         self::$system = false;
         self::$perSite = [];
+        self::$configValue = null;
+    }
+
+    /**
+     * @param bool|null $value Null means the policy is not controlled by the config file.
+     */
+    public static function setConfigValue(?bool $value): void
+    {
+        self::$configValue = $value;
+    }
+
+    public static function getConfigValue(?int $idSite = null)
+    {
+        return self::$configValue;
     }
 
     public static function getName(): string
