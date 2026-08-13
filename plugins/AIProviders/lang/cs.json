@@ -1,0 +1,8 @@
+{
+    "AIProviders": {
+        "ApiKey": "API klíč",
+        "DefaultBadge": "Výchozí",
+        "Model": "Model",
+        "TestingConnection": "Testování…"
+    }
+}
