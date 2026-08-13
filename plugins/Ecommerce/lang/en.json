@@ -25,7 +25,7 @@
         "EcommerceOverviewSubcategoryHelp3": "Learn more in our Ecommerce guide here.",
         "EcommercePolicySettingRequirementNote": "Ecommerce analytics is enabled, but specific segments are disabled (Order ID, Order revenue, Product price, Product name, Product SKU). If you prefer, you can completely disable Ecommerce tracking %1$shere%2$s.",
         "EcommercePolicySettingTitle": "Ecommerce Data Collection Restricted",
-        "EcommercePolicySettingWhatItDoes": "Ecommerce analytics remains enabled, but the collection and use of detailed order-level and product-level information is restricted.<br><br>This prevents order and product information from being used to identify individual visitors or purchases.",
+        "EcommercePolicySettingWhatItDoes": "Ecommerce analytics remains <strong>enabled</strong>, but the collection and use of detailed order-level and product-level information is restricted.<br><br>This prevents order and product information from being used to identify individual visitors or purchases.",
         "EcommercePolicySettingImpact": "Overall ecommerce conversion and revenue metrics remain available.<br><br>Segments based on Order ID, Order Revenue, Product Price, Product Name, and Product SKU are unavailable.",
         "EcommercePolicySettingCompliantSingle": "Compliant because Ecommerce isn't active for this measurable.",
         "EcommercePolicySettingCompliantAll": "Compliant because Ecommerce isn't active for any sites.",

@@ -10,7 +10,7 @@
 			<id>DevicesDetection.DeviceModelDetectionDisabled</id>
 			<name>Device Model Detection Disabled</name>
 			<whatItDoes>Device model detection is disabled.&lt;br&gt;&lt;br&gt;This reduces the risk of identifying visitors based on their specific device characteristics.</whatItDoes>
-			<impact>The Visitors &gt; Devices &gt; Device Model report is unavailable, and device model information is not collected.</impact>
+			<impact>The &lt;strong&gt;Visitors &gt; Devices &gt; Device Model&lt;/strong&gt; report is unavailable, and device model information is not collected.</impact>
 			<status>non_compliant</status>
 			<enforced>0</enforced>
 			<toggleable>1</toggleable>
@@ -20,7 +20,7 @@
 			<id>DevicesDetection.OnlyMajorVersions</id>
 			<name>Major Browser and OS Versions</name>
 			<whatItDoes>Only major browser and operating system versions are stored. Minor and patch versions are removed. For example, Chrome 136 or iOS 18 may be stored, but not Chrome 136.0.7103 or iOS 18.5.1.&lt;br&gt;&lt;br&gt;This reduces the risk of identifying visitors using detailed browser and operating system information.</whatItDoes>
-			<impact>Browser and operating system version reports under Visitors &gt; Software only show major versions. Detailed version analysis and segmentation are unavailable.</impact>
+			<impact>Browser and operating system version reports under &lt;strong&gt;Visitors &gt; Software&lt;/strong&gt; only show major versions. Detailed version analysis and segmentation are unavailable.</impact>
 			<status>non_compliant</status>
 			<enforced>0</enforced>
 			<toggleable>1</toggleable>
@@ -29,7 +29,7 @@
 		<row>
 			<id>Ecommerce.EcommerceRestricted</id>
 			<name>Ecommerce Data Collection Restricted</name>
-			<whatItDoes>Ecommerce analytics remains enabled, but the collection and use of detailed order-level and product-level information is restricted.&lt;br&gt;&lt;br&gt;This prevents order and product information from being used to identify individual visitors or purchases.</whatItDoes>
+			<whatItDoes>Ecommerce analytics remains &lt;strong&gt;enabled&lt;/strong&gt;, but the collection and use of detailed order-level and product-level information is restricted.&lt;br&gt;&lt;br&gt;This prevents order and product information from being used to identify individual visitors or purchases.</whatItDoes>
 			<impact>Overall ecommerce conversion and revenue metrics remain available.&lt;br&gt;&lt;br&gt;Segments based on Order ID, Order Revenue, Product Price, Product Name, and Product SKU are unavailable.</impact>
 			<status>non_compliant</status>
 			<enforced>0</enforced>
@@ -60,7 +60,7 @@
 			<id>Live.VisitorLogDisabled</id>
 			<name>Visits Log and Visitor Profiles Disabled</name>
 			<whatItDoes>Visits Log and Visitor Profile features are disabled.&lt;br&gt;&lt;br&gt;This prevents an individual visitor's browsing path and detailed visit-level behaviour from being reconstructed.</whatItDoes>
-			<impact>Visitors &gt; Visits Log and Visitor Profile views are unavailable.</impact>
+			<impact>&lt;strong&gt;Visitors &gt; Visits Log&lt;/strong&gt; and Visitor Profile views are unavailable.</impact>
 			<status>non_compliant</status>
 			<enforced>0</enforced>
 			<toggleable>1</toggleable>
@@ -99,7 +99,7 @@
 		<row>
 			<id>PrivacyManager.IpAddressMaskLength</id>
 			<name>IP Address Mask Length Configured</name>
-			<whatItDoes>IP anonymisation is configured to mask 0 bytes of each visitor's IP address.&lt;br&gt;At least 2 bytes must be masked to provide the required level of anonymisation.&lt;br&gt;&lt;br&gt;This reduces the ability to identify visitors or determine their precise location.</whatItDoes>
+			<whatItDoes>IP anonymisation is configured to mask &lt;strong&gt;0 bytes&lt;/strong&gt; of each visitor's IP address.&lt;br&gt;At least 2 bytes must be masked to provide the required level of anonymisation.&lt;br&gt;&lt;br&gt;This reduces the ability to identify visitors or determine their precise location.</whatItDoes>
 			<impact>0 bytes of each visitor IP address are removed before processing.&lt;br&gt;&lt;br&gt;Geolocation accuracy may be reduced, particularly at city level.</impact>
 			<status>non_compliant</status>
 			<enforced>0</enforced>
@@ -119,7 +119,7 @@
 		<row>
 			<id>PrivacyManager.ReportRetention</id>
 			<name>Raw Data Retention Configured</name>
-			<whatItDoes>Raw data retention is configured to 180 days. It must be set to a maximum of 759 days, approximately 25 months.&lt;br&gt;&lt;br&gt;This limits how long detailed visitor information is retained and reduces the risk of it being used to identify someone.</whatItDoes>
+			<whatItDoes>Raw data retention is configured to &lt;strong&gt;180 days&lt;/strong&gt;. It must be set to a maximum of 759 days, approximately 25 months.&lt;br&gt;&lt;br&gt;This limits how long detailed visitor information is retained and reduces the risk of it being used to identify someone.</whatItDoes>
 			<impact>Raw visit data older than 180 days is automatically deleted.&lt;br&gt;&lt;br&gt;Historical aggregated reports may remain available according to the configured report-retention settings.</impact>
 			<status>compliant</status>
 			<enforced>0</enforced>
@@ -140,7 +140,7 @@
 			<id>Resolution.ScreenResolutionDetectionDisabled</id>
 			<name>Screen Resolution Detection Disabled</name>
 			<whatItDoes>Screen resolution detection is disabled.&lt;br&gt;&lt;br&gt;This reduces the risk of identifying visitors based on their screen configuration.</whatItDoes>
-			<impact>Screen resolution information is not collected, and screen resolution reports under Visitors &gt; Devices are unavailable.</impact>
+			<impact>Screen resolution information is not collected, and screen resolution reports under &lt;strong&gt;Visitors &gt; Devices&lt;/strong&gt; are unavailable.</impact>
 			<status>non_compliant</status>
 			<enforced>0</enforced>
 			<toggleable>1</toggleable>
