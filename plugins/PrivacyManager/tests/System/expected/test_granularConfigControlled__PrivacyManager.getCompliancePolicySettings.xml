@@ -29,7 +29,7 @@
 		<row>
 			<id>Ecommerce.EcommerceRestricted</id>
 			<name>Ecommerce Data Collection Restricted</name>
-			<whatItDoes>Ecommerce analytics remains &lt;strong&gt;enabled&lt;/strong&gt;, but the collection and use of detailed order-level and product-level information is restricted.&lt;br&gt;&lt;br&gt;This prevents order and product information from being used to identify individual visitors or purchases.</whatItDoes>
+			<whatItDoes>If Ecommerce analytics is enabled, the collection and use of detailed order-level and product-level information is restricted.&lt;br&gt;&lt;br&gt;This prevents order and product information from being used to identify individual visitors or purchases.</whatItDoes>
 			<impact>Overall ecommerce conversion and revenue metrics remain available.&lt;br&gt;&lt;br&gt;Segments based on Order ID, Order Revenue, Product Price, Product Name, and Product SKU are unavailable.</impact>
 			<status>enforced</status>
 			<enforced>1</enforced>

@@ -59,30 +59,6 @@ class EcommerceRestrictedTest extends IntegrationTestCase
         $this->assertEquals('Ecommerce_EcommercePolicySettingRequirementNote', $note);
     }
 
-    public function testWhatItDoesMentionsWhenEcommerceIsNotEnabledForTheSite(): void
-    {
-        $whatItDoes = EcommerceRestricted::getWhatItDoes($this->nonEcommerceSite);
-
-        $this->assertEquals(
-            'Ecommerce_EcommercePolicySettingWhatItDoes<br><br>Ecommerce_EcommercePolicySettingCompliantSingle',
-            $whatItDoes
-        );
-    }
-
-    public function testWhatItDoesOmitsTheMentionWhenEcommerceIsEnabledForTheSite(): void
-    {
-        $whatItDoes = EcommerceRestricted::getWhatItDoes($this->ecommerceSite);
-
-        $this->assertEquals('Ecommerce_EcommercePolicySettingWhatItDoes', $whatItDoes);
-    }
-
-    public function testWhatItDoesOmitsTheMentionInstanceWideWhileAnySiteHasEcommerceEnabled(): void
-    {
-        $whatItDoes = EcommerceRestricted::getWhatItDoes(null);
-
-        $this->assertEquals('Ecommerce_EcommercePolicySettingWhatItDoes', $whatItDoes);
-    }
-
     public function testIsCompliantWhenEcommerceDisabled(): void
     {
         CnilPolicy::setActiveStatus(null, true);
