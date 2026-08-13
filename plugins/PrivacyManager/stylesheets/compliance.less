@@ -92,7 +92,10 @@
     }
 
     .toggleColumn {
-      width: 7%;
+      // fixed width (≈7% of the desktop table) so the 36px switch lever still
+      // fits inside the cell when the table is compressed to its minimum width
+      // and scrolled horizontally, instead of overhanging the table edge
+      width: 4.5rem;
       text-align: right;
     }
 
