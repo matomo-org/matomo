@@ -26,38 +26,16 @@
 
     .input-field {
       margin-top: 0;
-      .caret {
-        right: -25px;
-        top: 16px;
-        z-index: 9;
-        cursor: pointer;
-      }
-      .select-dropdown {
-        margin-top: 8px;
-        margin-bottom: 0;
-        border: 0;
-        background: #e4e4e4;
-        display: inline-block;
-        height: 32px;
-        font-size: 13px;
-        font-weight: 500;
-        color: rgba(0,0,0,0.6);
-        line-height: 32px;
-        border-radius: 3em;
-        padding-left: 12px;
-        padding-right: 30px;
-      }
     }
 
     .select-wrapper {
-      transform: scale(.89) translate(-.6rem);
-      margin-top: -0.55rem;
       max-width: 160px;
 
-      input {
-        margin-bottom: 0;
-        height: 2rem;
-        line-height: 2rem;
+      // compact the standard expandable-select so the closed control lines up
+      // with the 32px capability chips next to it
+      .select-dropdown {
+        font-size: 13px;
+        padding: 5px 12px;
       }
     }
   }
