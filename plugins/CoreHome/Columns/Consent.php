@@ -11,8 +11,6 @@ declare(strict_types=1);
 
 namespace Piwik\Plugins\CoreHome\Columns;
 
-use Piwik\Columns\DimensionMetricFactory;
-use Piwik\Columns\MetricsList;
 use Piwik\Plugin\Dimension\VisitDimension;
 
 /**
@@ -20,14 +18,8 @@ use Piwik\Plugin\Dimension\VisitDimension;
  */
 class Consent extends VisitDimension
 {
-    public const COLUMN_TYPE = 'TINYINT(1) UNSIGNED NULL DEFAULT NULL';
+    public const COLUMN_TYPE = 'TINYINT(1) UNSIGNED NULL';
 
-    protected $columnName   = 'consent';
-    protected $columnType   = self::COLUMN_TYPE;
-    protected $nameSingular = 'CoreHome_Consent';
-
-    public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
-    {
-        // no metric, the column isn't tracked yet
-    }
+    protected $columnName = 'consent';
+    protected $columnType = self::COLUMN_TYPE;
 }
