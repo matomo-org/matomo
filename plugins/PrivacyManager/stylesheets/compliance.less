@@ -117,16 +117,23 @@
 
   // Let the settings table scroll horizontally rather than clipping the status
   // and toggle controls when the viewport is too narrow to show every column.
+  // The wrapper takes over the .card-table full-bleed band (its negative margins
+  // reach into the card padding) so the cells' padding keeps the text aligned
+  // with the surrounding card content, as usual for card tables.
   .granularComplianceScroll {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
+    margin-left: -20px;
+    margin-right: -20px;
 
     > table.granularCompliance {
-      // Neutralise the .card-table `width: calc(100% + 40px)` bleed, which would
-      // otherwise push the toggle column off screen, and only overflow (scroll)
-      // once the columns can no longer sensibly fit.
+      // Fill the wrapper instead of bleeding past it, so the toggle column can
+      // never be pushed off screen; only overflow (scroll) once the columns no
+      // longer sensibly fit.
       width: 100%;
       min-width: 40rem;
+      margin-left: 0;
+      margin-right: 0;
     }
   }
 
