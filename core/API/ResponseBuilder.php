@@ -143,7 +143,11 @@ class ResponseBuilder
             $this->sendHeader
             && $e instanceof HttpCodeException
             && $e->getCode() > 0
+            && Request::isRootRequestApiRequest()
         ) {
+            // Only the response of an actual API HTTP request may carry the exception's HTTP code.
+            // API calls issued while rendering a regular page (e.g. a widget fetching additional
+            // data) would otherwise overwrite the status code of an outer response that succeeds.
             http_response_code($e->getCode());
         }
 

@@ -23,11 +23,17 @@ class CustomUserLog extends LogTable
         return 'user_id';
     }
 
+    /**
+     * @return string[]
+     */
     public function getPrimaryKey()
     {
         return ['user_id'];
     }
 
+    /**
+     * @return array<string, string>
+     */
     public function getWaysToJoinToOtherLogTables()
     {
         return ['log_visit' => 'user_id'];

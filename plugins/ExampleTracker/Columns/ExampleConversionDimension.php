@@ -51,7 +51,7 @@ class ExampleConversionDimension extends ConversionDimension
 
     /**
      * The name of the dimension which will be visible for instance in the UI of a related report and in the mobile app.
-     * @return string
+     * @var string
      */
     protected $nameSingular = 'ExampleTracker_DimensionName';
 
@@ -71,16 +71,11 @@ class ExampleConversionDimension extends ConversionDimension
      * action on an ecommerce order at all it is recommended to just remove this method.
      *
      * @param Action|null $action
-     *
-     * @return mixed|false
+     * @return int
      */
     public function onEcommerceOrderConversion(Request $request, Visitor $visitor, $action, GoalManager $goalManager)
     {
-        if ($visitor->isVisitorKnown()) {
-            return 1;
-        }
-
-        return 0;
+        return $visitor->isVisitorKnown() ? 1 : 0;
     }
 
     /**
@@ -90,12 +85,11 @@ class ExampleConversionDimension extends ConversionDimension
      * action on an ecommerce order at all it is recommended to just remove this method.
      *
      * @param Action|null $action
-     *
-     * @return mixed|false
+     * @return int
      */
     public function onEcommerceCartUpdateConversion(Request $request, Visitor $visitor, $action, GoalManager $goalManager)
     {
-        return Common::getRequestVar('myCustomParam', $default = false, 'int', $request->getParams());
+        return Common::getRequestVar('myCustomParam', 0, 'int', $request->getParams());
     }
 
     /**
@@ -110,12 +104,10 @@ class ExampleConversionDimension extends ConversionDimension
      */
     public function onGoalConversion(Request $request, Visitor $visitor, $action, GoalManager $goalManager)
     {
-        $goalId = $goalManager->getGoalColumn('idgoal');
-
-        if ($visitor->isVisitorKnown()) {
-            return $goalId;
+        if (!$visitor->isVisitorKnown()) {
+            return false;
         }
 
-        return false;
+        return $goalManager->getGoalColumn('idgoal');
     }
 }

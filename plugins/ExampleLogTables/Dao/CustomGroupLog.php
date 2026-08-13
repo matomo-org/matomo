@@ -15,56 +15,50 @@ use Piwik\DbHelper;
 
 class CustomGroupLog
 {
-    private $table = 'log_group';
-    private $tablePrefixed = '';
+    private const TABLE = 'log_group';
+
+    private readonly string $tablePrefixed;
 
     public function __construct()
     {
-        $this->tablePrefixed = Common::prefixTable($this->table);
+        $this->tablePrefixed = Common::prefixTable(self::TABLE);
     }
 
-    public function install()
+    public function install(): void
     {
-        DbHelper::createTable($this->table, "
+        DbHelper::createTable(self::TABLE, "
                   `group` VARCHAR(30) NOT NULL,
                   `is_admin` TINYINT(1) NOT NULL,
                   PRIMARY KEY (`group`)");
     }
 
-    public function uninstall()
+    public function uninstall(): void
     {
         Db::query(sprintf('DROP TABLE IF EXISTS `%s`', $this->tablePrefixed));
     }
 
-    private function getDb()
+    /**
+     * @return list<array<array-key, string|int|float|null>>
+     */
+    public function getAllRecords(): array
     {
-        return Db::get();
+        return Db::fetchAll('SELECT * FROM ' . $this->tablePrefixed);
     }
 
-    public function getAllRecords()
+    public function addGroupInformation(string $group, bool $isAdmin): void
     {
-        return $this->getDb()->fetchAll('SELECT * FROM ' . $this->tablePrefixed);
-    }
-
-    public function addGroupInformation($group, $isAdmin)
-    {
-        $columns = array(
+        $columns = [
             'group' => $group,
-            'is_admin' => $isAdmin,
-        );
-
-        $bind = array_values($columns);
-        $placeholder = Common::getSqlStringFieldsArray($columns);
+            'is_admin' => (int) $isAdmin,
+        ];
 
         $sql = sprintf(
             'INSERT INTO `%s` (`%s`) VALUES(%s)',
             $this->tablePrefixed,
             implode('`,`', array_keys($columns)),
-            $placeholder
+            Common::getSqlStringFieldsArray($columns)
         );
 
-        $db = $this->getDb();
-
-        $db->query($sql, $bind);
+        Db::query($sql, array_values($columns));
     }
 }
