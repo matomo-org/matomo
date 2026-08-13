@@ -86,7 +86,7 @@
 		<row>
 			<name>Opt-Out Configured</name>
 			<value>unknown</value>
-			<notes>A Matomo opt-out interface must be manually configured and made available to visitors. &lt;a href=&quot;https://matomo.org/faq/general/faq_20000/?mtm_campaign=Matomo_App&amp;mtm_source=Matomo_App_OnPremise&amp;mtm_medium=App.PrivacyManager.compliance&quot; target=&quot;_blank&quot; rel=&quot;noreferrer noopener&quot;&gt;Learn more&lt;/a&gt;. This ensures visitors have a way to decline participation in audience measurement.</notes>
+			<notes>A Matomo opt-out interface must be manually configured and made available to visitors. &lt;a href=&quot;https://matomo.org/faq/general/faq_20000/?mtm_campaign=Matomo_App&amp;mtm_source=Matomo_App_OnPremise&amp;mtm_medium=App.PrivacyManager.compliance&quot; target=&quot;_blank&quot; rel=&quot;noreferrer noopener&quot;&gt;Learn more&lt;/a&gt;.&lt;br&gt;&lt;br&gt;This ensures visitors have a way to decline participation in audience measurement.</notes>
 		</row>
 	</complianceRequirements>
 </result>
