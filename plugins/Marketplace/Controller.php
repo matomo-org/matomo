@@ -13,6 +13,7 @@ use Exception;
 use Piwik\Common;
 use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
+use Piwik\Exception\PluginNotFoundException;
 use Piwik\Http\JsonResponse;
 use Piwik\Date;
 use Piwik\Filesystem;
@@ -456,7 +457,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         if ($nonceName === static::UPDATE_NONCE) {
             foreach ($plugins as $pluginName) {
                 if (!$this->pluginManager->isPluginInFilesystem($pluginName)) {
-                    throw new Exception(Piwik::translate('CorePluginsAdmin_PluginNotFound', [$pluginName]));
+                    throw new PluginNotFoundException($pluginName);
                 }
             }
         }
