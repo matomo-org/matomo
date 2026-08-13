@@ -121,7 +121,7 @@
 			<name>Raw Data Retention Configured</name>
 			<whatItDoes>Raw data retention is configured to &lt;strong&gt;180 days&lt;/strong&gt;. It must be set to a maximum of 759 days, approximately 25 months.&lt;br&gt;&lt;br&gt;This limits how long detailed visitor information is retained and reduces the risk of it being used to identify someone.</whatItDoes>
 			<impact>Raw visit data older than 180 days is automatically deleted.&lt;br&gt;&lt;br&gt;Historical aggregated reports may remain available according to the configured report-retention settings.</impact>
-			<status>compliant</status>
+			<status>enforced</status>
 			<enforced>1</enforced>
 			<toggleable>1</toggleable>
 			<section>settings</section>
