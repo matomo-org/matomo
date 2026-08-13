@@ -1,5 +1,6 @@
 {
     "CoreHome": {
+        "AIInsights": "AI-insikter",
         "AdblockIsMaybeUsed": "Om du blockerar annonser vänligen inaktivera blockeringen på den här webbplatsen för att Matomo ska fungera utan några problem.",
         "AddTotalsRowDataTable": "Rapporten visar inte totalt antal rader %s Visa totalt antal rader",
         "CategoryNoData": "Inga data i den här kategorin. Försök att \"Inkludera all befolkning\".",
