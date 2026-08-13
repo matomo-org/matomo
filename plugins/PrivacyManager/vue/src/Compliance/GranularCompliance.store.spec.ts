@@ -147,6 +147,25 @@ describe('PrivacyManager/GranularCompliance.store', () => {
     expect(store.state.policyEnforced).toBe(true);
     expect(store.state.localEnforced['A.One']).toBe(true);
     expect(store.dirtySettingIds.value).toEqual([]);
+    expect(store.state.saveSuccess).toBe(true);
+  });
+
+  it('clears the save success notification on the next toggle', async () => {
+    const store = await createLoadedStore([
+      setting({ id: 'A.One', enforced: false }),
+    ]);
+
+    store.toggleSetting('A.One');
+    postMock.mockResolvedValueOnce(payload([
+      setting({ id: 'A.One', enforced: true, status: 'enforced' }),
+    ], { policyEnforced: true }));
+
+    store.save('secret');
+    await new Promise(process.nextTick);
+    expect(store.state.saveSuccess).toBe(true);
+
+    store.toggleSetting('A.One');
+    expect(store.state.saveSuccess).toBe(false);
   });
 
   it('save without dirty settings is a no-op', async () => {
@@ -167,6 +186,7 @@ describe('PrivacyManager/GranularCompliance.store', () => {
     await new Promise(process.nextTick);
 
     expect(store.state.saveError).toBe('nope');
+    expect(store.state.saveSuccess).toBe(false);
     expect(store.dirtySettingIds.value).toEqual(['A.One']);
   });
 

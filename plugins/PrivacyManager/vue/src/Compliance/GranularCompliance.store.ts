@@ -44,6 +44,7 @@ interface GranularComplianceStoreState {
   localEnforced: Record<string, boolean>;
   fetchError: string | null;
   saveError: string | null;
+  saveSuccess: boolean;
 }
 
 export interface GranularComplianceStore {
@@ -66,6 +67,7 @@ export function createGranularComplianceStore(policy: string): GranularComplianc
     localEnforced: {},
     fetchError: null,
     saveError: null,
+    saveSuccess: false,
   });
 
   function applyPayload(payload: PolicySettingsPayload) {
@@ -124,6 +126,8 @@ export function createGranularComplianceStore(policy: string): GranularComplianc
 
   function setIdSite(idSite: string) {
     state.idSite = idSite;
+    state.saveError = null;
+    state.saveSuccess = false;
     fetchSettings();
   }
 
@@ -133,6 +137,7 @@ export function createGranularComplianceStore(policy: string): GranularComplianc
     }
 
     state.localEnforced[settingId] = !state.localEnforced[settingId];
+    state.saveSuccess = false;
   }
 
   function enforceAll() {
@@ -162,6 +167,7 @@ export function createGranularComplianceStore(policy: string): GranularComplianc
 
     state.saving = true;
     state.saveError = null;
+    state.saveSuccess = false;
     AjaxHelper.post<PolicySettingsPayload>(
       {
         idSite: requestedIdSite,
@@ -178,6 +184,7 @@ export function createGranularComplianceStore(policy: string): GranularComplianc
     ).then((payload) => {
       if (state.idSite === requestedIdSite) {
         applyPayload(payload);
+        state.saveSuccess = true;
       }
     }).catch((error) => {
       if (state.idSite === requestedIdSite) {
