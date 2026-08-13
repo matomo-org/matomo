@@ -2,10 +2,13 @@
     "TrackingSpamPrevention": {
         "BanIpNotificationMailSubject": "Cuireadh cosc ar IP as an iomarca gníomhartha a ghiniúint.",
         "BlockCloudNoteInternetDisabled": "Toisc go bhfuil an Idirlíon múchta i do chumraíocht Matomo, ní oibreoidh an ghné seo.",
+        "PluginDescription": "Cuireann an breiseán seo roghanna éagsúla ar fáil chun cosc a chur ar spamálaithe agus ar bhotáin do shonraí a dhéanamh míchruinn ionas gur féidir leat brath ar do shonraí arís.",
         "SettingBlockCloudDescription": "Cuir bac ar iarratais a rianú a thagann ó sholáthraithe néil mar AWS, Azure, Digital Ocean, Google Cloud agus Oracle trí liosta dá raonta IP a fháil. Ba cheart go mbeadh sé sábháilte é a chur ar siúl mura bhfuil tú ag rianú ach ag baint úsáide as an rianaitheoir JavaScript, toisc nach dtagann a n-iarratais rianaithe ó scamaill, ach amháin má úsáideann siad VPN a sheolann sonraí trí sholáthraithe scamall. Baineann an socrú le do shuíomhanna go léir.",
         "SettingBlockCloudTitle": "Cuir bac ar iarratais rianaithe ón néal",
         "SettingBlockHeadlessDescription": "Brabhsálaithe iad seo gan comhéadan úsáideora, a úsáidtear go príomha le haghaidh uathoibriú. Ba cheart go mbeadh sé sábháilte é seo a chur ar siúl mura bhfuil ach suíomhanna gréasáin nó aipeanna rialta agat. Féadann sé róbónna breise agus iarratais turscair a bhlocáil nach n-aimseofaí murach sin.",
         "SettingBlockHeadlessTitle": "Bloc brabhsálaithe gan ceann",
+        "SettingBlockSdksAndLibrariesHelp": "Cumasaigh an rogha seo ach amháin má dhéantar an rianú ag baint úsáide as an Rianaitheoir JavaScript nó Bainisteoir Clibeanna Matomo. Cuireann sé bac ar iarratais rianaithe a sheoltar ag cliaint HTTP agus leabharlanna rianaithe neamh-JavaScript, lena n-áirítear uirlisí ar nós cURL, Guzzle, agus Postman.%3$s%1$sNóta:%2$s Ná cumasaigh an rogha seo má sheolann tú sonraí rianaithe ag baint úsáide as an Matomo PHP Tracking SDK, Java SDK, Python SDK, Android SDK, iOS SDK, nó leabharlanna rianaithe neamh-JavaScript eile.",
+        "SettingBlockSdksAndLibrariesTitle": "Blocáil tráchta ó SDKanna agus leabharlanna taobh an fhreastalaí",
         "SettingExcludedCountriesDescription": "Ná rianaigh cuairteoirí ó na tíortha seo. Is dócha gur róbónna nó spammers a bheidh i gcuairteoirí lasmuigh de do sprioclimistéar, nó is féidir leat é a úsáid chun dlíthe príobháideachta i ndlínsí eile a sheachaint.",
         "SettingExcludedCountriesTitle": "Fág Tíortha",
         "SettingIncludedCountriesDescription": "Ní bhaineann sé seo le gach tír eile. Tá tuilleadh eolais sa socrú \"eisiamh tíortha\".",
@@ -19,6 +22,7 @@
         "SettingNotificationEmailDescription": "Cuirfear an seoladh r-phoist seo ar an eolas nuair a chuirtear toirmeasc ar IP mar gheall ar an iomarca gníomhartha a bheith aige. D'fhéadfaí tuilleadh cúiseanna fógartha a chur leis amach anseo.",
         "SettingNotificationEmailTitle": "Ríomhphost fógra",
         "SettingOrganisationBlockListHelp": "Cuir bac ar iarratais rianaithe nuair a bhaineann seoladh IP an chuairteora le heagraíocht shonraithe, amhail soláthraí óstála nó scamall. Cuir isteach eagraíocht amháin in aghaidh gach líne. Bain úsáid as ainmneacha sonracha chun meaitseálacha neamhbheartaithe a sheachaint. Déanfar aon eagraíocht a bhfuil ainm aici ina bhfuil an luach a chuireann tú isteach a mheaitseáil. Ní bhaineann an liosta seo ach nuair a bhíonn \"Bac ar iarratais rianaithe ón scamall\" cumasaithe.%3$s%1$sNóta:%2$s Díchumasaíonn glanadh an liosta blocáil eagraíochta; ní athchóiríonn sé an liosta réamhshocraithe.",
+        "SettingOrganisationBlockListPlaceholder": "Soláthraí Óstála Scamall A%1$sSoláthraí Óstála Scamall B",
         "SettingOrganisationBlockListTitle": "Liosta blocála eagraíochta",
         "SettingsIntroduction": "Is féidir le trácht turscair agus bot iarratais rianaithe a bhorradh agus sonraí nach dteastaíonn a thabhairt isteach i do thuairiscí. Cumraigh na socruithe seo chun an trácht seo a laghdú sula ndéanann sé difear do d’anailísíocht."
     }
