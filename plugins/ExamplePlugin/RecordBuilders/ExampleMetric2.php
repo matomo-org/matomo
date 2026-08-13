@@ -72,13 +72,13 @@ class ExampleMetric2 extends RecordBuilder
         return $records;
     }
 
-    private function getAndIncrementArchiveCallCount(ArchiveProcessor $archiveProcessor)
+    private function getAndIncrementArchiveCallCount(ArchiveProcessor $archiveProcessor): int
     {
         $params = $archiveProcessor->getParams();
         $optionName = 'ExamplePlugin.metricValue.' . md5($params->getSite()->getId() . '.' . $params->getPeriod()->getRangeString()
                 . '.' . $params->getPeriod()->getLabel() . '.' . $params->getSegment()->getHash());
         $value = (int) Option::get($optionName);
-        Option::set($optionName, $value + 1);
+        Option::set($optionName, (string) ($value + 1));
         return $value;
     }
 }

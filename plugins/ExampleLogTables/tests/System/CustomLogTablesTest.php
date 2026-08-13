@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
 namespace Piwik\Plugins\ExampleLogTables\tests\System;
 
 use Piwik\Plugins\ExampleLogTables\tests\Fixtures\VisitsWithUserIdAndCustomData;
@@ -23,7 +30,7 @@ class CustomLogTablesTest extends SystemTestCase
     /**
      * @dataProvider getApiForTesting
      */
-    public function testApi($api, $params)
+    public function testApi($api, $params): void
     {
         $this->runApiTests($api, $params);
     }
@@ -31,7 +38,7 @@ class CustomLogTablesTest extends SystemTestCase
     /**
      * @dataProvider getSegmentsToTest
      */
-    public function testNoApiReturnsError($segment)
+    public function testNoApiReturnsError(string $segment): void
     {
         self::expectNotToPerformAssertions();
 
@@ -61,7 +68,7 @@ class CustomLogTablesTest extends SystemTestCase
         }
     }
 
-    public function getSegmentsToTest()
+    public function getSegmentsToTest(): array
     {
         return [
             ['attrgender==men'],
@@ -74,7 +81,7 @@ class CustomLogTablesTest extends SystemTestCase
         $dateTime = self::$fixture->dateTime;
         $idSite1 = self::$fixture->idSite;
 
-        $result = [
+        return [
             [[
                 'Actions.get',
                 'UserId.getUsers',
@@ -123,8 +130,6 @@ class CustomLogTablesTest extends SystemTestCase
                 'testSuffix'   => '_all'],
             ],
         ];
-
-        return $result;
     }
 
     public static function getOutputPrefix()
@@ -134,7 +139,7 @@ class CustomLogTablesTest extends SystemTestCase
 
     public static function getPathToTestDirectory()
     {
-        return dirname(__FILE__);
+        return __DIR__;
     }
 }
 

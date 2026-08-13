@@ -27,7 +27,7 @@ class ExampleActionDimension extends ActionDimension
 {
     /**
      * The name of the dimension which will be visible for instance in the UI of a related report and in the mobile app.
-     * @return string
+     * @var string
      */
     protected $nameSingular = 'ExampleTracker_DimensionName';
 
@@ -65,9 +65,9 @@ class ExampleActionDimension extends ActionDimension
     /**
      * This event is triggered before a new action is logged to the log_link_visit_action table. It overwrites any
      * looked up action so it makes usually no sense to implement both methods but it sometimes does. You can assign
-     * any value to the column or return boolan false in case you do not want to save any value.
+     * any value to the column or return boolean false in case you do not want to save any value.
      *
-     * @return mixed|false
+     * @return string|false
      */
     public function onNewAction(Request $request, Visitor $visitor, Action $action)
     {
@@ -76,13 +76,12 @@ class ExampleActionDimension extends ActionDimension
             return false;
         }
 
-        $value = Common::getRequestVar('my_page_keywords', false, 'string', $request->getParams());
+        $value = trim(Common::getRequestVar('my_page_keywords', '', 'string', $request->getParams()));
 
-        if (false === $value) {
-            return $value;
+        if ('' === $value) {
+            // nothing was tracked for this action, so do not save any value.
+            return false;
         }
-
-        $value = trim($value);
 
         return substr($value, 0, 255);
     }
@@ -96,10 +95,9 @@ class ExampleActionDimension extends ActionDimension
      * "onNewAction" the value will be probably overwritten by the other event. So make sure to implement only one of
      * those.
      *
-     * @param Request $request
-     * @param Action $action
+     * Uncomment the following method to enable this behaviour:
      *
-     * @return false|mixed
+     * @return string|false
     public function onLookupAction(Request $request, Action $action)
     {
         if (!($action instanceof ActionPageview)) {
@@ -107,13 +105,12 @@ class ExampleActionDimension extends ActionDimension
             return false;
         }
 
-        $value = Common::getRequestVar('my_page_keywords', false, 'string', $request->getParams());
+        $value = trim(Common::getRequestVar('my_page_keywords', '', 'string', $request->getParams()));
 
-        if (false === $value) {
-            return $value;
+        if ('' === $value) {
+            // nothing was tracked for this action, so do not save any value.
+            return false;
         }
-
-        $value = trim($value);
 
         return substr($value, 0, 255);
     }
@@ -121,6 +118,7 @@ class ExampleActionDimension extends ActionDimension
 
     /**
      * An action id. The value returned by the lookup action will be associated with this id in the log_action table.
+     *
      * @return int
     public function getActionId()
     {

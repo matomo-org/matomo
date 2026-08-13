@@ -20,6 +20,9 @@ use Piwik\Plugins\Actions\Columns\ExitPageUrl;
  */
 class GetExampleReport extends Base
 {
+    /**
+     * @return void
+     */
     protected function init()
     {
         parent::init();
@@ -32,11 +35,11 @@ class GetExampleReport extends Base
         $this->order = 999;
 
         // By default standard metrics are defined but you can customize them by defining an array of metric names
-        // $this->metrics       = array('nb_visits', 'nb_hits');
+        // $this->metrics       = ['nb_visits', 'nb_hits'];
 
         // Uncomment the next line if your report does not contain any processed metrics, otherwise default
         // processed metrics will be assigned
-        // $this->processedMetrics = array();
+        // $this->processedMetrics = [];
 
         // Uncomment the next line if your report defines goal metrics
         // $this->hasGoalMetrics = true;
@@ -55,6 +58,8 @@ class GetExampleReport extends Base
     /**
      * Here you can configure how your report should be displayed. For instance whether your report supports a search
      * etc. You can also change the default request config. For instance change how many rows are displayed by default.
+     *
+     * @return void
      */
     public function configureView(ViewDataTable $view)
     {
@@ -62,7 +67,7 @@ class GetExampleReport extends Base
         // $view->requestConfig->filter_sort_column = 'nb_visits';
         // $view->requestConfig->filter_limit = 10';
 
-        $view->config->columns_to_display = array_merge(array('label'), $this->metrics);
+        $view->config->columns_to_display = array_merge(['label'], $this->metrics);
     }
 
     /**
@@ -73,7 +78,7 @@ class GetExampleReport extends Base
      */
     public function getRelatedReports()
     {
-        return array(); // eg return array(new XyzReport());
+        return []; // eg return [new XyzReport()];
     }
 
     /**
@@ -86,7 +91,7 @@ class GetExampleReport extends Base
     public function render()
     {
         $view = new View('@ExampleReport/getExampleReport');
-        $view->myData = array();
+        $view->myData = [];
 
         return $view->render();
     }
