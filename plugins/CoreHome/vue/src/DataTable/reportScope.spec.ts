@@ -151,6 +151,20 @@ describe('findReportRoot', () => {
     expect(findReportRoot(control('icon')).length).toBe(0);
   });
 
+  // Plugins mark their own report root with `data-report`, and it is not always a table:
+  // CrashAnalytics puts it on a plain div rendered inside a popover. Requiring `.dataTable` here
+  // turned their export icon into a no-op, without those plugins changing anything.
+  it('should resolve a report a plugin marks on something other than a table', () => {
+    document.body.innerHTML = `
+      <div class="ui-dialog">
+        <div class="crashLog" data-report="CrashAnalytics.getAllCrashes" id="report">
+          <a id="icon"></a>
+        </div>
+      </div>`;
+
+    expect(findReportRoot(control('icon'))[0]).toBe(document.querySelector('#report'));
+  });
+
   it('should return an empty set when there is no report to find', () => {
     document.body.innerHTML = '<div class="pageWrap"><a id="icon"></a></div>';
 

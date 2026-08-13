@@ -41,7 +41,12 @@ function onlyReport(tables: JQuery): JQuery {
 export default function findReportRoot(el: HTMLElement): JQuery {
   const $el = $(el);
 
-  const enclosing = $el.closest('.dataTable');
+  // `[data-report]` as well as `.dataTable`: a control inside its own report resolves the way
+  // `closest('[data-report]')` always did, which plugins rely on to mark something that is not a
+  // table at all. CrashAnalytics puts it on a plain div inside a popover. `.dataTable` still has
+  // to be matched in its own right, because a subtable carries no `data-report` of its own and
+  // must resolve to itself rather than to the report above it.
+  const enclosing = $el.closest('.dataTable, [data-report]');
   if (enclosing.length) {
     return enclosing;
   }
