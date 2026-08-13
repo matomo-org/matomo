@@ -66,6 +66,7 @@
         "ComplianceEnforceAllSettings": "Enforce all settings",
         "ComplianceTableImpact": "Impact",
         "ComplianceStatusEnforced": "Enforced",
+        "ComplianceStatusCompliantEnforced": "Compliant (enforced)",
         "ComplianceStatusAppliesOnSave": "Applies on Save",
         "ComplianceStatusOnByDefault": "Compliant",
         "ComplianceStatusManual": "Manual",
