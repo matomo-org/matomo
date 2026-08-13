@@ -1,0 +1,8 @@
+{
+    "AIProviders": {
+        "ApiKey": "Clau API",
+        "DefaultBadge": "Per defecte",
+        "Model": "Model",
+        "TestingConnection": "Provant…"
+    }
+}
