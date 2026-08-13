@@ -588,6 +588,7 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_ComplianceStatusAppliesOnSave';
         $translationKeys[] = 'PrivacyManager_ComplianceStatusOnByDefault';
         $translationKeys[] = 'PrivacyManager_ComplianceStatusManual';
+        $translationKeys[] = 'PrivacyManager_ComplianceSettingsSaved';
         $translationKeys[] = 'PrivacyManager_ComplianceManagedOutsideTitle';
         $translationKeys[] = 'General_ErrorTryAgain';
         $translationKeys[] = 'General_ExceptionContactSupportGeneric';

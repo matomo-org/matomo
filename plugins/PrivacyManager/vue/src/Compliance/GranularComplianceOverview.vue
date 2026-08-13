@@ -6,6 +6,18 @@
 -->
 
 <template>
+  <div
+    class="granularComplianceSaveNotifications"
+    ref="saveNotifications"
+    v-if="state.saveError || state.saveSuccess"
+  >
+    <div v-if="state.saveError" class="notification system notification-error">
+      {{ state.saveError }}
+    </div>
+    <div v-if="state.saveSuccess" class="notification system notification-success">
+      {{ translate('PrivacyManager_ComplianceSettingsSaved') }}
+    </div>
+  </div>
   <ContentBlock :content-title="title">
     <div class="granularComplianceHeaderActions" v-if="canSave">
       <SaveButton
@@ -55,10 +67,6 @@
           :settings="externalSettings"
           :show-toggles="false"
         />
-        <div v-if="state.saveError" class="notification system notification-error">
-            {{ translate('General_ErrorTryAgain') }}
-            {{ translate('General_ExceptionContactSupportGeneric', ['','']) }}
-        </div>
         <template v-if="canSave">
           <SaveButton
             :class="'granularCompliance-' + complianceType + '-save'"
@@ -83,6 +91,7 @@
 import {
   computed,
   defineComponent,
+  nextTick,
   ref,
   watch,
 } from 'vue';
@@ -148,7 +157,22 @@ export default defineComponent({
     const hasUnsavedChanges = computed(() => store.dirtySettingIds.value.length > 0);
     const canSave = computed(() => !store.state.configControlled);
 
+    // the save buttons can sit far below the notification area, so bring the
+    // outcome of a save into view once it is rendered
+    const saveNotifications = ref<HTMLElement | null>(null);
+    watch(
+      () => [store.state.saveError, store.state.saveSuccess] as const,
+      ([saveError, saveSuccess]) => {
+        if (saveError || saveSuccess) {
+          nextTick(() => {
+            saveNotifications.value?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          });
+        }
+      },
+    );
+
     return {
+      saveNotifications,
       state: store.state,
       dirtySettingIds: store.dirtySettingIds,
       toggleSetting: store.toggleSetting,
