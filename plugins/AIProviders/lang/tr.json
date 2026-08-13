@@ -1,0 +1,8 @@
+{
+    "AIProviders": {
+        "ApiKey": "API anahtarı",
+        "DefaultBadge": "Varsayılan",
+        "Model": "Model",
+        "TestingConnection": "Sınanıyor…"
+    }
+}
