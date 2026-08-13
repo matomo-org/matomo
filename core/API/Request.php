@@ -134,11 +134,6 @@ class Request
             $requestArray = $requestParsed + $defaultRequest;
         }
 
-        foreach ($requestArray as &$element) {
-            if (!is_array($element)) {
-                $element = trim((string) $element);
-            }
-        }
         return $requestArray;
     }
 

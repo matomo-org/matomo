@@ -161,7 +161,7 @@ class LabelFilter extends DataTableManipulator
                 array_unshift($variations, ' ' . $label);
             } else {
                 // special case: the Actions.getPageTitles report prefixes some labels with a blank.
-                // the blank might be passed by the user but is removed in Request::getRequestArrayFromString.
+                // the blank might be passed by the user but is removed by the trim above.
                 $variations[] = ' ' . $sanitizedLabel;
                 $variations[] = ' ' . $label;
             }
