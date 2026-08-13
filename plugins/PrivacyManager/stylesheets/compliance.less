@@ -106,6 +106,21 @@
     margin-top: -3rem;
   }
 
+  // Let the settings table scroll horizontally rather than clipping the status
+  // and toggle controls when the viewport is too narrow to show every column.
+  .granularComplianceScroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+
+    > table.granularCompliance {
+      // Neutralise the .card-table `width: calc(100% + 40px)` bleed, which would
+      // otherwise push the toggle column off screen, and only overflow (scroll)
+      // once the columns can no longer sensibly fit.
+      width: 100%;
+      min-width: 40rem;
+    }
+  }
+
   .granularComplianceEnforceAll {
     display: flex;
     align-items: safe center;
@@ -144,5 +159,21 @@
     overflow: hidden;
     clip: rect(0, 0, 0, 0);
     white-space: nowrap;
+  }
+
+  // On narrow viewports stop the header save button overlapping the title and
+  // let the enforce-all call to action stack instead of running off screen.
+  @media (max-width: 768px) {
+    .granularComplianceHeaderActions {
+      float: none;
+      margin-top: 0.5rem;
+      margin-bottom: 1rem;
+      text-align: left;
+    }
+
+    .granularComplianceEnforceAll {
+      flex-direction: column;
+      align-items: stretch;
+    }
   }
 }
