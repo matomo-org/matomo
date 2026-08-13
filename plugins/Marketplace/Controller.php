@@ -456,7 +456,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         if ($nonceName === static::UPDATE_NONCE) {
             foreach ($plugins as $pluginName) {
                 if (!$this->pluginManager->isPluginInFilesystem($pluginName)) {
-                    throw new Exception(Piwik::translate('CorePluginsAdmin_PluginNotFound', $pluginName));
+                    throw new Exception(Piwik::translate('CorePluginsAdmin_PluginNotFound', [$pluginName]));
                 }
             }
         }
