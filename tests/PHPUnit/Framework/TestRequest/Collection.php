@@ -169,7 +169,8 @@ class Collection
                     "Want to test APIs: " . implode(", ", $this->apiToCall) . ")\n" .
                     "But only generated these URLs: \n" . implode("\n", $requestUrls) . ")\n" .
                     "Note: SystemTestCase is meant to test API methods where the method name starts with get* \n" .
-                    "If you want to test other API methods such as add* or update* or any other, please create an IntegrationTestCase instead (via `./console generate:test`)\n");
+                    "If you want to test other API methods such as add* or update* or any other, please create an IntegrationTestCase instead " .
+                    "(see plugins/ExamplePlugin/tests/Integration/SimpleTest.php)\n");
         }
     }
 

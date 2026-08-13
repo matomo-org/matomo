@@ -27,7 +27,7 @@ use Exception;
  * column will be created in the database (table `log_link_visit_action`) automatically and the values you return in
  * the previous mentioned events will be saved in this column.
  *
- * You can create a new dimension using the console command `./console generate:dimension`.
+ * For a documented example to start from, see `plugins/ExampleTracker/Columns/ExampleActionDimension.php`.
  *
  * @api
  * @since 2.5.0
