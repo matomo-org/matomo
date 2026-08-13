@@ -2557,18 +2557,6 @@ parameters:
 			path: plugins/CoreConsole/Commands/CoreArchiver.php
 
 		-
-			message: '#^Expression "\$validate\(\$documentation\)" on a separate line does not do anything\.$#'
-			identifier: expr.resultUnused
-			count: 1
-			path: plugins/CoreConsole/Commands/GenerateReport.php
-
-		-
-			message: '#^Variable \$dimension in empty\(\) always exists and is not falsy\.$#'
-			identifier: empty.variable
-			count: 1
-			path: plugins/CoreConsole/Commands/GenerateReport.php
-
-		-
 			message: '#^If condition is always true\.$#'
 			identifier: if.alwaysTrue
 			count: 1

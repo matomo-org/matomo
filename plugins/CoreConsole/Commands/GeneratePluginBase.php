@@ -252,65 +252,6 @@ abstract class GeneratePluginBase extends ConsoleCommand
     }
 
     /**
-     * Copies the given method and all needed use statements into an existing class. The target class name will be
-     * built based on the given $replace argument.
-     * @param string $sourceClassName
-     * @param string $methodName
-     * @param array $replace
-     */
-    protected function copyTemplateMethodToExisitingClass($sourceClassName, $methodName, $replace)
-    {
-        $targetClassName = $this->replaceContent($replace, $sourceClassName);
-
-        if (Development::methodExists($targetClassName, $methodName)) {
-            // we do not want to add the same method twice
-            return;
-        }
-
-        Development::checkMethodExists($sourceClassName, $methodName, 'Cannot copy template method: ');
-
-        $targetClass = new \ReflectionClass($targetClassName);
-        $file        = new \SplFileObject($targetClass->getFileName());
-
-        $methodCode = Development::getMethodSourceCode($sourceClassName, $methodName);
-        $methodCode = $this->replaceContent($replace, $methodCode);
-        $methodLine = $targetClass->getEndLine() - 1;
-
-        $sourceUses = Development::getUseStatements($sourceClassName);
-        $targetUses = Development::getUseStatements($targetClassName);
-        $usesToAdd  = array_diff($sourceUses, $targetUses);
-        if (empty($usesToAdd)) {
-            $useCode = '';
-        } else {
-            $useCode = "\nuse " . implode("\nuse ", $usesToAdd) . "\n";
-        }
-
-        // search for namespace line before the class starts
-        $useLine = 0;
-        foreach (new \LimitIterator($file, 0, $targetClass->getStartLine()) as $index => $line) {
-            if (0 === strpos(trim($line), 'namespace ')) {
-                $useLine = $index + 1;
-                break;
-            }
-        }
-
-        $newClassCode = '';
-        foreach (new \LimitIterator($file) as $index => $line) {
-            if ($index == $methodLine) {
-                $newClassCode .= $methodCode;
-            }
-
-            if (0 !== $useLine && $index == $useLine) {
-                $newClassCode .= $useCode;
-            }
-
-            $newClassCode .= $line;
-        }
-
-        file_put_contents($targetClass->getFileName(), $newClassCode);
-    }
-
-    /**
      * @param string $templateFolder  full path like /home/...
      * @param string $pluginName
      * @param array $replace         array(key => value) $key will be replaced by $value in all templates
@@ -359,21 +300,6 @@ abstract class GeneratePluginBase extends ConsoleCommand
             }
         }
 
-        return $pluginNames;
-    }
-
-    protected function getPluginNamesHavingNotSpecificFile($filename)
-    {
-        $pluginNames = array();
-        foreach (Manager::getPluginsDirectories() as $pluginsDir) {
-            $pluginDirs = glob($pluginsDir . '*', GLOB_ONLYDIR) ?: [];
-
-            foreach ($pluginDirs as $pluginDir) {
-                if (!file_exists($pluginDir . '/' . $filename)) {
-                    $pluginNames[] = basename($pluginDir);
-                }
-            }
-        }
         return $pluginNames;
     }
 
