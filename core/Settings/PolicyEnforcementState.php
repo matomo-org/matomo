@@ -88,14 +88,7 @@ class PolicyEnforcementState
      */
     public function set(?int $idSite, ?bool $isEnforced): void
     {
-        $setting = $this->makeSetting($idSite);
-
-        if (!$setting->isWritableByCurrentUser()) {
-            throw new Exception(Piwik::translate(
-                'CoreAdminHome_PluginSettingChangeNotAllowed',
-                [$this->settingName, $this->pluginName]
-            ));
-        }
+        $this->assertWritableByCurrentUser($idSite);
 
         // Setting::setValue() cannot express the removal of a state, as its boolean
         // validation rejects null. The state is therefore written through the very storage
@@ -119,6 +112,26 @@ class PolicyEnforcementState
     public function isWritableByCurrentUser(?int $idSite = null): bool
     {
         return $this->makeSetting($idSite)->isWritableByCurrentUser();
+    }
+
+    /**
+     * Fails unless the current user may change the enforcement state of the given scope.
+     * Callers that write more than one scope use this to reject the whole change before
+     * any of it is written.
+     *
+     * @param int|null $idSite The website to check, or null for the instance wide state.
+     * @throws Exception when the state cannot be written by the current user
+     */
+    public function assertWritableByCurrentUser(?int $idSite = null): void
+    {
+        if ($this->isWritableByCurrentUser($idSite)) {
+            return;
+        }
+
+        throw new Exception(Piwik::translate(
+            'CoreAdminHome_PluginSettingChangeNotAllowed',
+            [$this->settingName, $this->pluginName]
+        ));
     }
 
     private function makeSetting(?int $idSite): Setting

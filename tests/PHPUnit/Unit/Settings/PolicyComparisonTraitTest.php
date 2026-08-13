@@ -21,12 +21,14 @@ class PolicyComparisonTraitTest extends TestCase
 
         TestPolicy::reset();
         InMemoryPolicyEnforcementState::reset();
+        PolicyComparisonTraitImpl::setAllIdSites([self::IDSITE, self::OTHER_IDSITE]);
     }
 
     public function tearDown(): void
     {
         TestPolicy::reset();
         InMemoryPolicyEnforcementState::reset();
+        PolicyComparisonTraitImpl::setAllIdSites([]);
 
         parent::tearDown();
     }
@@ -178,6 +180,20 @@ class PolicyComparisonTraitTest extends TestCase
         $this->assertFalse(PolicyComparisonTraitImpl::isEnforced(self::OTHER_IDSITE));
     }
 
+    /**
+     * Enforcement is additive: a site that enforces the setting stays enforced even while
+     * the instance wide state does not enforce it.
+     */
+    public function testIsEnforcedLetsASiteEnforceOverAnInstanceWideOptOut()
+    {
+        PolicyComparisonTraitImpl::setEnforced(false);
+        PolicyComparisonTraitImpl::setEnforced(true, self::IDSITE);
+
+        $this->assertTrue(PolicyComparisonTraitImpl::isEnforced(self::IDSITE));
+        $this->assertFalse(PolicyComparisonTraitImpl::isEnforced(self::OTHER_IDSITE));
+        $this->assertFalse(PolicyComparisonTraitImpl::isEnforced());
+    }
+
     public function testIsEnforcedIsPinnedOnByAConfigControlledPolicy()
     {
         TestPolicy::setConfigValue(true);
@@ -197,31 +213,38 @@ class PolicyComparisonTraitTest extends TestCase
 
     // storing the enforcement state
 
-    public function testSetEnforcedOnlyStoresAStateThatDeviatesFromThePolicy()
+    public function testSetEnforcedStoresTheRequestedStateVerbatim()
+    {
+        PolicyComparisonTraitImpl::setEnforced(true);
+
+        $this->assertTrue(PolicyComparisonTraitImpl::getStoredEnforcementState());
+    }
+
+    /**
+     * The stored state records what was asked for, not how it differed from the policies
+     * at the time, so the same intent survives a later policy change.
+     */
+    public function testSetEnforcedStoresAStateThatMatchesThePolicy()
     {
         PolicyComparisonTraitImpl::setEnforced(false);
 
-        $this->assertSame([], InMemoryPolicyEnforcementState::getAllStates());
-        $this->assertNull(PolicyComparisonTraitImpl::getStoredEnforcementState());
+        $this->assertFalse(PolicyComparisonTraitImpl::getStoredEnforcementState());
+        $this->assertFalse(PolicyComparisonTraitImpl::isEnforced());
+
+        PolicyManager::setPolicyActiveStatus(TestPolicy::class, true);
+
         $this->assertFalse(PolicyComparisonTraitImpl::isEnforced());
     }
 
-    public function testSetEnforcedStoresAStateThatDeviatesFromThePolicy()
+    public function testSetEnforcedKeepsAnExplicitlyEnforcedStateWhenThePolicyIsDeactivated()
     {
+        PolicyManager::setPolicyActiveStatus(TestPolicy::class, true);
         PolicyComparisonTraitImpl::setEnforced(true);
 
+        PolicyManager::setPolicyActiveStatus(TestPolicy::class, false);
+
         $this->assertTrue(PolicyComparisonTraitImpl::getStoredEnforcementState());
-    }
-
-    public function testSetEnforcedRemovesAStoredStateWhenItMatchesThePolicyAgain()
-    {
-        PolicyComparisonTraitImpl::setEnforced(true);
-        $this->assertTrue(PolicyComparisonTraitImpl::getStoredEnforcementState());
-
-        PolicyComparisonTraitImpl::setEnforced(false);
-
-        $this->assertNull(PolicyComparisonTraitImpl::getStoredEnforcementState());
-        $this->assertSame([], InMemoryPolicyEnforcementState::getAllStates());
+        $this->assertTrue(PolicyComparisonTraitImpl::isEnforced());
     }
 
     public function testSetEnforcedWithNullResetsTheSettingToFollowItsPolicies()
@@ -236,15 +259,69 @@ class PolicyComparisonTraitTest extends TestCase
         $this->assertTrue(PolicyComparisonTraitImpl::isEnforced());
     }
 
-    public function testSetEnforcedGivesWayForASiteOptOutOfAnInstanceWideState()
+    public function testSetEnforcedDemotesInstanceWideEnforcementSoOtherSitesKeepTheirs()
     {
         PolicyComparisonTraitImpl::setEnforced(true);
 
         PolicyComparisonTraitImpl::setEnforced(false, self::IDSITE);
 
+        // the site that opted out is the only one that stops being enforced
         $this->assertFalse(PolicyComparisonTraitImpl::isEnforced(self::IDSITE));
+        $this->assertTrue(PolicyComparisonTraitImpl::isEnforced(self::OTHER_IDSITE));
+
+        // the other site keeps its enforcement through a state of its own, not through
+        // the instance wide one it used to inherit
+        $this->assertTrue(PolicyComparisonTraitImpl::getStoredEnforcementState(self::OTHER_IDSITE));
+
+        // the instance can no longer claim to be enforced as a whole
+        $this->assertFalse(PolicyComparisonTraitImpl::getStoredEnforcementState());
         $this->assertFalse(PolicyComparisonTraitImpl::isEnforced());
-        $this->assertNull(PolicyComparisonTraitImpl::getStoredEnforcementState());
+    }
+
+    public function testSetEnforcedDemotesInstanceWideEnforcementWhileThePolicyIsActive()
+    {
+        PolicyManager::setPolicyActiveStatus(TestPolicy::class, true);
+        PolicyComparisonTraitImpl::setEnforced(true);
+
+        PolicyComparisonTraitImpl::setEnforced(false, self::IDSITE);
+
+        // the explicit instance wide "not enforced" must not leak into the other site,
+        // and must not be overridden by the still active policy either
+        $this->assertFalse(PolicyComparisonTraitImpl::isEnforced(self::IDSITE));
+        $this->assertTrue(PolicyComparisonTraitImpl::isEnforced(self::OTHER_IDSITE));
+        $this->assertFalse(PolicyComparisonTraitImpl::isEnforced());
+    }
+
+    public function testSetEnforcedIsRefusedWhenTheInstanceWideStateCannotBeDemoted()
+    {
+        PolicyComparisonTraitImpl::setEnforced(true);
+
+        InMemoryPolicyEnforcementState::setIsWritable(false);
+
+        try {
+            PolicyComparisonTraitImpl::setEnforced(false, self::IDSITE);
+            $this->fail('Expected the demotion to be refused');
+        } catch (\Exception $e) {
+            // nothing may have been written before the refusal
+            InMemoryPolicyEnforcementState::setIsWritable(true);
+
+            $this->assertTrue(PolicyComparisonTraitImpl::getStoredEnforcementState());
+            $this->assertNull(PolicyComparisonTraitImpl::getStoredEnforcementState(self::IDSITE));
+            $this->assertNull(PolicyComparisonTraitImpl::getStoredEnforcementState(self::OTHER_IDSITE));
+        }
+    }
+
+    public function testIsEnforcementNotWritableForASiteWhenTheInstanceWideStateIsNot()
+    {
+        PolicyComparisonTraitImpl::setEnforced(true);
+
+        $this->assertTrue(PolicyComparisonTraitImpl::isEnforcementWritable(self::IDSITE));
+
+        InMemoryPolicyEnforcementState::setIsWritable(false);
+
+        // changing the site would demote the instance wide state, so it needs the same
+        // access as an instance wide change
+        $this->assertFalse(PolicyComparisonTraitImpl::isEnforcementWritable(self::IDSITE));
     }
 
     public function testSetEnforcedPinsASiteOptOutWhileThePolicyStaysActive()

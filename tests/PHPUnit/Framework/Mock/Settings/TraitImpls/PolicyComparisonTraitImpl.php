@@ -15,6 +15,27 @@ class PolicyComparisonTraitImpl implements PolicyComparisonInterface
      */
     use PolicyComparisonTrait;
 
+    /**
+     * Websites the mock pretends the instance has, so that demoting the instance wide
+     * enforcement state can be tested without a database.
+     *
+     * @var array<int, int>
+     */
+    private static $idSites = [];
+
+    /**
+     * @param array<int, int> $idSites
+     */
+    public static function setAllIdSites(array $idSites): void
+    {
+        self::$idSites = $idSites;
+    }
+
+    protected static function getAllIdSites(): array
+    {
+        return self::$idSites;
+    }
+
     protected static function compareStrictness($value1, $value2)
     {
         return $value1;

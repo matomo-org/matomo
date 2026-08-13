@@ -10,6 +10,7 @@
 namespace Piwik\Settings\Interfaces\Traits;
 
 use Piwik\Piwik;
+use Piwik\Plugins\SitesManager\Model as SitesManagerModel;
 use Piwik\Policy\CompliancePolicy;
 use Piwik\Policy\PolicyEnforcementBypass;
 use Piwik\Settings\PolicyEnforcementState;
@@ -57,21 +58,18 @@ trait PolicyComparisonTrait
         }
 
         $instanceState = static::getStoredEnforcementState(null);
+        $siteState = is_null($idSite) ? null : static::getStoredEnforcementState($idSite);
 
-        // mirrors CompliancePolicy::isActive(): an instance wide state applies to every site
-        if (true === $instanceState) {
+        // enforcement is additive across scopes: the setting is enforced as soon as any
+        // scope enforces it, so an instance wide state cannot un-enforce a site that
+        // enforces itself, and a site cannot un-enforce itself while the instance does
+        if (true === $instanceState || true === $siteState) {
             return true;
         }
 
-        if (!is_null($idSite)) {
-            $siteState = static::getStoredEnforcementState($idSite);
-
-            if (!is_null($siteState)) {
-                return $siteState;
-            }
-        }
-
-        if (!is_null($instanceState)) {
+        // an explicit "not enforced" is a deliberate answer and suppresses the policies,
+        // which is what allows a single site to opt out of an otherwise active policy
+        if (false === $instanceState || false === $siteState) {
             return false;
         }
 
@@ -88,12 +86,12 @@ trait PolicyComparisonTrait
         }
 
         if (!is_null($idSite) && false === $isEnforced && true === static::getStoredEnforcementState(null)) {
-            // mirrors CompliancePolicy::setActiveStatus(): an instance wide state applies to
-            // every site, so it has to give way before a single site can opt out of it
-            static::writeEnforcementState(null, static::reduceToDeviation(false, null));
+            // an instance wide state enforces every site, so it has to give way before a
+            // single site can opt out of it
+            static::demoteInstanceWideEnforcement();
         }
 
-        static::writeEnforcementState($idSite, static::reduceToDeviation($isEnforced, $idSite));
+        static::writeEnforcementState($idSite, $isEnforced);
 
         /**
          * Triggered when the enforcement state of a policy-controlled setting changes, to
@@ -124,39 +122,67 @@ trait PolicyComparisonTrait
             return false;
         }
 
-        return static::getPolicyEnforcementState()->isWritableByCurrentUser($idSite);
+        $state = static::getPolicyEnforcementState();
+
+        // changing a site while the instance wide state enforces it demotes that state,
+        // which rewrites every site as well, so it needs instance wide write access even
+        // though the caller only named one site
+        if (!is_null($idSite) && true === static::getStoredEnforcementState(null)) {
+            return $state->isWritableByCurrentUser(null) && $state->isWritableByCurrentUser($idSite);
+        }
+
+        return $state->isWritableByCurrentUser($idSite);
     }
 
     /**
-     * Only states that deviate from what would otherwise be inherited are worth storing.
-     * Resetting a setting back to what its policies already say removes the stored state,
-     * so a stored row always represents a deliberate deviation and never merely pins the
-     * value a policy happened to have at the time.
+     * Turns the instance wide enforcement state off without changing whether any site is
+     * enforced: every site is first given the state it currently resolves to, so that the
+     * sites which were only enforced through the instance wide state keep their
+     * enforcement once it is gone.
+     *
+     * The sites are written before the instance wide state, so an interrupted demotion
+     * leaves everything enforced rather than silently un-enforcing the sites it did not
+     * reach yet.
+     *
+     * @throws \Exception when the current user may not change the instance wide state
      */
-    protected static function reduceToDeviation(?bool $isEnforced, ?int $idSite): ?bool
+    protected static function demoteInstanceWideEnforcement(): void
     {
-        if (is_null($isEnforced)) {
-            return null;
+        $state = static::getPolicyEnforcementState();
+
+        // rewriting every site is an instance wide change whichever site triggered it,
+        // so refuse it upfront rather than part way through
+        $state->assertWritableByCurrentUser(null);
+
+        // resolve every site before writing anything, so each one is given back exactly
+        // what it resolves to today rather than a copy of the instance wide state. Note
+        // this does overwrite a site's own stored "not enforced" with the enforcement it
+        // currently inherits, which is the state that was actually in effect for it.
+        $resolvedStates = [];
+
+        foreach (static::getAllIdSites() as $id) {
+            $idSite = (int) $id;
+            $resolvedStates[$idSite] = static::isEnforced($idSite);
         }
 
-        return $isEnforced === static::getInheritedEnforcement($idSite) ? null : $isEnforced;
+        foreach ($resolvedStates as $id => $isEnforced) {
+            static::writeEnforcementState($id, $isEnforced);
+        }
+
+        // the instance can no longer claim to be enforced as a whole, and recording that
+        // explicitly also keeps sites created later out of the demoted enforcement
+        static::writeEnforcementState(null, false);
     }
 
     /**
-     * The enforcement state this setting would have for the given scope if no state was
-     * stored for that scope.
+     * The websites the instance wide enforcement state has to be materialised onto when
+     * it is demoted.
+     *
+     * @return array<int, int|string>
      */
-    protected static function getInheritedEnforcement(?int $idSite): bool
+    protected static function getAllIdSites(): array
     {
-        if (!is_null($idSite)) {
-            $instanceState = static::getStoredEnforcementState(null);
-
-            if (!is_null($instanceState)) {
-                return $instanceState;
-            }
-        }
-
-        return static::isEnforcedByPolicies($idSite);
+        return (new SitesManagerModel())->getSitesId();
     }
 
     /**
