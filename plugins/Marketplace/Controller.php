@@ -453,6 +453,14 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $plugins = $this->getPluginNameIfNonceValid($nonceName);
 
+        if ($nonceName === static::UPDATE_NONCE) {
+            foreach ($plugins as $pluginName) {
+                if (!$this->pluginManager->isPluginInFilesystem($pluginName)) {
+                    throw new Exception(Piwik::translate('CorePluginsAdmin_PluginNotFound', $pluginName));
+                }
+            }
+        }
+
         $view = new View('@Marketplace/' . $template);
         $this->setBasicVariablesView($view);
         $view->errorMessage = '';
