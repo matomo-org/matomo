@@ -973,12 +973,6 @@ parameters:
 			path: core/Piwik.php
 
 		-
-			message: '#^Result of && is always true\.$#'
-			identifier: booleanAnd.alwaysTrue
-			count: 1
-			path: core/Piwik.php
-
-		-
 			message: '#^Result of \|\| is always false\.$#'
 			identifier: booleanOr.alwaysFalse
 			count: 1
@@ -1253,24 +1247,6 @@ parameters:
 			identifier: variable.undefined
 			count: 1
 			path: core/Profiler.php
-
-		-
-			message: '#^Left side of \|\| is always false\.$#'
-			identifier: booleanOr.leftAlwaysFalse
-			count: 1
-			path: core/ProxyHttp.php
-
-		-
-			message: '#^Result of && is always false\.$#'
-			identifier: booleanAnd.alwaysFalse
-			count: 1
-			path: core/ProxyHttp.php
-
-		-
-			message: '#^Right side of \|\| is always false\.$#'
-			identifier: booleanOr.rightAlwaysFalse
-			count: 1
-			path: core/ProxyHttp.php
 
 		-
 			message: '#^Call to an undefined method HTML_QuickForm2_Renderer_Proxy\:\:toArray\(\)\.$#'
