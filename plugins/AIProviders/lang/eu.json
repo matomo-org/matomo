@@ -1,0 +1,8 @@
+{
+    "AIProviders": {
+        "ApiKey": "API gakoa",
+        "DefaultBadge": "Lehenetsia",
+        "Model": "Modeloa",
+        "TestingConnection": "Probatzen…"
+    }
+}
