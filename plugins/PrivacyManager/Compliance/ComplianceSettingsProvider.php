@@ -52,7 +52,7 @@ class ComplianceSettingsProvider
                 'name' => $settingClass::getTitle(),
                 'whatItDoes' => $settingClass::getWhatItDoes(),
                 'impact' => $settingClass::getImpact(),
-                'status' => $this->computeStatus($policyClass, $settingClass, $idSite),
+                'status' => $this->computeStatus($policyClass, $settingClass, $idSite, $enforced),
                 'enforced' => $enforced,
                 'toggleable' => true,
                 'section' => self::SECTION_SETTINGS,
@@ -127,27 +127,21 @@ class ComplianceSettingsProvider
     }
 
     /**
-     * A setting is "compliant" when the underlying Matomo configuration satisfies
-     * the policy requirement on its own, and "enforced" when the requirement is
-     * only met because the policy enforcement overrides the underlying value.
+     * A setting whose requirement is met reports "enforced" whenever its enforcement
+     * toggle is on — even when the underlying configuration would satisfy the
+     * requirement on its own — and "compliant" otherwise. A setting whose requirement
+     * isn't met reports "non_compliant" regardless of the toggle (e.g. the IP address
+     * mask length while IP anonymisation itself is disabled).
      *
      * @param class-string<CompliancePolicy> $policyClass
      * @param class-string<PolicyComparisonInterface<mixed>> $settingClass
      */
-    private function computeStatus(string $policyClass, string $settingClass, ?int $idSite): string
+    private function computeStatus(string $policyClass, string $settingClass, ?int $idSite, bool $enforced): string
     {
-        $compliantOnItsOwn = PolicyEnforcementBypass::run(
-            function () use ($settingClass, $policyClass, $idSite): bool {
-                return $settingClass::isCompliant($policyClass, $idSite);
-            }
-        );
-
-        if ($compliantOnItsOwn) {
-            return self::STATUS_COMPLIANT;
+        if (!$settingClass::isCompliant($policyClass, $idSite)) {
+            return self::STATUS_NON_COMPLIANT;
         }
 
-        return $settingClass::isCompliant($policyClass, $idSite)
-            ? self::STATUS_ENFORCED
-            : self::STATUS_NON_COMPLIANT;
+        return $enforced ? self::STATUS_ENFORCED : self::STATUS_COMPLIANT;
     }
 }

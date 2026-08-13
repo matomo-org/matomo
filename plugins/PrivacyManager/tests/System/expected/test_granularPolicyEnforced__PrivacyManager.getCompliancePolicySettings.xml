@@ -121,7 +121,7 @@
 			<name>Data retention period</name>
 			<whatItDoes />
 			<impact />
-			<status>compliant</status>
+			<status>enforced</status>
 			<enforced>1</enforced>
 			<toggleable>1</toggleable>
 			<section>settings</section>
