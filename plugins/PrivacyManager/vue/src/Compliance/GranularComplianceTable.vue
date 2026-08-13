@@ -85,7 +85,7 @@ const iconClassMap: Record<string, string> = {
 
 const statusTextMap: Record<string, string> = {
   compliant: 'PrivacyManager_ComplianceCompliant',
-  enforced: 'PrivacyManager_ComplianceStatusEnforced',
+  enforced: 'PrivacyManager_ComplianceStatusCompliantEnforced',
   non_compliant: 'PrivacyManager_ComplianceNonCompliant',
   on_by_default: 'PrivacyManager_ComplianceStatusOnByDefault',
   manual: 'PrivacyManager_ComplianceStatusManual',

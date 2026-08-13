@@ -54,7 +54,7 @@ describe('PrivacyManager/GranularComplianceTable', () => {
     expect(rows[0].find('.settingName').text()).toBe('IP Anonymisation Enabled');
     expect(rows[0].find('.status').text()).toContain('PrivacyManager_ComplianceCompliant');
     expect(rows[0].find('.status .icon-ok').exists()).toBe(true);
-    expect(rows[1].find('.status').text()).toContain('PrivacyManager_ComplianceStatusEnforced');
+    expect(rows[1].find('.status').text()).toContain('PrivacyManager_ComplianceStatusCompliantEnforced');
     expect(rows[1].find('input[type=checkbox]').element as HTMLInputElement).toHaveProperty('checked', true);
   });
 
