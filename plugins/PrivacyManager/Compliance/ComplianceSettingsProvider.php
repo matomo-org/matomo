@@ -50,8 +50,8 @@ class ComplianceSettingsProvider
             $settings[] = [
                 'id' => $settingClass::getPolicySettingId(),
                 'name' => $settingClass::getTitle(),
-                'whatItDoes' => $settingClass::getWhatItDoes(),
-                'impact' => $settingClass::getImpact(),
+                'whatItDoes' => $settingClass::getWhatItDoes($idSite),
+                'impact' => $settingClass::getImpact($idSite),
                 'status' => $this->computeStatus($policyClass, $settingClass, $idSite, $enforced),
                 'enforced' => $enforced,
                 'toggleable' => true,
@@ -99,8 +99,8 @@ class ComplianceSettingsProvider
             $settings[] = [
                 'id' => $settingClass::getPolicySettingId(),
                 'name' => $settingClass::getTitle(),
-                'whatItDoes' => $settingClass::getWhatItDoes(),
-                'impact' => $settingClass::getImpact(),
+                'whatItDoes' => $settingClass::getWhatItDoes($idSite),
+                'impact' => $settingClass::getImpact($idSite),
                 'status' => $compliantOnItsOwn
                     ? self::STATUS_ON_BY_DEFAULT
                     : self::STATUS_NON_COMPLIANT,

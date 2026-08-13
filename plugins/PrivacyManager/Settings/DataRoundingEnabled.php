@@ -21,12 +21,12 @@ class DataRoundingEnabled extends CompliancePolicyEnforcedSetting
         return Piwik::translate('PrivacyManager_SegmentedDataRoundingSettingTitle');
     }
 
-    public static function getWhatItDoes(): string
+    public static function getWhatItDoes(?int $idSite = null): string
     {
         return Piwik::translate('PrivacyManager_SegmentedDataRoundingSettingWhatItDoes');
     }
 
-    public static function getImpact(): string
+    public static function getImpact(?int $idSite = null): string
     {
         return Piwik::translate('PrivacyManager_SegmentedDataRoundingSettingImpact');
     }

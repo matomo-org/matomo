@@ -69,18 +69,22 @@ interface PolicyComparisonInterface
     public static function isExternallyManagedByPolicyPage(): bool;
 
     /**
-     * Short description of what enforcing this setting does.
+     * Short description of what enforcing this setting does. Implementations may include
+     * currently configured values, resolved for the given website.
      *
+     * @param int|null $idSite The website to describe, or null for the instance wide state.
      * @since Matomo 6.0.0 — {@link PolicyComparisonTrait} provides a default.
      */
-    public static function getWhatItDoes(): string;
+    public static function getWhatItDoes(?int $idSite = null): string;
 
     /**
      * Short description of the impact enforcing this setting has on reports and tracking.
+     * Implementations may include currently configured values, resolved for the given website.
      *
+     * @param int|null $idSite The website to describe, or null for the instance wide state.
      * @since Matomo 6.0.0 — {@link PolicyComparisonTrait} provides a default.
      */
-    public static function getImpact(): string;
+    public static function getImpact(?int $idSite = null): string;
 
     /**
      * Whether this setting is currently being enforced for the given scope, so that the

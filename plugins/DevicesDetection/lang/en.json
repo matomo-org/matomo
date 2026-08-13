@@ -40,7 +40,7 @@
         "FeaturePhone": "Feature phone",
         "OnlyMajorVersionsSettingTitle": "Major Browser and OS Versions",
         "OnlyMajorVersionsSettingWhatItDoes": "Only major browser and operating system versions are stored. Minor and patch versions are removed. For example, Chrome 136 or iOS 18 may be stored, but not Chrome 136.0.7103 or iOS 18.5.1.<br><br>This reduces the risk of identifying visitors using detailed browser and operating system information.",
-        "OnlyMajorVersionsSettingImpact": "Browser and operating system version reports under Visitors > Software only show major versions.<br><br>Detailed version analysis and segmentation are unavailable.",
+        "OnlyMajorVersionsSettingImpact": "Browser and operating system version reports under Visitors > Software only show major versions. Detailed version analysis and segmentation are unavailable.",
         "OnlyMajorVersionsSettingRequirementNote": "Only Major OS and browser versions are stored.",
         "OperatingSystemFamilies": "Operating System families",
         "OperatingSystemFamily": "Operating system family",

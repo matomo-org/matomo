@@ -83,12 +83,12 @@ class VisitorLogDisabled implements MeasurableSettingInterface, PolicyComparison
         return Piwik::translate('Live_VisitsLogAndProfileDisabledPolicySettingTitle');
     }
 
-    public static function getWhatItDoes(): string
+    public static function getWhatItDoes(?int $idSite = null): string
     {
         return Piwik::translate('Live_DisableVisitsLogAndProfileWhatItDoes');
     }
 
-    public static function getImpact(): string
+    public static function getImpact(?int $idSite = null): string
     {
         return Piwik::translate('Live_DisableVisitsLogAndProfileImpact');
     }

@@ -36,12 +36,12 @@ class OnlyMajorVersions implements
         return Piwik::translate("DevicesDetection_OnlyMajorVersionsSettingTitle");
     }
 
-    public static function getWhatItDoes(): string
+    public static function getWhatItDoes(?int $idSite = null): string
     {
         return Piwik::translate('DevicesDetection_OnlyMajorVersionsSettingWhatItDoes');
     }
 
-    public static function getImpact(): string
+    public static function getImpact(?int $idSite = null): string
     {
         return Piwik::translate('DevicesDetection_OnlyMajorVersionsSettingImpact');
     }

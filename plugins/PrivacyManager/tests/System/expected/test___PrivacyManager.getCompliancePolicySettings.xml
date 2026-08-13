@@ -20,7 +20,7 @@
 			<id>DevicesDetection.OnlyMajorVersions</id>
 			<name>Major Browser and OS Versions</name>
 			<whatItDoes>Only major browser and operating system versions are stored. Minor and patch versions are removed. For example, Chrome 136 or iOS 18 may be stored, but not Chrome 136.0.7103 or iOS 18.5.1.&lt;br&gt;&lt;br&gt;This reduces the risk of identifying visitors using detailed browser and operating system information.</whatItDoes>
-			<impact>Browser and operating system version reports under Visitors &gt; Software only show major versions.&lt;br&gt;&lt;br&gt;Detailed version analysis and segmentation are unavailable.</impact>
+			<impact>Browser and operating system version reports under Visitors &gt; Software only show major versions. Detailed version analysis and segmentation are unavailable.</impact>
 			<status>non_compliant</status>
 			<enforced>0</enforced>
 			<toggleable>1</toggleable>
@@ -40,7 +40,7 @@
 			<id>Ecommerce.OrderIdAnonymization</id>
 			<name>Ecommerce Order ID Anonymisation Enabled</name>
 			<whatItDoes>Ecommerce order IDs are anonymised before they are stored.&lt;br&gt;&lt;br&gt;This reduces the risk of linking ecommerce transactions to identifiable visitors or individual purchases.</whatItDoes>
-			<impact>Original order IDs cannot be viewed.&lt;br&gt;&lt;br&gt;Ecommerce Order ID reports and related segments are unavailable.</impact>
+			<impact>Original order IDs cannot be viewed. Ecommerce Order ID reports and related segments are unavailable.</impact>
 			<status>non_compliant</status>
 			<enforced>0</enforced>
 			<toggleable>1</toggleable>
@@ -50,7 +50,7 @@
 			<id>SitesManager.FilterPIIParameters</id>
 			<name>PII Data Filtering Enabled</name>
 			<whatItDoes>Personally identifiable information is filtered from URL query parameters using Matomo's recommended PII exclusion list.&lt;br&gt;&lt;br&gt;This prevents information such as names, email addresses, phone numbers, and account identifiers from being stored in URLs and reports.</whatItDoes>
-			<impact>Matching personal information is removed from tracked and stored URLs.&lt;br&gt;&lt;br&gt;Reports cannot display or analyse the filtered values.</impact>
+			<impact>Matching personal information is removed from tracked and stored URLs. Reports cannot display or analyse the filtered values.</impact>
 			<status>non_compliant</status>
 			<enforced>0</enforced>
 			<toggleable>1</toggleable>
@@ -99,8 +99,8 @@
 		<row>
 			<id>PrivacyManager.IpAddressMaskLength</id>
 			<name>IP Address Mask Length Configured</name>
-			<whatItDoes>At least 2 bytes of each visitor's IP address must be masked to provide the required level of anonymisation.&lt;br&gt;&lt;br&gt;This reduces the ability to identify visitors or determine their precise location.</whatItDoes>
-			<impact>At least 2 bytes of each visitor IP address are removed before processing.&lt;br&gt;&lt;br&gt;Geolocation accuracy may be reduced, particularly at city level.</impact>
+			<whatItDoes>IP anonymisation is configured to mask 0 bytes of each visitor's IP address.&lt;br&gt;At least 2 bytes must be masked to provide the required level of anonymisation.&lt;br&gt;&lt;br&gt;This reduces the ability to identify visitors or determine their precise location.</whatItDoes>
+			<impact>0 bytes of each visitor IP address are removed before processing.&lt;br&gt;&lt;br&gt;Geolocation accuracy may be reduced, particularly at city level.</impact>
 			<status>non_compliant</status>
 			<enforced>0</enforced>
 			<toggleable>1</toggleable>
@@ -119,8 +119,8 @@
 		<row>
 			<id>PrivacyManager.ReportRetention</id>
 			<name>Raw Data Retention Configured</name>
-			<whatItDoes>Raw data retention must be limited to no more than 759 days, approximately 25 months.&lt;br&gt;&lt;br&gt;This limits how long detailed visitor information is retained and reduces the risk of it being used to identify someone.</whatItDoes>
-			<impact>Raw visit data older than the configured retention period is automatically deleted.&lt;br&gt;&lt;br&gt;Historical aggregated reports may remain available according to the configured report-retention settings.</impact>
+			<whatItDoes>Raw data retention is configured to 180 days. It must be set to a maximum of 759 days, approximately 25 months.&lt;br&gt;&lt;br&gt;This limits how long detailed visitor information is retained and reduces the risk of it being used to identify someone.</whatItDoes>
+			<impact>Raw visit data older than 180 days is automatically deleted.&lt;br&gt;&lt;br&gt;Historical aggregated reports may remain available according to the configured report-retention settings.</impact>
 			<status>compliant</status>
 			<enforced>0</enforced>
 			<toggleable>1</toggleable>
@@ -150,7 +150,7 @@
 			<id>UserId.UserIdDisabled</id>
 			<name>User ID Tracking Disabled</name>
 			<whatItDoes>User ID tracking is disabled. Tracking implementations must not send User IDs using setUserId or equivalent methods.&lt;br&gt;&lt;br&gt;This prevents visitors from being directly identified and associated across visits or devices.</whatItDoes>
-			<impact>User ID values are not collected.&lt;br&gt;&lt;br&gt;User ID reports, segments, and cross-visit analysis based on User ID are unavailable.</impact>
+			<impact>User ID values are not collected. User ID reports, segments, and cross-visit analysis based on User ID are unavailable.</impact>
 			<status>non_compliant</status>
 			<enforced>0</enforced>
 			<toggleable>1</toggleable>
@@ -160,7 +160,7 @@
 			<id>Core.ThirdPartyCookies</id>
 			<name>Third-Party Cookies Disabled</name>
 			<whatItDoes>Third-party cookies are disabled. Matomo uses first-party cookies so that cookie-based visitor identifiers remain limited to the website that created them.&lt;br&gt;&lt;br&gt;This prevents cookie-based identification of visitors across unrelated websites.</whatItDoes>
-			<impact>Matomo cannot use third-party cookies for cross-site visitor recognition.&lt;br&gt;&lt;br&gt;Visitor identifiers remain limited to the current website or first-party cookie scope.</impact>
+			<impact>Matomo cannot use third-party cookies for cross-site visitor recognition. Visitor identifiers remain limited to the current website or first-party cookie scope.</impact>
 			<status>on_by_default</status>
 			<enforced />
 			<toggleable>0</toggleable>
@@ -170,7 +170,7 @@
 			<id>cnil_v1.optOut</id>
 			<name>Opt-Out Configured</name>
 			<whatItDoes>A Matomo opt-out interface must be manually configured and made available to visitors. &lt;a href=&quot;https://matomo.org/faq/general/faq_20000/?mtm_campaign=Matomo_App&amp;mtm_source=Matomo_App_OnPremise&amp;mtm_medium=App.PrivacyManager.compliance&quot; target=&quot;_blank&quot; rel=&quot;noreferrer noopener&quot;&gt;Learn more&lt;/a&gt;.&lt;br&gt;&lt;br&gt;This ensures visitors have a way to decline participation in audience measurement.</whatItDoes>
-			<impact>Visitors can opt out of Matomo tracking through the configured opt-out interface.&lt;br&gt;&lt;br&gt;Until the interface is added to the website, visitors do not have access to this opt-out mechanism.</impact>
+			<impact>Visitors can opt out of Matomo tracking through the configured opt-out interface. Until the interface is added to the website, visitors do not have access to this opt-out mechanism.</impact>
 			<status>manual</status>
 			<enforced />
 			<toggleable>0</toggleable>

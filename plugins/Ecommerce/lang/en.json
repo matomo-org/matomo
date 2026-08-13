@@ -39,7 +39,7 @@
         "UseAnonymizeOrderId": "Anonymize Order ID",
         "OrderIdAnonymizationSettingTitle": "Ecommerce Order ID Anonymisation Enabled",
         "OrderIdAnonymizationSettingWhatItDoes": "Ecommerce order IDs are anonymised before they are stored.<br><br>This reduces the risk of linking ecommerce transactions to identifiable visitors or individual purchases.",
-        "OrderIdAnonymizationSettingImpact": "Original order IDs cannot be viewed.<br><br>Ecommerce Order ID reports and related segments are unavailable.",
+        "OrderIdAnonymizationSettingImpact": "Original order IDs cannot be viewed. Ecommerce Order ID reports and related segments are unavailable.",
         "OrderIdAnonymizationSettingRequirementNote": "Order IDs must be anonymised."
     }
 }

@@ -222,7 +222,7 @@
         "AddSensibleExclusionsToMyCustomListButtonText": "Add Matomo-recommended PII parameters",
         "FilterPIIParametersSettingTitle": "PII Data Filtering Enabled",
         "FilterPIIParametersSettingWhatItDoes": "Personally identifiable information is filtered from URL query parameters using Matomo's recommended PII exclusion list.<br><br>This prevents information such as names, email addresses, phone numbers, and account identifiers from being stored in URLs and reports.",
-        "FilterPIIParametersSettingImpact": "Matching personal information is removed from tracked and stored URLs.<br><br>Reports cannot display or analyse the filtered values.",
+        "FilterPIIParametersSettingImpact": "Matching personal information is removed from tracked and stored URLs. Reports cannot display or analyse the filtered values.",
         "FilterPiiParametersSettingRequirementNote": "Personally Identifiable Information (PII) data must be filtered by the Matomo-recommended PII exclusion list."
     }
 }
