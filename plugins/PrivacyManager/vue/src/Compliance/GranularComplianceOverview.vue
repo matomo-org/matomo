@@ -25,7 +25,6 @@
         :disabled="!hasUnsavedChanges"
         :saving="state.saving"
         @confirm="showPasswordConfirmation = true"
-        :value="translate('PrivacyManager_ComplianceReviewAndSave')"
       />
     </div>
     <p v-html="$sanitize(description)" />
@@ -73,7 +72,6 @@
             :disabled="!hasUnsavedChanges"
             :saving="state.saving"
             @confirm="showPasswordConfirmation = true"
-            :value="translate('PrivacyManager_ComplianceReviewAndSave')"
           />
           <PasswordConfirmation
             :model-value="showPasswordConfirmation"
