@@ -24,7 +24,8 @@
     {% if totalPercentage|default is empty %}
         {% if row.getMetadata(column ~ '_site_total_percentage') != false %}
             {% set totalPercentage = row.getMetadata(column ~ '_site_total_percentage') %}
-        {% elseif row.getColumn(column)|default(0) is numeric and siteTotal is numeric %}
+        {#- without a site summary row siteTotal falls back to 0, which is no total to relate a row to -#}
+        {% elseif row.getColumn(column)|default(0) is numeric and siteTotal is numeric and siteTotal > 0 %}
             {% set totalPercentage = row.getColumn(column)|percentage(siteTotal, 1) %}
         {% endif %}
     {% endif %}
