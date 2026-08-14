@@ -12,6 +12,8 @@ declare(strict_types=1);
 namespace Piwik\Plugins\Goals\Recommendations;
 
 use Piwik\Config;
+use Piwik\Concurrency\Lock;
+use Piwik\Concurrency\LockBackend;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Piwik;
@@ -27,6 +29,12 @@ use Psr\Log\LoggerInterface;
 class GoalRecommendationService
 {
     private const CONSENT_KEY_PREFIX = 'Goals.aiRecommendationsConsent.';
+
+    private const SCAN_LOCK_TTL_SECONDS = 60;
+
+    private const SITE_SCAN_LOCK_NAMESPACE = 'Goals.recommendationScan.site.';
+
+    private const USER_SCAN_LOCK_NAMESPACE = 'Goals.recommendationScan.user.';
 
     /**
      * @var HomepageAnalyzer
@@ -49,6 +57,11 @@ class GoalRecommendationService
     private $store;
 
     /**
+     * @var LockBackend
+     */
+    private $lockBackend;
+
+    /**
      * @var AiRecommender|null
      */
     private $aiRecommender = null;
@@ -57,12 +70,14 @@ class GoalRecommendationService
         DeterministicRecommender $deterministicRecommender,
         ManualSuggestionRecommender $manualRecommender,
         RecommendationStore $store,
+        LockBackend $lockBackend,
         ?AiRecommender $aiRecommender = null
     ) {
         $this->homepageAnalyzer = $homepageAnalyzer;
         $this->deterministicRecommender = $deterministicRecommender;
         $this->manualRecommender = $manualRecommender;
         $this->store = $store;
+        $this->lockBackend = $lockBackend;
         $this->aiRecommender = $aiRecommender;
     }
 
@@ -74,6 +89,25 @@ class GoalRecommendationService
      * @return array{mode: string, goals: array<int, array<string, mixed>>, manualGoals: array<int, array{name: string, howTo: string, category: string}>, aiError: ?string, generatedAt: ?int, remainingAiScans: ?int, providerName: string}
      */
     public function getRecommendations(int $idSite, bool $useAi, array $existingGoals = []): array
+    {
+        [$userLock, $siteLock] = $this->acquireScanLocks($idSite);
+
+        try {
+            return $this->generateRecommendations($idSite, $useAi, $existingGoals);
+        } finally {
+            try {
+                $siteLock->unlock();
+            } finally {
+                $userLock->unlock();
+            }
+        }
+    }
+
+    /**
+     * @param array<int|string, array<string, mixed>> $existingGoals
+     * @return array{mode: string, goals: array<int, array<string, mixed>>, manualGoals: array<int, array{name: string, howTo: string, category: string}>, aiError: ?string, generatedAt: ?int, remainingAiScans: ?int, providerName: string}
+     */
+    private function generateRecommendations(int $idSite, bool $useAi, array $existingGoals): array
     {
         $existingGoalSummaries = $this->getExistingGoalSummaries($existingGoals);
         $analysis = $this->homepageAnalyzer->analyze($idSite);
@@ -145,6 +179,39 @@ class GoalRecommendationService
             'remainingAiScans' => $this->getRemainingAiScans($idSite),
             'providerName' => $this->getConfiguredProviderName(),
         ];
+    }
+
+    /**
+     * @return array{0: Lock, 1: Lock}
+     */
+    private function acquireScanLocks(int $idSite): array
+    {
+        $userLock = new Lock(
+            $this->lockBackend,
+            self::USER_SCAN_LOCK_NAMESPACE,
+            self::SCAN_LOCK_TTL_SECONDS
+        );
+        $userLockId = hash('sha256', Piwik::getCurrentUserLogin());
+        if (!$userLock->acquireLock($userLockId, self::SCAN_LOCK_TTL_SECONDS)) {
+            throw new ScanAlreadyRunningException();
+        }
+
+        $siteLock = new Lock(
+            $this->lockBackend,
+            self::SITE_SCAN_LOCK_NAMESPACE,
+            self::SCAN_LOCK_TTL_SECONDS
+        );
+
+        try {
+            if (!$siteLock->acquireLock((string) $idSite, self::SCAN_LOCK_TTL_SECONDS)) {
+                throw new ScanAlreadyRunningException();
+            }
+        } catch (\Throwable $e) {
+            $userLock->unlock();
+            throw $e;
+        }
+
+        return [$userLock, $siteLock];
     }
 
     /**

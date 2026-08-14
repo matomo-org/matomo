@@ -156,6 +156,7 @@
         "RecommendProgressCrawling": "Crawling your website for goal ideas",
         "RecommendProgressHint": "This usually takes about 30 seconds.",
         "RecommendRescan": "Scan again",
+        "RecommendScanAlreadyRunning": "A goal recommendation scan is already running. Please wait for it to finish before trying again.",
         "RecommendScansRemainingToday": "%s scans remaining today",
         "RecommendTriggerContains": "%s: contains",
         "RecommendTriggerEventLabel": "%1$s (%2$s)",

@@ -10,6 +10,8 @@
 namespace Piwik\Plugins\Goals\tests\Integration;
 
 use Piwik\Config;
+use Piwik\Concurrency\LockBackend;
+use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Option;
 use Piwik\Piwik;
@@ -20,6 +22,7 @@ use Piwik\Plugins\Goals\Recommendations\GoalRecommendationService;
 use Piwik\Plugins\Goals\Recommendations\HomepageAnalyzer;
 use Piwik\Plugins\Goals\Recommendations\ManualSuggestionRecommender;
 use Piwik\Plugins\Goals\Recommendations\RecommendationStore;
+use Piwik\Plugins\Goals\Recommendations\ScanAlreadyRunningException;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -158,6 +161,54 @@ class GoalRecommendationsTest extends IntegrationTestCase
         $this->api->runGoalRecommendationScan($this->idSite);
     }
 
+    public function testGetRecommendationsRejectsConcurrentScansForSameUser()
+    {
+        $lockBackend = $this->createMock(LockBackend::class);
+        $lockBackend->expects($this->once())
+            ->method('setIfNotExists')
+            ->with($this->anything(), $this->anything(), 60)
+            ->willReturn(false);
+
+        $this->expectException(ScanAlreadyRunningException::class);
+        $this->expectExceptionCode(429);
+        $this->expectExceptionMessage(Piwik::translate('Goals_RecommendScanAlreadyRunning'));
+
+        $this->makeRecommendationService($this->createMock(AiRecommender::class), $lockBackend)
+            ->getRecommendations($this->idSite, false);
+    }
+
+    public function testGetRecommendationsRejectsConcurrentScansForSameSiteAndReleasesUserLock()
+    {
+        $lockBackend = $this->createMock(LockBackend::class);
+        $lockBackend->expects($this->exactly(2))
+            ->method('setIfNotExists')
+            ->with($this->anything(), $this->anything(), 60)
+            ->willReturnOnConsecutiveCalls(true, false);
+        $lockBackend->expects($this->once())
+            ->method('deleteIfKeyHasValue')
+            ->willReturn(true);
+
+        $this->expectException(ScanAlreadyRunningException::class);
+
+        $this->makeRecommendationService($this->createMock(AiRecommender::class), $lockBackend)
+            ->getRecommendations($this->idSite, false);
+    }
+
+    public function testGetRecommendationsReleasesBothLocksAfterScan()
+    {
+        $lockBackend = $this->createMock(LockBackend::class);
+        $lockBackend->expects($this->exactly(2))
+            ->method('setIfNotExists')
+            ->with($this->anything(), $this->anything(), 60)
+            ->willReturn(true);
+        $lockBackend->expects($this->exactly(2))
+            ->method('deleteIfKeyHasValue')
+            ->willReturn(true);
+
+        $this->makeRecommendationService($this->createMock(AiRecommender::class), $lockBackend)
+            ->getRecommendations($this->idSite, false);
+    }
+
     public function testAiScanQuotaCountsScansPerSiteAndDay()
     {
         $store = new RecommendationStore();
@@ -213,7 +264,10 @@ class GoalRecommendationsTest extends IntegrationTestCase
         $this->assertSame(0, (new RecommendationStore())->countAiScansToday($this->idSite));
     }
 
-    private function makeRecommendationService(AiRecommender $aiRecommender): GoalRecommendationService
+    private function makeRecommendationService(
+        AiRecommender $aiRecommender,
+        ?LockBackend $lockBackend = null
+    ): GoalRecommendationService
     {
         $analyzer = $this->createMock(HomepageAnalyzer::class);
         $analyzer->method('analyze')->willReturn(['url' => 'https://example.org']);
@@ -224,7 +278,14 @@ class GoalRecommendationsTest extends IntegrationTestCase
         $manual = $this->createMock(ManualSuggestionRecommender::class);
         $manual->method('recommend')->willReturn([]);
 
-        return new GoalRecommendationService($analyzer, $deterministic, $manual, new RecommendationStore(), $aiRecommender);
+        return new GoalRecommendationService(
+            $analyzer,
+            $deterministic,
+            $manual,
+            new RecommendationStore(),
+            $lockBackend ?? StaticContainer::get(LockBackend::class),
+            $aiRecommender
+        );
     }
 
     /**

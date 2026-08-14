@@ -1071,10 +1071,10 @@ const RecommendGoalsvue_type_script_setup_true_lang_ts_hoisted_28 = ["aria-expan
           providerName.value = response.providerName;
         }
         hasRun.value = true;
-      }).catch(() => {
+      }).catch(error => {
         recommendations.value = [];
         manualGoals.value = [];
-        aiError.value = Object(external_CoreHome_["translate"])('Goals_RecommendError');
+        aiError.value = error instanceof Error && error.message === 'Rate Limit was exceed' ? Object(external_CoreHome_["translate"])('Goals_RecommendScanAlreadyRunning') : Object(external_CoreHome_["translate"])('Goals_RecommendError');
         recommendationMode.value = null;
         hasRun.value = true;
       }).finally(() => {

@@ -347,10 +347,12 @@ function recommend() {
       providerName.value = response.providerName;
     }
     hasRun.value = true;
-  }).catch(() => {
+  }).catch((error: unknown) => {
     recommendations.value = [];
     manualGoals.value = [];
-    aiError.value = translate('Goals_RecommendError');
+    aiError.value = error instanceof Error && error.message === 'Rate Limit was exceed'
+      ? translate('Goals_RecommendScanAlreadyRunning')
+      : translate('Goals_RecommendError');
     recommendationMode.value = null;
     hasRun.value = true;
   }).finally(() => {
