@@ -149,13 +149,13 @@ class GoalRecommendationsTest extends IntegrationTestCase
         $this->api->getSavedRecommendedGoals($this->idSite);
     }
 
-    public function testGetRecommendedGoalsRequiresWriteAccess()
+    public function testRunGoalRecommendationScanRequiresWriteAccess()
     {
         $this->setViewOnlyUser();
 
         $this->expectException(\Exception::class);
 
-        $this->api->getRecommendedGoals($this->idSite);
+        $this->api->runGoalRecommendationScan($this->idSite);
     }
 
     public function testAiScanQuotaCountsScansPerSiteAndDay()

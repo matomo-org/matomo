@@ -1055,7 +1055,7 @@ const RecommendGoalsvue_type_script_setup_true_lang_ts_hoisted_28 = ["aria-expan
       lastRunUsedAi.value = requestedAi;
       startScanProgress();
       external_CoreHome_["AjaxHelper"].fetch({
-        method: 'Goals.getRecommendedGoals',
+        method: 'Goals.runGoalRecommendationScan',
         idSite: idSite.value,
         useAi: requestedAi ? 1 : 0
       }, {

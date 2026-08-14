@@ -331,7 +331,7 @@ function recommend() {
   startScanProgress();
 
   AjaxHelper.fetch<RecommendationsResponse>({
-    method: 'Goals.getRecommendedGoals',
+    method: 'Goals.runGoalRecommendationScan',
     idSite: idSite.value,
     useAi: requestedAi ? 1 : 0,
   }, { createErrorNotification: false }).then((response) => {

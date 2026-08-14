@@ -356,7 +356,7 @@ class Collection
             }
         }
 
-        $this->apiNotToCall[] = 'Goals.getRecommendedGoals';
+        $this->apiNotToCall[] = 'Goals.runGoalRecommendationScan';
         $this->apiNotToCall[] = 'Goals.getSavedRecommendedGoals';
 
         if (!empty($this->testConfig->apiNotToCall)) {

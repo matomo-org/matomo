@@ -182,7 +182,7 @@ class API extends \Piwik\Plugin\API
      *               (AI-assisted scans left today, or null when unlimited).
      * @phpstan-return array{mode: string, goals: array<int, array<string, mixed>>, manualGoals: array<int, array{name: string, howTo: string, category: string}>, aiError: ?string, generatedAt: ?int, remainingAiScans: ?int, providerName: string}
      */
-    public function getRecommendedGoals(int $idSite, bool $useAi = false): array
+    public function runGoalRecommendationScan(int $idSite, bool $useAi = false): array
     {
         Piwik::checkUserHasWriteAccess($idSite);
 
@@ -231,7 +231,7 @@ class API extends \Piwik\Plugin\API
      *
      * @param int $idSite The numeric ID of the website the recommendation belongs to.
      * @param string $recommendationId The `id` of the recommended goal as returned by
-     *                                 {@link getRecommendedGoals()} or {@link getSavedRecommendedGoals()}.
+     *                                 {@link runGoalRecommendationScan()} or {@link getSavedRecommendedGoals()}.
      * @return array Success response for API clients.
      * @phpstan-return array{success: bool}
      */
