@@ -1,0 +1,7 @@
+{
+    "AIProviders": {
+        "DefaultBadge": "За замовчуванням",
+        "Model": "Модель",
+        "TestingConnection": "Тестування…"
+    }
+}

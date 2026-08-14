@@ -1,0 +1,7 @@
+{
+    "AIProviders": {
+        "DefaultBadge": "預設",
+        "Model": "型号",
+        "TestingConnection": "測試中…"
+    }
+}

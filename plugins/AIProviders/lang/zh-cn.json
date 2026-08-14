@@ -1,0 +1,8 @@
+{
+    "AIProviders": {
+        "ApiKey": "API密钥",
+        "DefaultBadge": "默认",
+        "Model": "型号",
+        "TestingConnection": "测试中…"
+    }
+}

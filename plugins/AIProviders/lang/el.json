@@ -1,0 +1,8 @@
+{
+    "AIProviders": {
+        "ApiKey": "Κλειδί API",
+        "DefaultBadge": "Προεπιλογή",
+        "Model": "Μοντέλο",
+        "TestingConnection": "Γίνεται δοκιμή…"
+    }
+}

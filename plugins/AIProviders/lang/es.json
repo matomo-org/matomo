@@ -1,0 +1,7 @@
+{
+    "AIProviders": {
+        "DefaultBadge": "Predeterminado",
+        "Model": "Modelo",
+        "TestingConnection": "Probando…"
+    }
+}
