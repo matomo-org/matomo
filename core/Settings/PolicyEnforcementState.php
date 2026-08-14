@@ -41,6 +41,10 @@ use Piwik\Settings\Storage\Storage;
  *  - `true` / `false` — the state was set explicitly for this scope
  *  - `null` — no state was ever stored, so the setting follows the enforcement
  *    state of the policies it subscribes to
+ *
+ * The state is consumed during setting-value resolution via
+ * {@link \Piwik\Settings\Interfaces\Traits\PolicyComparisonTrait::getPolicyRequiredValues()},
+ * which only applies the policy-required values while the setting is enforced.
  */
 class PolicyEnforcementState
 {
