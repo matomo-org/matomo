@@ -14,13 +14,10 @@ use Piwik\Plugin\Manager;
 use Piwik\Settings\FieldConfig;
 use Piwik\Settings\Interfaces\ConfigSettingInterface;
 use Piwik\Settings\Interfaces\MeasurableSettingInterface;
-use Piwik\Settings\Interfaces\PolicyComparisonInterface;
 use Piwik\Settings\Interfaces\SystemSettingInterface;
 use Piwik\Settings\Interfaces\Traits\Getters\ConfigGetterTrait;
 use Piwik\Settings\Interfaces\Traits\Setters\MeasurableSetterTrait;
 use Piwik\Settings\Interfaces\Traits\Setters\SystemSetterTrait;
-use Piwik\Settings\Measurable\MeasurableSetting;
-use Piwik\Settings\Plugin\SystemSetting;
 
 /**
  * @implements SystemSettingInterface<bool>
@@ -187,95 +184,5 @@ abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSet
     public static function isConfigControlled()
     {
         return !is_null(static::getConfigValue());
-    }
-
-    /**
-     * Name under which the per-setting enforcement state of the given
-     * policy-controlled setting is stored, at system and measurable scope.
-     *
-     * @param class-string<PolicyComparisonInterface<mixed>> $settingClass
-     */
-    public static function getSettingEnforcementName(string $settingClass): string
-    {
-        $settingId = str_replace('.', '_', $settingClass::getPolicySettingId());
-        return preg_replace('/\s+/', '', static::getName()) . '_enforce__' . $settingId;
-    }
-
-    /**
-     * Returns whether this policy currently enforces the given policy-controlled
-     * setting for the given scope (instance-wide when $idSite is null).
-     *
-     * Resolution order:
-     *  1. config-level enforcement of the whole policy
-     *  2. explicit per-setting enforcement state; an enabled instance-wide state
-     *     applies to all sites, like {@link isActive()} does for the whole policy
-     *  3. the whole-policy enforcement flag, for scopes where no per-setting
-     *     state has been stored yet
-     *
-     * @param class-string<PolicyComparisonInterface<mixed>> $settingClass
-     */
-    public static function isEnforcedForSetting(string $settingClass, ?int $idSite = null): bool
-    {
-        if (static::isConfigControlled()) {
-            return (bool) static::getConfigValue();
-        }
-
-        $systemValue = static::getSettingEnforcementSystemValue($settingClass);
-        if ($systemValue === true) {
-            return true;
-        }
-
-        if (!is_null($idSite)) {
-            $measurableValue = static::getSettingEnforcementMeasurableValue($settingClass, $idSite);
-            if (!is_null($measurableValue)) {
-                return $measurableValue;
-            }
-        }
-
-        if (!is_null($systemValue)) {
-            return false;
-        }
-
-        return static::isActive($idSite);
-    }
-
-    /**
-     * Instance-wide enforcement state of the given setting, or null when no state was ever stored.
-     *
-     * @param class-string<PolicyComparisonInterface<mixed>> $settingClass
-     */
-    protected static function getSettingEnforcementSystemValue(string $settingClass): ?bool
-    {
-        // a null default value allows distinguishing "never stored" from an explicit value
-        $setting = new SystemSetting(
-            static::getSettingEnforcementName($settingClass),
-            null,
-            FieldConfig::TYPE_BOOL,
-            Piwik::getPluginNameOfMatomoClass(static::class)
-        );
-
-        $value = $setting->getValue();
-
-        return is_null($value) ? null : (bool) $value;
-    }
-
-    /**
-     * Per-site enforcement state of the given setting, or null when no state was ever stored.
-     *
-     * @param class-string<PolicyComparisonInterface<mixed>> $settingClass
-     */
-    protected static function getSettingEnforcementMeasurableValue(string $settingClass, int $idSite): ?bool
-    {
-        $setting = new MeasurableSetting(
-            static::getSettingEnforcementName($settingClass),
-            null,
-            FieldConfig::TYPE_BOOL,
-            Piwik::getPluginNameOfMatomoClass(static::class),
-            $idSite
-        );
-
-        $value = $setting->getValue();
-
-        return is_null($value) ? null : (bool) $value;
     }
 }
