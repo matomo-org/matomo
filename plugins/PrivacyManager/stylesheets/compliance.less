@@ -168,7 +168,10 @@
   .granularComplianceExternalTitle {
     .font-default(15px, 22px);
     font-weight: bold;
-    margin: 1.5rem 0 0.5rem;
+    // separate the externally managed section from the settings table above
+    border-top: 1px solid @theme-color-background-tinyContrast;
+    padding-top: 1.5rem;
+    margin: 2rem 0 0.5rem;
   }
 
   .sr-only {
