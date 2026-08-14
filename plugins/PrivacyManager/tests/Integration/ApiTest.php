@@ -11,6 +11,7 @@ namespace Piwik\Plugins\PrivacyManager\tests\Integration;
 
 use Exception;
 use Piwik\Access;
+use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\NoAccessException;
 use Piwik\Policy\CnilPolicy;
@@ -150,6 +151,151 @@ class ApiTest extends IntegrationTestCase
 
         $this->assertSame($maskLength, IpAddressMaskLength::getCustomValue());
         $this->assertFalse(IpAddressMaskLength::isCompliant(CnilPolicy::class, $this->siteId));
+    }
+
+    public function testGetCompliancePolicySettingsThrowsWhenFeatureIsNotEnabled(): void
+    {
+        $this->expectExceptionMessage('Granular compliance configuration is not enabled');
+
+        $this->api->getCompliancePolicySettings($this->siteId, 'cnil_v1');
+    }
+
+    public function testGetCompliancePolicySettingsThrowsForInvalidPolicy(): void
+    {
+        $this->enableGranularComplianceFeature();
+
+        $this->expectExceptionMessage('Invalid compliance policy');
+
+        $this->api->getCompliancePolicySettings($this->siteId, 'egg');
+    }
+
+    public function testGetCompliancePolicySettingsThrowsWithoutSuperUserAccess(): void
+    {
+        $this->enableGranularComplianceFeature();
+
+        $fakeAccess = StaticContainer::getContainer()->get(Access::class);
+        $fakeAccess->setSuperUserAccess(false);
+
+        $this->expectException(NoAccessException::class);
+
+        $this->api->getCompliancePolicySettings($this->siteId, 'cnil_v1');
+    }
+
+    public function testGetCompliancePolicySettingsReturnsAllSettingsWithDefaultState(): void
+    {
+        $this->enableGranularComplianceFeature();
+
+        // IP anonymisation is enabled by default, disable it to get a deterministic non-compliant setting
+        $this->api->setAnonymizeIpSettings(false, 2, true);
+
+        $payload = $this->api->getCompliancePolicySettings($this->siteId, 'cnil_v1');
+
+        $this->assertSame('cnil_v1', $payload['policy']);
+        $this->assertNotEmpty($payload['title']);
+        $this->assertNotEmpty($payload['description']);
+        $this->assertFalse($payload['configControlled']);
+        $this->assertFalse($payload['policyEnforced']);
+
+        $settings = $this->getSettingsById($payload);
+
+        foreach ($payload['settings'] as $setting) {
+            $this->assertSame(
+                ['id', 'name', 'whatItDoes', 'impact', 'status', 'enforced', 'toggleable', 'section'],
+                array_keys($setting)
+            );
+        }
+
+        $ipAnonymisation = $settings['PrivacyManager.IPAnonymisation'];
+        $this->assertSame('non_compliant', $ipAnonymisation['status']);
+        $this->assertFalse($ipAnonymisation['enforced']);
+        $this->assertTrue($ipAnonymisation['toggleable']);
+        $this->assertSame('settings', $ipAnonymisation['section']);
+
+        $thirdPartyCookies = $settings['Core.ThirdPartyCookies'];
+        $this->assertSame('on_by_default', $thirdPartyCookies['status']);
+        $this->assertNull($thirdPartyCookies['enforced']);
+        $this->assertFalse($thirdPartyCookies['toggleable']);
+        $this->assertSame('external', $thirdPartyCookies['section']);
+
+        $optOut = $settings['cnil_v1.optOut'];
+        $this->assertSame('manual', $optOut['status']);
+        $this->assertNull($optOut['enforced']);
+        $this->assertFalse($optOut['toggleable']);
+        $this->assertSame('external', $optOut['section']);
+    }
+
+    public function testGetCompliancePolicySettingsReflectsLegacyEnforcedPolicy(): void
+    {
+        // disable the underlying setting so the requirement can only be met through enforcement
+        $this->api->setAnonymizeIpSettings(false, 2, true);
+        $this->api->setComplianceStatus((string) $this->siteId, 'cnil_v1', true);
+
+        $this->enableGranularComplianceFeature();
+
+        $payload = $this->api->getCompliancePolicySettings($this->siteId, 'cnil_v1');
+        $this->assertTrue($payload['policyEnforced']);
+
+        $settings = $this->getSettingsById($payload);
+
+        // the underlying setting is not configured, the requirement is only met through enforcement
+        $this->assertSame('enforced', $settings['PrivacyManager.IPAnonymisation']['status']);
+        $this->assertTrue($settings['PrivacyManager.IPAnonymisation']['enforced']);
+        $this->assertSame('enforced', $settings['PrivacyManager.DataRoundingEnabled']['status']);
+
+        // the policy was only enforced for one site, the instance-wide view stays unenforced
+        $allSitesPayload = $this->api->getCompliancePolicySettings('all', 'cnil_v1');
+        $this->assertFalse($allSitesPayload['policyEnforced']);
+        $this->assertFalse($this->getSettingsById($allSitesPayload)['PrivacyManager.IPAnonymisation']['enforced']);
+    }
+
+    public function testGetCompliancePolicySettingsStatusIsCompliantWhenUnderlyingSettingSatisfiesRequirement(): void
+    {
+        $this->enableGranularComplianceFeature();
+
+        $this->api->setAnonymizeIpSettings(true, 2, true);
+
+        $payload = $this->api->getCompliancePolicySettings($this->siteId, 'cnil_v1');
+        $settings = $this->getSettingsById($payload);
+
+        $this->assertSame('compliant', $settings['PrivacyManager.IPAnonymisation']['status']);
+        $this->assertFalse($settings['PrivacyManager.IPAnonymisation']['enforced']);
+        $this->assertSame('compliant', $settings['PrivacyManager.IpAddressMaskLength']['status']);
+    }
+
+    public function testGetCompliancePolicySettingsExternalStatusReflectsRawConfigDespiteEnforcement(): void
+    {
+        $this->enableGranularComplianceFeature();
+
+        // raw non-compliant config for an externally managed setting + enforced policy
+        Config::getInstance()->Tracker = array_merge(
+            Config::getInstance()->Tracker ?: [],
+            ['use_third_party_id_cookie' => 1]
+        );
+        $this->api->setComplianceStatus((string) $this->siteId, 'cnil_v1', true);
+
+        $payload = $this->api->getCompliancePolicySettings($this->siteId, 'cnil_v1');
+        $thirdPartyCookies = $this->getSettingsById($payload)['Core.ThirdPartyCookies'];
+
+        // the policy override must not mask the raw non-compliant config
+        $this->assertSame('non_compliant', $thirdPartyCookies['status']);
+    }
+
+    private function enableGranularComplianceFeature(): void
+    {
+        Config::getInstance()->FeatureFlags = ['GranularPrivacyCompliance_feature' => 'enabled'];
+    }
+
+    /**
+     * @param array<string, mixed> $payload
+     * @return array<string, array<string, mixed>>
+     */
+    private function getSettingsById(array $payload): array
+    {
+        $settings = [];
+        foreach ($payload['settings'] as $setting) {
+            $settings[$setting['id']] = $setting;
+        }
+        return $settings;
     }
 
     public function provideContainerConfig()
