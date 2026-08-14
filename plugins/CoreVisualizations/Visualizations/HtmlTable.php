@@ -18,7 +18,9 @@ use Piwik\DataTable;
 use Piwik\NumberFormatter;
 use Piwik\Period;
 use Piwik\Piwik;
+use Piwik\Plugin\Report;
 use Piwik\Plugin\Visualization;
+use Piwik\Plugins\CoreVisualizations\Metrics\MetricTotalsTreatment;
 
 /**
  * DataTable visualization that shows DataTable data in an HTML table.
@@ -155,6 +157,111 @@ class HtmlTable extends Visualization
 
         $period = $this->dataTable->getMetadata('period');
         $this->assignTemplateVar('periodTitlePretty', $period ? $period->getLocalizedShortString() : '');
+
+        $this->assignFilteredTotalsRowVars();
+
+        // Note: This needs to be done last, as it depends on the final columns to display
+        $this->config->report_supports_percentage_values = $this->supportsPercentageValues();
+    }
+
+    /**
+     * Returns whether at least one displayed column has a meaningful percentage value, using the
+     * same eligibility rule as the individual cells (see _dataTableViz_htmlTable_ratio.twig).
+     */
+    private function supportsPercentageValues(): bool
+    {
+        $totals = $this->dataTable ? $this->dataTable->getMetadata('totals') : null;
+
+        if (empty($totals) || empty($this->config->columns_to_display)) {
+            return false;
+        }
+
+        $ratioColumns = array_intersect($this->config->report_ratio_columns, array_keys($totals));
+
+        return !empty(array_intersect($this->config->columns_to_display, $ratioColumns));
+    }
+
+    /**
+     * Makes the report totals available next to a totals row that only totals the rows matching the
+     * table search, so both values can be shown, and adds the note explaining what the search did
+     * and did not recalculate.
+     */
+    private function assignFilteredTotalsRowVars(): void
+    {
+        if (
+            !$this->config->show_totals_row
+            || !$this->dataTable->getRowsCount()
+            || !$this->dataTable->getTotalsRow()
+            || true !== $this->dataTable->getMetadata(DataTable::TOTALS_ROW_IS_FILTERED_METADATA_NAME)
+        ) {
+            return;
+        }
+
+        $this->assignTemplateVar('isFilteredTotalsRow', true);
+        $this->assignTemplateVar('filteredTotalsRowContext', $this->getFilteredTotalsRowContext($this->report));
+
+        $note = Piwik::translate('General_FilteredTotalsNote', Piwik::translate('General_FilteredTotal'));
+
+        $this->config->show_footer_message = empty($this->config->show_footer_message)
+            ? $note
+            : $this->config->show_footer_message . '<br />' . $note;
+    }
+
+    /**
+     * Returns the report total of each displayed metric, together with how that total relates to the
+     * total of the rows matching the table search.
+     *
+     * @param Report|null $report The report of the table, which is not set for every visualization.
+     * @return array<string, array{treatment: string, reportTotal: mixed}>
+     */
+    private function getFilteredTotalsRowContext(?Report $report): array
+    {
+        $reportTotals = $this->dataTable->getMetadata('totals');
+        if (!is_array($reportTotals)) {
+            return array();
+        }
+
+        $semanticTypes = $report ? $report->getMetricSemanticTypes() : array();
+        $processedMetricNames = array_keys(Report::getProcessedMetricsForTable($this->dataTable, $report));
+        $aggregationOps = $this->getAggregationOpsByMetricName();
+
+        $context = array();
+        foreach ($this->config->columns_to_display as $column) {
+            if (
+                'label' === $column
+                || !array_key_exists($column, $reportTotals)
+            ) {
+                continue;
+            }
+
+            $context[$column] = array(
+                'treatment' => MetricTotalsTreatment::getTreatment($column, $semanticTypes, $processedMetricNames, $aggregationOps),
+                'reportTotal' => $reportTotals[$column],
+            );
+        }
+
+        return $context;
+    }
+
+    /**
+     * Returns the aggregation operations of the table indexed by metric name, as they can still be
+     * indexed by metric ID at this point.
+     *
+     * @return array<string, string|callable>
+     */
+    private function getAggregationOpsByMetricName(): array
+    {
+        $aggregationOps = $this->dataTable->getMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME);
+        if (!is_array($aggregationOps)) {
+            return array();
+        }
+
+        $result = array();
+        foreach ($aggregationOps as $column => $operation) {
+            $result[Metrics::getReadableColumnName($column)] = $operation;
+        }
+
+        return $result;
     }
 
     public function beforeGenericFiltersAreAppliedToLoadedDataTable()
