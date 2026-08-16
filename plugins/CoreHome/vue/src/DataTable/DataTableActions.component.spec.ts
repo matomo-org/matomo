@@ -119,3 +119,73 @@ describe('DataTableActions percentage values setting', () => {
     });
   });
 });
+
+// Locks what the bar renders before the actions move up into the report header, so that move can
+// be reviewed as a relocation rather than a rewrite.
+describe('DataTableActions rendered actions', () => {
+  function mountComponent(customProps = {}) {
+    return mount(DataTableActions, {
+      props: {
+        showFooter: true,
+        showFooterIcons: true,
+        viewDataTable: 'table',
+        footerIcons: [],
+        requestParams: {},
+        apiMethodToRequestDataTable: 'DevicesDetection.getType',
+        maxFilterLimit: 100,
+        reportId: 'DevicesDetection.getType',
+        dataTableActions: [],
+        clientSideParameters: {},
+        translations: {},
+        ...customProps,
+      },
+      global: {
+        config: {
+          globalProperties: {
+            translate: translateStub,
+            $sanitize: (value: string) => value,
+          } as any,
+        },
+      },
+    });
+  }
+
+  // The next two lock the contract the move into the header must preserve, not the move itself:
+  // they pass against the pre-move component too. Third-party plugins reach their own actions
+  // through `a.dataTableAction.<id>`, so that selector holding still is what keeps them working.
+  it('should render each action only when its own flag is set', () => {
+    const off = mountComponent();
+    expect(off.find('a.activateExportSelection').exists()).toBe(false);
+    expect(off.find('a.annotationView').exists()).toBe(false);
+    expect(off.find('a.tableIcon').exists()).toBe(false);
+
+    const on = mountComponent({
+      showExport: true,
+      showAnnotations: true,
+      showExportAsImageIcon: true,
+    });
+    expect(on.find('a.activateExportSelection').exists()).toBe(true);
+    expect(on.find('a.annotationView').exists()).toBe(true);
+    expect(on.find('a.tableIcon').exists()).toBe(true);
+  });
+
+  it('should render the extra report actions it is given', () => {
+    const wrapper = mountComponent({
+      dataTableActions: [
+        { id: 'myCustomAction', title: 'Custom', icon: 'icon-add' },
+      ],
+    });
+
+    expect(wrapper.find('a.dataTableAction.myCustomAction').exists()).toBe(true);
+  });
+
+  // The component is mounted twice per report (footer and header controls), so a static id would
+  // be duplicated in the document and make `#id` resolve to whichever came first.
+  it('should scope the export-as-image id to its placement', () => {
+    const footer = mountComponent({ showExportAsImageIcon: true });
+    const top = mountComponent({ showExportAsImageIcon: true, placement: 'top' });
+
+    expect(footer.find('a.tableIcon').attributes('id')).toBe('dataTableExportAsImageIcon-footer');
+    expect(top.find('a.tableIcon').attributes('id')).toBe('dataTableExportAsImageIcon-top');
+  });
+});
