@@ -140,7 +140,7 @@ describe("EvolutionGraph", function () {
     });
 
     it("should show graph as image when export as image icon clicked", async function () {
-        await page.click('#dataTableFooterExportAsImageIcon');
+        await page.click('#dataTableExportAsImageIcon-top');
         await page.waitForNetworkIdle();
 
         const dialog = await page.$('.ui-dialog');
@@ -333,7 +333,7 @@ describe("EvolutionGraph", function () {
             await page.waitForNetworkIdle();
             await setThemeMode('dark');
             await page.waitForTimeout(250);
-            await page.click('#dataTableFooterExportAsImageIcon');
+            await page.click('#dataTableExportAsImageIcon-top');
             await page.waitForSelector('.ui-dialog img');
 
             expect(await getImagePixelColor('.ui-dialog img', 5))

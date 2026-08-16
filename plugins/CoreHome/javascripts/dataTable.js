@@ -780,10 +780,11 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         }
     },
     handlePeriod: function (domElem) {
-        var $periodSelect = $('.dataTablePeriods .tableIcon', domElem);
-
         var self = this;
-        $periodSelect.click(function () {
+        // the periods dropdown is part of the action bar, so it is resolved through the report
+        var scope = self._findReportScope(domElem);
+        var $periodSelect = $('.dataTablePeriods .tableIcon', scope);
+        $periodSelect.off('click.reportAction').on('click.reportAction', function () {
             var period = $(this).attr('data-period');
             if (!period || period == self.param['period']) {
                 return;
@@ -802,7 +803,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             endDateOfPeriod = formatDate(endDateOfPeriod);
 
             var newPeriod = piwikPeriods.get(period);
-            $('.periodName', domElem).html(newPeriod.getDisplayText());
+            $('.periodName', scope).html(newPeriod.getDisplayText());
 
             self.param['period'] = period;
             self.param['date'] = endDateOfPeriod;
@@ -1020,8 +1021,11 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
     handleEvolutionAnnotations: function (domElem) {
         var self = this;
+        // the annotation icon that gates this row belongs to the action bar, so look for it in the
+        // report scope; everything it then renders stays inside the table
+        var scope = self._findReportScope(domElem);
         if ((self.param.viewDataTable === 'graphEvolution' || self.param.viewDataTable === 'graphStackedBarEvolution')
-            && $('.annotationView', domElem).length > 0) {
+            && $('.annotationView', scope).length > 0) {
             // get dates w/ annotations across evolution period (have to do it through AJAX since we
             // determine placement using the elements created by jqplot)
 
@@ -1084,7 +1088,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                                 undefined, // lastN
                                 function (manager) {
                                     manager.attr('data-is-range', 0);
-                                    $('.annotationView', domElem)
+                                    $('.annotationView', scope)
                                         .attr('title', _pk_translate('Annotations_IconDesc'));
 
                                     var viewAndAdd = _pk_translate('Annotations_ViewAndAddAnnotations'),
@@ -1160,8 +1164,10 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             return;
         }
 
-        // show the annotations view on click
-        $('.annotationView', domElem).click(function () {
+        // the trigger is scoped to the report, so it keeps working once it moves up into the
+        // header; the manager it toggles stays inside the table
+        $('.annotationView', self._findReportScope(domElem))
+            .off('click.reportAction').on('click.reportAction', function () {
             var annotationManager = $('.annotation-manager', domElem);
 
             if (annotationManager.length > 0
@@ -1206,9 +1212,11 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         //footer arrow position element name
         self.jsViewDataTable = self.param.viewDataTable;
 
-        $('.tableAllColumnsSwitch a', domElem).show();
+        var scope = self._findReportScope(domElem);
 
-        $('.dataTableFooterIcons .tableIcon', domElem).click(function () {
+        $('.tableAllColumnsSwitch a', scope).show();
+
+        $('.dataTableFooterIcons .tableIcon', scope).off('click.reportAction').on('click.reportAction', function () {
             var id = $(this).attr('data-footer-icon-id');
             if (!id) {
                 return;
@@ -1237,11 +1245,13 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             return;
         }
 
+        var scope = self._findReportScope(domElem);
+
         if ((typeof self.numberOfSubtables == 'undefined' || self.numberOfSubtables == 0)
             && (typeof self.param.flat == 'undefined' || self.param.flat != 1)
         ) {
             // if there are no subtables, remove the flatten action from all data table actions
-            var dataTableActionsVueApps = $('[vue-entry="CoreHome.DataTableActions"]', domElem);
+            var dataTableActionsVueApps = $('[vue-entry="CoreHome.DataTableActions"]', scope);
             if (dataTableActionsVueApps.length) {
               dataTableActionsVueApps.each(function() {
                 var appData = $(this).data('vueAppInstance');
@@ -1252,7 +1262,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             }
         }
 
-        var ul = $('ul.tableConfiguration', domElem);
+        var ul = $('ul.tableConfiguration', scope);
         if (!ul.find('li').length) {
             return;
         }
@@ -1275,23 +1285,23 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         };
 
         // handle low population
-        $('.dataTableExcludeLowPopulation', domElem)
-            .click(generateClickCallback('enable_filter_excludelowpop'));
+        $('.dataTableExcludeLowPopulation', scope)
+            .off('click.reportAction').on('click.reportAction', generateClickCallback('enable_filter_excludelowpop'));
 
         // handle flatten
-        $('.dataTableFlatten', domElem)
-            .click(generateClickCallback('flat'));
+        $('.dataTableFlatten', scope)
+            .off('click.reportAction').on('click.reportAction', generateClickCallback('flat'));
 
         // handle flatten
-        $('.dataTableShowTotalsRow', domElem)
-            .click(generateClickCallback('keep_totals_row'));
+        $('.dataTableShowTotalsRow', scope)
+            .off('click.reportAction').on('click.reportAction', generateClickCallback('keep_totals_row'));
 
         // handle percentage values
-        $('.dataTableShowPercentageValues', domElem)
-            .click(generateClickCallback('show_percentage_values'));
+        $('.dataTableShowPercentageValues', scope)
+            .off('click.reportAction').on('click.reportAction', generateClickCallback('show_percentage_values'));
 
-        $('.dataTableIncludeAggregateRows', domElem)
-            .click(generateClickCallback('include_aggregate_rows', function () {
+        $('.dataTableIncludeAggregateRows', scope)
+            .off('click.reportAction').on('click.reportAction', generateClickCallback('include_aggregate_rows', function () {
                 if (self.param.include_aggregate_rows == 1) {
                     // when including aggregate rows is enabled, we remove the sorting
                     // this way, the aggregate rows appear directly before their children
@@ -1300,12 +1310,12 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 }
             }));
 
-        $('.dataTableShowDimensions', domElem)
-            .click(generateClickCallback('show_dimensions'));
+        $('.dataTableShowDimensions', scope)
+            .off('click.reportAction').on('click.reportAction', generateClickCallback('show_dimensions'));
 
         // handle pivot by
-        $('.dataTablePivotBySubtable', domElem)
-            .click(generateClickCallback('pivotBy', null, function () {
+        $('.dataTablePivotBySubtable', scope)
+            .off('click.reportAction').on('click.reportAction', generateClickCallback('pivotBy', null, function () {
                 if (self.param.pivotBy
                     && self.param.pivotBy != '0'
                 ) {
@@ -1966,15 +1976,70 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         return $('h2', domElem);
     },
 
-    // Returns { $el, app } for the shared ReportHeader Vue app that titles this report, or null.
-    // A full-page report renders it as the table's previous sibling; a widget renders it in the
-    // widget chrome (.widgetTop). This is the same app replaceReportTitleAndHelp() pushes into.
-    _findReportHeaderApp: function (domElem) {
-        var $header = domElem.prev('[vue-entry="CoreHome.ReportHeader"]');
-        if (!$header.length) {
-            $header = domElem.parents('.widget').first()
-                .find('.widgetTop [vue-entry="CoreHome.ReportHeader"]').first();
+    // Locates the shared ReportHeader that titles this report, together with the element that
+    // scopes the two of them. Returns empty sets when this report has no header beside it.
+    // _findReportScope() needs the scope and _findReportHeaderApp() needs the header, and the two
+    // have to recognise the same DOM shapes: a report whose controls are widened into the header
+    // but whose header is not found loses its search, and vice versa.
+    _locateReportHeader: function (domElem) {
+        // Full-page report: the header precedes the table inside the wrapper. Usually it is the
+        // table's own previous sibling, but an empty titled report gets an extra `.card >
+        // .card-content` between the two (_dataTable.twig), so climb a couple of levels looking
+        // for it.
+        var $node = domElem;
+        for (var depth = 0; depth < 3 && $node.length; depth += 1) {
+            var $header = $node.prev('[vue-entry="CoreHome.ReportHeader"]');
+            if ($header.length) {
+                return { $header: $header, $scope: $node.parent() };
+            }
+            $node = $node.parent();
         }
+
+        // A widget renders it in the widget chrome instead.
+        var $widget = domElem.parents('.widget').first();
+        var $widgetHeader = $widget.find('.widgetTop [vue-entry="CoreHome.ReportHeader"]').first();
+        if ($widgetHeader.length) {
+            return { $header: $widgetHeader, $scope: $widget };
+        }
+
+        return { $header: $(), $scope: $() };
+    },
+
+    // Returns the element that scopes one report: the wrapper holding both the shared ReportHeader
+    // and this table, so an action handler finds its controls whether they are rendered inside the
+    // table or up in the header.
+    //
+    // Falls back to the table itself whenever widening cannot be attributed to this report alone -
+    // a subtable, a report rendered without a title and without a wrapper, or a container widget
+    // holding several reports - because widening there would reach into another report.
+    _findReportScope: function (domElem) {
+        // Subtables reuse the parent report's header and have no controls of their own, so they must
+        // never widen: doing so would rebind the parent's controls to the subtable's instance.
+        // Both signals are needed - `parentId` is only set by ActionsDataTable, while a generic
+        // expandable subtable is a fresh instance that carries `idSubtable` in its params.
+        if ((typeof this.parentId != "undefined" && this.parentId != '') || this.param.idSubtable) {
+            return domElem;
+        }
+
+        var $scope = this._locateReportHeader(domElem).$scope;
+        if (!$scope.length) {
+            return domElem;
+        }
+
+        // Several reports can sit under one header, as in a container widget. Every handler rebinds
+        // with `.off('click.reportAction')`, so widening there would let whichever instance finishes
+        // loading last take over its siblings' controls - and those loads race.
+        if ($scope.find('.dataTable').not('.dataTable .dataTable').length > 1) {
+            return domElem;
+        }
+
+        return $scope;
+    },
+
+    // Returns { $el, app } for the shared ReportHeader Vue app that titles this report, or null.
+    // This is the same app replaceReportTitleAndHelp() pushes into.
+    _findReportHeaderApp: function (domElem) {
+        var $header = this._locateReportHeader(domElem).$header;
         if (!$header.length) {
             return null;
         }
