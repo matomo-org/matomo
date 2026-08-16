@@ -7,14 +7,21 @@
 
 <template>
   <div class="expandableSelector" v-focus-anywhere-but-here="{ blur: onBlur }">
-    <div @click="showSelect = !showSelect" class="select-wrapper">
-      <svg class="caret" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
-        <path d="M7 10l5 5 5-5z"></path><path d="M0 0h24v24H0z" fill="none"></path>
-      </svg>
+    <div
+      @click="toggleSelect()"
+      class="select-wrapper expandableSelector__wrapper"
+      :class="{ 'expandableSelector__wrapper--expanded': showSelect }"
+    >
       <input type="text" class="select-dropdown" readonly :value="modelValueText"/>
+      <span class="expandableSelector__chevron icon icon-chevron-down" />
     </div>
 
-    <div v-show="showSelect" class="expandableList z-depth-2">
+    <div
+      v-show="showSelect"
+      class="expandableList"
+      :class="{ 'expandableSelector__list--above': openAbove }"
+      ref="expandableList"
+    >
 
       <div class="searchContainer">
         <input
@@ -25,7 +32,11 @@
           v-focus-if="{ focused: showSelect }"
         />
       </div>
-      <ul class="collection firstLevel">
+      <ul
+        class="collection firstLevel"
+        ref="optionsList"
+        :style="optionsListStyle"
+      >
         <li
           v-for="(options, index) in availableOptions"
           class="collection-item"
@@ -152,9 +163,17 @@ export default defineComponent({
       showSelect: false,
       searchTerm: '',
       showCategory: '',
+      optionsListMaxHeight: 0,
+      openAbove: false,
     };
   },
   computed: {
+    optionsListStyle() {
+      if (!this.optionsListMaxHeight) {
+        return {};
+      }
+      return { maxHeight: `${this.optionsListMaxHeight}px` };
+    },
     searchTermLowercase() {
       return this.searchTerm.toLowerCase();
     },
@@ -182,6 +201,48 @@ export default defineComponent({
     },
   },
   methods: {
+    toggleSelect() {
+      this.showSelect = !this.showSelect;
+      this.openAbove = false;
+
+      if (this.showSelect) {
+        this.$nextTick(() => this.fitOptionsList());
+      }
+    },
+    fitOptionsList() {
+      const list = this.$refs.optionsList as HTMLElement|undefined;
+      const dropdown = this.$refs.expandableList as HTMLElement|undefined;
+
+      if (!list || !dropdown) {
+        return;
+      }
+
+      const minUsableHeight = 150;
+      const margin = 16;
+      const listRect = list.getBoundingClientRect();
+      const spaceBelow = Math.floor(window.innerHeight - listRect.top) - margin;
+
+      if (spaceBelow >= minUsableHeight) {
+        this.optionsListMaxHeight = spaceBelow;
+        return;
+      }
+
+      // not enough room below: open above the field when that side offers more
+      const dropdownRect = dropdown.getBoundingClientRect();
+      const wrapperRect = (this.$el as HTMLElement)
+        .querySelector('.select-wrapper')!.getBoundingClientRect();
+      const chromeAboveList = listRect.top - dropdownRect.top;
+      const spaceAbove = Math.floor(wrapperRect.top - 8 - chromeAboveList) - margin;
+
+      if (spaceAbove > spaceBelow) {
+        this.openAbove = true;
+        this.optionsListMaxHeight = Math.max(minUsableHeight, spaceAbove);
+        return;
+      }
+
+      // keep a usable minimum on the larger side; the page scrolls for the rest
+      this.optionsListMaxHeight = Math.max(minUsableHeight, spaceBelow);
+    },
     normalize(value: string) {
       return Matomo.helper.normalize(value);
     },

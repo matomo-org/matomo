@@ -27,6 +27,7 @@
         "SentFromX": "Sent from %s.",
         "PleaseFindBelow": "Please find below your %1$s report for %2$s.",
         "PluginDescription": "Create custom reports and schedule them to be emailed daily, weekly or monthly to one or several people. Several report formats are supported (html, pdf, csv, images).",
+        "ReorderReport": "Reorder report",
         "ReportFormat": "Report Format",
         "ReportHourLocal": "Send report at (local time)",
         "ReportHourWithUtcOnly": "%s UTC",

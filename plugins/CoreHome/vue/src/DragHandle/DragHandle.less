@@ -1,0 +1,15 @@
+.dragHandle {
+  padding-right: 15px;
+  color: @theme-color-text-light;
+  cursor: grab;
+
+  .dragHandle__icon {
+    display: block;
+    fill: currentColor;
+  }
+
+  // the surrounding list adds the hook while it does not allow dragging
+  .__dragHandle-disabledList & {
+    cursor: default;
+  }
+}
