@@ -125,6 +125,11 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   control inside a Materialize modal can set `data-matomo-modal-escapee` to that modal's
   `data-matomo-modal-id` to be exempted from its focus trap, which otherwise prevents it from holding focus. The
   exemption applies only to the modal named, so an element belonging to one modal cannot hold focus over another.
+* The report action bar's "export as image" icon no longer carries the id `dataTableFooterExportAsImageIcon`. The bar is
+  rendered twice per report (above the table and in its footer) from one component, so that static id appeared twice per
+  report. The id is now scoped to the placement: `dataTableExportAsImageIcon-top` and `dataTableExportAsImageIcon-footer`.
+  Note this only de-duplicates the two placements of one report: a page showing several image-exportable reports still
+  repeats both ids, so prefer selecting `.dataTableAction.tableIcon` within the report you mean.
 
 ## Matomo 5.14.0
 
