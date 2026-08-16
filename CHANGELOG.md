@@ -114,6 +114,11 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   produced by `./console vue:build --watch`. Plugin authors can delete the committed `vue/dist/<Plugin>.umd.js` file
   from their repository and add `/vue/dist/*.umd.js` to their `.gitignore`. Nothing else needs to change; the file is
   simply no longer regenerated.
+* The report action bar's "export as image" icon no longer carries the id `dataTableFooterExportAsImageIcon`. The bar is
+  rendered twice per report (above the table and in its footer) from one component, so that static id appeared twice per
+  report. The id is now scoped to the placement: `dataTableExportAsImageIcon-top` and `dataTableExportAsImageIcon-footer`.
+  Note this only de-duplicates the two placements of one report: a page showing several image-exportable reports still
+  repeats both ids, so prefer selecting `.dataTableAction.tableIcon` within the report you mean.
 
 ## Matomo 5.12.0
 
