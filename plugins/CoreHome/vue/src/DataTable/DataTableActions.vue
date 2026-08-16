@@ -101,7 +101,7 @@
       v-if="showExportAsImageIcon"
       class="dataTableAction tableIcon"
       href=""
-      id="dataTableFooterExportAsImageIcon"
+      :id="`dataTableExportAsImageIcon-${placement}`"
       @click.prevent="showExportImage($event)"
       :title="translate('General_ExportAsImage')"
       style="margin-right:3.5px"
@@ -242,6 +242,7 @@ import DropdownButton from '../DropdownButton/DropdownButton';
 import ReportExport from '../ReportExport/ReportExport';
 import { translate } from '../translate';
 import { isBooleanLikeSet, resolveExportSupportsFlat } from './DataTableActions.utils';
+import findReportRoot from './reportScope';
 
 interface FooterIcon {
   id: string;
@@ -358,8 +359,7 @@ export default defineComponent({
   },
   methods: {
     showExportImage(event: Event) {
-      $(event.target as HTMLElement)
-        .closest('.dataTable')
+      findReportRoot(event.target as HTMLElement)
         .find('div.jqplot-target')
         .trigger('piwikExportAsImage');
     },
