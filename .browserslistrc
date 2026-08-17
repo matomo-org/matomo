@@ -1,5 +1,15 @@
-> 0.05%
-last 2 versions
+# The desktop browser floors below mirror core/SupportedBrowser.php: browsers at or below the
+# versions listed there are served a NotSupportedBrowserException, so every desktop browser Matomo
+# actually renders the reporting UI for is covered by the CoreVue polyfill. Keep the two in sync.
+# Vue 3 additionally requires native ES2015 (including Proxy), which cannot be polyfilled, so older
+# engines cannot run the UI regardless. Mobile families are not gated by SupportedBrowser and are
+# kept from their first native-ES2015 release. This list only decides which core-js polyfills the
+# shared CoreVue polyfill bundle ships (see plugins/CoreVue/polyfills).
+chrome >= 49
+firefox >= 52
+safari >= 11
+edge >= 18
+opera >= 73
+ios_saf >= 10
+samsung >= 5
 not dead
-not ie <= 11 # Vue does not work on IE
-not ios < 10 # Vue does not work on ios 9.X and below

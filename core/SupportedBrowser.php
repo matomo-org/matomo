@@ -22,8 +22,9 @@ class SupportedBrowser
      * not included in this list or the version number is higher, then
      * supported.
      *
-     * Current version numbers are coming from this list:
-     * $ npx browserslist
+     * These desktop floors are kept in sync with the browser floors in the repository's
+     * .browserslistrc (which drives the CoreVue polyfill), so every browser served the reporting
+     * UI is also covered by the shipped polyfills.
      */
     private static $notSupportedBrowsers = [
         'FF' => 51,

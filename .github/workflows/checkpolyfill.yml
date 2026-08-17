@@ -1,0 +1,44 @@
+name: Check Vue polyfill
+
+# Regenerates plugins/CoreVue/polyfills/src/corejs-imports.generated.ts from the current Vue
+# sources and fails if the committed file is out of date. This prevents the shared CoreVue polyfill
+# from silently under-shipping core-js modules when a Vue source starts using a new built-in.
+# Submodules are checked out so their Vue sources are included in the canonical list.
+
+on:
+  pull_request:
+    types: [synchronize, opened]
+    paths:
+      - 'plugins/*/vue/src/**'
+      - 'plugins/CoreVue/polyfills/**'
+      - '.browserslistrc'
+      - 'package-lock.json'
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    name: check polyfill imports up to date
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          lfs: false
+          submodules: true
+          persist-credentials: false
+      - name: Setup node
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          cache: 'npm'
+      - run: npm install --ignore-scripts
+      - name: Regenerate polyfill import list
+        run: node plugins/CoreVue/polyfills/scripts/generate-corejs-imports.mjs
+      - name: Fail if the committed list is out of date
+        run: |
+          if ! git diff --exit-code -- plugins/CoreVue/polyfills/src/corejs-imports.generated.ts
+          then
+            echo "::error::The CoreVue polyfill import list is out of date. Run \`./console vue:build-polyfill\` locally and commit the result."
+            exit 1
+          fi

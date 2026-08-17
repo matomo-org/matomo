@@ -201,6 +201,7 @@ for x in .gitignore .gitmodules .gitattributes .git-blame-ignore-revs .bowerrc .
     .phpstorm.meta.php .lfsconfig .travis.sh tsconfig.json tsconfig.spec.json \
     .eslintrc.js .eslintignore .eslintrc .browserslistrc babel.config.js jest.config.js \
     karma.conf.js karma-conf.js vue.config.js vite.config.ts vitest.config.ts vite-runner.mjs \
+    generate-corejs-imports.mjs \
     .npmignore .ncurc.json .prettierrc .jscsrc \
     phpstan.neon phpstan.neon.dist phpstan-baseline.neon package.xml .stylelintrc.json; do
     find . -name "$x" -exec rm -f {} \;
