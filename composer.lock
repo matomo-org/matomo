@@ -573,16 +573,16 @@
         },
         {
             "name": "matomo/ini",
-            "version": "3.0.1",
+            "version": "3.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/component-ini.git",
-                "reference": "b55c55da943f4ccd564d48fe6b218fbdada98c1a"
+                "reference": "8bd472309dbb742404deabd2bd86d060fb42219e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/component-ini/zipball/b55c55da943f4ccd564d48fe6b218fbdada98c1a",
-                "reference": "b55c55da943f4ccd564d48fe6b218fbdada98c1a",
+                "url": "https://api.github.com/repos/matomo-org/component-ini/zipball/8bd472309dbb742404deabd2bd86d060fb42219e",
+                "reference": "8bd472309dbb742404deabd2bd86d060fb42219e",
                 "shasum": ""
             },
             "require": {
@@ -604,9 +604,9 @@
             ],
             "support": {
                 "issues": "https://github.com/matomo-org/component-ini/issues",
-                "source": "https://github.com/matomo-org/component-ini/tree/3.0.1"
+                "source": "https://github.com/matomo-org/component-ini/tree/3.0.3"
             },
-            "time": "2022-11-09T08:19:54+00:00"
+            "time": "2026-08-17T08:38:26+00:00"
         },
         {
             "name": "matomo/matomo-php-tracker",
@@ -4527,16 +4527,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "8.5.53",
+            "version": "8.5.54",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "17cd4291b0ef645b6d21e5ddb6f497694c5e9bcd"
+                "reference": "416a546dfbf773a98501bc97791e00c88b89668b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/17cd4291b0ef645b6d21e5ddb6f497694c5e9bcd",
-                "reference": "17cd4291b0ef645b6d21e5ddb6f497694c5e9bcd",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/416a546dfbf773a98501bc97791e00c88b89668b",
+                "reference": "416a546dfbf773a98501bc97791e00c88b89668b",
                 "shasum": ""
             },
             "require": {
@@ -4558,7 +4558,7 @@
                 "sebastian/comparator": "^3.0.7",
                 "sebastian/diff": "^3.0.6",
                 "sebastian/environment": "^4.2.5",
-                "sebastian/exporter": "^3.1.8",
+                "sebastian/exporter": "^3.1.9",
                 "sebastian/global-state": "^3.0.6",
                 "sebastian/object-enumerator": "^3.0.5",
                 "sebastian/resource-operations": "^2.0.3",
@@ -4605,7 +4605,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/8.5.53"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/8.5.54"
             },
             "funding": [
                 {
@@ -4613,7 +4613,7 @@
                     "type": "other"
                 }
             ],
-            "time": "2026-07-06T14:29:25+00:00"
+            "time": "2026-08-11T06:06:51+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
@@ -4887,16 +4887,16 @@
         },
         {
             "name": "sebastian/exporter",
-            "version": "3.1.8",
+            "version": "3.1.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/exporter.git",
-                "reference": "64cfeaa341951ceb2019d7b98232399d57bb2296"
+                "reference": "0cd58aaf479f1e18dfef818b8b8a4ccba188e545"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/64cfeaa341951ceb2019d7b98232399d57bb2296",
-                "reference": "64cfeaa341951ceb2019d7b98232399d57bb2296",
+                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/0cd58aaf479f1e18dfef818b8b8a4ccba188e545",
+                "reference": "0cd58aaf479f1e18dfef818b8b8a4ccba188e545",
                 "shasum": ""
             },
             "require": {
@@ -4952,7 +4952,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/exporter/issues",
-                "source": "https://github.com/sebastianbergmann/exporter/tree/3.1.8"
+                "source": "https://github.com/sebastianbergmann/exporter/tree/3.1.9"
             },
             "funding": [
                 {
@@ -4972,7 +4972,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-09-24T05:55:14+00:00"
+            "time": "2026-08-11T04:45:00+00:00"
         },
         {
             "name": "sebastian/global-state",
@@ -5164,16 +5164,16 @@
         },
         {
             "name": "sebastian/recursion-context",
-            "version": "3.0.3",
+            "version": "3.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/recursion-context.git",
-                "reference": "8fe7e75986a9d24b4cceae847314035df7703a5a"
+                "reference": "4d3432ab12baebb4da6b7ad65d92847287f593b8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/recursion-context/zipball/8fe7e75986a9d24b4cceae847314035df7703a5a",
-                "reference": "8fe7e75986a9d24b4cceae847314035df7703a5a",
+                "url": "https://api.github.com/repos/sebastianbergmann/recursion-context/zipball/4d3432ab12baebb4da6b7ad65d92847287f593b8",
+                "reference": "4d3432ab12baebb4da6b7ad65d92847287f593b8",
                 "shasum": ""
             },
             "require": {
@@ -5215,7 +5215,7 @@
             "homepage": "http://www.github.com/sebastianbergmann/recursion-context",
             "support": {
                 "issues": "https://github.com/sebastianbergmann/recursion-context/issues",
-                "source": "https://github.com/sebastianbergmann/recursion-context/tree/3.0.3"
+                "source": "https://github.com/sebastianbergmann/recursion-context/tree/3.0.4"
             },
             "funding": [
                 {
@@ -5235,7 +5235,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-08-10T05:25:53+00:00"
+            "time": "2026-08-11T05:21:46+00:00"
         },
         {
             "name": "sebastian/resource-operations",
