@@ -51,7 +51,8 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
     {
         $setting = AggregatedRealtimeReportsEnabledSetting::getSystemSetting();
         $setting->setConfigureCallback(function (FieldConfig $field) {
-            $field->title = AggregatedRealtimeReportsEnabledSetting::getTitle();
+            // the checkbox keeps its imperative label; getTitle() is the state-phrased compliance dashboard title
+            $field->title = Piwik::translate('Live_EnableAggregatedRealtimeReports');
             $field->inlineHelp = AggregatedRealtimeReportsEnabledSetting::getInlineHelp();
             $field->uiControl = FieldConfig::UI_CONTROL_CHECKBOX;
         });

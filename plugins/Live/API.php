@@ -15,6 +15,7 @@ use Piwik\Config\GeneralConfig;
 use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Piwik;
+use Piwik\Plugins\PrivacyManager\DataRounding;
 use Piwik\Site;
 use Piwik\Log\LoggerInterface;
 
@@ -117,7 +118,29 @@ class API extends \Piwik\Plugin\API
             }
         }
 
+        // Apply privacy-safe rounding to the counters when data rounding is enforced (e.g. CNIL mode),
+        // so the aggregated real-time reports do not expose near-single-user volumes.
+        if ($this->shouldRoundCounters($idSite)) {
+            foreach ($counters as $name => $value) {
+                $counters[$name] = DataRounding::roundCount($value);
+            }
+        }
+
         return array($counters);
+    }
+
+    /**
+     * @param int|int[]|string $idSite
+     */
+    private function shouldRoundCounters($idSite): bool
+    {
+        try {
+            $idSites = Site::getIdSitesFromIdSitesString($idSite, false, false);
+        } catch (\Throwable $e) {
+            return false;
+        }
+
+        return DataRounding::isDataRoundingEnabledForAnySites($idSites);
     }
 
     /**
