@@ -15,6 +15,7 @@ use Piwik\DataTable\Row;
 use Piwik\Metrics;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
+use Piwik\Plugin\Metric;
 use Piwik\Plugin\ProcessedMetric;
 use Piwik\Plugin\Report;
 
@@ -229,7 +230,9 @@ class PercentOfReportTotal extends ProcessedMetric
         // metrics the API method registered on the table itself, eg DevicePlugins.getPlugin
         $extraProcessedMetrics = $table->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME) ?: [];
         foreach ($extraProcessedMetrics as $metric) {
-            $percentageMetricNames[] = $metric->getName();
+            if ($metric instanceof Metric) {
+                $percentageMetricNames[] = $metric->getName();
+            }
         }
 
         if ($report) {
