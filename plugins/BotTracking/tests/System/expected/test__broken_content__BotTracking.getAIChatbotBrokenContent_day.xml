@@ -5,26 +5,17 @@
 		<total_broken_requests>1</total_broken_requests>
 		<page_not_found_404_requests>0</page_not_found_404_requests>
 		<server_error_5xx_requests>1</server_error_5xx_requests>
-		<total_broken_requests_percent_of_total>33.3%</total_broken_requests_percent_of_total>
-		<server_error_5xx_requests_percent_of_total>50%</server_error_5xx_requests_percent_of_total>
-		<page_not_found_404_requests_percent_of_total>0%</page_not_found_404_requests_percent_of_total>
 	</row>
 	<row>
 		<label>example.com/resources/doc.pdf</label>
 		<total_broken_requests>1</total_broken_requests>
 		<page_not_found_404_requests>1</page_not_found_404_requests>
 		<server_error_5xx_requests>0</server_error_5xx_requests>
-		<total_broken_requests_percent_of_total>33.3%</total_broken_requests_percent_of_total>
-		<server_error_5xx_requests_percent_of_total>0%</server_error_5xx_requests_percent_of_total>
-		<page_not_found_404_requests_percent_of_total>100%</page_not_found_404_requests_percent_of_total>
 	</row>
 	<row>
 		<label>example.com/resources/guide.pdf</label>
 		<total_broken_requests>1</total_broken_requests>
 		<page_not_found_404_requests>0</page_not_found_404_requests>
 		<server_error_5xx_requests>1</server_error_5xx_requests>
-		<total_broken_requests_percent_of_total>33.3%</total_broken_requests_percent_of_total>
-		<server_error_5xx_requests_percent_of_total>50%</server_error_5xx_requests_percent_of_total>
-		<page_not_found_404_requests_percent_of_total>0%</page_not_found_404_requests_percent_of_total>
 	</row>
 </result>

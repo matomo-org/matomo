@@ -5,17 +5,11 @@
 		<total_broken_requests>1</total_broken_requests>
 		<page_not_found_404_requests>0</page_not_found_404_requests>
 		<server_error_5xx_requests>1</server_error_5xx_requests>
-		<total_broken_requests_percent_of_total>20%</total_broken_requests_percent_of_total>
-		<server_error_5xx_requests_percent_of_total>33.3%</server_error_5xx_requests_percent_of_total>
-		<page_not_found_404_requests_percent_of_total>0%</page_not_found_404_requests_percent_of_total>
 	</row>
 	<row>
 		<label>Others</label>
 		<total_broken_requests>4</total_broken_requests>
 		<page_not_found_404_requests>2</page_not_found_404_requests>
 		<server_error_5xx_requests>2</server_error_5xx_requests>
-		<total_broken_requests_percent_of_total>80%</total_broken_requests_percent_of_total>
-		<server_error_5xx_requests_percent_of_total>66.7%</server_error_5xx_requests_percent_of_total>
-		<page_not_found_404_requests_percent_of_total>100%</page_not_found_404_requests_percent_of_total>
 	</row>
 </result>

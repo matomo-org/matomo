@@ -9,9 +9,6 @@
 		<nb_response_size>3</nb_response_size>
 		<page_not_found_404_requests>0</page_not_found_404_requests>
 		<server_error_5xx_requests>1</server_error_5xx_requests>
-		<requests_percent_of_total>30.8%</requests_percent_of_total>
-		<server_error_5xx_requests_percent_of_total>100%</server_error_5xx_requests_percent_of_total>
-		<page_not_found_404_requests_percent_of_total>0%</page_not_found_404_requests_percent_of_total>
 		<avg_server_time>1.07</avg_server_time>
 		<avg_response_size>109794.66666667</avg_response_size>
 	</row>
@@ -24,9 +21,6 @@
 		<nb_response_size>3</nb_response_size>
 		<page_not_found_404_requests>1</page_not_found_404_requests>
 		<server_error_5xx_requests>0</server_error_5xx_requests>
-		<requests_percent_of_total>23.1%</requests_percent_of_total>
-		<server_error_5xx_requests_percent_of_total>0%</server_error_5xx_requests_percent_of_total>
-		<page_not_found_404_requests_percent_of_total>50%</page_not_found_404_requests_percent_of_total>
 		<avg_server_time>1.45</avg_server_time>
 		<avg_response_size>69007</avg_response_size>
 	</row>
@@ -39,9 +33,6 @@
 		<nb_response_size>2</nb_response_size>
 		<page_not_found_404_requests>0</page_not_found_404_requests>
 		<server_error_5xx_requests>0</server_error_5xx_requests>
-		<requests_percent_of_total>15.4%</requests_percent_of_total>
-		<server_error_5xx_requests_percent_of_total>0%</server_error_5xx_requests_percent_of_total>
-		<page_not_found_404_requests_percent_of_total>0%</page_not_found_404_requests_percent_of_total>
 		<avg_server_time>0.75</avg_server_time>
 		<avg_response_size>48362.5</avg_response_size>
 	</row>
@@ -54,9 +45,6 @@
 		<nb_response_size>1</nb_response_size>
 		<page_not_found_404_requests>1</page_not_found_404_requests>
 		<server_error_5xx_requests>0</server_error_5xx_requests>
-		<requests_percent_of_total>15.4%</requests_percent_of_total>
-		<server_error_5xx_requests_percent_of_total>0%</server_error_5xx_requests_percent_of_total>
-		<page_not_found_404_requests_percent_of_total>50%</page_not_found_404_requests_percent_of_total>
 		<avg_server_time>5</avg_server_time>
 		<avg_response_size>225445</avg_response_size>
 	</row>
@@ -69,9 +57,6 @@
 		<nb_response_size>2</nb_response_size>
 		<page_not_found_404_requests>0</page_not_found_404_requests>
 		<server_error_5xx_requests>0</server_error_5xx_requests>
-		<requests_percent_of_total>15.4%</requests_percent_of_total>
-		<server_error_5xx_requests_percent_of_total>0%</server_error_5xx_requests_percent_of_total>
-		<page_not_found_404_requests_percent_of_total>0%</page_not_found_404_requests_percent_of_total>
 		<avg_server_time>3.35</avg_server_time>
 		<avg_response_size>96656</avg_response_size>
 	</row>

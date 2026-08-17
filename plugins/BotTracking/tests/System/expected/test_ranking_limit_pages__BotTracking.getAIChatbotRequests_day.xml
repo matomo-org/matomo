@@ -6,17 +6,12 @@
 		<document_requests>0</document_requests>
 		<page_requests>2</page_requests>
 		<visits_acquired>1</visits_acquired>
-		<requests_percent_of_total>20%</requests_percent_of_total>
-		<page_requests_percent_of_total>33.3%</page_requests_percent_of_total>
-		<document_requests_percent_of_total>0%</document_requests_percent_of_total>
-		<visits_acquired_percent_of_total>100%</visits_acquired_percent_of_total>
 		<url>perplexity.ai</url>
 		<logo>plugins/Morpheus/icons/dist/aiAssistants/perplexity.ai.png</logo>
 		<subtable>
 			<row>
 				<label>example.com/article/2</label>
 				<requests>2</requests>
-				<requests_percent_of_total>20%</requests_percent_of_total>
 			</row>
 		</subtable>
 	</row>
@@ -26,17 +21,12 @@
 		<document_requests>1</document_requests>
 		<page_requests>1</page_requests>
 		<visits_acquired>0</visits_acquired>
-		<requests_percent_of_total>20%</requests_percent_of_total>
-		<page_requests_percent_of_total>16.7%</page_requests_percent_of_total>
-		<document_requests_percent_of_total>25%</document_requests_percent_of_total>
-		<visits_acquired_percent_of_total>0%</visits_acquired_percent_of_total>
 		<url>chatgpt.com</url>
 		<logo>plugins/Morpheus/icons/dist/aiAssistants/chatgpt.com.png</logo>
 		<subtable>
 			<row>
 				<label>example.com/article/1/page/2</label>
 				<requests>1</requests>
-				<requests_percent_of_total>10%</requests_percent_of_total>
 			</row>
 		</subtable>
 	</row>
@@ -46,10 +36,6 @@
 		<document_requests>1</document_requests>
 		<page_requests>0</page_requests>
 		<visits_acquired>0</visits_acquired>
-		<requests_percent_of_total>10%</requests_percent_of_total>
-		<page_requests_percent_of_total>0%</page_requests_percent_of_total>
-		<document_requests_percent_of_total>25%</document_requests_percent_of_total>
-		<visits_acquired_percent_of_total>0%</visits_acquired_percent_of_total>
 		<url>claude.ai</url>
 		<logo>plugins/Morpheus/icons/dist/aiAssistants/claude.ai.png</logo>
 	</row>
@@ -59,10 +45,6 @@
 		<document_requests>1</document_requests>
 		<page_requests>2</page_requests>
 		<visits_acquired>0</visits_acquired>
-		<requests_percent_of_total>30%</requests_percent_of_total>
-		<page_requests_percent_of_total>33.3%</page_requests_percent_of_total>
-		<document_requests_percent_of_total>25%</document_requests_percent_of_total>
-		<visits_acquired_percent_of_total>0%</visits_acquired_percent_of_total>
 		<url>chat.mistral.ai</url>
 		<logo>plugins/Morpheus/icons/dist/aiAssistants/chat.mistral.ai.png</logo>
 	</row>
@@ -72,10 +54,6 @@
 		<document_requests>1</document_requests>
 		<page_requests>1</page_requests>
 		<visits_acquired>0</visits_acquired>
-		<requests_percent_of_total>20%</requests_percent_of_total>
-		<page_requests_percent_of_total>16.7%</page_requests_percent_of_total>
-		<document_requests_percent_of_total>25%</document_requests_percent_of_total>
-		<visits_acquired_percent_of_total>0%</visits_acquired_percent_of_total>
 		<url />
 		<logo>plugins/Morpheus/icons/dist/aiAssistants/xx.png</logo>
 	</row>

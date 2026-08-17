@@ -5,15 +5,11 @@
 		<unique_human_pageviews>0</unique_human_pageviews>
 		<ai_chatbot_requests>2</ai_chatbot_requests>
 		<discrepancy_score>79.2</discrepancy_score>
-		<unique_human_pageviews_percent_of_total>0%</unique_human_pageviews_percent_of_total>
-		<ai_chatbot_requests_percent_of_total>33.3%</ai_chatbot_requests_percent_of_total>
 	</row>
 	<row>
 		<label>example.com/article/2</label>
 		<unique_human_pageviews>2</unique_human_pageviews>
 		<ai_chatbot_requests>3</ai_chatbot_requests>
 		<discrepancy_score>20</discrepancy_score>
-		<unique_human_pageviews_percent_of_total>50%</unique_human_pageviews_percent_of_total>
-		<ai_chatbot_requests_percent_of_total>50%</ai_chatbot_requests_percent_of_total>
 	</row>
 </result>
