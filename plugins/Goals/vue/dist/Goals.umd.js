@@ -909,13 +909,15 @@ const RecommendGoalsvue_type_script_setup_true_lang_ts_hoisted_24 = /*#__PURE__*
   class: "icon-search"
 }, null, -1);
 const RecommendGoalsvue_type_script_setup_true_lang_ts_hoisted_25 = {
+  key: 0,
   class: "switch recommendGoals-aiSwitch"
 };
 const RecommendGoalsvue_type_script_setup_true_lang_ts_hoisted_26 = ["disabled"];
 const RecommendGoalsvue_type_script_setup_true_lang_ts_hoisted_27 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "lever"
 }, null, -1);
-const RecommendGoalsvue_type_script_setup_true_lang_ts_hoisted_28 = ["aria-expanded"];
+const RecommendGoalsvue_type_script_setup_true_lang_ts_hoisted_28 = ["title"];
+const RecommendGoalsvue_type_script_setup_true_lang_ts_hoisted_29 = ["aria-expanded"];
 
 
 
@@ -955,6 +957,8 @@ const RecommendGoalsvue_type_script_setup_true_lang_ts_hoisted_28 = ["aria-expan
     const generatedAt = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(null);
     const remainingAiScans = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(null);
     const providerName = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(Object(external_CoreHome_["translate"])('Goals_RecommendAiProviderFallback'));
+    const aiAvailability = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])('available');
+    const serverPrivacyNote = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])('');
     const createdRecommendationKeys = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])([]);
     const {
       progress: scanProgress,
@@ -964,6 +968,16 @@ const RecommendGoalsvue_type_script_setup_true_lang_ts_hoisted_28 = ["aria-expan
     } = useScanProgress();
     const idSite = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => external_CoreHome_["Matomo"].idSite);
     const shouldShowRecommendations = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => props.userCanEditGoals);
+    const isAiAvailable = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => aiAvailability.value === 'available');
+    // 'disabled' stays silent: nobody on the instance can enable AI, so there is
+    // nothing to act on. The other two states differ in what needs doing.
+    const aiUnavailableLabel = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
+      if (aiAvailability.value === 'notActivated') {
+        return Object(external_CoreHome_["translate"])('Goals_RecommendAiNotActivated');
+      }
+      return aiAvailability.value === 'notConfigured' ? Object(external_CoreHome_["translate"])('Goals_RecommendAiNotConfigured') : '';
+    });
+    const aiUnavailableHelp = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => aiAvailability.value === 'notActivated' ? Object(external_CoreHome_["translate"])('Goals_RecommendAiNotActivatedHelp') : Object(external_CoreHome_["translate"])('Goals_RecommendAiNotConfiguredHelp'));
     const isBusy = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => isLoading.value || isCreatingAll.value || isDismissing.value || creatingId.value !== null || dismissingId.value !== null);
     function recKey(rec) {
       return rec.id || rec.name;
@@ -1017,7 +1031,8 @@ const RecommendGoalsvue_type_script_setup_true_lang_ts_hoisted_28 = ["aria-expan
       }
       return '';
     });
-    const privacyNote = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => Object(external_CoreHome_["translate"])('Goals_RecommendAiToggleHelp', providerName.value));
+    // server-built so plugins can replace it for their environment
+    const privacyNote = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => serverPrivacyNote.value || Object(external_CoreHome_["translate"])('Goals_RecommendAiToggleHelp', providerName.value));
     function loadSavedRecommendations() {
       isLoadingSaved.value = true;
       external_CoreHome_["AjaxHelper"].fetch({
@@ -1026,6 +1041,12 @@ const RecommendGoalsvue_type_script_setup_true_lang_ts_hoisted_28 = ["aria-expan
       }, {
         createErrorNotification: false
       }).then(response => {
+        if (response && response.aiAvailability) {
+          aiAvailability.value = response.aiAvailability;
+        }
+        if (response && response.privacyNote) {
+          serverPrivacyNote.value = response.privacyNote;
+        }
         if (!response || !response.generatedAt) {
           return;
         }
@@ -1051,7 +1072,7 @@ const RecommendGoalsvue_type_script_setup_true_lang_ts_hoisted_28 = ["aria-expan
       aiError.value = null;
       createError.value = null;
       recommendationMode.value = null;
-      const requestedAi = useAi.value;
+      const requestedAi = useAi.value && isAiAvailable.value;
       lastRunUsedAi.value = requestedAi;
       startScanProgress();
       external_CoreHome_["AjaxHelper"].fetch({
@@ -1069,6 +1090,12 @@ const RecommendGoalsvue_type_script_setup_true_lang_ts_hoisted_28 = ["aria-expan
         remainingAiScans.value = response && typeof response.remainingAiScans === 'number' ? response.remainingAiScans : null;
         if (response && response.providerName) {
           providerName.value = response.providerName;
+        }
+        if (response && response.aiAvailability) {
+          aiAvailability.value = response.aiAvailability;
+        }
+        if (response && response.privacyNote) {
+          serverPrivacyNote.value = response.privacyNote;
         }
         hasRun.value = true;
       }).catch(error => {
@@ -1249,20 +1276,25 @@ const RecommendGoalsvue_type_script_setup_true_lang_ts_hoisted_28 = ["aria-expan
           }]),
           onClick: _cache[2] || (_cache[2] = $event => recommend()),
           disabled: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["unref"])(isBusy)
-        }, [RecommendGoalsvue_type_script_setup_true_lang_ts_hoisted_24, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["unref"])(scanButtonLabel)), 1)], 10, RecommendGoalsvue_type_script_setup_true_lang_ts_hoisted_23), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", RecommendGoalsvue_type_script_setup_true_lang_ts_hoisted_25, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+        }, [RecommendGoalsvue_type_script_setup_true_lang_ts_hoisted_24, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["unref"])(scanButtonLabel)), 1)], 10, RecommendGoalsvue_type_script_setup_true_lang_ts_hoisted_23), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["unref"])(isAiAvailable) ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", RecommendGoalsvue_type_script_setup_true_lang_ts_hoisted_25, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
           type: "checkbox",
           "onUpdate:modelValue": _cache[3] || (_cache[3] = $event => useAi.value = $event),
           disabled: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["unref"])(isBusy)
-        }, null, 8, RecommendGoalsvue_type_script_setup_true_lang_ts_hoisted_26), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelCheckbox"], useAi.value]]), RecommendGoalsvue_type_script_setup_true_lang_ts_hoisted_27, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["unref"])(external_CoreHome_["translate"])('Goals_RecommendUseAi')), 1)])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("button", {
+        }, null, 8, RecommendGoalsvue_type_script_setup_true_lang_ts_hoisted_26), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelCheckbox"], useAi.value]]), RecommendGoalsvue_type_script_setup_true_lang_ts_hoisted_27, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["unref"])(external_CoreHome_["translate"])('Goals_RecommendUseAi')), 1)])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["unref"])(aiUnavailableLabel) ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", {
+          key: 1,
+          class: "recommendGoals-chip recommendGoals-chip--aiUnavailable",
+          title: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["unref"])(aiUnavailableHelp)
+        }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["unref"])(aiUnavailableLabel)), 9, RecommendGoalsvue_type_script_setup_true_lang_ts_hoisted_28)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["unref"])(isAiAvailable) ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("button", {
+          key: 2,
           type: "button",
           class: "recommendGoals-privacyLink",
           "aria-expanded": showPrivacyNote.value ? 'true' : 'false',
           "aria-controls": "recommendGoalsPrivacyNote",
           onClick: _cache[4] || (_cache[4] = $event => showPrivacyNote.value = !showPrivacyNote.value)
-        }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["unref"])(external_CoreHome_["translate"])('Goals_RecommendWhatDataIsShared')), 9, RecommendGoalsvue_type_script_setup_true_lang_ts_hoisted_28)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", {
+        }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["unref"])(external_CoreHome_["translate"])('Goals_RecommendWhatDataIsShared')), 9, RecommendGoalsvue_type_script_setup_true_lang_ts_hoisted_29)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", {
           class: "recommendGoals-privacyNote",
           id: "recommendGoalsPrivacyNote"
-        }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["unref"])(privacyNote)), 513), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], showPrivacyNote.value]])]))]),
+        }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["unref"])(privacyNote)), 513), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], Object(external_commonjs_vue_commonjs2_vue_root_Vue_["unref"])(isAiAvailable) && showPrivacyNote.value]])]))]),
         _: 1
       }, 8, ["content-title", "feature"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true);
     };

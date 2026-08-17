@@ -245,6 +245,17 @@ ul.ulGoalTopElements img {
         pointer-events: auto; // chips ignore pointer events; this one carries a tooltip
     }
 
+    // toolbar variant: 3px like buttons/panels/tooltips and sized to sit beside
+    // the scan button, unlike the small pill chips used inside the cards
+    .recommendGoals-chip--aiUnavailable {
+        border-radius: 3px;
+        cursor: help;
+        font-size: 13px;
+        line-height: 22px;
+        padding: 2px 10px;
+        pointer-events: auto;
+    }
+
     .recommendGoals-cardReason {
         max-width: 58em;
     }
@@ -346,12 +357,19 @@ ul.ulGoalTopElements img {
         color: @theme-color-text-light;
         font-size: 12px;
         line-height: 18px;
-        padding: 2px 14px 14px 68px;
+        // bottom matches the 10px above the body (8px summary + 2px here)
+        padding: 2px 14px 10px 68px;
 
         ul {
             list-style: disc outside;
             margin: 0 0 10px;
             padding-left: 18px;
+
+            // most cards end on the evidence list, so it needs the same
+            // last-child reset as p or they close with 10px more space
+            &:last-child {
+                margin-bottom: 0;
+            }
         }
 
         li {

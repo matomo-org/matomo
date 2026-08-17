@@ -110,7 +110,7 @@
           <span class="icon-search"></span>
           {{ scanButtonLabel }}
         </button>
-        <div class="switch recommendGoals-aiSwitch">
+        <div class="switch recommendGoals-aiSwitch" v-if="isAiAvailable">
           <label>
             <input
               type="checkbox"
@@ -121,7 +121,15 @@
             {{ translate('Goals_RecommendUseAi') }}
           </label>
         </div>
+        <span
+          class="recommendGoals-chip recommendGoals-chip--aiUnavailable"
+          v-else-if="aiUnavailableLabel"
+          :title="aiUnavailableHelp"
+        >
+          {{ aiUnavailableLabel }}
+        </span>
         <button
+          v-if="isAiAvailable"
           type="button"
           class="recommendGoals-privacyLink"
           :aria-expanded="showPrivacyNote ? 'true' : 'false'"
@@ -132,7 +140,7 @@
       <p
         class="recommendGoals-privacyNote"
         id="recommendGoalsPrivacyNote"
-        v-show="showPrivacyNote"
+        v-show="isAiAvailable && showPrivacyNote"
       >
         {{ privacyNote }}
       </p>
@@ -187,6 +195,8 @@ const manualGoals = ref<RecommendedManualGoal[]>([]);
 const generatedAt = ref<number|null>(null);
 const remainingAiScans = ref<number|null>(null);
 const providerName = ref<string>(translate('Goals_RecommendAiProviderFallback'));
+const aiAvailability = ref<string>('available');
+const serverPrivacyNote = ref<string>('');
 const createdRecommendationKeys = ref<string[]>([]);
 
 const {
@@ -199,6 +209,24 @@ const {
 const idSite = computed((): number|string => Matomo.idSite);
 
 const shouldShowRecommendations = computed(() => props.userCanEditGoals);
+
+const isAiAvailable = computed(() => aiAvailability.value === 'available');
+
+// 'disabled' stays silent: nobody on the instance can enable AI, so there is
+// nothing to act on. The other two states differ in what needs doing.
+const aiUnavailableLabel = computed(() => {
+  if (aiAvailability.value === 'notActivated') {
+    return translate('Goals_RecommendAiNotActivated');
+  }
+
+  return aiAvailability.value === 'notConfigured'
+    ? translate('Goals_RecommendAiNotConfigured')
+    : '';
+});
+
+const aiUnavailableHelp = computed(() => (aiAvailability.value === 'notActivated'
+  ? translate('Goals_RecommendAiNotActivatedHelp')
+  : translate('Goals_RecommendAiNotConfiguredHelp')));
 
 const isBusy = computed(() => isLoading.value
   || isCreatingAll.value
@@ -286,8 +314,10 @@ const fallbackModeMessage = computed(() => {
   return '';
 });
 
+// server-built so plugins can replace it for their environment
 const privacyNote = computed(
-  () => translate('Goals_RecommendAiToggleHelp', providerName.value),
+  () => serverPrivacyNote.value
+    || translate('Goals_RecommendAiToggleHelp', providerName.value),
 );
 
 function loadSavedRecommendations() {
@@ -297,6 +327,13 @@ function loadSavedRecommendations() {
     method: 'Goals.getSavedRecommendedGoals',
     idSite: idSite.value,
   }, { createErrorNotification: false }).then((response) => {
+    if (response && response.aiAvailability) {
+      aiAvailability.value = response.aiAvailability;
+    }
+    if (response && response.privacyNote) {
+      serverPrivacyNote.value = response.privacyNote;
+    }
+
     if (!response || !response.generatedAt) {
       return;
     }
@@ -326,7 +363,7 @@ function recommend() {
   aiError.value = null;
   createError.value = null;
   recommendationMode.value = null;
-  const requestedAi = useAi.value;
+  const requestedAi = useAi.value && isAiAvailable.value;
   lastRunUsedAi.value = requestedAi;
   startScanProgress();
 
@@ -345,6 +382,12 @@ function recommend() {
       : null;
     if (response && response.providerName) {
       providerName.value = response.providerName;
+    }
+    if (response && response.aiAvailability) {
+      aiAvailability.value = response.aiAvailability;
+    }
+    if (response && response.privacyNote) {
+      serverPrivacyNote.value = response.privacyNote;
     }
     hasRun.value = true;
   }).catch((error: unknown) => {

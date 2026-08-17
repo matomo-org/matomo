@@ -38,4 +38,6 @@ export interface RecommendationsResponse {
   generatedAt?: number|null;
   remainingAiScans?: number|null;
   providerName?: string;
+  aiAvailability?: string;
+  privacyNote?: string;
 }

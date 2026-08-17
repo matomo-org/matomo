@@ -18,6 +18,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
+use Piwik\Plugins\CorePluginsAdmin\CorePluginsAdmin;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -86,7 +87,7 @@ class GoalRecommendationService
      * be retrieved again via {@link getSavedRecommendations()}.
      *
      * @param array<int|string, array<string, mixed>> $existingGoals
-     * @return array{mode: string, goals: array<int, array<string, mixed>>, manualGoals: array<int, array{name: string, howTo: string, category: string}>, aiError: ?string, generatedAt: ?int, remainingAiScans: ?int, providerName: string}
+     * @return array{mode: string, goals: array<int, array<string, mixed>>, manualGoals: array<int, array{name: string, howTo: string, category: string}>, aiError: ?string, generatedAt: ?int, remainingAiScans: ?int, providerName: string, aiAvailability: string, privacyNote: string}
      */
     public function getRecommendations(int $idSite, bool $useAi, array $existingGoals = []): array
     {
@@ -105,7 +106,7 @@ class GoalRecommendationService
 
     /**
      * @param array<int|string, array<string, mixed>> $existingGoals
-     * @return array{mode: string, goals: array<int, array<string, mixed>>, manualGoals: array<int, array{name: string, howTo: string, category: string}>, aiError: ?string, generatedAt: ?int, remainingAiScans: ?int, providerName: string}
+     * @return array{mode: string, goals: array<int, array<string, mixed>>, manualGoals: array<int, array{name: string, howTo: string, category: string}>, aiError: ?string, generatedAt: ?int, remainingAiScans: ?int, providerName: string, aiAvailability: string, privacyNote: string}
      */
     private function generateRecommendations(int $idSite, bool $useAi, array $existingGoals): array
     {
@@ -122,6 +123,8 @@ class GoalRecommendationService
                 'generatedAt' => null,
                 'remainingAiScans' => $this->getRemainingAiScans($idSite),
                 'providerName' => $this->getConfiguredProviderName(),
+                'aiAvailability' => $this->getAiAvailability(),
+                'privacyNote' => $this->getPrivacyNote(),
             ];
         }
 
@@ -178,6 +181,8 @@ class GoalRecommendationService
             'generatedAt' => $saved['generatedAt'],
             'remainingAiScans' => $this->getRemainingAiScans($idSite),
             'providerName' => $this->getConfiguredProviderName(),
+            'aiAvailability' => $this->getAiAvailability(),
+            'privacyNote' => $this->getPrivacyNote(),
         ];
     }
 
@@ -219,7 +224,7 @@ class GoalRecommendationService
      * recommendations are excluded. Returns an empty result with a null `generatedAt`
      * when no scan was saved.
      *
-     * @return array{mode: ?string, goals: array<int, array<string, mixed>>, manualGoals: array<int, array<string, mixed>>, useAi: bool, generatedAt: ?int, remainingAiScans: ?int, providerName: string}
+     * @return array{mode: ?string, goals: array<int, array<string, mixed>>, manualGoals: array<int, array<string, mixed>>, useAi: bool, generatedAt: ?int, remainingAiScans: ?int, providerName: string, aiAvailability: string, privacyNote: string}
      */
     public function getSavedRecommendations(int $idSite): array
     {
@@ -233,6 +238,8 @@ class GoalRecommendationService
                 'generatedAt' => null,
                 'remainingAiScans' => $this->getRemainingAiScans($idSite),
                 'providerName' => $this->getConfiguredProviderName(),
+                'aiAvailability' => $this->getAiAvailability(),
+                'privacyNote' => $this->getPrivacyNote(),
             ];
         }
 
@@ -250,6 +257,8 @@ class GoalRecommendationService
             'generatedAt' => $saved['generatedAt'],
             'remainingAiScans' => $this->getRemainingAiScans($idSite),
             'providerName' => $this->getConfiguredProviderName(),
+            'aiAvailability' => $this->getAiAvailability(),
+            'privacyNote' => $this->getPrivacyNote(),
         ];
     }
 
@@ -301,6 +310,49 @@ class GoalRecommendationService
         }
 
         return max(0, $dailyLimit - $this->store->countAiScansToday($idSite));
+    }
+
+    /**
+     * Explains which site data the AI recommendation leaves the instance with.
+     *
+     * Plugins can replace the note to describe an environment specific setup, for
+     * example a managed provider with its own privacy terms.
+     */
+    public function getPrivacyNote(): string
+    {
+        $privacyNote = Piwik::translate('Goals_RecommendAiToggleHelp', $this->getConfiguredProviderName());
+
+        /**
+         * Lets an environment replace the note describing what site data is sent to
+         * the AI provider, e.g. to name a managed provider and its privacy terms.
+         *
+         * @ignore
+         */
+        Piwik::postEvent('Goals.customizeRecommendationPrivacyNote', [&$privacyNote]);
+
+        return $privacyNote;
+    }
+
+    /**
+     * How usable the AI feature currently is, so the UI can adapt the AI toggle:
+     * 'available' (a configured default provider exists), 'notConfigured' (the
+     * AIProviders plugin is active but has no configured provider), 'notActivated'
+     * (the plugin is not active but could be) or 'disabled' (not active and plugin
+     * administration is off, so nobody on this instance can enable it).
+     */
+    public function getAiAvailability(): string
+    {
+        if ($this->isAiAvailable()) {
+            return 'available';
+        }
+
+        if (Manager::getInstance()->isPluginActivated('AIProviders')) {
+            // plugin is there, so what is missing is a configured provider
+            return 'notConfigured';
+        }
+
+        // nobody can activate the plugin here, so the feature is out of reach
+        return CorePluginsAdmin::isPluginsAdminEnabled() ? 'notActivated' : 'disabled';
     }
 
     private function isAiAvailable(): bool

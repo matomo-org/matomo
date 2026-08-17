@@ -64,6 +64,8 @@ class GoalRecommendationsTest extends IntegrationTestCase
             'generatedAt' => null,
             'remainingAiScans' => null,
             'providerName' => Piwik::translate('Goals_RecommendAiProviderFallback'),
+            'aiAvailability' => 'notActivated',
+            'privacyNote' => Piwik::translate('Goals_RecommendAiToggleHelp', Piwik::translate('Goals_RecommendAiProviderFallback')),
         ], $result);
     }
 
@@ -267,8 +269,7 @@ class GoalRecommendationsTest extends IntegrationTestCase
     private function makeRecommendationService(
         AiRecommender $aiRecommender,
         ?LockBackend $lockBackend = null
-    ): GoalRecommendationService
-    {
+    ): GoalRecommendationService {
         $analyzer = $this->createMock(HomepageAnalyzer::class);
         $analyzer->method('analyze')->willReturn(['url' => 'https://example.org']);
 

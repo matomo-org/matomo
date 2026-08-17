@@ -543,6 +543,10 @@ class Goals extends \Piwik\Plugin
         $translationKeys[] = 'Goals_RecommendUseAi';
         $translationKeys[] = 'Goals_RecommendAiToggleHelp';
         $translationKeys[] = 'Goals_RecommendAiProviderFallback';
+        $translationKeys[] = 'Goals_RecommendAiNotActivated';
+        $translationKeys[] = 'Goals_RecommendAiNotActivatedHelp';
+        $translationKeys[] = 'Goals_RecommendAiNotConfigured';
+        $translationKeys[] = 'Goals_RecommendAiNotConfiguredHelp';
         $translationKeys[] = 'Goals_RecommendGoals';
         $translationKeys[] = 'Goals_RecommendCreate';
         $translationKeys[] = 'Goals_RecommendCreateAll';

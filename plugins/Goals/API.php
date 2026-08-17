@@ -180,7 +180,7 @@ class API extends \Piwik\Plugin\API
      *               non-URL `{name, howTo, category}` ideas the user must create manually, an optional
      *               `aiError`, the `generatedAt` timestamp of the scan, and `remainingAiScans`
      *               (AI-assisted scans left today, or null when unlimited).
-     * @phpstan-return array{mode: string, goals: array<int, array<string, mixed>>, manualGoals: array<int, array{name: string, howTo: string, category: string}>, aiError: ?string, generatedAt: ?int, remainingAiScans: ?int, providerName: string}
+     * @phpstan-return array{mode: string, goals: array<int, array<string, mixed>>, manualGoals: array<int, array{name: string, howTo: string, category: string}>, aiError: ?string, generatedAt: ?int, remainingAiScans: ?int, providerName: string, aiAvailability: string, privacyNote: string}
      */
     public function runGoalRecommendationScan(int $idSite, bool $useAi = false): array
     {
@@ -198,7 +198,7 @@ class API extends \Piwik\Plugin\API
      * @return array Saved recommendation result with `mode`, `goals`, `manualGoals`, `useAi`
      *               (whether the saved scan used AI), the `generatedAt` timestamp, and
      *               `remainingAiScans` (AI-assisted scans left today, or null when unlimited).
-     * @phpstan-return array{mode: ?string, goals: array<int, array<string, mixed>>, manualGoals: array<int, array<string, mixed>>, useAi: bool, generatedAt: ?int, remainingAiScans: ?int, providerName: string}
+     * @phpstan-return array{mode: ?string, goals: array<int, array<string, mixed>>, manualGoals: array<int, array<string, mixed>>, useAi: bool, generatedAt: ?int, remainingAiScans: ?int, providerName: string, aiAvailability: string, privacyNote: string}
      */
     public function getSavedRecommendedGoals(int $idSite): array
     {
