@@ -25,7 +25,6 @@
 			<nb_visits>The number of visits on the Product/Category page. This is also used to process the Product SKU conversion rate. This metric is in the report if Ecommerce view tracking was setup on Product/Category pages.</nb_visits>
 			<conversion_rate>The Product SKU conversion rate is the number of orders containing this product divided by number of visits on the product page.</conversion_rate>
 			<nb_visits_percent_of_total>The percentage of the report's total Visits that this row represents.</nb_visits_percent_of_total>
-			<nb_actions_percent_of_total>The percentage of the report's total Actions that this row represents.</nb_actions_percent_of_total>
 			<revenue_percent_of_total>The percentage of the report's total Product Revenue that this row represents.</revenue_percent_of_total>
 		</metricsDocumentation>
 		<processedMetrics>
@@ -42,7 +41,6 @@
 			<avg_quantity>number</avg_quantity>
 			<conversion_rate>percent</conversion_rate>
 			<nb_visits_percent_of_total>percent</nb_visits_percent_of_total>
-			<nb_actions_percent_of_total>percent</nb_actions_percent_of_total>
 			<revenue_percent_of_total>percent</revenue_percent_of_total>
 		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getItemsSku&amp;period=day&amp;date=2011-04-05</imageGraphUrl>
@@ -52,15 +50,14 @@
 	<columns>
 		<label>Product SKU</label>
 		<revenue>Product Revenue</revenue>
+		<revenue_percent_of_total>Product Revenue (%)</revenue_percent_of_total>
 		<quantity>Quantity</quantity>
 		<orders>Unique Purchases</orders>
 		<nb_visits>Visits</nb_visits>
+		<nb_visits_percent_of_total>Visits (%)</nb_visits_percent_of_total>
 		<avg_price>Average Price</avg_price>
 		<avg_quantity>Average Quantity</avg_quantity>
 		<conversion_rate>Product Conversion Rate</conversion_rate>
-		<nb_visits_percent_of_total>Visits (% of total)</nb_visits_percent_of_total>
-		<nb_actions_percent_of_total>Actions (% of total)</nb_actions_percent_of_total>
-		<revenue_percent_of_total>Product Revenue (% of total)</revenue_percent_of_total>
 	</columns>
 	<reportData>
 		<row>
@@ -70,7 +67,6 @@
 			<orders>1</orders>
 			<nb_visits>1</nb_visits>
 			<nb_visits_percent_of_total>16.7%</nb_visits_percent_of_total>
-			<nb_actions_percent_of_total>9.1%</nb_actions_percent_of_total>
 			<revenue_percent_of_total>48.2%</revenue_percent_of_total>
 			<avg_price>$1,500</avg_price>
 			<avg_quantity>1</avg_quantity>
@@ -83,7 +79,6 @@
 			<orders>2</orders>
 			<nb_visits>3</nb_visits>
 			<nb_visits_percent_of_total>50%</nb_visits_percent_of_total>
-			<nb_actions_percent_of_total>72.7%</nb_actions_percent_of_total>
 			<revenue_percent_of_total>32.5%</revenue_percent_of_total>
 			<avg_price>$255.61</avg_price>
 			<avg_quantity>1.5</avg_quantity>
@@ -100,20 +95,18 @@
 			<conversion_rate>0%</conversion_rate>
 			<nb_visits>0</nb_visits>
 			<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
-			<nb_actions_percent_of_total>0%</nb_actions_percent_of_total>
 		</row>
 		<row>
 			<label>SKU IN ABANDONED CART TWO</label>
 			<nb_visits>2</nb_visits>
 			<avg_price>$0</avg_price>
 			<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
-			<nb_actions_percent_of_total>18.2%</nb_actions_percent_of_total>
 			<avg_quantity>0</avg_quantity>
 			<conversion_rate>0%</conversion_rate>
 			<revenue>$0</revenue>
+			<revenue_percent_of_total>0%</revenue_percent_of_total>
 			<quantity>0</quantity>
 			<orders>0</orders>
-			<revenue_percent_of_total>0%</revenue_percent_of_total>
 		</row>
 	</reportData>
 	<reportMetadata>

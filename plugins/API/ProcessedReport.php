@@ -662,25 +662,40 @@ class ProcessedReport
     {
         $tables = $dataTable instanceof DataTable\Map ? $dataTable->getDataTables() : [$dataTable];
 
-        $percentColumns = [];
+        $percentMetrics = [];
 
         foreach ($tables as $table) {
             $extraProcessedMetrics = $table->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME) ?: [];
             foreach ($extraProcessedMetrics as $metric) {
                 if ($metric instanceof PercentOfReportTotal) {
-                    $percentColumns[$metric->getName()] = $metric->getTranslatedName();
-                    $reportMetadata['metricTypes'][$metric->getName()] = $metric->getSemanticType();
-
-                    // hideMetricsDoc=1 removes the documentation from the metadata entirely,
-                    // recreating the key here would undo that
-                    if (isset($reportMetadata['metricsDocumentation'])) {
-                        $reportMetadata['metricsDocumentation'][$metric->getName()] = $metric->getDocumentation();
-                    }
+                    $percentMetrics[$metric->getName()] = $metric;
                 }
             }
         }
 
-        return self::insertPercentOfTotalColumns($columns, $percentColumns);
+        $percentColumns = [];
+        foreach ($percentMetrics as $name => $metric) {
+            $percentColumns[$name] = $metric->getTranslatedName();
+        }
+
+        $columns = self::insertPercentOfTotalColumns($columns, $percentColumns);
+
+        // only describe the columns that made it into the report
+        foreach ($percentMetrics as $name => $metric) {
+            if (!isset($columns[$name])) {
+                continue;
+            }
+
+            $reportMetadata['metricTypes'][$name] = $metric->getSemanticType();
+
+            // hideMetricsDoc=1 removes the documentation from the metadata entirely,
+            // recreating the key here would undo that
+            if (isset($reportMetadata['metricsDocumentation'])) {
+                $reportMetadata['metricsDocumentation'][$name] = $metric->getDocumentation();
+            }
+        }
+
+        return $columns;
     }
 
     /**
@@ -750,6 +765,8 @@ class ProcessedReport
 
             if (!isset($columns[substr($columnName, 0, -$suffixLength)])) {
                 unset($columns[$columnName]);
+                unset($reportMetadata['metricTypes'][$columnName]);
+                unset($reportMetadata['metricsDocumentation'][$columnName]);
             }
         }
     }
