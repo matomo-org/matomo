@@ -76,9 +76,9 @@
 	<columns>
 		<label>Page Title</label>
 		<nb_hits>Pageviews</nb_hits>
-		<nb_hits_percent_of_total>Pageviews (%)</nb_hits_percent_of_total>
+		<nb_hits_percent_of_total>Pageviews (% of total)</nb_hits_percent_of_total>
 		<nb_visits>Unique Pageviews</nb_visits>
-		<nb_visits_percent_of_total>Unique Pageviews (%)</nb_visits_percent_of_total>
+		<nb_visits_percent_of_total>Unique Pageviews (% of total)</nb_visits_percent_of_total>
 		<avg_time_on_page>Avg. time on page</avg_time_on_page>
 		<bounce_rate>Bounce Rate</bounce_rate>
 		<exit_rate>Exit rate</exit_rate>

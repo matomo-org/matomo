@@ -44,7 +44,7 @@
 		<label>Destination Page</label>
 		<nb_hits_following_search>Clicked in search results</nb_hits_following_search>
 		<nb_hits>Pageviews</nb_hits>
-		<nb_hits_percent_of_total>Pageviews (%)</nb_hits_percent_of_total>
+		<nb_hits_percent_of_total>Pageviews (% of total)</nb_hits_percent_of_total>
 	</columns>
 	<reportData>
 		<result prettyDate="Sunday, January 3, 2010">

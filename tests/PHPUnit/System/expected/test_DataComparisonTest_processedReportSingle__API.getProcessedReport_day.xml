@@ -67,16 +67,16 @@
 	<columns>
 		<label>Continent</label>
 		<nb_visits>Visits</nb_visits>
-		<nb_visits_percent_of_total>Visits (%)</nb_visits_percent_of_total>
+		<nb_visits_percent_of_total>Visits (% of total)</nb_visits_percent_of_total>
 		<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 		<nb_actions>Actions</nb_actions>
-		<nb_actions_percent_of_total>Actions (%)</nb_actions_percent_of_total>
+		<nb_actions_percent_of_total>Actions (% of total)</nb_actions_percent_of_total>
 		<nb_users>Users</nb_users>
 		<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 		<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 		<bounce_rate>Bounce Rate</bounce_rate>
 		<revenue>Revenue</revenue>
-		<revenue_percent_of_total>Revenue (%)</revenue_percent_of_total>
+		<revenue_percent_of_total>Revenue (% of total)</revenue_percent_of_total>
 	</columns>
 	<reportData>
 		<row>

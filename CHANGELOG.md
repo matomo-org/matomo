@@ -86,7 +86,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   metric is itself a column of the report: a report with a total for bounces but no `Bounces` column no longer carries a
   `bounce_count_percent_of_total` entry in `columns`, `metricTypes`, `metricsDocumentation` or `reportData`.
 * Scheduled reports now include the `{metric}_percent_of_total` columns in every format that renders a data table: HTML
-  email, PDF, CSV and TSV. In CSV and TSV those columns carry their translated name (eg, `Visits (%)`) rather than the
+  email, PDF, CSV and TSV. In CSV and TSV those columns carry their translated name (eg, `Visits (% of total)`) rather than the
   column id, while all other columns keep the id they had before.
 * `API.getBulkRequest` now validates the authentication parameters of each nested request URL against
   the outer request. Within a browser session a nested request may change neither the session flag

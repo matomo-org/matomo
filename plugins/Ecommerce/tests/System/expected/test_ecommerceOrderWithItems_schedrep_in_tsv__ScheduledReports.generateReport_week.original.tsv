@@ -1,5 +1,5 @@
 All Websites dashboard
-label	nb_visits	Visits (%)	nb_actions	Actions (%)	nb_pageviews	hits	Hits (%)	ai_chatbots_requests	revenue	Revenue (%)	nb_conversions	Conversions (%)	orders	ecommerce_revenue	visits_evolution	actions_evolution	pageviews_evolution	hits_evolution	ai_chatbots_requests_evolution	revenue_evolution	nb_conversions_evolution	orders_evolution	ecommerce_revenue_evolution
+label	nb_visits	Visits (% of total)	nb_actions	Actions (% of total)	nb_pageviews	hits	Hits (% of total)	ai_chatbots_requests	revenue	Revenue (% of total)	nb_conversions	Conversions (% of total)	orders	ecommerce_revenue	visits_evolution	actions_evolution	pageviews_evolution	hits_evolution	ai_chatbots_requests_evolution	revenue_evolution	nb_conversions_evolution	orders_evolution	ecommerce_revenue_evolution
 "A very long name for a very tiny test site, that also reaches the 90 character limit fully"	5	71.4%	16	94.1%	16	16	94.1%	0	"$13,361.11"	100%	5	100%	4	"$13,351.11"	100%	100%	100%	100%	0%	100%	100%	100%	100%
 Piwik test	2	28.6%	1	5.9%	1	1	5.9%	0	$0	0%	0	0%	0	$0	100%	100%	100%	100%	0%	0%	0%	0	0
 
@@ -8,70 +8,70 @@ nb_uniq_visitors	nb_visits	nb_actions	max_actions	nb_actions_per_visit	avg_time_
 1	5	16	6	3.2	00:22:50	20%
 
 Country
-label	nb_visits	Visits (%)	nb_actions	Actions (%)	revenue	Revenue (%)	nb_actions_per_visit	avg_time_on_site	bounce_rate
+label	nb_visits	Visits (% of total)	nb_actions	Actions (% of total)	revenue	Revenue (% of total)	nb_actions_per_visit	avg_time_on_site	bounce_rate
 Poland	4	80%	12	75%	"$13,351.11"	99.9%	3	00:25:32	25%
 France	1	20%	4	25%	$10	0.1%	4	00:12:02	0%
 
 Continent
-label	nb_visits	Visits (%)	nb_actions	Actions (%)	revenue	Revenue (%)	nb_actions_per_visit	avg_time_on_site	bounce_rate
+label	nb_visits	Visits (% of total)	nb_actions	Actions (% of total)	revenue	Revenue (% of total)	nb_actions_per_visit	avg_time_on_site	bounce_rate
 Europe	5	100%	16	100%	"$13,361.11"	100%	3.2	00:22:50	20%
 
 Region
-label	nb_visits	Visits (%)	nb_actions	Actions (%)	revenue	Revenue (%)	nb_actions_per_visit	avg_time_on_site	bounce_rate
+label	nb_visits	Visits (% of total)	nb_actions	Actions (% of total)	revenue	Revenue (% of total)	nb_actions_per_visit	avg_time_on_site	bounce_rate
 Unknown	5	100%	16	100%	"$13,361.11"	100%	3.2	00:22:50	20%
 
 Web-browser language
-label	nb_visits	Visits (%)	nb_actions	Actions (%)	conversion_rate	nb_actions_per_visit	avg_time_on_site	bounce_rate
+label	nb_visits	Visits (% of total)	nb_actions	Actions (% of total)	conversion_rate	nb_actions_per_visit	avg_time_on_site	bounce_rate
 Polish	4	80%	12	75%	75%	3	00:25:32	25%
 French	1	20%	4	25%	100%	4	00:12:02	0%
 
 City
-label	nb_visits	Visits (%)	nb_actions	Actions (%)	revenue	Revenue (%)	nb_actions_per_visit	avg_time_on_site	bounce_rate
+label	nb_visits	Visits (% of total)	nb_actions	Actions (% of total)	revenue	Revenue (% of total)	nb_actions_per_visit	avg_time_on_site	bounce_rate
 Unknown	5	100%	16	100%	"$13,361.11"	100%	3.2	00:22:50	20%
 
 Language code
-label	nb_visits	Visits (%)	nb_actions	Actions (%)	conversion_rate	nb_actions_per_visit	avg_time_on_site	bounce_rate
+label	nb_visits	Visits (% of total)	nb_actions	Actions (% of total)	conversion_rate	nb_actions_per_visit	avg_time_on_site	bounce_rate
 Polish (pl)	4	80%	12	75%	75%	3	00:25:32	25%
 French (fr)	1	20%	4	25%	100%	4	00:12:02	0%
 
 Device type
-label	nb_visits	Visits (%)	nb_actions	Actions (%)	revenue	Revenue (%)	nb_actions_per_visit	avg_time_on_site	bounce_rate
+label	nb_visits	Visits (% of total)	nb_actions	Actions (% of total)	revenue	Revenue (% of total)	nb_actions_per_visit	avg_time_on_site	bounce_rate
 Desktop	5	100%	16	100%	"$13,361.11"	100%	3.2	00:22:50	20%
 
 Device model
-label	nb_visits	Visits (%)	nb_actions	Actions (%)	revenue	Revenue (%)	nb_actions_per_visit	avg_time_on_site	bounce_rate
+label	nb_visits	Visits (% of total)	nb_actions	Actions (% of total)	revenue	Revenue (% of total)	nb_actions_per_visit	avg_time_on_site	bounce_rate
 Generic Desktop	5	100%	16	100%	"$13,361.11"	100%	3.2	00:22:50	20%
 
 Device brand
-label	nb_visits	Visits (%)	nb_actions	Actions (%)	revenue	Revenue (%)	nb_actions_per_visit	avg_time_on_site	bounce_rate
+label	nb_visits	Visits (% of total)	nb_actions	Actions (% of total)	revenue	Revenue (% of total)	nb_actions_per_visit	avg_time_on_site	bounce_rate
 Unknown	5	100%	16	100%	"$13,361.11"	100%	3.2	00:22:50	20%
 
 Screen Resolution
-label	nb_visits	Visits (%)	nb_actions	Actions (%)	conversion_rate	nb_actions_per_visit	avg_time_on_site	bounce_rate
+label	nb_visits	Visits (% of total)	nb_actions	Actions (% of total)	conversion_rate	nb_actions_per_visit	avg_time_on_site	bounce_rate
 1024x768	5	100%	16	100%	80%	3.2	00:22:50	20%
 
 Operating System versions
-label	nb_visits	Visits (%)	nb_actions	Actions (%)	conversion_rate	nb_actions_per_visit	avg_time_on_site	bounce_rate
+label	nb_visits	Visits (% of total)	nb_actions	Actions (% of total)	conversion_rate	nb_actions_per_visit	avg_time_on_site	bounce_rate
 Windows XP	5	100%	16	100%	80%	3.2	00:22:50	20%
 
 Browsers
-label	nb_visits	Visits (%)	nb_actions	Actions (%)	revenue	Revenue (%)	nb_actions_per_visit	avg_time_on_site	bounce_rate
+label	nb_visits	Visits (% of total)	nb_actions	Actions (% of total)	revenue	Revenue (% of total)	nb_actions_per_visit	avg_time_on_site	bounce_rate
 Firefox	5	100%	16	100%	"$13,361.11"	100%	3.2	00:22:50	20%
 
 Browser version
-label	nb_visits	Visits (%)	nb_actions	Actions (%)	conversion_rate	nb_actions_per_visit	avg_time_on_site	bounce_rate
+label	nb_visits	Visits (% of total)	nb_actions	Actions (% of total)	conversion_rate	nb_actions_per_visit	avg_time_on_site	bounce_rate
 Firefox 3.6	5	100%	16	100%	80%	3.2	00:22:50	20%
 
 Configurations
-label	nb_visits	Visits (%)	nb_actions	Actions (%)	conversion_rate	nb_actions_per_visit	avg_time_on_site	bounce_rate
+label	nb_visits	Visits (% of total)	nb_actions	Actions (% of total)	conversion_rate	nb_actions_per_visit	avg_time_on_site	bounce_rate
 Windows / Firefox / 1024x768	5	100%	16	100%	80%	3.2	00:22:50	20%
 
 Operating System families
-label	nb_visits	Visits (%)	nb_actions	Actions (%)	conversion_rate	nb_actions_per_visit	avg_time_on_site	bounce_rate
+label	nb_visits	Visits (% of total)	nb_actions	Actions (% of total)	conversion_rate	nb_actions_per_visit	avg_time_on_site	bounce_rate
 Windows	5	100%	16	100%	80%	3.2	00:22:50	20%
 
 Browser engines
-label	nb_visits	Visits (%)	nb_actions	Actions (%)	conversion_rate	nb_actions_per_visit	avg_time_on_site	bounce_rate
+label	nb_visits	Visits (% of total)	nb_actions	Actions (% of total)	conversion_rate	nb_actions_per_visit	avg_time_on_site	bounce_rate
 Gecko (Firefox)	5	100%	16	100%	80%	3.2	00:22:50	20%
 
 Browser Plugins
@@ -86,7 +86,7 @@ Silverlight	0	0%
 Windowsmedia	0	0%
 
 Visits per local time
-label	nb_visits	Visits (%)	nb_actions	Actions (%)	conversion_rate	nb_actions_per_visit	avg_time_on_site	bounce_rate
+label	nb_visits	Visits (% of total)	nb_actions	Actions (% of total)	conversion_rate	nb_actions_per_visit	avg_time_on_site	bounce_rate
 00	0	0%	0	0%	0%	0	00:00:00	0%
 01	0	0%	0	0%	0%	0	00:00:00	0%
 02	0	0%	0	0%	0%	0	00:00:00	0%
@@ -113,7 +113,7 @@ label	nb_visits	Visits (%)	nb_actions	Actions (%)	conversion_rate	nb_actions_per
 23	0	0%	0	0%	0%	0	00:00:00	0%
 
 Visits per hour in the site's timezone
-label	nb_visits	Visits (%)	nb_actions	Actions (%)	revenue	Revenue (%)	nb_actions_per_visit	avg_time_on_site	bounce_rate
+label	nb_visits	Visits (% of total)	nb_actions	Actions (% of total)	revenue	Revenue (% of total)	nb_actions_per_visit	avg_time_on_site	bounce_rate
 00	1	20%	4	25%	$10	0.1%	4	00:12:02	0%
 01	1	20%	6	37.5%	$0	0%	6	01:06:01	0%
 02	1	20%	3	18.8%	"$3,111.11"	23.3%	3	00:18:01	0%
@@ -140,7 +140,7 @@ label	nb_visits	Visits (%)	nb_actions	Actions (%)	revenue	Revenue (%)	nb_actions
 23	0	0%	0	0%	$0	0%	0	00:00:00	0%
 
 Visits by day of the week
-label	nb_visits	Visits (%)	conversion_rate	nb_actions_per_visit	avg_time_on_site	bounce_rate	nb_actions	Actions (%)
+label	nb_visits	Visits (% of total)	conversion_rate	nb_actions_per_visit	avg_time_on_site	bounce_rate	nb_actions	Actions (% of total)
 Monday	0	0%	0%	0	00:00:00	0%	0	0%
 Tuesday	3	60%	66.67%	4.3	00:30:01	0%	13	81.3%
 Wednesday	2	40%	100%	1.5	00:12:02	50%	3	18.8%
@@ -153,7 +153,7 @@ User IDs
 No data available
 
 Custom Variables
-label	nb_visits	Visits (%)	nb_actions	Actions (%)	revenue	Revenue (%)	nb_actions_per_visit	avg_time_on_site	bounce_rate
+label	nb_visits	Visits (% of total)	nb_actions	Actions (% of total)	revenue	Revenue (% of total)	nb_actions_per_visit	avg_time_on_site	bounce_rate
 ValueIsZero - 0	5	35.7%	16	36.4%	"$13,361.11"	33.3%	3.2	00:22:50	20%
 VisitorType - NewLoggedOut	5	35.7%	16	36.4%	"$13,361.11"	33.3%	3.2	00:22:50	20%
 VisitorName - Great name!	4	28.6%	12	27.3%	"$13,351.11"	33.3%	3	00:25:32	25%
@@ -167,30 +167,30 @@ nb_total_overall_bandwidth	nb_total_pageview_bandwidth	nb_total_download_bandwid
 0	0	0
 
 Page URLs
-label	nb_visits	Unique Pageviews (%)	nb_hits	Pageviews (%)	bounce_rate	avg_time_on_page	exit_rate
+label	nb_visits	Unique Pageviews (% of total)	nb_hits	Pageviews (% of total)	bounce_rate	avg_time_on_page	exit_rate
 /index.htm	4	100%	16	100%	0%	00:03:23	100%
 
 Entry pages
-label	entry_nb_visits	Entrances (%)	entry_bounce_count	Bounces (%)	bounce_rate
+label	entry_nb_visits	Entrances (% of total)	entry_bounce_count	Bounces (% of total)	bounce_rate
 /index.htm	4	100%	0	0%	0%
 
 Entry page titles
-label	entry_nb_visits	Entrances (%)	entry_bounce_count	Bounces (%)	bounce_rate
+label	entry_nb_visits	Entrances (% of total)	entry_bounce_count	Bounces (% of total)	bounce_rate
 View product left in cart	1	33.3%	0	0%	0%
 incredible title!	1	33.3%	0	0%	0%
 Looking at Electronics & Cameras page with a page level custom variable	1	33.3%	0	0%	0%
 
 Exit pages
-label	nb_visits	Unique Pageviews (%)	exit_nb_visits	Exits (%)	exit_rate
+label	nb_visits	Unique Pageviews (% of total)	exit_nb_visits	Exits (% of total)	exit_rate
 /index.htm	4	100%	4	100%	100%
 
 Exit page titles
-label	nb_visits	Unique Pageviews (%)	exit_nb_visits	Exits (%)	exit_rate
+label	nb_visits	Unique Pageviews (% of total)	exit_nb_visits	Exits (% of total)	exit_rate
 View product left in cart	3	75%	3	75%	100%
 Another Product page with multiple categories	1	25%	1	25%	100%
 
 Page titles
-label	nb_visits	Unique Pageviews (%)	nb_hits	Pageviews (%)	bounce_rate	avg_time_on_page	exit_rate
+label	nb_visits	Unique Pageviews (% of total)	nb_hits	Pageviews (% of total)	bounce_rate	avg_time_on_page	exit_rate
 View product left in cart	3	30%	9	56.3%	0%	00:02:00	100%
 Another Product page	1	10%	1	6.3%	0%	00:06:00	0%
 Another Product page with multiple categories	1	10%	1	6.3%	0%	00:00:00	100%
@@ -237,7 +237,7 @@ Content Piece
 No data available
 
 Length of visits
-label	nb_visits	Visits (%)
+label	nb_visits	Visits (% of total)
 0–10s	0	0%
 11–30s	0	0%
 31–60s	0	0%
@@ -250,7 +250,7 @@ label	nb_visits	Visits (%)
 30+ min	1	20%
 
 Pages per visit
-label	nb_visits	Visits (%)
+label	nb_visits	Visits (% of total)
 1 page	0	0%
 2 pages	0	0%
 3 pages	2	50%
@@ -280,7 +280,7 @@ label	nb_visits	nb_visits_percentage
 201+ visits	0	0%
 
 Visits by days since last visit
-label	nb_visits	Visits (%)
+label	nb_visits	Visits (% of total)
 New visits	1	33.3%
 0 days	2	66.7%
 1 day	0	0%
@@ -310,7 +310,7 @@ Referrers_visitorsFromSearchEngines	Referrers_visitorsFromSocialNetworks	Referre
 0	0	0	5	0	0	0	0	0	0	0	0	100%	0%	0%	0%	0%	0%
 
 Channel Type
-label	nb_visits	Visits (%)	nb_actions	Actions (%)	revenue	Revenue (%)	nb_actions_per_visit	avg_time_on_site	bounce_rate
+label	nb_visits	Visits (% of total)	nb_actions	Actions (% of total)	revenue	Revenue (% of total)	nb_actions_per_visit	avg_time_on_site	bounce_rate
 Direct Entry	5	100%	16	100%	"$13,361.11"	100%	3.2	00:22:50	20%
 
 All Channels
@@ -339,7 +339,7 @@ nb_conversions	nb_visits_converted	revenue	revenue_subtotal	revenue_tax	revenue_
 4	2	"$13,351.11"	"$2,700"	$531	$120.11	$686	12	"$3,337.78"	40%
 
 Ecommerce Orders - Visits to Conversion
-label	nb_conversions	Conversions (%)
+label	nb_conversions	Conversions (% of total)
 1 visit	0	0%
 2 visits	2	50%
 3 visits	0	0%
@@ -355,7 +355,7 @@ label	nb_conversions	Conversions (%)
 101+ visits	0	0%
 
 Ecommerce Orders - Days to Conversion
-label	nb_conversions	Conversions (%)
+label	nb_conversions	Conversions (% of total)
 0 days	2	50%
 1 day	2	50%
 2 days	0	0%
@@ -376,7 +376,7 @@ nb_conversions	revenue	items	avg_order_revenue	conversion_rate
 3	"$7,530.33"	12	"$2,510.11"	60%
 
 Abandoned Carts - Visits to Conversion
-label	nb_conversions	Conversions (%)
+label	nb_conversions	Conversions (% of total)
 1 visit	0	0%
 2 visits	1	33.3%
 3 visits	1	33.3%
@@ -392,7 +392,7 @@ label	nb_conversions	Conversions (%)
 101+ visits	0	0%
 
 Abandoned Carts - Days to Conversion
-label	nb_conversions	Conversions (%)
+label	nb_conversions	Conversions (% of total)
 0 days	2	66.7%
 1 day	1	33.3%
 2 days	0	0%
@@ -409,7 +409,7 @@ label	nb_conversions	Conversions (%)
 365+ days	0	0%
 
 Product Name
-label	revenue	Product Revenue (%)	quantity	orders	avg_price	avg_quantity	conversion_rate	nb_visits	Visits (%)
+label	revenue	Product Revenue (% of total)	quantity	orders	avg_price	avg_quantity	conversion_rate	nb_visits	Visits (% of total)
 Canon SLR	"$1,500"	45.3%	1	1	"$1,500"	1	0%	0	0%
 PRODUCT name	"$1,011.22"	30.5%	3	2	$255.61	1.5	100%	2	25%
 PRODUCT name BIS	$600	18.1%	6	1	$100	6	0%	0	0%
@@ -418,7 +418,7 @@ PRODUCT THREE LEFT in cart	$0	0%	0	0	"$1,332"	0	0%	3	37.5%
 PRODUCT TWO LEFT in cart	$0	0%	0	0	$0	0	0%	3	37.5%
 
 Product SKU
-label	revenue	Product Revenue (%)	quantity	orders	nb_visits	Visits (%)	avg_price	avg_quantity	conversion_rate
+label	revenue	Product Revenue (% of total)	quantity	orders	nb_visits	Visits (% of total)	avg_price	avg_quantity	conversion_rate
 SKU2	"$1,500"	45.3%	1	1	1	12.5%	"$1,500"	1	100%
 SKU VERY nice indeed	"$1,011.22"	30.5%	3	2	4	50%	$255.61	1.5	50%
 ANOTHER SKU HERE	$600	18.1%	6	1	0	0%	$100	6	0%
@@ -426,7 +426,7 @@ TRIPOD SKU	$200	6%	2	1	0	0%	$100	2	0%
 SKU IN ABANDONED CART TWO	$0	0%	0	0	3	37.5%	$0	0	0%
 
 Product Category
-label	revenue	Product Revenue (%)	quantity	orders	nb_visits	Visits (%)	avg_price	avg_quantity	conversion_rate
+label	revenue	Product Revenue (% of total)	quantity	orders	nb_visits	Visits (% of total)	avg_price	avg_quantity	conversion_rate
 Electronics & Cameras	"$2,500"	34.2%	3	2	3	17.6%	"$1,000"	1.5	66.67%
 Multiple Category 1	"$1,000"	13.7%	2	1	1	5.9%	$500	2	100%
 Multiple Category 2	"$1,000"	13.7%	2	1	1	5.9%	$500	2	100%
@@ -442,7 +442,7 @@ nb_conversions	nb_visits_converted	revenue	conversion_rate
 5	4	"$13,361.11"	80%
 
 Visits to Conversion
-label	nb_conversions	Conversions (%)	revenue
+label	nb_conversions	Conversions (% of total)	revenue
 1 visit	1	100%	$0
 2 visits	0	0%	$0
 3 visits	0	0%	$0
@@ -458,7 +458,7 @@ label	nb_conversions	Conversions (%)	revenue
 101+ visits	0	0%	$0
 
 Days to Conversion
-label	nb_conversions	Conversions (%)	revenue
+label	nb_conversions	Conversions (% of total)	revenue
 0 days	1	100%	$0
 1 day	0	0%	$0
 2 days	0	0%	$0
@@ -479,7 +479,7 @@ nb_conversions	nb_visits_converted	revenue	conversion_rate
 4	2	"$13,351.11"	40%
 
 Goals Overview - Visits to Conversion
-label	nb_conversions	Conversions (%)
+label	nb_conversions	Conversions (% of total)
 1 visit	1	100%
 2 visits	0	0%
 3 visits	0	0%
@@ -495,7 +495,7 @@ label	nb_conversions	Conversions (%)
 101+ visits	0	0%
 
 Goals Overview - Days to Conversion
-label	nb_conversions	Conversions (%)
+label	nb_conversions	Conversions (% of total)
 0 days	1	100%
 1 day	0	0%
 2 days	0	0%
@@ -516,7 +516,7 @@ nb_conversions	nb_visits_converted	revenue	conversion_rate
 1	1	$10	20%
 
 "title match, triggered ONCE - Visits to Conversion"
-label	nb_conversions	Conversions (%)
+label	nb_conversions	Conversions (% of total)
 1 visit	1	100%
 2 visits	0	0%
 3 visits	0	0%
@@ -532,7 +532,7 @@ label	nb_conversions	Conversions (%)
 101+ visits	0	0%
 
 "title match, triggered ONCE - Days to Conversion"
-label	nb_conversions	Conversions (%)
+label	nb_conversions	Conversions (% of total)
 0 days	1	100%
 1 day	0	0%
 2 days	0	0%
