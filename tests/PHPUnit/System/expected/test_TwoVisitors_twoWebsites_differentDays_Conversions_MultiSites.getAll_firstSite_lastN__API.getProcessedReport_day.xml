@@ -72,11 +72,15 @@
 	<columns>
 		<label>Website</label>
 		<nb_visits>Visits</nb_visits>
+		<nb_visits_percent_of_total>Visits (%)</nb_visits_percent_of_total>
 		<nb_actions>Actions</nb_actions>
+		<nb_actions_percent_of_total>Actions (%)</nb_actions_percent_of_total>
 		<nb_pageviews>Pageviews</nb_pageviews>
 		<hits>Hits</hits>
+		<hits_percent_of_total>Hits (%)</hits_percent_of_total>
 		<ai_chatbots_requests>AI Chatbots Requests</ai_chatbots_requests>
 		<revenue>Revenue</revenue>
+		<revenue_percent_of_total>Revenue (%)</revenue_percent_of_total>
 		<nb_conversions>Conversions</nb_conversions>
 		<orders>Ecommerce Orders</orders>
 		<ecommerce_revenue>Product Revenue</ecommerce_revenue>
@@ -89,10 +93,6 @@
 		<nb_conversions_evolution>Conversions Evolution</nb_conversions_evolution>
 		<orders_evolution>Ecommerce Orders Evolution</orders_evolution>
 		<ecommerce_revenue_evolution>Product Revenue Evolution</ecommerce_revenue_evolution>
-		<nb_visits_percent_of_total>Visits (% of total)</nb_visits_percent_of_total>
-		<nb_actions_percent_of_total>Actions (% of total)</nb_actions_percent_of_total>
-		<hits_percent_of_total>Hits (% of total)</hits_percent_of_total>
-		<revenue_percent_of_total>Revenue (% of total)</revenue_percent_of_total>
 	</columns>
 	<reportData>
 		<result prettyDate="Sunday, January 3, 2010">
