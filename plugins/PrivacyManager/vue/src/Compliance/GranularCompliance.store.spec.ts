@@ -5,10 +5,10 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-vi.mock('CoreHome', () => ({
+jest.mock('CoreHome', () => ({
   AjaxHelper: {
-    fetch: vi.fn(),
-    post: vi.fn(),
+    fetch: jest.fn(),
+    post: jest.fn(),
   },
 }));
 
@@ -19,8 +19,8 @@ import {
   PolicySettingsPayload,
 } from './GranularCompliance.store';
 
-const fetchMock = vi.mocked(AjaxHelper.fetch);
-const postMock = vi.mocked(AjaxHelper.post);
+const fetchMock = AjaxHelper.fetch as jest.Mock;
+const postMock = AjaxHelper.post as jest.Mock;
 
 function setting(overrides: Partial<PolicySetting> = {}): PolicySetting {
   return {
@@ -36,7 +36,10 @@ function setting(overrides: Partial<PolicySetting> = {}): PolicySetting {
   };
 }
 
-function payload(settings: PolicySetting[], overrides: Partial<PolicySettingsPayload> = {}): PolicySettingsPayload {
+function payload(
+  settings: PolicySetting[],
+  overrides: Partial<PolicySettingsPayload> = {},
+): PolicySettingsPayload {
   return {
     policy: 'cnil_v1',
     title: 'CNIL',
@@ -48,7 +51,10 @@ function payload(settings: PolicySetting[], overrides: Partial<PolicySettingsPay
   };
 }
 
-async function createLoadedStore(settings: PolicySetting[], overrides: Partial<PolicySettingsPayload> = {}) {
+async function createLoadedStore(
+  settings: PolicySetting[],
+  overrides: Partial<PolicySettingsPayload> = {},
+) {
   fetchMock.mockResolvedValueOnce(payload(settings, overrides));
   const store = createGranularComplianceStore('cnil_v1');
   store.setIdSite('1');
@@ -65,7 +71,12 @@ describe('PrivacyManager/GranularCompliance.store', () => {
   it('fetches the payload for the site and mirrors toggle state', async () => {
     const store = await createLoadedStore([
       setting({ enforced: true, status: 'enforced' }),
-      setting({ id: 'Core.ThirdPartyCookies', toggleable: false, enforced: null, section: 'external' }),
+      setting({
+        id: 'Core.ThirdPartyCookies',
+        toggleable: false,
+        enforced: null,
+        section: 'external',
+      }),
     ]);
 
     expect(fetchMock).toHaveBeenCalledWith(
