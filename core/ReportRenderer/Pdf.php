@@ -720,10 +720,8 @@ class Pdf extends ReportRenderer
                 $labelRatio = $this->fourColumnLabelRatio;
             }
 
-            $metricColumns = $columnsCount - 1;
             $this->labelCellWidth = max((int) round($this->totalWidth * $labelRatio), $this->minWidthLabelCellPortrait);
-            $this->cellWidth = (int) round(($this->totalWidth - $this->labelCellWidth) / $metricColumns);
-            $this->totalWidth = $this->labelCellWidth + $metricColumns * $this->cellWidth;
+            $this->fitColumnWidthsToPage($columnsCount - 1);
             return;
         }
 
@@ -732,8 +730,7 @@ class Pdf extends ReportRenderer
         }
 
         $this->labelCellWidth = $this->minWidthLabelCellPortraitShort;
-        $this->cellWidth = round(($this->totalWidth - $this->labelCellWidth) / ($columnsCount - 1));
-        $this->totalWidth = $this->labelCellWidth + ($columnsCount - 1) * $this->cellWidth;
+        $this->fitColumnWidthsToPage($columnsCount - 1);
     }
 
     private function shrinkLabelWidthForSingleLineLabels(int $columnsCount): void
@@ -751,10 +748,8 @@ class Pdf extends ReportRenderer
             return;
         }
 
-        $metricColumns = $columnsCount - 1;
         $this->labelCellWidth = $maxLabelWidth;
-        $this->cellWidth = round(($this->totalWidth - $this->labelCellWidth) / $metricColumns);
-        $this->totalWidth = $this->labelCellWidth + $metricColumns * $this->cellWidth;
+        $this->fitColumnWidthsToPage($columnsCount - 1);
     }
 
     private function capLabelWidthForManyColumns(int $columnsCount): void
@@ -768,10 +763,8 @@ class Pdf extends ReportRenderer
             return;
         }
 
-        $metricColumns = $columnsCount - 1;
         $this->labelCellWidth = $maxLabelWidth;
-        $this->cellWidth = round(($this->totalWidth - $this->labelCellWidth) / $metricColumns);
-        $this->totalWidth = $this->labelCellWidth + $metricColumns * $this->cellWidth;
+        $this->fitColumnWidthsToPage($columnsCount - 1);
     }
 
     private function getMaxSingleLineLabelWidth(): ?float
@@ -1153,6 +1146,28 @@ class Pdf extends ReportRenderer
      * Will initialize table column widths,
      * this will include adjusting label and revenue columns
      */
+    /**
+     * Splits the printable width of the page between the label column and the metric columns.
+     *
+     * The metric width is rounded down and whatever is left over goes to the label column, so the
+     * table fills the page exactly. Rounding the metric width to the nearest millimetre instead
+     * made the table wider than the page, which clipped its last column: half a millimetre per
+     * metric column is enough to overflow once a report has around ten of them.
+     */
+    private function fitColumnWidthsToPage(int $metricColumns): void
+    {
+        $this->totalWidth = $this->reportWidthPortrait;
+
+        if ($metricColumns < 1) {
+            $this->labelCellWidth = $this->totalWidth;
+            $this->cellWidth = 0;
+            return;
+        }
+
+        $this->cellWidth = floor(($this->totalWidth - $this->labelCellWidth) / $metricColumns);
+        $this->labelCellWidth = $this->totalWidth - $metricColumns * $this->cellWidth;
+    }
+
     private function initializeTableColumnWidths(): void
     {
         $columnsCount = count($this->reportColumns);
@@ -1164,9 +1179,7 @@ class Pdf extends ReportRenderer
         $minLabelWidth = $this->minWidthLabelCellPortrait;
         $this->labelCellWidth = max(round($this->totalWidth / $columnsCount), $minLabelWidth);
 
-        $metricColumns = max(1, $columnsCount - 1);
-        $this->cellWidth = round(($this->totalWidth - $this->labelCellWidth) / $metricColumns);
-        $this->totalWidth = $this->labelCellWidth + $metricColumns * $this->cellWidth;
+        $this->fitColumnWidthsToPage(max(1, $columnsCount - 1));
 
         $this->initializeTableWidthCache();
         $this->setInitialLabelWidth($columnsCount);

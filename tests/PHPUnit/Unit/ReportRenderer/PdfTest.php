@@ -13,6 +13,7 @@ use Piwik\ReportRenderer\Pdf;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use ReflectionMethod;
+use ReflectionObject;
 use ReflectionProperty;
 
 /**
@@ -115,6 +116,85 @@ class PdfTest extends TestCase
         $method->invokeArgs($renderer, [$url, 10.0, 20.0, 6.0, [], false, &$logoWidth, &$logoHeight]);
 
         self::assertSame($expectedLinks, $tcpdf->links);
+    }
+
+    /**
+     * A table wider than the page has its last column clipped by TCPDF, which used to happen
+     * once a report had around ten metric columns: the metric width was rounded to the nearest
+     * millimetre, and half a millimetre per column is enough to push the table off the page.
+     *
+     * @dataProvider getColumnCounts
+     */
+    public function testColumnWidthsNeverExceedThePageWidth(int $metricColumns, float $labelWidth)
+    {
+        $renderer = new Pdf();
+
+        $reflection = new ReflectionObject($renderer);
+
+        $labelCellWidth = $reflection->getProperty('labelCellWidth');
+        $labelCellWidth->setAccessible(true);
+        $labelCellWidth->setValue($renderer, $labelWidth);
+
+        $fit = $reflection->getMethod('fitColumnWidthsToPage');
+        $fit->setAccessible(true);
+        $fit->invoke($renderer, $metricColumns);
+
+        $pageWidth = $reflection->getProperty('reportWidthPortrait');
+        $pageWidth->setAccessible(true);
+        $pageWidth = $pageWidth->getValue($renderer);
+
+        $cellWidth = $reflection->getProperty('cellWidth');
+        $cellWidth->setAccessible(true);
+        $cellWidth = $cellWidth->getValue($renderer);
+
+        $totalWidth = $reflection->getProperty('totalWidth');
+        $totalWidth->setAccessible(true);
+
+        $label = $labelCellWidth->getValue($renderer);
+
+        self::assertGreaterThan(0, $cellWidth, 'every metric column gets some width');
+        self::assertGreaterThan(0, $label, 'the label column gets some width');
+        self::assertSame(
+            (float) $pageWidth,
+            (float) ($label + $metricColumns * $cellWidth),
+            'the table fills the page exactly'
+        );
+        self::assertSame((float) $pageWidth, (float) $totalWidth->getValue($renderer));
+    }
+
+    public function getColumnCounts(): array
+    {
+        return [
+            'one metric'                       => [1, 136.0],
+            'four metrics'                     => [4, 117.0],
+            'eight metrics, wide label'        => [8, 80.0],
+            // a report with a percentage next to each of its metrics
+            'ten metrics, short label'         => [10, 35.0],
+            'ten metrics, wide label'          => [10, 80.0],
+            'sixteen metrics'                  => [16, 35.0],
+        ];
+    }
+
+    public function testASingleColumnTableGivesTheWholePageToTheLabel()
+    {
+        $renderer = new Pdf();
+
+        $reflection = new ReflectionObject($renderer);
+
+        $fit = $reflection->getMethod('fitColumnWidthsToPage');
+        $fit->setAccessible(true);
+        $fit->invoke($renderer, 0);
+
+        $labelCellWidth = $reflection->getProperty('labelCellWidth');
+        $labelCellWidth->setAccessible(true);
+
+        $pageWidth = $reflection->getProperty('reportWidthPortrait');
+        $pageWidth->setAccessible(true);
+
+        self::assertSame(
+            $pageWidth->getValue($renderer),
+            $labelCellWidth->getValue($renderer)
+        );
     }
 
     /**
