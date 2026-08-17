@@ -49,6 +49,21 @@ abstract class AbstractAIChatbotContentUrlReport extends Report
         $this->defaultSortColumn = Metrics::COLUMN_REQUESTS;
     }
 
+    /**
+     * The average server time and response size are left out, as a percentage of their summed up
+     * report total says nothing about a row.
+     *
+     * @return array<string, string>
+     */
+    public function getMetricNamesToProcessReportTotals()
+    {
+        return [
+            Metrics::COLUMN_REQUESTS                    => Metrics::COLUMN_REQUESTS,
+            Metrics::COLUMN_SERVER_ERROR_5XX_REQUESTS   => Metrics::COLUMN_SERVER_ERROR_5XX_REQUESTS,
+            Metrics::COLUMN_PAGE_NOT_FOUND_404_REQUESTS => Metrics::COLUMN_PAGE_NOT_FOUND_404_REQUESTS,
+        ];
+    }
+
     public function configureView(ViewDataTable $view): void
     {
         parent::configureView($view);

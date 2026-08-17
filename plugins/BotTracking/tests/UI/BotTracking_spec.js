@@ -32,6 +32,32 @@ describe("BotTracking", function () {
         expect(headers).to.deep.equal(expectedHeaders);
     }
 
+    /**
+     * The ratio percentages are always rendered, but stay `visibility: hidden` until their column
+     * is hovered, so counting the visible ones tells whether they are actually shown.
+     */
+    async function ratiosVisible(cellSelector) {
+        return await page.evaluate(function (selector) {
+            return jQuery(selector + ' .ratio').filter(function () {
+                return jQuery(this).css('visibility') === 'visible';
+            }).length;
+        }, cellSelector);
+    }
+
+    /**
+     * The tooltip text as the user reads it. The title attribute holds it HTML encoded, as the
+     * tooltip is rendered as HTML by the jQuery UI tooltip the data table sets up for these spans
+     * — which also takes the attribute over once it has shown the tooltip.
+     */
+    async function tooltipText(ratioSelector) {
+        return await page.evaluate(function (selector) {
+            var $ratio = jQuery(selector);
+            var title = $ratio.attr('title') || $ratio.data('ui-tooltip-title');
+
+            return jQuery('<div>').html(title).text().trim();
+        }, ratioSelector);
+    }
+
     async function assertMetricDocumentation(widgetId, expectedCount) {
         const docs = await page.$$eval(widgetId + ' thead th .columnDocumentation', function (nodes) {
             return nodes.map(function (node) { return (node.textContent || '').trim(); });
@@ -397,4 +423,66 @@ describe("BotTracking", function () {
 
         expect(matchingFooterMessages).to.be.at.least(3);
     });
+
+    // The hover tests come last: hovering a column leaves it highlighted, and that state survives
+    // the navigation of a following test, which would then capture the percentages as well.
+    it('should show the percentage of the report total when hovering a metric column', async function () {
+        await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_AIAssistants&subcategory=BotTracking_AIChatbotsOverview");
+        await page.waitForNetworkIdle();
+
+        const widgetId = '#widgetBotTrackinggetAIChatbotRequests';
+        const requestsColumn = widgetId + ' tbody tr td.column:nth-child(2)';
+
+        await page.waitForSelector(requestsColumn, { visible: true });
+
+        // the percentages are in the DOM from the start but hidden, hovering any cell of a metric
+        // column highlights the whole column and reveals them
+        expect(await ratiosVisible(requestsColumn)).to.equal(0);
+
+        const cell = await page.jQuery(requestsColumn + ':first');
+        await cell.hover();
+        await page.waitForFunction('$("' + requestsColumn + ':first").hasClass("highlight")');
+
+        const percentages = await page.$$eval(requestsColumn + ' .ratio', function (spans) {
+            return spans.map(function (span) { return (span.textContent || '').trim(); });
+        });
+        expect(percentages.length).to.equal(await page.$$eval(requestsColumn, function (tds) { return tds.length; }));
+        percentages.forEach(function (percentage) {
+            expect(percentage).to.match(/^\d+(\.\d+)?%$/);
+        });
+        expect(await ratiosVisible(requestsColumn)).to.equal(percentages.length);
+
+        // the tooltip relates the row to the report total. It must not add the sentence relating it
+        // to the site total as well, as API.get does not know this report's columns
+        const tooltip = await tooltipText(requestsColumn + ':first .ratio');
+        expect(tooltip).to.match(/^'.+' represents \d+(\.\d+)?% of \d+ Requests in segment ".+" with AI Chatbot Name\.$/);
+
+        var elem = await page.$(widgetId);
+        expect(await elem.screenshot()).to.matchImage('bot_requests_ratio');
+    });
+
+    it('should not show a percentage for a column that has no meaningful report total', async function () {
+        await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_AIAssistants&subcategory=BotTracking_AIChatbotsContentRequests");
+        await page.waitForNetworkIdle();
+
+        const widgetId = '#widgetBotTrackinggetAIChatbotHumanFavouredPages';
+        const pageviewsColumn = widgetId + ' tbody tr td.column:nth-child(2)';
+        const scoreColumn = widgetId + ' tbody tr td.column:nth-child(4)';
+
+        await page.waitForSelector(scoreColumn, { visible: true });
+
+        // the two traffic columns add up over the rows of the report, so they carry a percentage
+        const pageviews = await page.jQuery(pageviewsColumn + ':first');
+        await pageviews.hover();
+        await page.waitForFunction('$("' + pageviewsColumn + ':first").hasClass("highlight")');
+        expect(await ratiosVisible(pageviewsColumn)).to.be.above(0);
+
+        // the discrepancy score weights those two columns against each other per page, so summing
+        // it up over the report says nothing about a row and it gets no percentage at all
+        const score = await page.jQuery(scoreColumn + ':first');
+        await score.hover();
+        await page.waitForFunction('$("' + scoreColumn + ':first").hasClass("highlight")');
+        expect(await page.$$eval(scoreColumn + ' .ratio', function (spans) { return spans.length; })).to.equal(0);
+    });
+
 });
