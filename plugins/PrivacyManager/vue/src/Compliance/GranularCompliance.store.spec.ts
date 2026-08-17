@@ -19,8 +19,8 @@ import {
   PolicySettingsPayload,
 } from './GranularCompliance.store';
 
-const fetchMock = AjaxHelper.fetch as jest.Mock;
-const postMock = AjaxHelper.post as jest.Mock;
+const fetchMock = AjaxHelper.fetch as unknown as jest.Mock;
+const postMock = AjaxHelper.post as unknown as jest.Mock;
 
 function setting(overrides: Partial<PolicySetting> = {}): PolicySetting {
   return {
