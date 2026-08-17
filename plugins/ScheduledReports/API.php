@@ -149,8 +149,6 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserIsNotAnonymous();
         Piwik::checkUserHasViewAccess($idSite);
 
-        $idSegment = self::normalizeIdSegment($idSegment);
-
         $currentUser = Piwik::getCurrentUserLogin();
         self::ensureLanguageSetForUser($currentUser);
 
@@ -241,8 +239,6 @@ class API extends \Piwik\Plugin\API
     ): void {
         Piwik::checkUserIsNotAnonymous();
         Piwik::checkUserHasViewAccess($idSite);
-
-        $idSegment = self::normalizeIdSegment($idSegment);
 
         $scheduledReports = $this->getReports($idSite, $periodSearch = false, $idReport);
         $report   = reset($scheduledReports);
@@ -1134,7 +1130,8 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * @param int|string|false|null $idSegment Normalized in place to `null` when empty.
+     * @param int|string|false|null $idSegment Normalized in place to `null` when empty, or to a strict integer for a
+     *                                          valid segment so the value that gets stored matches the value validated.
      */
     private static function validateIdSegment(&$idSegment): void
     {
@@ -1144,6 +1141,10 @@ class API extends \Piwik\Plugin\API
             throw new Exception('Invalid segment identifier. Should be an integer.');
         } elseif (self::getSegment($idSegment) == null) {
             throw new Exception('Segment with id ' . $idSegment . ' does not exist or SegmentEditor is not activated.');
+        } else {
+            // Cast to a strict integer so the value written to the integer `idsegment` column is exactly the value we
+            // just validated, rather than relying on the database to coerce it.
+            $idSegment = (int) $idSegment;
         }
     }
 
@@ -1333,22 +1334,6 @@ class API extends \Piwik\Plugin\API
         Piwik::postEvent(self::GET_REPORT_RECIPIENTS_EVENT, [&$recipients, $report['type'], $report]);
 
         return $recipients;
-    }
-
-    /**
-     * Normalises a segment id to a strict integer (or false when no segment is configured), so the value that
-     * gets validated is exactly the value stored in the integer `idsegment` column.
-     *
-     * @param mixed $idSegment
-     * @return int|false
-     */
-    private static function normalizeIdSegment($idSegment)
-    {
-        if (false === $idSegment || null === $idSegment || '' === $idSegment) {
-            return false;
-        }
-
-        return (int) $idSegment;
     }
 
     /**

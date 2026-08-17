@@ -438,6 +438,25 @@ class ApiTest extends IntegrationTestCase
         $this->assertSame($idSegment, (int) $report['idsegment']);
     }
 
+    public function testAddReportRejectsNonNumericSegmentId()
+    {
+        // a non-numeric segment id must be rejected, not silently coerced to "no segment"
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Invalid segment identifier');
+
+        APIScheduledReports::getInstance()->addReport(
+            $this->idSite,
+            'invalid segment',
+            Schedule::PERIOD_DAY,
+            '4',
+            'email',
+            'pdf',
+            array('UserCountry_getCountry'),
+            array('displayFormat' => '1', 'emailMe' => true, 'evolutionGraph' => false),
+            'not-a-number'
+        );
+    }
+
     public function testAddReportDefaultsEnforceOrderToFalse()
     {
         $data = self::getDailyPDFReportData($this->idSite);
