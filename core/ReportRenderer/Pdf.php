@@ -1137,10 +1137,6 @@ class Pdf extends ReportRenderer
     }
 
     /**
-     * Will initialize table column widths,
-     * this will include adjusting label and revenue columns
-     */
-    /**
      * Splits the printable width of the page between the label column and the metric columns.
      *
      * The metric width is rounded down and whatever is left over goes to the label column, so the
@@ -1162,6 +1158,10 @@ class Pdf extends ReportRenderer
         $this->labelCellWidth = $this->totalWidth - $metricColumns * $this->cellWidth;
     }
 
+    /**
+     * Will initialize table column widths,
+     * this will include adjusting label and revenue columns
+     */
     private function initializeTableColumnWidths(): void
     {
         $columnsCount = count($this->reportColumns);

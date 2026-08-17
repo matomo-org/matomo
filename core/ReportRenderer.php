@@ -289,10 +289,9 @@ abstract class ReportRenderer extends BaseFactory
      * using the translations and the column order in `$processedReport['columns']`, need this to
      * show those columns the way the other renderers do.
      *
-     * @param DataTableInterface $report
      * @param array $reportColumns column name => translation
      */
-    protected static function translatePercentOfTotalColumns($report, $reportColumns): void
+    protected static function translatePercentOfTotalColumns(DataTableInterface $report, array $reportColumns): void
     {
         $suffixLength   = strlen(PercentOfReportTotal::COLUMN_NAME_SUFFIX);
         $percentColumns = [];
