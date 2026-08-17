@@ -82,6 +82,9 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   A report that already expresses a metric as a percentage of its own, through a `{metric}_percentage` column (eg,
   `DevicePlugins.getPlugin`, whose percentage leaves out the visits of browsers where plugins cannot be detected), does not
   get a `{metric}_percent_of_total` column for that metric, as the two percentages would contradict each other.
+  `API.getProcessedReport` places each percentage directly after the metric it belongs to, and returns one only when that
+  metric is itself a column of the report: a report with a total for bounces but no `Bounces` column no longer carries a
+  `bounce_count_percent_of_total` entry in `columns`, `metricTypes`, `metricsDocumentation` or `reportData`.
 * Scheduled reports now include the `{metric}_percent_of_total` columns in every format that renders a data table: HTML
   email, PDF, CSV and TSV. In CSV and TSV those columns carry their translated name (eg, `Visits (%)`) rather than the
   column id, while all other columns keep the id they had before.
