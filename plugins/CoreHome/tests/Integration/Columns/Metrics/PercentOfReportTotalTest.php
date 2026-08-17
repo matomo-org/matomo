@@ -15,6 +15,7 @@ use Piwik\Metrics;
 use Piwik\Metrics\Formatter;
 use Piwik\Plugin\Report;
 use Piwik\Plugins\CoreHome\Columns\Metrics\PercentOfReportTotal;
+use Piwik\Plugins\CoreHome\Columns\Metrics\VisitsPercent;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -152,6 +153,54 @@ class PercentOfReportTotalTest extends IntegrationTestCase
             ['nb_visits_percent_of_total', 'my_custom_metric_percent_of_total'],
             $this->getRegisteredMetricNames($table)
         );
+    }
+
+    public function testAddMetricsToTableSkipsMetricsTheApiMethodAlreadyExpressesAsAPercentage()
+    {
+        // eg DevicePlugins.getPlugin, which registers a VisitsPercent with a denominator of its own
+        $table = $this->makeTableWithTotals(['nb_visits' => 200, 'revenue' => 1000]);
+        $table->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME, [new VisitsPercent(150)]);
+
+        PercentOfReportTotal::addMetricsToTable($table, null);
+
+        $this->assertEquals(
+            ['nb_visits_percentage', 'revenue_percent_of_total'],
+            $this->getRegisteredMetricNames($table)
+        );
+    }
+
+    public function testAddMetricsToTableSkipsMetricsTheReportAlreadyExpressesAsAPercentage()
+    {
+        // eg VisitorInterest.getNumberOfVisitsByVisitCount, which declares a VisitsPercent instance
+        $table = $this->makeTableWithTotals(['nb_visits' => 200, 'revenue' => 1000]);
+
+        $report = new class () extends Report {
+            protected function init()
+            {
+                $this->processedMetrics = [new VisitsPercent()];
+            }
+        };
+
+        PercentOfReportTotal::addMetricsToTable($table, $report);
+
+        $this->assertEquals(['revenue_percent_of_total'], $this->getRegisteredMetricNames($table));
+    }
+
+    public function testAddMetricsToTableSkipsPercentageMetricsTheReportDeclaresByName()
+    {
+        // eg DevicePlugins.getPlugin, whose report lists the metric name instead of an instance
+        $table = $this->makeTableWithTotals(['nb_visits' => 200, 'revenue' => 1000]);
+
+        $report = new class () extends Report {
+            protected function init()
+            {
+                $this->processedMetrics = ['nb_visits_percentage'];
+            }
+        };
+
+        PercentOfReportTotal::addMetricsToTable($table, $report);
+
+        $this->assertEquals(['revenue_percent_of_total'], $this->getRegisteredMetricNames($table));
     }
 
     public function testAddMetricsToTableSupportsTotalsKeyedByMetricId()

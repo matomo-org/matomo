@@ -86,6 +86,12 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   (unique visitors and users) are excluded, as their report total is not a meaningful denominator. The columns can be disabled
   by setting the new `percent_of_total=0` request parameter (or `totals=0`). Note for CSV/TSV consumers parsing columns by
   position: the new columns change the header and column count, pass `percent_of_total=0` to keep the previous output.
+  A report that already expresses a metric as a percentage of its own, through a `{metric}_percentage` column (eg,
+  `DevicePlugins.getPlugin`, whose percentage leaves out the visits of browsers where plugins cannot be detected), does not
+  get a `{metric}_percent_of_total` column for that metric, as the two percentages would contradict each other.
+* Scheduled reports now include the `{metric}_percent_of_total` columns in every format that renders a data table: HTML
+  email, PDF, CSV and TSV. In CSV and TSV those columns carry their translated name (eg, `Visits (%)`) rather than the
+  column id, while all other columns keep the id they had before.
 
 ### Deprecations
 * The component-oriented theme variable `@theme-color-widget-background` (`ThemeStyles::$colorWidgetBackground`)

@@ -32,6 +32,12 @@ class PercentOfReportTotal extends ProcessedMetric
     public const COLUMN_NAME_SUFFIX = '_percent_of_total';
 
     /**
+     * Suffix of the columns reports use for a percentage they compute themselves, see
+     * VisitsPercent.
+     */
+    private const OWN_PERCENTAGE_COLUMN_SUFFIX = '_percentage';
+
+    /**
      * Unique visitor / user counts cannot be summed over rows, so the report total computed
      * for them by ReportTotalsCalculator (a plain sum) is not a meaningful denominator: the
      * percentages could exceed 100% and would differ depending on which archived record a
@@ -183,7 +189,11 @@ class PercentOfReportTotal extends ProcessedMetric
             $translations = array_merge($translations, $report->getMetrics() ?: []);
         }
 
-        $eligibleNames = array_diff($eligibleNames, self::NON_ADDITIVE_METRIC_NAMES);
+        $eligibleNames = array_diff(
+            $eligibleNames,
+            self::NON_ADDITIVE_METRIC_NAMES,
+            self::getMetricNamesWithTheirOwnPercentage($table, $report)
+        );
 
         $metrics = [];
         foreach (array_unique($eligibleNames) as $metricName) {
@@ -201,6 +211,46 @@ class PercentOfReportTotal extends ProcessedMetric
         if (!empty($metrics)) {
             self::addMetricsToTableRecursively($table, $metrics);
         }
+    }
+
+    /**
+     * Names of the metrics the report already expresses as a percentage itself, through a
+     * '{metric}_percentage' column (the naming convention of VisitsPercent). Those reports
+     * compute the percentage against a denominator of their own, eg DevicePlugins.getPlugin
+     * leaves out the visits of browsers whose plugins cannot be detected, so a second
+     * percentage of the report total would contradict the one already shown.
+     *
+     * @return string[]
+     */
+    private static function getMetricNamesWithTheirOwnPercentage(DataTable $table, ?Report $report): array
+    {
+        $percentageMetricNames = [];
+
+        // metrics the API method registered on the table itself, eg DevicePlugins.getPlugin
+        $extraProcessedMetrics = $table->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME) ?: [];
+        foreach ($extraProcessedMetrics as $metric) {
+            $percentageMetricNames[] = $metric->getName();
+        }
+
+        if ($report) {
+            // metrics the report declares, either as a Metric instance or as a plain name
+            $percentageMetricNames = array_merge(
+                $percentageMetricNames,
+                array_keys($report->getProcessedMetricsById()),
+                array_keys($report->getProcessedMetrics() ?: [])
+            );
+        }
+
+        $suffixLength = strlen(self::OWN_PERCENTAGE_COLUMN_SUFFIX);
+        $metricNames  = [];
+
+        foreach ($percentageMetricNames as $percentageMetricName) {
+            if (str_ends_with($percentageMetricName, self::OWN_PERCENTAGE_COLUMN_SUFFIX)) {
+                $metricNames[] = substr($percentageMetricName, 0, -$suffixLength);
+            }
+        }
+
+        return $metricNames;
     }
 
     /**
