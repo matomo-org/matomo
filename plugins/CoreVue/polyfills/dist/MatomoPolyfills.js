@@ -17992,7 +17992,7 @@
     return web_urlSearchParams_size;
   }
   requireWeb_urlSearchParams_size();
-  /*! @license DOMPurify 3.4.12 | (c) Cure53 and other contributors | Released under the Apache license 2.0 and Mozilla Public License 2.0 | github.com/cure53/DOMPurify/blob/3.4.12/LICENSE */
+  /*! @license DOMPurify 3.4.13 | (c) Cure53 and other contributors | Released under the Apache license 2.0 and Mozilla Public License 2.0 | github.com/cure53/DOMPurify/blob/3.4.13/LICENSE */
   function _arrayLikeToArray(r, a) {
     (null == a || a > r.length) && (a = r.length);
     for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e];
@@ -18311,7 +18311,7 @@
   function createDOMPurify() {
     let window2 = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : getGlobal();
     const DOMPurify = (root) => createDOMPurify(root);
-    DOMPurify.version = "3.4.12";
+    DOMPurify.version = "3.4.13";
     DOMPurify.removed = [];
     if (!window2 || !window2.document || window2.document.nodeType !== NODE_TYPE.document || !window2.Element) {
       DOMPurify.isSupported = false;
@@ -18335,6 +18335,7 @@
     const getAttributes = lookupGetter(ElementPrototype, "attributes");
     const getNodeType = Node && Node.prototype ? lookupGetter(Node.prototype, "nodeType") : null;
     const getNodeName = Node && Node.prototype ? lookupGetter(Node.prototype, "nodeName") : null;
+    const getOwnerDocument = Node && Node.prototype ? lookupGetter(Node.prototype, "ownerDocument") : null;
     if (typeof HTMLTemplateElement === "function") {
       const template = document2.createElement("template");
       if (template.content && template.content.ownerDocument) {
@@ -18912,8 +18913,9 @@
       return WHOLE_DOCUMENT ? doc.documentElement : body;
     };
     const _createNodeIterator = function _createNodeIterator2(root) {
+      const doc = getOwnerDocument ? getOwnerDocument(root) : root.ownerDocument;
       return createNodeIterator.call(
-        root.ownerDocument || root,
+        doc || root,
         root,
         // eslint-disable-next-line no-bitwise
         NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_COMMENT | NodeFilter.SHOW_TEXT | NodeFilter.SHOW_PROCESSING_INSTRUCTION | NodeFilter.SHOW_CDATA_SECTION,
@@ -18929,8 +18931,9 @@
     const _scrubTemplateExpressions2 = function _scrubTemplateExpressions(node) {
       var _node$querySelectorAl;
       node.normalize();
+      const doc = getOwnerDocument ? getOwnerDocument(node) : node.ownerDocument;
       const walker = createNodeIterator.call(
-        node.ownerDocument || node,
+        doc || node,
         node,
         // eslint-disable-next-line no-bitwise
         NodeFilter.SHOW_TEXT | NodeFilter.SHOW_COMMENT | NodeFilter.SHOW_CDATA_SECTION | NodeFilter.SHOW_PROCESSING_INSTRUCTION,
@@ -19026,7 +19029,7 @@
       }
       return false;
     };
-    const _sanitizeDisallowedNode = function _sanitizeDisallowedNode2(currentNode, tagName) {
+    const _sanitizeDisallowedNode = function _sanitizeDisallowedNode2(currentNode, tagName, root) {
       if (!FORBID_TAGS[tagName] && _isBasicCustomElement(tagName)) {
         if (CUSTOM_ELEMENT_HANDLING.tagNameCheck instanceof RegExp && regExpTest(CUSTOM_ELEMENT_HANDLING.tagNameCheck, tagName)) {
           return false;
@@ -19041,7 +19044,7 @@
         if (childNodes && parentNode) {
           const childCount = childNodes.length;
           for (let i = childCount - 1; i >= 0; --i) {
-            const hoisted = IN_PLACE ? childNodes[i] : cloneNode(childNodes[i], true);
+            const hoisted = currentNode === root ? cloneNode(childNodes[i], true) : childNodes[i];
             parentNode.insertBefore(hoisted, getNextSibling(currentNode));
           }
         }
@@ -19049,9 +19052,18 @@
       _forceRemove(currentNode);
       return true;
     };
+    const _forkSharedAllowlist = function _forkSharedAllowlist2(hookList, set, defaultSet, setConfigSet) {
+      if (hookList.length === 0) {
+        return set;
+      }
+      return set === defaultSet || set === setConfigSet ? clone(set) : set;
+    };
     const _sanitizeElements = function _sanitizeElements2(currentNode, root) {
       _executeHooks(hooks.beforeSanitizeElements, currentNode, null);
       if (currentNode !== root && getParentNode(currentNode) === null) {
+        if (IN_PLACE) {
+          _neutralizeSubtree(currentNode);
+        }
         return true;
       }
       if (_isClobbered(currentNode)) {
@@ -19059,11 +19071,15 @@
         return true;
       }
       const tagName = transformCaseFunc(getNodeName ? getNodeName(currentNode) : currentNode.nodeName);
+      ALLOWED_TAGS = _forkSharedAllowlist(hooks.uponSanitizeElement, ALLOWED_TAGS, DEFAULT_ALLOWED_TAGS, SET_CONFIG_ALLOWED_TAGS);
       _executeHooks(hooks.uponSanitizeElement, currentNode, {
         tagName,
         allowedTags: ALLOWED_TAGS
       });
       if (currentNode !== root && getParentNode(currentNode) === null) {
+        if (IN_PLACE) {
+          _neutralizeSubtree(currentNode);
+        }
         return true;
       }
       if (_isUnsafeNode(currentNode, tagName)) {
@@ -19071,7 +19087,7 @@
         return true;
       }
       if (FORBID_TAGS[tagName] || !(EXTRA_ELEMENT_HANDLING.tagCheck instanceof Function && EXTRA_ELEMENT_HANDLING.tagCheck(tagName)) && !ALLOWED_TAGS[tagName]) {
-        const removed = _sanitizeDisallowedNode(currentNode, tagName);
+        const removed = _sanitizeDisallowedNode(currentNode, tagName, root);
         if (removed === false) {
           _executeHooks(hooks.afterSanitizeElements, currentNode, null);
         }
@@ -19174,6 +19190,7 @@
       if (!attributes || _isClobbered(currentNode)) {
         return;
       }
+      ALLOWED_ATTR = _forkSharedAllowlist(hooks.uponSanitizeAttribute, ALLOWED_ATTR, DEFAULT_ALLOWED_ATTR, SET_CONFIG_ALLOWED_ATTR);
       const hookEvent = {
         attrName: "",
         attrValue: "",
@@ -19381,8 +19398,8 @@
         _forceRemove(body.firstChild);
       }
       const walkRoot = inPlace ? dirty : body;
-      const nodeIterator = _createNodeIterator(walkRoot);
       try {
+        const nodeIterator = _createNodeIterator(walkRoot);
         while (currentNode = nodeIterator.nextNode()) {
           _sanitizeElements(currentNode, walkRoot);
           _sanitizeAttributes(currentNode);
