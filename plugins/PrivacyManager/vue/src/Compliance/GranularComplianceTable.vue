@@ -6,59 +6,61 @@
 -->
 
 <template>
-  <table class="card-table dataTable compliance granularCompliance">
-    <thead>
-      <tr>
-        <th class="label">
-          {{ translate('PrivacyManager_ComplianceTableSettingName') }}
-        </th>
-        <th class="label">
-          {{ translate('General_Description') }}
-        </th>
-        <th class="label">
-          {{ translate('PrivacyManager_ComplianceTableImpact') }}
-        </th>
-        <th class="label">
-          {{ translate('PrivacyManager_ComplianceTableSettingStatus') }}
-        </th>
-        <th class="label toggleColumn" v-if="showToggles">
-          <span class="sr-only">{{ translate('PrivacyManager_ComplianceStatusEnforced') }}</span>
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="setting in settings" :key="setting.id">
-        <td class="settingName">{{ setting.name }}</td>
-        <td v-html="$sanitize(setting.whatItDoes)" />
-        <td v-html="$sanitize(setting.impact)" />
-        <td :class="['status', getStatusClass(setting)]">
-          <span
-            v-if="getIconClass(setting)"
-            :class="['icon', getIconClass(setting)]"
-          ></span>
-          {{ translate(getStatusText(setting)) }}
-        </td>
-        <td class="toggleColumn" v-if="showToggles">
-          <div
-            :class="['switch', 'switch-' + setting.id.replace('.', '-')]"
-            v-if="setting.toggleable"
-          >
-            <label>
-              <input
-                type="checkbox"
-                :id="'toggle-' + setting.id"
-                :checked="isToggledOn(setting)"
-                :disabled="disabled"
-                :aria-label="translate('PrivacyManager_ComplianceStatusEnforced') + ': ' + setting.name"
-                @change="$emit('toggle', setting.id)"
-              />
-              <span class="lever"></span>
-            </label>
-          </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="granularComplianceScroll">
+    <table class="card-table dataTable compliance granularCompliance">
+      <thead>
+        <tr>
+          <th class="label">
+            {{ translate('PrivacyManager_ComplianceTableSettingName') }}
+          </th>
+          <th class="label">
+            {{ translate('General_Description') }}
+          </th>
+          <th class="label">
+            {{ translate('PrivacyManager_ComplianceTableImpact') }}
+          </th>
+          <th class="label">
+            {{ translate('PrivacyManager_ComplianceTableSettingStatus') }}
+          </th>
+          <th class="label toggleColumn" v-if="showToggles">
+            <span class="sr-only">{{ translate('PrivacyManager_ComplianceStatusEnforced') }}</span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="setting in settings" :key="setting.id">
+          <td class="settingName">{{ setting.name }}</td>
+          <td v-html="$sanitize(setting.whatItDoes)" />
+          <td v-html="$sanitize(setting.impact)" />
+          <td :class="['status', getStatusClass(setting)]">
+            <span
+              v-if="getIconClass(setting)"
+              :class="['icon', getIconClass(setting)]"
+            ></span>
+            {{ translate(getStatusText(setting)) }}
+          </td>
+          <td class="toggleColumn" v-if="showToggles">
+            <div
+              :class="['switch', 'switch-' + setting.id.replace('.', '-')]"
+              v-if="setting.toggleable"
+            >
+              <label>
+                <input
+                  type="checkbox"
+                  :id="'toggle-' + setting.id"
+                  :checked="isToggledOn(setting)"
+                  :disabled="disabled"
+                  :aria-label="translate('PrivacyManager_ComplianceStatusEnforced') + ': ' + setting.name"
+                  @change="$emit('toggle', setting.id)"
+                />
+                <span class="lever"></span>
+              </label>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </template>
 
 <script lang="ts">
