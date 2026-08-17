@@ -11,6 +11,11 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * A report or graph can now only be streamed to the browser by the top-level request. `ImageGraph.get` and `ScheduledReports.generateReport` throw when a streaming output mode comes from a nested API request, for example an `API.getBulkRequest` sub-request. Use `GRAPH_OUTPUT_PHP`/`GRAPH_OUTPUT_FILE` or `OUTPUT_RETURN` instead — `OUTPUT_SAVE_ON_DISK` is rewritten to `OUTPUT_DOWNLOAD` and still throws. The streaming methods of `Piwik\ReportRenderer` and `Piwik\ReportRenderer\Pdf` throw too, so a plugin's own renderer inherits the restriction (new: `ReportRenderer::checkStreamingToBrowserIsAllowed()` and `Piwik\API\Request::isCurrentApiRequestNestedInAnotherApiRequest()`).
 * `UsersManager.createAppSpecificTokenAuth` now only creates a token for the account the caller is acting as, with no exception for super users — including code inside `Piwik\Access::doAsSuperUser()`, console commands and scheduled tasks. To create a token for another account, send an unauthenticated request with that account's `passwordConfirmation`. The method also refuses to run as a nested API request.
 * `UsersManager.setUserAccess` now requires `passwordConfirmation` to grant the `admin` role, in either the string or the array form of `access`, on top of the existing check for granting the anonymous user `view` access. As before this applies only to session-authenticated requests, which includes any request sending `force_api_session=1`; plain `token_auth`, `Authorization: Bearer` and CLI calls are unaffected.
+* Exporting a report for a single goal (a goals table or a bar/pie/evolution chart showing one goal's
+  conversions or revenue) now returns only the columns shown in the UI, by adding `showColumns` to the
+  export request. Previously the export returned the aggregated all-goals columns and every other
+  goal's columns as well. Integrations that reuse an export URL copied from the UI will receive a
+  narrower set of columns than before.
 
 ### New APIs
 * The sparklines visualization has been redesigned as a responsive card grid of metric tiles. Plugin-facing additions that come with it:
@@ -45,6 +50,12 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   authenticate with its own `token_auth`, but may not change the session flag. A nested request whose
   parameters conflict with the outer request's authentication context aborts the whole bulk request.
 * `API.getProcessedReport` for `Referrers.getAll` now returns `reportTotal` keyed by metric name instead of raw `Piwik\Metrics::INDEX_*` integers such as `2` and `3`. It was the only report leaking those keys.
+* A new `keep_flattened_dimension_columns` parameter keeps the columns a flattened report adds for its
+  dimensions when the request also restricts columns with `showColumns`. Flattening with
+  `flat=1&show_dimensions=1` adds one column per dimension, but their names only exist after
+  flattening, so a caller cannot include them in a `showColumns` allowlist and `ColumnDelete` would
+  drop them. Setting `keep_flattened_dimension_columns=1` re-adds them after flattening. It defaults
+  to `0`, so `showColumns` on its own behaves exactly as before.
 
 ### HTTP Tracking API
 * `token_auth` and `token` are now part of the default `url_query_parameter_to_exclude_from_url`, so both are stripped from tracked page, site search, event, content, goal-conversion and referrer URLs; downloads and outlinks keep them. An installation that sets the option in its own `config.ini.php` replaces the default rather than extending it, and has to add the two names itself.
