@@ -37,6 +37,11 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The conditional fallback definitions for `mysqli_set_charset()`, `file_get_contents()`, `utf8_encode()`, `utf8_decode()`, `fnmatch()`, the `Error` class and the `PHP_INT_SIZE`/`PHP_INT_MAX` constants have been removed from `libs/upgradephp/upgrade.php`. All of these are provided natively by every supported PHP version; the fallbacks only ever activated on PHP versions that are no longer supported, or when the function had been turned off via `disable_functions`.
 * The `gzopen()` fallback has also been removed from `libs/upgradephp/upgrade.php`. It aliased `gzopen()` to `gzopen64()` on distribution builds where zlib exposes only the latter, which is a packaging issue rather than a PHP version or `disable_functions` one. On such a build `Piwik\Unzip` now falls back to `PclZip`.
 * Several core controller actions that return JSON now declare a native `string` return type as part of adopting the new `#[Piwik\Http\JsonResponse]` attribute. A plugin that extends one of these controllers and overrides such an action must declare a compatible `string` return type and re-declare `#[Piwik\Http\JsonResponse]` (attributes are not inherited).
+* Exporting a report for a single goal (a goals table or a bar/pie/evolution chart showing one goal's
+  conversions or revenue) now returns only the columns shown in the UI, by adding `showColumns` to the
+  export request. Previously the export returned the aggregated all-goals columns and every other
+  goal's columns as well. Integrations that reuse an export URL copied from the UI will receive a
+  narrower set of columns than before.
 * The deprecated Piwik-era color aliases `@color-black-piwik`, `@color-blue-piwik`, `@color-red-piwik` and `@color-green-piwik` have been removed from `plugins/Morpheus/stylesheets/base/colors.less`. Use `@color-black-matomo`, `@color-blue-matomo`, `@color-red-matomo` and `@color-green-matomo` instead.
 * The third-party brand color variables `@color-orange-brand` (`#f57c00`), `@color-green-brandSocial` (`#009874`), `@color-blue-brandSocial` (`#3b5998`), `@color-blue-brandSocialLight` (`#1c87bd`) and `@color-blue-brandSocialVeryLight` (`#00aced`) have been removed. They described other companies' brands rather than Matomo's own palette; a plugin that still needs one of these colors should use the literal value.
 * The never-referenced palette tokens `@color-gray-light` (`#f0f0f0`), `@color-gray-bright` (`#EBF2EB`), `@color-gray-400` (`#BCBCBC`), `@color-jetstream` (`#c3d9c4`), `@color-silver-l14`, `@color-silver-l50`, `@color-silver-l70` and `@color-silver-l98` have been removed. Use one of the remaining `@color-silver-*` variables, a `@theme-color-*` variable or a literal value instead.
@@ -79,6 +84,12 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   (`force_api_session`) nor the acting user (`token_auth`); outside a session a nested request may still
   authenticate with its own `token_auth`, but may not change the session flag. A nested request whose
   parameters conflict with the outer request's authentication context aborts the whole bulk request.
+* A new `keep_flattened_dimension_columns` parameter keeps the columns a flattened report adds for its
+  dimensions when the request also restricts columns with `showColumns`. Flattening with
+  `flat=1&show_dimensions=1` adds one column per dimension, but their names only exist after
+  flattening, so a caller cannot include them in a `showColumns` allowlist and `ColumnDelete` would
+  drop them. Setting `keep_flattened_dimension_columns=1` re-adds them after flattening. It defaults
+  to `0`, so `showColumns` on its own behaves exactly as before.
 
 ### Deprecations
 * The component-oriented theme variable `@theme-color-widget-background` (`ThemeStyles::$colorWidgetBackground`)
