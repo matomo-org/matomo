@@ -12,6 +12,8 @@ namespace Piwik;
 use Matomo\Cache\Lazy;
 use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
+use Piwik\Http\EgressBlockedException;
+use Piwik\Log\LoggerInterface;
 use Piwik\Plugins\SitesManager\SiteContentDetection\ConsentManagerDetectionAbstract;
 use Piwik\Plugins\SitesManager\SiteContentDetection\SiteContentDetectionAbstract;
 
@@ -354,8 +356,9 @@ class SiteContentDetector
         $siteData = [];
 
         try {
+            // @todo PHP 8.1 min (Matomo 6): use named arguments to drop the positional null/false filler.
             $siteData = Http::sendHttpRequestBy(
-                Http::getTransportMethod(),
+                'curl',
                 $url,
                 $timeOut,
                 null,
@@ -363,11 +366,31 @@ class SiteContentDetector
                 null,
                 0,
                 false,
-                true,
+                true, // $acceptInvalidSslCertificate: detected sites may use self-signed certs
                 false,
-                true
+                true, // $getExtendedInfo
+                'GET',
+                null,
+                null,
+                null,
+                [],
+                null,
+                true, // $checkHostIsAllowed
+                true // $validateEgressIp: SSRF-safe fetch of the site's own (user-set) URL
             );
+        } catch (EgressBlockedException $e) {
+            // admin-fixable rejection, not a transient network error, so it must clear the default WARN level
+            StaticContainer::get(LoggerInterface::class)->warning('Site content detection request for {url} was refused: {message}', [
+                // host only, so a configured URL carrying userinfo keeps credentials out of the log
+                'url' => UrlHelper::getHostFromUrl($url),
+                'message' => $e->getMessage(),
+            ]);
         } catch (\Exception $e) {
+            // intentionally fail closed, but leave a diagnostic trail
+            StaticContainer::get(LoggerInterface::class)->debug('Site content detection request for {url} failed: {message}', [
+                'url' => UrlHelper::getHostFromUrl($url),
+                'message' => $e->getMessage(),
+            ]);
         }
 
         return $siteData;

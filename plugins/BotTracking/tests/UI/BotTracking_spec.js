@@ -54,7 +54,7 @@ describe("BotTracking", function () {
 
         await page.mouse.move(0, 0);
 
-        const sparklines = await page.$$('.sparkline-metrics');
+        const sparklines = await page.$$('.metricValue');
         expect(sparklines.length).to.equal(8);
 
         var elem = await page.$('.pageWrap');
@@ -73,7 +73,7 @@ describe("BotTracking", function () {
         const availableMetrics = await page.$$('.metrics-picker__options input');
         expect(availableMetrics.length).to.equal(6);
 
-        const sparklines = await page.$$('.sparkline-metrics');
+        const sparklines = await page.$$('.metricValue');
         expect(sparklines.length).to.equal(6);
     });
 

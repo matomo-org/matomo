@@ -35,6 +35,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Widget\WidgetsList;
 use Exception;
 use ReflectionMethod;
+use ReflectionProperty;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/ScheduledReports/ScheduledReports.php';
 
@@ -813,6 +814,45 @@ class ApiTest extends IntegrationTestCase
         self::assertSame('Weekly traffic overview', $renderedReport['frontPageDescription']);
     }
 
+    public function testGenerateReportRefusesStreamingOutputInsideNestedApiRequest()
+    {
+        $this->setNestedApiInvocationCount(2);
+
+        try {
+            $this->expectException(Exception::class);
+            $this->expectExceptionMessage('A report can only be sent to the browser by the top-level request.');
+
+            APIScheduledReports::getInstance()->generateReport(
+                1,
+                '2024-01-01',
+                false,
+                APIScheduledReports::OUTPUT_DOWNLOAD
+            );
+        } finally {
+            $this->setNestedApiInvocationCount(0);
+        }
+    }
+
+    public function testGenerateReportAllowsNonStreamingOutputInsideNestedApiRequest()
+    {
+        $this->setNestedApiInvocationCount(2);
+
+        try {
+            // the report lookup is only reached when the output mode is not refused upfront
+            $this->expectException(Exception::class);
+            $this->expectExceptionMessage("Requested report couldn't be found.");
+
+            APIScheduledReports::getInstance()->generateReport(
+                1,
+                '2024-01-01',
+                false,
+                APIScheduledReports::OUTPUT_RETURN
+            );
+        } finally {
+            $this->setNestedApiInvocationCount(0);
+        }
+    }
+
     public function testGetDisplayDescriptionFallsBackToNameForLegacyReports()
     {
         $report = new GeneratedReport([
@@ -1418,5 +1458,12 @@ class ApiTest extends IntegrationTestCase
     {
         FakeAccess::clearAccess();
         FakeAccess::$identity = 'anonymous';
+    }
+
+    private function setNestedApiInvocationCount(int $count): void
+    {
+        $reflectionProperty = new ReflectionProperty(Request::class, 'nestedApiInvocationCount');
+        $reflectionProperty->setAccessible(true);
+        $reflectionProperty->setValue(null, $count);
     }
 }

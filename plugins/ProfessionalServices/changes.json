@@ -1,5 +1,10 @@
 [
   {
+    "title": "Cohorts and Funnels now available as dashboard widgets!",
+    "description": "You can now embed Cohorts and Funnels reports directly into your Matomo dashboard for quicker access to retention and conversion metrics. These updates provide a more flexible way to track user behaviour over time and optimise key journeys.",
+    "version": "5.13.0"
+  },
+  {
     "title": "Bring AI-powered analytics into your workflows",
     "description": "The new MCP Server lets you connect Matomo to tools like ChatGPT or Claude, so you can ask questions in your language and get instant answers based on your real data. Generate reports, explore trends, and unlock insights - without digging through dashboards.",
     "link_name": "Learn more",

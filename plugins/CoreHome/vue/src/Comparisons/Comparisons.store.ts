@@ -7,6 +7,7 @@
 
 import {
   reactive,
+  ref,
   watch,
   computed,
   readonly,
@@ -84,7 +85,7 @@ export default class ComparisonsStore {
 
   readonly state = readonly(this.privateState); // for tests
 
-  private colors: { [key: string]: string } = {};
+  private colors = ref<{ [key: string]: string }>({});
 
   readonly segmentComparisons = computed(() => this.parseSegmentComparisons());
 
@@ -103,7 +104,7 @@ export default class ComparisonsStore {
     }
 
     $(() => {
-      this.colors = this.getAllSeriesColors() as { [key: string]: string };
+      this.colors.value = this.getAllSeriesColors() as { [key: string]: string };
     });
 
     watch(
@@ -163,11 +164,11 @@ export default class ComparisonsStore {
     ) % SERIES_COLOR_COUNT;
 
     if (metricIndex === 0) {
-      return this.colors[`series${seriesIndex}`];
+      return this.colors.value[`series${seriesIndex}`];
     }
 
     const shadeIndex = metricIndex % SERIES_SHADE_COUNT;
-    return this.colors[`series${seriesIndex}-shade${shadeIndex}`];
+    return this.colors.value[`series${seriesIndex}-shade${shadeIndex}`];
   }
 
   getSeriesColorName(seriesIndex: number, metricIndex: number): string {
@@ -210,7 +211,7 @@ export default class ComparisonsStore {
         seriesInfo.push({
           index: seriesIndex,
           params: { ...segmentComp.params, ...periodComp.params },
-          color: this.colors[`series${seriesIndex}`],
+          color: this.colors.value[`series${seriesIndex}`],
         });
         seriesIndex += 1;
       });

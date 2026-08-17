@@ -1,0 +1,9 @@
+<?php
+/**
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+?>
+<script src="../../plugins/Overlay/javascripts/Piwik_Overlay.js" type="text/javascript"></script>
