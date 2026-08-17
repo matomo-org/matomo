@@ -76,6 +76,17 @@ class SparklineTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * The sparkline card mirrors MAX_WIDTH / 2 client side as the widest size it will ever display
+     * (see useSparklineSlotSize.ts), so that a request is never silently clamped above. Pin both
+     * values here: changing one without the other would let the clamp distort the aspect ratio.
+     */
+    public function testMaxDimensionsMatchTheValuesMirroredClientSide(): void
+    {
+        $this->assertSame(1600, Sparkline::MAX_WIDTH);
+        $this->assertSame(128, Sparkline::MAX_HEIGHT);
+    }
+
+    /**
      * @dataProvider getInvalidDimensions
      */
     public function testSetWidthIgnoresInvalidValues($invalidValue): void

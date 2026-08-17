@@ -23,10 +23,16 @@ class Sparkline implements ViewInterface
     public const DEFAULT_HEIGHT = 50;
     public const LINE_THICKNESS = 4;
     public const POINT_SIZE = 6;
-    // We now create different sized width for Sparklines based on the card designs
-    // This max width will still be adjusted as we create new Sparkline modes.
-    public const MAX_WIDTH = 1000;
-    public const MAX_HEIGHT = 250;
+    // Sparkline cards measure their own container and request the image at exactly that size,
+    // rendered at twice the displayed size for hi-DPI screens. MAX_WIDTH is therefore twice the
+    // widest sparkline the UI can display; the client mirrors MAX_WIDTH / 2 as its own cap so a
+    // request is never silently clamped here (which would distort the aspect ratio). The widest
+    // card a grid track can produce is ~681px, so 1600 leaves headroom.
+    // The two caps also bound how much memory one request can allocate: the drawing library
+    // supersamples 4x before resampling, so the peak is (MAX_WIDTH * 4) * (MAX_HEIGHT * 4) pixels.
+    public const MAX_WIDTH = 1600;
+    // The tallest sparkline the UI asks for is 128 (the legacy 50px Twig default at 2x is 100).
+    public const MAX_HEIGHT = 128;
 
 
     /**
