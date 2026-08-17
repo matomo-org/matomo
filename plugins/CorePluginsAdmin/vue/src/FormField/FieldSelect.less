@@ -1,3 +1,80 @@
 .matomo-field-select label {
   top: -14px; // compensate for extra div added in vue
 }
+
+// Materialize builds the select markup at runtime (.select-wrapper, the readonly
+// input.select-dropdown and the caret), so these overrides have to target its classes
+// rather than owned ones. Border, radius, spacing and type mirror
+// FieldExpandableSelect.less so the two controls match when they sit side by side,
+// as they do in the segment editor and Tag Manager condition rows.
+.matomo-field-select {
+  .select-wrapper {
+    display: flex;
+    align-items: safe center;
+    border: 1px solid @theme-color-border;
+    border-radius: 8px;
+    background: @theme-color-background-contrast;
+    cursor: pointer;
+  }
+
+  .select-wrapper:hover,
+  .select-wrapper:focus-within {
+    border-color: @theme-color-link;
+  }
+
+  // override: Materialize's underline, 3rem height and bottom margin. The tag is
+  // needed because the dropdown panel is a ul carrying the same class.
+  .select-wrapper input.select-dropdown {
+    flex: auto;
+    height: auto;
+    font-size: 14px;
+    line-height: 20px;
+    margin: 0;
+    padding: 8px 16px;
+    border: 0;
+    background: transparent;
+    color: @theme-color-text;
+    cursor: pointer;
+  }
+
+  // override: Materialize draws a filled triangle caret; the design system uses the
+  // chevron icon, so its svg is hidden and the chevron drawn in its place.
+  .select-wrapper .caret {
+    display: none;
+  }
+
+  .select-wrapper::after {
+    content: "\e908"; // icon-chevron-down
+    font-family: 'matomo';
+    padding-right: 16px;
+    line-height: 1;
+    color: @theme-color-text;
+    pointer-events: none;
+  }
+
+  // override: Materialize's dropdown panel, restyled as the card FieldExpandableSelect
+  // uses. Materialize sets height and overflow inline for long lists, so neither is set
+  // here — the radius still clips the scrolling content.
+  .select-wrapper .dropdown-content {
+    border: 1px solid @theme-color-border;
+    border-radius: 8px;
+    background: @theme-color-background-contrast;
+    box-shadow: 0 0 3px #A5B1CA4D, 0 10px 40px #A5B1CA4D;
+
+    .inDarkMode({
+      box-shadow: 0 0 3px #00000080, 0 10px 40px #00000080;
+    });
+  }
+
+  // override: Materialize sizes rows to a 50px Material touch target, which is much
+  // looser than the rest of the design system; the row is the padded span instead.
+  .select-wrapper .dropdown-content li {
+    min-height: 0;
+  }
+
+  .select-wrapper .dropdown-content li > span {
+    font-size: 14px;
+    line-height: 20px;
+    padding: 8px 16px;
+  }
+}

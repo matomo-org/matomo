@@ -86,8 +86,11 @@
     }
 
     .segment-input {
+      // the restyled selects size and type themselves from FieldSelect/
+      // FieldExpandableSelect so they match the site selector; this compact
+      // styling stays for the plain value input
       select,
- input {
+      input:where(:not(.select-dropdown)) {
         .font-default(12px, 14px);
 
         color: @theme-color-text;

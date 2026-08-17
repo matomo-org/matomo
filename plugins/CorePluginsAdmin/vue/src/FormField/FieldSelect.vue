@@ -73,6 +73,9 @@ export interface OptionGroup {
   disabled?: boolean;
 }
 
+// distance between the field and its open panel, matching FieldExpandableSelect.less
+const DROPDOWN_GAP = 8;
+
 function initMaterialSelect(
   select: HTMLSelectElement|undefined|null,
   modelValue: string|number|string[],
@@ -96,7 +99,47 @@ function initMaterialSelect(
     }
   });
 
-  $select.formSelect(uiControlOptions);
+  const callerDropdownOptions = (uiControlOptions as Record<string, unknown>)
+    .dropdownOptions as Record<string, unknown>|undefined;
+
+  // Materialize covers the trigger by default; the design system opens the panel below
+  // the field, as FieldExpandableSelect does. A caller-supplied value still wins.
+  $select.formSelect({
+    ...uiControlOptions,
+    dropdownOptions: {
+      coverTrigger: false,
+      ...callerDropdownOptions,
+      onOpenStart(trigger: Element) {
+        // Materialize positions the panel flush against the trigger, and no CSS offset can
+        // change that: it clears the inline top, measures the panel, and writes back the
+        // difference, so a margin is measured and then cancelled. Placement happens
+        // synchronously after this callback, so correcting on the next animation frame
+        // lands after the final top is set and before the panel is first painted. The
+        // same measure-and-cancel behaviour discards this correction on the next open,
+        // so it cannot accumulate.
+        window.requestAnimationFrame(() => {
+          const wrapper = trigger.closest('.select-wrapper') as HTMLElement|null;
+          const panel = wrapper?.querySelector('ul.dropdown-content') as HTMLElement|null;
+          if (!wrapper || !panel) {
+            return;
+          }
+
+          const wrapperRect = wrapper.getBoundingClientRect();
+          const openedAbove = panel.getBoundingClientRect().top < wrapperRect.top;
+          // the trigger sits inside the wrapper's border, which the gap has to clear too
+          const borderWidth = parseFloat(getComputedStyle(wrapper).borderTopWidth) || 0;
+          const offset = DROPDOWN_GAP + borderWidth;
+
+          const currentTop = parseFloat(panel.style.top) || 0;
+          panel.style.top = `${currentTop + (openedAbove ? -offset : offset)}px`;
+        });
+
+        if (typeof callerDropdownOptions?.onOpenStart === 'function') {
+          (callerDropdownOptions.onOpenStart as (el: Element) => void).call(this, trigger);
+        }
+      },
+    },
+  });
 
   // add placeholder to input
   if (placeholder) {
