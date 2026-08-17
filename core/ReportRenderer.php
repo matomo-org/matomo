@@ -172,6 +172,10 @@ abstract class ReportRenderer extends BaseFactory
      */
     protected static function getOutputPath($filename)
     {
+        // Keep the generated file inside the assets directory: strip any directory components so the
+        // filename can never point outside $baseAssetsDir when it is concatenated below.
+        $filename = basename($filename);
+
         $baseAssetsDir = StaticContainer::get('path.tmp') . '/assets/';
         $outputFilename = $baseAssetsDir . $filename;
 
