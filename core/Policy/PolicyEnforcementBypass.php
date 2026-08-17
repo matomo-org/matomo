@@ -18,7 +18,10 @@ namespace Piwik\Policy;
  */
 class PolicyEnforcementBypass
 {
-    private static bool $active = false;
+    /**
+     * @var bool
+     */
+    private static $active = false;
 
     public static function isActive(): bool
     {

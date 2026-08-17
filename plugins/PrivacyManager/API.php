@@ -57,9 +57,15 @@ class API extends \Piwik\Plugin\API
      */
     private $logDataAnonymizer;
 
-    private ComplianceSettingsProvider $complianceSettingsProvider;
+    /**
+     * @var ComplianceSettingsProvider
+     */
+    private $complianceSettingsProvider;
 
-    private FeatureFlagManager $featureFlagManager;
+    /**
+     * @var FeatureFlagManager
+     */
+    private $featureFlagManager;
 
     public function __construct(
         DataSubjects $gdpr,
