@@ -74,12 +74,12 @@ class FakePolicySetting implements PolicyComparisonInterface, SettingValueInterf
         return false;
     }
 
-    public static function getWhatItDoes(): string
+    public static function getWhatItDoes(?int $idSite = null): string
     {
         return 'fake policy setting what it does';
     }
 
-    public static function getImpact(): string
+    public static function getImpact(?int $idSite = null): string
     {
         return 'fake policy setting impact';
     }
