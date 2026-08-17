@@ -49,9 +49,9 @@
 	<columns>
 		<label>MyName3</label>
 		<nb_hits>Actions</nb_hits>
-		<nb_hits_percent_of_total>Actions (%)</nb_hits_percent_of_total>
+		<nb_hits_percent_of_total>Actions (% of total)</nb_hits_percent_of_total>
 		<nb_visits>Unique Actions</nb_visits>
-		<nb_visits_percent_of_total>Unique Actions (%)</nb_visits_percent_of_total>
+		<nb_visits_percent_of_total>Unique Actions (% of total)</nb_visits_percent_of_total>
 		<avg_time_on_dimension>Avg. Time On Dimension</avg_time_on_dimension>
 		<bounce_rate>Bounce Rate</bounce_rate>
 		<exit_rate>Exit rate</exit_rate>

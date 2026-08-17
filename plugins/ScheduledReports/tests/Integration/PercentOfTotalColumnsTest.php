@@ -61,7 +61,7 @@ class PercentOfTotalColumnsTest extends IntegrationTestCase
     {
         $report = $this->generateReport(ReportRenderer::CSV_FORMAT, 'UserCountry_getCountry');
 
-        self::assertStringContainsString('Visits (%)', $report);
+        self::assertStringContainsString('Visits (% of total)', $report);
         // the internal column name must not leak into the export
         self::assertStringNotContainsString('nb_visits_percent_of_total', $report);
 
@@ -69,10 +69,10 @@ class PercentOfTotalColumnsTest extends IntegrationTestCase
         $header = explode(',', $headerLine);
 
         // the percentage is shown directly after the metric it belongs to
-        self::assertSame('Visits (%)', $header[array_search('nb_visits', $header, true) + 1]);
-        self::assertSame('Actions (%)', $header[array_search('nb_actions', $header, true) + 1]);
+        self::assertSame('Visits (% of total)', $header[array_search('nb_visits', $header, true) + 1]);
+        self::assertSame('Actions (% of total)', $header[array_search('nb_actions', $header, true) + 1]);
 
-        // label, nb_uniq_visitors, nb_visits, Visits (%), nb_actions, Actions (%)
+        // label, nb_uniq_visitors, nb_visits, Visits (% of total), nb_actions, Actions (% of total)
         self::assertStringContainsString('France,3,3,75%,3,75%', $report);
         self::assertStringContainsString('Germany,1,1,25%,1,25%', $report);
     }
@@ -83,8 +83,8 @@ class PercentOfTotalColumnsTest extends IntegrationTestCase
 
         // the report has a report total for bounces and conversions, but shows neither as a
         // column, so a percentage of that total would stand on its own
-        self::assertStringNotContainsString('Bounces (%)', $report);
-        self::assertStringNotContainsString('Visits with Conversions (%)', $report);
+        self::assertStringNotContainsString('Bounces (% of total)', $report);
+        self::assertStringNotContainsString('Visits with Conversions (% of total)', $report);
     }
 
     public function testNonAdditiveMetricsGetNoPercentageColumn(): void
@@ -92,14 +92,14 @@ class PercentOfTotalColumnsTest extends IntegrationTestCase
         $report = $this->generateReport(ReportRenderer::CSV_FORMAT, 'UserCountry_getCountry');
 
         self::assertStringContainsString('nb_uniq_visitors', $report);
-        self::assertStringNotContainsString('Unique Visitors (%)', $report);
+        self::assertStringNotContainsString('Unique Visitors (% of total)', $report);
     }
 
     public function testTsvReportUsesTheColumnTranslationAsHeader(): void
     {
         $report = $this->generateReport(ReportRenderer::TSV_FORMAT, 'UserCountry_getCountry');
 
-        self::assertStringContainsString('Visits (%)', $report);
+        self::assertStringContainsString('Visits (% of total)', $report);
         self::assertStringNotContainsString('nb_visits_percent_of_total', $report);
         self::assertStringContainsString("France\t3\t3\t75%\t3\t75%", $report);
     }
@@ -108,7 +108,7 @@ class PercentOfTotalColumnsTest extends IntegrationTestCase
     {
         $report = $this->generateReport(ReportRenderer::HTML_FORMAT, 'UserCountry_getCountry');
 
-        self::assertStringContainsString('Visits (%)', $report);
+        self::assertStringContainsString('Visits (% of total)', $report);
         self::assertStringContainsString('75%', $report);
     }
 
@@ -118,7 +118,7 @@ class PercentOfTotalColumnsTest extends IntegrationTestCase
 
         self::assertStringContainsString('bounce_rate', $report);
         self::assertStringNotContainsString('bounce_rate_percent_of_total', $report);
-        self::assertStringNotContainsString('Bounce Rate (%)', $report);
+        self::assertStringNotContainsString('Bounce Rate (% of total)', $report);
     }
 
     public function testReportComputingItsOwnVisitsPercentageKeepsOnlyThatColumn(): void
@@ -127,7 +127,7 @@ class PercentOfTotalColumnsTest extends IntegrationTestCase
 
         // the report computes a visits percentage itself, a second one would be redundant
         self::assertStringContainsString('nb_visits_percentage', $report);
-        self::assertStringNotContainsString('Visits (%)', $report);
+        self::assertStringNotContainsString('Visits (% of total)', $report);
         self::assertStringNotContainsString('nb_visits_percent_of_total', $report);
     }
 
@@ -135,7 +135,7 @@ class PercentOfTotalColumnsTest extends IntegrationTestCase
     {
         $report = $this->generateReport(ReportRenderer::CSV_FORMAT, 'VisitsSummary_get');
 
-        self::assertStringNotContainsString('(%)', $report);
+        self::assertStringNotContainsString('(% of total)', $report);
         self::assertStringNotContainsString('_percent_of_total', $report);
     }
 
@@ -151,7 +151,7 @@ class PercentOfTotalColumnsTest extends IntegrationTestCase
             'getCountry'
         );
 
-        self::assertSame('Visits (%)', $processed['columns']['nb_visits_percent_of_total']);
+        self::assertSame('Visits (% of total)', $processed['columns']['nb_visits_percent_of_total']);
         self::assertSame('75%', $processed['reportData']->getFirstRow()->getColumn('nb_visits_percent_of_total'));
     }
 

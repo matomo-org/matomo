@@ -50,11 +50,11 @@
 	<columns>
 		<label>Product SKU</label>
 		<revenue>Product Revenue</revenue>
-		<revenue_percent_of_total>Product Revenue (%)</revenue_percent_of_total>
+		<revenue_percent_of_total>Product Revenue (% of total)</revenue_percent_of_total>
 		<quantity>Quantity</quantity>
 		<orders>Unique Purchases</orders>
 		<nb_visits>Visits</nb_visits>
-		<nb_visits_percent_of_total>Visits (%)</nb_visits_percent_of_total>
+		<nb_visits_percent_of_total>Visits (% of total)</nb_visits_percent_of_total>
 		<avg_price>Average Price</avg_price>
 		<avg_quantity>Average Quantity</avg_quantity>
 		<conversion_rate>Product Conversion Rate</conversion_rate>
