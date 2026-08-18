@@ -34,28 +34,23 @@
 // margin-free; the gap before the sparkline is owned by `__sparkline`'s margin-top below, so
 // segment-only spacing is unchanged.
 
-// Per-segment sparkline slot: same fixed height + fluid image cap as the no-comparison slot. The
-// max-width must match <Sparkline :width> in SegmentComparisonRow.vue (the PNG is rendered at 2x
-// that): the base width for segment-only, the wider variant for segment + date.
+// Per-segment sparkline slot: same fixed height as the no-comparison slot, and the same measured
+// sizing. This height is the only place the displayed sparkline height is set —
+// SegmentComparisonRow.vue measures the slot on mount and requests the image at exactly that size.
 .sparklineSegmentComparisonRow__sparkline {
   height: 40px;
   margin-top: 4px;
   display: flex;
-  align-items: safe center;
+  align-items: center;
 
   // override: the reused CoreHome Sparkline renders an external <img class="sparklineImg"> we can't
-  // rename; size it fluidly to the slot, capped at the base width.
+  // rename; draw it at the size SegmentComparisonRow.vue measured, published as custom properties
+  // on the slot. See SparklineCard.less for why the padding reset and the max-width valve are here.
   .sparklineImg {
     display: block;
-    width: 100%;
-    height: auto;
-    max-width: 380px;
+    padding: 0;
+    width: var(--sparklineSegmentComparisonRow-img-width, 100%);
+    height: var(--sparklineSegmentComparisonRow-img-height, auto);
+    max-width: 100%;
   }
-}
-
-// Segment + date rows draw one series per compared date, so the sparkline is wider (matching the
-// date-comparison card). Keep 380px / 760px in sync with sparklineWidth in SegmentComparisonRow.vue
-// (the PNG is rendered at 2x these caps).
-.sparklineSegmentComparisonRow__sparkline--wide .sparklineImg {
-  max-width: 760px;
 }
