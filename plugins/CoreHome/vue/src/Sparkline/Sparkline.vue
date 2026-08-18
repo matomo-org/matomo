@@ -8,11 +8,14 @@
 <template>
   <img
     class="sparklineImg"
+    :class="{ 'sparklineImg--loading': !hasLoaded }"
     loading="lazy"
     alt=""
     :src="sparklineUrl"
     :width="width"
     :height="height"
+    @load="hasLoaded = true"
+    @error="hasLoaded = true"
   />
 </template>
 
@@ -36,6 +39,10 @@ export default defineComponent({
     return {
       isWidget: false,
       themeMode: Matomo.getThemeMode(),
+      // False whenever a request is in flight, so consumers can show a placeholder while there is
+      // nothing to display. Assigning a new src makes the browser drop the bitmap it was showing
+      // immediately, so this covers resizes and theme changes as well as the first load.
+      hasLoaded: false,
     };
   },
   mounted() {
@@ -44,6 +51,13 @@ export default defineComponent({
   },
   beforeUnmount() {
     window.removeEventListener('themeModeChange', this.onThemeModeChange);
+  },
+  watch: {
+    // A new url is a new request: the image the browser was showing is dropped the moment src is
+    // reassigned, so go back to the placeholder until the replacement arrives.
+    sparklineUrl() {
+      this.hasLoaded = false;
+    },
   },
   computed: {
     sparklineUrl() {
