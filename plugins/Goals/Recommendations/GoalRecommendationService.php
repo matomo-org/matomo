@@ -296,7 +296,7 @@ class GoalRecommendationService
      */
     private function getDailyAiScanLimit(): int
     {
-        return (int) (Config::getInstance()->Goals['ai_recommendation_daily_scan_limit'] ?? 0);
+        return (int) (Config::getInstance()->Goals['recommendation_ai_daily_scan_limit'] ?? 0);
     }
 
     /**

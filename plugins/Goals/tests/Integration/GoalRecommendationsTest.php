@@ -236,7 +236,7 @@ class GoalRecommendationsTest extends IntegrationTestCase
 
     public function testGetRecommendationsSkipsAiWhenDailyScanLimitIsReached()
     {
-        Config::getInstance()->Goals = ['ai_recommendation_daily_scan_limit' => 2];
+        Config::getInstance()->Goals = ['recommendation_ai_daily_scan_limit' => 2];
 
         $store = new RecommendationStore();
         $store->recordAiScan($this->idSite);
@@ -255,7 +255,7 @@ class GoalRecommendationsTest extends IntegrationTestCase
 
     public function testGetRecommendationsDoesNotConsumeQuotaWhenAiIsUnavailable()
     {
-        Config::getInstance()->Goals = ['ai_recommendation_daily_scan_limit' => 2];
+        Config::getInstance()->Goals = ['recommendation_ai_daily_scan_limit' => 2];
 
         $result = $this->makeRecommendationService($this->createMock(AiRecommender::class))
             ->getRecommendations($this->idSite, true);

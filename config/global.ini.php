@@ -874,9 +874,6 @@ enable_general_settings_admin = 1
 ; its plugins and components like the GeoIP database, referrer spam blacklist or search engines and social network definitions
 enable_internet_features = 1
 
-; Maximum number of same-origin pages fetched when analysing a website for goal recommendations
-goal_recommendations_max_crawl_pages = 50
-
 ; By setting this option to 0, it will disable the "Auto update" feature
 enable_auto_update = 1
 
@@ -1628,5 +1625,13 @@ CommonPIIParams[] = webhooksecret
 CommonPIIParams[] = website
 CommonPIIParams[] = zip
 CommonPIIParams[] = zipcode
+
+[Goals]
+; Maximum number of same-origin pages fetched when analysing a website for goal recommendations
+recommendation_max_crawl_pages = 50
+
+; Maximum number of AI-assisted goal recommendation scans allowed per site and day.
+; Set to 0 for no limit. Useful for managed environments to cap AI provider usage.
+recommendation_ai_daily_scan_limit = 0
 
 ; NOTE: do not directly edit this file! See notice at the top

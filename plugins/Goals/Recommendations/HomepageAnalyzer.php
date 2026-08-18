@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Piwik\Plugins\Goals\Recommendations;
 
+use Piwik\Config;
 use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\Http;
@@ -199,7 +200,7 @@ class HomepageAnalyzer
         $pages = [];
         $htmlByUrl = [$startUrl => $homepageHtml];
         $deadline = microtime(true) + self::MAX_CRAWL_SECONDS;
-        $maxPages = max(1, GeneralConfig::getIntegerConfigValue('goal_recommendations_max_crawl_pages', self::MAX_PAGES));
+        $maxPages = max(1, (int) (Config::getInstance()->Goals['recommendation_max_crawl_pages'] ?? self::MAX_PAGES));
 
         while (!empty($queue) && count($pages) < $maxPages && microtime(true) < $deadline) {
             $currentUrl = array_shift($queue);
