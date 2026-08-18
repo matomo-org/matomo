@@ -63,8 +63,10 @@ function ringArea(ring) {
   return area / 2;
 }
 
+// kartograph rewinds every ring positive before summing, so holes and islands add up rather
+// than cancel out; match that or this picks a different set of neighbours than production.
 function pathArea(rings) {
-  return rings.reduce((total, ring) => total + ringArea(ring), 0);
+  return rings.reduce((total, ring) => total + Math.abs(ringArea(ring)), 0);
 }
 
 function distance(rings, x, y) {
@@ -115,13 +117,15 @@ describe('UserCountryMap.countryLabelPosition', function () {
       return;
     }
     const neighbours = Object.keys(paths).filter((iso) => iso !== name
-      && Math.abs(pathArea(paths[iso])) > window.UserCountryMap.countryLabelMinArea);
+      && pathArea(paths[iso]) > window.UserCountryMap.countryLabelMinArea);
     maps.push({ name, paths, bounds, neighbours });
   });
 
+  // Floors, not exact counts: they catch a parser or map-data change that silently drops cases
+  // from the sweep below. Raise them when maps are added.
   it('validates every region map and every labelled neighbour', function () {
-    expect(maps.length).toBeGreaterThan(200);
-    expect(maps.reduce((total, map) => total + map.neighbours.length, 0)).toBeGreaterThan(700);
+    expect(maps.length).toBeGreaterThanOrEqual(247);
+    expect(maps.reduce((total, map) => total + map.neighbours.length, 0)).toBeGreaterThanOrEqual(842);
   });
 
   it('keeps the anchor out of a selected country the neighbour wraps around', function () {
