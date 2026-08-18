@@ -62,12 +62,22 @@
 }
 
 .siteSelector.piwikSelector a.title {
+  // laid out as a row so the name shrinks only when it has to: it keeps the 161px cap
+  // where there is room, and the chevron always keeps its own width and gap instead of
+  // being run into by a long name
+  display: flex;
+  align-items: center;
+
   > span {
-    // keep the previous cap, but never let an ellipsised name reach the chevron:
-    // in a control narrower than 161px the text used to run straight into it
-    max-width: ~"min(161px, calc(100% - 24px))";
+    max-width: 161px;
+    min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  // never shrink the chevron; its own box already leaves an 8px gap
+  > span.icon {
+    flex: none;
   }
 
   span {
