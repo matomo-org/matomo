@@ -22,6 +22,9 @@
   // cqi units. Standalone readouts have no nearer container, so they size to the card; comparison
   // columns set their own container and override it. inline-size contains only the inline axis, so
   // the card's height still grows with its content.
+  // The sparkline sizing depends on this too: size containment means the card's width is computed
+  // as if it had no contents, which is what stops the measured sparkline image from being able to
+  // feed back into the width it was measured from (see useSparklineSlotSize.ts).
   container-type: inline-size;
 }
 
@@ -65,33 +68,28 @@
 }
 
 // Shared sparkline slot, rendered by the shell after either body (both put the sparkline last).
-// Fixed height keeps the card height constant regardless of the image; centering sits the image
-// mid-slot once it scales shorter than the slot, and stops flex's default `stretch` from forcing
-// it back to full height. `safe` keeps it reachable if it ever overflows.
+// This height is the only place the displayed sparkline height is set: SparklineCard.vue measures
+// the slot on mount and requests the image at exactly that size, so nothing has to keep a second
+// copy of the number in sync. Centering stops flex's default `stretch` from inflating the image.
 .sparklineCard__sparkline {
-  // Displayed sparkline size: the height pins the slot; the width caps the fluid image so it never
-  // renders taller than the slot. The width must match the <Sparkline :width> in SparklineCard.vue
-  // (the PNG is rendered at 2x that). Height stays 40 in both modes.
-  @_height: 40px;
-  @_width: 380px;
-
-  height: @_height;
+  height: 40px;
   display: flex;
-  align-items: safe center;
+  align-items: center;
 
   // override: the reused CoreHome Sparkline renders an external <img class="sparklineImg"> we can't
-  // rename; size it fluidly to the slot (height from the width:40 aspect ratio, capped at the base
-  // width so it never exceeds the fixed slot). The 2x source stays crisp as it scales.
+  // rename; draw it at the size SparklineCard.vue measured, published as custom properties on the
+  // slot. The width/height HTML attributes can't do this on their own — presentational hints lose
+  // to any author rule, and CoreHome's `img.sparklineImg` sets a 100x25 default.
   .sparklineImg {
     display: block;
-    width: 100%;
-    height: auto;
-    max-width: @_width;
+    // override: CoreHome's `.sparkline img` (coreHome.less) pads the legacy sparkline's right side.
+    // The card root carries `.sparkline` as a JS contract so that rule matches here too, and under
+    // the global border-box it would eat 10px out of the image's content box, squashing it.
+    padding: 0;
+    width: var(--sparklineCard-img-width, 100%);
+    height: var(--sparklineCard-img-height, auto);
+    // Safety valve for the moment between the slot shrinking and the debounced re-measure landing:
+    // Morpheus' `div.sparkline img { flex-shrink: 0 }` would otherwise let the image overflow.
+    max-width: 100%;
   }
-}
-
-// Comparison cards are wider, so their sparkline gets a wider cap to fill the extra room. 760 must
-// match the wide <Sparkline :width> in SparklineCard.vue (the PNG is rendered at 2x that).
-.sparklineCard__sparkline--wide .sparklineImg {
-  max-width: 760px;
 }

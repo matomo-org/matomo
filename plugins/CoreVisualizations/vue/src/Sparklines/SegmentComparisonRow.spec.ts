@@ -5,6 +5,7 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+import { nextTick } from 'vue';
 import { mount } from '@vue/test-utils';
 
 // The row mounts the real MetricValue (Tooltips directive, NumberFormatter) and the reused
@@ -53,7 +54,23 @@ function createWrapper(props = {}) {
   return mount(SegmentComparisonRow as any, { props: { segment: segment(), ...props } });
 }
 
+// The row measures its sparkline slot and holds the sparkline back until it has a size; jsdom
+// reports 0 for every element, so give the slot a width the way a real layout would.
+function stubSlotWidth() {
+  beforeEach(() => {
+    vi.spyOn(Element.prototype, 'getBoundingClientRect')
+      .mockReturnValue({ width: 420, height: 40 } as DOMRect);
+  });
+
+  afterEach(() => {
+    // vitest.config.ts sets clearMocks: false, so the rect spy has to be restored explicitly.
+    vi.restoreAllMocks();
+  });
+}
+
 describe('CoreVisualizations/SegmentComparisonRow', () => {
+  stubSlotWidth();
+
   it('renders the segment name as a chip, with the full name as a hover-recovery title', () => {
     const chip = createWrapper().find('.sparklineSegmentComparisonRow__chip');
 
@@ -72,14 +89,18 @@ describe('CoreVisualizations/SegmentComparisonRow', () => {
     expect(createWrapper().find('.metricValue__title').exists()).toBe(false);
   });
 
-  it('renders its own single-series sparkline with the entry url and series index', () => {
-    const sparkline = createWrapper().findComponent({ name: 'Sparkline' });
+  it('renders its own single-series sparkline with the entry url and series index', async () => {
+    // The row measures its slot in onMounted, so the sparkline lands on the next tick.
+    const wrapper = createWrapper();
+    await nextTick();
+
+    const sparkline = wrapper.findComponent({ name: 'Sparkline' });
 
     expect(sparkline.props('params')).toBe(
       '?module=API&action=get&columns=nb_visits&segment=continentCode==eur',
     );
     expect(sparkline.props('seriesIndices')).toEqual([1]);
-    expect(sparkline.props('width')).toBe(380);
+    expect(sparkline.props('width')).toBe(420);
     expect(sparkline.props('height')).toBe(40);
   });
 
@@ -159,6 +180,8 @@ function createSegmentDateWrapper(props = {}) {
 }
 
 describe('CoreVisualizations/SegmentComparisonRow segment + date', () => {
+  stubSlotWidth();
+
   it('renders one value column per compared date, split by a separator', () => {
     const wrapper = createSegmentDateWrapper();
 
@@ -182,12 +205,18 @@ describe('CoreVisualizations/SegmentComparisonRow segment + date', () => {
     expect(wrapper.findComponent({ name: 'EvolutionBadge' }).props('percent')).toBe('+28.5%');
   });
 
-  it('renders a wider, multi-series sparkline (one series per compared date)', () => {
+  it('renders a multi-series sparkline (one series per compared date) sized from its slot', async () => {
     const wrapper = createSegmentDateWrapper();
+    await nextTick();
+
     const sparkline = wrapper.findComponent({ name: 'Sparkline' });
 
     expect(sparkline.props('seriesIndices')).toEqual([1, 3]);
-    expect(sparkline.props('width')).toBe(760);
-    expect(wrapper.find('.sparklineSegmentComparisonRow__sparkline--wide').exists()).toBe(true);
+    // Segment + date rows sit in a wider card, so their slot — and only their slot — is wider.
+    expect(sparkline.props('width')).toBe(420);
+
+    const slot = wrapper.find('.sparklineSegmentComparisonRow__sparkline');
+    expect(slot.attributes('style'))
+      .toContain('--sparklineSegmentComparisonRow-img-width: 420px');
   });
 });

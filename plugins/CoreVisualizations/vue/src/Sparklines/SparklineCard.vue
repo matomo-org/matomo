@@ -31,18 +31,22 @@
       :all-metrics-documentation="allMetricsDocumentation"
     />
     <!-- Both bodies put the sparkline last, so the shell owns the one slot: it keeps the fixed
-         card height and the reused Sparkline sizing in one place (see SparklineCard.less).
-         Comparison cards are wider, so the sparkline is too — the --wide modifier caps it at a
-         wider max-width that must match sparklineWidth (Sparkline renders the PNG at 2x width). -->
-    <!-- The tooltip goes on the slot, not the image: the image scales shorter than the slot. -->
+         card height and the reused Sparkline sizing in one place (see SparklineCard.less). The
+         slot's measured size drives both the requested image and the size it is drawn at, so the
+         image is never rescaled by CSS. Held back until measured — a card in a collapsed widget or
+         an inactive tab measures 0 and becomes measurable later. -->
+    <!-- The tooltip goes on the slot, not the image: the slot is there even while the image is
+         still loading. -->
     <div
+      ref="sparklineSlot"
       class="sparklineCard__sparkline"
-      :class="{ 'sparklineCard__sparkline--wide': isComparison }"
+      :style="sparklineSizeVars"
       :title="sparkline.tooltip || undefined"
     >
       <Sparkline
+        v-if="sparklineWidth > 0 && sparklineHeight > 0"
         :width="sparklineWidth"
-        :height="40"
+        :height="sparklineHeight"
         :params="sparkline.url"
         :series-indices="sparkline.seriesIndices ?? undefined"
       />
@@ -51,11 +55,17 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from 'vue';
+import {
+  computed,
+  defineComponent,
+  PropType,
+  ref,
+} from 'vue';
 import { Sparkline } from 'CoreHome';
 import NoComparison from './NoComparison.vue';
 import DateComparison from './DateComparison.vue';
 import { sparklineGraphParamsAttr, sparklineSeriesIndicesAttr } from './sparklineDataAttrs';
+import useSparklineSlotSize from './useSparklineSlotSize';
 import { SparklineEntry } from './types';
 
 /**
@@ -96,16 +106,24 @@ export default defineComponent({
     const graphParamsAttr = computed(() => sparklineGraphParamsAttr(props.sparkline));
     const seriesIndicesAttr = computed(() => sparklineSeriesIndicesAttr(props.sparkline));
 
-    // Displayed sparkline width; comparison cards are wider so their sparkline is too. Kept in sync
-    // with the .sparklineCard__sparkline max-width in the .less (Sparkline renders the PNG at 2x
-    // this, and the CSS cap stops it scaling past that crisp source). Height stays 40 for both.
-    const sparklineWidth = computed(() => (isComparison.value ? 760 : 380));
+    // Displayed sparkline size, measured from the slot itself. The same numbers are handed to
+    // Sparkline (which requests the image at 2x them) and published as custom properties the .less
+    // draws the image at, so the two can't drift and CSS never has to rescale the image.
+    const sparklineSlot = ref<HTMLElement | null>(null);
+    const { width: sparklineWidth, height: sparklineHeight } = useSparklineSlotSize(sparklineSlot);
+    const sparklineSizeVars = computed(() => ({
+      '--sparklineCard-img-width': `${sparklineWidth.value}px`,
+      '--sparklineCard-img-height': `${sparklineHeight.value}px`,
+    }));
 
     return {
       isComparison,
       graphParamsAttr,
       seriesIndicesAttr,
+      sparklineSlot,
       sparklineWidth,
+      sparklineHeight,
+      sparklineSizeVars,
     };
   },
 });
