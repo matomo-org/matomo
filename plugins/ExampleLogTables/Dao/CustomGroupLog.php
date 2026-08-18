@@ -38,14 +38,6 @@ class CustomGroupLog
     }
 
     /**
-     * @return list<array<array-key, string|int|float|null>>
-     */
-    public function getAllRecords(): array
-    {
-        return Db::fetchAll('SELECT * FROM ' . $this->tablePrefixed);
-    }
-
-    /**
      * Records the attributes of one group, overwriting whatever was recorded for it before.
      */
     public function addOrUpdateGroupInformation(string $group, bool $isAdmin): void

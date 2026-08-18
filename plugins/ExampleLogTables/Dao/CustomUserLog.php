@@ -39,21 +39,15 @@ class CustomUserLog
     }
 
     /**
-     * @return list<array<array-key, string|int|float|null>>
-     */
-    public function getAllRecords(): array
-    {
-        return Db::fetchAll('SELECT * FROM ' . $this->tablePrefixed);
-    }
-
-    /**
      * Returns the attributes recorded for one user, or an empty array if the user is unknown.
      *
      * @return array<string, string>
      */
     public function getUserInformation(string $userId): array
     {
-        $row = Db::fetchRow('SELECT `gender`, `group` FROM ' . $this->tablePrefixed . ' WHERE `user_id` = ?', [$userId]);
+        $sql = 'SELECT `gender`, `group` FROM ' . $this->tablePrefixed . ' WHERE `user_id` = ?';
+
+        $row = Db::fetchRow($sql, [$userId]);
 
         return $row ?: [];
     }

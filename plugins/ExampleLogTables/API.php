@@ -29,8 +29,12 @@ class API extends \Piwik\Plugin\API
      *
      * @param string $idSite (might be a number, or the string all)
      */
-    public function getAdminGroupVisits(string $idSite, string $period, string $date, ?string $segment = null): DataTableInterface
-    {
+    public function getAdminGroupVisits(
+        string $idSite,
+        string $period,
+        string $date,
+        ?string $segment = null
+    ): DataTableInterface {
         Piwik::checkUserHasViewAccess($idSite);
 
         $archive = Archive::build($idSite, $period, $date, $segment);

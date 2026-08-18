@@ -76,11 +76,18 @@ class UserAttributesRequestProcessor extends RequestProcessor
             return;
         }
 
+        // A default of -1 distinguishes "the request said the group is not an admin group" from
+        // "the request said nothing about it". Writing an invented default in the second case
+        // would silently overwrite what an earlier request stored.
+        $isAdmin = Common::getRequestVar(self::PARAM_GROUP_IS_ADMIN, -1, 'int', $params);
+
+        if ($isAdmin < 0) {
+            return;
+        }
+
         // These values arrive in a tracking request, which anyone can send. `is_admin` is a
         // segmentation attribute describing the group, never an authorisation signal -- no access
         // decision anywhere in Matomo may read it.
-        $isAdmin = (bool) Common::getRequestVar(self::PARAM_GROUP_IS_ADMIN, 0, 'int', $params);
-
-        $this->groupLog->addOrUpdateGroupInformation($group, $isAdmin);
+        $this->groupLog->addOrUpdateGroupInformation($group, 1 === $isAdmin);
     }
 }

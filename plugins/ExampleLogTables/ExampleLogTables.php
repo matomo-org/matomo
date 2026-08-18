@@ -32,7 +32,9 @@ class ExampleLogTables extends \Piwik\Plugin
      */
     public function addMetricTranslations(array &$translations): void
     {
-        $translations[AdminGroupVisits::NB_VISITS_ADMIN_GROUP_RECORD] = Piwik::translate('ExampleLogTables_NbVisitsAdminGroup');
+        $name = Piwik::translate('ExampleLogTables_NbVisitsAdminGroup');
+
+        $translations[AdminGroupVisits::NB_VISITS_ADMIN_GROUP_RECORD] = $name;
     }
 
     /**
