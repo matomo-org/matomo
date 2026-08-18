@@ -5,6 +5,7 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+import { nextTick } from 'vue';
 import { mount } from '@vue/test-utils';
 
 // The shell renders the real NoComparison body, which mounts the real MetricValue (Tooltips
@@ -38,6 +39,18 @@ vi.mock('CoreHome', () => ({
 import SparklineCard from './SparklineCard.vue';
 
 describe('CoreVisualizations/SparklineCard', () => {
+  // The card measures its sparkline slot and holds the sparkline back until it has a size; jsdom
+  // reports 0 for every element, so give the slot a width the way a real layout would.
+  beforeEach(() => {
+    vi.spyOn(Element.prototype, 'getBoundingClientRect')
+      .mockReturnValue({ width: 420, height: 40 } as DOMRect);
+  });
+
+  afterEach(() => {
+    // vitest.config.ts sets clearMocks: false, so the rect spy has to be restored explicitly.
+    vi.restoreAllMocks();
+  });
+
   const baseSparkline = {
     url: '?module=API&action=get&columns=nb_visits',
     metrics: { '': [{ value: '1,234', description: 'Visits', column: 'nb_visits' }] },
@@ -101,8 +114,9 @@ describe('CoreVisualizations/SparklineCard', () => {
     expect(wrapper.find('.metricValue__title').attributes('title')).toBe('The number of visits.');
   });
 
-  it('renders the card frame classes and composes the primary value + sparkline', () => {
+  it('renders the card frame classes and composes the primary value + sparkline', async () => {
     const wrapper = createWrapper();
+    await nextTick();
 
     expect(wrapper.classes()).toContain('sparkline');
     expect(wrapper.classes()).toContain('sparklineCard');
@@ -112,10 +126,11 @@ describe('CoreVisualizations/SparklineCard', () => {
     expect(wrapper.find('.sparkline-stub').exists()).toBe(true);
   });
 
-  it('renders the shared sparkline slot, forwarding the entry url and series indices', () => {
+  it('renders the shared sparkline slot, forwarding the entry url and series indices', async () => {
     // The shell owns the single sparkline for both bodies; here the comparison entry carries a
     // series index per compared date.
     const wrapper = createWrapper(comparisonSparkline);
+    await nextTick();
 
     expect(wrapper.find('.sparklineCard__sparkline').exists()).toBe(true);
     const sparkline = wrapper.findComponent({ name: 'Sparkline' });
@@ -125,18 +140,41 @@ describe('CoreVisualizations/SparklineCard', () => {
     expect(sparkline.props('seriesIndices')).toEqual([0, 1]);
   });
 
-  it('sizes the shared sparkline per mode — wider (760) when comparing, 380 otherwise', () => {
+  it('sizes the sparkline from the measured slot, the same way in both modes', async () => {
+    // Both modes take the width from the slot they are given, so a comparison card's wider slot is
+    // the only thing that makes its sparkline wider — no per-mode constant to keep in sync.
     const plain = createWrapper();
-    const plainSparkline = plain.findComponent({ name: 'Sparkline' });
-    expect(plainSparkline.props('width')).toBe(380);
-    expect(plainSparkline.props('height')).toBe(40);
-    expect(plain.find('.sparklineCard__sparkline--wide').exists()).toBe(false);
-
     const comparing = createWrapper(comparisonSparkline);
+    await nextTick();
+
+    const plainSparkline = plain.findComponent({ name: 'Sparkline' });
+    expect(plainSparkline.props('width')).toBe(420);
+    expect(plainSparkline.props('height')).toBe(40);
+
     const comparingSparkline = comparing.findComponent({ name: 'Sparkline' });
-    expect(comparingSparkline.props('width')).toBe(760);
+    expect(comparingSparkline.props('width')).toBe(420);
     expect(comparingSparkline.props('height')).toBe(40);
-    expect(comparing.find('.sparklineCard__sparkline--wide').exists()).toBe(true);
+  });
+
+  it('publishes the measured size as the custom properties the stylesheet draws the image at', async () => {
+    const wrapper = createWrapper();
+    await nextTick();
+
+    const slot = wrapper.find('.sparklineCard__sparkline');
+    expect(slot.attributes('style')).toContain('--sparklineCard-img-width: 420px');
+    expect(slot.attributes('style')).toContain('--sparklineCard-img-height: 40px');
+  });
+
+  it('keeps the slot but holds the sparkline back while the card has no measurable width', async () => {
+    // A card inside a collapsed widget or an inactive reporting tab.
+    vi.spyOn(Element.prototype, 'getBoundingClientRect')
+      .mockReturnValue({ width: 0, height: 0 } as DOMRect);
+
+    const wrapper = createWrapper();
+    await nextTick();
+
+    expect(wrapper.find('.sparklineCard__sparkline').exists()).toBe(true);
+    expect(wrapper.findComponent({ name: 'Sparkline' }).exists()).toBe(false);
   });
 
   it('renders the backend period tooltip as the sparkline slot title', () => {
