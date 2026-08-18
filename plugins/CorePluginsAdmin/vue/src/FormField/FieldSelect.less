@@ -11,6 +11,8 @@
   .select-wrapper {
     display: flex;
     align-items: safe center;
+    // the chevron below is positioned against this
+    position: relative;
     border: 1px solid @theme-color-border;
     border-radius: 8px;
     background: @theme-color-background-contrast;
@@ -30,7 +32,8 @@
     font-size: 14px;
     line-height: 20px;
     margin: 0;
-    padding: 8px 16px;
+    // right padding keeps the text clear of the overlaid chevron
+    padding: 8px 40px 8px 16px;
     border: 0;
     background: transparent;
     color: @theme-color-text;
@@ -43,10 +46,16 @@
     display: none;
   }
 
+  // overlaid rather than an in-flow flex item: Materialize binds its open handler to
+  // the input alone, so anything that takes width from the input becomes a dead click
+  // zone, and in a narrow wrapper it also pushes the glyph past the edge
   .select-wrapper::after {
     content: "\e908"; // icon-chevron-down
     font-family: 'matomo';
-    padding-right: 16px;
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
     line-height: 1;
     color: @theme-color-text;
     pointer-events: none;

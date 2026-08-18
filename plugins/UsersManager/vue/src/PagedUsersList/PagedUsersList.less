@@ -56,20 +56,11 @@
       }
     }
 
+    // wide enough for the longest role ("Superuser") once the shared select
+    // padding is taken off; the compact input and caret overrides that used to
+    // sit here were tuned for the old underlined control and now fight it
     .select-wrapper {
-      width: 100px;
-
-      input {
-        margin-bottom: 0;
-        padding-bottom: .3em;
-        height: 1em;
-        line-height: 1em;
-        font-size: 13px;
-      }
-
-      span.caret {
-        top: 0;
-      }
+      width: 140px;
     }
 
     th.role_header {
