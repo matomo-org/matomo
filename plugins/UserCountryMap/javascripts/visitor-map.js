@@ -1539,9 +1539,13 @@ $.extend(UserCountryMap, {
             return box;
         }
 
-        function covers(rings, x, y) {
-            var crossings = 0, r, n, i, p, q;
+        function covers(rings, boxes, x, y) {
+            var crossings = 0, r, n, i, p, q, box;
             for (r = 0; r < rings.length; r++) {
+                box = boxes[r];
+                if (y < box[1] || y > box[3] || x > box[2]) {
+                    continue;
+                }
                 n = rings[r].length;
                 for (i = 0; i < n; i++) {
                     p = rings[r][i];
@@ -1597,12 +1601,13 @@ $.extend(UserCountryMap, {
 
         var rings = (path && path.contours) || [],
             blocked = (avoid && avoid.contours) || [],
-            measured = [], largest = 0, i, box,
+            boxes = [], blockedBoxes = [], measured = [], largest = 0, i, box,
             minX = 0, minY = 0, maxX = 0, maxY = 0;
 
         for (i = 0; i < rings.length; i++) {
             largest = Math.max(largest, Math.abs(ringArea(rings[i])));
             box = ringBox(rings[i]);
+            boxes.push(box);
             measured.push([rings[i], box]);
             if (i === 0) {
                 minX = box[0];
@@ -1620,7 +1625,9 @@ $.extend(UserCountryMap, {
             return null;
         }
         for (i = 0; i < blocked.length; i++) {
-            measured.push([blocked[i], ringBox(blocked[i])]);
+            box = ringBox(blocked[i]);
+            blockedBoxes.push(box);
+            measured.push([blocked[i], box]);
         }
 
         minX = Math.max(minX, bounds[0]);
@@ -1638,7 +1645,7 @@ $.extend(UserCountryMap, {
             for (y = y0; y <= y1; y += step) {
                 for (x = x0; x <= x1; x += step) {
                     if (x < bounds[0] || x > bounds[2] || y < bounds[1] || y > bounds[3]
-                        || !covers(rings, x, y) || covers(blocked, x, y)
+                        || !covers(rings, boxes, x, y) || covers(blocked, blockedBoxes, x, y)
                     ) {
                         continue;
                     }
@@ -1658,6 +1665,10 @@ $.extend(UserCountryMap, {
         }
 
         scan(minX, maxX, minY, maxY, step);
+        if (!best) {
+            step /= factor;
+            scan(minX, maxX, minY, maxY, step);
+        }
         for (i = 0; i < refinePasses && best; i++) {
             step /= factor;
             scan(best[0] - step * factor, best[0] + step * factor,

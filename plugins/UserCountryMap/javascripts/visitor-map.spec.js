@@ -19,8 +19,8 @@ function contours(d) {
     if (token === 'M' || token === 'Z') {
       if (ring.length > 2) {
         rings.push(ring);
+        ring = [];
       }
-      ring = [];
     } else if (token !== 'L') {
       const [x, y] = token.split(',');
       ring.push([+x, +y]);
@@ -122,6 +122,23 @@ describe('UserCountryMap.countryLabelPosition', function () {
   it('validates every region map and every labelled neighbour', function () {
     expect(maps.length).toBeGreaterThan(200);
     expect(maps.reduce((total, map) => total + map.neighbours.length, 0)).toBeGreaterThan(700);
+  });
+
+  it('keeps the anchor out of a selected country the neighbour wraps around', function () {
+    const ring = (x0, y0, x1, y1) => [[x0, y0], [x1, y0], [x1, y1], [x0, y1]];
+    const neighbour = [ring(0, 0, 100, 100)];
+    const selected = [ring(20, 20, 80, 80)];
+
+    const position = window.UserCountryMap.countryLabelPosition(
+      { contours: neighbour },
+      { contours: selected },
+      [0, 0, 100, 100],
+    );
+
+    expect(position).not.toBeNull();
+    expect(covers(neighbour, position[0], position[1])).toBe(true);
+    expect(covers(selected, position[0], position[1])).toBe(false);
+    expect(distance(selected, position[0], position[1])).toBeGreaterThan(LABEL_CLEARANCE);
   });
 
   it.each(maps.map((map) => [map.name, map]))('places the labels of %s inside the countries they name', function (name, map) {
