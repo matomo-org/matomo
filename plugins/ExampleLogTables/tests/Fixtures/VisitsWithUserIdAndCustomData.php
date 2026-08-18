@@ -10,14 +10,27 @@
 namespace Piwik\Plugins\ExampleLogTables\tests\Fixtures;
 
 use Piwik\Date;
-use Piwik\Plugins\ExampleLogTables\Dao\CustomGroupLog;
-use Piwik\Plugins\ExampleLogTables\Dao\CustomUserLog;
+use Piwik\Plugins\ExampleLogTables\Tracker\UserAttributesRequestProcessor;
 use Piwik\Tests\Framework\Fixture;
 
 class VisitsWithUserIdAndCustomData extends Fixture
 {
     public $dateTime = '2018-02-01 11:22:33';
     public $idSite = 1;
+
+    /**
+     * The attributes each tracked user sends along with their visits. The plugin's own
+     * RequestProcessor is what turns these into rows in log_custom and log_group -- the fixture
+     * only tracks visits, exactly as a real site would.
+     *
+     * @var array<string, array{gender: string, group: string, groupIsAdmin: bool}>
+     */
+    private const USER_ATTRIBUTES = [
+        'user1' => ['gender' => 'men', 'group' => 'admin', 'groupIsAdmin' => true],
+        'user2' => ['gender' => 'women', 'group' => 'user', 'groupIsAdmin' => false],
+        'user3' => ['gender' => 'women', 'group' => 'admin', 'groupIsAdmin' => true],
+        'user4' => ['gender' => 'men', 'group' => '', 'groupIsAdmin' => false],
+    ];
 
     /**
      * @var string[]
@@ -30,15 +43,7 @@ class VisitsWithUserIdAndCustomData extends Fixture
             self::createWebsite($this->dateTime);
         }
 
-        // set up database tables
-        $userLog = new CustomUserLog();
-        $userLog->install();
-        $groupLog = new CustomGroupLog();
-        $groupLog->install();
-
         $this->trackVisits();
-        $this->insertCustomUserLogData();
-        $this->insertCustomGroupLogData();
     }
 
     private function trackVisits(): void
@@ -56,18 +61,22 @@ class VisitsWithUserIdAndCustomData extends Fixture
                 $t->setCountry(self::$countryCodes[$numVisits % count(self::$countryCodes)]);
 
                 if ($numVisits % 5 == 0) {
+                    $this->setUserAttributes($t, $userId);
                     $t->doTrackSiteSearch('some search term' . $numVisits);
                 }
 
                 if ($numVisits % 4 == 0) {
+                    $this->setUserAttributes($t, $userId);
                     $t->doTrackEvent('Event action ' . $numVisits, 'event cat ' . $numVisits);
                 }
 
                 if ($numVisits % 7 == 0) {
+                    $this->setUserAttributes($t, $userId);
                     $t->doTrackContentInteraction('click', 'slider ' . $numVisits % 4);
                 }
 
                 if ($numVisits % 7 == 4) {
+                    $this->setUserAttributes($t, $userId);
                     $t->doTrackAction('http://out.link', 'outlink');
                 }
 
@@ -82,14 +91,17 @@ class VisitsWithUserIdAndCustomData extends Fixture
                 $t->setForceVisitDateTime($visitDateTime);
 
                 if ($numVisits % 7 == 0) {
+                    $this->setUserAttributes($t, $userId);
                     $t->doTrackAction('http://example.org/download.pdf', 'download');
                 }
 
+                $this->setUserAttributes($t, $userId);
                 self::assertTrue($t->doTrackPageView('incredible title ' . ($numVisits % 3)));
 
                 if ($numVisits % 9 == 0) {
                     $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour($numVisits + 6.1)->getDatetime());
                     $t->addEcommerceItem('SKU VERY nice indeed ' . ($numVisits % 3), 'PRODUCT name ' . ($numVisits % 4), 'category ' . ($numVisits % 5), $numVisits * 2.79);
+                    $this->setUserAttributes($t, $userId);
                     self::assertTrue($t->doTrackEcommerceCartUpdate($numVisits * 17));
                 }
             }
@@ -98,19 +110,20 @@ class VisitsWithUserIdAndCustomData extends Fixture
         self::checkBulkTrackingResponse($t->doBulkTrack());
     }
 
-    private function insertCustomUserLogData(): void
+    /**
+     * Sends the tracking parameters the plugin reads. They are cleared after every tracking
+     * request, so they have to be set again before each one.
+     */
+    private function setUserAttributes(\MatomoTracker $t, ?string $userId): void
     {
-        $customLog = new CustomUserLog();
-        $customLog->addUserInformation('user1', 'admin', 'men');
-        $customLog->addUserInformation('user2', 'user', 'women');
-        $customLog->addUserInformation('user3', 'admin', 'women');
-        $customLog->addUserInformation('user4', '', 'men');
-    }
+        if (null === $userId || !isset(self::USER_ATTRIBUTES[$userId])) {
+            return;
+        }
 
-    private function insertCustomGroupLogData(): void
-    {
-        $customGroup = new CustomGroupLog();
-        $customGroup->addGroupInformation('admin', true);
-        $customGroup->addGroupInformation('user', false);
+        $attributes = self::USER_ATTRIBUTES[$userId];
+
+        $t->setCustomTrackingParameter(UserAttributesRequestProcessor::PARAM_GENDER, $attributes['gender']);
+        $t->setCustomTrackingParameter(UserAttributesRequestProcessor::PARAM_GROUP, $attributes['group']);
+        $t->setCustomTrackingParameter(UserAttributesRequestProcessor::PARAM_GROUP_IS_ADMIN, $attributes['groupIsAdmin'] ? '1' : '0');
     }
 }
