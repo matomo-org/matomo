@@ -9,6 +9,7 @@
 
 namespace Piwik\ReportRenderer;
 
+use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\ReportRenderer;
 use Piwik\View;
@@ -104,6 +105,13 @@ class Html extends ReportRenderer
         $reportMetadata = $processedReport['metadata'];
         $reportData = $processedReport['reportData'];
         $columns = $processedReport['columns'];
+
+        // processTableFormat() builds row labels from the metric names when a report has no
+        // dimension, so encode them like SafeDecodeLabel encodes the data table's own labels.
+        if (empty($reportMetadata['dimension'])) {
+            $columns = array_map(array(Common::class, 'sanitizeInputValue'), $columns);
+        }
+
         list($reportData, $columns) = self::processTableFormat($reportMetadata, $reportData, $columns);
 
         $reportView->assign("reportName", $reportMetadata['name']);
