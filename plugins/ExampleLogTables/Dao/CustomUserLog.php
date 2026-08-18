@@ -46,7 +46,26 @@ class CustomUserLog
         return Db::fetchAll('SELECT * FROM ' . $this->tablePrefixed);
     }
 
-    public function addUserInformation(string $userId, string $group, string $gender): void
+    /**
+     * Returns the attributes recorded for one user, or an empty array if the user is unknown.
+     *
+     * @return array<string, string>
+     */
+    public function getUserInformation(string $userId): array
+    {
+        $row = Db::fetchRow('SELECT `gender`, `group` FROM ' . $this->tablePrefixed . ' WHERE `user_id` = ?', [$userId]);
+
+        return $row ?: [];
+    }
+
+    /**
+     * Records the attributes of one user, overwriting whatever was recorded for them before.
+     *
+     * The tracker sees the same user on every one of their visits, so this has to be an upsert
+     * rather than an insert: the primary key on `user_id` is what keeps the table at one row per
+     * user instead of one row per request.
+     */
+    public function addOrUpdateUserInformation(string $userId, string $group, string $gender): void
     {
         $columns = [
             'user_id' => $userId,
@@ -55,12 +74,12 @@ class CustomUserLog
         ];
 
         $sql = sprintf(
-            'INSERT INTO `%s` (`%s`) VALUES(%s)',
+            'INSERT INTO `%s` (`%s`) VALUES(%s) ON DUPLICATE KEY UPDATE `group` = ?, `gender` = ?',
             $this->tablePrefixed,
             implode('`,`', array_keys($columns)),
             Common::getSqlStringFieldsArray($columns)
         );
 
-        Db::query($sql, array_values($columns));
+        Db::query($sql, [...array_values($columns), $group, $gender]);
     }
 }

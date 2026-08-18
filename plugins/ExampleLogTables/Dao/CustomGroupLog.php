@@ -45,7 +45,10 @@ class CustomGroupLog
         return Db::fetchAll('SELECT * FROM ' . $this->tablePrefixed);
     }
 
-    public function addGroupInformation(string $group, bool $isAdmin): void
+    /**
+     * Records the attributes of one group, overwriting whatever was recorded for it before.
+     */
+    public function addOrUpdateGroupInformation(string $group, bool $isAdmin): void
     {
         $columns = [
             'group' => $group,
@@ -53,12 +56,12 @@ class CustomGroupLog
         ];
 
         $sql = sprintf(
-            'INSERT INTO `%s` (`%s`) VALUES(%s)',
+            'INSERT INTO `%s` (`%s`) VALUES(%s) ON DUPLICATE KEY UPDATE `is_admin` = ?',
             $this->tablePrefixed,
             implode('`,`', array_keys($columns)),
             Common::getSqlStringFieldsArray($columns)
         );
 
-        Db::query($sql, array_values($columns));
+        Db::query($sql, [...array_values($columns), (int) $isAdmin]);
     }
 }

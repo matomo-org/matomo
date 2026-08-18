@@ -10,6 +10,8 @@
 namespace Piwik\Plugins\ExampleLogTables;
 
 use Piwik\Common;
+use Piwik\Plugins\ExampleLogTables\Dao\CustomGroupLog;
+use Piwik\Plugins\ExampleLogTables\Dao\CustomUserLog;
 
 class ExampleLogTables extends \Piwik\Plugin
 {
@@ -20,15 +22,38 @@ class ExampleLogTables extends \Piwik\Plugin
         ];
     }
 
+    /**
+     * Tells Matomo to load this plugin in the tracker.
+     *
+     * Without this the tracker never loads the plugin, and the RequestProcessor in `Tracker/` is
+     * never found: `Plugin\Manager::isTrackerPlugin()` only auto-detects plugins that declare a
+     * visit, action or conversion dimension, or subscribe to a `Tracker.*` event. This plugin does
+     * neither -- its dimensions describe columns of its own tables rather than of a core log table --
+     * so it has to say so itself.
+     */
+    public function isTrackerPlugin()
+    {
+        return true;
+    }
+
+    /**
+     * Creates the two custom log tables when the plugin is activated.
+     *
+     * Both DAOs use `CREATE TABLE IF NOT EXISTS`, so running this more than once is harmless.
+     */
     public function install()
     {
-        // Install custom log table [disabled as example only]
+        (new CustomUserLog())->install();
+        (new CustomGroupLog())->install();
+    }
 
-        // $userLog = new CustomUserLog();
-        // $userLog->install();
-
-        // $userLog = new CustomGroupLog();
-        // $userLog->install();
+    /**
+     * Drops the two custom log tables when the plugin is uninstalled.
+     */
+    public function uninstall()
+    {
+        (new CustomGroupLog())->uninstall();
+        (new CustomUserLog())->uninstall();
     }
 
     /**
