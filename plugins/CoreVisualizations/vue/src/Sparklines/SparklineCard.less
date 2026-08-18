@@ -22,9 +22,8 @@
   // cqi units. Standalone readouts have no nearer container, so they size to the card; comparison
   // columns set their own container and override it. inline-size contains only the inline axis, so
   // the card's height still grows with its content.
-  // The sparkline sizing depends on this too: size containment means the card's width is computed
-  // as if it had no contents, which is what stops the measured sparkline image from being able to
-  // feed back into the width it was measured from (see useSparklineSlotSize.ts).
+  // The sparkline relies on this too: the card's width ignores its contents, so the image can't
+  // widen the slot it was measured from (see useSparklineSlotSize.ts).
   container-type: inline-size;
 }
 
@@ -67,49 +66,25 @@
   .sparklineCardClickable();
 }
 
-// Shared sparkline slot, rendered by the shell after either body (both put the sparkline last).
-// This height is the only place the displayed sparkline height is set: SparklineCard.vue measures
-// the slot on mount and requests the image at exactly that size, so nothing has to keep a second
-// copy of the number in sync. Centering stops flex's default `stretch` from inflating the image.
+// The sparkline slot, rendered after either card body. Its height is the only place the displayed
+// sparkline height is set: SparklineCard.vue measures this slot and Sparkline draws the image at
+// exactly that size, so the number is never duplicated. Centering stops flex stretching the image,
+// and `safe` keeps it reachable if it ever overflows.
 .sparklineCard__sparkline {
   height: 40px;
   display: flex;
-  align-items: center;
-
-  // override: the reused CoreHome Sparkline renders an external <img class="sparklineImg"> we can't
-  // rename; draw it at the size SparklineCard.vue measured, published as custom properties on the
-  // slot. The width/height HTML attributes can't do this on their own — presentational hints lose
-  // to any author rule, and CoreHome's `img.sparklineImg` sets a 100x25 default.
-  .sparklineImg {
-    display: block;
-    // override: CoreHome's `.sparkline img` (coreHome.less) pads the legacy sparkline's right side.
-    // The card root carries `.sparkline` as a JS contract so that rule matches here too, and under
-    // the global border-box it would eat 10px out of the image's content box, squashing it.
-    padding: 0;
-    width: var(--sparklineCard-img-width, 100%);
-    height: var(--sparklineCard-img-height, auto);
-    // Safety valve for the moment between the slot shrinking and the debounced re-measure landing:
-    // Morpheus' `div.sparkline img { flex-shrink: 0 }` would otherwise let the image overflow.
-    max-width: 100%;
-  }
-
-  // The placeholder sits on the slot rather than on the image, so that the image can be hidden
-  // outright while it loads: a half-decoded bitmap, or the browser's broken-image marker if the
-  // request fails, would otherwise show on top of the skeleton.
-  &:has(.sparklineImg--loading) {
-    .sparklineCardSkeleton();
-  }
-
-  .sparklineImg--loading {
-    visibility: hidden;
-  }
+  align-items: safe center;
 }
 
-// Placeholder for a sparkline that has never been painted: the card is framed and sized, but its
-// first image is still being rendered server-side. The slot already reserves the height, so this
-// only fills space that would otherwise be blank.
-// A mixin (parens keep it out of compiled CSS) so the segment-comparison row can reuse it; this
-// file is registered before SegmentComparisonRow.less, so it is in scope there.
+// Shown until the sparkline has something to display — either the slot has not been measured yet,
+// or the image is still loading. Sits on the slot rather than the image so the image can be hidden
+// behind it, otherwise a half-loaded image would show on top.
+.sparklineCard__sparkline--loading {
+  .sparklineCardSkeleton();
+}
+
+// A mixin (the parens keep it out of the compiled CSS) so the segment comparison row can reuse it.
+// This file is loaded first, so the mixin is available there.
 .sparklineCardSkeleton() {
   border-radius: 4px;
   background-color: @theme-color-background-tinyContrast;
@@ -119,25 +94,23 @@
     @theme-color-background-contrast 50%,
     @theme-color-background-tinyContrast 100%
   );
-  // Wider than the element so the highlight has somewhere to travel from and to.
+  // Wider than the element, to give the highlight somewhere to travel.
   background-size: 200% 100%;
-  animation: sparklineCardSkeletonSweep 1.4s ease-in-out infinite;
+  animation: sparklineCard__skeletonSweep 1.4s ease-in-out infinite;
+
+  // Drop the animation for anyone who asked for less motion; the plain placeholder still reads as
+  // "nothing here yet". Inside the mixin so every caller gets it on the element that animates.
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
 }
 
-@keyframes sparklineCardSkeletonSweep {
+@keyframes sparklineCard__skeletonSweep {
   from {
     background-position: 200% 0;
   }
 
   to {
     background-position: -200% 0;
-  }
-}
-
-// A sweep drawing attention to itself is exactly what a reduced-motion preference asks us not to
-// do; the flat placeholder still reads as "nothing here yet".
-@media (prefers-reduced-motion: reduce) {
-  .sparklineImg--loading {
-    animation: none;
   }
 }

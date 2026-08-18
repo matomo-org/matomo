@@ -127,7 +127,10 @@ div .sparkline {
     margin-top: 10px;
 }
 
-.sparkline img {
+// Sparkline cards size their image exactly, so this padding would eat 10px of it and squash it.
+// They opt out with `.sparklineImg--fluid` (see Sparkline.less). `:where()` adds no specificity,
+// so every other sparkline keeps the padding as before.
+.sparkline img:where(:not(.sparklineImg--fluid)) {
     vertical-align: middle;
     padding-right: 10px;
     margin-top: 0;
