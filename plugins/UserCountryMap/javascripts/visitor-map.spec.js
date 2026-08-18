@@ -8,9 +8,9 @@
 const fs = require('node:fs');
 const path = require('node:path');
 
-require('../../javascripts/visitor-map');
+require('./visitor-map');
 
-const svgDir = path.join(__dirname, '..', '..', 'svg');
+const svgDir = path.join(__dirname, '..', 'svg');
 
 function contours(d) {
   const rings = [];
