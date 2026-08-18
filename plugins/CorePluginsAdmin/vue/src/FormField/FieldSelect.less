@@ -1,5 +1,8 @@
 .matomo-field-select label {
-  top: -14px; // compensate for extra div added in vue
+  // -14px compensated for the extra div added in vue; the restyle then moved the
+  // control's visible top up by the input's 8px of padding, since the border now sits
+  // where bare text used to, so the label needs that 8px back to clear its descenders
+  top: -22px;
 }
 
 // Materialize builds the select markup at runtime (.select-wrapper, the readonly
