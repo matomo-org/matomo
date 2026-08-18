@@ -70,6 +70,19 @@ class ReportRetention implements
         return Piwik::translate('PrivacyManager_RetentionPeriodPolicySettingTitle');
     }
 
+    public static function getWhatItDoes(?int $idSite = null): string
+    {
+        return Piwik::translate('PrivacyManager_RetentionPeriodPolicySettingWhatItDoes', [
+            self::getInstance($idSite)->getValue(),
+            self::getPolicyRequirements()[CnilPolicy::class],
+        ]);
+    }
+
+    public static function getImpact(?int $idSite = null): string
+    {
+        return Piwik::translate('PrivacyManager_RetentionPeriodPolicySettingImpact', [self::getInstance($idSite)->getValue()]);
+    }
+
     public static function getComplianceRequirementNote(?int $idSite = null): string
     {
         $currentValue = self::getInstance($idSite)->getValue();

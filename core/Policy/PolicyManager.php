@@ -163,7 +163,7 @@ class PolicyManager
 
     /**
      * @param class-string<CompliancePolicy> $policyClass
-     * @return array<array<string>> of [['title' => (string) 'TITLE', 'note' => (string) 'NOTE']]
+     * @return array<array<string>> of [['id' => (string) 'ID', 'title' => (string) 'TITLE', 'note' => (string) 'NOTE']]
      * @throws CompliancePolicyNotFoundException when $policyClass is not a valid policy
      */
     public static function getAllUnknownSettings(string $policyClass): array
@@ -192,6 +192,51 @@ class PolicyManager
     {
         self::checkPolicyIsValid($policyClass);
         $policyClass::setActiveStatus($idSite, $isActive);
+        if (!is_null($idSite)) {
+            Cache::deleteCacheWebsiteAttributes($idSite);
+        }
+        Cache::deleteTrackerCache();
+    }
+
+    /**
+     * Sets the enforcement state of multiple policy-controlled settings at once.
+     *
+     * @param class-string<CompliancePolicy> $policyClass
+     * @param array<string, bool|int|string> $settingIdToEnforced Map of policy setting id => whether to enforce it
+     * @throws CompliancePolicyNotFoundException when $policyClass is not a valid policy
+     * @throws Exception when a setting id is unknown or the setting cannot be toggled
+     */
+    public static function setPolicySettingEnforcedStatuses(string $policyClass, array $settingIdToEnforced, ?int $idSite = null): void
+    {
+        self::checkPolicyIsValid($policyClass);
+
+        $toggleableSettingsById = [];
+        foreach (self::getAllControlledSettings($policyClass, $idSite) as $settingClass) {
+            if (!$settingClass::isExternallyManagedByPolicyPage()) {
+                $toggleableSettingsById[$settingClass::getPolicySettingId()] = $settingClass;
+            }
+        }
+
+        // validate everything upfront: a failure mid-write would leave a partial
+        // change behind without the tracker caches ever being invalidated
+        $normalised = [];
+        foreach ($settingIdToEnforced as $settingId => $enforced) {
+            if (!array_key_exists($settingId, $toggleableSettingsById)) {
+                throw new Exception(sprintf('The setting "%s" is unknown or cannot be toggled', $settingId));
+            }
+
+            $enforced = filter_var($enforced, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+            if (is_null($enforced)) {
+                throw new Exception(sprintf('Invalid enforcement value for the setting "%s"', $settingId));
+            }
+
+            $normalised[$settingId] = $enforced;
+        }
+
+        foreach ($normalised as $settingId => $enforced) {
+            $toggleableSettingsById[$settingId]::setEnforced($enforced, $idSite);
+        }
+
         if (!is_null($idSite)) {
             Cache::deleteCacheWebsiteAttributes($idSite);
         }
@@ -246,17 +291,18 @@ class PolicyManager
         $settings = [];
 
         foreach ($policies as $policyClass) {
-            if (false === $policyClass::isActive($idSite)) {
-                continue;
-            }
             $controlledSettings = self::getAllControlledSettings($policyClass, $idSite, $settingType);
 
             foreach ($controlledSettings as $controlledSetting) {
-                if ($settingName === call_user_func([$controlledSetting, self::$settingTypesMap[$settingType]['method']])) {
-                    $settings[$policyClass::getName()] = [
-                        'requiredValue' => $controlledSetting::getPolicyRequirements()[$policyClass],
-                    ];
+                if ($settingName !== call_user_func([$controlledSetting, self::$settingTypesMap[$settingType]['method']])) {
+                    continue;
                 }
+                if (!$controlledSetting::isEnforced($idSite)) {
+                    continue;
+                }
+                $settings[$policyClass::getName()] = [
+                    'requiredValue' => $controlledSetting::getPolicyRequirements()[$policyClass],
+                ];
             }
         }
 

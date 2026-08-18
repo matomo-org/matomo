@@ -35,4 +35,167 @@
       font-size: 0.65rem
     }
   }
+
+  // granular per-setting dashboard: status label text stays neutral,
+  // only the icons carry colour
+  .granularCompliance {
+    // fixed layout keeps the column widths stable so toggling a setting (which
+    // changes the status label and icon) never reflows the table, and gives the
+    // description and impact columns the room they need to stay readable
+    table-layout: fixed;
+    width: 100%;
+
+    th:nth-child(1),
+    td:nth-child(1) {
+      width: 16%;
+    }
+
+    th:nth-child(2),
+    td:nth-child(2) {
+      width: 34%;
+    }
+
+    th:nth-child(3),
+    td:nth-child(3) {
+      width: 30%;
+    }
+
+    th:nth-child(4),
+    td:nth-child(4) {
+      width: 13%;
+    }
+
+    .status {
+      color: @theme-color-text;
+      // fixed layout holds the width, so a long label like "Applies on save"
+      // wraps within the column instead of forcing the table wider
+      white-space: normal;
+
+      &.compliant .icon,
+      &.enforced .icon {
+        color: #5D9E52;
+      }
+
+      &.applies-on-save .icon {
+        color: #E8A33D;
+      }
+
+      &.on-by-default .icon,
+      &.manual .icon {
+        color: @theme-color-text-light;
+      }
+    }
+
+    .settingName {
+      font-weight: bold;
+      white-space: normal;
+    }
+
+    .toggleColumn {
+      // fixed width (≈7% of the desktop table) so the 36px switch lever still
+      // fits inside the cell when the table is compressed to its minimum width
+      // and scrolled horizontally, instead of overhanging the table edge
+      width: 4.5rem;
+      text-align: right;
+    }
+
+    td {
+      vertical-align: top;
+    }
+  }
+
+  .granularComplianceHeaderActions {
+    float: right;
+    margin-top: -3rem;
+  }
+
+  // save outcome notifications shown between the site selector and the card
+  .granularComplianceSaveNotifications {
+    margin: 1rem 0;
+
+    .notification {
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  // Let the settings table scroll horizontally rather than clipping the status
+  // and toggle controls when the viewport is too narrow to show every column.
+  // The wrapper takes over the .card-table full-bleed band (its negative margins
+  // reach into the card padding) so the cells' padding keeps the text aligned
+  // with the surrounding card content, as usual for card tables.
+  .granularComplianceScroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin-left: -20px;
+    margin-right: -20px;
+
+    > table.granularCompliance {
+      // Fill the wrapper instead of bleeding past it, so the toggle column can
+      // never be pushed off screen; only overflow (scroll) once the columns no
+      // longer sensibly fit.
+      width: 100%;
+      min-width: 40rem;
+      margin-left: 0;
+      margin-right: 0;
+    }
+  }
+
+  .granularComplianceEnforceAll {
+    display: flex;
+    align-items: safe center;
+    justify-content: space-between;
+    gap: 1rem;
+    border: 1px solid @theme-color-background-tinyContrast;
+    border-radius: 4px;
+    padding: 1rem;
+    margin: 1rem 0;
+
+    h3 {
+      .font-default(15px, 22px);
+      font-weight: bold;
+      margin: 0 0 0.5rem;
+    }
+
+    p {
+      margin: 0;
+    }
+
+    .granularComplianceEnforceAllButton {
+      flex-shrink: 0;
+    }
+  }
+
+  .granularComplianceExternalTitle {
+    .font-default(15px, 22px);
+    font-weight: bold;
+    // separate the externally managed section from the settings table above
+    border-top: 1px solid @theme-color-background-tinyContrast;
+    padding-top: 1.5rem;
+    margin: 2rem 0 0.5rem;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+
+  // On narrow viewports stop the header save button overlapping the title and
+  // let the enforce-all call to action stack instead of running off screen.
+  @media (max-width: 768px) {
+    .granularComplianceHeaderActions {
+      float: none;
+      margin-top: 0.5rem;
+      margin-bottom: 1rem;
+      text-align: left;
+    }
+
+    .granularComplianceEnforceAll {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
 }
