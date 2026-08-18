@@ -141,6 +141,23 @@ describe('UserCountryMap.countryLabelPosition', function () {
     expect(distance(selected, position[0], position[1])).toBeGreaterThan(LABEL_CLEARANCE);
   });
 
+  it('keeps the label off the canvas frame when the country leaves room for it', function () {
+    const margin = window.UserCountryMap.countryLabelMargin.y;
+    // A band along the top edge, thinner than twice the margin: its widest spot sits closer to
+    // the frame than the margin allows, so the search has to give up clearance to stay on screen.
+    const band = [[[0, 0], [100, 0], [100, 10], [0, 10]]];
+
+    const position = window.UserCountryMap.countryLabelPosition(
+      { contours: band },
+      null,
+      [0, 0, 100, 100],
+    );
+
+    expect(position).not.toBeNull();
+    expect(covers(band, position[0], position[1])).toBe(true);
+    expect(position[1]).toBeGreaterThanOrEqual(margin);
+  });
+
   it.each(maps.map((map) => [map.name, map]))('places the labels of %s inside the countries they name', function (name, map) {
     const misplaced = [];
 
@@ -173,6 +190,11 @@ describe('UserCountryMap.countryLabelPosition', function () {
       const fromSelected = distance(map.paths[name], x, y);
       if (fromSelected < LABEL_CLEARANCE) {
         misplaced.push(`${iso}: ${at} is ${fromSelected.toFixed(1)} from ${name}`);
+      }
+
+      const fromOwnBorder = distance(map.paths[iso], x, y);
+      if (fromOwnBorder < LABEL_CLEARANCE) {
+        misplaced.push(`${iso}: ${at} is ${fromOwnBorder.toFixed(1)} from its own outline`);
       }
     });
 

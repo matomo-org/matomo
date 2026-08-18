@@ -1517,6 +1517,9 @@ $.extend(UserCountryMap, {
 
     countryLabelMinArea: 700,
 
+    // half a two-letter label plus its halo, in svg units; wider than tall, like the glyphs
+    countryLabelMargin: { x: 10, y: 6 },
+
     countryLabelPosition: function (path, avoid, bounds) {
         function ringArea(ring) {
             var a = 0, n = ring.length, i, p, q;
@@ -1630,52 +1633,64 @@ $.extend(UserCountryMap, {
             measured.push([blocked[i], box]);
         }
 
-        minX = Math.max(minX, bounds[0]);
-        minY = Math.max(minY, bounds[1]);
-        maxX = Math.min(maxX, bounds[2]);
-        maxY = Math.min(maxY, bounds[3]);
-        if (maxX < minX || maxY < minY) {
-            return null;
-        }
+        // The grid is aligned to the canvas, not to frame, so narrowing the frame only rejects
+        // candidates instead of shifting the lattice and moving anchors it does not constrain.
+        function search(frame) {
+            var x0 = Math.max(minX, bounds[0]),
+                y0 = Math.max(minY, bounds[1]),
+                x1 = Math.min(maxX, bounds[2]),
+                y1 = Math.min(maxY, bounds[3]),
+                best = null, bestClearance = 0,
+                gridSteps = 16, refinePasses = 4, factor = 3, step, pass;
 
-        var best = null, bestClearance = 0;
+            if (x1 < x0 || y1 < y0) {
+                return null;
+            }
 
-        function scan(x0, x1, y0, y1, step) {
-            var x, y, d;
-            for (y = y0; y <= y1; y += step) {
-                for (x = x0; x <= x1; x += step) {
-                    if (x < bounds[0] || x > bounds[2] || y < bounds[1] || y > bounds[3]
-                        || !covers(rings, boxes, x, y) || covers(blocked, blockedBoxes, x, y)
-                    ) {
-                        continue;
-                    }
-                    d = clearance(measured, x, y, bestClearance);
-                    if (d > bestClearance) {
-                        bestClearance = d;
-                        best = [x, y];
+            function scan(sx0, sx1, sy0, sy1, s) {
+                var x, y, d;
+                for (y = sy0; y <= sy1; y += s) {
+                    for (x = sx0; x <= sx1; x += s) {
+                        if (x < frame[0] || x > frame[2] || y < frame[1] || y > frame[3]
+                            || !covers(rings, boxes, x, y) || covers(blocked, blockedBoxes, x, y)
+                        ) {
+                            continue;
+                        }
+                        d = clearance(measured, x, y, bestClearance);
+                        if (d > bestClearance) {
+                            bestClearance = d;
+                            best = [x, y];
+                        }
                     }
                 }
             }
+
+            step = Math.max(x1 - x0, y1 - y0) / gridSteps;
+            if (!step) {
+                return null;
+            }
+
+            scan(x0, x1, y0, y1, step);
+            if (!best) {
+                step /= factor;
+                scan(x0, x1, y0, y1, step);
+            }
+            for (pass = 0; pass < refinePasses && best; pass++) {
+                step /= factor;
+                scan(best[0] - step * factor, best[0] + step * factor,
+                     best[1] - step * factor, best[1] + step * factor, step);
+            }
+
+            return best;
         }
 
-        var gridSteps = 16, refinePasses = 4, factor = 3,
-            step = Math.max(maxX - minX, maxY - minY) / gridSteps;
-        if (!step) {
-            return null;
-        }
+        // The label is drawn centred on the anchor and is wider than it, so keep the glyphs
+        // off the canvas frame where the country leaves room for it.
+        var margin = UserCountryMap.countryLabelMargin;
 
-        scan(minX, maxX, minY, maxY, step);
-        if (!best) {
-            step /= factor;
-            scan(minX, maxX, minY, maxY, step);
-        }
-        for (i = 0; i < refinePasses && best; i++) {
-            step /= factor;
-            scan(best[0] - step * factor, best[0] + step * factor,
-                 best[1] - step * factor, best[1] + step * factor, step);
-        }
-
-        return best;
+        return search([bounds[0] + margin.x, bounds[1] + margin.y,
+                       bounds[2] - margin.x, bounds[3] - margin.y])
+            || search(bounds);
     },
 
     // iso alpha-2 --> iso alpha-3
