@@ -17,6 +17,9 @@ vi.mock('CoreHome', () => ({
   Sparkline: {
     name: 'Sparkline',
     props: ['params', 'seriesIndices', 'width', 'height'],
+    // Declared like the real component, so @loading-change is treated as a listener instead of
+    // ending up on the element as a stray attribute.
+    emits: ['loadingChange'],
     template: '<img class="sparkline-stub" />',
   },
   // SparklineCard derives graph-params from the sparkline url; parse a query string like the real
@@ -39,15 +42,15 @@ vi.mock('CoreHome', () => ({
 import SparklineCard from './SparklineCard.vue';
 
 describe('CoreVisualizations/SparklineCard', () => {
-  // The card measures its sparkline slot and holds the sparkline back until it has a size; jsdom
-  // reports 0 for every element, so give the slot a width the way a real layout would.
+  // The card waits for its slot to have a size before rendering the sparkline, and jsdom reports 0
+  // for everything, so give the slot a width the way a real layout would.
   beforeEach(() => {
     vi.spyOn(Element.prototype, 'getBoundingClientRect')
       .mockReturnValue({ width: 420, height: 40 } as DOMRect);
   });
 
   afterEach(() => {
-    // vitest.config.ts sets clearMocks: false, so the rect spy has to be restored explicitly.
+    // clearMocks is off in vitest.config.ts, so restore the spy by hand.
     vi.restoreAllMocks();
   });
 
@@ -141,8 +144,8 @@ describe('CoreVisualizations/SparklineCard', () => {
   });
 
   it('sizes the sparkline from the measured slot, the same way in both modes', async () => {
-    // Both modes take the width from the slot they are given, so a comparison card's wider slot is
-    // the only thing that makes its sparkline wider — no per-mode constant to keep in sync.
+    // Both modes take the width from their slot, so a comparison card's wider slot is the only
+    // reason its sparkline is wider. No per-mode constant to keep in sync.
     const plain = createWrapper();
     const comparing = createWrapper(comparisonSparkline);
     await nextTick();
@@ -156,17 +159,15 @@ describe('CoreVisualizations/SparklineCard', () => {
     expect(comparingSparkline.props('height')).toBe(40);
   });
 
-  it('publishes the measured size as the custom properties the stylesheet draws the image at', async () => {
+  it('lets the sparkline fill the slot it was measured from', async () => {
     const wrapper = createWrapper();
     await nextTick();
 
-    const slot = wrapper.find('.sparklineCard__sparkline');
-    expect(slot.attributes('style')).toContain('--sparklineCard-img-width: 420px');
-    expect(slot.attributes('style')).toContain('--sparklineCard-img-height: 40px');
+    expect(wrapper.findComponent({ name: 'Sparkline' }).classes()).toContain('sparklineImg--fluid');
   });
 
   it('keeps the slot but holds the sparkline back while the card has no measurable width', async () => {
-    // A card inside a collapsed widget or an inactive reporting tab.
+    // As in a collapsed widget or a hidden reporting tab.
     vi.spyOn(Element.prototype, 'getBoundingClientRect')
       .mockReturnValue({ width: 0, height: 0 } as DOMRect);
 
@@ -195,6 +196,24 @@ describe('CoreVisualizations/SparklineCard', () => {
     const wrapper = createWrapper();
 
     expect(wrapper.find('.sparklineCard__sparkline').attributes('title')).toBeUndefined();
+  });
+
+  it('shows the placeholder until the sparkline reports it has something to display', async () => {
+    const wrapper = createWrapper();
+    await nextTick();
+
+    // Also covers the time before the slot is measured, when there is no image yet.
+    expect(wrapper.find('.sparklineCard__sparkline').classes())
+      .toContain('sparklineCard__sparkline--loading');
+    expect(wrapper.findComponent({ name: 'Sparkline' }).classes())
+      .toContain('sparklineImg--hidden');
+
+    await wrapper.findComponent({ name: 'Sparkline' }).vm.$emit('loadingChange', false);
+
+    expect(wrapper.find('.sparklineCard__sparkline').classes())
+      .not.toContain('sparklineCard__sparkline--loading');
+    expect(wrapper.findComponent({ name: 'Sparkline' }).classes())
+      .not.toContain('sparklineImg--hidden');
   });
 
   it('does not render the segment title region in no-comparison mode', () => {

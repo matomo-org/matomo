@@ -30,25 +30,27 @@
       :sparkline="sparkline"
       :all-metrics-documentation="allMetricsDocumentation"
     />
-    <!-- Both bodies put the sparkline last, so the shell owns the one slot: it keeps the fixed
-         card height and the reused Sparkline sizing in one place (see SparklineCard.less). The
-         slot's measured size drives both the requested image and the size it is drawn at, so the
-         image is never rescaled by CSS. Held back until measured — a card in a collapsed widget or
-         an inactive tab measures 0 and becomes measurable later. -->
+    <!-- Both card bodies end with the sparkline, so the shell owns the single slot. Its measured
+         size is passed to Sparkline, which draws the image at exactly that size so CSS never has
+         to rescale it. The sparkline waits until the slot has been measured; a card in a hidden
+         tab measures 0 at first and shows the placeholder until it is visible. -->
     <!-- The tooltip goes on the slot, not the image: the slot is there even while the image is
          still loading. -->
     <div
       ref="sparklineSlot"
       class="sparklineCard__sparkline"
-      :style="sparklineSizeVars"
+      :class="{ 'sparklineCard__sparkline--loading': isSparklineLoading }"
       :title="sparkline.tooltip || undefined"
     >
       <Sparkline
         v-if="sparklineWidth > 0 && sparklineHeight > 0"
+        class="sparklineImg--fluid"
+        :class="{ 'sparklineImg--hidden': isSparklineLoading }"
         :width="sparklineWidth"
         :height="sparklineHeight"
         :params="sparkline.url"
         :series-indices="sparkline.seriesIndices ?? undefined"
+        @loading-change="isSparklineLoading = $event"
       />
     </div>
   </div>
@@ -106,15 +108,13 @@ export default defineComponent({
     const graphParamsAttr = computed(() => sparklineGraphParamsAttr(props.sparkline));
     const seriesIndicesAttr = computed(() => sparklineSeriesIndicesAttr(props.sparkline));
 
-    // Displayed sparkline size, measured from the slot itself. The same numbers are handed to
-    // Sparkline (which requests the image at 2x them) and published as custom properties the .less
-    // draws the image at, so the two can't drift and CSS never has to rescale the image.
+    // Sparkline size, measured from the slot it will be drawn in.
     const sparklineSlot = ref<HTMLElement | null>(null);
     const { width: sparklineWidth, height: sparklineHeight } = useSparklineSlotSize(sparklineSlot);
-    const sparklineSizeVars = computed(() => ({
-      '--sparklineCard-img-width': `${sparklineWidth.value}px`,
-      '--sparklineCard-img-height': `${sparklineHeight.value}px`,
-    }));
+
+    // Starts true so the placeholder also covers the time before the slot has been measured, when
+    // there is no image yet. Sparkline tells us about every change after that.
+    const isSparklineLoading = ref(true);
 
     return {
       isComparison,
@@ -123,7 +123,7 @@ export default defineComponent({
       sparklineSlot,
       sparklineWidth,
       sparklineHeight,
-      sparklineSizeVars,
+      isSparklineLoading,
     };
   },
 });

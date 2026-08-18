@@ -12,11 +12,10 @@ window.$ = require('jquery');
 window.jQuery = window.$;
 require('jquery-ui-dist/jquery-ui');
 
-// jsdom does not implement ResizeObserver, which components use to size themselves from their
-// measured container. Every created observer is recorded on window.__resizeObservers so a spec can
-// grab the last one and deliver entries with trigger(); specs that only need mounting to not throw
-// can ignore it. Deliberately plain (no vi.fn) so the stub behaves the same however a spec
-// configures its mocks.
+// jsdom has no ResizeObserver, which some components use to size themselves. Each one created is
+// pushed onto window.__resizeObservers, so a spec can take the last one and fire it with trigger().
+// Specs that just need mounting to work can ignore it. Written without vi.fn so it behaves the
+// same however a spec sets up its mocks.
 class ResizeObserverStub {
   constructor(callback) {
     this.callback = callback;

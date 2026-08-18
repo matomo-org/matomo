@@ -76,9 +76,11 @@ class SparklineTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * The sparkline card mirrors MAX_WIDTH / 2 client side as the widest size it will ever display
-     * (see useSparklineSlotSize.ts), so that a request is never silently clamped above. Pin both
-     * values here: changing one without the other would let the clamp distort the aspect ratio.
+     * The sparkline card caps its own width at MAX_WIDTH / 2 (MAX_DISPLAY_WIDTH in
+     * useSparklineSlotSize.ts), so a request is never clamped here, which would squash the image.
+     *
+     * These literals are deliberate: this test cannot read the TypeScript value, so it only
+     * catches a change made here. If it fails, update the client constant to match.
      */
     public function testMaxDimensionsMatchTheValuesMirroredClientSide(): void
     {
