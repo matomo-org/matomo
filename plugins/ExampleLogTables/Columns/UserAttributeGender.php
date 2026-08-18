@@ -18,5 +18,5 @@ class UserAttributeGender extends Dimension
     protected $type         = self::TYPE_TEXT;
     protected $columnName   = 'gender';
     protected $segmentName  = 'attrgender';
-    protected $nameSingular = 'Gender';
+    protected $nameSingular = 'ExampleLogTables_UserGender';
 }

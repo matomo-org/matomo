@@ -1,0 +1,7 @@
+{
+    "ExampleLogTables": {
+        "GroupHasAdminPrivileges": "Admin privileges",
+        "NbVisitsAdminGroup": "Visits by admin groups",
+        "UserGender": "Gender"
+    }
+}

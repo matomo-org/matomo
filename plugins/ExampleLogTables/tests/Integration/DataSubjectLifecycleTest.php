@@ -88,15 +88,21 @@ class DataSubjectLifecycleTest extends IntegrationTestCase
     {
         $export = $this->dataSubjects->exportDataSubjects($this->getVisitsOf('user1'));
 
-        $this->assertArrayHasKey('log_custom', $export, 'log_custom was skipped, which means core could not join it');
-        $this->assertArrayHasKey('log_group', $export, 'log_group was skipped, which means the second hop does not resolve');
+        $this->assertArrayHasKey('log_custom', $export, 'log_custom was skipped, so core could not join it');
+        $this->assertArrayHasKey('log_group', $export, 'log_group was skipped, so the second hop does not resolve');
 
         // Two things to note. The export joins each table to the visits being exported and does not
         // deduplicate, so a table holding one row per user appears once per visit of that user; and
         // it formats each column through the Dimension that declares it, which is why is_admin
         // reads "Yes" rather than 1. Columns come out sorted by name.
-        $this->assertSame([['gender' => 'men', 'group' => 'admin', 'user_id' => 'user1']], $this->distinctRows($export['log_custom']));
-        $this->assertSame([['group' => 'admin', 'is_admin' => Piwik::translate('General_Yes')]], $this->distinctRows($export['log_group']));
+        $this->assertSame(
+            [['gender' => 'men', 'group' => 'admin', 'user_id' => 'user1']],
+            $this->distinctRows($export['log_custom'])
+        );
+        $this->assertSame(
+            [['group' => 'admin', 'is_admin' => Piwik::translate('General_Yes')]],
+            $this->distinctRows($export['log_group'])
+        );
     }
 
     public function testExportDoesNotLeakAnotherSubjectsRows(): void

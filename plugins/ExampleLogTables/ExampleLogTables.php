@@ -10,8 +10,10 @@
 namespace Piwik\Plugins\ExampleLogTables;
 
 use Piwik\Common;
+use Piwik\Piwik;
 use Piwik\Plugins\ExampleLogTables\Dao\CustomGroupLog;
 use Piwik\Plugins\ExampleLogTables\Dao\CustomUserLog;
+use Piwik\Plugins\ExampleLogTables\RecordBuilders\AdminGroupVisits;
 
 class ExampleLogTables extends \Piwik\Plugin
 {
@@ -19,7 +21,18 @@ class ExampleLogTables extends \Piwik\Plugin
     {
         return [
             'Db.getTablesInstalled' => 'getTablesInstalled',
+            'Metrics.getDefaultMetricTranslations' => 'addMetricTranslations',
         ];
+    }
+
+    /**
+     * Gives the archived metric a readable name wherever Matomo renders it.
+     *
+     * @param array<string, string> $translations
+     */
+    public function addMetricTranslations(array &$translations): void
+    {
+        $translations[AdminGroupVisits::NB_VISITS_ADMIN_GROUP_RECORD] = Piwik::translate('ExampleLogTables_NbVisitsAdminGroup');
     }
 
     /**

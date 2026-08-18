@@ -124,6 +124,7 @@ class VisitsWithUserIdAndCustomData extends Fixture
 
         $t->setCustomTrackingParameter(UserAttributesRequestProcessor::PARAM_GENDER, $attributes['gender']);
         $t->setCustomTrackingParameter(UserAttributesRequestProcessor::PARAM_GROUP, $attributes['group']);
-        $t->setCustomTrackingParameter(UserAttributesRequestProcessor::PARAM_GROUP_IS_ADMIN, $attributes['groupIsAdmin'] ? '1' : '0');
+        $isAdmin = $attributes['groupIsAdmin'] ? '1' : '0';
+        $t->setCustomTrackingParameter(UserAttributesRequestProcessor::PARAM_GROUP_IS_ADMIN, $isAdmin);
     }
 }

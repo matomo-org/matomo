@@ -1,6 +1,6 @@
 {
   "name": "ExampleLogTables",
-  "description": "Matomo Platform showcase: how to create custom log tables.",
+  "description": "Matomo Platform example: a plugin with log tables of its own, from tracking through segments and archiving to data subject erasure.",
   "version": "0.1.0",
   "theme": false,
   "require": {

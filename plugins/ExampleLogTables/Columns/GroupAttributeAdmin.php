@@ -18,5 +18,5 @@ class GroupAttributeAdmin extends Dimension
     protected $type         = self::TYPE_BOOL;
     protected $columnName   = 'is_admin';
     protected $segmentName  = 'isadmin';
-    protected $nameSingular = 'Admin privileges';
+    protected $nameSingular = 'ExampleLogTables_GroupHasAdminPrivileges';
 }
