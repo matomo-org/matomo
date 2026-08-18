@@ -53,4 +53,14 @@
     height: var(--sparklineSegmentComparisonRow-img-height, auto);
     max-width: 100%;
   }
+
+  // Same loading placeholder as the no-comparison card (mixin defined in SparklineCard.less), on
+  // the slot so the image can be hidden while it loads.
+  &:has(.sparklineImg--loading) {
+    .sparklineCardSkeleton();
+  }
+
+  .sparklineImg--loading {
+    visibility: hidden;
+  }
 }

@@ -92,4 +92,52 @@
     // Morpheus' `div.sparkline img { flex-shrink: 0 }` would otherwise let the image overflow.
     max-width: 100%;
   }
+
+  // The placeholder sits on the slot rather than on the image, so that the image can be hidden
+  // outright while it loads: a half-decoded bitmap, or the browser's broken-image marker if the
+  // request fails, would otherwise show on top of the skeleton.
+  &:has(.sparklineImg--loading) {
+    .sparklineCardSkeleton();
+  }
+
+  .sparklineImg--loading {
+    visibility: hidden;
+  }
+}
+
+// Placeholder for a sparkline that has never been painted: the card is framed and sized, but its
+// first image is still being rendered server-side. The slot already reserves the height, so this
+// only fills space that would otherwise be blank.
+// A mixin (parens keep it out of compiled CSS) so the segment-comparison row can reuse it; this
+// file is registered before SegmentComparisonRow.less, so it is in scope there.
+.sparklineCardSkeleton() {
+  border-radius: 4px;
+  background-color: @theme-color-background-tinyContrast;
+  background-image: linear-gradient(
+    90deg,
+    @theme-color-background-tinyContrast 0%,
+    @theme-color-background-contrast 50%,
+    @theme-color-background-tinyContrast 100%
+  );
+  // Wider than the element so the highlight has somewhere to travel from and to.
+  background-size: 200% 100%;
+  animation: sparklineCardSkeletonSweep 1.4s ease-in-out infinite;
+}
+
+@keyframes sparklineCardSkeletonSweep {
+  from {
+    background-position: 200% 0;
+  }
+
+  to {
+    background-position: -200% 0;
+  }
+}
+
+// A sweep drawing attention to itself is exactly what a reduced-motion preference asks us not to
+// do; the flat placeholder still reads as "nothing here yet".
+@media (prefers-reduced-motion: reduce) {
+  .sparklineImg--loading {
+    animation: none;
+  }
 }
