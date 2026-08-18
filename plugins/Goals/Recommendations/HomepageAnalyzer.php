@@ -87,6 +87,13 @@ class HomepageAnalyzer
             return null;
         }
 
+        // Re-anchor on the URL the actual request url (e.g. an apex -> www canonical redirect),
+        // so absolute same-origin links are kept and crawled pages aren't redirected again.
+        $effectiveUrl = $this->normalizeCrawlUrl((string) ($response['effectiveUrl'] ?? ''));
+        if ($effectiveUrl !== null) {
+            $startUrl = $effectiveUrl;
+        }
+
         $host = (string) parse_url($startUrl, PHP_URL_HOST);
         if ($host === '') {
             return null;
@@ -114,9 +121,9 @@ class HomepageAnalyzer
     }
 
     /**
-     * @return array{status?: ?int, headers?: ?array, data?: ?string}|null
+     * @return array{status?: ?int, headers?: ?array, data?: ?string, effectiveUrl?: string}|null
      */
-    private function fetchHomepage(string $url, int $timeout): ?array
+    protected function fetchHomepage(string $url, int $timeout): ?array
     {
         // Respect the same internet-features kill switch SiteContentDetector honours.
         if (0 === GeneralConfig::getIntegerConfigValue('enable_internet_features', 0)) {
@@ -214,6 +221,17 @@ class HomepageAnalyzer
             if ($html === null) {
                 $response = $this->fetchHomepage($currentUrl, $timeout);
                 $html = is_array($response) ? (string) ($response['data'] ?? '') : '';
+
+                $pageHost = is_array($response)
+                    ? (string) parse_url((string) ($response['effectiveUrl'] ?? ''), PHP_URL_HOST)
+                    : '';
+                if ($pageHost !== '' && strcasecmp($pageHost, $host) !== 0) {
+                    $this->getLogger()->debug(
+                        'Goals recommendations: skipping {url}, it redirected off-origin to {host}.',
+                        ['url' => $currentUrl, 'host' => $pageHost]
+                    );
+                    continue;
+                }
             }
 
             if ($html === '') {
