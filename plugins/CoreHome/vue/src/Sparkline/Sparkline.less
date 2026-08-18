@@ -1,6 +1,22 @@
+// Fallback size, used when no width/height props are given. Those props set an inline style,
+// which wins over this.
 img.sparklineImg {
   width: 100px;
   height: 25px;
+}
+
+// For parents that size the image themselves: never let it grow past its container. Without this
+// it would overflow rather than shrink, because Morpheus sets `flex-shrink: 0` on it. Using this
+// class also drops the legacy right padding (see coreHome.less).
+.sparklineImg--fluid {
+  max-width: 100%;
+}
+
+// Hides the image while the parent shows its own placeholder, so a half-loaded image can't appear
+// on top of it. Kept separate from `--loading` on purpose: the browser keeps showing the previous
+// image until a new one arrives, so hiding every sparkline by default would make them blink.
+.sparklineImg--hidden {
+  visibility: hidden;
 }
 
 .sparklineEvolution {

@@ -7,8 +7,8 @@
 
 import { mount } from '@vue/test-utils';
 
-// The component reaches for the Matomo globals to build its url; stub the modules it imports so the
-// specs can focus on the loading state.
+// The component uses the Matomo globals to build its url, so stub the modules it imports and let
+// these specs focus on the loading state.
 vi.mock('../Matomo/Matomo', () => ({
   default: {
     getThemeMode: () => 'light',
@@ -85,8 +85,7 @@ describe('CoreHome/Sparkline', () => {
   });
 
   it('goes back to loading when a resize requests a new image, and clears again on arrival', async () => {
-    // Reassigning src drops the bitmap the browser was showing, so the card would otherwise sit
-    // empty for the length of the request.
+    // A new url means a new request, which a parent drawing a placeholder needs to know about.
     const wrapper = createWrapper();
     await wrapper.find('img').trigger('load');
     expect(wrapper.find('img').classes()).not.toContain('sparklineImg--loading');
@@ -96,5 +95,43 @@ describe('CoreHome/Sparkline', () => {
 
     await wrapper.find('img').trigger('load');
     expect(wrapper.find('img').classes()).not.toContain('sparklineImg--loading');
+  });
+
+  it('reports every change of its loading state, so a consumer can draw its own placeholder', async () => {
+    const wrapper = createWrapper();
+
+    // The initial `true` is not emitted: a parent that cares already starts out loading.
+    expect(wrapper.emitted('loadingChange')).toBeUndefined();
+
+    await wrapper.find('img').trigger('load');
+    expect(wrapper.emitted('loadingChange')).toEqual([[false]]);
+
+    await wrapper.setProps({ width: 500 });
+    expect(wrapper.emitted('loadingChange')).toEqual([[false], [true]]);
+
+    await wrapper.find('img').trigger('load');
+    expect(wrapper.emitted('loadingChange')).toEqual([[false], [true], [false]]);
+  });
+
+  it('reports the loading state cleared when the image fails, so the placeholder is not permanent', async () => {
+    const wrapper = createWrapper();
+
+    await wrapper.find('img').trigger('error');
+
+    expect(wrapper.emitted('loadingChange')).toEqual([[false]]);
+  });
+
+  it('draws itself at the size its props ask for, which the width/height attributes cannot do', () => {
+    // The width/height attributes lose to any CSS rule, including the 100x25 default in the .less.
+    const img = createWrapper().find('img');
+
+    expect(img.attributes('style')).toContain('width: 300px');
+    expect(img.attributes('style')).toContain('height: 40px');
+  });
+
+  it('leaves the size to CSS when it is given no dimensions', () => {
+    const img = createWrapper({ width: undefined, height: undefined }).find('img');
+
+    expect(img.attributes('style')).toBeUndefined();
   });
 });

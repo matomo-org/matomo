@@ -34,33 +34,16 @@
 // margin-free; the gap before the sparkline is owned by `__sparkline`'s margin-top below, so
 // segment-only spacing is unchanged.
 
-// Per-segment sparkline slot: same fixed height as the no-comparison slot, and the same measured
-// sizing. This height is the only place the displayed sparkline height is set —
-// SegmentComparisonRow.vue measures the slot on mount and requests the image at exactly that size.
+// Sparkline slot for one segment. Same height and measured sizing as the plain card slot:
+// SegmentComparisonRow.vue measures this slot and Sparkline draws the image at exactly that size.
 .sparklineSegmentComparisonRow__sparkline {
   height: 40px;
   margin-top: 4px;
   display: flex;
-  align-items: center;
+  align-items: safe center;
+}
 
-  // override: the reused CoreHome Sparkline renders an external <img class="sparklineImg"> we can't
-  // rename; draw it at the size SegmentComparisonRow.vue measured, published as custom properties
-  // on the slot. See SparklineCard.less for why the padding reset and the max-width valve are here.
-  .sparklineImg {
-    display: block;
-    padding: 0;
-    width: var(--sparklineSegmentComparisonRow-img-width, 100%);
-    height: var(--sparklineSegmentComparisonRow-img-height, auto);
-    max-width: 100%;
-  }
-
-  // Same loading placeholder as the no-comparison card (mixin defined in SparklineCard.less), on
-  // the slot so the image can be hidden while it loads.
-  &:has(.sparklineImg--loading) {
-    .sparklineCardSkeleton();
-  }
-
-  .sparklineImg--loading {
-    visibility: hidden;
-  }
+// Same loading placeholder as the plain card (mixin lives in SparklineCard.less).
+.sparklineSegmentComparisonRow__sparkline--loading {
+  .sparklineCardSkeleton();
 }

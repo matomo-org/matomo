@@ -12,26 +12,23 @@ import {
   Ref,
 } from 'vue';
 
-// Widest sparkline we will ever display. Mirrors Sparkline::MAX_WIDTH / 2 (core/Visualization/
-// Sparkline.php): the image is rendered at twice the displayed size, and a request above the
-// server cap is silently clamped there, which would distort the aspect ratio. The widest card a
-// grid track can produce is ~681px, so this only binds in layouts that don't exist yet.
+// Widest sparkline we will ever display. Must stay at Sparkline::MAX_WIDTH / 2
+// (core/Visualization/Sparkline.php), since the image is requested at twice this. Asking for more
+// than the server allows gets clamped there, which would squash the image.
 export const MAX_DISPLAY_WIDTH = 800;
 
-// Trailing delay before a resize is acted on. Long enough that dragging a window edge produces one
-// request per card rather than one per frame, short enough not to be noticed on release. It also
-// absorbs the print media query's width round-trip: the two deliveries (to print width and back)
-// collapse into a single measurement of the width we ended up at.
+// Wait this long after a resize before acting on it, so dragging a window edge costs one request
+// per card instead of one per frame.
 const RESIZE_DEBOUNCE_MS = 150;
 
 /**
- * Measures a sparkline slot so the sparkline can be requested at exactly the size it is displayed
- * at, instead of being rendered at a fixed size and rescaled by CSS. Rescaling is what made the
- * stroke weight and the gap under the sparkline vary with the card width.
+ * Measures a sparkline slot so its image can be requested at exactly the size it is shown at,
+ * rather than being drawn at a fixed size and rescaled by CSS. That rescaling is what made the
+ * line thickness and the gap below the sparkline change with the card width.
  *
- * Returns the slot's size, 0 until it has been measured. Callers should hold back the sparkline
- * until both are positive: a slot inside a collapsed widget or an inactive tab measures 0 and
- * becomes measurable later, when the observer reports it.
+ * Both values are 0 until the slot has been measured, so callers should not render the sparkline
+ * until they are positive. A slot in a hidden tab or collapsed widget measures 0 at first and
+ * becomes measurable once it is shown.
  */
 export default function useSparklineSlotSize(
   slot: Ref<HTMLElement | null>,
@@ -43,17 +40,28 @@ export default function useSparklineSlotSize(
   let resizeTimeout: ReturnType<typeof setTimeout> | null = null;
 
   function applyWidth(measured: number): void {
-    // Floor, never round: rounding up makes the image wider than its slot, and Morpheus' legacy
-    // `div.sparkline img { flex-shrink: 0 }` turns that into overflow rather than a shrink. An
-    // image overflowing by a fraction of a pixel grows the document, which can flip a horizontal
-    // scrollbar on, which resizes the grid tracks, which resizes the image again.
+    // Round down, never up. A wider image than its slot overflows rather than shrinks (Morpheus
+    // sets `flex-shrink: 0` on it), and even a fraction of a pixel of overflow can add a
+    // horizontal scrollbar, which resizes the slot, which resizes the image again.
     const next = Math.min(Math.floor(measured), MAX_DISPLAY_WIDTH);
 
-    // A slot detached from the document measures 0 — the Dashboard detaches a widget while
-    // maximising it. Keeping the last good width stops the sparkline disappearing and refetching
-    // on every maximise/restore. (Re-assigning the same width is already a no-op for a ref.)
+    // Keep the last known width when the slot measures 0, which happens while the Dashboard
+    // detaches a widget to maximise it. Otherwise the sparkline would vanish and refetch each time.
     if (next > 0) {
       width.value = next;
+    }
+  }
+
+  // The single place the slot is measured, used both on mount and on every resize.
+  function applySize(el: HTMLElement): void {
+    const rect = el.getBoundingClientRect();
+    applyWidth(rect.width);
+
+    // Height is measured once, then left alone: it is fixed in CSS, and following it would let the
+    // image resize the slot it was measured from. A slot that mounts hidden measures 0, so keep
+    // looking until there is a real height to use.
+    if (height.value === 0) {
+      height.value = Math.floor(rect.height);
     }
   }
 
@@ -64,30 +72,18 @@ export default function useSparklineSlotSize(
       return;
     }
 
-    // Measured synchronously, so the sparkline url is built during mount: waiting for the first
-    // observer delivery would push the image request past the point where the UI screenshot runner
-    // waits for the network to settle. The slot has no padding or border, so its border box — what
-    // getBoundingClientRect reports — is also the width the image should be drawn at.
-    const rect = el.getBoundingClientRect();
-    applyWidth(rect.width);
+    // Measure during mount rather than waiting for the observer's first callback, so the image
+    // request starts early enough for the UI screenshot runner to wait for it.
+    applySize(el);
 
-    // Read once, deliberately. The slot's height is fixed in CSS, and the card frame's
-    // `container-type: inline-size` contains the inline axis only — so tracking the block axis
-    // would be a live image -> slot -> image feedback edge the moment the slot's height became
-    // content-driven.
-    height.value = Math.floor(rect.height);
-
-    // The delivered entry is ignored on purpose: by the time the debounce fires its size can
-    // already be stale, so re-measure instead and keep a single measurement path.
+    // The size the observer hands us is ignored: it can be stale by the time the debounce fires,
+    // so measure again instead.
     observer = new ResizeObserver(() => {
       if (resizeTimeout) {
         clearTimeout(resizeTimeout);
       }
 
-      resizeTimeout = setTimeout(
-        () => applyWidth(el.getBoundingClientRect().width),
-        RESIZE_DEBOUNCE_MS,
-      );
+      resizeTimeout = setTimeout(() => applySize(el), RESIZE_DEBOUNCE_MS);
     });
 
     observer.observe(el);

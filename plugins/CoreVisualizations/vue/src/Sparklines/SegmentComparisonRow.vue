@@ -12,22 +12,25 @@
       :title="segmentLabel"
     >{{ segmentLabel }}</span>
     <PeriodColumns :entry="segment" />
-    <!-- The slot's measured size drives both the requested image and the size it is drawn at, so
-         the image is never rescaled by CSS. Held back until measured. -->
+    <!-- The slot's measured size is passed to Sparkline, which draws the image at exactly that
+         size so CSS never has to rescale it. Shows the placeholder until it has been measured. -->
     <!-- The tooltip goes on the slot, not the image: the slot is there even while the image is
          still loading. -->
     <div
       ref="sparklineSlot"
       class="sparklineSegmentComparisonRow__sparkline"
-      :style="sparklineSizeVars"
+      :class="{ 'sparklineSegmentComparisonRow__sparkline--loading': isSparklineLoading }"
       :title="segment.tooltip || undefined"
     >
       <Sparkline
         v-if="sparklineWidth > 0 && sparklineHeight > 0"
+        class="sparklineImg--fluid"
+        :class="{ 'sparklineImg--hidden': isSparklineLoading }"
         :width="sparklineWidth"
         :height="sparklineHeight"
         :params="segment.url"
         :series-indices="segment.seriesIndices ?? undefined"
+        @loading-change="isSparklineLoading = $event"
       />
     </div>
   </div>
@@ -69,22 +72,20 @@ export default defineComponent({
     // Segment name (compareSegmentPretty); always populated in segment comparison.
     const segmentLabel = computed(() => props.segment.title || '');
 
-    // Displayed sparkline size, measured from the slot itself. The same numbers are handed to
-    // Sparkline (which requests the image at 2x them) and published as custom properties the .less
-    // draws the image at, so the two can't drift and CSS never has to rescale the image.
+    // Sparkline size, measured from the slot it will be drawn in.
     const sparklineSlot = ref<HTMLElement | null>(null);
     const { width: sparklineWidth, height: sparklineHeight } = useSparklineSlotSize(sparklineSlot);
-    const sparklineSizeVars = computed(() => ({
-      '--sparklineSegmentComparisonRow-img-width': `${sparklineWidth.value}px`,
-      '--sparklineSegmentComparisonRow-img-height': `${sparklineHeight.value}px`,
-    }));
+
+    // Starts true so the placeholder also covers the time before the slot has been measured, when
+    // there is no image yet. Sparkline tells us about every change after that.
+    const isSparklineLoading = ref(true);
 
     return {
       segmentLabel,
       sparklineSlot,
       sparklineWidth,
       sparklineHeight,
-      sparklineSizeVars,
+      isSparklineLoading,
     };
   },
 });
