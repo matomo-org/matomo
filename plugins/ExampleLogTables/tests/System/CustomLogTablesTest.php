@@ -86,6 +86,7 @@ class CustomLogTablesTest extends SystemTestCase
                 'Actions.get',
                 'UserId.getUsers',
                 'VisitsSummary.get',
+                'ExampleLogTables.getAdminGroupVisits',
             ], [
                 'idSite'       => $idSite1,
                 'date'         => $dateTime,
@@ -98,6 +99,7 @@ class CustomLogTablesTest extends SystemTestCase
                 'Actions.get',
                 'UserId.getUsers',
                 'VisitsSummary.get',
+                'ExampleLogTables.getAdminGroupVisits',
             ], [
                 'idSite'       => $idSite1,
                 'date'         => $dateTime,
@@ -110,6 +112,7 @@ class CustomLogTablesTest extends SystemTestCase
                 'Actions.get',
                 'UserId.getUsers',
                 'VisitsSummary.get',
+                'ExampleLogTables.getAdminGroupVisits',
             ], [
                 'idSite'       => $idSite1,
                 'date'         => $dateTime,
@@ -122,6 +125,7 @@ class CustomLogTablesTest extends SystemTestCase
                 'Actions.get',
                 'UserId.getUsers',
                 'VisitsSummary.get',
+                'ExampleLogTables.getAdminGroupVisits',
             ], [
                 'idSite'       => $idSite1,
                 'date'         => $dateTime,
