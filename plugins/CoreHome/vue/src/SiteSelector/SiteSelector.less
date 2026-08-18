@@ -63,7 +63,9 @@
 
 .siteSelector.piwikSelector a.title {
   > span {
-    max-width: 161px;
+    // keep the previous cap, but never let an ellipsised name reach the chevron:
+    // in a control narrower than 161px the text used to run straight into it
+    max-width: ~"min(161px, calc(100% - 24px))";
     overflow: hidden;
     text-overflow: ellipsis;
   }
