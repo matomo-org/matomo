@@ -24,12 +24,6 @@ jobs:
           lfs: false
           persist-credentials: false
           submodules: true
-      - name: Checkout AIProviders dependency
-        uses: actions/checkout@v7
-        with:
-          repository: matomo-org/plugin-AIProviders
-          path: plugins/AIProviders
-          persist-credentials: false
       - name: Install dependencies
         run: composer install --dev --prefer-dist --no-progress --no-suggest
       - name: Setup PHP

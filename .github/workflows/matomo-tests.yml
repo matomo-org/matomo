@@ -85,7 +85,6 @@ jobs:
         uses: matomo-org/github-action-tests@main
         with:
           test-type: 'UnitTests'
-          dependent-plugins: 'matomo-org/plugin-AIProviders'
           mysql-driver: ${{ matrix.environment.adapter }}
           mysql-engine: ${{ matrix.environment.mysql-engine }}
           mysql-version: ${{ matrix.environment.mysql-version }}

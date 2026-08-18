@@ -64,7 +64,7 @@ class GoalRecommendationsTest extends IntegrationTestCase
             'generatedAt' => null,
             'remainingAiScans' => null,
             'providerName' => Piwik::translate('Goals_RecommendAiProviderFallback'),
-            'aiAvailability' => 'notActivated',
+            'aiAvailability' => 'notConfigured',
             'privacyNote' => Piwik::translate('Goals_RecommendAiToggleHelp', Piwik::translate('Goals_RecommendAiProviderFallback')),
         ], $result);
     }
