@@ -99,6 +99,13 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   produced by `./console vue:build --watch`. Plugin authors can delete the committed `vue/dist/<Plugin>.umd.js` file
   from their repository and add `/vue/dist/*.umd.js` to their `.gitignore`. Nothing else needs to change; the file is
   simply no longer regenerated.
+* Select form fields (`uicontrol="select"`) are now rendered as the bordered, rounded control used by the
+  expandable selects and the top-level selectors, instead of Materialize's underlined field: a 38px box with a
+  chevron, and a dropdown card that opens below the field. Plugin stylesheets that pin a narrow width on
+  `.select-wrapper` may need widening, because the control now reserves horizontal padding for its text and
+  chevron — too little width shows an ellipsised option label. Stylesheets that positioned Materialize's own
+  `.caret`, or that tuned the inner `input`'s height, line-height or font-size for the underlined control, can
+  drop those rules; the shared styles size the field.
 
 ## Matomo 5.12.0
 
