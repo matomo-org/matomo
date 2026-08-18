@@ -1515,12 +1515,6 @@ $.extend(UserCountryMap, {
         };
     },
 
-    countryLabelGridSteps: 16,
-
-    countryLabelRefinePasses: 4,
-
-    countryLabelRefineFactor: 3,
-
     countryLabelMinArea: 700,
 
     countryLabelPosition: function (path, avoid, bounds) {
@@ -1657,14 +1651,14 @@ $.extend(UserCountryMap, {
             }
         }
 
-        var factor = UserCountryMap.countryLabelRefineFactor,
-            step = Math.max(maxX - minX, maxY - minY) / UserCountryMap.countryLabelGridSteps;
+        var gridSteps = 16, refinePasses = 4, factor = 3,
+            step = Math.max(maxX - minX, maxY - minY) / gridSteps;
         if (!step) {
             return null;
         }
 
         scan(minX, maxX, minY, maxY, step);
-        for (i = 0; i < UserCountryMap.countryLabelRefinePasses && best; i++) {
+        for (i = 0; i < refinePasses && best; i++) {
             step /= factor;
             scan(best[0] - step * factor, best[0] + step * factor,
                  best[1] - step * factor, best[1] + step * factor, step);
