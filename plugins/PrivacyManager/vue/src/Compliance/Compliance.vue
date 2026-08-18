@@ -18,26 +18,14 @@
     v-model="site"
   />
 
-  <template v-if="granularComplianceEnabled">
-    <GranularComplianceOverview
-      v-for="type in complianceTypes"
-      :key="type.id"
-      :id-site="siteId"
-      :compliance-type="type.id"
-      :title="type.title"
-      :description="type.description"
-    />
-  </template>
-  <template v-else>
-    <ComplianceOverview
-      v-for="type in complianceTypes"
-      :key="type.id"
-      :id-site="siteId"
-      :compliance-type="type.id"
-      :title="type.title"
-      :description="type.description"
-    />
-  </template>
+  <GranularComplianceOverview
+    v-for="type in complianceTypes"
+    :key="type.id"
+    :id-site="siteId"
+    :compliance-type="type.id"
+    :title="type.title"
+    :description="type.description"
+  />
 </template>
 
 <script lang="ts">
@@ -56,19 +44,11 @@ import {
   translate,
 } from 'CoreHome';
 import { fetchCompliancePolicies, CompliancePolicy } from './Compliance.store';
-import ComplianceOverview from './ComplianceOverview.vue';
 import GranularComplianceOverview from './GranularComplianceOverview.vue';
 
 export default defineComponent({
-  props: {
-    granularComplianceEnabled: {
-      type: Boolean,
-      default: false,
-    },
-  },
   components: {
     EnrichedHeadline,
-    ComplianceOverview,
     GranularComplianceOverview,
     SiteSelector,
   },

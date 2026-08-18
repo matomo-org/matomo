@@ -2,9 +2,5 @@
 {% set title %}{{ 'PrivacyManager_Compliance'|translate }}{% endset %}
 
 {% block content %}
-    <div
-        class="compliance"
-        vue-entry="PrivacyManager.Compliance"
-        granular-compliance-enabled="{{ granularComplianceEnabled|default(false)|json_encode }}"
-    ></div>
+    <div class="compliance" vue-entry="PrivacyManager.Compliance"></div>
 {% endblock %}

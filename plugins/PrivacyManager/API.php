@@ -17,10 +17,8 @@ use Piwik\Piwik;
 use Piwik\Config as PiwikConfig;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\CustomJsTracker\File;
-use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Plugins\Live\Live;
 use Piwik\Plugins\PrivacyManager\Compliance\ComplianceSettingsProvider;
-use Piwik\Plugins\PrivacyManager\FeatureFlags\GranularPrivacyCompliance;
 use Piwik\Plugins\PrivacyManager\Model\DataSubjects;
 use Piwik\Plugins\PrivacyManager\Dao\LogDataAnonymizer;
 use Piwik\Plugins\PrivacyManager\Model\LogDataAnonymizations;
@@ -50,20 +48,16 @@ class API extends \Piwik\Plugin\API
 
     private ComplianceSettingsProvider $complianceSettingsProvider;
 
-    private FeatureFlagManager $featureFlagManager;
-
     public function __construct(
         DataSubjects $gdpr,
         LogDataAnonymizations $logDataAnonymizations,
         LogDataAnonymizer $logDataAnonymizer,
-        ComplianceSettingsProvider $complianceSettingsProvider,
-        FeatureFlagManager $featureFlagManager
+        ComplianceSettingsProvider $complianceSettingsProvider
     ) {
         $this->gdpr = $gdpr;
         $this->logDataAnonymizations = $logDataAnonymizations;
         $this->logDataAnonymizer = $logDataAnonymizer;
         $this->complianceSettingsProvider = $complianceSettingsProvider;
-        $this->featureFlagManager = $featureFlagManager;
     }
 
     /**
@@ -715,8 +709,6 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSuperUserAccess();
 
-        $this->checkGranularComplianceFeatureIsEnabled();
-
         $policy = PolicyManager::getPolicyByName($compliancePolicy);
 
         if (is_null($policy)) {
@@ -823,8 +815,6 @@ class API extends \Piwik\Plugin\API
     ): string {
         Piwik::checkUserHasSuperUserAccess();
 
-        $this->checkGranularComplianceFeatureIsEnabled();
-
         if (StaticContainer::get(AuthenticationToken::class)->isSessionToken()) {
             $this->confirmCurrentUserPassword($passwordConfirmation);
         }
@@ -840,13 +830,6 @@ class API extends \Piwik\Plugin\API
         }
 
         return $policy;
-    }
-
-    private function checkGranularComplianceFeatureIsEnabled(): void
-    {
-        if (!$this->featureFlagManager->isFeatureActive(GranularPrivacyCompliance::class)) {
-            throw new Exception('Granular compliance configuration is not enabled');
-        }
     }
 
     /**

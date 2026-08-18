@@ -469,98 +469,9 @@ describe("PrivacyManager", function () {
 
         await page.waitForNetworkIdle();
         await page.waitForSelector('.compliance', { visible: true });
-        await page.waitForSelector('table.dataTable.compliance', { visible: true });
-
-        expect(await page.screenshotSelector('.compliance')).to.matchImage('compliance');
-    });
-
-    it('should show compliance is enforced when checkbox is selected', async function() {
-      await page.goto('?module=PrivacyManager&action=compliance&idSite=1&period=day&date=yesterday');
-      await page.waitForNetworkIdle();
-
-      await page.waitForSelector('.compliance', { visible: true });
-      await (await page.jQuery('#site-1-cnil_v1-enableFeature')).click();
-      await page.waitForTimeout(150);
-      await (await page.jQuery('.site-1-cnil_v1-save input')).click();
-      await page.waitForTimeout(150);
-      await confirmPassword();
-
-      expect(await page.screenshotSelector('.compliance')).to.matchImage('compliance_enforced');
-    });
-
-    it('should load a new compliance page when site selector is changed', async function() {
-      await page.goto('?module=PrivacyManager&action=compliance&idSite=1&period=day&date=yesterday');
-      await page.waitForNetworkIdle();
-      await (await page.jQuery('#complianceSite a')).click();
-      await page.waitForTimeout(150);
-      await (await page.jQuery('#complianceSite li:nth-child(2)')).click();
-      await page.waitForNetworkIdle();
-
-      expect(await page.screenshotSelector('.compliance')).to.matchImage('compliance_different_site');
-    });
-
-    it('should select All Websites when idSite is not provided', async function() {
-      await page.goto('?module=PrivacyManager&action=compliance');
-      await page.waitForNetworkIdle();
-
-      const siteSelectorContent = await page.evaluate(() => {
-        return $('#complianceSite a.title').text();
-      });
-
-      expect(siteSelectorContent).to.be.equal('All Websites');
-    });
-
-    it('should select All Websites when idSite equals all', async function() {
-      await page.goto('?module=PrivacyManager&action=compliance&idSite=all');
-      await page.waitForNetworkIdle();
-
-      const siteSelectorContent = await page.evaluate(() => {
-        return $('#complianceSite a.title').text();
-      });
-
-      expect(siteSelectorContent).to.be.equal('All Websites');
-    });
-
-    it('should hide the policy controls when policy is enabled via config', async function() {
-      testEnvironment.overrideConfig('CnilPolicy', {
-        cnil_v1_policy_enabled: '1',
-      });
-      testEnvironment.save();
-
-      await page.goto('?module=PrivacyManager&action=compliance&idSite=all');
-      await page.waitForNetworkIdle();
-
-      expect(await page.screenshotSelector('.compliance')).to.matchImage('compliance_config_enabled');
-    });
-
-    it('should show the granular dashboard as read only when policy is enabled via config', async function() {
-      // self-contained: set both overrides here instead of relying on the previous test
-      testEnvironment.overrideConfig('FeatureFlags', {
-        GranularPrivacyCompliance_feature: 'enabled',
-      });
-      testEnvironment.overrideConfig('CnilPolicy', {
-        cnil_v1_policy_enabled: '1',
-      });
-      testEnvironment.save();
-
-      try {
-        await page.goto('?module=PrivacyManager&action=compliance&idSite=1&period=day&date=yesterday');
-        await page.waitForNetworkIdle();
         await page.waitForSelector('table.granularCompliance', { visible: true });
 
-        expect(await page.screenshotSelector('.compliance')).to.matchImage('compliance_granular_config_enabled');
-      } finally {
-        delete testEnvironment.configOverride.CnilPolicy;
-        testEnvironment.save();
-      }
-    });
-
-    it('should show the granular dashboard with per setting toggles', async function() {
-      await page.goto('?module=PrivacyManager&action=compliance&idSite=1&period=day&date=yesterday');
-      await page.waitForNetworkIdle();
-      await page.waitForSelector('table.granularCompliance', { visible: true });
-
-      expect(await page.screenshotSelector('.compliance')).to.matchImage('compliance_granular');
+        expect(await page.screenshotSelector('.compliance')).to.matchImage('compliance_granular');
     });
 
     it('should mark a toggled setting as applies on save until it is saved', async function() {
@@ -587,10 +498,55 @@ describe("PrivacyManager", function () {
       expect(await page.screenshotSelector('.compliance')).to.matchImage('compliance_granular_enforce_all_pending');
     });
 
-    after(async function () {
-      // leave no config overrides or pending page state behind for later tests
-      delete testEnvironment.configOverride.FeatureFlags;
-      delete testEnvironment.configOverride.CnilPolicy;
+    it('should load a new compliance page when site selector is changed', async function() {
+      await page.goto('?module=PrivacyManager&action=compliance&idSite=1&period=day&date=yesterday');
+      await page.waitForNetworkIdle();
+      await (await page.jQuery('#complianceSite a')).click();
+      await page.waitForTimeout(150);
+      await (await page.jQuery('#complianceSite li:nth-child(2)')).click();
+      await page.waitForNetworkIdle();
+      await page.waitForSelector('table.granularCompliance', { visible: true });
+
+      expect(await page.screenshotSelector('.compliance')).to.matchImage('compliance_granular_different_site');
+    });
+
+    it('should select All Websites when idSite is not provided', async function() {
+      await page.goto('?module=PrivacyManager&action=compliance');
+      await page.waitForNetworkIdle();
+
+      const siteSelectorContent = await page.evaluate(() => {
+        return $('#complianceSite a.title').text();
+      });
+
+      expect(siteSelectorContent).to.be.equal('All Websites');
+    });
+
+    it('should select All Websites when idSite equals all', async function() {
+      await page.goto('?module=PrivacyManager&action=compliance&idSite=all');
+      await page.waitForNetworkIdle();
+
+      const siteSelectorContent = await page.evaluate(() => {
+        return $('#complianceSite a.title').text();
+      });
+
+      expect(siteSelectorContent).to.be.equal('All Websites');
+    });
+
+    it('should show the granular dashboard as read only when policy is enabled via config', async function() {
+      testEnvironment.overrideConfig('CnilPolicy', {
+        cnil_v1_policy_enabled: '1',
+      });
       testEnvironment.save();
+
+      try {
+        await page.goto('?module=PrivacyManager&action=compliance&idSite=1&period=day&date=yesterday');
+        await page.waitForNetworkIdle();
+        await page.waitForSelector('table.granularCompliance', { visible: true });
+
+        expect(await page.screenshotSelector('.compliance')).to.matchImage('compliance_granular_config_enabled');
+      } finally {
+        delete testEnvironment.configOverride.CnilPolicy;
+        testEnvironment.save();
+      }
     });
   });
