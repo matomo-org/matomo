@@ -45,7 +45,7 @@ export default defineConfig({
         url: 'http://localhost/',
       },
     },
-    include: ['plugins/*/vue/**/*.spec.[tj]s', 'plugins/*/tests/Javascript/**/*.spec.[tj]s'],
+    include: ['plugins/*/vue/**/*.spec.[tj]s', 'plugins/*/tests/client/**/*.spec.[tj]s'],
     setupFiles: ['./tests/client/bootstrap.jest.js'],
     // Match the previous Jest behaviour, which did not auto-reset mocks between tests.
     clearMocks: false,
