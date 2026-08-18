@@ -5,7 +5,7 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import { configDefaults, defineConfig } from 'vitest/config';
+import { defineConfig } from 'vitest/config';
 import vue from '@vitejs/plugin-vue';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -46,8 +46,6 @@ export default defineConfig({
       },
     },
     include: ['plugins/*/vue/**/*.spec.[tj]s', 'plugins/*/javascripts/**/*.spec.[tj]s'],
-    // These legacy specs predate the Jest removal and reference plugin globals no runner sets up.
-    exclude: [...configDefaults.exclude, 'plugins/AnonymousPiwikUsageMeasurement/**/*.spec.[tj]s'],
     setupFiles: ['./tests/client/bootstrap.jest.js'],
     // Match the previous Jest behaviour, which did not auto-reset mocks between tests.
     clearMocks: false,
