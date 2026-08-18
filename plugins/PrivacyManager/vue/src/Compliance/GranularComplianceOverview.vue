@@ -163,7 +163,9 @@ export default defineComponent({
       ([saveError, saveSuccess]) => {
         if (saveError || saveSuccess) {
           nextTick(() => {
-            saveNotifications.value?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            if (saveNotifications.value) {
+              saveNotifications.value.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
           });
         }
       },

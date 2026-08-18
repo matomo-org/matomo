@@ -50,7 +50,9 @@
                   :id="'toggle-' + setting.id"
                   :checked="isToggledOn(setting)"
                   :disabled="disabled"
-                  :aria-label="translate('PrivacyManager_ComplianceStatusEnforced') + ': ' + setting.name"
+                  :aria-label="
+                    translate('PrivacyManager_ComplianceStatusEnforced') + ': ' + setting.name
+                  "
                   @change="$emit('toggle', setting.id)"
                 />
                 <span class="lever"></span>
