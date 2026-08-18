@@ -22,9 +22,16 @@
     cursor: pointer;
   }
 
-  .select-wrapper:hover,
-  .select-wrapper:focus-within {
+  .select-wrapper:not(.disabled):hover,
+  .select-wrapper:not(.disabled):focus-within {
     border-color: @theme-color-link;
+  }
+
+  // override: Materialize marks the wrapper disabled rather than the control itself, so
+  // without this a disabled select still offers a pointer and reacts to hover
+  .select-wrapper.disabled,
+  .select-wrapper.disabled input.select-dropdown {
+    cursor: default;
   }
 
   // override: Materialize's underline, 3rem height and bottom margin. The tag is
