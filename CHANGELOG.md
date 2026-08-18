@@ -14,12 +14,22 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ## Matomo 5.13.0
 
 ### Breaking Changes
+* The interface `Piwik\Settings\Interfaces\PolicyComparisonInterface` gained four methods used by the granular compliance dashboard: `getPolicySettingId()`, `isExternallyManagedByPolicyPage()`, `getWhatItDoes()` and `getImpact()`. Plugins that implement the interface directly must implement them. Plugins using `Piwik\Settings\Interfaces\Traits\PolicyComparisonTrait` (as all known implementers do) inherit default implementations and are not affected.
 * Site content detection (used by the tracking-code setup page and consent-manager detection) now fetches the site URL over the SSRF-safe request path. It refuses targets resolving to private, loopback or reserved IP addresses, and requires the curl extension instead of falling back to the `fopen` or `socket` transports. Installations tracking intranet sites on private addresses must allowlist their ranges via the new `[General] allowed_private_egress_ranges` setting. Refusals are logged at `WARN` level. A configured `[proxy] host` also makes these requests fail closed, as the proxy resolves the target itself and the validated IP cannot be pinned. Where the site host is reachable directly, add it to `[proxy] exclude` (exact hostnames, no wildcards).
+* A report or graph can now only be streamed to the browser by the top-level request. `ImageGraph.get` and `ScheduledReports.generateReport` throw when a streaming output mode comes from a nested API request, for example an `API.getBulkRequest` sub-request. Use `GRAPH_OUTPUT_PHP`/`GRAPH_OUTPUT_FILE` or `OUTPUT_RETURN` instead — `OUTPUT_SAVE_ON_DISK` is rewritten to `OUTPUT_DOWNLOAD` and still throws. The streaming methods of `Piwik\ReportRenderer` and `Piwik\ReportRenderer\Pdf` throw too, so a plugin's own renderer inherits the restriction (new: `ReportRenderer::checkStreamingToBrowserIsAllowed()` and `Piwik\API\Request::isCurrentApiRequestNestedInAnotherApiRequest()`).
+* `UsersManager.createAppSpecificTokenAuth` now only creates a token for the account the caller is acting as, with no exception for super users — including code inside `Piwik\Access::doAsSuperUser()`, console commands and scheduled tasks. To create a token for another account, send an unauthenticated request with that account's `passwordConfirmation`. The method also refuses to run as a nested API request.
+* `UsersManager.setUserAccess` now requires `passwordConfirmation` to grant the `admin` role, in either the string or the array form of `access`, on top of the existing check for granting the anonymous user `view` access. As before this applies only to session-authenticated requests, which includes any request sending `force_api_session=1`; plain `token_auth`, `Authorization: Bearer` and CLI calls are unaffected.
+* Exporting a report for a single goal (a goals table or a bar/pie/evolution chart showing one goal's
+  conversions or revenue) now returns only the columns shown in the UI, by adding `showColumns` to the
+  export request. Previously the export returned the aggregated all-goals columns and every other
+  goal's columns as well. Integrations that reuse an export URL copied from the UI will receive a
+  narrower set of columns than before.
 
 ### New APIs
 * The sparklines visualization has been redesigned as a responsive card grid of metric tiles. Plugin-facing additions that come with it:
   * The new `Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines\Config::$use_metric_labels_as_titles` property lets a sparklines view use its own metric translations as the card titles instead of the generic metric names. Intended for views that relabel shared columns with section-specific names, e.g. the Ecommerce Overview.
   * The `sparkline(src, width, height)` Twig helper accepts optional `width`/`height` display-size parameters (in px, defaults `Piwik\Visualization\Sparkline::DEFAULT_WIDTH`/`DEFAULT_HEIGHT`); the sparkline PNG is rendered at twice the displayed size for hi-DPI screens.
+* Table visualizations gained a `show_percentage_values` request property (`Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable\RequestConfig`). When enabled, eligible metric cells display the percentage of the report total and show the absolute value on hover instead of the other way around. It defaults to `false`, can be set by a plugin or passed as a query parameter, and is exposed to users as a setting in the report's configure menu. Whether that setting is offered is derived from the report itself into the read-only display property `report_supports_percentage_values`, which is true when at least one displayed column appears in both `report_ratio_columns` and the report totals.
 * `Piwik\Http::sendHttpRequest()` and `Piwik\Http::sendHttpRequestBy()` accept a new optional `$validateEgressIp`
   parameter enabling an SSRF-safe request path (public-IP validation, redirect re-validation, IP pinning). Use it
   whenever the target URL derives from untrusted input, such as a site's configured URL. Requires curl.
@@ -29,6 +39,17 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The `Http.sendHttpRequest` and `Http.sendHttpRequest.end` events pass a new `validateEgressIp` entry in their params
   array. A listener that resolves the request itself must either honour SSRF-safe semantics (public-IP-only target,
   re-validated redirects) or leave the request unhandled.
+* Evolution line graphs now draw a forecast for incomplete periods, on by default. `Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution\Config` gained `$show_forecast` (default `true`) and `$disable_forecast` (default `false`); turning either one off skips the forecast and the sub-period API requests it needs. A subclass that renders bars must set `$this->config->show_line_graph = false` in `beforeLoadDataTable()` before calling the parent, or it pays for a forecast the bar renderer cannot draw. Only the rendered graph changes, no API response.
+* The new `Piwik\Columns\Join::getAdditionalKeyColumns()` lets a dimension join require further columns to match on both tables, for a join column that is not unique on its own — `Piwik\Columns\Join\GoalNameJoin` uses it to scope its join to `idsite`. It returns an empty array by default, so existing joins are unaffected.
+* The new bundled `AIProviders` plugin holds the AI provider credentials and defaults that Matomo's AI features use, and lets a plugin add a provider of its own by extending `Piwik\Plugins\AIProviders\Provider\AIProvider`:
+  * `AIProviders.addAIProviders` registers providers on the `AIProvidersList` it receives. `AIProviders.filterAIProviders` can remove one or mark it restricted, so it still serves completions but is hidden from the admin UI. The first registration for a provider ID wins.
+  * `Piwik\Plugins\AIProviders\AIProviderService` runs a completion (`complete()`) or a multi-turn conversation (`converse()`).
+
+### New config.ini.php settings
+* The new `[AIProviders]` section configures the AI provider plugin from the config file:
+  * `defaultProvider` and `defaultCapabilityLevel` (`instant` or `thinking`) pin the instance-wide defaults. Pinning either one makes the plugin's settings page read-only and hides it from the admin menu.
+  * `<providerId>ApiKey`, `<providerId>EndpointUrl`, `<providerId>Model` and `<providerId>UseFipsEndpoint` pin per-provider credentials for `anthropic`, `google`, `openai`, `bedrock` and `custom-provider` (`EndpointUrl` applies to the last two, `UseFipsEndpoint` to `bedrock`). Each is also readable from the matching `MATOMO_AIPROVIDERS_<PROVIDER_ID>_*` environment variable. The config file wins over the environment variable, and both win over the UI.
+  * `providerSelectionAllowlist[]` exempts the named plugins from a pinned `defaultProvider`, letting them target a provider of their choice. It does nothing unless `defaultProvider` is set.
 
 ### HTTP API
 * `API.getBulkRequest` now validates the authentication parameters of each nested request URL against
@@ -36,6 +57,16 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   (`force_api_session`) nor the acting user (`token_auth`); outside a session a nested request may still
   authenticate with its own `token_auth`, but may not change the session flag. A nested request whose
   parameters conflict with the outer request's authentication context aborts the whole bulk request.
+* `API.getProcessedReport` for `Referrers.getAll` now returns `reportTotal` keyed by metric name instead of raw `Piwik\Metrics::INDEX_*` integers such as `2` and `3`. It was the only report leaking those keys.
+* A new `keep_flattened_dimension_columns` parameter keeps the columns a flattened report adds for its
+  dimensions when the request also restricts columns with `showColumns`. Flattening with
+  `flat=1&show_dimensions=1` adds one column per dimension, but their names only exist after
+  flattening, so a caller cannot include them in a `showColumns` allowlist and `ColumnDelete` would
+  drop them. Setting `keep_flattened_dimension_columns=1` re-adds them after flattening. It defaults
+  to `0`, so `showColumns` on its own behaves exactly as before.
+
+### HTTP Tracking API
+* `token_auth` and `token` are now part of the default `url_query_parameter_to_exclude_from_url`, so both are stripped from tracked page, site search, event, content, goal-conversion and referrer URLs; downloads and outlinks keep them. An installation that sets the option in its own `config.ini.php` replaces the default rather than extending it, and has to add the two names itself.
 
 ## Matomo 5.12.0
 

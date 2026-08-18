@@ -24,7 +24,9 @@
         "EcommerceOverviewSubcategoryHelp2": "Click on an individual metric within the sparkline chart to focus on it within the full-sized evolution graph.",
         "EcommerceOverviewSubcategoryHelp3": "Learn more in our Ecommerce guide here.",
         "EcommercePolicySettingRequirementNote": "Ecommerce analytics is enabled, but specific segments are disabled (Order ID, Order revenue, Product price, Product name, Product SKU). If you prefer, you can completely disable Ecommerce tracking %1$shere%2$s.",
-        "EcommercePolicySettingTitle": "Ecommerce Restricted",
+        "EcommercePolicySettingTitle": "Ecommerce Data Collection Restricted",
+        "EcommercePolicySettingWhatItDoes": "If Ecommerce analytics is enabled, the collection and use of detailed order-level and product-level information is restricted.<br><br>This prevents order and product information from being used to identify individual visitors or purchases.",
+        "EcommercePolicySettingImpact": "Overall ecommerce conversion and revenue metrics remain available.<br><br>Segments based on Order ID, Order Revenue, Product Price, Product Name, and Product SKU are unavailable.",
         "EcommercePolicySettingCompliantSingle": "Compliant because Ecommerce isn't active for this measurable.",
         "EcommercePolicySettingCompliantAll": "Compliant because Ecommerce isn't active for any sites.",
         "EcommercePolicySettingNonCompliantNote": "Non compliant because Ecommerce analytics is enabled unrestricted.",
@@ -35,7 +37,9 @@
         "ProductSubcategoryHelp": "The Products view can help you identify products and categories that are over-performing or under-performing to reveal trends and opportunities related to your product selection and store pages.",
         "AnonymizeOrderIdNote": "Because an Order ID can be cross-referenced with another system, typically an ecommerce shop, the Order ID may count as personal information under the GDPR. When you enable this option, an Order ID will be automatically anonymized so no personal information will be tracked.",
         "UseAnonymizeOrderId": "Anonymize Order ID",
-        "OrderIdAnonymizationSettingTitle": "Ecommerce - Order ID anonymisation",
+        "OrderIdAnonymizationSettingTitle": "Ecommerce Order ID Anonymisation Enabled",
+        "OrderIdAnonymizationSettingWhatItDoes": "Ecommerce order IDs are anonymised before they are stored.<br><br>This reduces the risk of linking ecommerce transactions to identifiable visitors or individual purchases.",
+        "OrderIdAnonymizationSettingImpact": "Original order IDs cannot be viewed. Ecommerce Order ID reports and related segments are unavailable.",
         "OrderIdAnonymizationSettingRequirementNote": "Order IDs must be anonymised."
     }
 }

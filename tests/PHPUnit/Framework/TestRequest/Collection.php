@@ -54,6 +54,7 @@ class Collection
         'CorePluginsAdmin.getSystemSettings',
         'API.getPagesComparisonsDisabledFor',
         'BotTracking',
+        'AIProviders',
     );
 
     /**
