@@ -5,12 +5,14 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+// 'CoreHome' is a webpack external rather than a real module, so the mock has to be
+// virtual for Jest's resolver to accept it.
 jest.mock('CoreHome', () => ({
   AjaxHelper: {
     fetch: jest.fn(),
     post: jest.fn(),
   },
-}));
+}), { virtual: true });
 
 import { AjaxHelper } from 'CoreHome';
 import {
