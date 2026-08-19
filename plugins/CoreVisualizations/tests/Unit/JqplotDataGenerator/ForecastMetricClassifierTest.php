@@ -72,6 +72,26 @@ class ForecastMetricClassifierTest extends TestCase
         yield 'unique outlinks stays additive' => ['nb_uniq_outlinks', false, ForecastMetricClassifier::MONOTONICITY_UP];
         yield 'average over unique visitors is a ratio' => ['avg_nb_uniq_visitors', false, ForecastMetricClassifier::MONOTONICITY_FREE];
         yield 'row percentage of unique visitors is a ratio' => ['nb_uniq_visitors_row_percentage', false, ForecastMetricClassifier::MONOTONICITY_FREE];
+        // Blob-row counts: the period value is the row count of the re-aggregated sub-period
+        // tables, so they are deduplicated counts under names the base-name list cannot see.
+        yield 'site search keywords is a blob row count' => ['nb_keywords', false, ForecastMetricClassifier::MONOTONICITY_UNIQUE];
+        yield 'distinct countries is a blob row count' => ['UserCountry_distinctCountries', false, ForecastMetricClassifier::MONOTONICITY_UNIQUE];
+        yield 'distinct ai chatbots is a blob row count' => ['BotTracking_AIChatbotsUniqueChatbots', false, ForecastMetricClassifier::MONOTONICITY_UNIQUE];
+        yield 'distinct search engines is a blob row count' => ['Referrers_distinctSearchEngines', false, ForecastMetricClassifier::MONOTONICITY_UNIQUE];
+        yield 'distinct social networks is a blob row count' => ['Referrers_distinctSocialNetworks', false, ForecastMetricClassifier::MONOTONICITY_UNIQUE];
+        yield 'distinct ai assistants is a blob row count' => ['Referrers_distinctAIAssistants', false, ForecastMetricClassifier::MONOTONICITY_UNIQUE];
+        yield 'distinct referrer keywords is a blob row count' => ['Referrers_distinctKeywords', false, ForecastMetricClassifier::MONOTONICITY_UNIQUE];
+        yield 'distinct campaigns is a blob row count' => ['Referrers_distinctCampaigns', false, ForecastMetricClassifier::MONOTONICITY_UNIQUE];
+        yield 'distinct websites is a blob row count' => ['Referrers_distinctWebsites', false, ForecastMetricClassifier::MONOTONICITY_UNIQUE];
+        yield 'distinct website urls is a blob row count' => ['Referrers_distinctWebsitesUrls', false, ForecastMetricClassifier::MONOTONICITY_UNIQUE];
+        // Matched exactly, so neither an unrelated metric that merely reads like one of them nor
+        // a ratio built on top of one falls into the deduplicated branch.
+        yield 'searches alongside keywords stays additive' => ['nb_searches', false, ForecastMetricClassifier::MONOTONICITY_UP];
+        yield 'unrelated distinct-shaped metric stays additive' => ['MyPlugin_distinctThings', false, ForecastMetricClassifier::MONOTONICITY_UP];
+        yield 'row percentage of distinct countries is a ratio' => ['UserCountry_distinctCountries_row_percentage', false, ForecastMetricClassifier::MONOTONICITY_FREE];
+        // The AI chatbot page/document url counts archive as 0 for non-day periods and are
+        // stripped from the API output before a chart can request them, so they stay additive.
+        yield 'ai chatbot page urls stays additive' => ['BotTracking_AIChatbotsUniquePageUrls', false, ForecastMetricClassifier::MONOTONICITY_UP];
     }
 
     /**
@@ -165,5 +185,34 @@ class ForecastMetricClassifierTest extends TestCase
             0,
             $classifier->getForecastPrecisionForColumn('nb_uniq_visitors', false, ForecastMetricClassifier::MONOTONICITY_UNIQUE)
         );
+    }
+
+    /**
+     * @dataProvider getBlobRowCountPrecisionTestData
+     */
+    public function testForecastPrecisionForBlobRowCountRoundsToZeroDecimals(string $columnName): void
+    {
+        $classifier = new ForecastMetricClassifier([]);
+
+        self::assertSame(
+            0,
+            $classifier->getForecastPrecisionForColumn($columnName, false, ForecastMetricClassifier::MONOTONICITY_UNIQUE)
+        );
+    }
+
+    /**
+     * Blob-row counts count whole things, so none of them may render a fractional forecast. The
+     * classifier is built with an empty semantic-type map here on purpose: UserCountry and the
+     * Referrers URL count are absent from the real registry too, so the name has to carry it.
+     *
+     * @return iterable<string, array{string}>
+     */
+    public function getBlobRowCountPrecisionTestData(): iterable
+    {
+        yield 'site search keywords' => ['nb_keywords'];
+        yield 'distinct countries' => ['UserCountry_distinctCountries'];
+        yield 'distinct ai chatbots' => ['BotTracking_AIChatbotsUniqueChatbots'];
+        yield 'distinct search engines' => ['Referrers_distinctSearchEngines'];
+        yield 'distinct website urls' => ['Referrers_distinctWebsitesUrls'];
     }
 }
