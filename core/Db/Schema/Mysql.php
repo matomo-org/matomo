@@ -821,6 +821,16 @@ class Mysql implements SchemaInterface
         return true;
     }
 
+    public function supportsWindowFunctions(): bool
+    {
+        // MySQL 8+ and MariaDB 10.2+ do support window functions, but ranking queries
+        // keep the proven user-variable implementation there for now: switching MySQL
+        // over is a deliberate, separately-tested change. Ranking queries emit window
+        // functions only for the ClickHouse analytics connection, which has no user
+        // variables (see RankingQuery::generateRankingQuery()).
+        return false;
+    }
+
     public function getSupportedReadIsolationTransactionLevel(): string
     {
         return 'READ UNCOMMITTED';

@@ -356,6 +356,15 @@ class Schema extends Singleton
     }
 
     /**
+     * Returns if the database engine supports window functions.
+     *
+     */
+    public function supportsWindowFunctions(): bool
+    {
+        return $this->getSchema()->supportsWindowFunctions();
+    }
+
+    /**
      * Returns the supported read isolation transaction level
      *
      * For example:
