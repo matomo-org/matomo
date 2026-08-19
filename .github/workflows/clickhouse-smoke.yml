@@ -97,8 +97,10 @@ jobs:
       - name: Set up system php-fpm like github-action-tests does
         run: |
           sudo apt-get update -q >/dev/null
-          sudo apt-get install -y -q php8.1-fpm php8.1-curl nginx >/dev/null
-          sudo systemctl start php8.1-fpm.service
+          sudo apt-get install -y -q php-fpm php-curl nginx >/dev/null
+          PHPV=$(php -r 'echo PHP_MAJOR_VERSION . "." . PHP_MINOR_VERSION;')
+          echo "PHPV=$PHPV" | sudo tee -a $GITHUB_ENV
+          sudo systemctl start php$PHPV-fpm.service
       - name: Write probe script and nginx site
         run: |
           sudo mkdir -p /var/www/probe
@@ -122,13 +124,14 @@ jobs:
               root /var/www/probe;
               location ~ \.php$ {
                   include snippets/fastcgi-php.conf;
-                  fastcgi_pass unix:/run/php/php8.1-fpm.sock;
+                  fastcgi_pass unix:/run/php/phpPHPV_PLACEHOLDER-fpm.sock;
               }
           }
           NGINX
+          sudo sed -i "s/PHPV_PLACEHOLDER/$PHPV/" /etc/nginx/sites-enabled/probe.conf
           sudo rm -f /etc/nginx/sites-enabled/default
           sudo systemctl restart nginx
       - name: Probe via php-fpm (web context)
         run: curl -s http://127.0.0.1:8090/probe.php
       - name: Probe via CLI for contrast
-        run: php8.1 -r 'var_dump(file_get_contents("http://127.0.0.1:8123/ping"));'
+        run: php -r 'var_dump(file_get_contents("http://127.0.0.1:8123/ping"));'
