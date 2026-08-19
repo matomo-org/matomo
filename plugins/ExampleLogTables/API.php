@@ -27,7 +27,11 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns the number of visits made by users belonging to a group flagged as an admin group.
      *
-     * @param string $idSite (might be a number, or the string all)
+     * @param string      $idSite  (might be a number, or the string all)
+     * @param string      $period  day, week, month, year or range
+     * @param string      $date    a date or date range the period is resolved against
+     * @param string|null $segment an optional segment definition to restrict the metric to
+     * @return DataTableInterface one row per period: a DataTable for one, a DataTable\Map for several
      */
     public function getAdminGroupVisits(
         string $idSite,

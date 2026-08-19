@@ -20,8 +20,13 @@ use Piwik\Tracker\Visit\VisitProperties;
  * Writes the plugin's own log tables during tracking.
  *
  * A Dimension writes a column of a log table Matomo already owns. Writing rows into a table of your
- * own is what a RequestProcessor is for, and `recordLogs()` is the step to do it in: by then the
- * visit has been persisted and every other plugin has had its say.
+ * own is what a RequestProcessor is for, and `recordLogs()` is the step to do it in: by then the visit
+ * has been persisted and every earlier phase of every plugin has run. Other plugins' `recordLogs()`
+ * run in the same loop, so half of them run after this one -- do not depend on their work here.
+ *
+ * `recordLogs()` is skipped entirely for a request that was aborted earlier (an excluded visit, a late
+ * ping) and for requests handled in bot mode, so it is the right place to write data about a visit and
+ * the wrong place to count requests.
  *
  * Matomo finds this class because it lives in the plugin's `Tracker/` directory and extends
  * `Piwik\Tracker\RequestProcessor` -- see `Piwik\Plugin\RequestProcessors`. It is instantiated

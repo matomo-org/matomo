@@ -42,9 +42,9 @@ class ExampleLogTables extends \Piwik\Plugin
      *
      * Without this the tracker never loads the plugin, and the RequestProcessor in `Tracker/` is
      * never found: `Plugin\Manager::isTrackerPlugin()` only auto-detects plugins that declare a
-     * visit, action or conversion dimension, or subscribe to a `Tracker.*` event. This plugin does
-     * neither -- its dimensions describe columns of its own tables rather than of a core log table --
-     * so it has to say so itself.
+     * visit, action or conversion dimension, subscribe to a `Tracker.*` event, or handle
+     * `Request.initAuthenticationObject`. This plugin does none of those -- its dimensions describe
+     * columns of its own tables rather than of a core log table -- so it has to say so itself.
      */
     public function isTrackerPlugin()
     {
@@ -55,6 +55,9 @@ class ExampleLogTables extends \Piwik\Plugin
      * Creates the two custom log tables when the plugin is activated.
      *
      * Both DAOs use `CREATE TABLE IF NOT EXISTS`, so running this more than once is harmless.
+     *
+     * This runs on activation only. Bumping the version in `plugin.json` does not re-run it, so a
+     * schema change after release needs an `Updates/` migration as well -- see the README.
      */
     public function install()
     {
@@ -73,6 +76,10 @@ class ExampleLogTables extends \Piwik\Plugin
 
     /**
      * Register the new tables, so Matomo knows about them.
+     *
+     * Without this the tables are missing from `DbHelper::getTablesInstalled()`, which is the list
+     * core uses to drop all tables, to convert the schema to utf8mb4, to detect an existing install
+     * and to report database usage. None of those failures announce themselves.
      *
      * @param string[] $allTablesInstalled
      */
