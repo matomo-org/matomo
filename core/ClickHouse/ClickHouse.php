@@ -11,6 +11,7 @@ namespace Piwik\ClickHouse;
 
 use ClickHouseDB\Client;
 use Piwik\Config;
+use Piwik\Db;
 
 /**
  * ClickHouse POC plumbing (DEV-20678): runs Matomo-built log SQL against the ClickHouse
@@ -85,6 +86,10 @@ class ClickHouse
      */
     public static function fetchLogVisits(string $sql, array $bind): array
     {
+        if (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE) {
+            self::resyncIfLogTablesChangedForTests();
+        }
+
         [$chSql, $params] = self::convertQuery($sql, $bind);
 
         $startTime = microtime(true);
@@ -187,6 +192,15 @@ class ClickHouse
         $sql = preg_replace(
             "~((?:`?\\w+`?\\.)?`?\\w+`?)\\s*(<>|!=|=)\\s*('(?:0)?')~",
             'toString($1) $2 $3',
+            $sql
+        );
+
+        // MySQL allows LIKE on numeric columns by casting (the GDPR data subject search
+        // does idvisit LIKE '10%'); ClickHouse requires a String argument. toString() is
+        // the identity for String columns and MySQL's cast semantics for everything else.
+        $sql = preg_replace(
+            '~((?:`?\w+`?\.)?`?\w+`?)(\s+(?:NOT\s+)?LIKE\s)~i',
+            'toString($1)$2',
             $sql
         );
 
@@ -336,6 +350,11 @@ class ClickHouse
 
         $chDatabase = self::getDatabaseName();
 
+        // Fingerprint of the MySQL source, taken before copying: if anything writes to
+        // the log tables mid-sync, the stored fingerprint no longer matches and the next
+        // test read re-syncs again — always erring towards freshness.
+        $fingerprint = self::computeMysqlLogTablesFingerprint();
+
         $client = self::getClient();
         // The target database may not exist yet; run DDL against the default database.
         $client->database('default');
@@ -372,6 +391,57 @@ class ClickHouse
                 addslashes($mysqlPassword)
             ));
         }
+
+        $client->write(sprintf('DROP TABLE IF EXISTS `%s`.`sync_state`', $chDatabase));
+        $client->write(sprintf(
+            "CREATE TABLE `%s`.`sync_state` ENGINE = TinyLog AS SELECT '%s' AS fingerprint",
+            $chDatabase,
+            addslashes($fingerprint)
+        ));
+    }
+
+    /**
+     * Test-mode freshness: tests mutate the log tables mid-run (tracking new visits, GDPR
+     * deletions, anonymisation), which a one-shot fixture sync cannot see. Before serving
+     * a query, compare the MySQL log tables' checksum fingerprint with the one stored at
+     * sync time and re-copy when they diverge — zero-lag CDC as far as tests can tell.
+     */
+    private static function resyncIfLogTablesChangedForTests(): void
+    {
+        $current = self::computeMysqlLogTablesFingerprint();
+
+        try {
+            $stored = self::getClient()->select(sprintf(
+                'SELECT fingerprint FROM `%s`.`sync_state`',
+                self::getDatabaseName()
+            ))->fetchOne('fingerprint');
+        } catch (\Exception $e) {
+            $stored = null;
+        }
+
+        if ($stored === $current) {
+            return;
+        }
+
+        error_log('ClickHouse test resync: log tables changed since last sync, re-copying from MySQL');
+        self::syncLogTablesFromMysql();
+    }
+
+    private static function computeMysqlLogTablesFingerprint(): string
+    {
+        $prefix = (string) (Config::getInstance()->database['tables_prefix'] ?? '');
+
+        $tables = [];
+        foreach (array_keys(self::LOG_TABLES) as $table) {
+            $tables[] = '`' . $prefix . $table . '`';
+        }
+
+        $parts = [];
+        foreach (Db::fetchAll('CHECKSUM TABLE ' . implode(', ', $tables)) as $row) {
+            $parts[] = ($row['Table'] ?? '') . ':' . ($row['Checksum'] ?? '');
+        }
+
+        return implode('|', $parts);
     }
 
     /**
