@@ -92,8 +92,8 @@ class ForecastMetricClassifier
 
     /**
      * @param array<string, string>|null $semanticTypes Semantic-type map (column name → one of
-     *        the {@see Dimension}::TYPE_* constants). Pass null in production to use Matomo's
-     *        default registry; pass a fixed map in tests.
+     *                                                  the {@see Dimension}::TYPE_* constants). Pass null in production to use Matomo's
+     *                                                  default registry; pass a fixed map in tests.
      */
     public function __construct(?array $semanticTypes = null)
     {
