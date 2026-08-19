@@ -160,6 +160,10 @@ class HtmlTable extends Visualization
 
         $this->assignFilteredTotalsRowVars();
 
+        // a subtable a recursive search embedded has no totals of its own, so the report totals stay
+        // available to the rows of every hierarchy level the table renders
+        $this->assignTemplateVar('reportTotals', $this->dataTable->getMetadata('totals'));
+
         // Note: This needs to be done last, as it depends on the final columns to display
         $this->config->report_supports_percentage_values = $this->supportsPercentageValues();
     }
@@ -326,10 +330,39 @@ class HtmlTable extends Visualization
         $totals = $this->dataTable->getMetadata('totalsUnformatted');
 
         $siteSummary = $this->getSiteSummary();
-        $siteTotalRow = $siteSummary ? $siteSummary->getFirstRow() : null;
+        $siteTotalRow = $siteSummary ? ($siteSummary->getFirstRow() ?: null) : null;
 
-        foreach ($this->dataTable->getRows() as $row) {
-            foreach ($this->report->getMetrics() as $column => $translation) {
+        $this->setRowPercentagesRecursively(
+            $this->dataTable,
+            $this->report->getMetrics(),
+            $totals,
+            $siteTotalRow,
+            $columnNamesToIndices,
+            $formatter
+        );
+    }
+
+    /**
+     * Sets the percentage metadata of every row of a table, and of the subtables a recursive search
+     * embedded into it, so a searched report shows percentages at each of its hierarchy levels.
+     *
+     * The rows of an embedded subtable relate to the total of the whole report, just like the parent
+     * row they belong to, and like the rows of a subtable that is opened by clicking a row.
+     *
+     * @param array<string, string> $metrics The metrics of the report, indexed by column name.
+     * @param array<string, mixed>|false $totals The unformatted report totals, indexed by column name.
+     * @param array<string, int> $columnNamesToIndices
+     */
+    private function setRowPercentagesRecursively(
+        DataTable $table,
+        array $metrics,
+        $totals,
+        ?Row $siteTotalRow,
+        array $columnNamesToIndices,
+        NumberFormatter $formatter
+    ): void {
+        foreach ($table->getRows() as $row) {
+            foreach ($metrics as $column => $translation) {
                 // Try to check the column by it's index (not possible for all metrics, like custom columns)
                 $indexColumn = !empty($columnNamesToIndices[$column]) ? $columnNamesToIndices[$column] : null;
 
@@ -355,6 +388,11 @@ class HtmlTable extends Visualization
                         $row->setMetadata($siteTotalPercentage, $rowPercentage);
                     }
                 }
+            }
+
+            $subtable = $row->getSubtable();
+            if ($subtable) {
+                $this->setRowPercentagesRecursively($subtable, $metrics, $totals, $siteTotalRow, $columnNamesToIndices, $formatter);
             }
         }
     }
