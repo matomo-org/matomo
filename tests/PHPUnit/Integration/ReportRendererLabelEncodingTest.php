@@ -43,7 +43,7 @@ class ReportRendererLabelEncodingTest extends IntegrationTestCase
 
     /**
      * Metric names do not all arrive in the same shape, so the encoding has to be idempotent and
-     * has to leave + and %XX alone - which is why this is sanitizeInputValue(), not decodeLabelSafe().
+     * has to leave + and %XX alone - which is why this is sanitizeInputValues(), not decodeLabelSafe().
      */
     public function testMetricNamesAreNotDoubleEncodedOrDecoded()
     {
@@ -58,6 +58,25 @@ class ReportRendererLabelEncodingTest extends IntegrationTestCase
 
         self::assertStringContainsString('Custom &amp; Metric + 50%2F', $rendered);
         self::assertStringNotContainsString('&amp;amp;', $rendered);
+    }
+
+    /**
+     * A line break inside a metric name has to reach the template, where the HTML collapses it to
+     * a space. sanitizeInputValue() would delete it instead and run the words either side together.
+     */
+    public function testLineBreaksInMetricNamesAreNotStripped()
+    {
+        $reportData = new Simple();
+        $reportData->addRowFromSimpleArray(['nb_visits' => 5]);
+
+        $rendered = $this->renderReport([
+            'metadata' => ['name' => 'Visits Summary', 'uniqueId' => 'VisitsSummary_get'],
+            'reportData' => $reportData,
+            'columns' => ['nb_visits' => "Custom metric\nname"],
+        ]);
+
+        self::assertStringContainsString("metric\nname", $rendered);
+        self::assertStringNotContainsString('metricname', $rendered);
     }
 
     /**
