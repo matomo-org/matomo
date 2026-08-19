@@ -87,7 +87,20 @@ class ClickHouse
     {
         [$chSql, $params] = self::convertQuery($sql, $bind);
 
+        $startTime = microtime(true);
         $rows = self::getClient()->select($chSql, $params)->rows();
+
+        // error_log, not the Matomo logger (logger messages become on-screen notifications
+        // in the UI test environment): proves in CI job output that ClickHouse served the
+        // query, including who asked for it.
+        error_log(sprintf(
+            'ClickHouse query OK (%d rows, %.1f ms) via %s: %s params=%s',
+            count($rows),
+            (microtime(true) - $startTime) * 1000,
+            self::describeCallers(),
+            substr(preg_replace('/\s+/', ' ', $chSql), 0, 600),
+            substr(json_encode($params), 0, 300)
+        ));
 
         foreach ($rows as &$row) {
             // On JOIN queries ClickHouse returns columns whose name exists on both sides
@@ -349,6 +362,33 @@ class ClickHouse
                 addslashes($mysqlPassword)
             ));
         }
+    }
+
+    /**
+     * Compact call tree (nearest callers first) for the query log line, e.g.
+     * "Piwik\Plugins\Live\Model::executeLogVisitsQuery <- Piwik\Plugins\Live\Model::queryLogVisits <- …".
+     * Frames inside this class are skipped.
+     */
+    private static function describeCallers(): string
+    {
+        $frames = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 15);
+        $parts = [];
+
+        foreach ($frames as $frame) {
+            if (
+                empty($frame['function'])
+                || ($frame['class'] ?? '') === self::class
+                || strpos($frame['function'], 'call_user_func') === 0
+            ) {
+                continue;
+            }
+            $parts[] = (!empty($frame['class']) ? $frame['class'] . '::' : '') . $frame['function'];
+            if (count($parts) >= 5) {
+                break;
+            }
+        }
+
+        return $parts ? implode(' <- ', $parts) : '(unknown caller)';
     }
 
     private static function getConfig(): array
