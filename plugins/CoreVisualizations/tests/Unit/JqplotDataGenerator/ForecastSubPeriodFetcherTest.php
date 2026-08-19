@@ -322,6 +322,67 @@ class ForecastSubPeriodFetcherTest extends TestCase
         self::assertSame(['day'], $captured);
     }
 
+    public function testCollectSkipsDailyFetchOnWeekTargetWhenEverySeriesIsADeduplicatedCount(): void
+    {
+        // Deduplicated counts are forecast from their own week-level history, never from a
+        // sub-period decomposition, so on a graph of nothing but unique-visitor series the daily
+        // fan-out has no consumer at all and must not fire. createFetcher()'s default processor
+        // fails the test if any inner request is issued.
+        $fetcher = $this->createFetcher();
+
+        $weekTable = new DataTable();
+        $weekTable->setMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX, Factory::build('week', '2026-04-06'));
+
+        $samples = $fetcher->collect(
+            [$weekTable],
+            $this->createSeriesState(
+                ['Unique visitors' => 'nb_uniq_visitors', 'Users' => 'nb_users'],
+                [],
+                [
+                    'Unique visitors' => ForecastMetricClassifier::MONOTONICITY_UNIQUE,
+                    'Users'           => ForecastMetricClassifier::MONOTONICITY_UNIQUE,
+                ]
+            ),
+            'VisitsSummary.get',
+            1,
+            ''
+        );
+
+        self::assertSame([], $samples['daily']);
+        self::assertSame([], $samples['monthly']);
+    }
+
+    public function testCollectFansOutDailyOnWeekTargetWhenADecomposableSeriesIsPresent(): void
+    {
+        // Mixed graph: the additive visits series still needs the daily window for its seasonal
+        // decomposition, so the deduplicated series alongside it does not suppress the fan-out.
+        $captured = [];
+        $fetcher = $this->createFetcher(function (string $apiMethod, array $params) use (&$captured) {
+            $captured[] = $params['period'];
+            return $this->createSampleResultMap([]);
+        });
+
+        $weekTable = new DataTable();
+        $weekTable->setMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX, Factory::build('week', '2026-04-06'));
+
+        $fetcher->collect(
+            [$weekTable],
+            $this->createSeriesState(
+                ['Visits' => 'nb_visits', 'Unique visitors' => 'nb_uniq_visitors'],
+                [],
+                [
+                    'Visits'          => ForecastMetricClassifier::MONOTONICITY_UP,
+                    'Unique visitors' => ForecastMetricClassifier::MONOTONICITY_UNIQUE,
+                ]
+            ),
+            'VisitsSummary.get',
+            1,
+            ''
+        );
+
+        self::assertSame(['day'], $captured);
+    }
+
     public function testCollectFansOutDailyAndMonthlyForMonthPeriodWhenAtLeastOneSeriesIsUp(): void
     {
         // Mixed graph: at least one UP series → monthly fan-out fires so its MoY scale can
@@ -376,6 +437,71 @@ class ForecastSubPeriodFetcherTest extends TestCase
         self::assertSame('month', $captured[1][0]);
         // 8-year monthly window for year-target forecasts. Date::subYear truncates to Jan 1.
         self::assertSame('2018-01-01,2026-12-30', $captured[1][1]);
+    }
+
+    public function testCollectSkipsBothFetchesOnYearTargetWhenEverySeriesIsADeduplicatedCount(): void
+    {
+        // Both year fan-outs feed the seasonal path, and buildSeasonalForecastValue() hands a
+        // deduplicated count to the prior-only path before reading either map, so neither has a
+        // consumer here. Capture the requested periods rather than failing inside the processor:
+        // collect() catches \Throwable, so a self::fail() raised in there is swallowed and the
+        // test would pass whether or not the gate exists.
+        $captured = [];
+        $fetcher = $this->createFetcher(function (string $apiMethod, array $params) use (&$captured) {
+            $captured[] = $params['period'];
+            return $this->createSampleResultMap([]);
+        });
+
+        $yearTable = new DataTable();
+        $yearTable->setMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX, Factory::build('year', '2026-01-01'));
+
+        $samples = $fetcher->collect(
+            [$yearTable],
+            $this->createSeriesState(
+                ['Unique visitors' => 'nb_uniq_visitors'],
+                [],
+                ['Unique visitors' => ForecastMetricClassifier::MONOTONICITY_UNIQUE]
+            ),
+            'VisitsSummary.get',
+            1,
+            ''
+        );
+
+        self::assertSame([], $captured);
+        self::assertSame([], $samples['daily']);
+        self::assertSame([], $samples['monthly']);
+    }
+
+    public function testCollectFansOutBothOnYearTargetWhenADecomposableSeriesIsPresent(): void
+    {
+        // Mirror of the skip case: one explicitly classified non-deduplicated series is enough to
+        // give both fan-outs a consumer, so inverting or dropping the gate is caught in both
+        // directions rather than only when it fires.
+        $captured = [];
+        $fetcher = $this->createFetcher(function (string $apiMethod, array $params) use (&$captured) {
+            $captured[] = $params['period'];
+            return $this->createSampleResultMap([]);
+        });
+
+        $yearTable = new DataTable();
+        $yearTable->setMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX, Factory::build('year', '2026-01-01'));
+
+        $fetcher->collect(
+            [$yearTable],
+            $this->createSeriesState(
+                ['Unique visitors' => 'nb_uniq_visitors', 'Visits' => 'nb_visits'],
+                [],
+                [
+                    'Unique visitors' => ForecastMetricClassifier::MONOTONICITY_UNIQUE,
+                    'Visits'          => ForecastMetricClassifier::MONOTONICITY_UP,
+                ]
+            ),
+            'VisitsSummary.get',
+            1,
+            ''
+        );
+
+        self::assertSame(['day', 'month'], $captured);
     }
 
     public function testCollectClampsWindowEndToLastCompleteDayForInProgressYear(): void
@@ -773,6 +899,32 @@ class ForecastSubPeriodFetcherTest extends TestCase
 
         self::assertSame(
             ['Visits' => ['2026-04-10' => 80.0, '2026-04-11' => 0.0]],
+            $samples
+        );
+    }
+
+    public function testExtractSamplesFillsZeroForRowlessSubTableOnDeduplicatedCountSeries(): void
+    {
+        // Same reasoning as the UP case: a day with no traffic has zero unique visitors, so the
+        // backfill is a true observation and keeps the day-target analog calendar dense.
+        $fetcher = $this->createFetcher();
+        $map = $this->createSampleResultMap([
+            '2026-04-10' => ['nb_uniq_visitors' => 60.0],
+            '2026-04-11' => [],
+        ]);
+
+        $samples = $fetcher->extractSamples(
+            $map,
+            $this->createSeriesState(
+                ['Unique visitors' => 'nb_uniq_visitors'],
+                [],
+                ['Unique visitors' => ForecastMetricClassifier::MONOTONICITY_UNIQUE]
+            ),
+            'day'
+        );
+
+        self::assertSame(
+            ['Unique visitors' => ['2026-04-10' => 60.0, '2026-04-11' => 0.0]],
             $samples
         );
     }
