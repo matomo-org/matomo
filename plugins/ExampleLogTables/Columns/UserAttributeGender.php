@@ -10,10 +10,11 @@
 namespace Piwik\Plugins\ExampleLogTables\Columns;
 
 use Piwik\Columns\Dimension;
+use Piwik\Plugins\ExampleLogTables\Dao\CustomUserLog;
 
 class UserAttributeGender extends Dimension
 {
-    protected $dbTableName  = 'log_custom';
+    protected $dbTableName  = CustomUserLog::TABLE_NAME;
     protected $category     = 'General_Visitors';
     protected $type         = self::TYPE_TEXT;
     protected $columnName   = 'gender';

@@ -47,6 +47,6 @@ class VisitorDetails extends VisitorDetailsAbstract
         }
 
         $visitor['userGender'] = $attributes['gender'];
-        $visitor['userGroup'] = $attributes['group'];
+        $visitor['userGroup'] = $attributes['group_name'];
     }
 }

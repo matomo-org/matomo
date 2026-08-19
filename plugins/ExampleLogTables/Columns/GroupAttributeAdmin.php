@@ -10,10 +10,11 @@
 namespace Piwik\Plugins\ExampleLogTables\Columns;
 
 use Piwik\Columns\Dimension;
+use Piwik\Plugins\ExampleLogTables\Dao\CustomGroupLog;
 
 class GroupAttributeAdmin extends Dimension
 {
-    protected $dbTableName  = 'log_group';
+    protected $dbTableName  = CustomGroupLog::TABLE_NAME;
     protected $category     = 'General_Visitors';
     protected $type         = self::TYPE_BOOL;
     protected $columnName   = 'is_admin';

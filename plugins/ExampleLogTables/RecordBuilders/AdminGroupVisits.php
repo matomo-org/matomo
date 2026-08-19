@@ -12,6 +12,8 @@ namespace Piwik\Plugins\ExampleLogTables\RecordBuilders;
 use Piwik\ArchiveProcessor;
 use Piwik\ArchiveProcessor\Record;
 use Piwik\ArchiveProcessor\RecordBuilder;
+use Piwik\Plugins\ExampleLogTables\Dao\CustomGroupLog;
+use Piwik\Plugins\ExampleLogTables\Dao\CustomUserLog;
 
 /**
  * Archives one metric aggregated across both custom log tables.
@@ -19,7 +21,7 @@ use Piwik\ArchiveProcessor\RecordBuilder;
  * Record builders are discovered only inside a `RecordBuilders/` directory. Moving this class
  * elsewhere silently returns the plugin to the legacy archiving path instead of raising an error.
  *
- * The point of the query below is the FROM list: naming `log_custom` and `log_group` alongside
+ * The point of the query below is the FROM list: naming both custom tables alongside
  * `log_visit` is enough, because each table declares in `Tracker/LogTable/` how it joins to the
  * next. The same two declarations that make the segments work make this aggregation work, and they
  * are also what makes the tables reachable for GDPR deletion and export.
@@ -44,8 +46,12 @@ class AdminGroupVisits extends RecordBuilder
 
         $query = $logAggregator->generateQuery(
             'count(distinct log_visit.idvisit) AS nb_visits',
-            ['log_visit', 'log_custom', 'log_group'],
-            $logAggregator->getWhereStatement('log_visit', 'visit_last_action_time', 'log_group.is_admin = 1'),
+            ['log_visit', CustomUserLog::TABLE_NAME, CustomGroupLog::TABLE_NAME],
+            $logAggregator->getWhereStatement(
+                'log_visit',
+                'visit_last_action_time',
+                CustomGroupLog::TABLE_NAME . '.is_admin = 1'
+            ),
             '',
             ''
         );

@@ -78,7 +78,7 @@ class ExampleLogTables extends \Piwik\Plugin
      */
     public function getTablesInstalled(array &$allTablesInstalled): void
     {
-        $allTablesInstalled[] = Common::prefixTable('log_group');
-        $allTablesInstalled[] = Common::prefixTable('log_custom');
+        $allTablesInstalled[] = Common::prefixTable(CustomUserLog::TABLE_NAME);
+        $allTablesInstalled[] = Common::prefixTable(CustomGroupLog::TABLE_NAME);
     }
 }

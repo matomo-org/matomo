@@ -20,8 +20,8 @@ class VisitsWithUserIdAndCustomData extends Fixture
 
     /**
      * The attributes each tracked user sends along with their visits. The plugin's own
-     * RequestProcessor is what turns these into rows in log_custom and log_group -- the fixture
-     * only tracks visits, exactly as a real site would.
+     * RequestProcessor is what turns these into rows in its two tables -- the fixture only tracks
+     * visits, exactly as a real site would.
      *
      * @var array<string, array{gender: string, group: string, groupIsAdmin: bool}>
      */

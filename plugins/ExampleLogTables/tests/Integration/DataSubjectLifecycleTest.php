@@ -14,21 +14,24 @@ use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Plugin\LogTablesProvider;
+use Piwik\Plugins\ExampleLogTables\Dao\CustomGroupLog;
+use Piwik\Plugins\ExampleLogTables\Dao\CustomUserLog;
 use Piwik\Plugins\ExampleLogTables\tests\Fixtures\VisitsWithUserIdAndCustomData;
+use Piwik\Plugins\PrivacyManager\LogDataPurger;
 use Piwik\Plugins\PrivacyManager\Model\DataSubjects;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
- * Proves that the plugin's own tables are covered by Matomo's GDPR features.
+ * Proves that the plugin's own tables are covered by Matomo's GDPR and retention features.
  *
  * The plugin subscribes to none of the `PrivacyManager.*` events and implements no erasure code.
  * Everything asserted here follows from the two classes in `Tracker/LogTable/`: `LogTablesProvider`
- * discovers them by location, and `PrivacyManager` drives subject export and subject deletion off
- * that one list.
+ * discovers them by location, and `PrivacyManager` drives subject export, subject deletion and log
+ * retention off that one list.
  *
- * The chain this exercises is two hops long with no `idvisit` column anywhere in it --
- * `log_group` joins `log_custom`, which joins `log_visit` on `user_id`. A table core cannot resolve
- * a path for is skipped silently by the export and makes the deletion throw, so this test is what
+ * The chain this exercises is two hops long with no `idvisit` column anywhere in it -- the group
+ * table joins the user table, which joins `log_visit` on `user_id`. A table core cannot resolve a
+ * path for is skipped silently by the export and makes the deletion throw, so this test is what
  * turns "the declarations look right" into "the declarations work".
  *
  * @group ExampleLogTables
@@ -67,20 +70,20 @@ class DataSubjectLifecycleTest extends IntegrationTestCase
     {
         $this->assertSame(
             [
-                ['user_id' => 'user1', 'gender' => 'men', 'group' => 'admin'],
-                ['user_id' => 'user2', 'gender' => 'women', 'group' => 'user'],
-                ['user_id' => 'user3', 'gender' => 'women', 'group' => 'admin'],
-                ['user_id' => 'user4', 'gender' => 'men', 'group' => ''],
+                ['user_id' => 'user1', 'gender' => 'men', 'group_name' => 'admin'],
+                ['user_id' => 'user2', 'gender' => 'women', 'group_name' => 'user'],
+                ['user_id' => 'user3', 'gender' => 'women', 'group_name' => 'admin'],
+                ['user_id' => 'user4', 'gender' => 'men', 'group_name' => ''],
             ],
-            $this->getRows('log_custom', 'user_id')
+            $this->getRows(CustomUserLog::TABLE_NAME, 'user_id')
         );
 
         $this->assertSame(
             [
-                ['group' => 'admin', 'is_admin' => 1],
-                ['group' => 'user', 'is_admin' => 0],
+                ['group_name' => 'admin', 'is_admin' => 1],
+                ['group_name' => 'user', 'is_admin' => 0],
             ],
-            $this->getRows('log_group', '`group`')
+            $this->getRows(CustomGroupLog::TABLE_NAME, 'group_name')
         );
     }
 
@@ -88,20 +91,28 @@ class DataSubjectLifecycleTest extends IntegrationTestCase
     {
         $export = $this->dataSubjects->exportDataSubjects($this->getVisitsOf('user1'));
 
-        $this->assertArrayHasKey('log_custom', $export, 'log_custom was skipped, so core could not join it');
-        $this->assertArrayHasKey('log_group', $export, 'log_group was skipped, so the second hop does not resolve');
+        $this->assertArrayHasKey(
+            CustomUserLog::TABLE_NAME,
+            $export,
+            'the user table was skipped, so core could not join it'
+        );
+        $this->assertArrayHasKey(
+            CustomGroupLog::TABLE_NAME,
+            $export,
+            'the group table was skipped, so the second hop does not resolve'
+        );
 
         // Two things to note. The export joins each table to the visits being exported and does not
         // deduplicate, so a table holding one row per user appears once per visit of that user; and
         // it formats each column through the Dimension that declares it, which is why is_admin
         // reads "Yes" rather than 1. Columns come out sorted by name.
         $this->assertSame(
-            [['gender' => 'men', 'group' => 'admin', 'user_id' => 'user1']],
-            $this->distinctRows($export['log_custom'])
+            [['gender' => 'men', 'group_name' => 'admin', 'user_id' => 'user1']],
+            $this->distinctRows($export[CustomUserLog::TABLE_NAME])
         );
         $this->assertSame(
-            [['group' => 'admin', 'is_admin' => Piwik::translate('General_Yes')]],
-            $this->distinctRows($export['log_group'])
+            [['group_name' => 'admin', 'is_admin' => Piwik::translate('General_Yes')]],
+            $this->distinctRows($export[CustomGroupLog::TABLE_NAME])
         );
     }
 
@@ -109,24 +120,30 @@ class DataSubjectLifecycleTest extends IntegrationTestCase
     {
         $export = $this->dataSubjects->exportDataSubjects($this->getVisitsOf('user2'));
 
-        $this->assertSame(['user2'], array_column($this->distinctRows($export['log_custom']), 'user_id'));
-        $this->assertSame(['user'], array_column($this->distinctRows($export['log_group']), 'group'));
+        $this->assertSame(
+            ['user2'],
+            array_column($this->distinctRows($export[CustomUserLog::TABLE_NAME]), 'user_id')
+        );
+        $this->assertSame(
+            ['user'],
+            array_column($this->distinctRows($export[CustomGroupLog::TABLE_NAME]), 'group_name')
+        );
     }
 
     public function testDeleteRemovesTheSubjectsRowsFromBothCustomTables(): void
     {
         $deleted = $this->dataSubjects->deleteDataSubjects($this->getVisitsOf('user1'));
 
-        $this->assertSame(1, $deleted['log_custom']);
-        $this->assertSame(1, $deleted['log_group']);
+        $this->assertSame(1, $deleted[CustomUserLog::TABLE_NAME]);
+        $this->assertSame(1, $deleted[CustomGroupLog::TABLE_NAME]);
 
         $this->assertSame(
             [
-                ['user_id' => 'user2', 'gender' => 'women', 'group' => 'user'],
-                ['user_id' => 'user3', 'gender' => 'women', 'group' => 'admin'],
-                ['user_id' => 'user4', 'gender' => 'men', 'group' => ''],
+                ['user_id' => 'user2', 'gender' => 'women', 'group_name' => 'user'],
+                ['user_id' => 'user3', 'gender' => 'women', 'group_name' => 'admin'],
+                ['user_id' => 'user4', 'gender' => 'men', 'group_name' => ''],
             ],
-            $this->getRows('log_custom', 'user_id')
+            $this->getRows(CustomUserLog::TABLE_NAME, 'user_id')
         );
 
         // The admin group row goes with the subject, even though user3 also belongs to that group.
@@ -135,7 +152,10 @@ class DataSubjectLifecycleTest extends IntegrationTestCase
         // table whose rows are shared between subjects should not declare a join into the subject
         // chain. Here that is acceptable because the row is reference data the tracker rewrites on
         // user3's next request -- see the README.
-        $this->assertSame([['group' => 'user', 'is_admin' => 0]], $this->getRows('log_group', '`group`'));
+        $this->assertSame(
+            [['group_name' => 'user', 'is_admin' => 0]],
+            $this->getRows(CustomGroupLog::TABLE_NAME, 'group_name')
+        );
     }
 
     public function testDeleteLeavesTheOtherSubjectsRowsAlone(): void
@@ -144,15 +164,35 @@ class DataSubjectLifecycleTest extends IntegrationTestCase
 
         $this->assertSame(
             [
-                ['user_id' => 'user1', 'gender' => 'men', 'group' => 'admin'],
-                ['user_id' => 'user2', 'gender' => 'women', 'group' => 'user'],
-                ['user_id' => 'user3', 'gender' => 'women', 'group' => 'admin'],
+                ['user_id' => 'user1', 'gender' => 'men', 'group_name' => 'admin'],
+                ['user_id' => 'user2', 'gender' => 'women', 'group_name' => 'user'],
+                ['user_id' => 'user3', 'gender' => 'women', 'group_name' => 'admin'],
             ],
-            $this->getRows('log_custom', 'user_id')
+            $this->getRows(CustomUserLog::TABLE_NAME, 'user_id')
         );
 
-        // user4 has no group, so nothing links them to log_group and nothing there is touched.
-        $this->assertCount(2, $this->getRows('log_group', '`group`'));
+        // user4 has no group, so nothing links them to the group table and nothing there is touched.
+        $this->assertCount(2, $this->getRows(CustomGroupLog::TABLE_NAME, 'group_name'));
+    }
+
+    /**
+     * Log retention is the fourth feature the declarations buy, and the one whose failure would be
+     * least visible: it deletes through the same code as subject deletion, so the rows do go -- but
+     * the purge also asks every declared log table for its id column and interpolates that name into
+     * SQL without quoting it. A table whose id column collides with a reserved word therefore breaks
+     * the whole site's raw log purge, not just this plugin's rows.
+     */
+    public function testRetentionPurgeReachesBothCustomTablesAndDoesNotBreakOnTheirColumnNames(): void
+    {
+        if (!Db::isLockPrivilegeGranted()) {
+            self::markTestSkipped('deleting unused log actions requires the LOCK TABLES privilege');
+        }
+
+        // The fixture's visits are years old, so a one-day retention window covers all of them.
+        StaticContainer::get(LogDataPurger::class)->purgeData(1, true);
+
+        $this->assertSame([], $this->getRows(CustomUserLog::TABLE_NAME, 'user_id'));
+        $this->assertSame([], $this->getRows(CustomGroupLog::TABLE_NAME, 'group_name'));
     }
 
     /**

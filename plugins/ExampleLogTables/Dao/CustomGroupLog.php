@@ -15,21 +15,33 @@ use Piwik\DbHelper;
 
 class CustomGroupLog
 {
-    private const TABLE = 'log_group';
+    /**
+     * @see CustomUserLog::TABLE_NAME for why this is a public constant rather than a literal.
+     */
+    public const TABLE_NAME = 'log_examplelogtables_group';
 
-    private readonly string $tablePrefixed;
+    private string $tablePrefixed;
 
     public function __construct()
     {
-        $this->tablePrefixed = Common::prefixTable(self::TABLE);
+        $this->tablePrefixed = Common::prefixTable(self::TABLE_NAME);
     }
 
+    /**
+     * Creates the table.
+     *
+     * The column is `group_name`, not `group`. `group` is a MySQL reserved word, and while this
+     * plugin's own queries could quote it, core's do not always: `RawLogDao` builds
+     * `SELECT MAX(<id column>)` unquoted for every declared log table, so a table whose id column is
+     * a reserved word makes the site's raw-log purge fail with a syntax error. Pick column names that
+     * survive being interpolated into someone else's SQL.
+     */
     public function install(): void
     {
-        DbHelper::createTable(self::TABLE, "
-                  `group` VARCHAR(30) NOT NULL,
+        DbHelper::createTable(self::TABLE_NAME, '
+                  `group_name` VARCHAR(30) NOT NULL,
                   `is_admin` TINYINT(1) NOT NULL,
-                  PRIMARY KEY (`group`)");
+                  PRIMARY KEY (group_name)');
     }
 
     public function uninstall(): void
@@ -43,14 +55,14 @@ class CustomGroupLog
     public function addOrUpdateGroupInformation(string $group, bool $isAdmin): void
     {
         $columns = [
-            'group' => $group,
+            'group_name' => $group,
             'is_admin' => (int) $isAdmin,
         ];
 
         $sql = sprintf(
-            'INSERT INTO `%s` (`%s`) VALUES(%s) ON DUPLICATE KEY UPDATE `is_admin` = ?',
+            'INSERT INTO `%s` (%s) VALUES(%s) ON DUPLICATE KEY UPDATE is_admin = ?',
             $this->tablePrefixed,
-            implode('`,`', array_keys($columns)),
+            implode(',', array_keys($columns)),
             Common::getSqlStringFieldsArray($columns)
         );
 

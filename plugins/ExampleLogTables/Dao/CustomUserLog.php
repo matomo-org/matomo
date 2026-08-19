@@ -15,21 +15,40 @@ use Piwik\DbHelper;
 
 class CustomUserLog
 {
-    private const TABLE = 'log_custom';
+    /**
+     * The unprefixed table name, public because every other class that names this table reads it from
+     * here: the plugin class, both log table declarations, the dimension, the record builder and the
+     * tests. A literal repeated in all of them can drift, and a table Matomo cannot find under the
+     * name it was declared with fails silently.
+     *
+     * Prefix it with your plugin name. `log_custom` or `log_user` would collide with the next core
+     * table of that name, and the `log_` prefix is what marks it as log data to a human reading the
+     * schema.
+     */
+    public const TABLE_NAME = 'log_examplelogtables_user';
 
-    private readonly string $tablePrefixed;
+    private string $tablePrefixed;
 
     public function __construct()
     {
-        $this->tablePrefixed = Common::prefixTable(self::TABLE);
+        $this->tablePrefixed = Common::prefixTable(self::TABLE_NAME);
     }
 
+    /**
+     * Creates the table.
+     *
+     * `user_id` is `VARCHAR(200)` because that is what `log_visit.user_id` is
+     * (`CoreHome\Columns\UserId::MAXLENGTH`). Matomo connects with a non-strict `sql_mode`, so a
+     * shorter column here would truncate a long user id *silently*, and the truncated value would no
+     * longer equal the one in `log_visit` -- leaving a row that no join, and therefore no GDPR
+     * deletion or export, can ever reach again.
+     */
     public function install(): void
     {
-        DbHelper::createTable(self::TABLE, "
-                  `user_id` VARCHAR(191) NOT NULL,
+        DbHelper::createTable(self::TABLE_NAME, "
+                  `user_id` VARCHAR(200) NOT NULL,
                   `gender` VARCHAR(30) NOT NULL,
-                  `group` VARCHAR(30) NOT NULL,
+                  `group_name` VARCHAR(30) NOT NULL,
                   PRIMARY KEY (user_id)");
     }
 
@@ -45,7 +64,7 @@ class CustomUserLog
      */
     public function getUserInformation(string $userId): array
     {
-        $sql = 'SELECT `gender`, `group` FROM ' . $this->tablePrefixed . ' WHERE `user_id` = ?';
+        $sql = 'SELECT gender, group_name FROM ' . $this->tablePrefixed . ' WHERE user_id = ?';
 
         $row = Db::fetchRow($sql, [$userId]);
 
@@ -63,14 +82,14 @@ class CustomUserLog
     {
         $columns = [
             'user_id' => $userId,
-            'group' => $group,
+            'group_name' => $group,
             'gender' => $gender,
         ];
 
         $sql = sprintf(
-            'INSERT INTO `%s` (`%s`) VALUES(%s) ON DUPLICATE KEY UPDATE `group` = ?, `gender` = ?',
+            'INSERT INTO `%s` (%s) VALUES(%s) ON DUPLICATE KEY UPDATE group_name = ?, gender = ?',
             $this->tablePrefixed,
-            implode('`,`', array_keys($columns)),
+            implode(',', array_keys($columns)),
             Common::getSqlStringFieldsArray($columns)
         );
 
