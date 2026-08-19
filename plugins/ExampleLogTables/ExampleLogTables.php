@@ -10,7 +10,6 @@
 namespace Piwik\Plugins\ExampleLogTables;
 
 use Piwik\Common;
-use Piwik\Piwik;
 use Piwik\Plugins\ExampleLogTables\Dao\CustomGroupLog;
 use Piwik\Plugins\ExampleLogTables\Dao\CustomUserLog;
 use Piwik\Plugins\ExampleLogTables\RecordBuilders\AdminGroupVisits;
@@ -26,15 +25,16 @@ class ExampleLogTables extends \Piwik\Plugin
     }
 
     /**
-     * Gives the archived metric a readable name wherever Matomo renders it.
+     * Gives the archived metric a readable name.
+     *
+     * Pass the translation key, not a translated string: core maps `Piwik::translate()` over the whole
+     * array after posting the event, so translating here would translate the value twice.
      *
      * @param array<string, string> $translations
      */
     public function addMetricTranslations(array &$translations): void
     {
-        $name = Piwik::translate('ExampleLogTables_NbVisitsAdminGroup');
-
-        $translations[AdminGroupVisits::NB_VISITS_ADMIN_GROUP_RECORD] = $name;
+        $translations[AdminGroupVisits::NB_VISITS_ADMIN_GROUP_RECORD] = 'ExampleLogTables_NbVisitsAdminGroup';
     }
 
     /**
