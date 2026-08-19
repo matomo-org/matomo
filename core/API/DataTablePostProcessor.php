@@ -410,6 +410,19 @@ class DataTablePostProcessor
         $showColumns = Common::getRequestVar('showColumns', '', 'string', $this->request);
         $hideColumnsRecursively = Common::getRequestVar('hideColumnsRecursively', intval($this->report && $this->report->getModule() == 'Live'), 'int', $this->request);
         $showRawMetrics = Common::getRequestVar('showRawMetrics', 0, 'int', $this->request);
+
+        $keepFlattenedDimensionColumns = (new Request($this->request))
+            ->getBoolParameter('keep_flattened_dimension_columns', false);
+
+        if ($keepFlattenedDimensionColumns && !empty($showColumns)) {
+            // Flattening with "show dimensions" adds dimension columns whose names only exist after
+            // flattening, so a caller-provided showColumns allowlist cannot include them. Keep those
+            // dimension columns so an allowlist does not discard the flattened breakdown. This is
+            // opt-in: showColumns is a public API parameter, so an allowlist is never widened
+            // unless the caller asks for it.
+            $showColumns = $this->addFlattenedDimensionsToShowColumns($showColumns, $dataTable);
+        }
+
         if (
             !empty($hideColumns)
             || !empty($showColumns)
@@ -420,6 +433,61 @@ class DataTablePostProcessor
         }
 
         return $dataTable;
+    }
+
+    /**
+     * Appends any dimension columns added by the flattener to a showColumns allowlist so they are
+     * not dropped by {@link ColumnDelete}. Dimension column names only exist after flattening, so
+     * callers that set showColumns cannot include them up front.
+     *
+     * Only called when the request opts in with keep_flattened_dimension_columns=1.
+     */
+    private function addFlattenedDimensionsToShowColumns(string $showColumns, DataTableInterface $dataTable): string
+    {
+        $dimensions = $this->getFlattenedDimensions($dataTable);
+        if (empty($dimensions)) {
+            return $showColumns;
+        }
+
+        $columns = array_filter(array_map('trim', explode(',', $showColumns)), static function ($column) {
+            return $column !== '';
+        });
+
+        return implode(',', array_values(array_unique(array_merge($columns, $dimensions))));
+    }
+
+    private function getFlattenedDimensions(DataTableInterface $dataTable): array
+    {
+        if ($dataTable instanceof DataTable\Map) {
+            foreach ($dataTable->getDataTables() as $childTable) {
+                $dimensions = $this->getFlattenedDimensions($childTable);
+                if (!empty($dimensions)) {
+                    return $dimensions;
+                }
+            }
+
+            return [];
+        }
+
+        if (!$dataTable instanceof DataTable) {
+            return [];
+        }
+
+        $dimensions = $dataTable->getMetadata('dimensions');
+        if (!is_array($dimensions) || empty($dimensions)) {
+            return [];
+        }
+
+        // The flattener records the dimensions it walked on every flat request, but only adds them
+        // as columns when "show dimensions" is requested and the report has more than one dimension.
+        // Keep the ones that ended up as columns, so a caller's allowlist is never widened by names
+        // that are not columns at all.
+        $firstRow = $dataTable->getFirstRow();
+        if (false === $firstRow) {
+            return [];
+        }
+
+        return array_values(array_intersect($dimensions, array_keys($firstRow->getColumns())));
     }
 
     public function removeTemporaryMetrics(DataTableInterface $dataTable)

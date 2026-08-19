@@ -62,7 +62,7 @@ jobs:
         run: |
           git fetch --depth=1 origin "$BASE_SHA"
 
-          VUE_FILES_MODIFIED=$(git diff --name-only "$BASE_SHA" -- plugins/*/vue/**/* plugins/CoreVue/types package-lock.json | wc -l)
+          VUE_FILES_MODIFIED=$(git diff --name-only "$BASE_SHA" -- plugins/*/vue/**/* plugins/CoreVue/types plugins/CoreVue/polyfills/src plugins/CoreVue/polyfills/vite.config.ts package-lock.json | wc -l)
 
           if [[ $VUE_FILES_MODIFIED == "0" ]]
           then
@@ -129,10 +129,13 @@ jobs:
       - name: Build Vue Modules
         run: php ./console vue:build
         if: steps.vars.outputs.branch != '' && steps.vuecheck.outputs.vue_modified == '1'
+      - name: Build polyfill bundle
+        run: php ./console vue:build-polyfill
+        if: steps.vars.outputs.branch != '' && steps.vuecheck.outputs.vue_modified == '1'
       - name: Push changes
         id: push
         run: |
-          if [[ $( git diff --numstat plugins/*/vue/dist/*.js ) ]]
+          if [[ $( git diff --numstat plugins/*/vue/dist/*.js plugins/CoreVue/polyfills/dist/*.js ) ]]
           then
             if [[ "$IS_LOCAL_BRANCH" != "1" ]]
             then
@@ -140,7 +143,7 @@ jobs:
               echo "failure=1" >> "$GITHUB_OUTPUT"
             else
               cd "$GITHUB_WORKSPACE"
-              git add plugins/*/vue/dist/*.js plugins/*/vue/dist/*.json
+              git add plugins/*/vue/dist/*.js plugins/*/vue/dist/*.json plugins/CoreVue/polyfills/dist/*.js
               git commit -m "Build vue files"
               git push "https://x-access-token:${CUSTOM_ACCESS_TOKEN}@github.com/${GITHUB_REPOSITORY}" "HEAD:${BRANCH_NAME}"
             fi
@@ -157,7 +160,7 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: 'Vue files are not up to date. Please build the files using `./console vue:build` locally and push them to your branch.'
+              body: 'Vue files are not up to date. Please build the files using `./console vue:build` and `./console vue:build-polyfill` locally and push them to your branch.'
             })
         if: steps.push.outputs.failure == '1'
       - name: Fail if not up to date

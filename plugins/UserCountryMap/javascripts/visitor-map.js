@@ -1136,37 +1136,66 @@
                         }
                     });
                     UserCountryMap.addInsetsLayer(map, insetStrokeColor);
+                    var clickable = map.getLayer('context-clickable');
+
                     function filtCountryLabels(data) {
                         return data.iso != iso &&
-                            map.getLayer('context-clickable') &&
-                            map.getLayer('context-clickable').getPath(data.iso) &&
-                            Math.abs(map.getLayer('context-clickable').getPath(data.iso).path.area()) > 700;
+                            clickable &&
+                            clickable.getPath(data.iso) &&
+                            Math.abs(clickable.getPath(data.iso).path.area()) > UserCountryMap.countryLabelMinArea;
+                    }
+
+                    function customLabelPos(data) {
+                        var CLP = UserCountryMap.customLabelPositions;
+                        return CLP[iso] && CLP[iso][data.iso];
                     }
 
                     // returns either the reference to the country polygon or a custom label
                     // position if defined in UserCountryMap.customLabelPositions
                     function countryLabelPos(data) {
-                        var CLP = UserCountryMap.customLabelPositions;
-                        if (CLP[iso] && CLP[iso][data.iso]) return CLP[iso][data.iso];
-                        return 'context-clickable.' + data.iso;
+                        return customLabelPos(data) || 'context-clickable.' + data.iso;
                     }
 
-                    map.addSymbols({
-                        data: map.getLayer('context-clickable').getPathsData(),
-                        type: $K.Label,
-                        filter: filtCountryLabels,
-                        location: countryLabelPos,
-                        text: function (data) { return UserCountryMap.countriesByIso[data.iso].iso2; },
-                        'class': 'countryLabelBg'
-                    });
-                    map.addSymbols({
-                        data: map.getLayer('context-clickable').getPathsData(),
-                        type: $K.Label,
-                        filter: filtCountryLabels,
-                        location: countryLabelPos,
-                        text: function (data) { return UserCountryMap.countriesByIso[data.iso].iso2; },
-                        'class': 'countryLabel'
-                    });
+                    function anchorCountryLabels() {
+                        var thisCountry = map.getLayerPath('regionBG', { iso: iso }),
+                            canvas = map.viewAB.asBBox(),
+                            bounds = [canvas.xmin, canvas.ymin, canvas.xmax, canvas.ymax];
+                        $.each(clickable.getPathsData(), function (i, data) {
+                            if (!filtCountryLabels(data) || customLabelPos(data)) {
+                                return;
+                            }
+                            var neighbour = clickable.getPath(data.iso),
+                                anchor = UserCountryMap.countryLabelPosition(
+                                    neighbour.path,
+                                    thisCountry ? thisCountry.path : null,
+                                    bounds
+                                );
+                            if (anchor) {
+                                neighbour.path.centroid = function () { return anchor; };
+                            }
+                        });
+                    }
+
+                    if (clickable) {
+                        anchorCountryLabels();
+
+                        map.addSymbols({
+                            data: clickable.getPathsData(),
+                            type: $K.Label,
+                            filter: filtCountryLabels,
+                            location: countryLabelPos,
+                            text: function (data) { return UserCountryMap.countriesByIso[data.iso].iso2; },
+                            'class': 'countryLabelBg'
+                        });
+                        map.addSymbols({
+                            data: clickable.getPathsData(),
+                            type: $K.Label,
+                            filter: filtCountryLabels,
+                            location: countryLabelPos,
+                            text: function (data) { return UserCountryMap.countriesByIso[data.iso].iso2; },
+                            'class': 'countryLabel'
+                        });
+                    }
 
                     if (!UserCountryMap.countriesByIso[iso]) return;
 
@@ -1484,6 +1513,184 @@ $.extend(UserCountryMap, {
             }
             return stock.call(map, loc);
         };
+    },
+
+    countryLabelMinArea: 700,
+
+    // half a two-letter label plus its halo, in svg units; wider than tall, like the glyphs
+    countryLabelMargin: { x: 10, y: 6 },
+
+    countryLabelPosition: function (path, avoid, bounds) {
+        function ringArea(ring) {
+            var a = 0, n = ring.length, i, p, q;
+            for (i = 0; i < n; i++) {
+                p = ring[i];
+                q = ring[(i + 1) % n];
+                a += p[0] * q[1] - q[0] * p[1];
+            }
+            return a / 2;
+        }
+
+        function ringBox(ring) {
+            var box = [ring[0][0], ring[0][1], ring[0][0], ring[0][1]], i;
+            for (i = 1; i < ring.length; i++) {
+                box[0] = Math.min(box[0], ring[i][0]);
+                box[1] = Math.min(box[1], ring[i][1]);
+                box[2] = Math.max(box[2], ring[i][0]);
+                box[3] = Math.max(box[3], ring[i][1]);
+            }
+            return box;
+        }
+
+        function covers(rings, boxes, x, y) {
+            var crossings = 0, r, n, i, p, q, box;
+            for (r = 0; r < rings.length; r++) {
+                box = boxes[r];
+                if (y < box[1] || y > box[3] || x > box[2]) {
+                    continue;
+                }
+                n = rings[r].length;
+                for (i = 0; i < n; i++) {
+                    p = rings[r][i];
+                    q = rings[r][(i + 1) % n];
+                    if ((p[1] > y) !== (q[1] > y)
+                        && x < p[0] + (y - p[1]) / (q[1] - p[1]) * (q[0] - p[0])
+                    ) {
+                        crossings++;
+                    }
+                }
+            }
+            return crossings % 2 === 1;
+        }
+
+        function boxDistance(box, x, y) {
+            var dx = Math.max(box[0] - x, 0, x - box[2]),
+                dy = Math.max(box[1] - y, 0, y - box[3]);
+            return Math.sqrt(dx * dx + dy * dy);
+        }
+
+        function ringClearance(ring, x, y, min) {
+            var n = ring.length, i, p, q, dx, dy, len, t, ex, ey, d;
+            for (i = 0; i < n; i++) {
+                p = ring[i];
+                q = ring[(i + 1) % n];
+                dx = q[0] - p[0];
+                dy = q[1] - p[1];
+                len = dx * dx + dy * dy;
+                t = len ? Math.max(0, Math.min(1, ((x - p[0]) * dx + (y - p[1]) * dy) / len)) : 0;
+                ex = x - (p[0] + t * dx);
+                ey = y - (p[1] + t * dy);
+                d = Math.sqrt(ex * ex + ey * ey);
+                if (d < min) {
+                    min = d;
+                }
+            }
+            return min;
+        }
+
+        function clearance(measured, x, y, floor) {
+            var min = Infinity, i;
+            for (i = 0; i < measured.length; i++) {
+                if (boxDistance(measured[i][1], x, y) >= min) {
+                    continue;
+                }
+                min = ringClearance(measured[i][0], x, y, min);
+                if (min <= floor) {
+                    return min;
+                }
+            }
+            return min;
+        }
+
+        var rings = (path && path.contours) || [],
+            blocked = (avoid && avoid.contours) || [],
+            boxes = [], blockedBoxes = [], measured = [], largest = 0, i, box,
+            minX = 0, minY = 0, maxX = 0, maxY = 0;
+
+        for (i = 0; i < rings.length; i++) {
+            largest = Math.max(largest, Math.abs(ringArea(rings[i])));
+            box = ringBox(rings[i]);
+            boxes.push(box);
+            measured.push([rings[i], box]);
+            if (i === 0) {
+                minX = box[0];
+                minY = box[1];
+                maxX = box[2];
+                maxY = box[3];
+            } else {
+                minX = Math.min(minX, box[0]);
+                minY = Math.min(minY, box[1]);
+                maxX = Math.max(maxX, box[2]);
+                maxY = Math.max(maxY, box[3]);
+            }
+        }
+        if (!largest) {
+            return null;
+        }
+        for (i = 0; i < blocked.length; i++) {
+            box = ringBox(blocked[i]);
+            blockedBoxes.push(box);
+            measured.push([blocked[i], box]);
+        }
+
+        // The grid is aligned to the canvas, not to frame, so narrowing the frame only rejects
+        // candidates instead of shifting the lattice and moving anchors it does not constrain.
+        function search(frame) {
+            var x0 = Math.max(minX, bounds[0]),
+                y0 = Math.max(minY, bounds[1]),
+                x1 = Math.min(maxX, bounds[2]),
+                y1 = Math.min(maxY, bounds[3]),
+                best = null, bestClearance = 0,
+                gridSteps = 16, refinePasses = 4, factor = 3, step, pass;
+
+            if (x1 < x0 || y1 < y0) {
+                return null;
+            }
+
+            function scan(sx0, sx1, sy0, sy1, s) {
+                var x, y, d;
+                for (y = sy0; y <= sy1; y += s) {
+                    for (x = sx0; x <= sx1; x += s) {
+                        if (x < frame[0] || x > frame[2] || y < frame[1] || y > frame[3]
+                            || !covers(rings, boxes, x, y) || covers(blocked, blockedBoxes, x, y)
+                        ) {
+                            continue;
+                        }
+                        d = clearance(measured, x, y, bestClearance);
+                        if (d > bestClearance) {
+                            bestClearance = d;
+                            best = [x, y];
+                        }
+                    }
+                }
+            }
+
+            step = Math.max(x1 - x0, y1 - y0) / gridSteps;
+            if (!step) {
+                return null;
+            }
+
+            scan(x0, x1, y0, y1, step);
+            if (!best) {
+                step /= factor;
+                scan(x0, x1, y0, y1, step);
+            }
+            for (pass = 0; pass < refinePasses && best; pass++) {
+                step /= factor;
+                scan(best[0] - step * factor, best[0] + step * factor,
+                     best[1] - step * factor, best[1] + step * factor, step);
+            }
+
+            return best;
+        }
+
+        // The label is drawn centred on the anchor and is wider than it, so keep the glyphs
+        // off the canvas frame where the country leaves room for it.
+        var margin = UserCountryMap.countryLabelMargin;
+
+        return search([bounds[0] + margin.x, bounds[1] + margin.y,
+                       bounds[2] - margin.x, bounds[3] - margin.y])
+            || search(bounds);
     },
 
     // iso alpha-2 --> iso alpha-3
