@@ -153,9 +153,11 @@ class ForecastBuilder
      * more than this factor above or below the current level (so outside
      * [level / RATIO, level * RATIO]) reads as a discrete step change — a marketing, tracking or
      * seasonality regime the current period no longer belongs to — not the gradual drift the
-     * damped linear trend is meant to model. 2.0 leaves a genuine trend (which does not double or
-     * halve within a ten-week same-DoW window) untouched while catching the multi-fold steps that
-     * otherwise drag the trend fit far below the current level.
+     * damped linear trend is meant to model. 2.0 catches the multi-fold steps that otherwise drag
+     * the trend fit far below the current level. It cannot tell a step from steep growth, though:
+     * a trend that doubles or halves across the sample window is trimmed just the same, which is
+     * uncommon over ten weeks of same-DoW analogs and much less so over a month/year same-period
+     * window ({@see stripPreLevelShiftSamples()}).
      */
     private const LEVEL_SHIFT_RATIO = 2.0;
 
@@ -1374,10 +1376,11 @@ class ForecastBuilder
      * negative trend extrapolation past zero is never a defensible forecast.
      *
      * @param array<int, float> $pastValues Same-period historical samples in temporal order
-     *        (oldest first), already filtered by availability. Leading zeros have been stripped
-     *        only for MONOTONICITY_UP series, where they likely mark "tracking had not started
-     *        yet"; for FREE/DOWN series a leading 0 is a legitimate observation (a real 0% rate,
-     *        an actual running min of 0) and is retained.
+     *                                      (oldest first), already filtered by availability. For MONOTONICITY_UP and
+     *                                      MONOTONICITY_UNIQUE series the leading zeros have been stripped, where they likely
+     *                                      mark "tracking had not started yet", and any leading run on the far side of a traffic
+     *                                      level shift with it; for FREE/DOWN series a leading 0 is a legitimate observation (a
+     *                                      real 0% rate, an actual running min of 0) and the whole window is retained.
      */
     private function computeHistoricalPrior(array $pastValues): float
     {
@@ -1415,9 +1418,10 @@ class ForecastBuilder
      * @param array<int, string> $dataStates
      * @param array<int, bool> $seriesDataAvailability
      * @param string $monotonicity Per-series intra-period direction tag, one of the
-     *        {@see ForecastMetricClassifier::MONOTONICITY_*} constants. Drives whether leading zeros are
-     *        stripped: only MONOTONICITY_UP and MONOTONICITY_UNIQUE treat them as "tracking had
-     *        not started yet". For FREE/DOWN a leading 0 is kept as a legitimate observation.
+     *                             {@see ForecastMetricClassifier::MONOTONICITY_*} constants. Drives whether leading zeros are
+     *                             stripped: only MONOTONICITY_UP and MONOTONICITY_UNIQUE treat them as "tracking had
+     *                             not started yet". For FREE/DOWN a leading 0 is kept as a legitimate observation.
+     *                             The same two families also get the pre-level-shift trim, on every period type.
      * @param array<string, float> $dailySamples Optional daily sample map (Y-m-d → value)
      *        covering enough history to populate the day-period prior. When supplied on a day
      *        target, the prior is built from same-DoW analogs walked back through this map
@@ -1532,8 +1536,14 @@ class ForecastBuilder
         // leading 0 is a legitimate observation (e.g. a real running min of 0, a 0% rate on a
         // low-traffic day) and dropping it would inflate the prior — for DOWN it tends to fail
         // the forecast <= current gate and silently suppress an otherwise-renderable forecast.
+        //
+        // The level-shift trim runs on the same families for the same reason it runs on the day
+        // target: a week/month/year window is wide enough to straddle a traffic step, and the
+        // damped trend then reads the pre-step regime as an ongoing slope. UNIQUE needs it most
+        // — deduplicated counts have no decomposition path, so this prior serves every one of
+        // their week/month/year ticks.
         if ($this->isAnchorCountMonotonicity($monotonicity)) {
-            return $this->removeLeadingZeroSamples($samples);
+            return $this->stripPreLevelShiftSamples($this->removeLeadingZeroSamples($samples));
         }
 
         return $samples;
@@ -1639,15 +1649,24 @@ class ForecastBuilder
      * level shift from the current level, so the damped linear-trend prior fits the current
      * regime instead of reading the pre-shift level as a steep ongoing trend.
      *
-     * Without this, a site whose traffic stepped (e.g. a 3.5x drop) partway through the same-DoW
+     * Without this, a site whose traffic stepped (e.g. a 3.5x drop) partway through the sample
      * window collapses: the fit runs a line from the old high samples down through the recent low
      * ones and projects well below the current level, which the envelope clamp then only floors at
-     * a low bound. The current level is the median of the most recent {@see RECENT_LEVEL_WINDOW}
+     * a low bound. A step the other way (a traffic gain) is the mirror case: the fit reads the
+     * pre-step lows as an ongoing climb and the clamp caps the runaway at its upper bound, which
+     * on an otherwise flat series sits a fixed BOUNDED_RANGE_SIGMAS x BOUNDED_RANGE_MIN_RELATIVE_SPREAD
+     * above the median regardless of how large the step was.
+     *
+     * Serves both the day target's same-DoW analogs and the week/month/year same-period history.
+     * The current level is the median of the most recent {@see RECENT_LEVEL_WINDOW}
      * samples; any unbroken run of oldest samples more than {@see LEVEL_SHIFT_RATIO} away from it
-     * (either direction) is dropped. A gradual trend never crosses that ratio within the window so
-     * it survives untouched — only a discrete multi-fold step is trimmed. Mirrors
-     * {@see removeLeadingZeroSamples()}, which strips a different kind of unrepresentative leading
-     * run (pre-tracking zeros).
+     * (either direction) is dropped. The test is distance from the current level, not the shape of
+     * the series, so a steep enough compounding trend crosses the ratio as well and loses its
+     * oldest samples: from roughly 1.32x per period over a five-sample window, and 1.10x over a
+     * ten-sample one. The wider the stride, the more ordinary that growth is, so the trim reaches
+     * further into week/month/year history than into the day target's same-DoW analogs it was
+     * first written for. Mirrors {@see removeLeadingZeroSamples()}, which strips a different kind
+     * of unrepresentative leading run (pre-tracking zeros).
      *
      * Skipped below RECENT_LEVEL_WINDOW samples (too few to tell a shift from noise) and when the
      * recent level is <= 0 (the trailing-no-data path handles a genuinely empty recent window).
