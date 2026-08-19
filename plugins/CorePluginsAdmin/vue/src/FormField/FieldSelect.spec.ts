@@ -48,11 +48,13 @@ function buildWrapper({ wrapperTop, panelTop, inlineTop }: {
   wrapper.className = 'select-wrapper';
   const panel = document.createElement('ul');
   panel.className = 'dropdown-content';
+  panel.id = 'select-options-test';
   panel.style.top = `${inlineTop}px`;
   wrapper.appendChild(panel);
 
   const trigger = document.createElement('input');
   trigger.className = 'select-dropdown';
+  trigger.setAttribute('data-target', panel.id);
   wrapper.appendChild(trigger);
   document.body.appendChild(wrapper);
 
@@ -90,14 +92,9 @@ describe('CorePluginsAdmin/FormField/FieldSelect', () => {
   });
 
   describe('dropdown options', () => {
-    it('opens the panel below the field instead of covering it', () => {
-      mountSelect();
-      expect(formSelectOptions?.dropdownOptions.coverTrigger).toBe(false);
-    });
-
-    it('lets a caller override coverTrigger', () => {
-      mountSelect({ uiControlOptions: { dropdownOptions: { coverTrigger: true } } });
-      expect(formSelectOptions?.dropdownOptions.coverTrigger).toBe(true);
+    it("passes through a caller's dropdown options", () => {
+      mountSelect({ uiControlOptions: { dropdownOptions: { container: 'body' } } });
+      expect(formSelectOptions?.dropdownOptions.container).toBe('body');
     });
 
     it("still runs a caller's onOpenStart", () => {
@@ -144,6 +141,20 @@ describe('CorePluginsAdmin/FormField/FieldSelect', () => {
       // Materialize resets the inline top and repositions before each open, so the
       // correction always applies to a freshly computed value rather than its own output
       panel.style.top = '28px';
+      formSelectOptions?.dropdownOptions.onOpenStart(trigger);
+
+      expect(panel.style.top).toBe('37px');
+    });
+
+    it('still offsets the panel when a container has moved it out of the wrapper', () => {
+      mountSelect({ uiControlOptions: { dropdownOptions: { container: 'body' } } });
+      const { wrapper, panel, trigger } = buildWrapper({
+        wrapperTop: 100, panelTop: 138, inlineTop: 28,
+      });
+      // Materialize appends the panel to the configured container instead
+      document.body.appendChild(panel);
+      expect(wrapper.querySelector('ul.dropdown-content')).toBeNull();
+
       formSelectOptions?.dropdownOptions.onOpenStart(trigger);
 
       expect(panel.style.top).toBe('37px');

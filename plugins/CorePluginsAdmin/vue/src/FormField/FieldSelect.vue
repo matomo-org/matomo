@@ -102,12 +102,11 @@ function initMaterialSelect(
   const callerDropdownOptions = (uiControlOptions as Record<string, unknown>)
     .dropdownOptions as Record<string, unknown>|undefined;
 
-  // Materialize covers the trigger by default; the design system opens the panel below
-  // the field, as FieldExpandableSelect does. A caller-supplied value still wins.
+  // Materialize's select forces coverTrigger to false itself, so the panel already opens
+  // below the field; only the gap in front of it is ours to add.
   $select.formSelect({
     ...uiControlOptions,
     dropdownOptions: {
-      coverTrigger: false,
       ...callerDropdownOptions,
       onOpenStart(trigger: Element) {
         // Materialize positions the panel flush against the trigger, and no CSS offset can
@@ -119,7 +118,11 @@ function initMaterialSelect(
         // so it cannot accumulate.
         window.requestAnimationFrame(() => {
           const wrapper = trigger.closest('.select-wrapper') as HTMLElement|null;
-          const panel = wrapper?.querySelector('ul.dropdown-content') as HTMLElement|null;
+          // the trigger points at its panel by id, which still resolves when a configured
+          // container has moved the panel out of the wrapper
+          const panelId = trigger.getAttribute('data-target');
+          const panel = (panelId ? document.getElementById(panelId) : null)
+            || wrapper?.querySelector('ul.dropdown-content') as HTMLElement|null;
           if (!wrapper || !panel) {
             return;
           }
