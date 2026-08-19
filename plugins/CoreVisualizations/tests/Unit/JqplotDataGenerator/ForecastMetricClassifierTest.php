@@ -202,8 +202,10 @@ class ForecastMetricClassifierTest extends TestCase
 
     /**
      * Blob-row counts count whole things, so none of them may render a fractional forecast. The
-     * classifier is built with an empty semantic-type map here on purpose: UserCountry and the
-     * Referrers URL count are absent from the real registry too, so the name has to carry it.
+     * classifier is built with an empty semantic-type map here on purpose: that pins the
+     * name-based fallback, which is what carries these when the registry does not declare them.
+     * nb_keywords is the one case the BLOB_ROW_COUNT_METRIC_NAMES list does not have to carry --
+     * the nb_ prefix already reaches 0 for it -- so it pins the outcome, not the membership.
      *
      * @return iterable<string, array{string}>
      */
