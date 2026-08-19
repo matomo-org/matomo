@@ -1,7 +1,7 @@
 <!-- ddev-only override: leave headroom below the compose mem_limit so the
      container isn't OOM-killed; dev data volumes never need more. -->
 <clickhouse>
-    <max_server_memory_usage_to_ram_ratio>0.75</max_server_memory_usage_to_ram_ratio>
+    <max_server_memory_usage_to_ram_ratio>0.85</max_server_memory_usage_to_ram_ratio>
     <mark_cache_size>268435456</mark_cache_size>
     <uncompressed_cache_size>134217728</uncompressed_cache_size>
 </clickhouse>

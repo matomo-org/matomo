@@ -166,6 +166,20 @@ database = 14
 ; In case you are using queued tracking: Make sure to configure a different database! Otherwise queued requests might
 ; be flushed
 
+[ClickHouse]
+; ClickHouse POC plumbing (DEV-20678) — dev/POC only, not production configuration.
+; The raw log tables are replicated into ClickHouse by the Altinity sink connector
+; (see .ddev/clickhouse-sink/config.yml); these settings let individual reports read
+; from that copy. Defaults match the ddev clickhouse service.
+; When set to 1, the Live visits log reads log_visit from ClickHouse instead of MySQL
+; (falls back to MySQL automatically if the ClickHouse query fails).
+live_reports_enabled = 0
+host = "clickhouse"
+port = 8123
+user = "matomo"
+password = "matomo"
+database = "db"
+
 [Debug]
 ; if set to 1, the archiving process will always be triggered, even if the archive has already been computed
 ; this is useful when making changes to the archiving code so we can force the archiving process

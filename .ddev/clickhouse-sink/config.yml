@@ -22,9 +22,10 @@ database.include.list: db
 table.include.list: "db.matomo_log_visit,db.matomo_log_link_visit_action,db.matomo_log_action,db.matomo_log_conversion,db.matomo_log_conversion_item"
 database.allowPublicKeyRetrieval: "true"
 database.ssl.mode: "disabled"
-# Matches the MySQL container's zone (ddev inherits the host's, NZ). Only affects
-# TIMESTAMP columns; the matomo log tables are DATETIME (UTC content, passed through).
-database.connectionTimeZone: "Pacific/Auckland"
+# Matomo stores UTC content in DATETIME columns, and Debezium converts DATETIME to
+# epoch using this zone — it must be UTC or every replicated datetime shifts by the
+# server-zone offset (verified: Pacific/Auckland here shifted values -12h).
+database.connectionTimeZone: "UTC"
 
 # Target: the ddev clickhouse service (dev-only creds from docker-compose.clickhouse.yaml).
 clickhouse.server.url: "clickhouse"
