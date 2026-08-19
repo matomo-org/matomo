@@ -41,6 +41,7 @@ class Db implements TransactionalDatabaseInterface
 
     private static $connection = null;
     private static $readerConnection = null;
+    private static $analyticsConnection = null;
 
     private static $logQueries = true;
 
@@ -93,6 +94,106 @@ class Db implements TransactionalDatabaseInterface
         }
 
         return self::$readerConnection;
+    }
+
+    /**
+     * Returns true if an analytics database (ClickHouse) is configured: the
+     * [database_analytics] host, or the CLICKHOUSE_HOST environment override, is set.
+     *
+     * @internal
+     * @ignore
+     */
+    public static function hasAnalyticsConfigured(): bool
+    {
+        $config = self::getAnalyticsDatabaseConfig();
+
+        return !empty($config['host']);
+    }
+
+    /**
+     * Returns the connection information for the analytics database: the
+     * [database_analytics] config section with environment overrides applied
+     * (CLICKHOUSE_HOST/PORT/USER/PASSWORD/DATABASE — set by CI and test fixtures so
+     * CLI contexts can point at a service container without a config override).
+     *
+     * @internal
+     * @return array
+     */
+    public static function getAnalyticsDatabaseConfig(): array
+    {
+        $config = Config::getInstance()->database_analytics;
+        $config = is_array($config) ? $config : [];
+
+        $envOverrides = [
+            'host' => getenv('CLICKHOUSE_HOST'),
+            'port' => getenv('CLICKHOUSE_PORT'),
+            'username' => getenv('CLICKHOUSE_USER'),
+            'password' => getenv('CLICKHOUSE_PASSWORD'),
+            'dbname' => getenv('CLICKHOUSE_DATABASE'),
+        ];
+        foreach ($envOverrides as $key => $value) {
+            if ($value !== false && $value !== '') {
+                $config[$key] = $value;
+            }
+        }
+
+        if (!empty($config['host'])) {
+            $config['adapter'] = $config['adapter'] ?? 'CLICKHOUSE';
+            // The dev/CI convention: both the ddev service and the CI service container
+            // create the 'matomo' user. A configured username still wins.
+            if (empty($config['username'])) {
+                $config['username'] = 'matomo';
+                $config['password'] = $config['password'] ?: 'matomo';
+            }
+            if (empty($config['dbname'])) {
+                // Mirror the MySQL database name (matches the CDC sink convention).
+                $config['dbname'] = Config::getInstance()->database['dbname'] ?? '';
+            }
+        }
+
+        return $config;
+    }
+
+    /**
+     * Returns the analytics database connection. When an analytics database
+     * (ClickHouse) is configured, returns that connection — and any error it raises
+     * propagates; there is deliberately no fallback to MySQL, so misconfiguration and
+     * unsupported queries surface immediately. When no analytics database is
+     * configured, returns {@link getReader()} so behaviour is unchanged.
+     *
+     * @since Matomo 6.0
+     * @return \Piwik\Tracker\Db|\Piwik\Db\AdapterInterface|\Piwik\Db
+     */
+    public static function getAnalytics()
+    {
+        if (!self::hasAnalyticsConfigured()) {
+            return self::getReader();
+        }
+
+        if (!self::hasAnalyticsDatabaseObject()) {
+            self::createAnalyticsDatabaseObject();
+        }
+
+        return self::$analyticsConnection;
+    }
+
+    /**
+     * @internal
+     * @ignore
+     */
+    public static function hasAnalyticsDatabaseObject(): bool
+    {
+        return isset(self::$analyticsConnection);
+    }
+
+    /**
+     * @internal
+     * @ignore
+     */
+    public static function createAnalyticsDatabaseObject(): void
+    {
+        $dbConfig = self::getAnalyticsDatabaseConfig();
+        self::$analyticsConnection = Adapter::factory($dbConfig['adapter'], $dbConfig);
     }
 
     /**
@@ -240,6 +341,11 @@ class Db implements TransactionalDatabaseInterface
             self::$readerConnection->closeConnection();
         }
         self::$readerConnection = null;
+
+        if (self::hasAnalyticsDatabaseObject() && method_exists(self::$analyticsConnection, 'closeConnection')) {
+            self::$analyticsConnection->closeConnection();
+        }
+        self::$analyticsConnection = null;
     }
 
     /**

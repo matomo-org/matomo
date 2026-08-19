@@ -81,6 +81,31 @@ port = 3306
 ; if you are using Amazon Aurora and have configured a reader database.
 aurora_readonly_read_committed =
 
+; Optional ClickHouse analytics database (DEV-20678). When host is set, archiving and
+; live log-data queries (log_* tables) are served from ClickHouse instead of the MySQL
+; reader — with NO fallback: errors propagate so problems surface immediately. The
+; Tracker write path and all config/archive tables remain on MySQL; the log tables are
+; replicated to ClickHouse by the Altinity sink connector in ddev
+; (see .ddev/clickhouse-sink/config.yml), by Piwik\Db\ClickhouseLogTableSync in tests,
+; or by the clickhouse:migrate-log-data console command.
+; CLICKHOUSE_HOST/PORT/USER/PASSWORD/DATABASE environment variables override these
+; values (used by CI and test fixtures).
+[database_analytics]
+host =
+port = 8123
+; Empty username/password defaults to the dev convention matomo/matomo (the ddev
+; service and the CI service container both create that user).
+username =
+password =
+; Empty = mirror the MySQL database name (ddev: db, tests: matomo_tests), matching the
+; CDC sink convention.
+dbname =
+adapter = CLICKHOUSE
+; Hostname of the MySQL server as seen FROM the ClickHouse server, for the test
+; environment's log table sync. Empty = same host PHP uses. CI sets
+; CLICKHOUSE_SYNC_MYSQL_HOST=host.docker.internal instead.
+sync_mysql_host =
+
 [database_tests]
 host = "127.0.0.1"
 username = "@USERNAME@"

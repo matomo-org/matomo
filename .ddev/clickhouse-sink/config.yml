@@ -17,7 +17,7 @@ database.password: "db"
 database.server.id: "18450"
 database.server.name: "matomo-ddev"
 database.include.list: db
-# Only the five raw log tables the POC syncs (schema notes: log-table-schemas.sql).
+# Only the raw log tables (see Piwik\Db\ClickhouseLogTableSync::LOG_TABLES).
 # Debezium treats entries as anchored regexes, so these match exactly.
 table.include.list: "db.matomo_log_visit,db.matomo_log_link_visit_action,db.matomo_log_action,db.matomo_log_conversion,db.matomo_log_conversion_item"
 database.allowPublicKeyRetrieval: "true"

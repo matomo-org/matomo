@@ -11,7 +11,7 @@ namespace Piwik\ClickHouse;
 
 use ClickHouseDB\Client;
 use Piwik\Config;
-use Piwik\Db;
+use Piwik\Db\ClickhouseLogTableSync;
 
 /**
  * ClickHouse POC plumbing (DEV-20678): runs Matomo-built log SQL against the ClickHouse
@@ -30,32 +30,6 @@ class ClickHouse
      * so rows read from ClickHouse convert them back.
      */
     private const HEX_ENCODED_BINARY_COLUMNS = ['idvisitor', 'config_id', 'location_ip'];
-
-    /**
-     * The five raw log tables the POC syncs into ClickHouse, with the ClickHouse sorting
-     * key each copy uses (mirrors the MySQL primary keys, and what the Altinity sink
-     * connector auto-creates).
-     */
-    private const LOG_TABLES = [
-        'log_visit' => 'idvisit',
-        'log_link_visit_action' => 'idlink_va',
-        'log_action' => 'idaction',
-        'log_conversion' => '(idvisit, idgoal, buster)',
-        'log_conversion_item' => '(idvisit, idorder, idaction_sku)',
-    ];
-
-    /**
-     * BINARY/VARBINARY columns per log table; stored as lowercase hex strings in
-     * ClickHouse (both the CDC pipeline and syncLogTablesFromMysql() use that encoding,
-     * because raw bytes do not survive the client's JSON transport).
-     */
-    private const BINARY_COLUMNS = [
-        'log_visit' => ['idvisitor', 'config_id', 'location_ip'],
-        'log_link_visit_action' => ['idvisitor'],
-        'log_action' => [],
-        'log_conversion' => ['idvisitor'],
-        'log_conversion_item' => ['idvisitor'],
-    ];
 
     /**
      * Whether the visits log should be served from ClickHouse ([ClickHouse] ini section).
@@ -309,9 +283,7 @@ class ClickHouse
     }
 
     /**
-     * ClickHouse database holding the log table copies. Empty config value means "mirror
-     * the MySQL database name" — right for both ddev (db -> db, matching the sink
-     * connector) and the test environment (matomo_tests -> matomo_tests).
+     * ClickHouse database holding the log table copies.
      */
     public static function getDatabaseName(): string
     {
@@ -320,128 +292,24 @@ class ClickHouse
             return $config['database'];
         }
 
-        $dbConfig = Config::getInstance()->database;
-        return $dbConfig['dbname'] ?? 'db';
+        return ClickhouseLogTableSync::getDatabaseName();
     }
 
     /**
-     * Copies the five raw log tables of the current MySQL database into ClickHouse as
-     * ReplacingMergeTree tables, using ClickHouse's mysql() table function (the server
-     * pulls straight from MySQL). Test/POC plumbing: this is how UI test fixtures get
-     * their tracked data into ClickHouse — CI has no CDC connector. Binary columns are
-     * hex-encoded to match the sink connector's convention.
+     * Copies the raw log tables of the current MySQL database into ClickHouse.
+     * Delegates to {@see ClickhouseLogTableSync}, which the analytics adapter shares.
      */
     public static function syncLogTablesFromMysql(): void
     {
-        $dbConfig = Config::getInstance()->database;
-        $chConfig = self::getConfig();
-
-        // Hostname of the MySQL server AS SEEN FROM the ClickHouse server. Defaults to
-        // what PHP uses; CI overrides (PHP reaches MySQL on 127.0.0.1, the ClickHouse
-        // service container reaches the runner host via host.docker.internal).
-        $mysqlHost = getenv('CLICKHOUSE_SYNC_MYSQL_HOST')
-            ?: ($chConfig['sync_mysql_host'] ?? '')
-            ?: ($dbConfig['host'] ?? '127.0.0.1');
-        $mysqlPort = !empty($dbConfig['port']) ? (int) $dbConfig['port'] : 3306;
-        $mysqlDb = $dbConfig['dbname'];
-        $mysqlUser = $dbConfig['username'];
-        $mysqlPassword = (string) ($dbConfig['password'] ?? '');
-        $prefix = (string) ($dbConfig['tables_prefix'] ?? '');
-
-        $chDatabase = self::getDatabaseName();
-
-        // Fingerprint of the MySQL source, taken before copying: if anything writes to
-        // the log tables mid-sync, the stored fingerprint no longer matches and the next
-        // test read re-syncs again — always erring towards freshness.
-        $fingerprint = self::computeMysqlLogTablesFingerprint();
-
-        $client = self::getClient();
-        // The target database may not exist yet; run DDL against the default database.
-        $client->database('default');
-        $client->write(sprintf('CREATE DATABASE IF NOT EXISTS `%s`', $chDatabase));
-
-        foreach (self::LOG_TABLES as $table => $orderBy) {
-            $mysqlTable = $prefix . $table;
-
-            $selectColumns = '*';
-            if (!empty(self::BINARY_COLUMNS[$table])) {
-                $replacements = [];
-                foreach (self::BINARY_COLUMNS[$table] as $binaryColumn) {
-                    $replacements[] = sprintf('lower(hex(`%1$s`)) AS `%1$s`', $binaryColumn);
-                }
-                $selectColumns = '* REPLACE (' . implode(', ', $replacements) . ')';
-            }
-
-            $client->write(sprintf('DROP TABLE IF EXISTS `%s`.`%s`', $chDatabase, $mysqlTable));
-            $client->write(sprintf(
-                "CREATE TABLE `%s`.`%s`
-                 ENGINE = ReplacingMergeTree(_version, is_deleted)
-                 ORDER BY %s
-                 AS SELECT %s, toUInt64(0) AS _version, toUInt8(0) AS is_deleted
-                 FROM mysql('%s:%d', '%s', '%s', '%s', '%s')",
-                $chDatabase,
-                $mysqlTable,
-                $orderBy,
-                $selectColumns,
-                addslashes($mysqlHost),
-                $mysqlPort,
-                addslashes($mysqlDb),
-                addslashes($mysqlTable),
-                addslashes($mysqlUser),
-                addslashes($mysqlPassword)
-            ));
-        }
-
-        $client->write(sprintf('DROP TABLE IF EXISTS `%s`.`sync_state`', $chDatabase));
-        $client->write(sprintf(
-            "CREATE TABLE `%s`.`sync_state` ENGINE = TinyLog AS SELECT '%s' AS fingerprint",
-            $chDatabase,
-            addslashes($fingerprint)
-        ));
+        ClickhouseLogTableSync::syncLogTablesFromMysql();
     }
 
     /**
-     * Test-mode freshness: tests mutate the log tables mid-run (tracking new visits, GDPR
-     * deletions, anonymisation), which a one-shot fixture sync cannot see. Before serving
-     * a query, compare the MySQL log tables' checksum fingerprint with the one stored at
-     * sync time and re-copy when they diverge — zero-lag CDC as far as tests can tell.
+     * Test-mode freshness — see {@see ClickhouseLogTableSync::resyncIfLogTablesChangedForTests()}.
      */
     private static function resyncIfLogTablesChangedForTests(): void
     {
-        $current = self::computeMysqlLogTablesFingerprint();
-
-        try {
-            $stored = self::getClient()->select(sprintf(
-                'SELECT fingerprint FROM `%s`.`sync_state`',
-                self::getDatabaseName()
-            ))->fetchOne('fingerprint');
-        } catch (\Exception $e) {
-            $stored = null;
-        }
-
-        if ($stored === $current) {
-            return;
-        }
-
-        error_log('ClickHouse test resync: log tables changed since last sync, re-copying from MySQL');
-        self::syncLogTablesFromMysql();
-    }
-
-    private static function computeMysqlLogTablesFingerprint(): string
-    {
-        $prefix = (string) (Config::getInstance()->database['tables_prefix'] ?? '');
-
-        $tables = [];
-        foreach (array_keys(self::LOG_TABLES) as $table) {
-            $tables[] = '`' . $prefix . $table . '`';
-        }
-
-        $parts = [];
-        foreach (Db::fetchAll('CHECKSUM TABLE ' . implode(', ', $tables)) as $row) {
-            $parts[] = ($row['Table'] ?? '') . ':' . ($row['Checksum'] ?? '');
-        }
-
-        return implode('|', $parts);
+        ClickhouseLogTableSync::resyncIfLogTablesChangedForTests();
     }
 
     /**

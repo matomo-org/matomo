@@ -369,9 +369,8 @@ jobs:
     if: ${{ needs.generate-plugin-ui-matrices.outputs.plugin_count != '0' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 30
-    # ClickHouse POC (DEV-20678, this branch only): UI tests run with ClickHouse
-    # available so ported query paths get screenshot coverage; the connection itself is
-    # asserted by plugins/ClickHouseStatus/tests/UI. Keep image + credentials in sync
+    # ClickHouse (DEV-20678, this branch only): UI tests run with ClickHouse available
+    # so routed query paths get screenshot coverage. Keep image + credentials in sync
     # with .ddev/docker-compose.clickhouse.yaml.
     services: &clickhouse-service
       clickhouse:
