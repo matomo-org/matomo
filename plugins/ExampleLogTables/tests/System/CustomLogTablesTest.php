@@ -71,12 +71,12 @@ class CustomLogTablesTest extends SystemTestCase
     public function getSegmentsToTest(): array
     {
         return [
-            ['attrgender==men'],
-            ['isadmin==1'],
+            ['userGender==men'],
+            ['groupIsAdmin==1'],
         ];
     }
 
-    public function getApiForTesting()
+    public function getApiForTesting(): array
     {
         $dateTime = self::$fixture->dateTime;
         $idSite1 = self::$fixture->idSite;
@@ -92,7 +92,7 @@ class CustomLogTablesTest extends SystemTestCase
                 'date'         => $dateTime,
                 'periods'      => 'month',
                 'setDateLastN' => false,
-                'segment'      => 'attrgender==men',
+                'segment'      => 'userGender==men',
                 'testSuffix'   => '_men'],
             ],
             [[
@@ -105,7 +105,7 @@ class CustomLogTablesTest extends SystemTestCase
                 'date'         => $dateTime,
                 'periods'      => 'month',
                 'setDateLastN' => false,
-                'segment'      => 'attrgender==women',
+                'segment'      => 'userGender==women',
                 'testSuffix'   => '_women'],
             ],
             [[
@@ -118,7 +118,7 @@ class CustomLogTablesTest extends SystemTestCase
                 'date'         => $dateTime,
                 'periods'      => 'month',
                 'setDateLastN' => false,
-                'segment'      => 'isadmin==1',
+                'segment'      => 'groupIsAdmin==1',
                 'testSuffix'   => '_admin'],
             ],
             [[
