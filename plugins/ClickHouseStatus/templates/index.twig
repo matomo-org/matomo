@@ -14,6 +14,10 @@
                 <p><strong>Round trip:</strong> CREATE TABLE &#8594; INSERT &#8594; SELECT returned "{{ roundTrip }}"</p>
             {% else %}
                 <p><strong>Status:</strong> <span style="color: #c62828; font-weight: bold;">Not connected</span></p>
+                {# TEMP DEBUG: surface the failure reason in the screenshot; remove once CI connects #}
+                {% if error %}<pre style="white-space: pre-wrap;">{{ error }}</pre>{% endif %}
+                {% if roundTrip %}<p>roundTrip: {{ roundTrip }}</p>{% endif %}
+                {% if serverVersion %}<p>version: {{ serverVersion }}</p>{% endif %}
             {% endif %}
         </div>
         {% if serverVersion %}
