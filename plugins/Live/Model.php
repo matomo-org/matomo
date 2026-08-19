@@ -228,11 +228,11 @@ class Model
                 if (!ClickHouse::isFallbackToMysqlEnabled()) {
                     throw $e;
                 }
-                // info, not warning: a warning would trip the console failure detector in
-                // test contexts, and falling back is expected wherever ClickHouse has no data
-                StaticContainer::get(\Psr\Log\LoggerInterface::class)->info(
-                    'ClickHouse visits log query failed, falling back to MySQL: ' . $e->getMessage()
-                );
+                // error_log, not the Matomo logger: logger messages render as on-screen
+                // notifications in the UI test environment (breaking screenshots) and
+                // warnings trip the console failure detector — falling back is expected
+                // wherever ClickHouse is unreachable or has no data.
+                error_log('ClickHouse visits log query failed, falling back to MySQL: ' . $e->getMessage());
             }
         }
 
