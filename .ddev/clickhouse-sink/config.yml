@@ -1,0 +1,92 @@
+# Altinity clickhouse-sink-connector (lightweight) config — MySQL -> ClickHouse CDC
+# for the ClickHouse POC (DEV-20678 prep). Adapted from the upstream reference:
+# https://github.com/Altinity/clickhouse-sink-connector/blob/2.9.1/sink-connector-lightweight/docker/config.yml
+# Most keys are Debezium MySQL connector properties:
+# https://debezium.io/documentation/reference/stable/connectors/mysql.html
+
+name: "matomo-ddev"
+topic.prefix: "matomo-sink"
+
+# Source: the ddev MySQL service. The 'db' user gets GRANT ALL ON *.* in the
+# post-start hook, which covers the REPLICATION SLAVE/CLIENT + SELECT grants CDC needs.
+database.hostname: "db"
+database.port: "3306"
+database.user: "db"
+database.password: "db"
+# Debezium joins replication with its own server id; must differ from the server's (1).
+database.server.id: "18450"
+database.server.name: "matomo-ddev"
+database.include.list: db
+# Only the five raw log tables the POC syncs (schema notes: log-table-schemas.sql).
+# Debezium treats entries as anchored regexes, so these match exactly.
+table.include.list: "db.matomo_log_visit,db.matomo_log_link_visit_action,db.matomo_log_action,db.matomo_log_conversion,db.matomo_log_conversion_item"
+database.allowPublicKeyRetrieval: "true"
+database.ssl.mode: "disabled"
+# Matches the MySQL container's zone (ddev inherits the host's, NZ). Only affects
+# TIMESTAMP columns; the matomo log tables are DATETIME (UTC content, passed through).
+database.connectionTimeZone: "Pacific/Auckland"
+
+# Target: the ddev clickhouse service (dev-only creds from docker-compose.clickhouse.yaml).
+clickhouse.server.url: "clickhouse"
+clickhouse.server.user: "matomo"
+clickhouse.server.password: "matomo"
+clickhouse.server.port: "8123"
+clickhouse.datetime.timezone: "UTC"
+
+# Initial snapshot of existing rows, then binlog streaming.
+snapshot.mode: "initial"
+connector.class: "io.debezium.connector.mysql.MySqlConnector"
+offset.flush.interval.ms: 5000
+
+# Connector state (offsets + schema history) lives in ClickHouse itself, in the
+# altinity_sink_connector database pre-created by ../clickhouse/initdb.sql.
+offset.storage: "io.debezium.storage.jdbc.offset.JdbcOffsetBackingStore"
+offset.storage.jdbc.table.name: "altinity_sink_connector.replica_source_info"
+offset.storage.jdbc.url: "jdbc:clickhouse://clickhouse:8123/altinity_sink_connector"
+offset.storage.jdbc.user: "matomo"
+offset.storage.jdbc.password: "matomo"
+offset.storage.jdbc.table.ddl: "CREATE TABLE if not exists %s
+(
+    `id` String,
+    `offset_key` String,
+    `offset_val` String,
+    `record_insert_ts` DateTime,
+    `record_insert_seq` UInt64,
+    `_version` UInt64 MATERIALIZED toUnixTimestamp64Nano(now64(9))
+)
+ENGINE = ReplacingMergeTree(_version)
+ORDER BY id
+SETTINGS index_granularity = 8192"
+offset.storage.jdbc.table.delete: "select * from %s"
+offset.storage.jdbc.table.select: "SELECT id, offset_key, offset_val FROM %s FINAL ORDER BY record_insert_ts, record_insert_seq"
+
+schema.history.internal: "io.debezium.storage.jdbc.history.JdbcSchemaHistory"
+schema.history.internal.jdbc.url: "jdbc:clickhouse://clickhouse:8123/altinity_sink_connector"
+schema.history.internal.jdbc.user: "matomo"
+schema.history.internal.jdbc.password: "matomo"
+schema.history.internal.jdbc.table.ddl: "CREATE TABLE if not exists %s
+(`id` VARCHAR(36) NOT NULL, `history_data` VARCHAR(65000), `history_data_seq` INTEGER, `record_insert_ts` TIMESTAMP NOT NULL, `record_insert_seq` INTEGER NOT NULL) ENGINE=ReplacingMergeTree(record_insert_seq) order by id"
+schema.history.internal.jdbc.table.name: "altinity_sink_connector.replicate_schema_history"
+# Only track DDL for the synced tables, not the whole matomo schema.
+schema.history.internal.store.only.captured.tables.ddl: "true"
+schema.history.internal.store.only.captured.databases.ddl: "true"
+
+# Auto-create target tables as ReplacingMergeTree (matches the architect brief's
+# write-side plan for the mutable log_visit row).
+enable.snapshot.ddl: "true"
+auto.create.tables: "true"
+persist.raw.bytes: "false"
+
+errors.max.retries: 20
+ignore.ddl.regex: "(?i)(ANALYZE PARTITION).*"
+clickhouse.jdbc.params: "keepalive.timeout=3,max_buffer_size=1000000,socket_timeout=30000,connection_timeout=30000"
+clickhouse.jdbc.settings: "input_format_null_as_default=0,allow_experimental_object_type=1,insert_allow_materialized_columns=1"
+metrics.enable: "false"
+connection.pool.disable: "true"
+
+# Upstream-recommended workarounds for Debezium event-loop freezes.
+use.nongraceful.disconnect: "true"
+database.keep.alive.interval.ms: "30000"
+database.connection.reconnect.backoff.ms: "1000"
+database.connection.reconnect.backoff.max.ms: "10000"
+non.default.value: "true"

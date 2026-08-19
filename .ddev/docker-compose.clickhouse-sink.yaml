@@ -1,0 +1,35 @@
+#ddev-generated: false
+# Altinity clickhouse-sink-connector in lightweight mode (single process, no Kafka):
+# MySQL binlog CDC from the ddev db service into the clickhouse service, restricted to
+# the five matomo log_* tables (see clickhouse-sink/config.yml). ClickPipes stand-in
+# for local dev — ClickPipes is ClickHouse Cloud-only. Prep-only, not production-grade.
+# Requires the binlog settings in mysql/binlog.cnf.
+services:
+  clickhouse-sink:
+    container_name: ddev-${DDEV_SITENAME}-clickhouse-sink
+    image: altinity/clickhouse-sink-connector:2.9.1-lt
+    restart: "no"
+    # Upstream's entrypoint runs the JVM with -Xmx4g; cap it for the 8GB Docker VM.
+    # The wait loop covers the ClickHouse entrypoint's initdb dance (it boots a
+    # temporary server that can satisfy the healthcheck, then swaps to the real one),
+    # which otherwise races the connector into a fatal startup NPE.
+    entrypoint: ["sh", "-c", "until curl -fsS http://clickhouse:8123/ping >/dev/null 2>&1; do echo 'waiting for clickhouse...'; sleep 2; done; exec java -Xms128m -Xmx640m -jar /app.jar /config.yml com.altinity.clickhouse.debezium.embedded.ClickHouseDebeziumEmbeddedApplication"]
+    mem_limit: "1g"
+    labels:
+      com.ddev.site-name: ${DDEV_SITENAME}
+      com.ddev.approot: ${DDEV_APPROOT}
+    expose:
+      # REST API: GET /status inside the network, e.g.
+      # ddev exec curl -s http://clickhouse-sink:8083/status
+      - "8083"
+    volumes:
+      - ./clickhouse-sink/config.yml:/config.yml:ro
+    depends_on:
+      db:
+        condition: service_healthy
+      clickhouse:
+        condition: service_healthy
+    logging:
+      options:
+        max-size: "20m"
+        max-file: "3"

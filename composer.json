@@ -60,6 +60,7 @@
         "php-di/php-di": "^7.0",
         "phpmailer/phpmailer": "^7.0",
         "psr/log": "^3.0",
+        "smi2/phpclickhouse": "^1.26",
         "symfony/console": "~6.4.0",
         "symfony/event-dispatcher": "~6.4.0",
         "symfony/monolog-bridge": "~6.4.0",

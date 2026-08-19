@@ -1,0 +1,12 @@
+[mysqld]
+# ClickHouse POC (DEV-20678): binlog for the Altinity sink connector (MySQL -> ClickHouse CDC).
+# ddev's MySQL image disables the binlog; re-enable it. ROW + FULL are the MySQL 8.0
+# defaults but pinned here because the CDC pipeline depends on them.
+log-bin=mysql-bin
+binlog_format=ROW
+binlog_row_image=FULL
+# Matches Altinity's reference setup, and ClickPipes requires GTID on Aurora anyway —
+# running with it locally surfaces any enforce-gtid-consistency friction (e.g. CREATE
+# TEMPORARY TABLE inside transactions) before the POC does.
+gtid-mode=ON
+enforce-gtid-consistency=ON

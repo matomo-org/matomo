@@ -1,0 +1,73 @@
+# ClickHouse POC (DEV-20678): proves a ClickHouse service can run in Matomo CI with a
+# passing smoke test. Lives only on the clickhouse POC branch — intentionally a
+# standalone workflow, not part of matomo-tests.yml: ClickHouse only ever backs the
+# log_* tables, so its tests are opt-in (tests/ClickHouse/) and never join the
+# standard test bootstrap.
+
+name: ClickHouse Smoke Test
+
+on:
+  push:
+    branches:
+      - 'clickhouse'
+  pull_request:
+    types: [opened, synchronize]
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  checks: none
+  contents: read
+  deployments: none
+  issues: none
+  packages: none
+  pull-requests: none
+  repository-projects: none
+  security-events: none
+  statuses: none
+
+concurrency:
+  group: clickhouse-smoke-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  smoke:
+    name: ClickHouse smoke test
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    services:
+      clickhouse:
+        # Keep image + credentials in sync with .ddev/docker-compose.clickhouse.yaml.
+        # Since 25.x the image locks the passwordless default user to localhost, so an
+        # explicit user is required for connections from outside the container.
+        image: clickhouse/clickhouse-server:25.8
+        env:
+          CLICKHOUSE_USER: matomo
+          CLICKHOUSE_PASSWORD: matomo
+        ports:
+          - 8123:8123
+        options: >-
+          --health-cmd "clickhouse-client --query 'SELECT 1'"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 30
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          lfs: false
+          persist-credentials: false
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          extensions: curl
+          coverage: none
+      - name: Install dependencies
+        run: composer install --dev --prefer-dist --no-progress --no-suggest
+      - name: Run ClickHouse smoke test
+        env:
+          CLICKHOUSE_HOST: 127.0.0.1
+          CLICKHOUSE_PORT: '8123'
+          CLICKHOUSE_USER: matomo
+          CLICKHOUSE_PASSWORD: matomo
+        run: ./vendor/bin/phpunit -c tests/ClickHouse/phpunit-clickhouse.xml --testdox

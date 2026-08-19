@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Isolated ClickHouse test suite (DEV-20678). Run explicitly with
+     `vendor/bin/phpunit -c tests/ClickHouse/phpunit-clickhouse.xml`
+     (locally: prefix with `ddev exec`). Intentionally separate from
+     tests/PHPUnit/phpunit.xml.dist so no default suite ever spins up ClickHouse. -->
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd" bootstrap="bootstrap.php" colors="false" verbose="true">
+  <testsuites>
+    <testsuite name="ClickHouse">
+      <directory>.</directory>
+    </testsuite>
+  </testsuites>
+</phpunit>

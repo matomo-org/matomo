@@ -64,6 +64,7 @@ php_errors.log
 /plugins/.htaccess
 /tests/resources/overlay-test-site-real/
 /tests/PHPUnit/.phpunit.result.cache
+/tests/ClickHouse/.phpunit.result.cache
 /tests/PHPUnit/proxy/libs
 /tests/PHPUnit/proxy/piwik.js
 /tests/PHPUnit/proxy/matomo.js

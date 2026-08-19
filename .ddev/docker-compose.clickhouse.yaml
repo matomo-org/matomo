@@ -1,0 +1,44 @@
+#ddev-generated: false
+# ClickHouse server for the ClickHouse POC (DEV-20678 prep).
+# Third-party ddev service; reachable from the web container as clickhouse:8123 (HTTP)
+# and clickhouse:9000 (native). Same image tag as .github/workflows/clickhouse-smoke.yml.
+services:
+  clickhouse:
+    container_name: ddev-${DDEV_SITENAME}-clickhouse
+    image: clickhouse/clickhouse-server:25.8
+    restart: "no"
+    # Keep ClickHouse from eating the (8GB) Docker VM; it sizes caches from the cgroup limit.
+    mem_limit: "2g"
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+    expose:
+      - "8123"
+      - "9000"
+    labels:
+      com.ddev.site-name: ${DDEV_SITENAME}
+      com.ddev.approot: ${DDEV_APPROOT}
+    environment:
+      - VIRTUAL_HOST=$DDEV_HOSTNAME
+      # HTTP interface on https://<project>.ddev.site:8124 / http://…:8123 for host-side clients
+      - HTTP_EXPOSE=8123:8123
+      - HTTPS_EXPOSE=8124:8123
+      # Since 25.x the image locks the passwordless default user to localhost; an
+      # explicit user is required for connections from other containers. Dev-only creds;
+      # keep in sync with clickhouse-sink/config.yml, tests/ClickHouse and the CI workflow.
+      - CLICKHOUSE_USER=matomo
+      - CLICKHOUSE_PASSWORD=matomo
+    volumes:
+      - clickhouse:/var/lib/clickhouse
+      - ./clickhouse/low-memory.xml:/etc/clickhouse-server/config.d/zz-ddev-low-memory.xml:ro
+      - ./clickhouse/initdb.sql:/docker-entrypoint-initdb.d/01-poc-databases.sql:ro
+    healthcheck:
+      test: ["CMD", "clickhouse-client", "--query", "SELECT 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
+
+volumes:
+  clickhouse:
