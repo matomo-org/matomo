@@ -72,3 +72,66 @@ jobs:
           CLICKHOUSE_PASSWORD: matomo
         run: ./vendor/bin/phpunit -c tests/ClickHouse/phpunit-clickhouse.xml --testdox
 
+  # Fast feedback for the ClickHouse-served visits log: runs only the Live plugin's UI
+  # specs on every push (the full suite runs via matomo-tests.yml on PRs/dispatch).
+  # Expectation: green, fixture-sync lines and "ClickHouse query OK" lines in the PHP
+  # error log dump, and no "falling back to MySQL" lines.
+  live-ui:
+    name: Live plugin UI tests (ClickHouse-served)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    services:
+      clickhouse:
+        # Keep image + credentials in sync with .ddev/docker-compose.clickhouse.yaml.
+        # host-gateway lets ClickHouse pull fixture data from the runner's MySQL via
+        # the mysql() table function (ClickHouse::syncLogTablesFromMysql()).
+        image: clickhouse/clickhouse-server:25.8
+        env:
+          CLICKHOUSE_USER: matomo
+          CLICKHOUSE_PASSWORD: matomo
+        ports:
+          - 8123:8123
+        options: >-
+          --add-host host.docker.internal:host-gateway
+          --health-cmd "clickhouse-client --query 'SELECT 1'"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 30
+    env:
+      CLICKHOUSE_HOST: 127.0.0.1
+      CLICKHOUSE_PORT: '8123'
+      CLICKHOUSE_SYNC_MYSQL_HOST: host.docker.internal
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          lfs: false
+          persist-credentials: false
+          submodules: true
+          path: matomo
+      - name: Fetch the Live plugin's expected screenshots
+        working-directory: matomo
+        run: |
+          git config lfs.fetchinclude "plugins/Live/tests/UI/expected-screenshots/*"
+          git lfs pull --include "plugins/Live/tests/UI/expected-screenshots/*" --exclude=
+      - name: running tests
+        uses: matomo-org/github-action-tests@main
+        with:
+          ui-test-options: '--plugin=Live'
+          test-type: 'UI'
+          php-version: '8.1'
+          mysql-engine: 'Mysql'
+          mysql-version: '8.0'
+          node-version: '24'
+          redis-service: true
+          upload-artifacts: false
+      - name: Upload processed screenshots and diffs
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: live-ui-processed
+          path: |
+            matomo/plugins/Live/tests/UI/processed-ui-screenshots/
+            matomo/plugins/Live/tests/UI/screenshot-diffs/
+          retention-days: 3
+          if-no-files-found: warn
+

@@ -180,6 +180,16 @@ class ClickHouse
         $sql = preg_replace('~^\s*SET\s+STATEMENT\s+max_statement_time=\S+\s+FOR\s+~i', '', $sql);
         $sql = self::rewriteVisitDedupForClickHouse($sql);
 
+        // Matomo's "is (not) empty" segment idiom compares any column against '' and '0'
+        // literals, relying on MySQL's loose typing ('' casts to 0). ClickHouse refuses to
+        // compare numeric columns with ''; comparing toString(col) instead reproduces the
+        // MySQL results exactly — the idiom's own "<> '0'" leg keeps numeric zero excluded.
+        $sql = preg_replace(
+            "~((?:`?\\w+`?\\.)?`?\\w+`?)\\s*(<>|!=|=)\\s*('(?:0)?')~",
+            'toString($1) $2 $3',
+            $sql
+        );
+
         $bind = array_values($bind);
         foreach ($bind as $i => $value) {
             // Matomo binds BINARY column values (idvisitor/config_id/location_ip) as raw
