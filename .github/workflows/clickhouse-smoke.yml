@@ -118,3 +118,13 @@ jobs:
           node-version: '24'
           redis-service: true
           upload-artifacts: false
+      - name: Upload processed screenshots
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: clickhouse-ui-processed
+          path: |
+            matomo/plugins/ClickHouseStatus/tests/UI/processed-ui-screenshots/
+            matomo/plugins/ClickHouseStatus/tests/UI/screenshot-diffs/
+          retention-days: 3
+          if-no-files-found: warn
