@@ -9,7 +9,6 @@
 
 namespace Piwik\Plugins\Live\Visualizations;
 
-use Piwik\ClickHouse\ClickHouse;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
@@ -94,18 +93,6 @@ class VisitorLog extends Visualization
      */
     public function beforeRender()
     {
-        // ClickHouse POC (DEV-20678) demo toggle: superusers can flip the visits log
-        // backend between ClickHouse and MySQL straight from the report page.
-        $showClickHouseToggle = ClickHouse::isLiveReportsAvailable() && Piwik::hasUserSuperUserAccess();
-        $this->assignTemplateVar('showClickHouseToggle', $showClickHouseToggle);
-        if ($showClickHouseToggle) {
-            $this->assignTemplateVar('clickHouseLiveEnabled', ClickHouse::isLiveReportsEnabled());
-            $this->assignTemplateVar(
-                'clickHouseToggleNonce',
-                \Piwik\Nonce::getNonce(\Piwik\Plugins\Live\Controller::CLICKHOUSE_TOGGLE_NONCE)
-            );
-        }
-
         $this->config->show_as_content_block = false;
         $this->config->title = Piwik::translate('Live_VisitorLog');
         $this->config->disable_row_actions = true;

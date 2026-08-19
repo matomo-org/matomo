@@ -10,8 +10,6 @@
 namespace Piwik\Plugins\Live;
 
 use Piwik\API\Request;
-use Piwik\ClickHouse\ClickHouse;
-use Piwik\Common;
 use Piwik\Config\GeneralConfig;
 use Piwik\Piwik;
 use Piwik\DataTable;
@@ -82,28 +80,6 @@ class Controller extends \Piwik\Plugin\Controller
         $view = new View('@Live/indexVisitorLog.twig');
         $view->visitorLog = $this->renderReport('getLastVisitsDetails');
         return $view->render();
-    }
-
-    public const CLICKHOUSE_TOGGLE_NONCE = 'Live.setClickHouseLiveReports';
-
-    /**
-     * ClickHouse POC (DEV-20678) demo endpoint: persists the visits log backend choice
-     * made with the toggle on the Visits Log page.
-     */
-    public function setClickHouseLiveReports()
-    {
-        Piwik::checkUserHasSuperUserAccess();
-        \Piwik\Nonce::checkNonce(self::CLICKHOUSE_TOGGLE_NONCE);
-
-        if (!ClickHouse::isLiveReportsAvailable()) {
-            throw new \Exception('ClickHouse live reports are not configured on this instance.');
-        }
-
-        $enabled = \Piwik\Request::fromRequest()->getIntegerParameter('clickHouseEnabled', 0);
-        ClickHouse::setLiveReportsEnabled((bool) $enabled);
-
-        Common::sendHeader('Content-Type: application/json');
-        return json_encode(['clickHouseEnabled' => (bool) $enabled]);
     }
 
     /**

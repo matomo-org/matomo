@@ -71,3 +71,50 @@ jobs:
           CLICKHOUSE_USER: matomo
           CLICKHOUSE_PASSWORD: matomo
         run: ./vendor/bin/phpunit -c tests/ClickHouse/phpunit-clickhouse.xml --testdox
+
+  # Runs the ClickHouseStatus UI connection test on every push to this branch. The full
+  # UI suite (also ClickHouse-enabled on this branch) runs via matomo-tests.yml on PRs.
+  ui-smoke:
+    name: ClickHouse UI connection test
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    services:
+      clickhouse:
+        # Keep image + credentials in sync with .ddev/docker-compose.clickhouse.yaml
+        image: clickhouse/clickhouse-server:25.8
+        env:
+          CLICKHOUSE_USER: matomo
+          CLICKHOUSE_PASSWORD: matomo
+        ports:
+          - 8123:8123
+        options: >-
+          --health-cmd "clickhouse-client --query 'SELECT 1'"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 30
+    env:
+      CLICKHOUSE_HOST: 127.0.0.1
+      CLICKHOUSE_PORT: '8123'
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          lfs: false
+          persist-credentials: false
+          submodules: true
+          path: matomo
+      - name: Fetch this plugin's expected screenshots
+        working-directory: matomo
+        run: |
+          git config lfs.fetchinclude "plugins/ClickHouseStatus/tests/UI/expected-screenshots/*"
+          git lfs pull --include "plugins/ClickHouseStatus/tests/UI/expected-screenshots/*" --exclude=
+      - name: running tests
+        uses: matomo-org/github-action-tests@main
+        with:
+          ui-test-options: '--plugin=ClickHouseStatus'
+          test-type: 'UI'
+          php-version: '8.1'
+          mysql-engine: 'Mysql'
+          mysql-version: '8.0'
+          node-version: '24'
+          redis-service: true
+          upload-artifacts: false

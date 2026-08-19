@@ -168,12 +168,10 @@ database = 14
 
 [ClickHouse]
 ; ClickHouse POC plumbing (DEV-20678) — dev/POC only, not production configuration.
-; The raw log tables are replicated into ClickHouse by the Altinity sink connector
-; (see .ddev/clickhouse-sink/config.yml); these settings let individual reports read
-; from that copy. Defaults match the ddev clickhouse service.
-; When set to 1, the Live visits log reads log_visit from ClickHouse instead of MySQL
-; (falls back to MySQL automatically if the ClickHouse query fails).
-live_reports_enabled = 0
+; Connection to the ClickHouse copy of the raw log tables, replicated from MySQL by the
+; Altinity sink connector (see .ddev/clickhouse-sink/config.yml). Defaults match the
+; ddev clickhouse service; the CI UI-test environment overrides the host (see
+; plugins/ClickHouseStatus/tests/UI).
 host = "clickhouse"
 port = 8123
 user = "matomo"

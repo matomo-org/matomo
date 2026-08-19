@@ -369,6 +369,26 @@ jobs:
     if: ${{ needs.generate-plugin-ui-matrices.outputs.plugin_count != '0' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 30
+    # ClickHouse POC (DEV-20678, this branch only): UI tests run with ClickHouse
+    # available so ported query paths get screenshot coverage; the connection itself is
+    # asserted by plugins/ClickHouseStatus/tests/UI. Keep image + credentials in sync
+    # with .ddev/docker-compose.clickhouse.yaml.
+    services: &clickhouse-service
+      clickhouse:
+        image: clickhouse/clickhouse-server:25.8
+        env:
+          CLICKHOUSE_USER: matomo
+          CLICKHOUSE_PASSWORD: matomo
+        ports:
+          - 8123:8123
+        options: >-
+          --health-cmd "clickhouse-client --query 'SELECT 1'"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 30
+    env: &clickhouse-env
+      CLICKHOUSE_HOST: 127.0.0.1
+      CLICKHOUSE_PORT: '8123'
     strategy:
       fail-fast: ${{ inputs.is_preview == true }}
       max-parallel: &ui-max-parallel ${{ fromJson(vars.MATOMO_UI_MAX_PARALLEL || '10') }}
@@ -410,6 +430,8 @@ jobs:
   UI-core:
     runs-on: ubuntu-24.04
     timeout-minutes: 30
+    services: *clickhouse-service
+    env: *clickhouse-env
     strategy:
       fail-fast: ${{ inputs.is_preview == true }}
       max-parallel: *ui-max-parallel
