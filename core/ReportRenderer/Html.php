@@ -107,9 +107,11 @@ class Html extends ReportRenderer
         $columns = $processedReport['columns'];
 
         // processTableFormat() builds row labels from the metric names when a report has no
-        // dimension, so encode them like SafeDecodeLabel encodes the data table's own labels.
-        if (empty($reportMetadata['dimension'])) {
-            $columns = array_map(array(Common::class, 'sanitizeInputValue'), $columns);
+        // dimension, so encode them to match the encoding the data table's own labels carry.
+        // sanitizeInputValue() rather than decodeLabelSafe(), because metric names are not
+        // URL-encoded and so must not be urldecode()d on the way through.
+        if (!self::isAggregateReport($reportMetadata)) {
+            $columns = array_map([Common::class, 'sanitizeInputValue'], $columns);
         }
 
         list($reportData, $columns) = self::processTableFormat($reportMetadata, $reportData, $columns);

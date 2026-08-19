@@ -244,7 +244,7 @@ class Pdf extends ReportRenderer
      */
     private function paintReportHeader()
     {
-        $isAggregateReport = !empty($this->reportMetadata['dimension']);
+        $isAggregateReport = self::isAggregateReport($this->reportMetadata);
 
         // Graph-only report
         static $graphOnlyReportCount = 0;
