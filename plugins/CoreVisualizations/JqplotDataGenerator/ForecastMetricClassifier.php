@@ -197,7 +197,8 @@ class ForecastMetricClassifier
      * Integer/count-like metrics should not emit fractional forecast values. Ratios, averages,
      * durations, money, bytes, floats, and unknown numeric metrics keep up to two decimals.
      * {@see self::BLOB_ROW_COUNT_METRIC_NAMES} count whole things and are pinned to integers by
-     * name, since not all of them are registered in the semantic-type map.
+     * name as well as by semantic type, so they stay integral for a classifier built without
+     * Matomo's registry and if a plugin ever stops declaring one of them.
      *
      * MONOTONICITY_UP, MONOTONICITY_DOWN, MONOTONICITY_MAX, and MONOTONICITY_UNIQUE are all
      * treated as "monotonic" for precision — a running min_ or max_ count metric, and a
@@ -247,10 +248,12 @@ class ForecastMetricClassifier
             return 0;
         }
 
-        // Counts of whole things. The blob-row counts belong here on their own name: several of
-        // them (UserCountry_distinctCountries, Referrers_distinctWebsitesUrls) carry no semantic
-        // type, so the TYPE_NUMBER branch above cannot reach them and they would otherwise
-        // render a fractional country or URL count.
+        // Counts of whole things. The blob-row counts are listed by name too: every one of them
+        // is registered TYPE_NUMBER today, so the branch above already returns 0 for them, but
+        // the name is what keeps a fractional country or URL count from appearing if a plugin
+        // stops declaring the type, or when the classifier is built without Matomo's registry.
+        // The list carries nine of the ten: nb_keywords already matches the nb_ prefix on the
+        // first line, so it reaches 0 either way and is not what the name check is here for.
         if (
             strpos($columnName, 'nb_') === 0
             || strpos($columnName, '_nb_') !== false
