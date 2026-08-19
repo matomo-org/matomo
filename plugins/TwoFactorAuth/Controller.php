@@ -16,6 +16,7 @@ use Piwik\IP;
 use Piwik\Nonce;
 use Piwik\Piwik;
 use Piwik\Plugins\Login\PasswordVerifier;
+use Piwik\Plugins\Login\WhatsNewProvider;
 use Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeDao;
 use Piwik\Session\SessionFingerprint;
 use Piwik\Session\SessionNamespace;
@@ -60,15 +61,38 @@ class Controller extends \Piwik\Plugin\Controller
      */
     private $validator;
 
-    public function __construct(SystemSettings $systemSettings, RecoveryCodeDao $recoveryCodeDao, PasswordVerifier $passwordVerify, TwoFactorAuthentication $twoFa, Validator $validator)
-    {
+    /**
+     * @var WhatsNewProvider
+     */
+    private $whatsNewProvider;
+
+    public function __construct(
+        SystemSettings $systemSettings,
+        RecoveryCodeDao $recoveryCodeDao,
+        PasswordVerifier $passwordVerify,
+        TwoFactorAuthentication $twoFa,
+        Validator $validator,
+        WhatsNewProvider $whatsNewProvider
+    ) {
         $this->settings = $systemSettings;
         $this->recoveryCodeDao = $recoveryCodeDao;
         $this->passwordVerify = $passwordVerify;
         $this->twoFa = $twoFa;
         $this->validator = $validator;
+        $this->whatsNewProvider = $whatsNewProvider;
 
         parent::__construct();
+    }
+
+    /**
+     * The "What's New" entries shown by the shared login layout. Reuses Login's provider, since
+     * these screens already extend Login's layout.
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    private function getWhatsNewChanges(): array
+    {
+        return $this->whatsNewProvider->getChanges();
     }
 
     public function loginTwoFactorAuth()
@@ -120,6 +144,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->AccessErrorString = $messageNoAccess;
         $view->addForm($form);
         $this->setBasicVariablesView($view);
+        $view->whatsNewChanges = $this->getWhatsNewChanges();
         $view->nonce = Nonce::getNonce(self::LOGIN_2FA_NONCE);
 
         return $view->render();
@@ -186,7 +211,11 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function onLoginSetupTwoFactorAuth()
     {
-        // called when 2fa is required, but user has not yet set up 2fa
+        // login-only setup screen: available only while 2fa is enforced and the user has not enrolled yet
+        $this->validator->checkCanUseTwoFa();
+        $this->validator->checkCurrentUserMatchesSessionUser();
+        $this->validator->check2FaIsRequired();
+        $this->validator->check2FaNotEnabled();
 
         return $this->setupTwoFactorAuth($standalone = true);
     }
@@ -204,6 +233,7 @@ class Controller extends \Piwik\Plugin\Controller
         if ($standalone) {
             $view = new View('@TwoFactorAuth/setupTwoFactorAuthStandalone');
             $this->setBasicVariablesView($view);
+            $view->whatsNewChanges = $this->getWhatsNewChanges();
             $view->submitAction = 'onLoginSetupTwoFactorAuth';
         } else {
             $view = new View('@TwoFactorAuth/setupTwoFactorAuth');

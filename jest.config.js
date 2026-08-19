@@ -11,6 +11,9 @@ module.exports = {
     'ts-jest': {
       tsconfig: 'tsconfig.spec.json',
     },
+    'vue-jest': {
+      tsConfig: 'tsconfig.spec.json',
+    },
   },
   setupFiles: ['./tests/client/bootstrap.jest.js'],
 };

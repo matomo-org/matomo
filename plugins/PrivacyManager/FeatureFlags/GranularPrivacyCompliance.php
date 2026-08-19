@@ -9,14 +9,14 @@
 
 declare(strict_types=1);
 
-namespace Piwik\Plugins\CoreVisualizations\FeatureFlags;
+namespace Piwik\Plugins\PrivacyManager\FeatureFlags;
 
 use Piwik\Plugins\FeatureFlags\FeatureFlagInterface;
 
-class SparklinesRedesign implements FeatureFlagInterface
+class GranularPrivacyCompliance implements FeatureFlagInterface
 {
     public function getName(): string
     {
-        return 'SparklinesRedesign';
+        return 'GranularPrivacyCompliance';
     }
 }

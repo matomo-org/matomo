@@ -529,4 +529,65 @@ describe("PrivacyManager", function () {
 
       expect(await page.screenshotSelector('.compliance')).to.matchImage('compliance_config_enabled');
     });
+
+    it('should show the granular dashboard as read only when policy is enabled via config', async function() {
+      // self-contained: set both overrides here instead of relying on the previous test
+      testEnvironment.overrideConfig('FeatureFlags', {
+        GranularPrivacyCompliance_feature: 'enabled',
+      });
+      testEnvironment.overrideConfig('CnilPolicy', {
+        cnil_v1_policy_enabled: '1',
+      });
+      testEnvironment.save();
+
+      try {
+        await page.goto('?module=PrivacyManager&action=compliance&idSite=1&period=day&date=yesterday');
+        await page.waitForNetworkIdle();
+        await page.waitForSelector('table.granularCompliance', { visible: true });
+
+        expect(await page.screenshotSelector('.compliance')).to.matchImage('compliance_granular_config_enabled');
+      } finally {
+        delete testEnvironment.configOverride.CnilPolicy;
+        testEnvironment.save();
+      }
+    });
+
+    it('should show the granular dashboard with per setting toggles', async function() {
+      await page.goto('?module=PrivacyManager&action=compliance&idSite=1&period=day&date=yesterday');
+      await page.waitForNetworkIdle();
+      await page.waitForSelector('table.granularCompliance', { visible: true });
+
+      expect(await page.screenshotSelector('.compliance')).to.matchImage('compliance_granular');
+    });
+
+    it('should mark a toggled setting as applies on save until it is saved', async function() {
+      await page.click('.switch-DevicesDetection-DeviceModelDetectionDisabled .lever');
+      await page.waitForTimeout(150);
+
+      expect(await page.screenshotSelector('.compliance')).to.matchImage('compliance_granular_toggle_pending');
+    });
+
+    it('should save toggled settings after password confirmation', async function() {
+      await (await page.jQuery('.granularCompliance-cnil_v1-save input')).click();
+      await page.waitForTimeout(150);
+      await confirmPassword();
+      await page.waitForNetworkIdle();
+      await page.waitForTimeout(250);
+
+      expect(await page.screenshotSelector('.compliance')).to.matchImage('compliance_granular_saved');
+    });
+
+    it('should turn all toggles on when using enforce all settings', async function() {
+      await page.click('.granularComplianceEnforceAllButton');
+      await page.waitForTimeout(150);
+
+      expect(await page.screenshotSelector('.compliance')).to.matchImage('compliance_granular_enforce_all_pending');
+    });
+
+    after(async function () {
+      // leave no config overrides or pending page state behind for later tests
+      delete testEnvironment.configOverride.FeatureFlags;
+      delete testEnvironment.configOverride.CnilPolicy;
+      testEnvironment.save();
+    });
   });

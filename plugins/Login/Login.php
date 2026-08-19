@@ -107,6 +107,9 @@ class Login extends \Piwik\Plugin
         $translations[] = 'Login_UnblockAllIPs';
         $translations[] = 'Login_CurrentlyBlockedIPsUnblockConfirm';
         $translations[] = 'Login_IPsAlwaysBlocked';
+        $translations[] = 'Login_LoginOrEmail';
+        $translations[] = 'General_Password';
+        $translations[] = 'General_Required';
     }
 
     /**
@@ -267,6 +270,9 @@ class Login extends \Piwik\Plugin
     {
         $stylesheetFiles[] = "plugins/Login/stylesheets/login.less";
         $stylesheetFiles[] = "plugins/Login/stylesheets/variables.less";
+        $stylesheetFiles[] = "plugins/Login/stylesheets/loginLayout.less";
+        $stylesheetFiles[] = "plugins/Login/stylesheets/loginForm.less";
+        $stylesheetFiles[] = "plugins/Login/stylesheets/loginWhatsNew.less";
     }
 
     /**

@@ -85,6 +85,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     private $passwordStrength;
 
     /**
+     * @var WhatsNewProvider
+     */
+    private $whatsNewProvider;
+
+    /**
      * @param PasswordResetter $passwordResetter
      * @param \Piwik\Auth $auth
      * @param SessionInitializer $sessionInitializer
@@ -92,6 +97,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      * @param BruteForceDetection $bruteForceDetection
      * @param SystemSettings $systemSettings
      * @param PasswordStrength $passwordStrength
+     * @param WhatsNewProvider $whatsNewProvider
      */
     public function __construct(
         $passwordResetter = null,
@@ -100,7 +106,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $passwordVerify = null,
         $bruteForceDetection = null,
         $systemSettings = null,
-        $passwordStrength = null
+        $passwordStrength = null,
+        $whatsNewProvider = null
     ) {
         parent::__construct();
 
@@ -138,6 +145,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $passwordStrength = StaticContainer::get('Piwik\Auth\PasswordStrength');
         }
         $this->passwordStrength = $passwordStrength;
+
+        if (empty($whatsNewProvider)) {
+            $whatsNewProvider = StaticContainer::get(WhatsNewProvider::class);
+        }
+        $this->whatsNewProvider = $whatsNewProvider;
     }
 
     /**
@@ -210,6 +222,18 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         // crsf token: don't trust the submitted value; generate/fetch it from session data
         $view->nonce = Nonce::getNonce('Login.login');
+
+        $view->whatsNewChanges = $this->getWhatsNewChanges();
+    }
+
+    /**
+     * The "What's New" entries shown by the shared login layout.
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    private function getWhatsNewChanges(): array
+    {
+        return $this->whatsNewProvider->getChanges();
     }
 
     public function confirmPassword()
@@ -246,6 +270,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
           'nonce'             => Nonce::getNonce($nonceKey),
           'AccessErrorString' => $messageNoAccess,
           'loginPlugin'       => Piwik::getLoginPluginName(),
+          'whatsNewChanges'   => $this->getWhatsNewChanges(),
         ]);
     }
 
@@ -516,6 +541,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'loginPlugin' => Piwik::getLoginPluginName(),
             'login' => $login,
             'resetToken' => $resetToken,
+            'whatsNewChanges' => $this->getWhatsNewChanges(),
         ], 'basic');
     }
 
@@ -558,7 +584,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         return $this->renderTemplateAs(
             '@Login/cancelResetPassword',
-            ['cancelResetPasswordContent' => $cancelResetPasswordContent],
+            [
+                'cancelResetPasswordContent' => $cancelResetPasswordContent,
+                'whatsNewChanges' => $this->getWhatsNewChanges(),
+            ],
             'basic'
         );
     }
@@ -621,6 +650,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
           'nonce'        => $nonce,
           'errorMessage' => $errorMessage,
           'loginPlugin' => Piwik::getLoginPluginName(),
+          'whatsNewChanges' => $this->getWhatsNewChanges(),
         ], 'basic');
     }
 
