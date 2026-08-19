@@ -1,0 +1,11 @@
+{# Rendered by VisitorDetails::renderVisitorDetails() into the visits log entry for one visit. #}
+<div class="exampleLogTablesAttributes">
+    {% if gender %}
+        <br/>
+        <span class="visitorLogIconWithDetails">{{ 'ExampleLogTables_UserGender'|translate }}: {{ gender }}</span>
+    {% endif %}
+    {% if group %}
+        <br/>
+        <span class="visitorLogIconWithDetails">{{ 'ExampleLogTables_UserGroup'|translate }}: {{ group }}</span>
+    {% endif %}
+</div>
