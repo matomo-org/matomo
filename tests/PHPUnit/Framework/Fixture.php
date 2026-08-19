@@ -16,6 +16,7 @@ use Piwik\Auth;
 use Piwik\Auth\Password;
 use Matomo\Cache\Backend\File;
 use Piwik\Cache as PiwikCache;
+use Piwik\ClickHouse\ClickHouse;
 use Piwik\CliMulti\CliPhp;
 use Piwik\Common;
 use Piwik\Config;
@@ -346,6 +347,42 @@ class Fixture extends \PHPUnit\Framework\Assert
             $this->log("Database {$this->dbName} marked as successfully set up.");
         } else {
             $this->log("Using existing database {$this->dbName}.");
+        }
+
+        $this->setUpClickHouse($testEnv);
+    }
+
+    /**
+     * ClickHouse POC (DEV-20678): make tests actually use ClickHouse where a server is
+     * reachable. Fixture setup runs in CLI, where the CLICKHOUSE_HOST/PORT env vars of a
+     * CI job are visible; web-served test requests (php-fpm) do not inherit that env, so
+     * the values are propagated through the testing-environment config overrides. The
+     * fixture's log tables are then copied into ClickHouse so queries get served instead
+     * of falling back. Both steps are best-effort: without a reachable ClickHouse the
+     * suites run on the MySQL fallback unchanged.
+     */
+    private function setUpClickHouse(TestingEnvironmentVariables $testEnv)
+    {
+        if (!ClickHouse::isLiveReportsEnabled()) {
+            return;
+        }
+
+        $overrides = $testEnv->configOverride ?: [];
+        foreach (['host' => 'CLICKHOUSE_HOST', 'port' => 'CLICKHOUSE_PORT'] as $key => $envVar) {
+            if (getenv($envVar) !== false && getenv($envVar) !== '') {
+                $overrides['ClickHouse'][$key] = getenv($envVar);
+            }
+        }
+        if (!empty($overrides['ClickHouse'])) {
+            $testEnv->configOverride = $overrides;
+            $testEnv->save();
+        }
+
+        try {
+            ClickHouse::syncLogTablesFromMysql();
+            error_log('ClickHouse fixture sync OK into database ' . ClickHouse::getDatabaseName());
+        } catch (Exception $e) {
+            error_log('ClickHouse fixture sync skipped (tests will use the MySQL fallback): ' . $e->getMessage());
         }
     }
 
