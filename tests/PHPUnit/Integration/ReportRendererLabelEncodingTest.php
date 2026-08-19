@@ -15,11 +15,8 @@ use Piwik\ReportRenderer\Html;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
- * Row labels reach the HTML report body in one representation: encoded. Labels taken from the data
- * table are encoded by the SafeDecodeLabel filter, and the ones built from metric names for reports
- * without a dimension are encoded by the renderer.
- *
- * Both sides are covered here, because a mismatch either way is silent.
+ * Row labels reach the HTML report body encoded, whether they come from the data table or are
+ * built from metric names. Both are covered here, because a mismatch either way is silent.
  *
  * @group Core
  * @group ReportRenderer
@@ -27,39 +24,36 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 class ReportRendererLabelEncodingTest extends IntegrationTestCase
 {
     /**
-     * Metric names are free text and can contain markup characters, so they need encoding before
-     * they are used as labels.
+     * Metric names become row labels, so they are encoded like labels.
      */
     public function testMetricNamesUsedAsRowLabelsAreEncoded()
     {
         $reportData = new Simple();
-        $reportData->addRowFromSimpleArray(['nb_conversions' => 5]);
+        $reportData->addRowFromSimpleArray(['nb_visits' => 5]);
 
         $rendered = $this->renderReport([
-            'metadata' => ['name' => 'Goals', 'uniqueId' => 'Goals_get'],
+            'metadata' => ['name' => 'Visits Summary', 'uniqueId' => 'VisitsSummary_get'],
             'reportData' => $reportData,
-            'columns' => ['nb_conversions' => 'Conversions goal "<b>Sale</b> & Co" (ID 1 )'],
+            'columns' => ['nb_visits' => 'Custom <metric> & "name"'],
         ]);
 
-        self::assertStringNotContainsString('<b>', $rendered);
-        self::assertStringContainsString('Conversions goal &quot;&lt;b&gt;Sale&lt;/b&gt; &amp; Co&quot; (ID 1 )', $rendered);
+        self::assertStringContainsString('Custom &lt;metric&gt; &amp; &quot;name&quot;', $rendered);
+        self::assertStringNotContainsString('Custom <metric>', $rendered);
     }
 
     /**
-     * Metric names do not all arrive in the same shape: some are plain text, others are already
-     * encoded by the time they get here. Encoding has to be idempotent so the second kind is not
-     * shown with its entities, and it has to leave + and %XX alone, which is why this uses
-     * Common::sanitizeInputValue() rather than the label filter's decodeLabelSafe().
+     * Metric names do not all arrive in the same shape, so the encoding has to be idempotent and
+     * has to leave + and %XX alone - which is why this is sanitizeInputValue(), not decodeLabelSafe().
      */
     public function testMetricNamesAreNotDoubleEncodedOrDecoded()
     {
         $reportData = new Simple();
-        $reportData->addRowFromSimpleArray(['nb_conversions' => 5]);
+        $reportData->addRowFromSimpleArray(['nb_visits' => 5]);
 
         $rendered = $this->renderReport([
-            'metadata' => ['name' => 'Goals', 'uniqueId' => 'Goals_get'],
+            'metadata' => ['name' => 'Visits Summary', 'uniqueId' => 'VisitsSummary_get'],
             'reportData' => $reportData,
-            'columns' => ['nb_conversions' => 'Custom &amp; Metric + 50%2F'],
+            'columns' => ['nb_visits' => 'Custom &amp; Metric + 50%2F'],
         ]);
 
         self::assertStringContainsString('Custom &amp; Metric + 50%2F', $rendered);
@@ -67,8 +61,7 @@ class ReportRendererLabelEncodingTest extends IntegrationTestCase
     }
 
     /**
-     * Labels that come from the data table are encoded before they reach the template, so they are
-     * printed as they are. Encoding them a second time would show the entities to the reader.
+     * Labels from the data table are already encoded, so the renderer must not encode them again.
      */
     public function testDataTableLabelsAreNotDoubleEncoded()
     {
@@ -82,6 +75,24 @@ class ReportRendererLabelEncodingTest extends IntegrationTestCase
         ]);
 
         self::assertStringContainsString('Electronics &amp; Cameras', $rendered);
+        self::assertStringNotContainsString('&amp;amp;', $rendered);
+    }
+
+    /**
+     * Column headers are escaped by Twig, so encoding them here as well would show the entities.
+     */
+    public function testColumnHeadersAreNotDoubleEncoded()
+    {
+        $reportData = new DataTable();
+        $reportData->addRowFromSimpleArray(['label' => 'Downloads', 'nb_visits' => 5]);
+
+        $rendered = $this->renderReport([
+            'metadata' => ['name' => 'Pages', 'uniqueId' => 'Actions_getPageUrls', 'dimension' => 'Page URL'],
+            'reportData' => $reportData,
+            'columns' => ['label' => 'Page URL', 'nb_visits' => 'Visits & Views'],
+        ]);
+
+        self::assertStringContainsString('Visits &amp; Views', $rendered);
         self::assertStringNotContainsString('&amp;amp;', $rendered);
     }
 
