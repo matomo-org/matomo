@@ -11,6 +11,7 @@ namespace Piwik\ClickHouse;
 
 use ClickHouseDB\Client;
 use Piwik\Config;
+use Piwik\Option;
 
 /**
  * ClickHouse POC plumbing (DEV-20678): runs Matomo-built log SQL against the ClickHouse
@@ -30,10 +31,38 @@ class ClickHouse
      */
     private const HEX_ENCODED_BINARY_COLUMNS = ['idvisitor', 'config_id', 'location_ip'];
 
-    public static function isLiveReportsEnabled(): bool
+    /**
+     * Runtime demo toggle (see the Visits Log page): lets the backend be flipped between
+     * ClickHouse and MySQL without editing config. Only consulted while the [ClickHouse]
+     * live_reports_enabled config flag makes the feature available at all.
+     */
+    private const OPTION_LIVE_REPORTS_UI_TOGGLE = 'ClickHouse.live_reports_enabled_ui';
+
+    /**
+     * Whether ClickHouse live reports are configured at all ([ClickHouse] section).
+     */
+    public static function isLiveReportsAvailable(): bool
     {
         $config = self::getConfig();
         return !empty($config['live_reports_enabled']);
+    }
+
+    /**
+     * Whether the visits log should be served from ClickHouse right now: configured as
+     * available, and not switched off via the runtime demo toggle (defaults to on).
+     */
+    public static function isLiveReportsEnabled(): bool
+    {
+        if (!self::isLiveReportsAvailable()) {
+            return false;
+        }
+
+        return Option::get(self::OPTION_LIVE_REPORTS_UI_TOGGLE) !== '0';
+    }
+
+    public static function setLiveReportsEnabled(bool $enabled): void
+    {
+        Option::set(self::OPTION_LIVE_REPORTS_UI_TOGGLE, $enabled ? '1' : '0');
     }
 
     /**
@@ -51,6 +80,20 @@ class ClickHouse
         $rows = self::getClient()->select($chSql, $params)->rows();
 
         foreach ($rows as &$row) {
+            // On JOIN queries ClickHouse returns columns whose name exists on both sides
+            // under their qualified name ("log_visit.idvisit"); Matomo expects the short
+            // MySQL-style names.
+            foreach ($row as $key => $value) {
+                $dotPos = strrpos($key, '.');
+                if ($dotPos !== false) {
+                    $shortKey = substr($key, $dotPos + 1);
+                    if (!array_key_exists($shortKey, $row)) {
+                        $row[$shortKey] = $value;
+                    }
+                    unset($row[$key]);
+                }
+            }
+
             foreach (self::HEX_ENCODED_BINARY_COLUMNS as $column) {
                 if (
                     !empty($row[$column])
@@ -90,9 +133,11 @@ class ClickHouse
         $client->settings()->set('final', 1);
 
         // Keep wide SELECT-* queries with FINAL inside the small dev container's memory
-        // budget: fewer parallel streams, and spill sorts to disk instead of failing.
+        // budget: fewer parallel streams, spill sorts to disk instead of failing, and use
+        // a disk-friendly join algorithm for the segment joins onto log_link_visit_action.
         $client->settings()->set('max_threads', 2);
         $client->settings()->set('max_bytes_before_external_sort', 256 * 1024 * 1024);
+        $client->settings()->set('join_algorithm', 'grace_hash');
 
         return $client;
     }
@@ -108,6 +153,7 @@ class ClickHouse
     {
         $sql = preg_replace('~/\*\+\s*MAX_EXECUTION_TIME\(\d+\)\s*\*/~i', '', $sql);
         $sql = preg_replace('~^\s*SET\s+STATEMENT\s+max_statement_time=\S+\s+FOR\s+~i', '', $sql);
+        $sql = self::rewriteVisitDedupForClickHouse($sql);
 
         $bind = array_values($bind);
         $converted = '';
@@ -162,6 +208,42 @@ class ClickHouse
         }
 
         return [$converted, $params];
+    }
+
+    /**
+     * Segmented visits-log queries dedup joined rows with MySQL's loose
+     * `SELECT log_visit.* … GROUP BY log_visit.idvisit`, which ClickHouse rejects
+     * (NOT_AN_AGGREGATE). ClickHouse's native equivalent is `LIMIT 1 BY idvisit`:
+     * keep the first row per visit after ORDER BY. Rewrites only a top-level
+     * `GROUP BY <x>.idvisit` (the last occurrence, and only when nothing after it
+     * reopens parentheses — inner subqueries like the intersect-segment filter
+     * group validly and are left alone).
+     */
+    private static function rewriteVisitDedupForClickHouse(string $sql): string
+    {
+        $pattern = '~\bGROUP\s+BY\s+(`?\w+`?\.`?idvisit`?|`?idvisit`?)\s*~i';
+        if (!preg_match_all($pattern, $sql, $matches, PREG_OFFSET_CAPTURE)) {
+            return $sql;
+        }
+
+        $last = count($matches[0]) - 1;
+        [$groupByText, $groupByOffset] = $matches[0][$last];
+        $dedupColumn = $matches[1][$last][0];
+
+        $remainder = substr($sql, $groupByOffset + strlen($groupByText));
+        if (strpos($remainder, ')') !== false) {
+            // Not provably top-level; leave the query alone (caller falls back to MySQL).
+            return $sql;
+        }
+
+        $sql = substr($sql, 0, $groupByOffset) . ' ' . $remainder;
+
+        if (preg_match('~\bLIMIT\s+\d+(?:\s*,\s*\d+)?\s*$~i', $sql, $limitMatch, PREG_OFFSET_CAPTURE)) {
+            $limitOffset = $limitMatch[0][1];
+            return substr($sql, 0, $limitOffset) . 'LIMIT 1 BY ' . $dedupColumn . ' ' . substr($sql, $limitOffset);
+        }
+
+        return $sql . ' LIMIT 1 BY ' . $dedupColumn;
     }
 
     private static function getConfig(): array

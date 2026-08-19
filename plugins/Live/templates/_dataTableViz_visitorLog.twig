@@ -1,3 +1,41 @@
+{% if showClickHouseToggle|default(false) and not isWidget %}
+    {# ClickHouse POC (DEV-20678) demo toggle — superuser-only, intentionally untranslated. #}
+    <div id="clickHouseBackendToggle" style="display: flex; align-items: center; gap: 14px; margin: 4px 0 14px 0;">
+        <strong>Visits log backend:</strong>
+        <div class="switch">
+            <label>
+                MySQL
+                <input type="checkbox" id="clickHouseBackendCheckbox"{% if clickHouseLiveEnabled %} checked{% endif %}>
+                <span class="lever"></span>
+                ClickHouse
+            </label>
+        </div>
+        {% if clickHouseLiveEnabled %}
+            <span style="background: #fbbc3a; color: #1d1d1d; border-radius: 3px; padding: 2px 10px; font-weight: bold;">
+                Serving from ClickHouse
+            </span>
+        {% else %}
+            <span style="background: #3a5e8c; color: #fff; border-radius: 3px; padding: 2px 10px; font-weight: bold;">
+                Serving from MySQL
+            </span>
+        {% endif %}
+    </div>
+    <script type="text/javascript">
+        (function () {
+            $('#clickHouseBackendCheckbox').off('change').on('change', function () {
+                var enabled = $(this).is(':checked') ? 1 : 0;
+                $('#clickHouseBackendToggle input').prop('disabled', true);
+                $.post('index.php?module=Live&action=setClickHouseLiveReports', {
+                    clickHouseEnabled: enabled,
+                    nonce: {{ clickHouseToggleNonce|default('')|json_encode|raw }}
+                }).always(function () {
+                    window.location.reload();
+                });
+            });
+        })();
+    </script>
+{% endif %}
+
 {% set displayVisitorsInOwnColumn = (isWidget ? false : true) %}
 
 {% set cycleIndex=0 %}

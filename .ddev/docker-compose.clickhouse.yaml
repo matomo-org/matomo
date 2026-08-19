@@ -8,8 +8,9 @@ services:
     image: clickhouse/clickhouse-server:25.8
     restart: "no"
     # Keep ClickHouse from eating the (8GB) Docker VM; it sizes caches from the cgroup limit.
-    # 2.5g is the observed floor for FINAL over the ~614k-row log_visit copy (60+ columns).
-    mem_limit: "2560m"
+    # 3g is the observed floor for segmented visits-log queries (FINAL over the wide
+    # log_visit copy joined to log_link_visit_action); plain FINAL scans need ~2.5g.
+    mem_limit: "3g"
     ulimits:
       nofile:
         soft: 262144
