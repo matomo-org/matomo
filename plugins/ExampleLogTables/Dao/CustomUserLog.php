@@ -37,18 +37,26 @@ class CustomUserLog
     /**
      * Creates the table.
      *
-     * `user_id` is `VARCHAR(200)` because that is what `log_visit.user_id` is
-     * (`CoreHome\Columns\UserId::MAXLENGTH`). Matomo connects with a non-strict `sql_mode`, so a
-     * shorter column here would truncate a long user id *silently*, and the truncated value would no
-     * longer equal the one in `log_visit` -- leaving a row that no join, and therefore no GDPR
-     * deletion or export, can ever reach again.
+     * `DbHelper::createTable()` writes `CREATE TABLE IF NOT EXISTS`, applies the engine, charset and
+     * collation the install uses, and swallows the "table exists" error, so calling this twice is
+     * harmless.
+     *
+     * Two column decisions carry more weight than they look:
+     *
+     * - `user_id` is `VARCHAR(200)` because that is what `log_visit.user_id` is
+     *   (`CoreHome\Columns\UserId::MAXLENGTH`). Matomo connects with a non-strict `sql_mode`, so a
+     *   shorter column here would truncate a long user id *silently*, and the truncated value would
+     *   no longer equal the one in `log_visit` -- leaving a row that no join, and therefore no GDPR
+     *   deletion or export, can ever reach again.
+     * - both attribute columns have an explicit `DEFAULT ''`, because a tracking request that
+     *   carries only one of them inserts only that column.
      */
     public function install(): void
     {
         DbHelper::createTable(self::TABLE_NAME, "
                   `user_id` VARCHAR(200) NOT NULL,
-                  `gender` VARCHAR(30) NOT NULL,
-                  `group_name` VARCHAR(30) NOT NULL,
+                  `gender` VARCHAR(30) NOT NULL DEFAULT '',
+                  `group_name` VARCHAR(30) NOT NULL DEFAULT '',
                   PRIMARY KEY (user_id)");
     }
 
@@ -72,27 +80,40 @@ class CustomUserLog
     }
 
     /**
-     * Records the attributes of one user, overwriting whatever was recorded for them before.
+     * Records the attributes one tracking request carried for one user.
      *
      * The tracker sees the same user on every one of their visits, so this has to be an upsert
      * rather than an insert: the primary key on `user_id` is what keeps the table at one row per
      * user instead of one row per request.
+     *
+     * Only the columns in `$attributes` are written. Adding the missing ones with an invented
+     * default would overwrite what an earlier request stored, which is the same trap the
+     * RequestProcessor guards with a sentinel default -- the two have to agree, or a request that
+     * mentions one attribute silently erases the other.
+     *
+     * @param array<string, string> $attributes column name => value, for the columns the request
+     *                                          actually carried
      */
-    public function addOrUpdateUserInformation(string $userId, string $group, string $gender): void
+    public function addOrUpdateUserInformation(string $userId, array $attributes): void
     {
-        $columns = [
-            'user_id' => $userId,
-            'group_name' => $group,
-            'gender' => $gender,
-        ];
+        if (empty($attributes)) {
+            return; // the request carried nothing this table stores
+        }
+
+        $columns = array_merge(['user_id' => $userId], $attributes);
+
+        $updates = array_map(static function (string $column): string {
+            return $column . ' = ?';
+        }, array_keys($attributes));
 
         $sql = sprintf(
-            'INSERT INTO `%s` (%s) VALUES(%s) ON DUPLICATE KEY UPDATE group_name = ?, gender = ?',
+            'INSERT INTO `%s` (%s) VALUES(%s) ON DUPLICATE KEY UPDATE %s',
             $this->tablePrefixed,
             implode(',', array_keys($columns)),
-            Common::getSqlStringFieldsArray($columns)
+            Common::getSqlStringFieldsArray($columns),
+            implode(', ', $updates)
         );
 
-        Db::query($sql, [...array_values($columns), $group, $gender]);
+        Db::query($sql, [...array_values($columns), ...array_values($attributes)]);
     }
 }

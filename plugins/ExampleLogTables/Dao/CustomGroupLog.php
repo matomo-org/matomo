@@ -51,6 +51,9 @@ class CustomGroupLog
 
     /**
      * Records the attributes of one group, overwriting whatever was recorded for it before.
+     *
+     * Unlike the user table there is nothing partial to write here: the group name is the key and the
+     * flag is the only other column, so a caller that has one has both.
      */
     public function addOrUpdateGroupInformation(string $group, bool $isAdmin): void
     {

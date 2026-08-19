@@ -66,11 +66,24 @@ class UserAttributesRequestProcessor extends RequestProcessor
         $gender = Common::getRequestVar(self::PARAM_GENDER, '', 'string', $params);
         $group = Common::getRequestVar(self::PARAM_GROUP, '', 'string', $params);
 
-        if ('' === $gender && '' === $group) {
+        // Collect only what this request actually carried. A request that mentions the gender but not
+        // the group says nothing about the group, and writing a default for it would erase what an
+        // earlier request stored -- the same reasoning as the sentinel below, one table up.
+        $attributes = [];
+
+        if ('' !== $gender) {
+            $attributes['gender'] = $gender;
+        }
+
+        if ('' !== $group) {
+            $attributes['group_name'] = $group;
+        }
+
+        if (empty($attributes)) {
             return; // nothing this plugin collects was sent, so nothing is stored
         }
 
-        $this->userLog->addOrUpdateUserInformation($userId, $group, $gender);
+        $this->userLog->addOrUpdateUserInformation($userId, $attributes);
 
         if ('' === $group) {
             return;
@@ -81,7 +94,7 @@ class UserAttributesRequestProcessor extends RequestProcessor
         // would silently overwrite what an earlier request stored.
         $isAdmin = Common::getRequestVar(self::PARAM_GROUP_IS_ADMIN, -1, 'int', $params);
 
-        if ($isAdmin < 0) {
+        if (0 !== $isAdmin && 1 !== $isAdmin) {
             return;
         }
 
