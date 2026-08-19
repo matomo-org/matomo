@@ -2398,6 +2398,161 @@ class ForecastBuilderTest extends TestCase
         self::assertSame([[null, null, null, null, 260.0]], $forecastData);
     }
 
+    public function testBuildUniqueWeekSeriesTracksRecentLevelAcrossTrafficLevelShift(): void
+    {
+        $site = $this->createSiteMock();
+
+        // Week-level counterpart of the day-target level-shift case. The week history spans a 7x
+        // traffic gain: the four oldest weeks sit at 200 (pre-shift regime), the six recent ones
+        // at 1400. Over the raw window the damped linear-trend prior reads the pre-shift lows as
+        // an ongoing climb and extrapolates to ~1793; the envelope clamp then caps it at the
+        // median plus BOUNDED_RANGE_SIGMAS x the relative-spread floor, i.e. 1400 + 210 = 1610,
+        // which reports a 15% rise on a series that has been flat for six weeks. Deduplicated
+        // counts have no decomposition path to fall back on, so this prior is the whole forecast.
+        // stripPreLevelShiftSamples drops the four pre-shift weeks, leaving the flat current
+        // regime whose trend fit collapses to its mean.
+        $dataTables = [
+            $this->createDataTableForWeek('2026-02-16', $site),
+            $this->createDataTableForWeek('2026-02-23', $site),
+            $this->createDataTableForWeek('2026-03-02', $site),
+            $this->createDataTableForWeek('2026-03-09', $site),
+            $this->createDataTableForWeek('2026-03-16', $site),
+            $this->createDataTableForWeek('2026-03-23', $site),
+            $this->createDataTableForWeek('2026-03-30', $site),
+            $this->createDataTableForWeek('2026-04-06', $site),
+            $this->createDataTableForWeek('2026-04-13', $site),
+            $this->createDataTableForWeek('2026-04-20', $site),
+            $this->createDataTableForWeek('2026-04-27', $site, '2026-04-30 23:00:00'),
+        ];
+
+        $forecastData = $this->buildForecast(
+            ['Unique visitors' => [200.0, 200.0, 200.0, 200.0, 1400.0, 1400.0, 1400.0, 1400.0, 1400.0, 1400.0, 900.0]],
+            $dataTables,
+            [
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::INCOMPLETE,
+            ],
+            ['Unique visitors' => false],
+            [],
+            ['Unique visitors' => ForecastMetricClassifier::MONOTONICITY_UNIQUE],
+            ['Unique visitors' => 0]
+        );
+
+        self::assertSame(
+            [[null, null, null, null, null, null, null, null, null, null, 1400.0]],
+            $forecastData
+        );
+    }
+
+    public function testBuildUniqueWeekSeriesKeepsGradualTrendAcrossLevelShiftStrip(): void
+    {
+        $site = $this->createSiteMock();
+
+        // Guard against over-trimming on the week path: a gradual week-level climb (400..760, no
+        // sample more than LEVEL_SHIFT_RATIO from the recent level) is a real trend, not a step,
+        // so the whole window survives and the forecast continues the climb
+        // (360 + 40 * (10 + 0.5) = 780) instead of being flattened onto the recent level.
+        $dataTables = [
+            $this->createDataTableForWeek('2026-02-16', $site),
+            $this->createDataTableForWeek('2026-02-23', $site),
+            $this->createDataTableForWeek('2026-03-02', $site),
+            $this->createDataTableForWeek('2026-03-09', $site),
+            $this->createDataTableForWeek('2026-03-16', $site),
+            $this->createDataTableForWeek('2026-03-23', $site),
+            $this->createDataTableForWeek('2026-03-30', $site),
+            $this->createDataTableForWeek('2026-04-06', $site),
+            $this->createDataTableForWeek('2026-04-13', $site),
+            $this->createDataTableForWeek('2026-04-20', $site),
+            $this->createDataTableForWeek('2026-04-27', $site, '2026-04-30 23:00:00'),
+        ];
+
+        $forecastData = $this->buildForecast(
+            ['Unique visitors' => [400.0, 440.0, 480.0, 520.0, 560.0, 600.0, 640.0, 680.0, 720.0, 760.0, 500.0]],
+            $dataTables,
+            [
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::INCOMPLETE,
+            ],
+            ['Unique visitors' => false],
+            [],
+            ['Unique visitors' => ForecastMetricClassifier::MONOTONICITY_UNIQUE],
+            ['Unique visitors' => 0]
+        );
+
+        self::assertSame(
+            [[null, null, null, null, null, null, null, null, null, null, 780.0]],
+            $forecastData
+        );
+    }
+
+    public function testBuildUpWeekSeriesWithoutDailySamplesTracksRecentLevelAcrossTrafficLevelShift(): void
+    {
+        $site = $this->createSiteMock();
+
+        // The prior-only fallback an additive count takes when the caller supplied no sub-period
+        // samples shares the level-shift trim with UNIQUE: same 200 -> 1400 step, same clamp
+        // ceiling of 1610 without the trim, same recent-regime mean with it. Documents that the
+        // trim is gated on the count families rather than on the deduplicated one alone.
+        $dataTables = [
+            $this->createDataTableForWeek('2026-02-16', $site),
+            $this->createDataTableForWeek('2026-02-23', $site),
+            $this->createDataTableForWeek('2026-03-02', $site),
+            $this->createDataTableForWeek('2026-03-09', $site),
+            $this->createDataTableForWeek('2026-03-16', $site),
+            $this->createDataTableForWeek('2026-03-23', $site),
+            $this->createDataTableForWeek('2026-03-30', $site),
+            $this->createDataTableForWeek('2026-04-06', $site),
+            $this->createDataTableForWeek('2026-04-13', $site),
+            $this->createDataTableForWeek('2026-04-20', $site),
+            $this->createDataTableForWeek('2026-04-27', $site, '2026-04-30 23:00:00'),
+        ];
+
+        $forecastData = $this->buildForecast(
+            ['Visits' => [200.0, 200.0, 200.0, 200.0, 1400.0, 1400.0, 1400.0, 1400.0, 1400.0, 1400.0, 900.0]],
+            $dataTables,
+            [
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::INCOMPLETE,
+            ],
+            ['Visits' => false],
+            [],
+            ['Visits' => ForecastMetricClassifier::MONOTONICITY_UP],
+            ['Visits' => 0]
+        );
+
+        self::assertSame(
+            [[null, null, null, null, null, null, null, null, null, null, 1400.0]],
+            $forecastData
+        );
+    }
+
     public function testBuildUniqueDaySeriesUsesSameDoWDailySamplesPrior(): void
     {
         $site = $this->createSiteMock();
