@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Live;
 
 use Exception;
 use Piwik\API\Request;
+use Piwik\ClickHouse\ClickHouse;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
@@ -215,6 +216,26 @@ class Model
 
     private function executeLogVisitsQuery($sql, $bind, $segment, $dateStart, $dateEnd, $minTimestamp, $limit)
     {
+        // ClickHouse POC plumbing (DEV-20678): serve the visits log from the ClickHouse
+        // copy of log_visit when enabled. The hook sits at the final-SQL boundary — after
+        // segments, plugin dimensions and joins have shaped the query — so plugins keep
+        // modifying queries exactly as on MySQL. Anything ClickHouse can't run falls back
+        // to MySQL (unless the fallback is disabled, as in tests, so failures are loud).
+        if (ClickHouse::isLiveReportsEnabled()) {
+            try {
+                return ClickHouse::fetchLogVisits($sql, $bind);
+            } catch (Exception $e) {
+                if (!ClickHouse::isFallbackToMysqlEnabled()) {
+                    throw $e;
+                }
+                // info, not warning: a warning would trip the console failure detector in
+                // test contexts, and falling back is expected wherever ClickHouse has no data
+                StaticContainer::get(\Psr\Log\LoggerInterface::class)->info(
+                    'ClickHouse visits log query failed, falling back to MySQL: ' . $e->getMessage()
+                );
+            }
+        }
+
         $readerDb = Db::getReader();
         try {
             $visits = $readerDb->fetchAll($sql, $bind);

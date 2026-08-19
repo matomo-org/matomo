@@ -382,6 +382,7 @@ jobs:
         ports:
           - 8123:8123
         options: >-
+          --add-host host.docker.internal:host-gateway
           --health-cmd "clickhouse-client --query 'SELECT 1'"
           --health-interval 5s
           --health-timeout 5s
@@ -389,6 +390,7 @@ jobs:
     env: &clickhouse-env
       CLICKHOUSE_HOST: 127.0.0.1
       CLICKHOUSE_PORT: '8123'
+      CLICKHOUSE_SYNC_MYSQL_HOST: host.docker.internal
     strategy:
       fail-fast: ${{ inputs.is_preview == true }}
       max-parallel: &ui-max-parallel ${{ fromJson(vars.MATOMO_UI_MAX_PARALLEL || '10') }}
