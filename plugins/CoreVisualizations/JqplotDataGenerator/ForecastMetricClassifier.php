@@ -18,7 +18,8 @@ use Piwik\Metrics;
  * Classifies a metric for the evolution-graph forecast pipeline. Owns two related decisions:
  *
  * - intra-period monotonicity, used by {@see ForecastBuilder} to pick the "forecast vs current"
- *   gate (additive count, running min, or free-moving ratio);
+ *   gate and the sub-period reducer (additive count, running min, running max, deduplicated
+ *   count, or free-moving ratio);
  * - rendered payload precision, used to round the forecast value to a sensible number of decimals.
  *
  * Pure value logic — no dependency on the chart's data table or the inner API request. Tests
@@ -31,6 +32,29 @@ class ForecastMetricClassifier
     public const MONOTONICITY_DOWN = 'down';
     public const MONOTONICITY_FREE = 'free';
     public const MONOTONICITY_MAX = 'max';
+    public const MONOTONICITY_UNIQUE = 'unique';
+
+    /**
+     * Base names of the deduplicated counts Matomo recomputes per period from the log data
+     * instead of aggregating them from the sub-period archives. Matched as substrings, because
+     * both the prefixed and the suffixed variants of the same metric carry the same semantics:
+     * the entry_/exit_ page variants, and the segment-derived copies plugins publish by appending
+     * a suffix to VisitsSummary's own columns (nb_uniq_visitors_new / _returning in VisitFrequency,
+     * nb_uniq_visitors_human / _ai_agent in AIAgents) are all the same log-derived count under
+     * another name. nb_uniq_fingerprints is the metric core substitutes for nb_uniq_visitors when
+     * counting uniques across several sites, so it is the same measurement again.
+     *
+     * nb_uniq_pageviews, nb_uniq_downloads and nb_uniq_outlinks are deliberately absent: those
+     * count the *visits* that included an action, and a visit belongs to a single day, so Matomo
+     * archives them as plain summed numeric records and the additive UP path is right for them.
+     *
+     * @var array<int, string>
+     */
+    private const DEDUPLICATED_COUNT_BASE_NAMES = [
+        'nb_uniq_visitors',
+        'nb_uniq_fingerprints',
+        'nb_users',
+    ];
 
     /** @var array<string, string> */
     private $semanticTypes;
@@ -55,6 +79,10 @@ class ForecastMetricClassifier
      * - MONOTONICITY_MAX: running maxes that can only rise within the period (same
      *   "forecast >= current" gate as UP), but whose period value is the max -- not the sum --
      *   of its sub-periods, so the seasonal decomposition combines sub-periods with max().
+     * - MONOTONICITY_UNIQUE: deduplicated counts (unique visitors, users) that can only grow
+     *   within the period (same "forecast >= current" gate as UP), but whose period value is
+     *   a fresh count over the whole period rather than any reduction of its sub-period values,
+     *   so no sub-period decomposition applies.
      * - MONOTONICITY_FREE: ratios, rates, percentages, averages whose value can move in either
      *   direction within the period (no gate).
      *
@@ -89,6 +117,19 @@ class ForecastMetricClassifier
             return self::MONOTONICITY_FREE;
         }
 
+        // Deduplicated counts have no reducer over their sub-periods at all: a week's unique
+        // visitors is a distinct-visitor count over the week, which sits somewhere between the
+        // largest single day and the sum of all days -- and the archiver derives it from the log
+        // data rather than from the daily archives, which is why aggregating daily archives
+        // renames the column to sum_daily_nb_uniq_visitors instead of keeping it. Summing the
+        // daily samples (the UP path) therefore overstates the forecast by roughly the
+        // deduplication factor, several-fold on a site with returning visitors. Runs after the
+        // ratio checks so the percentage and average views of the same metric
+        // (nb_uniq_visitors_row_percentage, avg_nb_uniq_visitors) keep their FREE classification.
+        if ($this->hasDeduplicatedCountColumnName($columnName)) {
+            return self::MONOTONICITY_UNIQUE;
+        }
+
         // min_* metrics carry a structural invariant: more samples within the period can only
         // pull the running min down or leave it unchanged. The default monotonic-up gate would
         // render upward-projecting forecasts on a metric that cannot rise, so flip to a
@@ -119,11 +160,11 @@ class ForecastMetricClassifier
      * Integer/count-like metrics should not emit fractional forecast values. Ratios, averages,
      * durations, money, bytes, floats, and unknown numeric metrics keep up to two decimals.
      *
-     * MONOTONICITY_UP, MONOTONICITY_DOWN, and MONOTONICITY_MAX are all treated as "monotonic"
-     * for precision — a running min_ or max_ count metric should round to integers the same way
-     * an additive nb_ count does. Only MONOTONICITY_FREE (ratios/averages/percentages) keeps the
-     * two-decimal default for TYPE_NUMBER metrics, which is the original allowsDownward = true
-     * behaviour.
+     * MONOTONICITY_UP, MONOTONICITY_DOWN, MONOTONICITY_MAX, and MONOTONICITY_UNIQUE are all
+     * treated as "monotonic" for precision — a running min_ or max_ count metric, and a
+     * deduplicated unique count, should round to integers the same way an additive nb_ count
+     * does. Only MONOTONICITY_FREE (ratios/averages/percentages) keeps the two-decimal default
+     * for TYPE_NUMBER metrics, which is the original allowsDownward = true behaviour.
      *
      * @param string|false $columnUnit
      * @param self::MONOTONICITY_* $monotonicity
@@ -177,6 +218,31 @@ class ForecastMetricClassifier
         }
 
         return 2;
+    }
+
+    /**
+     * True when a column name carries one of the {@see self::DEDUPLICATED_COUNT_BASE_NAMES}.
+     *
+     * The sum_ prefix excludes the already-summed siblings: when a period archive aggregates
+     * these columns, core renames the summed result rather than letting it keep the base name
+     * ({@see \Piwik\ArchiveProcessor}), which is where sum_daily_nb_uniq_visitors and
+     * sum_daily_nb_users come from. Those columns really are the sum of their sub-period values,
+     * so they belong on the additive path. The name-convention layer cannot see the difference any
+     * other way -- nothing in the metric registry marks a metric as non-aggregatable.
+     */
+    private function hasDeduplicatedCountColumnName(string $columnName): bool
+    {
+        if (strpos($columnName, 'sum_') === 0) {
+            return false;
+        }
+
+        foreach (self::DEDUPLICATED_COUNT_BASE_NAMES as $baseName) {
+            if (strpos($columnName, $baseName) !== false) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**

@@ -263,16 +263,19 @@ class ForecastSubPeriodFetcher
                     : self::MONTH_DAILY_WINDOW_DAYS;
                 $startDate = (Date::factory($endDate))->subDay($dailyWindow)->toString('Y-m-d');
 
-                $dailyMap = $this->fetchClampedSeries(
-                    $apiMethod,
-                    $idSite,
-                    $segment,
-                    'day',
-                    $startDate,
-                    $endDate,
-                    $seriesState,
-                    $earliestDataDate
-                );
+                $dailyMap = [];
+                if ($this->seriesStateHasDecomposableSeries($seriesState)) {
+                    $dailyMap = $this->fetchClampedSeries(
+                        $apiMethod,
+                        $idSite,
+                        $segment,
+                        'day',
+                        $startDate,
+                        $endDate,
+                        $seriesState,
+                        $earliestDataDate
+                    );
+                }
 
                 // Monthly fan-out on the month target is consumed only by the UP-flavoured
                 // {@see ForecastBuilder::computeMonthOfYearScale()}; FREE/DOWN month forecasts
@@ -301,9 +304,20 @@ class ForecastSubPeriodFetcher
             }
             if ('year' === $periodLabel) {
                 $dailyStart = (Date::factory($endDate))->subDay(self::YEAR_DAILY_WINDOW_DAYS)->toString('Y-m-d');
+                // Both year fan-outs feed the seasonal path and nothing else:
+                // {@see ForecastBuilder::buildSeasonalForecastValue()} hands every deduplicated
+                // count to the prior-only path before it reads either map, and the year branch's
+                // monthly readers all sit behind that. A graph of nothing but deduplicated counts
+                // therefore consumes neither, so both inner requests are skipped rather than only
+                // the daily one.
+                $hasDecomposableSeries = $this->seriesStateHasDecomposableSeries($seriesState);
                 return [
-                    'daily'   => $this->fetchClampedSeries($apiMethod, $idSite, $segment, 'day', $dailyStart, $endDate, $seriesState, $earliestDataDate),
-                    'monthly' => $this->fetchClampedSeries($apiMethod, $idSite, $segment, 'month', $this->yearsBack($endDate, self::YEAR_MONTHLY_WINDOW_YEARS), $endDate, $seriesState, $earliestDataDate),
+                    'daily'   => $hasDecomposableSeries
+                        ? $this->fetchClampedSeries($apiMethod, $idSite, $segment, 'day', $dailyStart, $endDate, $seriesState, $earliestDataDate)
+                        : [],
+                    'monthly' => $hasDecomposableSeries
+                        ? $this->fetchClampedSeries($apiMethod, $idSite, $segment, 'month', $this->yearsBack($endDate, self::YEAR_MONTHLY_WINDOW_YEARS), $endDate, $seriesState, $earliestDataDate)
+                        : [],
                     'earliestDataDate' => $earliestDataDate,
                 ];
             }
@@ -880,21 +894,26 @@ class ForecastSubPeriodFetcher
                     : $subTable->getRowFromLabel($rowMatcher);
 
                 if (empty($row)) {
-                    // No matching row on this date. Only MONOTONICITY_UP count series can
-                    // defensibly read that as a real 0 (no observation = zero count), so they
-                    // get the backfill to keep the analog calendar dense. MONOTONICITY_DOWN
-                    // (running mins) and MONOTONICITY_FREE (rates/averages) have no
-                    // "no observation → 0" mapping: a min of nothing is not 0, and a 0% rate
-                    // inferred from no traffic is not a real ratio observation. Leaving the
-                    // date absent lets recentSameDoWValues() skip it instead of treating a
-                    // synthetic zero as a same-DoW analog, which would pull the prior below
-                    // current and trip shouldRenderForecastValue() into silent suppression.
+                    // No matching row on this date. Only the count families (additive
+                    // MONOTONICITY_UP and deduplicated MONOTONICITY_UNIQUE) can defensibly read
+                    // that as a real 0 (no observation = zero count, and zero visitors is also
+                    // zero unique visitors), so they get the backfill to keep the analog calendar
+                    // dense. MONOTONICITY_DOWN (running mins) and MONOTONICITY_FREE
+                    // (rates/averages) have no "no observation → 0" mapping: a min of nothing is
+                    // not 0, and a 0% rate inferred from no traffic is not a real ratio
+                    // observation. Leaving the date absent lets recentSameDoWValues() skip it
+                    // instead of treating a synthetic zero as a same-DoW analog, which would pull
+                    // the prior below current and trip shouldRenderForecastValue() into silent
+                    // suppression.
                     // The column-missing-on-existing-row branch below is deliberately
                     // different: a row that exists but lacks the requested column means the
                     // metric isn't reported here, which is not the same as zero -- and that
                     // branch already skips for every monotonicity.
                     $monotonicity = $seriesMonotonicity[$seriesLabel] ?? ForecastMetricClassifier::MONOTONICITY_UP;
-                    if (ForecastMetricClassifier::MONOTONICITY_UP === $monotonicity) {
+                    if (
+                        ForecastMetricClassifier::MONOTONICITY_UP === $monotonicity
+                        || ForecastMetricClassifier::MONOTONICITY_UNIQUE === $monotonicity
+                    ) {
                         $samples[$seriesLabel][$dateKey] = 0.0;
                     }
                     continue;
@@ -917,23 +936,72 @@ class ForecastSubPeriodFetcher
     }
 
     /**
-     * True when any series on the chart is classified MONOTONICITY_UP. Used to decide whether
-     * the monthly fan-out on month target needs to fire: month-level MoY scaling only applies
-     * to count metrics, so a graph of nothing but ratios/averages/mins gets no value from the
-     * monthly archive lookup. Falls back to "assume an UP series is present" when the series
-     * state is partially or completely unclassified, matching ForecastBuilder's defensive
-     * default monotonicity for unclassified non-percent series.
+     * Per-series monotonicity list, but only when it covers every series on the chart.
+     *
+     * The test is a count comparison, which stands in for per-key coverage because
+     * {@see ForecastSeriesStateBuilder::addForecastSeries()} writes both maps under the same
+     * series label on every call, so equal counts imply the same key set.
+     *
+     * Both fan-out gates below use it to decide whether an inner request has a consumer, and
+     * both have to fail open: a partially or completely unclassified state could carry metrics
+     * that do need the samples, so null tells the caller to fetch rather than guess. Mirrors
+     * ForecastBuilder's defensive default monotonicity for unclassified non-percent series.
+     *
+     * @return array<string, string>|null Null when the state is not fully classified.
      */
-    private function seriesStateHasUpSeries(ForecastSeriesState $seriesState): bool
+    private function fullyClassifiedMonotonicities(ForecastSeriesState $seriesState): ?array
     {
         $monotonicities = $seriesState->getAllSeriesMonotonicity();
         $columns = $seriesState->getAllSeriesColumns();
-        // Defensive fallback: unclassified or partially-classified state could imply UP-like
-        // metrics, so do not skip the monthly fetch in that case.
+
         if (count($monotonicities) !== count($columns) || [] === $monotonicities) {
+            return null;
+        }
+
+        return $monotonicities;
+    }
+
+    /**
+     * True when any series on the chart is classified MONOTONICITY_UP. Used to decide whether
+     * the monthly fan-out on month target needs to fire: month-level MoY scaling only applies
+     * to count metrics, so a graph of nothing but ratios/averages/mins gets no value from the
+     * monthly archive lookup. An unclassified state assumes an UP series is present --
+     * {@see self::fullyClassifiedMonotonicities()}.
+     */
+    private function seriesStateHasUpSeries(ForecastSeriesState $seriesState): bool
+    {
+        $monotonicities = $this->fullyClassifiedMonotonicities($seriesState);
+        if (null === $monotonicities) {
             return true;
         }
+
         return in_array(ForecastMetricClassifier::MONOTONICITY_UP, $monotonicities, true);
+    }
+
+    /**
+     * True when any series on the chart can be forecast by decomposing the period into
+     * sub-periods. Every monotonicity except MONOTONICITY_UNIQUE can: SUM, AVG, MIN and MAX all
+     * reconstruct a period value from its sub-period values, whereas a deduplicated count has no
+     * such reducer and is forecast from the same-granularity history alone. A graph of nothing
+     * but unique-visitor series therefore has no consumer for the daily fan-out on a
+     * week/month/year target, nor for the monthly fan-out on a year target, so those inner
+     * requests are skipped. An unclassified state assumes the samples are needed --
+     * {@see self::fullyClassifiedMonotonicities()}.
+     */
+    private function seriesStateHasDecomposableSeries(ForecastSeriesState $seriesState): bool
+    {
+        $monotonicities = $this->fullyClassifiedMonotonicities($seriesState);
+        if (null === $monotonicities) {
+            return true;
+        }
+
+        foreach ($monotonicities as $monotonicity) {
+            if (ForecastMetricClassifier::MONOTONICITY_UNIQUE !== $monotonicity) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**

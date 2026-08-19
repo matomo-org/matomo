@@ -55,6 +55,23 @@ class ForecastMetricClassifierTest extends TestCase
         yield 'min_ prefix on event value is monotonic down' => ['min_event_value', false, ForecastMetricClassifier::MONOTONICITY_DOWN];
         yield 'max_ prefix is monotonic max' => ['max_actions', false, ForecastMetricClassifier::MONOTONICITY_MAX];
         yield 'max_ prefix on event value is monotonic max' => ['max_event_value', false, ForecastMetricClassifier::MONOTONICITY_MAX];
+        yield 'unique visitors is a deduplicated count' => ['nb_uniq_visitors', false, ForecastMetricClassifier::MONOTONICITY_UNIQUE];
+        yield 'users is a deduplicated count' => ['nb_users', false, ForecastMetricClassifier::MONOTONICITY_UNIQUE];
+        yield 'entry unique visitors is a deduplicated count' => ['entry_nb_uniq_visitors', false, ForecastMetricClassifier::MONOTONICITY_UNIQUE];
+        yield 'exit unique visitors is a deduplicated count' => ['exit_nb_uniq_visitors', false, ForecastMetricClassifier::MONOTONICITY_UNIQUE];
+        yield 'fingerprints is a deduplicated count' => ['nb_uniq_fingerprints', false, ForecastMetricClassifier::MONOTONICITY_UNIQUE];
+        yield 'new-visitor unique visitors is a deduplicated count' => ['nb_uniq_visitors_new', false, ForecastMetricClassifier::MONOTONICITY_UNIQUE];
+        yield 'returning-visitor unique visitors is a deduplicated count' => ['nb_uniq_visitors_returning', false, ForecastMetricClassifier::MONOTONICITY_UNIQUE];
+        yield 'ai-agent unique visitors is a deduplicated count' => ['nb_uniq_visitors_ai_agent', false, ForecastMetricClassifier::MONOTONICITY_UNIQUE];
+        yield 'sum daily unique visitors stays additive' => ['sum_daily_nb_uniq_visitors', false, ForecastMetricClassifier::MONOTONICITY_UP];
+        yield 'sum daily users stays additive' => ['sum_daily_nb_users', false, ForecastMetricClassifier::MONOTONICITY_UP];
+        // Unique pageviews/downloads/outlinks count the visits that included an action, and a
+        // visit belongs to a single day, so Matomo sums them across sub-periods like any count.
+        yield 'unique pageviews stays additive' => ['nb_uniq_pageviews', false, ForecastMetricClassifier::MONOTONICITY_UP];
+        yield 'unique downloads stays additive' => ['nb_uniq_downloads', false, ForecastMetricClassifier::MONOTONICITY_UP];
+        yield 'unique outlinks stays additive' => ['nb_uniq_outlinks', false, ForecastMetricClassifier::MONOTONICITY_UP];
+        yield 'average over unique visitors is a ratio' => ['avg_nb_uniq_visitors', false, ForecastMetricClassifier::MONOTONICITY_FREE];
+        yield 'row percentage of unique visitors is a ratio' => ['nb_uniq_visitors_row_percentage', false, ForecastMetricClassifier::MONOTONICITY_FREE];
     }
 
     /**
@@ -87,6 +104,8 @@ class ForecastMetricClassifierTest extends TestCase
         yield 'min_ prefix yields to percent semantic type' => ['min_rate_custom', Dimension::TYPE_PERCENT, ForecastMetricClassifier::MONOTONICITY_FREE];
         yield 'max_ prefix wins even with TYPE_NUMBER semantic' => ['max_custom', Dimension::TYPE_NUMBER, ForecastMetricClassifier::MONOTONICITY_MAX];
         yield 'max_ prefix yields to percent semantic type' => ['max_rate_custom', Dimension::TYPE_PERCENT, ForecastMetricClassifier::MONOTONICITY_FREE];
+        yield 'unique visitors wins even with TYPE_NUMBER semantic' => ['nb_uniq_visitors', Dimension::TYPE_NUMBER, ForecastMetricClassifier::MONOTONICITY_UNIQUE];
+        yield 'unique visitors yields to percent semantic type' => ['share_nb_uniq_visitors', Dimension::TYPE_PERCENT, ForecastMetricClassifier::MONOTONICITY_FREE];
     }
 
     /**
@@ -135,6 +154,16 @@ class ForecastMetricClassifierTest extends TestCase
         self::assertSame(
             0,
             $classifier->getForecastPrecisionForColumn('max_actions', false, ForecastMetricClassifier::MONOTONICITY_MAX)
+        );
+    }
+
+    public function testForecastPrecisionForDeduplicatedCountRoundsToZeroDecimals(): void
+    {
+        $classifier = new ForecastMetricClassifier(['nb_uniq_visitors' => Dimension::TYPE_NUMBER]);
+
+        self::assertSame(
+            0,
+            $classifier->getForecastPrecisionForColumn('nb_uniq_visitors', false, ForecastMetricClassifier::MONOTONICITY_UNIQUE)
         );
     }
 }

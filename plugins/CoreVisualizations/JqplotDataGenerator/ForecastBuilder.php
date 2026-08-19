@@ -40,6 +40,15 @@ use Piwik\Site;
  *   running-min case. The period value is the max over its sub-periods (never their sum), so
  *   the seasonal decomposition combines sub-periods with max(); the "forecast >= current" gate
  *   matches the additive case because a running max can only rise within the period.
+ * - MONOTONICITY_UNIQUE — deduplicated-count series (nb_uniq_visitors, nb_users): no reduction
+ *   of the sub-period values reconstructs the period value, because a visitor seen on three
+ *   days counts once in the week and three times in the daily samples. The seasonal
+ *   decomposition is skipped entirely and the forecast comes from the same-granularity prior
+ *   (previous weeks' week-level uniques), floored at the current partial. Mid-period that
+ *   forecast is elapsed-blind — it projects the whole period's typical level rather than
+ *   extrapolating what has been counted so far — which is the price of not having a
+ *   deduplicating reducer; the alternative, summing the sub-periods, overstates the period by
+ *   the deduplication factor.
  * - MONOTONICITY_FREE — ratio/rate/percentage/average series: the forecast is the historical
  *   same-period prior with no directional gate, because the period's value can move either way
  *   during the remaining time.
@@ -60,19 +69,30 @@ class ForecastBuilder
     private const TREND_DAMPING = 0.5;
 
     /**
-     * Minimum number of calendar-aligned historical samples (same week-of-year, same calendar
-     * month) required before preferring them over the full sample set. With only one aligned
-     * sample there is no slope to fit and the recency-only window is more informative than a
-     * single calendar-matched data point.
-     */
-    private const MIN_ALIGNED_SAMPLES_TO_PREFER = 2;
-
-    /**
      * Minimum number of historical samples required before clamping the blended forecast to a
      * historical-range envelope. With fewer samples the empirical standard deviation is too
      * noisy to define a meaningful upper/lower bound, so the clamp is skipped.
      */
     private const MIN_SAMPLES_FOR_BOUNDED_RANGE = 4;
+
+    /**
+     * Minimum number of calendar-aligned historical samples (same week-of-year, same calendar
+     * month) required before preferring them over the full sample set. Aligned samples are a
+     * sparse subset of the displayed window — roughly one per year on a monthly graph — so a
+     * low threshold trades a long recency window for a couple of year-apart points. Pinned to
+     * {@see MIN_SAMPLES_FOR_BOUNDED_RANGE} so the aligned set is never preferred while it is
+     * still too small for the envelope clamp and the level-shift trim to engage. The trim keeps
+     * that: it never cuts into the {@see RECENT_LEVEL_WINDOW} newest samples, a window that
+     * matches {@see MIN_SAMPLES_FOR_BOUNDED_RANGE}, so a trimmed set still clears the clamp
+     * threshold. {@see removeLeadingZeroSamples()}, which runs before it on these same count
+     * families, has no such floor -- a set whose oldest entries are pre-tracking zeros can still
+     * reach {@see computeHistoricalPrior()} below the threshold and be fit unclamped. What bounds
+     * it there is arithmetic rather than the envelope: at two or three samples the damped
+     * one-step projection cannot exceed 1.5x the newest of them. Deduplicated counts need this
+     * threshold most, since they have no decomposition path and this prior serves every one of
+     * their non-day ticks.
+     */
+    private const MIN_ALIGNED_SAMPLES_TO_PREFER = self::MIN_SAMPLES_FOR_BOUNDED_RANGE;
 
     /**
      * Below this count the day-level analog reducer falls back to a plain mean instead of a
@@ -235,25 +255,26 @@ class ForecastBuilder
                 ?? ($isPercentSeries ? ForecastMetricClassifier::MONOTONICITY_FREE : ForecastMetricClassifier::MONOTONICITY_UP);
         }
 
-        // Process MONOTONICITY_UP series first so the cross-series gate (below) can read each
+        // Process anchor-count series first so the cross-series gate (below) can read each
         // tick's count-series forecast before deciding whether dependent ratios/averages should
         // render. Output order is restored by indexing $forecastData on the original series
         // index and ksort'ing at the end.
         $processingOrder = array_keys($seriesDataList);
         usort($processingOrder, function ($a, $b) use ($resolvedMonotonicity) {
-            $aRank = ForecastMetricClassifier::MONOTONICITY_UP === $resolvedMonotonicity[$a] ? 0 : 1;
-            $bRank = ForecastMetricClassifier::MONOTONICITY_UP === $resolvedMonotonicity[$b] ? 0 : 1;
+            $aRank = $this->isAnchorCountMonotonicity($resolvedMonotonicity[$a]) ? 0 : 1;
+            $bRank = $this->isAnchorCountMonotonicity($resolvedMonotonicity[$b]) ? 0 : 1;
             if ($aRank === $bRank) {
                 return $a <=> $b;
             }
             return $aRank <=> $bRank;
         });
 
-        // Per-tick "any UP series produced a renderable forecast > 0" map. Built up as the
-        // first-pass UP series finish processing, consumed by the second-pass FREE/DOWN series
-        // to suppress dependent ratios/averages on ticks where no count series carries data.
-        $upSeriesNonZeroByTick = [];
-        $hasAnyUpSeries = false;
+        // Per-tick "any anchor-count series produced a renderable forecast > 0" map. Built up as
+        // the first-pass anchor series finish processing, consumed by the second-pass
+        // FREE/DOWN/MAX series to suppress dependent ratios/averages on ticks where no count
+        // series carries data.
+        $anchorSeriesNonZeroByTick = [];
+        $hasAnyAnchorSeries = false;
 
         $forecastData = [];
 
@@ -267,9 +288,9 @@ class ForecastBuilder
             $seriesDataAvailability = $seriesDataAvailabilityList[$seriesIndex] ?? [];
             $monotonicity = $resolvedMonotonicity[$seriesIndex];
             $forecastPrecision = $seriesForecastPrecisionList[$seriesIndex] ?? 4;
-            $isUpSeries = ForecastMetricClassifier::MONOTONICITY_UP === $monotonicity;
-            if ($isUpSeries) {
-                $hasAnyUpSeries = true;
+            $isAnchorSeries = $this->isAnchorCountMonotonicity($monotonicity);
+            if ($isAnchorSeries) {
+                $hasAnyAnchorSeries = true;
             }
             // Running sample maps grow as forecasts are produced for earlier incomplete ticks
             // in this series, so subsequent ticks pick up those projections in their analog
@@ -332,10 +353,10 @@ class ForecastBuilder
                 }
 
                 // Cross-series gate: ratios and averages (FREE/DOWN) are only meaningful when
-                // the underlying count exists. After the UP-first pass has finished, suppress
-                // any dependent series at ticks where no UP series rendered a non-zero
-                // forecast. Skipped when no UP series were present in the build call.
-                if (!$isUpSeries && $hasAnyUpSeries && empty($upSeriesNonZeroByTick[$tickIndex])) {
+                // the underlying count exists. After the anchor-first pass has finished,
+                // suppress any dependent series at ticks where no anchor-count series rendered a
+                // non-zero forecast. Skipped when no anchor series were present in the build call.
+                if (!$isAnchorSeries && $hasAnyAnchorSeries && empty($anchorSeriesNonZeroByTick[$tickIndex])) {
                     $seriesForecasts[] = null;
                     $previousForecastValue = null;
                     continue;
@@ -371,13 +392,14 @@ class ForecastBuilder
                     continue;
                 }
 
-                // An additive count (UP) and a running max (MAX) share the same lower bound: the
-                // final-period value is at least what has already been observed this period, so a
-                // forecast below the current partial is impossible. Floor it at current so the
-                // point renders flat instead of being suppressed by the >= gate below. This is
-                // the mirror of the min_* clamp further down, but applied BEFORE the gate, because
-                // for UP/MAX "below current" is a legitimate outcome to render at current, whereas
-                // for min_* "above current" is an impossible value to suppress.
+                // An additive count (UP), a running max (MAX) and a deduplicated count (UNIQUE)
+                // share the same lower bound: the final-period value is at least what has already
+                // been observed this period, so a forecast below the current partial is
+                // impossible. Floor it at current so the point renders flat instead of being
+                // suppressed by the >= gate below. This is the mirror of the min_* clamp further
+                // down, but applied BEFORE the gate, because for those three "below current" is a
+                // legitimate outcome to render at current, whereas for min_* "above current" is
+                // an impossible value to suppress.
                 //
                 // For MAX the floored case means "the max will not grow further". For UP it is the
                 // elapsed-blind prior-only fallback (day targets, or week/month without sub-period
@@ -385,10 +407,13 @@ class ForecastBuilder
                 // this only happens late in the period, where current is most of the final value,
                 // so flooring renders a guaranteed lower bound near the realised total rather than
                 // dropping the in-progress point entirely. The seasonal decomposition path is
-                // already >= current by construction and is unaffected.
+                // already >= current by construction and is unaffected. UNIQUE always takes the
+                // prior-only path, so the floor is what keeps a late-period unique count that has
+                // already overtaken its historical level rendering at the realised value.
                 if (
                     ForecastMetricClassifier::MONOTONICITY_MAX === $monotonicity
                     || ForecastMetricClassifier::MONOTONICITY_UP === $monotonicity
+                    || ForecastMetricClassifier::MONOTONICITY_UNIQUE === $monotonicity
                 ) {
                     $forecastValue = max($forecastValue, $currentValue);
                 }
@@ -411,8 +436,8 @@ class ForecastBuilder
                 $seriesForecasts[] = $roundedForecast;
                 $previousForecastValue = $roundedForecast;
 
-                if ($isUpSeries && $forecastValue > 0.0) {
-                    $upSeriesNonZeroByTick[$tickIndex] = true;
+                if ($isAnchorSeries && $forecastValue > 0.0) {
+                    $anchorSeriesNonZeroByTick[$tickIndex] = true;
                 }
 
                 // Feed this tick's projections forward as historical analogs for later
@@ -493,10 +518,13 @@ class ForecastBuilder
      *   exchange for stability of the forecast across changes to the displayed range).
      * - {@see ForecastMetricClassifier::MONOTONICITY_DOWN}: MIN over completed sub-period
      *   running mins + analog projections (min-as-min semantics).
+     * - {@see ForecastMetricClassifier::MONOTONICITY_UNIQUE}: no decomposition — no reducer over
+     *   the sub-period values yields a deduplicated period count.
      *
      * Falls back to a prior-only same-period projection on $pastValues (with envelope clamp
-     * for UP and MAX — both run the damped linear-trend prior, so both carry the
+     * for UP, MAX and UNIQUE — all three run the damped linear-trend prior, so all carry the
      * trend-extrapolation runaway the clamp guards against) when sub-period samples are absent.
+     * UNIQUE takes that path on every period type.
      * Final fallback is $previousForecastValue from the prior tick in this series.
      *
      * @param array<int, float> $pastValues
@@ -532,6 +560,7 @@ class ForecastBuilder
                 (
                     ForecastMetricClassifier::MONOTONICITY_UP === $monotonicity
                     || ForecastMetricClassifier::MONOTONICITY_MAX === $monotonicity
+                    || ForecastMetricClassifier::MONOTONICITY_UNIQUE === $monotonicity
                 )
                 && count($pastValues) >= self::MIN_SAMPLES_FOR_BOUNDED_RANGE
             ) {
@@ -571,6 +600,16 @@ class ForecastBuilder
         Site $site,
         ForecastSampleWindow $window
     ): ?float {
+        // Deduplicated counts have no sub-period reducer to decompose with: a visitor active on
+        // three days of the week is one unique visitor for the week but three daily samples, so
+        // SUM overstates the period several-fold, MAX understates it, and AVG is meaningless.
+        // Only the same-granularity history (previous weeks' week-level uniques) measures the
+        // same thing the forecast tick has to predict, so hand every period type to the
+        // prior-only path.
+        if (ForecastMetricClassifier::MONOTONICITY_UNIQUE === $monotonicity) {
+            return null;
+        }
+
         switch ($periodLabel) {
             case 'week':
                 if ([] === $window->getDailySamples()) {
@@ -895,6 +934,7 @@ class ForecastBuilder
      * Combine same-month-of-year analog samples (and the per-month estimates derived from them)
      * for the year-aggregate path, by the reducer the monotonicity implies: MIN for running
      * mins, MAX for running maxes, and the unweighted mean for the FREE rate/average case.
+     * MONOTONICITY_UNIQUE never reaches this helper either -- it skips decomposition entirely.
      * MONOTONICITY_UP never reaches this helper -- additive year forecasts take the dedicated
      * {@see self::forecastYearSeasonalUp()} sum path instead.
      *
@@ -1376,8 +1416,8 @@ class ForecastBuilder
      * @param array<int, bool> $seriesDataAvailability
      * @param string $monotonicity Per-series intra-period direction tag, one of the
      *        {@see ForecastMetricClassifier::MONOTONICITY_*} constants. Drives whether leading zeros are
-     *        stripped: only MONOTONICITY_UP treats them as "tracking had not started yet".
-     *        For FREE/DOWN a leading 0 is kept as a legitimate observation.
+     *        stripped: only MONOTONICITY_UP and MONOTONICITY_UNIQUE treat them as "tracking had
+     *        not started yet". For FREE/DOWN a leading 0 is kept as a legitimate observation.
      * @param array<string, float> $dailySamples Optional daily sample map (Y-m-d → value)
      *        covering enough history to populate the day-period prior. When supplied on a day
      *        target, the prior is built from same-DoW analogs walked back through this map
@@ -1422,7 +1462,7 @@ class ForecastBuilder
                 self::DAY_PRIOR_TARGET_SAMPLES
             );
 
-            if (ForecastMetricClassifier::MONOTONICITY_UP === $monotonicity) {
+            if ($this->isAnchorCountMonotonicity($monotonicity)) {
                 return $this->stripPreLevelShiftSamples($this->removeLeadingZeroSamples($samples));
             }
 
@@ -1486,13 +1526,13 @@ class ForecastBuilder
             && count($alignedSamples) >= self::MIN_ALIGNED_SAMPLES_TO_PREFER
         ) ? $alignedSamples : $allSamples;
 
-        // Leading-zero stripping is only sound for additive counts where a leading 0 most
-        // likely marks "tracking had not started yet". For MONOTONICITY_DOWN (running mins)
-        // and MONOTONICITY_FREE (rates/averages) a leading 0 is a legitimate observation
-        // (e.g. a real running min of 0, a 0% rate on a low-traffic day) and dropping it
-        // would inflate the prior — for DOWN it tends to fail the forecast <= current gate
-        // and silently suppress an otherwise-renderable forecast.
-        if (ForecastMetricClassifier::MONOTONICITY_UP === $monotonicity) {
+        // Leading-zero stripping is only sound for the count families (additive UP and
+        // deduplicated UNIQUE) where a leading 0 most likely marks "tracking had not started
+        // yet". For MONOTONICITY_DOWN (running mins) and MONOTONICITY_FREE (rates/averages) a
+        // leading 0 is a legitimate observation (e.g. a real running min of 0, a 0% rate on a
+        // low-traffic day) and dropping it would inflate the prior — for DOWN it tends to fail
+        // the forecast <= current gate and silently suppress an otherwise-renderable forecast.
+        if ($this->isAnchorCountMonotonicity($monotonicity)) {
             return $this->removeLeadingZeroSamples($samples);
         }
 
@@ -1611,7 +1651,13 @@ class ForecastBuilder
      *
      * Skipped below RECENT_LEVEL_WINDOW samples (too few to tell a shift from noise) and when the
      * recent level is <= 0 (the trailing-no-data path handles a genuinely empty recent window).
-     * Never trims into the recent-level window itself, so at least those samples always remain.
+     * Never trims into the recent-level window itself, so at least those samples always remain --
+     * which is load-bearing beyond keeping a median computable: RECENT_LEVEL_WINDOW matches
+     * {@see MIN_SAMPLES_FOR_BOUNDED_RANGE}, so this step alone can never drop a sample set below
+     * the count the envelope clamp needs. Keep that relation intact when either constant is
+     * retuned. It bounds this step only -- {@see removeLeadingZeroSamples()} runs first on the
+     * same count families and has no floor, so the composed pipeline can still hand
+     * {@see computeHistoricalPrior()} fewer samples than the clamp requires.
      *
      * @param array<int, float> $samples Oldest-first.
      * @return array<int, float>
@@ -1640,6 +1686,21 @@ class ForecastBuilder
         return array_slice($samples, $trim);
     }
 
+    /**
+     * True for the two count families the forecast treats as "anchors": additive counts (UP) and
+     * deduplicated counts (UNIQUE). Both are absolute volume metrics whose presence on a tick is
+     * what makes a dependent ratio or average meaningful, so both drive the cross-series gate,
+     * and for both a leading zero in the historical samples reads as "tracking had not started
+     * yet" rather than as a real observation. MAX is excluded: max_actions is a per-visit
+     * extreme, not a volume, so it neither justifies rendering a dependent ratio nor makes a
+     * leading 0 implausible.
+     */
+    private function isAnchorCountMonotonicity(string $monotonicity): bool
+    {
+        return ForecastMetricClassifier::MONOTONICITY_UP === $monotonicity
+            || ForecastMetricClassifier::MONOTONICITY_UNIQUE === $monotonicity;
+    }
+
     private function shouldRenderForecastValue(
         float $forecastValue,
         float $currentDisplayValue,
@@ -1651,10 +1712,12 @@ class ForecastBuilder
             case ForecastMetricClassifier::MONOTONICITY_DOWN:
                 return $forecastValue <= $currentDisplayValue;
             case ForecastMetricClassifier::MONOTONICITY_MAX:
+            case ForecastMetricClassifier::MONOTONICITY_UNIQUE:
             case ForecastMetricClassifier::MONOTONICITY_UP:
             default:
-                // A running max can only rise within the period, so the final value cannot fall
-                // below the current partial max -- same gate as the additive UP case.
+                // A running max can only rise within the period, and a deduplicated count can
+                // only gain entities as the period runs on, so neither final value can fall below
+                // the current partial -- same gate as the additive UP case.
                 return $forecastValue >= $currentDisplayValue;
         }
     }
