@@ -57,6 +57,16 @@
 			<section>settings</section>
 		</row>
 		<row>
+			<id>Live.AggregatedRealtimeReportsEnabled</id>
+			<name>Aggregated Real-time Reports Enabled</name>
+			<whatItDoes>Aggregated real-time reports stay available while the Visits Log is turned off.&lt;br&gt;&lt;br&gt;Only the &quot;Last 24 hours&quot; and &quot;Last 30 minutes&quot; totals are shown, and their counts are rounded, so no individual visitor, visit, session or action level information is exposed.</whatItDoes>
+			<impact>&lt;strong&gt;Visitors &gt; Real-time&lt;/strong&gt; shows the aggregated counters only, with rounded counts.</impact>
+			<status>enforced</status>
+			<enforced>1</enforced>
+			<toggleable>1</toggleable>
+			<section>settings</section>
+		</row>
+		<row>
 			<id>Live.VisitorLogDisabled</id>
 			<name>Visits Log and Visitor Profiles Disabled</name>
 			<whatItDoes>Visits Log and Visitor Profile features are disabled.&lt;br&gt;&lt;br&gt;This prevents an individual visitor's browsing path and detailed visit-level behaviour from being reconstructed.</whatItDoes>
