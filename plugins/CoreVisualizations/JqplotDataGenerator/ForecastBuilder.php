@@ -196,26 +196,26 @@ class ForecastBuilder
 
     /**
      * @param ForecastSeriesState $seriesState Per-series state collected upstream — data,
-     *        availability, intra-period monotonicity, and forecast precision. Missing
-     *        monotonicity entries fall back to FREE for percent-unit series and UP otherwise;
-     *        missing precision entries preserve the historical 4-decimal default.
+     *                                         availability, intra-period monotonicity, and forecast precision. Missing
+     *                                         monotonicity entries fall back to FREE for percent-unit series and UP otherwise;
+     *                                         missing precision entries preserve the historical 4-decimal default.
      * @param array<DataTable> $dataTables
      * @param array<int, string> $dataStates
      * @param array<string, string|false> $seriesUnits
      * @param array<string, array<string, float>> $allSeriesDailySamples Per-series map of
-     *        Y-m-d → final daily value, covering enough history to populate same-DoW analog
-     *        slots for the highest-tick week/month target. Required for MONOTONICITY_UP
-     *        week/month forecasts; without it the builder falls back to prior-only same-period
-     *        projection on the period-level series.
+     *                                                                   Y-m-d → final daily value, covering enough history to populate same-DoW analog
+     *                                                                   slots for the highest-tick week/month target. Required for MONOTONICITY_UP
+     *                                                                   week/month forecasts; without it the builder falls back to prior-only same-period
+     *                                                                   projection on the period-level series.
      * @param array<string, array<string, float>> $allSeriesMonthlySamples Per-series map of
-     *        YYYY-MM → final monthly value, used by MONOTONICITY_UP year forecasts to project
-     *        remaining months from same-month-of-year analogs.
+     *                                                                     YYYY-MM → final monthly value, used by MONOTONICITY_UP year forecasts to project
+     *                                                                     remaining months from same-month-of-year analogs.
      * @param string|null $earliestDataDate Earliest 'Y-m-d' the site/segment can hold data
-     *        (site creation date, raised to an auto-archived segment's re-archive start). Analog
-     *        samples dated before it are dropped from the day-period prior so a wide displayed
-     *        range cannot resurrect pre-creation history the sub-period fetch already floors away
-     *        — without it the day forecast flips on/off with the "rows to display" width. Null
-     *        disables the floor (no resolvable creation date).
+     *                                      (site creation date, raised to an auto-archived segment's re-archive start). Analog
+     *                                      samples dated before it are dropped from the day-period prior so a wide displayed
+     *                                      range cannot resurrect pre-creation history the sub-period fetch already floors away
+     *                                      — without it the day forecast flips on/off with the "rows to display" width. Null
+     *                                      disables the floor (no resolvable creation date).
      * @return array<int, array<int, float|null>>
      */
     public function build(
@@ -1321,7 +1321,7 @@ class ForecastBuilder
      * transition mid-period (where one wall-clock day is 23h or 25h) cannot shift the index.
      *
      * @param array<int, string> $dayAnchors Site-local 'Y-m-d' strings for each sub-period, in
-     *        chronological order. Must be non-empty.
+     *                                       chronological order. Must be non-empty.
      */
     private function resolveSubPeriodTodayIndex(DataTable $dataTable, array $dayAnchors, string $siteTz): int
     {
@@ -1423,17 +1423,17 @@ class ForecastBuilder
      *                             not started yet". For FREE/DOWN a leading 0 is kept as a legitimate observation.
      *                             The same two families also get the pre-level-shift trim, on every period type.
      * @param array<string, float> $dailySamples Optional daily sample map (Y-m-d → value)
-     *        covering enough history to populate the day-period prior. When supplied on a day
-     *        target, the prior is built from same-DoW analogs walked back through this map
-     *        instead of from the displayed range alone — short displays (4-7 day charts)
-     *        otherwise carry at most one same-DoW history tick.
+     *                                           covering enough history to populate the day-period prior. When supplied on a day
+     *                                           target, the prior is built from same-DoW analogs walked back through this map
+     *                                           instead of from the displayed range alone — short displays (4-7 day charts)
+     *                                           otherwise carry at most one same-DoW history tick.
      * @param string|null $earliestDataDate Earliest 'Y-m-d' the site/segment can hold data.
-     *        Same-period analog samples dated before it are dropped so the day prior does not
-     *        depend on how far back the displayed range happens to reach: the sub-period fetch
-     *        already floors its own window here, but the displayed-range map and the legacy
-     *        dataTableList walk are not fetched through that floor, so a wide "rows to display"
-     *        would otherwise pull in pre-creation history and flip the forecast on. Null skips
-     *        the floor.
+     *                                      Same-period analog samples dated before it are dropped so the day prior does not
+     *                                      depend on how far back the displayed range happens to reach: the sub-period fetch
+     *                                      already floors its own window here, but the displayed-range map and the legacy
+     *                                      dataTableList walk are not fetched through that floor, so a wide "rows to display"
+     *                                      would otherwise pull in pre-creation history and flip the forecast on. Null skips
+     *                                      the floor.
      * @return array<int, float>
      */
     private function getHistoricalSamplesForSeries(

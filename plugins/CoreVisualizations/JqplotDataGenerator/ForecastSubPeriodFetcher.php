@@ -139,9 +139,9 @@ class ForecastSubPeriodFetcher
      * the inner request cannot be issued (no API method, no idSite, etc.).
      *
      * @param array<DataTable> $dataTables Per-tick tables of the displayed series, ordered by
-     *        date. Used to read the period type and the end date of the displayed range.
+     *                                     date. Used to read the period type and the end date of the displayed range.
      * @param ForecastSeriesState $seriesState Per-series metadata (columns, rows, monotonicity)
-     *        threaded through to {@see self::extractSamples()}.
+     *                                         threaded through to {@see self::extractSamples()}.
      * @param string $apiMethod API method spec to fan out to (`Module.action`).
      * @param int $idSite Site id the displayed series belongs to.
      * @param string $segment Segment expression to pin onto the inner request.
