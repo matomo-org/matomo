@@ -302,6 +302,12 @@ class VisitorDetails extends VisitorDetailsAbstract
      */
     protected function queryActionsForVisits($idVisits)
     {
+        if (empty($idVisits)) {
+            // Without this the IN list below becomes IN (''), which MySQL quietly matches
+            // nothing for but ClickHouse rejects outright when parsing '' as a visit id.
+            return array();
+        }
+
         $customFields = array();
         $customJoins  = array();
 

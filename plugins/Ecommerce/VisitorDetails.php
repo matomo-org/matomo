@@ -278,7 +278,10 @@ class VisitorDetails extends VisitorDetailsAbstract
 							AND deleted = 0
 				";
 
-        $bind = array($idVisit, $idOrder);
+        // idorder is a varchar, and the abandoned-cart marker is the integer 0. MySQL
+        // coerces the two silently; ClickHouse refuses to compare a String against a
+        // number, so bind the order id as the string the column actually holds.
+        $bind = array($idVisit, (string) $idOrder);
 
         $itemsDetails = $this->getDb()->fetchAll($sql, $bind);
 

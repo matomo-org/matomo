@@ -592,7 +592,11 @@ class Model
 
         $select = "log_visit.idvisitor, MAX(log_visit.visit_last_action_time) as visit_last_action_time";
         $from = "log_visit";
-        $where = "log_visit.idsite = ? AND log_visit.idvisitor <> ? AND visit_last_action_time >= ? and visit_last_action_time <= ?";
+        // Qualify visit_last_action_time: the SELECT aliases MAX(...) to that same name,
+        // and where MySQL resolves the bare name in WHERE to the column, ClickHouse
+        // resolves it to the alias and rejects the aggregate with ILLEGAL_AGGREGATION.
+        $where = "log_visit.idsite = ? AND log_visit.idvisitor <> ?"
+            . " AND log_visit.visit_last_action_time >= ? and log_visit.visit_last_action_time <= ?";
         $whereBind = array($idSite, @Common::hex2bin($visitorId), $dateOneDayAgo->toString('Y-m-d H:i:s'), $dateOneDayInFuture->toString('Y-m-d H:i:s'));
         $orderBy = "MAX(log_visit.visit_last_action_time) $orderByDir";
         $groupBy = "log_visit.idvisitor";
