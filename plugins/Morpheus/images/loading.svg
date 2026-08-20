@@ -1,11 +1,22 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="11" viewBox="0 0 16 11" role="img" aria-label="Loading">
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="11" viewBox="0 0 16 11">
   <!--
-    Three bars that grow and darken in sequence, matching the .matomo-loader CSS spinner in
-    plugins/CoreHome/stylesheets/matomo-loader.less at the same 16x11 size.
+    Three bars that grow and darken in sequence, reproducing the geometry and timing of the
+    .matomo-loader CSS spinner in plugins/CoreHome/stylesheets/matomo-loader.less at the same
+    16x11 size. The greys deliberately do NOT match: .matomo-loader still carries the near-white
+    bars it inherited from loading-blue.gif, which barely register on a light surface, so this
+    asset is darkened to read against both themes. Keep the two in step if either is restyled.
 
     The background is transparent so the surface behind it shows through, which is what makes this
     usable in both light and dark mode. Scaled with a transform rather than animating the y/height
-    geometry properties, since transforms are the better supported of the two.
+    geometry properties, since transforms are the better supported of the two as CSS properties.
+
+    An SVG painted as a CSS background-image still runs its own CSS animation, because browsers
+    load it in the spec's "secure animated mode" - scripts are blocked, declarative animation is
+    not. That is why these call sites need no markup. Verified in a browser against a probe
+    painted with the same url() the app stylesheets use.
+
+    The colours are hardcoded because an SVG consumed as a background-image cannot read Less
+    variables or custom properties from the host page, so a theme-neutral grey is the only option.
   -->
   <style>
     .matomoLoaderBar {
