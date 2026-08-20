@@ -36,8 +36,12 @@
     background-position: 140%;
     padding-left: 5px;
     display: inline-block;
-    // was #666, which fell to ~3:1 against the dark-mode background
-    color: @theme-color-text;
+    color: #666;
+    // #666 falls to ~3:1 against the dark-mode background, so only dark mode
+    // takes the theme colour; light mode keeps the grey it has always had
+    .inDarkMode({
+      color: @theme-color-text;
+    });
     border: 0;
     height: 19px;
     line-height: 19px;

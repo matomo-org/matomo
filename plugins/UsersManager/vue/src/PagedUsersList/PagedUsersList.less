@@ -56,11 +56,12 @@
       }
     }
 
-    // wide enough for the longest role ("Superuser") once the shared select
-    // padding is taken off; the compact input and caret overrides that used to
-    // sit here were tuned for the old underlined control and now fight it
+    // Roomier than the 140px this replaced, so a longer translation of a role name is not
+    // ellipsised; a fixed width rather than a floor, because the control is a block-level
+    // flex box and would otherwise fill the cell. The compact input and caret overrides
+    // that used to sit here were tuned for the old underlined control.
     .select-wrapper {
-      width: 140px;
+      width: 170px;
     }
 
     th.role_header {

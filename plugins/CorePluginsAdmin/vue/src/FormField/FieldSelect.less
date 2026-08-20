@@ -1,8 +1,28 @@
+// Materialize's underlined control is 3rem tall and centres its text; the restyled box is
+// 38px and also centres its text, so it needs half the 10px difference to sit on the same
+// centre line as a plain input beside it. Without this the control rides up out of line.
+.matomo-field-select {
+  margin-top: 5px;
+}
+
 .matomo-field-select label {
-  // -14px compensated for the extra div added in vue; the restyle then moved the
-  // control's visible top up by the input's 8px of padding, since the border now sits
-  // where bare text used to, so the label needs that 8px back to clear its descenders
-  top: -22px;
+  // -14px compensated for the extra div added in vue, then the restyle moved the control's
+  // visible top up by the input's 8px of padding, since the border now sits where bare text
+  // used to; the 5px above moves the whole field down, so it comes off again here
+  top: -17px;
+}
+
+// A select in a content table takes its heading from the column header, so it needs no
+// room for a label, and the full 38px control makes every row of a long table taller. The
+// compact 32px control is what the per-table overrides used to hand-roll for the old
+// underlined field. `entityTable` is added by v-content-table (contentTableUtils.ts).
+table.entityTable .matomo-field-select {
+  margin-top: 0;
+
+  .select-wrapper input.select-dropdown {
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
 }
 
 // Materialize builds the select markup at runtime (.select-wrapper, the readonly
@@ -34,6 +54,13 @@
     cursor: default;
   }
 
+  // the colour set below outweighs Materialize's own :disabled rule, so the muted
+  // colour has to be restated here for both the value and the chevron
+  .select-wrapper.disabled input.select-dropdown,
+  .select-wrapper.disabled::after {
+    color: @theme-color-text-disabled;
+  }
+
   // override: Materialize's underline, 3rem height and bottom margin. The tag is
   // needed because the dropdown panel is a ul carrying the same class.
   .select-wrapper input.select-dropdown {
@@ -48,6 +75,18 @@
     background: transparent;
     color: @theme-color-text;
     cursor: pointer;
+  }
+
+  // Materialize binds the control to the readonly input, so that is what takes focus, but
+  // the border belongs to the wrapper — the ring is inset to sit on it. Matches the
+  // focus treatment of the dropdown panel this control is styled after.
+  .select-wrapper input.select-dropdown:focus {
+    outline: none;
+  }
+
+  .select-wrapper input.select-dropdown:focus-visible {
+    outline: 2px solid @theme-color-focus-ring;
+    outline-offset: -2px;
   }
 
   // override: Materialize draws a filled triangle caret; the design system uses the
