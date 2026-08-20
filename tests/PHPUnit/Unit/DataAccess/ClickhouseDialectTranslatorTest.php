@@ -115,8 +115,9 @@ class ClickhouseDialectTranslatorTest extends \PHPUnit\Framework\TestCase
         $sql = "SELECT * FROM log_visit WHERE log_visit.idvisit LIKE ? AND name NOT LIKE ?";
         $translated = ClickhouseDialectTranslator::translate($sql);
 
-        self::assertStringContainsString('toString(log_visit.idvisit) LIKE ?', $translated);
-        self::assertStringContainsString('toString(name) NOT LIKE ?', $translated);
+        // The same pass also swaps LIKE for the case insensitive ILIKE.
+        self::assertStringContainsString('toString(log_visit.idvisit) ILIKE ?', $translated);
+        self::assertStringContainsString('toString(name) NOT ILIKE ?', $translated);
     }
 
     public function testWrapsNonAggregatedSelectColumnsWithAny()
@@ -249,6 +250,27 @@ class ClickhouseDialectTranslatorTest extends \PHPUnit\Framework\TestCase
 
         self::assertStringContainsString('INNER JOIN log_conversion AS log_conversion', $translated);
         self::assertStringNotContainsString('STRAIGHT_JOIN', $translated);
+    }
+
+    public function testTranslatesLikeToTheCaseInsensitiveIlike()
+    {
+        // MySQL matches LIKE case insensitively under its default collation, which is what
+        // segments such as pageUrl=@Foo rely on; ClickHouse's LIKE is case sensitive.
+        $sql = "SELECT idvisit FROM log_link_visit_action WHERE log_action.name LIKE ? AND idvisit NOT LIKE ?";
+        $translated = ClickhouseDialectTranslator::translate($sql);
+
+        self::assertStringContainsString('toString(log_action.name) ILIKE ?', $translated);
+        self::assertStringContainsString('toString(idvisit) NOT ILIKE ?', $translated);
+        self::assertStringNotContainsString(' LIKE ', $translated);
+    }
+
+    public function testLeavesTheWordLikeInsideAStringLiteralAlone()
+    {
+        $sql = "SELECT idvisit FROM log_visit WHERE location_country = 'like'";
+        $translated = ClickhouseDialectTranslator::translate($sql);
+
+        self::assertStringContainsString("= 'like'", $translated);
+        self::assertStringNotContainsString('ILIKE', $translated);
     }
 
     public function testWrapsRowNumberWindowFunctionInToInt64()

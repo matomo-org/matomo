@@ -51,7 +51,7 @@ class ClickhouseDialectTranslator
         $sql = self::translateFunctions($sql);
         $sql = self::rewriteVisitDedup($sql);
         $sql = self::rewriteEmptyStringComparisons($sql);
-        $sql = self::rewriteLikeOnNonStringColumns($sql);
+        $sql = self::rewriteLikeComparisons($sql);
         $sql = self::aliasQualifiedSelectColumns($sql);
         $sql = self::fixGroupBy($sql);
         return $sql;
@@ -237,15 +237,27 @@ class ClickhouseDialectTranslator
     }
 
     /**
+     * Adjusts LIKE comparisons for ClickHouse in two ways.
+     *
      * MySQL allows LIKE on numeric columns by casting (the GDPR data subject search
      * does idvisit LIKE '10%'); ClickHouse requires a String argument. toString() is
      * the identity for String columns and MySQL's cast semantics for everything else.
+     *
+     * MySQL also matches LIKE case insensitively under its default collation, which is
+     * what segments such as pageUrl=@Foo rely on, while ClickHouse's LIKE is case
+     * sensitive. ILIKE is the case insensitive equivalent, so segments keep matching the
+     * same rows on both. On the hex-encoded binary columns this is marginally more
+     * permissive than MySQL's case sensitive binary comparison, but those values are
+     * always written lower case, so nothing additional matches in practice.
+     *
+     * The pattern anchors on an identifier followed by the operator, so the word "like"
+     * inside a string literal is left alone.
      */
-    private static function rewriteLikeOnNonStringColumns(string $sql): string
+    private static function rewriteLikeComparisons(string $sql): string
     {
         return preg_replace(
-            '~((?:`?\w+`?\.)?`?\w+`?)(\s+(?:NOT\s+)?LIKE\s)~i',
-            'toString($1)$2',
+            '~((?:`?\w+`?\.)?`?\w+`?)(\s+(?:NOT\s+)?)LIKE(\s)~i',
+            'toString($1)$2ILIKE$3',
             $sql
         ) ?? $sql;
     }
