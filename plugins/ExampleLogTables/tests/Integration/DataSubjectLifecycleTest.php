@@ -9,16 +9,16 @@
 
 namespace Piwik\Plugins\ExampleLogTables\tests\Integration;
 
+use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
+use Piwik\DataTable;
 use Piwik\Db;
 use Piwik\Piwik;
-use Piwik\Plugin\LogTablesProvider;
 use Piwik\Plugins\ExampleLogTables\Dao\CustomGroupLog;
 use Piwik\Plugins\ExampleLogTables\Dao\CustomUserLog;
 use Piwik\Plugins\ExampleLogTables\tests\Fixtures\VisitsWithUserIdAndCustomData;
 use Piwik\Plugins\PrivacyManager\LogDataPurger;
-use Piwik\Plugins\PrivacyManager\Model\DataSubjects;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
@@ -34,6 +34,11 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  * path for is skipped silently by the export and makes the deletion throw, so this test is what
  * turns "the declarations look right" into "the declarations work".
  *
+ * It reaches PrivacyManager the way anything reaches another plugin: through its API, with
+ * `Request::processRequest()`. That is not only the convention -- it is what makes the test cover the
+ * whole subject-access flow, because finding the data subjects is itself an API method, and the
+ * validation and access checks a plugin author's own code would have to pass are on that path too.
+ *
  * @group ExampleLogTables
  * @group Plugins
  */
@@ -43,8 +48,6 @@ class DataSubjectLifecycleTest extends IntegrationTestCase
      * @var VisitsWithUserIdAndCustomData
      */
     public static $fixture; // initialized below class definition
-
-    private DataSubjects $dataSubjects;
 
     /**
      * The fixture backdates its visits, which the tracker only accepts with an authenticated
@@ -57,13 +60,6 @@ class DataSubjectLifecycleTest extends IntegrationTestCase
         parent::configureFixture($fixture);
 
         $fixture->createSuperUser = true;
-    }
-
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $this->dataSubjects = new DataSubjects(StaticContainer::get(LogTablesProvider::class));
     }
 
     public function testTrackingFillsTheCustomLogTables(): void
@@ -89,7 +85,7 @@ class DataSubjectLifecycleTest extends IntegrationTestCase
 
     public function testExportIncludesTheCustomTableRows(): void
     {
-        $export = $this->dataSubjects->exportDataSubjects($this->getVisitsOf('user1'));
+        $export = $this->exportDataSubjects($this->findVisitsOf('user1'));
 
         $this->assertArrayHasKey(
             CustomUserLog::TABLE_NAME,
@@ -118,7 +114,7 @@ class DataSubjectLifecycleTest extends IntegrationTestCase
 
     public function testExportDoesNotLeakAnotherSubjectsRows(): void
     {
-        $export = $this->dataSubjects->exportDataSubjects($this->getVisitsOf('user2'));
+        $export = $this->exportDataSubjects($this->findVisitsOf('user2'));
 
         $this->assertSame(
             ['user2'],
@@ -132,7 +128,7 @@ class DataSubjectLifecycleTest extends IntegrationTestCase
 
     public function testDeleteRemovesTheSubjectsRowsFromBothCustomTables(): void
     {
-        $deleted = $this->dataSubjects->deleteDataSubjects($this->getVisitsOf('user1'));
+        $deleted = $this->deleteDataSubjects($this->findVisitsOf('user1'));
 
         $this->assertSame(1, $deleted[CustomUserLog::TABLE_NAME]);
         $this->assertSame(1, $deleted[CustomGroupLog::TABLE_NAME]);
@@ -160,7 +156,7 @@ class DataSubjectLifecycleTest extends IntegrationTestCase
 
     public function testDeleteLeavesTheOtherSubjectsRowsAlone(): void
     {
-        $this->dataSubjects->deleteDataSubjects($this->getVisitsOf('user4'));
+        $this->deleteDataSubjects($this->findVisitsOf('user4'));
 
         $this->assertSame(
             [
@@ -188,6 +184,8 @@ class DataSubjectLifecycleTest extends IntegrationTestCase
             self::markTestSkipped('deleting unused log actions requires the LOCK TABLES privilege');
         }
 
+        // The purge runs through its service rather than `PrivacyManager.executeDataPurge`, which is
+        // marked internal and asks for a password confirmation and the saved retention settings.
         // The fixture's visits are years old, so a one-day retention window covers all of them.
         StaticContainer::get(LogDataPurger::class)->purgeData(1, true);
 
@@ -196,18 +194,53 @@ class DataSubjectLifecycleTest extends IntegrationTestCase
     }
 
     /**
-     * @return array<array{idsite: string, idvisit: string}>
+     * Finds the visits of one data subject the way the administration UI does: by segment, through
+     * `PrivacyManager.findDataSubjects`. The visit descriptors it returns are what the export and the
+     * deletion take, so this is the first of the three steps rather than a fixture shortcut.
+     *
+     * @return array<array{idsite: int, idvisit: int}>
      */
-    private function getVisitsOf(string $userId): array
+    private function findVisitsOf(string $userId): array
     {
-        $visits = Db::fetchAll(
-            'SELECT idsite, idvisit FROM ' . Common::prefixTable('log_visit') . ' WHERE user_id = ?',
-            [$userId]
-        );
+        $found = Request::processRequest('PrivacyManager.findDataSubjects', [
+            'idSite' => 'all',
+            'segment' => 'userId==' . $userId,
+        ]);
 
-        $this->assertNotEmpty($visits, 'no visits tracked for ' . $userId);
+        // The method returns an empty array rather than a table when no site has visitor logs
+        // enabled -- the display gate applies to finding data subjects too.
+        $this->assertInstanceOf(DataTable::class, $found);
+
+        $visits = [];
+
+        foreach ($found->getRows() as $row) {
+            $visits[] = [
+                'idsite' => (int) $row->getColumn('idSite'),
+                'idvisit' => (int) $row->getColumn('idVisit'),
+            ];
+        }
+
+        $this->assertNotEmpty($visits, 'no visits found for ' . $userId);
 
         return $visits;
+    }
+
+    /**
+     * @param array<array{idsite: int, idvisit: int}> $visits
+     * @return array<string, array<int, array<string, mixed>>>
+     */
+    private function exportDataSubjects(array $visits): array
+    {
+        return Request::processRequest('PrivacyManager.exportDataSubjects', ['visits' => $visits]);
+    }
+
+    /**
+     * @param array<array{idsite: int, idvisit: int}> $visits
+     * @return array<string, int>
+     */
+    private function deleteDataSubjects(array $visits): array
+    {
+        return Request::processRequest('PrivacyManager.deleteDataSubjects', ['visits' => $visits]);
     }
 
     /**
