@@ -649,18 +649,35 @@ class ClickhouseDialectTranslator
             $expr = preg_replace('/\s+AS\s+(`[^`]*`|\'[^\']*\'|\w+)\s*$/i', '', $trimmedItem);
             $expr = trim($expr);
 
-            if (strpos($expr, '(') !== false) {
-                // Function-call expressions: aggregates (and expressions containing one,
-                // like ROUND(SUM(x), 2)) are valid under GROUP BY as-is. A pure SCALAR
-                // expression (e.g. LOWER(HEX(idvisitor))) is not — MySQL's relaxed mode
-                // picks an arbitrary row value, which is exactly any(). Wrap it, unless
-                // it is itself one of the grouping expressions or has no alias to keep
-                // its result-column name stable.
+            // Constants (bare integers, string literals, NULL, bind placeholders) are
+            // always allowed in a grouped SELECT — and wrapping a bare integer would
+            // create a spurious alias colliding with aggregates like COUNT(*) AS `1`.
+            // Backtick-quoted `1` is a column reference and is NOT skipped here.
+            if (
+                ctype_digit($expr)
+                || preg_match('/^\'[^\']*\'$/', $expr)
+                || strcasecmp($expr, 'NULL') === 0
+                || $expr === '?'
+            ) {
+                continue;
+            }
+
+            // Identifier shape: col, tbl.col, `tbl`.`col`
+            $isIdentifier = (bool) preg_match('/^(`?\w+`?\.)?`?\w+`?$/', $expr);
+
+            if (!$isIdentifier) {
+                // Non-identifier expression (function call, CASE ... END, arithmetic):
+                // aggregates (and expressions containing one, like ROUND(SUM(x), 2)) are
+                // valid under GROUP BY as-is. A pure SCALAR expression — LOWER(HEX(col)),
+                // CASE WHEN col = 1 THEN ... — is not: MySQL\'s relaxed mode picks an
+                // arbitrary row value, which is exactly any(). Wrap it, unless it is
+                // itself one of the grouping expressions or has no alias to keep its
+                // result-column name stable.
                 if (
                     $selectAliasStr === null
                     || self::containsAggregateFunction($expr)
                     || in_array(self::normalizeExpression($expr), $groupByNormalizedExpressions, true)
-                    || ($normalizedAlias !== null && in_array($normalizedAlias, $groupByNormalized, true))
+                    || in_array($normalizedAlias, $groupByNormalized, true)
                 ) {
                     continue;
                 }
@@ -672,22 +689,6 @@ class ClickhouseDialectTranslator
                     'aliasForWrapper' => $selectAliasStr,
                 ];
                 $groupByNormalized[] = $normalizedAlias;
-                continue;
-            }
-
-            // Must look like an identifier: col, tbl.col, `tbl`.`col`
-            if (!preg_match('/^(`?\w+`?\.)?`?\w+`?$/', $expr)) {
-                continue;
-            }
-
-            // Skip unquoted pure integer literals (e.g. bare 1, 42) — they are scalar
-            // constants, not column references, and wrapping them with any() would
-            // create a spurious alias that collides with aggregate expressions sharing
-            // the same auto-generated alias (e.g. COUNT(*) AS `1`).
-            // Note: backtick-quoted `1` is a column reference, not a literal, and must
-            // NOT be skipped here.  ctype_digit() on the raw $expr (before normalisation)
-            // distinguishes the two: ctype_digit('1') is true, ctype_digit('`1`') is false.
-            if (ctype_digit($expr)) {
                 continue;
             }
 

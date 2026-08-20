@@ -214,6 +214,29 @@ class ClickhouseDialectTranslatorTest extends \PHPUnit\Framework\TestCase
         self::assertStringNotContainsString('any(toUInt8', $translated);
     }
 
+    public function testWrapsAliasedCaseExpressionsWithAnyAndKeepsUnaliasedGroupingExpression()
+    {
+        // Shape of the Transitions queries: an unaliased if() that IS the grouping
+        // expression, plus paren-free CASE expressions that are neither aggregated
+        // nor grouped (MySQL relaxed mode picks an arbitrary row value).
+        $sql = "SELECT if(llva.idaction_url_ref IS NULL, llva.idaction_name_ref, llva.idaction_url_ref), "
+            . "count(*) AS `3`, "
+            . "CASE WHEN llva.idaction_url_ref = 6 THEN 1 ELSE 0 END AS is_self "
+            . "FROM log_link_visit_action AS llva "
+            . "GROUP BY if(llva.idaction_url_ref IS NULL, llva.idaction_name_ref, llva.idaction_url_ref)";
+        $translated = ClickhouseDialectTranslator::translate($sql);
+
+        self::assertStringContainsString(
+            'any(CASE WHEN llva.idaction_url_ref = 6 THEN 1 ELSE 0 END) AS is_self',
+            $translated
+        );
+        // The unaliased grouping expression must stay untouched
+        self::assertStringContainsString(
+            'SELECT if(llva.idaction_url_ref IS NULL, llva.idaction_name_ref, llva.idaction_url_ref), count(*)',
+            $translated
+        );
+    }
+
     public function testAliasesUnaliasedQualifiedSelectColumnsAtEveryLevel()
     {
         $sql = "SELECT custom_dimension_1, url, toInt64(ROW_NUMBER() OVER (ORDER BY `12` DESC)) AS counter "

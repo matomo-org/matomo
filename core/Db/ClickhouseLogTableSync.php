@@ -33,12 +33,12 @@ class ClickhouseLogTableSync
      * it; tables missing from MySQL are skipped (and dropped from ClickHouse).
      */
     public const LOG_TABLES = [
-        'log_visit' => 'idvisit',
-        'log_link_visit_action' => 'idlink_va',
-        'log_action' => 'idaction',
-        'log_conversion' => '(idvisit, idgoal, buster)',
-        'log_conversion_item' => '(idvisit, idorder, idaction_sku)',
-        'log_bot_request' => 'idrequest',
+        'log_visit' => ['idvisit'],
+        'log_link_visit_action' => ['idlink_va'],
+        'log_action' => ['idaction'],
+        'log_conversion' => ['idvisit', 'idgoal', 'buster'],
+        'log_conversion_item' => ['idvisit', 'idorder', 'idaction_sku'],
+        'log_bot_request' => ['idrequest'],
     ];
 
     /**
@@ -105,7 +105,7 @@ class ClickhouseLogTableSync
         // Fingerprint of the MySQL source, taken before copying: if anything writes to
         // the log tables mid-sync, the stored fingerprint no longer matches and the next
         // test read re-syncs again — always erring towards freshness.
-        [$fingerprint, $existingTables] = self::computeMysqlLogTablesFingerprint();
+        [$fingerprint, $tableColumns] = self::computeMysqlLogTablesFingerprint();
 
         $client = self::getClient();
         // The target database may not exist yet; run DDL against the default database.
@@ -114,17 +114,25 @@ class ClickhouseLogTableSync
 
         foreach (array_keys(self::LOG_TABLES) as $table) {
             $mysqlTable = $prefix . $table;
-            $orderBy = self::LOG_TABLES[$table];
 
             $client->write(sprintf('DROP TABLE IF EXISTS `%s`.`%s`', $chDatabase, $mysqlTable));
-            if (!in_array($mysqlTable, $existingTables, true)) {
+            if (empty($tableColumns[$mysqlTable])) {
                 continue;
             }
 
+            // Old-schema fixtures (the CoreUpdater update tests load ancient dumps) may
+            // predate some sort-key or binary columns; only reference what exists.
+            $availableColumns = $tableColumns[$mysqlTable];
+            $orderByColumns = array_values(array_intersect(self::LOG_TABLES[$table], $availableColumns));
+            $orderBy = empty($orderByColumns)
+                ? 'tuple()'
+                : '(`' . implode('`, `', $orderByColumns) . '`)';
+
             $selectColumns = '*';
-            if (!empty(self::BINARY_COLUMNS[$table])) {
+            $binaryColumns = array_intersect(self::BINARY_COLUMNS[$table], $availableColumns);
+            if (!empty($binaryColumns)) {
                 $replacements = [];
-                foreach (self::BINARY_COLUMNS[$table] as $binaryColumn) {
+                foreach ($binaryColumns as $binaryColumn) {
                     $replacements[] = sprintf('lower(hex(`%1$s`)) AS `%1$s`', $binaryColumn);
                 }
                 $selectColumns = '* REPLACE (' . implode(', ', $replacements) . ')';
@@ -199,7 +207,7 @@ class ClickhouseLogTableSync
      * catches ALTER-only changes such as CustomDimensions adding columns, which row
      * checksums cannot see) plus a CHECKSUM TABLE over every existing log table.
      *
-     * @return array{0: string, 1: string[]} [fingerprint, prefixed names of the log tables that exist]
+     * @return array{0: string, 1: array<string, string[]>} [fingerprint, column names per existing prefixed log table]
      */
     private static function computeMysqlLogTablesFingerprint(): array
     {
@@ -219,13 +227,11 @@ class ClickhouseLogTableSync
             $prefixedNames
         );
 
-        $existingTables = [];
+        $tableColumns = [];
         $schemaParts = [];
         foreach ($columns as $column) {
             $tableName = $column['TABLE_NAME'] ?? '';
-            if (!in_array($tableName, $existingTables, true)) {
-                $existingTables[] = $tableName;
-            }
+            $tableColumns[$tableName][] = $column['COLUMN_NAME'] ?? '';
             $schemaParts[] = implode(':', [
                 $tableName,
                 $column['COLUMN_NAME'] ?? '',
@@ -236,16 +242,16 @@ class ClickhouseLogTableSync
 
         $parts = ['schema:' . md5(implode('|', $schemaParts))];
 
-        if (!empty($existingTables)) {
+        if (!empty($tableColumns)) {
             $quoted = array_map(function ($table) {
                 return '`' . $table . '`';
-            }, $existingTables);
+            }, array_keys($tableColumns));
             foreach (Db::fetchAll('CHECKSUM TABLE ' . implode(', ', $quoted)) as $row) {
                 $parts[] = ($row['Table'] ?? '') . ':' . ($row['Checksum'] ?? '');
             }
         }
 
-        return [implode('|', $parts), $existingTables];
+        return [implode('|', $parts), $tableColumns];
     }
 
     private static function getClient(): Client
