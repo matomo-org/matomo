@@ -19,6 +19,7 @@ use Piwik\Plugins\ExampleLogTables\Dao\CustomAccountLog;
 use Piwik\Plugins\ExampleLogTables\Dao\CustomUserLog;
 use Piwik\Plugins\ExampleLogTables\tests\Fixtures\VisitsWithUserIdAndCustomData;
 use Piwik\Plugins\PrivacyManager\LogDataPurger;
+use Piwik\Plugins\PrivacyManager\Model\DataSubjects;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
@@ -169,6 +170,42 @@ class DataSubjectLifecycleTest extends IntegrationTestCase
 
         // user4 has no group, so nothing links them to the account table and nothing there is touched.
         $this->assertCount(2, $this->getRows(CustomAccountLog::TABLE_NAME, 'account_name'));
+    }
+
+    /**
+     * Deleted-site cleanup is the third feature the declarations buy, and the one the plugin's own
+     * tables reach for a slightly surprising reason: they carry no `idsite` at all. Core does not
+     * filter on the table's own `idsite` -- it filters on the `idsite` of whatever table the join
+     * resolved to, which is `log_visit`. So a table with no site column of its own is still cleaned
+     * up, as long as its rows are reachable from a visit.
+     *
+     * Which is also the limit. The second half of this test pins the other side of "no idsite": a row
+     * no visit points at is outside all four features, permanently.
+     */
+    public function testDeletedSiteCleanupReachesBothCustomTablesButNotAnUnreachableRow(): void
+    {
+        // Nothing has ever visited on behalf of this user, so no join reaches their row.
+        (new CustomUserLog())->addOrUpdatePlan('userWithoutVisits', 'enterprise');
+
+        // The task hands core the sites that still exist; everything found in the log tables under
+        // any other id belongs to a site that is gone. Naming an id the fixture never used is how you
+        // say "site 1 has been deleted" without deleting it.
+        $deleted = StaticContainer::get(DataSubjects::class)
+            ->deleteDataSubjectsForDeletedSites([self::$fixture->idSite + 1]);
+
+        $this->assertSame(4, $deleted[CustomUserLog::TABLE_NAME]);
+        $this->assertSame(2, $deleted[CustomAccountLog::TABLE_NAME]);
+
+        $this->assertSame([], $this->getRows(CustomAccountLog::TABLE_NAME, 'account_name'));
+
+        // The four tracked users are gone with their site. The fifth row survives, and nothing in
+        // Matomo will ever remove it: retention, subject deletion and deleted-site cleanup all reach
+        // these tables through a visit, and this row has none. A table whose rows can outlive every
+        // visit that referenced them needs its own `idsite` and its own date column.
+        $this->assertSame(
+            [['user_id' => 'userWithoutVisits', 'plan' => 'enterprise', 'account_name' => '']],
+            $this->getRows(CustomUserLog::TABLE_NAME, 'user_id')
+        );
     }
 
     /**
