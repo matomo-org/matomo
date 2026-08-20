@@ -149,6 +149,19 @@ class CustomLogWritePathTest extends IntegrationTestCase
         $this->assertSame([['group_name' => $clampedGroup, 'is_admin' => 1]], $this->getGroupRows());
     }
 
+    public function testStoresTrackingValuesSanitisedRatherThanRaw(): void
+    {
+        $this->record([UserAttributesRequestProcessor::PARAM_GROUP => 'Sales & Marketing']);
+
+        // The request API returns raw values, so the write path sanitises before storing. Core's log
+        // tables hold sanitised values and the visits log template decodes them exactly once through
+        // `rawSafeDecoded`, so a table holding the raw value would print its entities on screen.
+        $this->assertSame(
+            ['gender' => '', 'group_name' => 'Sales &amp; Marketing'],
+            $this->userLog->getUserInformation(self::USER_ID)
+        );
+    }
+
     public function testStoresNothingForAVisitWithoutAUserId(): void
     {
         $this->record([UserAttributesRequestProcessor::PARAM_GENDER => 'women'], '');

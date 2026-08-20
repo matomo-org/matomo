@@ -123,8 +123,10 @@ within a major version rather than forever. Everything here is verified against 
   the table in that query and in the table lock the same purge step takes, so declare one because the
   table has one, not out of habit. The remaining schema rules — matching the width of a column you
   join on, and declaring a default for every column a partial write may omit — are visible in the DAOs
-  that own the schema, along with the write path's own clamp: values that arrive in a tracking request
-  are not yours to assume the length of.
+  that own the schema, along with the write path's own sanitise-then-clamp: values that arrive in a
+  tracking request are not yours to assume the length of, and the request API hands them to you raw, so
+  sanitising is a step you take rather than one you inherit. Order matters — encoding expands a value, so
+  clamping first can still overflow the column.
 - **Your own SQL has one shape here, and it is core's.** Backtick a table name you interpolate, leave
   column names bare unless they are reserved words, and write the column list and the
   `ON DUPLICATE KEY UPDATE` clause out literally. Building a column list at runtime is for code that

@@ -75,9 +75,9 @@ class VisitorDetailsTest extends IntegrationTestCase
 
     public function testRendersAStoredValueEncodedExactlyOnce(): void
     {
-        // What the tracker stores is already HTML-encoded, because Common::getRequestVar() sanitises
-        // every value it returns. Printing that under Twig's autoescape would encode it twice and put
-        // the entities on screen, which is what `rawSafeDecoded` in the template prevents.
+        // What the tracker stores is already HTML-encoded, because the write path sanitises every
+        // value before storing it. Printing that under Twig's autoescape would encode it twice and
+        // put the entities on screen, which is what `rawSafeDecoded` in the template prevents.
         (new CustomUserLog())->addOrUpdateGroupName(
             self::USER_ID,
             Common::sanitizeInputValue('Sales & Marketing')

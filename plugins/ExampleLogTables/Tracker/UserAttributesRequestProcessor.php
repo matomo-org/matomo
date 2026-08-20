@@ -65,21 +65,29 @@ class UserAttributesRequestProcessor extends RequestProcessor
             return;
         }
 
-        $params = $request->getParams();
+        // The tracker's own `Request::getParam()` accepts only parameters core knows about and throws
+        // for anything else, so a plugin reads its own by wrapping the request's parameter array in
+        // the request API. Note the fully qualified name: `Piwik\Request` is that API, and it is
+        // unrelated to the `Piwik\Tracker\Request` imported above.
+        $params = new \Piwik\Request($request->getParams());
 
-        // Note the empty string default. With a type argument, Common::getRequestVar() coerces the
-        // default through settype(), so passing false here would still return '' and the familiar
-        // `false === $value` check would never fire.
-        $gender = Common::getRequestVar(self::PARAM_GENDER, '', 'string', $params);
-        $group = Common::getRequestVar(self::PARAM_GROUP, '', 'string', $params);
+        // These arrive raw. The request API filters null bytes and nothing else, so sanitise
+        // deliberately -- core's log tables hold sanitised values, which is why every visits log
+        // template prints them through `rawSafeDecoded`, and a table holding raw values would be the
+        // odd one out. Sanitise before clamping, never after: encoding expands a value, so thirty
+        // clamped ampersands would become a hundred and fifty stored characters and fail the whole
+        // tracking request. `CoreHome\Columns\UserId` does it in this order too.
+        $gender = Common::sanitizeInputValue($params->getStringParameter(self::PARAM_GENDER, ''));
+        $group = Common::sanitizeInputValue($params->getStringParameter(self::PARAM_GROUP, ''));
 
         // A default of -1 distinguishes "the request said the group is not an admin group" from "the
         // request said nothing about it". Writing an invented default in the second case would
-        // silently overwrite what an earlier request stored.
-        $isAdmin = Common::getRequestVar(self::PARAM_GROUP_IS_ADMIN, -1, 'int', $params);
+        // silently overwrite what an earlier request stored. A value that is not an integer returns
+        // the default as well, so a malformed flag is indistinguishable from an absent one -- which
+        // is what the guard further down relies on.
+        $isAdmin = $params->getIntegerParameter(self::PARAM_GROUP_IS_ADMIN, -1);
 
-        // Clamp each value to the width of the column that holds it, the way
-        // CoreHome\Columns\UserId does for the user id it persists. These arrive from a tracking
+        // Clamp each value to the width of the column that holds it. These arrive from a tracking
         // request, so their length is not yours to assume: the tracker connection keeps whatever
         // sql_mode the server gives it, which on a default install is strict, and an over-long
         // value there fails the whole tracking request rather than truncating. Clamping is lossy

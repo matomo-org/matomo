@@ -1,7 +1,7 @@
 {# Rendered by VisitorDetails::renderVisitorDetails() into the visits log entry for one visit.
 
-   The values were HTML-encoded on the way in, because Common::getRequestVar() sanitises every
-   tracking parameter it returns, so what the table holds is already encoded. Printing it under
+   The values were HTML-encoded on the way in: the write path sanitises every tracking parameter
+   before storing it, so what the table holds is already encoded. Printing it under
    Twig's autoescape would encode it a second time and show the entities on screen. `rawSafeDecoded`
    is the filter for that: it decodes once and re-encodes exactly once, and every core visits log
    template that prints a stored label uses it -- see plugins/CustomDimensions/templates/_visitorDetails.twig
