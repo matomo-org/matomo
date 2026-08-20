@@ -380,7 +380,15 @@ class Fixture extends \PHPUnit\Framework\Assert
         $testEnv->reload();
 
         $overrides = $testEnv->configOverride ?: [];
-        foreach (['host' => 'CLICKHOUSE_HOST', 'port' => 'CLICKHOUSE_PORT'] as $key => $envVar) {
+        // sync_mysql_host matters as much as host/port here: a web request that needs to
+        // re-copy the log tables runs the sync from inside the ClickHouse server, where
+        // 127.0.0.1 is that container rather than the machine running MySQL.
+        $envMap = [
+            'host' => 'CLICKHOUSE_HOST',
+            'port' => 'CLICKHOUSE_PORT',
+            'sync_mysql_host' => 'CLICKHOUSE_SYNC_MYSQL_HOST',
+        ];
+        foreach ($envMap as $key => $envVar) {
             if (getenv($envVar) !== false && getenv($envVar) !== '') {
                 $overrides['database_analytics'][$key] = getenv($envVar);
             }
