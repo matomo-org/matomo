@@ -63,10 +63,18 @@ class VisitorDetails extends VisitorDetailsAbstract
             return;
         }
 
-        // Same key as UserAttributeGender::$segmentName, deliberately.
-        $visitor['userGender'] = $attributes['gender'];
-        // No segment declares this one, so the name is only a payload key.
-        $visitor['userGroup'] = $attributes['group_name'];
+        // Publish only what is actually stored. A key present but empty is indistinguishable from a
+        // plugin that has an opinion and says "nothing", and it is the same restraint the write path
+        // applies one layer down.
+        if (!empty($attributes['gender'])) {
+            // Same key as UserAttributeGender::$segmentName, deliberately.
+            $visitor['userGender'] = $attributes['gender'];
+        }
+
+        if (!empty($attributes['group_name'])) {
+            // No segment declares this one, so the name is only a payload key.
+            $visitor['userGroup'] = $attributes['group_name'];
+        }
     }
 
     /**
@@ -84,7 +92,13 @@ class VisitorDetails extends VisitorDetailsAbstract
         $view->gender = $visitorDetails['userGender'] ?? '';
         $view->group = $visitorDetails['userGroup'] ?? '';
 
-        return [[40, $view->render()]];
+        // The first element is a sort order shared by every plugin that renders into a visits log
+        // entry, and nothing allocates it: core takes 0 (Live), 10 (Referrers, Contents), 15
+        // (Ecommerce), 20 (Provider), 30 (CustomDimensions, MarketingCampaignsReporting), 40
+        // (CustomDimensions again, CustomVariables), 50 (CustomVariables) and 60 (Bandwidth). Two
+        // blocks claiming one number are ordered arbitrarily, so pick a gap and check it still is
+        // one when you upgrade.
+        return [[45, $view->render()]];
     }
 
     /**

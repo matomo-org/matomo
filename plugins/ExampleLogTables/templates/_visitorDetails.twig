@@ -1,11 +1,25 @@
-{# Rendered by VisitorDetails::renderVisitorDetails() into the visits log entry for one visit. #}
+{# Rendered by VisitorDetails::renderVisitorDetails() into the visits log entry for one visit.
+
+   The values were HTML-encoded on the way in, because Common::getRequestVar() sanitises every
+   tracking parameter it returns, so what the table holds is already encoded. Printing it under
+   Twig's autoescape would encode it a second time and show the entities on screen. `rawSafeDecoded`
+   is the filter for that: it decodes once and re-encodes exactly once, and every core visits log
+   template that prints a stored label uses it -- see plugins/CustomDimensions/templates/_visitorDetails.twig
+   and plugins/Live/templates/_visitorDetails.twig.
+
+   Note also what this template does *not* use: `visitorLogIconWithDetails`. That class is Live's
+   icon-strip contract -- its JavaScript reads a nested list out of the element and shows it as a
+   tooltip -- so borrowing it for a line of text produces an empty tooltip on hover. Plain text
+   belongs in `visitorLogTooltip`, as CustomDimensions does. #}
 <div class="exampleLogTablesAttributes">
     {% if gender %}
         <br/>
-        <span class="visitorLogIconWithDetails">{{ 'ExampleLogTables_UserGender'|translate }}: {{ gender }}</span>
+        <abbr class="visitorLogTooltip" title="{{ 'ExampleLogTables_StoredByThisPlugin'|translate }}">{{ 'ExampleLogTables_UserGender'|translate }}:</abbr>
+        {{ gender|truncate(30)|rawSafeDecoded }}
     {% endif %}
     {% if group %}
         <br/>
-        <span class="visitorLogIconWithDetails">{{ 'ExampleLogTables_UserGroup'|translate }}: {{ group }}</span>
+        <abbr class="visitorLogTooltip" title="{{ 'ExampleLogTables_StoredByThisPlugin'|translate }}">{{ 'ExampleLogTables_UserGroup'|translate }}:</abbr>
+        {{ group|truncate(30)|rawSafeDecoded }}
     {% endif %}
 </div>

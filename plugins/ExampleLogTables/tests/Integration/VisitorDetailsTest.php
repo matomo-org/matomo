@@ -10,7 +10,6 @@
 namespace Piwik\Plugins\ExampleLogTables\tests\Integration;
 
 use Piwik\Common;
-use Piwik\Db;
 use Piwik\Plugins\ExampleLogTables\Dao\CustomUserLog;
 use Piwik\Plugins\ExampleLogTables\VisitorDetails;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -35,8 +34,7 @@ class VisitorDetailsTest extends IntegrationTestCase
     {
         parent::setUp();
 
-        Db::query('TRUNCATE TABLE ' . Common::prefixTable(CustomUserLog::TABLE_NAME));
-
+        // No cleanup needed: IntegrationTestCase restores every table between test methods.
         (new CustomUserLog())->addOrUpdateUserInformation(
             self::USER_ID,
             ['gender' => 'women', 'group_name' => 'admin']
@@ -66,9 +64,30 @@ class VisitorDetailsTest extends IntegrationTestCase
         $blocks = $this->visitorDetails->renderVisitorDetails($this->extendVisitorDetails(self::USER_ID));
 
         $this->assertCount(1, $blocks);
-        $this->assertSame(40, $blocks[0][0]);
-        $this->assertStringContainsString('Gender: women', $blocks[0][1]);
-        $this->assertStringContainsString('Group: admin', $blocks[0][1]);
+        $this->assertSame(45, $blocks[0][0]);
+        $this->assertStringContainsString('Gender:', $blocks[0][1]);
+        $this->assertStringContainsString('women', $blocks[0][1]);
+        $this->assertStringContainsString('Group:', $blocks[0][1]);
+        $this->assertStringContainsString('admin', $blocks[0][1]);
+
+        // Live's icon strip, not a line of text: borrowing the class gives an empty hover tooltip.
+        $this->assertStringNotContainsString('visitorLogIconWithDetails', $blocks[0][1]);
+    }
+
+    public function testRendersAStoredValueEncodedExactlyOnce(): void
+    {
+        // What the tracker stores is already HTML-encoded, because Common::getRequestVar() sanitises
+        // every value it returns. Printing that under Twig's autoescape would encode it twice and put
+        // the entities on screen, which is what `rawSafeDecoded` in the template prevents.
+        (new CustomUserLog())->addOrUpdateUserInformation(
+            self::USER_ID,
+            ['gender' => 'women', 'group_name' => Common::sanitizeInputValue('Sales & Marketing')]
+        );
+
+        $blocks = $this->visitorDetails->renderVisitorDetails($this->extendVisitorDetails(self::USER_ID));
+
+        $this->assertStringContainsString('Sales &amp; Marketing', $blocks[0][1]);
+        $this->assertStringNotContainsString('&amp;amp;', $blocks[0][1]);
     }
 
     public function testRendersNothingForAVisitWithoutStoredAttributes(): void
