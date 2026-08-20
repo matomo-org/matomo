@@ -4,7 +4,8 @@ namespace Piwik\Tests\Framework\Mock\Settings;
 
 use Piwik\Settings\Interfaces\PolicyComparisonInterface;
 use Piwik\Settings\Interfaces\SettingValueInterface;
-use Piwik\tests\Framework\Mock\Policy\TestPolicy;
+// the exact spelling matters: policy requirements are keyed by class-name string
+use Piwik\Tests\Framework\Mock\Policy\TestPolicy;
 
 class FakePolicySetting implements PolicyComparisonInterface, SettingValueInterface
 {
@@ -69,6 +70,21 @@ class FakePolicySetting implements PolicyComparisonInterface, SettingValueInterf
         return 'Fake.FakePolicySetting';
     }
 
+    public static function getPolicyConstraintType(string $policy): string
+    {
+        return PolicyComparisonInterface::POLICY_CONSTRAINT_EXACT;
+    }
+
+    public static function isValueCompliantWithPolicy($value, string $policy): bool
+    {
+        return true === $value;
+    }
+
+    public static function getSystemSettingShortName(): string
+    {
+        return 'fake_policy_setting';
+    }
+
     public static function isExternallyManagedByPolicyPage(): bool
     {
         return false;
@@ -126,6 +142,25 @@ class FakePolicySetting implements PolicyComparisonInterface, SettingValueInterf
     public static function getStoredEnforcementState(?int $idSite = null): ?bool
     {
         return self::$enforcementStates[is_null($idSite) ? '' : (string) $idSite] ?? null;
+    }
+
+    public static function getEnforcementScope(?int $idSite = null): ?string
+    {
+        if (!self::isEnforced($idSite)) {
+            return null;
+        }
+
+        if (true === self::getStoredEnforcementState(null)) {
+            return PolicyComparisonInterface::ENFORCEMENT_SCOPE_INSTANCE;
+        }
+
+        if (!is_null($idSite) && true === self::getStoredEnforcementState($idSite)) {
+            return PolicyComparisonInterface::ENFORCEMENT_SCOPE_SITE;
+        }
+
+        return TestPolicy::getSystemValue()
+            ? PolicyComparisonInterface::ENFORCEMENT_SCOPE_INSTANCE
+            : PolicyComparisonInterface::ENFORCEMENT_SCOPE_SITE;
     }
 
     public static function isEnforcementWritable(?int $idSite = null): bool

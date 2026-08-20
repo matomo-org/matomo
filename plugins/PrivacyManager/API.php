@@ -297,6 +297,59 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * Whether a privacy config property may be stored with the given value, given the compliance
+     * policies enforced for the scope being saved.
+     *
+     * @param mixed $value
+     * @throws \Piwik\Policy\Exceptions\CompliancePolicyViolationException when a policy forbids the value
+     */
+    private function mayStoreUnderCompliancePolicies(string $settingName, $value, ?int $idSite): bool
+    {
+        return PolicyManager::checkSettingValueAgainstPolicies(
+            $settingName,
+            $value,
+            $idSite,
+            PolicyManager::SETTING_TYPE_CUSTOM
+        );
+    }
+
+    /**
+     * Removes the choices a compliance policy no longer allows from a privacy setting's options,
+     * so a field it only bounds keeps offering the values that stay compliant.
+     *
+     * Handles both option shapes used on this screen: a value => label map, and a list of
+     * ['key' => value, ...] entries.
+     *
+     * @param array<mixed, mixed> $options
+     * @return array<mixed, mixed>
+     */
+    private function filterOptionsAllowedByPolicies(array $options, string $settingName, ?int $idSite): array
+    {
+        $isKeyedList = isset($options[0]) && is_array($options[0]);
+        $values = $isKeyedList ? array_column($options, 'key') : array_keys($options);
+
+        // privacy config properties are addressed through the custom getter mechanism
+        $allowedValues = PolicyManager::filterValuesAllowedByPolicies(
+            $values,
+            $settingName,
+            $idSite,
+            PolicyManager::SETTING_TYPE_CUSTOM
+        );
+
+        if (count($allowedValues) === count($values)) {
+            return $options;
+        }
+
+        if ($isKeyedList) {
+            return array_values(array_filter($options, static function ($option) use ($allowedValues) {
+                return in_array($option['key'], $allowedValues, false);
+            }));
+        }
+
+        return array_intersect_key($options, array_flip($allowedValues));
+    }
+
+    /**
      * Provide tracker file name and whether it's writable
      *
      * @return array{0: string, 1: bool}
@@ -356,14 +409,24 @@ class API extends \Piwik\Plugin\API
             }
         }
         $settings['useSiteSpecificSettings'] = $privacyConfig->useSiteSpecificSettings();
+        // the stored values above already reflect any policy override, see
+        // PrivacyManager\Config::getOptionValueWithPrivacyComplianceOverride()
 
         // provide extra settings
         [$trackerFilename, $trackerFileWritable] = $this->getTrackerFileDetails();
         $settings = array_merge($settings, [
-            'maskLengthOptions' => PrivacyManager::getMaskLengthOptions(),
+            'maskLengthOptions' => $this->filterOptionsAllowedByPolicies(
+                PrivacyManager::getMaskLengthOptions(),
+                'ipAddressMaskLength',
+                $idSite
+            ),
             'useAnonymizedIpForVisitEnrichmentOptions' =>
                 PrivacyManager::getUseAnonymizedIpForVisitEnrichmentOptions(),
-            'referrerAnonymizationOptions' => ReferrerAnonymizer::getAvailableAnonymizationOptions(),
+            'referrerAnonymizationOptions' => $this->filterOptionsAllowedByPolicies(
+                ReferrerAnonymizer::getAvailableAnonymizationOptions(),
+                'anonymizeReferrer',
+                $idSite
+            ),
             'trackerFileName' => $trackerFilename,
             'trackerWritable' => $trackerFileWritable,
         ]);
@@ -431,12 +494,6 @@ class API extends \Piwik\Plugin\API
             $this->confirmCurrentUserPassword($passwordConfirmation);
         }
 
-        if ($anonymizeIPEnable) {
-            IPAnonymizer::activate($idSite);
-        } else {
-            IPAnonymizer::deactivate($idSite);
-        }
-
         if (
             !empty($anonymizeReferrer)
             && !array_key_exists($anonymizeReferrer, ReferrerAnonymizer::getAvailableAnonymizationOptions())
@@ -444,13 +501,39 @@ class API extends \Piwik\Plugin\API
             $anonymizeReferrer = '';
         }
 
+        // resolved before anything is stored, so that a value breaking an enforced compliance
+        // policy is rejected without leaving the other settings half applied
+        $mayStore = [
+            'ipAnonymizerEnabled' => $this->mayStoreUnderCompliancePolicies('ipAnonymizerEnabled', $anonymizeIPEnable, $idSite),
+            'ipAddressMaskLength' => $this->mayStoreUnderCompliancePolicies('ipAddressMaskLength', $ipAddressMaskLength, $idSite),
+            'anonymizeReferrer' => $this->mayStoreUnderCompliancePolicies('anonymizeReferrer', $anonymizeReferrer, $idSite),
+            'anonymizeOrderId' => $this->mayStoreUnderCompliancePolicies('anonymizeOrderId', $anonymizeOrderId, $idSite),
+        ];
+
+        if ($mayStore['ipAnonymizerEnabled']) {
+            if ($anonymizeIPEnable) {
+                IPAnonymizer::activate($idSite);
+            } else {
+                IPAnonymizer::deactivate($idSite);
+            }
+        }
+
         $privacyConfig = new Config($idSite);
-        $privacyConfig->ipAddressMaskLength = $ipAddressMaskLength;
         $privacyConfig->useAnonymizedIpForVisitEnrichment = $useAnonymizedIpForVisitEnrichment;
-        $privacyConfig->anonymizeReferrer = $anonymizeReferrer;
         $privacyConfig->anonymizeUserId = $anonymizeUserId;
-        $privacyConfig->anonymizeOrderId = $anonymizeOrderId;
         $privacyConfig->randomizeConfigId = $randomizeConfigId;
+
+        if ($mayStore['ipAddressMaskLength']) {
+            $privacyConfig->ipAddressMaskLength = $ipAddressMaskLength;
+        }
+
+        if ($mayStore['anonymizeReferrer']) {
+            $privacyConfig->anonymizeReferrer = $anonymizeReferrer;
+        }
+
+        if ($mayStore['anonymizeOrderId']) {
+            $privacyConfig->anonymizeOrderId = $anonymizeOrderId;
+        }
 
         if (!$idSite) {
             // only allow setting 'force cookieless tracking' instance-wide and skip it for site as it applies
@@ -543,6 +626,13 @@ class API extends \Piwik\Plugin\API
         if ($deleteLogsOlderThan < 1) {
             $deleteLogsOlderThan = 1;
         }
+
+        PolicyManager::checkSettingValueAgainstPolicies(
+            'delete_logs_older_than',
+            $deleteLogsOlderThan,
+            null,
+            PolicyManager::SETTING_TYPE_OPTION
+        );
 
         return $this->savePurgeDataSettings([
             'delete_logs_enable' => !empty($enableDeleteLogs),

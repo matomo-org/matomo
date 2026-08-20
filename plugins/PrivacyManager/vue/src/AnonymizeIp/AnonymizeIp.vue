@@ -27,6 +27,7 @@
           v-model="actualEnabled"
           :inline-help="anonymizeIpEnabledHelp"
           :extra-metadata="getExtraMetadataForField('ipAnonymizerEnabled')"
+          :disabled="isFieldLockedByPolicy('ipAnonymizerEnabled')"
         >
         </Field>
       </div>
@@ -40,6 +41,7 @@
             :options="maskLengthOptions"
             :inline-help="translate('PrivacyManager_GeolocationAnonymizeIpNote')"
             :extra-metadata="getExtraMetadataForField('ipAddressMaskLength')"
+            :disabled="isFieldLockedByPolicy('ipAddressMaskLength')"
           >
           </Field>
         </div>
@@ -79,6 +81,7 @@
           v-model="actualAnonymizeOrderId"
           :inline-help="translate('Ecommerce_AnonymizeOrderIdNote')"
           :extra-metadata="getExtraMetadataForField('anonymizeOrderId')"
+          :disabled="isFieldLockedByPolicy('anonymizeOrderId')"
         >
         </Field>
       </div>
@@ -114,6 +117,7 @@
           :options="referrerAnonymizationOptions"
           :inline-help="translate('PrivacyManager_AnonymizeReferrerNote')"
           :extra-metadata="getExtraMetadataForField('anonymizeReferrer')"
+          :disabled="isFieldLockedByPolicy('anonymizeReferrer')"
         >
         </Field>
       </div>
@@ -160,6 +164,8 @@ import {
   Field,
   PasswordConfirmation,
   SaveButton,
+  CompliancePolicyControls,
+  isFieldLockedByPolicies,
 } from 'CorePluginsAdmin';
 
 export interface AnonymizeIpState {
@@ -338,6 +344,14 @@ export default defineComponent({
     },
     getExtraMetadataForField(fieldName: string): TMaybeObject {
       return this.extraMetadata?.[fieldName];
+    },
+    isFieldLockedByPolicy(fieldName: string): boolean {
+      // a requirement that leaves no compliant alternative locks the field; one that is only a
+      // bound keeps it editable, with the options already reduced to the compliant ones
+      return isFieldLockedByPolicies(
+        this.getExtraMetadataForField(fieldName)?.compliancePolicyControlled as
+          CompliancePolicyControls | undefined,
+      );
     },
   },
   computed: {

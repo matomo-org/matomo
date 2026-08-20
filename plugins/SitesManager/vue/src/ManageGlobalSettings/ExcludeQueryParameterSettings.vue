@@ -60,6 +60,8 @@
           :options="exclusionTypeOptions"
           v-model="localExclusionTypeForQueryParams"
           :inline-help="'#excludedQueryParametersGlobalExclusionTypeHelp'"
+          :extra-metadata="exclusionTypePolicyMetadata"
+          :disabled="isExclusionTypeLockedByPolicy"
         />
       </div>
 
@@ -89,7 +91,12 @@ import { defineComponent, PropType } from 'vue';
 import {
   translate,
 } from 'CoreHome';
-import { Field } from 'CorePluginsAdmin';
+import {
+  Field,
+  CompliancePolicyControls,
+  compliancePolicyMetadata,
+  isFieldLockedByPolicies,
+} from 'CorePluginsAdmin';
 
 interface ExclusionTypeOption {
   value: string;
@@ -119,6 +126,10 @@ export default defineComponent({
     commonSensitiveQueryParams: {
       type: Array as PropType<string[]>,
       default: () => [],
+    },
+    exclusionTypePolicyControlled: {
+      type: Object as PropType<CompliancePolicyControls>,
+      default: () => ({}),
     },
   },
   data(): ExcludeQueryParameterSettingsState {
@@ -158,6 +169,14 @@ export default defineComponent({
       handler(excludedQueryParametersGlobal: string[]) {
         this.localExcludedQueryParametersGlobal = excludedQueryParametersGlobal;
       },
+    },
+  },
+  computed: {
+    exclusionTypePolicyMetadata(): Record<string, unknown>|undefined {
+      return compliancePolicyMetadata(this.exclusionTypePolicyControlled);
+    },
+    isExclusionTypeLockedByPolicy(): boolean {
+      return isFieldLockedByPolicies(this.exclusionTypePolicyControlled);
     },
   },
   methods: {
