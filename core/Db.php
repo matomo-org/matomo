@@ -124,16 +124,25 @@ class Db implements TransactionalDatabaseInterface
         $config = Config::getInstance()->database_analytics;
         $config = is_array($config) ? $config : [];
 
-        $envOverrides = [
-            'host' => getenv('CLICKHOUSE_HOST'),
-            'port' => getenv('CLICKHOUSE_PORT'),
-            'username' => getenv('CLICKHOUSE_USER'),
-            'password' => getenv('CLICKHOUSE_PASSWORD'),
-            'dbname' => getenv('CLICKHOUSE_DATABASE'),
-        ];
-        foreach ($envOverrides as $key => $value) {
-            if ($value !== false && $value !== '') {
-                $config[$key] = $value;
+        // The CLICKHOUSE_* environment variables configure CI jobs and test fixtures
+        // (see the [database_analytics] comments in global.ini.php), so they only apply
+        // in test mode. The update-flow UI specs install a second, plain Matomo and
+        // serve it from the same php-fpm process, which inherits the CI job environment
+        // but has no ClickHouse copy of its database - routing that install to the
+        // analytics database would fail every log query with UNKNOWN_DATABASE. Instances
+        // that genuinely use ClickHouse are configured through [database_analytics].
+        if (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE) {
+            $envOverrides = [
+                'host' => getenv('CLICKHOUSE_HOST'),
+                'port' => getenv('CLICKHOUSE_PORT'),
+                'username' => getenv('CLICKHOUSE_USER'),
+                'password' => getenv('CLICKHOUSE_PASSWORD'),
+                'dbname' => getenv('CLICKHOUSE_DATABASE'),
+            ];
+            foreach ($envOverrides as $key => $value) {
+                if ($value !== false && $value !== '') {
+                    $config[$key] = $value;
+                }
             }
         }
 
