@@ -12,6 +12,7 @@ namespace Piwik\Plugins\Live;
 use Piwik\Piwik;
 use Piwik\Settings\FieldConfig;
 use Piwik\Settings\Plugin\SystemSetting;
+use Piwik\Plugins\Live\Settings\AggregatedRealtimeReportsEnabled as AggregatedRealtimeReportsEnabledSetting;
 use Piwik\Plugins\Live\Settings\VisitorLogDisabled as VisitorLogDisabledSetting;
 
 class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
@@ -22,10 +23,14 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
     /** @var SystemSetting|null */
     public $disableVisitorProfile;
 
+    /** @var SystemSetting|null */
+    public $enableAggregatedRealtimeReports;
+
     protected function init()
     {
-        $this->disableVisitorLog     = $this->makeVisitorLogSetting();
-        $this->disableVisitorProfile = $this->makeVisitorProfileSetting();
+        $this->disableVisitorLog               = $this->makeVisitorLogSetting();
+        $this->enableAggregatedRealtimeReports = $this->makeAggregatedRealtimeReportsSetting();
+        $this->disableVisitorProfile           = $this->makeVisitorProfileSetting();
     }
 
     private function makeVisitorLogSetting(): SystemSetting
@@ -39,6 +44,27 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
         });
 
         $this->addSetting($setting);
+        return $setting;
+    }
+
+    private function makeAggregatedRealtimeReportsSetting(): SystemSetting
+    {
+        $setting = AggregatedRealtimeReportsEnabledSetting::getSystemSetting();
+        $setting->setConfigureCallback(function (FieldConfig $field) {
+            $field->title = AggregatedRealtimeReportsEnabledSetting::getTitle();
+            $field->inlineHelp = AggregatedRealtimeReportsEnabledSetting::getInlineHelp();
+            $field->uiControl = FieldConfig::UI_CONTROL_CHECKBOX;
+        });
+
+        // Only expose the setting while the Visits log is disabled - it is irrelevant otherwise.
+        // This is gated server-side rather than with a client-side "disable_visitor_log==1" condition
+        // because a non-writable disable_visitor_log (set via config.ini.php or forced globally) is
+        // omitted from the settings payload, which would leave the condition unresolved and hide this
+        // setting in exactly the state it is meant for.
+        if (VisitorLogDisabledSetting::getInstance()->getValue()) {
+            $this->addSetting($setting);
+        }
+
         return $setting;
     }
 
