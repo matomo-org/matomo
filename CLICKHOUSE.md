@@ -225,7 +225,27 @@ identifier followed by the operator, so the word "like" inside a string literal 
 alone. On the hex-encoded binary columns `ILIKE` is marginally more permissive than MySQL's
 case sensitive binary comparison, but those values are always written lower case.
 
-### 3.3 Still open: equality is case sensitive too
+### 3.3 Still open: a numeric column compared with free text
+
+**Where:** any segment on a numeric column given a non-numeric value. The GDPR tools spec
+types `userfoobar` into the segment value box, producing `log_visit.idvisit = 'userfoobar'`.
+
+**Symptom:** `Cannot convert string 'userfoobar' to type UInt64 … while executing function
+equals on arguments __table1.idvisit UInt64 … 'userfoobar'_String (TYPE_MISMATCH)`. The page
+renders an error box instead of the "no visits found" message, so the screenshot is *taller*
+than expected.
+
+**Why:** MySQL coerces the string operand to a number — `'userfoobar'` becomes `0`, which
+matches nothing. ClickHouse refuses to compare a number with a string at all.
+
+**Not fixed yet, and the obvious fix does not work.** Coercing the value in the dimension's
+`getSqlFilterValue()` (as `countryCode` does) would also rewrite `'10%'` for the
+starts-with case in the very next spec, because that hook does not receive the match type.
+Doing it properly needs either match-type aware coercion in the segment layer or column type
+introspection in the adapter — the latter arrives with the migration command, which reads
+`system.columns` anyway.
+
+### 3.4 Still open: equality is case sensitive too
 
 `==` and `!=` on string columns remain case sensitive on ClickHouse. Reproducing MySQL
 needs `lowerUTF8()` on both sides, which needs to know the column is a string — so it wants
@@ -234,6 +254,25 @@ column in a function defeats ClickHouse's sparse-index pruning, which matters mo
 columns in the table's sort key. Deliberately not done yet.
 
 ---
+
+### 3.5 Still open: `Unknown table expression identifier 'log_visit'`
+
+**Where:** Goals archiving with a segment, seen intermittently in the SegmentEditor UI job
+(`PluginsArchiver.php:203`).
+
+**Symptom:** `ClickHouse query failed: Unknown table expression identifier 'log_visit' in
+scope SELECT log_conversion.idgoal …`.
+
+**What is known:** the outer query *does* join it —
+`FROM log_conversion AS log_conversion LEFT JOIN log_visit AS log_visit ON …` — and the
+segment condition on `log_visit.location_country` is a long `IN ('ad', 'al', …)` list. So the
+unresolved reference is somewhere the join is not in scope, presumably in a nested part of a
+very large generated statement (all the visit-count and days-since-first dimensions). It is
+intermittent: the job passed in rounds 7 to 11 and failed in round 12, which points at
+archiving order rather than a fixed query shape.
+
+**Not diagnosed further.** Reproducing it needs the whole statement; the success log caps SQL
+at 600 characters and the error path at 2000, and this statement is far longer than either.
 
 ## 4. The archiving decision stays on MySQL
 
