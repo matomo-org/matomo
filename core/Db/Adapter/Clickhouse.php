@@ -417,10 +417,15 @@ class Clickhouse implements AdapterInterface
         $client->settings()->set('session_timezone', 'UTC');
 
         // Keep wide SELECT-* queries with FINAL inside a small container's memory budget:
-        // fewer parallel streams, spill sorts to disk instead of failing, and use a
-        // disk-friendly join algorithm for the segment joins onto log_link_visit_action.
+        // fewer parallel streams, spill sorts and aggregations to disk instead of failing,
+        // and use a disk-friendly join algorithm for the segment joins onto
+        // log_link_visit_action. Archiving is aggregation-heavy, so the GROUP BY spill
+        // threshold matters as much as the sort one: without it a wide aggregation (the
+        // PagePerformance totals over log_link_visit_action, for one) dies with
+        // MEMORY_LIMIT_EXCEEDED in AggregatingTransform rather than spilling.
         $client->settings()->set('max_threads', 2);
         $client->settings()->set('max_bytes_before_external_sort', 256 * 1024 * 1024);
+        $client->settings()->set('max_bytes_before_external_group_by', 256 * 1024 * 1024);
         $client->settings()->set('join_algorithm', 'grace_hash');
 
         return $this->client = $client;
