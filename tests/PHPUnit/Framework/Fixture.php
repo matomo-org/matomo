@@ -372,6 +372,13 @@ class Fixture extends \PHPUnit\Framework\Assert
             return;
         }
 
+        // Fixture setUp() implementations persist their own TestingEnvironmentVariables
+        // instance (SqlDump, for example, rewrites configOverride with the dump's table
+        // prefix), so the instance handed to this method is stale by the time setUp() has
+        // run. Reload it before adding to it: saving a stale snapshot here would silently
+        // revert whatever setUp() just wrote.
+        $testEnv->reload();
+
         $overrides = $testEnv->configOverride ?: [];
         foreach (['host' => 'CLICKHOUSE_HOST', 'port' => 'CLICKHOUSE_PORT'] as $key => $envVar) {
             if (getenv($envVar) !== false && getenv($envVar) !== '') {
