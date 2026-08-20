@@ -226,6 +226,33 @@ class CustomLogWritePathTest extends IntegrationTestCase
         );
     }
 
+    public function testDropsAnEntityTheClampCutInHalf(): void
+    {
+        // Sanitising turns the trailing `&` into `&amp;`, which pushes the value past the column and
+        // leaves `&am` at the cut. Storing that shows the literal text "&am" in the visits log.
+        $this->record([
+            UserAttributesRequestProcessor::PARAM_GROUP
+                => str_repeat('g', CustomGroupLog::MAX_LENGTH_GROUP_NAME - 3) . '&',
+        ]);
+
+        $this->assertSame(
+            ['gender' => '', 'group_name' => str_repeat('g', CustomGroupLog::MAX_LENGTH_GROUP_NAME - 3)],
+            $this->userLog->getUserInformation(self::USER_ID)
+        );
+    }
+
+    public function testKeepsAnEntityThatFitsWholeInsideTheColumn(): void
+    {
+        // The guard drops a *partial* entity only. One that survives the cut intact is left alone,
+        // so a name with an ampersand in it still round-trips.
+        $this->record([UserAttributesRequestProcessor::PARAM_GROUP => 'R&D']);
+
+        $this->assertSame(
+            ['gender' => '', 'group_name' => 'R&amp;D'],
+            $this->userLog->getUserInformation(self::USER_ID)
+        );
+    }
+
     public function testStoresNothingForAVisitWithoutAUserId(): void
     {
         $this->record([UserAttributesRequestProcessor::PARAM_GENDER => 'women'], '');

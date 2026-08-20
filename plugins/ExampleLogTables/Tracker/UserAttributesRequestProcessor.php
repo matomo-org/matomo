@@ -142,8 +142,8 @@ class UserAttributesRequestProcessor extends RequestProcessor
         // `group_name` is the join key between the two tables -- so widen the column rather than
         // lean on the clamp if your values are genuinely free text. The group name is clamped before
         // either table is written, so both sides of that join always hold the same string.
-        $gender = mb_substr($gender, 0, CustomUserLog::MAX_LENGTH_GENDER);
-        $group = mb_substr($group, 0, CustomGroupLog::MAX_LENGTH_GROUP_NAME);
+        $gender = $this->clamp($gender, CustomUserLog::MAX_LENGTH_GENDER);
+        $group = $this->clamp($group, CustomGroupLog::MAX_LENGTH_GROUP_NAME);
 
         if ('' === $gender && '' === $group) {
             return; // nothing this plugin collects was sent, so nothing is stored
@@ -177,6 +177,21 @@ class UserAttributesRequestProcessor extends RequestProcessor
         // signal -- no access decision anywhere in Matomo may read it. The request that set it was
         // authenticated, which is what makes the value worth storing at all; see the first phase.
         $this->groupLog->addOrUpdateGroupInformation($group, 1 === $isAdmin);
+    }
+
+    /**
+     * Cuts a sanitised value down to the number of characters its column holds.
+     */
+    private function clamp(string $sanitised, int $maxLength): string
+    {
+        $clamped = mb_substr($sanitised, 0, $maxLength);
+
+        // Sanitising expands a value, so the cut can land inside an HTML entity: thirty characters
+        // of `xxx...x&` is `xxx...x&am`, and what the visits log then shows is the literal text
+        // "&am". Dropping a trailing partial entity is the other half of doing this in this order.
+        // Clamping first would overflow the column instead, which is worse -- so both directions of
+        // the interaction between encoding and clamping need handling, not just one.
+        return preg_replace('/&[a-zA-Z0-9#]*$/', '', $clamped);
     }
 
     /**
