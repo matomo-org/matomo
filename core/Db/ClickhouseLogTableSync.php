@@ -64,6 +64,19 @@ class ClickhouseLogTableSync
     private static $syncedFingerprint = null;
 
     /**
+     * Seconds to reuse the last MySQL fingerprint within one process.
+     * {@see resyncIfLogTablesChangedForTests()} explains why this is safe.
+     */
+    private const FINGERPRINT_CHECK_TTL = 0.25;
+
+    /**
+     * When the MySQL fingerprint was last computed in this process, or null if never.
+     *
+     * @var float|null
+     */
+    private static $lastFingerprintCheck = null;
+
+    /**
      * ClickHouse database holding the log table copies. Empty config value means
      * "mirror the MySQL database name" — right for both ddev (db → db, matching the
      * sink connector) and the test environment (matomo_tests → matomo_tests).
@@ -178,6 +191,22 @@ class ClickhouseLogTableSync
      */
     public static function resyncIfLogTablesChangedForTests(): void
     {
+        // Fingerprinting MySQL is not free - the information_schema lookup alone costs
+        // ~2ms and CHECKSUM TABLE scans every log table - and archiving a single report
+        // page issues thousands of queries, so doing it per query dominated the cost of
+        // the queries themselves. Only re-fingerprint once per interval within a process.
+        //
+        // This does not weaken cross-process freshness, which is the case the fixtures
+        // rely on: the tests track through separate HTTP requests, and a new process
+        // starts with an empty cache and so always fingerprints on its first query. The
+        // window only applies to repeated checks inside one process, where the adapter
+        // itself never writes to a log table.
+        $now = microtime(true);
+        if (null !== self::$lastFingerprintCheck && ($now - self::$lastFingerprintCheck) < self::FINGERPRINT_CHECK_TTL) {
+            return;
+        }
+        self::$lastFingerprintCheck = $now;
+
         [$current] = self::computeMysqlLogTablesFingerprint();
 
         if ($current === self::$syncedFingerprint) {
