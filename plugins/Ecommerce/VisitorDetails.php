@@ -202,6 +202,13 @@ class VisitorDetails extends VisitorDetailsAbstract
      */
     protected function queryEcommerceConversionsForVisits($idVisits)
     {
+        if (empty($idVisits)) {
+            // Same reason as the Actions equivalent: an empty set turns the IN list below
+            // into IN (''), which MySQL matches nothing for but ClickHouse rejects while
+            // parsing '' as a visit id.
+            return array();
+        }
+
         $sql = "SELECT
 						log_conversion.idvisit,
 						case idgoal when " . GoalManager::IDGOAL_CART
