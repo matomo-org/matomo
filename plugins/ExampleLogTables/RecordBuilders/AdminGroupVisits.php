@@ -31,12 +31,15 @@ use Piwik\Plugins\ExampleLogTables\Dao\CustomUserLog;
  *
  * Two things about that FROM list do not generalise, and both bite quietly:
  *
- * - **The join fans out.** One row per user in the user table becomes one row per *visit* of that user
- *   once joined to `log_visit`. That is harmless for `count(distinct log_visit.idvisit)` below and
- *   wrong for anything additive: `SUM()` over a column of your own table would be multiplied by the
- *   visits per user, and a fixture giving each user one visit would still pass. For an additive metric,
- *   query your own table directly with `getWhereStatement()` on its own date column instead --
- *   `plugins/BotTracking/RecordBuilders/AIChatbotReports.php` is the production example.
+ * - **The join direction decides what you may aggregate.** Both custom tables are keyed on the column
+ *   they are joined by, so one visit matches at most one row of each and the count below is exact
+ *   either way -- the `distinct` is a guard, not load-bearing here. It becomes load-bearing the moment
+ *   your table holds one row per *event* rather than one per subject, because then the join multiplies
+ *   rows and anything additive is multiplied with them: a `SUM()` over your own column would count each
+ *   row once per matching visit, and a fixture giving each subject one visit would still pass. An
+ *   additive metric belongs in a query against your own table on its own date column --
+ *   `plugins/BotTracking/RecordBuilders/AIChatbotReports.php` is the production example, and note that
+ *   it queries `log_visit` separately for its visit-side numbers rather than joining it.
  * - **The group flag is mutable reference data.** The tracker rewrites it, while invalidation on
  *   tracking only covers the site and date of the request that arrived. Flipping a group's flag today
  *   therefore leaves last month's archives standing, and a later re-archive of that month produces a
@@ -66,16 +69,20 @@ class AdminGroupVisits extends RecordBuilder
     {
         $logAggregator = $archiveProcessor->getLogAggregator();
 
+        // getWhereStatement() builds the site and date restriction for one table. Its third argument
+        // is appended to that, but it is passed through sprintf() with the table name as the
+        // substitution, so it is meant for predicates on the table named in the first argument -- and
+        // a literal containing a stray `%` would corrupt the query. A predicate on a *different*
+        // table is appended by hand instead, which is what core does too.
+        $where = $logAggregator->getWhereStatement('log_visit', 'visit_last_action_time');
+        $where .= ' AND ' . CustomGroupLog::TABLE_NAME . '.is_admin = 1';
+
         $query = $logAggregator->generateQuery(
             'count(distinct log_visit.idvisit) AS nb_visits',
             ['log_visit', CustomUserLog::TABLE_NAME, CustomGroupLog::TABLE_NAME],
-            $logAggregator->getWhereStatement(
-                'log_visit',
-                'visit_last_action_time',
-                CustomGroupLog::TABLE_NAME . '.is_admin = 1'
-            ),
-            '',
-            ''
+            $where,
+            false,
+            false
         );
 
         $nbVisits = $logAggregator->getDb()->fetchOne($query['sql'], $query['bind']);
