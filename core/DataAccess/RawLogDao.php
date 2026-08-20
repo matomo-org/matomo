@@ -210,12 +210,14 @@ class RawLogDao
      */
     public function hasSiteVisitsBetweenTimeframe($fromDateTime, $toDateTime, $idSite)
     {
-        // Route through the analytics database when one is configured: archiving reads
-        // log_visit from there, so this "any visits?" short-circuit must see the same
-        // backend (and the same freshness) as the aggregation queries that follow it.
-        $db = Db::hasAnalyticsConfigured() ? Db::getAnalytics() : Db::get();
-
-        $sites = $db->fetchOne("SELECT 1
+        // Deliberately NOT routed to the analytics database, unlike the aggregation
+        // queries that follow it. This check decides whether a period gets archived at
+        // all, and the analytics database is a replica that can lag behind the tracker's
+        // writes: a "no visits" answer from a copy that has not caught up yet would make
+        // Matomo store an empty archive for a period that does have visits, losing the
+        // data silently and permanently. MySQL is the write path, so it cannot be stale.
+        // The cost of asking it is one indexed existence check per archiving decision.
+        $sites = Db::get()->fetchOne("SELECT 1
                 FROM `" . Common::prefixTable('log_visit') . "`
                 WHERE idsite = ?
                 AND visit_last_action_time >= ?
