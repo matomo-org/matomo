@@ -37,6 +37,21 @@ class Country extends Base
     protected $segmentName = 'countryCode';
     protected $acceptValues = 'UserCountry_CountrySegmentHelp';
 
+    /**
+     * Country codes are stored lower case, and the countryCode segment passes whatever
+     * the user wrote straight into the comparison. MySQL's collation matches a segment
+     * written as CN against the stored cn for free; ClickHouse compares case sensitively,
+     * so the same segment silently matched nothing there and the report came back empty.
+     * Normalise the value instead of depending on the connection's collation. The
+     * countryName segment above already resolves to a lower case code.
+     */
+    public function getSqlFilterValue()
+    {
+        return function ($value) {
+            return mb_strtolower((string) $value);
+        };
+    }
+
     public function configureSegments(SegmentsList $segmentsList, DimensionSegmentFactory $dimensionSegmentFactory)
     {
         $segment = new Segment();
