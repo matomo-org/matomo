@@ -53,7 +53,7 @@ class CustomAccountLog
         DbHelper::createTable(self::TABLE_NAME, sprintf('
                   `account_name` VARCHAR(%d) NOT NULL,
                   `is_paying` TINYINT(1) NOT NULL DEFAULT 0,
-                  PRIMARY KEY (account_name)', self::MAX_LENGTH_ACCOUNT_NAME));
+                  PRIMARY KEY (`account_name`)', self::MAX_LENGTH_ACCOUNT_NAME));
     }
 
     public function uninstall(): void

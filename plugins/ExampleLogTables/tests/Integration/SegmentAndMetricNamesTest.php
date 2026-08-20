@@ -48,6 +48,8 @@ class SegmentAndMetricNamesTest extends IntegrationTestCase
         $fixture->createSuperUser = true;
     }
 
+    private int $originalLookBack;
+
     public function setUp(): void
     {
         parent::setUp();
@@ -57,10 +59,17 @@ class SegmentAndMetricNamesTest extends IntegrationTestCase
         // -- the exact confusion they exist to catch. Real translations have to be loaded for them to
         // mean anything.
         Fixture::loadAllTranslations();
+
+        // One test widens the auto-suggest look-back. It is a public static, so it has to be put back
+        // or it leaks into every test that runs after this class in the same process -- core's own
+        // auto-suggest test saves and restores it for the same reason.
+        $this->originalLookBack = ApiPlugin::$_autoSuggestLookBack;
     }
 
     public function tearDown(): void
     {
+        ApiPlugin::$_autoSuggestLookBack = $this->originalLookBack;
+
         Fixture::resetTranslations();
 
         parent::tearDown();

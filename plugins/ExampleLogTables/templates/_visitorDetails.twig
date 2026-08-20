@@ -20,11 +20,11 @@
     {% if plan %}
         <br/>
         <abbr class="visitorLogTooltip" title="{{ 'ExampleLogTables_StoredByThisPlugin'|translate }}">{{ 'ExampleLogTables_UserPlan'|translate }}:</abbr>
-        {{ plan|truncate(30)|rawSafeDecoded }}
+        {{ plan|rawSafeDecoded }}
     {% endif %}
     {% if account %}
         <br/>
         <abbr class="visitorLogTooltip" title="{{ 'ExampleLogTables_StoredByThisPlugin'|translate }}">{{ 'ExampleLogTables_UserAccount'|translate }}:</abbr>
-        {{ account|truncate(30)|rawSafeDecoded }}
+        {{ account|rawSafeDecoded }}
     {% endif %}
 </div>

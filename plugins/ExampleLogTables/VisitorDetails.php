@@ -63,7 +63,15 @@ class VisitorDetails extends VisitorDetailsAbstract
      */
     public function extendVisitorDetails(&$visitor)
     {
-        $attributes = $this->getAttributes($this->details['user_id'] ?? '');
+        // The details come from a visits log row, so nothing guarantees the type. Narrow it here and
+        // the lookup below can take a plain string.
+        $userId = $this->details['user_id'] ?? '';
+
+        if (!is_string($userId) || '' === $userId) {
+            return;
+        }
+
+        $attributes = $this->getAttributes($userId);
 
         if (empty($attributes)) {
             return;
@@ -113,12 +121,8 @@ class VisitorDetails extends VisitorDetailsAbstract
     /**
      * @return array<string, string>
      */
-    private function getAttributes(mixed $userId): array
+    private function getAttributes(string $userId): array
     {
-        if (empty($userId) || !is_string($userId)) {
-            return [];
-        }
-
         if (!array_key_exists($userId, $this->attributesByUserId)) {
             $this->attributesByUserId[$userId] = (new CustomUserLog())->getUserInformation($userId);
         }

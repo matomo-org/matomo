@@ -19,6 +19,26 @@ use Piwik\DbHelper;
  * The DAO owns the schema, not the Dimension. `DbHelper::createTable()` writes
  * `CREATE TABLE IF NOT EXISTS`, applies the engine, charset and collation the install uses, and
  * swallows the "table exists" error, so `install()` is safe to call twice.
+ *
+ * **Both writers are upserts, because the tracker sees the same user on every one of their visits.**
+ * The primary key on `user_id` is what keeps this table at one row per user instead of one row per
+ * request. On the insert branch the attribute the caller did not supply takes the default declared for
+ * its column, which is what makes those defaults load-bearing rather than decorative.
+ *
+ * **One method per attribute is the whole mechanism behind "store only what the request carried".** A
+ * request that says nothing about the account calls nothing that writes the account column, so it
+ * cannot erase what an earlier request stored, and the SQL states which column it writes. The
+ * alternative -- one method taking an array and assembling the column list from its keys -- saves a
+ * round trip and costs an unwritten contract between this class and its caller over which keys are
+ * legal.
+ *
+ * That shape is also the one that invents least. Core writes its column lists and
+ * `ON DUPLICATE KEY UPDATE` clauses literally; the handful of places that build a column list at
+ * runtime are schema-generic code that cannot know its columns in advance, and
+ * `core/Updater/Migration/Db/Insert.php` is the one to copy if you ever genuinely need one -- note
+ * that it backticks every identifier it interpolates. A DAO for one known table is not that case, and
+ * core's only upsert that writes a subset of columns is schema-generic archiving code, so there is no
+ * per-attribute precedent to copy either way.
  */
 class CustomUserLog
 {
@@ -77,7 +97,7 @@ class CustomUserLog
                   `user_id` VARCHAR(%d) NOT NULL,
                   `plan` VARCHAR(%d) NOT NULL DEFAULT '',
                   `account_name` VARCHAR(%d) NOT NULL DEFAULT '',
-                  PRIMARY KEY (user_id)",
+                  PRIMARY KEY (`user_id`)",
             self::MAX_LENGTH_USER_ID,
             self::MAX_LENGTH_PLAN,
             CustomAccountLog::MAX_LENGTH_ACCOUNT_NAME
@@ -105,25 +125,6 @@ class CustomUserLog
 
     /**
      * Records the plan one tracking request carried for one user.
-     *
-     * The tracker sees the same user on every one of their visits, so this has to be an upsert
-     * rather than an insert: the primary key on `user_id` is what keeps the table at one row per
-     * user instead of one row per request. On the insert branch the *other* attribute takes the
-     * default declared for its column, which is what makes those defaults load-bearing.
-     *
-     * **One method per attribute is the whole mechanism behind "store only what the request
-     * carried".** A request that says nothing about the account calls nothing that writes the account
-     * column, so it cannot erase what an earlier request stored, and the SQL says which column it
-     * writes. The alternative -- one method taking an array and assembling the column list from its
-     * keys -- saves a round trip and costs an unwritten contract between this class and its caller
-     * over which keys are legal.
-     *
-     * Core writes column lists and `ON DUPLICATE KEY UPDATE` clauses literally. Runtime-built column
-     * lists exist in about fifteen places, all of them schema-generic code that cannot know its
-     * columns in advance; `core/Updater/Migration/Db/Insert.php` is the one to copy if you genuinely
-     * need one, and note that it backticks every identifier it interpolates. A DAO for one known
-     * table is not that case. Core has no partial upsert at all, so there is nothing to copy here
-     * and the shape that invents least wins.
      */
     public function addOrUpdatePlan(string $userId, string $plan): void
     {
@@ -137,8 +138,6 @@ class CustomUserLog
 
     /**
      * Records the account one tracking request said a user belongs to.
-     *
-     * @see addOrUpdatePlan() for why each attribute has its own method.
      */
     public function addOrUpdateAccountName(string $userId, string $accountName): void
     {
