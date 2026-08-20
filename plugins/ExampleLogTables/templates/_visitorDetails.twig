@@ -3,14 +3,19 @@
    The values were HTML-encoded on the way in: the write path sanitises every tracking parameter
    before storing it, so what the table holds is already encoded. Printing it under
    Twig's autoescape would encode it a second time and show the entities on screen. `rawSafeDecoded`
-   is the filter for that: it decodes once and re-encodes exactly once, and every core visits log
-   template that prints a stored label uses it -- see plugins/CustomDimensions/templates/_visitorDetails.twig
-   and plugins/Live/templates/_visitorDetails.twig.
+   is the filter for that: it decodes once and re-encodes exactly once, which is how core's visits log
+   templates print a stored label -- see plugins/CustomDimensions/templates/_visitorDetails.twig and
+   plugins/Live/templates/_visitorDetails.twig. It also URL-decodes on the way through, so a stored
+   value containing a percent sign is not printed verbatim.
 
-   Note also what this template does *not* use: `visitorLogIconWithDetails`. That class is Live's
-   icon-strip contract -- its JavaScript reads a nested list out of the element and shows it as a
-   tooltip -- so borrowing it for a line of text produces an empty tooltip on hover. Plain text
-   belongs in `visitorLogTooltip`, as CustomDimensions does. #}
+   The tooltip comes from the `title` attribute; jQuery UI binds every element that has one. Core
+   marks those elements `visitorLogTooltip`, as CustomDimensions does, and following that convention
+   is what keeps a later stylesheet or script able to find them. What it must *not* borrow is
+   `visitorLogIconWithDetails`: that is Live's icon-strip contract, and its JavaScript reads a nested
+   list out of the element, so a line of text under that class shows an empty tooltip on hover.
+
+   Note there is no stored value in an attribute here. Move one into the `title` and it needs
+   `|e('html_attr')`, as Live's own icon templates do. #}
 <div class="exampleLogTablesAttributes">
     {% if plan %}
         <br/>

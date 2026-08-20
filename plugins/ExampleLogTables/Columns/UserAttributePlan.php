@@ -28,10 +28,10 @@ use Piwik\Plugins\ExampleLogTables\Dao\CustomUserLog;
  *
  * Three more things are easy to get wrong when copying:
  *
- * - **No `$columnType`.** Declaring one asks Matomo to create and migrate the column for you, which
- *   is right for a column on a core log table and wrong here -- the DAO owns this schema. A
- *   `$columnType` on a dimension over a plugin-owned table would be a second, competing definition
- *   of the same column.
+ * - **No `$columnType`.** On a scope dimension it is the column's schema definition and
+ *   `Columns\Updater` applies it. On a base `Dimension` nothing reads it: that class enumerates only
+ *   `VisitDimension`, `ActionDimension` and `ConversionDimension`, so a `$columnType` here would be a
+ *   second definition of a column the DAO already owns, which never runs and can only drift from it.
  * - **`$segmentName` is also the payload key.** Segment value suggestions are read out of the visits
  *   log by segment name, so `VisitorDetails` writes this value under `userPlan`, the same string as
  *   below. Name the two differently and the editor offers no suggestions and reports nothing: the
@@ -44,9 +44,11 @@ use Piwik\Plugins\ExampleLogTables\Dao\CustomUserLog;
  *   column is an id, which is why an attribute *about* an identified user takes the flag as well. The
  *   paying flag next door deliberately does not, because an account is not a person.
  *
- * Declaring a table, a column and a name also registers an archived metric for this dimension
- * automatically, through `Dimension::configureMetrics()`. It is not a side effect worth fighting, but
- * it is worth knowing that the plugin exposes more than the one metric it archives explicitly.
+ * Declaring a table, a column and a name also puts an `ArchivedMetric` in `MetricsList` for this
+ * dimension through `Dimension::configureMetrics()` -- `nb_uniq_…` for a text column, `sum_…` for a
+ * boolean. Nothing in core archives it and no API surfaces it: it is a SQL fragment for
+ * report-building plugins to consume, so it is neither broken nor exposed, only latent. Worth knowing
+ * so that you do not go looking for a metric that was never meant to appear.
  */
 class UserAttributePlan extends Dimension
 {

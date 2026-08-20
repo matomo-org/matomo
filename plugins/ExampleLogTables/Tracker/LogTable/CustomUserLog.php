@@ -35,9 +35,13 @@ use Piwik\Tracker\LogTable;
  *   purge runs `SELECT MAX(<that column>)` on it, unquoted, and the unused-action purge read-locks
  *   every table that has one. Neither is a problem here, but both are reasons to pick a name that
  *   survives someone else's SQL, and a reason not to declare a column this table does not really
- *   identify rows by.
+ *   identify rows by. Note also that core's own id columns are auto-increment integers, where that
+ *   `MAX()` is a high-water mark; this one is a `VARCHAR`, so the maximum is lexicographic and means
+ *   nothing. Harmless only because nothing consults the value for a table shaped like this one.
  * - **No `idvisit` means no `getColumnToJoinOnIdVisit()`.** This table has no such column, so the
- *   fallback is to name a table it shares a column with and let core work out the rest.
+ *   fallback is to name a table it shares a column with and let core work out the rest. Whatever
+ *   column you name has to be indexed on both sides -- both declarations here name a primary key, and
+ *   a join declared on an unindexed column is a table scan at log-table scale, silently.
  * - **`getDateTimeColumn()` is left unset** for the same reason: there is no time on these rows to
  *   declare. A table that does have one should say so -- the archiving queries use it to narrow the
  *   scan to the period being archived, and without it every archive run reads the whole table.
