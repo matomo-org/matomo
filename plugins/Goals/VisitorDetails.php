@@ -12,6 +12,7 @@ namespace Piwik\Plugins\Goals;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Date;
+use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Plugins\Live\Model;
 use Piwik\Plugins\Live\VisitorDetailsAbstract;
@@ -94,11 +95,16 @@ class VisitorDetails extends VisitorDetailsAbstract
 
         $sql = DbHelper::addMaxExecutionTimeHintToQuery($sql, $this->getLiveQueryMaxExecutionTime());
 
+        // Unlike the other visitor detail queries this one joins the goal table, which is
+        // configuration rather than log data and so has no copy in the analytics database.
+        // Read it from MySQL, which holds both the log tables and the configuration.
+        $db = Db::getReader();
+
         try {
-            $conversions = $this->getDb()->fetchAll($sql);
+            $conversions = $db->fetchAll($sql);
         } catch (\Exception $e) {
             $now = Date::now();
-            Model::handleMaxExecutionTimeError($this->getDb(), $e, '', $now, $now, null, 0, ['sql' => $sql]);
+            Model::handleMaxExecutionTimeError($db, $e, '', $now, $now, null, 0, ['sql' => $sql]);
             throw $e;
         }
 
