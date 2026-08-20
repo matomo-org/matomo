@@ -78,22 +78,30 @@ class ClickhouseDialectTranslator
 
         $selPrefixLen = strlen($selPrefix[0]);
         $selectClause = substr($sql, $selPrefixLen, $topFromPos - $selPrefixLen);
-        $newSelect = $selectClause;
+
+        // Rebuild the clause item by item rather than replacing text in it. A query may
+        // select the same column twice under different aliases - the visits log selects
+        // log_link_visit_action.idlink_va both as `idlink_va` and as pageId - and
+        // replacing the bare reference everywhere would append this alias to the
+        // already-aliased copy too, producing `col AS `idlink_va` AS pageId`.
+        $newItems = [];
+        $changed   = false;
 
         foreach (self::splitByComma(trim($selectClause)) as $item) {
             $trimmedItem = trim($item);
-            if (!preg_match('/^(`?\w+`?)\.(`?\w+`?)$/', $trimmedItem, $m)) {
-                continue;
+            if (preg_match('/^(`?\w+`?)\.(`?\w+`?)$/', $trimmedItem, $m)) {
+                $newItems[] = $trimmedItem . ' AS `' . str_replace('`', '', $m[2]) . '`';
+                $changed    = true;
+            } else {
+                $newItems[] = $trimmedItem;
             }
-            $short = '`' . str_replace('`', '', $m[2]) . '`';
-            $newSelect = str_replace($trimmedItem, $trimmedItem . ' AS ' . $short, $newSelect);
         }
 
-        if ($newSelect === $selectClause) {
+        if (!$changed) {
             return $sql;
         }
 
-        return substr($sql, 0, $selPrefixLen) . $newSelect . substr($sql, $topFromPos);
+        return substr($sql, 0, $selPrefixLen) . implode(', ', $newItems) . ' ' . substr($sql, $topFromPos);
     }
 
     /**

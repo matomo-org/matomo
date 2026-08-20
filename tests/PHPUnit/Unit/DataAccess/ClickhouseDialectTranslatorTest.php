@@ -223,6 +223,21 @@ class ClickhouseDialectTranslatorTest extends \PHPUnit\Framework\TestCase
         self::assertStringContainsString('upperUTF8(name) AS n', $translated);
     }
 
+    public function testDoesNotDoubleAliasAColumnSelectedTwice()
+    {
+        // The visits log selects log_link_visit_action.idlink_va twice, once bare and
+        // once as pageId. Aliasing the bare reference by replacing its text everywhere
+        // also hit the aliased copy and emitted `... AS `idlink_va` AS pageId`, which
+        // ClickHouse rejects with a syntax error.
+        $sql = "SELECT log_link_visit_action.idlink_va, log_link_visit_action.idlink_va AS pageId "
+            . "FROM log_link_visit_action";
+        $translated = ClickhouseDialectTranslator::translate($sql);
+
+        self::assertStringContainsString('log_link_visit_action.idlink_va AS `idlink_va`', $translated);
+        self::assertStringContainsString('log_link_visit_action.idlink_va AS pageId', $translated);
+        self::assertStringNotContainsString('AS `idlink_va` AS pageId', $translated);
+    }
+
     public function testWrapsRowNumberWindowFunctionInToInt64()
     {
         $sql = "SELECT ROW_NUMBER() OVER (PARTITION BY x ORDER BY cnt DESC) AS counter FROM t";
