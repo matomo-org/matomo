@@ -27,7 +27,7 @@ use Piwik\Url;
  * Descendants of this class can overwrite any of these methods. Each method will be executed only once per request
  * and cached for any further menu requests.
  *
- * For an example, see the {@link https://github.com/piwik/piwik/blob/master/plugins/ExampleUI/Menu.php} plugin.
+ * For a documented example to start from, see `plugins/ExamplePlugin/Menu.php`.
  *
  * @api
  * @since 2.4.0

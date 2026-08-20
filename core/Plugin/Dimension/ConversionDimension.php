@@ -28,7 +28,7 @@ use Piwik\Plugin;
  * (table `log_conversion`) automatically and the values you return in the previous mentioned events will be saved in
  * this column.
  *
- * You can create a new dimension using the console command `./console generate:dimension`.
+ * For a documented example to start from, see `plugins/ExampleTracker/Columns/ExampleConversionDimension.php`.
  *
  * @api
  * @since 2.5.0

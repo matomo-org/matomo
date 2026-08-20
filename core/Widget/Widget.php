@@ -12,10 +12,9 @@ namespace Piwik\Widget;
 use Piwik\View;
 
 /**
- * Defines a new widget. You can create a new widget using the console command `./console generate:widget`.
- * The generated widget will guide you through the creation of a widget.
+ * Defines a new widget.
  *
- * For an example, see {@link https://github.com/piwik/piwik/blob/master/plugins/ExamplePlugin/Widgets/MyExampleWidget.php}
+ * For a documented example to start from, see `plugins/ExamplePlugin/Widgets/MyExampleWidget.php`.
  *
  * @api since Piwik 3.0.0
  */

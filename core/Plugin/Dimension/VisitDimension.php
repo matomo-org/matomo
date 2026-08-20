@@ -31,7 +31,7 @@ use Exception;
  * {@link $columnName} and {@link $columnType} a new column will be created in the database (table `log_visit`)
  * automatically and the values you return in the previous mentioned events will be saved in this column.
  *
- * You can create a new dimension using the console command `./console generate:dimension`.
+ * For a documented example to start from, see `plugins/ExampleTracker/Columns/ExampleVisitDimension.php`.
  *
  * @api
  * @since 2.5.0

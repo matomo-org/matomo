@@ -28,8 +28,7 @@ use Piwik\Report\ReportWidgetFactory;
  * needs to be defined in the 'API.php'. You can define the name of the report, a documentation, the supported metrics,
  * how the report should be displayed, which features the report has (eg search) and much more.
  *
- * You can create a new report using the console command `./console generate:report`. The generated report will guide
- * you through the creation of a report.
+ * For a documented example to start from, see `plugins/ExampleReport/Reports/GetExampleReport.php`.
  *
  * @since 2.5.0
  * @api
