@@ -13,7 +13,7 @@ use Piwik\Archive;
 use Piwik\DataTable;
 use Piwik\DataTable\DataTableInterface;
 use Piwik\Piwik;
-use Piwik\Plugins\ExampleLogTables\RecordBuilders\AdminGroupVisits;
+use Piwik\Plugins\ExampleLogTables\RecordBuilders\PayingAccountVisits;
 
 /**
  * API for plugin ExampleLogTables
@@ -43,7 +43,7 @@ use Piwik\Plugins\ExampleLogTables\RecordBuilders\AdminGroupVisits;
 class API extends \Piwik\Plugin\API
 {
     /**
-     * Returns the number of visits made by users belonging to a group flagged as an admin group.
+     * Returns the number of visits made by users belonging to a paying flagged as a paying account.
      *
      * @param int|string|int[] $idSite Website ID(s) to query.
      *                         - Single site ID (e.g. 1)
@@ -57,9 +57,9 @@ class API extends \Piwik\Plugin\API
      * @param string|false|null $segment Custom segment to filter the report.
      *                                   Example: "referrerName==example.com"
      *                                   Supports AND (;) and OR (,) operators.
-     * @return DataTable|DataTable\Map Visits by users in an admin group, one row per requested period.
+     * @return DataTable|DataTable\Map Visits by users in a paying account, one row per requested period.
      */
-    public function getAdminGroupVisits(
+    public function getPayingAccountVisits(
         $idSite,
         string $period,
         string $date,
@@ -69,6 +69,6 @@ class API extends \Piwik\Plugin\API
 
         $archive = Archive::build($idSite, $period, $date, $segment);
 
-        return $archive->getDataTableFromNumeric([AdminGroupVisits::NB_VISITS_ADMIN_GROUP_RECORD]);
+        return $archive->getDataTableFromNumeric([PayingAccountVisits::NB_VISITS_PAYING_ACCOUNT_RECORD]);
     }
 }

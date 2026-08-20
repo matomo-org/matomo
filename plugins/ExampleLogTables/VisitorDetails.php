@@ -30,7 +30,7 @@ use Piwik\View;
  *   place you did not look.
  *
  * The key `extendVisitorDetails()` writes is not free either: segment value suggestions are read out
- * of this payload *by segment name*, so `userGender` here is the same string as the dimension's
+ * of this payload *by segment name*, so `userPlan` here is the same string as the dimension's
  * `$segmentName`. That is what makes the segment editor able to suggest values at all.
  *
  * The values shown here are the ones this plugin collected about an identified user, so they are
@@ -66,14 +66,14 @@ class VisitorDetails extends VisitorDetailsAbstract
         // Publish only what is actually stored. A key present but empty is indistinguishable from a
         // plugin that has an opinion and says "nothing", and it is the same restraint the write path
         // applies one layer down.
-        if (!empty($attributes['gender'])) {
-            // Same key as UserAttributeGender::$segmentName, deliberately.
-            $visitor['userGender'] = $attributes['gender'];
+        if (!empty($attributes['plan'])) {
+            // Same key as UserAttributePlan::$segmentName, deliberately.
+            $visitor['userPlan'] = $attributes['plan'];
         }
 
-        if (!empty($attributes['group_name'])) {
+        if (!empty($attributes['account_name'])) {
             // No segment declares this one, so the name is only a payload key.
-            $visitor['userGroup'] = $attributes['group_name'];
+            $visitor['userAccount'] = $attributes['account_name'];
         }
     }
 
@@ -83,14 +83,14 @@ class VisitorDetails extends VisitorDetailsAbstract
      */
     public function renderVisitorDetails($visitorDetails)
     {
-        if (empty($visitorDetails['userGender']) && empty($visitorDetails['userGroup'])) {
+        if (empty($visitorDetails['userPlan']) && empty($visitorDetails['userAccount'])) {
             return [];
         }
 
         $view = new View('@ExampleLogTables/_visitorDetails');
         $view->sendHeadersWhenRendering = false;
-        $view->gender = $visitorDetails['userGender'] ?? '';
-        $view->group = $visitorDetails['userGroup'] ?? '';
+        $view->plan = $visitorDetails['userPlan'] ?? '';
+        $view->account = $visitorDetails['userAccount'] ?? '';
 
         // The first element is a sort order shared by every plugin that renders into a visits log
         // entry, and nothing allocates it: core takes 0 (Live), 10 (Referrers, Contents), 15

@@ -10,9 +10,9 @@
 namespace Piwik\Plugins\ExampleLogTables;
 
 use Piwik\Common;
-use Piwik\Plugins\ExampleLogTables\Dao\CustomGroupLog;
+use Piwik\Plugins\ExampleLogTables\Dao\CustomAccountLog;
 use Piwik\Plugins\ExampleLogTables\Dao\CustomUserLog;
-use Piwik\Plugins\ExampleLogTables\RecordBuilders\AdminGroupVisits;
+use Piwik\Plugins\ExampleLogTables\RecordBuilders\PayingAccountVisits;
 
 /**
  * Creates and drops the plugin's two log tables, and wires up the three things about this plugin
@@ -59,7 +59,7 @@ class ExampleLogTables extends \Piwik\Plugin
     {
         // Pass the translation key, not a translated string: core maps `Piwik::translate()` over the
         // whole array after posting the event, so translating here would translate the value twice.
-        $translations[AdminGroupVisits::NB_VISITS_ADMIN_GROUP_RECORD] = 'ExampleLogTables_NbVisitsAdminGroup';
+        $translations[PayingAccountVisits::NB_VISITS_PAYING_ACCOUNT_RECORD] = 'ExampleLogTables_NbVisitsPayingAccount';
     }
 
     public function isTrackerPlugin()
@@ -76,12 +76,12 @@ class ExampleLogTables extends \Piwik\Plugin
         // install that activated the plugin before it had a working `install()` cannot be repaired
         // from the user interface at all. The README says how to recover by hand.
         (new CustomUserLog())->install();
-        (new CustomGroupLog())->install();
+        (new CustomAccountLog())->install();
     }
 
     public function uninstall()
     {
-        (new CustomGroupLog())->uninstall();
+        (new CustomAccountLog())->uninstall();
         (new CustomUserLog())->uninstall();
     }
 
@@ -91,6 +91,6 @@ class ExampleLogTables extends \Piwik\Plugin
     public function getTablesInstalled(array &$allTablesInstalled): void
     {
         $allTablesInstalled[] = Common::prefixTable(CustomUserLog::TABLE_NAME);
-        $allTablesInstalled[] = Common::prefixTable(CustomGroupLog::TABLE_NAME);
+        $allTablesInstalled[] = Common::prefixTable(CustomAccountLog::TABLE_NAME);
     }
 }

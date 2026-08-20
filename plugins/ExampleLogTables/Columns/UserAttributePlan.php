@@ -33,7 +33,7 @@ use Piwik\Plugins\ExampleLogTables\Dao\CustomUserLog;
  *   `$columnType` on a dimension over a plugin-owned table would be a second, competing definition
  *   of the same column.
  * - **`$segmentName` is also the payload key.** Segment value suggestions are read out of the visits
- *   log by segment name, so `VisitorDetails` writes this value under `userGender`, the same string as
+ *   log by segment name, so `VisitorDetails` writes this value under `userPlan`, the same string as
  *   below. Name the two differently and the editor offers no suggestions and reports nothing: the
  *   visits are found, this column is not among them, and an empty list is what a segment with no data
  *   yet looks like too.
@@ -42,20 +42,20 @@ use Piwik\Plugins\ExampleLogTables\Dao\CustomUserLog;
  *   fingerprint -- and leaves it alone on identifiers that identify something other than a person,
  *   such as Ecommerce's `idorder`. The test is whether the value describes a person, not whether the
  *   column is an id, which is why an attribute *about* an identified user takes the flag as well. The
- *   group flag next door deliberately does not, because a group is not a person.
+ *   paying flag next door deliberately does not, because an account is not a person.
  *
  * Declaring a table, a column and a name also registers an archived metric for this dimension
  * automatically, through `Dimension::configureMetrics()`. It is not a side effect worth fighting, but
  * it is worth knowing that the plugin exposes more than the one metric it archives explicitly.
  */
-class UserAttributeGender extends Dimension
+class UserAttributePlan extends Dimension
 {
     protected $dbTableName   = CustomUserLog::TABLE_NAME;
     protected $category      = 'General_Visitors';
     protected $type          = self::TYPE_TEXT;
-    protected $columnName    = 'gender';
-    protected $segmentName   = 'userGender';
-    protected $nameSingular  = 'ExampleLogTables_UserGender';
-    protected $acceptValues  = 'men, women';
+    protected $columnName    = 'plan';
+    protected $segmentName   = 'userPlan';
+    protected $nameSingular  = 'ExampleLogTables_UserPlan';
+    protected $acceptValues  = 'free, pro, enterprise, etc.';
     protected $allowAnonymous = false;
 }

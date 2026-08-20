@@ -36,8 +36,8 @@ class VisitorDetailsTest extends IntegrationTestCase
 
         // No cleanup needed: IntegrationTestCase restores every table between test methods.
         $userLog = new CustomUserLog();
-        $userLog->addOrUpdateGender(self::USER_ID, 'women');
-        $userLog->addOrUpdateGroupName(self::USER_ID, 'admin');
+        $userLog->addOrUpdatePlan(self::USER_ID, 'free');
+        $userLog->addOrUpdateAccountName(self::USER_ID, 'acme');
 
         $this->visitorDetails = new VisitorDetails();
     }
@@ -46,9 +46,9 @@ class VisitorDetailsTest extends IntegrationTestCase
     {
         $visitor = $this->extendVisitorDetails(self::USER_ID);
 
-        // The gender key is the segment name, which is what makes segment value suggestions work.
-        $this->assertSame('women', $visitor['userGender']);
-        $this->assertSame('admin', $visitor['userGroup']);
+        // The plan key is the segment name, which is what makes segment value suggestions work.
+        $this->assertSame('free', $visitor['userPlan']);
+        $this->assertSame('acme', $visitor['userAccount']);
     }
 
     public function testAddsNothingForAVisitWithoutStoredAttributes(): void
@@ -64,10 +64,10 @@ class VisitorDetailsTest extends IntegrationTestCase
 
         $this->assertCount(1, $blocks);
         $this->assertSame(45, $blocks[0][0]);
-        $this->assertStringContainsString('Gender:', $blocks[0][1]);
-        $this->assertStringContainsString('women', $blocks[0][1]);
-        $this->assertStringContainsString('Group:', $blocks[0][1]);
-        $this->assertStringContainsString('admin', $blocks[0][1]);
+        $this->assertStringContainsString('Plan:', $blocks[0][1]);
+        $this->assertStringContainsString('free', $blocks[0][1]);
+        $this->assertStringContainsString('Account:', $blocks[0][1]);
+        $this->assertStringContainsString('acme', $blocks[0][1]);
 
         // Live's icon strip, not a line of text: borrowing the class gives an empty hover tooltip.
         $this->assertStringNotContainsString('visitorLogIconWithDetails', $blocks[0][1]);
@@ -78,7 +78,7 @@ class VisitorDetailsTest extends IntegrationTestCase
         // What the tracker stores is already HTML-encoded, because the write path sanitises every
         // value before storing it. Printing that under Twig's autoescape would encode it twice and
         // put the entities on screen, which is what `rawSafeDecoded` in the template prevents.
-        (new CustomUserLog())->addOrUpdateGroupName(
+        (new CustomUserLog())->addOrUpdateAccountName(
             self::USER_ID,
             Common::sanitizeInputValue('Sales & Marketing')
         );

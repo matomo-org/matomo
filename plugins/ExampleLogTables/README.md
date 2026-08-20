@@ -56,15 +56,15 @@ within a major version rather than forever. Everything here is verified against 
 | `plugin.json` | Name, version and the core version range the plugin works with | Magic filename |
 | `ExampleLogTables.php` | Creates and drops the tables, declares the plugin as a tracker plugin, names the archived metric | Magic filename: the plugin class is named after its directory |
 | `Dao/CustomUserLog.php` | Owns the user table: the schema, and reading and writing one row per user | Nothing — the plugin's own code calls it |
-| `Dao/CustomGroupLog.php` | Owns the group table: the schema, and one row per group | Nothing — the plugin's own code calls it |
+| `Dao/CustomAccountLog.php` | Owns the account table: the schema, and one row per account | Nothing — the plugin's own code calls it |
 | `Tracker/LogTable/CustomUserLog.php` | Declares the user table as log data and how it joins to `log_visit` | Location: any `Tracker/` class extending `Piwik\Tracker\LogTable` |
-| `Tracker/LogTable/CustomGroupLog.php` | Declares the group table and how it joins to the user table | Location: same |
-| `Columns/UserAttributeGender.php` | Describes the `gender` column and gives it the `userGender` segment | Location: any `Columns/` class extending `Dimension` |
-| `Columns/GroupAttributeAdmin.php` | Describes `is_admin` and gives it the `groupIsAdmin` segment | Location: same |
+| `Tracker/LogTable/CustomAccountLog.php` | Declares the account table and how it joins to the user table | Location: same |
+| `Columns/UserAttributePlan.php` | Describes the `plan` column and gives it the `userPlan` segment | Location: any `Columns/` class extending `Dimension` |
+| `Columns/AccountAttributePaying.php` | Describes `is_paying` and gives it the `accountIsPaying` segment | Location: same |
 | `Tracker/UserAttributesRequestProcessor.php` | Writes both tables during tracking | Location: any `Tracker/` class extending `Piwik\Tracker\RequestProcessor` |
 | `VisitorDetails.php` | Adds the stored attributes to the Live API payload and renders them into the visits log entry | Magic filename, extending `Live\VisitorDetailsAbstract` |
 | `templates/_visitorDetails.twig` | The markup for that visits log entry | Named by `VisitorDetails.php` |
-| `RecordBuilders/AdminGroupVisits.php` | Archives one metric aggregated across both tables | Location: only inside a `RecordBuilders/` directory |
+| `RecordBuilders/PayingAccountVisits.php` | Archives one metric aggregated across both tables | Location: only inside a `RecordBuilders/` directory |
 | `API.php` | Reads the archived metric back out | Magic filename |
 | `lang/en.json` | The English strings. Every other language comes from Weblate | Magic filename |
 
@@ -84,17 +84,17 @@ within a major version rather than forever. Everything here is verified against 
   consults that map -- sparklines, the single-metric view, and any renderer asked to translate column
   names. The default JSON and XML output never consults it, so the raw name shows there either way.
 - **A record name's prefix is a contract, not a convention.** Everything before the first underscore
-  in `ExampleLogTables_nb_visits_admin_group` is read back as the plugin name when the metric is
+  in `ExampleLogTables_nb_visits_paying_account` is read back as the plugin name when the metric is
   requested, and an unknown or deactivated plugin there throws. Rename the plugin and miss that
   string and reads fail long after archiving succeeded.
 - **A segment name is also a payload key.** Segment value suggestions are read out of the visits log
-  by segment name, so the value `VisitorDetails.php` writes under `userGender` is what lets the
-  segment editor suggest values for `userGender==`. Name the two differently and the editor offers no
+  by segment name, so the value `VisitorDetails.php` writes under `userPlan` is what lets the
+  segment editor suggest values for `userPlan==`. Name the two differently and the editor offers no
   suggestions and says nothing: the visits are found, the column is not, and the empty result is
   indistinguishable from a segment nobody has data for yet. Suggestions also only look a fixed number
   of days back, so a segment over older data suggests nothing either.
-- **A segment whose value is not in the visits log needs a `$suggestedValuesCallback`.** `groupIsAdmin`
-  describes a group rather than a visit, so no payload key can carry it and the route above cannot
+- **A segment whose value is not in the visits log needs a `$suggestedValuesCallback`.** `accountIsPaying`
+  describes an account rather than a visit, so no payload key can carry it and the route above cannot
   work. The callback answers instead, and it short-circuits before the visits log is queried at all.
   Nothing derives `0` and `1` from a boolean dimension on your behalf — `plugins/CoreHome/Columns/Profilable.php`
   is core's precedent for exactly this shape.
@@ -111,15 +111,17 @@ within a major version rather than forever. Everything here is verified against 
   hand first. This plugin ships no migration on purpose, because the versioning lesson belongs to
   `plugins/ExamplePlugin/Updates/`; yours needs one the first time you change your own schema,
   because a migration is the only thing that reaches an install that already has the old one.
-- **Nothing registers the tracking parameters.** `user_gender`, `user_group` and
-  `user_group_is_admin` are read straight out of the request. A plugin invents its own and
+- **Nothing registers the tracking parameters.** `user_plan`, `user_account` and
+  `user_account_is_paying` are read straight out of the request. A plugin invents its own and
   documents them; there is no list to add them to.
 - **Your table and column names end up inside core's SQL, unquoted.** Nothing validates them. Core
   builds `SELECT MAX(<id column>)` for every declared log table while purging unused log actions and
   does not quote the column, so declaring an id column named after a reserved word breaks the whole
-  site's raw-log purge with a syntax error — on a path no test in your plugin exercises. The column
-  here is `group_name`, not `group`, for that reason, and both tables carry the plugin name so they
-  cannot collide with the next core table called `log_custom`. Declaring an id column at all enrols
+  site's raw-log purge with a syntax error — on a path no test in your plugin exercises. `group`,
+  `order`, `rank` and `key` are the ones that look like natural column names; neither name here is
+  reserved, which is the point of picking names that never need checking. Both tables also carry the
+  plugin name so they cannot collide with the next core table called `log_custom`. Declaring an id
+  column at all enrols
   the table in that query and in the table lock the same purge step takes, so declare one because the
   table has one, not out of habit. The remaining schema rules — matching the width of a column you
   join on, and declaring a default for every column a partial write may omit — are visible in the DAOs
@@ -138,10 +140,10 @@ within a major version rather than forever. Everything here is verified against 
 ## Privacy
 
 **What is stored.** One row per identified user in the user table, holding attributes the site sends
-with its tracking requests, and one row per group in the group table. The user id is personal data,
+with its tracking requests, and one row per account in the account table. The user id is personal data,
 and the attributes are personal data about that user. Nothing is stored for visits without a user id.
-The gender dimension sets `$allowAnonymous = false`, so segmenting by it needs a logged-in user;
-the group flag leaves the default, because a group is not a person. Core sets that flag on its five
+The plan dimension sets `$allowAnonymous = false`, so segmenting by it needs a logged-in user;
+the paying flag leaves the default, because an account is not a person. Core sets that flag on its five
 visitor-identifying dimensions -- user id, visitor id, visit id, IP and fingerprint -- and leaves it
 alone elsewhere, including on identifiers like `idorder` that identify a thing rather than a person.
 The question the flag answers is not "is this column an identifier" but "does this value describe a
@@ -163,12 +165,12 @@ it, so `tests/Integration/DataSubjectLifecycleTest.php` exists to prove it resol
 assume it.
 
 **Deleting a subject also deletes rows they share.** Erasing a user removes their row in the user
-table and the group row for the group they belonged to, even when other users belong to that group.
+table and the account row for the account they belonged to, even when other users belong to that account.
 Core deletes everything it can reach from the visits being erased, which is the right default for a
 compliance feature — it never leaves personal data behind. It does mean a table whose rows are
 shared between subjects should not declare a join into the subject chain. Here it is acceptable
-because the group row is reference data the tracker rewrites on the next request from any remaining
-member of that group.
+because the account row is reference data the tracker rewrites on the next request from any remaining
+member of that account.
 
 **A `user_id` join is not stable under anonymisation, and that is the sharpest edge here.** Matomo's
 "anonymize previously tracked data" feature rewrites `log_visit.user_id` to a salted hash, and it only
@@ -182,7 +184,7 @@ warns you either way.
 **Rows with no `idsite` are global.** Neither table has one, which is honest for attributes that
 describe a person rather than their activity on one site — but it means one user id shares a row
 across every site, erasing that subject on one site removes the row while their visits on another
-site remain, and a group flagged by tracking on one site changes another site's archived metric. If
+site remain, and a paying flagged by tracking on one site changes another site's archived metric. If
 your rows describe activity rather than a person, give them `idsite` and join on `idvisit`.
 
 **Retention reaches the rows but not the estimate.** Purging old raw data deletes visits, and deleting
@@ -208,8 +210,8 @@ your storage actually needs. `plugins/BotTracking/BotTracking.php` is the in-cor
 implements two of the four because its rows are not bound to a visit. Adding any of those
 subscriptions to *this* plugin would teach the opposite of the lesson.
 
-**Collect only what the report needs.** `is_admin` arrives in a tracking request, which anyone can
-send. It is a segmentation attribute describing a group, never an authorisation signal, and no
+**Collect only what the report needs.** `is_paying` arrives in a tracking request, which anyone can
+send. It is a segmentation attribute describing an account, never an authorisation signal, and no
 access decision anywhere may read it. The user id written here is the one Matomo persisted, not the
 raw `uid` parameter, so the site's "disable user id" setting and pseudonymisation are already
 applied and this table never holds an identifier that `log_visit` does not.

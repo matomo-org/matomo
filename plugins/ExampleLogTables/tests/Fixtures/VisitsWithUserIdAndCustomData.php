@@ -23,13 +23,13 @@ class VisitsWithUserIdAndCustomData extends Fixture
      * RequestProcessor is what turns these into rows in its two tables -- the fixture only tracks
      * visits, exactly as a real site would.
      *
-     * @var array<string, array{gender: string, group: string, groupIsAdmin: bool}>
+     * @var array<string, array{plan: string, account: string, accountIsPaying: bool}>
      */
     private const USER_ATTRIBUTES = [
-        'user1' => ['gender' => 'men', 'group' => 'admin', 'groupIsAdmin' => true],
-        'user2' => ['gender' => 'women', 'group' => 'user', 'groupIsAdmin' => false],
-        'user3' => ['gender' => 'women', 'group' => 'admin', 'groupIsAdmin' => true],
-        'user4' => ['gender' => 'men', 'group' => '', 'groupIsAdmin' => false],
+        'user1' => ['plan' => 'pro', 'account' => 'acme', 'accountIsPaying' => true],
+        'user2' => ['plan' => 'free', 'account' => 'globex', 'accountIsPaying' => false],
+        'user3' => ['plan' => 'free', 'account' => 'acme', 'accountIsPaying' => true],
+        'user4' => ['plan' => 'pro', 'account' => '', 'accountIsPaying' => false],
     ];
 
     /**
@@ -132,9 +132,9 @@ class VisitsWithUserIdAndCustomData extends Fixture
 
         $attributes = self::USER_ATTRIBUTES[$userId];
 
-        $t->setCustomTrackingParameter(UserAttributesRequestProcessor::PARAM_GENDER, $attributes['gender']);
-        $t->setCustomTrackingParameter(UserAttributesRequestProcessor::PARAM_GROUP, $attributes['group']);
-        $isAdmin = $attributes['groupIsAdmin'] ? '1' : '0';
-        $t->setCustomTrackingParameter(UserAttributesRequestProcessor::PARAM_GROUP_IS_ADMIN, $isAdmin);
+        $t->setCustomTrackingParameter(UserAttributesRequestProcessor::PARAM_PLAN, $attributes['plan']);
+        $t->setCustomTrackingParameter(UserAttributesRequestProcessor::PARAM_ACCOUNT, $attributes['account']);
+        $isPaying = $attributes['accountIsPaying'] ? '1' : '0';
+        $t->setCustomTrackingParameter(UserAttributesRequestProcessor::PARAM_ACCOUNT_IS_PAYING, $isPaying);
     }
 }

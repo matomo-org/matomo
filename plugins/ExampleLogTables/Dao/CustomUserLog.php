@@ -46,9 +46,9 @@ class CustomUserLog
     public const MAX_LENGTH_USER_ID = 200;
 
     /**
-     * The width of the gender attribute, in characters.
+     * The width of the plan attribute, in characters.
      */
-    public const MAX_LENGTH_GENDER = 30;
+    public const MAX_LENGTH_PLAN = 30;
 
     private string $tablePrefixed;
 
@@ -75,12 +75,12 @@ class CustomUserLog
         DbHelper::createTable(self::TABLE_NAME, sprintf(
             "
                   `user_id` VARCHAR(%d) NOT NULL,
-                  `gender` VARCHAR(%d) NOT NULL DEFAULT '',
-                  `group_name` VARCHAR(%d) NOT NULL DEFAULT '',
+                  `plan` VARCHAR(%d) NOT NULL DEFAULT '',
+                  `account_name` VARCHAR(%d) NOT NULL DEFAULT '',
                   PRIMARY KEY (user_id)",
             self::MAX_LENGTH_USER_ID,
-            self::MAX_LENGTH_GENDER,
-            CustomGroupLog::MAX_LENGTH_GROUP_NAME
+            self::MAX_LENGTH_PLAN,
+            CustomAccountLog::MAX_LENGTH_ACCOUNT_NAME
         ));
     }
 
@@ -96,7 +96,7 @@ class CustomUserLog
      */
     public function getUserInformation(string $userId): array
     {
-        $sql = 'SELECT gender, group_name FROM `' . $this->tablePrefixed . '` WHERE user_id = ?';
+        $sql = 'SELECT plan, account_name FROM `' . $this->tablePrefixed . '` WHERE user_id = ?';
 
         $row = Db::fetchRow($sql, [$userId]);
 
@@ -104,7 +104,7 @@ class CustomUserLog
     }
 
     /**
-     * Records the gender one tracking request carried for one user.
+     * Records the plan one tracking request carried for one user.
      *
      * The tracker sees the same user on every one of their visits, so this has to be an upsert
      * rather than an insert: the primary key on `user_id` is what keeps the table at one row per
@@ -112,7 +112,7 @@ class CustomUserLog
      * default declared for its column, which is what makes those defaults load-bearing.
      *
      * **One method per attribute is the whole mechanism behind "store only what the request
-     * carried".** A request that says nothing about the group calls nothing that writes the group
+     * carried".** A request that says nothing about the account calls nothing that writes the account
      * column, so it cannot erase what an earlier request stored, and the SQL says which column it
      * writes. The alternative -- one method taking an array and assembling the column list from its
      * keys -- saves a round trip and costs an unwritten contract between this class and its caller
@@ -125,28 +125,28 @@ class CustomUserLog
      * table is not that case. Core has no partial upsert at all, so there is nothing to copy here
      * and the shape that invents least wins.
      */
-    public function addOrUpdateGender(string $userId, string $gender): void
+    public function addOrUpdatePlan(string $userId, string $plan): void
     {
         $sql = sprintf(
-            'INSERT INTO `%s` (user_id, gender) VALUES (?, ?) ON DUPLICATE KEY UPDATE gender = ?',
+            'INSERT INTO `%s` (user_id, plan) VALUES (?, ?) ON DUPLICATE KEY UPDATE plan = ?',
             $this->tablePrefixed
         );
 
-        Db::query($sql, [$userId, $gender, $gender]);
+        Db::query($sql, [$userId, $plan, $plan]);
     }
 
     /**
-     * Records the group one tracking request said a user belongs to.
+     * Records the account one tracking request said a user belongs to.
      *
-     * @see addOrUpdateGender() for why each attribute has its own method.
+     * @see addOrUpdatePlan() for why each attribute has its own method.
      */
-    public function addOrUpdateGroupName(string $userId, string $groupName): void
+    public function addOrUpdateAccountName(string $userId, string $accountName): void
     {
         $sql = sprintf(
-            'INSERT INTO `%s` (user_id, group_name) VALUES (?, ?) ON DUPLICATE KEY UPDATE group_name = ?',
+            'INSERT INTO `%s` (user_id, account_name) VALUES (?, ?) ON DUPLICATE KEY UPDATE account_name = ?',
             $this->tablePrefixed
         );
 
-        Db::query($sql, [$userId, $groupName, $groupName]);
+        Db::query($sql, [$userId, $accountName, $accountName]);
     }
 }

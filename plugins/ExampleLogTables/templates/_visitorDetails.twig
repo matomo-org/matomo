@@ -12,14 +12,14 @@
    tooltip -- so borrowing it for a line of text produces an empty tooltip on hover. Plain text
    belongs in `visitorLogTooltip`, as CustomDimensions does. #}
 <div class="exampleLogTablesAttributes">
-    {% if gender %}
+    {% if plan %}
         <br/>
-        <abbr class="visitorLogTooltip" title="{{ 'ExampleLogTables_StoredByThisPlugin'|translate }}">{{ 'ExampleLogTables_UserGender'|translate }}:</abbr>
-        {{ gender|truncate(30)|rawSafeDecoded }}
+        <abbr class="visitorLogTooltip" title="{{ 'ExampleLogTables_StoredByThisPlugin'|translate }}">{{ 'ExampleLogTables_UserPlan'|translate }}:</abbr>
+        {{ plan|truncate(30)|rawSafeDecoded }}
     {% endif %}
-    {% if group %}
+    {% if account %}
         <br/>
-        <abbr class="visitorLogTooltip" title="{{ 'ExampleLogTables_StoredByThisPlugin'|translate }}">{{ 'ExampleLogTables_UserGroup'|translate }}:</abbr>
-        {{ group|truncate(30)|rawSafeDecoded }}
+        <abbr class="visitorLogTooltip" title="{{ 'ExampleLogTables_StoredByThisPlugin'|translate }}">{{ 'ExampleLogTables_UserAccount'|translate }}:</abbr>
+        {{ account|truncate(30)|rawSafeDecoded }}
     {% endif %}
 </div>

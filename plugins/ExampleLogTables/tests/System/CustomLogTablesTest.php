@@ -74,8 +74,8 @@ class CustomLogTablesTest extends SystemTestCase
     public function getSegmentsToTest(): array
     {
         return [
-            ['userGender==men'],
-            ['groupIsAdmin==1'],
+            ['userPlan==pro'],
+            ['accountIsPaying==1'],
         ];
     }
 
@@ -89,46 +89,46 @@ class CustomLogTablesTest extends SystemTestCase
                 'Actions.get',
                 'UserId.getUsers',
                 'VisitsSummary.get',
-                'ExampleLogTables.getAdminGroupVisits',
+                'ExampleLogTables.getPayingAccountVisits',
             ], [
                 'idSite'       => $idSite1,
                 'date'         => $dateTime,
                 'periods'      => 'month',
                 'setDateLastN' => false,
-                'segment'      => 'userGender==men',
-                'testSuffix'   => '_men'],
+                'segment'      => 'userPlan==pro',
+                'testSuffix'   => '_pro'],
             ],
             [[
                 'Actions.get',
                 'UserId.getUsers',
                 'VisitsSummary.get',
-                'ExampleLogTables.getAdminGroupVisits',
+                'ExampleLogTables.getPayingAccountVisits',
             ], [
                 'idSite'       => $idSite1,
                 'date'         => $dateTime,
                 'periods'      => 'month',
                 'setDateLastN' => false,
-                'segment'      => 'userGender==women',
-                'testSuffix'   => '_women'],
+                'segment'      => 'userPlan==free',
+                'testSuffix'   => '_free'],
             ],
             [[
                 'Actions.get',
                 'UserId.getUsers',
                 'VisitsSummary.get',
-                'ExampleLogTables.getAdminGroupVisits',
+                'ExampleLogTables.getPayingAccountVisits',
             ], [
                 'idSite'       => $idSite1,
                 'date'         => $dateTime,
                 'periods'      => 'month',
                 'setDateLastN' => false,
-                'segment'      => 'groupIsAdmin==1',
-                'testSuffix'   => '_admin'],
+                'segment'      => 'accountIsPaying==1',
+                'testSuffix'   => '_paying'],
             ],
             [[
                 'Actions.get',
                 'UserId.getUsers',
                 'VisitsSummary.get',
-                'ExampleLogTables.getAdminGroupVisits',
+                'ExampleLogTables.getPayingAccountVisits',
             ], [
                 'idSite'       => $idSite1,
                 'date'         => $dateTime,

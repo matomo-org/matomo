@@ -12,7 +12,7 @@ namespace Piwik\Plugins\ExampleLogTables\RecordBuilders;
 use Piwik\ArchiveProcessor;
 use Piwik\ArchiveProcessor\Record;
 use Piwik\ArchiveProcessor\RecordBuilder;
-use Piwik\Plugins\ExampleLogTables\Dao\CustomGroupLog;
+use Piwik\Plugins\ExampleLogTables\Dao\CustomAccountLog;
 use Piwik\Plugins\ExampleLogTables\Dao\CustomUserLog;
 
 /**
@@ -40,25 +40,25 @@ use Piwik\Plugins\ExampleLogTables\Dao\CustomUserLog;
  *   additive metric belongs in a query against your own table on its own date column --
  *   `plugins/BotTracking/RecordBuilders/AIChatbotReports.php` is the production example, and note that
  *   it queries `log_visit` separately for its visit-side numbers rather than joining it.
- * - **The group flag is mutable reference data.** The tracker rewrites it, while invalidation on
- *   tracking only covers the site and date of the request that arrived. Flipping a group's flag today
+ * - **The paying flag is mutable reference data.** The tracker rewrites it, while invalidation on
+ *   tracking only covers the site and date of the request that arrived. Flipping an account's flag today
  *   therefore leaves last month's archives standing, and a later re-archive of that month produces a
  *   different number. Aggregating against a table that is corrected over time is a decision, not a
  *   detail.
  */
-class AdminGroupVisits extends RecordBuilder
+class PayingAccountVisits extends RecordBuilder
 {
     /**
      * The prefix before the first underscore is not decoration: `Archive::getPluginForReport()` reads
      * it to decide which plugin to launch archiving for, and throws if it is not an activated plugin.
      * Rename the plugin without renaming this value and reads fail, long after archiving succeeded.
      */
-    public const NB_VISITS_ADMIN_GROUP_RECORD = 'ExampleLogTables_nb_visits_admin_group';
+    public const NB_VISITS_PAYING_ACCOUNT_RECORD = 'ExampleLogTables_nb_visits_paying_account';
 
     public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
     {
         return [
-            Record::make(Record::TYPE_NUMERIC, self::NB_VISITS_ADMIN_GROUP_RECORD),
+            Record::make(Record::TYPE_NUMERIC, self::NB_VISITS_PAYING_ACCOUNT_RECORD),
         ];
     }
 
@@ -75,11 +75,11 @@ class AdminGroupVisits extends RecordBuilder
         // a literal containing a stray `%` would corrupt the query. A predicate on a *different*
         // table is appended by hand instead, which is what core does too.
         $where = $logAggregator->getWhereStatement('log_visit', 'visit_last_action_time');
-        $where .= ' AND ' . CustomGroupLog::TABLE_NAME . '.is_admin = 1';
+        $where .= ' AND ' . CustomAccountLog::TABLE_NAME . '.is_paying = 1';
 
         $query = $logAggregator->generateQuery(
             'count(distinct log_visit.idvisit) AS nb_visits',
-            ['log_visit', CustomUserLog::TABLE_NAME, CustomGroupLog::TABLE_NAME],
+            ['log_visit', CustomUserLog::TABLE_NAME, CustomAccountLog::TABLE_NAME],
             $where,
             false,
             false
@@ -89,6 +89,6 @@ class AdminGroupVisits extends RecordBuilder
 
         // Non-day periods are summed from the day records automatically, so only the day case is
         // implemented here.
-        return [self::NB_VISITS_ADMIN_GROUP_RECORD => (int) $nbVisits];
+        return [self::NB_VISITS_PAYING_ACCOUNT_RECORD => (int) $nbVisits];
     }
 }

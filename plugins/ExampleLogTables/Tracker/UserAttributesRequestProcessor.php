@@ -11,7 +11,7 @@ namespace Piwik\Plugins\ExampleLogTables\Tracker;
 
 use Piwik\Common;
 use Piwik\Exception\InvalidRequestParameterException;
-use Piwik\Plugins\ExampleLogTables\Dao\CustomGroupLog;
+use Piwik\Plugins\ExampleLogTables\Dao\CustomAccountLog;
 use Piwik\Plugins\ExampleLogTables\Dao\CustomUserLog;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\RequestProcessor;
@@ -56,23 +56,23 @@ class UserAttributesRequestProcessor extends RequestProcessor
     /**
      * Tracking parameters this plugin reads. A plugin makes up its own; nothing registers them.
      */
-    public const PARAM_GENDER = 'user_gender';
-    public const PARAM_GROUP = 'user_group';
-    public const PARAM_GROUP_IS_ADMIN = 'user_group_is_admin';
+    public const PARAM_PLAN = 'user_plan';
+    public const PARAM_ACCOUNT = 'user_account';
+    public const PARAM_ACCOUNT_IS_PAYING = 'user_account_is_paying';
 
     /**
-     * Returned by readAdminFlag() when the request made no usable statement about the flag.
+     * Returned by readPayingFlag() when the request made no usable statement about the flag.
      */
     private const FLAG_ABSENT = -1;
 
     private CustomUserLog $userLog;
 
-    private CustomGroupLog $groupLog;
+    private CustomAccountLog $accountLog;
 
-    public function __construct(CustomUserLog $userLog, CustomGroupLog $groupLog)
+    public function __construct(CustomUserLog $userLog, CustomAccountLog $accountLog)
     {
         $this->userLog = $userLog;
-        $this->groupLog = $groupLog;
+        $this->accountLog = $accountLog;
     }
 
     /**
@@ -80,12 +80,12 @@ class UserAttributesRequestProcessor extends RequestProcessor
      */
     public function processRequestParams(VisitProperties $visitProperties, Request $request)
     {
-        if (self::FLAG_ABSENT === $this->readAdminFlag($request)) {
+        if (self::FLAG_ABSENT === $this->readPayingFlag($request)) {
             return false;
         }
 
-        // The group row is shared: it is one row per group, with no idsite, read by every user of
-        // that group on every site of the install. One forged request would therefore change what
+        // The account row is shared: it is one row per account, with no idsite, read by every user of
+        // that account on every site of the install. One forged request would therefore change what
         // other people see and every site's archived metric, for subjects who never sent a request.
         //
         // That asymmetry is what earns the token, not the sensitivity of the value. Anyone can send
@@ -99,7 +99,7 @@ class UserAttributesRequestProcessor extends RequestProcessor
         if (!$request->isAuthenticated()) {
             throw new InvalidRequestParameterException(sprintf(
                 "Tracker API '%s' describes an entity shared between visitors, requires valid token_auth",
-                self::PARAM_GROUP_IS_ADMIN
+                self::PARAM_ACCOUNT_IS_PAYING
             ));
         }
 
@@ -131,52 +131,52 @@ class UserAttributesRequestProcessor extends RequestProcessor
         // tracking request. Core reaches the same order by a different route -- the tracker sanitises
         // every string parameter as it reads it, and `CoreHome\Columns\UserId` then truncates a value
         // that is already sanitised. Sanitising here is the step the request API does not do for you.
-        $gender = Common::sanitizeInputValue($params->getStringParameter(self::PARAM_GENDER, ''));
-        $group = Common::sanitizeInputValue($params->getStringParameter(self::PARAM_GROUP, ''));
+        $plan = Common::sanitizeInputValue($params->getStringParameter(self::PARAM_PLAN, ''));
+        $account = Common::sanitizeInputValue($params->getStringParameter(self::PARAM_ACCOUNT, ''));
 
         // Clamp each value to the width of the column that holds it. These arrive from a tracking
         // request, so their length is not yours to assume: the tracker connection keeps whatever
         // sql_mode the server gives it, which on a default install is strict, and an over-long
         // value there fails the whole tracking request rather than truncating. Clamping is lossy
-        // in its own way -- two group names sharing a 30-character prefix become one row, and
-        // `group_name` is the join key between the two tables -- so widen the column rather than
-        // lean on the clamp if your values are genuinely free text. The group name is clamped before
+        // in its own way -- two account names sharing a 30-character prefix become one row, and
+        // `account_name` is the join key between the two tables -- so widen the column rather than
+        // lean on the clamp if your values are genuinely free text. The account name is clamped before
         // either table is written, so both sides of that join always hold the same string.
-        $gender = $this->clamp($gender, CustomUserLog::MAX_LENGTH_GENDER);
-        $group = $this->clamp($group, CustomGroupLog::MAX_LENGTH_GROUP_NAME);
+        $plan = $this->clamp($plan, CustomUserLog::MAX_LENGTH_PLAN);
+        $account = $this->clamp($account, CustomAccountLog::MAX_LENGTH_ACCOUNT_NAME);
 
-        if ('' === $gender && '' === $group) {
+        if ('' === $plan && '' === $account) {
             return; // nothing this plugin collects was sent, so nothing is stored
         }
 
-        // One call per attribute the request carried. A request that mentions the gender but not the
-        // group calls nothing that writes the group column, which is what keeps it from erasing what
+        // One call per attribute the request carried. A request that mentions the plan but not the
+        // group calls nothing that writes the account column, which is what keeps it from erasing what
         // an earlier request stored -- see the DAO for why that is a method per attribute rather
         // than an array of column names.
-        if ('' !== $gender) {
-            $this->userLog->addOrUpdateGender($userId, $gender);
+        if ('' !== $plan) {
+            $this->userLog->addOrUpdatePlan($userId, $plan);
         }
 
-        if ('' !== $group) {
-            $this->userLog->addOrUpdateGroupName($userId, $group);
+        if ('' !== $account) {
+            $this->userLog->addOrUpdateAccountName($userId, $account);
         }
 
-        // The group row is written only when this request said something about the flag. A request
-        // carrying a group name and nothing else stores the user's membership and leaves the group
-        // table alone, so a user row can name a group that has no row of its own yet -- deliberately.
-        // The group table is reference data about groups, not a foreign key the user table depends
-        // on: a group nobody has described yet is simply a group with no known flag, and the
-        // archived metric counts it as not-an-admin-group until a request says otherwise.
-        $isAdmin = $this->readAdminFlag($request);
+        // The account row is written only when this request said something about the flag. A request
+        // carrying a account name and nothing else stores the user's membership and leaves the account
+        // table alone, so a user row can name an account that has no row of its own yet -- deliberately.
+        // The account table is reference data about accounts, not a foreign key the user table depends
+        // on: an account nobody has described yet is simply an account with no known flag, and the
+        // archived metric counts it as not-a-paying-account until a request says otherwise.
+        $isPaying = $this->readPayingFlag($request);
 
-        if ('' === $group || self::FLAG_ABSENT === $isAdmin) {
+        if ('' === $account || self::FLAG_ABSENT === $isPaying) {
             return;
         }
 
-        // `is_admin` is a segmentation attribute describing the group, never an authorisation
+        // `is_paying` is a segmentation attribute describing the account, never an authorisation
         // signal -- no access decision anywhere in Matomo may read it. The request that set it was
         // authenticated, which is what makes the value worth storing at all; see the first phase.
-        $this->groupLog->addOrUpdateGroupInformation($group, 1 === $isAdmin);
+        $this->accountLog->addOrUpdateAccountInformation($account, 1 === $isPaying);
     }
 
     /**
@@ -195,18 +195,18 @@ class UserAttributesRequestProcessor extends RequestProcessor
     }
 
     /**
-     * Returns 0 or 1 when the request asserted the group flag, and FLAG_ABSENT when it did not.
+     * Returns 0 or 1 when the request asserted the paying flag, and FLAG_ABSENT when it did not.
      */
-    private function readAdminFlag(Request $request): int
+    private function readPayingFlag(Request $request): int
     {
-        // A default of -1 distinguishes "the request said the group is not an admin group" from "the
+        // A default of -1 distinguishes "the request said the account is not a paying account" from "the
         // request said nothing about it". Writing an invented default in the second case would
         // silently overwrite what an earlier request stored. A value that is not an integer returns
         // the default as well, so a malformed flag is indistinguishable from an absent one -- and
         // both are treated as no statement, so neither is rejected above and neither is stored below.
-        $isAdmin = (new \Piwik\Request($request->getParams()))
-            ->getIntegerParameter(self::PARAM_GROUP_IS_ADMIN, self::FLAG_ABSENT);
+        $isPaying = (new \Piwik\Request($request->getParams()))
+            ->getIntegerParameter(self::PARAM_ACCOUNT_IS_PAYING, self::FLAG_ABSENT);
 
-        return 0 === $isAdmin || 1 === $isAdmin ? $isAdmin : self::FLAG_ABSENT;
+        return 0 === $isPaying || 1 === $isPaying ? $isPaying : self::FLAG_ABSENT;
     }
 }

@@ -13,7 +13,7 @@ use Piwik\Date;
 use Piwik\Metrics;
 use Piwik\Plugins\API\API as ApiPlugin;
 use Piwik\Plugins\ExampleLogTables\ExampleLogTables;
-use Piwik\Plugins\ExampleLogTables\RecordBuilders\AdminGroupVisits;
+use Piwik\Plugins\ExampleLogTables\RecordBuilders\PayingAccountVisits;
 use Piwik\Plugins\ExampleLogTables\tests\Fixtures\VisitsWithUserIdAndCustomData;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -66,7 +66,7 @@ class SegmentAndMetricNamesTest extends IntegrationTestCase
         parent::tearDown();
     }
 
-    public function testSuggestsGenderValuesReadFromTheVisitsLogPayload(): void
+    public function testSuggestsPlanValuesReadFromTheVisitsLogPayload(): void
     {
         // Suggestions come out of the visits log, and core only looks a fixed number of days back.
         // The fixture's visits are historical, so the window has to be widened to reach them --
@@ -77,25 +77,25 @@ class SegmentAndMetricNamesTest extends IntegrationTestCase
         );
 
         $values = Request::processRequest('API.getSuggestedValuesForSegment', [
-            'segmentName' => 'userGender',
+            'segmentName' => 'userPlan',
             'idSite' => self::$fixture->idSite,
         ]);
 
         sort($values);
 
-        // The values are here only because VisitorDetails publishes them under `userGender`, the
+        // The values are here only because VisitorDetails publishes them under `userPlan`, the
         // same string as the dimension's $segmentName. Rename one and this list is empty.
-        $this->assertSame(['men', 'women'], $values);
+        $this->assertSame(['free', 'pro'], $values);
     }
 
-    public function testSuggestsTheGroupFlagValuesFromItsOwnCallback(): void
+    public function testSuggestsThePayingFlagValuesFromItsOwnCallback(): void
     {
         $values = Request::processRequest('API.getSuggestedValuesForSegment', [
-            'segmentName' => 'groupIsAdmin',
+            'segmentName' => 'accountIsPaying',
             'idSite' => self::$fixture->idSite,
         ]);
 
-        // Nothing publishes a `groupIsAdmin` key, because the flag describes a group rather than a
+        // Nothing publishes a `accountIsPaying` key, because the flag describes an account rather than a
         // visit. The dimension's $suggestedValuesCallback answers instead, and it is consulted
         // before the visits log is queried at all -- so this passes with no tracked data and no
         // look-back window.
@@ -113,7 +113,7 @@ class SegmentAndMetricNamesTest extends IntegrationTestCase
         // second pass finds no key and returns the text unchanged, and a missing name in every other
         // language. Asserting the key rather than the name is the only way to see the difference.
         $this->assertSame(
-            [AdminGroupVisits::NB_VISITS_ADMIN_GROUP_RECORD => 'ExampleLogTables_NbVisitsAdminGroup'],
+            [PayingAccountVisits::NB_VISITS_PAYING_ACCOUNT_RECORD => 'ExampleLogTables_NbVisitsPayingAccount'],
             $translations
         );
     }
@@ -122,13 +122,13 @@ class SegmentAndMetricNamesTest extends IntegrationTestCase
     {
         $translations = Metrics::getDefaultMetricTranslations();
 
-        $this->assertArrayHasKey(AdminGroupVisits::NB_VISITS_ADMIN_GROUP_RECORD, $translations);
+        $this->assertArrayHasKey(PayingAccountVisits::NB_VISITS_PAYING_ACCOUNT_RECORD, $translations);
 
         // And what core hands on is the translated name, because it translates the array after
         // posting the event. Without the subscription the metric would appear under its record name.
         $this->assertSame(
-            'Visits by admin groups',
-            $translations[AdminGroupVisits::NB_VISITS_ADMIN_GROUP_RECORD]
+            'Visits by paying accounts',
+            $translations[PayingAccountVisits::NB_VISITS_PAYING_ACCOUNT_RECORD]
         );
     }
 }

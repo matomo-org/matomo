@@ -1,9 +1,9 @@
 {
     "ExampleLogTables": {
-        "GroupHasAdminPrivileges": "Admin privileges",
-        "NbVisitsAdminGroup": "Visits by admin groups",
+        "AccountIsPaying": "Account is paying",
+        "NbVisitsPayingAccount": "Visits by paying accounts",
         "StoredByThisPlugin": "Stored by the ExampleLogTables plugin in a log table of its own",
-        "UserGender": "Gender",
-        "UserGroup": "Group"
+        "UserAccount": "Account",
+        "UserPlan": "Plan"
     }
 }

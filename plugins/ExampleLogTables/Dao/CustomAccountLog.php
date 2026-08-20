@@ -14,26 +14,26 @@ use Piwik\Db;
 use Piwik\DbHelper;
 
 /**
- * Owns the group table: its schema, and one row per group.
+ * Owns the account table: its schema, and one row per account.
  *
  * See {@see CustomUserLog} for the conventions both DAOs share.
  */
-class CustomGroupLog
+class CustomAccountLog
 {
     /**
      * @see CustomUserLog::TABLE_NAME for why this is a public constant rather than a literal.
      */
-    public const TABLE_NAME = 'log_examplelogtables_group';
+    public const TABLE_NAME = 'log_examplelogtables_account';
 
     /**
-     * The width of the group name, in characters.
+     * The width of the account name, in characters.
      *
      * This is the join column between the two custom tables, so it is declared here, used in both
      * schemas and clamped in the write path. A join column whose two sides disagree on width leaves
      * rows that can never be joined again -- the same trap as a `user_id` narrower than
      * `log_visit`'s, one table further out.
      */
-    public const MAX_LENGTH_GROUP_NAME = 30;
+    public const MAX_LENGTH_ACCOUNT_NAME = 30;
 
     private string $tablePrefixed;
 
@@ -44,15 +44,16 @@ class CustomGroupLog
 
     public function install(): void
     {
-        // The column is `group_name`, not `group`. `group` is a MySQL reserved word, and while this
-        // plugin's own queries could quote it, core's do not always: `RawLogDao` builds
-        // `SELECT MAX(<id column>)` unquoted for every declared log table, so a table whose id
-        // column is a reserved word makes the site's raw-log purge fail with a syntax error. Pick
-        // column names that survive being interpolated into someone else's SQL.
+        // The column is `account_name` rather than a bare `account`, and the habit matters more than
+        // this particular name does: `RawLogDao` builds `SELECT MAX(<id column>)` unquoted for every
+        // declared log table while purging raw log data, so a table whose id column is a reserved
+        // word -- `group`, `order`, `rank`, `key` -- breaks that purge with a syntax error, on a
+        // path no test in your plugin exercises. Neither name here is reserved. Pick column names
+        // that survive being interpolated into someone else's SQL and you never have to check.
         DbHelper::createTable(self::TABLE_NAME, sprintf('
-                  `group_name` VARCHAR(%d) NOT NULL,
-                  `is_admin` TINYINT(1) NOT NULL DEFAULT 0,
-                  PRIMARY KEY (group_name)', self::MAX_LENGTH_GROUP_NAME));
+                  `account_name` VARCHAR(%d) NOT NULL,
+                  `is_paying` TINYINT(1) NOT NULL DEFAULT 0,
+                  PRIMARY KEY (account_name)', self::MAX_LENGTH_ACCOUNT_NAME));
     }
 
     public function uninstall(): void
@@ -60,16 +61,16 @@ class CustomGroupLog
         Db::query(sprintf('DROP TABLE IF EXISTS `%s`', $this->tablePrefixed));
     }
 
-    public function addOrUpdateGroupInformation(string $group, bool $isAdmin): void
+    public function addOrUpdateAccountInformation(string $account, bool $isPaying): void
     {
-        // Unlike the user table there is nothing partial to write here: the group name is the key
+        // Unlike the user table there is nothing partial to write here: the account name is the key
         // and the flag is the only other column, so a caller that has one has both. That is why
         // this overwrites unconditionally where the user DAO writes only the columns it was given.
         $sql = sprintf(
-            'INSERT INTO `%s` (group_name, is_admin) VALUES (?, ?) ON DUPLICATE KEY UPDATE is_admin = ?',
+            'INSERT INTO `%s` (account_name, is_paying) VALUES (?, ?) ON DUPLICATE KEY UPDATE is_paying = ?',
             $this->tablePrefixed
         );
 
-        Db::query($sql, [$group, (int) $isAdmin, (int) $isAdmin]);
+        Db::query($sql, [$account, (int) $isPaying, (int) $isPaying]);
     }
 }
