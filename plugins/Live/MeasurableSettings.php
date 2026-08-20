@@ -35,7 +35,7 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
         $systemSettings = new SystemSettings();
 
         $this->disableVisitorLog->setIsWritableByCurrentUser(!VisitorLogDisabledSetting::getInstance()->getValue());
-        $this->enableAggregatedRealtimeReports->setIsWritableByCurrentUser(!$systemSettings->enableAggregatedRealtimeReports->getValue());
+        $this->enableAggregatedRealtimeReports->setIsWritableByCurrentUser(!AggregatedRealtimeReportsEnabledSetting::getInstance()->getValue());
         $this->disableVisitorProfile->setIsWritableByCurrentUser(!$systemSettings->disableVisitorProfile->getValue());
     }
 
@@ -58,7 +58,8 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
     {
         $setting = AggregatedRealtimeReportsEnabledSetting::getMeasurableSetting($this->idSite);
         $setting->setConfigureCallback(function (FieldConfig $field) {
-            $field->title = AggregatedRealtimeReportsEnabledSetting::getTitle();
+            // the checkbox keeps its imperative label; getTitle() is the state-phrased compliance dashboard title
+            $field->title = Piwik::translate('Live_EnableAggregatedRealtimeReports');
             $field->inlineHelp = AggregatedRealtimeReportsEnabledSetting::getInlineHelp();
             $field->uiControl = FieldConfig::UI_CONTROL_CHECKBOX;
         });

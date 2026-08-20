@@ -10,29 +10,38 @@
 namespace Piwik\Plugins\Live\Settings;
 
 use Piwik\Piwik;
+use Piwik\Policy\CnilPolicy;
 use Piwik\Settings\FieldConfig;
 use Piwik\Settings\Interfaces\MeasurableSettingInterface;
+use Piwik\Settings\Interfaces\PolicyComparisonInterface;
 use Piwik\Settings\Interfaces\SettingValueInterface;
 use Piwik\Settings\Interfaces\SystemSettingInterface;
 use Piwik\Settings\Interfaces\Traits\Getters\MeasurableGetterTrait;
 use Piwik\Settings\Interfaces\Traits\Getters\SystemGetterTrait;
+use Piwik\Settings\Interfaces\Traits\PolicyComparisonTrait;
 
 /**
  * Whether the aggregated real-time reports may be shown while the detailed visits log is disabled.
  *
- * This is intentionally a plain system + measurable setting. The CNIL compliance wiring that forces
- * and locks it is added separately, so this class does not implement PolicyComparisonInterface.
+ * When CNIL mode is enforced this setting is required to be enabled, so the aggregated real-time
+ * widget stays available (with rounded, privacy-safe counters) instead of being hidden entirely.
  *
  * @implements MeasurableSettingInterface<bool>
+ * @implements PolicyComparisonInterface<bool>
  * @implements SettingValueInterface<bool>
  * @implements SystemSettingInterface<bool>
  */
-class AggregatedRealtimeReportsEnabled implements MeasurableSettingInterface, SettingValueInterface, SystemSettingInterface
+class AggregatedRealtimeReportsEnabled implements MeasurableSettingInterface, PolicyComparisonInterface, SettingValueInterface, SystemSettingInterface
 {
     /**
      * @use MeasurableGetterTrait<bool>
      */
     use MeasurableGetterTrait;
+
+    /**
+     * @use PolicyComparisonTrait<bool>
+     */
+    use PolicyComparisonTrait;
 
     /**
      * @use SystemGetterTrait<bool>
@@ -86,7 +95,17 @@ class AggregatedRealtimeReportsEnabled implements MeasurableSettingInterface, Se
 
     public static function getTitle(): string
     {
-        return Piwik::translate('Live_EnableAggregatedRealtimeReports');
+        return Piwik::translate('Live_AggregatedRealtimeReportsEnabledPolicySettingTitle');
+    }
+
+    public static function getWhatItDoes(?int $idSite = null): string
+    {
+        return Piwik::translate('Live_EnableAggregatedRealtimeReportsWhatItDoes');
+    }
+
+    public static function getImpact(?int $idSite = null): string
+    {
+        return Piwik::translate('Live_EnableAggregatedRealtimeReportsImpact');
     }
 
     public static function getInlineHelp(): string
@@ -94,14 +113,44 @@ class AggregatedRealtimeReportsEnabled implements MeasurableSettingInterface, Se
         return Piwik::translate('Live_EnableAggregatedRealtimeReportsDescription');
     }
 
+    public static function getComplianceRequirementNote(?int $idSite = null): string
+    {
+        return Piwik::translate('Live_EnableAggregatedRealtimeReportsPolicySettingRequirementNote');
+    }
+
+    public static function getPolicyRequirements(): array
+    {
+        $policyValues = [];
+        $policyValues[CnilPolicy::class] = true;
+
+        return $policyValues;
+    }
+
     public static function getInstance(?int $idSite = null): self
     {
-        $enabled = self::getSystemValue();
+        $values = self::getPolicyRequiredValues($idSite);
+        $values['measurable'] = $idSite === null ? null : self::getMeasurableValue($idSite);
+        $values['system'] = self::getSystemValue();
 
-        if (!$enabled && $idSite !== null) {
-            $enabled = self::getMeasurableValue($idSite);
+        $strictest = self::getStrictestValueFromArray($values);
+        return new self($strictest);
+    }
+
+    public static function isCompliant(string $policy, ?int $idSite = null): bool
+    {
+        $policyValues = self::getPolicyRequirements();
+
+        if (!array_key_exists($policy, $policyValues)) {
+            return true;
         }
 
-        return new self((bool) $enabled);
+        $currentValue = self::getInstance($idSite)->getValue();
+
+        return $currentValue === $policyValues[$policy];
+    }
+
+    protected static function compareStrictness($value1, $value2)
+    {
+        return ($value1 || $value2);
     }
 }
