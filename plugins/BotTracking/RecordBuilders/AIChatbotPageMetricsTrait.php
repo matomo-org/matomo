@@ -123,7 +123,8 @@ trait AIChatbotPageMetricsTrait
         $wrappedSql = $rankingQuery->generateRankingQuery($innerSql);
 
         $bind = array_merge([BotDetector::BOT_TYPE_AI_CHATBOT], $logAggregator->getGeneralQueryBindParams());
-        $stmt = Db::query($wrappedSql, $bind);
+        // Log table read: goes to the analytics database when one is configured.
+        $stmt = Db::getAnalytics()->query($wrappedSql, $bind);
 
         $table = new DataTable();
         while ($row = $stmt->fetch()) {

@@ -167,13 +167,25 @@ class BotRequestsDao
     {
         $tableName = self::getPrefixedTableName();
 
-        return Db::fetchOne(
+        // Reads of the bot request log come from the analytics database when one is
+        // configured, the same place archiving reads it from. Without one this is the
+        // normal connection.
+        // Ordered read rather than MAX(): an aggregate over an empty set gives NULL on
+        // MySQL but the column type's default on ClickHouse, so with no rows at all this
+        // returned 1970-01-01 and the caller treated it as a real request time. Selecting
+        // the newest row returns nothing on both, and it uses the same index.
+        $serverTime = Db::getAnalytics()->fetchOne(
             sprintf(
-                'SELECT MAX(server_time) FROM `%s` WHERE idsite = ? AND bot_type = ?',
+                'SELECT server_time FROM `%s` WHERE idsite = ? AND bot_type = ?'
+                . ' ORDER BY server_time DESC LIMIT 1',
                 $tableName
             ),
             [$idSite, $botType]
         );
+
+        // No row at all reads back as false, where the previous aggregate returned a row
+        // holding NULL.
+        return false === $serverTime || null === $serverTime ? null : (string) $serverTime;
     }
 
     /**
@@ -224,7 +236,7 @@ class BotRequestsDao
 
         $sql = $this->addRealTimeQueryMaxExecutionTimeHint($sql);
 
-        $stmt  = Db::query($sql, $bind);
+        $stmt  = Db::getAnalytics()->query($sql, $bind);
         $table = new DataTable();
         $table->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, [
             Metrics::METRIC_AI_CHATBOTS_UNIQUE_PAGE_URLS => 'skip',
@@ -291,7 +303,7 @@ class BotRequestsDao
 
         $sql = $this->addRealTimeQueryMaxExecutionTimeHint($sql);
 
-        $stmt  = Db::query($sql, $bind);
+        $stmt  = Db::getAnalytics()->query($sql, $bind);
         $table = new DataTable();
 
         while ($row = $stmt->fetch()) {
@@ -313,6 +325,9 @@ class BotRequestsDao
     public function getDistinctIdSitesInTable(int $maxIdSite): array
     {
         $tableName       = self::getPrefixedTableName();
+        // Deliberately the normal connection rather than the analytics one: this decides
+        // which sites' rows get deleted below, and a replica that has not caught up would
+        // make that decision on stale information.
         $idSitesLogTable = Db::fetchAll('SELECT DISTINCT idsite FROM ' . $tableName);
         $idSitesLogTable = array_column($idSitesLogTable, 'idsite');
         $idSitesLogTable = array_map('intval', $idSitesLogTable);

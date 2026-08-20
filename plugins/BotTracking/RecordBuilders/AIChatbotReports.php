@@ -128,7 +128,8 @@ class AIChatbotReports extends RecordBuilder
             $where
         );
 
-        $stmt   = Db::query($sql, $bindBase);
+        // Log table read: goes to the analytics database when one is configured.
+        $stmt   = Db::getAnalytics()->query($sql, $bindBase);
         $result = [];
 
         while ($row = $stmt->fetch()) {
@@ -240,7 +241,7 @@ class AIChatbotReports extends RecordBuilder
             $sql = $rankingQuery->generateRankingQuery($sql, true);
         }
 
-        return Db::query($sql, array_merge([BotDetector::BOT_TYPE_AI_CHATBOT], $logAggregator->getGeneralQueryBindParams()));
+        return Db::getAnalytics()->query($sql, array_merge([BotDetector::BOT_TYPE_AI_CHATBOT], $logAggregator->getGeneralQueryBindParams()));
     }
 
     private function getRankingQueryLimit(): int
@@ -291,7 +292,7 @@ SQL;
         ];
         $bind = array_merge($bind, $logAggregator->getGeneralQueryBindParams());
 
-        $row = Db::fetchRow($sql, $bind) ?: [];
+        $row = Db::getAnalytics()->fetchRow($sql, $bind) ?: [];
 
         $visitBind = [
             Common::REFERRER_TYPE_AI_ASSISTANT,
@@ -305,7 +306,7 @@ SQL;
             $visitTable
         );
 
-        $acquiredVisits = (int)Db::fetchOne($visitsSql, $visitBind);
+        $acquiredVisits = (int)Db::getAnalytics()->fetchOne($visitsSql, $visitBind);
 
         $tables[Metrics::METRIC_AI_CHATBOTS_UNIQUE_CHATBOTS]       = (int)($row['uniq_bots'] ?? 0);
         $tables[Metrics::METRIC_AI_CHATBOTS_UNIQUE_PAGE_URLS]      = (int)($row['uniq_pages'] ?? 0);

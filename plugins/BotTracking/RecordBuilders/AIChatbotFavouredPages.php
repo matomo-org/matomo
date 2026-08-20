@@ -275,7 +275,8 @@ class AIChatbotFavouredPages extends RecordBuilder
 
         $wrappedSql = $rankingQuery->generateRankingQuery($innerSql);
 
-        $stmt = Db::query($wrappedSql, $logAggregator->getGeneralQueryBindParams());
+        // Log table read: goes to the analytics database when one is configured.
+        $stmt = Db::getAnalytics()->query($wrappedSql, $logAggregator->getGeneralQueryBindParams());
 
         $table = new DataTable();
         while ($row = $stmt->fetch()) {
