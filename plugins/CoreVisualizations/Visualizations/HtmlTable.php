@@ -91,8 +91,7 @@ class HtmlTable extends Visualization
         }
 
         if ($this->dataTable->getRowsCount()) {
-            $siteTotalRow = $this->getSiteSummary() ? $this->getSiteSummary()->getFirstRow() : null;
-            $this->assignTemplateVar('siteTotalRow', $siteTotalRow);
+            $this->assignTemplateVar('siteTotalRow', $this->getSiteTotalRow());
         }
 
         if ($this->isPivoted()) {
@@ -329,14 +328,11 @@ class HtmlTable extends Visualization
 
         $totals = $this->dataTable->getMetadata('totalsUnformatted');
 
-        $siteSummary = $this->getSiteSummary();
-        $siteTotalRow = $siteSummary ? ($siteSummary->getFirstRow() ?: null) : null;
-
         $this->setRowPercentagesRecursively(
             $this->dataTable,
             $this->report->getMetrics(),
             $totals,
-            $siteTotalRow,
+            $this->getSiteTotalRow(),
             $columnNamesToIndices,
             $formatter
         );
@@ -349,9 +345,12 @@ class HtmlTable extends Visualization
      * The rows of an embedded subtable relate to the total of the whole report, just like the parent
      * row they belong to, and like the rows of a subtable that is opened by clicking a row.
      *
+     * Recurses over getRows() rather than through DataTable::filterSubtables(), which skips the
+     * summary row, because the table renders the subtable of a summary row like any other.
+     *
      * @param array<string, string> $metrics The metrics of the report, indexed by column name.
      * @param array<string, mixed>|false $totals The unformatted report totals, indexed by column name.
-     * @param array<string, int> $columnNamesToIndices
+     * @param array<string, int> $columnNamesToIndices The ID of each metric that has one, indexed by column name.
      */
     private function setRowPercentagesRecursively(
         DataTable $table,
@@ -426,6 +425,16 @@ class HtmlTable extends Visualization
     protected function shouldShowDimensions()
     {
         return $this->requestConfig->show_dimensions || Common::getRequestVar('show_dimensions', '');
+    }
+
+    /**
+     * Returns the row holding the totals of the whole site, which not every site summary has.
+     */
+    private function getSiteTotalRow(): ?Row
+    {
+        $siteSummary = $this->getSiteSummary();
+
+        return $siteSummary ? ($siteSummary->getFirstRow() ?: null) : null;
     }
 
     private function getSiteSummary()
