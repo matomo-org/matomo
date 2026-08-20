@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="11" viewBox="0 0 16 11" role="img" aria-label="Loading">
+  <!--
+    Three bars that grow and darken in sequence, matching the .matomo-loader CSS spinner in
+    plugins/CoreHome/stylesheets/matomo-loader.less at the same 16x11 size.
+
+    The background is transparent so the surface behind it shows through, which is what makes this
+    usable in both light and dark mode. Scaled with a transform rather than animating the y/height
+    geometry properties, since transforms are the better supported of the two.
+  -->
+  <style>
+    .matomoLoaderBar {
+      fill: #b3b3b3;
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: matomoLoaderPulse 1s infinite ease-in-out;
+    }
+
+    .matomoLoaderBar--second { animation-delay: .15s; }
+    .matomoLoaderBar--third { animation-delay: .35s; }
+
+    @keyframes matomoLoaderPulse {
+      0%, 75%, 100% {
+        fill: #b3b3b3;
+        transform: scaleY(1);
+      }
+      25% {
+        fill: #808080;
+        transform: scaleY(1.5714);
+      }
+    }
+  </style>
+  <rect class="matomoLoaderBar" x="0" y="2" width="4" height="7" />
+  <rect class="matomoLoaderBar matomoLoaderBar--second" x="6" y="2" width="4" height="7" />
+  <rect class="matomoLoaderBar matomoLoaderBar--third" x="12" y="2" width="4" height="7" />
+</svg>
