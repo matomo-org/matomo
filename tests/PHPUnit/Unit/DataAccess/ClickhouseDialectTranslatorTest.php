@@ -72,6 +72,26 @@ class ClickhouseDialectTranslatorTest extends \PHPUnit\Framework\TestCase
         );
     }
 
+    public function testVisitDedupLeavesMultiColumnGroupByAlone()
+    {
+        $sql = "SELECT log_conversion.idvisit AS idvisit, lac.idaction AS idaction, COUNT(*) AS `1` "
+            . "FROM log_conversion GROUP BY log_conversion.idvisit, lac.idaction";
+        $translated = ClickhouseDialectTranslator::translate($sql);
+
+        self::assertStringContainsString('GROUP BY log_conversion.idvisit, lac.idaction', $translated);
+        self::assertStringNotContainsString('LIMIT 1 BY', $translated);
+    }
+
+    public function testVisitDedupLeavesIdvisitorGroupByAlone()
+    {
+        $sql = "SELECT log_visit.idvisitor AS `idvisitor`, count(*) AS `2` FROM log_visit AS log_visit "
+            . "WHERE log_visit.idsite IN (1) GROUP BY log_visit.idvisitor";
+        $translated = ClickhouseDialectTranslator::translate($sql);
+
+        self::assertStringContainsString('GROUP BY log_visit.idvisitor', $translated);
+        self::assertStringNotContainsString('LIMIT 1 BY', $translated);
+    }
+
     public function testVisitDedupLeavesSubqueryGroupByAlone()
     {
         $sql = "SELECT * FROM t WHERE idvisit IN (SELECT idvisit FROM log_link_visit_action GROUP BY idvisit) AND a = 1";

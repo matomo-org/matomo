@@ -16,7 +16,7 @@ use Piwik\Auth;
 use Piwik\Auth\Password;
 use Matomo\Cache\Backend\File;
 use Piwik\Cache as PiwikCache;
-use Piwik\ClickHouse\ClickHouse;
+use Piwik\Db\ClickhouseLogTableSync;
 use Piwik\CliMulti\CliPhp;
 use Piwik\Common;
 use Piwik\Config;
@@ -353,37 +353,41 @@ class Fixture extends \PHPUnit\Framework\Assert
     }
 
     /**
-     * ClickHouse POC (DEV-20678): make tests actually use ClickHouse where a server is
-     * reachable. Fixture setup runs in CLI, where the CLICKHOUSE_HOST/PORT env vars of a
-     * CI job are visible; web-served test requests (php-fpm) do not inherit that env, so
-     * the values are propagated through the testing-environment config overrides. The
-     * fixture's log tables are then copied into ClickHouse so queries get served instead
-     * of falling back. Both steps are best-effort: without a reachable ClickHouse the
-     * suites run on the MySQL fallback unchanged.
+     * ClickHouse (DEV-20678): when a ClickHouse server is expected (CLICKHOUSE_HOST env
+     * var, set by the CI UI jobs, or a configured [database_analytics] host), tests must
+     * genuinely run against it. Fixture setup runs in CLI, where the CI job env is
+     * visible; web-served test requests (php-fpm) do not inherit that env, so the values
+     * are propagated through the testing-environment config overrides. The fixture's log
+     * tables are then copied into ClickHouse.
+     *
+     * There is deliberately NO fallback: if the sync fails, the exception propagates and
+     * the fixture (and with it the test run) fails loudly instead of silently serving
+     * MySQL. Environments without CLICKHOUSE_HOST and without a configured analytics
+     * database (all PHPUnit jobs, plain dev setups) skip this entirely.
      */
     private function setUpClickHouse(TestingEnvironmentVariables $testEnv)
     {
-        if (!ClickHouse::isLiveReportsEnabled()) {
+        $envHost = getenv('CLICKHOUSE_HOST');
+        if (($envHost === false || $envHost === '') && !Db::hasAnalyticsConfigured()) {
             return;
         }
 
         $overrides = $testEnv->configOverride ?: [];
         foreach (['host' => 'CLICKHOUSE_HOST', 'port' => 'CLICKHOUSE_PORT'] as $key => $envVar) {
             if (getenv($envVar) !== false && getenv($envVar) !== '') {
+                $overrides['database_analytics'][$key] = getenv($envVar);
+                // The Live visits-log POC path still reads the [ClickHouse] section until
+                // it is unified onto the analytics adapter.
                 $overrides['ClickHouse'][$key] = getenv($envVar);
             }
         }
-        if (!empty($overrides['ClickHouse'])) {
+        if (!empty($overrides['database_analytics'])) {
             $testEnv->configOverride = $overrides;
             $testEnv->save();
         }
 
-        try {
-            ClickHouse::syncLogTablesFromMysql();
-            error_log('ClickHouse fixture sync OK into database ' . ClickHouse::getDatabaseName());
-        } catch (Exception $e) {
-            error_log('ClickHouse fixture sync skipped (tests will use the MySQL fallback): ' . $e->getMessage());
-        }
+        ClickhouseLogTableSync::syncLogTablesFromMysql();
+        error_log('ClickHouse fixture sync OK into database ' . ClickhouseLogTableSync::getDatabaseName());
     }
 
     /**

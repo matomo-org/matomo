@@ -269,6 +269,14 @@ class LogAggregator
             return false;
         }
 
+        // The segment temp-table optimization creates a MySQL temporary table and then JOINs
+        // against it in the main aggregation query. When analytics queries are routed to
+        // ClickHouse the temp table does not exist there, so disable the cache and let the
+        // segment conditions be inlined as WHERE clauses instead.
+        if (Db::hasAnalyticsConfigured()) {
+            return false;
+        }
+
         $config = Config::getInstance();
         $general = $config->General;
         return !empty($general['enable_segments_cache']);
@@ -1539,6 +1547,6 @@ class LogAggregator
      */
     public function getDb()
     {
-        return new ArchivingDbAdapter(Db::getReader(), $this->logger);
+        return new ArchivingDbAdapter(Db::getAnalytics(), $this->logger);
     }
 }

@@ -2161,11 +2161,12 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     {
         $labelToLookFor = $row->getColumn('label');
         if ($labelToLookFor === false) {
-            $message = sprintf(
-                "Label column not found in the table to add in addDataTable(). Row: %s",
-                var_export($row->getColumns(), true)
-            );
-            throw new Exception($message);
+            // Row::getColumn() returns false both when the column is absent and when its
+            // stored value is null (PHP isset() returns false for null). Either way the row
+            // has no usable label and cannot be aggregated by label, so skip it silently:
+            // such rows represent missing/unknown dimension values (e.g. nullable dimension
+            // columns served from the analytics database).
+            return;
         }
         $rowFound = $this->getRowFromLabel($labelToLookFor);
         // if we find the summary row in the other table, ignore it, since we're aggregating normal rows in this method.

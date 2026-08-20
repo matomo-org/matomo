@@ -150,7 +150,7 @@ class ProductRecord extends Base
     {
         while ($row = $query->fetch()) {
             $label = $this->getRowLabel($row, $dimension);
-            if ($label === false) {
+            if ($label === false || $label === null) {
                 continue; // ignore empty additional categories
             }
 

@@ -428,6 +428,15 @@ jobs:
           artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
           upload-artifacts: true
           testomatio: ${{ secrets.TESTOMATIO_INTEGRATION }}
+      - name: Report ClickHouse-served query counts
+        if: ${{ always() }}
+        run: |
+          curl -s "http://127.0.0.1:8123/?user=matomo&password=matomo" --data-binary "SYSTEM FLUSH LOGS" || true
+          curl -s "http://127.0.0.1:8123/?user=matomo&password=matomo" --data-binary "
+            SELECT 'log-table SELECTs served by ClickHouse: ' || toString(count())
+            FROM system.query_log
+            WHERE type = 'QueryFinish' AND is_initial_query AND query_kind = 'Select'
+              AND match(query, 'log_(visit|link_visit_action|action|conversion|conversion_item|bot_request)')" || true
   UI-core:
     runs-on: ubuntu-24.04
     timeout-minutes: 30
@@ -467,6 +476,19 @@ jobs:
           artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
           upload-artifacts: true
           testomatio: ${{ secrets.TESTOMATIO_INTEGRATION }}
+      - name: Assert ClickHouse actually served log-table queries
+        run: |
+          curl -s "http://127.0.0.1:8123/?user=matomo&password=matomo" --data-binary "SYSTEM FLUSH LOGS" || true
+          count=$(curl -s "http://127.0.0.1:8123/?user=matomo&password=matomo" --data-binary "
+            SELECT count()
+            FROM system.query_log
+            WHERE type = 'QueryFinish' AND is_initial_query AND query_kind = 'Select'
+              AND match(query, 'log_(visit|link_visit_action|action|conversion|conversion_item|bot_request)')")
+          echo "log-table SELECTs served by ClickHouse: ${count:-unknown}"
+          if [ "${count:-0}" -lt 1 ]; then
+            echo "::error::ClickHouse served zero log-table SELECTs - the tests silently ran on MySQL"
+            exit 1
+          fi
   ci-required:
     name: All required tests passed
     if: ${{ always() }}

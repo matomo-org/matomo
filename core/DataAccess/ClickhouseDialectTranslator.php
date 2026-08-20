@@ -79,7 +79,10 @@ class ClickhouseDialectTranslator
      */
     private static function rewriteVisitDedup(string $sql): string
     {
-        $pattern = '~\bGROUP\s+BY\s+(`?\w+`?\.`?idvisit`?|`?idvisit`?)\s*~i';
+        // The lookaheads keep out multi-column clauses (GROUP BY idvisit, idaction) and
+        // columns that merely start with "idvisit" (GROUP BY idvisitor): those are
+        // genuine aggregations handled by fixGroupBy(), not row dedup.
+        $pattern = '~\bGROUP\s+BY\s+((?:`?\w+`?\.)?`?idvisit`?)(?![\w`])(?!\s*,)\s*~i';
         if (!preg_match_all($pattern, $sql, $matches, PREG_OFFSET_CAPTURE)) {
             return $sql;
         }

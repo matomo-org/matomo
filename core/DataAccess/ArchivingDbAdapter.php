@@ -10,6 +10,7 @@
 namespace Piwik\DataAccess;
 
 use Piwik\Config;
+use Piwik\Db\Adapter\Clickhouse;
 use Piwik\Db\AdapterInterface;
 use Piwik\DbHelper;
 use Piwik\Log\LoggerInterface;
@@ -46,7 +47,7 @@ class ArchivingDbAdapter
 
     public function exec($sql, ...$params)
     {
-        $sql = DbHelper::addMaxExecutionTimeHintToQuery($sql, $this->maxExecutionTime);
+        $sql = $this->prepareSql($sql);
         $this->logSql($sql);
 
         return $this->callFunction(__FUNCTION__, $sql, ...$params);
@@ -54,7 +55,7 @@ class ArchivingDbAdapter
 
     public function query($sql, ...$params)
     {
-        $sql = DbHelper::addMaxExecutionTimeHintToQuery($sql, $this->maxExecutionTime);
+        $sql = $this->prepareSql($sql);
         $this->logSql($sql);
 
         return $this->callFunction(__FUNCTION__, $sql, ...$params);
@@ -62,7 +63,7 @@ class ArchivingDbAdapter
 
     public function fetchAll($sql, ...$params)
     {
-        $sql = DbHelper::addMaxExecutionTimeHintToQuery($sql, $this->maxExecutionTime);
+        $sql = $this->prepareSql($sql);
         $this->logSql($sql);
 
         return $this->callFunction(__FUNCTION__, $sql, ...$params);
@@ -70,7 +71,7 @@ class ArchivingDbAdapter
 
     public function fetchRow($sql, ...$params)
     {
-        $sql = DbHelper::addMaxExecutionTimeHintToQuery($sql, $this->maxExecutionTime);
+        $sql = $this->prepareSql($sql);
         $this->logSql($sql);
 
         return $this->callFunction(__FUNCTION__, $sql, ...$params);
@@ -78,7 +79,7 @@ class ArchivingDbAdapter
 
     public function fetchOne($sql, ...$params)
     {
-        $sql = DbHelper::addMaxExecutionTimeHintToQuery($sql, $this->maxExecutionTime);
+        $sql = $this->prepareSql($sql);
         $this->logSql($sql);
 
         return $this->callFunction(__FUNCTION__, $sql, ...$params);
@@ -86,10 +87,26 @@ class ArchivingDbAdapter
 
     public function fetchAssoc($sql, ...$params)
     {
-        $sql = DbHelper::addMaxExecutionTimeHintToQuery($sql, $this->maxExecutionTime);
+        $sql = $this->prepareSql($sql);
         $this->logSql($sql);
 
         return $this->callFunction(__FUNCTION__, $sql, ...$params);
+    }
+
+    /**
+     * Applies pre-execution SQL transformations.
+     *
+     * For MySQL/MariaDB the MAX_EXECUTION_TIME hint is injected. The ClickHouse
+     * adapter handles dialect translation and timeouts itself, so its SQL is
+     * passed through untouched here.
+     */
+    private function prepareSql(string $sql): string
+    {
+        if ($this->wrapped instanceof Clickhouse) {
+            return $sql;
+        }
+
+        return DbHelper::addMaxExecutionTimeHintToQuery($sql, $this->maxExecutionTime);
     }
 
     /**

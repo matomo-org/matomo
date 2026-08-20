@@ -210,7 +210,12 @@ class RawLogDao
      */
     public function hasSiteVisitsBetweenTimeframe($fromDateTime, $toDateTime, $idSite)
     {
-        $sites = Db::fetchOne("SELECT 1
+        // Route through the analytics database when one is configured: archiving reads
+        // log_visit from there, so this "any visits?" short-circuit must see the same
+        // backend (and the same freshness) as the aggregation queries that follow it.
+        $db = Db::hasAnalyticsConfigured() ? Db::getAnalytics() : Db::get();
+
+        $sites = $db->fetchOne("SELECT 1
                 FROM `" . Common::prefixTable('log_visit') . "`
                 WHERE idsite = ?
                 AND visit_last_action_time >= ?
