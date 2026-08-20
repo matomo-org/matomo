@@ -102,14 +102,17 @@ class CustomUserLog
 
         $columns = array_merge(['user_id' => $userId], $attributes);
 
+        // Quote every identifier that goes into the statement, including the ones this class built
+        // itself. `group` and `order` are reserved words, and a column list assembled at runtime is
+        // exactly where an unquoted one stops being obvious.
         $updates = array_map(static function (string $column): string {
-            return $column . ' = ?';
+            return '`' . $column . '` = ?';
         }, array_keys($attributes));
 
         $sql = sprintf(
-            'INSERT INTO `%s` (%s) VALUES(%s) ON DUPLICATE KEY UPDATE %s',
+            'INSERT INTO `%s` (`%s`) VALUES(%s) ON DUPLICATE KEY UPDATE %s',
             $this->tablePrefixed,
-            implode(',', array_keys($columns)),
+            implode('`,`', array_keys($columns)),
             Common::getSqlStringFieldsArray($columns),
             implode(', ', $updates)
         );
