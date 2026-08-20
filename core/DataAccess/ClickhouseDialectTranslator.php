@@ -268,6 +268,14 @@ class ClickhouseDialectTranslator
             // String functions — MySQL is case-insensitive, ClickHouse is not
             '/\bCONCAT\s*\(/i'    => 'concat(',
 
+            // ClickHouse's lower()/upper() only fold ASCII, so they leave accented
+            // characters as they were: a campaign keyword MySQL reports as
+            // 'mot_clé_pépère' came back as 'mot_clé_pÉpÈre'. The UTF-8 aware variants
+            // match MySQL's utf8mb4 case folding, and still handle pure-ASCII arguments
+            // such as lower(hex(idvisitor)).
+            '/\bLOWER\s*\(/i'     => 'lowerUTF8(',
+            '/\bUPPER\s*\(/i'     => 'upperUTF8(',
+
             // MySQL index hints (USE INDEX, FORCE INDEX, IGNORE INDEX) are not supported by
             // ClickHouse.  Strip them entirely; ClickHouse selects its own scan path.
             '/\s+(?:USE|FORCE|IGNORE)\s+INDEX\s*\([^)]*\)/i' => '',

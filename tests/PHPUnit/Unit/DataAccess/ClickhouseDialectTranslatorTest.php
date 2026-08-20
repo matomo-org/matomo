@@ -211,6 +211,18 @@ class ClickhouseDialectTranslatorTest extends \PHPUnit\Framework\TestCase
         self::assertStringNotContainsString('any(toNullable(', $translated);
     }
 
+    public function testTranslatesCaseFoldingToTheUtf8AwareVariants()
+    {
+        // ClickHouse's lower()/upper() fold ASCII only, so accented characters survive
+        // untouched where MySQL's utf8mb4 collation folds them - the campaign keyword
+        // 'mot_clé_pépère' came back as 'mot_clé_pÉpÈre'.
+        $sql = "SELECT LOWER(log_visit.campaign_keyword) AS kwd, UPPER(name) AS n FROM log_visit";
+        $translated = ClickhouseDialectTranslator::translate($sql);
+
+        self::assertStringContainsString('lowerUTF8(log_visit.campaign_keyword) AS kwd', $translated);
+        self::assertStringContainsString('upperUTF8(name) AS n', $translated);
+    }
+
     public function testWrapsRowNumberWindowFunctionInToInt64()
     {
         $sql = "SELECT ROW_NUMBER() OVER (PARTITION BY x ORDER BY cnt DESC) AS counter FROM t";
@@ -235,7 +247,8 @@ class ClickhouseDialectTranslatorTest extends \PHPUnit\Framework\TestCase
             . "FROM log_visit GROUP BY log_visit.user_id";
         $translated = ClickhouseDialectTranslator::translate($sql);
 
-        self::assertStringContainsString('any(LOWER(HEX(idvisitor))) AS idvisitor', $translated);
+        // LOWER() is translated to its UTF-8 aware variant on the way through.
+        self::assertStringContainsString('any(lowerUTF8(HEX(idvisitor))) AS idvisitor', $translated);
     }
 
     public function testDoesNotWrapExpressionsContainingAggregates()
