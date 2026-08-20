@@ -39,6 +39,13 @@ class CustomUserLog extends LogTable
         return Dao::TABLE_NAME;
     }
 
+    /**
+     * The column core treats as this table's identity. Declaring one enrols the table in two things
+     * beyond the obvious: the raw-log purge runs `SELECT MAX(<this column>)` on it, unquoted, and the
+     * unused-action purge read-locks every table that has one. Neither is a problem here, but both are
+     * reasons to pick a name that survives someone else's SQL, and a reason not to declare a column
+     * this table does not really identify rows by.
+     */
     public function getIdColumn()
     {
         return 'user_id';
@@ -55,6 +62,10 @@ class CustomUserLog extends LogTable
     /**
      * This table has no `idvisit` column, so it cannot override `getColumnToJoinOnIdVisit()`. The
      * fallback is to name a table it shares a column with, and let core work out the rest.
+     *
+     * `getDateTimeColumn()` is left unset for the same reason -- there is no time on these rows to
+     * declare. A table that does have one should say so: the archiving queries use it to narrow the
+     * scan to the period being archived, and without it every archive run reads the whole table.
      *
      * @return array<string, string>
      */

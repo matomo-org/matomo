@@ -18,6 +18,8 @@ within a major version rather than forever. Everything here is verified against 
 - Showing your own data in the visits log, both halves of it: the API payload and the rendered entry.
 - Data subject erasure and export for plugin-owned storage. This is the only example that owns
   storage, so it is the only one that can demonstrate the obligation.
+- Naming a table and its columns so they survive being interpolated into core's SQL and cannot
+  collide with a future core table.
 
 ## Read this when
 
@@ -35,22 +37,24 @@ within a major version rather than forever. Everything here is verified against 
   has it. Reach for that first: a column on `log_visit` needs no table, no DAO and no join
   declaration, and everything in this README comes free with it.
 - **Reports, report metadata and visualizations.** `ExampleReport` and `ExampleVisualization`. The
-  metric here is archived and readable through the API but has no `Reports/` class.
+  metric here is archived and readable through the API, but nothing declares a report over it.
 - **Pages, menus and widgets.** `ExampleUI`. The one template here belongs to the visits log entry,
   which Live renders; it is not a page of this plugin's own.
 - **Settings, diagnostics and admin screens.** `ExampleSettingsPlugin`.
 - **The plugin skeleton, DI configuration files and update migrations.** `ExamplePlugin`. This plugin
   has no `config/` directory at all, because it configures no services.
-- **Non-log storage.** A table that is configuration rather than log data — one row per site, say —
-  is not a log table, must not declare a join, and gets none of the privacy handling described
-  below. `plugins/CustomDimensions/Dao/Configuration.php` is the production example of that shape.
+- **Non-log storage.** A table that is configuration rather than log data is not a log table, must
+  not declare a join, and gets none of the privacy handling described below.
+  `plugins/CustomDimensions/Dao/Configuration.php` is the production example of that shape: one row
+  per configured dimension per site, named `custom_dimensions` without the `log_` prefix, and no log
+  table class anywhere in the plugin.
 
 ## Files in dependency order
 
 | Path | What it does | How Matomo finds it |
 | --- | --- | --- |
 | `plugin.json` | Name, version and the core version range the plugin works with | Magic filename |
-| `ExampleLogTables.php` | Creates and drops the tables, declares the plugin as a tracker plugin, names the archived metric | Magic filename: `<Plugin>/<Plugin>.php` |
+| `ExampleLogTables.php` | Creates and drops the tables, declares the plugin as a tracker plugin, names the archived metric | Magic filename: the plugin class is named after its directory |
 | `Dao/CustomUserLog.php` | Owns the user table: the schema, and reading and writing one row per user | Nothing — the plugin's own code calls it |
 | `Dao/CustomGroupLog.php` | Owns the group table: the schema, and one row per group | Nothing — the plugin's own code calls it |
 | `Tracker/LogTable/CustomUserLog.php` | Declares the user table as log data and how it joins to `log_visit` | Location: any `Tracker/` class extending `Piwik\Tracker\LogTable` |
@@ -76,51 +80,63 @@ within a major version rather than forever. Everything here is verified against 
   existing install and to report database usage. There is no diagnostic for the omission.
 - **`Metrics.getDefaultMetricTranslations`** is likewise a subscription, and it takes translation
   *keys*: core translates the whole array after posting the event, so translating in the handler
-  translates twice. Without the subscription the archived metric renders under its raw record name.
+  translates twice. Without the subscription the metric keeps its raw record name wherever core
+  consults that map -- sparklines, the single-metric view, and any renderer asked to translate column
+  names. The default JSON and XML output never consults it, so the raw name shows there either way.
 - **A record name's prefix is a contract, not a convention.** Everything before the first underscore
   in `ExampleLogTables_nb_visits_admin_group` is read back as the plugin name when the metric is
   requested, and an unknown or deactivated plugin there throws. Rename the plugin and miss that
   string and reads fail long after archiving succeeded.
 - **A segment name is also a payload key.** Segment value suggestions are read out of the visits log
   by segment name, so the value `VisitorDetails.php` writes under `userGender` is what lets the
-  segment editor suggest values for `userGender==`. Name them differently and the editor reports that
-  there is nothing to suggest.
-- **`install()` runs on activation, once.** Bumping the version in `plugin.json` does not re-run it.
-  This plugin ships no `Updates/` migration on purpose — the versioning lesson belongs to
-  `ExamplePlugin`, and an install that activated this plugin before it had a working `install()` is
-  fixed by deactivating and reactivating it. Your plugin will need one the first time you change your
-  own table's schema, because nothing else will reach an install that already has the old one.
+  segment editor suggest values for `userGender==`. Name the two differently and the editor offers no
+  suggestions and says nothing: the visits are found, the column is not, and the empty result is
+  indistinguishable from a segment nobody has data for yet. Suggestions also only look a fixed number
+  of days back, so a segment over older data suggests nothing either.
+- **A segment whose value is not in the visits log needs a `$suggestedValuesCallback`.** `groupIsAdmin`
+  describes a group rather than a visit, so no payload key can carry it and the route above cannot
+  work. The callback answers instead, and it short-circuits before the visits log is queried at all.
+  Nothing derives `0` and `1` from a boolean dimension on your behalf — `plugins/CoreHome/Columns/Profilable.php`
+  is core's precedent for exactly this shape.
+- **The sort order of a visits log block is unallocated.** `VisitorDetails.php` returns a number
+  alongside its HTML, every plugin that renders into the visits log returns one, and nothing hands
+  them out or warns about a clash: two blocks sharing a number are ordered arbitrarily. Survey what
+  core occupies and take a gap.
+- **`install()` runs once, the first time the plugin is activated, and only then.** Bumping the
+  version in `plugin.json` does not re-run it, and neither does deactivating and reactivating the
+  plugin: core skips `install()` for any plugin already listed under `[PluginsInstalled]` in
+  `config/config.ini.php`, and deactivation never removes it from that list. An install that
+  activated this plugin before it had a working `install()` therefore has no tables and no way to
+  get them from the user interface — the plugin name has to come out of `[PluginsInstalled]` by
+  hand first. This plugin ships no migration on purpose, because the versioning lesson belongs to
+  `plugins/ExamplePlugin/Updates/`; yours needs one the first time you change your own schema,
+  because a migration is the only thing that reaches an install that already has the old one.
 - **Nothing registers the tracking parameters.** `user_gender`, `user_group` and
   `user_group_is_admin` are read straight out of the request. A plugin invents its own and
   documents them; there is no list to add them to.
-
-## Table and column naming
-
-Both are load-bearing in ways that only show up later.
-
-- **Prefix the table with your plugin name**, as `log_examplelogtables_user` does and as
-  `plugins/BotTracking/Dao/BotRequestsDao.php` does with `log_bot_request`. A generic name such as
-  `log_custom` collides with the next core table of that name. Keep the `log_` prefix so a human
-  reading the schema can see it holds log data.
-- **Do not name a column after a reserved word.** Your own queries can quote it; core's do not always
-  — it builds `SELECT MAX(<id column>)` unquoted for every declared log table while purging raw data,
-  so a table whose id column is called `group` breaks the whole site's purge with a syntax error. The
-  column here is `group_name` for that reason.
-- **Match core's width on a column you join on.** `user_id` is `VARCHAR(200)` because that is what
-  `log_visit.user_id` is. Matomo connects with a non-strict `sql_mode`, so a shorter column truncates
-  a long user id silently, and the truncated value no longer matches — leaving a row nothing can ever
-  join to again.
-- **Declare defaults for columns a partial write may omit.** A request that carries one attribute
-  writes one column, and the others fall back to their declared default.
+- **Your table and column names end up inside core's SQL, unquoted.** Nothing validates them. Core
+  builds `SELECT MAX(<id column>)` for every declared log table while purging unused log actions and
+  does not quote the column, so declaring an id column named after a reserved word breaks the whole
+  site's raw-log purge with a syntax error — on a path no test in your plugin exercises. The column
+  here is `group_name`, not `group`, for that reason, and both tables carry the plugin name so they
+  cannot collide with the next core table called `log_custom`. Declaring an id column at all enrols
+  the table in that query and in the table lock the same purge step takes, so declare one because the
+  table has one, not out of habit. The remaining schema rules — matching the width of a column you
+  join on, and declaring a default for every column a partial write may omit — are visible in the DAOs
+  that own the schema, along with the write path's own clamp: values that arrive in a tracking request
+  are not yours to assume the length of.
 
 ## Privacy
 
 **What is stored.** One row per identified user in the user table, holding attributes the site sends
 with its tracking requests, and one row per group in the group table. The user id is personal data,
 and the attributes are personal data about that user. Nothing is stored for visits without a user id.
-The gender dimension sets `$allowAnonymous = false`, as core does on every dimension over an
-identifier, so anonymous visitors cannot segment by it; the group flag does not, because a group is
-not a person.
+The gender dimension sets `$allowAnonymous = false`, so segmenting by it needs a logged-in user;
+the group flag leaves the default, because a group is not a person. Core sets that flag on its five
+visitor-identifying dimensions -- user id, visitor id, visit id, IP and fingerprint -- and leaves it
+alone elsewhere, including on identifiers like `idorder` that identify a thing rather than a person.
+The question the flag answers is not "is this column an identifier" but "does this value describe a
+person", and an attribute attached to one is as personal as the id itself.
 
 **How it is erased and exported — and the point of this section.** This plugin subscribes to none
 of the `PrivacyManager` events and contains no erasure code. Subject deletion, subject export,
@@ -146,12 +162,13 @@ because the group row is reference data the tracker rewrites on the next request
 member of that group.
 
 **A `user_id` join is not stable under anonymisation, and that is the sharpest edge here.** Matomo's
-"anonymize previously tracked data" feature rewrites `log_visit.user_id` to a hash, and it only ever
-touches core's own three log tables — `plugins/PrivacyManager/Model/LogDataAnonymizations.php` never
-consults the log table list. A table joined on `user_id` therefore stops matching the moment that job
-runs, and its rows become unreachable by all four features above: still stored, no longer erasable,
-no longer exportable. The same happens if an administrator unsets the `user_id` column outright. A
-table that must survive that has to join on `idvisit` instead. Nothing warns you either way.
+"anonymize previously tracked data" feature rewrites `log_visit.user_id` to a salted hash, and it only
+ever touches core's own three log tables — `plugins/PrivacyManager/Dao/LogDataAnonymizer.php` names
+them literally and never consults the log table list. A table joined on `user_id` therefore stops
+matching the moment that job runs, and its rows become unreachable by all four features above: still
+stored, no longer erasable, no longer exportable. The same happens if an administrator unsets the
+`user_id` column outright. A table that must survive that has to join on `idvisit` instead. Nothing
+warns you either way.
 
 **Rows with no `idsite` are global.** Neither table has one, which is honest for attributes that
 describe a person rather than their activity on one site — but it means one user id shares a row
@@ -159,10 +176,21 @@ across every site, erasing that subject on one site removes the row while their 
 site remain, and a group flagged by tracking on one site changes another site's archived metric. If
 your rows describe activity rather than a person, give them `idsite` and join on `idvisit`.
 
-**Retention reaches the rows but not the estimate.** Purging old raw data deletes from these tables
-through the same code as subject deletion, so nothing is left behind. The purge estimate shown in the
-administration UI, and the table optimisation that follows a purge, both skip tables that do not
-declare an `idvisit` column — so these two never appear there.
+**Retention reaches the rows but not the estimate.** Purging old raw data deletes visits, and deleting
+a visit routes through the very same code as deleting a data subject — `LogDataPurger` calls
+`LogDeleter`, which calls the subject deletion in `PrivacyManager\Model\DataSubjects` — so these tables
+are reached for the same reason and nothing is left behind. The purge *estimate* shown in the
+administration UI, and the table optimisation that follows a purge, work off a different and shorter
+list: only log tables that declare a column to join on `idvisit`, which neither of these does. So the
+rows go and the site owner is never shown that they will.
+
+**Retention deletes more than it looks like it should, for the same reason.** The purge erases visits
+older than the window and everything reachable from them, and what is reachable from a visit here is
+the user's whole row, not the part of it that belongs to that visit. A user whose oldest visit ages
+out loses their stored attributes even if they visited yesterday, and the tracker restores them only
+on their next request carrying those parameters. A table with one row per subject is a table with no
+notion of age, so any retention rule applied through the visit join is necessarily coarse. Give rows
+`idsite` and a date of their own, and join on `idvisit`, if that matters to you.
 
 **If you store personal data outside the log table API**, none of the above applies and you must
 subscribe to `PrivacyManager.deleteDataSubjects`, `PrivacyManager.deleteDataSubjectsForDeletedSites`,
@@ -182,15 +210,20 @@ applied and this table never holds an identifier that `log_visit` does not.
 | File | What it proves |
 | --- | --- |
 | `tests/System/CustomLogTablesTest.php` | Tracking fills both tables, both segments resolve across the joins, and the archived metric agrees with them |
-| `tests/Integration/CustomLogWritePathTest.php` | A request that mentions only some attributes leaves the others alone, and nothing is stored without a user id |
-| `tests/Integration/VisitorDetailsTest.php` | The attributes reach the Live API payload *and* the rendered visits log entry |
-| `tests/Integration/DataSubjectLifecycleTest.php` | A data subject's rows appear in the export and are gone after the deletion, in both tables |
+| `tests/Integration/CustomLogWritePathTest.php` | A request that mentions only some attributes leaves the others alone, values are clamped to their column width, and nothing is stored without a user id |
+| `tests/Integration/VisitorDetailsTest.php` | The attributes reach the Live API payload *and* the rendered visits log entry, encoded exactly once |
+| `tests/Integration/SegmentAndMetricNamesTest.php` | Both segments suggest values — one from the visits log payload, one from its callback — and the archived metric carries a name rather than its record name |
+| `tests/Integration/DataSubjectLifecycleTest.php` | A data subject's rows appear in the export and are gone after the deletion, in both tables, and the retention purge clears both without breaking on their column names |
+
+Name the file rather than filtering on the class name: a filter matches every test class of that
+name in the tree, and `VisitorDetailsTest` is a name several plugins have reason to use.
 
 ```
-ddev exec ./console tests:run --options="--filter=CustomLogTablesTest"
-ddev exec ./console tests:run --options="--filter=CustomLogWritePathTest"
-ddev exec ./console tests:run --options="--filter=VisitorDetailsTest"
-ddev exec ./console tests:run --options="--filter=DataSubjectLifecycleTest"
+ddev matomo:console tests:run --file=plugins/ExampleLogTables/tests/System/CustomLogTablesTest.php
+ddev matomo:console tests:run --file=plugins/ExampleLogTables/tests/Integration/CustomLogWritePathTest.php
+ddev matomo:console tests:run --file=plugins/ExampleLogTables/tests/Integration/VisitorDetailsTest.php
+ddev matomo:console tests:run --file=plugins/ExampleLogTables/tests/Integration/DataSubjectLifecycleTest.php
+ddev matomo:console tests:run --file=plugins/ExampleLogTables/tests/Integration/SegmentAndMetricNamesTest.php
 ```
 
 ## Production references
@@ -198,10 +231,11 @@ ddev exec ./console tests:run --options="--filter=DataSubjectLifecycleTest"
 | Concept | Where core does it at scale |
 | --- | --- |
 | Plugin-owned tables and DAOs | `plugins/CustomDimensions/Dao/`, `plugins/TagManager/Dao/` |
-| A log table with one row per event, `idsite` and indexes | `plugins/BotTracking/Dao/BotRequestsDao.php` |
-| Aggregating your own table without joining `log_visit` | `plugins/BotTracking/RecordBuilders/AIChatbotReports.php` |
+| A log table with one row per event, its own `idsite` and its own date column | `plugins/BotTracking/Dao/BotRequestsDao.php` |
+| Aggregating your own table on its own date column instead of through the visit join | `plugins/BotTracking/RecordBuilders/AIChatbotReports.php` |
 | A `RequestProcessor` in a small plugin | `plugins/Heartbeat/Tracker/PingRequestProcessor.php` |
-| Rendering your own data into the visits log | `plugins/CustomDimensions/VisitorDetails.php` |
+| Rendering your own data into the visits log | `plugins/CustomDimensions/VisitorDetails.php` and `plugins/CustomDimensions/templates/_visitorDetails.twig` |
+| Suggesting segment values a visits log payload cannot carry | `plugins/CoreHome/Columns/Profilable.php` |
 | Subject export and deletion across log tables | `plugins/PrivacyManager/Model/DataSubjects.php` |
 | Handling privacy for storage outside the log table API | `plugins/BotTracking/BotTracking.php` |
 | Log table declarations for the core tables | `plugins/CoreHome/Tracker/LogTable/` |

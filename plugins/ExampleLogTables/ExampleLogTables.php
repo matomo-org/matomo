@@ -45,6 +45,9 @@ class ExampleLogTables extends \Piwik\Plugin
      * visit, action or conversion dimension, subscribe to a `Tracker.*` event, or handle
      * `Request.initAuthenticationObject`. This plugin does none of those -- its dimensions describe
      * columns of its own tables rather than of a core log table -- so it has to say so itself.
+     *
+     * The resulting list of tracker plugins is cached, so adding this override to an install that has
+     * already tracked a request takes effect once that cache is cleared, not on the next request.
      */
     public function isTrackerPlugin()
     {
@@ -53,6 +56,11 @@ class ExampleLogTables extends \Piwik\Plugin
 
     /**
      * Creates the two custom log tables when the plugin is activated.
+     *
+     * The DAOs are constructed with `new` here, unlike in the RequestProcessor, which has them
+     * injected. The plugin class itself is instantiated directly by `Plugin\Manager`, never through
+     * the container, so its constructor cannot take dependencies -- the same reason
+     * `VisitorDetails` builds its own, since Live constructs that one directly too.
      *
      * Both DAOs use `CREATE TABLE IF NOT EXISTS`, so running this more than once is harmless.
      *
