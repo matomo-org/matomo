@@ -191,31 +191,6 @@ database = 14
 ; In case you are using queued tracking: Make sure to configure a different database! Otherwise queued requests might
 ; be flushed
 
-[ClickHouse]
-; ClickHouse POC plumbing (DEV-20678) — dev/POC only, not production configuration.
-; Connection to the ClickHouse copy of the raw log tables, replicated from MySQL by the
-; Altinity sink connector in ddev (see .ddev/clickhouse-sink/config.yml) or copied by
-; Piwik\ClickHouse\ClickHouse::syncLogTablesFromMysql() in tests. Defaults match the
-; ddev clickhouse service; CLICKHOUSE_HOST/CLICKHOUSE_PORT env vars override host/port.
-; When set to 1, the Live visits log reads log_visit from ClickHouse instead of MySQL.
-; Enabled by default on this POC branch: wherever ClickHouse is unreachable or has no
-; data (e.g. PHPUnit jobs without the service, fresh UI test environments) every query
-; falls back to MySQL, so the standard test suites pass unchanged.
-live_reports_enabled = 1
-; When set to 0, a failing ClickHouse query throws instead of falling back to MySQL —
-; used by tests so CI fails loudly instead of silently serving MySQL.
-live_reports_fallback = 1
-host = "clickhouse"
-port = 8123
-user = "matomo"
-password = "matomo"
-; Empty = mirror the MySQL database name (ddev: db, tests: matomo_tests)
-database = ""
-; Hostname of the MySQL server as seen FROM the ClickHouse server, for
-; syncLogTablesFromMysql(). Empty = same host PHP uses. CI sets
-; CLICKHOUSE_SYNC_MYSQL_HOST=host.docker.internal instead.
-sync_mysql_host = ""
-
 [Debug]
 ; if set to 1, the archiving process will always be triggered, even if the archive has already been computed
 ; this is useful when making changes to the archiving code so we can force the archiving process

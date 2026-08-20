@@ -383,9 +383,6 @@ class Fixture extends \PHPUnit\Framework\Assert
         foreach (['host' => 'CLICKHOUSE_HOST', 'port' => 'CLICKHOUSE_PORT'] as $key => $envVar) {
             if (getenv($envVar) !== false && getenv($envVar) !== '') {
                 $overrides['database_analytics'][$key] = getenv($envVar);
-                // The Live visits-log POC path still reads the [ClickHouse] section until
-                // it is unified onto the analytics adapter.
-                $overrides['ClickHouse'][$key] = getenv($envVar);
             }
         }
         if (!empty($overrides['database_analytics'])) {

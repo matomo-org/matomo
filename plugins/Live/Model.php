@@ -11,7 +11,6 @@ namespace Piwik\Plugins\Live;
 
 use Exception;
 use Piwik\API\Request;
-use Piwik\ClickHouse\ClickHouse;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
@@ -167,7 +166,7 @@ class Model
 
         $query['sql'] = DbHelper::addMaxExecutionTimeHintToQuery($query['sql'], $this->getLiveQueryMaxExecutionTime());
 
-        $readerDb = Db::getReader();
+        $readerDb = Db::getAnalytics();
         try {
             $result = $readerDb->fetchOne($query['sql'], $query['bind']);
         } catch (Exception $e) {
@@ -189,7 +188,7 @@ class Model
      */
     public function getMostRecentVisitsDateTime($idSite, $period = null, $date = null): string
     {
-        $readerDb = Db::getReader();
+        $readerDb = Db::getAnalytics();
 
         [$where, $bind] = $this->getIdSitesWhereClause($idSite, Common::prefixTable('log_visit'));
 
@@ -216,27 +215,7 @@ class Model
 
     private function executeLogVisitsQuery($sql, $bind, $segment, $dateStart, $dateEnd, $minTimestamp, $limit)
     {
-        // ClickHouse POC plumbing (DEV-20678): serve the visits log from the ClickHouse
-        // copy of log_visit when enabled. The hook sits at the final-SQL boundary — after
-        // segments, plugin dimensions and joins have shaped the query — so plugins keep
-        // modifying queries exactly as on MySQL. Anything ClickHouse can't run falls back
-        // to MySQL (unless the fallback is disabled, as in tests, so failures are loud).
-        if (ClickHouse::isLiveReportsEnabled()) {
-            try {
-                return ClickHouse::fetchLogVisits($sql, $bind);
-            } catch (Exception $e) {
-                if (!ClickHouse::isFallbackToMysqlEnabled()) {
-                    throw $e;
-                }
-                // error_log, not the Matomo logger: logger messages render as on-screen
-                // notifications in the UI test environment (breaking screenshots) and
-                // warnings trip the console failure detector — falling back is expected
-                // wherever ClickHouse is unreachable or has no data.
-                error_log('ClickHouse visits log query failed, falling back to MySQL: ' . $e->getMessage());
-            }
-        }
-
-        $readerDb = Db::getReader();
+        $readerDb = Db::getAnalytics();
         try {
             $visits = $readerDb->fetchAll($sql, $bind);
         } catch (Exception $e) {
@@ -551,7 +530,7 @@ class Model
 
         $query['sql'] = DbHelper::addMaxExecutionTimeHintToQuery($query['sql'], $this->getLiveQueryMaxExecutionTime());
 
-        $readerDb = Db::getReader();
+        $readerDb = Db::getAnalytics();
         try {
             $numVisitors = $readerDb->fetchOne($query['sql'], $query['bind']);
         } catch (Exception $e) {
@@ -637,7 +616,7 @@ class Model
 
         $sql = DbHelper::addMaxExecutionTimeHintToQuery($sql, $this->getLiveQueryMaxExecutionTime());
 
-        $readerDb = Db::getReader();
+        $readerDb = Db::getAnalytics();
         try {
             $visitorId = $readerDb->fetchOne($sql, $bind);
         } catch (Exception $e) {

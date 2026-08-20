@@ -333,6 +333,10 @@ abstract class VisitorDetailsAbstract
      */
     public function getDb()
     {
-        return Db::getReader();
+        // Visitor details read the log tables (actions, conversions, ecommerce items for
+        // one visit), so they come from the analytics database when one is configured -
+        // the same place the visits log itself is served from. Without one this is the
+        // reader connection, exactly as before.
+        return Db::getAnalytics();
     }
 }
