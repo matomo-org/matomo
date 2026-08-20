@@ -125,6 +125,13 @@ within a major version rather than forever. Everything here is verified against 
   join on, and declaring a default for every column a partial write may omit — are visible in the DAOs
   that own the schema, along with the write path's own clamp: values that arrive in a tracking request
   are not yours to assume the length of.
+- **Your own SQL has one shape here, and it is core's.** Backtick a table name you interpolate, leave
+  column names bare unless they are reserved words, and write the column list and the
+  `ON DUPLICATE KEY UPDATE` clause out literally. Building a column list at runtime is for code that
+  cannot know its columns — schema migrations, not a DAO for one table — and
+  `core/Updater/Migration/Db/Insert.php` is the shape to copy if you ever need it, backticks included.
+  This plugin keeps one write method per attribute for that reason: partial writes have no upsert
+  syntax in core to copy, so the choice of statement expresses them instead of a generated clause.
 
 ## Privacy
 

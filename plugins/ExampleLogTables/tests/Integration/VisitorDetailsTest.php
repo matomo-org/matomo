@@ -35,10 +35,9 @@ class VisitorDetailsTest extends IntegrationTestCase
         parent::setUp();
 
         // No cleanup needed: IntegrationTestCase restores every table between test methods.
-        (new CustomUserLog())->addOrUpdateUserInformation(
-            self::USER_ID,
-            ['gender' => 'women', 'group_name' => 'admin']
-        );
+        $userLog = new CustomUserLog();
+        $userLog->addOrUpdateGender(self::USER_ID, 'women');
+        $userLog->addOrUpdateGroupName(self::USER_ID, 'admin');
 
         $this->visitorDetails = new VisitorDetails();
     }
@@ -79,9 +78,9 @@ class VisitorDetailsTest extends IntegrationTestCase
         // What the tracker stores is already HTML-encoded, because Common::getRequestVar() sanitises
         // every value it returns. Printing that under Twig's autoescape would encode it twice and put
         // the entities on screen, which is what `rawSafeDecoded` in the template prevents.
-        (new CustomUserLog())->addOrUpdateUserInformation(
+        (new CustomUserLog())->addOrUpdateGroupName(
             self::USER_ID,
-            ['gender' => 'women', 'group_name' => Common::sanitizeInputValue('Sales & Marketing')]
+            Common::sanitizeInputValue('Sales & Marketing')
         );
 
         $blocks = $this->visitorDetails->renderVisitorDetails($this->extendVisitorDetails(self::USER_ID));

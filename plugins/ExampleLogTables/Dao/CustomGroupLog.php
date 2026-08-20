@@ -67,18 +67,11 @@ class CustomGroupLog
      */
     public function addOrUpdateGroupInformation(string $group, bool $isAdmin): void
     {
-        $columns = [
-            'group_name' => $group,
-            'is_admin' => (int) $isAdmin,
-        ];
-
         $sql = sprintf(
-            'INSERT INTO `%s` (%s) VALUES(%s) ON DUPLICATE KEY UPDATE is_admin = ?',
-            $this->tablePrefixed,
-            implode(',', array_keys($columns)),
-            Common::getSqlStringFieldsArray($columns)
+            'INSERT INTO `%s` (group_name, is_admin) VALUES (?, ?) ON DUPLICATE KEY UPDATE is_admin = ?',
+            $this->tablePrefixed
         );
 
-        Db::query($sql, [...array_values($columns), (int) $isAdmin]);
+        Db::query($sql, [$group, (int) $isAdmin, (int) $isAdmin]);
     }
 }

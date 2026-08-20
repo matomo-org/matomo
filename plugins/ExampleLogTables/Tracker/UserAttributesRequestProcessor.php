@@ -78,10 +78,6 @@ class UserAttributesRequestProcessor extends RequestProcessor
         // silently overwrite what an earlier request stored.
         $isAdmin = Common::getRequestVar(self::PARAM_GROUP_IS_ADMIN, -1, 'int', $params);
 
-        // Collect only what this request actually carried. A request that mentions the gender but
-        // not the group says nothing about the group, and writing a default for it would erase what
-        // an earlier request stored.
-        //
         // Clamp each value to the width of the column that holds it, the way
         // CoreHome\Columns\UserId does for the user id it persists. These arrive from a tracking
         // request, so their length is not yours to assume: the tracker connection keeps whatever
@@ -89,23 +85,31 @@ class UserAttributesRequestProcessor extends RequestProcessor
         // value there fails the whole tracking request rather than truncating. Clamping is lossy
         // in its own way -- two group names sharing a 30-character prefix become one row, and
         // `group_name` is the join key between the two tables -- so widen the column rather than
-        // lean on the clamp if your values are genuinely free text.
-        $attributes = [];
-
+        // lean on the clamp if your values are genuinely free text. The group name is clamped before
+        // either table is written, so both sides of that join always hold the same string.
         if ('' !== $gender) {
-            $attributes['gender'] = mb_substr($gender, 0, CustomUserLog::MAX_LENGTH_GENDER);
+            $gender = mb_substr($gender, 0, CustomUserLog::MAX_LENGTH_GENDER);
         }
 
         if ('' !== $group) {
             $group = mb_substr($group, 0, CustomGroupLog::MAX_LENGTH_GROUP_NAME);
-            $attributes['group_name'] = $group;
         }
 
-        if (empty($attributes)) {
+        if ('' === $gender && '' === $group) {
             return; // nothing this plugin collects was sent, so nothing is stored
         }
 
-        $this->userLog->addOrUpdateUserInformation($userId, $attributes);
+        // One call per attribute the request carried. A request that mentions the gender but not the
+        // group calls nothing that writes the group column, which is what keeps it from erasing what
+        // an earlier request stored -- see the DAO for why that is a method per attribute rather
+        // than an array of column names.
+        if ('' !== $gender) {
+            $this->userLog->addOrUpdateGender($userId, $gender);
+        }
+
+        if ('' !== $group) {
+            $this->userLog->addOrUpdateGroupName($userId, $group);
+        }
 
         // The group row is written only when this request said something about the flag. A request
         // carrying a group name and nothing else stores the user's membership and leaves the group

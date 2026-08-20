@@ -96,7 +96,7 @@ class CustomUserLog
      */
     public function getUserInformation(string $userId): array
     {
-        $sql = 'SELECT gender, group_name FROM ' . $this->tablePrefixed . ' WHERE user_id = ?';
+        $sql = 'SELECT gender, group_name FROM `' . $this->tablePrefixed . '` WHERE user_id = ?';
 
         $row = Db::fetchRow($sql, [$userId]);
 
@@ -104,43 +104,49 @@ class CustomUserLog
     }
 
     /**
-     * Records the attributes one tracking request carried for one user.
+     * Records the gender one tracking request carried for one user.
      *
      * The tracker sees the same user on every one of their visits, so this has to be an upsert
      * rather than an insert: the primary key on `user_id` is what keeps the table at one row per
-     * user instead of one row per request.
+     * user instead of one row per request. On the insert branch the *other* attribute takes the
+     * default declared for its column, which is what makes those defaults load-bearing.
      *
-     * Only the columns in `$attributes` are written. Adding the missing ones with an invented
-     * default would overwrite what an earlier request stored, which is the same trap the
-     * RequestProcessor guards with a sentinel default -- the two have to agree, or a request that
-     * mentions one attribute silently erases the other.
+     * **One method per attribute is the whole mechanism behind "store only what the request
+     * carried".** A request that says nothing about the group calls nothing that writes the group
+     * column, so it cannot erase what an earlier request stored, and the SQL says which column it
+     * writes. The alternative -- one method taking an array and assembling the column list from its
+     * keys -- saves a round trip and costs an unwritten contract between this class and its caller
+     * over which keys are legal.
      *
-     * @param array<string, string> $attributes column name => value, for the columns the request
-     *                                          actually carried
+     * Core writes column lists and `ON DUPLICATE KEY UPDATE` clauses literally. Runtime-built column
+     * lists exist in about fifteen places, all of them schema-generic code that cannot know its
+     * columns in advance; `core/Updater/Migration/Db/Insert.php` is the one to copy if you genuinely
+     * need one, and note that it backticks every identifier it interpolates. A DAO for one known
+     * table is not that case. Core has no partial upsert at all, so there is nothing to copy here
+     * and the shape that invents least wins.
      */
-    public function addOrUpdateUserInformation(string $userId, array $attributes): void
+    public function addOrUpdateGender(string $userId, string $gender): void
     {
-        if (empty($attributes)) {
-            return; // the request carried nothing this table stores
-        }
-
-        $columns = array_merge(['user_id' => $userId], $attributes);
-
-        // Quote every identifier that goes into the statement, including the ones this class built
-        // itself. `group` and `order` are reserved words, and a column list assembled at runtime is
-        // exactly where an unquoted one stops being obvious.
-        $updates = array_map(static function (string $column): string {
-            return '`' . $column . '` = ?';
-        }, array_keys($attributes));
-
         $sql = sprintf(
-            'INSERT INTO `%s` (`%s`) VALUES(%s) ON DUPLICATE KEY UPDATE %s',
-            $this->tablePrefixed,
-            implode('`,`', array_keys($columns)),
-            Common::getSqlStringFieldsArray($columns),
-            implode(', ', $updates)
+            'INSERT INTO `%s` (user_id, gender) VALUES (?, ?) ON DUPLICATE KEY UPDATE gender = ?',
+            $this->tablePrefixed
         );
 
-        Db::query($sql, [...array_values($columns), ...array_values($attributes)]);
+        Db::query($sql, [$userId, $gender, $gender]);
+    }
+
+    /**
+     * Records the group one tracking request said a user belongs to.
+     *
+     * @see addOrUpdateGender() for why each attribute has its own method.
+     */
+    public function addOrUpdateGroupName(string $userId, string $groupName): void
+    {
+        $sql = sprintf(
+            'INSERT INTO `%s` (user_id, group_name) VALUES (?, ?) ON DUPLICATE KEY UPDATE group_name = ?',
+            $this->tablePrefixed
+        );
+
+        Db::query($sql, [$userId, $groupName, $groupName]);
     }
 }
