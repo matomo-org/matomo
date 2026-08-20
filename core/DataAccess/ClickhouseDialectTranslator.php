@@ -52,8 +52,114 @@ class ClickhouseDialectTranslator
         $sql = self::rewriteVisitDedup($sql);
         $sql = self::rewriteEmptyStringComparisons($sql);
         $sql = self::rewriteLikeOnNonStringColumns($sql);
+        $sql = self::aliasQualifiedSelectColumns($sql);
         $sql = self::fixGroupBy($sql);
         return $sql;
+    }
+
+    /**
+     * Gives unaliased qualified SELECT items an explicit alias: `tbl.col` → `tbl.col AS col`.
+     *
+     * MySQL always names such a result column by its short name. ClickHouse names it by
+     * its qualified name whenever the short name is ambiguous in a JOIN (the column
+     * exists on both sides), so an outer query wrapping the subquery — RankingQuery's
+     * envelope does exactly that — fails to resolve the short reference with
+     * UNKNOWN_IDENTIFIER. The explicit alias pins MySQL's naming at every query level.
+     */
+    private static function aliasQualifiedSelectColumns(string $sql): string
+    {
+        // Recurse into top-level FROM (...) subqueries first.
+        $sql = self::mapFromBlocks($sql, [self::class, 'aliasQualifiedSelectColumns']);
+
+        $topFromPos = self::findTopLevelFromPos($sql);
+        if ($topFromPos === null || !preg_match('/^\s*SELECT\s+(?:\/\*.*?\*\/\s*)*/is', $sql, $selPrefix)) {
+            return $sql;
+        }
+
+        $selPrefixLen = strlen($selPrefix[0]);
+        $selectClause = substr($sql, $selPrefixLen, $topFromPos - $selPrefixLen);
+        $newSelect = $selectClause;
+
+        foreach (self::splitByComma(trim($selectClause)) as $item) {
+            $trimmedItem = trim($item);
+            if (!preg_match('/^(`?\w+`?)\.(`?\w+`?)$/', $trimmedItem, $m)) {
+                continue;
+            }
+            $short = '`' . str_replace('`', '', $m[2]) . '`';
+            $newSelect = str_replace($trimmedItem, $trimmedItem . ' AS ' . $short, $newSelect);
+        }
+
+        if ($newSelect === $selectClause) {
+            return $sql;
+        }
+
+        return substr($sql, 0, $selPrefixLen) . $newSelect . substr($sql, $topFromPos);
+    }
+
+    /**
+     * Applies $callback to the contents of every top-level FROM (...) block.
+     *
+     * @param callable(string): string $callback
+     */
+    private static function mapFromBlocks(string $sql, callable $callback): string
+    {
+        if (!preg_match('/^\s*SELECT\s+(?:\/\*.*?\*\/\s*)*/is', $sql, $m)) {
+            return $sql;
+        }
+
+        $len = strlen($sql);
+        $depth = 0;
+        $i = strlen($m[0]);
+        $result = $m[0];
+
+        while ($i < $len) {
+            $ch = $sql[$i];
+
+            if ($ch === '(') {
+                $depth++;
+                $result .= $ch;
+                $i++;
+            } elseif ($ch === ')') {
+                $depth--;
+                $result .= $ch;
+                $i++;
+            } elseif (
+                $depth === 0 && ($ch === 'F' || $ch === 'f')
+                && preg_match('/^FROM\s+\(/i', substr($sql, $i), $fm)
+            ) {
+                $fromPrefixLen = strlen($fm[0]) - 1;
+                $parenOpen = $i + $fromPrefixLen;
+                $subDepth = 0;
+                $parenClose = -1;
+
+                for ($j = $parenOpen; $j < $len; $j++) {
+                    $c = $sql[$j];
+                    if ($c === '(') {
+                        $subDepth++;
+                    } elseif ($c === ')') {
+                        $subDepth--;
+                        if ($subDepth === 0) {
+                            $parenClose = $j;
+                            break;
+                        }
+                    }
+                }
+
+                if ($parenClose < 0) {
+                    $result .= substr($sql, $i);
+                    return $result;
+                }
+
+                $subContent = substr($sql, $parenOpen + 1, $parenClose - $parenOpen - 1);
+                $result .= substr($sql, $i, $fromPrefixLen) . '(' . $callback($subContent) . ')';
+                $i = $parenClose + 1;
+            } else {
+                $result .= $ch;
+                $i++;
+            }
+        }
+
+        return $result;
     }
 
     /**
@@ -511,8 +617,15 @@ class ClickhouseDialectTranslator
             return $sql;
         }
 
+        // The extracted clause keeps a trailing WITH ROLLUP; it is not part of the keys.
+        $groupByClause = (string) preg_replace('/\s*\bWITH\s+ROLLUP\b\s*$/i', '', $groupByClause);
+
         $groupByNormalized = array_map(
             [self::class, 'normalizeIdent'],
+            self::splitByComma($groupByClause)
+        );
+        $groupByNormalizedExpressions = array_map(
+            [self::class, 'normalizeExpression'],
             self::splitByComma($groupByClause)
         );
 
@@ -536,8 +649,29 @@ class ClickhouseDialectTranslator
             $expr = preg_replace('/\s+AS\s+(`[^`]*`|\'[^\']*\'|\w+)\s*$/i', '', $trimmedItem);
             $expr = trim($expr);
 
-            // Expressions containing '(' are aggregate or function calls — skip.
             if (strpos($expr, '(') !== false) {
+                // Function-call expressions: aggregates (and expressions containing one,
+                // like ROUND(SUM(x), 2)) are valid under GROUP BY as-is. A pure SCALAR
+                // expression (e.g. LOWER(HEX(idvisitor))) is not — MySQL's relaxed mode
+                // picks an arbitrary row value, which is exactly any(). Wrap it, unless
+                // it is itself one of the grouping expressions or has no alias to keep
+                // its result-column name stable.
+                if (
+                    $selectAliasStr === null
+                    || self::containsAggregateFunction($expr)
+                    || in_array(self::normalizeExpression($expr), $groupByNormalizedExpressions, true)
+                    || ($normalizedAlias !== null && in_array($normalizedAlias, $groupByNormalized, true))
+                ) {
+                    continue;
+                }
+
+                $toFix[] = [
+                    'expr'           => $expr,
+                    'fullItem'       => $trimmedItem,
+                    'naturalName'    => self::normalizeIdent($selectAliasStr),
+                    'aliasForWrapper' => $selectAliasStr,
+                ];
+                $groupByNormalized[] = $normalizedAlias;
                 continue;
             }
 
@@ -914,5 +1048,32 @@ class ClickhouseDialectTranslator
     private static function normalizeIdent(string $ident): string
     {
         return strtolower(str_replace('`', '', trim($ident)));
+    }
+
+    /**
+     * Normalizes a full SQL expression for textual comparison: lowercased, backticks
+     * stripped, whitespace collapsed.
+     */
+    private static function normalizeExpression(string $expr): string
+    {
+        return strtolower(trim((string) preg_replace('/\s+/', ' ', str_replace('`', '', $expr))));
+    }
+
+    /**
+     * Returns true when the expression contains an aggregate (or window) function call,
+     * meaning it is already valid in a SELECT under GROUP BY.
+     */
+    private static function containsAggregateFunction(string $expr): bool
+    {
+        if (preg_match('/\bOVER\s*\(/i', $expr)) {
+            return true;
+        }
+
+        return (bool) preg_match(
+            '/\b(?:count|sum|min|max|avg|group_concat|groupArray|groupUniqArray|countDistinct|uniq|uniqExact|'
+            . 'any|anyLast|stddev(?:_pop|_samp)?|var(?:_pop|_samp)?|bit_and|bit_or|bit_xor|'
+            . 'sumIf|countIf|minIf|maxIf|avgIf|argMin|argMax|quantile\w*|median\w*|topK\w*)\s*\(/i',
+            $expr
+        );
     }
 }

@@ -187,6 +187,59 @@ class ClickhouseDialectTranslatorTest extends \PHPUnit\Framework\TestCase
         self::assertStringContainsString("CASE WHEN any(counter) >= 51 THEN '__mtm_ranking_query_others__' ELSE toString(any(label)) END", $translated);
     }
 
+    public function testWrapsScalarFunctionExpressionsWithAny()
+    {
+        $sql = "SELECT log_visit.user_id AS user_id, count(*) AS `2`, LOWER(HEX(idvisitor)) as idvisitor "
+            . "FROM log_visit GROUP BY log_visit.user_id";
+        $translated = ClickhouseDialectTranslator::translate($sql);
+
+        self::assertStringContainsString('any(LOWER(HEX(idvisitor))) AS idvisitor', $translated);
+    }
+
+    public function testDoesNotWrapExpressionsContainingAggregates()
+    {
+        $sql = "SELECT log_conversion.idgoal AS idgoal, ROUND(SUM(log_conversion.revenue), 2) AS `2` "
+            . "FROM log_conversion GROUP BY log_conversion.idgoal";
+        $translated = ClickhouseDialectTranslator::translate($sql);
+
+        self::assertStringNotContainsString('any(ROUND', $translated);
+    }
+
+    public function testDoesNotWrapScalarExpressionThatIsAGroupingExpression()
+    {
+        $sql = "SELECT toUInt8(substring(log_visit.visitor_localtime, 1, 2)) AS label, count(*) AS nb "
+            . "FROM log_visit GROUP BY toUInt8(substring(log_visit.visitor_localtime, 1, 2))";
+        $translated = ClickhouseDialectTranslator::translate($sql);
+
+        self::assertStringNotContainsString('any(toUInt8', $translated);
+    }
+
+    public function testAliasesUnaliasedQualifiedSelectColumnsAtEveryLevel()
+    {
+        $sql = "SELECT custom_dimension_1, url, toInt64(ROW_NUMBER() OVER (ORDER BY `12` DESC)) AS counter "
+            . "FROM (SELECT log_link_visit_action.custom_dimension_1, log_action.name AS url, count(*) AS `12` "
+            . "FROM log_link_visit_action AS log_link_visit_action "
+            . "LEFT JOIN log_visit AS log_visit ON log_visit.idvisit = log_link_visit_action.idvisit "
+            . "GROUP BY log_link_visit_action.custom_dimension_1, url ORDER BY `12` DESC) AS actualQuery";
+        $translated = ClickhouseDialectTranslator::translate($sql);
+
+        self::assertStringContainsString(
+            'log_link_visit_action.custom_dimension_1 AS `custom_dimension_1`',
+            $translated
+        );
+        // Already-aliased items are left alone
+        self::assertStringContainsString('log_action.name AS url', $translated);
+        self::assertStringNotContainsString('log_action.name AS url AS', $translated);
+    }
+
+    public function testDoesNotAliasStarOrFunctionSelectItems()
+    {
+        $sql = "SELECT log_visit.*, count(*) AS nb FROM log_visit";
+        $translated = ClickhouseDialectTranslator::translate($sql);
+
+        self::assertStringContainsString('log_visit.*, count(*) AS nb', $translated);
+    }
+
     public function testTranslateLeavesPlainQueriesUntouched()
     {
         $sql = "SELECT idvisit, idsite FROM log_visit WHERE idsite = ? AND visit_last_action_time >= ?";

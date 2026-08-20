@@ -60,10 +60,20 @@ class Clickhouse implements AdapterInterface
 
     /**
      * Verifies connectivity. Called by Adapter::factory() after construction.
+     *
+     * Pings against the always-present 'default' database: the target analytics
+     * database may not exist yet at connect time (in the test environment the log
+     * table sync creates it on the first real query).
      */
     public function getConnection(): bool
     {
-        $this->selectRows('SELECT 1', [], false);
+        $client = $this->getClient();
+        $client->database('default');
+        try {
+            $client->select('SELECT 1')->rows();
+        } finally {
+            $client->database((string) ($this->config['dbname'] ?? 'default'));
+        }
         return true;
     }
 
