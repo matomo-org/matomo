@@ -13,6 +13,13 @@ use Piwik\Common;
 use Piwik\Db;
 use Piwik\DbHelper;
 
+/**
+ * Owns the user table: its schema, and reading and writing one row per user.
+ *
+ * The DAO owns the schema, not the Dimension. `DbHelper::createTable()` writes
+ * `CREATE TABLE IF NOT EXISTS`, applies the engine, charset and collation the install uses, and
+ * swallows the "table exists" error, so `install()` is safe to call twice.
+ */
 class CustomUserLog
 {
     /**
@@ -50,28 +57,21 @@ class CustomUserLog
         $this->tablePrefixed = Common::prefixTable(self::TABLE_NAME);
     }
 
-    /**
-     * Creates the table.
-     *
-     * `DbHelper::createTable()` writes `CREATE TABLE IF NOT EXISTS`, applies the engine, charset and
-     * collation the install uses, and swallows the "table exists" error, so calling this twice is
-     * harmless.
-     *
-     * Two column decisions carry more weight than they look:
-     *
-     * - `user_id` is `VARCHAR(200)` because that is what `log_visit.user_id` is
-     *   (`CoreHome\Columns\UserId::MAXLENGTH`, which the dimension also truncates to). A column you
-     *   join on has to hold the joined value byte for byte: make it shorter and the write either
-     *   fails outright, on the strict `sql_mode` a default MySQL gives the tracker connection, or
-     *   truncates with a warning nobody reads on a server configured the other way -- and a truncated
-     *   user id matches no row in `log_visit`, so no join, and therefore no GDPR deletion or export,
-     *   ever reaches it again.
-     * - both attribute columns have an explicit `DEFAULT ''`, because a tracking request that carries
-     *   only one of them inserts only that column, and the tracker's strict `sql_mode` rejects an
-     *   `INSERT` that omits a `NOT NULL` column with no default.
-     */
     public function install(): void
     {
+        // Two column decisions carry more weight than they look.
+        //
+        // `user_id` is VARCHAR(200) because that is what `log_visit.user_id` is
+        // (`CoreHome\Columns\UserId::MAXLENGTH`, which the dimension also truncates to). A column
+        // you join on has to hold the joined value byte for byte: make it shorter and the write
+        // either fails outright, on the strict `sql_mode` a default MySQL gives the tracker
+        // connection, or truncates with a warning nobody reads on a server configured the other way
+        // -- and a truncated user id matches no row in `log_visit`, so no join, and therefore no
+        // GDPR deletion or export, ever reaches it again.
+        //
+        // Both attribute columns carry an explicit `DEFAULT ''`, because a tracking request that
+        // mentions only one of them inserts only that column, and the tracker's strict `sql_mode`
+        // rejects an INSERT that omits a NOT NULL column with no default.
         DbHelper::createTable(self::TABLE_NAME, sprintf(
             "
                   `user_id` VARCHAR(%d) NOT NULL,

@@ -13,6 +13,11 @@ use Piwik\Common;
 use Piwik\Db;
 use Piwik\DbHelper;
 
+/**
+ * Owns the group table: its schema, and one row per group.
+ *
+ * See {@see CustomUserLog} for the conventions both DAOs share.
+ */
 class CustomGroupLog
 {
     /**
@@ -37,17 +42,13 @@ class CustomGroupLog
         $this->tablePrefixed = Common::prefixTable(self::TABLE_NAME);
     }
 
-    /**
-     * Creates the table.
-     *
-     * The column is `group_name`, not `group`. `group` is a MySQL reserved word, and while this
-     * plugin's own queries could quote it, core's do not always: `RawLogDao` builds
-     * `SELECT MAX(<id column>)` unquoted for every declared log table, so a table whose id column is
-     * a reserved word makes the site's raw-log purge fail with a syntax error. Pick column names that
-     * survive being interpolated into someone else's SQL.
-     */
     public function install(): void
     {
+        // The column is `group_name`, not `group`. `group` is a MySQL reserved word, and while this
+        // plugin's own queries could quote it, core's do not always: `RawLogDao` builds
+        // `SELECT MAX(<id column>)` unquoted for every declared log table, so a table whose id
+        // column is a reserved word makes the site's raw-log purge fail with a syntax error. Pick
+        // column names that survive being interpolated into someone else's SQL.
         DbHelper::createTable(self::TABLE_NAME, sprintf('
                   `group_name` VARCHAR(%d) NOT NULL,
                   `is_admin` TINYINT(1) NOT NULL DEFAULT 0,
@@ -59,14 +60,11 @@ class CustomGroupLog
         Db::query(sprintf('DROP TABLE IF EXISTS `%s`', $this->tablePrefixed));
     }
 
-    /**
-     * Records the attributes of one group, overwriting whatever was recorded for it before.
-     *
-     * Unlike the user table there is nothing partial to write here: the group name is the key and the
-     * flag is the only other column, so a caller that has one has both.
-     */
     public function addOrUpdateGroupInformation(string $group, bool $isAdmin): void
     {
+        // Unlike the user table there is nothing partial to write here: the group name is the key
+        // and the flag is the only other column, so a caller that has one has both. That is why
+        // this overwrites unconditionally where the user DAO writes only the columns it was given.
         $sql = sprintf(
             'INSERT INTO `%s` (group_name, is_admin) VALUES (?, ?) ON DUPLICATE KEY UPDATE is_admin = ?',
             $this->tablePrefixed
