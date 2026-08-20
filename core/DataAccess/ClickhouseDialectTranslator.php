@@ -284,6 +284,11 @@ class ClickhouseDialectTranslator
             '/\bLOWER\s*\(/i'     => 'lowerUTF8(',
             '/\bUPPER\s*\(/i'     => 'upperUTF8(',
 
+            // STRAIGHT_JOIN is MySQL's inner join with the join order forced to the written
+            // order. ClickHouse has no such hint and picks its own order, so the join
+            // itself is all that carries over.
+            '/\bSTRAIGHT_JOIN\b/i' => 'INNER JOIN',
+
             // MySQL index hints (USE INDEX, FORCE INDEX, IGNORE INDEX) are not supported by
             // ClickHouse.  Strip them entirely; ClickHouse selects its own scan path.
             '/\s+(?:USE|FORCE|IGNORE)\s+INDEX\s*\([^)]*\)/i' => '',

@@ -238,6 +238,19 @@ class ClickhouseDialectTranslatorTest extends \PHPUnit\Framework\TestCase
         self::assertStringNotContainsString('AS `idlink_va` AS pageId', $translated);
     }
 
+    public function testTranslatesStraightJoinToInnerJoin()
+    {
+        // Ecommerce visitor details use MySQL's STRAIGHT_JOIN to force the join order;
+        // ClickHouse has no equivalent hint and rejected the keyword outright.
+        $sql = "SELECT idgoal FROM log_visit AS log_visit "
+            . "STRAIGHT_JOIN log_conversion AS log_conversion ON log_visit.idvisit = log_conversion.idvisit "
+            . "GROUP BY idgoal";
+        $translated = ClickhouseDialectTranslator::translate($sql);
+
+        self::assertStringContainsString('INNER JOIN log_conversion AS log_conversion', $translated);
+        self::assertStringNotContainsString('STRAIGHT_JOIN', $translated);
+    }
+
     public function testWrapsRowNumberWindowFunctionInToInt64()
     {
         $sql = "SELECT ROW_NUMBER() OVER (PARTITION BY x ORDER BY cnt DESC) AS counter FROM t";
