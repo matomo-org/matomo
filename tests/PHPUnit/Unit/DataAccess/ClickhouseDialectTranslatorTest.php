@@ -169,6 +169,48 @@ class ClickhouseDialectTranslatorTest extends \PHPUnit\Framework\TestCase
         self::assertStringContainsString("toNullable(COALESCE(log_action.name, '')) AS action_name", $translated);
     }
 
+    public function testWrapsRollupGroupingKeysInGroupByAndNeverAggregatesThem()
+    {
+        // The shape RankingQuery's rollup variant wraps (Referrers AIReferrers): the
+        // GROUP BY repeats the SELECT expressions. ClickHouse fills a rollup row's
+        // grouping keys with the key type's default, so a String key yields '' and only
+        // a Nullable key yields NULL - and the rollup CASE branches downstream detect
+        // the rollup rows with IS NULL. Wrapping the SELECT item alone is not enough,
+        // and an any() wrapper would return a real value for the rollup group.
+        $sql = "SELECT log_visit.referer_name AS `referer_name`, log_action.name AS `action_name`, count(*) AS `1` "
+            . "FROM log_visit AS log_visit "
+            . "LEFT JOIN log_action AS log_action ON log_action.idaction = log_visit.visit_entry_idaction_url "
+            . "GROUP BY log_visit.referer_name, log_action.name WITH ROLLUP";
+        $translated = ClickhouseDialectTranslator::translate($sql);
+
+        self::assertStringContainsString('toNullable(log_visit.referer_name) AS `referer_name`', $translated);
+        self::assertStringContainsString('toNullable(log_action.name) AS `action_name`', $translated);
+        self::assertStringContainsString(
+            'GROUP BY toNullable(log_visit.referer_name), toNullable(log_action.name) WITH ROLLUP',
+            $translated
+        );
+        self::assertStringNotContainsString('any(toNullable(', $translated);
+    }
+
+    public function testKeepsRollupGroupingKeysNullableInsideRankingQueryEnvelope()
+    {
+        $inner = "SELECT log_visit.referer_name AS `referer_name`, log_action.name AS `action_name`, count(*) AS `1` "
+            . "FROM log_visit AS log_visit "
+            . "LEFT JOIN log_action AS log_action ON log_action.idaction = log_visit.visit_entry_idaction_url "
+            . "GROUP BY log_visit.referer_name, log_action.name WITH ROLLUP";
+        $sql = "SELECT CASE WHEN withCounter.`action_name` IS NULL THEN NULL "
+            . "ELSE withCounter.`action_name` END AS `action_name`, sum(`1`) AS `1` "
+            . "FROM ( SELECT *, 0 AS counter, 0 AS counterRollup FROM ( $inner ) actualQuery ) withCounter "
+            . "GROUP BY `action_name`";
+        $translated = ClickhouseDialectTranslator::translate($sql);
+
+        self::assertStringContainsString(
+            'GROUP BY toNullable(log_visit.referer_name), toNullable(log_action.name) WITH ROLLUP',
+            $translated
+        );
+        self::assertStringNotContainsString('any(toNullable(', $translated);
+    }
+
     public function testWrapsRowNumberWindowFunctionInToInt64()
     {
         $sql = "SELECT ROW_NUMBER() OVER (PARTITION BY x ORDER BY cnt DESC) AS counter FROM t";

@@ -521,6 +521,7 @@ class ClickhouseDialectTranslator
         if (!preg_match('/\bWITH\s+ROLLUP\b\s*$/i', $groupByClause)) {
             return $sql;
         }
+        $originalGroupBy = $groupByClause;
         $groupByClause = (string) preg_replace('/\s*\bWITH\s+ROLLUP\b\s*$/i', '', $groupByClause);
 
         $topFromPos = self::findTopLevelFromPos($sql);
@@ -534,12 +535,13 @@ class ClickhouseDialectTranslator
             return $sql;
         }
 
-        $groupByKeys = array_map(
-            [self::class, 'normalizeIdent'],
-            self::splitByComma($groupByClause)
-        );
+        $groupByItems = self::splitByComma($groupByClause);
+        $groupByKeys  = array_map([self::class, 'normalizeIdent'], $groupByItems);
 
         $newSelect = $selectClause;
+        // Grouping keys whose SELECT item gets wrapped: the GROUP BY has to be wrapped
+        // identically (see below).
+        $keysToWrap = [];
 
         foreach (self::splitByComma($selectClause) as $item) {
             $trimmedItem = trim($item);
@@ -568,6 +570,17 @@ class ClickhouseDialectTranslator
                 continue;
             }
 
+            // Only when the GROUP BY repeats the expression: a GROUP BY that names the
+            // SELECT alias instead already groups by the wrapped (nullable) expression,
+            // and wrapping the alias too would stop fixGroupByOneLevel() from matching
+            // the item to its key.
+            $exprName = self::normalizeIdent($expr);
+            foreach ($groupByKeys as $keyIndex => $groupByKey) {
+                if ($groupByKey === $exprName) {
+                    $keysToWrap[$keyIndex] = true;
+                }
+            }
+
             $aliasForWrapper = $alias ?? ('`' . self::extractNaturalName($expr) . '`');
             $newSelect       = str_replace(
                 $trimmedItem,
@@ -580,7 +593,33 @@ class ClickhouseDialectTranslator
             return $sql;
         }
 
-        return substr($sql, 0, $selPrefixLen) . $newSelect . ' ' . substr($sql, $topFromPos);
+        // The grouping key itself must be nullable, not just the SELECT item: ClickHouse
+        // fills a rollup row's grouping keys with the key type's default, so a String key
+        // yields '' and only a Nullable key yields NULL. Wrapping the GROUP BY entry the
+        // same way as the SELECT item also keeps the two textually identical, so
+        // fixGroupByOneLevel() still recognises the item as a grouping key and does not
+        // any()-wrap it - an aggregate would return a real value for the rollup group and
+        // destroy the marker just as effectively.
+        $tail = substr($sql, $topFromPos);
+
+        if (!empty($keysToWrap)) {
+            $newGroupByItems = [];
+            foreach ($groupByItems as $keyIndex => $groupByItem) {
+                $groupByItem = trim($groupByItem);
+                $newGroupByItems[] = isset($keysToWrap[$keyIndex])
+                    ? 'toNullable(' . $groupByItem . ')'
+                    : $groupByItem;
+            }
+
+            $newGroupBy = implode(', ', $newGroupByItems) . ' WITH ROLLUP';
+            $position   = strpos($tail, $originalGroupBy);
+
+            if ($position !== false) {
+                $tail = substr_replace($tail, $newGroupBy, $position, strlen($originalGroupBy));
+            }
+        }
+
+        return substr($sql, 0, $selPrefixLen) . $newSelect . ' ' . $tail;
     }
 
     /**
