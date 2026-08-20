@@ -81,7 +81,12 @@ class VisitsWithUserIdAndCustomData extends Fixture
                 }
 
                 if ($numVisits % 5 == 3) {
-                    $t->setEcommerceView('SKU VERY nice indeed ' . ($numVisits % 3), 'PRODUCT name ' . ($numVisits % 4), 'category ' . ($numVisits % 5), $numVisits * 2.79);
+                    $t->setEcommerceView(
+                        'SKU VERY nice indeed ' . ($numVisits % 3),
+                        'PRODUCT name ' . ($numVisits % 4),
+                        'category ' . ($numVisits % 5),
+                        $numVisits * 2.79
+                    );
                 }
 
                 $t->setForceNewVisit();
@@ -100,7 +105,12 @@ class VisitsWithUserIdAndCustomData extends Fixture
 
                 if ($numVisits % 9 == 0) {
                     $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour($numVisits + 6.1)->getDatetime());
-                    $t->addEcommerceItem('SKU VERY nice indeed ' . ($numVisits % 3), 'PRODUCT name ' . ($numVisits % 4), 'category ' . ($numVisits % 5), $numVisits * 2.79);
+                    $t->addEcommerceItem(
+                        'SKU VERY nice indeed ' . ($numVisits % 3),
+                        'PRODUCT name ' . ($numVisits % 4),
+                        'category ' . ($numVisits % 5),
+                        $numVisits * 2.79
+                    );
                     $this->setUserAttributes($t, $userId);
                     self::assertTrue($t->doTrackEcommerceCartUpdate($numVisits * 17));
                 }

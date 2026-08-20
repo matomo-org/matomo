@@ -63,7 +63,10 @@ class CustomLogTablesTest extends SystemTestCase
             $decoded = json_decode($response->getResponseText(), true);
 
             if (is_array($decoded) && isset($decoded['result']) && $decoded['result'] == 'error') {
-                $this->fail('API returned an error when requesting ' . http_build_query($requestUrl) . "\nMessage: " . $decoded['message']);
+                $this->fail(
+                    'API returned an error when requesting ' . http_build_query($requestUrl)
+                    . "\nMessage: " . $decoded['message']
+                );
             }
         }
     }
