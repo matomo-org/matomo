@@ -22,6 +22,15 @@ use Piwik\Plugins\ExampleLogTables\Dao\CustomGroupLog;
  *
  * `$allowAnonymous` is left at its default, unlike the gender dimension: a flag describing a group is
  * not personal data about a data subject.
+ *
+ * It also carries the other half of the segment-suggestion story. `VisitorDetails` publishes no
+ * `groupIsAdmin` key, because the flag describes a group rather than the visit, so the route that
+ * suggests values for `userGender` cannot work here: core would look for that column in the visits log,
+ * not find it, and return an empty list without saying why. A `$suggestedValuesCallback` is the way
+ * out, and it short-circuits before the visits log is consulted at all.
+ * `plugins/CoreHome/Columns/Profilable.php` is core's precedent -- the only other boolean segment in
+ * the same position -- and it is worth knowing that nothing derives `0`/`1` from `TYPE_BOOL` on your
+ * behalf.
  */
 class GroupAttributeAdmin extends Dimension
 {
@@ -32,4 +41,11 @@ class GroupAttributeAdmin extends Dimension
     protected $segmentName  = 'groupIsAdmin';
     protected $nameSingular = 'ExampleLogTables_GroupHasAdminPrivileges';
     protected $acceptValues = '0, 1';
+
+    public function __construct()
+    {
+        $this->suggestedValuesCallback = function ($idSite, $maxValuesToReturn) {
+            return ['0', '1'];
+        };
+    }
 }
