@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\ExampleLogTables\Tracker;
 
 use Piwik\Common;
+use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Plugins\ExampleLogTables\Dao\CustomGroupLog;
 use Piwik\Plugins\ExampleLogTables\Dao\CustomUserLog;
 use Piwik\Tracker\Request;
@@ -17,23 +18,38 @@ use Piwik\Tracker\RequestProcessor;
 use Piwik\Tracker\Visit\VisitProperties;
 
 /**
- * Writes the plugin's own log tables during tracking.
+ * Validates and writes the plugin's own log tables during tracking.
  *
  * A Dimension writes a column of a log table Matomo already owns. Writing rows into a table of your
- * own is what a RequestProcessor is for, and `recordLogs()` is the step to do it in: by then the visit
- * has been persisted and every earlier phase of every plugin has run. Other plugins' `recordLogs()`
- * run in the same loop, so half of them run after this one -- do not depend on their work here.
+ * own is what a RequestProcessor is for.
+ *
+ * **This class uses two phases, and which phase does what is the lesson.** `Tracker\Visit::handle()`
+ * calls `manipulateRequest()`, then `processRequestParams()`, then `afterRequestProcessed()`, then
+ * persists the visit, and only then `recordLogs()`.
+ *
+ * - **The phase you validate in decides whether a rejection is clean.** Rejecting a request means
+ *   throwing, and a throw reaches `Tracker::main()`, which answers HTTP 400. Thrown from
+ *   `recordLogs()` that 400 describes a request the tracker has already half applied -- the visit is
+ *   stored, and so is part of what this plugin writes. Thrown from `processRequestParams()` nothing
+ *   has been stored yet, so the answer is true.
+ * - **The phase you write in is decided by what data exists yet.** The write below is keyed on the
+ *   `user_id` the visit persisted, which does not exist until the visit is stored, so it cannot
+ *   happen before `recordLogs()`.
+ *
+ * They are rarely the same phase, and splitting them is cheaper than discovering the overlap later.
  *
  * `recordLogs()` runs once per tracking *request*, not once per visit, so a visit of ten pageviews
- * calls this ten times -- which is why the DAO upserts instead of inserting. It is skipped entirely
+ * calls it ten times -- which is why the DAO upserts instead of inserting. It is skipped entirely
  * for a request that was aborted earlier (an excluded visit, a late ping) and for requests handled in
  * bot mode, so it is the right place to write data about a visit and the wrong place to count
- * requests.
+ * requests. Other plugins' `recordLogs()` run in the same loop, so half of them run after this one --
+ * do not depend on their work here.
  *
  * Matomo finds this class because it lives in the plugin's `Tracker/` directory and extends
  * `Piwik\Tracker\RequestProcessor` -- see `Piwik\Plugin\RequestProcessors`. It is instantiated
  * through the container, so its dependencies are injected. It is also shared between tracking
- * requests, so it must stay stateless.
+ * requests, so it must stay stateless: the flag is read again in the second phase rather than
+ * remembered from the first.
  */
 class UserAttributesRequestProcessor extends RequestProcessor
 {
@@ -44,6 +60,11 @@ class UserAttributesRequestProcessor extends RequestProcessor
     public const PARAM_GROUP = 'user_group';
     public const PARAM_GROUP_IS_ADMIN = 'user_group_is_admin';
 
+    /**
+     * Returned by readAdminFlag() when the request made no usable statement about the flag.
+     */
+    private const FLAG_ABSENT = -1;
+
     private CustomUserLog $userLog;
 
     private CustomGroupLog $groupLog;
@@ -52,6 +73,37 @@ class UserAttributesRequestProcessor extends RequestProcessor
     {
         $this->userLog = $userLog;
         $this->groupLog = $groupLog;
+    }
+
+    /**
+     * @return bool
+     */
+    public function processRequestParams(VisitProperties $visitProperties, Request $request)
+    {
+        if (self::FLAG_ABSENT === $this->readAdminFlag($request)) {
+            return false;
+        }
+
+        // The group row is shared: it is one row per group, with no idsite, read by every user of
+        // that group on every site of the install. One forged request would therefore change what
+        // other people see and every site's archived metric, for subjects who never sent a request.
+        //
+        // That asymmetry is what earns the token, not the sensitivity of the value. Anyone can send
+        // any `uid`, so a row keyed on one is exactly as trustworthy as `log_visit.user_id` itself
+        // and nothing this plugin does can improve that -- which is why the user's own attributes
+        // below take no gate at all. A row other people share is different in kind.
+        //
+        // Core gates this class of parameter the same way, and throws rather than ignoring: `cty`
+        // and the other location overrides in `plugins/UserCountry/Columns/Base.php`, `cip` and
+        // `cdt` in `core/Tracker/Request.php`.
+        if (!$request->isAuthenticated()) {
+            throw new InvalidRequestParameterException(sprintf(
+                "Tracker API '%s' describes an entity shared between visitors, requires valid token_auth",
+                self::PARAM_GROUP_IS_ADMIN
+            ));
+        }
+
+        return false;
     }
 
     public function recordLogs(VisitProperties $visitProperties, Request $request)
@@ -76,16 +128,11 @@ class UserAttributesRequestProcessor extends RequestProcessor
         // template prints them through `rawSafeDecoded`, and a table holding raw values would be the
         // odd one out. Sanitise before clamping, never after: encoding expands a value, so thirty
         // clamped ampersands would become a hundred and fifty stored characters and fail the whole
-        // tracking request. `CoreHome\Columns\UserId` does it in this order too.
+        // tracking request. Core reaches the same order by a different route -- the tracker sanitises
+        // every string parameter as it reads it, and `CoreHome\Columns\UserId` then truncates a value
+        // that is already sanitised. Sanitising here is the step the request API does not do for you.
         $gender = Common::sanitizeInputValue($params->getStringParameter(self::PARAM_GENDER, ''));
         $group = Common::sanitizeInputValue($params->getStringParameter(self::PARAM_GROUP, ''));
-
-        // A default of -1 distinguishes "the request said the group is not an admin group" from "the
-        // request said nothing about it". Writing an invented default in the second case would
-        // silently overwrite what an earlier request stored. A value that is not an integer returns
-        // the default as well, so a malformed flag is indistinguishable from an absent one -- which
-        // is what the guard further down relies on.
-        $isAdmin = $params->getIntegerParameter(self::PARAM_GROUP_IS_ADMIN, -1);
 
         // Clamp each value to the width of the column that holds it. These arrive from a tracking
         // request, so their length is not yours to assume: the tracker connection keeps whatever
@@ -95,13 +142,8 @@ class UserAttributesRequestProcessor extends RequestProcessor
         // `group_name` is the join key between the two tables -- so widen the column rather than
         // lean on the clamp if your values are genuinely free text. The group name is clamped before
         // either table is written, so both sides of that join always hold the same string.
-        if ('' !== $gender) {
-            $gender = mb_substr($gender, 0, CustomUserLog::MAX_LENGTH_GENDER);
-        }
-
-        if ('' !== $group) {
-            $group = mb_substr($group, 0, CustomGroupLog::MAX_LENGTH_GROUP_NAME);
-        }
+        $gender = mb_substr($gender, 0, CustomUserLog::MAX_LENGTH_GENDER);
+        $group = mb_substr($group, 0, CustomGroupLog::MAX_LENGTH_GROUP_NAME);
 
         if ('' === $gender && '' === $group) {
             return; // nothing this plugin collects was sent, so nothing is stored
@@ -124,15 +166,32 @@ class UserAttributesRequestProcessor extends RequestProcessor
         // table alone, so a user row can name a group that has no row of its own yet -- deliberately.
         // The group table is reference data about groups, not a foreign key the user table depends
         // on: a group nobody has described yet is simply a group with no known flag, and the
-        // archived metric counts it as not-an-admin-group until a request says otherwise. An invalid
-        // flag is treated exactly like an absent one, because a malformed value is not a statement.
-        if ('' === $group || (0 !== $isAdmin && 1 !== $isAdmin)) {
+        // archived metric counts it as not-an-admin-group until a request says otherwise.
+        $isAdmin = $this->readAdminFlag($request);
+
+        if ('' === $group || self::FLAG_ABSENT === $isAdmin) {
             return;
         }
 
-        // These values arrive in a tracking request, which anyone can send. `is_admin` is a
-        // segmentation attribute describing the group, never an authorisation signal -- no access
-        // decision anywhere in Matomo may read it.
+        // `is_admin` is a segmentation attribute describing the group, never an authorisation
+        // signal -- no access decision anywhere in Matomo may read it. The request that set it was
+        // authenticated, which is what makes the value worth storing at all; see the first phase.
         $this->groupLog->addOrUpdateGroupInformation($group, 1 === $isAdmin);
+    }
+
+    /**
+     * Returns 0 or 1 when the request asserted the group flag, and FLAG_ABSENT when it did not.
+     */
+    private function readAdminFlag(Request $request): int
+    {
+        // A default of -1 distinguishes "the request said the group is not an admin group" from "the
+        // request said nothing about it". Writing an invented default in the second case would
+        // silently overwrite what an earlier request stored. A value that is not an integer returns
+        // the default as well, so a malformed flag is indistinguishable from an absent one -- and
+        // both are treated as no statement, so neither is rejected above and neither is stored below.
+        $isAdmin = (new \Piwik\Request($request->getParams()))
+            ->getIntegerParameter(self::PARAM_GROUP_IS_ADMIN, self::FLAG_ABSENT);
+
+        return 0 === $isAdmin || 1 === $isAdmin ? $isAdmin : self::FLAG_ABSENT;
     }
 }

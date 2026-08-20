@@ -11,6 +11,7 @@ namespace Piwik\Plugins\ExampleLogTables\tests\Integration;
 
 use Piwik\Common;
 use Piwik\Db;
+use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Plugins\ExampleLogTables\Dao\CustomGroupLog;
 use Piwik\Plugins\ExampleLogTables\Dao\CustomUserLog;
 use Piwik\Plugins\ExampleLogTables\Tracker\UserAttributesRequestProcessor;
@@ -19,16 +20,19 @@ use Piwik\Tracker\Request;
 use Piwik\Tracker\Visit\VisitProperties;
 
 /**
- * Pins what the tracker write path does with a request that mentions only some of the attributes.
+ * Pins what the tracker write path does with a request that mentions only some of the attributes,
+ * and what it does with one that asserts more than it is entitled to.
  *
  * The system test proves the happy path: a site that sends every attribute on every request ends up
- * with the rows and the segments it expects. This test covers the case that goes wrong quietly -- a
- * later request that says nothing about an attribute an earlier one stored. Overwriting it with a
- * default would erase data no one asked to erase, and would break the join into the group table for a
- * user who still belongs to a group.
+ * with the rows and the segments it expects. This test covers the two cases that go wrong quietly --
+ * a later request that says nothing about an attribute an earlier one stored, and a request that
+ * writes a row other visitors share. Overwriting a stored attribute with a default would erase data
+ * no one asked to erase; accepting an unauthenticated group flag would let any visitor change what
+ * every other member of that group sees.
  *
- * It drives the RequestProcessor directly rather than through the tracker, because the behaviour under
- * test is a sequence of requests for one user and nothing about a visit matters to it.
+ * It drives the RequestProcessor's two phases directly rather than going through the tracker, because
+ * the behaviour under test is a sequence of requests for one user and nothing about a visit matters
+ * to it.
  *
  * @group ExampleLogTables
  * @group Plugins
@@ -125,6 +129,66 @@ class CustomLogWritePathTest extends IntegrationTestCase
         );
     }
 
+    public function testRejectsAnUnauthenticatedRequestThatAssertsTheAdminFlag(): void
+    {
+        $this->expectException(InvalidRequestParameterException::class);
+        $this->expectExceptionMessage(UserAttributesRequestProcessor::PARAM_GROUP_IS_ADMIN);
+
+        // The group row is shared between subjects, so a visitor must not be able to assert it. The
+        // rejection happens in processRequestParams(), before the visit is persisted, which is what
+        // makes the resulting 400 describe a request that was not applied at all.
+        $this->validate([
+            UserAttributesRequestProcessor::PARAM_GROUP => 'admin',
+            UserAttributesRequestProcessor::PARAM_GROUP_IS_ADMIN => '1',
+        ], $authenticated = false);
+    }
+
+    public function testStoresNothingWhenAnUnauthenticatedRequestAssertsTheAdminFlag(): void
+    {
+        try {
+            $this->record([
+                UserAttributesRequestProcessor::PARAM_GENDER => 'women',
+                UserAttributesRequestProcessor::PARAM_GROUP => 'admin',
+                UserAttributesRequestProcessor::PARAM_GROUP_IS_ADMIN => '1',
+            ], self::USER_ID, $authenticated = false);
+            $this->fail('the forged flag was accepted');
+        } catch (InvalidRequestParameterException $e) {
+            // expected
+        }
+
+        // Rejecting in the first phase is what makes this assertion possible: the gender the same
+        // request carried is not stored either, because nothing reached the write.
+        $this->assertSame([], $this->userLog->getUserInformation(self::USER_ID));
+        $this->assertSame([], $this->getGroupRows());
+    }
+
+    public function testAcceptsAnUnauthenticatedRequestThatAssertsNothingAboutTheGroup(): void
+    {
+        $this->record([
+            UserAttributesRequestProcessor::PARAM_GENDER => 'women',
+            UserAttributesRequestProcessor::PARAM_GROUP => 'admin',
+        ], self::USER_ID, $authenticated = false);
+
+        // A visitor may describe themselves: this row is keyed on a user id anyone can send, so it
+        // is exactly as trustworthy as log_visit.user_id and no gate would improve it.
+        $this->assertSame(
+            ['gender' => 'women', 'group_name' => 'admin'],
+            $this->userLog->getUserInformation(self::USER_ID)
+        );
+        $this->assertSame([], $this->getGroupRows());
+    }
+
+    public function testAcceptsAnUnauthenticatedRequestWhoseAdminFlagIsMalformed(): void
+    {
+        // A malformed value is not a statement, so there is nothing to reject and nothing to store.
+        $this->record([
+            UserAttributesRequestProcessor::PARAM_GROUP => 'admin',
+            UserAttributesRequestProcessor::PARAM_GROUP_IS_ADMIN => 'yes',
+        ], self::USER_ID, $authenticated = false);
+
+        $this->assertSame([], $this->getGroupRows());
+    }
+
     public function testClampsValuesToTheWidthOfTheColumnThatHoldsThem(): void
     {
         $longGroup = str_repeat('g', CustomGroupLog::MAX_LENGTH_GROUP_NAME + 10);
@@ -178,14 +242,43 @@ class CustomLogWritePathTest extends IntegrationTestCase
     }
 
     /**
+     * Runs both phases in the order Tracker\Visit::handle() runs them.
+     *
      * @param array<string, string> $params
      */
-    private function record(array $params, string $userId = self::USER_ID): void
+    private function record(array $params, string $userId = self::USER_ID, bool $authenticated = true): void
     {
-        $this->processor->recordLogs(
-            new VisitProperties(['user_id' => $userId]),
-            new Request($params)
+        $request = $this->buildRequest($params, $authenticated);
+
+        $this->processor->processRequestParams(new VisitProperties(), $request);
+        $this->processor->recordLogs(new VisitProperties(['user_id' => $userId]), $request);
+    }
+
+    /**
+     * Runs the validating phase alone.
+     *
+     * @param array<string, string> $params
+     */
+    private function validate(array $params, bool $authenticated = true): void
+    {
+        $this->processor->processRequestParams(
+            new VisitProperties(),
+            $this->buildRequest($params, $authenticated)
         );
+    }
+
+    /**
+     * @param array<string, string> $params
+     */
+    private function buildRequest(array $params, bool $authenticated): Request
+    {
+        $request = new AuthenticatableRequest($params);
+
+        if ($authenticated) {
+            $request->markAuthenticated();
+        }
+
+        return $request;
     }
 
     /**
@@ -196,5 +289,20 @@ class CustomLogWritePathTest extends IntegrationTestCase
         return Db::fetchAll(
             'SELECT * FROM ' . Common::prefixTable(CustomGroupLog::TABLE_NAME) . ' ORDER BY group_name'
         );
+    }
+}
+
+/**
+ * Lets a test say the request carried a valid token without one existing.
+ *
+ * `Tracker\Request::$isAuthenticated` is protected and there is no public setter, so a subclass is
+ * how you reach it. Core's own tracker tests do exactly this -- see `TestRequest` at the foot of
+ * `tests/PHPUnit/Unit/Tracker/RequestTest.php` -- and it is a test device, not plugin API.
+ */
+class AuthenticatableRequest extends Request
+{
+    public function markAuthenticated(): void
+    {
+        $this->isAuthenticated = true;
     }
 }
