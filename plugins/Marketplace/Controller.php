@@ -14,6 +14,7 @@ use Piwik\Common;
 use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable\Renderer\Json;
+use Piwik\Exception\PluginNotFoundException;
 use Piwik\Date;
 use Piwik\Filesystem;
 use Piwik\Log;
@@ -473,6 +474,14 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $this->displayWarningIfConfigFileNotWritable();
 
         $plugins = $this->getPluginNameIfNonceValid($nonceName);
+
+        if ($nonceName === static::UPDATE_NONCE) {
+            foreach ($plugins as $pluginName) {
+                if (!$this->pluginManager->isPluginInFilesystem($pluginName)) {
+                    throw new PluginNotFoundException($pluginName);
+                }
+            }
+        }
 
         $view = new View('@Marketplace/' . $template);
         $this->setBasicVariablesView($view);
