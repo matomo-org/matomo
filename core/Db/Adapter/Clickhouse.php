@@ -197,7 +197,18 @@ class Clickhouse implements AdapterInterface
      */
     public function exec($sql)
     {
-        $this->getClient()->write($sql);
+        try {
+            $this->getClient()->write($sql);
+        } catch (\Exception $e) {
+            // Same reasoning as selectRows(): without the statement in the message a CI
+            // failure shows only the ClickHouse error and no way to tell what ran.
+            throw new Exception(sprintf(
+                'ClickHouse statement failed: %s | SQL: %s',
+                $e->getMessage(),
+                substr(preg_replace('/\s+/', ' ', $sql), 0, 2000)
+            ), 0, $e);
+        }
+
         return 0;
     }
 

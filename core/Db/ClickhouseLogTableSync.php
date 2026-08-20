@@ -98,6 +98,22 @@ class ClickhouseLogTableSync
      */
     public static function syncLogTablesFromMysql(): void
     {
+        try {
+            self::copyLogTablesFromMysql();
+        } catch (\Exception $e) {
+            // The client throws its own exception type here, and these copies run from
+            // web requests as well as the fixture, where the bare message ("Connections
+            // to mysql failed") gives no hint that it was the log table copy talking.
+            throw new \Exception(
+                'ClickHouse log table sync failed: ' . $e->getMessage(),
+                0,
+                $e
+            );
+        }
+    }
+
+    private static function copyLogTablesFromMysql(): void
+    {
         $dbConfig = Config::getInstance()->database;
         $analyticsConfig = Db::getAnalyticsDatabaseConfig();
 
