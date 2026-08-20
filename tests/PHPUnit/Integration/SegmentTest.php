@@ -87,9 +87,11 @@ class SegmentTest extends IntegrationTestCase
         $encodedComplexValue = urlencode(urlencode('s#2&#--_*+?#  #5"\'&<>.22,3'));
         return array(
             // Normal segment
+            // Country codes are stored lower case, so the segment value is normalised
+            // rather than relying on the connection collation to match.
             array('countryCode==France', array(
                 'where' => ' log_visit.location_country = ? ',
-                'bind'  => array('France'))),
+                'bind'  => array('france'))),
 
             // unescape the comma please
             array('countryCode==a\,==', array(
