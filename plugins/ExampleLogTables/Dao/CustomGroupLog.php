@@ -20,6 +20,16 @@ class CustomGroupLog
      */
     public const TABLE_NAME = 'log_examplelogtables_group';
 
+    /**
+     * The width of the group name, in characters.
+     *
+     * This is the join column between the two custom tables, so it is declared here, used in both
+     * schemas and clamped in the write path. A join column whose two sides disagree on width leaves
+     * rows that can never be joined again -- the same trap as a `user_id` narrower than
+     * `log_visit`'s, one table further out.
+     */
+    public const MAX_LENGTH_GROUP_NAME = 30;
+
     private string $tablePrefixed;
 
     public function __construct()
@@ -38,10 +48,10 @@ class CustomGroupLog
      */
     public function install(): void
     {
-        DbHelper::createTable(self::TABLE_NAME, '
-                  `group_name` VARCHAR(30) NOT NULL,
-                  `is_admin` TINYINT(1) NOT NULL,
-                  PRIMARY KEY (group_name)');
+        DbHelper::createTable(self::TABLE_NAME, sprintf('
+                  `group_name` VARCHAR(%d) NOT NULL,
+                  `is_admin` TINYINT(1) NOT NULL DEFAULT 0,
+                  PRIMARY KEY (group_name)', self::MAX_LENGTH_GROUP_NAME));
     }
 
     public function uninstall(): void

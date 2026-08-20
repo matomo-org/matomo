@@ -21,11 +21,27 @@ class CustomUserLog
      * tests. A literal repeated in all of them can drift, and a table Matomo cannot find under the
      * name it was declared with fails silently.
      *
-     * Prefix it with your plugin name. `log_custom` or `log_user` would collide with the next core
-     * table of that name, and the `log_` prefix is what marks it as log data to a human reading the
-     * schema.
+     * Prefix it with your plugin name, as `TagManager`'s `tagmanager_*` tables do. `log_custom` or
+     * `log_user` would collide with the next core table of that name. Keep the `log_` prefix too --
+     * `plugins/BotTracking/Dao/BotRequestsDao.php` does with `log_bot_request` -- because that is what
+     * marks the table as log data to a human reading the schema.
      */
     public const TABLE_NAME = 'log_examplelogtables_user';
+
+    /**
+     * The width of the user id, in characters.
+     *
+     * It matches `log_visit.user_id`, because that is the column this table joins on. The number is
+     * repeated here rather than imported from `CoreHome\Columns\UserId::MAXLENGTH`: nothing outside
+     * that plugin reads the constant, and reaching into another plugin's classes for a value is the
+     * habit this example set exists to discourage. Copy the number and name its source.
+     */
+    public const MAX_LENGTH_USER_ID = 200;
+
+    /**
+     * The width of the gender attribute, in characters.
+     */
+    public const MAX_LENGTH_GENDER = 30;
 
     private string $tablePrefixed;
 
@@ -44,20 +60,28 @@ class CustomUserLog
      * Two column decisions carry more weight than they look:
      *
      * - `user_id` is `VARCHAR(200)` because that is what `log_visit.user_id` is
-     *   (`CoreHome\Columns\UserId::MAXLENGTH`). Matomo connects with a non-strict `sql_mode`, so a
-     *   shorter column here would truncate a long user id *silently*, and the truncated value would
-     *   no longer equal the one in `log_visit` -- leaving a row that no join, and therefore no GDPR
-     *   deletion or export, can ever reach again.
-     * - both attribute columns have an explicit `DEFAULT ''`, because a tracking request that
-     *   carries only one of them inserts only that column.
+     *   (`CoreHome\Columns\UserId::MAXLENGTH`, which the dimension also truncates to). A column you
+     *   join on has to hold the joined value byte for byte: make it shorter and the write either
+     *   fails outright, on the strict `sql_mode` a default MySQL gives the tracker connection, or
+     *   truncates with a warning nobody reads on a server configured the other way -- and a truncated
+     *   user id matches no row in `log_visit`, so no join, and therefore no GDPR deletion or export,
+     *   ever reaches it again.
+     * - both attribute columns have an explicit `DEFAULT ''`, because a tracking request that carries
+     *   only one of them inserts only that column, and the tracker's strict `sql_mode` rejects an
+     *   `INSERT` that omits a `NOT NULL` column with no default.
      */
     public function install(): void
     {
-        DbHelper::createTable(self::TABLE_NAME, "
-                  `user_id` VARCHAR(200) NOT NULL,
-                  `gender` VARCHAR(30) NOT NULL DEFAULT '',
-                  `group_name` VARCHAR(30) NOT NULL DEFAULT '',
-                  PRIMARY KEY (user_id)");
+        DbHelper::createTable(self::TABLE_NAME, sprintf(
+            "
+                  `user_id` VARCHAR(%d) NOT NULL,
+                  `gender` VARCHAR(%d) NOT NULL DEFAULT '',
+                  `group_name` VARCHAR(%d) NOT NULL DEFAULT '',
+                  PRIMARY KEY (user_id)",
+            self::MAX_LENGTH_USER_ID,
+            self::MAX_LENGTH_GENDER,
+            CustomGroupLog::MAX_LENGTH_GROUP_NAME
+        ));
     }
 
     public function uninstall(): void

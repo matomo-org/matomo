@@ -45,11 +45,10 @@ class CustomLogWritePathTest extends IntegrationTestCase
     {
         parent::setUp();
 
+        // Nothing to clean up: IntegrationTestCase restores every table in the database between
+        // test methods, custom log tables included, so each test starts from an empty pair.
         $this->userLog = new CustomUserLog();
         $this->processor = new UserAttributesRequestProcessor($this->userLog, new CustomGroupLog());
-
-        Db::query('TRUNCATE TABLE ' . Common::prefixTable(CustomUserLog::TABLE_NAME));
-        Db::query('TRUNCATE TABLE ' . Common::prefixTable(CustomGroupLog::TABLE_NAME));
     }
 
     public function testStoresTheAttributesARequestCarries(): void
@@ -115,6 +114,39 @@ class CustomLogWritePathTest extends IntegrationTestCase
         ]);
 
         $this->assertSame([], $this->getGroupRows());
+
+        // An invalid flag is treated as an absent one, so the membership is still recorded: the user
+        // row may name a group the group table does not describe yet. That is the designed shape,
+        // not a hole -- the group table is reference data about groups, not a table the user row
+        // depends on.
+        $this->assertSame(
+            ['gender' => '', 'group_name' => 'admin'],
+            $this->userLog->getUserInformation(self::USER_ID)
+        );
+    }
+
+    public function testClampsValuesToTheWidthOfTheColumnThatHoldsThem(): void
+    {
+        $longGroup = str_repeat('g', CustomGroupLog::MAX_LENGTH_GROUP_NAME + 10);
+
+        $this->record([
+            UserAttributesRequestProcessor::PARAM_GENDER => str_repeat('w', CustomUserLog::MAX_LENGTH_GENDER + 10),
+            UserAttributesRequestProcessor::PARAM_GROUP => $longGroup,
+            UserAttributesRequestProcessor::PARAM_GROUP_IS_ADMIN => '1',
+        ]);
+
+        $clampedGroup = substr($longGroup, 0, CustomGroupLog::MAX_LENGTH_GROUP_NAME);
+
+        // Both sides of the join are clamped by the same rule, so the two tables still meet. Left to
+        // the database, the tracker's strict sql_mode would have rejected the whole tracking request.
+        $this->assertSame(
+            [
+                'gender' => str_repeat('w', CustomUserLog::MAX_LENGTH_GENDER),
+                'group_name' => $clampedGroup,
+            ],
+            $this->userLog->getUserInformation(self::USER_ID)
+        );
+        $this->assertSame([['group_name' => $clampedGroup, 'is_admin' => 1]], $this->getGroupRows());
     }
 
     public function testStoresNothingForAVisitWithoutAUserId(): void
