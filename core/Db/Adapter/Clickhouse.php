@@ -349,18 +349,12 @@ class Clickhouse implements AdapterInterface
         // error_log, not the Matomo logger (logger messages become on-screen notifications
         // in the UI test environment): proves in CI job output that ClickHouse served the
         // query, including who asked for it.
-        // TEMPORARY (DEV-20678 debugging, revert before merge): the 600 character cap hides
-        // the WHERE clause of the long Live queries, which is exactly where a query that
-        // returns nothing has to be diagnosed. Log the whole statement for the specific
-        // shape being chased - an empty ecommerce result - and nothing else.
-        $sqlCap = (count($rows) === 0 && stripos($chSql, 'visit_goal_buyer') !== false) ? 20000 : 600;
-
         error_log(sprintf(
             'ClickHouse query OK (%d rows, %.1f ms) via %s: %s params=%s',
             count($rows),
             (microtime(true) - $startTime) * 1000,
             $this->describeCallers(),
-            substr(preg_replace('/\s+/', ' ', $chSql), 0, $sqlCap),
+            substr(preg_replace('/\s+/', ' ', $chSql), 0, 600),
             substr((string) json_encode($params), 0, 300)
         ));
 
