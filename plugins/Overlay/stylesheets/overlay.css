@@ -52,7 +52,7 @@ a#overlayTitle .icon-help {
 }
 
 #overlayLoading {
-    background: url(../../Morpheus/images/loading-blue.gif) no-repeat center 10px;
+    background: url(../../Morpheus/images/loading.svg) no-repeat center 10px;
     width: 190px;
     padding-top: 30px;
     margin-top: 30px;
