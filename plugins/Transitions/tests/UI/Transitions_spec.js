@@ -78,7 +78,7 @@ describe("Transitions", function () {
         await page.waitForSelector('.transitionsCenterCard', { visible: true });
         await waitForRibbons();
         await freezeTransitions();
-        await (await page.$('.transitionsColumn--outgoing .transitionsRow')).hover();
+        await (await page.$('.transitionsRow--outgoing')).hover();
         await page.waitForSelector('.transitionsRow--highlighted');
 
         expect(await page.screenshotSelector('.ui-dialog')).to.matchImage('transitions_popup_urls');

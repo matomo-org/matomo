@@ -5,27 +5,19 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import { mount } from '@vue/test-utils';
-import { nextTick } from 'vue';
-
 const postEvent = vi.fn();
 
-vi.mock('CoreHome', () => ({
-  ActivityIndicator: { template: '<div class="activityIndicator" />', props: ['loading'] },
-  Matomo: {
-    postEvent: (...args: unknown[]) => postEvent(...args),
-    helper: { addBreakpointsToUrl: (url: string) => url },
-  },
-  NumberFormatter: {
-    formatNumber: (value: number) => String(value),
-    formatPercent: (value: number) => `${value}%`,
-  },
-  translate: (key: string, ...args: string[]) => [key, ...args].join(':'),
-}));
+// Pulled in dynamically: a vi.mock() factory is hoisted above every import in the file, so it
+// cannot reach a top-level one.
+vi.mock('CoreHome', async () => {
+  const { coreHomeMock } = await import('./testCoreHomeMock');
+  return coreHomeMock((...args: unknown[]) => postEvent(...args));
+});
 
-import TransitionsReport from './TransitionsReport.vue';
+import { flushRibbons, mountTransitionsReport } from './testTransitionsReportHarness';
+
 import { installFakeTransitionsBackend, FakeTransitionsBackend } from './testFakeTransitionsModel';
-import { stubElementRects } from './testMeasuredLayout';
+import { stubElementRects, useHeldFrames, useSynchronousFrames } from './testMeasuredLayout';
 
 function reportWithPageviews(pageviews: number) {
   return {
@@ -92,51 +84,12 @@ describe('Transitions/TransitionsReport lifecycle', () => {
     vi.unstubAllGlobals();
   });
 
-  /** Runs scheduled frames synchronously, so a rendered frame is enough for the ribbon layer. */
-  function useSynchronousFrames() {
-    vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => {
-      callback(0);
-      return 1;
-    });
-  }
 
-  /** Holds scheduled frames, so a spec can observe a pending frame. */
-  function useHeldFrames() {
-    let handle = 0;
-    const held: FrameRequestCallback[] = [];
-    vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => {
-      held.push(callback);
-      handle += 1;
-      return handle;
-    });
-    return held;
-  }
-
-  async function flush() {
-    for (let i = 0; i < 5; i += 1) {
-      // eslint-disable-next-line no-await-in-loop
-      await nextTick();
-    }
-  }
-
-  function mountReport(props = {}) {
-    return mount(TransitionsReport as any, {
-      props: {
-        actionType: 'url',
-        actionName: 'http://example.org/page',
-        ...props,
-      },
-      global: { config: { globalProperties: {
-        $sanitize: (value: string) => value,
-        $sanitizeUrl: (url: string) => (/^https?:\/\//i.test(url) ? url : ''),
-      } } },
-    });
-  }
 
   describe('request races', () => {
     it('should ignore a stale response that lands after a newer request started', async () => {
       useSynchronousFrames();
-      const wrapper = mountReport();
+      const wrapper = mountTransitionsReport();
 
       await wrapper.setProps({ actionName: 'http://example.org/second' });
       expect(backend.loadCount()).toBe(2);
@@ -144,12 +97,12 @@ describe('Transitions/TransitionsReport lifecycle', () => {
       // The newest request answers first, then the first one finally lands.
       backend.report = reportWithPageviews(222);
       backend.respondNewest();
-      await flush();
+      await flushRibbons();
       expect(wrapper.find('.transitionsCenterCard__pageviews').text()).toContain('222');
 
       backend.report = reportWithPageviews(111);
       backend.respond();
-      await flush();
+      await flushRibbons();
 
       // Still the newest result; the stale one was dropped.
       expect(wrapper.find('.transitionsCenterCard__pageviews').text()).toContain('222');
@@ -157,16 +110,16 @@ describe('Transitions/TransitionsReport lifecycle', () => {
 
     it('should ignore a stale error that lands after a newer request started', async () => {
       useSynchronousFrames();
-      const wrapper = mountReport();
+      const wrapper = mountTransitionsReport();
 
       await wrapper.setProps({ actionName: 'http://example.org/second' });
 
       backend.respondNewest();
-      await flush();
+      await flushRibbons();
       expect(wrapper.find('.transitionsReport__grid').exists()).toBe(true);
 
       backend.fail('NoDataForAction');
-      await flush();
+      await flushRibbons();
 
       expect(wrapper.find('.transitionsReport__error').exists()).toBe(false);
       expect(wrapper.find('.transitionsReport__grid').exists()).toBe(true);
@@ -174,7 +127,7 @@ describe('Transitions/TransitionsReport lifecycle', () => {
 
     it('should start a request for each of the action type, name and override params', async () => {
       useSynchronousFrames();
-      const wrapper = mountReport();
+      const wrapper = mountTransitionsReport();
       expect(backend.loadCount()).toBe(1);
 
       await wrapper.setProps({ actionType: 'title' });
@@ -185,24 +138,33 @@ describe('Transitions/TransitionsReport lifecycle', () => {
 
       await wrapper.setProps({ overrideParams: { period: 'week' } });
       expect(backend.loadCount()).toBe(4);
+
+      // Counting the loads does not say the right thing was asked for: without these an Overlay
+      // or a deep-linked popover would happily fetch some other action's transitions.
+      expect(backend.loads).toEqual([
+        { actionType: 'url', actionName: 'http://example.org/page', overrideParams: {} },
+        { actionType: 'title', actionName: 'http://example.org/page', overrideParams: {} },
+        { actionType: 'title', actionName: 'Some title', overrideParams: {} },
+        { actionType: 'title', actionName: 'Some title', overrideParams: { period: 'week' } },
+      ]);
     });
   });
 
   describe('unmount', () => {
     it('should not write state or post events when a response lands after unmount', async () => {
       useSynchronousFrames();
-      const wrapper = mountReport();
+      const wrapper = mountTransitionsReport();
 
       wrapper.unmount();
       backend.respond();
-      await flush();
+      await flushRibbons();
 
       expect(postEvent).not.toHaveBeenCalled();
     });
 
     it('should not surface an error that lands after unmount', async () => {
       useSynchronousFrames();
-      const wrapper = mountReport();
+      const wrapper = mountTransitionsReport();
 
       wrapper.unmount();
 
@@ -211,9 +173,9 @@ describe('Transitions/TransitionsReport lifecycle', () => {
 
     it('should disconnect the resize observers', async () => {
       useSynchronousFrames();
-      const wrapper = mountReport();
+      const wrapper = mountTransitionsReport();
       backend.respond();
-      await flush();
+      await flushRibbons();
 
       expect(resizeObservers).toHaveLength(2); // one layer per side
       expect(resizeObservers.every((observer) => observer.targets.length === 3)).toBe(true);
@@ -225,9 +187,9 @@ describe('Transitions/TransitionsReport lifecycle', () => {
 
     it('should cancel a frame that is still pending', async () => {
       const held = useHeldFrames();
-      const wrapper = mountReport();
+      const wrapper = mountTransitionsReport();
       backend.respond();
-      await flush();
+      await flushRibbons();
 
       expect(held.length).toBeGreaterThan(0);
       expect(cancelled).toHaveLength(0);
@@ -240,9 +202,9 @@ describe('Transitions/TransitionsReport lifecycle', () => {
 
     it('should not cancel anything when no frame is pending', async () => {
       useSynchronousFrames();
-      const wrapper = mountReport();
+      const wrapper = mountTransitionsReport();
       backend.respond();
-      await flush();
+      await flushRibbons();
 
       wrapper.unmount();
 
@@ -253,15 +215,15 @@ describe('Transitions/TransitionsReport lifecycle', () => {
   describe('resize', () => {
     it('should re-measure when an observed element resizes', async () => {
       useSynchronousFrames();
-      const wrapper = mountReport();
+      const wrapper = mountTransitionsReport();
       backend.respond();
-      await flush();
+      await flushRibbons();
 
       const callsAfterLoad = measureSpy.mock.calls.length;
       expect(callsAfterLoad).toBeGreaterThan(0);
 
       resizeCallbacks.forEach((callback) => callback());
-      await flush();
+      await flushRibbons();
 
       expect(measureSpy.mock.calls.length).toBeGreaterThan(callsAfterLoad);
       wrapper.unmount();

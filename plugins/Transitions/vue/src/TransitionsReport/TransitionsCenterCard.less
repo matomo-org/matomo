@@ -8,11 +8,17 @@
   @_outgoing: #4FBF9F;
   @_outgoingDark: #3E9C82;
 
+  // The card frame and the three rules inside it are the same hairline.
+  @_hairline: 1px solid @theme-color-border-alternative;
+  // Space either side of an internal rule. The loops line below sits 2px tighter on purpose:
+  // unifying it would move the card's bottom edge, and every Transitions screenshot with it.
+  @_dividerGap: 18px;
+
   display: flex;
   flex-direction: column;
   gap: 18px;
   padding: 22px 20px;
-  border: 1px solid @theme-color-border-alternative;
+  border: @_hairline;
   border-radius: 12px;
   background: @theme-color-background-contrast;
   box-shadow: @theme-shadow-overlay;
@@ -22,8 +28,8 @@
     flex-direction: column;
     align-items: safe center;
     gap: 10px;
-    padding-bottom: 18px;
-    border-bottom: 1px solid @theme-color-border-alternative;
+    padding-bottom: @_dividerGap;
+    border-bottom: @_hairline;
     text-align: center;
   }
 
@@ -72,8 +78,8 @@
   }
 
   .transitionsCenterCard__metricGroup--divided {
-    padding-top: 18px;
-    border-top: 1px solid @theme-color-border-alternative;
+    padding-top: @_dividerGap;
+    border-top: @_hairline;
   }
 
   .transitionsCenterCard__metricHeading {
@@ -152,7 +158,7 @@
   .transitionsCenterCard__loops {
     margin: 0;
     padding-top: 16px;
-    border-top: 1px solid @theme-color-border-alternative;
+    border-top: @_hairline;
     color: @theme-color-text-light;
     font-size: 12px;
     line-height: 16px;

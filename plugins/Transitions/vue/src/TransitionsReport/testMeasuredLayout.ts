@@ -26,3 +26,26 @@ export function stubElementRects(rect = { top: 0, height: 100, width: 100 }) {
 
   return vi.spyOn(Element.prototype, 'getBoundingClientRect').mockReturnValue(domRect);
 }
+
+/**
+ * Runs scheduled frames synchronously, so one rendered frame is enough for the ribbon layer.
+ * The layer measures inside requestAnimationFrame, which jsdom never fires on its own.
+ */
+export function useSynchronousFrames() {
+  vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => {
+    callback(0);
+    return 1;
+  });
+}
+
+/** Holds scheduled frames instead of running them, so a spec can observe a pending frame. */
+export function useHeldFrames(): FrameRequestCallback[] {
+  let handle = 0;
+  const held: FrameRequestCallback[] = [];
+  vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => {
+    held.push(callback);
+    handle += 1;
+    return handle;
+  });
+  return held;
+}

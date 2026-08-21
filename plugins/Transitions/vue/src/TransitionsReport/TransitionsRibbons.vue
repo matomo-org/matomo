@@ -78,7 +78,7 @@ export default defineComponent({
     gradientSequence += 1;
     const gradientId = `transitionsRibbonsGradient-${props.side}-${gradientSequence}`;
 
-    const { paths, recompute, teardown } = useRibbonGeometry({
+    const { paths } = useRibbonGeometry({
       side: props.side,
       layer,
       column: () => props.column(),
@@ -90,8 +90,6 @@ export default defineComponent({
       layer,
       paths,
       gradientId,
-      recompute,
-      teardown,
     };
   },
   computed: {
@@ -115,7 +113,6 @@ export default defineComponent({
   methods: {
     bandClasses(key: string): Record<string, boolean> {
       return {
-        'transitionsRibbons__band--outgoing': this.side === 'outgoing',
         'transitionsRibbons__band--highlighted': this.highlightedKeys.includes(key),
       };
     },

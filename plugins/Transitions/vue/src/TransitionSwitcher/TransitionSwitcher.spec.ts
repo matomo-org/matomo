@@ -5,7 +5,7 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import { mount, VueWrapper } from '@vue/test-utils';
+import { flushPromises, mount, VueWrapper } from '@vue/test-utils';
 import { nextTick } from 'vue';
 
 // Hoisted so the mock factory, which vitest lifts above this file's imports, can reach them.
@@ -43,8 +43,10 @@ vi.mock('CoreHome', () => ({
 
 vi.mock('CorePluginsAdmin', () => ({
   Field: {
+    name: 'Field',
     template: '<div class="field" />',
     props: ['uicontrol', 'name', 'modelValue', 'title', 'fullWidth', 'disabled', 'options'],
+    emits: ['update:modelValue'],
   },
 }));
 
@@ -80,16 +82,20 @@ describe('Transitions/TransitionSwitcher', () => {
       },
     });
 
-    for (let i = 0; i < 4; i += 1) {
-      // eslint-disable-next-line no-await-in-loop
-      await nextTick();
-    }
+    await flushPromises();
 
     return wrapper;
   }
 
   function reportStub(wrapper: VueWrapper) {
     return wrapper.findComponent({ name: 'TransitionsReport' });
+  }
+
+  /** The two selects, in template order: the report to list, then the action within it. */
+  function selects(wrapper: VueWrapper) {
+    const fields = wrapper.findAllComponents({ name: 'Field' });
+    expect(fields.map((field) => field.props('name'))).toEqual(['actionType', 'actionName']);
+    return { actionType: fields[0], actionName: fields[1] };
   }
 
   it('should mount the report for the first action of the report', async () => {
@@ -106,20 +112,41 @@ describe('Transitions/TransitionSwitcher', () => {
   it('should swap the report props when another action is selected', async () => {
     const wrapper = await mountSwitcher();
 
-    await wrapper.setData({ actionName: 'http://example.org/b' });
+    // Driven through the select rather than setData, so the v-model binding is covered too: a
+    // field wired to the wrong data property would otherwise still pass.
+    selects(wrapper).actionName.vm.$emit('update:modelValue', 'http://example.org/b');
+    await nextTick();
 
     expect(reportStub(wrapper).props('actionName')).toBe('http://example.org/b');
+  });
+
+  it('should offer every action of the report as an option', async () => {
+    const wrapper = await mountSwitcher();
+    const { actionType, actionName } = selects(wrapper);
+
+    expect(actionName.props('modelValue')).toBe('http://example.org/a');
+    expect(actionName.props('options')).toEqual([
+      {
+        key: 'http://example.org/a',
+        url: 'http://example.org/a',
+        value: 'Page A (Transitions_NumPageviews:10)',
+      },
+      {
+        key: 'http://example.org/b',
+        url: 'http://example.org/b',
+        value: 'Page B (Transitions_NumPageviews:5)',
+      },
+    ]);
+    expect(actionType.props('modelValue')).toBe('Actions.getPageUrls');
   });
 
   it('should switch to the title report and pass the matching action type', async () => {
     const wrapper = await mountSwitcher();
 
     state.fetchResult = Promise.resolve([{ label: 'Some title', nb_hits: 3, url: '', segment: '' }]);
-    await wrapper.setData({ actionType: 'Actions.getPageTitles' });
-    for (let i = 0; i < 4; i += 1) {
-      // eslint-disable-next-line no-await-in-loop
-      await nextTick();
-    }
+    selects(wrapper).actionType.vm.$emit('update:modelValue', 'Actions.getPageTitles');
+    await nextTick();
+    await flushPromises();
 
     expect(reportStub(wrapper).props()).toMatchObject({
       actionType: 'title',
@@ -143,14 +170,18 @@ describe('Transitions/TransitionSwitcher', () => {
     await nextTick();
 
     expect(reportStub(wrapper).props('actionName')).toBe('example.org/deep');
-    expect((wrapper.vm as any).actionNameOptions).toHaveLength(3);
+    expect(selects(wrapper).actionName.props('options')).toHaveLength(3);
   });
 
   it('should disable the selector and render no report when there is no data', async () => {
     state.fetchResult = Promise.resolve([]);
     const wrapper = await mountSwitcher();
+    const { actionName } = selects(wrapper);
 
-    expect((wrapper.vm as any).isEnabled).toBe(false);
+    expect(actionName.props('disabled')).toBe(true);
+    expect(actionName.props('options')).toEqual([
+      { key: '_____ignore_____', value: 'CoreHome_ThereIsNoDataForThisReport' },
+    ]);
     expect(reportStub(wrapper).exists()).toBe(false);
   });
 
@@ -158,7 +189,7 @@ describe('Transitions/TransitionSwitcher', () => {
     state.fetchResult = Promise.reject(new Error('nope'));
     const wrapper = await mountSwitcher();
 
-    expect((wrapper.vm as any).isEnabled).toBe(false);
+    expect(selects(wrapper).actionName.props('disabled')).toBe(true);
     expect(reportStub(wrapper).exists()).toBe(false);
   });
 

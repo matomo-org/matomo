@@ -5,27 +5,21 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import { mount, VueWrapper } from '@vue/test-utils';
-import { nextTick } from 'vue';
+import { VueWrapper } from '@vue/test-utils';
 
 const postEvent = vi.fn();
 
-vi.mock('CoreHome', () => ({
-  ActivityIndicator: { template: '<div class="activityIndicator" />', props: ['loading'] },
-  Matomo: {
-    postEvent: (...args: unknown[]) => postEvent(...args),
-    helper: { addBreakpointsToUrl: (url: string) => url },
-  },
-  NumberFormatter: {
-    formatNumber: (value: number) => String(value),
-    formatPercent: (value: number) => `${value}%`,
-  },
-  translate: (key: string) => key,
-}));
+// Pulled in dynamically: a vi.mock() factory is hoisted above every import in the file, so it
+// cannot reach a top-level one.
+vi.mock('CoreHome', async () => {
+  const { coreHomeMock } = await import('./testCoreHomeMock');
+  return coreHomeMock((...args: unknown[]) => postEvent(...args));
+});
 
-import TransitionsReport from './TransitionsReport.vue';
+import { flushRibbons, mountTransitionsReport } from './testTransitionsReportHarness';
+
 import { installFakeTransitionsBackend, FakeTransitionsBackend } from './testFakeTransitionsModel';
-import { stubElementRects } from './testMeasuredLayout';
+import { stubElementRects, useSynchronousFrames } from './testMeasuredLayout';
 
 const REPORT = {
   pageviews: 100,
@@ -59,10 +53,7 @@ describe('Transitions/TransitionsReport interaction', () => {
     postEvent.mockClear();
     stubElementRects();
     backend = installFakeTransitionsBackend(structuredClone(REPORT));
-    vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => {
-      callback(0);
-      return 1;
-    });
+    useSynchronousFrames();
   });
 
   afterEach(() => {
@@ -70,27 +61,10 @@ describe('Transitions/TransitionsReport interaction', () => {
     vi.unstubAllGlobals();
   });
 
-  async function flush() {
-    for (let i = 0; i < 5; i += 1) {
-      // eslint-disable-next-line no-await-in-loop
-      await nextTick();
-    }
-  }
-
   async function mountLoaded(props = {}): Promise<VueWrapper> {
-    const wrapper = mount(TransitionsReport as any, {
-      props: {
-        actionType: 'url',
-        actionName: 'http://example.org/page',
-        ...props,
-      },
-      global: { config: { globalProperties: {
-        $sanitize: (value: string) => value,
-        $sanitizeUrl: (url: string) => (/^https?:\/\//i.test(url) ? url : ''),
-      } } },
-    });
+    const wrapper = mountTransitionsReport(props);
     backend.respond();
-    await flush();
+    await flushRibbons();
     return wrapper;
   }
 
@@ -123,7 +97,7 @@ describe('Transitions/TransitionsReport interaction', () => {
     expect(sectionByTitle(wrapper, 'Transitions_FromSearchEngines')).toBeUndefined();
 
     await summaryRow(wrapper, 'Transitions_FromSearchEngines').trigger('click');
-    await flush();
+    await flushRibbons();
 
     expect(openRowLabels(wrapper, 'Transitions_FromSearchEngines')).toEqual(['Google', 'Bing']);
   });
@@ -134,7 +108,7 @@ describe('Transitions/TransitionsReport interaction', () => {
     expect(openRowLabels(wrapper, 'Transitions_FromPreviousPages')).toEqual(['/a']);
 
     await summaryRow(wrapper, 'Transitions_FromSearchEngines').trigger('click');
-    await flush();
+    await flushRibbons();
 
     expect(sectionByTitle(wrapper, 'Transitions_FromPreviousPages')).toBeUndefined();
     expect(summaryRow(wrapper, 'Transitions_FromPreviousPages').exists()).toBe(true);
@@ -144,7 +118,7 @@ describe('Transitions/TransitionsReport interaction', () => {
     const wrapper = await mountLoaded();
 
     await summaryRow(wrapper, 'Transitions_FromSearchEngines').trigger('click');
-    await flush();
+    await flushRibbons();
 
     expect(openRowLabels(wrapper, 'Transitions_ToFollowingPages')).toEqual(['/c']);
   });
@@ -156,7 +130,7 @@ describe('Transitions/TransitionsReport interaction', () => {
     expect(exits.classes()).not.toContain('transitionsRow--actionable');
 
     await exits.trigger('click');
-    await flush();
+    await flushRibbons();
 
     expect(openRowLabels(wrapper, 'Transitions_ToFollowingPages')).toEqual(['/c']);
   });
@@ -169,7 +143,7 @@ describe('Transitions/TransitionsReport interaction', () => {
     )!;
 
     await outlinks.trigger('click');
-    await flush();
+    await flushRibbons();
 
     expect(openRowLabels(wrapper, 'General_Outlinks')).toEqual(['other.example/x']);
   });
@@ -185,7 +159,7 @@ describe('Transitions/TransitionsReport interaction', () => {
     const wrapper = await mountLoaded();
 
     await summaryRow(wrapper, 'General_Downloads').trigger('click');
-    await flush();
+    await flushRibbons();
 
     const row = sectionByTitle(wrapper, 'General_Downloads')!.find('.transitionsRow');
     expect(row.element.tagName).toBe('A');
@@ -205,7 +179,7 @@ describe('Transitions/TransitionsReport interaction', () => {
     const wrapper = await mountLoaded();
 
     await summaryRow(wrapper, 'General_Outlinks').trigger('click');
-    await flush();
+    await flushRibbons();
 
     const row = sectionByTitle(wrapper, 'General_Outlinks')!.find('.transitionsRow');
     expect(row.element.tagName).toBe('DIV');
@@ -223,7 +197,7 @@ describe('Transitions/TransitionsReport interaction', () => {
     expect(exits.classes()).not.toContain('transitionsCenterCard__metric--actionable');
 
     await exits.trigger('click');
-    await flush();
+    await flushRibbons();
 
     expect(openRowLabels(wrapper, 'Transitions_ToFollowingPages')).toEqual(['/c']);
   });
@@ -234,12 +208,12 @@ describe('Transitions/TransitionsReport interaction', () => {
     expect(wrapper.findAll('.transitionsRibbons__band--highlighted')).toHaveLength(0);
 
     await summaryRow(wrapper, 'Transitions_FromSearchEngines').trigger('mouseenter');
-    await flush();
+    await flushRibbons();
 
     expect(wrapper.findAll('.transitionsRibbons__band--highlighted')).toHaveLength(1);
 
     await summaryRow(wrapper, 'Transitions_FromSearchEngines').trigger('mouseleave');
-    await flush();
+    await flushRibbons();
 
     expect(wrapper.findAll('.transitionsRibbons__band--highlighted')).toHaveLength(0);
   });
@@ -248,14 +222,14 @@ describe('Transitions/TransitionsReport interaction', () => {
     const wrapper = await mountLoaded();
 
     await summaryRow(wrapper, 'Transitions_FromSearchEngines').trigger('click');
-    await flush();
+    await flushRibbons();
 
     const searchEngines = wrapper.findAll('.transitionsCenterCard__metric').find(
       (metric) => metric.text().includes('Referrers_TypeSearchEngines'),
     )!;
 
     await searchEngines.trigger('mouseenter');
-    await flush();
+    await flushRibbons();
 
     // Both detail rows of the now-open group light up.
     expect(wrapper.findAll('.transitionsRibbons__band--highlighted')).toHaveLength(2);
@@ -272,23 +246,28 @@ describe('Transitions/TransitionsReport interaction', () => {
     );
   });
 
-  it('should emit navigate instead when mounted in a popover', async () => {
+  it('should reopen the popover instead when mounted in one', async () => {
     const wrapper = await mountLoaded({ context: 'popover' });
 
     await wrapper.find('.transitionsRow').trigger('click');
 
+    // The popover is mounted through a vue-entry, which cannot pass a handler in, so this event
+    // is the whole mechanism: the row action listens for it and reopens the popover.
+    expect(postEvent).toHaveBeenCalledWith(
+      'Transitions.reloadPopover',
+      { url: 'http://example.org/a' },
+    );
     expect(postEvent).not.toHaveBeenCalledWith(
       'Transitions.switchTransitionsUrl',
       expect.anything(),
     );
-    expect(wrapper.emitted('navigate')).toEqual([['http://example.org/a']]);
   });
 
   it('should render an external row as a link and not navigate the report', async () => {
     const wrapper = await mountLoaded();
 
     await summaryRow(wrapper, 'General_Outlinks').trigger('click');
-    await flush();
+    await flushRibbons();
 
     const row = sectionByTitle(wrapper, 'General_Outlinks')!.find('.transitionsRow');
     expect(row.element.tagName).toBe('A');
@@ -296,18 +275,21 @@ describe('Transitions/TransitionsReport interaction', () => {
     expect(row.attributes('rel')).toBe('noreferrer noopener');
 
     await row.trigger('click');
-    expect(wrapper.emitted('navigate')).toBeUndefined();
+    expect(postEvent).not.toHaveBeenCalledWith(
+      'Transitions.switchTransitionsUrl',
+      expect.anything(),
+    );
   });
 
   it('should reset the open groups when the action changes', async () => {
     const wrapper = await mountLoaded();
 
     await summaryRow(wrapper, 'Transitions_FromSearchEngines').trigger('click');
-    await flush();
+    await flushRibbons();
 
     await wrapper.setProps({ actionName: 'http://example.org/other' });
     backend.respond();
-    await flush();
+    await flushRibbons();
 
     expect(openRowLabels(wrapper, 'Transitions_FromPreviousPages')).toEqual(['/a']);
     expect(sectionByTitle(wrapper, 'Transitions_FromSearchEngines')).toBeUndefined();

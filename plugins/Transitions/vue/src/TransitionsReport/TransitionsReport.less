@@ -1,14 +1,14 @@
 .transitionsReport {
   // Width of the gap tracks the ribbons are drawn into.
   @_ribbonWidth: 90px;
-
-  position: relative;
+  // Vertical breathing room for the three content tracks.
+  @_trackPaddingY: 24px;
+  @_trackPaddingYCompact: 12px;
 
   .transitionsReport__grid {
     display: grid;
     grid-template-columns: 1fr @_ribbonWidth minmax(240px, 350px) @_ribbonWidth 1fr;
     align-items: start;
-    gap: 0;
   }
 
   .transitionsReport__column {
@@ -16,7 +16,7 @@
     position: relative;
     z-index: 1;
     min-width: 0;
-    padding: 24px 0;
+    padding: @_trackPaddingY 0;
   }
 
   .transitionsReport__ribbons {
@@ -25,7 +25,7 @@
   }
 
   .transitionsReport__center {
-    padding: 24px 0;
+    padding: @_trackPaddingY 0;
   }
 
   // override: ActivityIndicator renders the legacy .loadingPiwik markup, which puts the spinner and
@@ -37,7 +37,10 @@
       flex-direction: column;
       align-items: safe center;
       gap: 20px;
-      padding: 50px 0 65px;
+      // Inline padding and a wrap rule, because the message ends in the action name and a long
+      // URL has nowhere to break; without them it runs out past the popover's edge.
+      padding: 50px 40px 65px;
+      overflow-wrap: anywhere;
       color: @theme-color-text;
       font-size: 16px;
       line-height: 20px;
@@ -73,7 +76,8 @@
   }
 
   // Below the Materialize medium breakpoint the three tracks cannot hold a readable label, so the
-  // ribbons are dropped and the columns stack under the card.
+  // ribbons are dropped and the remaining tracks stack in source order: incoming column, card,
+  // outgoing column.
   @media (max-width: 992px) {
     .transitionsReport__grid {
       grid-template-columns: 1fr;
@@ -84,11 +88,11 @@
     }
 
     .transitionsReport__column {
-      padding: 12px 0;
+      padding: @_trackPaddingYCompact 0;
     }
 
     .transitionsReport__center {
-      padding: 12px 0;
+      padding: @_trackPaddingYCompact 0;
     }
   }
 }

@@ -15,15 +15,6 @@ import {
 import { computeRibbonPaths, RibbonPath, RibbonRow } from './ribbonGeometry';
 import { TransitionsSide } from './types';
 
-export interface MeasuredRect {
-  top: number;
-  height: number;
-  width: number;
-}
-
-/** How an element is measured. Specs stub getBoundingClientRect, which jsdom reports as 0x0. */
-type MeasureRect = (element: Element) => MeasuredRect;
-
 /**
  * The band stops short of the card by this much at each end, so the card reads as taller than the
  * ribbons meeting it and they never run into its rounded corners.
@@ -50,17 +41,20 @@ export const ROW_STRAIGHT = ROW_OVERLAP + 6;
  */
 const MAX_INSET_SHARE = 0.25;
 
-/** Keys are generated ids, but escape anyway so an unusual group name cannot break the selector. */
+/**
+ * Keys are generated ids, but escape anyway so an unusual group name cannot break the selector.
+ * The key is interpolated into a double-quoted attribute value, so that is what gets escaped --
+ * not CSS.escape(), which escapes for an identifier position.
+ */
 function escapeKey(key: string): string {
-  return typeof CSS !== 'undefined' && typeof CSS.escape === 'function'
-    ? CSS.escape(key)
-    : key.replace(/["\\]/g, '\\$&');
+  return key.replace(/["\\]/g, '\\$&');
 }
 
-const measureBoundingRect: MeasureRect = (element) => {
+/** Specs stub getBoundingClientRect, which jsdom otherwise reports as 0x0. */
+function measure(element: Element) {
   const rect = element.getBoundingClientRect();
   return { top: rect.top, height: rect.height, width: rect.width };
-};
+}
 
 /** A row the ribbon layer should connect, before it has been measured. */
 export interface RibbonSource {
@@ -93,9 +87,7 @@ export interface UseRibbonGeometryOptions {
  * single animation frame. The observer and any pending frame are released on unmount.
  */
 export function useRibbonGeometry(options: UseRibbonGeometryOptions) {
-  const measure = measureBoundingRect;
   const paths = ref<RibbonPath[]>([]);
-  const size = ref({ width: 0, height: 0 });
 
   let frame: number|null = null;
   let scheduled = false;
@@ -104,8 +96,6 @@ export function useRibbonGeometry(options: UseRibbonGeometryOptions) {
 
   function layout(layer: SVGSVGElement, column: HTMLElement, center: HTMLElement) {
     const layerRect = measure(layer);
-    size.value = { width: layerRect.width, height: layerRect.height };
-
     const centerRect = measure(center);
 
     const measuredRows: RibbonRow[] = [];
@@ -218,13 +208,9 @@ export function useRibbonGeometry(options: UseRibbonGeometryOptions) {
   onBeforeUnmount(teardown);
 
   // Post-flush: the rows to measure only exist in the DOM after the update has been applied.
-  watch(options.rows, schedule, { deep: true, flush: 'post' });
+  // Not deep: the only producer is a computed that returns a fresh array of fresh objects, so the
+  // ref's own identity change already fires this. Revisit if a caller ever mutates its rows.
+  watch(options.rows, schedule, { flush: 'post' });
 
-  return {
-    paths,
-    size,
-    recompute,
-    schedule,
-    teardown,
-  };
+  return { paths };
 }

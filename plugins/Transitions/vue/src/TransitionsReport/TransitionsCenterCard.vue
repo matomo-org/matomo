@@ -20,7 +20,7 @@
         <span class="transitionsCenterCard__glyph icon-document"></span>
       </span>
 
-      <span class="transitionsCenterCard__title" :title="report.actionName">
+      <span class="transitionsCenterCard__title" :title="titleTooltip">
         {{ report.title }}
       </span>
       <span class="transitionsCenterCard__pageviews" :title="report.pageviewsTooltip">
@@ -92,6 +92,13 @@ export default defineComponent({
     safeTitleUrl(): string {
       return this.report.titleUrl ? this.$sanitizeUrl(this.report.titleUrl) : '';
     },
+    /**
+     * Only worth a tooltip when the title was shortened; page titles are shown in full. Undefined
+     * rather than null, because that is what Vue's typing for a DOM attribute accepts.
+     */
+    titleTooltip(): string|undefined {
+      return this.report.title === this.report.actionName ? undefined : this.report.actionName;
+    },
   },
   methods: {
     headingFor(side: TransitionsSide): string {
@@ -108,9 +115,13 @@ export default defineComponent({
     metricsFor(side: TransitionsSide): TransitionsMetricData[] {
       return this.report.metrics.filter((metric) => metric.side === side);
     },
+    /** A group with no transitions has nothing to open, however expandable it is in principle. */
+    isActionable(metric: TransitionsMetricData): boolean {
+      return metric.canExpand && metric.value > 0;
+    },
     metricClasses(metric: TransitionsMetricData): Record<string, boolean> {
       return {
-        'transitionsCenterCard__metric--actionable': metric.canExpand && metric.value > 0,
+        'transitionsCenterCard__metric--actionable': this.isActionable(metric),
         'transitionsCenterCard__metric--highlighted': metric.groupName === this.highlightedGroup,
       };
     },
@@ -124,7 +135,7 @@ export default defineComponent({
         : 'transitionsCenterCard__dot--outgoing';
     },
     onMetricClick(metric: TransitionsMetricData) {
-      if (metric.canExpand && metric.value > 0) {
+      if (this.isActionable(metric)) {
         this.$emit('open', metric.groupName);
       }
     },

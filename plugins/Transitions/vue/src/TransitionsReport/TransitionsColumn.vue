@@ -6,7 +6,7 @@
 -->
 
 <template>
-  <div class="transitionsColumn" :class="`transitionsColumn--${side}`">
+  <div class="transitionsColumn">
     <div class="transitionsColumn__sectionItem" v-for="section in sections" :key="section.key">
       <TransitionsSection
         :section="section"
@@ -23,14 +23,10 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 import TransitionsSection from './TransitionsSection.vue';
-import { TransitionsSectionData, TransitionsSide } from './types';
+import { TransitionsSectionData } from './types';
 
 export default defineComponent({
   props: {
-    side: {
-      type: String as PropType<TransitionsSide>,
-      required: true,
-    },
     sections: {
       type: Array as PropType<TransitionsSectionData[]>,
       required: true,

@@ -23,15 +23,6 @@ export type TransitionsContext = 'embedded'|'popover';
  */
 export type TransitionsRowKind = 'action'|'summary';
 
-/** A single detail row inside a group, as returned by Transitions.getTransitionsForAction. */
-export interface TransitionsDetail {
-  label?: string;
-  url?: string;
-  referrals: number;
-  /** Share of the group total, in percent. Added by Piwik_Transitions_Model.addPercentagesToData. */
-  percentage: number;
-}
-
 /** A row as rendered in one of the two side columns. */
 export interface TransitionsRowData {
   key: string;
@@ -46,7 +37,7 @@ export interface TransitionsRowData {
   countLabel: string;
   /** Formatted percentage shown in the row pill. */
   percentage: string;
-  /** Share of all pageviews, 0..1. Drives the ribbon thickness. */
+  /** Share of this page's pageviews, 0..1. Drives the ribbon thickness. */
   share: number;
   /** An external URL to open, when the row points at one. */
   externalUrl?: string;
@@ -63,8 +54,6 @@ export interface TransitionsGroupData {
   side: TransitionsSide;
   title: string;
   nbTransitions: number;
-  /** Share of all pageviews, 0..1. */
-  share: number;
   /** Whether the group has detail rows to open. Direct entries and exits do not. */
   canExpand: boolean;
   /** The group's own count, phrased in its metric's unit. */
@@ -82,7 +71,7 @@ export interface TransitionsSectionData {
   title: string;
   /** The outgoing side's catch-all block carries no heading. */
   showHeading: boolean;
-  /** Total across the block, phrased as pageviews, shown in the heading badge. */
+  /** Total across the block, phrased in the block's own metric unit, shown in the heading badge. */
   badge: string;
   rows: TransitionsRowData[];
 }
@@ -115,13 +104,10 @@ export interface TransitionsError {
 
 /** Everything the renderer needs for one action. */
 export interface TransitionsReportData {
-  actionType: string;
   actionName: string;
   title: string;
   /** Set when the action is a URL, so the card's icon can link out. */
   titleUrl?: string;
-  date: string;
-  pageviews: number;
   loops: number;
   loopsLabel: string;
   loopsTooltip: string;

@@ -28,7 +28,6 @@
     <div class="transitionsReport__grid" v-if="report && !isLoading && !error">
       <div class="transitionsReport__column" ref="incomingColumn">
         <TransitionsColumn
-          side="incoming"
           :sections="incomingSections"
           :highlighted-keys="highlightedKeys"
           @open="onOpen('incoming', $event)"
@@ -42,7 +41,7 @@
         <TransitionsRibbons
           side="incoming"
           :rows="incomingRibbonRows"
-          :column="() => $refs.incomingColumn"
+          :column="incomingColumnElement"
           :center="centerCardElement"
           :highlighted-keys="highlightedKeys"
         />
@@ -63,7 +62,7 @@
         <TransitionsRibbons
           side="outgoing"
           :rows="outgoingRibbonRows"
-          :column="() => $refs.outgoingColumn"
+          :column="outgoingColumnElement"
           :center="centerCardElement"
           :highlighted-keys="highlightedKeys"
         />
@@ -71,7 +70,6 @@
 
       <div class="transitionsReport__column" ref="outgoingColumn">
         <TransitionsColumn
-          side="outgoing"
           :sections="outgoingSections"
           :highlighted-keys="highlightedKeys"
           @open="onOpen('outgoing', $event)"
@@ -103,6 +101,17 @@ import {
   TransitionsSectionData,
   TransitionsSide,
 } from './types';
+
+/**
+ * The rows a side's ribbon layer connects, in the order they are rendered. A free function rather
+ * than a method, so it reads the sections computed instead of rebuilding them: methods are not
+ * cached, so sectionsFor() would otherwise run twice per side on every invalidation.
+ */
+function ribbonRows(sections: TransitionsSectionData[]): RibbonSource[] {
+  return sections.flatMap(
+    (section) => section.rows.map((row) => ({ key: row.key, share: row.share })),
+  );
+}
 
 export interface TransitionsReportState {
   openGroups: Record<TransitionsSide, string>;
@@ -138,17 +147,7 @@ export default defineComponent({
     TransitionsColumn,
     TransitionsRibbons,
   },
-  emits: ['navigate'],
-  setup() {
-    const { isLoading, error, report, load } = useTransitionsData();
-
-    return {
-      isLoading,
-      error,
-      report,
-      load,
-    };
-  },
+  setup: () => useTransitionsData(),
   data(): TransitionsReportState {
     return {
       openGroups: {
@@ -183,10 +182,10 @@ export default defineComponent({
       return this.sectionsFor('outgoing');
     },
     incomingRibbonRows(): RibbonSource[] {
-      return this.ribbonRowsFor('incoming');
+      return ribbonRows(this.incomingSections);
     },
     outgoingRibbonRows(): RibbonSource[] {
-      return this.ribbonRowsFor('outgoing');
+      return ribbonRows(this.outgoingSections);
     },
     /**
      * The popover names what it is fetching, the way the legacy renderer's own loading state did.
@@ -236,7 +235,9 @@ export default defineComponent({
     /**
      * A column holds at most two blocks: the open group, listed row by row under its own title,
      * and everything else on that side, one summary row per group. The incoming catch-all is
-     * titled "Other sources"; the outgoing one needs no title, its rows name themselves.
+     * titled "Other sources" while a group is open, and plain "Incoming traffic" when none is --
+     * on an entry page there is nothing for it to be other than. The outgoing catch-all needs no
+     * title at all, its rows name themselves.
      */
     sectionsFor(side: TransitionsSide): TransitionsSectionData[] {
       const groups = this.groupsFor(side);
@@ -264,19 +265,26 @@ export default defineComponent({
         sections.push({
           key: `${side}-other`,
           side,
-          title: side === 'incoming' ? translate('Transitions_OtherSources') : '',
+          title: side === 'incoming'
+            ? translate(openGroup ? 'Transitions_OtherSources' : 'Transitions_IncomingTraffic')
+            : '',
           showHeading: side === 'incoming',
-          badge: translate('Transitions_NumPageviews', NumberFormatter.formatNumber(total)),
+          // Only the incoming block shows a heading, so only it needs a badge -- and on the
+          // outgoing side this would phrase summed downloads and outlinks as pageviews anyway.
+          badge: side === 'incoming'
+            ? translate('Transitions_NumPageviews', NumberFormatter.formatNumber(total))
+            : '',
           rows: rest.map((group) => group.summaryRow),
         });
       }
 
       return sections;
     },
-    ribbonRowsFor(side: TransitionsSide): RibbonSource[] {
-      return this.sectionsFor(side).flatMap(
-        (section) => section.rows.map((row) => ({ key: row.key, share: row.share })),
-      );
+    incomingColumnElement(): HTMLElement|null {
+      return (this.$refs.incomingColumn as HTMLElement|undefined) ?? null;
+    },
+    outgoingColumnElement(): HTMLElement|null {
+      return (this.$refs.outgoingColumn as HTMLElement|undefined) ?? null;
     },
     /**
      * The ribbons meet the card itself, not the grid cell around it, so the band lines up with
@@ -310,8 +318,6 @@ export default defineComponent({
       this.highlightedGroup = groupName;
     },
     onNavigate(url: string) {
-      this.$emit('navigate', url);
-
       if (this.context === 'popover') {
         // Mounted through a vue-entry, so the row action cannot pass a handler in; it listens for
         // this instead and re-opens the popover, which keeps the popover URL in sync.

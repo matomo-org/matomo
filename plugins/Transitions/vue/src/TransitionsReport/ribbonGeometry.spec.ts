@@ -23,7 +23,9 @@ describe('Transitions/ribbonGeometry', () => {
     }));
   }
 
-  /** Reads back the anchor points of a band, so the tests do not depend on the exact path string. */
+  /**
+   * Reads back the anchor points of a band, so the tests do not depend on the exact path string.
+   */
   function anchors(d: string) {
     const n = '(-?[\\d.]+)';
     const any = '[\\d.-]+';
@@ -93,6 +95,17 @@ describe('Transitions/ribbonGeometry', () => {
     const [path] = computeRibbonPaths(rows(0.5), { ...layout, rowStraight: 500 });
 
     expect(anchors(path.d).curveX).toBe(100); // clamped to the center edge
+  });
+
+  it('should clamp the straight run on the outgoing side too', () => {
+    // The outgoing side runs right to left, so the same clamp is a Math.max against x=0.
+    const [path] = computeRibbonPaths(rows(0.5), {
+      ...layout,
+      side: 'outgoing' as const,
+      rowStraight: 500,
+    });
+
+    expect(anchors(path.d).curveX).toBe(0);
   });
 
   it('should clamp a tiny share up to the minimum thickness', () => {

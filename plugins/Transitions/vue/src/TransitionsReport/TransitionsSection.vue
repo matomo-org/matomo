@@ -8,7 +8,7 @@
 <template>
   <div class="transitionsSection">
     <div class="transitionsSection__header" v-if="section.showHeading">
-      <span class="transitionsSection__title">{{ section.title }}</span>
+      <span class="transitionsSection__title" :title="section.title">{{ section.title }}</span>
       <span class="transitionsSection__badge">{{ section.badge }}</span>
     </div>
 

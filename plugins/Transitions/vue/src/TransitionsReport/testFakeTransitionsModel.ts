@@ -26,11 +26,8 @@ export interface FakeTransitionsBackend {
   respond(): void;
   /** Resolves the newest pending load, leaving older ones outstanding. */
   respondNewest(): void;
-  /**
-   * Fails the pending load with an API exception name. `method` mirrors the API method the real
-   * ajax layer reports, so a spec can fail the report request or the parallel total-pageviews one.
-   */
-  fail(errorName: string, method?: string): void;
+  /** Fails the oldest pending load with an API exception name. */
+  fail(errorName: string): void;
   /**
    * Invokes the error callback for a request other than the report's own, the way a failure of the
    * parallel total-pageviews request does. Independent of the load queue, since that request is
@@ -44,9 +41,18 @@ export interface FakeTransitionsBackend {
   resolveTotalNbPageviews(nbPageviews: number): void;
   /** How many loads have been started. */
   loadCount(): number;
+  /** What each load was asked for, so a spec can pin what reaches the model. */
+  loads: { actionType: string; actionName: string; overrideParams: Record<string, string>|null }[];
   /** Report to serve; may be swapped between loads. */
   report: FakeReport;
-  pending(): number;
+}
+
+/**
+ * Mirrors Piwik_Transitions_Model.roundPercentage: whole percent from 10% up, one decimal below.
+ * Worth mirroring exactly, because the report's own rounding is only correct relative to this.
+ */
+function roundPercentage(share: number): number {
+  return share < 0.1 ? Math.round(share * 1000) / 10 : Math.round(share * 100);
 }
 
 const ALL_GROUPS = [
@@ -61,7 +67,8 @@ const ALL_GROUPS = [
  */
 export function installFakeTransitionsBackend(report: FakeReport = {}): FakeTransitionsBackend {
   let loads = 0;
-  const queue: { resolve: () => void; fail: (name: string, method: string) => void }[] = [];
+  const loadArgs: FakeTransitionsBackend['loads'] = [];
+  const queue: { resolve: () => void; fail: (name: string) => void }[] = [];
   let liveAjax: { errorCallback: ((name: string, params: Record<string, unknown>) => void)|null }
     |null = null;
   const totalWaiters: ((nbPageviews: number) => void)[] = [];
@@ -69,7 +76,7 @@ export function installFakeTransitionsBackend(report: FakeReport = {}): FakeTran
   const backend: FakeTransitionsBackend = {
     report,
     loadCount: () => loads,
-    pending: () => queue.length,
+    loads: loadArgs,
     respond() {
       const next = queue.shift();
       if (next) {
@@ -82,10 +89,10 @@ export function installFakeTransitionsBackend(report: FakeReport = {}): FakeTran
         next.resolve();
       }
     },
-    fail(errorName: string, method = 'Transitions.getTransitionsForAction') {
+    fail(errorName: string) {
       const next = queue.shift();
       if (next) {
-        next.fail(errorName, method);
+        next.fail(errorName);
       }
     },
     failOtherRequest(errorName: string, method: string) {
@@ -147,12 +154,16 @@ export function installFakeTransitionsBackend(report: FakeReport = {}): FakeTran
       callback: () => void,
     ) {
       loads += 1;
+      loadArgs.push({ actionType, actionName, overrideParams });
       queue.push({
         resolve: () => {
           this.apply();
           callback();
         },
-        fail: (name: string, method: string) => this.ajax.errorCallback?.(name, { method }),
+        fail: (name: string) => this.ajax.errorCallback?.(
+          name,
+          { method: 'Transitions.getTransitionsForAction' },
+        ),
       });
     }
 
@@ -180,14 +191,14 @@ export function installFakeTransitionsBackend(report: FakeReport = {}): FakeTran
 
       return details.map((detail) => ({
         ...detail,
-        percentage: total ? Math.round((detail.referrals / total) * 100) : 0,
+        percentage: total ? roundPercentage(detail.referrals / total) : 0,
       }));
     }
 
     getPercentage(metric: string, formatted?: boolean) {
       const value = (this[metric] as number) || 0;
       const share = this.pageviews ? value / this.pageviews : 0;
-      return formatted ? `${Math.round(share * 100)}%` : share;
+      return formatted ? `${roundPercentage(share)}%` : share;
     }
   }
 

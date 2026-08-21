@@ -5,38 +5,22 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import { mount, VueWrapper } from '@vue/test-utils';
+import { VueWrapper } from '@vue/test-utils';
 import { nextTick } from 'vue';
 
 const postEvent = vi.fn();
 
-vi.mock('CoreHome', () => ({
-  ActivityIndicator: { template: '<div class="activityIndicator" />', props: ['loading'] },
-  Matomo: {
-    postEvent: (...args: unknown[]) => postEvent(...args),
-    helper: {
-      addBreakpointsToUrl: (url: string) => url,
-    },
-  },
-  NumberFormatter: {
-    formatNumber: (value: number) => String(value),
-    formatPercent: (value: number) => `${value}%`,
-  },
-  // Substitutes %s and %1$s style placeholders, like Matomo's translate() does.
-  translate: (key: string, ...args: string[]) => {
-    let index = 0;
-    return `${key}`.concat(args.length ? `:${args.join('|')}` : '')
-      .replace(/%(\d+\$)?s/g, () => {
-        const value = args[index];
-        index += 1;
-        return value;
-      });
-  },
-}));
+// Pulled in dynamically: a vi.mock() factory is hoisted above every import in the file, so it
+// cannot reach a top-level one.
+vi.mock('CoreHome', async () => {
+  const { coreHomeMock } = await import('./testCoreHomeMock');
+  return coreHomeMock((...args: unknown[]) => postEvent(...args));
+});
 
-import TransitionsReport from './TransitionsReport.vue';
+import { flushRibbons, mountTransitionsReport } from './testTransitionsReportHarness';
+
 import { installFakeTransitionsBackend, FakeTransitionsBackend } from './testFakeTransitionsModel';
-import { stubElementRects } from './testMeasuredLayout';
+import { stubElementRects, useSynchronousFrames } from './testMeasuredLayout';
 
 const REPORT_WITH_DATA = {
   date: '2012-08-09',
@@ -70,11 +54,7 @@ describe('Transitions/TransitionsReport', () => {
     postEvent.mockClear();
     stubElementRects();
     backend = installFakeTransitionsBackend(structuredClone(REPORT_WITH_DATA));
-    // Run the ribbon layer's scheduled measurement synchronously, so a rendered frame is enough.
-    vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => {
-      callback(0);
-      return 1;
-    });
+    useSynchronousFrames();
   });
 
   afterEach(() => {
@@ -82,37 +62,10 @@ describe('Transitions/TransitionsReport', () => {
     vi.unstubAllGlobals();
   });
 
-  function mountReport(props = {}) {
-    return mount(TransitionsReport as any, {
-      props: {
-        actionType: 'url',
-        actionName: 'http://example.org/page',
-        ...props,
-      },
-      global: {
-        config: {
-          globalProperties: {
-            $sanitize: (value: string) => value,
-            // stands in for DOMPurify.isValidAttribute: rejects anything not http(s)
-            $sanitizeUrl: (url: string) => (/^https?:\/\//i.test(url) ? url : ''),
-          },
-        },
-      },
-    });
-  }
-
-  /** The grid, then the resolved element refs, then the ribbon paths each take a render. */
-  async function flush() {
-    for (let i = 0; i < 5; i += 1) {
-      // eslint-disable-next-line no-await-in-loop
-      await nextTick();
-    }
-  }
-
   async function mountLoaded(props = {}): Promise<VueWrapper> {
-    const wrapper = mountReport(props);
+    const wrapper = mountTransitionsReport(props);
     backend.respond();
-    await flush();
+    await flushRibbons();
     return wrapper;
   }
 
@@ -125,6 +78,26 @@ describe('Transitions/TransitionsReport', () => {
       'Transitions_OtherSources',
       'Transitions_ToFollowingPages',
     ]);
+  });
+
+  it('should not call the incoming block "other" when no group is open', async () => {
+    // An entry page has no previous pages, so nothing opens on the incoming side and its single
+    // block holds all of the incoming traffic.
+    backend.report = {
+      pageviews: 100,
+      directEntries: 40,
+      groups: {
+        searchEngines: { total: 60, details: [{ label: 'Google', referrals: 60 }] },
+        followingPages: {
+          total: 35,
+          details: [{ url: 'http://example.org/c', referrals: 35 }],
+        },
+      },
+    };
+    const wrapper = await mountLoaded();
+
+    const titles = wrapper.findAll('.transitionsSection__title').map((node) => node.text());
+    expect(titles).toEqual(['Transitions_IncomingTraffic', 'Transitions_ToFollowingPages']);
   });
 
   it('should list the detail rows of the open group', async () => {
@@ -150,6 +123,48 @@ describe('Transitions/TransitionsReport', () => {
     expect(pills.slice(0, 2)).toEqual(['75%', '25%']);
     // Summary rows carry their share of all pageviews, in parentheses.
     expect(pills[2]).toBe('(25%)');
+  });
+
+  it('should put the full text behind the labels that truncate', async () => {
+    const wrapper = await mountLoaded();
+
+    // The card title is a shortened URL here, so the untruncated action name is worth a tooltip.
+    expect(wrapper.find('.transitionsCenterCard__title').attributes('title'))
+      .toBe('http://example.org/page');
+    expect(wrapper.find('.transitionsSection__title').attributes('title'))
+      .toBe('Transitions_FromPreviousPages');
+  });
+
+  it('should not repeat a page title that is already shown in full', async () => {
+    const wrapper = await mountLoaded({ actionType: 'title', actionName: 'My page' });
+
+    expect(wrapper.find('.transitionsCenterCard__title').text()).toBe('My page');
+    expect(wrapper.find('.transitionsCenterCard__title').attributes('title')).toBeUndefined();
+  });
+
+  it('should round a summary percentage the way the rest of the report does', async () => {
+    // 46.3% and 3.7% of the page's pageviews: the model rounds the first to a whole percent and
+    // keeps a decimal on the second, and a summary row has to agree with the card's tooltip for
+    // the same group rather than rounding on its own.
+    backend.report = {
+      pageviews: 1000,
+      groups: {
+        previousPages: { total: 100, details: [{ url: 'http://example.org/a', referrals: 100 }] },
+        searchEngines: { total: 463, details: [{ label: 'Google', referrals: 463 }] },
+        socialNetworks: { total: 37, details: [{ label: 'Mastodon', referrals: 37 }] },
+      },
+    };
+    const wrapper = await mountLoaded();
+
+    const pills = wrapper.findAll('.transitionsRow__pill').map((node) => node.text());
+    // The open group's detail row carries its share within the group; the summary rows below it
+    // carry their share of the page's pageviews, in parentheses.
+    expect(pills).toEqual(['100%', '(46%)', '(3.7%)']);
+
+    const tooltips = wrapper.findAll('.transitionsCenterCard__metric')
+      .map((node) => node.attributes('title'));
+    expect(tooltips).toContain('Transitions_XOfAllPageviews:46%');
+    expect(tooltips).toContain('Transitions_XOfAllPageviews:3.7%');
   });
 
   it('should badge each section with its total', async () => {
@@ -218,7 +233,7 @@ describe('Transitions/TransitionsReport', () => {
     expect(wrapper.find('.transitionsCenterCard__pageviews').attributes('title')).toBe('');
 
     backend.resolveTotalNbPageviews(1000);
-    await flush();
+    await flushRibbons();
 
     expect(wrapper.find('.transitionsCenterCard__pageviews').attributes('title'))
       .toContain('Transitions_ShareOfAllPageviews');
@@ -227,11 +242,11 @@ describe('Transitions/TransitionsReport', () => {
   it('should name what it is loading in the popover', () => {
     // The legacy popover's own loading state said "Loading Transitions for <page>"; the embedded
     // report's inline loader said the generic thing, so the message follows the context.
-    const popover = mountReport({ context: 'popover' });
+    const popover = mountTransitionsReport({ context: 'popover' });
     expect(popover.find('.activityIndicator').attributes('loading-message'))
       .toBe('General_LoadingPopoverFor:Transitions_Transitions http://example.org/page');
 
-    const embedded = mountReport();
+    const embedded = mountTransitionsReport();
     expect(embedded.find('.activityIndicator').attributes('loading-message'))
       .toBe('General_LoadingData');
   });
@@ -255,7 +270,7 @@ describe('Transitions/TransitionsReport', () => {
 
   describe('no data', () => {
     it('should render the translated no-data error instead of the grid', async () => {
-      const wrapper = mountReport();
+      const wrapper = mountTransitionsReport();
       backend.fail('NoDataForAction');
       await nextTick();
 
@@ -267,7 +282,7 @@ describe('Transitions/TransitionsReport', () => {
     });
 
     it('should offer the back link in the popover, where a history step closes it', async () => {
-      const wrapper = mountReport({ context: 'popover' });
+      const wrapper = mountTransitionsReport({ context: 'popover' });
       backend.fail('NoDataForAction');
       await nextTick();
 
@@ -275,10 +290,21 @@ describe('Transitions/TransitionsReport', () => {
         .toBe('Transitions_ErrorBack');
     });
 
+    it('should step back through history when the back link is clicked', async () => {
+      const back = vi.spyOn(window.history, 'back').mockImplementation(() => {});
+      const wrapper = mountTransitionsReport({ context: 'popover' });
+      backend.fail('NoDataForAction');
+      await nextTick();
+
+      await wrapper.find('.transitionsReport__errorBack').trigger('click');
+
+      expect(back).toHaveBeenCalled();
+    });
+
     it('should leave the back link out of the embedded report', async () => {
       // On the Transitions page history.back() navigates away from the page rather than closing
       // anything, so the legacy renderer's inline error had no back link either.
-      const wrapper = mountReport();
+      const wrapper = mountTransitionsReport();
       backend.fail('NoDataForAction');
       await nextTick();
 
@@ -289,7 +315,7 @@ describe('Transitions/TransitionsReport', () => {
 
   describe('period not allowed', () => {
     it('should render the translated period-not-allowed error', async () => {
-      const wrapper = mountReport();
+      const wrapper = mountTransitionsReport();
       backend.fail('PeriodNotAllowed');
       await nextTick();
 
@@ -301,14 +327,14 @@ describe('Transitions/TransitionsReport', () => {
     });
 
     it('should clear the error when a later load succeeds', async () => {
-      const wrapper = mountReport();
+      const wrapper = mountTransitionsReport();
       backend.fail('PeriodNotAllowed');
       await nextTick();
       expect(wrapper.find('.transitionsReport__error').exists()).toBe(true);
 
       await wrapper.setProps({ actionName: 'http://example.org/other' });
       backend.respond();
-      await flush();
+      await flushRibbons();
 
       expect(wrapper.find('.transitionsReport__error').exists()).toBe(false);
       expect(wrapper.find('.transitionsReport__grid').exists()).toBe(true);
@@ -317,7 +343,7 @@ describe('Transitions/TransitionsReport', () => {
   });
 
   it('should still translate a known error that arrives with a stack trace appended', async () => {
-    const wrapper = mountReport();
+    const wrapper = mountTransitionsReport();
     backend.fail('NoDataForAction #0 [internal function]: Piwik\\Plugins\\Transitions\\API->x()');
     await nextTick();
 
@@ -328,24 +354,26 @@ describe('Transitions/TransitionsReport', () => {
   });
 
   it('should show an unknown exception as-is', async () => {
-    const wrapper = mountReport();
+    const wrapper = mountTransitionsReport({ context: 'popover' });
     backend.fail('Something went wrong');
     await nextTick();
 
     expect(wrapper.find('.transitionsReport__errorTitle').text()).toBe('Something went wrong');
     expect(wrapper.find('.transitionsReport__errorMessage').exists()).toBe(false);
+    // The name is all we can say about the error, but the back link still has to read as one.
+    expect(wrapper.find('.transitionsReport__errorBack').text()).toBe('Transitions_ErrorBack');
   });
 
   it('should keep the report when a request other than its own fails', async () => {
-    const wrapper = mountReport();
+    const wrapper = mountTransitionsReport();
     backend.respond();
-    await flush();
+    await flushRibbons();
     expect(wrapper.find('.transitionsReport__grid').exists()).toBe(true);
 
     // The site's total pageviews travel over the same ajax instance, so its failure reaches the
     // report's error callback too. It must not replace a report that loaded fine.
     backend.failOtherRequest('Whatever', 'Actions.get');
-    await flush();
+    await flushRibbons();
 
     expect(wrapper.find('.transitionsReport__error').exists()).toBe(false);
     expect(wrapper.find('.transitionsReport__grid').exists()).toBe(true);

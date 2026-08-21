@@ -1,4 +1,6 @@
-// The row fill matches the ribbon that leaves it, so a row and its band read as one shape. Neither
+// The pale tone of each side's ribbon palette, used as the row fill. The band leaving a row is
+// drawn in the deeper stop of that same palette (see TransitionsRibbons.less), so these are the
+// family's light end rather than a value the band has to match where it meets the row. Neither
 // pair has a semantic theme token yet, so the dark values are spelled out.
 //
 // File-scoped rather than block-scoped, because .transitionsRow--outgoing is a modifier on the same
@@ -73,14 +75,13 @@
   }
 
   .transitionsRow__label {
-    display: block;
     overflow: hidden;
-    color: @theme-color-text;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
 
-  .transitionsRow__count {
+  .transitionsRow__count,
+  .transitionsRow__total {
     color: @theme-color-text-light;
     font-size: 11px;
     line-height: 14px;
@@ -95,9 +96,6 @@
   }
 
   .transitionsRow__total {
-    color: @theme-color-text-light;
-    font-size: 11px;
-    line-height: 14px;
     white-space: nowrap;
   }
 
@@ -111,7 +109,6 @@
     color: @theme-color-text-light;
     font-weight: normal;
   }
-
 }
 
 .transitionsRow--outgoing {
@@ -126,10 +123,7 @@
   cursor: pointer;
 }
 
-.transitionsRow--actionable:hover {
-  box-shadow: @theme-shadow-overlay;
-}
-
+.transitionsRow--actionable:hover,
 .transitionsRow--highlighted {
   box-shadow: @theme-shadow-overlay;
 }

@@ -18,7 +18,7 @@
     @mouseenter="$emit('highlight')"
     @mouseleave="$emit('unhighlight')"
   >
-    <span class="transitionsRow__icon">
+    <span class="transitionsRow__icon" aria-hidden="true">
       <span class="transitionsRow__glyph" :class="[row.icon, glyphClass]"></span>
     </span>
 
@@ -57,7 +57,9 @@ export default defineComponent({
     isAction(): boolean {
       return this.row.kind === 'action';
     },
-    /** The icon carries its side's accent, so a row reads as belonging to its half of the report. */
+    /**
+     * The icon carries its side's accent, so a row reads as belonging to its half of the report.
+     */
     glyphClass(): string {
       return this.side === 'outgoing'
         ? 'transitionsRow__glyph--outgoing'
