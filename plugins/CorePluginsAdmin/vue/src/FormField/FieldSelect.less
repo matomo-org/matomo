@@ -72,6 +72,9 @@ table.entityTable .matomo-field-select {
     // right padding keeps the text clear of the overlaid chevron
     padding: 8px 40px 8px 16px;
     border: 0;
+    // matches the wrapper, so the focus ring below follows the control's corners
+    // instead of drawing a rectangle inside them
+    border-radius: 8px;
     background: transparent;
     color: @theme-color-text;
     cursor: pointer;
