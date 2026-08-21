@@ -3,6 +3,7 @@
 namespace Piwik\Tests\Unit\Policy;
 
 use PHPUnit\Framework\TestCase;
+use Piwik\Tests\Framework\Mock\Policy\GranularTestPolicy;
 use Piwik\Tests\Framework\Mock\Policy\TestPolicy;
 
 class CompliancePolicyTest extends TestCase
@@ -20,6 +21,23 @@ class CompliancePolicyTest extends TestCase
         $this->assertSame('test_policy_v1', $details['id']);
         $this->assertSame('Test Policy', $details['title']);
         $this->assertSame('Test policy description', $details['description']);
+    }
+
+    public function testGetGranularDescriptionFallsBackToThePolicyDescription(): void
+    {
+        $this->assertSame('Test policy description', TestPolicy::getGranularDescription());
+    }
+
+    public function testGetGranularDescriptionUsesTheGranularCopyAndKeepsTheWarnings(): void
+    {
+        $this->assertSame(
+            'Granular test policy description<br/>Test policy warning',
+            GranularTestPolicy::getGranularDescription()
+        );
+        $this->assertSame(
+            'Test policy description<br/>Test policy warning',
+            GranularTestPolicy::getDescription()
+        );
     }
 
     /**

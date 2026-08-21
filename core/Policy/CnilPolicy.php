@@ -14,6 +14,8 @@ use Piwik\Url;
 
 class CnilPolicy extends CompliancePolicy
 {
+    private const CONSENT_EXEMPTION_FAQ_URL = 'https://matomo.org/faq/how-to/how-do-i-configure-matomo-without-tracking-consent-for-french-visitors-cnil-exemption/';
+
     public static function getName(): string
     {
         return 'cnil_v1';
@@ -21,26 +23,31 @@ class CnilPolicy extends CompliancePolicy
 
     public static function generateDescription(): string
     {
-        return Piwik::translate('General_ComplianceCNILDescription', [
-            '<a href="' .
+        return Piwik::translate('General_ComplianceCNILDescription', self::getFaqLinkParameters());
+    }
+
+    protected static function generateGranularDescription(): string
+    {
+        return Piwik::translate('General_ComplianceCNILGranularDescription', self::getFaqLinkParameters());
+    }
+
+    /**
+     * Both link placeholder pairs of the CNIL descriptions point at the consent exemption FAQ.
+     *
+     * @return array<string>
+     */
+    private static function getFaqLinkParameters(): array
+    {
+        $openingTag = '<a href="' .
             Url::addCampaignParametersToMatomoLink(
-                'https://matomo.org/faq/how-to/how-do-i-configure-matomo-without-tracking-consent-for-french-visitors-cnil-exemption/',
+                self::CONSENT_EXEMPTION_FAQ_URL,
                 null,
                 null,
                 'App.PrivacyManager.compliance'
             ) .
-            '" target="_blank" rel="noreferrer noopener">',
-            '</a>',
-            '<a href="' .
-            Url::addCampaignParametersToMatomoLink(
-                'https://matomo.org/faq/how-to/how-do-i-configure-matomo-without-tracking-consent-for-french-visitors-cnil-exemption/',
-                null,
-                null,
-                'App.PrivacyManager.compliance'
-            ) .
-            '" target="_blank" rel="noreferrer noopener">',
-            '</a>',
-        ]);
+            '" target="_blank" rel="noreferrer noopener">';
+
+        return [$openingTag, '</a>', $openingTag, '</a>'];
     }
 
     protected static function generateWarnings(): string

@@ -59,7 +59,6 @@
         "ComplianceCompliant": "Compliant",
         "ComplianceNonCompliant": "Non-compliant",
         "ComplianceComplianceUnknown": "unknown",
-        "ComplianceStatusExplanation": "Status shows whether each requirement is currently met. The switch controls whether Matomo actively enforces the requirement \u2014 a requirement can already be met through your own Matomo settings without enforcement being turned on.",
         "ComplianceEnforceAllTitle": "Enforce settings that help support consent-exemption alignment where possible",
         "ComplianceEnforceAllDescription": "Using this option turns on every switch below; the changes only take effect once you review and save them. You can keep the ones that fit and turn the rest back off before saving. Note that some conditions require changes to your implementation outside the Matomo environment.",
         "ComplianceEnforceAllSettings": "Enforce all settings",
