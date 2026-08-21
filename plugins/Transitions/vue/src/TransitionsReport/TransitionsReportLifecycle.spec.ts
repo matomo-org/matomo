@@ -126,7 +126,10 @@ describe('Transitions/TransitionsReport lifecycle', () => {
         actionName: 'http://example.org/page',
         ...props,
       },
-      global: { config: { globalProperties: { $sanitize: (value: string) => value } } },
+      global: { config: { globalProperties: {
+        $sanitize: (value: string) => value,
+        $sanitizeUrl: (url: string) => (/^https?:\/\//i.test(url) ? url : ''),
+      } } },
     });
   }
 

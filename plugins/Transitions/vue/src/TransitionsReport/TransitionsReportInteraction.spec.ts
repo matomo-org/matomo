@@ -84,7 +84,10 @@ describe('Transitions/TransitionsReport interaction', () => {
         actionName: 'http://example.org/page',
         ...props,
       },
-      global: { config: { globalProperties: { $sanitize: (value: string) => value } } },
+      global: { config: { globalProperties: {
+        $sanitize: (value: string) => value,
+        $sanitizeUrl: (url: string) => (/^https?:\/\//i.test(url) ? url : ''),
+      } } },
     });
     backend.respond();
     await flush();
@@ -190,6 +193,24 @@ describe('Transitions/TransitionsReport interaction', () => {
     expect(row.attributes('target')).toBe('_blank');
     expect(row.attributes('rel')).toBe('noreferrer noopener');
     expect(row.find('.transitionsRow__label').text()).toBe('/files/report.pdf');
+  });
+
+  it('should not turn a dangerous outlink URL into a link', async () => {
+    // Row labels are tracked URLs, so an attacker who can send tracking requests chooses them.
+    backend.report.groups!.outlinks = {
+      total: 3,
+      details: [{ url: 'javascript:alert(document.domain)', referrals: 3 }],
+    };
+
+    const wrapper = await mountLoaded();
+
+    await summaryRow(wrapper, 'General_Outlinks').trigger('click');
+    await flush();
+
+    const row = sectionByTitle(wrapper, 'General_Outlinks')!.find('.transitionsRow');
+    expect(row.element.tagName).toBe('DIV');
+    expect(row.attributes('href')).toBeUndefined();
+    expect(row.classes()).not.toContain('transitionsRow--actionable');
   });
 
   it('should not open a metric that has no detail rows', async () => {

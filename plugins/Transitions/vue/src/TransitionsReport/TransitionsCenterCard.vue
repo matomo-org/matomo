@@ -10,8 +10,8 @@
     <div class="transitionsCenterCard__header">
       <a
         class="transitionsCenterCard__icon"
-        v-if="report.titleUrl"
-        :href="report.titleUrl"
+        v-if="safeTitleUrl"
+        :href="safeTitleUrl"
         rel="noreferrer noopener"
         target="_blank"
         :title="report.actionName"
@@ -84,6 +84,13 @@ export default defineComponent({
   computed: {
     sides(): TransitionsSide[] {
       return ['incoming', 'outgoing'];
+    },
+    /**
+     * An action name is tracked data, so it can be any string. Only a value DOMPurify accepts as
+     * an href reaches the link; anything else falls through to the plain icon.
+     */
+    safeTitleUrl(): string {
+      return this.report.titleUrl ? this.$sanitizeUrl(this.report.titleUrl) : '';
     },
   },
   methods: {

@@ -93,6 +93,8 @@ describe('Transitions/TransitionsReport', () => {
         config: {
           globalProperties: {
             $sanitize: (value: string) => value,
+            // stands in for DOMPurify.isValidAttribute: rejects anything not http(s)
+            $sanitizeUrl: (url: string) => (/^https?:\/\//i.test(url) ? url : ''),
           },
         },
       },

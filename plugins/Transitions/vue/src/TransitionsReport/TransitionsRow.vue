@@ -7,13 +7,13 @@
 
 <template>
   <component
-    :is="row.externalUrl ? 'a' : 'div'"
+    :is="safeExternalUrl ? 'a' : 'div'"
     class="transitionsRow"
     :class="rowClasses"
     :data-ribbon-key="row.key"
-    :href="row.externalUrl"
-    :target="row.externalUrl ? '_blank' : null"
-    :rel="row.externalUrl ? 'noreferrer noopener' : null"
+    :href="safeExternalUrl || null"
+    :target="safeExternalUrl ? '_blank' : null"
+    :rel="safeExternalUrl ? 'noreferrer noopener' : null"
     @click="onClick"
     @mouseenter="$emit('highlight')"
     @mouseleave="$emit('unhighlight')"
@@ -63,8 +63,15 @@ export default defineComponent({
         ? 'transitionsRow__glyph--outgoing'
         : 'transitionsRow__glyph--incoming';
     },
+    /**
+     * Row labels are tracked URLs, so they can be any string. Only a value DOMPurify accepts as an
+     * href reaches the link; anything else renders as a plain row.
+     */
+    safeExternalUrl(): string {
+      return this.row.externalUrl ? this.$sanitizeUrl(this.row.externalUrl) : '';
+    },
     isActionable(): boolean {
-      return !!(this.row.externalUrl || this.row.transitionUrl || this.row.opensGroup);
+      return !!(this.safeExternalUrl || this.row.transitionUrl || this.row.opensGroup);
     },
     rowClasses(): Record<string, boolean> {
       return {
