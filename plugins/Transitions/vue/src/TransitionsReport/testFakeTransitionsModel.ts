@@ -4,9 +4,8 @@
  * @link    https://matomo.org
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * Test double for the legacy Piwik_Transitions_Model/Ajax pair the renderer drives. It reproduces
- * the parts of their contract the composable relies on, so specs can drive the component without a
- * backend.
+ * Test double for the legacy Piwik_Transitions_Model/Ajax pair, so specs can drive the component
+ * without a backend.
  */
 
 export interface FakeReport {
@@ -28,17 +27,12 @@ export interface FakeTransitionsBackend {
   respondNewest(): void;
   /** Fails the oldest pending load with an API exception name. */
   fail(errorName: string): void;
-  /**
-   * Invokes the error callback for a request other than the report's own, the way a failure of the
-   * parallel total-pageviews request does. Independent of the load queue, since that request is
-   * fired inside loadData and fails on its own schedule.
-   */
+  /** Fails a request other than the report's own, the way the parallel total-pageviews one can. */
   failOtherRequest(errorName: string, method: string): void;
-  /**
-   * Lands the fire-once total-pageviews request that `totalNbPageviews: false` leaves in flight,
-   * so a spec can see what the report looks like before and after it arrives.
-   */
+  /** Lands the total that `totalNbPageviews: false` leaves in flight. */
   resolveTotalNbPageviews(nbPageviews: number): void;
+  /** How many callers are still waiting on the fire-once total. */
+  totalWaiterCount(): number;
   /** How many loads have been started. */
   loadCount(): number;
   /** What each load was asked for, so a spec can pin what reaches the model. */
@@ -47,10 +41,7 @@ export interface FakeTransitionsBackend {
   report: FakeReport;
 }
 
-/**
- * Mirrors Piwik_Transitions_Model.roundPercentage: whole percent from 10% up, one decimal below.
- * Worth mirroring exactly, because the report's own rounding is only correct relative to this.
- */
+/** Mirrors Piwik_Transitions_Model.roundPercentage: whole percent from 10% up, one decimal below. */
 function roundPercentage(share: number): number {
   return share < 0.1 ? Math.round(share * 1000) / 10 : Math.round(share * 100);
 }
@@ -61,17 +52,18 @@ const ALL_GROUPS = [
   'followingPages', 'followingSiteSearches', 'downloads', 'outlinks',
 ];
 
-/**
- * Installs fake Piwik_Transitions_Model/Ajax globals and returns a handle to drive them. Loads do
- * not resolve on their own, so a spec can interleave several and control the order they finish in.
- */
+/** Loads do not resolve on their own, so a spec can interleave several and order the finishes. */
 export function installFakeTransitionsBackend(report: FakeReport = {}): FakeTransitionsBackend {
   let loads = 0;
   const loadArgs: FakeTransitionsBackend['loads'] = [];
   const queue: { resolve: () => void; fail: (name: string) => void }[] = [];
   let liveAjax: { errorCallback: ((name: string, params: Record<string, unknown>) => void)|null }
     |null = null;
-  const totalWaiters: ((nbPageviews: number) => void)[] = [];
+  const totalWaiters: ((nbPageviews: number|false) => void)[] = [];
+  // Mirrors Piwik_Transitions_Model.totalNbPageviewsSettled. `totalNbPageviews: false` means the
+  // request is still in flight, and specs set it after install, so read it lazily.
+  let totalNotified = false;
+  const isTotalSettled = () => totalNotified || report.totalNbPageviews !== false;
 
   const backend: FakeTransitionsBackend = {
     report,
@@ -100,8 +92,10 @@ export function installFakeTransitionsBackend(report: FakeReport = {}): FakeTran
     },
     resolveTotalNbPageviews(nbPageviews: number) {
       backend.report.totalNbPageviews = nbPageviews;
+      totalNotified = true;
       totalWaiters.splice(0).forEach((waiter) => waiter(nbPageviews));
     },
+    totalWaiterCount: () => totalWaiters.length,
   };
 
   class FakeAjax {
@@ -167,14 +161,18 @@ export function installFakeTransitionsBackend(report: FakeReport = {}): FakeTran
       });
     }
 
-    whenTotalNbPageviewsLoaded(callback: (nbPageviews: number) => void) {
-      const total = this.getTotalNbPageviews();
-      if (total) {
-        callback(total);
+    whenTotalNbPageviewsLoaded(callback: (nbPageviews: number|false) => void) {
+      if (isTotalSettled()) {
+        callback(this.getTotalNbPageviews());
         return;
       }
 
       totalWaiters.push(callback);
+    }
+
+    notifyTotalNbPageviewsLoaded(nbPageviews: number|false) {
+      totalNotified = true;
+      totalWaiters.splice(0).forEach((waiter) => waiter(nbPageviews));
     }
 
     getTotalNbPageviews() {

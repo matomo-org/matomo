@@ -10,8 +10,12 @@ import { nextTick } from 'vue';
 import TransitionsReport from './TransitionsReport.vue';
 
 /** Mounts the report with the sanitize helpers Matomo installs globally. */
-export function mountTransitionsReport(props = {}): VueWrapper {
+export function mountTransitionsReport(
+  props = {},
+  options: Record<string, unknown> = {},
+): VueWrapper {
   return mount(TransitionsReport as any, { // eslint-disable-line @typescript-eslint/no-explicit-any
+    ...options,
     props: {
       actionType: 'url',
       actionName: 'http://example.org/page',
@@ -29,7 +33,7 @@ export function mountTransitionsReport(props = {}): VueWrapper {
   });
 }
 
-/** The grid, then the resolved element refs, then the ribbon paths each take a render. */
+/** The grid, the resolved element refs and the ribbon paths each take a render. */
 export async function flushRibbons(): Promise<void> {
   for (let i = 0; i < 5; i += 1) {
     // eslint-disable-next-line no-await-in-loop

@@ -6,12 +6,8 @@
  */
 
 /**
- * jsdom reports every element as 0x0, which leaves the ribbon layer nothing to lay out. Gives every
- * element the same usable rect for the duration of a spec, and returns the spy so a test that cares
- * about how often a measurement happened can count the calls.
- *
- * Scoped to the specs that need it rather than the shared test bootstrap, which every plugin's
- * specs load: a global non-zero rect would quietly change unrelated components' behaviour.
+ * jsdom reports every element as 0x0, leaving the ribbon layer nothing to lay out. Returns the spy,
+ * so a test can also count measurements. Kept out of the shared bootstrap every plugin loads.
  */
 export function stubElementRects(rect = { top: 0, height: 100, width: 100 }) {
   const domRect = {
@@ -27,10 +23,7 @@ export function stubElementRects(rect = { top: 0, height: 100, width: 100 }) {
   return vi.spyOn(Element.prototype, 'getBoundingClientRect').mockReturnValue(domRect);
 }
 
-/**
- * Runs scheduled frames synchronously, so one rendered frame is enough for the ribbon layer.
- * The layer measures inside requestAnimationFrame, which jsdom never fires on its own.
- */
+/** The layer measures inside requestAnimationFrame, which jsdom never fires on its own. */
 export function useSynchronousFrames() {
   vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => {
     callback(0);

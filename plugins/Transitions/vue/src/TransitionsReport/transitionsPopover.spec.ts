@@ -4,8 +4,8 @@
  * @link    https://matomo.org
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * Covers the popover mount point in javascripts/transitions.js. That file is a classic script that
- * defines globals, so it is evaluated in the window scope rather than imported.
+ * Covers javascripts/transitions.js: the popover mount point, and the total-pageviews queue the
+ * fake model reimplements. A classic script, so it is evaluated in the window scope, not imported.
  */
 
 import fs from 'node:fs';
@@ -14,6 +14,17 @@ import path from 'node:path';
 declare global {
   // eslint-disable-next-line
   var DataTable_RowActions_Transitions: any;
+}
+
+interface TotalModelStatic {
+  new (ajax: unknown): {
+    whenTotalNbPageviewsLoaded(callback: (nbPageviews: number|false) => void): void;
+    notifyTotalNbPageviewsLoaded(nbPageviews: number|false): void;
+    getTotalNbPageviews(): number|false;
+  };
+  totalNbPageviews?: number|false;
+  totalNbPageviewsSettled: boolean;
+  totalNbPageviewsCallbacks: ((nbPageviews: number|false) => void)[];
 }
 
 const ROOT = path.resolve(__dirname, '../../../../..');
@@ -110,8 +121,8 @@ describe('Transitions/popover mount point', () => {
 
     const entry = wrapperElement().querySelector('[vue-entry]') as HTMLElement;
     expect(entry.getAttribute('vue-entry')).toBe('Transitions.TransitionsReport');
-    expect(entry.getAttribute('action-type')).toBe('url');
-    // JSON-encoded, so the parse compileVueEntryComponents runs on it is a round trip.
+    // JSON-encoded, so the parse compileVueEntryComponents runs on them is a round trip.
+    expect(JSON.parse(entry.getAttribute('action-type')!)).toBe('url');
     expect(JSON.parse(entry.getAttribute('action-name')!)).toBe('http://example.org/page');
     expect(entry.getAttribute('context')).toBe('popover');
     expect(JSON.parse(entry.getAttribute('override-params')!)).toEqual({
@@ -203,21 +214,13 @@ describe('Transitions/popover mount point', () => {
     expect(document.querySelector('#Piwik_Popover')).toBeNull();
   });
 
-  it('should destroy the previous component when the popover content is replaced', () => {
+  it('should destroy each component once, on replacement and on close', () => {
     openPopover();
     const first = wrapperElement();
 
-    openPopover();
-
-    expect(destroyed).toEqual([first]);
-    expect(wrapperElement()).not.toBe(first);
-  });
-
-  it('should destroy only once when the content is replaced and the popover then closes', () => {
-    openPopover();
-    const first = wrapperElement();
     openPopover();
     const second = wrapperElement();
+    expect(second).not.toBe(first);
 
     window.Piwik_Popover.close();
 
@@ -249,5 +252,57 @@ describe('Transitions/popover mount point', () => {
     listeners['Transitions.reloadPopover'][0]({});
 
     expect(rowAction.openPopover).not.toHaveBeenCalled();
+  });
+
+  describe('total pageviews queue', () => {
+    let Model: TotalModelStatic;
+
+    beforeEach(() => {
+      Model = (window as unknown as Record<string, unknown>)
+        .Piwik_Transitions_Model as TotalModelStatic;
+      // Static, so they outlive a test.
+      delete Model.totalNbPageviews;
+      Model.totalNbPageviewsSettled = false;
+      Model.totalNbPageviewsCallbacks = [];
+    });
+
+    function model() {
+      return new Model({});
+    }
+
+    it('should drain every waiter once, when the total lands', () => {
+      const seen: (number|false)[] = [];
+      model().whenTotalNbPageviewsLoaded((total) => seen.push(total));
+      model().whenTotalNbPageviewsLoaded((total) => seen.push(total));
+      expect(seen).toEqual([]);
+
+      Model.totalNbPageviews = 1000;
+      model().notifyTotalNbPageviewsLoaded(1000);
+
+      expect(seen).toEqual([1000, 1000]);
+      expect(Model.totalNbPageviewsCallbacks).toHaveLength(0);
+    });
+
+    it('should answer later waiters straight away once the total has landed', () => {
+      Model.totalNbPageviews = 1000;
+      model().notifyTotalNbPageviewsLoaded(1000);
+
+      const seen: (number|false)[] = [];
+      model().whenTotalNbPageviewsLoaded((total) => seen.push(total));
+
+      expect(seen).toEqual([1000]);
+    });
+
+    // Fired once per page, so a caller queued behind a valueless total would wait for good.
+    it('should settle on a total that resolved without a value', () => {
+      Model.totalNbPageviews = false;
+      model().notifyTotalNbPageviewsLoaded(false);
+
+      const seen: (number|false)[] = [];
+      model().whenTotalNbPageviewsLoaded((total) => seen.push(total));
+
+      expect(seen).toEqual([false]);
+      expect(Model.totalNbPageviewsCallbacks).toHaveLength(0);
+    });
   });
 });

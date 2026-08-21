@@ -6,7 +6,10 @@
 -->
 
 <template>
-  <div class="transitionsReport">
+  <div
+    class="transitionsReport"
+    :class="{ 'transitionsReport--narrow': isInDashboardWidget }"
+  >
     <div
       class="transitionsReport__loader"
       :class="{ 'transitionsReport__loader--prominent': context === 'popover' }"
@@ -116,6 +119,7 @@ function ribbonRows(sections: TransitionsSectionData[]): RibbonSource[] {
 export interface TransitionsReportState {
   openGroups: Record<TransitionsSide, string>;
   highlightedGroup: string;
+  isInDashboardWidget: boolean;
 }
 
 export default defineComponent({
@@ -155,10 +159,15 @@ export default defineComponent({
         outgoing: 'followingPages',
       },
       highlightedGroup: '',
+      isInDashboardWidget: false,
     };
   },
   created() {
     this.reload();
+  },
+  mounted() {
+    // A dashboard column is far narrower than the viewport a media query would see.
+    this.isInDashboardWidget = !!this.$el.closest('[widgetId]');
   },
   watch: {
     actionType() {

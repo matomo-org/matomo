@@ -395,4 +395,18 @@ describe('Transitions/TransitionsReport', () => {
     expect(wrapper.find('.transitionsReport__error').exists()).toBe(false);
     expect(wrapper.find('.transitionsReport__grid').exists()).toBe(true);
   });
+
+  it('should stop waiting on the site total when its request fails', async () => {
+    // The total is fetched once per page load and its own callback never runs on failure, so
+    // whoever is waiting has to be released here or they wait for the life of the page.
+    backend.report.totalNbPageviews = false;
+    const wrapper = await mountLoaded();
+    expect(backend.totalWaiterCount()).toBe(1);
+
+    backend.failOtherRequest('Whatever', 'Actions.get');
+    await flushRibbons();
+
+    expect(backend.totalWaiterCount()).toBe(0);
+    expect(wrapper.find('.transitionsCenterCard__pageviews').attributes('title')).toBe('');
+  });
 });

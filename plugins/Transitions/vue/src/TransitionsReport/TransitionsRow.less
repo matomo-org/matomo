@@ -3,10 +3,12 @@
 // beyond the deep stop the band itself is drawn in (see TransitionsRibbons.less), so that a closed
 // row reads as distinct from the band leaving it rather than merging into it.
 //
-// PROVENANCE: the design specifies the pale tone and the band's own deeper stop, in light mode
-// only. The four *Deep values below are extrapolated from each side's progression and are pending
-// design review on DEV-20402; every dark value here is extrapolated as well. Nothing in this file
-// has a semantic theme token yet, which is why the dark values are spelled out at all.
+// PROVENANCE: the design gives the pale tone and the band's deeper stop, light mode only. The four
+// *Deep values and every dark value are extrapolated, pending design review on DEV-20402.
+//
+// For that review: the *DeepDark tones fail WCAG AA against the small text on them. #aaa
+// (@theme-color-text-light in dark mode) gives 3.67:1 on #255450 and 4.28:1 on #2E4460, against a
+// 4.5:1 floor. The pale tones pass at 6.05:1 and 6.24:1, so only the closed-group tones must move.
 //
 // File-scoped rather than block-scoped, because .transitionsRow--outgoing is a modifier on the same
 // element and so has to be its own top-level rule, which Less block scope would not reach. Named
@@ -27,10 +29,13 @@
   @_outgoingAccent: #3FA88C;
   @_outgoingAccentDark: #4FBF9F;
 
-  // Each side publishes both of its tones, so a flat modifier can pick between them instead of
-  // being chained onto the side's own, which the two-class rule forbids. Only .transitionsRow and
-  // .transitionsRow--summary declare `background`, both at a single class, so source order decides
-  // between them -- and no .inDarkMode() rule, which lands at three classes, can outrank either.
+  // Each side publishes both tones so a flat modifier can pick between them, rather than chaining
+  // onto the side's own and breaking the two-class rule. Only .transitionsRow and --summary declare
+  // `background`, both at one class, so source order decides.
+  //
+  // Keep it that way: .inDarkMode() expands to `[data-theme-mode="dark"]:root &` and outranks one
+  // class, so a dark block declaring `background` here would flatten the open/closed distinction.
+  // The blocks in this file set custom properties and `color` only.
   --transitions-row-pale: @_transitionsRowIncoming;
   --transitions-row-deep: @_transitionsRowIncomingDeep;
 

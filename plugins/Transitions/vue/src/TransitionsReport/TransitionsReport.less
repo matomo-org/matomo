@@ -1,9 +1,28 @@
+// File-scoped because --narrow is a top-level rule that block scope cannot reach. Block-named
+// because root-level Less variables are shared across every plugin.
+@_transitionsReportTrackPaddingYCompact: 12px;
+
+// Shared by the media query and the --narrow modifier, so the two cannot drift apart.
+.transitionsReportNarrowLayout() {
+  .transitionsReport__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .transitionsReport__ribbons {
+    display: none;
+  }
+
+  .transitionsReport__column,
+  .transitionsReport__center {
+    padding: @_transitionsReportTrackPaddingYCompact 0;
+  }
+}
+
 .transitionsReport {
   // Width of the gap tracks the ribbons are drawn into.
   @_ribbonWidth: 90px;
   // Vertical breathing room for the three content tracks.
   @_trackPaddingY: 24px;
-  @_trackPaddingYCompact: 12px;
 
   .transitionsReport__grid {
     display: grid;
@@ -28,17 +47,15 @@
     padding: @_trackPaddingY 0;
   }
 
-  // override: ActivityIndicator renders the legacy .loadingPiwik markup, which puts the spinner and
-  // the message on one line at 1.1em, left aligned. In a popover the other row actions centre their
-  // spinner above a larger centred message (.Piwik_Popover_Loading_Name), so match that treatment.
+  // override: ActivityIndicator's .loadingPiwik markup puts spinner and message on one line. Other
+  // row actions centre the spinner above a larger message in a popover, so match that.
   .transitionsReport__loader--prominent {
     .loadingPiwik {
       display: flex;
       flex-direction: column;
       align-items: safe center;
       gap: 20px;
-      // Inline padding and a wrap rule, because the message ends in the action name and a long
-      // URL has nowhere to break; without them it runs out past the popover's edge.
+      // The message ends in the action name, and a long URL has nowhere to break.
       padding: 50px 40px 65px;
       overflow-wrap: anywhere;
       color: @theme-color-text;
@@ -75,24 +92,15 @@
     color: @theme-color-link;
   }
 
-  // Below the Materialize medium breakpoint the three tracks cannot hold a readable label, so the
-  // ribbons are dropped and the remaining tracks stack in source order: incoming column, card,
-  // outgoing column.
+  // Below the Materialize medium breakpoint the tracks cannot hold a readable label.
   @media (max-width: 992px) {
-    .transitionsReport__grid {
-      grid-template-columns: 1fr;
-    }
-
-    .transitionsReport__ribbons {
-      display: none;
-    }
-
-    .transitionsReport__column {
-      padding: @_trackPaddingYCompact 0;
-    }
-
-    .transitionsReport__center {
-      padding: @_trackPaddingYCompact 0;
-    }
+    .transitionsReportNarrowLayout();
   }
+}
+
+// A dashboard column is narrow while the viewport is wide, so it never trips the query above and
+// the fixed tracks overflow the widget. TransitionsReport.vue sets this when it finds itself in
+// one; full-width widgets collapse too. Keep it last: equal specificity, so source order decides.
+.transitionsReport--narrow {
+  .transitionsReportNarrowLayout();
 }

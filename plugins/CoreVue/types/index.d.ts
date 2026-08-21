@@ -233,10 +233,7 @@ declare global {
     percentage: number;
   }
 
-  /**
-   * The legacy data layer behind the Transitions report. It owns the API calls and the parsing of
-   * the response into per-group totals; the Vue renderer drives it rather than duplicating it.
-   */
+  /** The legacy data layer: the API calls and the parsing into per-group totals. */
   interface TransitionsModel {
     [metric: string]: any;
     date: string;
@@ -252,11 +249,10 @@ declare global {
       callback: () => void,
     ): void;
     getTotalNbPageviews(): number|false;
-    /**
-     * Calls back with the site's total pageviews, at once if the fire-once request behind
-     * getTotalNbPageviews() has landed and otherwise once it does.
-     */
-    whenTotalNbPageviewsLoaded(callback: (nbPageviews: number) => void): void;
+    /** Calls back with the site's total pageviews, now or once it arrives. `false` when there is none. */
+    whenTotalNbPageviewsLoaded(callback: (nbPageviews: number|false) => void): void;
+    /** Marks the fire-once total resolved and drains everything waiting on it. */
+    notifyTotalNbPageviewsLoaded(nbPageviews: number|false): void;
     getGroupTitle(groupName: string): string;
     getDetailsForGroup(groupName: string): TransitionsDetailRow[];
     getPercentage(metric: string, formatted?: boolean): number|string;
@@ -267,10 +263,7 @@ declare global {
   }
 
   interface TransitionsAjax {
-    /**
-     * Diverts API errors to a callback instead of rendering them into the legacy popover or the
-     * inline error container, so a caller can display them itself.
-     */
+    /** Diverts API errors to a callback, so a caller can display them itself. */
     setErrorCallback(
       callback: (errorName: string, params: Record<string, unknown>) => void,
     ): void;

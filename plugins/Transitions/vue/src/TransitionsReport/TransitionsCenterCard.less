@@ -122,11 +122,15 @@
     background: @theme-color-background-base;
   }
 
+  // dotClass() always returns one of the three modifiers, so the base carries no colour.
   .transitionsCenterCard__dot {
     flex: none;
     width: 7px;
     height: 7px;
     border-radius: 50%;
+  }
+
+  .transitionsCenterCard__dot--empty {
     background: @theme-color-text-light;
   }
 

@@ -15,32 +15,23 @@ const HAIRLINE_THICKNESS = 1;
 
 export interface RibbonRow {
   key: string;
-  /**
-   * Share of this page's pageviews, 0..1. Negative and non-finite values count as zero share, so
-   * the row still gets a band -- at MIN_RIBBON_THICKNESS, like any other row below the minimum.
-   */
+  /** 0..1. Negative and non-finite count as zero, so the row still gets a minimum band. */
   share: number;
-  /** Row top edge, in the ribbon layer's coordinate space. */
+  /** Both in the ribbon layer's coordinate space. */
   top: number;
-  /** Row height, in the ribbon layer's coordinate space. */
   height: number;
 }
 
 export interface RibbonLayout {
   side: TransitionsSide;
-  /** Width of the ribbon layer, i.e. the gap between a side column and the center card. */
+  /** The gap between a side column and the center card. */
   width: number;
-  /** Top edge of the band where the ribbons meet the center card. */
+  /** Where the whole band meets the center card. */
   centerTop: number;
-  /** Height available for the whole band on the center card edge. */
   centerHeight: number;
-  /** How far the row end reaches back into the row, so the join has no seam. Defaults to 0. */
+  /** How far the row end reaches back into the row, hiding the join. */
   rowOverlap?: number;
-  /**
-   * Length of the straight run at the row end, measured from where the band starts. Over this run
-   * the band keeps the row's exact height with parallel edges, so the row can sit flush on top of
-   * it. Defaults to 0, which starts the curve immediately.
-   */
+  /** How long the band holds the row's exact height before it starts curving. */
   rowStraight?: number;
 }
 
@@ -55,17 +46,11 @@ function sanitiseShare(share: number): number {
 }
 
 /**
- * Lays out one side's ribbons.
+ * Lays out one side's ribbons, left to right for incoming and right to left for outgoing.
  *
- * Each row gets a share of the center band proportional to its share of the column total, clamped
- * up to MIN_RIBBON_THICKNESS so small rows stay visible. Clamped rows keep that minimum and the
- * rest share what is left of the band, so the minimum is not scaled away again. Only when the
- * minimums alone overflow the band does everything scale down (never below a hairline).
- *
- * Ribbons always run from the row to the center edge: for the incoming side that is left to
- * right, for the outgoing side right to left. The row end can reach back past the layer's edge and
- * hold the row's exact height for a short straight run, so the row sits flush on top of it rather
- * than meeting a curve at its rounded corner.
+ * Each row takes a proportional slice of the center band, clamped up to MIN_RIBBON_THICKNESS.
+ * Clamped rows keep that minimum and the rest share what is left, so the minimum is not scaled
+ * away again; only when the minimums alone overflow does everything scale down.
  *
  * @returns one path per row, in input order. Empty when there is nothing to draw.
  */

@@ -11,7 +11,6 @@
 
 function DataTable_RowActions_Transitions(dataTable) {
     this.dataTable = dataTable;
-    this.transitions = null;
 }
 
 DataTable_RowActions_Transitions.prototype = new DataTable_RowAction;
@@ -107,10 +106,7 @@ DataTable_RowActions_Transitions.prototype.doOpenPopover = function (link) {
     this.openTransitionsPopover(actionType, actionName, overrideParams);
 };
 
-/**
- * Builds the export control the popover shows below the report. In the embedded report the same
- * control is rendered by TransitionSwitcher, so it only belongs to the popover here.
- */
+/** The export control below the popover. TransitionSwitcher renders its own for the embedded report. */
 DataTable_RowActions_Transitions.prototype.buildExportControl = function () {
     var wrapper = document.createElement('div');
     wrapper.className = 'dataTableWrapper';
@@ -141,26 +137,23 @@ DataTable_RowActions_Transitions.prototype.openTransitionsPopover = function (ac
     var container = Piwik_Popover.showLoading('Transitions', actionName, 550);
     Piwik_Popover.addHelpButton(_pk_externalRawLink('https://matomo.org/docs/transitions'));
 
-    // Piwik_Popover wipes the container's innerHTML *before* it runs its close callback, so the
-    // component cannot be destroyed from there. Mount it inside a wrapper we keep a reference to
-    // and dispatch the destroy on that wrapper ahead of the wipe instead.
+    // Piwik_Popover wipes innerHTML *before* running its close callback, so keep a wrapper we can
+    // dispatch the destroy on ahead of the wipe.
     var wrapper = document.createElement('div');
     wrapper.className = 'transitionsPopover';
 
     var entry = document.createElement('div');
     entry.setAttribute('vue-entry', 'Transitions.TransitionsReport');
-    entry.setAttribute('action-type', actionType);
-    // compileVueEntryComponents JSON.parses every vue-entry attribute value, so a page title that
-    // happens to be valid JSON ('2024.10', '"quoted"', 'null') would reach the component coerced,
-    // and the report would be fetched for the wrong action. Encoding makes the parse a round trip.
+    // compileVueEntryComponents JSON.parses every attribute, so a value that is itself valid JSON
+    // ('2024.10', 'null') would arrive coerced. Encoding makes that parse a round trip.
+    // Both come from the popover URL, so both need it.
+    entry.setAttribute('action-type', JSON.stringify(actionType));
     entry.setAttribute('action-name', JSON.stringify(actionName));
     entry.setAttribute('override-params', JSON.stringify(overrideParams || {}));
     entry.setAttribute('context', 'popover');
     wrapper.appendChild(entry);
 
-    // There is nothing to export until the report is on screen, and showing the control beside the
-    // loading message makes the popover look half-built. Revealed on Transitions.dataChanged, which
-    // the renderer posts once its data has landed.
+    // Nothing to export until the report is on screen, so wait for Transitions.dataChanged.
     var exportControl = this.buildExportControl();
     exportControl.style.display = 'none';
     wrapper.appendChild(exportControl);
@@ -200,8 +193,7 @@ DataTable_RowActions_Transitions.prototype.openTransitionsPopover = function (ac
     // Piwik_Popover.setContent() compiles the vue-entry itself, so do not compile it again here.
     Piwik_Popover.setContent(wrapper);
 
-    // setContent() runs the close callback before it replaces the content, which covers reloading
-    // the popover; dialogbeforeclose covers the user closing it, and fires before the wipe.
+    // setContent() covers a reload; dialogbeforeclose covers the user closing it.
     Piwik_Popover.onClose(destroyReport);
     container.off('dialogbeforeclose.transitions')
         .on('dialogbeforeclose.transitions', destroyReport);
@@ -1619,24 +1611,30 @@ Piwik_Transitions_Model.prototype.loadAndSumReport = function (apiData, reportNa
 Piwik_Transitions_Model.totalNbPageviewsCallbacks = [];
 
 /**
- * Calls back with the site's total number of pageviews: at once when the request behind
- * getTotalNbPageviews() has already landed, otherwise once it does. That request is fired once per
- * page load, in parallel with the first report, so on that first report it is still in flight when
- * loadData()'s own callback runs -- a renderer showing the share of all pageviews needs to know
- * when it arrives rather than reading false and stopping there.
+ * Whether the total has resolved, whatever the answer. Separate from the value because the value can
+ * resolve falsy -- Actions.get may answer without one, or fail -- and the request is fired only once
+ * per page, so "no total" must not read as "not back yet" or later callers queue forever.
+ */
+Piwik_Transitions_Model.totalNbPageviewsSettled = false;
+
+/**
+ * Calls back with the site's total pageviews, now or once it arrives. The request is fired in
+ * parallel with the first report, so on that report it is still in flight. `false` means the total
+ * resolved without a value.
  */
 Piwik_Transitions_Model.prototype.whenTotalNbPageviewsLoaded = function (callback) {
-    var total = this.getTotalNbPageviews();
-    if (total) {
-        callback(total);
+    if (Piwik_Transitions_Model.totalNbPageviewsSettled) {
+        callback(this.getTotalNbPageviews());
         return;
     }
 
     Piwik_Transitions_Model.totalNbPageviewsCallbacks.push(callback);
 };
 
-/** Drains the callbacks waiting on the fire-once total. */
+/** Marks the total resolved and drains its waiters. Call on every path, failure included. */
 Piwik_Transitions_Model.prototype.notifyTotalNbPageviewsLoaded = function (nbPageviews) {
+    Piwik_Transitions_Model.totalNbPageviewsSettled = true;
+
     var waiting = Piwik_Transitions_Model.totalNbPageviewsCallbacks;
     Piwik_Transitions_Model.totalNbPageviewsCallbacks = [];
 
@@ -1719,9 +1717,8 @@ Piwik_Transitions_Ajax.prototype.loadTotalNbPageviews = function (callback) {
 };
 
 /**
- * Route API errors to a callback instead of rendering them into the legacy popover or the inline
- * #Transitions_Error_Container. The Vue renderer sets this because it displays the error itself;
- * without a callback the legacy error rendering below is unchanged.
+ * Diverts API errors to a callback instead of the legacy popover or #Transitions_Error_Container.
+ * The Vue renderer sets this because it shows errors itself; without one, nothing below changes.
  */
 Piwik_Transitions_Ajax.prototype.setErrorCallback = function (callback) {
     this.errorCallback = callback;

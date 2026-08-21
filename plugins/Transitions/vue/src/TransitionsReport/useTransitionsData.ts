@@ -15,18 +15,15 @@ import {
   seedGroupTitles,
 } from './transitionsReportData';
 
-/** The API method behind the report, i.e. the one whose failure is the report's own failure. */
+/** The one request whose failure is the report's own failure. */
 const REPORT_API_METHOD = 'Transitions.getTransitionsForAction';
 
 /**
- * Loads the data for one action and owns the loading/error state around it.
+ * Loads one action and owns the loading/error state. The request and parsing stay in the legacy
+ * Piwik_Transitions_Model/Ajax pair, so the wire contract is unchanged.
  *
- * The request and the parsing stay in the legacy Piwik_Transitions_Model/Ajax pair so the wire
- * contract is unchanged; this composable only drives them and hands the result to
- * transitionsReportData for shaping.
- *
- * Requests are last-request-wins: a response is dropped when a newer load has started or the
- * component has since unmounted, so rapid report or type switching cannot paint stale data.
+ * Last-request-wins: a response is dropped once a newer load has started or the component has
+ * unmounted, so fast switching cannot paint stale data.
  */
 export function useTransitionsData() {
   const isLoading = ref(false);
@@ -50,11 +47,19 @@ export function useTransitionsData() {
     error.value = null;
 
     const ajax = new window.Piwik_Transitions_Ajax();
+    const model = new window.Piwik_Transitions_Model(ajax);
+
     ajax.setErrorCallback((errorName, params) => {
-      // The model drives the site's total pageviews through this same instance, so the callback
-      // also sees failures of that request. Only a failure of the report itself should replace
-      // the report with an error; a missing total just leaves its tooltip empty.
-      if (params.method !== REPORT_API_METHOD || !isCurrent(id)) {
+      // The site total shares this ajax instance, so its failures arrive here too. Only the
+      // report's own failure should replace the report.
+      if (params.method !== REPORT_API_METHOD) {
+        // The total's own callback never runs on failure and the request is fired once per page,
+        // so release its waiters here rather than leaving them queued for good.
+        model.notifyTotalNbPageviewsLoaded(false);
+        return;
+      }
+
+      if (!isCurrent(id)) {
         return;
       }
 
@@ -63,7 +68,6 @@ export function useTransitionsData() {
       error.value = resolveError(errorName, actionName);
     });
 
-    const model = new window.Piwik_Transitions_Model(ajax);
     seedGroupTitles(model);
 
     model.loadData(actionType, actionName, overrideParams, () => {
@@ -75,17 +79,14 @@ export function useTransitionsData() {
       error.value = null;
       report.value = buildReport(model, actionType, actionName);
 
-      // Fired once per page load in parallel with the first report, so on that report the total
-      // is still in flight above. Fill the tooltip in when it lands, the way the legacy renderer's
-      // tooltip callback did by being evaluated at hover time.
+      // Still in flight on the first report, so fill the tooltip in when it lands.
       model.whenTotalNbPageviewsLoaded((totalNbPageviews) => {
         if (!isCurrent(id) || !report.value) {
           return;
         }
 
-        // Assigned in place rather than replacing the report: a new object invalidates the
-        // sections and ribbon-row computeds, which re-measures and re-lays-out both ribbon
-        // layers for the sake of one tooltip string.
+        // In place, not a new object: replacing it would re-lay-out both ribbon layers for the
+        // sake of one tooltip string.
         report.value.pageviewsTooltip = buildPageviewsTooltip(model, totalNbPageviews);
       });
 

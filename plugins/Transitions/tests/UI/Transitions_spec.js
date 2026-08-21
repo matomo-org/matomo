@@ -92,24 +92,28 @@ describe("Transitions", function () {
     it('should show report in reporting ui with data', async function () {
         await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=Transitions_Transitions");
         await page.waitForNetworkIdle();
+        await waitForRibbons();
         expect(await page.screenshotSelector('.pageWrap')).to.matchImage('transitions_report_with_data_report');
     });
 
     it('should show report in widget ui in selector', async function () {
         await page.goto("?module=Widgetize&action=iframe&widget=1&moduleToWidgetize=Transitions&actionToWidgetize=getTransitions&"+generalParams+"&disableLink=1&widget=1");
         await page.waitForNetworkIdle();
+        await waitForRibbons();
         expect(await page.screenshotSelector('body')).to.matchImage('transitions_report_with_data_widget');
     });
 
     it('should be possible to switch report', async function () {
         await selectValue('[name="actionName"]', 'category/meta');
         await page.waitForNetworkIdle();
+        await waitForRibbons();
         expect(await page.screenshotSelector('body')).to.matchImage('transitions_report_switch_url');
     });
 
     it('should be possible to show page titles', async function () {
         await selectValue('[name="actionType"]', 'Title');
         await page.waitForNetworkIdle();
+        await waitForRibbons();
         expect(await page.screenshotSelector('body')).to.matchImage('transitions_report_switch_type_title');
     });
 

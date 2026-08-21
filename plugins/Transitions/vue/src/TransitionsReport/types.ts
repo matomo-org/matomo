@@ -5,62 +5,43 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-/**
- * Which half of the report a group belongs to. `incoming` is what the legacy renderer called the
- * left side (referrers and previous pages), `outgoing` the right side (following pages and exits).
- */
+/** `incoming` is the left side (referrers, previous pages), `outgoing` the right (following, exits). */
 export type TransitionsSide = 'incoming'|'outgoing';
 
-/**
- * Where the report is mounted. `embedded` is the Transitions page/widget, `popover` the row action
- * opened from a data table. The two differ in how a "previous/following page" row navigates.
- */
+/** Where the report is mounted. The two differ in how a previous/following page row navigates. */
 export type TransitionsContext = 'embedded'|'popover';
 
-/**
- * `action` rows are the detail rows of the open group, one per page, download or outlink.
- * `summary` rows stand for a whole group that is not currently open.
- */
+/** `action` rows are the open group's detail rows; `summary` rows stand for a closed group. */
 export type TransitionsRowKind = 'action'|'summary';
 
 /** A row as rendered in one of the two side columns. */
 export interface TransitionsRowData {
   key: string;
   kind: TransitionsRowKind;
-  /** Morpheus icon class shown in the row's leading tile. */
   icon: string;
-  /** Text shown in the row, already shortened for display. */
   label: string;
-  /** Untruncated label, shown as a tooltip when `label` was shortened. */
+  /** The untruncated label, or empty when `label` was not shortened. */
   fullLabel: string;
-  /** The row's own count, phrased in its metric's unit, e.g. "3 pageviews" or "1 downloads". */
   countLabel: string;
-  /** Formatted percentage shown in the row pill. */
   percentage: string;
   /** Share of this page's pageviews, 0..1. Drives the ribbon thickness. */
   share: number;
-  /** An external URL to open, when the row points at one. */
   externalUrl?: string;
-  /** A page the report can switch to, when the row points at an internal page. */
   transitionUrl?: string;
-  /** The group a summary row opens when clicked, when it has detail rows behind it. */
   opensGroup?: string;
   isOthers: boolean;
 }
 
-/** A group of rows, i.e. one referrer type or one kind of following action. */
+/** One referrer type, or one kind of following action. */
 export interface TransitionsGroupData {
   name: string;
   side: TransitionsSide;
   title: string;
   nbTransitions: number;
-  /** Whether the group has detail rows to open. Direct entries and exits do not. */
+  /** Direct entries and exits have no detail rows to open. */
   canExpand: boolean;
-  /** The group's own count, phrased in its metric's unit. */
   countLabel: string;
-  /** The detail rows, shown while the group is the open one on its side. */
   rows: TransitionsRowData[];
-  /** The single row that stands for this group while it is not the open one. */
   summaryRow: TransitionsRowData;
 }
 
@@ -69,29 +50,21 @@ export interface TransitionsSectionData {
   key: string;
   side: TransitionsSide;
   title: string;
-  /**
-   * Total across the block, phrased in the block's own metric unit, shown in the heading badge.
-   * Empty for the outgoing catch-all, whose groups do not share a unit to total.
-   */
+  /** Empty for the outgoing catch-all, whose groups share no unit to total. */
   badge: string;
   rows: TransitionsRowData[];
 }
 
-/** One line in the center card's metric list. Every metric is listed, including the zeros. */
+/** One line in the center card's metric list. Every metric is listed, zeros included. */
 export interface TransitionsMetricData {
   key: string;
-  /** Group this metric summarises, so hovering it can highlight the matching ribbons. */
   groupName: string;
   side: TransitionsSide;
-  /**
-   * The inline label split around its value, so the value can be emphasised without the label
-   * having to carry markup.
-   */
+  /** The inline label split around its value, so the value can be emphasised without markup. */
   labelBefore: string;
   labelAfter: string;
   value: number;
   valueLabel: string;
-  /** Tooltip showing the share of all pageviews. */
   tooltip: string;
   canExpand: boolean;
 }
@@ -114,7 +87,6 @@ export interface TransitionsReportData {
   loopsTooltip: string;
   pageviewsLabel: string;
   pageviewsTooltip: string;
-  /** Totals shown above each of the card's metric lists. */
   incomingTotal: number;
   outgoingTotal: number;
   groups: TransitionsGroupData[];

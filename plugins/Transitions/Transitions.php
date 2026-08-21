@@ -119,9 +119,6 @@ class Transitions extends \Piwik\Plugin
         $translationKeys[] = 'Transitions_PeriodNotAllowed';
         $translationKeys[] = 'Transitions_PeriodNotAllowedDetails';
         $translationKeys[] = 'Transitions_ErrorBack';
-
-        $translationKeys[] = 'General_And';
-        $translationKeys[] = 'General_LoadingData';
     }
 
     public function addJsGlobalVariables(&$out)

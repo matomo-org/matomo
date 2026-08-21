@@ -15,37 +15,19 @@ import {
 import { computeRibbonPaths, RibbonPath, RibbonRow } from './ribbonGeometry';
 import { TransitionsSide } from './types';
 
-/**
- * The band stops short of the card by this much at each end, so the card reads as taller than the
- * ribbons meeting it and they never run into its rounded corners.
- */
+/** Keeps the band clear of the card's rounded corners at each end. */
 export const CENTER_INSET = 50;
 
-/**
- * How far the row end of a band reaches back into the row it leaves. The rows paint over the
- * ribbon layer, so the overlap is hidden and the band appears to come out from under the row
- * instead of butting against its rounded edge.
- */
+/** Rows paint over the layer, so this much of the band hides under the row it leaves. */
 export const ROW_OVERLAP = 10;
 
-/**
- * Length of the band's straight run at the row end. It covers the whole overlap plus a few pixels
- * beyond it, so the band leaves the row at exactly the row's height with parallel edges before it
- * starts curving.
- */
+/** The overlap plus a few pixels, so the band leaves the row at the row's exact height. */
 export const ROW_STRAIGHT = ROW_OVERLAP + 6;
 
-/**
- * The card inset may not eat its whole edge, so it gives way once it would take more than this
- * share of the card at each end. Without it a short card would leave no room to draw in.
- */
+/** Caps CENTER_INSET on a short card, which would otherwise leave no edge to draw into. */
 const MAX_INSET_SHARE = 0.25;
 
-/**
- * Keys are generated ids, but escape anyway so an unusual group name cannot break the selector.
- * The key is interpolated into a double-quoted attribute value, so that is what gets escaped --
- * not CSS.escape(), which escapes for an identifier position.
- */
+/** Escaped for a double-quoted attribute value, not CSS.escape()'s identifier position. */
 function escapeKey(key: string): string {
   return key.replace(/["\\]/g, '\\$&');
 }
@@ -63,9 +45,8 @@ export interface RibbonSource {
 }
 
 /**
- * Resolves an element the layout depends on. These are looked up per measurement rather than held
- * reactively, because a reactive proxy around a DOM node breaks native calls, and because the
- * elements belong to sibling components that mount in an order the layer should not depend on.
+ * Looked up per measurement rather than held reactively: a reactive proxy around a DOM node breaks
+ * native calls, and these elements belong to siblings that mount in an order we should not assume.
  */
 export type ElementSource = () => HTMLElement|null|undefined;
 
@@ -81,10 +62,8 @@ export interface UseRibbonGeometryOptions {
 }
 
 /**
- * Measures the rows of one column and lays out the ribbons that connect them to the center card.
- *
- * Re-measures when the observed elements resize, coalescing bursts of resize notifications into a
- * single animation frame. The observer and any pending frame are released on unmount.
+ * Measures one column's rows and lays out the ribbons connecting them to the center card.
+ * Re-measures on resize, coalescing bursts into a single animation frame.
  */
 export function useRibbonGeometry(options: UseRibbonGeometryOptions) {
   const paths = ref<RibbonPath[]>([]);
@@ -180,8 +159,7 @@ export function useRibbonGeometry(options: UseRibbonGeometryOptions) {
       recompute();
     });
 
-    // A frame callback can run before requestAnimationFrame() returns; only remember the handle
-    // while it is genuinely still pending, so the scheduler cannot wedge itself.
+    // A frame callback can run before rAF() returns, so only keep a handle that is still pending.
     if (scheduled) {
       frame = handle;
     }
@@ -207,9 +185,8 @@ export function useRibbonGeometry(options: UseRibbonGeometryOptions) {
   onMounted(schedule);
   onBeforeUnmount(teardown);
 
-  // Post-flush: the rows to measure only exist in the DOM after the update has been applied.
-  // Not deep: the only producer is a computed that returns a fresh array of fresh objects, so the
-  // ref's own identity change already fires this. Revisit if a caller ever mutates its rows.
+  // Post-flush, because the rows only exist in the DOM after the update is applied. Not deep: the
+  // producer returns a fresh array each time, so identity alone fires this.
   watch(options.rows, schedule, { flush: 'post' });
 
   return { paths };

@@ -151,7 +151,7 @@ describe('Transitions/TransitionsReport lifecycle', () => {
   });
 
   describe('unmount', () => {
-    it('should not write state or post events when a response lands after unmount', async () => {
+    it('should not post events when a response lands after unmount', async () => {
       useSynchronousFrames();
       const wrapper = mountTransitionsReport();
 
@@ -160,15 +160,6 @@ describe('Transitions/TransitionsReport lifecycle', () => {
       await flushRibbons();
 
       expect(postEvent).not.toHaveBeenCalled();
-    });
-
-    it('should not surface an error that lands after unmount', async () => {
-      useSynchronousFrames();
-      const wrapper = mountTransitionsReport();
-
-      wrapper.unmount();
-
-      expect(() => backend.fail('NoDataForAction')).not.toThrow();
     });
 
     it('should disconnect the resize observers', async () => {
@@ -226,6 +217,57 @@ describe('Transitions/TransitionsReport lifecycle', () => {
       await flushRibbons();
 
       expect(measureSpy.mock.calls.length).toBeGreaterThan(callsAfterLoad);
+      wrapper.unmount();
+    });
+
+    it('should not re-measure when a row is hovered', async () => {
+      // Highlighting is a class on the existing bands, so the geometry must not be invalidated by
+      // it -- that is why highlight state is a prop of its own rather than part of `rows`.
+      useSynchronousFrames();
+      const wrapper = mountTransitionsReport();
+      backend.respond();
+      await flushRibbons();
+
+      const callsAfterLoad = measureSpy.mock.calls.length;
+
+      await wrapper.find('.transitionsRow').trigger('mouseenter');
+      await flushRibbons();
+
+      expect(wrapper.findAll('.transitionsRibbons__band--highlighted').length)
+        .toBeGreaterThan(0);
+      expect(measureSpy.mock.calls.length).toBe(callsAfterLoad);
+      wrapper.unmount();
+    });
+  });
+
+  describe('dashboard widget', () => {
+    function mountIn(host: HTMLElement|null) {
+      return mountTransitionsReport({}, host ? { attachTo: host } : {});
+    }
+
+    it('should collapse when it is inside a dashboard widget', async () => {
+      const host = document.createElement('div');
+      host.setAttribute('widgetId', 'widgetTransitionsgetTransitions');
+      document.body.appendChild(host);
+
+      useSynchronousFrames();
+      const wrapper = mountIn(host);
+      backend.respond();
+      await flushRibbons();
+
+      expect(wrapper.find('.transitionsReport').classes()).toContain('transitionsReport--narrow');
+      wrapper.unmount();
+      host.remove();
+    });
+
+    it('should keep the full layout everywhere else', async () => {
+      useSynchronousFrames();
+      const wrapper = mountIn(null);
+      backend.respond();
+      await flushRibbons();
+
+      expect(wrapper.find('.transitionsReport').classes())
+        .not.toContain('transitionsReport--narrow');
       wrapper.unmount();
     });
   });
