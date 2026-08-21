@@ -167,8 +167,10 @@ every rough edge below comes from.
   Erasing that subject on one site removes the row while their visits on another site remain; an
   account flagged by tracking on one site changes another site's archived metric; and — the direction
   easiest to miss — **one site's visits log displays attributes another site collected.** On a shared
-  install that is a disclosure between tenants, not just untidy bookkeeping. It is also why the
-  account-level flag is only accepted from an authenticated request; see the last paragraph here.
+  install that is a disclosure between tenants, not just untidy bookkeeping. It is why the
+  account-level flag is only accepted from an authenticated request, and it is also the part of the
+  risk a token cannot close — both are worked through under *A shared row needs an authenticated
+  request* below.
 - *Retention is necessarily coarse.* A table with one row per subject has no notion of age, so the
   purge erases a user's whole row as soon as their *oldest* visit ages out, even if they visited
   yesterday. The tracker restores it only on their next request carrying those parameters.
@@ -200,14 +202,24 @@ your storage actually needs. `plugins/BotTracking/BotTracking.php` is the in-cor
 implements two of the four because its rows are not bound to a visit. Adding any of those
 subscriptions to *this* plugin would teach the opposite of the lesson.
 
-**A shared row needs an authenticated request; a row about the sender does not.** Anyone can send any
-`uid`, so a row keyed on one is exactly as trustworthy as `log_visit.user_id` itself and no gate would
-improve it — the plan and the account name are accepted from any request. The paying flag is not: it
-lands on a row every member of that account is read through, on every site, so one forged request would
-change what other people see and what every site's archived metric says, for subjects who never sent a
-request. `processRequestParams()` therefore rejects it unless the request carries a valid `token_auth`,
-which is how core gates `cty`, `cip` and `cdt`. It rejects in that phase rather than at the write so
-the request is refused before anything is stored.
+**A shared row needs an authenticated request; a row about the sender does not.** The plan and the
+account name are accepted from any request, because anyone can send any `uid` anyway: a forged one
+already writes a `log_visit` row under that id, so refusing to write this one alongside it protects
+nothing. The paying flag is not accepted that way: it lands on a row every member of that account is
+read through, on every site, so one forged request would change what other people see and what every
+site's archived metric says, for subjects who never sent a request. `processRequestParams()` therefore
+rejects it unless the request carries a valid `token_auth`, which is how core gates `cty`, `cip` and
+`cdt`. It rejects in that phase rather than at the write so the request is refused before anything is
+stored.
+
+**The ungated two are not risk-free, and the gate is not what would fix them.** The argument above is
+an argument about one site, and these rows have none — see *Rows with no `idsite` are global* above. A
+request tracked against any site of the install rewrites the plan and account name that every other
+site displays for that user id, which `log_visit.user_id`, being per-site, cannot do. On a shared
+install that is a write across a tenant boundary rather than a visitor describing themselves. A token
+does not close it, because the tenant sending the request legitimately holds one; an `idsite` column
+does. This example accepts the residual risk and states it. A plugin whose attributes are worth more
+than a plan label should not.
 
 `is_paying` is a segmentation attribute describing an account and never an authorisation signal; no
 access decision anywhere may read it. And the user id written here is the one Matomo persisted, not the

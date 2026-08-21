@@ -39,9 +39,18 @@ use Piwik\Tracker\LogTable;
  *   `MAX()` is a high-water mark; this one is a `VARCHAR`, so the maximum is lexicographic and means
  *   nothing. Harmless only because nothing consults the value for a table shaped like this one.
  * - **No `idvisit` means no `getColumnToJoinOnIdVisit()`.** This table has no such column, so the
- *   fallback is to name a table it shares a column with and let core work out the rest. Whatever
- *   column you name has to be indexed on both sides -- both declarations here name a primary key, and
- *   a join declared on an unindexed column is a table scan at log-table scale, silently.
+ *   fallback is to name a table it shares a column with and let core work out the rest. A join
+ *   declared on an unindexed column is a table scan at log-table scale, silently, so check both
+ *   sides of every column you name -- and note that only one of them is yours. On this plugin's side
+ *   both are covered: `user_id` is this table's primary key, and `account_name`, which the account
+ *   table declares *its* join on, carries an index added for that reason and no other. The other
+ *   side of this declaration is not covered and cannot be: `log_visit.user_id` is a column the
+ *   `UserId` dimension adds, with no index behind it in core's schema. The three readers that matter
+ *   -- archiving, the subject export and the subject deletion -- all narrow `log_visit` first, by
+ *   site and date or by a list of `idvisit`, and reach this table by its key, so none of them pays
+ *   for that. It is still worth checking rather than assuming, because it is a fact about how core
+ *   happens to query and not a property of the declaration. Join on `idvisit` where you can; it is
+ *   the column of `log_visit` that is indexed for this.
  * - **`getDateTimeColumn()` is left unset** for the same reason: there is no time on these rows to
  *   declare. A table that does have one should say so -- the archiving queries use it to narrow the
  *   scan to the period being archived, and without it every archive run reads the whole table.

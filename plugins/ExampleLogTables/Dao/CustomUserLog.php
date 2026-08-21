@@ -79,7 +79,7 @@ class CustomUserLog
 
     public function install(): void
     {
-        // Two column decisions carry more weight than they look.
+        // Three schema decisions carry more weight than they look.
         //
         // `user_id` is VARCHAR(200) because that is what `log_visit.user_id` is
         // (`CoreHome\Columns\UserId::MAXLENGTH`, which the dimension also truncates to). A column
@@ -92,12 +92,20 @@ class CustomUserLog
         // Both attribute columns carry an explicit `DEFAULT ''`, because a tracking request that
         // mentions only one of them inserts only that column, and the tracker's strict `sql_mode`
         // rejects an INSERT that omits a NOT NULL column with no default.
+        //
+        // `account_name` carries an index because it is the column the *account* table declares its
+        // join on. Which side of a join gets probed is the optimiser's choice, not yours: driven
+        // from `log_visit` this table is reached by its primary key and the index is never touched,
+        // but driven from the account table this is the probed side, and without the index that
+        // probe scans one row per user. A primary key covers the column you are joined *by*; the
+        // columns you let others join *you* by need their own.
         DbHelper::createTable(self::TABLE_NAME, sprintf(
             "
                   `user_id` VARCHAR(%d) NOT NULL,
                   `plan` VARCHAR(%d) NOT NULL DEFAULT '',
                   `account_name` VARCHAR(%d) NOT NULL DEFAULT '',
-                  PRIMARY KEY (`user_id`)",
+                  PRIMARY KEY (`user_id`),
+                  INDEX `index_account_name` (`account_name`)",
             self::MAX_LENGTH_USER_ID,
             self::MAX_LENGTH_PLAN,
             CustomAccountLog::MAX_LENGTH_ACCOUNT_NAME

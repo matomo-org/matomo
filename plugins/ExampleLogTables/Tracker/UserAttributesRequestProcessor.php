@@ -88,10 +88,17 @@ class UserAttributesRequestProcessor extends RequestProcessor
         // that account on every site of the install. One forged request would therefore change what
         // other people see and every site's archived metric, for subjects who never sent a request.
         //
-        // That asymmetry is what earns the token, not the sensitivity of the value. Anyone can send
-        // any `uid`, so a row keyed on one is exactly as trustworthy as `log_visit.user_id` itself
-        // and nothing this plugin does can improve that -- which is why the user's own attributes
-        // below take no gate at all. A row other people share is different in kind.
+        // Whose data a forged request moves is what earns the token, not the sensitivity of the
+        // value. The user's own attributes below take no gate because anyone can send any `uid`
+        // anyway: a forged one already writes a `log_visit` row under that id, so refusing to write
+        // this one alongside it protects nothing. A row other people share is different in kind.
+        //
+        // What that argument does *not* cover, and the gate would not fix: these rows carry no
+        // idsite, so the trust boundary they sit on is the install, not the site. A request tracked
+        // against any site of the install rewrites the plan and account name that every other site
+        // displays for that user id -- something `log_visit.user_id`, being per-site, cannot do. The
+        // way out of that one is an idsite column, not a token; it is accepted here and written up
+        // under *Privacy* in the README.
         //
         // Core gates this class of parameter the same way, and throws rather than ignoring: `cty`
         // and the other location overrides in `plugins/UserCountry/Columns/Base.php`, `cip` and
