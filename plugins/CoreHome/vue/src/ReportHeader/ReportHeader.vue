@@ -90,34 +90,33 @@
               <div class="mtm-dropdownPanel mtm-dropdownPanel--wide mtm-dropdownPanel--withSubmenu">
                 <DataTableActions
                   placement="header"
-                  :show-footer="showFooter"
-                  :show-footer-icons="showFooterIcons"
-                  :footer-icons="footerIcons"
                   :report-title="titleText"
-                  :request-params="requestParams"
-                  :api-method-to-request-data-table="apiMethodToRequestDataTable"
-                  :max-filter-limit="maxFilterLimit"
-                  :show-annotations="showAnnotations"
-                  :annotations-showing="annotationsShowing"
-                  :show-periods="showPeriods"
-                  :show-export="showExport"
-                  :show-export-as-image-icon="showExportAsImageIcon"
                   :report-id="reportId"
-                  :data-table-actions="dataTableActions"
-                  :show-flatten-table="showFlattenTable"
-                  :report-supports-flatten="reportSupportsFlatten"
-                  :report-supports-percentage-values="reportSupportsPercentageValues"
-                  :export-supports-flatten="exportSupportsFlatten"
-                  :client-side-parameters="clientSideParameters"
-                  :has-multiple-dimensions="hasMultipleDimensions"
-                  :is-data-table-empty="isDataTableEmpty"
-                  :show-totals-row="showTotalsRow"
-                  :show-exclude-low-population="showExcludeLowPopulation"
-                  :show-pivot-by-subtable="showPivotBySubtable"
-                  :translations="actionTranslations"
-                  :view-data-table="viewDataTable"
-                  :pivot-dimension-name="pivotDimensionName"
-                  :selectable-periods="selectablePeriods"
+                  :show-footer="actions.showFooter"
+                  :show-footer-icons="actions.showFooterIcons"
+                  :footer-icons="actions.footerIcons"
+                  :request-params="actions.requestParams"
+                  :api-method-to-request-data-table="actions.apiMethodToRequestDataTable"
+                  :max-filter-limit="actions.maxFilterLimit"
+                  :show-annotations="actions.showAnnotations"
+                  :show-periods="actions.showPeriods"
+                  :show-export="actions.showExport"
+                  :show-export-as-image-icon="actions.showExportAsImageIcon"
+                  :data-table-actions="actions.dataTableActions"
+                  :show-flatten-table="actions.showFlattenTable"
+                  :report-supports-flatten="actions.reportSupportsFlatten"
+                  :report-supports-percentage-values="actions.reportSupportsPercentageValues"
+                  :export-supports-flatten="actions.exportSupportsFlatten"
+                  :client-side-parameters="actions.clientSideParameters"
+                  :has-multiple-dimensions="actions.hasMultipleDimensions"
+                  :is-data-table-empty="actions.isDataTableEmpty"
+                  :show-totals-row="actions.showTotalsRow"
+                  :show-exclude-low-population="actions.showExcludeLowPopulation"
+                  :show-pivot-by-subtable="actions.showPivotBySubtable"
+                  :translations="actions.actionTranslations"
+                  :view-data-table="actions.viewDataTable"
+                  :pivot-dimension-name="actions.pivotDimensionName"
+                  :selectable-periods="actions.selectablePeriods"
                 />
               </div>
             </div>
@@ -148,6 +147,8 @@ import DataTableActions, {
   DataTableAction,
   FooterIconGroup,
 } from '../DataTable/DataTableActions.vue';
+import ReportActionsStore from '../DataTable/ReportActions.store';
+import reportIdentity from '../DataTable/reportIdentity';
 import EnrichedHeadline from '../EnrichedHeadline/EnrichedHeadline.vue';
 import ExpandOnClick from '../ExpandOnClick/ExpandOnClick';
 import SearchInput from '../SearchInput/SearchInput.vue';
@@ -156,6 +157,36 @@ import { translate } from '../translate';
 
 // A search is a full DataTable reload, so debounce to avoid one on every keystroke.
 const SEARCH_DEBOUNCE_MS = 300;
+
+// Only what this header forwards to the menu. The store holds whatever twig published, so the
+// shape is asserted here rather than inferred from it.
+interface ReportActions {
+  showFooter: boolean;
+  showFooterIcons: boolean;
+  footerIcons: FooterIconGroup[];
+  viewDataTable: string;
+  clientSideParameters: Record<string, unknown>;
+  isDataTableEmpty: boolean;
+  showFlattenTable: boolean;
+  reportSupportsFlatten: boolean;
+  reportSupportsPercentageValues: boolean;
+  exportSupportsFlatten: boolean;
+  hasMultipleDimensions: boolean;
+  showTotalsRow: boolean;
+  showExcludeLowPopulation: boolean;
+  showPivotBySubtable: boolean;
+  dataTableActions: DataTableAction[];
+  showExport: boolean;
+  showExportAsImageIcon: boolean;
+  showAnnotations: boolean;
+  showPeriods: boolean;
+  selectablePeriods: string[];
+  requestParams: Record<string, unknown>;
+  maxFilterLimit: number;
+  apiMethodToRequestDataTable: string;
+  pivotDimensionName: string|null;
+  actionTranslations: Record<string, string>;
+}
 
 export interface ControlVisibility {
   minimise: boolean;
@@ -339,7 +370,12 @@ export default defineComponent({
       // Local mirror of the field, seeded from `searchQuery`.
       query: this.searchQuery,
       searchDebounceTimer: null as ReturnType<typeof setTimeout> | null,
+      // Read off this element, which does not exist before mount.
+      reportKey: '',
     };
+  },
+  mounted() {
+    this.reportKey = reportIdentity(this.$el as HTMLElement, this.reportId);
   },
   watch: {
     searchQuery(value: string) {
@@ -365,8 +401,41 @@ export default defineComponent({
     // The actions menu is offered wherever the report renders its footer icons. A subtable has
     // none: ViewDataTable forces show_footer_icons off for one, and it reuses its parent's
     // header anyway.
+    // What the menu renders from. Twig gives this header a starting point; on a reload the table is
+    // replaced and this header is not, so twig's values then describe the load before it and
+    // whatever the report published for itself wins.
+    actions(): ReportActions {
+      return {
+        showFooter: this.showFooter,
+        showFooterIcons: this.showFooterIcons,
+        footerIcons: this.footerIcons,
+        viewDataTable: this.viewDataTable,
+        clientSideParameters: this.clientSideParameters,
+        isDataTableEmpty: this.isDataTableEmpty,
+        showFlattenTable: this.showFlattenTable,
+        reportSupportsFlatten: this.reportSupportsFlatten,
+        reportSupportsPercentageValues: this.reportSupportsPercentageValues,
+        exportSupportsFlatten: this.exportSupportsFlatten,
+        hasMultipleDimensions: this.hasMultipleDimensions,
+        showTotalsRow: this.showTotalsRow,
+        showExcludeLowPopulation: this.showExcludeLowPopulation,
+        showPivotBySubtable: this.showPivotBySubtable,
+        dataTableActions: this.dataTableActions,
+        showExport: this.showExport,
+        showExportAsImageIcon: this.showExportAsImageIcon,
+        showAnnotations: this.showAnnotations,
+        showPeriods: this.showPeriods,
+        selectablePeriods: this.selectablePeriods,
+        requestParams: this.requestParams,
+        maxFilterLimit: this.maxFilterLimit,
+        apiMethodToRequestDataTable: this.apiMethodToRequestDataTable,
+        pivotDimensionName: this.pivotDimensionName,
+        actionTranslations: this.actionTranslations,
+        ...ReportActionsStore.get(this.reportKey),
+      } as ReportActions;
+    },
     showActions(): boolean {
-      return this.showFooter && this.showFooterIcons;
+      return this.actions.showFooter && this.actions.showFooterIcons;
     },
     // Whether the header line has nothing to render. Only that line is dropped: the subheader
     // below it is mounted independently, so a titleless widgetized report still gets its search.
