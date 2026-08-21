@@ -158,7 +158,16 @@ DataTable_RowActions_Transitions.prototype.openTransitionsPopover = function (ac
     entry.setAttribute('context', 'popover');
     wrapper.appendChild(entry);
 
-    wrapper.appendChild(this.buildExportControl());
+    // There is nothing to export until the report is on screen, and showing the control beside the
+    // loading message makes the popover look half-built. Revealed on Transitions.dataChanged, which
+    // the renderer posts once its data has landed.
+    var exportControl = this.buildExportControl();
+    exportControl.style.display = 'none';
+    wrapper.appendChild(exportControl);
+
+    var onDataChanged = function () {
+        exportControl.style.display = '';
+    };
 
     var onReloadPopover = function (params) {
         if (!params || !params.url) {
@@ -181,10 +190,12 @@ DataTable_RowActions_Transitions.prototype.openTransitionsPopover = function (ac
 
         destroyed = true;
         window.CoreHome.Matomo.off('Transitions.reloadPopover', onReloadPopover);
+        window.CoreHome.Matomo.off('Transitions.dataChanged', onDataChanged);
         piwikHelper.destroyVueComponent(wrapper);
     };
 
     window.CoreHome.Matomo.on('Transitions.reloadPopover', onReloadPopover);
+    window.CoreHome.Matomo.on('Transitions.dataChanged', onDataChanged);
 
     // Piwik_Popover.setContent() compiles the vue-entry itself, so do not compile it again here.
     Piwik_Popover.setContent(wrapper);

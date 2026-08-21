@@ -224,6 +224,18 @@ describe('Transitions/TransitionsReport', () => {
       .toContain('Transitions_ShareOfAllPageviews');
   });
 
+  it('should name what it is loading in the popover', () => {
+    // The legacy popover's own loading state said "Loading Transitions for <page>"; the embedded
+    // report's inline loader said the generic thing, so the message follows the context.
+    const popover = mountReport({ context: 'popover' });
+    expect(popover.find('.activityIndicator').attributes('loading-message'))
+      .toBe('General_LoadingPopoverFor:Transitions_Transitions http://example.org/page');
+
+    const embedded = mountReport();
+    expect(embedded.find('.activityIndicator').attributes('loading-message'))
+      .toBe('General_LoadingData');
+  });
+
   it('should post Transitions.dataChanged once the data is in', async () => {
     await mountLoaded();
 

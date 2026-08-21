@@ -28,6 +28,28 @@
     padding: 24px 0;
   }
 
+  // override: ActivityIndicator renders the legacy .loadingPiwik markup, which puts the spinner and
+  // the message on one line at 1.1em, left aligned. In a popover the other row actions centre their
+  // spinner above a larger centred message (.Piwik_Popover_Loading_Name), so match that treatment.
+  .transitionsReport__loader--prominent {
+    .loadingPiwik {
+      display: flex;
+      flex-direction: column;
+      align-items: safe center;
+      gap: 20px;
+      padding: 50px 0 65px;
+      color: @theme-color-text;
+      font-size: 16px;
+      line-height: 20px;
+      text-align: center;
+    }
+
+    // the base rule spaces the spinner from a message beside it; here it sits above one
+    .matomo-loader {
+      margin-right: 0;
+    }
+  }
+
   .transitionsReport__error {
     padding: 24px;
     text-align: center;

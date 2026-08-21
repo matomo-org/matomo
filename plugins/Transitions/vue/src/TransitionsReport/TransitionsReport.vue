@@ -7,7 +7,12 @@
 
 <template>
   <div class="transitionsReport">
-    <ActivityIndicator :loading="isLoading" />
+    <div
+      class="transitionsReport__loader"
+      :class="{ 'transitionsReport__loader--prominent': context === 'popover' }"
+    >
+      <ActivityIndicator :loading="isLoading" :loading-message="loadingMessage" />
+    </div>
 
     <div class="transitionsReport__error" v-if="error && !isLoading">
       <p class="transitionsReport__errorTitle" v-html="$sanitize(error.title)"></p>
@@ -182,6 +187,22 @@ export default defineComponent({
     },
     outgoingRibbonRows(): RibbonSource[] {
       return this.ribbonRowsFor('outgoing');
+    },
+    /**
+     * The popover names what it is fetching, the way the legacy renderer's own loading state did.
+     * The embedded report keeps the generic message, which is what its inline loader showed.
+     */
+    loadingMessage(): string {
+      if (this.context !== 'popover') {
+        return translate('General_LoadingData');
+      }
+
+      const subject = translate(
+        'General_LoadingPopoverFor',
+        translate('Transitions_Transitions'),
+      );
+
+      return `${subject} ${this.actionName}`;
     },
     /** Ribbon keys belonging to the highlighted group, so its bands can be emphasised. */
     highlightedKeys(): string[] {

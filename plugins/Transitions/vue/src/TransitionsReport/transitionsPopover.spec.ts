@@ -140,6 +140,28 @@ describe('Transitions/popover mount point', () => {
     expect(exporter).not.toBeNull();
   });
 
+  it('should hide the export control until the report has data', () => {
+    openPopover();
+
+    // Nothing to export while the popover is still loading, and showing the control next to the
+    // loading message makes the popover look half-built.
+    const control = wrapperElement().querySelector('.dataTableWrapper') as HTMLElement;
+    expect(control.style.display).toBe('none');
+
+    listeners['Transitions.dataChanged'][0]({ actionType: 'url', actionName: 'http://example.org/' });
+
+    expect(control.style.display).toBe('');
+  });
+
+  it('should drop the dataChanged listener when the popover closes', () => {
+    openPopover();
+    expect(listeners['Transitions.dataChanged']).toHaveLength(1);
+
+    window.Piwik_Popover.close();
+
+    expect(listeners['Transitions.dataChanged']).toHaveLength(0);
+  });
+
   it('should escape an action name that contains markup', () => {
     const rowAction = new DataTable_RowActions_Transitions({ param: {} });
     rowAction.openPopover = vi.fn();
