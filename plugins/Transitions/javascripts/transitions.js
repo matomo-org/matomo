@@ -524,8 +524,9 @@ Piwik_Transitions_Ajax.prototype.loadTotalNbPageviews = function (callback) {
 };
 
 /**
- * Receives an API error as (exception name, request params). The renderer sets this because it
- * shows errors itself; without one an error is dropped and the request's callback never runs.
+ * Receives an API error as (exception name, request params). `useTransitionsData` sets this
+ * because the report shows errors itself; without one an error is dropped and the request's
+ * callback never runs.
  */
 Piwik_Transitions_Ajax.prototype.setErrorCallback = function (callback) {
     this.errorCallback = callback;
