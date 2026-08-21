@@ -29,6 +29,11 @@
 			<notes>Personally Identifiable Information (PII) data must be filtered by the Matomo-recommended PII exclusion list.</notes>
 		</row>
 		<row>
+			<name>Aggregated Real-time Reports Enabled</name>
+			<value>compliant</value>
+			<notes>Aggregated real-time reports are required to be enabled.</notes>
+		</row>
+		<row>
 			<name>Visits Log and Visitor Profiles Disabled</name>
 			<value>compliant</value>
 			<notes>Visits log is required to be disabled.</notes>

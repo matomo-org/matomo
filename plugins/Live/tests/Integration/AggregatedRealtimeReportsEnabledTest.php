@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\Live\tests\Integration;
 
+use Piwik\Policy\CnilPolicy;
 use Piwik\Plugins\Live\Live;
 use Piwik\Plugins\Live\MeasurableSettings;
 use Piwik\Plugins\Live\Settings\AggregatedRealtimeReportsEnabled;
@@ -34,6 +35,12 @@ class AggregatedRealtimeReportsEnabledTest extends IntegrationTestCase
         $this->setSuperUser();
         Fixture::createWebsite('2010-01-01');
         Fixture::createWebsite('2010-01-01');
+    }
+
+    public function tearDown(): void
+    {
+        CnilPolicy::setActiveStatus(null, false);
+        parent::tearDown();
     }
 
     public function testDefaultsToDisabled()
@@ -143,6 +150,31 @@ class AggregatedRealtimeReportsEnabledTest extends IntegrationTestCase
 
         $settings = new SystemSettings();
         $this->assertNotNull($settings->getSetting('enable_aggregated_realtime_reports'));
+    }
+
+    public function testCnilForcesSettingEnabledAndCompliant()
+    {
+        // stored value is off, so the CNIL "must be enabled" requirement is not yet met
+        $this->assertFalse(AggregatedRealtimeReportsEnabled::getInstance(1)->getValue());
+        $this->assertFalse(AggregatedRealtimeReportsEnabled::isCompliant(CnilPolicy::class, 1));
+
+        CnilPolicy::setActiveStatus(null, true);
+
+        // CNIL forces the setting on at read time regardless of the stored value, and it is now compliant
+        $this->assertTrue(AggregatedRealtimeReportsEnabled::getInstance(1)->getValue());
+        $this->assertTrue(AggregatedRealtimeReportsEnabled::isCompliant(CnilPolicy::class, 1));
+        $this->assertTrue(Live::isAggregatedRealtimeEnabled(1));
+    }
+
+    public function testCnilLocksThePerSiteSetting()
+    {
+        $settings = new MeasurableSettings(1);
+        $this->assertTrue($settings->enableAggregatedRealtimeReports->isWritableByCurrentUser());
+
+        CnilPolicy::setActiveStatus(null, true);
+
+        $settings = new MeasurableSettings(1);
+        $this->assertFalse($settings->enableAggregatedRealtimeReports->isWritableByCurrentUser());
     }
 
     private function updateSiteLiveSettings(int $idSite, array $liveSettings): void
