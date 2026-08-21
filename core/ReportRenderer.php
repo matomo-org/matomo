@@ -243,6 +243,19 @@ abstract class ReportRenderer extends BaseFactory
     }
 
     /**
+     * Whether the report aggregates its rows by a dimension.
+     *
+     * A report without a dimension has a single row of metrics rather than one row per
+     * dimension value.
+     *
+     * @param array $reportMetadata
+     */
+    protected static function isAggregateReport($reportMetadata): bool
+    {
+        return !empty($reportMetadata['dimension']);
+    }
+
+    /**
      * Convert a dimension-less report to a multi-row two-column data table
      *
      * @static
@@ -254,7 +267,7 @@ abstract class ReportRenderer extends BaseFactory
     protected static function processTableFormat($reportMetadata, $report, $reportColumns)
     {
         $finalReport = $report;
-        if (empty($reportMetadata['dimension'])) {
+        if (!self::isAggregateReport($reportMetadata)) {
             $simpleReportMetrics = $report->getFirstRow();
             if ($simpleReportMetrics) {
                 $finalReport = new Simple();
