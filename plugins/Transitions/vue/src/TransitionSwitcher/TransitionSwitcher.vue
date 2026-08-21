@@ -41,14 +41,6 @@
     </div>
     <ActivityIndicator :loading="isLoading" />
     <div
-      class="loadingPiwik"
-      style="display:none;"
-      id="transitions_inline_loading"
-    >
-      <MatomoLoader />
-      <span>{{ translate('General_LoadingData') }}</span>
-    </div>
-    <div
       class="popoverContainer"
       v-show="!isLoading && isEnabled"
     >
@@ -58,11 +50,6 @@
         :action-name="selectedActionName"
         context="embedded"
       />
-    </div>
-    <div
-      id="Transitions_Error_Container"
-      v-show="!isLoading"
-    >
     </div>
     <div
       class="dataTableWrapper"
@@ -101,7 +88,6 @@ import {
   AjaxHelper,
   ActivityIndicator,
   Matomo,
-  MatomoLoader,
 } from 'CoreHome';
 import { Field } from 'CorePluginsAdmin';
 import TransitionExporter from '../TransitionExporter/TransitionExporter';
@@ -137,7 +123,6 @@ export default defineComponent({
   components: {
     ActivityIndicator,
     Field,
-    MatomoLoader,
     TransitionsReport,
   },
   directives: {
