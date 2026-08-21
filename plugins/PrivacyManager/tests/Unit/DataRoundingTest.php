@@ -675,6 +675,15 @@ class DataRoundingTest extends \PHPUnit\Framework\TestCase
         $this->assertSame([], $actual);
     }
 
+    public function testExtractRequestedSiteIdsRequiresTheExactIdSiteParameterName(): void
+    {
+        $actual = $this->invokeDataRoundingMethod('extractRequestedSiteIds', [[
+            'idsite' => '3',
+        ]]);
+
+        $this->assertSame([], $actual);
+    }
+
     public function testExtractRequestedSiteIdsReturnsEmptyForBoolean(): void
     {
         $actual = $this->invokeDataRoundingMethod('extractRequestedSiteIds', [[
