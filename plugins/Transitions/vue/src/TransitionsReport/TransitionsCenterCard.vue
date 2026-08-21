@@ -45,7 +45,7 @@
           :key="metric.key"
           :title="metric.tooltip"
           @click="onMetricClick(metric)"
-          @mouseenter="$emit('highlight', metric.groupName)"
+          @mouseenter="onMetricHighlight(metric)"
           @mouseleave="$emit('unhighlight')"
         >
           <span class="transitionsCenterCard__dot" :class="dotClass(metric)"></span>
@@ -137,6 +137,15 @@ export default defineComponent({
     onMetricClick(metric: TransitionsMetricData) {
       if (this.isActionable(metric)) {
         this.$emit('open', metric.groupName);
+      }
+    },
+    /**
+     * A metric at zero has no ribbons to emphasise, so it stays inert on hover. The value decides
+     * that, not expandability: direct entries cannot be opened but do highlight.
+     */
+    onMetricHighlight(metric: TransitionsMetricData) {
+      if (metric.value > 0) {
+        this.$emit('highlight', metric.groupName);
       }
     },
   },

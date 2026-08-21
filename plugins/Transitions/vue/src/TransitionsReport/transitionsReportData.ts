@@ -379,7 +379,9 @@ export function buildReport(
       labelAfter: after,
       value,
       valueLabel: NumberFormatter.formatNumber(value),
-      tooltip: translate('Transitions_XOfAllPageviews', shareLabel),
+      // A metric at zero has no share to explain, so it gets no tooltip -- the legacy renderer
+      // left one off there too.
+      tooltip: value > 0 ? translate('Transitions_XOfAllPageviews', shareLabel) : '',
       canExpand: group.canExpand,
     });
   });

@@ -261,7 +261,7 @@ describe('Transitions/TransitionsReport', () => {
     // report's inline loader said the generic thing, so the message follows the context.
     const popover = mountTransitionsReport({ context: 'popover' });
     expect(popover.find('.activityIndicator').attributes('loading-message'))
-      .toBe('General_LoadingPopoverFor:Transitions_Transitions http://example.org/page');
+      .toBe('Transitions_LoadingTransitionsFor:http://example.org/page');
 
     const embedded = mountTransitionsReport();
     expect(embedded.find('.activityIndicator').attributes('loading-message'))

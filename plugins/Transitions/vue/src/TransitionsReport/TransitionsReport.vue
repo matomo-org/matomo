@@ -199,18 +199,17 @@ export default defineComponent({
     /**
      * The popover names what it is fetching, the way the legacy renderer's own loading state did.
      * The embedded report keeps the generic message, which is what its inline loader showed.
+     *
+     * One key holding the whole sentence rather than a fragment with the name appended: locales
+     * put the name elsewhere in the sentence, and an appended right-to-left name would need its
+     * own isolation.
      */
     loadingMessage(): string {
       if (this.context !== 'popover') {
         return translate('General_LoadingData');
       }
 
-      const subject = translate(
-        'General_LoadingPopoverFor',
-        translate('Transitions_Transitions'),
-      );
-
-      return `${subject} ${this.actionName}`;
+      return translate('Transitions_LoadingTransitionsFor', this.actionName);
     },
     /** Ribbon keys belonging to the highlighted group, so its bands can be emphasised. */
     highlightedKeys(): string[] {

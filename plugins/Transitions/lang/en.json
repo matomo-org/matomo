@@ -22,6 +22,7 @@
         "FromAIAssistants": "From AI assistants",
         "FromWebsites": "From websites",
         "IncomingTraffic": "Incoming traffic",
+        "LoadingTransitionsFor": "Loading Transitions for %s",
         "LoopsInline": "%s page reloads",
         "NoDataForAction": "No data for %s",
         "NoDataForActionDetails": "Either the action had no pageviews during the period, or it is invalid.",

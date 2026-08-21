@@ -82,6 +82,13 @@ describe('Transitions/TransitionsReport interaction', () => {
     )!;
   }
 
+  /** Finds a center card metric by its (untranslated) inline label. */
+  function cardMetric(wrapper: VueWrapper, label: string) {
+    return wrapper.findAll('.transitionsCenterCard__metric').find(
+      (metric) => metric.text().includes(label),
+    )!;
+  }
+
   /** The labels of the detail rows of the open section on a side. */
   function openRowLabels(wrapper: VueWrapper, title: string): string[] {
     const section = sectionByTitle(wrapper, title);
@@ -137,9 +144,7 @@ describe('Transitions/TransitionsReport interaction', () => {
   it('should open a group when its center card metric is clicked', async () => {
     const wrapper = await mountLoaded();
 
-    const outlinks = wrapper.findAll('.transitionsCenterCard__metric').find(
-      (metric) => metric.text().includes('Transitions_NumOutlinks'),
-    )!;
+    const outlinks = cardMetric(wrapper, 'Transitions_NumOutlinks');
 
     await outlinks.trigger('click');
     await flushRibbons();
@@ -189,9 +194,7 @@ describe('Transitions/TransitionsReport interaction', () => {
   it('should not open a metric that has no detail rows', async () => {
     const wrapper = await mountLoaded();
 
-    const exits = wrapper.findAll('.transitionsCenterCard__metric').find(
-      (metric) => metric.text().includes('Transitions_ExitsInline'),
-    )!;
+    const exits = cardMetric(wrapper, 'Transitions_ExitsInline');
 
     expect(exits.classes()).not.toContain('transitionsCenterCard__metric--actionable');
 
@@ -199,6 +202,35 @@ describe('Transitions/TransitionsReport interaction', () => {
     await flushRibbons();
 
     expect(openRowLabels(wrapper, 'Transitions_ToFollowingPages')).toEqual(['/c']);
+  });
+
+  it('should leave a metric at zero without a tooltip or a hover highlight', async () => {
+    const wrapper = await mountLoaded();
+
+    const socialNetworks = cardMetric(wrapper, 'Referrers_TypeSocialNetworks');
+
+    // Nothing happened in that group, so there is no share to explain and nothing to emphasise.
+    expect(socialNetworks.attributes('title')).toBe('');
+
+    await socialNetworks.trigger('mouseenter');
+    await flushRibbons();
+
+    expect(socialNetworks.classes()).not.toContain('transitionsCenterCard__metric--highlighted');
+  });
+
+  it('should still highlight a metric that has a value but cannot be opened', async () => {
+    const wrapper = await mountLoaded();
+
+    // The highlight is gated on the value, not on expandability: direct entries have no rows to
+    // open, yet the legacy renderer highlighted them whenever they were above zero.
+    const directEntries = cardMetric(wrapper, 'Referrers_TypeDirectEntries');
+
+    expect(directEntries.classes()).not.toContain('transitionsCenterCard__metric--actionable');
+
+    await directEntries.trigger('mouseenter');
+    await flushRibbons();
+
+    expect(directEntries.classes()).toContain('transitionsCenterCard__metric--highlighted');
   });
 
   it('should highlight the ribbon of a summary row when it is hovered', async () => {
@@ -223,9 +255,7 @@ describe('Transitions/TransitionsReport interaction', () => {
     await summaryRow(wrapper, 'Transitions_FromSearchEngines').trigger('click');
     await flushRibbons();
 
-    const searchEngines = wrapper.findAll('.transitionsCenterCard__metric').find(
-      (metric) => metric.text().includes('Referrers_TypeSearchEngines'),
-    )!;
+    const searchEngines = cardMetric(wrapper, 'Referrers_TypeSearchEngines');
 
     await searchEngines.trigger('mouseenter');
     await flushRibbons();
