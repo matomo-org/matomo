@@ -70,8 +70,6 @@ class Transitions extends \Piwik\Plugin
         $translationKeys[] = 'Transitions_FeatureDescription';
 
         // Group titles and center card labels rendered by the Vue TransitionsReport component.
-        // These were previously injected as a `Piwik_Transitions_Translations` global by
-        // Controller::renderPopover(); the component reads them through translate() instead.
         $translationKeys[] = 'Transitions_IncomingTraffic';
         $translationKeys[] = 'Transitions_OutgoingTraffic';
         $translationKeys[] = 'Transitions_OtherSources';

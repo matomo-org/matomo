@@ -694,15 +694,6 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * @internal
-     */
-    public function getTranslations(): array
-    {
-        $controller = new Controller();
-        return $controller->getTranslations();
-    }
-
-    /**
      * @param array $types
      * @param array $data
      * @return array<string, DataTable>
