@@ -25,6 +25,7 @@ vi.mock('CoreHome', () => ({
 
 import TransitionsReport from './TransitionsReport.vue';
 import { installFakeTransitionsBackend, FakeTransitionsBackend } from './testFakeTransitionsModel';
+import { stubElementRects } from './testMeasuredLayout';
 
 function reportWithPageviews(pageviews: number) {
   return {
@@ -40,16 +41,16 @@ function reportWithPageviews(pageviews: number) {
   };
 }
 
-const measure = () => ({ top: 0, height: 100, width: 100 });
-
 describe('Transitions/TransitionsReport lifecycle', () => {
   let backend: FakeTransitionsBackend;
+  let measureSpy: ReturnType<typeof stubElementRects>;
   let resizeObservers: { targets: Element[]; disconnected: boolean }[];
   let resizeCallbacks: (() => void)[];
   let cancelled: number[];
 
   beforeEach(() => {
     postEvent.mockClear();
+    measureSpy = stubElementRects();
     backend = installFakeTransitionsBackend(reportWithPageviews(100));
 
     resizeObservers = [];
@@ -87,6 +88,7 @@ describe('Transitions/TransitionsReport lifecycle', () => {
   });
 
   afterEach(() => {
+    vi.restoreAllMocks();
     vi.unstubAllGlobals();
   });
 
@@ -122,7 +124,6 @@ describe('Transitions/TransitionsReport lifecycle', () => {
       props: {
         actionType: 'url',
         actionName: 'http://example.org/page',
-        measure,
         ...props,
       },
       global: { config: { globalProperties: { $sanitize: (value: string) => value } } },
@@ -249,8 +250,7 @@ describe('Transitions/TransitionsReport lifecycle', () => {
   describe('resize', () => {
     it('should re-measure when an observed element resizes', async () => {
       useSynchronousFrames();
-      const measureSpy = vi.fn(measure);
-      const wrapper = mountReport({ measure: measureSpy });
+      const wrapper = mountReport();
       backend.respond();
       await flush();
 

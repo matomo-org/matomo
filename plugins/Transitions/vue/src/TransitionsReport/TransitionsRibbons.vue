@@ -38,7 +38,6 @@ import {
 } from 'vue';
 import {
   ElementSource,
-  MeasureRect,
   RibbonSource,
   useRibbonGeometry,
 } from './useRibbonGeometry';
@@ -72,11 +71,6 @@ export default defineComponent({
       type: Array as PropType<string[]>,
       default: () => [],
     },
-    /** Injected by specs; jsdom reports every element as 0x0. */
-    measure: {
-      type: Function as PropType<MeasureRect>,
-      default: undefined,
-    },
   },
   setup(props) {
     const layer = ref<SVGSVGElement|null>(null);
@@ -90,7 +84,6 @@ export default defineComponent({
       column: () => props.column(),
       center: () => props.center(),
       rows: toRef(props, 'rows'),
-      measure: props.measure,
     });
 
     return {

@@ -252,6 +252,11 @@ declare global {
       callback: () => void,
     ): void;
     getTotalNbPageviews(): number|false;
+    /**
+     * Calls back with the site's total pageviews, at once if the fire-once request behind
+     * getTotalNbPageviews() has landed and otherwise once it does.
+     */
+    whenTotalNbPageviewsLoaded(callback: (nbPageviews: number) => void): void;
     getGroupTitle(groupName: string): string;
     getDetailsForGroup(groupName: string): TransitionsDetailRow[];
     getPercentage(metric: string, formatted?: boolean): number|string;

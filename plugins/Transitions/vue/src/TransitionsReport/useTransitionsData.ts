@@ -157,6 +157,9 @@ export const TRANSITIONS_GROUPS: GroupDefinition[] = [
   },
 ];
 
+/** The API method behind the report, i.e. the one whose failure is the report's own failure. */
+const REPORT_API_METHOD = 'Transitions.getTransitionsForAction';
+
 /** Exception names Transitions.getTransitionsForAction throws, mapped to their translation keys. */
 const ERROR_TRANSLATIONS: Record<string, { title: string; details: string }> = {
   NoDataForAction: {
@@ -220,6 +223,26 @@ function resolveError(errorName: string, actionName: string): TransitionsError {
   };
 }
 
+/**
+ * The share-of-all-pageviews tooltip. Empty until the site total is known, since the share is the
+ * whole point of it.
+ */
+function buildPageviewsTooltip(model: TransitionsModel, totalNbPageviews: number|false): string {
+  if (!totalNbPageviews) {
+    return '';
+  }
+
+  const shareOfAll = NumberFormatter.formatPercent(
+    Math.round((model.pageviews / totalNbPageviews) * 1000) / 10,
+  );
+
+  return `${translate(
+    'Transitions_ShareOfAllPageviews',
+    NumberFormatter.formatNumber(model.pageviews),
+    shareOfAll,
+  )}\n${translate('General_DateRange')} ${model.date}`;
+}
+
 /** Splits an inline label around its value, so the value can be emphasised without markup. */
 export function splitInlineLabel(inlineKey: string): { before: string; after: string } {
   const parts = translate(inlineKey, VALUE_MARKER).split(VALUE_MARKER);
@@ -268,9 +291,14 @@ export function useTransitionsData() {
       const isOthers = rawLabel === 'Others';
 
       const isInternalPage = group.name === 'previousPages' || group.name === 'followingPages';
-      const shortenWithDomain = (actionType === 'url' && isInternalPage)
-        || group.name === 'downloads';
-      const shortenKeepingDomain = group.name === 'outlinks' || group.name === 'websites';
+      const isDownload = group.name === 'downloads';
+      const isOutlink = group.name === 'outlinks' || group.name === 'websites';
+
+      // How much of the URL the label keeps, and whether the row links out, are two separate
+      // questions: a download keeps only its path but still opens in a new tab.
+      const shortenWithDomain = (actionType === 'url' && isInternalPage) || isDownload;
+      const shortenKeepingDomain = isOutlink;
+      const linksOut = isOutlink || isDownload;
 
       let label = rawLabel;
       if (shortenWithDomain) {
@@ -291,7 +319,7 @@ export function useTransitionsData() {
         ),
         percentage: NumberFormatter.formatPercent(detail.percentage),
         share: (detail.percentage / 100) * groupShare,
-        externalUrl: !isOthers && shortenKeepingDomain ? rawLabel : undefined,
+        externalUrl: !isOthers && linksOut ? rawLabel : undefined,
         transitionUrl: !isOthers && isInternalPage ? rawLabel : undefined,
         isOthers,
       };
@@ -370,19 +398,6 @@ export function useTransitionsData() {
       });
     });
 
-    const totalNbPageviews = model.getTotalNbPageviews();
-    let pageviewsTooltip = '';
-    if (totalNbPageviews) {
-      const shareOfAll = NumberFormatter.formatPercent(
-        Math.round((model.pageviews / totalNbPageviews) * 1000) / 10,
-      );
-      pageviewsTooltip = `${translate(
-        'Transitions_ShareOfAllPageviews',
-        NumberFormatter.formatNumber(model.pageviews),
-        shareOfAll,
-      )}\n${translate('General_DateRange')} ${model.date}`;
-    }
-
     return {
       actionType,
       actionName,
@@ -403,7 +418,7 @@ export function useTransitionsData() {
         'Transitions_NumPageviews',
         NumberFormatter.formatNumber(model.pageviews),
       ),
-      pageviewsTooltip,
+      pageviewsTooltip: buildPageviewsTooltip(model, model.getTotalNbPageviews()),
       incomingTotal,
       outgoingTotal,
       groups,
@@ -426,8 +441,11 @@ export function useTransitionsData() {
     error.value = null;
 
     const ajax = new window.Piwik_Transitions_Ajax();
-    ajax.setErrorCallback((errorName) => {
-      if (!isCurrent(id)) {
+    ajax.setErrorCallback((errorName, params) => {
+      // The model drives the site's total pageviews through this same instance, so the callback
+      // also sees failures of that request. Only a failure of the report itself should replace
+      // the report with an error; a missing total just leaves its tooltip empty.
+      if (params.method !== REPORT_API_METHOD || !isCurrent(id)) {
         return;
       }
 
@@ -447,6 +465,20 @@ export function useTransitionsData() {
       isLoading.value = false;
       error.value = null;
       report.value = buildReport(model, actionType, actionName);
+
+      // Fired once per page load in parallel with the first report, so on that report the total
+      // is still in flight above. Fill the tooltip in when it lands, the way the legacy renderer's
+      // tooltip callback did by being evaluated at hover time.
+      model.whenTotalNbPageviewsLoaded((totalNbPageviews) => {
+        if (!isCurrent(id) || !report.value) {
+          return;
+        }
+
+        report.value = {
+          ...report.value,
+          pageviewsTooltip: buildPageviewsTooltip(model, totalNbPageviews),
+        };
+      });
 
       Matomo.postEvent('Transitions.dataChanged', { actionType, actionName });
     });

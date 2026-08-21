@@ -98,7 +98,6 @@ class Transitions extends \Piwik\Plugin
         $translationKeys[] = 'Transitions_NumDownloads';
         $translationKeys[] = 'Transitions_NumOutlinks';
         $translationKeys[] = 'Transitions_ExitsInline';
-        $translationKeys[] = 'Transitions_BouncesInline';
         $translationKeys[] = 'Referrers_TypeSearchEngines';
         $translationKeys[] = 'Referrers_TypeSocialNetworks';
         $translationKeys[] = 'Referrers_TypeAIAssistants';
@@ -107,7 +106,6 @@ class Transitions extends \Piwik\Plugin
         $translationKeys[] = 'Referrers_TypeDirectEntries';
 
         // Tooltips.
-        $translationKeys[] = 'Transitions_XOutOfYVisits';
         $translationKeys[] = 'Transitions_XOfAllPageviews';
         $translationKeys[] = 'Transitions_ShareOfAllPageviews';
         $translationKeys[] = 'General_DateRange';

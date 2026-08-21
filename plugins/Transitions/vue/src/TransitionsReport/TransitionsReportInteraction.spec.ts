@@ -25,6 +25,7 @@ vi.mock('CoreHome', () => ({
 
 import TransitionsReport from './TransitionsReport.vue';
 import { installFakeTransitionsBackend, FakeTransitionsBackend } from './testFakeTransitionsModel';
+import { stubElementRects } from './testMeasuredLayout';
 
 const REPORT = {
   pageviews: 100,
@@ -51,13 +52,12 @@ const REPORT = {
   },
 };
 
-const measure = () => ({ top: 0, height: 100, width: 100 });
-
 describe('Transitions/TransitionsReport interaction', () => {
   let backend: FakeTransitionsBackend;
 
   beforeEach(() => {
     postEvent.mockClear();
+    stubElementRects();
     backend = installFakeTransitionsBackend(structuredClone(REPORT));
     vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => {
       callback(0);
@@ -66,6 +66,7 @@ describe('Transitions/TransitionsReport interaction', () => {
   });
 
   afterEach(() => {
+    vi.restoreAllMocks();
     vi.unstubAllGlobals();
   });
 
@@ -81,7 +82,6 @@ describe('Transitions/TransitionsReport interaction', () => {
       props: {
         actionType: 'url',
         actionName: 'http://example.org/page',
-        measure,
         ...props,
       },
       global: { config: { globalProperties: { $sanitize: (value: string) => value } } },
@@ -169,6 +169,27 @@ describe('Transitions/TransitionsReport interaction', () => {
     await flush();
 
     expect(openRowLabels(wrapper, 'General_Outlinks')).toEqual(['other.example/x']);
+  });
+
+  it('should render a download row as a link, with the domain stripped from its label', async () => {
+    // Downloads keep only their path in the label but still open in a new tab, so the shortening
+    // and the linking are driven separately. Added per test to keep the shared totals untouched.
+    backend.report.groups!.downloads = {
+      total: 6,
+      details: [{ url: 'http://example.org/files/report.pdf', referrals: 6 }],
+    };
+
+    const wrapper = await mountLoaded();
+
+    await summaryRow(wrapper, 'General_Downloads').trigger('click');
+    await flush();
+
+    const row = sectionByTitle(wrapper, 'General_Downloads')!.find('.transitionsRow');
+    expect(row.element.tagName).toBe('A');
+    expect(row.attributes('href')).toBe('http://example.org/files/report.pdf');
+    expect(row.attributes('target')).toBe('_blank');
+    expect(row.attributes('rel')).toBe('noreferrer noopener');
+    expect(row.find('.transitionsRow__label').text()).toBe('/files/report.pdf');
   });
 
   it('should not open a metric that has no detail rows', async () => {

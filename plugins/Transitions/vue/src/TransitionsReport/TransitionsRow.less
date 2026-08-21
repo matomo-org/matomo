@@ -1,10 +1,15 @@
+// The row fill matches the ribbon that leaves it, so a row and its band read as one shape. Neither
+// pair has a semantic theme token yet, so the dark values are spelled out.
+//
+// File-scoped rather than block-scoped, because .transitionsRow--outgoing is a modifier on the same
+// element and so has to be its own top-level rule, which Less block scope would not reach. Named
+// after the block to stay unique: root-level Less variables are shared across every plugin.
+@_transitionsRowIncoming: #EAF1F8;
+@_transitionsRowIncomingDark: #1E2A3A;
+@_transitionsRowOutgoing: #E1FBFB;
+@_transitionsRowOutgoingDark: #15302E;
+
 .transitionsRow {
-  // The row fill matches the ribbon that leaves it, so a row and its band read as one shape.
-  // Neither pair has a semantic theme token, so the dark values are spelled out.
-  @_incoming: #EAF1F8;
-  @_incomingDark: #1E2A3A;
-  @_outgoing: #E1FBFB;
-  @_outgoingDark: #15302E;
   // Accents for the icon tiles, one per side.
   @_incomingAccent: #6E5AE8;
   @_incomingAccentDark: #8B7BEE;
@@ -16,7 +21,7 @@
   gap: 10px;
   padding: 10px 12px;
   border-radius: 12px;
-  background: @_incoming;
+  background: @_transitionsRowIncoming;
   color: @theme-color-text;
   font-size: 12px;
   line-height: 16px;
@@ -24,7 +29,7 @@
   transition: box-shadow .15s ease;
 
   .inDarkMode({
-    background: @_incomingDark;
+    background: @_transitionsRowIncomingDark;
   });
 
   .transitionsRow__icon {
@@ -110,10 +115,10 @@
 }
 
 .transitionsRow--outgoing {
-  background: #E1FBFB;
+  background: @_transitionsRowOutgoing;
 
   .inDarkMode({
-    background: #15302E;
+    background: @_transitionsRowOutgoingDark;
   });
 }
 

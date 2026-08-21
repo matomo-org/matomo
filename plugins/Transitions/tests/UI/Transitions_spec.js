@@ -19,6 +19,30 @@ describe("Transitions", function () {
         await page.waitForFunction((mode) => window.piwik.getThemeMode() === mode, {}, themeMode);
     }
 
+    /**
+     * The row highlight and the ribbon emphasis both animate over .15s, so a capture taken right
+     * after a hover can land mid-transition. The end state is what these tests assert on.
+     */
+    async function freezeTransitions()
+    {
+        await page.evaluate(() => {
+            const style = document.createElement('style');
+            style.textContent
+                = '.transitionsRow, .transitionsRibbons__band { transition: none !important; }';
+            document.head.appendChild(style);
+        });
+    }
+
+    /** The ribbon layer measures the rows in an animation frame after they render. */
+    async function waitForRibbons()
+    {
+        await page.waitForFunction(() => {
+            const rows = document.querySelectorAll('[data-ribbon-key]').length;
+            const bands = document.querySelectorAll('.transitionsRibbons__band').length;
+            return rows > 0 && rows === bands;
+        });
+    }
+
     async function selectValue(field, title)
     {
         await page.webpage.evaluate((field) => {
@@ -39,6 +63,8 @@ describe("Transitions", function () {
 
         await page.waitForNetworkIdle();
         await page.waitForSelector('.ui-dialog', { visible: true });
+        await page.waitForSelector('.ui-dialog .transitionsCenterCard', { visible: true });
+        await waitForRibbons();
 
         expect(await page.screenshotSelector('.ui-dialog')).to.matchImage('transitions_popup_titles');
     });
@@ -50,7 +76,10 @@ describe("Transitions", function () {
         await page.waitForNetworkIdle();
 
         await page.waitForSelector('.transitionsCenterCard', { visible: true });
+        await waitForRibbons();
+        await freezeTransitions();
         await (await page.$('.transitionsColumn--outgoing .transitionsRow')).hover();
+        await page.waitForSelector('.transitionsRow--highlighted');
 
         expect(await page.screenshotSelector('.ui-dialog')).to.matchImage('transitions_popup_urls');
     });
@@ -88,8 +117,25 @@ describe("Transitions", function () {
         await page.evaluate(
             () => $('.transitionsRow--summary:contains(From search engines)').click()
         );
-        await page.waitForTimeout(250);
+        await page.waitForFunction(() => Array.prototype.some.call(
+            document.querySelectorAll('.transitionsSection__title'),
+            (title) => title.textContent.indexOf('From search engines') !== -1,
+        ));
+        await waitForRibbons();
         expect(await page.screenshotSelector('body')).to.matchImage('transitions_report_search_engines');
+    });
+
+    it('should show report in dark mode', async function () {
+        await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=Transitions_Transitions");
+        await page.waitForNetworkIdle();
+        await setThemeMode('dark');
+        try {
+          await page.waitForSelector('.transitionsCenterCard');
+          await waitForRibbons();
+          expect(await page.screenshotSelector('.pageWrap')).to.matchImage('transitions_report_dark_mode');
+        } finally {
+          await setThemeMode('light');
+        }
     });
 
     it('should show period not allowed for disabled periods', async function () {
@@ -105,18 +151,6 @@ describe("Transitions", function () {
         } finally {
           await testEnvironment.overrideConfig('Transitions_1', 'max_period_allowed', 'all');
           await testEnvironment.save();
-        }
-    });
-
-    it('should show report in dark mode', async function () {
-        await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=Transitions_Transitions");
-        await page.waitForNetworkIdle();
-        await setThemeMode('dark');
-        try {
-          await page.waitForSelector('.transitionsCenterCard');
-          expect(await page.screenshotSelector('.pageWrap')).to.matchImage('transitions_report_dark_mode');
-        } finally {
-          await setThemeMode('light');
         }
     });
 

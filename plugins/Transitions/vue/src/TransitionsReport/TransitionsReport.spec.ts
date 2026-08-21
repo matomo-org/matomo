@@ -36,6 +36,7 @@ vi.mock('CoreHome', () => ({
 
 import TransitionsReport from './TransitionsReport.vue';
 import { installFakeTransitionsBackend, FakeTransitionsBackend } from './testFakeTransitionsModel';
+import { stubElementRects } from './testMeasuredLayout';
 
 const REPORT_WITH_DATA = {
   date: '2012-08-09',
@@ -62,14 +63,12 @@ const REPORT_WITH_DATA = {
   },
 };
 
-/** jsdom reports every element as 0x0, so hand the ribbon layer usable rects. */
-const measure = () => ({ top: 0, height: 100, width: 100 });
-
 describe('Transitions/TransitionsReport', () => {
   let backend: FakeTransitionsBackend;
 
   beforeEach(() => {
     postEvent.mockClear();
+    stubElementRects();
     backend = installFakeTransitionsBackend(structuredClone(REPORT_WITH_DATA));
     // Run the ribbon layer's scheduled measurement synchronously, so a rendered frame is enough.
     vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => {
@@ -79,6 +78,7 @@ describe('Transitions/TransitionsReport', () => {
   });
 
   afterEach(() => {
+    vi.restoreAllMocks();
     vi.unstubAllGlobals();
   });
 
@@ -87,7 +87,6 @@ describe('Transitions/TransitionsReport', () => {
       props: {
         actionType: 'url',
         actionName: 'http://example.org/page',
-        measure,
         ...props,
       },
       global: {
@@ -207,6 +206,22 @@ describe('Transitions/TransitionsReport', () => {
       .toBe('Transitions_LoopsInline:10');
   });
 
+  it('should fill the pageviews tooltip in once the site total arrives', async () => {
+    // The total is fetched once per page load, in parallel with the first report, so on that
+    // report it is still in flight when the data lands. The share is the point of the tooltip, so
+    // it stays empty until then rather than showing a share of nothing.
+    backend.report.totalNbPageviews = false;
+    const wrapper = await mountLoaded();
+
+    expect(wrapper.find('.transitionsCenterCard__pageviews').attributes('title')).toBe('');
+
+    backend.resolveTotalNbPageviews(1000);
+    await flush();
+
+    expect(wrapper.find('.transitionsCenterCard__pageviews').attributes('title'))
+      .toContain('Transitions_ShareOfAllPageviews');
+  });
+
   it('should post Transitions.dataChanged once the data is in', async () => {
     await mountLoaded();
 
@@ -235,8 +250,26 @@ describe('Transitions/TransitionsReport', () => {
         .toContain('Transitions_NoDataForAction');
       expect(wrapper.find('.transitionsReport__errorMessage').text())
         .toBe('Transitions_NoDataForActionDetails');
+    });
+
+    it('should offer the back link in the popover, where a history step closes it', async () => {
+      const wrapper = mountReport({ context: 'popover' });
+      backend.fail('NoDataForAction');
+      await nextTick();
+
       expect(wrapper.find('.transitionsReport__errorBack').text())
         .toBe('Transitions_ErrorBack');
+    });
+
+    it('should leave the back link out of the embedded report', async () => {
+      // On the Transitions page history.back() navigates away from the page rather than closing
+      // anything, so the legacy renderer's inline error had no back link either.
+      const wrapper = mountReport();
+      backend.fail('NoDataForAction');
+      await nextTick();
+
+      expect(wrapper.find('.transitionsReport__error').exists()).toBe(true);
+      expect(wrapper.find('.transitionsReport__errorBack').exists()).toBe(false);
     });
   });
 
@@ -266,6 +299,7 @@ describe('Transitions/TransitionsReport', () => {
       expect(wrapper.find('.transitionsReport__error').exists()).toBe(false);
       expect(wrapper.find('.transitionsReport__grid').exists()).toBe(true);
     });
+
   });
 
   it('should still translate a known error that arrives with a stack trace appended', async () => {
@@ -286,5 +320,20 @@ describe('Transitions/TransitionsReport', () => {
 
     expect(wrapper.find('.transitionsReport__errorTitle').text()).toBe('Something went wrong');
     expect(wrapper.find('.transitionsReport__errorMessage').exists()).toBe(false);
+  });
+
+  it('should keep the report when a request other than its own fails', async () => {
+    const wrapper = mountReport();
+    backend.respond();
+    await flush();
+    expect(wrapper.find('.transitionsReport__grid').exists()).toBe(true);
+
+    // The site's total pageviews travel over the same ajax instance, so its failure reaches the
+    // report's error callback too. It must not replace a report that loaded fine.
+    backend.failOtherRequest('Whatever', 'Actions.get');
+    await flush();
+
+    expect(wrapper.find('.transitionsReport__error').exists()).toBe(false);
+    expect(wrapper.find('.transitionsReport__grid').exists()).toBe(true);
   });
 });

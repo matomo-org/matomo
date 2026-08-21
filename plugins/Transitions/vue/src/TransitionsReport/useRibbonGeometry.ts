@@ -21,8 +21,8 @@ export interface MeasuredRect {
   width: number;
 }
 
-/** Injected so specs can supply rects; jsdom reports every element as 0x0. */
-export type MeasureRect = (element: Element) => MeasuredRect;
+/** How an element is measured. Specs stub getBoundingClientRect, which jsdom reports as 0x0. */
+type MeasureRect = (element: Element) => MeasuredRect;
 
 /**
  * The band stops short of the card by this much at each end, so the card reads as taller than the
@@ -57,7 +57,7 @@ function escapeKey(key: string): string {
     : key.replace(/["\\]/g, '\\$&');
 }
 
-export const measureBoundingRect: MeasureRect = (element) => {
+const measureBoundingRect: MeasureRect = (element) => {
   const rect = element.getBoundingClientRect();
   return { top: rect.top, height: rect.height, width: rect.width };
 };
@@ -84,7 +84,6 @@ export interface UseRibbonGeometryOptions {
   /** The center card the ribbons converge on. */
   center: ElementSource;
   rows: Ref<RibbonSource[]>;
-  measure?: MeasureRect;
 }
 
 /**
@@ -94,7 +93,7 @@ export interface UseRibbonGeometryOptions {
  * single animation frame. The observer and any pending frame are released on unmount.
  */
 export function useRibbonGeometry(options: UseRibbonGeometryOptions) {
-  const measure = options.measure ?? measureBoundingRect;
+  const measure = measureBoundingRect;
   const paths = ref<RibbonPath[]>([]);
   const size = ref({ width: 0, height: 0 });
 

@@ -14,6 +14,7 @@
       <p class="transitionsReport__errorMessage" v-if="error.message">{{ error.message }}</p>
       <a
         class="transitionsReport__errorBack"
+        v-if="context === 'popover'"
         href="#"
         @click.prevent="goBack"
       >{{ error.backLabel }}</a>
@@ -39,7 +40,6 @@
           :column="() => $refs.incomingColumn"
           :center="centerCardElement"
           :highlighted-keys="highlightedKeys"
-          :measure="measure"
         />
       </div>
 
@@ -61,7 +61,6 @@
           :column="() => $refs.outgoingColumn"
           :center="centerCardElement"
           :highlighted-keys="highlightedKeys"
-          :measure="measure"
         />
       </div>
 
@@ -92,7 +91,7 @@ import TransitionsCenterCard from './TransitionsCenterCard.vue';
 import TransitionsColumn from './TransitionsColumn.vue';
 import TransitionsRibbons from './TransitionsRibbons.vue';
 import { useTransitionsData } from './useTransitionsData';
-import { MeasureRect, RibbonSource } from './useRibbonGeometry';
+import { RibbonSource } from './useRibbonGeometry';
 import {
   TransitionsContext,
   TransitionsGroupData,
@@ -126,11 +125,6 @@ export default defineComponent({
     context: {
       type: String as PropType<TransitionsContext>,
       default: 'embedded',
-    },
-    /** Injected by specs; jsdom reports every element as 0x0. */
-    measure: {
-      type: Function as PropType<MeasureRect>,
-      default: undefined,
     },
   },
   components: {
@@ -306,6 +300,11 @@ export default defineComponent({
 
       Matomo.postEvent('Transitions.switchTransitionsUrl', { url });
     },
+    /**
+     * Offered in the popover only, where a history step closes the popover and lands back on the
+     * report behind it. On the Transitions page the same step would navigate away from the page
+     * altogether, which is why the legacy renderer left the link out of its inline error too.
+     */
     goBack() {
       window.history.back();
     },

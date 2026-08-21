@@ -26,8 +26,22 @@ export interface FakeTransitionsBackend {
   respond(): void;
   /** Resolves the newest pending load, leaving older ones outstanding. */
   respondNewest(): void;
-  /** Fails the pending load with an API exception name. */
-  fail(errorName: string): void;
+  /**
+   * Fails the pending load with an API exception name. `method` mirrors the API method the real
+   * ajax layer reports, so a spec can fail the report request or the parallel total-pageviews one.
+   */
+  fail(errorName: string, method?: string): void;
+  /**
+   * Invokes the error callback for a request other than the report's own, the way a failure of the
+   * parallel total-pageviews request does. Independent of the load queue, since that request is
+   * fired inside loadData and fails on its own schedule.
+   */
+  failOtherRequest(errorName: string, method: string): void;
+  /**
+   * Lands the fire-once total-pageviews request that `totalNbPageviews: false` leaves in flight,
+   * so a spec can see what the report looks like before and after it arrives.
+   */
+  resolveTotalNbPageviews(nbPageviews: number): void;
   /** How many loads have been started. */
   loadCount(): number;
   /** Report to serve; may be swapped between loads. */
@@ -47,7 +61,10 @@ const ALL_GROUPS = [
  */
 export function installFakeTransitionsBackend(report: FakeReport = {}): FakeTransitionsBackend {
   let loads = 0;
-  const queue: { resolve: () => void; fail: (name: string) => void }[] = [];
+  const queue: { resolve: () => void; fail: (name: string, method: string) => void }[] = [];
+  let liveAjax: { errorCallback: ((name: string, params: Record<string, unknown>) => void)|null }
+    |null = null;
+  const totalWaiters: ((nbPageviews: number) => void)[] = [];
 
   const backend: FakeTransitionsBackend = {
     report,
@@ -65,19 +82,27 @@ export function installFakeTransitionsBackend(report: FakeReport = {}): FakeTran
         next.resolve();
       }
     },
-    fail(errorName: string) {
+    fail(errorName: string, method = 'Transitions.getTransitionsForAction') {
       const next = queue.shift();
       if (next) {
-        next.fail(errorName);
+        next.fail(errorName, method);
       }
+    },
+    failOtherRequest(errorName: string, method: string) {
+      liveAjax?.errorCallback?.(errorName, { method });
+    },
+    resolveTotalNbPageviews(nbPageviews: number) {
+      backend.report.totalNbPageviews = nbPageviews;
+      totalWaiters.splice(0).forEach((waiter) => waiter(nbPageviews));
     },
   };
 
   class FakeAjax {
-    errorCallback: ((errorName: string) => void)|null = null;
+    errorCallback: ((errorName: string, params: Record<string, unknown>) => void)|null = null;
 
-    setErrorCallback(callback: (errorName: string) => void) {
+    setErrorCallback(callback: (errorName: string, params: Record<string, unknown>) => void) {
       this.errorCallback = callback;
+      liveAjax = this;
     }
   }
 
@@ -127,8 +152,18 @@ export function installFakeTransitionsBackend(report: FakeReport = {}): FakeTran
           this.apply();
           callback();
         },
-        fail: (name: string) => this.ajax.errorCallback?.(name),
+        fail: (name: string, method: string) => this.ajax.errorCallback?.(name, { method }),
       });
+    }
+
+    whenTotalNbPageviewsLoaded(callback: (nbPageviews: number) => void) {
+      const total = this.getTotalNbPageviews();
+      if (total) {
+        callback(total);
+        return;
+      }
+
+      totalWaiters.push(callback);
     }
 
     getTotalNbPageviews() {

@@ -111,7 +111,8 @@ describe('Transitions/popover mount point', () => {
     const entry = wrapperElement().querySelector('[vue-entry]') as HTMLElement;
     expect(entry.getAttribute('vue-entry')).toBe('Transitions.TransitionsReport');
     expect(entry.getAttribute('action-type')).toBe('url');
-    expect(entry.getAttribute('action-name')).toBe('http://example.org/page');
+    // JSON-encoded, so the parse compileVueEntryComponents runs on it is a round trip.
+    expect(JSON.parse(entry.getAttribute('action-name')!)).toBe('http://example.org/page');
     expect(entry.getAttribute('context')).toBe('popover');
     expect(JSON.parse(entry.getAttribute('override-params')!)).toEqual({
       segment: 'actions>=1',
@@ -119,6 +120,17 @@ describe('Transitions/popover mount point', () => {
       period: 'year',
       idSite: '2',
     });
+  });
+
+  it('should not let a JSON-shaped action name be coerced by the vue-entry parser', () => {
+    const rowAction = new DataTable_RowActions_Transitions({ param: {} });
+    rowAction.openPopover = vi.fn();
+    // A page title can be anything, including something that parses as a JSON number. '2024.10'
+    // would arrive as 2024.1, i.e. a different action than the one that was clicked.
+    rowAction.openTransitionsPopover('title', '2024.10', {});
+
+    const entry = wrapperElement().querySelector('[vue-entry]') as HTMLElement;
+    expect(JSON.parse(entry.getAttribute('action-name')!)).toBe('2024.10');
   });
 
   it('should keep the export control in the popover', () => {
@@ -134,7 +146,8 @@ describe('Transitions/popover mount point', () => {
     rowAction.openTransitionsPopover('url', 'http://example.org/<script>x()</script>', {});
 
     const entry = wrapperElement().querySelector('[vue-entry]') as HTMLElement;
-    expect(entry.getAttribute('action-name')).toBe('http://example.org/<script>x()</script>');
+    expect(JSON.parse(entry.getAttribute('action-name')!))
+      .toBe('http://example.org/<script>x()</script>');
     expect(wrapperElement().querySelector('script')).toBeNull();
   });
 

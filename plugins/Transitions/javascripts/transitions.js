@@ -150,7 +150,10 @@ DataTable_RowActions_Transitions.prototype.openTransitionsPopover = function (ac
     var entry = document.createElement('div');
     entry.setAttribute('vue-entry', 'Transitions.TransitionsReport');
     entry.setAttribute('action-type', actionType);
-    entry.setAttribute('action-name', actionName);
+    // compileVueEntryComponents JSON.parses every vue-entry attribute value, so a page title that
+    // happens to be valid JSON ('2024.10', '"quoted"', 'null') would reach the component coerced,
+    // and the report would be fetched for the wrong action. Encoding makes the parse a round trip.
+    entry.setAttribute('action-name', JSON.stringify(actionName));
     entry.setAttribute('override-params', JSON.stringify(overrideParams || {}));
     entry.setAttribute('context', 'popover');
     wrapper.appendChild(entry);
@@ -1584,6 +1587,7 @@ Piwik_Transitions_Model.prototype.loadData = function (actionType, actionName, o
                 Piwik_Transitions_Model.totalNbPageviews = false;
                 self.ajax.loadTotalNbPageviews(function (nbPageviews) {
                     Piwik_Transitions_Model.totalNbPageviews = nbPageviews;
+                    self.notifyTotalNbPageviewsLoaded(nbPageviews);
                 });
             }
 
@@ -1598,6 +1602,35 @@ Piwik_Transitions_Model.prototype.loadAndSumReport = function (apiData, reportNa
     this[sumVarName] = 0;
     for (var i = 0; i < data.length; i++) {
         this[sumVarName] += data[i].referrals;
+    }
+};
+
+Piwik_Transitions_Model.totalNbPageviewsCallbacks = [];
+
+/**
+ * Calls back with the site's total number of pageviews: at once when the request behind
+ * getTotalNbPageviews() has already landed, otherwise once it does. That request is fired once per
+ * page load, in parallel with the first report, so on that first report it is still in flight when
+ * loadData()'s own callback runs -- a renderer showing the share of all pageviews needs to know
+ * when it arrives rather than reading false and stopping there.
+ */
+Piwik_Transitions_Model.prototype.whenTotalNbPageviewsLoaded = function (callback) {
+    var total = this.getTotalNbPageviews();
+    if (total) {
+        callback(total);
+        return;
+    }
+
+    Piwik_Transitions_Model.totalNbPageviewsCallbacks.push(callback);
+};
+
+/** Drains the callbacks waiting on the fire-once total. */
+Piwik_Transitions_Model.prototype.notifyTotalNbPageviewsLoaded = function (nbPageviews) {
+    var waiting = Piwik_Transitions_Model.totalNbPageviewsCallbacks;
+    Piwik_Transitions_Model.totalNbPageviewsCallbacks = [];
+
+    for (var i = 0; i < waiting.length; i++) {
+        waiting[i](nbPageviews);
     }
 };
 

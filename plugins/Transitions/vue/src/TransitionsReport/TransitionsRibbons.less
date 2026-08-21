@@ -58,10 +58,14 @@
   }
 }
 
-// override: the bootstrap reset in Morpheus sets `svg:not(:root) { overflow: hidden }`, whose
-// specificity beats a plain class. The band reaches back under the row it leaves, so it has to be
-// allowed outside the layer's box or that reach is clipped and the row's rounded corner shows
-// through as a notch. Matching the reset's specificity is enough; this rule loads after it.
+// override: two stylesheets in the bundle reset `svg:not(:root) { overflow: hidden }` -- Morpheus'
+// bootstrap.css, and the normalize.css v7 that @materializecss/materialize ships inside its own
+// minified build. The bands reach back under the rows they leave, so the layer has to paint outside
+// its box or that reach is clipped and each row's rounded corner shows through as a notch.
+//
+// It has to be qualified: `:not(:root)` contributes (0,1,1), which a plain class cannot beat, and
+// the Materialize copy is inside node_modules so it cannot be excluded at the source the way an
+// editable in-tree rule could. Matching the specificity and loading later is the narrowest fix.
 svg.transitionsRibbons {
   overflow: visible;
 }
