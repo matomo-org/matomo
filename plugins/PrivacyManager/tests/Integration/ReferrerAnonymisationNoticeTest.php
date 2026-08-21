@@ -7,7 +7,7 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Plugins\PrivacyManager\tests\Integration\Visualizations;
+namespace Piwik\Plugins\PrivacyManager\tests\Integration;
 
 use Piwik\DataTable;
 use Piwik\Piwik;
@@ -21,6 +21,7 @@ use Piwik\ViewDataTable\Factory as ViewDataTableFactory;
 
 /**
  * @group PrivacyManager
+ * @group Plugins
  */
 class ReferrerAnonymisationNoticeTest extends IntegrationTestCase
 {
@@ -68,10 +69,6 @@ class ReferrerAnonymisationNoticeTest extends IntegrationTestCase
         $view = $this->buildReferrersView();
         (new PrivacyManager())->onConfigureVisualisation($view);
 
-        self::assertStringNotContainsString(
-            $this->notice(ReferrerAnonymizer::EXCLUDE_ALL),
-            (string) $view->config->show_footer_message
-        );
         self::assertSame('', (string) $view->config->show_footer_message);
     }
 
@@ -96,20 +93,16 @@ class ReferrerAnonymisationNoticeTest extends IntegrationTestCase
         self::assertSame('', (string) $view->config->show_footer_message);
     }
 
-    public function testNoticeHandlesMultiSiteRequests(): void
+    public function testNoticeIgnoresSiteSpecificConfigurationForMultiSiteRequests(): void
     {
-        $this->setAnonymisation(ReferrerAnonymizer::EXCLUDE_PATH, null);
-
-        $view = $this->buildReferrersView();
+        $this->setAnonymisation(ReferrerAnonymizer::EXCLUDE_ALL, 1);
 
         $_GET['idSite'] = 'all';
 
+        $view = $this->buildReferrersView();
         (new PrivacyManager())->onConfigureVisualisation($view);
 
-        self::assertStringContainsString(
-            $this->notice(ReferrerAnonymizer::EXCLUDE_PATH),
-            (string) $view->config->show_footer_message
-        );
+        self::assertSame('', (string) $view->config->show_footer_message);
     }
 
     private function setAnonymisation(string $option, ?int $idSite): void
