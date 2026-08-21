@@ -77,6 +77,7 @@ describe('Transitions/TransitionsReport', () => {
       'Transitions_FromPreviousPages',
       'Transitions_OtherSources',
       'Transitions_ToFollowingPages',
+      'Transitions_OtherDestinations',
     ]);
   });
 
@@ -98,6 +99,22 @@ describe('Transitions/TransitionsReport', () => {
 
     const titles = wrapper.findAll('.transitionsSection__title').map((node) => node.text());
     expect(titles).toEqual(['Transitions_IncomingTraffic', 'Transitions_ToFollowingPages']);
+  });
+
+  it('should not call the outgoing block "other" when no group is open', async () => {
+    // Every visit left this page, so nothing opens on the outgoing side and its single block
+    // holds all of the outgoing traffic.
+    backend.report = {
+      pageviews: 100,
+      exits: 40,
+      groups: {
+        previousPages: { total: 60, details: [{ url: 'http://example.org/a', referrals: 60 }] },
+      },
+    };
+    const wrapper = await mountLoaded();
+
+    const titles = wrapper.findAll('.transitionsSection__title').map((node) => node.text());
+    expect(titles).toEqual(['Transitions_FromPreviousPages', 'Transitions_OutgoingTraffic']);
   });
 
   it('should list the detail rows of the open group', async () => {

@@ -234,10 +234,9 @@ export default defineComponent({
     },
     /**
      * A column holds at most two blocks: the open group, listed row by row under its own title,
-     * and everything else on that side, one summary row per group. The incoming catch-all is
-     * titled "Other sources" while a group is open, and plain "Incoming traffic" when none is --
-     * on an entry page there is nothing for it to be other than. The outgoing catch-all needs no
-     * title at all, its rows name themselves.
+     * and everything else on that side, one summary row per group. A catch-all is titled "Other
+     * sources"/"Other destinations" while a group is open, and plain "Incoming traffic"/"Outgoing
+     * traffic" when none is -- on an entry or exit page there is nothing for it to be other than.
      */
     sectionsFor(side: TransitionsSide): TransitionsSectionData[] {
       const groups = this.groupsFor(side);
@@ -252,7 +251,6 @@ export default defineComponent({
           key: openGroup.name,
           side,
           title: openGroup.title,
-          showHeading: true,
           badge: openGroup.countLabel,
           rows: openGroup.rows,
         });
@@ -262,15 +260,21 @@ export default defineComponent({
       if (rest.length) {
         const total = rest.reduce((sum, group) => sum + group.nbTransitions, 0);
 
+        // The block is only "other" while something else is open; with nothing open it holds all
+        // of that side's traffic and says so.
+        const otherKey = side === 'incoming'
+          ? 'Transitions_OtherSources'
+          : 'Transitions_OtherDestinations';
+        const allKey = side === 'incoming'
+          ? 'Transitions_IncomingTraffic'
+          : 'Transitions_OutgoingTraffic';
+
         sections.push({
           key: `${side}-other`,
           side,
-          title: side === 'incoming'
-            ? translate(openGroup ? 'Transitions_OtherSources' : 'Transitions_IncomingTraffic')
-            : '',
-          showHeading: side === 'incoming',
-          // Only the incoming block shows a heading, so only it needs a badge -- and on the
-          // outgoing side this would phrase summed downloads and outlinks as pageviews anyway.
+          title: translate(openGroup ? otherKey : allKey),
+          // Only the incoming block gets a badge: on the outgoing side this would phrase summed
+          // downloads and outlinks as pageviews.
           badge: side === 'incoming'
             ? translate('Transitions_NumPageviews', NumberFormatter.formatNumber(total))
             : '',

@@ -75,6 +75,7 @@ class Transitions extends \Piwik\Plugin
         $translationKeys[] = 'Transitions_IncomingTraffic';
         $translationKeys[] = 'Transitions_OutgoingTraffic';
         $translationKeys[] = 'Transitions_OtherSources';
+        $translationKeys[] = 'Transitions_OtherDestinations';
         $translationKeys[] = 'Transitions_FromPreviousPages';
         $translationKeys[] = 'Transitions_FromPreviousSiteSearches';
         $translationKeys[] = 'Transitions_FromSearchEngines';

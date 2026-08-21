@@ -7,9 +7,9 @@
 
 <template>
   <div class="transitionsSection">
-    <div class="transitionsSection__header" v-if="section.showHeading">
+    <div class="transitionsSection__header">
       <span class="transitionsSection__title" :title="section.title">{{ section.title }}</span>
-      <span class="transitionsSection__badge">{{ section.badge }}</span>
+      <span class="transitionsSection__badge" v-if="section.badge">{{ section.badge }}</span>
     </div>
 
     <div class="transitionsSection__rowList">

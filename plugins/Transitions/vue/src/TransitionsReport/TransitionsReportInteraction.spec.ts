@@ -71,8 +71,7 @@ describe('Transitions/TransitionsReport interaction', () => {
   /** Finds a section by its (untranslated) heading text. */
   function sectionByTitle(wrapper: VueWrapper, title: string) {
     return wrapper.findAll('.transitionsSection').find(
-      (section) => section.find('.transitionsSection__title').exists()
-        && section.find('.transitionsSection__title').text() === title,
+      (section) => section.find('.transitionsSection__title').text() === title,
     );
   }
 

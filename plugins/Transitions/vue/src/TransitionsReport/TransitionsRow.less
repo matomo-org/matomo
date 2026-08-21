@@ -1,15 +1,24 @@
-// The pale tone of each side's ribbon palette, used as the row fill. The band leaving a row is
-// drawn in the deeper stop of that same palette (see TransitionsRibbons.less), so these are the
-// family's light end rather than a value the band has to match where it meets the row. Neither
-// pair has a semantic theme token yet, so the dark values are spelled out.
+// Two tones per side. The pale tone -- the ribbon palette's light end -- fills the rows of the
+// group that is open. The deep tone fills a group that is closed, and deliberately sits one step
+// beyond the deep stop the band itself is drawn in (see TransitionsRibbons.less), so that a closed
+// row reads as distinct from the band leaving it rather than merging into it.
+//
+// PROVENANCE: the design specifies the pale tone and the band's own deeper stop, in light mode
+// only. The four *Deep values below are extrapolated from each side's progression and are pending
+// design review on DEV-20402; every dark value here is extrapolated as well. Nothing in this file
+// has a semantic theme token yet, which is why the dark values are spelled out at all.
 //
 // File-scoped rather than block-scoped, because .transitionsRow--outgoing is a modifier on the same
 // element and so has to be its own top-level rule, which Less block scope would not reach. Named
 // after the block to stay unique: root-level Less variables are shared across every plugin.
 @_transitionsRowIncoming: #EAF1F8;
 @_transitionsRowIncomingDark: #1E2A3A;
+@_transitionsRowIncomingDeep: #C7DBF0;
+@_transitionsRowIncomingDeepDark: #2E4460;
 @_transitionsRowOutgoing: #E1FBFB;
 @_transitionsRowOutgoingDark: #15302E;
+@_transitionsRowOutgoingDeep: #B4EBEB;
+@_transitionsRowOutgoingDeepDark: #255450;
 
 .transitionsRow {
   // Accents for the icon tiles, one per side.
@@ -18,12 +27,19 @@
   @_outgoingAccent: #3FA88C;
   @_outgoingAccentDark: #4FBF9F;
 
+  // Each side publishes both of its tones, so a flat modifier can pick between them instead of
+  // being chained onto the side's own, which the two-class rule forbids. Only .transitionsRow and
+  // .transitionsRow--summary declare `background`, both at a single class, so source order decides
+  // between them -- and no .inDarkMode() rule, which lands at three classes, can outrank either.
+  --transitions-row-pale: @_transitionsRowIncoming;
+  --transitions-row-deep: @_transitionsRowIncomingDeep;
+
   display: flex;
   align-items: safe center;
   gap: 10px;
   padding: 10px 12px;
   border-radius: 12px;
-  background: @_transitionsRowIncoming;
+  background: var(--transitions-row-pale);
   color: @theme-color-text;
   font-size: 12px;
   line-height: 16px;
@@ -31,7 +47,8 @@
   transition: box-shadow .15s ease;
 
   .inDarkMode({
-    background: @_transitionsRowIncomingDark;
+    --transitions-row-pale: @_transitionsRowIncomingDark;
+    --transitions-row-deep: @_transitionsRowIncomingDeepDark;
   });
 
   .transitionsRow__icon {
@@ -87,11 +104,13 @@
     line-height: 14px;
   }
 
+  // Right-aligned, so a closed row's share sits flush with the count above it rather than centred
+  // against it. An open row's pill is an only child, so this is invisible there.
   .transitionsRow__figures {
     display: flex;
     flex: none;
     flex-direction: column;
-    align-items: safe center;
+    align-items: flex-end;
     gap: 2px;
   }
 
@@ -112,11 +131,22 @@
 }
 
 .transitionsRow--outgoing {
-  background: @_transitionsRowOutgoing;
+  --transitions-row-pale: @_transitionsRowOutgoing;
+  --transitions-row-deep: @_transitionsRowOutgoingDeep;
 
+  // Load-bearing: .inDarkMode() expands to `[data-theme-mode="dark"]:root &`, so without a dark
+  // block of its own this rule's single class would lose to the incoming dark values above.
   .inDarkMode({
-    background: @_transitionsRowOutgoingDark;
+    --transitions-row-pale: @_transitionsRowOutgoingDark;
+    --transitions-row-deep: @_transitionsRowOutgoingDeepDark;
   });
+}
+
+// A group that is not the open one reads as closed by tone alone: the deep tone of its side, where
+// the open group's rows take the pale one. Everything else about the row is the same, so the two
+// blocks stay directly comparable.
+.transitionsRow--summary {
+  background: var(--transitions-row-deep);
 }
 
 .transitionsRow--actionable {

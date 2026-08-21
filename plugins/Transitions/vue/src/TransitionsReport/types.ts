@@ -69,9 +69,10 @@ export interface TransitionsSectionData {
   key: string;
   side: TransitionsSide;
   title: string;
-  /** The outgoing side's catch-all block carries no heading. */
-  showHeading: boolean;
-  /** Total across the block, phrased in the block's own metric unit, shown in the heading badge. */
+  /**
+   * Total across the block, phrased in the block's own metric unit, shown in the heading badge.
+   * Empty for the outgoing catch-all, whose groups do not share a unit to total.
+   */
   badge: string;
   rows: TransitionsRowData[];
 }
