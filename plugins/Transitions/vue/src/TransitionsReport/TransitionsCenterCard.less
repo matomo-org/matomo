@@ -1,0 +1,162 @@
+.transitionsCenterCard {
+  // Accent for the card's action tile, and the two side colours used by the metric dots. None of
+  // these has a semantic theme token, so the dark values are spelled out.
+  @_accent: #6E5AE8;
+  @_accentDark: #7C6BEB;
+  @_incoming: #6E8CD6;
+  @_incomingDark: #4C6EB8;
+  @_outgoing: #4FBF9F;
+  @_outgoingDark: #3E9C82;
+
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 22px 20px;
+  border: 1px solid @theme-color-border-alternative;
+  border-radius: 12px;
+  background: @theme-color-background-contrast;
+  box-shadow: @theme-shadow-overlay;
+
+  .transitionsCenterCard__header {
+    display: flex;
+    flex-direction: column;
+    align-items: safe center;
+    gap: 10px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid @theme-color-border-alternative;
+    text-align: center;
+  }
+
+  .transitionsCenterCard__icon {
+    display: flex;
+    align-items: safe center;
+    justify-content: safe center;
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    background: @_accent;
+
+    .inDarkMode({
+      background: @_accentDark;
+    });
+  }
+
+  .transitionsCenterCard__glyph {
+    color: #fff;
+    font-size: 20px;
+    line-height: 1;
+  }
+
+  .transitionsCenterCard__title {
+    display: block;
+    max-width: 100%;
+    color: @theme-color-text;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 19px;
+    overflow-wrap: anywhere;
+  }
+
+  .transitionsCenterCard__pageviews {
+    display: block;
+    color: @theme-color-text-light;
+    font-size: 12px;
+    line-height: 16px;
+    cursor: default;
+  }
+
+  .transitionsCenterCard__metricGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .transitionsCenterCard__metricGroup--divided {
+    padding-top: 18px;
+    border-top: 1px solid @theme-color-border-alternative;
+  }
+
+  .transitionsCenterCard__metricHeading {
+    color: @theme-color-text;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 19px;
+  }
+
+  .transitionsCenterCard__metricTotal {
+    margin-bottom: 8px;
+    color: @theme-color-text;
+    font-size: 22px;
+    font-weight: bold;
+    line-height: 28px;
+  }
+
+  .transitionsCenterCard__metricList {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .transitionsCenterCard__metric {
+    display: flex;
+    align-items: safe center;
+    gap: 8px;
+    padding: 2px 4px;
+    border-radius: 8px;
+    color: @theme-color-text;
+    font-size: 12px;
+    line-height: 16px;
+  }
+
+  .transitionsCenterCard__metric--actionable {
+    cursor: pointer;
+  }
+
+  .transitionsCenterCard__metric--highlighted {
+    background: @theme-color-background-base;
+  }
+
+  .transitionsCenterCard__dot {
+    flex: none;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: @theme-color-text-light;
+  }
+
+  .transitionsCenterCard__dot--incoming {
+    background: @_incoming;
+
+    .inDarkMode({
+      background: @_incomingDark;
+    });
+  }
+
+  .transitionsCenterCard__dot--outgoing {
+    background: @_outgoing;
+
+    .inDarkMode({
+      background: @_outgoingDark;
+    });
+  }
+
+  .transitionsCenterCard__metricLabel {
+    flex: auto;
+    min-width: 0;
+  }
+
+  .transitionsCenterCard__metricValue {
+    font-weight: bold;
+  }
+
+  .transitionsCenterCard__loops {
+    margin: 0;
+    padding-top: 16px;
+    border-top: 1px solid @theme-color-border-alternative;
+    color: @theme-color-text-light;
+    font-size: 12px;
+    line-height: 16px;
+    text-align: center;
+    cursor: default;
+  }
+}

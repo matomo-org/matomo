@@ -1,0 +1,135 @@
+.transitionsRow {
+  // The row fill matches the ribbon that leaves it, so a row and its band read as one shape.
+  // Neither pair has a semantic theme token, so the dark values are spelled out.
+  @_incoming: #EAF1F8;
+  @_incomingDark: #1E2A3A;
+  @_outgoing: #E1FBFB;
+  @_outgoingDark: #15302E;
+  // Accents for the icon tiles, one per side.
+  @_incomingAccent: #6E5AE8;
+  @_incomingAccentDark: #8B7BEE;
+  @_outgoingAccent: #3FA88C;
+  @_outgoingAccentDark: #4FBF9F;
+
+  display: flex;
+  align-items: safe center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: @_incoming;
+  color: @theme-color-text;
+  font-size: 12px;
+  line-height: 16px;
+  text-decoration: none;
+  transition: box-shadow .15s ease;
+
+  .inDarkMode({
+    background: @_incomingDark;
+  });
+
+  .transitionsRow__icon {
+    display: flex;
+    flex: none;
+    align-items: safe center;
+    justify-content: safe center;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    background: @theme-color-background-contrast;
+  }
+
+  .transitionsRow__glyph {
+    font-size: 14px;
+    line-height: 1;
+  }
+
+  .transitionsRow__glyph--incoming {
+    color: @_incomingAccent;
+
+    .inDarkMode({
+      color: @_incomingAccentDark;
+    });
+  }
+
+  .transitionsRow__glyph--outgoing {
+    color: @_outgoingAccent;
+
+    .inDarkMode({
+      color: @_outgoingAccentDark;
+    });
+  }
+
+  .transitionsRow__body {
+    display: flex;
+    flex: auto;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .transitionsRow__label {
+    display: block;
+    overflow: hidden;
+    color: @theme-color-text;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .transitionsRow__count {
+    color: @theme-color-text-light;
+    font-size: 11px;
+    line-height: 14px;
+  }
+
+  .transitionsRow__figures {
+    display: flex;
+    flex: none;
+    flex-direction: column;
+    align-items: safe center;
+    gap: 2px;
+  }
+
+  .transitionsRow__total {
+    color: @theme-color-text-light;
+    font-size: 11px;
+    line-height: 14px;
+    white-space: nowrap;
+  }
+
+  .transitionsRow__pill {
+    color: @theme-color-link;
+    font-weight: bold;
+    white-space: nowrap;
+  }
+
+  .transitionsRow__pill--muted {
+    color: @theme-color-text-light;
+    font-weight: normal;
+  }
+
+}
+
+.transitionsRow--outgoing {
+  background: #E1FBFB;
+
+  .inDarkMode({
+    background: #15302E;
+  });
+}
+
+.transitionsRow--actionable {
+  cursor: pointer;
+}
+
+.transitionsRow--actionable:hover {
+  box-shadow: @theme-shadow-overlay;
+}
+
+.transitionsRow--highlighted {
+  box-shadow: @theme-shadow-overlay;
+}
+
+.transitionsRow--others .transitionsRow__label {
+  color: @theme-color-text-light;
+  font-style: italic;
+}

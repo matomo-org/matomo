@@ -82,6 +82,7 @@ declare global {
 
   interface PiwikHelperGlobal {
     escape(text: string): string;
+    addBreakpointsToUrl(url: string): string;
     redirect(params?: any);
     getCurrentQueryStringWithParametersModified(newparams: string);
     htmlDecode(encoded: string): string;
@@ -224,6 +225,56 @@ declare global {
     new (actionType: string, actionName: string, rowAction: unknown|null, overrideParams: string): Transitions;
   }
 
+  /** A detail row of one Transitions group, as returned by Transitions.getTransitionsForAction. */
+  interface TransitionsDetailRow {
+    label?: string;
+    url?: string;
+    referrals: number;
+    percentage: number;
+  }
+
+  /**
+   * The legacy data layer behind the Transitions report. It owns the API calls and the parsing of
+   * the response into per-group totals; the Vue renderer drives it rather than duplicating it.
+   */
+  interface TransitionsModel {
+    [metric: string]: any;
+    date: string;
+    pageviews: number;
+    loops: number;
+    exits: number;
+    directEntries: number;
+    groupTitles: Record<string, string>;
+    loadData(
+      actionType: string,
+      actionName: string,
+      overrideParams: Record<string, string>|null,
+      callback: () => void,
+    ): void;
+    getTotalNbPageviews(): number|false;
+    getGroupTitle(groupName: string): string;
+    getDetailsForGroup(groupName: string): TransitionsDetailRow[];
+    getPercentage(metric: string, formatted?: boolean): number|string;
+  }
+
+  interface TransitionsModelGlobal {
+    new (ajax: TransitionsAjax): TransitionsModel;
+  }
+
+  interface TransitionsAjax {
+    /**
+     * Diverts API errors to a callback instead of rendering them into the legacy popover or the
+     * inline error container, so a caller can display them itself.
+     */
+    setErrorCallback(
+      callback: (errorName: string, params: Record<string, unknown>) => void,
+    ): void;
+  }
+
+  interface TransitionsAjaxGlobal {
+    new (): TransitionsAjax;
+  }
+
   interface SegmentedVisitorLogService {
     show(apiMethod: string, segment: string, extraParams: Record<string|number, unknown>): void;
   }
@@ -272,6 +323,8 @@ declare global {
     Piwik_Popover: PiwikPopoverGlobal;
     ListingFormatter: ListingFormatter;
     Piwik_Transitions: TransitionsGlobal;
+    Piwik_Transitions_Model: TransitionsModelGlobal;
+    Piwik_Transitions_Ajax: TransitionsAjaxGlobal;
     SegmentedVisitorLog: SegmentedVisitorLogService;
     DataTable_RowActions_Registry: DataTableRowActionsRegisteryService;
     Visibility?: VisibilityGlobal;

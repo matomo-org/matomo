@@ -104,12 +104,93 @@ DataTable_RowActions_Transitions.prototype.doOpenPopover = function (link) {
     parts.shift();
     var actionName = parts.join(':');
 
-    if (this.transitions === null) {
-        this.transitions = new Piwik_Transitions(actionType, actionName, this, overrideParams);
-    } else {
-        this.transitions.reset(actionType, actionName, segment);
-    }
-    this.transitions.showPopover();
+    this.openTransitionsPopover(actionType, actionName, overrideParams);
+};
+
+/**
+ * Builds the export control the popover shows below the report. In the embedded report the same
+ * control is rendered by TransitionSwitcher, so it only belongs to the popover here.
+ */
+DataTable_RowActions_Transitions.prototype.buildExportControl = function () {
+    var wrapper = document.createElement('div');
+    wrapper.className = 'dataTableWrapper';
+    wrapper.innerHTML = '<div class="dataTableFeatures">'
+        + '<div class="dataTableFooterNavigation">'
+        + '<div class="dataTableControls">'
+        + '<div class="row" vue-entry="Transitions.TransitionExporterLink"></div>'
+        + '</div></div></div>';
+
+    return wrapper;
+};
+
+/** Re-encodes the override params into a row action link, so they survive a popover reload. */
+DataTable_RowActions_Transitions.prototype.buildPopoverLink = function (actionType, actionName, overrideParams) {
+    var link = '';
+
+    Object.keys(overrideParams || {}).forEach(function (name) {
+        link += encodeURIComponent(name) + ':' + encodeURIComponent(overrideParams[name]) + ':';
+    });
+
+    return link + actionType + ':' + actionName;
+};
+
+/** Opens the row action popover and mounts the Vue renderer into it. */
+DataTable_RowActions_Transitions.prototype.openTransitionsPopover = function (actionType, actionName, overrideParams) {
+    var self = this;
+
+    var container = Piwik_Popover.showLoading('Transitions', actionName, 550);
+    Piwik_Popover.addHelpButton(_pk_externalRawLink('https://matomo.org/docs/transitions'));
+
+    // Piwik_Popover wipes the container's innerHTML *before* it runs its close callback, so the
+    // component cannot be destroyed from there. Mount it inside a wrapper we keep a reference to
+    // and dispatch the destroy on that wrapper ahead of the wipe instead.
+    var wrapper = document.createElement('div');
+    wrapper.className = 'transitionsPopover';
+
+    var entry = document.createElement('div');
+    entry.setAttribute('vue-entry', 'Transitions.TransitionsReport');
+    entry.setAttribute('action-type', actionType);
+    entry.setAttribute('action-name', actionName);
+    entry.setAttribute('override-params', JSON.stringify(overrideParams || {}));
+    entry.setAttribute('context', 'popover');
+    wrapper.appendChild(entry);
+
+    wrapper.appendChild(this.buildExportControl());
+
+    var onReloadPopover = function (params) {
+        if (!params || !params.url) {
+            return;
+        }
+
+        var url = params.url;
+        if (actionType == 'url') {
+            url = url.replace(/^(?!http)/, 'http://');
+        }
+
+        self.openPopover(self.buildPopoverLink(actionType, url, overrideParams));
+    };
+
+    var destroyed = false;
+    var destroyReport = function () {
+        if (destroyed) {
+            return;
+        }
+
+        destroyed = true;
+        window.CoreHome.Matomo.off('Transitions.reloadPopover', onReloadPopover);
+        piwikHelper.destroyVueComponent(wrapper);
+    };
+
+    window.CoreHome.Matomo.on('Transitions.reloadPopover', onReloadPopover);
+
+    // Piwik_Popover.setContent() compiles the vue-entry itself, so do not compile it again here.
+    Piwik_Popover.setContent(wrapper);
+
+    // setContent() runs the close callback before it replaces the content, which covers reloading
+    // the popover; dialogbeforeclose covers the user closing it, and fires before the wipe.
+    Piwik_Popover.onClose(destroyReport);
+    container.off('dialogbeforeclose.transitions')
+        .on('dialogbeforeclose.transitions', destroyReport);
 };
 
 DataTable_RowActions_Registry.register({
@@ -1593,6 +1674,15 @@ Piwik_Transitions_Ajax.prototype.loadTotalNbPageviews = function (callback) {
     });
 };
 
+/**
+ * Route API errors to a callback instead of rendering them into the legacy popover or the inline
+ * #Transitions_Error_Container. The Vue renderer sets this because it displays the error itself;
+ * without a callback the legacy error rendering below is unchanged.
+ */
+Piwik_Transitions_Ajax.prototype.setErrorCallback = function (callback) {
+    this.errorCallback = callback;
+};
+
 Piwik_Transitions_Ajax.prototype.callTransitionsController = function (action, callback) {
     var ajaxRequest = new ajaxHelper();
     ajaxRequest.addParams({
@@ -1619,6 +1709,12 @@ Piwik_Transitions_Ajax.prototype.callApi = function (method, params, callback) {
         function (result) {
             if (typeof result.result != 'undefined' && result.result == 'error') {
                 var errorName = result.message;
+
+                if (typeof self.errorCallback == 'function') {
+                    self.errorCallback(errorName, params);
+                    return;
+                }
+
                 var showError = function () {
                     var errorTitle, errorMessage, errorBack;
                     if (typeof Piwik_Transitions_Translations[errorName] == 'undefined') {

@@ -1,0 +1,72 @@
+.transitionsReport {
+  // Width of the gap tracks the ribbons are drawn into.
+  @_ribbonWidth: 90px;
+
+  position: relative;
+
+  .transitionsReport__grid {
+    display: grid;
+    grid-template-columns: 1fr @_ribbonWidth minmax(240px, 350px) @_ribbonWidth 1fr;
+    align-items: start;
+    gap: 0;
+  }
+
+  .transitionsReport__column {
+    // Above the ribbon layer, so the band's overlap disappears under the rows it leaves.
+    position: relative;
+    z-index: 1;
+    min-width: 0;
+    padding: 24px 0;
+  }
+
+  .transitionsReport__ribbons {
+    align-self: stretch;
+    min-width: 0;
+  }
+
+  .transitionsReport__center {
+    padding: 24px 0;
+  }
+
+  .transitionsReport__error {
+    padding: 24px;
+    text-align: center;
+  }
+
+  .transitionsReport__errorTitle {
+    margin: 0 0 8px;
+    color: @theme-color-text;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 18px;
+  }
+
+  .transitionsReport__errorMessage {
+    margin: 0 0 12px;
+    color: @theme-color-text-light;
+  }
+
+  .transitionsReport__errorBack {
+    color: @theme-color-link;
+  }
+
+  // Below the Materialize medium breakpoint the three tracks cannot hold a readable label, so the
+  // ribbons are dropped and the columns stack under the card.
+  @media (max-width: 992px) {
+    .transitionsReport__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .transitionsReport__ribbons {
+      display: none;
+    }
+
+    .transitionsReport__column {
+      padding: 12px 0;
+    }
+
+    .transitionsReport__center {
+      padding: 12px 0;
+    }
+  }
+}

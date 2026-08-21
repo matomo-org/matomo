@@ -49,12 +49,8 @@ describe("Transitions", function () {
                     + "popover=RowAction$3ATransitions$3Aurl$3Ahttp$3A$2F$2Fpiwik.net$2Fdocs$2Fmanage-websites$2F");
         await page.waitForNetworkIdle();
 
-        await (await page.$('.Transitions_CurveTextRight')).hover();
-        await page.waitForSelector('.ui-tooltip', { visible: true });
-
-        // the tooltip will, in most cases, not be visible in the screenshot
-        // removing and re-adding a clone to the DOM seems to fix that problem
-        await page.evaluate(() => $('.ui-dialog').append($('.ui-tooltip').remove().clone()));
+        await page.waitForSelector('.transitionsCenterCard', { visible: true });
+        await (await page.$('.transitionsColumn--outgoing .transitionsRow')).hover();
 
         expect(await page.screenshotSelector('.ui-dialog')).to.matchImage('transitions_popup_urls');
     });
@@ -89,7 +85,10 @@ describe("Transitions", function () {
     });
 
     it('should show the search engines when clicked', async function () {
-        await page.evaluate(() => $('.Transitions_SingleLine:contains(From search engines)').click());
+        await page.evaluate(
+            () => $('.transitionsRow--summary:contains(From search engines)').click()
+        );
+        await page.waitForTimeout(250);
         expect(await page.screenshotSelector('body')).to.matchImage('transitions_report_search_engines');
     });
 
@@ -106,6 +105,18 @@ describe("Transitions", function () {
         } finally {
           await testEnvironment.overrideConfig('Transitions_1', 'max_period_allowed', 'all');
           await testEnvironment.save();
+        }
+    });
+
+    it('should show report in dark mode', async function () {
+        await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=Transitions_Transitions");
+        await page.waitForNetworkIdle();
+        await setThemeMode('dark');
+        try {
+          await page.waitForSelector('.transitionsCenterCard');
+          expect(await page.screenshotSelector('.pageWrap')).to.matchImage('transitions_report_dark_mode');
+        } finally {
+          await setThemeMode('light');
         }
     });
 
@@ -142,11 +153,11 @@ describe("Transitions", function () {
         await (await page.jQuery('a.actionTransitions:visible')).click();
 
         await page.waitForNetworkIdle();
-        await page.waitForSelector('#Transitions_CenterBox');
+        await page.waitForSelector('.transitionsCenterCard');
 
         await setThemeMode('dark');
-        const centerBoxCount = await page.evaluate(() => $('#Transitions_CenterBox').length);
-        expect(centerBoxCount).to.be.equal(1);
+        const centerCardCount = await page.evaluate(() => $('.transitionsCenterCard').length);
+        expect(centerCardCount).to.be.equal(1);
 
         await setThemeMode('light');
     });
