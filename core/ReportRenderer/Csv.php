@@ -110,6 +110,9 @@ class Csv extends ReportRenderer
      */
     public function renderReport($processedReport)
     {
+        // the CSV renderer builds its header from the column names of the report data
+        self::translatePercentOfTotalColumns($processedReport['reportData'], $processedReport['columns'] ?? []);
+
         $csvRenderer = $this->getRenderer(
             $processedReport['reportData'],
             $processedReport['metadata']['uniqueId']

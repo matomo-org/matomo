@@ -20,8 +20,6 @@
 			<nb_pages_per_search>Visitors will search on your website, and sometimes click &quot;next&quot; to view more results. This is the average number of search results pages viewed for this keyword.</nb_pages_per_search>
 			<exit_rate>The percentage of visits that left the website after searching for this Keyword on your Site Search engine.</exit_rate>
 			<nb_visits_percent_of_total>The percentage of the report's total Searches that this row represents.</nb_visits_percent_of_total>
-			<nb_hits_percent_of_total>The percentage of the report's total Pageviews that this row represents.</nb_hits_percent_of_total>
-			<exit_nb_visits_percent_of_total>The percentage of the report's total Exits that this row represents.</exit_nb_visits_percent_of_total>
 		</metricsDocumentation>
 		<processedMetrics>
 			<exit_rate>% Search Exits</exit_rate>
@@ -34,8 +32,6 @@
 			<exit_rate>percent</exit_rate>
 			<avg_time_generation>duration_s</avg_time_generation>
 			<nb_visits_percent_of_total>percent</nb_visits_percent_of_total>
-			<nb_hits_percent_of_total>percent</nb_hits_percent_of_total>
-			<exit_nb_visits_percent_of_total>percent</exit_nb_visits_percent_of_total>
 		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getSiteSearchKeywords&amp;period=range&amp;date=2010-01-03,2010-01-09</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getSiteSearchKeywords&amp;period=day&amp;date=2010-01-03,2010-01-09</imageGraphEvolutionUrl>
@@ -44,11 +40,9 @@
 	<columns>
 		<label>Keyword</label>
 		<nb_visits>Searches</nb_visits>
+		<nb_visits_percent_of_total>Searches (% of total)</nb_visits_percent_of_total>
 		<nb_pages_per_search>Search Results pages</nb_pages_per_search>
 		<exit_rate>% Search Exits</exit_rate>
-		<nb_visits_percent_of_total>Searches (% of total)</nb_visits_percent_of_total>
-		<nb_hits_percent_of_total>Pageviews (% of total)</nb_hits_percent_of_total>
-		<exit_nb_visits_percent_of_total>Exits (% of total)</exit_nb_visits_percent_of_total>
 	</columns>
 	<reportData>
 		<result prettyDate="Sunday, January 3, 2010">
@@ -57,17 +51,13 @@
 				<nb_visits>2</nb_visits>
 				<nb_pages_per_search>3</nb_pages_per_search>
 				<nb_visits_percent_of_total>40%</nb_visits_percent_of_total>
-				<nb_hits_percent_of_total>66.7%</nb_hits_percent_of_total>
 				<exit_rate>0%</exit_rate>
-				<exit_nb_visits_percent_of_total>0%</exit_nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>Search 2</label>
 				<nb_visits>2</nb_visits>
 				<nb_pages_per_search>1</nb_pages_per_search>
 				<nb_visits_percent_of_total>40%</nb_visits_percent_of_total>
-				<nb_hits_percent_of_total>22.2%</nb_hits_percent_of_total>
-				<exit_nb_visits_percent_of_total>100%</exit_nb_visits_percent_of_total>
 				<exit_rate>50%</exit_rate>
 			</row>
 			<row>
@@ -75,9 +65,7 @@
 				<nb_visits>1</nb_visits>
 				<nb_pages_per_search>1</nb_pages_per_search>
 				<nb_visits_percent_of_total>20%</nb_visits_percent_of_total>
-				<nb_hits_percent_of_total>11.1%</nb_hits_percent_of_total>
 				<exit_rate>0%</exit_rate>
-				<exit_nb_visits_percent_of_total>0%</exit_nb_visits_percent_of_total>
 			</row>
 		</result>
 		<result prettyDate="Monday, January 4, 2010">
@@ -86,8 +74,6 @@
 				<nb_visits>1</nb_visits>
 				<nb_pages_per_search>1</nb_pages_per_search>
 				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
-				<nb_hits_percent_of_total>25%</nb_hits_percent_of_total>
-				<exit_nb_visits_percent_of_total>100%</exit_nb_visits_percent_of_total>
 				<exit_rate>100%</exit_rate>
 			</row>
 			<row>
@@ -95,18 +81,14 @@
 				<nb_visits>1</nb_visits>
 				<nb_pages_per_search>2</nb_pages_per_search>
 				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
-				<nb_hits_percent_of_total>50%</nb_hits_percent_of_total>
 				<exit_rate>0%</exit_rate>
-				<exit_nb_visits_percent_of_total>0%</exit_nb_visits_percent_of_total>
 			</row>
 			<row>
 				<label>No Result Keyword!</label>
 				<nb_visits>1</nb_visits>
 				<nb_pages_per_search>1</nb_pages_per_search>
 				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
-				<nb_hits_percent_of_total>25%</nb_hits_percent_of_total>
 				<exit_rate>0%</exit_rate>
-				<exit_nb_visits_percent_of_total>0%</exit_nb_visits_percent_of_total>
 			</row>
 		</result>
 		<result prettyDate="Tuesday, January 5, 2010" />

@@ -18,11 +18,8 @@
 			<entry_nb_visits>Number of visits that started on this page.</entry_nb_visits>
 			<entry_bounce_count>Number of visits that started and ended on this page. This means that the visitor left the website after viewing only this page.</entry_bounce_count>
 			<bounce_rate>The percentage of visits that started on this page and left the website straight away.</bounce_rate>
-			<nb_visits_percent_of_total>The percentage of the report's total Visits that this row represents.</nb_visits_percent_of_total>
-			<nb_hits_percent_of_total>The percentage of the report's total Pageviews that this row represents.</nb_hits_percent_of_total>
 			<entry_bounce_count_percent_of_total>The percentage of the report's total Bounces that this row represents.</entry_bounce_count_percent_of_total>
 			<entry_nb_visits_percent_of_total>The percentage of the report's total Entrances that this row represents.</entry_nb_visits_percent_of_total>
-			<entry_nb_actions_percent_of_total>The percentage of the report's total Actions after entering here that this row represents.</entry_nb_actions_percent_of_total>
 		</metricsDocumentation>
 		<processedMetrics>
 			<bounce_rate>Bounce Rate</bounce_rate>
@@ -35,11 +32,8 @@
 			<bounce_rate>percent</bounce_rate>
 			<exit_rate>percent</exit_rate>
 			<avg_time_generation>duration_s</avg_time_generation>
-			<nb_visits_percent_of_total>percent</nb_visits_percent_of_total>
-			<nb_hits_percent_of_total>percent</nb_hits_percent_of_total>
 			<entry_bounce_count_percent_of_total>percent</entry_bounce_count_percent_of_total>
 			<entry_nb_visits_percent_of_total>percent</entry_nb_visits_percent_of_total>
-			<entry_nb_actions_percent_of_total>percent</entry_nb_actions_percent_of_total>
 		</metricTypes>
 		<actionToLoadSubTables>getEntryPageTitles</actionToLoadSubTables>
 		<relatedReports>
@@ -81,24 +75,18 @@
 	<columns>
 		<label>Entry Page title</label>
 		<entry_nb_visits>Entrances</entry_nb_visits>
-		<entry_bounce_count>Bounces</entry_bounce_count>
-		<bounce_rate>Bounce Rate</bounce_rate>
-		<nb_visits_percent_of_total>Visits (% of total)</nb_visits_percent_of_total>
-		<nb_hits_percent_of_total>Pageviews (% of total)</nb_hits_percent_of_total>
-		<entry_bounce_count_percent_of_total>Bounces (% of total)</entry_bounce_count_percent_of_total>
 		<entry_nb_visits_percent_of_total>Entrances (% of total)</entry_nb_visits_percent_of_total>
-		<entry_nb_actions_percent_of_total>Actions after entering here (% of total)</entry_nb_actions_percent_of_total>
+		<entry_bounce_count>Bounces</entry_bounce_count>
+		<entry_bounce_count_percent_of_total>Bounces (% of total)</entry_bounce_count_percent_of_total>
+		<bounce_rate>Bounce Rate</bounce_rate>
 	</columns>
 	<reportData>
 		<row>
 			<label> Page A - index.html</label>
 			<entry_nb_visits>4</entry_nb_visits>
 			<entry_bounce_count>0</entry_bounce_count>
-			<nb_visits_percent_of_total>100%</nb_visits_percent_of_total>
-			<nb_hits_percent_of_total>100%</nb_hits_percent_of_total>
 			<entry_bounce_count_percent_of_total>0%</entry_bounce_count_percent_of_total>
 			<entry_nb_visits_percent_of_total>100%</entry_nb_visits_percent_of_total>
-			<entry_nb_actions_percent_of_total>100%</entry_nb_actions_percent_of_total>
 			<bounce_rate>0%</bounce_rate>
 			<goal_1_conversion_rate>75%</goal_1_conversion_rate>
 			<goal_1_nb_conversions>3</goal_1_nb_conversions>

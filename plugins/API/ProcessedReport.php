@@ -651,7 +651,7 @@ class ProcessedReport
      * Adds column translations, metric types and metric documentation for the percent-of-total
      * metrics the DataTablePostProcessor registered on the table (eg,
      * 'nb_visits_percent_of_total'), so their values are kept in the processed report data
-     * and described in its metadata.
+     * and described in its metadata. Each one is placed directly after the metric it belongs to.
      *
      * @param DataTable|DataTable\Map $dataTable
      * @param array $columns
@@ -662,19 +662,36 @@ class ProcessedReport
     {
         $tables = $dataTable instanceof DataTable\Map ? $dataTable->getDataTables() : [$dataTable];
 
+        $percentMetrics = [];
+
         foreach ($tables as $table) {
             $extraProcessedMetrics = $table->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME) ?: [];
             foreach ($extraProcessedMetrics as $metric) {
                 if ($metric instanceof PercentOfReportTotal) {
-                    $columns[$metric->getName()] = $metric->getTranslatedName();
-                    $reportMetadata['metricTypes'][$metric->getName()] = $metric->getSemanticType();
-
-                    // hideMetricsDoc=1 removes the documentation from the metadata entirely,
-                    // recreating the key here would undo that
-                    if (isset($reportMetadata['metricsDocumentation'])) {
-                        $reportMetadata['metricsDocumentation'][$metric->getName()] = $metric->getDocumentation();
-                    }
+                    $percentMetrics[$metric->getName()] = $metric;
                 }
+            }
+        }
+
+        $percentColumns = [];
+        foreach ($percentMetrics as $name => $metric) {
+            $percentColumns[$name] = $metric->getTranslatedName();
+        }
+
+        $columns = self::insertPercentOfTotalColumns($columns, $percentColumns);
+
+        // only describe the columns that made it into the report
+        foreach ($percentMetrics as $name => $metric) {
+            if (!isset($columns[$name])) {
+                continue;
+            }
+
+            $reportMetadata['metricTypes'][$name] = $metric->getSemanticType();
+
+            // hideMetricsDoc=1 removes the documentation from the metadata entirely,
+            // recreating the key here would undo that
+            if (isset($reportMetadata['metricsDocumentation'])) {
+                $reportMetadata['metricsDocumentation'][$name] = $metric->getDocumentation();
             }
         }
 
@@ -682,28 +699,75 @@ class ProcessedReport
     }
 
     /**
+     * Inserts each percent of the report total column directly after the metric it belongs to,
+     * leaving the position of every other column untouched. Columns whose metric is not part of
+     * $columns are left out: a percentage on its own, without the value it is computed from,
+     * only makes the table wider.
+     *
+     * @param array $columns column name => value
+     * @param array $percentColumns percent of total column name => value
+     * @return array
+     */
+    private static function insertPercentOfTotalColumns(array $columns, array $percentColumns): array
+    {
+        if (empty($percentColumns)) {
+            return $columns;
+        }
+
+        $withPercentages = [];
+
+        foreach ($columns as $columnName => $value) {
+            if (isset($percentColumns[$columnName])) {
+                continue; // already in place from an earlier call
+            }
+
+            $withPercentages[$columnName] = $value;
+
+            $percentColumnName = $columnName . PercentOfReportTotal::COLUMN_NAME_SUFFIX;
+            if (isset($percentColumns[$percentColumnName])) {
+                $withPercentages[$percentColumnName] = $percentColumns[$percentColumnName];
+            }
+        }
+
+        return $withPercentages;
+    }
+
+    /**
      * Removes metrics from the list of columns and the report meta data if they are marked empty
-     * in the data table meta data.
+     * in the data table meta data, then drops the percent of the report total columns left
+     * without the metric they belong to.
      */
     private function removeEmptyColumns(&$columns, &$reportMetadata, $dataTable)
     {
         $emptyColumns = $dataTable->getMetadata(DataTable::EMPTY_COLUMNS_METADATA_NAME);
 
-        if (!is_array($emptyColumns)) {
-            return;
+        if (is_array($emptyColumns)) {
+            $columnsToRemove = $this->getColumnsToRemove();
+            $columnsToKeep   = $this->getColumnsToKeep();
+
+            $columns = $this->hideShowMetricsWithParams($columns, $columnsToRemove, $columnsToKeep, $emptyColumns);
+
+            if (isset($reportMetadata['metrics'])) {
+                $reportMetadata['metrics'] = $this->hideShowMetricsWithParams($reportMetadata['metrics'], $columnsToRemove, $columnsToKeep, $emptyColumns);
+            }
+
+            if (isset($reportMetadata['metricsDocumentation'])) {
+                $reportMetadata['metricsDocumentation'] = $this->hideShowMetricsWithParams($reportMetadata['metricsDocumentation'], $columnsToRemove, $columnsToKeep, $emptyColumns);
+            }
         }
 
-        $columnsToRemove = $this->getColumnsToRemove();
-        $columnsToKeep   = $this->getColumnsToKeep();
+        $suffixLength = strlen(PercentOfReportTotal::COLUMN_NAME_SUFFIX);
 
-        $columns = $this->hideShowMetricsWithParams($columns, $columnsToRemove, $columnsToKeep, $emptyColumns);
+        foreach (array_keys($columns) as $columnName) {
+            if (!str_ends_with($columnName, PercentOfReportTotal::COLUMN_NAME_SUFFIX)) {
+                continue;
+            }
 
-        if (isset($reportMetadata['metrics'])) {
-            $reportMetadata['metrics'] = $this->hideShowMetricsWithParams($reportMetadata['metrics'], $columnsToRemove, $columnsToKeep, $emptyColumns);
-        }
-
-        if (isset($reportMetadata['metricsDocumentation'])) {
-            $reportMetadata['metricsDocumentation'] = $this->hideShowMetricsWithParams($reportMetadata['metricsDocumentation'], $columnsToRemove, $columnsToKeep, $emptyColumns);
+            if (!isset($columns[substr($columnName, 0, -$suffixLength)])) {
+                unset($columns[$columnName]);
+                unset($reportMetadata['metricTypes'][$columnName]);
+                unset($reportMetadata['metricsDocumentation'][$columnName]);
+            }
         }
     }
 

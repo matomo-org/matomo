@@ -12,8 +12,10 @@ namespace Piwik;
 use Exception;
 use Piwik\API\Request;
 use Piwik\Container\StaticContainer;
+use Piwik\DataTable\DataTableInterface;
 use Piwik\DataTable\Row;
 use Piwik\DataTable\Simple;
+use Piwik\Plugins\CoreHome\Columns\Metrics\PercentOfReportTotal;
 use Piwik\Plugins\ImageGraph\API;
 
 /**
@@ -289,6 +291,58 @@ abstract class ReportRenderer extends BaseFactory
             $finalReport,
             $reportColumns,
         ];
+    }
+
+    /**
+     * Renames the percent of the report total columns of a report to their translation, eg.
+     * `nb_visits_percent_of_total` to `Visits (%)`, and moves each of them next to the metric it
+     * belongs to.
+     *
+     * Renderers that build their header from the column names of the report data itself, instead of
+     * using the translations and the column order in `$processedReport['columns']`, need this to
+     * show those columns the way the other renderers do.
+     *
+     * @param array $reportColumns column name => translation
+     */
+    protected static function translatePercentOfTotalColumns(DataTableInterface $report, array $reportColumns): void
+    {
+        $suffixLength   = strlen(PercentOfReportTotal::COLUMN_NAME_SUFFIX);
+        $percentColumns = [];
+
+        foreach ($reportColumns as $columnName => $translation) {
+            if (str_ends_with($columnName, PercentOfReportTotal::COLUMN_NAME_SUFFIX)) {
+                $percentColumns[substr($columnName, 0, -$suffixLength)] = $translation;
+            }
+        }
+
+        if (empty($percentColumns)) {
+            return;
+        }
+
+        $report->filter(function (DataTable $table) use ($percentColumns, $suffixLength) {
+            foreach ($table->getRows() as $row) {
+                $columns = $row->getColumns();
+                $rebuilt = [];
+
+                foreach ($columns as $columnName => $value) {
+                    if (
+                        str_ends_with($columnName, PercentOfReportTotal::COLUMN_NAME_SUFFIX)
+                        && isset($percentColumns[substr($columnName, 0, -$suffixLength)])
+                    ) {
+                        continue; // emitted below, right after the metric it belongs to
+                    }
+
+                    $rebuilt[$columnName] = $value;
+
+                    $percentColumnName = $columnName . PercentOfReportTotal::COLUMN_NAME_SUFFIX;
+                    if (isset($percentColumns[$columnName]) && array_key_exists($percentColumnName, $columns)) {
+                        $rebuilt[$percentColumns[$columnName]] = $columns[$percentColumnName];
+                    }
+                }
+
+                $row->setColumns($rebuilt);
+            }
+        });
     }
 
     public static function getStaticGraph($reportMetadata, $width, $height, $evolution, $segment)
