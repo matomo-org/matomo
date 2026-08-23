@@ -547,6 +547,93 @@ class XmlTest extends RendererTestCase
 </result>',
         ];
 
+        yield 'render key / value array with keys that cannot be xml tag names' => [
+            function () {
+                return [
+                    'idgoal=1' => 5,
+                    'a"><injected/><row b="' => 1,
+                    'x"><injected/>' => 2,
+                    'my key' => 3,
+                ];
+            },
+            '<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<row idgoal="1">5</row>
+		<row key="a&quot;&gt;&lt;injected/&gt;&lt;row b=&quot;">1</row>
+		<row key="x&quot;&gt;&lt;injected/&gt;">2</row>
+		<row key="my key">3</row>
+	</row>
+</result>',
+        ];
+
+        yield 'render datatable with array column keys that cannot be xml tag names' => [
+            function () {
+                return self::getDataTableWithArrayColumnKeys();
+            },
+            '<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>row1</label>
+		<goals>
+			<row idgoal=\'1\'>
+				<revenue>5</revenue>
+			</row>
+		</goals>
+	</row>
+	<row>
+		<label>row2</label>
+		<goals>
+			<row x=\'&#039; /&gt;&lt;injected/&gt;&lt;row y=&#039;\'>
+				<revenue>7</revenue>
+			</row>
+		</goals>
+	</row>
+</result>',
+        ];
+
+        yield 'render datatable map with a key name and labels that cannot be xml tag names' => [
+            function () {
+                return self::getDataTableMapWithInvalidKeys();
+            },
+            '<?xml version="1.0" encoding="utf-8" ?>
+<results>
+	<result key="b&quot;&gt;&lt;injected/&gt;&lt;result z=&quot;">
+		<row>
+			<label>row1</label>
+			<nb_visits>1</nb_visits>
+		</row>
+	</result>
+	<result key="c&quot;&gt;&lt;injected/&gt;" />
+</results>',
+        ];
+
+        yield 'render datatable with column names that cannot be xml tag names' => [
+            function () {
+                return self::getDataTableWithInvalidColumnNames();
+            },
+            '<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>row1</label>
+		<goals>
+			<row idgoal=\'1\'>
+				<revenue>5</revenue>
+			</row>
+				<col name="a&quot;&gt;&lt;injected/&gt;&lt;x y=&quot;">7</col>
+		</goals>
+	</row>
+	<row>
+		<label>row2</label>
+		<nb_visits>1</nb_visits>
+	</row>
+	<row>
+		<label>row3</label>
+		<col name="x&quot;&gt;&lt;injected/&gt;&lt;col name=&quot;">2</col>
+	</row>
+</result>',
+        ];
+
         yield 'handles comparison metadata correctly' => [
             function () {
                 return self::getComparisonDataTable();
@@ -585,6 +672,106 @@ class XmlTest extends RendererTestCase
                 $renderer->setHideMetadataFromResponse(true);
             },
         ];
+    }
+
+    /**
+     * An array key is not always an identifier. It can originate from report data, so it must be
+     * rendered as data and never as markup.
+     *
+     * @dataProvider getKeysThatCannotBeXmlTagNames
+     */
+    public function testRenderDoesNotAllowArrayKeysToBecomeMarkup(string $key)
+    {
+        $renderer = new Xml();
+        $renderer->setTable([$key => 1, 'nested' => [$key => ['nb_visits' => 1]]]);
+
+        $rendered = $renderer->render();
+
+        self::assertStringNotContainsString('<injected', $rendered);
+        $document = self::assertValidXml($rendered);
+
+        // the key is still part of the response, either as the attribute name and value it is made
+        // of or as the value of a generic `key` attribute. a tab, line feed or carriage return in an
+        // attribute value is turned into a space when the xml is parsed
+        $attributes = $document->row->attributes();
+        self::assertCount(1, $attributes);
+
+        $renderedKey = null;
+        foreach ($attributes as $name => $value) {
+            $renderedKey = 'key' === $name ? (string) $value : $name . '=' . $value;
+        }
+
+        self::assertSame(preg_replace('/[\t\n\r]/', ' ', $key), $renderedKey);
+    }
+
+    public function getKeysThatCannotBeXmlTagNames(): iterable
+    {
+        yield 'closes the row and adds an element' => ['a"><injected/><row b="'];
+        yield 'closes a single quoted attribute' => ["a=' /><injected/><row b='"];
+        yield 'adds an element without using an equals sign' => ['a"><injected/>'];
+        yield 'adds an attribute to the row' => ['a onmouseover=alert(1)'];
+        yield 'contains a line break' => ["a\n<injected/>"];
+        yield 'starts with an equals sign' => ['="><injected/>'];
+    }
+
+    private static function assertValidXml(string $xml): \SimpleXMLElement
+    {
+        $useInternalErrors = libxml_use_internal_errors(true);
+        $document = simplexml_load_string($xml);
+
+        $errors = [];
+        foreach (libxml_get_errors() as $error) {
+            $errors[] = trim($error->message) . ' @' . $error->line . ':' . $error->column;
+        }
+
+        libxml_clear_errors();
+        libxml_use_internal_errors($useInternalErrors);
+
+        self::assertNotFalse($document, 'Rendered xml is not valid: ' . implode("\n", $errors) . "\n" . $xml);
+
+        return $document;
+    }
+
+    private static function getDataTableWithArrayColumnKeys(): DataTable
+    {
+        $table = new DataTable();
+        $table->addRowsFromArray([
+            [DataTable\Row::COLUMNS => ['label' => 'row1', 'goals' => ['idgoal=1' => ['revenue' => 5]]]],
+            [DataTable\Row::COLUMNS => ['label' => 'row2', 'goals' => ["x=' /><injected/><row y='" => ['revenue' => 7]]]],
+        ]);
+        return $table;
+    }
+
+    private static function getDataTableMapWithInvalidKeys(): DataTable\Map
+    {
+        $map = new DataTable\Map();
+        $map->setKeyName('a"><injected/><x y="');
+
+        $table = new DataTable();
+        $table->addRowsFromArray([[DataTable\Row::COLUMNS => ['label' => 'row1', 'nb_visits' => 1]]]);
+
+        $map->addTable($table, 'b"><injected/><result z="');
+        $map->addTable(new DataTable(), 'c"><injected/>');
+
+        return $map;
+    }
+
+    /**
+     * The format used for a table is decided by the columns of its first row, so the first row here
+     * has columns that can all be used as tag names while a later row has one that cannot.
+     */
+    private static function getDataTableWithInvalidColumnNames(): DataTable
+    {
+        $table = new DataTable();
+        $table->addRowsFromArray([
+            [DataTable\Row::COLUMNS => ['label' => 'row1', 'goals' => [
+                'idgoal=1' => ['revenue' => 5],
+                'a"><injected/><x y="' => 7,
+            ]]],
+            [DataTable\Row::COLUMNS => ['label' => 'row2', 'nb_visits' => 1]],
+            [DataTable\Row::COLUMNS => ['label' => 'row3', 'x"><injected/><col name="' => 2]],
+        ]);
+        return $table;
     }
 
     private static function getDataTableSimpleWithInvalidChars(): DataTable\Simple
