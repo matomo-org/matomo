@@ -677,17 +677,17 @@ class API extends \Piwik\Plugin\API
     {
         switch ($referrerId) {
             case Common::REFERRER_TYPE_DIRECT_ENTRY:
-                return Controller::getTranslation('directEntries');
+                return Piwik::translate('Transitions_DirectEntries');
             case Common::REFERRER_TYPE_SEARCH_ENGINE:
-                return Controller::getTranslation('fromSearchEngines');
+                return Piwik::translate('Transitions_FromSearchEngines');
             case Common::REFERRER_TYPE_SOCIAL_NETWORK:
-                return Controller::getTranslation('fromSocialNetworks');
+                return Piwik::translate('Transitions_FromSocialNetworks');
             case Common::REFERRER_TYPE_AI_ASSISTANT:
-                return Controller::getTranslation('fromAIAssistants');
+                return Piwik::translate('Transitions_FromAIAssistants');
             case Common::REFERRER_TYPE_WEBSITE:
-                return Controller::getTranslation('fromWebsites');
+                return Piwik::translate('Transitions_FromWebsites');
             case Common::REFERRER_TYPE_CAMPAIGN:
-                return Controller::getTranslation('fromCampaigns');
+                return Piwik::translate('Transitions_FromCampaigns');
             default:
                 return Piwik::translate('General_Others');
         }
