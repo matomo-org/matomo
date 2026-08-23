@@ -43,7 +43,8 @@ table.entityTable .matomo-field-select {
   }
 
   .select-wrapper:not(.disabled):hover,
-  .select-wrapper:not(.disabled):focus-within {
+  .select-wrapper:not(.disabled):focus-within,
+  .select-wrapper.expanded {
     border-color: @theme-color-link;
   }
 
@@ -104,6 +105,9 @@ table.entityTable .matomo-field-select {
   .select-wrapper::after {
     content: "\e908"; // icon-chevron-down
     font-family: 'matomo';
+    // the glyph would otherwise inherit the surrounding text size, so it grew on pages
+    // that set a larger one; 14px is the control's own type size
+    font-size: 14px;
     position: absolute;
     right: 16px;
     top: 50%;
@@ -111,6 +115,13 @@ table.entityTable .matomo-field-select {
     line-height: 1;
     color: @theme-color-text;
     pointer-events: none;
+    // rotation timing follows MetricsPicker, the control this open state is modelled on
+    transition: transform .15s ease;
+  }
+
+  // the chevron keeps its centring translate, so the rotation composes with it
+  .select-wrapper.expanded::after {
+    transform: translateY(-50%) rotate(180deg);
   }
 
   // override: Materialize's dropdown panel, restyled as the card FieldExpandableSelect

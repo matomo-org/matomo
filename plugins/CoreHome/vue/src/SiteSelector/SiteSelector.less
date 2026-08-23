@@ -47,6 +47,10 @@
   .loading {
     background: url(plugins/Morpheus/images/loading-blue.gif) no-repeat 16% 11px;
   }
+
+  a.title .icon-chevron-down {
+    transform: rotate(180deg);
+  }
 }
 
 .siteSelector .custom_select_ul_list li a,
@@ -74,6 +78,8 @@
   // never shrink the chevron; its own box already leaves an 8px gap
   .icon {
     flex: none;
+    // rotation timing follows MetricsPicker, so the dropdowns behave alike when open
+    transition: transform .15s ease;
   }
 
   span {

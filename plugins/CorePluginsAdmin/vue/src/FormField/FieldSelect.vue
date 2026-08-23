@@ -109,6 +109,10 @@ function initMaterialSelect(
     dropdownOptions: {
       ...callerDropdownOptions,
       onOpenStart(trigger: Element) {
+        // mirrors MetricsPicker: an `expanded` modifier the stylesheet hangs the open
+        // state off, since Materialize marks the panel but not the control
+        trigger.closest('.select-wrapper')?.classList.add('expanded');
+
         // Materialize positions the panel flush against the trigger, and no CSS offset can
         // change that: it clears the inline top, measures the panel, and writes back the
         // difference, so a margin is measured and then cancelled. Placement happens
@@ -139,6 +143,13 @@ function initMaterialSelect(
 
         if (typeof callerDropdownOptions?.onOpenStart === 'function') {
           (callerDropdownOptions.onOpenStart as (el: Element) => void).call(this, trigger);
+        }
+      },
+      onCloseStart(trigger: Element) {
+        trigger.closest('.select-wrapper')?.classList.remove('expanded');
+
+        if (typeof callerDropdownOptions?.onCloseStart === 'function') {
+          (callerDropdownOptions.onCloseStart as (el: Element) => void).call(this, trigger);
         }
       },
     },
