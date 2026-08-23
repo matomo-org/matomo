@@ -3319,12 +3319,6 @@ parameters:
 			path: plugins/Installation/Installation.php
 
 		-
-			message: '#^Parameter \#1 \$request of static method Piwik\\API\\Request\:\:isApiRequest\(\) expects array, null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: plugins/Installation/Installation.php
-
-		-
 			message: '#^Result of && is always false\.$#'
 			identifier: booleanAnd.alwaysFalse
 			count: 1
