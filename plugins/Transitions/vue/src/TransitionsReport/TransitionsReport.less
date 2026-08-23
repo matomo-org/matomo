@@ -70,13 +70,21 @@
     }
   }
 
+  // Spaced by a gap rather than by the paragraphs' own margins: the embedded report sits inside a
+  // card, and Materialize's `.card .card-content p` zeroes every margin in there at a specificity
+  // one class name higher than ours, so margins would apply in the popover and vanish on the page.
   .transitionsReport__error {
+    display: flex;
+    flex-direction: column;
+    // Centred rather than stretched, so the back link's click target ends with its text.
+    align-items: safe center;
+    gap: 8px;
     padding: 24px;
     text-align: center;
   }
 
   .transitionsReport__errorTitle {
-    margin: 0 0 8px;
+    margin: 0;
     color: @theme-color-text;
     font-size: 14px;
     font-weight: bold;
@@ -84,7 +92,7 @@
   }
 
   .transitionsReport__errorMessage {
-    margin: 0 0 12px;
+    margin: 0;
     color: @theme-color-text-light;
   }
 

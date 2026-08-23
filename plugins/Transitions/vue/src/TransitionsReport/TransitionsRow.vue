@@ -7,11 +7,11 @@
 
 <template>
   <component
-    :is="safeExternalUrl ? 'a' : 'div'"
+    :is="isActionable ? 'a' : 'div'"
     class="transitionsRow"
     :class="rowClasses"
     :data-ribbon-key="row.key"
-    :href="safeExternalUrl || null"
+    :href="href"
     :target="safeExternalUrl ? '_blank' : null"
     :rel="safeExternalUrl ? 'noreferrer noopener' : null"
     @click="onClick"
@@ -75,6 +75,18 @@ export default defineComponent({
     isActionable(): boolean {
       return !!(this.safeExternalUrl || this.row.transitionUrl || this.row.opensGroup);
     },
+    /**
+     * Every actionable row is an anchor, so it sits in the tab order and Enter activates it. Only
+     * an outlink has a real destination; the rest carry `#` because an anchor without an href is
+     * not focusable, and onClick keeps that `#` from ever reaching the address bar.
+     */
+    href(): string|null {
+      if (!this.isActionable) {
+        return null;
+      }
+
+      return this.safeExternalUrl || '#';
+    },
     rowClasses(): Record<string, boolean> {
       return {
         'transitionsRow--outgoing': this.side === 'outgoing',
@@ -86,8 +98,16 @@ export default defineComponent({
     },
   },
   methods: {
-    onClick() {
-      // External links are plain anchors and navigate on their own.
+    onClick(event: MouseEvent) {
+      // An outlink is a real link, so let the browser follow it.
+      if (this.safeExternalUrl) {
+        return;
+      }
+
+      // The others are anchors only to be focusable, so their `#` must not be followed: on a
+      // reporting page the hash is the route, and following it would navigate away.
+      event.preventDefault();
+
       if (this.row.transitionUrl) {
         this.$emit('navigate', this.row.transitionUrl);
         return;

@@ -38,13 +38,15 @@
       <span class="transitionsCenterCard__metricTotal">{{ totalFor(side) }}</span>
 
       <div class="transitionsCenterCard__metricList">
-        <div
+        <component
+          :is="isActionable(metric) ? 'a' : 'div'"
           class="transitionsCenterCard__metric"
           :class="metricClasses(metric)"
           v-for="metric in metricsFor(side)"
           :key="metric.key"
+          :href="isActionable(metric) ? '#' : null"
           :title="metric.tooltip"
-          @click="onMetricClick(metric)"
+          @click.prevent="onMetricClick(metric)"
           @mouseenter="onMetricHighlight(metric)"
           @mouseleave="$emit('unhighlight')"
         >
@@ -54,7 +56,7 @@
             }}<strong class="transitionsCenterCard__metricValue">{{ metric.valueLabel }}</strong
             >{{ metric.labelAfter }}</span
           >
-        </div>
+        </component>
       </div>
     </div>
 

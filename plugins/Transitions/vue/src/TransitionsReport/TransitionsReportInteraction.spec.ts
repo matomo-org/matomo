@@ -89,6 +89,13 @@ describe('Transitions/TransitionsReport interaction', () => {
     )!;
   }
 
+  /** Dispatched rather than triggered, so the test can see whether the default was prevented. */
+  function clickFor(element: Element): MouseEvent {
+    const event = new MouseEvent('click', { bubbles: true, cancelable: true });
+    element.dispatchEvent(event);
+    return event;
+  }
+
   /** The labels of the detail rows of the open section on a side. */
   function openRowLabels(wrapper: VueWrapper, title: string): string[] {
     const section = sectionByTitle(wrapper, title);
@@ -150,6 +157,52 @@ describe('Transitions/TransitionsReport interaction', () => {
     await flushRibbons();
 
     expect(openRowLabels(wrapper, 'General_Outlinks')).toEqual(['other.example/x']);
+  });
+
+  it('should make an actionable row an anchor, so it is reachable by keyboard', async () => {
+    const wrapper = await mountLoaded();
+
+    // An anchor with no href is not focusable, so one that only opens a group still needs an
+    // href -- and that href must not be followed.
+    const summary = summaryRow(wrapper, 'Transitions_FromSearchEngines');
+    expect(summary.element.tagName).toBe('A');
+    expect(summary.attributes('href')).toBe('#');
+
+    const event = clickFor(summary.element);
+    await flushRibbons();
+
+    expect(event.defaultPrevented).toBe(true);
+    expect(openRowLabels(wrapper, 'Transitions_FromSearchEngines')).toEqual(['Google', 'Bing']);
+  });
+
+  it('should leave a row with nothing to activate out of the tab order', async () => {
+    const wrapper = await mountLoaded();
+
+    const exits = summaryRow(wrapper, 'General_ColumnExits');
+    expect(exits.element.tagName).toBe('DIV');
+    expect(exits.attributes('href')).toBeUndefined();
+  });
+
+  it('should make an actionable card metric an anchor too', async () => {
+    const wrapper = await mountLoaded();
+
+    const outlinks = cardMetric(wrapper, 'Transitions_NumOutlinks');
+    expect(outlinks.element.tagName).toBe('A');
+    expect(outlinks.attributes('href')).toBe('#');
+
+    const event = clickFor(outlinks.element);
+    await flushRibbons();
+
+    expect(event.defaultPrevented).toBe(true);
+    expect(openRowLabels(wrapper, 'General_Outlinks')).toEqual(['other.example/x']);
+  });
+
+  it('should leave a metric with nothing to open out of the tab order', async () => {
+    const wrapper = await mountLoaded();
+
+    const exits = cardMetric(wrapper, 'Transitions_ExitsInline');
+    expect(exits.element.tagName).toBe('DIV');
+    expect(exits.attributes('href')).toBeUndefined();
   });
 
   it('should render a download row as a link, with the domain stripped from its label', async () => {
@@ -303,7 +356,9 @@ describe('Transitions/TransitionsReport interaction', () => {
     expect(row.attributes('href')).toBe('http://other.example/x');
     expect(row.attributes('rel')).toBe('noreferrer noopener');
 
-    await row.trigger('click');
+    // The one row with a real destination, so this click is the browser's to handle.
+    const event = clickFor(row.element);
+    expect(event.defaultPrevented).toBe(false);
     expect(postEvent).not.toHaveBeenCalledWith(
       'Transitions.switchTransitionsUrl',
       expect.anything(),

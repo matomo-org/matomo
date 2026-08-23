@@ -6,9 +6,10 @@
 // PROVENANCE: the design gives the pale tone and the band's deeper stop, light mode only. The four
 // *Deep values and every dark value are extrapolated, pending design review on DEV-20402.
 //
-// For that review: the *DeepDark tones fail WCAG AA against the small text on them. #aaa
-// (@theme-color-text-light in dark mode) gives 3.67:1 on #255450 and 4.28:1 on #2E4460, against a
-// 4.5:1 floor. The pale tones pass at 6.05:1 and 6.24:1, so only the closed-group tones must move.
+// The *DeepDark tones are darkened from their first extrapolation (#2E4460, #255450) to clear WCAG
+// AA for the small text a closed row carries: #aaa (@theme-color-text-light in dark mode) gave
+// 4.28:1 and 3.67:1 on those against a 4.5:1 floor, and gives 4.69:1 on both of these. The pale
+// tones pass at 6.24:1 and 6.05:1. A design revision of these four has to hold that floor.
 //
 // File-scoped rather than block-scoped, because .transitionsRow--outgoing is a modifier on the same
 // element and so has to be its own top-level rule, which Less block scope would not reach. Named
@@ -16,11 +17,11 @@
 @_transitionsRowIncoming: #EAF1F8;
 @_transitionsRowIncomingDark: #1E2A3A;
 @_transitionsRowIncomingDeep: #C7DBF0;
-@_transitionsRowIncomingDeepDark: #2E4460;
+@_transitionsRowIncomingDeepDark: #2A3E58;
 @_transitionsRowOutgoing: #E1FBFB;
 @_transitionsRowOutgoingDark: #15302E;
 @_transitionsRowOutgoingDeep: #B4EBEB;
-@_transitionsRowOutgoingDeepDark: #255450;
+@_transitionsRowOutgoingDeepDark: #1C4340;
 
 .transitionsRow {
   // Accents for the icon tiles, one per side.
@@ -166,4 +167,12 @@
 .transitionsRow--others .transitionsRow__label {
   color: @theme-color-text-light;
   font-style: italic;
+}
+
+// Every actionable row is an anchor, and bootstrap.css re-underlines one on hover and on focus
+// (`a:hover, a:focus { text-decoration: underline }`), which the block's own `text-decoration` does
+// not cover. The underline would otherwise propagate to every flex item in the row.
+.transitionsRow:hover,
+.transitionsRow:focus {
+  text-decoration: none;
 }

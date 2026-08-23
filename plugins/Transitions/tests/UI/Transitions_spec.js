@@ -147,8 +147,15 @@ describe("Transitions", function () {
         await testEnvironment.overrideConfig('Transitions_1', 'max_period_allowed', 'day');
         await testEnvironment.save();
         try {
+          // An earlier test may already have left the browser on this exact URL, in which case
+          // goto() is a no-op -- same document, same hash, so no router event -- and the report
+          // stays on screen with the data it fetched before max_period_allowed was narrowed.
+          // Reload to force a real load, and wait for the error itself so that a stale render
+          // fails the test instead of being captured as the expectation.
           await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=Transitions_Transitions");
+          await page.reload();
           await page.waitForNetworkIdle();
+          await page.waitForSelector('.transitionsReport__error', { visible: true });
           expect(await page.screenshotSelector('.pageWrap'))
             .to
             .matchImage('transitions_report_period_not_allowed');
