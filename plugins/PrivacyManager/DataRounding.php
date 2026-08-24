@@ -555,6 +555,22 @@ class DataRounding
         return $columnName;
     }
 
+    /**
+     * Round a single count value using the same rule as the segmented-data rounding (nearest ten,
+     * with a minimum of ten for any non-zero count). Use this for count values that are exposed
+     * outside the DataTable rounding pipeline, e.g. the real-time visit counters.
+     *
+     * @param mixed $value
+     */
+    public static function roundCount($value): int
+    {
+        if (!self::shouldRoundValue($value)) {
+            return (int) $value;
+        }
+
+        return self::roundToNearestTen((float) $value);
+    }
+
     private static function roundToNearestTen(float $value): int
     {
         if ($value === 0.0) {

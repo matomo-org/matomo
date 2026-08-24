@@ -44,6 +44,9 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The new bundled `AIProviders` plugin holds the AI provider credentials and defaults that Matomo's AI features use, and lets a plugin add a provider of its own by extending `Piwik\Plugins\AIProviders\Provider\AIProvider`:
   * `AIProviders.addAIProviders` registers providers on the `AIProvidersList` it receives. `AIProviders.filterAIProviders` can remove one or mark it restricted, so it still serves completions but is hidden from the admin UI. The first registration for a provider ID wins.
   * `Piwik\Plugins\AIProviders\AIProviderService` runs a completion (`complete()`) or a multi-turn conversation (`converse()`).
+* Two new events let plugins customise the "No data has been recorded yet" page, on both the standalone page and its embedding in the reporting UI:
+  * `Template.siteWithoutData.afterTrackingMethods` collects additional HTML rendered below the tracking methods list and the section for temporarily hiding the page.
+  * `SitesManager.siteWithoutData.showInviteTeamMemberLink` lets a plugin hide the "Invite Team Member" link by setting the posted flag to `false`.
 
 ### New config.ini.php settings
 * The new `[AIProviders]` section configures the AI provider plugin from the config file:

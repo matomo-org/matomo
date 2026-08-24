@@ -573,7 +573,7 @@ auth_token_rotation_notification_days = 180
 auth_token_default_expiration_days = 180
 
 ; Number of days before the expiration date of a personal auth token, where an email notification is sent to the user.
-; If set to 0 days, notifications won't be sent. 
+; If set to 0 days, notifications won't be sent.
 ; Recommended to keep enabled for best security.
 auth_token_expiration_notification_days = 30
 
@@ -677,7 +677,7 @@ live_widget_visitor_count_last_minutes = 3
 live_visitor_profile_max_visits_to_aggregate = 100
 
 ; maximum number of AI chatbots listed in the real-time AI Chatbots reports
-live_ai_chatbots_maximum_rows = 100 
+live_ai_chatbots_maximum_rows = 100
 ; maximum number of page URLs listed in the real-time AI Chatbots top page URL reports
 live_ai_chatbots_top_page_urls_maximum_rows = 100
 
@@ -1034,8 +1034,12 @@ window_look_back_for_visitor = 0
 default_time_one_page_visit = 0
 
 ; Comma separated list of URL query string variable names that will be removed from your tracked URLs
-; By default, Matomo will remove the most common parameters which are known to change often (eg. session ID parameters)
-url_query_parameter_to_exclude_from_url = "gclid,fbclid,msclkid,twclid,wbraid,gbraid,yclid,fb_xd_fragment,fb_comment_id,phpsessid,jsessionid,sessionid,aspsessionid,doing_wp_cron,sid,pk_vid,li_fat_id,token_auth,token"
+; By default, Matomo will remove the most common parameters which are known to change often (eg. session ID parameters
+; and advertising/attribution tracking parameters)
+; An entry can either be a parameter name (eg. gclid) or a regular expression including its delimiters, as used below.
+; As this list is split on commas, a regular expression must not contain a
+; comma. Matching is case insensitive, so entries should always be written in lower case.
+url_query_parameter_to_exclude_from_url = "gclid,fbclid,msclkid,twclid,wbraid,gbraid,yclid,fb_xd_fragment,fb_comment_id,phpsessid,jsessionid,sessionid,aspsessionid,doing_wp_cron,sid,pk_vid,li_fat_id,token_auth,token,gad_source,gad_campaignid,/^hsa_(acc|ad|cam|grp|kw|la|mt|net|ol|src|tgt|ver)$/"
 
 ; If set to 1, Matomo will use the default provider if no other provider is configured.
 ; In addition the default provider will be used as a fallback when the configure provider does not return any results.
