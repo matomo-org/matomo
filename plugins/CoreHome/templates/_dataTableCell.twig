@@ -7,7 +7,8 @@
        href='{% if row.getMetadata('url')|slice(0,4) not in ['http','ftp:'] %}http://{% endif %}{{ row.getMetadata('url')|rawSafeDecoded }}'>
 {% endif %}
 
-{% set totals = dataTable.getMetadata('totals') %}
+{#- an embedded subtable has no totals of its own, so it relates its rows to the report totals -#}
+{% set totals = dataTable.getMetadata('totals')|default(reportTotals|default) %}
 {% set labelColumn   = columns_to_display|first %}
 {% set reportLabel   = row.getColumn(labelColumn)|truncate(40)|rawSafeDecoded %}
 {#- the totals row is not part of the report rows, so its percentage would always be 100% -#}
