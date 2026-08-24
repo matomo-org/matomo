@@ -83,7 +83,7 @@ describe("PagePerformance", function () {
         await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=General_Pages");
 
         // make report flattened
-        await page.click('.dropdownConfigureIcon');
+        await page.click('.reportHeader__actionsTrigger');
         await page.click('.dataTableFlatten');
         await page.waitForNetworkIdle();
 
@@ -110,8 +110,8 @@ describe("PagePerformance", function () {
     it("should show new table with performance metrics visualization in selection", async function () {
         await page.goto("?module=Widgetize&action=iframe&disableLink=0&widget=1&moduleToWidgetize=Actions&actionToWidgetize=getPageUrls&" + generalParams);
 
-        // hover visualization selection
-        const icon = await page.jQuery('.activateVisualizationSelection:last');
+        // open the report actions menu
+        const icon = await page.jQuery('.reportHeader__actionsTrigger:last');
         await icon.click();
         await page.waitForTimeout(500); // animation
 
@@ -119,8 +119,9 @@ describe("PagePerformance", function () {
     });
 
     it("should load new table with performance metrics visualization", async function () {
-        // hover visualization selection
-        const icon = await page.jQuery('.dropdown-content .icon-page-performance:last');
+        // the menu opened by the test above lists the visualisations; `.dropdown-content` was the
+        // footer bar's own wrapper and is not rendered any more
+        const icon = await page.jQuery('.reportHeader__actionsMenu .tableIcon[data-footer-icon-id=tablePerformanceColumns]:last');
         await icon.click();
         await page.mouse.move(-10, -10);
 
