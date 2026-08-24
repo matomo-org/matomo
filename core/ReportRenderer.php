@@ -14,6 +14,7 @@ use Piwik\API\Request;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable\Row;
 use Piwik\DataTable\Simple;
+use Piwik\Http\SecurityHeaders;
 use Piwik\Plugins\ImageGraph\API;
 
 /**
@@ -225,6 +226,8 @@ abstract class ReportRenderer extends BaseFactory
 
         $filename = ReportRenderer::makeFilenameWithExtension($filename, $extension);
 
+        SecurityHeaders::sendForDataResponse();
+
         ProxyHttp::overrideCacheControlHeaders();
         Common::sendHeader('Content-Description: File Transfer');
         Common::sendHeader('Content-Type: ' . $contentType);
@@ -237,6 +240,8 @@ abstract class ReportRenderer extends BaseFactory
     protected static function inlineToBrowser($contentType, $content)
     {
         self::checkStreamingToBrowserIsAllowed();
+
+        SecurityHeaders::sendForDataResponse();
 
         Common::sendHeader('Content-Type: ' . $contentType);
         echo $content;

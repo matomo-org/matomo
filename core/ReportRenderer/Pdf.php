@@ -11,6 +11,7 @@ namespace Piwik\ReportRenderer;
 
 use Piwik\Common;
 use Piwik\Filesystem;
+use Piwik\Http\SecurityHeaders;
 use Piwik\NumberFormatter;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
@@ -168,6 +169,9 @@ class Pdf extends ReportRenderer
     {
         self::checkStreamingToBrowserIsAllowed();
 
+        // TCPDF writes its own response headers for the body it streams, so ours go out before it
+        SecurityHeaders::sendForDataResponse();
+
         $filename = ReportRenderer::makeFilenameWithExtension($filename, self::PDF_CONTENT_TYPE);
         $this->TCPDF->Output($filename, 'D');
     }
@@ -175,6 +179,8 @@ class Pdf extends ReportRenderer
     public function sendToBrowserInline($filename)
     {
         self::checkStreamingToBrowserIsAllowed();
+
+        SecurityHeaders::sendForDataResponse();
 
         $filename = ReportRenderer::makeFilenameWithExtension($filename, self::PDF_CONTENT_TYPE);
         $this->TCPDF->Output($filename, 'I');

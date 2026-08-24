@@ -486,6 +486,29 @@ class RequestTest extends IntegrationTestCase
         StaticContainer::getContainer()->set('token_auth.write_admin_allowed_module_actions', $moduleActions);
     }
 
+    /**
+     * The exception is raised before the requested format was accepted, so the fallback builder
+     * renders it — and must send nothing for the enclosing response.
+     */
+    public function testProcessRequestSendsNoDataResponseHeadersForANestedRequestWithAnInvalidFormat()
+    {
+        $_GET = ['module' => 'API'];
+        Common::$headersSentInTests = [];
+        $this->setNestedApiInvocationCount(1);
+
+        try {
+            Request::processRequest('API.getMatomoVersion', ['format' => 'no-such-format']);
+
+            $this->assertArrayNotHasKey('X-Content-Type-Options', Common::$headersSentInTests);
+            $this->assertArrayNotHasKey('X-Frame-Options', Common::$headersSentInTests);
+            $this->assertArrayNotHasKey('Content-Security-Policy', Common::$headersSentInTests);
+        } finally {
+            $this->setNestedApiInvocationCount(0);
+            $_GET = [];
+            Common::$headersSentInTests = [];
+        }
+    }
+
     private function setNestedApiInvocationCount(int $count): void
     {
         $reflection = new ReflectionClass(Request::class);
