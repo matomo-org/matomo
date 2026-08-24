@@ -17,7 +17,7 @@ describe("UserId", function () {
   });
 
   it('should switch to table with engagement metrics', async function () {
-    await page.click('.activateVisualizationSelection > span');
+    await page.click('.reportHeader__actionsTrigger');
     await page.click('.tableIcon[data-footer-icon-id=tableAllColumns]');
     await page.mouse.move(-10, -10);
     await page.waitForNetworkIdle();
