@@ -88,7 +88,12 @@ class GoalRecommendationService
      * be retrieved again via {@link getSavedRecommendations()}.
      *
      * @param array<int|string, array<string, mixed>> $existingGoals
-     * @return array{mode: string, goals: array<int, array<string, mixed>>, manualGoals: array<int, array{name: string, howTo: string, category: string}>, aiError: ?string, generatedAt: ?int, remainingAiScans: ?int, providerName: string, aiAvailability: string, privacyNote: string}
+     * @return array{
+     *   mode: string, goals: array<int, array<string, mixed>>,
+     *   manualGoals: array<int, array{name: string, howTo: string, category: string}>,
+     *   aiError: ?string, generatedAt: ?int, remainingAiScans: ?int,
+     *   providerName: string, aiAvailability: string, privacyNote: string
+     * }
      */
     public function getRecommendations(int $idSite, bool $useAi, array $existingGoals = []): array
     {
@@ -107,14 +112,22 @@ class GoalRecommendationService
 
     /**
      * @param array<int|string, array<string, mixed>> $existingGoals
-     * @return array{mode: string, goals: array<int, array<string, mixed>>, manualGoals: array<int, array{name: string, howTo: string, category: string}>, aiError: ?string, generatedAt: ?int, remainingAiScans: ?int, providerName: string, aiAvailability: string, privacyNote: string}
+     * @return array{
+     *   mode: string, goals: array<int, array<string, mixed>>,
+     *   manualGoals: array<int, array{name: string, howTo: string, category: string}>,
+     *   aiError: ?string, generatedAt: ?int, remainingAiScans: ?int,
+     *   providerName: string, aiAvailability: string, privacyNote: string
+     * }
      */
     private function generateRecommendations(int $idSite, bool $useAi, array $existingGoals): array
     {
         $existingGoalSummaries = $this->getExistingGoalSummaries($existingGoals);
         $analysis = $this->homepageAnalyzer->analyze($idSite);
         if ($analysis === null) {
-            $this->getLogger()->info('Goals recommendations: could not analyse the homepage for site {idSite}.', ['idSite' => $idSite]);
+            $this->getLogger()->info(
+                'Goals recommendations: could not analyse the homepage for site {idSite}.',
+                ['idSite' => $idSite]
+            );
 
             return [
                 'mode' => 'deterministic',
@@ -158,17 +171,28 @@ class GoalRecommendationService
                     }
                 } catch (\InvalidArgumentException $e) {
                     // No / unknown provider configured.
-                    $this->getLogger()->info('Goals recommendations: AI provider unavailable: {message}', ['message' => $e->getMessage()]);
+                    $this->getLogger()->info(
+                        'Goals recommendations: AI provider unavailable: {message}',
+                        ['message' => $e->getMessage()]
+                    );
                     $aiError = Piwik::translate('Goals_RecommendationAiUnavailable');
                 } catch (AIProviderClientException $e) {
-                    $this->getLogger()->warning('Goals recommendations: AI request failed: {message}', ['message' => $e->getMessage()]);
+                    $this->getLogger()->warning(
+                        'Goals recommendations: AI request failed: {message}',
+                        ['message' => $e->getMessage()]
+                    );
                     $aiError = Piwik::hasUserSuperUserAccess()
                         ? $e->getMessage()
                         : Piwik::translate('Goals_RecommendationAiProviderIssue');
                 } catch (\Exception $e) {
-
-                    $this->getLogger()->warning('Goals recommendations: AI request failed: {message}', ['message' => $e->getMessage()]);
-                    $aiError = $e->getMessage();
+                    // provider/network messages can carry raw response excerpts, so only superusers see them
+                    $this->getLogger()->warning(
+                        'Goals recommendations: AI request failed: {message}',
+                        ['message' => $e->getMessage()]
+                    );
+                    $aiError = Piwik::hasUserSuperUserAccess()
+                        ? $e->getMessage()
+                        : Piwik::translate('Goals_RecommendationAiRequestFailed');
                 }
             } else {
                 $aiError = Piwik::translate('Goals_RecommendationAiUnavailable');
@@ -230,7 +254,11 @@ class GoalRecommendationService
      * recommendations are excluded. Returns an empty result with a null `generatedAt`
      * when no scan was saved.
      *
-     * @return array{mode: ?string, goals: array<int, array<string, mixed>>, manualGoals: array<int, array<string, mixed>>, useAi: bool, generatedAt: ?int, remainingAiScans: ?int, providerName: string, aiAvailability: string, privacyNote: string}
+     * @return array{
+     *   mode: ?string, goals: array<int, array<string, mixed>>, manualGoals: array<int, array<string, mixed>>,
+     *   useAi: bool, generatedAt: ?int, remainingAiScans: ?int,
+     *   providerName: string, aiAvailability: string, privacyNote: string
+     * }
      */
     public function getSavedRecommendations(int $idSite): array
     {
@@ -375,7 +403,10 @@ class GoalRecommendationService
                 }
             }
         } catch (\Exception $e) {
-            $this->getLogger()->debug('Goals recommendations: could not read AI provider status: {message}', ['message' => $e->getMessage()]);
+            $this->getLogger()->debug(
+                'Goals recommendations: could not read AI provider status: {message}',
+                ['message' => $e->getMessage()]
+            );
         }
 
         return false;
@@ -393,7 +424,10 @@ class GoalRecommendationService
             try {
                 return $service->getDefaultProvider()->getName();
             } catch (\Exception $e) {
-                $this->getLogger()->debug('Goals recommendations: could not read AI provider name: {message}', ['message' => $e->getMessage()]);
+                $this->getLogger()->debug(
+                    'Goals recommendations: could not read AI provider name: {message}',
+                    ['message' => $e->getMessage()]
+                );
             }
         }
 
@@ -460,7 +494,9 @@ class GoalRecommendationService
 
     /**
      * @param array<int, array<string, mixed>> $recommendations
-     * @param array<int, array{name: string, matchAttribute: string, pattern: string, patternType: string}> $existingGoals
+     * @param array<int, array{
+     *   name: string, matchAttribute: string, pattern: string, patternType: string
+     * }> $existingGoals
      * @return array<int, array<string, mixed>>
      */
     private function filterExistingGoals(array $recommendations, array $existingGoals): array
@@ -481,7 +517,9 @@ class GoalRecommendationService
 
     /**
      * @param array<string, mixed> $recommendation
-     * @param array<int, array{name: string, matchAttribute: string, pattern: string, patternType: string}> $existingGoals
+     * @param array<int, array{
+     *   name: string, matchAttribute: string, pattern: string, patternType: string
+     * }> $existingGoals
      */
     private function matchesExistingGoal(array $recommendation, array $existingGoals): bool
     {
@@ -489,7 +527,13 @@ class GoalRecommendationService
         $candidatePattern = (string) ($recommendation['pattern'] ?? '');
 
         foreach ($existingGoals as $goal) {
-            if (RecommendationMatcher::covers($candidateAttribute, $candidatePattern, $goal['matchAttribute'], $goal['pattern'])) {
+            $covers = RecommendationMatcher::covers(
+                $candidateAttribute,
+                $candidatePattern,
+                $goal['matchAttribute'],
+                $goal['pattern']
+            );
+            if ($covers) {
                 return true;
             }
         }
@@ -518,8 +562,10 @@ class GoalRecommendationService
             }
         }
 
-        return array_values(array_filter($manualSuggestions, function (array $suggestion) use ($coveredCategories): bool {
+        $filter = function (array $suggestion) use ($coveredCategories): bool {
             return empty($coveredCategories[$suggestion['category']]);
-        }));
+        };
+
+        return array_values(array_filter($manualSuggestions, $filter));
     }
 }

@@ -173,6 +173,7 @@
         "RecommendationAiDailyLimitReached": "You've reached the daily limit of %s AI-assisted scans for this website, so rule-based suggestions are shown instead. Try again tomorrow.",
         "RecommendationAiInvalidResponse": "The AI provider returned an incomplete or invalid response, so rule-based suggestions are shown instead.",
         "RecommendationAiProviderIssue": "The AI provider setup needs attention, so rule-based suggestions are shown instead. Please ask your administrator to review the AI settings.",
+        "RecommendationAiRequestFailed": "The AI request failed, so rule-based suggestions are shown instead. Please try again later.",
         "RecommendationAiUnavailable": "No AI provider is configured, so rule-based suggestions are shown instead.",
         "RecommendationBookingRequestLabel": "Booking request",
         "RecommendationCheckoutName": "Reached checkout",

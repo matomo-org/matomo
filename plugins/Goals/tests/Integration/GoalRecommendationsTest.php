@@ -16,6 +16,7 @@ use Piwik\Date;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\AIProviders\Exception\AIProviderClientException;
+use Piwik\Plugins\AIProviders\Exception\AIProviderServerException;
 use Piwik\Plugins\Goals\API;
 use Piwik\Plugins\Goals\Recommendations\AiRecommender;
 use Piwik\Plugins\Goals\Recommendations\DeterministicRecommender;
@@ -306,7 +307,20 @@ class GoalRecommendationsTest extends IntegrationTestCase
         $this->assertSame(Piwik::translate('Goals_RecommendationAiProviderIssue'), $result['aiError']);
     }
 
-    public function testAiTransientErrorMessageIsShownToAnyRole()
+    public function testAiTransientErrorShowsRawMessageToSuperusers()
+    {
+        self::$aiProviderStatuses = [['isDefault' => true, 'isConfigured' => true]];
+
+        $aiRecommender = $this->createMock(AiRecommender::class);
+        $aiRecommender->method('recommend')
+            ->willThrowException(new \RuntimeException('Could not connect to OpenAI.'));
+
+        $result = $this->makeRecommendationService($aiRecommender)->getRecommendations($this->idSite, true);
+
+        $this->assertSame('Could not connect to OpenAI.', $result['aiError']);
+    }
+
+    public function testAiTransientErrorShowsGenericMessageToNonSuperusers()
     {
         self::$aiProviderStatuses = [['isDefault' => true, 'isConfigured' => true]];
         $this->setWriteUser();
@@ -317,7 +331,21 @@ class GoalRecommendationsTest extends IntegrationTestCase
 
         $result = $this->makeRecommendationService($aiRecommender)->getRecommendations($this->idSite, true);
 
-        $this->assertSame('Could not connect to OpenAI.', $result['aiError']);
+        $this->assertSame(Piwik::translate('Goals_RecommendationAiRequestFailed'), $result['aiError']);
+    }
+
+    public function testAiServerErrorHidesProviderResponseFromNonSuperusers()
+    {
+        self::$aiProviderStatuses = [['isDefault' => true, 'isConfigured' => true]];
+        $this->setWriteUser();
+
+        $aiRecommender = $this->createMock(AiRecommender::class);
+        $aiRecommender->method('recommend')
+            ->willThrowException(new AIProviderServerException('OpenAI request failed: raw provider response body.'));
+
+        $result = $this->makeRecommendationService($aiRecommender)->getRecommendations($this->idSite, true);
+
+        $this->assertSame(Piwik::translate('Goals_RecommendationAiRequestFailed'), $result['aiError']);
     }
 
     private function makeRecommendationService(
