@@ -140,6 +140,26 @@ describe('CoreVisualizations/SparklineCard', () => {
     expect(comparing.find('.sparklineCard__sparkline--wide').exists()).toBe(true);
   });
 
+  it('renders the backend period tooltip as the sparkline slot title', () => {
+    const tooltip = 'Each data point in the sparkline represents a day. '
+      + 'Period: Mar 24. Period 2: Mar 17.';
+    const wrapper = createWrapper({ ...comparisonSparkline, tooltip });
+
+    expect(wrapper.find('.sparklineCard__sparkline').attributes('title')).toBe(tooltip);
+  });
+
+  it('omits the title when the backend sends an empty tooltip', () => {
+    const wrapper = createWrapper({ ...baseSparkline, tooltip: '' });
+
+    expect(wrapper.find('.sparklineCard__sparkline').attributes('title')).toBeUndefined();
+  });
+
+  it('omits the title when the entry carries no tooltip at all', () => {
+    const wrapper = createWrapper();
+
+    expect(wrapper.find('.sparklineCard__sparkline').attributes('title')).toBeUndefined();
+  });
+
   it('does not render the segment title region in no-comparison mode', () => {
     const wrapper = createWrapper();
 
