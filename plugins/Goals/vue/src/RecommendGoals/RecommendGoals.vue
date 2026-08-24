@@ -303,7 +303,9 @@ const scanProgressLabel = computed(() => (lastRunUsedAi.value && isInRankingPhas
   : translate('Goals_RecommendProgressCrawling')));
 
 const fallbackModeMessage = computed(() => {
-  if (!hasRun.value || isLoading.value || !lastRunUsedAi.value) {
+  // aiError already says rule-based suggestions are shown, so don't repeat it;
+  // this alert only covers AI succeeding but returning no usable goals
+  if (!hasRun.value || isLoading.value || !lastRunUsedAi.value || aiError.value) {
     return '';
   }
 

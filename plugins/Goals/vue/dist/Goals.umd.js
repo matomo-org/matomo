@@ -1023,7 +1023,9 @@ const RecommendGoalsvue_type_script_setup_true_lang_ts_hoisted_29 = ["aria-expan
     });
     const scanProgressLabel = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => lastRunUsedAi.value && isInRankingPhase.value ? Object(external_CoreHome_["translate"])('Goals_RecommendProgressAiRanking') : Object(external_CoreHome_["translate"])('Goals_RecommendProgressCrawling'));
     const fallbackModeMessage = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
-      if (!hasRun.value || isLoading.value || !lastRunUsedAi.value) {
+      // aiError already says rule-based suggestions are shown, so don't repeat it;
+      // this alert only covers AI succeeding but returning no usable goals
+      if (!hasRun.value || isLoading.value || !lastRunUsedAi.value || aiError.value) {
         return '';
       }
       if (recommendationMode.value === 'deterministic') {
