@@ -267,6 +267,16 @@ describe("SegmentSelectorEditorTest", function () {
         await page.click('.testSegment');
         await page.waitForSelector('#Piwik_Popover');
         await page.waitForNetworkIdle();
+
+        // Asserted here because this is the only point in the spec where the preview popover is
+        // open. It shows a few records and deliberately offers no actions (VisitorLog's inPopover
+        // branch), so it must not grow a report header: the trigger would open a menu holding
+        // nothing but config toggles.
+        const previewTriggers = await page.evaluate(
+            () => document.querySelectorAll('#Piwik_Popover .reportHeader__actionsTrigger').length
+        );
+        expect(previewTriggers).to.equal(0);
+
         await page.click('.ui-dialog-titlebar-close');
 
         await page.evaluate(function () {

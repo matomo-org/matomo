@@ -16,6 +16,8 @@ describe("ReportExporting", function () {
         it(`should export a normal report correctly when the ${format} export is chosen`, async function () {
             if (await page.url() !== referrersGetWebsitesUrl) {
                 await page.goto(referrersGetWebsitesUrl);
+                // the export action is an entry in the report header's actions menu now
+                await page.click('.reportHeader__actionsTrigger');
                 await page.click('.activateExportSelection');
             }
 
@@ -42,6 +44,7 @@ describe("ReportExporting", function () {
         it(`should export an evolution graph report correctly when the ${format} export is chosen`, async function () {
             if (await page.url() !== visitsSummaryGetUrl) {
                 await page.goto(visitsSummaryGetUrl);
+                await page.click('.reportHeader__actionsTrigger');
                 await page.click('.activateExportSelection');
             }
 
@@ -78,6 +81,7 @@ describe("ReportExporting", function () {
                 await page.waitForSelector('.ui-dialog');
                 await page.waitForNetworkIdle();
 
+                await page.click('.ui-dialog .reportHeader__actionsTrigger');
                 await page.click('.ui-dialog .activateExportSelection');
             }
 

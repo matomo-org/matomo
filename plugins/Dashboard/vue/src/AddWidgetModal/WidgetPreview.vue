@@ -7,9 +7,11 @@
 
 <template>
   <div class="widgetpreview-preview">
+    <!-- `__reportHeader-onHover` is the ReportHeader context hook: it marks this as the hover
+         scope, so the previewed report's actions trigger darkens with the pointer on it. -->
     <div
       v-if="previewWidget"
-      class="widget"
+      class="widget __reportHeader-onHover"
     >
       <ReportHeader
         context="preview"

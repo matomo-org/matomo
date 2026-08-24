@@ -319,6 +319,12 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             }
         }
 
+        // The response replaces `.dataTable` wholesale, and the report header sits outside it so it
+        // survives that - a header in the response would therefore be a second one, not a
+        // replacement. Set on this request only, not on `self.param`: that holds the report's own
+        // state, which every later request is rebuilt from and other code reads back.
+        params.disable_report_header = 1;
+
         ajaxRequest.addParams(params, 'get');
         if (extraParams) {
             ajaxRequest.addParams(extraParams, 'post');
@@ -424,7 +430,11 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         self.handleExportBox(domElem);
         self.applyCosmetics(domElem);
         self.handleSubDataTable(domElem);
+        // after handleConfigurationBox: that is what drops the flatten action from a report with no
+        // subtables, and it only reaches the footer entry, so syncing before it would copy the
+        // action into the header just as the footer gave it up
         self.handleConfigurationBox(domElem);
+        self.syncReportHeaderActions(domElem);
         self.handleSearchBox(domElem);
         self.handleColumnDocumentation(domElem);
         self.handleRowActions(domElem);
@@ -783,8 +793,8 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         var self = this;
         // the periods dropdown is part of the action bar, so it is resolved through the report
         var scope = self._findReportScope(domElem);
-        var $periodSelect = $('.dataTablePeriods .tableIcon', scope);
-        $periodSelect.off('click.reportAction').on('click.reportAction', function () {
+        scope.off('click.reportAction', '.dataTablePeriods .tableIcon')
+            .on('click.reportAction', '.dataTablePeriods .tableIcon', function () {
             var period = $(this).attr('data-period');
             if (!period || period == self.param['period']) {
                 return;
@@ -1166,8 +1176,9 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
         // the trigger is scoped to the report, so it keeps working once it moves up into the
         // header; the manager it toggles stays inside the table
-        $('.annotationView', self._findReportScope(domElem))
-            .off('click.reportAction').on('click.reportAction', function () {
+        self._findReportScope(domElem)
+            .off('click.reportAction', '.annotationView')
+            .on('click.reportAction', '.annotationView', function () {
             var annotationManager = $('.annotation-manager', domElem);
 
             if (annotationManager.length > 0
@@ -1216,7 +1227,8 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
         $('.tableAllColumnsSwitch a', scope).show();
 
-        $('.dataTableFooterIcons .tableIcon', scope).off('click.reportAction').on('click.reportAction', function () {
+        scope.off('click.reportAction', '.dataTableFooterIcons .tableIcon')
+            .on('click.reportAction', '.dataTableFooterIcons .tableIcon', function () {
             var id = $(this).attr('data-footer-icon-id');
             if (!id) {
                 return;
@@ -1262,10 +1274,10 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             }
         }
 
-        var ul = $('ul.tableConfiguration', scope);
-        if (!ul.find('li').length) {
-            return;
-        }
+        // No early return on an empty `ul.tableConfiguration`: where the header is rendered by the
+        // widget chrome its menu is filled by Vue only once syncReportHeaderActions runs, so the
+        // entries do not exist yet at this point. The handlers below are delegated for the same
+        // reason - they must survive the menu being rendered, and re-rendered, after this.
 
         var generateClickCallback = function (paramName, callbackAfterToggle, setParamCallback) {
             return function () {
@@ -1285,23 +1297,31 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         };
 
         // handle low population
-        $('.dataTableExcludeLowPopulation', scope)
-            .off('click.reportAction').on('click.reportAction', generateClickCallback('enable_filter_excludelowpop'));
+        scope
+            .off('click.reportAction', '.dataTableExcludeLowPopulation')
+            .on('click.reportAction', '.dataTableExcludeLowPopulation',
+                generateClickCallback('enable_filter_excludelowpop'));
 
         // handle flatten
-        $('.dataTableFlatten', scope)
-            .off('click.reportAction').on('click.reportAction', generateClickCallback('flat'));
+        scope
+            .off('click.reportAction', '.dataTableFlatten')
+            .on('click.reportAction', '.dataTableFlatten', generateClickCallback('flat'));
 
         // handle flatten
-        $('.dataTableShowTotalsRow', scope)
-            .off('click.reportAction').on('click.reportAction', generateClickCallback('keep_totals_row'));
+        scope
+            .off('click.reportAction', '.dataTableShowTotalsRow')
+            .on('click.reportAction', '.dataTableShowTotalsRow', generateClickCallback('keep_totals_row'));
 
         // handle percentage values
-        $('.dataTableShowPercentageValues', scope)
-            .off('click.reportAction').on('click.reportAction', generateClickCallback('show_percentage_values'));
+        scope
+            .off('click.reportAction', '.dataTableShowPercentageValues')
+            .on('click.reportAction', '.dataTableShowPercentageValues',
+                generateClickCallback('show_percentage_values'));
 
-        $('.dataTableIncludeAggregateRows', scope)
-            .off('click.reportAction').on('click.reportAction', generateClickCallback('include_aggregate_rows', function () {
+        scope
+            .off('click.reportAction', '.dataTableIncludeAggregateRows')
+            .on('click.reportAction', '.dataTableIncludeAggregateRows',
+                generateClickCallback('include_aggregate_rows', function () {
                 if (self.param.include_aggregate_rows == 1) {
                     // when including aggregate rows is enabled, we remove the sorting
                     // this way, the aggregate rows appear directly before their children
@@ -1310,12 +1330,14 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 }
             }));
 
-        $('.dataTableShowDimensions', scope)
-            .off('click.reportAction').on('click.reportAction', generateClickCallback('show_dimensions'));
+        scope
+            .off('click.reportAction', '.dataTableShowDimensions')
+            .on('click.reportAction', '.dataTableShowDimensions', generateClickCallback('show_dimensions'));
 
         // handle pivot by
-        $('.dataTablePivotBySubtable', scope)
-            .off('click.reportAction').on('click.reportAction', generateClickCallback('pivotBy', null, function () {
+        scope
+            .off('click.reportAction', '.dataTablePivotBySubtable')
+            .on('click.reportAction', '.dataTablePivotBySubtable', generateClickCallback('pivotBy', null, function () {
                 if (self.param.pivotBy
                     && self.param.pivotBy != '0'
                 ) {
@@ -2034,6 +2056,41 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         }
 
         return $scope;
+    },
+
+    // The report header is rendered outside the table so an ajax reload cannot replace it, which
+    // means its actions menu keeps describing the report as it was when the page was built: after
+    // flattening, "Show dimensions separately" would never appear, and the visualisation list would
+    // keep marking the old one as active. The reloaded footer carries the fresh values for the same
+    // component, so copy them across rather than deriving them a second time.
+    syncReportHeaderActions: function (domElem) {
+        var header = this._findReportHeaderApp(domElem);
+        if (!header || !header.app) {
+            return;
+        }
+
+        var footerApp = $('[vue-entry="CoreHome.DataTableActions"]', domElem).first()
+            .data('vueAppInstance');
+        if (!footerApp) {
+            return;
+        }
+
+        // Everything the menu renders from. The title and its help are pushed separately, by
+        // replaceReportTitleAndHelp(), because a related report changes those and not these.
+        var props = [
+            'showFooter_', 'showFooterIcons_', 'footerIcons_', 'viewDataTable_', 'clientSideParameters_', 'isDataTableEmpty_',
+            'showFlattenTable_', 'reportSupportsFlatten_', 'reportSupportsPercentageValues_',
+            'exportSupportsFlatten_', 'hasMultipleDimensions_', 'showTotalsRow_',
+            'showExcludeLowPopulation_', 'showPivotBySubtable_', 'dataTableActions_',
+            'showExport_', 'showExportAsImageIcon_', 'requestParams_', 'maxFilterLimit_',
+            'apiMethodToRequestDataTable_', 'pivotDimensionName_',
+        ];
+
+        props.forEach(function (prop) {
+            if (typeof footerApp[prop] !== 'undefined') {
+                header.app[prop] = footerApp[prop];
+            }
+        });
     },
 
     // Returns { $el, app } for the shared ReportHeader Vue app that titles this report, or null.

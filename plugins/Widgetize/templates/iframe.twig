@@ -9,7 +9,10 @@
     </head>
     {% set bodyClass = postEvent('Template.bodyClass', 'widgetized') %}
     <body class="widgetized{{ bodyClass }}">
-        <div class="widget">
+        {# `__reportHeader-onHover` is the ReportHeader context hook, carried here so the report's
+           actions trigger darkens once the pointer is on the widget. This context renders no
+           widget controls, so the hook's other half has nothing to hide. #}
+        <div class="widget __reportHeader-onHover">
             {{ content|raw }}
         </div>
         <div id="pageFooter">
