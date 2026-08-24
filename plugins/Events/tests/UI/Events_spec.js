@@ -11,7 +11,7 @@ describe("Events", function () {
     });
 
     it("should show report flattened", async function() {
-        await page.click('.dropdownConfigureIcon');
+        await page.click('.reportHeader__actionsTrigger');
         await page.mouse.move(-10, -10);
         await page.waitForTimeout(250); // rendering
         await page.click('.dataTableFlatten');

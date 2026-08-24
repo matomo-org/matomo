@@ -38,9 +38,9 @@ describe("ActionsDataTable", function () {
     });
 
     it("should show configuration options", async function() {
-        await page.click('.dropdownConfigureIcon');
+        await page.click('.reportHeader__actionsTrigger');
         await page.mouse.move(-10, -10);
-        const element = await page.$('.tableConfiguration');
+        const element = await page.$('.reportHeader__actionsMenu');
         await page.waitForTimeout(250); // rendering
         expect(await element.screenshot()).to.matchImage('configuration_options');
     });
@@ -54,7 +54,7 @@ describe("ActionsDataTable", function () {
     });
 
     it("should exclude low population rows when exclude low population link clicked", async function() {
-        await page.click('.dropdownConfigureIcon');
+        await page.click('.reportHeader__actionsTrigger');
         await page.click('.dataTableExcludeLowPopulation');
         await page.mouse.move(-10, -10);
         await page.waitForNetworkIdle();
@@ -63,7 +63,7 @@ describe("ActionsDataTable", function () {
     });
 
     it("should load normal view when switch to view hierarchical view link is clicked", async function() {
-        await page.click('.dropdownConfigureIcon');
+        await page.click('.reportHeader__actionsTrigger');
         await page.click('.dataTableFlatten');
         await page.waitForNetworkIdle();
         await page.mouse.move(-10, -10);

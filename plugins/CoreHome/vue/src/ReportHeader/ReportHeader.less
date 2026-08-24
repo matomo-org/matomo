@@ -19,6 +19,10 @@
     display: flex;
     align-items: flex-start;
     gap: 20px;
+    // The title absorbs the free space when there is one. A titleless report (a widgetized embed)
+    // has nothing to push the controls over, so anchor them to the end rather than letting them
+    // fall back to the left.
+    justify-content: flex-end;
   }
 
   .reportHeader__subheader {
@@ -54,6 +58,18 @@
     max-width: 300px;
   }
 
+  // The widget controls and the actions trigger read as one cluster, so the header's gap must
+  // not fall between them.
+  .reportHeader__controls {
+    flex: none;
+    display: flex;
+    align-items: safe center;
+
+    &:empty {
+      display: none;
+    }
+  }
+
   .reportHeader__widgetControls {
     flex: none;
     display: flex;
@@ -77,6 +93,59 @@
     &:empty {
       display: none;
     }
+  }
+
+  .reportHeader__actions {
+    position: relative;
+  }
+
+  .reportHeader__actionsTrigger {
+    display: flex;
+    align-items: safe center;
+    justify-content: safe center;
+    padding: 4px;
+    background: transparent;
+    border: 0;
+    border-radius: 8px;
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+    appearance: none;
+    // Present but quiet at rest, rather than hidden until hover: the trigger is the only way to
+    // reach the report's actions, so it stays discoverable and darkens on approach. Same pair the
+    // panel it opens uses for its own entries, rather than a border token spent on an icon.
+    color: @theme-color-text-lighter;
+
+    &:focus {
+      outline: none;
+    }
+
+    &:focus-visible {
+      outline: 2px solid @theme-color-focus-ring;
+    }
+  }
+
+  // The panel is closed by default; ExpandOnClick toggles `.expanded` on `.reportHeader__actions`.
+  // Anchored to the right of the trigger so a wide menu grows inwards instead of off the page.
+  .reportHeader__actionsMenu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    // Above the table it overlays: `thead` is sticky at 10 (150 with `.with-z-index`) and the
+    // cells sit at 99, so a lower value lets the table paint over the panel and swallow the
+    // clicks meant for it. Still below the row actions at 1000.
+    z-index: 200;
+  }
+
+  .reportHeader__actions.expanded .reportHeader__actionsMenu {
+    display: block;
+  }
+
+  .reportHeader__actionsTrigger:hover,
+  .reportHeader__actionsTrigger:focus,
+  .reportHeader__actions.expanded .reportHeader__actionsTrigger {
+    color: @theme-color-text;
   }
 }
 
@@ -112,4 +181,12 @@
 .__reportHeader-onHover:hover .reportHeader__widgetControls,
 .__reportHeader-onHover:focus-within .reportHeader__widgetControls {
   opacity: 1;
+}
+
+// The trigger darkens on approach, i.e. once the pointer is anywhere on the host rather than on
+// the trigger itself. Read through the same hook rather than reaching for the `.widget` block,
+// which this component does not own; all three hosts that render `.widget` carry the hook, so the
+// scope is the same one that block used to stand in for.
+.__reportHeader-onHover:hover .reportHeader__actionsTrigger {
+  color: @theme-color-text;
 }

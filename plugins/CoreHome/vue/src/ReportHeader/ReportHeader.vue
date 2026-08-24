@@ -44,24 +44,83 @@
 
       <!-- Widget controls: hidden until the widget is hovered/focused. Each action emits an
            intent that onControl() bridges to the jQuery widget. -->
-      <div class="reportHeader__widgetControls">
-        <WidgetControls
-          v-if="hasControls"
-          :can-minimise="controls.minimise"
-          :can-maximise="controls.maximise"
-          :can-refresh="controls.refresh"
-          :can-close="controls.close"
-          @minimise="onControl('minimise')"
-          @maximise="onControl('maximise')"
-          @refresh="onControl('refresh')"
-          @close="onControl('close')"
-        />
-      </div>
+      <div class="reportHeader__controls">
+        <div class="reportHeader__widgetControls">
+          <WidgetControls
+            v-if="hasControls"
+            :can-minimise="controls.minimise"
+            :can-maximise="controls.maximise"
+            :can-refresh="controls.refresh"
+            :can-close="controls.close"
+            @minimise="onControl('minimise')"
+            @maximise="onControl('maximise')"
+            @refresh="onControl('refresh')"
+            @close="onControl('close')"
+          />
+        </div>
 
-      <!-- Reserved anchor for the report's 3-dots menu, which will host the report actions
-           (visualisation switcher, export, ...). Filled by a later story; left with no children
-           here so it stays `:empty` and claims none of the header's gap. -->
-      <div class="reportHeader__toolbar" />
+        <!-- The report's 3-dots menu. The panel is one menu built from the report's own actions;
+           when the report has none the whole toolbar stays `:empty` and claims none of the
+           header's gap. -->
+        <div class="reportHeader__toolbar">
+          <div
+            v-if="showActions"
+            ref="actions"
+            class="reportHeader__actions"
+            v-expand-on-click="{ expander: 'actionsTrigger' }"
+          >
+            <button
+              ref="actionsTrigger"
+              type="button"
+              class="reportHeader__actionsTrigger"
+              :title="translate('CoreHome_ReportActions')"
+              :aria-label="translate('CoreHome_ReportActions')"
+            >
+              <span class="icon-more-verti" aria-hidden="true" />
+            </button>
+
+            <!-- ExpandOnClick only closes on a click *outside* the element, so picking an action
+               would otherwise leave the menu hanging open over the reloading report. The
+               dropdown it replaces closed on item click, so match that. -->
+            <!-- The click handler only dismisses the menu after an entry was chosen. Every entry is
+               a focusable control of its own and Escape closes the menu through ExpandOnClick, so
+               no keyboard path depends on it. -->
+            <!-- eslint-disable-next-line vuejs-accessibility/click-events-have-key-events -->
+            <div class="reportHeader__actionsMenu" @click="closeActions">
+              <div class="mtm-dropdownPanel mtm-dropdownPanel--wide">
+                <DataTableActions
+                  placement="header"
+                  :show-footer="showFooter"
+                  :show-footer-icons="showFooterIcons"
+                  :footer-icons="footerIcons"
+                  :report-title="titleText"
+                  :request-params="requestParams"
+                  :api-method-to-request-data-table="apiMethodToRequestDataTable"
+                  :max-filter-limit="maxFilterLimit"
+                  :show-export="showExport"
+                  :show-export-as-image-icon="showExportAsImageIcon"
+                  :report-id="reportId"
+                  :data-table-actions="dataTableActions"
+                  :show-flatten-table="showFlattenTable"
+                  :report-supports-flatten="reportSupportsFlatten"
+                  :report-supports-percentage-values="reportSupportsPercentageValues"
+                  :export-supports-flatten="exportSupportsFlatten"
+                  :client-side-parameters="clientSideParameters"
+                  :has-multiple-dimensions="hasMultipleDimensions"
+                  :is-data-table-empty="isDataTableEmpty"
+                  :show-totals-row="showTotalsRow"
+                  :show-exclude-low-population="showExcludeLowPopulation"
+                  :show-pivot-by-subtable="showPivotBySubtable"
+                  :translations="actionTranslations"
+                  :view-data-table="viewDataTable"
+                  :pivot-dimension-name="pivotDimensionName"
+                  :selectable-periods="selectablePeriods"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Second line, mounted independently of the first so a titleless report still gets its
@@ -81,8 +140,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
+import DataTableActions, {
+  DataTableAction,
+  FooterIconGroup,
+} from '../DataTable/DataTableActions.vue';
 import EnrichedHeadline from '../EnrichedHeadline/EnrichedHeadline.vue';
+import ExpandOnClick from '../ExpandOnClick/ExpandOnClick';
 import SearchInput from '../SearchInput/SearchInput.vue';
 import WidgetControls from '../WidgetControls/WidgetControls.vue';
 import { translate } from '../translate';
@@ -191,11 +255,77 @@ export default defineComponent({
       type: String,
       default: '',
     },
+    // Report action props, forwarded to DataTableActions. They are declared here rather than on
+    // a nested vue-entry because compileVueEntryComponents mounts parents first, which would
+    // leave a nested entry detached before its own turn came.
+    showFooter: Boolean,
+    showFooterIcons: Boolean,
+    footerIcons: {
+      type: Array as PropType<FooterIconGroup[]>,
+      default: () => [],
+    },
+    requestParams: {
+      type: Object,
+      default: () => ({}),
+    },
+    apiMethodToRequestDataTable: {
+      type: String,
+      default: '',
+    },
+    maxFilterLimit: {
+      type: Number,
+      default: 0,
+    },
+    showExport: Boolean,
+    showExportAsImageIcon: Boolean,
+    reportId: {
+      type: String,
+      default: '',
+    },
+    dataTableActions: {
+      type: Array as PropType<DataTableAction[]>,
+      default: () => [],
+    },
+    showFlattenTable: Boolean,
+    reportSupportsFlatten: Boolean,
+    reportSupportsPercentageValues: Boolean,
+    exportSupportsFlatten: Boolean,
+    clientSideParameters: {
+      type: Object,
+      default: () => ({}),
+    },
+    hasMultipleDimensions: Boolean,
+    isDataTableEmpty: Boolean,
+    showTotalsRow: Boolean,
+    showExcludeLowPopulation: Boolean,
+    showPivotBySubtable: Boolean,
+    // Not `translations`: DataTableActions uses that name for its own period/label map, and the
+    // header would otherwise shadow the global translate() helper in this file.
+    actionTranslations: {
+      type: Object,
+      default: () => ({}),
+    },
+    viewDataTable: {
+      type: String,
+      default: '',
+    },
+    pivotDimensionName: {
+      type: String as PropType<string|null>,
+      default: null,
+    },
+    selectablePeriods: {
+      type: Array as PropType<string[]>,
+      default: () => [],
+    },
   },
   components: {
+    DataTableActions,
     EnrichedHeadline,
     SearchInput,
     WidgetControls,
+  },
+  directives: {
+    ExpandOnClick,
   },
   emits: ['minimise', 'maximise', 'refresh', 'close', 'titleClick', 'search'],
   data() {
@@ -226,10 +356,16 @@ export default defineComponent({
       const c = this.controls;
       return c.minimise || c.maximise || c.refresh || c.close;
     },
+    // The actions menu is offered wherever the report renders its footer icons. A subtable has
+    // none: ViewDataTable forces show_footer_icons off for one, and it reuses its parent's
+    // header anyway.
+    showActions(): boolean {
+      return this.showFooter && this.showFooterIcons;
+    },
     // Whether the header line has nothing to render. Only that line is dropped: the subheader
     // below it is mounted independently, so a titleless widgetized report still gets its search.
     isEmpty(): boolean {
-      return !this.showTitle && !this.hasControls;
+      return !this.showTitle && !this.hasControls && !this.showActions;
     },
     isFullPage(): boolean {
       return this.context === 'fullPage';
@@ -257,6 +393,9 @@ export default defineComponent({
       if (this.titleClickable) {
         this.$emit('titleClick');
       }
+    },
+    closeActions() {
+      (this.$refs.actions as HTMLElement | undefined)?.classList.remove('expanded');
     },
     onControl(intent: string) {
       // Re-emit for Vue-native consumers...
