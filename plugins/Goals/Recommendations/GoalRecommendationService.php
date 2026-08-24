@@ -18,6 +18,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
+use Piwik\Plugins\AIProviders\Exception\AIProviderClientException;
 use Piwik\Plugins\CorePluginsAdmin\CorePluginsAdmin;
 use Psr\Log\LoggerInterface;
 
@@ -159,8 +160,13 @@ class GoalRecommendationService
                     // No / unknown provider configured.
                     $this->getLogger()->info('Goals recommendations: AI provider unavailable: {message}', ['message' => $e->getMessage()]);
                     $aiError = Piwik::translate('Goals_RecommendationAiUnavailable');
+                } catch (AIProviderClientException $e) {
+                    $this->getLogger()->warning('Goals recommendations: AI request failed: {message}', ['message' => $e->getMessage()]);
+                    $aiError = Piwik::hasUserSuperUserAccess()
+                        ? $e->getMessage()
+                        : Piwik::translate('Goals_RecommendationAiProviderIssue');
                 } catch (\Exception $e) {
-                    // Surface the provider's own (user-safe) message, e.g. "rejected the API key".
+
                     $this->getLogger()->warning('Goals recommendations: AI request failed: {message}', ['message' => $e->getMessage()]);
                     $aiError = $e->getMessage();
                 }

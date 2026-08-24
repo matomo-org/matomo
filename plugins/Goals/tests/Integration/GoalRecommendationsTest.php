@@ -15,6 +15,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\Plugins\AIProviders\Exception\AIProviderClientException;
 use Piwik\Plugins\Goals\API;
 use Piwik\Plugins\Goals\Recommendations\AiRecommender;
 use Piwik\Plugins\Goals\Recommendations\DeterministicRecommender;
@@ -44,11 +45,20 @@ class GoalRecommendationsTest extends IntegrationTestCase
      */
     private $idSite;
 
+    /**
+     * Read lazily by the mocked AIProviderService, so tests can make a provider
+     * appear configured from within the test body.
+     *
+     * @var array<int, array<string, mixed>>
+     */
+    private static $aiProviderStatuses = [];
+
     public function setUp(): void
     {
         parent::setUp();
         $this->api = API::getInstance();
 
+        self::$aiProviderStatuses = [];
         $this->idSite = Fixture::createWebsite('2024-01-01 00:00:00');
     }
 
@@ -266,6 +276,50 @@ class GoalRecommendationsTest extends IntegrationTestCase
         $this->assertSame(0, (new RecommendationStore())->countAiScansToday($this->idSite));
     }
 
+    public function testAiSetupErrorShowsProviderMessageToSuperusersAndConsumesNoQuota()
+    {
+        self::$aiProviderStatuses = [['isDefault' => true, 'isConfigured' => true]];
+
+        $aiRecommender = $this->createMock(AiRecommender::class);
+        $aiRecommender->method('recommend')
+            ->willThrowException(new AIProviderClientException('OpenAI rejected the API key. Check the key and try again.'));
+
+        $result = $this->makeRecommendationService($aiRecommender)->getRecommendations($this->idSite, true);
+
+        $this->assertSame('deterministic', $result['mode']);
+        $this->assertSame('OpenAI rejected the API key. Check the key and try again.', $result['aiError']);
+        $this->assertSame(0, (new RecommendationStore())->countAiScansToday($this->idSite));
+    }
+
+    public function testAiSetupErrorShowsGenericMessageToNonSuperusers()
+    {
+        self::$aiProviderStatuses = [['isDefault' => true, 'isConfigured' => true]];
+        $this->setWriteUser();
+
+        $aiRecommender = $this->createMock(AiRecommender::class);
+        $aiRecommender->method('recommend')
+            ->willThrowException(new AIProviderClientException('OpenAI rejected the API key. Check the key and try again.'));
+
+        $result = $this->makeRecommendationService($aiRecommender)->getRecommendations($this->idSite, true);
+
+        $this->assertSame('deterministic', $result['mode']);
+        $this->assertSame(Piwik::translate('Goals_RecommendationAiProviderIssue'), $result['aiError']);
+    }
+
+    public function testAiTransientErrorMessageIsShownToAnyRole()
+    {
+        self::$aiProviderStatuses = [['isDefault' => true, 'isConfigured' => true]];
+        $this->setWriteUser();
+
+        $aiRecommender = $this->createMock(AiRecommender::class);
+        $aiRecommender->method('recommend')
+            ->willThrowException(new \RuntimeException('Could not connect to OpenAI.'));
+
+        $result = $this->makeRecommendationService($aiRecommender)->getRecommendations($this->idSite, true);
+
+        $this->assertSame('Could not connect to OpenAI.', $result['aiError']);
+    }
+
     private function makeRecommendationService(
         AiRecommender $aiRecommender,
         ?LockBackend $lockBackend = null
@@ -334,10 +388,32 @@ class GoalRecommendationsTest extends IntegrationTestCase
         FakeAccess::$identity = 'aViewUser';
     }
 
+    private function setWriteUser(): void
+    {
+        FakeAccess::$superUser = false;
+        FakeAccess::$idSitesView = [];
+        FakeAccess::$idSitesWrite = [$this->idSite];
+        FakeAccess::$idSitesAdmin = [];
+        FakeAccess::$identity = 'aWriteUser';
+    }
+
     public function provideContainerConfig()
     {
+        $providerService = $this->getMockBuilder(\Piwik\Plugins\AIProviders\AIProviderService::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $providerService->method('getAvailableProviderStatuses')
+            ->willReturnCallback(function () {
+                return self::$aiProviderStatuses;
+            });
+        // like the real service when no provider is configured, so the
+        // provider name falls back to the translated placeholder
+        $providerService->method('getDefaultProvider')
+            ->willThrowException(new \InvalidArgumentException('No provider configured.'));
+
         return [
             'Piwik\Access' => new FakeAccess(),
+            'Piwik\Plugins\AIProviders\AIProviderService' => $providerService,
         ];
     }
 }
