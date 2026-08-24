@@ -52,10 +52,43 @@ describe('ReportHeader', () => {
     expect(wrapper.find('.reportHeader__title').text()).toBe('Visits Over Time');
   });
 
-  it('should render the reserved (empty) toolbar anchor on the header line', () => {
+  it('should render the toolbar anchor on the header line', () => {
     const wrapper = mountComponent();
 
     expect(wrapper.find('.reportHeader__header .reportHeader__toolbar').exists()).toBe(true);
+  });
+
+  describe('report actions menu', () => {
+    // The menu only exists where the report renders footer icons; a subtable has none.
+    const withActions = { showFooter: true, showFooterIcons: true };
+
+    it('should offer the actions menu only when the report has footer icons', () => {
+      expect(mountComponent().find('.reportHeader__actionsTrigger').exists()).toBe(false);
+      expect(mountComponent({ showFooter: true }).find('.reportHeader__actionsTrigger').exists())
+        .toBe(false);
+      expect(mountComponent(withActions).find('.reportHeader__actionsTrigger').exists()).toBe(true);
+    });
+
+    it('should keep the header line for a titleless report that still has actions', () => {
+      const wrapper = mountComponent({ ...withActions, showTitle: false, context: 'widgetized' });
+
+      expect(wrapper.find('.reportHeader__header').exists()).toBe(true);
+      expect(wrapper.find('.reportHeader__title').exists()).toBe(false);
+    });
+
+    // ExpandOnClick closes only on a click outside the element, so without an explicit close the
+    // menu stays open over the report the chosen action just reloaded.
+    it('should close the menu when an action inside it is chosen', async () => {
+      const wrapper = mountComponent(withActions);
+      const actions = wrapper.find('.reportHeader__actions');
+
+      actions.element.classList.add('expanded');
+      expect(actions.classes()).toContain('expanded');
+
+      await wrapper.find('.reportHeader__actionsMenu').trigger('click');
+
+      expect(wrapper.find('.reportHeader__actions').classes()).not.toContain('expanded');
+    });
   });
 
   it('should render the title by default', () => {

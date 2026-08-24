@@ -130,8 +130,10 @@ describe("EvolutionGraph", function () {
 
     it("should show multiple metrics when another metric picked", async function () {
         await page.click('.metrics-picker__toggle');
-        await page.waitForSelector('.metrics-picker__options input');
-        const element = await page.jQuery('.metrics-picker__options input:not(:checked):first');
+        // click the label, not the input: the options sit in the DOM whether the dropdown is open
+        // or not, and the input itself is the hidden half of a Materialize checkbox
+        await page.waitForSelector('.metrics-picker__options label');
+        const element = await page.jQuery('.metrics-picker__options .metrics-picker__label:has(input:not(:checked)):first');
         await element.click();
         await page.waitForNetworkIdle();
         await page.waitForTimeout(250);
@@ -140,7 +142,9 @@ describe("EvolutionGraph", function () {
     });
 
     it("should show graph as image when export as image icon clicked", async function () {
-        await page.click('#dataTableExportAsImageIcon-top');
+        // the entry sits in the report header's menu, which has to be opened first
+        await page.click('.reportHeader__actionsTrigger');
+        await page.click('#dataTableExportAsImageIcon-header');
         await page.waitForNetworkIdle();
 
         const dialog = await page.$('.ui-dialog');
@@ -253,6 +257,10 @@ describe("EvolutionGraph", function () {
             $('.delete-annotation').click();
         });
         await page.waitForNetworkIdle();
+        // this asserts the same image as the test above, so it has to leave the pointer where that
+        // one does: the delete click leaves it inside the widget, and a hovered widget darkens the
+        // header's actions trigger
+        await page.mouse.move(-10, -10);
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('annotations_none');
     });
@@ -333,7 +341,8 @@ describe("EvolutionGraph", function () {
             await page.waitForNetworkIdle();
             await setThemeMode('dark');
             await page.waitForTimeout(250);
-            await page.click('#dataTableExportAsImageIcon-top');
+            await page.click('.reportHeader__actionsTrigger');
+            await page.click('#dataTableExportAsImageIcon-header');
             await page.waitForSelector('.ui-dialog img');
 
             expect(await getImagePixelColor('.ui-dialog img', 5))
@@ -374,8 +383,8 @@ describe("EvolutionGraph", function () {
             });
 
             await page.click('.metrics-picker__toggle');
-            await page.waitForSelector('.metrics-picker__options input');
-            const element = await page.jQuery('.metrics-picker__options input:not(:checked):first');
+            await page.waitForSelector('.metrics-picker__options label');
+            const element = await page.jQuery('.metrics-picker__options .metrics-picker__label:has(input:not(:checked)):first');
             await element.click();
             await page.waitForSelector('.jqplot-loading');
 

@@ -50,6 +50,15 @@ describe("RowEvolution", function () {
         expect(await dialog.screenshot()).to.matchImage('row_evolution_other_metric');
     });
 
+    // The popover's graph is titleless and outside any card, so only its actions earn it a header.
+    // Switching the metric reloads that graph, which must not bring a second header with it.
+    it('should offer the report actions exactly once after switching the metric', async function() {
+        const triggers = await page.evaluate(
+            () => document.querySelectorAll('.ui-dialog .reportHeader__actionsTrigger').length
+        );
+        expect(triggers).to.equal(1);
+    });
+
     it('should show two serieses when a metric sparkline row is shift+clicked', async function() {
         await page.keyboard.down('Shift');
         await page.click('table.metrics tr[data-i="2"]', ['shift']);
@@ -90,6 +99,15 @@ describe("RowEvolution", function () {
 
         const dialog = await page.$('.ui-dialog');
         expect(await dialog.screenshot()).to.matchImage('multirow_evolution_other_metric');
+    });
+
+    // Same template family as the single-row popover, so it earns its header the same way. Asserted
+    // after the metric change above, which reopens the popover, rather than on first load.
+    it('should offer the report actions exactly once in the multi-row popover', async function() {
+        const triggers = await page.evaluate(
+            () => document.querySelectorAll('.ui-dialog .reportHeader__actionsTrigger').length
+        );
+        expect(triggers).to.equal(1);
     });
 
     it('should load row evolution for goals view', async function() {

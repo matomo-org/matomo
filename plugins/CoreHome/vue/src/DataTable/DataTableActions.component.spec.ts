@@ -15,7 +15,6 @@ function translateStub(key: string, ...args: string[]) {
     CoreHome_ShowPercentageValues: 'Show percentages',
     CoreHome_ShowAbsoluteValues: 'Show absolute values',
     CoreHome_Default: 'default',
-    CoreHome_ReportConfigure: 'Configure this report',
   };
 
   const message = messages[key] || key;
@@ -46,6 +45,7 @@ describe('DataTableActions percentage values setting', () => {
         showFooterIcons: true,
         reportSupportsPercentageValues: true,
         viewDataTable: 'table',
+        placement: 'header',
         footerIcons: [],
         requestParams: {},
         apiMethodToRequestDataTable: 'DevicesDetection.getType',
@@ -72,8 +72,8 @@ describe('DataTableActions percentage values setting', () => {
     const wrapper = mountComponent({ reportSupportsPercentageValues: false });
 
     expect(wrapper.find(percentageItem).exists()).toBe(false);
-    // the whole configure icon disappears when this is the only candidate item
-    expect(wrapper.find('a.dropdownConfigureIcon').exists()).toBe(false);
+    // with no candidate item left the config list renders nothing at all
+    expect(wrapper.find('ul.tableConfiguration li').exists()).toBe(false);
   });
 
   it('should not offer the setting on an empty table, like the totals row item', () => {
@@ -95,7 +95,6 @@ describe('DataTableActions percentage values setting', () => {
 
     // the action, not the current state, is the accessible name
     expect(item.attributes('aria-label')).toBe('Show percentages');
-    expect(wrapper.find('a.dropdownConfigureIcon').classes()).not.toContain('highlighted');
   });
 
   it('should flip the wording, the accessible name and the icon state when percentages are shown', () => {
@@ -107,7 +106,6 @@ describe('DataTableActions percentage values setting', () => {
     expect(item.find('span.action').text()).toBe('Show absolute values (default)');
 
     expect(item.attributes('aria-label')).toBe('Show absolute values');
-    expect(wrapper.find('a.dropdownConfigureIcon').classes()).toContain('highlighted');
   });
 
   it('should treat a disabled setting the same however it is expressed', () => {
@@ -115,7 +113,6 @@ describe('DataTableActions percentage values setting', () => {
       const wrapper = mountComponent({ clientSideParameters: { show_percentage_values: value } });
 
       expect(wrapper.find(percentageItem).attributes('aria-label')).toBe('Show percentages');
-      expect(wrapper.find('a.dropdownConfigureIcon').classes()).not.toContain('highlighted');
     });
   });
 });
@@ -129,6 +126,7 @@ describe('DataTableActions rendered actions', () => {
         showFooter: true,
         showFooterIcons: true,
         viewDataTable: 'table',
+        placement: 'header',
         footerIcons: [],
         requestParams: {},
         apiMethodToRequestDataTable: 'DevicesDetection.getType',
@@ -156,17 +154,19 @@ describe('DataTableActions rendered actions', () => {
   it('should render each action only when its own flag is set', () => {
     const off = mountComponent();
     expect(off.find('a.activateExportSelection').exists()).toBe(false);
-    expect(off.find('a.annotationView').exists()).toBe(false);
-    expect(off.find('a.tableIcon').exists()).toBe(false);
+    expect(off.find('a.dataTableAction.tableIcon').exists()).toBe(false);
 
     const on = mountComponent({
       showExport: true,
-      showAnnotations: true,
       showExportAsImageIcon: true,
     });
     expect(on.find('a.activateExportSelection').exists()).toBe(true);
-    expect(on.find('a.annotationView').exists()).toBe(true);
-    expect(on.find('a.tableIcon').exists()).toBe(true);
+    expect(on.find('a.dataTableAction.tableIcon').exists()).toBe(true);
+
+    // annotations has not moved yet: it stays an icon button in the footer
+    expect(on.find('a.annotationView').exists()).toBe(false);
+    expect(mountComponent({ showAnnotations: true, placement: 'footer' })
+      .find('a.annotationView').exists()).toBe(true);
   });
 
   it('should render the extra report actions it is given', () => {
@@ -179,13 +179,12 @@ describe('DataTableActions rendered actions', () => {
     expect(wrapper.find('a.dataTableAction.myCustomAction').exists()).toBe(true);
   });
 
-  // The component is mounted twice per report (footer and header controls), so a static id would
-  // be duplicated in the document and make `#id` resolve to whichever came first.
+  // The id is still scoped to the placement even though only the header renders this action
+  // today: a second placement would otherwise silently duplicate the id in the document again.
   it('should scope the export-as-image id to its placement', () => {
-    const footer = mountComponent({ showExportAsImageIcon: true });
-    const top = mountComponent({ showExportAsImageIcon: true, placement: 'top' });
+    const header = mountComponent({ showExportAsImageIcon: true });
 
-    expect(footer.find('a.tableIcon').attributes('id')).toBe('dataTableExportAsImageIcon-footer');
-    expect(top.find('a.tableIcon').attributes('id')).toBe('dataTableExportAsImageIcon-top');
+    expect(header.find('a.dataTableAction.tableIcon').attributes('id'))
+      .toBe('dataTableExportAsImageIcon-header');
   });
 });
