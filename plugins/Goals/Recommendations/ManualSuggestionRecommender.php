@@ -24,7 +24,12 @@ class ManualSuggestionRecommender
     private const MAX_SUGGESTIONS = 5;
 
     /**
-     * @param array{manualSignals?: array{downloadExtensions?: array<string, int>, outlinkHosts?: array<string, int>, hasContactLinks?: bool, formCount?: int}} $analysis
+     * @param array{
+     *   manualSignals?: array{
+     *     downloadExtensions?: array<string, int>, outlinkHosts?: array<string, int>,
+     *     hasContactLinks?: bool, formCount?: int
+     *   }
+     * } $analysis
      * @return array<int, array{name: string, howTo: string, category: string}>
      */
     public function recommend(array $analysis): array

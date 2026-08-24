@@ -103,8 +103,15 @@ class HomepageAnalyzer
         $links = $this->rankLinks($pages);
 
         $this->getLogger()->debug(
-            'Goals recommendations: analysed {url} (HTTP status {status}, {bytes} bytes, {pages} pages, {links} ranked links).',
-            ['url' => $startUrl, 'status' => $status, 'bytes' => strlen($html), 'pages' => count($pages), 'links' => count($links)]
+            'Goals recommendations: analysed {url} '
+                . '(HTTP status {status}, {bytes} bytes, {pages} pages, {links} ranked links).',
+            [
+                'url' => $startUrl,
+                'status' => $status,
+                'bytes' => strlen($html),
+                'pages' => count($pages),
+                'links' => count($links),
+            ]
         );
 
         return [
@@ -127,7 +134,9 @@ class HomepageAnalyzer
     {
         // Respect the same internet-features kill switch SiteContentDetector honours.
         if (0 === GeneralConfig::getIntegerConfigValue('enable_internet_features', 0)) {
-            $this->getLogger()->debug('Goals recommendations: internet features are disabled; skipping homepage fetch.');
+            $this->getLogger()->debug(
+                'Goals recommendations: internet features are disabled; skipping homepage fetch.'
+            );
             return null;
         }
 
@@ -197,7 +206,13 @@ class HomepageAnalyzer
     }
 
     /**
-     * @return array<int, array{url: string, links: array<int, array{linkText: string, linkTarget: string, url: string, area: string, isButtonLike: bool, weight: int}>, signals: array<string, mixed>}>
+     * @return array<int, array{
+     *   url: string,
+     *   links: array<int, array{
+     *     linkText: string, linkTarget: string, url: string, area: string, isButtonLike: bool, weight: int
+     *   }>,
+     *   signals: array<string, mixed>
+     * }>
      */
     private function crawlSameOriginPages(string $startUrl, string $host, string $homepageHtml, int $timeout): array
     {
@@ -241,7 +256,9 @@ class HomepageAnalyzer
 
             $xpath = $this->loadXpath($html);
             $links = $xpath !== null ? $this->extractLinks($xpath, $currentUrl, $host) : [];
-            $signals = $xpath !== null ? $this->extractManualSignals($xpath, $currentUrl, $host) : $this->emptyManualSignals();
+            $signals = $xpath !== null
+                ? $this->extractManualSignals($xpath, $currentUrl, $host)
+                : $this->emptyManualSignals();
             $pages[] = ['url' => $currentUrl, 'links' => $links, 'signals' => $signals];
 
             usort($links, function (array $a, array $b): int {
@@ -265,8 +282,16 @@ class HomepageAnalyzer
     /**
      * Aggregates repeated same-origin links into ranked destination signals.
      *
-     * @param array<int, array{url: string, links: array<int, array{linkText: string, linkTarget: string, url: string, area: string, isButtonLike: bool, weight: int}>}> $pages
-     * @return array<int, array{linkText: string, linkTarget: string, score: int, pageCount: int, occurrenceCount: int, areas: string[], labelSamples: string[], exampleUrls: string[], buttonLikeCount: int}>
+     * @param array<int, array{
+     *   url: string,
+     *   links: array<int, array{
+     *     linkText: string, linkTarget: string, url: string, area: string, isButtonLike: bool, weight: int
+     *   }>
+     * }> $pages
+     * @return array<int, array{
+     *   linkText: string, linkTarget: string, score: int, pageCount: int, occurrenceCount: int, areas: string[],
+     *   labelSamples: string[], exampleUrls: string[], buttonLikeCount: int
+     * }>
      */
     private function rankLinks(array $pages): array
     {
@@ -355,7 +380,9 @@ class HomepageAnalyzer
      * Extracts same-origin links from a parsed document and reduces each to compact
      * link metadata. External links, anchors, and non-http schemes are dropped.
      *
-     * @return array<int, array{linkText: string, linkTarget: string, url: string, area: string, isButtonLike: bool, weight: int}>
+     * @return array<int, array{
+     *   linkText: string, linkTarget: string, url: string, area: string, isButtonLike: bool, weight: int
+     * }>
      */
     private function extractLinks(\DOMXPath $xpath, string $baseUrl, string $host): array
     {
@@ -412,7 +439,11 @@ class HomepageAnalyzer
      * outbound link hosts, and mailto/tel contact links. Only compact, aggregated
      * metadata leaves here, never raw HTML.
      *
-     * @return array{downloadExtensions: array<string, int>, outlinkHosts: array<string, int>, hasContactLinks: bool, formCount: int, forms: array<int, array<string, mixed>>, downloads: array<int, array<string, mixed>>, contactLinks: array<int, array<string, mixed>>, externalLinks: array<int, array<string, mixed>>}
+     * @return array{
+     *   downloadExtensions: array<string, int>, outlinkHosts: array<string, int>, hasContactLinks: bool,
+     *   formCount: int, forms: array<int, array<string, mixed>>, downloads: array<int, array<string, mixed>>,
+     *   contactLinks: array<int, array<string, mixed>>, externalLinks: array<int, array<string, mixed>>
+     * }
      */
     private function extractManualSignals(\DOMXPath $xpath, string $baseUrl, string $host): array
     {
@@ -458,7 +489,11 @@ class HomepageAnalyzer
                 }
 
                 if (in_array($scheme, ['http', 'https'], true)) {
-                    $linkHost = (string) preg_replace('/^www\./', '', strtolower((string) parse_url($href, PHP_URL_HOST)));
+                    $linkHost = (string) preg_replace(
+                        '/^www\./',
+                        '',
+                        strtolower((string) parse_url($href, PHP_URL_HOST))
+                    );
                     if ($linkHost !== '' && $linkHost !== $bareHost) {
                         $outlinkHosts[$linkHost] = ($outlinkHosts[$linkHost] ?? 0) + 1;
                         $externalLinks[] = [
@@ -487,7 +522,9 @@ class HomepageAnalyzer
     }
 
     /**
-     * @return array<int, array{action: string, method: string, submitText: string, fields: string[], area: string, context: string}>
+     * @return array<int, array{
+     *   action: string, method: string, submitText: string, fields: string[], area: string, context: string
+     * }>
      */
     private function extractForms(\DOMXPath $xpath, string $baseUrl): array
     {
@@ -559,7 +596,10 @@ class HomepageAnalyzer
 
     private function extractSubmitText(\DOMXPath $xpath, \DOMElement $form): string
     {
-        $submitControls = $xpath->query('.//button[@type="submit"] | .//button[not(@type)] | .//input[@type="submit"]', $form);
+        $submitControls = $xpath->query(
+            './/button[@type="submit"] | .//button[not(@type)] | .//input[@type="submit"]',
+            $form
+        );
         if ($submitControls !== false && $submitControls->length > 0) {
             $control = $submitControls->item(0);
             if ($control instanceof \DOMElement) {
@@ -662,7 +702,11 @@ class HomepageAnalyzer
     }
 
     /**
-     * @return array{downloadExtensions: array<string, int>, outlinkHosts: array<string, int>, hasContactLinks: bool, formCount: int, forms: array<int, array<string, mixed>>, downloads: array<int, array<string, mixed>>, contactLinks: array<int, array<string, mixed>>, externalLinks: array<int, array<string, mixed>>}
+     * @return array{
+     *   downloadExtensions: array<string, int>, outlinkHosts: array<string, int>, hasContactLinks: bool,
+     *   formCount: int, forms: array<int, array<string, mixed>>, downloads: array<int, array<string, mixed>>,
+     *   contactLinks: array<int, array<string, mixed>>, externalLinks: array<int, array<string, mixed>>
+     * }
      */
     private function emptyManualSignals(): array
     {
@@ -682,8 +726,16 @@ class HomepageAnalyzer
      * Merges the per-page manual signals collected during the crawl into a single
      * ranked set used by {@see ManualSuggestionRecommender}.
      *
-     * @param array<int, array{signals?: array{downloadExtensions?: array<string, int>, outlinkHosts?: array<string, int>, hasContactLinks?: bool, formCount?: int}}> $pages
-     * @return array{downloadExtensions: array<string, int>, outlinkHosts: array<string, int>, hasContactLinks: bool, formCount: int}
+     * @param array<int, array{
+     *   signals?: array{
+     *     downloadExtensions?: array<string, int>, outlinkHosts?: array<string, int>,
+     *     hasContactLinks?: bool, formCount?: int
+     *   }
+     * }> $pages
+     * @return array{
+     *   downloadExtensions: array<string, int>, outlinkHosts: array<string, int>,
+     *   hasContactLinks: bool, formCount: int
+     * }
      */
     private function aggregateManualSignals(array $pages): array
     {
@@ -864,7 +916,10 @@ class HomepageAnalyzer
     }
 
     /**
-     * @param array{linkTarget: string, areaCounts: array<string, int>, occurrenceCount: int, buttonLikeCount: int, pageUrls: array<string, bool>} $bucket
+     * @param array{
+     *   linkTarget: string, areaCounts: array<string, int>, occurrenceCount: int,
+     *   buttonLikeCount: int, pageUrls: array<string, bool>
+     * } $bucket
      */
     private function recommendationScore(array $bucket): int
     {
@@ -879,7 +934,9 @@ class HomepageAnalyzer
         $score += min(($areaCounts['footer'] ?? 0), 2);
 
         $path = $bucket['linkTarget'];
-        if (preg_match('/pricing|contact|signup|sign-up|register|demo|quote|checkout|cart|subscribe|donat|enterprise|trial|get-started|installation/i', $path)) {
+        $highIntentPattern = '/pricing|contact|signup|sign-up|register|demo|quote|checkout|cart'
+            . '|subscribe|donat|enterprise|trial|get-started|installation/i';
+        if (preg_match($highIntentPattern, $path)) {
             $score += 12;
         }
         if (preg_match('/privacy|terms|legal|cookie|login|signin|sign-in|blog$/i', $path)) {

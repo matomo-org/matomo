@@ -219,11 +219,15 @@ class DeterministicRecommenderTest extends TestCase
     {
         return [
             'demo' => [['submitTexts' => ['Request demo']], 'Goals_RecommendationDemoRequestLabel', 'Request Demo'],
-            'contact sales' => [['submitTexts' => ['Contact sales']], 'Goals_RecommendationContactSalesLabel', 'Contact Sales'],
+            'contact sales' => [
+                ['submitTexts' => ['Contact sales']], 'Goals_RecommendationContactSalesLabel', 'Contact Sales',
+            ],
             'free trial' => [['submitTexts' => ['Start trial']], 'Goals_RecommendationFreeTrialLabel', 'Start Trial'],
             'newsletter' => [['submitTexts' => ['Subscribe']], 'Goals_RecommendationNewsletterName', 'Subscribe'],
             'quote' => [['submitTexts' => ['Request quote']], 'Goals_RecommendationQuoteRequestLabel', 'Request Quote'],
-            'booking' => [['submitTexts' => ['Book appointment']], 'Goals_RecommendationBookingRequestLabel', 'Book Appointment'],
+            'booking' => [
+                ['submitTexts' => ['Book appointment']], 'Goals_RecommendationBookingRequestLabel', 'Book Appointment',
+            ],
             'fallback' => [[], 'Goals_RecommendationFormFallbackLabel', 'form'],
         ];
     }

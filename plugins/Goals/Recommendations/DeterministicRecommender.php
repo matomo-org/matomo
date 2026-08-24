@@ -68,7 +68,10 @@ class DeterministicRecommender
         ],
         [
             'category' => 'signup',
-            'needles' => ['sign-up', 'signup', 'sign_up', 'register', '/join', 'create-account', 'get-started', 'free-trial', '/trial', '/apply', 'application'],
+            'needles' => [
+                'sign-up', 'signup', 'sign_up', 'register', '/join', 'create-account', 'get-started',
+                'free-trial', '/trial', '/apply', 'application',
+            ],
             'nameKey' => 'Goals_RecommendationSignupName',
             'reasonKey' => 'Goals_RecommendationSignupReason',
         ],
@@ -80,7 +83,10 @@ class DeterministicRecommender
         ],
         [
             'category' => 'demo',
-            'needles' => ['/demo', 'request-demo', 'book-a-demo', '/booking', 'book-now', 'appointment', 'schedule', 'get-a-quote', '/quote', 'consultation'],
+            'needles' => [
+                '/demo', 'request-demo', 'book-a-demo', '/booking', 'book-now', 'appointment',
+                'schedule', 'get-a-quote', '/quote', 'consultation',
+            ],
             'nameKey' => 'Goals_RecommendationDemoName',
             'reasonKey' => 'Goals_RecommendationDemoReason',
         ],
@@ -248,7 +254,10 @@ class DeterministicRecommender
                 'allowMultipleConversionsPerVisit' => true,
                 'implementationNote' => Piwik::translate('Goals_RecommendationFormSetupNote', [$pattern]),
                 'evidence' => array_filter([
-                    Piwik::translate('Goals_RecommendationEvidenceFormSightings', [(string) ($form['count'] ?? 1), (string) count($form['sourcePages'] ?? [])]),
+                    Piwik::translate('Goals_RecommendationEvidenceFormSightings', [
+                        (string) ($form['count'] ?? 1),
+                        (string) count($form['sourcePages'] ?? []),
+                    ]),
                     (string) (($form['contexts'][0] ?? '') ?: ($form['submitTexts'][0] ?? '')),
                 ]),
                 'sourcePages' => $form['sourcePages'] ?? [],
@@ -288,7 +297,10 @@ class DeterministicRecommender
                 'allowMultipleConversionsPerVisit' => true,
                 'implementationNote' => Piwik::translate('Goals_RecommendationDownloadSetupNote', [$pattern]),
                 'evidence' => array_filter([
-                    Piwik::translate('Goals_RecommendationEvidenceDownloadSightings', [(string) ($download['count'] ?? 1), (string) count($download['sourcePages'] ?? [])]),
+                    Piwik::translate('Goals_RecommendationEvidenceDownloadSightings', [
+                        (string) ($download['count'] ?? 1),
+                        (string) count($download['sourcePages'] ?? []),
+                    ]),
                     (string) ($download['labels'][0] ?? $href),
                 ]),
                 'sourcePages' => $download['sourcePages'] ?? [],
@@ -326,7 +338,10 @@ class DeterministicRecommender
                 'allowMultipleConversionsPerVisit' => true,
                 'implementationNote' => Piwik::translate('Goals_RecommendationOutlinkSetupNote', [$href]),
                 'evidence' => array_filter([
-                    Piwik::translate('Goals_RecommendationEvidenceContactSightings', [(string) ($link['count'] ?? 1), (string) count($link['sourcePages'] ?? [])]),
+                    Piwik::translate('Goals_RecommendationEvidenceContactSightings', [
+                        (string) ($link['count'] ?? 1),
+                        (string) count($link['sourcePages'] ?? []),
+                    ]),
                     (string) ($link['labels'][0] ?? $href),
                 ]),
                 'sourcePages' => $link['sourcePages'] ?? [],
@@ -365,7 +380,10 @@ class DeterministicRecommender
                 'allowMultipleConversionsPerVisit' => true,
                 'implementationNote' => Piwik::translate('Goals_RecommendationOutlinkSetupNote', [$host]),
                 'evidence' => array_filter([
-                    Piwik::translate('Goals_RecommendationEvidenceExternalLinks', [(string) ($link['count'] ?? 1), (string) count($link['sourcePages'] ?? [])]),
+                    Piwik::translate('Goals_RecommendationEvidenceExternalLinks', [
+                        (string) ($link['count'] ?? 1),
+                        (string) count($link['sourcePages'] ?? []),
+                    ]),
                     (string) ($link['labels'][0] ?? $host),
                 ]),
                 'sourcePages' => $link['sourcePages'] ?? [],
@@ -447,7 +465,9 @@ class DeterministicRecommender
             return true;
         }
 
-        if (preg_match('#/(blog|news|about|login|sign-in|privacy|terms|legal|cookie|careers?|jobs?|press|imprint|sitemap)(/|$)#', $pattern)) {
+        $weakPathPattern = '#/(blog|news|about|login|sign-in|privacy|terms|legal|cookie'
+            . '|careers?|jobs?|press|imprint|sitemap)(/|$)#';
+        if (preg_match($weakPathPattern, $pattern)) {
             return true;
         }
 
@@ -535,7 +555,11 @@ class DeterministicRecommender
         if (strpos($labels, 'contact') !== false && strpos($labels, 'sales') !== false) {
             return Piwik::translate('Goals_RecommendationContactSalesLabel');
         }
-        if (strpos($labels, 'trial') !== false || strpos($labels, 'signup') !== false || strpos($labels, 'sign up') !== false) {
+        if (
+            strpos($labels, 'trial') !== false
+            || strpos($labels, 'signup') !== false
+            || strpos($labels, 'sign up') !== false
+        ) {
             return Piwik::translate('Goals_RecommendationFreeTrialLabel');
         }
         if (strpos($labels, 'newsletter') !== false || strpos($labels, 'subscribe') !== false) {
@@ -638,7 +662,8 @@ class DeterministicRecommender
             'reason' => (string) ($values['reason'] ?? ''),
             'description' => (string) ($values['reason'] ?? ''),
             'source' => (string) ($values['source'] ?? 'rule'),
-            'implementationNote' => (string) ($values['implementationNote'] ?? Piwik::translate('Goals_RecommendationDefaultSetupNote')),
+            'implementationNote' => (string) ($values['implementationNote']
+                ?? Piwik::translate('Goals_RecommendationDefaultSetupNote')),
             'evidence' => array_values($values['evidence'] ?? []),
             'sourcePages' => array_values($values['sourcePages'] ?? []),
             'exampleMatches' => array_values($values['exampleMatches'] ?? []),
@@ -669,7 +694,11 @@ class DeterministicRecommender
             $pattern = is_string($path) ? $path : $pattern;
         }
 
-        return strtolower((string) ($goal['matchAttribute'] ?? '') . ':' . (string) ($goal['patternType'] ?? '') . ':' . trim(rtrim($pattern, '/'), '/'));
+        return strtolower(
+            (string) ($goal['matchAttribute'] ?? '')
+                . ':' . (string) ($goal['patternType'] ?? '')
+                . ':' . trim(rtrim($pattern, '/'), '/')
+        );
     }
 
     private function truncate(string $value, int $maxLength): string

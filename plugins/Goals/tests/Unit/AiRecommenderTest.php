@@ -152,7 +152,8 @@ class AiRecommenderTest extends TestCase
                 'test',
                 'Test provider',
                 'test-model',
-                "```json\n{\"goals\":[{\"name\":\"Pricing\",\"matomoGoal\":{\"matchAttribute\":\"url\",\"pattern\":\"/pricing\"},\"display\":{\"whyItMatters\":\"Buying intent.\"}}]}\n```"
+                "```json\n{\"goals\":[{\"name\":\"Pricing\",\"matomoGoal\":{\"matchAttribute\":\"url\","
+                    . "\"pattern\":\"/pricing\"},\"display\":{\"whyItMatters\":\"Buying intent.\"}}]}\n```"
             ));
 
         $goals = (new AiRecommender($service))->recommend($this->getMinimalAnalysis(), 1);

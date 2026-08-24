@@ -61,7 +61,11 @@ class ChallengeAddRecommendedGoals extends Challenge
 
     private function getGoalsSubcategory(int $idSite): string
     {
-        $goals = ApiRequest::processRequest('Goals.getGoals', array('idSite' => $idSite, 'filter_limit' => '-1'), $default = array());
+        $goals = ApiRequest::processRequest(
+            'Goals.getGoals',
+            array('idSite' => $idSite, 'filter_limit' => '-1'),
+            $default = array()
+        );
 
         if (count($goals)) {
             return 'Goals_ManageGoals';

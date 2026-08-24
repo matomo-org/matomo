@@ -76,7 +76,10 @@ class GoalRecommendationsTest extends IntegrationTestCase
             'remainingAiScans' => null,
             'providerName' => Piwik::translate('Goals_RecommendAiProviderFallback'),
             'aiAvailability' => 'notConfigured',
-            'privacyNote' => Piwik::translate('Goals_RecommendAiToggleHelp', Piwik::translate('Goals_RecommendAiProviderFallback')),
+            'privacyNote' => Piwik::translate(
+                'Goals_RecommendAiToggleHelp',
+                Piwik::translate('Goals_RecommendAiProviderFallback')
+            ),
         ], $result);
     }
 
@@ -295,7 +298,9 @@ class GoalRecommendationsTest extends IntegrationTestCase
 
         $aiRecommender = $this->createMock(AiRecommender::class);
         $aiRecommender->method('recommend')
-            ->willThrowException(new AIProviderClientException('OpenAI rejected the API key. Check the key and try again.'));
+            ->willThrowException(
+                new AIProviderClientException('OpenAI rejected the API key. Check the key and try again.')
+            );
 
         $result = $this->makeRecommendationService($aiRecommender)->getRecommendations($this->idSite, true);
 
@@ -311,7 +316,9 @@ class GoalRecommendationsTest extends IntegrationTestCase
 
         $aiRecommender = $this->createMock(AiRecommender::class);
         $aiRecommender->method('recommend')
-            ->willThrowException(new AIProviderClientException('OpenAI rejected the API key. Check the key and try again.'));
+            ->willThrowException(
+                new AIProviderClientException('OpenAI rejected the API key. Check the key and try again.')
+            );
 
         $result = $this->makeRecommendationService($aiRecommender)->getRecommendations($this->idSite, true);
 
