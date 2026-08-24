@@ -34,9 +34,11 @@
          card height and the reused Sparkline sizing in one place (see SparklineCard.less).
          Comparison cards are wider, so the sparkline is too — the --wide modifier caps it at a
          wider max-width that must match sparklineWidth (Sparkline renders the PNG at 2x width). -->
+    <!-- The tooltip goes on the slot, not the image: the image scales shorter than the slot. -->
     <div
       class="sparklineCard__sparkline"
       :class="{ 'sparklineCard__sparkline--wide': isComparison }"
+      :title="sparkline.tooltip || undefined"
     >
       <Sparkline
         :width="sparklineWidth"
