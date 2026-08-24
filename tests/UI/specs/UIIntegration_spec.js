@@ -933,8 +933,34 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
             await page.mouse.move(-10, -10);
 
-            pageWrap = await page.$('.ui-dialog > .ui-dialog-content > div.dataTableVizVisitorLog');
+            // the report actions now live in a header the report renders above `.dataTable`, so the
+            // table is no longer a direct child of the dialog's content
+            pageWrap = await page.$('.ui-dialog .ui-dialog-content div.dataTableVizVisitorLog');
             expect(await pageWrap.screenshot()).to.matchImage('segmented_visitorlog');
+        });
+
+        it('should offer the report actions in the segmented visitor log', async function () {
+            const triggers = await page.evaluate(
+                () => document.querySelectorAll('.ui-dialog .reportHeader__actionsTrigger').length
+            );
+            expect(triggers).to.equal(1);
+        });
+
+        // The action is registered by the Live plugin and now renders in the report header, which is
+        // outside `.dataTable` - a handler bound on the table alone would leave the entry looking
+        // live while doing nothing.
+        it('should still act on the add segment action once it is in the header menu', async function () {
+            await page.evaluate(() => {
+                window.openedUrls = [];
+                window.open = (url) => { window.openedUrls.push(url); return null; };
+            });
+
+            await page.click('.ui-dialog .reportHeader__actionsTrigger');
+            await page.click('.ui-dialog .reportHeader__actionsMenu .dataTableAction.addSegmentToMatomo');
+
+            const opened = await page.evaluate(() => window.openedUrls);
+            expect(opened.length).to.equal(1);
+            expect(opened[0]).to.contain('addSegmentAsNew=');
         });
 
         it('should not apply current segmented when opening visitor log', async function () {

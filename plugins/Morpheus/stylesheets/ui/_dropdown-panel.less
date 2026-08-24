@@ -52,6 +52,18 @@
     list-style: none;
   }
 
+  // Splits a menu into groups of related entries. Sits in the flow as a sibling of the items,
+  // so inside a `<ul>` menu it is an `<li>` and needs `role="separator"` to stay announced as a
+  // divider rather than an empty list entry. Spans the panel's content width: the block's own
+  // padding is what insets it from the border.
+  .mtm-dropdownPanel__separator {
+    height: 0;
+    margin: 8px 0;
+    border: 0;
+    border-top: 1px solid @theme-color-border;
+    list-style: none;
+  }
+
   .mtm-dropdownPanel__menuLink {
     display: flex;
     align-items: center;
@@ -134,5 +146,16 @@
   // resize on every keystroke, down to the width of a lone `__noResult`.
   &.mtm-dropdownPanel--fixedWidth {
     width: @_menuWidth;
+  }
+
+  // For an entry whose label carries a secondary line, such as the state a setting is in above
+  // the change the entry offers.
+  .mtm-dropdownPanel__menuLabel--stacked {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mtm-dropdownPanel__menuAction {
+    color: @theme-color-link;
   }
 }
