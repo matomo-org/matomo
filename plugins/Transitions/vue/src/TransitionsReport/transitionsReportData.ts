@@ -216,13 +216,16 @@ export function resolveError(errorName: string, actionName: string): Transitions
   if (!keys) {
     // An exception we have no translation for, so the name is all there is to show. The back link
     // still has to read as a link: every translated error uses Transitions_ErrorBack for it.
-    return { title: errorName, message: '', backLabel: translate('Transitions_ErrorBack') };
+    // The API sends exception messages HTML-escaped.
+    return {
+      title: Matomo.helper.htmlDecode(errorName),
+      message: '',
+      backLabel: translate('Transitions_ErrorBack'),
+    };
   }
 
-  const subject = `<span>${Matomo.helper.addBreakpointsToUrl(actionName)}</span>`;
-
   return {
-    title: translate(keys.title, subject),
+    title: translate(keys.title, actionName),
     message: translate(keys.details),
     backLabel: translate('Transitions_ErrorBack'),
   };

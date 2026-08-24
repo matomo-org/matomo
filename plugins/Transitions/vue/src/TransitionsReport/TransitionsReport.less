@@ -1,32 +1,24 @@
-// File-scoped because --narrow is a top-level rule that block scope cannot reach. Block-named
-// because root-level Less variables are shared across every plugin.
-@_transitionsReportTrackPaddingYCompact: 12px;
-
-// Shared by the media query and the --narrow modifier, so the two cannot drift apart.
-.transitionsReportNarrowLayout() {
-  .transitionsReport__grid {
-    grid-template-columns: 1fr;
-  }
-
-  .transitionsReport__ribbons {
-    display: none;
-  }
-
-  .transitionsReport__column,
-  .transitionsReport__center {
-    padding: @_transitionsReportTrackPaddingYCompact 0;
-  }
-}
-
 .transitionsReport {
   // Width of the gap tracks the ribbons are drawn into.
   @_ribbonWidth: 90px;
   // Vertical breathing room for the three content tracks.
   @_trackPaddingY: 24px;
+  // Narrower than this and the report scrolls instead of squeezing its columns.
+  // 350px center + 2 * (90px ribbon + 200px column), the tightest a column can be with a label.
+  @_gridMinWidth: 930px;
+
+  overflow-x: auto;
+  // Without this, overflow-x alone would add a vertical scrollbar too.
+  overflow-y: hidden;
+
+  // Bleed and pad by the same amount, so a row's shadow is not clipped at the scroller's edge.
+  margin: 0 -8px;
+  padding: 0 8px;
 
   .transitionsReport__grid {
     display: grid;
     grid-template-columns: 1fr @_ribbonWidth minmax(240px, 350px) @_ribbonWidth 1fr;
+    min-width: @_gridMinWidth;
     align-items: start;
   }
 
@@ -85,6 +77,8 @@
 
   .transitionsReport__errorTitle {
     margin: 0;
+    // The title ends in the action name, and a long URL has nowhere to break.
+    overflow-wrap: anywhere;
     color: @theme-color-text;
     font-size: 14px;
     font-weight: bold;
@@ -99,16 +93,4 @@
   .transitionsReport__errorBack {
     color: @theme-color-link;
   }
-
-  // Below the Materialize medium breakpoint the tracks cannot hold a readable label.
-  @media (max-width: 992px) {
-    .transitionsReportNarrowLayout();
-  }
-}
-
-// A dashboard column is narrow while the viewport is wide, so it never trips the query above and
-// the fixed tracks overflow the widget. TransitionsReport.vue sets this when it finds itself in
-// one; full-width widgets collapse too. Keep it last: equal specificity, so source order decides.
-.transitionsReport--narrow {
-  .transitionsReportNarrowLayout();
 }

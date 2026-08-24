@@ -8,10 +8,25 @@
     & > .row {
         margin-left: 0;
         margin-right: 0;
+        // Zeroed here and on the field, so the gap above the report is set in one place.
+        margin-bottom: 0;
 
         body.widgetized & {
             margin-left: 0.75rem;
             margin-right: 0.75rem;
         }
+    }
+
+    .matomo-form-field {
+        // Doubled the 20px the card title already leaves above the select.
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+    .popoverContainer {
+        // 36px above the report. The select still leaves 25px of its own below the underline.
+        padding-top: 11px;
+        // 36px below it, before the export row.
+        margin-bottom: 36px;
     }
 }

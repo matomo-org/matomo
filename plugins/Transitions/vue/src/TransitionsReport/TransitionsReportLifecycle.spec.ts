@@ -239,36 +239,4 @@ describe('Transitions/TransitionsReport lifecycle', () => {
       wrapper.unmount();
     });
   });
-
-  describe('dashboard widget', () => {
-    function mountIn(host: HTMLElement|null) {
-      return mountTransitionsReport({}, host ? { attachTo: host } : {});
-    }
-
-    it('should collapse when it is inside a dashboard widget', async () => {
-      const host = document.createElement('div');
-      host.setAttribute('widgetId', 'widgetTransitionsgetTransitions');
-      document.body.appendChild(host);
-
-      useSynchronousFrames();
-      const wrapper = mountIn(host);
-      backend.respond();
-      await flushRibbons();
-
-      expect(wrapper.find('.transitionsReport').classes()).toContain('transitionsReport--narrow');
-      wrapper.unmount();
-      host.remove();
-    });
-
-    it('should keep the full layout everywhere else', async () => {
-      useSynchronousFrames();
-      const wrapper = mountIn(null);
-      backend.respond();
-      await flushRibbons();
-
-      expect(wrapper.find('.transitionsReport').classes())
-        .not.toContain('transitionsReport--narrow');
-      wrapper.unmount();
-    });
-  });
 });
