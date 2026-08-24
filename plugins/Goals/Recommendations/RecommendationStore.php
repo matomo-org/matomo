@@ -51,7 +51,10 @@ class RecommendationStore
     /**
      * Returns the last saved scan result, or null when none exists.
      *
-     * @return array{generatedAt: int, useAi: bool, mode: string, goals: array<int, array<string, mixed>>, manualGoals: array<int, array<string, mixed>>, dismissed: array<string, int>}|null
+     * @return array{
+     *   generatedAt: int, useAi: bool, mode: string, goals: array<int, array<string, mixed>>,
+     *   manualGoals: array<int, array<string, mixed>>, dismissed: array<string, int>
+     * }|null
      */
     public function get(int $idSite): ?array
     {
@@ -102,6 +105,17 @@ class RecommendationStore
     public function delete(int $idSite): void
     {
         Option::delete(self::OPTION_PREFIX . $idSite);
+    }
+
+    /**
+     * Removes everything stored for a site, including the AI scan quota counter.
+     * Only for site deletion; a plain delete() keeps the quota so dismissing
+     * suggestions cannot reset the daily AI scan limit.
+     */
+    public function deleteAllForSite(int $idSite): void
+    {
+        $this->delete($idSite);
+        Option::delete(self::AI_SCAN_QUOTA_PREFIX . $idSite);
     }
 
     /**

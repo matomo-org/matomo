@@ -235,6 +235,18 @@ class GoalRecommendationsTest extends IntegrationTestCase
         $this->assertSame(0, $store->countAiScansToday($this->idSite + 1));
     }
 
+    public function testDeletingSiteGoalsRemovesSavedScanAndQuotaCounter()
+    {
+        $this->saveScan([$this->makeRecommendation()]);
+        $store = new RecommendationStore();
+        $store->recordAiScan($this->idSite);
+
+        (new \Piwik\Plugins\Goals\Goals())->deleteSiteGoals($this->idSite);
+
+        $this->assertNull($store->get($this->idSite));
+        $this->assertSame(0, $store->countAiScansToday($this->idSite));
+    }
+
     public function testAiScanQuotaResetsOnANewDay()
     {
         Option::set('Goals.aiScanQuota.' . $this->idSite, json_encode([
