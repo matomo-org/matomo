@@ -409,10 +409,10 @@ class Client
             ? $params['purchase_type']
             : PurchaseType::TYPE_ALL;
 
-        $isWarmedQuery = empty($params['keywords'])
-            && empty($params['query'])
-            && isset($params['sort'])
-            && $params['sort'] === Sort::DEFAULT_SORT
+        // compared against '' rather than empty(), which would treat a search for "0" as unfiltered
+        $isWarmedQuery = ($params['keywords'] ?? '') === ''
+            && ($params['query'] ?? '') === ''
+            && ($params['sort'] ?? '') === Sort::DEFAULT_SORT
             && in_array($purchaseType, $warmedPurchaseTypes[$action], true);
 
         return $isWarmedQuery

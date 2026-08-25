@@ -92,7 +92,7 @@ import {
   MatomoUrl,
 } from 'CoreHome';
 import { Field } from 'CorePluginsAdmin';
-import { PluginDetails } from '../types';
+import { PluginCard } from '../types';
 import PluginList from '../PluginList/PluginList.vue';
 
 export interface MarketplaceState {
@@ -102,7 +102,7 @@ export interface MarketplaceState {
   pluginSort: string;
   pluginTypeFilter: string;
   searchQuery: string;
-  pluginsToShow: PluginDetails[];
+  pluginsToShow: PluginCard[];
 }
 
 const lcfirst = (s: string) => `${s[0].toLowerCase()}${s.substring(1)}`;

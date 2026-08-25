@@ -46,6 +46,29 @@ export interface IPluginShopDetails {
  * of it is fetched for one plugin at a time by `Marketplace.getPluginDetails`, because the version
  * history and its rendered readme HTML made the list response over a megabyte.
  */
+/**
+ * What the "new plugins" widgets pass to their templates. See GetNewPlugins::keepRenderedFields():
+ * only the admin variant is given screenshots.
+ */
+export interface PluginTeaser {
+  name: string;
+  displayName: string;
+  description: string;
+  screenshots?: string[];
+}
+
+/**
+ * What the premium features widget passes to its template, see
+ * GetPremiumFeatures::keepRenderedFields(). Optional fields are absent rather than null.
+ */
+export interface PluginPromo {
+  name: string;
+  displayName: string;
+  description: string;
+  isBundle?: boolean;
+  specialOffer?: string;
+}
+
 export interface PluginCard {
   name: string;
   displayName: string;

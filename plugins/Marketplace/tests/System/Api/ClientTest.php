@@ -177,6 +177,21 @@ class ClientTest extends SystemTestCase
         self::assertSame([Client::CACHE_TIMEOUT_IN_SECONDS], $unwarmed);
     }
 
+    public function testASearchForAFalsyStringIsNotHeldForTheLongerTimeout()
+    {
+        // "0" is a real search term but empty() calls it empty, which would have classified it as
+        // the unfiltered list the task warms
+        $ttls = $this->recordCacheTimeouts('v2.0_plugins.json', function (Client $client) {
+            $client->searchForPlugins('', '0', Sort::DEFAULT_SORT, PurchaseType::TYPE_ALL);
+        });
+        $keywordTtls = $this->recordCacheTimeouts('v2.0_plugins.json', function (Client $client) {
+            $client->searchForPlugins('0', '', Sort::DEFAULT_SORT, PurchaseType::TYPE_ALL);
+        });
+
+        self::assertSame([Client::CACHE_TIMEOUT_IN_SECONDS], $ttls);
+        self::assertSame([Client::CACHE_TIMEOUT_IN_SECONDS], $keywordTtls);
+    }
+
     public function testANonDefaultSortIsNotHeldForTheLongerTimeout()
     {
         $ttls = $this->recordCacheTimeouts('v2.0_plugins.json', function (Client $client) {
