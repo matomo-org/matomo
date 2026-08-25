@@ -30,22 +30,57 @@ class RecommendationMatcher
     }
 
     /**
-     * Whether two goal definitions cover the same conversion: same match attribute
-     * and equal patterns, or one pattern clearly containing the other.
+     * Whether an existing goal already covers a recommended one: equal patterns,
+     * or for "contains" goals segment-bounded containment, so "shop" covers
+     * "/shop/checkout" but not "/workshop-signup". "exact" and "regex" goals only
+     * cover equal patterns.
      */
-    public static function covers(string $attributeA, string $patternA, string $attributeB, string $patternB): bool
+    public static function covers(
+        string $candidateAttribute,
+        string $candidatePattern,
+        string $existingAttribute,
+        string $existingPattern,
+        string $existingPatternType = 'contains'
+    ): bool {
+        if ($candidateAttribute !== $existingAttribute) {
+            return false;
+        }
+
+        $candidate = self::normalizePattern($candidatePattern, $candidateAttribute);
+        $existing = self::normalizePattern($existingPattern, $existingAttribute);
+        if ($candidate === '' || $existing === '') {
+            return false;
+        }
+
+        if ($candidate === $existing) {
+            return true;
+        }
+
+        if (in_array($existingPatternType, ['exact', 'regex'], true)) {
+            return false;
+        }
+
+        return self::containsAtSegmentBoundary($candidate, $existing)
+            || self::containsAtSegmentBoundary($existing, $candidate);
+    }
+
+    /**
+     * Containment delimited by non-alphanumeric characters or string ends.
+     */
+    private static function containsAtSegmentBoundary(string $haystack, string $needle): bool
     {
-        if ($attributeA !== $attributeB) {
-            return false;
+        $offset = 0;
+        while (($position = strpos($haystack, $needle, $offset)) !== false) {
+            $before = $position > 0 ? $haystack[$position - 1] : '';
+            $afterPosition = $position + strlen($needle);
+            $after = $afterPosition < strlen($haystack) ? $haystack[$afterPosition] : '';
+            if (($before === '' || !ctype_alnum($before)) && ($after === '' || !ctype_alnum($after))) {
+                return true;
+            }
+            $offset = $position + 1;
         }
 
-        $a = self::normalizePattern($patternA, $attributeA);
-        $b = self::normalizePattern($patternB, $attributeB);
-        if ($a === '' || $b === '') {
-            return false;
-        }
-
-        return $a === $b || strpos($a, $b) !== false || strpos($b, $a) !== false;
+        return false;
     }
 
     public static function normalizePattern(string $pattern, string $matchAttribute): string

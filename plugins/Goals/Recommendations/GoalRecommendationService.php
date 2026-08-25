@@ -360,6 +360,7 @@ class GoalRecommendationService
          * Lets an environment replace the note describing what site data is sent to
          * the AI provider, e.g. to name a managed provider and its privacy terms.
          *
+         * @param string &$privacyNote The note shown next to the AI toggle.
          * @ignore
          */
         Piwik::postEvent('Goals.customizeRecommendationPrivacyNote', [&$privacyNote]);
@@ -531,7 +532,8 @@ class GoalRecommendationService
                 $candidateAttribute,
                 $candidatePattern,
                 $goal['matchAttribute'],
-                $goal['pattern']
+                $goal['pattern'],
+                $goal['patternType'] ?? 'contains'
             );
             if ($covers) {
                 return true;
