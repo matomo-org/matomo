@@ -592,6 +592,35 @@ class XmlTest extends RendererTestCase
 </result>',
         ];
 
+        yield 'render key / value array with a key holding characters xml cannot hold' => [
+            function () {
+                return [
+                    "a\x00b\x08c\x0bd\x0ce\x1ff" => 1,
+                    "tab\there" => 2,
+                ];
+            },
+            '<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<row key="abcdef">1</row>
+		<row key="tab&#9;here">2</row>
+	</row>
+</result>',
+        ];
+
+        yield 'render key / value array with an empty value for a key rendered as a row attribute' => [
+            function () {
+                return ['idgoal=1' => '', 'idgoal=2' => null];
+            },
+            '<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<row idgoal="1"/>
+		<row idgoal="2"/>
+	</row>
+</result>',
+        ];
+
         yield 'render datatable map with a key name and labels that cannot be xml tag names' => [
             function () {
                 return self::getDataTableMapWithInvalidKeys();
@@ -690,9 +719,8 @@ class XmlTest extends RendererTestCase
         self::assertStringNotContainsString('<injected', $rendered);
         $document = self::assertValidXml($rendered);
 
-        // the key is still part of the response, either as the attribute name and value it is made
-        // of or as the value of a generic `key` attribute. a tab, line feed or carriage return in an
-        // attribute value is turned into a space when the xml is parsed
+        // the key is still part of the response unchanged, either as the attribute name and value it
+        // is made of or as the value of a generic `key` attribute
         $attributes = $document->row->attributes();
         self::assertCount(1, $attributes);
 
@@ -701,7 +729,7 @@ class XmlTest extends RendererTestCase
             $renderedKey = 'key' === $name ? (string) $value : $name . '=' . $value;
         }
 
-        self::assertSame(preg_replace('/[\t\n\r]/', ' ', $key), $renderedKey);
+        self::assertSame($key, $renderedKey);
     }
 
     public function getKeysThatCannotBeXmlTagNames(): iterable

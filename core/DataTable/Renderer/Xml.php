@@ -134,7 +134,7 @@ class Xml extends Renderer
 
                     $prefix = "<row $attribute>";
                     $suffix = "</row>";
-                    $emptyNode = "<row $attribute>";
+                    $emptyNode = "<row $attribute/>";
                 } elseif (!self::isValidXmlTagName($key)) {
                     $attribute = 'key="' . self::formatAttributeValueXml($key) . '"';
 
@@ -443,10 +443,18 @@ class Xml extends Renderer
     /**
      * Escapes a value so it can be used as an XML attribute value, no matter whether the attribute
      * is quoted with double or single quotes.
+     *
+     * @param string|int $value
      */
     private static function formatAttributeValueXml($value): string
     {
-        return str_replace("'", '&#039;', (string) self::formatValueXml($value));
+        $value = (string) self::formatValueXml($value);
+
+        // legal in XML, but normalised to a space on parse unless encoded
+        $value = str_replace(["'", "\t", "\n", "\r"], ['&#039;', '&#9;', '&#10;', '&#13;'], $value);
+
+        // no character reference exists for these
+        return preg_replace('/[\x00-\x08\x0b\x0c\x0e-\x1f]/', '', $value);
     }
 
     /**
