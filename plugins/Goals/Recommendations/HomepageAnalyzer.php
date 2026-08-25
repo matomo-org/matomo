@@ -94,7 +94,7 @@ class HomepageAnalyzer
             $startUrl = $effectiveUrl;
         }
 
-        $host = (string) parse_url($startUrl, PHP_URL_HOST);
+        $host = $this->getUrlAuthority($startUrl);
         if ($host === '') {
             return null;
         }
@@ -238,7 +238,7 @@ class HomepageAnalyzer
                 $html = is_array($response) ? (string) ($response['data'] ?? '') : '';
 
                 $pageHost = is_array($response)
-                    ? (string) parse_url((string) ($response['effectiveUrl'] ?? ''), PHP_URL_HOST)
+                    ? $this->getUrlAuthority((string) ($response['effectiveUrl'] ?? ''))
                     : '';
                 if ($pageHost !== '' && strcasecmp($pageHost, $host) !== 0) {
                     $this->getLogger()->debug(
@@ -453,7 +453,8 @@ class HomepageAnalyzer
         $downloads = [];
         $contactLinks = [];
         $externalLinks = [];
-        $bareHost = (string) preg_replace('/^www\./', '', strtolower($host));
+        // outlink hosts carry no port, so compare without it
+        $bareHost = (string) preg_replace('/^www\./', '', strtolower((string) preg_replace('/:\d+$/', '', $host)));
 
         $anchors = $xpath->query('//a[@href]');
         if ($anchors !== false) {
@@ -634,7 +635,7 @@ class HomepageAnalyzer
         }
 
         $baseScheme = (string) ($base['scheme'] ?? 'https');
-        $host = (string) $base['host'];
+        $host = (string) $base['host'] . (isset($base['port']) ? ':' . $base['port'] : '');
         $basePath = (string) ($base['path'] ?? '/');
 
         if (strpos($href, '/') === 0) {
@@ -964,14 +965,14 @@ class HomepageAnalyzer
         }
 
         if ($scheme !== '') {
-            $linkHost = (string) parse_url($href, PHP_URL_HOST);
+            $linkHost = $this->getUrlAuthority($href);
             if (strcasecmp($linkHost, $host) !== 0) {
                 return null; // external site
             }
             return $this->normalizeCrawlUrl($href);
         } elseif (strpos($href, '//') === 0) {
             // Protocol-relative URL: compare host explicitly.
-            $linkHost = (string) parse_url('https:' . $href, PHP_URL_HOST);
+            $linkHost = $this->getUrlAuthority('https:' . $href);
             if ($linkHost === '' || strcasecmp($linkHost, $host) !== 0) {
                 return null;
             }
@@ -1009,10 +1010,30 @@ class HomepageAnalyzer
             return null;
         }
 
-        $host = strtolower((string) $parts['host']);
         $path = isset($parts['path']) ? $this->normalizePath((string) $parts['path']) : '/';
 
-        return $scheme . '://' . $host . $path;
+        return $scheme . '://' . $this->getUrlAuthority($url) . $path;
+    }
+
+    /**
+     * Lowercased host plus non-default port (e.g. "example.com:8443"), used as
+     * the crawl's origin identity.
+     */
+    private function getUrlAuthority(string $url): string
+    {
+        $parts = parse_url($url);
+        if (!is_array($parts) || empty($parts['host'])) {
+            return '';
+        }
+
+        $host = strtolower((string) $parts['host']);
+        $scheme = strtolower((string) ($parts['scheme'] ?? 'https'));
+        $port = isset($parts['port']) ? (int) $parts['port'] : null;
+        if ($port === null || ($scheme === 'http' && $port === 80) || ($scheme === 'https' && $port === 443)) {
+            return $host;
+        }
+
+        return $host . ':' . $port;
     }
 
     private function normalizePath(string $path): string
