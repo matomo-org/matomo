@@ -66,3 +66,492 @@ ul.ulGoalTopElements img {
         width: 170px;
     }
 }
+
+#content .recommendGoals {
+    .recommendGoals-footer {
+        margin-top: 20px;
+    }
+
+    .recommendGoals-toolbar {
+        align-items: center;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 16px;
+        margin: 12px 0 0;
+    }
+
+    .recommendGoals-aiSwitch {
+        display: flex;
+    }
+
+    .recommendGoals-aiSwitch label {
+        align-items: center;
+        color: @theme-color-text;
+        display: inline-flex;
+        font-size: 13px;
+
+        .lever {
+            margin: 0 10px 0 0;
+        }
+
+        input[type="checkbox"]:checked + .lever {
+            background-color: @theme-color-brand;
+
+            &::after {
+                background-color: @theme-color-brand-contrast;
+            }
+        }
+    }
+
+    .recommendGoals-privacyLink {
+        background: none;
+        border: 0;
+        border-radius: 2px;
+        color: @theme-color-link;
+        cursor: pointer;
+        font-size: 13px;
+        padding: 0;
+
+        &:hover {
+            text-decoration: underline;
+        }
+
+        &:focus-visible {
+            outline: 2px solid @theme-color-focus-ring;
+            outline-offset: 2px;
+        }
+    }
+
+    // compact variant of the standard alert boxes ("AI was used" note, AI errors)
+    .alert {
+        border-width: 1px;
+        font-size: 12.5px;
+        margin: 14px 0 0;
+        padding: 8px 12px 8px 36px;
+
+        &::before {
+            font-size: 16px;
+            left: 12px;
+            margin-top: 0;
+            top: calc(~'50% - 8px');
+        }
+    }
+
+    .recommendGoals-privacyNote {
+        background: @theme-color-background-tinyContrast;
+        border-left: 3px solid @theme-color-border-alternative;
+        border-radius: 0 3px 3px 0;
+        color: @theme-color-text-lighter;
+        font-size: 12px;
+        margin: 10px 0 0;
+        max-width: 56em;
+        padding: 8px 12px;
+    }
+
+    .recommendGoals-meta {
+        color: @theme-color-text-light;
+        font-size: 12px;
+        margin: 0;
+    }
+
+    .recommendGoals-scanProgress {
+        margin: 24px 0 8px;
+
+        // align the shared Progressbar (ships with 22px/24px outer margins)
+        // with the surrounding block content
+        .progressbar {
+            margin: 0;
+        }
+    }
+
+    .recommendGoals-scanHint {
+        color: @theme-color-text-lighter;
+        font-size: 12px;
+        margin: 4px 0 0;
+    }
+
+    .recommendGoals-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 16px;
+    }
+
+    .recommendGoals-card {
+        background: @theme-color-background-contrast;
+        border: 1px solid @theme-color-border-alternative;
+        border-radius: 6px;
+
+        &:hover {
+            box-shadow: 0 1px 5px @theme-color-boxShadow;
+        }
+    }
+
+    .recommendGoals-cardMain {
+        align-items: start;
+        display: grid;
+        gap: 0 14px;
+        grid-template-columns: 40px 1fr auto;
+        padding: 13px 14px;
+    }
+
+    .recommendGoals-cardBody {
+        min-width: 0;
+    }
+
+    .recommendGoals-cardIcon {
+        align-items: center;
+        background: @theme-color-background-tinyContrast;
+        border-radius: 6px;
+        color: @theme-color-text-lighter;
+        display: flex;
+        font-size: 20px;
+        height: 40px;
+        justify-content: center;
+        width: 40px;
+    }
+
+    .recommendGoals-cardTitle {
+        align-items: center;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px 8px;
+    }
+
+    .recommendGoals-cardName {
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .recommendGoals-chip {
+        background: @theme-color-background-tinyContrast;
+        border: 1px solid @theme-color-border-alternative;
+        border-radius: 9px;
+        color: @theme-color-text-lighter;
+        font-size: 11px;
+        font-weight: normal;
+        line-height: 16px;
+        padding: 0 8px;
+        white-space: nowrap;
+        pointer-events: none;
+    }
+
+    .recommendGoals-chip--setup {
+        background: fade(@color-orange-brand, 8%);
+        border-color: fade(@color-orange-brand, 50%);
+        // darkened for WCAG AA contrast; #f57c00 on white is only ~2.7:1
+        color: darken(@color-orange-brand, 15%);
+        cursor: help;
+        pointer-events: auto; // chips ignore pointer events; this one carries a tooltip
+    }
+
+    // toolbar variant: 3px like buttons/panels/tooltips and sized to sit beside
+    // the scan button, unlike the small pill chips used inside the cards
+    .recommendGoals-chip--aiUnavailable {
+        border-radius: 3px;
+        cursor: help;
+        font-size: 13px;
+        line-height: 22px;
+        padding: 2px 10px;
+        pointer-events: auto;
+    }
+
+    .recommendGoals-cardReason {
+        max-width: 58em;
+    }
+
+    .recommendGoals-cardTrigger {
+        color: @theme-color-text-lighter;
+        font-size: 12px;
+        margin-top: 2px;
+        padding: 0;
+    }
+
+    .recommendGoals-cardActions {
+        align-items: center;
+        display: flex;
+        gap: 6px;
+        margin-top: 2px;
+    }
+
+    .recommendGoals-dismissBtn {
+        background: transparent;
+        border: 0;
+        border-radius: 3px;
+        color: @theme-color-text-lighter;
+        cursor: pointer;
+        height: 30px;
+        width: 30px;
+
+        &:hover {
+            background: @theme-color-background-base;
+            color: @theme-color-text;
+        }
+
+        &:focus-visible {
+            outline: 2px solid @theme-color-focus-ring;
+            outline-offset: 1px;
+        }
+
+        &[disabled] {
+            cursor: not-allowed;
+            opacity: .5;
+        }
+    }
+
+    .recommendGoals-accepted {
+        color: @theme-color-brand;
+        font-weight: 600;
+        white-space: nowrap;
+
+        .icon-ok {
+            margin-right: 4px;
+        }
+    }
+
+    // suppress the browser default focus ring on click; keep it for keyboard navigation
+    .recommendGoals-evidence summary,
+    .recommendGoals-manual summary {
+        &:focus:not(:focus-visible) {
+            outline: none;
+        }
+
+        &:focus-visible {
+            outline: 2px solid @theme-color-focus-ring;
+            outline-offset: 2px;
+        }
+    }
+
+    .recommendGoals-evidence {
+        border-top: 1px solid @theme-color-border-alternative;
+
+        summary {
+            align-items: center;
+            border: 0;
+            color: @theme-color-text;
+            cursor: pointer;
+            display: flex;
+            font-size: 12px;
+            font-weight: 600;
+            gap: 6px;
+            list-style: none;
+            padding: 8px 14px 8px 68px;
+
+            &::-webkit-details-marker,
+            &::marker {
+                display: none;
+            }
+
+            .icon-chevron-right {
+                font-size: 10px;
+                transition: transform .12s ease;
+            }
+        }
+
+        &[open] summary .icon-chevron-right {
+            transform: rotate(90deg);
+        }
+    }
+
+    .recommendGoals-evidenceBody {
+        color: @theme-color-text-light;
+        font-size: 12px;
+        line-height: 18px;
+        // bottom matches the 10px above the body (8px summary + 2px here)
+        padding: 2px 14px 10px 68px;
+
+        ul {
+            list-style: disc outside;
+            margin: 0 0 10px;
+            padding-left: 18px;
+
+            // most cards end on the evidence list, so it needs the same
+            // last-child reset as p or they close with 10px more space
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+
+        li {
+            list-style-type: disc;
+            margin: 2px 0;
+        }
+
+        p {
+            margin: 0 0 10px;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+    }
+
+    .recommendGoals-evidenceLabel {
+        color: @theme-color-text-lighter;
+        display: block;
+        font-weight: 600;
+        margin-bottom: 1px;
+    }
+
+    .recommendGoals-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: flex-end;
+        margin: 16px 0 0;
+    }
+
+    // theme variables adapt automatically; only genuine dark adjustments live here.
+    // tinyContrast/base are darker than the card surface in dark mode, so filled
+    // elements would sink into the card; light overlays lift them off it instead.
+    .inDarkMode({
+        .recommendGoals-chip {
+            background: fade(#fff, 9%);
+            color: @theme-color-text;
+        }
+
+        .recommendGoals-privacyNote {
+            background: fade(#fff, 6%);
+        }
+
+        .recommendGoals-dismissBtn:hover {
+            background: fade(#fff, 10%);
+        }
+
+        .recommendGoals-chip--setup {
+            background: fade(@color-orange-brand, 12%);
+            border-color: fade(@color-orange-brand, 45%);
+            // full-strength orange reads fine on dark surfaces
+            color: @color-orange-brand;
+        }
+
+        // tinyContrast is darker than the card surface in dark mode, which makes
+        // the chip invisible; use a light overlay so it lifts off the card instead
+        .recommendGoals-pattern {
+            background: fade(#fff, 9%);
+        }
+
+        // same problem for the icon tile: lift it off the card and brighten the glyph
+        .recommendGoals-cardIcon {
+            background: fade(#fff, 10%);
+            color: @theme-color-text;
+        }
+    });
+
+    // subtle inline chip instead of the global terminal-style code block
+    .recommendGoals-pattern {
+        background: @theme-color-background-tinyContrast;
+        border: 1px solid @theme-color-border-alternative;
+        border-radius: 3px;
+        color: @theme-color-text;
+        line-height: 1;
+        overflow-wrap: anywhere;
+        padding: 1px 4px;
+        white-space: normal;
+
+        box-decoration-break: clone;
+        -webkit-box-decoration-break: clone;
+    }
+
+    .recommendGoals-manual {
+        border-top: 1px solid @theme-color-border-alternative;
+        margin-top: 24px;
+        padding-top: 12px;
+
+        summary {
+            align-items: center;
+            border: 0;
+            color: @theme-color-link;
+            cursor: pointer;
+            display: flex;
+            font-size: 13px;
+            gap: 6px;
+            list-style: none;
+
+            &::-webkit-details-marker,
+            &::marker {
+                display: none;
+            }
+
+            .icon-chevron-right {
+                font-size: 10px;
+                transition: transform .12s ease;
+            }
+        }
+
+        &[open] summary .icon-chevron-right {
+            transform: rotate(90deg);
+        }
+
+        .recommendGoals-intro {
+            color: @theme-color-text-light;
+            font-size: 12px;
+            margin-top: 8px;
+        }
+    }
+
+    .recommendGoals-manualList {
+        list-style: none;
+        margin: 8px 0 0;
+        padding: 0;
+
+        li {
+            align-items: center;
+            background: @theme-color-background-contrast;
+            border: 1px solid @theme-color-border-alternative;
+            border-radius: 6px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            list-style: none;
+            margin-top: 8px;
+            padding: 9px 12px;
+        }
+    }
+
+    .recommendGoals-manualBody {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .recommendGoals-manualName {
+        display: block;
+        font-weight: 600;
+    }
+
+    .recommendGoals-manualHowTo {
+        color: @theme-color-text-light;
+        font-size: 12px;
+    }
+
+    .recommendGoals-empty {
+        color: @theme-color-text-light;
+        margin: 16px 0 0;
+    }
+
+    @media (max-width: 640px) {
+        .recommendGoals-cardMain {
+            grid-template-columns: 1fr;
+        }
+
+        .recommendGoals-cardIcon {
+            display: none;
+        }
+
+        .recommendGoals-cardActions {
+            margin-top: 10px;
+        }
+
+        .recommendGoals-evidence summary,
+        .recommendGoals-evidenceBody {
+            padding-left: 14px;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .recommendGoals-evidence summary .icon-chevron-right,
+        .recommendGoals-manual summary .icon-chevron-right {
+            transition: none;
+        }
+    }
+}

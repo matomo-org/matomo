@@ -1623,4 +1623,12 @@ CommonPIIParams[] = website
 CommonPIIParams[] = zip
 CommonPIIParams[] = zipcode
 
+[Goals]
+; Maximum number of same-origin pages fetched when analysing a website for goal recommendations
+recommendation_max_crawl_pages = 50
+
+; Maximum number of AI-assisted goal recommendation scans allowed per site and day.
+; Set to 0 for no limit. Useful for managed environments to cap AI provider usage.
+recommendation_ai_daily_scan_limit = 0
+
 ; NOTE: do not directly edit this file! See notice at the top

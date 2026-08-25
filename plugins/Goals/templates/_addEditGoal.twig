@@ -18,6 +18,7 @@
     user-can-edit-goals="{{ userCanEditGoals|json_encode }}"
     only-show-add-new-goal="{{ onlyShowAddNewGoal|default(false)|json_encode }}"
     ecommerce-enabled="{{ ecommerceEnabled|json_encode }}"
+    currency-symbol="{{ currencySymbol|default('')|json_encode }}"
     {% if userCanEditGoals %}
         {% if onlyShowAddNewGoal is not defined or not onlyShowAddNewGoal %}
             goals="{{ goals|json_encode }}"

@@ -1,0 +1,175 @@
+<!--
+  Matomo - free/libre analytics platform
+
+  @link    https://matomo.org
+  @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+-->
+
+<template>
+  <div
+    class="recommendGoals-card"
+    :class="{ 'recommendGoals-card--added': accepted }"
+  >
+    <div class="recommendGoals-cardMain">
+      <span class="recommendGoals-cardIcon">
+        <span :class="goalIcon"></span>
+      </span>
+      <div class="recommendGoals-cardBody">
+        <div class="recommendGoals-cardTitle">
+          <span class="recommendGoals-cardName">{{ rec.name }}</span>
+          <span v-if="needsSetup"
+            class="recommendGoals-chip recommendGoals-chip--setup"
+            :title="translate('Goals_RecommendNeedsSetupHelp')">
+            {{ translate('Goals_RecommendNeedsSetup') }}
+          </span>
+        </div>
+        <p class="recommendGoals-cardTrigger">
+          {{ triggerDescription }}
+          <code class="recommendGoals-pattern">{{ displayPattern }}</code>
+        </p>
+      </div>
+
+      <!-- CARD ACTIONS -->
+      <div class="recommendGoals-cardActions">
+        <span v-if="accepted" class="recommendGoals-accepted">
+          <span class="icon-ok"></span>
+          {{ translate('General_Added') }}
+        </span>
+        <template v-else>
+          <button
+            type="button"
+            class="btn"
+            :class="{ 'btn-outline': !primary }"
+            @click="$emit('create')"
+            :disabled="busy"
+          >
+            {{ creating
+              ? translate('Goals_RecommendCreating')
+              : translate('Goals_RecommendCreate') }}
+          </button>
+          <button
+            type="button"
+            class="recommendGoals-dismissBtn"
+            :title="translate('Goals_RecommendDismissSuggestion')"
+            :aria-label="translate('Goals_RecommendDismissSuggestion')"
+            @click="$emit('dismiss')"
+            :disabled="busy"
+          >
+            <span class="icon-close"></span>
+          </button>
+        </template>
+      </div>
+    </div>
+    <details class="recommendGoals-evidence" v-if="hasEvidence">
+      <summary>
+        <span class="icon-chevron-right"></span>
+        {{ translate('Goals_RecommendWhySuggested') }}
+      </summary>
+      <div class="recommendGoals-evidenceBody">
+        <p class="recommendGoals-cardReason" v-if="rec.reason">{{ rec.reason }}</p>
+        <ul v-if="rec.evidence && rec.evidence.length">
+          <li v-for="(item, index) in rec.evidence" :key="index">{{ item }}</li>
+        </ul>
+        <p class="recommendGoals-evidenceNote" v-if="needsSetup && rec.implementationNote">
+          <span class="recommendGoals-evidenceLabel">
+            {{ translate('Goals_RecommendManualHowTo') }}
+          </span>
+          {{ rec.implementationNote }}
+        </p>
+      </div>
+    </details>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { computed } from 'vue';
+import { translate } from 'CoreHome';
+import type { RecommendedGoal } from './types';
+
+const props = defineProps<{
+  rec: RecommendedGoal;
+  accepted?: boolean;
+  creating?: boolean;
+  busy?: boolean;
+  primary?: boolean;
+}>();
+
+/* eslint-disable func-call-spacing, no-spaced-func */
+defineEmits<{
+  (e: 'create'): void;
+  (e: 'dismiss'): void;
+}>();
+/* eslint-enable func-call-spacing, no-spaced-func */
+
+const needsSetup = computed(() => (props.rec.matchAttribute || '').indexOf('event_') === 0);
+
+const hasEvidence = computed(() => !!(props.rec.reason
+  || (props.rec.evidence && props.rec.evidence.length)
+  || (needsSetup.value && props.rec.implementationNote)));
+
+const goalIcon = computed(() => {
+  const matchAttribute = props.rec.matchAttribute || 'url';
+  if (matchAttribute === 'file') {
+    return 'icon-download';
+  }
+
+  if (matchAttribute === 'external_website') {
+    return 'icon-outlink';
+  }
+
+  if (matchAttribute.indexOf('event_') === 0) {
+    return 'icon-form';
+  }
+
+  if (matchAttribute.indexOf('visit_') === 0) {
+    return 'icon-clock';
+  }
+
+  return 'icon-goal';
+});
+
+const displayPattern = computed(() => {
+  if ((props.rec.matchAttribute || '') === 'visit_duration') {
+    return translate('Intl_NMinutes', props.rec.pattern);
+  }
+
+  return props.rec.pattern;
+});
+
+function matchAttributeLabel(matchAttribute: string): string {
+  const labels: Record<string, string> = {
+    url: translate('Goals_VisitUrl'),
+    title: translate('Goals_VisitPageTitle'),
+    file: translate('Goals_Download'),
+    external_website: translate('Goals_ClickOutlink'),
+    event_action: translate('Goals_RecommendTriggerEventLabel', translate('Goals_SendEvent'), translate('Events_EventAction')),
+    event_category: translate('Goals_RecommendTriggerEventLabel', translate('Goals_SendEvent'), translate('Events_EventCategory')),
+    event_name: translate('Goals_RecommendTriggerEventLabel', translate('Goals_SendEvent'), translate('Events_EventName')),
+    visit_duration: translate('Goals_VisitDurationMatchAttr'),
+    visit_total_actions: translate('Goals_CategoryTextGeneral_Actions'),
+    visit_total_pageviews: translate('General_ColumnPageviews'),
+  };
+
+  return labels[matchAttribute] || matchAttribute;
+}
+
+const triggerDescription = computed(() => {
+  const matchAttribute = props.rec.matchAttribute || 'url';
+  const patternType = props.rec.patternType || 'contains';
+  const matchLabel = matchAttributeLabel(matchAttribute);
+
+  if (patternType === 'greater_than') {
+    return translate('Goals_RecommendTriggerGreaterThan', matchLabel);
+  }
+
+  if (patternType === 'exact') {
+    return translate('Goals_RecommendTriggerExact', matchLabel);
+  }
+
+  if (patternType === 'regex') {
+    return translate('Goals_RecommendTriggerMatchesExpression', matchLabel);
+  }
+
+  return translate('Goals_RecommendTriggerContains', matchLabel);
+});
+</script>
