@@ -61,6 +61,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   `datatable_archiving_maximum_rows_subtable_actions`, each of them is stored as one additional archive
   record, and their page categories are no longer truncated per category, so a category no longer ends in
   a summary row of its own.
+* The `UserCountry_distinctCountries` metric, returned by `UserCountry.getNumberOfDistinctCountries` and included in the `UserCountry.getCountry` report totals, is now declared as a numeric metric and is therefore subject to CNIL data rounding. On installations with CNIL rounding enabled the returned count is rounded to the same scale as other counts instead of being passed through unrounded, so a value of `18` now reads as `20`. Installations without CNIL rounding are unaffected.
 * Request parameters are no longer trimmed while a request is parsed. `Piwik\API\Request::getRequestArrayFromString()` used to apply `trim((string) $value)` to every non-array parameter, so leading and trailing whitespace in values such as a `label` or a segment operand is now preserved, and scalars keep their type. As a consequence a boolean passed through `Piwik\API\Request::processRequest()` no longer arrives as `'1'`/`''`: a parameter read with `Piwik\Common::getRequestVar($name, $default, 'string')` or `Piwik\Request::getStringParameter()` falls back to its default instead. Pass a string, or read it with `Piwik\Request::getBoolParameter()`, which accepts real booleans.
 
 ### New APIs
