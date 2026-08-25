@@ -7,11 +7,47 @@
 
 import { reactive } from 'vue';
 import Matomo from '../Matomo/Matomo';
+import type { DataTableAction, FooterIconGroup } from './DataTableActions.vue';
 
-export type ReportActionsConfig = Record<string, unknown>;
+/**
+ * What _dataTableActions.twig publishes about one report.
+ *
+ * Declared here rather than where it is consumed: this is the contract between the template that
+ * writes it and everything that reads it, and a reader inventing its own shape is how the two
+ * drift apart.
+ */
+export interface ReportActionsConfig {
+  showFooter: boolean;
+  showFooterIcons: boolean;
+  footerIcons: FooterIconGroup[];
+  viewDataTable: string;
+  clientSideParameters: Record<string, unknown>;
+  isDataTableEmpty: boolean;
+  showFlattenTable: boolean;
+  reportSupportsFlatten: boolean;
+  reportSupportsPercentageValues: boolean;
+  exportSupportsFlatten: boolean;
+  hasMultipleDimensions: boolean;
+  showTotalsRow: boolean;
+  showExcludeLowPopulation: boolean;
+  showPivotBySubtable: boolean;
+  dataTableActions: DataTableAction[];
+  showExport: boolean;
+  showExportAsImageIcon: boolean;
+  showAnnotations: boolean;
+  showPeriods: boolean;
+  selectablePeriods: string[];
+  requestParams: Record<string, unknown>;
+  maxFilterLimit: number;
+  apiMethodToRequestDataTable: string;
+  pivotDimensionName: string|null;
+  actionTranslations: Record<string, string>;
+  // Read by dataTable.js only: the header mounts its search separately.
+  showSearch?: boolean;
+}
 
 interface ReportActionsState {
-  configByReport: Record<string, ReportActionsConfig>;
+  configByReport: Record<string, Partial<ReportActionsConfig>>;
 }
 
 /**
@@ -40,7 +76,7 @@ export class ReportActionsStore {
     this.privateState.configByReport = {};
   }
 
-  get(reportKey: string): ReportActionsConfig {
+  get(reportKey: string): Partial<ReportActionsConfig> {
     if (!reportKey) {
       return {};
     }
@@ -48,7 +84,7 @@ export class ReportActionsStore {
     return this.privateState.configByReport[reportKey] || {};
   }
 
-  set(reportKey: string, config: ReportActionsConfig): void {
+  set(reportKey: string, config: Partial<ReportActionsConfig>): void {
     if (reportKey) {
       this.privateState.configByReport[reportKey] = config;
     }
