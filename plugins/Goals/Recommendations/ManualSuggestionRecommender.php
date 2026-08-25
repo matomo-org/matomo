@@ -47,7 +47,7 @@ class ManualSuggestionRecommender
 
         if (!empty($signals['downloadExtensions'])) {
             $extensions = array_keys($signals['downloadExtensions']);
-            $extension = (string) ($extensions[0] ?? '');
+            $extension = (string) $extensions[0];
             $suggestions[] = [
                 'category' => 'file',
                 'name' => Piwik::translate('Goals_RecommendManualDownloadName'),

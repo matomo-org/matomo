@@ -226,7 +226,7 @@ class HomepageAnalyzer
 
         while (!empty($queue) && count($pages) < $maxPages && microtime(true) < $deadline) {
             $currentUrl = array_shift($queue);
-            if (!is_string($currentUrl) || isset($visited[$currentUrl])) {
+            if (isset($visited[$currentUrl])) {
                 continue;
             }
 
