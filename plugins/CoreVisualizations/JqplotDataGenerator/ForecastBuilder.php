@@ -139,6 +139,23 @@ class ForecastBuilder
     private const DAY_PRIOR_TARGET_SAMPLES = 10;
 
     /**
+     * Number of most-recent same-period samples the week/month/year historical prior draws from
+     * the displayed range. The day target fetches its own window and caps it at
+     * {@see DAY_PRIOR_TARGET_SAMPLES}; the other period types read the displayed ticks, so without
+     * a cap the prior grows with the graph's "rows to display" and the forecast moves whenever the
+     * selector changes -- 11 samples at "last 12 weeks" against 103 at "last 104". Matches the day
+     * cap so every period type fits its prior to a window of the same length, wide enough for
+     * {@see RECENT_LEVEL_WINDOW} to sit inside it and for the trend fit to resist single-tick noise.
+     *
+     * It bounds the sample count, not the path: which samples are drawn is still whatever the
+     * displayed range holds, so a range too short to reach this cap (the first entries in each
+     * selector) yields fewer, and the aligned-vs-all choice in
+     * {@see getHistoricalSamplesForSeries()} is still made over the full displayed window. Making
+     * the prior wholly independent of the display would need its own fetch, as the day target has.
+     */
+    private const PERIOD_PRIOR_TARGET_SAMPLES = self::DAY_PRIOR_TARGET_SAMPLES;
+
+    /**
      * Number of most-recent same-period samples whose median defines the "current level" used to
      * detect a traffic level shift in {@see stripPreLevelShiftSamples()}. Matches
      * MIN_SAMPLES_FOR_BOUNDED_RANGE so the same window that must exist for the envelope clamp also
@@ -1529,6 +1546,12 @@ class ForecastBuilder
             'day' !== $periodLabel
             && count($alignedSamples) >= self::MIN_ALIGNED_SAMPLES_TO_PREFER
         ) ? $alignedSamples : $allSamples;
+
+        // Keep only the most recent PERIOD_PRIOR_TARGET_SAMPLES ticks, so a wide "rows to display"
+        // cannot widen the prior behind the forecast. Applied before the strip and the trim below
+        // so both work on the same window width whatever the display shows, matching the day
+        // target, which caps its own fetched window before the same two steps.
+        $samples = array_slice($samples, -self::PERIOD_PRIOR_TARGET_SAMPLES);
 
         // Leading-zero stripping is only sound for the count families (additive UP and
         // deduplicated UNIQUE) where a leading 0 most likely marks "tracking had not started

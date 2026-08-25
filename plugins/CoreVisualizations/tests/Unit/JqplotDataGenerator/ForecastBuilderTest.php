@@ -2503,6 +2503,54 @@ class ForecastBuilderTest extends TestCase
         );
     }
 
+    public function testBuildUniqueWeekSeriesPriorIsCappedSoDisplayedWidthDoesNotMoveForecast(): void
+    {
+        $site = $this->createSiteMock();
+
+        // The week/month/year prior reads the displayed ticks, so without a cap it grows with the
+        // graph's "rows to display" and the forecast moves whenever the selector changes. Here the
+        // ten most recent weeks are flat at 300 and four older ones sit at 200 -- a dip well inside
+        // LEVEL_SHIFT_RATIO, so the level-shift trim keeps it and only the cap can exclude it.
+        // Over all fourteen the trend fit reads the dip as an ongoing climb and projects 333; over
+        // the capped ten it stays flat at 300. Both displayed widths must forecast the same 300.
+        $weekStarts = [
+            '2026-01-19', '2026-01-26', '2026-02-02', '2026-02-09', '2026-02-16', '2026-02-23',
+            '2026-03-02', '2026-03-09', '2026-03-16', '2026-03-23', '2026-03-30', '2026-04-06',
+            '2026-04-13', '2026-04-20',
+        ];
+        $values = [200.0, 200.0, 200.0, 200.0, 300.0, 300.0, 300.0, 300.0, 300.0, 300.0, 300.0, 300.0, 300.0, 300.0];
+
+        $forecasts = [];
+        foreach ([10, 14] as $priorTickCount) {
+            $dataTables = [];
+            foreach (array_slice($weekStarts, -$priorTickCount) as $weekStart) {
+                $dataTables[] = $this->createDataTableForWeek($weekStart, $site);
+            }
+            $dataTables[] = $this->createDataTableForWeek('2026-04-27', $site, '2026-04-30 23:00:00');
+
+            $states = array_fill(0, $priorTickCount, ArchiveState::COMPLETE);
+            $states[] = ArchiveState::INCOMPLETE;
+
+            $seriesValues = array_slice($values, -$priorTickCount);
+            $seriesValues[] = 250.0;
+
+            $forecastData = $this->buildForecast(
+                ['Unique visitors' => $seriesValues],
+                $dataTables,
+                $states,
+                ['Unique visitors' => false],
+                [],
+                ['Unique visitors' => ForecastMetricClassifier::MONOTONICITY_UNIQUE],
+                ['Unique visitors' => 0]
+            );
+
+            $forecasts[$priorTickCount] = end($forecastData[0]);
+        }
+
+        self::assertSame(300.0, $forecasts[10]);
+        self::assertSame($forecasts[10], $forecasts[14]);
+    }
+
     public function testBuildUpWeekSeriesWithoutDailySamplesTracksRecentLevelAcrossTrafficLevelShift(): void
     {
         $site = $this->createSiteMock();
