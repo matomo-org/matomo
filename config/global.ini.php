@@ -623,12 +623,16 @@ datatable_archiving_maximum_rows_custom_dimensions = 1000
 datatable_archiving_maximum_rows_subtable_custom_dimensions = 1000
 
 ; maximum number of rows for any of the Actions tables (pages, downloads, outlinks)
+; note: not used for page URLs and titles while datatable_archiving_maximum_rows_actions_flat is enabled
 datatable_archiving_maximum_rows_actions = 500
 ; maximum number of rows used when archiving flat page/title actions before rebuilding hierarchy
-; if set to 0, legacy hierarchical-only Actions archiving is used
-datatable_archiving_maximum_rows_actions_flat = 0
+; this is the row cap for the page URL and page title reports, whose categories are then not truncated
+; per category; if set to 0, legacy hierarchical-only Actions archiving is used
+; note: the Matomo 6 update sets this to 0 for existing installations, to keep their legacy archiving
+datatable_archiving_maximum_rows_actions_flat = 10000
 ; maximum number of rows for pages in categories (sub pages, when clicking on the + for a page category)
-; note: should not exceed the display limit in Piwik\Actions\Controller::ACTIONS_REPORT_ROWS_DISPLAY
+; note: not used for page URLs and titles while datatable_archiving_maximum_rows_actions_flat is enabled
+; note: should not exceed the display limit in Piwik\Plugins\Actions\Actions::ACTIONS_REPORT_ROWS_DISPLAY
 ; because each subdirectory doesn't have paging at the bottom, so all data should be displayed if possible.
 datatable_archiving_maximum_rows_subtable_actions = 100
 ; maximum number of rows for the Site Search table

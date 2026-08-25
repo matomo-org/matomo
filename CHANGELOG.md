@@ -52,6 +52,15 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * `CoreHome.EnrichedHeadline` no longer derives a report's inline help from the DOM. It used to look for a `.reportDocumentation[data-content]` element inside the next sibling of its headline and show that text behind a help icon; the text now comes from its `inline-help` attribute. The `piwik:reportChanged` DOM event, which told a headline to re-read that element, has been removed with it. Headlines rendered by `Piwik\View::singleReport()`, or by a template reproducing its shape, therefore lose their help icon unless `inline-help` is passed explicitly.
 * The development-only console commands `git:commit`, `git:pull` and `git:push` have been removed. They were thin wrappers around `git` that predate the current submodule workflow; use `git` directly instead.
 * Site content detection (used by the tracking-code setup page and consent-manager detection) now fetches the site URL over the SSRF-safe request path. It refuses targets resolving to private, loopback or reserved IP addresses, and requires the curl extension instead of falling back to the `fopen` or `socket` transports. Installations tracking intranet sites on private addresses must allowlist their ranges via the new `[General] allowed_private_egress_ranges` setting. Refusals are logged at `WARN` level. A configured `[proxy] host` also makes these requests fail closed, as the proxy resolves the target itself and the validated IP cannot be pinned. Where the site host is reachable directly, add it to `[proxy] exclude` (exact hostnames, no wildcards).
+* Flat-first Actions archiving is enabled by default for new installations, as
+  `datatable_archiving_maximum_rows_actions_flat` now defaults to `10000` instead of `0`. Installations
+  updated from Matomo 5 keep the legacy hierarchical-only archiving, as the update writes a `0` to their
+  `config.ini.php`, unless the setting is already configured there or in `common.config.ini.php`. While it
+  is enabled, the page URL and page title reports (including their entry and exit variants) are capped by
+  this setting instead of `datatable_archiving_maximum_rows_actions` and
+  `datatable_archiving_maximum_rows_subtable_actions`, each of them is stored as one additional archive
+  record, and their page categories are no longer truncated per category, so a category no longer ends in
+  a summary row of its own.
 * Request parameters are no longer trimmed while a request is parsed. `Piwik\API\Request::getRequestArrayFromString()` used to apply `trim((string) $value)` to every non-array parameter, so leading and trailing whitespace in values such as a `label` or a segment operand is now preserved, and scalars keep their type. As a consequence a boolean passed through `Piwik\API\Request::processRequest()` no longer arrives as `'1'`/`''`: a parameter read with `Piwik\Common::getRequestVar($name, $default, 'string')` or `Piwik\Request::getStringParameter()` falls back to its default instead. Pass a string, or read it with `Piwik\Request::getBoolParameter()`, which accepts real booleans.
 
 ### New APIs
