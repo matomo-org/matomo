@@ -207,7 +207,7 @@ class PrivacyManager extends Plugin
     public function onConfigureVisualisation(Plugin\Visualization $view)
     {
         $roundingRequest = [
-            'idSite' => $view->requestConfig->getRequestParam('idSite') ?: $view->requestConfig->getRequestParam('idsite'),
+            'idSite' => $view->requestConfig->getRequestParam('idSite'),
             'segment' => $view->requestConfig->getRequestParam('segment'),
         ];
 
@@ -222,7 +222,7 @@ class PrivacyManager extends Plugin
         }
 
         if ($view->requestConfig->getApiModuleToRequest() === 'Referrers' && !$view->requestConfig->idSubtable) {
-            $idSite = $view->requestConfig->getRequestParam('idsite');
+            $idSite = $view->requestConfig->getRequestParam('idSite');
             if (!is_numeric($idSite) || !$idSite) {
                 $idSite = null;
             } else {
