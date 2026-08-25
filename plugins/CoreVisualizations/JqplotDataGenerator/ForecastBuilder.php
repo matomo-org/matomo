@@ -125,19 +125,23 @@ class ForecastBuilder
     private const DAY_PRIOR_TARGET_SAMPLES = 10;
 
     /**
-     * Number of most-recent same-period samples the week/month/year historical prior draws from
-     * the displayed range. The day target fetches its own window and caps it at
-     * {@see DAY_PRIOR_TARGET_SAMPLES}; the other period types read the displayed ticks, so without
-     * a cap the prior grows with the graph's "rows to display" and the forecast moves whenever the
-     * selector changes -- 11 samples at "last 12 weeks" against 103 at "last 104". Matches the day
-     * cap so every period type fits its prior to a window of the same length, wide enough for
-     * {@see RECENT_LEVEL_WINDOW} to sit inside it and for the trend fit to resist single-tick noise.
+     * Number of most-recent same-period samples the week/month/year historical prior consumes.
+     * Matches {@see DAY_PRIOR_TARGET_SAMPLES} so every period type fits its prior to a window of
+     * the same length, wide enough for {@see RECENT_LEVEL_WINDOW} to sit inside it and for the
+     * trend fit to resist single-tick noise.
      *
-     * It bounds the sample count, not the path: which samples are drawn is still whatever the
-     * displayed range holds, so a range too short to reach this cap (the first entries in each
-     * selector) yields fewer, and the aligned-vs-all choice in
-     * {@see getHistoricalSamplesForSeries()} is still made over the full displayed window. Making
-     * the prior wholly independent of the display would need its own fetch, as the day target has.
+     * Serves both halves of the prior. On the primary path it sizes
+     * {@see ForecastSubPeriodFetcher::PERIOD_PRIOR_WINDOW_PERIODS}, the fetched window of prior
+     * periods the walk in {@see recentPeriodValues()} reads, so the sample set does not depend on
+     * the displayed range at all. On the fallback path -- no window fetched, the prior built from
+     * the displayed ticks -- it caps that walk instead, so a wide "rows to display" cannot widen
+     * the prior behind the forecast: 11 samples at "last 12 weeks" against 103 at "last 104"
+     * without it.
+     *
+     * The fallback keeps one residual the primary path does not have: a displayed range too short
+     * to reach this count yields fewer samples, and its aligned-vs-all choice is made over the
+     * full displayed window. Deduplicated counts never rely on it, since they are exactly the
+     * series the window is fetched for.
      */
     private const PERIOD_PRIOR_TARGET_SAMPLES = self::DAY_PRIOR_TARGET_SAMPLES;
 
@@ -214,6 +218,11 @@ class ForecastBuilder
      * @param array<string, array<string, float>> $allSeriesMonthlySamples Per-series map of
      *                                                                     YYYY-MM → final monthly value, used by MONOTONICITY_UP year forecasts to project
      *                                                                     remaining months from same-month-of-year analogs.
+     * @param array<string, array<string, float>> $allSeriesPeriodSamples Per-series map of the
+     *                                                                     displayed target's own granularity (Y-m-d for a week or year target, YYYY-MM for a
+     *                                                                     month target) → final period value, covering the prior periods the historical prior
+     *                                                                     walks. Supplied for week/month/year targets carrying a deduplicated count; when
+     *                                                                     absent the prior falls back to the displayed period-level ticks.
      * @param string|null $earliestDataDate Earliest 'Y-m-d' the site/segment can hold data
      *                                      (site creation date, raised to an auto-archived segment's re-archive start). Analog
      *                                      samples dated before it are dropped from the day-period prior so a wide displayed
@@ -229,6 +238,7 @@ class ForecastBuilder
         array $seriesUnits,
         array $allSeriesDailySamples = [],
         array $allSeriesMonthlySamples = [],
+        array $allSeriesPeriodSamples = [],
         ?string $earliestDataDate = null
     ): array {
         $allSeriesData = $seriesState->getAllSeriesData();
@@ -316,6 +326,13 @@ class ForecastBuilder
             $runningMonthlySamples = ($seriesName !== null && isset($allSeriesMonthlySamples[$seriesName]))
                 ? $allSeriesMonthlySamples[$seriesName]
                 : [];
+            // Period-level prior samples are read, never written back: unlike the daily and
+            // monthly maps there is no projection to feed forward, because the fetched window
+            // ends at the last complete period and a second incomplete tick draws on the same
+            // prior periods as the first.
+            $seriesPeriodSamples = ($seriesName !== null && isset($allSeriesPeriodSamples[$seriesName]))
+                ? $allSeriesPeriodSamples[$seriesName]
+                : [];
             $feedDailyProjections = [] !== $runningDailySamples;
             $feedMonthlyProjections = [] !== $runningMonthlySamples;
 
@@ -377,7 +394,8 @@ class ForecastBuilder
                     $seriesDataAvailability,
                     $monotonicity,
                     $runningDailySamples,
-                    $earliestDataDate
+                    $earliestDataDate,
+                    $seriesPeriodSamples
                 );
 
                 $tickWindow = new ForecastSampleWindow($runningDailySamples, $runningMonthlySamples);
@@ -1236,6 +1254,53 @@ class ForecastBuilder
     }
 
     /**
+     * Key a period-level sample map entry for the given target: 'YYYY-MM' for a month target,
+     * 'Y-m-d' of the period start otherwise. Mirrors the key
+     * {@see ForecastSubPeriodFetcher::extractSamples()} writes for the same granularity, which is
+     * what lets the walk below address the fetched map directly.
+     */
+    private function periodSampleKey(DataTable $dataTable, string $periodLabel): string
+    {
+        $format = 'month' === $periodLabel ? 'Y-m' : 'Y-m-d';
+
+        return $this->getPeriod($dataTable)->getDateStart()->toString($format);
+    }
+
+    /**
+     * Take up to $K period-level samples immediately preceding $targetKey, oldest-first so the
+     * trend fit lines up with {@see computeHistoricalPrior()}'s ascending x.
+     *
+     * Selects on the keys rather than by stepping dates: the fetched window already holds only
+     * the prior periods of one granularity, and both key formats
+     * ({@see self::periodSampleKey()}) sort lexicographically in chronological order, so taking
+     * the largest keys below the target is the same walk as stepping back one period at a time --
+     * without having to reproduce the calendar arithmetic, and skipping gaps in the archive the
+     * way the same-DoW walk does.
+     *
+     * @param array<string, float> $periodSamples
+     * @return array<int, float>
+     */
+    private function recentPeriodValues(array $periodSamples, string $targetKey, int $K): array
+    {
+        $priorKeys = [];
+        foreach (array_keys($periodSamples) as $key) {
+            if (strcmp((string) $key, $targetKey) < 0) {
+                $priorKeys[] = (string) $key;
+            }
+        }
+
+        rsort($priorKeys, SORT_STRING);
+        $priorKeys = array_slice($priorKeys, 0, $K);
+
+        $samples = [];
+        foreach (array_reverse($priorKeys) as $key) {
+            $samples[] = (float) $periodSamples[$key];
+        }
+
+        return $samples;
+    }
+
+    /**
      * Walk back same-month-of-year entries from $monthlySamples. Keys are 'YYYY-MM'.
      *
      * @param array<string, float> $monthlySamples
@@ -1446,7 +1511,8 @@ class ForecastBuilder
         array $seriesDataAvailability = [],
         string $monotonicity = ForecastMetricClassifier::MONOTONICITY_UP,
         array $dailySamples = [],
-        ?string $earliestDataDate = null
+        ?string $earliestDataDate = null,
+        array $periodSamples = []
     ): array {
         $allSamples = [];
         $alignedSamples = [];
@@ -1472,6 +1538,24 @@ class ForecastBuilder
             }
 
             return array_values($samples);
+        }
+
+        // Week/month/year target with its own fetched window: take the prior periods from there
+        // rather than from the displayed ticks, so the sample set is the same at every "rows to
+        // display" width -- the property the day branch above gets from its own fetch. The
+        // displayed walk below stays as the fallback for when no window was fetched.
+        if ([] !== $periodSamples) {
+            $samples = $this->recentPeriodValues(
+                $periodSamples,
+                $this->periodSampleKey($currentDataTable, $periodLabel),
+                self::PERIOD_PRIOR_TARGET_SAMPLES
+            );
+
+            if ($this->isAnchorCountMonotonicity($monotonicity)) {
+                return $this->stripPreLevelShiftSamples($this->removeLeadingZeroSamples($samples));
+            }
+
+            return $samples;
         }
 
         for ($tickIndex = 0; $tickIndex < $currentTickIndex; ++$tickIndex) {
