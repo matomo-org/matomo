@@ -138,34 +138,6 @@ class PluginsTest extends IntegrationTestCase
         $this->assertSame([], $plugin);
     }
 
-    public function testLicenseInformationPrefersTheConsumerOverTheCopyEmbeddedInThePlugin()
-    {
-        // PaidPlugin1's own entry carries no license, which is why
-        // testGetLicenseValidInfoMissingLicense sees it as missing. The consumer response does
-        // carry one, and that is the fresher answer: the plugin lists are cached for longer.
-        $this->service->returnFixture('v2.0_plugins_PaidPlugin1_info.json');
-        $this->consumerService->authenticate('123456789');
-        $this->consumerService->returnFixture('v2.0_consumer-access_token-consumer2_paid1.json');
-
-        $plugin = $this->plugins->getLicenseValidInfo('PaidPlugin1');
-
-        $this->assertFalse($plugin['isMissingLicense']);
-        $this->assertFalse($plugin['hasExceededLicense']);
-    }
-
-    public function testLicenseInformationFallsBackToTheEmbeddedCopyWhenTheConsumerSaysNothing()
-    {
-        // an instance that cannot reach the Marketplace, or a consumer holding no license for this
-        // plugin, has to behave exactly as it did before the consumer lookup was added
-        $this->service->returnFixture('v2.0_plugins_PaidPlugin1_info.json');
-        $this->consumerService->authenticate('123456789');
-        $this->consumerService->returnFixture('v2.0_consumer-access_token-validbutnolicense.json');
-
-        $plugin = $this->plugins->getLicenseValidInfo('PaidPlugin1');
-
-        $this->assertTrue($plugin['isMissingLicense']);
-    }
-
     public function testGetLicenseValidInfoShouldEnrichLicenseInformation()
     {
         $this->service->returnFixture('v2.0_plugins_Barometer_info.json');

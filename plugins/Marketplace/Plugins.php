@@ -377,7 +377,7 @@ class Plugins
         $plugin['isEligibleForFreeTrial'] =
             $plugin['canBePurchased']
             && empty($plugin['missingRequirements'])
-            && empty($this->getCurrentLicenseFor($plugin));
+            && empty($plugin['consumer']['license']);
 
         $this->addPriceFrom($plugin);
         $this->addPluginCoverImage($plugin);
@@ -393,44 +393,10 @@ class Plugins
         }
 
         $isPremiumFeature = !empty($plugin['shop']) && empty($plugin['isFree']) && empty($plugin['isDownloadable']);
-        $license = $this->getCurrentLicenseFor($plugin);
-
-        $plugin['hasExceededLicense'] = $isPremiumFeature
-            && !empty($license['isValid'])
-            && !empty($license['isExceeded']);
-        $plugin['isMissingLicense'] = $isPremiumFeature
-            && (
-                empty($license)
-                || (!empty($license['status']) && $license['status'] === 'Cancelled')
-            );
+        $plugin['hasExceededLicense'] = $isPremiumFeature && !empty($plugin['consumer']['license']['isValid']) && !empty($plugin['consumer']['license']['isExceeded']);
+        $plugin['isMissingLicense'] = $isPremiumFeature && (empty($plugin['consumer']['license']) || (!empty($plugin['consumer']['license']['status']) && $plugin['consumer']['license']['status'] === 'Cancelled'));
 
         return $plugin;
-    }
-
-    /**
-     * Returns the consumer's license for the given plugin, preferring the consumer response over the
-     * copy the plugin carries.
-     *
-     * A plugin's own copy comes from a plugin list that is cached for far longer than the consumer
-     * response, so on its own it can keep showing a license the consumer has just bought as missing.
-     * Where the consumer response says nothing about the plugin we keep using that copy, so an
-     * instance that cannot reach the Marketplace behaves exactly as it did before.
-     *
-     * @param array<string, mixed> $plugin
-     * @return array<string, mixed>|null
-     */
-    private function getCurrentLicenseFor(array $plugin)
-    {
-        $licenses = $this->consumer->getConsumerPluginLicenses();
-
-        if ($licenses === null) {
-            // the Marketplace could not be reached, so the copy the plugin carries is all we have
-            return isset($plugin['consumer']['license']) ? $plugin['consumer']['license'] : null;
-        }
-
-        // an answer that lists no license for this plugin is an answer: the consumer does not hold
-        // one, whatever the plugin list cached earlier still says
-        return isset($licenses[$plugin['name']]) ? $licenses[$plugin['name']] : null;
     }
 
     private function toLongDate($date)
