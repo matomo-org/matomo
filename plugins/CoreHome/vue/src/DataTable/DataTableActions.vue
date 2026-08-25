@@ -359,7 +359,7 @@ export default defineComponent({
       type: String,
       default: 'footer',
     },
-    // Actions the header renders outside this menu, so they are not offered twice.
+    // Rendered by the header outside this menu, so not offered twice.
     promotedActions: {
       type: Array as PropType<PromotableActionId[]>,
       default: () => [],

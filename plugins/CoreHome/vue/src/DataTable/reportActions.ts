@@ -10,30 +10,15 @@ import type { ReportActionsConfig } from './ReportActions.store';
 export type PromotableActionId = 'periods' | 'export' | 'annotations';
 
 /**
- * The actions a header may lift out of its menu, most deserving first.
- *
- * Fixed, rather than carried per report: a report says what it offers, never where it goes. This
- * is also the rendered order, right to left from the menu's trigger, so the first entry is the one
- * that stays out when there is room for a single control.
- *
- * Actions that will never leave the menu are absent on purpose - the configuration items and the
- * visualisation list are only legible as a list.
+ * The actions a header may lift out of its menu, most deserving first, and rendered in that order
+ * right to left from the trigger. Fixed: a report says what it offers, never where it goes.
  */
 export const PROMOTABLE_ACTIONS: PromotableActionId[] = ['periods', 'export', 'annotations'];
 
-/**
- * Actions the header knows how to render outside its menu.
- *
- * Deliberately shorter than PROMOTABLE_ACTIONS: an action earns its place in the priority order
- * before anyone writes the control that renders it there.
- */
+// Shorter than PROMOTABLE_ACTIONS on purpose: an action earns its rank before it has a control.
 export const PROMOTED_RENDERERS: PromotableActionId[] = ['periods'];
 
-/**
- * Below this, everything stays in the menu.
- *
- * A promoted control takes its width from the title, and on a phone there is none to take.
- */
+// Below this everything stays in the menu: a promoted control has no width to take from a title.
 export const NO_PROMOTION_BREAKPOINT = '(max-width: 767px)';
 
 type Offers = (config: Partial<ReportActionsConfig>) => boolean;
@@ -41,22 +26,19 @@ type Offers = (config: Partial<ReportActionsConfig>) => boolean;
 const OFFERS: Record<PromotableActionId, Offers> = {
   // An empty list would promote a control that opens onto nothing.
   periods: (config) => !!config.showPeriods && (config.selectablePeriods || []).length > 0,
-  // One control covers both, so either one alone still earns it.
+  // One control covers both halves, so either alone earns it.
   export: (config) => !!(config.showExport || config.showExportAsImageIcon),
   annotations: (config) => !!config.showAnnotations,
 };
 
 /**
- * Which promotable actions this report offers, in priority order.
- *
- * Availability is derived from what the report published rather than declared beside the action,
- * so there is one source for whether an entry exists and the promoted control cannot disagree
- * with the menu entry it came from.
+ * Which promotable actions this report offers, in priority order. Derived from what it published,
+ * so a promoted control cannot disagree with the menu entry it replaces.
  */
 export function promotableActions(
   config?: Partial<ReportActionsConfig> | null,
 ): PromotableActionId[] {
-  // The menu itself renders behind this pair, so nothing can leave a menu that is not there.
+  // Nothing can leave a menu that does not render.
   if (!config || !config.showFooter || !config.showFooterIcons) {
     return [];
   }

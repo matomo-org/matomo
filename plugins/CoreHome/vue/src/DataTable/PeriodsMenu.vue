@@ -6,8 +6,7 @@
 -->
 
 <template>
-  <!-- `dataTablePeriods` on the list and `tableIcon` on each entry are what dataTable.js binds the
-       period change to, so they travel with this markup wherever it is rendered. -->
+  <!-- dataTable.js binds the period change on `dataTablePeriods` + `tableIcon`. -->
   <ul class="mtm-dropdownPanel__menu dataTablePeriods" role="menu">
     <li
       v-for="selectablePeriod in selectablePeriods"
