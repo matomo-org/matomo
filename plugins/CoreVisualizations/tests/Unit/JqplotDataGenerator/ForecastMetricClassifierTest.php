@@ -70,6 +70,21 @@ class ForecastMetricClassifierTest extends TestCase
         yield 'unique pageviews stays additive' => ['nb_uniq_pageviews', false, ForecastMetricClassifier::MONOTONICITY_UP];
         yield 'unique downloads stays additive' => ['nb_uniq_downloads', false, ForecastMetricClassifier::MONOTONICITY_UP];
         yield 'unique outlinks stays additive' => ['nb_uniq_outlinks', false, ForecastMetricClassifier::MONOTONICITY_UP];
+        // nb_uniq_orders is generated, but counts distinct idorder over the ecommerce orders, and
+        // an order falls on one day, so a week's distinct-order count is the sum of its days' and
+        // the additive path keeps the elapsed-aware decomposition. Core renames the other
+        // surrogate-key distinct counts (idvisit to nb_visits, idlink_va to hits and pageviews)
+        // instead, which is why this is the only generated name in the exception list.
+        yield 'generated ecommerce order count stays additive' => ['nb_uniq_orders', false, ForecastMetricClassifier::MONOTONICITY_UP];
+        // Dimension::configureMetrics() generates a count(distinct <column>) metric named
+        // nb_uniq_<metric id> for every URL/TEXT/BINARY/ENUM dimension. These reach MetricsList,
+        // which is what a custom report validates a metric pick against, so they are plottable
+        // even though no core report exposes them -- and they are generated per dimension, so the
+        // prefix has to carry them rather than a list of names.
+        yield 'generated device-type distinct count is a deduplicated count' => ['nb_uniq_devicesdetection_devicetype', false, ForecastMetricClassifier::MONOTONICITY_UNIQUE];
+        yield 'generated page-url distinct count is a deduplicated count' => ['nb_uniq_actions_pageurl', false, ForecastMetricClassifier::MONOTONICITY_UNIQUE];
+        yield 'sum daily of a generated distinct count stays additive' => ['sum_daily_nb_uniq_devicesdetection_devicetype', false, ForecastMetricClassifier::MONOTONICITY_UP];
+        yield 'row percentage of a generated distinct count is a ratio' => ['nb_uniq_devicesdetection_devicetype_row_percentage', false, ForecastMetricClassifier::MONOTONICITY_FREE];
         yield 'average over unique visitors is a ratio' => ['avg_nb_uniq_visitors', false, ForecastMetricClassifier::MONOTONICITY_FREE];
         yield 'row percentage of unique visitors is a ratio' => ['nb_uniq_visitors_row_percentage', false, ForecastMetricClassifier::MONOTONICITY_FREE];
         // Blob-row counts: the period value is the row count of the re-aggregated sub-period

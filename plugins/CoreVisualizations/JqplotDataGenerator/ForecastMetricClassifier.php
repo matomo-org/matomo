@@ -13,6 +13,7 @@ namespace Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 
 use Piwik\Columns\Dimension;
 use Piwik\Metrics;
+use Piwik\Plugin\ArchivedMetric;
 
 /**
  * Classifies a metric for the evolution-graph forecast pipeline. Owns two related decisions:
@@ -44,9 +45,12 @@ class ForecastMetricClassifier
      * another name. nb_uniq_fingerprints is the metric core substitutes for nb_uniq_visitors when
      * counting uniques across several sites, so it is the same measurement again.
      *
-     * nb_uniq_pageviews, nb_uniq_downloads and nb_uniq_outlinks are deliberately absent: those
-     * count the *visits* that included an action, and a visit belongs to a single day, so Matomo
-     * archives them as plain summed numeric records and the additive UP path is right for them.
+     * These are the log-derived counts that do not carry the generated
+     * {@see ArchivedMetric::AGGREGATION_UNIQUE_PREFIX}, so the prefix rule in
+     * {@see hasDeduplicatedCountColumnName()} cannot reach them: nb_users has an unrelated name,
+     * and the entry_/exit_/share_ variants carry their base name away from offset 0. The
+     * prefix-carrying counts that are *not* deduplicated are listed separately in
+     * {@see ADDITIVE_UNIQUE_PREFIXED_METRIC_NAMES}.
      *
      * @var array<int, string>
      */
@@ -54,6 +58,48 @@ class ForecastMetricClassifier
         'nb_uniq_visitors',
         'nb_uniq_fingerprints',
         'nb_users',
+    ];
+
+    /**
+     * The metrics that carry {@see ArchivedMetric::AGGREGATION_UNIQUE_PREFIX} while still being
+     * additive over the period, and so must not be swept up by the prefix rule in
+     * {@see hasDeduplicatedCountColumnName()}. The test is the one the forecast actually needs:
+     * summing the sub-period values reconstructs the period value, so the additive UP path -- and
+     * with it the elapsed-aware seasonal decomposition -- is the right one. Whether the archiver
+     * reaches that value by summing the daily records or by recounting the logs does not matter
+     * here; only whether the sum is the answer.
+     *
+     * The first three are hand-written and count the *visits* that included an action. A visit
+     * belongs to a single day, so Matomo archives them as plain summed numeric records. All three
+     * are plotted on the VisitsSummary overview, so misclassifying them would show up on a core
+     * graph rather than only in a custom report.
+     *
+     * nb_uniq_orders is generated, and qualifies because its deduplication key cannot recur across
+     * days: {@see \Piwik\Plugins\Ecommerce\Columns\Order} forces a count(distinct idorder) over the
+     * ecommerce orders, and an order falls on one day, so a week's distinct-order count is the sum
+     * of its days'. It is also Ecommerce's order volume and the denominator of every per-order
+     * average ({@see \Piwik\Plugins\Ecommerce\Ecommerce::addComputedMetrics()}), not an incidental
+     * generated count.
+     *
+     * That entry is the only one of its kind, because core renames an additive surrogate-key
+     * distinct count away from the prefix instead of listing it here -- idvisit becomes nb_visits,
+     * idlink_va becomes hits and pageviews -- and keeps the prefix only where the key really does
+     * recur across days (nb_uniq_visitors on idvisitor, the fingerprint count on config_id).
+     * Ecommerce is the one dimension that forces a distinct count on a surrogate key and leaves the
+     * generated name, which is what keeps this list short rather than open-ended.
+     *
+     * Matched exactly. The prefixed and suffixed variants that would carry these names as a
+     * substring are already routed elsewhere before the prefix rule is reached: a summed period
+     * copy by the sum_ guard, and a percentage or average view by
+     * {@see hasRatioShapedColumnName()}.
+     *
+     * @var array<int, string>
+     */
+    private const ADDITIVE_UNIQUE_PREFIXED_METRIC_NAMES = [
+        'nb_uniq_pageviews',
+        'nb_uniq_downloads',
+        'nb_uniq_outlinks',
+        'nb_uniq_orders',
     ];
 
     /**
@@ -268,7 +314,18 @@ class ForecastMetricClassifier
     }
 
     /**
-     * True when a column name carries one of the {@see self::DEDUPLICATED_COUNT_BASE_NAMES}.
+     * True when a column name carries the generated {@see ArchivedMetric::AGGREGATION_UNIQUE_PREFIX}
+     * or one of the {@see self::DEDUPLICATED_COUNT_BASE_NAMES}.
+     *
+     * The prefix arm covers the distinct counts Matomo generates rather than hand-writes:
+     * {@see \Piwik\Columns\Dimension::configureMetrics()} creates a
+     * count(distinct <column>) metric named nb_uniq_<metric id> for every URL, TEXT, BINARY and
+     * ENUM dimension, and {@see \Piwik\Columns\DimensionMetricFactory::createMetric()} builds
+     * that name from the prefix. These land in {@see \Piwik\Metrics\MetricsList}, which is what
+     * a custom report validates a user's metric picks against, so one can be plotted even though
+     * no core report exposes it. They are generated per dimension, so enumerating them by name
+     * cannot keep up -- matching the prefix inverts that, leaving only the finite set of additive
+     * exceptions in {@see self::ADDITIVE_UNIQUE_PREFIXED_METRIC_NAMES} to maintain.
      *
      * The sum_ prefix excludes the already-summed siblings: when a period archive aggregates
      * these columns, core renames the summed result rather than letting it keep the base name
@@ -284,6 +341,14 @@ class ForecastMetricClassifier
     {
         if (strpos($columnName, 'sum_') === 0) {
             return false;
+        }
+
+        if (in_array($columnName, self::ADDITIVE_UNIQUE_PREFIXED_METRIC_NAMES, true)) {
+            return false;
+        }
+
+        if (strpos($columnName, ArchivedMetric::AGGREGATION_UNIQUE_PREFIX) === 0) {
+            return true;
         }
 
         foreach (self::DEDUPLICATED_COUNT_BASE_NAMES as $baseName) {
