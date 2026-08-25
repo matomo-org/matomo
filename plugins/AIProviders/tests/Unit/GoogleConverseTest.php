@@ -376,6 +376,62 @@ class GoogleConverseTest extends TestCase
         $this->assertSame('gemini-3.1-flash-lite', $response->getModel());
     }
 
+    public function testThoughtSignatureSurvivesTheToolUseRoundTrip(): void
+    {
+        $gemini = new RecordingGoogle();
+        $gemini->cannedResponse = [
+            'candidates' => [[
+                'content' => ['parts' => [
+                    [
+                        'functionCall' => ['name' => 'matomo_site_list', 'args' => ['idSite' => 1]],
+                        'thoughtSignature' => 'sig-abc123',
+                    ],
+                ]],
+                'finishReason' => 'STOP',
+            ]],
+        ];
+
+        $first = $gemini->converse($this->simpleRequest(), self::CONFIGURATION);
+        $toolUse = $first->getContent()[0];
+
+        $this->assertSame('sig-abc123', $toolUse['thoughtSignature']);
+
+        // Replay must put the signature back as a sibling of functionCall.
+        $followUp = new AIConversationRequest(
+            [['role' => 'assistant', 'content' => $first->getContent()]],
+            'AskMatomo'
+        );
+        $gemini->converse($followUp, self::CONFIGURATION);
+
+        $sentPart = $gemini->sentPayload['contents'][0]['parts'][0];
+        $this->assertSame('sig-abc123', $sentPart['thoughtSignature']);
+        $this->assertSame('matomo_site_list', $sentPart['functionCall']['name']);
+    }
+
+    public function testToolUseWithoutThoughtSignatureOmitsItOnBothSides(): void
+    {
+        $gemini = new RecordingGoogle();
+        $gemini->cannedResponse = [
+            'candidates' => [[
+                'content' => ['parts' => [
+                    ['functionCall' => ['name' => 'matomo_site_list', 'args' => ['idSite' => 1]]],
+                ]],
+                'finishReason' => 'STOP',
+            ]],
+        ];
+
+        $first = $gemini->converse($this->simpleRequest(), self::CONFIGURATION);
+        $this->assertArrayNotHasKey('thoughtSignature', $first->getContent()[0]);
+
+        $followUp = new AIConversationRequest(
+            [['role' => 'assistant', 'content' => $first->getContent()]],
+            'AskMatomo'
+        );
+        $gemini->converse($followUp, self::CONFIGURATION);
+
+        $this->assertArrayNotHasKey('thoughtSignature', $gemini->sentPayload['contents'][0]['parts'][0]);
+    }
+
     public function testSynthesizedIdResolvesBackToFunctionNameOnFollowUpTurn(): void
     {
         $gemini = new RecordingGoogle();
