@@ -480,6 +480,8 @@ csp_enabled = 1
 
 ; If set, and csp_enabled is on, Matomo will send a report-uri in the Content-Security-Policy-Report-Only header
 ; instead of a Content-Security-Policy header.
+; Responses that carry data rather than application UI (API output, exports, generated reports) are not
+; covered: their policy is always enforced.
 csp_report_only = 0
 
 ; If set to 1 Matomo will prefer using SERVER_NAME variable over HTTP_HOST.

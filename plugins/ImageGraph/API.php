@@ -18,6 +18,7 @@ use Piwik\DataTable;
 use Piwik\DataTable\Map;
 use Piwik\Exception\InvalidDimensionException;
 use Piwik\Filesystem;
+use Piwik\Http\SecurityHeaders;
 use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Request as PiwikRequest;
@@ -588,6 +589,9 @@ class API extends \Piwik\Plugin\API
 
             case self::GRAPH_OUTPUT_INLINE:
             default:
+                // the graph library streams the image and its content type itself, so ours go first
+                SecurityHeaders::sendForDataResponse();
+
                 $graph->sendToBrowser();
                 exit;
         }
