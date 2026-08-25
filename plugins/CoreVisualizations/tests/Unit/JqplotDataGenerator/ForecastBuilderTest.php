@@ -2571,6 +2571,198 @@ class ForecastBuilderTest extends TestCase
         self::assertSame([[null, null, null, 350.0]], $forecastData);
     }
 
+    public function testBuildUniqueWeekSeriesWithFetchedWindowIsIdenticalAtEverySelectorWidth(): void
+    {
+        $site = $this->createSiteMock();
+
+        // A curved (decelerating) climb that stays inside LEVEL_SHIFT_RATIO of the recent level,
+        // so neither the leading-zero strip nor the level-shift trim touches it. Read from the
+        // displayed ticks, this is the series whose forecast still drifts with the selector --
+        // the fit over three recent weeks projects lower than the fit over ten. Read from the
+        // fetched window, every width sees the same ten prior weeks and forecasts the same value.
+        $window = [
+            '2026-02-16' => 500.0, '2026-02-23' => 560.0, '2026-03-02' => 630.0,
+            '2026-03-09' => 700.0, '2026-03-16' => 760.0, '2026-03-23' => 810.0,
+            '2026-03-30' => 850.0, '2026-04-06' => 880.0, '2026-04-13' => 900.0,
+            '2026-04-20' => 910.0,
+        ];
+        $weekStarts = array_keys($window);
+
+        $forecasts = [];
+        foreach ([3, 5, 7, 10] as $priorTickCount) {
+            $displayed = array_slice($weekStarts, -$priorTickCount);
+
+            $dataTables = [];
+            foreach ($displayed as $weekStart) {
+                $dataTables[] = $this->createDataTableForWeek($weekStart, $site);
+            }
+            $dataTables[] = $this->createDataTableForWeek('2026-04-27', $site, '2026-04-30 23:00:00');
+
+            $states = array_fill(0, $priorTickCount, ArchiveState::COMPLETE);
+            $states[] = ArchiveState::INCOMPLETE;
+
+            $seriesValues = [];
+            foreach ($displayed as $weekStart) {
+                $seriesValues[] = $window[$weekStart];
+            }
+            $seriesValues[] = 400.0;
+
+            $forecastData = $this->buildForecast(
+                ['Unique visitors' => $seriesValues],
+                $dataTables,
+                $states,
+                ['Unique visitors' => false],
+                [],
+                ['Unique visitors' => ForecastMetricClassifier::MONOTONICITY_UNIQUE],
+                ['Unique visitors' => 0],
+                [],
+                [],
+                null,
+                ['Unique visitors' => $window]
+            );
+
+            $forecasts[$priorTickCount] = end($forecastData[0]);
+        }
+
+        self::assertSame(987.0, $forecasts[10]);
+        self::assertSame($forecasts[10], $forecasts[3]);
+        self::assertSame($forecasts[10], $forecasts[5]);
+        self::assertSame($forecasts[10], $forecasts[7]);
+    }
+
+    public function testBuildUniqueMonthSeriesReadsFetchedWindowUnderItsOwnMonthKeys(): void
+    {
+        $site = $this->createSiteMock();
+
+        // Month targets key the fetched window 'YYYY-MM', matching what the fetcher writes for
+        // month granularity. A four-month display carries three prior ticks; the window carries
+        // ten, and the forecast comes from the window.
+        $window = [
+            '2025-07' => 500.0, '2025-08' => 560.0, '2025-09' => 630.0, '2025-10' => 700.0,
+            '2025-11' => 760.0, '2025-12' => 810.0, '2026-01' => 850.0, '2026-02' => 880.0,
+            '2026-03' => 900.0, '2026-04' => 910.0,
+        ];
+
+        $dataTables = [
+            $this->createDataTableForMonth('2026-03-01', $site),
+            $this->createDataTableForMonth('2026-04-01', $site),
+            $this->createDataTableForMonth('2026-05-01', $site, '2026-05-20 12:00:00'),
+        ];
+
+        $forecastData = $this->buildForecast(
+            ['Unique visitors' => [900.0, 910.0, 400.0]],
+            $dataTables,
+            [ArchiveState::COMPLETE, ArchiveState::COMPLETE, ArchiveState::INCOMPLETE],
+            ['Unique visitors' => false],
+            [],
+            ['Unique visitors' => ForecastMetricClassifier::MONOTONICITY_UNIQUE],
+            ['Unique visitors' => 0],
+            [],
+            [],
+            null,
+            ['Unique visitors' => $window]
+        );
+
+        // Same ten samples as the week case above, so the same prior: 987.
+        self::assertSame([[null, null, 987.0]], $forecastData);
+    }
+
+    public function testBuildUniqueWeekSeriesFallsBackToDisplayedTicksWithoutAFetchedWindow(): void
+    {
+        $site = $this->createSiteMock();
+
+        // No window supplied (fetch skipped or failed): the displayed walk still runs, still
+        // capped, so the fallback keeps working rather than losing its forecast entirely.
+        $dataTables = [
+            $this->createDataTableForWeek('2026-04-06', $site),
+            $this->createDataTableForWeek('2026-04-13', $site),
+            $this->createDataTableForWeek('2026-04-20', $site),
+            $this->createDataTableForWeek('2026-04-27', $site, '2026-04-30 23:00:00'),
+        ];
+
+        $forecastData = $this->buildForecast(
+            ['Unique visitors' => [880.0, 900.0, 910.0, 400.0]],
+            $dataTables,
+            [
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::INCOMPLETE,
+            ],
+            ['Unique visitors' => false],
+            [],
+            ['Unique visitors' => ForecastMetricClassifier::MONOTONICITY_UNIQUE],
+            ['Unique visitors' => 0]
+        );
+
+        // Three displayed priors, fit and clamped on their own: 896.67 + 15 * ... -> 919.
+        self::assertSame([[null, null, null, 919.0]], $forecastData);
+    }
+
+    public function testBuildUniqueMonthSeriesWithFetchedWindowIgnoresTheAlignedSampleFlip(): void
+    {
+        $site = $this->createSiteMock();
+
+        // The residual the cap alone cannot reach: a monthly display spanning four years holds
+        // four same-calendar-month ticks, which meets MIN_ALIGNED_SAMPLES_TO_PREFER, so the
+        // displayed walk swaps the recency set for the year-apart set -- a different set of
+        // samples, not merely a different count. Here the four aligned Mays sit at 100 while
+        // every other month sits near 900, so the two paths cannot be confused. With a fetched
+        // window the aligned set is never assembled and the recency prior stands.
+        $window = [];
+        $dataTables = [];
+        $states = [];
+        $values = [];
+
+        // 49 complete monthly ticks, 2022-04 through 2026-04, then the in-progress 2026-05.
+        $cursor = \Piwik\Date::factory('2022-04-01');
+        for ($i = 0; $i < 49; ++$i) {
+            $monthStart = $cursor->toString('Y-m-d');
+            $value = ('05' === $cursor->toString('m')) ? 100.0 : 900.0;
+
+            $dataTables[] = $this->createDataTableForMonth($monthStart, $site);
+            $states[] = ArchiveState::COMPLETE;
+            $values[] = $value;
+            $window[$cursor->toString('Y-m')] = $value;
+
+            $cursor = $cursor->addPeriod(1, 'month');
+        }
+
+        $dataTables[] = $this->createDataTableForMonth('2026-05-01', $site, '2026-05-20 12:00:00');
+        $states[] = ArchiveState::INCOMPLETE;
+        $values[] = 50.0;
+
+        $withWindow = $this->buildForecast(
+            ['Unique visitors' => $values],
+            $dataTables,
+            $states,
+            ['Unique visitors' => false],
+            [],
+            ['Unique visitors' => ForecastMetricClassifier::MONOTONICITY_UNIQUE],
+            ['Unique visitors' => 0],
+            [],
+            [],
+            null,
+            ['Unique visitors' => $window]
+        );
+
+        $withoutWindow = $this->buildForecast(
+            ['Unique visitors' => $values],
+            $dataTables,
+            $states,
+            ['Unique visitors' => false],
+            [],
+            ['Unique visitors' => ForecastMetricClassifier::MONOTONICITY_UNIQUE],
+            ['Unique visitors' => 0]
+        );
+
+        // The fetched window's last ten months are 900s bar one May, so the prior sits at 900.
+        self::assertSame(900.0, end($withWindow[0]));
+        // The displayed walk prefers the four aligned Mays and lands on their level instead,
+        // which is the flip the fetched window removes.
+        self::assertSame(100.0, end($withoutWindow[0]));
+    }
+
     public function testBuildUniqueWeekSeriesPriorIsCappedSoDisplayedWidthDoesNotMoveForecast(): void
     {
         $site = $this->createSiteMock();
@@ -2958,6 +3150,8 @@ class ForecastBuilderTest extends TestCase
      * @param array<string, array<int, bool>> $allSeriesDataAvailability
      * @param array<string, string> $allSeriesMonotonicity
      * @param array<string, int> $allSeriesForecastPrecision
+     * @param array<string, array<string, float>> $allSeriesPeriodSamples Trails the other maps so
+     *                                                                     existing positional call sites keep their argument order.
      * @param array<string, array<string, float>> $allSeriesDailySamples
      * @param array<string, array<string, float>> $allSeriesMonthlySamples
      * @return array<int, array<int, float|null>>
@@ -2972,7 +3166,8 @@ class ForecastBuilderTest extends TestCase
         array $allSeriesForecastPrecision = [],
         array $allSeriesDailySamples = [],
         array $allSeriesMonthlySamples = [],
-        ?string $earliestDataDate = null
+        ?string $earliestDataDate = null,
+        array $allSeriesPeriodSamples = []
     ): array {
         $seriesState = new ForecastSeriesState(
             $allSeriesData,
@@ -2988,6 +3183,7 @@ class ForecastBuilderTest extends TestCase
             $seriesUnits,
             $allSeriesDailySamples,
             $allSeriesMonthlySamples,
+            $allSeriesPeriodSamples,
             $earliestDataDate
         );
     }

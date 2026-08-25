@@ -38,7 +38,7 @@ class ForecastSubPeriodFetcherTest extends TestCase
         $fetcher = $this->createFetcher();
 
         self::assertSame(
-            ['daily' => [], 'monthly' => [], 'earliestDataDate' => null],
+            ['daily' => [], 'monthly' => [], 'period' => [], 'earliestDataDate' => null],
             $fetcher->collect([], $this->createSeriesState(['Visits' => 'nb_visits'], [], []), 'VisitsSummary.get', 1, '')
         );
     }
@@ -48,7 +48,7 @@ class ForecastSubPeriodFetcherTest extends TestCase
         $fetcher = $this->createFetcher();
 
         self::assertSame(
-            ['daily' => [], 'monthly' => [], 'earliestDataDate' => null],
+            ['daily' => [], 'monthly' => [], 'period' => [], 'earliestDataDate' => null],
             $fetcher->collect([$this->createDayDataTable('2026-04-10')], $this->createSeriesState([], [], []), 'VisitsSummary.get', 1, '')
         );
     }
@@ -59,11 +59,11 @@ class ForecastSubPeriodFetcherTest extends TestCase
         $dataTables = [$this->createDayDataTable('2026-04-10')];
 
         self::assertSame(
-            ['daily' => [], 'monthly' => [], 'earliestDataDate' => null],
+            ['daily' => [], 'monthly' => [], 'period' => [], 'earliestDataDate' => null],
             $fetcher->collect($dataTables, $this->createSeriesState(['Visits' => 'nb_visits'], [], []), '', 1, '')
         );
         self::assertSame(
-            ['daily' => [], 'monthly' => [], 'earliestDataDate' => null],
+            ['daily' => [], 'monthly' => [], 'period' => [], 'earliestDataDate' => null],
             $fetcher->collect($dataTables, $this->createSeriesState(['Visits' => 'nb_visits'], [], []), 'NoDotMethod', 1, '')
         );
     }
@@ -74,7 +74,7 @@ class ForecastSubPeriodFetcherTest extends TestCase
         $dataTables = [$this->createDayDataTable('2026-04-10')];
 
         self::assertSame(
-            ['daily' => [], 'monthly' => [], 'earliestDataDate' => null],
+            ['daily' => [], 'monthly' => [], 'period' => [], 'earliestDataDate' => null],
             $fetcher->collect($dataTables, $this->createSeriesState(['Visits' => 'nb_visits'], [], []), 'VisitsSummary.get', 0, '')
         );
     }
@@ -88,7 +88,7 @@ class ForecastSubPeriodFetcherTest extends TestCase
         $rangeTable->setMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX, Factory::build('range', '2026-04-01,2026-04-10'));
 
         self::assertSame(
-            ['daily' => [], 'monthly' => [], 'earliestDataDate' => null],
+            ['daily' => [], 'monthly' => [], 'period' => [], 'earliestDataDate' => null],
             $fetcher->collect([$rangeTable], $this->createSeriesState(['Visits' => 'nb_visits'], [], []), 'VisitsSummary.get', 1, '')
         );
     }
@@ -156,6 +156,7 @@ class ForecastSubPeriodFetcherTest extends TestCase
                     ],
                 ],
                 'monthly' => [],
+                'period' => [],
                 'earliestDataDate' => null,
             ],
             $result
@@ -258,10 +259,16 @@ class ForecastSubPeriodFetcherTest extends TestCase
 
         $fetcher->collect([$weekTable], $this->createSeriesState(['Visits' => 'nb_visits'], [], []), 'VisitsSummary.get', 1, '');
 
-        self::assertCount(1, $captured);
+        self::assertCount(2, $captured);
         self::assertSame('day', $captured[0][0]);
         // endDate = week end (2026-04-12) - 1 day = 2026-04-11; startDate = endDate - 30 days.
         self::assertSame('2026-03-12,2026-04-11', $captured[0][1]);
+        // Period-level prior window: PERIOD_PRIOR_WINDOW_PERIODS weeks back from the same
+        // endDate, minus what the single displayed week already supplies -- so the request covers
+        // only the gap, ending the day before the displayed week starts. Fires at all here because
+        // an unclassified series state assumes the prior needs the window.
+        self::assertSame('week', $captured[1][0]);
+        self::assertSame('2026-01-31,2026-04-05', $captured[1][1]);
     }
 
     public function testCollectFansOutDailyAndMonthlyForMonthPeriod(): void
@@ -280,13 +287,19 @@ class ForecastSubPeriodFetcherTest extends TestCase
 
         $fetcher->collect([$monthTable], $this->createSeriesState(['Visits' => 'nb_visits'], [], []), 'VisitsSummary.get', 1, '');
 
-        self::assertCount(2, $captured);
+        self::assertCount(3, $captured);
         self::assertSame('day', $captured[0][0]);
         // endDate = month end (2026-04-30) - 1 day = 2026-04-29; startDate = endDate - 60 days.
         self::assertSame('2026-02-28,2026-04-29', $captured[0][1]);
         self::assertSame('month', $captured[1][0]);
         // Monthly window: 2 years back from endDate. Date::subYear truncates to Jan 1.
         self::assertSame('2024-01-01,2026-04-29', $captured[1][1]);
+        // Period-level prior window: ten months back from the same endDate, gap-only, so it ends
+        // the day before the displayed month starts. Same granularity as the MoY window above but
+        // a different span -- recency rather than year-apart alignment -- and Date::subPeriod keeps
+        // the day of month where Date::subYear truncates.
+        self::assertSame('month', $captured[2][0]);
+        self::assertSame('2025-06-29,2026-03-31', $captured[2][1]);
     }
 
     public function testCollectSkipsMonthlyFetchOnMonthTargetWhenNoUpSeries(): void
@@ -380,7 +393,9 @@ class ForecastSubPeriodFetcherTest extends TestCase
             ''
         );
 
-        self::assertSame(['day'], $captured);
+        // The daily fan-out fires for the decomposable series; the period window fires for the
+        // deduplicated one, which has no decomposition path and reads the prior instead.
+        self::assertSame(['day', 'week'], $captured);
     }
 
     public function testCollectFansOutDailyAndMonthlyForMonthPeriodWhenAtLeastOneSeriesIsUp(): void
@@ -430,20 +445,78 @@ class ForecastSubPeriodFetcherTest extends TestCase
 
         $fetcher->collect([$yearTable], $this->createSeriesState(['Visits' => 'nb_visits'], [], []), 'VisitsSummary.get', 1, '');
 
-        self::assertCount(2, $captured);
+        self::assertCount(3, $captured);
         self::assertSame('day', $captured[0][0]);
         // endDate = year end (2026-12-31) - 1 day = 2026-12-30; startDate = endDate - 60 days.
         self::assertSame('2026-10-31,2026-12-30', $captured[0][1]);
         self::assertSame('month', $captured[1][0]);
         // 8-year monthly window for year-target forecasts. Date::subYear truncates to Jan 1.
         self::assertSame('2018-01-01,2026-12-30', $captured[1][1]);
+        // Period-level prior window: ten years back, keeping month and day, gap-only so it ends
+        // the day before the displayed year starts.
+        self::assertSame('year', $captured[2][0]);
+        self::assertSame('2016-12-30,2025-12-31', $captured[2][1]);
     }
 
-    public function testCollectSkipsBothFetchesOnYearTargetWhenEverySeriesIsADeduplicatedCount(): void
+    public function testCollectSkipsPeriodFetchWhenWeekDisplayCoversThePriorWindow(): void
     {
-        // Both year fan-outs feed the seasonal path, and buildSeasonalForecastValue() hands a
-        // deduplicated count to the prior-only path before reading either map, so neither has a
-        // consumer here. Capture the requested periods rather than failing inside the processor:
+        // Wide display: the displayed weeks already reach back past the prior window, so they are
+        // the same archived values the request would return and no request fires. This is the
+        // common case on the wider selector entries -- the window only costs a request when the
+        // display is too narrow to fill it.
+        $captured = [];
+        $fetcher = $this->createFetcher(function (string $apiMethod, array $params) use (&$captured) {
+            $captured[] = $params['period'];
+            return $this->createSampleResultMap([]);
+        });
+
+        // Twelve displayed weeks ending in the in-progress 2026-04-27. endDate = 2026-04-26, so
+        // the prior window starts ten weeks earlier (2026-02-15); the display starts 2026-02-09.
+        $dataTables = [];
+        $cursor = \Piwik\Date::factory('2026-02-09');
+        for ($i = 0; $i < 11; ++$i) {
+            $dataTables[] = $this->createWeekDataTableWithRow(
+                $cursor->toString('Y-m-d'),
+                ['nb_uniq_visitors' => 100.0 + $i],
+                ArchiveState::COMPLETE
+            );
+            $cursor = $cursor->addPeriod(1, 'week');
+        }
+        $dataTables[] = $this->createWeekDataTableWithRow(
+            '2026-04-27',
+            ['nb_uniq_visitors' => 40.0],
+            ArchiveState::INCOMPLETE
+        );
+
+        $samples = $fetcher->collect(
+            $dataTables,
+            $this->createSeriesState(
+                ['Unique visitors' => 'nb_uniq_visitors'],
+                [],
+                ['Unique visitors' => ForecastMetricClassifier::MONOTONICITY_UNIQUE]
+            ),
+            'VisitsSummary.get',
+            1,
+            ''
+        );
+
+        self::assertSame([], $captured);
+
+        // The window is served from the displayed ticks instead, and the in-progress week is
+        // absent so its partial value cannot become a prior sample.
+        self::assertArrayHasKey('Unique visitors', $samples['period']);
+        self::assertSame(11, count($samples['period']['Unique visitors']));
+        self::assertArrayNotHasKey('2026-04-27', $samples['period']['Unique visitors']);
+        self::assertSame(100.0, $samples['period']['Unique visitors']['2026-02-09']);
+    }
+
+    public function testCollectSkipsSeasonalFetchesAndFetchesThePeriodWindowForDeduplicatedCounts(): void
+    {
+        // Both year *seasonal* fan-outs feed the decomposition path, and
+        // buildSeasonalForecastValue() hands a deduplicated count to the prior-only path before
+        // reading either map, so neither has a consumer here. What that path does read is the
+        // period-level window, so exactly one request fires and it is at the target's own
+        // granularity. Capture the requested periods rather than failing inside the processor:
         // collect() catches \Throwable, so a self::fail() raised in there is swallowed and the
         // test would pass whether or not the gate exists.
         $captured = [];
@@ -467,7 +540,7 @@ class ForecastSubPeriodFetcherTest extends TestCase
             ''
         );
 
-        self::assertSame([], $captured);
+        self::assertSame(['year'], $captured);
         self::assertSame([], $samples['daily']);
         self::assertSame([], $samples['monthly']);
     }
@@ -501,7 +574,7 @@ class ForecastSubPeriodFetcherTest extends TestCase
             ''
         );
 
-        self::assertSame(['day', 'month'], $captured);
+        self::assertSame(['day', 'month', 'year'], $captured);
     }
 
     public function testCollectClampsWindowEndToLastCompleteDayForInProgressYear(): void
@@ -528,13 +601,17 @@ class ForecastSubPeriodFetcherTest extends TestCase
 
             $fetcher->collect([$yearTable], $this->createSeriesState(['Visits' => 'nb_visits'], [], []), 'VisitsSummary.get', 1, '');
 
-            self::assertCount(2, $captured);
+            self::assertCount(3, $captured);
             self::assertSame('day', $captured[0][0]);
             // endDate clamped to 2026-07-09 (today - 1 day); daily start = endDate - 60 days.
             self::assertSame('2026-05-10,2026-07-09', $captured[0][1]);
             self::assertSame('month', $captured[1][0]);
             // 8-year monthly window from the clamped end; Date::subYear truncates to Jan 1.
             self::assertSame('2018-01-01,2026-07-09', $captured[1][1]);
+            // The period-level prior window anchors to the same clamped end, then stops at the
+            // gap: the displayed year starts 2026-01-01, so the request ends 2025-12-31.
+            self::assertSame('year', $captured[2][0]);
+            self::assertSame('2016-07-09,2025-12-31', $captured[2][1]);
         } finally {
             Date::$now = $originalNow;
         }
@@ -668,7 +745,7 @@ class ForecastSubPeriodFetcherTest extends TestCase
             ''
         );
 
-        self::assertSame(['daily' => [], 'monthly' => [], 'earliestDataDate' => '2026-12-01'], $result);
+        self::assertSame(['daily' => [], 'monthly' => [], 'period' => [], 'earliestDataDate' => '2026-12-01'], $result);
     }
 
     public function testCollectPassesIdSiteAndSegmentToEarliestDataDateResolver(): void
@@ -725,7 +802,7 @@ class ForecastSubPeriodFetcherTest extends TestCase
             ''
         );
 
-        self::assertSame(['daily' => [], 'monthly' => [], 'earliestDataDate' => null], $result);
+        self::assertSame(['daily' => [], 'monthly' => [], 'period' => [], 'earliestDataDate' => null], $result);
     }
 
     public function testCollectReturnsEmptyWhenInnerRequestReturnsNonMapResult(): void
@@ -745,7 +822,7 @@ class ForecastSubPeriodFetcherTest extends TestCase
             ''
         );
 
-        self::assertSame(['daily' => [], 'monthly' => [], 'earliestDataDate' => null], $result);
+        self::assertSame(['daily' => [], 'monthly' => [], 'period' => [], 'earliestDataDate' => null], $result);
     }
 
     public function testApiGetFanOutBailsToSingleApiGetCallForUnmappedColumn(): void
@@ -1263,6 +1340,21 @@ class ForecastSubPeriodFetcherTest extends TestCase
     private function createDayDataTableWithRow(string $date, array $columns, string $archiveState): DataTable
     {
         $dataTable = $this->createDayDataTable($date);
+        $dataTable->setMetadata(DataTable::ARCHIVE_STATE_METADATA_NAME, $archiveState);
+        $dataTable->addRowFromArray([DataTable\Row::COLUMNS => $columns]);
+        return $dataTable;
+    }
+
+    /**
+     * Week-granularity twin of {@see self::createDayDataTableWithRow()}, for asserting the
+     * period-level prior window against a displayed run of weeks.
+     *
+     * @param array<string, float> $columns
+     */
+    private function createWeekDataTableWithRow(string $date, array $columns, string $archiveState): DataTable
+    {
+        $dataTable = new DataTable();
+        $dataTable->setMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX, Factory::build('week', $date));
         $dataTable->setMetadata(DataTable::ARCHIVE_STATE_METADATA_NAME, $archiveState);
         $dataTable->addRowFromArray([DataTable\Row::COLUMNS => $columns]);
         return $dataTable;
