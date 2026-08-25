@@ -201,10 +201,6 @@ class DeterministicRecommender
         $seen = array_fill_keys($patternsToSkip, true);
 
         foreach ($links as $link) {
-            if (!is_array($link)) {
-                continue;
-            }
-
             $pattern = (string) ($link['linkTarget'] ?? '');
             if ($pattern === '' || isset($seen[$pattern]) || $this->isWeakGenericCandidate($link)) {
                 continue;
@@ -239,10 +235,6 @@ class DeterministicRecommender
         $goals = [];
 
         foreach ($forms as $form) {
-            if (!is_array($form)) {
-                continue;
-            }
-
             $pattern = $this->formGoalPattern($form);
             $label = $this->formGoalLabel($form, $pattern);
             $goals[] = $this->buildGoal([
@@ -277,10 +269,6 @@ class DeterministicRecommender
         $goals = [];
 
         foreach ($downloads as $download) {
-            if (!is_array($download)) {
-                continue;
-            }
-
             $href = (string) ($download['href'] ?? '');
             $pattern = $this->downloadGoalPattern($href);
             if ($pattern === '') {
@@ -320,10 +308,6 @@ class DeterministicRecommender
         $goals = [];
 
         foreach ($contactLinks as $link) {
-            if (!is_array($link)) {
-                continue;
-            }
-
             $href = (string) ($link['href'] ?? '');
             if ($href === '') {
                 continue;
@@ -361,7 +345,7 @@ class DeterministicRecommender
         $goals = [];
 
         foreach ($externalLinks as $link) {
-            if (!is_array($link) || !$this->hasHighIntentText([$link['host'] ?? '', $link['labels'] ?? []])) {
+            if (!$this->hasHighIntentText([$link['host'] ?? '', $link['labels'] ?? []])) {
                 continue;
             }
 
