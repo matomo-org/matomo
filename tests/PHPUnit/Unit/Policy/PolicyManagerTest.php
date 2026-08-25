@@ -18,6 +18,16 @@ class PolicyManagerTest extends TestCase
         parent::setUp();
     }
 
+    protected function tearDown(): void
+    {
+        // the mocks carry their configuration in static state, so a test that changes the
+        // constraint must not leak it into the next one
+        TestPolicy::reset();
+        FakePolicySetting::reset();
+
+        parent::tearDown();
+    }
+
     public function testGetAllPolicies()
     {
         $policies = PolicyManager::getAllPolicies();
@@ -204,5 +214,150 @@ class PolicyManagerTest extends TestCase
         $this->assertTrue(PolicyManager::isFieldLockedByPolicies([
             'cnil_v1' => ['constraintType' => PolicyComparisonInterface::POLICY_CONSTRAINT_EXACT],
         ]));
+    }
+
+    /**
+     * A bounded field stays editable, so unlike a read-only one it is the pre-filled value rather
+     * than the constraint type that says the user did not choose anything.
+     *
+     * @dataProvider getBoundedConstraints
+     * @param PolicyComparisonInterface::POLICY_CONSTRAINT_* $constraintType
+     * @param mixed $requiredValue
+     */
+    public function testCheckSettingValueAgainstPoliciesDoesNotStoreTheValueABoundedPolicyPutsInEffect(
+        string $constraintType,
+        $requiredValue
+    ): void {
+        TestPolicy::setSystemValue(true);
+        FakePolicySetting::configurePolicy($constraintType, $requiredValue);
+
+        $this->assertFalse(MockPolicyManager::checkSettingValueAgainstPolicies(
+            'fake_policy_setting',
+            $requiredValue,
+            null,
+            PolicyManager::SETTING_TYPE_SYSTEM
+        ));
+    }
+
+    /**
+     * @dataProvider getStricterThanRequiredValues
+     * @param PolicyComparisonInterface::POLICY_CONSTRAINT_* $constraintType
+     * @param mixed $requiredValue
+     * @param mixed $stricterValue
+     */
+    public function testCheckSettingValueAgainstPoliciesStoresAValueStricterThanABoundedPolicyRequires(
+        string $constraintType,
+        $requiredValue,
+        $stricterValue
+    ): void {
+        TestPolicy::setSystemValue(true);
+        FakePolicySetting::configurePolicy($constraintType, $requiredValue);
+
+        // the user picked this themselves, so it is their own configuration and has to be kept
+        $this->assertTrue(MockPolicyManager::checkSettingValueAgainstPolicies(
+            'fake_policy_setting',
+            $stricterValue,
+            null,
+            PolicyManager::SETTING_TYPE_SYSTEM
+        ));
+    }
+
+    /**
+     * @dataProvider getLooserThanRequiredValues
+     * @param PolicyComparisonInterface::POLICY_CONSTRAINT_* $constraintType
+     * @param mixed $requiredValue
+     * @param mixed $looserValue
+     */
+    public function testCheckSettingValueAgainstPoliciesRejectsAValueLooserThanABoundedPolicyRequires(
+        string $constraintType,
+        $requiredValue,
+        $looserValue
+    ): void {
+        TestPolicy::setSystemValue(true);
+        FakePolicySetting::configurePolicy($constraintType, $requiredValue);
+
+        $this->expectException(CompliancePolicyViolationException::class);
+
+        MockPolicyManager::checkSettingValueAgainstPolicies(
+            'fake_policy_setting',
+            $looserValue,
+            null,
+            PolicyManager::SETTING_TYPE_SYSTEM
+        );
+    }
+
+    public function testCheckSettingValueAgainstPoliciesComparesThePostedValueLoosely(): void
+    {
+        TestPolicy::setSystemValue(true);
+        FakePolicySetting::configurePolicy(PolicyComparisonInterface::POLICY_CONSTRAINT_MIN, 2);
+
+        // settings forms post their fields back as strings, so the value in effect has to be
+        // recognised even though it is resolved as an int
+        $this->assertFalse(MockPolicyManager::checkSettingValueAgainstPolicies(
+            'fake_policy_setting',
+            '2',
+            null,
+            PolicyManager::SETTING_TYPE_SYSTEM
+        ));
+    }
+
+    /**
+     * A bounded setting the user had already configured more strictly than the policy requires
+     * resolves to their own value, which is then what the field is pre-filled with.
+     */
+    public function testCheckSettingValueAgainstPoliciesDoesNotStoreAnEffectiveValueStricterThanRequired(): void
+    {
+        TestPolicy::setSystemValue(true);
+        FakePolicySetting::configurePolicy(PolicyComparisonInterface::POLICY_CONSTRAINT_MIN, 2, 3);
+
+        $this->assertFalse(MockPolicyManager::checkSettingValueAgainstPolicies(
+            'fake_policy_setting',
+            3,
+            null,
+            PolicyManager::SETTING_TYPE_SYSTEM
+        ));
+
+        // moving back down to the bound is still a deliberate choice and stays compliant
+        $this->assertTrue(MockPolicyManager::checkSettingValueAgainstPolicies(
+            'fake_policy_setting',
+            2,
+            null,
+            PolicyManager::SETTING_TYPE_SYSTEM
+        ));
+    }
+
+    /**
+     * @return array<string, array{PolicyComparisonInterface::POLICY_CONSTRAINT_*, mixed}>
+     */
+    public function getBoundedConstraints(): array
+    {
+        return [
+            'exact' => [PolicyComparisonInterface::POLICY_CONSTRAINT_EXACT, true],
+            'min'   => [PolicyComparisonInterface::POLICY_CONSTRAINT_MIN, 2],
+            'max'   => [PolicyComparisonInterface::POLICY_CONSTRAINT_MAX, 759],
+        ];
+    }
+
+    /**
+     * @return array<string, array{PolicyComparisonInterface::POLICY_CONSTRAINT_*, mixed, mixed}>
+     */
+    public function getStricterThanRequiredValues(): array
+    {
+        return [
+            'min masks more bytes'      => [PolicyComparisonInterface::POLICY_CONSTRAINT_MIN, 2, 3],
+            'max keeps data for less'   => [PolicyComparisonInterface::POLICY_CONSTRAINT_MAX, 759, 180],
+        ];
+    }
+
+    /**
+     * @return array<string, array{PolicyComparisonInterface::POLICY_CONSTRAINT_*, mixed, mixed}>
+     */
+    public function getLooserThanRequiredValues(): array
+    {
+        return [
+            'exact differs'             => [PolicyComparisonInterface::POLICY_CONSTRAINT_EXACT, true, false],
+            'min masks fewer bytes'     => [PolicyComparisonInterface::POLICY_CONSTRAINT_MIN, 2, 1],
+            'max keeps data for longer' => [PolicyComparisonInterface::POLICY_CONSTRAINT_MAX, 759, 1000],
+        ];
     }
 }

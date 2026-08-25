@@ -627,17 +627,22 @@ class API extends \Piwik\Plugin\API
             $deleteLogsOlderThan = 1;
         }
 
-        PolicyManager::checkSettingValueAgainstPolicies(
+        $mayStoreRetention = PolicyManager::checkSettingValueAgainstPolicies(
             'delete_logs_older_than',
             $deleteLogsOlderThan,
             null,
             PolicyManager::SETTING_TYPE_OPTION
         );
 
-        return $this->savePurgeDataSettings([
-            'delete_logs_enable' => !empty($enableDeleteLogs),
-            'delete_logs_older_than' => $deleteLogsOlderThan,
-        ]);
+        $settings = ['delete_logs_enable' => !empty($enableDeleteLogs)];
+
+        // leaving the retention out entirely keeps whatever the user had configured before the
+        // policy started applying, which savePurgeDataSettings() only rewrites when it is given
+        if ($mayStoreRetention) {
+            $settings['delete_logs_older_than'] = $deleteLogsOlderThan;
+        }
+
+        return $this->savePurgeDataSettings($settings);
     }
 
     /**

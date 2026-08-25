@@ -307,9 +307,12 @@ class PolicyManager
     /**
      * Validates a value that is about to be stored for a setting compliance policies may control.
      *
-     * A value that a policy leaves no alternative to is not stored at all: the field it comes from
-     * is rendered read-only, so the settings form only ever posts the enforced value back, and
-     * storing it would replace whatever the user had configured before the policy started applying.
+     * The value a policy puts in effect is never stored: settings screens pre-fill the field with
+     * it, and the settings form posts every field back whether or not it was touched, so storing it
+     * would replace whatever the user had configured before the policy started applying. That
+     * covers a field a policy leaves no alternative to, which is rendered read-only and can only
+     * post the enforced value back, as well as one that is merely bounded, where a stricter value
+     * remains the user's own choice and is stored as usual.
      *
      * @param mixed $value
      * @return bool whether the value may be persisted
@@ -329,7 +332,9 @@ class PolicyManager
                 ));
             }
 
-            if ($controlledSetting::getPolicyConstraintType($policyClass) === PolicyComparisonInterface::POLICY_CONSTRAINT_EXACT) {
+            // compared loosely on purpose: the value arrives from a request as a string, while the
+            // value in effect is resolved as the native type the setting declares
+            if ($value == $controlledSetting::getInstance($idSite)->getValue()) {
                 $mayBePersisted = false;
             }
         }
