@@ -63,19 +63,24 @@
            when the report has none the whole toolbar stays `:empty` and claims none of the
            header's gap. -->
         <div class="reportHeader__toolbar">
-          <!-- Promoted report actions. Inside the toolbar, never beside the widget controls: the
-               two scopes stay separate, and only this one belongs to the report. -->
+          <!-- Promoted report actions, never beside the widget controls: separate scopes. -->
           <div
             v-if="isPromoted('periods')"
-            class="reportHeader__promoted"
+            class="mtm-selector"
+            :class="{ 'mtm-selector--open': periodsExpanded }"
             data-report-action="periods"
-            v-expand-on-click="{ expander: 'periodsTrigger' }"
+            v-expand-on-click="{
+              expander: 'periodsTrigger',
+              onExpand: () => { periodsExpanded = true; },
+              onClosed: () => { periodsExpanded = false; },
+            }"
           >
             <button
               ref="periodsTrigger"
               type="button"
-              class="mtm-selector"
+              class="mtm-selector__trigger"
               aria-haspopup="menu"
+              :aria-expanded="periodsExpanded ? 'true' : 'false'"
             >
               <span class="mtm-selector__icon" aria-hidden="true">
                 <span class="icon-calendar" />
@@ -85,7 +90,7 @@
                 <span class="icon-chevron-down" />
               </span>
             </button>
-            <div class="reportHeader__promotedPanel">
+            <div class="mtm-selector__dropdown">
               <div class="mtm-dropdownPanel">
                 <PeriodsMenu
                   :selectable-periods="actions.selectablePeriods"
@@ -201,9 +206,9 @@ import { translate } from '../translate';
 // A search is a full DataTable reload, so debounce to avoid one on every keystroke.
 const SEARCH_DEBOUNCE_MS = 300;
 
-// A promoted control takes its width from the title, which wraps rather than overflowing - so
-// there is no overflow to detect. Promote only while the title keeps at least this much room.
-const MIN_TITLE_WIDTH = 240;
+// The title wraps instead of overflowing, so there is no overflow to detect: promote only while
+// it keeps about a dozen characters.
+const MIN_TITLE_WIDTH = 140;
 
 export interface ControlVisibility {
   minimise: boolean;
@@ -390,8 +395,8 @@ export default defineComponent({
       searchDebounceTimer: null as ReturnType<typeof setTimeout> | null,
       // Read off this element, which does not exist before mount.
       reportKey: '',
-      // How many of the promotable actions the header line currently has room for.
       promotedCount: 0,
+      periodsExpanded: false,
       resizeObserver: null as ResizeObserver | null,
       lastMeasuredWidth: -1,
     };
@@ -413,13 +418,11 @@ export default defineComponent({
         this.query = value;
       }
     },
-    // A reload can change what the report offers, so what is promotable changes with it.
     promotable() {
       this.updatePromoted();
     },
   },
   computed: {
-    // What this report offers and the header can render outside the menu, in priority order.
     promotable(): PromotableActionId[] {
       return promotableActions(this.actions)
         .filter((id) => PROMOTED_RENDERERS.indexOf(id) !== -1);
@@ -502,8 +505,7 @@ export default defineComponent({
     isPromoted(action: PromotableActionId): boolean {
       return this.promotedActions.indexOf(action) !== -1;
     },
-    // Only the line's own width matters here. Promoting changes what sits inside it, never how
-    // wide it is, so reacting to that width cannot feed itself.
+    // Watches the line's width only: promoting changes what is inside it, never how wide it is.
     watchForRoom() {
       const row = this.$refs.headerRow as HTMLElement | undefined;
       if (!row || typeof ResizeObserver === 'undefined') {
@@ -520,10 +522,8 @@ export default defineComponent({
     },
     async updatePromoted() {
       const row = this.$refs.headerRow as HTMLElement | undefined;
-      // Answer nothing about a header that is not laid out - hidden, detached, or mid-capture
-      // while the viewport is momentarily 1x1. The media query calls that a phone and everything
-      // goes back into the menu, where it stays: the width that would undo it is the one already
-      // recorded, so nothing asks again. Leave the header alone and wait to be asked on a real one.
+      // A header that is not laid out reports a phone-sized window, and demoting on that sticks:
+      // the width that would undo it is the one already recorded, so nothing asks again.
       if (!row || row.clientWidth <= 0) {
         return;
       }
@@ -534,8 +534,7 @@ export default defineComponent({
         return;
       }
 
-      // Try them all, then give back the least deserving until the title has room again. Measured
-      // rather than estimated: a promoted control's width is its translated label's width.
+      // Try them all, then give back the least deserving until the title has room again.
       this.lastMeasuredWidth = row.clientWidth;
       this.promotedCount = promotable;
       await this.$nextTick();
@@ -545,7 +544,7 @@ export default defineComponent({
         return;
       }
 
-      // A report with no title has nothing to take the room from.
+      // A report with no title has no room to take.
       while (this.showTitle && this.promotedCount > 0
         && row.clientWidth - controls.offsetWidth < MIN_TITLE_WIDTH) {
         this.promotedCount -= 1;

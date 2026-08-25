@@ -337,7 +337,7 @@ describe("EvolutionGraph", function () {
         await page.reload();
         await page.waitForNetworkIdle();
         // wide enough for the header to lift the period selector out of its menu
-        await page.click('[data-report-action="periods"] .mtm-selector');
+        await page.click('[data-report-action="periods"] .mtm-selector__trigger');
 
         await page.mouse.move(-10, -10);
         await page.waitForTimeout(500); // wait for animation
@@ -479,9 +479,9 @@ describe("EvolutionGraph", function () {
         await page.waitForNetworkIdle();
 
         await page.evaluate(
-          () => document.querySelector('[data-report-action="periods"] .mtm-selector').click(),
+          () => document.querySelector('[data-report-action="periods"] .mtm-selector__trigger').click(),
         );
-        await page.waitForSelector('.reportHeader__promoted.expanded', { visible: true });
+        await page.waitForSelector('.mtm-selector--open', { visible: true });
 
         const focused = await page.evaluate(() => {
             const item = document.querySelector('.dataTablePeriods [role="menuitem"]');
