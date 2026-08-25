@@ -93,7 +93,7 @@
       <ul class="mtm-dropdownPanel__menu">
         <!-- Keeps `dataTablePeriods` on the list and `tableIcon` on each entry: that pair is what
              dataTable.js binds the period change to. -->
-        <li v-if="showPeriods" class="mtm-dropdownPanel__menuItem">
+        <li v-if="showPeriods && !isPromoted('periods')" class="mtm-dropdownPanel__menuItem">
           <a
             class="mtm-dropdownPanel__menuLink dataTableAction activatePeriodsSelection"
             href=""
@@ -112,30 +112,12 @@
             :class="{ 'mtm-dropdownPanel__submenu--open': periodsOpen }"
           >
             <div class="mtm-dropdownPanel">
-              <ul class="mtm-dropdownPanel__menu dataTablePeriods" role="menu">
-                <li
-                  v-for="selectablePeriod in selectablePeriods"
-                  :key="selectablePeriod"
-                  class="mtm-dropdownPanel__menuItem"
-                  role="none"
-                >
-                  <a
-                    :data-period="selectablePeriod"
-                    role="menuitem"
-                    tabindex="0"
-                    :aria-current="clientSideParameters.period === selectablePeriod"
-                    :class="`mtm-dropdownPanel__menuLink tableIcon ${clientSideParameters.period
-                      === selectablePeriod ? 'activeIcon' : ''}`"
-                    @click="closePeriods"
-                    @keydown.enter.prevent="activateItem"
-                    @keydown.space.prevent="activateItem"
-                  >
-                    <span class="mtm-dropdownPanel__menuLabel">
-                      {{ translations[selectablePeriod] || selectablePeriod }}
-                    </span>
-                  </a>
-                </li>
-              </ul>
+              <PeriodsMenu
+                :selectable-periods="selectablePeriods"
+                :active-period="`${clientSideParameters.period || ''}`"
+                :labels="translations"
+                @pick="closePeriods"
+              />
             </div>
           </div>
         </li>
@@ -261,6 +243,8 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 import Passthrough from '../Passthrough/Passthrough.vue';
+import PeriodsMenu from './PeriodsMenu.vue';
+import type { PromotableActionId } from './reportActions';
 import ReportExport from '../ReportExport/ReportExport';
 import { translate } from '../translate';
 import { isBooleanLikeSet, resolveExportSupportsFlat } from './DataTableActions.utils';
@@ -375,20 +359,25 @@ export default defineComponent({
       type: String,
       default: 'footer',
     },
+    // Actions the header renders outside this menu, so they are not offered twice.
+    promotedActions: {
+      type: Array as PropType<PromotableActionId[]>,
+      default: () => [],
+    },
   },
   components: {
     Passthrough,
+    PeriodsMenu,
   },
   directives: {
     ReportExport,
   },
   methods: {
+    isPromoted(action: PromotableActionId): boolean {
+      return this.promotedActions.indexOf(action) !== -1;
+    },
     // Picking a period is the end of the interaction, so the submenu folds with it. Not stopping
     // the event: dataTable.js listens for it further up, and the panel closes on it too.
-    // The item is not a link, so a key press has to click it for the delegated handler to hear.
-    activateItem(event: KeyboardEvent) {
-      (event.currentTarget as HTMLElement | null)?.click();
-    },
     closePeriods() {
       this.periodsOpen = false;
     },
