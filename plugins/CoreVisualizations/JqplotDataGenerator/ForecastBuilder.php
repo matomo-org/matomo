@@ -69,30 +69,16 @@ class ForecastBuilder
     private const TREND_DAMPING = 0.5;
 
     /**
-     * Minimum number of historical samples required before clamping the blended forecast to a
-     * historical-range envelope. With fewer samples the empirical standard deviation is too
-     * noisy to define a meaningful upper/lower bound, so the clamp is skipped.
-     */
-    private const MIN_SAMPLES_FOR_BOUNDED_RANGE = 4;
-
-    /**
      * Minimum number of calendar-aligned historical samples (same week-of-year, same calendar
      * month) required before preferring them over the full sample set. Aligned samples are a
      * sparse subset of the displayed window — roughly one per year on a monthly graph — so a
      * low threshold trades a long recency window for a couple of year-apart points. Pinned to
-     * {@see MIN_SAMPLES_FOR_BOUNDED_RANGE} so the aligned set is never preferred while it is
-     * still too small for the envelope clamp and the level-shift trim to engage. The trim keeps
-     * that: it never cuts into the {@see RECENT_LEVEL_WINDOW} newest samples, a window that
-     * matches {@see MIN_SAMPLES_FOR_BOUNDED_RANGE}, so a trimmed set still clears the clamp
-     * threshold. {@see removeLeadingZeroSamples()}, which runs before it on these same count
-     * families, has no such floor -- a set whose oldest entries are pre-tracking zeros can still
-     * reach {@see computeHistoricalPrior()} below the threshold and be fit unclamped. What bounds
-     * it there is arithmetic rather than the envelope: at two or three samples the damped
-     * one-step projection cannot exceed 1.5x the newest of them. Deduplicated counts need this
-     * threshold most, since they have no decomposition path and this prior serves every one of
-     * their non-day ticks.
+     * {@see RECENT_LEVEL_WINDOW} so the aligned set is never preferred while it is still too small
+     * for the level-shift trim to engage, and so a trimmed set is never left shorter than the
+     * window the trim itself preserves. Deduplicated counts need this threshold most, since they
+     * have no decomposition path and this prior serves every one of their non-day ticks.
      */
-    private const MIN_ALIGNED_SAMPLES_TO_PREFER = self::MIN_SAMPLES_FOR_BOUNDED_RANGE;
+    private const MIN_ALIGNED_SAMPLES_TO_PREFER = self::RECENT_LEVEL_WINDOW;
 
     /**
      * Below this count the day-level analog reducer falls back to a plain mean instead of a
@@ -132,9 +118,9 @@ class ForecastBuilder
      * Number of same-DoW samples to draw for the day-period historical prior when the caller
      * supplies a daily sample map. The day path never enters the seasonal-decomposition branch
      * (a day has no useful sub-period to decompose), so the prior-only path is the only
-     * forecast surface and a 70-day fetched window yields at most ten same-DoW samples. Above
-     * MIN_SAMPLES_FOR_BOUNDED_RANGE so the envelope clamp engages, and enough data points for
-     * the trend fit to resist single-day noise on short displays.
+     * forecast surface and a 70-day fetched window yields at most ten same-DoW samples. Wide
+     * enough for {@see RECENT_LEVEL_WINDOW} to sit inside it and for the trend fit to resist
+     * single-day noise on short displays.
      */
     private const DAY_PRIOR_TARGET_SAMPLES = 10;
 
@@ -157,10 +143,11 @@ class ForecastBuilder
 
     /**
      * Number of most-recent same-period samples whose median defines the "current level" used to
-     * detect a traffic level shift in {@see stripPreLevelShiftSamples()}. Matches
-     * MIN_SAMPLES_FOR_BOUNDED_RANGE so the same window that must exist for the envelope clamp also
-     * anchors the shift detector; four points is enough for a median to shrug off a single noisy
-     * recent day without being so wide it reaches back across the very shift it is meant to detect.
+     * detect a traffic level shift in {@see stripPreLevelShiftSamples()}. Four points is enough for
+     * a median to shrug off a single noisy recent day without being so wide it reaches back across
+     * the very shift it is meant to detect. Doubles as the floor for
+     * {@see MIN_ALIGNED_SAMPLES_TO_PREFER}, so a preferred aligned set is never shorter than the
+     * window the trim needs.
      */
     private const RECENT_LEVEL_WINDOW = 4;
 
@@ -576,12 +563,9 @@ class ForecastBuilder
         if ([] !== $pastValues) {
             $prior = $this->computeHistoricalPrior($pastValues);
             if (
-                (
-                    ForecastMetricClassifier::MONOTONICITY_UP === $monotonicity
-                    || ForecastMetricClassifier::MONOTONICITY_MAX === $monotonicity
-                    || ForecastMetricClassifier::MONOTONICITY_UNIQUE === $monotonicity
-                )
-                && count($pastValues) >= self::MIN_SAMPLES_FOR_BOUNDED_RANGE
+                ForecastMetricClassifier::MONOTONICITY_UP === $monotonicity
+                || ForecastMetricClassifier::MONOTONICITY_MAX === $monotonicity
+                || ForecastMetricClassifier::MONOTONICITY_UNIQUE === $monotonicity
             ) {
                 $prior = $this->clampForecastToHistoricalRange($prior, $pastValues);
             }
@@ -1611,6 +1595,17 @@ class ForecastBuilder
      * A genuine sustained trend still produces enough MAD spread — plus the relative-spread
      * floor — to pass through untouched. Used by the prior-only fallback.
      *
+     * Runs on every prior that fallback produces, with no sample-count threshold in front of it.
+     * None is needed: a single-sample prior is that sample, and the band is centred on the sample
+     * median, which at one sample is the same value, so the clamp is the identity there by
+     * construction. Short windows are in fact where it earns the most -- the shortest displayed
+     * ranges are the first entry in each period's selector ("last 4 weeks" leaves 3 complete prior
+     * ticks, "last 3 months" leaves 2), and over a window that short a lone outlier lifts the
+     * regression's intercept without tilting its slope, so the projection lands near the sample
+     * mean rather than near the recent level: a flat series carrying one 60x spike projects to
+     * roughly 20x its own level. No arithmetic bound on the damped one-step projection holds over
+     * such a window; only this envelope does, and only because both of its terms are robust.
+     *
      * @param array<int, float> $pastValues Historical samples used to size and centre the envelope.
      */
     private function clampForecastToHistoricalRange(float $forecastValue, array $pastValues): float
@@ -1693,13 +1688,11 @@ class ForecastBuilder
      *
      * Skipped below RECENT_LEVEL_WINDOW samples (too few to tell a shift from noise) and when the
      * recent level is <= 0 (the trailing-no-data path handles a genuinely empty recent window).
-     * Never trims into the recent-level window itself, so at least those samples always remain --
-     * which is load-bearing beyond keeping a median computable: RECENT_LEVEL_WINDOW matches
-     * {@see MIN_SAMPLES_FOR_BOUNDED_RANGE}, so this step alone can never drop a sample set below
-     * the count the envelope clamp needs. Keep that relation intact when either constant is
-     * retuned. It bounds this step only -- {@see removeLeadingZeroSamples()} runs first on the
-     * same count families and has no floor, so the composed pipeline can still hand
-     * {@see computeHistoricalPrior()} fewer samples than the clamp requires.
+     * Never trims into the recent-level window itself, so at least those samples always remain,
+     * which keeps a median computable and leaves the trend fit something to work with. Neither this
+     * step nor {@see removeLeadingZeroSamples()} before it has to guarantee any particular count
+     * beyond that: {@see clampForecastToHistoricalRange()} carries no sample-count threshold, so
+     * however short a window the two of them leave, a prior fitted from it is still clamped.
      *
      * @param array<int, float> $samples Oldest-first.
      * @return array<int, float>

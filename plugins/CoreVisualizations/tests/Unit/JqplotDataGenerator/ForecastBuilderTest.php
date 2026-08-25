@@ -590,9 +590,9 @@ class ForecastBuilderTest extends TestCase
         $site = $this->createSiteMock();
 
         // Only one prior same-DoW (Sunday) entry in $dailySamples. The same-DoW walk collects
-        // [75]; computeHistoricalPrior with one sample returns it directly because the trend
-        // fit needs at least two points. The envelope clamp also stays off below
-        // MIN_SAMPLES_FOR_BOUNDED_RANGE = 4.
+        // [75]; computeHistoricalPrior with one sample returns it directly because the trend fit
+        // needs at least two points. The envelope clamp runs on it unconditionally but cannot move
+        // it: the band is centred on the sample median, which at one sample is that same 75.
         $dataTables = [
             $this->createDataTableForDay('2026-05-03', $site, '2026-05-03 12:00:00'),
         ];
@@ -2501,6 +2501,74 @@ class ForecastBuilderTest extends TestCase
             [[null, null, null, null, null, null, null, null, null, null, 780.0]],
             $forecastData
         );
+    }
+
+    public function testBuildUniqueWeekSeriesClampsOutlierDrivenPriorOnShortestDisplayedRange(): void
+    {
+        $site = $this->createSiteMock();
+
+        // "Last 4 weeks", the first entry in the week selector, leaves three complete prior ticks.
+        // A flat series carrying one 60x spike ([5, 300, 5]) fits a flat regression through the
+        // spike's own mean, so the damped projection is ~103 -- twenty times a level the series has
+        // never left. The window is too short for the level-shift trim (RECENT_LEVEL_WINDOW), so
+        // the envelope clamp is the only thing that can bound it: centred on the median of 5 and
+        // floored at BOUNDED_RANGE_MIN_RELATIVE_SPREAD, it caps the prior at 5.75.
+        $dataTables = [
+            $this->createDataTableForWeek('2026-04-06', $site),
+            $this->createDataTableForWeek('2026-04-13', $site),
+            $this->createDataTableForWeek('2026-04-20', $site),
+            $this->createDataTableForWeek('2026-04-27', $site, '2026-04-30 23:00:00'),
+        ];
+
+        $forecastData = $this->buildForecast(
+            ['Unique visitors' => [5.0, 300.0, 5.0, 5.0]],
+            $dataTables,
+            [
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::INCOMPLETE,
+            ],
+            ['Unique visitors' => false],
+            [],
+            ['Unique visitors' => ForecastMetricClassifier::MONOTONICITY_UNIQUE],
+            ['Unique visitors' => 0]
+        );
+
+        self::assertSame([[null, null, null, 6.0]], $forecastData);
+    }
+
+    public function testBuildUniqueWeekSeriesKeepsGenuineTrendOnShortestDisplayedRange(): void
+    {
+        $site = $this->createSiteMock();
+
+        // Counterpart to the clamp above: three prior weeks climbing 100 -> 300 are a monotonic
+        // window, which carries enough MAD spread for the envelope to admit its own continuation,
+        // so the damped projection (0 + 100 * (3 + 0.5) = 350) passes through untouched. Clamping
+        // this low must bound outliers without flattening a real trend.
+        $dataTables = [
+            $this->createDataTableForWeek('2026-04-06', $site),
+            $this->createDataTableForWeek('2026-04-13', $site),
+            $this->createDataTableForWeek('2026-04-20', $site),
+            $this->createDataTableForWeek('2026-04-27', $site, '2026-04-30 23:00:00'),
+        ];
+
+        $forecastData = $this->buildForecast(
+            ['Unique visitors' => [100.0, 200.0, 300.0, 150.0]],
+            $dataTables,
+            [
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::INCOMPLETE,
+            ],
+            ['Unique visitors' => false],
+            [],
+            ['Unique visitors' => ForecastMetricClassifier::MONOTONICITY_UNIQUE],
+            ['Unique visitors' => 0]
+        );
+
+        self::assertSame([[null, null, null, 350.0]], $forecastData);
     }
 
     public function testBuildUniqueWeekSeriesPriorIsCappedSoDisplayedWidthDoesNotMoveForecast(): void
