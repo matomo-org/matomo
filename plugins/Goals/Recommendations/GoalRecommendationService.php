@@ -533,7 +533,7 @@ class GoalRecommendationService
                 $candidatePattern,
                 $goal['matchAttribute'],
                 $goal['pattern'],
-                $goal['patternType'] ?? 'contains'
+                $goal['patternType']
             );
             if ($covers) {
                 return true;
