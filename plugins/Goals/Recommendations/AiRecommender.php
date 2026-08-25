@@ -356,10 +356,7 @@ PROMPT;
             'name' => $name,
             'matchAttribute' => $matchAttribute,
             'pattern' => $pattern,
-            'patternType' => $this->normalizePatternType(
-                $matomoGoal['patternType'] ?? $fallback['patternType'] ?? '',
-                $matchAttribute
-            ),
+            'patternType' => $this->normalizePatternType($matchAttribute),
             'caseSensitive' => $this->toBool($matomoGoal['caseSensitive'] ?? $fallback['caseSensitive'] ?? false),
             'allowMultipleConversionsPerVisit' => $this->toBool(
                 $matomoGoal['allowMultipleConversionsPerVisit']
@@ -402,7 +399,11 @@ PROMPT;
         return in_array($value, self::ALLOWED_MATCH_ATTRIBUTES, true) ? $value : 'url';
     }
 
-    private function normalizePatternType($value, string $matchAttribute): string
+    /**
+     * Deliberately ignores the model's patternType: only these two map cleanly
+     * onto one-click-creatable goals.
+     */
+    private function normalizePatternType(string $matchAttribute): string
     {
         if (in_array($matchAttribute, self::NUMERIC_MATCH_ATTRIBUTES, true)) {
             return 'greater_than';
@@ -482,11 +483,13 @@ PROMPT;
                 $goal['matchAttribute'] ?? $goal['match_attribute'] ?? 'url'
             );
             $existingPattern = (string) ($goal['pattern'] ?? '');
+            $existingPatternType = (string) ($goal['patternType'] ?? $goal['pattern_type'] ?? 'contains');
             $covers = RecommendationMatcher::covers(
                 $candidateAttribute,
                 $candidatePattern,
                 $existingAttribute,
-                $existingPattern
+                $existingPattern,
+                $existingPatternType
             );
             if ($covers) {
                 return true;
