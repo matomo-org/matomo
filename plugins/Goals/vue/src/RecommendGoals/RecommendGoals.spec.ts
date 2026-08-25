@@ -8,9 +8,9 @@
 import { nextTick } from 'vue';
 import { mount } from '@vue/test-utils';
 
-const mockFetch = jest.fn();
+const mockFetch = vi.hoisted(() => vi.fn());
 
-jest.mock('CoreHome', () => ({
+vi.mock('CoreHome', () => ({
   Matomo: { idSite: 1 },
   AjaxHelper: { fetch: (...args: unknown[]) => mockFetch(...args) },
   translate: (key: string) => key,
@@ -18,7 +18,7 @@ jest.mock('CoreHome', () => ({
   ActivityIndicator: { template: '<div/>' },
   Alert: { template: '<div><slot/></div>' },
   Progressbar: { template: '<div/>' },
-}), { virtual: true });
+}));
 
 // eslint-disable-next-line import/first
 import RecommendGoals from './RecommendGoals.vue';

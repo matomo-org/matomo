@@ -164,7 +164,8 @@ import useScanProgress from './useScanProgress';
 import type { RecommendedGoal, RecommendedManualGoal, RecommendationsResponse } from './types';
 
 const props = withDefaults(defineProps<{
-  goals?: Record<string, Record<string, unknown>>;
+  // structural type so ManageGoals' Record<string, Goal> assigns under 6.x's stricter TS
+  goals?: Record<string, { pattern?: unknown, match_attribute?: unknown }>;
   userCanEditGoals?: boolean;
 }>(), {
   goals: () => ({}),
