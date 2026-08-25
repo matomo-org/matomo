@@ -444,17 +444,15 @@ class Xml extends Renderer
      * Escapes a value so it can be used as an XML attribute value, no matter whether the attribute
      * is quoted with double or single quotes.
      *
-     * @param string|int $value
+     * @param scalar $value
      */
     private static function formatAttributeValueXml($value): string
     {
         $value = (string) self::formatValueXml($value);
 
-        // legal in XML, but normalised to a space on parse unless encoded
-        $value = str_replace(["'", "\t", "\n", "\r"], ['&#039;', '&#9;', '&#10;', '&#13;'], $value);
-
-        // no character reference exists for these
-        return preg_replace('/[\x00-\x08\x0b\x0c\x0e-\x1f]/', '', $value);
+        // legal in XML, but normalised to a space on parse unless encoded. the characters XML
+        // cannot hold at all are already dropped by formatValueXml()
+        return str_replace(["'", "\t", "\n", "\r"], ['&#039;', '&#9;', '&#10;', '&#13;'], $value);
     }
 
     /**

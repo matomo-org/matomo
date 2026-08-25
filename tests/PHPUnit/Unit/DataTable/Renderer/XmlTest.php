@@ -608,6 +608,28 @@ class XmlTest extends RendererTestCase
 </result>',
         ];
 
+        // written with escape sequences rather than the characters themselves, as the point of the
+        // case is which of them survive
+        yield 'render values holding characters xml cannot hold' => [
+            function () {
+                return [
+                    'label' => "a\x00b\x08c\x0bd\x0ce\x1ff",
+                    // `is_numeric()` accepts surrounding whitespace, so a numeric string can hold
+                    // one of these too
+                    'numeric' => "\x0b123",
+                    'kept' => "tab\there and a\nline break",
+                ];
+            },
+            "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
+            . "<result>\n"
+            . "\t<row>\n"
+            . "\t\t<label>abcdef</label>\n"
+            . "\t\t<numeric>123</numeric>\n"
+            . "\t\t<kept>tab\there and a\nline break</kept>\n"
+            . "\t</row>\n"
+            . "</result>",
+        ];
+
         yield 'render key / value array with an empty value for a key rendered as a row attribute' => [
             function () {
                 return ['idgoal=1' => '', 'idgoal=2' => null];
