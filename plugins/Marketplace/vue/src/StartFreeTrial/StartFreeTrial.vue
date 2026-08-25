@@ -79,7 +79,7 @@ import {
 import { Field } from 'CorePluginsAdmin';
 import KeyPressEvent = JQuery.KeyPressEvent;
 import ModalOptions = M.ModalOptions;
-import { PluginDetails } from '../types';
+import { PluginCard } from '../types';
 
 const { $ } = window;
 
@@ -97,7 +97,7 @@ export default defineComponent({
   components: { Field },
   props: {
     modelValue: {
-      type: Object as PropType<PluginDetails | null>,
+      type: Object as PropType<PluginCard | null>,
       default: () => null,
     },
     currentUserEmail: String,
@@ -145,8 +145,8 @@ export default defineComponent({
     },
   },
   computed: {
-    plugin(): PluginDetails {
-      return this.modelValue as PluginDetails;
+    plugin(): PluginCard {
+      return this.modelValue as PluginCard;
     },
     trialStartNoLicenseAddHereText() {
       const link = `?${MatomoUrl.stringify({

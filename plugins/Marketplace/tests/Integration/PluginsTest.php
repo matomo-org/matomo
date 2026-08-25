@@ -138,6 +138,34 @@ class PluginsTest extends IntegrationTestCase
         $this->assertSame([], $plugin);
     }
 
+    public function testLicenseInformationPrefersTheConsumerOverTheCopyEmbeddedInThePlugin()
+    {
+        // PaidPlugin1's own entry carries no license, which is why
+        // testGetLicenseValidInfoMissingLicense sees it as missing. The consumer response does
+        // carry one, and that is the fresher answer: the plugin lists are cached for longer.
+        $this->service->returnFixture('v2.0_plugins_PaidPlugin1_info.json');
+        $this->consumerService->authenticate('123456789');
+        $this->consumerService->returnFixture('v2.0_consumer-access_token-consumer2_paid1.json');
+
+        $plugin = $this->plugins->getLicenseValidInfo('PaidPlugin1');
+
+        $this->assertFalse($plugin['isMissingLicense']);
+        $this->assertFalse($plugin['hasExceededLicense']);
+    }
+
+    public function testLicenseInformationFallsBackToTheEmbeddedCopyWhenTheConsumerSaysNothing()
+    {
+        // an instance that cannot reach the Marketplace, or a consumer holding no license for this
+        // plugin, has to behave exactly as it did before the consumer lookup was added
+        $this->service->returnFixture('v2.0_plugins_PaidPlugin1_info.json');
+        $this->consumerService->authenticate('123456789');
+        $this->consumerService->returnFixture('v2.0_consumer-access_token-validbutnolicense.json');
+
+        $plugin = $this->plugins->getLicenseValidInfo('PaidPlugin1');
+
+        $this->assertTrue($plugin['isMissingLicense']);
+    }
+
     public function testGetLicenseValidInfoShouldEnrichLicenseInformation()
     {
         $this->service->returnFixture('v2.0_plugins_Barometer_info.json');
@@ -492,18 +520,121 @@ class PluginsTest extends IntegrationTestCase
         $this->assertSame('', $this->service->params['query']);
     }
 
+    public function testGetPluginInfoPreferringListServesAListedPluginWithoutItsOwnRequest()
+    {
+        $this->service->returnFixture([
+            'v2.0_plugins.json',
+            'v2.0_plugins_checkUpdates-pluginspluginsnameAnonymousPi.json',
+        ]);
+
+        $apis = [];
+        $this->service->setOnFetchCallback(function ($action) use (&$apis) {
+            $apis[] = $action;
+        });
+
+        $plugin = $this->plugins->getPluginInfoPreferringList('TreemapVisualization');
+
+        $this->assertSame('TreemapVisualization', $plugin['name']);
+        // the details modal used to pay a round trip to the Marketplace the first time each plugin
+        // was opened, for a payload the cached plugin list already holds
+        $this->assertNotContains('plugins/TreemapVisualization/info', $apis);
+    }
+
+    public function testGetPluginInfoPreferringListFallsBackForAPluginTheListsOmit()
+    {
+        // CustomReports is in neither list fixture, so the lookup scans the plugin list, then the
+        // theme list, then asks for the plugin directly and enriches just that one
+        $this->service->returnFixture([
+            'v2.0_plugins.json',
+            'v2.0_themes.json',
+            'system_v2.0_plugins_CustomReports_info.json',
+            'v2.0_plugins_checkUpdates-pluginspluginsnameAnonymousPi.json',
+        ]);
+
+        $apis = [];
+        $this->service->setOnFetchCallback(function ($action) use (&$apis) {
+            $apis[] = $action;
+        });
+
+        $plugin = $this->plugins->getPluginInfoPreferringList('CustomReports');
+
+        $this->assertContains('plugins/CustomReports/info', $apis);
+        $this->assertSame('CustomReports', $plugin['name']);
+    }
+
+    public function testSearchPluginsShouldNotRequestPluginInfoForEveryPluginHavingUpdate()
+    {
+        $this->service->returnFixture([
+            'v2.0_plugins.json',
+            'v2.0_plugins_checkUpdates-pluginspluginsnameAnonymousPi.json',
+        ]);
+
+        $apis = [];
+        $this->service->setOnFetchCallback(function ($action) use (&$apis) {
+            $apis[] = $action;
+        });
+
+        $this->plugins->searchPlugins($query = '', Sort::DEFAULT_SORT, $themesOnly = false);
+
+        // enriching the list must not resolve each updatable plugin's info, which used to cost one
+        // extra request per plugin having an update
+        $this->assertSame(['plugins', 'plugins/checkUpdates'], $apis);
+    }
+
+    public function testSearchPluginsShouldFlagUpdatablePluginsFromTheUpdateSummary()
+    {
+        $this->service->returnFixture([
+            'v2.0_plugins.json',
+            'v2.0_plugins_checkUpdates-pluginspluginsnameAnonymousPi.json',
+        ]);
+
+        $plugins = $this->plugins->searchPlugins($query = '', Sort::DEFAULT_SORT, $themesOnly = false);
+
+        $updatable = [];
+        foreach ($plugins as $plugin) {
+            if (!empty($plugin['canBeUpdated'])) {
+                $updatable[$plugin['name']] = $plugin;
+            }
+        }
+
+        // every plugin checkUpdates reports is flagged. getPluginsHavingUpdate() additionally drops
+        // plugins whose info request comes back empty, but a plugin can only reach this list if it
+        // passed the same isCustomPlugin filter the info request applies, so that pass is redundant
+        // here and cost one request per updatable plugin
+        $this->assertContains('TreemapVisualization', array_keys($updatable));
+
+        $plugin = $updatable['TreemapVisualization'];
+        $this->assertSame(
+            'https://github.com/piwik/plugin-TreemapVisualization/commits/1.0.1',
+            $plugin['repositoryChangelogUrl']
+        );
+        $this->assertSame(
+            Plugin\Manager::getInstance()->getLoadedPlugin('TreemapVisualization')->getVersion(),
+            $plugin['currentVersion']
+        );
+    }
+
+    public function testGetPluginsHavingUpdateStillDropsAPluginWhoseInfoComesBackEmpty()
+    {
+        // the catalogue lists answer empty, so every reported update falls through to its own info
+        // request the way it always did — and those answer empty too, so none may be listed. This is
+        // the filter that keeps a custom or delisted plugin out of the plugins admin page and the
+        // update notification email; resolving updates from the catalogue must not bypass it.
+        $this->service->returnFixture(array_merge(
+            ['v2.0_plugins_checkUpdates-pluginspluginsnameAnonymousPi.json'],
+            array_fill(0, 2, 'emptyObjectResponse.json'),
+            array_fill(0, 8, 'emptyObjectResponse.json')
+        ));
+
+        $this->assertSame([], $this->plugins->getPluginsHavingUpdate());
+    }
+
     public function testGetPluginsHavingUpdateShouldReturnEnrichedPluginUpdatesForPluginsFoundOnTheMarketplace()
     {
         $this->service->returnFixture([
             'v2.0_plugins_checkUpdates-pluginspluginsnameAnonymousPi.json',
-            'emptyObjectResponse.json',
-            'emptyObjectResponse.json',
-            'emptyObjectResponse.json',
-            'emptyObjectResponse.json',
-            'emptyObjectResponse.json',
-            'emptyObjectResponse.json',
-            'emptyObjectResponse.json',
-            'v2.0_plugins_TreemapVisualization_info.json',
+            'v2.0_plugins.json',
+            'v2.0_themes.json',
         ]);
         $apis = [];
         $this->service->setOnFetchCallback(function ($action, $params) use (&$apis) {
@@ -514,7 +645,12 @@ class PluginsTest extends IntegrationTestCase
         $pluginManager = Plugin\Manager::getInstance();
         $pluginName = 'TreemapVisualization';
 
-        $this->assertCount(1, $updates);
+        // every plugin checkUpdates reported is returned. The old fixture forced seven of the eight
+        // to come back empty from their own info request, which no longer happens because they are
+        // resolved from the catalogue instead.
+        $this->assertCount(8, $updates);
+        $this->assertArrayHasKey($pluginName, $updates);
+
         $plugin = $updates[$pluginName];
         $this->assertSame($pluginName, $plugin['name']);
         $this->assertSame($pluginManager->getLoadedPlugin($pluginName)->getVersion(), $plugin['currentVersion']);
@@ -522,18 +658,15 @@ class PluginsTest extends IntegrationTestCase
         $this->assertSame([], $plugin['missingRequirements']);
         $this->assertSame('https://github.com/piwik/plugin-TreemapVisualization/commits/1.0.1', $plugin['repositoryChangelogUrl']);
 
-        $expectedApiCalls = [
-            'plugins/checkUpdates',
-            'plugins/AnonymousPiwikUsageMeasurement/info',
-            'plugins/CustomAlerts/info',
-            'plugins/CustomDimensions/info',
-            'plugins/LogViewer/info',
-            'plugins/QueuedTracking/info',
-            'plugins/SecurityInfo/info',
-            'plugins/TasksTimetable/info',
-            'plugins/TreemapVisualization/info',
-        ];
-        $this->assertSame($expectedApiCalls, $apis);
+        // the updates are resolved out of the plugin and theme lists, which are cached for longer
+        // and refilled by a scheduled task. Asking about each plugin in turn used to cost one
+        // request per plugin having an update.
+        $this->assertSame(['plugins/checkUpdates', 'plugins', 'themes'], $apis);
+
+        $infoRequests = array_values(array_filter($apis, function ($action) {
+            return (bool) preg_match('#^plugins/[^/]+/info$#', $action);
+        }));
+        $this->assertSame([], $infoRequests);
     }
 
     private function getExpectedPluginNames()

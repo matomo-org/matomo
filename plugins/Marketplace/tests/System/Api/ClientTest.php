@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\Marketplace\tests\System\Api;
 
+use Matomo\Cache\Lazy;
 use Piwik\Cache;
 use Piwik\Http;
 use Piwik\Plugin;
@@ -16,6 +17,7 @@ use Piwik\Plugins\Marketplace\Api\Client;
 use Piwik\Plugins\Marketplace\Api\Service;
 use Piwik\Plugins\Marketplace\Environment;
 use Piwik\Plugins\Marketplace\Input\PurchaseType;
+use Piwik\Plugins\Marketplace\Input\Sort;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Version;
 use Piwik\Plugins\Marketplace\tests\Framework\Mock\Service as TestService;
@@ -119,6 +121,123 @@ class ClientTest extends SystemTestCase
         $this->expectExceptionMessage('Requested plugin does not exist.');
 
         $this->client->getPluginInfo('NotExistingPlugIn');
+    }
+
+    public function testThePluginListIsCachedForLongerThanTheTaskRefillsIt()
+    {
+        // browsing data, which the Marketplace itself serves with an eight day max-age. It has to
+        // outlive the interval Tasks::warmCacheEntries() refills it at or the warming is moot.
+        $ttls = $this->recordCacheTimeouts('v2.0_plugins.json', function (Client $client) {
+            $client->searchForPlugins('', '', Sort::DEFAULT_SORT, PurchaseType::TYPE_ALL);
+        });
+
+        self::assertSame([Client::PLUGIN_LIST_CACHE_TIMEOUT_IN_SECONDS], $ttls);
+    }
+
+    public function testASearchIsNotHeldForTheLongerTimeout()
+    {
+        // nothing warms a search, so a longer timeout would only make it staler
+        $ttls = $this->recordCacheTimeouts('v2.0_plugins.json', function (Client $client) {
+            $client->searchForPlugins('', 'some query', Sort::DEFAULT_SORT, PurchaseType::TYPE_ALL);
+        });
+
+        self::assertSame([Client::CACHE_TIMEOUT_IN_SECONDS], $ttls);
+    }
+
+    public function testThePaidPluginListIsCachedForLongerThanTheTaskRefillsIt()
+    {
+        // the premium filter is its own cache entry and the task warms it too
+        $ttls = $this->recordCacheTimeouts('v2.0_plugins.json', function (Client $client) {
+            $client->searchForPlugins('', '', Sort::DEFAULT_SORT, PurchaseType::TYPE_PAID);
+        });
+
+        self::assertSame([Client::PLUGIN_LIST_CACHE_TIMEOUT_IN_SECONDS], $ttls);
+    }
+
+    public function testAPurchaseTypeNothingWarmsIsNotHeldForTheLongerTimeout()
+    {
+        // no task refills the free-only list, so it would go stale without ever being warm
+        $ttls = $this->recordCacheTimeouts('v2.0_plugins.json', function (Client $client) {
+            $client->searchForPlugins('', '', Sort::DEFAULT_SORT, PurchaseType::TYPE_FREE);
+        });
+
+        self::assertSame([Client::CACHE_TIMEOUT_IN_SECONDS], $ttls);
+    }
+
+    public function testTheThemeListIsCachedForLongerOnlyForThePurchaseTypeTheTaskWarms()
+    {
+        $warmed = $this->recordCacheTimeouts('v2.0_themes.json', function (Client $client) {
+            $client->searchForThemes('', '', Sort::DEFAULT_SORT, PurchaseType::TYPE_ALL);
+        });
+        $unwarmed = $this->recordCacheTimeouts('v2.0_themes.json', function (Client $client) {
+            $client->searchForThemes('', '', Sort::DEFAULT_SORT, PurchaseType::TYPE_PAID);
+        });
+
+        self::assertSame([Client::PLUGIN_LIST_CACHE_TIMEOUT_IN_SECONDS], $warmed);
+        self::assertSame([Client::CACHE_TIMEOUT_IN_SECONDS], $unwarmed);
+    }
+
+    public function testANonDefaultSortIsNotHeldForTheLongerTimeout()
+    {
+        $ttls = $this->recordCacheTimeouts('v2.0_plugins.json', function (Client $client) {
+            $client->searchForPlugins('', '', Sort::METHOD_ALPHA, PurchaseType::TYPE_ALL);
+        });
+
+        self::assertSame([Client::CACHE_TIMEOUT_IN_SECONDS], $ttls);
+    }
+
+    public function testPluginInfoKeepsTheShortCacheTimeout()
+    {
+        // a plugin's own details back the update rows and the details modal, so they stay fresh
+        $ttls = $this->recordCacheTimeouts('v2.0_plugins_TreemapVisualization_info.json', function (Client $client) {
+            $client->getPluginInfo('TreemapVisualization');
+        });
+
+        self::assertSame([Client::CACHE_TIMEOUT_IN_SECONDS], $ttls);
+    }
+
+    /**
+     * Runs the given call against an always-empty cache and returns the timeouts it saved with.
+     *
+     * @return array<int, int>
+     */
+    private function recordCacheTimeouts(string $fixture, callable $call): array
+    {
+        $savedTtls = [];
+
+        $cache = $this->createMock(Lazy::class);
+        $cache->method('fetch')->willReturn(false);
+        $cache->method('save')->willReturnCallback(
+            function ($id, $content, $ttl) use (&$savedTtls) {
+                $savedTtls[] = $ttl;
+                return true;
+            }
+        );
+
+        $service = new TestService($this->domain);
+        $service->returnFixture($fixture);
+
+        $call(new Client($service, $cache, new NullLogger(), $this->environment));
+
+        return $savedTtls;
+    }
+
+    public function testConsumerEndpointsAreNotRequestedWithoutALicenseKey()
+    {
+        $service = new TestService($this->domain);
+        $client = $this->buildClient($service);
+
+        $apis = [];
+        $service->setOnFetchCallback(function ($action) use (&$apis) {
+            $apis[] = $action;
+        });
+
+        $this->assertNull($client->getConsumer());
+        $this->assertFalse($client->isValidConsumer());
+
+        // consumer answers 403 without a token and consumer/validate can only say false, so asking
+        // is latency the majority of installs pay for nothing
+        $this->assertSame([], $apis);
     }
 
     public function testGetConsumerShouldReturnNullAndNotThrowExceptionIfNotAuthorized()
@@ -286,6 +405,32 @@ class ClientTest extends SystemTestCase
         $result = $this->client->searchForPlugins($keywords = 'login', $query = '', $sort = '', $purchaseType = PurchaseType::TYPE_ALL);
 
         $this->assertSame(array(array('name' => 'foobar')), $result);
+    }
+
+    public function testGetUpdateSummariesOfPluginsHavingUpdateIssuesOneRequestOnly()
+    {
+        $service = new TestService($this->domain);
+        $client = $this->buildClient($service);
+
+        $apis = [];
+        $service->setOnFetchCallback(function ($action) use (&$apis) {
+            $apis[] = $action;
+        });
+
+        $client->getUpdateSummariesOfPluginsHavingUpdate([$this->loadPluginForTest('CustomAlerts')]);
+
+        $this->assertSame(['plugins/checkUpdates'], $apis);
+    }
+
+    private function loadPluginForTest(string $pluginName): Plugin
+    {
+        $pluginManager = Plugin\Manager::getInstance();
+
+        if (!$pluginManager->isPluginLoaded($pluginName)) {
+            return $pluginManager->loadPlugin($pluginName);
+        }
+
+        return $pluginManager->getLoadedPlugin($pluginName);
     }
 
     public function testGetInfoOfPluginsHavingUpdate()
