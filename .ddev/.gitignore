@@ -26,3 +26,4 @@
 /traefik/certs/*.crt
 /traefik/certs/*.key
 /*/**/README.*
+/share-providers/
