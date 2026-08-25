@@ -76,6 +76,10 @@ disable_upload_dirs_warning: true
 # it can be set to any valid timezone,
 # see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 # For example Europe/Dublin or MST7MDT
+# Pinned to UTC so containers match CI and production. Derived from the host instead, PHP and
+# MySQL run in the developer's local zone while Matomo stores datetimes in UTC, and date-derived
+# values then differ locally in ways CI cannot reproduce.
+timezone: UTC
 
 # composer_root: <relative_path>
 # Relative path to the Composer root directory from the project root. This is
