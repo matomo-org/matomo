@@ -555,8 +555,9 @@ describe("PrivacyManager", function () {
       const state = await complianceScopeState();
       expect(state.scope).to.equal('all');
       expect(state.hasSiteSelector).to.equal(false);
-      expect(state.overrideNote).to.equal('Settings saved under All Websites apply to every'
-        + ' website and replace any existing website-specific settings.');
+      expect(state.overrideNote).to.equal('Enabling settings under All Websites applies them to'
+        + ' every website and overrides any website-specific settings. Disabling them here does'
+        + ' not turn them off for websites that enable them individually.');
       expect(state.notice).to.equal('You are currently configuring settings for all websites.');
     });
 

@@ -54,7 +54,7 @@
         "ComplianceTableSettingNotes": "Notes",
         "ComplianceApplySettingsTo": "Apply settings to",
         "ComplianceScopeSingleWebsite": "Single Website",
-        "ComplianceScopeOverrideNote": "Settings saved under All Websites apply to every website and replace any existing website-specific settings.",
+        "ComplianceScopeOverrideNote": "Enabling settings under All Websites applies them to every website and overrides any website-specific settings. Disabling them here does not turn them off for websites that enable them individually.",
         "ComplianceScopeAllWebsitesNotice": "You are currently configuring settings for all websites.",
         "ComplianceScopeSingleWebsiteNotice": "You are currently configuring settings for %1$s only.",
         "ComplianceEnforceCheckboxIntro": "Enforce compliance where possible",
