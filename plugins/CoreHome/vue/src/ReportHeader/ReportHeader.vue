@@ -148,6 +148,7 @@ import DataTableActions, {
   FooterIconGroup,
 } from '../DataTable/DataTableActions.vue';
 import ReportActionsStore from '../DataTable/ReportActions.store';
+import type { ReportActionsConfig } from '../DataTable/ReportActions.store';
 import reportIdentity from '../DataTable/reportIdentity';
 import EnrichedHeadline from '../EnrichedHeadline/EnrichedHeadline.vue';
 import ExpandOnClick from '../ExpandOnClick/ExpandOnClick';
@@ -157,36 +158,6 @@ import { translate } from '../translate';
 
 // A search is a full DataTable reload, so debounce to avoid one on every keystroke.
 const SEARCH_DEBOUNCE_MS = 300;
-
-// Only what this header forwards to the menu. The store holds whatever twig published, so the
-// shape is asserted here rather than inferred from it.
-interface ReportActions {
-  showFooter: boolean;
-  showFooterIcons: boolean;
-  footerIcons: FooterIconGroup[];
-  viewDataTable: string;
-  clientSideParameters: Record<string, unknown>;
-  isDataTableEmpty: boolean;
-  showFlattenTable: boolean;
-  reportSupportsFlatten: boolean;
-  reportSupportsPercentageValues: boolean;
-  exportSupportsFlatten: boolean;
-  hasMultipleDimensions: boolean;
-  showTotalsRow: boolean;
-  showExcludeLowPopulation: boolean;
-  showPivotBySubtable: boolean;
-  dataTableActions: DataTableAction[];
-  showExport: boolean;
-  showExportAsImageIcon: boolean;
-  showAnnotations: boolean;
-  showPeriods: boolean;
-  selectablePeriods: string[];
-  requestParams: Record<string, unknown>;
-  maxFilterLimit: number;
-  apiMethodToRequestDataTable: string;
-  pivotDimensionName: string|null;
-  actionTranslations: Record<string, string>;
-}
 
 export interface ControlVisibility {
   minimise: boolean;
@@ -404,7 +375,7 @@ export default defineComponent({
     // What the menu renders from. Twig gives this header a starting point; on a reload the table is
     // replaced and this header is not, so twig's values then describe the load before it and
     // whatever the report published for itself wins.
-    actions(): ReportActions {
+    actions(): ReportActionsConfig {
       return {
         showFooter: this.showFooter,
         showFooterIcons: this.showFooterIcons,
@@ -432,7 +403,7 @@ export default defineComponent({
         pivotDimensionName: this.pivotDimensionName,
         actionTranslations: this.actionTranslations,
         ...ReportActionsStore.get(this.reportKey),
-      } as ReportActions;
+      } as ReportActionsConfig;
     },
     showActions(): boolean {
       return this.actions.showFooter && this.actions.showFooterIcons;
