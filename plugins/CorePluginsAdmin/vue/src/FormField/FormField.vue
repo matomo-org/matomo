@@ -415,11 +415,15 @@ export default defineComponent({
       return this.formField.extraMetadata?.compliancePolicyControlled !== undefined;
     },
     privacyPolicyLink() {
+      const idSite = this.getExtraMetadataIdSite;
+
       return `?${MatomoUrl.stringify({
         ...MatomoUrl.urlParsed.value,
         module: 'PrivacyManager',
         action: 'compliance',
-        idSite: this.getExtraMetadataIdSite ?? 'all',
+        idSite: idSite ?? 'all',
+        // a setting without an idSite is configured for every website
+        complianceScope: idSite ? 'site' : 'all',
       })}`;
     },
   },
