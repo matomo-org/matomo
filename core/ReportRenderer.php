@@ -14,6 +14,7 @@ use Piwik\API\Request;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable\Row;
 use Piwik\DataTable\Simple;
+use Piwik\Http\SecurityHeaders;
 use Piwik\Plugins\ImageGraph\API;
 
 /**
@@ -225,6 +226,8 @@ abstract class ReportRenderer extends BaseFactory
 
         $filename = ReportRenderer::makeFilenameWithExtension($filename, $extension);
 
+        SecurityHeaders::sendForDataResponse();
+
         ProxyHttp::overrideCacheControlHeaders();
         Common::sendHeader('Content-Description: File Transfer');
         Common::sendHeader('Content-Type: ' . $contentType);
@@ -238,8 +241,23 @@ abstract class ReportRenderer extends BaseFactory
     {
         self::checkStreamingToBrowserIsAllowed();
 
+        SecurityHeaders::sendForDataResponse();
+
         Common::sendHeader('Content-Type: ' . $contentType);
         echo $content;
+    }
+
+    /**
+     * Whether the report aggregates its rows by a dimension.
+     *
+     * A report without a dimension has a single row of metrics rather than one row per
+     * dimension value.
+     *
+     * @param array $reportMetadata
+     */
+    protected static function isAggregateReport($reportMetadata): bool
+    {
+        return !empty($reportMetadata['dimension']);
     }
 
     /**
@@ -254,7 +272,7 @@ abstract class ReportRenderer extends BaseFactory
     protected static function processTableFormat($reportMetadata, $report, $reportColumns)
     {
         $finalReport = $report;
-        if (empty($reportMetadata['dimension'])) {
+        if (!self::isAggregateReport($reportMetadata)) {
             $simpleReportMetrics = $report->getFirstRow();
             if ($simpleReportMetrics) {
                 $finalReport = new Simple();

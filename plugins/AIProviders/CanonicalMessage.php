@@ -50,6 +50,11 @@ namespace Piwik\Plugins\AIProviders;
  *     object as `{}` (stdClass) on the wire to satisfy providers that reject
  *     `[]` for object slots.
  *
+ *     A block may carry additional provider-specific fields (e.g. Google's
+ *     `thoughtSignature`, which Gemini 3 requires echoed back on replay).
+ *     Callers must persist and replay blocks verbatim so such fields survive
+ *     the round trip.
+ *
  *   Tool result block (tool role only):
  *     {
  *         type: 'tool_result',
