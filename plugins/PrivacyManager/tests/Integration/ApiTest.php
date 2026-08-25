@@ -158,7 +158,7 @@ class ApiTest extends IntegrationTestCase
     public function testSetDeleteLogsSettingsKeepsTheStoredRetentionWhileAPolicyCapsIt(): void
     {
         // what the user had configured before any policy applied
-        $this->api->setDeleteLogsSettings(1, 1000);
+        $this->api->setDeleteLogsSettings(1, 1000, Fixture::ADMIN_USER_PASSWORD);
         $this->assertSame(1000, (int) Option::get('delete_logs_older_than'));
 
         CnilPolicy::setActiveStatus(null, true);
@@ -166,7 +166,7 @@ class ApiTest extends IntegrationTestCase
         try {
             // the field is pre-filled with the capped value the policy puts in effect and the form
             // posts it back whether or not it was touched, so storing it would lose the user's own
-            $this->api->setDeleteLogsSettings(1, 759);
+            $this->api->setDeleteLogsSettings(1, 759, Fixture::ADMIN_USER_PASSWORD);
 
             $this->assertSame(1000, (int) Option::get('delete_logs_older_than'));
         } finally {
@@ -176,13 +176,13 @@ class ApiTest extends IntegrationTestCase
 
     public function testSetDeleteLogsSettingsStoresARetentionStricterThanThePolicyRequires(): void
     {
-        $this->api->setDeleteLogsSettings(1, 1000);
+        $this->api->setDeleteLogsSettings(1, 1000, Fixture::ADMIN_USER_PASSWORD);
 
         CnilPolicy::setActiveStatus(null, true);
 
         try {
             // keeping data for less than the cap is the user's own choice and has to be kept
-            $this->api->setDeleteLogsSettings(1, 180);
+            $this->api->setDeleteLogsSettings(1, 180, Fixture::ADMIN_USER_PASSWORD);
 
             $this->assertSame(180, (int) Option::get('delete_logs_older_than'));
         } finally {
