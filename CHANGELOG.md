@@ -6,6 +6,9 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ## Matomo 5.14.0
 
+### Breaking Changes
+* The `UserCountry_distinctCountries` metric, returned by `UserCountry.getNumberOfDistinctCountries` and included in the `UserCountry.getCountry` report totals, is now declared as a numeric metric and is therefore subject to CNIL data rounding. On installations with CNIL rounding enabled the returned count is rounded to the same scale as other counts instead of being passed through unrounded, so a value of `18` now reads as `20`. Installations without CNIL rounding are unaffected.
+
 ### New APIs
 * The new `Piwik\Http\SecurityHeaders::sendForDataResponse()` sends the header set for a response that is data rather than application UI: `X-Content-Type-Options: nosniff`, `Referrer-Policy: no-referrer`, `X-Frame-Options: deny` unless `[General] enable_framed_pages` allows embedding, and a `Content-Security-Policy` that allows no scripts, forms or base URI, only inline styles and images from Matomo itself (built by the new `Piwik\View\SecurityPolicy::restrictToDataResponse()`). Core sends it for the API endpoint itself, report exports, inline report previews, and the API module's `listAllMethods` and `listSegments` actions, which return HTML without a view; `action=listAllAPI`, which renders one, keeps the headers of a regular page. Call it in a plugin that streams an export or a report, before writing any output.
 
