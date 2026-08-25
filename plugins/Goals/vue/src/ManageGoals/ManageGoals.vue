@@ -58,7 +58,7 @@
                   <br/><br/>
                 </td>
               </tr>
-              <tr v-for="goal in currentGoals || []" :id="goal.idgoal" :key="goal.idgoal">
+              <tr v-for="goal in currentGoals || []" :id="`${goal.idgoal}`" :key="goal.idgoal">
                 <td class="first">{{ goal.idgoal }}</td>
                 <td>{{ goal.name }}</td>
                 <td class="manageGoals-descriptionColumn">{{ goal.description }}</td>

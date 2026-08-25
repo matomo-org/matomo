@@ -237,10 +237,11 @@ ul.ulGoalTopElements img {
     }
 
     .recommendGoals-chip--setup {
-        background: fade(@color-orange-brand, 8%);
-        border-color: fade(@color-orange-brand, 50%);
+        // literal #f57c00: @color-orange-brand was removed in Matomo 6
+        background: fade(#f57c00, 8%);
+        border-color: fade(#f57c00, 50%);
         // darkened for WCAG AA contrast; #f57c00 on white is only ~2.7:1
-        color: darken(@color-orange-brand, 15%);
+        color: darken(#f57c00, 15%);
         cursor: help;
         pointer-events: auto; // chips ignore pointer events; this one carries a tooltip
     }
@@ -419,10 +420,10 @@ ul.ulGoalTopElements img {
         }
 
         .recommendGoals-chip--setup {
-            background: fade(@color-orange-brand, 12%);
-            border-color: fade(@color-orange-brand, 45%);
+            background: fade(#f57c00, 12%);
+            border-color: fade(#f57c00, 45%);
             // full-strength orange reads fine on dark surfaces
-            color: @color-orange-brand;
+            color: #f57c00;
         }
 
         // tinyContrast is darker than the card surface in dark mode, which makes
