@@ -40,6 +40,8 @@ class Consumer
     public static function buildValidLicense()
     {
         $service = new Service();
+        // Client only asks the consumer endpoints when a license key is set
+        $service->authenticate('123456789');
         $service->setOnDownloadCallback(function ($action, $params) use ($service) {
             if ($action === 'info') {
                 return $service->getFixtureContent('v2.0_info.json');
@@ -57,6 +59,8 @@ class Consumer
     public static function buildExceededLicense()
     {
         $service = new Service();
+        // Client only asks the consumer endpoints when a license key is set
+        $service->authenticate('123456789');
         $service->setOnDownloadCallback(function ($action, $params) use ($service) {
             if ($action === 'info') {
                 return $service->getFixtureContent('v2.0_info.json');
@@ -75,6 +79,8 @@ class Consumer
     public static function buildExpiredLicense()
     {
         $service = new Service();
+        // Client only asks the consumer endpoints when a license key is set
+        $service->authenticate('123456789');
         $service->setOnDownloadCallback(function ($action, $params) use ($service) {
             if ($action === 'info') {
                 return $service->getFixtureContent('v2.0_info.json');

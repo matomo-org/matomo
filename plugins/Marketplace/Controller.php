@@ -264,7 +264,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         $view = $this->configureViewAndCheckPermission('@Marketplace/overview');
 
-        $view->paidPluginsToInstallAtOnce = $this->getAllPaidPluginsToInstallAtOnce();
         $view->isValidConsumer = $this->consumer->isValidConsumer();
         $view->pluginTypeOptions = array(
             'plugins' => Piwik::translate('General_Plugins'),
@@ -298,8 +297,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     public function updateOverview(): string
     {
         Piwik::checkUserIsNotAnonymous();
-
-        $paidPlugins = $this->getPaidPlugins();
 
         $updateData = [
             'isValidConsumer' => $this->consumer->isValidConsumer(),
@@ -337,10 +334,85 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 $plugin['isTrialRequested'] = StaticContainer::get(PluginTrialService::class)->wasRequested($plugin['name']);
                 $plugin['canTrialBeRequested'] = GeneralConfig::getIntegerConfigValue('plugin_trial_request_expiration_in_days', 0) !== -1;
             }
+
+            $plugin = $this->keepPluginCardFields($plugin);
         }
 
         Json::sendHeaderJSON();
         return json_encode($plugins);
+    }
+
+    /**
+     * Returns everything the plugin details modal renders for a single plugin.
+     *
+     * The plugin list deliberately omits these fields, see {@link keepPluginCardFields()}.
+     */
+    public function getPluginDetails(): string
+    {
+        Piwik::checkUserIsNotAnonymous();
+
+        $pluginName = new PluginName();
+        $pluginName = $pluginName->getPluginName();
+
+        $plugin = $this->plugins->getPluginInfoPreferringList($pluginName);
+
+        if (empty($plugin['name'])) {
+            throw new Exception('Plugin does not exist');
+        }
+
+        if (!empty($plugin['versions'])) {
+            // only the latest version is rendered, and each version carries its full readme HTML
+            $plugin['versions'] = [end($plugin['versions'])];
+        }
+
+        Json::sendHeaderJSON();
+        return json_encode($plugin);
+    }
+
+    /**
+     * Reduces a plugin to the fields the cards in the plugin list render.
+     *
+     * The Marketplace returns every version of every plugin, each with its own rendered readme and
+     * FAQ HTML, which no card reads and which dominates the response: against plugins.matomo.org
+     * this trims the list from 1.6 MB to 121 KB. Anything the details modal needs on top of this is
+     * fetched per plugin by {@link getPluginDetails()} when the modal opens.
+     *
+     * This is an allow list so that fields added to the Marketplace API cannot silently grow the
+     * list response again. A new field rendered on a card has to be added here too.
+     *
+     * @param array<string, mixed> $plugin
+     * @return array<string, mixed>
+     */
+    private function keepPluginCardFields(array $plugin): array
+    {
+        $cardFields = [
+            'name',
+            'displayName',
+            'description',
+            'owner',
+            'coverImage',
+            'isFree',
+            'isPaid',
+            'isInstalled',
+            'isActivated',
+            'isInvalid',
+            'isDownloadable',
+            'canBeUpdated',
+            'hasDownloadLink',
+            'hasExceededLicense',
+            'isMissingLicense',
+            'isEligibleForFreeTrial',
+            'isTrialRequested',
+            'canTrialBeRequested',
+            'missingRequirements',
+            'numDownloads',
+            'numDownloadsPretty',
+            'priceFrom',
+            'downloadNonce',
+            'consumer',
+        ];
+
+        return array_intersect_key($plugin, array_flip($cardFields));
     }
 
     public function installAllPaidPlugins()

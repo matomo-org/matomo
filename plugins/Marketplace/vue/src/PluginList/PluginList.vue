@@ -43,7 +43,17 @@
            @click="clickCard($event, plugin)">
         <div class="card">
           <div class="card-content">
-            <img :src="`${plugin.coverImage}?w=880&h=480`" alt="" class="cover-image">
+            <img
+              :src="coverImageUrl(plugin, 440, 240)"
+              :srcset="coverImageSrcset(plugin)"
+              sizes="(max-width: 600px) 100vw, (max-width: 992px) 50vw, 400px"
+              alt=""
+              class="cover-image"
+              width="440"
+              height="240"
+              loading="lazy"
+              decoding="async"
+            >
             <div class="content-container">
               <div class="card-content-top">
                 <img v-if="'piwik' == plugin.owner || 'matomo-org' == plugin.owner"
@@ -115,19 +125,19 @@
 
 <script lang="ts">
 import { defineComponent, watch } from 'vue';
-import { MatomoUrl } from 'CoreHome';
+import { MatomoUrl, debounce } from 'CoreHome';
 import CTAContainer from './CTAContainer.vue';
 import RequestTrial from '../RequestTrial/RequestTrial.vue';
 import StartFreeTrial from '../StartFreeTrial/StartFreeTrial.vue';
 import PluginDetailsModal from '../PluginDetailsModal/PluginDetailsModal.vue';
-import { TObject } from '../types';
+import { PluginCard } from '../types';
 
 const { $ } = window;
 
 interface PluginListState {
-  showRequestTrialForPlugin: TObject | null;
-  showStartFreeTrialForPlugin: TObject | null;
-  showPluginDetailsForPlugin: TObject | null;
+  showRequestTrialForPlugin: PluginCard | null;
+  showStartFreeTrialForPlugin: PluginCard | null;
+  showPluginDetailsForPlugin: PluginCard | null;
 }
 
 export default defineComponent({
@@ -205,9 +215,10 @@ export default defineComponent({
     },
   },
   mounted() {
-    $(window).resize(() => {
+    // resize fires continuously while dragging and each run measures every card
+    $(window).resize(debounce(() => {
       this.shrinkDescriptionIfMultilineTitle();
-    });
+    }, 100));
     watch(() => MatomoUrl.hashParsed.value.showPlugin, (newValue, oldValue) => {
       if (newValue && newValue !== oldValue) {
         this.parseShowPluginParameter();
@@ -228,7 +239,7 @@ export default defineComponent({
         (plugin: any) => plugin.name === showPlugin,
       );
       if (pluginToShow.length === 1) {
-        const [plugin] = pluginToShow as TObject[];
+        const [plugin] = pluginToShow as PluginCard[];
 
         this.openDetailsModal(plugin);
         this.scrollPluginCardIntoView(plugin);
@@ -246,6 +257,11 @@ export default defineComponent({
       if (!$nodes || !$nodes.length) {
         return;
       }
+
+      // reading a card's height and then writing its data-clamp forces the browser to lay the page
+      // out again before the next card can be measured, so measure every card first and only then
+      // apply the results
+      const pending: { element: HTMLElement; clampedLines: number }[] = [];
 
       $nodes.each((index, node) => {
         const $card = $(node);
@@ -295,15 +311,28 @@ export default defineComponent({
             clampedLines = 2;
           }
 
-          if (clampedLines) {
-            cardDescription.setAttribute('data-clamp', `${clampedLines}`);
-          } else {
-            cardDescription.removeAttribute('data-clamp');
-          }
+          pending.push({ element: cardDescription, clampedLines });
+        }
+      });
+
+      pending.forEach(({ element, clampedLines }) => {
+        if (clampedLines) {
+          element.setAttribute('data-clamp', `${clampedLines}`);
+        } else {
+          element.removeAttribute('data-clamp');
         }
       });
     },
-    clickCard(event: MouseEvent, plugin: TObject) {
+    coverImageUrl(plugin: PluginCard, width: number, height: number) {
+      return `${plugin.coverImage}?w=${width}&h=${height}`;
+    },
+    coverImageSrcset(plugin: PluginCard) {
+      // covers are published at 880x480 and the Marketplace resizes to whatever is asked for, so a
+      // card on a non-retina display was downloading around three times the pixels it renders
+      return `${this.coverImageUrl(plugin, 440, 240)} 440w, `
+        + `${this.coverImageUrl(plugin, 880, 480)} 880w`;
+    },
+    clickCard(event: MouseEvent, plugin: PluginCard) {
       // check if the target is a link or is a descendant of a link
       // to skip direct clicks on links within the card, we want those honoured
       if ($(event.target as HTMLElement).closest('a:not(.card-title-link)').length) {
@@ -313,10 +342,10 @@ export default defineComponent({
       event.stopPropagation();
       this.openDetailsModal(plugin);
     },
-    openDetailsModal(plugin: TObject) {
+    openDetailsModal(plugin: PluginCard) {
       this.showPluginDetailsForPlugin = plugin;
     },
-    scrollPluginCardIntoView(plugin: TObject) {
+    scrollPluginCardIntoView(plugin: PluginCard) {
       const $titles = $(`.pluginListContainer .card-title:contains("${plugin.displayName}")`);
 
       if ($titles.length !== 1) {
@@ -331,10 +360,10 @@ export default defineComponent({
 
       $cards[0].scrollIntoView({ block: 'start', behavior: 'smooth' });
     },
-    requestTrial(plugin: TObject) {
+    requestTrial(plugin: PluginCard) {
       this.showRequestTrialForPlugin = plugin;
     },
-    startFreeTrial(plugin: TObject) {
+    startFreeTrial(plugin: PluginCard) {
       this.showStartFreeTrialForPlugin = plugin;
     },
   },

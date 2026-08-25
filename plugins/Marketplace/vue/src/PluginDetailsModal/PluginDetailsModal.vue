@@ -104,6 +104,10 @@
           >
           </div>
 
+          <div v-if="fetchErrorMessage" class="alert alert-danger">
+            {{ fetchErrorMessage }}
+          </div>
+
           <div v-html="$sanitize(pluginDescription)"></div>
         </div>
 
@@ -237,7 +241,13 @@
               v-for="screenshot in pluginScreenshots"
               :key="`screenshot-${screenshot}`"
             >
-              <img :src="`${screenshot}?w=800`" width="800" alt="">
+              <img
+                :src="`${screenshot}?w=800`"
+                width="800"
+                alt=""
+                loading="lazy"
+                decoding="async"
+              >
               <figcaption>{{ this.getScreenshotBaseName(screenshot) }}</figcaption>
             </figure>
           </div>
@@ -287,7 +297,7 @@
               v-model="selectedPluginShopVariationUrl"
               @change="changeSelectedPluginShopVariationUrl"
             >
-              <option v-for="(variation, index) in plugin.shop.variations" :key="`var-${index}`"
+              <option v-for="(variation, index) in pluginShopVariations" :key="`var-${index}`"
                       :value="variation.addToCartUrl"
                       :title="`${translate(
                       'Marketplace_PriceExclTax',
@@ -328,11 +338,17 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { MatomoUrl, translate, externalLink } from 'CoreHome';
+import {
+  AjaxHelper,
+  MatomoUrl,
+  translate,
+  externalLink,
+} from 'CoreHome';
 import {
   IPluginShopDetails,
   IPluginShopReviews,
   IPluginShopVariation,
+  PluginCard,
   PluginDetails,
   TObject,
   TObjectArray,
@@ -346,6 +362,9 @@ const { $ } = window;
 interface PluginDetailsModalState {
   isLoading: boolean;
   currentPluginShopVariationUrl: string;
+  fetchedDetails: PluginDetails|null;
+  fetchAbortController: AbortController|null;
+  fetchErrorMessage: string;
 }
 
 export default defineComponent({
@@ -404,6 +423,9 @@ export default defineComponent({
     return {
       isLoading: true,
       currentPluginShopVariationUrl: '',
+      fetchedDetails: null,
+      fetchAbortController: null,
+      fetchErrorMessage: '',
     };
   },
   emits: [
@@ -426,7 +448,12 @@ export default defineComponent({
   },
   computed: {
     plugin(): PluginDetails {
-      return this.modelValue as PluginDetails;
+      // the plugin list only carries the fields its cards render, so everything else arrives from
+      // getPluginDetails once the modal opens
+      return {
+        ...(this.modelValue as PluginCard),
+        ...(this.fetchedDetails || {}),
+      } as PluginDetails;
     },
     pluginLatestVersion(): TObject {
       const versions: TObjectArray = this.plugin.versions || [{}];
@@ -464,7 +491,7 @@ export default defineComponent({
       return this.plugin.activity || {};
     },
     pluginChangelogUrl(): string {
-      return this.plugin.changelog.url as string || '';
+      return (this.plugin.changelog?.url as string) || '';
     },
     pluginSupport(): TObjectArray[] {
       return this.plugin.support || [];
@@ -615,13 +642,72 @@ export default defineComponent({
             showPlugin: null,
           });
           this.$emit('update:modelValue', null);
+          this.abortDetailsFetch();
+          this.fetchedDetails = null;
+          this.fetchErrorMessage = '';
           this.isLoading = true;
         },
       }).modal('open');
 
-      setTimeout(() => {
+      this.fetchPluginDetails();
+    },
+    abortDetailsFetch() {
+      if (this.fetchAbortController) {
+        this.fetchAbortController.abort();
+        this.fetchAbortController = null;
+      }
+    },
+    fetchPluginDetails() {
+      const pluginName = (this.modelValue as PluginCard)?.name;
+
+      if (!pluginName) {
+        return;
+      }
+
+      this.abortDetailsFetch();
+      this.isLoading = true;
+      this.fetchErrorMessage = '';
+      // details from the plugin opened before must not survive into this one, or a failed
+      // request would show the new plugin's card data beside the old one's shop and versions
+      this.fetchedDetails = null;
+
+      const abortController = new AbortController();
+      this.fetchAbortController = abortController;
+
+      AjaxHelper.post(
+        {
+          module: 'Marketplace',
+          action: 'getPluginDetails',
+          format: 'JSON',
+        },
+        { pluginName },
+        {
+          withTokenInUrl: true,
+          abortController,
+          // the modal covers the page, so a notification behind it would never be seen
+          createErrorNotification: false,
+        },
+      ).then((response) => {
+        if (this.fetchAbortController !== abortController) {
+          return; // superseded, so this belongs to a plugin the user is no longer looking at
+        }
+
+        this.fetchedDetails = response as PluginDetails;
+      }).catch((response) => {
+        if (this.fetchAbortController !== abortController) {
+          return;
+        }
+
+        this.fetchErrorMessage = (response?.message as string)
+          || translate('General_ErrorRequest', '', '');
+      }).finally(() => {
+        if (this.fetchAbortController !== abortController) {
+          return; // superseded or aborted, whoever replaced it owns the loading state
+        }
+
+        this.fetchAbortController = null;
         this.isLoading = false;
-      }, 10); // just to prevent showing the modal when the plugin data are not yet passed in
+      });
     },
     getPendingLicenseHelpText(pluginName: string) {
       return translate(

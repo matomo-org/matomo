@@ -18,12 +18,15 @@ use Piwik\Filesystem;
 use Piwik\Http;
 use Piwik\Plugin;
 use Piwik\Plugins\Marketplace\Environment;
+use Piwik\Plugins\Marketplace\Input\PurchaseType;
+use Piwik\Plugins\Marketplace\Input\Sort;
 use Piwik\SettingsServer;
 use Piwik\Log\LoggerInterface;
 
 class Client
 {
     public const CACHE_TIMEOUT_IN_SECONDS = 3600;
+    public const PLUGIN_LIST_CACHE_TIMEOUT_IN_SECONDS = 5400;
     public const HTTP_REQUEST_TIMEOUT = 60;
 
     /**
@@ -101,6 +104,11 @@ class Client
 
     public function getConsumer()
     {
+        if (!$this->service->hasAccessToken()) {
+            // without a license key the Marketplace answers 403, so there is no consumer to ask for
+            return null;
+        }
+
         try {
             $licenses = $this->fetch('consumer', array());
         } catch (Exception $e) {
@@ -112,6 +120,10 @@ class Client
 
     public function isValidConsumer()
     {
+        if (!$this->service->hasAccessToken()) {
+            return false;
+        }
+
         try {
             $consumer = $this->fetch('consumer/validate', array());
         } catch (Exception $e) {
@@ -199,6 +211,12 @@ class Client
     {
         $hasUpdates = $this->checkUpdates($plugins);
 
+        if (empty($hasUpdates)) {
+            return [];
+        }
+
+        $listed = $this->getListedPluginsByName();
+
         $pluginDetails = [];
 
         foreach ($hasUpdates as $pluginHavingUpdate) {
@@ -206,20 +224,87 @@ class Client
                 continue;
             }
 
-            try {
-                $plugin = $this->getPluginInfo($pluginHavingUpdate['name']);
-            } catch (PhpException $e) {
-                $this->logger->error($e->getMessage());
-                $plugin = null;
+            $name = $pluginHavingUpdate['name'];
+
+            if (isset($listed[$name])) {
+                $plugin = $listed[$name];
+            } else {
+                try {
+                    $plugin = $this->getPluginInfo($name);
+                } catch (PhpException $e) {
+                    $this->logger->error($e->getMessage());
+                    $plugin = null;
+                }
             }
 
             if (!empty($plugin)) {
                 $plugin['repositoryChangelogUrl'] = $pluginHavingUpdate['repositoryChangelogUrl'];
-                $pluginDetails[$pluginHavingUpdate['name']] = $plugin;
+                $pluginDetails[$name] = $plugin;
             }
         }
 
         return $pluginDetails;
+    }
+
+    /**
+     * Returns the whole plugin and theme catalogue keyed by plugin name.
+     *
+     * Both lists are already cached for {@link PLUGIN_LIST_CACHE_TIMEOUT_IN_SECONDS} and refilled by
+     * a scheduled task, and a list entry carries the same fields as an info response, so resolving
+     * an update out of them costs nothing where asking about each plugin in turn cost one request
+     * per plugin having an update. Returns an empty array if either list cannot be fetched, leaving
+     * the caller to fall back to those individual requests.
+     *
+     * @return array<string, array<string, mixed>>
+     */
+    private function getListedPluginsByName(): array
+    {
+        $listed = [];
+
+        try {
+            $lists = [
+                $this->searchForPlugins('', '', Sort::DEFAULT_SORT, PurchaseType::TYPE_ALL),
+                $this->searchForThemes('', '', Sort::DEFAULT_SORT, PurchaseType::TYPE_ALL),
+            ];
+        } catch (PhpException $e) {
+            $this->logger->error($e->getMessage());
+            return [];
+        }
+
+        foreach ($lists as $list) {
+            foreach ($list as $plugin) {
+                if (!empty($plugin['name']) && !isset($listed[$plugin['name']])) {
+                    $listed[$plugin['name']] = $plugin;
+                }
+            }
+        }
+
+        return $listed;
+    }
+
+    /**
+     * Returns what the Marketplace reports about the given plugins' updates, keyed by plugin name.
+     *
+     * Unlike {@link getInfoOfPluginsHavingUpdate()} this issues a single request instead of one more
+     * per plugin having an update, so it suits callers that only need to know whether an update
+     * exists and where its changelog lives.
+     *
+     * @param \Piwik\Plugin[] $plugins
+     * @return array<string, array<string, mixed>> pluginName => update info
+     */
+    public function getUpdateSummariesOfPluginsHavingUpdate($plugins): array
+    {
+        $summaries = [];
+
+        foreach ($this->checkUpdates($plugins) as $pluginHavingUpdate) {
+            if (empty($pluginHavingUpdate['name'])) {
+                continue;
+            }
+
+            $summaries[$pluginHavingUpdate['name']] = $pluginHavingUpdate;
+        }
+
+        return $summaries;
     }
 
     public function searchForPlugins($keywords, $query, $sort, $purchaseType)
@@ -297,9 +382,51 @@ class Client
             throw new Exception($e->getMessage(), $e->getCode());
         }
 
-        $this->cache->save($cacheId, $result, self::CACHE_TIMEOUT_IN_SECONDS);
+        $this->cache->save($cacheId, $result, $this->getCacheTimeout($action, $params));
 
         return $result;
+    }
+
+    /**
+     * Returns how long a response for the given action may be served from the cache.
+     *
+     * The plugin and theme lists only have to outlive the interval the scheduled task refills them
+     * at, which is what keeps the next visitor from paying for the requests the overview page needs.
+     * Ninety minutes clears that hourly task without holding prices and requirements — both derived
+     * from these responses — much beyond the hour they were held before. A longer window would only
+     * buy tolerance for repeatedly missed scheduled runs, at the cost of staler prices.
+     *
+     * Everything else keeps the short timeout, so update detection, a plugin's own details and the
+     * consumer's licenses are no more stale than before. Each of those is also cleared outright by
+     * the events that change it, see the callers of {@link clearAllCacheEntries()}.
+     */
+    private function getCacheTimeout(string $action, array $params): int
+    {
+        // exactly the queries Tasks::warmCacheEntries() refills, which are also the ones the
+        // overview asks for. Anything else - a search, another sort, a purchase type nobody warms -
+        // would only be made staler by a longer timeout, never faster.
+        $warmedPurchaseTypes = [
+            'plugins' => [PurchaseType::TYPE_ALL, PurchaseType::TYPE_PAID],
+            'themes' => [PurchaseType::TYPE_ALL],
+        ];
+
+        if (!isset($warmedPurchaseTypes[$action])) {
+            return self::CACHE_TIMEOUT_IN_SECONDS;
+        }
+
+        $purchaseType = isset($params['purchase_type'])
+            ? $params['purchase_type']
+            : PurchaseType::TYPE_ALL;
+
+        $isWarmedQuery = empty($params['keywords'])
+            && empty($params['query'])
+            && isset($params['sort'])
+            && $params['sort'] === Sort::DEFAULT_SORT
+            && in_array($purchaseType, $warmedPurchaseTypes[$action], true);
+
+        return $isWarmedQuery
+            ? self::PLUGIN_LIST_CACHE_TIMEOUT_IN_SECONDS
+            : self::CACHE_TIMEOUT_IN_SECONDS;
     }
 
     public function clearAllCacheEntries()
