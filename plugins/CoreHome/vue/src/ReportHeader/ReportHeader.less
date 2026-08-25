@@ -99,6 +99,28 @@
     position: relative;
   }
 
+  // An action lifted out of the menu. Reads as a control rather than as a menu entry - bordered,
+  // labelled, and sitting to the left of the trigger it came from.
+  .reportHeader__promoted {
+    position: relative;
+    margin-right: 8px;
+  }
+
+  // Anchored right so a panel wider than its trigger grows inwards instead of off the page,
+  // the way the actions menu does.
+  .reportHeader__promotedPanel {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    // Same stack as the actions menu: below the row actions, above the table it overlays.
+    z-index: 200;
+  }
+
+  .reportHeader__promoted.expanded .reportHeader__promotedPanel {
+    display: block;
+  }
+
   .reportHeader__actionsTrigger {
     display: flex;
     align-items: safe center;

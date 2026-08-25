@@ -14,7 +14,7 @@
     }"
   >
     <!-- First line: the title, the widget controls and the report's own menu. -->
-    <div v-if="!isEmpty" class="reportHeader__header">
+    <div v-if="!isEmpty" ref="headerRow" class="reportHeader__header">
       <!-- `.widgetName` and the nested <span> are an external hook dataTable.js,
            SingleMetricView and UserCountryMap look for. `.self` stops the key handlers
            cancelling links EnrichedHeadline renders inside the heading. -->
@@ -44,7 +44,7 @@
 
       <!-- Widget controls: hidden until the widget is hovered/focused. Each action emits an
            intent that onControl() bridges to the jQuery widget. -->
-      <div class="reportHeader__controls">
+      <div ref="headerControls" class="reportHeader__controls">
         <div class="reportHeader__widgetControls">
           <WidgetControls
             v-if="hasControls"
@@ -63,6 +63,39 @@
            when the report has none the whole toolbar stays `:empty` and claims none of the
            header's gap. -->
         <div class="reportHeader__toolbar">
+          <!-- Promoted report actions. Inside the toolbar, never beside the widget controls: the
+               two scopes stay separate, and only this one belongs to the report. -->
+          <div
+            v-if="isPromoted('periods')"
+            class="reportHeader__promoted"
+            data-report-action="periods"
+            v-expand-on-click="{ expander: 'periodsTrigger' }"
+          >
+            <button
+              ref="periodsTrigger"
+              type="button"
+              class="mtm-selector"
+              aria-haspopup="menu"
+            >
+              <span class="mtm-selector__icon" aria-hidden="true">
+                <span class="icon-calendar" />
+              </span>
+              <span class="mtm-selector__label">{{ translate('CoreHome_ShowPeriod') }}</span>
+              <span class="mtm-selector__rightIcon" aria-hidden="true">
+                <span class="icon-chevron-down" />
+              </span>
+            </button>
+            <div class="reportHeader__promotedPanel">
+              <div class="mtm-dropdownPanel">
+                <PeriodsMenu
+                  :selectable-periods="actions.selectablePeriods"
+                  :active-period="`${(actions.clientSideParameters || {}).period || ''}`"
+                  :labels="actions.actionTranslations"
+                />
+              </div>
+            </div>
+          </div>
+
           <div
             v-if="showActions"
             ref="actions"
@@ -90,6 +123,7 @@
               <div class="mtm-dropdownPanel mtm-dropdownPanel--wide mtm-dropdownPanel--withSubmenu">
                 <DataTableActions
                   placement="header"
+                  :promoted-actions="promotedActions"
                   :report-title="titleText"
                   :report-id="reportId"
                   :show-footer="actions.showFooter"
@@ -99,6 +133,7 @@
                   :api-method-to-request-data-table="actions.apiMethodToRequestDataTable"
                   :max-filter-limit="actions.maxFilterLimit"
                   :show-annotations="actions.showAnnotations"
+                  :annotations-showing="annotationsShowing"
                   :show-periods="actions.showPeriods"
                   :show-export="actions.showExport"
                   :show-export-as-image-icon="actions.showExportAsImageIcon"
@@ -148,6 +183,13 @@ import DataTableActions, {
   FooterIconGroup,
 } from '../DataTable/DataTableActions.vue';
 import ReportActionsStore from '../DataTable/ReportActions.store';
+import PeriodsMenu from '../DataTable/PeriodsMenu.vue';
+import {
+  NO_PROMOTION_BREAKPOINT,
+  PROMOTED_RENDERERS,
+  promotableActions,
+} from '../DataTable/reportActions';
+import type { PromotableActionId } from '../DataTable/reportActions';
 import type { ReportActionsConfig } from '../DataTable/ReportActions.store';
 import reportIdentity from '../DataTable/reportIdentity';
 import EnrichedHeadline from '../EnrichedHeadline/EnrichedHeadline.vue';
@@ -158,6 +200,10 @@ import { translate } from '../translate';
 
 // A search is a full DataTable reload, so debounce to avoid one on every keystroke.
 const SEARCH_DEBOUNCE_MS = 300;
+
+// A promoted control takes its width from the title, which wraps rather than overflowing - so
+// there is no overflow to detect. Promote only while the title keeps at least this much room.
+const MIN_TITLE_WIDTH = 240;
 
 export interface ControlVisibility {
   minimise: boolean;
@@ -329,6 +375,7 @@ export default defineComponent({
   components: {
     DataTableActions,
     EnrichedHeadline,
+    PeriodsMenu,
     SearchInput,
     WidgetControls,
   },
@@ -343,10 +390,16 @@ export default defineComponent({
       searchDebounceTimer: null as ReturnType<typeof setTimeout> | null,
       // Read off this element, which does not exist before mount.
       reportKey: '',
+      // How many of the promotable actions the header line currently has room for.
+      promotedCount: 0,
+      resizeObserver: null as ResizeObserver | null,
+      lastMeasuredWidth: -1,
     };
   },
   mounted() {
     this.reportKey = reportIdentity(this.$el as HTMLElement, this.reportId);
+    this.watchForRoom();
+    this.updatePromoted();
   },
   watch: {
     searchQuery(value: string) {
@@ -360,8 +413,20 @@ export default defineComponent({
         this.query = value;
       }
     },
+    // A reload can change what the report offers, so what is promotable changes with it.
+    promotable() {
+      this.updatePromoted();
+    },
   },
   computed: {
+    // What this report offers and the header can render outside the menu, in priority order.
+    promotable(): PromotableActionId[] {
+      return promotableActions(this.actions)
+        .filter((id) => PROMOTED_RENDERERS.indexOf(id) !== -1);
+    },
+    promotedActions(): PromotableActionId[] {
+      return this.promotable.slice(0, this.promotedCount);
+    },
     controls(): ControlVisibility {
       return CONTROLS_BY_CONTEXT[this.context] || CONTROLS_BY_CONTEXT.widgetized;
     },
@@ -434,6 +499,60 @@ export default defineComponent({
     },
   },
   methods: {
+    isPromoted(action: PromotableActionId): boolean {
+      return this.promotedActions.indexOf(action) !== -1;
+    },
+    // Only the line's own width matters here. Promoting changes what sits inside it, never how
+    // wide it is, so reacting to that width cannot feed itself.
+    watchForRoom() {
+      const row = this.$refs.headerRow as HTMLElement | undefined;
+      if (!row || typeof ResizeObserver === 'undefined') {
+        return;
+      }
+
+      this.resizeObserver = new ResizeObserver(() => {
+        if (row.clientWidth === this.lastMeasuredWidth) {
+          return;
+        }
+        this.updatePromoted();
+      });
+      this.resizeObserver.observe(row);
+    },
+    async updatePromoted() {
+      const row = this.$refs.headerRow as HTMLElement | undefined;
+      // Answer nothing about a header that is not laid out - hidden, detached, or mid-capture
+      // while the viewport is momentarily 1x1. The media query calls that a phone and everything
+      // goes back into the menu, where it stays: the width that would undo it is the one already
+      // recorded, so nothing asks again. Leave the header alone and wait to be asked on a real one.
+      if (!row || row.clientWidth <= 0) {
+        return;
+      }
+
+      const promotable = this.promotable.length;
+      if (!promotable || window.matchMedia(NO_PROMOTION_BREAKPOINT).matches) {
+        this.promotedCount = 0;
+        return;
+      }
+
+      // Try them all, then give back the least deserving until the title has room again. Measured
+      // rather than estimated: a promoted control's width is its translated label's width.
+      this.lastMeasuredWidth = row.clientWidth;
+      this.promotedCount = promotable;
+      await this.$nextTick();
+
+      const controls = this.$refs.headerControls as HTMLElement | undefined;
+      if (!controls) {
+        return;
+      }
+
+      // A report with no title has nothing to take the room from.
+      while (this.showTitle && this.promotedCount > 0
+        && row.clientWidth - controls.offsetWidth < MIN_TITLE_WIDTH) {
+        this.promotedCount -= 1;
+        // eslint-disable-next-line no-await-in-loop
+        await this.$nextTick();
+      }
+    },
     translate,
     onTitleClick() {
       if (this.titleClickable) {
@@ -479,6 +598,9 @@ export default defineComponent({
   beforeUnmount() {
     if (this.searchDebounceTimer) {
       clearTimeout(this.searchDebounceTimer);
+    }
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect();
     }
   },
 });

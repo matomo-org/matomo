@@ -21,6 +21,21 @@ export type PromotableActionId = 'periods' | 'export' | 'annotations';
  */
 export const PROMOTABLE_ACTIONS: PromotableActionId[] = ['periods', 'export', 'annotations'];
 
+/**
+ * Actions the header knows how to render outside its menu.
+ *
+ * Deliberately shorter than PROMOTABLE_ACTIONS: an action earns its place in the priority order
+ * before anyone writes the control that renders it there.
+ */
+export const PROMOTED_RENDERERS: PromotableActionId[] = ['periods'];
+
+/**
+ * Below this, everything stays in the menu.
+ *
+ * A promoted control takes its width from the title, and on a phone there is none to take.
+ */
+export const NO_PROMOTION_BREAKPOINT = '(max-width: 767px)';
+
 type Offers = (config: Partial<ReportActionsConfig>) => boolean;
 
 const OFFERS: Record<PromotableActionId, Offers> = {

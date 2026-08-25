@@ -1,0 +1,63 @@
+// A control that opens a panel to choose from: a period, an export format, a metric.
+// Positioning is intentionally NOT owned here — the consumer places the selector.
+// Named with the `mtm-` prefix to avoid name conflicts.
+
+.mtm-selector {
+  @_padding: 5px;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: @_padding (@_padding * 2);
+  background-color: transparent;
+  border: 1px solid @theme-color-border;
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 20px;
+  // The label names a choice, so it must not be broken across lines to make room.
+  white-space: nowrap;
+  cursor: pointer;
+  // Drops the platform chrome a <button> arrives with, so the border above is the only one.
+  appearance: none;
+  color: @theme-color-text;
+
+  &:focus {
+    outline: none;
+    // A global `button:focus` rule fills any focused button with the brand colour, which would
+    // repaint this one on its way to opening a panel.
+    background-color: transparent;
+  }
+
+  &:hover {
+    background-color: @theme-color-background-base;
+  }
+
+  &:focus-visible {
+    outline: 2px solid @theme-color-focus-ring;
+  }
+
+  .mtm-selector__icon {
+    // Icon fonts carry their own line box; this keeps it from setting the control's height.
+    line-height: 1;
+    font-size: 16px;
+  }
+
+  .mtm-selector__label {
+    // Long enough labels are cut rather than allowed to widen the control past its neighbours.
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  // Sits at the end of the control, whatever it holds - a chevron, a count, a clear cross.
+  .mtm-selector__rightIcon {
+    margin-left: auto;
+    line-height: 1;
+    font-size: 10px;
+    color: @theme-color-text-lighter;
+  }
+
+  // No label to balance against, so the horizontal padding matches the vertical one.
+  &.mtm-selector--iconOnly {
+    padding: @_padding;
+  }
+}
