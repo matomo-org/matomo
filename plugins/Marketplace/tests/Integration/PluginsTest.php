@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\Marketplace\tests\Integration;
 
 use Piwik\Plugins\Marketplace\API;
+use Piwik\Plugins\Marketplace\Api\Exception as ApiException;
 use Piwik\Plugins\Marketplace\Consumer;
 use Piwik\Plugins\Marketplace\Input\PurchaseType;
 use Piwik\Plugins\Marketplace\Input\Sort;
@@ -532,6 +533,35 @@ class PluginsTest extends IntegrationTestCase
 
         $this->assertContains('plugins/CustomReports/info', $apis);
         $this->assertSame('CustomReports', $plugin['name']);
+    }
+
+    public function testGetPluginInfoPreferringListFallsBackWhenTheListRequestFails()
+    {
+        // the lists are the fast path, not the only one: a plugin that IS listed must still open
+        // when fetching the much larger list response fails
+        $this->service->returnFixture([
+            'v2.0_plugins_TreemapVisualization_info.json',
+            'v2.0_plugins_checkUpdates-pluginspluginsnameAnonymousPi.json',
+        ]);
+
+        $apis = [];
+        $this->service->setOnFetchCallback(function ($action) use (&$apis) {
+            $apis[] = $action;
+
+            if ($action === 'plugins' || $action === 'themes') {
+                throw new ApiException('the Marketplace could not be reached');
+            }
+        });
+
+        $plugin = $this->plugins->getPluginInfoPreferringList('TreemapVisualization');
+
+        // both lists were attempted, neither answered, and the direct request carried it; the
+        // trailing checkUpdates is the usual enrichment, as in the test above
+        $this->assertSame(
+            ['plugins', 'themes', 'plugins/TreemapVisualization/info', 'plugins/checkUpdates'],
+            $apis
+        );
+        $this->assertSame('TreemapVisualization', $plugin['name']);
     }
 
     public function testSearchPluginsShouldNotRequestPluginInfoForEveryPluginHavingUpdate()

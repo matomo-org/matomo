@@ -76,9 +76,15 @@ class Plugins
     public function getPluginInfoPreferringList(string $pluginName): array
     {
         foreach ([false, true] as $themesOnly) {
-            $listed = $themesOnly
-                ? $this->marketplaceClient->searchForThemes('', '', Sort::DEFAULT_SORT, PurchaseType::TYPE_ALL)
-                : $this->marketplaceClient->searchForPlugins('', '', Sort::DEFAULT_SORT, PurchaseType::TYPE_ALL);
+            try {
+                $listed = $themesOnly
+                    ? $this->marketplaceClient->searchForThemes('', '', Sort::DEFAULT_SORT, PurchaseType::TYPE_ALL)
+                    : $this->marketplaceClient->searchForPlugins('', '', Sort::DEFAULT_SORT, PurchaseType::TYPE_ALL);
+            } catch (\Exception $e) {
+                // the list is the fast path, not the only one. It is a much larger response than a
+                // single plugin's, so it can fail where the direct request below still answers.
+                continue;
+            }
 
             foreach ($listed as $plugin) {
                 if (isset($plugin['name']) && $plugin['name'] === $pluginName) {
