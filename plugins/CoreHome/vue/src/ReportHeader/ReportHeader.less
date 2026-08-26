@@ -17,7 +17,7 @@
 
   .reportHeader__header {
     display: flex;
-    align-items: flex-start;
+    align-items: safe center;
     gap: 20px;
     // The title absorbs the free space when there is one. A titleless report (a widgetized embed)
     // has nothing to push the controls over, so anchor them to the end rather than letting them
@@ -58,12 +58,13 @@
     max-width: 300px;
   }
 
-  // The widget controls and the actions trigger read as one cluster, so the header's gap must
-  // not fall between them.
+  // The widget controls and the report's own sit closer to each other than to the title, so the
+  // header's 20px gap must not fall between them.
   .reportHeader__controls {
     flex: none;
     display: flex;
     align-items: safe center;
+    gap: 8px;
 
     &:empty {
       display: none;
