@@ -536,7 +536,10 @@ export default defineComponent({
       }
 
       const promotable = this.promotable.length;
-      if (!promotable || window.matchMedia(NO_PROMOTION_BREAKPOINT).matches) {
+      // Widget controls leave too little of the line to share, so nothing comes out beside them
+      // until the fit is tuned more finely.
+      if (!promotable || this.hasControls
+        || window.matchMedia(NO_PROMOTION_BREAKPOINT).matches) {
         this.promotedCount = 0;
         return;
       }
