@@ -77,6 +77,8 @@ describe('PrivacyManager/GranularCompliance.store', () => {
       expect.anything(),
     );
     expect(store.state.settings).toHaveLength(2);
+    // the granular table renders the policy description from this payload, not from a prop
+    expect(store.state.description).toBe('desc');
     expect(store.state.localEnforced['PrivacyManager.IPAnonymisation']).toBe(true);
     // non-toggleable settings never get local toggle state
     expect('Core.ThirdPartyCookies' in store.state.localEnforced).toBe(false);
