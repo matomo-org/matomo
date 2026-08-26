@@ -294,8 +294,31 @@ rearchiving for this period"* notice, because Matomo took the nothing-to-archive
 
 ## 5. Schema and the data copy
 
-- **Engine:** `ReplacingMergeTree(_version, is_deleted)` ordered by the MySQL primary key,
-  so the copies are compatible with the CDC sink.
+- **Engine:** `ReplacingMergeTree(_version, is_deleted)`, matching what the CDC connectors
+  create.
+- **Sorted by `idsite`, a date, then the MySQL primary key.** The copies used to be sorted
+  by the primary key alone — the CDC default — which meant *no* read path filtered on the
+  sorting key: every archiving query is `WHERE <datetime> BETWEEN ? AND ? AND idsite IN
+  (…)` (`LogAggregator::getWhereStatement()`), and the visits log filters the same way, so
+  the sparse index could not skip a single granule. The primary key stays as the tail of
+  the key, which is what keeps deduplication exact.
+- **Only immutable columns are sorted or partitioned on.** ReplacingMergeTree deduplicates
+  on the whole sorting key, so a row whose sorting key changes between versions sorts to a
+  different key and `FINAL` returns *both* copies — double counting, not a slowdown. That
+  rules out `log_visit.visit_last_action_time` (rewritten on every action) and
+  `log_conversion.server_time` (rewritten on abandoned-cart updates); `log_visit` is sorted
+  on `visit_first_action_time`, which `VisitFirstActionTime` only ever writes `onNewVisit`.
+  The same reasoning applies to `PARTITION BY`, more mildly: merges only collapse versions
+  *within* a partition, so a mutable partition key strands versions where no merge reaches
+  them. `log_conversion` and `log_conversion_item` therefore have no partition key at all.
+- **Partitioned by month** (`toYYYYMM`) where there is an immutable datetime, so raw-log
+  retention is a `DROP PARTITION` rather than a row-wise delete. Two years of retention is
+  24 partitions, well inside ClickHouse's guidance of a few hundred.
+- **Skipping indices** cover what the sorting key cannot: `minmax` on the mutable datetimes
+  (it still prunes, because rows arrive in time order and so the column correlates with
+  physical position) and a `bloom_filter` on `log_visit.idvisitor` for the visitor profile.
+  They are added by `ALTER` after the copy, because `CREATE TABLE … AS SELECT` takes its
+  column list from the `SELECT` and cannot declare an index inline.
 - **Nullability is mirrored from MySQL exactly**, by introspection rather than a hand-written
   list. Getting this wrong breaks every `IS NULL` filter — an earlier attempt had all Actions
   reports reading zero.
@@ -315,6 +338,10 @@ rearchiving for this period"* notice, because Matomo took the nothing-to-archive
   name: the copies are `ReplacingMergeTree`, so reads must collapse row versions.
 - **`session_timezone = 'UTC'`** is pinned so a server in another timezone cannot shift
   `toDate()`/`toHour()` results.
+- **`join_algorithm` is configurable**, not pinned. It defaults to `grace_hash`, which
+  spills to disk and is what keeps the wide segment joins alive in the small ddev and CI
+  containers — but that is a constraint of those containers, not of production, where
+  `auto` is normally faster. Set it per deployment in `[database_analytics]`.
 - **Row post-processing** strips qualified names, reverses the hex encoding and trims
   microseconds from `TIME`-like values, so callers see what `Db::fetchAll()` would return on
   MySQL.

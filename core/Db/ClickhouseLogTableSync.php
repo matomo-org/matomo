@@ -27,10 +27,11 @@ use Piwik\Db;
 class ClickhouseLogTableSync
 {
     /**
-     * The raw log tables synced into ClickHouse, with the sorting key each copy uses
-     * (mirrors the MySQL primary keys, and what the Altinity sink connector
-     * auto-creates). log_bot_request only exists when the BotTracking plugin created
-     * it; tables missing from MySQL are skipped (and dropped from ClickHouse).
+     * The raw log tables synced into ClickHouse, with the MySQL primary key of each.
+     * The primary key is what makes a row unique, so it is also what ReplacingMergeTree
+     * must deduplicate on: every column here appears in the table's {@see SORTING_KEYS}
+     * entry. log_bot_request only exists when the BotTracking plugin created it; tables
+     * missing from MySQL are skipped (and dropped from ClickHouse).
      */
     public const LOG_TABLES = [
         'log_visit' => ['idvisit'],
@@ -39,6 +40,105 @@ class ClickhouseLogTableSync
         'log_conversion' => ['idvisit', 'idgoal', 'buster'],
         'log_conversion_item' => ['idvisit', 'idorder', 'idaction_sku'],
         'log_bot_request' => ['idrequest'],
+    ];
+
+    /**
+     * Sorting key of each copy, as [required column => the term it contributes].
+     *
+     * Reads filter on idsite and a datetime range - that is what
+     * LogAggregator::getWhereStatement() emits for every archiving query, and what
+     * Live\Model uses for the visits log - so those lead, and the primary key follows
+     * to keep deduplication exact. Sorting by the MySQL primary key alone (which is
+     * what the CDC connectors create by default) leaves no read path filtering on the
+     * sorting key at all, so the sparse index cannot skip any granule.
+     *
+     * Every column named here must be immutable for the lifetime of its row.
+     * ReplacingMergeTree deduplicates on the whole sorting key, so a row whose sorting
+     * key changes between versions sorts to a different key and FINAL returns both
+     * copies - double counting, not merely a slowdown. That rules out
+     * log_visit.visit_last_action_time (rewritten on every action) and
+     * log_conversion.server_time (rewritten on abandoned-cart updates, see
+     * Tracker\GoalManager::recordEcommerceGoal()); both get a skipping index on the
+     * datetime instead, see {@see SKIP_INDICES}.
+     *
+     * Keyed by the column each term needs, so old-schema fixtures can drop the terms
+     * whose columns do not exist yet.
+     */
+    private const SORTING_KEYS = [
+        'log_visit' => [
+            'idsite' => '`idsite`',
+            'visit_first_action_time' => 'toDate(`visit_first_action_time`)',
+            'idvisit' => '`idvisit`',
+        ],
+        'log_link_visit_action' => [
+            'idsite' => '`idsite`',
+            'server_time' => 'toDate(`server_time`)',
+            // Ahead of the primary key because the visits log and Transitions read
+            // actions by visit, not by idlink_va.
+            'idvisit' => '`idvisit`',
+            'idlink_va' => '`idlink_va`',
+        ],
+        // Read by idaction (the name lookup every Actions report joins on), which is
+        // already the primary key.
+        'log_action' => [
+            'idaction' => '`idaction`',
+        ],
+        'log_conversion' => [
+            'idsite' => '`idsite`',
+            'idvisit' => '`idvisit`',
+            'idgoal' => '`idgoal`',
+            'buster' => '`buster`',
+        ],
+        'log_conversion_item' => [
+            'idsite' => '`idsite`',
+            'idvisit' => '`idvisit`',
+            'idorder' => '`idorder`',
+            'idaction_sku' => '`idaction_sku`',
+        ],
+        'log_bot_request' => [
+            'idsite' => '`idsite`',
+            'server_time' => 'toDate(`server_time`)',
+            'idrequest' => '`idrequest`',
+        ],
+    ];
+
+    /**
+     * Partition key of each copy: the month of the table's immutable datetime.
+     * Partitioning is what turns raw-log retention into a DROP PARTITION rather than a
+     * row-wise delete, and two years of retention is 24 partitions - well inside
+     * ClickHouse's guidance of a few hundred.
+     *
+     * Tables absent here have no immutable datetime to partition by. Merges only
+     * collapse row versions within a partition, so a mutable partition key would strand
+     * versions in different partitions where no merge ever reaches them:
+     * log_conversion and log_conversion_item rewrite server_time on cart updates, and
+     * log_action has no datetime at all.
+     */
+    private const PARTITION_DATE_COLUMNS = [
+        'log_visit' => 'visit_first_action_time',
+        'log_link_visit_action' => 'server_time',
+        'log_bot_request' => 'server_time',
+    ];
+
+    /**
+     * Data skipping indices per copy, as [index name => [column, type]].
+     *
+     * These cover the filters the sorting key cannot. minmax on the mutable datetimes
+     * works because rows arrive in time order, so the column still correlates with
+     * physical position even though it is not sorted on; the bloom filter serves the
+     * visitor profile, which looks a visitor up by id across the whole table.
+     */
+    private const SKIP_INDICES = [
+        'log_visit' => [
+            'idx_visit_last_action' => ['visit_last_action_time', 'minmax'],
+            'idx_idvisitor' => ['idvisitor', 'bloom_filter'],
+        ],
+        'log_conversion' => [
+            'idx_server_time' => ['server_time', 'minmax'],
+        ],
+        'log_conversion_item' => [
+            'idx_server_time' => ['server_time', 'minmax'],
+        ],
     ];
 
     /**
@@ -150,12 +250,17 @@ class ClickhouseLogTableSync
             }
 
             // Old-schema fixtures (the CoreUpdater update tests load ancient dumps) may
-            // predate some sort-key or binary columns; only reference what exists.
+            // predate some sort-key, partition or binary columns; only reference what
+            // exists. Dropping a sorting-key term is safe for deduplication as long as
+            // the primary key survives, which it does: those columns are the oldest.
             $availableColumns = $tableColumns[$mysqlTable];
-            $orderByColumns = array_values(array_intersect(self::LOG_TABLES[$table], $availableColumns));
-            $orderBy = empty($orderByColumns)
-                ? 'tuple()'
-                : '(`' . implode('`, `', $orderByColumns) . '`)';
+            $sortingKey = array_intersect_key(self::SORTING_KEYS[$table], array_flip($availableColumns));
+            $orderBy = empty($sortingKey) ? 'tuple()' : '(' . implode(', ', $sortingKey) . ')';
+
+            $partitionColumn = self::PARTITION_DATE_COLUMNS[$table] ?? null;
+            $partitionBy = (null !== $partitionColumn && in_array($partitionColumn, $availableColumns, true))
+                ? sprintf('PARTITION BY toYYYYMM(`%s`)', $partitionColumn)
+                : '';
 
             $selectColumns = '*';
             $binaryColumns = array_intersect(self::BINARY_COLUMNS[$table], $availableColumns);
@@ -170,11 +275,13 @@ class ClickhouseLogTableSync
             $client->write(sprintf(
                 "CREATE TABLE `%s`.`%s`
                  ENGINE = ReplacingMergeTree(_version, is_deleted)
+                 %s
                  ORDER BY %s
                  AS SELECT %s, toUInt64(0) AS _version, toUInt8(0) AS is_deleted
                  FROM mysql('%s:%d', '%s', '%s', '%s', '%s')",
                 $chDatabase,
                 $mysqlTable,
+                $partitionBy,
                 $orderBy,
                 $selectColumns,
                 addslashes($mysqlHost),
@@ -184,6 +291,8 @@ class ClickhouseLogTableSync
                 addslashes($mysqlUser),
                 addslashes($mysqlPassword)
             ));
+
+            self::addSkipIndices($client, $chDatabase, $mysqlTable, $table, $availableColumns);
         }
 
         $client->write(sprintf('DROP TABLE IF EXISTS `%s`.`sync_state`', $chDatabase));
@@ -194,6 +303,43 @@ class ClickhouseLogTableSync
         ));
 
         self::$syncedFingerprint = $fingerprint;
+    }
+
+    /**
+     * Adds the table's data skipping indices. They cannot be declared inline because
+     * CREATE TABLE ... AS SELECT takes its column list from the SELECT, so the index has
+     * to be added afterwards - and materialised, because the same statement already
+     * wrote the data.
+     *
+     * @param string[] $availableColumns
+     */
+    private static function addSkipIndices(
+        Client $client,
+        string $chDatabase,
+        string $mysqlTable,
+        string $table,
+        array $availableColumns
+    ): void {
+        foreach (self::SKIP_INDICES[$table] ?? [] as $indexName => [$indexColumn, $indexType]) {
+            if (!in_array($indexColumn, $availableColumns, true)) {
+                continue;
+            }
+
+            $client->write(sprintf(
+                'ALTER TABLE `%s`.`%s` ADD INDEX `%s` `%s` TYPE %s GRANULARITY 4',
+                $chDatabase,
+                $mysqlTable,
+                $indexName,
+                $indexColumn,
+                $indexType
+            ));
+            $client->write(sprintf(
+                'ALTER TABLE `%s`.`%s` MATERIALIZE INDEX `%s`',
+                $chDatabase,
+                $mysqlTable,
+                $indexName
+            ));
+        }
     }
 
     /**

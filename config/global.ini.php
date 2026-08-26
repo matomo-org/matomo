@@ -105,6 +105,12 @@ adapter = CLICKHOUSE
 ; environment's log table sync. Empty = same host PHP uses. CI sets
 ; CLICKHOUSE_SYNC_MYSQL_HOST=host.docker.internal instead.
 sync_mysql_host =
+; JOIN algorithm for analytics queries; any value ClickHouse accepts for its
+; join_algorithm setting. grace_hash spills to disk, which is what keeps the wide
+; segment joins alive in the small ddev and CI containers. On production-sized hardware
+; 'auto' - hash first, falling back only under memory pressure - is normally faster, so
+; this is worth revisiting per deployment rather than leaving pinned.
+join_algorithm = grace_hash
 
 [database_tests]
 host = "127.0.0.1"
