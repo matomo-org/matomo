@@ -62,10 +62,7 @@
         <!-- The report's 3-dots menu. The panel is one menu built from the report's own actions;
            when the report has none the whole toolbar stays `:empty` and claims none of the
            header's gap. -->
-        <div
-          class="reportHeader__toolbar"
-          :class="{ 'reportHeader__toolbar--promotable': promotable.length > 0 }"
-        >
+        <div class="reportHeader__toolbar">
           <!-- Promoted report actions, never beside the widget controls: separate scopes. -->
           <div
             v-if="isPromoted('periods')"
