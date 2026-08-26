@@ -187,7 +187,7 @@ class API extends \Piwik\Plugin\API
             $generator->forceMatomoEndpoint();
         }
 
-        $code = $generator->generate(
+        return $generator->generate(
             $idSite,
             $piwikUrl,
             $mergeSubdomains,
@@ -205,8 +205,6 @@ class API extends \Piwik\Plugin\API
             $excludedReferrers,
             $disableCampaignParameters
         );
-
-        return str_replace(['<br>', '<br />', '<br/>'], '', $code);
     }
 
     /**
