@@ -28,6 +28,20 @@ class CompliancePolicyTest extends TestCase
         $this->assertSame('Test policy description', TestPolicy::getGranularDescription());
     }
 
+    public function testGetGranularStatusLegendKeepsTheListMarkupOutOfTheTranslations(): void
+    {
+        // translations are not loaded in unit tests, so each item resolves to its own key
+        $this->assertSame(
+            "<ul class='browser-default'>"
+            . '<li>General_ComplianceStatusLegendCompliant</li>'
+            . '<li>General_ComplianceStatusLegendCompliantEnforced</li>'
+            . '<li>General_ComplianceStatusLegendNonCompliant</li>'
+            . '<li>General_ComplianceStatusLegendManual</li>'
+            . '</ul>',
+            GranularTestPolicy::statusLegend()
+        );
+    }
+
     public function testGetGranularDescriptionUsesTheGranularCopyAndKeepsTheWarnings(): void
     {
         $this->assertSame(

@@ -28,7 +28,10 @@ class CnilPolicy extends CompliancePolicy
 
     protected static function generateGranularDescription(): string
     {
-        return Piwik::translate('General_ComplianceCNILGranularDescription', self::getFaqLinkParameters());
+        return Piwik::translate(
+            'General_ComplianceCNILGranularDescription',
+            array_merge(self::getFaqLinkParameters(), [self::getGranularStatusLegend()])
+        );
     }
 
     /**

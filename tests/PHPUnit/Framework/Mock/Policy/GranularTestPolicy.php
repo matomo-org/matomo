@@ -21,4 +21,12 @@ class GranularTestPolicy extends TestPolicy
     {
         return 'Test policy warning';
     }
+
+    /**
+     * Exposes the protected legend builder so its markup can be asserted.
+     */
+    public static function statusLegend(): string
+    {
+        return static::getGranularStatusLegend();
+    }
 }
