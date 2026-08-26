@@ -3028,26 +3028,49 @@ function PrivacySettingsvue_type_template_id_77915e3e_render(_ctx, _cache, $prop
 PrivacySettingsvue_type_script_lang_ts.render = PrivacySettingsvue_type_template_id_77915e3e_render
 
 /* harmony default export */ var PrivacySettings = (PrivacySettingsvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/PrivacyManager/vue/src/Compliance/Compliance.vue?vue&type=template&id=180517a6
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/PrivacyManager/vue/src/Compliance/Compliance.vue?vue&type=template&id=258a0a79
 
-const Compliancevue_type_template_id_180517a6_hoisted_1 = {
-  for: "complianceSite"
+const Compliancevue_type_template_id_258a0a79_hoisted_1 = {
+  class: "complianceScope"
 };
-function Compliancevue_type_template_id_180517a6_render(_ctx, _cache, $props, $setup, $data, $options) {
+const Compliancevue_type_template_id_258a0a79_hoisted_2 = {
+  key: 0,
+  class: "complianceScopeSite"
+};
+const Compliancevue_type_template_id_258a0a79_hoisted_3 = {
+  class: "complianceScopeOverrideNote"
+};
+const Compliancevue_type_template_id_258a0a79_hoisted_4 = {
+  key: 1,
+  class: "complianceScopeNotice"
+};
+function Compliancevue_type_template_id_258a0a79_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_EnrichedHeadline = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("EnrichedHeadline");
+  const _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
   const _component_SiteSelector = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SiteSelector");
   const _component_GranularComplianceOverview = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("GranularComplianceOverview");
   const _component_ComplianceOverview = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ComplianceOverview");
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_EnrichedHeadline, null, {
     default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_Compliance')), 1)]),
     _: 1
-  })]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", Compliancevue_type_template_id_180517a6_hoisted_1, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_ComplianceSelectSite')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SiteSelector, {
+  })]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", Compliancevue_type_template_id_258a0a79_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+    uicontrol: "radio",
+    name: "complianceScope",
+    title: _ctx.translate('PrivacyManager_ComplianceApplySettingsTo'),
+    options: _ctx.scopeOptions,
+    modelValue: _ctx.scope,
+    "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.scope = $event)
+  }, null, 8, ["title", "options", "modelValue"]), _ctx.isSingleWebsiteScope ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", Compliancevue_type_template_id_258a0a79_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SiteSelector, {
     id: "complianceSite",
     "switch-site-on-select": false,
     "show-selected-site": true,
+    "show-all-sites-item": false,
+    placeholder: _ctx.translate('PrivacyManager_SelectWebsite'),
     modelValue: _ctx.site,
-    "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.site = $event)
-  }, null, 8, ["modelValue"]), _ctx.granularComplianceEnabled ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], {
+    "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => _ctx.site = $event)
+  }, null, 8, ["placeholder", "modelValue"])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", Compliancevue_type_template_id_258a0a79_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_ComplianceScopeOverrideNote')), 1), _ctx.scopeNotice ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", Compliancevue_type_template_id_258a0a79_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.scopeNotice), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), _ctx.siteId ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], {
+    key: 0
+  }, [_ctx.granularComplianceEnabled ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], {
     key: 0
   }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.complianceTypes, type => {
     return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_GranularComplianceOverview, {
@@ -3067,9 +3090,9 @@ function Compliancevue_type_template_id_180517a6_render(_ctx, _cache, $props, $s
       title: type.title,
       description: type.description
     }, null, 8, ["id-site", "compliance-type", "title", "description"]);
-  }), 128))], 64);
+  }), 128))], 64)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 64);
 }
-// CONCATENATED MODULE: ./plugins/PrivacyManager/vue/src/Compliance/Compliance.vue?vue&type=template&id=180517a6
+// CONCATENATED MODULE: ./plugins/PrivacyManager/vue/src/Compliance/Compliance.vue?vue&type=template&id=258a0a79
 
 // CONCATENATED MODULE: ./plugins/PrivacyManager/vue/src/Compliance/Compliance.store.ts
 
@@ -3827,6 +3850,9 @@ GranularComplianceOverviewvue_type_script_lang_ts.render = GranularComplianceOve
 
 
 
+
+const SCOPE_ALL_WEBSITES = 'all';
+const SCOPE_SINGLE_WEBSITE = 'site';
 /* harmony default export */ var Compliancevue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
     granularComplianceEnabled: {
@@ -3837,24 +3863,60 @@ GranularComplianceOverviewvue_type_script_lang_ts.render = GranularComplianceOve
   components: {
     EnrichedHeadline: external_CoreHome_["EnrichedHeadline"],
     ComplianceOverview: ComplianceOverview,
+    Field: external_CorePluginsAdmin_["Field"],
     GranularComplianceOverview: GranularComplianceOverview,
     SiteSelector: external_CoreHome_["SiteSelector"]
   },
   setup() {
-    var _Matomo$idSite, _Matomo$idSite2;
-    const site = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])({
-      id: (_Matomo$idSite = external_CoreHome_["Matomo"].idSite) !== null && _Matomo$idSite !== void 0 ? _Matomo$idSite : external_CoreHome_["MatomoUrl"].urlParsed.value.idSite,
-      name: external_CoreHome_["Matomo"].siteName ? external_CoreHome_["Matomo"].helper.htmlDecode(external_CoreHome_["Matomo"].siteName) : Object(external_CoreHome_["translate"])('General_MultiSitesSummary')
+    var _MatomoUrl$urlParsed$;
+    // every website is configured unless `complianceScope` explicitly asks for the
+    // single website in `idSite`. A dedicated parameter is needed because the admin menu
+    // always rewrites a menu entry's `idSite` to a numeric site id, so `idSite` on its own
+    // cannot tell a deep link to one website apart from ordinary menu navigation.
+    // parsed query values are typed as unknown, so normalise to the string SiteRef expects
+    const requestedIdSite = `${(_MatomoUrl$urlParsed$ = external_CoreHome_["MatomoUrl"].urlParsed.value.idSite) !== null && _MatomoUrl$urlParsed$ !== void 0 ? _MatomoUrl$urlParsed$ : ''}`;
+    const isSingleWebsiteRequested = external_CoreHome_["MatomoUrl"].urlParsed.value.complianceScope === SCOPE_SINGLE_WEBSITE && !!requestedIdSite && requestedIdSite !== SCOPE_ALL_WEBSITES;
+    const scope = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(isSingleWebsiteRequested ? SCOPE_SINGLE_WEBSITE : SCOPE_ALL_WEBSITES);
+    const site = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(isSingleWebsiteRequested ? {
+      id: requestedIdSite,
+      name: external_CoreHome_["Matomo"].siteName ? external_CoreHome_["Matomo"].helper.htmlDecode(external_CoreHome_["Matomo"].siteName) : ''
+    } : null);
+    const scopeOptions = [{
+      key: SCOPE_ALL_WEBSITES,
+      value: Object(external_CoreHome_["translate"])('General_MultiSitesSummary')
+    }, {
+      key: SCOPE_SINGLE_WEBSITE,
+      value: Object(external_CoreHome_["translate"])('PrivacyManager_ComplianceScopeSingleWebsite')
+    }];
+    const isSingleWebsiteScope = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => scope.value === SCOPE_SINGLE_WEBSITE);
+    // empty while a single website is being configured but none has been picked yet,
+    // which keeps the compliance overviews hidden until the scope is unambiguous
+    const siteId = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
+      var _site$value;
+      if (!isSingleWebsiteScope.value) {
+        return SCOPE_ALL_WEBSITES;
+      }
+      return ((_site$value = site.value) === null || _site$value === void 0 ? void 0 : _site$value.id) != null ? `${site.value.id}` : '';
     });
-    const siteId = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(String((_Matomo$idSite2 = external_CoreHome_["Matomo"].idSite) !== null && _Matomo$idSite2 !== void 0 ? _Matomo$idSite2 : external_CoreHome_["MatomoUrl"].urlParsed.value.idSite));
-    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(site, newSite => {
-      siteId.value = (newSite === null || newSite === void 0 ? void 0 : newSite.id) != null ? String(newSite.id) : '';
+    const scopeNotice = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
+      var _site$value2;
+      if (!isSingleWebsiteScope.value) {
+        return Object(external_CoreHome_["translate"])('PrivacyManager_ComplianceScopeAllWebsitesNotice');
+      }
+      if (!((_site$value2 = site.value) !== null && _site$value2 !== void 0 && _site$value2.name)) {
+        return '';
+      }
+      return Object(external_CoreHome_["translate"])('PrivacyManager_ComplianceScopeSingleWebsiteNotice', site.value.name);
     });
     const complianceTypes = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])([]);
     Object(external_commonjs_vue_commonjs2_vue_root_Vue_["onMounted"])(async () => {
       complianceTypes.value = await fetchCompliancePolicies();
     });
     return {
+      scope,
+      scopeOptions,
+      isSingleWebsiteScope,
+      scopeNotice,
       site,
       siteId,
       complianceTypes
@@ -3867,7 +3929,7 @@ GranularComplianceOverviewvue_type_script_lang_ts.render = GranularComplianceOve
 
 
 
-Compliancevue_type_script_lang_ts.render = Compliancevue_type_template_id_180517a6_render
+Compliancevue_type_script_lang_ts.render = Compliancevue_type_template_id_258a0a79_render
 
 /* harmony default export */ var Compliance = (Compliancevue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/PrivacyManager/vue/src/UsersOptOut/UsersOptOut.vue?vue&type=template&id=bdf073f4
