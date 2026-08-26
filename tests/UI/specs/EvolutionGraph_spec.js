@@ -489,6 +489,25 @@ describe("EvolutionGraph", function () {
         expect(stillOpen, 'a second click closes it').to.equal(false);
     });
 
+    it("should close the period selector once a period is picked", async function () {
+        await page.goto(url);
+        await page.waitForNetworkIdle();
+
+        await page.click('[data-report-action="periods"] .mtm-selector__trigger');
+        await page.waitForSelector('.mtm-selector.expanded', { visible: true });
+
+        await page.evaluate(
+          () => document.querySelector('.dataTablePeriods [data-period="week"]').click(),
+        );
+        await page.waitForNetworkIdle();
+        await page.waitForTimeout(500);
+
+        const stillOpen = await page.evaluate(
+          () => !!document.querySelector('.mtm-selector.expanded'),
+        );
+        expect(stillOpen, 'picking a period closes the selector').to.equal(false);
+    });
+
     it("should let the keyboard reach and activate a period", async function () {
         await page.goto(url);
         await page.waitForNetworkIdle();

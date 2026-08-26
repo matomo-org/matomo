@@ -3,13 +3,13 @@
 // markup. Placement is NOT owned here — the consumer places the selector.
 // Named with the `mtm-` prefix to avoid name conflicts.
 
-.mtm-selector {
-  // 20px of line between 8px of padding, plus a border either side, is the platform's 38px.
-  @_padding-vertical: 8px;
-  @_padding-horizontal: 16px;
-  @_height: 38px;
-  @_gap: 8px;
+// 20px of line between 8px of padding, plus a border either side, is the platform's 38px.
+@_padding-vertical: 8px;
+@_padding-horizontal: 16px;
+@_height: 38px;
+@_gap: 8px;
 
+.mtm-selector {
   position: relative;
   display: inline-flex;
 
@@ -90,11 +90,11 @@
   &.expanded .mtm-selector__dropdown {
     display: block;
   }
+}
 
-  &.mtm-selector--iconOnly .mtm-selector__trigger {
-    min-width: @_height;
-    justify-content: center;
-    padding-left: @_padding-vertical;
-    padding-right: @_padding-vertical;
-  }
+.mtm-selector--iconOnly .mtm-selector__trigger {
+  min-width: @_height;
+  justify-content: center;
+  padding-left: @_padding-vertical;
+  padding-right: @_padding-vertical;
 }

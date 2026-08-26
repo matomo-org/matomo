@@ -69,6 +69,7 @@
           <!-- Promoted report actions, never beside the widget controls: separate scopes. -->
           <div
             v-if="isPromoted('periods')"
+            ref="periodsSelector"
             class="mtm-selector"
             data-report-action="periods"
             v-expand-on-click="{
@@ -98,6 +99,7 @@
                   :selectable-periods="actions.selectablePeriods"
                   :active-period="`${(actions.clientSideParameters || {}).period || ''}`"
                   :labels="actions.actionTranslations"
+                  @pick="closePromotedPeriods"
                 />
               </div>
             </div>
@@ -504,6 +506,12 @@ export default defineComponent({
     },
   },
   methods: {
+    // Picking a period is the end of the interaction. ExpandOnClick keeps its state in the class,
+    // so dropping it is how a panel closes itself - the same move MetricsPicker makes.
+    closePromotedPeriods() {
+      (this.$refs.periodsSelector as HTMLElement | undefined)?.classList.remove('expanded');
+      this.periodsExpanded = false;
+    },
     isPromoted(action: PromotableActionId): boolean {
       return this.promotedActions.indexOf(action) !== -1;
     },
