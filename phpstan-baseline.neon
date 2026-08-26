@@ -1759,36 +1759,6 @@ parameters:
 			path: core/Tracker/TableLogAction.php
 
 		-
-			message: '#^Call to function is_array\(\) with non\-empty\-array will always evaluate to true\.$#'
-			identifier: function.alreadyNarrowedType
-			count: 1
-			path: core/Tracker/TrackerCodeGenerator.php
-
-		-
-			message: '#^Call to function is_array\(\) with true will always evaluate to false\.$#'
-			identifier: function.impossibleType
-			count: 1
-			path: core/Tracker/TrackerCodeGenerator.php
-
-		-
-			message: '#^Offset ''httpsPiwikUrl'' does not exist on array\{idSite\: int, piwikUrl\: string, options\: string, optionsBeforeTrackerUrl\: '''', protocol\: ''//''\|''https\://'', loadAsync\: true, trackNoScript\: bool, matomoJsFilename\: mixed, \.\.\.\}\.$#'
-			identifier: offsetAccess.notFound
-			count: 1
-			path: core/Tracker/TrackerCodeGenerator.php
-
-		-
-			message: '#^Offset ''httpsPiwikUrl'' on array\{idSite\: int, piwikUrl\: string, options\: string, optionsBeforeTrackerUrl\: '''', protocol\: ''//''\|''https\://'', loadAsync\: true, trackNoScript\: bool, matomoJsFilename\: mixed, \.\.\.\} in empty\(\) does not exist\.$#'
-			identifier: empty.offset
-			count: 1
-			path: core/Tracker/TrackerCodeGenerator.php
-
-		-
-			message: '#^Parameter \#2 \$string of function explode expects string, true given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/Tracker/TrackerCodeGenerator.php
-
-		-
 			message: '#^Instanceof between \*NEVER\* and Piwik\\Tracker\\VisitInterface will always evaluate to false\.$#'
 			identifier: instanceof.alwaysFalse
 			count: 1
@@ -3783,12 +3753,6 @@ parameters:
 		-
 			message: '#^Call to function is_string\(\) with non\-falsy\-string will always evaluate to true\.$#'
 			identifier: function.alreadyNarrowedType
-			count: 1
-			path: plugins/SitesManager/API.php
-
-		-
-			message: '#^Parameter \#14 \$excludedQueryParams of method Piwik\\Tracker\\TrackerCodeGenerator\:\:generate\(\) expects bool, string given\.$#'
-			identifier: argument.type
 			count: 1
 			path: plugins/SitesManager/API.php
 
