@@ -28,6 +28,11 @@
         <span class="mtm-dropdownPanel__menuLabel">
           {{ labels[selectablePeriod] || selectablePeriod }}
         </span>
+        <span
+          v-if="activePeriod === selectablePeriod"
+          class="mtm-dropdownPanel__rightIcon"
+          aria-hidden="true"
+        ><span class="icon-ok" /></span>
       </a>
     </li>
   </ul>

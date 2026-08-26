@@ -35,7 +35,7 @@
     height: 0;
     margin: 8px 0;
     border: 0;
-    border-top: 1px solid @theme-color-border;
+    border-top: 1px solid @theme-color-border-alternative;
     list-style: none;
   }
 
@@ -98,17 +98,6 @@
     min-width: 0;
   }
 
-  // For an entry whose label carries a secondary line, such as the state a setting is in above
-  // the change the entry offers.
-  .mtm-dropdownPanel__menuLabel--stacked {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .mtm-dropdownPanel__menuAction {
-    color: @theme-color-link;
-  }
-
   .mtm-dropdownPanel__submenu {
     display: none;
     position: absolute;
@@ -137,6 +126,12 @@
   &.mtm-dropdownPanel--withSubmenu {
     overflow: visible;
   }
+}
+
+// An entry the report is already on. `activeIcon` is the datatable's own class; the tick beside the
+// label is what says so here, so the tinted background it carries elsewhere is dropped.
+.mtm-dropdownPanel__menuLink.activeIcon {
+  color: @theme-color-link;
 }
 
 // Wider variant for menus with longer labels (e.g. the Dashboard manager).

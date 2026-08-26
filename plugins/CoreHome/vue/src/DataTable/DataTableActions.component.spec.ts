@@ -88,9 +88,9 @@ describe('DataTableActions percentage values setting', () => {
     const item = wrapper.find(percentageItem);
     expect(item.exists()).toBe(true);
 
-    expect(item.text()).toContain('The report is showing absolute values');
-    // the offered action is rendered as the `.action` half of the item
-    expect(item.find('span.action').text()).toBe('Show percentages');
+    // only the action is rendered - the state the report is in is left out of the label
+    expect(item.text()).toBe('Show percentages');
+    expect(item.text()).not.toContain('The report is showing');
     expect(item.text()).not.toContain('default');
 
     // the action, not the current state, is the accessible name
@@ -101,9 +101,9 @@ describe('DataTableActions percentage values setting', () => {
     const wrapper = mountComponent({ clientSideParameters: { show_percentage_values: '1' } });
 
     const item = wrapper.find(percentageItem);
-    expect(item.text()).toContain('The report is showing percentages');
+    expect(item.text()).not.toContain('The report is showing');
     // switching back returns the report to its default, as for the other toggles
-    expect(item.find('span.action').text()).toBe('Show absolute values (default)');
+    expect(item.text()).toBe('Show absolute values (default)');
 
     expect(item.attributes('aria-label')).toBe('Show absolute values');
   });

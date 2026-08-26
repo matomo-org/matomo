@@ -21,40 +21,28 @@
           <div
             class="mtm-dropdownPanel__menuLink configItem dataTableFlatten"
           >
-            <span
-              class="mtm-dropdownPanel__menuLabel mtm-dropdownPanel__menuLabel--stacked"
-              v-html="$sanitize(flattenItemText)"
-            />
+            <span class="mtm-dropdownPanel__menuLabel">{{ flattenItemText }}</span>
           </div>
         </li>
         <li v-if="showDimensionsConfigItem" class="mtm-dropdownPanel__menuItem">
           <div
             class="mtm-dropdownPanel__menuLink configItem dataTableShowDimensions"
           >
-            <span
-              class="mtm-dropdownPanel__menuLabel mtm-dropdownPanel__menuLabel--stacked"
-              v-html="$sanitize(showDimensionsText)"
-            />
+            <span class="mtm-dropdownPanel__menuLabel">{{ showDimensionsText }}</span>
           </div>
         </li>
         <li v-if="showFlatConfigItem" class="mtm-dropdownPanel__menuItem">
           <div
             class="mtm-dropdownPanel__menuLink configItem dataTableIncludeAggregateRows"
           >
-            <span
-              class="mtm-dropdownPanel__menuLabel mtm-dropdownPanel__menuLabel--stacked"
-              v-html="$sanitize(includeAggregateRowsText)"
-            />
+            <span class="mtm-dropdownPanel__menuLabel">{{ includeAggregateRowsText }}</span>
           </div>
         </li>
         <li v-if="showTotalsConfigItem" class="mtm-dropdownPanel__menuItem">
           <div
             class="mtm-dropdownPanel__menuLink configItem dataTableShowTotalsRow"
           >
-            <span
-              class="mtm-dropdownPanel__menuLabel mtm-dropdownPanel__menuLabel--stacked"
-              v-html="$sanitize(keepTotalsRowText)"
-            />
+            <span class="mtm-dropdownPanel__menuLabel">{{ keepTotalsRowText }}</span>
           </div>
         </li>
         <li v-if="showPercentageValuesConfigItem" class="mtm-dropdownPanel__menuItem">
@@ -62,30 +50,21 @@
             class="mtm-dropdownPanel__menuLink configItem dataTableShowPercentageValues"
             :aria-label="percentageValuesLabel"
           >
-            <span
-              class="mtm-dropdownPanel__menuLabel mtm-dropdownPanel__menuLabel--stacked"
-              v-html="$sanitize(percentageValuesText)"
-            />
+            <span class="mtm-dropdownPanel__menuLabel">{{ percentageValuesText }}</span>
           </div>
         </li>
         <li v-if="showExcludeLowPopulation" class="mtm-dropdownPanel__menuItem">
           <div
             class="mtm-dropdownPanel__menuLink configItem dataTableExcludeLowPopulation"
           >
-            <span
-              class="mtm-dropdownPanel__menuLabel mtm-dropdownPanel__menuLabel--stacked"
-              v-html="$sanitize(excludeLowPopText)"
-            />
+            <span class="mtm-dropdownPanel__menuLabel">{{ excludeLowPopText }}</span>
           </div>
         </li>
         <li v-if="showPivotBySubtable" class="mtm-dropdownPanel__menuItem">
           <div
             class="mtm-dropdownPanel__menuLink configItem dataTablePivotBySubtable"
           >
-            <span
-              class="mtm-dropdownPanel__menuLabel mtm-dropdownPanel__menuLabel--stacked"
-              v-html="$sanitize(pivotByText)"
-            />
+            <span class="mtm-dropdownPanel__menuLabel">{{ pivotByText }}</span>
           </div>
         </li>
       </ul>
@@ -101,7 +80,6 @@
             :aria-expanded="periodsOpen ? 'true' : 'false'"
             @click.prevent.stop="periodsOpen = !periodsOpen"
           >
-            <span class="mtm-dropdownPanel__menuIcon"><span class="icon-calendar" /></span>
             <span class="mtm-dropdownPanel__menuLabel">
               {{ translate('CoreHome_ShowPeriod') }}
             </span>
@@ -131,7 +109,6 @@
             :title="annotationsTitle"
             @click.prevent
           >
-            <span class="mtm-dropdownPanel__menuIcon"><span class="icon-annotation" /></span>
             <span class="mtm-dropdownPanel__menuLabel">
               {{ annotationsLabel }}
             </span>
@@ -145,7 +122,6 @@
             :id="`dataTableExportAsImageIcon-${placement}`"
             @click.prevent="showExportImage($event)"
           >
-            <span class="mtm-dropdownPanel__menuIcon"><span class="icon-image" /></span>
             <span class="mtm-dropdownPanel__menuLabel">
               {{ translate('General_ExportAsImage') }}
             </span>
@@ -165,7 +141,6 @@
             href=""
             @click.prevent
           >
-            <span class="mtm-dropdownPanel__menuIcon"><span class="icon-export" /></span>
             <span class="mtm-dropdownPanel__menuLabel">{{ translate('General_Export') }}</span>
           </a>
         </li>
@@ -179,19 +154,6 @@
             href=""
             @click.prevent
           >
-            <span
-              v-if="/^icon-/.test(action.icon || '')"
-              class="mtm-dropdownPanel__menuIcon"
-              :class="action.icon"
-            />
-            <img
-              v-else
-              class="mtm-dropdownPanel__menuIcon"
-              width="16"
-              height="16"
-              :src="action.icon"
-              alt=""
-            />
             <span class="mtm-dropdownPanel__menuLabel">{{ action.title }}</span>
           </a>
         </li>
@@ -203,7 +165,7 @@
       >
         <Passthrough v-for="(footerIconGroup, index) in footerIcons" :key="index">
           <li
-            v-if="index > 0"
+            v-if="index > 0 || hasActionsAbove"
             class="mtm-dropdownPanel__separator"
             role="separator"
           />
@@ -231,6 +193,11 @@
                 alt=""
               />
               <span class="mtm-dropdownPanel__menuLabel">{{ footerIcon.title }}</span>
+              <span
+                v-if="activeFooterIconIds.indexOf(footerIcon.id) !== -1"
+                class="mtm-dropdownPanel__rightIcon"
+                aria-hidden="true"
+              ><span class="icon-ok" /></span>
             </a>
           </li>
         </Passthrough>
@@ -269,21 +236,24 @@ export interface DataTableAction {
 
 const { $ } = window;
 
+// These strings read "state %s action"; the placeholder is where the action begins. Only the action
+// is shown, so it is cut there rather than adding a translation key per entry.
+const ACTION_MARK = '\u0001';
+
 function getSingleStateIconText(text: string, addDefault?: boolean, replacement?: string) {
-  if (/(%(.\$)?s+)/g.test(translate(text))) {
-    const values = ['<span class="mtm-dropdownPanel__menuAction action">'];
-    if (replacement) {
-      values.push(replacement);
-    }
-    let result = translate(text, ...values);
-    if (addDefault) {
-      result += ` (${translate('CoreHome_Default')})`;
-    }
-    result += '</span>';
-    return result;
+  const values = [ACTION_MARK];
+  if (replacement) {
+    values.push(replacement);
   }
 
-  return translate(text);
+  const translated = translate(text, ...values);
+  const at = translated.indexOf(ACTION_MARK);
+  let result = at === -1 ? translated : translated.slice(at + ACTION_MARK.length).trim();
+  if (addDefault) {
+    result += ` (${translate('CoreHome_Default')})`;
+  }
+
+  return result;
 }
 
 function getToggledIconText(toggled: boolean, textToggled: string, textUntoggled: string) {
@@ -433,6 +403,16 @@ export default defineComponent({
       return result
         .map((id) => this.allFooterIcons.find((button) => button.id === id))
         .filter((icon) => !!icon) as FooterIcon[];
+    },
+    // Whether anything renders above the visualisation list, so its leading separator has
+    // something to separate from.
+    hasActionsAbove(): boolean {
+      return this.showConfigItems
+        || (this.showPeriods && !this.isPromoted('periods'))
+        || this.showAnnotations
+        || this.showExportAsImageIcon
+        || this.showExport
+        || this.dataTableActions.length > 0;
     },
     activeFooterIconIds(): string[] {
       return this.activeFooterIcons.map((icon) => icon.id);
