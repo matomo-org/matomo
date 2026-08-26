@@ -30,16 +30,14 @@ class CompliancePolicyTest extends TestCase
 
     public function testGetGranularStatusLegendKeepsTheListMarkupOutOfTheTranslations(): void
     {
-        // translations are not loaded in unit tests, so each item resolves to its own key
-        $this->assertSame(
-            "<ul class='browser-default'>"
-            . '<li>General_ComplianceStatusLegendCompliant</li>'
-            . '<li>General_ComplianceStatusLegendCompliantEnforced</li>'
-            . '<li>General_ComplianceStatusLegendNonCompliant</li>'
-            . '<li>General_ComplianceStatusLegendManual</li>'
-            . '</ul>',
-            GranularTestPolicy::statusLegend()
-        );
+        $legend = GranularTestPolicy::statusLegend();
+
+        // asserted structurally: whether translations are loaded decides whether the items
+        // resolve to their English text or to their keys, and neither may change the markup
+        $this->assertStringStartsWith("<ul class='browser-default'>", $legend);
+        $this->assertStringEndsWith('</ul>', $legend);
+        $this->assertSame(4, substr_count($legend, '<li>'));
+        $this->assertSame(4, substr_count($legend, '</li>'));
     }
 
     public function testGetGranularDescriptionUsesTheGranularCopyAndKeepsTheWarnings(): void
