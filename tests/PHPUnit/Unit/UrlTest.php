@@ -564,6 +564,69 @@ class UrlTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @group AddCampaignParametersToMatomoLink
+     */
+    public function testAddCampaignParametersToMatomoLinkTagsTheShopDomain()
+    {
+        $this->resetGlobalVariables();
+        $_GET['module'] = 'Marketplace';
+        $_GET['action'] = 'overview';
+
+        // the shop is a first party Matomo domain; purchases started in the app are attributed there
+        $this->assertSame(
+            'https://shop.matomo.org/checkout/?add-to-cart=1&mtm_campaign=Matomo_App'
+            . '&mtm_source=Matomo_App_OnPremise&mtm_medium=App.Marketplace.overview',
+            Url::addCampaignParametersToMatomoLink('https://shop.matomo.org/checkout/?add-to-cart=1')
+        );
+
+        // an unrelated domain is still left alone
+        $this->assertSame(
+            'https://example.com/checkout/?add-to-cart=1',
+            Url::addCampaignParametersToMatomoLink('https://example.com/checkout/?add-to-cart=1')
+        );
+    }
+
+    /**
+     * @group AddCampaignParametersToMatomoLink
+     */
+    public function testAddCampaignParametersToMatomoLinkAddsOptionalDimensionsOnlyWhenGiven()
+    {
+        $this->resetGlobalVariables();
+        $_GET['module'] = 'Marketplace';
+        $_GET['action'] = 'overview';
+
+        $this->assertSame(
+            'https://shop.matomo.org/checkout/?mtm_campaign=app_bundles&mtm_source=matomo_app_onpremise'
+            . '&mtm_medium=app.marketplace.overview&mtm_group=in_app_marketplace'
+            . '&mtm_content=enterprise_bundle&mtm_placement=add_to_cart',
+            Url::addCampaignParametersToMatomoLink(
+                'https://shop.matomo.org/checkout/',
+                'app_bundles',
+                'matomo_app_onpremise',
+                'app.marketplace.overview',
+                'in_app_marketplace',
+                'enterprise_bundle',
+                'add_to_cart'
+            )
+        );
+
+        // group, content and placement are optional and must not appear empty
+        $this->assertSame(
+            'https://shop.matomo.org/checkout/?mtm_campaign=app_bundles&mtm_source=matomo_app_onpremise'
+            . '&mtm_medium=app.marketplace.overview',
+            Url::addCampaignParametersToMatomoLink(
+                'https://shop.matomo.org/checkout/',
+                'app_bundles',
+                'matomo_app_onpremise',
+                'app.marketplace.overview',
+                null,
+                '',
+                null
+            )
+        );
+    }
+
+    /**
      * @dataProvider getCampaignParametersToMatomoLink
      * @group AddCampaignParametersToMatomoLink
      */

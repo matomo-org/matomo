@@ -80,6 +80,7 @@ export interface PluginDetails {
   isMissingLicense: boolean;
   missingRequirements: TObjectArray;
   isEligibleForFreeTrial: boolean;
+  isNewBundle: boolean;
   priceFrom: IPluginShopVariation;
   coverImage: string;
   numDownloadsPretty: TNumberOrString;

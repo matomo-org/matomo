@@ -923,6 +923,9 @@ class Url
      *                              'Matomo_App_Cloud'
      * @param string|null $medium   Optional campaign medium, defaults to App.[module].[action] where module and action are
      *                              taken from the currently viewed application page, eg. 'CoreAdminHome.trackingCodeGenerator'
+     * @param string|null $group     Optional campaign group, omitted when not given
+     * @param string|null $content   Optional campaign content, omitted when not given
+     * @param string|null $placement Optional campaign placement, omitted when not given
      *
      * @return ($url is string ? string : null)      www.matomo.org/faq/123?mtm_campaign=Matomo_App&mtm_source=Matomo_App_OnPremise&mtm_medium=App.CoreAdminHome.trackingCodeGenerator
      */
@@ -930,7 +933,10 @@ class Url
         ?string $url = null,
         ?string $campaign = null,
         ?string $source = null,
-        ?string $medium = null
+        ?string $medium = null,
+        ?string $group = null,
+        ?string $content = null,
+        ?string $placement = null
     ): ?string {
 
         // Ignore if disabled by config setting
@@ -945,7 +951,7 @@ class Url
 
         // Ignore non-matomo domains
         $domain = self::getHostFromUrl($url);
-        if (!in_array($domain, ['matomo.org', 'www.matomo.org', 'developer.matomo.org', 'plugins.matomo.org'])) {
+        if (!in_array($domain, ['matomo.org', 'www.matomo.org', 'developer.matomo.org', 'plugins.matomo.org', 'shop.matomo.org'])) {
             return $url;
         }
 
@@ -963,6 +969,13 @@ class Url
             'mtm_source' => $source ?? 'Matomo_App_' . (\Piwik\Plugin\Manager::getInstance()->isPluginActivated('Cloud') ? 'Cloud' : 'OnPremise'),
             'mtm_medium' => $medium,
             ];
+
+        // the remaining campaign dimensions are optional; only send the ones a caller asked for
+        foreach (['mtm_group' => $group, 'mtm_content' => $content, 'mtm_placement' => $placement] as $param => $value) {
+            if ($value !== null && $value !== '') {
+                $newParams[$param] = $value;
+            }
+        }
 
         // Add parameters to the link, overriding any existing campaign parameters while preserving the path and query string
         $pathAndQueryString = UrlHelper::getPathAndQueryFromUrl($url, $newParams, true);
