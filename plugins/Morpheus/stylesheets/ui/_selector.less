@@ -1,6 +1,6 @@
 // A control that opens a panel to choose from: a period, an export format, a metric.
-// Matches `.piwikSelector` on result, deliberately, without sharing its markup.
-// Placement is NOT owned here — the consumer places the selector.
+// Matches `.piwikSelector` and `.metrics-picker` on result, deliberately, without sharing their
+// markup. Placement is NOT owned here — the consumer places the selector.
 // Named with the `mtm-` prefix to avoid name conflicts.
 
 .mtm-selector {
@@ -35,8 +35,6 @@
 
     &:focus {
       outline: none;
-      // A global `button:focus` rule would otherwise fill this with the brand colour.
-      background-color: @theme-color-background-contrast;
     }
 
     &:focus-visible {
@@ -44,9 +42,11 @@
     }
   }
 
+  // `expanded` is ExpandOnClick's, the way .piwikSelector and .metrics-picker read it. Binding a
+  // class of our own on that node instead would wipe it: Vue assigns className wholesale.
   &:hover .mtm-selector__trigger,
   &:focus-within .mtm-selector__trigger,
-  &.mtm-selector--open .mtm-selector__trigger {
+  &.expanded .mtm-selector__trigger {
     border-color: @theme-color-link;
   }
 
@@ -57,16 +57,23 @@
   }
 
   .mtm-selector__label {
+    // Without this the label refuses to shrink and the ellipsis never appears.
+    min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
-  // Sits at the end of the control, whatever it holds - a chevron, a count, a clear cross.
+  // Sits at the end of the control, and turns over to say the panel is open.
   .mtm-selector__rightIcon {
+    flex: none;
     margin-left: auto;
     line-height: 1;
-    font-size: 10px;
-    color: @theme-color-text-lighter;
+    font-size: 12px;
+    transition: transform .15s ease;
+  }
+
+  &.expanded .mtm-selector__rightIcon {
+    transform: rotate(180deg);
   }
 
   // Anchored right, so a panel wider than its control grows inwards rather than off the page.
@@ -80,7 +87,7 @@
     z-index: 200;
   }
 
-  &.mtm-selector--open .mtm-selector__dropdown {
+  &.expanded .mtm-selector__dropdown {
     display: block;
   }
 
