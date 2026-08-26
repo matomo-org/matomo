@@ -16578,7 +16578,8 @@
   });
   window.vueSanitize = function vueSanitize(val) {
     return purify.sanitize(val, {
-      ADD_ATTR: ["target"]
+      ADD_ATTR: ["target"],
+      FORBID_TAGS: ["style"]
     });
   };
   window.vueSanitizeUrl = function vueSanitizeUrl(url) {
