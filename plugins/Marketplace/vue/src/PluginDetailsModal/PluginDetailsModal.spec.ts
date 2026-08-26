@@ -27,6 +27,7 @@ const { mockPost, modalApi } = vi.hoisted(() => {
 });
 
 vi.mock('CoreHome', () => ({
+  ActivityIndicator: { template: '<div class="activityIndicator" />' },
   AjaxHelper: {
     post: mockPost,
   },
@@ -159,6 +160,29 @@ describe('PluginDetailsModal', () => {
     expect(mockPost.mock.calls[0][1]).toEqual({ pluginName: 'PaidPlugin1' });
     // the modal covers the page, so an error notification behind it would never be seen
     expect(mockPost.mock.calls[0][2].createErrorNotification).toBe(false);
+  });
+
+  it('shows a loading box while the request is in flight, not an empty modal', async () => {
+    // the overlay opens as soon as a card is clicked, so rendering nothing until the response
+    // arrives reads as a darkened screen with no modal on it
+    let resolveRequest: (value: unknown) => void = () => {};
+    mockPost.mockReturnValue(new Promise((resolve) => {
+      resolveRequest = resolve;
+    }));
+
+    const wrapper = mountModal();
+    await wrapper.setProps({ modelValue: cardRow });
+
+    expect(vmOf(wrapper).isLoading).toBe(true);
+    expect(wrapper.find('.modal-content--loading').exists()).toBe(true);
+    expect(wrapper.find('.activityIndicator').exists()).toBe(true);
+
+    resolveRequest(detailsResponse);
+    await flushPromises();
+
+    expect(vmOf(wrapper).isLoading).toBe(false);
+    expect(wrapper.find('.modal-content--loading').exists()).toBe(false);
+    expect(wrapper.find('.modal-content').exists()).toBe(true);
   });
 
   it('merges the fetched details over the card row', async () => {

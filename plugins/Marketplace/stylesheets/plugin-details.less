@@ -184,6 +184,15 @@
             min-height: 100vh;
         }
 
+        // the overlay opens as soon as a card is clicked, so the details request has a box to
+        // land in rather than leaving a darkened screen with nothing on it
+        &--loading {
+            align-items: center;
+            justify-content: center;
+            min-height: 180px;
+            padding: 32px 0;
+        }
+
         &--simple-header {
             .modal-content__header {
                 height: 90px;

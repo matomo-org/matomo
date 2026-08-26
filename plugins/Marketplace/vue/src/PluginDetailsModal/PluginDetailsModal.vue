@@ -8,7 +8,14 @@
 <template>
   <div ref="root" class="modal" id="pluginDetailsModal">
     <div
-      v-if="!isLoading"
+      v-if="isLoading"
+      class="modal-content modal-content--loading"
+    >
+      <ActivityIndicator :loading="true" />
+    </div>
+
+    <div
+      v-else
       class="modal-content"
       :class="{ 'modal-content--simple-header': !hasHeaderMetadata }"
     >
@@ -339,6 +346,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 import {
+  ActivityIndicator,
   AjaxHelper,
   MatomoUrl,
   translate,
@@ -389,7 +397,7 @@ export interface PluginDetailsModalState {
 }
 
 export default defineComponent({
-  components: { MissingReqsNotice, CTAContainer },
+  components: { ActivityIndicator, MissingReqsNotice, CTAContainer },
   props: {
     modelValue: {
       type: Object as PropType<PluginCard | null>,
