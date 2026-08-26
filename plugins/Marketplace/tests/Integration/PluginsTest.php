@@ -410,13 +410,35 @@ class PluginsTest extends IntegrationTestCase
         ];
     }
 
-    public function testGetPluginInfoOnlySellsBundlesDirectlyFromTheSupportedCoreVersion(): void
+    /**
+     * @dataProvider getSupportsNewBundlesTestData
+     */
+    public function testSupportsNewBundlesGatesOnTheCoreVersion(string $coreVersion, bool $expected): void
     {
-        // the bundle expectations below assume this core is new enough to sell bundles directly;
-        // on an older core isNewBundle stays false and the free-trial flow is used instead
+        self::assertSame($expected, Plugins::supportsNewBundles($coreVersion));
+    }
+
+    /**
+     * @return iterable<string, array<string|bool>>
+     */
+    public function getSupportsNewBundlesTestData(): iterable
+    {
+        yield 'older minor' => ['5.13.9', false];
+        // PHP orders pre-releases alpha < beta < rc < release, and the branch this ships in
+        // reports 5.14.0-alpha while in development, so it has to count as supported
+        yield 'alpha of the supported version' => ['5.14.0-alpha', true];
+        yield 'beta of the supported version' => ['5.14.0-b1', true];
+        yield 'stable supported version' => ['5.14.0', true];
+        yield 'later minor' => ['5.15.2', true];
+        yield 'next major' => ['6.0.0-b1', true];
+    }
+
+    public function testGetPluginInfoSellsBundlesDirectlyOnThisCore(): void
+    {
+        // guards the bundle expectations below, which only hold while this core clears the gate
         self::assertTrue(
-            version_compare(Version::VERSION, '5.14.0-b1', '>='),
-            'Bundle expectations assume core >= 5.14.0; running ' . Version::VERSION
+            Plugins::supportsNewBundles(),
+            'Bundle expectations assume a core that sells bundles directly; running ' . Version::VERSION
         );
 
         $this->service->returnFixture('v2.0_plugins_NewBundle1_info.json');

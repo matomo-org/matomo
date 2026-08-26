@@ -36,10 +36,13 @@ class Plugins
 
     /**
      * Bundles are only sold directly from this core version onwards; before it they go through
-     * the free-trial flow. The -b1 suffix makes pre-releases of the target version count as
-     * supported, matching how core gates elsewhere.
+     * the free-trial flow.
+     *
+     * The -alpha suffix matters: PHP orders pre-releases alpha < beta < rc < release, so a plain
+     * '5.14.0' — or even '5.14.0-b1' — would exclude 5.14.0-alpha, which is what the 5.x branch
+     * this ships in reports while in development.
      */
-    private const MIN_CORE_VERSION_FOR_NEW_BUNDLES = '5.14.0-b1';
+    private const MIN_CORE_VERSION_FOR_NEW_BUNDLES = '5.14.0-alpha';
     private Api\Client $marketplaceClient;
 
     private Consumer $consumer;
@@ -322,7 +325,7 @@ class Plugins
         $plugin = $this->addConsumerLicenseStatus($plugin);
 
         // from the supported core version on, bundles are bought outright rather than trialled
-        $plugin['isNewBundle'] = $this->supportsNewBundles() && !empty($plugin['isNewBundle']);
+        $plugin['isNewBundle'] = self::supportsNewBundles() && !empty($plugin['isBundle']);
 
         $plugin['isEligibleForFreeTrial'] =
             $plugin['canBePurchased']
@@ -399,10 +402,16 @@ class Plugins
 
     /**
      * Whether this Matomo is new enough to sell bundles directly rather than through a free trial.
+     *
+     * @param string|null $coreVersion defaults to the running core; pass a version to check another
      */
-    private function supportsNewBundles(): bool
+    public static function supportsNewBundles(?string $coreVersion = null): bool
     {
-        return version_compare(Version::VERSION, self::MIN_CORE_VERSION_FOR_NEW_BUNDLES, '>=');
+        return version_compare(
+            $coreVersion ?? Version::VERSION,
+            self::MIN_CORE_VERSION_FOR_NEW_BUNDLES,
+            '>='
+        );
     }
 
     /**
