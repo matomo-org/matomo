@@ -67,7 +67,6 @@
           <div
             v-if="isPromoted('periods')"
             class="mtm-selector"
-            :class="{ 'mtm-selector--open': periodsExpanded }"
             data-report-action="periods"
             v-expand-on-click="{
               expander: 'periodsTrigger',

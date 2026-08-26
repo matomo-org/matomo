@@ -474,6 +474,21 @@ describe("EvolutionGraph", function () {
         });
     });
 
+    it("should close the period selector on a second click", async function () {
+        await page.goto(url);
+        await page.waitForNetworkIdle();
+
+        const trigger = '[data-report-action="periods"] .mtm-selector__trigger';
+        await page.click(trigger);
+        await page.waitForSelector('.mtm-selector.expanded', { visible: true });
+
+        await page.click(trigger);
+        const stillOpen = await page.evaluate(
+          () => !!document.querySelector('.mtm-selector.expanded'),
+        );
+        expect(stillOpen, 'a second click closes it').to.equal(false);
+    });
+
     it("should let the keyboard reach and activate a period", async function () {
         await page.goto(url);
         await page.waitForNetworkIdle();
@@ -481,7 +496,7 @@ describe("EvolutionGraph", function () {
         await page.evaluate(
           () => document.querySelector('[data-report-action="periods"] .mtm-selector__trigger').click(),
         );
-        await page.waitForSelector('.mtm-selector--open', { visible: true });
+        await page.waitForSelector('.mtm-selector.expanded', { visible: true });
 
         const focused = await page.evaluate(() => {
             const item = document.querySelector('.dataTablePeriods [role="menuitem"]');
