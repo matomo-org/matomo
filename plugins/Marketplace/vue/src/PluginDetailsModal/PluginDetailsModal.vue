@@ -66,10 +66,16 @@
         <div class="plugin-description">
           <MissingReqsNotice v-if="showMissingRequirementsNoticeIfApplicable" :plugin="plugin" />
 
-          <div v-if="isMultiServerEnvironment" class="alert alert-warning">
+          <div
+            v-if="showDeploymentWarnings && isMultiServerEnvironment"
+            class="alert alert-warning"
+          >
             {{ translate('Marketplace_MultiServerEnvironmentWarning') }}
           </div>
-          <div v-else-if="!isAutoUpdatePossible" class="alert alert-warning">
+          <div
+            v-else-if="showDeploymentWarnings && !isAutoUpdatePossible"
+            class="alert alert-warning"
+          >
             {{
               translate(
                 'Marketplace_AutoUpdateDisabledWarning',
@@ -497,6 +503,12 @@ export default defineComponent({
     showLicenseName(): boolean {
       const license: TObject = this.pluginLatestVersion?.license as TObject || {};
       return !!license.name;
+    },
+    showDeploymentWarnings(): boolean {
+      // both warnings tell you that you will have to download the plugin and deploy it yourself.
+      // A bundle is a licence purchase with no download of its own — the plugins it covers are
+      // installed individually afterwards — so neither warning is actionable for one.
+      return !this.plugin.isBundle;
     },
     showShopPricing(): boolean {
       return (
