@@ -64,8 +64,6 @@
     flex: none;
     display: flex;
     align-items: safe center;
-    // Keeps a selector's height with none promoted, so the trigger does not jump when one goes.
-    min-height: 38px;
 
     &:empty {
       display: none;
@@ -95,6 +93,12 @@
 
     &:empty {
       display: none;
+    }
+
+    // Holds a selector's height whether or not one is out, so the trigger keeps its place when
+    // the header gives an action back to its menu.
+    &.reportHeader__toolbar--promotable {
+      min-height: 38px;
     }
   }
 
