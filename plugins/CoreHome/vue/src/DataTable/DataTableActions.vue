@@ -91,6 +91,22 @@
       </ul>
 
       <ul class="mtm-dropdownPanel__menu">
+        <!-- Keeps `annotationView`: dataTable.js binds the toggle on it and
+             handleEvolutionAnnotations() reads it to decide whether the graph shows markers. -->
+        <li v-if="showAnnotations" class="mtm-dropdownPanel__menuItem">
+          <a
+            class="mtm-dropdownPanel__menuLink dataTableAction annotationView"
+            href=""
+            :title="annotationsTitle"
+            @click.prevent
+          >
+            <span class="mtm-dropdownPanel__menuIcon icon-annotation" />
+            <span class="mtm-dropdownPanel__menuLabel">
+              {{ annotationsLabel }}
+            </span>
+          </a>
+        </li>
+
         <li v-if="showExportAsImageIcon" class="mtm-dropdownPanel__menuItem">
           <a
             class="mtm-dropdownPanel__menuLink dataTableAction tableIcon"
@@ -190,13 +206,16 @@
       </ul>
     </template>
 
-    <!-- The footer keeps the actions that have not moved yet. -->
+    <!-- The footer keeps the period selector, which has not moved yet: it opens a list of its own,
+         so the menu needs a submenu before it can host it. -->
     <template v-else>
+      <!-- Only where no report header exists to host the menu. A widgetized container renders
+           none, and its graph's annotation markers would otherwise have no toggle at all. -->
       <a
-        v-if="showAnnotations"
+        v-if="showAnnotations && !hasReportHeader"
         class="dataTableAction annotationView"
         href=""
-        :title="translate('Annotations_Annotations')"
+        :title="annotationsTitle"
         @click.prevent
         style="margin-right:3.5px"
       ><span class="icon-annotation" /></a>
@@ -325,6 +344,15 @@ export default defineComponent({
     showExport: Boolean,
     showExportAsImageIcon: Boolean,
     showAnnotations: Boolean,
+    // Whether the notes are on screen, so the entry reads as the toggle it is. Pushed by
+    // dataTable.js, which owns the panel.
+    annotationsShowing: Boolean,
+    // Defaults to true so the footer never flashes a second entry before dataTable.js reports
+    // that this report has no header to put one in.
+    hasReportHeader: {
+      type: Boolean,
+      default: true,
+    },
     reportId: {
       type: String,
       required: true,
@@ -373,6 +401,16 @@ export default defineComponent({
     // have not moved yet as icon buttons.
     isInHeader(): boolean {
       return this.placement === 'header';
+    },
+    annotationsLabel(): string {
+      return this.annotationsShowing
+        ? translate('Annotations_HideAnnotations')
+        : translate('Annotations_ShowAnnotations');
+    },
+    annotationsTitle(): string {
+      return this.annotationsShowing
+        ? translate('Annotations_IconDescHideNotes')
+        : translate('Annotations_IconDesc');
     },
     randomIdForDropdown(): number {
       return Math.floor(Math.random() * 999999);

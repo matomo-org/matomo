@@ -31,6 +31,8 @@
      request-params="{{ (properties.request_parameters_to_modify|default({}))|merge(properties.export_parameters_to_modify|default({}))|json_encode }}"
      api-method-to-request-data-table="{{ properties.apiMethodToRequestDataTable|default('')|json_encode }}"
      max-filter-limit="{{ properties.max_export_filter_limit|default(0)|json_encode }}"
+     show-annotations="{{ (isPluginLoaded('Annotations') and not properties.hide_annotations_view)|json_encode }}"
+     annotations-showing="{{ false|json_encode }}"
      show-export="{{ properties.show_export|default(false)|json_encode }}"
      show-export-as-image-icon="{{ properties.show_export_as_image_icon|default(false)|json_encode }}"
      report-id="{{ properties.report_id|default('')|json_encode }}"
