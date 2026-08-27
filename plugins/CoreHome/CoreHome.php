@@ -415,7 +415,8 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_DataForThisReportHasBeenDisabled';
         $translationKeys[] = 'CoreHome_ReportActions';
         $translationKeys[] = 'General_ExportThisReport';
-        $translationKeys[] = 'Annotations_Annotations';
+        $translationKeys[] = 'Annotations_ShowAnnotations';
+        $translationKeys[] = 'Annotations_HideAnnotations';
         $translationKeys[] = 'CoreHome_ChangePeriod';
         $translationKeys[] = 'General_NewUpdatePiwikX';
         $translationKeys[] = 'CoreHome_SeeAvailableVersions';

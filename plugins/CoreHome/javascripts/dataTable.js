@@ -1029,13 +1029,73 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         });
     },
 
+    // Where the annotations entry lives, which is the header's scope rather than the report's.
+    // A container widget holds several reports under one header, and _findReportScope refuses to
+    // widen there - rightly, since the other controls must not be shared between siblings - so the
+    // entry would sit outside the element this toggle is bound on and do nothing when clicked.
+    // Only the report that offers annotations reaches here, so siblings do not collide.
+    _annotationsScope: function (domElem) {
+        // Only an evolution graph widens to the header. A container widget holds several reports
+        // under one header, every one of them binds this toggle, and each rebind starts with an
+        // `.off()` - so widening for all of them would just hand the entry to whichever finished
+        // last, over a report with no markers to show. Every report reaches here; what keeps them
+        // apart is the check below, which _setAnnotationsShowing applies too. Two reports both
+        // offering annotations under one header would still collide, as the header's own config
+        // does. Elsewhere the two scopes are the same element, so a lone report is untouched.
+        if (!this._offersAnnotations(domElem)) {
+            return this._findReportScope(domElem);
+        }
+        var $scope = this._locateReportHeader(domElem).$scope;
+        return $scope.length ? $scope : this._findReportScope(domElem);
+    },
+
+    // Whether this report offers annotations at all, read from the config the actions render
+    // from rather than from the DOM: this runs before syncReportHeaderActions hands that config
+    // to the header, and Vue renders the entry a tick later still.
+    _offersAnnotations: function (domElem) {
+        var actionsApp = $('[vue-entry="CoreHome.DataTableActions"]', domElem).first()
+            .data('vueAppInstance');
+        if (!actionsApp) {
+            return $('.annotationView', this._findReportScope(domElem)).length > 0;
+        }
+        return !!(actionsApp.showFooter_ && actionsApp.showFooterIcons_
+            && actionsApp.showAnnotations_);
+    },
+
+    // The entry is a toggle, so it has to read as one. Pushed as a prop on both instances rather
+    // than written into the rendered text: the label then has a single source of truth, which is
+    // what keeps it from drifting out of step with the panel it describes.
+    _setAnnotationsShowing: function (domElem, showing) {
+        var footerApp = $('[vue-entry="CoreHome.DataTableActions"]', domElem).first()
+            .data('vueAppInstance');
+        if (footerApp) {
+            footerApp.annotationsShowing_ = showing;
+        }
+
+        // The header can be shared. In a container widget every sibling binds this too, and one of
+        // them reloading would report its own empty state over the notes the graph is still
+        // showing - so only the report the entry belongs to writes there. Same rule the binding
+        // follows in _annotationsScope, applied to the state as well. Untested on purpose: no
+        // shipped container puts an evolution graph beside a second table, so nothing reaches
+        // this yet. Whoever builds the first one should cover it.
+        if (!this._offersAnnotations(domElem)) {
+            return;
+        }
+        var header = this._findReportHeaderApp(domElem);
+        if (header && header.app) {
+            header.app.annotationsShowing_ = showing;
+        }
+    },
+
     handleEvolutionAnnotations: function (domElem) {
         var self = this;
-        // the annotation icon that gates this row belongs to the action bar, so look for it in the
-        // report scope; everything it then renders stays inside the table
-        var scope = self._findReportScope(domElem);
-        if ((self.param.viewDataTable === 'graphEvolution' || self.param.viewDataTable === 'graphStackedBarEvolution')
-            && $('.annotationView', scope).length > 0) {
+        // Whether the report offers annotations is read from the config the actions render from,
+        // not from the menu entry: this runs before syncReportHeaderActions hands that config to
+        // the header, and Vue renders the entry a tick later still, so the entry is never in the
+        // DOM yet and the row of icons under the graph would never be drawn.
+        var isEvolution = self.param.viewDataTable === 'graphEvolution'
+            || self.param.viewDataTable === 'graphStackedBarEvolution';
+        if (isEvolution && self._offersAnnotations(domElem)) {
             // get dates w/ annotations across evolution period (have to do it through AJAX since we
             // determine placement using the elements created by jqplot)
 
@@ -1098,8 +1158,9 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                                 undefined, // lastN
                                 function (manager) {
                                     manager.attr('data-is-range', 0);
-                                    $('.annotationView', scope)
-                                        .attr('title', _pk_translate('Annotations_IconDesc'));
+                                    // Runs on the way out as well as in, so read the panel.
+                                    self._setAnnotationsShowing(
+                                        domElem, !manager.is(':hidden'));
 
                                     var viewAndAdd = _pk_translate('Annotations_ViewAndAddAnnotations'),
                                         hideNotes = _pk_translate('Annotations_HideAnnotationsFor');
@@ -1174,41 +1235,60 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             return;
         }
 
+        // Tell the footer whether a header exists to hold the menu. A widgetized container
+        // renders none, and the entry falls back into the footer there so its graph's markers
+        // keep a toggle instead of standing alone.
+        var footerApp = $('[vue-entry="CoreHome.DataTableActions"]', domElem).first()
+            .data('vueAppInstance');
+        var header = self._findReportHeaderApp(domElem);
+        if (footerApp) {
+            footerApp.hasReportHeader_ = !!(header && header.app);
+        }
+
+        // An ajax reload replaces the table wholesale and takes the manager with it, while the
+        // header deliberately survives - so the state it carries would keep saying the notes are
+        // on screen when they are not. Put it back in step on every bind.
+        var $scope = self._annotationsScope(domElem);
+        self._setAnnotationsShowing(domElem, $('.annotation-manager', domElem).is(':visible'));
+
         // the trigger is scoped to the report, so it keeps working once it moves up into the
         // header; the manager it toggles stays inside the table
-        self._findReportScope(domElem)
+        $scope
             .off('click.reportAction', '.annotationView')
             .on('click.reportAction', '.annotationView', function () {
             var annotationManager = $('.annotation-manager', domElem);
 
+            // The entry reads "hide annotations", so it hides whatever is on screen - notes a
+            // marker opened for one day included. Those carry no `data-is-range`, and used to be
+            // answered by reloading the whole range instead of closing.
+            if (annotationManager.length > 0 && !annotationManager.is(':hidden')) {
+                annotationManager.slideUp('slow');
+                self._setAnnotationsShowing(domElem, false);
+                return;
+            }
+
             if (annotationManager.length > 0
                 && annotationManager.attr('data-is-range') == 1) {
-                if (annotationManager.is(':hidden')) {
-                    annotationManager.slideDown('slow'); // showing
-                    $(this).attr('title', _pk_translate('Annotations_IconDescHideNotes'));
-                }
-                else {
-                    annotationManager.slideUp('slow'); // hiding
-                    $(this).attr('title', _pk_translate('Annotations_IconDesc'));
-                }
+                annotationManager.slideDown('slow');
+                self._setAnnotationsShowing(domElem, true);
+                return;
             }
-            else {
-                // show the annotation viewer for the whole date range
-                var lastN = self.param['evolution_' + self.param.period + '_last_n'];
-                piwik.annotations.showAnnotationViewer(
-                    domElem,
-                    self.param.idSite,
-                    self.param.date,
-                    self.param.period,
-                    lastN,
-                    function (manager) {
-                        manager.attr('data-is-range', 1);
-                    }
-                );
 
-                // change the tooltip of the view annotation icon
-                $(this).attr('title', _pk_translate('Annotations_IconDescHideNotes'));
-            }
+            // show the annotation viewer for the whole date range
+            var lastN = self.param['evolution_' + self.param.period + '_last_n'];
+            piwik.annotations.showAnnotationViewer(
+                domElem,
+                self.param.idSite,
+                self.param.date,
+                self.param.period,
+                lastN,
+                function (manager) {
+                    manager.attr('data-is-range', 1);
+                    // Toggles when the dates already match, so read the panel back rather than
+                    // assume it opened.
+                    self._setAnnotationsShowing(domElem, !manager.is(':hidden'));
+                }
+            );
         });
     },
 
@@ -2075,15 +2155,17 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             return;
         }
 
-        // Everything the menu renders from. The title and its help are pushed separately, by
-        // replaceReportTitleAndHelp(), because a related report changes those and not these.
+        // Everything the menu renders from, bar two. The title and its help are pushed separately,
+        // by replaceReportTitleAndHelp(), because a related report changes those and not these.
+        // `annotationsShowing_` is left out on purpose: _setAnnotationsShowing() pushes it to both
+        // instances itself, and it must survive a sync that runs after the report rebinds.
         var props = [
             'showFooter_', 'showFooterIcons_', 'footerIcons_', 'viewDataTable_', 'clientSideParameters_', 'isDataTableEmpty_',
             'showFlattenTable_', 'reportSupportsFlatten_', 'reportSupportsPercentageValues_',
             'exportSupportsFlatten_', 'hasMultipleDimensions_', 'showTotalsRow_',
             'showExcludeLowPopulation_', 'showPivotBySubtable_', 'dataTableActions_',
             'showExport_', 'showExportAsImageIcon_', 'requestParams_', 'maxFilterLimit_',
-            'apiMethodToRequestDataTable_', 'pivotDimensionName_',
+            'apiMethodToRequestDataTable_', 'pivotDimensionName_', 'showAnnotations_',
         ];
 
         props.forEach(function (prop) {
