@@ -71,31 +71,22 @@ class Plugins
      * scheduled task, where asking for a single plugin costs a round trip to the Marketplace the
      * first time each one is opened.
      *
+     * Only an already cached list is used. Fetching one to answer for a single plugin would download
+     * the whole catalogue where the info request downloads one plugin.
+     *
      * @return array<string, mixed>
      */
     public function getPluginInfoPreferringList(string $pluginName): array
     {
-        foreach ([false, true] as $themesOnly) {
-            try {
-                $listed = $themesOnly
-                    ? $this->marketplaceClient->searchForThemes('', '', Sort::DEFAULT_SORT, PurchaseType::TYPE_ALL)
-                    : $this->marketplaceClient->searchForPlugins('', '', Sort::DEFAULT_SORT, PurchaseType::TYPE_ALL);
-            } catch (\Exception $e) {
-                // the list is the fast path, not the only one. It is a much larger response than a
-                // single plugin's, so it can fail where the direct request below still answers.
-                continue;
-            }
+        $plugin = $this->marketplaceClient->findInCachedOverviewLists($pluginName);
 
-            foreach ($listed as $plugin) {
-                if (isset($plugin['name']) && $plugin['name'] === $pluginName) {
-                    // the raw cached list, so only the plugin that was asked for is enriched.
-                    // Going through searchPlugins() would enrich the whole catalogue to return one.
-                    return $this->enrichPluginInformation($plugin);
-                }
-            }
+        if (null !== $plugin) {
+            // the raw cached list entry, so only the plugin that was asked for is enriched. Going
+            // through searchPlugins() would enrich the whole catalogue to return one.
+            return $this->enrichPluginInformation($plugin);
         }
 
-        // not in either list, so it is one the search filters out — ask for it directly
+        // either the lists are cold or this is a plugin they filter out — ask for it directly
         return $this->getPluginInfo($pluginName);
     }
 
@@ -383,7 +374,7 @@ class Plugins
         $plugin['isEligibleForFreeTrial'] =
             $plugin['canBePurchased']
             && empty($plugin['missingRequirements'])
-            && empty($plugin['consumer']['license']);
+            && empty($this->getCurrentLicenseFor($plugin));
 
         $this->addPriceFrom($plugin);
         $this->addPluginCoverImage($plugin);
@@ -399,10 +390,62 @@ class Plugins
         }
 
         $isPremiumFeature = !empty($plugin['shop']) && empty($plugin['isFree']) && empty($plugin['isDownloadable']);
-        $plugin['hasExceededLicense'] = $isPremiumFeature && !empty($plugin['consumer']['license']['isValid']) && !empty($plugin['consumer']['license']['isExceeded']);
-        $plugin['isMissingLicense'] = $isPremiumFeature && (empty($plugin['consumer']['license']) || (!empty($plugin['consumer']['license']['status']) && $plugin['consumer']['license']['status'] === 'Cancelled'));
+        $license = $this->getCurrentLicenseFor($plugin);
+
+        $plugin['hasExceededLicense'] = $isPremiumFeature
+            && !empty($license['isValid'])
+            && !empty($license['isExceeded']);
+        $plugin['isMissingLicense'] = $isPremiumFeature
+            && (
+                empty($license)
+                || (!empty($license['status']) && $license['status'] === 'Cancelled')
+            );
+
+        // and replace the copy the Marketplace embedded in the cached list with the one the flags
+        // were just derived from, so the plugin does not carry two answers to the same question.
+        // Plugins\InvalidLicenses reads this to classify the admin-page license banners, and read
+        // the stale copy while the cards read the fresh one until this was written back.
+        if (array_key_exists('consumer', $plugin) && is_array($plugin['consumer'])) {
+            $plugin['consumer']['license'] = $license;
+        }
 
         return $plugin;
+    }
+
+    /**
+     * Returns the consumer's license for the given plugin, preferring the consumer response over the
+     * copy the plugin carries.
+     *
+     * A plugin's own copy comes from a plugin list that is cached for far longer than the consumer
+     * response, so on its own it can keep showing a license the consumer has just bought as missing.
+     * Where the consumer response says nothing about the plugin we keep using that copy, so an
+     * instance that cannot reach the Marketplace behaves exactly as it did before.
+     *
+     * @param array<string, mixed> $plugin
+     * @return array<string, mixed>|null
+     */
+    private function getCurrentLicenseFor(array $plugin)
+    {
+        $embedded = isset($plugin['consumer']['license']) ? $plugin['consumer']['license'] : null;
+
+        if (!empty($embedded) && !is_array($embedded)) {
+            // the Marketplace sets a scalar here for the plugins whose trial and purchase calls to
+            // action it suppresses - BusinessBundle and EnterpriseBundle - and the consumer response
+            // has no way to say that, since it only ever carries real license rows. Honouring it
+            // keeps those bundles out of the free trial flow.
+            return $embedded;
+        }
+
+        $licenses = $this->consumer->getConsumerPluginLicenses();
+
+        if ($licenses === null) {
+            // the Marketplace could not be reached, so the copy the plugin carries is all we have
+            return $embedded;
+        }
+
+        // an answer that lists no license for this plugin is an answer: the consumer does not hold
+        // one, whatever the plugin list cached earlier still says
+        return isset($licenses[$plugin['name']]) ? $licenses[$plugin['name']] : null;
     }
 
     private function toLongDate($date)

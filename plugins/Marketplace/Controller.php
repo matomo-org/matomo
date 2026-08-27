@@ -331,13 +331,31 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         Piwik::checkUserIsNotAnonymous();
 
-        $pluginName = new PluginName();
-        $pluginName = $pluginName->getPluginName();
+        // Every failure path below answers with a JSON error rather than throwing: this is not an
+        // API request, so an exception would render the HTML error page with a 500 and log a stack
+        // trace at ERROR, and AjaxHelper would replace the message with its own literal. A
+        // result=error body reaches the modal as an ApiResponseError with this text intact.
+        // Validation is inside the guard too, so a malformed request is answered the same way.
+        $pluginName = '';
 
-        $plugin = $this->plugins->getPluginInfoPreferringList($pluginName);
+        try {
+            $pluginName = (new PluginName())->getPluginName();
+
+            $plugin = $this->plugins->getPluginInfoPreferringList($pluginName);
+        } catch (Exception $e) {
+            // the Marketplace being unreachable is this action's most likely failure, not an
+            // exceptional one, since it is requested every time a details modal is opened
+            return $this->sendPluginDetailsError(
+                Piwik::translate('Marketplace_PluginDetailsNotAvailable', $pluginName)
+            );
+        }
 
         if (empty($plugin['name'])) {
-            throw new Exception('Plugin does not exist');
+            // reachable in normal use, because the list this name came from is cached and the plugin
+            // may have been delisted since
+            return $this->sendPluginDetailsError(
+                Piwik::translate('Marketplace_PluginNotFoundOnMarketplace', $pluginName)
+            );
         }
 
         if (!empty($plugin['versions'])) {
@@ -346,6 +364,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         }
 
         return json_encode($plugin);
+    }
+
+    private function sendPluginDetailsError(string $message): string
+    {
+        // #[JsonResponse] on the action sends the header, so this only has to shape the body
+        return json_encode(['result' => 'error', 'message' => $message]);
     }
 
     /**

@@ -12,7 +12,9 @@ namespace Piwik\Plugins\Marketplace\tests\Integration;
 use Piwik\Access;
 use Piwik\DI;
 use Piwik\FrontController;
+use Piwik\Plugins\Marketplace\Api\Service\Exception as ServiceException;
 use Piwik\Plugins\Marketplace\tests\Framework\Mock\Service;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
@@ -36,6 +38,10 @@ class ControllerTest extends IntegrationTestCase
     {
         parent::setUp();
 
+        // without this Piwik::translate() hands back the bare key, so a test cannot tell a resolved
+        // message from a missing one
+        Fixture::loadAllTranslations();
+
         $this->originalGet = $_GET;
     }
 
@@ -43,6 +49,8 @@ class ControllerTest extends IntegrationTestCase
     {
         // these tests drive controller actions through $_GET, which outlives the test otherwise
         $_GET = $this->originalGet;
+
+        Fixture::resetTranslations();
 
         parent::tearDown();
     }
@@ -103,6 +111,9 @@ class ControllerTest extends IntegrationTestCase
 
     public function testGetPluginDetailsReturnsTheFieldsTheListOmits()
     {
+        // the overview runs first in a browser, so the list the modal reads from is already cached
+        $this->searchPlugins();
+
         $plugin = $this->getPluginDetails('TreemapVisualization');
 
         self::assertSame('TreemapVisualization', $plugin['name']);
@@ -114,6 +125,8 @@ class ControllerTest extends IntegrationTestCase
 
     public function testGetPluginDetailsReturnsTheLatestVersionOnly()
     {
+        $this->searchPlugins();
+
         $plugin = $this->getPluginDetails('TreemapVisualization');
 
         // only the latest version is rendered and each version carries its own readme HTML, which
@@ -122,21 +135,51 @@ class ControllerTest extends IntegrationTestCase
         self::assertSame($plugin['latestVersion'], $plugin['versions'][0]['name']);
     }
 
+    public function testGetPluginDetailsAnswersAnUnknownPluginAsAJsonErrorRatherThanThrowing()
+    {
+        // module=Marketplace is not an API request, so throwing here would render the HTML error
+        // page with a 500 and log a stack trace, and AjaxHelper would show its own literal instead
+        // of this message. A result=error body is what carries the text to the modal.
+        $response = $this->dispatch('getPluginDetails', ['pluginName' => 'NotOnTheMarketplace']);
+        $decoded = json_decode($response, true);
+
+        self::assertSame('error', $decoded['result']);
+        self::assertNotEmpty($decoded['message']);
+        self::assertStringContainsString('NotOnTheMarketplace', $decoded['message']);
+    }
+
+    public function testGetPluginDetailsAnswersAnUnreachableMarketplaceAsAJsonErrorRatherThanThrowing()
+    {
+        // the most likely way this action fails, since it runs every time a modal is opened. Left
+        // to throw it would render the HTML error page with a 500 and log a stack trace at ERROR,
+        // and AjaxHelper would show its own literal instead of a message naming the plugin.
+        $this->service->throwException(new ServiceException('Marketplace could not be reached'));
+
+        $response = $this->dispatch('getPluginDetails', ['pluginName' => 'TreemapVisualization']);
+        $decoded = json_decode($response, true);
+
+        self::assertSame('error', $decoded['result']);
+        self::assertStringContainsString('TreemapVisualization', $decoded['message']);
+    }
+
     /**
      * @return array<string, mixed>
      */
     private function getPluginDetails(string $pluginName): array
     {
-        $_GET['module'] = 'Marketplace';
-        $_GET['action'] = 'getPluginDetails';
-        $_GET['format'] = 'JSON';
-        $_GET['pluginName'] = $pluginName;
+        return json_decode($this->dispatch('getPluginDetails', ['pluginName' => $pluginName]), true);
+    }
 
-        $response = Access::doAsSuperUser(function () {
-            return FrontController::getInstance()->fetchDispatch('Marketplace', 'getPluginDetails');
+    /**
+     * @param array<string, string> $params
+     */
+    private function dispatch(string $action, array $params = []): string
+    {
+        $_GET = array_merge(['module' => 'Marketplace', 'action' => $action, 'format' => 'JSON'], $params);
+
+        return Access::doAsSuperUser(function () use ($action) {
+            return FrontController::getInstance()->fetchDispatch('Marketplace', $action);
         });
-
-        return json_decode($response, true);
     }
 
     /**
@@ -182,6 +225,11 @@ class ControllerTest extends IntegrationTestCase
 
         if ($action === 'plugins') {
             return 'v2.0_plugins.json';
+        }
+
+        if ($action === 'plugins/NotOnTheMarketplace/info') {
+            // the one name a test deliberately asks for and the Marketplace does not have
+            return 'emptyObjectResponse.json';
         }
 
         throw new \Exception(sprintf('No fixture wired up for the Marketplace action "%s"', $action));

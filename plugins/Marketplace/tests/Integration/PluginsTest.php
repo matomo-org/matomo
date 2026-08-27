@@ -9,8 +9,9 @@
 
 namespace Piwik\Plugins\Marketplace\tests\Integration;
 
+use Matomo\Cache\Backend\ArrayCache;
+use Matomo\Cache\Lazy;
 use Piwik\Plugins\Marketplace\API;
-use Piwik\Plugins\Marketplace\Api\Exception as ApiException;
 use Piwik\Plugins\Marketplace\Consumer;
 use Piwik\Plugins\Marketplace\Input\PurchaseType;
 use Piwik\Plugins\Marketplace\Input\Sort;
@@ -44,6 +45,11 @@ class PluginsTest extends IntegrationTestCase
      */
     private $consumerService;
 
+    /**
+     * @var Client
+     */
+    private $marketplaceClient;
+
     private const TEST_UNIQUE_ID = 'test-unique-id';
 
     public function setUp(): void
@@ -54,9 +60,10 @@ class PluginsTest extends IntegrationTestCase
 
         $this->service = new Service();
         $this->consumerService = new Service();
+        $this->marketplaceClient = Client::build($this->service);
 
         $this->plugins = new Plugins(
-            Client::build($this->service),
+            $this->marketplaceClient,
             new Consumer(Client::build($this->consumerService)),
             new Advertising()
         );
@@ -137,6 +144,34 @@ class PluginsTest extends IntegrationTestCase
     {
         $plugin = $this->plugins->getPluginInfo('fooBarBaz');
         $this->assertSame([], $plugin);
+    }
+
+    public function testLicenseInformationPrefersTheConsumerOverTheCopyEmbeddedInThePlugin()
+    {
+        // PaidPlugin1's own entry carries no license, which is why
+        // testGetLicenseValidInfoMissingLicense sees it as missing. The consumer response does
+        // carry one, and that is the fresher answer: the plugin lists are cached for longer.
+        $this->service->returnFixture('v2.0_plugins_PaidPlugin1_info.json');
+        $this->consumerService->authenticate('123456789');
+        $this->consumerService->returnFixture('v2.0_consumer-access_token-consumer2_paid1.json');
+
+        $plugin = $this->plugins->getLicenseValidInfo('PaidPlugin1');
+
+        $this->assertFalse($plugin['isMissingLicense']);
+        $this->assertFalse($plugin['hasExceededLicense']);
+    }
+
+    public function testLicenseInformationFallsBackToTheEmbeddedCopyWhenTheConsumerSaysNothing()
+    {
+        // an instance that cannot reach the Marketplace, or a consumer holding no license for this
+        // plugin, has to behave exactly as it did before the consumer lookup was added
+        $this->service->returnFixture('v2.0_plugins_PaidPlugin1_info.json');
+        $this->consumerService->authenticate('123456789');
+        $this->consumerService->returnFixture('v2.0_consumer-access_token-validbutnolicense.json');
+
+        $plugin = $this->plugins->getLicenseValidInfo('PaidPlugin1');
+
+        $this->assertTrue($plugin['isMissingLicense']);
     }
 
     public function testGetLicenseValidInfoShouldEnrichLicenseInformation()
@@ -330,6 +365,43 @@ class PluginsTest extends IntegrationTestCase
     }
 
     /**
+     * The pair below has to be read together: both let the consumer answer, and they differ only in
+     * whether the Marketplace suppressed the plugin's trial. Without an answering consumer neither
+     * proves anything, because {@link Plugins::getCurrentLicenseFor()} then falls back to the
+     * embedded copy and reaches the right verdict for the wrong reason.
+     */
+    public function testGetPluginInfoOffersATrialWhenTheConsumerHoldsNoLicenceForThePlugin(): void
+    {
+        $this->letTheConsumerAnswerHoldingNoLicences();
+        $this->service->returnFixture('v2.0_plugins_PaidPlugin1_info.json');
+
+        $plugin = $this->plugins->getPluginInfo('PaidPlugin1');
+
+        self::assertTrue($plugin['isEligibleForFreeTrial']);
+    }
+
+    public function testGetPluginInfoKeepsTheMarketplacesTrialSuppression(): void
+    {
+        $this->letTheConsumerAnswerHoldingNoLicences();
+        // identical to the fixture above but for consumer.license, which the Marketplace sets to a
+        // scalar for BusinessBundle and EnterpriseBundle to keep them out of the free trial flow.
+        // The consumer endpoint only ever carries real licence rows, so it cannot express this and
+        // must not be allowed to override it into "no licence, so offer a trial".
+        $this->service->returnFixture('v2.0_plugins_PaidPlugin1_info-license-suppressed.json');
+
+        $plugin = $this->plugins->getPluginInfo('PaidPlugin1');
+
+        self::assertFalse($plugin['isEligibleForFreeTrial']);
+    }
+
+    private function letTheConsumerAnswerHoldingNoLicences(): void
+    {
+        // authenticated, or Client::getConsumer() short circuits and the licences read as unknown
+        $this->consumerService->authenticate('123456789');
+        $this->consumerService->returnFixture('v2.0_consumer-access_token-validbutnolicense.json');
+    }
+
+    /**
      * @dataProvider getPluginInfoShouldSetFreeTrialEligibilityTestData
      */
     public function testGetPluginInfoShouldSetFreeTrialEligibility(
@@ -500,6 +572,8 @@ class PluginsTest extends IntegrationTestCase
             'v2.0_plugins_checkUpdates-pluginspluginsnameAnonymousPi.json',
         ]);
 
+        $this->warmOverviewLists();
+
         $apis = [];
         $this->service->setOnFetchCallback(function ($action) use (&$apis) {
             $apis[] = $action;
@@ -515,14 +589,16 @@ class PluginsTest extends IntegrationTestCase
 
     public function testGetPluginInfoPreferringListFallsBackForAPluginTheListsOmit()
     {
-        // CustomReports is in neither list fixture, so the lookup scans the plugin list, then the
-        // theme list, then asks for the plugin directly and enriches just that one
+        // CustomReports is in neither list fixture, so the lookup scans the cached plugin list,
+        // then the cached theme list, then asks for the plugin directly and enriches just that one
         $this->service->returnFixture([
             'v2.0_plugins.json',
             'v2.0_themes.json',
             'system_v2.0_plugins_CustomReports_info.json',
             'v2.0_plugins_checkUpdates-pluginspluginsnameAnonymousPi.json',
         ]);
+
+        $this->warmOverviewLists(true);
 
         $apis = [];
         $this->service->setOnFetchCallback(function ($action) use (&$apis) {
@@ -535,33 +611,50 @@ class PluginsTest extends IntegrationTestCase
         $this->assertSame('CustomReports', $plugin['name']);
     }
 
-    public function testGetPluginInfoPreferringListFallsBackWhenTheListRequestFails()
+    public function testGetPluginInfoPreferringListDoesNotFetchTheListsWhenTheyAreNotCached()
     {
-        // the lists are the fast path, not the only one: a plugin that IS listed must still open
-        // when fetching the much larger list response fails
         $this->service->returnFixture([
-            'v2.0_plugins_TreemapVisualization_info.json',
+            'system_v2.0_plugins_CustomReports_info.json',
             'v2.0_plugins_checkUpdates-pluginspluginsnameAnonymousPi.json',
         ]);
 
         $apis = [];
         $this->service->setOnFetchCallback(function ($action) use (&$apis) {
             $apis[] = $action;
-
-            if ($action === 'plugins' || $action === 'themes') {
-                throw new ApiException('the Marketplace could not be reached');
-            }
         });
 
-        $plugin = $this->plugins->getPluginInfoPreferringList('TreemapVisualization');
+        $plugin = $this->plugins->getPluginInfoPreferringList('CustomReports');
 
-        // both lists were attempted, neither answered, and the direct request carried it; the
-        // trailing checkUpdates is the usual enrichment, as in the test above
-        $this->assertSame(
-            ['plugins', 'themes', 'plugins/TreemapVisualization/info', 'plugins/checkUpdates'],
-            $apis
+        // a cold cache must not turn one plugin lookup into a download of both catalogues, which is
+        // far more than the single info request the lookup replaces
+        $this->assertNotContains('plugins', $apis);
+        $this->assertNotContains('themes', $apis);
+        $this->assertContains('plugins/CustomReports/info', $apis);
+        $this->assertSame('CustomReports', $plugin['name']);
+    }
+
+    /**
+     * The overview page fetches these lists before any details modal can be opened, so a test about
+     * preferring them has to put them in the cache the same way the page does.
+     *
+     * The client is rebuilt with a cache that retains responses first. The mock client's default
+     * keeps nothing, so the warmed lists would otherwise not be there to be preferred and the
+     * lookup would fall back to a per plugin request.
+     */
+    private function warmOverviewLists(bool $themesToo = false): void
+    {
+        $this->marketplaceClient = Client::build($this->service, new Lazy(new ArrayCache()));
+        $this->plugins = new Plugins(
+            $this->marketplaceClient,
+            new Consumer(Client::build($this->consumerService)),
+            new Advertising()
         );
-        $this->assertSame('TreemapVisualization', $plugin['name']);
+
+        $this->marketplaceClient->searchForPlugins('', '', Sort::DEFAULT_SORT, PurchaseType::TYPE_ALL);
+
+        if ($themesToo) {
+            $this->marketplaceClient->searchForThemes('', '', Sort::DEFAULT_SORT, PurchaseType::TYPE_ALL);
+        }
     }
 
     public function testSearchPluginsShouldNotRequestPluginInfoForEveryPluginHavingUpdate()
@@ -634,10 +727,13 @@ class PluginsTest extends IntegrationTestCase
     public function testGetPluginsHavingUpdateShouldReturnEnrichedPluginUpdatesForPluginsFoundOnTheMarketplace()
     {
         $this->service->returnFixture([
-            'v2.0_plugins_checkUpdates-pluginspluginsnameAnonymousPi.json',
             'v2.0_plugins.json',
             'v2.0_themes.json',
+            'v2.0_plugins_checkUpdates-pluginspluginsnameAnonymousPi.json',
         ]);
+
+        $this->warmOverviewLists(true);
+
         $apis = [];
         $this->service->setOnFetchCallback(function ($action, $params) use (&$apis) {
             $apis[] = $action;
@@ -660,10 +756,10 @@ class PluginsTest extends IntegrationTestCase
         $this->assertSame([], $plugin['missingRequirements']);
         $this->assertSame('https://github.com/piwik/plugin-TreemapVisualization/commits/1.0.1', $plugin['repositoryChangelogUrl']);
 
-        // the updates are resolved out of the plugin and theme lists, which are cached for longer
-        // and refilled by a scheduled task. Asking about each plugin in turn used to cost one
+        // the updates are resolved out of the already cached plugin and theme lists, so the only
+        // request left is the update check itself. Asking about each plugin in turn used to cost one
         // request per plugin having an update.
-        $this->assertSame(['plugins/checkUpdates', 'plugins', 'themes'], $apis);
+        $this->assertSame(['plugins/checkUpdates'], $apis);
 
         $infoRequests = array_values(array_filter($apis, function ($action) {
             return (bool) preg_match('#^plugins/[^/]+/info$#', $action);

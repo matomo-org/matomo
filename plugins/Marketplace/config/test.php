@@ -35,6 +35,9 @@ return array(
         if ($consumerTest == 'validLicense') {
             $consumer = MockConsumer::buildValidLicense();
             $licenseKey->set('123456789');
+        } elseif ($consumerTest == 'validLicenseNoPlugins') {
+            $consumer = MockConsumer::buildValidLicenseWithoutPluginLicenses();
+            $licenseKey->set('123456789');
         } elseif ($consumerTest == 'exceededLicense') {
             $consumer = MockConsumer::buildExceededLicense();
             $licenseKey->set('1234567891');
@@ -141,8 +144,9 @@ return array(
         $createAccountResponseCode = (int) $c->get('test.vars.createAccountResponseCode');
         $startFreeTrialSuccess = $c->get('test.vars.startFreeTrialSuccess');
 
-        // which paid plugins fixture this consumer sees. Both the list and the per plugin details
-        // endpoint have to answer from the same one or a card and its modal would disagree.
+        // which paid plugins fixture this consumer sees. The generic PaidPluginN info branch below
+        // answers out of the same one, so a card and its modal cannot disagree. PaidPlugin1 is the
+        // exception: it is served by its own info fixtures above, which can differ from this list.
         $paidPluginsFixture = function () use ($service, $isExceededUser, $isExpiredUser, $isValidUser) {
             if ($isExceededUser) {
                 return 'v2.0_plugins-purchase_type-paid-num_users-201-access_token-consumer2_paid1.json';
