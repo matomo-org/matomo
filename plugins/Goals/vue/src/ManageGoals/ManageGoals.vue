@@ -51,14 +51,14 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-if="!Object.keys(goals || {}).length">
+              <tr v-if="!Object.keys(currentGoals || {}).length">
                 <td colspan='8'>
                   <br/>
                   {{ translate('Goals_ThereIsNoGoalToManage', siteName) }}
                   <br/><br/>
                 </td>
               </tr>
-              <tr v-for="goal in goals || []" :id="goal.idgoal" :key="goal.idgoal">
+              <tr v-for="goal in currentGoals || []" :id="`${goal.idgoal}`" :key="goal.idgoal">
                 <td class="first">{{ goal.idgoal }}</td>
                 <td>{{ goal.name }}</td>
                 <td class="manageGoals-descriptionColumn">{{ goal.description }}</td>
@@ -123,6 +123,15 @@
         </ContentBlock>
       </div>
 
+      <RecommendGoals
+        v-if="!onlyShowAddNewGoal"
+        v-show="showGoalList"
+        :goals="currentGoals"
+        :user-can-edit-goals="userCanEditGoals"
+        @created="onRecommendedGoalsCreated"
+        @prefill="prefillManualGoal"
+      />
+
       <div class="ui-confirm" ref="confirm">
         <h2>{{ translate('Goals_DeleteGoalConfirm', `"${goalToDelete?.name}"`) }}</h2>
         <input role="yes" type="button" :value="translate('General_Yes')"/>
@@ -131,6 +140,14 @@
     </div>
 
     <div v-show="userCanEditGoals">
+      <RecommendGoals
+        v-if="onlyShowAddNewGoal"
+        :goals="currentGoals"
+        :user-can-edit-goals="userCanEditGoals"
+        @created="onRecommendedGoalsCreated"
+        @prefill="prefillManualGoal"
+      />
+
       <div class="addEditGoal" v-show="showEditGoal">
         <ContentBlock
           :content-title="goal.idgoal
@@ -416,6 +433,7 @@ import {
   VueEntryContainer,
   externalLink,
   NotificationsStore,
+  NumberFormatter,
 } from 'CoreHome';
 import {
   Form,
@@ -424,11 +442,13 @@ import {
 } from 'CorePluginsAdmin';
 import Goal from '../Goal';
 import ManageGoalsStore from './ManageGoals.store';
+import RecommendGoals from '../RecommendGoals/RecommendGoals.vue';
 
 const notificationKey = 'Goals.ManageGoals.Notification';
 interface ManageGoalsState {
   showEditGoal: boolean;
   showGoalList: boolean;
+  currentGoals: Record<string, Goal>;
   goal: Goal;
   isLoading: boolean;
   eventType: string;
@@ -454,6 +474,10 @@ export default defineComponent({
       type: Object,
       required: true,
     },
+    currencySymbol: {
+      type: String,
+      default: '',
+    },
     addNewGoalIntro: String,
     goalTriggerTypeOptions: Object,
     goalMatchAttributeOptions: Array,
@@ -471,6 +495,7 @@ export default defineComponent({
     return {
       showEditGoal: false,
       showGoalList: true,
+      currentGoals: (this.goals || {}) as Record<string, Goal>,
       goal: {} as unknown as Goal,
       isLoading: false,
       eventType: 'event_category',
@@ -489,6 +514,7 @@ export default defineComponent({
     Field,
     Alert,
     VueEntryContainer,
+    RecommendGoals,
   },
   watch: {
     'goal.pattern': function goalPatternChanged(pattern: string) {
@@ -614,7 +640,7 @@ export default defineComponent({
     },
     editGoal(goalId: string|number) {
       this.showAddEditForm();
-      const goal = this.goals[`${goalId}`] as Goal;
+      const goal = this.currentGoals[`${goalId}`] as Goal;
       this.initGoalForm(
         'Goals.updateGoal',
         translate('Goals_UpdateGoal'),
@@ -632,7 +658,7 @@ export default defineComponent({
       this.scrollToTop();
     },
     deleteGoal(goalId: string|number) {
-      this.goalToDelete = this.goals[`${goalId}`];
+      this.goalToDelete = this.currentGoals[`${goalId}`];
       Matomo.helper.modalConfirm((this.$refs.confirm as HTMLElement), {
         yes: () => {
           this.isLoading = true;
@@ -774,6 +800,57 @@ export default defineComponent({
       });
       return `?${link}#?${hash}`;
     },
+    refreshGoals(): Promise<void> {
+      return AjaxHelper.fetch<Record<string, Goal>>({
+        method: 'Goals.getGoals',
+        filter_limit: '-1',
+        orderByName: 1,
+      }).then((goals) => {
+        const refreshed: Record<string, Goal> = {};
+        Object.values(goals || {}).forEach((goal) => {
+          refreshed[`${goal.idgoal}`] = {
+            ...goal,
+            revenue_pretty: NumberFormatter.formatCurrency(goal.revenue, this.currencySymbol),
+          };
+        });
+        this.currentGoals = refreshed;
+      });
+    },
+    prefillManualGoal(manual: { name: string; category: string }) {
+      this.createGoal();
+      if (!this.showEditGoal) {
+        return; // adding goals is currently not allowed (Goals.initAddGoal event)
+      }
+
+      this.goal.name = manual.name;
+      if (manual.category === 'event') {
+        this.goal.match_attribute = 'event';
+        this.eventType = 'event_name';
+      } else if (manual.category === 'outlink') {
+        this.goal.match_attribute = 'external_website';
+      } else if (manual.category === 'visit_duration') {
+        // fully specified: the user only needs to review and save
+        this.goal.match_attribute = 'visit_duration';
+        this.goal.pattern_type = 'greater_than';
+        this.goal.pattern = '3';
+      } else if (manual.category === 'file') {
+        this.goal.match_attribute = 'file';
+      }
+    },
+    onRecommendedGoalsCreated(idGoals: number[]) {
+      this.refreshGoals();
+
+      if (idGoals.length === 1) {
+        this.showNotificationMessage(idGoals[0], true);
+      } else if (idGoals.length > 1) {
+        NotificationsStore.show({
+          id: 'ManageGoals.create',
+          message: translate('Goals_RecommendGoalsCreated', `${idGoals.length}`),
+          context: 'success',
+          type: 'toast',
+        });
+      }
+    },
     showNotificationMessage(goalId:string|number, isCreate:boolean) {
       let successMessage = translate(isCreate ? 'Goals_GoalCreated' : 'Goals_GoalUpdated');
       const reportLink = `<a href="${this.getGoalReportUrl(goalId)}">[${translate('Goals_ViewGoalReport')}]</a>`;
@@ -881,7 +958,7 @@ export default defineComponent({
       }
 
       const componentsByIdGoal: Record<string, unknown> = {};
-      Object.values(this.goals as Record<string, Goal>).forEach((g) => {
+      Object.values(this.currentGoals as Record<string, Goal>).forEach((g) => {
         const template = this.beforeGoalListActionsBody![g.idgoal];
         if (!template) {
           return;
