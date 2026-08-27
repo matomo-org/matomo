@@ -47,7 +47,8 @@ DOMPurify.addHook('afterSanitizeAttributes', (node: Element) => {
 });
 
 window.vueSanitize = function vueSanitize(val: unknown): string {
-  return DOMPurify.sanitize(val, { ADD_ATTR: ['target'] });
+  // Sanitised snippets never need a stylesheet, so drop any <style> element.
+  return DOMPurify.sanitize(val, { ADD_ATTR: ['target'], FORBID_TAGS: ['style'] });
 };
 
 // Returns the given URL if DOMPurify considers it a valid `href` value (i.e. it uses an allowed
