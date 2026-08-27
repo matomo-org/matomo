@@ -176,18 +176,80 @@ describe("EvolutionGraph", function () {
         await element.click();
         await page.waitForNetworkIdle();
 
+        // Opening notes from a marker moves the menu entry's label too, even though the entry
+        // then opens the whole-range view rather than hiding.
+        const labelOf = () => page.evaluate(
+          () => document.querySelector('.annotationView .mtm-dropdownPanel__menuLabel').textContent.trim(),
+        );
+        expect(await labelOf()).to.equal('Hide annotations');
+
         expect(await page.screenshot({ fullPage: true })).to.matchImage('annotations_single_period');
+
+        // Clicking the same marker slides the notes away again, and the label has to come back
+        // with them - the callback that moves it runs on the way out as well as the way in.
+        await element.click();
+        await page.waitForTimeout(1000);
+        expect(await labelOf()).to.equal('Show annotations');
+
+        await element.click(); // leave the notes as the next test expects to find them
+        await page.waitForTimeout(1000);
     });
 
-    it("should show all annotations when annotations footer link clicked", async function () { // TODO: fails
+    it("should hide the notes a marker opened when the menu entry is clicked", async function () {
+        // The entry says "hide", so from notes opened for a single day it closes them rather than
+        // reloading the whole range - those notes carry no `data-is-range`.
+        const notesShown = () => page.evaluate(() => $('.annotation-manager').is(':visible'));
+        const labelOf = () => page.evaluate(
+          () => document.querySelector('.annotationView .mtm-dropdownPanel__menuLabel').textContent.trim(),
+        );
+        expect(await notesShown(), 'the marker left its notes open').to.equal(true);
+
+        await page.evaluate(() => document.querySelector('.annotationView').click());
+        await page.waitForTimeout(1000); // slideUp is 'slow'
+
+        expect(await notesShown(), 'the entry closed them').to.equal(false);
+        expect(await labelOf(), 'and the label followed').to.equal('Show annotations');
+    });
+
+    it("should show all annotations when the menu entry is clicked", async function () {
+        await page.click('.reportHeader__actionsTrigger');
         await page.click('.annotationView');
         await page.waitForNetworkIdle();
 
+        // Opens from the closed state the test above leaves behind, so the whole range loads.
         expect(await page.screenshot({ fullPage: true })).to.matchImage('annotations_all');
+    });
+
+    it("should put the label back when the notes are hidden again", async function () {
+        // Continues from the test above, which left the notes open from the menu entry. Clicks
+        // through the element rather than the pointer so the assertion is about the toggle's
+        // state machine, not about whether the panel happens to be open at the time.
+        const labelOf = () => page.evaluate(
+          () => document.querySelector('.annotationView .mtm-dropdownPanel__menuLabel').textContent.trim(),
+        );
+        const notesShown = () => page.evaluate(
+          () => $('.annotation-manager').is(':visible'),
+        );
+        const toggle = async () => {
+            await page.evaluate(() => document.querySelector('.annotationView').click());
+            await page.waitForTimeout(1000); // slideUp/slideDown are 'slow'
+        };
+
+        expect(await labelOf()).to.equal('Hide annotations');
+        expect(await notesShown()).to.equal(true);
+
+        await toggle();
+        expect(await notesShown()).to.equal(false);
+        expect(await labelOf()).to.equal('Show annotations');
+
+        await toggle();
+        expect(await notesShown()).to.equal(true);
+        expect(await labelOf()).to.equal('Hide annotations');
     });
 
     it("should show no annotations message when no annotations for site", async function () {
         await page.goto(page.url().replace(/idSite=[^&]*/, "idSite=3") + "&columns=nb_visits");
+        await page.click('.reportHeader__actionsTrigger');
         await page.click('.annotationView');
         await page.waitForNetworkIdle();
         await page.mouse.move(-10, -10);
@@ -301,6 +363,7 @@ describe("EvolutionGraph", function () {
 
         await page.goto(url);
         await page.waitForNetworkIdle();
+        await page.click('.reportHeader__actionsTrigger');
         await page.click('.annotationView');
         await page.waitForNetworkIdle();
 
@@ -407,5 +470,31 @@ describe("EvolutionGraph", function () {
                 $('.jqplot-loading').remove();
             });
         });
+    });
+
+    it("should keep the annotations reachable where no report header renders", async function () {
+        // A widgetized container renders no header, so the menu this action moved into does not
+        // exist there. The entry falls back into the footer rather than leaving the graph's
+        // markers with nothing to open the notes from.
+        await page.goto("?module=Widgetize&action=iframe&containerId=VisitOverviewWithGraph"
+            + "&moduleToWidgetize=CoreHome&actionToWidgetize=renderWidgetContainer"
+            + "&disableLink=1&widget=1&idSite=1&period=day&date=2012-01-31&evolution_day_last_n=30");
+        await page.waitForNetworkIdle();
+        await page.waitForTimeout(1000);
+
+        const state = await page.evaluate(() => ({
+            headers: document.querySelectorAll('.reportHeader').length,
+            entries: document.querySelectorAll('.annotationView').length,
+            markers: document.querySelectorAll('.evolution-annotations span[data-date]').length,
+        }));
+        expect(state.headers, 'no header renders in this context').to.equal(0);
+        expect(state.markers, 'markers render').to.be.above(0);
+        expect(state.entries, 'and the toggle came with them').to.equal(1);
+
+        await page.evaluate(() => document.querySelector('.annotationView').click());
+        await page.waitForNetworkIdle();
+        await page.waitForTimeout(1500);
+        const shown = await page.evaluate(() => $('.annotation-manager').is(':visible'));
+        expect(shown, 'clicking it opens the notes').to.equal(true);
     });
 });
