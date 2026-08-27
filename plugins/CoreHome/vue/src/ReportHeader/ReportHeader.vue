@@ -97,6 +97,8 @@
                   :request-params="requestParams"
                   :api-method-to-request-data-table="apiMethodToRequestDataTable"
                   :max-filter-limit="maxFilterLimit"
+                  :show-annotations="showAnnotations"
+                  :annotations-showing="annotationsShowing"
                   :show-export="showExport"
                   :show-export-as-image-icon="showExportAsImageIcon"
                   :report-id="reportId"
@@ -276,6 +278,8 @@ export default defineComponent({
       type: Number,
       default: 0,
     },
+    showAnnotations: Boolean,
+    annotationsShowing: Boolean,
     showExport: Boolean,
     showExportAsImageIcon: Boolean,
     reportId: {
