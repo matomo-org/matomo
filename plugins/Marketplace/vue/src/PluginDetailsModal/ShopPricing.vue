@@ -115,6 +115,7 @@ import {
   tierKey,
   toShopPeriod,
   usableVariations,
+  variationPrice,
 } from './shopPricing';
 
 let nextPeriodGroupId = 0;
@@ -241,7 +242,7 @@ export default defineComponent({
       // own a price is clearest over the period it is actually billed for
       return formatAmount(this.hasBothPeriods
         ? monthlyAmount(this.selectedVariation, this.selectedPeriod)
-        : Number(this.selectedVariation.price));
+        : variationPrice(this.selectedVariation) ?? 0);
     },
     amountPeriod(): string {
       const perMonth = this.hasBothPeriods || this.selectedPeriod === PERIOD_MONTHLY;
@@ -271,7 +272,7 @@ export default defineComponent({
       const savings = annualSavings(this.annualVariation, this.monthlyVariation);
       // formatted here rather than taken from the shop's prettyPrice, which puts the
       // currency in front of an unseparated amount and would not match the price above
-      const total = `${formatAmount(Number(this.annualVariation?.price))} `
+      const total = `${formatAmount(variationPrice(this.annualVariation) ?? 0)} `
         + `${this.selectedCurrency}`;
 
       if (savings <= 0) {

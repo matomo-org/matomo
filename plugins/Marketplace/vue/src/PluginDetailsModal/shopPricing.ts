@@ -34,15 +34,37 @@ export function toShopPeriod(period: string): ShopPeriod | null {
 }
 
 /**
+ * The amount a variation costs, or null when the shop did not give a usable one.
+ *
+ * price is typed string | number | null, and null, undefined and '' all pass through Number()
+ * as 0 rather than failing — which would advertise a paid product as free while still linking
+ * to the cart. Anything that is not a finite, non-negative number is treated as absent.
+ */
+export function variationPrice(variation?: IPluginShopVariation): number | null {
+  const raw = variation?.price;
+
+  if (raw === null || raw === undefined || raw === '') {
+    return null;
+  }
+
+  const price = Number(raw);
+
+  return Number.isFinite(price) && price >= 0 ? price : null;
+}
+
+/**
  * The shop variations that can actually be offered: a known billing period, a currency to
- * price them in and somewhere to buy them. Order is kept, the marketplace lists the
- * variation it considers the default first.
+ * price them in, a price to show and somewhere to buy them. Order is kept, the marketplace
+ * lists the variation it considers the default first.
  */
 export function usableVariations(plugin: PluginDetails): IPluginShopVariation[] {
   const variations: IPluginShopVariation[] = plugin?.shop?.variations || [];
 
   return variations.filter((variation) => (
-    !!toShopPeriod(variation.period) && !!variation.currency && !!variation.addToCartUrl
+    !!toShopPeriod(variation.period)
+    && !!variation.currency
+    && !!variation.addToCartUrl
+    && variationPrice(variation) !== null
   ));
 }
 
@@ -97,9 +119,9 @@ export function distinctCurrencies(variations: IPluginShopVariation[]): string[]
  * its price is spread over the twelve months it covers.
  */
 export function monthlyAmount(variation: IPluginShopVariation, period: ShopPeriod): number {
-  const price = Number(variation.price);
+  const price = variationPrice(variation);
 
-  if (Number.isNaN(price)) {
+  if (price === null) {
     return 0;
   }
 
@@ -114,10 +136,10 @@ export function annualSavings(
   annual?: IPluginShopVariation,
   monthly?: IPluginShopVariation,
 ): number {
-  const annualPrice = Number(annual?.price);
-  const monthlyPrice = Number(monthly?.price);
+  const annualPrice = variationPrice(annual);
+  const monthlyPrice = variationPrice(monthly);
 
-  if (Number.isNaN(annualPrice) || Number.isNaN(monthlyPrice)) {
+  if (annualPrice === null || monthlyPrice === null) {
     return 0;
   }
 
@@ -131,10 +153,10 @@ export function freeMonths(
   annual?: IPluginShopVariation,
   monthly?: IPluginShopVariation,
 ): number {
-  const monthlyPrice = Number(monthly?.price);
+  const monthlyPrice = variationPrice(monthly);
   const savings = annualSavings(annual, monthly);
 
-  if (Number.isNaN(monthlyPrice) || monthlyPrice <= 0 || savings <= 0) {
+  if (monthlyPrice === null || monthlyPrice <= 0 || savings <= 0) {
     return 0;
   }
 

@@ -261,6 +261,60 @@ describe('Marketplace/ShopPricing.vue', () => {
       expect(wrapper.find('.shopPricing__amountValue').text()).toBe('150');
     });
 
+    it.each([
+      ['null', null],
+      ['undefined', undefined],
+      ['empty string', ''],
+      ['non-numeric', 'free'],
+      ['negative', '-10'],
+    ])('drops a variation priced %s rather than advertising it as 0', (_label, price) => {
+      const wrapper = mountPricing([
+        {
+          name: 'Broken tier', currency: 'EUR', period: 'year', price: price as string,
+        },
+        {
+          name: 'Good tier', currency: 'EUR', period: 'year', price: '150',
+        },
+      ]);
+
+      expect(wrapper.vm.variations).toHaveLength(1);
+      expect(wrapper.vm.tiers).toEqual(['Good tier']);
+      expect(wrapper.find('.shopPricing__amountValue').text()).toBe('150');
+    });
+
+    it('renders nothing at all when no variation has a usable price', () => {
+      const wrapper = mountPricing([
+        {
+          name: 'Up to 4 users', currency: 'EUR', period: 'year', price: null as unknown as string,
+        },
+        {
+          name: 'Up to 4 users', currency: 'USD', period: 'year', price: '' as string,
+        },
+      ]);
+
+      // with nothing priceable there is no bar and, crucially, no add to cart link
+      expect(wrapper.find('.shopPricing').exists()).toBe(false);
+      expect(wrapper.find('.addToCartLink').exists()).toBe(false);
+    });
+
+    it('keeps the period tabs off when the monthly price is unusable', () => {
+      const wrapper = mountPricing([
+        {
+          name: 'Tier monthly', currency: 'EUR', period: 'month', price: null as unknown as string,
+        },
+        {
+          name: 'Tier', currency: 'EUR', period: 'year', price: '1200',
+        },
+      ], { usePeriodTabs: true });
+
+      expect(wrapper.find('.shopPricing__periods').exists()).toBe(false);
+      expect(wrapper.find('.shopPricing__freeMonths').exists()).toBe(false);
+      // the annual price is billed yearly, so it is shown over its own period
+      expect(wrapper.find('.shopPricing__amountValue').text()).toBe('1,200');
+      expect(wrapper.find('.shopPricing__amountPeriod').text())
+        .toBe('Marketplace_PerYearWithCurrency(EUR)');
+    });
+
     it('falls back to an available currency when the picked one is gone', async () => {
       const wrapper = mountPricing([
         {
