@@ -163,10 +163,12 @@ describe('DataTableActions rendered actions', () => {
     expect(on.find('a.activateExportSelection').exists()).toBe(true);
     expect(on.find('a.dataTableAction.tableIcon').exists()).toBe(true);
 
-    // annotations has not moved yet: it stays an icon button in the footer
+    // annotations is a menu entry now, so it needs its flag and it is gone from the footer
     expect(on.find('a.annotationView').exists()).toBe(false);
-    expect(mountComponent({ showAnnotations: true, placement: 'footer' })
+    expect(mountComponent({ showAnnotations: true })
       .find('a.annotationView').exists()).toBe(true);
+    expect(mountComponent({ showAnnotations: true, placement: 'footer' })
+      .find('a.annotationView').exists()).toBe(false);
   });
 
   it('should render the extra report actions it is given', () => {

@@ -123,6 +123,17 @@ describe("Dashboard", function () {
     await page.goto("?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=1");
     await page.waitForNetworkIdle();
 
+    // Both halves of the annotations move are invisible to the image alone: a screenshot records
+    // whatever is there, so it would freeze their absence rather than fail. The markers need the
+    // report's config before the header has it, and the menu entry needs `show-annotations`
+    // declared on the widget chrome for syncReportHeaderActions to have anything to bind.
+    const annotations = await page.evaluate(() => ({
+      markers: document.querySelectorAll('.evolution-annotations span[data-date]').length,
+      entries: document.querySelectorAll('.reportHeader__actionsMenu .annotationView').length,
+    }));
+    expect(annotations.markers).to.be.above(0);
+    expect(annotations.entries).to.be.above(0);
+
     expect(await page.screenshotSelector('.top_controls, #dashboard')).to.matchImage('dashboard1_mobile');
   });
 
