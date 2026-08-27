@@ -61,7 +61,6 @@
         "ComplianceEnforceCheckboxIntro": "Uyumluluk olabildiğince zorlansın",
         "ComplianceEnforceCheckboxTitle": "Olabildiğinde CNIL rıza muafiyeti uyumunu desteklemeye yardımcı olan ayarları uygulayın",
         "ComplianceNonCompliant": "uyumlu değil",
-        "ComplianceSelectSite": "Gösterilen gizlilik yasasına göre belirtilen sitenin uyumlu olup olmadığını belirlemek için aşağıdan bir site seçin",
         "ComplianceTableSettingName": "Ayar adı",
         "ComplianceTableSettingNotes": "Notlar",
         "ComplianceTableSettingStatus": "Durum",
