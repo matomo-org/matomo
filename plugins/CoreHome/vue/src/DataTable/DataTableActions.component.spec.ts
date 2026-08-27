@@ -190,3 +190,66 @@ describe('DataTableActions rendered actions', () => {
       .toBe('dataTableExportAsImageIcon-header');
   });
 });
+
+describe('DataTableActions period submenu', () => {
+  function mountWithPeriods(customProps = {}) {
+    return mount(DataTableActions, {
+      props: {
+        showFooter: true,
+        showFooterIcons: true,
+        viewDataTable: 'graphEvolution',
+        placement: 'header',
+        footerIcons: [],
+        requestParams: {},
+        apiMethodToRequestDataTable: 'VisitsSummary.get',
+        maxFilterLimit: 100,
+        reportId: 'VisitsSummary.get',
+        dataTableActions: [],
+        showPeriods: true,
+        selectablePeriods: ['day', 'week'],
+        clientSideParameters: { period: 'day' },
+        translations: {},
+        ...customProps,
+      },
+      global: {
+        config: {
+          globalProperties: {
+            translate: translateStub,
+            $sanitize: (value: string) => value,
+          } as any,
+        },
+      },
+    });
+  }
+
+  it('should open on a click and fold once a period is picked', async () => {
+    const wrapper = mountWithPeriods();
+    expect(wrapper.find('.mtm-dropdownPanel__submenu--open').exists()).toBe(false);
+
+    await wrapper.find('a.activatePeriodsSelection').trigger('click');
+    expect(wrapper.find('.mtm-dropdownPanel__submenu--open').exists()).toBe(true);
+
+    await wrapper.find('.dataTablePeriods [role="menuitem"]').trigger('click');
+    expect(wrapper.find('.mtm-dropdownPanel__submenu--open').exists()).toBe(false);
+  });
+
+  // The entries are not links, so a key press has to produce the click dataTable.js listens for.
+  it('should act on a period the keyboard activates', async () => {
+    const wrapper = mountWithPeriods();
+    await wrapper.find('a.activatePeriodsSelection').trigger('click');
+
+    const item = wrapper.find('.dataTablePeriods [role="menuitem"]');
+    const clicked = vi.fn();
+    item.element.addEventListener('click', clicked);
+
+    await item.trigger('keydown.enter');
+    expect(clicked).toHaveBeenCalled();
+  });
+
+  it('should name the annotations entry after what the click will do', () => {
+    expect(mountWithPeriods({ showAnnotations: true }).find('a.annotationView').text())
+      .toContain('Annotations_ShowAnnotations');
+    expect(mountWithPeriods({ showAnnotations: true, annotationsShowing: true })
+      .find('a.annotationView').text()).toContain('Annotations_HideAnnotations');
+  });
+});

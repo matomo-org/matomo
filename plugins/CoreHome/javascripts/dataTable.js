@@ -791,8 +791,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
     },
     handlePeriod: function (domElem) {
         var self = this;
-        // the periods dropdown is part of the action bar, so it is resolved through the report
-        var scope = self._findReportScope(domElem);
+        var scope = self._periodsScope(domElem);
         scope.off('click.reportAction', '.dataTablePeriods .tableIcon')
             .on('click.reportAction', '.dataTablePeriods .tableIcon', function () {
             var period = $(this).attr('data-period');
@@ -811,9 +810,6 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             }
             var endDateOfPeriod = currentPeriod.getDateRange()[1];
             endDateOfPeriod = formatDate(endDateOfPeriod);
-
-            var newPeriod = piwikPeriods.get(period);
-            $('.periodName', scope).html(newPeriod.getDisplayText());
 
             self.param['period'] = period;
             self.param['date'] = endDateOfPeriod;
@@ -899,12 +895,8 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
         // show_search is a report config flag, exposed to the client only on the footer actions
         // component (DataTableActions); read it from there, and default to no search when absent.
-        var showSearch = false;
-        var $actions = $('[vue-entry="CoreHome.DataTableActions"]', domElem);
-        if ($actions.length) {
-            var actionsApp = $actions.first().data('vueAppInstance');
-            showSearch = !!(actionsApp && actionsApp.showSearch_);
-        }
+        var actionsApp = self._footerActionsApp(domElem);
+        var showSearch = !!(actionsApp && actionsApp.showSearch_);
 
         // Hide the input on an empty table, but keep it while a search is active so a no-result
         // search can still be cleared.
@@ -1029,55 +1021,54 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         });
     },
 
-    // Where the annotations entry lives, which is the header's scope rather than the report's.
-    // A container widget holds several reports under one header, and _findReportScope refuses to
-    // widen there - rightly, since the other controls must not be shared between siblings - so the
-    // entry would sit outside the element this toggle is bound on and do nothing when clicked.
-    // Only the report that offers annotations reaches here, so siblings do not collide.
-    _annotationsScope: function (domElem) {
-        // Only an evolution graph widens to the header. A container widget holds several reports
-        // under one header, every one of them binds this toggle, and each rebind starts with an
-        // `.off()` - so widening for all of them would just hand the entry to whichever finished
-        // last, over a report with no markers to show. Every report reaches here; what keeps them
-        // apart is the check below, which _setAnnotationsShowing applies too. Two reports both
-        // offering annotations under one header would still collide, as the header's own config
-        // does. Elsewhere the two scopes are the same element, so a lone report is untouched.
-        if (!this._offersAnnotations(domElem)) {
+    // An action that moved into the header is bound there, not on the report. Siblings in a
+    // container widget share one header and _findReportScope rightly refuses to widen, so only the
+    // report offering the action widens: every report binds these, and each rebind `.off()`s.
+    _headerActionScope: function (domElem, offersAction) {
+        if (!offersAction) {
             return this._findReportScope(domElem);
         }
         var $scope = this._locateReportHeader(domElem).$scope;
         return $scope.length ? $scope : this._findReportScope(domElem);
     },
 
-    // Whether this report offers annotations at all, read from the config the actions render
-    // from rather than from the DOM: this runs before syncReportHeaderActions hands that config
-    // to the header, and Vue renders the entry a tick later still.
-    _offersAnnotations: function (domElem) {
-        var actionsApp = $('[vue-entry="CoreHome.DataTableActions"]', domElem).first()
+    _footerActionsApp: function (domElem) {
+        return $('[vue-entry="CoreHome.DataTableActions"]', domElem).first()
             .data('vueAppInstance');
-        if (!actionsApp) {
-            return $('.annotationView', this._findReportScope(domElem)).length > 0;
-        }
-        return !!(actionsApp.showFooter_ && actionsApp.showFooterIcons_
-            && actionsApp.showAnnotations_);
     },
 
-    // The entry is a toggle, so it has to read as one. Pushed as a prop on both instances rather
-    // than written into the rendered text: the label then has a single source of truth, which is
-    // what keeps it from drifting out of step with the panel it describes.
+    // An action reaches the menu only when the menu itself renders, so its own flag is not enough.
+    _offersAction: function (domElem, actionFlag) {
+        var actionsApp = this._footerActionsApp(domElem);
+        return !!(actionsApp && actionsApp.showFooter_ && actionsApp.showFooterIcons_
+            && actionsApp[actionFlag]);
+    },
+
+    _annotationsScope: function (domElem) {
+        return this._headerActionScope(domElem, this._offersAnnotations(domElem));
+    },
+
+    _periodsScope: function (domElem) {
+        return this._headerActionScope(domElem, this._offersAction(domElem, 'showPeriods_'));
+    },
+
+    // Read from the config, not the DOM: this runs before the header is filled, and Vue renders
+    // the entry a tick later still.
+    _offersAnnotations: function (domElem) {
+        if (!this._footerActionsApp(domElem)) {
+            return $('.annotationView', this._findReportScope(domElem)).length > 0;
+        }
+        return this._offersAction(domElem, 'showAnnotations_');
+    },
+
     _setAnnotationsShowing: function (domElem, showing) {
-        var footerApp = $('[vue-entry="CoreHome.DataTableActions"]', domElem).first()
-            .data('vueAppInstance');
+        var footerApp = this._footerActionsApp(domElem);
         if (footerApp) {
             footerApp.annotationsShowing_ = showing;
         }
 
-        // The header can be shared. In a container widget every sibling binds this too, and one of
-        // them reloading would report its own empty state over the notes the graph is still
-        // showing - so only the report the entry belongs to writes there. Same rule the binding
-        // follows in _annotationsScope, applied to the state as well. Untested on purpose: no
-        // shipped container puts an evolution graph beside a second table, so nothing reaches
-        // this yet. Whoever builds the first one should cover it.
+        // A sibling reloading beside the graph must not report its empty state on the shared header.
+        // Untested: no shipped container renders two reports under one header yet.
         if (!this._offersAnnotations(domElem)) {
             return;
         }
@@ -1089,10 +1080,6 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
     handleEvolutionAnnotations: function (domElem) {
         var self = this;
-        // Whether the report offers annotations is read from the config the actions render from,
-        // not from the menu entry: this runs before syncReportHeaderActions hands that config to
-        // the header, and Vue renders the entry a tick later still, so the entry is never in the
-        // DOM yet and the row of icons under the graph would never be drawn.
         var isEvolution = self.param.viewDataTable === 'graphEvolution'
             || self.param.viewDataTable === 'graphStackedBarEvolution';
         if (isEvolution && self._offersAnnotations(domElem)) {
@@ -1233,16 +1220,6 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         if (self.param.idSubtable) // no annotations for subtables, just whole reports
         {
             return;
-        }
-
-        // Tell the footer whether a header exists to hold the menu. A widgetized container
-        // renders none, and the entry falls back into the footer there so its graph's markers
-        // keep a toggle instead of standing alone.
-        var footerApp = $('[vue-entry="CoreHome.DataTableActions"]', domElem).first()
-            .data('vueAppInstance');
-        var header = self._findReportHeaderApp(domElem);
-        if (footerApp) {
-            footerApp.hasReportHeader_ = !!(header && header.app);
         }
 
         // An ajax reload replaces the table wholesale and takes the manager with it, while the
@@ -2149,8 +2126,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             return;
         }
 
-        var footerApp = $('[vue-entry="CoreHome.DataTableActions"]', domElem).first()
-            .data('vueAppInstance');
+        var footerApp = this._footerActionsApp(domElem);
         if (!footerApp) {
             return;
         }
@@ -2166,6 +2142,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             'showExcludeLowPopulation_', 'showPivotBySubtable_', 'dataTableActions_',
             'showExport_', 'showExportAsImageIcon_', 'requestParams_', 'maxFilterLimit_',
             'apiMethodToRequestDataTable_', 'pivotDimensionName_', 'showAnnotations_',
+            'showPeriods_', 'selectablePeriods_',
         ];
 
         props.forEach(function (prop) {
@@ -2173,6 +2150,13 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 header.app[prop] = footerApp[prop];
             }
         });
+
+        // The header calls this one `actionTranslations`: `translations` there would shadow the
+        // global translate() helper inside the component. The period entries read it for their
+        // labels, so a dashboard widget would otherwise show raw period names.
+        if (typeof footerApp.translations_ !== 'undefined') {
+            header.app.actionTranslations_ = footerApp.translations_;
+        }
     },
 
     // Returns { $el, app } for the shared ReportHeader Vue app that titles this report, or null.
