@@ -417,7 +417,7 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_ExportThisReport';
         $translationKeys[] = 'Annotations_ShowAnnotations';
         $translationKeys[] = 'Annotations_HideAnnotations';
-        $translationKeys[] = 'CoreHome_ChangePeriod';
+        $translationKeys[] = 'CoreHome_ShowPeriod';
         $translationKeys[] = 'General_NewUpdatePiwikX';
         $translationKeys[] = 'CoreHome_SeeAvailableVersions';
         $translationKeys[] = 'CoreHome_OneClickUpdateNotPossibleAsMultiServerEnvironment';

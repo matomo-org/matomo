@@ -91,6 +91,55 @@
       </ul>
 
       <ul class="mtm-dropdownPanel__menu">
+        <!-- Keeps `dataTablePeriods` on the list and `tableIcon` on each entry: that pair is what
+             dataTable.js binds the period change to. -->
+        <li v-if="showPeriods" class="mtm-dropdownPanel__menuItem">
+          <a
+            class="mtm-dropdownPanel__menuLink dataTableAction activatePeriodsSelection"
+            href=""
+            aria-haspopup="menu"
+            :aria-expanded="periodsOpen ? 'true' : 'false'"
+            @click.prevent.stop="periodsOpen = !periodsOpen"
+          >
+            <span class="mtm-dropdownPanel__menuIcon"><span class="icon-calendar" /></span>
+            <span class="mtm-dropdownPanel__menuLabel">
+              {{ translate('CoreHome_ShowPeriod') }}
+            </span>
+            <span class="mtm-dropdownPanel__rightIcon"><span class="icon-chevron-right" /></span>
+          </a>
+          <div
+            class="mtm-dropdownPanel__submenu"
+            :class="{ 'mtm-dropdownPanel__submenu--open': periodsOpen }"
+          >
+            <div class="mtm-dropdownPanel">
+              <ul class="mtm-dropdownPanel__menu dataTablePeriods" role="menu">
+                <li
+                  v-for="selectablePeriod in selectablePeriods"
+                  :key="selectablePeriod"
+                  class="mtm-dropdownPanel__menuItem"
+                  role="none"
+                >
+                  <a
+                    :data-period="selectablePeriod"
+                    role="menuitem"
+                    tabindex="0"
+                    :aria-current="clientSideParameters.period === selectablePeriod"
+                    :class="`mtm-dropdownPanel__menuLink tableIcon ${clientSideParameters.period
+                      === selectablePeriod ? 'activeIcon' : ''}`"
+                    @click="closePeriods"
+                    @keydown.enter.prevent="activateItem"
+                    @keydown.space.prevent="activateItem"
+                  >
+                    <span class="mtm-dropdownPanel__menuLabel">
+                      {{ translations[selectablePeriod] || selectablePeriod }}
+                    </span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </li>
+
         <!-- Keeps `annotationView`: dataTable.js binds the toggle on it and
              handleEvolutionAnnotations() reads it to decide whether the graph shows markers. -->
         <li v-if="showAnnotations" class="mtm-dropdownPanel__menuItem">
@@ -100,7 +149,7 @@
             :title="annotationsTitle"
             @click.prevent
           >
-            <span class="mtm-dropdownPanel__menuIcon icon-annotation" />
+            <span class="mtm-dropdownPanel__menuIcon"><span class="icon-annotation" /></span>
             <span class="mtm-dropdownPanel__menuLabel">
               {{ annotationsLabel }}
             </span>
@@ -114,7 +163,7 @@
             :id="`dataTableExportAsImageIcon-${placement}`"
             @click.prevent="showExportImage($event)"
           >
-            <span class="mtm-dropdownPanel__menuIcon icon-image" />
+            <span class="mtm-dropdownPanel__menuIcon"><span class="icon-image" /></span>
             <span class="mtm-dropdownPanel__menuLabel">
               {{ translate('General_ExportAsImage') }}
             </span>
@@ -134,7 +183,7 @@
             href=""
             @click.prevent
           >
-            <span class="mtm-dropdownPanel__menuIcon icon-export" />
+            <span class="mtm-dropdownPanel__menuIcon"><span class="icon-export" /></span>
             <span class="mtm-dropdownPanel__menuLabel">{{ translate('General_Export') }}</span>
           </a>
         </li>
@@ -206,59 +255,12 @@
       </ul>
     </template>
 
-    <!-- The footer keeps the period selector, which has not moved yet: it opens a list of its own,
-         so the menu needs a submenu before it can host it. -->
-    <template v-else>
-      <!-- Only where no report header exists to host the menu. A widgetized container renders
-           none, and its graph's annotation markers would otherwise have no toggle at all. -->
-      <a
-        v-if="showAnnotations && !hasReportHeader"
-        class="dataTableAction annotationView"
-        href=""
-        :title="annotationsTitle"
-        @click.prevent
-        style="margin-right:3.5px"
-      ><span class="icon-annotation" /></a>
-
-      <a
-        v-if="showPeriods"
-        v-dropdown-button
-        class="dropdown-button dataTableAction activatePeriodsSelection"
-        href=""
-        @click.prevent
-        :title="translate('CoreHome_ChangePeriod')"
-        :data-target="`dropdownPeriods${randomIdForDropdown}`"
-      >
-        <div>
-          <span class="icon-calendar" />
-          <span class="periodName">
-            {{ translations[clientSideParameters.period] || clientSideParameters.period }}
-          </span>
-        </div>
-      </a>
-      <ul
-        v-if="showPeriods"
-        :id="`dropdownPeriods${randomIdForDropdown}`"
-        class="dropdown-content dataTablePeriods"
-      >
-        <li v-for="selectablePeriod in selectablePeriods" :key="selectablePeriod">
-          <a
-            :data-period="selectablePeriod"
-            :class="`tableIcon ${clientSideParameters.period === selectablePeriod
-              ? 'activeIcon' : ''}`"
-          >
-            <span>{{ translations[selectablePeriod] || selectablePeriod }}</span>
-          </a>
-        </li>
-      </ul>
-    </template>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 import Passthrough from '../Passthrough/Passthrough.vue';
-import DropdownButton from '../DropdownButton/DropdownButton';
 import ReportExport from '../ReportExport/ReportExport';
 import { translate } from '../translate';
 import { isBooleanLikeSet, resolveExportSupportsFlat } from './DataTableActions.utils';
@@ -344,15 +346,7 @@ export default defineComponent({
     showExport: Boolean,
     showExportAsImageIcon: Boolean,
     showAnnotations: Boolean,
-    // Whether the notes are on screen, so the entry reads as the toggle it is. Pushed by
-    // dataTable.js, which owns the panel.
     annotationsShowing: Boolean,
-    // Defaults to true so the footer never flashes a second entry before dataTable.js reports
-    // that this report has no header to put one in.
-    hasReportHeader: {
-      type: Boolean,
-      default: true,
-    },
     reportId: {
       type: String,
       required: true,
@@ -386,19 +380,35 @@ export default defineComponent({
     Passthrough,
   },
   directives: {
-    DropdownButton,
     ReportExport,
   },
   methods: {
+    // Picking a period is the end of the interaction, so the submenu folds with it. Not stopping
+    // the event: dataTable.js listens for it further up, and the panel closes on it too.
+    // The item is not a link, so a key press has to click it for the delegated handler to hear.
+    activateItem(event: KeyboardEvent) {
+      (event.currentTarget as HTMLElement | null)?.click();
+    },
+    closePeriods() {
+      this.periodsOpen = false;
+    },
     showExportImage(event: Event) {
       findReportRoot(event.target as HTMLElement)
         .find('div.jqplot-target')
         .trigger('piwikExportAsImage');
     },
   },
+  data() {
+    return {
+      // The submenu is opened from inside this panel, so its state belongs to this component.
+      // Outlives a menu close on purpose, so the submenu is already open next time - kinder to
+      // anyone who finds the pointer hard to place precisely. Picking a period does clear it.
+      periodsOpen: false,
+    };
+  },
   computed: {
-    // The report header renders the actions as one menu; the footer still renders the ones that
-    // have not moved yet as icon buttons.
+    // Only the header placement renders anything now; the footer one is kept as the carrier
+    // dataTable.js reads this report's config off.
     isInHeader(): boolean {
       return this.placement === 'header';
     },
