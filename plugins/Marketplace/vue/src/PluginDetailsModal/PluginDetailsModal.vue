@@ -7,7 +7,7 @@
 
 <template>
   <div ref="root" class="modal" id="pluginDetailsModal">
-    <div v-if="isLoading" class="modal-content plugin-details-loading">
+    <div v-if="isLoading" class="modal-content modal-content--loading">
       <MatomoLoader />
     </div>
 

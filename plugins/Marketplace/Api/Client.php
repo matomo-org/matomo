@@ -247,13 +247,13 @@ class Client
     }
 
     /**
-     * Returns the whole plugin and theme catalogue keyed by plugin name.
+     * Returns whatever the already cached overview lists hold, keyed by plugin name.
      *
-     * Both lists are already cached for {@link PLUGIN_LIST_CACHE_TIMEOUT_IN_SECONDS} and refilled by
-     * a scheduled task, and a list entry carries the same fields as an info response, so resolving
-     * an update out of them costs nothing where asking about each plugin in turn cost one request
-     * per plugin having an update. Returns an empty array if either list cannot be fetched, leaving
-     * the caller to fall back to those individual requests.
+     * Those lists are refilled by a scheduled task and a list entry carries the same fields as an
+     * info response, so resolving an update out of them costs nothing where asking about each plugin
+     * in turn cost one request per plugin having an update. Returns an empty array when none of them
+     * is cached, leaving the caller to fall back to those individual requests - fetching a whole
+     * catalogue to answer for a handful of plugins would cost more than it saves.
      *
      * @return array<string, array<string, mixed>>
      */
@@ -261,18 +261,12 @@ class Client
     {
         $listed = [];
 
-        try {
-            $lists = [
-                $this->searchForPlugins('', '', Sort::DEFAULT_SORT, PurchaseType::TYPE_ALL),
-                $this->searchForThemes('', '', Sort::DEFAULT_SORT, PurchaseType::TYPE_ALL),
-            ];
-        } catch (PhpException $e) {
-            $this->logger->error($e->getMessage());
-            return [];
-        }
+        foreach (self::getWarmedOverviewLists() as list($action, $purchaseType)) {
+            // cached only: when nothing is warm the caller falls back to one info request per
+            // plugin having an update, which is far cheaper than downloading whole catalogues
+            $list = $this->searchFor($action, '', '', Sort::DEFAULT_SORT, $purchaseType, true);
 
-        foreach ($lists as $list) {
-            foreach ($list as $plugin) {
+            foreach ($list ?: [] as $plugin) {
                 if (!empty($plugin['name']) && !isset($listed[$plugin['name']])) {
                     $listed[$plugin['name']] = $plugin;
                 }
@@ -318,14 +312,7 @@ class Client
      */
     public function refreshOverviewListCaches(): void
     {
-        $lists = [
-            ['plugins', PurchaseType::TYPE_ALL],
-            ['themes', PurchaseType::TYPE_ALL],
-            // the premium filter is its own cache entry
-            ['plugins', PurchaseType::TYPE_PAID],
-        ];
-
-        foreach ($lists as list($action, $purchaseType)) {
+        foreach (self::getWarmedOverviewLists() as list($action, $purchaseType)) {
             try {
                 $this->fetch($action, [
                     'keywords' => '',
@@ -349,25 +336,52 @@ class Client
     }
 
     /**
-     * Returns the unfiltered, default sorted plugin or theme list, but only when it is already
-     * cached, and null when it is not.
+     * The overview list queries {@link Tasks::warmCacheEntries()} refills, which are also the ones
+     * the overview page asks for and the only ones held for the longer timeout.
      *
-     * Lets a caller that only wants one plugin out of a list prefer the cached copy without a cold
-     * cache turning that into a download of the whole catalogue, which is far more expensive than
-     * the single {@link getPluginInfo()} request it would otherwise make.
+     * Everything that has to agree on this set reads it from here: warming them, deciding how long
+     * to keep them, and resolving a plugin out of them. Encoding it a second time somewhere else
+     * would fail silently - a warmed entry nothing reads back, or a read that never hits.
      *
-     * @return array[]|null
+     * @return array[] list of [action, purchase type]
      */
-    public function getCachedOverviewList(bool $themesOnly): ?array
+    private static function getWarmedOverviewLists(): array
     {
-        return $this->searchFor(
-            $themesOnly ? 'themes' : 'plugins',
-            '',
-            '',
-            Sort::DEFAULT_SORT,
-            PurchaseType::TYPE_ALL,
-            true
-        );
+        return [
+            ['plugins', PurchaseType::TYPE_ALL],
+            // the premium filter is its own cache entry
+            ['plugins', PurchaseType::TYPE_PAID],
+            ['themes', PurchaseType::TYPE_ALL],
+        ];
+    }
+
+    /**
+     * Returns the given plugin out of whichever warmed overview list already holds it, and null
+     * when none of them is cached or none lists it.
+     *
+     * Lets a caller that only wants one plugin prefer the cached copy without a cold cache turning
+     * that into a download of a whole catalogue, which is far more expensive than the single
+     * {@link getPluginInfo()} request it would otherwise make.
+     *
+     * @return array<string, mixed>|null
+     */
+    public function findInCachedOverviewLists(string $pluginName): ?array
+    {
+        foreach (self::getWarmedOverviewLists() as list($action, $purchaseType)) {
+            $listed = $this->searchFor($action, '', '', Sort::DEFAULT_SORT, $purchaseType, true);
+
+            if (null === $listed) {
+                continue;
+            }
+
+            foreach ($listed as $plugin) {
+                if (isset($plugin['name']) && $plugin['name'] === $pluginName) {
+                    return $plugin;
+                }
+            }
+        }
+
+        return null;
     }
 
     private function searchFor($action, $keywords, $query, $sort, $purchaseType, bool $cachedOnly = false): ?array
@@ -472,13 +486,13 @@ class Client
      */
     private function getCacheTimeout(string $action, array $params): int
     {
-        // exactly the queries Tasks::warmCacheEntries() refills, which are also the ones the
-        // overview asks for. Anything else - a search, another sort, a purchase type nobody warms -
-        // would only be made staler by a longer timeout, never faster.
-        $warmedPurchaseTypes = [
-            'plugins' => [PurchaseType::TYPE_ALL, PurchaseType::TYPE_PAID],
-            'themes' => [PurchaseType::TYPE_ALL],
-        ];
+        // anything outside the warmed set - a search, another sort, a purchase type nobody warms -
+        // would only be made staler by a longer timeout, never faster
+        $warmedPurchaseTypes = [];
+
+        foreach (self::getWarmedOverviewLists() as list($warmedAction, $warmedPurchaseType)) {
+            $warmedPurchaseTypes[$warmedAction][] = $warmedPurchaseType;
+        }
 
         if (!isset($warmedPurchaseTypes[$action])) {
             return self::CACHE_TIMEOUT_IN_SECONDS;

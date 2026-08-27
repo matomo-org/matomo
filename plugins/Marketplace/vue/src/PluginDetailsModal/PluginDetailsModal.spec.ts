@@ -275,7 +275,7 @@ describe('PluginDetailsModal', () => {
     const wrapper = mountModal();
     await wrapper.setProps({ modelValue: cardRow });
 
-    expect(wrapper.find('.plugin-details-loading').exists()).toBe(true);
+    expect(wrapper.find('.modal-content--loading').exists()).toBe(true);
     expect(wrapper.find('.matomo-loader').exists()).toBe(true);
     expect(wrapper.find('.modal-content__main').exists()).toBe(false);
   });

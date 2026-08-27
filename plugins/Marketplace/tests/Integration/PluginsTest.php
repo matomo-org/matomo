@@ -404,6 +404,43 @@ class PluginsTest extends IntegrationTestCase
     }
 
     /**
+     * The pair below has to be read together: both let the consumer answer, and they differ only in
+     * whether the Marketplace suppressed the plugin's trial. Without an answering consumer neither
+     * proves anything, because {@link Plugins::getCurrentLicenseFor()} then falls back to the
+     * embedded copy and reaches the right verdict for the wrong reason.
+     */
+    public function testGetPluginInfoOffersATrialWhenTheConsumerHoldsNoLicenceForThePlugin(): void
+    {
+        $this->letTheConsumerAnswerHoldingNoLicences();
+        $this->service->returnFixture('v2.0_plugins_PaidPlugin1_info.json');
+
+        $plugin = $this->plugins->getPluginInfo('PaidPlugin1');
+
+        self::assertTrue($plugin['isEligibleForFreeTrial']);
+    }
+
+    public function testGetPluginInfoKeepsTheMarketplacesTrialSuppression(): void
+    {
+        $this->letTheConsumerAnswerHoldingNoLicences();
+        // identical to the fixture above but for consumer.license, which the Marketplace sets to a
+        // scalar for BusinessBundle and EnterpriseBundle to keep them out of the free trial flow.
+        // The consumer endpoint only ever carries real licence rows, so it cannot express this and
+        // must not be allowed to override it into "no licence, so offer a trial".
+        $this->service->returnFixture('v2.0_plugins_PaidPlugin1_info-license-suppressed.json');
+
+        $plugin = $this->plugins->getPluginInfo('PaidPlugin1');
+
+        self::assertFalse($plugin['isEligibleForFreeTrial']);
+    }
+
+    private function letTheConsumerAnswerHoldingNoLicences(): void
+    {
+        // authenticated, or Client::getConsumer() short circuits and the licences read as unknown
+        $this->consumerService->authenticate('123456789');
+        $this->consumerService->returnFixture('v2.0_consumer-access_token-validbutnolicense.json');
+    }
+
+    /**
      * @dataProvider getPluginInfoShouldSetFreeTrialEligibilityTestData
      */
     public function testGetPluginInfoShouldSetFreeTrialEligibility(
@@ -729,10 +766,13 @@ class PluginsTest extends IntegrationTestCase
     public function testGetPluginsHavingUpdateShouldReturnEnrichedPluginUpdatesForPluginsFoundOnTheMarketplace()
     {
         $this->service->returnFixture([
-            'v2.0_plugins_checkUpdates-pluginspluginsnameAnonymousPi.json',
             'v2.0_plugins.json',
             'v2.0_themes.json',
+            'v2.0_plugins_checkUpdates-pluginspluginsnameAnonymousPi.json',
         ]);
+
+        $this->warmOverviewLists(true);
+
         $apis = [];
         $this->service->setOnFetchCallback(function ($action, $params) use (&$apis) {
             $apis[] = $action;
@@ -755,10 +795,10 @@ class PluginsTest extends IntegrationTestCase
         $this->assertSame([], $plugin['missingRequirements']);
         $this->assertSame('https://github.com/piwik/plugin-TreemapVisualization/commits/1.0.1', $plugin['repositoryChangelogUrl']);
 
-        // the updates are resolved out of the plugin and theme lists, which are cached for longer
-        // and refilled by a scheduled task. Asking about each plugin in turn used to cost one
+        // the updates are resolved out of the already cached plugin and theme lists, so the only
+        // request left is the update check itself. Asking about each plugin in turn used to cost one
         // request per plugin having an update.
-        $this->assertSame(['plugins/checkUpdates', 'plugins', 'themes'], $apis);
+        $this->assertSame(['plugins/checkUpdates'], $apis);
 
         $infoRequests = array_values(array_filter($apis, function ($action) {
             return (bool) preg_match('#^plugins/[^/]+/info$#', $action);

@@ -351,14 +351,16 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         Piwik::checkUserIsNotAnonymous();
 
-        $pluginName = new PluginName();
-        $pluginName = $pluginName->getPluginName();
+        // Every failure path below answers with a JSON error rather than throwing: this is not an
+        // API request, so an exception would render the HTML error page with a 500 and log a stack
+        // trace at ERROR, and AjaxHelper would replace the message with its own literal. A
+        // result=error body reaches the modal as an ApiResponseError with this text intact.
+        // Validation is inside the guard too, so a malformed request is answered the same way.
+        $pluginName = '';
 
-        // Both failure paths below answer with a JSON error rather than throwing: this is not an API
-        // request, so an exception would render the HTML error page with a 500 and log a stack trace
-        // at ERROR, and AjaxHelper would replace the message with its own literal. A result=error
-        // body reaches the modal as an ApiResponseError with this text intact.
         try {
+            $pluginName = (new PluginName())->getPluginName();
+
             $plugin = $this->plugins->getPluginInfoPreferringList($pluginName);
         } catch (Exception $e) {
             // the Marketplace being unreachable is this action's most likely failure, not an

@@ -87,22 +87,12 @@ class Plugins
      */
     public function getPluginInfoPreferringList(string $pluginName): array
     {
-        foreach ([false, true] as $themesOnly) {
-            $listed = $this->marketplaceClient->getCachedOverviewList($themesOnly);
+        $plugin = $this->marketplaceClient->findInCachedOverviewLists($pluginName);
 
-            if (null === $listed) {
-                // not warm, so fetching the whole catalogue to answer for one plugin would cost far
-                // more than the single info request below
-                continue;
-            }
-
-            foreach ($listed as $plugin) {
-                if (isset($plugin['name']) && $plugin['name'] === $pluginName) {
-                    // the raw cached list, so only the plugin that was asked for is enriched.
-                    // Going through searchPlugins() would enrich the whole catalogue to return one.
-                    return $this->enrichPluginInformation($plugin);
-                }
-            }
+        if (null !== $plugin) {
+            // the raw cached list entry, so only the plugin that was asked for is enriched. Going
+            // through searchPlugins() would enrich the whole catalogue to return one.
+            return $this->enrichPluginInformation($plugin);
         }
 
         // either the lists are cold or this is a plugin they filter out — ask for it directly
@@ -445,11 +435,21 @@ class Plugins
      */
     private function getCurrentLicenseFor(array $plugin)
     {
+        $embedded = isset($plugin['consumer']['license']) ? $plugin['consumer']['license'] : null;
+
+        if (!empty($embedded) && !is_array($embedded)) {
+            // the Marketplace sets a scalar here for the plugins whose trial and purchase calls to
+            // action it suppresses - BusinessBundle and EnterpriseBundle - and the consumer response
+            // has no way to say that, since it only ever carries real license rows. Honouring it
+            // keeps those bundles out of the free trial flow.
+            return $embedded;
+        }
+
         $licenses = $this->consumer->getConsumerPluginLicenses();
 
         if ($licenses === null) {
             // the Marketplace could not be reached, so the copy the plugin carries is all we have
-            return isset($plugin['consumer']['license']) ? $plugin['consumer']['license'] : null;
+            return $embedded;
         }
 
         // an answer that lists no license for this plugin is an answer: the consumer does not hold
