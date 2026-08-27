@@ -155,7 +155,9 @@ describe('DataTable', function () {
       $reportElement.data('uiControlObject').handleSummaryRow($reportElement);
       window.$(summaryRow).trigger('mouseenter');
 
-      const link = summaryRow.querySelector('a');
+      const link = summaryRow.querySelector(
+        'a[rel~="noreferrer"][rel~="noopener"][target="_blank"]',
+      );
       return {
         pathname: new URL(link.href).pathname,
         rel: link.rel,
