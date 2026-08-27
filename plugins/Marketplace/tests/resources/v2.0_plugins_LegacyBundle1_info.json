@@ -1,6 +1,6 @@
 {
-    "name": "NewBundle1",
-    "displayName": "New Bundle 1",
+    "name": "LegacyBundle1",
+    "displayName": "Legacy Bundle 1",
     "owner": "matomo-org",
     "description": "A bundle of premium features.",
     "homepage": "https://matomo.org",
@@ -35,10 +35,9 @@
     "isFree": false,
     "isPaid": true,
     "isBundle": true,
-    "isNewBundle": true,
     "isCustomPlugin": false,
     "shop": {
-        "url": "https://plugins.matomo.org/NewBundle1",
+        "url": "https://plugins.matomo.org/LegacyBundle1",
         "variations": [
             {
                 "price": "1450",

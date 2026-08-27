@@ -33,6 +33,9 @@ class Plugins
     private const CAMPAIGN_BUNDLES = 'app_bundles';
     private const CAMPAIGN_GROUP = 'in_app_marketplace';
     private const CAMPAIGN_PLACEMENT_ADD_TO_CART = 'add_to_cart';
+    // the Marketplace is never activated on Cloud, so the source is always the on-premise app
+    private const CAMPAIGN_SOURCE = 'matomo_app_onpremise';
+    private const CAMPAIGN_MEDIUM_PREFIX = 'app.';
 
     /**
      * Bundles are only sold directly from this core version onwards; before it they go through
@@ -324,8 +327,10 @@ class Plugins
         $plugin = $this->addMissingRequirements($plugin);
         $plugin = $this->addConsumerLicenseStatus($plugin);
 
-        // from the supported core version on, bundles are bought outright rather than trialled
-        $plugin['isNewBundle'] = self::supportsNewBundles() && !empty($plugin['isBundle']);
+        // the marketplace decides which bundles are sold outright; without the flag a bundle keeps
+        // the free-trial flow it had before. The core check stays in front of it so an older
+        // Matomo is never switched over by the flag alone.
+        $plugin['isNewBundle'] = self::supportsNewBundles() && !empty($plugin['isNewBundle']);
 
         $plugin['isEligibleForFreeTrial'] =
             $plugin['canBePurchased']
@@ -437,7 +442,7 @@ class Plugins
             $plugin['shop']['variations'][$index]['addToCartUrl'] = Url::addCampaignParametersToMatomoLink(
                 $variation['addToCartUrl'],
                 $campaign,
-                $this->getShopCampaignSource(),
+                self::CAMPAIGN_SOURCE,
                 $this->getShopCampaignMedium(),
                 self::CAMPAIGN_GROUP,
                 $content,
@@ -463,17 +468,6 @@ class Plugins
     }
 
     /**
-     * Mirrors the default source Url::addCampaignParametersToMatomoLink() would build, lowercased
-     * to match the naming the marketplace campaigns use throughout.
-     */
-    private function getShopCampaignSource(): string
-    {
-        $isCloud = Plugin\Manager::getInstance()->isPluginActivated('Cloud');
-
-        return 'matomo_app_' . ($isCloud ? 'cloud' : 'onpremise');
-    }
-
-    /**
      * The page the link was rendered on, eg. app.marketplace.overview. Returns null outside a
      * request, where there is no page to name and the link is left untagged.
      */
@@ -486,7 +480,7 @@ class Plugins
             return null;
         }
 
-        return strtolower('app.' . $module . '.' . $action);
+        return strtolower(self::CAMPAIGN_MEDIUM_PREFIX . $module . '.' . $action);
     }
 
     /**

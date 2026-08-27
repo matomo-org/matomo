@@ -369,10 +369,17 @@ class PluginsTest extends IntegrationTestCase
             false,
         ];
 
-        yield 'bundle on a core that sells bundles directly' => [
+        yield 'bundle the marketplace flagged as sold directly' => [
             'NewBundle1',
             'v2.0_plugins_NewBundle1_info.json',
             false,
+        ];
+
+        // without the flag nothing changes: the bundle keeps the free-trial flow it had before
+        yield 'bundle the marketplace did not flag' => [
+            'LegacyBundle1',
+            'v2.0_plugins_LegacyBundle1_info.json',
+            true,
         ];
     }
 
@@ -403,10 +410,16 @@ class PluginsTest extends IntegrationTestCase
             false,
         ];
 
-        yield 'bundle on a core that sells bundles directly' => [
+        yield 'bundle the marketplace flagged as sold directly' => [
             'NewBundle1',
             'v2.0_plugins_NewBundle1_info.json',
             true,
+        ];
+
+        yield 'bundle the marketplace did not flag' => [
+            'LegacyBundle1',
+            'v2.0_plugins_LegacyBundle1_info.json',
+            false,
         ];
     }
 
@@ -445,6 +458,12 @@ class PluginsTest extends IntegrationTestCase
         $plugin = $this->plugins->getPluginInfo('NewBundle1');
 
         self::assertTrue($plugin['isNewBundle']);
+    }
+
+    public function testGetPluginInfoIgnoresTheMarketplaceFlagOnAnUnsupportedCore(): void
+    {
+        // the flag alone is not enough; a core below the threshold keeps the old behaviour
+        self::assertFalse(Plugins::supportsNewBundles('5.13.9'));
     }
 
     /**
