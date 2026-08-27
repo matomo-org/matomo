@@ -1039,7 +1039,10 @@ default_time_one_page_visit = 0
 ; and advertising/attribution tracking parameters)
 ; An entry can either be a parameter name (eg. gclid) or a regular expression including its delimiters, as used below.
 ; As this list is split on commas, a regular expression must not contain a
-; comma. Matching is case insensitive, so entries should always be written in lower case.
+; comma. Parameter names are matched case-insensitively, so literal entries should be
+; written in lower case. Regular expressions are not lowercased: keep uppercase
+; metacharacters (\D, \S, \W, \P, \Q...\E) as written, and write any literal text
+; in the pattern in lower case.
 url_query_parameter_to_exclude_from_url = "gclid,fbclid,msclkid,twclid,wbraid,gbraid,yclid,fb_xd_fragment,fb_comment_id,phpsessid,jsessionid,sessionid,aspsessionid,doing_wp_cron,sid,pk_vid,li_fat_id,token_auth,token,gad_source,gad_campaignid,/^hsa_(acc|ad|cam|grp|kw|la|mt|net|ol|src|tgt|ver)$/"
 
 ; If set to 1, Matomo will use the default provider if no other provider is configured.
