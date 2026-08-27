@@ -3,8 +3,9 @@
   @_ribbonWidth: 90px;
   // Vertical breathing room for the three content tracks.
   @_trackPaddingY: 24px;
-  // Narrower than this and the report scrolls instead of squeezing its columns.
-  // 350px center + 2 * (90px ribbon + 200px column), the tightest a column can be with a label.
+  // Narrower than this and the grid scrolls instead of squeezing its columns: 350px center
+  // + 2 * (90px ribbon + 200px column), the tightest a column can be with a label. The report
+  // itself needs 946px, because the 8px of side padding below counts towards its scroll width.
   @_gridMinWidth: 930px;
 
   overflow-x: auto;
@@ -14,6 +15,13 @@
   // Bleed and pad by the same amount, so a row's shadow is not clipped at the scroller's edge.
   margin: 0 -8px;
   padding: 0 8px;
+
+  // The widgetized shell leaves no side padding to bleed into, so the report would cross the
+  // widget card's border. Keep the shadow room inside there instead.
+  body.widgetized & {
+    margin-left: 0;
+    margin-right: 0;
+  }
 
   .transitionsReport__grid {
     display: grid;
