@@ -56,6 +56,34 @@ class Consumer
         return static::build($service);
     }
 
+    /**
+     * A valid license key whose account holds no plugin licenses, so every paid plugin is still
+     * eligible for a free trial.
+     *
+     * Kept apart from {@link buildValidLicense()} because that consumer licenses PaidPlugin1: now
+     * that trial eligibility is derived from the consumer response rather than the copy embedded in
+     * the plugin list, offering a trial for a plugin the account already licenses would be wrong.
+     */
+    public static function buildValidLicenseWithoutPluginLicenses()
+    {
+        $service = new Service();
+        // Client only asks the consumer endpoints when a license key is set
+        $service->authenticate('123456789');
+        $service->setOnDownloadCallback(function ($action, $params) use ($service) {
+            if ($action === 'info') {
+                return $service->getFixtureContent('v2.0_info.json');
+            } elseif ($action === 'consumer') {
+                return $service->getFixtureContent('v2.0_consumer-access_token-validbutnolicense.json');
+            } elseif ($action === 'consumer/validate') {
+                return $service->getFixtureContent('v2.0_consumer_validate-access_token-validbutnolicense.json');
+            } elseif ($action === 'plugins' && !empty($params['purchase_type']) && $params['purchase_type'] === PurchaseType::TYPE_PAID) {
+                return $service->getFixtureContent('v2.0_plugins-purchase_type-paid-access_token-notexistingtoken.json');
+            }
+        });
+
+        return static::build($service);
+    }
+
     public static function buildExceededLicense()
     {
         $service = new Service();

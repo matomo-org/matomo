@@ -9,6 +9,8 @@
 
 namespace Piwik\Plugins\Marketplace\tests\Integration;
 
+use Matomo\Cache\Backend\ArrayCache;
+use Matomo\Cache\Lazy;
 use Piwik\Plugins\Marketplace\API;
 use Piwik\Plugins\Marketplace\Consumer;
 use Piwik\Plugins\Marketplace\Input\PurchaseType;
@@ -636,9 +638,20 @@ class PluginsTest extends IntegrationTestCase
     /**
      * The overview page fetches these lists before any details modal can be opened, so a test about
      * preferring them has to put them in the cache the same way the page does.
+     *
+     * The client is rebuilt with a cache that retains responses first. The mock client's default
+     * keeps nothing, so the warmed lists would otherwise not be there to be preferred and the
+     * lookup would fall back to a per plugin request.
      */
     private function warmOverviewLists(bool $themesToo = false): void
     {
+        $this->marketplaceClient = Client::build($this->service, new Lazy(new ArrayCache()));
+        $this->plugins = new Plugins(
+            $this->marketplaceClient,
+            new Consumer(Client::build($this->consumerService)),
+            new Advertising()
+        );
+
         $this->marketplaceClient->searchForPlugins('', '', Sort::DEFAULT_SORT, PurchaseType::TYPE_ALL);
 
         if ($themesToo) {

@@ -16,7 +16,9 @@ describe('Marketplace_RequestTrial', function () {
   before(function () {
     testEnvironment.overrideConfig('General', 'enable_plugins_admin', '1');
 
-    testEnvironment.consumer = 'validLicense';
+    // a valid license key whose account licenses no plugin, so PaidPlugin1 is trial eligible.
+    // 'validLicense' licenses PaidPlugin1 itself, which correctly suppresses the trial CTA.
+    testEnvironment.consumer = 'validLicenseNoPlugins';
     testEnvironment.idSitesViewAccess = [1];
     testEnvironment.mockMarketplaceApiService = 1;
     testEnvironment.save();
