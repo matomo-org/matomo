@@ -10,6 +10,8 @@
 namespace Piwik\DataAccess;
 
 use Exception;
+use Piwik\Common;
+use Piwik\Config;
 use Piwik\DataAccess\LogQueryBuilder\JoinGenerator;
 use Piwik\DataAccess\LogQueryBuilder\JoinTables;
 use Piwik\Plugin\LogTablesProvider;
@@ -18,6 +20,19 @@ use Piwik\Segment\SegmentExpression;
 class LogQueryBuilder
 {
     public const FORCE_INNER_GROUP_BY_NO_SUBSELECT = '__##nosubquery##__';
+
+    /**
+     * Column the visits log groups by to return one row per visit.
+     */
+    private const LOG_VISIT_ID_COLUMN = 'log_visit.idvisit';
+
+    /**
+     * Alias the outer log_visit gets when the joined tables move into a subquery. It is the outer
+     * table that is renamed and not the one in the subquery, because the segment conditions can
+     * contain subqueries of their own that select from log_visit again, eg. `actionUrl!@x`. Leaving
+     * the generated join and the segment conditions untouched keeps those working.
+     */
+    private const LOG_VISIT_OUTER_ALIAS = 'log_visit_outer';
 
     /**
      * @var LogTablesProvider
@@ -66,11 +81,14 @@ class LogQueryBuilder
         }
 
         $fromInitially = $from;
+        $whereWithoutSegment = $where;
+        $segmentWhere = null;
 
         if (!$segmentExpression->isEmpty()) {
             $segmentExpression->parseSubExpressionsIntoSqlExpressions($from);
             $segmentSql = $segmentExpression->getSql();
-            $where = $this->getWhereMatchBoth($where, $segmentSql['where']);
+            $segmentWhere = $segmentSql['where'];
+            $where = $this->getWhereMatchBoth($where, $segmentWhere);
             $bind = array_merge($bind, $segmentSql['bind']);
         }
 
@@ -94,7 +112,15 @@ class LogQueryBuilder
 
         if (!empty($this->forcedInnerGroupBy)) {
             if ($this->forcedInnerGroupBy === self::FORCE_INNER_GROUP_BY_NO_SUBSELECT) {
-                $sql = $this->buildSelectQuery($select, $from, $where, $groupBy, $orderBy, $limitAndOffset);
+                $sql = null;
+
+                if ($this->isVisitSemiJoinEnabled()) {
+                    $sql = $this->buildVisitQueryWithoutGroupBy($select, $from, $whereWithoutSegment, $segmentWhere, $groupBy, $orderBy, $limitAndOffset, $tables);
+                }
+
+                if ($sql === null) {
+                    $sql = $this->buildSelectQuery($select, $from, $where, $groupBy, $orderBy, $limitAndOffset);
+                }
             } else {
                 $sql = $this->buildWrappedSelectQuery($select, $from, $where, $groupBy, $orderBy, $limitAndOffset, $tables, $this->forcedInnerGroupBy);
             }
@@ -119,6 +145,133 @@ class LogQueryBuilder
             $names[] = $logTable->getName();
         }
         return $names;
+    }
+
+    /**
+     * Build a query that returns one row per visit by construction, so that `GROUP BY
+     * log_visit.idvisit` is not needed to remove the duplicate visits the joined log tables create.
+     *
+     * Grouping by `log_visit.idvisit` while ordering by another log_visit column makes MySQL buffer
+     * and sort every matching visit before it can apply the LIMIT, so the query costs as much as the
+     * whole date range even though only one page of visits is returned.
+     *
+     * Two shapes are built:
+     *
+     * - when log_visit is the only table of the query, the GROUP BY is dropped. log_visit.idvisit is
+     *   the primary key of that table, so grouping by it cannot merge any rows.
+     * - when other log tables are joined, they move into a correlated EXISTS subquery. The subquery
+     *   matches a visit exactly when at least one of its joined rows matches the segment, which is
+     *   the set of visits the GROUP BY produced, so a visit matching several actions still counts
+     *   once against the LIMIT (see https://github.com/matomo-org/matomo/issues/13861). MySQL can
+     *   then stop reading log_visit as soon as it has enough visits.
+     *
+     * @param string          $select         Select clause, has to select from log_visit only.
+     * @param string          $from           Generated join string.
+     * @param string|false    $where          Where clause of the caller, without the segment conditions.
+     * @param string|null     $segmentWhere   Where clause generated for the segment.
+     * @param string|false    $groupBy
+     * @param string|false    $orderBy
+     * @param string|int|null $limitAndOffset
+     * @param JoinTables      $tables         Tables of the generated join, in the order they are joined.
+     * @return string|null The query, or null when it does not have the shape this rewrite is
+     *                     equivalent for and the caller has to build the grouped query instead.
+     */
+    private function buildVisitQueryWithoutGroupBy($select, $from, $where, $segmentWhere, $groupBy, $orderBy, $limitAndOffset, JoinTables $tables)
+    {
+        if (trim((string) $groupBy) !== self::LOG_VISIT_ID_COLUMN) {
+            return null;
+        }
+
+        // the rewrite reasons about visits, so the query may only select and sort log_visit rows
+        if (trim((string) $select) !== 'log_visit.*') {
+            return null;
+        }
+
+        if (!$this->referencesLogVisitOnly($where) || !$this->referencesLogVisitOnly($orderBy)) {
+            return null;
+        }
+
+        // the caller's conditions are rewritten to the alias, which would rewrite the inside of a
+        // subquery that selects from log_visit as well. Those references belong to the log_visit of
+        // that subquery, so the query has to stay grouped instead.
+        if (preg_match('/\bSELECT\b/i', (string) $where)) {
+            return null;
+        }
+
+        // log_visit has to be the table the other ones are joined on, so that every row of the join
+        // belongs to exactly one visit
+        if (!isset($tables[0]) || $tables[0] !== 'log_visit') {
+            return null;
+        }
+
+        if (count($tables) === 1) {
+            $where = empty($segmentWhere) ? $where : $this->getWhereMatchBoth($where, $segmentWhere);
+
+            return $this->buildSelectQuery($select, $from, $where, false, $orderBy, $limitAndOffset);
+        }
+
+        if (empty($segmentWhere)) {
+            return null;
+        }
+
+        $alias = self::LOG_VISIT_OUTER_ALIAS;
+
+        $visitMatchesSegment = $this->buildSelectQuery(
+            '1',
+            $from,
+            self::LOG_VISIT_ID_COLUMN . " = $alias.idvisit
+				AND ($segmentWhere)",
+            false,
+            false,
+            null
+        );
+
+        return $this->buildSelectQuery(
+            $this->aliasLogVisitTable($select, $alias),
+            Common::prefixTable('log_visit') . " AS $alias",
+            $this->getWhereMatchBoth($this->aliasLogVisitTable($where, $alias), "EXISTS ($visitMatchesSegment)"),
+            false,
+            $this->aliasLogVisitTable($orderBy, $alias),
+            $limitAndOffset
+        );
+    }
+
+    /**
+     * Whether the visits log may drop its group by. Off by default while the query change is
+     * validated, see the [Live] section of global.ini.php.
+     *
+     * @return bool
+     */
+    private function isVisitSemiJoinEnabled()
+    {
+        $live = Config::getInstance()->Live;
+
+        return !empty($live['use_semi_join_query']);
+    }
+
+    /**
+     * @param string|false $sqlExpression
+     * @return bool
+     */
+    private function referencesLogVisitOnly($sqlExpression)
+    {
+        foreach (SegmentExpression::parseColumnsFromSqlExpr((string) $sqlExpression) as $column) {
+            if (strpos($column, 'log_visit.') !== 0) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * @param string|false $sqlExpression
+     * @param string $alias
+     * @return string
+     */
+    private function aliasLogVisitTable($sqlExpression, $alias)
+    {
+        return preg_replace('/(?<![a-zA-Z0-9_])log_visit\./', $alias . '.', (string) $sqlExpression);
     }
 
     /**
@@ -240,10 +393,10 @@ class LogQueryBuilder
      *
      * @param string $select fieldlist to be selected
      * @param string $from tablelist to select from
-     * @param string $where where clause
-     * @param string $groupBy group by clause
-     * @param string $orderBy order by clause
-     * @param string|int $limitAndOffset limit by clause eg '5' for Limit 5 Offset 0 or '10, 5' for Limit 5 Offset 10
+     * @param string|false $where where clause
+     * @param string|false $groupBy group by clause
+     * @param string|false $orderBy order by clause
+     * @param string|int|null $limitAndOffset limit by clause eg '5' for Limit 5 Offset 0 or '10, 5' for Limit 5 Offset 10
      * @return string
      */
     private function buildSelectQuery($select, $from, $where, $groupBy, $orderBy, $limitAndOffset, bool $withRollup = false)

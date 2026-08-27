@@ -607,8 +607,12 @@ class Segment
      * @param false|string $groupBy (optional) Group by clause, eg, `"t2.col2"`.
      * @param int $limit Limit number of result to $limit
      * @param int $offset Specified the offset of the first row to return
-     * @param bool $forceGroupBy Force the group by and not using a subquery. Note: This may make the query slower see https://github.com/matomo-org/matomo/issues/9200#issuecomment-183641293
-     *                           A $groupBy value needs to be set for this to work.
+     * @param bool $forceGroupBy Keep the group by in the query instead of moving it into a subquery,
+     *                           see https://github.com/matomo-org/matomo/issues/9200#issuecomment-183641293
+     *                           A $groupBy value needs to be set for this to work. A query that groups
+     *                           visits by `log_visit.idvisit` while selecting and sorting log_visit rows
+     *                           gets the group by replaced by a subquery that matches the joined tables,
+     *                           which returns the same visits without sorting the whole date range first.
      * @return array{sql: string, bind: array<scalar>} The entire select query.
      */
     public function getSelectQuery($select, $from, $where = false, $bind = array(), $orderBy = false, $groupBy = false, $limit = 0, $offset = 0, $forceGroupBy = false, bool $withRollup = false)

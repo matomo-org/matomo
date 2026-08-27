@@ -1391,6 +1391,15 @@ time_dom_completion_cap_duration_ms = 0
 ; Cap for On load time: avg/high 10ms (recommended value: 1000)
 time_on_load_cap_duration_ms = 0
 
+[Live]
+; When enabled, the visits log asks the joined log tables for a match with a subquery instead of
+; grouping away the rows they duplicate. Grouping by log_visit.idvisit while ordering by
+; log_visit.visit_last_action_time makes MySQL sort every matching visit before it can apply the
+; LIMIT, so the query costs as much as the whole date range even when a single page of visits is
+; requested. Both forms return the same visits in the same order, a visit matching several actions
+; still counting once, see https://github.com/matomo-org/matomo/issues/13861
+use_semi_join_query = 0
+
 [APISettings]
 ; Any key/value pair can be added in this section, they will be available via the REST call
 ; index.php?module=API&method=API.getSettings

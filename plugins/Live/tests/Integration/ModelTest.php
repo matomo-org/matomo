@@ -351,6 +351,135 @@ class ModelTest extends IntegrationTestCase
         $this->assertEquals(SegmentTest::removeExtraWhiteSpaces($expectedBind), SegmentTest::removeExtraWhiteSpaces($bind));
     }
 
+    public function testMakeLogVisitsQueryStringWhenSegmentAndSemiJoinEnabled()
+    {
+        $this->enableSemiJoinQuery();
+
+        $model = new Model();
+        [$dateStart, $dateEnd] = $model->getStartAndEndDate($idSite = 1, 'month', '2010-01-01');
+        [$sql, $bind] = $model->makeLogVisitsQueryString(
+            $idSite = 1,
+            $dateStart,
+            $dateEnd,
+            $segment = 'siteSearchCategory==Test',
+            $offset = 10,
+            $limit = 100,
+            $visitorId = 'abc',
+            $minTimestamp = false,
+            $filterSortOrder = false
+        );
+
+        // the joined table moves into a subquery, so the group by that removed the visits it
+        // duplicated is no longer needed
+        $expectedSql = ' SELECT log_visit_outer.*
+                        FROM log_visit AS log_visit_outer
+                        WHERE (
+                            log_visit_outer.idsite in (?)
+                            AND log_visit_outer.idvisitor = ?
+                            AND log_visit_outer.visit_last_action_time >= ?
+                            AND log_visit_outer.visit_last_action_time <= ? )
+                            AND ( EXISTS (
+                                SELECT 1
+                                FROM log_visit AS log_visit
+                                LEFT JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
+                                WHERE log_visit.idvisit = log_visit_outer.idvisit
+                                    AND ( log_link_visit_action.search_cat = ? ) ) )
+                        ORDER BY log_visit_outer.idsite DESC, log_visit_outer.visit_last_action_time DESC, log_visit_outer.idvisit DESC
+                        LIMIT 10, 100';
+        $expectedBind = array(
+            '1',
+            Common::hex2bin('abc'),
+            '2010-01-01 00:00:00',
+            '2010-02-01 00:00:00',
+            'Test',
+        );
+        $this->assertEquals(SegmentTest::removeExtraWhiteSpaces($expectedSql), SegmentTest::removeExtraWhiteSpaces($sql));
+        $this->assertEquals(SegmentTest::removeExtraWhiteSpaces($expectedBind), SegmentTest::removeExtraWhiteSpaces($bind));
+    }
+
+    public function testMakeLogVisitsQueryStringWhenSegmentOnlyUsesTheVisitTable()
+    {
+        $this->enableSemiJoinQuery();
+
+        $model = new Model();
+        [$dateStart, $dateEnd] = $model->getStartAndEndDate($idSite = 1, 'month', '2010-01-01');
+        [$sql, $bind] = $model->makeLogVisitsQueryString(
+            $idSite = 1,
+            $dateStart,
+            $dateEnd,
+            $segment = 'countryCode==fr',
+            $offset = 0,
+            $limit = 100,
+            $visitorId = false,
+            $minTimestamp = false,
+            $filterSortOrder = false
+        );
+
+        // nothing is joined that could return a visit twice, so there is nothing to group
+        $expectedSql = ' SELECT log_visit.*
+                        FROM log_visit AS log_visit
+                        WHERE (
+                            log_visit.idsite in (?)
+                            AND log_visit.visit_last_action_time >= ?
+                            AND log_visit.visit_last_action_time <= ? )
+                            AND ( log_visit.location_country = ? )
+                        ORDER BY log_visit.idsite DESC, log_visit.visit_last_action_time DESC, log_visit.idvisit DESC
+                        LIMIT 0, 100';
+        $expectedBind = array(
+            '1',
+            '2010-01-01 00:00:00',
+            '2010-02-01 00:00:00',
+            'fr',
+        );
+        $this->assertEquals(SegmentTest::removeExtraWhiteSpaces($expectedSql), SegmentTest::removeExtraWhiteSpaces($sql));
+        $this->assertEquals(SegmentTest::removeExtraWhiteSpaces($expectedBind), SegmentTest::removeExtraWhiteSpaces($bind));
+    }
+
+    public function testMakeLogVisitsQueryStringWhenSegmentCombinesTablesWithOr()
+    {
+        $this->enableSemiJoinQuery();
+
+        $model = new Model();
+        [$dateStart, $dateEnd] = $model->getStartAndEndDate($idSite = 1, 'month', '2010-01-01');
+        [$sql, $bind] = $model->makeLogVisitsQueryString(
+            $idSite = 1,
+            $dateStart,
+            $dateEnd,
+            $segment = 'siteSearchCategory==Test,countryCode==fr',
+            $offset = 0,
+            $limit = 100,
+            $visitorId = false,
+            $minTimestamp = false,
+            $filterSortOrder = false
+        );
+
+        // the condition on log_visit cannot be pulled out of the OR, so the whole segment stays
+        // inside the subquery, where log_visit is available as well
+        $expectedSql = ' SELECT log_visit_outer.*
+                        FROM log_visit AS log_visit_outer
+                        WHERE (
+                            log_visit_outer.idsite in (?)
+                            AND log_visit_outer.visit_last_action_time >= ?
+                            AND log_visit_outer.visit_last_action_time <= ? )
+                            AND ( EXISTS (
+                                SELECT 1
+                                FROM log_visit AS log_visit
+                                LEFT JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
+                                WHERE log_visit.idvisit = log_visit_outer.idvisit
+                                    AND (( log_link_visit_action.search_cat = ? OR log_visit.location_country = ? )) ) )
+                        ORDER BY log_visit_outer.idsite DESC, log_visit_outer.visit_last_action_time DESC, log_visit_outer.idvisit DESC
+                        LIMIT 0, 100';
+        $expectedBind = array(
+            '1',
+            '2010-01-01 00:00:00',
+            '2010-02-01 00:00:00',
+            'Test',
+            'fr',
+        );
+        $this->assertEquals(SegmentTest::removeExtraWhiteSpaces($expectedSql), SegmentTest::removeExtraWhiteSpaces($sql));
+        $this->assertEquals(SegmentTest::removeExtraWhiteSpaces($expectedBind), SegmentTest::removeExtraWhiteSpaces($bind));
+    }
+
     public function testMakeLogVisitsQueryStringAddsMaxExecutionHintIfConfigured()
     {
         $this->setMaxExecutionTime(30);
@@ -771,6 +900,172 @@ class ModelTest extends IntegrationTestCase
         $general = $config->General;
         $general['live_query_max_execution_time'] = $time;
         $config->General = $general;
+    }
+
+    /**
+     * @see https://github.com/matomo-org/matomo/issues/13861
+     */
+    public function testQueryLogVisitsReturnsAVisitOnceWhenSeveralOfItsActionsMatchTheSegment()
+    {
+        $this->enableSemiJoinQuery();
+
+        $this->trackVisitWithPageUrls('2010-03-01 03:00:00', ['/needle/one', '/needle/two', '/needle/three']);
+        $this->trackVisitWithPageUrls('2010-03-01 04:00:00', ['/haystack']);
+
+        $visits = $this->queryVisitsLog('actionUrl=@needle', $offset = 0, $limit = 10);
+
+        $this->assertCount(1, $visits);
+        $this->assertEquals('2010-03-01 03:00:00', $visits[0]['visit_first_action_time']);
+    }
+
+    /**
+     * @see https://github.com/matomo-org/matomo/issues/13861
+     */
+    public function testQueryLogVisitsFillsTheLimitWithDistinctVisitsWhenSeveralActionsMatchTheSegment()
+    {
+        $this->enableSemiJoinQuery();
+
+        for ($visit = 1; $visit <= 5; $visit++) {
+            $this->trackVisitWithPageUrls('2010-03-02 0' . $visit . ':00:00', ['/needle/one', '/needle/two', '/needle/three']);
+        }
+
+        $visits = $this->queryVisitsLog('actionUrl=@needle', $offset = 0, $limit = 3, '2010-03-02');
+
+        $this->assertCount(3, $visits);
+        $this->assertCount(3, array_unique(array_column($visits, 'idvisit')));
+    }
+
+    public function testQueryLogVisitsPagesThroughDistinctVisitsWhenSeveralActionsMatchTheSegment()
+    {
+        $this->enableSemiJoinQuery();
+
+        for ($visit = 1; $visit <= 5; $visit++) {
+            $this->trackVisitWithPageUrls('2010-03-03 0' . $visit . ':00:00', ['/needle/one', '/needle/two']);
+        }
+
+        $all = array_column($this->queryVisitsLog('actionUrl=@needle', 0, 10, '2010-03-03'), 'idvisit');
+        $this->assertCount(5, $all);
+
+        $page = array_column($this->queryVisitsLog('actionUrl=@needle', 2, 2, '2010-03-03'), 'idvisit');
+
+        $this->assertEquals(array_slice($all, 2, 2), $page);
+    }
+
+    /**
+     * With the setting on, the visits log asks the joined log tables for a match instead of
+     * grouping their rows away. Both forms have to select the same visits, whichever tables the
+     * segment touches and however its conditions are combined.
+     *
+     * @dataProvider getSegmentsAcrossLogTables
+     */
+    public function testMakeLogVisitsQueryStringSelectsTheSameVisitsWithTheSettingOnAsOff($segment, $offset, $limit, $order)
+    {
+        $this->trackVisitWithPageUrls('2010-03-04 01:00:00', ['/needle/one', '/needle/two', '/needle/three'], 'someone@example.com');
+        $this->trackVisitWithPageUrls('2010-03-04 02:00:00', ['/haystack'], 'nobody@example.com');
+        $this->trackVisitWithPageUrls('2010-03-04 03:00:00', ['/needle/one'], 'nobody@example.com');
+        $this->trackVisitWithPageUrls('2010-03-04 04:00:00', ['/haystack/one', '/haystack/two'], 'someone@example.com');
+        $this->trackVisitWithPageUrls('2010-03-04 05:00:00', ['/needle/one', '/haystack/two'], 'nobody@example.com');
+
+        [$groupedSql, $groupedBind] = $this->visitsLogQuery($segment, $offset, $limit, $order, '2010-03-04');
+
+        // guard against the setting leaking in from an earlier test, which would compare the same
+        // query with itself and pass without testing anything
+        $this->assertStringContainsString('GROUP BY', $groupedSql);
+
+        $grouped = array_column(Db::fetchAll($groupedSql, $groupedBind), 'idvisit');
+
+        if (0 === $offset) {
+            // make sure the segments actually select something, so the comparison cannot pass empty
+            $this->assertNotEmpty($grouped);
+        }
+
+        $this->enableSemiJoinQuery();
+
+        [$semiJoinSql, $semiJoinBind] = $this->visitsLogQuery($segment, $offset, $limit, $order, '2010-03-04');
+        $this->assertStringNotContainsString('GROUP BY', $semiJoinSql);
+
+        $this->assertEquals($grouped, array_column(Db::fetchAll($semiJoinSql, $semiJoinBind), 'idvisit'));
+    }
+
+    public function getSegmentsAcrossLogTables()
+    {
+        $segments = [
+            'actionUrl=@needle',
+            'actionUrl=@needle;userId==someone@example.com',
+            'actionUrl=@needle,userId==someone@example.com',
+            'actionUrl=@needle;pageTitle=@Page',
+            'actionUrl=@needle,pageTitle=@haystack',
+            'actionUrl!@needle',
+            'userId==someone@example.com',
+            'entryPageUrl=@needle',
+        ];
+
+        $cases = [];
+        foreach ($segments as $segment) {
+            foreach ([['DESC', 0, 10], ['ASC', 0, 10], ['DESC', 2, 2], ['ASC', 1, 3]] as [$order, $offset, $limit]) {
+                $cases["$segment $order $offset,$limit"] = [$segment, $offset, $limit, $order];
+            }
+        }
+
+        return $cases;
+    }
+
+    private function enableSemiJoinQuery(): void
+    {
+        $config = Config::getInstance();
+        $live = $config->Live;
+        $live['use_semi_join_query'] = 1;
+        $config->Live = $live;
+    }
+
+    private function queryVisitsLog(string $segment, int $offset, int $limit, string $date = '2010-03-01'): array
+    {
+        return (new Model())->queryLogVisits(
+            1,
+            'day',
+            $date,
+            $segment,
+            $offset,
+            $limit,
+            $visitorId = false,
+            $minTimestamp = false,
+            $filterSortOrder = 'desc'
+        );
+    }
+
+    private function visitsLogQuery(string $segment, int $offset, int $limit, string $order, string $date): array
+    {
+        $model = new Model();
+        [$dateStart, $dateEnd] = $model->getStartAndEndDate(1, 'day', $date);
+
+        return $model->makeLogVisitsQueryString(
+            1,
+            $dateStart,
+            $dateEnd,
+            $segment,
+            $offset,
+            $limit,
+            $visitorId = false,
+            $minTimestamp = false,
+            $order
+        );
+    }
+
+    private function trackVisitWithPageUrls(string $dateTime, array $urls, ?string $userId = null): void
+    {
+        $t = Fixture::getTracker(1, $dateTime, $defaultInit = true);
+        $t->setTokenAuth(Fixture::getTokenAuth());
+        $t->setNewVisitorId();
+
+        if (null !== $userId) {
+            $t->setUserId($userId);
+        }
+
+        foreach (array_values($urls) as $index => $url) {
+            $t->setForceVisitDateTime(Date::factory($dateTime)->addPeriod($index, 'minute')->getDatetime());
+            $t->setUrl('http://example.org' . $url);
+            Fixture::checkResponse($t->doTrackPageView('Page ' . $url));
+        }
     }
 
     private function trackPageView(): void
