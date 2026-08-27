@@ -123,7 +123,7 @@
             @click.prevent="showExportImage($event)"
           >
             <span class="mtm-dropdownPanel__menuLabel">
-              {{ translate('General_ExportAsImage') }}
+              {{ translate('CoreHome_ExportImage') }}
             </span>
           </a>
         </li>
@@ -141,7 +141,7 @@
             href=""
             @click.prevent
           >
-            <span class="mtm-dropdownPanel__menuLabel">{{ translate('General_Export') }}</span>
+            <span class="mtm-dropdownPanel__menuLabel">{{ translate('CoreHome_ExportData') }}</span>
           </a>
         </li>
         <li
@@ -163,14 +163,14 @@
         :id="`dropdownVisualizations${randomIdForDropdown}`"
         class="mtm-dropdownPanel__menu dataTableFooterIcons"
       >
-        <Passthrough v-for="(footerIconGroup, index) in footerIcons" :key="index">
+        <Passthrough v-for="(footerIconGroup, index) in visibleFooterIconGroups" :key="index">
           <li
-            v-if="index > 0 || hasActionsAbove"
+            v-if="showsSeparatorBefore(footerIconGroup, index)"
             class="mtm-dropdownPanel__separator"
             role="separator"
           />
           <li
-            v-for="footerIcon in footerIconGroup.buttons.filter((i) => !!i.icon)"
+            v-for="footerIcon in footerIconGroup.buttons"
             :key="footerIcon.id"
             class="mtm-dropdownPanel__menuItem"
           >
@@ -343,6 +343,14 @@ export default defineComponent({
     ReportExport,
   },
   methods: {
+    // Insights reads as the tail of the list above it rather than a group of its own.
+    showsSeparatorBefore(group: FooterIconGroup, index: number): boolean {
+      if (index > 0 && group.class === 'tableInsightViews') {
+        return false;
+      }
+
+      return index > 0 || this.hasActionsAbove;
+    },
     isPromoted(action: PromotableActionId): boolean {
       return this.promotedActions.indexOf(action) !== -1;
     },
@@ -404,7 +412,14 @@ export default defineComponent({
         .map((id) => this.allFooterIcons.find((button) => button.id === id))
         .filter((icon) => !!icon) as FooterIcon[];
     },
-    // Whether anything renders above the visualisation list, so its leading separator has
+    // A group whose buttons all lack an icon renders nothing, and a separator for it would end the
+    // menu on a rule with nothing under it.
+    visibleFooterIconGroups(): FooterIconGroup[] {
+      return (this.footerIcons as FooterIconGroup[])
+        .map((group) => ({ ...group, buttons: group.buttons.filter((i) => !!i.icon) }))
+        .filter((group) => group.buttons.length > 0);
+    },
+    // Whether anything renders above the visualisation lists, so their leading separator has
     // something to separate from.
     hasActionsAbove(): boolean {
       return this.showConfigItems
