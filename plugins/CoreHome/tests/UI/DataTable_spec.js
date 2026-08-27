@@ -136,6 +136,40 @@ describe('DataTable', function () {
     }));
   }
 
+  it('should link summary rows to the row limits documentation', async function () {
+    await loadWidget();
+    await page.waitForFunction((widgetSel) => {
+      const reportElement = document.querySelector(`${widgetSel} [data-report]`);
+      return reportElement && window.$(reportElement).data('uiControlObject');
+    }, {}, widgetSelector);
+
+    const helpLink = await page.evaluate((widgetSel) => {
+      const reportElement = document.querySelector(`${widgetSel} [data-report]`);
+      const tableBody = reportElement.querySelector('table.dataTable tbody');
+      const summaryRow = document.createElement('tr');
+      summaryRow.className = 'summaryRow';
+      summaryRow.innerHTML = '<td class="label"><span class="value">Others</span></td>';
+      tableBody.appendChild(summaryRow);
+
+      const $reportElement = window.$(reportElement);
+      $reportElement.data('uiControlObject').handleSummaryRow($reportElement);
+      window.$(summaryRow).trigger('mouseenter');
+
+      const link = summaryRow.querySelector('a');
+      return {
+        pathname: new URL(link.href).pathname,
+        rel: link.rel,
+        target: link.target,
+      };
+    }, widgetSelector);
+
+    expect(helpLink).to.deep.equal({
+      pathname: '/faq/reports/understanding-row-limits-and-others-rows/',
+      rel: 'noreferrer noopener',
+      target: '_blank',
+    });
+  });
+
   it('should total every row of the report when no table search is active', async function () {
     await loadWidget();
     await toggleTotalsRow();
