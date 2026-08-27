@@ -7,8 +7,12 @@
 
 <template>
   <div ref="root" class="modal" id="pluginDetailsModal">
+    <div v-if="isLoading" class="modal-content plugin-details-loading">
+      <MatomoLoader />
+    </div>
+
     <div
-      v-if="!isLoading"
+      v-else
       class="modal-content"
       :class="{ 'modal-content--simple-header': !hasHeaderMetadata }"
     >
@@ -340,6 +344,7 @@
 import { defineComponent } from 'vue';
 import {
   AjaxHelper,
+  MatomoLoader,
   MatomoUrl,
   translate,
   externalLink,
@@ -368,7 +373,7 @@ interface PluginDetailsModalState {
 }
 
 export default defineComponent({
-  components: { MissingReqsNotice, CTAContainer },
+  components: { MatomoLoader, MissingReqsNotice, CTAContainer },
   props: {
     modelValue: {
       type: Object,

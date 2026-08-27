@@ -156,6 +156,15 @@
         top: 0 !important; // required to override inline style set by the modal
     }
 
+    .plugin-details-loading {
+        // holds the modal at a readable size while the details load, so it does not open tiny and
+        // jump to full height when they arrive
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 320px;
+    }
+
     .btn-close {
         z-index: 100;
     }

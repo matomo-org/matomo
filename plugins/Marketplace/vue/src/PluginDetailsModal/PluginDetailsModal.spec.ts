@@ -19,6 +19,8 @@ jest.mock('CoreHome', () => ({
   },
   translate: (key: string) => key,
   externalLink: (url: string) => `<a href="${url}">`,
+  // rendered by the loading branch; without it every mount logs a resolve warning
+  MatomoLoader: { name: 'MatomoLoader', template: '<div class="matomo-loader" />' },
 }), { virtual: true });
 
 // the component reads window.$ at module load, so the stub has to exist before it is required
@@ -265,5 +267,16 @@ describe('PluginDetailsModal', () => {
 
     expect(vmOf(wrapper).isLoading).toBe(true);
     expect(vmOf(wrapper).fetchErrorMessage).toBe('');
+  });
+
+  it('renders the loader instead of the details while the request is in flight', async () => {
+    mockPost.mockReturnValue(new Promise(() => { /* never settles */ }));
+
+    const wrapper = mountModal();
+    await wrapper.setProps({ modelValue: cardRow });
+
+    expect(wrapper.find('.plugin-details-loading').exists()).toBe(true);
+    expect(wrapper.find('.matomo-loader').exists()).toBe(true);
+    expect(wrapper.find('.modal-content__main').exists()).toBe(false);
   });
 });

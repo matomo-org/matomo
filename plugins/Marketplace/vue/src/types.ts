@@ -68,14 +68,16 @@ export interface PluginCard {
   missingRequirements: TObjectArray;
   numDownloads: number | null;
   numDownloadsPretty: TNumberOrString;
-  priceFrom: IPluginShopVariation;
+  priceFrom: IPluginShopVariation | null; // null when the plugin has no shop variations
   consumer: TObject;
   downloadNonce?: string; // only present for a plugin that can be downloaded
 }
 
 /**
- * A card plus the fields only the details modal renders, as returned by
- * `Marketplace.getPluginDetails`. `versions` holds the latest version alone.
+ * A card merged with the fields only the details modal renders, which is what the modal holds once
+ * `Marketplace.getPluginDetails` has answered. The inherited `isTrialRequested`,
+ * `canTrialBeRequested` and `downloadNonce` come from the card, not from that response.
+ * `versions` holds the latest version alone.
  */
 export interface PluginDetails extends PluginCard {
   homepage: string | null;

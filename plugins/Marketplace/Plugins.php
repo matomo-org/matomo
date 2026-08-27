@@ -80,14 +80,21 @@ class Plugins
      * scheduled task, where asking for a single plugin costs a round trip to the Marketplace the
      * first time each one is opened.
      *
+     * Only an already cached list is used. Fetching one to answer for a single plugin would download
+     * the whole catalogue where the info request downloads one plugin.
+     *
      * @return array<string, mixed>
      */
     public function getPluginInfoPreferringList(string $pluginName): array
     {
         foreach ([false, true] as $themesOnly) {
-            $listed = $themesOnly
-                ? $this->marketplaceClient->searchForThemes('', '', Sort::DEFAULT_SORT, PurchaseType::TYPE_ALL)
-                : $this->marketplaceClient->searchForPlugins('', '', Sort::DEFAULT_SORT, PurchaseType::TYPE_ALL);
+            $listed = $this->marketplaceClient->getCachedOverviewList($themesOnly);
+
+            if (null === $listed) {
+                // not warm, so fetching the whole catalogue to answer for one plugin would cost far
+                // more than the single info request below
+                continue;
+            }
 
             foreach ($listed as $plugin) {
                 if (isset($plugin['name']) && $plugin['name'] === $pluginName) {
@@ -98,7 +105,7 @@ class Plugins
             }
         }
 
-        // not in either list, so it is one the search filters out — ask for it directly
+        // either the lists are cold or this is a plugin they filter out — ask for it directly
         return $this->getPluginInfo($pluginName);
     }
 
@@ -412,6 +419,14 @@ class Plugins
                 empty($license)
                 || (!empty($license['status']) && $license['status'] === 'Cancelled')
             );
+
+        // and replace the copy the Marketplace embedded in the cached list with the one the flags
+        // were just derived from, so the plugin does not carry two answers to the same question.
+        // Plugins\InvalidLicenses reads this to classify the admin-page license banners, and read
+        // the stale copy while the cards read the fresh one until this was written back.
+        if (array_key_exists('consumer', $plugin) && is_array($plugin['consumer'])) {
+            $plugin['consumer']['license'] = $license;
+        }
 
         return $plugin;
     }

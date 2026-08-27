@@ -121,10 +121,53 @@ class ClientTest extends SystemTestCase
         $this->client->getPluginInfo('NotExistingPlugIn');
     }
 
+    public function testRefreshOverviewListCachesRefetchesEvenWhileTheEntriesAreStillValid()
+    {
+        $service = new TestService($this->domain);
+        $service->returnFixture('v2.0_plugins.json');
+        $client = $this->buildClient($service);
+
+        $apis = [];
+        $service->setOnFetchCallback(function ($action) use (&$apis) {
+            $apis[] = $action;
+        });
+
+        $client->refreshOverviewListCaches();
+        $onColdCache = $apis;
+
+        $apis = [];
+        $client->refreshOverviewListCaches();
+
+        // a warmer that read through the cache would request nothing here, so every entry would
+        // expire on its own timeout and sit cold until some later run happened to find it missing
+        $this->assertNotEmpty($onColdCache);
+        $this->assertSame($onColdCache, $apis);
+    }
+
+    public function testRefreshOverviewListCachesDoesNotMakeOrdinaryReadsRefetch()
+    {
+        $service = new TestService($this->domain);
+        $service->returnFixture('v2.0_plugins.json');
+        $client = $this->buildClient($service);
+
+        $client->refreshOverviewListCaches();
+
+        $apis = [];
+        $service->setOnFetchCallback(function ($action) use (&$apis) {
+            $apis[] = $action;
+        });
+
+        $client->searchForPlugins('', '', Sort::DEFAULT_SORT, PurchaseType::TYPE_ALL);
+
+        // only the warmer forces a refetch; the page it warms still reads from the cache
+        $this->assertSame([], $apis);
+    }
+
     public function testThePluginListIsCachedForLongerThanTheTaskRefillsIt()
     {
-        // browsing data, which the Marketplace itself serves with an eight day max-age. It has to
-        // outlive the interval Tasks::warmCacheEntries() refills it at or the warming is moot.
+        // the list is browsing data, which the Marketplace itself serves with an eight day max-age.
+        // It has to outlive the interval Tasks::warmCacheEntries() refills it at, or the warming is
+        // moot: the entry would expire before the next refill and a visitor would pay for it.
         $ttls = $this->recordCacheTimeouts('v2.0_plugins.json', function (Client $client) {
             $client->searchForPlugins('', '', Sort::DEFAULT_SORT, PurchaseType::TYPE_ALL);
         });

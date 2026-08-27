@@ -25,11 +25,6 @@ class Tasks extends \Piwik\Plugin\Tasks
     private $api;
 
     /**
-     * @var Plugins
-     */
-    private $plugins;
-
-    /**
      * @var LoggerInterface
      */
     private $logger;
@@ -37,12 +32,10 @@ class Tasks extends \Piwik\Plugin\Tasks
     public function __construct(
         UpdateCommunication $updateCommunication,
         Api\Client $api,
-        Plugins $plugins,
         LoggerInterface $logger
     ) {
         $this->updateCommunication = $updateCommunication;
         $this->api = $api;
-        $this->plugins = $plugins;
         $this->logger = $logger;
     }
 
@@ -50,8 +43,10 @@ class Tasks extends \Piwik\Plugin\Tasks
     {
         $this->daily('clearAllCacheEntries', null, self::LOWEST_PRIORITY);
         // more often than the lists expire, so a visitor almost never pays for the requests the
-        // overview page needs. The Marketplace serves them with an eight day max-age from a CDN, so
-        // refetching hourly costs it cache hits rather than origin work.
+        // overview page needs. This costs the Marketplace three requests an hour per installation
+        // that has it enabled: the responses carry a long max-age, but every Marketplace call is a
+        // POST (see Api\Service::download()) and is answered as a CloudFront miss, so each refill
+        // reaches the origin rather than a cache.
         $this->hourly('warmCacheEntries', null, self::LOWEST_PRIORITY);
         $this->daily('sendNotificationIfUpdatesAvailable', null, self::LOWEST_PRIORITY);
     }
@@ -68,30 +63,13 @@ class Tasks extends \Piwik\Plugin\Tasks
 
     public function warmCacheEntries(): void
     {
-        // the same queries, in the same shape, that Controller::searchPlugins() issues for the
-        // default view. A different sort or purchase type is a different cache entry.
-        $warmers = [
-            function () {
-                $this->plugins->getAllPlugins();
-            },
-            function () {
-                $this->plugins->getAllThemes();
-            },
-            function () {
-                // the premium filter is a separate cache entry, and the flush emptied it too
-                $this->plugins->getAllPaidPlugins();
-            },
-        ];
-
-        foreach ($warmers as $warmer) {
-            try {
-                $warmer();
-            } catch (Exception $e) {
-                // the Marketplace being unreachable must not fail the scheduled run
-                $this->logger->info('Could not warm the Marketplace cache: {message}', [
-                    'message' => $e->getMessage(),
-                ]);
-            }
+        try {
+            $this->api->refreshOverviewListCaches();
+        } catch (Exception $e) {
+            // the Marketplace being unreachable must not fail the scheduled run
+            $this->logger->info('Could not warm the Marketplace cache: {message}', [
+                'message' => $e->getMessage(),
+            ]);
         }
     }
 

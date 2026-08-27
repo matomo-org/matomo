@@ -65,7 +65,10 @@ class Consumer
             if ($action === 'info') {
                 return $service->getFixtureContent('v2.0_info.json');
             } elseif ($action === 'consumer') {
-                return $service->getFixtureContent('v2.0_consumer-num_users-201-access_token-consumer1_paid2_custom1.json');
+                // has to describe the same consumer as the paid plugins list this scenario serves,
+                // now that the license flags come from the consumer response rather than the copy
+                // embedded in that list
+                return $service->getFixtureContent('v2.0_consumer-num_users-201-access_token-consumer2_paid1.json');
             } elseif ($action === 'consumer/validate') {
                 return $service->getFixtureContent('v2.0_consumer_validate-access_token-consumer1_paid2_custom1.json');
             } elseif ($action === 'plugins' && !empty($params['purchase_type']) && $params['purchase_type'] === PurchaseType::TYPE_PAID) {

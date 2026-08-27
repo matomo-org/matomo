@@ -307,15 +307,84 @@ class Client
         return $summaries;
     }
 
+    /**
+     * Refetches the plugin and theme lists the Marketplace overview asks for, ignoring what is
+     * cached, and stores them under the timeout {@link getCacheTimeout()} gives them.
+     *
+     * The scheduled task cannot do this by calling {@link searchForPlugins()}: a still-valid entry
+     * is served without being extended, so warming would be a no-op until the entry had already
+     * expired, and the cache would sit cold from each expiry until a later run happened to find it
+     * missing. Refetching outright is what keeps it continuously warm.
+     */
+    public function refreshOverviewListCaches(): void
+    {
+        $lists = [
+            ['plugins', PurchaseType::TYPE_ALL],
+            ['themes', PurchaseType::TYPE_ALL],
+            // the premium filter is its own cache entry
+            ['plugins', PurchaseType::TYPE_PAID],
+        ];
+
+        foreach ($lists as list($action, $purchaseType)) {
+            try {
+                $this->fetch($action, [
+                    'keywords' => '',
+                    'query' => '',
+                    'sort' => Sort::DEFAULT_SORT,
+                    'purchase_type' => $purchaseType,
+                ], true);
+            } catch (PhpException $e) {
+                // per list, so one that cannot be reached does not leave the others cold too
+                $this->logger->info('Could not refresh the Marketplace {action} list: {message}', [
+                    'action' => $action,
+                    'message' => $e->getMessage(),
+                ]);
+            }
+        }
+    }
+
     public function searchForPlugins($keywords, $query, $sort, $purchaseType)
     {
-        $response = $this->fetch('plugins', array('keywords' => $keywords, 'query' => $query, 'sort' => $sort, 'purchase_type' => $purchaseType));
+        return $this->searchFor('plugins', $keywords, $query, $sort, $purchaseType);
+    }
+
+    /**
+     * Returns the unfiltered, default sorted plugin or theme list, but only when it is already
+     * cached, and null when it is not.
+     *
+     * Lets a caller that only wants one plugin out of a list prefer the cached copy without a cold
+     * cache turning that into a download of the whole catalogue, which is far more expensive than
+     * the single {@link getPluginInfo()} request it would otherwise make.
+     *
+     * @return array[]|null
+     */
+    public function getCachedOverviewList(bool $themesOnly): ?array
+    {
+        return $this->searchFor(
+            $themesOnly ? 'themes' : 'plugins',
+            '',
+            '',
+            Sort::DEFAULT_SORT,
+            PurchaseType::TYPE_ALL,
+            true
+        );
+    }
+
+    private function searchFor($action, $keywords, $query, $sort, $purchaseType, bool $cachedOnly = false): ?array
+    {
+        $params = ['keywords' => $keywords, 'query' => $query, 'sort' => $sort, 'purchase_type' => $purchaseType];
+
+        $response = $this->fetch($action, $params, false, $cachedOnly);
+
+        if ($cachedOnly && null === $response) {
+            return null;
+        }
 
         if (!empty($response['plugins'])) {
             return $this->removeNotNeededPluginsFromResponse($response);
         }
 
-        return array();
+        return [];
     }
 
     private function removeNotNeededPluginsFromResponse($response)
@@ -336,16 +405,13 @@ class Client
 
     public function searchForThemes($keywords, $query, $sort, $purchaseType)
     {
-        $response = $this->fetch('themes', array('keywords' => $keywords, 'query' => $query, 'sort' => $sort, 'purchase_type' => $purchaseType));
-
-        if (!empty($response['plugins'])) {
-            return $this->removeNotNeededPluginsFromResponse($response);
-        }
-
-        return array();
+        return $this->searchFor('themes', $keywords, $query, $sort, $purchaseType);
     }
 
-    private function fetch($action, $params)
+    /**
+     * @param bool $cachedOnly Return null instead of requesting the action when it is not cached.
+     */
+    private function fetch($action, $params, bool $forceRefresh = false, bool $cachedOnly = false)
     {
         ksort($params); // sort params so cache is reused more often even if param order is different
 
@@ -370,10 +436,14 @@ class Client
         $query = Http::buildQuery($params);
         $cacheId = $this->getCacheKey($action, $query);
 
-        $result = $this->cache->fetch($cacheId);
+        $result = $forceRefresh ? false : $this->cache->fetch($cacheId);
 
         if ($result !== false) {
             return $result;
+        }
+
+        if ($cachedOnly) {
+            return null;
         }
 
         try {
@@ -418,8 +488,8 @@ class Client
             ? $params['purchase_type']
             : PurchaseType::TYPE_ALL;
 
-        $isWarmedQuery = empty($params['keywords'])
-            && empty($params['query'])
+        $isWarmedQuery = (!isset($params['keywords']) || $params['keywords'] === '')
+            && (!isset($params['query']) || $params['query'] === '')
             && isset($params['sort'])
             && $params['sort'] === Sort::DEFAULT_SORT
             && in_array($purchaseType, $warmedPurchaseTypes[$action], true);

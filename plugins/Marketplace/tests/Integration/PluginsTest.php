@@ -43,6 +43,11 @@ class PluginsTest extends IntegrationTestCase
      */
     private $consumerService;
 
+    /**
+     * @var Client
+     */
+    private $marketplaceClient;
+
     private const TEST_UNIQUE_ID = 'test-unique-id';
 
     public function setUp(): void
@@ -53,9 +58,10 @@ class PluginsTest extends IntegrationTestCase
 
         $this->service = new Service();
         $this->consumerService = new Service();
+        $this->marketplaceClient = Client::build($this->service);
 
         $this->plugins = new Plugins(
-            Client::build($this->service),
+            $this->marketplaceClient,
             new Consumer(Client::build($this->consumerService)),
             new Advertising()
         );
@@ -136,6 +142,45 @@ class PluginsTest extends IntegrationTestCase
     {
         $plugin = $this->plugins->getPluginInfo('fooBarBaz');
         $this->assertSame([], $plugin);
+    }
+
+    public function testEnrichmentReplacesTheEmbeddedLicenseWithTheOneTheFlagsCameFrom()
+    {
+        // PaidPlugin1's own entry embeds "license": null while the consumer response holds an
+        // exceeded one. Plugins\InvalidLicenses classifies the admin-page license banners off
+        // consumer.license, so an enriched plugin must not carry a different answer from the flags
+        // beside it — that is how the banner and the plugin card came to disagree.
+        // activated, because enrichPluginInformation() only resolves license state for an installed
+        // plugin — which is also the only kind InvalidLicenses classifies
+        $this->plugins->setActivatedPluginNames(['PaidPlugin1']);
+        $this->service->returnFixture('v2.0_plugins_PaidPlugin1_info.json');
+        $this->consumerService->authenticate('123456789');
+        $this->consumerService->returnFixture(
+            'v2.0_consumer-num_users-201-access_token-consumer2_paid1.json'
+        );
+
+        $plugin = $this->plugins->getPluginInfo('PaidPlugin1');
+
+        $this->assertNotEmpty($plugin['consumer']['license']);
+        $this->assertTrue($plugin['consumer']['license']['isExceeded']);
+        $this->assertTrue($plugin['hasExceededLicense']);
+    }
+
+    public function testLicenseInformationReportsAnExceededLicenseFromTheConsumerResponse()
+    {
+        // the positive half of the precedence: the consumer response is what has to be able to say
+        // "exceeded", because that is the state the plugin list's embedded copy can no longer be
+        // trusted for. Without this, nothing pins hasExceededLicense === true via the consumer.
+        $this->service->returnFixture('v2.0_plugins_PaidPlugin1_info.json');
+        $this->consumerService->authenticate('123456789');
+        $this->consumerService->returnFixture(
+            'v2.0_consumer-num_users-201-access_token-consumer2_paid1.json'
+        );
+
+        $plugin = $this->plugins->getLicenseValidInfo('PaidPlugin1');
+
+        $this->assertTrue($plugin['hasExceededLicense']);
+        $this->assertFalse($plugin['isMissingLicense']);
     }
 
     public function testLicenseInformationPrefersTheConsumerOverTheCopyEmbeddedInThePlugin()
@@ -527,6 +572,8 @@ class PluginsTest extends IntegrationTestCase
             'v2.0_plugins_checkUpdates-pluginspluginsnameAnonymousPi.json',
         ]);
 
+        $this->warmOverviewLists();
+
         $apis = [];
         $this->service->setOnFetchCallback(function ($action) use (&$apis) {
             $apis[] = $action;
@@ -542,11 +589,31 @@ class PluginsTest extends IntegrationTestCase
 
     public function testGetPluginInfoPreferringListFallsBackForAPluginTheListsOmit()
     {
-        // CustomReports is in neither list fixture, so the lookup scans the plugin list, then the
-        // theme list, then asks for the plugin directly and enriches just that one
+        // CustomReports is in neither list fixture, so the lookup scans the cached plugin list,
+        // then the cached theme list, then asks for the plugin directly and enriches just that one
         $this->service->returnFixture([
             'v2.0_plugins.json',
             'v2.0_themes.json',
+            'system_v2.0_plugins_CustomReports_info.json',
+            'v2.0_plugins_checkUpdates-pluginspluginsnameAnonymousPi.json',
+        ]);
+
+        $this->warmOverviewLists(true);
+
+        $apis = [];
+        $this->service->setOnFetchCallback(function ($action) use (&$apis) {
+            $apis[] = $action;
+        });
+
+        $plugin = $this->plugins->getPluginInfoPreferringList('CustomReports');
+
+        $this->assertContains('plugins/CustomReports/info', $apis);
+        $this->assertSame('CustomReports', $plugin['name']);
+    }
+
+    public function testGetPluginInfoPreferringListDoesNotFetchTheListsWhenTheyAreNotCached()
+    {
+        $this->service->returnFixture([
             'system_v2.0_plugins_CustomReports_info.json',
             'v2.0_plugins_checkUpdates-pluginspluginsnameAnonymousPi.json',
         ]);
@@ -558,8 +625,25 @@ class PluginsTest extends IntegrationTestCase
 
         $plugin = $this->plugins->getPluginInfoPreferringList('CustomReports');
 
+        // a cold cache must not turn one plugin lookup into a download of both catalogues, which is
+        // far more than the single info request the lookup replaces
+        $this->assertNotContains('plugins', $apis);
+        $this->assertNotContains('themes', $apis);
         $this->assertContains('plugins/CustomReports/info', $apis);
         $this->assertSame('CustomReports', $plugin['name']);
+    }
+
+    /**
+     * The overview page fetches these lists before any details modal can be opened, so a test about
+     * preferring them has to put them in the cache the same way the page does.
+     */
+    private function warmOverviewLists(bool $themesToo = false): void
+    {
+        $this->marketplaceClient->searchForPlugins('', '', Sort::DEFAULT_SORT, PurchaseType::TYPE_ALL);
+
+        if ($themesToo) {
+            $this->marketplaceClient->searchForThemes('', '', Sort::DEFAULT_SORT, PurchaseType::TYPE_ALL);
+        }
     }
 
     public function testSearchPluginsShouldNotRequestPluginInfoForEveryPluginHavingUpdate()
