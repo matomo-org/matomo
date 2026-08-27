@@ -1,3 +1,5 @@
+{# In the footer placement this renders nothing: the mount is kept so dataTable.js can read the
+   report's config off its Vue instance and sync it into the header's menu. #}
 <div
     vue-entry="CoreHome.DataTableActions"
     show-footer="{{ properties.show_footer|json_encode }}"
@@ -11,7 +13,6 @@
     show-export-as-image-icon="{{ properties.show_export_as_image_icon|json_encode }}"
     show-annotations="{{ (isPluginLoaded('Annotations') and not properties.hide_annotations_view)|json_encode }}"
     annotations-showing="{{ false|json_encode }}"
-    has-report-header="{{ true|json_encode }}"
     show-search="{{ properties.show_search|json_encode }}"
     report-id="{{ properties.report_id|json_encode }}"
     data-table-actions="{{ properties.datatable_actions|default([])|json_encode }}"

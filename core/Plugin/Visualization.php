@@ -242,8 +242,8 @@ class Visualization extends ViewDataTable
         $clientSideParameters = $this->getClientSideParametersToSet();
         // Every request parameter is echoed back into `data-params`, which uiControl.js parses into
         // the table's own params - so one describing a single render would be re-sent by every later
-        // reload, permanently. Both of these describe a render, not the report.
-        foreach (['showtitle', 'disable_report_header'] as $renderOnlyParameter) {
+        // reload, permanently. These describe a render, not the report.
+        foreach (['showtitle', 'disable_report_header', 'own_report_header'] as $renderOnlyParameter) {
             unset($clientSideParameters[$renderOnlyParameter]);
         }
         $view->clientSideParameters = $clientSideParameters;
@@ -256,9 +256,13 @@ class Visualization extends ViewDataTable
         // Route-derived so it can't be forced onto a non-iframe request via a query param.
         $view->isWidgetizedIframe = $request->getStringParameter('module', '') === 'Widgetize'
             && $request->getStringParameter('action', '') === 'iframe';
-        // Whether this render owns the report header. False on a table reload, which already has one
-        // in the DOM - see reloadAjaxDataTable() in dataTable.js. Distinct from `showtitle`, which
-        // only says whether a title is wanted in it.
+        // Whether no chrome above renders a header, so this one must. Only a parent knows, and only
+        // a widget container in an iframe says so - a dashboard and the add-widget preview provide
+        // one themselves.
+        $view->ownsReportHeader = $request->getBoolParameter('own_report_header', false);
+        // False on a table reload, which already has a header in the DOM - see
+        // reloadAjaxDataTable() in dataTable.js. Distinct from `showtitle`, which only says
+        // whether a title is wanted in it.
         $view->mayRenderReportHeader = !$request->getBoolParameter('disable_report_header', false);
         $view->notifications = [];
         $view->isComparing = $this->isComparing();

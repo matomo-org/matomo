@@ -19,9 +19,11 @@
    which point they can be renamed to show_header and show_header_icons. #}
 {% set widgetizedIframe = isWidgetizedIframe|default(false) %}
 {% set hasReportActions = properties.show_footer and properties.show_footer_icons and error is not defined %}
+{% set ownsHeader = ownsReportHeader|default(false) %}
 {% set renderStandaloneHeader = not showCardAsContentBlock and mayRenderReportHeader
-    and (showOnlyTitleWithoutCard or widgetizedIframe or (hasReportActions and not isWidget)) %}
-{% set headerContext = widgetizedIframe ? 'widgetized' : 'fullPage' %}
+    and (showOnlyTitleWithoutCard or widgetizedIframe or ownsHeader
+        or (hasReportActions and not isWidget)) %}
+{% set headerContext = (widgetizedIframe or ownsHeader) ? 'widgetized' : 'fullPage' %}
 
 {# The header must stay outside `.dataTable`, which an ajax reload replaces wholesale - inside it, it
    would not survive the first sort. `mayRenderReportHeader` is what keeps that same reload from

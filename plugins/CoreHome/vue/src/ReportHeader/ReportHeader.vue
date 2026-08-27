@@ -87,7 +87,7 @@
                no keyboard path depends on it. -->
             <!-- eslint-disable-next-line vuejs-accessibility/click-events-have-key-events -->
             <div class="reportHeader__actionsMenu" @click="closeActions">
-              <div class="mtm-dropdownPanel mtm-dropdownPanel--wide">
+              <div class="mtm-dropdownPanel mtm-dropdownPanel--wide mtm-dropdownPanel--withSubmenu">
                 <DataTableActions
                   placement="header"
                   :show-footer="showFooter"
@@ -99,6 +99,7 @@
                   :max-filter-limit="maxFilterLimit"
                   :show-annotations="showAnnotations"
                   :annotations-showing="annotationsShowing"
+                  :show-periods="showPeriods"
                   :show-export="showExport"
                   :show-export-as-image-icon="showExportAsImageIcon"
                   :report-id="reportId"
@@ -280,6 +281,7 @@ export default defineComponent({
     },
     showAnnotations: Boolean,
     annotationsShowing: Boolean,
+    showPeriods: Boolean,
     showExport: Boolean,
     showExportAsImageIcon: Boolean,
     reportId: {
