@@ -176,8 +176,6 @@ describe("EvolutionGraph", function () {
         await element.click();
         await page.waitForNetworkIdle();
 
-        // Opening notes from a marker moves the menu entry's label too, even though the entry
-        // then opens the whole-range view rather than hiding.
         const labelOf = () => page.evaluate(
           () => document.querySelector('.annotationView .mtm-dropdownPanel__menuLabel').textContent.trim(),
         );
@@ -185,8 +183,7 @@ describe("EvolutionGraph", function () {
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('annotations_single_period');
 
-        // Clicking the same marker slides the notes away again, and the label has to come back
-        // with them - the callback that moves it runs on the way out as well as the way in.
+        // The callback that moves the label runs on the way out as well as the way in.
         await element.click();
         await page.waitForTimeout(1000);
         expect(await labelOf()).to.equal('Show annotations');
@@ -221,9 +218,7 @@ describe("EvolutionGraph", function () {
     });
 
     it("should put the label back when the notes are hidden again", async function () {
-        // Continues from the test above, which left the notes open from the menu entry. Clicks
-        // through the element rather than the pointer so the assertion is about the toggle's
-        // state machine, not about whether the panel happens to be open at the time.
+        // Clicks through the element, not the pointer: the panel may or may not be open here.
         const labelOf = () => page.evaluate(
           () => document.querySelector('.annotationView .mtm-dropdownPanel__menuLabel').textContent.trim(),
         );
@@ -341,6 +336,8 @@ describe("EvolutionGraph", function () {
         });
         await page.reload();
         await page.waitForNetworkIdle();
+        // the period selector is an entry in the header's menu now, so open it first
+        await page.click('.reportHeader__actionsTrigger');
         await (await page.jQuery('.activatePeriodsSelection:last')).click();
 
         await page.mouse.move(-10, -10);
@@ -350,8 +347,14 @@ describe("EvolutionGraph", function () {
     });
 
     it("should be possible to change period", async function () {
+        // the previous test left the menu and its submenu open
         await (await page.jQuery('[data-period=month]:last')).click();
         await page.waitForNetworkIdle();
+
+        const stillOpen = await page.evaluate(
+          () => document.querySelectorAll('.mtm-dropdownPanel__submenu--open').length,
+        );
+        expect(stillOpen, 'picking a period folds the submenu').to.equal(0);
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('periods_selected');
     });
@@ -472,10 +475,40 @@ describe("EvolutionGraph", function () {
         });
     });
 
-    it("should keep the annotations reachable where no report header renders", async function () {
-        // A widgetized container renders no header, so the menu this action moved into does not
-        // exist there. The entry falls back into the footer rather than leaving the graph's
-        // markers with nothing to open the notes from.
+    it("should reach the period submenu with the keyboard alone", async function () {
+        await page.goto(url);
+        await page.waitForNetworkIdle();
+
+        await page.evaluate(() => document.querySelector('.reportHeader__actionsTrigger').click());
+        await page.waitForTimeout(200);
+        await page.evaluate(() => document.querySelector('.activatePeriodsSelection').click());
+        await page.waitForSelector('.mtm-dropdownPanel__submenu--open', { visible: true });
+
+        const focused = await page.evaluate(() => {
+            const item = document.querySelector('.dataTablePeriods [role="menuitem"]');
+            if (!item) {
+                return 'no item';
+            }
+            item.focus();
+            return document.activeElement === item ? 'focused' : 'not focusable';
+        });
+        expect(focused, 'a period is focusable once the submenu is open').to.equal('focused');
+
+        // Enter has to act, since the item is not a link the browser would follow.
+        await page.evaluate(() => {
+            document.querySelector('.dataTablePeriods [data-period="week"]')
+                .dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+        });
+        await page.waitForNetworkIdle();
+        await page.waitForTimeout(500);
+        const period = await page.evaluate(
+          () => $('.dataTable').first().data('uiControlObject').param.period,
+        );
+        expect(period, 'Enter changed the period').to.equal('week');
+    });
+
+    it("should render a report header inside a widgetized container", async function () {
+        // Nothing above a widgetized container's children renders a header, so each renders its own.
         await page.goto("?module=Widgetize&action=iframe&containerId=VisitOverviewWithGraph"
             + "&moduleToWidgetize=CoreHome&actionToWidgetize=renderWidgetContainer"
             + "&disableLink=1&widget=1&idSite=1&period=day&date=2012-01-31&evolution_day_last_n=30");
@@ -484,12 +517,16 @@ describe("EvolutionGraph", function () {
 
         const state = await page.evaluate(() => ({
             headers: document.querySelectorAll('.reportHeader').length,
+            triggers: document.querySelectorAll('.reportHeader__actionsTrigger').length,
             entries: document.querySelectorAll('.annotationView').length,
             markers: document.querySelectorAll('.evolution-annotations span[data-date]').length,
+            periods: document.querySelectorAll('.activatePeriodsSelection').length,
         }));
-        expect(state.headers, 'no header renders in this context').to.equal(0);
+        expect(state.headers, 'the report renders its own header here').to.equal(1);
+        expect(state.triggers, 'exactly one, not one per child').to.equal(1);
         expect(state.markers, 'markers render').to.be.above(0);
-        expect(state.entries, 'and the toggle came with them').to.equal(1);
+        expect(state.entries, 'the annotations toggle is in it').to.equal(1);
+        expect(state.periods, 'and so is the period selector').to.equal(1);
 
         await page.evaluate(() => document.querySelector('.annotationView').click());
         await page.waitForNetworkIdle();

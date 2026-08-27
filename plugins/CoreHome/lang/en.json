@@ -2,7 +2,6 @@
     "CoreHome": {
         "AIInsights": "AI Insights",
         "CategoryNoData": "No data in this category. Try to \"Include all population\".",
-        "ChangePeriod": "Change period",
         "CheckForUpdates": "Check for updates",
         "CheckPiwikOut": "Check Matomo out!",
         "ClickToEditX": "Click to edit %s",
@@ -33,6 +32,7 @@
         "ShowAbsoluteValues": "Show absolute values",
         "ShowAbsoluteValuesDataTable": "The report is showing percentages %s Show absolute values",
         "ShowExportUrl": "Show Export URL",
+        "ShowPeriod": "Show period",
         "SupportUsOn": "Support us on",
         "IncludeRowsWithLowPopulation": "Rows with low population are hidden %s Show all rows",
         "InjectedHostEmailBody": "Hello, I tried to access Matomo today and encountered the unknown hostname warning.",
