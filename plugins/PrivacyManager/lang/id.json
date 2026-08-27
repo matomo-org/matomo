@@ -61,7 +61,6 @@
         "ComplianceEnforceCheckboxIntro": "Enforce compliance where possible",
         "ComplianceEnforceCheckboxTitle": "Enforce settings that help support CNIL consent-exemption alignment where possible",
         "ComplianceNonCompliant": "tidak patuh",
-        "ComplianceSelectSite": "Pilih situs di bawah untuk mendapatkan indikasi apakah situs tersebut patuh sesuai dengan undang‑undang privasi yang ditunjukkan",
         "ComplianceTableSettingName": "Nama Pengaturan",
         "ComplianceTableSettingNotes": "Catatan",
         "ComplianceTableSettingStatus": "Status",
