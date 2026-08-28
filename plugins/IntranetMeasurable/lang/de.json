@@ -1,8 +1,8 @@
 {
     "IntranetMeasurable": {
-        "Intranet": "Intranet Webseite",
+        "Intranet": "Intranet-Webseite",
         "IntranetDescription": "Ein messbares Intranet ist wie eine Webseite, allerdings in einem internen Netzwerk gehostet.",
         "IntranetLongDescription": "Tracken Sie interne Seiten, auf die nur innerhalb des Netzwerks Ihrer Organisation zugegriffen werden kann. Matomo verwendet First-Party-Cookies, um einzelne Besucher in Intranet-Umgebungen genauer zu identifizieren.",
-        "Intranets": "Intranet Webseiten"
+        "Intranets": "Intranet-Webseiten"
     }
 }

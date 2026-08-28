@@ -77,6 +77,7 @@
         "PasswordResetEmailAppTokens": "Le changement de votre mot de passe ne révoque pas automatiquement vos jetons spécifiques à une application. Si vous suspectez un accès non autorisé, veuillez supprimer vos jetons existants et en générer de nouveaux dans la section de gestion des jetons.",
         "PasswordResetEmailLinkCancel": "Ce n'était pas moi",
         "PasswordResetEmailLinkReset": "Réinitialiser votre mot de passe",
+        "PasswordResetEmailLinkValidity": "Ce lien expirera dans %1$s pour des raisons de sécurité.",
         "PasswordResetEmailSubject": "Réinitialiser le mot de passe de votre compte Matomo",
         "PasswordsDoNotMatch": "Les mots de passe ne correspondent pas.",
         "PleaseNote": "Veuillez noter",
@@ -93,6 +94,7 @@
         "SettingBruteForceWhitelistIp": "Ne jamais empêcher ces IP d'ouvrir une session",
         "SettingPasswordStrengthCheck": "Imposer l’utilisation de mots de passe forts",
         "SettingPasswordStrengthCheckHelp": "Oblige les utilisateurs à créer des mots de passe forts en leur imposant de respecter une série de règles complexes : %1$s",
+        "SignInIntro": "Content de vous voir revenir chez Matomo, votre plateforme d'analyse de confidentialité.",
         "SuspiciousLoginAttemptsInLastHourEmail1": "Nous avons remarqué un nombre étrangement élevé de tentatives de connexion à votre compte Matomo au cours de la dernière heure. En effet : %1$s tentatives de connexion à partir de %2$s adresses IP distinctes. Nous soupçonnons quelqu'un de détourner votre accès.",
         "SuspiciousLoginAttemptsInLastHourEmail2": "Effectuez ces actions :",
         "SuspiciousLoginAttemptsInLastHourEmail3": "Assurez-vous que votre mot de passe est un mot de passe sûr, aléatoire et d'au moins 30 caractères.",
@@ -100,6 +102,8 @@
         "SuspiciousLoginAttemptsInLastHourEmail5": "Configurez une liste d'adresses IP toujours autorisées si votre Matomo a un nombre limité d'adresses IP ou d'utilisateurs. %1$sLisez la documentation pour plus d'informations.%2$s",
         "SuspiciousLoginAttemptsInLastHourEmailSubject": "Nous avons remarqué des tentatives de connexion suspectes avec votre nom d'utilisateur…",
         "TimeOfLogin": "Heure de la connexion",
+        "TokenAuthenticationFailed": "Impossible d'authentifier le jeton fourni. Il est invalide ou expiré.",
+        "TokenAuthenticationFailedInsecure": "Incapable d'authentifier le jeton fourni. Il est invalide, expiré ou est requis d'être envoyé comme paramètre POST ou dans l'en-tête d'autorisation HTTP. Si le jeton a été créé avec l'option 'Only allow secure requests', il doit être envoyé comme paramètre POST ou dans l'en-tête d'autorisation HTTP.",
         "UnblockAllIPs": "Débloquer toutes les adresses IP bloquées",
         "WrongPasswordEntered": "Veuillez entrer votre mot de passe."
     }
