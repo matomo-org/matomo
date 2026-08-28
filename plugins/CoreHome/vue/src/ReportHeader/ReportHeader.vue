@@ -342,6 +342,12 @@ export default defineComponent({
       type: String,
       default: '',
     },
+    // Written by syncReportHeaderActions() with the key it published under, so this header cannot
+    // read one nobody wrote.
+    reportKey: {
+      type: String,
+      default: '',
+    },
     dataTableActions: {
       type: Array as PropType<DataTableAction[]>,
       default: () => [],
@@ -392,6 +398,8 @@ export default defineComponent({
   data() {
     return {
       // Local mirror of the field, seeded from `searchQuery`.
+      // Stands in until the first publish; see the reportKey prop.
+      mountedReportKey: '',
       query: this.searchQuery,
       searchDebounceTimer: null as ReturnType<typeof setTimeout> | null,
       promotedCount: 0,
@@ -401,6 +409,8 @@ export default defineComponent({
     };
   },
   mounted() {
+    // Only until the table publishes and tells us the key it wrote - see syncReportHeaderActions().
+    this.mountedReportKey = reportIdentity(this.$el as HTMLElement, this.reportId);
     this.watchForRoom();
     this.updatePromoted();
   },
@@ -441,6 +451,9 @@ export default defineComponent({
     // What the menu renders from. Twig gives this header a starting point; on a reload the table is
     // replaced and this header is not, so twig's values then describe the load before it and
     // whatever the report published for itself wins.
+    activeReportKey(): string {
+      return this.reportKey || this.mountedReportKey;
+    },
     actions(): ReportActionsConfig {
       return {
         showFooter: this.showFooter,
@@ -468,10 +481,7 @@ export default defineComponent({
         apiMethodToRequestDataTable: this.apiMethodToRequestDataTable,
         pivotDimensionName: this.pivotDimensionName,
         actionTranslations: this.actionTranslations,
-        // Recomputed on every read rather than kept from mount: maximising moves this into a
-        // dialog and a related report renames it, so a key taken once stops matching the one the
-        // table publishes under.
-        ...ReportActionsStore.get(reportIdentity(this.$el as HTMLElement, this.reportId)),
+        ...ReportActionsStore.get(this.activeReportKey),
       } as ReportActionsConfig;
     },
     showActions(): boolean {

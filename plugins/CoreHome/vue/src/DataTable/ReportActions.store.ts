@@ -74,15 +74,11 @@ export class ReportActionsStore {
   }
 
   get(reportKey: string): Partial<ReportActionsConfig> {
-    const published = this.privateState.configByReport;
-
-    // Reads the keys, not only its own: a reader whose key follows the DOM has to wake when a new
-    // one is written, or it keeps returning the empty config its old key still points at.
-    if (!reportKey || !Object.keys(published).length) {
+    if (!reportKey) {
       return {};
     }
 
-    return published[reportKey] || {};
+    return this.privateState.configByReport[reportKey] || {};
   }
 
   set(reportKey: string, config: Partial<ReportActionsConfig>): void {

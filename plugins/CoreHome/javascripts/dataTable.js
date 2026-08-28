@@ -2128,10 +2128,16 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
         // Published for the header to read, rather than pushed onto its app: a menu can no longer
         // describe an older load because a push was missed or ran before the menu existed.
-        window.CoreHome.ReportActionsStore.set(
-            window.CoreHome.reportIdentity(domElem[0]),
-            config
-        );
+        var key = window.CoreHome.reportIdentity(domElem[0]);
+        window.CoreHome.ReportActionsStore.set(key, config);
+
+        // The header derives a key of its own at mount, from a position and a report id that both
+        // move under it - maximising puts the table in a dialog, a related report renames it. Hand
+        // it the key actually written instead.
+        var header = this._findReportHeaderApp(domElem);
+        if (header && header.app) {
+            header.app.reportKey_ = key;
+        }
     },
 
     // Returns { $el, app } for the shared ReportHeader Vue app that titles this report, or null.
