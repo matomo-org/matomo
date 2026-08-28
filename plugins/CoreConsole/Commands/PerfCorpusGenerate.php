@@ -457,7 +457,8 @@ class PerfCorpusGenerate extends ConsoleCommand
             $workers,
             (int) $this->getInput()->getOption('max-chunks'),
             $maxAttempts,
-            (int) $this->getInput()->getOption('stale-after')
+            (int) $this->getInput()->getOption('stale-after'),
+            (string) $this->getInput()->getParameterOption('--matomo-domain', '')
         );
 
         $totals = $this->coordinator->run($phase, function (int $workerNumber, array $info) use ($onChunk) {

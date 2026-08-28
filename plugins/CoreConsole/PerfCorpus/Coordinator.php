@@ -38,6 +38,17 @@ class Coordinator
     private int $maxAttempts;
     private int $staleAfterSeconds;
 
+    /**
+     * Forwarded to every worker.
+     *
+     * Matomo keys its config by host - Config builds misc/user/<hostname>/config.ini.php - so on a
+     * multi-host install a worker started without --matomo-domain finds no installation, prints
+     * "Matomo is not set up yet" and exits without ever claiming a chunk. The coordinator then
+     * waits forever for progress that cannot arrive, which looks like a hang rather than a
+     * failure. Empty string on a single-host install, where the option is not used.
+     */
+    private string $matomoDomain;
+
     /** @var Process[] */
     private array $processes = [];
 
@@ -50,13 +61,15 @@ class Coordinator
         int $workerCount,
         int $maxChunksPerWorker,
         int $maxAttempts,
-        int $staleAfterSeconds
+        int $staleAfterSeconds,
+        string $matomoDomain = ''
     ) {
         $this->context = $context;
         $this->workerCount = max(1, $workerCount);
         $this->maxChunksPerWorker = $maxChunksPerWorker;
         $this->maxAttempts = $maxAttempts;
         $this->staleAfterSeconds = $staleAfterSeconds;
+        $this->matomoDomain = $matomoDomain;
         $this->lastReclaim = microtime(true);
     }
 
@@ -216,7 +229,7 @@ class Coordinator
         // for an argv array.
         $php = rtrim((new CliPhp())->findPhpBinary(), ' -q');
 
-        return [
+        $command = [
             $php,
             PIWIK_DOCUMENT_ROOT . '/console',
             'perfcorpus:worker',
@@ -226,5 +239,11 @@ class Coordinator
             '--max-attempts=' . $this->maxAttempts,
             '--phase=' . (ChunkQueue::PHASE_PLAN === $phase ? 'plan' : 'load'),
         ];
+
+        if ('' !== $this->matomoDomain) {
+            $command[] = '--matomo-domain=' . $this->matomoDomain;
+        }
+
+        return $command;
     }
 }
