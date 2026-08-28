@@ -1398,7 +1398,7 @@ time_on_load_cap_duration_ms = 0
 ; LIMIT, so the query costs as much as the whole date range even when a single page of visits is
 ; requested. Both forms return the same visits in the same order, a visit matching several actions
 ; still counting once, see https://github.com/matomo-org/matomo/issues/13861
-use_semi_join_query = 0
+use_semi_join_query = 1
 
 [APISettings]
 ; Any key/value pair can be added in this section, they will be available via the REST call
