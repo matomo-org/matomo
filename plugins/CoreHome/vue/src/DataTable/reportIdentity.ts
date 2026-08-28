@@ -5,8 +5,6 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-const { $ } = window;
-
 /**
  * The key identifying one report's actions.
  *
@@ -27,27 +25,26 @@ export default function reportIdentity(
     return '';
   }
 
-  const $el = $(element);
-  const dialog = $el.closest('.ui-dialog').length ? 'dialog:' : '';
+  const dialog = element.closest('.ui-dialog') ? 'dialog:' : '';
 
-  const widget = $el.closest('[widgetId]');
-  if (widget.length) {
-    return `${dialog}widget:${widget.attr('widgetId')}`;
+  const widget = element.closest('[widgetId]');
+  if (widget) {
+    return `${dialog}widget:${widget.getAttribute('widgetId')}`;
   }
 
   // Widget.vue puts the unique id here, including on each child of a container
-  const matomoWidget = $el.closest('.matomo-widget');
-  if (matomoWidget.length && matomoWidget.attr('id')) {
-    return `${dialog}widget:${matomoWidget.attr('id')}`;
+  const matomoWidget = element.closest('.matomo-widget');
+  if (matomoWidget?.id) {
+    return `${dialog}widget:${matomoWidget.id}`;
   }
 
-  const id = reportId || $el.closest('[data-report]').attr('data-report') || '';
+  const id = reportId || element.closest('[data-report]')?.getAttribute('data-report') || '';
   if (!id) {
     return '';
   }
 
-  const container = $el.closest('[containerid]');
-  const containerPart = container.length ? `${container.attr('containerid')}:` : '';
+  const container = element.closest('[containerid]');
+  const containerPart = container ? `${container.getAttribute('containerid')}:` : '';
 
   return `${dialog}report:${containerPart}${id}`;
 }

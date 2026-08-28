@@ -394,8 +394,6 @@ export default defineComponent({
       // Local mirror of the field, seeded from `searchQuery`.
       query: this.searchQuery,
       searchDebounceTimer: null as ReturnType<typeof setTimeout> | null,
-      // Read off this element, which does not exist before mount.
-      reportKey: '',
       promotedCount: 0,
       periodsExpanded: false,
       resizeObserver: null as ResizeObserver | null,
@@ -403,7 +401,6 @@ export default defineComponent({
     };
   },
   mounted() {
-    this.reportKey = reportIdentity(this.$el as HTMLElement, this.reportId);
     this.watchForRoom();
     this.updatePromoted();
   },
@@ -471,7 +468,10 @@ export default defineComponent({
         apiMethodToRequestDataTable: this.apiMethodToRequestDataTable,
         pivotDimensionName: this.pivotDimensionName,
         actionTranslations: this.actionTranslations,
-        ...ReportActionsStore.get(this.reportKey),
+        // Recomputed on every read rather than kept from mount: maximising moves this into a
+        // dialog and a related report renames it, so a key taken once stops matching the one the
+        // table publishes under.
+        ...ReportActionsStore.get(reportIdentity(this.$el as HTMLElement, this.reportId)),
       } as ReportActionsConfig;
     },
     showActions(): boolean {

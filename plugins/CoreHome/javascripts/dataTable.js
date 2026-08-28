@@ -1737,6 +1737,10 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 .data('vueAppInstance');
             if (headerApp) {
                 var $documentation = $('.reportDocumentation', domElem);
+                // The table it publishes under is now a different report, and the header keys
+                // its config off this.
+                headerApp.reportId_ = domElem.closest('[data-report]').attr('data-report')
+                    || headerApp.reportId_;
                 headerApp.reportTitle_ = relatedReportName;
                 headerApp.featureName_ = relatedReportName;
                 headerApp.inlineHelp_ = $documentation.attr('data-content') || '';
