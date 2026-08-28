@@ -41,8 +41,19 @@ function setupAutoClear(el: HTMLInputElementWithAutoClear, delay: number) {
   let lastValue = el.value;
 
   const clearValue = (): void => {
+    if (el.value === '') {
+      return;
+    }
+
     el.value = '';
     el.dispatchEvent(new Event('input'));
+
+    // The event hits our own listener and re-arms the timer, so drop it again.
+    lastValue = '';
+    if (timeoutId !== undefined) {
+      clearTimeout(timeoutId);
+      timeoutId = undefined;
+    }
   };
 
   const resetTimer = (): void => {
