@@ -114,6 +114,23 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   produced by `./console vue:build --watch`. Plugin authors can delete the committed `vue/dist/<Plugin>.umd.js` file
   from their repository and add `/vue/dist/*.umd.js` to their `.gitignore`. Nothing else needs to change; the file is
   simply no longer regenerated.
+* Select form fields (`uicontrol="select"`) are now rendered as the bordered, rounded control used by the
+  expandable selects and the top-level selectors, instead of Materialize's underlined field: a 38px box with a
+  chevron, and a dropdown card that opens below the field. Plugin stylesheets that pin a narrow width on
+  `.select-wrapper` may need widening, because the control now reserves horizontal padding for its text and
+  chevron — too little width shows an ellipsised option label. Stylesheets that positioned Materialize's own
+  `.caret`, or that tuned the inner `input`'s height, line-height or font-size for the underlined control, can
+  drop those rules; the shared styles size the field. The field also reserves space above the control so that it
+  sits on the same centre line as a plain text input beside it; stylesheets that nudged a select into line with
+  its neighbours by hand can drop those rules too.
+* A select inside a content table (the `v-content-table` directive, which adds the `entityTable` class) is
+  rendered as a compact 32px control with no space reserved for a label, because the column heading names the
+  field. Per-table rules that hand-rolled that compactness for the old underlined control can be dropped.
+* While its dropdown is open, a select adds the `expanded` class to its `.select-wrapper` and turns its chevron,
+  matching the highlighted border and the chevron behaviour of the other dropdowns; the expandable select and the
+  site selector turn their chevrons too. Two changes affect plugin stylesheets: the select's chevron now sets its
+  own `font-size` instead of inheriting the surrounding text size, and `.expandableSelector__chevron` uses
+  `margin-right` rather than `padding-right`, so that the rotation turns the glyph in place.
 
 ## Matomo 5.12.0
 
