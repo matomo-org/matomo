@@ -121,6 +121,13 @@ function setupAutoClear(el: HTMLInputElementWithAutoClear, delay: number) {
   };
 }
 
+/**
+ * Clears a password input after a period of inactivity, and on page navigation.
+ *
+ * Bind it to a password input or to an element wrapping one. Only the DOM value
+ * is cleared: bound to a Vue `Field`, the plaintext stays in the bound model and
+ * a later re-render restores it into the input.
+ */
 export default {
   mounted(el: HTMLInputElementWithAutoClear, binding: DirectiveBinding<AutoClearArgs>): void {
     const delay = (binding.value && binding.value.delay) || 600;
