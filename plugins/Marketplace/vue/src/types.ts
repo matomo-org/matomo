@@ -70,7 +70,9 @@ export interface PluginCard {
   numDownloadsPretty: TNumberOrString;
   priceFrom: IPluginShopVariation | null; // null when the plugin has no shop variations
   consumer: TObject;
+  licenseStatus: string;
   downloadNonce?: string; // only present for a plugin that can be downloaded
+  isBundle?: boolean; // only sent for a plugin the Marketplace flags as one
 }
 
 /**
@@ -95,7 +97,6 @@ export interface PluginDetails extends PluginCard {
   previews: TObjectArray;
   activity: TObject;
   featured: boolean;
-  isBundle: boolean;
   isCustomPlugin: boolean;
   shop: IPluginShopDetails;
   bundle: TObject; // has nested plugins array
@@ -103,7 +104,6 @@ export interface PluginDetails extends PluginCard {
   versions: TObjectArray;
   changelog: TObject;
   canBePurchased: boolean;
-  licenseStatus: string;
 }
 
 declare global {

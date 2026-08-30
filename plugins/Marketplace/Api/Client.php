@@ -502,6 +502,7 @@ class Client
             ? $params['purchase_type']
             : PurchaseType::TYPE_ALL;
 
+        // compared against '' rather than empty(), which would treat a search for "0" as unfiltered
         $isWarmedQuery = (!isset($params['keywords']) || $params['keywords'] === '')
             && (!isset($params['query']) || $params['query'] === '')
             && isset($params['sort'])
