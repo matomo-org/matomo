@@ -422,10 +422,11 @@ class Plugins
      * instance that cannot reach the Marketplace behaves exactly as it did before.
      *
      * @param array<string, mixed> $plugin
-     * @return array<string, mixed>|null
+     * @return array<string, mixed>|scalar|null
      */
     private function getCurrentLicenseFor(array $plugin)
     {
+        /** @var array<string, mixed>|scalar|null $embedded */
         $embedded = isset($plugin['consumer']['license']) ? $plugin['consumer']['license'] : null;
 
         if (!empty($embedded) && !is_array($embedded)) {
