@@ -1,0 +1,100 @@
+// A control that opens a panel to choose from: a period, an export format, a metric.
+// Matches `.piwikSelector` and `.metrics-picker` on result, deliberately, without sharing their
+// markup. Placement is NOT owned here — the consumer places the selector.
+// Named with the `mtm-` prefix to avoid name conflicts.
+
+// 20px of line between 8px of padding, plus a border either side, is the platform's 38px.
+@_padding-vertical: 8px;
+@_padding-horizontal: 16px;
+@_height: 38px;
+@_gap: 8px;
+
+.mtm-selector {
+  position: relative;
+  display: inline-flex;
+
+  .mtm-selector__trigger {
+    box-sizing: border-box;
+    min-height: @_height;
+    display: flex;
+    align-items: center;
+    gap: @_gap;
+    padding: @_padding-vertical @_padding-horizontal;
+    background-color: @theme-color-background-contrast;
+    border: 1px solid @theme-color-border;
+    border-radius: 8px;
+    font-size: 14px;
+    line-height: 20px;
+    white-space: nowrap;
+    cursor: pointer;
+    appearance: none;
+    text-decoration: none;
+    color: @theme-color-text;
+    // Stops a changing label - a date, a count - from shifting on its own digits.
+    font-variant: tabular-nums;
+
+    &:focus {
+      outline: none;
+    }
+
+    &:focus-visible {
+      outline: 2px solid @theme-color-focus-ring;
+    }
+  }
+
+  // `expanded` is ExpandOnClick's, the way .piwikSelector and .metrics-picker read it. Binding a
+  // class of our own on that node instead would wipe it: Vue assigns className wholesale.
+  &:hover .mtm-selector__trigger,
+  &:focus-within .mtm-selector__trigger,
+  &.expanded .mtm-selector__trigger {
+    border-color: @theme-color-link;
+  }
+
+  .mtm-selector__icon {
+    // Icon fonts carry their own line box, which would set the control's height.
+    line-height: 1;
+    font-size: 16px;
+  }
+
+  .mtm-selector__label {
+    // Without this the label refuses to shrink and the ellipsis never appears.
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  // Sits at the end of the control, and turns over to say the panel is open.
+  .mtm-selector__rightIcon {
+    flex: none;
+    margin-left: auto;
+    line-height: 1;
+    font-size: 12px;
+    transition: transform .15s ease;
+  }
+
+  &.expanded .mtm-selector__rightIcon {
+    transform: rotate(180deg);
+  }
+
+  // Anchored right, so a panel wider than its control grows inwards rather than off the page.
+  .mtm-selector__dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: @_gap;
+    // Over a sticky `thead` (150) and its cells (99), under the row actions (1000).
+    z-index: 200;
+  }
+
+  &.expanded .mtm-selector__dropdown {
+    display: block;
+  }
+}
+
+.mtm-selector--iconOnly .mtm-selector__trigger {
+  min-width: @_height;
+  justify-content: center;
+  padding-left: @_padding-vertical;
+  padding-right: @_padding-vertical;
+}
