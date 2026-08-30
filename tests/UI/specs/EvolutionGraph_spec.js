@@ -336,9 +336,8 @@ describe("EvolutionGraph", function () {
         });
         await page.reload();
         await page.waitForNetworkIdle();
-        // the period selector is an entry in the header's menu now, so open it first
-        await page.click('.reportHeader__actionsTrigger');
-        await (await page.jQuery('.activatePeriodsSelection:last')).click();
+        // wide enough for the header to lift the period selector out of its menu
+        await page.click('[data-report-action="periods"] .mtm-selector__trigger');
 
         await page.mouse.move(-10, -10);
         await page.waitForTimeout(500); // wait for animation
@@ -475,14 +474,48 @@ describe("EvolutionGraph", function () {
         });
     });
 
-    it("should reach the period submenu with the keyboard alone", async function () {
+    it("should close the period selector on a second click", async function () {
         await page.goto(url);
         await page.waitForNetworkIdle();
 
-        await page.evaluate(() => document.querySelector('.reportHeader__actionsTrigger').click());
-        await page.waitForTimeout(200);
-        await page.evaluate(() => document.querySelector('.activatePeriodsSelection').click());
-        await page.waitForSelector('.mtm-dropdownPanel__submenu--open', { visible: true });
+        const trigger = '[data-report-action="periods"] .mtm-selector__trigger';
+        await page.click(trigger);
+        await page.waitForSelector('.mtm-selector.expanded', { visible: true });
+
+        await page.click(trigger);
+        const stillOpen = await page.evaluate(
+          () => !!document.querySelector('.mtm-selector.expanded'),
+        );
+        expect(stillOpen, 'a second click closes it').to.equal(false);
+    });
+
+    it("should close the period selector once a period is picked", async function () {
+        await page.goto(url);
+        await page.waitForNetworkIdle();
+
+        await page.click('[data-report-action="periods"] .mtm-selector__trigger');
+        await page.waitForSelector('.mtm-selector.expanded', { visible: true });
+
+        await page.evaluate(
+          () => document.querySelector('.dataTablePeriods [data-period="week"]').click(),
+        );
+        await page.waitForNetworkIdle();
+        await page.waitForTimeout(500);
+
+        const stillOpen = await page.evaluate(
+          () => !!document.querySelector('.mtm-selector.expanded'),
+        );
+        expect(stillOpen, 'picking a period closes the selector').to.equal(false);
+    });
+
+    it("should let the keyboard reach and activate a period", async function () {
+        await page.goto(url);
+        await page.waitForNetworkIdle();
+
+        await page.evaluate(
+          () => document.querySelector('[data-report-action="periods"] .mtm-selector__trigger').click(),
+        );
+        await page.waitForSelector('.mtm-selector.expanded', { visible: true });
 
         const focused = await page.evaluate(() => {
             const item = document.querySelector('.dataTablePeriods [role="menuitem"]');
@@ -520,13 +553,13 @@ describe("EvolutionGraph", function () {
             triggers: document.querySelectorAll('.reportHeader__actionsTrigger').length,
             entries: document.querySelectorAll('.annotationView').length,
             markers: document.querySelectorAll('.evolution-annotations span[data-date]').length,
-            periods: document.querySelectorAll('.activatePeriodsSelection').length,
+            periods: document.querySelectorAll('[data-report-action="periods"]').length,
         }));
         expect(state.headers, 'the report renders its own header here').to.equal(1);
         expect(state.triggers, 'exactly one, not one per child').to.equal(1);
         expect(state.markers, 'markers render').to.be.above(0);
         expect(state.entries, 'the annotations toggle is in it').to.equal(1);
-        expect(state.periods, 'and so is the period selector').to.equal(1);
+        expect(state.periods, 'the period selector is lifted out of it').to.equal(1);
 
         await page.evaluate(() => document.querySelector('.annotationView').click());
         await page.waitForNetworkIdle();
