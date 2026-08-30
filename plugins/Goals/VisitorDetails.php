@@ -55,7 +55,7 @@ class VisitorDetails extends VisitorDetailsAbstract
     }
 
     /**
-     * @param $idVisit
+     * @param $idVisits
      * @return array
      * @throws \Exception
      */
