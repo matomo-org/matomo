@@ -40,13 +40,6 @@ export interface IPluginShopDetails {
 }
 
 /**
- * A plugin as the plugin list carries it: the fields its cards render, and nothing else.
- *
- * `Controller::keepPluginCardFields()` decides this set. Everything the details modal needs on top
- * of it is fetched for one plugin at a time by `Marketplace.getPluginDetails`, because the version
- * history and its rendered readme HTML made the list response over a megabyte.
- */
-/**
  * What the "new plugins" widgets pass to their templates. See GetNewPlugins::keepRenderedFields():
  * only the admin variant is given screenshots.
  */
@@ -69,6 +62,13 @@ export interface PluginPromo {
   specialOffer?: string;
 }
 
+/**
+ * A plugin as the plugin list carries it: the fields its cards render, and nothing else.
+ *
+ * `Controller::keepPluginCardFields()` decides this set. Everything the details modal needs on top
+ * of it is fetched for one plugin at a time by `Marketplace.getPluginDetails`, because the version
+ * history and its rendered readme HTML made the list response over a megabyte.
+ */
 export interface PluginCard {
   name: string;
   displayName: string;
@@ -93,7 +93,9 @@ export interface PluginCard {
   numDownloadsPretty: TNumberOrString;
   priceFrom: IPluginShopVariation;
   consumer: TObject;
+  licenseStatus: string;
   downloadNonce?: string; // only present for a plugin that can be downloaded
+  isBundle?: boolean; // only sent for a plugin the Marketplace flags as one
 }
 
 /**
@@ -116,7 +118,6 @@ export interface PluginDetails extends PluginCard {
   previews: TObjectArray;
   activity: TObject;
   featured: boolean;
-  isBundle: boolean;
   isCustomPlugin: boolean;
   shop: IPluginShopDetails;
   bundle: TObject; // has nested plugins array
@@ -124,7 +125,6 @@ export interface PluginDetails extends PluginCard {
   versions: TObjectArray;
   changelog: TObject;
   canBePurchased: boolean;
-  licenseStatus: string;
 }
 
 declare global {

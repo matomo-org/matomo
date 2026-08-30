@@ -34,6 +34,11 @@ class ControllerTest extends IntegrationTestCase
      */
     private $service;
 
+    /**
+     * @var string the list the 'plugins' action answers with, so a test can pick one that suits it
+     */
+    private $pluginsFixture = 'v2.0_plugins.json';
+
     public function setUp(): void
     {
         parent::setUp();
@@ -82,6 +87,7 @@ class ControllerTest extends IntegrationTestCase
             'isMissingLicense',
             'isPaid',
             'isTrialRequested',
+            'licenseStatus',
             'missingRequirements',
             'name',
             'numDownloads',
@@ -89,8 +95,8 @@ class ControllerTest extends IntegrationTestCase
             'owner',
             'priceFrom',
         ];
-        // only set for a plugin that can actually be downloaded
-        $conditional = ['downloadNonce'];
+        // only set for a plugin that can actually be downloaded, and only sent for a bundle
+        $conditional = ['downloadNonce', 'isBundle'];
 
         foreach ($plugins as $plugin) {
             $keys = array_keys($plugin);
@@ -106,6 +112,27 @@ class ControllerTest extends IntegrationTestCase
                 $plugin['name'] ?? '?',
                 implode(', ', array_diff($always, $keys))
             ));
+        }
+    }
+
+    public function testSearchPluginsKeepsTheFieldsTheModalNeedsWhenItsOwnRequestFails()
+    {
+        // the modal renders the card row when getPluginDetails fails, and read a bundle as an
+        // ordinary plugin while these were trimmed away
+        $this->pluginsFixture = 'system_v2.0_plugins_sort-lastupdated.json';
+
+        $sent = json_decode($this->service->getFixtureContent($this->pluginsFixture), true);
+        $bundles = array_column(array_filter($sent['plugins'], static function (array $plugin) {
+            return !empty($plugin['isBundle']);
+        }), 'name');
+
+        self::assertNotEmpty($bundles, 'the fixture no longer carries a bundle to check');
+
+        $cards = array_column($this->searchPlugins(), null, 'name');
+
+        foreach ($bundles as $name) {
+            self::assertArrayHasKey($name, $cards);
+            self::assertTrue($cards[$name]['isBundle'] ?? false, "$name reaches the modal as a plugin");
         }
     }
 
@@ -224,7 +251,7 @@ class ControllerTest extends IntegrationTestCase
         }
 
         if ($action === 'plugins') {
-            return 'v2.0_plugins.json';
+            return $this->pluginsFixture;
         }
 
         if ($action === 'plugins/NotOnTheMarketplace/info') {

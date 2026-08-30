@@ -413,6 +413,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'priceFrom',
             'downloadNonce',
             'consumer',
+            // not rendered on a card, but the modal falls back to the card row when its own request
+            // fails, and without these a bundle renders there as an ordinary plugin
+            'isBundle',
+            'licenseStatus',
         ];
 
         return array_intersect_key($plugin, array_flip($cardFields));
