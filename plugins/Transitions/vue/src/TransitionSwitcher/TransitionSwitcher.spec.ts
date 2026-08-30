@@ -17,7 +17,6 @@ const { listeners } = state;
 
 vi.mock('CoreHome', () => ({
   ActivityIndicator: { template: '<div class="activityIndicator" />', props: ['loading'] },
-  MatomoLoader: { template: '<div class="matomoLoader" />' },
   AjaxHelper: {
     fetch: () => state.fetchResult,
   },
