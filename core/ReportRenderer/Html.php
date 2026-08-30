@@ -92,7 +92,7 @@ class Html extends ReportRenderer
             $reportMetadata,
             $segment,
             $this->idSite,
-            $this->report['period']
+            $this->report['period_param'] ?? $this->report['period']
         );
         $this->rendering .= $frontPageView->render();
     }

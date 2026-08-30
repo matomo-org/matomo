@@ -46,6 +46,7 @@
         "PleaseFindAttachedFile": "ウェブサイト %2$s の %1$s のレポートを添付しましたのでご確認ください。",
         "PleaseFindBelow": "%2$s の %1$s のレポートをお届けします。",
         "PluginDescription": "カスタム レポートを作成し、毎日、毎週、毎月等、 1 つまたは複数の人にメールで送信するようにスケジュールします。サポートされているレポート形式 ( html、pdf、csv、画像)。",
+        "ReorderReport": "レポートを再注文",
         "ReportAdded": "レポートが追加されました",
         "ReportDescriptionHelpText": "目的や用途など、追加の背景情報を説明する文を入力してください。",
         "ReportDescriptionPlaceholder": "トラフィックおよびコンバージョンの指標を毎週送信",

@@ -47,6 +47,10 @@
   .loading {
     background: url(plugins/Morpheus/images/loading-blue.gif) no-repeat 16% 11px;
   }
+
+  a.title .icon-chevron-down {
+    transform: rotate(180deg);
+  }
 }
 
 .siteSelector .custom_select_ul_list li a,
@@ -64,8 +68,18 @@
 .siteSelector.piwikSelector a.title {
   > span {
     max-width: 161px;
+    // the title is already a flex row (selector.less); letting the name shrink is what
+    // stops a long one from running into the chevron instead of overflowing past it
+    min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  // never shrink the chevron; its own box already leaves an 8px gap
+  .icon {
+    flex: none;
+    // rotation timing follows MetricsPicker, so the dropdowns behave alike when open
+    transition: transform .15s ease;
   }
 
   span {

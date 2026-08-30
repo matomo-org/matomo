@@ -73,6 +73,9 @@ export interface OptionGroup {
   disabled?: boolean;
 }
 
+// distance between the field and its open panel, matching FieldExpandableSelect.less
+const DROPDOWN_GAP = 8;
+
 function initMaterialSelect(
   select: HTMLSelectElement|undefined|null,
   modelValue: string|number|string[],
@@ -96,7 +99,61 @@ function initMaterialSelect(
     }
   });
 
-  $select.formSelect(uiControlOptions);
+  const callerDropdownOptions = (uiControlOptions as Record<string, unknown>)
+    .dropdownOptions as Record<string, unknown>|undefined;
+
+  // Materialize's select forces coverTrigger to false itself, so the panel already opens
+  // below the field; only the gap in front of it is ours to add.
+  $select.formSelect({
+    ...uiControlOptions,
+    dropdownOptions: {
+      ...callerDropdownOptions,
+      onOpenStart(trigger: Element) {
+        // mirrors MetricsPicker: an `expanded` modifier the stylesheet hangs the open
+        // state off, since Materialize marks the panel but not the control
+        trigger.closest('.select-wrapper')?.classList.add('expanded');
+
+        // Materialize positions the panel flush against the trigger, and no CSS offset can
+        // change that: it clears the inline top, measures the panel, and writes back the
+        // difference, so a margin is measured and then cancelled. Placement happens
+        // synchronously after this callback, so correcting on the next animation frame
+        // lands after the final top is set and before the panel is first painted. The
+        // same measure-and-cancel behaviour discards this correction on the next open,
+        // so it cannot accumulate.
+        window.requestAnimationFrame(() => {
+          const wrapper = trigger.closest('.select-wrapper') as HTMLElement|null;
+          // the trigger points at its panel by id, which still resolves when a configured
+          // container has moved the panel out of the wrapper
+          const panelId = trigger.getAttribute('data-target');
+          const panel = (panelId ? document.getElementById(panelId) : null)
+            || wrapper?.querySelector('ul.dropdown-content') as HTMLElement|null;
+          if (!wrapper || !panel) {
+            return;
+          }
+
+          const wrapperRect = wrapper.getBoundingClientRect();
+          const openedAbove = panel.getBoundingClientRect().top < wrapperRect.top;
+          // the trigger sits inside the wrapper's border, which the gap has to clear too
+          const borderWidth = parseFloat(getComputedStyle(wrapper).borderTopWidth) || 0;
+          const offset = DROPDOWN_GAP + borderWidth;
+
+          const currentTop = parseFloat(panel.style.top) || 0;
+          panel.style.top = `${currentTop + (openedAbove ? -offset : offset)}px`;
+        });
+
+        if (typeof callerDropdownOptions?.onOpenStart === 'function') {
+          (callerDropdownOptions.onOpenStart as (el: Element) => void).call(this, trigger);
+        }
+      },
+      onCloseStart(trigger: Element) {
+        trigger.closest('.select-wrapper')?.classList.remove('expanded');
+
+        if (typeof callerDropdownOptions?.onCloseStart === 'function') {
+          (callerDropdownOptions.onCloseStart as (el: Element) => void).call(this, trigger);
+        }
+      },
+    },
+  });
 
   // add placeholder to input
   if (placeholder) {

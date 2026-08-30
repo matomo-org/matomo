@@ -2,6 +2,10 @@
 
   position: relative;
 
+  // the same reserve FieldSelect.less takes, so an expandable select and a standard one
+  // have the same footprint and both sit on the centre line of a plain input beside them
+  margin-top: 5px;
+
   // nested under the block so the rules keep the specificity the pre-BEM
   // selectors had against legacy styles targeting the Materialize classes;
   // border/radius/shadow values mirror the selector look in
@@ -41,8 +45,16 @@
   }
 
   .expandableSelector__chevron {
-    padding-right: 16px;
+    // margin rather than padding: padding would sit inside the box the rotation turns
+    // about, so the glyph would swing sideways instead of flipping in place
+    margin-right: 16px;
     color: @theme-color-text;
+    // rotation timing follows MetricsPicker, so the dropdowns behave alike when open
+    transition: transform .15s ease;
+  }
+
+  .expandableSelector__wrapper--expanded .expandableSelector__chevron {
+    transform: rotate(180deg);
   }
 
   .secondary-content {

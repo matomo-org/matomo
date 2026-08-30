@@ -37,6 +37,11 @@
     padding-left: 5px;
     display: inline-block;
     color: #666;
+    // #666 falls to ~3:1 against the dark-mode background, so only dark mode
+    // takes the theme colour; light mode keeps the grey it has always had
+    .inDarkMode({
+      color: @theme-color-text;
+    });
     border: 0;
     height: 19px;
     line-height: 19px;
@@ -86,8 +91,11 @@
     }
 
     .segment-input {
+      // the restyled selects size and type themselves from FieldSelect/
+      // FieldExpandableSelect so they match the site selector; this compact
+      // styling stays for the plain value input
       select,
- input {
+      input:where(:not(.select-dropdown)) {
         .font-default(12px, 14px);
 
         color: @theme-color-text;

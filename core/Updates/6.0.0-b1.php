@@ -10,6 +10,7 @@
 
 namespace Piwik\Updates;
 
+use Piwik\Config;
 use Piwik\Updater;
 use Piwik\Updates as PiwikUpdates;
 use Piwik\Updater\Migration;
@@ -42,6 +43,23 @@ class Updates_6_0_0_b1 extends PiwikUpdates
         // When it was installed but deactivated, the updater has already collected the components to
         // update, so its own update files only run during the next update.
         $migrations[] = $this->migration->plugin->activate('TrackingSpamPrevention');
+
+        // flat-first Actions archiving is enabled by default since Matomo 6, but only for new
+        // installations, so keep the legacy hierarchical archiving where the setting is untouched
+        $config = Config::getInstance();
+        $localGeneral = $config->getFromLocalConfig('General');
+        $commonGeneral = $config->getFromCommonConfig('General');
+
+        if (
+            !isset($localGeneral['datatable_archiving_maximum_rows_actions_flat'])
+            && !isset($commonGeneral['datatable_archiving_maximum_rows_actions_flat'])
+        ) {
+            $migrations[] = $this->migration->config->set(
+                'General',
+                'datatable_archiving_maximum_rows_actions_flat',
+                0
+            );
+        }
 
         return $migrations;
     }
