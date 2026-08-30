@@ -893,10 +893,10 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             }
         });
 
-        // show_search is a report config flag, exposed to the client only on the footer actions
-        // component (DataTableActions); read it from there, and default to no search when absent.
-        var actionsApp = self._footerActionsApp(domElem);
-        var showSearch = !!(actionsApp && actionsApp.showSearch_);
+        // show_search is a report config flag, carried to the client with the report's action
+        // config; default to no search when absent.
+        var actionsConfig = self._readReportActionsConfig(domElem);
+        var showSearch = !!(actionsConfig && actionsConfig.showSearch);
 
         // Hide the input on an empty table, but keep it while a search is active so a no-result
         // search can still be cleared.
@@ -1032,16 +1032,10 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         return $scope.length ? $scope : this._findReportScope(domElem);
     },
 
-    _footerActionsApp: function (domElem) {
-        return $('[vue-entry="CoreHome.DataTableActions"]', domElem).first()
-            .data('vueAppInstance');
-    },
-
     // An action reaches the menu only when the menu itself renders, so its own flag is not enough.
     _offersAction: function (domElem, actionFlag) {
-        var actionsApp = this._footerActionsApp(domElem);
-        return !!(actionsApp && actionsApp.showFooter_ && actionsApp.showFooterIcons_
-            && actionsApp[actionFlag]);
+        var config = this._readReportActionsConfig(domElem);
+        return !!(config && config.showFooter && config.showFooterIcons && config[actionFlag]);
     },
 
     _annotationsScope: function (domElem) {
@@ -1049,24 +1043,19 @@ $.extend(DataTable.prototype, UIControl.prototype, {
     },
 
     _periodsScope: function (domElem) {
-        return this._headerActionScope(domElem, this._offersAction(domElem, 'showPeriods_'));
+        return this._headerActionScope(domElem, this._offersAction(domElem, 'showPeriods'));
     },
 
     // Read from the config, not the DOM: this runs before the header is filled, and Vue renders
     // the entry a tick later still.
     _offersAnnotations: function (domElem) {
-        if (!this._footerActionsApp(domElem)) {
+        if (!this._readReportActionsConfig(domElem)) {
             return $('.annotationView', this._findReportScope(domElem)).length > 0;
         }
-        return this._offersAction(domElem, 'showAnnotations_');
+        return this._offersAction(domElem, 'showAnnotations');
     },
 
     _setAnnotationsShowing: function (domElem, showing) {
-        var footerApp = this._footerActionsApp(domElem);
-        if (footerApp) {
-            footerApp.annotationsShowing_ = showing;
-        }
-
         // A sibling reloading beside the graph must not report its empty state on the shared header.
         // Untested: no shipped container renders two reports under one header yet.
         if (!this._offersAnnotations(domElem)) {
@@ -1319,15 +1308,11 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         if ((typeof self.numberOfSubtables == 'undefined' || self.numberOfSubtables == 0)
             && (typeof self.param.flat == 'undefined' || self.param.flat != 1)
         ) {
-            // if there are no subtables, remove the flatten action from all data table actions
-            var dataTableActionsVueApps = $('[vue-entry="CoreHome.DataTableActions"]', scope);
-            if (dataTableActionsVueApps.length) {
-              dataTableActionsVueApps.each(function() {
-                var appData = $(this).data('vueAppInstance');
-                if (appData) {
-                  appData.showFlattenTable_ = false;
-                }
-              });
+            // if there are no subtables, drop the flatten action from the config the header reads,
+            // published just below in bindEventsAndApplyStyle
+            var actionsConfig = self._readReportActionsConfig(domElem);
+            if (actionsConfig) {
+                actionsConfig.showFlattenTable = false;
             }
         }
 
@@ -1752,6 +1737,10 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 .data('vueAppInstance');
             if (headerApp) {
                 var $documentation = $('.reportDocumentation', domElem);
+                // The table it publishes under is now a different report, and the header keys
+                // its config off this.
+                headerApp.reportId_ = domElem.closest('[data-report]').attr('data-report')
+                    || headerApp.reportId_;
                 headerApp.reportTitle_ = relatedReportName;
                 headerApp.featureName_ = relatedReportName;
                 headerApp.inlineHelp_ = $documentation.attr('data-content') || '';
@@ -2115,47 +2104,39 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         return $scope;
     },
 
-    // The report header is rendered outside the table so an ajax reload cannot replace it, which
-    // means its actions menu keeps describing the report as it was when the page was built: after
-    // flattening, "Show dimensions separately" would never appear, and the visualisation list would
-    // keep marking the old one as active. The reloaded footer carries the fresh values for the same
-    // component, so copy them across rather than deriving them a second time.
+    // The report's action config, rendered as data by _dataTableActions.twig. The header is
+    // rendered outside the table so an ajax reload cannot replace it, which means its menu would
+    // otherwise keep describing the report as it was when the page was built: after flattening,
+    // "Show dimensions separately" would never appear, and the visualisation list would keep
+    // marking the old one as active. The config travels with the table the reload does replace.
+    _readReportActionsConfig: function (domElem) {
+        var config = $('.reportActionsConfig', domElem).first().data('reportActions');
+        return (config && typeof config === 'object') ? config : null;
+    },
+
     syncReportHeaderActions: function (domElem) {
+        // A subtable reuses its parent's header and has no controls of its own, so publishing here
+        // would replace the parent's config with one describing the subtable.
+        if ((typeof this.parentId != "undefined" && this.parentId != '') || this.param.idSubtable) {
+            return;
+        }
+
+        var config = this._readReportActionsConfig(domElem);
+        if (!config) {
+            return;
+        }
+
+        // Published for the header to read, rather than pushed onto its app: a menu can no longer
+        // describe an older load because a push was missed or ran before the menu existed.
+        var key = window.CoreHome.reportIdentity(domElem[0]);
+        window.CoreHome.ReportActionsStore.set(key, config);
+
+        // The header derives a key of its own at mount, from a position and a report id that both
+        // move under it - maximising puts the table in a dialog, a related report renames it. Hand
+        // it the key actually written instead.
         var header = this._findReportHeaderApp(domElem);
-        if (!header || !header.app) {
-            return;
-        }
-
-        var footerApp = this._footerActionsApp(domElem);
-        if (!footerApp) {
-            return;
-        }
-
-        // Everything the menu renders from, bar two. The title and its help are pushed separately,
-        // by replaceReportTitleAndHelp(), because a related report changes those and not these.
-        // `annotationsShowing_` is left out on purpose: _setAnnotationsShowing() pushes it to both
-        // instances itself, and it must survive a sync that runs after the report rebinds.
-        var props = [
-            'showFooter_', 'showFooterIcons_', 'footerIcons_', 'viewDataTable_', 'clientSideParameters_', 'isDataTableEmpty_',
-            'showFlattenTable_', 'reportSupportsFlatten_', 'reportSupportsPercentageValues_',
-            'exportSupportsFlatten_', 'hasMultipleDimensions_', 'showTotalsRow_',
-            'showExcludeLowPopulation_', 'showPivotBySubtable_', 'dataTableActions_',
-            'showExport_', 'showExportAsImageIcon_', 'requestParams_', 'maxFilterLimit_',
-            'apiMethodToRequestDataTable_', 'pivotDimensionName_', 'showAnnotations_',
-            'showPeriods_', 'selectablePeriods_',
-        ];
-
-        props.forEach(function (prop) {
-            if (typeof footerApp[prop] !== 'undefined') {
-                header.app[prop] = footerApp[prop];
-            }
-        });
-
-        // The header calls this one `actionTranslations`: `translations` there would shadow the
-        // global translate() helper inside the component. The period entries read it for their
-        // labels, so a dashboard widget would otherwise show raw period names.
-        if (typeof footerApp.translations_ !== 'undefined') {
-            header.app.actionTranslations_ = footerApp.translations_;
+        if (header && header.app) {
+            header.app.reportKey_ = key;
         }
     },
 
