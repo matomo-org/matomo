@@ -16,9 +16,9 @@
     >
       <a
         :data-period="selectablePeriod"
-        role="menuitem"
+        role="menuitemradio"
         tabindex="0"
-        :aria-current="activePeriod === selectablePeriod"
+        :aria-checked="activePeriod === selectablePeriod"
         :class="`mtm-dropdownPanel__menuLink tableIcon ${activePeriod === selectablePeriod
           ? 'activeIcon' : ''}`"
         @click="$emit('pick')"

@@ -108,8 +108,8 @@
             class="reportHeader__actions"
             v-expand-on-click="{
               expander: 'actionsTrigger',
-              onExpand: () => { actionsExpanded = true; },
-              onClosed: () => { actionsExpanded = false; },
+              onExpand: (event) => { actionsExpanded = true; focusFirstAction(event); },
+              onClosed: () => { actionsExpanded = false; restoreActionsFocus(); },
             }"
           >
             <button
@@ -587,6 +587,29 @@ export default defineComponent({
     },
     closeActions() {
       (this.$refs.actions as HTMLElement | undefined)?.classList.remove('expanded');
+      this.actionsExpanded = false;
+      this.restoreActionsFocus();
+    },
+    // Escape and picking an entry both leave the focus inside a panel about to disappear, which is
+    // where a menu is expected to hand it back to the trigger. An outside click focuses something
+    // else, so nothing is taken from it.
+    restoreActionsFocus() {
+      const actions = this.$refs.actions as HTMLElement | undefined;
+      if (actions?.contains(document.activeElement)) {
+        (this.$refs.actionsTrigger as HTMLElement | undefined)?.focus();
+      }
+    },
+    // A button opened with the keyboard reports no pointer, and only then does a menu take the
+    // focus off the trigger.
+    focusFirstAction(event: MouseEvent|KeyboardEvent) {
+      if ((event as MouseEvent).detail !== 0) {
+        return;
+      }
+
+      this.$nextTick(() => {
+        const actions = this.$refs.actions as HTMLElement | undefined;
+        actions?.querySelector<HTMLElement>('[role^="menuitem"]')?.focus();
+      });
     },
     onControl(intent: string) {
       // Re-emit for Vue-native consumers...

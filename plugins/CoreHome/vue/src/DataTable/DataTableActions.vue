@@ -10,6 +10,10 @@
     v-if="showFooter && showFooterIcons"
     :role="isInHeader ? 'menu' : null"
     :aria-label="isInHeader ? translate('CoreHome_ReportActions') : null"
+    @keydown.down.prevent="focusStep(1)"
+    @keydown.up.prevent="focusStep(-1)"
+    @keydown.home.prevent="focusEdge(false)"
+    @keydown.end.prevent="focusEdge(true)"
   >
     <!-- Report actions live in the report header, inside the single menu its 3-dots trigger
          opens. Three lists rather than one: `ul.tableConfiguration` and `.dataTableFooterIcons`
@@ -143,7 +147,7 @@
         </li>
       </ul>
 
-      <ul class="mtm-dropdownPanel__menu" role="group">
+      <ul v-if="hasActionItems" class="mtm-dropdownPanel__menu" role="group">
         <!-- Keeps `dataTablePeriods` on the list and `tableIcon` on each entry: that pair is what
              dataTable.js binds the period change to. -->
         <li v-if="showPeriods && !isPromoted('periods')" class="mtm-dropdownPanel__menuItem" role="none">
@@ -155,6 +159,7 @@
             aria-haspopup="menu"
             :aria-expanded="periodsOpen ? 'true' : 'false'"
             @click.prevent.stop="periodsOpen = !periodsOpen"
+            @keydown.space.prevent.stop="periodsOpen = !periodsOpen"
           >
             <span class="mtm-dropdownPanel__menuLabel">
               {{ translate('CoreHome_ShowPeriod') }}
@@ -183,8 +188,10 @@
             class="mtm-dropdownPanel__menuLink dataTableAction annotationView"
             href=""
             role="menuitem"
+            tabindex="0"
             :title="annotationsTitle"
             @click.prevent
+            @keydown.space.prevent="activateItem"
           >
             <span class="mtm-dropdownPanel__menuLabel">
               {{ annotationsLabel }}
@@ -200,6 +207,7 @@
             tabindex="0"
             :id="`dataTableExportAsImageIcon-${placement}`"
             @click.prevent="showExportImage($event)"
+            @keydown.space.prevent="activateItem"
           >
             <span class="mtm-dropdownPanel__menuLabel">
               {{ translate('CoreHome_ExportImage') }}
@@ -219,7 +227,9 @@
             }"
             href=""
             role="menuitem"
+            tabindex="0"
             @click.prevent
+            @keydown.space.prevent="activateItem"
           >
             <span class="mtm-dropdownPanel__menuLabel">{{ translate('CoreHome_ExportData') }}</span>
           </a>
@@ -234,7 +244,9 @@
             :class="`mtm-dropdownPanel__menuLink dataTableAction ${action.id}`"
             href=""
             role="menuitem"
+            tabindex="0"
             @click.prevent
+            @keydown.space.prevent="activateItem"
           >
             <span class="mtm-dropdownPanel__menuLabel">{{ action.title }}</span>
           </a>
@@ -260,11 +272,11 @@
           >
             <a
               :class="`mtm-dropdownPanel__menuLink ${footerIconGroup.class} tableIcon
-                ${activeFooterIconIds.indexOf(footerIcon.id) !== -1 ? 'activeIcon' : ''}`"
+                ${isActiveIcon(footerIcon.id) ? 'activeIcon' : ''}`"
               :data-footer-icon-id="footerIcon.id"
               role="menuitemradio"
               tabindex="0"
-              :aria-checked="activeFooterIconIds.indexOf(footerIcon.id) !== -1"
+              :aria-checked="isActiveIcon(footerIcon.id)"
               @keydown.enter.prevent="activateItem"
               @keydown.space.prevent="activateItem"
             >
@@ -283,7 +295,7 @@
               />
               <span class="mtm-dropdownPanel__menuLabel">{{ footerIcon.title }}</span>
               <span
-                v-if="activeFooterIconIds.indexOf(footerIcon.id) !== -1"
+                v-if="isActiveIcon(footerIcon.id)"
                 class="mtm-dropdownPanel__rightIcon"
                 aria-hidden="true"
               ><span class="icon-ok" /></span>
@@ -416,6 +428,34 @@ export default defineComponent({
   },
   methods: {
     translate,
+    isActiveIcon(id: string): boolean {
+      return this.activeFooterIconIds.indexOf(id) !== -1;
+    },
+    // The roles announce a menu, and a menu is walked with the arrow keys. Items inside a folded
+    // submenu are not on screen, so they are skipped.
+    menuItems(): HTMLElement[] {
+      const root = this.$el as HTMLElement | null;
+      if (!root?.querySelectorAll) {
+        return [];
+      }
+
+      return Array.from(root.querySelectorAll<HTMLElement>('[role^="menuitem"]')).filter(
+        (item) => !item.closest('.mtm-dropdownPanel__submenu:not(.mtm-dropdownPanel__submenu--open)'),
+      );
+    },
+    focusStep(step: number) {
+      const items = this.menuItems();
+      if (!items.length) {
+        return;
+      }
+
+      const at = items.indexOf(document.activeElement as HTMLElement);
+      items[at === -1 ? 0 : (at + step + items.length) % items.length].focus();
+    },
+    focusEdge(last: boolean) {
+      const items = this.menuItems();
+      items[last ? items.length - 1 : 0]?.focus();
+    },
     showsSeparatorBefore(index: number): boolean {
       if (index === 0) {
         return this.hasActionsAbove;
@@ -494,8 +534,6 @@ export default defineComponent({
         .map((group) => ({ ...group, buttons: group.buttons.filter((i) => !!i.icon) }))
         .filter((group) => group.buttons.length > 0);
     },
-    // Whether anything renders above the visualisation lists, so their leading separator has
-    // something to separate from.
     hasConfigItems(): boolean {
       return this.showConfigItems
         && (this.showFlattenTable
@@ -506,13 +544,17 @@ export default defineComponent({
           || this.showExcludeLowPopulation
           || this.showPivotBySubtable);
     },
-    hasActionsAbove(): boolean {
-      return this.hasConfigItems
-        || (this.showPeriods && !this.isPromoted('periods'))
+    hasActionItems(): boolean {
+      return (this.showPeriods && !this.isPromoted('periods'))
         || this.showAnnotations
         || this.showExportAsImageIcon
         || this.showExport
         || this.dataTableActions.length > 0;
+    },
+    // Whether anything renders above the visualisation lists, so their leading separator has
+    // something to separate from.
+    hasActionsAbove(): boolean {
+      return this.hasConfigItems || this.hasActionItems;
     },
     activeFooterIconIds(): string[] {
       return this.activeFooterIcons.map((icon) => icon.id);

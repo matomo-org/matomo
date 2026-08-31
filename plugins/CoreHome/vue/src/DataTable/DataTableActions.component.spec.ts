@@ -233,7 +233,7 @@ describe('DataTableActions period submenu', () => {
     await wrapper.find('a.activatePeriodsSelection').trigger('click');
     expect(wrapper.find('.mtm-dropdownPanel__submenu--open').exists()).toBe(true);
 
-    await wrapper.find('.dataTablePeriods [role="menuitem"]').trigger('click');
+    await wrapper.find('.dataTablePeriods [role="menuitemradio"]').trigger('click');
     expect(wrapper.find('.mtm-dropdownPanel__submenu--open').exists()).toBe(false);
   });
 
@@ -242,7 +242,7 @@ describe('DataTableActions period submenu', () => {
     const wrapper = mountWithPeriods();
     await wrapper.find('a.activatePeriodsSelection').trigger('click');
 
-    const item = wrapper.find('.dataTablePeriods [role="menuitem"]');
+    const item = wrapper.find('.dataTablePeriods [role="menuitemradio"]');
     const clicked = vi.fn();
     item.element.addEventListener('click', clicked);
 
@@ -357,6 +357,37 @@ describe('DataTableActions menu structure', () => {
     // one above the list, one above Insights - and none between Insights and the graphs
     expect(separators).toEqual([0, 2]);
     expect(rows[4].find('.tableGraphViews').exists()).toBe(true);
+  });
+
+  // Announcing role="menu" promises that the arrows walk the entries, so they have to.
+  it('should walk its entries with the arrow keys', async () => {
+    const wrapper = mountComponent({
+      reportSupportsPercentageValues: true,
+      footerIcons: [tableGroup, graphGroup],
+    });
+    document.body.appendChild(wrapper.element);
+
+    const menu = wrapper.find('[role="menu"]');
+    const items = wrapper.findAll('[role^="menuitem"]').map((item) => item.element);
+    expect(items.length).toBeGreaterThan(2);
+
+    await menu.trigger('keydown', { key: 'ArrowDown' });
+    expect(document.activeElement).toBe(items[0]);
+
+    await menu.trigger('keydown', { key: 'ArrowDown' });
+    expect(document.activeElement).toBe(items[1]);
+
+    await menu.trigger('keydown', { key: 'ArrowUp' });
+    expect(document.activeElement).toBe(items[0]);
+
+    await menu.trigger('keydown', { key: 'End' });
+    expect(document.activeElement).toBe(items[items.length - 1]);
+
+    // and round, so the list has no dead end
+    await menu.trigger('keydown', { key: 'ArrowDown' });
+    expect(document.activeElement).toBe(items[0]);
+
+    wrapper.unmount();
   });
 
   // showConfigItems only gates the list; every entry inside has a condition of its own.
