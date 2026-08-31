@@ -239,6 +239,61 @@ describe('ReportHeader', () => {
       expect(vm.promotedCount).toBe(0);
     });
 
+    // Only the template's order enforces this, so re-reversing it must fail something.
+    it('should draw the highest rank nearest the trigger', async () => {
+      const wrapper = await mountPromoted(3, { showPeriods: true, selectablePeriods: ['day'] });
+
+      expect(wrapper.findAll('[data-report-action]')
+        .map((control) => control.attributes('data-report-action')))
+        .toEqual(['annotations', 'export', 'periods']);
+    });
+
+    // The fit loop gives controls back one at a time, and an unmounted one never hears onClosed.
+    it('should stop announcing a control the fit loop took back while it was open', async () => {
+      const wrapper = mountComponent({
+        ...offered,
+        context: 'widgetized',
+        showPeriods: true,
+        selectablePeriods: ['day'],
+      });
+      const vm = wrapper.vm as unknown as {
+        updatePromoted: () => Promise<void>; promotedCount: number; exportExpanded: boolean;
+      };
+
+      giveRoom(wrapper, 1200);
+      await vm.updatePromoted();
+      expect(vm.promotedCount).toBeGreaterThan(1);
+
+      vm.exportExpanded = true;
+      giveRoom(wrapper, 200);
+      await vm.updatePromoted();
+
+      expect(vm.promotedCount).toBe(0);
+      expect(vm.exportExpanded).toBe(false);
+    });
+
+    // The trigger goes away with the menu it opens, and never hears onClosed either.
+    it('should stop announcing the menu when the trigger goes away with it', async () => {
+      const wrapper = mountComponent({
+        showFooter: true,
+        showFooterIcons: true,
+        showExport: true,
+        showAnnotations: true,
+        context: 'widgetized',
+      });
+      const vm = wrapper.vm as unknown as {
+        updatePromoted: () => Promise<void>; actionsExpanded: boolean;
+      };
+
+      vm.actionsExpanded = true;
+      giveRoom(wrapper, 1200);
+      await vm.updatePromoted();
+      await wrapper.vm.$nextTick();
+
+      expect(wrapper.find('.reportHeader__actionsTrigger').exists()).toBe(false);
+      expect(vm.actionsExpanded).toBe(false);
+    });
+
     it('should promote in priority order, so the least deserving is given back first', async () => {
       const one = await mountPromoted(1);
       expect(one.find('[data-report-action="export"]').exists()).toBe(true);

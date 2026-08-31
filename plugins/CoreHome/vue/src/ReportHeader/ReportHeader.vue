@@ -517,6 +517,11 @@ export default defineComponent({
     hasControls() {
       this.updatePromoted();
     },
+    showActions(value: boolean) {
+      if (!value) {
+        this.actionsExpanded = false;
+      }
+    },
   },
   computed: {
     promotable(): PromotableActionId[] {
@@ -639,11 +644,15 @@ export default defineComponent({
       this.resizeObserver.observe(row);
     },
     // A control removed with its panel open never hears onClosed, and would come back announcing
-    // itself expanded.
+    // itself expanded. The fit loop gives them back one at a time, so this cannot be tied to
+    // demoting all of them.
+    syncExpandedFlags() {
+      this.periodsExpanded = this.periodsExpanded && this.isPromoted('periods');
+      this.exportExpanded = this.exportExpanded && this.isPromoted('export');
+    },
     demoteAll() {
       this.promotedCount = 0;
-      this.periodsExpanded = false;
-      this.exportExpanded = false;
+      this.syncExpandedFlags();
     },
     async updatePromoted() {
       const row = this.$refs.headerRow as HTMLElement | undefined;
@@ -684,6 +693,8 @@ export default defineComponent({
         // eslint-disable-next-line no-await-in-loop
         await this.$nextTick();
       }
+
+      this.syncExpandedFlags();
     },
     translate,
     onTitleClick() {

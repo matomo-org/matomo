@@ -216,9 +216,23 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
         expect(await page.screenshot({ fullPage: true })).to.matchImage('15_search');
     });
 
+
+    // Export leaves the 3-dots menu when the header line has room for it, so reach it wherever it
+    // is rather than always through the menu.
+    const openExport = async function (scope) {
+        const at = (selector) => (scope ? `${scope} ${selector}` : selector);
+
+        if (await page.$(at('[data-report-action="export"]'))) {
+            await page.click(at('[data-report-action="export"] .mtm-selector__trigger'));
+        } else {
+            await page.click(at('.reportHeader__actionsTrigger'));
+        }
+
+        await page.click(at('.activateExportSelection'));
+    };
+
     it("should display the export popover when clicking the export icon", async function () {
-        await page.click('.reportHeader__actionsTrigger');
-        await page.click('.activateExportSelection');
+        await openExport();
         await page.waitForSelector('#reportExport .btn');
 
         let dialog = await page.$('.ui-dialog');
@@ -228,8 +242,7 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
     it("should display the ENTER_YOUR_TOKEN_AUTH_HERE text in the export url", async function () {
         await page.goto(url.replace(/filter_limit=5/, 'filter_limit=10') + '&flat=1');
         await page.waitForNetworkIdle();
-        await page.click('.reportHeader__actionsTrigger');
-        await page.click('.activateExportSelection');
+        await openExport();
         await page.waitForSelector('.toggle-export-url');
         await page.click('.toggle-export-url');
         await page.waitForSelector('.exportFullUrl');

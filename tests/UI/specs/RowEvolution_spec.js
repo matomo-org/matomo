@@ -54,7 +54,7 @@ describe("RowEvolution", function () {
     // Switching the metric reloads that graph, which must not bring a second header with it.
     it('should offer the report actions exactly once after switching the metric', async function() {
         const triggers = await page.evaluate(
-            () => document.querySelectorAll('.ui-dialog .reportHeader__actionsTrigger').length
+            () => document.querySelectorAll('.ui-dialog .reportHeader').length
         );
         expect(triggers).to.equal(1);
     });
@@ -105,7 +105,7 @@ describe("RowEvolution", function () {
     // after the metric change above, which reopens the popover, rather than on first load.
     it('should offer the report actions exactly once in the multi-row popover', async function() {
         const triggers = await page.evaluate(
-            () => document.querySelectorAll('.ui-dialog .reportHeader__actionsTrigger').length
+            () => document.querySelectorAll('.ui-dialog .reportHeader').length
         );
         expect(triggers).to.equal(1);
     });

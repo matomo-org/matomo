@@ -523,7 +523,6 @@ export default defineComponent({
         isDataTableEmpty: this.isDataTableEmpty,
         showFlattenTable: this.showFlattenTable,
         reportSupportsPercentageValues: this.reportSupportsPercentageValues,
-        hasMultipleDimensions: this.hasMultipleDimensions,
         showTotalsRow: this.showTotalsRow,
         showExcludeLowPopulation: this.showExcludeLowPopulation,
         showPivotBySubtable: this.showPivotBySubtable,
