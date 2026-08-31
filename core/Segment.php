@@ -609,10 +609,12 @@ class Segment
      * @param int $offset Specified the offset of the first row to return
      * @param bool $forceGroupBy Keep the group by in the query instead of moving it into a subquery,
      *                           see https://github.com/matomo-org/matomo/issues/9200#issuecomment-183641293
-     *                           A $groupBy value needs to be set for this to work. A query that groups
-     *                           visits by `log_visit.idvisit` while selecting and sorting log_visit rows
-     *                           gets the group by replaced by a subquery that matches the joined tables,
-     *                           which returns the same visits without sorting the whole date range first.
+     *                           A $groupBy value needs to be set for this to work. When the [Live]
+     *                           use_semi_join_query setting is enabled, which it is not by default, a
+     *                           query built the way the visits log builds it can get the group by
+     *                           replaced by a subquery matching the joined tables instead, which
+     *                           returns the same visits without sorting the whole date range first.
+     *                           Every other query keeps the group by.
      * @return array{sql: string, bind: array<scalar>} The entire select query.
      */
     public function getSelectQuery($select, $from, $where = false, $bind = array(), $orderBy = false, $groupBy = false, $limit = 0, $offset = 0, $forceGroupBy = false, bool $withRollup = false)

@@ -2420,6 +2420,83 @@ SQL;
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
+    public function testGetSelectQueryWithForceGroupByKeepsTheGroupByWhenTheWhereQuotesTheVisitTable()
+    {
+        // the conditions of the caller are rewritten to an alias of log_visit, and the rewrite only
+        // replaces the unquoted form of the table name. A quoted reference would be left pointing at
+        // a table the rewritten query does not have, so those queries keep the group by.
+        $this->enableVisitsLogSemiJoinQuery();
+
+        $logVisit = Common::prefixTable('log_visit');
+        $segment = new Segment('siteSearchCategory==Test', $idSites = array());
+
+        $query = $segment->getSelectQuery(
+            'log_visit.*',
+            'log_visit',
+            '`log_visit`.idsite = ?',
+            array(1),
+            'log_visit.visit_last_action_time DESC',
+            'log_visit.idvisit',
+            $limit = 100,
+            $offset = 0,
+            $forceGroupBy = true
+        );
+
+        $this->assertQueryDoesNotFail($query);
+
+        $expected = array(
+            'sql' => 'SELECT log_visit.*
+                      FROM ' . $logVisit . ' AS log_visit
+                      LEFT JOIN ' . Common::prefixTable('log_link_visit_action') . ' AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
+                      WHERE ( `log_visit`.idsite = ? )
+                        AND ( log_link_visit_action.search_cat = ? )
+                      GROUP BY log_visit.idvisit
+                      ORDER BY log_visit.visit_last_action_time DESC LIMIT 0, 100',
+            'bind' => array(1, 'Test'),
+        );
+
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
+    }
+
+    public function testGetSelectQueryWithForceGroupByKeepsTheGroupByWhenTheOrderByContainsASubquery()
+    {
+        // the sorting of the caller is rewritten to an alias of log_visit just like its conditions
+        // are, which would rewrite the inside of a subquery selecting from log_visit too. Those
+        // queries keep the group by.
+        $this->enableVisitsLogSemiJoinQuery();
+
+        $logVisit = Common::prefixTable('log_visit');
+        $orderBy = '(log_visit.idvisit IN (SELECT log_visit.idvisit FROM ' . $logVisit . ' AS log_visit WHERE log_visit.location_country = \'fr\')) DESC, log_visit.visit_last_action_time DESC';
+        $segment = new Segment('siteSearchCategory==Test', $idSites = array());
+
+        $query = $segment->getSelectQuery(
+            'log_visit.*',
+            'log_visit',
+            'log_visit.idsite = ?',
+            array(1),
+            $orderBy,
+            'log_visit.idvisit',
+            $limit = 100,
+            $offset = 0,
+            $forceGroupBy = true
+        );
+
+        $this->assertQueryDoesNotFail($query);
+
+        $expected = array(
+            'sql' => 'SELECT log_visit.*
+                      FROM ' . $logVisit . ' AS log_visit
+                      LEFT JOIN ' . Common::prefixTable('log_link_visit_action') . ' AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
+                      WHERE ( log_visit.idsite = ? )
+                        AND ( log_link_visit_action.search_cat = ? )
+                      GROUP BY log_visit.idvisit
+                      ORDER BY ' . $orderBy . ' LIMIT 0, 100',
+            'bind' => array(1, 'Test'),
+        );
+
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
+    }
+
     private function enableVisitsLogSemiJoinQuery(): void
     {
         $config = Config::getInstance();

@@ -35,6 +35,12 @@ class LogQueryBuilder
     private const LOG_VISIT_OUTER_ALIAS = 'log_visit_outer';
 
     /**
+     * A reference to the log_visit table of the query. This matches more forms than the rewrite to
+     * the alias replaces on purpose, so that a reference the rewrite left behind can be detected.
+     */
+    private const LOG_VISIT_REFERENCE_REGEX = '/(?<![a-zA-Z0-9_])`?log_visit`?\s*\./i';
+
+    /**
      * @var LogTablesProvider
      */
     private $logTableProvider;
@@ -163,7 +169,10 @@ class LogQueryBuilder
      *   matches a visit exactly when at least one of its joined rows matches the segment, which is
      *   the set of visits the GROUP BY produced, so a visit matching several actions still counts
      *   once against the LIMIT (see https://github.com/matomo-org/matomo/issues/13861). MySQL can
-     *   then stop reading log_visit as soon as it has enough visits.
+     *   then stop reading log_visit as soon as it has enough visits, as long as an index serves the
+     *   order by. The visits log sorts by log_visit.idsite first when a single site is requested,
+     *   which the idsite indexes of log_visit serve. Sorting several sites at once has no index to
+     *   use, so the outer query still sorts every visit the query matched before the LIMIT applies.
      *
      * @param string          $select         Select clause, has to select from log_visit only.
      * @param string          $from           Generated join string.
@@ -187,14 +196,7 @@ class LogQueryBuilder
             return null;
         }
 
-        if (!$this->referencesLogVisitOnly($where) || !$this->referencesLogVisitOnly($orderBy)) {
-            return null;
-        }
-
-        // the caller's conditions are rewritten to the alias, which would rewrite the inside of a
-        // subquery that selects from log_visit as well. Those references belong to the log_visit of
-        // that subquery, so the query has to stay grouped instead.
-        if (preg_match('/\bSELECT\b/i', (string) $where)) {
+        if (!$this->canRewriteLogVisitReferences($where) || !$this->canRewriteLogVisitReferences($orderBy)) {
             return null;
         }
 
@@ -250,18 +252,36 @@ class LogQueryBuilder
     }
 
     /**
+     * Whether an expression of the caller can be carried over into the rewritten query. It has to
+     * reference log_visit and nothing else, and it has to reference it in the form the rewrite below
+     * understands, because the rewrite renames the outer log_visit: a reference it does not replace
+     * ends up pointing at a table the rewritten query does not have.
+     *
      * @param string|false $sqlExpression
      * @return bool
      */
-    private function referencesLogVisitOnly($sqlExpression)
+    private function canRewriteLogVisitReferences($sqlExpression)
     {
-        foreach (SegmentExpression::parseColumnsFromSqlExpr((string) $sqlExpression) as $column) {
+        $sqlExpression = (string) $sqlExpression;
+
+        foreach (SegmentExpression::parseColumnsFromSqlExpr($sqlExpression) as $column) {
             if (strpos($column, 'log_visit.') !== 0) {
                 return false;
             }
         }
 
-        return true;
+        // a subquery selects from log_visit itself, so the references inside it belong to that
+        // log_visit and must not be pointed at the renamed outer one
+        if (preg_match('/\bSELECT\b/i', $sqlExpression)) {
+            return false;
+        }
+
+        // parseColumnsFromSqlExpr() reads `log_visit`.idsite as a log_visit column while the rewrite
+        // only replaces the unquoted form, so check what the rewrite leaves behind instead of
+        // trusting the two to read the expression the same way
+        $aliased = $this->aliasLogVisitTable($sqlExpression, self::LOG_VISIT_OUTER_ALIAS);
+
+        return !preg_match(self::LOG_VISIT_REFERENCE_REGEX, $aliased);
     }
 
     /**

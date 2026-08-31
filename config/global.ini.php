@@ -1398,6 +1398,9 @@ time_on_load_cap_duration_ms = 0
 ; LIMIT, so the query costs as much as the whole date range even when a single page of visits is
 ; requested. Both forms return the same visits in the same order, a visit matching several actions
 ; still counting once, see https://github.com/matomo-org/matomo/issues/13861
+; The subquery form only stops early when an index serves the order by, which is the case when the
+; visits log is asked for a single site. Asking for several sites at once sorts the matching visits
+; either way.
 use_semi_join_query = 0
 
 [APISettings]
