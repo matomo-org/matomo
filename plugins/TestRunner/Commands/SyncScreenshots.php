@@ -13,6 +13,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Development;
 use Piwik\Filesystem;
 use Piwik\Http;
+use Piwik\Plugin\ArtifactsHttpAuthTrait;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Log\LoggerInterface;
 
@@ -23,6 +24,8 @@ use Piwik\Log\LoggerInterface;
  */
 class SyncScreenshots extends ConsoleCommand
 {
+    use ArtifactsHttpAuthTrait;
+
     /**
      * @var LoggerInterface
      */
@@ -65,16 +68,7 @@ class SyncScreenshots extends ConsoleCommand
             'Repository name you want to sync screenshots for.',
             'matomo-org/matomo'
         );
-        $this->addOptionalValueOption(
-            'http-user',
-            '',
-            'the HTTP AUTH username (for premium plugins where artifacts are protected)'
-        );
-        $this->addOptionalValueOption(
-            'http-password',
-            '',
-            'the HTTP AUTH password (for premium plugins where artifacts are protected)'
-        );
+        $this->addArtifactsHttpAuthOptions();
     }
 
     protected function doExecute(): int
@@ -85,7 +79,7 @@ class SyncScreenshots extends ConsoleCommand
         $screenshotsRegex = $input->getArgument('screenshotsRegex');
         $repository       = $input->getOption('repository');
         $httpUser         = $input->getOption('http-user');
-        $httpPassword     = $input->getOption('http-password');
+        $httpPassword     = $this->getArtifactsHttpPassword();
 
         $screenshots = $this->getScreenshotList($repository, $buildNumber, $httpUser, $httpPassword);
 
