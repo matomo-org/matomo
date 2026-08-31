@@ -6,18 +6,23 @@
 -->
 
 <template>
-  <div v-if="showFooter && showFooterIcons">
+  <div
+    v-if="showFooter && showFooterIcons"
+    :role="isInHeader ? 'menu' : null"
+    :aria-label="isInHeader ? translate('CoreHome_ReportActions') : null"
+  >
     <!-- Report actions live in the report header, inside the single menu its 3-dots trigger
          opens. Three lists rather than one: `ul.tableConfiguration` and `.dataTableFooterIcons`
          are the hooks every dataTable.js handler binds to, and adjacent lists carry no margin,
          so this still reads as one continuous menu. -->
     <template v-if="isInHeader">
       <ul
-        v-if="showConfigItems"
+        v-if="hasConfigItems"
         :id="`dropdownConfigure${randomIdForDropdown}`"
         class="mtm-dropdownPanel__menu tableConfiguration"
+        role="group"
       >
-        <li v-if="showFlattenTable" class="mtm-dropdownPanel__menuItem">
+        <li v-if="showFlattenTable" class="mtm-dropdownPanel__menuItem" role="none">
           <div
             class="mtm-dropdownPanel__menuLink configItem dataTableFlatten"
             role="menuitemcheckbox"
@@ -34,7 +39,7 @@
             ><span class="icon-ok" /></span>
           </div>
         </li>
-        <li v-if="showDimensionsConfigItem" class="mtm-dropdownPanel__menuItem">
+        <li v-if="showDimensionsConfigItem" class="mtm-dropdownPanel__menuItem" role="none">
           <div
             class="mtm-dropdownPanel__menuLink configItem dataTableShowDimensions"
             role="menuitemcheckbox"
@@ -51,7 +56,7 @@
             ><span class="icon-ok" /></span>
           </div>
         </li>
-        <li v-if="showFlatConfigItem" class="mtm-dropdownPanel__menuItem">
+        <li v-if="showFlatConfigItem" class="mtm-dropdownPanel__menuItem" role="none">
           <div
             class="mtm-dropdownPanel__menuLink configItem dataTableIncludeAggregateRows"
             role="menuitemcheckbox"
@@ -68,7 +73,7 @@
             ><span class="icon-ok" /></span>
           </div>
         </li>
-        <li v-if="showTotalsConfigItem" class="mtm-dropdownPanel__menuItem">
+        <li v-if="showTotalsConfigItem" class="mtm-dropdownPanel__menuItem" role="none">
           <div
             class="mtm-dropdownPanel__menuLink configItem dataTableShowTotalsRow"
             role="menuitemcheckbox"
@@ -85,7 +90,7 @@
             ><span class="icon-ok" /></span>
           </div>
         </li>
-        <li v-if="showPercentageValuesConfigItem" class="mtm-dropdownPanel__menuItem">
+        <li v-if="showPercentageValuesConfigItem" class="mtm-dropdownPanel__menuItem" role="none">
           <div
             class="mtm-dropdownPanel__menuLink configItem dataTableShowPercentageValues"
             role="menuitemcheckbox"
@@ -102,7 +107,7 @@
             ><span class="icon-ok" /></span>
           </div>
         </li>
-        <li v-if="showExcludeLowPopulation" class="mtm-dropdownPanel__menuItem">
+        <li v-if="showExcludeLowPopulation" class="mtm-dropdownPanel__menuItem" role="none">
           <div
             class="mtm-dropdownPanel__menuLink configItem dataTableExcludeLowPopulation"
             role="menuitemcheckbox"
@@ -119,7 +124,7 @@
             ><span class="icon-ok" /></span>
           </div>
         </li>
-        <li v-if="showPivotBySubtable" class="mtm-dropdownPanel__menuItem">
+        <li v-if="showPivotBySubtable" class="mtm-dropdownPanel__menuItem" role="none">
           <div
             class="mtm-dropdownPanel__menuLink configItem dataTablePivotBySubtable"
             role="menuitemcheckbox"
@@ -138,13 +143,15 @@
         </li>
       </ul>
 
-      <ul class="mtm-dropdownPanel__menu">
+      <ul class="mtm-dropdownPanel__menu" role="group">
         <!-- Keeps `dataTablePeriods` on the list and `tableIcon` on each entry: that pair is what
              dataTable.js binds the period change to. -->
-        <li v-if="showPeriods && !isPromoted('periods')" class="mtm-dropdownPanel__menuItem">
+        <li v-if="showPeriods && !isPromoted('periods')" class="mtm-dropdownPanel__menuItem" role="none">
           <a
             class="mtm-dropdownPanel__menuLink dataTableAction activatePeriodsSelection"
             href=""
+            role="menuitem"
+            tabindex="0"
             aria-haspopup="menu"
             :aria-expanded="periodsOpen ? 'true' : 'false'"
             @click.prevent.stop="periodsOpen = !periodsOpen"
@@ -171,10 +178,11 @@
 
         <!-- Keeps `annotationView`: dataTable.js binds the toggle on it and
              handleEvolutionAnnotations() reads it to decide whether the graph shows markers. -->
-        <li v-if="showAnnotations" class="mtm-dropdownPanel__menuItem">
+        <li v-if="showAnnotations" class="mtm-dropdownPanel__menuItem" role="none">
           <a
             class="mtm-dropdownPanel__menuLink dataTableAction annotationView"
             href=""
+            role="menuitem"
             :title="annotationsTitle"
             @click.prevent
           >
@@ -184,10 +192,12 @@
           </a>
         </li>
 
-        <li v-if="showExportAsImageIcon" class="mtm-dropdownPanel__menuItem">
+        <li v-if="showExportAsImageIcon" class="mtm-dropdownPanel__menuItem" role="none">
           <a
             class="mtm-dropdownPanel__menuLink dataTableAction tableIcon"
             href=""
+            role="menuitem"
+            tabindex="0"
             :id="`dataTableExportAsImageIcon-${placement}`"
             @click.prevent="showExportImage($event)"
           >
@@ -196,7 +206,7 @@
             </span>
           </a>
         </li>
-        <li v-if="showExport" class="mtm-dropdownPanel__menuItem">
+        <li v-if="showExport" class="mtm-dropdownPanel__menuItem" role="none">
           <a
             class="mtm-dropdownPanel__menuLink dataTableAction activateExportSelection"
             v-report-export="{
@@ -208,6 +218,7 @@
               canExportFlat: exportSupportsFlat,
             }"
             href=""
+            role="menuitem"
             @click.prevent
           >
             <span class="mtm-dropdownPanel__menuLabel">{{ translate('CoreHome_ExportData') }}</span>
@@ -217,10 +228,12 @@
           v-for="action in dataTableActions"
           :key="action.id"
           class="mtm-dropdownPanel__menuItem"
+          role="none"
         >
           <a
             :class="`mtm-dropdownPanel__menuLink dataTableAction ${action.id}`"
             href=""
+            role="menuitem"
             @click.prevent
           >
             <span class="mtm-dropdownPanel__menuLabel">{{ action.title }}</span>
@@ -231,6 +244,7 @@
       <ul
         :id="`dropdownVisualizations${randomIdForDropdown}`"
         class="mtm-dropdownPanel__menu dataTableFooterIcons"
+        role="group"
       >
         <Passthrough v-for="(footerIconGroup, index) in visibleFooterIconGroups" :key="index">
           <li
@@ -242,13 +256,17 @@
             v-for="footerIcon in footerIconGroup.buttons"
             :key="footerIcon.id"
             class="mtm-dropdownPanel__menuItem"
+            role="none"
           >
             <a
               :class="`mtm-dropdownPanel__menuLink ${footerIconGroup.class} tableIcon
                 ${activeFooterIconIds.indexOf(footerIcon.id) !== -1 ? 'activeIcon' : ''}`"
               :data-footer-icon-id="footerIcon.id"
               role="menuitemradio"
+              tabindex="0"
               :aria-checked="activeFooterIconIds.indexOf(footerIcon.id) !== -1"
+              @keydown.enter.prevent="activateItem"
+              @keydown.space.prevent="activateItem"
             >
               <span
                 v-if="/^icon-/.test(footerIcon.icon || '')"
@@ -287,6 +305,7 @@ import ReportExport from '../ReportExport/ReportExport';
 import { translate } from '../translate';
 import { isBooleanLikeSet, resolveExportSupportsFlat } from './DataTableActions.utils';
 import findReportRoot from './reportScope';
+import activateMenuItem from './activateMenuItem';
 
 export interface FooterIcon {
   id: string;
@@ -297,6 +316,16 @@ export interface FooterIcon {
 export interface FooterIconGroup {
   buttons: FooterIcon[];
   class?: string;
+}
+
+interface ConfigState {
+  flat: boolean;
+  dimensions: boolean;
+  aggregateRows: boolean;
+  totalsRow: boolean;
+  percentages: boolean;
+  lowPopulation: boolean;
+  pivoted: boolean;
 }
 
 export interface DataTableAction {
@@ -386,6 +415,7 @@ export default defineComponent({
     ReportExport,
   },
   methods: {
+    translate,
     showsSeparatorBefore(index: number): boolean {
       if (index === 0) {
         return this.hasActionsAbove;
@@ -395,11 +425,7 @@ export default defineComponent({
       // before it and not after. Absent, the graphs keep the one they would have had.
       return this.visibleFooterIconGroups[index - 1].class !== 'tableInsightViews';
     },
-    // Not links the browser would follow, so a key press has to click them for the delegated
-    // handler in dataTable.js to hear.
-    activateItem(event: KeyboardEvent) {
-      (event.currentTarget as HTMLElement | null)?.click();
-    },
+    activateItem: activateMenuItem,
     isPromoted(action: PromotableActionId): boolean {
       return this.promotedActions.indexOf(action) !== -1;
     },
@@ -470,8 +496,18 @@ export default defineComponent({
     },
     // Whether anything renders above the visualisation lists, so their leading separator has
     // something to separate from.
-    hasActionsAbove(): boolean {
+    hasConfigItems(): boolean {
       return this.showConfigItems
+        && (this.showFlattenTable
+          || this.showDimensionsConfigItem
+          || this.showFlatConfigItem
+          || this.showTotalsConfigItem
+          || this.showPercentageValuesConfigItem
+          || this.showExcludeLowPopulation
+          || this.showPivotBySubtable);
+    },
+    hasActionsAbove(): boolean {
+      return this.hasConfigItems
         || (this.showPeriods && !this.isPromoted('periods'))
         || this.showAnnotations
         || this.showExportAsImageIcon
@@ -512,8 +548,8 @@ export default defineComponent({
     showPercentageValuesConfigItem() {
       return !this.isDataTableEmpty && this.reportSupportsPercentageValues;
     },
-    // What each first-group entry is currently doing. The labels no longer say it, a tick does.
-    configState(): Record<string, boolean> {
+    // What each first-group entry is currently doing.
+    configState(): ConfigState {
       const params = this.clientSideParameters as Record<string, string|number|boolean>;
       return {
         flat: isBooleanLikeSet(params.flat),

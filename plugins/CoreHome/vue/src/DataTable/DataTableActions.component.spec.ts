@@ -257,3 +257,113 @@ describe('DataTableActions period submenu', () => {
       .find('a.annotationView').text()).toContain('Annotations_HideAnnotations');
   });
 });
+
+describe('DataTableActions menu structure', () => {
+  const tableGroup = {
+    class: 'tableAllColumnsSwitch',
+    buttons: [{ id: 'table', icon: 'icon-table', title: 'Display simple table' }],
+  };
+  const insightsGroup = {
+    class: 'tableInsightViews',
+    buttons: [{ id: 'insightsVisualization', icon: 'icon-insights', title: 'Insights' }],
+  };
+  const graphGroup = {
+    class: 'tableGraphViews',
+    buttons: [{ id: 'graphVerticalBar', icon: 'icon-chart-bar', title: 'Vertical bar graph' }],
+  };
+
+  function mountComponent(customProps = {}) {
+    return mount(DataTableActions, {
+      props: {
+        showFooter: true,
+        showFooterIcons: true,
+        viewDataTable: 'table',
+        placement: 'header',
+        footerIcons: [tableGroup],
+        requestParams: {},
+        apiMethodToRequestDataTable: 'DevicesDetection.getType',
+        maxFilterLimit: 100,
+        reportId: 'DevicesDetection.getType',
+        dataTableActions: [],
+        clientSideParameters: {},
+        translations: {},
+        ...customProps,
+      },
+    });
+  }
+
+  // The roles only mean anything inside a menu: outside one a screen reader may drop them, and
+  // aria-checked with them.
+  it('should own its entries as one menu of groups', () => {
+    const wrapper = mountComponent({ reportSupportsPercentageValues: true });
+
+    expect(wrapper.find('[role="menu"]').exists()).toBe(true);
+    expect(wrapper.findAll('ul.mtm-dropdownPanel__menu').every(
+      (list) => list.attributes('role') === 'group',
+    )).toBe(true);
+    expect(wrapper.findAll('li.mtm-dropdownPanel__menuItem').every(
+      (item) => item.attributes('role') === 'none',
+    )).toBe(true);
+  });
+
+  it('should mark the visualisation in use, exclusively', () => {
+    const wrapper = mountComponent({
+      footerIcons: [tableGroup, graphGroup],
+      viewDataTable: 'graphVerticalBar',
+    });
+
+    const entries = wrapper.findAll('[role="menuitemradio"]');
+    expect(entries.length).toBe(2);
+    expect(entries.map((e) => e.attributes('aria-checked'))).toEqual(['false', 'true']);
+    expect(entries[1].find('.icon-ok').exists()).toBe(true);
+  });
+
+  // No href here, so without this the role promises a control the keyboard cannot reach.
+  it('should let the keyboard pick a visualisation', async () => {
+    const wrapper = mountComponent();
+
+    const entry = wrapper.find('[role="menuitemradio"]');
+    expect(entry.attributes('tabindex')).toBe('0');
+
+    const clicked = vi.fn();
+    entry.element.addEventListener('click', clicked);
+    await entry.trigger('keydown.space');
+
+    expect(clicked).toHaveBeenCalled();
+  });
+
+  it('should drop a group whose buttons carry no icon', () => {
+    const wrapper = mountComponent({
+      reportSupportsPercentageValues: true,
+      footerIcons: [tableGroup, { class: 'tableGraphViews', buttons: [{ id: 'noIcon' }] }],
+    });
+
+    expect(wrapper.findAll('li.mtm-dropdownPanel__menuItem .tableGraphViews').length).toBe(0);
+    // and with it the separator it would have been given
+    expect(wrapper.findAll('li.mtm-dropdownPanel__separator').length).toBe(1);
+  });
+
+  it('should rule off before Insights rather than after it', () => {
+    const wrapper = mountComponent({
+      reportSupportsPercentageValues: true,
+      footerIcons: [tableGroup, insightsGroup, graphGroup],
+    });
+
+    const rows = wrapper.findAll('ul.dataTableFooterIcons > li');
+    const separators = rows
+      .map((row, index) => (row.classes('mtm-dropdownPanel__separator') ? index : -1))
+      .filter((index) => index !== -1);
+
+    // one above the list, one above Insights - and none between Insights and the graphs
+    expect(separators).toEqual([0, 2]);
+    expect(rows[4].find('.tableGraphViews').exists()).toBe(true);
+  });
+
+  // showConfigItems only gates the list; every entry inside has a condition of its own.
+  it('should not rule off above the visualisations when nothing renders above them', () => {
+    const wrapper = mountComponent({ reportSupportsPercentageValues: false });
+
+    expect(wrapper.find('ul.tableConfiguration').exists()).toBe(false);
+    expect(wrapper.find('li.mtm-dropdownPanel__separator').exists()).toBe(false);
+  });
+});

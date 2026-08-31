@@ -40,6 +40,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
+import activateMenuItem from './activateMenuItem';
 
 export default defineComponent({
   props: {
@@ -58,10 +59,7 @@ export default defineComponent({
   },
   emits: ['pick'],
   methods: {
-    // The item is not a link, so a key press has to click it for the delegated handler to hear.
-    activateItem(event: KeyboardEvent) {
-      (event.currentTarget as HTMLElement | null)?.click();
-    },
+    activateItem: activateMenuItem,
   },
 });
 </script>

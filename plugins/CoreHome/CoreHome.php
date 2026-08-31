@@ -222,7 +222,6 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_ChooseX';
         $translationKeys[] = 'CoreHome_ClickToSeeFullInformation';
         $translationKeys[] = 'CoreHome_YouAreUsingTheLatestVersion';
-        $translationKeys[] = 'CoreHome_Default';
         $translationKeys[] = 'CoreHome_FormatMetrics';
         $translationKeys[] = 'CoreHome_ShowExportUrl';
         $translationKeys[] = 'CoreHome_HideExportUrl';

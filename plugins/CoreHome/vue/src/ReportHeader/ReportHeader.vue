@@ -106,7 +106,11 @@
             v-if="showActions"
             ref="actions"
             class="reportHeader__actions"
-            v-expand-on-click="{ expander: 'actionsTrigger' }"
+            v-expand-on-click="{
+              expander: 'actionsTrigger',
+              onExpand: () => { actionsExpanded = true; },
+              onClosed: () => { actionsExpanded = false; },
+            }"
           >
             <button
               ref="actionsTrigger"
@@ -114,6 +118,8 @@
               class="reportHeader__actionsTrigger"
               :title="translate('CoreHome_ReportActions')"
               :aria-label="translate('CoreHome_ReportActions')"
+              aria-haspopup="menu"
+              :aria-expanded="actionsExpanded ? 'true' : 'false'"
             >
               <span class="icon-more-verti" aria-hidden="true" />
             </button>
@@ -404,6 +410,7 @@ export default defineComponent({
       searchDebounceTimer: null as ReturnType<typeof setTimeout> | null,
       promotedCount: 0,
       periodsExpanded: false,
+      actionsExpanded: false,
       resizeObserver: null as ResizeObserver | null,
       lastMeasuredWidth: -1,
     };
