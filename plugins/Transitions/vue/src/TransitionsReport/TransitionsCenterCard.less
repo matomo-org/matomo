@@ -1,0 +1,174 @@
+.transitionsCenterCard {
+  // Accent for the card's action tile, and the two side colours used by the metric dots. None of
+  // these has a semantic theme token, so the dark values are spelled out.
+  @_accent: #6E5AE8;
+  @_accentDark: #8B7BEE;
+  @_incoming: #6E8CD6;
+  @_incomingDark: #4C6EB8;
+  @_outgoing: #4FBF9F;
+  @_outgoingDark: #3E9C82;
+
+  // The card frame and the three rules inside it are the same hairline.
+  @_hairline: 1px solid @theme-color-border-alternative;
+  // Space either side of an internal rule. The loops line below sits 2px tighter on purpose:
+  // unifying it would move the card's bottom edge, and every Transitions screenshot with it.
+  @_dividerGap: 18px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 22px 20px;
+  border: @_hairline;
+  border-radius: 12px;
+  background: @theme-color-background-contrast;
+  box-shadow: @theme-shadow-overlay;
+
+  .transitionsCenterCard__header {
+    display: flex;
+    flex-direction: column;
+    align-items: safe center;
+    gap: 10px;
+    padding-bottom: @_dividerGap;
+    border-bottom: @_hairline;
+    text-align: center;
+  }
+
+  .transitionsCenterCard__icon {
+    display: flex;
+    align-items: safe center;
+    justify-content: safe center;
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    background: @_accent;
+
+    .inDarkMode({
+      background: @_accentDark;
+    });
+  }
+
+  .transitionsCenterCard__glyph {
+    color: #fff;
+    font-size: 20px;
+    line-height: 1;
+  }
+
+  .transitionsCenterCard__title {
+    display: block;
+    max-width: 100%;
+    color: @theme-color-text;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 19px;
+    overflow-wrap: anywhere;
+  }
+
+  .transitionsCenterCard__pageviews {
+    display: block;
+    color: @theme-color-text-light;
+    font-size: 12px;
+    line-height: 16px;
+    cursor: default;
+  }
+
+  .transitionsCenterCard__metricGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .transitionsCenterCard__metricGroup--divided {
+    padding-top: @_dividerGap;
+    border-top: @_hairline;
+  }
+
+  .transitionsCenterCard__metricHeading {
+    color: @theme-color-text;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 19px;
+  }
+
+  .transitionsCenterCard__metricTotal {
+    margin-bottom: 8px;
+    color: @theme-color-text;
+    font-size: 22px;
+    font-weight: bold;
+    line-height: 28px;
+  }
+
+  .transitionsCenterCard__metricList {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  // An actionable metric is an anchor, so it needs the global link underline taken back off.
+  .transitionsCenterCard__metric {
+    display: flex;
+    align-items: safe center;
+    gap: 8px;
+    padding: 2px 4px;
+    border-radius: 8px;
+    color: @theme-color-text;
+    font-size: 12px;
+    line-height: 16px;
+    text-decoration: none;
+  }
+
+  .transitionsCenterCard__metric--actionable {
+    cursor: pointer;
+  }
+
+  .transitionsCenterCard__metric--highlighted {
+    background: @theme-color-background-base;
+  }
+
+  // dotClass() always returns one of the three modifiers, so the base carries no colour.
+  .transitionsCenterCard__dot {
+    flex: none;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+  }
+
+  .transitionsCenterCard__dot--empty {
+    background: @theme-color-text-light;
+  }
+
+  .transitionsCenterCard__dot--incoming {
+    background: @_incoming;
+
+    .inDarkMode({
+      background: @_incomingDark;
+    });
+  }
+
+  .transitionsCenterCard__dot--outgoing {
+    background: @_outgoing;
+
+    .inDarkMode({
+      background: @_outgoingDark;
+    });
+  }
+
+  .transitionsCenterCard__metricLabel {
+    flex: auto;
+    min-width: 0;
+  }
+
+  .transitionsCenterCard__metricValue {
+    font-weight: bold;
+  }
+
+  .transitionsCenterCard__loops {
+    margin: 0;
+    padding-top: 16px;
+    border-top: @_hairline;
+    color: @theme-color-text-light;
+    font-size: 12px;
+    line-height: 16px;
+    text-align: center;
+    cursor: default;
+  }
+}

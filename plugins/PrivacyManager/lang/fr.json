@@ -61,7 +61,6 @@
         "ComplianceEnforceCheckboxIntro": "Appliquer la conformité lorsque cela est possible",
         "ComplianceEnforceCheckboxTitle": "Appliquer les paramètres favorisant l'alignement avec l'exemption de consentement CNIL dans la mesure du possible",
         "ComplianceNonCompliant": "non conforme",
-        "ComplianceSelectSite": "Sélectionnez un site ci-dessous pour obtenir une indication sur la conformité du site avec la loi sur la protection de la vie privée indiquée",
         "ComplianceTableSettingName": "Nom du paramètre",
         "ComplianceTableSettingNotes": "Notes",
         "ComplianceTableSettingStatus": "Statut",

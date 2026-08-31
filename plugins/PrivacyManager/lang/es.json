@@ -50,7 +50,6 @@
         "ComplianceEnforceCheckboxIntro": "Garantizar el cumplimiento siempre que sea posible",
         "ComplianceEnforceCheckboxTitle": "Reforzar ajustes que ayuden a alinear la exención de consentimiento con la CNIL siempre que sea posible",
         "ComplianceNonCompliant": "no conforme",
-        "ComplianceSelectSite": "A continuación selecciona un sitio para obtener una indicación si el sitio dado cumple con la ley de privacidad indicada",
         "ComplianceTableSettingName": "Nombre de la configuración",
         "ComplianceTableSettingNotes": "Notas",
         "ComplianceTableSettingStatus": "Estado",

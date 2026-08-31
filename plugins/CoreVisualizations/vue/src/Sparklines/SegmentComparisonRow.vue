@@ -12,9 +12,11 @@
       :title="segmentLabel"
     >{{ segmentLabel }}</span>
     <PeriodColumns :entry="segment" />
+    <!-- The tooltip goes on the slot, not the image: the image scales shorter than the slot. -->
     <div
       class="sparklineSegmentComparisonRow__sparkline"
       :class="{ 'sparklineSegmentComparisonRow__sparkline--wide': isMultiPeriod }"
+      :title="segment.tooltip || undefined"
     >
       <Sparkline
         :width="sparklineWidth"

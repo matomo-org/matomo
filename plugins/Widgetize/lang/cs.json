@@ -1,8 +1,21 @@
 {
     "Widgetize": {
+        "DirectLink": "› Přímý odkaz",
+        "DisplayDashboardInIframe": "Úplnou nástěnku Matomo můžete ve své aplikaci nebo na webu zobrazit také v prvku iframe (%1$sviz příklad%2$s). Parametr date lze nastavit na konkrétní kalendářní datum, „today“ nebo „yesterday“. Parametr period lze nastavit na „day“, „week“, „month“ nebo „year“. Parametr language lze nastavit na kód jazyka překladu, například language=fr. Pro idSite=1 a date=yesterday můžete například použít:",
+        "DisplayDashboardInIframeAllSites": "Do prvku iframe můžete vložit také nástěnku všech webů (%1$sviz příklad%2$s)",
+        "EmbedIframe": "&rsaquo; Vložit iframe",
+        "ErrorTokenAuthFailed": "Tuto URL widgetu se nepodařilo ověřit pomocí zadaného parametru <code>token_auth</code>. Adresy URL widgetů fungují pouze s tokeny vytvořenými s vypnutou volbou „Povolit pouze zabezpečené požadavky“. Vytvořte token použitelný v URL na stránce %1$sZabezpečení%2$s, nebo %3$sudělte anonymnímu uživateli přístup k prohlížení%4$s a vložte tento widget bez tokenu.",
+        "ErrorTokenAuthFailedDisabledByPolicy": "Tuto URL widgetu se nepodařilo ověřit, protože ověřování pomocí <code>token_auth</code> v URL je v této instanci Matomo zakázáno zásadami serveru. %1$sUdělte anonymnímu uživateli přístup k prohlížení%2$s, nebo načtěte widget prostřednictvím proxy na straně serveru, která token odesílá metodou POST.",
+        "Intro": "V Matomo můžete jediným kliknutím %1$sexportovat přehledy webové analytiky%2$s na svůj blog, web nebo intranetovou nástěnku.",
         "OpenInNewWindow": "Otevřít nové okno",
         "PluginDescription": "Zobrazte jakékoliv hlášení z Matoma na vašich stránkách jednoduchých vložením HTML tagu.",
+        "Reports": "Přehledy jako widgety",
         "SelectAReport": "Vyberte report a zkopírujte a vložte na stránku kód pro vložení pod widgetem:",
-        "TopLinkTooltip": "Exportujte své Matomo hlášení jako widgety a použijte eje e vaší aplikaci jako iframe."
+        "TooHighAccessLevel": "Tento uživatel má přístup superuživatele. Vkládání widgetů s ověřováním pomocí tokenu superuživatele není povoleno. %1$sDalší informace najdete v častých dotazech.%2$s",
+        "TopLinkTooltip": "Exportujte přehledy Matomo jako widgety a vložte nástěnku do své aplikace pomocí prvku iframe.",
+        "UrlTokensDisabledByPolicy": "Ověřování pomocí <code>token_auth</code> v URL je v této instanci Matomo zakázáno zásadami serveru (volba <code>only_allow_secure_auth_tokens</code> je zapnutá). Adresy URL widgetů nelze ověřit parametrem tokenu. Chcete-li tyto widgety publikovat na stránce chráněné heslem, %1$sudělte anonymnímu uživateli přístup k prohlížení%2$s, nebo načítejte widgety prostřednictvím proxy na straně serveru, která token odesílá metodou POST.",
+        "ViewAccessRequired": "Tento uživatel má alespoň některá oprávnění k zápisu. Použít lze pouze tokeny uživatelů, kteří mají jen přístup k prohlížení. Další informace najdete zde: %1$s.",
+        "ViewableAnonymously": "Chcete-li, aby si vaše widgety mohl zobrazit kdokoli, musíte nejprve anonymnímu uživateli udělit oprávnění k prohlížení v části %1$sSpráva uživatelů%2$s. <br>Pokud však widgety publikujete na stránce chráněné heslem nebo na soukromé stránce, nemusíte anonymnímu uživateli nutně povolit zobrazování přehledů. V takovém případě můžete do URL widgetu přidat tajný parametr <code>token_auth</code>. Ověřovací tokeny můžete spravovat na stránce %3$sZabezpečení%4$s.",
+        "ViewableAnonymouslyUrlTokenRequirement": "Jako parametr URL lze použít pouze tokeny vytvořené s vypnutou volbou „Povolit pouze zabezpečené požadavky“. Tokeny označené jako pouze zabezpečené je nutné odeslat metodou POST a nelze je použít k ověření URL widgetu."
     }
 }

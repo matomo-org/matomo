@@ -1,10 +1,15 @@
 {
     "UserId": {
         "PluginDescription": "顯示使用者報表",
-        "ThereIsNoDataForThisReportHelp": "%1$s閱讀使用者指南以了解如何為此報表生成資料。%2$s",
+        "ThereIsNoDataForThisReportHelp": "%1$s請參閱使用者指南，了解如何為此報表產生資料。%2$s",
         "UserId": "使用者 ID",
-        "UserReportDocumentation": "為每個單獨的使用者 ID 顯示訪問和其他一般指標。",
+        "UserIdDisabledSettingImpact": "不會收集使用者 ID 的值。使用者 ID 報表、區隔，以及以使用者 ID 為基礎的跨訪問分析都無法使用。",
+        "UserIdDisabledSettingRequirementNote": "必須停用追蹤時的使用者 ID 收集。",
+        "UserIdDisabledSettingTitle": "已停用使用者 ID 追蹤",
+        "UserIdDisabledSettingWhatItDoes": "使用者 ID 追蹤已停用。追蹤的實作方式不得使用 setUserId 或類似方法傳送使用者 ID。<br><br>這可以避免訪客被直接識別，或跨訪問與跨裝置被關聯起來。",
+        "UserIdSegmentHelp": "任何可識別使用者的非空白唯一字串（例如 e-mail 位址或使用者名稱）。",
+        "UserReportDocumentation": "顯示每一個別使用者 ID 的訪問數與其他一般指標。",
         "UserReportTitle": "使用者 ID",
-        "VisitorsUserSubcategoryHelp": "使用者 ID 報表顯示與所有已註冊並登入使用者相關聯的訪問。通過特定使用者了解網站使用情況，找出最活躍和最不活躍的使用者。"
+        "VisitorsUserSubcategoryHelp": "使用者 ID 報表顯示與所有已註冊並登入的使用者相關聯的訪問。你可以了解特定使用者如何使用網站，並找出最活躍與最不活躍的使用者。"
     }
 }

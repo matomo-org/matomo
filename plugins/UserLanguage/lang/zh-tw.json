@@ -2,8 +2,8 @@
     "UserLanguage": {
         "BrowserLanguage": "瀏覽器語言",
         "LanguageCode": "語言代碼",
-        "PluginDescription": "報告訪客所使用的瀏覽器首選語言。",
-        "getLanguageCodeDocumentation": "顯示你的訪客使用的瀏覽器語言代號設定。(例如「德文 - 奧地利 (de-at)」)",
-        "getLanguageDocumentation": "顯示你的訪客使用的瀏覽器語言分類。(例如「法文」)"
+        "PluginDescription": "報告訪客所使用的主要瀏覽器語言。",
+        "getLanguageCodeDocumentation": "顯示訪客瀏覽器所設定的確切語言代碼。（例如「德文 - 奧地利 (de-at)」）",
+        "getLanguageDocumentation": "顯示訪客瀏覽器所使用的語言。（例如「法文」）"
     }
 }

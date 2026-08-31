@@ -31,6 +31,10 @@ parameters:
         - plugins/VisitorGenerator
     bootstrapFiles:
         - bootstrap-phpstan.php
+    # Not reachable through the composer autoloader: it is a global class pulled in
+    # via require_once, so PHPStan has to be pointed at the file explicitly.
+    scanFiles:
+        - libs/Authenticator/TwoFactorAuthenticator.php
     ignoreErrors:
         - "#Unsafe usage of new static#"
         # Monolog\Logger and Symfony's ConsoleFormatter are marked @final only via
