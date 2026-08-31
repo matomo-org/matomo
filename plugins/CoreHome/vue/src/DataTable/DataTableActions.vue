@@ -22,6 +22,11 @@
             class="mtm-dropdownPanel__menuLink configItem dataTableFlatten"
           >
             <span class="mtm-dropdownPanel__menuLabel">{{ flattenItemText }}</span>
+            <span
+              v-if="configState.flat"
+              class="mtm-dropdownPanel__rightIcon"
+              aria-hidden="true"
+            ><span class="icon-ok" /></span>
           </div>
         </li>
         <li v-if="showDimensionsConfigItem" class="mtm-dropdownPanel__menuItem">
@@ -29,6 +34,11 @@
             class="mtm-dropdownPanel__menuLink configItem dataTableShowDimensions"
           >
             <span class="mtm-dropdownPanel__menuLabel">{{ showDimensionsText }}</span>
+            <span
+              v-if="configState.dimensions"
+              class="mtm-dropdownPanel__rightIcon"
+              aria-hidden="true"
+            ><span class="icon-ok" /></span>
           </div>
         </li>
         <li v-if="showFlatConfigItem" class="mtm-dropdownPanel__menuItem">
@@ -36,6 +46,11 @@
             class="mtm-dropdownPanel__menuLink configItem dataTableIncludeAggregateRows"
           >
             <span class="mtm-dropdownPanel__menuLabel">{{ includeAggregateRowsText }}</span>
+            <span
+              v-if="configState.aggregateRows"
+              class="mtm-dropdownPanel__rightIcon"
+              aria-hidden="true"
+            ><span class="icon-ok" /></span>
           </div>
         </li>
         <li v-if="showTotalsConfigItem" class="mtm-dropdownPanel__menuItem">
@@ -43,6 +58,11 @@
             class="mtm-dropdownPanel__menuLink configItem dataTableShowTotalsRow"
           >
             <span class="mtm-dropdownPanel__menuLabel">{{ keepTotalsRowText }}</span>
+            <span
+              v-if="configState.totalsRow"
+              class="mtm-dropdownPanel__rightIcon"
+              aria-hidden="true"
+            ><span class="icon-ok" /></span>
           </div>
         </li>
         <li v-if="showPercentageValuesConfigItem" class="mtm-dropdownPanel__menuItem">
@@ -51,6 +71,11 @@
             :aria-label="percentageValuesLabel"
           >
             <span class="mtm-dropdownPanel__menuLabel">{{ percentageValuesText }}</span>
+            <span
+              v-if="configState.percentages"
+              class="mtm-dropdownPanel__rightIcon"
+              aria-hidden="true"
+            ><span class="icon-ok" /></span>
           </div>
         </li>
         <li v-if="showExcludeLowPopulation" class="mtm-dropdownPanel__menuItem">
@@ -58,6 +83,11 @@
             class="mtm-dropdownPanel__menuLink configItem dataTableExcludeLowPopulation"
           >
             <span class="mtm-dropdownPanel__menuLabel">{{ excludeLowPopText }}</span>
+            <span
+              v-if="configState.lowPopulation"
+              class="mtm-dropdownPanel__rightIcon"
+              aria-hidden="true"
+            ><span class="icon-ok" /></span>
           </div>
         </li>
         <li v-if="showPivotBySubtable" class="mtm-dropdownPanel__menuItem">
@@ -65,6 +95,11 @@
             class="mtm-dropdownPanel__menuLink configItem dataTablePivotBySubtable"
           >
             <span class="mtm-dropdownPanel__menuLabel">{{ pivotByText }}</span>
+            <span
+              v-if="configState.pivoted"
+              class="mtm-dropdownPanel__rightIcon"
+              aria-hidden="true"
+            ><span class="icon-ok" /></span>
           </div>
         </li>
       </ul>
@@ -254,14 +289,6 @@ function getSingleStateIconText(text: string, addDefault?: boolean, replacement?
   }
 
   return result;
-}
-
-function getToggledIconText(toggled: boolean, textToggled: string, textUntoggled: string) {
-  if (toggled) {
-    return getSingleStateIconText(textToggled, true);
-  }
-
-  return getSingleStateIconText(textUntoggled);
 }
 
 export default defineComponent({
@@ -463,68 +490,45 @@ export default defineComponent({
     showPercentageValuesConfigItem() {
       return !this.isDataTableEmpty && this.reportSupportsPercentageValues;
     },
-    flattenItemText() {
+    // What each first-group entry is currently doing. The labels no longer say it, a tick does.
+    configState(): Record<string, boolean> {
       const params = this.clientSideParameters as Record<string, string|number|boolean>;
-      return getToggledIconText(
-        isBooleanLikeSet(params.flat),
-        'CoreHome_UnFlattenDataTable',
-        'CoreHome_FlattenDataTable',
-      );
+      return {
+        flat: isBooleanLikeSet(params.flat),
+        dimensions: isBooleanLikeSet(params.show_dimensions),
+        aggregateRows: isBooleanLikeSet(params.include_aggregate_rows),
+        totalsRow: isBooleanLikeSet(params.keep_totals_row),
+        percentages: isBooleanLikeSet(params.show_percentage_values),
+        lowPopulation: isBooleanLikeSet(params.enable_filter_excludelowpop),
+        pivoted: isBooleanLikeSet(params.pivotBy),
+      };
+    },
+    flattenItemText() {
+      return getSingleStateIconText('CoreHome_FlattenDataTable');
     },
     keepTotalsRowText() {
-      const params = this.clientSideParameters as Record<string, string|number|boolean>;
-      return getToggledIconText(
-        isBooleanLikeSet(params.keep_totals_row),
-        'CoreHome_RemoveTotalsRowDataTable',
-        'CoreHome_AddTotalsRowDataTable',
-      );
+      return getSingleStateIconText('CoreHome_AddTotalsRowDataTable');
     },
     percentageValuesText() {
-      const params = this.clientSideParameters as Record<string, string|number|boolean>;
-      return getToggledIconText(
-        isBooleanLikeSet(params.show_percentage_values),
-        'CoreHome_ShowAbsoluteValuesDataTable',
-        'CoreHome_ShowPercentageValuesDataTable',
-      );
+      return getSingleStateIconText('CoreHome_ShowPercentageValuesDataTable');
     },
     percentageValuesLabel() {
-      const params = this.clientSideParameters as Record<string, string|number|boolean>;
-      return isBooleanLikeSet(params.show_percentage_values)
-        ? translate('CoreHome_ShowAbsoluteValues')
-        : translate('CoreHome_ShowPercentageValues');
+      return translate('CoreHome_ShowPercentageValues');
     },
     includeAggregateRowsText() {
-      const params = this.clientSideParameters as Record<string, string|number|boolean>;
-      return getToggledIconText(
-        isBooleanLikeSet(params.include_aggregate_rows),
-        'CoreHome_DataTableExcludeAggregateRows',
-        'CoreHome_DataTableIncludeAggregateRows',
-      );
+      // Its pair reads "Aggregate rows are hidden / Show them", which says nothing on its own once
+      // the state is no longer part of the label.
+      return translate('CoreHome_ShowAggregateRows');
     },
     showDimensionsText() {
-      const params = this.clientSideParameters as Record<string, string|number|boolean>;
-      return getToggledIconText(
-        isBooleanLikeSet(params.show_dimensions),
-        'CoreHome_DataTableCombineDimensions',
-        'CoreHome_DataTableShowDimensions',
-      );
+      return getSingleStateIconText('CoreHome_DataTableShowDimensions');
     },
     pivotByText() {
-      const params = this.clientSideParameters as Record<string, string|number|boolean>;
-      if (isBooleanLikeSet(params.pivotBy)) {
-        return getSingleStateIconText('CoreHome_UndoPivotBySubtable', true);
-      }
-
       return getSingleStateIconText('CoreHome_PivotBySubtable', false, this.pivotDimensionName
         || undefined);
     },
     excludeLowPopText() {
-      const params = this.clientSideParameters as Record<string, string|number|boolean>;
-      return getToggledIconText(
-        isBooleanLikeSet(params.enable_filter_excludelowpop),
-        'CoreHome_IncludeRowsWithLowPopulation',
-        'CoreHome_ExcludeRowsWithLowPopulation',
-      );
+      return getSingleStateIconText('CoreHome_ExcludeRowsWithLowPopulation');
     },
     // Every config entry acts on a table, so a graph offers none - except where one is already
     // applied, which has to stay reachable to be undone. This is the gate the configure icon

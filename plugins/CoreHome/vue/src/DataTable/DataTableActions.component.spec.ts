@@ -97,15 +97,22 @@ describe('DataTableActions percentage values setting', () => {
     expect(item.attributes('aria-label')).toBe('Show percentages');
   });
 
-  it('should flip the wording, the accessible name and the icon state when percentages are shown', () => {
+  it('should keep its wording and mark itself instead when percentages are shown', () => {
     const wrapper = mountComponent({ clientSideParameters: { show_percentage_values: '1' } });
 
     const item = wrapper.find(percentageItem);
-    expect(item.text()).not.toContain('The report is showing');
-    // switching back returns the report to its default, as for the other toggles
-    expect(item.text()).toBe('Show absolute values (default)');
+    // the label names the setting, not what a click would do next, so it does not move
+    expect(item.text()).toBe('Show percentages');
+    expect(item.attributes('aria-label')).toBe('Show percentages');
 
-    expect(item.attributes('aria-label')).toBe('Show absolute values');
+    // what changed is the tick beside it
+    expect(item.find('.icon-ok').exists()).toBe(true);
+  });
+
+  it('should carry no tick while percentages are off', () => {
+    const wrapper = mountComponent({ clientSideParameters: {} });
+
+    expect(wrapper.find(percentageItem).find('.icon-ok').exists()).toBe(false);
   });
 
   it('should treat a disabled setting the same however it is expressed', () => {

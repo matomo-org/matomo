@@ -30,6 +30,7 @@
         "HideExportUrl": "Hide Export URL",
         "HomeShortcut": "Home",
         "ShowAbsoluteValues": "Show absolute values",
+        "ShowAggregateRows": "Show aggregate rows",
         "ShowAbsoluteValuesDataTable": "The report is showing percentages %s Show absolute values",
         "ShowExportUrl": "Show Export URL",
         "ShowPeriod": "Show period",
