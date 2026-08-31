@@ -20,6 +20,11 @@
         <li v-if="showFlattenTable" class="mtm-dropdownPanel__menuItem">
           <div
             class="mtm-dropdownPanel__menuLink configItem dataTableFlatten"
+            role="menuitemcheckbox"
+            tabindex="0"
+            :aria-checked="configState.flat"
+            @keydown.enter.prevent="activateItem"
+            @keydown.space.prevent="activateItem"
           >
             <span class="mtm-dropdownPanel__menuLabel">{{ flattenItemText }}</span>
             <span
@@ -32,6 +37,11 @@
         <li v-if="showDimensionsConfigItem" class="mtm-dropdownPanel__menuItem">
           <div
             class="mtm-dropdownPanel__menuLink configItem dataTableShowDimensions"
+            role="menuitemcheckbox"
+            tabindex="0"
+            :aria-checked="configState.dimensions"
+            @keydown.enter.prevent="activateItem"
+            @keydown.space.prevent="activateItem"
           >
             <span class="mtm-dropdownPanel__menuLabel">{{ showDimensionsText }}</span>
             <span
@@ -44,6 +54,11 @@
         <li v-if="showFlatConfigItem" class="mtm-dropdownPanel__menuItem">
           <div
             class="mtm-dropdownPanel__menuLink configItem dataTableIncludeAggregateRows"
+            role="menuitemcheckbox"
+            tabindex="0"
+            :aria-checked="configState.aggregateRows"
+            @keydown.enter.prevent="activateItem"
+            @keydown.space.prevent="activateItem"
           >
             <span class="mtm-dropdownPanel__menuLabel">{{ includeAggregateRowsText }}</span>
             <span
@@ -56,6 +71,11 @@
         <li v-if="showTotalsConfigItem" class="mtm-dropdownPanel__menuItem">
           <div
             class="mtm-dropdownPanel__menuLink configItem dataTableShowTotalsRow"
+            role="menuitemcheckbox"
+            tabindex="0"
+            :aria-checked="configState.totalsRow"
+            @keydown.enter.prevent="activateItem"
+            @keydown.space.prevent="activateItem"
           >
             <span class="mtm-dropdownPanel__menuLabel">{{ keepTotalsRowText }}</span>
             <span
@@ -68,7 +88,11 @@
         <li v-if="showPercentageValuesConfigItem" class="mtm-dropdownPanel__menuItem">
           <div
             class="mtm-dropdownPanel__menuLink configItem dataTableShowPercentageValues"
-            :aria-label="percentageValuesLabel"
+            role="menuitemcheckbox"
+            tabindex="0"
+            :aria-checked="configState.percentages"
+            @keydown.enter.prevent="activateItem"
+            @keydown.space.prevent="activateItem"
           >
             <span class="mtm-dropdownPanel__menuLabel">{{ percentageValuesText }}</span>
             <span
@@ -81,6 +105,11 @@
         <li v-if="showExcludeLowPopulation" class="mtm-dropdownPanel__menuItem">
           <div
             class="mtm-dropdownPanel__menuLink configItem dataTableExcludeLowPopulation"
+            role="menuitemcheckbox"
+            tabindex="0"
+            :aria-checked="configState.lowPopulation"
+            @keydown.enter.prevent="activateItem"
+            @keydown.space.prevent="activateItem"
           >
             <span class="mtm-dropdownPanel__menuLabel">{{ excludeLowPopText }}</span>
             <span
@@ -93,6 +122,11 @@
         <li v-if="showPivotBySubtable" class="mtm-dropdownPanel__menuItem">
           <div
             class="mtm-dropdownPanel__menuLink configItem dataTablePivotBySubtable"
+            role="menuitemcheckbox"
+            tabindex="0"
+            :aria-checked="configState.pivoted"
+            @keydown.enter.prevent="activateItem"
+            @keydown.space.prevent="activateItem"
           >
             <span class="mtm-dropdownPanel__menuLabel">{{ pivotByText }}</span>
             <span
@@ -213,6 +247,8 @@
               :class="`mtm-dropdownPanel__menuLink ${footerIconGroup.class} tableIcon
                 ${activeFooterIconIds.indexOf(footerIcon.id) !== -1 ? 'activeIcon' : ''}`"
               :data-footer-icon-id="footerIcon.id"
+              role="menuitemradio"
+              :aria-checked="activeFooterIconIds.indexOf(footerIcon.id) !== -1"
             >
               <span
                 v-if="/^icon-/.test(footerIcon.icon || '')"
@@ -270,26 +306,6 @@ export interface DataTableAction {
 }
 
 const { $ } = window;
-
-// These strings read "state %s action"; the placeholder is where the action begins. Only the action
-// is shown, so it is cut there rather than adding a translation key per entry.
-const ACTION_MARK = '\u0001';
-
-function getSingleStateIconText(text: string, addDefault?: boolean, replacement?: string) {
-  const values = [ACTION_MARK];
-  if (replacement) {
-    values.push(replacement);
-  }
-
-  const translated = translate(text, ...values);
-  const at = translated.indexOf(ACTION_MARK);
-  let result = at === -1 ? translated : translated.slice(at + ACTION_MARK.length).trim();
-  if (addDefault) {
-    result += ` (${translate('CoreHome_Default')})`;
-  }
-
-  return result;
-}
 
 export default defineComponent({
   props: {
@@ -378,6 +394,11 @@ export default defineComponent({
       // Insights heads the visualisation list rather than standing on its own, so the rule falls
       // before it and not after. Absent, the graphs keep the one they would have had.
       return this.visibleFooterIconGroups[index - 1].class !== 'tableInsightViews';
+    },
+    // Not links the browser would follow, so a key press has to click them for the delegated
+    // handler in dataTable.js to hear.
+    activateItem(event: KeyboardEvent) {
+      (event.currentTarget as HTMLElement | null)?.click();
     },
     isPromoted(action: PromotableActionId): boolean {
       return this.promotedActions.indexOf(action) !== -1;
@@ -505,31 +526,25 @@ export default defineComponent({
       };
     },
     flattenItemText() {
-      return getSingleStateIconText('CoreHome_FlattenDataTable');
+      return translate('CoreHome_MakeItFlat');
     },
     keepTotalsRowText() {
-      return getSingleStateIconText('CoreHome_AddTotalsRowDataTable');
+      return translate('CoreHome_ShowTotalsRow');
     },
     percentageValuesText() {
-      return getSingleStateIconText('CoreHome_ShowPercentageValuesDataTable');
-    },
-    percentageValuesLabel() {
       return translate('CoreHome_ShowPercentageValues');
     },
     includeAggregateRowsText() {
-      // Its pair reads "Aggregate rows are hidden / Show them", which says nothing on its own once
-      // the state is no longer part of the label.
       return translate('CoreHome_ShowAggregateRows');
     },
     showDimensionsText() {
-      return getSingleStateIconText('CoreHome_DataTableShowDimensions');
+      return translate('CoreHome_ShowDimensionsSeparately');
     },
     pivotByText() {
-      return getSingleStateIconText('CoreHome_PivotBySubtable', false, this.pivotDimensionName
-        || undefined);
+      return translate('CoreHome_PivotBy', this.pivotDimensionName || '');
     },
     excludeLowPopText() {
-      return getSingleStateIconText('CoreHome_ExcludeRowsWithLowPopulation');
+      return translate('CoreHome_ExcludeLowPopulation');
     },
     // Every config entry acts on a table, so a graph offers none - except where one is already
     // applied, which has to stay reachable to be undone. This is the gate the configure icon

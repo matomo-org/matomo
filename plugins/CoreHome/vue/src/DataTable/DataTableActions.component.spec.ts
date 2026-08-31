@@ -10,17 +10,13 @@ import DataTableActions from './DataTableActions.vue';
 
 function translateStub(key: string, ...args: string[]) {
   const messages: Record<string, string> = {
-    CoreHome_ShowPercentageValuesDataTable: 'The report is showing absolute values %s Show percentages',
-    CoreHome_ShowAbsoluteValuesDataTable: 'The report is showing percentages %s Show absolute values',
     CoreHome_ShowPercentageValues: 'Show percentages',
-    CoreHome_ShowAbsoluteValues: 'Show absolute values',
-    CoreHome_Default: 'default',
+    CoreHome_MakeItFlat: 'Make it flat',
+    CoreHome_PivotBy: 'Pivot by %s',
   };
 
   const message = messages[key] || key;
 
-  // mirror the real helper: with no replacement values the raw message is returned, placeholders
-  // intact. getSingleStateIconText relies on that to detect whether a message has an action half.
   if (!args.length) {
     return message;
   }
@@ -93,8 +89,9 @@ describe('DataTableActions percentage values setting', () => {
     expect(item.text()).not.toContain('The report is showing');
     expect(item.text()).not.toContain('default');
 
-    // the action, not the current state, is the accessible name
-    expect(item.attributes('aria-label')).toBe('Show percentages');
+    // the label is the accessible name; the state is announced separately
+    expect(item.attributes('role')).toBe('menuitemcheckbox');
+    expect(item.attributes('aria-checked')).toBe('false');
   });
 
   it('should keep its wording and mark itself instead when percentages are shown', () => {
@@ -103,10 +100,10 @@ describe('DataTableActions percentage values setting', () => {
     const item = wrapper.find(percentageItem);
     // the label names the setting, not what a click would do next, so it does not move
     expect(item.text()).toBe('Show percentages');
-    expect(item.attributes('aria-label')).toBe('Show percentages');
 
-    // what changed is the tick beside it
+    // what changed is the tick beside it - and, for anyone who cannot see it, aria-checked
     expect(item.find('.icon-ok').exists()).toBe(true);
+    expect(item.attributes('aria-checked')).toBe('true');
   });
 
   it('should carry no tick while percentages are off', () => {
@@ -119,7 +116,7 @@ describe('DataTableActions percentage values setting', () => {
     ['0', 0, false, ''].forEach((value) => {
       const wrapper = mountComponent({ clientSideParameters: { show_percentage_values: value } });
 
-      expect(wrapper.find(percentageItem).attributes('aria-label')).toBe('Show percentages');
+      expect(wrapper.find(percentageItem).attributes('aria-checked')).toBe('false');
     });
   });
 });
