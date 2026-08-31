@@ -129,7 +129,18 @@ class SyncScreenshots extends ConsoleCommand
         );
         $httpStatus = $response['status'];
         if ($httpStatus == '200') {
-            return json_decode($response['data'], true);
+            $screenshots = json_decode($response['data'], true);
+
+            // the artifacts server answers a request without credentials with its login page and a 200,
+            // so an unusable response here means the artifacts are protected rather than missing
+            if (!is_array($screenshots)) {
+                throw new \Exception(
+                    "Failed reading the screenshot list from $url - if this repository's artifacts are "
+                    . 'protected, pass --http-user together with --http-password or --http-password-stdin.'
+                );
+            }
+
+            return $screenshots;
         }
         if ($httpStatus == '401') {
             throw new \Exception('HTTP 401 - Auth username and password are invalid');

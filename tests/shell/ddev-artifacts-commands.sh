@@ -134,7 +134,22 @@ test_public_repository_needs_no_credentials() {
   assert_not_contains "${DDEV_ARGS}" '--http-user' 'a public sync sends no credentials'
 
   run_sync no-helper 12345 -r matomo-org/matomo
-  assert_equals 0 "${SYNC_STATUS}" 'an explicit matomo-org repository needs no credentials'
+  assert_equals 0 "${SYNC_STATUS}" 'core artifacts need no credentials'
+}
+
+test_matomo_org_plugins_are_protected_too() {
+  # only core's own artifacts are public; matomo-org plugin repositories need the same credentials
+  seed_credential
+
+  run_sync with-credential 12345 -r matomo-org/plugin-Slack
+
+  assert_contains "${DDEV_ARGS}" '--http-user=ci-user' 'a matomo-org plugin sync authenticates'
+  assert_contains "${DDEV_ARGS}" '--http-password-stdin' 'a matomo-org plugin sync reads the password from STDIN'
+
+  run_sync no-helper 12345 -r matomo-org/plugin-Slack
+
+  assert_equals 1 "${SYNC_STATUS}" 'a matomo-org plugin sync stops without a credential'
+  assert_equals '' "${DDEV_ARGS}" 'a matomo-org plugin sync without a credential never runs ddev'
 }
 
 test_public_repository_does_not_need_git() {
@@ -269,6 +284,7 @@ setup
 
 test_public_repository_needs_no_credentials
 test_public_repository_does_not_need_git
+test_matomo_org_plugins_are_protected_too
 test_premium_repository_sends_the_credentials
 test_premium_repository_stops_without_a_credential
 test_every_repository_option_spelling_is_recognised

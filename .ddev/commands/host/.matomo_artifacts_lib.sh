@@ -119,8 +119,9 @@ matomo_artifacts::sync() {
 
   repository="$(matomo_artifacts::repository_from_args "$@")"
 
-  # only premium plugins keep their artifacts behind HTTP auth, the matomo-org ones are public
-  if [[ -z "${repository}" || "${repository}" == matomo-org/* ]]; then
+  # only core's own artifacts are public: matomo-org plugin repositories sit behind the same HTTP
+  # auth as the premium ones
+  if [[ -z "${repository}" || "${repository}" == 'matomo-org/matomo' ]]; then
     ddev matomo:console "${console_command}" "$@"
     return
   fi

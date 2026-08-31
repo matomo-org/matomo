@@ -113,7 +113,7 @@ ddev matomo:artifacts:sync-system-tests 12345 -e
 
 The first argument is the build number, and both commands accept `-r` to sync a plugin repository, eg `-r innocraft/plugin-FormAnalytics`.
 
-Syncing from `matomo-org/matomo` needs no setup, because those artifacts are public. Artifacts of premium plugins are protected, so the commands look up credentials when you point them at a premium plugin repository. The credentials come from git, so they are stored wherever your credential helper keeps them and never appear in a file in the repository, in the process list or in your shell history — the password is handed to the console over STDIN.
+Syncing from `matomo-org/matomo` needs no setup, because core's own artifacts are public. Every other repository is protected, plugin repositories under `matomo-org` included, so the commands look up credentials whenever you point them somewhere else with `-r`. The credentials come from git, so they are stored wherever your credential helper keeps them and never appear in a file in the repository, in the process list or in your shell history — the password is handed to the console over STDIN.
 
 Store them once per machine:
 
