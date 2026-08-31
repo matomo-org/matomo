@@ -106,7 +106,11 @@
             v-if="showActions"
             ref="actions"
             class="reportHeader__actions"
-            v-expand-on-click="{ expander: 'actionsTrigger' }"
+            v-expand-on-click="{
+              expander: 'actionsTrigger',
+              onExpand: (event) => { actionsExpanded = true; focusFirstAction(event); },
+              onClosed: (event) => { actionsExpanded = false; restoreActionsFocus(event); },
+            }"
           >
             <button
               ref="actionsTrigger"
@@ -114,6 +118,8 @@
               class="reportHeader__actionsTrigger"
               :title="translate('CoreHome_ReportActions')"
               :aria-label="translate('CoreHome_ReportActions')"
+              aria-haspopup="menu"
+              :aria-expanded="actionsExpanded ? 'true' : 'false'"
             >
               <span class="icon-more-verti" aria-hidden="true" />
             </button>
@@ -404,6 +410,7 @@ export default defineComponent({
       searchDebounceTimer: null as ReturnType<typeof setTimeout> | null,
       promotedCount: 0,
       periodsExpanded: false,
+      actionsExpanded: false,
       resizeObserver: null as ResizeObserver | null,
       lastMeasuredWidth: -1,
     };
@@ -578,8 +585,33 @@ export default defineComponent({
         this.$emit('titleClick');
       }
     },
-    closeActions() {
+    closeActions(event: MouseEvent) {
       (this.$refs.actions as HTMLElement | undefined)?.classList.remove('expanded');
+      this.actionsExpanded = false;
+      this.restoreActionsFocus(event);
+    },
+    // Closing from the keyboard leaves the focus inside a panel about to disappear, and a menu
+    // hands it back to the trigger. A pointer left the focus where the user put it, and taking it
+    // would draw a focus ring they never asked for.
+    restoreActionsFocus(event: MouseEvent|KeyboardEvent) {
+      const actions = this.$refs.actions as HTMLElement | undefined;
+      const byKeyboard = event.type === 'keyup' || (event as MouseEvent).detail === 0;
+
+      if (byKeyboard && actions?.contains(document.activeElement)) {
+        (this.$refs.actionsTrigger as HTMLElement | undefined)?.focus();
+      }
+    },
+    // A button opened with the keyboard reports no pointer, and only then does a menu take the
+    // focus off the trigger.
+    focusFirstAction(event: MouseEvent|KeyboardEvent) {
+      if ((event as MouseEvent).detail !== 0) {
+        return;
+      }
+
+      this.$nextTick(() => {
+        const actions = this.$refs.actions as HTMLElement | undefined;
+        actions?.querySelector<HTMLElement>('[role^="menuitem"]')?.focus();
+      });
     },
     onControl(intent: string) {
       // Re-emit for Vue-native consumers...

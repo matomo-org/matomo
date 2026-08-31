@@ -518,7 +518,7 @@ describe("EvolutionGraph", function () {
         await page.waitForSelector('.mtm-selector.expanded', { visible: true });
 
         const focused = await page.evaluate(() => {
-            const item = document.querySelector('.dataTablePeriods [role="menuitem"]');
+            const item = document.querySelector('.dataTablePeriods [role^="menuitem"]');
             if (!item) {
                 return 'no item';
             }

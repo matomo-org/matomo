@@ -35,7 +35,7 @@
     height: 0;
     margin: 8px 0;
     border: 0;
-    border-top: 1px solid @theme-color-border;
+    border-top: 1px solid @theme-color-border-alternative;
     list-style: none;
   }
 
@@ -96,17 +96,6 @@
   .mtm-dropdownPanel__menuLabel {
     // lets the label shrink/ellipsis when a consumer constrains the panel width
     min-width: 0;
-  }
-
-  // For an entry whose label carries a secondary line, such as the state a setting is in above
-  // the change the entry offers.
-  .mtm-dropdownPanel__menuLabel--stacked {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .mtm-dropdownPanel__menuAction {
-    color: @theme-color-link;
   }
 
   .mtm-dropdownPanel__submenu {
