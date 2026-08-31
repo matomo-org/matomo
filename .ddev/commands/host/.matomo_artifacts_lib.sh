@@ -117,8 +117,6 @@ matomo_artifacts::sync() {
   local password=""
   local argument=""
 
-  matomo_artifacts::require_git || return 1
-
   repository="$(matomo_artifacts::repository_from_args "$@")"
 
   # only premium plugins keep their artifacts behind HTTP auth, the matomo-org ones are public
@@ -126,6 +124,9 @@ matomo_artifacts::sync() {
     ddev matomo:console "${console_command}" "$@"
     return
   fi
+
+  # only the credential lookup needs git, so it is not required for a public sync
+  matomo_artifacts::require_git || return 1
 
   credential="$(matomo_artifacts::fill_credential)" || true
   username="$(matomo_artifacts::credential_field "${credential}" username)"

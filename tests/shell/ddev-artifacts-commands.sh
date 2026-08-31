@@ -137,6 +137,34 @@ test_public_repository_needs_no_credentials() {
   assert_equals 0 "${SYNC_STATUS}" 'an explicit matomo-org repository needs no credentials'
 }
 
+test_public_repository_does_not_need_git() {
+  # nothing on the public path talks to git, so a machine without it can still sync core artifacts
+  local without_git="${TEST_DIR}/bin-without-git"
+  local binary=''
+
+  mkdir -p "${without_git}"
+  ln -sf "${TEST_DIR}/bin/ddev" "${without_git}/ddev"
+
+  for binary in cat sed bash env; do
+    ln -sf "$(command -v "${binary}")" "${without_git}/${binary}"
+  done
+
+  rm -f "${TEST_DIR}/args"
+
+  local status=0
+  (
+    export GIT_CONFIG_GLOBAL="${TEST_DIR}/no-helper"
+    export PATH="${without_git}"
+    source "${LIBRARY}"
+    matomo_artifacts::sync tests:sync-ui-screenshots 12345 2>&1 </dev/null
+  ) >/dev/null
+  status=$?
+
+  assert_equals 0 "${status}" 'a public sync works with no git on PATH'
+  assert_contains "$(cat "${TEST_DIR}/args" 2>/dev/null)" 'tests:sync-ui-screenshots' \
+    'the console still runs without git'
+}
+
 test_premium_repository_sends_the_credentials() {
   seed_credential
 
@@ -242,6 +270,7 @@ test_login_reports_credentials_that_came_back_different() {
 setup
 
 test_public_repository_needs_no_credentials
+test_public_repository_does_not_need_git
 test_premium_repository_sends_the_credentials
 test_premium_repository_stops_without_a_credential
 test_every_repository_option_spelling_is_recognised
