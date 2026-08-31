@@ -89,6 +89,23 @@ describe('ReportHeader', () => {
 
       expect(wrapper.find('.reportHeader__actions').classes()).not.toContain('expanded');
     });
+
+    // Closing this way bypasses ExpandOnClick, whose own close() then returns early for want of
+    // the class - so a trigger left saying "expanded" here never gets told otherwise again.
+    it('should stop saying the menu is open once an action closes it', async () => {
+      const wrapper = mountComponent(withActions);
+      const trigger = wrapper.find('.reportHeader__actionsTrigger');
+      expect(trigger.attributes('aria-haspopup')).toBe('menu');
+      expect(trigger.attributes('aria-expanded')).toBe('false');
+
+      // ExpandOnClick binds the expander in a timeout, so the click has to come after it
+      await new Promise((resolve) => { setTimeout(resolve, 0); });
+      await trigger.trigger('click');
+      expect(trigger.attributes('aria-expanded')).toBe('true');
+
+      await wrapper.find('.reportHeader__actionsMenu').trigger('click');
+      expect(trigger.attributes('aria-expanded')).toBe('false');
+    });
   });
 
   it('should render the title by default', () => {

@@ -63,7 +63,7 @@
     height: 0;
     margin: 8px 0;
     border: 0;
-    border-top: 1px solid @theme-color-border;
+    border-top: 1px solid @theme-color-border-alternative;
     list-style: none;
   }
 
@@ -149,17 +149,6 @@
   // resize on every keystroke, down to the width of a lone `__noResult`.
   &.mtm-dropdownPanel--fixedWidth {
     width: @_menuWidth;
-  }
-
-  // For an entry whose label carries a secondary line, such as the state a setting is in above
-  // the change the entry offers.
-  .mtm-dropdownPanel__menuLabel--stacked {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .mtm-dropdownPanel__menuAction {
-    color: @theme-color-link;
   }
 
   .mtm-dropdownPanel__submenu {
