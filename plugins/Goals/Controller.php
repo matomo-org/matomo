@@ -466,6 +466,7 @@ class Controller extends \Piwik\Plugin\Controller
     private function setGoalOptions(View $view)
     {
         $view->userCanEditGoals = Piwik::isUserHasWriteAccess($this->idSite);
+        $view->currencySymbol = Site::getCurrencySymbolFor($this->idSite);
         $view->goalTriggerTypeOptions = array(
             'visitors' => Piwik::translate('Goals_WhenVisitors'),
             'manually' => Piwik::translate('Goals_Manually'),
