@@ -138,31 +138,29 @@ test_public_repository_needs_no_credentials() {
 }
 
 test_public_repository_does_not_need_git() {
-  # nothing on the public path talks to git, so a machine without it can still sync core artifacts
-  local without_git="${TEST_DIR}/bin-without-git"
-  local binary=''
-
-  mkdir -p "${without_git}"
-  ln -sf "${TEST_DIR}/bin/ddev" "${without_git}/ddev"
-
-  for binary in cat sed bash env; do
-    ln -sf "$(command -v "${binary}")" "${without_git}/${binary}"
-  done
+  # nothing on the public path talks to git, so a machine without it can still sync core artifacts.
+  # The check is that require_git is never consulted: overriding it to fail would stop the sync if it
+  # were. PATH cannot be stripped instead, because Git Bash needs its own directory on it.
+  local status=0
 
   rm -f "${TEST_DIR}/args"
 
-  local status=0
   (
     export GIT_CONFIG_GLOBAL="${TEST_DIR}/no-helper"
-    export PATH="${without_git}"
     source "${LIBRARY}"
-    matomo_artifacts::sync tests:sync-ui-screenshots 12345 2>&1 </dev/null
-  ) >/dev/null
+
+    matomo_artifacts::require_git() {
+      echo 'require_git was called on the public path' >&2
+      return 1
+    }
+
+    matomo_artifacts::sync tests:sync-ui-screenshots 12345 </dev/null
+  ) >/dev/null 2>&1
   status=$?
 
-  assert_equals 0 "${status}" 'a public sync works with no git on PATH'
+  assert_equals 0 "${status}" 'a public sync does not depend on git being installed'
   assert_contains "$(cat "${TEST_DIR}/args" 2>/dev/null)" 'tests:sync-ui-screenshots' \
-    'the console still runs without git'
+    'the console still runs when git is unavailable'
 }
 
 test_premium_repository_sends_the_credentials() {
