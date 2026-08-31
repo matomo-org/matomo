@@ -7,7 +7,6 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ## Matomo 6.0.0
 
 ### Breaking Changes
-* The interface `Piwik\Settings\Interfaces\PolicyComparisonInterface` gained four methods used by the granular compliance dashboard: `getPolicySettingId()`, `isExternallyManagedByPolicyPage()`, `getWhatItDoes()` and `getImpact()`. Plugins that implement the interface directly must implement them. Plugins using `Piwik\Settings\Interfaces\Traits\PolicyComparisonTrait` (as all known implementers do) inherit default implementations and are not affected.
 * The deprecated method `Piwik\Archive::getBlob()` has been removed. Use one of the `Piwik\Archive::getDataTable*()` methods instead.
 * The deprecated method `Piwik\Archive::clearStaticCache()` has been removed. It was a no-op kept only for backwards compatibility.
 * The deprecated method `Piwik\ArchiveProcessor\Parameters::setIsPartialArchive()` has been removed. Use `Piwik\ArchiveProcessor\Parameters::setArchiveOnlyReport()` instead.
@@ -37,11 +36,6 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The conditional fallback definitions for `mysqli_set_charset()`, `file_get_contents()`, `utf8_encode()`, `utf8_decode()`, `fnmatch()`, the `Error` class and the `PHP_INT_SIZE`/`PHP_INT_MAX` constants have been removed from `libs/upgradephp/upgrade.php`. All of these are provided natively by every supported PHP version; the fallbacks only ever activated on PHP versions that are no longer supported, or when the function had been turned off via `disable_functions`.
 * The `gzopen()` fallback has also been removed from `libs/upgradephp/upgrade.php`. It aliased `gzopen()` to `gzopen64()` on distribution builds where zlib exposes only the latter, which is a packaging issue rather than a PHP version or `disable_functions` one. On such a build `Piwik\Unzip` now falls back to `PclZip`.
 * Several core controller actions that return JSON now declare a native `string` return type as part of adopting the new `#[Piwik\Http\JsonResponse]` attribute. A plugin that extends one of these controllers and overrides such an action must declare a compatible `string` return type and re-declare `#[Piwik\Http\JsonResponse]` (attributes are not inherited).
-* Exporting a report for a single goal (a goals table or a bar/pie/evolution chart showing one goal's
-  conversions or revenue) now returns only the columns shown in the UI, by adding `showColumns` to the
-  export request. Previously the export returned the aggregated all-goals columns and every other
-  goal's columns as well. Integrations that reuse an export URL copied from the UI will receive a
-  narrower set of columns than before.
 * The deprecated Piwik-era color aliases `@color-black-piwik`, `@color-blue-piwik`, `@color-red-piwik` and `@color-green-piwik` have been removed from `plugins/Morpheus/stylesheets/base/colors.less`. Use `@color-black-matomo`, `@color-blue-matomo`, `@color-red-matomo` and `@color-green-matomo` instead.
 * The third-party brand color variables `@color-orange-brand` (`#f57c00`), `@color-green-brandSocial` (`#009874`), `@color-blue-brandSocial` (`#3b5998`), `@color-blue-brandSocialLight` (`#1c87bd`) and `@color-blue-brandSocialVeryLight` (`#00aced`) have been removed. They described other companies' brands rather than Matomo's own palette; a plugin that still needs one of these colors should use the literal value.
 * The never-referenced palette tokens `@color-gray-light` (`#f0f0f0`), `@color-gray-bright` (`#EBF2EB`), `@color-gray-400` (`#BCBCBC`), `@color-jetstream` (`#c3d9c4`), `@color-silver-l14`, `@color-silver-l50`, `@color-silver-l70` and `@color-silver-l98` have been removed. Use one of the remaining `@color-silver-*` variables, a `@theme-color-*` variable or a literal value instead.
@@ -51,7 +45,6 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * Less variables that were only used within a single stylesheet have been inlined or renamed to private `@_`-prefixed names, and are therefore no longer visible to other stylesheets: `@top-menu-nav-color` (`plugins/CoreHome/stylesheets/layout.less`), `@color-period-selector`, `@color-period-selector-input-radio`, `@color-period-selector-options-hover-background`, `@color-period-selector-calendar-hover-background` (`PeriodSelector.less`), `@add-widget-padding`, `@add-widget-border`, `@add-widget-space-or-radius`, `@add-widget-categories`, `@add-widget-widgets`, `@add-widget-preview`, `@add-widget-height`, `@add-widget-item-height` (`AddWidgetModal.less`) and `@calendarHeaderBackground`, `@calendarHeaderColor`, `@calendarCurrentStateHover`, `@calendarBorder` (`plugins/Morpheus/stylesheets/ui/_components.less`). These were never theme variables; use the `@theme-color-*` variable they were derived from instead.
 * `CoreHome.EnrichedHeadline` no longer derives a report's inline help from the DOM. It used to look for a `.reportDocumentation[data-content]` element inside the next sibling of its headline and show that text behind a help icon; the text now comes from its `inline-help` attribute. The `piwik:reportChanged` DOM event, which told a headline to re-read that element, has been removed with it. Headlines rendered by `Piwik\View::singleReport()`, or by a template reproducing its shape, therefore lose their help icon unless `inline-help` is passed explicitly.
 * The development-only console commands `git:commit`, `git:pull` and `git:push` have been removed. They were thin wrappers around `git` that predate the current submodule workflow; use `git` directly instead.
-* Site content detection (used by the tracking-code setup page and consent-manager detection) now fetches the site URL over the SSRF-safe request path. It refuses targets resolving to private, loopback or reserved IP addresses, and requires the curl extension instead of falling back to the `fopen` or `socket` transports. Installations tracking intranet sites on private addresses must allowlist their ranges via the new `[General] allowed_private_egress_ranges` setting. Refusals are logged at `WARN` level. A configured `[proxy] host` also makes these requests fail closed, as the proxy resolves the target itself and the validated IP cannot be pinned. Where the site host is reachable directly, add it to `[proxy] exclude` (exact hostnames, no wildcards).
 * Flat-first Actions archiving is enabled by default for new installations, as
   `datatable_archiving_maximum_rows_actions_flat` now defaults to `10000` instead of `0`. Installations
   updated from Matomo 5 keep the legacy hierarchical-only archiving, as the update writes a `0` to their
@@ -61,32 +54,14 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   `datatable_archiving_maximum_rows_subtable_actions`, each of them is stored as one additional archive
   record, and their page categories are no longer truncated per category, so a category no longer ends in
   a summary row of its own.
-* The `Referrers_distinctWebsitesUrls` metric is now listed among the metrics of the `Referrers.get` report, carries the label `Distinct website URLs`, and is declared as a numeric metric. It was already archived and already part of `Referrers.get`'s own output, so that call returns the same columns as before; what changes is the surfaces driven by the report's metric list. `API.getProcessedReport` for `Referrers.get` now returns the metric instead of stripping it, and scheduled and emailed reports include it -- a new row in the HTML rendering, a new column in the CSV and TSV ones -- so consumers parsing those exports by column position will see a changed header and column count. Wherever a rendering resolves metric labels, `Distinct website URLs` now appears in place of the raw column name. Being declared numeric also brings it under CNIL data rounding, so on installations with that setting enabled the count is rounded to the same scale as other counts.
-* The `UserCountry_distinctCountries` metric, returned by `UserCountry.getNumberOfDistinctCountries` and plotted by the distinct-countries sparkline widget on the Locations page, is now declared as a numeric metric and is therefore subject to CNIL data rounding. On installations with CNIL rounding enabled the returned count is rounded to the same scale as other counts instead of being passed through unrounded, so a value of `18` now reads as `20`. Installations without CNIL rounding are unaffected.
 * Request parameters are no longer trimmed while a request is parsed. `Piwik\API\Request::getRequestArrayFromString()` used to apply `trim((string) $value)` to every non-array parameter, so leading and trailing whitespace in values such as a `label` or a segment operand is now preserved, and scalars keep their type. As a consequence a boolean passed through `Piwik\API\Request::processRequest()` no longer arrives as `'1'`/`''`: a parameter read with `Piwik\Common::getRequestVar($name, $default, 'string')` or `Piwik\Request::getStringParameter()` falls back to its default instead. Pass a string, or read it with `Piwik\Request::getBoolParameter()`, which accepts real booleans.
 * The legacy Transitions renderer has been removed together with the JavaScript globals it defined, `Piwik_Transitions`, `Piwik_Transitions_Canvas` and `Piwik_Transitions_Util`. Use the `Transitions.TransitionsReport` Vue component instead, or `DataTable_RowActions_Transitions.launchForUrl()`, which is unchanged and still opens the report for a URL. `Piwik_Transitions_Model` and `Piwik_Transitions_Ajax` remain, without the renderer-only members `htmlLoaded()`, `getShareInGroupTooltip()` and `callTransitionsController()`. The controller action `index.php?module=Transitions&action=renderPopover`, which rendered the removed markup, and the `@internal` API method `Transitions.getTranslations`, which only supplied its labels, have been removed with it, along with the `Piwik_Transitions_Translations` global that template defined. `Piwik_Transitions_Ajax.callApi()` no longer falls back to `Piwik_Popover.showError()` when no `setErrorCallback()` was registered: an API error is dropped and the request's callback never runs, so a caller that wants errors surfaced must register one.
 
 ### New APIs
 * The new `DragHandle` Vue component in CoreHome renders the standard 6-dot drag-handle icon, for use inside `DraggableList` rows. The `DraggableList` component's `handle` option now also works with real browser drags, which retarget `dragstart` to the draggable element (previously the handle was only recognised in synthetically dispatched events).
 * The new `closeTooltips()` helper in CoreHome closes the jQuery UI tooltips bound to a selector's elements, including pending delayed shows — for cases where no mouse event will fire that would close them, eg. once an HTML5 drag has started.
-* The new `Piwik\Http\SecurityHeaders::sendForDataResponse()` sends the header set for a response that is data rather than application UI: `X-Content-Type-Options: nosniff`, `Referrer-Policy: no-referrer`, `X-Frame-Options: deny` unless `[General] enable_framed_pages` allows embedding, and a `Content-Security-Policy` that allows no scripts, forms or base URI, only inline styles and images from Matomo itself (built by the new `Piwik\View\SecurityPolicy::restrictToDataResponse()`). Core sends it for the API endpoint itself, report exports, inline report previews, and the API module's `listAllMethods` and `listSegments` actions, which return HTML without a view; `action=listAllAPI`, which renders one, keeps the headers of a regular page. Call it in a plugin that streams an export or a report, before writing any output.
-* The sparklines visualization has been redesigned as a responsive card grid of metric tiles. Plugin-facing additions that come with it:
-  * The new `Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines\Config::$use_metric_labels_as_titles` property lets a sparklines view use its own metric translations as the card titles instead of the generic metric names. Intended for views that relabel shared columns with section-specific names, e.g. the Ecommerce Overview.
-  * The `sparkline(src, width, height)` Twig helper accepts optional `width`/`height` display-size parameters (in px, defaults `Piwik\Visualization\Sparkline::DEFAULT_WIDTH`/`DEFAULT_HEIGHT`); the sparkline PNG is rendered at twice the displayed size for hi-DPI screens.
 * A new `#[Piwik\Http\JsonResponse]` attribute can be applied to a plugin controller action to declare that it returns a JSON response. When present, Matomo (re-)sends the `Content-Type: application/json` header after the action has returned, so it can no longer be overwritten by output produced while the action builds its response (for example a rendered `Piwik\View`, which sends `text/html`). An action using the attribute must return the JSON string, must not send the header itself, and must not emit output (`echo`/`print`/`flush`) or call `exit`/`die` before returning — otherwise the response headers are committed first and the JSON `Content-Type` cannot be applied. The attribute is not inherited: a subclass overriding a JSON action must re-declare it. These requirements are enforced by PHPStan rules.
-* `Piwik\Http::sendHttpRequest()` and `Piwik\Http::sendHttpRequestBy()` accept a new optional `$validateEgressIp`
-  parameter enabling an SSRF-safe request path (public-IP validation, redirect re-validation, IP pinning). Use it
-  whenever the target URL derives from untrusted input, such as a site's configured URL. Requires curl.
-  Installations tracking intranet sites on private addresses can allowlist their ranges via the new
-  `[General] allowed_private_egress_ranges` INI setting. A refused target or unmet precondition throws the new
-  `Piwik\Http\EgressBlockedException`, so callers can tell a policy rejection from a transient network failure.
-* The `Http.sendHttpRequest` and `Http.sendHttpRequest.end` events pass a new `validateEgressIp` entry in their params
-  array. A listener that resolves the request itself must either honour SSRF-safe semantics (public-IP-only target,
-  re-validated redirects) or leave the request unhandled.
 * The `SearchInput` component exported from `CoreHome` gained a `focused` prop and a `blur()` method: setting `focused` to `true` moves focus to the inner input and calling `blur()` on the component removes it, both of which were previously impossible because binding `v-focus-if` or an element ref to the component targeted its non-focusable wrapper. `CoreHome.QuickAccess` now renders this component instead of duplicating its markup, so its search field is no longer a separate `input` that happens to carry the same classes. Quick search also runs off the field's value rather than off keystrokes, so text that arrives without one (a pasted term, an IME candidate committed with the mouse) now searches too, and keys that belong to an open IME candidate window no longer act on the result list.
-* Two new events let plugins customise the "No data has been recorded yet" page, on both the standalone page and its embedding in the reporting UI:
-  * `Template.siteWithoutData.afterTrackingMethods` collects additional HTML rendered below the tracking methods list and the section for temporarily hiding the page.
-  * `SitesManager.siteWithoutData.showInviteTeamMemberLink` lets a plugin hide the "Invite Team Member" link by setting the posted flag to `false`.
 
 ### HTTP API
 * Report rows now include a percentage-of-report-total value for each metric the report processes totals for, as an additional
@@ -95,17 +70,6 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   (unique visitors and users) are excluded, as their report total is not a meaningful denominator. The columns can be disabled
   by setting the new `percent_of_total=0` request parameter (or `totals=0`). Note for CSV/TSV consumers parsing columns by
   position: the new columns change the header and column count, pass `percent_of_total=0` to keep the previous output.
-* `API.getBulkRequest` now validates the authentication parameters of each nested request URL against
-  the outer request. Within a browser session a nested request may change neither the session flag
-  (`force_api_session`) nor the acting user (`token_auth`); outside a session a nested request may still
-  authenticate with its own `token_auth`, but may not change the session flag. A nested request whose
-  parameters conflict with the outer request's authentication context aborts the whole bulk request.
-* A new `keep_flattened_dimension_columns` parameter keeps the columns a flattened report adds for its
-  dimensions when the request also restricts columns with `showColumns`. Flattening with
-  `flat=1&show_dimensions=1` adds one column per dimension, but their names only exist after
-  flattening, so a caller cannot include them in a `showColumns` allowlist and `ColumnDelete` would
-  drop them. Setting `keep_flattened_dimension_columns=1` re-adds them after flattening. It defaults
-  to `0`, so `showColumns` on its own behaves exactly as before.
 
 ### Deprecations
 * The component-oriented theme variable `@theme-color-widget-background` (`ThemeStyles::$colorWidgetBackground`)
@@ -143,6 +107,77 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   site selector turn their chevrons too. Two changes affect plugin stylesheets: the select's chevron now sets its
   own `font-size` instead of inheriting the surrounding text size, and `.expandableSelector__chevron` uses
   `margin-right` rather than `padding-right`, so that the rotation turns the glyph in place.
+
+## Matomo 5.14.0
+
+### Breaking Changes
+* The interface `Piwik\Settings\Interfaces\PolicyComparisonInterface` gained four methods used by the granular compliance dashboard: `getPolicySettingId()`, `isExternallyManagedByPolicyPage()`, `getWhatItDoes()` and `getImpact()`. Plugins that implement the interface directly must implement them. Plugins using `Piwik\Settings\Interfaces\Traits\PolicyComparisonTrait` (as all known implementers do) inherit default implementations and are not affected.
+* Exporting a report for a single goal (a goals table or a bar/pie/evolution chart showing one goal's
+  conversions or revenue) now returns only the columns shown in the UI, by adding `showColumns` to the
+  export request. Previously the export returned the aggregated all-goals columns and every other
+  goal's columns as well. Integrations that reuse an export URL copied from the UI will receive a
+  narrower set of columns than before.
+* The `Referrers_distinctWebsitesUrls` metric is now listed among the metrics of the `Referrers.get` report, carries the label `Distinct website URLs`, and is declared as a numeric metric. It was already archived and already part of `Referrers.get`'s own output, so that call returns the same columns as before; what changes is the surfaces driven by the report's metric list. `API.getProcessedReport` for `Referrers.get` now returns the metric instead of stripping it, and scheduled and emailed reports include it -- a new row in the HTML rendering, a new column in the CSV and TSV ones -- so consumers parsing those exports by column position will see a changed header and column count. Wherever a rendering resolves metric labels, `Distinct website URLs` now appears in place of the raw column name. Being declared numeric also brings it under CNIL data rounding, so on installations with that setting enabled the count is rounded to the same scale as other counts.
+* The `UserCountry_distinctCountries` metric, returned by `UserCountry.getNumberOfDistinctCountries` and plotted by the distinct-countries sparkline widget on the Locations page, is now declared as a numeric metric and is therefore subject to CNIL data rounding. On installations with CNIL rounding enabled the returned count is rounded to the same scale as other counts instead of being passed through unrounded, so a value of `18` now reads as `20`. Installations without CNIL rounding are unaffected.
+
+### New APIs
+* The new `Piwik\Http\SecurityHeaders::sendForDataResponse()` sends the header set for a response that is data rather than application UI: `X-Content-Type-Options: nosniff`, `Referrer-Policy: no-referrer`, `X-Frame-Options: deny` unless `[General] enable_framed_pages` allows embedding, and a `Content-Security-Policy` that allows no scripts, forms or base URI, only inline styles and images from Matomo itself (built by the new `Piwik\View\SecurityPolicy::restrictToDataResponse()`). Core sends it for the API endpoint itself, report exports, inline report previews, and the API module's `listAllMethods` and `listSegments` actions, which return HTML without a view; `action=listAllAPI`, which renders one, keeps the headers of a regular page. Call it in a plugin that streams an export or a report, before writing any output.
+* Two new events let plugins customise the "No data has been recorded yet" page, on both the standalone page and its embedding in the reporting UI:
+  * `Template.siteWithoutData.afterTrackingMethods` collects additional HTML rendered below the tracking methods list and the section for temporarily hiding the page.
+  * `SitesManager.siteWithoutData.showInviteTeamMemberLink` lets a plugin hide the "Invite Team Member" link by setting the posted flag to `false`.
+
+### HTTP API
+* A new `keep_flattened_dimension_columns` parameter keeps the columns a flattened report adds for its
+  dimensions when the request also restricts columns with `showColumns`. Flattening with
+  `flat=1&show_dimensions=1` adds one column per dimension, but their names only exist after
+  flattening, so a caller cannot include them in a `showColumns` allowlist and `ColumnDelete` would
+  drop them. Setting `keep_flattened_dimension_columns=1` re-adds them after flattening. It defaults
+  to `0`, so `showColumns` on its own behaves exactly as before.
+
+## Matomo 5.13.0
+
+### Breaking Changes
+* Site content detection (used by the tracking-code setup page and consent-manager detection) now fetches the site URL over the SSRF-safe request path. It refuses targets resolving to private, loopback or reserved IP addresses, and requires the curl extension instead of falling back to the `fopen` or `socket` transports. Installations tracking intranet sites on private addresses must allowlist their ranges via the new `[General] allowed_private_egress_ranges` setting. Refusals are logged at `WARN` level. A configured `[proxy] host` also makes these requests fail closed, as the proxy resolves the target itself and the validated IP cannot be pinned. Where the site host is reachable directly, add it to `[proxy] exclude` (exact hostnames, no wildcards).
+* A report or graph can now only be streamed to the browser by the top-level request. `ImageGraph.get` and `ScheduledReports.generateReport` throw when a streaming output mode comes from a nested API request, for example an `API.getBulkRequest` sub-request. Use `GRAPH_OUTPUT_PHP`/`GRAPH_OUTPUT_FILE` or `OUTPUT_RETURN` instead — `OUTPUT_SAVE_ON_DISK` is rewritten to `OUTPUT_DOWNLOAD` and still throws. The streaming methods of `Piwik\ReportRenderer` and `Piwik\ReportRenderer\Pdf` throw too, so a plugin's own renderer inherits the restriction (new: `ReportRenderer::checkStreamingToBrowserIsAllowed()` and `Piwik\API\Request::isCurrentApiRequestNestedInAnotherApiRequest()`).
+* `UsersManager.createAppSpecificTokenAuth` now only creates a token for the account the caller is acting as, with no exception for super users — including code inside `Piwik\Access::doAsSuperUser()`, console commands and scheduled tasks. To create a token for another account, send an unauthenticated request with that account's `passwordConfirmation`. The method also refuses to run as a nested API request.
+* `UsersManager.setUserAccess` now requires `passwordConfirmation` to grant the `admin` role, in either the string or the array form of `access`, on top of the existing check for granting the anonymous user `view` access. As before this applies only to session-authenticated requests, which includes any request sending `force_api_session=1`; plain `token_auth`, `Authorization: Bearer` and CLI calls are unaffected.
+
+### New APIs
+* The sparklines visualization has been redesigned as a responsive card grid of metric tiles. Plugin-facing additions that come with it:
+  * The new `Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines\Config::$use_metric_labels_as_titles` property lets a sparklines view use its own metric translations as the card titles instead of the generic metric names. Intended for views that relabel shared columns with section-specific names, e.g. the Ecommerce Overview.
+  * The `sparkline(src, width, height)` Twig helper accepts optional `width`/`height` display-size parameters (in px, defaults `Piwik\Visualization\Sparkline::DEFAULT_WIDTH`/`DEFAULT_HEIGHT`); the sparkline PNG is rendered at twice the displayed size for hi-DPI screens.
+* Table visualizations gained a `show_percentage_values` request property (`Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable\RequestConfig`). When enabled, eligible metric cells display the percentage of the report total and show the absolute value on hover instead of the other way around. It defaults to `false`, can be set by a plugin or passed as a query parameter, and is exposed to users as a setting in the report's configure menu. Whether that setting is offered is derived from the report itself into the read-only display property `report_supports_percentage_values`, which is true when at least one displayed column appears in both `report_ratio_columns` and the report totals.
+* `Piwik\Http::sendHttpRequest()` and `Piwik\Http::sendHttpRequestBy()` accept a new optional `$validateEgressIp`
+  parameter enabling an SSRF-safe request path (public-IP validation, redirect re-validation, IP pinning). Use it
+  whenever the target URL derives from untrusted input, such as a site's configured URL. Requires curl.
+  Installations tracking intranet sites on private addresses can allowlist their ranges via the new
+  `[General] allowed_private_egress_ranges` INI setting. A refused target or unmet precondition throws the new
+  `Piwik\Http\EgressBlockedException`, so callers can tell a policy rejection from a transient network failure.
+* The `Http.sendHttpRequest` and `Http.sendHttpRequest.end` events pass a new `validateEgressIp` entry in their params
+  array. A listener that resolves the request itself must either honour SSRF-safe semantics (public-IP-only target,
+  re-validated redirects) or leave the request unhandled.
+* Evolution line graphs now draw a forecast for incomplete periods, on by default. `Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution\Config` gained `$show_forecast` (default `true`) and `$disable_forecast` (default `false`); turning either one off skips the forecast and the sub-period API requests it needs. A subclass that renders bars must set `$this->config->show_line_graph = false` in `beforeLoadDataTable()` before calling the parent, or it pays for a forecast the bar renderer cannot draw. Only the rendered graph changes, no API response.
+* The new `Piwik\Columns\Join::getAdditionalKeyColumns()` lets a dimension join require further columns to match on both tables, for a join column that is not unique on its own — `Piwik\Columns\Join\GoalNameJoin` uses it to scope its join to `idsite`. It returns an empty array by default, so existing joins are unaffected.
+* The new bundled `AIProviders` plugin holds the AI provider credentials and defaults that Matomo's AI features use, and lets a plugin add a provider of its own by extending `Piwik\Plugins\AIProviders\Provider\AIProvider`:
+  * `AIProviders.addAIProviders` registers providers on the `AIProvidersList` it receives. `AIProviders.filterAIProviders` can remove one or mark it restricted, so it still serves completions but is hidden from the admin UI. The first registration for a provider ID wins.
+  * `Piwik\Plugins\AIProviders\AIProviderService` runs a completion (`complete()`) or a multi-turn conversation (`converse()`).
+
+### New config.ini.php settings
+* The new `[AIProviders]` section configures the AI provider plugin from the config file:
+  * `defaultProvider` and `defaultCapabilityLevel` (`instant` or `thinking`) pin the instance-wide defaults. Pinning either one makes the plugin's settings page read-only and hides it from the admin menu.
+  * `<providerId>ApiKey`, `<providerId>EndpointUrl`, `<providerId>Model` and `<providerId>UseFipsEndpoint` pin per-provider credentials for `anthropic`, `google`, `openai`, `bedrock` and `custom-provider` (`EndpointUrl` applies to the last two, `UseFipsEndpoint` to `bedrock`). Each is also readable from the matching `MATOMO_AIPROVIDERS_<PROVIDER_ID>_*` environment variable. The config file wins over the environment variable, and both win over the UI.
+  * `providerSelectionAllowlist[]` exempts the named plugins from a pinned `defaultProvider`, letting them target a provider of their choice. It does nothing unless `defaultProvider` is set.
+
+### HTTP API
+* `API.getBulkRequest` now validates the authentication parameters of each nested request URL against
+  the outer request. Within a browser session a nested request may change neither the session flag
+  (`force_api_session`) nor the acting user (`token_auth`); outside a session a nested request may still
+  authenticate with its own `token_auth`, but may not change the session flag. A nested request whose
+  parameters conflict with the outer request's authentication context aborts the whole bulk request.
+* `API.getProcessedReport` for `Referrers.getAll` now returns `reportTotal` keyed by metric name instead of raw `Piwik\Metrics::INDEX_*` integers such as `2` and `3`. It was the only report leaking those keys.
+
+### HTTP Tracking API
+* `token_auth` and `token` are now part of the default `url_query_parameter_to_exclude_from_url`, so both are stripped from tracked page, site search, event, content, goal-conversion and referrer URLs; downloads and outlinks keep them. An installation that sets the option in its own `config.ini.php` replaces the default rather than extending it, and has to add the two names itself.
 
 ## Matomo 5.12.0
 
