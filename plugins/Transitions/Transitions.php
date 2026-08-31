@@ -35,7 +35,7 @@ class Transitions extends \Piwik\Plugin
 
     public function getStylesheetFiles(&$stylesheets)
     {
-        $stylesheets[] = 'plugins/Transitions/stylesheets/transitions.less';
+        $stylesheets[] = 'plugins/Transitions/vue/src/TransitionSwitcher/TransitionSwitcher.less';
         $stylesheets[] = 'plugins/Transitions/vue/src/TransitionExporter/TransitionExporterPopover.less';
         $stylesheets[] = 'plugins/Transitions/vue/src/TransitionsReport/TransitionsReport.less';
         $stylesheets[] = 'plugins/Transitions/vue/src/TransitionsReport/TransitionsColumn.less';

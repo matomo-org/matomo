@@ -6,10 +6,7 @@
 -->
 
 <template>
-  <div
-    class="transitionsReport"
-    :class="{ 'transitionsReport--narrow': isInDashboardWidget }"
-  >
+  <div class="transitionsReport">
     <div
       class="transitionsReport__loader"
       :class="{ 'transitionsReport__loader--prominent': context === 'popover' }"
@@ -18,7 +15,7 @@
     </div>
 
     <div class="transitionsReport__error" v-if="error && !isLoading">
-      <p class="transitionsReport__errorTitle" v-html="$sanitize(error.title)"></p>
+      <p class="transitionsReport__errorTitle">{{ error.title }}</p>
       <p class="transitionsReport__errorMessage" v-if="error.message">{{ error.message }}</p>
       <a
         class="transitionsReport__errorBack"
@@ -119,7 +116,6 @@ function ribbonRows(sections: TransitionsSectionData[]): RibbonSource[] {
 export interface TransitionsReportState {
   openGroups: Record<TransitionsSide, string>;
   highlightedGroup: string;
-  isInDashboardWidget: boolean;
 }
 
 export default defineComponent({
@@ -159,15 +155,10 @@ export default defineComponent({
         outgoing: 'followingPages',
       },
       highlightedGroup: '',
-      isInDashboardWidget: false,
     };
   },
   created() {
     this.reload();
-  },
-  mounted() {
-    // A dashboard column is far narrower than the viewport a media query would see.
-    this.isInDashboardWidget = !!this.$el.closest('[widgetId]');
   },
   watch: {
     actionType() {

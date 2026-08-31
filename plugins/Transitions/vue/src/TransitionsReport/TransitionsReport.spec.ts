@@ -381,6 +381,26 @@ describe('Transitions/TransitionsReport', () => {
     expect(wrapper.find('.transitionsReport__errorBack').text()).toBe('Transitions_ErrorBack');
   });
 
+  it('should decode escaped characters in an unknown exception', async () => {
+    const wrapper = mountTransitionsReport();
+    backend.fail('Report &lt;em&gt;detail&lt;/em&gt; &amp; more');
+    await nextTick();
+
+    const title = wrapper.find('.transitionsReport__errorTitle');
+    expect(title.text()).toBe('Report <em>detail</em> & more');
+    expect(title.element.querySelector('em')).toBeNull();
+  });
+
+  it('should keep an action name in a translated error out of the markup', async () => {
+    const wrapper = mountTransitionsReport({ actionName: 'http://example.org/<em>a</em>' });
+    backend.fail('NoDataForAction');
+    await nextTick();
+
+    const title = wrapper.find('.transitionsReport__errorTitle');
+    expect(title.text()).toContain('http://example.org/<em>a</em>');
+    expect(title.element.querySelector('em')).toBeNull();
+  });
+
   it('should keep the report when a request other than its own fails', async () => {
     const wrapper = mountTransitionsReport();
     backend.respond();

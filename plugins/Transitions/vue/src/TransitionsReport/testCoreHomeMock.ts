@@ -17,7 +17,13 @@ export function coreHomeMock(postEvent: (...args: unknown[]) => void) {
     ActivityIndicator: { template: '<div class="activityIndicator" />', props: ['loading'] },
     Matomo: {
       postEvent: (...args: unknown[]) => postEvent(...args),
-      helper: { addBreakpointsToUrl: (url: string) => url },
+      helper: {
+        htmlDecode: (value: string) => {
+          const textArea = document.createElement('textarea');
+          textArea.innerHTML = value;
+          return textArea.value;
+        },
+      },
     },
     NumberFormatter: {
       formatNumber: (value: number) => String(value),

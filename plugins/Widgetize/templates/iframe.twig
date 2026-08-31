@@ -8,7 +8,7 @@
         {% include "_jsCssIncludes.twig" %}
     </head>
     {% set bodyClass = postEvent('Template.bodyClass', 'widgetized') %}
-    <body class="widgetized{{ bodyClass }}">
+    <body class="app-widgetized widgetized{{ bodyClass }}">
         <div class="widget">
             {{ content|raw }}
         </div>

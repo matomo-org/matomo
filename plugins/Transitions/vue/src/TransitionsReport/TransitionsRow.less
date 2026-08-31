@@ -10,35 +10,31 @@
 // AA for the small text a closed row carries: #aaa (@theme-color-text-light in dark mode) gave
 // 4.28:1 and 3.67:1 on those against a 4.5:1 floor, and gives 4.69:1 on both of these. The pale
 // tones pass at 6.24:1 and 6.05:1. A design revision of these four has to hold that floor.
-//
-// File-scoped rather than block-scoped, because .transitionsRow--outgoing is a modifier on the same
-// element and so has to be its own top-level rule, which Less block scope would not reach. Named
-// after the block to stay unique: root-level Less variables are shared across every plugin.
-@_transitionsRowIncoming: #EAF1F8;
-@_transitionsRowIncomingDark: #1E2A3A;
-@_transitionsRowIncomingDeep: #C7DBF0;
-@_transitionsRowIncomingDeepDark: #2A3E58;
-@_transitionsRowOutgoing: #E1FBFB;
-@_transitionsRowOutgoingDark: #15302E;
-@_transitionsRowOutgoingDeep: #B4EBEB;
-@_transitionsRowOutgoingDeepDark: #1C4340;
-
 .transitionsRow {
+  @_incoming: #EAF1F8;
+  @_incomingDark: #1E2A3A;
+  @_incomingDeep: #C7DBF0;
+  @_incomingDeepDark: #2A3E58;
+  @_outgoing: #E1FBFB;
+  @_outgoingDark: #15302E;
+  @_outgoingDeep: #B4EBEB;
+  @_outgoingDeepDark: #1C4340;
+
   // Accents for the icon tiles, one per side.
   @_incomingAccent: #6E5AE8;
   @_incomingAccentDark: #8B7BEE;
   @_outgoingAccent: #3FA88C;
   @_outgoingAccentDark: #4FBF9F;
 
-  // Each side publishes both tones so a flat modifier can pick between them, rather than chaining
-  // onto the side's own and breaking the two-class rule. Only .transitionsRow and --summary declare
-  // `background`, both at one class, so source order decides.
+  // Each side publishes both tones so --summary can pick between them, rather than chaining onto
+  // each side's own modifier. Only .transitionsRow and --summary declare `background`, and
+  // --summary carries both classes, so it wins.
   //
   // Keep it that way: .inDarkMode() expands to `[data-theme-mode="dark"]:root &` and outranks one
   // class, so a dark block declaring `background` here would flatten the open/closed distinction.
   // The blocks in this file set custom properties and `color` only.
-  --transitions-row-pale: @_transitionsRowIncoming;
-  --transitions-row-deep: @_transitionsRowIncomingDeep;
+  --transitions-row-pale: @_incoming;
+  --transitions-row-deep: @_incomingDeep;
 
   display: flex;
   align-items: safe center;
@@ -53,8 +49,8 @@
   transition: box-shadow .15s ease;
 
   .inDarkMode({
-    --transitions-row-pale: @_transitionsRowIncomingDark;
-    --transitions-row-deep: @_transitionsRowIncomingDeepDark;
+    --transitions-row-pale: @_incomingDark;
+    --transitions-row-deep: @_incomingDeepDark;
   });
 
   .transitionsRow__icon {
@@ -103,6 +99,12 @@
     white-space: nowrap;
   }
 
+  // The Others row is not a page, so its label is set apart from the ones that are.
+  .transitionsRow__label--muted {
+    color: @theme-color-text-light;
+    font-style: italic;
+  }
+
   .transitionsRow__count,
   .transitionsRow__total {
     color: @theme-color-text-light;
@@ -134,45 +136,37 @@
     color: @theme-color-text-light;
     font-weight: normal;
   }
-}
 
-.transitionsRow--outgoing {
-  --transitions-row-pale: @_transitionsRowOutgoing;
-  --transitions-row-deep: @_transitionsRowOutgoingDeep;
+  &.transitionsRow--outgoing {
+    --transitions-row-pale: @_outgoing;
+    --transitions-row-deep: @_outgoingDeep;
 
-  // Load-bearing: .inDarkMode() expands to `[data-theme-mode="dark"]:root &`, so without a dark
-  // block of its own this rule's single class would lose to the incoming dark values above.
-  .inDarkMode({
-    --transitions-row-pale: @_transitionsRowOutgoingDark;
-    --transitions-row-deep: @_transitionsRowOutgoingDeepDark;
-  });
-}
+    // Load-bearing: without a dark block of its own, the incoming dark values above would win.
+    .inDarkMode({
+      --transitions-row-pale: @_outgoingDark;
+      --transitions-row-deep: @_outgoingDeepDark;
+    });
+  }
 
-// A group that is not the open one reads as closed by tone alone: the deep tone of its side, where
-// the open group's rows take the pale one. Everything else about the row is the same, so the two
-// blocks stay directly comparable.
-.transitionsRow--summary {
-  background: var(--transitions-row-deep);
-}
+  // A group that is not the open one reads as closed by tone alone: the deep tone of its side,
+  // where the open group's rows take the pale one. Everything else about the row is the same, so
+  // the two blocks stay directly comparable.
+  &.transitionsRow--summary {
+    background: var(--transitions-row-deep);
+  }
 
-.transitionsRow--actionable {
-  cursor: pointer;
-}
+  &.transitionsRow--actionable {
+    cursor: pointer;
+  }
 
-.transitionsRow--actionable:hover,
-.transitionsRow--highlighted {
-  box-shadow: @theme-shadow-overlay;
-}
+  &.transitionsRow--actionable:hover,
+  &.transitionsRow--highlighted {
+    box-shadow: @theme-shadow-overlay;
+  }
 
-.transitionsRow--others .transitionsRow__label {
-  color: @theme-color-text-light;
-  font-style: italic;
-}
-
-// Every actionable row is an anchor, and bootstrap.css re-underlines one on hover and on focus
-// (`a:hover, a:focus { text-decoration: underline }`), which the block's own `text-decoration` does
-// not cover. The underline would otherwise propagate to every flex item in the row.
-.transitionsRow:hover,
-.transitionsRow:focus {
-  text-decoration: none;
+  // An actionable row is an anchor, and bootstrap re-underlines those on hover and focus.
+  &:hover,
+  &:focus {
+    text-decoration: none;
+  }
 }
