@@ -179,6 +179,66 @@ describe('ReportHeader', () => {
       expect(button.attributes('aria-label')).toBe('Annotations_ShowAnnotations');
     });
 
+    // jsdom has no matchMedia and lays nothing out, so the fit measurement is handed both.
+    let narrow = false;
+
+    beforeEach(() => {
+      narrow = false;
+      Object.defineProperty(window, 'matchMedia', {
+        writable: true,
+        configurable: true,
+        value: () => ({ matches: narrow }) as MediaQueryList,
+      });
+    });
+    // jsdom lays nothing out, so the fit measurement is handed the widths it would have read.
+    function giveRoom(wrapper: ReturnType<typeof mountComponent>, width: number) {
+      const size = (selector: string, prop: string, value: number) => {
+        Object.defineProperty(wrapper.find(selector).element, prop, {
+          value, configurable: true,
+        });
+      };
+      size('.reportHeader__header', 'clientWidth', width);
+      size('.reportHeader__controls', 'offsetWidth', 100);
+    }
+
+    // The observer skips a width it has already measured, so a demotion that kept the width it was
+    // promoted at could never be undone by returning to it - restoring a window, undoing a zoom.
+    it('should remember the width it demoted at, not the one it promoted at', async () => {
+      const wrapper = mountComponent({ ...offered, context: 'widgetized' });
+      const vm = wrapper.vm as unknown as {
+        updatePromoted: () => Promise<void>; promotedCount: number; lastMeasuredWidth: number;
+      };
+
+      giveRoom(wrapper, 1200);
+      await vm.updatePromoted();
+      expect(vm.promotedCount).toBeGreaterThan(0);
+      expect(vm.lastMeasuredWidth).toBe(1200);
+
+      narrow = true;
+      giveRoom(wrapper, 700);
+      await vm.updatePromoted();
+
+      expect(vm.promotedCount).toBe(0);
+      expect(vm.lastMeasuredWidth).toBe(700);
+    });
+
+    // Maximising a widget changes what shares the line without changing its width.
+    it('should give the controls back when the line gains widget controls', async () => {
+      const wrapper = mountComponent({ ...offered, context: 'widgetized' });
+      const vm = wrapper.vm as unknown as {
+        updatePromoted: () => Promise<void>; promotedCount: number;
+      };
+
+      giveRoom(wrapper, 1200);
+      await vm.updatePromoted();
+      expect(vm.promotedCount).toBeGreaterThan(0);
+
+      await wrapper.setProps({ context: 'dashboard' });
+      await wrapper.vm.$nextTick();
+
+      expect(vm.promotedCount).toBe(0);
+    });
+
     it('should promote in priority order, so the least deserving is given back first', async () => {
       const one = await mountPromoted(1);
       expect(one.find('[data-report-action="export"]').exists()).toBe(true);

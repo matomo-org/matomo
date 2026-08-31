@@ -512,6 +512,11 @@ export default defineComponent({
     promotable() {
       this.updatePromoted();
     },
+    // Maximising a widget changes what shares the line without changing its width, and only the
+    // width is watched.
+    hasControls() {
+      this.updatePromoted();
+    },
   },
   computed: {
     promotable(): PromotableActionId[] {
@@ -648,6 +653,12 @@ export default defineComponent({
         return;
       }
 
+      // The width this decision was taken at, whichever way it goes. Recording it only when
+      // promoting left a demotion remembering the width it was promoted at, so coming back to
+      // exactly that width - restoring a maximised window, undoing a zoom - was read as no change
+      // and never asked again.
+      this.lastMeasuredWidth = row.clientWidth;
+
       const promotable = this.promotable.length;
       // Widget controls leave too little of the line to share, so nothing comes out beside them
       // until the fit is tuned more finely.
@@ -658,7 +669,6 @@ export default defineComponent({
       }
 
       // Try them all, then give back the least deserving until the title has room again.
-      this.lastMeasuredWidth = row.clientWidth;
       this.promotedCount = promotable;
       await this.$nextTick();
 
