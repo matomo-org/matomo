@@ -103,6 +103,76 @@
           </div>
 
           <div
+            v-if="isPromoted('export')"
+            ref="exportSelector"
+            class="mtm-selector"
+            data-report-action="export"
+            v-expand-on-click="{
+              expander: 'exportTrigger',
+              onExpand: () => { exportExpanded = true; },
+              onClosed: () => { exportExpanded = false; },
+            }"
+          >
+            <button
+              ref="exportTrigger"
+              type="button"
+              class="mtm-selector__trigger"
+              aria-haspopup="menu"
+              :aria-expanded="exportExpanded ? 'true' : 'false'"
+            >
+              <span class="mtm-selector__icon" aria-hidden="true">
+                <span class="icon-export" />
+              </span>
+              <span class="mtm-selector__label">{{ translate('General_Export') }}</span>
+              <span class="mtm-selector__rightIcon" aria-hidden="true">
+                <span class="icon-chevron-down" />
+              </span>
+            </button>
+            <!-- Choosing an export is the end of the interaction, so the panel folds with it. -->
+            <!-- eslint-disable-next-line vuejs-accessibility/click-events-have-key-events -->
+            <div class="mtm-selector__dropdown" @click="closePromotedExport">
+              <div class="mtm-dropdownPanel">
+                <ul
+                  class="mtm-dropdownPanel__menu"
+                  role="menu"
+                  :aria-label="translate('General_Export')"
+                >
+                  <ExportMenu
+                    :show-export="actions.showExport"
+                    :show-export-as-image-icon="actions.showExportAsImageIcon"
+                    :export-supports-flat="exportSupportsFlat"
+                    :report-title="titleText"
+                    :request-params="actions.requestParams"
+                    :api-method-to-request-data-table="actions.apiMethodToRequestDataTable"
+                    :report-formats="reportFormats"
+                    :max-filter-limit="actions.maxFilterLimit"
+                    placement="header"
+                  />
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- One toggle, so it needs no panel and no label: the icon and its title carry it. -->
+          <div
+            v-if="isPromoted('annotations')"
+            class="mtm-selector mtm-selector--iconOnly"
+            data-report-action="annotations"
+          >
+            <button
+              type="button"
+              class="mtm-selector__trigger annotationView"
+              :title="annotationsTitle"
+              :aria-label="annotationsTitle"
+              :aria-pressed="annotationsShowing ? 'true' : 'false'"
+            >
+              <span class="mtm-selector__icon" aria-hidden="true">
+                <span class="icon-annotation" />
+              </span>
+            </button>
+          </div>
+
+          <div
             v-if="showActions"
             ref="actions"
             class="reportHeader__actions"
@@ -195,6 +265,7 @@ import DataTableActions, {
   FooterIconGroup,
 } from '../DataTable/DataTableActions.vue';
 import ReportActionsStore from '../DataTable/ReportActions.store';
+import ExportMenu from '../DataTable/ExportMenu.vue';
 import PeriodsMenu from '../DataTable/PeriodsMenu.vue';
 import {
   NO_PROMOTION_BREAKPOINT,
@@ -393,6 +464,7 @@ export default defineComponent({
   components: {
     DataTableActions,
     EnrichedHeadline,
+    ExportMenu,
     PeriodsMenu,
     SearchInput,
     WidgetControls,
@@ -410,6 +482,7 @@ export default defineComponent({
       searchDebounceTimer: null as ReturnType<typeof setTimeout> | null,
       promotedCount: 0,
       periodsExpanded: false,
+      exportExpanded: false,
       actionsExpanded: false,
       resizeObserver: null as ResizeObserver | null,
       lastMeasuredWidth: -1,
@@ -441,6 +514,11 @@ export default defineComponent({
     promotable(): PromotableActionId[] {
       return promotableActions(this.actions)
         .filter((id) => PROMOTED_RENDERERS.indexOf(id) !== -1);
+    },
+    annotationsTitle(): string {
+      return this.annotationsShowing
+        ? translate('Annotations_HideAnnotations')
+        : translate('Annotations_ShowAnnotations');
     },
     promotedActions(): PromotableActionId[] {
       return this.promotable.slice(0, this.promotedCount);
@@ -525,6 +603,10 @@ export default defineComponent({
     closePromotedPeriods() {
       (this.$refs.periodsSelector as HTMLElement | undefined)?.classList.remove('expanded');
       this.periodsExpanded = false;
+    },
+    closePromotedExport() {
+      (this.$refs.exportSelector as HTMLElement | undefined)?.classList.remove('expanded');
+      this.exportExpanded = false;
     },
     isPromoted(action: PromotableActionId): boolean {
       return this.promotedActions.indexOf(action) !== -1;

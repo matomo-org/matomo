@@ -419,6 +419,32 @@ describe('DataTableActions menu structure', () => {
     expect(wrapper.find('li.mtm-dropdownPanel__separator').exists()).toBe(false);
   });
 
+  // A promoted action has a control of its own on the header line; leaving the entry in the menu
+  // would give dataTable.js two elements answering to the same delegated class.
+  it('should drop the entries whose action was promoted out of it', () => {
+    const offered = {
+      reportSupportsPercentageValues: true,
+      showExport: true,
+      showExportAsImageIcon: true,
+      showAnnotations: true,
+    };
+
+    const inMenu = mountComponent(offered);
+    expect(inMenu.find('a.activateExportSelection').exists()).toBe(true);
+    expect(inMenu.find('a.annotationView').exists()).toBe(true);
+
+    const promoted = mountComponent({
+      ...offered,
+      promotedActions: ['export', 'annotations'],
+    });
+    expect(promoted.find('a.activateExportSelection').exists()).toBe(false);
+    expect(promoted.find('a.dataTableAction.tableIcon').exists()).toBe(false);
+    expect(promoted.find('a.annotationView').exists()).toBe(false);
+
+    // and neither leaves an empty group or a rule behind it
+    expect(promoted.findAll('ul.mtm-dropdownPanel__menu').length).toBe(2);
+  });
+
   // showConfigItems only gates the list; every entry inside has a condition of its own.
   it('should not rule off above the visualisations when nothing renders above them', () => {
     const wrapper = mountComponent({ reportSupportsPercentageValues: false });

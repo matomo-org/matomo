@@ -183,7 +183,11 @@
 
         <!-- Keeps `annotationView`: dataTable.js binds the toggle on it and
              handleEvolutionAnnotations() reads it to decide whether the graph shows markers. -->
-        <li v-if="showAnnotations" class="mtm-dropdownPanel__menuItem" role="none">
+        <li
+          v-if="showAnnotations && !isPromoted('annotations')"
+          class="mtm-dropdownPanel__menuItem"
+          role="none"
+        >
           <a
             class="mtm-dropdownPanel__menuLink dataTableAction annotationView"
             href=""
@@ -278,11 +282,11 @@
         <ExportMenu
           :show-export="showExport"
           :show-export-as-image-icon="showExportAsImageIcon"
-          :export-supports-flat="exportSupportsFlat"
+          :export-supports-flatten="exportSupportsFlatten"
+          :client-side-parameters="clientSideParameters"
           :report-title="reportTitle"
           :request-params="requestParams"
           :api-method-to-request-data-table="apiMethodToRequestDataTable"
-          :report-formats="reportFormats"
           :max-filter-limit="maxFilterLimit"
           :placement="placement"
         />
@@ -299,7 +303,7 @@ import ExportMenu from './ExportMenu.vue';
 import PeriodsMenu from './PeriodsMenu.vue';
 import type { PromotableActionId } from './reportActions';
 import { translate } from '../translate';
-import { isBooleanLikeSet, resolveExportSupportsFlat } from './DataTableActions.utils';
+import { isBooleanLikeSet } from './DataTableActions.utils';
 import activateMenuItem from './activateMenuItem';
 
 export interface FooterIcon {
@@ -522,11 +526,11 @@ export default defineComponent({
     },
     hasActionItems(): boolean {
       return (this.showPeriods && !this.isPromoted('periods'))
-        || this.showAnnotations
+        || (this.showAnnotations && !this.isPromoted('annotations'))
         || this.dataTableActions.length > 0;
     },
     hasExportItems(): boolean {
-      return this.showExportAsImageIcon || this.showExport;
+      return (this.showExportAsImageIcon || this.showExport) && !this.isPromoted('export');
     },
     hasItemsAboveExports(): boolean {
       return this.hasActionsAbove || this.visibleFooterIconGroups.length > 0;
@@ -538,23 +542,6 @@ export default defineComponent({
     },
     activeFooterIconIds(): string[] {
       return this.activeFooterIcons.map((icon) => icon.id);
-    },
-    reportFormats(): Record<string, string> {
-      const formats: Record<string, string> = {
-        TSV: 'TSV (Excel)',
-        HTML: 'HTML',
-        JSON: 'JSON',
-        XML: 'XML',
-        CSV: 'CSV',
-        RSS: 'RSS',
-      };
-      return formats;
-    },
-    exportSupportsFlat() {
-      return resolveExportSupportsFlat(
-        !!this.exportSupportsFlatten,
-        this.clientSideParameters.flat as number|string|boolean,
-      );
     },
     showDimensionsConfigItem() {
       return this.showFlattenTable

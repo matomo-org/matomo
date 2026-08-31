@@ -51,13 +51,18 @@ import Passthrough from '../Passthrough/Passthrough.vue';
 import ReportExport from '../ReportExport/ReportExport';
 import { translate } from '../translate';
 import findReportRoot from './reportScope';
+import { resolveExportSupportsFlat } from './DataTableActions.utils';
 import activateMenuItem from './activateMenuItem';
 
 export default defineComponent({
   props: {
     showExport: Boolean,
     showExportAsImageIcon: Boolean,
-    exportSupportsFlat: Boolean,
+    exportSupportsFlatten: Boolean,
+    clientSideParameters: {
+      type: Object as PropType<Record<string, unknown>>,
+      default: () => ({}),
+    },
     reportTitle: {
       type: String,
       default: '',
@@ -69,10 +74,6 @@ export default defineComponent({
     apiMethodToRequestDataTable: {
       type: String,
       default: '',
-    },
-    reportFormats: {
-      type: Object as PropType<Record<string, string>>,
-      default: () => ({}),
     },
     maxFilterLimit: {
       type: Number,
@@ -88,6 +89,24 @@ export default defineComponent({
   },
   directives: {
     ReportExport,
+  },
+  computed: {
+    reportFormats(): Record<string, string> {
+      return {
+        TSV: 'TSV (Excel)',
+        HTML: 'HTML',
+        JSON: 'JSON',
+        XML: 'XML',
+        CSV: 'CSV',
+        RSS: 'RSS',
+      };
+    },
+    exportSupportsFlat(): boolean {
+      return resolveExportSupportsFlat(
+        this.exportSupportsFlatten,
+        this.clientSideParameters.flat as number|string|boolean,
+      );
+    },
   },
   methods: {
     translate,

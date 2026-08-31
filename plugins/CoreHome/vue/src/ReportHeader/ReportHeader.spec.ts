@@ -108,6 +108,59 @@ describe('ReportHeader', () => {
     });
   });
 
+  // jsdom lays nothing out, so the fit measurement always demotes; these set the count the
+  // measurement would have reached and check what gets drawn at it.
+  describe('promoted report actions', () => {
+    const offered = {
+      showFooter: true,
+      showFooterIcons: true,
+      showExport: true,
+      showExportAsImageIcon: true,
+      showAnnotations: true,
+    };
+
+    async function mountPromoted(count: number, customProps = {}) {
+      const wrapper = mountComponent({ ...offered, ...customProps });
+      (wrapper.vm as unknown as { promotedCount: number }).promotedCount = count;
+      await wrapper.vm.$nextTick();
+      return wrapper;
+    }
+
+    it('should draw the export control as a panel, since it holds two entries', async () => {
+      const wrapper = await mountPromoted(1);
+
+      const control = wrapper.find('[data-report-action="export"]');
+      expect(control.exists()).toBe(true);
+      expect(control.find('.mtm-selector__trigger').attributes('aria-haspopup')).toBe('menu');
+      expect(control.find('[role="menu"]').exists()).toBe(true);
+      expect(control.find('a.activateExportSelection').exists()).toBe(true);
+      expect(control.find('a.dataTableAction.tableIcon').exists()).toBe(true);
+    });
+
+    it('should draw the annotations control as one icon, since it is one toggle', async () => {
+      const wrapper = await mountPromoted(2);
+
+      const control = wrapper.find('[data-report-action="annotations"]');
+      expect(control.classes()).toContain('mtm-selector--iconOnly');
+      expect(control.find('.mtm-selector__label').exists()).toBe(false);
+
+      // no words, so the state and the name are carried by the button itself
+      const button = control.find('button');
+      expect(button.classes()).toContain('annotationView');
+      expect(button.attributes('aria-pressed')).toBe('false');
+      expect(button.attributes('aria-label')).toBe('Annotations_ShowAnnotations');
+    });
+
+    it('should promote in priority order, so the least deserving is given back first', async () => {
+      const one = await mountPromoted(1);
+      expect(one.find('[data-report-action="export"]').exists()).toBe(true);
+      expect(one.find('[data-report-action="annotations"]').exists()).toBe(false);
+
+      const none = await mountPromoted(0);
+      expect(none.find('[data-report-action="export"]').exists()).toBe(false);
+    });
+  });
+
   it('should render the title by default', () => {
     expect(mountComponent().find('.reportHeader__title').exists()).toBe(true);
   });
