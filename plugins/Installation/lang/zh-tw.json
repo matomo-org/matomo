@@ -24,7 +24,7 @@
         "DefaultSettingsHelp": "Matomo 內建預設設定。你可以現在自訂，或稍後在管理畫面中調整。",
         "DownloadSystemCheck": "下載系統檢查結果",
         "Email": "E-mail",
-        "EmailPrivacyNotice": "你的 e-mail 位址只會用來寄送電子報，為此會提供給 Mad Mimi，但這個第三方供應商可能會變更。我們不會將你的 e-mail 提供給任何其他人，也不會用於其他目的。你隨時可以取消訂閱。更多資訊請參閱%1$s隱私權政策%2$s。",
+        "EmailPrivacyNotice": "你的 e-mail 位址只會用來寄送電子報。我們不會將你的 e-mail 提供給任何其他人，也不會用於其他目的。你隨時可以取消訂閱。更多資訊請參閱%1$s隱私權政策%2$s。",
         "ErrorExpired1": "你的 Matomo 安裝程序在 3 天前就已開始，但尚未完成。",
         "ErrorExpired2": "請依照以下步驟繼續安裝：",
         "ErrorExpired3": "開啟 Matomo 安裝目錄中的 %1$sconfig/config.ini.php%2$s 檔案。",

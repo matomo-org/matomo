@@ -24,7 +24,7 @@
         "DefaultSettingsHelp": "Matomo kommer med vissa standardinställningar. Du kan ändra dom redan nu, eller senare via administratörssidorna.",
         "DownloadSystemCheck": "Ladda ner systemkontroll",
         "Email": "E-post",
-        "EmailPrivacyNotice": "Din e-postadress kommer endast att användas för att skicka dig nyhetsbrevet. Den delas med Mad Mimi, men tredjeparten kan förändras i framtiden. Vi delar inte din e-post med någon annan eller använder den för något annat syfte. Avsluta prenumerationen när du vill. Läs %1$sintegritetspolicyn%2$s för mer info.",
+        "EmailPrivacyNotice": "Din e-postadress kommer endast att användas för att skicka dig nyhetsbrevet. Vi delar inte din e-post med någon annan eller använder den för något annat syfte. Avsluta prenumerationen när du vill. Läs %1$sintegritetspolicyn%2$s för mer info.",
         "ErrorExpired1": "Din Matomo-installation påbörjades för mer än 3 dagar sedan, men har inte slutförts.",
         "ErrorExpired2": "Följ dessa steg för att fortsätta installationen:",
         "ErrorExpired3": "Öppna filen %1$sconfig/config.ini.php%2$s i din Matomo-installationskatalog.",

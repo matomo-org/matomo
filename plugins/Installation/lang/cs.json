@@ -24,7 +24,7 @@
         "DefaultSettingsHelp": "Matomo má výchozí nastavení. Můžete je změnit teď, nebo později z administračního rozhraní.",
         "DownloadSystemCheck": "Stáhnout kontrolu systému",
         "Email": "E-mail",
-        "EmailPrivacyNotice": "Vaše e-mailová adresa bude použita pouze k zasílání zpravodaje. Za tímto účelem je sdílena se společností Mad Mimi, ale poskytovatel třetí strany se může změnit. Vaši e-mailovou adresu nebudeme s nikým jiným sdílet ani ji nebudeme používat k jiným účelům. Z odběru se můžete kdykoli odhlásit. Více informací naleznete v %1$szásadách ochrany osobních údajů%2$s.",
+        "EmailPrivacyNotice": "Vaše e-mailová adresa bude použita pouze k zasílání zpravodaje. Vaši e-mailovou adresu nebudeme s nikým jiným sdílet ani ji nebudeme používat k jiným účelům. Z odběru se můžete kdykoli odhlásit. Více informací naleznete v %1$szásadách ochrany osobních údajů%2$s.",
         "ErrorExpired1": "Instalace Matomo byla zahájena před více než 3 dny, ale nebyla dokončena.",
         "ErrorExpired2": "Pro pokračování v instalaci postupujte podle následujících kroků:",
         "ErrorExpired3": "Otevřete soubor %1$sconfig/config.ini.php%2$s v instalačním adresáři Matomo.",
