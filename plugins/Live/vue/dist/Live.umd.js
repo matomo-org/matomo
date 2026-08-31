@@ -144,7 +144,7 @@ if (typeof window !== 'undefined') {
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Live/vue/src/LiveWidget/LiveWidget.vue?vue&type=template&id=7922956c
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Live/vue/src/LiveWidget/LiveWidget.vue?vue&type=template&id=1de0110a
 
 const _hoisted_1 = {
   key: 0,
@@ -154,6 +154,7 @@ const _hoisted_2 = {
   ref: "root"
 };
 const _hoisted_3 = {
+  key: 1,
   class: "visitsLiveFooter"
 };
 const _hoisted_4 = ["title"];
@@ -176,7 +177,7 @@ const _hoisted_8 = {
 const _hoisted_9 = ["href"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_MatomoLoader = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("MatomoLoader");
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", null, [_ctx.isInitialLoading ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_MatomoLoader)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_2, null, 512), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", null, [_ctx.isInitialLoading ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_MatomoLoader)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_2, null, 512), !_ctx.aggregatedOnly ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
     title: _ctx.translate('Live_OnClickPause', _ctx.translate('Live_VisitorsInRealTime')),
     onClick: _cache[0] || (_cache[0] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])($event => _ctx.pause(), ["prevent"]))
   }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", _hoisted_5, null, 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.isStarted]])], 8, _hoisted_4), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
@@ -185,9 +186,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", _hoisted_7, null, 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], !_ctx.isStarted]])], 8, _hoisted_6), !_ctx.disableLink ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", _hoisted_8, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])("   "), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
     class: "rightLink",
     href: _ctx.visitorLogUrl
-  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Live_LinkVisitorLog')), 9, _hoisted_9)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])]);
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Live_LinkVisitorLog')), 9, _hoisted_9)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]);
 }
-// CONCATENATED MODULE: ./plugins/Live/vue/src/LiveWidget/LiveWidget.vue?vue&type=template&id=7922956c
+// CONCATENATED MODULE: ./plugins/Live/vue/src/LiveWidget/LiveWidget.vue?vue&type=template&id=1de0110a
 
 // EXTERNAL MODULE: external "CoreHome"
 var external_CoreHome_ = __webpack_require__("19dc");
@@ -335,7 +336,8 @@ const MAX_ROWS = 10;
 /* harmony default export */ var LiveWidgetvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
     liveRefreshAfterMs: Number,
-    disableLink: Boolean
+    disableLink: Boolean,
+    aggregatedOnly: Boolean
   },
   components: {
     MatomoLoader: external_CoreHome_["MatomoLoader"]
@@ -344,7 +346,8 @@ const MAX_ROWS = 10;
     return {
       isStarted: true,
       isInitialLoading: true,
-      refreshController: null
+      refreshController: null,
+      lastTotalVisitorsHtml: ''
     };
   },
   computed: {
@@ -386,13 +389,21 @@ const MAX_ROWS = 10;
           const segment = external_CoreHome_["MatomoUrl"].parsed.value.segment;
           return external_CoreHome_["AjaxHelper"].fetch({
             module: 'Live',
-            action: 'getLastVisitsStart',
+            action: this.aggregatedOnly ? 'ajaxTotalVisitors' : 'getLastVisitsStart',
             segment
           }, {
             format: 'html'
           });
         },
         handleResponse: response => {
+          if (this.aggregatedOnly) {
+            // Report whether the counters actually changed so the auto-refresh can back off
+            // while they are static instead of polling relentlessly.
+            const updated = this.applyTotalVisitors(response);
+            return {
+              updated
+            };
+          }
           const segment = external_CoreHome_["MatomoUrl"].parsed.value.segment;
           const ensured = this.ensureVisitsList(response);
           const updated = ensured ? true : this.parseResponse(response);
@@ -465,30 +476,58 @@ const MAX_ROWS = 10;
       }, {
         format: 'html'
       }).then(response => {
-        const container = root.querySelector('#visitsTotal');
-        const wrapper = document.createElement('div');
-        wrapper.innerHTML = response;
-        const newContent = wrapper.querySelector('#visitsTotal');
-        if (!newContent) {
-          return;
-        }
-        if (!container) {
-          const list = root.querySelector('#visitsLive');
-          if (list) {
-            list.before(newContent);
-          } else {
-            root.prepend(newContent);
-          }
-          external_CoreHome_["Matomo"].helper.compileVueEntryComponents(root);
-          return;
-        }
-        external_CoreHome_["Matomo"].helper.destroyVueComponent(container);
-        container.replaceWith(newContent);
-        external_CoreHome_["Matomo"].helper.compileVueEntryComponents(root);
+        this.applyTotalVisitors(response);
       });
+    },
+    applyTotalVisitors(response) {
+      const root = this.$refs.root;
+      if (!root) {
+        return false;
+      }
+      const container = root.querySelector('#visitsTotal');
+      const wrapper = document.createElement('div');
+      wrapper.innerHTML = response;
+      const newContent = wrapper.querySelector('#visitsTotal');
+      if (!newContent) {
+        return false;
+      }
+      // If the counters are unchanged, leave the DOM as-is so the auto-refresh can back off.
+      if (container && response === this.lastTotalVisitorsHtml) {
+        return false;
+      }
+      this.lastTotalVisitorsHtml = response;
+      if (!container) {
+        const list = root.querySelector('#visitsLive');
+        if (list) {
+          list.before(newContent);
+        } else {
+          root.prepend(newContent);
+        }
+        external_CoreHome_["Matomo"].helper.compileVueEntryComponents(root);
+        return true;
+      }
+      external_CoreHome_["Matomo"].helper.destroyVueComponent(container);
+      container.replaceWith(newContent);
+      external_CoreHome_["Matomo"].helper.compileVueEntryComponents(root);
+      return true;
     },
     fetchInitialContent() {
       const segment = external_CoreHome_["MatomoUrl"].parsed.value.segment;
+      if (this.aggregatedOnly) {
+        external_CoreHome_["AjaxHelper"].fetch({
+          module: 'Live',
+          action: 'ajaxTotalVisitors',
+          segment
+        }, {
+          format: 'html'
+        }).then(response => {
+          this.applyTotalVisitors(response);
+        }).finally(() => {
+          this.isInitialLoading = false;
+          this.scheduleUpdate(this.getBaseInterval());
+        });
+        return;
+      }
       const visitsPromise = external_CoreHome_["AjaxHelper"].fetch({
         module: 'Live',
         action: 'getLastVisitsStart',
@@ -1050,21 +1089,22 @@ function TotalVisitorsvue_type_template_id_c4046fce_render(_ctx, _cache, $props,
 TotalVisitorsvue_type_script_lang_ts.render = TotalVisitorsvue_type_template_id_c4046fce_render
 
 /* harmony default export */ var TotalVisitors = (TotalVisitorsvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Live/vue/src/LivePage/LivePage.vue?vue&type=template&id=2ecbc076
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Live/vue/src/LivePage/LivePage.vue?vue&type=template&id=3638b0cc
 
-function LivePagevue_type_template_id_2ecbc076_render(_ctx, _cache, $props, $setup, $data, $options) {
+function LivePagevue_type_template_id_3638b0cc_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_LiveWidget = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("LiveWidget");
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", null, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDynamicComponent"])(!_ctx.isWidgetized ? 'ContentBlock' : 'Passthrough'), {
     "content-title": !_ctx.isWidgetized ? _ctx.translate('Live_VisitorsInRealTime') : undefined
   }, {
     default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_LiveWidget, {
       "live-refresh-after-ms": _ctx.liveRefreshAfterMs,
-      "disable-link": _ctx.disableLink
-    }, null, 8, ["live-refresh-after-ms", "disable-link"])]),
+      "disable-link": _ctx.disableLink,
+      "aggregated-only": _ctx.aggregatedOnly
+    }, null, 8, ["live-refresh-after-ms", "disable-link", "aggregated-only"])]),
     _: 1
   }, 8, ["content-title"]))]);
 }
-// CONCATENATED MODULE: ./plugins/Live/vue/src/LivePage/LivePage.vue?vue&type=template&id=2ecbc076
+// CONCATENATED MODULE: ./plugins/Live/vue/src/LivePage/LivePage.vue?vue&type=template&id=3638b0cc
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Live/vue/src/LivePage/LivePage.vue?vue&type=script&lang=ts
 
@@ -1074,7 +1114,8 @@ function LivePagevue_type_template_id_2ecbc076_render(_ctx, _cache, $props, $set
   props: {
     disableLink: Boolean,
     liveRefreshAfterMs: Number,
-    isWidgetized: Boolean
+    isWidgetized: Boolean,
+    aggregatedOnly: Boolean
   },
   components: {
     LiveWidget: LiveWidget,
@@ -1088,7 +1129,7 @@ function LivePagevue_type_template_id_2ecbc076_render(_ctx, _cache, $props, $set
 
 
 
-LivePagevue_type_script_lang_ts.render = LivePagevue_type_template_id_2ecbc076_render
+LivePagevue_type_script_lang_ts.render = LivePagevue_type_template_id_3638b0cc_render
 
 /* harmony default export */ var LivePage = (LivePagevue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Live/vue/src/IndexHeader/IndexHeader.vue?vue&type=template&id=e270701e

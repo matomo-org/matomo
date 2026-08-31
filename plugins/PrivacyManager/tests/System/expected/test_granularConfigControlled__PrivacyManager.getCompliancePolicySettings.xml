@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<policy>cnil_v1</policy>
+	<title>CNIL Website Analytics Compliance</title>
+	<description>This table shows how specific Matomo configuration settings align with &lt;a href=&quot;https://matomo.org/faq/how-to/how-do-i-configure-matomo-without-tracking-consent-for-french-visitors-cnil-exemption/?mtm_campaign=Matomo_App&amp;mtm_source=Matomo_App_OnPremise&amp;mtm_medium=App.PrivacyManager.compliance&quot; target=&quot;_blank&quot; rel=&quot;noreferrer noopener&quot;&gt;CNIL guidance&lt;/a&gt; on consent-exempt audience measurement. It is provided for &lt;b&gt;informational purposes only&lt;/b&gt; and does not constitute legal advice or guarantee full compliance. To rely on CNIL's consent exemption, &lt;b&gt;all&lt;/b&gt; required configurations must be correctly implemented.&lt;br/&gt;&lt;br/&gt;&lt;ul class='browser-default'&gt;&lt;li&gt;If a setting is marked &lt;b&gt;non-compliant&lt;/b&gt;, the exemption conditions are not satisfied and valid user consent must be obtained.&lt;/li&gt;&lt;li&gt;If a setting is marked &lt;b&gt;unknown&lt;/b&gt;, Matomo cannot determine whether the requirement has been met; these items must be verified manually by you, the publisher/controller.&lt;/li&gt;&lt;/ul&gt;&lt;br/&gt;To assess your overall compliance make sure you consult your legal advisors for a definitive compliance assessment.&lt;br/&gt;Click &lt;a href=&quot;https://matomo.org/faq/how-to/how-do-i-configure-matomo-without-tracking-consent-for-french-visitors-cnil-exemption/?mtm_campaign=Matomo_App&amp;mtm_source=Matomo_App_OnPremise&amp;mtm_medium=App.PrivacyManager.compliance&quot; target=&quot;_blank&quot; rel=&quot;noreferrer noopener&quot;&gt;here&lt;/a&gt; to access the Matomo Self-Assessment, learn more about the CNIL criteria for consent-exempt analytics and understand how to configure Matomo for CNIL exemption.&lt;br/&gt;&lt;b&gt;Compliance cannot be guaranteed with the use of third-party plugins.&lt;/b&gt;</description>
+	<configControlled>1</configControlled>
+	<policyEnforced>1</policyEnforced>
+	<settings>
+		<row>
+			<id>DevicesDetection.DeviceModelDetectionDisabled</id>
+			<name>Device Model Detection Disabled</name>
+			<whatItDoes>Device model detection is disabled.&lt;br&gt;&lt;br&gt;This reduces the risk of identifying visitors based on their specific device characteristics.</whatItDoes>
+			<impact>The &lt;strong&gt;Visitors &gt; Devices &gt; Device Model&lt;/strong&gt; report is unavailable, and device model information is not collected.</impact>
+			<status>enforced</status>
+			<enforced>1</enforced>
+			<toggleable>1</toggleable>
+			<section>settings</section>
+		</row>
+		<row>
+			<id>DevicesDetection.OnlyMajorVersions</id>
+			<name>Major Browser and OS Versions</name>
+			<whatItDoes>Only major browser and operating system versions are stored. Minor and patch versions are removed. For example, Chrome 136 or iOS 18 may be stored, but not Chrome 136.0.7103 or iOS 18.5.1.&lt;br&gt;&lt;br&gt;This reduces the risk of identifying visitors using detailed browser and operating system information.</whatItDoes>
+			<impact>Browser and operating system version reports under &lt;strong&gt;Visitors &gt; Software&lt;/strong&gt; only show major versions. Detailed version analysis and segmentation are unavailable.</impact>
+			<status>enforced</status>
+			<enforced>1</enforced>
+			<toggleable>1</toggleable>
+			<section>settings</section>
+		</row>
+		<row>
+			<id>Ecommerce.EcommerceRestricted</id>
+			<name>Ecommerce Data Collection Restricted</name>
+			<whatItDoes>If Ecommerce analytics is enabled, the collection and use of detailed order-level and product-level information is restricted.&lt;br&gt;&lt;br&gt;This prevents order and product information from being used to identify individual visitors or purchases.</whatItDoes>
+			<impact>Overall ecommerce conversion and revenue metrics remain available.&lt;br&gt;&lt;br&gt;Segments based on Order ID, Order Revenue, Product Price, Product Name, and Product SKU are unavailable.</impact>
+			<status>enforced</status>
+			<enforced>1</enforced>
+			<toggleable>1</toggleable>
+			<section>settings</section>
+		</row>
+		<row>
+			<id>Ecommerce.OrderIdAnonymization</id>
+			<name>Ecommerce Order ID Anonymisation Enabled</name>
+			<whatItDoes>Ecommerce order IDs are anonymised before they are stored.&lt;br&gt;&lt;br&gt;This reduces the risk of linking ecommerce transactions to identifiable visitors or individual purchases.</whatItDoes>
+			<impact>Original order IDs cannot be viewed. Ecommerce Order ID reports and related segments are unavailable.</impact>
+			<status>enforced</status>
+			<enforced>1</enforced>
+			<toggleable>1</toggleable>
+			<section>settings</section>
+		</row>
+		<row>
+			<id>SitesManager.FilterPIIParameters</id>
+			<name>PII Data Filtering Enabled</name>
+			<whatItDoes>Personally identifiable information is filtered from URL query parameters using Matomo's recommended PII exclusion list.&lt;br&gt;&lt;br&gt;This prevents information such as names, email addresses, phone numbers, and account identifiers from being stored in URLs and reports.</whatItDoes>
+			<impact>Matching personal information is removed from tracked and stored URLs. Reports cannot display or analyse the filtered values.</impact>
+			<status>enforced</status>
+			<enforced>1</enforced>
+			<toggleable>1</toggleable>
+			<section>settings</section>
+		</row>
+		<row>
+			<id>Live.AggregatedRealtimeReportsEnabled</id>
+			<name>Aggregated Real-time Reports Enabled</name>
+			<whatItDoes>Aggregated real-time reports stay available while the Visits Log is turned off.&lt;br&gt;&lt;br&gt;Only the &quot;Last 24 hours&quot; and &quot;Last 30 minutes&quot; totals are shown, and their counts are rounded, so no individual visitor, visit, session or action level information is exposed.</whatItDoes>
+			<impact>&lt;strong&gt;Visitors &gt; Real-time&lt;/strong&gt; shows the aggregated counters only, with rounded counts.</impact>
+			<status>enforced</status>
+			<enforced>1</enforced>
+			<toggleable>1</toggleable>
+			<section>settings</section>
+		</row>
+		<row>
+			<id>Live.VisitorLogDisabled</id>
+			<name>Visits Log and Visitor Profiles Disabled</name>
+			<whatItDoes>Visits Log and Visitor Profile features are disabled.&lt;br&gt;&lt;br&gt;This prevents an individual visitor's browsing path and detailed visit-level behaviour from being reconstructed.</whatItDoes>
+			<impact>&lt;strong&gt;Visitors &gt; Visits Log&lt;/strong&gt; and Visitor Profile views are unavailable.</impact>
+			<status>enforced</status>
+			<enforced>1</enforced>
+			<toggleable>1</toggleable>
+			<section>settings</section>
+		</row>
+		<row>
+			<id>PrivacyManager.CampaignParameterValuesMasked</id>
+			<name>Campaign Parameter Masking Enabled</name>
+			<whatItDoes>Campaign name and campaign keyword values are masked before storage.&lt;br&gt;&lt;br&gt;This prevents detailed campaign and advertising identifiers from being used beyond permitted audience measurement purposes.</whatItDoes>
+			<impact>Campaign attribution and aggregate acquisition metrics remain available, but original campaign names and keywords cannot be viewed or used to distinguish individual campaigns.</impact>
+			<status>enforced</status>
+			<enforced>1</enforced>
+			<toggleable>1</toggleable>
+			<section>settings</section>
+		</row>
+		<row>
+			<id>PrivacyManager.DataRoundingEnabled</id>
+			<name>Segmented Data Rounding Enabled</name>
+			<whatItDoes>Count-based metrics in segmented reports, exports, and API responses are rounded to the nearest 10. Any non-zero value below 10 is displayed as 10. Unsegmented reports continue to show exact totals.&lt;br&gt;&lt;br&gt;This protects visitor anonymity when reports are filtered into small subsets where low counts could reveal an individual.</whatItDoes>
+			<impact>Count-based metrics in segmented results are approximate.&lt;br&gt;&lt;br&gt;Segmented values may not add up to the corresponding unsegmented total.</impact>
+			<status>enforced</status>
+			<enforced>1</enforced>
+			<toggleable>1</toggleable>
+			<section>settings</section>
+		</row>
+		<row>
+			<id>PrivacyManager.IPAnonymisation</id>
+			<name>IP Anonymisation Enabled</name>
+			<whatItDoes>Visitor IP addresses are anonymised before they are processed and stored.&lt;br&gt;&lt;br&gt;This reduces the risk of identifying visitors through their IP address.</whatItDoes>
+			<impact>Full visitor IP addresses are unavailable.&lt;br&gt;&lt;br&gt;Geolocation reports may be less precise because part of the IP address is masked before location detection.</impact>
+			<status>enforced</status>
+			<enforced>1</enforced>
+			<toggleable>1</toggleable>
+			<section>settings</section>
+		</row>
+		<row>
+			<id>PrivacyManager.IpAddressMaskLength</id>
+			<name>IP Address Mask Length Configured</name>
+			<whatItDoes>IP anonymisation is configured to mask &lt;strong&gt;2 bytes&lt;/strong&gt; of each visitor's IP address.&lt;br&gt;At least 2 bytes must be masked to provide the required level of anonymisation.&lt;br&gt;&lt;br&gt;This reduces the ability to identify visitors or determine their precise location.</whatItDoes>
+			<impact>2 bytes of each visitor IP address are removed before processing.&lt;br&gt;&lt;br&gt;Geolocation accuracy may be reduced, particularly at city level.</impact>
+			<status>enforced</status>
+			<enforced>1</enforced>
+			<toggleable>1</toggleable>
+			<section>settings</section>
+		</row>
+		<row>
+			<id>PrivacyManager.ReferrerAnonymisation</id>
+			<name>Referrer Anonymisation Enabled</name>
+			<whatItDoes>Only the referrer host or referrer type is collected. Full referrer URLs, including paths and query parameters, are not stored.&lt;br&gt;&lt;br&gt;This reduces the risk of collecting personal or sensitive information contained in referrer URLs.</whatItDoes>
+			<impact>Attribution reports remain available, but detailed referrer paths and query parameters cannot be viewed, reported, or segmented.</impact>
+			<status>enforced</status>
+			<enforced>1</enforced>
+			<toggleable>1</toggleable>
+			<section>settings</section>
+		</row>
+		<row>
+			<id>PrivacyManager.ReportRetention</id>
+			<name>Raw Data Retention Configured</name>
+			<whatItDoes>Raw data retention is configured to &lt;strong&gt;180 days&lt;/strong&gt;. It must be set to a maximum of 759 days, approximately 25 months.&lt;br&gt;&lt;br&gt;This limits how long detailed visitor information is retained and reduces the risk of it being used to identify someone.</whatItDoes>
+			<impact>Raw visit data older than 180 days is automatically deleted.&lt;br&gt;&lt;br&gt;Historical aggregated reports may remain available according to the configured report-retention settings.</impact>
+			<status>enforced</status>
+			<enforced>1</enforced>
+			<toggleable>1</toggleable>
+			<section>settings</section>
+		</row>
+		<row>
+			<id>SegmentEditor.LimitSegments</id>
+			<name>Segment Availability Restricted</name>
+			<whatItDoes>Segments based on Visitor IP Address, Site Time - Hour representing the time of the last action, and Ad Click ID are disabled.&lt;br&gt;&lt;br&gt;This prevents these detailed attributes from being filtered or combined to identify a specific visitor.</whatItDoes>
+			<impact>Visitor IP Address, Site Time - Hour, and Ad Click ID cannot be used when creating or applying segments.</impact>
+			<status>enforced</status>
+			<enforced>1</enforced>
+			<toggleable>1</toggleable>
+			<section>settings</section>
+		</row>
+		<row>
+			<id>Resolution.ScreenResolutionDetectionDisabled</id>
+			<name>Screen Resolution Detection Disabled</name>
+			<whatItDoes>Screen resolution detection is disabled.&lt;br&gt;&lt;br&gt;This reduces the risk of identifying visitors based on their screen configuration.</whatItDoes>
+			<impact>Screen resolution information is not collected, and screen resolution reports under &lt;strong&gt;Visitors &gt; Devices&lt;/strong&gt; are unavailable.</impact>
+			<status>enforced</status>
+			<enforced>1</enforced>
+			<toggleable>1</toggleable>
+			<section>settings</section>
+		</row>
+		<row>
+			<id>UserId.UserIdDisabled</id>
+			<name>User ID Tracking Disabled</name>
+			<whatItDoes>User ID tracking is disabled. Tracking implementations must not send User IDs using setUserId or equivalent methods.&lt;br&gt;&lt;br&gt;This prevents visitors from being directly identified and associated across visits or devices.</whatItDoes>
+			<impact>User ID values are not collected. User ID reports, segments, and cross-visit analysis based on User ID are unavailable.</impact>
+			<status>enforced</status>
+			<enforced>1</enforced>
+			<toggleable>1</toggleable>
+			<section>settings</section>
+		</row>
+		<row>
+			<id>Core.ThirdPartyCookies</id>
+			<name>Third-Party Cookies Disabled</name>
+			<whatItDoes>Third-party cookies are disabled. Matomo uses first-party cookies so that cookie-based visitor identifiers remain limited to the website that created them.&lt;br&gt;&lt;br&gt;This prevents cookie-based identification of visitors across unrelated websites.</whatItDoes>
+			<impact>Matomo cannot use third-party cookies for cross-site visitor recognition. Visitor identifiers remain limited to the current website or first-party cookie scope.</impact>
+			<status>on_by_default</status>
+			<enforced />
+			<toggleable>0</toggleable>
+			<section>external</section>
+		</row>
+		<row>
+			<id>cnil_v1.optOut</id>
+			<name>Opt-Out Configured</name>
+			<whatItDoes>A Matomo opt-out interface must be manually configured and made available to visitors. &lt;a href=&quot;https://matomo.org/faq/general/faq_20000/?mtm_campaign=Matomo_App&amp;mtm_source=Matomo_App_OnPremise&amp;mtm_medium=App.PrivacyManager.compliance&quot; target=&quot;_blank&quot; rel=&quot;noreferrer noopener&quot;&gt;Learn more&lt;/a&gt;.&lt;br&gt;&lt;br&gt;This ensures visitors have a way to decline participation in audience measurement.</whatItDoes>
+			<impact>Visitors can opt out of Matomo tracking through the configured opt-out interface. Until the interface is added to the website, visitors do not have access to this opt-out mechanism.</impact>
+			<status>manual</status>
+			<enforced />
+			<toggleable>0</toggleable>
+			<section>external</section>
+		</row>
+	</settings>
+</result>

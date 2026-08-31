@@ -9,9 +9,11 @@ import { mount } from '@vue/test-utils';
 
 // The card mounts the real SegmentComparisonRow -> MetricValue + Sparkline chain and derives its
 // data-graph-params via MatomoUrl.parse. CoreHome has no jest module mapping, so mock everything
-// that chain pulls from it.
+// that chain pulls from it. ucfirst is an identity spy here; its casing behavior is covered by
+// ucfirst.spec.
 jest.mock('CoreHome', () => ({
   Tooltips: {},
+  ucfirst: jest.fn((text?: string) => text ?? ''),
   Sparkline: {
     name: 'Sparkline',
     props: ['params', 'seriesIndices', 'width', 'height'],
@@ -33,6 +35,8 @@ jest.mock('CoreHome', () => ({
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const SegmentComparisonCard = require('./SegmentComparisonCard.vue').default;
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const ucfirstMock = require('CoreHome').ucfirst as jest.Mock;
 
 function segment(title: string, seriesIndex: number, value: number) {
   return {
@@ -67,12 +71,33 @@ function createWrapper(props = {}) {
 }
 
 describe('CoreVisualizations/SegmentComparisonCard', () => {
+  const originalDocumentLanguage = document.documentElement.lang;
+
+  beforeEach(() => {
+    document.documentElement.lang = 'en';
+    ucfirstMock.mockClear();
+  });
+
+  afterAll(() => {
+    document.documentElement.lang = originalDocumentLanguage;
+  });
+
   it('shows the metric name once as the card title, not repeated per row', () => {
     const wrapper = createWrapper();
 
     expect(wrapper.find('.sparklineSegmentComparisonCard__title').text()).toBe('Visits');
     // The rows use MetricValue with no title, so the metric name is not repeated.
     expect(wrapper.findAll('.metricValue__title').length).toBe(0);
+  });
+
+  it('capitalizes the metric title using the document language', () => {
+    document.documentElement.lang = 'tr';
+    const segments = [segment('All visits', 0, 10558), segment('Eu visitors', 1, 12558)];
+    segments[0].metrics['Jan 12 - 17, 2012'][0].title = 'istanbul';
+
+    createWrapper({ segments });
+
+    expect(ucfirstMock).toHaveBeenCalledWith('istanbul', 'tr');
   });
 
   it('is the single .sparkline click-to-evolution link, carrying the metric graph params', () => {

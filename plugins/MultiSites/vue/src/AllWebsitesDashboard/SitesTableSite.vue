@@ -17,7 +17,7 @@
             rel="noreferrer noopener"
             target="_blank"
             :href="site.main_url"
-            :title="translate('General_GoTo', site.main_url)"
+            :title="translate('General_GoTo', htmlEntities(site.main_url))"
         >
           <span class="icon icon-outlink" /></a>
         <a
@@ -61,7 +61,10 @@
           rel="noreferrer noopener"
           target="_blank"
           :href="dashboardUrl"
-          :title="translate('General_GoTo', translate('Dashboard_DashboardOf', siteLabel))"
+          :title="translate(
+            'General_GoTo',
+            translate('Dashboard_DashboardOf', htmlEntities(siteLabel)),
+          )"
           v-if="!site.isGroup"
       >
         <img
@@ -143,12 +146,6 @@ export default defineComponent({
         sparklineDate = `${format(startDate)},${format(endDate)}`;
       }
 
-      // The redesign lets sparklines be rendered server-side at a custom size; without it we keep
-      // the legacy behaviour where the server uses its default render size. The render size is
-      // twice the display size (the img is shown at 100x25) so the PNG renders at 2x pixel density.
-      const redesignEnabled = document.body.classList.contains('sparklines-redesign-enabled');
-      const sizeParams = redesignEnabled ? { width: 200, height: 50 } : {};
-
       const sparklineParams = MatomoUrl.stringify({
         module: 'MultiSites',
         action: 'getEvolutionGraph',
@@ -159,7 +156,10 @@ export default defineComponent({
         evolutionBy: this.sparklineMetric,
         colors: JSON.stringify(Matomo.getSparklineColors()),
         viewDataTable: 'sparkline',
-        ...sizeParams,
+        // The render size is twice the display size (the img is shown at 100x25) so the
+        // PNG renders at 2x pixel density.
+        width: 200,
+        height: 50,
       });
 
       return `?${sparklineParams}${this.tokenParam}`;
@@ -190,6 +190,11 @@ export default defineComponent({
       const token_auth = MatomoUrl.urlParsed.value.token_auth as string;
 
       return token_auth ? `&token_auth=${token_auth}` : '';
+    },
+  },
+  methods: {
+    htmlEntities(value: string) {
+      return Matomo.helper.htmlEntities(value);
     },
   },
 });

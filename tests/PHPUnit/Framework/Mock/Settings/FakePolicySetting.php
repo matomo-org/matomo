@@ -13,9 +13,21 @@ class FakePolicySetting implements PolicyComparisonInterface, SettingValueInterf
      */
     private $value;
 
+    /**
+     * Enforcement states per scope, the instance wide scope being stored under ''.
+     *
+     * @var array<string, bool>
+     */
+    private static $enforcementStates = [];
+
     private function __construct(bool $value)
     {
         $this->value = $value;
+    }
+
+    public static function reset(): void
+    {
+        self::$enforcementStates = [];
     }
 
     public static function getPolicyRequirements(): array
@@ -52,6 +64,26 @@ class FakePolicySetting implements PolicyComparisonInterface, SettingValueInterf
         return 'fake policy setting compliance note';
     }
 
+    public static function getPolicySettingId(): string
+    {
+        return 'Fake.FakePolicySetting';
+    }
+
+    public static function isExternallyManagedByPolicyPage(): bool
+    {
+        return false;
+    }
+
+    public static function getWhatItDoes(?int $idSite = null): string
+    {
+        return 'fake policy setting what it does';
+    }
+
+    public static function getImpact(?int $idSite = null): string
+    {
+        return 'fake policy setting impact';
+    }
+
     public static function getInstance(?int $idSite = null)
     {
         return new self(true);
@@ -70,5 +102,34 @@ class FakePolicySetting implements PolicyComparisonInterface, SettingValueInterf
     public static function getInlineHelp(): string
     {
         return 'Fake policy setting inline help text';
+    }
+
+    public static function isEnforced(?int $idSite = null): bool
+    {
+        return self::getStoredEnforcementState($idSite)
+            ?? self::getStoredEnforcementState(null)
+            ?? TestPolicy::isActive($idSite);
+    }
+
+    public static function setEnforced(?bool $isEnforced, ?int $idSite = null): void
+    {
+        $scope = is_null($idSite) ? '' : (string) $idSite;
+
+        if (is_null($isEnforced)) {
+            unset(self::$enforcementStates[$scope]);
+            return;
+        }
+
+        self::$enforcementStates[$scope] = $isEnforced;
+    }
+
+    public static function getStoredEnforcementState(?int $idSite = null): ?bool
+    {
+        return self::$enforcementStates[is_null($idSite) ? '' : (string) $idSite] ?? null;
+    }
+
+    public static function isEnforcementWritable(?int $idSite = null): bool
+    {
+        return true;
     }
 }

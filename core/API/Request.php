@@ -303,6 +303,10 @@ class Request
 
             if (empty($response)) {
                 $response = new ResponseBuilder('console', $this->request);
+                // as above, this one renders the exception for a nested request as well
+                if (!self::isCurrentApiRequestTheRootApiRequest()) {
+                    $response->disableSendHeader();
+                }
             }
 
             $toReturn = $response->getResponseException($e);
@@ -395,15 +399,28 @@ class Request
     }
 
     /**
+     * Checks if the currently executing API request is running inside another API request.
+     *
+     * This is true only for "child" API requests, i.e. requests that were dispatched
+     * programmatically from within another API method (for example the sub-requests run by
+     * {@link \Piwik\Plugins\API\API::getBulkRequest()}). It is false for the root request and
+     * when no API request is currently being processed.
+     */
+    public static function isCurrentApiRequestNestedInAnotherApiRequest(): bool
+    {
+        return self::$nestedApiInvocationCount > 1;
+    }
+
+    /**
      * Detect if request is an API request. Meaning the module is 'API' and an API method having a valid format was
      * specified. Note that this method will return true even if the actual request is for example a regular UI
      * reporting page request but within this request we are currently processing an API request (eg a
      * controller calls Request::processRequest('API.getMatomoVersion')). To find out if the root request is an API
      * request or not, call {@link isRootRequestApiRequest()}
      *
-     * @param array $request  eg array('module' => 'API', 'method' => 'Test.getMethod')
+     * @param array|null $request  eg array('module' => 'API', 'method' => 'Test.getMethod'), or
+     *                             null to read them from the query string and the request body
      * @return bool
-     * @throws Exception
      */
     public static function isApiRequest($request)
     {

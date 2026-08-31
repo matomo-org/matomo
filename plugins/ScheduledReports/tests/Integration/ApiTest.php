@@ -35,6 +35,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Widget\WidgetsList;
 use Exception;
 use ReflectionMethod;
+use ReflectionProperty;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/ScheduledReports/ScheduledReports.php';
 
@@ -413,6 +414,48 @@ class ApiTest extends IntegrationTestCase
         $tmp = APIScheduledReports::getInstance()->getReports($idSite = false, $period = false, $idReport);
         $report = reset($tmp);
         $this->assertReportsEqual($report, $data);
+    }
+
+    public function testAddReportNormalisesSegmentIdToInteger()
+    {
+        $idSegment = APISegmentEditor::getInstance()->add('some-segment', 'visitServerHour>=0', $this->idSite);
+
+        // a non-integer segment id must be stored as its integer value, never rounded to a different id
+        $idReport = APIScheduledReports::getInstance()->addReport(
+            $this->idSite,
+            'segment normalisation',
+            Schedule::PERIOD_DAY,
+            '4',
+            'email',
+            'pdf',
+            array('UserCountry_getCountry'),
+            array('displayFormat' => '1', 'emailMe' => true, 'evolutionGraph' => false),
+            $idSegment . '.9'
+        );
+
+        $reports = APIScheduledReports::getInstance()->getReports($this->idSite, false, $idReport);
+        $report  = reset($reports);
+
+        $this->assertSame($idSegment, (int) $report['idsegment']);
+    }
+
+    public function testAddReportRejectsNonNumericSegmentId()
+    {
+        // a non-numeric segment id must be rejected, not silently coerced to "no segment"
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Invalid segment identifier');
+
+        APIScheduledReports::getInstance()->addReport(
+            $this->idSite,
+            'invalid segment',
+            Schedule::PERIOD_DAY,
+            '4',
+            'email',
+            'pdf',
+            array('UserCountry_getCountry'),
+            array('displayFormat' => '1', 'emailMe' => true, 'evolutionGraph' => false),
+            'not-a-number'
+        );
     }
 
     public function testAddReportDefaultsEnforceOrderToFalse()
@@ -811,6 +854,45 @@ class ApiTest extends IntegrationTestCase
         self::assertStringContainsString('Weekly traffic overview', $renderedReport['filename']);
         self::assertStringNotContainsString('Metrics for traffic and conversions sent weekly', $renderedReport['filename']);
         self::assertSame('Weekly traffic overview', $renderedReport['frontPageDescription']);
+    }
+
+    public function testGenerateReportRefusesStreamingOutputInsideNestedApiRequest()
+    {
+        $this->setNestedApiInvocationCount(2);
+
+        try {
+            $this->expectException(Exception::class);
+            $this->expectExceptionMessage('A report can only be sent to the browser by the top-level request.');
+
+            APIScheduledReports::getInstance()->generateReport(
+                1,
+                '2024-01-01',
+                false,
+                APIScheduledReports::OUTPUT_DOWNLOAD
+            );
+        } finally {
+            $this->setNestedApiInvocationCount(0);
+        }
+    }
+
+    public function testGenerateReportAllowsNonStreamingOutputInsideNestedApiRequest()
+    {
+        $this->setNestedApiInvocationCount(2);
+
+        try {
+            // the report lookup is only reached when the output mode is not refused upfront
+            $this->expectException(Exception::class);
+            $this->expectExceptionMessage("Requested report couldn't be found.");
+
+            APIScheduledReports::getInstance()->generateReport(
+                1,
+                '2024-01-01',
+                false,
+                APIScheduledReports::OUTPUT_RETURN
+            );
+        } finally {
+            $this->setNestedApiInvocationCount(0);
+        }
     }
 
     public function testGetDisplayDescriptionFallsBackToNameForLegacyReports()
@@ -1418,5 +1500,12 @@ class ApiTest extends IntegrationTestCase
     {
         FakeAccess::clearAccess();
         FakeAccess::$identity = 'anonymous';
+    }
+
+    private function setNestedApiInvocationCount(int $count): void
+    {
+        $reflectionProperty = new ReflectionProperty(Request::class, 'nestedApiInvocationCount');
+        $reflectionProperty->setAccessible(true);
+        $reflectionProperty->setValue(null, $count);
     }
 }
