@@ -1,0 +1,41 @@
+.transitionsSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  .transitionsSection__header {
+    display: flex;
+    align-items: safe center;
+    gap: 10px;
+    padding: 0 4px;
+  }
+
+  .transitionsSection__title {
+    flex: auto;
+    min-width: 0;
+    overflow: hidden;
+    color: @theme-color-text;
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 18px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .transitionsSection__badge {
+    flex: none;
+    padding: 2px 10px;
+    border-radius: 10px;
+    background: @theme-color-background-base;
+    color: @theme-color-text-light;
+    font-size: 11px;
+    line-height: 14px;
+    white-space: nowrap;
+  }
+
+  .transitionsSection__rowList {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+}
