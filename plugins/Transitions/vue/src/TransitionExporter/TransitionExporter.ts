@@ -6,7 +6,7 @@
  */
 
 import { createVueApp, translate, Matomo } from 'CoreHome';
-import TransitionExporterPopover from './TransitionExporterPopover';
+import TransitionExporterPopover from './TransitionExporterPopover.vue';
 import { actionName } from './transitionParams';
 
 const { Piwik_Popover } = window;

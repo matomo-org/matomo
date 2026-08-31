@@ -163,6 +163,14 @@ describe("Comparison", function () {
         await (await page.jQuery('a.item:contains(Transitions)')).click();
         await page.waitForNetworkIdle();
 
+        // The ribbon layer measures the rows in an animation frame after they render, which
+        // waitForNetworkIdle does not await - so wait until every row has its band.
+        await page.waitForFunction(() => {
+            const rows = document.querySelectorAll('[data-ribbon-key]').length;
+            const bands = document.querySelectorAll('.transitionsRibbons__band').length;
+            return rows > 0 && rows === bands;
+        });
+
         const pageWrap = await page.$('.pageWrap');
         expect(await pageWrap.screenshot()).to.matchImage('transitions');
     });

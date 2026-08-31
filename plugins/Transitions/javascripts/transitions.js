@@ -11,7 +11,6 @@
 
 function DataTable_RowActions_Transitions(dataTable) {
     this.dataTable = dataTable;
-    this.transitions = null;
 }
 
 DataTable_RowActions_Transitions.prototype = new DataTable_RowAction;
@@ -104,12 +103,100 @@ DataTable_RowActions_Transitions.prototype.doOpenPopover = function (link) {
     parts.shift();
     var actionName = parts.join(':');
 
-    if (this.transitions === null) {
-        this.transitions = new Piwik_Transitions(actionType, actionName, this, overrideParams);
-    } else {
-        this.transitions.reset(actionType, actionName, segment);
-    }
-    this.transitions.showPopover();
+    this.openTransitionsPopover(actionType, actionName, overrideParams);
+};
+
+/** The export control below the popover. TransitionSwitcher renders its own for the embedded report. */
+DataTable_RowActions_Transitions.prototype.buildExportControl = function () {
+    var wrapper = document.createElement('div');
+    wrapper.className = 'dataTableWrapper';
+    wrapper.innerHTML = '<div class="dataTableFeatures">'
+        + '<div class="dataTableFooterNavigation">'
+        + '<div class="dataTableControls">'
+        + '<div class="row" vue-entry="Transitions.TransitionExporterLink"></div>'
+        + '</div></div></div>';
+
+    return wrapper;
+};
+
+/** Re-encodes the override params into a row action link, so they survive a popover reload. */
+DataTable_RowActions_Transitions.prototype.buildPopoverLink = function (actionType, actionName, overrideParams) {
+    var link = '';
+
+    Object.keys(overrideParams || {}).forEach(function (name) {
+        link += encodeURIComponent(name) + ':' + encodeURIComponent(overrideParams[name]) + ':';
+    });
+
+    return link + actionType + ':' + actionName;
+};
+
+/** Opens the row action popover and mounts the Vue renderer into it. */
+DataTable_RowActions_Transitions.prototype.openTransitionsPopover = function (actionType, actionName, overrideParams) {
+    var self = this;
+
+    var container = Piwik_Popover.showLoading('Transitions', actionName, 550);
+    Piwik_Popover.addHelpButton(_pk_externalRawLink('https://matomo.org/docs/transitions'));
+
+    // Piwik_Popover wipes innerHTML *before* running its close callback, so keep a wrapper we can
+    // dispatch the destroy on ahead of the wipe.
+    var wrapper = document.createElement('div');
+    wrapper.className = 'transitionsPopover';
+
+    var entry = document.createElement('div');
+    entry.setAttribute('vue-entry', 'Transitions.TransitionsReport');
+    // compileVueEntryComponents JSON.parses every attribute, so a value that is itself valid JSON
+    // ('2024.10', 'null') would arrive coerced. Encoding makes that parse a round trip.
+    // Both come from the popover URL, so both need it.
+    entry.setAttribute('action-type', JSON.stringify(actionType));
+    entry.setAttribute('action-name', JSON.stringify(actionName));
+    entry.setAttribute('override-params', JSON.stringify(overrideParams || {}));
+    entry.setAttribute('context', 'popover');
+    wrapper.appendChild(entry);
+
+    // Nothing to export until the report is on screen, so wait for Transitions.dataChanged.
+    var exportControl = this.buildExportControl();
+    exportControl.style.display = 'none';
+    wrapper.appendChild(exportControl);
+
+    var onDataChanged = function () {
+        exportControl.style.display = '';
+    };
+
+    var onReloadPopover = function (params) {
+        if (!params || !params.url) {
+            return;
+        }
+
+        var url = params.url;
+        if (actionType == 'url') {
+            url = url.replace(/^(?!http)/, 'http://');
+        }
+
+        self.openPopover(self.buildPopoverLink(actionType, url, overrideParams));
+    };
+
+    var destroyed = false;
+    var destroyReport = function () {
+        if (destroyed) {
+            return;
+        }
+
+        destroyed = true;
+        window.CoreHome.Matomo.off('Transitions.reloadPopover', onReloadPopover);
+        window.CoreHome.Matomo.off('Transitions.dataChanged', onDataChanged);
+        piwikHelper.destroyVueComponent(wrapper);
+    };
+
+    window.CoreHome.Matomo.on('Transitions.reloadPopover', onReloadPopover);
+    window.CoreHome.Matomo.on('Transitions.dataChanged', onDataChanged);
+
+    // Piwik_Popover.setContent() compiles the vue-entry itself, so do not compile it again here.
+    Piwik_Popover.setContent(wrapper);
+
+    // setContent() covers a reload; dialogbeforeclose covers the user closing it.
+    Piwik_Popover.onClose(destroyReport);
+    container.off('dialogbeforeclose.transitions')
+        .on('dialogbeforeclose.transitions', destroyReport);
 };
 
 DataTable_RowActions_Registry.register({
@@ -1503,6 +1590,7 @@ Piwik_Transitions_Model.prototype.loadData = function (actionType, actionName, o
                 Piwik_Transitions_Model.totalNbPageviews = false;
                 self.ajax.loadTotalNbPageviews(function (nbPageviews) {
                     Piwik_Transitions_Model.totalNbPageviews = nbPageviews;
+                    self.notifyTotalNbPageviewsLoaded(nbPageviews);
                 });
             }
 
@@ -1517,6 +1605,41 @@ Piwik_Transitions_Model.prototype.loadAndSumReport = function (apiData, reportNa
     this[sumVarName] = 0;
     for (var i = 0; i < data.length; i++) {
         this[sumVarName] += data[i].referrals;
+    }
+};
+
+Piwik_Transitions_Model.totalNbPageviewsCallbacks = [];
+
+/**
+ * Whether the total has resolved, whatever the answer. Separate from the value because the value can
+ * resolve falsy -- Actions.get may answer without one, or fail -- and the request is fired only once
+ * per page, so "no total" must not read as "not back yet" or later callers queue forever.
+ */
+Piwik_Transitions_Model.totalNbPageviewsSettled = false;
+
+/**
+ * Calls back with the site's total pageviews, now or once it arrives. The request is fired in
+ * parallel with the first report, so on that report it is still in flight. `false` means the total
+ * resolved without a value.
+ */
+Piwik_Transitions_Model.prototype.whenTotalNbPageviewsLoaded = function (callback) {
+    if (Piwik_Transitions_Model.totalNbPageviewsSettled) {
+        callback(this.getTotalNbPageviews());
+        return;
+    }
+
+    Piwik_Transitions_Model.totalNbPageviewsCallbacks.push(callback);
+};
+
+/** Marks the total resolved and drains its waiters. Call on every path, failure included. */
+Piwik_Transitions_Model.prototype.notifyTotalNbPageviewsLoaded = function (nbPageviews) {
+    Piwik_Transitions_Model.totalNbPageviewsSettled = true;
+
+    var waiting = Piwik_Transitions_Model.totalNbPageviewsCallbacks;
+    Piwik_Transitions_Model.totalNbPageviewsCallbacks = [];
+
+    for (var i = 0; i < waiting.length; i++) {
+        waiting[i](nbPageviews);
     }
 };
 
@@ -1593,6 +1716,14 @@ Piwik_Transitions_Ajax.prototype.loadTotalNbPageviews = function (callback) {
     });
 };
 
+/**
+ * Diverts API errors to a callback instead of the legacy popover or #Transitions_Error_Container.
+ * The Vue renderer sets this because it shows errors itself; without one, nothing below changes.
+ */
+Piwik_Transitions_Ajax.prototype.setErrorCallback = function (callback) {
+    this.errorCallback = callback;
+};
+
 Piwik_Transitions_Ajax.prototype.callTransitionsController = function (action, callback) {
     var ajaxRequest = new ajaxHelper();
     ajaxRequest.addParams({
@@ -1619,6 +1750,12 @@ Piwik_Transitions_Ajax.prototype.callApi = function (method, params, callback) {
         function (result) {
             if (typeof result.result != 'undefined' && result.result == 'error') {
                 var errorName = result.message;
+
+                if (typeof self.errorCallback == 'function') {
+                    self.errorCallback(errorName, params);
+                    return;
+                }
+
                 var showError = function () {
                     var errorTitle, errorMessage, errorBack;
                     if (typeof Piwik_Transitions_Translations[errorName] == 'undefined') {

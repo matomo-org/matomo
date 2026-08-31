@@ -47,7 +47,57 @@ declare module 'CoreHome' {
     getSegmentComparisons(): Array<{ params: { segment: string } }>;
     isComparisonEnabled(): boolean | null;
   };
-  export function translate(translationStringId: string, values?: unknown[]): string;
+  export function translate(
+    translationStringId: string,
+    ...values: (string|string[]|number|number[]|boolean|boolean[])[]
+  ): string;
+
+  // Matomo is window.piwik, so the global interface is its complete public type.
+  export const Matomo: PiwikGlobal;
+
+  export const NumberFormatter: {
+    defaultMinFractionDigits: number;
+    defaultMaxFractionDigits: number;
+    parseFormattedNumber(value: string): number;
+    formatNumber(
+      value: string|number,
+      maxFractionDigits?: number,
+      minFractionDigits?: number,
+    ): string;
+    formatPercent(
+      value: string|number,
+      maxFractionDigits?: number,
+      minFractionDigits?: number,
+    ): string;
+    formatCurrency(
+      value: string|number,
+      currency: string,
+      maxFractionDigits?: number,
+      minFractionDigits?: number,
+    ): string;
+    formatNumberCompact(value: string|number): string;
+    formatCurrencyCompact(value: string|number, currency: string): string;
+    formatEvolution(
+      evolution: string|number,
+      maxFractionDigits?: number,
+      minFractionDigits?: number,
+      noSign?: boolean,
+    ): string;
+    calculateAndFormatEvolution(
+      currentValue: string|number,
+      pastValue: string|number,
+      noSign?: boolean,
+    ): string;
+  };
+
+  export const ActivityIndicator: import('vue').Component;
+  export const MatomoLoader: import('vue').Component;
+  export const ContentBlock: import('vue').Component;
+
+  export function createVueApp(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ...args: any[]
+  ): import('vue').App<Element>;
 
   // MatomoUrl's parsed/urlParsed/hashParsed are Vue computed refs over the decoded query.
   type ParsedQueryRef = import('vue').ComputedRef<

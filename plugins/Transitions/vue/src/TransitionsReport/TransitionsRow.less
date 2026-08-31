@@ -1,0 +1,178 @@
+// Two tones per side. The pale tone -- the ribbon palette's light end -- fills the rows of the
+// group that is open. The deep tone fills a group that is closed, and deliberately sits one step
+// beyond the deep stop the band itself is drawn in (see TransitionsRibbons.less), so that a closed
+// row reads as distinct from the band leaving it rather than merging into it.
+//
+// PROVENANCE: the design gives the pale tone and the band's deeper stop, light mode only. The four
+// *Deep values and every dark value are extrapolated, pending design review on DEV-20402.
+//
+// The *DeepDark tones are darkened from their first extrapolation (#2E4460, #255450) to clear WCAG
+// AA for the small text a closed row carries: #aaa (@theme-color-text-light in dark mode) gave
+// 4.28:1 and 3.67:1 on those against a 4.5:1 floor, and gives 4.69:1 on both of these. The pale
+// tones pass at 6.24:1 and 6.05:1. A design revision of these four has to hold that floor.
+//
+// File-scoped rather than block-scoped, because .transitionsRow--outgoing is a modifier on the same
+// element and so has to be its own top-level rule, which Less block scope would not reach. Named
+// after the block to stay unique: root-level Less variables are shared across every plugin.
+@_transitionsRowIncoming: #EAF1F8;
+@_transitionsRowIncomingDark: #1E2A3A;
+@_transitionsRowIncomingDeep: #C7DBF0;
+@_transitionsRowIncomingDeepDark: #2A3E58;
+@_transitionsRowOutgoing: #E1FBFB;
+@_transitionsRowOutgoingDark: #15302E;
+@_transitionsRowOutgoingDeep: #B4EBEB;
+@_transitionsRowOutgoingDeepDark: #1C4340;
+
+.transitionsRow {
+  // Accents for the icon tiles, one per side.
+  @_incomingAccent: #6E5AE8;
+  @_incomingAccentDark: #8B7BEE;
+  @_outgoingAccent: #3FA88C;
+  @_outgoingAccentDark: #4FBF9F;
+
+  // Each side publishes both tones so a flat modifier can pick between them, rather than chaining
+  // onto the side's own and breaking the two-class rule. Only .transitionsRow and --summary declare
+  // `background`, both at one class, so source order decides.
+  //
+  // Keep it that way: .inDarkMode() expands to `[data-theme-mode="dark"]:root &` and outranks one
+  // class, so a dark block declaring `background` here would flatten the open/closed distinction.
+  // The blocks in this file set custom properties and `color` only.
+  --transitions-row-pale: @_transitionsRowIncoming;
+  --transitions-row-deep: @_transitionsRowIncomingDeep;
+
+  display: flex;
+  align-items: safe center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--transitions-row-pale);
+  color: @theme-color-text;
+  font-size: 12px;
+  line-height: 16px;
+  text-decoration: none;
+  transition: box-shadow .15s ease;
+
+  .inDarkMode({
+    --transitions-row-pale: @_transitionsRowIncomingDark;
+    --transitions-row-deep: @_transitionsRowIncomingDeepDark;
+  });
+
+  .transitionsRow__icon {
+    display: flex;
+    flex: none;
+    align-items: safe center;
+    justify-content: safe center;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    background: @theme-color-background-contrast;
+  }
+
+  .transitionsRow__glyph {
+    font-size: 14px;
+    line-height: 1;
+  }
+
+  .transitionsRow__glyph--incoming {
+    color: @_incomingAccent;
+
+    .inDarkMode({
+      color: @_incomingAccentDark;
+    });
+  }
+
+  .transitionsRow__glyph--outgoing {
+    color: @_outgoingAccent;
+
+    .inDarkMode({
+      color: @_outgoingAccentDark;
+    });
+  }
+
+  .transitionsRow__body {
+    display: flex;
+    flex: auto;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .transitionsRow__label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .transitionsRow__count,
+  .transitionsRow__total {
+    color: @theme-color-text-light;
+    font-size: 11px;
+    line-height: 14px;
+  }
+
+  // Right-aligned, so a closed row's share sits flush with the count above it rather than centred
+  // against it. An open row's pill is an only child, so this is invisible there.
+  .transitionsRow__figures {
+    display: flex;
+    flex: none;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+  }
+
+  .transitionsRow__total {
+    white-space: nowrap;
+  }
+
+  .transitionsRow__pill {
+    color: @theme-color-link;
+    font-weight: bold;
+    white-space: nowrap;
+  }
+
+  .transitionsRow__pill--muted {
+    color: @theme-color-text-light;
+    font-weight: normal;
+  }
+}
+
+.transitionsRow--outgoing {
+  --transitions-row-pale: @_transitionsRowOutgoing;
+  --transitions-row-deep: @_transitionsRowOutgoingDeep;
+
+  // Load-bearing: .inDarkMode() expands to `[data-theme-mode="dark"]:root &`, so without a dark
+  // block of its own this rule's single class would lose to the incoming dark values above.
+  .inDarkMode({
+    --transitions-row-pale: @_transitionsRowOutgoingDark;
+    --transitions-row-deep: @_transitionsRowOutgoingDeepDark;
+  });
+}
+
+// A group that is not the open one reads as closed by tone alone: the deep tone of its side, where
+// the open group's rows take the pale one. Everything else about the row is the same, so the two
+// blocks stay directly comparable.
+.transitionsRow--summary {
+  background: var(--transitions-row-deep);
+}
+
+.transitionsRow--actionable {
+  cursor: pointer;
+}
+
+.transitionsRow--actionable:hover,
+.transitionsRow--highlighted {
+  box-shadow: @theme-shadow-overlay;
+}
+
+.transitionsRow--others .transitionsRow__label {
+  color: @theme-color-text-light;
+  font-style: italic;
+}
+
+// Every actionable row is an anchor, and bootstrap.css re-underlines one on hover and on focus
+// (`a:hover, a:focus { text-decoration: underline }`), which the block's own `text-decoration` does
+// not cover. The underline would otherwise propagate to every flex item in the row.
+.transitionsRow:hover,
+.transitionsRow:focus {
+  text-decoration: none;
+}
