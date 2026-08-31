@@ -8,10 +8,8 @@
         {% include "_jsCssIncludes.twig" %}
     </head>
     {% set bodyClass = postEvent('Template.bodyClass', 'widgetized') %}
-    <body class="widgetized{{ bodyClass }}">
-        {# `__transitionSwitcher-unpadded` is the Transitions context hook: this shell has no card
-           padding of its own, so the switcher supplies it. #}
-        <div class="widget __transitionSwitcher-unpadded">
+    <body class="app-widgetized widgetized{{ bodyClass }}">
+        <div class="widget">
             {{ content|raw }}
         </div>
         <div id="pageFooter">

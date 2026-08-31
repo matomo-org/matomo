@@ -27,8 +27,8 @@
   }
 
   // The Widgetize shell has no card padding, so pad here instead. That is also the room the
-  // report's row shadows bleed into. Reference-only hook, see CSS rules, rule 31.
-  .__transitionSwitcher-unpadded & {
+  // report's row shadows bleed into.
+  body.app-widgetized & {
     padding-left: @_halfGutter;
     padding-right: @_halfGutter;
   }
