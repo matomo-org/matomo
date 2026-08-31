@@ -6,255 +6,341 @@
 -->
 
 <template>
-  <div v-if="showFooter && showFooterIcons">
-    <a
-      v-dropdown-button
-      class="dropdown-button dropdownConfigureIcon dataTableAction"
-      :class="{highlighted: isAnyConfigureIconHighlighted}"
-      href=""
-      @click.prevent
-      :data-target="`dropdownConfigure${randomIdForDropdown}`"
-      :title="translate('CoreHome_ReportConfigure')"
-      style="margin-right:3.5px"
-      v-if="hasConfigItems && (isAnyConfigureIconHighlighted || isTableView)"
-    >
-      <span class="icon-configure"></span>
-    </a>
-
-    <a v-if="hasFooterIconsToShow"
-      class="dropdown-button dataTableAction activateVisualizationSelection"
-      v-dropdown-button
-      href=""
-      :data-target="`dropdownVisualizations${randomIdForDropdown}`"
-      style="margin-right:3.5px"
-      @click.prevent
-    >
-      <span
-        v-if="/^icon-/.test(activeFooterIcon || '')"
-        :title="translate('CoreHome_ChangeVisualization')"
-        :class="activeFooterIcon"
-      ></span>
-      <img
-        v-else
-        :title="translate('CoreHome_ChangeVisualization')"
-        width="16"
-        height="16"
-        :src="activeFooterIcon"
-      />
-    </a>
-
-    <ul
-      v-if="showFooterIcons"
-      :id="`dropdownVisualizations${randomIdForDropdown}`"
-      class="dropdown-content dataTableFooterIcons"
-    >
-      <Passthrough v-for="(footerIconGroup, index) in footerIcons" :key="index">
-        <li
-          v-for="footerIcon in footerIconGroup.buttons.filter((i) => !!i.icon)"
-          :key="footerIcon.id"
-        >
-          <a
-            :class="`${footerIconGroup.class} tableIcon
-              ${activeFooterIconIds.indexOf(footerIcon.id) !== -1 ? 'activeIcon' : ''}`"
-            :data-footer-icon-id="footerIcon.id"
+  <div
+    v-if="showFooter && showFooterIcons"
+    :role="isInHeader ? 'menu' : null"
+    :aria-label="isInHeader ? translate('CoreHome_ReportActions') : null"
+    @keydown.down.prevent="focusStep(1)"
+    @keydown.up.prevent="focusStep(-1)"
+    @keydown.home.prevent="focusEdge(false)"
+    @keydown.end.prevent="focusEdge(true)"
+  >
+    <!-- Report actions live in the report header, inside the single menu its 3-dots trigger
+         opens. Three lists rather than one: `ul.tableConfiguration` and `.dataTableFooterIcons`
+         are the hooks every dataTable.js handler binds to, and adjacent lists carry no margin,
+         so this still reads as one continuous menu. -->
+    <template v-if="isInHeader">
+      <ul
+        v-if="hasConfigItems"
+        :id="`dropdownConfigure${randomIdForDropdown}`"
+        class="mtm-dropdownPanel__menu tableConfiguration"
+        role="group"
+      >
+        <li v-if="showFlattenTable" class="mtm-dropdownPanel__menuItem" role="none">
+          <div
+            class="mtm-dropdownPanel__menuLink configItem dataTableFlatten"
+            role="menuitemcheckbox"
+            tabindex="0"
+            :aria-checked="configState.flat"
+            @keydown.enter.prevent="activateItem"
+            @keydown.space.prevent="activateItem"
           >
+            <span class="mtm-dropdownPanel__menuLabel">{{ flattenItemText }}</span>
             <span
-              v-if="/^icon-/.test(footerIcon.icon || '')"
-              :title="footerIcon.title"
-              :class="footerIcon.icon"
-              style="margin-right:5.5px"
-            ></span>
-            <img
-              v-else
-              width="16"
-              height="16"
-              :title="footerIcon.title"
-              :src="footerIcon.icon"
-              style="margin-right:5.5px"
-            />
-            <span v-if="footerIcon.title">{{ footerIcon.title }}</span>
+              v-if="configState.flat"
+              class="mtm-dropdownPanel__rightIcon"
+              aria-hidden="true"
+            ><span class="icon-ok" /></span>
+          </div>
+        </li>
+        <li v-if="showDimensionsConfigItem" class="mtm-dropdownPanel__menuItem" role="none">
+          <div
+            class="mtm-dropdownPanel__menuLink configItem dataTableShowDimensions"
+            role="menuitemcheckbox"
+            tabindex="0"
+            :aria-checked="configState.dimensions"
+            @keydown.enter.prevent="activateItem"
+            @keydown.space.prevent="activateItem"
+          >
+            <span class="mtm-dropdownPanel__menuLabel">{{ showDimensionsText }}</span>
+            <span
+              v-if="configState.dimensions"
+              class="mtm-dropdownPanel__rightIcon"
+              aria-hidden="true"
+            ><span class="icon-ok" /></span>
+          </div>
+        </li>
+        <li v-if="showFlatConfigItem" class="mtm-dropdownPanel__menuItem" role="none">
+          <div
+            class="mtm-dropdownPanel__menuLink configItem dataTableIncludeAggregateRows"
+            role="menuitemcheckbox"
+            tabindex="0"
+            :aria-checked="configState.aggregateRows"
+            @keydown.enter.prevent="activateItem"
+            @keydown.space.prevent="activateItem"
+          >
+            <span class="mtm-dropdownPanel__menuLabel">{{ includeAggregateRowsText }}</span>
+            <span
+              v-if="configState.aggregateRows"
+              class="mtm-dropdownPanel__rightIcon"
+              aria-hidden="true"
+            ><span class="icon-ok" /></span>
+          </div>
+        </li>
+        <li v-if="showTotalsConfigItem" class="mtm-dropdownPanel__menuItem" role="none">
+          <div
+            class="mtm-dropdownPanel__menuLink configItem dataTableShowTotalsRow"
+            role="menuitemcheckbox"
+            tabindex="0"
+            :aria-checked="configState.totalsRow"
+            @keydown.enter.prevent="activateItem"
+            @keydown.space.prevent="activateItem"
+          >
+            <span class="mtm-dropdownPanel__menuLabel">{{ keepTotalsRowText }}</span>
+            <span
+              v-if="configState.totalsRow"
+              class="mtm-dropdownPanel__rightIcon"
+              aria-hidden="true"
+            ><span class="icon-ok" /></span>
+          </div>
+        </li>
+        <li v-if="showPercentageValuesConfigItem" class="mtm-dropdownPanel__menuItem" role="none">
+          <div
+            class="mtm-dropdownPanel__menuLink configItem dataTableShowPercentageValues"
+            role="menuitemcheckbox"
+            tabindex="0"
+            :aria-checked="configState.percentages"
+            @keydown.enter.prevent="activateItem"
+            @keydown.space.prevent="activateItem"
+          >
+            <span class="mtm-dropdownPanel__menuLabel">{{ percentageValuesText }}</span>
+            <span
+              v-if="configState.percentages"
+              class="mtm-dropdownPanel__rightIcon"
+              aria-hidden="true"
+            ><span class="icon-ok" /></span>
+          </div>
+        </li>
+        <li v-if="showExcludeLowPopulation" class="mtm-dropdownPanel__menuItem" role="none">
+          <div
+            class="mtm-dropdownPanel__menuLink configItem dataTableExcludeLowPopulation"
+            role="menuitemcheckbox"
+            tabindex="0"
+            :aria-checked="configState.lowPopulation"
+            @keydown.enter.prevent="activateItem"
+            @keydown.space.prevent="activateItem"
+          >
+            <span class="mtm-dropdownPanel__menuLabel">{{ excludeLowPopText }}</span>
+            <span
+              v-if="configState.lowPopulation"
+              class="mtm-dropdownPanel__rightIcon"
+              aria-hidden="true"
+            ><span class="icon-ok" /></span>
+          </div>
+        </li>
+        <li v-if="showPivotBySubtable" class="mtm-dropdownPanel__menuItem" role="none">
+          <div
+            class="mtm-dropdownPanel__menuLink configItem dataTablePivotBySubtable"
+            role="menuitemcheckbox"
+            tabindex="0"
+            :aria-checked="configState.pivoted"
+            @keydown.enter.prevent="activateItem"
+            @keydown.space.prevent="activateItem"
+          >
+            <span class="mtm-dropdownPanel__menuLabel">{{ pivotByText }}</span>
+            <span
+              v-if="configState.pivoted"
+              class="mtm-dropdownPanel__rightIcon"
+              aria-hidden="true"
+            ><span class="icon-ok" /></span>
+          </div>
+        </li>
+      </ul>
+
+      <ul v-if="hasActionItems" class="mtm-dropdownPanel__menu" role="group">
+        <!-- Keeps `dataTablePeriods` on the list and `tableIcon` on each entry: that pair is what
+             dataTable.js binds the period change to. -->
+        <li v-if="showPeriods && !isPromoted('periods')" class="mtm-dropdownPanel__menuItem" role="none">
+          <a
+            class="mtm-dropdownPanel__menuLink dataTableAction activatePeriodsSelection"
+            href=""
+            role="menuitem"
+            tabindex="0"
+            aria-haspopup="menu"
+            :aria-expanded="periodsOpen ? 'true' : 'false'"
+            @click.prevent.stop="periodsOpen = !periodsOpen"
+            @keydown.space.prevent.stop="periodsOpen = !periodsOpen"
+          >
+            <span class="mtm-dropdownPanel__menuLabel">
+              {{ translate('CoreHome_ShowPeriod') }}
+            </span>
+            <span class="mtm-dropdownPanel__rightIcon"><span class="icon-chevron-right" /></span>
+          </a>
+          <div
+            class="mtm-dropdownPanel__submenu"
+            :class="{ 'mtm-dropdownPanel__submenu--open': periodsOpen }"
+          >
+            <div class="mtm-dropdownPanel">
+              <PeriodsMenu
+                :selectable-periods="selectablePeriods"
+                :active-period="`${clientSideParameters.period || ''}`"
+                :labels="translations"
+                @pick="closePeriods"
+              />
+            </div>
+          </div>
+        </li>
+
+        <!-- Keeps `annotationView`: dataTable.js binds the toggle on it and
+             handleEvolutionAnnotations() reads it to decide whether the graph shows markers. -->
+        <li v-if="showAnnotations" class="mtm-dropdownPanel__menuItem" role="none">
+          <a
+            class="mtm-dropdownPanel__menuLink dataTableAction annotationView"
+            href=""
+            role="menuitem"
+            tabindex="0"
+            :title="annotationsTitle"
+            @click.prevent
+            @keydown.space.prevent="activateItem"
+          >
+            <span class="mtm-dropdownPanel__menuLabel">
+              {{ annotationsLabel }}
+            </span>
           </a>
         </li>
-        <li class="divider"></li>
-      </Passthrough>
-      <li class="divider"></li>
-    </ul>
 
-    <a
-      v-if="showExport"
-      class="dataTableAction activateExportSelection"
-      v-report-export="{
-        reportTitle,
-        requestParams,
-        apiMethod: apiMethodToRequestDataTable,
-        reportFormats,
-        maxFilterLimit,
-        canExportFlat: exportSupportsFlat,
-      }"
-      :title="translate('General_ExportThisReport')"
-      href=""
-      style="margin-right:3.5px"
-      @click.prevent
-    ><span class="icon-export"></span></a>
-
-    <a
-      v-if="showExportAsImageIcon"
-      class="dataTableAction tableIcon"
-      href=""
-      id="dataTableFooterExportAsImageIcon"
-      @click.prevent="showExportImage($event)"
-      :title="translate('General_ExportAsImage')"
-      style="margin-right:3.5px"
-    >
-      <span class="icon-image"></span>
-    </a>
-
-    <a
-      v-if="showAnnotations"
-      class="dataTableAction annotationView"
-      href=""
-      :title="translate('Annotations_Annotations')"
-      @click.prevent
-      style="margin-right:3.5px"
-    ><span class="icon-annotation"></span></a>
-
-    <a
-      v-if="showSearch"
-      class="dropdown-button dataTableAction searchAction"
-      href=""
-      :title="translate('General_Search')"
-      style="margin-right:3.5px"
-      draggable="false"
-      @click.prevent
-    >
-      <span class="icon-search" draggable="false"></span>
-      <span class="icon-close" draggable="false" :title="translate('CoreHome_CloseSearch')"></span>
-      <input
-        :id="`widgetSearch_${reportId}_${placement}`"
-        :title="translate('CoreHome_DataTableHowToSearch')"
-        type="text"
-        class="dataTableSearchInput"
-      />
-    </a>
-
-    <a
-      v-for="action in dataTableActions"
-      :key="action.id"
-      :class="`dataTableAction ${action.id}`"
-      href=""
-      @click.prevent
-      :title="action.title"
-      style="margin-right:3.5px"
-    >
-      <span v-if="/^icon-/.test(action.icon || '')" :class="action.icon"></span>
-      <img v-else width="16" height="16" :title="action.title" :src="action.icon"/>
-    </a>
-
-    <ul
-      :id="`dropdownConfigure${randomIdForDropdown}`"
-      class="dropdown-content tableConfiguration"
-    >
-      <li v-if="showFlattenTable">
-        <div
-          class="configItem dataTableFlatten"
-          v-html="$sanitize(flattenItemText)"
-        ></div>
-      </li>
-      <li
-        v-if="showDimensionsConfigItem"
-      >
-        <div
-          class="configItem dataTableShowDimensions"
-          v-html="$sanitize(showDimensionsText)"
-        ></div>
-      </li>
-      <li v-if="showFlatConfigItem">
-        <div
-          class="configItem dataTableIncludeAggregateRows"
-          v-html="$sanitize(includeAggregateRowsText)"
-        ></div>
-      </li>
-      <li v-if="showTotalsConfigItem">
-        <div
-          class="configItem dataTableShowTotalsRow"
-          v-html="$sanitize(keepTotalsRowText)"
-        ></div>
-      </li>
-      <li v-if="showPercentageValuesConfigItem">
-        <div
-          class="configItem dataTableShowPercentageValues"
-          :aria-label="percentageValuesLabel"
-          v-html="$sanitize(percentageValuesText)"
-        ></div>
-      </li>
-      <li v-if="showExcludeLowPopulation">
-        <div
-          class="configItem dataTableExcludeLowPopulation"
-          v-html="$sanitize(excludeLowPopText)"
-        ></div>
-      </li>
-      <li v-if="showPivotBySubtable">
-        <div
-          class="configItem dataTablePivotBySubtable"
-          v-html="$sanitize(pivotByText)"
-        ></div>
-      </li>
-    </ul>
-
-    <a
-      v-if="showPeriods"
-      v-dropdown-button
-      class="dropdown-button dataTableAction activatePeriodsSelection"
-      href=""
-      @click.prevent
-      :title="translate('CoreHome_ChangePeriod')"
-      :data-target="`dropdownPeriods${randomIdForDropdown}`"
-    >
-      <div>
-        <span class="icon-calendar"></span>
-        <span class="periodName">
-          {{ translations[clientSideParameters.period] || clientSideParameters.period }}
-        </span>
-      </div>
-    </a>
-    <ul
-      v-if="showPeriods"
-      :id="`dropdownPeriods${randomIdForDropdown}`"
-      class="dropdown-content dataTablePeriods"
-    >
-      <li v-for="selectablePeriod in selectablePeriods" :key="selectablePeriod">
-        <a
-          :data-period="selectablePeriod"
-          :class="`tableIcon ${clientSideParameters.period === selectablePeriod
-            ? 'activeIcon' : ''}`"
+        <li v-if="showExportAsImageIcon" class="mtm-dropdownPanel__menuItem" role="none">
+          <a
+            class="mtm-dropdownPanel__menuLink dataTableAction tableIcon"
+            href=""
+            role="menuitem"
+            tabindex="0"
+            :id="`dataTableExportAsImageIcon-${placement}`"
+            @click.prevent="showExportImage($event)"
+            @keydown.space.prevent="activateItem"
+          >
+            <span class="mtm-dropdownPanel__menuLabel">
+              {{ translate('CoreHome_ExportImage') }}
+            </span>
+          </a>
+        </li>
+        <li v-if="showExport" class="mtm-dropdownPanel__menuItem" role="none">
+          <a
+            class="mtm-dropdownPanel__menuLink dataTableAction activateExportSelection"
+            v-report-export="{
+              reportTitle,
+              requestParams,
+              apiMethod: apiMethodToRequestDataTable,
+              reportFormats,
+              maxFilterLimit,
+              canExportFlat: exportSupportsFlat,
+            }"
+            href=""
+            role="menuitem"
+            tabindex="0"
+            @click.prevent
+            @keydown.space.prevent="activateItem"
+          >
+            <span class="mtm-dropdownPanel__menuLabel">{{ translate('CoreHome_ExportData') }}</span>
+          </a>
+        </li>
+        <li
+          v-for="action in dataTableActions"
+          :key="action.id"
+          class="mtm-dropdownPanel__menuItem"
+          role="none"
         >
-          <span>{{ translations[selectablePeriod] || selectablePeriod }}</span>
-        </a>
-      </li>
-    </ul>
+          <a
+            :class="`mtm-dropdownPanel__menuLink dataTableAction ${action.id}`"
+            href=""
+            role="menuitem"
+            tabindex="0"
+            @click.prevent
+            @keydown.space.prevent="activateItem"
+          >
+            <span class="mtm-dropdownPanel__menuLabel">{{ action.title }}</span>
+          </a>
+        </li>
+      </ul>
+
+      <ul
+        :id="`dropdownVisualizations${randomIdForDropdown}`"
+        class="mtm-dropdownPanel__menu dataTableFooterIcons"
+        role="group"
+      >
+        <Passthrough v-for="(footerIconGroup, index) in visibleFooterIconGroups" :key="index">
+          <li
+            v-if="showsSeparatorBefore(index)"
+            class="mtm-dropdownPanel__separator"
+            role="separator"
+          />
+          <li
+            v-for="footerIcon in footerIconGroup.buttons"
+            :key="footerIcon.id"
+            class="mtm-dropdownPanel__menuItem"
+            role="none"
+          >
+            <a
+              :class="`mtm-dropdownPanel__menuLink ${footerIconGroup.class} tableIcon
+                ${isActiveIcon(footerIcon.id) ? 'activeIcon' : ''}`"
+              :data-footer-icon-id="footerIcon.id"
+              role="menuitemradio"
+              tabindex="0"
+              :aria-checked="isActiveIcon(footerIcon.id)"
+              @keydown.enter.prevent="activateItem"
+              @keydown.space.prevent="activateItem"
+            >
+              <span
+                v-if="/^icon-/.test(footerIcon.icon || '')"
+                class="mtm-dropdownPanel__menuIcon"
+                :class="footerIcon.icon"
+              />
+              <img
+                v-else
+                class="mtm-dropdownPanel__menuIcon"
+                width="16"
+                height="16"
+                :src="footerIcon.icon"
+                alt=""
+              />
+              <span class="mtm-dropdownPanel__menuLabel">{{ footerIcon.title }}</span>
+              <span
+                v-if="isActiveIcon(footerIcon.id)"
+                class="mtm-dropdownPanel__rightIcon"
+                aria-hidden="true"
+              ><span class="icon-ok" /></span>
+            </a>
+          </li>
+        </Passthrough>
+      </ul>
+    </template>
+
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 import Passthrough from '../Passthrough/Passthrough.vue';
-import DropdownButton from '../DropdownButton/DropdownButton';
+import PeriodsMenu from './PeriodsMenu.vue';
+import type { PromotableActionId } from './reportActions';
 import ReportExport from '../ReportExport/ReportExport';
 import { translate } from '../translate';
 import { isBooleanLikeSet, resolveExportSupportsFlat } from './DataTableActions.utils';
+import findReportRoot from './reportScope';
+import activateMenuItem from './activateMenuItem';
 
-interface FooterIcon {
+export interface FooterIcon {
   id: string;
   icon?: string;
   title?: string;
 }
 
-interface FooterIconGroup {
+export interface FooterIconGroup {
   buttons: FooterIcon[];
   class?: string;
 }
 
-interface DataTableAction {
+interface ConfigState {
+  flat: boolean;
+  dimensions: boolean;
+  aggregateRows: boolean;
+  totalsRow: boolean;
+  percentages: boolean;
+  lowPopulation: boolean;
+  pivoted: boolean;
+}
+
+export interface DataTableAction {
   id: string;
   icon?: string;
   title?: string;
@@ -262,36 +348,13 @@ interface DataTableAction {
 
 const { $ } = window;
 
-function getSingleStateIconText(text: string, addDefault?: boolean, replacement?: string) {
-  if (/(%(.\$)?s+)/g.test(translate(text))) {
-    const values = ['<br /><span class="action">'];
-    if (replacement) {
-      values.push(replacement);
-    }
-    let result = translate(text, ...values);
-    if (addDefault) {
-      result += ` (${translate('CoreHome_Default')})`;
-    }
-    result += '</span>';
-    return result;
-  }
-
-  return translate(text);
-}
-
-function getToggledIconText(toggled: boolean, textToggled: string, textUntoggled: string) {
-  if (toggled) {
-    return getSingleStateIconText(textToggled, true);
-  }
-
-  return getSingleStateIconText(textUntoggled);
-}
-
 export default defineComponent({
   props: {
     showPeriods: Boolean,
     showFooter: Boolean,
     showFooterIcons: Boolean,
+    // Not used in this component: dataTable.js reads it to decide whether the ReportHeader shows
+    // a search input for this report.
     showSearch: Boolean,
     showFlattenTable: Boolean,
     reportSupportsFlatten: Boolean,
@@ -321,6 +384,7 @@ export default defineComponent({
     showExport: Boolean,
     showExportAsImageIcon: Boolean,
     showAnnotations: Boolean,
+    annotationsShowing: Boolean,
     reportId: {
       type: String,
       required: true,
@@ -343,28 +407,103 @@ export default defineComponent({
       type: Object,
       required: true,
     },
-    pivotDimensionName: String,
+    // both templates that mount this send null when the report has no pivot dimension
+    pivotDimensionName: String as PropType<string|null>,
     placement: {
       type: String,
       default: 'footer',
     },
+    // Rendered by the header outside this menu, so not offered twice.
+    promotedActions: {
+      type: Array as PropType<PromotableActionId[]>,
+      default: () => [],
+    },
   },
   components: {
     Passthrough,
+    PeriodsMenu,
   },
   directives: {
-    DropdownButton,
     ReportExport,
   },
   methods: {
+    translate,
+    isActiveIcon(id: string): boolean {
+      return this.activeFooterIconIds.indexOf(id) !== -1;
+    },
+    // The roles announce a menu, and a menu is walked with the arrow keys. Items inside a folded
+    // submenu are not on screen, so they are skipped.
+    menuItems(): HTMLElement[] {
+      const root = this.$el as HTMLElement | null;
+      if (!root?.querySelectorAll) {
+        return [];
+      }
+
+      return Array.from(root.querySelectorAll<HTMLElement>('[role^="menuitem"]')).filter(
+        (item) => !item.closest('.mtm-dropdownPanel__submenu:not(.mtm-dropdownPanel__submenu--open)'),
+      );
+    },
+    focusStep(step: number) {
+      const items = this.menuItems();
+      if (!items.length) {
+        return;
+      }
+
+      const at = items.indexOf(document.activeElement as HTMLElement);
+      items[at === -1 ? 0 : (at + step + items.length) % items.length].focus();
+    },
+    focusEdge(last: boolean) {
+      const items = this.menuItems();
+      items[last ? items.length - 1 : 0]?.focus();
+    },
+    showsSeparatorBefore(index: number): boolean {
+      if (index === 0) {
+        return this.hasActionsAbove;
+      }
+
+      // Insights heads the visualisation list rather than standing on its own, so the rule falls
+      // before it and not after. Absent, the graphs keep the one they would have had.
+      return this.visibleFooterIconGroups[index - 1].class !== 'tableInsightViews';
+    },
+    activateItem: activateMenuItem,
+    isPromoted(action: PromotableActionId): boolean {
+      return this.promotedActions.indexOf(action) !== -1;
+    },
+    // Picking a period is the end of the interaction, so the submenu folds with it. Not stopping
+    // the event: dataTable.js listens for it further up, and the panel closes on it too.
+    closePeriods() {
+      this.periodsOpen = false;
+    },
     showExportImage(event: Event) {
-      $(event.target as HTMLElement)
-        .closest('.dataTable')
+      findReportRoot(event.target as HTMLElement)
         .find('div.jqplot-target')
         .trigger('piwikExportAsImage');
     },
   },
+  data() {
+    return {
+      // The submenu is opened from inside this panel, so its state belongs to this component.
+      // Outlives a menu close on purpose, so the submenu is already open next time - kinder to
+      // anyone who finds the pointer hard to place precisely. Picking a period does clear it.
+      periodsOpen: false,
+    };
+  },
   computed: {
+    // Only the header placement renders anything now; the footer one is kept as the carrier
+    // dataTable.js reads this report's config off.
+    isInHeader(): boolean {
+      return this.placement === 'header';
+    },
+    annotationsLabel(): string {
+      return this.annotationsShowing
+        ? translate('Annotations_HideAnnotations')
+        : translate('Annotations_ShowAnnotations');
+    },
+    annotationsTitle(): string {
+      return this.annotationsShowing
+        ? translate('Annotations_IconDescHideNotes')
+        : translate('Annotations_IconDesc');
+    },
     randomIdForDropdown(): number {
       return Math.floor(Math.random() * 999999);
     },
@@ -388,17 +527,37 @@ export default defineComponent({
         .map((id) => this.allFooterIcons.find((button) => button.id === id))
         .filter((icon) => !!icon) as FooterIcon[];
     },
-    activeFooterIcon(): string|undefined {
-      return this.activeFooterIcons[0]?.icon;
+    // A group whose buttons all lack an icon renders nothing, and a separator for it would end the
+    // menu on a rule with nothing under it.
+    visibleFooterIconGroups(): FooterIconGroup[] {
+      return (this.footerIcons as FooterIconGroup[])
+        .map((group) => ({ ...group, buttons: group.buttons.filter((i) => !!i.icon) }))
+        .filter((group) => group.buttons.length > 0);
+    },
+    hasConfigItems(): boolean {
+      return this.showConfigItems
+        && (this.showFlattenTable
+          || this.showDimensionsConfigItem
+          || this.showFlatConfigItem
+          || this.showTotalsConfigItem
+          || this.showPercentageValuesConfigItem
+          || this.showExcludeLowPopulation
+          || this.showPivotBySubtable);
+    },
+    hasActionItems(): boolean {
+      return (this.showPeriods && !this.isPromoted('periods'))
+        || this.showAnnotations
+        || this.showExportAsImageIcon
+        || this.showExport
+        || this.dataTableActions.length > 0;
+    },
+    // Whether anything renders above the visualisation lists, so their leading separator has
+    // something to separate from.
+    hasActionsAbove(): boolean {
+      return this.hasConfigItems || this.hasActionItems;
     },
     activeFooterIconIds(): string[] {
       return this.activeFooterIcons.map((icon) => icon.id);
-    },
-    numIcons(): number {
-      return this.allFooterIcons.length;
-    },
-    hasFooterIconsToShow(): boolean {
-      return !!this.activeFooterIcons.length && this.numIcons > 1;
     },
     reportFormats(): Record<string, string> {
       const formats: Record<string, string> = {
@@ -431,78 +590,52 @@ export default defineComponent({
     showPercentageValuesConfigItem() {
       return !this.isDataTableEmpty && this.reportSupportsPercentageValues;
     },
-    hasConfigItems() {
-      return this.showFlattenTable
-        || this.showDimensionsConfigItem
-        || this.showFlatConfigItem
-        || this.showTotalsConfigItem
-        || this.showExcludeLowPopulation
-        || this.showPivotBySubtable
-        || this.showPercentageValuesConfigItem;
+    // What each first-group entry is currently doing.
+    configState(): ConfigState {
+      const params = this.clientSideParameters as Record<string, string|number|boolean>;
+      return {
+        flat: isBooleanLikeSet(params.flat),
+        dimensions: isBooleanLikeSet(params.show_dimensions),
+        aggregateRows: isBooleanLikeSet(params.include_aggregate_rows),
+        totalsRow: isBooleanLikeSet(params.keep_totals_row),
+        percentages: isBooleanLikeSet(params.show_percentage_values),
+        lowPopulation: isBooleanLikeSet(params.enable_filter_excludelowpop),
+        pivoted: isBooleanLikeSet(params.pivotBy),
+      };
     },
     flattenItemText() {
-      const params = this.clientSideParameters as Record<string, string|number|boolean>;
-      return getToggledIconText(
-        isBooleanLikeSet(params.flat),
-        'CoreHome_UnFlattenDataTable',
-        'CoreHome_FlattenDataTable',
-      );
+      return translate('CoreHome_MakeItFlat');
     },
     keepTotalsRowText() {
-      const params = this.clientSideParameters as Record<string, string|number|boolean>;
-      return getToggledIconText(
-        isBooleanLikeSet(params.keep_totals_row),
-        'CoreHome_RemoveTotalsRowDataTable',
-        'CoreHome_AddTotalsRowDataTable',
-      );
+      return translate('CoreHome_ShowTotalsRow');
     },
     percentageValuesText() {
-      const params = this.clientSideParameters as Record<string, string|number|boolean>;
-      return getToggledIconText(
-        isBooleanLikeSet(params.show_percentage_values),
-        'CoreHome_ShowAbsoluteValuesDataTable',
-        'CoreHome_ShowPercentageValuesDataTable',
-      );
-    },
-    percentageValuesLabel() {
-      const params = this.clientSideParameters as Record<string, string|number|boolean>;
-      return isBooleanLikeSet(params.show_percentage_values)
-        ? translate('CoreHome_ShowAbsoluteValues')
-        : translate('CoreHome_ShowPercentageValues');
+      return translate('CoreHome_ShowPercentageValues');
     },
     includeAggregateRowsText() {
-      const params = this.clientSideParameters as Record<string, string|number|boolean>;
-      return getToggledIconText(
-        isBooleanLikeSet(params.include_aggregate_rows),
-        'CoreHome_DataTableExcludeAggregateRows',
-        'CoreHome_DataTableIncludeAggregateRows',
-      );
+      return translate('CoreHome_ShowAggregateRows');
     },
     showDimensionsText() {
-      const params = this.clientSideParameters as Record<string, string|number|boolean>;
-      return getToggledIconText(
-        isBooleanLikeSet(params.show_dimensions),
-        'CoreHome_DataTableCombineDimensions',
-        'CoreHome_DataTableShowDimensions',
-      );
+      return translate('CoreHome_ShowDimensionsSeparately');
     },
     pivotByText() {
-      const params = this.clientSideParameters as Record<string, string|number|boolean>;
-      if (isBooleanLikeSet(params.pivotBy)) {
-        return getSingleStateIconText('CoreHome_UndoPivotBySubtable', true);
-      }
-
-      return getSingleStateIconText('CoreHome_PivotBySubtable', false, this.pivotDimensionName);
+      return translate('CoreHome_PivotBy', this.pivotDimensionName || '');
     },
     excludeLowPopText() {
-      const params = this.clientSideParameters as Record<string, string|number|boolean>;
-      return getToggledIconText(
-        isBooleanLikeSet(params.enable_filter_excludelowpop),
-        'CoreHome_IncludeRowsWithLowPopulation',
-        'CoreHome_ExcludeRowsWithLowPopulation',
-      );
+      return translate('CoreHome_ExcludeLowPopulation');
     },
-    isAnyConfigureIconHighlighted() {
+    // Every config entry acts on a table, so a graph offers none - except where one is already
+    // applied, which has to stay reachable to be undone. This is the gate the configure icon
+    // carried before the actions moved into the header's single menu.
+    showConfigItems(): boolean {
+      return this.isTableView || this.isAnyConfigureIconHighlighted;
+    },
+    isTableView(): boolean {
+      return this.viewDataTable === 'table'
+        || this.viewDataTable === 'tableAllColumns'
+        || this.viewDataTable === 'tableGoals';
+    },
+    isAnyConfigureIconHighlighted(): boolean {
       const params = this.clientSideParameters as Record<string, string|number|boolean>;
       return isBooleanLikeSet(params.flat)
         || isBooleanLikeSet(params.keep_totals_row)
@@ -511,11 +644,6 @@ export default defineComponent({
         || isBooleanLikeSet(params.pivotBy)
         || isBooleanLikeSet(params.enable_filter_excludelowpop)
         || isBooleanLikeSet(params.show_percentage_values);
-    },
-    isTableView() {
-      return this.viewDataTable === 'table'
-        || this.viewDataTable === 'tableAllColumns'
-        || this.viewDataTable === 'tableGoals';
     },
   },
 });

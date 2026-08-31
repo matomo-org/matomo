@@ -107,6 +107,11 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   site selector turn their chevrons too. Two changes affect plugin stylesheets: the select's chevron now sets its
   own `font-size` instead of inheriting the surrounding text size, and `.expandableSelector__chevron` uses
   `margin-right` rather than `padding-right`, so that the rotation turns the glyph in place.
+* The report action bar's "export as image" icon no longer carries the id `dataTableFooterExportAsImageIcon`. The bar is
+  rendered twice per report (above the table and in its footer) from one component, so that static id appeared twice per
+  report. The id is now scoped to the placement: `dataTableExportAsImageIcon-top` and `dataTableExportAsImageIcon-footer`.
+  Note this only de-duplicates the two placements of one report: a page showing several image-exportable reports still
+  repeats both ids, so prefer selecting `.dataTableAction.tableIcon` within the report you mean.
 
 ## Matomo 5.14.0
 

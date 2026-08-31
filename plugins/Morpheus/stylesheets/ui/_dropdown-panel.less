@@ -3,10 +3,12 @@
 // Named with the `mtm-` prefix to avoid name conflicts.
 
 .mtm-dropdownPanel {
+  @_padding: 8px;
+
   font-size: 14px;
   line-height: 20px;
   min-width: 140px;
-  padding: 8px;
+  padding: @_padding;
   background-color: @theme-color-background-contrast;
   border: 1px solid @theme-color-border;
   border-radius: 8px;
@@ -20,6 +22,20 @@
   }
 
   .mtm-dropdownPanel__menuItem {
+    list-style: none;
+    // anchors the submenu a nested panel opens beside this entry
+    position: relative;
+  }
+
+  // Splits a menu into groups of related entries. Sits in the flow as a sibling of the items,
+  // so inside a `<ul>` menu it is an `<li>` and needs `role="separator"` to stay announced as a
+  // divider rather than an empty list entry. Spans the panel's content width: the block's own
+  // padding is what insets it from the border.
+  .mtm-dropdownPanel__separator {
+    height: 0;
+    margin: 8px 0;
+    border: 0;
+    border-top: 1px solid @theme-color-border-alternative;
     list-style: none;
   }
 
@@ -80,6 +96,35 @@
   .mtm-dropdownPanel__menuLabel {
     // lets the label shrink/ellipsis when a consumer constrains the panel width
     min-width: 0;
+  }
+
+  .mtm-dropdownPanel__submenu {
+    display: none;
+    position: absolute;
+    // pulls the nested panel up by this panel's padding, so its first entry lines up with this one
+    top: -@_padding;
+    // Opens inward, like the panel that owns it: that one is anchored to the content's right edge,
+    // so a submenu growing outward lands off the page.
+    right: 100%;
+    // Twice over: the entry this is measured from already sits inside the panel's padding, so one
+    // width only gets back to the panel's edge and the second is the gap itself.
+    padding-right: (@_padding * 2);
+  }
+
+  .mtm-dropdownPanel__submenu--open {
+    display: block;
+  }
+
+  // Sits at the end of an entry, whatever it holds - a chevron, an info mark, a shortcut.
+  .mtm-dropdownPanel__rightIcon {
+    margin-left: auto;
+    padding-left: 8px;
+    font-size: 10px;
+  }
+
+  // Opt-in, because the panel otherwise clips a submenu to its own rounded corners.
+  &.mtm-dropdownPanel--withSubmenu {
+    overflow: visible;
   }
 }
 

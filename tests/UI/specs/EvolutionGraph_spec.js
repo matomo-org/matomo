@@ -130,8 +130,10 @@ describe("EvolutionGraph", function () {
 
     it("should show multiple metrics when another metric picked", async function () {
         await page.click('.metrics-picker__toggle');
-        await page.waitForSelector('.metrics-picker__options input');
-        const element = await page.jQuery('.metrics-picker__options input:not(:checked):first');
+        // click the label, not the input: the options sit in the DOM whether the dropdown is open
+        // or not, and the input itself is the hidden half of a Materialize checkbox
+        await page.waitForSelector('.metrics-picker__options label');
+        const element = await page.jQuery('.metrics-picker__options .metrics-picker__label:has(input:not(:checked)):first');
         await element.click();
         await page.waitForNetworkIdle();
         await page.waitForTimeout(250);
@@ -140,7 +142,9 @@ describe("EvolutionGraph", function () {
     });
 
     it("should show graph as image when export as image icon clicked", async function () {
-        await page.click('#dataTableFooterExportAsImageIcon');
+        // the entry sits in the report header's menu, which has to be opened first
+        await page.click('.reportHeader__actionsTrigger');
+        await page.click('#dataTableExportAsImageIcon-header');
         await page.waitForNetworkIdle();
 
         const dialog = await page.$('.ui-dialog');
@@ -172,18 +176,75 @@ describe("EvolutionGraph", function () {
         await element.click();
         await page.waitForNetworkIdle();
 
+        const labelOf = () => page.evaluate(
+          () => document.querySelector('.annotationView .mtm-dropdownPanel__menuLabel').textContent.trim(),
+        );
+        expect(await labelOf()).to.equal('Hide annotations');
+
         expect(await page.screenshot({ fullPage: true })).to.matchImage('annotations_single_period');
+
+        // The callback that moves the label runs on the way out as well as the way in.
+        await element.click();
+        await page.waitForTimeout(1000);
+        expect(await labelOf()).to.equal('Show annotations');
+
+        await element.click(); // leave the notes as the next test expects to find them
+        await page.waitForTimeout(1000);
     });
 
-    it("should show all annotations when annotations footer link clicked", async function () { // TODO: fails
+    it("should hide the notes a marker opened when the menu entry is clicked", async function () {
+        // The entry says "hide", so from notes opened for a single day it closes them rather than
+        // reloading the whole range - those notes carry no `data-is-range`.
+        const notesShown = () => page.evaluate(() => $('.annotation-manager').is(':visible'));
+        const labelOf = () => page.evaluate(
+          () => document.querySelector('.annotationView .mtm-dropdownPanel__menuLabel').textContent.trim(),
+        );
+        expect(await notesShown(), 'the marker left its notes open').to.equal(true);
+
+        await page.evaluate(() => document.querySelector('.annotationView').click());
+        await page.waitForTimeout(1000); // slideUp is 'slow'
+
+        expect(await notesShown(), 'the entry closed them').to.equal(false);
+        expect(await labelOf(), 'and the label followed').to.equal('Show annotations');
+    });
+
+    it("should show all annotations when the menu entry is clicked", async function () {
+        await page.click('.reportHeader__actionsTrigger');
         await page.click('.annotationView');
         await page.waitForNetworkIdle();
 
+        // Opens from the closed state the test above leaves behind, so the whole range loads.
         expect(await page.screenshot({ fullPage: true })).to.matchImage('annotations_all');
+    });
+
+    it("should put the label back when the notes are hidden again", async function () {
+        // Clicks through the element, not the pointer: the panel may or may not be open here.
+        const labelOf = () => page.evaluate(
+          () => document.querySelector('.annotationView .mtm-dropdownPanel__menuLabel').textContent.trim(),
+        );
+        const notesShown = () => page.evaluate(
+          () => $('.annotation-manager').is(':visible'),
+        );
+        const toggle = async () => {
+            await page.evaluate(() => document.querySelector('.annotationView').click());
+            await page.waitForTimeout(1000); // slideUp/slideDown are 'slow'
+        };
+
+        expect(await labelOf()).to.equal('Hide annotations');
+        expect(await notesShown()).to.equal(true);
+
+        await toggle();
+        expect(await notesShown()).to.equal(false);
+        expect(await labelOf()).to.equal('Show annotations');
+
+        await toggle();
+        expect(await notesShown()).to.equal(true);
+        expect(await labelOf()).to.equal('Hide annotations');
     });
 
     it("should show no annotations message when no annotations for site", async function () {
         await page.goto(page.url().replace(/idSite=[^&]*/, "idSite=3") + "&columns=nb_visits");
+        await page.click('.reportHeader__actionsTrigger');
         await page.click('.annotationView');
         await page.waitForNetworkIdle();
         await page.mouse.move(-10, -10);
@@ -253,6 +314,10 @@ describe("EvolutionGraph", function () {
             $('.delete-annotation').click();
         });
         await page.waitForNetworkIdle();
+        // this asserts the same image as the test above, so it has to leave the pointer where that
+        // one does: the delete click leaves it inside the widget, and a hovered widget darkens the
+        // header's actions trigger
+        await page.mouse.move(-10, -10);
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('annotations_none');
     });
@@ -271,7 +336,8 @@ describe("EvolutionGraph", function () {
         });
         await page.reload();
         await page.waitForNetworkIdle();
-        await (await page.jQuery('.activatePeriodsSelection:last')).click();
+        // wide enough for the header to lift the period selector out of its menu
+        await page.click('[data-report-action="periods"] .mtm-selector__trigger');
 
         await page.mouse.move(-10, -10);
         await page.waitForTimeout(500); // wait for animation
@@ -280,8 +346,14 @@ describe("EvolutionGraph", function () {
     });
 
     it("should be possible to change period", async function () {
+        // the previous test left the menu and its submenu open
         await (await page.jQuery('[data-period=month]:last')).click();
         await page.waitForNetworkIdle();
+
+        const stillOpen = await page.evaluate(
+          () => document.querySelectorAll('.mtm-dropdownPanel__submenu--open').length,
+        );
+        expect(stillOpen, 'picking a period folds the submenu').to.equal(0);
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('periods_selected');
     });
@@ -293,6 +365,7 @@ describe("EvolutionGraph", function () {
 
         await page.goto(url);
         await page.waitForNetworkIdle();
+        await page.click('.reportHeader__actionsTrigger');
         await page.click('.annotationView');
         await page.waitForNetworkIdle();
 
@@ -333,7 +406,8 @@ describe("EvolutionGraph", function () {
             await page.waitForNetworkIdle();
             await setThemeMode('dark');
             await page.waitForTimeout(250);
-            await page.click('#dataTableFooterExportAsImageIcon');
+            await page.click('.reportHeader__actionsTrigger');
+            await page.click('#dataTableExportAsImageIcon-header');
             await page.waitForSelector('.ui-dialog img');
 
             expect(await getImagePixelColor('.ui-dialog img', 5))
@@ -374,8 +448,8 @@ describe("EvolutionGraph", function () {
             });
 
             await page.click('.metrics-picker__toggle');
-            await page.waitForSelector('.metrics-picker__options input');
-            const element = await page.jQuery('.metrics-picker__options input:not(:checked):first');
+            await page.waitForSelector('.metrics-picker__options label');
+            const element = await page.jQuery('.metrics-picker__options .metrics-picker__label:has(input:not(:checked)):first');
             await element.click();
             await page.waitForSelector('.jqplot-loading');
 
@@ -398,5 +472,99 @@ describe("EvolutionGraph", function () {
                 $('.jqplot-loading').remove();
             });
         });
+    });
+
+    it("should close the period selector on a second click", async function () {
+        await page.goto(url);
+        await page.waitForNetworkIdle();
+
+        const trigger = '[data-report-action="periods"] .mtm-selector__trigger';
+        await page.click(trigger);
+        await page.waitForSelector('.mtm-selector.expanded', { visible: true });
+
+        await page.click(trigger);
+        const stillOpen = await page.evaluate(
+          () => !!document.querySelector('.mtm-selector.expanded'),
+        );
+        expect(stillOpen, 'a second click closes it').to.equal(false);
+    });
+
+    it("should close the period selector once a period is picked", async function () {
+        await page.goto(url);
+        await page.waitForNetworkIdle();
+
+        await page.click('[data-report-action="periods"] .mtm-selector__trigger');
+        await page.waitForSelector('.mtm-selector.expanded', { visible: true });
+
+        await page.evaluate(
+          () => document.querySelector('.dataTablePeriods [data-period="week"]').click(),
+        );
+        await page.waitForNetworkIdle();
+        await page.waitForTimeout(500);
+
+        const stillOpen = await page.evaluate(
+          () => !!document.querySelector('.mtm-selector.expanded'),
+        );
+        expect(stillOpen, 'picking a period closes the selector').to.equal(false);
+    });
+
+    it("should let the keyboard reach and activate a period", async function () {
+        await page.goto(url);
+        await page.waitForNetworkIdle();
+
+        await page.evaluate(
+          () => document.querySelector('[data-report-action="periods"] .mtm-selector__trigger').click(),
+        );
+        await page.waitForSelector('.mtm-selector.expanded', { visible: true });
+
+        const focused = await page.evaluate(() => {
+            const item = document.querySelector('.dataTablePeriods [role^="menuitem"]');
+            if (!item) {
+                return 'no item';
+            }
+            item.focus();
+            return document.activeElement === item ? 'focused' : 'not focusable';
+        });
+        expect(focused, 'a period is focusable once the submenu is open').to.equal('focused');
+
+        // Enter has to act, since the item is not a link the browser would follow.
+        await page.evaluate(() => {
+            document.querySelector('.dataTablePeriods [data-period="week"]')
+                .dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+        });
+        await page.waitForNetworkIdle();
+        await page.waitForTimeout(500);
+        const period = await page.evaluate(
+          () => $('.dataTable').first().data('uiControlObject').param.period,
+        );
+        expect(period, 'Enter changed the period').to.equal('week');
+    });
+
+    it("should render a report header inside a widgetized container", async function () {
+        // Nothing above a widgetized container's children renders a header, so each renders its own.
+        await page.goto("?module=Widgetize&action=iframe&containerId=VisitOverviewWithGraph"
+            + "&moduleToWidgetize=CoreHome&actionToWidgetize=renderWidgetContainer"
+            + "&disableLink=1&widget=1&idSite=1&period=day&date=2012-01-31&evolution_day_last_n=30");
+        await page.waitForNetworkIdle();
+        await page.waitForTimeout(1000);
+
+        const state = await page.evaluate(() => ({
+            headers: document.querySelectorAll('.reportHeader').length,
+            triggers: document.querySelectorAll('.reportHeader__actionsTrigger').length,
+            entries: document.querySelectorAll('.annotationView').length,
+            markers: document.querySelectorAll('.evolution-annotations span[data-date]').length,
+            periods: document.querySelectorAll('[data-report-action="periods"]').length,
+        }));
+        expect(state.headers, 'the report renders its own header here').to.equal(1);
+        expect(state.triggers, 'exactly one, not one per child').to.equal(1);
+        expect(state.markers, 'markers render').to.be.above(0);
+        expect(state.entries, 'the annotations toggle is in it').to.equal(1);
+        expect(state.periods, 'the period selector is lifted out of it').to.equal(1);
+
+        await page.evaluate(() => document.querySelector('.annotationView').click());
+        await page.waitForNetworkIdle();
+        await page.waitForTimeout(1500);
+        const shown = await page.evaluate(() => $('.annotation-manager').is(':visible'));
+        expect(shown, 'clicking it opens the notes').to.equal(true);
     });
 });

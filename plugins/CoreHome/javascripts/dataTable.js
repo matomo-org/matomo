@@ -208,8 +208,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             'include_aggregate_rows',
             'totalRows',
             'pivotBy',
-            'pivotByColumn',
-            'filter_trigger_id'
+            'pivotByColumn'
         ];
 
         for (var key = 0; key < filters.length; key++) {
@@ -257,6 +256,27 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             };
         }
 
+        // Each reload of the root table supersedes any still-pending one: tag it and apply only the
+        // latest response, so an out-of-order response (e.g. a slow search-as-you-type reload)
+        // cannot overwrite a newer reload - another search, a sort, paging, a period or a
+        // visualization change. Errors from a superseded reload are dropped too.
+        //
+        // Loading a subtable is deliberately left out of that sequence. It reuses the parent's
+        // instance but renders into its own div, so it neither supersedes a pending root reload nor
+        // is superseded by one. Guarding it would strand the row for good: handleSubDataTable()
+        // marks it loaded synchronously, so a dropped response never gets refetched.
+        var isSubtableLoad = !!self.param.idSubtable;
+        var reloadGeneration = null;
+
+        if (!isSubtableLoad) {
+            self._reloadGeneration = (self._reloadGeneration || 0) + 1;
+            reloadGeneration = self._reloadGeneration;
+        }
+
+        var isSupersededReload = function () {
+            return reloadGeneration !== null && reloadGeneration !== self._reloadGeneration;
+        };
+
         if (displayLoading) {
             $('#' + self.workingDivId + ' .loadingPiwik').last().css('display', 'block');
         }
@@ -299,6 +319,12 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             }
         }
 
+        // The response replaces `.dataTable` wholesale, and the report header sits outside it so it
+        // survives that - a header in the response would therefore be a second one, not a
+        // replacement. Set on this request only, not on `self.param`: that holds the report's own
+        // state, which every later request is rebuilt from and other code reads back.
+        params.disable_report_header = 1;
+
         ajaxRequest.addParams(params, 'get');
         if (extraParams) {
             ajaxRequest.addParams(extraParams, 'post');
@@ -314,13 +340,20 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
         ajaxRequest.setCallback(
             function (response) {
+                // Bail before the teardown below, not just before applying the response: destroying
+                // the plot and unbinding its handler would otherwise leave the newer reload's graph
+                // torn down with nothing drawn in its place.
+                if (isSupersededReload()) {
+                    return;
+                }
                 container.trigger('piwikDestroyPlot');
                 container.off('piwikDestroyPlot');
                 callbackSuccess(response);
             }
         );
         ajaxRequest.setErrorCallback(function (deferred, status) {
-            if (status == 'abort' || !deferred || deferred.status < 400 || deferred.status >= 600) {
+            if (isSupersededReload()
+                || status == 'abort' || !deferred || deferred.status < 400 || deferred.status >= 600) {
                 return;
             }
 
@@ -397,7 +430,11 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         self.handleExportBox(domElem);
         self.applyCosmetics(domElem);
         self.handleSubDataTable(domElem);
+        // after handleConfigurationBox: that is what drops the flatten action from a report with no
+        // subtables, and it only reaches the footer entry, so syncing before it would copy the
+        // action into the header just as the footer gave it up
         self.handleConfigurationBox(domElem);
+        self.syncReportHeaderActions(domElem);
         self.handleSearchBox(domElem);
         self.handleColumnDocumentation(domElem);
         self.handleRowActions(domElem);
@@ -753,10 +790,10 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         }
     },
     handlePeriod: function (domElem) {
-        var $periodSelect = $('.dataTablePeriods .tableIcon', domElem);
-
         var self = this;
-        $periodSelect.click(function () {
+        var scope = self._periodsScope(domElem);
+        scope.off('click.reportAction', '.dataTablePeriods .tableIcon')
+            .on('click.reportAction', '.dataTablePeriods .tableIcon', function () {
             var period = $(this).attr('data-period');
             if (!period || period == self.param['period']) {
                 return;
@@ -773,9 +810,6 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             }
             var endDateOfPeriod = currentPeriod.getDateRange()[1];
             endDateOfPeriod = formatDate(endDateOfPeriod);
-
-            var newPeriod = piwikPeriods.get(period);
-            $('.periodName', domElem).html(newPeriod.getDisplayText());
 
             self.param['period'] = period;
             self.param['date'] = endDateOfPeriod;
@@ -824,188 +858,98 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         }
     },
 
-    //behaviour for the DataTable 'search box'
-    handleSearchBox: function (domElem, callbackSuccess) {
+    // Drives the report search rendered in the shared ReportHeader. The input and its debounce
+    // belong to the Vue component; here we only push state into it and apply the keyword it emits.
+    handleSearchBox: function (domElem) {
         var self = this;
 
-        var currentPattern = self.param.filter_pattern;
-        if (typeof self.param.filter_pattern != "undefined"
-            && self.param.filter_pattern.length > 0) {
-            currentPattern = self.param.filter_pattern;
+        // Subtables reuse the parent report's header and have no search of their own. Both signals
+        // are needed: `parentId` is only set by ActionsDataTable, while a generic expandable
+        // subtable is a fresh instance that carries `idSubtable` in its params.
+        if ((typeof self.parentId != "undefined" && self.parentId != '') || self.param.idSubtable) {
+            return;
         }
-        else if (typeof self.param.filter_pattern_recursive != "undefined"
+
+        var header = self._findReportHeaderApp(domElem);
+        if (!header || !header.app) {
+            // no shared header in this context (search has no other home now)
+            return;
+        }
+
+        var currentPattern = '';
+        if (self.param.filter_pattern && self.param.filter_pattern.length > 0) {
+            currentPattern = self.param.filter_pattern;
+        } else if (self.param.filter_pattern_recursive
             && self.param.filter_pattern_recursive.length > 0) {
             currentPattern = self.param.filter_pattern_recursive;
         }
-        else {
-            currentPattern = '';
-        }
         currentPattern = piwikHelper.htmlDecode(currentPattern);
 
-        var patternsToReplace = [{from: '?', to: '\\?'}, {from: '+', to: '\\+'}, {from: '*', to: '\\*'}]
-
+        // Un-escape a leading regex special char for display (searchForPattern re-escapes it).
+        var patternsToReplace = [{from: '?', to: '\\?'}, {from: '+', to: '\\+'}, {from: '*', to: '\\*'}];
         $.each(patternsToReplace, function (index, pattern) {
             if (0 === currentPattern.indexOf(pattern.to)) {
                 currentPattern = pattern.from + currentPattern.slice(2);
             }
         });
 
-        var $searchAction = $('.dataTableAction.searchAction', domElem);
-        if (!$searchAction.length) {
+        // show_search is a report config flag, carried to the client with the report's action
+        // config; default to no search when absent.
+        var actionsConfig = self._readReportActionsConfig(domElem);
+        var showSearch = !!(actionsConfig && actionsConfig.showSearch);
+
+        // Hide the input on an empty table, but keep it while a search is active so a no-result
+        // search can still be cleared.
+        header.app.showSearch_ = showSearch && (!self.isEmpty || !!currentPattern);
+        header.app.searchQuery_ = currentPattern;
+
+        // domElem is the root div.dataTable, the element the empty-state CSS keys off.
+        domElem.closest('.dataTable').toggleClass('hasSearchKeyword', !!currentPattern);
+
+        // Bridge the header's debounced search back to this table. Rebinding on every render is
+        // safe: the namespaced handler is removed first, and the header persists across reloads.
+        header.$el
+            .off('reportheader:search.dataTableSearch')
+            .on('reportheader:search.dataTableSearch', function (e) {
+                self.searchForPattern(e.originalEvent.detail.keyword);
+            });
+    },
+
+    // Applies a search keyword to the report and reloads it. An empty keyword clears a previous
+    // search. Called from the ReportHeader search bridge in handleSearchBox.
+    searchForPattern: function (keyword) {
+        var self = this;
+        keyword = keyword || '';
+
+        var hasCurrentPattern = (self.param.filter_pattern && self.param.filter_pattern.length > 0)
+            || (self.param.filter_pattern_recursive
+                && self.param.filter_pattern_recursive.length > 0);
+
+        if (!keyword && !hasCurrentPattern) {
+            // nothing to search for, and no previous search to clear
             return;
         }
 
-        $searchAction.on('click', showSearch);
-        $searchAction.find('.icon-close').on('click', hideSearch);
+        self.param.filter_offset = 0;
 
-        var $searchInput = $('.dataTableSearchInput', domElem);
-
-        function getOptimalWidthForSearchField($searchAction) {
-            var controlBarWidth = $searchAction.parents('.dataTableControls').first().width();
-            var spaceLeft = controlBarWidth - $searchAction.position().left;
-            var idealWidthForSearchBar = 250;
-            var minimalWidthForSearchBar = 150; // if it's only 150 pixel we still show it on same line
-            var width = idealWidthForSearchBar;
-            if (spaceLeft > minimalWidthForSearchBar && spaceLeft < idealWidthForSearchBar) {
-                width = spaceLeft;
-            }
-
-            if (width > controlBarWidth) {
-                width = controlBarWidth;
-            }
-
-            return width;
-        }
-
-        function hideSearch(event) {
-            event.preventDefault();
-            event.stopPropagation();
-
-            var $searchAction = $(this).parents('.searchAction').first();
-            $searchAction.removeClass('searchActive active forceActionVisible');
-            $searchAction.css('width', '');
-            $searchAction.on('click', showSearch);
-            $searchAction.find('.icon-search').off('click', searchForPattern);
-
-            $searchInput.val('');
-
-            if (currentPattern) {
-                // we search for this pattern so if there was a search term before, and someone closes the search
-                // we show all results again
-                searchForPattern();
-            }
-        }
-
-        function getTriggerField(event) {
-          if (typeof self.param.filter_trigger_id !== "undefined" &&
-            self.param.filter_trigger_id.length > 0) {
-            return document.getElementById(self.param.filter_trigger_id);
-          } else {
-            if (event && event.target) {
-              if (event.target.nodeName.toLowerCase() === 'span') {
-                return $(event.target).siblings('input');
-              } else {
-                return $(event.target).children('input');
-              }
-            }
-          }
-        }
-
-        function restoreSearchFieldFocus(event)
-        {
-            var triggerField = getTriggerField(event);
-
-            if (triggerField) {
-              triggerField.focus();
-            }
-        }
-
-        function showSearchInputFields($searchAction) {
-            $searchAction.addClass('searchActive forceActionVisible');
-            var width = getOptimalWidthForSearchField($searchAction);
-            $searchAction.css('width', width + 'px');
-            $searchAction.find('.icon-search').on('click', searchForPattern);
-            $searchAction.off('click', showSearch);
-        }
-
-        function showSearch(event) {
-            event.preventDefault();
-            event.stopPropagation();
-
-            showSearchInputFields($(this));
-            restoreSearchFieldFocus(event);
-        }
-
-
-        function searchForPattern(event) {
-            var keyword = '';
-            if (event) {
-                var $input;
-                if (event.target.tagName.toLowerCase() === 'input') {
-                    $input = $(event.target);
-                } else if (event.target.tagName.toLowerCase() === 'span') {
-                    $input = $(event.target).siblings('input');
-                }
-
-                if ($input && $input.length) {
-                    keyword = $input.val();
-                    self.param.filter_trigger_id = $input.attr('id');
-                }
-            }
-
-            if (!keyword && !currentPattern) {
-                // we search only if a keyword is actually given, or if no keyword is given and a search was performed
-                // before (in this case we want to clear the search basically.)
-                return;
-            }
-
-            self.param.filter_offset = 0;
-
-            $.each(patternsToReplace, function (index, pattern) {
-                if (0 === keyword.indexOf(pattern.from)) {
-                    keyword = pattern.to + keyword.slice(1);
-                }
-            });
-
-            if (self.param.search_recursive) {
-                self.param.filter_column_recursive = 'label';
-                self.param.filter_pattern_recursive = keyword;
-            }
-            else {
-                self.param.filter_column = 'label';
-                self.param.filter_pattern = keyword;
-            }
-
-            delete self.param.totalRows;
-
-            self.reloadAjaxDataTable(true, callbackSuccess);
-        }
-
-        $searchInput.on("keyup", function (e) {
-            if (isEnterKey(e)) {
-                searchForPattern(e);
-            } else if (isEscapeKey(e)) {
-                $searchAction.find('.icon-close').click();
+        var patternsToReplace = [{from: '?', to: '\\?'}, {from: '+', to: '\\+'}, {from: '*', to: '\\*'}];
+        $.each(patternsToReplace, function (index, pattern) {
+            if (0 === keyword.indexOf(pattern.from)) {
+                keyword = pattern.to + keyword.slice(1);
             }
         });
 
-        $searchInput.on("blur", function () {
-            delete self.param.filter_trigger_id;
-        });
-
-        var $dataTable = $searchInput.parents('.dataTable').first();
-        if (currentPattern) {
-            $dataTable.addClass('hasSearchKeyword');
-            $searchInput.val(currentPattern);
-            showSearchInputFields($searchAction);
-            restoreSearchFieldFocus();
+        if (self.param.search_recursive) {
+            self.param.filter_column_recursive = 'label';
+            self.param.filter_pattern_recursive = keyword;
         } else {
-            $dataTable.removeClass('hasSearchKeyword');
+            self.param.filter_column = 'label';
+            self.param.filter_pattern = keyword;
         }
 
-        if (this.isEmpty && !currentPattern) {
-            $searchAction.css({display: 'none'});
-        }
+        delete self.param.totalRows;
+
+        self.reloadAjaxDataTable(true);
     },
 
     //behaviour for '< prev' 'next >' links and page count
@@ -1077,10 +1021,57 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         });
     },
 
+    // An action that moved into the header is bound there, not on the report. Siblings in a
+    // container widget share one header and _findReportScope rightly refuses to widen, so only the
+    // report offering the action widens: every report binds these, and each rebind `.off()`s.
+    _headerActionScope: function (domElem, offersAction) {
+        if (!offersAction) {
+            return this._findReportScope(domElem);
+        }
+        var $scope = this._locateReportHeader(domElem).$scope;
+        return $scope.length ? $scope : this._findReportScope(domElem);
+    },
+
+    // An action reaches the menu only when the menu itself renders, so its own flag is not enough.
+    _offersAction: function (domElem, actionFlag) {
+        var config = this._readReportActionsConfig(domElem);
+        return !!(config && config.showFooter && config.showFooterIcons && config[actionFlag]);
+    },
+
+    _annotationsScope: function (domElem) {
+        return this._headerActionScope(domElem, this._offersAnnotations(domElem));
+    },
+
+    _periodsScope: function (domElem) {
+        return this._headerActionScope(domElem, this._offersAction(domElem, 'showPeriods'));
+    },
+
+    // Read from the config, not the DOM: this runs before the header is filled, and Vue renders
+    // the entry a tick later still.
+    _offersAnnotations: function (domElem) {
+        if (!this._readReportActionsConfig(domElem)) {
+            return $('.annotationView', this._findReportScope(domElem)).length > 0;
+        }
+        return this._offersAction(domElem, 'showAnnotations');
+    },
+
+    _setAnnotationsShowing: function (domElem, showing) {
+        // A sibling reloading beside the graph must not report its empty state on the shared header.
+        // Untested: no shipped container renders two reports under one header yet.
+        if (!this._offersAnnotations(domElem)) {
+            return;
+        }
+        var header = this._findReportHeaderApp(domElem);
+        if (header && header.app) {
+            header.app.annotationsShowing_ = showing;
+        }
+    },
+
     handleEvolutionAnnotations: function (domElem) {
         var self = this;
-        if ((self.param.viewDataTable === 'graphEvolution' || self.param.viewDataTable === 'graphStackedBarEvolution')
-            && $('.annotationView', domElem).length > 0) {
+        var isEvolution = self.param.viewDataTable === 'graphEvolution'
+            || self.param.viewDataTable === 'graphStackedBarEvolution';
+        if (isEvolution && self._offersAnnotations(domElem)) {
             // get dates w/ annotations across evolution period (have to do it through AJAX since we
             // determine placement using the elements created by jqplot)
 
@@ -1143,8 +1134,9 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                                 undefined, // lastN
                                 function (manager) {
                                     manager.attr('data-is-range', 0);
-                                    $('.annotationView', domElem)
-                                        .attr('title', _pk_translate('Annotations_IconDesc'));
+                                    // Runs on the way out as well as in, so read the panel.
+                                    self._setAnnotationsShowing(
+                                        domElem, !manager.is(':hidden'));
 
                                     var viewAndAdd = _pk_translate('Annotations_ViewAndAddAnnotations'),
                                         hideNotes = _pk_translate('Annotations_HideAnnotationsFor');
@@ -1219,38 +1211,50 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             return;
         }
 
-        // show the annotations view on click
-        $('.annotationView', domElem).click(function () {
+        // An ajax reload replaces the table wholesale and takes the manager with it, while the
+        // header deliberately survives - so the state it carries would keep saying the notes are
+        // on screen when they are not. Put it back in step on every bind.
+        var $scope = self._annotationsScope(domElem);
+        self._setAnnotationsShowing(domElem, $('.annotation-manager', domElem).is(':visible'));
+
+        // the trigger is scoped to the report, so it keeps working once it moves up into the
+        // header; the manager it toggles stays inside the table
+        $scope
+            .off('click.reportAction', '.annotationView')
+            .on('click.reportAction', '.annotationView', function () {
             var annotationManager = $('.annotation-manager', domElem);
+
+            // The entry reads "hide annotations", so it hides whatever is on screen - notes a
+            // marker opened for one day included. Those carry no `data-is-range`, and used to be
+            // answered by reloading the whole range instead of closing.
+            if (annotationManager.length > 0 && !annotationManager.is(':hidden')) {
+                annotationManager.slideUp('slow');
+                self._setAnnotationsShowing(domElem, false);
+                return;
+            }
 
             if (annotationManager.length > 0
                 && annotationManager.attr('data-is-range') == 1) {
-                if (annotationManager.is(':hidden')) {
-                    annotationManager.slideDown('slow'); // showing
-                    $(this).attr('title', _pk_translate('Annotations_IconDescHideNotes'));
-                }
-                else {
-                    annotationManager.slideUp('slow'); // hiding
-                    $(this).attr('title', _pk_translate('Annotations_IconDesc'));
-                }
+                annotationManager.slideDown('slow');
+                self._setAnnotationsShowing(domElem, true);
+                return;
             }
-            else {
-                // show the annotation viewer for the whole date range
-                var lastN = self.param['evolution_' + self.param.period + '_last_n'];
-                piwik.annotations.showAnnotationViewer(
-                    domElem,
-                    self.param.idSite,
-                    self.param.date,
-                    self.param.period,
-                    lastN,
-                    function (manager) {
-                        manager.attr('data-is-range', 1);
-                    }
-                );
 
-                // change the tooltip of the view annotation icon
-                $(this).attr('title', _pk_translate('Annotations_IconDescHideNotes'));
-            }
+            // show the annotation viewer for the whole date range
+            var lastN = self.param['evolution_' + self.param.period + '_last_n'];
+            piwik.annotations.showAnnotationViewer(
+                domElem,
+                self.param.idSite,
+                self.param.date,
+                self.param.period,
+                lastN,
+                function (manager) {
+                    manager.attr('data-is-range', 1);
+                    // Toggles when the dates already match, so read the panel back rather than
+                    // assume it opened.
+                    self._setAnnotationsShowing(domElem, !manager.is(':hidden'));
+                }
+            );
         });
     },
 
@@ -1265,9 +1269,12 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         //footer arrow position element name
         self.jsViewDataTable = self.param.viewDataTable;
 
-        $('.tableAllColumnsSwitch a', domElem).show();
+        var scope = self._findReportScope(domElem);
 
-        $('.dataTableFooterIcons .tableIcon', domElem).click(function () {
+        $('.tableAllColumnsSwitch a', scope).show();
+
+        scope.off('click.reportAction', '.dataTableFooterIcons .tableIcon')
+            .on('click.reportAction', '.dataTableFooterIcons .tableIcon', function () {
             var id = $(this).attr('data-footer-icon-id');
             if (!id) {
                 return;
@@ -1296,25 +1303,23 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             return;
         }
 
+        var scope = self._findReportScope(domElem);
+
         if ((typeof self.numberOfSubtables == 'undefined' || self.numberOfSubtables == 0)
             && (typeof self.param.flat == 'undefined' || self.param.flat != 1)
         ) {
-            // if there are no subtables, remove the flatten action from all data table actions
-            var dataTableActionsVueApps = $('[vue-entry="CoreHome.DataTableActions"]', domElem);
-            if (dataTableActionsVueApps.length) {
-              dataTableActionsVueApps.each(function() {
-                var appData = $(this).data('vueAppInstance');
-                if (appData) {
-                  appData.showFlattenTable_ = false;
-                }
-              });
+            // if there are no subtables, drop the flatten action from the config the header reads,
+            // published just below in bindEventsAndApplyStyle
+            var actionsConfig = self._readReportActionsConfig(domElem);
+            if (actionsConfig) {
+                actionsConfig.showFlattenTable = false;
             }
         }
 
-        var ul = $('ul.tableConfiguration', domElem);
-        if (!ul.find('li').length) {
-            return;
-        }
+        // No early return on an empty `ul.tableConfiguration`: where the header is rendered by the
+        // widget chrome its menu is filled by Vue only once syncReportHeaderActions runs, so the
+        // entries do not exist yet at this point. The handlers below are delegated for the same
+        // reason - they must survive the menu being rendered, and re-rendered, after this.
 
         var generateClickCallback = function (paramName, callbackAfterToggle, setParamCallback) {
             return function () {
@@ -1334,23 +1339,31 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         };
 
         // handle low population
-        $('.dataTableExcludeLowPopulation', domElem)
-            .click(generateClickCallback('enable_filter_excludelowpop'));
+        scope
+            .off('click.reportAction', '.dataTableExcludeLowPopulation')
+            .on('click.reportAction', '.dataTableExcludeLowPopulation',
+                generateClickCallback('enable_filter_excludelowpop'));
 
         // handle flatten
-        $('.dataTableFlatten', domElem)
-            .click(generateClickCallback('flat'));
+        scope
+            .off('click.reportAction', '.dataTableFlatten')
+            .on('click.reportAction', '.dataTableFlatten', generateClickCallback('flat'));
 
         // handle flatten
-        $('.dataTableShowTotalsRow', domElem)
-            .click(generateClickCallback('keep_totals_row'));
+        scope
+            .off('click.reportAction', '.dataTableShowTotalsRow')
+            .on('click.reportAction', '.dataTableShowTotalsRow', generateClickCallback('keep_totals_row'));
 
         // handle percentage values
-        $('.dataTableShowPercentageValues', domElem)
-            .click(generateClickCallback('show_percentage_values'));
+        scope
+            .off('click.reportAction', '.dataTableShowPercentageValues')
+            .on('click.reportAction', '.dataTableShowPercentageValues',
+                generateClickCallback('show_percentage_values'));
 
-        $('.dataTableIncludeAggregateRows', domElem)
-            .click(generateClickCallback('include_aggregate_rows', function () {
+        scope
+            .off('click.reportAction', '.dataTableIncludeAggregateRows')
+            .on('click.reportAction', '.dataTableIncludeAggregateRows',
+                generateClickCallback('include_aggregate_rows', function () {
                 if (self.param.include_aggregate_rows == 1) {
                     // when including aggregate rows is enabled, we remove the sorting
                     // this way, the aggregate rows appear directly before their children
@@ -1359,12 +1372,14 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 }
             }));
 
-        $('.dataTableShowDimensions', domElem)
-            .click(generateClickCallback('show_dimensions'));
+        scope
+            .off('click.reportAction', '.dataTableShowDimensions')
+            .on('click.reportAction', '.dataTableShowDimensions', generateClickCallback('show_dimensions'));
 
         // handle pivot by
-        $('.dataTablePivotBySubtable', domElem)
-            .click(generateClickCallback('pivotBy', null, function () {
+        scope
+            .off('click.reportAction', '.dataTablePivotBySubtable')
+            .on('click.reportAction', '.dataTablePivotBySubtable', generateClickCallback('pivotBy', null, function () {
                 if (self.param.pivotBy
                     && self.param.pivotBy != '0'
                 ) {
@@ -1722,6 +1737,10 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 .data('vueAppInstance');
             if (headerApp) {
                 var $documentation = $('.reportDocumentation', domElem);
+                // The table it publishes under is now a different report, and the header keys
+                // its config off this.
+                headerApp.reportId_ = domElem.closest('[data-report]').attr('data-report')
+                    || headerApp.reportId_;
                 headerApp.reportTitle_ = relatedReportName;
                 headerApp.featureName_ = relatedReportName;
                 headerApp.inlineHelp_ = $documentation.attr('data-content') || '';
@@ -2023,6 +2042,112 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             return $prev;
         }
         return $('h2', domElem);
+    },
+
+    // Locates the shared ReportHeader that titles this report, together with the element that
+    // scopes the two of them. Returns empty sets when this report has no header beside it.
+    // _findReportScope() needs the scope and _findReportHeaderApp() needs the header, and the two
+    // have to recognise the same DOM shapes: a report whose controls are widened into the header
+    // but whose header is not found loses its search, and vice versa.
+    _locateReportHeader: function (domElem) {
+        // Full-page report: the header precedes the table inside the wrapper. Usually it is the
+        // table's own previous sibling, but an empty titled report gets an extra `.card >
+        // .card-content` between the two (_dataTable.twig), so climb a couple of levels looking
+        // for it.
+        var $node = domElem;
+        for (var depth = 0; depth < 3 && $node.length; depth += 1) {
+            var $header = $node.prev('[vue-entry="CoreHome.ReportHeader"]');
+            if ($header.length) {
+                return { $header: $header, $scope: $node.parent() };
+            }
+            $node = $node.parent();
+        }
+
+        // A widget renders it in the widget chrome instead.
+        var $widget = domElem.parents('.widget').first();
+        var $widgetHeader = $widget.find('.widgetTop [vue-entry="CoreHome.ReportHeader"]').first();
+        if ($widgetHeader.length) {
+            return { $header: $widgetHeader, $scope: $widget };
+        }
+
+        return { $header: $(), $scope: $() };
+    },
+
+    // Returns the element that scopes one report: the wrapper holding both the shared ReportHeader
+    // and this table, so an action handler finds its controls whether they are rendered inside the
+    // table or up in the header.
+    //
+    // Falls back to the table itself whenever widening cannot be attributed to this report alone -
+    // a subtable, a report rendered without a title and without a wrapper, or a container widget
+    // holding several reports - because widening there would reach into another report.
+    _findReportScope: function (domElem) {
+        // Subtables reuse the parent report's header and have no controls of their own, so they must
+        // never widen: doing so would rebind the parent's controls to the subtable's instance.
+        // Both signals are needed - `parentId` is only set by ActionsDataTable, while a generic
+        // expandable subtable is a fresh instance that carries `idSubtable` in its params.
+        if ((typeof this.parentId != "undefined" && this.parentId != '') || this.param.idSubtable) {
+            return domElem;
+        }
+
+        var $scope = this._locateReportHeader(domElem).$scope;
+        if (!$scope.length) {
+            return domElem;
+        }
+
+        // Several reports can sit under one header, as in a container widget. Every handler rebinds
+        // with `.off('click.reportAction')`, so widening there would let whichever instance finishes
+        // loading last take over its siblings' controls - and those loads race.
+        if ($scope.find('.dataTable').not('.dataTable .dataTable').length > 1) {
+            return domElem;
+        }
+
+        return $scope;
+    },
+
+    // The report's action config, rendered as data by _dataTableActions.twig. The header is
+    // rendered outside the table so an ajax reload cannot replace it, which means its menu would
+    // otherwise keep describing the report as it was when the page was built: after flattening,
+    // "Show dimensions separately" would never appear, and the visualisation list would keep
+    // marking the old one as active. The config travels with the table the reload does replace.
+    _readReportActionsConfig: function (domElem) {
+        var config = $('.reportActionsConfig', domElem).first().data('reportActions');
+        return (config && typeof config === 'object') ? config : null;
+    },
+
+    syncReportHeaderActions: function (domElem) {
+        // A subtable reuses its parent's header and has no controls of its own, so publishing here
+        // would replace the parent's config with one describing the subtable.
+        if ((typeof this.parentId != "undefined" && this.parentId != '') || this.param.idSubtable) {
+            return;
+        }
+
+        var config = this._readReportActionsConfig(domElem);
+        if (!config) {
+            return;
+        }
+
+        // Published for the header to read, rather than pushed onto its app: a menu can no longer
+        // describe an older load because a push was missed or ran before the menu existed.
+        var key = window.CoreHome.reportIdentity(domElem[0]);
+        window.CoreHome.ReportActionsStore.set(key, config);
+
+        // The header derives a key of its own at mount, from a position and a report id that both
+        // move under it - maximising puts the table in a dialog, a related report renames it. Hand
+        // it the key actually written instead.
+        var header = this._findReportHeaderApp(domElem);
+        if (header && header.app) {
+            header.app.reportKey_ = key;
+        }
+    },
+
+    // Returns { $el, app } for the shared ReportHeader Vue app that titles this report, or null.
+    // This is the same app replaceReportTitleAndHelp() pushes into.
+    _findReportHeaderApp: function (domElem) {
+        var $header = this._locateReportHeader(domElem).$header;
+        if (!$header.length) {
+            return null;
+        }
+        return { $el: $header, app: $header.data('vueAppInstance') };
     },
 
     _createDivId: function () {

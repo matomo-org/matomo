@@ -84,6 +84,12 @@ class Controller extends \Piwik\Plugin\Controller
         $view = new View('@CoreHome/widgetContainer');
         $view->isWidgetized = (bool) Common::getRequestVar('widget', 0, 'int');
         $view->containerId  = Common::getRequestVar('containerId', null, 'string');
+        // On a dashboard the widget chrome renders the report header; in an iframe nothing does,
+        // so the children have to render their own. Read from the route, which stays on Widgetize
+        // through the inner dispatch, rather than from `widget` - a dashboard sets that too.
+        $request = \Piwik\Request::fromRequest();
+        $view->childrenOwnTheirHeader = $request->getStringParameter('module', '') === 'Widgetize'
+            && $request->getStringParameter('action', '') === 'iframe';
 
         return $view->render();
     }

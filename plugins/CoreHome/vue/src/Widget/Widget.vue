@@ -97,6 +97,9 @@ export default defineComponent({
   props: {
     widget: Object,
     widgetized: Boolean,
+    // No chrome renders a header above these children, so each renders its own. The dashboard and
+    // the add-widget preview do provide one, and leave this off.
+    childrenOwnTheirHeader: Boolean,
     containerid: String,
     preventRecursion: Boolean,
     suppressNotifications: Boolean,
@@ -185,6 +188,7 @@ export default defineComponent({
                   ...w.parameters,
                   widget: '1',
                   containerId: this.containerid!,
+                  ...(this.childrenOwnTheirHeader ? { own_report_header: '1' } : {}),
                 },
               })) as WidgetData[];
             }

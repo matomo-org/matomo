@@ -19,15 +19,17 @@ describe('DataTable', function () {
     metricColumn: `${widgetSelector} #nb_uniq_visitors`,
     limitDropdownTrigger: `${widgetSelector} .limitSelection .select-wrapper input.select-dropdown`,
     limitDropdownMenu: `${widgetSelector} .limitSelection .select-wrapper ul.select-dropdown`,
-    visualizationTrigger: `${widgetSelector} .dataTableHeaderControls .dataTableControls a.activateVisualizationSelection`,
-    visualizationTriggerIcon: `${widgetSelector} .dataTableHeaderControls .dataTableControls a.activateVisualizationSelection > span, ${widgetSelector} .dataTableHeaderControls .dataTableControls a.activateVisualizationSelection > img`,
-    visualizationMenu: `${widgetSelector} .dataTableHeaderControls .dataTableControls ul.dropdown-content.dataTableFooterIcons`,
-    visualizationButtons: `${widgetSelector} .dataTableHeaderControls .dataTableControls ul.dropdown-content.dataTableFooterIcons li .tableIcon[data-footer-icon-id]`,
-    configureTrigger: `${widgetSelector} .dataTableHeaderControls .dataTableControls a.dropdownConfigureIcon`,
-    totalsRowToggle: '.dataTableShowTotalsRow',
-    percentageValuesToggle: '.dataTableShowPercentageValues',
-    searchTrigger: `${widgetSelector} .dataTableHeaderControls .dataTableControls a.dataTableAction.searchAction`,
-    searchInput: `${widgetSelector} .dataTableHeaderControls .dataTableControls input.dataTableSearchInput`,
+    // One 3-dots trigger opens one menu holding every action, so the visualisation list and the
+    // config items no longer have separate triggers of their own.
+    actionsTrigger: `${widgetSelector} .reportHeader__actionsTrigger`,
+    actionsMenu: `${widgetSelector} .reportHeader__actionsMenu`,
+    visualizationButtons: `${widgetSelector} .reportHeader__actionsMenu .dataTableFooterIcons .tableIcon[data-footer-icon-id]`,
+    // Scoped to the widget: the page shows several reports and each renders its own copy of the
+    // menu in its own header, so an unscoped selector picks whichever comes first in the document.
+    totalsRowToggle: `${widgetSelector} .dataTableShowTotalsRow`,
+    percentageValuesToggle: `${widgetSelector} .dataTableShowPercentageValues`,
+    // scoped to the widget: the page shows four reports, each with its own header search
+    searchInput: `${widgetSelector} .reportHeader__search .mtm-searchInput__input`,
     totalsRow: `${widgetSelector} table.dataTable tr.totalsRow`,
     footerMessage: `${widgetSelector} .datatableFooterMessage`,
   };
@@ -79,10 +81,14 @@ describe('DataTable', function () {
     await page.waitForNetworkIdle();
   }
 
+  async function openActionsMenu() {
+    await page.waitForSelector(selectors.actionsTrigger, { visible: true });
+    await page.click(selectors.actionsTrigger);
+    await page.waitForSelector(selectors.actionsMenu, { visible: true });
+  }
+
   async function changeVisualization() {
-    await page.waitForSelector(selectors.visualizationTriggerIcon, { visible: true });
-    await page.click(selectors.visualizationTriggerIcon);
-    await page.waitForSelector(selectors.visualizationMenu, { visible: true });
+    await openActionsMenu();
 
     await page.waitForFunction((selector) => document.querySelectorAll(selector).length >= 2, {}, selectors.visualizationButtons);
     await page.$$eval(selectors.visualizationButtons, (buttons) => {
@@ -95,9 +101,8 @@ describe('DataTable', function () {
   }
 
   async function toggleTotalsRow(times = 1) {
-    await page.waitForSelector(selectors.configureTrigger, { visible: true });
     for (let i = 0; i < times; i += 1) {
-      await page.click(selectors.configureTrigger);
+      await openActionsMenu();
       await page.waitForSelector(selectors.totalsRowToggle, { visible: true });
       await page.click(selectors.totalsRowToggle);
       await page.waitForNetworkIdle();
@@ -105,9 +110,8 @@ describe('DataTable', function () {
   }
 
   async function togglePercentageValues(times = 1) {
-    await page.waitForSelector(selectors.configureTrigger, { visible: true });
     for (let i = 0; i < times; i += 1) {
-      await page.click(selectors.configureTrigger);
+      await openActionsMenu();
       await page.waitForSelector(selectors.percentageValuesToggle, { visible: true });
       await page.click(selectors.percentageValuesToggle);
       await page.waitForNetworkIdle();
@@ -115,11 +119,11 @@ describe('DataTable', function () {
   }
 
   async function searchForPattern(pattern) {
-    await page.waitForSelector(selectors.searchTrigger, { visible: true });
-    await page.click(selectors.searchTrigger);
     await page.waitForSelector(selectors.searchInput, { visible: true });
-    await page.type(selectors.searchInput, pattern);
-    await page.keyboard.press('Enter');
+    await page.focus(selectors.searchInput);
+    await page.keyboard.type(pattern);
+    // the search is debounced; waitForNetworkIdle waits it out (its idle threshold exceeds the
+    // debounce delay) and then for the reload it triggers to settle
     await page.waitForNetworkIdle();
   }
 
@@ -191,7 +195,8 @@ describe('DataTable', function () {
         headers: widget.querySelectorAll('.reportHeader').length,
         headingTag: title.tagName,
         title: title.innerText.trim(),
-        actionRowsInTable: dataTable.querySelectorAll('.dataTableHeaderControls').length,
+        actionBarsInTable: dataTable.querySelectorAll('.dataTableHeaderControls').length,
+        actionsInHeader: widget.querySelectorAll('.reportHeader__actions').length,
         widgetControls: widget.querySelectorAll('.reportHeader .widgetControls__action').length,
       };
     }, widgetSelector);
@@ -205,9 +210,6 @@ describe('DataTable', function () {
         // the hover value is `visibility: hidden` until the column is hovered, so innerText is empty
         value: cell.querySelector('span.value').textContent.trim(),
         hover: cell.querySelector('span.ratio').textContent.trim(),
-        configureHighlighted: !!document.querySelector(
-          `${widgetSel} .dataTableControls a.dropdownConfigureIcon.highlighted`,
-        ),
       };
     }, widgetSelector);
   }
@@ -221,7 +223,9 @@ describe('DataTable', function () {
     // the widget name from the metadata still wins over the report's own title
     expect(layout.title).to.be.equal('Device type');
     expect(layout.widgetControls).to.be.equal(0);
-    expect(layout.actionRowsInTable).to.be.equal(1);
+    // the actions moved into the header: nothing is rendered around the table any more
+    expect(layout.actionBarsInTable).to.be.equal(0);
+    expect(layout.actionsInHeader).to.be.equal(1);
   });
 
   it('should keep the header across sorting, limit and visualization changes', async function () {
@@ -316,27 +320,27 @@ describe('DataTable', function () {
     expect(ajaxRequestCount).to.be.equal(2);
   });
 
+  // The configure icon used to be highlighted while a non-default setting was active. There is no
+  // configure icon any more, so only the swap itself is asserted here; the menu entry's own wording
+  // and accessible name are covered in DataTableActions.component.spec.ts.
   it('should swap absolute and percentage values when the percentage setting is toggled', async function () {
     await loadWidget();
 
     const absolute = await readFirstMetricCell();
     expect(absolute.value).to.match(/^[\d,.]+$/);
     expect(absolute.hover).to.match(/%$/);
-    expect(absolute.configureHighlighted).to.be.equal(false);
 
     await togglePercentageValues();
 
     const percentage = await readFirstMetricCell();
     expect(percentage.value).to.be.equal(absolute.hover);
     expect(percentage.hover).to.be.equal(absolute.value);
-    expect(percentage.configureHighlighted).to.be.equal(true);
 
     await togglePercentageValues();
 
     const restored = await readFirstMetricCell();
     expect(restored.value).to.be.equal(absolute.value);
     expect(restored.hover).to.be.equal(absolute.hover);
-    expect(restored.configureHighlighted).to.be.equal(false);
   });
 
   it('should allow saving preference when toggling percentage values via the configuration menu', async function () {
