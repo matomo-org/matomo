@@ -7,25 +7,36 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ## Matomo 5.14.0
 
 ### Breaking Changes
-* The `Referrers_distinctWebsitesUrls` metric is now listed among the metrics of the `Referrers.get` report, carries the label `Distinct website URLs`, and is declared as a numeric metric. It was already archived and already part of `Referrers.get`'s own output, so that call returns the same columns as before; what changes is the surfaces driven by the report's metric list. `API.getProcessedReport` for `Referrers.get` now returns the metric instead of stripping it, and scheduled and emailed reports include it -- a new row in the HTML rendering, a new column in the CSV and TSV ones -- so consumers parsing those exports by column position will see a changed header and column count. Wherever a rendering resolves metric labels, `Distinct website URLs` now appears in place of the raw column name. Being declared numeric also brings it under CNIL data rounding, so on installations with that setting enabled the count is rounded to the same scale as other counts.
-* The `UserCountry_distinctCountries` metric, returned by `UserCountry.getNumberOfDistinctCountries` and plotted by the distinct-countries sparkline widget on the Locations page, is now declared as a numeric metric and is therefore subject to CNIL data rounding. On installations with CNIL rounding enabled the returned count is rounded to the same scale as other counts instead of being passed through unrounded, so a value of `18` now reads as `20`. Installations without CNIL rounding are unaffected.
-
-### New APIs
-* The new `Piwik\Http\SecurityHeaders::sendForDataResponse()` sends the header set for a response that is data rather than application UI: `X-Content-Type-Options: nosniff`, `Referrer-Policy: no-referrer`, `X-Frame-Options: deny` unless `[General] enable_framed_pages` allows embedding, and a `Content-Security-Policy` that allows no scripts, forms or base URI, only inline styles and images from Matomo itself (built by the new `Piwik\View\SecurityPolicy::restrictToDataResponse()`). Core sends it for the API endpoint itself, report exports, inline report previews, and the API module's `listAllMethods` and `listSegments` actions, which return HTML without a view; `action=listAllAPI`, which renders one, keeps the headers of a regular page. Call it in a plugin that streams an export or a report, before writing any output.
-
-## Matomo 5.13.0
-
-### Breaking Changes
 * The interface `Piwik\Settings\Interfaces\PolicyComparisonInterface` gained four methods used by the granular compliance dashboard: `getPolicySettingId()`, `isExternallyManagedByPolicyPage()`, `getWhatItDoes()` and `getImpact()`. Plugins that implement the interface directly must implement them. Plugins using `Piwik\Settings\Interfaces\Traits\PolicyComparisonTrait` (as all known implementers do) inherit default implementations and are not affected.
-* Site content detection (used by the tracking-code setup page and consent-manager detection) now fetches the site URL over the SSRF-safe request path. It refuses targets resolving to private, loopback or reserved IP addresses, and requires the curl extension instead of falling back to the `fopen` or `socket` transports. Installations tracking intranet sites on private addresses must allowlist their ranges via the new `[General] allowed_private_egress_ranges` setting. Refusals are logged at `WARN` level. A configured `[proxy] host` also makes these requests fail closed, as the proxy resolves the target itself and the validated IP cannot be pinned. Where the site host is reachable directly, add it to `[proxy] exclude` (exact hostnames, no wildcards).
-* A report or graph can now only be streamed to the browser by the top-level request. `ImageGraph.get` and `ScheduledReports.generateReport` throw when a streaming output mode comes from a nested API request, for example an `API.getBulkRequest` sub-request. Use `GRAPH_OUTPUT_PHP`/`GRAPH_OUTPUT_FILE` or `OUTPUT_RETURN` instead — `OUTPUT_SAVE_ON_DISK` is rewritten to `OUTPUT_DOWNLOAD` and still throws. The streaming methods of `Piwik\ReportRenderer` and `Piwik\ReportRenderer\Pdf` throw too, so a plugin's own renderer inherits the restriction (new: `ReportRenderer::checkStreamingToBrowserIsAllowed()` and `Piwik\API\Request::isCurrentApiRequestNestedInAnotherApiRequest()`).
-* `UsersManager.createAppSpecificTokenAuth` now only creates a token for the account the caller is acting as, with no exception for super users — including code inside `Piwik\Access::doAsSuperUser()`, console commands and scheduled tasks. To create a token for another account, send an unauthenticated request with that account's `passwordConfirmation`. The method also refuses to run as a nested API request.
-* `UsersManager.setUserAccess` now requires `passwordConfirmation` to grant the `admin` role, in either the string or the array form of `access`, on top of the existing check for granting the anonymous user `view` access. As before this applies only to session-authenticated requests, which includes any request sending `force_api_session=1`; plain `token_auth`, `Authorization: Bearer` and CLI calls are unaffected.
 * Exporting a report for a single goal (a goals table or a bar/pie/evolution chart showing one goal's
   conversions or revenue) now returns only the columns shown in the UI, by adding `showColumns` to the
   export request. Previously the export returned the aggregated all-goals columns and every other
   goal's columns as well. Integrations that reuse an export URL copied from the UI will receive a
   narrower set of columns than before.
+* The `Referrers_distinctWebsitesUrls` metric is now listed among the metrics of the `Referrers.get` report, carries the label `Distinct website URLs`, and is declared as a numeric metric. It was already archived and already part of `Referrers.get`'s own output, so that call returns the same columns as before; what changes is the surfaces driven by the report's metric list. `API.getProcessedReport` for `Referrers.get` now returns the metric instead of stripping it, and scheduled and emailed reports include it -- a new row in the HTML rendering, a new column in the CSV and TSV ones -- so consumers parsing those exports by column position will see a changed header and column count. Wherever a rendering resolves metric labels, `Distinct website URLs` now appears in place of the raw column name. Being declared numeric also brings it under CNIL data rounding, so on installations with that setting enabled the count is rounded to the same scale as other counts.
+* The `UserCountry_distinctCountries` metric, returned by `UserCountry.getNumberOfDistinctCountries` and plotted by the distinct-countries sparkline widget on the Locations page, is now declared as a numeric metric and is therefore subject to CNIL data rounding. On installations with CNIL rounding enabled the returned count is rounded to the same scale as other counts instead of being passed through unrounded, so a value of `18` now reads as `20`. Installations without CNIL rounding are unaffected.
+
+### New APIs
+* The new `Piwik\Http\SecurityHeaders::sendForDataResponse()` sends the header set for a response that is data rather than application UI: `X-Content-Type-Options: nosniff`, `Referrer-Policy: no-referrer`, `X-Frame-Options: deny` unless `[General] enable_framed_pages` allows embedding, and a `Content-Security-Policy` that allows no scripts, forms or base URI, only inline styles and images from Matomo itself (built by the new `Piwik\View\SecurityPolicy::restrictToDataResponse()`). Core sends it for the API endpoint itself, report exports, inline report previews, and the API module's `listAllMethods` and `listSegments` actions, which return HTML without a view; `action=listAllAPI`, which renders one, keeps the headers of a regular page. Call it in a plugin that streams an export or a report, before writing any output.
+* Two new events let plugins customise the "No data has been recorded yet" page, on both the standalone page and its embedding in the reporting UI:
+  * `Template.siteWithoutData.afterTrackingMethods` collects additional HTML rendered below the tracking methods list and the section for temporarily hiding the page.
+  * `SitesManager.siteWithoutData.showInviteTeamMemberLink` lets a plugin hide the "Invite Team Member" link by setting the posted flag to `false`.
+
+### HTTP API
+* A new `keep_flattened_dimension_columns` parameter keeps the columns a flattened report adds for its
+  dimensions when the request also restricts columns with `showColumns`. Flattening with
+  `flat=1&show_dimensions=1` adds one column per dimension, but their names only exist after
+  flattening, so a caller cannot include them in a `showColumns` allowlist and `ColumnDelete` would
+  drop them. Setting `keep_flattened_dimension_columns=1` re-adds them after flattening. It defaults
+  to `0`, so `showColumns` on its own behaves exactly as before.
+
+## Matomo 5.13.0
+
+### Breaking Changes
+* Site content detection (used by the tracking-code setup page and consent-manager detection) now fetches the site URL over the SSRF-safe request path. It refuses targets resolving to private, loopback or reserved IP addresses, and requires the curl extension instead of falling back to the `fopen` or `socket` transports. Installations tracking intranet sites on private addresses must allowlist their ranges via the new `[General] allowed_private_egress_ranges` setting. Refusals are logged at `WARN` level. A configured `[proxy] host` also makes these requests fail closed, as the proxy resolves the target itself and the validated IP cannot be pinned. Where the site host is reachable directly, add it to `[proxy] exclude` (exact hostnames, no wildcards).
+* A report or graph can now only be streamed to the browser by the top-level request. `ImageGraph.get` and `ScheduledReports.generateReport` throw when a streaming output mode comes from a nested API request, for example an `API.getBulkRequest` sub-request. Use `GRAPH_OUTPUT_PHP`/`GRAPH_OUTPUT_FILE` or `OUTPUT_RETURN` instead — `OUTPUT_SAVE_ON_DISK` is rewritten to `OUTPUT_DOWNLOAD` and still throws. The streaming methods of `Piwik\ReportRenderer` and `Piwik\ReportRenderer\Pdf` throw too, so a plugin's own renderer inherits the restriction (new: `ReportRenderer::checkStreamingToBrowserIsAllowed()` and `Piwik\API\Request::isCurrentApiRequestNestedInAnotherApiRequest()`).
+* `UsersManager.createAppSpecificTokenAuth` now only creates a token for the account the caller is acting as, with no exception for super users — including code inside `Piwik\Access::doAsSuperUser()`, console commands and scheduled tasks. To create a token for another account, send an unauthenticated request with that account's `passwordConfirmation`. The method also refuses to run as a nested API request.
+* `UsersManager.setUserAccess` now requires `passwordConfirmation` to grant the `admin` role, in either the string or the array form of `access`, on top of the existing check for granting the anonymous user `view` access. As before this applies only to session-authenticated requests, which includes any request sending `force_api_session=1`; plain `token_auth`, `Authorization: Bearer` and CLI calls are unaffected.
 
 ### New APIs
 * The sparklines visualization has been redesigned as a responsive card grid of metric tiles. Plugin-facing additions that come with it:
@@ -46,9 +57,6 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The new bundled `AIProviders` plugin holds the AI provider credentials and defaults that Matomo's AI features use, and lets a plugin add a provider of its own by extending `Piwik\Plugins\AIProviders\Provider\AIProvider`:
   * `AIProviders.addAIProviders` registers providers on the `AIProvidersList` it receives. `AIProviders.filterAIProviders` can remove one or mark it restricted, so it still serves completions but is hidden from the admin UI. The first registration for a provider ID wins.
   * `Piwik\Plugins\AIProviders\AIProviderService` runs a completion (`complete()`) or a multi-turn conversation (`converse()`).
-* Two new events let plugins customise the "No data has been recorded yet" page, on both the standalone page and its embedding in the reporting UI:
-  * `Template.siteWithoutData.afterTrackingMethods` collects additional HTML rendered below the tracking methods list and the section for temporarily hiding the page.
-  * `SitesManager.siteWithoutData.showInviteTeamMemberLink` lets a plugin hide the "Invite Team Member" link by setting the posted flag to `false`.
 
 ### New config.ini.php settings
 * The new `[AIProviders]` section configures the AI provider plugin from the config file:
@@ -63,12 +71,6 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   authenticate with its own `token_auth`, but may not change the session flag. A nested request whose
   parameters conflict with the outer request's authentication context aborts the whole bulk request.
 * `API.getProcessedReport` for `Referrers.getAll` now returns `reportTotal` keyed by metric name instead of raw `Piwik\Metrics::INDEX_*` integers such as `2` and `3`. It was the only report leaking those keys.
-* A new `keep_flattened_dimension_columns` parameter keeps the columns a flattened report adds for its
-  dimensions when the request also restricts columns with `showColumns`. Flattening with
-  `flat=1&show_dimensions=1` adds one column per dimension, but their names only exist after
-  flattening, so a caller cannot include them in a `showColumns` allowlist and `ColumnDelete` would
-  drop them. Setting `keep_flattened_dimension_columns=1` re-adds them after flattening. It defaults
-  to `0`, so `showColumns` on its own behaves exactly as before.
 
 ### HTTP Tracking API
 * `token_auth` and `token` are now part of the default `url_query_parameter_to_exclude_from_url`, so both are stripped from tracked page, site search, event, content, goal-conversion and referrer URLs; downloads and outlinks keep them. An installation that sets the option in its own `config.ini.php` replaces the default rather than extending it, and has to add the two names itself.
