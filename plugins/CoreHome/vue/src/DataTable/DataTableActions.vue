@@ -16,7 +16,7 @@
     @keydown.end.prevent="focusEdge(true)"
   >
     <!-- Report actions live in the report header, inside the single menu its 3-dots trigger
-         opens. Three lists rather than one: `ul.tableConfiguration` and `.dataTableFooterIcons`
+         opens. Four lists rather than one: `ul.tableConfiguration` and `.dataTableFooterIcons`
          are the hooks every dataTable.js handler binds to, and adjacent lists carry no margin,
          so this still reads as one continuous menu. -->
     <template v-if="isInHeader">
@@ -199,17 +199,6 @@
           </a>
         </li>
 
-        <ExportMenu
-          :show-export="showExport"
-          :show-export-as-image-icon="showExportAsImageIcon"
-          :export-supports-flat="exportSupportsFlat"
-          :report-title="reportTitle"
-          :request-params="requestParams"
-          :api-method-to-request-data-table="apiMethodToRequestDataTable"
-          :report-formats="reportFormats"
-          :max-filter-limit="maxFilterLimit"
-          :placement="placement"
-        />
         <li
           v-for="action in dataTableActions"
           :key="action.id"
@@ -278,6 +267,25 @@
             </a>
           </li>
         </Passthrough>
+      </ul>
+
+      <ul v-if="hasExportItems" class="mtm-dropdownPanel__menu" role="group">
+        <li
+          v-if="hasItemsAboveExports"
+          class="mtm-dropdownPanel__separator"
+          role="separator"
+        />
+        <ExportMenu
+          :show-export="showExport"
+          :show-export-as-image-icon="showExportAsImageIcon"
+          :export-supports-flat="exportSupportsFlat"
+          :report-title="reportTitle"
+          :request-params="requestParams"
+          :api-method-to-request-data-table="apiMethodToRequestDataTable"
+          :report-formats="reportFormats"
+          :max-filter-limit="maxFilterLimit"
+          :placement="placement"
+        />
       </ul>
     </template>
 
@@ -515,9 +523,13 @@ export default defineComponent({
     hasActionItems(): boolean {
       return (this.showPeriods && !this.isPromoted('periods'))
         || this.showAnnotations
-        || this.showExportAsImageIcon
-        || this.showExport
         || this.dataTableActions.length > 0;
+    },
+    hasExportItems(): boolean {
+      return this.showExportAsImageIcon || this.showExport;
+    },
+    hasItemsAboveExports(): boolean {
+      return this.hasActionsAbove || this.visibleFooterIconGroups.length > 0;
     },
     // Whether anything renders above the visualisation lists, so their leading separator has
     // something to separate from.

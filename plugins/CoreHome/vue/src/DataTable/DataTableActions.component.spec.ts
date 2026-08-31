@@ -390,6 +390,35 @@ describe('DataTableActions menu structure', () => {
     wrapper.unmount();
   });
 
+  it('should close the menu with the exports, ruled off from the visualisations', () => {
+    const wrapper = mountComponent({
+      reportSupportsPercentageValues: true,
+      showExport: true,
+      showExportAsImageIcon: true,
+    });
+
+    const lists = wrapper.findAll('ul.mtm-dropdownPanel__menu');
+    const exports = lists[lists.length - 1];
+    expect(exports.find('a.activateExportSelection').exists()).toBe(true);
+    expect(exports.find('a.dataTableAction.tableIcon').exists()).toBe(true);
+
+    // its own rule, and the entries below it
+    const rows = exports.findAll('li');
+    expect(rows[0].classes()).toContain('mtm-dropdownPanel__separator');
+    expect(rows.length).toBe(3);
+  });
+
+  it('should carry no rule when the exports open the menu on their own', () => {
+    const wrapper = mountComponent({
+      reportSupportsPercentageValues: false,
+      footerIcons: [],
+      showExport: true,
+    });
+
+    expect(wrapper.find('a.activateExportSelection').exists()).toBe(true);
+    expect(wrapper.find('li.mtm-dropdownPanel__separator').exists()).toBe(false);
+  });
+
   // showConfigItems only gates the list; every entry inside has a condition of its own.
   it('should not rule off above the visualisations when nothing renders above them', () => {
     const wrapper = mountComponent({ reportSupportsPercentageValues: false });
