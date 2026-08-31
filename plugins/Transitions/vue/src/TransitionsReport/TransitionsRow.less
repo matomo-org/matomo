@@ -99,6 +99,12 @@
     white-space: nowrap;
   }
 
+  // The Others row is not a page, so its label is set apart from the ones that are.
+  .transitionsRow__label--muted {
+    color: @theme-color-text-light;
+    font-style: italic;
+  }
+
   .transitionsRow__count,
   .transitionsRow__total {
     color: @theme-color-text-light;
@@ -148,26 +154,19 @@
   &.transitionsRow--summary {
     background: var(--transitions-row-deep);
   }
-}
 
-.transitionsRow--actionable {
-  cursor: pointer;
-}
+  &.transitionsRow--actionable {
+    cursor: pointer;
+  }
 
-.transitionsRow--actionable:hover,
-.transitionsRow--highlighted {
-  box-shadow: @theme-shadow-overlay;
-}
+  &.transitionsRow--actionable:hover,
+  &.transitionsRow--highlighted {
+    box-shadow: @theme-shadow-overlay;
+  }
 
-.transitionsRow--others .transitionsRow__label {
-  color: @theme-color-text-light;
-  font-style: italic;
-}
-
-// Every actionable row is an anchor, and bootstrap.css re-underlines one on hover and on focus
-// (`a:hover, a:focus { text-decoration: underline }`), which the block's own `text-decoration` does
-// not cover. The underline would otherwise propagate to every flex item in the row.
-.transitionsRow:hover,
-.transitionsRow:focus {
-  text-decoration: none;
+  // An actionable row is an anchor, and bootstrap re-underlines those on hover and focus.
+  &:hover,
+  &:focus {
+    text-decoration: none;
+  }
 }

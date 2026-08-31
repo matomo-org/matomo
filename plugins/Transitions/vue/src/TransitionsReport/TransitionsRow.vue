@@ -23,7 +23,11 @@
     </span>
 
     <span class="transitionsRow__body">
-      <span class="transitionsRow__label" :title="row.fullLabel || row.label">{{ row.label }}</span>
+      <span
+        class="transitionsRow__label"
+        :class="{ 'transitionsRow__label--muted': row.isOthers }"
+        :title="row.fullLabel || row.label"
+      >{{ row.label }}</span>
       <span class="transitionsRow__count" v-if="isAction">{{ row.countLabel }}</span>
     </span>
 
@@ -92,7 +96,6 @@ export default defineComponent({
         'transitionsRow--outgoing': this.side === 'outgoing',
         'transitionsRow--actionable': this.isActionable,
         'transitionsRow--highlighted': this.highlighted,
-        'transitionsRow--others': this.row.isOthers,
         'transitionsRow--summary': !this.isAction,
       };
     },
