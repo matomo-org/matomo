@@ -7,6 +7,7 @@
 
 import { mount } from '@vue/test-utils';
 import ReportHeader from './ReportHeader.vue';
+import ExportMenu from '../DataTable/ExportMenu.vue';
 
 vi.mock('../translate', () => ({
   translate: (key: string) => {
@@ -135,6 +136,8 @@ describe('ReportHeader', () => {
       showExport: true,
       showExportAsImageIcon: true,
       showAnnotations: true,
+      exportSupportsFlatten: true,
+      clientSideParameters: { flat: '1' },
     };
 
     async function mountPromoted(count: number, customProps = {}) {
@@ -153,6 +156,13 @@ describe('ReportHeader', () => {
       expect(control.find('[role="menu"]').exists()).toBe(true);
       expect(control.find('a.activateExportSelection').exists()).toBe(true);
       expect(control.find('a.dataTableAction.tableIcon').exists()).toBe(true);
+
+      // the entries rendering is not enough: what the export directive is handed decides whether
+      // the popover offers a flat export at all
+      expect(wrapper.findComponent(ExportMenu).props()).toMatchObject({
+        exportSupportsFlatten: true,
+        clientSideParameters: { flat: '1' },
+      });
     });
 
     it('should draw the annotations control as one icon, since it is one toggle', async () => {

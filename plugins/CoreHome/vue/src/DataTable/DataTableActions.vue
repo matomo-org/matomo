@@ -514,8 +514,6 @@ export default defineComponent({
         .map((id) => this.allFooterIcons.find((button) => button.id === id))
         .filter((icon) => !!icon) as FooterIcon[];
     },
-    // A group whose buttons all lack an icon renders nothing, and a separator for it would end the
-    // menu on a rule with nothing under it.
     // The header decides what to draw from the same predicates, before this is even mounted.
     menuConfig(): Partial<ReportActionsConfig> {
       return {
@@ -606,27 +604,6 @@ export default defineComponent({
     },
     excludeLowPopText() {
       return translate('CoreHome_ExcludeLowPopulation');
-    },
-    // Every config entry acts on a table, so a graph offers none - except where one is already
-    // applied, which has to stay reachable to be undone. This is the gate the configure icon
-    // carried before the actions moved into the header's single menu.
-    showConfigItems(): boolean {
-      return this.isTableView || this.isAnyConfigureIconHighlighted;
-    },
-    isTableView(): boolean {
-      return this.viewDataTable === 'table'
-        || this.viewDataTable === 'tableAllColumns'
-        || this.viewDataTable === 'tableGoals';
-    },
-    isAnyConfigureIconHighlighted(): boolean {
-      const params = this.clientSideParameters as Record<string, string|number|boolean>;
-      return isBooleanLikeSet(params.flat)
-        || isBooleanLikeSet(params.keep_totals_row)
-        || isBooleanLikeSet(params.include_aggregate_rows)
-        || isBooleanLikeSet(params.show_dimensions)
-        || isBooleanLikeSet(params.pivotBy)
-        || isBooleanLikeSet(params.enable_filter_excludelowpop)
-        || isBooleanLikeSet(params.show_percentage_values);
     },
   },
 });

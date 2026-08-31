@@ -123,11 +123,11 @@
                   <ExportMenu
                     :show-export="actions.showExport"
                     :show-export-as-image-icon="actions.showExportAsImageIcon"
-                    :export-supports-flat="exportSupportsFlat"
+                    :export-supports-flatten="actions.exportSupportsFlatten"
+                    :client-side-parameters="actions.clientSideParameters"
                     :report-title="titleText"
                     :request-params="actions.requestParams"
                     :api-method-to-request-data-table="actions.apiMethodToRequestDataTable"
-                    :report-formats="reportFormats"
                     :max-filter-limit="actions.maxFilterLimit"
                     placement="header"
                   />
@@ -633,6 +633,13 @@ export default defineComponent({
       });
       this.resizeObserver.observe(row);
     },
+    // A control removed with its panel open never hears onClosed, and would come back announcing
+    // itself expanded.
+    demoteAll() {
+      this.promotedCount = 0;
+      this.periodsExpanded = false;
+      this.exportExpanded = false;
+    },
     async updatePromoted() {
       const row = this.$refs.headerRow as HTMLElement | undefined;
       // A header that is not laid out reports a phone-sized window, and demoting on that sticks:
@@ -646,7 +653,7 @@ export default defineComponent({
       // until the fit is tuned more finely.
       if (!promotable || this.hasControls
         || window.matchMedia(NO_PROMOTION_BREAKPOINT).matches) {
-        this.promotedCount = 0;
+        this.demoteAll();
         return;
       }
 
