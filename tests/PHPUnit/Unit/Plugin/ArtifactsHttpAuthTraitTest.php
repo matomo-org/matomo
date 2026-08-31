@@ -11,6 +11,7 @@ namespace Piwik\Tests\Core\Plugin;
 
 use PHPUnit\Framework\TestCase;
 use Piwik\Plugin\ArtifactsHttpAuthTrait;
+use Piwik\Plugin\ConsoleCommand;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
@@ -99,7 +100,7 @@ class ArtifactsHttpAuthTraitTest extends TestCase
     }
 
     /**
-     * @param resource $stream
+     * @return resource
      */
     private function makeStream(string $contents)
     {
@@ -117,19 +118,23 @@ class ArtifactsHttpAuthTraitTest extends TestCase
             new InputOption('http-password-stdin', '', InputOption::VALUE_NONE),
         ]);
 
-        return new class (new ArrayInput($parameters, $definition)) {
+        // the trait belongs to a ConsoleCommand, so the fixture has to be one for its option
+        // definitions to resolve
+        return new class (new ArrayInput($parameters, $definition)) extends ConsoleCommand {
             use ArtifactsHttpAuthTrait;
 
-            private $input;
+            private $testInput;
 
             public function __construct(InputInterface $input)
             {
-                $this->input = $input;
+                parent::__construct('test:artifacts-http-auth');
+
+                $this->testInput = $input;
             }
 
-            public function getInput(): InputInterface
+            protected function getInput(): InputInterface
             {
-                return $this->input;
+                return $this->testInput;
             }
 
             public function resolvePassword(): ?string
