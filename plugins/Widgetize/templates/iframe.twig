@@ -9,7 +9,9 @@
     </head>
     {% set bodyClass = postEvent('Template.bodyClass', 'widgetized') %}
     <body class="widgetized{{ bodyClass }}">
-        <div class="widget">
+        {# `__transitionSwitcher-unpadded` is the Transitions context hook: this shell has no card
+           padding of its own, so the switcher supplies it. #}
+        <div class="widget __transitionSwitcher-unpadded">
             {{ content|raw }}
         </div>
         <div id="pageFooter">

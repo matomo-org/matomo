@@ -16,13 +16,6 @@
   margin: 0 -8px;
   padding: 0 8px;
 
-  // The widgetized shell leaves no side padding to bleed into, so the report would cross the
-  // widget card's border. Keep the shadow room inside there instead.
-  body.widgetized & {
-    margin-left: 0;
-    margin-right: 0;
-  }
-
   .transitionsReport__grid {
     display: grid;
     grid-template-columns: 1fr @_ribbonWidth minmax(240px, 350px) @_ribbonWidth 1fr;

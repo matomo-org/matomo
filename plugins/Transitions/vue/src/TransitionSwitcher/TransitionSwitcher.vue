@@ -7,41 +7,38 @@
 
 <template>
   <div
+    class="transitionSwitcher"
     :class="{ widgetBody: isWidget }"
     id="transitions_report"
   >
-    <div class="row">
-      <div class="col s12 m3">
-        <div name="actionType">
-          <Field
-            uicontrol="select"
-            name="actionType"
-            v-model="actionType"
-            :title="translate('Actions_ActionType')"
-            :full-width="true"
-            :options="actionTypeOptions"
-          >
-          </Field>
-        </div>
+    <div class="transitionSwitcher__selects">
+      <div class="transitionSwitcher__typeField" name="actionType">
+        <Field
+          uicontrol="select"
+          name="actionType"
+          v-model="actionType"
+          :title="translate('Actions_ActionType')"
+          :full-width="true"
+          :options="actionTypeOptions"
+        >
+        </Field>
       </div>
-      <div class="col s12 m9">
-        <div name="actionName">
-          <Field
-            uicontrol="select"
-            name="actionName"
-            v-model="actionName"
-            :title="translate('Transitions_TopX', '100')"
-            :full-width="true"
-            :disabled="!isEnabled"
-            :options="actionNameOptions"
-          >
-          </Field>
-        </div>
+      <div class="transitionSwitcher__nameField" name="actionName">
+        <Field
+          uicontrol="select"
+          name="actionName"
+          v-model="actionName"
+          :title="translate('Transitions_TopX', '100')"
+          :full-width="true"
+          :disabled="!isEnabled"
+          :options="actionNameOptions"
+        >
+        </Field>
       </div>
     </div>
     <ActivityIndicator :loading="isLoading" />
     <div
-      class="popoverContainer"
+      class="transitionSwitcher__report"
       v-show="!isLoading && isEnabled"
     >
       <TransitionsReport
