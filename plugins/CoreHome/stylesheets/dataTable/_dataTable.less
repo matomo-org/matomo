@@ -359,9 +359,12 @@ table.dataTable td #urlLink {
     text-decoration: none;
   }
 
-  &.activeIcon {
-    background-color: @theme-color-background-tinyContrast;
-  }
+}
+
+// The tint belongs to an icon bar, not to every `tableIcon`: in the report header's menu a tick
+// beside the label marks the active entry instead.
+.tableIconsGroup .activeIcon {
+  background-color: @theme-color-background-tinyContrast;
 }
 
 .tableIconsGroup > span > span {

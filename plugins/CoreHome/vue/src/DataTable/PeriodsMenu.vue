@@ -16,9 +16,9 @@
     >
       <a
         :data-period="selectablePeriod"
-        role="menuitem"
+        role="menuitemradio"
         tabindex="0"
-        :aria-current="activePeriod === selectablePeriod"
+        :aria-checked="activePeriod === selectablePeriod"
         :class="`mtm-dropdownPanel__menuLink tableIcon ${activePeriod === selectablePeriod
           ? 'activeIcon' : ''}`"
         @click="$emit('pick')"
@@ -28,6 +28,11 @@
         <span class="mtm-dropdownPanel__menuLabel">
           {{ labels[selectablePeriod] || selectablePeriod }}
         </span>
+        <span
+          v-if="activePeriod === selectablePeriod"
+          class="mtm-dropdownPanel__rightIcon"
+          aria-hidden="true"
+        ><span class="icon-ok" /></span>
       </a>
     </li>
   </ul>
@@ -35,6 +40,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
+import activateMenuItem from './activateMenuItem';
 
 export default defineComponent({
   props: {
@@ -53,10 +59,7 @@ export default defineComponent({
   },
   emits: ['pick'],
   methods: {
-    // The item is not a link, so a key press has to click it for the delegated handler to hear.
-    activateItem(event: KeyboardEvent) {
-      (event.currentTarget as HTMLElement | null)?.click();
-    },
+    activateItem: activateMenuItem,
   },
 });
 </script>
