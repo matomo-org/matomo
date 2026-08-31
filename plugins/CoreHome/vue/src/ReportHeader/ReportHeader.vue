@@ -63,43 +63,26 @@
            when the report has none the whole toolbar stays `:empty` and claims none of the
            header's gap. -->
         <div class="reportHeader__toolbar">
-          <!-- Promoted report actions, never beside the widget controls: separate scopes. -->
+          <!-- Promoted report actions, never beside the widget controls: separate scopes.
+               Least deserving first, so the highest rank sits nearest the trigger and a new one
+               appears to its left rather than pushing the others along. -->
+          <!-- One toggle, so it needs no panel and no label: the icon and its title carry it. -->
           <div
-            v-if="isPromoted('periods')"
-            ref="periodsSelector"
-            class="mtm-selector"
-            data-report-action="periods"
-            v-expand-on-click="{
-              expander: 'periodsTrigger',
-              onExpand: () => { periodsExpanded = true; },
-              onClosed: () => { periodsExpanded = false; },
-            }"
+            v-if="isPromoted('annotations')"
+            class="mtm-selector mtm-selector--iconOnly"
+            data-report-action="annotations"
           >
             <button
-              ref="periodsTrigger"
               type="button"
-              class="mtm-selector__trigger"
-              aria-haspopup="menu"
-              :aria-expanded="periodsExpanded ? 'true' : 'false'"
+              class="mtm-selector__trigger annotationView"
+              :title="annotationsTitle"
+              :aria-label="annotationsTitle"
+              :aria-pressed="annotationsShowing ? 'true' : 'false'"
             >
               <span class="mtm-selector__icon" aria-hidden="true">
-                <span class="icon-calendar" />
-              </span>
-              <span class="mtm-selector__label">{{ translate('CoreHome_ShowPeriod') }}</span>
-              <span class="mtm-selector__rightIcon" aria-hidden="true">
-                <span class="icon-chevron-down" />
+                <span class="icon-annotation" />
               </span>
             </button>
-            <div class="mtm-selector__dropdown">
-              <div class="mtm-dropdownPanel">
-                <PeriodsMenu
-                  :selectable-periods="actions.selectablePeriods"
-                  :active-period="`${(actions.clientSideParameters || {}).period || ''}`"
-                  :labels="actions.actionTranslations"
-                  @pick="closePromotedPeriods"
-                />
-              </div>
-            </div>
           </div>
 
           <div
@@ -153,23 +136,42 @@
             </div>
           </div>
 
-          <!-- One toggle, so it needs no panel and no label: the icon and its title carry it. -->
           <div
-            v-if="isPromoted('annotations')"
-            class="mtm-selector mtm-selector--iconOnly"
-            data-report-action="annotations"
+            v-if="isPromoted('periods')"
+            ref="periodsSelector"
+            class="mtm-selector"
+            data-report-action="periods"
+            v-expand-on-click="{
+              expander: 'periodsTrigger',
+              onExpand: () => { periodsExpanded = true; },
+              onClosed: () => { periodsExpanded = false; },
+            }"
           >
             <button
+              ref="periodsTrigger"
               type="button"
-              class="mtm-selector__trigger annotationView"
-              :title="annotationsTitle"
-              :aria-label="annotationsTitle"
-              :aria-pressed="annotationsShowing ? 'true' : 'false'"
+              class="mtm-selector__trigger"
+              aria-haspopup="menu"
+              :aria-expanded="periodsExpanded ? 'true' : 'false'"
             >
               <span class="mtm-selector__icon" aria-hidden="true">
-                <span class="icon-annotation" />
+                <span class="icon-calendar" />
+              </span>
+              <span class="mtm-selector__label">{{ translate('CoreHome_ShowPeriod') }}</span>
+              <span class="mtm-selector__rightIcon" aria-hidden="true">
+                <span class="icon-chevron-down" />
               </span>
             </button>
+            <div class="mtm-selector__dropdown">
+              <div class="mtm-dropdownPanel">
+                <PeriodsMenu
+                  :selectable-periods="actions.selectablePeriods"
+                  :active-period="`${(actions.clientSideParameters || {}).period || ''}`"
+                  :labels="actions.actionTranslations"
+                  @pick="closePromotedPeriods"
+                />
+              </div>
+            </div>
           </div>
 
           <div
@@ -274,6 +276,7 @@ import {
 } from '../DataTable/reportActions';
 import type { PromotableActionId } from '../DataTable/reportActions';
 import type { ReportActionsConfig } from '../DataTable/ReportActions.store';
+import { menuHoldsAnything } from '../DataTable/menuContents';
 import reportIdentity from '../DataTable/reportIdentity';
 import EnrichedHeadline from '../EnrichedHeadline/EnrichedHeadline.vue';
 import ExpandOnClick from '../ExpandOnClick/ExpandOnClick';
@@ -569,13 +572,17 @@ export default defineComponent({
         ...ReportActionsStore.get(this.activeReportKey),
       } as ReportActionsConfig;
     },
+    // A trigger opening onto nothing is worse than no trigger: once its ranks are promoted out, a
+    // report may have nothing left to put in the menu.
     showActions(): boolean {
-      return this.actions.showFooter && this.actions.showFooterIcons;
+      return this.actions.showFooter && this.actions.showFooterIcons
+        && menuHoldsAnything(this.actions, this.promotedActions);
     },
     // Whether the header line has nothing to render. Only that line is dropped: the subheader
     // below it is mounted independently, so a titleless widgetized report still gets its search.
     isEmpty(): boolean {
-      return !this.showTitle && !this.hasControls && !this.showActions;
+      return !this.showTitle && !this.hasControls && !this.showActions
+        && this.promotedActions.length === 0;
     },
     isFullPage(): boolean {
       return this.context === 'fullPage';

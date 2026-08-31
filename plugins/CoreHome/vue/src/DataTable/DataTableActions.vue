@@ -302,9 +302,16 @@ import Passthrough from '../Passthrough/Passthrough.vue';
 import ExportMenu from './ExportMenu.vue';
 import PeriodsMenu from './PeriodsMenu.vue';
 import type { PromotableActionId } from './reportActions';
+import type { ReportActionsConfig } from './ReportActions.store';
 import { translate } from '../translate';
 import { isBooleanLikeSet } from './DataTableActions.utils';
 import activateMenuItem from './activateMenuItem';
+import {
+  hasActionItems,
+  hasConfigItems,
+  hasExportItems,
+  visibleFooterIconGroups,
+} from './menuContents';
 
 export interface FooterIcon {
   id: string;
@@ -509,28 +516,37 @@ export default defineComponent({
     },
     // A group whose buttons all lack an icon renders nothing, and a separator for it would end the
     // menu on a rule with nothing under it.
+    // The header decides what to draw from the same predicates, before this is even mounted.
+    menuConfig(): Partial<ReportActionsConfig> {
+      return {
+        footerIcons: this.footerIcons as FooterIconGroup[],
+        viewDataTable: this.viewDataTable,
+        clientSideParameters: this.clientSideParameters,
+        isDataTableEmpty: this.isDataTableEmpty,
+        showFlattenTable: this.showFlattenTable,
+        reportSupportsPercentageValues: this.reportSupportsPercentageValues,
+        hasMultipleDimensions: this.hasMultipleDimensions,
+        showTotalsRow: this.showTotalsRow,
+        showExcludeLowPopulation: this.showExcludeLowPopulation,
+        showPivotBySubtable: this.showPivotBySubtable,
+        dataTableActions: this.dataTableActions,
+        showExport: this.showExport,
+        showExportAsImageIcon: this.showExportAsImageIcon,
+        showAnnotations: this.showAnnotations,
+        showPeriods: this.showPeriods,
+      };
+    },
     visibleFooterIconGroups(): FooterIconGroup[] {
-      return (this.footerIcons as FooterIconGroup[])
-        .map((group) => ({ ...group, buttons: group.buttons.filter((i) => !!i.icon) }))
-        .filter((group) => group.buttons.length > 0);
+      return visibleFooterIconGroups(this.menuConfig);
     },
     hasConfigItems(): boolean {
-      return this.showConfigItems
-        && (this.showFlattenTable
-          || this.showDimensionsConfigItem
-          || this.showFlatConfigItem
-          || this.showTotalsConfigItem
-          || this.showPercentageValuesConfigItem
-          || this.showExcludeLowPopulation
-          || this.showPivotBySubtable);
+      return hasConfigItems(this.menuConfig);
     },
     hasActionItems(): boolean {
-      return (this.showPeriods && !this.isPromoted('periods'))
-        || (this.showAnnotations && !this.isPromoted('annotations'))
-        || this.dataTableActions.length > 0;
+      return hasActionItems(this.menuConfig, this.promotedActions);
     },
     hasExportItems(): boolean {
-      return (this.showExportAsImageIcon || this.showExport) && !this.isPromoted('export');
+      return hasExportItems(this.menuConfig, this.promotedActions);
     },
     hasItemsAboveExports(): boolean {
       return this.hasActionsAbove || this.visibleFooterIconGroups.length > 0;

@@ -59,8 +59,9 @@ describe('ReportHeader', () => {
   });
 
   describe('report actions menu', () => {
-    // The menu only exists where the report renders footer icons; a subtable has none.
-    const withActions = { showFooter: true, showFooterIcons: true };
+    // The menu only exists where the report renders footer icons; a subtable has none. It also
+    // needs something to hold, or there is nothing for a trigger to open.
+    const withActions = { showFooter: true, showFooterIcons: true, showExport: true };
 
     it('should offer the actions menu only when the report has footer icons', () => {
       expect(mountComponent().find('.reportHeader__actionsTrigger').exists()).toBe(false);
@@ -105,6 +106,23 @@ describe('ReportHeader', () => {
 
       await wrapper.find('.reportHeader__actionsMenu').trigger('click');
       expect(trigger.attributes('aria-expanded')).toBe('false');
+    });
+
+    // Promoting empties the menu on a report whose only entries were promotable, and a trigger
+    // opening onto nothing is worse than no trigger.
+    it('should offer no trigger once the menu has nothing left to hold', async () => {
+      const wrapper = mountComponent({
+        ...withActions,
+        showAnnotations: true,
+        context: 'widgetized',
+      });
+      expect(wrapper.find('.reportHeader__actionsTrigger').exists()).toBe(true);
+
+      (wrapper.vm as unknown as { promotedCount: number }).promotedCount = 2;
+      await wrapper.vm.$nextTick();
+
+      expect(wrapper.findAll('[data-report-action]').length).toBe(2);
+      expect(wrapper.find('.reportHeader__actionsTrigger').exists()).toBe(false);
     });
   });
 
