@@ -200,7 +200,7 @@
       >
         <Passthrough v-for="(footerIconGroup, index) in visibleFooterIconGroups" :key="index">
           <li
-            v-if="showsSeparatorBefore(footerIconGroup, index)"
+            v-if="showsSeparatorBefore(index)"
             class="mtm-dropdownPanel__separator"
             role="separator"
           />
@@ -370,13 +370,14 @@ export default defineComponent({
     ReportExport,
   },
   methods: {
-    // Insights reads as the tail of the list above it rather than a group of its own.
-    showsSeparatorBefore(group: FooterIconGroup, index: number): boolean {
-      if (index > 0 && group.class === 'tableInsightViews') {
-        return false;
+    showsSeparatorBefore(index: number): boolean {
+      if (index === 0) {
+        return this.hasActionsAbove;
       }
 
-      return index > 0 || this.hasActionsAbove;
+      // Insights heads the visualisation list rather than standing on its own, so the rule falls
+      // before it and not after. Absent, the graphs keep the one they would have had.
+      return this.visibleFooterIconGroups[index - 1].class !== 'tableInsightViews';
     },
     isPromoted(action: PromotableActionId): boolean {
       return this.promotedActions.indexOf(action) !== -1;
