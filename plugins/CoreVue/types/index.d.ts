@@ -216,15 +216,6 @@ declare global {
     formatOr(values: string[]): string;
   }
 
-  interface Transitions {
-    reset(actionType: string, actionName: string, overrideParams: string);
-    showPopover(showEmbeddedInReport: boolean): void;
-  }
-
-  interface TransitionsGlobal {
-    new (actionType: string, actionName: string, rowAction: unknown|null, overrideParams: string): Transitions;
-  }
-
   /** A detail row of one Transitions group, as returned by Transitions.getTransitionsForAction. */
   interface TransitionsDetailRow {
     label?: string;
@@ -316,7 +307,6 @@ declare global {
     $: JQueryStatic & JQueryStaticResolve;
     Piwik_Popover: PiwikPopoverGlobal;
     ListingFormatter: ListingFormatter;
-    Piwik_Transitions: TransitionsGlobal;
     Piwik_Transitions_Model: TransitionsModelGlobal;
     Piwik_Transitions_Ajax: TransitionsAjaxGlobal;
     SegmentedVisitorLog: SegmentedVisitorLogService;

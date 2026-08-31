@@ -18,7 +18,6 @@ const { listeners } = state;
 
 jest.mock('CoreHome', () => ({
   ActivityIndicator: { template: '<div class="activityIndicator" />', props: ['loading'] },
-  MatomoLoader: { template: '<div class="matomoLoader" />' },
   AjaxHelper: {
     fetch: () => state.fetchResult,
   },

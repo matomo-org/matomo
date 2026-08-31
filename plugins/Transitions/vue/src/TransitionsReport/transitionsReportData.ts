@@ -42,8 +42,8 @@ interface GroupDefinition {
 }
 
 /**
- * The groups of each side, in render order. Mirrors Piwik_Transitions' leftGroups/rightGroups plus
- * the two terminal metrics (direct entries, exits) that have no detail rows.
+ * The groups of each side, in render order, plus the two terminal metrics (direct entries, exits)
+ * that have no detail rows.
  */
 const TRANSITIONS_GROUPS: GroupDefinition[] = [
   {
@@ -179,7 +179,6 @@ const ERROR_TRANSLATIONS: Record<string, { title: string; details: string }> = {
 
 /**
  * Removes protocol, www and trailing slashes from a URL; with `removeDomain` the domain goes too.
- * Ported verbatim from Piwik_Transitions_Util.shortenUrl.
  */
 function shortenUrl(url: string, removeDomain = false): string {
   if (url === 'Others') {
