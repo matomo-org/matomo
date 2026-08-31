@@ -199,41 +199,17 @@
           </a>
         </li>
 
-        <li v-if="showExportAsImageIcon" class="mtm-dropdownPanel__menuItem" role="none">
-          <a
-            class="mtm-dropdownPanel__menuLink dataTableAction tableIcon"
-            href=""
-            role="menuitem"
-            tabindex="0"
-            :id="`dataTableExportAsImageIcon-${placement}`"
-            @click.prevent="showExportImage($event)"
-            @keydown.space.prevent="activateItem"
-          >
-            <span class="mtm-dropdownPanel__menuLabel">
-              {{ translate('CoreHome_ExportImage') }}
-            </span>
-          </a>
-        </li>
-        <li v-if="showExport" class="mtm-dropdownPanel__menuItem" role="none">
-          <a
-            class="mtm-dropdownPanel__menuLink dataTableAction activateExportSelection"
-            v-report-export="{
-              reportTitle,
-              requestParams,
-              apiMethod: apiMethodToRequestDataTable,
-              reportFormats,
-              maxFilterLimit,
-              canExportFlat: exportSupportsFlat,
-            }"
-            href=""
-            role="menuitem"
-            tabindex="0"
-            @click.prevent
-            @keydown.space.prevent="activateItem"
-          >
-            <span class="mtm-dropdownPanel__menuLabel">{{ translate('CoreHome_ExportData') }}</span>
-          </a>
-        </li>
+        <ExportMenu
+          :show-export="showExport"
+          :show-export-as-image-icon="showExportAsImageIcon"
+          :export-supports-flat="exportSupportsFlat"
+          :report-title="reportTitle"
+          :request-params="requestParams"
+          :api-method-to-request-data-table="apiMethodToRequestDataTable"
+          :report-formats="reportFormats"
+          :max-filter-limit="maxFilterLimit"
+          :placement="placement"
+        />
         <li
           v-for="action in dataTableActions"
           :key="action.id"
@@ -311,12 +287,11 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 import Passthrough from '../Passthrough/Passthrough.vue';
+import ExportMenu from './ExportMenu.vue';
 import PeriodsMenu from './PeriodsMenu.vue';
 import type { PromotableActionId } from './reportActions';
-import ReportExport from '../ReportExport/ReportExport';
 import { translate } from '../translate';
 import { isBooleanLikeSet, resolveExportSupportsFlat } from './DataTableActions.utils';
-import findReportRoot from './reportScope';
 import activateMenuItem from './activateMenuItem';
 
 export interface FooterIcon {
@@ -420,11 +395,9 @@ export default defineComponent({
     },
   },
   components: {
+    ExportMenu,
     Passthrough,
     PeriodsMenu,
-  },
-  directives: {
-    ReportExport,
   },
   methods: {
     translate,
@@ -473,11 +446,6 @@ export default defineComponent({
     // the event: dataTable.js listens for it further up, and the panel closes on it too.
     closePeriods() {
       this.periodsOpen = false;
-    },
-    showExportImage(event: Event) {
-      findReportRoot(event.target as HTMLElement)
-        .find('div.jqplot-target')
-        .trigger('piwikExportAsImage');
     },
   },
   data() {
