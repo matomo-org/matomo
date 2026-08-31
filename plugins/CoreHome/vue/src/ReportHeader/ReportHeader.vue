@@ -109,7 +109,7 @@
             v-expand-on-click="{
               expander: 'actionsTrigger',
               onExpand: (event) => { actionsExpanded = true; focusFirstAction(event); },
-              onClosed: () => { actionsExpanded = false; restoreActionsFocus(); },
+              onClosed: (event) => { actionsExpanded = false; restoreActionsFocus(event); },
             }"
           >
             <button
@@ -585,17 +585,19 @@ export default defineComponent({
         this.$emit('titleClick');
       }
     },
-    closeActions() {
+    closeActions(event: MouseEvent) {
       (this.$refs.actions as HTMLElement | undefined)?.classList.remove('expanded');
       this.actionsExpanded = false;
-      this.restoreActionsFocus();
+      this.restoreActionsFocus(event);
     },
-    // Escape and picking an entry both leave the focus inside a panel about to disappear, which is
-    // where a menu is expected to hand it back to the trigger. An outside click focuses something
-    // else, so nothing is taken from it.
-    restoreActionsFocus() {
+    // Closing from the keyboard leaves the focus inside a panel about to disappear, and a menu
+    // hands it back to the trigger. A pointer left the focus where the user put it, and taking it
+    // would draw a focus ring they never asked for.
+    restoreActionsFocus(event: MouseEvent|KeyboardEvent) {
       const actions = this.$refs.actions as HTMLElement | undefined;
-      if (actions?.contains(document.activeElement)) {
+      const byKeyboard = event.type === 'keyup' || (event as MouseEvent).detail === 0;
+
+      if (byKeyboard && actions?.contains(document.activeElement)) {
         (this.$refs.actionsTrigger as HTMLElement | undefined)?.focus();
       }
     },
