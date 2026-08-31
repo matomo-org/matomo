@@ -1,25 +1,21 @@
 .transitionSwitcher {
+  // The gutter the Materialize grid used, so the two fields stay where they are.
+  @_gutter: 1.5rem;
+  @_halfGutter: (@_gutter / 2);
+
   .transitionSwitcher__selects {
     display: flex;
-    // The gutter the Materialize grid used, so the two fields stay where they are.
-    gap: 1.5rem;
+    gap: @_gutter;
   }
 
   .transitionSwitcher__typeField {
     flex: none;
-    width: ~"calc(25% - 0.75rem)";
+    width: ~"calc(25% - @{_halfGutter})";
   }
 
   .transitionSwitcher__nameField {
     flex: auto;
     min-width: 0;
-  }
-
-  // override: Field's root is a .form-group and a Materialize .row, so it brings 20px vertical
-  // margins, and side margins that only appear when a .col sits somewhere above it. Pin both, so
-  // the select's own column padding is cancelled here the same way in every context.
-  .matomo-form-field {
-    margin: 0 -0.75rem;
   }
 
   .transitionSwitcher__report {
@@ -33,8 +29,8 @@
   // The Widgetize shell has no card padding, so pad here instead. That is also the room the
   // report's row shadows bleed into. Reference-only hook, see CSS rules, rule 31.
   .__transitionSwitcher-unpadded & {
-    padding-left: 0.75rem;
-    padding-right: 0.75rem;
+    padding-left: @_halfGutter;
+    padding-right: @_halfGutter;
   }
 
   // Below this the two selects have no room side by side.

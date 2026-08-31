@@ -14,6 +14,7 @@
     <div class="transitionSwitcher__selects">
       <div class="transitionSwitcher__typeField" name="actionType">
         <Field
+          class="form-group--noGutter"
           uicontrol="select"
           name="actionType"
           v-model="actionType"
@@ -25,6 +26,7 @@
       </div>
       <div class="transitionSwitcher__nameField" name="actionName">
         <Field
+          class="form-group--noGutter"
           uicontrol="select"
           name="actionName"
           v-model="actionName"
