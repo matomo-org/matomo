@@ -1,7 +1,10 @@
 <div class="dataTableFeatures">
     <div class="dataTableFooterNavigation">
 
-        {% if not isDataTableEmpty and (properties.show_offset_information or properties.show_pagination_control) %}
+{% set showLimitSelection = not isDataTableEmpty and (properties.show_footer_icons and properties.show_pagination_control or properties.show_limit_control) %}
+{% set hasPagination = not isDataTableEmpty and (properties.show_offset_information or properties.show_pagination_control) %}
+
+        {% if hasPagination %}
             <div class="row dataTablePaginationControl">
                 {% if properties.show_pagination_control %}
                     <span class="dataTablePrevious">&lsaquo; {% if clientSideParameters.dataTablePreviousIsFirst is defined %}{{ 'General_First'|translate }}{% else %}{{ 'General_Previous'|translate }}{% endif %}</span>
@@ -13,6 +16,11 @@
                 {% if properties.show_pagination_control %}
                     &nbsp;<span class="dataTableNext">{{ 'General_Next'|translate }} &rsaquo;</span>
                 {% endif %}
+                {# The limit joins the pagination line where there is one. A graph has none, so its
+                   selector keeps the line below, under the legend. #}
+                {% if showLimitSelection %}
+                    <div class="limitSelection"></div>
+                {% endif %}
             </div>
         {% endif %}
 
@@ -21,7 +29,7 @@
                 {% include "@CoreHome/_dataTableActions.twig" %}
             </div>
 
-            {% if not isDataTableEmpty and (properties.show_footer_icons and properties.show_pagination_control or properties.show_limit_control) %}
+            {% if showLimitSelection and not hasPagination %}
                 <div class="col s3 m3 limitSelection"></div>
             {% endif %}
         </div>

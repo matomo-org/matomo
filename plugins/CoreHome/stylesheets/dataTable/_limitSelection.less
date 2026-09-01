@@ -7,3 +7,16 @@
 .limitSelection.hidden {
   display: none;
 }
+
+// On the pagination line the counter stays centred on the full width, so the selector is taken out
+// of the flow rather than sharing it.
+.dataTablePaginationControl {
+  position: relative;
+}
+
+.dataTablePaginationControl .limitSelection {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
