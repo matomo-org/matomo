@@ -16,7 +16,7 @@
     @keydown.end.prevent="focusEdge(true)"
   >
     <!-- Report actions live in the report header, inside the single menu its 3-dots trigger
-         opens. Three lists rather than one: `ul.tableConfiguration` and `.dataTableFooterIcons`
+         opens. Four lists rather than one: `ul.tableConfiguration` and `.dataTableFooterIcons`
          are the hooks every dataTable.js handler binds to, and adjacent lists carry no margin,
          so this still reads as one continuous menu. -->
     <template v-if="isInHeader">
@@ -183,7 +183,11 @@
 
         <!-- Keeps `annotationView`: dataTable.js binds the toggle on it and
              handleEvolutionAnnotations() reads it to decide whether the graph shows markers. -->
-        <li v-if="showAnnotations" class="mtm-dropdownPanel__menuItem" role="none">
+        <li
+          v-if="showAnnotations && !isPromoted('annotations')"
+          class="mtm-dropdownPanel__menuItem"
+          role="none"
+        >
           <a
             class="mtm-dropdownPanel__menuLink dataTableAction annotationView"
             href=""
@@ -199,41 +203,6 @@
           </a>
         </li>
 
-        <li v-if="showExportAsImageIcon" class="mtm-dropdownPanel__menuItem" role="none">
-          <a
-            class="mtm-dropdownPanel__menuLink dataTableAction tableIcon"
-            href=""
-            role="menuitem"
-            tabindex="0"
-            :id="`dataTableExportAsImageIcon-${placement}`"
-            @click.prevent="showExportImage($event)"
-            @keydown.space.prevent="activateItem"
-          >
-            <span class="mtm-dropdownPanel__menuLabel">
-              {{ translate('CoreHome_ExportImage') }}
-            </span>
-          </a>
-        </li>
-        <li v-if="showExport" class="mtm-dropdownPanel__menuItem" role="none">
-          <a
-            class="mtm-dropdownPanel__menuLink dataTableAction activateExportSelection"
-            v-report-export="{
-              reportTitle,
-              requestParams,
-              apiMethod: apiMethodToRequestDataTable,
-              reportFormats,
-              maxFilterLimit,
-              canExportFlat: exportSupportsFlat,
-            }"
-            href=""
-            role="menuitem"
-            tabindex="0"
-            @click.prevent
-            @keydown.space.prevent="activateItem"
-          >
-            <span class="mtm-dropdownPanel__menuLabel">{{ translate('CoreHome_ExportData') }}</span>
-          </a>
-        </li>
         <li
           v-for="action in dataTableActions"
           :key="action.id"
@@ -303,6 +272,25 @@
           </li>
         </Passthrough>
       </ul>
+
+      <ul v-if="hasExportItems" class="mtm-dropdownPanel__menu" role="group">
+        <li
+          v-if="hasItemsAboveExports"
+          class="mtm-dropdownPanel__separator"
+          role="separator"
+        />
+        <ExportMenu
+          :show-export="showExport"
+          :show-export-as-image-icon="showExportAsImageIcon"
+          :export-supports-flatten="exportSupportsFlatten"
+          :client-side-parameters="clientSideParameters"
+          :report-title="reportTitle"
+          :request-params="requestParams"
+          :api-method-to-request-data-table="apiMethodToRequestDataTable"
+          :max-filter-limit="maxFilterLimit"
+          :placement="placement"
+        />
+      </ul>
     </template>
 
   </div>
@@ -311,13 +299,20 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 import Passthrough from '../Passthrough/Passthrough.vue';
+import ExportMenu from './ExportMenu.vue';
 import PeriodsMenu from './PeriodsMenu.vue';
 import type { PromotableActionId } from './reportActions';
-import ReportExport from '../ReportExport/ReportExport';
+import type { ReportActionsConfig } from './ReportActions.store';
 import { translate } from '../translate';
-import { isBooleanLikeSet, resolveExportSupportsFlat } from './DataTableActions.utils';
-import findReportRoot from './reportScope';
+import { isBooleanLikeSet } from './DataTableActions.utils';
 import activateMenuItem from './activateMenuItem';
+import annotationsWording from './annotationsWording';
+import {
+  hasActionItems,
+  hasConfigItems,
+  hasExportItems,
+  visibleFooterIconGroups,
+} from './menuContents';
 
 export interface FooterIcon {
   id: string;
@@ -420,11 +415,9 @@ export default defineComponent({
     },
   },
   components: {
+    ExportMenu,
     Passthrough,
     PeriodsMenu,
-  },
-  directives: {
-    ReportExport,
   },
   methods: {
     translate,
@@ -474,11 +467,6 @@ export default defineComponent({
     closePeriods() {
       this.periodsOpen = false;
     },
-    showExportImage(event: Event) {
-      findReportRoot(event.target as HTMLElement)
-        .find('div.jqplot-target')
-        .trigger('piwikExportAsImage');
-    },
   },
   data() {
     return {
@@ -495,9 +483,7 @@ export default defineComponent({
       return this.placement === 'header';
     },
     annotationsLabel(): string {
-      return this.annotationsShowing
-        ? translate('Annotations_HideAnnotations')
-        : translate('Annotations_ShowAnnotations');
+      return annotationsWording(this.annotationsShowing);
     },
     annotationsTitle(): string {
       return this.annotationsShowing
@@ -527,29 +513,39 @@ export default defineComponent({
         .map((id) => this.allFooterIcons.find((button) => button.id === id))
         .filter((icon) => !!icon) as FooterIcon[];
     },
-    // A group whose buttons all lack an icon renders nothing, and a separator for it would end the
-    // menu on a rule with nothing under it.
+    // The header decides what to draw from the same predicates, before this is even mounted.
+    menuConfig(): Partial<ReportActionsConfig> {
+      return {
+        footerIcons: this.footerIcons as FooterIconGroup[],
+        viewDataTable: this.viewDataTable,
+        clientSideParameters: this.clientSideParameters,
+        isDataTableEmpty: this.isDataTableEmpty,
+        showFlattenTable: this.showFlattenTable,
+        reportSupportsPercentageValues: this.reportSupportsPercentageValues,
+        showTotalsRow: this.showTotalsRow,
+        showExcludeLowPopulation: this.showExcludeLowPopulation,
+        showPivotBySubtable: this.showPivotBySubtable,
+        dataTableActions: this.dataTableActions,
+        showExport: this.showExport,
+        showExportAsImageIcon: this.showExportAsImageIcon,
+        showAnnotations: this.showAnnotations,
+        showPeriods: this.showPeriods,
+      };
+    },
     visibleFooterIconGroups(): FooterIconGroup[] {
-      return (this.footerIcons as FooterIconGroup[])
-        .map((group) => ({ ...group, buttons: group.buttons.filter((i) => !!i.icon) }))
-        .filter((group) => group.buttons.length > 0);
+      return visibleFooterIconGroups(this.menuConfig);
     },
     hasConfigItems(): boolean {
-      return this.showConfigItems
-        && (this.showFlattenTable
-          || this.showDimensionsConfigItem
-          || this.showFlatConfigItem
-          || this.showTotalsConfigItem
-          || this.showPercentageValuesConfigItem
-          || this.showExcludeLowPopulation
-          || this.showPivotBySubtable);
+      return hasConfigItems(this.menuConfig);
     },
     hasActionItems(): boolean {
-      return (this.showPeriods && !this.isPromoted('periods'))
-        || this.showAnnotations
-        || this.showExportAsImageIcon
-        || this.showExport
-        || this.dataTableActions.length > 0;
+      return hasActionItems(this.menuConfig, this.promotedActions);
+    },
+    hasExportItems(): boolean {
+      return hasExportItems(this.menuConfig, this.promotedActions);
+    },
+    hasItemsAboveExports(): boolean {
+      return this.hasActionsAbove || this.visibleFooterIconGroups.length > 0;
     },
     // Whether anything renders above the visualisation lists, so their leading separator has
     // something to separate from.
@@ -558,23 +554,6 @@ export default defineComponent({
     },
     activeFooterIconIds(): string[] {
       return this.activeFooterIcons.map((icon) => icon.id);
-    },
-    reportFormats(): Record<string, string> {
-      const formats: Record<string, string> = {
-        TSV: 'TSV (Excel)',
-        HTML: 'HTML',
-        JSON: 'JSON',
-        XML: 'XML',
-        CSV: 'CSV',
-        RSS: 'RSS',
-      };
-      return formats;
-    },
-    exportSupportsFlat() {
-      return resolveExportSupportsFlat(
-        !!this.exportSupportsFlatten,
-        this.clientSideParameters.flat as number|string|boolean,
-      );
     },
     showDimensionsConfigItem() {
       return this.showFlattenTable
@@ -623,27 +602,6 @@ export default defineComponent({
     },
     excludeLowPopText() {
       return translate('CoreHome_ExcludeLowPopulation');
-    },
-    // Every config entry acts on a table, so a graph offers none - except where one is already
-    // applied, which has to stay reachable to be undone. This is the gate the configure icon
-    // carried before the actions moved into the header's single menu.
-    showConfigItems(): boolean {
-      return this.isTableView || this.isAnyConfigureIconHighlighted;
-    },
-    isTableView(): boolean {
-      return this.viewDataTable === 'table'
-        || this.viewDataTable === 'tableAllColumns'
-        || this.viewDataTable === 'tableGoals';
-    },
-    isAnyConfigureIconHighlighted(): boolean {
-      const params = this.clientSideParameters as Record<string, string|number|boolean>;
-      return isBooleanLikeSet(params.flat)
-        || isBooleanLikeSet(params.keep_totals_row)
-        || isBooleanLikeSet(params.include_aggregate_rows)
-        || isBooleanLikeSet(params.show_dimensions)
-        || isBooleanLikeSet(params.pivotBy)
-        || isBooleanLikeSet(params.enable_filter_excludelowpop)
-        || isBooleanLikeSet(params.show_percentage_values);
     },
   },
 });
