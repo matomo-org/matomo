@@ -2,6 +2,7 @@
     "MobileAppMeasurable": {
         "MobileApp": "行動應用程式",
         "MobileAppDescription": "iOS、Android 或任何其他行動作業系統的原生行動應用程式。",
+        "MobileAppLongDescription": "追蹤原生 iOS 與 Android 應用程式中的使用者活動。收集到的資料可包含畫面瀏覽、應用程式內事件、裝置詳細資料與使用者工作階段。此監測對象適用於使用 Matomo 行動 SDK 的應用程式。",
         "MobileApps": "行動應用程式"
     }
 }

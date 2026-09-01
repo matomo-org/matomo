@@ -1,18 +1,18 @@
 {
     "API": {
         "ChangeTokenHint": "Sollten Sie dieses Token ändern wollen, begeben Sie sich bitte zu Ihrer %1$spersönlichen Einstellungsseite%2$s.",
-        "EvolutionMetricName": "%s Entwicklung",
+        "EvolutionMetricName": "%s-Entwicklung",
         "GenerateVisits": "Sollten für heute keine Daten verfügbar sein, so können Sie solche mit dem %1$s-Plugin erzeugen, indem Sie auf \"Entwicklung → Besuchergenerator\" in dem Matomo-Administrationsbereich gehen.",
         "Glossary": "Glossar",
-        "KeepTokenSecret": "Dieser token_auth ist ebenso geheim wie Ihr Login und Passwort, %1$s geben Sie ihn nicht weiter%2$s!",
+        "KeepTokenSecret": "Dieser token_auth ist ebenso geheim wie Ihr Benutzername und Passwort, %1$s geben Sie ihn nicht weiter%2$s!",
         "LearnAboutCommonlyUsedTerms2": "Lernen Sie mehr über häufig verwendeten Begriffe, um das Beste aus Matomo-Analysen zu machen.",
         "LoadedAPIs": "%s APIs geladen",
         "MainMetricsReportDocumentation": "Dieser Bericht liefert eine Übersicht der wichtigsten Metriken über alle Kategorien und Plugins hinweg.",
         "MoreInformation": "Weitere Informationen über die Matomo-APIs sind in der %1$s Einführung zu Matomo-API %2$s und die %3$s Matomo-API-Referenz %4$s verfügbar.",
         "PluginDescription": "Alle Daten in Matomo sind über einfache APIs verfügbar. Dieses Plugin ist der Web-Service-Eingangspunkt, welchen Sie nutzen können, um Ihre Webanalyse-Dateien in XML, JSON, PHP, CSV usw. abzufragen.",
-        "ReportingApiReference": "Reporting-API-Referenz",
+        "ReportingApiReference": "Berichts-API-Referenz",
         "TopLinkTooltip": "Greifen Sie auf Ihre Webanalyse-Daten über eine einfache API mit JSON, XML, usw. zu.",
         "UserAuthentication": "Benutzerauthentifizierung",
-        "UsingTokenAuth": "Wenn Sie %1$sAnfragedaten mit einem Script, einem Crontab usw. abfragen%2$s möchten, müssen Sie den '%3$s'-URL-Parameter den API-Aufrufen für URLs hinzufügen, welche Authentifizierung erfordern."
+        "UsingTokenAuth": "Wenn Sie %1$sAnfragedaten mit einem Skript, einem Crontab usw. abfragen%2$s möchten, müssen Sie den '%3$s'-URL-Parameter den API-Aufrufen für URLs hinzufügen, welche Authentifizierung erfordern."
     }
 }

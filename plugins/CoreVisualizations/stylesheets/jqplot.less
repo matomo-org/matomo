@@ -193,12 +193,28 @@ a.rowevolution-startmulti {
     padding: 15px 0 5px 0;
 }
 
+// border, radius, padding and type mirror FieldSelect.less so this native select reads as
+// the same control. The arrow stays the browser's: an icon-font chevron would need
+// appearance:none plus a per-theme background image, which is not worth it here.
 .rowevolution .metric-selectbox select {
-    font-size: 13px;
-    color: #444;
+    font-size: 14px;
+    color: @theme-color-text;
     margin: 8px 0 0 0;
-    padding: 0;
+    padding: 8px 16px;
     display: block;
+    // an explicit height, because browsers force line-height:normal on a native select
+    // and its intrinsic content box is taller than the 20px the other selects use
+    height: 38px;
+    box-sizing: border-box;
+    border: 1px solid @theme-color-border;
+    border-radius: 8px;
+    background: @theme-color-background-contrast;
+    cursor: pointer;
+}
+
+.rowevolution .metric-selectbox select:hover,
+.rowevolution .metric-selectbox select:focus {
+    border-color: @theme-color-link;
 }
 
 /**
@@ -300,10 +316,6 @@ a.rowevolution-startmulti {
   }
 
   .rowevolution table.metrics td.text span.details {
-    color: @theme-color-text;
-  }
-
-  .rowevolution .metric-selectbox select {
     color: @theme-color-text;
   }
 });

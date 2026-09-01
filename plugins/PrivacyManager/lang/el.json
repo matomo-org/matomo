@@ -61,7 +61,6 @@
         "ComplianceEnforceCheckboxIntro": "Να επιβάλλεται η συμμόρφωση όπου είναι δυνατό",
         "ComplianceEnforceCheckboxTitle": "Ρυθμίσεις επιβολής που βοηθούν στην υποστήριξη για ευθυγράμμιση με περιεχόμενο CNIL όπου αυτό είναι δυνατό",
         "ComplianceNonCompliant": "μη συμμορφωμένο",
-        "ComplianceSelectSite": "Επιλέξτε παρακάτω ένα ιστοτόπο για να δείτε αν ο επιλεγμένος ιστοτόπος είναι συμμορφωμένος αντίστοιχα με την αντίστοιχη νομοθεσία για την ιδιωτικότητα",
         "ComplianceTableSettingName": "Ορισμός Ονόματος",
         "ComplianceTableSettingNotes": "Σημειώσεις",
         "ComplianceTableSettingStatus": "Κατάσταση",

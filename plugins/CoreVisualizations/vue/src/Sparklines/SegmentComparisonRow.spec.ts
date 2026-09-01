@@ -83,6 +83,28 @@ describe('CoreVisualizations/SegmentComparisonRow', () => {
     expect(sparkline.props('height')).toBe(40);
   });
 
+  it('renders the backend period tooltip as the sparkline slot title', () => {
+    const tooltip = 'Each data point in the sparkline represents a day. '
+      + 'Period: Mar 24. Period 2: Mar 17.';
+    const slot = createWrapper({ segment: segment({ tooltip }) })
+      .find('.sparklineSegmentComparisonRow__sparkline');
+
+    expect(slot.attributes('title')).toBe(tooltip);
+  });
+
+  it('omits the title when the backend sends an empty tooltip', () => {
+    const slot = createWrapper({ segment: segment({ tooltip: '' }) })
+      .find('.sparklineSegmentComparisonRow__sparkline');
+
+    expect(slot.attributes('title')).toBeUndefined();
+  });
+
+  it('omits the title when the entry carries no tooltip at all', () => {
+    const slot = createWrapper().find('.sparklineSegmentComparisonRow__sparkline');
+
+    expect(slot.attributes('title')).toBeUndefined();
+  });
+
   it('is a plain presentational block, not itself a .sparkline link (the card is the link)', () => {
     const wrapper = createWrapper();
 
