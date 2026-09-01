@@ -105,8 +105,22 @@ class PageUrl
             Common::printDebug('Excluding parameters "' . implode(',', $parametersToExclude) . '" from URL');
         }
 
-        $parametersToExclude = array_map('strtolower', $parametersToExclude);
+        $parametersToExclude = array_map([self::class, 'lowercaseLiteralExcludedParameter'], $parametersToExclude);
         return $parametersToExclude;
+    }
+
+    /**
+     * Parameter names are matched case-insensitively, so literals are lowercased.
+     * Regex patterns are left unchanged: lowercasing would rewrite metacharacters
+     * such as \D, \S, \W, \P and \Q...\E.
+     */
+    private static function lowercaseLiteralExcludedParameter($parameter)
+    {
+        if (is_string($parameter) && @preg_match($parameter, '') !== false) {
+            return $parameter;
+        }
+
+        return is_string($parameter) ? strtolower($parameter) : $parameter;
     }
 
     /**
