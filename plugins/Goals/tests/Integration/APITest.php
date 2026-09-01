@@ -254,6 +254,40 @@ class APITest extends IntegrationTestCase
         $this->assertSame(1, $idGoal);
     }
 
+    /**
+     * @dataProvider getNonGoalIdGoals
+     */
+    public function testUpdateGoalShouldThrowIfTheSiteHasNoSuchGoal($idGoal)
+    {
+        $this->createAnyGoal();
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('There is no goal with id');
+
+        $this->api->updateGoal($this->idSite, $idGoal, 'UpdatedName', 'file', 'http://www.updatetest.de', 'contains');
+    }
+
+    public function testUpdateGoalShouldThrowIfTheGoalBelongsToAnotherSite()
+    {
+        $idGoal = $this->createAnyGoal();
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('There is no goal with id');
+
+        $this->api->updateGoal($this->idSiteTwo, $idGoal, 'UpdatedName', 'file', 'http://www.updatetest.de', 'contains');
+    }
+
+    public function testUpdateGoalShouldThrowIfTheGoalWasDeleted()
+    {
+        $idGoal = $this->createAnyGoal();
+        $this->api->deleteGoal($this->idSite, $idGoal);
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('There is no goal with id');
+
+        $this->api->updateGoal($this->idSite, $idGoal, 'UpdatedName', 'file', 'http://www.updatetest.de', 'contains');
+    }
+
     public function testUpdateGoalShouldUpdateAllGivenFields()
     {
         $idGoal = $this->createAnyGoal();

@@ -279,6 +279,7 @@ class API extends \Piwik\Plugin\API
      * @param string $description Optional goal description shown in the Goals management UI.
      * @param bool $useEventValueAsRevenue Whether to use the tracked event value as goal revenue. This is only valid
      *                                     for event-based goals.
+     * @throws Exception If the site has no such goal.
      */
     public function updateGoal(
         int $idSite,
@@ -294,6 +295,12 @@ class API extends \Piwik\Plugin\API
         $useEventValueAsRevenue = false
     ): void {
         Piwik::checkUserHasWriteAccess($idSite);
+
+        $idGoal = (int) $idGoal;
+
+        if (!$this->getModel()->doesGoalExist($idGoal, $idSite)) {
+            throw new Exception("There is no goal with id '$idGoal' for site with id '$idSite'.");
+        }
 
         $patternType = Common::unsanitizeInputValue($patternType);
 
