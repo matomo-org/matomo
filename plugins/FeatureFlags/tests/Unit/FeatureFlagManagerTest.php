@@ -82,6 +82,11 @@ class FeatureFlagManagerTest extends TestCase
             {
                 return true;
             }
+
+            public function allowsCookieOverwrite(): bool
+            {
+                return false;
+            }
         };
 
         $this->assertTrue($sut->isFeatureActive(get_class($featureFlag)));
