@@ -7,6 +7,7 @@
 
 import { mount } from '@vue/test-utils';
 import ReportHeader from './ReportHeader.vue';
+import ExportMenu from '../DataTable/ExportMenu.vue';
 
 vi.mock('../translate', () => ({
   translate: (key: string) => {
@@ -59,8 +60,9 @@ describe('ReportHeader', () => {
   });
 
   describe('report actions menu', () => {
-    // The menu only exists where the report renders footer icons; a subtable has none.
-    const withActions = { showFooter: true, showFooterIcons: true };
+    // The menu only exists where the report renders footer icons; a subtable has none. It also
+    // needs something to hold, or there is nothing for a trigger to open.
+    const withActions = { showFooter: true, showFooterIcons: true, showExport: true };
 
     it('should offer the actions menu only when the report has footer icons', () => {
       expect(mountComponent().find('.reportHeader__actionsTrigger').exists()).toBe(false);
@@ -105,6 +107,200 @@ describe('ReportHeader', () => {
 
       await wrapper.find('.reportHeader__actionsMenu').trigger('click');
       expect(trigger.attributes('aria-expanded')).toBe('false');
+    });
+
+    // Promoting empties the menu on a report whose only entries were promotable, and a trigger
+    // opening onto nothing is worse than no trigger.
+    it('should offer no trigger once the menu has nothing left to hold', async () => {
+      const wrapper = mountComponent({
+        ...withActions,
+        showAnnotations: true,
+        context: 'widgetized',
+      });
+      expect(wrapper.find('.reportHeader__actionsTrigger').exists()).toBe(true);
+
+      (wrapper.vm as unknown as { promotedCount: number }).promotedCount = 2;
+      await wrapper.vm.$nextTick();
+
+      expect(wrapper.findAll('[data-report-action]').length).toBe(2);
+      expect(wrapper.find('.reportHeader__actionsTrigger').exists()).toBe(false);
+    });
+  });
+
+  // jsdom lays nothing out, so the fit measurement always demotes; these set the count the
+  // measurement would have reached and check what gets drawn at it.
+  describe('promoted report actions', () => {
+    const offered = {
+      showFooter: true,
+      showFooterIcons: true,
+      showExport: true,
+      showExportAsImageIcon: true,
+      showAnnotations: true,
+      exportSupportsFlatten: true,
+      clientSideParameters: { flat: '1' },
+    };
+
+    async function mountPromoted(count: number, customProps = {}) {
+      const wrapper = mountComponent({ ...offered, ...customProps });
+      (wrapper.vm as unknown as { promotedCount: number }).promotedCount = count;
+      await wrapper.vm.$nextTick();
+      return wrapper;
+    }
+
+    it('should draw the export control as a panel, since it holds two entries', async () => {
+      const wrapper = await mountPromoted(1);
+
+      const control = wrapper.find('[data-report-action="export"]');
+      expect(control.exists()).toBe(true);
+      expect(control.find('.mtm-selector__trigger').attributes('aria-haspopup')).toBe('menu');
+      expect(control.find('[role="menu"]').exists()).toBe(true);
+      expect(control.find('a.activateExportSelection').exists()).toBe(true);
+      expect(control.find('a.dataTableAction.tableIcon').exists()).toBe(true);
+
+      // the entries rendering is not enough: what the export directive is handed decides whether
+      // the popover offers a flat export at all
+      expect(wrapper.findComponent(ExportMenu).props()).toMatchObject({
+        exportSupportsFlatten: true,
+        clientSideParameters: { flat: '1' },
+      });
+    });
+
+    it('should draw the annotations control as one icon, since it is one toggle', async () => {
+      const wrapper = await mountPromoted(2);
+
+      const control = wrapper.find('[data-report-action="annotations"]');
+      expect(control.classes()).toContain('mtm-selector--iconOnly');
+      expect(control.find('.mtm-selector__label').exists()).toBe(false);
+
+      // no words, so the state and the name are carried by the button itself
+      const button = control.find('button');
+      expect(button.classes()).toContain('annotationView');
+      expect(button.attributes('aria-pressed')).toBe('false');
+      expect(button.attributes('aria-label')).toBe('Annotations_ShowAnnotations');
+    });
+
+    // jsdom has no matchMedia and lays nothing out, so the fit measurement is handed both.
+    let narrow = false;
+
+    beforeEach(() => {
+      narrow = false;
+      Object.defineProperty(window, 'matchMedia', {
+        writable: true,
+        configurable: true,
+        value: () => ({ matches: narrow }) as MediaQueryList,
+      });
+    });
+    // jsdom lays nothing out, so the fit measurement is handed the widths it would have read.
+    function giveRoom(wrapper: ReturnType<typeof mountComponent>, width: number) {
+      const size = (selector: string, prop: string, value: number) => {
+        Object.defineProperty(wrapper.find(selector).element, prop, {
+          value, configurable: true,
+        });
+      };
+      size('.reportHeader__header', 'clientWidth', width);
+      size('.reportHeader__controls', 'offsetWidth', 100);
+    }
+
+    // The observer skips a width it has already measured, so a demotion that kept the width it was
+    // promoted at could never be undone by returning to it - restoring a window, undoing a zoom.
+    it('should remember the width it demoted at, not the one it promoted at', async () => {
+      const wrapper = mountComponent({ ...offered, context: 'widgetized' });
+      const vm = wrapper.vm as unknown as {
+        updatePromoted: () => Promise<void>; promotedCount: number; lastMeasuredWidth: number;
+      };
+
+      giveRoom(wrapper, 1200);
+      await vm.updatePromoted();
+      expect(vm.promotedCount).toBeGreaterThan(0);
+      expect(vm.lastMeasuredWidth).toBe(1200);
+
+      narrow = true;
+      giveRoom(wrapper, 700);
+      await vm.updatePromoted();
+
+      expect(vm.promotedCount).toBe(0);
+      expect(vm.lastMeasuredWidth).toBe(700);
+    });
+
+    // Maximising a widget changes what shares the line without changing its width.
+    it('should give the controls back when the line gains widget controls', async () => {
+      const wrapper = mountComponent({ ...offered, context: 'widgetized' });
+      const vm = wrapper.vm as unknown as {
+        updatePromoted: () => Promise<void>; promotedCount: number;
+      };
+
+      giveRoom(wrapper, 1200);
+      await vm.updatePromoted();
+      expect(vm.promotedCount).toBeGreaterThan(0);
+
+      await wrapper.setProps({ context: 'dashboard' });
+      await wrapper.vm.$nextTick();
+
+      expect(vm.promotedCount).toBe(0);
+    });
+
+    // Only the template's order enforces this, so re-reversing it must fail something.
+    it('should draw the highest rank nearest the trigger', async () => {
+      const wrapper = await mountPromoted(3, { showPeriods: true, selectablePeriods: ['day'] });
+
+      expect(wrapper.findAll('[data-report-action]')
+        .map((control) => control.attributes('data-report-action')))
+        .toEqual(['annotations', 'export', 'periods']);
+    });
+
+    // The fit loop gives controls back one at a time, and an unmounted one never hears onClosed.
+    it('should stop announcing a control the fit loop took back while it was open', async () => {
+      const wrapper = mountComponent({
+        ...offered,
+        context: 'widgetized',
+        showPeriods: true,
+        selectablePeriods: ['day'],
+      });
+      const vm = wrapper.vm as unknown as {
+        updatePromoted: () => Promise<void>; promotedCount: number; exportExpanded: boolean;
+      };
+
+      giveRoom(wrapper, 1200);
+      await vm.updatePromoted();
+      expect(vm.promotedCount).toBeGreaterThan(1);
+
+      vm.exportExpanded = true;
+      giveRoom(wrapper, 200);
+      await vm.updatePromoted();
+
+      expect(vm.promotedCount).toBe(0);
+      expect(vm.exportExpanded).toBe(false);
+    });
+
+    // The trigger goes away with the menu it opens, and never hears onClosed either.
+    it('should stop announcing the menu when the trigger goes away with it', async () => {
+      const wrapper = mountComponent({
+        showFooter: true,
+        showFooterIcons: true,
+        showExport: true,
+        showAnnotations: true,
+        context: 'widgetized',
+      });
+      const vm = wrapper.vm as unknown as {
+        updatePromoted: () => Promise<void>; actionsExpanded: boolean;
+      };
+
+      vm.actionsExpanded = true;
+      giveRoom(wrapper, 1200);
+      await vm.updatePromoted();
+      await wrapper.vm.$nextTick();
+
+      expect(wrapper.find('.reportHeader__actionsTrigger').exists()).toBe(false);
+      expect(vm.actionsExpanded).toBe(false);
+    });
+
+    it('should promote in priority order, so the least deserving is given back first', async () => {
+      const one = await mountPromoted(1);
+      expect(one.find('[data-report-action="export"]').exists()).toBe(true);
+      expect(one.find('[data-report-action="annotations"]').exists()).toBe(false);
+
+      const none = await mountPromoted(0);
+      expect(none.find('[data-report-action="export"]').exists()).toBe(false);
     });
   });
 

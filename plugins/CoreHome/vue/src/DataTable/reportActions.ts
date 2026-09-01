@@ -15,8 +15,9 @@ export type PromotableActionId = 'periods' | 'export' | 'annotations';
  */
 export const PROMOTABLE_ACTIONS: PromotableActionId[] = ['periods', 'export', 'annotations'];
 
-// Shorter than PROMOTABLE_ACTIONS on purpose: an action earns its rank before it has a control.
-export const PROMOTED_RENDERERS: PromotableActionId[] = ['periods'];
+// Which of them a header can draw. All three now, but a new rank may be added above before it has
+// a control of its own.
+export const PROMOTED_RENDERERS: PromotableActionId[] = ['periods', 'export', 'annotations'];
 
 // Below this everything stays in the menu: a promoted control has no width to take from a title.
 export const NO_PROMOTION_BREAKPOINT = '(max-width: 767px)';

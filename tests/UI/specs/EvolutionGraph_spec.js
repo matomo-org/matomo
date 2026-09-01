@@ -13,6 +13,34 @@ describe("EvolutionGraph", function () {
               + "&isFooterExpandedInDashboard=1";
     const multiMetricColumns = "nb_visits,nb_actions,avg_time_on_site,bounce_rate";
     const multiMetricUrl = url + "&columns=" + multiMetricColumns + "&filter_add_columns_when_show_all_columns=0";
+
+    // Export leaves the 3-dots menu when the header line has room, so open whichever holds it.
+    const openExport = async function () {
+        if (await page.$('[data-report-action="export"]')) {
+            await page.click('[data-report-action="export"] .mtm-selector__trigger');
+        } else {
+            await page.click('.reportHeader__actionsTrigger');
+        }
+    };
+
+    // The promoted toggle is an icon, so its wording is in the title rather than in a label.
+    const annotationsLabel = () => page.evaluate(() => {
+        const toggle = document.querySelector('.annotationView');
+        const label = toggle.querySelector('.mtm-dropdownPanel__menuLabel');
+
+        return (label ? label.textContent : toggle.getAttribute('title')).trim();
+    });
+
+    // Annotations leave the 3-dots menu when the header line has room, so reach the toggle wherever
+    // it is.
+    const toggleAnnotations = async function () {
+        if (!await page.$('[data-report-action="annotations"]')) {
+            await page.click('.reportHeader__actionsTrigger');
+        }
+
+        await page.click('.annotationView');
+    };
+
     const setThemeMode = async function (themeMode) {
         await page.evaluate((mode) => {
             window.piwik.setThemeMode(mode);
@@ -142,8 +170,7 @@ describe("EvolutionGraph", function () {
     });
 
     it("should show graph as image when export as image icon clicked", async function () {
-        // the entry sits in the report header's menu, which has to be opened first
-        await page.click('.reportHeader__actionsTrigger');
+        await openExport();
         await page.click('#dataTableExportAsImageIcon-header');
         await page.waitForNetworkIdle();
 
@@ -176,17 +203,14 @@ describe("EvolutionGraph", function () {
         await element.click();
         await page.waitForNetworkIdle();
 
-        const labelOf = () => page.evaluate(
-          () => document.querySelector('.annotationView .mtm-dropdownPanel__menuLabel').textContent.trim(),
-        );
-        expect(await labelOf()).to.equal('Hide annotations');
+        expect(await annotationsLabel()).to.equal('Hide annotations');
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('annotations_single_period');
 
         // The callback that moves the label runs on the way out as well as the way in.
         await element.click();
         await page.waitForTimeout(1000);
-        expect(await labelOf()).to.equal('Show annotations');
+        expect(await annotationsLabel()).to.equal('Show annotations');
 
         await element.click(); // leave the notes as the next test expects to find them
         await page.waitForTimeout(1000);
@@ -196,21 +220,17 @@ describe("EvolutionGraph", function () {
         // The entry says "hide", so from notes opened for a single day it closes them rather than
         // reloading the whole range - those notes carry no `data-is-range`.
         const notesShown = () => page.evaluate(() => $('.annotation-manager').is(':visible'));
-        const labelOf = () => page.evaluate(
-          () => document.querySelector('.annotationView .mtm-dropdownPanel__menuLabel').textContent.trim(),
-        );
         expect(await notesShown(), 'the marker left its notes open').to.equal(true);
 
         await page.evaluate(() => document.querySelector('.annotationView').click());
         await page.waitForTimeout(1000); // slideUp is 'slow'
 
         expect(await notesShown(), 'the entry closed them').to.equal(false);
-        expect(await labelOf(), 'and the label followed').to.equal('Show annotations');
+        expect(await annotationsLabel(), 'and the label followed').to.equal('Show annotations');
     });
 
     it("should show all annotations when the menu entry is clicked", async function () {
-        await page.click('.reportHeader__actionsTrigger');
-        await page.click('.annotationView');
+        await toggleAnnotations();
         await page.waitForNetworkIdle();
 
         // Opens from the closed state the test above leaves behind, so the whole range loads.
@@ -219,9 +239,6 @@ describe("EvolutionGraph", function () {
 
     it("should put the label back when the notes are hidden again", async function () {
         // Clicks through the element, not the pointer: the panel may or may not be open here.
-        const labelOf = () => page.evaluate(
-          () => document.querySelector('.annotationView .mtm-dropdownPanel__menuLabel').textContent.trim(),
-        );
         const notesShown = () => page.evaluate(
           () => $('.annotation-manager').is(':visible'),
         );
@@ -230,22 +247,21 @@ describe("EvolutionGraph", function () {
             await page.waitForTimeout(1000); // slideUp/slideDown are 'slow'
         };
 
-        expect(await labelOf()).to.equal('Hide annotations');
+        expect(await annotationsLabel()).to.equal('Hide annotations');
         expect(await notesShown()).to.equal(true);
 
         await toggle();
         expect(await notesShown()).to.equal(false);
-        expect(await labelOf()).to.equal('Show annotations');
+        expect(await annotationsLabel()).to.equal('Show annotations');
 
         await toggle();
         expect(await notesShown()).to.equal(true);
-        expect(await labelOf()).to.equal('Hide annotations');
+        expect(await annotationsLabel()).to.equal('Hide annotations');
     });
 
     it("should show no annotations message when no annotations for site", async function () {
         await page.goto(page.url().replace(/idSite=[^&]*/, "idSite=3") + "&columns=nb_visits");
-        await page.click('.reportHeader__actionsTrigger');
-        await page.click('.annotationView');
+        await toggleAnnotations();
         await page.waitForNetworkIdle();
         await page.mouse.move(-10, -10);
 
@@ -365,8 +381,7 @@ describe("EvolutionGraph", function () {
 
         await page.goto(url);
         await page.waitForNetworkIdle();
-        await page.click('.reportHeader__actionsTrigger');
-        await page.click('.annotationView');
+        await toggleAnnotations();
         await page.waitForNetworkIdle();
 
         // check that add annotation link is not shown
@@ -406,7 +421,7 @@ describe("EvolutionGraph", function () {
             await page.waitForNetworkIdle();
             await setThemeMode('dark');
             await page.waitForTimeout(250);
-            await page.click('.reportHeader__actionsTrigger');
+            await openExport();
             await page.click('#dataTableExportAsImageIcon-header');
             await page.waitForSelector('.ui-dialog img');
 
@@ -555,8 +570,9 @@ describe("EvolutionGraph", function () {
             markers: document.querySelectorAll('.evolution-annotations span[data-date]').length,
             periods: document.querySelectorAll('[data-report-action="periods"]').length,
         }));
-        expect(state.headers, 'the report renders its own header here').to.equal(1);
-        expect(state.triggers, 'exactly one, not one per child').to.equal(1);
+        expect(state.headers, 'exactly one, not one per child').to.equal(1);
+        // Everything this report offers is promoted, so the menu holds nothing and is not offered.
+        expect(state.triggers, 'no trigger for an empty menu').to.equal(0);
         expect(state.markers, 'markers render').to.be.above(0);
         expect(state.entries, 'the annotations toggle is in it').to.equal(1);
         expect(state.periods, 'the period selector is lifted out of it').to.equal(1);

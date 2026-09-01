@@ -63,7 +63,79 @@
            when the report has none the whole toolbar stays `:empty` and claims none of the
            header's gap. -->
         <div class="reportHeader__toolbar">
-          <!-- Promoted report actions, never beside the widget controls: separate scopes. -->
+          <!-- Promoted report actions, never beside the widget controls: separate scopes.
+               Least deserving first, so the highest rank sits nearest the trigger and a new one
+               appears to its left rather than pushing the others along. -->
+          <!-- One toggle, so it needs no panel and no label: the icon and its title carry it. -->
+          <div
+            v-if="isPromoted('annotations')"
+            class="mtm-selector mtm-selector--iconOnly"
+            data-report-action="annotations"
+          >
+            <button
+              type="button"
+              class="mtm-selector__trigger annotationView"
+              :title="annotationsWording(annotationsShowing)"
+              :aria-label="annotationsWording(annotationsShowing)"
+              :aria-pressed="annotationsShowing ? 'true' : 'false'"
+            >
+              <span class="mtm-selector__icon" aria-hidden="true">
+                <span class="icon-annotation" />
+              </span>
+            </button>
+          </div>
+
+          <div
+            v-if="isPromoted('export')"
+            ref="exportSelector"
+            class="mtm-selector"
+            data-report-action="export"
+            v-expand-on-click="{
+              expander: 'exportTrigger',
+              onExpand: () => { exportExpanded = true; },
+              onClosed: () => { exportExpanded = false; },
+            }"
+          >
+            <button
+              ref="exportTrigger"
+              type="button"
+              class="mtm-selector__trigger"
+              aria-haspopup="menu"
+              :aria-expanded="exportExpanded ? 'true' : 'false'"
+            >
+              <span class="mtm-selector__icon" aria-hidden="true">
+                <span class="icon-export" />
+              </span>
+              <span class="mtm-selector__label">{{ translate('General_Export') }}</span>
+              <span class="mtm-selector__rightIcon" aria-hidden="true">
+                <span class="icon-chevron-down" />
+              </span>
+            </button>
+            <!-- Choosing an export is the end of the interaction, so the panel folds with it. -->
+            <!-- eslint-disable-next-line vuejs-accessibility/click-events-have-key-events -->
+            <div class="mtm-selector__dropdown" @click="closePromotedExport">
+              <div class="mtm-dropdownPanel">
+                <ul
+                  class="mtm-dropdownPanel__menu"
+                  role="menu"
+                  :aria-label="translate('General_Export')"
+                >
+                  <ExportMenu
+                    :show-export="actions.showExport"
+                    :show-export-as-image-icon="actions.showExportAsImageIcon"
+                    :export-supports-flatten="actions.exportSupportsFlatten"
+                    :client-side-parameters="actions.clientSideParameters"
+                    :report-title="titleText"
+                    :request-params="actions.requestParams"
+                    :api-method-to-request-data-table="actions.apiMethodToRequestDataTable"
+                    :max-filter-limit="actions.maxFilterLimit"
+                    placement="header"
+                  />
+                </ul>
+              </div>
+            </div>
+          </div>
+
           <div
             v-if="isPromoted('periods')"
             ref="periodsSelector"
@@ -195,6 +267,8 @@ import DataTableActions, {
   FooterIconGroup,
 } from '../DataTable/DataTableActions.vue';
 import ReportActionsStore from '../DataTable/ReportActions.store';
+import annotationsWording from '../DataTable/annotationsWording';
+import ExportMenu from '../DataTable/ExportMenu.vue';
 import PeriodsMenu from '../DataTable/PeriodsMenu.vue';
 import {
   NO_PROMOTION_BREAKPOINT,
@@ -203,6 +277,7 @@ import {
 } from '../DataTable/reportActions';
 import type { PromotableActionId } from '../DataTable/reportActions';
 import type { ReportActionsConfig } from '../DataTable/ReportActions.store';
+import { menuHoldsAnything } from '../DataTable/menuContents';
 import reportIdentity from '../DataTable/reportIdentity';
 import EnrichedHeadline from '../EnrichedHeadline/EnrichedHeadline.vue';
 import ExpandOnClick from '../ExpandOnClick/ExpandOnClick';
@@ -393,6 +468,7 @@ export default defineComponent({
   components: {
     DataTableActions,
     EnrichedHeadline,
+    ExportMenu,
     PeriodsMenu,
     SearchInput,
     WidgetControls,
@@ -410,6 +486,7 @@ export default defineComponent({
       searchDebounceTimer: null as ReturnType<typeof setTimeout> | null,
       promotedCount: 0,
       periodsExpanded: false,
+      exportExpanded: false,
       actionsExpanded: false,
       resizeObserver: null as ResizeObserver | null,
       lastMeasuredWidth: -1,
@@ -435,6 +512,16 @@ export default defineComponent({
     },
     promotable() {
       this.updatePromoted();
+    },
+    // Maximising a widget changes what shares the line without changing its width, and only the
+    // width is watched.
+    hasControls() {
+      this.updatePromoted();
+    },
+    showActions(value: boolean) {
+      if (!value) {
+        this.actionsExpanded = false;
+      }
     },
   },
   computed: {
@@ -491,13 +578,17 @@ export default defineComponent({
         ...ReportActionsStore.get(this.activeReportKey),
       } as ReportActionsConfig;
     },
+    // A trigger opening onto nothing is worse than no trigger: once its ranks are promoted out, a
+    // report may have nothing left to put in the menu.
     showActions(): boolean {
-      return this.actions.showFooter && this.actions.showFooterIcons;
+      return this.actions.showFooter && this.actions.showFooterIcons
+        && menuHoldsAnything(this.actions, this.promotedActions);
     },
     // Whether the header line has nothing to render. Only that line is dropped: the subheader
     // below it is mounted independently, so a titleless widgetized report still gets its search.
     isEmpty(): boolean {
-      return !this.showTitle && !this.hasControls && !this.showActions;
+      return !this.showTitle && !this.hasControls && !this.showActions
+        && this.promotedActions.length === 0;
     },
     isFullPage(): boolean {
       return this.context === 'fullPage';
@@ -520,11 +611,16 @@ export default defineComponent({
     },
   },
   methods: {
+    annotationsWording,
     // Picking a period is the end of the interaction. ExpandOnClick keeps its state in the class,
     // so dropping it is how a panel closes itself - the same move MetricsPicker makes.
     closePromotedPeriods() {
       (this.$refs.periodsSelector as HTMLElement | undefined)?.classList.remove('expanded');
       this.periodsExpanded = false;
+    },
+    closePromotedExport() {
+      (this.$refs.exportSelector as HTMLElement | undefined)?.classList.remove('expanded');
+      this.exportExpanded = false;
     },
     isPromoted(action: PromotableActionId): boolean {
       return this.promotedActions.indexOf(action) !== -1;
@@ -544,6 +640,17 @@ export default defineComponent({
       });
       this.resizeObserver.observe(row);
     },
+    // A control removed with its panel open never hears onClosed, and would come back announcing
+    // itself expanded. The fit loop gives them back one at a time, so this cannot be tied to
+    // demoting all of them.
+    syncExpandedFlags() {
+      this.periodsExpanded = this.periodsExpanded && this.isPromoted('periods');
+      this.exportExpanded = this.exportExpanded && this.isPromoted('export');
+    },
+    demoteAll() {
+      this.promotedCount = 0;
+      this.syncExpandedFlags();
+    },
     async updatePromoted() {
       const row = this.$refs.headerRow as HTMLElement | undefined;
       // A header that is not laid out reports a phone-sized window, and demoting on that sticks:
@@ -552,17 +659,22 @@ export default defineComponent({
         return;
       }
 
+      // The width this decision was taken at, whichever way it goes. Recording it only when
+      // promoting left a demotion remembering the width it was promoted at, so coming back to
+      // exactly that width - restoring a maximised window, undoing a zoom - was read as no change
+      // and never asked again.
+      this.lastMeasuredWidth = row.clientWidth;
+
       const promotable = this.promotable.length;
       // Widget controls leave too little of the line to share, so nothing comes out beside them
       // until the fit is tuned more finely.
       if (!promotable || this.hasControls
         || window.matchMedia(NO_PROMOTION_BREAKPOINT).matches) {
-        this.promotedCount = 0;
+        this.demoteAll();
         return;
       }
 
       // Try them all, then give back the least deserving until the title has room again.
-      this.lastMeasuredWidth = row.clientWidth;
       this.promotedCount = promotable;
       await this.$nextTick();
 
@@ -578,6 +690,8 @@ export default defineComponent({
         // eslint-disable-next-line no-await-in-loop
         await this.$nextTick();
       }
+
+      this.syncExpandedFlags();
     },
     translate,
     onTitleClick() {
