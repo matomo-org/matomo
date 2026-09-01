@@ -230,11 +230,10 @@ class Url
     }
 
     /**
-     * Validates the **Host** HTTP header (untrusted user input). Used to prevent Host header
-     * attacks.
+     * Checks whether the effective host for the current request is allowed. If proxy host headers are configured,
+     * they take precedence over the Host header.
      *
-     * @param string|null|false $host Contents of Host: header from the HTTP request. If `false`, gets the
-     *                          value from the request.
+     * @param string|null|false $host Hostname to check. If `false`, gets the effective host from the request.
      * @return bool `true` if valid; `false` otherwise.
      */
     public static function isValidHost($host = false): bool
@@ -248,7 +247,7 @@ class Url
         }
 
         if (false === $host || null === $host) {
-            $host = self::getHostFromServerVariable();
+            $host = self::getCurrentHost('', false);
             if (empty($host)) {
                 // if no current host, assume valid
                 return true;
@@ -429,8 +428,13 @@ class Url
 
         $host = self::getHost($checkTrustedHost);
         $default = Common::sanitizeInputValue($host ? $host : $default);
+        $host = IP::getNonProxyIpFromHeader($default, $hostHeaders);
 
-        return IP::getNonProxyIpFromHeader($default, $hostHeaders);
+        if ($checkTrustedHost && !self::isValidHost($host)) {
+            return $default;
+        }
+
+        return $host;
     }
 
     /**

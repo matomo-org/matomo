@@ -704,7 +704,7 @@ class Controller extends ControllerAdmin
      */
     private function setTrustedHost(Config $config): void
     {
-        $host = Url::getHost(false);
+        $host = Url::getCurrentHost('', false);
 
         // check hostname in server variables is correctly parsable
         if ($host === $this->extractHostAndPort('http://' . $host)) {

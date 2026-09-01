@@ -74,6 +74,30 @@ class UrlTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($test[4], Url::getCurrentHost(), $description);
     }
 
+    public function testConfiguredProxyHostIsUsedForTrustedHostCheck()
+    {
+        Url::setHost('matomo-app');
+        $_SERVER['HTTP_X_FORWARDED_HOST'] = 'example.org';
+        Config::getInstance()->General['proxy_host_headers'] = ['HTTP_X_FORWARDED_HOST'];
+        Config::getInstance()->General['enable_trusted_host_check'] = 1;
+        Config::getInstance()->General['trusted_hosts'] = ['example.org'];
+
+        $this->assertTrue(Url::isValidHost());
+        $this->assertSame('example.org', Url::getCurrentHost());
+    }
+
+    public function testUntrustedConfiguredProxyHostIsRejected()
+    {
+        Url::setHost('matomo-app');
+        $_SERVER['HTTP_X_FORWARDED_HOST'] = 'untrusted.example.net';
+        Config::getInstance()->General['proxy_host_headers'] = ['HTTP_X_FORWARDED_HOST'];
+        Config::getInstance()->General['enable_trusted_host_check'] = 1;
+        Config::getInstance()->General['trusted_hosts'] = ['example.org'];
+
+        $this->assertFalse(Url::isValidHost());
+        $this->assertSame('example.org', Url::getCurrentHost());
+    }
+
     public function testGetHostWithTrustedHosts()
     {
         Config::getInstance()->General['enable_trusted_host_check'] = 1;

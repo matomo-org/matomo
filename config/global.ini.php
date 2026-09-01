@@ -727,7 +727,8 @@ multi_server_environment = 0
 ; de facto standard (X-Forwarded-For)
 ;proxy_client_headers[] = HTTP_X_FORWARDED_FOR
 
-; List of proxy headers for host IP addresses
+; List of proxy headers for the public hostname. When configured, the hostname from these headers takes precedence over
+; the Host header and is validated against trusted_hosts.
 ;
 ; de facto standard (X-Forwarded-Host)
 ;proxy_host_headers[] = HTTP_X_FORWARDED_HOST
