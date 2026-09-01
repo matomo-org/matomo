@@ -75,8 +75,8 @@
             <button
               type="button"
               class="mtm-selector__trigger annotationView"
-              :title="annotationsTitle"
-              :aria-label="annotationsTitle"
+              :title="annotationsWording(annotationsShowing)"
+              :aria-label="annotationsWording(annotationsShowing)"
               :aria-pressed="annotationsShowing ? 'true' : 'false'"
             >
               <span class="mtm-selector__icon" aria-hidden="true">
@@ -267,6 +267,7 @@ import DataTableActions, {
   FooterIconGroup,
 } from '../DataTable/DataTableActions.vue';
 import ReportActionsStore from '../DataTable/ReportActions.store';
+import annotationsWording from '../DataTable/annotationsWording';
 import ExportMenu from '../DataTable/ExportMenu.vue';
 import PeriodsMenu from '../DataTable/PeriodsMenu.vue';
 import {
@@ -528,11 +529,6 @@ export default defineComponent({
       return promotableActions(this.actions)
         .filter((id) => PROMOTED_RENDERERS.indexOf(id) !== -1);
     },
-    annotationsTitle(): string {
-      return this.annotationsShowing
-        ? translate('Annotations_HideAnnotations')
-        : translate('Annotations_ShowAnnotations');
-    },
     promotedActions(): PromotableActionId[] {
       return this.promotable.slice(0, this.promotedCount);
     },
@@ -615,6 +611,7 @@ export default defineComponent({
     },
   },
   methods: {
+    annotationsWording,
     // Picking a period is the end of the interaction. ExpandOnClick keeps its state in the class,
     // so dropping it is how a panel closes itself - the same move MetricsPicker makes.
     closePromotedPeriods() {

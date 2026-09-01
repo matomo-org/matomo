@@ -306,6 +306,7 @@ import type { ReportActionsConfig } from './ReportActions.store';
 import { translate } from '../translate';
 import { isBooleanLikeSet } from './DataTableActions.utils';
 import activateMenuItem from './activateMenuItem';
+import annotationsWording from './annotationsWording';
 import {
   hasActionItems,
   hasConfigItems,
@@ -482,9 +483,7 @@ export default defineComponent({
       return this.placement === 'header';
     },
     annotationsLabel(): string {
-      return this.annotationsShowing
-        ? translate('Annotations_HideAnnotations')
-        : translate('Annotations_ShowAnnotations');
+      return annotationsWording(this.annotationsShowing);
     },
     annotationsTitle(): string {
       return this.annotationsShowing
