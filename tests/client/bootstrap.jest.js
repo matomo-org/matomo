@@ -46,6 +46,11 @@ class ResizeObserverStub {
 window.__resizeObservers = [];
 window.ResizeObserver = ResizeObserverStub;
 
+// Start every test with an empty list, so "the last observer created" always means this test's.
+beforeEach(() => {
+  window.__resizeObservers = [];
+});
+
 // piwik and other globals
 window.piwik = {};
 window._pk_translate = (name) => name;
