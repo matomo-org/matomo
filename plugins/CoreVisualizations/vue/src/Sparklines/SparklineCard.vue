@@ -120,8 +120,8 @@ export default defineComponent({
     // there is no image yet. Sparkline tells us about every change after that.
     const isImageLoading = ref(true);
 
-    // A pending resize counts as loading too: the image on screen is about to be replaced, and the
-    // UI screenshot runner waits on this state before capturing.
+    // A pending resize counts as loading too: the image on screen is about to be replaced, so the
+    // placeholder covers the swap rather than letting a stale-sized image sit there.
     const isSparklineLoading = computed(() => isResizePending.value || isImageLoading.value);
 
     return {

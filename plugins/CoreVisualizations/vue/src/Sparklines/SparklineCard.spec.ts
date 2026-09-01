@@ -199,8 +199,8 @@ describe('CoreVisualizations/SparklineCard', () => {
   });
 
   it('goes back to loading the moment a resize is observed, before the image is even requested', async () => {
-    // The screenshot runner waits on this state, so it must be set before the debounced refetch,
-    // not after it. Otherwise a capture lands in the gap and photographs the placeholder.
+    // Set when the resize is observed, not when the debounce fires: between those two the image
+    // on screen is already the wrong size for its slot.
     const wrapper = createWrapper();
     await nextTick();
     await wrapper.findComponent({ name: 'Sparkline' }).vm.$emit('loadingChange', false);
