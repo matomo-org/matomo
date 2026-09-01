@@ -9,10 +9,14 @@
 
 namespace Piwik\Plugins\Goals\tests\Integration;
 
+use Piwik\Common;
+use Piwik\Db;
+use Piwik\Piwik;
 use Piwik\Plugins\Goals\API;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Tracker\GoalManager;
 
 /**
  * @group Goals
@@ -36,6 +40,11 @@ class APITest extends IntegrationTestCase
      * @var int
      */
     private $idSiteTwo;
+
+    /**
+     * @var int
+     */
+    private $idVisit = 0;
 
     public function setUp(): void
     {
@@ -276,6 +285,45 @@ class APITest extends IntegrationTestCase
         $this->assertHasNoGoals();
     }
 
+    public function testDeleteGoalShouldDeleteTheConversionsOfThatGoal()
+    {
+        $idGoal = $this->createAnyGoal();
+        $this->trackedConversion($this->idSite, $idGoal);
+        $this->trackedConversion($this->idSiteTwo, $idGoal);
+
+        $this->api->deleteGoal($this->idSite, $idGoal);
+
+        $this->assertSame(0, $this->getConversionCount($this->idSite, $idGoal));
+        $this->assertSame(1, $this->getConversionCount($this->idSiteTwo, $idGoal));
+    }
+
+    /**
+     * @dataProvider getNonGoalIdGoals
+     */
+    public function testDeleteGoalShouldNotDeleteConversionsOfIdGoalsThatAreNoGoal($idGoal)
+    {
+        $this->createAnyGoal();
+        $this->trackedConversion($this->idSite, GoalManager::IDGOAL_ORDER);
+        $this->trackedConversion($this->idSite, GoalManager::IDGOAL_CART);
+
+        $this->api->deleteGoal($this->idSite, $idGoal);
+
+        $this->assertHasGoals();
+        $this->assertSame(1, $this->getConversionCount($this->idSite, GoalManager::IDGOAL_ORDER));
+        $this->assertSame(1, $this->getConversionCount($this->idSite, GoalManager::IDGOAL_CART));
+    }
+
+    public function getNonGoalIdGoals(): iterable
+    {
+        yield 'ecommerce order' => [GoalManager::IDGOAL_ORDER];
+        yield 'abandoned cart' => [GoalManager::IDGOAL_CART];
+        yield 'ecommerce order as string' => ['0'];
+        yield 'abandoned cart as string' => ['-1'];
+        yield 'ecommerce order label' => [Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER];
+        yield 'abandoned cart label' => [Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART];
+        yield 'unknown goal' => [999];
+    }
+
     public function testGetGoalShouldThrowExceptionIfNotEnoughPermission()
     {
         $this->expectException(\Exception::class);
@@ -386,6 +434,33 @@ class APITest extends IntegrationTestCase
     private function getGoals()
     {
         return $this->api->getGoals($this->idSite);
+    }
+
+    private function trackedConversion(int $idSite, int $idGoal): void
+    {
+        $this->idVisit++;
+
+        Db::query(
+            'INSERT INTO ' . Common::prefixTable('log_conversion')
+            . ' (idvisit, idsite, idvisitor, server_time, idgoal, buster, url) VALUES (?, ?, ?, ?, ?, ?, ?)',
+            [
+                $this->idVisit,
+                $idSite,
+                Common::hex2bin('0123456789abcdef'),
+                '2014-01-01 00:00:00',
+                $idGoal,
+                0,
+                'http://example.org',
+            ]
+        );
+    }
+
+    private function getConversionCount(int $idSite, int $idGoal): int
+    {
+        return (int) Db::fetchOne(
+            'SELECT COUNT(*) FROM ' . Common::prefixTable('log_conversion') . ' WHERE idsite = ? AND idgoal = ?',
+            [$idSite, $idGoal]
+        );
     }
 
     private function createAnyGoal()

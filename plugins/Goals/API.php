@@ -410,6 +410,8 @@ class API extends \Piwik\Plugin\API
      * Soft deletes a given Goal.
      * Stats data in the archives will still be recorded, but not displayed.
      *
+     * Nothing is deleted if the site has no such goal.
+     *
      * @param int $idSite The numeric ID of the website to query.
      * @param int $idGoal The numeric ID of the goal to delete.
      *
@@ -418,6 +420,18 @@ class API extends \Piwik\Plugin\API
     public function deleteGoal(int $idSite, $idGoal)
     {
         Piwik::checkUserHasWriteAccess($idSite);
+
+        $idGoal = (int) $idGoal;
+
+        // the reserved ecommerce ids are no goals, so only ids of goals configured for the site
+        // may reach the conversion deletion below
+        if (
+            $idGoal === GoalManager::IDGOAL_ORDER
+            || $idGoal === GoalManager::IDGOAL_CART
+            || !$this->getModel()->doesGoalExist($idGoal, $idSite)
+        ) {
+            return;
+        }
 
         $this->getModel()->deleteGoal($idSite, $idGoal);
         $this->getModel()->deleteGoalConversions($idSite, $idGoal);
