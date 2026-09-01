@@ -120,8 +120,8 @@ class Controller extends \Piwik\Plugin\Controller
     {
         Piwik::checkUserHasSuperUserAccess();
 
-        if (!SettingsPiwik::isAutoUpdateEnabled()) {
-            throw new Exception('Auto updater is disabled');
+        if (!SettingsPiwik::isVersionUpdateCheckEnabled()) {
+            throw new Exception('Version update check (enable_auto_update) is disabled');
         }
 
         $this->checkNewVersionIsAvailableOrDie();
