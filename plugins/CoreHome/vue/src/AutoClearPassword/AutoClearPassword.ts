@@ -31,12 +31,29 @@ function collectPasswordInputs(el: HTMLElement): Array<HTMLInputElementWithAutoC
 }
 
 function setupAutoClear(el: HTMLInputElementWithAutoClear, delay: number) {
-  let timeoutId: number | undefined;
+  // Never arm the same input twice.
+  if (el.dataset.autoClearEnabled === 'true') {
+    return;
+  }
+
+  let timeoutId: ReturnType<typeof setTimeout> | undefined;
+  let intervalId: ReturnType<typeof setInterval> | undefined;
   let lastValue = el.value;
 
   const clearValue = (): void => {
+    if (el.value === '') {
+      return;
+    }
+
     el.value = '';
     el.dispatchEvent(new Event('input'));
+
+    // The event hits our own listener and re-arms the timer, so drop it again.
+    lastValue = '';
+    if (timeoutId !== undefined) {
+      clearTimeout(timeoutId);
+      timeoutId = undefined;
+    }
   };
 
   const resetTimer = (): void => {
@@ -47,11 +64,50 @@ function setupAutoClear(el: HTMLInputElementWithAutoClear, delay: number) {
   const inputListener = () => resetTimer();
   const changeListener = () => resetTimer();
 
+  // Forward declared so `teardown` can remove the listener registered below.
+  let pageHideListener: ((event: PageTransitionEvent) => void) | undefined;
+
+  // Tears everything down and drops the retained value copy. `unmounted` does
+  // not run on full-page navigation, so `pagehide` covers that case too.
+  const teardown = (clearField: boolean): void => {
+    if (timeoutId !== undefined) {
+      clearTimeout(timeoutId);
+    }
+    if (intervalId !== undefined) {
+      clearInterval(intervalId);
+    }
+    el.removeEventListener('input', inputListener);
+    el.removeEventListener('change', changeListener);
+    if (pageHideListener) {
+      window.removeEventListener('pagehide', pageHideListener);
+    }
+    delete el.dataset.autoClearEnabled;
+    delete el.onUmounted;
+    lastValue = '';
+    if (clearField) {
+      // No `input` event dispatched on purpose: the page is unloading, so
+      // re-triggering the timer or v-model updates would be pointless.
+      el.value = '';
+    }
+  };
+
+  pageHideListener = (event: PageTransitionEvent): void => {
+    if (event.persisted) {
+      // Kept for the back/forward cache and may be restored: clear value and
+      // model (a restore render would otherwise repopulate it) but stay armed.
+      clearValue();
+      lastValue = '';
+      return;
+    }
+    teardown(true);
+  };
+
   el.addEventListener('input', inputListener);
   el.addEventListener('change', changeListener);
   el.dataset.autoClearEnabled = 'true';
+  window.addEventListener('pagehide', pageHideListener);
 
-  const intervalId = setInterval(() => {
+  intervalId = setInterval(() => {
     if (el.value !== lastValue) {
       lastValue = el.value;
       resetTimer();
@@ -60,15 +116,18 @@ function setupAutoClear(el: HTMLInputElementWithAutoClear, delay: number) {
 
   el.onUmounted = {
     cleanup() {
-      clearTimeout(timeoutId);
-      clearInterval(intervalId);
-      el.removeEventListener('input', inputListener);
-      el.removeEventListener('change', changeListener);
-      delete el.dataset.autoClearEnabled;
+      teardown(false);
     },
   };
 }
 
+/**
+ * Clears a password input after a period of inactivity, and on page navigation.
+ *
+ * Bind it to a password input or to an element wrapping one. Only the DOM value
+ * is cleared: bound to a Vue `Field`, the plaintext stays in the bound model and
+ * a later re-render restores it into the input.
+ */
 export default {
   mounted(el: HTMLInputElementWithAutoClear, binding: DirectiveBinding<AutoClearArgs>): void {
     const delay = (binding.value && binding.value.delay) || 600;
@@ -82,7 +141,6 @@ export default {
     targets.forEach((e: HTMLInputElementWithAutoClear) => {
       if (e.onUmounted && typeof e.onUmounted.cleanup === 'function') {
         e.onUmounted.cleanup();
-        delete e.onUmounted;
       }
     });
   },
