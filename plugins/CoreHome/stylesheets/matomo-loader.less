@@ -1,3 +1,7 @@
+// The bars take their colour from the surrounding text, so they work on every surface this
+// loader appears on - cards, datatables, and the teal install button in the Marketplace, where
+// any fixed grey would wash out. plugins/Morpheus/images/loading.svg draws the same spinner for
+// the few places that can only take a background-image, and has to bake a grey in instead.
 .matomo-loader {
   width: 16px;
   height: 11px;
@@ -5,15 +9,18 @@
   position: relative;
 
   span {
-    background: #f0f0f0;
+    background: currentColor;
     position: absolute;
     top: 2px;
     animation: matomo-loader 1s infinite ease-in-out;
     width: 2px;
     height: 5px;
     display: inline-block;
-    border: 1px solid #f5f5f5;
+    // Part of the bar, not an outline - with content-box it makes 2x5 into the 4x7 the
+    // keyframes below grow to 4x11. Dropping it would need those numbers reworked.
+    border: 1px solid currentColor;
     box-sizing: content-box;
+    opacity: .4;
 
     &:nth-child(1) {
       left: 0;
@@ -42,7 +49,6 @@
   25% {
     top: 0;
     height: 9px;
-    border-color: #bbb;
-    background: #ccc;
+    opacity: .7;
   }
 }
