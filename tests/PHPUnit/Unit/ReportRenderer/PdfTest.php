@@ -9,6 +9,7 @@
 
 namespace Piwik\Tests\Unit\ReportRenderer;
 
+use Piwik\Piwik;
 use Piwik\ReportRenderer\Pdf;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
@@ -195,6 +196,108 @@ class PdfTest extends TestCase
             $pageWidth->getValue($renderer),
             $labelCellWidth->getValue($renderer)
         );
+    }
+
+    /**
+     * @dataProvider getTestDataForCappingPercentColumns
+     */
+    public function testPercentColumnsAreCappedToTheWidestRenderableTable(array $columns, int $maxColumns, array $expected): void
+    {
+        $capped = $this->capPercentOfTotalColumns($columns, $maxColumns);
+
+        self::assertSame($expected, array_keys($capped));
+    }
+
+    public function getTestDataForCappingPercentColumns(): array
+    {
+        $narrow = [
+            'label'                       => 'Country',
+            'nb_visits'                   => 'Visits',
+            'nb_visits_percent_of_total'  => '(%)',
+            'nb_actions'                  => 'Actions',
+            'nb_actions_percent_of_total' => '(%)',
+        ];
+
+        // label + 8 metrics + 3 percentages: the last two percentages have to go
+        $wide = [
+            'label'                       => 'City',
+            'nb_visits'                   => 'Visits',
+            'nb_visits_percent_of_total'  => '(%)',
+            'nb_uniq_visitors'            => 'Unique visitors',
+            'nb_actions'                  => 'Actions',
+            'nb_actions_percent_of_total' => '(%)',
+            'nb_users'                    => 'Users',
+            'avg_time_on_site'            => 'Avg. Time on Website',
+            'bounce_rate'                 => 'Bounce Rate',
+            'revenue'                     => 'Revenue',
+            'revenue_percent_of_total'    => '(%)',
+        ];
+
+        // a report whose own metrics already exceed the cap keeps every one of them
+        $noPercentages = [
+            'label'             => 'Website',
+            'nb_visits'         => 'Visits',
+            'nb_actions'        => 'Actions',
+            'nb_pageviews'      => 'Pageviews',
+            'hits'              => 'Hits',
+            'revenue'           => 'Revenue',
+            'nb_conversions'    => 'Conversions',
+            'orders'            => 'Orders',
+            'ecommerce_revenue' => 'Ecommerce Revenue',
+            'visits_evolution'  => 'Visits evolution',
+        ];
+
+        return [
+            'already narrow enough' => [$narrow, 9, array_keys($narrow)],
+            'the leftmost percentage survives' => [$wide, 9, [
+                'label',
+                'nb_visits',
+                'nb_visits_percent_of_total',
+                'nb_uniq_visitors',
+                'nb_actions',
+                'nb_users',
+                'avg_time_on_site',
+                'bounce_rate',
+                'revenue',
+            ]],
+            // $wide is exactly 11 columns, so a cap of 11 leaves every percentage in place
+            'a wider cap keeps more of them' => [$wide, 11, array_keys($wide)],
+            // the report's own metrics are the report, they are never dropped to meet the cap
+            'no percentage to drop' => [$noPercentages, 9, array_keys($noPercentages)],
+        ];
+    }
+
+    public function testPercentColumnLabelsAreShortenedForFixedWidthPages(): void
+    {
+        $shortened = $this->shortenPercentOfTotalColumnLabels([
+            'label'                      => 'Country',
+            'nb_visits'                  => 'Visits',
+            'nb_visits_percent_of_total' => 'Visits (% of total)',
+            'bounce_rate'                => 'Bounce Rate',
+        ]);
+
+        self::assertSame([
+            'label'                      => 'Country',
+            'nb_visits'                  => 'Visits',
+            'nb_visits_percent_of_total' => Piwik::translate('General_ColumnPercentOfReportTotalShort'),
+            'bounce_rate'                => 'Bounce Rate',
+        ], $shortened);
+    }
+
+    private function capPercentOfTotalColumns(array $columns, int $maxColumns): array
+    {
+        $method = new ReflectionMethod(Pdf::class, 'capPercentOfTotalColumns');
+        $method->setAccessible(true);
+
+        return $method->invoke(null, $columns, $maxColumns);
+    }
+
+    private function shortenPercentOfTotalColumnLabels(array $columns): array
+    {
+        $method = new ReflectionMethod(Pdf::class, 'shortenPercentOfTotalColumnLabels');
+        $method->setAccessible(true);
+
+        return $method->invoke(null, $columns);
     }
 
     /**

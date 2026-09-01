@@ -39,6 +39,14 @@ class Pdf extends ReportRenderer
     public const MAX_GRAPH_REPORTS = 3;
     public const MAX_2COL_TABLE_REPORTS = 2;
 
+    /**
+     * Widest table that still renders without truncating its cells, label column included.
+     * Measured at the report font: 8 metric columns share the 160mm left over by the label
+     * column, ie 20mm each, which clears the widest value ('$19,426.51', 19.2mm) and the
+     * widest header word ('Conversions', 18.4mm). A ninth drops them to 17mm and money is cut.
+     */
+    public const MAX_TABLE_COLUMNS = 9;
+
     public const IMPORT_FONT_PATH = 'plugins/ImageGraph/fonts/unifont.ttf';
     public const PDF_CONTENT_TYPE = 'pdf';
     public const PORTRAIT = 'P';
@@ -342,7 +350,10 @@ class Pdf extends ReportRenderer
         $this->evolutionGraph = $processedReport['evolutionGraph'];
         $this->displayTable = $processedReport['displayTable'];
         $this->segment = $processedReport['segment'];
-        list($this->report, $this->reportColumns) = self::processTableFormat($this->reportMetadata, $processedReport['reportData'], $processedReport['columns']);
+        $columns = self::shortenPercentOfTotalColumnLabels($processedReport['columns']);
+        $columns = self::capPercentOfTotalColumns($columns, self::MAX_TABLE_COLUMNS);
+
+        list($this->report, $this->reportColumns) = self::processTableFormat($this->reportMetadata, $processedReport['reportData'], $columns);
 
         $this->paintReportHeader();
 
