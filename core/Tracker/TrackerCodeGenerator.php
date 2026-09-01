@@ -24,6 +24,18 @@ use Piwik\View;
 class TrackerCodeGenerator
 {
     /**
+     * Elements of the tracking code that are JavaScript rather than a value, and are therefore not
+     * stripped of the characters a value must not contain.
+     */
+    private const CODE_ELEMENTS = ['options', 'optionsBeforeTrackerUrl'];
+
+    /**
+     * Characters that would end the JavaScript string or the HTML attribute a value is placed in. The
+     * generated code is used as it is once copied, so a value has to be safe on its own.
+     */
+    private const CHARACTERS_BREAKING_THE_CODE = '~[\x00-\x20\x7f"\'<>`{$}\\\\]~';
+
+    /**
      * whether matomo.js|php should be forced over piwik.js|php
      */
     private bool $shouldForceMatomoEndpoint = false;
@@ -39,18 +51,18 @@ class TrackerCodeGenerator
      * @param bool $mergeSubdomains
      * @param bool $groupPageTitlesByDomain
      * @param bool $mergeAliasUrls
-     * @param array $visitorCustomVariables
-     * @param array $pageCustomVariables
-     * @param string $customCampaignNameQueryParam
-     * @param string $customCampaignKeywordParam
+     * @param array|null $visitorCustomVariables
+     * @param array|null $pageCustomVariables
+     * @param string|null $customCampaignNameQueryParam
+     * @param string|null $customCampaignKeywordParam
      * @param bool $doNotTrack
      * @param bool $disableCookies
      * @param bool $trackNoScript
      * @param bool $crossDomain
-     * @param bool $excludedQueryParams
-     * @param array $excludedReferrers
+     * @param string|string[]|false $excludedQueryParams
+     * @param string|string[] $excludedReferrers
      * @param bool $disableCampaignParameters
-     * @return string Javascript code.
+     * @return string The JavaScript tracking code, HTML escaped for direct embedding.
      */
     public function generate(
         $idSite,
@@ -70,14 +82,6 @@ class TrackerCodeGenerator
         $excludedReferrers = [],
         $disableCampaignParameters = false
     ) {
-        // changes made to this code should be mirrored in plugins/CoreAdminHome/javascripts/jsTrackingGenerator.js var generateJsCode
-
-        if (substr($piwikUrl, 0, 4) !== 'http') {
-            $piwikUrl = 'http://' . $piwikUrl;
-        }
-        preg_match('~^(http|https)://(.*)$~D', $piwikUrl, $matches);
-        $piwikUrl = rtrim(@$matches[2], "/");
-
         // Build optional parameters to be added to text
         $options = '';
         $optionsBeforeTrackerUrl = '';
@@ -110,8 +114,8 @@ class TrackerCodeGenerator
                     $options .= sprintf(
                         '  _paq.push(["setCustomVariable", %d, %s, %s, "visit"]);%s',
                         $index++,
-                        json_encode($visitorCustomVariable[0]),
-                        json_encode($visitorCustomVariable[1]),
+                        self::jsonEncodeValue($visitorCustomVariable[0]),
+                        self::jsonEncodeValue($visitorCustomVariable[1]),
                         "\n"
                     );
                 }
@@ -126,8 +130,8 @@ class TrackerCodeGenerator
                     $options .= sprintf(
                         '  _paq.push(["setCustomVariable", %d, %s, %s, "page"]);%s',
                         $index++,
-                        json_encode($pageCustomVariable[0]),
-                        json_encode($pageCustomVariable[1]),
+                        self::jsonEncodeValue($pageCustomVariable[0]),
+                        self::jsonEncodeValue($pageCustomVariable[1]),
                         "\n"
                     );
                 }
@@ -140,12 +144,12 @@ class TrackerCodeGenerator
 
         if ($customCampaignNameQueryParam) {
             $options .= '  _paq.push(["setCampaignNameKey", '
-                . json_encode($customCampaignNameQueryParam) . ']);' . "\n";
+                . self::jsonEncodeValue($customCampaignNameQueryParam) . ']);' . "\n";
         }
 
         if ($customCampaignKeywordParam) {
             $options .= '  _paq.push(["setCampaignKeywordKey", '
-                . json_encode($customCampaignKeywordParam) . ']);' . "\n";
+                . self::jsonEncodeValue($customCampaignKeywordParam) . ']);' . "\n";
         }
 
         if ($doNotTrack) {
@@ -157,7 +161,8 @@ class TrackerCodeGenerator
             if (!is_array($excludedQueryParams)) {
                 $excludedQueryParams = explode(',', $excludedQueryParams);
             }
-            $options .= '  _paq.push(["setExcludedQueryParams", ' . json_encode($excludedQueryParams) . ']);' . "\n";
+            $options .= '  _paq.push(["setExcludedQueryParams", '
+                . self::jsonEncodeValue($excludedQueryParams) . ']);' . "\n";
         }
 
         // Add any ignored referrer to the tracker options
@@ -166,17 +171,19 @@ class TrackerCodeGenerator
                 $excludedReferrers = explode(',', $excludedReferrers);
             }
 
-            $options .= '  _paq.push(["setExcludedReferrers", ' . json_encode($excludedReferrers) . ']);' . "\n";
+            $options .= '  _paq.push(["setExcludedReferrers", '
+                . self::jsonEncodeValue($excludedReferrers) . ']);' . "\n";
         }
 
         if ($disableCookies) {
             $options .= '  _paq.push(["disableCookies"]);' . "\n";
         }
 
+        // a plugin can add or change any element through the event below
+        /** @var array<string, mixed> $codeImpl */
         $codeImpl = array(
             'idSite'                  => $idSite,
-            // TODO why sanitizeInputValue() and not json_encode?
-            'piwikUrl'                => Common::sanitizeInputValue($piwikUrl),
+            'piwikUrl'                => $piwikUrl,
             'options'                 => $options,
             'optionsBeforeTrackerUrl' => $optionsBeforeTrackerUrl,
             'protocol'                => '//',
@@ -222,30 +229,126 @@ class TrackerCodeGenerator
          *
          *                         The **httpsPiwikUrl** element can be set if the HTTPS
          *                         domain is different from the normal domain.
+         *
+         *                         Every element is HTML escaped before it is substituted into the
+         *                         tracking code, so a handler must not escape its value itself, and
+         *                         every element has to stay a scalar value, as anything else throws.
+         *
+         *                         Values are used as given, so pass them unsanitized. Except for
+         *                         **options** and **optionsBeforeTrackerUrl**, which are JavaScript,
+         *                         characters that would end the string or attribute an element sits
+         *                         in are removed, or encoded in the two URLs.
          * @param array $parameters The parameters supplied to `TrackerCodeGenerator::generate()`.
          */
         Piwik::postEvent('Tracker.getJavascriptCode', array(&$codeImpl, $parameters));
 
+        foreach ($codeImpl as $key => $value) {
+            if (null !== $value && !is_scalar($value)) {
+                throw new \InvalidArgumentException(sprintf(
+                    'The %s element of the tracking code must be a scalar value, %s given.',
+                    $key,
+                    gettype($value)
+                ));
+            }
+        }
+
+        // built into the code here rather than substituted, so it has to be stripped up front
+        $codeImpl['protocol'] = self::stripCharactersBreakingTheCode((string) $codeImpl['protocol']);
+
+        // the only place the URL is normalised, as normalising decodes and is not idempotent
+        $codeImpl['piwikUrl'] = self::normalizeTrackerUrl($codeImpl['piwikUrl']);
+
+        // the noscript URL carries the id in its query string, encoded, but from the stripped value
+        // so that both requests report the same site
+        $codeImpl['idSite'] = self::stripCharactersBreakingTheCode((string) $codeImpl['idSite']);
+        $codeImpl['idSiteUrlEncoded'] = urlencode($codeImpl['idSite']);
+
         $setTrackerUrl = 'var u="' . $codeImpl['protocol'] . '{$piwikUrl}/";';
 
-        if (!empty($codeImpl['httpsPiwikUrl'])) {
+        // normalised before it is tested, as one left without a host by it must not be used
+        $httpsPiwikUrl = self::normalizeTrackerUrl($codeImpl['httpsPiwikUrl'] ?? '');
+
+        if ('' !== $httpsPiwikUrl) {
+            $codeImpl['httpsPiwikUrl'] = $httpsPiwikUrl;
             $setTrackerUrl = 'var u=((document.location.protocol === "https:") ? "https://{$httpsPiwikUrl}/" : "http://{$piwikUrl}/");';
-            $codeImpl['httpsPiwikUrl'] = rtrim($codeImpl['httpsPiwikUrl'], "/");
         }
-        $codeImpl = array('setTrackerUrl' => htmlentities($setTrackerUrl, ENT_COMPAT | ENT_HTML401, 'UTF-8')) + $codeImpl;
 
         $view = new View('@Morpheus/javascriptCode');
         $view->disableCacheBuster();
         $view->loadAsync = $codeImpl['loadAsync'];
         $view->trackNoScript = $codeImpl['trackNoScript'];
         $jsCode = $view->render();
-        $jsCode = htmlentities($jsCode, ENT_COMPAT | ENT_HTML401, 'UTF-8');
+        $jsCode = self::escapeForHtml($jsCode);
 
+        // the rendered template is escaped as a whole, so every value substituted afterwards needs to be
+        // escaped on its own
+        $replacements = [];
         foreach ($codeImpl as $keyToReplace => $replaceWith) {
-            $jsCode = str_replace('{$' . $keyToReplace . '}', $replaceWith, $jsCode);
+            $value = (string) $replaceWith;
+
+            if (!in_array($keyToReplace, self::CODE_ELEMENTS, true)) {
+                $value = self::stripCharactersBreakingTheCode($value);
+            }
+
+            $replacements['{$' . $keyToReplace . '}'] = self::escapeForHtml($value);
         }
 
-        return $jsCode;
+        // resolved first, as it contains the piwikUrl and httpsPiwikUrl placeholders itself
+        $jsCode = str_replace('{$setTrackerUrl}', self::escapeForHtml($setTrackerUrl), $jsCode);
+
+        // single pass, so that a value containing a placeholder is not expanded any further
+        return strtr($jsCode, $replacements);
+    }
+
+    /**
+     * Removes the characters that would end the JavaScript string or the HTML attribute a value is placed
+     * in. Used for the ids and filenames of the tracking code, which have no encoding of their own. The
+     * tracker URL is encoded instead, as an apostrophe is valid in a path.
+     */
+    private static function stripCharactersBreakingTheCode(string $value): string
+    {
+        return (string) preg_replace(self::CHARACTERS_BREAKING_THE_CODE, '', $value);
+    }
+
+    private static function escapeForHtml(string $value): string
+    {
+        return htmlspecialchars($value, ENT_COMPAT | ENT_HTML401 | ENT_SUBSTITUTE, 'UTF-8');
+    }
+
+    /**
+     * JSON encodes a value for use inside the tracking code. Values may be stored sanitized, so they are
+     * unsanitized first, as json_encode can only escape quotes it actually sees.
+     *
+     * @param mixed $value
+     */
+    private static function jsonEncodeValue($value): string
+    {
+        return (string) json_encode(
+            Common::unsanitizeInputValues($value),
+            JSON_HEX_TAG | JSON_INVALID_UTF8_SUBSTITUTE
+        );
+    }
+
+    /**
+     * Returns the given Matomo URL without its protocol and trailing slashes, as the generated tracking
+     * code adds the protocol itself.
+     *
+     * @param string|null $piwikUrl
+     */
+    public static function normalizeTrackerUrl($piwikUrl): string
+    {
+        $piwikUrl = trim(Common::unsanitizeInputValue((string) $piwikUrl));
+        $piwikUrl = (string) preg_replace('~^[a-z][a-z0-9+.-]*://~i', '', $piwikUrl);
+        // encoded rather than removed, so that a path containing one of them still resolves
+        $piwikUrl = (string) preg_replace_callback(
+            self::CHARACTERS_BREAKING_THE_CODE,
+            static function (array $matches): string {
+                return rawurlencode($matches[0]);
+            },
+            $piwikUrl
+        );
+
+        return rtrim($piwikUrl, '/');
     }
 
     public function getJsTrackerEndpoint()
@@ -279,7 +382,9 @@ class TrackerCodeGenerator
     private function getJavascriptTagOptions($idSite, $mergeSubdomains, $mergeAliasUrls)
     {
         try {
-            $websiteUrls = APISitesManager::getInstance()->getSiteUrlsFromId($idSite);
+            $websiteUrls = Common::unsanitizeInputValues(
+                APISitesManager::getInstance()->getSiteUrlsFromId($idSite)
+            );
         } catch (\Exception $e) {
             return '';
         }
@@ -312,13 +417,21 @@ class TrackerCodeGenerator
         }
         $options = '';
         if ($mergeSubdomains && !empty($firstHost)) {
-            $options .= '  _paq.push(["setCookieDomain", ' . json_encode('*.' . $firstHost, JSON_UNESCAPED_SLASHES) . ']);' . "\n";
+            $options .= '  _paq.push(["setCookieDomain", '
+                . json_encode(
+                    '*.' . $firstHost,
+                    JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_INVALID_UTF8_SUBSTITUTE
+                ) . ']);' . "\n";
         }
         if ($mergeAliasUrls && !empty($websiteHosts)) {
             $urls = array_map(static function ($host) {
                 return '*.' . $host;
             }, $websiteHosts);
-            $options .= '  _paq.push(["setDomains", ' . json_encode($urls, JSON_UNESCAPED_SLASHES) . ']);' . "\n";
+            $options .= '  _paq.push(["setDomains", '
+                . json_encode(
+                    $urls,
+                    JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_INVALID_UTF8_SUBSTITUTE
+                ) . ']);' . "\n";
         }
         return $options;
     }
@@ -333,6 +446,8 @@ class TrackerCodeGenerator
     public static function stripTags($jsTrackingCode)
     {
         // Strip off open and close <script> tag and comments so that JS will be displayed in ALL mail clients
-        return trim(strip_tags(html_entity_decode($jsTrackingCode)));
+        return trim(strip_tags(
+            html_entity_decode($jsTrackingCode, ENT_COMPAT | ENT_HTML401 | ENT_SUBSTITUTE, 'UTF-8')
+        ));
     }
 }

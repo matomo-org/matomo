@@ -42,7 +42,6 @@ use Piwik\SiteContentDetector;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\TrackerCodeGenerator;
 use Piwik\Translation\Translator;
-use Piwik\Url;
 use Piwik\UrlHelper;
 use Piwik\Validators\WhitelistedValue;
 
@@ -174,9 +173,7 @@ class API extends \Piwik\Plugin\API
     ): string {
         Piwik::checkUserHasViewAccess($idSite);
 
-        if (empty($piwikUrl)) {
-            $piwikUrl = SettingsPiwik::getPiwikUrl() ?: '';
-        }
+        $piwikUrl = $this->resolveTrackerUrl($piwikUrl);
 
         if (is_array($excludedQueryParams)) {
             $excludedQueryParams = implode(',', $excludedQueryParams);
@@ -187,7 +184,7 @@ class API extends \Piwik\Plugin\API
             $generator->forceMatomoEndpoint();
         }
 
-        $code = $generator->generate(
+        return $generator->generate(
             $idSite,
             $piwikUrl,
             $mergeSubdomains,
@@ -205,16 +202,16 @@ class API extends \Piwik\Plugin\API
             $excludedReferrers,
             $disableCampaignParameters
         );
-
-        return str_replace(['<br>', '<br />', '<br/>'], '', $code);
     }
 
     /**
      * Returns image link tracking code for a given site with specified options.
      *
+     * Requires view access to the specified site.
+     *
      * @param int $idSite The ID to generate tracking code for.
-     * @param string $piwikUrl The domain and URL path to the Matomo installation.
-     * @param string|false $actionName Action name to include in the image tracking request, or `false` to omit it.
+     * @param string $piwikUrl The domain and URL path to the Matomo installation. Defaults to the current Matomo URL.
+     * @param string|null $actionName Action name to include in the image tracking request, or `null` to omit it.
      * @param int|false $idGoal Goal ID to trigger a conversion for, or `false` to omit goal tracking.
      * @param int|float|false $revenue Revenue for the goal conversion. Only used when `$idGoal` is supplied.
      * @param bool $forceMatomoEndpoint Whether the Matomo endpoint should be forced if Matomo was installed
@@ -222,17 +219,21 @@ class API extends \Piwik\Plugin\API
      * @return string The HTML-encoded image tracking code.
      */
     public function getImageTrackingCode(
-        $idSite,
-        $piwikUrl = '',
-        $actionName = false,
+        int $idSite,
+        string $piwikUrl = '',
+        ?string $actionName = null,
         $idGoal = false,
         $revenue = false,
-        $forceMatomoEndpoint = false
+        bool $forceMatomoEndpoint = false
     ): string {
+        Piwik::checkUserHasViewAccess($idSite);
+
+        $piwikUrl = $this->resolveTrackerUrl($piwikUrl);
+
         $urlParams = ['idsite' => $idSite, 'rec' => 1];
 
-        if ($actionName !== false) {
-            $urlParams['action_name'] = urlencode(Common::unsanitizeInputValue($actionName));
+        if (null !== $actionName && '' !== $actionName) {
+            $urlParams['action_name'] = Common::unsanitizeInputValue($actionName);
         }
 
         if ($idGoal !== false) {
@@ -247,10 +248,14 @@ class API extends \Piwik\Plugin\API
          * this event to customise the image tracking code that is displayed to the
          * user.
          *
-         * @param string &$piwikHost The domain and URL path to the Matomo installation, eg,
-         *                           `'examplepiwik.com/path/to/piwik'`.
+         * @param string &$piwikUrl The domain and URL path to the Matomo installation. Defaults to the
+         *                           configured Matomo URL, including its protocol. Any protocol is
+         *                           stripped afterwards, as the tracking code adds one itself.
          * @param array &$urlParams The query parameters used in the <img> element's src
          *                          URL. See Matomo's image tracking docs for more info.
+         *                          Names and values are URL encoded when the query string is built,
+         *                          so a handler has to add them unencoded. A `null` or `false` value
+         *                          is skipped, an array is added as `name[]=value`.
          */
         Piwik::postEvent('SitesManager.getImageTrackingCode', [&$piwikUrl, &$urlParams]);
 
@@ -260,11 +265,55 @@ class API extends \Piwik\Plugin\API
         }
         $matomoPhp = $trackerCodeGenerator->getPhpTrackerEndpoint();
 
-        $url = (ProxyHttp::isHttps() ? "https://" : "http://") . rtrim($piwikUrl, '/') . '/' . $matomoPhp . '?' . Url::getQueryStringFromParameters($urlParams);
+        // the protocol is added below, so drop the one a caller or plugin may have supplied
+        $piwikUrl = TrackerCodeGenerator::normalizeTrackerUrl($piwikUrl);
+
+        $url = (ProxyHttp::isHttps() ? "https://" : "http://") . $piwikUrl . '/' . $matomoPhp
+            . '?' . $this->getEncodedQueryString($urlParams);
         $html = "<!-- Matomo Image Tracker-->
-<img referrerpolicy=\"no-referrer-when-downgrade\" src=\"" . htmlspecialchars($url, ENT_COMPAT, 'UTF-8') . "\" style=\"border:0\" alt=\"\" />
+<img referrerpolicy=\"no-referrer-when-downgrade\" src=\"" . htmlspecialchars($url, ENT_COMPAT | ENT_SUBSTITUTE, 'UTF-8') . "\" style=\"border:0\" alt=\"\" />
 <!-- End Matomo -->";
-        return htmlspecialchars($html, ENT_COMPAT, 'UTF-8');
+        return htmlspecialchars($html, ENT_COMPAT | ENT_SUBSTITUTE, 'UTF-8');
+    }
+
+    /**
+     * Returns the URL to generate a tracking code for, falling back to the URL of this Matomo, and
+     * refuses one that would leave the code without a host. Not normalised, as the generator does that
+     * itself and normalising decodes the value.
+     */
+    private function resolveTrackerUrl(string $piwikUrl): string
+    {
+        if (empty($piwikUrl)) {
+            $piwikUrl = SettingsPiwik::getPiwikUrl() ?: '';
+        }
+
+        if ('' === TrackerCodeGenerator::normalizeTrackerUrl($piwikUrl)) {
+            throw new Exception(Piwik::translate('SitesManager_ExceptionMatomoUrlUnknown'));
+        }
+
+        return $piwikUrl;
+    }
+
+    /**
+     * Builds the query string of the image tracking URL. Every name and value is URL encoded, so that a
+     * malformed parameter cannot end the URL it is placed in.
+     */
+    private function getEncodedQueryString(array $urlParams): string
+    {
+        $query = [];
+
+        foreach ($urlParams as $name => $value) {
+            foreach (is_array($value) ? $value : [$value] as $singleValue) {
+                if (false === $singleValue || !is_scalar($singleValue)) {
+                    continue;
+                }
+
+                $query[] = urlencode((string) $name)
+                    . (is_array($value) ? '[]' : '') . '=' . urlencode((string) $singleValue);
+            }
+        }
+
+        return implode('&', $query);
     }
 
     /**
