@@ -8,7 +8,6 @@
 <template>
   <img
     class="sparklineImg"
-    :class="{ 'sparklineImg--loading': !hasLoaded }"
     loading="lazy"
     alt=""
     :src="sparklineUrl"

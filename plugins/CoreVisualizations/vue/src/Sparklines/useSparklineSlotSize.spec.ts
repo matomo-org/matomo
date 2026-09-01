@@ -7,7 +7,7 @@
 
 import { defineComponent, ref } from 'vue';
 import { mount } from '@vue/test-utils';
-import useSparklineSlotSize, { MAX_DISPLAY_WIDTH } from './useSparklineSlotSize';
+import useSparklineSlotSize, { MAX_DISPLAY_HEIGHT, MAX_DISPLAY_WIDTH } from './useSparklineSlotSize';
 
 // The recording ResizeObserver stub from the test bootstrap (jsdom has none of its own).
 interface ResizeObserverStub {
@@ -38,9 +38,11 @@ function setRect(width: number, height = 40): void {
 const Harness = defineComponent({
   setup() {
     const slot = ref<HTMLElement | null>(null);
-    const { width, height } = useSparklineSlotSize(slot);
+    const { width, height, isResizePending } = useSparklineSlotSize(slot);
 
-    return { slot, width, height };
+    return {
+      slot, width, height, isResizePending,
+    };
   },
   template: '<div ref="slot"></div>',
 });
@@ -80,6 +82,58 @@ describe('CoreVisualizations/useSparklineSlotSize', () => {
     setRect(MAX_DISPLAY_WIDTH + 500);
 
     expect(mount(Harness).vm.width).toBe(MAX_DISPLAY_WIDTH);
+  });
+
+  it('clamps the height the same way, so neither dimension can be clamped server-side', () => {
+    setRect(420, MAX_DISPLAY_HEIGHT + 40);
+
+    expect(mount(Harness).vm.height).toBe(MAX_DISPLAY_HEIGHT);
+  });
+
+  it('ignores a width change too small to be worth a new image', () => {
+    // A scrollbar appearing or a font settling should not cost every card a fresh render.
+    setRect(420);
+    const wrapper = mount(Harness);
+
+    resize(425);
+
+    expect(wrapper.vm.width).toBe(420);
+  });
+
+  it('ignores a reflow that leaves the slot the same width, rather than blinking the card', () => {
+    // Anything that forces a layout - the screenshot runner included - delivers an observer
+    // callback. Treating those as a reload put a placeholder over every settled card.
+    setRect(420);
+    const wrapper = mount(Harness);
+
+    const all = observers();
+    all[all.length - 1].trigger([]);
+
+    expect(wrapper.vm.isResizePending).toBe(false);
+
+    vi.advanceTimersByTime(150);
+
+    expect(wrapper.vm.isResizePending).toBe(false);
+    expect(wrapper.vm.width).toBe(420);
+  });
+
+  it('reports a pending resize from the moment it is observed, not when the debounce fires', () => {
+    // The window in between is exactly when the screenshot runner captures, so a card that still
+    // called itself settled there would be photographed mid-refetch.
+    setRect(420);
+    const wrapper = mount(Harness);
+    expect(wrapper.vm.isResizePending).toBe(false);
+
+    const all = observers();
+    setRect(560);
+    all[all.length - 1].trigger([]);
+
+    expect(wrapper.vm.isResizePending).toBe(true);
+
+    vi.advanceTimersByTime(150);
+
+    expect(wrapper.vm.isResizePending).toBe(false);
+    expect(wrapper.vm.width).toBe(560);
   });
 
   it('reports zero for a slot that cannot be measured yet', () => {

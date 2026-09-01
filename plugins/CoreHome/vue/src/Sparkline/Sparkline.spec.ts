@@ -67,36 +67,6 @@ describe('CoreHome/Sparkline', () => {
     });
   }
 
-  it('marks itself loading until its first image has painted', async () => {
-    const wrapper = createWrapper();
-    expect(wrapper.find('img').classes()).toContain('sparklineImg--loading');
-
-    await wrapper.find('img').trigger('load');
-
-    expect(wrapper.find('img').classes()).not.toContain('sparklineImg--loading');
-  });
-
-  it('clears the loading state when the image fails, rather than showing a placeholder forever', async () => {
-    const wrapper = createWrapper();
-
-    await wrapper.find('img').trigger('error');
-
-    expect(wrapper.find('img').classes()).not.toContain('sparklineImg--loading');
-  });
-
-  it('goes back to loading when a resize requests a new image, and clears again on arrival', async () => {
-    // A new url means a new request, which a parent drawing a placeholder needs to know about.
-    const wrapper = createWrapper();
-    await wrapper.find('img').trigger('load');
-    expect(wrapper.find('img').classes()).not.toContain('sparklineImg--loading');
-
-    await wrapper.setProps({ width: 500 });
-    expect(wrapper.find('img').classes()).toContain('sparklineImg--loading');
-
-    await wrapper.find('img').trigger('load');
-    expect(wrapper.find('img').classes()).not.toContain('sparklineImg--loading');
-  });
-
   it('reports every change of its loading state, so a consumer can draw its own placeholder', async () => {
     const wrapper = createWrapper();
 
