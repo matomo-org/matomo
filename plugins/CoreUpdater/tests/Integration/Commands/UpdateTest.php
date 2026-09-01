@@ -13,8 +13,10 @@ use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\DbHelper;
+use Piwik\Filesystem;
 use Piwik\Option;
 use Piwik\Tests\Framework\TestCase\ConsoleCommandTestCase;
+use Piwik\Updater;
 use Piwik\Updates\Updates_2_10_0_b5;
 use Piwik\Version;
 
@@ -111,6 +113,51 @@ class UpdateTest extends ConsoleCommandTestCase
 
         $this->assertEquals(1, $result, $this->getCommandDisplayOutputErrorMessage());
         self::assertStringContainsString("Matomo could not be updated! See above for more information.", $this->applicationTester->getDisplay());
+    }
+
+    public function testCoreUpdateExceptionIsTreatedAsError()
+    {
+        $updatesDir = PIWIK_USER_PATH . '/tmp/core-update-error-test-' . uniqid('', true);
+        Filesystem::mkdir($updatesDir);
+
+        try {
+            $updateFile = $updatesDir . '/5.10.0-b999.php';
+            file_put_contents($updateFile, <<<'PHP'
+<?php
+
+namespace Piwik\Updates;
+
+use Piwik\Updater;
+use Piwik\Updates;
+
+class Updates_5_10_0_b999 extends Updates
+{
+    public function getMigrations(Updater $updater): array
+    {
+        return array();
+    }
+
+    public function doUpdate(Updater $updater): void
+    {
+        throw new \Exception('Simulated core update failure');
+    }
+}
+PHP
+            );
+
+            Option::set('version_core', '5.9.0');
+
+            $updater = new Updater($updatesDir . '/');
+            $componentsWithUpdateFile = $updater->getComponentUpdates();
+            $result = $updater->updateComponents($componentsWithUpdateFile);
+
+            $this->assertTrue($result['coreError']);
+            $this->assertNotEmpty($result['errors']);
+            self::assertStringContainsString('Simulated core update failure', implode("\n", $result['errors']));
+            $this->assertEquals('5.9.0', Option::get('version_core'));
+        } finally {
+            Filesystem::unlinkRecursive($updatesDir, true);
+        }
     }
 
     private function assertDryRunExecuted($output)
