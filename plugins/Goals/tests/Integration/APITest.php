@@ -99,6 +99,47 @@ class APITest extends IntegrationTestCase
         $this->assertGoal($idGoal, 'MyName', 'desc', 'event_action', 'test', 'exact', 1, 50, 1, 1);
     }
 
+    /**
+     * @dataProvider getTooLongGoalFields
+     */
+    public function testAddGoalShouldThrowIfAFieldDoesNotFitItsColumn($name, $pattern, $description)
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('General_ValidatorErrorCharacterTooLong');
+
+        $this->api->addGoal($this->idSite, $name, 'title', $pattern, 'contains', false, false, false, $description);
+    }
+
+    /**
+     * @dataProvider getTooLongGoalFields
+     */
+    public function testUpdateGoalShouldThrowIfAFieldDoesNotFitItsColumn($name, $pattern, $description)
+    {
+        $idGoal = $this->createAnyGoal();
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('General_ValidatorErrorCharacterTooLong');
+
+        $this->api->updateGoal($this->idSite, $idGoal, $name, 'title', $pattern, 'contains', false, false, false, $description);
+    }
+
+    public function getTooLongGoalFields(): iterable
+    {
+        yield 'name' => [str_repeat('a', 51), 'pattern', ''];
+        yield 'pattern' => ['MyName', str_repeat('a', 256), ''];
+        yield 'description' => ['MyName', 'pattern', str_repeat('a', 256)];
+    }
+
+    public function testAddGoalShouldCountUnsanitizedCharactersOnly()
+    {
+        // a name of 50 characters is accepted by the goal form, so sanitizing it must not make it too long
+        $name = str_repeat('a', 46) . ' & b';
+
+        $idGoal = $this->api->addGoal($this->idSite, Common::sanitizeInputValue($name), 'title', 'pattern', 'contains');
+
+        $this->assertSame(1, $idGoal);
+    }
+
     public function testAddGoalShouldThrowIfEventValueAsRevenueIsUsedForNonEventGoal()
     {
         $this->expectException(\Exception::class);

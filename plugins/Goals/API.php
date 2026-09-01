@@ -29,6 +29,8 @@ use Piwik\Plugins\Goals\Reports\GetMetrics;
 use Piwik\Segment;
 use Piwik\Segment\SegmentExpression;
 use Piwik\Site;
+use Piwik\Validators\BaseValidator;
+use Piwik\Validators\CharacterLength;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\GoalManager;
 use Piwik\Plugins\VisitFrequency\API as VisitFrequencyAPI;
@@ -225,6 +227,7 @@ class API extends \Piwik\Plugin\API
         $patternType = $this->checkPatternType($patternType, $matchAttribute);
         $pattern = $this->checkPattern($pattern, $matchAttribute);
         $this->checkPatternIsValid($patternType, $pattern, $matchAttribute);
+        $this->checkFieldLengths($name, $description, $pattern);
 
         $revenue = Common::forceDotAsSeparatorForDecimalPoint((float)$revenue);
 
@@ -307,6 +310,7 @@ class API extends \Piwik\Plugin\API
         $patternType = $this->checkPatternType($patternType, $matchAttribute);
         $pattern = $this->checkPattern($pattern, $matchAttribute);
         $this->checkPatternIsValid($patternType, $pattern, $matchAttribute);
+        $this->checkFieldLengths($name, $description, $pattern);
 
         $revenue = Common::forceDotAsSeparatorForDecimalPoint((float)$revenue);
 
@@ -372,6 +376,20 @@ class API extends \Piwik\Plugin\API
             $validator = new Regex();
             $validator->validate(GoalManager::formatRegex($pattern));
         }
+    }
+
+    /**
+     * Ensures the given values still fit their columns, as the database would otherwise truncate them silently.
+     *
+     * @param string $name
+     * @param string $description
+     * @param string $pattern
+     */
+    private function checkFieldLengths(string $name, string $description, string $pattern): void
+    {
+        BaseValidator::check(Piwik::translate('Goals_GoalName'), Common::unsanitizeInputValue($name), [new CharacterLength(null, 50)]);
+        BaseValidator::check(Piwik::translate('General_Description'), Common::unsanitizeInputValue($description), [new CharacterLength(null, 255)]);
+        BaseValidator::check(Piwik::translate('Goals_Pattern'), Common::unsanitizeInputValue($pattern), [new CharacterLength(null, 255)]);
     }
 
     /**
