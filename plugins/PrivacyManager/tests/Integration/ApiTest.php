@@ -231,7 +231,9 @@ class ApiTest extends IntegrationTestCase
 
         $this->assertSame('cnil_v1', $payload['policy']);
         $this->assertNotEmpty($payload['title']);
-        $this->assertNotEmpty($payload['description']);
+        // the granular table has its own copy, the legacy compliance table keeps the shorter one
+        $this->assertSame(CnilPolicy::getGranularDescription(), $payload['description']);
+        $this->assertNotSame(CnilPolicy::getDescription(), $payload['description']);
         $this->assertFalse($payload['configControlled']);
         $this->assertFalse($payload['policyEnforced']);
 
