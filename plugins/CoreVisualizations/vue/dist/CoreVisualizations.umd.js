@@ -1143,14 +1143,15 @@ function SparklinesGridvue_type_template_id_15709986_render(_ctx, _cache, $props
 }
 // CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/SparklinesGrid/SparklinesGrid.vue?vue&type=template&id=15709986
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/Sparklines/SparklineCard.vue?vue&type=template&id=4308735a
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/Sparklines/SparklineCard.vue?vue&type=template&id=2441dc85
 
-const SparklineCardvue_type_template_id_4308735a_hoisted_1 = ["data-graph-params", "data-series-indices"];
-const SparklineCardvue_type_template_id_4308735a_hoisted_2 = {
+const SparklineCardvue_type_template_id_2441dc85_hoisted_1 = ["data-graph-params", "data-series-indices"];
+const SparklineCardvue_type_template_id_2441dc85_hoisted_2 = {
   key: 0,
   class: "sparklineCard__title"
 };
-function SparklineCardvue_type_template_id_4308735a_render(_ctx, _cache, $props, $setup, $data, $options) {
+const SparklineCardvue_type_template_id_2441dc85_hoisted_3 = ["title"];
+function SparklineCardvue_type_template_id_2441dc85_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_DateComparison = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("DateComparison");
   const _component_NoComparison = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("NoComparison");
   const _component_Sparkline = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Sparkline");
@@ -1160,7 +1161,7 @@ function SparklineCardvue_type_template_id_4308735a_render(_ctx, _cache, $props,
     }]),
     "data-graph-params": _ctx.graphParamsAttr,
     "data-series-indices": _ctx.seriesIndicesAttr
-  }, [_ctx.sparkline.title ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SparklineCardvue_type_template_id_4308735a_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.sparkline.title), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.isComparison ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_DateComparison, {
+  }, [_ctx.sparkline.title ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SparklineCardvue_type_template_id_2441dc85_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.sparkline.title), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.isComparison ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_DateComparison, {
     key: 1,
     sparkline: _ctx.sparkline
   }, null, 8, ["sparkline"])) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_NoComparison, {
@@ -1170,15 +1171,16 @@ function SparklineCardvue_type_template_id_4308735a_render(_ctx, _cache, $props,
   }, null, 8, ["sparkline", "all-metrics-documentation"])), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["sparklineCard__sparkline", {
       'sparklineCard__sparkline--wide': _ctx.isComparison
-    }])
+    }]),
+    title: _ctx.sparkline.tooltip || undefined
   }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Sparkline, {
     width: _ctx.sparklineWidth,
     height: 40,
     params: _ctx.sparkline.url,
     "series-indices": _ctx.sparkline.seriesIndices
-  }, null, 8, ["width", "params", "series-indices"])], 2)], 10, SparklineCardvue_type_template_id_4308735a_hoisted_1);
+  }, null, 8, ["width", "params", "series-indices"])], 10, SparklineCardvue_type_template_id_2441dc85_hoisted_3)], 10, SparklineCardvue_type_template_id_2441dc85_hoisted_1);
 }
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/Sparklines/SparklineCard.vue?vue&type=template&id=4308735a
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/Sparklines/SparklineCard.vue?vue&type=template&id=2441dc85
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/Sparklines/NoComparison.vue?vue&type=template&id=44e340e0
 
@@ -1614,7 +1616,7 @@ function sparklineSeriesIndicesAttr(entry) {
 
 
 
-SparklineCardvue_type_script_lang_ts.render = SparklineCardvue_type_template_id_4308735a_render
+SparklineCardvue_type_script_lang_ts.render = SparklineCardvue_type_template_id_2441dc85_render
 
 /* harmony default export */ var SparklineCard = (SparklineCardvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/Sparklines/SegmentComparisonCard.vue?vue&type=template&id=7f53d9a2
@@ -1650,32 +1652,34 @@ function SegmentComparisonCardvue_type_template_id_7f53d9a2_render(_ctx, _cache,
 }
 // CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/Sparklines/SegmentComparisonCard.vue?vue&type=template&id=7f53d9a2
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/Sparklines/SegmentComparisonRow.vue?vue&type=template&id=fd8e0dde
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/Sparklines/SegmentComparisonRow.vue?vue&type=template&id=27a1aad4
 
-const SegmentComparisonRowvue_type_template_id_fd8e0dde_hoisted_1 = {
+const SegmentComparisonRowvue_type_template_id_27a1aad4_hoisted_1 = {
   class: "sparklineSegmentComparisonRow"
 };
-const SegmentComparisonRowvue_type_template_id_fd8e0dde_hoisted_2 = ["title"];
-function SegmentComparisonRowvue_type_template_id_fd8e0dde_render(_ctx, _cache, $props, $setup, $data, $options) {
+const SegmentComparisonRowvue_type_template_id_27a1aad4_hoisted_2 = ["title"];
+const SegmentComparisonRowvue_type_template_id_27a1aad4_hoisted_3 = ["title"];
+function SegmentComparisonRowvue_type_template_id_27a1aad4_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_PeriodColumns = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("PeriodColumns");
   const _component_Sparkline = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Sparkline");
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SegmentComparisonRowvue_type_template_id_fd8e0dde_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SegmentComparisonRowvue_type_template_id_27a1aad4_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
     class: "sparklineSegmentComparisonRow__chip",
     title: _ctx.segmentLabel
-  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.segmentLabel), 9, SegmentComparisonRowvue_type_template_id_fd8e0dde_hoisted_2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_PeriodColumns, {
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.segmentLabel), 9, SegmentComparisonRowvue_type_template_id_27a1aad4_hoisted_2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_PeriodColumns, {
     entry: _ctx.segment
   }, null, 8, ["entry"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["sparklineSegmentComparisonRow__sparkline", {
       'sparklineSegmentComparisonRow__sparkline--wide': _ctx.isMultiPeriod
-    }])
+    }]),
+    title: _ctx.segment.tooltip || undefined
   }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Sparkline, {
     width: _ctx.sparklineWidth,
     height: 40,
     params: _ctx.segment.url,
     "series-indices": _ctx.segment.seriesIndices
-  }, null, 8, ["width", "params", "series-indices"])], 2)]);
+  }, null, 8, ["width", "params", "series-indices"])], 10, SegmentComparisonRowvue_type_template_id_27a1aad4_hoisted_3)]);
 }
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/Sparklines/SegmentComparisonRow.vue?vue&type=template&id=fd8e0dde
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/Sparklines/SegmentComparisonRow.vue?vue&type=template&id=27a1aad4
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/Sparklines/SegmentComparisonRow.vue?vue&type=script&lang=ts
 
@@ -1724,7 +1728,7 @@ function SegmentComparisonRowvue_type_template_id_fd8e0dde_render(_ctx, _cache, 
 
 
 
-SegmentComparisonRowvue_type_script_lang_ts.render = SegmentComparisonRowvue_type_template_id_fd8e0dde_render
+SegmentComparisonRowvue_type_script_lang_ts.render = SegmentComparisonRowvue_type_template_id_27a1aad4_render
 
 /* harmony default export */ var SegmentComparisonRow = (SegmentComparisonRowvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/Sparklines/SegmentComparisonCard.vue?vue&type=script&lang=ts

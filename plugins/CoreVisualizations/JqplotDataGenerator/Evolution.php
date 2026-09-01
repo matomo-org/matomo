@@ -665,6 +665,7 @@ class Evolution extends JqplotDataGenerator
             $seriesUnits,
             $subPeriodSamples['daily'],
             $subPeriodSamples['monthly'],
+            $subPeriodSamples['period'],
             $subPeriodSamples['earliestDataDate'] ?? null
         );
     }

@@ -13,12 +13,14 @@ namespace Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 
 use Piwik\Columns\Dimension;
 use Piwik\Metrics;
+use Piwik\Plugin\ArchivedMetric;
 
 /**
  * Classifies a metric for the evolution-graph forecast pipeline. Owns two related decisions:
  *
  * - intra-period monotonicity, used by {@see ForecastBuilder} to pick the "forecast vs current"
- *   gate (additive count, running min, or free-moving ratio);
+ *   gate and the sub-period reducer (additive count, running min, running max, deduplicated
+ *   count, or free-moving ratio);
  * - rendered payload precision, used to round the forecast value to a sensible number of decimals.
  *
  * Pure value logic — no dependency on the chart's data table or the inner API request. Tests
@@ -31,14 +33,113 @@ class ForecastMetricClassifier
     public const MONOTONICITY_DOWN = 'down';
     public const MONOTONICITY_FREE = 'free';
     public const MONOTONICITY_MAX = 'max';
+    public const MONOTONICITY_UNIQUE = 'unique';
+
+    /**
+     * Base names of the deduplicated counts Matomo recomputes per period from the log data
+     * instead of aggregating them from the sub-period archives. Matched as substrings, because
+     * both the prefixed and the suffixed variants of the same metric carry the same semantics:
+     * the entry_/exit_ page variants, and the segment-derived copies plugins publish by appending
+     * a suffix to VisitsSummary's own columns (nb_uniq_visitors_new / _returning in VisitFrequency,
+     * nb_uniq_visitors_human / _ai_agent in AIAgents) are all the same log-derived count under
+     * another name. nb_uniq_fingerprints is the metric core substitutes for nb_uniq_visitors when
+     * counting uniques across several sites, so it is the same measurement again.
+     *
+     * These are the log-derived counts that do not carry the generated
+     * {@see ArchivedMetric::AGGREGATION_UNIQUE_PREFIX}, so the prefix rule in
+     * {@see hasDeduplicatedCountColumnName()} cannot reach them: nb_users has an unrelated name,
+     * and the entry_/exit_/share_ variants carry their base name away from offset 0. The
+     * prefix-carrying counts that are *not* deduplicated are listed separately in
+     * {@see ADDITIVE_UNIQUE_PREFIXED_METRIC_NAMES}.
+     *
+     * @var array<int, string>
+     */
+    private const DEDUPLICATED_COUNT_BASE_NAMES = [
+        'nb_uniq_visitors',
+        'nb_uniq_fingerprints',
+        'nb_users',
+    ];
+
+    /**
+     * The metrics that carry {@see ArchivedMetric::AGGREGATION_UNIQUE_PREFIX} while still being
+     * additive over the period, and so must not be swept up by the prefix rule in
+     * {@see hasDeduplicatedCountColumnName()}. The test is the one the forecast actually needs:
+     * summing the sub-period values reconstructs the period value, so the additive UP path -- and
+     * with it the elapsed-aware seasonal decomposition -- is the right one. Whether the archiver
+     * reaches that value by summing the daily records or by recounting the logs does not matter
+     * here; only whether the sum is the answer.
+     *
+     * The first three are hand-written and count the *visits* that included an action. A visit
+     * belongs to a single day, so Matomo archives them as plain summed numeric records. All three
+     * are plotted on the VisitsSummary overview, so misclassifying them would show up on a core
+     * graph rather than only in a custom report.
+     *
+     * nb_uniq_orders is generated, and qualifies because its deduplication key cannot recur across
+     * days: {@see \Piwik\Plugins\Ecommerce\Columns\Order} forces a count(distinct idorder) over the
+     * ecommerce orders, and an order falls on one day, so a week's distinct-order count is the sum
+     * of its days'. It is also Ecommerce's order volume and the denominator of every per-order
+     * average ({@see \Piwik\Plugins\Ecommerce\Ecommerce::addComputedMetrics()}), not an incidental
+     * generated count.
+     *
+     * That entry is the only one of its kind, because core renames an additive surrogate-key
+     * distinct count away from the prefix instead of listing it here -- idvisit becomes nb_visits,
+     * idlink_va becomes hits and pageviews -- and keeps the prefix only where the key really does
+     * recur across days (nb_uniq_visitors on idvisitor, the fingerprint count on config_id).
+     * Ecommerce is the one dimension that forces a distinct count on a surrogate key and leaves the
+     * generated name, which is what keeps this list short rather than open-ended.
+     *
+     * Matched exactly. The prefixed and suffixed variants that would carry these names as a
+     * substring are already routed elsewhere before the prefix rule is reached: a summed period
+     * copy by the sum_ guard, and a percentage or average view by
+     * {@see hasRatioShapedColumnName()}.
+     *
+     * @var array<int, string>
+     */
+    private const ADDITIVE_UNIQUE_PREFIXED_METRIC_NAMES = [
+        'nb_uniq_pageviews',
+        'nb_uniq_downloads',
+        'nb_uniq_outlinks',
+        'nb_uniq_orders',
+    ];
+
+    /**
+     * Deduplicated counts Matomo derives from the aggregated blob rather than from the log data.
+     * A record declared with {@see \Piwik\ArchiveProcessor\Record::setIsCountOfBlobRecordRows()}
+     * is left out of the numeric sum for a multi-day period and set to the row count of the
+     * re-aggregated sub-period tables instead, so a week's value is a distinct-label count over
+     * the week. Summing the daily samples overstates these by anything from a few percent (a
+     * referrer URL usually appears on one day) to more than an order of magnitude for the ones
+     * that count a closed set -- distinct search engines, social networks or AI chatbots stay
+     * flat over any period length while the additive path projects toward the daily sum.
+     *
+     * Matched exactly: these are full column names with no prefixed or suffixed variants, unlike
+     * the base names above. The shared "_distinct" fragment of the Referrers and UserCountry
+     * entries is a naming coincidence, not a convention -- nb_keywords and the AI chatbot count
+     * carry the same mechanism under unrelated names -- so grep for setIsCountOfBlobRecordRows()
+     * rather than the name shape when adding an entry.
+     *
+     * @var array<int, string>
+     */
+    private const BLOB_ROW_COUNT_METRIC_NAMES = [
+        'nb_keywords',
+        'UserCountry_distinctCountries',
+        'BotTracking_AIChatbotsUniqueChatbots',
+        'Referrers_distinctSearchEngines',
+        'Referrers_distinctSocialNetworks',
+        'Referrers_distinctAIAssistants',
+        'Referrers_distinctKeywords',
+        'Referrers_distinctCampaigns',
+        'Referrers_distinctWebsites',
+        'Referrers_distinctWebsitesUrls',
+    ];
 
     /** @var array<string, string> */
     private $semanticTypes;
 
     /**
      * @param array<string, string>|null $semanticTypes Semantic-type map (column name → one of
-     *        the {@see Dimension}::TYPE_* constants). Pass null in production to use Matomo's
-     *        default registry; pass a fixed map in tests.
+     *                                                  the {@see Dimension}::TYPE_* constants). Pass null in production to use Matomo's
+     *                                                  default registry; pass a fixed map in tests.
      */
     public function __construct(?array $semanticTypes = null)
     {
@@ -46,7 +147,7 @@ class ForecastMetricClassifier
     }
 
     /**
-     * Classify a column into one of three intra-period directions:
+     * Classify a column into one of five intra-period directions:
      *
      * - MONOTONICITY_UP: counts/sums/totals that can only grow within the period
      *   ("forecast >= current" gate applies).
@@ -55,6 +156,11 @@ class ForecastMetricClassifier
      * - MONOTONICITY_MAX: running maxes that can only rise within the period (same
      *   "forecast >= current" gate as UP), but whose period value is the max -- not the sum --
      *   of its sub-periods, so the seasonal decomposition combines sub-periods with max().
+     * - MONOTONICITY_UNIQUE: deduplicated counts -- unique visitors and users, and the
+     *   distinct-label counts such as site-search keywords or distinct referrers -- that can
+     *   only grow within the period (same "forecast >= current" gate as UP), but whose period
+     *   value is a fresh count over the whole period rather than any reduction of its
+     *   sub-period values, so no sub-period decomposition applies.
      * - MONOTONICITY_FREE: ratios, rates, percentages, averages whose value can move in either
      *   direction within the period (no gate).
      *
@@ -89,6 +195,24 @@ class ForecastMetricClassifier
             return self::MONOTONICITY_FREE;
         }
 
+        // Deduplicated counts have no reducer over their sub-periods at all: a week's unique
+        // visitors is a distinct-visitor count over the week, which sits somewhere between the
+        // largest single day and the sum of all days -- and the archiver derives it from the log
+        // data rather than from the daily archives, which is why aggregating daily archives
+        // renames the column to sum_daily_nb_uniq_visitors instead of keeping it. Summing the
+        // daily samples (the UP path) therefore overstates the forecast by roughly the
+        // deduplication factor, several-fold on a site with returning visitors. The blob-row
+        // counts reach the same shape by a different route -- their period value is the row
+        // count of the re-aggregated sub-period tables -- so both families share this branch.
+        // Runs after the ratio checks so the percentage and average views of the same metric
+        // (nb_uniq_visitors_row_percentage, avg_nb_uniq_visitors) keep their FREE classification.
+        if (
+            $this->hasDeduplicatedCountColumnName($columnName)
+            || $this->isBlobRowCountColumnName($columnName)
+        ) {
+            return self::MONOTONICITY_UNIQUE;
+        }
+
         // min_* metrics carry a structural invariant: more samples within the period can only
         // pull the running min down or leave it unchanged. The default monotonic-up gate would
         // render upward-projecting forecasts on a metric that cannot rise, so flip to a
@@ -118,12 +242,15 @@ class ForecastMetricClassifier
      *
      * Integer/count-like metrics should not emit fractional forecast values. Ratios, averages,
      * durations, money, bytes, floats, and unknown numeric metrics keep up to two decimals.
+     * {@see self::BLOB_ROW_COUNT_METRIC_NAMES} count whole things and are pinned to integers by
+     * name as well as by semantic type, so they stay integral for a classifier built without
+     * Matomo's registry and if a plugin ever stops declaring one of them.
      *
-     * MONOTONICITY_UP, MONOTONICITY_DOWN, and MONOTONICITY_MAX are all treated as "monotonic"
-     * for precision — a running min_ or max_ count metric should round to integers the same way
-     * an additive nb_ count does. Only MONOTONICITY_FREE (ratios/averages/percentages) keeps the
-     * two-decimal default for TYPE_NUMBER metrics, which is the original allowsDownward = true
-     * behaviour.
+     * MONOTONICITY_UP, MONOTONICITY_DOWN, MONOTONICITY_MAX, and MONOTONICITY_UNIQUE are all
+     * treated as "monotonic" for precision — a running min_ or max_ count metric, and a
+     * deduplicated unique count, should round to integers the same way an additive nb_ count
+     * does. Only MONOTONICITY_FREE (ratios/averages/percentages) keeps the two-decimal default
+     * for TYPE_NUMBER metrics, which is the original allowsDownward = true behaviour.
      *
      * @param string|false $columnUnit
      * @param self::MONOTONICITY_* $monotonicity
@@ -167,16 +294,75 @@ class ForecastMetricClassifier
             return 0;
         }
 
+        // Counts of whole things. The blob-row counts are listed by name too: every one of them
+        // is registered TYPE_NUMBER today, so the branch above already returns 0 for them, but
+        // the name is what keeps a fractional country or URL count from appearing if a plugin
+        // stops declaring the type, or when the classifier is built without Matomo's registry.
+        // The list carries nine of the ten: nb_keywords already matches the nb_ prefix on the
+        // first line, so it reaches 0 either way and is not what the name check is here for.
         if (
             strpos($columnName, 'nb_') === 0
             || strpos($columnName, '_nb_') !== false
             || strpos($columnName, '_count') !== false
+            || $this->isBlobRowCountColumnName($columnName)
             || in_array($columnName, ['hits', 'items', 'quantity', 'orders', 'goals'], true)
         ) {
             return 0;
         }
 
         return 2;
+    }
+
+    /**
+     * True when a column name carries the generated {@see ArchivedMetric::AGGREGATION_UNIQUE_PREFIX}
+     * or one of the {@see self::DEDUPLICATED_COUNT_BASE_NAMES}.
+     *
+     * The prefix arm covers the distinct counts Matomo generates rather than hand-writes:
+     * {@see \Piwik\Columns\Dimension::configureMetrics()} creates a
+     * count(distinct <column>) metric named nb_uniq_<metric id> for every URL, TEXT, BINARY and
+     * ENUM dimension, and {@see \Piwik\Columns\DimensionMetricFactory::createMetric()} builds
+     * that name from the prefix. These land in {@see \Piwik\Metrics\MetricsList}, which is what
+     * a custom report validates a user's metric picks against, so one can be plotted even though
+     * no core report exposes it. They are generated per dimension, so enumerating them by name
+     * cannot keep up -- matching the prefix inverts that, leaving only the finite set of additive
+     * exceptions in {@see self::ADDITIVE_UNIQUE_PREFIXED_METRIC_NAMES} to maintain.
+     *
+     * The sum_ prefix excludes the already-summed siblings: when a period archive aggregates
+     * these columns, core renames the summed result rather than letting it keep the base name
+     * ({@see \Piwik\ArchiveProcessor}), which is where sum_daily_nb_uniq_visitors and
+     * sum_daily_nb_users come from. Those columns really are the sum of their sub-period values,
+     * so they belong on the additive path. The archiving layer does record which metrics are
+     * non-aggregatable -- {@see \Piwik\Plugin\ArchivedMetric::getAggregation()} and
+     * {@see \Piwik\ArchiveProcessor\Record::getCountOfRecordName()} both carry it -- but neither
+     * is reachable from the visualization layer, which only ever sees a column name, so the
+     * name convention has to stand in for them here.
+     */
+    private function hasDeduplicatedCountColumnName(string $columnName): bool
+    {
+        if (strpos($columnName, 'sum_') === 0) {
+            return false;
+        }
+
+        if (in_array($columnName, self::ADDITIVE_UNIQUE_PREFIXED_METRIC_NAMES, true)) {
+            return false;
+        }
+
+        if (strpos($columnName, ArchivedMetric::AGGREGATION_UNIQUE_PREFIX) === 0) {
+            return true;
+        }
+
+        foreach (self::DEDUPLICATED_COUNT_BASE_NAMES as $baseName) {
+            if (strpos($columnName, $baseName) !== false) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function isBlobRowCountColumnName(string $columnName): bool
+    {
+        return in_array($columnName, self::BLOB_ROW_COUNT_METRIC_NAMES, true);
     }
 
     /**
