@@ -28,6 +28,7 @@ use Piwik\Piwik;
 use Piwik\Plugin\SettingsProvider;
 use Piwik\Request\AuthenticationToken;
 use Piwik\Plugins\CorePluginsAdmin\SettingsMetadata;
+use Piwik\Policy\PolicyManager;
 use Piwik\Plugins\SitesManager\Settings\FilterPIIParameters;
 use Piwik\Plugins\SitesManager\SiteContentDetection\ConsentManagerDetectionAbstract;
 use Piwik\Plugins\SitesManager\SiteContentDetection\SiteContentDetectionAbstract;
@@ -993,7 +994,7 @@ class API extends \Piwik\Plugin\API
     {
         $measurableSettings = $this->settingsProvider->getAllMeasurableSettings($idSite, $idType);
 
-        $this->settingsMetadata->setPluginSettings($measurableSettings, $settingValues);
+        $this->settingsMetadata->setPluginSettings($measurableSettings, $settingValues, $idSite);
 
         return $measurableSettings;
     }
@@ -1585,6 +1586,17 @@ class API extends \Piwik\Plugin\API
 
         if ($exclusionType !== SitesManager::URL_PARAM_EXCLUSION_TYPE_NAME_CUSTOM && !empty($queryParamsToExclude)) {
             throw new Exception($this->translator->translate('SitesManager_ExceptionNonEmptyQueryParamsForNonCustomType'));
+        }
+
+        if (
+            !PolicyManager::checkSettingValueAgainstPolicies(
+                self::OPTION_EXCLUDE_TYPE_QUERY_PARAMS_GLOBAL,
+                $exclusionType,
+                null,
+                PolicyManager::SETTING_TYPE_OPTION
+            )
+        ) {
+            return;
         }
 
         Option::set(self::OPTION_EXCLUDE_TYPE_QUERY_PARAMS_GLOBAL, $exclusionType);

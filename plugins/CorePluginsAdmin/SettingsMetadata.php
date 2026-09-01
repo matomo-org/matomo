@@ -11,6 +11,7 @@ namespace Piwik\Plugins\CorePluginsAdmin;
 
 use Piwik\Common;
 use Piwik\Piwik;
+use Piwik\Policy\Exceptions\CompliancePolicyViolationException;
 use Piwik\Policy\PolicyManager;
 use Piwik\Settings\FieldConfig;
 use Piwik\Settings\Setting;
@@ -26,9 +27,11 @@ class SettingsMetadata
     /**
      * @param Settings[]  $settingsInstances
      * @param array $settingValues   array('pluginName' => array('settingName' => 'settingValue'))
+     * @param int|null $idSite  site the settings belong to, so that website-level compliance
+     *                          policies are taken into account. Null for instance-wide settings.
      * @throws Exception
      */
-    public function setPluginSettings($settingsInstances, $settingValues)
+    public function setPluginSettings($settingsInstances, $settingValues, ?int $idSite = null)
     {
         try {
             foreach ($settingsInstances as $pluginName => $pluginSetting) {
@@ -48,10 +51,18 @@ class SettingsMetadata
                         $value !== self::PASSWORD_PLACEHOLDER
                         )
                     ) {
+                        if (!$this->mayBeStoredUnderCompliancePolicies($setting, $value, $idSite)) {
+                            continue;
+                        }
+
                         $setting->setValue($value);
                     }
                 }
             }
+        } catch (CompliancePolicyViolationException $e) {
+            // already names the setting and the policy, and callers rely on the type to keep the
+            // message rather than replacing it with a generic "could not save" one
+            throw $e;
         } catch (Exception $e) {
             $message = $e->getMessage();
 
@@ -64,6 +75,22 @@ class SettingsMetadata
                 throw new Exception($message);
             }
         }
+    }
+
+    /**
+     * @param mixed $value
+     * @return bool whether the value may be stored for the given setting
+     * @throws \Piwik\Policy\Exceptions\CompliancePolicyViolationException when it breaks an enforced policy
+     * @throws Exception
+     */
+    private function mayBeStoredUnderCompliancePolicies(Setting $setting, $value, ?int $idSite): bool
+    {
+        return PolicyManager::checkSettingValueAgainstPolicies(
+            $setting->getName(),
+            $value,
+            $idSite,
+            PolicyManager::getSettingTypeFromSettingClass($setting)
+        );
     }
 
     private function findSettingValueFromRequest($settingValues, $pluginName, $settingName)
@@ -158,10 +185,47 @@ class SettingsMetadata
         $settingType = PolicyManager::getSettingTypeFromSettingClass($setting);
         $compliancePolicyControlled = PolicyManager::getCompliancePoliciesControllingASetting($setting->getName(), $idSite, $settingType);
         if (!empty($compliancePolicyControlled)) {
+            $result = $this->applyCompliancePolicies($result, $compliancePolicyControlled, $setting->getName(), $idSite, $settingType);
             $result['extraMetadata'] = [
                 'compliancePolicyControlled' => $compliancePolicyControlled,
                 'idSite' => $idSite,
             ];
+        }
+
+        return $result;
+    }
+
+    /**
+     * Presents a field as the compliance policies controlling it actually behave: the value in
+     * effect replaces the stored one, and the control either stops being editable or stops
+     * offering the values that are no longer compliant.
+     *
+     * @param array<string, mixed> $result
+     * @param array<string, array<string, mixed>> $compliancePolicyControlled
+     * @return array<string, mixed>
+     * @throws Exception
+     */
+    private function applyCompliancePolicies(array $result, array $compliancePolicyControlled, string $settingName, ?int $idSite, ?string $settingType): array
+    {
+        $result['value'] = PolicyManager::getPolicyEnforcedValue($compliancePolicyControlled, $result['value']);
+
+        if (PolicyManager::isFieldLockedByPolicies($compliancePolicyControlled)) {
+            $result['uiControlAttributes']['disabled'] = 'disabled';
+
+            return $result;
+        }
+
+        if (is_object($result['availableValues'])) {
+            // availableValues maps each selectable value to its label
+            $availableValues = (array) $result['availableValues'];
+            $allowedValues = PolicyManager::filterValuesAllowedByPolicies(
+                array_keys($availableValues),
+                $settingName,
+                $idSite,
+                $settingType
+            );
+
+            $result['availableValues'] = (object) array_intersect_key($availableValues, array_flip($allowedValues));
         }
 
         return $result;
