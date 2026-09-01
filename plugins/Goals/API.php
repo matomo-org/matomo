@@ -380,10 +380,6 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Ensures the given values still fit their columns, as the database would otherwise truncate them silently.
-     *
-     * @param string $name
-     * @param string $description
-     * @param string $pattern
      */
     private function checkFieldLengths(string $name, string $description, string $pattern): void
     {
@@ -478,7 +474,6 @@ class API extends \Piwik\Plugin\API
      *
      * @param int|string|int[] $idSite
      * @param 'day'|'week'|'month'|'year'|'range' $period
-     * @param bool $abandonedCarts
      * @param string|null|false $segment
      * @return DataTable|DataTable\Map
      */
