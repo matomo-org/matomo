@@ -144,8 +144,10 @@
     display: block;
   }
 
+  // Keyboard focus only: a pointer press leaves focus on the trigger, and one still darkened after
+  // the menu closed would read as still open. `expanded` covers the time it is.
   .reportHeader__actionsTrigger:hover,
-  .reportHeader__actionsTrigger:focus,
+  .reportHeader__actionsTrigger:focus-visible,
   .reportHeader__actions.expanded .reportHeader__actionsTrigger {
     color: @theme-color-text;
   }
