@@ -62,6 +62,8 @@ HELPER
 
   : > "${TEST_DIR}/no-helper"
   printf '[credential]\n\thelper = fake\n' > "${TEST_DIR}/with-credential"
+  # git consults every configured helper in order, so the diagnostic must not name just one
+  printf '[credential]\n\thelper = first\n\thelper = fake\n' > "${TEST_DIR}/two-helpers"
 
   seed_credential
 }
@@ -268,6 +270,20 @@ test_login_reports_a_helper_that_silently_ignores_the_store() {
   FAKE_IGNORE_STORE=1 run_login with-credential 'ci-user' 'p@ss word'
 
   assert_equals 1 "${LOGIN_STATUS}" 'login fails when the helper accepts but stores nothing'
+  assert_contains "${LOGIN_OUTPUT}" 'fake' 'login names the configured helper'
+  assert_not_contains "${LOGIN_OUTPUT}" 'no credential helper configured' \
+    'login does not blame missing configuration when a helper is configured'
+  assert_not_contains "${LOGIN_OUTPUT}" 'p@ss word' 'login never echoes the password'
+}
+
+test_login_lists_every_helper_that_could_have_answered() {
+  rm -f "${FAKE_CREDENTIAL_STORE}"
+
+  FAKE_IGNORE_STORE=1 run_login two-helpers 'ci-user' 'p@ss word'
+
+  assert_equals 1 "${LOGIN_STATUS}" 'login fails when no helper returns the password'
+  assert_contains "${LOGIN_OUTPUT}" 'first' 'the first configured helper is listed'
+  assert_contains "${LOGIN_OUTPUT}" 'fake' 'the second configured helper is listed'
 }
 
 test_login_reports_credentials_that_came_back_different() {
@@ -293,6 +309,7 @@ test_credentials_are_inserted_before_the_terminator
 test_login_stores_the_credentials
 test_login_reports_when_nothing_was_stored
 test_login_reports_a_helper_that_silently_ignores_the_store
+test_login_lists_every_helper_that_could_have_answered
 test_login_reports_credentials_that_came_back_different
 
 printf '\n%s assertions, %s failures\n' "${ASSERTIONS}" "${FAILURES}"

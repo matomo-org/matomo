@@ -34,10 +34,55 @@ matomo_artifacts::credential_field() {
   printf '%s\n' "${credential}" | sed -n "s/^${field}=//p"
 }
 
+# every helper that could answer for this host: the general ones and any configured for this host
+# alone. --get-urlmatch would collapse them to a single value, which names the wrong helper when
+# more than one is configured. git config exits non-zero when nothing matches, which under `set -e`
+# would abort the caller mid-assignment and swallow the explanation entirely.
+matomo_artifacts::configured_helpers() {
+  {
+    git config --get-all credential.helper 2>/dev/null || true
+    git config --get-all "credential.https://${MATOMO_ARTIFACTS_HOST}.helper" 2>/dev/null || true
+  } | sed '/^[[:space:]]*$/d'
+}
+
 matomo_artifacts::explain_credential_helpers() {
-  cat >&2 <<MESSAGE
+  local helpers
+  helpers="$(matomo_artifacts::configured_helpers)"
+
+  # saying "no helper configured" when one is configured sends the reader after the wrong
+  # problem, so report which one answered and that it kept nothing
+  if [[ -n "${helpers}" ]]; then
+    {
+      echo "git has a credential helper configured, so the password was handed to one and not"
+      echo "given back. git does not report which one answered; these could have:"
+      echo
+      printf '  %s\n' "${helpers}"
+      cat <<'MESSAGE'
+
+That is a helper's own problem rather than missing configuration, so check each can reach your
+credential store. On Linux, git-credential-libsecret silently switches to a file backend and
+stops returning passwords whenever SNAP is set, as it is in terminals started by a snap-packaged
+editor.
+
+Either fix the helper, or configure one that keeps the password in your operating system's
+credential store rather than in a file:
+MESSAGE
+      matomo_artifacts::credential_helper_options
+    } >&2
+    return
+  fi
+
+  {
+    cat <<'MESSAGE'
 git has no credential helper configured, so there is nowhere to keep the password. Configure one
 that keeps it in your operating system's credential store, rather than in a file:
+MESSAGE
+    matomo_artifacts::credential_helper_options
+  } >&2
+}
+
+matomo_artifacts::credential_helper_options() {
+  cat <<MESSAGE
 
   macOS    git config --global credential.helper osxkeychain
   Windows  git config --global credential.helper manager
