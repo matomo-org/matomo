@@ -56,7 +56,7 @@ use Piwik\Validators\WhitelistedValue;
  * @method static \Piwik\Plugins\Goals\API getInstance()
  *
  * @phpstan-import-type GoalStoredRecord from Model
- * @phpstan-type GoalMatchAttribute 'url'|'title'|'file'|'external_website'|'manually'|'visit_duration'|'visit_total_actions'|'visit_total_pageviews'|'event_action'|'event_category'|'event_name'
+ * @phpstan-type GoalMatchAttribute 'url'|'title'|'file'|'external_website'|'manually'|'visit_duration'|'event_action'|'event_category'|'event_name'
  * @phpstan-type GoalPatternType ''|'regex'|'contains'|'exact'|'greater_than'
  * @phpstan-type GoalRecord array{
  *     idgoal: int|string,
@@ -187,11 +187,13 @@ class API extends \Piwik\Plugin\API
      *
      * @param int $idSite The numeric ID of the website to configure the goal for.
      * @param string $name Goal name.
-     * @param string $matchAttribute Attribute used to match conversions.
+     * @param string $matchAttribute Attribute used to match conversions. One of `url`, `title`, `file`,
+     *                                `external_website`, `manually`, `visit_duration`, `event_action`,
+     *                                `event_category` or `event_name`.
      * @phpstan-param GoalMatchAttribute $matchAttribute
      * @param string $pattern Match pattern. Use a URL, title, filename, external website, or event value for string
-     *                        match attributes; use a numeric threshold for visit duration, actions, or pageview
-     *                        match attributes; this value is ignored for `manually`.
+     *                        match attributes; use a numeric threshold in minutes for `visit_duration`; this value is
+     *                        ignored for `manually`.
      * @param string $patternType Matching operator. Numeric match attributes only accept `greater_than`; string match
      *                            attributes accept `exact`, `contains`, or `regex`; use an empty string for `manually`.
      * @phpstan-param GoalPatternType $patternType
@@ -260,11 +262,13 @@ class API extends \Piwik\Plugin\API
      * @param int $idSite The numeric ID of the website the goal belongs to.
      * @param int $idGoal Goal ID to update.
      * @param string $name Goal name.
-     * @param string $matchAttribute Attribute used to match conversions.
+     * @param string $matchAttribute Attribute used to match conversions. One of `url`, `title`, `file`,
+     *                                `external_website`, `manually`, `visit_duration`, `event_action`,
+     *                                `event_category` or `event_name`.
      * @phpstan-param GoalMatchAttribute $matchAttribute
      * @param string $pattern Match pattern. Use a URL, title, filename, external website, or event value for string
-     *                        match attributes; use a numeric threshold for visit duration, actions, or pageview
-     *                        match attributes; this value is ignored for `manually`.
+     *                        match attributes; use a numeric threshold in minutes for `visit_duration`; this value is
+     *                        ignored for `manually`.
      * @param string $patternType Matching operator. Numeric match attributes only accept `greater_than`; string match
      *                            attributes accept `exact`, `contains`, or `regex`; use an empty string for `manually`.
      * @phpstan-param GoalPatternType $patternType
