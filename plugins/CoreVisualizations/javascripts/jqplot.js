@@ -2131,10 +2131,17 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
                         continue;
                     }
 
-                    const markerOptions = opts.markerOptions || {};
+                    const markerOptions = $.extend(true, {}, opts.markerOptions || {});
+                    const isIncomplete = opts.dataStates[i] && opts.dataStates[i] !== 'complete';
 
-                    markerOptions.isIncomplete = opts.dataStates[i] && opts.dataStates[i] !== 'complete';
-                    markerOptions.incompleteFillColor = plot.grid.background;
+                    if (isIncomplete) {
+                        const markerStyle = markerOptions.style || this.markerRenderer.style || 'filledCircle';
+                        const unfilledStyle = markerStyle.replace(/^filled/, '');
+                        markerOptions.style = unfilledStyle
+                            ? unfilledStyle.charAt(0).toLowerCase() + unfilledStyle.slice(1)
+                            : 'circle';
+                        markerOptions.lineWidth = 1;
+                    }
 
                     this.markerRenderer.draw(gd[i][0], gd[i][1], ctx, markerOptions);
                 }
@@ -2264,16 +2271,6 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
             }
             else {
                 ctx.stroke();
-            }
-
-            if (opts.isIncomplete && opts.incompleteFillColor) {
-                // graph lines reach into the point
-                // render inner point filled with background color to avoid showing them
-                ctx.beginPath();
-                ctx.arc(points[0], points[1], points[2] / 8, points[3], points[4], true);
-                ctx.strokeStyle = opts.incompleteFillColor;
-                ctx.stroke();
-                ctx.closePath();
             }
 
             ctx.restore();

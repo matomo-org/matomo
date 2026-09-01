@@ -5,7 +5,7 @@
  * Version: @VERSION
  * Revision: @REVISION
  *
- * Copyright (c) 2009-2013 Chris Leonello
+ * Copyright (c) 2009-2016 Chris Leonello
  * jqPlot is currently available for use in all personal or commercial projects 
  * under both the MIT (http://www.opensource.org/licenses/mit-license.php) and GPL 
  * version 2.0 (http://www.gnu.org/licenses/gpl-2.0.html) licenses. This means that you can 
@@ -74,108 +74,143 @@
         $.extend(true, this, options);
     };
     
-    $.jqplot.MarkerRenderer.prototype.init = function(options) {
-        $.extend(true, this, options);
-        var sdopt = {angle:this.shadowAngle, offset:this.shadowOffset, alpha:this.shadowAlpha, lineWidth:this.lineWidth, depth:this.shadowDepth, closePath:true};
-        if (this.style.indexOf('filled') != -1) {
+    function getShadowRendererOptions(opts) {
+        var sdopt = {angle:opts.shadowAngle, offset:opts.shadowOffset, alpha:opts.shadowAlpha, lineWidth:opts.lineWidth, depth:opts.shadowDepth, closePath:true};
+        if (opts.style.indexOf('filled') != -1) {
             sdopt.fill = true;
         }
-        if (this.style.indexOf('ircle') != -1) {
+        if (opts.style.indexOf('ircle') != -1) {
             sdopt.isarc = true;
             sdopt.closePath = false;
         }
-        this.shadowRenderer.init(sdopt);
-        
-        var shopt = {fill:false, isarc:false, strokeStyle:this.color, fillStyle:this.color, lineWidth:this.lineWidth, closePath:true};
-        if (this.style.indexOf('filled') != -1) {
+        return $.extend(true, {}, sdopt);
+    }
+    
+    function getShapeRendererOptions(opts) {
+        var shopt = {fill:false, isarc:false, strokeStyle:opts.color, fillStyle:opts.color, lineWidth:opts.lineWidth, closePath:true};
+        if (opts.style.indexOf('filled') != -1) {
             shopt.fill = true;
         }
-        if (this.style.indexOf('ircle') != -1) {
+        if (opts.style.indexOf('ircle') != -1) {
             shopt.isarc = true;
             shopt.closePath = false;
         }
-        this.shapeRenderer.init(shopt);
+        return $.extend(true, {}, shopt);
+    }
+    
+    $.jqplot.MarkerRenderer.prototype.init = function(options) {
+        $.extend(true, this, options);
     };
     
     $.jqplot.MarkerRenderer.prototype.drawDiamond = function(x, y, ctx, fill, options) {
+        var opts;
+        if (options == null || $.isEmptyObject(options)) {
+            opts = this;
+        } else {
+            opts = $.extend(true, {}, this, options);
+        }
         var stretch = 1.2;
         var dx = this.size/2/stretch;
         var dy = this.size/2*stretch;
         var points = [[x-dx, y], [x, y+dy], [x+dx, y], [x, y-dy]];
-        if (this.shadow) {
-            this.shadowRenderer.draw(ctx, points);
+        if (opts.shadow) {
+            this.shadowRenderer.draw(ctx, points, getShadowRendererOptions(opts));
         }
-        this.shapeRenderer.draw(ctx, points, options);
+        this.shapeRenderer.draw(ctx, points, getShapeRendererOptions(opts));
     };
     
     $.jqplot.MarkerRenderer.prototype.drawPlus = function(x, y, ctx, fill, options) {
+        var opts = $.extend(true, {}, this, options, {closePath:false});
         var stretch = 1.0;
-        var dx = this.size/2*stretch;
-        var dy = this.size/2*stretch;
+        var dx = opts.size/2*stretch;
+        var dy = opts.size/2*stretch;
         var points1 = [[x, y-dy], [x, y+dy]];
         var points2 = [[x+dx, y], [x-dx, y]];
-        var opts = $.extend(true, {}, this.options, {closePath:false});
-        if (this.shadow) {
-            this.shadowRenderer.draw(ctx, points1, {closePath:false});
-            this.shadowRenderer.draw(ctx, points2, {closePath:false});
+        if (opts.shadow) {
+            this.shadowRenderer.draw(ctx, points1, getShadowRendererOptions(opts));
+            this.shadowRenderer.draw(ctx, points2, getShadowRendererOptions(opts));
         }
         this.shapeRenderer.draw(ctx, points1, opts);
         this.shapeRenderer.draw(ctx, points2, opts);
     };
     
     $.jqplot.MarkerRenderer.prototype.drawX = function(x, y, ctx, fill, options) {
+        var opts = $.extend(true, {}, this, options, {closePath:false});
         var stretch = 1.0;
-        var dx = this.size/2*stretch;
-        var dy = this.size/2*stretch;
-        var opts = $.extend(true, {}, this.options, {closePath:false});
+        var dx = opts.size/2*stretch;
+        var dy = opts.size/2*stretch;
         var points1 = [[x-dx, y-dy], [x+dx, y+dy]];
         var points2 = [[x-dx, y+dy], [x+dx, y-dy]];
-        if (this.shadow) {
-            this.shadowRenderer.draw(ctx, points1, {closePath:false});
-            this.shadowRenderer.draw(ctx, points2, {closePath:false});
+        if (opts.shadow) {
+            this.shadowRenderer.draw(ctx, points1, getShadowRendererOptions(opts));
+            this.shadowRenderer.draw(ctx, points2, getShadowRendererOptions(opts));
         }
-        this.shapeRenderer.draw(ctx, points1, opts);
-        this.shapeRenderer.draw(ctx, points2, opts);
+        this.shapeRenderer.draw(ctx, points1, getShapeRendererOptions(opts));
+        this.shapeRenderer.draw(ctx, points2, getShapeRendererOptions(opts));
     };
     
     $.jqplot.MarkerRenderer.prototype.drawDash = function(x, y, ctx, fill, options) {
+        var opts;
+        if (options == null || $.isEmptyObject(options)) {
+            opts = this;
+        } else {
+            opts = $.extend(true, {}, this, options);
+        }
         var stretch = 1.0;
         var dx = this.size/2*stretch;
         var dy = this.size/2*stretch;
         var points = [[x-dx, y], [x+dx, y]];
-        if (this.shadow) {
+        if (opts.shadow) {
             this.shadowRenderer.draw(ctx, points);
         }
-        this.shapeRenderer.draw(ctx, points, options);
+        this.shapeRenderer.draw(ctx, points, getShapeRendererOptions(opts));
     };
     
     $.jqplot.MarkerRenderer.prototype.drawLine = function(p1, p2, ctx, fill, options) {
-        var points = [p1, p2];
-        if (this.shadow) {
-            this.shadowRenderer.draw(ctx, points);
+        var opts;
+        if (options == null || $.isEmptyObject(options)) {
+            opts = this;
+        } else {
+            opts = $.extend(true, {}, this, options);
         }
-        this.shapeRenderer.draw(ctx, points, options);
+        var points = [p1, p2];
+        if (opts.shadow) {
+            this.shadowRenderer.draw(ctx, points, getShadowRendererOptions(opts));
+        }
+        this.shapeRenderer.draw(ctx, points, getShapeRendererOptions(opts));
     };
     
     $.jqplot.MarkerRenderer.prototype.drawSquare = function(x, y, ctx, fill, options) {
+        var opts;
+        if (options == null || $.isEmptyObject(options)) {
+            opts = this;
+        } else {
+            opts = $.extend(true, {}, this, options);
+        }
         var stretch = 1.0;
         var dx = this.size/2/stretch;
         var dy = this.size/2*stretch;
         var points = [[x-dx, y-dy], [x-dx, y+dy], [x+dx, y+dy], [x+dx, y-dy]];
-        if (this.shadow) {
-            this.shadowRenderer.draw(ctx, points);
+        if (opts.shadow) {
+            this.shadowRenderer.draw(ctx, points, getShadowRendererOptions(opts));
         }
-        this.shapeRenderer.draw(ctx, points, options);
+        this.shapeRenderer.draw(ctx, points, getShapeRendererOptions(opts));
     };
     
     $.jqplot.MarkerRenderer.prototype.drawCircle = function(x, y, ctx, fill, options) {
+        var opts;
+        if (options == null || $.isEmptyObject(options)) {
+            opts = this;
+        } else {
+            opts = $.extend(true, {}, this, options);
+        }
         var radius = this.size/2;
         var end = 2*Math.PI;
         var points = [x, y, radius, 0, end, true];
-        if (this.shadow) {
-            this.shadowRenderer.draw(ctx, points);
+        if (opts.shadow) {
+            this.shadowRenderer.draw(ctx, points, getShadowRendererOptions(opts));
         }
-        this.shapeRenderer.draw(ctx, points, options);
+        this.shapeRenderer.draw(ctx, points, getShapeRendererOptions(opts));
     };
     
     $.jqplot.MarkerRenderer.prototype.draw = function(x, y, ctx, options) {
@@ -189,7 +224,8 @@
             if (options.color && !options.strokeStyle) {
                 options.strokeStyle = options.color;
             }
-            switch (this.style) {
+            var style = options.style || this.style;
+            switch (style) {
                 case 'diamond':
                     this.drawDiamond(x,y,ctx, false, options);
                     break;
