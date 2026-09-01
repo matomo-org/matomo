@@ -214,11 +214,11 @@ class API extends \Piwik\Plugin\API
         $matchAttribute,
         $pattern,
         $patternType,
-        $caseSensitive = false,
+        bool $caseSensitive = false,
         $revenue = false,
-        $allowMultipleConversionsPerVisit = false,
+        bool $allowMultipleConversionsPerVisit = false,
         string $description = '',
-        $useEventValueAsRevenue = false
+        bool $useEventValueAsRevenue = false
     ) {
         Piwik::checkUserHasWriteAccess($idSite);
 
@@ -291,11 +291,11 @@ class API extends \Piwik\Plugin\API
         $matchAttribute,
         $pattern,
         $patternType,
-        $caseSensitive = false,
+        bool $caseSensitive = false,
         $revenue = false,
-        $allowMultipleConversionsPerVisit = false,
+        bool $allowMultipleConversionsPerVisit = false,
         string $description = '',
-        $useEventValueAsRevenue = false
+        bool $useEventValueAsRevenue = false
     ): void {
         Piwik::checkUserHasWriteAccess($idSite);
 
@@ -482,7 +482,7 @@ class API extends \Piwik\Plugin\API
      * @param string|null|false $segment
      * @return DataTable|DataTable\Map
      */
-    protected function getItems(string $recordName, $idSite, string $period, string $date, $abandonedCarts, $segment)
+    protected function getItems(string $recordName, $idSite, string $period, string $date, bool $abandonedCarts, $segment)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -608,7 +608,7 @@ class API extends \Piwik\Plugin\API
      *                                   Supports AND (;) and OR (,) operators.
      * @return DataTable|DataTable\Map Ecommerce product metrics grouped by SKU.
      */
-    public function getItemsSku($idSite, string $period, string $date, $abandonedCarts = false, $segment = false)
+    public function getItemsSku($idSite, string $period, string $date, bool $abandonedCarts = false, $segment = false)
     {
         $dataTable = $this->getItems('Goals_ItemsSku', $idSite, $period, $date, $abandonedCarts, $segment);
         $dataTable->filter('AddSegmentByLabel', ['productSku']);
@@ -633,7 +633,7 @@ class API extends \Piwik\Plugin\API
      *                                   Supports AND (;) and OR (,) operators.
      * @return DataTable|DataTable\Map Ecommerce product metrics grouped by name.
      */
-    public function getItemsName($idSite, string $period, string $date, $abandonedCarts = false, $segment = false)
+    public function getItemsName($idSite, string $period, string $date, bool $abandonedCarts = false, $segment = false)
     {
         $dataTable = $this->getItems('Goals_ItemsName', $idSite, $period, $date, $abandonedCarts, $segment);
         $dataTable->filter('AddSegmentByLabel', ['productName']);
@@ -658,7 +658,7 @@ class API extends \Piwik\Plugin\API
      *                                   Supports AND (;) and OR (,) operators.
      * @return DataTable|DataTable\Map Ecommerce product metrics grouped by category.
      */
-    public function getItemsCategory($idSite, string $period, string $date, $abandonedCarts = false, $segment = false)
+    public function getItemsCategory($idSite, string $period, string $date, bool $abandonedCarts = false, $segment = false)
     {
         $dataTable = $this->getItems('Goals_ItemsCategory', $idSite, $period, $date, $abandonedCarts, $segment);
         $dataTable->filter('AddSegmentByLabel', ['productCategory']);
@@ -712,7 +712,7 @@ class API extends \Piwik\Plugin\API
      * @return DataTable|DataTable\Map Goal metrics with additional columns for all visits, new visits, and returning
      *                                 visits.
      */
-    public function get($idSite, string $period, string $date, $segment = false, $idGoal = false, $columns = [], $showAllGoalSpecificMetrics = false, $compare = false)
+    public function get($idSite, string $period, string $date, $segment = false, $idGoal = false, $columns = [], bool $showAllGoalSpecificMetrics = false, bool $compare = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -747,7 +747,7 @@ class API extends \Piwik\Plugin\API
                     'idGoal' => $idGoal,
                     'columns' => $columns,
                     'showAllGoalSpecificMetrics' => $showAllGoalSpecificMetrics,
-                    'format_metrics' => !empty($compare) ? 0 : Common::getRequestVar('format_metrics', 'bc'),
+                    'format_metrics' => $compare ? 0 : Common::getRequestVar('format_metrics', 'bc'),
                 ), $default = []);
             } finally {
                 \Piwik\Plugin\Archiver::$ARCHIVE_DEPENDENT = $startingArchiveDependent;
@@ -772,7 +772,7 @@ class API extends \Piwik\Plugin\API
         // format the comparison rows either — formatting them turns revenue into a currency string and the chart cannot plot
         // it as a number.
         $formatMetricsRequest = \Piwik\Request::fromRequest()->getStringParameter('format_metrics', 'bc');
-        if (!empty($compare) && $formatMetricsRequest !== '0') {
+        if ($compare && $formatMetricsRequest !== '0') {
             $getMetricsReport = ReportsProvider::factory('Goals', 'getMetrics');
             $table->queueFilter(function (DataTable $t) use ($getMetricsReport) {
                 $t->setMetadata(Metrics\Formatter::PROCESSED_METRICS_FORMATTED_FLAG, false);
@@ -811,7 +811,7 @@ class API extends \Piwik\Plugin\API
      * @deprecated
      * @internal
      */
-    public function getMetrics($idSite, string $period, string $date, $segment = false, $idGoal = false, $columns = [], $showAllGoalSpecificMetrics = false)
+    public function getMetrics($idSite, string $period, string $date, $segment = false, $idGoal = false, $columns = [], bool $showAllGoalSpecificMetrics = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
         $archive = Archive::build($idSite, $period, $date, $segment);
