@@ -350,6 +350,61 @@ abstract class ReportRenderer extends BaseFactory
         });
     }
 
+    /**
+     * Replaces the label of the percent of the report total columns with a short `(%)`.
+     *
+     * The renderers that lay a report out on a fixed width page show the percentage directly to
+     * the right of the metric it belongs to, so repeating the metric name in its header only
+     * costs width: `Conversions (% of total)` wraps over several lines and squeezes every other
+     * column. Formats where the header is the only thing identifying a column, such as CSV, keep
+     * the full label instead.
+     *
+     * @param array $reportColumns column name => translation
+     * @return array
+     */
+    protected static function shortenPercentOfTotalColumnLabels(array $reportColumns): array
+    {
+        foreach ($reportColumns as $columnName => $translation) {
+            if (str_ends_with($columnName, PercentOfReportTotal::COLUMN_NAME_SUFFIX)) {
+                $reportColumns[$columnName] = Piwik::translate('General_ColumnPercentOfReportTotalShort');
+            }
+        }
+
+        return $reportColumns;
+    }
+
+    /**
+     * Drops the percent of the report total columns that do not fit within $maxColumns.
+     *
+     * Only the percentages are dropped, and the leftmost ones are kept, so the metrics a report
+     * leads with (usually visits) keep theirs. A report whose own metrics already exceed the
+     * limit is left alone: its columns are the report, not an addition to it.
+     *
+     * @param array $reportColumns column name => translation
+     * @param int $maxColumns including the label column
+     * @return array
+     */
+    protected static function capPercentOfTotalColumns(array $reportColumns, int $maxColumns): array
+    {
+        $excess = count($reportColumns) - $maxColumns;
+        if ($excess <= 0) {
+            return $reportColumns;
+        }
+
+        foreach (array_reverse(array_keys($reportColumns)) as $columnName) {
+            if ($excess <= 0) {
+                break;
+            }
+
+            if (str_ends_with($columnName, PercentOfReportTotal::COLUMN_NAME_SUFFIX)) {
+                unset($reportColumns[$columnName]);
+                $excess--;
+            }
+        }
+
+        return $reportColumns;
+    }
+
     public static function getStaticGraph($reportMetadata, $width, $height, $evolution, $segment)
     {
         $imageGraphUrl = $reportMetadata['imageGraphUrl'];

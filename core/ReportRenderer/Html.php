@@ -104,7 +104,7 @@ class Html extends ReportRenderer
 
         $reportMetadata = $processedReport['metadata'];
         $reportData = $processedReport['reportData'];
-        $columns = $processedReport['columns'];
+        $columns = self::shortenPercentOfTotalColumnLabels($processedReport['columns']);
 
         // processTableFormat() builds row labels from the metric names when a report has no
         // dimension, so encode them to match the encoding the data table's own labels carry.
