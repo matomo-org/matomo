@@ -94,9 +94,27 @@ class APITest extends IntegrationTestCase
 
     public function testAddGoalShouldSucceedIfAllFieldsGiven()
     {
-        $idGoal = $this->api->addGoal($this->idSite, 'MyName', 'url', 'http://www.test.de', 'exact', true, 50, true, 'desc', true);
+        $idGoal = $this->api->addGoal($this->idSite, 'MyName', 'event_action', 'test', 'exact', true, 50, true, 'desc', true);
 
-        $this->assertGoal($idGoal, 'MyName', 'desc', 'url', 'http://www.test.de', 'exact', 1, 50, 1, 1);
+        $this->assertGoal($idGoal, 'MyName', 'desc', 'event_action', 'test', 'exact', 1, 50, 1, 1);
+    }
+
+    public function testAddGoalShouldThrowIfEventValueAsRevenueIsUsedForNonEventGoal()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage("'useEventValueAsRevenue' can only be 1 if the goal matches an event attribute.");
+
+        $this->api->addGoal($this->idSite, 'MyName', 'url', 'http://www.test.de', 'exact', false, false, false, '', true);
+    }
+
+    public function testUpdateGoalShouldThrowIfEventValueAsRevenueIsUsedForNonEventGoal()
+    {
+        $idGoal = $this->createAnyGoal();
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage("'useEventValueAsRevenue' can only be 1 if the goal matches an event attribute.");
+
+        $this->api->updateGoal($this->idSite, $idGoal, 'MyName', 'url', 'http://www.test.de', 'exact', false, false, false, '', true);
     }
 
     public function testAddGoalShouldSucceedIfExactPageTitle()

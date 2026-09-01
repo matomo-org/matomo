@@ -239,6 +239,8 @@ class API extends \Piwik\Plugin\API
             'event_value_as_revenue' => (int)$useEventValueAsRevenue,
         );
 
+        $this->checkEventValueAsRevenue($goal);
+
         $idGoal = $this->getModel()->createGoalForSite($idSite, $goal);
 
         $this->getGoalsInfoStaticCache()->delete(self::getCacheId($idSite));
