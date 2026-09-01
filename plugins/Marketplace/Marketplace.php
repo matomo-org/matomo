@@ -71,6 +71,7 @@ class Marketplace extends \Piwik\Plugin
         $translationKeys[] = 'CorePluginsAdmin_Deactivate';
         $translationKeys[] = 'CorePluginsAdmin_Marketplace';
         $translationKeys[] = 'CorePluginsAdmin_MissingRequirementsNotice';
+        $translationKeys[] = 'CorePluginsAdmin_MissingRequirementsNoticeTooNew';
         $translationKeys[] = 'CorePluginsAdmin_PluginsExtendPiwik';
         $translationKeys[] = 'CorePluginsAdmin_Status';
         $translationKeys[] = 'CorePluginsAdmin_Theme';
