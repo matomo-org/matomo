@@ -2,45 +2,54 @@
   <!--
     Three bars that grow and darken in sequence, reproducing the geometry and timing of the
     .matomo-loader CSS spinner in plugins/CoreHome/stylesheets/matomo-loader.less at the same
-    16x11 size. The greys deliberately do NOT match: .matomo-loader still carries the near-white
-    bars it inherited from loading-blue.gif, which barely register on a light surface, so this
-    asset is darkened to read against both themes. Keep the two in step if either is restyled.
+    16x11 size. That one takes its colour from the surrounding text; this one cannot, because an
+    SVG used as a background-image is a separate document and inherits nothing from the page, so
+    the grey is baked in. It is picked to read on every surface these seven call sites sit on, in
+    both light and dark mode. Keep the two in step if either is restyled.
 
     The background is transparent so the surface behind it shows through, which is what makes this
     usable in both light and dark mode. Scaled with a transform rather than animating the y/height
     geometry properties, since transforms are the better supported of the two as CSS properties.
+    1.5714285714 is 11/7 - the ratio .matomo-loader reaches growing a 4x7 bar to 4x11.
 
     An SVG painted as a CSS background-image still runs its own CSS animation, because browsers
     load it in the spec's "secure animated mode" - scripts are blocked, declarative animation is
     not. That is why these call sites need no markup. Verified in a browser against a probe
     painted with the same url() the app stylesheets use.
 
-    The colours are hardcoded because an SVG consumed as a background-image cannot read Less
-    variables or custom properties from the host page, so a theme-neutral grey is the only option.
+    Careful with screenshot tests: the harness freezes animation via `animation: none` in
+    tests/resources/screenshot-override/override.css, and that only reaches the host document, not
+    inside this file. A baseline capturing one of these call sites mid-load would sample an
+    arbitrary frame and flake every run.
+
+    If you ever do need the colour themed, mask-image plus a themable background-color is the way
+    (see plugins/TagManager/stylesheets/containerMenu.less), but note a mask reads only the alpha
+    channel - both fills below are opaque, so the darkening half of the pulse would silently
+    vanish and you would have to animate fill-opacity instead.
   -->
   <style>
-    .matomoLoaderBar {
+    .matomo-loader__bar {
       fill: #b3b3b3;
       transform-box: fill-box;
       transform-origin: center;
-      animation: matomoLoaderPulse 1s infinite ease-in-out;
+      animation: matomo-loader-pulse 1s infinite ease-in-out;
     }
 
-    .matomoLoaderBar--second { animation-delay: .15s; }
-    .matomoLoaderBar--third { animation-delay: .35s; }
+    .matomo-loader__bar--second { animation-delay: .15s; }
+    .matomo-loader__bar--third { animation-delay: .35s; }
 
-    @keyframes matomoLoaderPulse {
+    @keyframes matomo-loader-pulse {
       0%, 75%, 100% {
         fill: #b3b3b3;
         transform: scaleY(1);
       }
       25% {
         fill: #808080;
-        transform: scaleY(1.5714);
+        transform: scaleY(1.5714285714);
       }
     }
   </style>
-  <rect class="matomoLoaderBar" x="0" y="2" width="4" height="7" />
-  <rect class="matomoLoaderBar matomoLoaderBar--second" x="6" y="2" width="4" height="7" />
-  <rect class="matomoLoaderBar matomoLoaderBar--third" x="12" y="2" width="4" height="7" />
+  <rect class="matomo-loader__bar" x="0" y="2" width="4" height="7" />
+  <rect class="matomo-loader__bar matomo-loader__bar--second" x="6" y="2" width="4" height="7" />
+  <rect class="matomo-loader__bar matomo-loader__bar--third" x="12" y="2" width="4" height="7" />
 </svg>
