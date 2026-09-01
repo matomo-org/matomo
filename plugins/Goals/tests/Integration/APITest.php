@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Goals\tests\Integration;
 
 use Piwik\Common;
 use Piwik\Db;
+use Piwik\API\Request;
 use Piwik\Piwik;
 use Piwik\Plugins\Goals\API;
 use Piwik\Tests\Framework\Fixture;
@@ -412,9 +413,33 @@ class APITest extends IntegrationTestCase
         yield 'abandoned cart' => [GoalManager::IDGOAL_CART];
         yield 'ecommerce order as string' => ['0'];
         yield 'abandoned cart as string' => ['-1'];
+        yield 'unknown goal' => [999];
+    }
+
+    /**
+     * @dataProvider getNonNumericIdGoals
+     */
+    public function testDeleteGoalShouldRejectIdGoalsThatAreNoNumberAtAll($idGoal)
+    {
+        $this->createAnyGoal();
+        $this->trackedConversion($this->idSite, GoalManager::IDGOAL_ORDER);
+
+        try {
+            Request::processRequest('Goals.deleteGoal', ['idSite' => $this->idSite, 'idGoal' => $idGoal]);
+            $this->fail('An exception was expected');
+        } catch (\Exception $e) {
+            // the request is rejected before it reaches the API method
+            $this->assertStringContainsString('General_PleaseSpecifyValue', $e->getMessage());
+        }
+
+        $this->assertSame(1, $this->getConversionCount($this->idSite, GoalManager::IDGOAL_ORDER));
+    }
+
+    public function getNonNumericIdGoals(): iterable
+    {
         yield 'ecommerce order label' => [Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER];
         yield 'abandoned cart label' => [Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART];
-        yield 'unknown goal' => [999];
+        yield 'arbitrary string' => ['not-a-goal'];
     }
 
     public function testGetGoalShouldThrowExceptionIfNotEnoughPermission()

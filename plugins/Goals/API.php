@@ -286,7 +286,7 @@ class API extends \Piwik\Plugin\API
      */
     public function updateGoal(
         int $idSite,
-        $idGoal,
+        int $idGoal,
         string $name,
         $matchAttribute,
         $pattern,
@@ -298,8 +298,6 @@ class API extends \Piwik\Plugin\API
         bool $useEventValueAsRevenue = false
     ): void {
         Piwik::checkUserHasWriteAccess($idSite);
-
-        $idGoal = (int) $idGoal;
 
         if (!$this->getModel()->doesGoalExist($idGoal, $idSite)) {
             throw new Exception("There is no goal with id '$idGoal' for site with id '$idSite'.");
@@ -444,11 +442,9 @@ class API extends \Piwik\Plugin\API
      *
      * @return void
      */
-    public function deleteGoal(int $idSite, $idGoal)
+    public function deleteGoal(int $idSite, int $idGoal)
     {
         Piwik::checkUserHasWriteAccess($idSite);
-
-        $idGoal = (int) $idGoal;
 
         // the reserved ecommerce ids are no goals, so only ids of goals configured for the site
         // may reach the conversion deletion below
