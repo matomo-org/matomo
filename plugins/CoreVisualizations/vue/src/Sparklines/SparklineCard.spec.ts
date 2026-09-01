@@ -198,6 +198,27 @@ describe('CoreVisualizations/SparklineCard', () => {
     expect(wrapper.find('.sparklineCard__sparkline').attributes('title')).toBeUndefined();
   });
 
+  it('goes back to loading the moment a resize is observed, before the image is even requested', async () => {
+    // The screenshot runner waits on this state, so it must be set before the debounced refetch,
+    // not after it. Otherwise a capture lands in the gap and photographs the placeholder.
+    const wrapper = createWrapper();
+    await nextTick();
+    await wrapper.findComponent({ name: 'Sparkline' }).vm.$emit('loadingChange', false);
+    expect(wrapper.find('.sparklineCard__sparkline').classes())
+      .not.toContain('sparklineCard__sparkline--loading');
+
+    // The slot really has to change width: a reflow that leaves it alone must not blink the card.
+    vi.spyOn(Element.prototype, 'getBoundingClientRect')
+      .mockReturnValue({ width: 560, height: 40 } as DOMRect);
+    const all = (window as unknown as { __resizeObservers: { trigger(e: unknown[]): void }[] })
+      .__resizeObservers;
+    all[all.length - 1].trigger([]);
+    await nextTick();
+
+    expect(wrapper.find('.sparklineCard__sparkline').classes())
+      .toContain('sparklineCard__sparkline--loading');
+  });
+
   it('shows the placeholder until the sparkline reports it has something to display', async () => {
     const wrapper = createWrapper();
     await nextTick();

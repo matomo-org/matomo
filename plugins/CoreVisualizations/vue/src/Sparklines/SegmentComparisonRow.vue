@@ -30,7 +30,7 @@
         :height="sparklineHeight"
         :params="segment.url"
         :series-indices="segment.seriesIndices ?? undefined"
-        @loading-change="isSparklineLoading = $event"
+        @loading-change="isImageLoading = $event"
       />
     </div>
   </div>
@@ -74,17 +74,26 @@ export default defineComponent({
 
     // Sparkline size, measured from the slot it will be drawn in.
     const sparklineSlot = ref<HTMLElement | null>(null);
-    const { width: sparklineWidth, height: sparklineHeight } = useSparklineSlotSize(sparklineSlot);
+    const {
+      width: sparklineWidth,
+      height: sparklineHeight,
+      isResizePending,
+    } = useSparklineSlotSize(sparklineSlot);
 
     // Starts true so the placeholder also covers the time before the slot has been measured, when
     // there is no image yet. Sparkline tells us about every change after that.
-    const isSparklineLoading = ref(true);
+    const isImageLoading = ref(true);
+
+    // A pending resize counts as loading too: the image on screen is about to be replaced, and the
+    // UI screenshot runner waits on this state before capturing.
+    const isSparklineLoading = computed(() => isResizePending.value || isImageLoading.value);
 
     return {
       segmentLabel,
       sparklineSlot,
       sparklineWidth,
       sparklineHeight,
+      isImageLoading,
       isSparklineLoading,
     };
   },
