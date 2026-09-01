@@ -101,8 +101,9 @@ describe('CoreVisualizations/useSparklineSlotSize', () => {
   });
 
   it('ignores a reflow that leaves the slot the same width, rather than blinking the card', () => {
-    // Anything that forces a layout - the screenshot runner included - delivers an observer
-    // callback. Treating those as a reload put a placeholder over every settled card.
+    // Anything that forces a layout delivers an observer callback, including the three the
+    // screenshot runner triggers before it captures. Treating those as a reload put a placeholder
+    // over every settled card.
     setRect(420);
     const wrapper = mount(Harness);
 
@@ -118,8 +119,8 @@ describe('CoreVisualizations/useSparklineSlotSize', () => {
   });
 
   it('reports a pending resize from the moment it is observed, not when the debounce fires', () => {
-    // The window in between is exactly when the screenshot runner captures, so a card that still
-    // called itself settled there would be photographed mid-refetch.
+    // A card that called itself settled during the debounce would be showing an image that no
+    // longer matches its slot, and anything waiting on the state would be waved through early.
     setRect(420);
     const wrapper = mount(Harness);
     expect(wrapper.vm.isResizePending).toBe(false);
@@ -198,8 +199,11 @@ describe('CoreVisualizations/useSparklineSlotSize', () => {
     setRect(420);
     const wrapper = mount(Harness);
 
-    resize(420, 0);
+    // The width has to move past the threshold, or the observer bails out before applySize runs
+    // and this asserts nothing.
+    resize(560, 0);
 
+    expect(wrapper.vm.width).toBe(560);
     expect(wrapper.vm.height).toBe(40);
   });
 

@@ -27,9 +27,9 @@ const RESIZE_DEBOUNCE_MS = 150;
 
 // Ignore width changes smaller than this. A scrollbar appearing, a font settling or a one-pixel
 // reflow would otherwise cost a fresh server-rendered PNG per card, and blank each one behind its
-// placeholder while it arrives. The cost of ignoring one is that `max-width: 100%` scales the image
-// by up to this many pixels - around one percent of a card, against the 2.6x downscale this sizing
-// replaced.
+// placeholder while it arrives. Ignoring one leaves the image at its old width: if the slot grew,
+// it simply sits that many pixels narrow; if the slot shrank, `max-width: 100%` squeezes it
+// horizontally, since Sparkline pins the height inline. Either way it is under a percent of a card.
 const MIN_WIDTH_CHANGE_PX = 8;
 
 /**
@@ -41,10 +41,12 @@ const MIN_WIDTH_CHANGE_PX = 8;
  * until they are positive. A slot in a hidden tab or collapsed widget measures 0 at first and
  * becomes measurable once it is shown.
  *
- * `isResizePending` is true from the moment a resize is observed until it has been acted on. It is
- * deliberately set before the debounce rather than after: a caller that reports "loading" only once
- * the new url exists would spend the debounce claiming to be settled, which is exactly when the UI
- * screenshot runner takes its picture.
+ * `isResizePending` is true from the moment a resize is observed until it has been acted on, so a
+ * card is never in a state where it looks settled but is about to swap its image. It is set before
+ * the debounce rather than after, which also keeps the refetch inside the window
+ * `PageRenderer.waitForNetworkIdle()` samples: that sleeps 750ms before its first check, so a
+ * request started `RESIZE_DEBOUNCE_MS` after a resize is always counted. Keep the debounce well
+ * under that 750ms or a spec that waits for the network can capture a half-loaded card.
  */
 export default function useSparklineSlotSize(
   slot: Ref<HTMLElement | null>,
