@@ -744,50 +744,107 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
         // setup limit control
 
-        var selectionMarkup = '<div class="input-field"><select value="'+ self.param[limitParamName] +'">';
         var selectedValue = getFilterLimitAsString(self.param[limitParamName]);
 
-        if (self.props.show_limit_control) {
-            for (var i = 0; i < numbers.length; i++) {
-                var currentValue = getFilterLimitAsString(numbers[i]);
-                var optionSelected = '';
-                if (selectedValue == currentValue) {
-                    optionSelected = 'selected';
-                }
-                selectionMarkup += '<option value="' + numbers[i] + '"' + optionSelected + '>' + currentValue + '</option>';
-            }
-            selectionMarkup += '</select></div>';
-
-            $('.limitSelection', domElem).append(selectionMarkup);
-
-            var $limitSelect = $('.limitSelection select', domElem);
-
-            if (!self.isEmpty) {
-
-                $limitSelect.on('change', function (event) {
-                    var limit = $(this).val();
-
-                    if (limit != self.param[limitParamName]) {
-                        setLimitValue(self.param, limit);
-                        self.reloadAjaxDataTable();
-
-                        var data = {};
-                        data[limitParamName] = self.param[limitParamName];
-                        self.notifyWidgetParametersChange(domElem, data);
-                    }
-                });
-            }
-            else {
-                $limitSelect.toggleClass('disabled');
-            }
-
-            $limitSelect.material_select();
-
-            $('.limitSelection input', domElem).attr('title', _pk_translate('General_RowsToDisplay'));
-        }
-        else {
+        if (!self.props.show_limit_control) {
             $('.limitSelection', domElem).hide();
+            return;
         }
+
+        var options = '';
+        for (var i = 0; i < numbers.length; i++) {
+            var currentValue = getFilterLimitAsString(numbers[i]);
+            var isCurrent = selectedValue == currentValue;
+
+            options += '<li class="mtm-dropdownPanel__menuItem" role="none">'
+                + '<a class="mtm-dropdownPanel__menuLink" href="" role="menuitemradio" tabindex="0"'
+                + ' aria-checked="' + (isCurrent ? 'true' : 'false') + '"'
+                + ' data-limit="' + numbers[i] + '">'
+                + '<span class="mtm-dropdownPanel__menuLabel">' + currentValue + '</span>'
+                + (isCurrent ? '<span class="mtm-dropdownPanel__rightIcon" aria-hidden="true">'
+                    + '<span class="icon-ok"></span></span>' : '')
+                + '</a></li>';
+        }
+
+        var label = piwikHelper.escape(_pk_translate('General_RowsToDisplay'));
+        // The same shape the report header's controls take, built here rather than in Vue because
+        // the choices and the current value are only known once the table has loaded.
+        $('.limitSelection', domElem).append(
+            '<div class="mtm-selector">'
+            + '<button type="button" class="mtm-selector__trigger" title="' + label + '"'
+            + ' aria-label="' + label + '" aria-haspopup="menu" aria-expanded="false">'
+            + '<span class="mtm-selector__label">' + selectedValue + '</span>'
+            + '<span class="mtm-selector__rightIcon" aria-hidden="true">'
+            + '<span class="icon-chevron-down"></span></span>'
+            + '</button>'
+            + '<div class="mtm-selector__dropdown"><div class="mtm-dropdownPanel">'
+            + '<ul class="mtm-dropdownPanel__menu" role="menu" aria-label="' + label + '">'
+            + options + '</ul></div></div></div>'
+        );
+
+        var $selector = $('.limitSelection .mtm-selector', domElem);
+
+        if (self.isEmpty) {
+            $selector.addClass('disabled');
+            return;
+        }
+
+        self._bindLimitSelector($selector, function (limit) {
+            if (limit == self.param[limitParamName]) {
+                return;
+            }
+
+            setLimitValue(self.param, limit);
+            self.reloadAjaxDataTable();
+
+            var data = {};
+            data[limitParamName] = self.param[limitParamName];
+            self.notifyWidgetParametersChange(domElem, data);
+        });
+    },
+    // ExpandOnClick does this for the Vue selectors; this one is built by jQuery, so it opens and
+    // closes itself the way .piwikSelector does - by carrying `expanded` on the block.
+    _bindLimitSelector: function ($selector, onPick) {
+        var $trigger = $selector.find('.mtm-selector__trigger');
+
+        function close() {
+            $selector.removeClass('expanded');
+            $trigger.attr('aria-expanded', 'false');
+        }
+
+        $trigger.on('click', function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            var opening = !$selector.hasClass('expanded');
+            $selector.toggleClass('expanded', opening);
+            $trigger.attr('aria-expanded', opening ? 'true' : 'false');
+        });
+
+        $selector.on('click', '[data-limit]', function (event) {
+            event.preventDefault();
+            close();
+            onPick($(this).attr('data-limit'));
+        });
+
+        $selector.on('keydown', '[data-limit]', function (event) {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                $(this).click();
+            }
+        });
+
+        $(document).on('click.limitSelection', function (event) {
+            if (!$selector.is(event.target) && !$selector.has(event.target).length) {
+                close();
+            }
+        });
+
+        $(document).on('keyup.limitSelection', function (event) {
+            if (event.key === 'Escape') {
+                close();
+            }
+        });
     },
     handlePeriod: function (domElem) {
         var self = this;

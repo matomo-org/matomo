@@ -92,6 +92,12 @@
   &.expanded .mtm-selector__dropdown {
     display: block;
   }
+
+  // A control with nothing to choose from still shows what it is set to.
+  &.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
 }
 
 .mtm-selector--iconOnly .mtm-selector__trigger {
