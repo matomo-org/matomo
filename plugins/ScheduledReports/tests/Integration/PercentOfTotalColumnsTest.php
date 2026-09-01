@@ -104,11 +104,14 @@ class PercentOfTotalColumnsTest extends IntegrationTestCase
         self::assertStringContainsString("France\t3\t3\t75%\t3\t75%", $report);
     }
 
-    public function testHtmlReportShowsThePercentageColumn(): void
+    public function testHtmlReportShowsThePercentageColumnWithAShortHeader(): void
     {
         $report = $this->generateReport(ReportRenderer::HTML_FORMAT, 'UserCountry_getCountry');
 
-        self::assertStringContainsString('Visits (% of total)', $report);
+        // the percentage sits next to the metric it belongs to, so repeating the metric name in
+        // the header would only make the table wider
+        self::assertStringContainsString('(%)', $report);
+        self::assertStringNotContainsString('(% of total)', $report);
         self::assertStringContainsString('75%', $report);
     }
 
