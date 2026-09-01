@@ -176,7 +176,17 @@ class CustomDimensionsRequestProcessor extends RequestProcessor
 
     private static function prepareValue($value)
     {
-        return mb_substr(trim($value), 0, 250);
+        $inputMaxLength = 250;
+        // Get the maximum length from the config, defaulting to 250 if not set
+        $maxLengthConfig = intval(\Piwik\Config::getInstance()->CustomDimensions['custom_dimensions_max_length'] ?? $inputMaxLength);
+
+        // Ensure max length is a reasonable number: -1 means no limit, cap at 65535 for TEXT fields
+        if ($maxLengthConfig === -1) {
+            $inputMaxLength = 65535; // No limit, but cap it for safety
+        } else {
+            $inputMaxLength = min($maxLengthConfig, 65535);
+        }
+        return mb_substr(trim($value), 0, $inputMaxLength);
     }
 
     public static function buildCustomDimensionTrackingApiName($idDimensionOrDimension)
