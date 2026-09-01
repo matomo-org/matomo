@@ -25,7 +25,6 @@
       :id-site="siteId"
       :compliance-type="type.id"
       :title="type.title"
-      :description="type.description"
     />
   </template>
   <template v-else>

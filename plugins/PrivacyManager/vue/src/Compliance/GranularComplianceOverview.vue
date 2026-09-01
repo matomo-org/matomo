@@ -27,10 +27,7 @@
         @confirm="showPasswordConfirmation = true"
       />
     </div>
-    <p v-html="$sanitize(description)" />
-    <p class="granularComplianceStatusExplanation">
-      {{ translate('PrivacyManager_ComplianceStatusExplanation') }}
-    </p>
+    <p v-if="state.description" v-html="$sanitize(state.description)" />
     <ActivityIndicator :loading="state.loading"/>
     <template v-if="!state.loading">
       <div v-if="state.fetchError" class="notification system notification-error">
@@ -109,10 +106,6 @@ export default defineComponent({
       required: true,
     },
     title: {
-      type: String,
-      required: true,
-    },
-    description: {
       type: String,
       required: true,
     },
