@@ -89,6 +89,7 @@ HELP);
 
         $this->addRequiredValueOption('archive-driver', null, 'request (one archiving request, ad-hoc segments, default) or cron (core:archive, needs stored segments).', CaseRunner::DRIVER_REQUEST);
         $this->addRequiredValueOption('archive-plugin', null, 'Archive only this plugin. Note ArchivingMetrics records no row for a plugin-scoped archive, so timings fall back to wall clock.', '');
+        $this->addNegatableOption('purge-archives', null, 'Delete this case\'s existing archives and its stale archive_invalidations rows before each archive iteration. On by default - leaving either behind lets a later iteration skip work, which reads as a very fast leg.', true);
         $this->addNegatableOption('invalidate', null, 'Invalidate before each archive iteration. On by default - without it the second iteration reuses the first archive.', true);
         $this->addNoValueOption('cascade', null, 'Invalidate child periods too. For week/month/year, without this the run measures aggregation from existing day archives, not log queries.');
 
@@ -220,6 +221,7 @@ HELP);
         $runner = new CaseRunner($process, new MetricsReader(), [
             'archiveDriver' => $archiveDriver,
             'invalidate' => (bool) $input->getOption('invalidate'),
+            'purge' => (bool) $input->getOption('purge-archives'),
             'cascade' => (bool) $input->getOption('cascade'),
             'tideways' => (bool) $input->getOption('tideways'),
             'tidewaysService' => (string) $input->getOption('tideways-service'),
@@ -507,6 +509,15 @@ HELP);
             $detail .= ', ' . $fingerprint['summary'];
         }
 
+        $scrub = $run->getScrub();
+        if ($scrub !== null && ($scrub['archives'] > 0 || $scrub['invalidations'] > 0)) {
+            $detail .= sprintf(
+                ' [scrubbed %d archive(s), %d invalidation(s)]',
+                $scrub['archives'],
+                $scrub['invalidations']
+            );
+        }
+
         $this->getOutput()->writeln(sprintf('  %s %-14s %s', $engine, $label, $detail));
     }
 
@@ -552,6 +563,7 @@ HELP);
                 'iterations' => (int) $this->getInput()->getOption('iterations'),
                 'warmups' => (int) $this->getInput()->getOption('warmups'),
                 'invalidate' => (bool) $this->getInput()->getOption('invalidate'),
+                'purge' => (bool) $this->getInput()->getOption('purge-archives'),
                 'cascade' => (bool) $this->getInput()->getOption('cascade'),
                 'tideways' => TidewaysSupport::describe(),
                 'bootstrapMs' => $calibration,

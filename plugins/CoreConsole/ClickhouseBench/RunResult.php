@@ -39,6 +39,9 @@ final class RunResult
     /** @var string[] the console commands this run actually executed, in order */
     private array $commands;
 
+    /** @var array{archives: int, rows: int, invalidations: int, tables: string[]}|null */
+    private ?array $scrub;
+
     /**
      * @param array{strength: string, rows: ?int, digest: string, summary: string}|null $fingerprint
      * @param string[] $commands
@@ -56,7 +59,8 @@ final class RunResult
         int $archiveCount = 0,
         int $otherArchiveCount = 0,
         string $error = '',
-        array $commands = []
+        array $commands = [],
+        ?array $scrub = null
     ) {
         $this->engineKey = $engineKey;
         $this->case = $case;
@@ -71,6 +75,7 @@ final class RunResult
         $this->otherArchiveCount = $otherArchiveCount;
         $this->error = $error;
         $this->commands = $commands;
+        $this->scrub = $scrub;
     }
 
     public function getEngineKey(): string
@@ -158,6 +163,14 @@ final class RunResult
     }
 
     /**
+     * @return array{archives: int, rows: int, invalidations: int, tables: string[]}|null
+     */
+    public function getScrub(): ?array
+    {
+        return $this->scrub;
+    }
+
+    /**
      * @return string[]
      */
     public function getCommands(): array
@@ -189,6 +202,7 @@ final class RunResult
             'otherArchivesBuilt' => $this->otherArchiveCount,
             'fingerprint' => $this->fingerprint,
             'commands' => $this->commands,
+            'scrubbed' => $this->scrub,
         ];
     }
 }

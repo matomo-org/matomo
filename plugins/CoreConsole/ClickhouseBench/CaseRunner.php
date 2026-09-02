@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Piwik\Plugins\CoreConsole\ClickhouseBench;
 
 use Piwik\ArchiveProcessor\Rules;
+use Piwik\Period\Factory as PeriodFactory;
 use Piwik\Segment;
 
 /**
@@ -55,6 +56,7 @@ final class CaseRunner
         $this->options = $options + [
             'archiveDriver' => self::DRIVER_REQUEST,
             'invalidate' => true,
+            'purge' => true,
             'cascade' => false,
             'tideways' => true,
             'tidewaysService' => TidewaysSupport::DEFAULT_SERVICE,
@@ -85,6 +87,20 @@ final class CaseRunner
         }
 
         $commands = [];
+        $scrub = null;
+
+        // Physically remove the previous iteration's archives AND the invalidation rows that
+        // pointed at them, before creating a fresh invalidation. Invalidating alone leaves both
+        // behind, and archiving reads them: Loader asks hasInvalidationForPeriodAndName() when
+        // deciding whether it may skip, so a leftover row changes what the next iteration does.
+        // "Skipped" and "archived very quickly" are the same number in a timing.
+        if ($case->isArchive() && $this->options['purge']) {
+            $scrub = (new ArchiveScrubber())->scrub(
+                $case->getIdSite(),
+                PeriodFactory::build($case->getPeriod(), $case->getDate()),
+                $this->doneFlag($case)
+            );
+        }
 
         // Invalidation is setup, not measurement, so it runs before the clock starts. It is
         // also what makes the run cold: without it the second iteration finds a usable archive,
@@ -176,7 +192,8 @@ final class CaseRunner
             $archiveCount,
             $otherCount,
             '',
-            $commands
+            $commands,
+            $scrub
         );
     }
 
