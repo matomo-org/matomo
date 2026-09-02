@@ -9,10 +9,13 @@
 
 namespace Piwik\Plugins\TrackingSpamPrevention;
 
+use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Intl\Data\Provider\RegionDataProvider;
 use Piwik\Piwik;
 use Piwik\Plugins\TrackingSpamPrevention\Settings\BlockCloudsSetting;
+use Piwik\Plugins\TrackingSpamPrevention\Settings\DefaultOrganisationListSetting;
+use Piwik\Settings\Plugin\SystemSetting;
 use Piwik\Settings\Setting;
 use Piwik\Settings\FieldConfig;
 use Piwik\SettingsPiwik;
@@ -22,6 +25,10 @@ use Piwik\Validators\IpRanges;
 
 class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 {
+    public const CLOUD_BLOCKING_OFF = 'off';
+    public const CLOUD_BLOCKING_DEFAULT_LIST = 'default';
+    public const CLOUD_BLOCKING_CUSTOM_LIST = 'custom';
+
     /** @var Setting */
     public $max_actions;
 
@@ -50,12 +57,21 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
     public $ipBlockList;
 
     /** @var Setting */
+    public $cloudBlockingMode;
+
+    /** @var DefaultOrganisationListSetting */
+    public $defaultOrganisationBlockList;
+
+    /** @var Setting */
     public $organisationBlockList;
 
     protected function init()
     {
-        $this->block_clouds = $this->createBlockCloudsSetting();
+        $this->cloudBlockingMode = $this->makeCloudBlockingModeSetting();
+        $this->defaultOrganisationBlockList = $this->makeDefaultOrganisationBlockListSetting();
         $this->organisationBlockList = $this->makeOrganisationBlockListSetting();
+        $this->registerOrganisationListSettings();
+        $this->block_clouds = $this->createBlockCloudsSetting();
         $this->blockHeadless = $this->createBlockHeadlessSettings();
         $this->blockServerSideLibraries = $this->createBlockServerSideLibrariesSetting();
         $this->max_actions = $this->createMaxActionsSetting();
@@ -78,20 +94,86 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 
     private function createBlockCloudsSetting()
     {
-        $setting = new BlockCloudsSetting('block_clouds', false, FieldConfig::TYPE_BOOL, $this->pluginName);
+        $setting = new BlockCloudsSetting('block_clouds', true, FieldConfig::TYPE_BOOL, $this->pluginName);
         $setting->setConfigureCallback(function (FieldConfig $field) {
-            $field->title = Piwik::translate('TrackingSpamPrevention_SettingBlockCloudTitle');
+            $field->title = Piwik::translate('TrackingSpamPrevention_SettingBlockCloudIpRangesTitle');
             $field->uiControl = FieldConfig::UI_CONTROL_CHECKBOX;
-            $field->introduction = Piwik::translate('TrackingSpamPrevention_SettingsIntroduction');
-            $field->description = Piwik::translate('TrackingSpamPrevention_SettingBlockCloudDescription');
+            $field->inlineHelp = Piwik::translate('TrackingSpamPrevention_SettingBlockCloudIpRangesHelp');
             if (!SettingsPiwik::isInternetEnabled()) {
-                $field->description = Piwik::translate('TrackingSpamPrevention_BlockCloudNoteInternetDisabled') . $field->description;
+                $field->inlineHelp = Piwik::translate('TrackingSpamPrevention_BlockCloudNoteInternetDisabled') . $field->inlineHelp;
             }
         });
         $this->addSetting($setting);
         return $setting;
     }
 
+    private function makeCloudBlockingModeSetting(): Setting
+    {
+        return $this->makeSetting('cloud_blocking_mode', self::CLOUD_BLOCKING_DEFAULT_LIST, FieldConfig::TYPE_STRING, function (FieldConfig $field) {
+            $field->title = Piwik::translate('TrackingSpamPrevention_SettingCloudBlockingModeTitle');
+            $field->introduction = Piwik::translate('TrackingSpamPrevention_SettingsIntroduction');
+            $field->inlineHelp = Piwik::translate('TrackingSpamPrevention_SettingCloudBlockingModeHelp');
+            $field->uiControl = FieldConfig::UI_CONTROL_RADIO;
+            $field->availableValues = [
+                self::CLOUD_BLOCKING_OFF => Piwik::translate('TrackingSpamPrevention_SettingCloudBlockingModeOptionOff'),
+                self::CLOUD_BLOCKING_DEFAULT_LIST => Piwik::translate('TrackingSpamPrevention_SettingCloudBlockingModeOptionDefaultList'),
+                self::CLOUD_BLOCKING_CUSTOM_LIST => Piwik::translate('TrackingSpamPrevention_SettingCloudBlockingModeOptionCustomList'),
+            ];
+        });
+    }
+
+    private function makeDefaultOrganisationBlockListSetting(): DefaultOrganisationListSetting
+    {
+        // the default value is never read: DefaultOrganisationListSetting::getValue() always reports
+        // the constant, and nothing is ever stored for this field
+        $setting = new DefaultOrganisationListSetting('default_organisation_block_list', [], FieldConfig::TYPE_ARRAY, $this->pluginName);
+        $setting->setConfigureCallback(function (FieldConfig $field) {
+            $field->title = Piwik::translate('TrackingSpamPrevention_SettingDefaultOrganisationBlockListTitle');
+            $field->inlineHelp = Piwik::translate('TrackingSpamPrevention_SettingDefaultOrganisationBlockListHelp');
+            $field->uiControl = FieldConfig::UI_CONTROL_TEXTAREA;
+            $field->uiControlAttributes['disabled'] = 'disabled';
+            if ($this->isBlockingModeSelectable()) {
+                $field->condition = 'cloud_blocking_mode=="' . self::CLOUD_BLOCKING_DEFAULT_LIST . '"';
+            }
+        });
+        return $setting;
+    }
+
+    /**
+     * Which of the two organisation lists is shown is normally decided client side from the blocking
+     * mode. A `cloud_blocking_mode` config override keeps that setting out of the settings payload,
+     * leaving the condition unresolved and hiding both lists - including the custom one, which would
+     * then be the only list in effect and still writable. So when the mode cannot be chosen in the UI
+     * the choice is made here instead, the same way
+     * Piwik\Plugins\Live\SystemSettings::makeAggregatedRealtimeReportsSetting() does.
+     */
+    private function registerOrganisationListSettings(): void
+    {
+        // an overridden list is matched whatever the mode says, so showing the default list next to
+        // it would report a list that is not the one in use
+        $listIsOverridden = $this->hasConfigOverride($this->organisationBlockList);
+
+        if ($this->isBlockingModeSelectable()) {
+            if (!$listIsOverridden) {
+                $this->addSetting($this->defaultOrganisationBlockList);
+            }
+            $this->addSetting($this->organisationBlockList);
+            return;
+        }
+
+        $mode = $this->getCloudBlockingMode();
+
+        if ($mode === self::CLOUD_BLOCKING_DEFAULT_LIST && !$listIsOverridden) {
+            $this->addSetting($this->defaultOrganisationBlockList);
+        } elseif ($mode === self::CLOUD_BLOCKING_CUSTOM_LIST) {
+            $this->addSetting($this->organisationBlockList);
+        }
+    }
+
+    private function isBlockingModeSelectable(): bool
+    {
+        return !$this->hasConfigOverride($this->cloudBlockingMode);
+    }
 
     private function createBlockHeadlessSettings()
     {
@@ -128,7 +210,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 
         $ranges = StaticContainer::get(BlockedIpRanges::class);
 
-        if ((bool) $this->block_clouds->getValue() !== (bool) $this->block_clouds->getOldValue()) {
+        if ($this->block_clouds->hasValueChanged()) {
             if ($this->block_clouds->getValue()) {
                 // is now enabled, lets sync ip ranges
                 $ranges->updateBlockedIpRanges();
@@ -249,12 +331,15 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 
     private function makeOrganisationBlockListSetting(): Setting
     {
-        return $this->makeSetting('organisation_block_list', Configuration::DEFAULT_GEOIP_MATCH_PROVIDERS, FieldConfig::TYPE_ARRAY, function (FieldConfig $field) {
+        $setting = new SystemSetting('organisation_block_list', Configuration::DEFAULT_GEOIP_MATCH_PROVIDERS, FieldConfig::TYPE_ARRAY, $this->pluginName);
+        $setting->setConfigureCallback(function (FieldConfig $field) {
             $field->title = Piwik::translate('TrackingSpamPrevention_SettingOrganisationBlockListTitle');
-            $field->inlineHelp = Piwik::translate('TrackingSpamPrevention_SettingOrganisationBlockListHelp', ['<strong>', '</strong>', '<br>']);
+            $field->inlineHelp = Piwik::translate('TrackingSpamPrevention_SettingCustomOrganisationBlockListHelp');
             $field->uiControl = FieldConfig::UI_CONTROL_TEXTAREA;
             $field->uiControlAttributes['placeholder'] = Piwik::translate('TrackingSpamPrevention_SettingOrganisationBlockListPlaceholder', ["\n"]);
-            $field->condition = 'block_clouds';
+            if ($this->isBlockingModeSelectable()) {
+                $field->condition = 'cloud_blocking_mode=="' . self::CLOUD_BLOCKING_CUSTOM_LIST . '"';
+            }
             $field->transform = function ($value) {
                 if (empty($value) || !is_array($value)) {
                     return [];
@@ -268,6 +353,8 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
                 return array_values(array_unique($organisations));
             };
         });
+
+        return $setting;
     }
 
     private function listCountries()
@@ -305,8 +392,43 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
         }));
     }
 
+    public function getCloudBlockingMode(): string
+    {
+        $mode = $this->cloudBlockingMode->getValue();
+
+        $known = [self::CLOUD_BLOCKING_OFF, self::CLOUD_BLOCKING_DEFAULT_LIST, self::CLOUD_BLOCKING_CUSTOM_LIST];
+
+        if (!in_array($mode, $known, true)) {
+            // the available values are only enforced when a value is saved, so a config file override
+            // can hold anything. Falling back to the default keeps an unreadable value from silently
+            // turning blocking off.
+            return self::CLOUD_BLOCKING_DEFAULT_LIST;
+        }
+
+        return $mode;
+    }
+
+    private function hasConfigOverride(Setting $setting): bool
+    {
+        $pluginConfig = Config::getInstance()->{$this->pluginName};
+
+        return is_array($pluginConfig) && array_key_exists($setting->getName(), $pluginConfig);
+    }
+
     public function getBlockedOrganisations(): array
     {
+        $mode = $this->getCloudBlockingMode();
+
+        if ($mode === self::CLOUD_BLOCKING_OFF) {
+            return [];
+        }
+
+        // a config file override is the only way to configure the list where the setting is not
+        // writable, so it keeps winning over the default list
+        if ($mode === self::CLOUD_BLOCKING_DEFAULT_LIST && !$this->hasConfigOverride($this->organisationBlockList)) {
+            return Configuration::DEFAULT_GEOIP_MATCH_PROVIDERS;
+        }
+
         $value = $this->organisationBlockList->getValue();
 
         if (empty($value) || !is_array($value)) {

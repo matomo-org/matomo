@@ -617,19 +617,119 @@
 		<title>TrackingSpamPrevention</title>
 		<settings>
 			<row>
-				<name>block_clouds</name>
-				<title>Block tracking requests from the cloud</title>
-				<value>0</value>
-				<defaultValue>0</defaultValue>
-				<type>boolean</type>
-				<uiControl>checkbox</uiControl>
+				<name>cloud_blocking_mode</name>
+				<title>Block tracking requests from Cloud hosting providers</title>
+				<value>default</value>
+				<defaultValue>default</defaultValue>
+				<type>string</type>
+				<uiControl>radio</uiControl>
 				<uiControlAttributes>
 				</uiControlAttributes>
-				<availableValues />
-				<description>Blocks tracking requests originating from cloud providers like AWS, Azure, Digital Ocean, Google Cloud and Oracle by fetching a list of their IP ranges. It should be safe to turn on if you are only tracking using the JavaScript tracker, as their tracking requests do not orginate from clouds, unless they use a VPN that routes data through cloud providers. The setting applies to all your sites.</description>
-				<inlineHelp />
+				<availableValues>
+					<off>Do not block Cloud hosting providers</off>
+					<default>Use Matomo's default provider list (recommended)</default>
+					<custom>Use custom organisation list</custom>
+				</availableValues>
+				<description />
+				<inlineHelp>Choose how Matomo should handle tracking requests from Cloud hosting providers. You can disable any blocking, apply Matomo's default provider list, or maintain your own custom list. Matomo's list may be updated over time as providers are added or changed.</inlineHelp>
 				<introduction>Spam and bot traffic can inflate tracking requests and introduce unwanted data into your reports. Configure these settings to reduce this traffic before it affects your analytics.</introduction>
 				<condition />
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>default_organisation_block_list</name>
+				<title>Default organisation block list</title>
+				<value>
+					<row>alicloud</row>
+					<row>alibaba cloud</row>
+					<row>kwaifong group limited</row>
+					<row>contabo</row>
+					<row>digitalocean</row>
+					<row>digital ocean</row>
+					<row>leaseweb</row>
+					<row>hostroyale technologies</row>
+					<row>ucloud information</row>
+					<row>secure internet llc</row>
+					<row>inios oy</row>
+					<row>fnk llc</row>
+					<row>dedipath-llc</row>
+					<row>mirholding b.v.</row>
+					<row>datacamp limited</row>
+					<row>voxility llp</row>
+					<row>lucidacloud</row>
+					<row>cloud computing corporation</row>
+					<row>gigabit hosting</row>
+					<row>hetzner online</row>
+					<row>m247 europe srl</row>
+					<row>incognet llc</row>
+					<row>ponynet</row>
+					<row>as40676</row>
+					<row>nforce entertainment b.v.</row>
+					<row>trabia srl</row>
+					<row>latitude-sh</row>
+					<row>dataforest gmbh</row>
+					<row>31173 services ab</row>
+					<row>advin services llc</row>
+					<row>wholesale services provider</row>
+					<row>netminders</row>
+					<row>altushost b.v.</row>
+					<row>amazon-02</row>
+					<row>akamai connected cloud</row>
+					<row>uab cherry servers</row>
+					<row>datema bilisim ticaret anonim sirketi</row>
+					<row>alibaba us technology co., ltd.</row>
+					<row>netcup gmbh</row>
+					<row>jinx co., limited</row>
+					<row>fd-298-8796</row>
+					<row>cloudsingularity</row>
+					<row>weserve b.v.</row>
+					<row>amarutu technology ltd</row>
+					<row>limestonenetworks</row>
+					<row>versija sia</row>
+					<row>oy crea nova hosting solution ltd</row>
+					<row>owl limited</row>
+					<row>tzulo</row>
+					<row>serverastra kft</row>
+					<row>ionos se</row>
+					<row>as-globaltelehost</row>
+					<row>estnoc oy</row>
+					<row>as-colocrossing</row>
+					<row>greenhost bv</row>
+					<row>keminet shpk</row>
+					<row>worldstream b.v.</row>
+					<row>aeza international ltd</row>
+					<row>asline limited</row>
+					<row>packethub s.a.</row>
+					<row>gorillaservers</row>
+					<row>as-vultr</row>
+					<row>nl-811-40021</row>
+					<row>cheapy-host</row>
+					<row>jsc selectel</row>
+					<row>gb network solutions sdn. bhd.</row>
+					<row>latitude.sh</row>
+					<row>limestone networks, inc</row>
+					<row>scaleway</row>
+					<row>m247 europe</row>
+					<row>tencent</row>
+					<row>fdcservers</row>
+					<row>ace data centers</row>
+					<row>egihosting</row>
+					<row>hangzhou alibaba advertising</row>
+					<row>sharktech</row>
+					<row>dmit cloud services</row>
+				</value>
+				<defaultValue>
+				</defaultValue>
+				<type>array</type>
+				<uiControl>textarea</uiControl>
+				<uiControlAttributes>
+					<disabled>disabled</disabled>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp>This is the current default organisation list maintained by Matomo. The list may be updated over time as providers are added or changed.</inlineHelp>
+				<introduction />
+				<condition>cloud_blocking_mode==&quot;default&quot;</condition>
 				<fullWidth>0</fullWidth>
 			</row>
 			<row>
@@ -801,9 +901,25 @@ Cloud Hosting Provider B</placeholder>
 				</uiControlAttributes>
 				<availableValues />
 				<description />
-				<inlineHelp>Block tracking requests when the visitor's IP address belongs to a specified organisation, such as a hosting or cloud provider. Enter one organisation per line. Use specific names to avoid unintended matches. Any organisation with a name containing the value you enter will be matched. This list only applies when &quot;Block tracking requests from the cloud&quot; is enabled.&lt;br&gt;&lt;strong&gt;Note:&lt;/strong&gt; Clearing the list disables organisation blocking; it does not restore the default list.</inlineHelp>
+				<inlineHelp>Block tracking requests when the visitor's IP address belongs to a specified organisation, such as a hosting or cloud provider. Enter one organisation per line. Use specific names to avoid unintended matches. Any organisation with a name containing the value you enter will be matched. Matomo uses this list instead of its default provider list.</inlineHelp>
 				<introduction />
-				<condition>block_clouds</condition>
+				<condition>cloud_blocking_mode==&quot;custom&quot;</condition>
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>block_clouds</name>
+				<title>Block traffic requests from Cloud provider IP ranges</title>
+				<value>1</value>
+				<defaultValue>1</defaultValue>
+				<type>boolean</type>
+				<uiControl>checkbox</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp>Block tracking requests using a maintained list of known Cloud provider IP ranges. This provides additional coverage for Cloud provider traffic that may not be identified by a list of configured GeoIP organisation names. The Cloud provider IP range list updates automatically every 24 hours.</inlineHelp>
+				<introduction />
+				<condition />
 				<fullWidth>0</fullWidth>
 			</row>
 			<row>
@@ -1457,7 +1573,7 @@ Cloud Hosting Provider B</placeholder>
 				</uiControlAttributes>
 				<availableValues />
 				<description />
-				<inlineHelp>Specify the IP addresses or CIDR ranges to block from sending tracking requests. Enter one value per line. Matomo may block additional IPs automatically that won't appear in this list, such as cloud provider IP ranges fetched daily when &quot;Block tracking requests from the cloud&quot; is enabled, or IPs banned temporarily for exceeding the max actions limit.</inlineHelp>
+				<inlineHelp>Specify the IP addresses or CIDR ranges to block from sending tracking requests. Enter one value per line. Matomo may block additional IPs automatically that won't appear in this list, such as cloud provider IP ranges fetched daily when &quot;Block traffic requests from Cloud provider IP ranges&quot; is enabled, or IPs banned temporarily for exceeding the max actions limit.</inlineHelp>
 				<introduction />
 				<condition />
 				<fullWidth>0</fullWidth>

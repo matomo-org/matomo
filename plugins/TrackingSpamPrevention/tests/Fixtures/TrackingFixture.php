@@ -19,10 +19,10 @@ class TrackingFixture extends Fixture
     {
         self::createWebsite('2020-01-01 01:00:00');
 
-        // enable cloud blocking so the conditional "Organisation block list" setting is visible
+        // select the custom list so the conditional "Organisation block list" setting is visible
         // in the settings screenshot
         $settings = StaticContainer::get(SystemSettings::class);
-        $settings->block_clouds->setValue(true);
+        $settings->cloudBlockingMode->setValue(SystemSettings::CLOUD_BLOCKING_CUSTOM_LIST);
         $settings->save();
     }
 }

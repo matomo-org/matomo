@@ -10,15 +10,21 @@
 namespace Piwik\Plugins\TrackingSpamPrevention\tests\Integration;
 
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Plugins\TrackingSpamPrevention\Configuration;
 use Piwik\Plugins\TrackingSpamPrevention\SystemSettings;
 use Piwik\Plugins\TrackingSpamPrevention\Updates_5_1_0;
 use Piwik\Plugins\TrackingSpamPrevention\Updates_5_2_0;
+use Piwik\Plugins\TrackingSpamPrevention\Updates_6_0_0_b2;
+use Piwik\Settings\FieldConfig;
+use Piwik\Settings\Storage\Factory as StorageFactory;
+use Piwik\Settings\Storage\Storage;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Updater;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/TrackingSpamPrevention/Updates/5.1.0.php';
 require_once PIWIK_INCLUDE_PATH . '/plugins/TrackingSpamPrevention/Updates/5.2.0.php';
+require_once PIWIK_INCLUDE_PATH . '/plugins/TrackingSpamPrevention/Updates/6.0.0-b2.php';
 
 /**
  * @group TrackingSpamPrevention
@@ -84,7 +90,7 @@ class UpdatesTest extends IntegrationTestCase
 
         $this->runUpdate520();
 
-        $this->assertSame(['my custom org', 'another org'], $this->makeSettings()->getBlockedOrganisations());
+        $this->assertSame(['my custom org', 'another org'], $this->makeSettings()->organisationBlockList->getValue());
         $this->assertArrayNotHasKey(Configuration::KEY_GEOIP_MATCH_PROVIDERS, Config::getInstance()->TrackingSpamPrevention);
     }
 
@@ -112,7 +118,6 @@ class UpdatesTest extends IntegrationTestCase
 
         // stored empty list, not an unset setting falling back to the defaults
         $this->assertSame([], $this->makeSettings()->organisationBlockList->getValue());
-        $this->assertSame([], $this->makeSettings()->getBlockedOrganisations());
         $this->assertArrayNotHasKey(Configuration::KEY_GEOIP_MATCH_PROVIDERS, Config::getInstance()->TrackingSpamPrevention);
     }
 
@@ -153,8 +158,153 @@ class UpdatesTest extends IntegrationTestCase
 
         $this->runUpdate520();
 
-        $this->assertSame(['stored org'], $this->makeSettings()->getBlockedOrganisations());
+        $this->assertSame(['stored org'], $this->makeSettings()->organisationBlockList->getValue());
         $this->assertArrayNotHasKey(Configuration::KEY_GEOIP_MATCH_PROVIDERS, Config::getInstance()->TrackingSpamPrevention);
+    }
+
+    public function testUpdate600b2NeverSavedBlockCloudsKeepsCloudBlockingOff()
+    {
+        // nothing stored means the pre-6.0.0-b2 default, which was off
+        $this->runUpdate600b2();
+
+        $settings = $this->makeSettings();
+        $this->assertSame(false, $settings->block_clouds->getValue());
+        $this->assertSame(SystemSettings::CLOUD_BLOCKING_OFF, $settings->getCloudBlockingMode());
+        $this->assertSame([], $settings->getBlockedOrganisations());
+    }
+
+    public function testUpdate600b2StoredBlockCloudsOffKeepsCloudBlockingOff()
+    {
+        $this->storeBlockClouds(false);
+
+        $this->runUpdate600b2();
+
+        $settings = $this->makeSettings();
+        $this->assertSame(false, $settings->block_clouds->getValue());
+        $this->assertSame(SystemSettings::CLOUD_BLOCKING_OFF, $settings->getCloudBlockingMode());
+    }
+
+    public function testUpdate600b2StoredBlockCloudsOffKeepsCustomOrganisationList()
+    {
+        $this->storeBlockClouds(false);
+        $settings = $this->makeSettings();
+        $settings->organisationBlockList->setValue(['my custom org']);
+        $settings->save();
+
+        $this->runUpdate600b2();
+
+        $settings = $this->makeSettings();
+        $this->assertSame(SystemSettings::CLOUD_BLOCKING_OFF, $settings->getCloudBlockingMode());
+        // the list is kept so that it is still there when blocking is turned back on
+        $this->assertSame(['my custom org'], $settings->organisationBlockList->getValue());
+    }
+
+    public function testUpdate600b2BlockCloudsOnWithoutStoredListUsesTheDefaultList()
+    {
+        $this->storeBlockClouds(true);
+
+        $this->runUpdate600b2();
+
+        $settings = $this->makeSettings();
+        $this->assertSame(true, $settings->block_clouds->getValue());
+        $this->assertSame(SystemSettings::CLOUD_BLOCKING_DEFAULT_LIST, $settings->getCloudBlockingMode());
+        $this->assertSame(Configuration::DEFAULT_GEOIP_MATCH_PROVIDERS, $settings->getBlockedOrganisations());
+    }
+
+    public function testUpdate600b2BlockCloudsOnWithReorderedDefaultListUsesTheDefaultList()
+    {
+        $this->storeBlockClouds(true);
+        $settings = $this->makeSettings();
+        $settings->organisationBlockList->setValue(array_reverse(Configuration::DEFAULT_GEOIP_MATCH_PROVIDERS));
+        $settings->save();
+
+        $this->runUpdate600b2();
+
+        $this->assertSame(SystemSettings::CLOUD_BLOCKING_DEFAULT_LIST, $this->makeSettings()->getCloudBlockingMode());
+    }
+
+    public function testUpdate600b2BlockCloudsOnWithCustomListUsesTheCustomList()
+    {
+        $this->storeBlockClouds(true);
+        $settings = $this->makeSettings();
+        $settings->organisationBlockList->setValue(['my custom org']);
+        $settings->save();
+
+        $this->runUpdate600b2();
+
+        $settings = $this->makeSettings();
+        $this->assertSame(SystemSettings::CLOUD_BLOCKING_CUSTOM_LIST, $settings->getCloudBlockingMode());
+        $this->assertSame(['my custom org'], $settings->getBlockedOrganisations());
+    }
+
+    public function testUpdate600b2BlockCloudsOnWithEmptiedListKeepsOrganisationBlockingOff()
+    {
+        $this->storeBlockClouds(true);
+        $settings = $this->makeSettings();
+        $settings->organisationBlockList->setValue([]);
+        $settings->save();
+
+        $this->runUpdate600b2();
+
+        $settings = $this->makeSettings();
+        // an emptied list already meant no organisation blocking while IP ranges stayed on
+        $this->assertSame(SystemSettings::CLOUD_BLOCKING_CUSTOM_LIST, $settings->getCloudBlockingMode());
+        $this->assertSame(true, $settings->block_clouds->getValue());
+        $this->assertSame([], $settings->getBlockedOrganisations());
+    }
+
+    public function testUpdate600b2ConfigOverrideEnablingBlockCloudsKeepsOrganisationBlockingOn()
+    {
+        Config::getInstance()->TrackingSpamPrevention = ['block_clouds' => 1];
+
+        // must not throw: an override makes the setting unwritable, which would fail the update
+        $this->runUpdate600b2();
+
+        $storage = $this->makeStorage();
+        $this->assertNull($storage->getValue('block_clouds', null, FieldConfig::TYPE_BOOL));
+        // the override is what the install was doing, even though nothing was ever stored
+        $this->assertSame(SystemSettings::CLOUD_BLOCKING_DEFAULT_LIST, $this->makeSettings()->getCloudBlockingMode());
+    }
+
+    public function testUpdate600b2ConfigOverrideDisablingBlockCloudsTurnsOrganisationBlockingOff()
+    {
+        $this->storeBlockClouds(true);
+        Config::getInstance()->TrackingSpamPrevention = ['block_clouds' => 0];
+
+        $this->runUpdate600b2();
+
+        // the override shadows the stored value, so the install was not blocking before the update
+        $this->assertSame(SystemSettings::CLOUD_BLOCKING_OFF, $this->makeSettings()->getCloudBlockingMode());
+    }
+
+    public function testUpdate600b2DoesNotOverwriteAnAlreadyMigratedMode()
+    {
+        $this->storeBlockClouds(true);
+        $settings = $this->makeSettings();
+        $settings->cloudBlockingMode->setValue(SystemSettings::CLOUD_BLOCKING_OFF);
+        $settings->save();
+
+        $this->runUpdate600b2();
+
+        $this->assertSame(SystemSettings::CLOUD_BLOCKING_OFF, $this->makeSettings()->getCloudBlockingMode());
+    }
+
+    private function storeBlockClouds(bool $value): void
+    {
+        $storage = $this->makeStorage();
+        $storage->setValue('block_clouds', $value);
+        $storage->save();
+    }
+
+    private function makeStorage(): Storage
+    {
+        return StaticContainer::get(StorageFactory::class)->getPluginStorage('TrackingSpamPrevention', '');
+    }
+
+    private function runUpdate600b2()
+    {
+        $update = new Updates_6_0_0_b2();
+        $update->doUpdate(new Updater());
     }
 
     private function runUpdate()

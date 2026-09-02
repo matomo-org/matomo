@@ -93,6 +93,67 @@ class BlockGeoIpOrganisationTest extends ConsoleCommandTestCase
         $this->assertSame($organisationsBefore, $this->getBlockedOrganisations());
     }
 
+    public function testSwitchesToTheCustomOrganisationList()
+    {
+        // the fixture is shared across the test methods of this class, so set the starting mode
+        $settings = StaticContainer::get(SystemSettings::class);
+        $settings->cloudBlockingMode->setValue(SystemSettings::CLOUD_BLOCKING_DEFAULT_LIST);
+        $settings->save();
+
+        $exitCode = $this->applicationTester->run([
+            'command' => 'trackingspamprevention:block-geo-ip-organisation',
+            '--organisation-name' => 'Example Org',
+        ]);
+
+        $this->assertSame(0, $exitCode, $this->getCommandDisplayOutputErrorMessage());
+
+        // otherwise the addition would sit in a list nothing is matched against
+        $this->assertSame(SystemSettings::CLOUD_BLOCKING_CUSTOM_LIST, $settings->getCloudBlockingMode());
+        $this->assertContains('example org', $this->getBlockedOrganisations());
+        $this->assertStringContainsString('custom organisation list', $this->applicationTester->getDisplay());
+    }
+
+    public function testFailsWhenBlockingModeConfigOverrideExists()
+    {
+        $sectionBefore = Config::getInstance()->TrackingSpamPrevention;
+
+        $section = is_array($sectionBefore) ? $sectionBefore : [];
+        $section['cloud_blocking_mode'] = SystemSettings::CLOUD_BLOCKING_DEFAULT_LIST;
+        Config::getInstance()->TrackingSpamPrevention = $section;
+
+        try {
+            $exitCode = $this->applicationTester->run([
+                'command' => 'trackingspamprevention:block-geo-ip-organisation',
+                '--organisation-name' => 'someorg',
+            ]);
+
+            $this->assertNotSame(0, $exitCode);
+            $this->assertStringContainsString('overridden', $this->applicationTester->getDisplay());
+        } finally {
+            // in-memory config changes leak into later tests of this class, so restore the section
+            Config::getInstance()->TrackingSpamPrevention = $sectionBefore;
+        }
+    }
+
+    public function testDoesNotTurnBlockingOnWhenItIsOff()
+    {
+        $settings = StaticContainer::get(SystemSettings::class);
+        $settings->cloudBlockingMode->setValue(SystemSettings::CLOUD_BLOCKING_OFF);
+        $settings->save();
+
+        $exitCode = $this->applicationTester->run([
+            'command' => 'trackingspamprevention:block-geo-ip-organisation',
+            '--organisation-name' => 'Another Example Org',
+        ]);
+
+        $this->assertSame(0, $exitCode, $this->getCommandDisplayOutputErrorMessage());
+
+        // adding an organisation must not switch a deliberately disabled feature back on
+        $this->assertSame(SystemSettings::CLOUD_BLOCKING_OFF, $settings->getCloudBlockingMode());
+        $this->assertContains('another example org', $settings->organisationBlockList->getValue());
+        $this->assertStringContainsString('has no effect until', $this->applicationTester->getDisplay());
+    }
+
     private function getBlockedOrganisations(): array
     {
         return StaticContainer::get(SystemSettings::class)->getBlockedOrganisations();
