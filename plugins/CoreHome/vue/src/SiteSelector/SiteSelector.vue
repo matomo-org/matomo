@@ -83,8 +83,8 @@
             class="mtm-dropdownPanel__menuItem"
             @click="onSiteClick(site, $event)"
             v-show="!(!showSelectedSite && `${activeSiteId}` === `${site.idsite}`)"
-            v-for="(site, index) in sites"
-            :key="index"
+            v-for="site in sites"
+            :key="site.idsite"
           >
             <a
               class="mtm-dropdownPanel__menuLink"
