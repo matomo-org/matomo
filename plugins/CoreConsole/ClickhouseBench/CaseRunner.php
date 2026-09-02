@@ -59,7 +59,6 @@ final class CaseRunner
             'tideways' => true,
             'tidewaysService' => TidewaysSupport::DEFAULT_SERVICE,
             'segmentIds' => [],
-            'matomoDomain' => '',
             'onCommand' => null,
         ];
     }
@@ -202,7 +201,7 @@ final class CaseRunner
             $arguments[] = '--cascade';
         }
 
-        return $this->withGlobalOptions($arguments);
+        return $arguments;
     }
 
     /**
@@ -211,24 +210,24 @@ final class CaseRunner
     private function measuredArguments(BenchCase $case): array
     {
         if (!$case->isArchive()) {
-            return $this->withGlobalOptions([
+            return [
                 'climulti:request',
                 '--superuser',
                 '--',
                 $this->apiQuery($case),
-            ]);
+            ];
         }
 
         if ($this->options['archiveDriver'] === self::DRIVER_CRON) {
-            return $this->withGlobalOptions($this->cronArchiveArguments($case));
+            return $this->cronArchiveArguments($case);
         }
 
-        return $this->withGlobalOptions([
+        return [
             'climulti:request',
             '--superuser',
             '--',
             $this->archiveQuery($case),
-        ]);
+        ];
     }
 
     /**
@@ -352,24 +351,6 @@ final class CaseRunner
 
     /**
      * @param string[] $arguments
-     * @return string[]
-     */
-    private function withGlobalOptions(array $arguments): array
-    {
-        $domain = (string) $this->options['matomoDomain'];
-        if ($domain === '') {
-            return $arguments;
-        }
-
-        // Forwarded because omitting it on a multi-instance host does not fail - it silently
-        // resolves to a different instance, or to none.
-        array_splice($arguments, 1, 0, ['--matomo-domain=' . $domain]);
-
-        return $arguments;
-    }
-
-    /**
-     * @param string[] $arguments
      * @param array<string, string> $env
      * @return array{command: string, exitCode: int, output: string, wallMs: float, timedOut: bool}
      */
@@ -447,6 +428,8 @@ final class CaseRunner
 
     private function renderCommand(array $arguments): string
     {
+        $arguments = $this->process->withGlobalOptions($arguments);
+
         return $this->process->getConsolePath() . ' ' . implode(' ', array_map(
             static fn(string $argument): string => str_contains($argument, ' ') ? '"' . $argument . '"' : $argument,
             $arguments

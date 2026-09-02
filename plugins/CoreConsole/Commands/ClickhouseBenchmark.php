@@ -169,13 +169,25 @@ HELP);
         }
 
         $timeout = (float) $input->getOption('timeout');
+
+        // Forwarded to EVERY child, including the preflight and calibration ones. On a
+        // multi-instance host a child without it does not fail: it resolves to no install,
+        // reports honestly that it is not using the analytics database, and the preflight
+        // reads that as the operator having misconfigured the engine.
+        $globalOptions = [];
+        $matomoDomain = (string) ($input->getOption('matomo-domain') ?? '');
+        if ($matomoDomain !== '') {
+            $globalOptions[] = '--matomo-domain=' . $matomoDomain;
+        }
+
         $process = new ConsoleProcess(
             PIWIK_INCLUDE_PATH . '/console',
             null,
             $timeout > 0 ? $timeout : null,
             $input->getOption('tideways')
                 ? TidewaysSupport::phpIniOptionsWith((array) $input->getOption('tideways-ini'))
-                : []
+                : [],
+            $globalOptions
         );
 
         $segmentIds = [];
@@ -212,7 +224,6 @@ HELP);
             'tideways' => (bool) $input->getOption('tideways'),
             'tidewaysService' => (string) $input->getOption('tideways-service'),
             'segmentIds' => $segmentIds,
-            'matomoDomain' => (string) ($input->getOption('matomo-domain') ?? ''),
         ]);
 
         if ($input->getOption('dry-run')) {

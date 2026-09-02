@@ -41,17 +41,31 @@ final class ConsoleProcess
     private array $phpIniOptions;
 
     /**
+     * Console options every child needs, spliced in after the command name.
+     *
+     * These live here rather than at each call site because the call sites are exactly what
+     * gets forgotten: --matomo-domain is required on a multi-instance host, and a child that
+     * does not get it does not fail - it resolves to no install, reports honestly that it is
+     * not using the analytics database, and the run reads as an engine misconfiguration.
+     *
+     * @var string[]
+     */
+    private array $globalOptions;
+
+    /**
      * @param string[] $phpIniOptions e.g. ['tideways.enable_cli=1']
      */
     public function __construct(
         string $consolePath,
         ?string $phpBinary = null,
         ?float $timeout = null,
-        array $phpIniOptions = []
+        array $phpIniOptions = [],
+        array $globalOptions = []
     ) {
         $this->consolePath = $consolePath;
         $this->timeout = $timeout;
         $this->phpIniOptions = $phpIniOptions;
+        $this->globalOptions = $globalOptions;
 
         if ($phpBinary !== null && $phpBinary !== '') {
             $this->phpBinary = $phpBinary;
@@ -100,7 +114,7 @@ final class ConsoleProcess
             $command[] = $iniOption;
         }
         $command[] = $this->consolePath;
-        $command = array_merge($command, $arguments);
+        $command = array_merge($command, $this->withGlobalOptions($arguments));
 
         $process = new Process($command, dirname($this->consolePath), $env);
         $process->setTimeout($this->timeout);
@@ -132,6 +146,21 @@ final class ConsoleProcess
             'wallMs' => $wallMs,
             'timedOut' => $timedOut,
         ];
+    }
+
+    /**
+     * @param string[] $arguments
+     * @return string[]
+     */
+    public function withGlobalOptions(array $arguments): array
+    {
+        if (empty($this->globalOptions) || empty($arguments)) {
+            return $arguments;
+        }
+
+        array_splice($arguments, 1, 0, $this->globalOptions);
+
+        return $arguments;
     }
 
     /**
