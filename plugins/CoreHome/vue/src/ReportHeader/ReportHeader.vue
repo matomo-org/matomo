@@ -472,27 +472,28 @@ export default defineComponent({
   },
   emits: ['minimise', 'maximise', 'refresh', 'close', 'titleClick', 'search'],
   // Created once: ExpandOnClick keeps its own state inside the binding object, so handing it a
-  // fresh one on every render would lose it.
+  // fresh one on every render would lose it. Cast on the way in because Vue unwraps the refs a
+  // composable held in data() carries, which is the shape the declaration below describes.
   created() {
     this.actionsSelector = useSelectorDropdown(
       { role: 'menu', expandedClass: 'reportHeader__actions--expanded' },
       () => this.$refs.actions as HTMLElement | null,
       () => this.$refs.actionsTrigger as HTMLElement | null,
-    );
+    ) as unknown as typeof this.actionsSelector;
     this.actionsBinding = this.actionsSelector.expandBinding('actionsTrigger');
 
     this.promotedPeriods = useSelectorDropdown(
       { role: 'menu', expandedClass: 'mtm-selector--expanded' },
       () => this.$refs.periodsSelector as HTMLElement | null,
       () => this.$refs.periodsTrigger as HTMLElement | null,
-    );
+    ) as unknown as typeof this.promotedPeriods;
     this.periodsBinding = this.promotedPeriods.expandBinding('periodsTrigger');
 
     this.promotedExport = useSelectorDropdown(
       { role: 'menu', expandedClass: 'mtm-selector--expanded' },
       () => this.$refs.exportSelector as HTMLElement | null,
       () => this.$refs.exportTrigger as HTMLElement | null,
-    );
+    ) as unknown as typeof this.promotedExport;
     this.exportBinding = this.promotedExport.expandBinding('exportTrigger');
   },
   data() {
@@ -599,8 +600,6 @@ export default defineComponent({
         ...ReportActionsStore.get(this.activeReportKey),
       } as ReportActionsConfig;
     },
-    // A trigger opening onto nothing is worse than no trigger: once its ranks are promoted out, a
-    // report may have nothing left to put in the menu.
     actionsTriggerProps(): Record<string, string> {
       return this.actionsSelector.triggerProps();
     },
@@ -610,6 +609,8 @@ export default defineComponent({
     exportTriggerProps(): Record<string, string> {
       return this.promotedExport.triggerProps();
     },
+    // A trigger opening onto nothing is worse than no trigger: once its ranks are promoted out, a
+    // report may have nothing left to put in the menu.
     showActions(): boolean {
       return this.actions.showFooter && this.actions.showFooterIcons
         && menuHoldsAnything(this.actions, this.promotedActions);
@@ -644,15 +645,15 @@ export default defineComponent({
     annotationsWording,
     // Picking a period is the end of the interaction. ExpandOnClick keeps its state in the class,
     // so dropping it is how a panel closes itself - the same move MetricsPicker makes.
-    closePromotedPeriods() {
+    closePromotedPeriods(event: MouseEvent|KeyboardEvent) {
       (this.$refs.periodsSelector as HTMLElement | undefined)
         ?.classList.remove('mtm-selector--expanded');
-      this.promotedPeriods.close();
+      this.promotedPeriods.closedBy(event);
     },
-    closePromotedExport() {
+    closePromotedExport(event: MouseEvent|KeyboardEvent) {
       (this.$refs.exportSelector as HTMLElement | undefined)
         ?.classList.remove('mtm-selector--expanded');
-      this.promotedExport.close();
+      this.promotedExport.closedBy(event);
     },
     isPromoted(action: PromotableActionId): boolean {
       return this.promotedActions.indexOf(action) !== -1;
@@ -740,7 +741,7 @@ export default defineComponent({
     closeActions(event: MouseEvent) {
       (this.$refs.actions as HTMLElement | undefined)
         ?.classList.remove('reportHeader__actions--expanded');
-      this.actionsSelector.expandBinding('actionsTrigger').onClosed(event);
+      this.actionsSelector.closedBy(event);
     },
     onControl(intent: string) {
       // Re-emit for Vue-native consumers...

@@ -137,6 +137,37 @@ describe('ReportHeader', () => {
       wrapper.unmount();
     });
 
+    // Picking an entry folds the panel without the directive hearing it, so the focus has to be
+    // handed back by hand - and only to the keyboard that asked for it.
+    it('should give the focus back when the keyboard picks from a promoted panel', async () => {
+      const wrapper = mountComponent({
+        showFooter: true,
+        showFooterIcons: true,
+        showPeriods: true,
+        selectablePeriods: ['day', 'week'],
+        context: 'widgetized',
+      });
+      document.body.appendChild(wrapper.element);
+      (wrapper.vm as unknown as { promotedCount: number }).promotedCount = 1;
+      await wrapper.vm.$nextTick();
+
+      const control = wrapper.find('[data-report-action="periods"]');
+      const trigger = control.find('.mtm-selector__trigger').element as HTMLElement;
+      const entry = control.find('[role^="menuitem"]').element as HTMLElement;
+
+      entry.focus();
+      expect(document.activeElement).toBe(entry);
+
+      // A keyboard-activated click reports no pointer, which is `detail: 0` - the default here,
+      // and not something trigger() can set on a read-only UIEvent.
+      entry.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+      await wrapper.vm.$nextTick();
+
+      expect(document.activeElement).toBe(trigger);
+
+      wrapper.unmount();
+    });
+
     // The composable serves the keys now, so the panel is where they are pinned.
     it('should walk the menu with the arrow keys', async () => {
       const wrapper = mountComponent({ ...withActions, showAnnotations: true });
