@@ -5,7 +5,7 @@
 {% set hasPagination = not isDataTableEmpty and (properties.show_offset_information or properties.show_pagination_control) %}
 
         {% if hasPagination %}
-            <div class="row dataTablePaginationControl">
+            <div class="row dataTablePaginationControl{% if showLimitSelection %} dataTablePaginationControl--withLimit{% endif %}">
                 {% if properties.show_pagination_control %}
                     <span class="dataTablePrevious">&lsaquo; {% if clientSideParameters.dataTablePreviousIsFirst is defined %}{{ 'General_First'|translate }}{% else %}{{ 'General_Previous'|translate }}{% endif %}</span>
                     &nbsp;

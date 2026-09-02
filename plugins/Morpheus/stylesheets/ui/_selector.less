@@ -3,11 +3,14 @@
 // markup. Placement is NOT owned here — the consumer places the selector.
 // Named with the `mtm-` prefix to avoid name conflicts.
 
+// Every stylesheet is compiled into one Less scope, where the last definition of a name wins for
+// every use of it. These carry the block's name so a plugin file loaded later cannot take them over.
+//
 // 20px of line between 8px of padding, plus a border either side, is the platform's 38px.
-@_padding-vertical: 8px;
-@_padding-horizontal: 16px;
-@_height: 38px;
-@_gap: 8px;
+@_selector-paddingVertical: 8px;
+@_selector-paddingHorizontal: 16px;
+@_selector-height: 38px;
+@_selector-gap: 8px;
 
 .mtm-selector {
   position: relative;
@@ -15,11 +18,11 @@
 
   .mtm-selector__trigger {
     box-sizing: border-box;
-    min-height: @_height;
+    min-height: @_selector-height;
     display: flex;
     align-items: center;
-    gap: @_gap;
-    padding: @_padding-vertical @_padding-horizontal;
+    gap: @_selector-gap;
+    padding: @_selector-paddingVertical @_selector-paddingHorizontal;
     background-color: @theme-color-background-contrast;
     border: 1px solid @theme-color-border;
     border-radius: 8px;
@@ -84,7 +87,7 @@
     position: absolute;
     top: 100%;
     right: 0;
-    margin-top: @_gap;
+    margin-top: @_selector-gap;
     // Over a sticky `thead` (150) and its cells (99), under the row actions (1000).
     z-index: 200;
   }
@@ -101,8 +104,8 @@
 }
 
 .mtm-selector--iconOnly .mtm-selector__trigger {
-  min-width: @_height;
+  min-width: @_selector-height;
   justify-content: center;
-  padding-left: @_padding-vertical;
-  padding-right: @_padding-vertical;
+  padding-left: @_selector-paddingVertical;
+  padding-right: @_selector-paddingVertical;
 }
