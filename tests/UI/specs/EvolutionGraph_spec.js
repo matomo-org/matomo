@@ -495,11 +495,11 @@ describe("EvolutionGraph", function () {
 
         const trigger = '[data-report-action="periods"] .mtm-selector__trigger';
         await page.click(trigger);
-        await page.waitForSelector('.mtm-selector.expanded', { visible: true });
+        await page.waitForSelector('.mtm-selector--expanded', { visible: true });
 
         await page.click(trigger);
         const stillOpen = await page.evaluate(
-          () => !!document.querySelector('.mtm-selector.expanded'),
+          () => !!document.querySelector('.mtm-selector--expanded'),
         );
         expect(stillOpen, 'a second click closes it').to.equal(false);
     });
@@ -509,7 +509,7 @@ describe("EvolutionGraph", function () {
         await page.waitForNetworkIdle();
 
         await page.click('[data-report-action="periods"] .mtm-selector__trigger');
-        await page.waitForSelector('.mtm-selector.expanded', { visible: true });
+        await page.waitForSelector('.mtm-selector--expanded', { visible: true });
 
         await page.evaluate(
           () => document.querySelector('.dataTablePeriods [data-period="week"]').click(),
@@ -518,7 +518,7 @@ describe("EvolutionGraph", function () {
         await page.waitForTimeout(500);
 
         const stillOpen = await page.evaluate(
-          () => !!document.querySelector('.mtm-selector.expanded'),
+          () => !!document.querySelector('.mtm-selector--expanded'),
         );
         expect(stillOpen, 'picking a period closes the selector').to.equal(false);
     });
@@ -530,7 +530,7 @@ describe("EvolutionGraph", function () {
         await page.evaluate(
           () => document.querySelector('[data-report-action="periods"] .mtm-selector__trigger').click(),
         );
-        await page.waitForSelector('.mtm-selector.expanded', { visible: true });
+        await page.waitForSelector('.mtm-selector--expanded', { visible: true });
 
         const focused = await page.evaluate(() => {
             const item = document.querySelector('.dataTablePeriods [role^="menuitem"]');
