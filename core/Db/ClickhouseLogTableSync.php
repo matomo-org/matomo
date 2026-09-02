@@ -128,6 +128,21 @@ class ClickhouseLogTableSync
      * physical position even though it is not sorted on; the bloom filter serves the
      * visitor profile, which looks a visitor up by id across the whole table.
      */
+    private const MATERIALIZED_COLUMNS = [
+        // The LIKE side of every action-scope segment. ngrambf_v1 is NOT used by ILIKE,
+        // only by LIKE, so matching a segment case-insensitively the obvious way (ILIKE
+        // on `name`) is correct and unindexable at the same time. Lowercasing the column
+        // once at write time and LIKE-ing that with a lowercased needle is both.
+        // ClickhouseDialectTranslator rewrites the segment LIKEs onto this column, so it
+        // has to exist wherever the adapter runs - which is why it lives here rather than
+        // only in bench/clickhouse-indices.sql, where a ClickPipes Resync silently drops
+        // it. n = 4 in the index means needles shorter than 4 characters cannot use it;
+        // they still match, just without the index.
+        'log_action' => [
+            'name_lower' => ['name', 'String', 'lower(`name`)', 'ngrambf_v1(4, 262144, 3, 0)'],
+        ],
+    ];
+
     private const SKIP_INDICES = [
         'log_visit' => [
             'idx_visit_last_action' => ['visit_last_action_time', 'minmax'],
@@ -292,6 +307,7 @@ class ClickhouseLogTableSync
                 addslashes($mysqlPassword)
             ));
 
+            self::addMaterializedColumns($client, $chDatabase, $mysqlTable, $table, $availableColumns);
             self::addSkipIndices($client, $chDatabase, $mysqlTable, $table, $availableColumns);
         }
 
@@ -303,6 +319,64 @@ class ClickhouseLogTableSync
         ));
 
         self::$syncedFingerprint = $fingerprint;
+    }
+
+    /**
+     * Adds the table's MATERIALIZED columns and the skip index each one carries. Every
+     * such column exists in order to be indexed, so the index is part of the definition
+     * rather than an option.
+     *
+     * Same constraint as addSkipIndices(): CREATE TABLE ... AS SELECT takes its column
+     * list from the SELECT, so these are added afterwards and materialised explicitly
+     * because the data is already written. MATERIALIZED columns are excluded from
+     * SELECT *, so nothing downstream sees an unexpected extra column.
+     *
+     * @param string[] $availableColumns
+     */
+    private static function addMaterializedColumns(
+        Client $client,
+        string $chDatabase,
+        string $mysqlTable,
+        string $table,
+        array $availableColumns
+    ): void {
+        foreach (self::MATERIALIZED_COLUMNS[$table] ?? [] as $column => $spec) {
+            [$sourceColumn, $type, $expression, $indexType] = $spec;
+            if (!in_array($sourceColumn, $availableColumns, true)) {
+                continue;
+            }
+
+            $client->write(sprintf(
+                'ALTER TABLE `%s`.`%s` ADD COLUMN `%s` %s MATERIALIZED %s',
+                $chDatabase,
+                $mysqlTable,
+                $column,
+                $type,
+                $expression
+            ));
+            $client->write(sprintf(
+                'ALTER TABLE `%s`.`%s` MATERIALIZE COLUMN `%s`',
+                $chDatabase,
+                $mysqlTable,
+                $column
+            ));
+
+            $indexName = 'idx_' . $column;
+            $client->write(sprintf(
+                'ALTER TABLE `%s`.`%s` ADD INDEX `%s` `%s` TYPE %s GRANULARITY 4',
+                $chDatabase,
+                $mysqlTable,
+                $indexName,
+                $column,
+                $indexType
+            ));
+            $client->write(sprintf(
+                'ALTER TABLE `%s`.`%s` MATERIALIZE INDEX `%s`',
+                $chDatabase,
+                $mysqlTable,
+                $indexName
+            ));
+        }
     }
 
     /**

@@ -57,6 +57,41 @@ jobs:
   PHP:
     name: PHP (UnitTests, ${{ matrix.environment.php }}, ${{ matrix.environment.adapter }}, ${{ matrix.environment.mysql-engine }}, ${{ matrix.environment.mysql-version }})
     runs-on: ubuntu-24.04
+    # ClickHouse (DEV-20678, this branch only): every PHP and UI job runs with ClickHouse
+    # attached, so the routed query paths are exercised by the system and integration
+    # suites and not only by the UI screenshots. Fixture::setUpClickHouse() keys off
+    # CLICKHOUSE_HOST, propagates it into the testing-environment config overrides and
+    # syncs the fixture log tables across; it fails loudly rather than falling back.
+    # Defined here rather than on UI-plugins only because a YAML anchor must appear before
+    # the aliases that use it, and this is the first job in the file.
+    # Keep image + credentials in sync with .ddev/docker-compose.clickhouse.yaml.
+    services: &clickhouse-service
+      clickhouse:
+        image: clickhouse/clickhouse-server:25.8
+        env:
+          CLICKHOUSE_USER: matomo
+          CLICKHOUSE_PASSWORD: matomo
+        ports:
+          - 8123:8123
+        options: >-
+          --add-host host.docker.internal:host-gateway
+          --health-cmd "clickhouse-client --query 'SELECT 1'"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 30
+    env: &clickhouse-env
+      CLICKHOUSE_HOST: 127.0.0.1
+      CLICKHOUSE_PORT: '8123'
+      CLICKHOUSE_SYNC_MYSQL_HOST: host.docker.internal
+      # Query settings sized for the runner, not for production. global.ini.php leaves
+      # all four unset so a real deployment gets the ClickHouse server defaults; a GitHub
+      # runner has 4 cores and ~16 GB shared with MySQL, PHP and the browser, so it wants
+      # the constrained values. Applied in test mode only, see
+      # Db::getAnalyticsDatabaseConfig().
+      CLICKHOUSE_MAX_THREADS: '2'
+      CLICKHOUSE_MAX_BYTES_BEFORE_EXTERNAL_SORT: '268435456'
+      CLICKHOUSE_MAX_BYTES_BEFORE_EXTERNAL_GROUP_BY: '268435456'
+      CLICKHOUSE_JOIN_ALGORITHM: grace_hash
     strategy:
       fail-fast: ${{ inputs.is_preview == true }}
       matrix:
@@ -97,6 +132,8 @@ jobs:
   PHP-extra:
     name: PHP (${{ matrix.type }}, ${{ matrix.environment.php }}, ${{ matrix.environment.adapter }}, ${{ matrix.environment.mysql-engine }}, ${{ matrix.environment.mysql-version }})
     runs-on: ubuntu-24.04
+    services: *clickhouse-service
+    env: *clickhouse-env
     strategy:
       fail-fast: ${{ inputs.is_preview == true }}
       matrix:
@@ -128,6 +165,8 @@ jobs:
   PHP-integration-core:
     name: PHP (IntegrationTestsCore, bucket ${{ matrix.bucket }}/10, ${{ matrix.environment.php }}, ${{ matrix.environment.adapter }}, ${{ matrix.environment.mysql-engine }}, ${{ matrix.environment.mysql-version }})
     runs-on: ubuntu-24.04
+    services: *clickhouse-service
+    env: *clickhouse-env
     strategy:
       fail-fast: ${{ inputs.is_preview == true }}
       max-parallel: ${{ fromJson(vars.MATOMO_INTEGRATION_CORE_MAX_PARALLEL || '10') }}
@@ -170,6 +209,8 @@ jobs:
   PHP-integration-plugins:
     name: PHP (IntegrationTestsPlugins, bucket ${{ matrix.bucket }}/10, ${{ matrix.environment.php }}, ${{ matrix.environment.adapter }}, ${{ matrix.environment.mysql-engine }}, ${{ matrix.environment.mysql-version }})
     runs-on: ubuntu-24.04
+    services: *clickhouse-service
+    env: *clickhouse-env
     strategy:
       fail-fast: ${{ inputs.is_preview == true }}
       max-parallel: ${{ fromJson(vars.MATOMO_INTEGRATION_PLUGINS_MAX_PARALLEL || '10') }}
@@ -212,6 +253,8 @@ jobs:
   PHP-system-plugins:
     name: PHP (SystemTestsPlugins, bucket ${{ matrix.bucket }}/10, ${{ matrix.environment.php }}, ${{ matrix.environment.adapter }}, ${{ matrix.environment.mysql-engine }}, ${{ matrix.environment.mysql-version }})
     runs-on: ubuntu-24.04
+    services: *clickhouse-service
+    env: *clickhouse-env
     strategy:
       fail-fast: ${{ inputs.is_preview == true }}
       max-parallel: ${{ fromJson(vars.MATOMO_SYSTEM_PLUGINS_MAX_PARALLEL || '10') }}
@@ -369,27 +412,8 @@ jobs:
     if: ${{ needs.generate-plugin-ui-matrices.outputs.plugin_count != '0' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 30
-    # ClickHouse (DEV-20678, this branch only): UI tests run with ClickHouse available
-    # so routed query paths get screenshot coverage. Keep image + credentials in sync
-    # with .ddev/docker-compose.clickhouse.yaml.
-    services: &clickhouse-service
-      clickhouse:
-        image: clickhouse/clickhouse-server:25.8
-        env:
-          CLICKHOUSE_USER: matomo
-          CLICKHOUSE_PASSWORD: matomo
-        ports:
-          - 8123:8123
-        options: >-
-          --add-host host.docker.internal:host-gateway
-          --health-cmd "clickhouse-client --query 'SELECT 1'"
-          --health-interval 5s
-          --health-timeout 5s
-          --health-retries 30
-    env: &clickhouse-env
-      CLICKHOUSE_HOST: 127.0.0.1
-      CLICKHOUSE_PORT: '8123'
-      CLICKHOUSE_SYNC_MYSQL_HOST: host.docker.internal
+    services: *clickhouse-service
+    env: *clickhouse-env
     strategy:
       fail-fast: ${{ inputs.is_preview == true }}
       max-parallel: &ui-max-parallel ${{ fromJson(vars.MATOMO_UI_MAX_PARALLEL || '10') }}

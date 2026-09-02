@@ -43,6 +43,19 @@ class Clickhouse implements AdapterInterface
      */
     private const HEX_ENCODED_BINARY_COLUMNS = ['idvisitor', 'config_id', 'location_ip'];
 
+    /**
+     * ClickHouse query settings this adapter will forward when [database_analytics]
+     * configures them, and omit entirely when it does not. Empty means "not configured",
+     * the same convention every other key in that section uses; omitting the setting
+     * leaves the server default in place rather than sending an empty value.
+     */
+    private const OPTIONAL_QUERY_SETTINGS = [
+        'max_threads',
+        'max_bytes_before_external_sort',
+        'max_bytes_before_external_group_by',
+        'join_algorithm',
+    ];
+
     /** @var array<string, mixed> */
     private $config;
 
@@ -331,6 +344,10 @@ class Clickhouse implements AdapterInterface
 
         $translated = ClickhouseDialectTranslator::translate($sql);
         [$chSql, $params] = self::convertPositionalBinds($translated, $bind);
+        // Segment LIKEs were pointed at the lowercased, indexed copy of log_action.name
+        // during translation; their needles can only be lowered here, once the binds have
+        // names to match them by.
+        $params = ClickhouseDialectTranslator::lowercaseNeedlesForIndexedColumns($chSql, $params);
 
         $startTime = microtime(true);
         try {
@@ -427,24 +444,23 @@ class Clickhouse implements AdapterInterface
         // another timezone cannot shift toDate()/toHour() results.
         $client->settings()->set('session_timezone', 'UTC');
 
-        // Keep wide SELECT-* queries with FINAL inside a small container's memory budget:
-        // fewer parallel streams, and spill sorts and aggregations to disk instead of
-        // failing. Archiving is aggregation-heavy, so the GROUP BY spill threshold matters
-        // as much as the sort one: without it a wide aggregation (the PagePerformance
-        // totals over log_link_visit_action, for one) dies with MEMORY_LIMIT_EXCEEDED in
-        // AggregatingTransform rather than spilling.
-        $client->settings()->set('max_threads', 2);
-        $client->settings()->set('max_bytes_before_external_sort', 256 * 1024 * 1024);
-        $client->settings()->set('max_bytes_before_external_group_by', 256 * 1024 * 1024);
-
-        // The right join algorithm depends on the hardware, not on Matomo: the default
-        // spills to disk so the segment joins onto log_link_visit_action survive a small
-        // container, but that is a constraint of ddev and CI rather than of production.
-        // See [database_analytics] join_algorithm in global.ini.php.
-        // An empty value means "not configured" here, as it does for every other key in
-        // that section, so it falls back rather than being passed on as an empty setting.
-        $joinAlgorithm = (string) ($this->config['join_algorithm'] ?? '');
-        $client->settings()->set('join_algorithm', '' !== $joinAlgorithm ? $joinAlgorithm : 'grace_hash');
+        // Sizing and planner settings, every one of them optional and unset by default.
+        // These were previously pinned here to values chosen for a 2.55 GiB ddev
+        // container - fewer parallel streams and early spilling to disk - which is
+        // exactly wrong on production hardware: max_threads = 2 throws away most of the
+        // parallel scan that is ClickHouse's advantage, and spilling a sort or an
+        // aggregation while memory is still available is pure loss. An empty config
+        // value means the setting is not sent at all and the server's own default
+        // applies. The constrained environments opt back in explicitly - see
+        // [database_analytics] in global.ini.php and the CLICKHOUSE_* variables the ddev
+        // and CI jobs export.
+        foreach (self::OPTIONAL_QUERY_SETTINGS as $setting) {
+            $value = (string) ($this->config[$setting] ?? '');
+            if ('' === $value) {
+                continue;
+            }
+            $client->settings()->set($setting, $value);
+        }
 
         return $this->client = $client;
     }

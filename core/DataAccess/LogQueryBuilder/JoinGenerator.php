@@ -164,7 +164,17 @@ class JoinGenerator
                     }
                 }
 
-                $this->joinString .= ' ' . Common::prefixTable($table['table']) . " AS " . $alias
+                // A caller can substitute a sub-select for the table itself. The only user
+                // is the analytics database (ClickHouse), which builds its join hash table
+                // from the RIGHT side and therefore cannot join log_action whole - see
+                // LogAggregator::getActionRestrictionSubQuery(). The entry keeps its
+                // 'table' name so table sorting and join discovery are unaffected; only
+                // the SQL emitted for the join source changes.
+                $tableSource = isset($table['tableSubQuery'])
+                    ? '(' . $table['tableSubQuery'] . ')'
+                    : Common::prefixTable($table['table']);
+
+                $this->joinString .= ' ' . $tableSource . " AS " . $alias
                                    . " ON " . $table['joinOn'];
                 continue;
             }

@@ -939,6 +939,75 @@ class LogAggregator
     /**
      * @return string
      */
+    /**
+     * Restricts the log_action side of an actions join to the ids the report can actually
+     * reach, for the analytics database only. Returns null when the join should stay a
+     * plain table reference, which is every MySQL query.
+     *
+     * ClickHouse builds a join hash table from the RIGHT side, and in Transitions the
+     * right side is log_action - 242 million rows on the POC corpus. Joining it whole is
+     * not slow, it is fatal: the first attempt died with MEMORY_LIMIT_EXCEEDED at
+     * 14.40 GiB (measured 1 Sep 2026). Restricting it to the ids the report needs turns
+     * the join into a primary-key lookup, because idaction IS log_action's sorting key.
+     *
+     * Two things about the shape are deliberate:
+     *
+     * - **The restriction is a superset, and it omits the segment.** The join itself is
+     *   on an already-segment-filtered expression, so the answer is identical either way,
+     *   and leaving the segment out means the expensive part of a segmented query is
+     *   evaluated once instead of twice. On the POC corpus that took segmented Transitions
+     *   from 16.06s to 6.48s with byte-identical output.
+     * - **It costs a second pass over log_link_visit_action.** That is the honest price.
+     *   It is cheap because the second pass hits the granules the first one just read -
+     *   the same skip indices select them.
+     *
+     * The site and date bounds are inlined rather than bound. A sub-select in FROM is
+     * emitted ahead of the WHERE clause, so binding them would mean splicing values into
+     * the middle of a positional bind list that Segment::getSelectQuery() also
+     * contributes to - and a bind list in the wrong order is a silently wrong answer
+     * rather than an error. The values are internally generated (formatted Date objects
+     * and integer site ids), never request input. For the same reason this bails out
+     * rather than guessing if the caller's extra WHERE carries placeholders of its own.
+     *
+     * @param string $joinExpression The log_link_visit_action side of the join condition
+     * @param string|false $extraWhere The caller's extra WHERE, still in sprintf form
+     */
+    private function getActionRestrictionSubQuery(string $joinExpression, $extraWhere): ?string
+    {
+        if (!Db::hasAnalyticsConfigured()) {
+            // On MySQL the unrestricted join is both correct and the faster plan: it
+            // reaches log_action by primary key per row rather than building a hash table.
+            return null;
+        }
+
+        if (!empty($extraWhere) && false !== strpos((string) $extraWhere, '?')) {
+            return null;
+        }
+
+        $tableName = self::LOG_ACTIONS_TABLE;
+
+        $where = sprintf(
+            "%1\$s.%2\$s >= '%3\$s' AND %1\$s.%2\$s <= '%4\$s' AND %1\$s.idsite IN (%5\$s)",
+            $tableName,
+            self::ACTION_DATETIME_FIELD,
+            $this->dateStart->toString(Date::DATE_TIME_FORMAT),
+            $this->dateEnd->toString(Date::DATE_TIME_FORMAT),
+            implode(', ', array_map('intval', $this->sites))
+        );
+
+        if (!empty($extraWhere)) {
+            $where .= ' AND ' . sprintf($extraWhere, $tableName, $tableName);
+        }
+
+        return sprintf(
+            'SELECT * FROM %s WHERE idaction IN (SELECT %s FROM %s WHERE %s)',
+            Common::prefixTable('log_action'),
+            $joinExpression,
+            Common::prefixTable($tableName) . ' AS ' . $tableName,
+            $where
+        );
+    }
+
     public function getWhereStatement($tableName, $datetimeField, $extraWhere = false)
     {
         $where = "$tableName.$datetimeField >= ?
@@ -1142,6 +1211,10 @@ class LogAggregator
 
         $select  = $this->getSelectStatement($dimensions, $tableName, $additionalSelects, $availableMetrics, $metrics);
         $from    = array($tableName);
+        // Keep the caller's own condition: getWhereStatement() folds it into a clause that
+        // also carries the bound site and date terms, and getActionRestrictionSubQuery()
+        // needs the unbound form.
+        $extraWhere = $where;
         $where   = $this->getWhereStatement($tableName, self::ACTION_DATETIME_FIELD, $where);
         $groupBy = $this->getGroupByStatement($dimensions, $tableName);
 
@@ -1155,17 +1228,26 @@ class LogAggregator
                 $tableAlias = 'log_action' . ($multiJoin ? $i + 1 : '');
 
                 if (strpos($joinColumn, ' ') === false) {
-                    $joinOn = $tableAlias . '.idaction = ' . $tableName . '.' . $joinColumn;
+                    $joinExpression = $tableName . '.' . $joinColumn;
                 } else {
                     // more complex join column like if (...)
-                    $joinOn = $tableAlias . '.idaction = ' . $joinColumn;
+                    $joinExpression = $joinColumn;
                 }
 
-                $from[] = array(
+                $joinOn = $tableAlias . '.idaction = ' . $joinExpression;
+
+                $join = array(
                     'table'      => 'log_action',
                     'tableAlias' => $tableAlias,
                     'joinOn'     => $joinOn,
                 );
+
+                $restriction = $this->getActionRestrictionSubQuery($joinExpression, $extraWhere);
+                if (null !== $restriction) {
+                    $join['tableSubQuery'] = $restriction;
+                }
+
+                $from[] = $join;
             }
         }
 

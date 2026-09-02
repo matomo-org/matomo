@@ -97,17 +97,54 @@ class Db implements TransactionalDatabaseInterface
     }
 
     /**
-     * Returns true if an analytics database (ClickHouse) is configured: the
-     * [database_analytics] host, or the CLICKHOUSE_HOST environment override, is set.
+     * Returns true when log queries should be routed to the analytics database
+     * (ClickHouse) rather than to {@link getReader()}.
+     *
+     * [database_analytics] enabled is a three-state switch, so that one value flips a
+     * whole install between MySQL and ClickHouse without anyone editing connection
+     * details between two timed runs of an A/B:
+     *
+     * - **empty** (the default): infer from the host, which is the pre-6.0 behaviour and
+     *   leaves every existing install exactly as it was.
+     * - **1**: assert ClickHouse. A missing host is then a misconfiguration and throws,
+     *   because the alternative is a silent full-MySQL run that is indistinguishable
+     *   from a successful ClickHouse one - the worst failure mode a benchmark has.
+     * - **0**: assert MySQL, whatever the host block says. This is the useful state the
+     *   old boolean could not express: the MySQL side of an A/B with the ClickHouse
+     *   credentials left in place.
+     *
+     * Note there is no third possibility once this returns true. When the analytics
+     * database is on and a query cannot be served, it fails; {@link getAnalytics()}
+     * never falls back to MySQL. That is a recorded project decision - a fallback hides
+     * exactly the coverage gaps the analytics database is being evaluated for.
      *
      * @internal
      * @ignore
+     * @throws Exception if the analytics database is explicitly enabled but has no host
      */
     public static function hasAnalyticsConfigured(): bool
     {
         $config = self::getAnalyticsDatabaseConfig();
+        $enabled = trim((string) ($config['enabled'] ?? ''));
 
-        return !empty($config['host']);
+        if ('' === $enabled) {
+            return !empty($config['host']);
+        }
+
+        if (!filter_var($enabled, FILTER_VALIDATE_BOOLEAN)) {
+            return false;
+        }
+
+        if (empty($config['host'])) {
+            throw new Exception(
+                'The analytics database is enabled ([database_analytics] enabled = 1) but no host is'
+                . ' configured. Set [database_analytics] host, or set enabled = 0 to run on MySQL.'
+                . ' This is deliberately fatal rather than a fallback: a mistyped host key would'
+                . ' otherwise produce a full MySQL run that looks like a successful ClickHouse one.'
+            );
+        }
+
+        return true;
     }
 
     /**
@@ -138,6 +175,14 @@ class Db implements TransactionalDatabaseInterface
                 'username' => getenv('CLICKHOUSE_USER'),
                 'password' => getenv('CLICKHOUSE_PASSWORD'),
                 'dbname' => getenv('CLICKHOUSE_DATABASE'),
+                // Query settings, unset everywhere by default (see [database_analytics]
+                // in global.ini.php). The ddev and CI containers are small enough to need
+                // the constrained values back, and they have no config file to put them
+                // in, so they arrive the same way the connection details do.
+                'max_threads' => getenv('CLICKHOUSE_MAX_THREADS'),
+                'max_bytes_before_external_sort' => getenv('CLICKHOUSE_MAX_BYTES_BEFORE_EXTERNAL_SORT'),
+                'max_bytes_before_external_group_by' => getenv('CLICKHOUSE_MAX_BYTES_BEFORE_EXTERNAL_GROUP_BY'),
+                'join_algorithm' => getenv('CLICKHOUSE_JOIN_ALGORITHM'),
             ];
             foreach ($envOverrides as $key => $value) {
                 if ($value !== false && $value !== '') {
@@ -146,13 +191,28 @@ class Db implements TransactionalDatabaseInterface
             }
         }
 
+        // The one env override that is NOT gated on test mode, because it is safe in a way
+        // the block above is not: it can only ever turn the analytics database OFF. That
+        // asymmetry is the whole point. An env var that can ENABLE ClickHouse reintroduces
+        // the update-flow bug described above - the second, plain Matomo installed by those
+        // specs inherits the CI job environment and has no ClickHouse copy of its database.
+        // An env var that can only disable cannot route anything anywhere new.
+        //
+        // It exists so one deployed config can serve both sides of an A/B run: leave
+        // [database_analytics] enabled = 1 in place and export MATOMO_ANALYTICS_DB_DISABLED=1
+        // for the MySQL leg, instead of hand-editing connection details between two timed
+        // runs and hoping the edit was put back.
+        if (filter_var((string) getenv('MATOMO_ANALYTICS_DB_DISABLED'), FILTER_VALIDATE_BOOLEAN)) {
+            $config['enabled'] = '0';
+        }
+
         if (!empty($config['host'])) {
             $config['adapter'] = $config['adapter'] ?? 'CLICKHOUSE';
             // The dev/CI convention: both the ddev service and the CI service container
             // create the 'matomo' user. A configured username still wins.
             if (empty($config['username'])) {
                 $config['username'] = 'matomo';
-                $config['password'] = $config['password'] ?: 'matomo';
+                $config['password'] = ($config['password'] ?? '') ?: 'matomo';
             }
             if (empty($config['dbname'])) {
                 // Mirror the MySQL database name (matches the CDC sink convention).

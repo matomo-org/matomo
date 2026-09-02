@@ -225,6 +225,40 @@ identifier followed by the operator, so the word "like" inside a string literal 
 alone. On the hex-encoded binary columns `ILIKE` is marginally more permissive than MySQL's
 case sensitive binary comparison, but those values are always written lower case.
 
+### 3.2a `ILIKE` is correct and unindexable at the same time (DEV-20751)
+
+**Where:** `log_action.name`, which is every action-scope segment component — the expensive
+half of the compound segments the benchmark measures.
+
+**Why:** `ngrambf_v1` is **never consulted for `ILIKE`**, only for `LIKE`. So §3.2's fix,
+which is the right answer for correctness, is at the same time a silent performance cliff:
+it turns a skip-index lookup into a scan of `log_action` (242 million rows on the POC
+corpus). This is the one place where the correctness fix and the speed fix pull in opposite
+directions, and it has to be resolved deliberately rather than by picking one.
+
+**Change:** get both properties instead of trading them. The copy carries a
+`name_lower String MATERIALIZED lower(name)` column with an `ngrambf_v1(4, 262144, 3, 0)`
+index on it, and the translator points segment `LIKE`s at that column while lowercasing the
+needle — literals during translation, bound values in
+`lowercaseNeedlesForIndexedColumns()` once the binds have names to match them by. The result
+is case-insensitive *and* index-eligible.
+
+Two details that matter:
+
+- **`strtolower()`, never `mb_strtolower()`.** The stored column is ClickHouse's `lower()`,
+  which is ASCII-only. Lowering the needle further than the column was lowered would stop it
+  matching.
+- **The needle is lowered in PHP, not with `lower()` in the SQL.** Index usage then never
+  depends on the planner constant-folding a function call.
+
+The column is created by `ClickhouseLogTableSync` rather than only by
+`bench/clickhouse-indices.sql`, so it exists wherever the adapter runs — a ClickPipes Resync
+drops the hand-applied copy silently, and the rewrite must not depend on someone remembering
+to re-apply it.
+
+`n = 4` in the index means needles shorter than four characters cannot use it. They still
+match; they are just not accelerated.
+
 ### 3.3 Still open: a numeric column compared with free text
 
 **Where:** any segment on a numeric column given a non-numeric value. The GDPR tools spec
@@ -338,10 +372,18 @@ rearchiving for this period"* notice, because Matomo took the nothing-to-archive
   name: the copies are `ReplacingMergeTree`, so reads must collapse row versions.
 - **`session_timezone = 'UTC'`** is pinned so a server in another timezone cannot shift
   `toDate()`/`toHour()` results.
-- **`join_algorithm` is configurable**, not pinned. It defaults to `grace_hash`, which
-  spills to disk and is what keeps the wide segment joins alive in the small ddev and CI
-  containers — but that is a constraint of those containers, not of production, where
-  `auto` is normally faster. Set it per deployment in `[database_analytics]`.
+- **Sizing settings are unset by default (DEV-20751).** `max_threads`,
+  `max_bytes_before_external_sort`, `max_bytes_before_external_group_by` and
+  `join_algorithm` are all `[database_analytics]` keys that are **empty** in
+  `global.ini.php`, and empty means the setting is not sent at all — the ClickHouse server's
+  own default applies. They used to be pinned to values chosen for a 2.55 GiB ddev
+  container, which is exactly wrong on production hardware: `max_threads = 2` throws away
+  most of the parallel scan that is ClickHouse's whole advantage, and spilling a sort or an
+  aggregation while memory is still free is pure loss. The constrained environments opt back
+  in explicitly, through `CLICKHOUSE_MAX_THREADS` and friends in the ddev `web_environment`
+  and the CI job env (test mode only, like every other `CLICKHOUSE_*` override). Verified
+  against `system.query_log`'s `Settings` map, not by reading the code: unconfigured, none of
+  the four appear; configured, all four do.
 - **Row post-processing** strips qualified names, reverses the hex encoding and trims
   microseconds from `TIME`-like values, so callers see what `Db::fetchAll()` would return on
   MySQL.
@@ -349,6 +391,69 @@ rearchiving for this period"* notice, because Matomo took the nothing-to-archive
   how nearly every problem in this document was found. Statements and the log-table copy were
   wrapped later, after 26 UI failures surfaced only as an uncaught `DatabaseException` with no
   indication of what had run.
+- **`count(DISTINCT user_id)` is wrong by exactly one, invisibly (DEV-20751).** MySQL's
+  `COUNT(DISTINCT)` ignores `NULL`. ClickPipes maps `user_id` to a **non-nullable** `String`,
+  so every MySQL `NULL` arrives as `''` — which `uniqExact` counts as a value, adding one
+  spurious unique to every day, on every site. Measured against ClickHouse 25.8 on 2 Sep
+  2026, for data whose MySQL answer is 2:
+
+  | destination column | `count(DISTINCT user_id)` | `uniqExactIf(user_id, user_id != '')` |
+  |---|---|---|
+  | `String` (ClickPipes) | **3** — wrong | 2 |
+  | `Nullable(String)` (in-test sync) | 2 | 2 |
+
+  The translator emits the guarded form, which is correct on **both** mappings. That matters
+  more than it looks: the defect is invisible exactly where it would be tested, because the
+  in-test sync produces `Nullable` columns and therefore gets the right answer, while the
+  destination the POC measures against does not. The number is plausible and wrong by one, so
+  no row-count check catches it.
+
+  `uniq\w*` was also added to the translator's aggregate-detection list — without it
+  `uniqExactIf()` is not recognised as an aggregate, gets wrapped in `any()` by the GROUP BY
+  fixer and is rejected with `ILLEGAL_AGGREGATION`.
+
+- **PIPE CONFIGURATION REQUIREMENT: `idaction_url_ref` / `idaction_name_ref` must be
+  replicated as `Nullable` (DEV-20751).** ClickPipes maps them to plain `UInt32`, so every
+  MySQL `NULL` arrives as `0`. Matomo's Transitions query branches on
+  `idaction_url_ref IS NULL` — "site search referrers are logged with `url_ref = NULL`; when
+  we find one we have to join on `name_ref`" — and against that destination the branch can
+  never fire.
+
+  **This one cannot be repaired in the adapter, and the attempt is instructive.** Rewriting
+  `IS NULL` to `(IS NULL OR = 0)` looks obviously right and is wrong: `0` and `NULL` are
+  *both* meaningful in this column and they mean different things — `0` is "this action had
+  no referring action at all", `NULL` is "the referrer was a site search". Treating them
+  alike moves site searches into the wrong bucket; measured 2 Sep 2026, it added a spurious
+  `previousSiteSearches` row to three of the seven Transitions system tests. The destination
+  has genuinely lost information, so the fix belongs in the pipe, not here.
+
+- **`log_action` must never be joined unrestricted (DEV-20751).** ClickHouse builds a join
+  hash table from the **right** side, and in Transitions the right side is `log_action`: 242
+  million rows on the POC corpus. Joining it whole is not slow, it is fatal — the first
+  attempt died with `MEMORY_LIMIT_EXCEEDED` at 14.40 GiB.
+  `LogAggregator::getActionRestrictionSubQuery()` therefore replaces the table reference with
+  a sub-select restricted to the ids the report can actually reach, which turns the join into
+  a primary-key lookup because `idaction` **is** `log_action`'s sorting key.
+  `JoinGenerator` grew a `tableSubQuery` key to carry it; the entry keeps its `table` name so
+  table sorting and join discovery are unaffected.
+
+  Three deliberate properties:
+
+  - **It applies to the analytics database only.** On MySQL the unrestricted join is both
+    correct and the better plan, so the helper returns `null` there.
+  - **The restriction is a superset and omits the segment.** The join is on an
+    already-segment-filtered expression, so the answer is identical either way — and leaving
+    the segment out means the expensive part of a segmented query runs once rather than
+    twice. On the POC corpus that took segmented Transitions from 16.06s to 6.48s with
+    byte-identical output.
+  - **The site and date bounds are inlined, not bound.** A sub-select in `FROM` is emitted
+    ahead of the `WHERE`, so binding them would mean splicing values into the middle of a
+    positional bind list that `Segment::getSelectQuery()` also contributes to, and a bind
+    list in the wrong order is a silently wrong answer rather than an error. The values are
+    internally generated (formatted `Date` objects, integer site ids), never request input,
+    and the helper bails out rather than guessing if the caller's extra `WHERE` carries
+    placeholders of its own.
+
 - **Known accepted drift:** `DECIMAL` trailing zeros — MySQL returns `'0.0620'` where
   ClickHouse returns `0.062`. Visible only in ClickHouse-routed system tests run locally, and
   rounded away in the UI.
@@ -387,3 +492,97 @@ rearchiving for this period"* notice, because Matomo took the nothing-to-archive
   `UIIntegrationTest_admin_diagnostics_configfile.png` locally produced a 6.4 million pixel
   diff of pure rendering difference. Take the `processed` image from the build artifacts
   instead.
+
+---
+
+## 8. Switching between MySQL and the analytics database (DEV-20751)
+
+`[database_analytics] enabled` is a **three-state** switch, so one value flips a whole
+install without anyone editing connection details between the two legs of an A/B run:
+
+| `enabled` | Behaviour |
+|---|---|
+| *(empty, the default)* | Infer from `host`: set means ClickHouse, unset means MySQL. This is the pre-6.0 rule, so nothing changes for an install that has a host configured today. |
+| `1` | Assert ClickHouse. A missing host **throws**. |
+| `0` | Assert MySQL, even with a fully populated host block — the MySQL leg of an A/B, with the ClickHouse credentials left in place. |
+
+Two things about this are deliberate, and both are about failure modes rather than
+convenience:
+
+- **`enabled = 1` with no host is fatal, not a fallback.** Under the old rule "not
+  configured" and "use MySQL" were the same state, so a typo in the host key gave you a full
+  MySQL run that looked exactly like a successful ClickHouse run. On a benchmark that is the
+  worst failure available. This is the existing no-fallback rule on routed reads, applied one
+  level up.
+- **The environment override can only ever *disable*.** `MATOMO_ANALYTICS_DB_DISABLED=1`
+  forces `enabled = 0`, and it is the one `CLICKHOUSE_*`-family override that is **not**
+  gated on `PIWIK_TEST_MODE` — safe precisely because of that asymmetry. An env var that
+  could *enable* would reintroduce the update-flow bug in §7: the second, plain Matomo those
+  specs install inherits the CI job environment and has no ClickHouse copy of its database.
+  A switch that can only turn things off cannot route anything anywhere new.
+
+The no-fallback rule on routed reads is unchanged. When the analytics database is on and a
+query cannot be served, it fails loudly.
+
+---
+
+## 9. Emitted SQL versus the tuned benchmark SQL (DEV-20751)
+
+The published ClickHouse timings were measured by running **hand-written** SQL
+(`bench/queries/*.clickhouse.sql`) through `bench/bench.py`. Matomo itself has never produced
+those queries. `bench/tools/dump-emitted-clickhouse-sql.php` captures what the adapter
+actually emits for each of the 12 benchmark shapes so the gap can be read rather than
+guessed.
+
+**Closed** — the emitted SQL now carries these:
+
+| Rule | Where it lives | Why there |
+|---|---|---|
+| Restrict `log_action` before joining it | `LogAggregator::getActionRestrictionSubQuery()` + `JoinGenerator` | Structural, and a plugin can reach this path with SQL no regex would match. Also needs the unbound `WHERE`, which only exists upstream. |
+| `LIKE` on `name_lower`, not `ILIKE` on `name` | translator + adapter | Purely a ClickHouse dialect/index concern. The bind half has to be in the adapter because that is the first point where SQL and values are both known. |
+| `uniqExactIf`, not `uniqExact` | translator | Same: a property of the destination column type, not of Matomo. |
+| Window functions instead of `@counter` | `RankingQuery` (already present) | Structural, and MySQL 8 wants it too. |
+
+**Still open**, and deliberately not attempted here:
+
+- **The semi-join (`idvisit IN (SELECT ...)` instead of `LEFT JOIN` + `GROUP BY`).** This is
+  the single largest remaining gap and the one the benchmark README calls "the whole rewrite;
+  everything else is bookkeeping". The emitted Visits Log still fans a visit out to one row
+  per matching action and collapses it with `LIMIT 1 BY idvisit`, which is *correct* but is a
+  different shape from the tuned SQL and keeps the fan-out cost.
+
+  It belongs upstream in `LogQueryBuilder`, not in the translator — it is far too structural
+  for a textual rewrite. The hazard to design around is bind ordering: moving a joined table
+  into a `WHERE ... IN (SELECT ...)` moves its placeholders relative to the ones
+  `Segment::getSelectQuery()` contributes, and a positional bind list in the wrong order is a
+  silently wrong answer rather than an error. The three rules that travel with it are not
+  optional — both action-scope components in the *same* subquery, the site and date filter
+  repeated inside every subquery, and one day of slack on the action lower bound (bounding it
+  to exactly the window dropped 6 of 68,804 visits when checked on 27 Aug 2026).
+
+- **`FINAL` on `log_visit` only.** The adapter sets `final = 1` connection-wide, so FINAL
+  applies to every table in every statement. Only `log_visit` needs it: Matomo `UPDATE`s that
+  table on every action, while `log_action` and `log_link_visit_action` are insert-only and
+  `IN` collapses duplicates anyway. **This needs a p200 measurement before a decision, and
+  that measurement is not reproducible on a laptop** — a ddev fixture is a few thousand rows.
+  The setting is deliberately left alone rather than changed on principle. Note the reason it
+  was chosen over the `FINAL` keyword in the first place — the setting reaches subqueries
+  where the keyword does not — has to be *solved*, not forgotten, if it is ever made
+  selective.
+
+### `RankingQuery` agrees with the benchmark (verified, not read)
+
+The benchmark writes `row_number() OVER (PARTITION BY action_partition, is_self ORDER BY ...)`;
+the adapter emits a running conditional count over
+`ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW`, partitioned by `action_partition` alone
+and counting only rows where `is_self = 0`.
+
+These are the same function. For an `is_self = 0` row the adapter's running count is its rank
+among `is_self = 0` rows in the partition, which is exactly what partitioning on `is_self`
+gives the benchmark; `is_self != 0` rows take the `-is_self` sentinel in both and consume no
+rank in either, which is what the MySQL original does by short-circuiting the `CASE` before
+the counter increments. The caps agree too (`>= 1001` against `> 1000`).
+
+Confirmed by output on 2 Sep 2026: the seven Transitions system tests pass against ClickHouse,
+including the top-N boundary where a one-row shift is the whole symptom. **The adapter's form
+is the faithful one and the benchmark should be read as agreeing with it**, not the reverse.

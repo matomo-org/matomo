@@ -256,12 +256,70 @@ class ClickhouseDialectTranslatorTest extends \PHPUnit\Framework\TestCase
     {
         // MySQL matches LIKE case insensitively under its default collation, which is what
         // segments such as pageUrl=@Foo rely on; ClickHouse's LIKE is case sensitive.
-        $sql = "SELECT idvisit FROM log_link_visit_action WHERE log_action.name LIKE ? AND idvisit NOT LIKE ?";
+        // log_action.name is the exception, and is covered by its own tests below.
+        $sql = "SELECT idvisit FROM log_link_visit_action WHERE location_country LIKE ? AND idvisit NOT LIKE ?";
         $translated = ClickhouseDialectTranslator::translate($sql);
 
-        self::assertStringContainsString('toString(log_action.name) ILIKE ?', $translated);
+        self::assertStringContainsString('toString(location_country) ILIKE ?', $translated);
         self::assertStringContainsString('toString(idvisit) NOT ILIKE ?', $translated);
         self::assertStringNotContainsString(' LIKE ', $translated);
+    }
+
+    public function testPointsActionNameLikeAtTheLowercasedIndexedColumnInsteadOfIlike()
+    {
+        // ngrambf_v1 is never consulted for ILIKE, so making the segment case insensitive
+        // the obvious way would be correct and unindexable at the same time. Comparing
+        // the MATERIALIZED lower(name) column with a lowered needle is both.
+        $sql = "SELECT idvisit FROM log_link_visit_action WHERE log_action.name LIKE ?";
+        $translated = ClickhouseDialectTranslator::translate($sql);
+
+        self::assertStringContainsString('log_action.`name_lower` LIKE ?', $translated);
+        self::assertStringNotContainsString('ILIKE', $translated);
+    }
+
+    public function testPointsSegmentAliasedActionNameLikeAtTheIndexedColumnAndLowersALiteralNeedle()
+    {
+        // The alias JoinGenerator produces for an action-scope segment component.
+        $sql = "SELECT idvisit FROM log_link_visit_action "
+            . "WHERE log_action_segment_log_link_visit_actionidaction_url.name LIKE '%Budget%'";
+        $translated = ClickhouseDialectTranslator::translate($sql);
+
+        self::assertStringContainsString(
+            "log_action_segment_log_link_visit_actionidaction_url.`name_lower` LIKE '%budget%'",
+            $translated
+        );
+    }
+
+    public function testLowersBoundNeedlesForTheIndexedColumnOnly()
+    {
+        $sql = 'SELECT idvisit FROM log_action WHERE `name_lower` LIKE :chBind000 AND type = :chBind001';
+        $params = ClickhouseDialectTranslator::lowercaseNeedlesForIndexedColumns(
+            $sql,
+            ['chBind000' => '%Budget%', 'chBind001' => 'Budget']
+        );
+
+        self::assertSame('%budget%', $params['chBind000']);
+        // Not feeding a name_lower LIKE, so it keeps its case.
+        self::assertSame('Budget', $params['chBind001']);
+    }
+
+    public function testGuardsCountDistinctOnColumnsWhoseNullsTheCopyFlattened()
+    {
+        // MySQL's COUNT(DISTINCT) ignores NULL. user_id lands as a non-nullable String on
+        // the ClickPipes destination, so every NULL arrives as '' and uniqExact counts it
+        // as a value - one spurious extra distinct, on every day, on every site.
+        $sql = "SELECT count(distinct log_visit.user_id) AS `39` FROM log_visit";
+        self::assertStringContainsString(
+            "uniqExactIf(log_visit.user_id, log_visit.user_id != '')",
+            ClickhouseDialectTranslator::translate($sql)
+        );
+
+        // idvisitor is NOT NULL in MySQL, so it must keep plain count(distinct).
+        $sql = "SELECT count(distinct log_visit.idvisitor) FROM log_visit";
+        self::assertStringContainsString(
+            'count(distinct log_visit.idvisitor)',
+            ClickhouseDialectTranslator::translate($sql)
+        );
     }
 
     public function testLeavesTheWordLikeInsideAStringLiteralAlone()
@@ -335,6 +393,7 @@ class ClickhouseDialectTranslatorTest extends \PHPUnit\Framework\TestCase
             'any(CASE WHEN llva.idaction_url_ref = 6 THEN 1 ELSE 0 END) AS is_self',
             $translated
         );
+        // The unaliased grouping expression must stay untouched
         // The unaliased grouping expression must stay untouched
         self::assertStringContainsString(
             'SELECT if(llva.idaction_url_ref IS NULL, llva.idaction_name_ref, llva.idaction_url_ref), count(*)',

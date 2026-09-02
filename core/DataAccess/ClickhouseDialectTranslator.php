@@ -51,6 +51,8 @@ class ClickhouseDialectTranslator
         $sql = self::translateFunctions($sql);
         $sql = self::rewriteVisitDedup($sql);
         $sql = self::rewriteEmptyStringComparisons($sql);
+        $sql = self::rewriteCountDistinctOnNullableColumns($sql);
+        $sql = self::rewriteActionNameLikeToIndexedColumn($sql);
         $sql = self::rewriteLikeComparisons($sql);
         $sql = self::aliasQualifiedSelectColumns($sql);
         $sql = self::fixGroupBy($sql);
@@ -237,6 +239,67 @@ class ClickhouseDialectTranslator
     }
 
     /**
+     * Columns that are NULLable in MySQL and whose MySQL NULLs may not have survived the
+     * copy into ClickHouse.
+     *
+     * MySQL's COUNT(DISTINCT x) ignores NULL. Both replication paths in use land these
+     * as a *non-nullable* String, so every MySQL NULL arrives as the empty string - which
+     * ClickHouse's uniqExact then counts as a value, giving one spurious extra distinct
+     * on every row group. Measured 2 Sep 2026 against ClickHouse 25.8 on the two possible
+     * mappings, for data whose MySQL answer is 2:
+     *
+     * | destination column | count(DISTINCT user_id) | uniqExactIf(user_id, != '') |
+     * |--------------------|-------------------------|-----------------------------|
+     * | String             | 3  (wrong)              | 2                           |
+     * | Nullable(String)   | 2                       | 2                           |
+     *
+     * The guarded form is therefore correct on BOTH mappings, which matters because the
+     * defect is invisible where it is most likely to be tested: the in-test log table
+     * sync produces Nullable columns and so gets the right answer, while the ClickPipes
+     * destination the POC measures against does not. The number is plausible and wrong by
+     * exactly one, so no row-count check catches it.
+     */
+    private const NULL_FLATTENED_STRING_COLUMNS = ['user_id'];
+
+    /*
+     * NOT TRANSLATED, AND NOT TRANSLATABLE: the nullable idaction_url_ref /
+     * idaction_name_ref columns.
+     *
+     * ClickPipes maps them to plain UInt32, so every MySQL NULL arrives as 0. Matomo's
+     * Transitions query branches on `idaction_url_ref IS NULL` ("site search referrers are
+     * logged with url_ref = NULL; when we find one we have to join on name_ref"), and
+     * against that destination the branch can never fire.
+     *
+     * Rewriting IS NULL to `(IS NULL OR = 0)` here looks like the obvious repair and is
+     * wrong. 0 and NULL are BOTH meaningful in this column and they mean different things:
+     * 0 is "this action had no referring action at all", NULL is "the referrer was a site
+     * search". Treating them alike moves site searches into the wrong bucket - measured
+     * 2 Sep 2026, it added a spurious previousSiteSearches row to three of the seven
+     * Transitions system tests.
+     *
+     * So the destination has genuinely lost information the adapter cannot reconstruct,
+     * and this is a PIPE CONFIGURATION REQUIREMENT rather than a dialect difference: the
+     * idaction_*_ref columns must be replicated as Nullable. Recorded in CLICKHOUSE.md §6.
+     */
+
+    /**
+     * Reproduces MySQL's "COUNT(DISTINCT) ignores NULL" on columns whose NULLs the copy
+     * flattened to the empty string.
+     *
+     * @see NULL_FLATTENED_STRING_COLUMNS for the measurement this is based on.
+     */
+    private static function rewriteCountDistinctOnNullableColumns(string $sql): string
+    {
+        $columns = implode('|', self::NULL_FLATTENED_STRING_COLUMNS);
+
+        return preg_replace(
+            '~\bcount\s*\(\s*distinct\s+((?:`?\w+`?\.)?`?(?:' . $columns . ')`?)\s*\)~i',
+            "uniqExactIf($1, $1 != '')",
+            $sql
+        ) ?? $sql;
+    }
+
+    /**
      * Adjusts LIKE comparisons for ClickHouse in two ways.
      *
      * MySQL allows LIKE on numeric columns by casting (the GDPR data subject search
@@ -255,11 +318,80 @@ class ClickhouseDialectTranslator
      */
     private static function rewriteLikeComparisons(string $sql): string
     {
-        return preg_replace(
+        return preg_replace_callback(
             '~((?:`?\w+`?\.)?`?\w+`?)(\s+(?:NOT\s+)?)LIKE(\s)~i',
-            'toString($1)$2ILIKE$3',
+            static function (array $matches): string {
+                // rewriteActionNameLikeToIndexedColumn() has already made this pair
+                // case-insensitive by construction, and turning it into ILIKE here would
+                // undo the only reason that rewrite exists.
+                if (preg_match('~`?name_lower`?$~i', $matches[1])) {
+                    return $matches[0];
+                }
+
+                return 'toString(' . $matches[1] . ')' . $matches[2] . 'ILIKE' . $matches[3];
+            },
             $sql
         ) ?? $sql;
+    }
+
+    /**
+     * Points segment LIKEs on log_action.name at the lowercased, indexed copy of that
+     * column, and lowercases the needle to match.
+     *
+     * This is the one place where the correctness fix and the performance fix pull in
+     * opposite directions. MySQL's default collation matches LIKE case-insensitively,
+     * which is what a segment such as pageUrl=@Foo relies on, and the obvious ClickHouse
+     * equivalent is ILIKE. But `ngrambf_v1` is never consulted for ILIKE - only for LIKE -
+     * so the obvious fix is correct and unindexable at once, and on the 200M-hit corpus
+     * that is the difference between a scan of log_action and a skip.
+     *
+     * Both properties are available together by comparing against the MATERIALIZED
+     * lower(name) column with an already-lowercased needle, which is what the benchmark
+     * SQL does and what {@see \Piwik\Db\ClickhouseLogTableSync} now creates.
+     *
+     * A literal needle is lowered here; a bound one is lowered by
+     * {@see lowercaseNeedlesForIndexedColumns()} once the binds are known. Both use
+     * strtolower() rather than mb_strtolower() deliberately: the stored column is
+     * ClickHouse's lower(), which is also ASCII-only, and lowering the needle further
+     * than the column would stop it matching.
+     */
+    private static function rewriteActionNameLikeToIndexedColumn(string $sql): string
+    {
+        return preg_replace_callback(
+            '~(`?log_action\w*`?)\.`?name`?(\s+(?:NOT\s+)?LIKE\s+)(\'(?:[^\'\\\\]|\\\\.)*\'|\?|:\w+)~i',
+            static function (array $matches): string {
+                $needle = $matches[3];
+                if (isset($needle[0]) && "'" === $needle[0]) {
+                    $needle = strtolower($needle);
+                }
+
+                return $matches[1] . '.`name_lower`' . $matches[2] . $needle;
+            },
+            $sql
+        ) ?? $sql;
+    }
+
+    /**
+     * Lowercases the bind values feeding the LIKEs {@see rewriteActionNameLikeToIndexedColumn()}
+     * pointed at the lowercased column. Called by the adapter once positional binds have
+     * been named, because that is the first point at which SQL and values are both known.
+     *
+     * @param array<string, mixed> $params
+     * @return array<string, mixed>
+     */
+    public static function lowercaseNeedlesForIndexedColumns(string $sql, array $params): array
+    {
+        if (!preg_match_all('~`?name_lower`?\s+(?:NOT\s+)?LIKE\s+:(\w+)~i', $sql, $matches)) {
+            return $params;
+        }
+
+        foreach ($matches[1] as $name) {
+            if (isset($params[$name]) && is_string($params[$name])) {
+                $params[$name] = strtolower($params[$name]);
+            }
+        }
+
+        return $params;
     }
 
     // -------------------------------------------------------------------------
@@ -1143,7 +1275,11 @@ class ClickhouseDialectTranslator
         }
 
         return (bool) preg_match(
-            '/\b(?:count|sum|min|max|avg|group_concat|groupArray|groupUniqArray|countDistinct|uniq|uniqExact|'
+            // uniq\w* rather than uniq|uniqExact: ClickHouse's -If combinator makes
+            // uniqExactIf() (which rewriteCountDistinctOnNullableColumns() emits) just as
+            // much an aggregate, and missing it gets the call wrapped in any() and rejected
+            // with ILLEGAL_AGGREGATION.
+            '/\b(?:count|sum|min|max|avg|group_concat|groupArray|groupUniqArray|countDistinct|uniq\w*|'
             . 'any|anyLast|stddev(?:_pop|_samp)?|var(?:_pop|_samp)?|bit_and|bit_or|bit_xor|'
             . 'sumIf|countIf|minIf|maxIf|avgIf|argMin|argMax|quantile\w*|median\w*|topK\w*)\s*\(/i',
             $expr

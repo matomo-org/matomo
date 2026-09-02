@@ -91,6 +91,20 @@ aurora_readonly_read_committed =
 ; CLICKHOUSE_HOST/PORT/USER/PASSWORD/DATABASE environment variables override these
 ; values (used by CI and test fixtures).
 [database_analytics]
+; Three-state switch between MySQL and the analytics database (ClickHouse), so that one
+; value flips a whole install without anyone editing connection details between the two
+; legs of an A/B run.
+;   (empty) - infer from 'host' below: set means ClickHouse, unset means MySQL. This is
+;             the pre-6.0 behaviour and the default, so nothing changes for an existing
+;             install that has a host configured today.
+;   1       - assert ClickHouse. A missing host is then a misconfiguration and Matomo
+;             throws rather than quietly serving everything from MySQL, which is
+;             indistinguishable from a successful ClickHouse run.
+;   0       - assert MySQL even with a fully populated host block below. This is the
+;             MySQL leg of an A/B, with the ClickHouse credentials left in place.
+; MATOMO_ANALYTICS_DB_DISABLED=1 in the environment forces 0. That override can only ever
+; disable, never enable, which is what makes it safe to leave ungated.
+enabled =
 host =
 port = 8123
 ; Empty username/password defaults to the dev convention matomo/matomo (the ddev
@@ -105,12 +119,31 @@ adapter = CLICKHOUSE
 ; environment's log table sync. Empty = same host PHP uses. CI sets
 ; CLICKHOUSE_SYNC_MYSQL_HOST=host.docker.internal instead.
 sync_mysql_host =
-; JOIN algorithm for analytics queries; any value ClickHouse accepts for its
-; join_algorithm setting. grace_hash spills to disk, which is what keeps the wide
-; segment joins alive in the small ddev and CI containers. On production-sized hardware
-; 'auto' - hash first, falling back only under memory pressure - is normally faster, so
-; this is worth revisiting per deployment rather than leaving pinned.
-join_algorithm = grace_hash
+; ClickHouse query settings, forwarded on every analytics connection. All four are
+; EMPTY by default, and empty means "do not send this setting at all" - the ClickHouse
+; server's own default applies. That is the right answer for production hardware; these
+; were previously pinned to values sized for a 2.55 GiB ddev container, which cost most
+; of ClickHouse's parallel scan and spilled to disk while memory was still free.
+; The constrained environments set them back explicitly (the ddev web_environment and
+; the CI job env export CLICKHOUSE_MAX_THREADS and friends; see Db::
+; getAnalyticsDatabaseConfig(), which applies those only in test mode).
+;
+; max_threads: parallel scan streams. Unset = one per core, which is the whole point of
+; ClickHouse; 2 is a small-container survival value.
+max_threads =
+; Spill thresholds for ORDER BY and GROUP BY, in bytes. Unset = the server default.
+; Archiving is aggregation-heavy, so the GROUP BY threshold matters as much as the sort
+; one: on a small container an unspilled wide aggregation (the PagePerformance totals
+; over log_link_visit_action, for one) dies with MEMORY_LIMIT_EXCEEDED in
+; AggregatingTransform.
+max_bytes_before_external_sort =
+max_bytes_before_external_group_by =
+; JOIN algorithm; any value ClickHouse accepts for its join_algorithm setting.
+; grace_hash spills to disk, which is what keeps the wide segment joins alive in the
+; small ddev and CI containers. Unset leaves ClickHouse on its own default ('auto' on
+; current versions - hash first, falling back only under memory pressure), which is
+; normally faster on production-sized hardware.
+join_algorithm =
 
 [database_tests]
 host = "127.0.0.1"
