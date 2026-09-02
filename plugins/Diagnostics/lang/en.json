@@ -1,6 +1,18 @@
 {
     "Diagnostics": {
         "ConfigFileTitle": "Config file",
+        "ConfigWriteMode": "Config file write mode",
+        "ConfigWriteModeAtomic": "Nothing prevents Matomo from replacing the configuration file atomically, so a request reading it while it is being saved cannot see an incomplete file. An ACL or SELinux label applied to the configuration file itself is not carried over when the file is replaced; a default ACL on the configuration directory is.",
+        "ConfigWriteModeDirNotWritable": "The directory %1$s is not writable, so the configuration file cannot be replaced atomically and is written in place instead. A request that reads it while it is being saved may see an incomplete file. Making the directory writable avoids this:",
+        "ConfigWriteModeDisabled": "Replacing the configuration file atomically has been disabled through the \"config.atomicwrite.enable\" container setting. While it is off, a request that reads the configuration file while it is being saved may see an incomplete file.",
+        "ConfigWriteModeFileNotWritable": "The configuration file %1$s is not writable, so it cannot be saved at all. This is expected if you made it read-only on purpose.",
+        "ConfigWriteModeHardLinked": "The configuration file %1$s has more than one hard link, so it is written in place to keep both names pointing at the same contents. A request that reads it while it is being saved may see an incomplete file.",
+        "ConfigWriteModeInPlace": "The configuration file is written in place.",
+        "ConfigWriteModeMissingFunction": "Matomo cannot set file permissions or determine file ownership on this server, so the configuration file is written in place rather than replaced. A request that reads it while it is being saved may see an incomplete file.",
+        "ConfigWriteModeNotWritable": "The configuration file cannot be saved.",
+        "ConfigWriteModeOwnerMismatch": "The configuration file %1$s belongs to a different user than the one Matomo runs as, so it is written in place to keep its ownership. A request that reads it while it is being saved may see an incomplete file. Changing the file owner to the user Matomo runs as avoids this.",
+        "ConfigWriteModeUnresolvable": "The configuration file path %1$s cannot be resolved, for example because it is a symbolic link pointing nowhere, so the file is written in place rather than replaced. A request that reads it while it is being saved may see an incomplete file.",
+        "ConfigWriteModeUnsupported": "The filesystem holding %1$s does not support replacing the file atomically, so it is written in place. This is common when the configuration file is mounted on its own, for example as a single file in a container. A request that reads it while it is being saved may see an incomplete file.",
         "MysqlTemporaryTablesWarning": "MySQL Permission CREATE TEMPORARY TABLES is required for Matomo to work properly.",
         "MysqlTransactionLevel": "Changing transaction isolation level not supported. Archiving will still work but it may be slower and it is recommended to change for example the `binlog_format` to `row` if possible.",
         "MysqlMaxPacketSize": "Max Packet Size",
