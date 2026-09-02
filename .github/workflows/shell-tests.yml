@@ -1,0 +1,38 @@
+name: Shell tests
+
+on:
+  pull_request:
+    paths:
+      - '.ddev/**'
+      - 'tests/shell/**'
+      - '.github/workflows/shell-tests.yml'
+
+permissions:
+  actions: none
+  checks: none
+  contents: read
+  deployments: none
+  issues: none
+  packages: none
+  pull-requests: read
+  repository-projects: none
+  security-events: none
+  statuses: none
+
+jobs:
+  ddev-commands:
+    name: DDEV host commands (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        # the host commands run on every platform DDEV supports, Windows through Git Bash
+        os: [ubuntu-24.04, macos-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          lfs: false
+          persist-credentials: false
+      - name: Test the DDEV host commands
+        shell: bash
+        run: ./tests/shell/ddev-artifacts-commands.sh

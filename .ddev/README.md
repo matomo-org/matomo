@@ -102,6 +102,41 @@ When a plugin declares `require.php` in `plugin.json`, the mount command compare
 
 For more information about Matomo development, check out the official [Matomo Developer Documentation](https://developer.matomo.org/).
 
+## Syncing test files from CI
+
+When a build produces different UI screenshots or system test files than your checkout expects, you can copy the files CI generated back into your working copy:
+
+```
+ddev matomo:artifacts:sync-screenshots 12345 'Marketplace_.*'
+ddev matomo:artifacts:sync-system-tests 12345 -e
+```
+
+The first argument is the build number, and both commands accept `-r` to sync a plugin repository, eg `-r innocraft/plugin-FormAnalytics`.
+
+Syncing from `matomo-org/matomo` needs no setup, because core's own artifacts are public. Every other repository is protected, plugin repositories under `matomo-org` included, so the commands look up credentials whenever you point them somewhere else with `-r`. The credentials come from git, so they are stored wherever your credential helper keeps them and never appear in a file in the repository, in the process list or in your shell history — the password is handed to the console over STDIN.
+
+Store them once per machine:
+
+```
+ddev matomo:artifacts:login
+```
+
+Which credential helper git uses is your own configuration, exactly as it is for `git push`. Pick one that keeps the password in your operating system's credential store rather than in a file:
+
+```
+git config --global credential.helper osxkeychain   # macOS
+git config --global credential.helper manager       # Windows
+git config --global credential.helper libsecret     # Linux
+```
+
+Git ships the helpers for macOS and Windows, so nothing needs installing there. On Debian and Ubuntu the libsecret helper ships as source in `/usr/share/doc/git/contrib/credential/libsecret` and has to be built once. Inside WSL2, point git at the Windows credential manager instead. Note that `git config --global credential.helper store` writes `~/.git-credentials` in plain text, so it is a poor choice for this.
+
+Without a helper configured, git accepts the credentials and silently stores nothing, so `ddev matomo:artifacts:login` reads them back afterwards and tells you if that happened rather than reporting a success you did not get.
+
+These host commands are covered by `tests/shell/ddev-artifacts-commands.sh`, which needs neither DDEV nor credentials to run and is run by CI on Linux, macOS and Windows.
+
+The console commands behind these wrappers, `tests:sync-ui-screenshots` and `development:sync-system-test-processed`, can also be run through `ddev matomo:console` directly. They take the password as `--http-password`, or read it from STDIN with `--http-password-stdin`.
+
 ## Update PHP or MySQL version
 
 You can create `.ddev/config.local.yaml` to adjust the environment configuration. This file will be automatically ignored by git.
