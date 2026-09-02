@@ -23,7 +23,7 @@
         "DefaultSettingsHelp": "Matomo viene con una configuración predeterminada. Podés personalizarlas ahora o hacerlo después en la pantalla de administración.",
         "DownloadSystemCheck": "Descargar datos del sistema",
         "Email": "Correo electrónico",
-        "EmailPrivacyNotice": "Tu dirección de correo electrónico sólo será usada para enviarte el boletín informativo. Para esto, tenemos que compartir tu dirección de correo electrónico con un proveedor de terceros. Este proveedor actualmente es Mad Mini, pero podría cambiar en el futuro. No compartiremos tu correo electrónico con nadie más ni lo usaremos con otro propósito que no sea enviarte el boletín informativo. Podés desuscribirte en cualquier momento. Por favor, consultá nuestra %1$spolítica de privacidad%2$s para más información.",
+        "EmailPrivacyNotice": "Tu dirección de correo electrónico sólo será usada para enviarte el boletín informativo. No compartiremos tu correo electrónico con nadie más ni lo usaremos con otro propósito que no sea enviarte el boletín informativo. Podés desuscribirte en cualquier momento. Por favor, consultá nuestra %1$spolítica de privacidad%2$s para más información.",
         "Extension": "extensión",
         "FasterReportLoading": "carga más rápida de informe",
         "Filesystem": "Sistema de archivo",

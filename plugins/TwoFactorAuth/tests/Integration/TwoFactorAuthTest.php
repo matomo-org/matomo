@@ -17,6 +17,7 @@ use Piwik\Nonce;
 use Piwik\Session\SessionFingerprint;
 use Piwik\Session\SessionNamespace;
 use Piwik\Container\StaticContainer;
+use Piwik\Plugins\Login\Auth as LoginAuth;
 use Piwik\Plugins\Login\Security\BruteForceDetection;
 use Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeDao;
 use Piwik\Plugins\TwoFactorAuth\Dao\TwoFaSecretRandomGenerator;
@@ -28,6 +29,7 @@ use Piwik\Plugins\TwoFactorAuth\Validator;
 use Piwik\Plugins\UsersManager\API;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Plugins\UsersManager\UserUpdater;
+use Piwik\Request\AuthenticationToken;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
@@ -96,7 +98,14 @@ class TwoFactorAuthTest extends IntegrationTestCase
     public function tearDown(): void
     {
         $this->bruteForceDetection->deleteAll();
-        unset($_GET['authCode'], $_GET['authCodeNonce'], $_GET['module'], $_GET['action']);
+        unset(
+            $_GET['authCode'],
+            $_GET['authCodeNonce'],
+            $_GET['module'],
+            $_GET['action'],
+            $_GET['token_auth'],
+            $_GET['force_api_session']
+        );
         // the session is not reset between tests, so leftover fingerprints or setup secrets would leak
         $_SESSION = [];
     }
@@ -271,6 +280,69 @@ class TwoFactorAuthTest extends IntegrationTestCase
         $this->assertSame('login', $action);
         $this->assertNull($sessionFingerprint->getUser());
         $this->assertTrue(Access::getInstance()->wasSessionExpired());
+    }
+
+    public function testOnRequestDispatchRequiresTwoFactorAuthWhenTokenDidNotAuthenticateTheRequest()
+    {
+        // the session authenticated the request and kept its own token, so the supplied token is not
+        // the one the current access was granted with
+        $this->setCurrentUser($this->otherUserWith2Fa, 'pending-session-token');
+        $sessionFingerprint = new SessionFingerprint();
+        $sessionFingerprint->initialize($this->userWith2Fa, 'pending-session-token');
+
+        $this->setTokenAuthRequest('a-different-token', true);
+
+        $module = 'Widgetize';
+        $action = 'iframe';
+        $parameters = [];
+
+        $plugin = new TwoFactorAuth();
+        $plugin->onRequestDispatch($module, $action, $parameters);
+
+        $this->assertSame(\Piwik\Piwik::getLoginPluginName(), $module);
+        $this->assertSame('login', $action);
+    }
+
+    public function testOnRequestDispatchSkipsTwoFactorAuthWhenAuthenticatedByTokenOnly()
+    {
+        // the supplied token is the one the current access was granted with, which is needed eg for
+        // rendering exported widgets authenticated by token
+        $this->setCurrentUser($this->otherUserWith2Fa, 'a-token-that-authenticated');
+        $sessionFingerprint = new SessionFingerprint();
+        $sessionFingerprint->initialize($this->userWith2Fa, 'pending-session-token');
+
+        $this->setTokenAuthRequest('a-token-that-authenticated', false);
+
+        $module = 'Widgetize';
+        $action = 'iframe';
+        $parameters = [];
+
+        $plugin = new TwoFactorAuth();
+        $plugin->onRequestDispatch($module, $action, $parameters);
+
+        $this->assertSame('Widgetize', $module);
+        $this->assertSame('iframe', $action);
+    }
+
+    public function testOnRequestDispatchSkipsTwoFactorAuthWhenTokenAuthenticatedRequestDespiteForcedSessionAuth()
+    {
+        // `force_api_session=1` only asks for session authentication - when that does not happen the
+        // token still authenticates the request, and such a request stays exempt from 2fa
+        $this->setCurrentUser($this->otherUserWith2Fa, 'a-token-that-authenticated');
+        $sessionFingerprint = new SessionFingerprint();
+        $sessionFingerprint->initialize($this->userWith2Fa, 'pending-session-token');
+
+        $this->setTokenAuthRequest('a-token-that-authenticated', true);
+
+        $module = 'Widgetize';
+        $action = 'iframe';
+        $parameters = [];
+
+        $plugin = new TwoFactorAuth();
+        $plugin->onRequestDispatch($module, $action, $parameters);
+
+        $this->assertSame('Widgetize', $module);
+        $this->assertSame('iframe', $action);
     }
 
     public function testValidatorDetectsPendingSessionUserMismatch()
@@ -507,13 +579,33 @@ class TwoFactorAuthTest extends IntegrationTestCase
         return $code->getCode($secret);
     }
 
-    private function setCurrentUser(string $login): void
+    /**
+     * Puts the request and the auth object into the state they have after a token was supplied and
+     * `Piwik\Plugins\Login\Login::apiRequestAuthenticate()` reloaded the auth for it.
+     */
+    private function setTokenAuthRequest(string $tokenAuth, bool $forceApiSession): void
+    {
+        $_GET['token_auth'] = $tokenAuth;
+
+        if ($forceApiSession) {
+            $_GET['force_api_session'] = '1';
+        }
+
+        StaticContainer::getContainer()->set(AuthenticationToken::class, new AuthenticationToken());
+
+        $auth = new LoginAuth();
+        $auth->setLogin(null);
+        $auth->setTokenAuth($tokenAuth);
+        StaticContainer::getContainer()->set('Piwik\Auth', $auth);
+    }
+
+    private function setCurrentUser(string $login, ?string $tokenAuth = null): void
     {
         $auth = $this->getMockBuilder(Auth::class)
                     ->onlyMethods(['getName', 'setTokenAuth', 'getTokenAuthSecret', 'getLogin', 'setLogin', 'setPassword', 'setPasswordHash', 'authenticate'])
                     ->getMock();
         $auth->method('authenticate')
-            ->willReturn(new AuthResult(AuthResult::SUCCESS, $login, $login . '-token'));
+            ->willReturn(new AuthResult(AuthResult::SUCCESS, $login, $tokenAuth ?? $login . '-token'));
 
         Access::getInstance()->setSuperUserAccess(false);
         Access::getInstance()->reloadAccess($auth);
