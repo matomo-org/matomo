@@ -1,3 +1,7 @@
+// The control is 38px tall against a text line of 18, so the line has to make room for it.
+@_control-height: 38px;
+@_gap: 20px;
+
 .limitSelection {
   text-align: right;
   padding-right: 0 !important;
@@ -18,7 +22,14 @@
   justify-content: center;
 }
 
+// Absolute offsets are measured from the padding box, so the row's own padding would not inset the
+// control: it carries the gap itself, and the line reserves the height it overflows.
+.dataTablePaginationControl {
+  min-height: @_control-height;
+  padding-bottom: @_gap - 4px;
+}
+
 .dataTablePaginationControl .limitSelection {
   position: absolute;
-  right: 0;
+  right: @_gap;
 }
