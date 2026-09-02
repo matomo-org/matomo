@@ -10,10 +10,6 @@
     v-if="showFooter && showFooterIcons"
     :role="isInHeader ? 'menu' : null"
     :aria-label="isInHeader ? translate('CoreHome_ReportActions') : null"
-    @keydown.down.prevent="focusStep(1)"
-    @keydown.up.prevent="focusStep(-1)"
-    @keydown.home.prevent="focusEdge(false)"
-    @keydown.end.prevent="focusEdge(true)"
   >
     <!-- Report actions live in the report header, inside the single menu its 3-dots trigger
          opens. Four lists rather than one: `ul.tableConfiguration` and `.dataTableFooterIcons`
@@ -423,31 +419,6 @@ export default defineComponent({
     translate,
     isActiveIcon(id: string): boolean {
       return this.activeFooterIconIds.indexOf(id) !== -1;
-    },
-    // The roles announce a menu, and a menu is walked with the arrow keys. Items inside a folded
-    // submenu are not on screen, so they are skipped.
-    menuItems(): HTMLElement[] {
-      const root = this.$el as HTMLElement | null;
-      if (!root?.querySelectorAll) {
-        return [];
-      }
-
-      return Array.from(root.querySelectorAll<HTMLElement>('[role^="menuitem"]')).filter(
-        (item) => !item.closest('.mtm-dropdownPanel__submenu:not(.mtm-dropdownPanel__submenu--open)'),
-      );
-    },
-    focusStep(step: number) {
-      const items = this.menuItems();
-      if (!items.length) {
-        return;
-      }
-
-      const at = items.indexOf(document.activeElement as HTMLElement);
-      items[at === -1 ? 0 : (at + step + items.length) % items.length].focus();
-    },
-    focusEdge(last: boolean) {
-      const items = this.menuItems();
-      items[last ? items.length - 1 : 0]?.focus();
     },
     showsSeparatorBefore(index: number): boolean {
       if (index === 0) {

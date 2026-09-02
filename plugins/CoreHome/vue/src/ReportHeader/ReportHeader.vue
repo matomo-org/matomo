@@ -178,11 +178,7 @@
             v-if="showActions"
             ref="actions"
             class="reportHeader__actions"
-            v-expand-on-click="{
-              expander: 'actionsTrigger',
-              onExpand: (event) => { actionsExpanded = true; focusFirstAction(event); },
-              onClosed: (event) => { actionsExpanded = false; restoreActionsFocus(event); },
-            }"
+            v-expand-on-click="actionsBinding"
           >
             <button
               ref="actionsTrigger"
@@ -190,8 +186,7 @@
               class="reportHeader__actionsTrigger"
               :title="translate('CoreHome_ReportActions')"
               :aria-label="translate('CoreHome_ReportActions')"
-              aria-haspopup="menu"
-              :aria-expanded="actionsExpanded ? 'true' : 'false'"
+              v-bind="actionsTriggerProps"
             >
               <span class="icon-more-verti" aria-hidden="true" />
             </button>
@@ -203,7 +198,11 @@
                a focusable control of its own and Escape closes the menu through ExpandOnClick, so
                no keyboard path depends on it. -->
             <!-- eslint-disable-next-line vuejs-accessibility/click-events-have-key-events -->
-            <div class="reportHeader__actionsMenu" @click="closeActions">
+            <div
+              class="reportHeader__actionsMenu"
+              @click="closeActions"
+              @keydown="actionsSelector.onKeydown"
+            >
               <div class="mtm-dropdownPanel mtm-dropdownPanel--wide mtm-dropdownPanel--withSubmenu">
                 <DataTableActions
                   placement="header"
@@ -278,6 +277,7 @@ import {
 import type { PromotableActionId } from '../DataTable/reportActions';
 import type { ReportActionsConfig } from '../DataTable/ReportActions.store';
 import { menuHoldsAnything } from '../DataTable/menuContents';
+import useSelector, { Selector } from '../Selector/useSelector';
 import reportIdentity from '../DataTable/reportIdentity';
 import EnrichedHeadline from '../EnrichedHeadline/EnrichedHeadline.vue';
 import ExpandOnClick from '../ExpandOnClick/ExpandOnClick';
@@ -477,8 +477,20 @@ export default defineComponent({
     ExpandOnClick,
   },
   emits: ['minimise', 'maximise', 'refresh', 'close', 'titleClick', 'search'],
+  // Created once: ExpandOnClick keeps its own state inside the binding object, so handing it a
+  // fresh one on every render would lose it.
+  created() {
+    this.actionsSelector = useSelector(
+      { role: 'menu', expandedClass: 'reportHeader__actions--expanded' },
+      () => this.$refs.actions as HTMLElement | null,
+      () => this.$refs.actionsTrigger as HTMLElement | null,
+    );
+    this.actionsBinding = this.actionsSelector.expandBinding('actionsTrigger');
+  },
   data() {
     return {
+      actionsSelector: null as unknown as Selector,
+      actionsBinding: null as unknown as Record<string, unknown>,
       // Local mirror of the field, seeded from `searchQuery`.
       // Stands in until the first publish; see the reportKey prop.
       mountedReportKey: '',
@@ -487,7 +499,6 @@ export default defineComponent({
       promotedCount: 0,
       periodsExpanded: false,
       exportExpanded: false,
-      actionsExpanded: false,
       resizeObserver: null as ResizeObserver | null,
       lastMeasuredWidth: -1,
     };
@@ -520,7 +531,7 @@ export default defineComponent({
     },
     showActions(value: boolean) {
       if (!value) {
-        this.actionsExpanded = false;
+        this.actionsSelector.close();
       }
     },
   },
@@ -580,6 +591,9 @@ export default defineComponent({
     },
     // A trigger opening onto nothing is worse than no trigger: once its ranks are promoted out, a
     // report may have nothing left to put in the menu.
+    actionsTriggerProps(): Record<string, string> {
+      return this.actionsSelector.triggerProps();
+    },
     showActions(): boolean {
       return this.actions.showFooter && this.actions.showFooterIcons
         && menuHoldsAnything(this.actions, this.promotedActions);
@@ -699,33 +713,12 @@ export default defineComponent({
         this.$emit('titleClick');
       }
     },
+    // Picking an entry is the end of the interaction, and ExpandOnClick only closes on a click
+    // outside, so the menu would hang open over the report it just reloaded.
     closeActions(event: MouseEvent) {
-      (this.$refs.actions as HTMLElement | undefined)?.classList.remove('expanded');
-      this.actionsExpanded = false;
-      this.restoreActionsFocus(event);
-    },
-    // Closing from the keyboard leaves the focus inside a panel about to disappear, and a menu
-    // hands it back to the trigger. A pointer left the focus where the user put it, and taking it
-    // would draw a focus ring they never asked for.
-    restoreActionsFocus(event: MouseEvent|KeyboardEvent) {
-      const actions = this.$refs.actions as HTMLElement | undefined;
-      const byKeyboard = event.type === 'keyup' || (event as MouseEvent).detail === 0;
-
-      if (byKeyboard && actions?.contains(document.activeElement)) {
-        (this.$refs.actionsTrigger as HTMLElement | undefined)?.focus();
-      }
-    },
-    // A button opened with the keyboard reports no pointer, and only then does a menu take the
-    // focus off the trigger.
-    focusFirstAction(event: MouseEvent|KeyboardEvent) {
-      if ((event as MouseEvent).detail !== 0) {
-        return;
-      }
-
-      this.$nextTick(() => {
-        const actions = this.$refs.actions as HTMLElement | undefined;
-        actions?.querySelector<HTMLElement>('[role^="menuitem"]')?.focus();
-      });
+      (this.$refs.actions as HTMLElement | undefined)
+        ?.classList.remove('reportHeader__actions--expanded');
+      this.actionsSelector.expandBinding('actionsTrigger').onClosed(event);
     },
     onControl(intent: string) {
       // Re-emit for Vue-native consumers...
