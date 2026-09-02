@@ -760,20 +760,22 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 + '<a class="mtm-dropdownPanel__menuLink" href="" role="menuitemradio" tabindex="0"'
                 + ' aria-checked="' + (isCurrent ? 'true' : 'false') + '"'
                 + ' data-limit="' + numbers[i] + '">'
-                + '<span class="mtm-dropdownPanel__menuLabel">' + currentValue + '</span>'
+                + '<span class="mtm-dropdownPanel__menuLabel">'
+                + piwikHelper.htmlEntities(String(currentValue)) + '</span>'
                 + (isCurrent ? '<span class="mtm-dropdownPanel__rightIcon" aria-hidden="true">'
                     + '<span class="icon-ok"></span></span>' : '')
                 + '</a></li>';
         }
 
-        var label = piwikHelper.escape(_pk_translate('General_RowsToDisplay'));
+        var label = piwikHelper.htmlEntities(_pk_translate('General_RowsToDisplay'));
         // The same shape the report header's controls take, built here rather than in Vue because
         // the choices and the current value are only known once the table has loaded.
         $('.limitSelection', domElem).append(
             '<div class="mtm-selector">'
             + '<button type="button" class="mtm-selector__trigger" title="' + label + '"'
             + ' aria-label="' + label + '" aria-haspopup="menu" aria-expanded="false">'
-            + '<span class="mtm-selector__label">' + selectedValue + '</span>'
+            + '<span class="mtm-selector__label">'
+            + piwikHelper.htmlEntities(String(selectedValue)) + '</span>'
             + '<span class="mtm-selector__rightIcon" aria-hidden="true">'
             + '<span class="icon-chevron-down"></span></span>'
             + '</button>'
@@ -802,6 +804,31 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             self.notifyWidgetParametersChange(domElem, data);
         });
     },
+    // One pair for the page however many reports it holds, and rebound rather than added to:
+    // handleLimit runs again after every reload, so a pair per render would pile up on a document
+    // that never detaches them.
+    _bindLimitSelectorDismissal: function () {
+        function collapse($selectors) {
+            $selectors.removeClass('expanded')
+                .find('.mtm-selector__trigger').attr('aria-expanded', 'false');
+        }
+
+        $(document)
+            .off('click.limitSelection keyup.limitSelection')
+            .on('click.limitSelection', function (event) {
+                $('.limitSelection .mtm-selector.expanded').each(function () {
+                    var $selector = $(this);
+                    if (!$selector.is(event.target) && !$selector.has(event.target).length) {
+                        collapse($selector);
+                    }
+                });
+            })
+            .on('keyup.limitSelection', function (event) {
+                if (event.key === 'Escape') {
+                    collapse($('.limitSelection .mtm-selector.expanded'));
+                }
+            });
+    },
     // ExpandOnClick does this for the Vue selectors; this one is built by jQuery, so it opens and
     // closes itself the way .piwikSelector does - by carrying `expanded` on the block.
     _bindLimitSelector: function ($selector, onPick) {
@@ -812,9 +839,11 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             $trigger.attr('aria-expanded', 'false');
         }
 
+        // The propagation is deliberately left alone: the dismissal handler has to see this click
+        // to fold the panels of the other reports, and it leaves this one open because the target
+        // is inside it.
         $trigger.on('click', function (event) {
             event.preventDefault();
-            event.stopPropagation();
 
             var opening = !$selector.hasClass('expanded');
             $selector.toggleClass('expanded', opening);
@@ -834,17 +863,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             }
         });
 
-        $(document).on('click.limitSelection', function (event) {
-            if (!$selector.is(event.target) && !$selector.has(event.target).length) {
-                close();
-            }
-        });
-
-        $(document).on('keyup.limitSelection', function (event) {
-            if (event.key === 'Escape') {
-                close();
-            }
-        });
+        this._bindLimitSelectorDismissal();
     },
     handlePeriod: function (domElem) {
         var self = this;
