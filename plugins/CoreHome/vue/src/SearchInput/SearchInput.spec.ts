@@ -55,6 +55,56 @@ describe('CoreHome/SearchInput', () => {
     expect(wrapper.emitted('update:modelValue')?.[0]).toEqual(['']);
   });
 
+  // A consumer that puts the input in a positive tabindex (the site selector uses 4) would
+  // otherwise leave the button on the default 0, which sorts it after every positive-tabindex
+  // element in the document instead of next to its own input.
+  it('gives the clear button the same tabindex as the input', () => {
+    const wrapper = mount(SearchInput, {
+      props: {
+        modelValue: 'country',
+        showClear: true,
+      },
+      attrs: {
+        tabindex: '4',
+      },
+    });
+
+    expect(wrapper.find('.mtm-searchInput__input').attributes('tabindex')).toBe('4');
+    expect(wrapper.find('.mtm-searchInput__clear').attributes('tabindex')).toBe('4');
+  });
+
+  it('leaves the clear button at its natural tab order when the input sets no tabindex', () => {
+    const wrapper = mount(SearchInput, {
+      props: {
+        modelValue: 'country',
+        showClear: true,
+      },
+    });
+
+    expect(wrapper.find('.mtm-searchInput__clear').attributes('tabindex')).toBeUndefined();
+  });
+
+  // Clearing empties the value, which unmounts the button the user just activated, so focus has
+  // to be handed back to the input rather than falling through to <body>.
+  it('returns focus to the input when the clear button is used', async () => {
+    const wrapper = mount(SearchInput, {
+      props: {
+        modelValue: 'country',
+        showClear: true,
+      },
+      attachTo: document.body,
+    });
+
+    const input = wrapper.find('.mtm-searchInput__input').element as HTMLInputElement;
+    expect(document.activeElement).not.toBe(input);
+
+    await wrapper.find('.mtm-searchInput__clear').trigger('click');
+
+    expect(document.activeElement).toBe(input);
+
+    wrapper.unmount();
+  });
+
   it('gives the clear button a translated title', () => {
     const wrapper = mount(SearchInput, {
       props: {
