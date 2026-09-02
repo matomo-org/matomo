@@ -75,7 +75,7 @@ const detailsResponse = {
   versions: [{ name: '1.2.3', readmeHtml: { description: '<p>readme</p>' } }],
 };
 
-function mountModal() {
+function mountModal(renderCta = false) {
   return mount(PluginDetailsModal, {
     props: {
       modelValue: null,
@@ -100,7 +100,7 @@ function mountModal() {
         externalLink: (url: string) => url,
       },
       stubs: {
-        CTAContainer: true,
+        ...(renderCta ? {} : { CTAContainer: true }),
         MissingReqsNotice: true,
       },
     },
@@ -185,6 +185,51 @@ describe('PluginDetailsModal', () => {
     expect(vmOf(wrapper).pluginShopVariations).toEqual([]);
     expect(vmOf(wrapper).pluginScreenshots).toEqual([]);
     expect(vmOf(wrapper).pluginChangelogUrl).toBe('');
+  });
+
+  it('offers no purchase link when the details the shop URL comes from could not be fetched', () => {
+    mockPost.mockRejectedValue({ message: 'There was an error reading the response' });
+
+    // CTAContainer is rendered for real here: the card row alone cannot supply a shop variation,
+    // so an unguarded "add to cart" would link to the empty string and reload the page
+    const wrapper = mountModal(true);
+
+    return wrapper.setProps({ modelValue: { ...cardRow, isEligibleForFreeTrial: true } })
+      .then(flushPromises)
+      .then(() => {
+        expect(wrapper.find('.alert-danger').text()).toContain('There was an error reading');
+        expect(wrapper.find('.addToCartLink').exists()).toBe(false);
+        expect(wrapper.find('.free-trial-dropdown').exists()).toBe(false);
+      });
+  });
+
+  it('offers the purchase link once the details carry a shop variation', () => {
+    mockPost.mockResolvedValue({
+      ...detailsResponse,
+      isEligibleForFreeTrial: true,
+      shop: {
+        url: 'https://shop.example',
+        variations: [{
+          name: 'Business',
+          prettyPrice: '$100',
+          period: 'year',
+          price: 100,
+          currency: 'USD',
+          recommended: true,
+          addToCartUrl: 'https://shop.example/cart',
+        }],
+        reviews: {},
+      },
+    });
+
+    const wrapper = mountModal(true);
+
+    return wrapper.setProps({ modelValue: { ...cardRow, isEligibleForFreeTrial: true } })
+      .then(flushPromises)
+      .then(() => {
+        expect(wrapper.find('.addToCartLink').attributes('href')).toBe('https://shop.example/cart');
+        expect(wrapper.find('.free-trial-dropdown').exists()).toBe(true);
+      });
   });
 
   it('falls back to a generic message when the failure carries none', async () => {
