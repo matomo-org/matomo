@@ -271,7 +271,7 @@ import {
 import type { PromotableActionId } from '../DataTable/reportActions';
 import type { ReportActionsConfig } from '../DataTable/ReportActions.store';
 import { menuHoldsAnything } from '../DataTable/menuContents';
-import useSelector, { Selector } from '../Selector/useSelector';
+import useSelectorDropdown, { SelectorDropdown } from '../Selector/useSelectorDropdown';
 import reportIdentity from '../DataTable/reportIdentity';
 import EnrichedHeadline from '../EnrichedHeadline/EnrichedHeadline.vue';
 import ExpandOnClick from '../ExpandOnClick/ExpandOnClick';
@@ -474,21 +474,21 @@ export default defineComponent({
   // Created once: ExpandOnClick keeps its own state inside the binding object, so handing it a
   // fresh one on every render would lose it.
   created() {
-    this.actionsSelector = useSelector(
+    this.actionsSelector = useSelectorDropdown(
       { role: 'menu', expandedClass: 'reportHeader__actions--expanded' },
       () => this.$refs.actions as HTMLElement | null,
       () => this.$refs.actionsTrigger as HTMLElement | null,
     );
     this.actionsBinding = this.actionsSelector.expandBinding('actionsTrigger');
 
-    this.promotedPeriods = useSelector(
+    this.promotedPeriods = useSelectorDropdown(
       { role: 'menu', expandedClass: 'mtm-selector--expanded' },
       () => this.$refs.periodsSelector as HTMLElement | null,
       () => this.$refs.periodsTrigger as HTMLElement | null,
     );
     this.periodsBinding = this.promotedPeriods.expandBinding('periodsTrigger');
 
-    this.promotedExport = useSelector(
+    this.promotedExport = useSelectorDropdown(
       { role: 'menu', expandedClass: 'mtm-selector--expanded' },
       () => this.$refs.exportSelector as HTMLElement | null,
       () => this.$refs.exportTrigger as HTMLElement | null,
@@ -497,10 +497,10 @@ export default defineComponent({
   },
   data() {
     return {
-      actionsSelector: null as unknown as Selector,
+      actionsSelector: null as unknown as SelectorDropdown,
       actionsBinding: null as unknown as Record<string, unknown>,
-      promotedPeriods: null as unknown as Selector,
-      promotedExport: null as unknown as Selector,
+      promotedPeriods: null as unknown as SelectorDropdown,
+      promotedExport: null as unknown as SelectorDropdown,
       periodsBinding: null as unknown as Record<string, unknown>,
       exportBinding: null as unknown as Record<string, unknown>,
       // Local mirror of the field, seeded from `searchQuery`.

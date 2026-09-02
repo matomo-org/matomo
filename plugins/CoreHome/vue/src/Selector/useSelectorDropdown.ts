@@ -16,7 +16,7 @@ import { ref, Ref } from 'vue';
  * component that owned those too would need an option per selector; this one needs none.
  */
 
-export interface SelectorOptions {
+export interface SelectorDropdownOptions {
   // What the panel is, for anyone who cannot see it. `dialog` skips the arrow keys, having no list
   // to walk.
   role?: 'menu' | 'listbox' | 'dialog';
@@ -27,7 +27,7 @@ export interface SelectorOptions {
   items?: string;
 }
 
-export interface Selector {
+export interface SelectorDropdown {
   expanded: Ref<boolean>;
   // Spread onto the trigger. A function rather than a computed ref: a consumer holding this in
   // Options API `data()` gets its refs unwrapped by Vue, and `.value` would read undefined there.
@@ -56,11 +56,11 @@ function visibleItems(root: HTMLElement | null, match: string): HTMLElement[] {
  * `panel` is read when a key arrives, not when this is called, so a consumer may hand over a ref
  * that only fills in once the panel renders.
  */
-export default function useSelector(
-  options: SelectorOptions,
+export default function useSelectorDropdown(
+  options: SelectorDropdownOptions,
   panel: () => HTMLElement | null,
   trigger: () => HTMLElement | null,
-): Selector {
+): SelectorDropdown {
   const expanded = ref(false);
   const walkable = options.role !== 'dialog';
   const match = options.items || FOCUSABLE;
