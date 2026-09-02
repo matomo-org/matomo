@@ -81,6 +81,7 @@ class SegmentEditor extends \Piwik\Plugin
     public function getTablesInstalled(&$allTablesInstalled): void
     {
         $allTablesInstalled[] = Common::prefixTable('segment');
+        $allTablesInstalled[] = Common::prefixTable('user_segment_star');
     }
 
     public function addSystemSummaryItems(&$systemSummary): void
