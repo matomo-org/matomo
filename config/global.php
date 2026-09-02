@@ -34,6 +34,12 @@ return [
 
     'view.clearcompiledtemplates.enable' => true,
 
+    // Whether config.ini.php may be replaced by renaming a temporary file over it, so a
+    // concurrent read never sees a partial file. Set to false where an ACL or SELinux
+    // label is applied to the config file itself, since a rename drops those; a default
+    // ACL on the config directory is inherited by the temporary file and survives.
+    'config.atomicwrite.enable' => true,
+
     'twig.cache' => Piwik\DI::string('{path.tmp.templates}'),
 
     'Matomo\Cache\Eager' => function (\Piwik\Container\Container $c) {
