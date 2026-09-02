@@ -262,6 +262,8 @@ class API extends \Piwik\Plugin\API
     /**
      * Updates an existing goal without reprocessing already recorded conversions.
      *
+     * Fails if the site has no such goal.
+     *
      * @param int $idSite The numeric ID of the website the goal belongs to.
      * @param int $idGoal Goal ID to update.
      * @param string $name Goal name.
@@ -282,7 +284,6 @@ class API extends \Piwik\Plugin\API
      * @param string $description Optional goal description shown in the Goals management UI.
      * @param bool $useEventValueAsRevenue Whether to use the tracked event value as goal revenue. This is only valid
      *                                     for event-based goals.
-     * @throws Exception If the site has no such goal.
      */
     public function updateGoal(
         int $idSite,
