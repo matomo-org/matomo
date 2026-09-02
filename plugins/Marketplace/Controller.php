@@ -243,7 +243,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         $view = $this->configureViewAndCheckPermission('@Marketplace/overview');
 
-        $view->paidPluginsToInstallAtOnce = $this->getAllPaidPluginsToInstallAtOnce();
         $view->isValidConsumer = $this->consumer->isValidConsumer();
         $view->pluginTypeOptions = array(
             'plugins' => Piwik::translate('General_Plugins'),
@@ -278,8 +277,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     public function updateOverview(): string
     {
         Piwik::checkUserIsNotAnonymous();
-
-        $paidPlugins = $this->getPaidPlugins();
 
         $updateData = [
             'isValidConsumer' => $this->consumer->isValidConsumer(),
@@ -317,9 +314,112 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 $plugin['isTrialRequested'] = StaticContainer::get(PluginTrialService::class)->wasRequested($plugin['name']);
                 $plugin['canTrialBeRequested'] = GeneralConfig::getIntegerConfigValue('plugin_trial_request_expiration_in_days', 0) !== -1;
             }
+
+            $plugin = $this->keepPluginCardFields($plugin);
         }
 
         return json_encode($plugins);
+    }
+
+    /**
+     * Returns everything the plugin details modal renders for a single plugin.
+     *
+     * The plugin list deliberately omits these fields, see {@link keepPluginCardFields()}.
+     */
+    #[JsonResponse]
+    public function getPluginDetails(): string
+    {
+        Piwik::checkUserIsNotAnonymous();
+
+        // Every failure path below answers with a JSON error rather than throwing: this is not an
+        // API request, so an exception would render the HTML error page with a 500 and log a stack
+        // trace at ERROR, and AjaxHelper would replace the message with its own literal. A
+        // result=error body reaches the modal as an ApiResponseError with this text intact.
+        // Validation is inside the guard too, so a malformed request is answered the same way.
+        $pluginName = '';
+
+        try {
+            $pluginName = (new PluginName())->getPluginName();
+
+            $plugin = $this->plugins->getPluginInfoPreferringList($pluginName);
+        } catch (Exception $e) {
+            // the Marketplace being unreachable is this action's most likely failure, not an
+            // exceptional one, since it is requested every time a details modal is opened
+            return $this->sendPluginDetailsError(
+                Piwik::translate('Marketplace_PluginDetailsNotAvailable', $pluginName)
+            );
+        }
+
+        if (empty($plugin['name'])) {
+            // reachable in normal use, because the list this name came from is cached and the plugin
+            // may have been delisted since
+            return $this->sendPluginDetailsError(
+                Piwik::translate('Marketplace_PluginNotFoundOnMarketplace', $pluginName)
+            );
+        }
+
+        if (!empty($plugin['versions'])) {
+            // only the latest version is rendered, and each version carries its full readme HTML
+            $plugin['versions'] = [end($plugin['versions'])];
+        }
+
+        return json_encode($plugin);
+    }
+
+    private function sendPluginDetailsError(string $message): string
+    {
+        // #[JsonResponse] on the action sends the header, so this only has to shape the body
+        return json_encode(['result' => 'error', 'message' => $message]);
+    }
+
+    /**
+     * Reduces a plugin to the fields the cards in the plugin list render.
+     *
+     * The Marketplace returns every version of every plugin, each with its own rendered readme and
+     * FAQ HTML, which no card reads and which dominates the response: against plugins.matomo.org
+     * this trims the list from 1.6 MB to 121 KB. Anything the details modal needs on top of this is
+     * fetched per plugin by {@link getPluginDetails()} when the modal opens.
+     *
+     * This is an allow list so that fields added to the Marketplace API cannot silently grow the
+     * list response again. A new field rendered on a card has to be added here too.
+     *
+     * @param array<string, mixed> $plugin
+     * @return array<string, mixed>
+     */
+    private function keepPluginCardFields(array $plugin): array
+    {
+        $cardFields = [
+            'name',
+            'displayName',
+            'description',
+            'owner',
+            'coverImage',
+            'isFree',
+            'isPaid',
+            'isInstalled',
+            'isActivated',
+            'isInvalid',
+            'isDownloadable',
+            'canBeUpdated',
+            'hasDownloadLink',
+            'hasExceededLicense',
+            'isMissingLicense',
+            'isEligibleForFreeTrial',
+            'isTrialRequested',
+            'canTrialBeRequested',
+            'missingRequirements',
+            'numDownloads',
+            'numDownloadsPretty',
+            'priceFrom',
+            'downloadNonce',
+            'consumer',
+            // not rendered on a card, but the modal falls back to the card row when its own request
+            // fails, and without these a bundle renders there as an ordinary plugin
+            'isBundle',
+            'licenseStatus',
+        ];
+
+        return array_intersect_key($plugin, array_flip($cardFields));
     }
 
     public function installAllPaidPlugins()

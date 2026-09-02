@@ -53,7 +53,32 @@ class GetNewPlugins extends Widget
         });
 
         return $this->renderTemplate($template, array(
-            'plugins' => array_splice($plugins, 0, 3),
+            'plugins' => $this->keepRenderedFields(array_splice($plugins, 0, 3), $template),
         ));
+    }
+
+    /**
+     * Reduces each plugin to the fields the given template renders.
+     *
+     * Everything else is version history and rendered readme HTML, which would be json_encoded into
+     * an attribute in the widget's own HTML, where it cannot be cached.
+     *
+     * @param array<int, array<string, mixed>> $plugins
+     * @return array<int, array<string, mixed>>
+     */
+    private function keepRenderedFields(array $plugins, string $template): array
+    {
+        $rendered = ['name', 'displayName', 'description'];
+
+        if ($template === 'getNewPluginsAdmin') {
+            // only the admin template shows a screenshot, and they are the largest field here
+            $rendered[] = 'screenshots';
+        }
+
+        $fields = array_flip($rendered);
+
+        return array_map(function ($plugin) use ($fields) {
+            return array_intersect_key($plugin, $fields);
+        }, $plugins);
     }
 }

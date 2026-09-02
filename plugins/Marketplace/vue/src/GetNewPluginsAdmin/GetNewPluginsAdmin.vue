@@ -32,6 +32,8 @@
             :src="`${plugin.screenshots[0]}?w=600`"
             style="width: 100%"
             alt=""
+            loading="lazy"
+            decoding="async"
           />
         </span>
       </div>
@@ -47,14 +49,14 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
-import { PluginDetails } from '../types';
+import { PluginTeaser } from '../types';
 import { MatomoUrl } from 'CoreHome';
 import { PluginName } from 'CorePluginsAdmin';
 
 export default defineComponent({
   props: {
     plugins: {
-      type: Array as PropType<PluginDetails[]>,
+      type: Array as PropType<PluginTeaser[]>,
       required: true,
     },
   },
