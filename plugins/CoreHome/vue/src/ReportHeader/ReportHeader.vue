@@ -90,19 +90,13 @@
             ref="exportSelector"
             class="mtm-selector"
             data-report-action="export"
-            v-expand-on-click="{
-              expander: 'exportTrigger',
-              expandedClass: 'mtm-selector--expanded',
-              onExpand: () => { exportExpanded = true; },
-              onClosed: () => { exportExpanded = false; },
-            }"
+            v-expand-on-click="exportBinding"
           >
             <button
               ref="exportTrigger"
               type="button"
               class="mtm-selector__trigger"
-              aria-haspopup="menu"
-              :aria-expanded="exportExpanded ? 'true' : 'false'"
+              v-bind="exportTriggerProps"
             >
               <span class="mtm-selector__icon" aria-hidden="true">
                 <span class="icon-export" />
@@ -114,7 +108,11 @@
             </button>
             <!-- Choosing an export is the end of the interaction, so the panel folds with it. -->
             <!-- eslint-disable-next-line vuejs-accessibility/click-events-have-key-events -->
-            <div class="mtm-selector__dropdown" @click="closePromotedExport">
+            <div
+              class="mtm-selector__dropdown"
+              @click="closePromotedExport"
+              @keydown="promotedExport.onKeydown"
+            >
               <div class="mtm-dropdownPanel">
                 <ul
                   class="mtm-dropdownPanel__menu"
@@ -142,19 +140,13 @@
             ref="periodsSelector"
             class="mtm-selector"
             data-report-action="periods"
-            v-expand-on-click="{
-              expander: 'periodsTrigger',
-              expandedClass: 'mtm-selector--expanded',
-              onExpand: () => { periodsExpanded = true; },
-              onClosed: () => { periodsExpanded = false; },
-            }"
+            v-expand-on-click="periodsBinding"
           >
             <button
               ref="periodsTrigger"
               type="button"
               class="mtm-selector__trigger"
-              aria-haspopup="menu"
-              :aria-expanded="periodsExpanded ? 'true' : 'false'"
+              v-bind="periodsTriggerProps"
             >
               <span class="mtm-selector__icon" aria-hidden="true">
                 <span class="icon-calendar" />
@@ -164,7 +156,7 @@
                 <span class="icon-chevron-down" />
               </span>
             </button>
-            <div class="mtm-selector__dropdown">
+            <div class="mtm-selector__dropdown" @keydown="promotedPeriods.onKeydown">
               <div class="mtm-dropdownPanel">
                 <PeriodsMenu
                   :selectable-periods="actions.selectablePeriods"
@@ -488,19 +480,35 @@ export default defineComponent({
       () => this.$refs.actionsTrigger as HTMLElement | null,
     );
     this.actionsBinding = this.actionsSelector.expandBinding('actionsTrigger');
+
+    this.promotedPeriods = useSelector(
+      { role: 'menu', expandedClass: 'mtm-selector--expanded' },
+      () => this.$refs.periodsSelector as HTMLElement | null,
+      () => this.$refs.periodsTrigger as HTMLElement | null,
+    );
+    this.periodsBinding = this.promotedPeriods.expandBinding('periodsTrigger');
+
+    this.promotedExport = useSelector(
+      { role: 'menu', expandedClass: 'mtm-selector--expanded' },
+      () => this.$refs.exportSelector as HTMLElement | null,
+      () => this.$refs.exportTrigger as HTMLElement | null,
+    );
+    this.exportBinding = this.promotedExport.expandBinding('exportTrigger');
   },
   data() {
     return {
       actionsSelector: null as unknown as Selector,
       actionsBinding: null as unknown as Record<string, unknown>,
+      promotedPeriods: null as unknown as Selector,
+      promotedExport: null as unknown as Selector,
+      periodsBinding: null as unknown as Record<string, unknown>,
+      exportBinding: null as unknown as Record<string, unknown>,
       // Local mirror of the field, seeded from `searchQuery`.
       // Stands in until the first publish; see the reportKey prop.
       mountedReportKey: '',
       query: this.searchQuery,
       searchDebounceTimer: null as ReturnType<typeof setTimeout> | null,
       promotedCount: 0,
-      periodsExpanded: false,
-      exportExpanded: false,
       resizeObserver: null as ResizeObserver | null,
       lastMeasuredWidth: -1,
     };
@@ -596,6 +604,12 @@ export default defineComponent({
     actionsTriggerProps(): Record<string, string> {
       return this.actionsSelector.triggerProps();
     },
+    periodsTriggerProps(): Record<string, string> {
+      return this.promotedPeriods.triggerProps();
+    },
+    exportTriggerProps(): Record<string, string> {
+      return this.promotedExport.triggerProps();
+    },
     showActions(): boolean {
       return this.actions.showFooter && this.actions.showFooterIcons
         && menuHoldsAnything(this.actions, this.promotedActions);
@@ -631,12 +645,14 @@ export default defineComponent({
     // Picking a period is the end of the interaction. ExpandOnClick keeps its state in the class,
     // so dropping it is how a panel closes itself - the same move MetricsPicker makes.
     closePromotedPeriods() {
-      (this.$refs.periodsSelector as HTMLElement | undefined)?.classList.remove('mtm-selector--expanded');
-      this.periodsExpanded = false;
+      (this.$refs.periodsSelector as HTMLElement | undefined)
+        ?.classList.remove('mtm-selector--expanded');
+      this.promotedPeriods.close();
     },
     closePromotedExport() {
-      (this.$refs.exportSelector as HTMLElement | undefined)?.classList.remove('mtm-selector--expanded');
-      this.exportExpanded = false;
+      (this.$refs.exportSelector as HTMLElement | undefined)
+        ?.classList.remove('mtm-selector--expanded');
+      this.promotedExport.close();
     },
     isPromoted(action: PromotableActionId): boolean {
       return this.promotedActions.indexOf(action) !== -1;
@@ -660,8 +676,12 @@ export default defineComponent({
     // itself expanded. The fit loop gives them back one at a time, so this cannot be tied to
     // demoting all of them.
     syncExpandedFlags() {
-      this.periodsExpanded = this.periodsExpanded && this.isPromoted('periods');
-      this.exportExpanded = this.exportExpanded && this.isPromoted('export');
+      if (!this.isPromoted('periods')) {
+        this.promotedPeriods.close();
+      }
+      if (!this.isPromoted('export')) {
+        this.promotedExport.close();
+      }
     },
     demoteAll() {
       this.promotedCount = 0;
