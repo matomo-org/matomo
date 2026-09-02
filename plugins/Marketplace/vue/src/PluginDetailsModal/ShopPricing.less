@@ -1,0 +1,189 @@
+.shopPricing {
+    @_control-height: 34px;
+    @_control-radius: 8px;
+
+    display: flex;
+    align-items: safe center;
+    flex-wrap: wrap;
+    gap: 12px;
+    width: 100%;
+
+    // one bordered group holding both options, so the two read as a single choice rather
+    // than a pair of independent on/off buttons
+    .shopPricing__periods {
+        display: flex;
+        align-items: safe center;
+        gap: 4px;
+        flex: none;
+        height: @_control-height;
+        padding: 3px;
+        border: 1px solid @theme-color-border-light;
+        border-radius: @_control-radius;
+        box-sizing: border-box;
+    }
+
+    .shopPricing__period {
+        position: relative;
+        display: flex;
+        align-items: safe center;
+        gap: 8px;
+        height: 100%;
+        padding: 0 12px;
+        border: 1px solid transparent;
+        border-radius: @_control-radius - 3px;
+        color: @theme-color-text-light;
+        font-size: 13px;
+        line-height: 20px;
+        white-space: nowrap;
+        cursor: pointer;
+    }
+
+    .shopPricing__period:hover {
+        color: @theme-color-text-contrast;
+    }
+
+    .shopPricing__period--selected {
+        border-color: @theme-color-brand;
+        color: @theme-color-brand;
+        // brand resolves to a CSS var(--...) and LESS colour functions can't operate on a
+        // var(), so mix toward white with CSS color-mix() for an opaque pale brand tint
+        background-color: color-mix(in srgb, @theme-color-brand 6%, white);
+    }
+
+    .shopPricing__period:has(.shopPricing__periodInput:focus-visible) {
+        outline: 2px solid @theme-color-focus-ring;
+        outline-offset: 0;
+    }
+
+    // The radio carries the semantics and the keyboard behaviour, but the segment itself is
+    // the visible control; keep it off-screen rather than display:none so it stays focusable.
+    .shopPricing__periodInput {
+        position: absolute;
+        opacity: 0;
+        margin: 0;
+    }
+
+    // override: Materialize styles the span after a radio as a caption sitting beside a drawn
+    // circle — indenting it (padding-left: 35px), forcing its own type size (font-size: 1rem)
+    // and painting the circle in ::before/::after. These segments have no circle and follow the
+    // bar's own type scale. Materialize's selector outweighs a plain element class, so match its
+    // shape to win on specificity instead of reaching for !important, as MetricsPicker.less does.
+    [type="radio"] + span:not(.lever) {
+        display: inline;
+        height: auto;
+        padding: 0;
+        font-size: inherit;
+        line-height: inherit;
+    }
+
+    [type="radio"] + span:not(.lever)::before,
+    [type="radio"] + span:not(.lever)::after {
+        display: none;
+    }
+
+    .shopPricing__freeMonths {
+        padding: 0 8px;
+        border-radius: 10px;
+        // same var-safe tint as the selected period, a little stronger so the badge
+        // still separates from the surface it sits on
+        background-color: color-mix(in srgb, @theme-color-brand 18%, white);
+        color: @theme-color-brand;
+        font-size: 11px;
+        font-weight: bold;
+        line-height: 18px;
+        white-space: nowrap;
+    }
+
+    .shopPricing__tier,
+    .shopPricing__currency {
+        width: auto;
+        height: @_control-height;
+        margin: 0;
+        padding: 0 8px 0 12px;
+        border: 1px solid @theme-color-border-light;
+        border-radius: @_control-radius;
+        background-color: transparent;
+        color: @theme-color-text-contrast;
+        font-size: 13px;
+        flex: none;
+    }
+
+    .shopPricing__price {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        justify-content: safe center;
+        flex: auto;
+        text-align: right;
+        min-width: 0;
+    }
+
+    .shopPricing__amount {
+        white-space: nowrap;
+    }
+
+    .shopPricing__leadIn {
+        margin-right: 8px;
+        color: @theme-color-brand;
+        font-size: 13px;
+        font-weight: bold;
+        line-height: 24px;
+    }
+
+    .shopPricing__amountValue {
+        font-size: 20px;
+        font-weight: bold;
+        line-height: 24px;
+        color: @theme-color-text-contrast;
+    }
+
+    .shopPricing__amountPeriod {
+        margin-left: 5px;
+        font-size: 13px;
+        line-height: 24px;
+        color: @theme-color-text-light;
+    }
+
+    .shopPricing__billing {
+        font-size: 12px;
+        line-height: 18px;
+        color: @theme-color-text-light;
+    }
+
+    .shopPricing__cta {
+        flex: none;
+    }
+
+    .inDarkMode({
+        // mirror of light mode: mix toward black for an opaque dark tint on the dark surface
+        .shopPricing__period--selected {
+            background-color: color-mix(in srgb, @theme-color-brand 18%, black);
+        }
+
+        .shopPricing__freeMonths {
+            background-color: color-mix(in srgb, @theme-color-brand 28%, black);
+        }
+    });
+
+    @media (max-width: 1200px) {
+        .shopPricing__amountValue {
+            font-size: 18px;
+        }
+    }
+
+    @media (max-width: 960px) {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 8px;
+
+        .shopPricing__tier,
+        .shopPricing__currency {
+            width: 100%;
+        }
+
+        .shopPricing__price {
+            align-items: flex-start;
+            text-align: left;
+        }
+    }
+}

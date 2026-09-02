@@ -20,6 +20,7 @@ use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\ProfessionalServices\Advertising;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Plugin;
+use Piwik\Version;
 
 /**
  * @group Marketplace
@@ -312,6 +313,7 @@ class PluginsTest extends IntegrationTestCase
                 'url' => 'http://plugins.piwik.org/Barometer/changelog',
             ],
             'canBePurchased' => false,
+            'isNewBundle' => false,
             'isEligibleForFreeTrial' => false,
             'priceFrom' => null,
             'numDownloadsPretty' => '0',
@@ -366,6 +368,166 @@ class PluginsTest extends IntegrationTestCase
             'v2.0_plugins_PaidPlugin1_info-access_token-consumer3_paid1_custom2.json',
             false,
         ];
+
+        yield 'bundle the marketplace flagged as sold directly' => [
+            'NewBundle1',
+            'v2.0_plugins_NewBundle1_info.json',
+            false,
+        ];
+
+        // without the flag nothing changes: the bundle keeps the free-trial flow it had before
+        yield 'bundle the marketplace did not flag' => [
+            'LegacyBundle1',
+            'v2.0_plugins_LegacyBundle1_info.json',
+            true,
+        ];
+    }
+
+    /**
+     * @dataProvider getPluginInfoShouldSetNewBundleFlagTestData
+     */
+    public function testGetPluginInfoShouldSetNewBundleFlag(
+        string $pluginName,
+        string $fixtureName,
+        bool $isNewBundle
+    ): void {
+        $this->service->returnFixture($fixtureName);
+
+        $plugin = $this->plugins->getPluginInfo($pluginName);
+
+        self::assertArrayHasKey('isNewBundle', $plugin);
+        self::assertSame($isNewBundle, $plugin['isNewBundle']);
+    }
+
+    /**
+     * @return iterable<string, array<string|bool>>
+     */
+    public function getPluginInfoShouldSetNewBundleFlagTestData(): iterable
+    {
+        yield 'plugin that is no bundle' => [
+            'PaidPlugin1',
+            'v2.0_plugins_PaidPlugin1_info.json',
+            false,
+        ];
+
+        yield 'bundle the marketplace flagged as sold directly' => [
+            'NewBundle1',
+            'v2.0_plugins_NewBundle1_info.json',
+            true,
+        ];
+
+        yield 'bundle the marketplace did not flag' => [
+            'LegacyBundle1',
+            'v2.0_plugins_LegacyBundle1_info.json',
+            false,
+        ];
+    }
+
+    /**
+     * @dataProvider getSupportsNewBundlesTestData
+     */
+    public function testSupportsNewBundlesGatesOnTheCoreVersion(string $coreVersion, bool $expected): void
+    {
+        self::assertSame($expected, Plugins::supportsNewBundles($coreVersion));
+    }
+
+    /**
+     * @return iterable<string, array<string|bool>>
+     */
+    public function getSupportsNewBundlesTestData(): iterable
+    {
+        yield 'older minor' => ['5.13.9', false];
+        // PHP orders pre-releases alpha < beta < rc < release, and the branch this ships in
+        // reports 5.14.0-alpha while in development, so it has to count as supported
+        yield 'alpha of the supported version' => ['5.14.0-alpha', true];
+        yield 'beta of the supported version' => ['5.14.0-b1', true];
+        yield 'stable supported version' => ['5.14.0', true];
+        yield 'later minor' => ['5.15.2', true];
+        yield 'next major' => ['6.0.0-b1', true];
+    }
+
+    public function testGetPluginInfoSellsBundlesDirectlyOnThisCore(): void
+    {
+        // guards the bundle expectations below, which only hold while this core clears the gate
+        self::assertTrue(
+            Plugins::supportsNewBundles(),
+            'Bundle expectations assume a core that sells bundles directly; running ' . Version::VERSION
+        );
+
+        $this->service->returnFixture('v2.0_plugins_NewBundle1_info.json');
+        $plugin = $this->plugins->getPluginInfo('NewBundle1');
+
+        self::assertTrue($plugin['isNewBundle']);
+    }
+
+    public function testGetPluginInfoIgnoresTheMarketplaceFlagOnAnUnsupportedCore(): void
+    {
+        // the flag alone is not enough; a core below the threshold keeps the old behaviour
+        self::assertFalse(Plugins::supportsNewBundles('5.13.9'));
+    }
+
+    /**
+     * @dataProvider getShopCampaignTaggingTestData
+     */
+    public function testGetPluginInfoTagsAddToCartLinksWithCampaignParameters(
+        string $pluginName,
+        string $fixtureName,
+        string $expectedCampaign,
+        string $expectedContent
+    ): void {
+        $_GET['module'] = 'Marketplace';
+        $_GET['action'] = 'overview';
+
+        $this->service->returnFixture($fixtureName);
+
+        $plugin = $this->plugins->getPluginInfo($pluginName);
+
+        self::assertNotEmpty($plugin['shop']['variations']);
+
+        foreach ($plugin['shop']['variations'] as $variation) {
+            $query = parse_url($variation['addToCartUrl'], PHP_URL_QUERY);
+            parse_str($query, $params);
+
+            self::assertSame($expectedCampaign, $params['mtm_campaign']);
+            self::assertSame('in_app_marketplace', $params['mtm_group']);
+            self::assertSame($expectedContent, $params['mtm_content']);
+            self::assertSame('add_to_cart', $params['mtm_placement']);
+            self::assertSame('app.marketplace.overview', $params['mtm_medium']);
+            self::assertStringStartsWith('matomo_app_', $params['mtm_source']);
+
+            // the variation the shop needs to identify the product must survive tagging
+            self::assertArrayHasKey('add-to-cart', $params);
+        }
+    }
+
+    /**
+     * @return iterable<string, array<string>>
+     */
+    public function getShopCampaignTaggingTestData(): iterable
+    {
+        yield 'bundle gets the bundle campaign' => [
+            'NewBundle1',
+            'v2.0_plugins_NewBundle1_info.json',
+            'app_bundles',
+            'new_bundle1',
+        ];
+    }
+
+    public function testGetPluginInfoLeavesNonMatomoShopLinksUntouched(): void
+    {
+        $_GET['module'] = 'Marketplace';
+        $_GET['action'] = 'overview';
+
+        // this fixture's cart links point at plugins.piwik.org, which is not a Matomo shop domain
+        $this->service->returnFixture('v2.0_plugins_PaidPlugin1_info.json');
+
+        $plugin = $this->plugins->getPluginInfo('PaidPlugin1');
+
+        self::assertNotEmpty($plugin['shop']['variations']);
+
+        foreach ($plugin['shop']['variations'] as $variation) {
+            self::assertStringNotContainsString('mtm_campaign', $variation['addToCartUrl']);
+        }
     }
 
     public function testSearchPluginsWithSearchAndNoPluginsFoundShouldCallCorrectApi()

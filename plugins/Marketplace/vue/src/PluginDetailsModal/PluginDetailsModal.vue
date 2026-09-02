@@ -61,15 +61,21 @@
 
       <div
         class="modal-content__main"
-        :class="{'modal-content__main--with-free-trial': showFreeTrialDropdown }"
+        :class="{'modal-content__main--with-shop-pricing': showShopPricing }"
       >
         <div class="plugin-description">
           <MissingReqsNotice v-if="showMissingRequirementsNoticeIfApplicable" :plugin="plugin" />
 
-          <div v-if="isMultiServerEnvironment" class="alert alert-warning">
+          <div
+            v-if="showDeploymentWarnings && isMultiServerEnvironment"
+            class="alert alert-warning"
+          >
             {{ translate('Marketplace_MultiServerEnvironmentWarning') }}
           </div>
-          <div v-else-if="!isAutoUpdatePossible" class="alert alert-warning">
+          <div
+            v-else-if="showDeploymentWarnings && !isAutoUpdatePossible"
+            class="alert alert-warning"
+          >
             {{
               translate(
                 'Marketplace_AutoUpdateDisabledWarning',
@@ -267,60 +273,43 @@
       </div>
       <div
         class="modal-content__footer"
-        :class="{'modal-content__footer--with-free-trial': showFreeTrialDropdown }"
+        :class="{'modal-content__footer--with-shop-pricing': showShopPricing }"
       >
-        <img v-if="showFreeTrialDropdown && isMatomoPlugin"
-             class="matomo-badge matomo-badge-modal"
-             src="plugins/Marketplace/images/matomo-badge.png"
-             aria-label="Matomo plugin"
-             alt=""
-        />
-        <div class="cta-container cta-container-modal">
-          <div v-if="showFreeTrialDropdown" class="free-trial">
-            <div class="free-trial-lead-in">{{ translate('Marketplace_TryFreeTrialTitle') }}</div>
-            <select
-              class="free-trial-dropdown"
-              :title="`${translate('Marketplace_ShownPriceIsExclTax')} ${translate(
-                'Marketplace_CurrentNumPiwikUsers',
-                numUsers
-                )}`"
-              v-model="selectedPluginShopVariationUrl"
-              @change="changeSelectedPluginShopVariationUrl"
-            >
-              <option v-for="(variation, index) in plugin.shop.variations" :key="`var-${index}`"
-                      :value="variation.addToCartUrl"
-                      :title="`${translate(
-                      'Marketplace_PriceExclTax',
-                      String(variation.price),
-                      variation.currency
-                    )} ${translate('Marketplace_CurrentNumPiwikUsers', numUsers)}`"
-              >{{ variation.name }} - {{ variation.prettyPrice }} / {{ variation.period }}</option>
-            </select>
-          </div>
-
-          <CTAContainer
-            :is-super-user="isSuperUser"
-            :is-plugins-admin-enabled="isPluginsAdminEnabled"
-            :is-multi-server-environment="isMultiServerEnvironment"
-            :is-valid-consumer="isValidConsumer"
-            :is-auto-update-possible="isAutoUpdatePossible"
-            :activate-nonce="activateNonce"
-            :deactivate-nonce="deactivateNonce"
-            :install-nonce="installNonce"
-            :update-nonce="updateNonce"
+        <div class="modal-content__shopPricing" v-if="showShopPricing">
+          <ShopPricing
             :plugin="plugin"
-            :in-modal="true"
-            :shop-variation-url="selectedShopVariationUrl"
-            @requestTrial="emitTrialEvent('requestTrial')"
-            @startFreeTrial="emitTrialEvent('startFreeTrial')"
+            :num-users="numUsers"
+            :show-free-trial-lead-in="plugin.isEligibleForFreeTrial"
+            :use-period-tabs="plugin.isNewBundle"
           />
         </div>
-        <img v-if="!showFreeTrialDropdown && isMatomoPlugin"
-             class="matomo-badge matomo-badge-modal"
-             src="plugins/Marketplace/images/matomo-badge.png"
-             aria-label="Matomo plugin"
-             alt=""
-        />
+
+        <template v-else>
+          <div class="cta-container cta-container-modal">
+            <CTAContainer
+              :is-super-user="isSuperUser"
+              :is-plugins-admin-enabled="isPluginsAdminEnabled"
+              :is-multi-server-environment="isMultiServerEnvironment"
+              :is-valid-consumer="isValidConsumer"
+              :is-auto-update-possible="isAutoUpdatePossible"
+              :activate-nonce="activateNonce"
+              :deactivate-nonce="deactivateNonce"
+              :install-nonce="installNonce"
+              :update-nonce="updateNonce"
+              :plugin="plugin"
+              :in-modal="true"
+              :shop-variation-url="selectedShopVariationUrl"
+              @requestTrial="emitTrialEvent('requestTrial')"
+              @startFreeTrial="emitTrialEvent('startFreeTrial')"
+            />
+          </div>
+          <img v-if="isMatomoPlugin"
+               class="matomo-badge matomo-badge-modal"
+               src="plugins/Marketplace/images/matomo-badge.svg"
+               aria-label="Matomo plugin"
+               alt=""
+          />
+        </template>
       </div>
     </div>
   </div>
@@ -338,6 +327,8 @@ import {
   TObjectArray,
 } from '../types';
 import CTAContainer from '../PluginList/CTAContainer.vue';
+import ShopPricing from './ShopPricing.vue';
+import { hasShopPricing } from './shopPricing';
 import MissingReqsNotice from '../MissingReqsNotice/MissingReqsNotice.vue';
 
 const { $ } = window;
@@ -366,11 +357,10 @@ export interface PluginSupportItem {
 
 export interface PluginDetailsModalState {
   isLoading: boolean;
-  currentPluginShopVariationUrl: string;
 }
 
 export default defineComponent({
-  components: { MissingReqsNotice, CTAContainer },
+  components: { MissingReqsNotice, CTAContainer, ShopPricing },
   props: {
     modelValue: {
       type: Object as PropType<PluginDetails | null>,
@@ -424,7 +414,6 @@ export default defineComponent({
   data(): PluginDetailsModalState {
     return {
       isLoading: true,
-      currentPluginShopVariationUrl: '',
     };
   },
   emits: [
@@ -515,13 +504,20 @@ export default defineComponent({
       const license: TObject = this.pluginLatestVersion?.license as TObject || {};
       return !!license.name;
     },
-    showFreeTrialDropdown(): boolean {
+    showDeploymentWarnings(): boolean {
+      // both warnings tell you that you will have to download the plugin and deploy it yourself.
+      // A bundle is a licence purchase with no download of its own — the plugins it covers are
+      // installed individually afterwards — so neither warning is actionable for one.
+      return !this.plugin.isBundle;
+    },
+    showShopPricing(): boolean {
       return (
         this.isSuperUser
         && !this.plugin.isMissingLicense
         && !this.plugin.isInstalled
         && !this.plugin.hasExceededLicense
-        && this.plugin.isEligibleForFreeTrial
+        && (this.plugin.isEligibleForFreeTrial || this.plugin.isNewBundle)
+        && hasShopPricing(this.plugin)
       ) as boolean;
     },
     pluginScreenshots(): string[] {
@@ -546,21 +542,11 @@ export default defineComponent({
         : null;
       return recommendedVariations.length ? recommendedVariations[0] : defaultVariation;
     },
-    selectedPluginShopVariationUrl(): string {
-      return this.currentPluginShopVariationUrl
-        ? this.currentPluginShopVariationUrl
-        : this.pluginShopRecommendedVariation?.addToCartUrl || '';
-    },
     selectedShopVariationUrl(): string {
-      return this.selectedPluginShopVariationUrl || '';
+      return this.pluginShopRecommendedVariation?.addToCartUrl || '';
     },
   },
   methods: {
-    changeSelectedPluginShopVariationUrl(event: Event) {
-      if (event) {
-        this.currentPluginShopVariationUrl = (event.target as HTMLSelectElement).value;
-      }
-    },
     applyExternalTarget() {
       setTimeout(() => {
         const root = this.$refs.root as HTMLElement;

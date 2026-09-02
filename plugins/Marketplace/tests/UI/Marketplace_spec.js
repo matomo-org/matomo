@@ -300,6 +300,36 @@ describe("Marketplace", function () {
             await captureWithPluginDetails('paid_plugin_details_add_to_cart_' + mode);
         });
 
+        // the shop pricing bar is only rendered for a super user, so there is nothing to
+        // exercise in 'user' mode where the visitor only has view access
+        if (mode !== 'user') {
+            it('should offer annual and monthly billing for a bundle sold without a free trial', async function() {
+                setEnvironment(mode, noLicense);
+
+                var isFree = false;
+                await loadPluginDetailPage('Enterprise Bundle', isFree);
+
+                await page.waitForSelector('#pluginDetailsModal .shopPricing__periods', { visible: true });
+
+                await captureWithPluginDetails('bundle_details_annual_' + mode);
+            });
+
+            it('should show the monthly price of a bundle when monthly billing is picked', async function() {
+                setEnvironment(mode, noLicense);
+
+                var isFree = false;
+                await loadPluginDetailPage('Enterprise Bundle', isFree);
+
+                const monthly = await page.jQuery(
+                  '#pluginDetailsModal .shopPricing__period:contains("Pay monthly")',
+                  { waitFor: true }
+                );
+                await monthly.click();
+
+                await captureWithPluginDetails('bundle_details_monthly_' + mode);
+            });
+        }
+
         it('should show paid plugin details when having valid license', async function() {
             setEnvironment(mode, exceededLicense);
 

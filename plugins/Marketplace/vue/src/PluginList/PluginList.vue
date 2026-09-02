@@ -48,7 +48,7 @@
               <div class="card-content-top">
                 <img v-if="'piwik' == plugin.owner || 'matomo-org' == plugin.owner"
                      class="matomo-badge matomo-badge-top"
-                     src="plugins/Marketplace/images/matomo-badge.png"
+                     src="plugins/Marketplace/images/matomo-badge.svg"
                      aria-label="Matomo plugin"
                      alt=""
                 />
@@ -100,7 +100,7 @@
                 </div>
                 <img v-if="'piwik' == plugin.owner || 'matomo-org' == plugin.owner"
                      class="matomo-badge matomo-badge-bottom"
-                     src="plugins/Marketplace/images/matomo-badge.png"
+                     src="plugins/Marketplace/images/matomo-badge.svg"
                      aria-label="Matomo plugin"
                      alt=""
                 />

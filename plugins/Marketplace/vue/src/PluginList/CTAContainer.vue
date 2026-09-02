@@ -98,6 +98,7 @@
     <MoreDetailsAction
       v-else-if="!inModal && !plugin.isDownloadable && (
                    plugin.isPaid
+                   || plugin.isNewBundle
                    || plugin.missingRequirements.length > 0
                    || !isAutoUpdatePossible
                  )"
