@@ -787,7 +787,10 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         var $selector = $('.limitSelection .mtm-selector', domElem);
 
         if (self.isEmpty) {
-            $selector.addClass('disabled');
+            // The class dims it; the attribute is what takes it out of the tab order and tells a
+            // screen reader, which `pointer-events: none` alone leaves untouched.
+            $selector.addClass('disabled')
+                .find('.mtm-selector__trigger').attr('disabled', 'disabled');
             return;
         }
 
