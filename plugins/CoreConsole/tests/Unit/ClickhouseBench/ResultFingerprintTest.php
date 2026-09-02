@@ -86,6 +86,36 @@ class ResultFingerprintTest extends TestCase
         self::assertNull(ResultFingerprint::ofArchiveLog('Nothing to do.'));
     }
 
+    /**
+     * The most likely way for a whole run to be wrong while looking healthy: needles that do not
+     * occur in the data match nothing, an empty result set is fast on both engines, and every
+     * segmented case comes out quick with a spectacular ratio.
+     *
+     * @dataProvider emptyResultProvider
+     */
+    public function testAnEmptyResultIsRecognised(bool $expected, array $decoded): void
+    {
+        self::assertSame($expected, ResultFingerprint::isEmpty(ResultFingerprint::of($decoded)));
+    }
+
+    public function emptyResultProvider(): array
+    {
+        return [
+            'no visits in the log' => [true, []],
+            'archived nothing' => [true, ['nb_visits' => 0]],
+            'one visit' => [false, [['idVisit' => '1']]],
+            'archived something' => [false, ['nb_visits' => 1]],
+        ];
+    }
+
+    public function testAnArchiveLogThatFoundNoVisitsCountsAsEmpty(): void
+    {
+        $fingerprint = ResultFingerprint::ofArchiveLog("segment = 'x', 0 visits found.");
+
+        self::assertNotNull($fingerprint);
+        self::assertTrue(ResultFingerprint::isEmpty($fingerprint));
+    }
+
     public function testApiResponseIsFoundEvenWhenLogLinesPrecedeIt(): void
     {
         $output = "WARNING: something\nNOTICE: something else\n" . '{"nb_visits":42}';

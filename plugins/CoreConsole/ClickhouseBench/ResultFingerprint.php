@@ -149,6 +149,29 @@ final class ResultFingerprint
     }
 
     /**
+     * Whether the case returned nothing at all.
+     *
+     * A segment whose needles do not occur in the data matches no visits, and an empty result
+     * set is fast on both engines - so every segmented case looks quick and the ratio between
+     * the engines looks spectacular. It is the most likely way for a whole run to be wrong
+     * while looking entirely healthy, and it is invisible in a table of timings.
+     *
+     * @param array{strength: string, rows: ?int, digest: string, summary: string} $fingerprint
+     */
+    public static function isEmpty(array $fingerprint): bool
+    {
+        if ($fingerprint['rows'] === 0) {
+            return true;
+        }
+
+        if ($fingerprint['digest'] === 'nb_visits:0') {
+            return true;
+        }
+
+        return (bool) preg_match('~^visits:0(,0)*$~', $fingerprint['digest']);
+    }
+
+    /**
      * The same check for core:archive, which logs rather than returning JSON.
      *
      * CronArchive::logArchiveJobFinished() writes one "N visits found" line per archive it

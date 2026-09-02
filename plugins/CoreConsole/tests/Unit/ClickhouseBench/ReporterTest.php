@@ -182,6 +182,31 @@ class ReporterTest extends TestCase
         self::assertStringContainsString('API error: boom', implode(' ', (new Reporter())->caveats($summary)));
     }
 
+    public function testACaseThatMeasuredNothingIsCalledOut(): void
+    {
+        $case = $this->archiveCase();
+        $results = [
+            new RunResult('mysql', $case, 1, false, true, 85.0, ResultFingerprint::of(['nb_visits' => 0]), 85.0, 85.0, 1),
+        ];
+
+        $summary = (new Reporter())->summarise($results, [Engine::fromKey('mysql')]);
+
+        self::assertTrue($summary[0]['empty']);
+        self::assertStringContainsString('times an empty result set', implode(' ', (new Reporter())->caveats($summary)));
+    }
+
+    public function testACaseWithDataIsNotCalledOutAsEmpty(): void
+    {
+        $case = $this->archiveCase();
+        $results = [
+            new RunResult('mysql', $case, 1, false, true, 85.0, ResultFingerprint::of(['nb_visits' => 3069]), 85.0, 85.0, 1),
+        ];
+
+        $summary = (new Reporter())->summarise($results, [Engine::fromKey('mysql')]);
+
+        self::assertFalse($summary[0]['empty']);
+    }
+
     /**
      * @return array{strength: string, rows: ?int, digest: string, summary: string}
      */

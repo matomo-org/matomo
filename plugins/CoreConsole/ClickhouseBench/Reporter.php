@@ -98,6 +98,7 @@ final class Reporter
 
             $row += $this->compare($row['engines'], $engines);
             $row['agreement'] = $this->agreement($byEngine);
+            $row['empty'] = $this->isEmpty($byEngine);
 
             $summary[] = $row;
         }
@@ -220,6 +221,29 @@ final class Reporter
         }
 
         return $strength === ResultFingerprint::WEAK ? 'same (weak)' : 'same';
+    }
+
+    /**
+     * @param array<string, RunResult[]> $byEngine
+     */
+    private function isEmpty(array $byEngine): bool
+    {
+        $sawFingerprint = false;
+
+        foreach ($byEngine as $runs) {
+            foreach ($runs as $run) {
+                $fingerprint = $run->getFingerprint();
+                if ($fingerprint === null) {
+                    continue;
+                }
+                $sawFingerprint = true;
+                if (!ResultFingerprint::isEmpty($fingerprint)) {
+                    return false;
+                }
+            }
+        }
+
+        return $sawFingerprint;
     }
 
     /**
@@ -349,6 +373,15 @@ final class Reporter
                         $engineSummary['otherArchives']
                     );
                 }
+            }
+
+            if (!empty($case['empty'])) {
+                $caveats[] = sprintf(
+                    '%s: every engine returned an empty result, so this row times an empty result'
+                    . ' set rather than the report. Usually the segment needles do not occur in'
+                    . ' this data - check --needle-* and --date against the corpus.',
+                    $case['case']
+                );
             }
 
             if ($case['agreement'] === 'DIFFERENT') {

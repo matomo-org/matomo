@@ -180,11 +180,15 @@ HELP);
 
         $segmentIds = [];
         if ($archiveDriver === CaseRunner::DRIVER_CRON) {
-            $audit = (new SegmentRegistrar())->audit($idSite, array_values($segments));
-            $needed = array_unique(array_filter(array_map(
+            // Audited over the segments this run will actually archive, not over every segment
+            // the suite knows about - otherwise selecting one case reports four problems, three
+            // of which are about work that was never going to happen.
+            $needed = array_values(array_unique(array_filter(array_map(
                 static fn(BenchCase $case): string => $case->isArchive() ? $case->getSegment() : '',
                 $cases
-            )));
+            ))));
+
+            $audit = (new SegmentRegistrar())->audit($idSite, $needed);
 
             $missing = array_values(array_diff($needed, array_keys($audit['usable'])));
             if (!empty($missing)) {
