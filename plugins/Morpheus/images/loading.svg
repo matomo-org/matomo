@@ -1,31 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="11" viewBox="0 0 16 11">
   <!--
-    Three bars that grow and darken in sequence, reproducing the geometry and timing of the
-    .matomo-loader CSS spinner in plugins/CoreHome/stylesheets/matomo-loader.less at the same
-    16x11 size. That one takes its colour from the surrounding text; this one cannot, because an
-    SVG used as a background-image is a separate document and inherits nothing from the page, so
-    the grey is baked in. It is picked to read on every surface these seven call sites sit on, in
-    both light and dark mode. Keep the two in step if either is restyled.
+    The CSS twin of this spinner is .matomo-loader in
+    plugins/CoreHome/stylesheets/matomo-loader.less - keep the two in step. That one inherits its
+    colour from the surrounding text; this one cannot, since an SVG used as a background-image is
+    a separate document, so the grey is baked in.
 
-    The background is transparent so the surface behind it shows through, which is what makes this
-    usable in both light and dark mode. Scaled with a transform rather than animating the y/height
-    geometry properties, since transforms are the better supported of the two as CSS properties.
-    1.5714285714 is 11/7 - the ratio .matomo-loader reaches growing a 4x7 bar to 4x11.
+    scaleY(1.5714285714) is 11/7, matching .matomo-loader growing a 4x7 bar to 4x11.
 
-    An SVG painted as a CSS background-image still runs its own CSS animation, because browsers
-    load it in the spec's "secure animated mode" - scripts are blocked, declarative animation is
-    not. That is why these call sites need no markup. Verified in a browser against a probe
-    painted with the same url() the app stylesheets use.
-
-    Careful with screenshot tests: the harness freezes animation via `animation: none` in
-    tests/resources/screenshot-override/override.css, and that only reaches the host document, not
-    inside this file. A baseline capturing one of these call sites mid-load would sample an
-    arbitrary frame and flake every run.
-
-    If you ever do need the colour themed, mask-image plus a themable background-color is the way
-    (see plugins/TagManager/stylesheets/containerMenu.less), but note a mask reads only the alpha
-    channel - both fills below are opaque, so the darkening half of the pulse would silently
-    vanish and you would have to animate fill-opacity instead.
+    Screenshot tests cannot freeze this. The harness's `animation: none` override only reaches the
+    host document, so a baseline capturing one of these call sites mid-load would flake every run.
   -->
   <style>
     .matomo-loader__bar {
@@ -49,7 +32,7 @@
       }
     }
   </style>
-  <rect class="matomo-loader__bar" x="0" y="2" width="4" height="7" />
-  <rect class="matomo-loader__bar matomo-loader__bar--second" x="6" y="2" width="4" height="7" />
-  <rect class="matomo-loader__bar matomo-loader__bar--third" x="12" y="2" width="4" height="7" />
+  <rect fill="#b3b3b3" class="matomo-loader__bar" x="0" y="2" width="4" height="7" />
+  <rect fill="#b3b3b3" class="matomo-loader__bar matomo-loader__bar--second" x="6" y="2" width="4" height="7" />
+  <rect fill="#b3b3b3" class="matomo-loader__bar matomo-loader__bar--third" x="12" y="2" width="4" height="7" />
 </svg>
