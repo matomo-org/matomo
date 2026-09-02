@@ -92,6 +92,7 @@
             data-report-action="export"
             v-expand-on-click="{
               expander: 'exportTrigger',
+              expandedClass: 'mtm-selector--expanded',
               onExpand: () => { exportExpanded = true; },
               onClosed: () => { exportExpanded = false; },
             }"
@@ -143,6 +144,7 @@
             data-report-action="periods"
             v-expand-on-click="{
               expander: 'periodsTrigger',
+              expandedClass: 'mtm-selector--expanded',
               onExpand: () => { periodsExpanded = true; },
               onClosed: () => { periodsExpanded = false; },
             }"
@@ -629,11 +631,11 @@ export default defineComponent({
     // Picking a period is the end of the interaction. ExpandOnClick keeps its state in the class,
     // so dropping it is how a panel closes itself - the same move MetricsPicker makes.
     closePromotedPeriods() {
-      (this.$refs.periodsSelector as HTMLElement | undefined)?.classList.remove('expanded');
+      (this.$refs.periodsSelector as HTMLElement | undefined)?.classList.remove('mtm-selector--expanded');
       this.periodsExpanded = false;
     },
     closePromotedExport() {
-      (this.$refs.exportSelector as HTMLElement | undefined)?.classList.remove('expanded');
+      (this.$refs.exportSelector as HTMLElement | undefined)?.classList.remove('mtm-selector--expanded');
       this.exportExpanded = false;
     },
     isPromoted(action: PromotableActionId): boolean {

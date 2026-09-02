@@ -42,12 +42,10 @@
     }
   }
 
-  // `expanded` is ExpandOnClick's, the way .piwikSelector and .metrics-picker read it. Binding a
-  // class of our own on that node instead would wipe it: Vue assigns className wholesale.
   // Keyboard focus only: a pointer leaves focus on whatever it pressed, and a control that stayed
   // outlined after a plain click would read as still active. An open panel keeps `expanded`.
   &:hover .mtm-selector__trigger,
-  &.expanded .mtm-selector__trigger,
+  &--expanded .mtm-selector__trigger,
   .mtm-selector__trigger:focus-visible {
     border-color: @theme-color-link;
   }
@@ -74,7 +72,7 @@
     transition: transform .15s ease;
   }
 
-  &.expanded .mtm-selector__rightIcon {
+  &--expanded .mtm-selector__rightIcon {
     transform: rotate(180deg);
   }
 
@@ -89,7 +87,7 @@
     z-index: 200;
   }
 
-  &.expanded .mtm-selector__dropdown {
+  &--expanded .mtm-selector__dropdown {
     display: block;
   }
 }
