@@ -9,14 +9,16 @@
 }
 
 // On the pagination line the counter stays centred on the full width, so the selector is taken out
-// of the flow rather than sharing it.
+// of the flow rather than sharing it. Centred by the flex line rather than by a transform, which
+// would open a stacking context and trap the panel behind whatever follows the report.
 .dataTablePaginationControl {
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .dataTablePaginationControl .limitSelection {
   position: absolute;
   right: 0;
-  top: 50%;
-  transform: translateY(-50%);
 }

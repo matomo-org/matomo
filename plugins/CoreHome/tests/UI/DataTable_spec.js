@@ -77,7 +77,8 @@ describe('DataTable', function () {
     await page.waitForSelector(selectors.limitDropdownMenu, { visible: true });
     const dropdown = await page.$(selectors.limitDropdownMenu);
     expect(dropdown).to.be.ok;
-    await page.click(`${selectors.limitDropdownMenu} li:nth-child(1) [data-limit]`);
+    // Picking the limit already in force reloads nothing, so take the first that is not it.
+    await page.click(`${selectors.limitDropdownMenu} [data-limit][aria-checked="false"]`);
     await page.waitForNetworkIdle();
   }
 
