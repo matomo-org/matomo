@@ -1708,6 +1708,8 @@ __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, "expressions", function() { return /* reexport */ src_expressions; });
+__webpack_require__.d(__webpack_exports__, "isFieldLockedByPolicies", function() { return /* reexport */ isFieldLockedByPolicies; });
+__webpack_require__.d(__webpack_exports__, "compliancePolicyMetadata", function() { return /* reexport */ compliancePolicyMetadata; });
 __webpack_require__.d(__webpack_exports__, "FormField", function() { return /* reexport */ FormField; });
 __webpack_require__.d(__webpack_exports__, "Field", function() { return /* reexport */ Field; });
 __webpack_require__.d(__webpack_exports__, "PluginSettings", function() { return /* reexport */ PluginSettings; });
@@ -15032,10 +15034,38 @@ expressions_math.import({
   override: true
 });
 /* harmony default export */ var src_expressions = (expressions_math);
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/FormField/compliancePolicy.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+/**
+ * Whether the given policies leave no compliant alternative to the value they enforce, so the
+ * field they control has to be shown read-only rather than merely restricted to fewer choices.
+ *
+ * Mirrors PolicyManager::isFieldLockedByPolicies().
+ */
+function isFieldLockedByPolicies(controls) {
+  return Object.values(controls !== null && controls !== void 0 ? controls : {}).some(control => control.constraintType === 'exact');
+}
+/**
+ * The extra metadata a Field needs to render the compliance note for the given policies, or
+ * undefined when none applies, so that no empty note is rendered.
+ */
+function compliancePolicyMetadata(controls) {
+  if (!controls || !Object.keys(controls).length) {
+    return undefined;
+  }
+  return {
+    compliancePolicyControlled: controls
+  };
+}
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CorePluginsAdmin/vue/src/FormField/FormField.vue?vue&type=template&id=440c0417
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CorePluginsAdmin/vue/src/FormField/FormField.vue?vue&type=template&id=41571e5b
 
 const _hoisted_1 = {
   key: 0,
@@ -15091,13 +15121,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     noclear: true,
     context: "info"
   }, {
-    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_PolicyControlledSetting')) + " ", 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.privacyPolicyNote) + " ", 1), !_ctx.isPrivacyPolicyConfigControlled ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
+      key: 0,
       href: _ctx.privacyPolicyLink
-    }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_ViewPrivacyComplianceOverview')), 9, _hoisted_6)]),
+    }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_ViewPrivacyComplianceOverview')), 9, _hoisted_6)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]),
     _: 1
   })) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 2)], 2);
 }
-// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/FormField/FormField.vue?vue&type=template&id=440c0417
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/FormField/FormField.vue?vue&type=template&id=41571e5b
 
 // EXTERNAL MODULE: external "CoreHome"
 var external_CoreHome_ = __webpack_require__("19dc");
@@ -16756,6 +16787,21 @@ FieldPasswordvue_type_script_lang_ts.render = FieldPasswordvue_type_template_id_
 
 
 
+
+// note shown when the policy requirement is the only compliant value, so the field is read-only
+const POLICY_LOCKED_NOTES = {
+  config: 'PrivacyManager_PolicyControlledSettingLockedConfig',
+  instance: 'PrivacyManager_PolicyControlledSettingLockedInstance',
+  site: 'PrivacyManager_PolicyControlledSettingLockedWebsite'
+};
+// note shown when the requirement is only a bound, so stricter values remain selectable
+const POLICY_CONSTRAINED_NOTES = {
+  config: 'PrivacyManager_PolicyControlledSettingConstrainedConfig',
+  instance: 'PrivacyManager_PolicyControlledSettingConstrainedInstance',
+  site: 'PrivacyManager_PolicyControlledSettingConstrainedWebsite'
+};
+// most to least far reaching, so that the note names the enforcement that actually applies
+const POLICY_SCOPE_PRECEDENCE = ['config', 'instance', 'site'];
 const TEXT_CONTROLS = ['url', 'search', 'email'];
 const CONTROLS_SUPPORTING_ARRAY = ['textarea', 'checkbox', 'text'];
 const CONTROL_TO_COMPONENT_MAP = {
@@ -16982,8 +17028,33 @@ const CONTROL_TO_AVAILABLE_OPTION_PROCESSOR = {
       return (_this$formField$extra = this.formField.extraMetadata) === null || _this$formField$extra === void 0 ? void 0 : _this$formField$extra.idSite;
     },
     isPrivacyPolicyControlled() {
-      var _this$formField$extra2;
-      return ((_this$formField$extra2 = this.formField.extraMetadata) === null || _this$formField$extra2 === void 0 ? void 0 : _this$formField$extra2.compliancePolicyControlled) !== undefined;
+      return this.privacyPolicyControls.length > 0;
+    },
+    privacyPolicyControlled() {
+      var _this$formField$extra2, _this$formField$extra3;
+      return (_this$formField$extra2 = (_this$formField$extra3 = this.formField.extraMetadata) === null || _this$formField$extra3 === void 0 ? void 0 : _this$formField$extra3.compliancePolicyControlled) !== null && _this$formField$extra2 !== void 0 ? _this$formField$extra2 : {};
+    },
+    privacyPolicyControls() {
+      return Object.values(this.privacyPolicyControlled);
+    },
+    isPrivacyPolicyConfigControlled() {
+      return this.privacyPolicyScope === 'config';
+    },
+    privacyPolicyScope() {
+      // the same precedence CompliancePolicy::getEnforcementScope() applies: a value in the
+      // config file cannot be changed from the dashboard, and instance-wide covers every site
+      return POLICY_SCOPE_PRECEDENCE.find(scope => this.privacyPolicyControls.some(control => control.scope === scope));
+    },
+    privacyPolicyNote() {
+      var _notes, _this$privacyPolicySc;
+      const control = this.privacyPolicyControls[0];
+      if (!control) {
+        return '';
+      }
+      // a requirement that leaves no alternative locks the field, one that is only a bound
+      // still lets the user pick any of the values that remain compliant
+      const notes = isFieldLockedByPolicies(this.privacyPolicyControlled) ? POLICY_LOCKED_NOTES : POLICY_CONSTRAINED_NOTES;
+      return Object(external_CoreHome_["translate"])((_notes = notes[(_this$privacyPolicySc = this.privacyPolicyScope) !== null && _this$privacyPolicySc !== void 0 ? _this$privacyPolicySc : '']) !== null && _notes !== void 0 ? _notes : notes.instance, control.policyTitle);
     },
     privacyPolicyLink() {
       var _this$getExtraMetadat;
@@ -19075,6 +19146,7 @@ UploadPluginDialogvue_type_script_lang_ts.render = UploadPluginDialogvue_type_te
  * @link    https://matomo.org
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 */
+
 
 
 

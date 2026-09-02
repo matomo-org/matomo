@@ -433,6 +433,7 @@
         "Plugin": "Plugin",
         "Plugins": "Plugins",
         "ManageSubscriptions": "Manage Subscriptions",
+        "PolicyControlledSettingChangeRejected": "The setting '%1$s' cannot be changed to that value because %2$s is currently enforced.",
         "PoweredBy": "Powered by",
         "Previous": "Previous",
         "PreviousDays": "Previous %s days (not including today)",

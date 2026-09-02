@@ -16,6 +16,7 @@ use Piwik\Config;
 use Piwik\DataTable\Renderer\Json;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
+use Piwik\Policy\PolicyManager;
 use Piwik\Plugins\SitesManager\SiteContentDetection\Matomo;
 use Piwik\Plugins\SitesManager\SiteContentDetection\SiteContentDetectionAbstract;
 use Piwik\Plugins\SitesManager\SiteContentDetection\WordPress;
@@ -86,6 +87,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $globalSettings['excludedUserAgentsGlobal'] = API::getInstance()->getExcludedUserAgentsGlobal();
         $globalSettings['excludedReferrersGlobal'] = API::getInstance()->getExcludedReferrersGlobal();
         $globalSettings['exclusionTypeForQueryParams'] = API::getInstance()->getExclusionTypeForQueryParams();
+        // stored as an instance-wide option, so it is never site specific
+        $globalSettings['exclusionTypeForQueryParamsPolicyControlled'] = PolicyManager::getCompliancePoliciesControllingASetting(
+            API::OPTION_EXCLUDE_TYPE_QUERY_PARAMS_GLOBAL,
+            null,
+            PolicyManager::SETTING_TYPE_OPTION
+        );
 
         return $response->getResponse($globalSettings);
     }

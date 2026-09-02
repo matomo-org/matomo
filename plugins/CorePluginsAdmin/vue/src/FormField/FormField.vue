@@ -84,7 +84,8 @@
         :noclear="true"
         context="info"
       >
-        {{ translate('PrivacyManager_PolicyControlledSetting') }} <a :href="privacyPolicyLink">
+        {{ privacyPolicyNote }}
+        <a v-if="!isPrivacyPolicyConfigControlled" :href="privacyPolicyLink">
           {{ translate('PrivacyManager_ViewPrivacyComplianceOverview') }}
         </a>
       </Notification>
@@ -101,7 +102,12 @@ import {
   Component,
   markRaw,
 } from 'vue';
-import { useExternalPluginComponent, MatomoUrl, Notification } from 'CoreHome';
+import {
+  useExternalPluginComponent,
+  MatomoUrl,
+  Notification,
+  translate,
+} from 'CoreHome';
 import FieldCheckbox from './FieldCheckbox.vue';
 import FieldCheckboxArray from './FieldCheckboxArray.vue';
 import FieldExpandableSelect, {
@@ -123,6 +129,28 @@ import FieldTextarea from './FieldTextarea.vue';
 import FieldTextareaArray from './FieldTextareaArray.vue';
 import { processCheckboxAndRadioAvailableValues } from './utilities';
 import FieldPassword from './FieldPassword.vue';
+import {
+  CompliancePolicyControl,
+  CompliancePolicyControls,
+  isFieldLockedByPolicies,
+} from './compliancePolicy';
+
+// note shown when the policy requirement is the only compliant value, so the field is read-only
+const POLICY_LOCKED_NOTES: Record<string, string> = {
+  config: 'PrivacyManager_PolicyControlledSettingLockedConfig',
+  instance: 'PrivacyManager_PolicyControlledSettingLockedInstance',
+  site: 'PrivacyManager_PolicyControlledSettingLockedWebsite',
+};
+
+// note shown when the requirement is only a bound, so stricter values remain selectable
+const POLICY_CONSTRAINED_NOTES: Record<string, string> = {
+  config: 'PrivacyManager_PolicyControlledSettingConstrainedConfig',
+  instance: 'PrivacyManager_PolicyControlledSettingConstrainedInstance',
+  site: 'PrivacyManager_PolicyControlledSettingConstrainedWebsite',
+};
+
+// most to least far reaching, so that the note names the enforcement that actually applies
+const POLICY_SCOPE_PRECEDENCE = ['config', 'instance', 'site'];
 
 const TEXT_CONTROLS = ['url', 'search', 'email'];
 const CONTROLS_SUPPORTING_ARRAY = ['textarea', 'checkbox', 'text'];
@@ -412,7 +440,39 @@ export default defineComponent({
       return this.formField.extraMetadata?.idSite;
     },
     isPrivacyPolicyControlled() {
-      return this.formField.extraMetadata?.compliancePolicyControlled !== undefined;
+      return this.privacyPolicyControls.length > 0;
+    },
+    privacyPolicyControlled(): CompliancePolicyControls {
+      return (this.formField.extraMetadata?.compliancePolicyControlled
+        ?? {}) as CompliancePolicyControls;
+    },
+    privacyPolicyControls(): CompliancePolicyControl[] {
+      return Object.values(this.privacyPolicyControlled);
+    },
+    isPrivacyPolicyConfigControlled() {
+      return this.privacyPolicyScope === 'config';
+    },
+    privacyPolicyScope(): string|undefined {
+      // the same precedence CompliancePolicy::getEnforcementScope() applies: a value in the
+      // config file cannot be changed from the dashboard, and instance-wide covers every site
+      return POLICY_SCOPE_PRECEDENCE.find(
+        (scope) => this.privacyPolicyControls.some((control) => control.scope === scope),
+      );
+    },
+    privacyPolicyNote() {
+      const control = this.privacyPolicyControls[0];
+
+      if (!control) {
+        return '';
+      }
+
+      // a requirement that leaves no alternative locks the field, one that is only a bound
+      // still lets the user pick any of the values that remain compliant
+      const notes = isFieldLockedByPolicies(this.privacyPolicyControlled)
+        ? POLICY_LOCKED_NOTES
+        : POLICY_CONSTRAINED_NOTES;
+
+      return translate(notes[this.privacyPolicyScope ?? ''] ?? notes.instance, control.policyTitle);
     },
     privacyPolicyLink() {
       return `?${MatomoUrl.stringify({
