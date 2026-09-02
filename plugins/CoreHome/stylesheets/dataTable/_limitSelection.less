@@ -12,23 +12,21 @@
   display: none;
 }
 
-// On the pagination line the counter stays centred on the full width, so the selector is taken out
-// of the flow rather than sharing it. Centred by the flex line rather than by a transform, which
-// would open a stacking context and trap the panel behind whatever follows the report.
+// The counter stays centred on the full width, so the selector is taken out of the flow rather than
+// sharing it, and centred by the flex line rather than by a transform - which would open a stacking
+// context and trap the panel behind whatever follows the report. The line reserves the height the
+// control overflows, being twice as tall as the text beside it.
 .dataTablePaginationControl {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-// Absolute offsets are measured from the padding box, so the row's own padding would not inset the
-// control: it carries the gap itself, and the line reserves the height it overflows.
-.dataTablePaginationControl {
   min-height: @_control-height;
   padding-bottom: @_gap - 4px;
 }
 
+// An absolute offset is measured from the padding box, so the line's own padding would never reach
+// the control: it carries the gap itself.
 .dataTablePaginationControl .limitSelection {
   position: absolute;
   right: @_gap;
