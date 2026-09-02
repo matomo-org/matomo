@@ -115,6 +115,17 @@ password =
 ; CDC sink convention.
 dbname =
 adapter = CLICKHOUSE
+; Table prefix for the analytics copies. Empty = the same prefix as [database], which is the
+; normal case. Set it when the two engines disagree - a ClickPipes destination commonly names
+; the copies after the source instance (mc_anonsite_log_visit) while the MySQL side has no
+; prefix at all, and Matomo only has one [database] tables_prefix. The adapter rewrites the
+; table reference after FROM/JOIN and leaves the alias alone, so qualified column references
+; are unaffected.
+tables_prefix =
+; Use TLS for the ClickHouse HTTP interface. Empty = infer from the host (a host written as
+; https://... turns it on), which covers ClickHouse Cloud. ClickHouse Cloud is TLS-only on
+; port 8443, so this is not optional there.
+https =
 ; Hostname of the MySQL server as seen FROM the ClickHouse server, for the test
 ; environment's log table sync. Empty = same host PHP uses. CI sets
 ; CLICKHOUSE_SYNC_MYSQL_HOST=host.docker.internal instead.

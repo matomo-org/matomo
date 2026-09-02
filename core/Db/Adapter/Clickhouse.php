@@ -342,7 +342,8 @@ class Clickhouse implements AdapterInterface
             ClickhouseLogTableSync::resyncIfLogTablesChangedForTests();
         }
 
-        $translated = ClickhouseDialectTranslator::translate($sql);
+        $translated = $this->applyAnalyticsTablePrefix($sql);
+        $translated = ClickhouseDialectTranslator::translate($translated);
         [$chSql, $params] = self::convertPositionalBinds($translated, $bind);
         // Segment LIKEs were pointed at the lowercased, indexed copy of log_action.name
         // during translation; their needles can only be lowered here, once the binds have
@@ -420,18 +421,87 @@ class Clickhouse implements AdapterInterface
         return $rows;
     }
 
+    /**
+     * Rewrites log table references to the analytics database's own table prefix.
+     *
+     * Matomo has ONE [database] tables_prefix, but the two engines need not agree: a
+     * ClickPipes destination commonly prefixes the copies with the source instance name
+     * (mc_anonsite_log_visit) while the MySQL side has no prefix at all. Without this, one
+     * engine or the other is always addressing tables that do not exist.
+     *
+     * Only the table reference after FROM/JOIN is rewritten, never the alias. Matomo always
+     * aliases a log table to its own unprefixed name - JoinGenerator emits
+     * `prefixTable($t) . " AS $t"` - so turning `FROM log_visit AS log_visit` into
+     * `FROM mc_anonsite_log_visit AS log_visit` leaves every log_visit.column reference in
+     * the rest of the statement valid, and nothing else has to know. Where a reference
+     * carries no alias, one is added for the same reason.
+     *
+     * Set [database_analytics] tables_prefix to use it; empty means "same as [database]",
+     * which is the normal case and costs nothing.
+     */
+    private function applyAnalyticsTablePrefix(string $sql): string
+    {
+        $target = (string) ($this->config['tables_prefix'] ?? '');
+        $source = (string) ($this->config['source_tables_prefix'] ?? '');
+
+        if ($target === $source) {
+            return $sql;
+        }
+
+        // Longest first: log_conversion_item must not be matched as log_conversion.
+        $tables = 'log_link_visit_action|log_conversion_item|log_conversion|log_bot_request'
+                . '|log_visit|log_action';
+
+        // The optional trailing group is the alias Matomo normally supplies. A clause keyword
+        // is not an alias, so those are listed out - matching WHERE as an alias would swallow
+        // the rest of the statement's meaning.
+        $notAnAlias = 'AS|ON|WHERE|GROUP|ORDER|LIMIT|HAVING|UNION|SET|USING|FINAL|USE'
+                    . '|INNER|LEFT|RIGHT|FULL|CROSS|STRAIGHT_JOIN|JOIN';
+
+        $pattern = '~\b(FROM|JOIN)(\s+)`?' . preg_quote($source, '~') . '(' . $tables . ')`?(?![\w`])'
+                 . '(\s+(?:AS\s+)?`?(?!(?:' . $notAnAlias . ')\b)\w+`?)?~i';
+
+        return preg_replace_callback($pattern, static function (array $m) use ($source, $target): string {
+            $rewritten = $m[1] . $m[2] . $target . $m[3];
+
+            // Already aliased (the usual case): keep the alias exactly as written, so every
+            // qualified column reference elsewhere in the statement still resolves.
+            if (!empty($m[4])) {
+                return $rewritten . $m[4];
+            }
+
+            // Unaliased: pin the name the rest of the statement expects.
+            return $rewritten . ' AS ' . $source . $m[3];
+        }, $sql) ?? $sql;
+    }
+
     private function getClient(): Client
     {
         if ($this->client !== null) {
             return $this->client;
         }
 
+        // ClickHouse Cloud is TLS-only on 8443, so the transport has to be selectable.
+        // The scheme may be written into the host ("https://svc.clickhouse.cloud", which is
+        // how the service hands it to you) or given explicitly as [database_analytics] https;
+        // an explicit value wins. Without this the client hands the scheme to curl as a
+        // hostname and fails with "Could not resolve host: https".
+        $host = trim((string) ($this->config['host'] ?? '127.0.0.1'));
+        $https = null;
+        if (preg_match('~^(https?)://~i', $host, $scheme)) {
+            $https = 0 === strcasecmp($scheme[1], 'https');
+            $host = (string) preg_replace('~^https?://~i', '', $host);
+        }
+        if ('' !== (string) ($this->config['https'] ?? '')) {
+            $https = filter_var((string) $this->config['https'], FILTER_VALIDATE_BOOLEAN);
+        }
+
         $client = new Client([
-            'host' => (string) ($this->config['host'] ?? '127.0.0.1'),
+            'host' => rtrim($host, '/'),
             'port' => (string) ($this->config['port'] ?? self::getDefaultPort()),
             'username' => (string) ($this->config['username'] ?? 'default'),
             'password' => (string) ($this->config['password'] ?? ''),
-        ]);
+        ] + (null === $https ? [] : ['https' => $https]));
         $client->database((string) ($this->config['dbname'] ?? 'default'));
         $client->setConnectTimeOut(2);
         $client->setTimeout(300);

@@ -183,6 +183,8 @@ class Db implements TransactionalDatabaseInterface
                 'max_bytes_before_external_sort' => getenv('CLICKHOUSE_MAX_BYTES_BEFORE_EXTERNAL_SORT'),
                 'max_bytes_before_external_group_by' => getenv('CLICKHOUSE_MAX_BYTES_BEFORE_EXTERNAL_GROUP_BY'),
                 'join_algorithm' => getenv('CLICKHOUSE_JOIN_ALGORITHM'),
+                'tables_prefix' => getenv('CLICKHOUSE_TABLES_PREFIX'),
+                'https' => getenv('CLICKHOUSE_HTTPS'),
             ];
             foreach ($envOverrides as $key => $value) {
                 if ($value !== false && $value !== '') {
@@ -208,6 +210,13 @@ class Db implements TransactionalDatabaseInterface
 
         if (!empty($config['host'])) {
             $config['adapter'] = $config['adapter'] ?? 'CLICKHOUSE';
+            // The adapter rewrites log table references when the two engines disagree about
+            // the prefix, which they do whenever the copy was landed by a pipe that names the
+            // destination after the source instance. It needs both sides to compare.
+            $config['source_tables_prefix'] = Config::getInstance()->database['tables_prefix'] ?? '';
+            if (empty($config['tables_prefix'])) {
+                $config['tables_prefix'] = $config['source_tables_prefix'];
+            }
             // The dev/CI convention: both the ddev service and the CI service container
             // create the 'matomo' user. A configured username still wins.
             if (empty($config['username'])) {
