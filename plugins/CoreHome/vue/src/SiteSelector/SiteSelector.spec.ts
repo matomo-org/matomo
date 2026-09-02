@@ -155,9 +155,34 @@ describe('CoreHome/SiteSelector', () => {
     await flushPromises();
     expect(wrapper.classes()).toContain('expanded');
 
-    await wrapper.find('.mtm-dropdownPanel__noResult').trigger('click');
+    // the row is only shown for a search that matched nothing, so drive that state rather than
+    // clicking a hidden element, which would keep passing if its visibility logic broke
+    await wrapper.setData({ sites: [], searchTerm: 'nothing matches this' });
+
+    const noResult = wrapper.find('.mtm-dropdownPanel__noResult');
+    expect(noResult.isVisible()).toBe(true);
+
+    await noResult.trigger('click');
 
     expect(wrapper.classes()).toContain('expanded');
+  });
+
+  // This row moved out of the deleted AllSitesLink.vue into the selector itself, so its click
+  // behaviour is the one piece of the rewrite with no component of its own left to cover it.
+  it('switches to all websites when the all websites entry is clicked', async () => {
+    const wrapper = await mountSelector({ showSelectedSite: true, allSitesText: 'All Websites' });
+
+    await wrapper.find('.title').trigger('click');
+    await flushPromises();
+    expect(wrapper.classes()).toContain('expanded');
+
+    const labels = wrapper.findAll('.mtm-dropdownPanel__menuLabel');
+    await labels[labels.length - 1].trigger('click');
+
+    expect(wrapper.emitted('update:modelValue')?.pop()).toEqual([
+      { id: 'all', name: 'All Websites' },
+    ]);
+    expect(wrapper.classes()).not.toContain('expanded');
   });
 
   it('renders the all websites entry first when placed at the top', async () => {
