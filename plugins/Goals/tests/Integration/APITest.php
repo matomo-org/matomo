@@ -131,6 +131,14 @@ class APITest extends IntegrationTestCase
         yield 'description' => ['MyName', 'pattern', str_repeat('a', 256)];
     }
 
+    public function testAddGoalShouldThrowIfTheMatchAttributeDoesNotFitItsColumn()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('General_ValidatorErrorCharacterTooLong');
+
+        $this->api->addGoal($this->idSite, 'MyName', str_repeat('a', 21), 'pattern', 'contains');
+    }
+
     public function testAddGoalShouldCountUnsanitizedCharactersOnly()
     {
         // a name of 50 characters is accepted by the goal form, so sanitizing it must not make it too long

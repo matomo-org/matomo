@@ -227,7 +227,7 @@ class API extends \Piwik\Plugin\API
         $patternType = $this->checkPatternType($patternType, $matchAttribute);
         $pattern = $this->checkPattern($pattern, $matchAttribute);
         $this->checkPatternIsValid($patternType, $pattern, $matchAttribute);
-        $this->checkFieldLengths($name, $description, $pattern);
+        $this->checkFieldLengths($name, $description, $pattern, $matchAttribute);
 
         $revenue = Common::forceDotAsSeparatorForDecimalPoint((float)$revenue);
 
@@ -308,7 +308,7 @@ class API extends \Piwik\Plugin\API
         $patternType = $this->checkPatternType($patternType, $matchAttribute);
         $pattern = $this->checkPattern($pattern, $matchAttribute);
         $this->checkPatternIsValid($patternType, $pattern, $matchAttribute);
-        $this->checkFieldLengths($name, $description, $pattern);
+        $this->checkFieldLengths($name, $description, $pattern, $matchAttribute);
 
         $revenue = Common::forceDotAsSeparatorForDecimalPoint((float)$revenue);
 
@@ -379,11 +379,13 @@ class API extends \Piwik\Plugin\API
     /**
      * Ensures the given values still fit their columns, as the database would otherwise truncate them silently.
      */
-    private function checkFieldLengths(string $name, string $description, string $pattern): void
+    private function checkFieldLengths(string $name, string $description, string $pattern, string $matchAttribute): void
     {
         BaseValidator::check(Piwik::translate('Goals_GoalName'), Common::unsanitizeInputValue($name), [new CharacterLength(null, 50)]);
         BaseValidator::check(Piwik::translate('General_Description'), Common::unsanitizeInputValue($description), [new CharacterLength(null, 255)]);
         BaseValidator::check(Piwik::translate('Goals_Pattern'), Common::unsanitizeInputValue($pattern), [new CharacterLength(null, 255)]);
+        // unlike the fields above this one is no free text, so the stored value is what has to fit
+        BaseValidator::check('matchAttribute', $matchAttribute, [new CharacterLength(null, 20)]);
     }
 
     /**
