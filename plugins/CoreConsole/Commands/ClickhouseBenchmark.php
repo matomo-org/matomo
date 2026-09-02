@@ -232,6 +232,21 @@ HELP);
             return $this->dryRun($cases, $engines, $runner);
         }
 
+        // Checked before anything is measured, not at the end when the results are written.
+        // The command runs as the web user while the shell that typed it is usually root, so
+        // $HOME expands to a directory the process cannot write - and finding that out after a
+        // long run means the run is gone.
+        $jsonPath = (string) $input->getOption('json');
+        if ($jsonPath !== '' && !$this->isWritablePath($jsonPath)) {
+            $this->writeErrorMessage(sprintf(
+                'Cannot write --json=%s as user "%s". Nothing has been measured yet.'
+                . ' Pick a path this user can write, eg /tmp/bench.json.',
+                $jsonPath,
+                $this->currentUser()
+            ));
+            return self::FAILURE;
+        }
+
         if (
             !$this->printPreflight($process, $engines, $archiveDriver)
             && !$input->getOption('allow-engine-mismatch')
@@ -591,6 +606,29 @@ HELP);
         $this->writeSuccessMessage('Benchmark complete.');
 
         return self::SUCCESS;
+    }
+
+    private function isWritablePath(string $path): bool
+    {
+        if (file_exists($path)) {
+            return is_writable($path);
+        }
+
+        $directory = dirname($path);
+
+        return is_dir($directory) && is_writable($directory);
+    }
+
+    private function currentUser(): string
+    {
+        if (function_exists('posix_geteuid') && function_exists('posix_getpwuid')) {
+            $user = posix_getpwuid(posix_geteuid());
+            if (!empty($user['name'])) {
+                return (string) $user['name'];
+            }
+        }
+
+        return (string) (getenv('USER') ?: 'unknown');
     }
 
     /**
