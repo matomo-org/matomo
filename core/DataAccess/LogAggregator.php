@@ -996,7 +996,20 @@ class LogAggregator
         );
 
         if (!empty($extraWhere)) {
-            $where .= ' AND ' . sprintf($extraWhere, $tableName, $tableName);
+            // The caller's extra WHERE routinely names the log_action alias it is about to join
+            // (an action-type filter, for one), and this subquery has only log_link_visit_action
+            // in scope - copying such a conjunct in produces "Unknown expression or function
+            // identifier log_action1.type". Keep the conjuncts that reference this table and drop
+            // the rest: a narrower WHERE only widens the id set, which the restriction is allowed
+            // to be.
+            $extra = ClickhouseDialectTranslator::keepConjunctsReferencingOnly(
+                sprintf($extraWhere, $tableName, $tableName),
+                $tableName
+            );
+
+            if ('' !== $extra) {
+                $where .= ' AND ' . $extra;
+            }
         }
 
         return sprintf(

@@ -684,3 +684,52 @@ iteration, including the exact command lines, so a published number can be trace
 produced it. A `spread` above 2x means the iterations did not converge — on ClickHouse Cloud that
 is usually cold marks and the fix is more warmups, not a footnote; the notes at the end of a run
 say so explicitly rather than leaving the cell looking measured.
+
+## 11. `log_action` is never joined whole — enforced centrally (DEV-20751)
+
+ClickHouse builds a join hash table from the **right** side, so `JOIN log_action ON <expr> =
+log_action.idaction` materialises the entire action dictionary however selective the left side
+is. On the POC corpus that is 242M rows, and it does not run slowly — it dies in
+`FillingRightJoinSide` with `MEMORY_LIMIT_EXCEEDED`.
+
+This was first fixed locally, in `LogAggregator::queryActionsByDimension()`. That turned out to
+cover one of at least three paths that build such a join:
+
+| path | builds the join in |
+|---|---|
+| Transitions, dimension queries | `LogAggregator::queryActionsByDimension()` |
+| Visits Log action enrichment | `Actions\VisitorDetails::queryActionsForVisits()` + the joins plugins contribute via `Actions.getCustomActionDimensionFieldsAndJoins` |
+| day archiving | `Actions\RecordBuilders\ActionReports::archiveDayQueryProcess()` |
+
+The property is a property of ClickHouse, not of any one report, so it is now enforced in the
+adapter for every query: `ClickhouseDialectTranslator::restrictLogActionJoins()` rewrites
+
+```sql
+JOIN log_action AS a ON t.idaction_url = a.idaction
+-- into
+JOIN (SELECT * FROM log_action
+       WHERE idaction IN (SELECT t.idaction_url FROM <driving table> WHERE <bounds>)) AS a ON …
+```
+
+which turns the join into a primary-key lookup, because `idaction` **is** `log_action`'s sorting
+key.
+
+Three things about it are load-bearing:
+
+- **It runs after positional binds become named ones.** The restriction repeats the driving
+  query's WHERE. Repeating `?` would desynchronise the bind list — silently binding values to the
+  wrong columns; repeating `:chBind007` is free, because a named parameter may appear any number
+  of times.
+- **Only conjuncts referencing the driving table are carried over**
+  (`keepConjunctsReferencingOnly()`). The restriction subquery has one table in scope, so a
+  conjunct naming a joined alias cannot resolve there. Dropping conjuncts from an AND-chain only
+  widens the id set, and the restriction is only required to be a **superset** of what the join
+  needs. The same rule now guards the older `LogAggregator` restriction, which previously copied
+  the caller's extra WHERE wholesale and produced `Unknown expression or function identifier
+  log_action1.type` — that had been failing all 15 Actions system tests on ClickHouse.
+- **Anything it cannot read with confidence is left alone**: a non-trivial ON expression, a right
+  side that is already a subquery, a driving side that is itself a subquery. A missed rewrite
+  costs speed; a wrong one costs rows.
+
+Verified against ClickHouse: Transitions 7/7 and Actions 15/15 system tests, both by expected
+output, plus the same suites unchanged on MySQL.

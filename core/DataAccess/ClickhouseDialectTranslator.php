@@ -1268,6 +1268,365 @@ class ClickhouseDialectTranslator
      * Returns true when the expression contains an aggregate (or window) function call,
      * meaning it is already valid in a SELECT under GROUP BY.
      */
+    /**
+     * Never join `log_action` whole.
+     *
+     * ClickHouse builds a join hash table from the RIGHT side, so `... JOIN log_action ON
+     * <expr> = log_action.idaction` materialises the entire action dictionary regardless of how
+     * selective the left side is. On the POC corpus that is 242 million rows and it does not
+     * merely run slowly - it dies in FillingRightJoinSide with MEMORY_LIMIT_EXCEEDED. Measured
+     * three separate times, in three separate code paths: Transitions, the Visits Log action
+     * enrichment (Actions\VisitorDetails::queryActionsForVisits) and day archiving
+     * (Actions\RecordBuilders\ActionReports::archiveDayQueryProcess).
+     *
+     * Restricting the right side to the ids the query can actually reach turns the join into a
+     * primary-key lookup, because `idaction` IS log_action's sorting key:
+     *
+     *     JOIN log_action AS a ON t.idaction_url = a.idaction
+     *  -> JOIN (SELECT * FROM log_action
+     *            WHERE idaction IN (SELECT t.idaction_url FROM <driving table> WHERE <bounds>))
+     *          AS a ON t.idaction_url = a.idaction
+     *
+     * This lives in the translator rather than at each call site because the property is a
+     * property of ClickHouse, not of any one report: LogAggregator::queryActionsByDimension()
+     * was fixed locally first, and two further paths turned out to build their joins elsewhere.
+     *
+     * **It must run AFTER positional binds become named ones.** The restriction repeats the
+     * driving query's WHERE, and repeating `?` would desynchronise the bind list; repeating
+     * `:chBind007` is free because a named parameter can appear any number of times.
+     *
+     * Correctness rests on the restriction being a SUPERSET of the ids the join needs. Only
+     * top-level AND conjuncts that reference the driving table alone are carried over - dropping
+     * a conjunct from an AND-chain widens the set, which is safe, while a conjunct mentioning a
+     * joined alias could not be resolved inside the subquery. Anything that cannot be read with
+     * confidence is left alone: a missed rewrite costs speed, a wrong one costs rows.
+     */
+    public static function restrictLogActionJoins(string $sql): string
+    {
+        if (stripos($sql, 'log_action') === false) {
+            return $sql;
+        }
+
+        $sql = self::mapFromBlocks($sql, static function (string $inner): string {
+            return self::restrictLogActionJoins($inner);
+        });
+
+        return self::restrictLogActionJoinsInScope($sql);
+    }
+
+    private static function restrictLogActionJoinsInScope(string $sql): string
+    {
+        $fromPos = self::findTopLevelFromPos($sql);
+        if (null === $fromPos) {
+            return $sql;
+        }
+
+        $clauses = self::topLevelClauses($sql, $fromPos);
+        if (empty($clauses)) {
+            return $sql;
+        }
+
+        $fromKeywordLen = strlen('FROM');
+        $drivingEnd = $clauses[0]['pos'];
+        $driving = trim(substr($sql, $fromPos + $fromKeywordLen, $drivingEnd - $fromPos - $fromKeywordLen));
+
+        // A driving side that is itself a subquery or a comma-separated list is not something
+        // this pass can reason about.
+        if (
+            $driving === ''
+            || strpos($driving, '(') !== false
+            || strpos($driving, ',') !== false
+            || !preg_match('~^(`?[\w]+`?)(?:\s+(?:AS\s+)?(`?[\w]+`?))?$~i', $driving, $dm)
+        ) {
+            return $sql;
+        }
+
+        $drivingTable = $dm[1];
+        $drivingAlias = self::normalizeIdent($dm[2] ?? $dm[1]);
+
+        $restriction = self::drivingRestriction($sql, $clauses, $driving, $drivingAlias);
+
+        // Rewrite from the back so earlier offsets stay valid.
+        for ($i = count($clauses) - 1; $i >= 0; $i--) {
+            $clause = $clauses[$i];
+            if ($clause['kw'] !== 'JOIN') {
+                continue;
+            }
+
+            $end = $clauses[$i + 1]['pos'] ?? strlen($sql);
+            $text = substr($sql, $clause['pos'], $end - $clause['pos']);
+
+            $rewritten = self::restrictOneLogActionJoin($text, $drivingAlias, $restriction);
+            if (null === $rewritten) {
+                continue;
+            }
+
+            $sql = substr($sql, 0, $clause['pos']) . $rewritten . substr($sql, $end);
+        }
+
+        return $sql;
+    }
+
+    /**
+     * `FROM <driving> WHERE <conjuncts that reference only the driving table>`, or the bare
+     * driving table when nothing can be carried over safely.
+     *
+     * @param array<int, array{kw: string, pos: int, len: int}> $clauses
+     */
+    private static function drivingRestriction(string $sql, array $clauses, string $driving, string $drivingAlias): string
+    {
+        $from = 'FROM ' . $driving;
+
+        foreach ($clauses as $index => $clause) {
+            if ($clause['kw'] !== 'WHERE') {
+                continue;
+            }
+
+            $end = $clauses[$index + 1]['pos'] ?? strlen($sql);
+            $start = $clause['pos'] + $clause['len'];
+            $where = trim(substr($sql, $start, $end - $start));
+
+            $kept = self::keepConjunctsReferencingOnly($where, $drivingAlias);
+            if ('' !== $kept) {
+                $from .= ' WHERE ' . $kept;
+            }
+
+            break;
+        }
+
+        return $from;
+    }
+
+    /**
+     * @return string|null the rewritten JOIN clause, or null to leave it alone
+     */
+    private static function restrictOneLogActionJoin(string $joinText, string $drivingAlias, string $restriction): ?string
+    {
+        // A join whose right side is already a subquery has been restricted by its caller
+        // (LogAggregator::getActionRestrictionSubQuery does this for the dimension queries),
+        // and `(` never matches the table pattern below, so the two cannot both apply.
+        // The surrounding whitespace is captured, not trimmed. This clause is spliced back
+        // between two offsets in the original statement, so eating the whitespace that
+        // separated it from the next one welds them together: `... = log_action.idactionLEFT
+        // JOIN ...`, which fails as a syntax error a long way from its cause.
+        $pattern = '~^(\s*(?:LEFT|RIGHT|INNER|FULL|CROSS|OUTER|STRAIGHT_JOIN|\s)*JOIN\s+)'
+            . '(`?[\w]*log_action`?)(\s+(?:AS\s+)?(`?[\w]+`?))?(\s+ON\s+)(.*?)(\s*)$~is';
+
+        if (!preg_match($pattern, $joinText, $m)) {
+            return null;
+        }
+
+        $alias = self::normalizeIdent($m[4] !== '' ? $m[4] : $m[2]);
+        $condition = trim($m[6]);
+        $trailing = $m[7];
+
+        // Only the plain `a.b = c.d` shape. Matomo also emits joins whose ON is an IF()
+        // expression; those come from queryActionsByDimension(), which restricts them itself.
+        if (!preg_match('~^(`?[\w]+`?\.`?[\w]+`?)\s*=\s*(`?[\w]+`?\.`?[\w]+`?)$~i', $condition, $cm)) {
+            return null;
+        }
+
+        $left = self::normalizeIdent($cm[1]);
+        $right = self::normalizeIdent($cm[2]);
+
+        if (self::qualifier($left) === $alias) {
+            $joinKey = $left;
+            $expression = $cm[2];
+        } elseif (self::qualifier($right) === $alias) {
+            $joinKey = $right;
+            $expression = $cm[1];
+        } else {
+            return null;
+        }
+
+        if (substr($joinKey, -strlen('.idaction')) !== '.idaction') {
+            return null;
+        }
+
+        // The expression has to be resolvable inside the restriction subquery, whose only table
+        // is the driving one. A join keyed off another joined table cannot be restricted here.
+        if (self::qualifier(self::normalizeIdent($expression)) !== $drivingAlias) {
+            return null;
+        }
+
+        $subQuery = '(SELECT * FROM ' . $m[2] . ' WHERE idaction IN (SELECT ' . $expression . ' ' . $restriction . '))';
+
+        return $m[1] . $subQuery . ($m[3] !== '' ? $m[3] : ' AS ' . $alias) . $m[5] . $m[6] . $trailing;
+    }
+
+    private static function qualifier(string $identifier): string
+    {
+        $dot = strpos($identifier, '.');
+
+        return $dot === false ? '' : substr($identifier, 0, $dot);
+    }
+
+    /**
+     * Keeps only the top-level AND conjuncts that reference $alias and nothing else.
+     *
+     * This is the "superset rule" both restriction sites depend on. A restriction subquery has
+     * exactly one table in scope, so a conjunct naming any other alias cannot be resolved there
+     * - and dropping a conjunct from an AND-chain only ever WIDENS the id set, which is safe,
+     * because the restriction has to be a superset of what the join needs, not an exact match.
+     *
+     * @return string the surviving conjuncts joined by AND, or '' when none survive
+     */
+    public static function keepConjunctsReferencingOnly(string $where, string $alias): string
+    {
+        $kept = [];
+        foreach (self::splitTopLevelAnd($where) as $conjunct) {
+            if (self::referencesOnly($conjunct, $alias)) {
+                $kept[] = $conjunct;
+            }
+        }
+
+        return implode(' AND ', $kept);
+    }
+
+    /**
+     * Whether every table-qualified reference in $expression is $alias, and there is at least
+     * one. An unqualified column is treated as unusable rather than assumed to belong to the
+     * driving table: guessing wrong produces an unresolved identifier inside the subquery.
+     */
+    private static function referencesOnly(string $expression, string $alias): bool
+    {
+        if (!preg_match_all('~`?([A-Za-z_][\w]*)`?\s*\.~', $expression, $matches)) {
+            return false;
+        }
+
+        foreach ($matches[1] as $qualifier) {
+            if (strtolower($qualifier) !== strtolower($alias)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Splits on AND at parenthesis depth 0, outside string literals.
+     *
+     * @return string[]
+     */
+    private static function splitTopLevelAnd(string $clause): array
+    {
+        $parts = [];
+        $current = '';
+        $depth = 0;
+        $len = strlen($clause);
+
+        for ($i = 0; $i < $len; $i++) {
+            $ch = $clause[$i];
+
+            if ($ch === "'" || $ch === '"' || $ch === '`') {
+                $end = self::skipQuoted($clause, $i);
+                $current .= substr($clause, $i, $end - $i);
+                $i = $end - 1;
+                continue;
+            }
+
+            if ($ch === '(') {
+                $depth++;
+            } elseif ($ch === ')') {
+                $depth--;
+            } elseif ($depth === 0 && ($ch === 'A' || $ch === 'a') && preg_match('~^AND\s~i', substr($clause, $i, 4))) {
+                $parts[] = trim($current);
+                $current = '';
+                $i += 2;
+                continue;
+            }
+
+            $current .= $ch;
+        }
+
+        if (trim($current) !== '') {
+            $parts[] = trim($current);
+        }
+
+        return array_values(array_filter($parts, static fn(string $part): bool => $part !== ''));
+    }
+
+    /**
+     * Positions of the JOIN and clause keywords at parenthesis depth 0, from $startPos onwards.
+     *
+     * @return array<int, array{kw: string, pos: int, len: int}>
+     */
+    private static function topLevelClauses(string $sql, int $startPos): array
+    {
+        $keywords = [
+            'JOIN' => '~^(?:(?:LEFT|RIGHT|INNER|FULL|CROSS)\s+)?(?:OUTER\s+)?JOIN\s~i',
+            'WHERE' => '~^WHERE\s~i',
+            'GROUP' => '~^GROUP\s+BY\s~i',
+            'ORDER' => '~^ORDER\s+BY\s~i',
+            'HAVING' => '~^HAVING\s~i',
+            'LIMIT' => '~^LIMIT\s~i',
+            'UNION' => '~^UNION\s~i',
+        ];
+
+        $found = [];
+        $depth = 0;
+        $len = strlen($sql);
+
+        for ($i = $startPos; $i < $len; $i++) {
+            $ch = $sql[$i];
+
+            if ($ch === "'" || $ch === '"' || $ch === '`') {
+                $i = self::skipQuoted($sql, $i) - 1;
+                continue;
+            }
+
+            if ($ch === '(') {
+                $depth++;
+                continue;
+            }
+
+            if ($ch === ')') {
+                $depth--;
+                if ($depth < 0) {
+                    break;
+                }
+                continue;
+            }
+
+            if ($depth !== 0) {
+                continue;
+            }
+
+            $rest = substr($sql, $i);
+            foreach ($keywords as $name => $pattern) {
+                if (!preg_match($pattern, $rest, $km)) {
+                    continue;
+                }
+                $found[] = ['kw' => $name, 'pos' => $i, 'len' => strlen(rtrim($km[0]))];
+                $i += strlen(rtrim($km[0])) - 1;
+                break;
+            }
+        }
+
+        return $found;
+    }
+
+    /**
+     * @return int the offset just past the closing quote
+     */
+    private static function skipQuoted(string $sql, int $start): int
+    {
+        $quote = $sql[$start];
+        $len = strlen($sql);
+
+        for ($i = $start + 1; $i < $len; $i++) {
+            if ($sql[$i] === '\\') {
+                $i++;
+                continue;
+            }
+            if ($sql[$i] === $quote) {
+                return $i + 1;
+            }
+        }
+
+        return $len;
+    }
+
     private static function containsAggregateFunction(string $expr): bool
     {
         if (preg_match('/\bOVER\s*\(/i', $expr)) {
