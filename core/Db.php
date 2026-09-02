@@ -213,10 +213,14 @@ class Db implements TransactionalDatabaseInterface
             // The adapter rewrites log table references when the two engines disagree about
             // the prefix, which they do whenever the copy was landed by a pipe that names the
             // destination after the source instance. It needs both sides to compare.
+            //
+            // Carried under its own key, NOT as 'tables_prefix': Adapter::factory() strips
+            // that one on the way through ("not used by Zend Framework"), so an adapter can
+            // never see it.
             $config['source_tables_prefix'] = Config::getInstance()->database['tables_prefix'] ?? '';
-            if (empty($config['tables_prefix'])) {
-                $config['tables_prefix'] = $config['source_tables_prefix'];
-            }
+            $config['analytics_tables_prefix'] = !empty($config['tables_prefix'])
+                ? $config['tables_prefix']
+                : $config['source_tables_prefix'];
             // The dev/CI convention: both the ddev service and the CI service container
             // create the 'matomo' user. A configured username still wins.
             if (empty($config['username'])) {

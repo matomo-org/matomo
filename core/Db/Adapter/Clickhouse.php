@@ -441,7 +441,9 @@ class Clickhouse implements AdapterInterface
      */
     private function applyAnalyticsTablePrefix(string $sql): string
     {
-        $target = (string) ($this->config['tables_prefix'] ?? '');
+        // 'analytics_tables_prefix', not 'tables_prefix' - Adapter::factory() unsets the
+        // latter before the adapter is constructed. See Db::getAnalyticsDatabaseConfig().
+        $target = (string) ($this->config['analytics_tables_prefix'] ?? '');
         $source = (string) ($this->config['source_tables_prefix'] ?? '');
 
         if ($target === $source) {
