@@ -110,6 +110,33 @@ describe('ReportHeader', () => {
       expect(trigger.attributes('aria-expanded')).toBe('false');
     });
 
+    // The promoted panels announced role="menu" and answered no arrow key until the composable
+    // served them.
+    it('should walk a promoted panel with the arrow keys', async () => {
+      const wrapper = mountComponent({
+        showFooter: true,
+        showFooterIcons: true,
+        showPeriods: true,
+        selectablePeriods: ['day', 'week', 'month'],
+        context: 'widgetized',
+      });
+      document.body.appendChild(wrapper.element);
+      (wrapper.vm as unknown as { promotedCount: number }).promotedCount = 1;
+      await wrapper.vm.$nextTick();
+
+      const panel = wrapper.find('[data-report-action="periods"] .mtm-selector__dropdown');
+      const items = panel.findAll('[role^="menuitem"]').map((item) => item.element);
+      expect(items.length).toBe(3);
+
+      await panel.trigger('keydown', { key: 'ArrowDown' });
+      expect(document.activeElement).toBe(items[0]);
+
+      await panel.trigger('keydown', { key: 'End' });
+      expect(document.activeElement).toBe(items[2]);
+
+      wrapper.unmount();
+    });
+
     // The composable serves the keys now, so the panel is where they are pinned.
     it('should walk the menu with the arrow keys', async () => {
       const wrapper = mountComponent({ ...withActions, showAnnotations: true });
@@ -283,19 +310,21 @@ describe('ReportHeader', () => {
         selectablePeriods: ['day'],
       });
       const vm = wrapper.vm as unknown as {
-        updatePromoted: () => Promise<void>; promotedCount: number; exportExpanded: boolean;
+        updatePromoted: () => Promise<void>;
+        promotedCount: number;
+        promotedExport: { expanded: boolean };
       };
 
       giveRoom(wrapper, 1200);
       await vm.updatePromoted();
       expect(vm.promotedCount).toBeGreaterThan(1);
 
-      vm.exportExpanded = true;
+      vm.promotedExport.expanded = true;
       giveRoom(wrapper, 200);
       await vm.updatePromoted();
 
       expect(vm.promotedCount).toBe(0);
-      expect(vm.exportExpanded).toBe(false);
+      expect(vm.promotedExport.expanded).toBe(false);
     });
 
     // The trigger goes away with the menu it opens, and never hears onClosed either.
@@ -682,6 +711,5 @@ describe('ReportHeader', () => {
         vi.useRealTimers();
       }
     });
-
   });
 });
