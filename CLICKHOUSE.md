@@ -586,3 +586,101 @@ the counter increments. The caps agree too (`>= 1001` against `> 1000`).
 Confirmed by output on 2 Sep 2026: the seven Transitions system tests pass against ClickHouse,
 including the top-N boundary where a one-row shift is the whole symptom. **The adapter's form
 is the faithful one and the benchmark should be read as agreeing with it**, not the reverse.
+
+## 10. Measuring both engines: `clickhouse:benchmark` (DEV-20751)
+
+`./console clickhouse:benchmark --date=2026-08-03` times the same report APIs and the same
+archiving runs on MySQL and on the analytics database, and prints a comparison.
+
+The point of it is that §9 lists gaps between the SQL Matomo *emits* and the SQL the standalone
+benchmark measured. Those gaps can only be closed against numbers produced by Matomo itself, so
+nothing here reimplements archiving or the API dispatcher — every measurement is a child process
+running Matomo's own CLI:
+
+| | |
+|---|---|
+| archive cases | `core:invalidate-report-data`, then the `CoreAdminHome.archiveReports` request `core:archive` would have issued (`--archive-driver=request`, default) or `core:archive` itself (`--archive-driver=cron`) |
+| API cases | `climulti:request` |
+
+Case ids match the standalone benchmark's file names — `v1`/`v1s`/`v1n`/`v1c`/`v1e` for the
+Visits Log, `a1`/`a1s`/… for archiving, `t1`/`t1s` for Transitions — so a number from here is
+directly comparable to a number from there, and a divergence is a finding about the adapter
+rather than a mystery.
+
+### The engine switch is checked, not trusted
+
+The two legs differ by one environment variable, `MATOMO_ANALYTICS_DB_DISABLED` (§8). Before
+measuring anything the command starts one child per leg with `--report-engine` and asks it which
+engine it actually routes to. **A mismatch is fatal**, because the failure it prevents is silent:
+an environment variable that did not take effect produces a full run of plausible numbers under
+the wrong column heading, and nothing in the table would show it. `--allow-engine-mismatch`
+overrides, and then the output is explicitly not an A/B.
+
+The same check is why `--archive-driver=cron` refuses to run when `CliMulti` cannot use CLI
+processes: HTTP archiving goes to php-fpm, which does not inherit the environment, so the engine
+selection would not reach the archiver.
+
+### Where the archiving numbers come from
+
+From the `archiving_metrics` table, not from the wall clock. The ArchivingMetrics plugin records
+one row per archive with `total_time` and `total_time_exclusive`, which is the archive build
+alone; the child's wall clock also contains bootstrap and the invalidation scan. Both are kept,
+and the calibration line at the end of a run reports what a child that does no work costs, so the
+gap between them is accounted for rather than argued about.
+
+Two consequences worth knowing before reading a table:
+
+- **`total_time` is in milliseconds.** `Timer::complete()` takes a difference of
+  `microtime(true)` values — seconds — and multiplies by 1000. The local variable is named
+  `$totalTimeMs` *before* that multiplication, which reads like it is already milliseconds.
+- **Only all-plugin archives get a row.** `Timer::isApplicableForTiming()` skips done flags
+  containing a `.`, so `--archive-plugin=VisitsSummary` produces no row and that case falls back
+  to the wall clock. The table names its source per cell and the notes call out any fallback.
+
+### Invalidation, not deletion
+
+Each archive iteration runs `core:invalidate-report-data` first. Without it the second iteration
+finds a usable archive, reports `wasCached`, writes no `archiving_metrics` row, and lands in the
+results as a suspiciously fast leg. For `week`/`month`/`year`, add `--cascade` — otherwise the
+run aggregates existing day archives and measures almost no log queries.
+
+### Segments, and why `--archive-driver=cron` needs setup
+
+The default `request` driver archives an ad-hoc segment directly, so it needs no setup. The
+`cron` driver runs the real `core:archive`, which works from `archive_invalidations` and resolves
+a done-flag hash back to a definition through the **stored** segment list
+(`QueueConsumer::findSegmentForArchive`); an unstored segment is logged as unresolvable and
+skipped, so the case would pass having archived nothing. `--setup-segments` stores them.
+
+That step refuses to run while `[General] process_new_segments_from = "beginning_of_time"` (the
+default) unless `--allow-full-rearchive` is passed: creating an auto-archived segment schedules
+re-archiving of the whole history, which the next `core:archive` starts working through. On a
+corpus of any size that is days of archiving, none of it the benchmark, and nothing in the
+benchmark's output would explain it.
+
+### Results are compared, not just timings
+
+Two engines that disagree about the answer are not two engines to compare timings between. The
+comparison is deliberately narrow, because the engines disagree about the *formatting* of most
+columns and always will (§5): the fingerprint is the ordered list of `idVisit` values for a
+Visits Log, or the archived visit count for an archiving run. Anything else is digested whole and
+marked weak, and a weak mismatch is reported as `unverified` rather than as a disagreement.
+
+### Tideways
+
+On by default. The children get `-d tideways.enable_cli=1` (without it nothing on the CLI is
+traced at all) and `-d tideways.sample_rate=100` (at a production sample rate the slowest case is
+as likely as any other to be the one that missed), plus `TIDEWAYS_SERVICE=<service>-<engine>` so
+the two legs are separable in the UI instead of averaged together. `--tideways-ini` passes
+anything else a particular install needs. With `--archive-driver=cron` the ini flags are
+forwarded through `core:archive --php-cli-options`, because `CliMulti` grandchildren inherit the
+environment but not this process's `-d` flags — and those grandchildren are where the archiving
+actually happens.
+
+### Reading a run
+
+`--dry-run` prints every command a case would run without running it. `--json` writes every
+iteration, including the exact command lines, so a published number can be traced back to what
+produced it. A `spread` above 2x means the iterations did not converge — on ClickHouse Cloud that
+is usually cold marks and the fix is more warmups, not a footnote; the notes at the end of a run
+say so explicitly rather than leaving the cell looking measured.
