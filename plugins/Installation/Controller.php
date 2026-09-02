@@ -704,11 +704,19 @@ class Controller extends ControllerAdmin
      */
     private function setTrustedHost(Config $config): void
     {
-        $host = Url::getCurrentHost('', false);
+        $hosts = [];
 
-        // check hostname in server variables is correctly parsable
-        if ($host === $this->extractHostAndPort('http://' . $host)) {
-            $config->General['trusted_hosts'] = [$host];
+        // the Host header is trusted alongside the public hostname because the tracker config cache
+        // is keyed on it
+        foreach ([Url::getCurrentHost('', false), Url::getHost(false)] as $host) {
+            // check hostname in server variables is correctly parsable
+            if (!empty($host) && $host === $this->extractHostAndPort('http://' . $host)) {
+                $hosts[] = $host;
+            }
+        }
+
+        if (!empty($hosts)) {
+            $config->General['trusted_hosts'] = array_values(array_unique($hosts));
         }
     }
 

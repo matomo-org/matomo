@@ -7,7 +7,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ## Matomo 6.0.0
 
 ### Breaking Changes
-* When `[General] proxy_host_headers` is configured, the effective hostname from those headers is now validated against `trusted_hosts`. Proxied installations should list their public hostname or hostnames in `trusted_hosts`; new installations do this automatically.
+* When `[General] proxy_host_headers` is configured, the hostname from those headers is now validated against `trusted_hosts`: `Piwik\Url::isValidHost()` checks it instead of the `Host` header, and `Piwik\Url::getCurrentHost()` — with the `Piwik\Url::getCurrentUrl*()` family built on it — returns the `Host` header's value when it is untrusted. A proxied installation must list its public hostname in `trusted_hosts` alongside the hostname the proxy reaches Matomo by; new installations record both.
 * The deprecated method `Piwik\Archive::getBlob()` has been removed. Use one of the `Piwik\Archive::getDataTable*()` methods instead.
 * The deprecated method `Piwik\Archive::clearStaticCache()` has been removed. It was a no-op kept only for backwards compatibility.
 * The deprecated method `Piwik\ArchiveProcessor\Parameters::setIsPartialArchive()` has been removed. Use `Piwik\ArchiveProcessor\Parameters::setArchiveOnlyReport()` instead.

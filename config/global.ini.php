@@ -728,7 +728,8 @@ multi_server_environment = 0
 ;proxy_client_headers[] = HTTP_X_FORWARDED_FOR
 
 ; List of proxy headers for the public hostname. When configured, the hostname from these headers takes precedence over
-; the Host header and is validated against trusted_hosts.
+; the Host header and is validated against trusted_hosts. List both names in trusted_hosts: the tracker config cache is
+; keyed on the Host header and is only written for a host listed there.
 ;
 ; de facto standard (X-Forwarded-Host)
 ;proxy_host_headers[] = HTTP_X_FORWARDED_HOST
