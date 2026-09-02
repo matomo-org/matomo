@@ -25,6 +25,8 @@ export interface SelectorDropdownOptions {
   expandedClass: string;
   // The selector matching what the arrows walk. Defaults to the roles a menu holds.
   items?: string;
+  // Items inside a panel matching this are skipped: a folded submenu is still in the DOM.
+  folded?: string;
 }
 
 export interface SelectorDropdown {
@@ -36,20 +38,22 @@ export interface SelectorDropdown {
   expandBinding: (expander: string) => Record<string, unknown>;
   // Bind to the panel's root: @keydown="selector.onKeydown".
   onKeydown: (event: KeyboardEvent) => void;
+  // Closing by hand, when a panel folds without the directive hearing it - picking an entry, say.
+  // Takes the event so the focus goes back where a keyboard left it.
+  closedBy: (event: MouseEvent|KeyboardEvent) => void;
   close: () => void;
 }
 
 const FOCUSABLE = '[role^="menuitem"], [role="option"]';
+const FOLDED = '.mtm-dropdownPanel__submenu:not(.mtm-dropdownPanel__submenu--open)';
 
-function visibleItems(root: HTMLElement | null, match: string): HTMLElement[] {
+function visibleItems(root: HTMLElement | null, match: string, folded: string): HTMLElement[] {
   if (!root?.querySelectorAll) {
     return [];
   }
 
-  // A folded submenu is still in the DOM, so the arrows have to step over what it holds.
-  return Array.from(root.querySelectorAll<HTMLElement>(match)).filter(
-    (item) => !item.closest('.mtm-dropdownPanel__submenu:not(.mtm-dropdownPanel__submenu--open)'),
-  );
+  return Array.from(root.querySelectorAll<HTMLElement>(match))
+    .filter((item) => !item.closest(folded));
 }
 
 /**
@@ -62,37 +66,47 @@ export default function useSelectorDropdown(
   trigger: () => HTMLElement | null,
 ): SelectorDropdown {
   const expanded = ref(false);
-  const walkable = options.role !== 'dialog';
+  const walksItems = options.role !== 'dialog';
   const match = options.items || FOCUSABLE;
+  const folded = options.folded || FOLDED;
 
-  function focusAt(index: number, from = -1) {
-    const items = visibleItems(panel(), match);
-    if (!items.length) {
-      return;
-    }
+  function items(): HTMLElement[] {
+    return visibleItems(panel(), match, folded);
+  }
 
-    const at = from === -1 ? index : (from + index + items.length) % items.length;
-    items[Math.max(0, Math.min(at, items.length - 1))].focus();
+  function focusIndex(index: number) {
+    items()[index]?.focus();
   }
 
   function step(by: number) {
-    const items = visibleItems(panel(), match);
-    if (!items.length) {
+    const walkable = items();
+    if (!walkable.length) {
       return;
     }
 
-    const at = items.indexOf(document.activeElement as HTMLElement);
+    const at = walkable.indexOf(document.activeElement as HTMLElement);
     if (at === -1) {
       // Nothing inside is focused, so a step down enters at the top and a step up at the bottom.
-      focusAt(by > 0 ? 0 : items.length - 1);
+      focusIndex(by > 0 ? 0 : walkable.length - 1);
       return;
     }
 
-    focusAt(by, at);
+    focusIndex((at + by + walkable.length) % walkable.length);
   }
 
   function close() {
     expanded.value = false;
+  }
+
+  // Escape and a keyboard-activated entry leave the focus in a panel about to disappear; a pointer
+  // left it where the user put it, and taking it would draw a ring nobody asked for.
+  function closedBy(event: MouseEvent|KeyboardEvent) {
+    close();
+
+    const byKeyboard = event.type === 'keyup' || (event as MouseEvent).detail === 0;
+    if (byKeyboard && panel()?.contains(document.activeElement)) {
+      trigger()?.focus();
+    }
   }
 
   return {
@@ -110,31 +124,23 @@ export default function useSelectorDropdown(
         expanded.value = true;
         // A button opened with the keyboard reports no pointer, and only then does the panel take
         // the focus off the trigger.
-        if (walkable && (event as MouseEvent).detail === 0) {
-          setTimeout(() => focusAt(0), 0);
+        if (walksItems && (event as MouseEvent).detail === 0) {
+          setTimeout(() => focusIndex(0), 0);
         }
       },
-      onClosed: (event: MouseEvent|KeyboardEvent) => {
-        expanded.value = false;
-        // Escape and a keyboard-activated entry leave the focus in a panel about to disappear; a
-        // pointer left it where the user put it, and taking it would draw a ring nobody asked for.
-        const byKeyboard = event.type === 'keyup' || (event as MouseEvent).detail === 0;
-        if (byKeyboard && panel()?.contains(document.activeElement)) {
-          trigger()?.focus();
-        }
-      },
+      onClosed: closedBy,
     }),
 
     onKeydown: (event: KeyboardEvent) => {
-      if (!walkable) {
+      if (!walksItems) {
         return;
       }
 
       const keys: Record<string, () => void> = {
         ArrowDown: () => step(1),
         ArrowUp: () => step(-1),
-        Home: () => focusAt(0),
-        End: () => focusAt(visibleItems(panel(), match).length - 1),
+        Home: () => focusIndex(0),
+        End: () => focusIndex(items().length - 1),
       };
 
       if (keys[event.key]) {
@@ -143,6 +149,7 @@ export default function useSelectorDropdown(
       }
     },
 
+    closedBy,
     close,
   };
 }
