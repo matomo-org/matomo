@@ -1623,7 +1623,7 @@ Piwik_Transitions_Ajax.prototype.callApi = function (method, params, callback) {
                     var errorTitle, errorMessage, errorBack;
                     if (typeof Piwik_Transitions_Translations[errorName] == 'undefined') {
                         errorTitle = 'Exception';
-                        errorMessage = errorName;
+                        errorMessage = piwikHelper.htmlEntities(piwikHelper.htmlDecode(errorName));
                         errorBack = '<<<';
                     } else {
                         errorTitle = Piwik_Transitions_Translations[errorName];
@@ -1637,7 +1637,6 @@ Piwik_Transitions_Ajax.prototype.callApi = function (method, params, callback) {
                         errorTitle = sprintf(errorTitle, '<span>' + url + '</span>');
                     }
 
-                    errorMessage = sprintf(errorMessage, '<br />');
                     var inlineErrorNode = $('#Transitions_Error_Container');
                     if (inlineErrorNode.length) {
                         // viewing it as report, not popover
