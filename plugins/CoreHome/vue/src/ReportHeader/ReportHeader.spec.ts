@@ -84,12 +84,13 @@ describe('ReportHeader', () => {
       const wrapper = mountComponent(withActions);
       const actions = wrapper.find('.reportHeader__actions');
 
-      actions.element.classList.add('expanded');
-      expect(actions.classes()).toContain('expanded');
+      actions.element.classList.add('reportHeader__actions--expanded');
+      expect(actions.classes()).toContain('reportHeader__actions--expanded');
 
       await wrapper.find('.reportHeader__actionsMenu').trigger('click');
 
-      expect(wrapper.find('.reportHeader__actions').classes()).not.toContain('expanded');
+      expect(wrapper.find('.reportHeader__actions').classes())
+        .not.toContain('reportHeader__actions--expanded');
     });
 
     // Closing this way bypasses ExpandOnClick, whose own close() then returns early for want of
@@ -107,6 +108,31 @@ describe('ReportHeader', () => {
 
       await wrapper.find('.reportHeader__actionsMenu').trigger('click');
       expect(trigger.attributes('aria-expanded')).toBe('false');
+    });
+
+    // The composable serves the keys now, so the panel is where they are pinned.
+    it('should walk the menu with the arrow keys', async () => {
+      const wrapper = mountComponent({ ...withActions, showAnnotations: true });
+      document.body.appendChild(wrapper.element);
+
+      const menu = wrapper.find('.reportHeader__actionsMenu');
+      const items = wrapper.findAll('[role^="menuitem"]').map((item) => item.element);
+      expect(items.length).toBeGreaterThan(1);
+
+      await menu.trigger('keydown', { key: 'ArrowDown' });
+      expect(document.activeElement).toBe(items[0]);
+
+      await menu.trigger('keydown', { key: 'ArrowDown' });
+      expect(document.activeElement).toBe(items[1]);
+
+      await menu.trigger('keydown', { key: 'End' });
+      expect(document.activeElement).toBe(items[items.length - 1]);
+
+      // and round, so the list has no dead end
+      await menu.trigger('keydown', { key: 'ArrowDown' });
+      expect(document.activeElement).toBe(items[0]);
+
+      wrapper.unmount();
     });
 
     // Promoting empties the menu on a report whose only entries were promotable, and a trigger
@@ -282,16 +308,16 @@ describe('ReportHeader', () => {
         context: 'widgetized',
       });
       const vm = wrapper.vm as unknown as {
-        updatePromoted: () => Promise<void>; actionsExpanded: boolean;
+        updatePromoted: () => Promise<void>; actionsSelector: { expanded: boolean };
       };
 
-      vm.actionsExpanded = true;
+      vm.actionsSelector.expanded = true;
       giveRoom(wrapper, 1200);
       await vm.updatePromoted();
       await wrapper.vm.$nextTick();
 
       expect(wrapper.find('.reportHeader__actionsTrigger').exists()).toBe(false);
-      expect(vm.actionsExpanded).toBe(false);
+      expect(vm.actionsSelector.expanded).toBe(false);
     });
 
     it('should promote in priority order, so the least deserving is given back first', async () => {
