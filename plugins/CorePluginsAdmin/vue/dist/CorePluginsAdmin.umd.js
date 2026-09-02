@@ -15065,7 +15065,7 @@ function compliancePolicyMetadata(controls) {
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CorePluginsAdmin/vue/src/FormField/FormField.vue?vue&type=template&id=41571e5b
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CorePluginsAdmin/vue/src/FormField/FormField.vue?vue&type=template&id=71f01156
 
 const _hoisted_1 = {
   key: 0,
@@ -15128,7 +15128,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   })) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 2)], 2);
 }
-// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/FormField/FormField.vue?vue&type=template&id=41571e5b
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/FormField/FormField.vue?vue&type=template&id=71f01156
 
 // EXTERNAL MODULE: external "CoreHome"
 var external_CoreHome_ = __webpack_require__("19dc");
@@ -17057,11 +17057,13 @@ const CONTROL_TO_AVAILABLE_OPTION_PROCESSOR = {
       return Object(external_CoreHome_["translate"])((_notes = notes[(_this$privacyPolicySc = this.privacyPolicyScope) !== null && _this$privacyPolicySc !== void 0 ? _this$privacyPolicySc : '']) !== null && _notes !== void 0 ? _notes : notes.instance, control.policyTitle);
     },
     privacyPolicyLink() {
-      var _this$getExtraMetadat;
+      const idSite = this.getExtraMetadataIdSite;
       return `?${external_CoreHome_["MatomoUrl"].stringify(Object.assign(Object.assign({}, external_CoreHome_["MatomoUrl"].urlParsed.value), {}, {
         module: 'PrivacyManager',
         action: 'compliance',
-        idSite: (_this$getExtraMetadat = this.getExtraMetadataIdSite) !== null && _this$getExtraMetadat !== void 0 ? _this$getExtraMetadat : 'all'
+        idSite: idSite !== null && idSite !== void 0 ? idSite : 'all',
+        // a setting without an idSite is configured for every website
+        complianceScope: idSite ? 'site' : 'all'
       }))}`;
     }
   },
