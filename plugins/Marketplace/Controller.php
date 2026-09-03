@@ -29,6 +29,7 @@ use Piwik\Plugins\Login\PasswordVerifier;
 use Piwik\Plugins\Marketplace\Input\PluginName;
 use Piwik\Plugins\Marketplace\Input\PurchaseType;
 use Piwik\Plugins\Marketplace\Input\Sort;
+use Piwik\Plugins\Marketplace\Plugins\InvalidLicenses;
 use Piwik\Plugins\Marketplace\PluginTrial\Service as PluginTrialService;
 use Piwik\ProxyHttp;
 use Piwik\Request;
@@ -83,6 +84,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     private $passwordVerify;
 
     /**
+     * @var InvalidLicenses
+     */
+    private $expired;
+
+    /**
      * @var array<int, array<string, mixed>>|null
      */
     private $paidPlugins;
@@ -94,7 +100,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         Consumer $consumer,
         PluginInstaller $pluginInstaller,
         Environment $environment,
-        PasswordVerifier $passwordVerify
+        PasswordVerifier $passwordVerify,
+        InvalidLicenses $expired
     ) {
         $this->licenseKey = $licenseKey;
         $this->plugins = $plugins;
@@ -104,6 +111,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $this->pluginManager = Plugin\Manager::getInstance();
         $this->environment = $environment;
         $this->passwordVerify = $passwordVerify;
+        $this->expired = $expired;
         $this->paidPlugins = null;
 
         parent::__construct();
@@ -117,6 +125,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         // this is also like a self-repair to clear the caches :)
         $this->marketplaceApi->clearAllCacheEntries();
         $this->consumer->clearCache();
+        $this->expired->clearCache();
         // invalidate cache for plugin/manager
         Plugin\Manager::getLicenseCache()->flushAll();
 
