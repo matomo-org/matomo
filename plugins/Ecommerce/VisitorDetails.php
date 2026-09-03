@@ -263,7 +263,7 @@ class VisitorDetails extends VisitorDetailsAbstract
             $column = $i === 0 ? 'idaction_category' : ('idaction_category' . ($i + 1));
             $categorySelects[] = 'log_action_category' . $suffix . '.name as itemCategory' . $suffix;
             $categoryJoins[] = 'LEFT JOIN ' . Common::prefixTable('log_action') . " AS log_action_category$suffix
-                                       ON $column = log_action_category$suffix.idaction";
+                                       ON log_conversion_item.$column = log_action_category$suffix.idaction";
         }
         $categorySelects = implode(',', $categorySelects);
         $categoryJoins = implode("\n", $categoryJoins);
@@ -274,15 +274,15 @@ class VisitorDetails extends VisitorDetailsAbstract
 							$categorySelects,
 							" . LogAggregator::getSqlRevenue('price') . " as price,
 							quantity as quantity
-						FROM " . Common::prefixTable('log_conversion_item') . "
+						FROM " . Common::prefixTable('log_conversion_item') . " AS log_conversion_item
 							INNER JOIN " . Common::prefixTable('log_action') . " AS log_action_sku
-							ON  idaction_sku = log_action_sku.idaction
+							ON  log_conversion_item.idaction_sku = log_action_sku.idaction
 							LEFT JOIN " . Common::prefixTable('log_action') . " AS log_action_name
-							ON  idaction_name = log_action_name.idaction
+							ON  log_conversion_item.idaction_name = log_action_name.idaction
 							$categoryJoins
-						WHERE idvisit = ?
-							AND idorder = ?
-							AND deleted = 0
+						WHERE log_conversion_item.idvisit = ?
+							AND log_conversion_item.idorder = ?
+							AND log_conversion_item.deleted = 0
 				";
 
         // idorder is a varchar, and the abandoned-cart marker is the integer 0. MySQL
