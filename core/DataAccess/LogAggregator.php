@@ -1013,7 +1013,10 @@ class LogAggregator
         }
 
         return sprintf(
-            'SELECT * FROM %s WHERE idaction IN (SELECT %s FROM %s WHERE %s)',
+            'SELECT %s FROM %s WHERE idaction IN (SELECT %s FROM %s WHERE %s)',
+            // MATERIALIZED columns are not in `SELECT *`, and log_action carries the one every
+            // action-scope segment LIKE is rewritten onto.
+            ClickhouseDialectTranslator::restrictionProjection('log_action'),
             Common::prefixTable('log_action'),
             $joinExpression,
             Common::prefixTable($tableName) . ' AS ' . $tableName,
@@ -1427,12 +1430,20 @@ class LogAggregator
             " . sprintf("COUNT(*) AS `%d`,", Metrics::INDEX_GOAL_NB_CONVERSIONS_PAGE_UNIQ) . "
             " . sprintf("ROUND(%s,2) AS `%d`", self::getSqlSumExcludingOutOfRange('log_conversion.revenue', '1 / log_conversion.pageviews_before * log_conversion.revenue'), Metrics::INDEX_GOAL_REVENUE_ATTRIB);
 
+        $logVisitActionJoin = ['table' => 'log_link_visit_action', 'tableAlias' => 'logva', 'join' => 'RIGHT JOIN',
+                            'joinOn' => 'log_conversion.idvisit = logva.idvisit'];
+        $logActionJoin = ['table' => 'log_action', 'tableAlias' => 'lac',
+                            'joinOn' => 'logva.' . $linkField . ' = lac.idaction'];
+
+        $restrictions = $this->getConversionsByPageViewRestrictions($linkField, $idGoal);
+        if (null !== $restrictions) {
+            [$logVisitActionJoin['tableSubQuery'], $logActionJoin['tableSubQuery']] = $restrictions;
+        }
+
         $from = [
             'log_conversion',
-                ['table' => 'log_link_visit_action', 'tableAlias' => 'logva', 'join' => 'RIGHT JOIN',
-                            'joinOn' => 'log_conversion.idvisit = logva.idvisit'],
-                ['table' => 'log_action', 'tableAlias' => 'lac',
-                            'joinOn' => 'logva.' . $linkField . ' = lac.idaction'],
+                $logVisitActionJoin,
+                $logActionJoin,
         ];
 
         $where = $this->getWhereStatement('log_conversion', 'server_time');
@@ -1448,6 +1459,92 @@ class LogAggregator
 
         $query = $this->generateQuery($select, $from, $where, $groupBy, false);
         return $this->getDb()->query($query['sql'], $query['bind']);
+    }
+
+    /**
+     * Restricts both joins in queryConversionsByPageView() to the rows that report can reach,
+     * for the analytics database only. Returns null when the joins should stay plain table
+     * references, which is every MySQL query.
+     *
+     * ClickHouse builds a join hash table from the RIGHT side, and this query puts the two
+     * largest log tables there. The one that exhausts memory is log_link_visit_action, not
+     * log_action: it is joined with RIGHT JOIN and has no date predicate of its own, because
+     * `logva.server_time <= log_conversion.server_time` is a join condition rather than a
+     * filter ClickHouse can push down. On the POC corpus this died in FillingRightJoinSide
+     * with MEMORY_LIMIT_EXCEEDED at 46.86 GiB.
+     *
+     * The central pass, ClickhouseDialectTranslator::restrictLogTableJoins(), declines both
+     * joins and is right to: it only rewrites log_action, and the log_action join here is
+     * keyed off logva - a joined alias, not the driving table - so its restriction subquery
+     * could not resolve the expression. A restriction that reaches through a joined table has
+     * to be built where the join is, which is here.
+     *
+     * Both sub-selects are supersets of what their join needs:
+     *
+     * - log_link_visit_action keeps the rows whose visit converted within the reported bounds.
+     *   The RIGHT JOIN survives that unchanged, because every WHERE conjunct tests a
+     *   log_conversion column: a logva row with no matching conversion is NULL-extended and
+     *   then dropped by `log_conversion.server_time >= ...`, so the rows this removes are
+     *   exactly the rows the WHERE was already removing.
+     * - The date bound is an UPPER bound only. `logva.server_time <= log_conversion.server_time`
+     *   gives one for free once conversions are bounded above; nothing bounds a visit's actions
+     *   from below, and inventing a lower bound would silently drop the actions of a visit that
+     *   began before the period.
+     * - idsite carries over because a conversion and its visit's actions are written from the
+     *   same tracking request. It is also what makes the restriction cheap, since idsite leads
+     *   log_link_visit_action's sorting key and idvisit on its own does not.
+     * - log_action is then restricted to the actions those rows reference, which is a
+     *   primary-key lookup: idaction IS log_action's sorting key.
+     *
+     * The bounds are inlined rather than bound, for the reason getActionRestrictionSubQuery()
+     * gives - a sub-select in FROM is emitted ahead of the WHERE clause, so binding them would
+     * mean splicing values into the middle of a positional bind list. The values are internally
+     * generated: formatted Date objects, integer site ids and an integer goal id.
+     *
+     * @return array{0: string, 1: string}|null the log_link_visit_action and log_action
+     *                                          sub-selects, or null to join both tables whole
+     */
+    private function getConversionsByPageViewRestrictions(string $linkField, int $idGoal): ?array
+    {
+        if (!Db::hasAnalyticsConfigured()) {
+            // On MySQL both unrestricted joins are the faster plan: they reach each table by
+            // index per row rather than building a hash table.
+            return null;
+        }
+
+        $sites = implode(', ', array_map('intval', $this->sites));
+        $dateEnd = $this->dateEnd->toString(Date::DATE_TIME_FORMAT);
+
+        $convertedVisits = sprintf(
+            "SELECT idvisit FROM %s WHERE server_time >= '%s' AND server_time <= '%s'"
+                . " AND idsite IN (%s) AND idgoal = %d",
+            Common::prefixTable('log_conversion'),
+            $this->dateStart->toString(Date::DATE_TIME_FORMAT),
+            $dateEnd,
+            $sites,
+            $idGoal
+        );
+
+        // Table name plus its WHERE, so the two sub-selects below cannot drift apart.
+        $actionsOfConvertedVisits = sprintf(
+            "%s WHERE idsite IN (%s) AND server_time <= '%s' AND idvisit IN (%s)",
+            Common::prefixTable('log_link_visit_action'),
+            $sites,
+            $dateEnd,
+            $convertedVisits
+        );
+
+        return [
+            'SELECT ' . ClickhouseDialectTranslator::restrictionProjection('log_link_visit_action')
+                . ' FROM ' . $actionsOfConvertedVisits,
+            sprintf(
+                'SELECT %s FROM %s WHERE idaction IN (SELECT %s FROM %s)',
+                ClickhouseDialectTranslator::restrictionProjection('log_action'),
+                Common::prefixTable('log_action'),
+                $linkField,
+                $actionsOfConvertedVisits
+            ),
+        ];
     }
 
     /**
