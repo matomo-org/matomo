@@ -52,14 +52,15 @@ class Updates_6_0_0_b2 extends PiwikUpdates
 
         $settings = StaticContainer::get(SystemSettings::class);
 
-        // a config file override shadows any stored value, so there is nothing useful to store
-        if (!array_key_exists('block_clouds', $pluginConfig)) {
-            // written straight to the storage rather than through the setting: SystemSettings::save()
-            // treats a change here as the admin having just toggled the tickbox, and on an install
-            // that never saved it the unchanged value still reads as a change - the setting's own
-            // default is now on - which would clear the IPs banned for exceeding max_actions_allowed
-            $storage->setValue('block_clouds', $wasBlockingClouds);
-        }
+        // Stored even when a config file override shadows it: the override wins while it is there, but
+        // the setting now defaults to on, so leaving nothing stored would turn IP range blocking on
+        // the day someone removes the override to manage it from the UI.
+        //
+        // Written straight to the storage rather than through the setting because SystemSettings::save()
+        // treats a change here as the admin having just toggled the tickbox, and on an install that
+        // never saved it even the unchanged value reads as a change - the setting's own default is now
+        // on - which would clear the IPs banned for exceeding max_actions_allowed.
+        $storage->setValue('block_clouds', $wasBlockingClouds);
 
         if (
             !array_key_exists('cloud_blocking_mode', $pluginConfig)

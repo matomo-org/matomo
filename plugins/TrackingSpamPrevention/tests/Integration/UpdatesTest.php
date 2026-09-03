@@ -261,18 +261,22 @@ class UpdatesTest extends IntegrationTestCase
         // must not throw: an override makes the setting unwritable, which would fail the update
         $this->runUpdate600b2();
 
+        // the override is what the install was doing, and it is stored so that removing the override
+        // later reveals that value rather than the setting's new on-by-default
         $storage = $this->makeStorage();
-        $this->assertNull($storage->getValue('block_clouds', null, FieldConfig::TYPE_BOOL));
-        // the override is what the install was doing, even though nothing was ever stored
+        $this->assertSame(true, $storage->getValue('block_clouds', null, FieldConfig::TYPE_BOOL));
         $this->assertSame(SystemSettings::CLOUD_BLOCKING_DEFAULT_LIST, $this->makeSettings()->getCloudBlockingMode());
     }
 
-    public function testUpdate600b2ConfigOverrideDisablingBlockCloudsTurnsOrganisationBlockingOff()
+    public function testUpdate600b2ConfigOverrideDisablingBlockCloudsIsStoredSoRemovingItKeepsBlockingOff()
     {
         $this->storeBlockClouds(true);
         Config::getInstance()->TrackingSpamPrevention = ['block_clouds' => 0];
 
         $this->runUpdate600b2();
+
+        // without this the setting would fall back to its new on-by-default the day the override goes
+        $this->assertSame(false, $this->makeStorage()->getValue('block_clouds', null, FieldConfig::TYPE_BOOL));
 
         // the override shadows the stored value, so the install was not blocking before the update
         $this->assertSame(SystemSettings::CLOUD_BLOCKING_OFF, $this->makeSettings()->getCloudBlockingMode());
@@ -302,6 +306,34 @@ class UpdatesTest extends IntegrationTestCase
         // the update must not read as the admin toggling the tickbox: that path clears every blocked
         // range, including the IPs banned for exceeding max_actions_allowed
         $this->assertSame($banned, $ranges->getBlockedRanges());
+    }
+
+    public function testUpdate600b2PersistsToTheDatabaseNotJustTheSharedStorage()
+    {
+        $this->givenNothingStored();
+
+        $this->runUpdate600b2();
+
+        // every other assertion here reads the container-cached Storage, which would still report the
+        // migration's in-memory writes even if save() stopped flushing them
+        $rows = \Piwik\Db::fetchAll(
+            'SELECT setting_name, setting_value FROM ' . \Piwik\Common::prefixTable('plugin_setting')
+            . " WHERE plugin_name = ? AND user_login = ''",
+            ['TrackingSpamPrevention']
+        );
+        $stored = array_column($rows, 'setting_value', 'setting_name');
+
+        $this->assertArrayHasKey('block_clouds', $stored);
+        $this->assertArrayHasKey('cloud_blocking_mode', $stored);
+        $this->assertSame(SystemSettings::CLOUD_BLOCKING_OFF, $stored['cloud_blocking_mode']);
+    }
+
+    private function givenNothingStored(): void
+    {
+        $storage = $this->makeStorage();
+        $storage->unsetValue('block_clouds');
+        $storage->unsetValue('cloud_blocking_mode');
+        $storage->save();
     }
 
     private function storeBlockClouds(bool $value): void
