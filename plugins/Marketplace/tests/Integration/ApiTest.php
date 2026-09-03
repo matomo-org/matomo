@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\Marketplace\tests\Integration;
 
 use Exception;
+use Piwik\Cache;
 use Piwik\Container\StaticContainer;
 use Piwik\Mail;
 use Piwik\Piwik;
@@ -31,6 +32,8 @@ use Piwik\Plugins\Marketplace\Api\Service\Exception as ServiceException;
  */
 class ApiTest extends IntegrationTestCase
 {
+    private const INVALID_LICENSES_CACHE_KEY = 'Marketplace_ExpiredPlugins';
+
     /**
      * @var API
      */
@@ -148,6 +151,24 @@ class ApiTest extends IntegrationTestCase
         });
 
         $this->api->createAccount('test@matomo.org');
+    }
+
+    public function testCreateAccountClearsInvalidLicensesCacheEvenIfTheMarketplaceRejectsTheEmail(): void
+    {
+        $this->service->setOnDownloadCallback(static function () {
+            return ['status' => 409, 'headers' => [], 'data' => ''];
+        });
+
+        $this->seedInvalidLicensesCache();
+
+        try {
+            $this->api->createAccount('test@matomo.org');
+            self::fail('createAccount should have rejected the duplicate email');
+        } catch (Exception $e) {
+            self::assertSame('Marketplace_CreateAccountErrorAPIEmailExists', $e->getMessage());
+        }
+
+        $this->assertInvalidLicensesCacheCleared();
     }
 
     public function dataCreateAccountErrorDownloadResponses(): iterable
@@ -399,7 +420,11 @@ class ApiTest extends IntegrationTestCase
             ];
         });
 
+        $this->seedInvalidLicensesCache();
+
         self::assertTrue($this->api->startFreeTrial($pluginName));
+
+        $this->assertInvalidLicensesCacheCleared();
     }
 
     /**
@@ -515,5 +540,15 @@ class ApiTest extends IntegrationTestCase
     private function assertNotHasLicenseKey()
     {
         $this->assertFalse($this->buildLicenseKey()->has());
+    }
+
+    private function seedInvalidLicensesCache(): void
+    {
+        Cache::getEagerCache()->save(self::INVALID_LICENSES_CACHE_KEY, ['exceeded' => ['FooPlugin']]);
+    }
+
+    private function assertInvalidLicensesCacheCleared(): void
+    {
+        $this->assertFalse(Cache::getEagerCache()->contains(self::INVALID_LICENSES_CACHE_KEY));
     }
 }
