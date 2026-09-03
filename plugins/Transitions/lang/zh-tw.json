@@ -2,7 +2,6 @@
     "Transitions": {
         "AvailableInOtherReports": "你知道嗎？行為流程也可以在以下報表中作為列動作使用：",
         "AvailableInOtherReports2": "將滑鼠移到這些報表的任一列上，然後點擊行為流程圖示（%s）即可啟動。",
-        "BouncesInline": "%s 次跳出",
         "DirectEntries": "直接流量",
         "ErrorBack": "返回上一個動作",
         "ExitsInline": "%s 次離開",
@@ -17,12 +16,15 @@
         "FromSocialNetworks": "來自社群網站",
         "FromWebsites": "來自網站",
         "IncomingTraffic": "進站流量",
+        "LoadingTransitionsFor": "正在載入 %s 的行為流程",
         "LoopsInline": "%s 次網頁重新載入",
         "NoDataForAction": "%s 沒有資料",
         "NoDataForActionDetails": "這個活動在所選期間內沒有瀏覽數，或是它無效。",
         "NumDownloads": "%s 次下載",
         "NumOutlinks": "%s 個離開連結",
         "NumPageviews": "%s 次瀏覽",
+        "OtherDestinations": "其他去向",
+        "OtherSources": "其他來源",
         "OutgoingTraffic": "離站流量",
         "PageURLTransitions": "網頁網址行為流程",
         "PeriodNotAllowed": "請選擇有效的時間期間",
@@ -37,7 +39,6 @@
         "Transitions": "行為流程",
         "TransitionsSubcategoryHelp1": "你可以在行為流程中查看訪客在查看特定網頁之前和之後做的事情。這個頁面將解釋如何存取、了解和使用強大的行為流程報表。",
         "TransitionsSubcategoryHelp2": "更多資訊",
-        "XOfAllPageviews": "佔此網頁所有瀏覽數的 %s",
-        "XOutOfYVisits": "%1$s（共 %2$s）"
+        "XOfAllPageviews": "佔此網頁所有瀏覽數的 %s"
     }
 }
