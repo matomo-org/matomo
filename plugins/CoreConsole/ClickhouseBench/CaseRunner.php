@@ -119,7 +119,8 @@ final class CaseRunner
                     $invalidate['wallMs'],
                     'core:invalidate-report-data exited ' . $invalidate['exitCode'] . ': '
                         . $this->lastLines($invalidate['output']),
-                    $commands
+                    $commands,
+                    $scrub
                 );
             }
         }
@@ -137,7 +138,8 @@ final class CaseRunner
                 $isWarmup,
                 $measured['wallMs'],
                 'timed out',
-                $commands
+                $commands,
+                $scrub
             );
         }
 
@@ -149,7 +151,8 @@ final class CaseRunner
                 $isWarmup,
                 $measured['wallMs'],
                 'exited ' . $measured['exitCode'] . ': ' . $this->lastLines($measured['output']),
-                $commands
+                $commands,
+                $scrub
             );
         }
 
@@ -161,7 +164,7 @@ final class CaseRunner
         // it as a timing would publish the cost of refusing to answer.
         $apiError = $this->extractApiError($decoded);
         if ($apiError !== null) {
-            return $this->failure($engine, $case, $iteration, $isWarmup, $measured['wallMs'], $apiError, $commands);
+            return $this->failure($engine, $case, $iteration, $isWarmup, $measured['wallMs'], $apiError, $commands, $scrub);
         }
 
         $archiveMs = null;
@@ -426,7 +429,13 @@ final class CaseRunner
     }
 
     /**
+     * A failed run still records what the scrubber removed before it. Dropping it made a failed
+     * run indistinguishable from one produced by a build that predates the scrubber - and
+     * "scrubbed is null, so the box is on an old build" is a conclusion that has been drawn from
+     * exactly this, wrongly.
+     *
      * @param string[] $commands
+     * @param array{archives: int, rows: int, invalidations: int, tables: string[]}|null $scrub
      */
     private function failure(
         Engine $engine,
@@ -435,7 +444,8 @@ final class CaseRunner
         bool $isWarmup,
         float $wallMs,
         string $error,
-        array $commands
+        array $commands,
+        ?array $scrub = null
     ): RunResult {
         return new RunResult(
             $engine->getKey(),
@@ -450,7 +460,8 @@ final class CaseRunner
             0,
             0,
             $error,
-            $commands
+            $commands,
+            $scrub
         );
     }
 
