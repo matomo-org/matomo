@@ -8,9 +8,14 @@ services:
     image: clickhouse/clickhouse-server:25.8
     restart: "no"
     # Keep ClickHouse from eating the (8GB) Docker VM; it sizes caches from the cgroup limit.
-    # 3g is the observed floor for segmented visits-log queries (FINAL over the wide
+    # 3g was the observed floor for segmented visits-log queries (FINAL over the wide
     # log_visit copy joined to log_link_visit_action); plain FINAL scans need ~2.5g.
-    mem_limit: "3g"
+    # All-plugins day archiving needs more: at 3g the cap works out at 2.55g, which the
+    # Contents and Actions ranking queries hit while merely READING their columns, long
+    # after every join on the query has been restricted. That is the container being small,
+    # not the query being wrong - the honest test for an unrestricted join is read_rows in
+    # system.query_log, which a bigger container does not flatter.
+    mem_limit: "4500m"
     ulimits:
       nofile:
         soft: 262144

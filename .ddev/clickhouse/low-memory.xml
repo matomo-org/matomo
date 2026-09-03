@@ -4,4 +4,17 @@
     <max_server_memory_usage_to_ram_ratio>0.85</max_server_memory_usage_to_ram_ratio>
     <mark_cache_size>268435456</mark_cache_size>
     <uncompressed_cache_size>134217728</uncompressed_cache_size>
+    <!-- The server's own telemetry tables are the largest thing in this container that is
+         not the data. metric_log grows a row per second forever, and merging it was taking
+         1.01 GiB of a 3.74 GiB budget - enough for the OvercommitTracker to stop whichever
+         archiving query happened to be running, with an error that blames the query. Only
+         query_log is kept, because the read_rows check that tells a restricted join from an
+         unrestricted one is read from it. -->
+    <metric_log remove="1"/>
+    <asynchronous_metric_log remove="1"/>
+    <trace_log remove="1"/>
+    <query_thread_log remove="1"/>
+    <text_log remove="1"/>
+    <part_log remove="1"/>
+    <processors_profile_log remove="1"/>
 </clickhouse>
