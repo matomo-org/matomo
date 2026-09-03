@@ -112,10 +112,10 @@ export default defineComponent({
       // Without this, nested widgets render as non-widgetized and may show titles again.
       const containerId = widget.parameters?.containerId as string | undefined;
 
-      return widget.widgets!.map((child: Record<string, unknown>) => ({
+      return widget.widgets!.map((child) => ({
         ...child,
         parameters: {
-          ...(child.parameters as Record<string, unknown>),
+          ...child.parameters,
           widget: '1',
           ...(containerId ? { containerId } : {}),
         },
