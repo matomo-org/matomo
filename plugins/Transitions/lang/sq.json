@@ -2,7 +2,6 @@
     "Transitions": {
         "AvailableInOtherReports": "A e dinit? Tranzicionet janë të passhme edhe si veprim rreshti në raportet vijues:",
         "AvailableInOtherReports2": "Thjesht kaloni kursorin përsipër një rreshti te cilido prej këtyre raporteve dhe klikoni mbi ikonën e tranzicionit (%s) për ta vënë në punë.",
-        "BouncesInline": "%s kthime",
         "DirectEntries": "Hyrje të drejtpërdrejta",
         "ErrorBack": "Kthehu te veprimi i mëparshëm",
         "ExitsInline": "%s largime",
@@ -37,7 +36,6 @@
         "Transitions": "Tranzicione",
         "TransitionsSubcategoryHelp1": "Tranzicionet janë një raport që tregon gjëra që vizitorët tuaj bënë fill para dhe pas parjes së një faqeje të dhënë. Kjo faqe do të shpjegojë si të hyhet, të kuptohet dhe të përdoret raporti i fuqishëm “Tranzicione”.",
         "TransitionsSubcategoryHelp2": "Më tepër hollësi",
-        "XOfAllPageviews": "%s e krejt parjeve të kësaj faqeje",
-        "XOutOfYVisits": "%1$s (nga %2$s gjithsej)"
+        "XOfAllPageviews": "%s e krejt parjeve të kësaj faqeje"
     }
 }
