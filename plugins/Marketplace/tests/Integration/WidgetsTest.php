@@ -65,7 +65,7 @@ class WidgetsTest extends IntegrationTestCase
         self::assertNotEmpty($plugins);
 
         foreach ($plugins as $plugin) {
-            foreach (['versions', 'shop', 'support', 'authors', 'changelog', 'activity'] as $field) {
+            foreach (['versions', 'shop', 'support', 'authors', 'changelog', 'activity', 'screenshots'] as $field) {
                 self::assertArrayNotHasKey($field, $plugin, "$field is not rendered by this widget");
             }
         }
