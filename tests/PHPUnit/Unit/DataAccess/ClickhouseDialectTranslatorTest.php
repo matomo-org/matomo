@@ -450,10 +450,10 @@ class ClickhouseDialectTranslatorTest extends \PHPUnit\Framework\TestCase
             . ' WHERE log_visit.visit_last_action_time >= :chBind000 AND log_visit.idsite IN (:chBind001)'
             . ' GROUP BY log_visit.visit_entry_idaction_url ) actualQuery ) AS withCounter';
 
-        $out = ClickhouseDialectTranslator::restrictLogActionJoins($sql);
+        $out = ClickhouseDialectTranslator::restrictLogTableJoins($sql);
 
         self::assertStringContainsString(
-            'LEFT JOIN (SELECT * FROM mc_anonsite_log_action WHERE idaction IN'
+            'LEFT JOIN (SELECT *, `name_lower` FROM mc_anonsite_log_action WHERE idaction IN'
             . ' (SELECT log_visit.visit_entry_idaction_url FROM mc_anonsite_log_visit AS log_visit'
             . ' WHERE log_visit.visit_last_action_time >= :chBind000 AND log_visit.idsite IN (:chBind001)))'
             . ' AS log_action ON log_visit.visit_entry_idaction_url = log_action.idaction',
@@ -472,7 +472,7 @@ class ClickhouseDialectTranslatorTest extends \PHPUnit\Framework\TestCase
             . ' LEFT JOIN log_action AS log_action ON log_visit.idaction_x = log_action.idaction'
             . ' WHERE log_visit.idsite = :chBind000';
 
-        $out = ClickhouseDialectTranslator::restrictLogActionJoins($sql);
+        $out = ClickhouseDialectTranslator::restrictLogTableJoins($sql);
 
         self::assertSame(2, substr_count($out, ':chBind000'));
         self::assertStringNotContainsString(':chBind001', $out);
@@ -488,7 +488,7 @@ class ClickhouseDialectTranslatorTest extends \PHPUnit\Framework\TestCase
             . ' LEFT JOIN log_action AS log_action_title ON log_link_visit_action.idaction_name = log_action_title.idaction'
             . ' WHERE log_link_visit_action.idvisit IN (:chBind000)';
 
-        $out = ClickhouseDialectTranslator::restrictLogActionJoins($sql);
+        $out = ClickhouseDialectTranslator::restrictLogTableJoins($sql);
 
         self::assertSame(2, substr_count($out, 'WHERE idaction IN (SELECT'));
         self::assertStringContainsString('SELECT log_link_visit_action.idaction_url FROM', $out);
@@ -506,7 +506,7 @@ class ClickhouseDialectTranslatorTest extends \PHPUnit\Framework\TestCase
             . ' LEFT JOIN log_action AS log_action ON log_visit.idaction_x = log_action.idaction'
             . ' WHERE log_visit.idsite = :chBind000 AND log_action.name_lower LIKE :chBind001';
 
-        $out = ClickhouseDialectTranslator::restrictLogActionJoins($sql);
+        $out = ClickhouseDialectTranslator::restrictLogTableJoins($sql);
 
         self::assertStringContainsString('WHERE log_visit.idsite = :chBind000))', $out);
         self::assertSame(1, substr_count($out, ':chBind001'), 'the log_action conjunct must not be copied');
@@ -518,7 +518,7 @@ class ClickhouseDialectTranslatorTest extends \PHPUnit\Framework\TestCase
             . ' LEFT JOIN log_action AS log_action ON log_visit.idaction_x = log_action.idaction'
             . ' WHERE log_action.name = :chBind000';
 
-        $out = ClickhouseDialectTranslator::restrictLogActionJoins($sql);
+        $out = ClickhouseDialectTranslator::restrictLogTableJoins($sql);
 
         // Still restricted, but with no WHERE - a full driving-table scan is slow, not wrong.
         self::assertStringContainsString('idaction IN (SELECT log_visit.idaction_x FROM log_visit AS log_visit))', $out);
@@ -541,7 +541,7 @@ class ClickhouseDialectTranslatorTest extends \PHPUnit\Framework\TestCase
             . "\nWHERE\n\t\t\tlog_link_visit_action.idsite IN (:chBind000)"
             . "\nGROUP BY\n\t\t\tlog_link_visit_action.idaction_name";
 
-        $out = ClickhouseDialectTranslator::restrictLogActionJoins($sql);
+        $out = ClickhouseDialectTranslator::restrictLogTableJoins($sql);
 
         self::assertSame(2, substr_count($out, 'WHERE idaction IN (SELECT'), 'both joins restricted');
         foreach (['idactionLEFT', 'idactionWHERE', 'idactionGROUP', ')LEFT', ')WHERE'] as $welded) {
@@ -550,11 +550,175 @@ class ClickhouseDialectTranslatorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * log_action was the first table big enough to make an unrestricted join fatal, but it is
+     * not the only one. This is the segmented Goals\ProductRecord archiving query, which joins
+     * log_visit whole for a single visitor_returning conjunct - 364M rows on the POC corpus,
+     * and MEMORY_LIMIT_EXCEEDED in FillingRightJoinSide on a 614k-row local corpus.
+     */
+    public function testLogVisitIsRestrictedTooWhenItIsTheOneOnTheBuildSide(): void
+    {
+        $sql = 'SELECT x FROM matomo_log_link_visit_action AS log_link_visit_action'
+            . ' LEFT JOIN matomo_log_visit AS log_visit ON log_visit.idvisit = log_link_visit_action.idvisit'
+            . ' WHERE ( log_link_visit_action.idsite IN (:chBind000) )'
+            . ' AND (log_visit.visitor_returning = 0)';
+
+        $out = ClickhouseDialectTranslator::restrictLogTableJoins($sql);
+
+        self::assertStringContainsString(
+            'LEFT JOIN (SELECT * FROM matomo_log_visit WHERE idvisit IN'
+            . ' (SELECT log_link_visit_action.idvisit FROM matomo_log_link_visit_action AS log_link_visit_action'
+            . ' WHERE ( log_link_visit_action.idsite IN (:chBind000) )))'
+            . ' AS log_visit ON log_visit.idvisit = log_link_visit_action.idvisit',
+            $out
+        );
+    }
+
+    /**
+     * Ecommerce's conversion detail in the visits log reaches log_link_visit_action by
+     * idlink_va, not by idvisit. Both are complete keys for the join they appear in, and
+     * recognising only one of them left the other joining all 2.68M rows.
+     */
+    public function testLogLinkVisitActionIsRestrictedOnIdlinkVaToo(): void
+    {
+        $sql = 'SELECT x FROM matomo_log_conversion AS log_conversion'
+            . ' LEFT JOIN matomo_log_link_visit_action AS log_link_visit_action'
+            . ' ON log_link_visit_action.idlink_va = log_conversion.idlink_va'
+            . " WHERE log_conversion.idvisit IN (:chBind000)";
+
+        $out = ClickhouseDialectTranslator::restrictLogTableJoins($sql);
+
+        self::assertStringContainsString(
+            'LEFT JOIN (SELECT * FROM matomo_log_link_visit_action WHERE idlink_va IN'
+            . ' (SELECT log_conversion.idlink_va FROM matomo_log_conversion AS log_conversion'
+            . ' WHERE log_conversion.idvisit IN (:chBind000)))'
+            . ' AS log_link_visit_action ON log_link_visit_action.idlink_va = log_conversion.idlink_va',
+            $out
+        );
+    }
+
+    /**
+     * Table names are matched with the installation's prefix still attached, and
+     * `..._log_link_visit_action` must not be read as a `..._log_action` and restricted on
+     * idaction - a column it does not have.
+     */
+    public function testLogLinkVisitActionIsNotMistakenForLogAction(): void
+    {
+        $sql = 'SELECT x FROM matomo_log_visit AS log_visit'
+            . ' LEFT JOIN matomo_log_link_visit_action AS lvla ON lvla.idvisit = log_visit.idvisit'
+            . ' WHERE log_visit.idsite = :chBind000';
+
+        $out = ClickhouseDialectTranslator::restrictLogTableJoins($sql);
+
+        self::assertStringContainsString('WHERE idvisit IN (SELECT log_visit.idvisit', $out);
+        self::assertStringNotContainsString('idaction', $out);
+    }
+
+    /**
+     * queryConversionsByEntryPageView(): the log_action join keys off log_visit, not off the
+     * driving log_conversion, so it can only be restricted THROUGH log_visit - which the join
+     * before it has just turned into a restricted sub-select. Before chaining, this join read
+     * log_action whole.
+     */
+    public function testARestrictedJoinRestrictsTheJoinKeyedOffIt(): void
+    {
+        $sql = 'SELECT x FROM log_conversion AS log_conversion'
+            . ' LEFT JOIN log_visit AS log_visit ON log_visit.idvisit = log_conversion.idvisit'
+            . ' LEFT JOIN log_action AS log_action ON log_action.idaction = log_visit.visit_entry_idaction_name'
+            . ' WHERE log_conversion.idsite = :chBind000';
+
+        $out = ClickhouseDialectTranslator::restrictLogTableJoins($sql);
+
+        self::assertStringContainsString(
+            'LEFT JOIN (SELECT *, `name_lower` FROM log_action WHERE idaction IN'
+            . ' (SELECT log_visit.visit_entry_idaction_name FROM'
+            . ' (SELECT * FROM log_visit WHERE idvisit IN'
+            . ' (SELECT log_conversion.idvisit FROM log_conversion AS log_conversion'
+            . ' WHERE log_conversion.idsite = :chBind000)) AS log_visit))'
+            . ' AS log_action ON log_action.idaction = log_visit.visit_entry_idaction_name',
+            $out
+        );
+    }
+
+    /**
+     * Goals contributes `AND visit_entry_idaction_url IS NOT NULL` to a query driven by
+     * log_conversion - a log_visit column, written without its table. Carried into
+     * `FROM log_conversion WHERE ...` it does not merely narrow the wrong set, it fails as an
+     * unknown identifier, so the whole conjunct group has to be dropped. This surfaced as one
+     * failing Actions system test once log_visit joins started being restricted.
+     */
+    public function testAConjunctNamingAColumnWithoutItsTableIsDropped(): void
+    {
+        $sql = 'SELECT x FROM log_conversion AS log_conversion'
+            . ' LEFT JOIN log_visit AS log_visit ON log_visit.idvisit = log_conversion.idvisit'
+            . ' WHERE ( log_conversion.idsite IN (:chBind000) AND visit_entry_idaction_url IS NOT NULL )';
+
+        $out = ClickhouseDialectTranslator::restrictLogTableJoins($sql);
+
+        self::assertStringContainsString(
+            'WHERE idvisit IN (SELECT log_conversion.idvisit FROM log_conversion AS log_conversion))',
+            $out,
+            'the conjunct group is dropped whole, leaving a restriction with no WHERE'
+        );
+        self::assertSame(1, substr_count($out, 'visit_entry_idaction_url'));
+    }
+
+    /**
+     * The keyword allowlist has to leave ordinary bounded conjuncts alone - dropping those
+     * would quietly turn every restriction into a full driving-table scan.
+     */
+    public function testOrdinaryQualifiedConjunctsAreStillCarried(): void
+    {
+        $where = 'log_link_visit_action.server_time >= :chBind000'
+            . ' AND log_link_visit_action.server_time <= :chBind001'
+            . " AND log_link_visit_action.idsite IN (:chBind002)"
+            . ' AND log_link_visit_action.idaction_url IS NOT NULL'
+            . " AND log_link_visit_action.name LIKE '%x%'";
+
+        self::assertSame(
+            $where,
+            ClickhouseDialectTranslator::keepConjunctsReferencingOnly($where, 'log_link_visit_action')
+        );
+    }
+
+    /**
+     * Chaining only reaches aliases this pass actually restricted. An alias it left alone
+     * restricts nothing, because there is no narrower set to restrict through.
+     */
+    public function testAJoinKeyedOffAnUnrestrictedAliasIsLeftAlone(): void
+    {
+        // lvla is joined on idvisitor, not idvisit, so it is not restricted - and therefore
+        // neither is the log_action join that keys off it.
+        $sql = 'SELECT x FROM log_visit AS log_visit'
+            . ' LEFT JOIN log_link_visit_action AS lvla ON lvla.idvisitor = log_visit.idvisitor'
+            . ' LEFT JOIN log_action AS log_action ON lvla.idaction_url = log_action.idaction'
+            . ' WHERE log_visit.idsite = :chBind000';
+
+        self::assertSame($sql, ClickhouseDialectTranslator::restrictLogTableJoins($sql));
+    }
+
+    /**
+     * A RIGHT (or FULL) join keeps its unmatched right-hand rows, so removing one is only safe
+     * if a driving conjunct rejects the NULLs it would be joined against - an argument this
+     * pass cannot make from the SQL alone. LogAggregator::queryConversionsByPageView() can make
+     * it for its own RIGHT JOIN, and builds that sub-select itself.
+     */
+    public function testRightAndFullJoinsAreLeftAlone(): void
+    {
+        foreach (['RIGHT JOIN', 'RIGHT OUTER JOIN', 'FULL OUTER JOIN'] as $joinType) {
+            $sql = 'SELECT x FROM log_conversion AS log_conversion'
+                . ' ' . $joinType . ' log_link_visit_action AS logva ON log_conversion.idvisit = logva.idvisit'
+                . ' WHERE log_conversion.idsite = :chBind000';
+
+            self::assertSame($sql, ClickhouseDialectTranslator::restrictLogTableJoins($sql), $joinType);
+        }
+    }
+
+    /**
      * @dataProvider unsafeToRewriteProvider
      */
     public function testUnreadableJoinsAreLeftExactlyAsTheyAre(string $sql): void
     {
-        self::assertSame($sql, ClickhouseDialectTranslator::restrictLogActionJoins($sql));
+        self::assertSame($sql, ClickhouseDialectTranslator::restrictLogTableJoins($sql));
     }
 
     public function unsafeToRewriteProvider(): array
@@ -576,21 +740,19 @@ class ClickhouseDialectTranslatorTest extends \PHPUnit\Framework\TestCase
                 . ' LEFT JOIN log_action AS log_action ON log_visit.idvisit = log_action.idvisit'
                 . ' WHERE log_visit.idsite = :chBind000',
             ],
-            'expression belongs to another joined table' => [
-                'SELECT x FROM log_visit AS log_visit'
-                . ' LEFT JOIN log_link_visit_action AS lvla ON lvla.idvisit = log_visit.idvisit'
-                . ' LEFT JOIN log_action AS log_action ON lvla.idaction_url = log_action.idaction'
-                . ' WHERE log_visit.idsite = :chBind000',
-            ],
             'driving side is a subquery' => [
                 'SELECT x FROM (SELECT 1) AS drv'
                 . ' LEFT JOIN log_action AS log_action ON drv.idaction_x = log_action.idaction'
                 . ' WHERE drv.idsite = :chBind000',
             ],
-            'no log_action anywhere' => [
+            'nothing is joined at all' => [
                 'SELECT x FROM log_visit AS log_visit WHERE log_visit.idsite = :chBind000',
+            ],
+            'the joined table is not a log table' => [
+                'SELECT x FROM log_visit AS log_visit'
+                . ' LEFT JOIN site AS site ON site.idsite = log_visit.idsite'
+                . ' WHERE log_visit.idsite = :chBind000',
             ],
         ];
     }
-
 }

@@ -40,6 +40,57 @@ namespace Piwik\DataAccess;
 class ClickhouseDialectTranslator
 {
     /**
+     * The log tables restrictLogTableJoins() will rewrite, and the columns a join to each of
+     * them keys on. A column is listed only when an equality on it is enough on its own to
+     * pick out the rows the join needs, so that restricting the column restricts the join.
+     *
+     * log_link_visit_action is reached both ways: by visit (the visits log enrichment, and the
+     * restriction sub-selects that keep the conversions-by-page-view joins off the whole
+     * table) and by idlink_va (Ecommerce's conversion detail in the visits log). Either is a
+     * complete key for the join it appears in.
+     *
+     * Order matters: restrictableJoinKey() takes the first suffix that matches, and a name is
+     * matched with whatever table prefix the installation uses still attached, so the longest
+     * table name has to come first or `matomo_log_link_visit_action` reads as a `log_action`.
+     *
+     * log_conversion and log_conversion_item are deliberately absent. Joins to them carry
+     * conditions beyond the key (`AND log_conversion.idgoal = ...`), and they are small enough
+     * that joining one whole has never been the query that ran out of memory.
+     */
+    private const RESTRICTABLE_JOIN_KEYS = [
+        'log_link_visit_action' => ['idvisit', 'idlink_va'],
+        'log_action' => ['idaction'],
+        'log_visit' => ['idvisit'],
+    ];
+
+    /**
+     * The words a WHERE conjunct may contain that are not column names. Deliberately short:
+     * see namesAColumnWithoutItsTable(), where an omission costs a dropped conjunct and a
+     * wrong inclusion costs a broken restriction.
+     */
+    private const CONDITION_KEYWORDS = [
+        'AND', 'OR', 'NOT', 'IN', 'IS', 'NULL', 'LIKE', 'ILIKE', 'BETWEEN', 'TRUE', 'FALSE',
+        'CASE', 'WHEN', 'THEN', 'ELSE', 'END', 'AS', 'DISTINCT', 'ASC', 'DESC', 'INTERVAL',
+    ];
+
+    /**
+     * What a restriction sub-select selects, per log table. `*` unless the table has columns
+     * that `*` would not return.
+     *
+     * ClickHouse excludes MATERIALIZED columns from `SELECT *`, so standing
+     * `(SELECT * FROM log_action WHERE ...)` in for the table silently drops `name_lower` -
+     * the lowercased copy every action-scope segment LIKE is rewritten onto, see
+     * rewriteActionNameLikeToIndexedColumn(). The join then fails with "Identifier
+     * <alias>.name_lower cannot be resolved from subquery", which reads like a translation bug
+     * rather than a missing column. Naming it is unconditionally safe: the adapter already
+     * cannot serve a segment without it, and Piwik\Db\ClickhouseLogTableSync creates it on
+     * every copy it makes.
+     */
+    private const RESTRICTION_PROJECTIONS = [
+        'log_action' => '*, `name_lower`',
+    ];
+
+    /**
      * Translates a MySQL SQL string to ClickHouse-compatible SQL.
      *
      * @param string $sql  MySQL-flavoured SQL
@@ -1269,7 +1320,7 @@ class ClickhouseDialectTranslator
      * meaning it is already valid in a SELECT under GROUP BY.
      */
     /**
-     * Never join `log_action` whole.
+     * Never join a log table whole.
      *
      * ClickHouse builds a join hash table from the RIGHT side, so `... JOIN log_action ON
      * <expr> = log_action.idaction` materialises the entire action dictionary regardless of how
@@ -1287,6 +1338,21 @@ class ClickhouseDialectTranslator
      *            WHERE idaction IN (SELECT t.idaction_url FROM <driving table> WHERE <bounds>))
      *          AS a ON t.idaction_url = a.idaction
      *
+     * log_action was simply the first table big enough to make it fatal. The same rewrite is
+     * applied to every log table in RESTRICTABLE_JOIN_KEYS, because the same shape kept
+     * appearing with a different table on the build side - a segmented archiving query joins
+     * log_visit whole (364M rows on the POC corpus) for one `log_visit.visitor_returning`
+     * conjunct, and dies in FillingRightJoinSide just the same.
+     *
+     * Restrictions CHAIN. A join keyed off a joined alias rather than off the driving table
+     * cannot be restricted through the driving table - the expression would not resolve there -
+     * but it can be restricted through the alias it does name, once that alias is itself a
+     * restricted sub-select. LogAggregator::queryConversionsByEntryPageView() is the case that
+     * forced this: it drives from log_conversion, joins log_visit on idvisit, then joins
+     * log_action on `log_visit.visit_entry_idaction_name`. Without chaining the second join
+     * read log_action whole - 1,438,840 rows for 57k rows of answer on a 1.38M-row local copy,
+     * and 242M on the POC corpus.
+     *
      * This lives in the translator rather than at each call site because the property is a
      * property of ClickHouse, not of any one report: LogAggregator::queryActionsByDimension()
      * was fixed locally first, and two further paths turned out to build their joins elsewhere.
@@ -1301,20 +1367,20 @@ class ClickhouseDialectTranslator
      * joined alias could not be resolved inside the subquery. Anything that cannot be read with
      * confidence is left alone: a missed rewrite costs speed, a wrong one costs rows.
      */
-    public static function restrictLogActionJoins(string $sql): string
+    public static function restrictLogTableJoins(string $sql): string
     {
-        if (stripos($sql, 'log_action') === false) {
+        if (stripos($sql, 'JOIN') === false) {
             return $sql;
         }
 
         $sql = self::mapFromBlocks($sql, static function (string $inner): string {
-            return self::restrictLogActionJoins($inner);
+            return self::restrictLogTableJoins($inner);
         });
 
-        return self::restrictLogActionJoinsInScope($sql);
+        return self::restrictLogTableJoinsInScope($sql);
     }
 
-    private static function restrictLogActionJoinsInScope(string $sql): string
+    private static function restrictLogTableJoinsInScope(string $sql): string
     {
         $fromPos = self::findTopLevelFromPos($sql);
         if (null === $fromPos) {
@@ -1344,11 +1410,19 @@ class ClickhouseDialectTranslator
         $drivingTable = $dm[1];
         $drivingAlias = self::normalizeIdent($dm[2] ?? $dm[1]);
 
-        $restriction = self::drivingRestriction($sql, $clauses, $driving, $drivingAlias);
+        // What each alias in scope can be restricted through, as a FROM clause. The driving
+        // table starts it off; a join this pass rewrites is added as it goes, because a
+        // restricted table can restrict the next join along - see the chaining note on
+        // restrictLogTableJoins().
+        $restrictions = [
+            $drivingAlias => self::drivingRestriction($sql, $clauses, $driving, $drivingAlias),
+        ];
 
-        // Rewrite from the back so earlier offsets stay valid.
-        for ($i = count($clauses) - 1; $i >= 0; $i--) {
-            $clause = $clauses[$i];
+        // Decide every rewrite front to back, so a join can see the ones before it, then apply
+        // them from the back so earlier offsets stay valid.
+        $rewrites = [];
+
+        foreach ($clauses as $i => $clause) {
             if ($clause['kw'] !== 'JOIN') {
                 continue;
             }
@@ -1356,12 +1430,19 @@ class ClickhouseDialectTranslator
             $end = $clauses[$i + 1]['pos'] ?? strlen($sql);
             $text = substr($sql, $clause['pos'], $end - $clause['pos']);
 
-            $rewritten = self::restrictOneLogActionJoin($text, $drivingAlias, $restriction);
+            $rewritten = self::restrictOneJoin($text, $restrictions);
             if (null === $rewritten) {
                 continue;
             }
 
-            $sql = substr($sql, 0, $clause['pos']) . $rewritten . substr($sql, $end);
+            [$joinSql, $alias, $subQuery] = $rewritten;
+
+            $rewrites[] = ['pos' => $clause['pos'], 'end' => $end, 'sql' => $joinSql];
+            $restrictions[$alias] = 'FROM ' . $subQuery . ' AS ' . $alias;
+        }
+
+        for ($i = count($rewrites) - 1; $i >= 0; $i--) {
+            $sql = substr($sql, 0, $rewrites[$i]['pos']) . $rewrites[$i]['sql'] . substr($sql, $rewrites[$i]['end']);
         }
 
         return $sql;
@@ -1398,9 +1479,14 @@ class ClickhouseDialectTranslator
     }
 
     /**
-     * @return string|null the rewritten JOIN clause, or null to leave it alone
+     * @param array<string, string> $restrictions FROM clause per alias that can restrict a join
+     *
+     * @return array{0: string, 1: string, 2: string}|null the rewritten JOIN clause, the alias
+     *                                                     it defines and the sub-select now
+     *                                                     standing in for the table, or null to
+     *                                                     leave the join alone
      */
-    private static function restrictOneLogActionJoin(string $joinText, string $drivingAlias, string $restriction): ?string
+    private static function restrictOneJoin(string $joinText, array $restrictions): ?array
     {
         // A join whose right side is already a subquery has been restricted by its caller
         // (LogAggregator::getActionRestrictionSubQuery does this for the dimension queries),
@@ -1410,11 +1496,29 @@ class ClickhouseDialectTranslator
         // separated it from the next one welds them together: `... = log_action.idactionLEFT
         // JOIN ...`, which fails as a syntax error a long way from its cause.
         $pattern = '~^(\s*(?:LEFT|RIGHT|INNER|FULL|CROSS|OUTER|STRAIGHT_JOIN|\s)*JOIN\s+)'
-            . '(`?[\w]*log_action`?)(\s+(?:AS\s+)?(`?[\w]+`?))?(\s+ON\s+)(.*?)(\s*)$~is';
+            . '(`?[\w]+`?)(\s+(?:AS\s+)?(`?[\w]+`?))?(\s+ON\s+)(.*?)(\s*)$~is';
 
         if (!preg_match($pattern, $joinText, $m)) {
             return null;
         }
+
+        // A RIGHT or FULL join keeps its unmatched right-hand rows, NULL-extending the driving
+        // side; dropping such a row is only safe if some driving conjunct rejects those NULLs,
+        // which is more than this pass can read off the SQL. Restricting a LEFT or INNER join
+        // needs no such argument - the right side is not preserved there, so the only rows the
+        // restriction removes are rows the driving-side WHERE was already removing. A caller
+        // that can prove the argument for its own RIGHT JOIN builds the sub-select itself; see
+        // LogAggregator::getConversionsByPageViewRestrictions().
+        if (preg_match('~\b(?:RIGHT|FULL)\b~i', $m[1])) {
+            return null;
+        }
+
+        $restrictable = self::restrictableJoinKey($m[2]);
+        if (null === $restrictable) {
+            return null;
+        }
+
+        [$logTable, $keyColumns] = $restrictable;
 
         $alias = self::normalizeIdent($m[4] !== '' ? $m[4] : $m[2]);
         $condition = trim($m[6]);
@@ -1439,19 +1543,67 @@ class ClickhouseDialectTranslator
             return null;
         }
 
-        if (substr($joinKey, -strlen('.idaction')) !== '.idaction') {
+        $keyColumn = null;
+        foreach ($keyColumns as $candidate) {
+            if (substr($joinKey, -strlen('.' . $candidate)) === '.' . $candidate) {
+                $keyColumn = $candidate;
+                break;
+            }
+        }
+
+        if (null === $keyColumn) {
             return null;
         }
 
-        // The expression has to be resolvable inside the restriction subquery, whose only table
-        // is the driving one. A join keyed off another joined table cannot be restricted here.
-        if (self::qualifier(self::normalizeIdent($expression)) !== $drivingAlias) {
+        // The expression has to be resolvable inside the restriction subquery, which has one
+        // table in scope: whichever alias the expression names. That is the driving table for a
+        // join straight off it, and a table an earlier join already restricted for one keyed
+        // off that. Anything else - an alias no restriction is known for - is left alone.
+        $source = self::qualifier(self::normalizeIdent($expression));
+        if (!isset($restrictions[$source])) {
             return null;
         }
 
-        $subQuery = '(SELECT * FROM ' . $m[2] . ' WHERE idaction IN (SELECT ' . $expression . ' ' . $restriction . '))';
+        $subQuery = '(SELECT ' . self::restrictionProjection($logTable) . ' FROM ' . $m[2]
+            . ' WHERE ' . $keyColumn . ' IN (SELECT ' . $expression . ' ' . $restrictions[$source] . '))';
 
-        return $m[1] . $subQuery . ($m[3] !== '' ? $m[3] : ' AS ' . $alias) . $m[5] . $m[6] . $trailing;
+        return [
+            $m[1] . $subQuery . ($m[3] !== '' ? $m[3] : ' AS ' . $alias) . $m[5] . $m[6] . $trailing,
+            $alias,
+            $subQuery,
+        ];
+    }
+
+    /**
+     * The log table and join key behind a table name that may carry an installation's table
+     * prefix, or null when this is not a table the pass restricts.
+     *
+     * Longest suffix first, so `matomo_log_link_visit_action` is not read as a `log_action`.
+     *
+     * @return array{0: string, 1: array<int, string>}|null
+     */
+    private static function restrictableJoinKey(string $table): ?array
+    {
+        $table = strtolower(self::normalizeIdent($table));
+
+        foreach (self::RESTRICTABLE_JOIN_KEYS as $logTable => $keyColumns) {
+            if (substr($table, -strlen($logTable)) === $logTable) {
+                return [$logTable, $keyColumns];
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * What a restriction sub-select over $logTable must select. See RESTRICTION_PROJECTIONS.
+     *
+     * Public because LogAggregator builds the same kind of sub-select for the joins it
+     * restricts itself, and the two have to agree.
+     */
+    public static function restrictionProjection(string $logTable): string
+    {
+        return self::RESTRICTION_PROJECTIONS[$logTable] ?? '*';
     }
 
     private static function qualifier(string $identifier): string
@@ -1500,7 +1652,40 @@ class ClickhouseDialectTranslator
             }
         }
 
-        return true;
+        return !self::namesAColumnWithoutItsTable($expression);
+    }
+
+    /**
+     * True when the expression names a column without saying which table it belongs to.
+     *
+     * An unqualified name resolves against every table in the outer query's scope, and a
+     * restriction subquery has exactly one. Goals contributes
+     * `AND visit_entry_idaction_url IS NOT NULL` to a query driven by log_conversion - it is a
+     * log_visit column, and carrying it into `FROM log_conversion WHERE ...` fails outright
+     * rather than merely narrowing too much. It cannot be qualified from here either: which
+     * table it came from is precisely what the SQL does not say.
+     *
+     * Everything that is not a bare identifier is removed first - string literals, references
+     * that ARE qualified (checked by the caller), named binds, numbers and function names - and
+     * what remains has to be SQL keywords. An unrecognised keyword costs a dropped conjunct,
+     * which only widens the restriction; the opposite mistake costs a broken query.
+     */
+    private static function namesAColumnWithoutItsTable(string $expression): bool
+    {
+        $stripped = preg_replace('~\'(?:[^\'\\\\]|\\\\.)*\'~', ' ', $expression) ?? $expression;
+        $stripped = preg_replace('~`?[A-Za-z_][\w]*`?\s*\.\s*`?[A-Za-z_][\w]*`?~', ' ', $stripped) ?? $stripped;
+        $stripped = preg_replace('~:\w+~', ' ', $stripped) ?? $stripped;
+        $stripped = preg_replace('~`?[A-Za-z_][\w]*`?\s*\(~', ' (', $stripped) ?? $stripped;
+
+        preg_match_all('~[A-Za-z_][\w]*~', $stripped, $words);
+
+        foreach ($words[0] as $word) {
+            if (!in_array(strtoupper($word), self::CONDITION_KEYWORDS, true)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**

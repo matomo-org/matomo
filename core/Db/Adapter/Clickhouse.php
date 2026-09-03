@@ -349,10 +349,10 @@ class Clickhouse implements AdapterInterface
         // during translation; their needles can only be lowered here, once the binds have
         // names to match them by.
         $params = ClickhouseDialectTranslator::lowercaseNeedlesForIndexedColumns($chSql, $params);
-        // Restricting the log_action joins repeats the driving query's WHERE, so it has to run
+        // Restricting the log table joins repeats the driving query's WHERE, so it has to run
         // AFTER the binds have names: repeating `?` would desynchronise the positional list,
         // while a named parameter can appear as many times as it likes.
-        $chSql = ClickhouseDialectTranslator::restrictLogActionJoins($chSql);
+        $chSql = ClickhouseDialectTranslator::restrictLogTableJoins($chSql);
 
         $startTime = microtime(true);
         try {
