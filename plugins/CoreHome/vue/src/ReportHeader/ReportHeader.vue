@@ -90,18 +90,13 @@
             ref="exportSelector"
             class="mtm-selector"
             data-report-action="export"
-            v-expand-on-click="{
-              expander: 'exportTrigger',
-              onExpand: () => { exportExpanded = true; },
-              onClosed: () => { exportExpanded = false; },
-            }"
+            v-expand-on-click="exportBinding"
           >
             <button
               ref="exportTrigger"
               type="button"
               class="mtm-selector__trigger"
-              aria-haspopup="menu"
-              :aria-expanded="exportExpanded ? 'true' : 'false'"
+              v-bind="exportTriggerProps"
             >
               <span class="mtm-selector__icon" aria-hidden="true">
                 <span class="icon-export" />
@@ -113,7 +108,11 @@
             </button>
             <!-- Choosing an export is the end of the interaction, so the panel folds with it. -->
             <!-- eslint-disable-next-line vuejs-accessibility/click-events-have-key-events -->
-            <div class="mtm-selector__dropdown" @click="closePromotedExport">
+            <div
+              class="mtm-selector__dropdown"
+              @click="closePromotedExport"
+              @keydown="promotedExport.onKeydown"
+            >
               <div class="mtm-dropdownPanel">
                 <ul
                   class="mtm-dropdownPanel__menu"
@@ -141,18 +140,13 @@
             ref="periodsSelector"
             class="mtm-selector"
             data-report-action="periods"
-            v-expand-on-click="{
-              expander: 'periodsTrigger',
-              onExpand: () => { periodsExpanded = true; },
-              onClosed: () => { periodsExpanded = false; },
-            }"
+            v-expand-on-click="periodsBinding"
           >
             <button
               ref="periodsTrigger"
               type="button"
               class="mtm-selector__trigger"
-              aria-haspopup="menu"
-              :aria-expanded="periodsExpanded ? 'true' : 'false'"
+              v-bind="periodsTriggerProps"
             >
               <span class="mtm-selector__icon" aria-hidden="true">
                 <span class="icon-calendar" />
@@ -162,7 +156,7 @@
                 <span class="icon-chevron-down" />
               </span>
             </button>
-            <div class="mtm-selector__dropdown">
+            <div class="mtm-selector__dropdown" @keydown="promotedPeriods.onKeydown">
               <div class="mtm-dropdownPanel">
                 <PeriodsMenu
                   :selectable-periods="actions.selectablePeriods"
@@ -178,11 +172,7 @@
             v-if="showActions"
             ref="actions"
             class="reportHeader__actions"
-            v-expand-on-click="{
-              expander: 'actionsTrigger',
-              onExpand: (event) => { actionsExpanded = true; focusFirstAction(event); },
-              onClosed: (event) => { actionsExpanded = false; restoreActionsFocus(event); },
-            }"
+            v-expand-on-click="actionsBinding"
           >
             <button
               ref="actionsTrigger"
@@ -190,8 +180,7 @@
               class="reportHeader__actionsTrigger"
               :title="translate('CoreHome_ReportActions')"
               :aria-label="translate('CoreHome_ReportActions')"
-              aria-haspopup="menu"
-              :aria-expanded="actionsExpanded ? 'true' : 'false'"
+              v-bind="actionsTriggerProps"
             >
               <span class="icon-more-verti" aria-hidden="true" />
             </button>
@@ -203,7 +192,11 @@
                a focusable control of its own and Escape closes the menu through ExpandOnClick, so
                no keyboard path depends on it. -->
             <!-- eslint-disable-next-line vuejs-accessibility/click-events-have-key-events -->
-            <div class="reportHeader__actionsMenu" @click="closeActions">
+            <div
+              class="reportHeader__actionsMenu"
+              @click="closeActions"
+              @keydown="actionsSelector.onKeydown"
+            >
               <div class="mtm-dropdownPanel mtm-dropdownPanel--wide mtm-dropdownPanel--withSubmenu">
                 <DataTableActions
                   placement="header"
@@ -278,6 +271,7 @@ import {
 import type { PromotableActionId } from '../DataTable/reportActions';
 import type { ReportActionsConfig } from '../DataTable/ReportActions.store';
 import { menuHoldsAnything } from '../DataTable/menuContents';
+import useSelectorDropdown, { SelectorDropdown } from '../Selector/useSelectorDropdown';
 import reportIdentity from '../DataTable/reportIdentity';
 import EnrichedHeadline from '../EnrichedHeadline/EnrichedHeadline.vue';
 import ExpandOnClick from '../ExpandOnClick/ExpandOnClick';
@@ -477,17 +471,45 @@ export default defineComponent({
     ExpandOnClick,
   },
   emits: ['minimise', 'maximise', 'refresh', 'close', 'titleClick', 'search'],
+  // Created once: ExpandOnClick keeps its own state inside the binding object, so handing it a
+  // fresh one on every render would lose it. Cast on the way in because Vue unwraps the refs a
+  // composable held in data() carries, which is the shape the declaration below describes.
+  created() {
+    this.actionsSelector = useSelectorDropdown(
+      { role: 'menu', expandedClass: 'reportHeader__actions--expanded' },
+      () => this.$refs.actions as HTMLElement | null,
+      () => this.$refs.actionsTrigger as HTMLElement | null,
+    ) as unknown as typeof this.actionsSelector;
+    this.actionsBinding = this.actionsSelector.expandBinding('actionsTrigger');
+
+    this.promotedPeriods = useSelectorDropdown(
+      { role: 'menu', expandedClass: 'mtm-selector--expanded' },
+      () => this.$refs.periodsSelector as HTMLElement | null,
+      () => this.$refs.periodsTrigger as HTMLElement | null,
+    ) as unknown as typeof this.promotedPeriods;
+    this.periodsBinding = this.promotedPeriods.expandBinding('periodsTrigger');
+
+    this.promotedExport = useSelectorDropdown(
+      { role: 'menu', expandedClass: 'mtm-selector--expanded' },
+      () => this.$refs.exportSelector as HTMLElement | null,
+      () => this.$refs.exportTrigger as HTMLElement | null,
+    ) as unknown as typeof this.promotedExport;
+    this.exportBinding = this.promotedExport.expandBinding('exportTrigger');
+  },
   data() {
     return {
+      actionsSelector: null as unknown as SelectorDropdown,
+      actionsBinding: null as unknown as Record<string, unknown>,
+      promotedPeriods: null as unknown as SelectorDropdown,
+      promotedExport: null as unknown as SelectorDropdown,
+      periodsBinding: null as unknown as Record<string, unknown>,
+      exportBinding: null as unknown as Record<string, unknown>,
       // Local mirror of the field, seeded from `searchQuery`.
       // Stands in until the first publish; see the reportKey prop.
       mountedReportKey: '',
       query: this.searchQuery,
       searchDebounceTimer: null as ReturnType<typeof setTimeout> | null,
       promotedCount: 0,
-      periodsExpanded: false,
-      exportExpanded: false,
-      actionsExpanded: false,
       resizeObserver: null as ResizeObserver | null,
       lastMeasuredWidth: -1,
     };
@@ -520,7 +542,7 @@ export default defineComponent({
     },
     showActions(value: boolean) {
       if (!value) {
-        this.actionsExpanded = false;
+        this.actionsSelector.close();
       }
     },
   },
@@ -578,6 +600,15 @@ export default defineComponent({
         ...ReportActionsStore.get(this.activeReportKey),
       } as ReportActionsConfig;
     },
+    actionsTriggerProps(): Record<string, string> {
+      return this.actionsSelector.triggerProps();
+    },
+    periodsTriggerProps(): Record<string, string> {
+      return this.promotedPeriods.triggerProps();
+    },
+    exportTriggerProps(): Record<string, string> {
+      return this.promotedExport.triggerProps();
+    },
     // A trigger opening onto nothing is worse than no trigger: once its ranks are promoted out, a
     // report may have nothing left to put in the menu.
     showActions(): boolean {
@@ -614,13 +645,15 @@ export default defineComponent({
     annotationsWording,
     // Picking a period is the end of the interaction. ExpandOnClick keeps its state in the class,
     // so dropping it is how a panel closes itself - the same move MetricsPicker makes.
-    closePromotedPeriods() {
-      (this.$refs.periodsSelector as HTMLElement | undefined)?.classList.remove('expanded');
-      this.periodsExpanded = false;
+    closePromotedPeriods(event: MouseEvent|KeyboardEvent) {
+      (this.$refs.periodsSelector as HTMLElement | undefined)
+        ?.classList.remove('mtm-selector--expanded');
+      this.promotedPeriods.closedBy(event);
     },
-    closePromotedExport() {
-      (this.$refs.exportSelector as HTMLElement | undefined)?.classList.remove('expanded');
-      this.exportExpanded = false;
+    closePromotedExport(event: MouseEvent|KeyboardEvent) {
+      (this.$refs.exportSelector as HTMLElement | undefined)
+        ?.classList.remove('mtm-selector--expanded');
+      this.promotedExport.closedBy(event);
     },
     isPromoted(action: PromotableActionId): boolean {
       return this.promotedActions.indexOf(action) !== -1;
@@ -644,8 +677,12 @@ export default defineComponent({
     // itself expanded. The fit loop gives them back one at a time, so this cannot be tied to
     // demoting all of them.
     syncExpandedFlags() {
-      this.periodsExpanded = this.periodsExpanded && this.isPromoted('periods');
-      this.exportExpanded = this.exportExpanded && this.isPromoted('export');
+      if (!this.isPromoted('periods')) {
+        this.promotedPeriods.close();
+      }
+      if (!this.isPromoted('export')) {
+        this.promotedExport.close();
+      }
     },
     demoteAll() {
       this.promotedCount = 0;
@@ -699,33 +736,12 @@ export default defineComponent({
         this.$emit('titleClick');
       }
     },
+    // Picking an entry is the end of the interaction, and ExpandOnClick only closes on a click
+    // outside, so the menu would hang open over the report it just reloaded.
     closeActions(event: MouseEvent) {
-      (this.$refs.actions as HTMLElement | undefined)?.classList.remove('expanded');
-      this.actionsExpanded = false;
-      this.restoreActionsFocus(event);
-    },
-    // Closing from the keyboard leaves the focus inside a panel about to disappear, and a menu
-    // hands it back to the trigger. A pointer left the focus where the user put it, and taking it
-    // would draw a focus ring they never asked for.
-    restoreActionsFocus(event: MouseEvent|KeyboardEvent) {
-      const actions = this.$refs.actions as HTMLElement | undefined;
-      const byKeyboard = event.type === 'keyup' || (event as MouseEvent).detail === 0;
-
-      if (byKeyboard && actions?.contains(document.activeElement)) {
-        (this.$refs.actionsTrigger as HTMLElement | undefined)?.focus();
-      }
-    },
-    // A button opened with the keyboard reports no pointer, and only then does a menu take the
-    // focus off the trigger.
-    focusFirstAction(event: MouseEvent|KeyboardEvent) {
-      if ((event as MouseEvent).detail !== 0) {
-        return;
-      }
-
-      this.$nextTick(() => {
-        const actions = this.$refs.actions as HTMLElement | undefined;
-        actions?.querySelector<HTMLElement>('[role^="menuitem"]')?.focus();
-      });
+      (this.$refs.actions as HTMLElement | undefined)
+        ?.classList.remove('reportHeader__actions--expanded');
+      this.actionsSelector.closedBy(event);
     },
     onControl(intent: string) {
       // Re-emit for Vue-native consumers...

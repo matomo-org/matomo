@@ -12,6 +12,9 @@ import DirectiveUtilities from '../directiveUtilities';
 export interface ExpandOnClickArgs {
   // input (specified by user)
   expander: string | HTMLElement,
+  // The class carried while open. Defaults to the bare `expanded` the older selectors read; a
+  // block that owns its own states passes its modifier instead, so its stylesheet can nest it.
+  expandedClass?: string;
   onClosed?: (event: MouseEvent|KeyboardEvent) => void;
   onExpand?: (event: MouseEvent|KeyboardEvent) => void;
 
@@ -27,12 +30,16 @@ export interface ExpandOnClickArgs {
   onEscapeHandler?: (event: KeyboardEvent) => void;
 }
 
+function expandedClassOf(binding: DirectiveBinding<ExpandOnClickArgs>): string {
+  return binding.value?.expandedClass || 'expanded';
+}
+
 function expand(
   element: HTMLElement,
   binding: DirectiveBinding<ExpandOnClickArgs>,
   event: MouseEvent|KeyboardEvent,
 ) {
-  element.classList.add('expanded');
+  element.classList.add(expandedClassOf(binding));
   if (binding.value?.onExpand) {
     binding.value.onExpand(event);
   }
@@ -48,10 +55,10 @@ function close(
   binding: DirectiveBinding<ExpandOnClickArgs>,
   event: MouseEvent|KeyboardEvent,
 ) {
-  if (!element.classList.contains('expanded')) {
+  if (!element.classList.contains(expandedClassOf(binding))) {
     return;
   }
-  element.classList.remove('expanded');
+  element.classList.remove(expandedClassOf(binding));
 
   if (binding.value?.onClosed) {
     binding.value.onClosed(event);
@@ -63,7 +70,7 @@ function onClickOnExpander(
   binding: DirectiveBinding<ExpandOnClickArgs>,
   event: MouseEvent|KeyboardEvent,
 ) {
-  if (element.classList.contains('expanded')) {
+  if (element.classList.contains(expandedClassOf(binding))) {
     close(element, binding, event);
   } else {
     expand(element, binding, event);

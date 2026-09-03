@@ -84,12 +84,13 @@ describe('ReportHeader', () => {
       const wrapper = mountComponent(withActions);
       const actions = wrapper.find('.reportHeader__actions');
 
-      actions.element.classList.add('expanded');
-      expect(actions.classes()).toContain('expanded');
+      actions.element.classList.add('reportHeader__actions--expanded');
+      expect(actions.classes()).toContain('reportHeader__actions--expanded');
 
       await wrapper.find('.reportHeader__actionsMenu').trigger('click');
 
-      expect(wrapper.find('.reportHeader__actions').classes()).not.toContain('expanded');
+      expect(wrapper.find('.reportHeader__actions').classes())
+        .not.toContain('reportHeader__actions--expanded');
     });
 
     // Closing this way bypasses ExpandOnClick, whose own close() then returns early for want of
@@ -107,6 +108,89 @@ describe('ReportHeader', () => {
 
       await wrapper.find('.reportHeader__actionsMenu').trigger('click');
       expect(trigger.attributes('aria-expanded')).toBe('false');
+    });
+
+    // The promoted panels announced role="menu" and answered no arrow key until the composable
+    // served them.
+    it('should walk a promoted panel with the arrow keys', async () => {
+      const wrapper = mountComponent({
+        showFooter: true,
+        showFooterIcons: true,
+        showPeriods: true,
+        selectablePeriods: ['day', 'week', 'month'],
+        context: 'widgetized',
+      });
+      document.body.appendChild(wrapper.element);
+      (wrapper.vm as unknown as { promotedCount: number }).promotedCount = 1;
+      await wrapper.vm.$nextTick();
+
+      const panel = wrapper.find('[data-report-action="periods"] .mtm-selector__dropdown');
+      const items = panel.findAll('[role^="menuitem"]').map((item) => item.element);
+      expect(items.length).toBe(3);
+
+      await panel.trigger('keydown', { key: 'ArrowDown' });
+      expect(document.activeElement).toBe(items[0]);
+
+      await panel.trigger('keydown', { key: 'End' });
+      expect(document.activeElement).toBe(items[2]);
+
+      wrapper.unmount();
+    });
+
+    // Picking an entry folds the panel without the directive hearing it, so the focus has to be
+    // handed back by hand - and only to the keyboard that asked for it.
+    it('should give the focus back when the keyboard picks from a promoted panel', async () => {
+      const wrapper = mountComponent({
+        showFooter: true,
+        showFooterIcons: true,
+        showPeriods: true,
+        selectablePeriods: ['day', 'week'],
+        context: 'widgetized',
+      });
+      document.body.appendChild(wrapper.element);
+      (wrapper.vm as unknown as { promotedCount: number }).promotedCount = 1;
+      await wrapper.vm.$nextTick();
+
+      const control = wrapper.find('[data-report-action="periods"]');
+      const trigger = control.find('.mtm-selector__trigger').element as HTMLElement;
+      const entry = control.find('[role^="menuitem"]').element as HTMLElement;
+
+      entry.focus();
+      expect(document.activeElement).toBe(entry);
+
+      // A keyboard-activated click reports no pointer, which is `detail: 0` - the default here,
+      // and not something trigger() can set on a read-only UIEvent.
+      entry.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+      await wrapper.vm.$nextTick();
+
+      expect(document.activeElement).toBe(trigger);
+
+      wrapper.unmount();
+    });
+
+    // The composable serves the keys now, so the panel is where they are pinned.
+    it('should walk the menu with the arrow keys', async () => {
+      const wrapper = mountComponent({ ...withActions, showAnnotations: true });
+      document.body.appendChild(wrapper.element);
+
+      const menu = wrapper.find('.reportHeader__actionsMenu');
+      const items = wrapper.findAll('[role^="menuitem"]').map((item) => item.element);
+      expect(items.length).toBeGreaterThan(1);
+
+      await menu.trigger('keydown', { key: 'ArrowDown' });
+      expect(document.activeElement).toBe(items[0]);
+
+      await menu.trigger('keydown', { key: 'ArrowDown' });
+      expect(document.activeElement).toBe(items[1]);
+
+      await menu.trigger('keydown', { key: 'End' });
+      expect(document.activeElement).toBe(items[items.length - 1]);
+
+      // and round, so the list has no dead end
+      await menu.trigger('keydown', { key: 'ArrowDown' });
+      expect(document.activeElement).toBe(items[0]);
+
+      wrapper.unmount();
     });
 
     // Promoting empties the menu on a report whose only entries were promotable, and a trigger
@@ -257,19 +341,21 @@ describe('ReportHeader', () => {
         selectablePeriods: ['day'],
       });
       const vm = wrapper.vm as unknown as {
-        updatePromoted: () => Promise<void>; promotedCount: number; exportExpanded: boolean;
+        updatePromoted: () => Promise<void>;
+        promotedCount: number;
+        promotedExport: { expanded: boolean };
       };
 
       giveRoom(wrapper, 1200);
       await vm.updatePromoted();
       expect(vm.promotedCount).toBeGreaterThan(1);
 
-      vm.exportExpanded = true;
+      vm.promotedExport.expanded = true;
       giveRoom(wrapper, 200);
       await vm.updatePromoted();
 
       expect(vm.promotedCount).toBe(0);
-      expect(vm.exportExpanded).toBe(false);
+      expect(vm.promotedExport.expanded).toBe(false);
     });
 
     // The trigger goes away with the menu it opens, and never hears onClosed either.
@@ -282,16 +368,16 @@ describe('ReportHeader', () => {
         context: 'widgetized',
       });
       const vm = wrapper.vm as unknown as {
-        updatePromoted: () => Promise<void>; actionsExpanded: boolean;
+        updatePromoted: () => Promise<void>; actionsSelector: { expanded: boolean };
       };
 
-      vm.actionsExpanded = true;
+      vm.actionsSelector.expanded = true;
       giveRoom(wrapper, 1200);
       await vm.updatePromoted();
       await wrapper.vm.$nextTick();
 
       expect(wrapper.find('.reportHeader__actionsTrigger').exists()).toBe(false);
-      expect(vm.actionsExpanded).toBe(false);
+      expect(vm.actionsSelector.expanded).toBe(false);
     });
 
     it('should promote in priority order, so the least deserving is given back first', async () => {
@@ -656,6 +742,5 @@ describe('ReportHeader', () => {
         vi.useRealTimers();
       }
     });
-
   });
 });

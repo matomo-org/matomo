@@ -127,7 +127,7 @@
     }
   }
 
-  // The panel is closed by default; ExpandOnClick toggles `.expanded` on `.reportHeader__actions`.
+  // The panel is closed by default; the block carries its own `--expanded` while it is not.
   // Anchored to the right of the trigger so a wide menu grows inwards instead of off the page.
   .reportHeader__actionsMenu {
     display: none;
@@ -140,7 +140,7 @@
     z-index: 200;
   }
 
-  .reportHeader__actions.expanded .reportHeader__actionsMenu {
+  .reportHeader__actions--expanded .reportHeader__actionsMenu {
     display: block;
   }
 
@@ -148,7 +148,7 @@
   // the menu closed would read as still open. `expanded` covers the time it is.
   .reportHeader__actionsTrigger:hover,
   .reportHeader__actionsTrigger:focus-visible,
-  .reportHeader__actions.expanded .reportHeader__actionsTrigger {
+  .reportHeader__actions--expanded .reportHeader__actionsTrigger {
     color: @theme-color-text;
   }
 }
