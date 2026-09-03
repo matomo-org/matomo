@@ -2,7 +2,6 @@
     "Transitions": {
         "AvailableInOtherReports": "¿Lo sabías? Las transiciones también están disponibles como una acción de fila en los siguientes informes:",
         "AvailableInOtherReports2": "Simplemente pasá el mouse sobre una fila de cualquiera de estos informes y hacé clic en el ícono de transición %s para ejecutarlo.",
-        "BouncesInline": "%s rebotes",
         "DirectEntries": "Entradas directas",
         "ErrorBack": "Volver a la acción anterior",
         "ExitsInline": "%s salidas",
@@ -34,7 +33,6 @@
         "Transitions": "Transiciones",
         "TransitionsSubcategoryHelp1": "Las transiciones te dan un informe que muestra las cosas que tus visitantes hicieron directamente antes y después de ver cierta página. Esta página explicará cómo acceder, entender y usar el poderoso informe de Transiciones.",
         "TransitionsSubcategoryHelp2": "Más detalles",
-        "XOfAllPageviews": "%s de todas las vistas de esta página",
-        "XOutOfYVisits": "%1$s (de %2$s)"
+        "XOfAllPageviews": "%s de todas las vistas de esta página"
     }
 }
