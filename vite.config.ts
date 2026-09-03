@@ -106,6 +106,13 @@ export default defineConfig({
           path.join(rootDir, pluginPath, 'vue', 'src', '**', '*'),
           path.join(rootDir, 'plugins', 'CoreVue', 'types', 'index.d.ts'),
         ],
+        // Test code is not part of a plugin's published surface, and it reads
+        // vitest globals the declaration program does not provide: keep the spec
+        // files and the `test*` helpers they import out of it.
+        exclude: [
+          path.join(rootDir, 'plugins', '*', 'vue', 'src', '**', '*.spec.ts'),
+          path.join(rootDir, 'plugins', '*', 'vue', 'src', '**', 'test*.ts'),
+        ],
         tsconfigPath: path.join(rootDir, 'tsconfig.json'),
         // Resolve cross-plugin type imports (e.g. `from 'CoreHome'`) against previously generated
         // declarations in @types, exactly as the old ts-loader override did.
