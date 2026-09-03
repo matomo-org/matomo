@@ -42,6 +42,7 @@ class InstallPlugin extends ConsoleCommand
         }
 
         $pluginNames = $input->getArgument('plugin');
+        $hasFailure = false;
 
         foreach ($pluginNames as $pluginName) {
             try {
@@ -49,11 +50,12 @@ class InstallPlugin extends ConsoleCommand
                 $output->writeln(sprintf("Installed or updated plugin <info>%s</info>", $pluginName));
             } catch (\Piwik\Plugins\CorePluginsAdmin\PluginInstallerException $e) {
                 $output->writeln(sprintf("<error>Unable to install or update plugin %s. %s</error>", $pluginName, $e->getMessage()));
+                $hasFailure = true;
                 continue;
             }
         }
 
-        return self::SUCCESS;
+        return $hasFailure ? self::FAILURE : self::SUCCESS;
     }
 
     private function installPlugin(string $pluginName): void
