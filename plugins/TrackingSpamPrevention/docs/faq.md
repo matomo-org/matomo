@@ -43,7 +43,7 @@ __How can I block specific organisations from being tracked?__
 
 This can be useful if you are receiving spam requests from a provider that isn't automatically detected yet by this plugin.
 
-For this to work a geolocation provider must be enabled, and "Block tracking requests from Cloud hosting providers" in "Administration => General Settings" must be set to "Use custom organisation list". The "Organisation block list" starts from whatever list you already have: Matomo's default set of hosting and datacenter providers if you have never edited it, or your own entries if you have. Extend or trim it as needed.
+For this to work a geolocation provider must be enabled, and "Block tracking requests from Cloud hosting providers" in "Administration => General Settings" must be set to "Use custom organisation list". The "Organisation block list" starts from whatever list is already stored for your installation, which is Matomo's default set of hosting and datacenter providers until something changes it. Extend or trim it as needed. Note that a stored list stops following Matomo's maintained one, so if you find yourself on this option after upgrading and did not choose it, selecting "Use Matomo's default provider list" puts you back on the list Matomo keeps up to date.
 
 The other two options need no list of your own: "Use Matomo's default provider list" always matches against the current default set, and "Do not block Cloud hosting providers" turns organisation matching off. Your custom list is kept either way, so it is still there when you switch back.
 

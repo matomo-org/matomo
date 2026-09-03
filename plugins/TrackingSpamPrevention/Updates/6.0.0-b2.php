@@ -52,12 +52,13 @@ class Updates_6_0_0_b2 extends PiwikUpdates
 
         $settings = StaticContainer::get(SystemSettings::class);
 
-        // a config file override shadows any stored value and makes the setting permanently
-        // unwritable, so setValue() would throw and fail the whole update
+        // a config file override shadows any stored value, so there is nothing useful to store
         if (!array_key_exists('block_clouds', $pluginConfig)) {
-            // updates run as super user, but force writability in case that detection fails
-            $settings->block_clouds->setIsWritableByCurrentUser(true);
-            $settings->block_clouds->setValue($wasBlockingClouds);
+            // written straight to the storage rather than through the setting: SystemSettings::save()
+            // treats a change here as the admin having just toggled the tickbox, and on an install
+            // that never saved it the unchanged value still reads as a change - the setting's own
+            // default is now on - which would clear the IPs banned for exceeding max_actions_allowed
+            $storage->setValue('block_clouds', $wasBlockingClouds);
         }
 
         if (

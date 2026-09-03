@@ -11,6 +11,7 @@ namespace Piwik\Plugins\TrackingSpamPrevention\tests\Integration;
 
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
+use Piwik\Plugins\TrackingSpamPrevention\BlockedIpRanges;
 use Piwik\Plugins\TrackingSpamPrevention\Configuration;
 use Piwik\Plugins\TrackingSpamPrevention\SystemSettings;
 use Piwik\Plugins\TrackingSpamPrevention\Updates_5_1_0;
@@ -287,6 +288,20 @@ class UpdatesTest extends IntegrationTestCase
         $this->runUpdate600b2();
 
         $this->assertSame(SystemSettings::CLOUD_BLOCKING_OFF, $this->makeSettings()->getCloudBlockingMode());
+    }
+
+    public function testUpdate600b2LeavesBannedIpRangesAlone()
+    {
+        $ranges = StaticContainer::get(BlockedIpRanges::class);
+        $ranges->banIp('10.20.30.40');
+        $banned = $ranges->getBlockedRanges();
+        $this->assertNotEmpty($banned);
+
+        $this->runUpdate600b2();
+
+        // the update must not read as the admin toggling the tickbox: that path clears every blocked
+        // range, including the IPs banned for exceeding max_actions_allowed
+        $this->assertSame($banned, $ranges->getBlockedRanges());
     }
 
     private function storeBlockClouds(bool $value): void
