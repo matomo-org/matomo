@@ -70,8 +70,11 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
         $this->cloudBlockingMode = $this->makeCloudBlockingModeSetting();
         $this->defaultOrganisationBlockList = $this->makeDefaultOrganisationBlockListSetting();
         $this->organisationBlockList = $this->makeOrganisationBlockListSetting();
-        $this->registerOrganisationListSettings();
+        // built before the lists are registered because registerOrganisationListSettings() resolves the
+        // blocking mode, which falls back to this setting; registered after them so it still displays last
         $this->block_clouds = $this->createBlockCloudsSetting();
+        $this->registerOrganisationListSettings();
+        $this->addSetting($this->block_clouds);
         $this->blockHeadless = $this->createBlockHeadlessSettings();
         $this->blockServerSideLibraries = $this->createBlockServerSideLibrariesSetting();
         $this->max_actions = $this->createMaxActionsSetting();
@@ -94,7 +97,10 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 
     private function createBlockCloudsSetting()
     {
-        $setting = new BlockCloudsSetting('block_clouds', true, FieldConfig::TYPE_BOOL, $this->pluginName);
+        // legacy-safe default: an install that has not run the 6.0.0-b2 migration yet must keep the
+        // blocking it had. TrackingSpamPrevention::install() writes the on-by-default values for
+        // installs that are genuinely new.
+        $setting = new BlockCloudsSetting('block_clouds', false, FieldConfig::TYPE_BOOL, $this->pluginName);
         $setting->setConfigureCallback(function (FieldConfig $field) {
             $field->title = Piwik::translate('TrackingSpamPrevention_SettingBlockCloudIpRangesTitle');
             $field->uiControl = FieldConfig::UI_CONTROL_CHECKBOX;
@@ -103,13 +109,14 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
                 $field->inlineHelp = Piwik::translate('TrackingSpamPrevention_BlockCloudNoteInternetDisabled') . $field->inlineHelp;
             }
         });
-        $this->addSetting($setting);
         return $setting;
     }
 
     private function makeCloudBlockingModeSetting(): Setting
     {
-        return $this->makeSetting('cloud_blocking_mode', self::CLOUD_BLOCKING_DEFAULT_LIST, FieldConfig::TYPE_STRING, function (FieldConfig $field) {
+        // no code default: getCloudBlockingMode() has to be able to tell "never set" from a real
+        // choice, so that a pre-migration install falls back to the legacy tickbox meaning
+        return $this->makeSetting('cloud_blocking_mode', '', FieldConfig::TYPE_STRING, function (FieldConfig $field) {
             $field->title = Piwik::translate('TrackingSpamPrevention_SettingCloudBlockingModeTitle');
             $field->introduction = Piwik::translate('TrackingSpamPrevention_SettingsIntroduction');
             $field->inlineHelp = Piwik::translate('TrackingSpamPrevention_SettingCloudBlockingModeHelp');
@@ -124,9 +131,10 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 
     private function makeDefaultOrganisationBlockListSetting(): DefaultOrganisationListSetting
     {
-        // the default value is never read: DefaultOrganisationListSetting::getValue() always reports
-        // the constant, and nothing is ever stored for this field
-        $setting = new DefaultOrganisationListSetting('default_organisation_block_list', [], FieldConfig::TYPE_ARRAY, $this->pluginName);
+        // the default has to match what getValue() reports: Diagnostics' config file page marks a
+        // setting as customised when the two differ, which would present this display-only field as
+        // an admin's own config.ini.php value
+        $setting = new DefaultOrganisationListSetting('default_organisation_block_list', Configuration::DEFAULT_GEOIP_MATCH_PROVIDERS, FieldConfig::TYPE_ARRAY, $this->pluginName);
         $setting->setConfigureCallback(function (FieldConfig $field) {
             $field->title = Piwik::translate('TrackingSpamPrevention_SettingDefaultOrganisationBlockListTitle');
             $field->inlineHelp = Piwik::translate('TrackingSpamPrevention_SettingDefaultOrganisationBlockListHelp');
@@ -395,6 +403,14 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
     public function getCloudBlockingMode(): string
     {
         $mode = $this->cloudBlockingMode->getValue();
+
+        if ($mode === null || $mode === '') {
+            // nothing stored and no override: this is an install that predates the 6.0.0-b2 split, so
+            // reproduce what the single tickbox used to mean until the migration writes a real value
+            return $this->block_clouds->getValue()
+                ? self::CLOUD_BLOCKING_DEFAULT_LIST
+                : self::CLOUD_BLOCKING_OFF;
+        }
 
         $known = [self::CLOUD_BLOCKING_OFF, self::CLOUD_BLOCKING_DEFAULT_LIST, self::CLOUD_BLOCKING_CUSTOM_LIST];
 

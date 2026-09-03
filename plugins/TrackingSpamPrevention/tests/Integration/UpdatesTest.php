@@ -164,6 +164,8 @@ class UpdatesTest extends IntegrationTestCase
 
     public function testUpdate600b2NeverSavedBlockCloudsKeepsCloudBlockingOff()
     {
+        $this->givenAnInstallFromBeforeTheSplit();
+
         // nothing stored means the pre-6.0.0-b2 default, which was off
         $this->runUpdate600b2();
 
@@ -175,6 +177,8 @@ class UpdatesTest extends IntegrationTestCase
 
     public function testUpdate600b2StoredBlockCloudsOffKeepsCloudBlockingOff()
     {
+        $this->givenAnInstallFromBeforeTheSplit();
+
         $this->storeBlockClouds(false);
 
         $this->runUpdate600b2();
@@ -186,6 +190,8 @@ class UpdatesTest extends IntegrationTestCase
 
     public function testUpdate600b2StoredBlockCloudsOffKeepsCustomOrganisationList()
     {
+        $this->givenAnInstallFromBeforeTheSplit();
+
         $this->storeBlockClouds(false);
         $settings = $this->makeSettings();
         $settings->organisationBlockList->setValue(['my custom org']);
@@ -201,6 +207,8 @@ class UpdatesTest extends IntegrationTestCase
 
     public function testUpdate600b2BlockCloudsOnWithoutStoredListUsesTheDefaultList()
     {
+        $this->givenAnInstallFromBeforeTheSplit();
+
         $this->storeBlockClouds(true);
 
         $this->runUpdate600b2();
@@ -213,6 +221,8 @@ class UpdatesTest extends IntegrationTestCase
 
     public function testUpdate600b2BlockCloudsOnWithReorderedDefaultListUsesTheDefaultList()
     {
+        $this->givenAnInstallFromBeforeTheSplit();
+
         $this->storeBlockClouds(true);
         $settings = $this->makeSettings();
         $settings->organisationBlockList->setValue(array_reverse(Configuration::DEFAULT_GEOIP_MATCH_PROVIDERS));
@@ -225,6 +235,8 @@ class UpdatesTest extends IntegrationTestCase
 
     public function testUpdate600b2BlockCloudsOnWithCustomListUsesTheCustomList()
     {
+        $this->givenAnInstallFromBeforeTheSplit();
+
         $this->storeBlockClouds(true);
         $settings = $this->makeSettings();
         $settings->organisationBlockList->setValue(['my custom org']);
@@ -239,6 +251,8 @@ class UpdatesTest extends IntegrationTestCase
 
     public function testUpdate600b2BlockCloudsOnWithEmptiedListKeepsOrganisationBlockingOff()
     {
+        $this->givenAnInstallFromBeforeTheSplit();
+
         $this->storeBlockClouds(true);
         $settings = $this->makeSettings();
         $settings->organisationBlockList->setValue([]);
@@ -255,6 +269,8 @@ class UpdatesTest extends IntegrationTestCase
 
     public function testUpdate600b2ConfigOverrideEnablingBlockCloudsKeepsOrganisationBlockingOn()
     {
+        $this->givenAnInstallFromBeforeTheSplit();
+
         Config::getInstance()->TrackingSpamPrevention = ['block_clouds' => 1];
 
         // must not throw: an override makes the setting unwritable, which would fail the update
@@ -268,6 +284,8 @@ class UpdatesTest extends IntegrationTestCase
 
     public function testUpdate600b2ConfigOverrideDisablingBlockCloudsTurnsOrganisationBlockingOff()
     {
+        $this->givenAnInstallFromBeforeTheSplit();
+
         $this->storeBlockClouds(true);
         Config::getInstance()->TrackingSpamPrevention = ['block_clouds' => 0];
 
@@ -279,6 +297,8 @@ class UpdatesTest extends IntegrationTestCase
 
     public function testUpdate600b2DoesNotOverwriteAnAlreadyMigratedMode()
     {
+        $this->givenAnInstallFromBeforeTheSplit();
+
         $this->storeBlockClouds(true);
         $settings = $this->makeSettings();
         $settings->cloudBlockingMode->setValue(SystemSettings::CLOUD_BLOCKING_OFF);
@@ -287,6 +307,19 @@ class UpdatesTest extends IntegrationTestCase
         $this->runUpdate600b2();
 
         $this->assertSame(SystemSettings::CLOUD_BLOCKING_OFF, $this->makeSettings()->getCloudBlockingMode());
+    }
+
+    /**
+     * The test fixture installs the plugin, and install() now stores the on-by-default values. An
+     * install that predates this release has neither, because its install() ran long before, so the
+     * migration cases have to start from that state rather than the fixture's.
+     */
+    private function givenAnInstallFromBeforeTheSplit(): void
+    {
+        $storage = $this->makeStorage();
+        $storage->unsetValue('block_clouds');
+        $storage->unsetValue('cloud_blocking_mode');
+        $storage->save();
     }
 
     private function storeBlockClouds(bool $value): void

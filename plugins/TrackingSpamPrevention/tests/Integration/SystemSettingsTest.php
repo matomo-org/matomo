@@ -244,6 +244,60 @@ class SystemSettingsTest extends IntegrationTestCase
         $this->assertSame(SystemSettings::CLOUD_BLOCKING_DEFAULT_LIST, $this->settings->getCloudBlockingMode());
     }
 
+    public function testPreMigrationInstallWithNothingStoredDoesNotBlock()
+    {
+        // the state during a deployment: new code, migration not run yet, nothing ever saved. The
+        // fixture's install() stores the on-by-default values, so they have to be cleared first.
+        $this->clearStoredCloudBlockingSettings();
+        $settings = new SystemSettings();
+
+        $this->assertSame(SystemSettings::CLOUD_BLOCKING_OFF, $settings->getCloudBlockingMode());
+        $this->assertSame([], $settings->getBlockedOrganisations());
+        $this->assertSame(false, $settings->block_clouds->getValue());
+    }
+
+    public function testPreMigrationInstallThatWasBlockingKeepsBlocking()
+    {
+        $this->clearStoredCloudBlockingSettings();
+        $storage = StaticContainer::get(StorageFactory::class)->getPluginStorage('TrackingSpamPrevention', '');
+        $storage->setValue('block_clouds', true);
+        $storage->save();
+
+        $settings = new SystemSettings();
+
+        // the legacy tickbox meaning: on meant organisation matching against the default list
+        $this->assertSame(SystemSettings::CLOUD_BLOCKING_DEFAULT_LIST, $settings->getCloudBlockingMode());
+        $this->assertSame(Configuration::DEFAULT_GEOIP_MATCH_PROVIDERS, $settings->getBlockedOrganisations());
+    }
+
+    public function testInstallStoresTheOnByDefaultValues()
+    {
+        $this->clearStoredCloudBlockingSettings();
+
+        (new \Piwik\Plugins\TrackingSpamPrevention\TrackingSpamPrevention())->install();
+
+        $settings = new SystemSettings();
+        $this->assertSame(true, $settings->block_clouds->getValue());
+        $this->assertSame(SystemSettings::CLOUD_BLOCKING_DEFAULT_LIST, $settings->getCloudBlockingMode());
+    }
+
+    public function testInstallDoesNotThrowWhenTheSettingsCannotBeStored()
+    {
+        // install() runs before the tables exist during the web installer, and a throw there is fatal
+        $this->clearStoredCloudBlockingSettings();
+
+        \Piwik\Db::exec('RENAME TABLE ' . \Piwik\Common::prefixTable('plugin_setting') . ' TO ' . \Piwik\Common::prefixTable('plugin_setting_hidden'));
+
+        try {
+            (new \Piwik\Plugins\TrackingSpamPrevention\TrackingSpamPrevention())->install();
+        } finally {
+            \Piwik\Db::exec('RENAME TABLE ' . \Piwik\Common::prefixTable('plugin_setting_hidden') . ' TO ' . \Piwik\Common::prefixTable('plugin_setting'));
+        }
+
+        // reaching here without an exception is the assertion
+        $this->assertTrue(true);
+    }
+
     public function testCloudBlockingModeRejectsUnknownValue()
     {
         $this->expectException(\Exception::class);
@@ -392,6 +446,14 @@ class SystemSettingsTest extends IntegrationTestCase
             $this->assertNotContains('default_organisation_block_list', $names);
             $this->assertNotContains('organisation_block_list', $names);
         });
+    }
+
+    private function clearStoredCloudBlockingSettings(): void
+    {
+        $storage = StaticContainer::get(StorageFactory::class)->getPluginStorage('TrackingSpamPrevention', '');
+        $storage->unsetValue('block_clouds');
+        $storage->unsetValue('cloud_blocking_mode');
+        $storage->save();
     }
 
     private function writableSettingNames(?SystemSettings $settings = null): array

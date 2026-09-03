@@ -11,6 +11,7 @@ namespace Piwik\Plugins\TrackingSpamPrevention\tests\Integration\Commands;
 
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
+use Piwik\Plugins\TrackingSpamPrevention\Configuration;
 use Piwik\Plugins\TrackingSpamPrevention\SystemSettings;
 use Piwik\Tests\Framework\TestCase\ConsoleCommandTestCase;
 
@@ -152,6 +153,30 @@ class BlockGeoIpOrganisationTest extends ConsoleCommandTestCase
         $this->assertSame(SystemSettings::CLOUD_BLOCKING_OFF, $settings->getCloudBlockingMode());
         $this->assertContains('another example org', $settings->organisationBlockList->getValue());
         $this->assertStringContainsString('has no effect until', $this->applicationTester->getDisplay());
+    }
+
+    public function testSeedsTheCustomListFromTheListInEffectNotTheStoredOne()
+    {
+        // a narrower stored list is reachable: the user tried a custom list then switched back to
+        // the default one, which the FAQ promises keeps their list
+        $settings = StaticContainer::get(SystemSettings::class);
+        $settings->organisationBlockList->setValue(['just one org']);
+        $settings->cloudBlockingMode->setValue(SystemSettings::CLOUD_BLOCKING_DEFAULT_LIST);
+        $settings->save();
+
+        $exitCode = $this->applicationTester->run([
+            'command' => 'trackingspamprevention:block-geo-ip-organisation',
+            '--organisation-name' => 'Seeded Example Org',
+        ]);
+
+        $this->assertSame(0, $exitCode, $this->getCommandDisplayOutputErrorMessage());
+
+        // adding one organisation must not drop the providers that were being blocked
+        $blocked = $this->getBlockedOrganisations();
+        $this->assertContains('seeded example org', $blocked);
+        foreach (Configuration::DEFAULT_GEOIP_MATCH_PROVIDERS as $default) {
+            $this->assertContains($default, $blocked);
+        }
     }
 
     private function getBlockedOrganisations(): array

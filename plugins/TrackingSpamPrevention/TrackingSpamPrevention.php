@@ -11,13 +11,18 @@ namespace Piwik\Plugins\TrackingSpamPrevention;
 
 use Matomo\Network\IP;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
+use Piwik\Log\LoggerInterface;
+use Piwik\Settings\Storage\Factory as StorageFactory;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\VisitExcluded;
 
 class TrackingSpamPrevention extends \Piwik\Plugin
 {
+    private const PLUGIN_NAME = 'TrackingSpamPrevention';
+
     private $isInstalledInThisRequest = false;
 
     public function registerEvents()
@@ -34,6 +39,53 @@ class TrackingSpamPrevention extends \Piwik\Plugin
         $this->isInstalledInThisRequest = true;
         $config = new Configuration();
         $config->install();
+        $this->storeDefaultCloudBlockingSettings();
+    }
+
+    /**
+     * Cloud blocking is on for installs that are genuinely new, while the settings themselves default
+     * to the pre-6.0.0-b2 behaviour so that an install which has not run the migration yet keeps the
+     * blocking it had. Writing the on values here is what separates the two.
+     *
+     * Nothing in here may throw. install() is reached from Plugin\Manager::installLoadedPlugins() on
+     * every front controller dispatch, which during the web installer happens before the tables exist,
+     * and Plugin\Manager::executePluginInstall() turns any exception into a fatal that stops the
+     * installation. Core makes the same concession immediately after activate(), where
+     * Plugin\Manager::savePluginTime() only rethrows once SettingsPiwik::isMatomoInstalled().
+     *
+     * The values are written straight to the settings storage rather than through
+     * SystemSettings::save(), which would see block_clouds change and synchronously fetch every cloud
+     * provider's IP ranges over the network in the middle of an install.
+     */
+    private function storeDefaultCloudBlockingSettings(): void
+    {
+        try {
+            $pluginConfig = Config::getInstance()->{self::PLUGIN_NAME};
+            $pluginConfig = is_array($pluginConfig) ? $pluginConfig : [];
+
+            $storage = StaticContainer::get(StorageFactory::class)->getPluginStorage(self::PLUGIN_NAME, '');
+
+            // a config.ini.php entry shadows the stored value, so writing one would be dead weight
+            if (!array_key_exists('block_clouds', $pluginConfig)) {
+                $storage->setValue('block_clouds', true);
+            }
+            if (!array_key_exists('cloud_blocking_mode', $pluginConfig)) {
+                $storage->setValue('cloud_blocking_mode', SystemSettings::CLOUD_BLOCKING_DEFAULT_LIST);
+            }
+
+            $storage->save();
+        } catch (\Throwable $e) {
+            // A new install that starts with cloud blocking off is a wrong default an admin can change;
+            // an installer that dies here is a broken product. Report it and carry on.
+            try {
+                StaticContainer::get(LoggerInterface::class)->warning(
+                    'TrackingSpamPrevention could not store its default cloud blocking settings on install: {message}',
+                    ['message' => $e->getMessage()]
+                );
+            } catch (\Throwable $ignored) {
+                // logging is not available this early either; there is nothing further to try
+            }
+        }
     }
 
     public function activate()
