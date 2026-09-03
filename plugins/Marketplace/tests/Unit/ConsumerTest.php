@@ -45,12 +45,14 @@ class ConsumerTest extends \PHPUnit\Framework\TestCase
      */
     public function testIsValidConsumerShouldReturnTrueWhenValidTokenGiven($fixture)
     {
+        $this->service->authenticate('123456789');
         $this->service->returnFixture($fixture);
         $this->assertTrue($this->buildConsumer()->isValidConsumer());
     }
 
     public function testGetConsumerShouldReturnConsumerInformationWhenValid()
     {
+        $this->service->authenticate('123456789');
         $this->service->returnFixture('v2.0_consumer-access_token-consumer1_paid2_custom1.json');
 
         $expected = array (
@@ -107,6 +109,7 @@ class ConsumerTest extends \PHPUnit\Framework\TestCase
 
     public function testGetConsumerShouldNotReturnInformationWhenAuthenticatedButNoLicense()
     {
+        $this->service->authenticate('123456789');
         $this->service->returnFixture('v2.0_consumer-access_token-validbutnolicense.json');
 
         $expected = array(
@@ -146,6 +149,24 @@ class ConsumerTest extends \PHPUnit\Framework\TestCase
         $isValid = Consumer::buildValidLicense()->isValidConsumer();
 
         $this->assertTrue($isValid);
+    }
+
+    public function testClearCacheAlsoClearsTheLicenseLookups()
+    {
+        $this->service->authenticate('123456789');
+        $this->service->returnFixture('v2.0_consumer-access_token-consumer2_paid1.json');
+
+        $consumer = $this->buildConsumer();
+        $this->assertNotEmpty($consumer->getConsumerPluginLicenses());
+        $this->assertNotEmpty($consumer->getConsumerPluginLicenseStatus());
+
+        // clearing has to reach every memoised view of the consumer, or an explicit invalidation
+        // keeps handing back the licenses it was meant to discard
+        $consumer->clearCache();
+        $this->service->returnFixture('v2.0_consumer-access_token-validbutnolicense.json');
+
+        $this->assertSame([], $consumer->getConsumerPluginLicenses());
+        $this->assertSame([], $consumer->getConsumerPluginLicenseStatus());
     }
 
     private function buildConsumer()

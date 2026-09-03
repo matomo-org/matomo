@@ -22,7 +22,7 @@ import {
   NotificationsStore,
   translate,
 } from 'CoreHome';
-import { PluginDetails } from '../types';
+import { PluginCard } from '../types';
 
 export default defineComponent({
   props: {
@@ -54,12 +54,12 @@ export default defineComponent({
     },
   },
   computed: {
-    plugin(): PluginDetails {
-      return this.modelValue as PluginDetails;
+    plugin(): PluginCard {
+      return this.modelValue as PluginCard;
     },
   },
   methods: {
-    requestTrial(plugin: PluginDetails) {
+    requestTrial(plugin: PluginCard) {
       AjaxHelper.post(
         {
           module: 'API',
