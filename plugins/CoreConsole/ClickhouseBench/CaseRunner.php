@@ -212,6 +212,17 @@ final class CaseRunner
             // would enqueue archiving work the benchmark never asked for.
             '--segment=' . $case->getSegment(),
             '-n',
+            // Matomo's console exits 1 when it logs a warning, and invalidating an ad-hoc
+            // segment always logs one: "did not match any stored segment, but invalidating it
+            // anyway". That is the documented, expected behaviour for a segment that is not
+            // stored - which is every segment this harness measures under the request driver.
+            // Without this the segmented cases fail before they measure anything.
+            //
+            // The trade-off is that a genuine invalidation error is no longer caught by the exit
+            // code. It is still caught: the archive step runs next, and a case that did not
+            // invalidate produces no ArchivingMetrics row, which the summary reports as a
+            // wall-clock fallback rather than passing silently.
+            '--ignore-warn',
         ];
 
         if ($this->options['cascade']) {
