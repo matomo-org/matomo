@@ -2,7 +2,6 @@
     "Transitions": {
         "AvailableInOtherReports": "你知道吗？在以下报表中，转换也可用作行操作：",
         "AvailableInOtherReports2": "在这些报表中的任何一行悬停后，单击它们的图标(%s)来启动转换。",
-        "BouncesInline": "%s 次跳出",
         "DirectEntries": "直接进入",
         "ErrorBack": "返回上次的活动",
         "ExitsInline": "%s 次退出",
@@ -36,7 +35,6 @@
         "Transitions": "转场",
         "TransitionsSubcategoryHelp1": "转换是一份报告，显示访问者在查看给定页面之前和之后直接执行的操作。本页介绍如何访问、理解和使用强大的“转换”报告。",
         "TransitionsSubcategoryHelp2": "更多细节",
-        "XOfAllPageviews": "%s 的本页浏览量",
-        "XOutOfYVisits": "%1$s (共 %2$s)"
+        "XOfAllPageviews": "%s 的本页浏览量"
     }
 }
