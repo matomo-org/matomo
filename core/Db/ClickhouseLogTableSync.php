@@ -148,6 +148,15 @@ class ClickhouseLogTableSync
             'idx_visit_last_action' => ['visit_last_action_time', 'minmax'],
             'idx_idvisitor' => ['idvisitor', 'bloom_filter'],
         ],
+        // idvisit is third in the sorting key, so a bare `idvisit IN (...)` cannot narrow the
+        // primary-key range at all - and that is the shape every read of actions BY VISIT
+        // takes: the visits log enrichment, and the restriction sub-selects that keep the
+        // conversions-by-page-view joins off the whole table. minmax works here for the same
+        // reason it works on log_conversion.server_time: idvisit is monotonic with time and
+        // the rows are stored in time order, so a granule's [min, max] is tight.
+        'log_link_visit_action' => [
+            'idx_idvisit' => ['idvisit', 'minmax'],
+        ],
         'log_conversion' => [
             'idx_server_time' => ['server_time', 'minmax'],
         ],
