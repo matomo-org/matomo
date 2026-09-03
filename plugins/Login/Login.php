@@ -222,7 +222,8 @@ class Login extends \Piwik\Plugin
         }
 
         if (!$this->hasPerformedBruteForceCheck && !$bruteForce->isAllowedToLogin(IP::getIpFromHeader())) {
-            throw new Exception(Piwik::translate('Login_LoginNotAllowedBecauseBlocked'));
+            $ex = new NoAccessException(Piwik::translate('Login_LoginNotAllowedBecauseBlocked'), 401);
+            throw $ex;
         }
 
         // for performance reasons we make sure to execute it only once per request
