@@ -98,24 +98,31 @@ class JsTrackerInstallCheckTest extends JsTrackerInstallCheckIntegrationTestCase
         $this->assertTrue($isExcluded);
     }
 
-    public function testIsExcludedVisitEmptyParam()
-    {
-        $isExcluded  = false;
-        $testRequest = $this->createRequestMock(true, [JsTrackerInstallCheck::QUERY_PARAM_NAME => '']);
-        $this->jsTrackerInstallCheck->isExcludedVisit($isExcluded, $testRequest);
-        $this->assertFalse($isExcluded);
-    }
-
-    public function testIsExcludedVisit()
+    /**
+     * @dataProvider getInstallCheckParamValues
+     */
+    public function testIsExcludedVisitWithParamValue($paramValue, int $idSite)
     {
         $isExcluded  = false;
         $testRequest = $this->createRequestMock(
             true,
-            [JsTrackerInstallCheck::QUERY_PARAM_NAME => 'abc123'],
-            $this->idSite1
+            [JsTrackerInstallCheck::QUERY_PARAM_NAME => $paramValue],
+            $idSite
         );
         $this->jsTrackerInstallCheck->isExcludedVisit($isExcluded, $testRequest);
         $this->assertTrue($isExcluded);
+    }
+
+    public function getInstallCheckParamValues(): array
+    {
+        // Second value is the site ID the mock expects a lookup for, or 0 for none
+        return [
+            'empty string' => ['', 0],
+            'string zero'  => ['0', 0],
+            'non string'   => [['abc123'], 0],
+            'other string' => ['abc123', 1],
+            'nonce'        => [self::TEST_NONCE1, 1],
+        ];
     }
 
     public function testCheckForJsTrackerInstallTestSuccessNonExistantNonce()
