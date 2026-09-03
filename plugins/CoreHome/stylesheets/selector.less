@@ -13,7 +13,7 @@
 @_selector-dropdown_padding: 16px;
 @_selector-dropdown_box-shadow: ~"0 0 3px #A5B1CA4D, 0 10px 40px #A5B1CA4D";
 @_selector-dropdown_box-shadow-dark: ~"0 0 3px #00000080, 0 10px 40px #00000080";
-@_selector-dropdown_margin-top: 8px;
+@_selector-dropdown_offset-top: 8px;
 
 .piwikSelector:not(.quick-access) {
   position: relative;
@@ -153,52 +153,58 @@
   }
 }
 
-/* Dropdown */
+/* Legacy dropdown: one node carrying placement and appearance at once. Superseded by the
+   .piwikSelector__dropdown + .mtm-dropdownPanel pair below; kept for the selectors still on it
+   (site, period, quick access, TagManager container). Placement and appearance sit on the base
+   class so that `.expanded` only decides *whether* the dropdown shows, never how it looks.
+
+   Every remaining consumer expands on click, which is why the margin below is still safe: it
+   leaves the offset outside the node's box, and only a pointer travelling across that gap is
+   affected. A dropdown that expands on hover must use the pair below instead, whose padding
+   keeps the gap hoverable. */
 .piwikSelector {
   .dropdown {
     .font-default(14px, 20px);
     display: none;
-  }
 
-  &.expanded {
-    .dropdown {
-      display: block; /* to revert display: none */
+    position: absolute;
+    z-index: 999;
+    top: 100%;
+    margin-top: @_selector-dropdown_offset-top;
+    left: -1px;
 
-      position: absolute;
-      z-index: 999;
-      top: 100%;
-      margin-top: @_selector-dropdown_margin-top;
-      left: -1px;
-
-      border: @_selector-dropdown_border;
-      border-radius: @_selector-dropdown_border-radius;
-      padding: @_selector-dropdown_padding;
-      box-shadow: @_selector-dropdown_box-shadow;
-
-      overflow: hidden;
-
-      .inDarkMode({
-        box-shadow: @_selector-dropdown_box-shadow-dark;
-      });
-    }
-  }
-
-  &.expanded .dropdown,
-  &:hover .dropdown,
-  &.active .dropdown {
     background-color: @_selector-dropdown_color-background;
+    border: @_selector-dropdown_border;
+    border-radius: @_selector-dropdown_border-radius;
+    padding: @_selector-dropdown_padding;
+    box-shadow: @_selector-dropdown_box-shadow;
+
+    overflow: hidden;
+
+    .inDarkMode({
+      box-shadow: @_selector-dropdown_box-shadow-dark;
+    });
+  }
+
+  &.expanded .dropdown {
+    display: block;
   }
 }
 
 /* Positioning wrapper for a dropdown panel (e.g. .mtm-dropdownPanel).
-   Owns placement + show/hide only; appearance belongs to the panel it wraps. */
+   Owns placement + show/hide only; appearance belongs to the panel it wraps.
+
+   The offset from the button is padding rather than margin on purpose: padding keeps the gap
+   inside this node's own box, so a pointer travelling from the button down to the panel never
+   leaves the selector. With a margin the gap belonged to no element, which fired mouseleave and
+   closed a hover-expanded dropdown (see the ExpandOnHover directive) before it could be reached. */
 .piwikSelector__dropdown {
   display: none;
 
   position: absolute;
   z-index: 1020; /* More than .jqplot-seriespicker-popover (1010) */
   top: 100%;
-  margin-top: @_selector-dropdown_margin-top;
+  padding-top: @_selector-dropdown_offset-top;
   left: -1px;
 }
 
