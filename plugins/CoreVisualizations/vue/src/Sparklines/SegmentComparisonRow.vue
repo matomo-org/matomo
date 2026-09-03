@@ -12,26 +12,40 @@
       :title="segmentLabel"
     >{{ segmentLabel }}</span>
     <PeriodColumns :entry="segment" />
-    <!-- The tooltip goes on the slot, not the image: the image scales shorter than the slot. -->
+    <!-- The slot's measured size is passed to Sparkline, which draws the image at exactly that
+         size so CSS never has to rescale it. Shows the placeholder until it has been measured. -->
+    <!-- The tooltip goes on the slot, not the image: the slot is there even while the image is
+         still loading. -->
     <div
+      ref="sparklineSlot"
       class="sparklineSegmentComparisonRow__sparkline"
-      :class="{ 'sparklineSegmentComparisonRow__sparkline--wide': isMultiPeriod }"
+      :class="{ 'sparklineSegmentComparisonRow__sparkline--loading': isSparklineLoading }"
       :title="segment.tooltip || undefined"
     >
       <Sparkline
+        v-if="sparklineWidth > 0 && sparklineHeight > 0"
+        class="sparklineImg--fluid"
+        :class="{ 'sparklineImg--hidden': isSparklineLoading }"
         :width="sparklineWidth"
-        :height="40"
+        :height="sparklineHeight"
         :params="segment.url"
         :series-indices="segment.seriesIndices ?? undefined"
+        @loading-change="isImageLoading = $event"
       />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from 'vue';
+import {
+  computed,
+  defineComponent,
+  PropType,
+  ref,
+} from 'vue';
 import { Sparkline } from 'CoreHome';
 import PeriodColumns from './PeriodColumns.vue';
+import useSparklineSlotSize from './useSparklineSlotSize';
 import { SparklineEntry } from './types';
 
 /**
@@ -58,19 +72,29 @@ export default defineComponent({
     // Segment name (compareSegmentPretty); always populated in segment comparison.
     const segmentLabel = computed(() => props.segment.title || '');
 
-    // More than one compared date (segment + date) → widen the sparkline. The period columns
-    // themselves are derived and rendered by PeriodColumns from the same entry.
-    const isMultiPeriod = computed(() => (props.segment.metricsOrder || []).length > 1);
+    // Sparkline size, measured from the slot it will be drawn in.
+    const sparklineSlot = ref<HTMLElement | null>(null);
+    const {
+      width: sparklineWidth,
+      height: sparklineHeight,
+      isResizePending,
+    } = useSparklineSlotSize(sparklineSlot);
 
-    // Displayed sparkline width; segment + date rows draw one series per date so they are wider,
-    // matching the date-comparison card. Kept in sync with the `--wide` max-width in the .less
-    // (Sparkline renders the PNG at 2x this; the CSS cap stops it scaling past that crisp source).
-    const sparklineWidth = computed(() => (isMultiPeriod.value ? 760 : 380));
+    // Starts true so the placeholder also covers the time before the slot has been measured, when
+    // there is no image yet. Sparkline tells us about every change after that.
+    const isImageLoading = ref(true);
+
+    // A pending resize counts as loading too: the image on screen is about to be replaced, so the
+    // placeholder covers the swap rather than letting a stale-sized image sit there.
+    const isSparklineLoading = computed(() => isResizePending.value || isImageLoading.value);
 
     return {
       segmentLabel,
-      isMultiPeriod,
+      sparklineSlot,
       sparklineWidth,
+      sparklineHeight,
+      isImageLoading,
+      isSparklineLoading,
     };
   },
 });

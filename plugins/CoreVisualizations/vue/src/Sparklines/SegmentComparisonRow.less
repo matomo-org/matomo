@@ -34,28 +34,16 @@
 // margin-free; the gap before the sparkline is owned by `__sparkline`'s margin-top below, so
 // segment-only spacing is unchanged.
 
-// Per-segment sparkline slot: same fixed height + fluid image cap as the no-comparison slot. The
-// max-width must match <Sparkline :width> in SegmentComparisonRow.vue (the PNG is rendered at 2x
-// that): the base width for segment-only, the wider variant for segment + date.
+// Sparkline slot for one segment. Same height and measured sizing as the plain card slot:
+// SegmentComparisonRow.vue measures this slot and Sparkline draws the image at exactly that size.
 .sparklineSegmentComparisonRow__sparkline {
   height: 40px;
   margin-top: 4px;
   display: flex;
   align-items: safe center;
-
-  // override: the reused CoreHome Sparkline renders an external <img class="sparklineImg"> we can't
-  // rename; size it fluidly to the slot, capped at the base width.
-  .sparklineImg {
-    display: block;
-    width: 100%;
-    height: auto;
-    max-width: 380px;
-  }
 }
 
-// Segment + date rows draw one series per compared date, so the sparkline is wider (matching the
-// date-comparison card). Keep 380px / 760px in sync with sparklineWidth in SegmentComparisonRow.vue
-// (the PNG is rendered at 2x these caps).
-.sparklineSegmentComparisonRow__sparkline--wide .sparklineImg {
-  max-width: 760px;
+// Same loading placeholder as the plain card (mixin lives in SparklineCard.less).
+.sparklineSegmentComparisonRow__sparkline--loading {
+  .sparklineCardSkeleton();
 }

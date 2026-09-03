@@ -22,6 +22,8 @@
   // cqi units. Standalone readouts have no nearer container, so they size to the card; comparison
   // columns set their own container and override it. inline-size contains only the inline axis, so
   // the card's height still grows with its content.
+  // The sparkline relies on this too: the card's width ignores its contents, so the image can't
+  // widen the slot it was measured from (see useSparklineSlotSize.ts).
   container-type: inline-size;
 }
 
@@ -64,34 +66,51 @@
   .sparklineCardClickable();
 }
 
-// Shared sparkline slot, rendered by the shell after either body (both put the sparkline last).
-// Fixed height keeps the card height constant regardless of the image; centering sits the image
-// mid-slot once it scales shorter than the slot, and stops flex's default `stretch` from forcing
-// it back to full height. `safe` keeps it reachable if it ever overflows.
+// The sparkline slot, rendered after either card body. Its height is the only place the displayed
+// sparkline height is set: SparklineCard.vue measures this slot and Sparkline draws the image at
+// exactly that size, so the number is never duplicated. Centering stops flex stretching the image,
+// and `safe` keeps it reachable if it ever overflows.
 .sparklineCard__sparkline {
-  // Displayed sparkline size: the height pins the slot; the width caps the fluid image so it never
-  // renders taller than the slot. The width must match the <Sparkline :width> in SparklineCard.vue
-  // (the PNG is rendered at 2x that). Height stays 40 in both modes.
-  @_height: 40px;
-  @_width: 380px;
-
-  height: @_height;
+  height: 40px;
   display: flex;
   align-items: safe center;
+}
 
-  // override: the reused CoreHome Sparkline renders an external <img class="sparklineImg"> we can't
-  // rename; size it fluidly to the slot (height from the width:40 aspect ratio, capped at the base
-  // width so it never exceeds the fixed slot). The 2x source stays crisp as it scales.
-  .sparklineImg {
-    display: block;
-    width: 100%;
-    height: auto;
-    max-width: @_width;
+// Shown until the sparkline has something to display — either the slot has not been measured yet,
+// or the image is still loading. Sits on the slot rather than the image so the image can be hidden
+// behind it, otherwise a half-loaded image would show on top.
+.sparklineCard__sparkline--loading {
+  .sparklineCardSkeleton();
+}
+
+// A mixin (the parens keep it out of the compiled CSS) so the segment comparison row can reuse it.
+// This file is loaded first, so the mixin is available there.
+.sparklineCardSkeleton() {
+  border-radius: 4px;
+  background-color: @theme-color-background-tinyContrast;
+  background-image: linear-gradient(
+    90deg,
+    @theme-color-background-tinyContrast 0%,
+    @theme-color-background-contrast 50%,
+    @theme-color-background-tinyContrast 100%
+  );
+  // Wider than the element, to give the highlight somewhere to travel.
+  background-size: 200% 100%;
+  animation: sparklineCard__skeletonSweep 1.4s ease-in-out infinite;
+
+  // Drop the animation for anyone who asked for less motion; the plain placeholder still reads as
+  // "nothing here yet". Inside the mixin so every caller gets it on the element that animates.
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
   }
 }
 
-// Comparison cards are wider, so their sparkline gets a wider cap to fill the extra room. 760 must
-// match the wide <Sparkline :width> in SparklineCard.vue (the PNG is rendered at 2x that).
-.sparklineCard__sparkline--wide .sparklineImg {
-  max-width: 760px;
+@keyframes sparklineCard__skeletonSweep {
+  from {
+    background-position: 200% 0;
+  }
+
+  to {
+    background-position: -200% 0;
+  }
 }

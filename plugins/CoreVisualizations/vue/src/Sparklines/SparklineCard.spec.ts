@@ -5,6 +5,7 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+import { nextTick } from 'vue';
 import { mount } from '@vue/test-utils';
 
 // The shell renders the real NoComparison body, which mounts the real MetricValue (Tooltips
@@ -16,6 +17,9 @@ vi.mock('CoreHome', () => ({
   Sparkline: {
     name: 'Sparkline',
     props: ['params', 'seriesIndices', 'width', 'height'],
+    // Declared like the real component, so @loading-change is treated as a listener instead of
+    // ending up on the element as a stray attribute.
+    emits: ['loadingChange'],
     template: '<img class="sparkline-stub" />',
   },
   // SparklineCard derives graph-params from the sparkline url; parse a query string like the real
@@ -38,6 +42,18 @@ vi.mock('CoreHome', () => ({
 import SparklineCard from './SparklineCard.vue';
 
 describe('CoreVisualizations/SparklineCard', () => {
+  // The card waits for its slot to have a size before rendering the sparkline, and jsdom reports 0
+  // for everything, so give the slot a width the way a real layout would.
+  beforeEach(() => {
+    vi.spyOn(Element.prototype, 'getBoundingClientRect')
+      .mockReturnValue({ width: 420, height: 40 } as DOMRect);
+  });
+
+  afterEach(() => {
+    // clearMocks is off in vitest.config.ts, so restore the spy by hand.
+    vi.restoreAllMocks();
+  });
+
   const baseSparkline = {
     url: '?module=API&action=get&columns=nb_visits',
     metrics: { '': [{ value: '1,234', description: 'Visits', column: 'nb_visits' }] },
@@ -101,8 +117,9 @@ describe('CoreVisualizations/SparklineCard', () => {
     expect(wrapper.find('.metricValue__title').attributes('title')).toBe('The number of visits.');
   });
 
-  it('renders the card frame classes and composes the primary value + sparkline', () => {
+  it('renders the card frame classes and composes the primary value + sparkline', async () => {
     const wrapper = createWrapper();
+    await nextTick();
 
     expect(wrapper.classes()).toContain('sparkline');
     expect(wrapper.classes()).toContain('sparklineCard');
@@ -112,10 +129,11 @@ describe('CoreVisualizations/SparklineCard', () => {
     expect(wrapper.find('.sparkline-stub').exists()).toBe(true);
   });
 
-  it('renders the shared sparkline slot, forwarding the entry url and series indices', () => {
+  it('renders the shared sparkline slot, forwarding the entry url and series indices', async () => {
     // The shell owns the single sparkline for both bodies; here the comparison entry carries a
     // series index per compared date.
     const wrapper = createWrapper(comparisonSparkline);
+    await nextTick();
 
     expect(wrapper.find('.sparklineCard__sparkline').exists()).toBe(true);
     const sparkline = wrapper.findComponent({ name: 'Sparkline' });
@@ -125,18 +143,39 @@ describe('CoreVisualizations/SparklineCard', () => {
     expect(sparkline.props('seriesIndices')).toEqual([0, 1]);
   });
 
-  it('sizes the shared sparkline per mode — wider (760) when comparing, 380 otherwise', () => {
+  it('sizes the sparkline from the measured slot, the same way in both modes', async () => {
+    // Both modes take the width from their slot, so a comparison card's wider slot is the only
+    // reason its sparkline is wider. No per-mode constant to keep in sync.
     const plain = createWrapper();
-    const plainSparkline = plain.findComponent({ name: 'Sparkline' });
-    expect(plainSparkline.props('width')).toBe(380);
-    expect(plainSparkline.props('height')).toBe(40);
-    expect(plain.find('.sparklineCard__sparkline--wide').exists()).toBe(false);
-
     const comparing = createWrapper(comparisonSparkline);
+    await nextTick();
+
+    const plainSparkline = plain.findComponent({ name: 'Sparkline' });
+    expect(plainSparkline.props('width')).toBe(420);
+    expect(plainSparkline.props('height')).toBe(40);
+
     const comparingSparkline = comparing.findComponent({ name: 'Sparkline' });
-    expect(comparingSparkline.props('width')).toBe(760);
+    expect(comparingSparkline.props('width')).toBe(420);
     expect(comparingSparkline.props('height')).toBe(40);
-    expect(comparing.find('.sparklineCard__sparkline--wide').exists()).toBe(true);
+  });
+
+  it('lets the sparkline fill the slot it was measured from', async () => {
+    const wrapper = createWrapper();
+    await nextTick();
+
+    expect(wrapper.findComponent({ name: 'Sparkline' }).classes()).toContain('sparklineImg--fluid');
+  });
+
+  it('keeps the slot but holds the sparkline back while the card has no measurable width', async () => {
+    // As in a collapsed widget or a hidden reporting tab.
+    vi.spyOn(Element.prototype, 'getBoundingClientRect')
+      .mockReturnValue({ width: 0, height: 0 } as DOMRect);
+
+    const wrapper = createWrapper();
+    await nextTick();
+
+    expect(wrapper.find('.sparklineCard__sparkline').exists()).toBe(true);
+    expect(wrapper.findComponent({ name: 'Sparkline' }).exists()).toBe(false);
   });
 
   it('renders the backend period tooltip as the sparkline slot title', () => {
@@ -157,6 +196,45 @@ describe('CoreVisualizations/SparklineCard', () => {
     const wrapper = createWrapper();
 
     expect(wrapper.find('.sparklineCard__sparkline').attributes('title')).toBeUndefined();
+  });
+
+  it('goes back to loading the moment a resize is observed, before the image is even requested', async () => {
+    // Set when the resize is observed, not when the debounce fires: between those two the image
+    // on screen is already the wrong size for its slot.
+    const wrapper = createWrapper();
+    await nextTick();
+    await wrapper.findComponent({ name: 'Sparkline' }).vm.$emit('loadingChange', false);
+    expect(wrapper.find('.sparklineCard__sparkline').classes())
+      .not.toContain('sparklineCard__sparkline--loading');
+
+    // The slot really has to change width: a reflow that leaves it alone must not blink the card.
+    vi.spyOn(Element.prototype, 'getBoundingClientRect')
+      .mockReturnValue({ width: 560, height: 40 } as DOMRect);
+    const all = (window as unknown as { __resizeObservers: { trigger(e: unknown[]): void }[] })
+      .__resizeObservers;
+    all[all.length - 1].trigger([]);
+    await nextTick();
+
+    expect(wrapper.find('.sparklineCard__sparkline').classes())
+      .toContain('sparklineCard__sparkline--loading');
+  });
+
+  it('shows the placeholder until the sparkline reports it has something to display', async () => {
+    const wrapper = createWrapper();
+    await nextTick();
+
+    // Also covers the time before the slot is measured, when there is no image yet.
+    expect(wrapper.find('.sparklineCard__sparkline').classes())
+      .toContain('sparklineCard__sparkline--loading');
+    expect(wrapper.findComponent({ name: 'Sparkline' }).classes())
+      .toContain('sparklineImg--hidden');
+
+    await wrapper.findComponent({ name: 'Sparkline' }).vm.$emit('loadingChange', false);
+
+    expect(wrapper.find('.sparklineCard__sparkline').classes())
+      .not.toContain('sparklineCard__sparkline--loading');
+    expect(wrapper.findComponent({ name: 'Sparkline' }).classes())
+      .not.toContain('sparklineImg--hidden');
   });
 
   it('does not render the segment title region in no-comparison mode', () => {

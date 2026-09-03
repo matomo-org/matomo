@@ -5,6 +5,7 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+import { nextTick } from 'vue';
 import { mount } from '@vue/test-utils';
 
 // The row mounts the real MetricValue (Tooltips directive, NumberFormatter) and the reused
@@ -16,6 +17,9 @@ vi.mock('CoreHome', () => ({
   Sparkline: {
     name: 'Sparkline',
     props: ['params', 'seriesIndices', 'width', 'height'],
+    // Declared like the real component, so @loading-change is treated as a listener instead of
+    // ending up on the element as a stray attribute.
+    emits: ['loadingChange'],
     template: '<img class="sparkline-stub" />',
   },
   NumberFormatter: {
@@ -53,7 +57,23 @@ function createWrapper(props = {}) {
   return mount(SegmentComparisonRow as any, { props: { segment: segment(), ...props } });
 }
 
+// The row waits for its slot to have a size before rendering the sparkline, and jsdom reports 0
+// for everything, so give the slot a width the way a real layout would.
+function stubSlotWidth() {
+  beforeEach(() => {
+    vi.spyOn(Element.prototype, 'getBoundingClientRect')
+      .mockReturnValue({ width: 420, height: 40 } as DOMRect);
+  });
+
+  afterEach(() => {
+    // clearMocks is off in vitest.config.ts, so restore the spy by hand.
+    vi.restoreAllMocks();
+  });
+}
+
 describe('CoreVisualizations/SegmentComparisonRow', () => {
+  stubSlotWidth();
+
   it('renders the segment name as a chip, with the full name as a hover-recovery title', () => {
     const chip = createWrapper().find('.sparklineSegmentComparisonRow__chip');
 
@@ -72,14 +92,18 @@ describe('CoreVisualizations/SegmentComparisonRow', () => {
     expect(createWrapper().find('.metricValue__title').exists()).toBe(false);
   });
 
-  it('renders its own single-series sparkline with the entry url and series index', () => {
-    const sparkline = createWrapper().findComponent({ name: 'Sparkline' });
+  it('renders its own single-series sparkline with the entry url and series index', async () => {
+    // The slot is measured on mount, so the sparkline appears on the next tick.
+    const wrapper = createWrapper();
+    await nextTick();
+
+    const sparkline = wrapper.findComponent({ name: 'Sparkline' });
 
     expect(sparkline.props('params')).toBe(
       '?module=API&action=get&columns=nb_visits&segment=continentCode==eur',
     );
     expect(sparkline.props('seriesIndices')).toEqual([1]);
-    expect(sparkline.props('width')).toBe(380);
+    expect(sparkline.props('width')).toBe(420);
     expect(sparkline.props('height')).toBe(40);
   });
 
@@ -159,6 +183,8 @@ function createSegmentDateWrapper(props = {}) {
 }
 
 describe('CoreVisualizations/SegmentComparisonRow segment + date', () => {
+  stubSlotWidth();
+
   it('renders one value column per compared date, split by a separator', () => {
     const wrapper = createSegmentDateWrapper();
 
@@ -182,12 +208,50 @@ describe('CoreVisualizations/SegmentComparisonRow segment + date', () => {
     expect(wrapper.findComponent({ name: 'EvolutionBadge' }).props('percent')).toBe('+28.5%');
   });
 
-  it('renders a wider, multi-series sparkline (one series per compared date)', () => {
+  it('renders a multi-series sparkline (one series per compared date) sized from its slot', async () => {
     const wrapper = createSegmentDateWrapper();
+    await nextTick();
+
     const sparkline = wrapper.findComponent({ name: 'Sparkline' });
 
     expect(sparkline.props('seriesIndices')).toEqual([1, 3]);
-    expect(sparkline.props('width')).toBe(760);
-    expect(wrapper.find('.sparklineSegmentComparisonRow__sparkline--wide').exists()).toBe(true);
+    // Segment + date rows sit in a wider card, so only their slot is wider.
+    expect(sparkline.props('width')).toBe(420);
+    expect(sparkline.props('height')).toBe(40);
+    expect(sparkline.classes()).toContain('sparklineImg--fluid');
+  });
+
+  it('goes back to loading the moment a resize is observed, before the image is even requested', async () => {
+    // Set when the resize is observed, not when the debounce fires: between those two the image
+    // on screen is already the wrong size for its slot.
+    const wrapper = createSegmentDateWrapper();
+    await nextTick();
+    await wrapper.findComponent({ name: 'Sparkline' }).vm.$emit('loadingChange', false);
+    expect(wrapper.find('.sparklineSegmentComparisonRow__sparkline').classes())
+      .not.toContain('sparklineSegmentComparisonRow__sparkline--loading');
+
+    // The slot really has to change width: a reflow that leaves it alone must not blink the card.
+    vi.spyOn(Element.prototype, 'getBoundingClientRect')
+      .mockReturnValue({ width: 560, height: 40 } as DOMRect);
+    const all = (window as unknown as { __resizeObservers: { trigger(e: unknown[]): void }[] })
+      .__resizeObservers;
+    all[all.length - 1].trigger([]);
+    await nextTick();
+
+    expect(wrapper.find('.sparklineSegmentComparisonRow__sparkline').classes())
+      .toContain('sparklineSegmentComparisonRow__sparkline--loading');
+  });
+
+  it('shows the placeholder until the sparkline reports it has something to display', async () => {
+    const wrapper = createSegmentDateWrapper();
+    await nextTick();
+
+    expect(wrapper.find('.sparklineSegmentComparisonRow__sparkline').classes())
+      .toContain('sparklineSegmentComparisonRow__sparkline--loading');
+
+    await wrapper.findComponent({ name: 'Sparkline' }).vm.$emit('loadingChange', false);
+
+    expect(wrapper.find('.sparklineSegmentComparisonRow__sparkline').classes())
+      .not.toContain('sparklineSegmentComparisonRow__sparkline--loading');
   });
 });
