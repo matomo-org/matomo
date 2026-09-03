@@ -1,6 +1,5 @@
 {
     "Transitions": {
-        "BouncesInline": "%s bị trả lại",
         "DirectEntries": "Các mục trực tiếp",
         "ErrorBack": "Quay trở lại hành động trước đó",
         "ExitsInline": "%s thoát",
@@ -22,7 +21,6 @@
         "ToFollowingSiteSearches": "Các tìm kiếm nội bộ",
         "ToFollowingSiteSearchesInline": "%s Các tìm kiếm nội bộ",
         "TransitionsSubcategoryHelp2": "Xem chi tiết hơn",
-        "XOfAllPageviews": "%s của tất cả các lượt xem của trang này",
-        "XOutOfYVisits": "%1$s (trong số %2$s)"
+        "XOfAllPageviews": "%s của tất cả các lượt xem của trang này"
     }
 }
