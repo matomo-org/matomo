@@ -719,6 +719,83 @@
 					<row>dmit cloud services</row>
 				</value>
 				<defaultValue>
+					<row>alicloud</row>
+					<row>alibaba cloud</row>
+					<row>kwaifong group limited</row>
+					<row>contabo</row>
+					<row>digitalocean</row>
+					<row>digital ocean</row>
+					<row>leaseweb</row>
+					<row>hostroyale technologies</row>
+					<row>ucloud information</row>
+					<row>secure internet llc</row>
+					<row>inios oy</row>
+					<row>fnk llc</row>
+					<row>dedipath-llc</row>
+					<row>mirholding b.v.</row>
+					<row>datacamp limited</row>
+					<row>voxility llp</row>
+					<row>lucidacloud</row>
+					<row>cloud computing corporation</row>
+					<row>gigabit hosting</row>
+					<row>hetzner online</row>
+					<row>m247 europe srl</row>
+					<row>incognet llc</row>
+					<row>ponynet</row>
+					<row>as40676</row>
+					<row>nforce entertainment b.v.</row>
+					<row>trabia srl</row>
+					<row>latitude-sh</row>
+					<row>dataforest gmbh</row>
+					<row>31173 services ab</row>
+					<row>advin services llc</row>
+					<row>wholesale services provider</row>
+					<row>netminders</row>
+					<row>altushost b.v.</row>
+					<row>amazon-02</row>
+					<row>akamai connected cloud</row>
+					<row>uab cherry servers</row>
+					<row>datema bilisim ticaret anonim sirketi</row>
+					<row>alibaba us technology co., ltd.</row>
+					<row>netcup gmbh</row>
+					<row>jinx co., limited</row>
+					<row>fd-298-8796</row>
+					<row>cloudsingularity</row>
+					<row>weserve b.v.</row>
+					<row>amarutu technology ltd</row>
+					<row>limestonenetworks</row>
+					<row>versija sia</row>
+					<row>oy crea nova hosting solution ltd</row>
+					<row>owl limited</row>
+					<row>tzulo</row>
+					<row>serverastra kft</row>
+					<row>ionos se</row>
+					<row>as-globaltelehost</row>
+					<row>estnoc oy</row>
+					<row>as-colocrossing</row>
+					<row>greenhost bv</row>
+					<row>keminet shpk</row>
+					<row>worldstream b.v.</row>
+					<row>aeza international ltd</row>
+					<row>asline limited</row>
+					<row>packethub s.a.</row>
+					<row>gorillaservers</row>
+					<row>as-vultr</row>
+					<row>nl-811-40021</row>
+					<row>cheapy-host</row>
+					<row>jsc selectel</row>
+					<row>gb network solutions sdn. bhd.</row>
+					<row>latitude.sh</row>
+					<row>limestone networks, inc</row>
+					<row>scaleway</row>
+					<row>m247 europe</row>
+					<row>tencent</row>
+					<row>fdcservers</row>
+					<row>ace data centers</row>
+					<row>egihosting</row>
+					<row>hangzhou alibaba advertising</row>
+					<row>sharktech</row>
+					<row>dmit cloud services</row>
 				</defaultValue>
 				<type>array</type>
 				<uiControl>textarea</uiControl>
