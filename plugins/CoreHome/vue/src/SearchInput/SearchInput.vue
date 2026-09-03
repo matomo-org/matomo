@@ -23,6 +23,8 @@
       v-if="showClear && modelValue"
       type="button"
       class="mtm-searchInput__clear"
+      :tabindex="$attrs.tabindex"
+      :title="translate('General_Clear')"
       @click="onClear()"
     />
   </div>
@@ -77,6 +79,10 @@ export default defineComponent({
     translate,
     onClear() {
       this.$emit('update:modelValue', '');
+      // the button unmounts as soon as the value is empty, which would drop focus onto <body>.
+      // preventScroll matters: focus() otherwise scrolls the input into view, which moves the
+      // whole page under any consumer that sits below the fold.
+      (this.$refs.input as HTMLInputElement | undefined)?.focus({ preventScroll: true });
     },
     blur() {
       (this.$refs.input as HTMLInputElement | undefined)?.blur();

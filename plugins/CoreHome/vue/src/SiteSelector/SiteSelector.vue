@@ -43,78 +43,86 @@
         :class="{'iconHidden': isLoading, 'collapsed': !showSitesList}"
       />
     </a>
-    <div
-      v-show="showSitesList"
-      class="dropdown"
-    >
-      <div
-        class="custom_select_search"
-        v-show="autocompleteMinSites <= sites.length || searchTerm"
-      >
-        <input
-          type="text"
-          @click="searchTerm = '';loadInitialSites()"
-          v-model="searchTerm"
-          tabindex="4"
-          class="websiteSearch inp browser-default"
-          v-focus-if="{ focused: shouldFocusOnSearch }"
-          :placeholder="translate('General_Search')"
-        />
-        <img
-          title="Clear"
-          v-show="searchTerm"
-          @click="searchTerm = '';loadInitialSites()"
-          class="reset"
-          src="plugins/CoreHome/images/reset_search.png"
-        />
-      </div>
-      <div v-if="allSitesLocation === 'top' && showAllSitesItem">
-        <AllSitesLink
-          :href="urlAllSites"
-          :all-sites-text="allSitesText"
-          @click="onAllSitesClick($event)"
-        />
-      </div>
-      <div
-        class="custom_select_container"
-        v-tooltips="{ content: tooltipContent }"
-      >
+    <div class="piwikSelector__dropdown">
+      <div class="mtm-dropdownPanel mtm-dropdownPanel--wide">
+        <div
+          class="mtm-dropdownPanel__search"
+          v-show="autocompleteMinSites <= sites.length || searchTerm"
+        >
+          <SearchInput
+            v-model="searchTerm"
+            :show-clear="true"
+            :focused="shouldFocusOnSearch"
+            tabindex="4"
+          />
+        </div>
+        <!-- Closing the panel is handled per entry, not here: this element scrolls, and a click
+             on its scrollbar or on the no-result row must not dismiss the panel. -->
         <ul
-          class="custom_select_ul_list"
-          @click="showSitesList = false"
+          class="mtm-dropdownPanel__menu mtm-dropdownPanel__menu--scrollable mtm-dropdownPanel__menu--gutter"
+          v-tooltips="{ content: tooltipContent }"
         >
           <li
-            @click="switchSite({ ...site, id: site.idsite }, $event)"
-            v-show="!(!showSelectedSite && `${activeSiteId}` === `${site.idsite}`)"
-            v-for="(site, index) in sites"
-            :key="index"
+            v-if="allSitesLocation === 'top' && showAllSitesItem"
+            class="mtm-dropdownPanel__menuItem"
+            @click="onAllSitesClick($event)"
           >
             <a
+              class="mtm-dropdownPanel__menuLink"
+              tabindex="4"
+              :href="urlAllSites"
               @click="$event.preventDefault()"
-              v-html="$sanitize(getMatchedSiteName(site.name))"
+            >
+              <span
+                class="mtm-dropdownPanel__menuLabel"
+                v-html="$sanitize(allSitesText)"
+              />
+            </a>
+          </li>
+          <li
+            class="mtm-dropdownPanel__menuItem"
+            @click="onSiteClick(site, $event)"
+            v-show="!(!showSelectedSite && `${activeSiteId}` === `${site.idsite}`)"
+            v-for="site in sites"
+            :key="site.idsite"
+          >
+            <a
+              class="mtm-dropdownPanel__menuLink"
+              @click="$event.preventDefault()"
               tabindex="4"
               :href="getUrlForSiteId(site.idsite)"
               :title="site.name"
-            />
+            >
+              <span
+                class="mtm-dropdownPanel__menuLabel"
+                v-html="$sanitize(getMatchedSiteName(site.name))"
+              />
+            </a>
+          </li>
+          <li
+            v-show="!sites.length && searchTerm"
+            class="mtm-dropdownPanel__noResult"
+          >
+            {{ translate('SitesManager_NotFound') + ' ' + searchTerm }}
+          </li>
+          <li
+            v-if="allSitesLocation === 'bottom' && showAllSitesItem"
+            class="mtm-dropdownPanel__menuItem"
+            @click="onAllSitesClick($event)"
+          >
+            <a
+              class="mtm-dropdownPanel__menuLink"
+              tabindex="4"
+              :href="urlAllSites"
+              @click="$event.preventDefault()"
+            >
+              <span
+                class="mtm-dropdownPanel__menuLabel"
+                v-html="$sanitize(allSitesText)"
+              />
+            </a>
           </li>
         </ul>
-        <ul
-          v-show="!sites.length && searchTerm"
-          class="custom_select_ul_list"
-        >
-          <li>
-            <div class="noresult">
-              {{ translate('SitesManager_NotFound') + ' ' + searchTerm }}
-            </div>
-          </li>
-        </ul>
-      </div>
-      <div v-if="allSitesLocation === 'bottom' && showAllSitesItem">
-        <AllSitesLink
-          :href="urlAllSites"
-          :all-sites-text="allSitesText"
-          @click="onAllSitesClick($event)"
-        />
       </div>
     </div>
   </div>
@@ -124,8 +132,7 @@
 import { DeepReadonly, defineComponent, PropType } from 'vue';
 import Tooltips from '../Tooltips/Tooltips';
 import FocusAnywhereButHere from '../FocusAnywhereButHere/FocusAnywhereButHere';
-import FocusIf from '../FocusIf/FocusIf';
-import AllSitesLink from './AllSitesLink.vue';
+import SearchInput from '../SearchInput/SearchInput.vue';
 import Matomo from '../Matomo/Matomo';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import { translate } from '../translate';
@@ -191,11 +198,10 @@ export default defineComponent({
   },
   emits: ['update:modelValue', 'blur'],
   components: {
-    AllSitesLink,
+    SearchInput,
   },
   directives: {
     FocusAnywhereButHere,
-    FocusIf,
     Tooltips,
   },
   watch: {
@@ -253,7 +259,7 @@ export default defineComponent({
   computed: {
     shouldFocusOnSearch() {
       return (this.showSitesList && this.autocompleteMinSites <= this.sites.length)
-        || this.searchTerm;
+        || !!this.searchTerm;
     },
     selectorLinkTitle() {
       return this.hasMultipleSites && this.displayedModelValue
@@ -335,12 +341,20 @@ export default defineComponent({
       this.switchSite({ id: 'all', name: this.$props.allSitesText }, event);
       this.showSitesList = false;
     },
+    onSiteClick(site: DeepReadonly<Site>, event: MouseEvent) {
+      this.switchSite({ ...site, id: site.idsite }, event);
+      this.showSitesList = false;
+    },
     switchSite(site: SiteRef, event: KeyboardEvent|MouseEvent) {
       // for Mac OS cmd key needs to be pressed, ctrl key on other systems
       const controlKey = navigator.userAgent.indexOf('Mac OS X') !== -1 ? event.metaKey : event.ctrlKey;
 
-      if (event && controlKey && event.target && (event.target as HTMLLinkElement).href) {
-        window.open((event.target as HTMLLinkElement).href, '_blank');
+      // the label sits in a child element of the link, so resolve the link from the event target
+      const eventTarget = event.target as HTMLElement|null;
+      const link = eventTarget?.closest?.('a') as HTMLAnchorElement|null;
+
+      if (controlKey && link?.href) {
+        window.open(link.href, '_blank');
         return;
       }
 
@@ -390,7 +404,10 @@ export default defineComponent({
         siteName.substring(index + this.searchTerm.length),
       );
 
-      return `${previousPart}<span class="autocompleteMatched">${this.searchTerm}</span>${lastPart}`;
+      const matched = this.htmlEntities(this.searchTerm);
+      const matchedPart = `<span class="mtm-dropdownPanel__searchMatch">${matched}</span>`;
+
+      return `${previousPart}${matchedPart}${lastPart}`;
     },
     loadInitialSites() {
       return SitesStore.loadInitialSites(
