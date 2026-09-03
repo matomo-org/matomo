@@ -685,24 +685,28 @@ produced it. A `spread` above 2x means the iterations did not converge — on Cl
 is usually cold marks and the fix is more warmups, not a footnote; the notes at the end of a run
 say so explicitly rather than leaving the cell looking measured.
 
-## 11. `log_action` is never joined whole — enforced centrally (DEV-20751)
+## 11. No log table is ever joined whole — enforced centrally (DEV-20751)
 
 ClickHouse builds a join hash table from the **right** side, so `JOIN log_action ON <expr> =
 log_action.idaction` materialises the entire action dictionary however selective the left side
 is. On the POC corpus that is 242M rows, and it does not run slowly — it dies in
 `FillingRightJoinSide` with `MEMORY_LIMIT_EXCEEDED`.
 
-This was first fixed locally, in `LogAggregator::queryActionsByDimension()`. That turned out to
-cover one of at least three paths that build such a join:
+log_action was only the first table big enough to make that fatal. The same shape appears with
+log_visit and log_link_visit_action on the build side, so the rule is now about log tables
+rather than about one of them:
 
 | path | builds the join in |
 |---|---|
 | Transitions, dimension queries | `LogAggregator::queryActionsByDimension()` |
 | Visits Log action enrichment | `Actions\VisitorDetails::queryActionsForVisits()` + the joins plugins contribute via `Actions.getCustomActionDimensionFieldsAndJoins` |
 | day archiving | `Actions\RecordBuilders\ActionReports::archiveDayQueryProcess()` |
+| goals by page view | `LogAggregator::queryConversionsByPageView()` — RIGHT JOIN log_link_visit_action |
+| goals by entry page | `LogAggregator::queryConversionsByEntryPageView()` — log_visit, then log_action **through** it |
+| segmented archiving | any query the segment joins log_visit into, e.g. `Goals\ProductRecord` |
+| ecommerce items in the Visits Log | `Ecommerce\VisitorDetails` — log_action seven times over |
 
-The property is a property of ClickHouse, not of any one report, so it is now enforced in the
-adapter for every query: `ClickhouseDialectTranslator::restrictLogActionJoins()` rewrites
+`ClickhouseDialectTranslator::restrictLogTableJoins()` rewrites
 
 ```sql
 JOIN log_action AS a ON t.idaction_url = a.idaction
@@ -712,9 +716,12 @@ JOIN (SELECT * FROM log_action
 ```
 
 which turns the join into a primary-key lookup, because `idaction` **is** `log_action`'s sorting
-key.
+key. `RESTRICTABLE_JOIN_KEYS` lists what it will do this to: log_action on `idaction`, log_visit
+on `idvisit`, log_link_visit_action on `idvisit` **or** `idlink_va` (Ecommerce's conversion
+detail reaches it the second way, and recognising only the first left that join reading all
+2.68M rows of the local corpus).
 
-Three things about it are load-bearing:
+Six things about it are load-bearing:
 
 - **It runs after positional binds become named ones.** The restriction repeats the driving
   query's WHERE. Repeating `?` would desynchronise the bind list — silently binding values to the
@@ -724,12 +731,166 @@ Three things about it are load-bearing:
   (`keepConjunctsReferencingOnly()`). The restriction subquery has one table in scope, so a
   conjunct naming a joined alias cannot resolve there. Dropping conjuncts from an AND-chain only
   widens the id set, and the restriction is only required to be a **superset** of what the join
-  needs. The same rule now guards the older `LogAggregator` restriction, which previously copied
-  the caller's extra WHERE wholesale and produced `Unknown expression or function identifier
-  log_action1.type` — that had been failing all 15 Actions system tests on ClickHouse.
-- **Anything it cannot read with confidence is left alone**: a non-trivial ON expression, a right
-  side that is already a subquery, a driving side that is itself a subquery. A missed rewrite
-  costs speed; a wrong one costs rows.
+  needs.
+- **A conjunct that names a column without its table is dropped too.** Goals contributes
+  `AND visit_entry_idaction_url IS NOT NULL` to a query driven by log_conversion; it is a
+  log_visit column, and carrying it into `FROM log_conversion WHERE …` fails outright rather
+  than merely narrowing the wrong set. It cannot be qualified after the fact either — which
+  table it came from is exactly what the SQL does not say. `namesAColumnWithoutItsTable()`
+  strips literals, qualified references, binds, numbers and function names and requires what is
+  left to be SQL keywords; an unrecognised keyword costs a dropped conjunct, which only widens.
+- **Restrictions chain.** A join keyed off a *joined* alias cannot be restricted through the
+  driving table, but it can be restricted through the alias it does name, once that alias is
+  itself a restricted sub-select. `queryConversionsByEntryPageView()` is why: it drives from
+  log_conversion, joins log_visit on `idvisit`, then joins log_action on
+  `log_visit.visit_entry_idaction_name`. Without chaining that second join read log_action whole
+  — 1,438,840 rows for 57k rows of answer locally.
+- **RIGHT and FULL joins are left alone.** They keep their unmatched right-hand rows, so
+  dropping one is only safe when a driving conjunct rejects the NULLs it would be joined
+  against, and that is more than this pass can read off the SQL. A caller that can prove the
+  argument for its own RIGHT JOIN builds the sub-select itself — see §11.1.
+- **`SELECT *` does not include MATERIALIZED columns.** Standing
+  `(SELECT * FROM log_action WHERE …)` in for the table silently drops `name_lower`, the
+  lowercased copy every action-scope segment LIKE is rewritten onto (§3.2a), and the join then
+  fails with `Identifier <alias>.name_lower cannot be resolved from subquery` — which reads like
+  a translation bug rather than a missing column. `RESTRICTION_PROJECTIONS` names it explicitly;
+  `restrictionProjection()` is public so `LogAggregator`'s own sub-selects agree.
 
-Verified against ClickHouse: Transitions 7/7 and Actions 15/15 system tests, both by expected
-output, plus the same suites unchanged on MySQL.
+Anything it cannot read with confidence is left alone: a non-trivial ON expression, a right side
+that is already a subquery, a driving side that is itself a subquery, a join keyed off an alias
+no restriction is known for. A missed rewrite costs speed; a wrong one costs rows.
+
+**A join can only be restricted if the SQL says which table each column belongs to.** Ecommerce's
+item detail in the Visits Log joined log_action seven times on unqualified expressions
+(`ON idaction_sku = log_action_sku.idaction`, driving table not aliased), so the pass declined
+all seven and the query read 9,738,867 rows and 1.38 GiB — on 6,900 conversion items. Qualifying
+the columns changes nothing on MySQL and lets the pass fire. That is the fix to reach for when a
+query is joining whole tables: qualify it at the source, do not teach the pass to guess.
+
+### 11.1 Two joins the pass declines, restricted at the call site
+
+`LogAggregator::queryConversionsByPageView()` — goals by page view — puts the two largest log
+tables on the build side, and the pass correctly declines both: log_link_visit_action is joined
+with `RIGHT JOIN`, and log_action keys off `logva`, a joined alias. It died at **46.86 GiB** on
+the POC corpus and reproduces on a 2.68M-row local one.
+
+`getConversionsByPageViewRestrictions()` builds both sub-selects, because the call site can make
+the arguments the pass cannot:
+
+- log_link_visit_action keeps the rows whose visit converted inside the reported bounds. The
+  RIGHT JOIN survives that unchanged, because every WHERE conjunct tests a log_conversion
+  column: a logva row with no matching conversion is NULL-extended and then dropped by
+  `log_conversion.server_time >= …`, so the rows the restriction removes are exactly the rows
+  the WHERE was already removing.
+- The date bound is an **upper** bound only. `logva.server_time <= log_conversion.server_time`
+  gives one for free once conversions are bounded above; nothing bounds a visit's actions from
+  below, and inventing a lower bound would silently drop the actions of a visit that began
+  before the period.
+- `idsite` carries over because a conversion and its visit's actions are written from the same
+  tracking request — verified on the local corpus, zero rows disagree. It is also what makes the
+  restriction cheap, since `idsite` leads log_link_visit_action's sorting key.
+
+### 11.2 `idvisit` needs a skipping index on log_link_visit_action
+
+Reading actions **by visit** is not a shape the sorting key serves: `idvisit` is third in
+`(idsite, toDate(server_time), idvisit, idlink_va)`, so a bare `idvisit IN (…)` narrows the
+primary-key range not at all. That shape is the Visits Log enrichment — which carries no date
+bound, only the ids Live already resolved — and every restriction sub-select this section adds.
+
+`ClickhouseLogTableSync::SKIP_INDICES` now adds `INDEX idx_idvisit idvisit TYPE minmax
+GRANULARITY 4`. minmax works for the same reason it works on `log_conversion.server_time`:
+`idvisit` is monotonic with time and rows are stored in time order, so a granule's `[min, max]`
+is tight. Measured locally, `idvisit IN (…)` went from 362 granules of 362 to 18.
+
+**It is not on the POC ClickHouse.** Add it with the two indices the teardown note already
+tracks, before the next A/B — the numbers are not comparable without it.
+
+## 12. Running all-plugins archiving locally, on both engines (DEV-20751)
+
+Every failure in §11 was found and fixed against the ddev project, not against a remote
+instance. It is worth knowing how, because three of the failures it reported were the container
+rather than the query, and reading them the other way costs a day.
+
+### Point the install at the analytics database
+
+Outside test mode Matomo only reads `[database_analytics]` from the config file —
+`CLICKHOUSE_HOST` and friends are gated on `PIWIK_TEST_MODE` (§8), so exporting them does
+nothing for `./console`. Add the section to `config/config.ini.php`:
+
+```ini
+[database_analytics]
+enabled = 1
+host = "clickhouse"
+port = 8123
+username = "matomo"
+password = "matomo"
+dbname = "db"
+max_threads = 2
+max_bytes_before_external_sort = 268435456
+max_bytes_before_external_group_by = 268435456
+join_algorithm = "grace_hash"
+```
+
+Then `./console clickhouse:benchmark --report-engine` must print `"engine":"clickhouse"`, and
+`--engine=mysql` legs work because `MATOMO_ANALYTICS_DB_DISABLED=1` can only ever disable.
+
+**This flips the default for the test suites too.** With the section present,
+`./console tests:run` routes to ClickHouse *without* `CLICKHOUSE_HOST`, and the MySQL leg is the
+one that needs an environment variable. Prove which one ran rather than assuming: a MySQL leg
+logs no `ClickHouse query OK` lines at all.
+
+### What the container gets wrong, and how to tell
+
+An OOM naming an operator that is not a join is usually the container, not the query. The honest
+test is `read_rows`, which a bigger container does not flatter:
+
+```sql
+SELECT read_rows, memory_usage, query_duration_ms, substring(query, 1, 120)
+FROM system.query_log
+WHERE type = 'QueryFinish' AND query LIKE '%trigger = CronArchive%'
+ORDER BY read_rows DESC LIMIT 10;
+```
+
+A query whose `read_rows` approaches a whole log table is a defect however fast it ran. A query
+that died in `FillingRightJoinSide` is a defect. A query that died in `MergeTreeSelect` while
+reading one of its own columns, having read a plausible number of rows, is the container.
+
+Three things were the container, and are now committed:
+
+- **3 GiB was not enough for all-plugins archiving.** The cap works out at 2.55 GiB, which the
+  Actions and Contents ranking queries hit while merely reading columns, long after every join
+  had been restricted. `mem_limit` is now `4500m`.
+- **`system.metric_log` was taking 1.01 GiB to merge** — a row per second, forever, in the same
+  budget as the data. The OvercommitTracker then stops whichever archiving query is running and
+  the error blames that query. The server's own telemetry tables are disabled in
+  `.ddev/clickhouse/low-memory.xml`; `query_log` is kept, because the check above reads from it.
+- **The ddev copies had none of the skipping indices**, so every date-bounded read was a full
+  FINAL scan. `ClickhouseLogTableSync` creates them, but the sink connector's copies in `db` are
+  made by the connector. Apply them by hand once, then wait for `system.mutations` to drain:
+
+  ```sql
+  ALTER TABLE db.matomo_log_visit              ADD INDEX idx_visit_last_action visit_last_action_time TYPE minmax GRANULARITY 4;
+  ALTER TABLE db.matomo_log_visit              ADD INDEX idx_idvisitor idvisitor TYPE bloom_filter GRANULARITY 4;
+  ALTER TABLE db.matomo_log_link_visit_action  ADD INDEX idx_server_time server_time TYPE minmax GRANULARITY 4;
+  ALTER TABLE db.matomo_log_link_visit_action  ADD INDEX idx_idvisit idvisit TYPE minmax GRANULARITY 4;
+  ALTER TABLE db.matomo_log_conversion         ADD INDEX idx_server_time server_time TYPE minmax GRANULARITY 4;
+  ALTER TABLE db.matomo_log_conversion_item    ADD INDEX idx_server_time server_time TYPE minmax GRANULARITY 4;
+  ALTER TABLE db.matomo_log_action             ADD COLUMN name_lower String MATERIALIZED lower(name);
+  ALTER TABLE db.matomo_log_action             ADD INDEX idx_name_lower name_lower TYPE ngrambf_v1(4, 262144, 3, 0) GRANULARITY 4;
+  -- then MATERIALIZE COLUMN / MATERIALIZE INDEX each one
+  ```
+
+### Every log table the archiver reads has to exist in ClickHouse
+
+BotTracking archives from `log_bot_request`, which the ddev sink connector was not replicating.
+The adapter routes every `log_*` query to the analytics database with no fallback by design, so
+the archive stopped with `Unknown table expression identifier 'matomo_log_bot_request'`. It is
+in `ClickhouseLogTableSync::LOG_TABLES` and is now in the sink's `table.include.list` as well.
+**A pipe that copies only the five obvious log tables will fail the same way.**
+
+### Known open, not caused by this work
+
+- `Ecommerce` system tests: 8 failing on ClickHouse (9 before this work), all in
+  `EcommerceOrderWithItemsTest` — the item reports and the ecommerce segments. Passing on MySQL.
+- `RankingQueryTest`: 4 failing whenever `[database_analytics]` is configured, on an unmodified
+  tree as well. It asserts MySQL-shaped SQL and does not know about §1.2.
