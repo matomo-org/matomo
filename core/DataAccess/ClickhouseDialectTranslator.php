@@ -24,6 +24,7 @@ namespace Piwik\DataAccess;
  * | MySQL          | ClickHouse        | Notes                              |
  * |----------------|-------------------|------------------------------------|
  * | HOUR(x)        | toHour(x)         | VisitTime, ServerTime plugins      |
+ * | MINUTE(x)      | toMinute(x)       | VisitTime (visitLocalMinute segment)|
  * | DATE(x)        | toDate(x)         | CoreHome date columns              |
  * | WEEK(x,n)      | toWeek(x,n)       | VisitDay plugin                    |
  * | DAYOFWEEK(x)   | toDayOfWeek(x)    | VisitDay plugin                    |
@@ -461,6 +462,7 @@ class ClickhouseDialectTranslator
         $replacements = [
             // Date/time extraction
             '/\bHOUR\s*\(/i'      => 'toHour(',
+            '/\bMINUTE\s*\(/i'    => 'toMinute(',
             '/\bDAYOFWEEK\s*\(/i' => 'toDayOfWeek(',
             '/\bWEEK\s*\(/i'      => 'toWeek(',
             '/\bDATE\s*\(/i'      => 'toDate(',
@@ -488,11 +490,18 @@ class ClickhouseDialectTranslator
             // ClickHouse.  Strip them entirely; ClickHouse selects its own scan path.
             '/\s+(?:USE|FORCE|IGNORE)\s+INDEX\s*\([^)]*\)/i' => '',
 
-            // visitor_localtime is stored as a 'HH:MM:SS' string in ClickHouse (MySQL TIME
-            // type has no direct equivalent).  toHour() only accepts DateTime/Date, so we
-            // extract the first two characters and cast to UInt8 instead.
+            // visitor_localtime holds a MySQL TIME, and the two replication paths disagree
+            // about what that becomes: the sink connector writes a 'HH:MM:SS' String, while
+            // ClickPipes writes Time64(6). Neither is accepted by toHour()/toMinute(), which
+            // want a Date or DateTime, and substring() rejects the Time64 outright:
+            //   Illegal type Time64(6) of first argument of function substring
+            // So render it first. toString() is identity on the String mapping and produces
+            // 'HH:MM:SS.ffffff' on Time64, which puts the hour and the minute at the same
+            // offsets either way - verified against both. Cast, because the label is a number.
             '/\btoHour\s*\(([^)]*\bvisitor_localtime\b[^)]*)\)/i'
-                => 'toUInt8(substring($1, 1, 2))',
+                => 'toUInt8(substring(toString($1), 1, 2))',
+            '/\btoMinute\s*\(([^)]*\bvisitor_localtime\b[^)]*)\)/i'
+                => 'toUInt8(substring(toString($1), 4, 2))',
 
             // Type-compatibility fix for CASE WHEN … THEN 'string' ELSE identifier END.
             //

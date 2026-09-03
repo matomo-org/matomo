@@ -28,13 +28,31 @@ class ClickhouseDialectTranslatorTest extends \PHPUnit\Framework\TestCase
         self::assertStringContainsString('concat(x, y)', $translated);
     }
 
-    public function testRewritesHourOnVisitorLocaltimeStringColumn()
+    /**
+     * visitor_localtime holds a MySQL TIME, and the replication paths disagree about what that
+     * becomes: the sink connector writes a 'HH:MM:SS' String, ClickPipes writes Time64(6).
+     * toHour()/toMinute() reject both, and substring() rejects the Time64 - so it is rendered
+     * with toString() first, which is identity on one mapping and 'HH:MM:SS.ffffff' on the
+     * other. Archiving VisitTime died on the corpus that uses the second mapping with
+     * "Illegal type Time64(6) of first argument of function substring".
+     */
+    public function testRewritesHourOnVisitorLocaltimeForEitherColumnMapping()
     {
         $sql = "SELECT HOUR(log_visit.visitor_localtime) AS label FROM t";
         $translated = ClickhouseDialectTranslator::translate($sql);
 
-        self::assertStringContainsString('toUInt8(substring(log_visit.visitor_localtime, 1, 2))', $translated);
+        self::assertStringContainsString('toUInt8(substring(toString(log_visit.visitor_localtime), 1, 2))', $translated);
         self::assertStringNotContainsString('toHour(', $translated);
+    }
+
+    public function testRewritesMinuteOnVisitorLocaltimeForEitherColumnMapping()
+    {
+        $sql = "SELECT MINUTE(log_visit.visitor_localtime) AS label FROM t";
+        $translated = ClickhouseDialectTranslator::translate($sql);
+
+        // Offset 4, because toString() renders HH:MM:SS and the minute is the second field.
+        self::assertStringContainsString('toUInt8(substring(toString(log_visit.visitor_localtime), 4, 2))', $translated);
+        self::assertStringNotContainsString('toMinute(', $translated);
     }
 
     public function testStripsIndexHints()
@@ -370,8 +388,8 @@ class ClickhouseDialectTranslatorTest extends \PHPUnit\Framework\TestCase
 
     public function testDoesNotWrapScalarExpressionThatIsAGroupingExpression()
     {
-        $sql = "SELECT toUInt8(substring(log_visit.visitor_localtime, 1, 2)) AS label, count(*) AS nb "
-            . "FROM log_visit GROUP BY toUInt8(substring(log_visit.visitor_localtime, 1, 2))";
+        $sql = "SELECT toUInt8(substring(toString(log_visit.visitor_localtime), 1, 2)) AS label, count(*) AS nb "
+            . "FROM log_visit GROUP BY toUInt8(substring(toString(log_visit.visitor_localtime), 1, 2))";
         $translated = ClickhouseDialectTranslator::translate($sql);
 
         self::assertStringNotContainsString('any(toUInt8', $translated);
