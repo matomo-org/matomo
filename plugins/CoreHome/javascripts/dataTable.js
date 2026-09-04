@@ -759,7 +759,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             options += '<li class="mtm-dropdownPanel__menuItem" role="none">'
                 + '<a class="mtm-dropdownPanel__menuLink" href="" role="menuitemradio" tabindex="0"'
                 + ' aria-checked="' + (isCurrent ? 'true' : 'false') + '"'
-                + ' data-limit="' + numbers[i] + '">'
+                + ' data-limit="' + piwikHelper.htmlEntities(String(numbers[i])) + '">'
                 + '<span class="mtm-dropdownPanel__menuLabel">'
                 + piwikHelper.htmlEntities(String(currentValue)) + '</span>'
                 + (isCurrent ? '<span class="mtm-dropdownPanel__rightIcon" aria-hidden="true">'
