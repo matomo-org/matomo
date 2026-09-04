@@ -17,7 +17,9 @@
   padding-bottom: @_limitSelection-gap - 4px;
 }
 
+// Flush with the content edge, so the selector lines up with the table and the controls beside it.
+// The breathing room is the container's own padding, which an inset here would double.
 .dataTablePaginationControl .limitSelection {
   position: absolute;
-  right: @_limitSelection-gap;
+  right: 0;
 }
