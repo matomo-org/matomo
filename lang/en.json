@@ -158,6 +158,7 @@
         "ComputedMetricUniqueCount": "Unique %s",
         "ComputedMetricUniqueCountDocumentation": "The unique number of %s",
         "ConfigFileIsNotWritable": "The Matomo configuration file %1$s is not writable, some of your changes might not be saved. %2$s Please change permissions of the config file to make it writable.",
+        "ConfigFileWriteFailed": "The Matomo configuration file %1$s could not be written, although it is writable. The disk or the assigned quota may be full. Your previous configuration has been kept unchanged.",
         "Confirm": "Confirm",
         "Continue": "Continue",
         "ContinueToPiwik": "Continue to Matomo",

@@ -11,6 +11,7 @@ namespace Piwik;
 
 use Exception;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
+use Piwik\Config\ConfigFileWriter;
 use Piwik\Container\StaticContainer;
 use Piwik\Exception\MissingFilePermissionException;
 use Piwik\Plugins\CoreAdminHome\Controller;
@@ -319,6 +320,10 @@ class Config
     {
         $configLocal = $this->getLocalPath();
 
+        // Before the unlink, while the path still resolves. Every temporary file is a
+        // complete copy of the config, so age does not matter here.
+        ConfigFileWriter::sweepTemps($configLocal);
+
         if (file_exists($configLocal)) {
             @unlink($configLocal);
         }
@@ -402,11 +407,20 @@ class Config
         if ($output !== null && $output !== false) {
             $localPath = $this->getLocalPath();
 
+            $allowAtomicWrite = $this->isAtomicWriteEnabled();
+
             if ($this->doNotWriteConfigInTests) {
                 // simulate whether it would be successful
                 $success = is_writable($localPath);
             } else {
-                $success = @file_put_contents($localPath, $output, LOCK_EX);
+                $result = ConfigFileWriter::write($localPath, $output, $allowAtomicWrite);
+
+                if ($result === ConfigFileWriter::FAILED_TARGET_UNCHANGED) {
+                    // Retrying in place would truncate the intact previous contents.
+                    throw $this->getConfigWriteFailedException();
+                }
+
+                $success = $result === ConfigFileWriter::OK;
             }
 
             if ($success === false) {
@@ -415,7 +429,10 @@ class Config
 
             if (!$this->sanityCheck($localPath, $output)) {
                 // If sanity check fails, try to write the contents once more before logging the issue.
-                if (@file_put_contents($localPath, $output, LOCK_EX) === false || !$this->sanityCheck($localPath, $output, true)) {
+                // Must not throw: reached on ordinary requests through
+                // Plugin\Manager::installLoadedPlugins(), which catches nothing.
+                $retry = ConfigFileWriter::write($localPath, $output, $allowAtomicWrite);
+                if ($retry !== ConfigFileWriter::OK || !$this->sanityCheck($localPath, $output, true)) {
                     StaticContainer::get(LoggerInterface::class)->info("The configuration file {$localPath} did not write correctly.");
                 }
             }
@@ -449,6 +466,34 @@ class Config
     {
         $path = "config/" . basename($this->getLocalPath());
         return new MissingFilePermissionException(Piwik::translate('General_ConfigFileIsNotWritable', array("(" . $path . ")", "")));
+    }
+
+    /**
+     * Returns the exception thrown when the config file could not be written even though
+     * it is writable, for example because the disk is full.
+     *
+     * @return MissingFilePermissionException
+     */
+    public function getConfigWriteFailedException()
+    {
+        $path = "config/" . basename($this->getLocalPath());
+        return new MissingFilePermissionException(
+            Piwik::translate('General_ConfigFileWriteFailed', array("(" . $path . ")"))
+        );
+    }
+
+    /**
+     * Whether the config file may be replaced atomically instead of written in place.
+     *
+     * A container parameter, not an INI setting, so it stays integrator-facing.
+     */
+    private function isAtomicWriteEnabled(): bool
+    {
+        try {
+            return (bool) StaticContainer::get('config.atomicwrite.enable');
+        } catch (Exception $e) {
+            return true;   // no container, e.g. in a unit test
+        }
     }
 
     /**
