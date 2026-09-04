@@ -156,6 +156,12 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   materialize `dropdown-content` wrappers. The action classes themselves are unchanged - `.dataTableAction`,
   `.activateExportSelection`, `.annotationView` and `.tableIcon[data-footer-icon-id]` still identify the same actions,
   now inside `.reportHeader__actionsMenu`.
+* **The "rows to display" control is no longer a Materialize select.** `.limitSelection` now holds a
+  `.mtm-selector` - a `button.mtm-selector__trigger` and a panel whose choices are `a[data-limit]`
+  inside `.mtm-dropdownPanel__menu` - so `.select-wrapper`, `input.select-dropdown` and the native
+  `<select>` are gone. Read the current value from the trigger's label and pick one by its
+  `data-limit`. On a report with pagination the control now sits inside
+  `.dataTablePaginationControl` rather than in a row of its own.
 * The "export as image" icon no longer carries the id `dataTableFooterExportAsImageIcon`. It is now scoped to the
   placement it renders in, `dataTableExportAsImageIcon-header`. A page showing several image-exportable reports still
   repeats it, so prefer selecting `.dataTableAction.tableIcon` within the report you mean.
