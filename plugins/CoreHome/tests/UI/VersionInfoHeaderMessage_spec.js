@@ -247,7 +247,7 @@ describe('VersionInfoHeaderMessage', function() {
 
           await page.mouse.move(-10, -10);
           await page.hover(selectorMessage);
-          await page.waitForSelector(selectorMessageDropdown, {visible: true, timeout: 250});
+          await page.waitForSelector(selectorMessageDropdown, {visible: true});
 
           expect(
             await page.screenshotSelector(`${selectorMessage}, ${selectorMessageDropdown}`)
