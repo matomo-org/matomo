@@ -319,6 +319,23 @@ describe('CoreHome/AjaxHelper', () => {
     expect(window.piwikHelper.refreshAfter).toHaveBeenCalledWith(0);
   });
 
+  it('omits a request parameter with an unsupported name', async () => {
+    let requestedUrl = '';
+
+    installUrlCapturingAjaxMock((url) => {
+      requestedUrl = url;
+    });
+
+    await AjaxHelper.fetch({
+      method: 'API.getMatomoVersion',
+      keep: '1',
+      [`drop${String.fromCharCode(0)}x`]: '2',
+    });
+
+    expect(requestedUrl).toContain('keep=1');
+    expect(requestedUrl).not.toContain('drop');
+  });
+
   it('should not replace an explicitly empty segment with the URL segment', async () => {
     let requestedUrl = '';
 
