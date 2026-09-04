@@ -28,4 +28,7 @@ table.subDataTable td.label, table.subDataTable td.column {
 .subDataTable.dataTableFeatures {
   padding-top: 0;
   padding-bottom: 5px;
+  // Escapes the subtable cell's padding the way the rows' scroller does, so both end at one edge.
+  margin-left: -20px;
+  width: ~"calc(100% + 40px)";
 }
