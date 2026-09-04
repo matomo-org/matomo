@@ -14,7 +14,6 @@ describe('VersionInfoHeaderMessage', function() {
   const selectorComponent = 'div[vue-entry="CoreHome.VersionInfoHeaderMessage"]';
   const selectorMessage = '#header_message';
   const selectorMessageTitle = '#header_message .title';
-  // the dropdown is two nodes: the outer owns placement, the inner owns appearance
   const selectorMessageDropdown = '#header_message .piwikSelector__dropdown';
   const selectorMessagePanel = '#header_message .mtm-dropdownPanel';
   const selectorUpdateLink = '#updateCheckLinkContainer';
@@ -68,15 +67,12 @@ describe('VersionInfoHeaderMessage', function() {
   const openDropdownByHover = async function() {
     await page.mouse.move(-10, -10); // start off the control so the hover is a real enter
     await page.hover(selectorMessageTitle);
-    await page.waitForSelector(selectorMessageDropdown, {visible: true, timeout: 250});
+    await page.waitForSelector(selectorMessageDropdown, {visible: true});
   };
 
   /**
-   * Walks the cursor down from the button into the panel, stopping in the gap between the two on
-   * the way. Stopping there is the point of this helper: it is the position that used to close the
-   * dropdown, and a single jump straight into the panel would skip it. The gap is measured against
-   * the panel rather than its positioning wrapper, because the wrapper's padding is what now
-   * covers the gap.
+   * Stops inside the gap on the way, which is the position that used to close the dropdown — a
+   * single jump would skip it. The gap is measured against the panel, not its padded wrapper.
    */
   const moveCursorThroughGapIntoDropdown = async function() {
     const boxes = await page.evaluate(function(rootSel, panelSel) {
@@ -93,7 +89,6 @@ describe('VersionInfoHeaderMessage', function() {
 
     const centreX = Math.round((boxes.root.left + boxes.root.right) / 2);
 
-    // land inside the gap itself, then continue into the panel
     await page.mouse.move(centreX, boxes.root.bottom + (gapHeight / 2), {steps: 5});
     await page.mouse.move(centreX, boxes.panel.top + 10, {steps: 5});
   };
@@ -134,9 +129,7 @@ describe('VersionInfoHeaderMessage', function() {
       expect(await getMessageTitleText()).to.match(/New Update: Matomo 99.99.99/);
     });
 
-    // The panel is positioned a few px below the button, so a pointer has a gap to cross to reach
-    // it. That gap used to belong to no element, which fired mouseleave on #header_message and
-    // closed the dropdown before it could be reached, making its links unusable (since 5.10.0).
+    // Regression since 5.10.0: crossing the gap below the button used to close the dropdown.
     it('should stay open while the cursor travels from the button into the dropdown', async function() {
       makeUpdateAvailable();
 

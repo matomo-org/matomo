@@ -13,16 +13,12 @@
   box-shadow: @theme-shadow-overlay; // theme token, already light/dark aware
   overflow: hidden;
 
-  // A block of running text rather than a menu (e.g. the update notification). An element rather
-  // than a root modifier, so a panel can hold prose and a menu at once instead of having to pick
-  // one shape. Carries its own padding, like the menu links do, on top of the panel's.
+  // A block of running text rather than a menu (e.g. the update notification).
   .mtm-dropdownPanel__text {
     padding: 8px;
     color: @theme-color-text;
 
-    // override: prose is handed to the panel as pre-built markup from translation strings, which
-    // interpolate their own <a> tags, so the links cannot be given a class to target. Restricted
-    // to unclassed links, so a link that carries a class keeps whatever styles that class defines.
+    // override: translation strings interpolate their own <a>, so links carry no class to target.
     a:not([class]) {
       color: @theme-color-link;
       text-decoration: underline;
