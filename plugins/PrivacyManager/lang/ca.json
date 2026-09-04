@@ -182,7 +182,6 @@
         "PleaseEnableVisitorLogsProfiles": "Si necessiteu accedir a les dades d'aquest lloc, activeu els registres de visitants o els perfils de visitants a la %1$sconfiguració del lloc%2$s.",
         "PleaseEnableVisitorLogsProfilesSites": "Si necessiteu accedir a les dades d'aquests llocs, activeu els registres de visitants o els perfils de visitants a la %1$sconfiguració del lloc%2$s.",
         "PluginDescription": "Augmenteu la privadesa dels vostres usuaris i feu que la privadesa de la vostra instància Matomo compleixi amb la vostra legislació local.",
-        "PolicyControlledSetting": "Una política de compliment de la privadesa anul·la aquesta configuració, de manera que canviar-la no té cap efecte ara mateix.",
         "PreviousRawDataAnonymizations": "Anonimitzacions anteriors de dades en brut",
         "PrivacyPolicy": "Política de privacitat",
         "PrivacyPolicyUrl": "URL de la política de privadesa",
