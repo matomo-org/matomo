@@ -166,6 +166,8 @@ class API extends \Piwik\Plugin\API
      */
     public function isVisitorProfileEnabled($idSite): bool
     {
+        Piwik::checkUserHasViewAccess($idSite);
+
         return Live::isVisitorProfileEnabled($idSite);
     }
 
