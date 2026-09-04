@@ -1,0 +1,317 @@
+// Contextual plugin promotion shown above the widgets of a dashboard.
+//
+// Class names deliberately avoid `ad`, `ads`, `advert` and `banner`: ad blocker filter
+// lists match those substrings in class names and asset paths alike, and a promotion
+// hidden by a filter list would look like a rendering bug.
+
+.productPromotion {
+  // The panel's own inset on the side away from the artwork. The tablet container is
+  // drawn with 24px instead, so that layout overrides it.
+  @_paddingRight: 32px;
+  @_paddingRightTablet: 24px;
+  @_gap: 20px;
+  // The inset of the stacked panel, once there is no artwork to sit flush against an
+  // edge. The design uses the same value as the gap between the copy and the button,
+  // which the flex `gap` above already provides.
+  @_padding: @_gap;
+  @_marginBottom: 16px;
+  // Lines the row up with the dashboard's widget columns, which Materialize insets
+  // by the same amount.
+  @_marginSide: 0.5rem;
+  // The artwork's dimensions, and the row height that makes it flush: the artwork plus the
+  // 1px border on each edge. The design gives the artwork a second, larger fixed size for
+  // the tablet layout, where it is what makes the panel as tall as it is.
+  @_figureWidth: 180px;
+  @_figureHeight: 126px;
+  @_rowHeight: @_figureHeight + 2px;
+  @_figureWidthTablet: 200px;
+  @_figureHeightTablet: 184px;
+  @_rowHeightTablet: @_figureHeightTablet + 2px;
+  // One value for every gap inside the copy: the design uses 8px both between the headline
+  // and the body text and between the body text and the note.
+  @_copyGap: 8px;
+  @_titleLineHeight: 22px;
+  // The note's icon and the space between it and the note's first line.
+  @_reasonIconSize: 16px;
+  @_reasonIconGap: 6px;
+  // The dismiss cross, from the design. The 16px is the square the design frames the
+  // cross in; the cross artwork inside that frame is about 11px, which is what the glyph
+  // has to be set to. The colour is a literal rather than a theme token because no token
+  // carries it: the closest, `@theme-color-text-lighter`, is #646464 in light mode, which
+  // is markedly darker than the design's cross.
+  @_dismissIconSize: 16px;
+  @_dismissGlyphSize: 11px;
+  @_dismissInset: 6px;
+  @_dismissIconColor: #a9a9a9;
+  // With the copy on the three lines the design draws it on, this is exactly what makes
+  // the content as tall as the artwork, so the row is flush at full width: 20 + 86 + 20.
+  @_contentPaddingVertical: 20px;
+
+  position: relative;
+  // So the row's height counts its border, and therefore matches the artwork exactly.
+  box-sizing: border-box;
+  display: flex;
+  align-items: safe center;
+  gap: @_gap;
+  // The row is exactly as tall as the artwork, so the two sit flush. `min-height` rather
+  // than `height` because at narrow widths the copy wraps to more lines than this can
+  // hold, and growing the row is better than truncating the message.
+  min-height: @_rowHeight;
+  padding-right: @_paddingRight;
+  margin: 0 @_marginSide @_marginBottom;
+  overflow: hidden;
+  // The design's `theme/color/border`. In code that name is deprecated in favour of the
+  // alternative, which is the token that actually carries the design's #E0E0E0; the light
+  // border token is the warmer #a9a399.
+  border: 1px solid @theme-color-border-alternative;
+  border-radius: 8px;
+  background-color: @theme-color-background-contrast;
+
+  // Stretched to the row, so the artwork it holds is always flush with the top and bottom
+  // edges however tall the copy makes the row.
+  .productPromotion__figure {
+    flex: none;
+    align-self: stretch;
+    width: @_figureWidth;
+  }
+
+  .productPromotion__image {
+    display: block;
+    // The artwork is drawn at its natural size only while the row is exactly as tall as
+    // the artwork. Once the copy wraps to more lines and grows the row, `cover` crops the
+    // artwork's sides rather than leaving a strip of panel above and below it.
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    // Light artwork on a dark surface: the shared token is how Matomo adapts
+    // illustrations, and resolves to `none` in light mode.
+    filter: @theme-filter-on-illustration;
+  }
+
+  .productPromotion__content {
+    flex: auto;
+    min-width: 0;
+    // The right padding keeps the copy clear of the dismiss control, which is positioned
+    // over the top right corner.
+    padding: @_contentPaddingVertical 0;
+  }
+
+  .productPromotion__title {
+    // Morpheus styles the bare `h2` element with `padding: 16px 0`, which would add 32px
+    // of dead space to every banner. Anything the global element rules set has to be
+    // answered here explicitly.
+    padding: 0;
+    margin: 0;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: @_titleLineHeight;
+    color: @theme-color-text;
+  }
+
+  .productPromotion__titleLink {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .productPromotion__titleLink:hover,
+  .productPromotion__titleLink:focus {
+    text-decoration: underline;
+  }
+
+  .productPromotion__titleLink:focus-visible {
+    outline: 2px solid @theme-color-focus-ring;
+    outline-offset: 2px;
+  }
+
+  .productPromotion__text {
+    // CoreHome gives every `p` on a reporting page `padding-bottom: 1em`, which would add
+    // a phantom line of space under each of the two paragraphs below. As with the `h2`
+    // above, what the global element rules set has to be answered here explicitly.
+    padding: 0;
+    margin: @_copyGap 0 0;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16px;
+    color: @theme-color-text-light;
+  }
+
+  .productPromotion__reason {
+    display: flex;
+    // Centred against the note as a whole, which is how the design has it wherever the
+    // note wraps. On a single line, which is the desktop case, this is the same as
+    // aligning to the top.
+    align-items: safe center;
+    gap: @_reasonIconGap;
+    // See `.productPromotion__text` above: CoreHome pads the bottom of every `p` here.
+    padding: 0;
+    // The bottom margin is explicitly zero rather than omitted: Matomo sets no margin on
+    // `p`, so leaving it out would fall through to the browser's own `1em`.
+    margin: @_copyGap 0 0;
+    font-size: 12px;
+    line-height: 14px;
+    color: @theme-color-text-lighter;
+  }
+
+  .productPromotion__reasonIcon {
+    flex: none;
+    // Square, and a little taller than the 14px line it sits on, which is how the design
+    // has it. `icons.css` already sets `line-height: 1`, so the box is exactly this tall.
+    font-size: @_reasonIconSize;
+    color: @theme-color-brand;
+  }
+
+  .productPromotion__cta {
+    flex: none;
+    box-sizing: border-box;
+  }
+
+  // Deliberately not Materialize's .btn: that is 36px tall with 32px of side padding,
+  // uppercased and letter-spaced, which turns "Try Heatmaps & Session Recordings" into a
+  // shouty 213px block and forces the row far taller than the design allows.
+  .productPromotion__ctaButton {
+    display: inline-block;
+    box-sizing: border-box;
+    height: 36px;
+    padding: 0 16px;
+    border: 0;
+    border-radius: 3px;
+    background-color: @theme-color-brand;
+    color: @theme-color-brand-contrast;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: normal;
+    line-height: 36px;
+    text-align: center;
+    text-decoration: none;
+    text-transform: none;
+    letter-spacing: normal;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+
+  .productPromotion__ctaButton:hover,
+  .productPromotion__ctaButton:focus {
+    background-color: @theme-color-brand;
+    color: @theme-color-brand-contrast;
+    text-decoration: none;
+  }
+
+  .productPromotion__ctaButton:focus-visible {
+    outline: 2px solid @theme-color-focus-ring;
+    outline-offset: 2px;
+  }
+
+  // Offset so that the cross artwork inside the 16px frame, not the frame itself, lands
+  // where the design puts it; the 4px padding keeps the click target at 24px.
+  .productPromotion__dismiss {
+    position: absolute;
+    top: @_dismissInset;
+    right: @_dismissInset;
+    padding: 4px;
+    border: 0;
+    border-radius: 3px;
+    background: none;
+    cursor: pointer;
+    color: @_dismissIconColor;
+  }
+
+  .productPromotion__dismiss:hover,
+  .productPromotion__dismiss:focus {
+    color: @theme-color-text;
+  }
+
+  .productPromotion__dismiss:focus-visible {
+    outline: 2px solid @theme-color-focus-ring;
+    outline-offset: -2px;
+  }
+
+  // The 16px square of the design, with the smaller cross glyph centred inside it.
+  .productPromotion__dismissIcon {
+    display: flex;
+    align-items: safe center;
+    justify-content: safe center;
+    width: @_dismissIconSize;
+    height: @_dismissIconSize;
+    font-size: @_dismissGlyphSize;
+    line-height: 1;
+  }
+
+  // Tablet: too narrow for the copy to share a line with the call to action, so the action
+  // moves under the copy while the artwork keeps its own column. A two column grid rather
+  // than a flex row, because the artwork has to span both rows of the right hand column
+  // and the markup is a flat list of the three.
+  //
+  // The artwork is the taller of its two fixed sizes here, and it is what makes the panel
+  // 184px tall; the copy and the action are centred against it by the `1fr` tracks above
+  // and below them.
+  @media (max-width: 992px) {
+    display: grid;
+    grid-template-columns: @_figureWidthTablet 1fr;
+    grid-template-rows: 1fr auto auto 1fr;
+    column-gap: @_gap;
+    // The row's `gap` is a flexbox gap at full width, but on a grid it would also space
+    // out all four tracks, including the two that do the centring.
+    row-gap: 0;
+    min-height: @_rowHeightTablet;
+    padding-right: @_paddingRightTablet;
+
+    .productPromotion__figure {
+      grid-row: 1 / -1;
+      grid-column: 1;
+      width: auto;
+    }
+
+    .productPromotion__content {
+      grid-row: 2;
+      grid-column: 2;
+      // The `1fr` tracks do the centring, so the padding that does it at full width would
+      // only push the copy off centre.
+      padding: 0;
+    }
+
+    // Its own margin rather than the grid's `row-gap`, which would also space out the
+    // `1fr` tracks and leave the copy sitting low.
+    .productPromotion__cta {
+      grid-row: 3;
+      grid-column: 2;
+      margin-top: @_copyGap;
+    }
+  }
+
+  // Too narrow for the artwork at all: it is dropped, and the call to action takes a full
+  // width line of its own beneath the copy. The panel is then sized by its content, since
+  // there is no longer any artwork for it to match, and the copy's breathing room moves
+  // from the row to the panel's own padding.
+  @media (max-width: 720px) {
+    display: flex;
+    flex-wrap: wrap;
+    min-height: 0;
+    // Back to a flex gap, which the tablet layout above zeroes for its grid tracks. This
+    // is what spaces the call to action from the copy once they are on separate lines.
+    row-gap: @_gap;
+    padding: @_padding;
+
+    .productPromotion__figure {
+      display: none;
+    }
+
+    .productPromotion__content {
+      // The row's own padding already insets the copy on every side, and the flex `gap`
+      // provides the space above the call to action.
+      padding: 0;
+    }
+
+    .productPromotion__cta {
+      width: 100%;
+      // The flex `gap` spaces the action from the copy here; the tablet layout's margin
+      // would add to it.
+      margin-top: 0;
+    }
+
+    // Full width, so the one action of the panel is as easy to hit as the design has it.
+    .productPromotion__ctaButton {
+      display: block;
+      width: 100%;
+    }
+  }
+}
