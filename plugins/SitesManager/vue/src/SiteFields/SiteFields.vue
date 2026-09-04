@@ -214,7 +214,13 @@
 </template>
 
 <script lang="ts">
-import { computed, DeepReadonly, defineComponent } from 'vue';
+import {
+  Component,
+  computed,
+  DeepReadonly,
+  defineComponent,
+  PropType,
+} from 'vue';
 import {
   Site,
   MatomoUrl,
@@ -244,7 +250,7 @@ export interface SiteFieldsState {
   editMode: boolean;
   theSite: Site;
   measurableSettings: DeepReadonly<SettingsForSinglePlugin[]>;
-  anonymisationSettings: DeepReadonly<SettingsForSinglePlugin[]>;
+  anonymisationSettings: Record<string, unknown>;
   settingValues: Record<string, unknown>;
   showRemoveDialog: boolean;
   deleteSiteExplanation: string;
@@ -270,7 +276,7 @@ function isSiteNew(site: Site) {
 export default defineComponent({
   props: {
     site: {
-      type: Object,
+      type: Object as PropType<Site>,
       required: true,
     },
     timezoneSupportEnabled: {
@@ -295,9 +301,9 @@ export default defineComponent({
       isLoadingPrivacy: false,
       isSaving: false,
       editMode: false,
-      theSite: { ...(this.site as Site) },
+      theSite: { ...this.site },
       measurableSettings: [],
-      anonymisationSettings: [],
+      anonymisationSettings: {},
       settingValues: {},
       showRemoveDialog: false,
       deleteSiteExplanation: '',
@@ -364,7 +370,7 @@ export default defineComponent({
       this.$emit('editSite', { idSite });
 
       this.measurableSettings = [];
-      this.anonymisationSettings = [];
+      this.anonymisationSettings = {};
 
       if (isSiteNew(this.theSite)) {
         if (!this.currentType) {
@@ -387,7 +393,7 @@ export default defineComponent({
 
       if (this.privacyManagerEnabled && idSite) {
         this.isLoadingPrivacy = true;
-        AjaxHelper.fetch<SettingsForSinglePlugin[]>({
+        AjaxHelper.fetch<Record<string, unknown>>({
           method: 'PrivacyManager.getAnonymisationSettings',
           idSiteSpecific: idSite,
         })
@@ -401,7 +407,7 @@ export default defineComponent({
     },
     onPrivacyUpdated() {
       this.triggerSavePrivacySettings = 'done';
-      this.anonymisationSettings = [];
+      this.anonymisationSettings = {};
     },
     onPrivacyAborted() {
       this.triggerSavePrivacySettings = 'abort';
@@ -640,7 +646,7 @@ export default defineComponent({
         `"${this.theSite.name}" (idSite = ${this.theSite.idsite})`,
       );
     },
-    anonymizeIpComponent() {
+    anonymizeIpComponent(): Component|string {
       if (this.privacyManagerEnabled) {
         return useExternalPluginComponent('PrivacyManager', 'AnonymizeIp');
       }

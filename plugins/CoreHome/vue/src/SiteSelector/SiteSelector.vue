@@ -145,7 +145,7 @@ export interface SiteSelectorState {
 
 export default defineComponent({
   props: {
-    modelValue: Object,
+    modelValue: Object as PropType<SiteRef|null>,
     showSelectedSite: {
       type: Boolean,
       default: false,
