@@ -153,15 +153,9 @@
   }
 }
 
-/* Legacy dropdown: one node carrying placement and appearance at once. Superseded by the
-   .piwikSelector__dropdown + .mtm-dropdownPanel pair below; kept for the selectors still on it
-   (site, period, quick access, TagManager container). Placement and appearance sit on the base
-   class so that `.expanded` only decides *whether* the dropdown shows, never how it looks.
-
-   Every remaining consumer expands on click, which is why the margin below is still safe: it
-   leaves the offset outside the node's box, and only a pointer travelling across that gap is
-   affected. A dropdown that expands on hover must use the pair below instead, whose padding
-   keeps the gap hoverable. */
+/* Legacy dropdown, superseded by the .piwikSelector__dropdown + .mtm-dropdownPanel pair below.
+   Its margin-top is only safe because every remaining consumer expands on click; a hover-expanded
+   one must use the pair below. */
 .piwikSelector {
   .dropdown {
     .font-default(14px, 20px);
@@ -193,11 +187,7 @@
 
 /* Positioning wrapper for a dropdown panel (e.g. .mtm-dropdownPanel).
    Owns placement + show/hide only; appearance belongs to the panel it wraps.
-
-   The offset from the button is padding rather than margin on purpose: padding keeps the gap
-   inside this node's own box, so a pointer travelling from the button down to the panel never
-   leaves the selector. With a margin the gap belonged to no element, which fired mouseleave and
-   closed a hover-expanded dropdown (see the ExpandOnHover directive) before it could be reached. */
+   Padding rather than margin for the offset, so a pointer can cross the gap without leaving. */
 .piwikSelector__dropdown {
   display: none;
 
