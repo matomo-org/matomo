@@ -1,7 +1,7 @@
 /*!
  * Matomo - free/libre analytics platform
  *
- * Dashboard screenshot tests.
+ * VersionInfoHeaderMessage screenshot tests.
  *
  * @link    https://matomo.org
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -14,9 +14,11 @@ describe('VersionInfoHeaderMessage', function() {
   const selectorComponent = 'div[vue-entry="CoreHome.VersionInfoHeaderMessage"]';
   const selectorMessage = '#header_message';
   const selectorMessageTitle = '#header_message .title';
-  const selectorMessageDropdown = '#header_message .dropdown';
+  const selectorMessageDropdown = '#header_message .piwikSelector__dropdown';
+  const selectorMessagePanel = '#header_message .mtm-dropdownPanel';
   const selectorUpdateLink = '#updateCheckLinkContainer';
   const selectorUpdateButtonIcon = '#header_message .title .icon-reload';
+  const selectorDropdownUpdaterLink = `${selectorMessagePanel} a[href*="CoreUpdater"]`;
 
   const urlAdminHome = '?idSite=1&period=year&date=2012-08-09&module=CoreAdminHome&action=home';
   const urlHome = '?idSite=1&period=year&date=2012-08-09&module=CoreHome&action=index';
@@ -49,6 +51,46 @@ describe('VersionInfoHeaderMessage', function() {
     testEnvironment.optionsOverride['UpdateCheck_LatestVersion'] = '99.99.99';
     testEnvironment.optionsOverride['UpdateCheck_LastCheckFailed'] = false;
     testEnvironment.save();
+  };
+
+  const isDropdownOpen = async function() {
+    return await page.evaluate(function(rootSel, dropdownSel) {
+      const root = document.querySelector(rootSel);
+      const dropdown = document.querySelector(dropdownSel);
+
+      // offsetParent covers the `display: none` the dropdown falls back to when not expanded
+      return !!root && root.classList.contains('expanded')
+        && !!dropdown && dropdown.offsetParent !== null;
+    }, selectorMessage, selectorMessageDropdown);
+  };
+
+  const openDropdownByHover = async function() {
+    await page.mouse.move(-10, -10); // start off the control so the hover is a real enter
+    await page.hover(selectorMessageTitle);
+    await page.waitForSelector(selectorMessageDropdown, {visible: true});
+  };
+
+  /**
+   * Stops inside the gap on the way, which is the position that used to close the dropdown — a
+   * single jump would skip it. The gap is measured against the panel, not its padded wrapper.
+   */
+  const moveCursorThroughGapIntoDropdown = async function() {
+    const boxes = await page.evaluate(function(rootSel, panelSel) {
+      const rect = (sel) => {
+        const r = document.querySelector(sel).getBoundingClientRect();
+        return {top: r.top, bottom: r.bottom, left: r.left, right: r.right};
+      };
+
+      return {root: rect(rootSel), panel: rect(panelSel)};
+    }, selectorMessage, selectorMessagePanel);
+
+    const gapHeight = boxes.panel.top - boxes.root.bottom;
+    expect(gapHeight, 'expected a gap between the button and the panel').to.be.above(0);
+
+    const centreX = Math.round((boxes.root.left + boxes.root.right) / 2);
+
+    await page.mouse.move(centreX, boxes.root.bottom + (gapHeight / 2), {steps: 5});
+    await page.mouse.move(centreX, boxes.panel.top + 10, {steps: 5});
   };
 
   const makeUpdateFail = function() {
@@ -85,6 +127,35 @@ describe('VersionInfoHeaderMessage', function() {
       await page.waitForNetworkIdle();
 
       expect(await getMessageTitleText()).to.match(/New Update: Matomo 99.99.99/);
+    });
+
+    // Regression since 5.10.0: crossing the gap below the button used to close the dropdown.
+    it('should stay open while the cursor travels from the button into the dropdown', async function() {
+      makeUpdateAvailable();
+
+      await page.goto(urlHome);
+      await page.waitForNetworkIdle();
+
+      await openDropdownByHover();
+      await moveCursorThroughGapIntoDropdown();
+
+      expect(await isDropdownOpen()).to.be.true;
+    });
+
+    it('should let a link inside the dropdown be clicked', async function() {
+      makeUpdateAvailable();
+
+      await page.goto(urlHome);
+      await page.waitForNetworkIdle();
+
+      await openDropdownByHover();
+      await moveCursorThroughGapIntoDropdown();
+
+      // the cursor is already inside the panel, so this clicks the way a user would
+      await page.click(selectorDropdownUpdaterLink);
+      await page.waitForNetworkIdle();
+
+      expect(await page.url()).to.match(/module=CoreUpdater/);
     });
   });
 
@@ -176,7 +247,7 @@ describe('VersionInfoHeaderMessage', function() {
 
           await page.mouse.move(-10, -10);
           await page.hover(selectorMessage);
-          await page.waitForSelector(selectorMessageDropdown, {visible: true, timeout: 250});
+          await page.waitForSelector(selectorMessageDropdown, {visible: true});
 
           expect(
             await page.screenshotSelector(`${selectorMessage}, ${selectorMessageDropdown}`)

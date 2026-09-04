@@ -13,7 +13,7 @@
 @_selector-dropdown_padding: 16px;
 @_selector-dropdown_box-shadow: ~"0 0 3px #A5B1CA4D, 0 10px 40px #A5B1CA4D";
 @_selector-dropdown_box-shadow-dark: ~"0 0 3px #00000080, 0 10px 40px #00000080";
-@_selector-dropdown_margin-top: 8px;
+@_selector-dropdown_offset-top: 8px;
 
 .piwikSelector:not(.quick-access) {
   position: relative;
@@ -153,7 +153,10 @@
   }
 }
 
-/* Dropdown */
+/* Legacy dropdown, superseded by the .piwikSelector__dropdown + .mtm-dropdownPanel pair below.
+   Appearance stays scoped to .expanded: some consumers render a .dropdown that never expands, and
+   positioning those unconditionally reparents their descendants (it moved SegmentEditor's inline
+   selectors). Untangling this needs its consumers migrated to the pair below. */
 .piwikSelector {
   .dropdown {
     .font-default(14px, 20px);
@@ -167,7 +170,7 @@
       position: absolute;
       z-index: 999;
       top: 100%;
-      margin-top: @_selector-dropdown_margin-top;
+      margin-top: @_selector-dropdown_offset-top;
       left: -1px;
 
       border: @_selector-dropdown_border;
@@ -191,14 +194,15 @@
 }
 
 /* Positioning wrapper for a dropdown panel (e.g. .mtm-dropdownPanel).
-   Owns placement + show/hide only; appearance belongs to the panel it wraps. */
+   Owns placement + show/hide only; appearance belongs to the panel it wraps.
+   Padding rather than margin for the offset, so a pointer can cross the gap without leaving. */
 .piwikSelector__dropdown {
   display: none;
 
   position: absolute;
   z-index: 1020; /* More than .jqplot-seriespicker-popover (1010) */
   top: 100%;
-  margin-top: @_selector-dropdown_margin-top;
+  padding-top: @_selector-dropdown_offset-top;
   left: -1px;
 }
 
