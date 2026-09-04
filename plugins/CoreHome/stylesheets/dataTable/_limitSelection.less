@@ -8,12 +8,6 @@
 
 .limitSelection {
   text-align: right;
-  padding-right: 0 !important;
-  padding-left: 0 !important;
-}
-
-.limitSelection.hidden {
-  display: none;
 }
 
 // The counter stays centred on the full width, so the selector is taken out of the flow rather than
@@ -25,6 +19,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  // The line is also a grid `.row`, whose negative side gutters the dashboard cancels and other
+  // hosts keep. The selector is offset from this box, so an inset measured against it would differ
+  // per host; zeroing them makes that box the content box everywhere. Flex already lays the line
+  // out, so the gutters have nothing left to serve here.
+  margin-left: 0;
+  margin-right: 0;
 }
 
 // Only the lines that carry the control: a report that paginates without offering it would gain

@@ -4,7 +4,7 @@
 {% set showLimitSelection = not isDataTableEmpty and (properties.show_footer_icons and properties.show_pagination_control or properties.show_limit_control) %}
 {% set hasPagination = not isDataTableEmpty and (properties.show_offset_information or properties.show_pagination_control) %}
 
-        {% if hasPagination %}
+        {% if hasPagination or showLimitSelection %}
             <div class="row dataTablePaginationControl{% if showLimitSelection %} dataTablePaginationControl--withLimit{% endif %}">
                 {% if properties.show_pagination_control %}
                     <span class="dataTablePrevious">&lsaquo; {% if clientSideParameters.dataTablePreviousIsFirst is defined %}{{ 'General_First'|translate }}{% else %}{{ 'General_Previous'|translate }}{% endif %}</span>
@@ -16,8 +16,10 @@
                 {% if properties.show_pagination_control %}
                     &nbsp;<span class="dataTableNext">{{ 'General_Next'|translate }} &rsaquo;</span>
                 {% endif %}
-                {# The limit joins the pagination line where there is one. A graph has none, so its
-                   selector keeps the line below, under the legend. #}
+                {# This line is the selector's only home, carried whether or not it also holds
+                   pagination. A second placement elsewhere drifts from this one: the grid cell that
+                   used to serve the unpaginated case sat 20 to 32px further right, and left the card
+                   entirely on a host that pads little, such as a dashboard widget. #}
                 {% if showLimitSelection %}
                     <div class="limitSelection"></div>
                 {% endif %}
@@ -28,10 +30,6 @@
             <div class="col s9 m9 dataTableControls">
                 {% include "@CoreHome/_dataTableActions.twig" %}
             </div>
-
-            {% if showLimitSelection and not hasPagination %}
-                <div class="col s3 m3 limitSelection"></div>
-            {% endif %}
         </div>
 
         {% if (properties.related_reports is not empty) and properties.show_related_reports %}
