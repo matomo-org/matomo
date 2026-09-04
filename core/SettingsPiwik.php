@@ -202,15 +202,21 @@ class SettingsPiwik
             || $currentUrl !== $url
         ) {
             $host = Url::getHostFromUrl($currentUrl);
+            // an untrusted forwarded host falls back to the proxy-facing name, not the public one
+            $hasTrustedProxyHost = Url::hasTrustedProxyHost();
 
             if (
                 strlen($currentUrl) >= strlen('http://a/')
                 && Url::isValidHost($host)
                 && !Url::isLocalHost($host)
+                && $hasTrustedProxyHost
             ) {
                 self::overwritePiwikUrl($currentUrl);
             }
-            $url = $currentUrl;
+
+            if ($hasTrustedProxyHost || empty($url)) {
+                $url = $currentUrl;
+            }
         }
 
         if (ProxyHttp::isHttps()) {

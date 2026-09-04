@@ -74,6 +74,74 @@ class UrlTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($test[4], Url::getCurrentHost(), $description);
     }
 
+    public function testConfiguredProxyHostIsUsedForTrustedHostCheck()
+    {
+        Url::setHost('matomo-app');
+        $_SERVER['HTTP_X_FORWARDED_HOST'] = 'example.org';
+        Config::getInstance()->General['proxy_host_headers'] = ['HTTP_X_FORWARDED_HOST'];
+        Config::getInstance()->General['enable_trusted_host_check'] = 1;
+        Config::getInstance()->General['trusted_hosts'] = ['example.org'];
+
+        $this->assertTrue(Url::isValidHost());
+        $this->assertSame('example.org', Url::getCurrentHost());
+    }
+
+    public function testUntrustedConfiguredProxyHostIsRejected()
+    {
+        Url::setHost('matomo-app');
+        $_SERVER['HTTP_X_FORWARDED_HOST'] = 'untrusted.example.net';
+        Config::getInstance()->General['proxy_host_headers'] = ['HTTP_X_FORWARDED_HOST'];
+        Config::getInstance()->General['enable_trusted_host_check'] = 1;
+        Config::getInstance()->General['trusted_hosts'] = ['example.org'];
+
+        $this->assertFalse(Url::isValidHost());
+        $this->assertSame('example.org', Url::getCurrentHost());
+    }
+
+    public function testUntrustedConfiguredProxyHostIsNotUsedForThePiwikUrl()
+    {
+        Url::setHost('matomo-app');
+        $_SERVER['HTTP_X_FORWARDED_HOST'] = 'untrusted.example.net';
+        Config::getInstance()->General['proxy_host_headers'] = ['HTTP_X_FORWARDED_HOST'];
+        Config::getInstance()->General['enable_trusted_host_check'] = 1;
+        Config::getInstance()->General['trusted_hosts'] = ['example.org'];
+
+        $this->assertFalse(Url::hasTrustedProxyHost());
+    }
+
+    public function testHostHeaderAloneCountsAsATrustedProxyHost()
+    {
+        Url::setHost('example.org');
+        unset($_SERVER['HTTP_X_FORWARDED_HOST']);
+        Config::getInstance()->General['proxy_host_headers'] = ['HTTP_X_FORWARDED_HOST'];
+        Config::getInstance()->General['enable_trusted_host_check'] = 1;
+        Config::getInstance()->General['trusted_hosts'] = ['example.org'];
+
+        $this->assertTrue(Url::hasTrustedProxyHost());
+    }
+
+    public function testAnEchoedUntrustedHostIsNotATrustedProxyHost()
+    {
+        Url::setHost('untrusted.example.net');
+        $_SERVER['HTTP_X_FORWARDED_HOST'] = 'untrusted.example.net';
+        Config::getInstance()->General['proxy_host_headers'] = ['HTTP_X_FORWARDED_HOST'];
+        Config::getInstance()->General['enable_trusted_host_check'] = 1;
+        Config::getInstance()->General['trusted_hosts'] = ['example.org'];
+
+        $this->assertFalse(Url::hasTrustedProxyHost());
+    }
+
+    public function testDefaultHostIsNotSeededIntoTrustedHostsWithoutARequestHost()
+    {
+        unset($_SERVER['HTTP_HOST'], $_SERVER['SERVER_NAME'], $_SERVER['SERVER_PORT']);
+        Config::getInstance()->General['proxy_host_headers'] = [];
+        Config::getInstance()->General['enable_trusted_host_check'] = 1;
+        Config::getInstance()->General['trusted_hosts'] = [];
+
+        $this->assertSame('unknown', Url::getCurrentHost());
+        $this->assertSame([], Config::getInstance()->General['trusted_hosts']);
+    }
+
     public function testGetHostWithTrustedHosts()
     {
         Config::getInstance()->General['enable_trusted_host_check'] = 1;
