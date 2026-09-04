@@ -749,6 +749,8 @@ class API extends \Piwik\Plugin\API
      */
     public function isPeriodAllowed($idSite, $period, $date): bool
     {
+        Piwik::checkUserHasViewAccess($idSite);
+
         $maxPeriodAllowed = Transitions::getPeriodAllowedConfig($idSite);
         if ($maxPeriodAllowed === 'all') {
             return true;
