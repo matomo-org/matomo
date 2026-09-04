@@ -57,6 +57,41 @@
     transform: rotate(180deg);
   }
 
+
+}
+
+// The list is rendered into the body rather than inside the selector, so that a modal or any
+// other scrolling ancestor cannot clip it. That puts it outside the block above, so it is styled
+// here through its own class: `.expandableList` alone would also match SegmentEditor's unrelated
+// legacy list (plugins/SegmentEditor/javascripts/Segmentation.js).
+//
+// Positioned against the viewport by the component, which measures the field it belongs to and
+// keeps the two together while anything scrolls.
+.expandableSelector__list {
+  position: fixed;
+  z-index: 9999;
+  background: @theme-color-background-contrast;
+  color: @theme-color-text;
+  border: 1px solid @theme-color-border;
+  border-radius: 8px;
+  box-shadow: 0 0 3px #A5B1CA4D, 0 10px 40px #A5B1CA4D;
+  overflow: hidden;
+
+  .inDarkMode({
+    box-shadow: 0 0 3px #00000080, 0 10px 40px #00000080;
+  });
+
+  .collection {
+    background: @theme-color-background-contrast;
+    border-color: @theme-color-border;
+  }
+
+  .collection .collection-item {
+    background: @theme-color-background-contrast;
+    border-color: @theme-color-border;
+    color: @theme-color-text;
+  }
+
   .secondary-content {
     font-size: 16px;
     margin-top: -3px;
@@ -133,38 +168,5 @@
     font-size: 11px !important;
     color: @theme-color-text !important;
     width: 100% !important;
-  }
-
-  .expandableList {
-    position: absolute;
-    z-index: 9999;
-    margin-top: 8px;
-    background: @theme-color-background-contrast;
-    color: @theme-color-text;
-    border: 1px solid @theme-color-border;
-    border-radius: 8px;
-    box-shadow: 0 0 3px #A5B1CA4D, 0 10px 40px #A5B1CA4D;
-    overflow: hidden;
-
-    .inDarkMode({
-      box-shadow: 0 0 3px #00000080, 0 10px 40px #00000080;
-    });
-
-    .collection {
-      background: @theme-color-background-contrast;
-      border-color: @theme-color-border;
-    }
-
-    .collection .collection-item {
-      background: @theme-color-background-contrast;
-      border-color: @theme-color-border;
-      color: @theme-color-text;
-    }
-  }
-
-  // placed after the .expandableList rule so the equal-specificity margin wins
-  .expandableSelector__list--above {
-    bottom: ~"calc(100% + 8px)";
-    margin-top: 0;
   }
 }

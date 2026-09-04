@@ -41,12 +41,29 @@ const availableOptions = [
 
 function mountSelect(props = {}) {
   return mount(FieldExpandableSelect as any, {
+    attachTo: document.body,
     props: {
       availableOptions,
       ...props,
     },
   });
 }
+
+// the option list is teleported to the body so that a scrolling ancestor cannot clip it, which
+// puts it outside the mounted wrapper
+function findInBody(selector: string): HTMLElement {
+  const element = document.body.querySelector(selector);
+
+  if (!element) {
+    throw new Error(`no element matching ${selector}`);
+  }
+
+  return element as HTMLElement;
+}
+
+afterEach(() => {
+  document.body.innerHTML = '';
+});
 
 describe('CorePluginsAdmin/FormField/FieldExpandableSelect', () => {
   it('defaults searchOnGroup to false', () => {
@@ -101,52 +118,63 @@ describe('CorePluginsAdmin/FormField/FieldExpandableSelect', () => {
   });
 
   describe('viewport fitting', () => {
-    function mockRect(element: Element, top: number) {
+    function mockRect(element: Element, top: number, height = 0) {
       Object.defineProperty(element, 'getBoundingClientRect', {
         value: () => ({
-          top, bottom: top, left: 0, right: 0, width: 0, height: 0,
+          top, bottom: top + height, left: 0, right: 0, width: 0, height,
         }),
       });
+    }
+
+    // The list is positioned from the field, so the fixtures describe a layout that could exist:
+    // a field of a real height, and a search box of a known height above the options. The 8px
+    // between the field and the list is the gap the component leaves.
+    const FIELD_HEIGHT = 30;
+    const SEARCH_HEIGHT = 50;
+
+    function layOut(wrapper: ReturnType<typeof mountSelect>, fieldTop: number) {
+      mockRect(wrapper.find('.select-wrapper').element, fieldTop, FIELD_HEIGHT);
+      mockRect(findInBody('.expandableList'), 0);
+      mockRect(findInBody('.firstLevel'), SEARCH_HEIGHT);
     }
 
     it('clamps the list to the space below the field when enough remains', async () => {
       const wrapper = mountSelect();
       vi.stubGlobal('innerHeight', 800);
-      mockRect(wrapper.find('.firstLevel').element, 300);
+      layOut(wrapper, 300);
 
       await wrapper.find('.select-wrapper').trigger('click');
       await wrapper.vm.$nextTick();
 
-      expect(wrapper.find('.expandableList').classes()).not.toContain('expandableSelector__list--above');
-      expect((wrapper.find('.firstLevel').element as HTMLElement).style.maxHeight).toBe('484px');
+      // 800 - (300 + 30) - 8 - 50 - 16
+      expect(findInBody('.expandableList').classList).not.toContain('expandableSelector__list--above');
+      expect(findInBody('.firstLevel').style.maxHeight).toBe('396px');
     });
 
     it('opens above the field when the space below is too small', async () => {
       const wrapper = mountSelect();
       vi.stubGlobal('innerHeight', 400);
-      mockRect(wrapper.find('.firstLevel').element, 350);
-      mockRect(wrapper.find('.expandableList').element, 300);
-      mockRect(wrapper.find('.select-wrapper').element, 292);
+      // 4px below and 218px above, so it flips and takes the room above
+      layOut(wrapper, 292);
 
       await wrapper.find('.select-wrapper').trigger('click');
       await wrapper.vm.$nextTick();
 
-      expect(wrapper.find('.expandableList').classes()).toContain('expandableSelector__list--above');
-      expect((wrapper.find('.firstLevel').element as HTMLElement).style.maxHeight).toBe('218px');
+      expect(findInBody('.expandableList').classList).toContain('expandableSelector__list--above');
+      expect(findInBody('.firstLevel').style.maxHeight).toBe('218px');
     });
 
     it('keeps a usable minimum below when neither side has room', async () => {
       const wrapper = mountSelect();
-      vi.stubGlobal('innerHeight', 400);
-      mockRect(wrapper.find('.firstLevel').element, 350);
-      mockRect(wrapper.find('.expandableList').element, 300);
-      mockRect(wrapper.find('.select-wrapper').element, 60);
+      vi.stubGlobal('innerHeight', 300);
+      // 96px below and 26px above, so neither side reaches the 150px minimum and below wins
+      layOut(wrapper, 100);
 
       await wrapper.find('.select-wrapper').trigger('click');
       await wrapper.vm.$nextTick();
 
-      expect(wrapper.find('.expandableList').classes()).not.toContain('expandableSelector__list--above');
-      expect((wrapper.find('.firstLevel').element as HTMLElement).style.maxHeight).toBe('150px');
+      expect(findInBody('.expandableList').classList).not.toContain('expandableSelector__list--above');
+      expect(findInBody('.firstLevel').style.maxHeight).toBe('150px');
     });
   });
 });
