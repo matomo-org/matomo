@@ -1,0 +1,104 @@
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+// Column counts step down from five. The breakpoints have to stay in step with the
+// --singleRow rules below, which show exactly one row's worth of cards at each width.
+.pluginGrid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 16px;
+
+  @media (max-width: 1800px) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  @media (max-width: 1520px) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  @media (max-width: 1280px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media (max-width: 760px) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+// A curated section shows one row of cards, so the cut has to match the column count at every
+// width. Below three columns it shows two rows instead, or a section would be a single card.
+.pluginGrid--singleRow {
+  > :nth-child(n + 6) {
+    display: none;
+  }
+
+  @media (max-width: 1800px) {
+    > :nth-child(n + 5) {
+      display: none;
+    }
+  }
+
+  @media (max-width: 1520px) {
+    > :nth-child(n + 4) {
+      display: none;
+    }
+  }
+
+  @media (max-width: 1280px) {
+    > :nth-child(n + 5) {
+      display: none;
+    }
+  }
+
+  @media (max-width: 760px) {
+    > :nth-child(n + 3) {
+      display: none;
+    }
+  }
+}
+
+.marketplaceEmptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 80px 0;
+}
+
+.marketplaceEmptyState__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: @theme-color-background-base;
+  color: @theme-color-text-light;
+}
+
+// Doubled selector: this is a <p>, see the note in PluginCard.less about `.admin p`.
+.marketplaceEmptyState .marketplaceEmptyState__message {
+  margin: 16px 0 0;
+  padding-bottom: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: @theme-color-text;
+}
+
+.marketplaceEmptyState__reset {
+  margin-top: 12px;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  font-size: 13px;
+  color: @theme-color-link;
+
+  &:hover,
+  &:focus-visible {
+    text-decoration: underline;
+  }
+}

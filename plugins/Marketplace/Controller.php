@@ -244,17 +244,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view = $this->configureViewAndCheckPermission('@Marketplace/overview');
 
         $view->isValidConsumer = $this->consumer->isValidConsumer();
-        $view->pluginTypeOptions = array(
-            'plugins' => Piwik::translate('General_Plugins'),
-            'premium' => Piwik::translate('Marketplace_PaidPlugins'),
-            'themes' => Piwik::translate('CorePluginsAdmin_Themes'),
-        );
-        $view->pluginSortOptions = array(
-            Sort::METHOD_LAST_UPDATED => Piwik::translate('Marketplace_SortByLastUpdated'),
-            Sort::METHOD_POPULAR => Piwik::translate('Marketplace_SortByPopular'),
-            Sort::METHOD_NEWEST => Piwik::translate('Marketplace_SortByNewest'),
-            Sort::METHOD_ALPHA => Piwik::translate('Marketplace_SortByAlpha'),
-        );
+        // the tab bar and the sort menu build their own options client-side, from the catalogue
+        // and from a fixed list respectively, so the view no longer carries either
         $view->defaultSort = Sort::DEFAULT_SORT;
         $view->installNonce = Nonce::getNonce(static::INSTALL_NONCE);
         $view->updateNonce = Nonce::getNonce(static::UPDATE_NONCE);
@@ -413,6 +404,17 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'priceFrom',
             'downloadNonce',
             'consumer',
+            // the overview page groups, filters and sorts the list on the client, so the fields it
+            // orders and tabs by have to travel with the card. lastUpdated is the display string;
+            // lastUpdatedRaw is the one to sort on, see Plugins::enrichPluginInformation().
+            'category',
+            'isTheme',
+            'lastUpdated',
+            'lastUpdatedRaw',
+            'createdDateTime',
+            'bundle',
+            // a bundle's seat tier, so the grid can compare tiers without opening each bundle
+            'bundleSeats',
             // not rendered on a card, but the modal falls back to the card row when its own request
             // fails, and without these a bundle renders there as an ordinary plugin
             'isBundle',

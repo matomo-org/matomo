@@ -1,0 +1,67 @@
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+.sortMenu {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.sortMenu__trigger {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 32px;
+  padding: 0 12px;
+  border: 1px solid @theme-color-border-alternative;
+  border-radius: 4px;
+  background: @theme-color-background-contrast;
+  cursor: pointer;
+  font-size: 13px;
+  color: @theme-color-text;
+  transition: border-color 0.15s ease-out;
+
+  &:hover {
+    border-color: @theme-color-brand;
+  }
+}
+
+.sortMenu__menu {
+  position: absolute;
+  right: 0;
+  z-index: 20;
+  margin-top: 4px;
+  width: 208px;
+  padding: 4px 0;
+  border: 1px solid @theme-color-border-alternative;
+  border-radius: 4px;
+  background: @theme-color-background-contrast;
+  box-shadow: @theme-shadow-overlay;
+}
+
+.sortMenu__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  height: 32px;
+  padding: 0 12px;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  text-align: left;
+  font-size: 13px;
+  color: @theme-color-text;
+
+  &:hover {
+    background: @theme-color-background-base;
+  }
+}
+
+.sortMenu__check {
+  color: @theme-color-brand;
+}

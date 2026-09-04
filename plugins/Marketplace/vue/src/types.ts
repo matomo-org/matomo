@@ -96,6 +96,13 @@ export interface PluginCard {
   licenseStatus: string;
   downloadNonce?: string; // only present for a plugin that can be downloaded
   isBundle?: boolean; // only sent for a plugin the Marketplace flags as one
+  isTheme: boolean;
+  category: string; // "uncategorised" for most of the catalogue
+  lastUpdated: string; // localised for display, e.g. "Jun 8, 2026" - never sort on this
+  lastUpdatedRaw: string | null; // "2026-06-08 06:34:21", the value to sort on
+  createdDateTime: string | null; // "2017-05-17 06:34:21"
+  bundle?: TObject; // has a nested plugins array; only sent for a bundle
+  bundleSeats?: number; // seat tier of a bundle; absent when the tier carries no number
 }
 
 /**
@@ -104,15 +111,12 @@ export interface PluginCard {
  */
 export interface PluginDetails extends PluginCard {
   homepage: string | null;
-  createdDateTime: string | unknown; // "2017-05-17 06:34:21"
   donate: [];
   support: [];
-  isTheme: boolean;
   keywords: string[];
   basePrice: number;
   authors: TObjectArray;
   repositoryUrl: string | null;
-  lastUpdated: string;
   latestVersion: string;
   screenshots: string[];
   previews: TObjectArray;

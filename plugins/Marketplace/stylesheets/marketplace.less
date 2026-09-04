@@ -47,271 +47,57 @@
     }
 }
 
+// The redesign's accent palette, taken from the approved prototype.
+//
+// These are deliberately not @theme-color-* tokens. The mint plate and the mint/teal chip pair are
+// what make the page read as the Marketplace, and no token carries them: the closest,
+// @theme-color-menu-contrast-*, is deprecated in 6.0. Everything else on the page - text, borders,
+// links, surfaces, the brand colour on buttons - does go through tokens.
+//
+// marketplace.less is registered first in Marketplace::getStylesheetFiles(), so these resolve in
+// the component stylesheets that follow it. The dark values are interim, pending the designer.
+@marketplace-plate-bg: #f3fdff;
+@marketplace-plate-ring: #ccf6f5;
+@marketplace-accent-bg: #e1fbfb;
+@marketplace-accent-text: #186f72;
+@marketplace-card-hover-border: #bfe7e9;
+
+@marketplace-plate-bg-dark: #16302f;
+@marketplace-plate-ring-dark: #1d3f3e;
+@marketplace-accent-bg-dark: #16302f;
+@marketplace-accent-text-dark: #4ad3dc;
+@marketplace-card-hover-border-dark: #2f5e5e;
+
+// CoreHome/coreHome.less caps every admin page at 1300px. The plugin grid is designed to reach
+// five columns, which does not fit in that, so the overview page opts out and takes its own cap.
+//
+// Scoped with :has() so no other admin page is touched - `.marketplace` is used by
+// overview.twig alone, and sits as a direct child of #content. :has() is already relied on in
+// core CSS (CoreHome/PeriodSelector, CoreVisualizations/MetricsPicker).
+//
+// 1920px rather than none: the grid stops at five columns, so an uncapped page just makes the
+// cards grow. This keeps them near the ~340px the design draws them at.
+#content.admin:has(> .marketplace) {
+    max-width: 1920px;
+
+    // #content.admin is inline-block, so its width is whatever its content happens to ask for.
+    // The overview page's white panel has to span the page rather than the widest card row, or
+    // the hero's centred title and search box sit off centre inside a shrunk-to-fit box.
+    display: block;
+}
+
 .marketplace {
-    max-width: 1300px;
-
-    .enrichedHeadline {
-        min-height: 27px;
-    }
-
-    .marketplaceActions.row,
-    .pluginListContainer.row {
-        margin: 0 -0.75rem;
-    }
-
-    .marketplaceActions.row {
-        margin-top: 20px;
-    }
 
     .btn.disabled,
     .btn[disabled] {
         color: #858585 !important;
     }
 
-    .marketplaceActions {
-        margin-bottom: 0;
-    }
-
-    .plugin-search {
-        position: relative;
-        margin-right: 20px;
-        .icon-search {
-            position: absolute;
-            bottom: 32px;
-            right: -16px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-    }
-
-    .card-holder {
-        text-decoration: none;
-        display: block;
-        border-radius: 4px;
-
-        &:hover {
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            cursor: pointer;
-
-            .card {
-                .card-title-link {
-                    .card-title {
-                        color: #1976d2 !important;
-                    }
-
-                    .card-title-chevron {
-                        visibility: visible;
-                    }
-                }
-            }
-        }
-
-        .card {
-            display: flex;
-            flex-direction: column;
-            flex-grow: 0;
-            position: relative;
-            margin-top: 8px;
-            height: 550px;
-            border: 1px solid @theme-color-border;
-            border-radius: 4px;
-            overflow: visible;
-            box-shadow: 0 4px 8px @theme-color-boxShadow;
-            transition: box-shadow 0.3s ease;
-            text-decoration: none;
-            color: @theme-color-text-highContrast;
-
-            @media (max-width: 480px) {
-                height: 380px; // as there's no image
-            }
-            @media (min-width: 601px) and (max-width: 767px), (min-width: 992px) and (max-width: 1200px) {
-                height: 520px;
-            }
-            @media (min-width: 1700px) {
-                height: 580px;
-            }
-            @media (min-width: 1900px) {
-                height: 610px;
-            }
-
-            .cover-image {
-                width: 100%;
-                max-width: 550px;
-                height: auto;
-                margin: 0 auto 16px;
-
-                @media (max-width: 480px) {
-                    display: none;
-                }
-            }
-
-            .card-content {
-                padding: 24px;
-                display: flex;
-                flex-direction: column;
-                flex-grow: 1;
-
-                .content-container {
-                    flex-grow: 1;
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: space-between;
-                }
-
-                .card-content-bottom {
-                    position: relative;
-                }
-
-                .card-description {
-                    margin: 0;
-
-                    font-size: 16px;
-                    font-style: normal;
-                    font-weight: 400;
-                    line-height: 24px; /* 150% */
-                    letter-spacing: 0.08px;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    display: -webkit-box;
-                    -webkit-box-orient: vertical;
-                    -webkit-line-clamp: 4;
-
-                    @media (max-width: 480px) {
-                        -webkit-line-clamp: 5;
-                    }
-
-                    @media (max-width: 600px) {
-                        -webkit-line-clamp: 2;
-                    }
-
-                    &[data-clamp="2"] {
-                        -webkit-line-clamp: 2;
-
-                        @media (max-width: 480px) {
-                            -webkit-line-clamp: 4;
-                        }
-                    }
-
-                    &[data-clamp="1"] {
-                        -webkit-line-clamp: 1;
-
-                        @media (max-width: 480px) {
-                            -webkit-line-clamp: 3;
-                        }
-                    }
-                }
-
-                .card-title-link {
-                    text-decoration: none;
-
-                    &:focus {
-                        .card-title {
-                            color: #1976d2 !important;
-                        }
-                        .card-title-chevron,
-                        .card-focus {
-                            visibility: visible;
-                            cursor: pointer;
-                        }
-                    }
-                }
-
-                .card-title {
-                    margin: 20px 0 16px;
-                    font-size: 24px;
-                    font-style: normal;
-                    font-weight: 700;
-                    line-height: 32px;
-                }
-
-                .card-focus {
-                    position: absolute;
-                    width: 100%;
-                    height: 100%;
-                    top: 0;
-                    left: 0;
-                    outline: thin dashed;
-                    outline-offset: 1px;
-                    border-radius: 4px;
-                    visibility: hidden;
-                    content: "";
-                    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-                }
-
-                .card-title-chevron {
-                    visibility: hidden;
-                }
-
-                .price {
-                    color: #f18332;
-
-                    font-size: 14px;
-                    font-style: normal;
-                    font-weight: 700;
-                    line-height: 21px; /* 150% */
-                }
-
-                .downloads {
-                    color: #686868;
-
-                    font-size: 16px;
-                    font-style: normal;
-                    font-weight: 700;
-                    line-height: 24px; /* 150% */
-
-                    margin-bottom: 16px;
-                }
-
-                .owner {
-                    color: #686868;
-                    margin-bottom: 8px;
-                    font-size: 14px;
-                    font-weight: 400;
-                    line-height: 24px;
-                }
-            }
-        }
-    }
-
-    .matomo-badge {
-        position: absolute;
-        width: 64px;
-        height: 40px;
-
-        @media (max-width: 480px), (min-width: 601px) and (max-width: 767px), (min-width: 992px) and (max-width: 1200px) {
-            width: 48px;
-            height: 32px;
-        }
-    }
-
-    .matomo-badge-bottom {
-        display: block;
-        right: -5px;
-        bottom: -1px;
-
-        @media (max-width: 480px) {
-            display: none;
-        }
-    }
-
-    .matomo-badge-top {
-        display: none;
-
-        @media (max-width: 480px) {
-            display: block;
-            top: 20px;
-            right: 20px;
-        }
-    }
-
+    // CTAContainer's own markup, which PluginCard wraps. Its states run from a single button to a
+    // two-line alert, and the alert has to sit flush inside the card rather than as a banner.
     .cta-container {
-        width: 70%;
         margin: 0;
         position: relative;
-
-        @media (max-width: 480px) {
-            width: auto;
-        }
 
         .btn.btn-block {
             &:hover,
@@ -322,10 +108,6 @@
             &:focus {
                 outline: thin dotted;
             }
-        }
-
-        .btn.purchaseable {
-            background: #3E7ECF;
         }
 
         .alert {

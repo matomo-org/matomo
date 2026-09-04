@@ -316,6 +316,9 @@ class Plugins
         $plugin['isActivated']  = $this->isPluginActivated($plugin['name']);
         $plugin['isInvalid']    = $this->pluginManager->isPluginThirdPartyAndBogus($plugin['name']);
         $plugin['canBeUpdated'] = $plugin['isInstalled'] && $this->hasPluginUpdate($plugin);
+        // keep the raw value before it becomes a localised display string. The plugin list sorts
+        // by last updated on the client, and "Jun 8, 2026" sorts into a plausible, wrong order.
+        $plugin['lastUpdatedRaw'] = $plugin['lastUpdated'] ?? null;
         $plugin['lastUpdated']  = $this->toShortDate($plugin['lastUpdated']);
         $plugin['canBePurchased'] = !$plugin['isDownloadable'] && !empty($plugin['shop']['url']);
 
@@ -377,6 +380,7 @@ class Plugins
             && empty($this->getCurrentLicenseFor($plugin));
 
         $this->addPriceFrom($plugin);
+        $this->addBundleSeats($plugin);
         $this->addPluginCoverImage($plugin);
         $this->prettifyNumberOfDownloads($plugin);
 
@@ -516,6 +520,32 @@ class Plugins
                 $plugin['priceFrom'] = $variation;
                 return;
             }
+        }
+    }
+
+    /**
+     * A bundle is licensed for one seat tier, and the Marketplace spells that tier into the name of
+     * each shop variation: "Up to 20 users", or "Up to 20 users monthly" for the monthly one. The
+     * overview's cards show it, so resolve it here instead of parsing a display string in the
+     * browser.
+     *
+     * Read off the variation addPriceFrom() already chose, so a card's seat tier and its price can
+     * never describe different variations. A name carrying no number leaves the field unset rather
+     * than inventing one: the Marketplace also sells "Unlimited users.", which has no tier to show.
+     *
+     * Bundles only, deliberately: an individual paid plugin offers all three tiers at once, so
+     * there is no single seat count to put on its card.
+     *
+     * @param $plugin
+     */
+    private function addBundleSeats(&$plugin): void
+    {
+        if (empty($plugin['isBundle'])) {
+            return;
+        }
+
+        if (preg_match('/(\d+)\s*users/i', $plugin['priceFrom']['name'] ?? '', $matches)) {
+            $plugin['bundleSeats'] = (int) $matches[1];
         }
     }
 

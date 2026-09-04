@@ -309,6 +309,7 @@ class PluginsTest extends IntegrationTestCase
                     'homepage' => 'http://geekproject.eu',
                  ],],
             'repositoryUrl' => 'https://github.com/halfdan/piwik-barometer-plugin',
+            'lastUpdatedRaw' => '2014-12-23 00:41:21',
             'lastUpdated' => 'Dec 23, 2014',
             'latestVersion' => '0.5.0',
             'numDownloads' => 0,
@@ -674,6 +675,125 @@ class PluginsTest extends IntegrationTestCase
         // enriching the list must not resolve each updatable plugin's info, which used to cost one
         // extra request per plugin having an update
         $this->assertSame(['plugins', 'plugins/checkUpdates'], $apis);
+    }
+
+    public function testEnrichedPluginKeepsASortableDateAlongsideTheDisplayedOne()
+    {
+        // The overview page sorts by last updated on the client. lastUpdated is localised for
+        // display by then - sorting "Dec 23, 2014" as a string gives a plausible, wrong order -
+        // so enrichment has to keep the raw value too. Without this the bug is silent.
+        $this->service->returnFixture('v2.0_plugins.json');
+        $plugins = $this->plugins->searchPlugins($query = '', $sort = Sort::DEFAULT_SORT, $themesOnly = false);
+
+        self::assertNotEmpty($plugins);
+
+        $checked = 0;
+
+        foreach ($plugins as $plugin) {
+            self::assertArrayHasKey('lastUpdatedRaw', $plugin, $plugin['name']);
+
+            if (empty($plugin['lastUpdatedRaw'])) {
+                continue;
+            }
+
+            self::assertMatchesRegularExpression(
+                '/^\d{4}-\d{2}-\d{2}/',
+                $plugin['lastUpdatedRaw'],
+                sprintf('%s carries a display string where the sortable date belongs', $plugin['name'])
+            );
+            self::assertNotSame(
+                $plugin['lastUpdated'],
+                $plugin['lastUpdatedRaw'],
+                sprintf('%s was never given a localised display date', $plugin['name'])
+            );
+
+            $checked++;
+        }
+
+        self::assertGreaterThan(0, $checked, 'no plugin in the fixture carries a last updated date');
+    }
+
+    public function testEnrichedBundleCarriesItsSeatTierForTheCard()
+    {
+        // A bundle is sold per seat tier, and the Marketplace only spells that tier into the names
+        // of its shop variations. Cards have nothing to show unless enrichment resolves it, and
+        // resolving it in the browser would mean parsing a display string there.
+        $this->service->setOnFetchCallback(function ($action) {
+            if ('plugins' !== $action) {
+                return null;
+            }
+
+            return ['plugins' => [
+                $this->bundleWithSeatTier('TeamBundle', 'Up to 4 users monthly', 'Up to 4 users'),
+                $this->bundleWithSeatTier('BusinessBundle', 'Up to 20 users monthly', 'Up to 20 users'),
+                $this->bundleWithSeatTier('EnterpriseBundle', 'Up to 50 users monthly', 'Up to 50 users'),
+                // Login SAML and WooCommerce Analytics are sold this way: no number to show
+                $this->bundleWithSeatTier('UnlimitedBundle', 'Unlimited users.', 'Unlimited users.'),
+                // an individual paid plugin offers all three tiers at once, so it has no single
+                // seat count and must not be given one
+                $this->bundleWithSeatTier('CustomReports', 'Up to 4 users', 'Up to 50 users', false),
+            ]];
+        });
+
+        $plugins = array_column(
+            $this->plugins->searchPlugins($query = '', $sort = Sort::DEFAULT_SORT, $themesOnly = false),
+            null,
+            'name'
+        );
+
+        self::assertSame(4, $plugins['TeamBundle']['bundleSeats']);
+        self::assertSame(20, $plugins['BusinessBundle']['bundleSeats']);
+        self::assertSame(50, $plugins['EnterpriseBundle']['bundleSeats']);
+        self::assertArrayNotHasKey('bundleSeats', $plugins['UnlimitedBundle']);
+        self::assertArrayNotHasKey('bundleSeats', $plugins['CustomReports']);
+    }
+
+    public function testEnrichedBundleTakesItsSeatTierFromTheVariationItIsPricedFrom()
+    {
+        // The seat tier and the price on a card have to describe the same variation. Reading the
+        // first variation instead of the cheapest one puts "Up to 50 users" next to a four seat
+        // price, and nothing about the card looks wrong.
+        $this->service->setOnFetchCallback(function ($action) {
+            if ('plugins' !== $action) {
+                return null;
+            }
+
+            return ['plugins' => [
+                $this->bundleWithSeatTier('TeamBundle', 'Up to 4 users monthly', 'Up to 50 users'),
+            ]];
+        });
+
+        $plugins = $this->plugins->searchPlugins($query = '', $sort = Sort::DEFAULT_SORT, $themesOnly = false);
+
+        self::assertSame('Up to 4 users monthly', $plugins[0]['priceFrom']['name']);
+        self::assertSame(4, $plugins[0]['bundleSeats']);
+    }
+
+    /**
+     * A bundle as the Marketplace sends it, trimmed to what enrichment reads. $cheapestVariation
+     * is the one addPriceFrom() picks, and it is deliberately not listed first.
+     */
+    private function bundleWithSeatTier(
+        string $name,
+        string $cheapestVariation,
+        string $otherVariation,
+        bool $isBundle = true
+    ): array {
+        return [
+            'name' => $name,
+            'displayName' => $name,
+            'owner' => 'InnoCraft',
+            'isDownloadable' => false,
+            'isBundle' => $isBundle,
+            'lastUpdated' => '2026-06-02 21:42:40',
+            'shop' => [
+                'url' => 'https://plugins.matomo.org/' . $name,
+                'variations' => [
+                    ['name' => $otherVariation, 'period' => 'year', 'cheapest' => false],
+                    ['name' => $cheapestVariation, 'period' => 'month', 'cheapest' => true],
+                ],
+            ],
+        ];
     }
 
     public function testSearchPluginsShouldFlagUpdatablePluginsFromTheUpdateSummary()

@@ -1,0 +1,369 @@
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+// Geometry transcribed from the approved prototype rather than re-derived. Its base type is
+// 14px/20px, which is what makes a three line description exactly 60px.
+@_plateHeight: 151px;
+@_shotWidth: 229px;
+@_shotHeight: 137px;
+@_shotOverhang: 10px;
+@_shotRing: 8px;
+@_descriptionLines: 3;
+@_descriptionLineHeight: 20px;
+@_chipHeight: 26px;
+
+.pluginCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+  border: 1px solid @theme-color-border-alternative;
+  border-radius: 8px;
+  background: @theme-color-background-contrast;
+  cursor: pointer;
+  transition: border-color 0.2s ease-out, box-shadow 0.2s ease-out, transform 0.2s ease-out;
+
+  &:hover {
+    border-color: @marketplace-card-hover-border;
+    box-shadow: @theme-shadow-overlay;
+    transform: translateY(-2px);
+
+    .inDarkMode({
+      border-color: @marketplace-card-hover-border-dark;
+    });
+  }
+}
+
+.pluginCard__plate {
+  position: relative;
+  height: @_plateHeight;
+  border-radius: 4px;
+  overflow: hidden;
+  background: @marketplace-plate-bg;
+
+  .inDarkMode({
+    background: @marketplace-plate-bg-dark;
+  });
+}
+
+// Fixed width and centred, as drawn: the plate frames the screenshot on both sides, and the
+// screenshot overhangs the bottom edge. The card is ~340px at the design's widest tier.
+.pluginCard__shot {
+  position: absolute;
+  left: 50%;
+  bottom: -@_shotOverhang;
+  transform: translateX(-50%);
+  width: @_shotWidth;
+  max-width: calc(100% - 2 * @_shotRing);
+  height: @_shotHeight;
+  border-radius: 4px;
+  overflow: hidden;
+  background: @theme-color-background-contrast;
+  box-shadow: 0 0 0 @_shotRing @marketplace-plate-ring;
+  transition: transform 0.5s ease-out;
+
+  .inDarkMode({
+    box-shadow: 0 0 0 @_shotRing @marketplace-plate-ring-dark;
+  });
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+  }
+}
+
+.pluginCard:hover .pluginCard__shot {
+  transform: translateX(-50%) scale(1.02);
+}
+
+.pluginCard__chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+  // reserved, so a card carrying no chip is not shorter than its neighbours
+  min-height: @_chipHeight;
+}
+
+.pluginCard__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: @_chipHeight;
+  padding: 0 10px;
+  border: 1px solid @theme-color-border-alternative;
+  border-radius: (@_chipHeight / 2);
+  font-size: 12px;
+  line-height: 1;
+  color: @theme-color-text;
+}
+
+.pluginCard__chip--matomo {
+  border-color: transparent;
+  background: @marketplace-accent-bg;
+  color: @marketplace-accent-text;
+
+  .inDarkMode({
+    background: @marketplace-accent-bg-dark;
+    color: @marketplace-accent-text-dark;
+  });
+}
+
+// Nest element for MatomoGlyph, which draws at 18x11 and takes its colour from here.
+.pluginCard__badge {
+  display: flex;
+  color: @theme-color-brand;
+}
+
+.pluginCard__title {
+  margin: 10px 0 0;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 600;
+  // a very long name truncates rather than widening the grid column
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pluginCard__titleLink {
+  color: @theme-color-text;
+
+  &:hover,
+  &:focus-visible {
+    color: @theme-color-link;
+  }
+
+  // Stretched link: this anchor's hit area covers the whole card, so clicking anywhere opens the
+  // details modal without a second, keyboard-unreachable handler on the article. Anything else
+  // clickable in the card has to be lifted above it.
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+}
+
+// Doubled selector on purpose: this is a <p>, and the global `.admin p` rule is (0,1,1), so a
+// single class loses to it. It sets padding-bottom: 10px, which -webkit-line-clamp renders a
+// clipped fourth line into, plus a margin-top and line-height of its own.
+.pluginCard .pluginCard__description {
+  margin: 6px 0 0;
+  padding-bottom: 0;
+  font-size: 14px;
+  line-height: @_descriptionLineHeight;
+  color: @theme-color-text-light;
+  display: -webkit-box;
+  -webkit-line-clamp: @_descriptionLines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: @_descriptionLines * @_descriptionLineHeight;
+}
+
+.pluginCard__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 8px;
+  font-size: 12px;
+  color: @theme-color-text-light;
+}
+
+.pluginCard__updated {
+  display: flex;
+  align-items: safe center;
+  gap: 6px;
+  flex: none;
+  white-space: nowrap;
+}
+
+.pluginCard__updatedIcon {
+  font-size: 14px;
+  line-height: 1;
+}
+
+// Ticked rather than iconless: the seat tier reads as one of the things the bundle gives you,
+// not as metadata about it.
+.pluginCard__seats {
+  display: flex;
+  align-items: safe center;
+  gap: 6px;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pluginCard__seatsIcon {
+  font-size: 13px;
+  line-height: 1;
+  flex: none;
+  color: @theme-color-brand;
+}
+
+.pluginCard__owner {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// CTAContainer renders anything from one button to a two-line alert to nothing at all, for a user
+// who cannot install. mt-auto keeps the action row on the card's bottom edge whichever it is, so
+// a grid row of cards ends level. Reserve a button's height and let it grow past that.
+.pluginCard__actions {
+  position: relative;
+  z-index: 1;
+  margin-top: auto;
+  padding-top: 14px;
+  min-height: 32px;
+
+  // CTAContainer's markup, which this card wraps: the rightmost selector is its class, not ours.
+  // Materialize sizes .btn at 36px/uppercase/2px radius and Matomo's base .btn forces the text
+  // colour with !important, so both have to be answered here to reach the design's buttons.
+  .btn {
+    height: 32px;
+    line-height: 32px;
+    padding: 0 12px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+
+  // Secondary: install, update, more details. Outlined, per the prototype - only a paid call to
+  // action is filled, so a free plugin's Install does not shout louder than a trial.
+  .btn.btn-block:not(.purchaseable):not(.addToCartLink) {
+    border: 1px solid @theme-color-brand;
+    line-height: 30px; // 32px, less the border
+    background: @theme-color-background-contrast;
+    color: @marketplace-accent-text !important;
+
+    &:hover,
+    &:focus {
+      background: @marketplace-accent-bg;
+      color: @marketplace-accent-text !important;
+    }
+
+    .inDarkMode({
+      color: @marketplace-accent-text-dark !important;
+
+      &:hover,
+      &:focus {
+        background: @marketplace-accent-bg-dark;
+        color: @marketplace-accent-text-dark !important;
+      }
+    });
+  }
+
+  // Primary: the paid call to action. Filled with the brand colour - the prototype's #00a3a8 is
+  // not Matomo's teal, so the token wins over the literal here.
+  .btn.purchaseable,
+  .btn.addToCartLink {
+    background: @theme-color-brand;
+    color: @theme-color-brand-contrast !important;
+
+    &:hover,
+    &:focus {
+      background: @theme-color-brand;
+      filter: brightness(0.94);
+    }
+  }
+
+  .btn.purchaseable.disabled {
+    filter: none;
+    opacity: 0.6;
+    cursor: default;
+  }
+}
+
+.pluginCardSkeleton__block,
+.pluginCardSkeleton__chip {
+  display: block;
+  border-radius: 3px;
+  background: @theme-color-background-base;
+  animation: pluginCardSkeletonPulse 1.4s ease-in-out infinite;
+}
+
+.pluginCardSkeleton__chip {
+  width: 96px;
+  height: @_chipHeight;
+  border-radius: (@_chipHeight / 2);
+}
+
+.pluginCardSkeleton__chip--short {
+  width: 80px;
+}
+
+.pluginCardSkeleton__title {
+  width: 112px;
+  height: 16px;
+  margin-top: 10px;
+}
+
+.pluginCardSkeleton__lines {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 8px;
+
+  > .pluginCardSkeleton__block {
+    height: 12px;
+  }
+}
+
+.pluginCardSkeleton__block--short {
+  width: 66%;
+}
+
+.pluginCardSkeleton__meta {
+  width: 96px;
+  height: 12px;
+  margin-top: 12px;
+}
+
+.pluginCardSkeleton__action {
+  height: 32px;
+  margin-top: 12px;
+}
+
+.pluginCard--skeleton {
+  cursor: default;
+
+  &:hover {
+    transform: none;
+    box-shadow: none;
+    border-color: @theme-color-border-alternative;
+  }
+}
+
+@keyframes pluginCardSkeletonPulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.45;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pluginCard,
+  .pluginCard__shot,
+  .pluginCardSkeleton__block,
+  .pluginCardSkeleton__chip {
+    transition: none;
+    animation: none;
+  }
+}
