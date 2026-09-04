@@ -1,8 +1,4 @@
-// Every stylesheet is compiled into one Less scope, where the last definition of a name wins for
-// every use of it, even earlier ones. So these carry the file's name: a bare `@_gap` here would
-// silently become the design system's, which `.mtm-selector` reads for its own spacing.
-//
-// The control is 38px tall against a text line of 18, so the line has to make room for it.
+// One global Less scope: a bare `@_gap` here would replace the design system's for every file.
 @_limitSelection-controlHeight: 38px;
 @_limitSelection-gap: 20px;
 
@@ -10,32 +6,25 @@
   text-align: right;
 }
 
-// The counter stays centred on the full width, so the selector is taken out of the flow rather than
-// sharing it, and centred by the flex line rather than by a transform - which would open a stacking
-// context and trap the panel behind whatever follows the report. The line reserves the height the
-// control overflows, being twice as tall as the text beside it.
+// Out of the flow so the counter stays centred on the full width. Not by a transform, which would
+// open a stacking context and trap the panel behind the next report.
 .dataTablePaginationControl {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  // The line is also a grid `.row`, whose negative side gutters the dashboard cancels and other
-  // hosts keep. The selector is offset from this box, so an inset measured against it would differ
-  // per host; zeroing them makes that box the content box everywhere. Flex already lays the line
-  // out, so the gutters have nothing left to serve here.
+  // The selector is offset from this box, and `.row` gutters differ per host: the dashboard
+  // cancels them, others keep them.
   margin-left: 0;
   margin-right: 0;
 }
 
-// Only the lines that carry the control: a report that paginates without offering it would gain
-// thirty pixels of nothing under an eighteen-pixel line.
+// Only lines that carry the control, which is twice as tall as the text beside it.
 .dataTablePaginationControl--withLimit {
   min-height: @_limitSelection-controlHeight;
   padding-bottom: @_limitSelection-gap - 4px;
 }
 
-// An absolute offset is measured from the padding box, so the line's own padding would never reach
-// the control: it carries the gap itself.
 .dataTablePaginationControl .limitSelection {
   position: absolute;
   right: @_limitSelection-gap;

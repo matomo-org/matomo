@@ -768,8 +768,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         }
 
         var label = piwikHelper.htmlEntities(_pk_translate('General_RowsToDisplay'));
-        // The same shape the report header's controls take, built here rather than in Vue because
-        // the choices and the current value are only known once the table has loaded.
+        // Built here rather than in Vue: the choices are only known once the table has loaded.
         $('.limitSelection', domElem).append(
             '<div class="mtm-selector">'
             + '<button type="button" class="mtm-selector__trigger" title="' + label + '"'
@@ -787,8 +786,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         var $selector = $('.limitSelection .mtm-selector', domElem);
 
         if (self.isEmpty) {
-            // The class dims it; the attribute is what takes it out of the tab order and tells a
-            // screen reader, which `pointer-events: none` alone leaves untouched.
+            // The class only dims it; the attribute is what removes it from the tab order.
             $selector.addClass('disabled')
                 .find('.mtm-selector__trigger').attr('disabled', 'disabled');
             return;
@@ -807,9 +805,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             self.notifyWidgetParametersChange(domElem, data);
         });
     },
-    // One pair for the page however many reports it holds, and rebound rather than added to:
-    // handleLimit runs again after every reload, so a pair per render would pile up on a document
-    // that never detaches them.
+    // Rebound, not added to: handleLimit runs again after every reload and nothing detaches them.
     _bindLimitSelectorDismissal: function () {
         function collapse($selectors) {
             $selectors.removeClass('expanded')
@@ -832,8 +828,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 }
             });
     },
-    // ExpandOnClick does this for the Vue selectors; this one is built by jQuery, so it opens and
-    // closes itself the way .piwikSelector does - by carrying `expanded` on the block.
+    // The Vue selectors get this from ExpandOnClick; this one is jQuery, so it toggles its own class.
     _bindLimitSelector: function ($selector, onPick) {
         var $trigger = $selector.find('.mtm-selector__trigger');
 
@@ -842,9 +837,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             $trigger.attr('aria-expanded', 'false');
         }
 
-        // The propagation is deliberately left alone: the dismissal handler has to see this click
-        // to fold the panels of the other reports, and it leaves this one open because the target
-        // is inside it.
+        // Propagation is left alone: the dismissal handler needs this click to fold the other panels.
         $trigger.on('click', function (event) {
             event.preventDefault();
 

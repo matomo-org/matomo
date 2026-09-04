@@ -16,10 +16,7 @@
                 {% if properties.show_pagination_control %}
                     &nbsp;<span class="dataTableNext">{{ 'General_Next'|translate }} &rsaquo;</span>
                 {% endif %}
-                {# This line is the selector's only home, carried whether or not it also holds
-                   pagination. A second placement elsewhere drifts from this one: the grid cell that
-                   used to serve the unpaginated case sat 20 to 32px further right, and left the card
-                   entirely on a host that pads little, such as a dashboard widget. #}
+                {# The selector's only home: a second placement elsewhere drifts from this one. #}
                 {% if showLimitSelection %}
                     <div class="limitSelection"></div>
                 {% endif %}

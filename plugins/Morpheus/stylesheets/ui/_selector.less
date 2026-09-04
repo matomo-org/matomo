@@ -3,10 +3,7 @@
 // markup. Placement is NOT owned here — the consumer places the selector.
 // Named with the `mtm-` prefix to avoid name conflicts.
 
-// Every stylesheet is compiled into one Less scope, where the last definition of a name wins for
-// every use of it. These carry the block's name so a plugin file loaded later cannot take them over.
-//
-// 20px of line between 8px of padding, plus a border either side, is the platform's 38px.
+// One global Less scope: these carry the block's name so a later file cannot take them over.
 @_selector-paddingVertical: 8px;
 @_selector-paddingHorizontal: 16px;
 @_selector-height: 38px;
