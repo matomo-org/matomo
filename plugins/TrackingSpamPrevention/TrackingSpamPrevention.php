@@ -116,11 +116,7 @@ class TrackingSpamPrevention extends \Piwik\Plugin
             return;
         }
 
-        if (
-            $settings->block_clouds->getValue()
-            && $blockGeoIp->isExcludedProvider($ipString, $browserLang)
-        ) {
-            // only needs to be done when cloud providers are blocked specifically
+        if ($blockGeoIp->isExcludedProvider($ipString, $browserLang)) {
             Common::printDebug("Excluding visit as geoip detects a cloud provider");
             $excluded = 'excluded: geoip cloud provider';
             return;
