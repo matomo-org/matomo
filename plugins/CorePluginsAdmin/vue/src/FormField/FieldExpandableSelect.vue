@@ -16,11 +16,14 @@
       <span class="expandableSelector__chevron icon icon-chevron-down" />
     </div>
 
+    <Teleport to="body">
     <div
       v-show="showSelect"
-      class="expandableList"
+      class="expandableList expandableSelector__list"
       :class="{ 'expandableSelector__list--above': openAbove }"
+      :style="listStyle"
       ref="expandableList"
+      @mousedown="isMouseDownInsideList = true"
     >
 
       <div class="searchContainer">
@@ -75,6 +78,7 @@
         </li>
       </ul>
     </div>
+    </Teleport>
   </div>
 </template>
 
@@ -82,6 +86,9 @@
 import { defineComponent, PropType } from 'vue';
 import { Matomo, FocusAnywhereButHere, FocusIf } from 'CoreHome';
 import AbortableModifiers from './AbortableModifiers';
+
+/** Space left between the field and its list, matching what the stylesheet used to reserve. */
+const LIST_GAP = 8;
 
 export interface SelectValueInfo {
   key: unknown;
@@ -158,6 +165,9 @@ export default defineComponent({
   },
   inheritAttrs: false,
   emits: ['update:modelValue'],
+  beforeUnmount() {
+    this.trackTrigger(false);
+  },
   data() {
     return {
       showSelect: false,
@@ -165,6 +175,9 @@ export default defineComponent({
       showCategory: '',
       optionsListMaxHeight: 0,
       openAbove: false,
+      listStyle: {} as Record<string, string>,
+      // the list is teleported out of this component, so a click in it reads as a click outside
+      isMouseDownInsideList: false,
     };
   },
   computed: {
@@ -207,7 +220,41 @@ export default defineComponent({
 
       if (this.showSelect) {
         this.$nextTick(() => this.fitOptionsList());
+        this.trackTrigger(true);
+        return;
       }
+
+      this.trackTrigger(false);
+    },
+    /**
+     * A floating list is positioned against the viewport, so anything that moves the field has to
+     * move the list with it. Capture, because the ancestor that scrolls is usually not the window.
+     */
+    trackTrigger(isOpen: boolean) {
+      const method = isOpen ? 'addEventListener' : 'removeEventListener';
+      window[method]('scroll', this.fitOptionsList, true);
+      window[method]('resize', this.fitOptionsList);
+    },
+    positionList() {
+      const wrapper = (this.$el as HTMLElement).querySelector('.select-wrapper');
+
+      if (!wrapper) {
+        return;
+      }
+
+      const rect = wrapper.getBoundingClientRect();
+
+      // Positioned absolutely, the list shrank to fit within its containing block - the field -
+      // so the field's width was its upper bound. Fixed positioning makes the viewport the
+      // containing block, so that bound has to be restated or the list grows to fit its longest
+      // option. Still a max rather than a width, so the 250px min-width keeps working.
+      this.listStyle = {
+        left: `${rect.left}px`,
+        maxWidth: `${rect.width}px`,
+        ...(this.openAbove
+          ? { bottom: `${window.innerHeight - rect.top + LIST_GAP}px` }
+          : { top: `${rect.bottom + LIST_GAP}px` }),
+      };
     },
     fitOptionsList() {
       const list = this.$refs.optionsList as HTMLElement|undefined;
@@ -217,31 +264,37 @@ export default defineComponent({
         return;
       }
 
+      const wrapper = (this.$el as HTMLElement).querySelector('.select-wrapper');
+
+      if (!wrapper) {
+        return;
+      }
+
       const minUsableHeight = 150;
       const margin = 16;
-      const listRect = list.getBoundingClientRect();
-      const spaceBelow = Math.floor(window.innerHeight - listRect.top) - margin;
+      const wrapperRect = wrapper.getBoundingClientRect();
+
+      // the search box sits between the top of the dropdown and the top of the list. It is the
+      // distance between two rects of the same element, so it holds wherever the dropdown is
+      // currently positioned - which matters because this decides where to position it.
+      const chromeAboveList = list.getBoundingClientRect().top - dropdown.getBoundingClientRect().top;
+      const roomFor = (edge: number) => Math.floor(edge - chromeAboveList) - margin;
+
+      const spaceBelow = roomFor(window.innerHeight - wrapperRect.bottom - LIST_GAP);
+      const spaceAbove = roomFor(wrapperRect.top - LIST_GAP);
 
       if (spaceBelow >= minUsableHeight) {
         this.optionsListMaxHeight = spaceBelow;
-        return;
-      }
-
-      // not enough room below: open above the field when that side offers more
-      const dropdownRect = dropdown.getBoundingClientRect();
-      const wrapperRect = (this.$el as HTMLElement)
-        .querySelector('.select-wrapper')!.getBoundingClientRect();
-      const chromeAboveList = listRect.top - dropdownRect.top;
-      const spaceAbove = Math.floor(wrapperRect.top - 8 - chromeAboveList) - margin;
-
-      if (spaceAbove > spaceBelow) {
+      } else if (spaceAbove > spaceBelow) {
+        // not enough room below: open above the field when that side offers more
         this.openAbove = true;
         this.optionsListMaxHeight = Math.max(minUsableHeight, spaceAbove);
-        return;
+      } else {
+        // keep a usable minimum on the larger side; the list scrolls for the rest
+        this.optionsListMaxHeight = Math.max(minUsableHeight, spaceBelow);
       }
 
-      // keep a usable minimum on the larger side; the page scrolls for the rest
-      this.optionsListMaxHeight = Math.max(minUsableHeight, spaceBelow);
+      this.positionList();
     },
     normalize(value: string) {
       return Matomo.helper.normalize(value);
@@ -258,7 +311,15 @@ export default defineComponent({
       return options.values.filter((x) => this.isSearchMatch(x.value));
     },
     onBlur() {
+      // the directive tests whether the click landed inside this component's element, and the
+      // list no longer is one, so a click in the list has to be recognised here instead
+      if (this.isMouseDownInsideList) {
+        this.isMouseDownInsideList = false;
+        return;
+      }
+
       this.showSelect = false;
+      this.trackTrigger(false);
     },
     onCategoryClicked(options: OptionGroup) {
       if (this.showCategory === options.group) {
@@ -269,6 +330,8 @@ export default defineComponent({
     },
     onValueClicked(selectedValue: SelectValueInfo) {
       this.showSelect = false;
+      this.isMouseDownInsideList = false;
+      this.trackTrigger(false);
 
       if (!(this.modelModifiers as AbortableModifiers)?.abortable) {
         this.$emit('update:modelValue', selectedValue.key);
