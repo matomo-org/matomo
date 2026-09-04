@@ -6,6 +6,8 @@
   gap: 20px;
   border-radius: 8px;
   padding: 20px;
+  // Anchor for the overlaid widget controls.
+  position: relative;
 
   .reportHeader__main {
     flex: auto;
@@ -85,9 +87,19 @@
 // maximised widget keeps them on. The hook is reference-only — see CSS rules, rule 31.
 .__reportHeader-onHover .reportHeader__widgetControls {
   opacity: 0;
+  // Overlaid, not in the row: reserving width crushed the title in narrow columns.
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  // Fade the title out behind the icons.
+  padding-left: 45px;
+  background: linear-gradient(to right, transparent, @theme-color-widget-title-background 45px);
+  // Invisible controls must not block clicks or the drag handle.
+  pointer-events: none;
 }
 
 .__reportHeader-onHover:hover .reportHeader__widgetControls,
 .__reportHeader-onHover:focus-within .reportHeader__widgetControls {
   opacity: 1;
+  pointer-events: auto;
 }
