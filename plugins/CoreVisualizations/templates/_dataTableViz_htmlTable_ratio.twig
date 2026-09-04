@@ -19,7 +19,7 @@
 
     {% set metricTitle   = translations[column]|default(column) %}
 
-    {% set reportRatioTooltip = 'General_ReportRatioTooltip'|translate(label, rowPercentage|e('html_attr'), reportTotal|e('html_attr'), metricTitle|e('html_attr'), '"' ~ segmentTitlePretty ~ '"', translations[labelColumn]|default(labelColumn)|e('html_attr')) %}
+    {% set reportRatioTooltip = 'General_ReportRatioTooltip'|translate(label, rowPercentage, reportTotal, metricTitle, '"' ~ segmentTitlePretty ~ '"', translations[labelColumn]|default(labelColumn)) %}
 
     {% if totalPercentage|default is empty %}
         {% if row.getMetadata(column ~ '_site_total_percentage') != false %}
@@ -36,8 +36,10 @@
         {% set totalRatioTooltip = '' %}
     {% endif %}
 
+    {#- the tooltip is rendered as HTML from this attribute, and the browser decodes the attribute
+        again when it is read back, so every value interpolated here is escaped exactly once -#}
     <span class="ratio"
-          title="{{ reportRatioTooltip|rawSafeDecoded|raw }} {{ totalRatioTooltip|rawSafeDecoded|e('html_attr') }}{% if tooltipSuffix|default is not empty %}<br/><br/> {{ tooltipSuffix|rawSafeDecoded|e('html_attr') }}{% endif %}"
+          title="{{ reportRatioTooltip|rawSafeDecoded|e('html_attr') }} {{ totalRatioTooltip|rawSafeDecoded|e('html_attr') }}{% if tooltipSuffix|default is not empty %}<br/><br/> {{ tooltipSuffix|rawSafeDecoded|e('html_attr') }}{% endif %}"
     >&nbsp;
         {%- if showAbsoluteValueOnHover|default -%}
             {%- if row.getMetadata('html_column_' ~ column ~ '_prefix') -%}
