@@ -154,34 +154,42 @@
 }
 
 /* Legacy dropdown, superseded by the .piwikSelector__dropdown + .mtm-dropdownPanel pair below.
-   Its margin-top is only safe because every remaining consumer expands on click; a hover-expanded
-   one must use the pair below. */
+   Appearance stays scoped to .expanded: some consumers render a .dropdown that never expands, and
+   positioning those unconditionally reparents their descendants (it moved SegmentEditor's inline
+   selectors). Untangling this needs its consumers migrated to the pair below. */
 .piwikSelector {
   .dropdown {
     .font-default(14px, 20px);
     display: none;
-
-    position: absolute;
-    z-index: 999;
-    top: 100%;
-    margin-top: @_selector-dropdown_offset-top;
-    left: -1px;
-
-    background-color: @_selector-dropdown_color-background;
-    border: @_selector-dropdown_border;
-    border-radius: @_selector-dropdown_border-radius;
-    padding: @_selector-dropdown_padding;
-    box-shadow: @_selector-dropdown_box-shadow;
-
-    overflow: hidden;
-
-    .inDarkMode({
-      box-shadow: @_selector-dropdown_box-shadow-dark;
-    });
   }
 
-  &.expanded .dropdown {
-    display: block;
+  &.expanded {
+    .dropdown {
+      display: block; /* to revert display: none */
+
+      position: absolute;
+      z-index: 999;
+      top: 100%;
+      margin-top: @_selector-dropdown_offset-top;
+      left: -1px;
+
+      border: @_selector-dropdown_border;
+      border-radius: @_selector-dropdown_border-radius;
+      padding: @_selector-dropdown_padding;
+      box-shadow: @_selector-dropdown_box-shadow;
+
+      overflow: hidden;
+
+      .inDarkMode({
+        box-shadow: @_selector-dropdown_box-shadow-dark;
+      });
+    }
+  }
+
+  &.expanded .dropdown,
+  &:hover .dropdown,
+  &.active .dropdown {
+    background-color: @_selector-dropdown_color-background;
   }
 }
 
