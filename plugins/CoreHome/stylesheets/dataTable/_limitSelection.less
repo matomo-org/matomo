@@ -2,10 +2,6 @@
 @_limitSelection-controlHeight: 38px;
 @_limitSelection-gap: 20px;
 
-.limitSelection {
-  text-align: right;
-}
-
 // Out of the flow so the counter stays centred on the full width. Not by a transform, which would
 // open a stacking context and trap the panel behind the next report.
 .dataTablePaginationControl {
@@ -13,10 +9,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  // The selector is offset from this box, and `.row` gutters differ per host: the dashboard
-  // cancels them, others keep them.
-  margin-left: 0;
-  margin-right: 0;
 }
 
 // Only lines that carry the control, which is twice as tall as the text beside it.

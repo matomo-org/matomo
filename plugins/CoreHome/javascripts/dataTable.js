@@ -757,7 +757,8 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             var isCurrent = selectedValue == currentValue;
 
             options += '<li class="mtm-dropdownPanel__menuItem" role="none">'
-                + '<a class="mtm-dropdownPanel__menuLink" href="" role="menuitemradio" tabindex="0"'
+                // No href, like PeriodsMenu's items: with one, a middle-click would open a tab.
+                + '<a class="mtm-dropdownPanel__menuLink" role="menuitemradio" tabindex="0"'
                 + ' aria-checked="' + (isCurrent ? 'true' : 'false') + '"'
                 + ' data-limit="' + piwikHelper.htmlEntities(String(numbers[i])) + '">'
                 + '<span class="mtm-dropdownPanel__menuLabel">'
@@ -768,11 +769,14 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         }
 
         var label = piwikHelper.htmlEntities(_pk_translate('General_RowsToDisplay'));
+        // The value goes into the name too: alone, the label would override the visible value,
+        // which is the button's only text.
+        var triggerName = label + ': ' + piwikHelper.htmlEntities(String(selectedValue));
         // Built here rather than in Vue: the choices are only known once the table has loaded.
         $('.limitSelection', domElem).append(
             '<div class="mtm-selector">'
             + '<button type="button" class="mtm-selector__trigger" title="' + label + '"'
-            + ' aria-label="' + label + '" aria-haspopup="menu" aria-expanded="false">'
+            + ' aria-label="' + triggerName + '" aria-haspopup="menu" aria-expanded="false">'
             + '<span class="mtm-selector__label">'
             + piwikHelper.htmlEntities(String(selectedValue)) + '</span>'
             + '<span class="mtm-selector__rightIcon" aria-hidden="true">'
