@@ -1,5 +1,10 @@
 [
   {
+    "title":       "More control over CNIL compliance settings",
+    "description": "Superusers can now manage individual CNIL requirements from the CNIL compliance page while keeping the option to enforce the full configuration in one step. Improved descriptions and impact details make each requirement easier to assess, while related Matomo settings stay aligned. The same granular controls are also available through the API.",
+    "version":     "5.14.0"
+  },
+  {
     "title":       "User Opt-Out Improvements",
     "description": "The privacy manager user opt-out has been updated to provide new code generation options that improve compatibility and allow additional customisation.",
     "version":     "4.12.0",
