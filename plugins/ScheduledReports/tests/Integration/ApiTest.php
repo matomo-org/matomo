@@ -17,6 +17,7 @@ use Piwik\Date;
 use Piwik\Piwik;
 use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
 use Piwik\Plugins\ScheduledReports\GeneratedReport;
+use Piwik\Plugins\ScheduledReports\Model as ScheduledReportsModel;
 use Piwik\Plugins\ScheduledReports\ScheduledReports;
 use Piwik\Plugins\ScheduledReports\Tasks;
 use Piwik\Plugins\ScheduledReports\WidgetReportMapper;
@@ -28,8 +29,8 @@ use Piwik\NoAccessException;
 use Piwik\ReportRenderer;
 use Piwik\Scheduler\Schedule\Monthly;
 use Piwik\Scheduler\Schedule\Schedule;
+use Piwik\Scheduler\Schedule\Weekly;
 use Piwik\Scheduler\Task;
-use Piwik\Site;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Widget\WidgetsList;
@@ -553,7 +554,7 @@ class ApiTest extends IntegrationTestCase
      */
     public function testGetScheduledTasks()
     {
-        // stub API to control getReports() return values
+        // stub the scheduling model to control the registered tasks
         $report1 = self::getDailyPDFReportData($this->idSite);
         $report1['idreport'] = 1;
         $report1['hour'] = 0;
@@ -587,20 +588,44 @@ class ApiTest extends IntegrationTestCase
         $report6['period'] = Schedule::PERIOD_NEVER;
         $report6['deleted'] = 0;
 
+        $report7 = self::getMonthlyEmailReportData($this->idSite);
+        $report7['idreport'] = 7;
+        $report7['idsite'] = 3;
+        $report7['period'] = Schedule::PERIOD_WEEK;
+        $report7['hour'] = 21;
+        $report7['deleted'] = 0;
+
+        $report8 = self::getMonthlyEmailReportData($this->idSite);
+        $report8['idreport'] = 8;
+        $report8['idsite'] = 2;
+        $report8['period'] = Schedule::PERIOD_WEEK;
+        $report8['hour'] = 2;
+        $report8['deleted'] = 0;
+
+        $report9 = self::getMonthlyEmailReportData($this->idSite);
+        $report9['idreport'] = 9;
+        $report9['idsite'] = 3;
+        $report9['period'] = Schedule::PERIOD_WEEK;
+        $report9['hour'] = 8;
+        $report9['deleted'] = 0;
+
         $stubbedAPIScheduledReports = $this->getMockBuilder('\\Piwik\\Plugins\\ScheduledReports\\API')
-                                           ->setMethods(array('getReports', 'getInstance'))
+                                           ->setMethods(array('getReports'))
                                            ->disableOriginalConstructor()
                                            ->getMock();
-        $stubbedAPIScheduledReports->expects($this->any())->method('getReports')->will($this->returnValue(
-            array($report1, $report2, $report3, $report4, $report5, $report6)
-        ));
+        $stubbedAPIScheduledReports->expects($this->once())->method('getReports')->willReturn(
+            array($report1, $report2, $report3, $report4, $report5, $report6, $report7, $report8, $report9)
+        );
         \Piwik\Plugins\ScheduledReports\API::setSingletonInstance($stubbedAPIScheduledReports);
 
-        // initialize sites 1 and 2
-        Site::setSites(array(
-            1 => array('timezone' => 'Europe/Paris'),
-            2 => array('timezone' => 'UTC-6.5'),
-        ));
+        $stubbedModel = $this->getMockBuilder(ScheduledReportsModel::class)
+            ->setMethods(array('getSiteTimezones'))
+            ->getMock();
+        $stubbedModel->expects($this->once())->method('getSiteTimezones')->with(
+            array(1, 2, 3)
+        )->willReturn(
+            array(1 => 'Europe/Paris', 2 => 'UTC-6.5', 3 => 'Asia/Shanghai')
+        );
 
         // expected tasks
         // NOTE: scheduled reports are always saved with UTC, to avoid daylight saving issues
@@ -620,19 +645,61 @@ class ApiTest extends IntegrationTestCase
         $scheduleTask4->setHour(8);
         $scheduleTask4->setTimezone('UTC');
 
+        $scheduleTask5 = new Weekly();
+        $scheduleTask5->setDay(7);
+        $scheduleTask5->setHour(21);
+        $scheduleTask5->setTimezone('UTC');
+
+        $scheduleTask6 = new Weekly();
+        $scheduleTask6->setDay(2);
+        $scheduleTask6->setHour(2);
+        $scheduleTask6->setTimezone('UTC');
+
+        $scheduleTask7 = new Weekly();
+        $scheduleTask7->setHour(8);
+        $scheduleTask7->setTimezone('UTC');
+
         $expectedTasks = array(
             new Task(APIScheduledReports::getInstance(), 'sendReport', 1, $scheduleTask1),
             new Task(APIScheduledReports::getInstance(), 'sendReport', 2, $scheduleTask2),
             new Task(APIScheduledReports::getInstance(), 'sendReport', 4, $scheduleTask3),
             new Task(APIScheduledReports::getInstance(), 'sendReport', 5, $scheduleTask4),
+            new Task(APIScheduledReports::getInstance(), 'sendReport', 7, $scheduleTask5),
+            new Task(APIScheduledReports::getInstance(), 'sendReport', 8, $scheduleTask6),
+            new Task(APIScheduledReports::getInstance(), 'sendReport', 9, $scheduleTask7),
         );
 
-        $pdfReportPlugin = new Tasks();
+        $pdfReportPlugin = new Tasks($stubbedModel);
         $pdfReportPlugin->schedule();
         $tasks = $pdfReportPlugin->getScheduledTasks();
         $this->assertEquals($expectedTasks, $tasks);
 
+        $expectedLocalTimes = array(
+            7 => array('Asia/Shanghai', '05:00'),
+            8 => array('UTC-6.5', '19:30'),
+            9 => array('Asia/Shanghai', '16:00'),
+        );
+        foreach ($tasks as $task) {
+            $reportId = $task->getMethodParameter();
+            if (!isset($expectedLocalTimes[$reportId])) {
+                continue;
+            }
+
+            [$timezone, $expectedLocalTime] = $expectedLocalTimes[$reportId];
+            $localTimestamp = Date::adjustForTimezone($task->getRescheduledTime(), $timezone);
+            $this->assertSame('1', gmdate('N', $localTimestamp));
+            $this->assertSame($expectedLocalTime, gmdate('H:i', $localTimestamp));
+        }
+
         \Piwik\Plugins\ScheduledReports\API::unsetInstance();
+    }
+
+    public function testGetSiteTimezonesReturnsRequestedSites()
+    {
+        $site = APISitesManager::getInstance()->getSiteFromId($this->idSite);
+        $timezones = (new ScheduledReportsModel())->getSiteTimezones(array($this->idSite));
+
+        $this->assertSame(array($this->idSite => $site['timezone']), $timezones);
     }
 
     /**

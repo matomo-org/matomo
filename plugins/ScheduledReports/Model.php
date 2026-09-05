@@ -52,6 +52,33 @@ class Model
         return $nextId;
     }
 
+    /**
+     * @param list<int> $idSites
+     * @return array<int, string>
+     */
+    public function getSiteTimezones(array $idSites): array
+    {
+        $idSites = array_values(array_unique(array_map('intval', $idSites)));
+        if (empty($idSites)) {
+            return [];
+        }
+
+        $siteTable = Common::prefixTable('site');
+        $rows = Db::fetchAll(
+            "SELECT idsite, timezone
+                FROM {$siteTable}
+                WHERE idsite IN (" . Common::getSqlStringFieldsArray($idSites) . ')',
+            $idSites
+        );
+
+        $timezones = [];
+        foreach ($rows as $row) {
+            $timezones[(int) $row['idsite']] = $row['timezone'];
+        }
+
+        return $timezones;
+    }
+
     private function getNextReportId()
     {
         $db = $this->getDb();
