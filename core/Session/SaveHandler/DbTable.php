@@ -9,6 +9,7 @@
 
 namespace Piwik\Session\SaveHandler;
 
+use Piwik\Common;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Exception;
@@ -29,6 +30,10 @@ class DbTable implements \SessionHandlerInterface
 
     public const TABLE_NAME = 'session';
     public const TOKEN_HASH_ALGO = 'sha512';
+
+    private const MAX_MERGE_ATTEMPTS = 3;
+
+    private array $dataAtReadTime = [];
 
     /**
      * @param array $config
@@ -87,11 +92,20 @@ class DbTable implements \SessionHandlerInterface
     public function read($id)
     {
         $id = $this->hashSessionId($id);
+        $result = $this->fetchData($id);
+
+        $this->dataAtReadTime[$id] = $result;
+
+        return $result;
+    }
+
+    private function fetchData(string $hashedId): string
+    {
         $sql = 'SELECT ' . $this->config['dataColumn'] . ' FROM `' . $this->config['name'] . '`'
             . ' WHERE ' . $this->config['primary'] . ' = ?'
             . ' AND ' . $this->config['modifiedColumn'] . ' + ' . $this->config['lifetimeColumn'] . ' >= ?';
 
-        $result = $this->fetchOne($sql, [$id, time()]);
+        $result = $this->fetchOne($sql, [$hashedId, time()]);
 
         if (!$result) {
             $result = '';
@@ -140,6 +154,51 @@ class DbTable implements \SessionHandlerInterface
     {
         $id = $this->hashSessionId($id);
 
+        if (!array_key_exists($id, $this->dataAtReadTime)) {
+            $this->save($id, $data);
+
+            return true;
+        }
+
+        $dataAtReadTime = $this->dataAtReadTime[$id];
+
+        if ($dataAtReadTime !== '' && $data === $dataAtReadTime) {
+            $this->refreshExpiration($id);
+
+            return true;
+        }
+
+        for ($attempt = 0; $attempt < self::MAX_MERGE_ATTEMPTS; $attempt++) {
+            $storedData = $this->fetchData($id);
+
+            if ($storedData === '' || $storedData === $dataAtReadTime) {
+                break;
+            }
+
+            $mergedData = $this->mergeSessionData($dataAtReadTime, $storedData, $data);
+
+            if ($mergedData === null) {
+                break;
+            }
+
+            if ($mergedData === $storedData) {
+                $this->refreshExpiration($id);
+
+                return true;
+            }
+
+            if ($this->replaceData($id, $storedData, $mergedData)) {
+                return true;
+            }
+        }
+
+        $this->save($id, $data);
+
+        return true;
+    }
+
+    private function save(string $hashedId, $data): void
+    {
         $sql = 'INSERT INTO ' . $this->config['name']
             . ' (' . $this->config['primary'] . ','
             . $this->config['modifiedColumn'] . ','
@@ -151,9 +210,108 @@ class DbTable implements \SessionHandlerInterface
             . $this->config['lifetimeColumn'] . ' = ?,'
             . $this->config['dataColumn'] . ' = ?';
 
-        $this->query($sql, [$id, time(), $this->maxLifetime, $data, time(), $this->maxLifetime, $data]);
+        $this->query($sql, [$hashedId, time(), $this->maxLifetime, $data, time(), $this->maxLifetime, $data]);
+    }
 
-        return true;
+    private function refreshExpiration(string $hashedId): void
+    {
+        $sql = 'UPDATE ' . $this->config['name']
+            . ' SET ' . $this->config['modifiedColumn'] . ' = ?,'
+            . $this->config['lifetimeColumn'] . ' = ?'
+            . ' WHERE ' . $this->config['primary'] . ' = ?';
+
+        $this->query($sql, [time(), $this->maxLifetime, $hashedId]);
+    }
+
+    private function replaceData(string $hashedId, string $expectedData, string $data): bool
+    {
+        $sql = 'UPDATE ' . $this->config['name']
+            . ' SET ' . $this->config['modifiedColumn'] . ' = ?,'
+            . $this->config['lifetimeColumn'] . ' = ?,'
+            . $this->config['dataColumn'] . ' = ?'
+            . ' WHERE ' . $this->config['primary'] . ' = ?'
+            . ' AND ' . $this->config['dataColumn'] . ' = ?';
+
+        $statement = Db::query($sql, [time(), $this->maxLifetime, $data, $hashedId, $expectedData]);
+
+        return $statement->rowCount() > 0;
+    }
+
+    private function mergeSessionData(string $dataAtReadTime, string $storedData, $data): ?string
+    {
+        $valuesAtReadTime = $this->unserializeSessionData($dataAtReadTime);
+        $storedValues = $this->unserializeSessionData($storedData);
+        $values = $this->unserializeSessionData(is_string($data) ? $data : '');
+
+        if ($valuesAtReadTime === null || $storedValues === null || $values === null) {
+            return null;
+        }
+
+        return serialize($this->mergeChangedValues($valuesAtReadTime, $storedValues, $values));
+    }
+
+    private function mergeChangedValues(array $valuesAtReadTime, array $storedValues, array $values): array
+    {
+        $merged = $storedValues;
+
+        foreach ($values as $key => $value) {
+            $existedAtReadTime = array_key_exists($key, $valuesAtReadTime);
+
+            if ($existedAtReadTime && $valuesAtReadTime[$key] === $value) {
+                continue;
+            }
+
+            if (
+                $existedAtReadTime
+                && is_array($value)
+                && is_array($valuesAtReadTime[$key])
+                && isset($storedValues[$key])
+                && is_array($storedValues[$key])
+            ) {
+                $merged[$key] = $this->mergeChangedValues($valuesAtReadTime[$key], $storedValues[$key], $value);
+                continue;
+            }
+
+            $merged[$key] = $value;
+        }
+
+        foreach ($valuesAtReadTime as $key => $value) {
+            if (!array_key_exists($key, $values)) {
+                unset($merged[$key]);
+            }
+        }
+
+        return $merged;
+    }
+
+    private function unserializeSessionData(string $data): ?array
+    {
+        if ($data === '') {
+            return null;
+        }
+
+        $values = Common::safe_unserialize($data);
+
+        if (!is_array($values) || $this->containsObject($values)) {
+            return null;
+        }
+
+        return $values;
+    }
+
+    private function containsObject(array $values): bool
+    {
+        foreach ($values as $value) {
+            if (is_object($value)) {
+                return true;
+            }
+
+            if (is_array($value) && $this->containsObject($value)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -165,6 +323,8 @@ class DbTable implements \SessionHandlerInterface
     public function destroy($id): bool
     {
         $id = $this->hashSessionId($id);
+
+        unset($this->dataAtReadTime[$id]);
 
         $sql = 'DELETE FROM `' . $this->config['name'] . '` WHERE ' . $this->config['primary'] . ' = ?';
 
