@@ -923,6 +923,8 @@ class Url
      *                              'Matomo_App_Cloud'
      * @param string|null $medium   Optional campaign medium, defaults to App.[module].[action] where module and action are
      *                              taken from the currently viewed application page, eg. 'CoreAdminHome.trackingCodeGenerator'
+     * @param string|null $content  Optional campaign content, identifying which of several links to the same destination
+     *                              was used, eg. 'custom_reports'. Omitted from the URL when not given.
      *
      * @return ($url is string ? string : null)      www.matomo.org/faq/123?mtm_campaign=Matomo_App&mtm_source=Matomo_App_OnPremise&mtm_medium=App.CoreAdminHome.trackingCodeGenerator
      */
@@ -930,7 +932,8 @@ class Url
         ?string $url = null,
         ?string $campaign = null,
         ?string $source = null,
-        ?string $medium = null
+        ?string $medium = null,
+        ?string $content = null
     ): ?string {
 
         // Ignore if disabled by config setting
@@ -963,6 +966,9 @@ class Url
             'mtm_source' => $source ?? 'Matomo_App_' . (\Piwik\Plugin\Manager::getInstance()->isPluginActivated('Cloud') ? 'Cloud' : 'OnPremise'),
             'mtm_medium' => $medium,
             ];
+        if ($content !== null) {
+            $newParams['mtm_content'] = $content;
+        }
 
         // Add parameters to the link, overriding any existing campaign parameters while preserving the path and query string
         $pathAndQueryString = UrlHelper::getPathAndQueryFromUrl($url, $newParams, true);
@@ -978,9 +984,10 @@ class Url
         string $url,
         ?string $campaign = null,
         ?string $source = null,
-        ?string $medium = null
+        ?string $medium = null,
+        ?string $content = null
     ): string {
-        $url = self::addCampaignParametersToMatomoLink($url, $campaign, $source, $medium);
+        $url = self::addCampaignParametersToMatomoLink($url, $campaign, $source, $medium, $content);
 
         return '<a target="_blank" rel="noreferrer noopener" href="' . $url . '">';
     }

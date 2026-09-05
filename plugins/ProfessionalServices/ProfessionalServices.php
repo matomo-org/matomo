@@ -10,7 +10,12 @@
 namespace Piwik\Plugins\ProfessionalServices;
 
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\DailyTriggerCache;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\PromotionRenderer;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\PromotionSelector;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\UserPromotionState;
 use Piwik\View;
 use Piwik\Plugin;
 
@@ -23,6 +28,8 @@ class ProfessionalServices extends \Piwik\Plugin
     {
         return array(
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
+            'Template.beforeDashboardWidgets' => 'renderDashboardPromotion',
+            'SitesManager.deleteSite.end' => 'deletePromotionTriggerCache',
             'Template.afterGoalConversionOverviewReport' => array('function' => 'getGoalOverviewPromo', 'after' => true),
             'Template.afterGoalCannotAddNewGoal' => array('function' => 'getGoalOverviewPromo', 'after' => true),
             'Template.endGoalEditTable' => array('function' => 'getGoalFunnelOverviewPromo', 'after' => true),
@@ -43,6 +50,37 @@ class ProfessionalServices extends \Piwik\Plugin
     {
         $stylesheets[] = 'plugins/ProfessionalServices/stylesheets/promos.less';
         $stylesheets[] = 'plugins/ProfessionalServices/stylesheets/widget.less';
+        $stylesheets[] = 'plugins/ProfessionalServices/stylesheets/productPromotion.less';
+    }
+
+    /**
+     * Renders at most one contextual plugin promotion above the widgets of the default or
+     * a custom dashboard. Every dashboard is rendered through this template, and no other
+     * page is, so the promotion cannot leak onto All Websites or a report page.
+     */
+    public function renderDashboardPromotion(&$out)
+    {
+        try {
+            $selected = StaticContainer::get(PromotionSelector::class)->select();
+
+            if (null === $selected) {
+                return;
+            }
+
+            StaticContainer::get(UserPromotionState::class)->recordShown(
+                $selected->getPromotion()->getPluginName(),
+                $selected->getPromotion()->getTriggerName()
+            );
+
+            $out .= StaticContainer::get(PromotionRenderer::class)->render($selected);
+        } catch (\Exception $e) {
+            // A promotion is never important enough to break a dashboard.
+        }
+    }
+
+    public function deletePromotionTriggerCache($idSite)
+    {
+        DailyTriggerCache::deleteForSite((int) $idSite);
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)

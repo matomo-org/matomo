@@ -564,6 +564,49 @@ class UrlTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @group AddCampaignParametersToMatomoLink
+     */
+    public function testAddCampaignParametersToMatomoLinkOnlyAddsContentWhenItIsGiven()
+    {
+        $this->resetGlobalVariables();
+        $_GET['module'] = 'CoreHomeAdmin';
+        $_GET['action'] = 'trackingCodeGenerator';
+
+        $url = 'https://plugins.matomo.org/CustomReports';
+        $withoutContent = $url . '?mtm_campaign=App_ProfessionalServices&mtm_source=Matomo_App_OnPremise'
+            . '&mtm_medium=App.Dashboard.pluginPromotion';
+
+        $this->assertSame(
+            $withoutContent,
+            Url::addCampaignParametersToMatomoLink($url, 'App_ProfessionalServices', null, 'App.Dashboard.pluginPromotion')
+        );
+
+        $withContent = $withoutContent . '&mtm_content=custom_reports';
+
+        $this->assertSame(
+            $withContent,
+            Url::addCampaignParametersToMatomoLink(
+                $url,
+                'App_ProfessionalServices',
+                null,
+                'App.Dashboard.pluginPromotion',
+                'custom_reports'
+            )
+        );
+
+        $this->assertSame(
+            '<a target="_blank" rel="noreferrer noopener" href="' . $withContent . '">',
+            Url::getExternalLinkTag(
+                $url,
+                'App_ProfessionalServices',
+                null,
+                'App.Dashboard.pluginPromotion',
+                'custom_reports'
+            )
+        );
+    }
+
+    /**
      * @dataProvider getCampaignParametersToMatomoLink
      * @group AddCampaignParametersToMatomoLink
      */

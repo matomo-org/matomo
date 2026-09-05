@@ -1,0 +1,48 @@
+<section class="productPromotion"
+         vue-directive="ProfessionalServices.ProductPromotion"
+         vue-directive-value="{{ {pluginName: pluginName, triggerName: triggerName, productName: productName}|json_encode }}"
+         aria-labelledby="productPromotionTitle">
+
+    <div class="productPromotion__figure">
+        <img class="productPromotion__image" src="{{ imageUrl }}" alt="" aria-hidden="true" loading="lazy">
+    </div>
+
+    <div class="productPromotion__content">
+        <h2 class="productPromotion__title" id="productPromotionTitle">
+            <a class="productPromotion__titleLink"
+               href="{{ learnMoreUrl }}"
+               target="_blank"
+               rel="noopener noreferrer">{{ title }}</a>
+        </h2>
+        <p class="productPromotion__text">{{ text }}</p>
+        <p class="productPromotion__reason">
+            <span class="productPromotion__reasonIcon icon-info" aria-hidden="true"></span>{{ reason }}
+        </p>
+    </div>
+
+    <div class="productPromotion__cta">
+        {% if canRequestTrial %}
+            <button type="button" class="productPromotion__ctaButton" data-role="requestTrial">
+                {{ 'Marketplace_RequestTrial'|translate }}
+            </button>
+        {% else %}
+            <a class="productPromotion__ctaButton" href="{{ marketplaceUrl }}">{{ tryLabel }}</a>
+        {% endif %}
+    </div>
+
+    <button type="button"
+            class="productPromotion__dismiss"
+            data-role="dismiss"
+            aria-label="{{ 'General_Close'|translate }}">
+        <span class="productPromotion__dismissIcon icon-close" aria-hidden="true"></span>
+    </button>
+
+    {% if canRequestTrial %}
+        <div class="ui-confirm" data-role="requestTrialConfirm">
+            <h2>{{ 'Marketplace_RequestTrialConfirmTitle'|translate(productName) }}</h2>
+            <p>{{ 'Marketplace_RequestTrialConfirmEmailWarning'|translate }}</p>
+            <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
+            <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
+        </div>
+    {% endif %}
+</section>
