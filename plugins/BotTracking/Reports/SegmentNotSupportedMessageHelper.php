@@ -19,9 +19,16 @@ class SegmentNotSupportedMessageHelper
 {
     public static function addSegmentNotSupportedMessage(ViewDataTable $view): void
     {
-        if (!empty(Request::getRawSegmentFromRequest())) {
-            $message = '<p class="alert alert-info">' . Piwik::translate('BotTracking_SegmentNotSupported') . '</p>';
-            $view->config->show_footer_message = $message;
+        if (empty(Request::getRawSegmentFromRequest())) {
+            return;
         }
+
+        $message = '<p class="alert alert-info">' . Piwik::translate('BotTracking_SegmentNotSupported') . '</p>';
+        $existing = $view->config->show_footer_message;
+
+        // The real time reports footer their row limit, which replacing would drop.
+        $view->config->show_footer_message = is_string($existing) && '' !== $existing
+            ? $existing . $message
+            : $message;
     }
 }
