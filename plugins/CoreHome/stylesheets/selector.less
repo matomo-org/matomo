@@ -153,10 +153,8 @@
   }
 }
 
-/* Legacy dropdown, superseded by the .piwikSelector__dropdown + .mtm-dropdownPanel pair below.
-   Appearance stays scoped to .expanded: some consumers render a .dropdown that never expands, and
-   positioning those unconditionally reparents their descendants (it moved SegmentEditor's inline
-   selectors). Untangling this needs its consumers migrated to the pair below. */
+/* Appearance stays under .expanded: some consumers never expand their .dropdown, and positioning
+   those would reparent its descendants. */
 .piwikSelector {
   .dropdown {
     .font-default(14px, 20px);

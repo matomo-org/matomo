@@ -129,7 +129,6 @@ describe('VersionInfoHeaderMessage', function() {
       expect(await getMessageTitleText()).to.match(/New Update: Matomo 99.99.99/);
     });
 
-    // Regression since 5.10.0: crossing the gap below the button used to close the dropdown.
     it('should stay open while the cursor travels from the button into the dropdown', async function() {
       makeUpdateAvailable();
 
