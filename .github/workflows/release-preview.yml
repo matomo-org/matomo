@@ -33,7 +33,8 @@ on:
         description: 'Release password'
         required: true
   schedule:
-    - cron: '0 1 * * *' # 1am daily
+    # Scheduled in the evening (UTC) so a preview build is ready earlier in the day.
+    - cron: '0 18 * * *' # 6pm UTC daily
 env:
   RELEASE_PASSWORD: ${{ secrets.RELEASE_PASSWORD }}
 jobs:
