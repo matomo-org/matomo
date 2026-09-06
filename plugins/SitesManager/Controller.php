@@ -520,6 +520,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 'idSite' => $idSite,
                 'module' => 'UsersManager',
                 'action' => 'index',
+                'showadduser' => 1,
             ]);
     }
 }
