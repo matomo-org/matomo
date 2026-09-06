@@ -21,6 +21,7 @@
       v-show="showSelect"
       class="expandableList expandableSelector__list"
       :class="{ 'expandableSelector__list--above': openAbove }"
+      :data-name="name"
       :style="listStyle"
       ref="expandableList"
       @mousedown="isMouseDownInsideList = true"
@@ -154,6 +155,9 @@ export default defineComponent({
     modelModifiers: Object,
     availableOptions: Array as PropType<OptionGroup[]>,
     title: String,
+    // the list is rendered at the page level, away from anything identifying the field it belongs
+    // to, so the field's name is carried across as a data attribute for callers to target
+    name: String,
     searchOnGroup: {
       type: Boolean,
       default: false,

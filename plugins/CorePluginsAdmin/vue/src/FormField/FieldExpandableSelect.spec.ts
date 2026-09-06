@@ -66,6 +66,12 @@ afterEach(() => {
 });
 
 describe('CorePluginsAdmin/FormField/FieldExpandableSelect', () => {
+  it('carries the field name onto the teleported list', () => {
+    mountSelect({ name: 'selectexpand' });
+
+    expect(findInBody('.expandableSelector__list').dataset.name).toBe('selectexpand');
+  });
+
   it('defaults searchOnGroup to false', () => {
     const wrapper = mountSelect();
     expect((wrapper.vm as any).searchOnGroup).toBe(false);
