@@ -26,8 +26,8 @@ class SegmentNotSupportedMessageHelper
         $message = '<p class="alert alert-info">' . Piwik::translate('BotTracking_SegmentNotSupported') . '</p>';
         $existing = $view->config->show_footer_message;
 
-        // The real time reports footer their row limit, which replacing would drop.
-        $view->config->show_footer_message = is_string($existing) && '' !== $existing
+        // The real time reports already carry a row-limit footer message; replacing it would drop it.
+        $view->config->show_footer_message = is_string($existing) && $existing !== ''
             ? $existing . $message
             : $message;
     }
