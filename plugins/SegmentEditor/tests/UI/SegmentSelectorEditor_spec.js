@@ -45,8 +45,18 @@ describe("SegmentSelectorEditorTest", function () {
     async function selectDimension(prefixSelector, category, name)
     {
         await (await page.jQuery(prefixSelector + ' .metricListBlock .select-wrapper', { waitFor: true })).click();
-        await (await page.jQuery('.expandableList:visible h4:contains(' + category + ')', { waitFor: true })).click();
-        await (await page.jQuery('.expandableList:visible .secondLevel li:contains(' + name + ')', { waitFor: true })).click();
+        await page.waitForFunction('$(".expandableList:visible").length > 0');
+
+        // the list keeps the category it last expanded, so clicking that one again would collapse it
+        await page.evaluate(function (category) {
+            var $category = $('.expandableList:visible h4:contains(' + category + ')');
+
+            if (!$category.closest('li').find('.secondLevel').is(':visible')) {
+                $category.click();
+            }
+        }, category);
+
+        await (await page.jQuery('.expandableList:visible .secondLevel:visible li:contains(' + name + ')', { waitFor: true })).click();
     }
 
     async function moveMouseAwayFromCapturedArea()
