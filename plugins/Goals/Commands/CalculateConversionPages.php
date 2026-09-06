@@ -261,12 +261,13 @@ class CalculateConversionPages extends ConsoleCommand
 
             $bind = [];
             if ($idGoal !== null) {
-                $where .= ' AND c.idgoal = ? ';
-                $bind[] = $idGoal;
+                $goalIds = explode(',', $idGoal);
+                $where .= ' AND c.idgoal IN (' . Common::getSqlStringFieldsArray($goalIds) . ') ';
+                $bind = array_merge($bind, $goalIds);
             }
             if ($idSite !== null) {
-                $where .= ' AND c.idsite = ? ';
-                $bind[] = $idSite;
+                $where .= ' AND c.idsite IN (' . Common::getSqlStringFieldsArray($sites) . ') ';
+                $bind = array_merge($bind, $sites);
             }
 
             if ($where !== '') {

@@ -43,7 +43,8 @@ class GetPremiumFeatures extends Widget
 
         //sort array by bundle first
         usort($plugins, function ($item1, $item2) {
-            return $item1['isBundle'] < $item2['isBundle'] ? 1 : -1;
+            // a plugin without the flag at all sorts as not a bundle rather than raising a warning
+            return !empty($item1['isBundle']) < !empty($item2['isBundle']) ? 1 : -1;
         });
 
         if (empty($plugins)) {
@@ -53,7 +54,26 @@ class GetPremiumFeatures extends Widget
         }
 
         return $this->renderTemplate($template, array(
-            'plugins' => $plugins,
+            'plugins' => $this->keepRenderedFields($plugins),
         ));
+    }
+
+    /**
+     * Reduces each plugin to the fields this widget renders.
+     *
+     * The Marketplace returns every version of every plugin, each carrying its own rendered readme
+     * and FAQ HTML. All of it would be json_encoded into an attribute in the widget's HTML, where it
+     * cannot be cached: against plugins.matomo.org that is 470 KB for twenty plugins instead of 5 KB.
+     *
+     * @param array<int, array<string, mixed>> $plugins
+     * @return array<int, array<string, mixed>>
+     */
+    private function keepRenderedFields(array $plugins): array
+    {
+        $fields = array_flip(['name', 'displayName', 'description', 'isBundle', 'specialOffer']);
+
+        return array_map(function ($plugin) use ($fields) {
+            return array_intersect_key($plugin, $fields);
+        }, $plugins);
     }
 }

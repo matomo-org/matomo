@@ -81,6 +81,7 @@ class Marketplace extends \Piwik\Plugin
         $translationKeys[] = 'General_Documentation';
         $translationKeys[] = 'General_Download';
         $translationKeys[] = 'General_Downloads';
+        $translationKeys[] = 'General_ErrorRequest';
         $translationKeys[] = 'General_Help';
         $translationKeys[] = 'General_Installed';
         $translationKeys[] = 'General_MoreDetails';

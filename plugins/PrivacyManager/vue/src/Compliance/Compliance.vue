@@ -119,7 +119,7 @@ export default defineComponent({
       isSingleWebsiteRequested ? SCOPE_SINGLE_WEBSITE : SCOPE_ALL_WEBSITES,
     );
     const site = ref<SiteRef|null>(isSingleWebsiteRequested ? {
-      id: requestedIdSite,
+      id: `${requestedIdSite}`,
       name: Matomo.siteName ? Matomo.helper.htmlDecode(Matomo.siteName) : '',
     } : null);
 
