@@ -600,8 +600,8 @@ describe("UsersManager", function () {
 
     it('should set a capability to single site when capability checkbox is clicked', async function () {
         await page.evaluate(() => $('.addCapability:eq(0)').click());
-        await page.evaluate(() => $('.addCapability:eq(0) .expandableListCategory:contains(Tag Manager)').click());
-        await page.evaluate(() => $('.addCapability:eq(0) .expandableListItem:contains(Publish Live Container)').click());
+        await page.evaluate(() => $('.expandableList:visible .expandableListCategory:contains(Tag Manager)').click());
+        await page.evaluate(() => $('.expandableList:visible .expandableListItem:contains(Publish Live Container)').click());
 
         await page.waitForTimeout(250); // animation
 

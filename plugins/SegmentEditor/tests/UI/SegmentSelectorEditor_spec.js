@@ -11,6 +11,8 @@ describe("SegmentSelectorEditorTest", function () {
     const getSegmentQuery = n => '.segmentList li:nth-of-type(' + (n+1) + ')';
     const getSegmentStarQuery = n => getSegmentQuery(n) + ' .starSegment';
     var selectorsToCapture = ".segmentEditorPanel,.segmentEditorPanel .dropdown-body,.segment-element";
+    // the dimension list is rendered at the page level, so it has to be named to stay in shot
+    var selectorsWithOpenList = selectorsToCapture + ",.expandableSelector__list";
     var generalParams = 'idSite=1&period=year&date=2012-08-09';
     var url = '?module=CoreHome&action=index&' + generalParams + '#?' + generalParams + '&category=General_Actions&subcategory=General_Pages';
 
@@ -43,8 +45,8 @@ describe("SegmentSelectorEditorTest", function () {
     async function selectDimension(prefixSelector, category, name)
     {
         await (await page.jQuery(prefixSelector + ' .metricListBlock .select-wrapper', { waitFor: true })).click();
-        await (await page.jQuery(prefixSelector + ' .metricListBlock .expandableList h4:contains(' + category + ')', { waitFor: true })).click();
-        await (await page.jQuery(prefixSelector + ' .metricListBlock .expandableList .secondLevel li:contains(' + name + ')', { waitFor: true })).click();
+        await (await page.jQuery('.expandableList:visible h4:contains(' + category + ')', { waitFor: true })).click();
+        await (await page.jQuery('.expandableList:visible .secondLevel li:contains(' + name + ')', { waitFor: true })).click();
     }
 
     async function moveMouseAwayFromCapturedArea()
@@ -396,26 +398,26 @@ describe("SegmentSelectorEditorTest", function () {
 
     it('should display autocomplete dropdown options correctly with lower case', async function() {
         await page.click('.expandableSelector .select-wrapper');
-        await page.waitForSelector('.expandableSelector .expandableSearch', { visible: true });
-        await page.type('.expandableSelector .expandableSearch', 'event');
+        const search = await page.jQuery('.expandableList:visible .expandableSearch', { waitFor: true });
+        await search.type('event');
         await page.waitForTimeout(100);
-        expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('autocomplete_lowercase');
+        expect(await page.screenshotSelector(selectorsWithOpenList)).to.matchImage('autocomplete_lowercase');
     });
 
     it('should display autocomplete dropdown options correctly with upper case', async function() {
-        const input = await page.$('.expandableSelector .expandableSearch');
+        const input = await page.jQuery('.expandableList:visible .expandableSearch');
         await input.click({ clickCount: 3 })
-        await page.type('.expandableSelector .expandableSearch', 'EVENT');
+        await input.type('EVENT');
         await page.waitForTimeout(100);
-        expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('autocomplete_uppercase');
+        expect(await page.screenshotSelector(selectorsWithOpenList)).to.matchImage('autocomplete_uppercase');
     });
 
     it('should display autocomplete dropdown options correctly with capitalized', async function() {
-        const input = await page.$('.expandableSelector .expandableSearch');
+        const input = await page.jQuery('.expandableList:visible .expandableSearch');
         await input.click({ clickCount: 3 })
-        await page.type('.expandableSelector .expandableSearch', 'Event');
+        await input.type('Event');
         await page.waitForTimeout(100);
-        expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('autocomplete_capitalized');
+        expect(await page.screenshotSelector(selectorsWithOpenList)).to.matchImage('autocomplete_capitalized');
     });
 
 
