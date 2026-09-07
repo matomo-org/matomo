@@ -2,6 +2,7 @@
     "IntranetMeasurable": {
         "Intranet": "Intranetové webové stránky",
         "IntranetDescription": "Intranet je měřitelný stejně jako webové stránky, ale je umístěn v interní síti.",
+        "IntranetLongDescription": "Sledujte interní weby, které jsou přístupné pouze ze sítě vaší organizace. Matomo používá cookies první strany, aby v intranetovém prostředí přesněji rozpoznalo unikátní návštěvníky.",
         "Intranets": "Intranetové webové stránky"
     }
 }

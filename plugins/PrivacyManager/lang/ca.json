@@ -58,7 +58,6 @@
         "ComplianceEnforceCheckboxIntro": "Fer complir els requisits sempre que sigui possible",
         "ComplianceEnforceCheckboxTitle": "Aplicar configuracions que ajudin a l'alineació sempre que sigui possible",
         "ComplianceNonCompliant": "no conforme",
-        "ComplianceSelectSite": "Seleccioneu un lloc web a continuació per obtenir una indicació de si el lloc web en qüestió compleix amb la llei de privadesa indicada",
         "ComplianceTableSettingName": "Nom de la configuració",
         "ComplianceTableSettingNotes": "Notes",
         "ComplianceTableSettingStatus": "Estat",

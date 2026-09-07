@@ -67,6 +67,13 @@
   }
 }
 
+// Cancels the Materialize gutter a form field inherits from also being a .row: the 20px
+// vertical margins, and the side margins that only appear under a .col. -0.75rem is half
+// Materialize's $gutter-width; the .row qualifier only exists to outweigh `.col .row`.
+.form-group--noGutter.row {
+  margin: 0 -0.75rem;
+}
+
 .form-group__error-message {
   color: @color-red-matomo;
   margin-top: 0.4rem;

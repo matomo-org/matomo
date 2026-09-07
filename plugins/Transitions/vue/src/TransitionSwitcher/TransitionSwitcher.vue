@@ -7,56 +7,48 @@
 
 <template>
   <div
+    class="transitionSwitcher"
     :class="{ widgetBody: isWidget }"
     id="transitions_report"
   >
-    <div class="row">
-      <div class="col s12 m3">
-        <div name="actionType">
-          <Field
-            uicontrol="select"
-            name="actionType"
-            v-model="actionType"
-            :title="translate('Actions_ActionType')"
-            :full-width="true"
-            :options="actionTypeOptions"
-          >
-          </Field>
-        </div>
+    <div class="transitionSwitcher__selects">
+      <div class="transitionSwitcher__typeField" name="actionType">
+        <Field
+          class="form-group--noGutter"
+          uicontrol="select"
+          name="actionType"
+          v-model="actionType"
+          :title="translate('Actions_ActionType')"
+          :full-width="true"
+          :options="actionTypeOptions"
+        >
+        </Field>
       </div>
-      <div class="col s12 m9">
-        <div name="actionName">
-          <Field
-            uicontrol="select"
-            name="actionName"
-            v-model="actionName"
-            :title="translate('Transitions_TopX', '100')"
-            :full-width="true"
-            :disabled="!isEnabled"
-            :options="actionNameOptions"
-          >
-          </Field>
-        </div>
+      <div class="transitionSwitcher__nameField" name="actionName">
+        <Field
+          class="form-group--noGutter"
+          uicontrol="select"
+          name="actionName"
+          v-model="actionName"
+          :title="translate('Transitions_TopX', '100')"
+          :full-width="true"
+          :disabled="!isEnabled"
+          :options="actionNameOptions"
+        >
+        </Field>
       </div>
     </div>
     <ActivityIndicator :loading="isLoading" />
     <div
-      class="loadingPiwik"
-      style="display:none;"
-      id="transitions_inline_loading"
-    >
-      <MatomoLoader />
-      <span>{{ translate('General_LoadingData') }}</span>
-    </div>
-    <div
-      class="popoverContainer"
+      class="transitionSwitcher__report"
       v-show="!isLoading && isEnabled"
     >
-    </div>
-    <div
-      id="Transitions_Error_Container"
-      v-show="!isLoading"
-    >
+      <TransitionsReport
+        v-if="hasAction"
+        :action-type="transitionsActionType"
+        :action-name="selectedActionName"
+        context="embedded"
+      />
     </div>
     <div
       class="dataTableWrapper"
@@ -95,10 +87,10 @@ import {
   AjaxHelper,
   ActivityIndicator,
   Matomo,
-  MatomoLoader,
 } from 'CoreHome';
 import { Field } from 'CorePluginsAdmin';
 import TransitionExporter from '../TransitionExporter/TransitionExporter';
+import TransitionsReport from '../TransitionsReport/TransitionsReport.vue';
 
 interface Option {
   key: string;
@@ -130,7 +122,7 @@ export default defineComponent({
   components: {
     ActivityIndicator,
     Field,
-    MatomoLoader,
+    TransitionsReport,
   },
   directives: {
     TransitionExporter,
@@ -155,7 +147,6 @@ export default defineComponent({
     };
   },
   setup() {
-    let transitionsInstance: Transitions|null = null;
     const transitionsUrl = ref<null|string>();
 
     const onSwitchTransitionsUrl = (params: { url: string }) => {
@@ -170,20 +161,8 @@ export default defineComponent({
       Matomo.off('Transitions.switchTransitionsUrl', onSwitchTransitionsUrl);
     });
 
-    const createTransitionsInstance = (type: string, actionName: string) => {
-      if (!transitionsInstance) {
-        transitionsInstance = new window.Piwik_Transitions(type, actionName, null, '');
-      } else {
-        transitionsInstance.reset(type, actionName, '');
-      }
-    };
-
-    const getTransitionsInstance = () => transitionsInstance;
-
     return {
       transitionsUrl,
-      createTransitionsInstance,
-      getTransitionsInstance,
     };
   },
   watch: {
@@ -216,17 +195,6 @@ export default defineComponent({
         ];
         this.actionName = url;
       }
-    },
-    actionName(newValue) {
-      if (newValue === null || newValue === this.noDataKey) {
-        return;
-      }
-
-      const type = this.isUrlReport ? 'url' : 'title';
-
-      this.createTransitionsInstance(type, newValue);
-
-      this.getTransitionsInstance()!.showPopover(true);
     },
     actionType(newValue) {
       this.fetch(newValue);
@@ -302,6 +270,17 @@ export default defineComponent({
   computed: {
     isUrlReport() {
       return this.actionType === 'Actions.getPageUrls';
+    },
+    /** The report identifies actions as 'url' or 'title', not by the report method name. */
+    transitionsActionType(): string {
+      return this.isUrlReport ? 'url' : 'title';
+    },
+    hasAction(): boolean {
+      return !!this.actionName && this.actionName !== this.noDataKey;
+    },
+    /** Narrowed for the report, which is only rendered once an action is actually selected. */
+    selectedActionName(): string {
+      return this.actionName ?? '';
     },
     availableInOtherReports2() {
       return translate('Transitions_AvailableInOtherReports2', '<span class="icon-transition"></span>');

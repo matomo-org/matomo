@@ -949,6 +949,17 @@ class ApiTest extends IntegrationTestCase
         );
 
         self::assertStringContainsString('id="VisitsSummary_get"', $result);
+
+        $effectivePeriod = $period ?: Schedule::PERIOD_DAY;
+        $periodTranslationKey = $effectivePeriod === Schedule::PERIOD_RANGE
+            ? 'General_DateRangeInPeriodList'
+            : 'Intl_Period' . ucfirst($effectivePeriod);
+        $expectedHeader = Piwik::translate('ScheduledReports_PleaseFindBelow', [
+            Piwik::translate($periodTranslationKey),
+            Site::getNameFor(1),
+        ]);
+
+        self::assertStringContainsString($expectedHeader, $result);
     }
 
     /**
@@ -990,6 +1001,39 @@ class ApiTest extends IntegrationTestCase
             'last7',
             'range',
         ];
+    }
+
+    public function testGenerateReportUsesDefaultDataPeriodForNeverScheduledReport(): void
+    {
+        $idReport = APIScheduledReports::getInstance()->addReport(
+            1,
+            '',
+            Schedule::PERIOD_NEVER,
+            0,
+            ScheduledReports::EMAIL_TYPE,
+            ReportRenderer::HTML_FORMAT,
+            [
+                'VisitsSummary_get',
+            ],
+            [
+                ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY,
+            ]
+        );
+
+        $result = APIScheduledReports::getInstance()->generateReport(
+            $idReport,
+            '2024-01-01',
+            false,
+            APIScheduledReports::OUTPUT_RETURN
+        );
+
+        $expectedHeader = Piwik::translate('ScheduledReports_PleaseFindBelow', [
+            Piwik::translate('Intl_PeriodDay'),
+            Site::getNameFor(1),
+        ]);
+
+        self::assertStringContainsString($expectedHeader, $result);
+        self::assertStringNotContainsString('Intl_PeriodNever', $result);
     }
 
     public function testGenerateReportThrowsIfMultiplePeriodsRequested()

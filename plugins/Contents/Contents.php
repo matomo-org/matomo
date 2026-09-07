@@ -24,7 +24,6 @@ class Contents extends \Piwik\Plugin
             'Metrics.getDefaultMetricTranslations' => 'addMetricTranslations',
             'Metrics.getDefaultMetricDocumentationTranslations' => 'addMetricDocumentationTranslations',
             'Metrics.getDefaultMetricSemanticTypes' => 'addMetricSemanticTypes',
-            'AssetManager.getJavaScriptFiles' => 'getJsFiles',
             'Actions.getCustomActionDimensionFieldsAndJoins' => 'provideActionDimensionFields',
         );
     }
@@ -40,11 +39,6 @@ class Contents extends \Piwik\Plugin
     {
         $types['nb_impressions']   = Dimension::TYPE_NUMBER;
         $types['nb_interactions']  = Dimension::TYPE_NUMBER;
-    }
-
-    public function getJsFiles(&$jsFiles)
-    {
-        $jsFiles[] = "plugins/Contents/javascripts/contentsDataTable.js";
     }
 
     public function addMetricDocumentationTranslations(&$translations)

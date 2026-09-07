@@ -57,7 +57,6 @@
         "ComplianceEnforceCheckboxIntro": "Detyro pajtim, kur është e mundshme",
         "ComplianceEnforceCheckboxTitle": "Detyro aplikim rregullimesh që ndihmojnë të mbulohen udhëzime CNIL rreth përjashtimesh nga pranimi, kur është e mundshme",
         "ComplianceNonCompliant": "jo i përputhshëm",
-        "ComplianceSelectSite": "Përzgjidhni më poshtë një sajt që të tregohet nëse sajti i dhënë është në pajtim me ligjin e treguar të privatësisë",
         "ComplianceTableSettingName": "Emër Rregullimi",
         "ComplianceTableSettingNotes": "Shënime",
         "ComplianceTableSettingStatus": "Gjendje",

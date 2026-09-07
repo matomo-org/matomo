@@ -13,6 +13,7 @@ use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\Model as SitesManagerModel;
 use Piwik\Policy\CompliancePolicy;
 use Piwik\Policy\PolicyEnforcementBypass;
+use Piwik\Settings\Interfaces\PolicyComparisonInterface;
 use Piwik\Settings\PolicyEnforcementState;
 
 /**
@@ -74,6 +75,54 @@ trait PolicyComparisonTrait
         }
 
         return static::isEnforcedByPolicies($idSite);
+    }
+
+    public static function getEnforcementScope(?int $idSite = null): ?string
+    {
+        if (!static::isEnforced($idSite)) {
+            return null;
+        }
+
+        if (!is_null(static::getConfigControlledEnforcement())) {
+            return PolicyComparisonInterface::ENFORCEMENT_SCOPE_CONFIG;
+        }
+
+        if (!static::isExternallyManagedByPolicyPage()) {
+            // follows the same order as isEnforced(): an instance wide state covers every site,
+            // so it is the origin even when the site enforces itself as well
+            if (true === static::getStoredEnforcementState(null)) {
+                return PolicyComparisonInterface::ENFORCEMENT_SCOPE_INSTANCE;
+            }
+
+            if (!is_null($idSite) && true === static::getStoredEnforcementState($idSite)) {
+                return PolicyComparisonInterface::ENFORCEMENT_SCOPE_SITE;
+            }
+        }
+
+        // no state of its own, so it is enforced through one of its policies
+        return static::getEnforcingPolicyScope($idSite);
+    }
+
+    /**
+     * Whether the first policy enforcing this setting does so for the whole instance or for the
+     * given site alone, mirroring the precedence of {@link CompliancePolicy::isActive()}.
+     *
+     * @return PolicyComparisonInterface::ENFORCEMENT_SCOPE_*|null
+     */
+    protected static function getEnforcingPolicyScope(?int $idSite = null): ?string
+    {
+        /** @var class-string<CompliancePolicy> $policy */
+        foreach (array_keys(static::getPolicyRequirements()) as $policy) {
+            if (!$policy::isActive($idSite)) {
+                continue;
+            }
+
+            return $policy::getSystemValue()
+                ? PolicyComparisonInterface::ENFORCEMENT_SCOPE_INSTANCE
+                : PolicyComparisonInterface::ENFORCEMENT_SCOPE_SITE;
+        }
+
+        return null;
     }
 
     public static function setEnforced(?bool $isEnforced, ?int $idSite = null): void
@@ -303,6 +352,25 @@ trait PolicyComparisonTrait
     public static function getImpact(?int $idSite = null): string
     {
         return '';
+    }
+
+    public static function getPolicyConstraintType(string $policy): string
+    {
+        return PolicyComparisonInterface::POLICY_CONSTRAINT_EXACT;
+    }
+
+    public static function isValueCompliantWithPolicy($value, string $policy): bool
+    {
+        $requirements = static::getPolicyRequirements();
+
+        if (!array_key_exists($policy, $requirements)) {
+            return true;
+        }
+
+        // compliant means the requirement cannot make the value any stricter than it already is.
+        // Compared loosely on purpose: values reach this from requests and from lists of
+        // selectable options as strings, while requirements are declared as their native type.
+        return static::compareStrictness($value, $requirements[$policy]) == $value;
     }
 
     /**

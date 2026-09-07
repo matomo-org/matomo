@@ -2,17 +2,28 @@
     "TrackingSpamPrevention": {
         "BanIpNotificationMailSubject": "あまりにも多くのアクションを生成するため、IP が禁止されました。",
         "BlockCloudNoteInternetDisabled": "Matomo 構成でインターネットがオフになっているため、この機能は動作しません。",
+        "PluginDescription": "このプラグインは、スパマーやボットがデータを不正確にするのを防ぐためのさまざまなオプションを提供するので、データを再び信頼できるようになります。",
         "SettingBlockCloudDescription": "IP 範囲のリストを取得することで、AWS、Azure、Digital Ocean、Google Cloud、Oracle などのクラウド プロバイダーからのトラッキング リクエストをブロックします。 クラウド プロバイダーを介してデータをルーティングする VPN を使用しない限り、トラッキング リクエストはクラウドから発信されないため、JavaScript トラッカーのみを使用してトラッキングしている場合は、オンにしても安全です。 この設定は、すべてのサイトに適用されます。",
         "SettingBlockCloudTitle": "クラウドからの追跡リクエストをブロックする",
         "SettingBlockHeadlessDescription": "これらは、主に自動化に使用される、ユーザー インターフェイスのないブラウザーです。 通常の Web サイトまたはアプリしかない場合は、これをオンにしても安全です。 他の方法では検出されない追加のボットやスパム リクエストをブロックできます。",
         "SettingBlockHeadlessTitle": "ヘッドレス ブラウザをブロックする",
+        "SettingBlockSdksAndLibrariesHelp": "このオプションは、JavaScriptトラッカーやMatomoタグマネージャーを使ってトラッキングしている場合にのみ有効にしてください。HTTPクライアントやJavaScript以外のトラッキングライブラリ（cURL、Guzzle、Postmanなどのツールを含む）から送信されるトラッキングリクエストをブロックします。%3$s%1$s注意:%2$s MatomoのPHPトラッキングSDK、Java SDK、Python SDK、Android SDK、iOS SDK、または他のJavaScript以外のトラッキングライブラリを使ってトラッキングデータを送信している場合は、このオプションを有効にしないでください。",
+        "SettingBlockSdksAndLibrariesTitle": "SDKおよびサーバーサイドライブラリからのトラフィックをブロックする",
         "SettingExcludedCountriesDescription": "これらの国からのビジターを追跡しないでください。 ターゲット エリア外のビジターはボットまたはスパマーである可能性が高く、他の法域のプライバシー法を回避するために使用できます。",
         "SettingExcludedCountriesTitle": "国を除外する",
         "SettingIncludedCountriesDescription": "これは他のすべての国を除外します。 「国を除外する」設定に詳細があります。",
         "SettingIncludedCountriesTitle": "これらの国からのビジターのみを追跡します",
+        "SettingIpAllowListHelp": "トラッキングリクエストを送信できるIPアドレスやCIDR範囲を指定してください。1行に1つずつ入力してください。",
+        "SettingIpAllowListTitle": "IP許可リスト",
+        "SettingIpBlockListHelp": "トラッキングリクエストの送信をブロックするIPアドレスやCIDR範囲を指定してください。1行に1つずつ入力します。Matomoはこのリストに表示されない追加のIPを自動でブロックする場合があります。たとえば、「クラウドからのトラッキングリクエストをブロック」を有効にすると毎日取得されるクラウドプロバイダのIP範囲や、最大アクション数を超えたことで一時的に禁止されたIPなどです。",
+        "SettingIpBlockListTitle": "IPブロックリスト",
         "SettingMaxActionsDescription": "デフォルトの「0」では、すべてのアクションが記録されます。 通常、ほとんどのサイトには 100 ～ 300 個しかありません。他のアクティビティがスパム、ボット、または攻撃を追跡していると想定しても安全かもしれません。 Matomo はそれ以上のアクションの記録を停止し、IP アドレスを最大 24 時間ブロックして、サーバーの負荷を軽減し、データの正確性を維持します。",
         "SettingMaxActionsTitle": "ビジットごとに記録する最大アクション",
         "SettingNotificationEmailDescription": "この電子メール アドレスは、アクションが多すぎるために IP が禁止されるたびに通知されます。 今後、さらに通知理由が追加される可能性があります。",
-        "SettingNotificationEmailTitle": "通知のメール"
+        "SettingNotificationEmailTitle": "通知のメール",
+        "SettingOrganisationBlockListHelp": "訪問者のIPアドレスが、ホスティングやクラウドプロバイダーなど、指定された組織に属している場合に追跡リクエストをブロックします。組織は1行につき1つ入力してください。意図しない一致を避けるために、具体的な名前を使用してください。入力した値を含む名前の組織はすべて一致します。このリストは「クラウドからの追跡リクエストをブロック」が有効な場合にのみ適用されます。%3$s%1$s注意:%2$s リストをクリアすると組織のブロックは無効になりますが、デフォルトのリストは復元されません。",
+        "SettingOrganisationBlockListPlaceholder": "クラウドホスティングプロバイダーA%1$sクラウドホスティングプロバイダーB",
+        "SettingOrganisationBlockListTitle": "組織のブロックリスト",
+        "SettingsIntroduction": "スパムやボットのトラフィックは、トラッキングリクエストを増やしたり、レポートに不要なデータを混ぜたりすることがあります。このトラフィックが分析に影響する前に、設定を調整して減らしましょう。"
     }
 }

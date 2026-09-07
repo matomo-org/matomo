@@ -30,6 +30,8 @@ class ForecastSeriesState
      * {@see ForecastMetricClassifier::MONOTONICITY_*} constants:
      * - MONOTONICITY_UP: counts/sums; gate forecast >= current.
      * - MONOTONICITY_DOWN: running mins; gate forecast <= current.
+     * - MONOTONICITY_MAX: running maxes; gate forecast >= current, sub-periods combined with max.
+     * - MONOTONICITY_UNIQUE: deduplicated counts; gate forecast >= current, no decomposition.
      * - MONOTONICITY_FREE: ratios/averages; no gate.
      *
      * @var array<string, string>

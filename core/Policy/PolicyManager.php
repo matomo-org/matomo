@@ -10,9 +10,11 @@
 namespace Piwik\Policy;
 
 use Exception;
+use Piwik\Piwik;
 use Piwik\Tracker\Cache;
 use Piwik\Plugin\Manager;
 use Piwik\Policy\Exceptions\CompliancePolicyNotFoundException;
+use Piwik\Policy\Exceptions\CompliancePolicyViolationException;
 use Piwik\Settings\Interfaces\PolicyComparisonInterface;
 use Piwik\Settings\Interfaces\SettingValueInterface;
 use Piwik\Settings\Interfaces\Traits\Getters\ConfigGetterTrait;
@@ -277,35 +279,166 @@ class PolicyManager
      * For a given setting name, return an information on policies that may control the setting and its required value.
      *
      * @return array<string, array{
-     *      requiredValue: mixed
+     *      requiredValue: mixed,
+     *      effectiveValue: mixed,
+     *      constraintType: PolicyComparisonInterface::POLICY_CONSTRAINT_*,
+     *      scope: PolicyComparisonInterface::ENFORCEMENT_SCOPE_*,
+     *      policyTitle: string
      *  }>
      * @throws Exception
      */
     public static function getCompliancePoliciesControllingASetting(string $settingName, ?int $idSite = null, ?string $settingType = null): array
     {
+        $settings = [];
+
+        foreach (self::findControllingPolicies($settingName, $idSite, $settingType) as $policyClass => $controlledSetting) {
+            $settings[$policyClass::getName()] = [
+                'requiredValue' => $controlledSetting::getPolicyRequirements()[$policyClass],
+                'effectiveValue' => $controlledSetting::getInstance($idSite)->getValue(),
+                'constraintType' => $controlledSetting::getPolicyConstraintType($policyClass),
+                'scope' => $controlledSetting::getEnforcementScope($idSite),
+                'policyTitle' => $policyClass::getTitle(),
+            ];
+        }
+
+        return $settings;
+    }
+
+    /**
+     * Validates a value that is about to be stored for a setting compliance policies may control.
+     *
+     * The value a policy puts in effect is never stored: settings screens pre-fill the field with
+     * it, and the settings form posts every field back whether or not it was touched, so storing it
+     * would replace whatever the user had configured before the policy started applying. That
+     * covers a field a policy leaves no alternative to, which is rendered read-only and can only
+     * post the enforced value back, as well as one that is merely bounded, where a stricter value
+     * remains the user's own choice and is stored as usual.
+     *
+     * @param mixed $value
+     * @return bool whether the value may be persisted
+     * @throws CompliancePolicyViolationException when the value breaks a policy that is enforced
+     * @throws Exception
+     */
+    public static function checkSettingValueAgainstPolicies(string $settingName, $value, ?int $idSite = null, ?string $settingType = null): bool
+    {
+        $controllingPolicies = self::findControllingPolicies($settingName, $idSite, $settingType);
+        $mayBePersisted = true;
+
+        foreach ($controllingPolicies as $policyClass => $controlledSetting) {
+            if (!$controlledSetting::isValueCompliantWithPolicy($value, $policyClass)) {
+                throw new CompliancePolicyViolationException(Piwik::translate(
+                    'General_PolicyControlledSettingChangeRejected',
+                    [$controlledSetting::getTitle(), $policyClass::getTitle()]
+                ));
+            }
+
+            // compared loosely on purpose: the value arrives from a request as a string, while the
+            // value in effect is resolved as the native type the setting declares
+            if ($value == $controlledSetting::getInstance($idSite)->getValue()) {
+                $mayBePersisted = false;
+            }
+        }
+
+        return $mayBePersisted;
+    }
+
+    /**
+     * The value compliance policies enforce for a setting, which is what its settings screen has
+     * to show: the stored value is only in effect while no policy overrides it.
+     *
+     * All policies controlling one setting resolve it through the same policy-controlled setting,
+     * so they agree on the effective value.
+     *
+     * @param array<string, array{effectiveValue: mixed}> $controllingPolicies as returned by
+     *        {@link getCompliancePoliciesControllingASetting()}
+     * @param mixed $storedValue returned unchanged when no policy controls the setting
+     * @return mixed
+     */
+    public static function getPolicyEnforcedValue(array $controllingPolicies, $storedValue)
+    {
+        foreach ($controllingPolicies as $policy) {
+            return $policy['effectiveValue'];
+        }
+
+        return $storedValue;
+    }
+
+    /**
+     * Whether the given policies leave no compliant alternative to the value they enforce, so the
+     * field they control has to be shown read-only rather than merely restricted to fewer choices.
+     *
+     * @param array<string, array{constraintType: string}> $controllingPolicies as returned by
+     *        {@link getCompliancePoliciesControllingASetting()}
+     */
+    public static function isFieldLockedByPolicies(array $controllingPolicies): bool
+    {
+        foreach ($controllingPolicies as $policy) {
+            if ($policy['constraintType'] === PolicyComparisonInterface::POLICY_CONSTRAINT_EXACT) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * The subset of the given values that every policy currently enforcing the setting allows, so
+     * that a field bounded by a policy keeps offering the choices which stay compliant instead of
+     * being locked to a single one.
+     *
+     * Selectable values are described in several shapes across settings screens, so this takes and
+     * returns plain values and leaves callers to filter their own structure against the result.
+     *
+     * @param array<int, mixed> $values
+     * @return array<int, mixed>
+     * @throws Exception
+     */
+    public static function filterValuesAllowedByPolicies(array $values, string $settingName, ?int $idSite = null, ?string $settingType = null): array
+    {
+        foreach (self::findControllingPolicies($settingName, $idSite, $settingType) as $policyClass => $controlledSetting) {
+            $values = array_filter(
+                $values,
+                static function ($value) use ($controlledSetting, $policyClass) {
+                    return $controlledSetting::isValueCompliantWithPolicy($value, $policyClass);
+                }
+            );
+        }
+
+        return array_values($values);
+    }
+
+    /**
+     * Policies currently enforcing the given setting, mapped to the policy-controlled setting
+     * that describes what they require of it.
+     *
+     * @return array<class-string<CompliancePolicy>, class-string<PolicyComparisonInterface<mixed>&SettingValueInterface<mixed>>>
+     * @throws Exception
+     */
+    private static function findControllingPolicies(string $settingName, ?int $idSite, ?string $settingType): array
+    {
         if (!$settingType || !in_array($settingType, array_keys(self::$settingTypesMap), true)) {
             return [];
         }
 
-        $policies = static::getAllPolicies();
-        $settings = [];
+        $controllingPolicies = [];
 
-        foreach ($policies as $policyClass) {
-            $controlledSettings = self::getAllControlledSettings($policyClass, $idSite, $settingType);
-
-            foreach ($controlledSettings as $controlledSetting) {
+        foreach (static::getAllPolicies() as $policyClass) {
+            foreach (self::getAllControlledSettings($policyClass, $idSite, $settingType) as $controlledSetting) {
                 if ($settingName !== call_user_func([$controlledSetting, self::$settingTypesMap[$settingType]['method']])) {
                     continue;
                 }
+
+                // a setting subscribes to its policies regardless of whether it is being
+                // enforced, so the enforcement state of the setting itself is what decides
+                // whether a policy currently controls it
                 if (!$controlledSetting::isEnforced($idSite)) {
                     continue;
                 }
-                $settings[$policyClass::getName()] = [
-                    'requiredValue' => $controlledSetting::getPolicyRequirements()[$policyClass],
-                ];
+
+                $controllingPolicies[$policyClass] = $controlledSetting;
             }
         }
 
-        return $settings;
+        return $controllingPolicies;
     }
 }

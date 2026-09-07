@@ -24,7 +24,7 @@
         "DefaultSettingsHelp": "Matomo instalohet me rregullime parazgjedhje. Ato mund t’i përshtatni tani, ose ta bëni më vonë këtë që nga skena e përgjegjësit.",
         "DownloadSystemCheck": "Shkarko kontroll sistemi",
         "Email": "Email",
-        "EmailPrivacyNotice": "Adresa juaj email do të përdoret vetëm për t’ju dërguar buletinin. Për të bërë këtë, i jepet Mad Mimi-t, por furnizuesi palë e tretë i dërgimit të buletineve mund të ndryshojë. Nuk do t’i japim kujt tjetër email-in tuaj, apo ta përdorim për ndonjë qëllim tjetër. Shpajtohuni në çfarëdo kohe. %1$sRregullat mbi privatësinë%2$s kanë më tepër hollësi.",
+        "EmailPrivacyNotice": "Adresa juaj email do të përdoret vetëm për t’ju dërguar buletinin. Nuk do t’i japim kujt tjetër email-in tuaj, apo ta përdorim për ndonjë qëllim tjetër. Shpajtohuni në çfarëdo kohe. %1$sRregullat mbi privatësinë%2$s kanë më tepër hollësi.",
         "ErrorExpired1": "Instalimi juaj i Matomo-s qe nisur më tepër se 3 ditë më parë, por s’është plotësuar.",
         "ErrorExpired2": "Ju lutemi, ndiqni këto hapa që të vazhdohet instalimi:",
         "ErrorExpired3": "Hapni kartelën %1$sconfig/config.ini.php%2$s te drejtoria e instalimit tuaj të Matomo-s.",

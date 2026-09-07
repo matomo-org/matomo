@@ -144,14 +144,20 @@ describe("Overlay", function () {
                 await page.waitForSelector('#overlayTransitions');
                 await page.click('#overlayTransitions');
                 await page.waitForNetworkIdle();
-                await page.waitForTimeout(2000);
+                await page.waitForSelector('.transitionsCenterCard', { visible: true });
+                await page.waitForFunction(() => {
+                    const rows = document.querySelectorAll('[data-ribbon-key]').length;
+                    const bands = document.querySelectorAll('.transitionsRibbons__band').length;
+                    return rows > 0 && rows === bands;
+                });
 
                 await page.evaluate(function () {
-                    $('.Transitions_Text').each(function () {
-                        var html = $(this).html();
-                        // ensure to use localhost as url for screenshots
-                        html = html.split('127.<wbr>​0.<wbr>​0.<wbr>​1').join('localhost')
-                        $(this).html(html);
+                    // ensure to use localhost as url for screenshots: 127.0.0.1 is a site alias
+                    // here, and the card title and the page rows print the action URL verbatim.
+                    // Plain text nodes now, so no <wbr> breakpoints to match and no html() round
+                    // trip -- .html() would re-inject the replacement unescaped.
+                    $('.transitionsCenterCard__title, .transitionsRow__label').each(function () {
+                        $(this).text($(this).text().split('127.0.0.1').join('localhost'));
                     });
                 });
 

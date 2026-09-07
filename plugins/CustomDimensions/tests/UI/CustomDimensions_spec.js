@@ -320,6 +320,12 @@ describe("CustomDimensions", function () {
             await (await page.jQuery('td.label:contains(en_US):visible')).hover();
             await page.waitForTimeout(200);
             await triggerRowAction('en_US', 'actionTransitions');
+            await page.waitForSelector('.ui-dialog .transitionsCenterCard', { visible: true });
+            await page.waitForFunction(() => {
+                const rows = document.querySelectorAll('[data-ribbon-key]').length;
+                const bands = document.querySelectorAll('.transitionsRibbons__band').length;
+                return rows > 0 && rows === bands;
+            });
         });
     });
 });
