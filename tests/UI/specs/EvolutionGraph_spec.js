@@ -182,10 +182,8 @@ describe("EvolutionGraph", function () {
         const element = await page.jQuery('.ui-dialog .ui-widget-header button:visible');
         await element.click();
 
-        await page.click('.limitSelection input');
-        await page.evaluate(function () {
-            $('.limitSelection ul li:contains(60) span').click();
-        });
+        await page.click('.limitSelection .mtm-selector__trigger');
+        await page.click('.limitSelection [data-limit="60"]');
         await page.waitForNetworkIdle();
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('limit_changed');
@@ -193,10 +191,8 @@ describe("EvolutionGraph", function () {
 
     // annotations tests
     it("should show annotations when annotation icon on x-axis clicked", async function () {
-        await page.click('.limitSelection input');
-        await page.evaluate(function () {
-            $('.limitSelection ul li:contains(30) span').click(); // change limit back
-        });
+        await page.click('.limitSelection .mtm-selector__trigger');
+        await page.click('.limitSelection [data-limit="30"]'); // change limit back
         await page.waitForNetworkIdle();
 
         const element = await page.jQuery('.evolution-annotations>span[data-count!=0]');
