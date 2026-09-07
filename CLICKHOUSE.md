@@ -590,7 +590,9 @@ is the faithful one and the benchmark should be read as agreeing with it**, not 
 ## 10. Measuring both engines: `clickhouse:benchmark` (DEV-20751)
 
 `./console clickhouse:benchmark --date=2026-08-03` times the same report APIs and the same
-archiving runs on MySQL and on the analytics database, and prints a comparison.
+archiving runs on MySQL and on the analytics database, and prints a comparison. The live cases
+run over a ramp of windows ending on `--date` — 1, 7, 30 and 365 days — because which engine wins
+depends on the window.
 
 The point of it is that §9 lists gaps between the SQL Matomo *emits* and the SQL the standalone
 benchmark measured. Those gaps can only be closed against numbers produced by Matomo itself, so
@@ -606,6 +608,36 @@ Case ids match the standalone benchmark's file names — `v1`/`v1s`/`v1n`/`v1c`/
 Visits Log, `a1`/`a1s`/… for archiving, `t1`/`t1s` for Transitions — so a number from here is
 directly comparable to a number from there, and a divergence is a finding about the adapter
 rather than a mystery.
+
+### The live cases ramp over windows; archiving does not
+
+`--live-windows=1,7,30,365` (the default) runs every live case once per window, so the ids are
+`v1`, `v1-7d`, `v1-30d`, `v1-365d` — and `v1` is still the one-day case, unchanged, which is what
+keeps it comparable to every number published so far. `--live-windows=1` is the pre-ramp
+behaviour; `--live-windows=` (empty) hands the live cases back to `--period`/`--date`.
+
+**A one-day timing does not generalise, and the standalone benchmark is where that was learnt.**
+Transitions loses to MySQL over one day and wins from seven onwards, and `v1`'s structural loss
+narrows as the window grows. A Transitions number quoted without its window is uninterpretable,
+which is why the window is a column in the results table rather than something to infer from a
+case id.
+
+**Windows end on `--date` and grow backwards.** A 365-day window grown *forwards* from a
+mid-corpus anchor runs off the end of the data and measures a half-empty window at full price —
+which reads as a fast engine rather than as missing data. A `--date` range anchors on its last
+day, so `--date=2026-05-05,2026-08-31` ramps backwards from 2026-08-31. The p200 corpus spans
+~420 days and ends 2026-08-31, so 365d is inside it when anchored that way and only then.
+
+**Archiving is deliberately left out of the ramp.** Matomo archives days from the logs and
+aggregates longer periods from those day archives, so a range archive would measure aggregation
+rather than the log queries the two engines are being compared on — the same reason the
+standalone benchmark's `--sweep` skips `a1`/`a1s`. `--period` and `--date` drive the archive
+cases as before, and the command says so when a ramp is in play and `--period` is not `day`.
+
+One thing to know before running the longer Transitions windows: an instance with
+`[Transitions] max_period_allowed` set refuses them with `PeriodNotAllowed` (`day` allows one day,
+`week` seven, `month` 31, `year` 365; unset means all). That arrives as a **failed** case rather
+than a fast one, because an API error in the payload is checked for — see below.
 
 ### The engine switch is checked, not trusted
 

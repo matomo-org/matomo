@@ -87,6 +87,7 @@ final class Reporter
             $row = [
                 'case' => $caseId,
                 'group' => $anyResult->getCase()->getGroup(),
+                'window' => $anyResult->getCase()->getWindowLabel(),
                 'segmentLabel' => $anyResult->getCase()->getSegmentLabel(),
                 'title' => $anyResult->getCase()->getTitle(),
                 'engines' => [],
@@ -252,7 +253,10 @@ final class Reporter
      */
     public function tableHeader(array $engines): array
     {
-        $header = ['Case', 'Segment', 'Group'];
+        // The window is a column rather than something to read out of the case id, because the
+        // ramp is what makes these numbers mean anything: the same query over 1 day and over a
+        // year can put different engines ahead.
+        $header = ['Case', 'Window', 'Segment', 'Group'];
         foreach ($engines as $engine) {
             $header[] = $engine->getLabel();
             $header[] = 'spread';
@@ -273,7 +277,7 @@ final class Reporter
         $rows = [];
 
         foreach ($summary as $case) {
-            $row = [$case['case'], $case['segmentLabel'], $case['group']];
+            $row = [$case['case'], $case['window'] ?? '', $case['segmentLabel'], $case['group']];
 
             foreach ($engines as $engine) {
                 $engineSummary = $case['engines'][$engine->getKey()];

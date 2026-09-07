@@ -60,6 +60,16 @@ The measurements come from Matomo's CLI:
 Archive timings are read from the ArchivingMetrics table, which records the archive build alone.
 The child's wall clock is reported too, and the gap between them is bootstrap plus invalidation.
 
+The live cases run over a ramp of windows - 1, 7, 30 and 365 days by default - because a
+one-day timing does not generalise: the standalone benchmark has Transitions losing to MySQL
+over one day and winning from seven onwards. Each window ENDS on --date and grows backwards, so
+a long window cannot run off the end of the data and measure half an empty window at full
+price. Ids carry the window (v1, v1-7d, v1-30d, v1-365d), and v1 is still the one-day case.
+
+Archiving is not ramped. Matomo archives days from the logs and aggregates longer periods from
+those day archives, so a range archive measures aggregation rather than the log queries the two
+engines are being compared on. --period and --date drive the archive cases as before.
+
 <comment>Examples</comment>
 
   # both engines, Visits Log and archiving, no segment and the compound segment
@@ -72,6 +82,12 @@ The child's wall clock is reported too, and the gap between them is bootstrap pl
 
   # the production archiving path end to end (needs the segments stored, see --setup-segments)
   ./console clickhouse:benchmark --date=2026-08-03 --suite=archive --archive-driver=cron
+
+  # one window only, ie the pre-ramp behaviour
+  ./console clickhouse:benchmark --date=2026-08-03 --live-windows=1
+
+  # the year-long window on its own, for one report
+  ./console clickhouse:benchmark --date=2026-08-03 --case="v1*-365d"
 
   # show the commands without running them
   ./console clickhouse:benchmark --date=2026-08-03 --dry-run
@@ -93,6 +109,7 @@ HELP);
         $this->addNegatableOption('invalidate', null, 'Invalidate before each archive iteration. On by default - without it the second iteration reuses the first archive.', true);
         $this->addNoValueOption('cascade', null, 'Invalidate child periods too. For week/month/year, without this the run measures aggregation from existing day archives, not log queries.');
 
+        $this->addRequiredValueOption('live-windows', null, 'Window ramp for the live cases, in days, comma separated. Each live case runs once per window, grown BACKWARDS from --date. Empty runs them on --period and --date instead.', implode(',', SuiteBuilder::DEFAULT_LIVE_WINDOWS));
         $this->addRequiredValueOption('live-limit', null, 'filter_limit for the Visits Log cases.', 100);
         $this->addRequiredValueOption('transitions-url', null, 'A page URL that exists in the data. Without it the Transitions cases are skipped.', '');
 
@@ -148,21 +165,47 @@ HELP);
             return $this->setupSegments($idSite, $segments);
         }
 
-        $cases = SuiteBuilder::filter(
-            (new SuiteBuilder())->build([
-                'idSite' => $idSite,
-                'period' => (string) $input->getOption('period'),
-                'date' => $date,
-                'groups' => $this->readList((string) $input->getOption('suite')),
-                'segments' => $segments,
-                'segmentKeys' => $this->readList((string) $input->getOption('segments')),
-                'liveLimit' => (int) $input->getOption('live-limit'),
-                'archivePlugin' => (string) $input->getOption('archive-plugin'),
-                'transitionsPageUrl' => (string) $input->getOption('transitions-url'),
-                'needles' => $needles,
-            ]),
-            (array) $input->getOption('case')
-        );
+        $liveWindows = $this->readList((string) $input->getOption('live-windows'));
+        $period = (string) $input->getOption('period');
+
+        // Said out loud rather than left to be noticed in the table: with a ramp in play the
+        // live cases build their own period, so an operator who passed --period=month for them
+        // would otherwise get day and range cases and no hint as to why.
+        if (!empty($liveWindows) && $period !== 'day') {
+            $this->writeComment(sprintf(
+                '--period=%s applies to the archive cases only. The live cases use --live-windows=%s,'
+                . ' which builds a day or a range per window. Pass --live-windows= to run them on'
+                . ' --period=%s instead.',
+                $period,
+                implode(',', $liveWindows),
+                $period
+            ));
+        }
+
+        try {
+            $cases = SuiteBuilder::filter(
+                (new SuiteBuilder())->build([
+                    'idSite' => $idSite,
+                    'period' => $period,
+                    'date' => $date,
+                    'groups' => $this->readList((string) $input->getOption('suite')),
+                    'segments' => $segments,
+                    'segmentKeys' => $this->readList((string) $input->getOption('segments')),
+                    'liveWindows' => $liveWindows,
+                    'liveLimit' => (int) $input->getOption('live-limit'),
+                    'archivePlugin' => (string) $input->getOption('archive-plugin'),
+                    'transitionsPageUrl' => (string) $input->getOption('transitions-url'),
+                    'needles' => $needles,
+                ]),
+                (array) $input->getOption('case')
+            );
+        } catch (\InvalidArgumentException $e) {
+            // An unknown segment, an unusable window or an anchor that is not a date. All of
+            // them are typos in the invocation, so they are reported as such rather than as a
+            // stack trace from inside the builder.
+            $this->writeErrorMessage($e->getMessage());
+            return self::FAILURE;
+        }
 
         if (empty($cases)) {
             $this->writeErrorMessage('No cases selected. Check --suite, --segments and --case.');
@@ -575,6 +618,7 @@ HELP);
             $json = $reporter->toJson($results, $summary, [
                 'engines' => array_map(static fn(Engine $engine): string => $engine->getKey(), $engines),
                 'archiveDriver' => (string) $this->getInput()->getOption('archive-driver'),
+                'liveWindows' => $this->readList((string) $this->getInput()->getOption('live-windows')),
                 'iterations' => (int) $this->getInput()->getOption('iterations'),
                 'warmups' => (int) $this->getInput()->getOption('warmups'),
                 'invalidate' => (bool) $this->getInput()->getOption('invalidate'),

@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Piwik\Plugins\CoreConsole\ClickhouseBench;
 
 use InvalidArgumentException;
+use Piwik\Date;
 
 /**
  * Builds the case list.
@@ -25,9 +26,26 @@ use InvalidArgumentException;
  * The needles are options rather than constants because they only mean anything against a
  * corpus that contains them. A segment that matches nothing measures an empty result set very
  * quickly on both engines and looks like a win.
+ *
+ * The live cases run over a RAMP of windows rather than one day, because a single-day timing
+ * does not generalise: on the standalone benchmark Transitions loses to MySQL at one day and
+ * wins from seven onwards, so a one-day number answers a narrower question than the one being
+ * asked. Archiving is deliberately left out of the ramp - Matomo archives days from the logs
+ * and aggregates longer periods from those day archives, so a range archive would measure
+ * aggregation, not the log queries the engines are being compared on.
  */
 final class SuiteBuilder
 {
+    /**
+     * The window ramp for the live cases, in days, shortest first.
+     *
+     * Matches the standalone benchmark's sweep, which is the point: 1d is the window every
+     * published A/B number so far was measured in, and the longer ones are where the shape of
+     * the difference shows up. 365d is inside the corpus - the p200 data spans ~420 days and
+     * ends 2026-08-31 - but only when the windows grow BACKWARDS from the anchor.
+     */
+    public const DEFAULT_LIVE_WINDOWS = [1, 7, 30, 365];
+
     /** Suffix per segment, so ids line up with the SQL benchmark's file names. */
     private const SEGMENT_SUFFIX = [
         'none' => '1',
@@ -111,6 +129,11 @@ final class SuiteBuilder
         $archivePlugin = (string) $options['archivePlugin'];
         $transitionsPageUrl = (string) $options['transitionsPageUrl'];
         $needles = $options['needles'];
+        $liveWindows = self::windows(
+            array_key_exists('liveWindows', $options) ? (array) $options['liveWindows'] : self::DEFAULT_LIVE_WINDOWS,
+            $period,
+            $date
+        );
 
         foreach ($segmentKeys as $key) {
             if (!array_key_exists($key, $segments)) {
@@ -129,23 +152,27 @@ final class SuiteBuilder
             $suffix = self::SEGMENT_SUFFIX[$segmentKey] ?? ('1' . substr($segmentKey, 0, 1));
 
             if (in_array(BenchCase::GROUP_API, $groups, true)) {
-                $cases[] = BenchCase::api(
-                    'v' . $suffix,
-                    'Visits Log, segment: ' . $segmentKey,
-                    $idSite,
-                    $period,
-                    $date,
-                    $segment,
-                    $segmentKey,
-                    'Live.getLastVisitsDetails',
-                    [
-                        'filter_limit' => $liveLimit,
-                        // The Visits Log is the one report where the enriched-visitor pass costs
-                        // more than the query, and it is not what is being compared. Left ON so
-                        // the number is the report a customer waits for, not a subset of it.
-                        'doNotFetchActions' => '0',
-                    ]
-                );
+                // Windows of one query run consecutively rather than interleaved with the other
+                // queries, so the ramp for one report reads down the table as a ramp.
+                foreach ($liveWindows as $window) {
+                    $cases[] = BenchCase::api(
+                        'v' . $suffix . $window['suffix'],
+                        'Visits Log over ' . $window['phrase'] . ', segment: ' . $segmentKey,
+                        $idSite,
+                        $window['period'],
+                        $window['date'],
+                        $segment,
+                        $segmentKey,
+                        'Live.getLastVisitsDetails',
+                        [
+                            'filter_limit' => $liveLimit,
+                            // The Visits Log is the one report where the enriched-visitor pass costs
+                            // more than the query, and it is not what is being compared. Left ON so
+                            // the number is the report a customer waits for, not a subset of it.
+                            'doNotFetchActions' => '0',
+                        ]
+                    );
+                }
 
                 // Transitions is pinned to a single page, so it needs one that exists in the
                 // corpus. No URL, no case - a made up URL would measure an empty result.
@@ -159,17 +186,24 @@ final class SuiteBuilder
                         );
                     }
 
-                    $cases[] = BenchCase::api(
-                        't' . $suffix,
-                        'Transitions for one page, segment: ' . $segmentKey,
-                        $idSite,
-                        $period,
-                        $date,
-                        $transitionsSegment,
-                        $segmentKey,
-                        'Transitions.getTransitionsForPageUrl',
-                        ['pageUrl' => $transitionsPageUrl]
-                    );
+                    // Transitions is the case the ramp matters most for: its cost grows with the
+                    // window on both engines and it changes which engine wins. Note that an
+                    // instance with [Transitions] max_period_allowed set will refuse the longer
+                    // windows with "PeriodNotAllowed" - which arrives as a failed case, not as a
+                    // fast one, because an API error in the payload is checked for.
+                    foreach ($liveWindows as $window) {
+                        $cases[] = BenchCase::api(
+                            't' . $suffix . $window['suffix'],
+                            'Transitions for one page over ' . $window['phrase'] . ', segment: ' . $segmentKey,
+                            $idSite,
+                            $window['period'],
+                            $window['date'],
+                            $transitionsSegment,
+                            $segmentKey,
+                            'Transitions.getTransitionsForPageUrl',
+                            ['pageUrl' => $transitionsPageUrl]
+                        );
+                    }
                 }
             }
 
@@ -188,6 +222,98 @@ final class SuiteBuilder
         }
 
         return $cases;
+    }
+
+    /**
+     * Turns a ramp of day counts into the period/date pairs the live cases run under.
+     *
+     * Windows grow BACKWARDS from the anchor, and the anchor is the LAST day of --date. That
+     * direction is not a preference: a 365-day window grown forwards from a mid-corpus anchor
+     * runs off the end of the data and measures a half-empty window at full price, which reads
+     * as a fast engine rather than as missing data. Backwards from the last day of data is also
+     * what "the last year" means to whoever asked for the number.
+     *
+     * A one-day window stays period=day rather than a one-day range, so v1/t1 remain the exact
+     * request every published number so far was measured with.
+     *
+     * @param array<int, int|string> $windowDays day counts; empty means "no ramp", and the
+     *                                           live cases then run on $period/$date as given
+     * @return array<int, array{suffix: string, phrase: string, period: string, date: string}>
+     */
+    public static function windows(array $windowDays, string $period, string $date): array
+    {
+        if (empty($windowDays)) {
+            return [[
+                'suffix' => '',
+                'phrase' => $period === 'day' ? '1 day' : ('one ' . $period . ', ' . $date),
+                'period' => $period,
+                'date' => $date,
+            ]];
+        }
+
+        $anchor = self::anchorDay($date);
+
+        $windows = [];
+        foreach ($windowDays as $days) {
+            $days = self::readWindowDays($days);
+
+            $windows[$days] = [
+                'suffix' => $days === 1 ? '' : '-' . $days . 'd',
+                'phrase' => $days === 1 ? '1 day' : ($days . ' days'),
+                'period' => $days === 1 ? 'day' : 'range',
+                'date' => $days === 1
+                    ? $anchor
+                    : Date::factory($anchor)->subDay($days - 1)->toString('Y-m-d') . ',' . $anchor,
+            ];
+        }
+
+        // Keyed by day count, so a ramp given twice or out of order still produces one case per
+        // window, shortest first.
+        ksort($windows);
+
+        return array_values($windows);
+    }
+
+    /**
+     * @param int|string $days
+     */
+    private static function readWindowDays($days): int
+    {
+        // "7d" is accepted as well as "7": the standalone benchmark's --sweep takes the d suffix
+        // and that is the spelling anyone coming from it will type.
+        $value = trim((string) $days);
+        if (substr($value, -1) === 'd') {
+            $value = substr($value, 0, -1);
+        }
+
+        if (!preg_match('/^\d+$/', $value) || (int) $value < 1) {
+            throw new InvalidArgumentException(sprintf(
+                'A live window is a whole number of days, one or more, eg %s. Got "%s".',
+                implode(',', self::DEFAULT_LIVE_WINDOWS),
+                $days
+            ));
+        }
+
+        return (int) $value;
+    }
+
+    private static function anchorDay(string $date): string
+    {
+        $parts = array_map('trim', explode(',', $date));
+        $anchor = (string) end($parts);
+
+        try {
+            return Date::factory($anchor)->toString('Y-m-d');
+        } catch (\Throwable $e) {
+            // Deliberately not falling back to today. A window silently anchored somewhere the
+            // operator did not ask for would still produce a full table of numbers.
+            throw new InvalidArgumentException(sprintf(
+                'The live windows need a concrete anchor day and --date=%s does not give one.'
+                . ' Pass a date like 2026-08-03 - a range anchors on its last day - or'
+                . ' --live-windows= to run the live cases on --period and --date as given.',
+                $date
+            ));
+        }
     }
 
     /**

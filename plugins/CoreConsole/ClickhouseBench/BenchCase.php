@@ -189,6 +189,38 @@ final class BenchCase
     }
 
     /**
+     * How long a window this case measures, for the report table: 1d, 7d, 30d, 365d.
+     *
+     * Derived from the period and the date rather than carried alongside them, so it is right
+     * for a case built any way - including a --period/--date run with no ramp at all. It earns
+     * its column: on the standalone benchmark Transitions loses to MySQL over one day and wins
+     * from seven onwards, so a timing quoted without its window is uninterpretable.
+     */
+    public function getWindowLabel(): string
+    {
+        if ($this->period !== 'range') {
+            return $this->period === 'day' ? '1d' : $this->period;
+        }
+
+        $parts = array_map('trim', explode(',', $this->date));
+        if (count($parts) !== 2) {
+            // lastN, previousN and the like are ranges Matomo resolves later; there is no day
+            // count to report here and inventing one would be worse than saying "range".
+            return 'range';
+        }
+
+        $start = strtotime($parts[0] . ' 00:00:00 UTC');
+        $end = strtotime($parts[1] . ' 00:00:00 UTC');
+        if ($start === false || $end === false || $end < $start) {
+            return 'range';
+        }
+
+        // Rounded, not floored: the two timestamps are pinned to UTC midnight, but rounding
+        // keeps the count right even if that ever stops being true.
+        return ((int) round(($end - $start) / 86400) + 1) . 'd';
+    }
+
+    /**
      * What the case actually exercises, for the run log. The segment is deliberately shown in
      * full: a timing without the segment it was measured under is not a comparable number.
      */
@@ -220,6 +252,7 @@ final class BenchCase
             'idSite' => $this->idSite,
             'period' => $this->period,
             'date' => $this->date,
+            'window' => $this->getWindowLabel(),
             'segment' => $this->segment,
             'segmentLabel' => $this->segmentLabel,
             'apiMethod' => $this->apiMethod,
