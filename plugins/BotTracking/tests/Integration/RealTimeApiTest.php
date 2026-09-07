@@ -164,6 +164,7 @@ class RealTimeApiTest extends IntegrationTestCase
                 $footer
             );
             self::assertStringContainsString('limited to the top', $footer);
+            self::assertStringContainsString('<br />', $footer);
             self::assertLessThan(
                 strpos($footer, Piwik::translate('BotTracking_SegmentNotSupported')),
                 strpos($footer, 'limited to the top')

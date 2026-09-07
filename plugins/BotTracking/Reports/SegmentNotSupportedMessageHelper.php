@@ -27,8 +27,9 @@ class SegmentNotSupportedMessageHelper
         $existing = $view->config->show_footer_message;
 
         // The real time reports already carry a row-limit footer message; replacing it would drop it.
+        // Joined the way HtmlTable joins two footer messages, so the spacing is not the alert's own.
         $view->config->show_footer_message = is_string($existing) && $existing !== ''
-            ? $existing . $message
+            ? $existing . '<br />' . $message
             : $message;
     }
 }
