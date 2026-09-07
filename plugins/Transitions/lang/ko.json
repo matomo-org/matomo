@@ -1,6 +1,5 @@
 {
     "Transitions": {
-        "BouncesInline": "%s 반송",
         "DirectEntries": "직접 항목",
         "ErrorBack": "이전 동작으로 돌아가기",
         "ExitsInline": "%s 이탈",
@@ -23,7 +22,6 @@
         "ToFollowingSiteSearches": "내부 검색",
         "ToFollowingSiteSearchesInline": "%s 내부 검색",
         "TransitionsSubcategoryHelp2": "자세히",
-        "XOfAllPageviews": "이 페이지의 모든 보기 중 %s",
-        "XOutOfYVisits": "%1$s (%2$s 나감)"
+        "XOfAllPageviews": "이 페이지의 모든 보기 중 %s"
     }
 }
