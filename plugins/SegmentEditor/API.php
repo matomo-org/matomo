@@ -627,6 +627,8 @@ class API extends \Piwik\Plugin\API
      */
     public function getSegmentData(int $idSite, string $period, string $date, string $segment): array
     {
+        Piwik::checkUserHasViewAccess($idSite);
+
         $segmentDefinition = $segment ?: '';
         $this->checkSegmentIsPreProcessed($segmentDefinition);
         $data = VisitsSummary\API::getInstance()
