@@ -3,6 +3,9 @@
 // Named with the `mtm-` prefix to avoid name conflicts.
 
 .mtm-dropdownPanel {
+  // Declared in the block, so it stays private to it rather than joining the one global Less scope.
+  @_menuWidth: 254px;
+
   font-size: 14px;
   line-height: 20px;
   min-width: 140px;
@@ -122,12 +125,15 @@
     color: @theme-color-text-lighter;
     font-style: italic;
   }
-}
 
-// Wider variant for menus with longer labels (e.g. the Dashboard manager).
-// A fixed width, not a floor: `__menuLink` never wraps, so a shrink-to-fit panel is as wide as
-// its longest row and resizes whenever the rows change — most visibly when a search collapses
-// the menu to a single `__noResult`. Labels ellipsise through `__menuLabel` instead.
-.mtm-dropdownPanel--wide {
-  width: 254px;
+  // A floor, so a long label still widens the panel rather than being ellipsised.
+  &.mtm-dropdownPanel--wide {
+    min-width: @_menuWidth;
+  }
+
+  // For a menu that filters as you type: `__menuLink` never wraps, so a content-sized panel would
+  // resize on every keystroke, down to the width of a lone `__noResult`.
+  &.mtm-dropdownPanel--fixedWidth {
+    width: @_menuWidth;
+  }
 }

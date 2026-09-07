@@ -44,7 +44,7 @@
       />
     </a>
     <div class="piwikSelector__dropdown">
-      <div class="mtm-dropdownPanel mtm-dropdownPanel--wide">
+      <div class="mtm-dropdownPanel mtm-dropdownPanel--fixedWidth">
         <div
           class="mtm-dropdownPanel__search"
           v-show="autocompleteMinSites <= sites.length || searchTerm"
