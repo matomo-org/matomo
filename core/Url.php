@@ -410,8 +410,7 @@ class Url
     /**
      * Returns the current host, preferring the hostname from proxy_host_headers when configured.
      *
-     * @param string $default Default value to return if the host is unknown. Also returned in place
-     *                        of a proxy-supplied hostname that is not trusted.
+     * @param string $default Default value to return if no host can be resolved from the request or configuration.
      * @param bool $checkTrustedHost Whether to do trusted host check. Should ALWAYS be true,
      *                               except in Controller.
      * @return string eg, `"example.org"` if the current URL is
@@ -444,9 +443,10 @@ class Url
     }
 
     /**
-     * Whether the host the proxy headers report is trusted. True when no proxy header supplied one.
+     * Checks the host from the first configured proxy host header that is present.
      *
      * @internal
+     * @return bool True if no configured proxy host header is present or its host is trusted.
      */
     public static function hasTrustedProxyHost(): bool
     {
