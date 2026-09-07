@@ -1,8 +1,11 @@
 <div class="dataTableFeatures">
     <div class="dataTableFooterNavigation">
 
-        {% if not isDataTableEmpty and (properties.show_offset_information or properties.show_pagination_control) %}
-            <div class="row dataTablePaginationControl">
+{% set showLimitSelection = not isDataTableEmpty and (properties.show_footer_icons and properties.show_pagination_control or properties.show_limit_control) %}
+{% set hasPagination = not isDataTableEmpty and (properties.show_offset_information or properties.show_pagination_control) %}
+
+        {% if hasPagination or showLimitSelection %}
+            <div class="row dataTablePaginationControl{% if showLimitSelection %} dataTablePaginationControl--withLimit{% endif %}">
                 {% if properties.show_pagination_control %}
                     <span class="dataTablePrevious">&lsaquo; {% if clientSideParameters.dataTablePreviousIsFirst is defined %}{{ 'General_First'|translate }}{% else %}{{ 'General_Previous'|translate }}{% endif %}</span>
                     &nbsp;
@@ -13,6 +16,10 @@
                 {% if properties.show_pagination_control %}
                     &nbsp;<span class="dataTableNext">{{ 'General_Next'|translate }} &rsaquo;</span>
                 {% endif %}
+                {# The selector's only home: a second placement elsewhere drifts from this one. #}
+                {% if showLimitSelection %}
+                    <div class="limitSelection"></div>
+                {% endif %}
             </div>
         {% endif %}
 
@@ -20,10 +27,6 @@
             <div class="col s9 m9 dataTableControls">
                 {% include "@CoreHome/_dataTableActions.twig" %}
             </div>
-
-            {% if not isDataTableEmpty and (properties.show_footer_icons and properties.show_pagination_control or properties.show_limit_control) %}
-                <div class="col s3 m3 limitSelection"></div>
-            {% endif %}
         </div>
 
         {% if (properties.related_reports is not empty) and properties.show_related_reports %}
