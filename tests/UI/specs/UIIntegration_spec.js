@@ -200,10 +200,8 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
         it('should be possible to change the limit of evolution chart', async function () {
             await page.hover('.dataTableFeatures');
-            await page.click('.limitSelection input');
-            await page.evaluate(function () {
-                $('.limitSelection ul li:contains(10) span').click();
-            });
+            await page.click('.limitSelection .mtm-selector__trigger');
+            await page.click('.limitSelection [data-limit="10"]');
             await page.mouse.move(0, 0);
             await page.waitForNetworkIdle();
 

@@ -744,50 +744,126 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
         // setup limit control
 
-        var selectionMarkup = '<div class="input-field"><select value="'+ self.param[limitParamName] +'">';
         var selectedValue = getFilterLimitAsString(self.param[limitParamName]);
 
-        if (self.props.show_limit_control) {
-            for (var i = 0; i < numbers.length; i++) {
-                var currentValue = getFilterLimitAsString(numbers[i]);
-                var optionSelected = '';
-                if (selectedValue == currentValue) {
-                    optionSelected = 'selected';
-                }
-                selectionMarkup += '<option value="' + numbers[i] + '"' + optionSelected + '>' + currentValue + '</option>';
+        if (!self.props.show_limit_control) {
+            $('.limitSelection', domElem).hide();
+            return;
+        }
+
+        var options = '';
+        for (var i = 0; i < numbers.length; i++) {
+            var currentValue = getFilterLimitAsString(numbers[i]);
+            var isCurrent = selectedValue == currentValue;
+
+            options += '<li class="mtm-dropdownPanel__menuItem" role="none">'
+                // No href, like PeriodsMenu's items: with one, a middle-click would open a tab.
+                + '<a class="mtm-dropdownPanel__menuLink" role="menuitemradio" tabindex="0"'
+                + ' aria-checked="' + (isCurrent ? 'true' : 'false') + '"'
+                + ' data-limit="' + piwikHelper.htmlEntities(String(numbers[i])) + '">'
+                + '<span class="mtm-dropdownPanel__menuLabel">'
+                + piwikHelper.htmlEntities(String(currentValue)) + '</span>'
+                + (isCurrent ? '<span class="mtm-dropdownPanel__rightIcon" aria-hidden="true">'
+                    + '<span class="icon-ok"></span></span>' : '')
+                + '</a></li>';
+        }
+
+        var label = piwikHelper.htmlEntities(_pk_translate('General_RowsToDisplay'));
+        // The value goes into the name too: alone, the label would override the visible value,
+        // which is the button's only text.
+        var triggerName = label + ': ' + piwikHelper.htmlEntities(String(selectedValue));
+        // Built here rather than in Vue: the choices are only known once the table has loaded.
+        $('.limitSelection', domElem).append(
+            '<div class="mtm-selector">'
+            + '<button type="button" class="mtm-selector__trigger" title="' + label + '"'
+            + ' aria-label="' + triggerName + '" aria-haspopup="menu" aria-expanded="false">'
+            + '<span class="mtm-selector__label">'
+            + piwikHelper.htmlEntities(String(selectedValue)) + '</span>'
+            + '<span class="mtm-selector__rightIcon" aria-hidden="true">'
+            + '<span class="icon-chevron-down"></span></span>'
+            + '</button>'
+            + '<div class="mtm-selector__dropdown"><div class="mtm-dropdownPanel">'
+            + '<ul class="mtm-dropdownPanel__menu" role="menu" aria-label="' + label + '">'
+            + options + '</ul></div></div></div>'
+        );
+
+        var $selector = $('.limitSelection .mtm-selector', domElem);
+
+        if (self.isEmpty) {
+            // The class only dims it; the attribute is what removes it from the tab order.
+            $selector.addClass('disabled')
+                .find('.mtm-selector__trigger').attr('disabled', 'disabled');
+            return;
+        }
+
+        self._bindLimitSelector($selector, function (limit) {
+            if (limit == self.param[limitParamName]) {
+                return;
             }
-            selectionMarkup += '</select></div>';
 
-            $('.limitSelection', domElem).append(selectionMarkup);
+            setLimitValue(self.param, limit);
+            self.reloadAjaxDataTable();
 
-            var $limitSelect = $('.limitSelection select', domElem);
+            var data = {};
+            data[limitParamName] = self.param[limitParamName];
+            self.notifyWidgetParametersChange(domElem, data);
+        });
+    },
+    // Rebound, not added to: handleLimit runs again after every reload and nothing detaches them.
+    _bindLimitSelectorDismissal: function () {
+        function collapse($selectors) {
+            $selectors.removeClass('expanded')
+                .find('.mtm-selector__trigger').attr('aria-expanded', 'false');
+        }
 
-            if (!self.isEmpty) {
-
-                $limitSelect.on('change', function (event) {
-                    var limit = $(this).val();
-
-                    if (limit != self.param[limitParamName]) {
-                        setLimitValue(self.param, limit);
-                        self.reloadAjaxDataTable();
-
-                        var data = {};
-                        data[limitParamName] = self.param[limitParamName];
-                        self.notifyWidgetParametersChange(domElem, data);
+        $(document)
+            .off('click.limitSelection keyup.limitSelection')
+            .on('click.limitSelection', function (event) {
+                $('.limitSelection .mtm-selector.expanded').each(function () {
+                    var $selector = $(this);
+                    if (!$selector.is(event.target) && !$selector.has(event.target).length) {
+                        collapse($selector);
                     }
                 });
-            }
-            else {
-                $limitSelect.toggleClass('disabled');
-            }
+            })
+            .on('keyup.limitSelection', function (event) {
+                if (event.key === 'Escape') {
+                    collapse($('.limitSelection .mtm-selector.expanded'));
+                }
+            });
+    },
+    // The Vue selectors get this from ExpandOnClick; this one is jQuery, so it toggles its own class.
+    _bindLimitSelector: function ($selector, onPick) {
+        var $trigger = $selector.find('.mtm-selector__trigger');
 
-            $limitSelect.material_select();
+        function close() {
+            $selector.removeClass('expanded');
+            $trigger.attr('aria-expanded', 'false');
+        }
 
-            $('.limitSelection input', domElem).attr('title', _pk_translate('General_RowsToDisplay'));
-        }
-        else {
-            $('.limitSelection', domElem).hide();
-        }
+        // Propagation is left alone: the dismissal handler needs this click to fold the other panels.
+        $trigger.on('click', function (event) {
+            event.preventDefault();
+
+            var opening = !$selector.hasClass('expanded');
+            $selector.toggleClass('expanded', opening);
+            $trigger.attr('aria-expanded', opening ? 'true' : 'false');
+        });
+
+        $selector.on('click', '[data-limit]', function (event) {
+            event.preventDefault();
+            close();
+            onPick($(this).attr('data-limit'));
+        });
+
+        $selector.on('keydown', '[data-limit]', function (event) {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                $(this).click();
+            }
+        });
+
+        this._bindLimitSelectorDismissal();
     },
     handlePeriod: function (domElem) {
         var self = this;

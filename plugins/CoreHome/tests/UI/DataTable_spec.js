@@ -17,8 +17,8 @@ describe('DataTable', function () {
   const widgetSelector = '#widgetDevicesDetectiongetType';
   const selectors = {
     metricColumn: `${widgetSelector} #nb_uniq_visitors`,
-    limitDropdownTrigger: `${widgetSelector} .limitSelection .select-wrapper input.select-dropdown`,
-    limitDropdownMenu: `${widgetSelector} .limitSelection .select-wrapper ul.select-dropdown`,
+    limitDropdownTrigger: `${widgetSelector} .limitSelection .mtm-selector__trigger`,
+    limitDropdownMenu: `${widgetSelector} .limitSelection .mtm-dropdownPanel__menu`,
     // One 3-dots trigger opens one menu holding every action, so the visualisation list and the
     // config items no longer have separate triggers of their own.
     actionsTrigger: `${widgetSelector} .reportHeader__actionsTrigger`,
@@ -77,7 +77,8 @@ describe('DataTable', function () {
     await page.waitForSelector(selectors.limitDropdownMenu, { visible: true });
     const dropdown = await page.$(selectors.limitDropdownMenu);
     expect(dropdown).to.be.ok;
-    await page.click(`${selectors.limitDropdownMenu} li:nth-child(1)`);
+    // Picking the limit already in force reloads nothing, so take the first that is not it.
+    await page.click(`${selectors.limitDropdownMenu} [data-limit][aria-checked="false"]`);
     await page.waitForNetworkIdle();
   }
 
