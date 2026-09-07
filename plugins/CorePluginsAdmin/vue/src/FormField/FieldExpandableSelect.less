@@ -162,6 +162,9 @@
 
   .expandableSearch {
     vertical-align: top;
+    // stated here rather than inherited: the list is rendered at the page level now, away from
+    // the form styles that used to give the typed query its weight
+    font-weight: bold;
     padding: 7px 6px !important;
     border: 1px solid @theme-color-border !important;
     background: @theme-color-background-contrast !important;

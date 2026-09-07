@@ -248,13 +248,10 @@ export default defineComponent({
 
       const rect = wrapper.getBoundingClientRect();
 
-      // Positioned absolutely, the list shrank to fit within its containing block - the field -
-      // so the field's width was its upper bound. Fixed positioning makes the viewport the
-      // containing block, so that bound has to be restated or the list grows to fit its longest
-      // option. Still a max rather than a width, so the 250px min-width keeps working.
+      // The list sizes itself: its own min-width sits on the inner list, and capping the wrapper
+      // to the field clipped that off, taking the category chevrons and help icons with it.
       this.listStyle = {
         left: `${rect.left}px`,
-        maxWidth: `${rect.width}px`,
         ...(this.openAbove
           ? { bottom: `${window.innerHeight - rect.top + LIST_GAP}px` }
           : { top: `${rect.bottom + LIST_GAP}px` }),
