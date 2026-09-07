@@ -634,8 +634,15 @@ describe("SegmentSelectorEditorTest", function () {
     });
 
     it("should close only the dimension list when escape is pressed while it is open", async function() {
+        // last in the file, so it inherits whatever the tests before it left open or half-built.
+        // The url differs from theirs only by its hash, which does not reload, so reload for a
+        // known starting point rather than guarding each piece of leftover state in turn.
         await page.goto(url);
+        await page.reload();
+        await page.waitForNetworkIdle();
+
         await page.click('.segmentationContainer .title');
+        await page.waitForSelector('.add_new_segment', { visible: true });
         await page.click('.add_new_segment');
         await page.waitForNetworkIdle();
         await page.waitForSelector('.segmentRow0');
