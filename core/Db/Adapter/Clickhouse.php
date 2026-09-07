@@ -464,7 +464,7 @@ class Clickhouse implements AdapterInterface
         $notAnAlias = 'AS|ON|WHERE|GROUP|ORDER|LIMIT|HAVING|UNION|SET|USING|FINAL|USE'
                     . '|INNER|LEFT|RIGHT|FULL|CROSS|STRAIGHT_JOIN|JOIN';
 
-        $pattern = '~\b(FROM|JOIN)(\s+)`?' . preg_quote($source, '~') . '(' . $tables . ')`?(?![\w`])'
+        $pattern = '~\b(FROM|STRAIGHT_JOIN|JOIN)(\s+)`?' . preg_quote($source, '~') . '(' . $tables . ')`?(?![\w`])'
                  . '(\s+(?:AS\s+)?`?(?!(?:' . $notAnAlias . ')\b)\w+`?)?~i';
 
         return preg_replace_callback($pattern, static function (array $m) use ($source, $target): string {
