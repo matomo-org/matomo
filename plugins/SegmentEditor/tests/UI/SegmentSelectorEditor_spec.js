@@ -47,14 +47,17 @@ describe("SegmentSelectorEditorTest", function () {
         await (await page.jQuery(prefixSelector + ' .metricListBlock .select-wrapper', { waitFor: true })).click();
         await page.waitForFunction('$(".expandableList:visible").length > 0');
 
-        // the list keeps the category it last expanded, so clicking that one again would collapse it
-        await page.evaluate(function (category) {
+        // the list keeps the category it last expanded, so clicking that one again would collapse
+        // it. The click itself stays a real one, so it exercises what a user actually does.
+        const categoryClosed = await page.evaluate(function (category) {
             var $category = $('.expandableList:visible h4:contains(' + category + ')');
 
-            if (!$category.closest('li').find('.secondLevel').is(':visible')) {
-                $category.click();
-            }
+            return !$category.closest('li').find('.secondLevel').is(':visible');
         }, category);
+
+        if (categoryClosed) {
+            await (await page.jQuery('.expandableList:visible h4:contains(' + category + ')')).click();
+        }
 
         await (await page.jQuery('.expandableList:visible .secondLevel:visible li:contains(' + name + ')', { waitFor: true })).click();
     }
