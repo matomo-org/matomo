@@ -419,18 +419,10 @@ class Url
      */
     public static function getCurrentHost($default = 'unknown', $checkTrustedHost = true)
     {
-        $hostHeaders = [];
-
-        $hostHeadersInConfig = GeneralConfig::getConfigValue('proxy_host_headers');
-        if (is_array($hostHeadersInConfig)) {
-            $hostHeaders = $hostHeadersInConfig;
-        }
-
         $host = self::getHost($checkTrustedHost);
         $default = Common::sanitizeInputValue($host ? $host : $default);
-        $hostFromProxyHeader = IP::getNonProxyIpFromHeader($default, $hostHeaders);
+        $hostFromProxyHeader = self::getHostFromProxyHeaders($default);
 
-        // no proxy header supplied a host, so getHost() already checked it
         if ($hostFromProxyHeader === $default) {
             return $default;
         }
@@ -443,26 +435,25 @@ class Url
     }
 
     /**
-     * Checks the host from the first configured proxy host header that is present.
-     *
      * @internal
-     * @return bool True if no configured proxy host header is present or its host is trusted.
      */
-    public static function hasTrustedProxyHost(): bool
+    public static function isProxyHostValid(): bool
+    {
+        $host = self::getHost();
+        $default = Common::sanitizeInputValue($host ?: '');
+        $hostFromProxyHeader = self::getHostFromProxyHeaders($default);
+
+        return $hostFromProxyHeader === $default || self::isValidHost($hostFromProxyHeader);
+    }
+
+    private static function getHostFromProxyHeaders(string $default): string
     {
         $hostHeaders = GeneralConfig::getConfigValue('proxy_host_headers');
-
         if (!is_array($hostHeaders)) {
-            return true;
+            $hostHeaders = [];
         }
 
-        foreach ($hostHeaders as $hostHeader) {
-            if (!empty($_SERVER[$hostHeader])) {
-                return self::isValidHost(self::getCurrentHost('', false));
-            }
-        }
-
-        return true;
+        return IP::getNonProxyIpFromHeader($default, $hostHeaders);
     }
 
     /**
