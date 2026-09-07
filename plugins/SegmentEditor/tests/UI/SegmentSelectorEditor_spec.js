@@ -629,4 +629,25 @@ describe("SegmentSelectorEditorTest", function () {
         expect(result.didThrow).to.equal(true);
         expect(result.message).to.contain('Segmentation is initialized more than once on this page.');
     });
+
+    it("should close only the dimension list when escape is pressed while it is open", async function() {
+        await page.goto(url);
+        await page.click('.segmentationContainer .title');
+        await page.click('.add_new_segment');
+        await page.waitForNetworkIdle();
+        await page.waitForSelector('.segmentRow0');
+
+        await (await page.jQuery('.segmentRow0 .metricListBlock .select-wrapper', { waitFor: true })).click();
+        await page.waitForFunction('$(".expandableList:visible").length > 0');
+
+        await page.keyboard.press('Escape');
+        await page.waitForFunction('!$(".expandableList:visible").length');
+
+        // The list is rendered at the page level, so the editor can only tell that it was open by
+        // looking outside itself. Miss that and this escape takes the half-written segment with it.
+        expect(await page.evaluate(() => $('.segmentEditorPanel').hasClass('editing'))).to.equal(true);
+
+        await page.keyboard.press('Escape');
+        await page.waitForFunction('!$(".segmentEditorPanel").hasClass("editing")');
+    });
 });

@@ -313,7 +313,12 @@ Segmentation = (function($) {
 
             $("body").on("keyup", function (e) {
                 if(e.keyCode == "27" || e.which === 27) {
-                    if (self.target.find('[uicontrol="expandable-select"] .expandableList:visible').length) {
+                    // The dimension list is rendered into the body, so it is no longer a descendant
+                    // of this editor and cannot be reached from self.target. The name keeps this to
+                    // the segment editor's own lists rather than any other expandable select on the
+                    // page, but every AND/OR row renders one, so it matches several: :visible is
+                    // what narrows it to the open one and cannot be dropped.
+                    if ($('.expandableSelector__list[data-name="segments"]:visible').length) {
                         return;
                     }
                     if (Piwik_Popover.isOpen()) {
