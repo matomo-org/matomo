@@ -228,7 +228,7 @@ describe('CoreVisualizations/SegmentComparisonRow segment + date', () => {
     await nextTick();
     await wrapper.findComponent({ name: 'Sparkline' }).vm.$emit('loadingChange', false);
     expect(wrapper.find('.sparklineSegmentComparisonRow__sparkline').classes())
-      .not.toContain('sparklineSegmentComparisonRow__sparkline--loading');
+      .not.toContain('sparklineLoadingSkeleton');
 
     // The slot really has to change width: a reflow that leaves it alone must not blink the card.
     vi.spyOn(Element.prototype, 'getBoundingClientRect')
@@ -239,7 +239,7 @@ describe('CoreVisualizations/SegmentComparisonRow segment + date', () => {
     await nextTick();
 
     expect(wrapper.find('.sparklineSegmentComparisonRow__sparkline').classes())
-      .toContain('sparklineSegmentComparisonRow__sparkline--loading');
+      .toContain('sparklineLoadingSkeleton');
   });
 
   it('shows the placeholder until the sparkline reports it has something to display', async () => {
@@ -247,11 +247,11 @@ describe('CoreVisualizations/SegmentComparisonRow segment + date', () => {
     await nextTick();
 
     expect(wrapper.find('.sparklineSegmentComparisonRow__sparkline').classes())
-      .toContain('sparklineSegmentComparisonRow__sparkline--loading');
+      .toContain('sparklineLoadingSkeleton');
 
     await wrapper.findComponent({ name: 'Sparkline' }).vm.$emit('loadingChange', false);
 
     expect(wrapper.find('.sparklineSegmentComparisonRow__sparkline').classes())
-      .not.toContain('sparklineSegmentComparisonRow__sparkline--loading');
+      .not.toContain('sparklineLoadingSkeleton');
   });
 });

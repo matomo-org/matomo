@@ -39,7 +39,7 @@
     <div
       ref="sparklineSlot"
       class="sparklineCard__sparkline"
-      :class="{ 'sparklineCard__sparkline--loading': isSparklineLoading }"
+      :class="{ sparklineLoadingSkeleton: isSparklineLoading }"
       :title="sparkline.tooltip || undefined"
     >
       <Sparkline

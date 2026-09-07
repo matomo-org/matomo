@@ -19,7 +19,7 @@
     <div
       ref="sparklineSlot"
       class="sparklineSegmentComparisonRow__sparkline"
-      :class="{ 'sparklineSegmentComparisonRow__sparkline--loading': isSparklineLoading }"
+      :class="{ sparklineLoadingSkeleton: isSparklineLoading }"
       :title="segment.tooltip || undefined"
     >
       <Sparkline
