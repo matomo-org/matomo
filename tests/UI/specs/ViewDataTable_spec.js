@@ -106,16 +106,14 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
     });
 
     it("should show the limit selector when the limit selector is clicked", async function () {
-        await page.click('.limitSelection input');
+        await page.click('.limitSelection .mtm-selector__trigger');
         await page.mouse.move(-10, -10);
         await page.waitForTimeout(200);
         expect(await page.screenshot({ fullPage: true })).to.matchImage('limit_selector_open');
     });
 
     it("should change the number of rows when new limit selected", async function () {
-        await page.evaluate(function () {
-            $('.limitSelection ul li:contains(10):first span').click();
-        });
+        await page.click('.limitSelection [data-limit="10"]');
         await page.waitForNetworkIdle();
         expect(await page.screenshot({ fullPage: true })).to.matchImage('10_change_limit');
     });
