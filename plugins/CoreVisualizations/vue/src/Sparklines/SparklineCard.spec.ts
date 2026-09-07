@@ -205,7 +205,7 @@ describe('CoreVisualizations/SparklineCard', () => {
     await nextTick();
     await wrapper.findComponent({ name: 'Sparkline' }).vm.$emit('loadingChange', false);
     expect(wrapper.find('.sparklineCard__sparkline').classes())
-      .not.toContain('sparklineCard__sparkline--loading');
+      .not.toContain('sparklineLoadingSkeleton');
 
     // The slot really has to change width: a reflow that leaves it alone must not blink the card.
     vi.spyOn(Element.prototype, 'getBoundingClientRect')
@@ -216,7 +216,7 @@ describe('CoreVisualizations/SparklineCard', () => {
     await nextTick();
 
     expect(wrapper.find('.sparklineCard__sparkline').classes())
-      .toContain('sparklineCard__sparkline--loading');
+      .toContain('sparklineLoadingSkeleton');
   });
 
   it('shows the placeholder until the sparkline reports it has something to display', async () => {
@@ -225,14 +225,14 @@ describe('CoreVisualizations/SparklineCard', () => {
 
     // Also covers the time before the slot is measured, when there is no image yet.
     expect(wrapper.find('.sparklineCard__sparkline').classes())
-      .toContain('sparklineCard__sparkline--loading');
+      .toContain('sparklineLoadingSkeleton');
     expect(wrapper.findComponent({ name: 'Sparkline' }).classes())
       .toContain('sparklineImg--hidden');
 
     await wrapper.findComponent({ name: 'Sparkline' }).vm.$emit('loadingChange', false);
 
     expect(wrapper.find('.sparklineCard__sparkline').classes())
-      .not.toContain('sparklineCard__sparkline--loading');
+      .not.toContain('sparklineLoadingSkeleton');
     expect(wrapper.findComponent({ name: 'Sparkline' }).classes())
       .not.toContain('sparklineImg--hidden');
   });
