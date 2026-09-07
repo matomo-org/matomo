@@ -5,11 +5,24 @@ img.sparklineImg {
   height: 25px;
 }
 
+// Moved here from coreHome.less so every `.sparklineImg` rule lives in one file. Scoped to the
+// legacy `.sparkline` wrapper exactly as that rule was, so a sparkline outside one — as in
+// SingleMetricView — is unchanged.
+.sparkline .sparklineImg {
+  vertical-align: middle;
+  padding-right: 10px;
+  margin-top: 0;
+}
+
 // For parents that size the image themselves: never let it grow past its container. Without this
-// it would overflow rather than shrink, because Morpheus sets `flex-shrink: 0` on it. Using this
-// class also drops the legacy right padding (see coreHome.less).
+// it would overflow rather than shrink, because Morpheus sets `flex-shrink: 0` on it.
 .sparklineImg--fluid {
   max-width: 100%;
+}
+
+// Cards size their image to the slot, so the gap above would eat 10px of it.
+.sparkline .sparklineImg--fluid {
+  padding-right: 0;
 }
 
 // Hides the image while the parent shows its own placeholder, so a half-loaded image can't appear
