@@ -1246,6 +1246,9 @@
                 });
 
                 if (column) { requestParams.column = column; }
+                // this popover is server-rendered, so it needs the page's language like the
+                // report requests above; the params here are picked one by one, not spread
+                if (config.reqParams.language) { requestParams.language = config.reqParams.language; }
 
                 ajax(requestParams, 'html')
                     .done(function (html) {
