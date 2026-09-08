@@ -128,7 +128,7 @@ class PdfTest extends TestCase
      */
     public function testColumnWidthsNeverExceedThePageWidth(int $metricColumns, float $labelWidth)
     {
-        $renderer = new Pdf();
+        $renderer = $this->newRenderer();
 
         $reflection = new ReflectionObject($renderer);
 
@@ -178,7 +178,7 @@ class PdfTest extends TestCase
 
     public function testASingleColumnTableGivesTheWholePageToTheLabel()
     {
-        $renderer = new Pdf();
+        $renderer = $this->newRenderer();
 
         $reflection = new ReflectionObject($renderer);
 
@@ -265,7 +265,8 @@ class PdfTest extends TestCase
     }
 
     /**
-     * Exercises the label rendering in isolation, without building a TCPDF document.
+     * Exercises the renderer in isolation, without building a TCPDF document: none of the
+     * behaviour under test here paints anything.
      */
     private function newRenderer(): Pdf
     {

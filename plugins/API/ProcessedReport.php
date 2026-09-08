@@ -756,18 +756,16 @@ class ProcessedReport
             }
         }
 
-        $suffixLength = strlen(PercentOfReportTotal::COLUMN_NAME_SUFFIX);
-
         foreach (array_keys($columns) as $columnName) {
-            if (!str_ends_with($columnName, PercentOfReportTotal::COLUMN_NAME_SUFFIX)) {
+            $metricName = PercentOfReportTotal::getMetricNameFromColumnName($columnName);
+
+            if (null === $metricName || isset($columns[$metricName])) {
                 continue;
             }
 
-            if (!isset($columns[substr($columnName, 0, -$suffixLength)])) {
-                unset($columns[$columnName]);
-                unset($reportMetadata['metricTypes'][$columnName]);
-                unset($reportMetadata['metricsDocumentation'][$columnName]);
-            }
+            unset($columns[$columnName]);
+            unset($reportMetadata['metricTypes'][$columnName]);
+            unset($reportMetadata['metricsDocumentation'][$columnName]);
         }
     }
 
