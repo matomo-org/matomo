@@ -39,14 +39,20 @@ const availableOptions = [
   },
 ];
 
+const mounted: { unmount: () => void }[] = [];
+
 function mountSelect(props = {}) {
-  return mount(FieldExpandableSelect as any, {
+  const wrapper = mount(FieldExpandableSelect as any, {
     attachTo: document.body,
     props: {
       availableOptions,
       ...props,
     },
   });
+
+  mounted.push(wrapper);
+
+  return wrapper;
 }
 
 // the option list is teleported to the body so that a scrolling ancestor cannot clip it, which
@@ -62,6 +68,9 @@ function findInBody(selector: string): HTMLElement {
 }
 
 afterEach(() => {
+  // unmount rather than emptying the body: an open select holds window listeners and an observer,
+  // and wiping the markup would leave those attached to elements no test can reach any more
+  mounted.splice(0).forEach((wrapper) => wrapper.unmount());
   document.body.innerHTML = '';
 });
 
@@ -153,7 +162,8 @@ describe('CorePluginsAdmin/FormField/FieldExpandableSelect', () => {
       await wrapper.vm.$nextTick();
 
       // 800 - (300 + 30) - 8 - 50 - 16
-      expect(findInBody('.expandableList').classList).not.toContain('expandableSelector__list--above');
+      expect(findInBody('.expandableList').style.top).toBe('338px');
+      expect(findInBody('.expandableList').style.bottom).toBe('');
       expect(findInBody('.firstLevel').style.maxHeight).toBe('396px');
     });
 
@@ -166,7 +176,8 @@ describe('CorePluginsAdmin/FormField/FieldExpandableSelect', () => {
       await wrapper.find('.select-wrapper').trigger('click');
       await wrapper.vm.$nextTick();
 
-      expect(findInBody('.expandableList').classList).toContain('expandableSelector__list--above');
+      expect(findInBody('.expandableList').style.bottom).toBe('116px');
+      expect(findInBody('.expandableList').style.top).toBe('');
       expect(findInBody('.firstLevel').style.maxHeight).toBe('218px');
     });
 
@@ -179,7 +190,8 @@ describe('CorePluginsAdmin/FormField/FieldExpandableSelect', () => {
       await wrapper.find('.select-wrapper').trigger('click');
       await wrapper.vm.$nextTick();
 
-      expect(findInBody('.expandableList').classList).not.toContain('expandableSelector__list--above');
+      expect(findInBody('.expandableList').style.top).toBe('138px');
+      expect(findInBody('.expandableList').style.bottom).toBe('');
       expect(findInBody('.firstLevel').style.maxHeight).toBe('150px');
     });
   });

@@ -12,73 +12,73 @@
       class="select-wrapper expandableSelector__wrapper"
       :class="{ 'expandableSelector__wrapper--expanded': showSelect }"
     >
-      <input type="text" class="select-dropdown" readonly :value="modelValueText"/>
+      <input type="text" class="select-dropdown" readonly :value="modelValueText" />
       <span class="expandableSelector__chevron icon icon-chevron-down" />
     </div>
 
     <Teleport to="body">
-    <div
-      v-show="showSelect"
-      class="expandableList expandableSelector__list"
-      :class="{ 'expandableSelector__list--above': openAbove }"
-      :data-name="name"
-      :style="listStyle"
-      ref="expandableList"
-      @mousedown="isMouseDownInsideList = true"
-    >
-
-      <div class="searchContainer">
-        <input
-          type="text"
-          placeholder="Search"
-          v-model="searchTerm"
-          class="expandableSearch browser-default"
-          v-focus-if="{ focused: showSelect }"
-        />
-      </div>
-      <ul
-        class="collection firstLevel"
-        ref="optionsList"
-        :style="optionsListStyle"
+      <div
+        v-show="showSelect"
+        class="expandableList expandableSelector__list"
+        :class="{ 'expandableSelector__list--above': openAbove }"
+        :data-name="name"
+        :style="listStyle"
+        ref="expandableList"
+        @mousedown="isMouseDownInsideList = true"
       >
-        <li
-          v-for="(options, index) in availableOptions"
-          class="collection-item"
-          v-show="visibleChildren(options).length"
-          :key="index"
-        >
-          <h4
-            class="expandableListCategory"
-            @click="onCategoryClicked(options)"
-          >
-            {{ options.group }}
-            <span
-              class="secondary-content"
-              :class='{
-                "icon-chevron-right": showCategory !== options.group,
-                "icon-chevron-down": showCategory === options.group
-              }'
-            />
-          </h4>
 
-          <ul v-show="showCategory === options.group || searchTerm" class="collection secondLevel">
-            <li
-              class="expandableListItem collection-item valign-wrapper"
-              v-for="children in visibleChildren(options)"
-              :key="children.key"
-              @click="onValueClicked(children)"
+        <div class="searchContainer">
+          <input
+            type="text"
+            placeholder="Search"
+            v-model="searchTerm"
+            class="expandableSearch browser-default"
+            v-focus-if="{ focused: showSelect }"
+          />
+        </div>
+        <ul
+          class="collection firstLevel"
+          ref="optionsList"
+          :style="optionsListStyle"
+        >
+          <li
+            v-for="(options, index) in availableOptions"
+            class="collection-item"
+            v-show="visibleChildren(options).length"
+            :key="index"
+          >
+            <h4
+              class="expandableListCategory"
+              @click="onCategoryClicked(options)"
             >
-              <span class="primary-content">{{ children.value }}</span>
+              {{ options.group }}
               <span
-                v-show="children.tooltip"
-                :title="children.tooltip"
-                class="secondary-content icon-help"
-              ></span>
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </div>
+                class="secondary-content"
+                :class='{
+                  "icon-chevron-right": showCategory !== options.group,
+                  "icon-chevron-down": showCategory === options.group,
+                }'
+              />
+            </h4>
+
+            <ul v-show="showCategory === options.group || searchTerm" class="collection secondLevel">
+              <li
+                class="expandableListItem collection-item valign-wrapper"
+                v-for="children in visibleChildren(options)"
+                :key="children.key"
+                @click="onValueClicked(children)"
+              >
+                <span class="primary-content">{{ children.value }}</span>
+                <span
+                  v-show="children.tooltip"
+                  :title="children.tooltip"
+                  class="secondary-content icon-help"
+                />
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
     </Teleport>
   </div>
 </template>
@@ -88,7 +88,7 @@ import { defineComponent, PropType } from 'vue';
 import { Matomo, FocusAnywhereButHere, FocusIf } from 'CoreHome';
 import AbortableModifiers from './AbortableModifiers';
 
-/** Space left between the field and its list, matching what the stylesheet used to reserve. */
+/** Space left between the field and its list. Kept in step with FieldSelect's DROPDOWN_GAP. */
 const LIST_GAP = 8;
 
 export interface SelectValueInfo {
@@ -253,8 +253,9 @@ export default defineComponent({
 
       // The field settles to its final height a moment after opening, so a list placed against
       // the height it had at that instant ends up a pixel out. Follow the field's size instead of
-      // guessing the frame it stops changing on.
-      if (wrapper) {
+      // guessing the frame it stops changing on. Where the observer is missing the scroll and
+      // resize listeners above still apply; only the settling correction is lost.
+      if (wrapper && typeof ResizeObserver !== 'undefined') {
         this.triggerResize = new ResizeObserver(() => this.fitOptionsList());
         this.triggerResize.observe(wrapper);
       }
@@ -298,7 +299,8 @@ export default defineComponent({
       // the search box sits between the top of the dropdown and the top of the list. It is the
       // distance between two rects of the same element, so it holds wherever the dropdown is
       // currently positioned - which matters because this decides where to position it.
-      const chromeAboveList = list.getBoundingClientRect().top - dropdown.getBoundingClientRect().top;
+      const chromeAboveList = list.getBoundingClientRect().top
+        - dropdown.getBoundingClientRect().top;
       const roomFor = (edge: number) => Math.floor(edge - chromeAboveList) - margin;
 
       const spaceBelow = roomFor(window.innerHeight - wrapperRect.bottom - LIST_GAP);
