@@ -33,7 +33,7 @@ class TwoFaSecretRandomGeneratorTest extends IntegrationTestCase
 
     public function testGeneratorCodeLength()
     {
-        $this->assertSame(16, mb_strlen($this->generator->generateSecret()));
+        $this->assertSame(32, mb_strlen($this->generator->generateSecret()));
     }
 
     public function testGeneratorCodeAlwaysDifferent()

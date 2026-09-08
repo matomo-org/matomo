@@ -16,6 +16,6 @@ class TwoFaSecretRandomGenerator
     public function generateSecret()
     {
         $authenticator = new \TwoFactorAuthenticator();
-        return $authenticator->createSecret(16);
+        return $authenticator->createSecret(32);
     }
 }
