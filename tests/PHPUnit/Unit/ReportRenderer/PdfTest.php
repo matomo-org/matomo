@@ -236,7 +236,7 @@ class PdfTest extends TestCase
         $shortened = $this->shortenPercentOfTotalColumnLabels([
             'label'                      => 'Country',
             'nb_visits'                  => 'Visits',
-            'nb_visits_percent_of_total' => 'Visits (% of total)',
+            'nb_visits_percent_of_total' => 'Visits (%)',
             'bounce_rate'                => 'Bounce Rate',
         ]);
 
