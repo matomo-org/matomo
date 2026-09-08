@@ -5,7 +5,7 @@
  * Version: @VERSION
  * Revision: @REVISION
  *
- * Copyright (c) 2009-2013 Chris Leonello
+ * Copyright (c) 2009-2016 Chris Leonello
  * jqPlot is currently available for use in all personal or commercial projects 
  * under both the MIT (http://www.opensource.org/licenses/mit-license.php) and GPL 
  * version 2.0 (http://www.gnu.org/licenses/gpl-2.0.html) licenses. This means that you can 
@@ -790,6 +790,9 @@
         for (var i=0; i<data.length; i++) {
             // if not a line series or if no nulls in data, push the converted point onto the array.
             if (data[i][0] != null && data[i][1] != null) {
+                if (this.step && i>0) {
+                    gd.push([xp.call(this._xaxis, data[i][0]), yp.call(this._yaxis, data[i-1][1])]);
+                }
                 gd.push([xp.call(this._xaxis, data[i][0]), yp.call(this._yaxis, data[i][1])]);
             }
             // else if there is a null, preserve it.
@@ -1011,7 +1014,11 @@
                                 fasgd = this.gridData;
                             }
                             for (i=0; i<fasgd.length; i++) {
-                                this.markerRenderer.draw(fasgd[i][0], fasgd[i][1], ctx, opts.markerOptions);
+                                var markerOptions = opts.markerOptions || {};
+                                if (this.markerOptionsCallback) {
+                                    markerOptions = $.extend(true, markerOptions, this.markerOptionsCallback(plot, this, i, this.data[i], gd[i]) || {});
+                                }
+                                this.markerRenderer.draw(fasgd[i][0], fasgd[i][1], ctx, markerOptions);
                             }
                         }
                     }
@@ -1081,8 +1088,12 @@
                     gd = this.gridData;
                 }
                 for (i=0; i<gd.length; i++) {
+                    var markerOptions = opts.markerOptions || {};
+                    if (this.markerOptionsCallback) {
+                        markerOptions = $.extend(true, markerOptions, this.markerOptionsCallback(plot, this, i, this.data[i], gd[i]) || {});
+                    }
                     if (gd[i][0] != null && gd[i][1] != null) {
-                        this.markerRenderer.draw(gd[i][0], gd[i][1], ctx, opts.markerOptions);
+                        this.markerRenderer.draw(gd[i][0], gd[i][1], ctx, markerOptions);
                     }
                 }
             }

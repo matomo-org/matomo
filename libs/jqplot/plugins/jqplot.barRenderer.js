@@ -5,7 +5,7 @@
  * Version: @VERSION
  * Revision: @REVISION
  *
- * Copyright (c) 2009-2013 Chris Leonello
+ * Copyright (c) 2009-2016 Chris Leonello
  * jqPlot is currently available for use in all personal or commercial projects 
  * under both the MIT (http://www.opensource.org/licenses/mit-license.php) and GPL 
  * version 2.0 (http://www.gnu.org/licenses/gpl-2.0.html) licenses. This means that you can 
@@ -57,6 +57,9 @@
         // prop: barWidth
         // Width of the bar in pixels (auto by devaul).  null = calculated automatically.
         this.barWidth = null;
+        // prop: barMinWidth
+        // Minimum width of the bar in pixels if barWidth is set to auto (2 by default).
+        this.barMinWidth = 2;
         // prop: shadowOffset
         // offset of the shadow from the slice and offset of 
         // each succesive stroke of the shadow from the last.
@@ -273,6 +276,9 @@
                 // this.barWidth = (paxis._offsets.min - paxis._offsets.max) / nvals - this.barPadding - this.barMargin/nseries;
             }
         }
+        if (this.barWidth < this.barMinWidth) {
+            this.barWidth = this.barMinWidth;
+        }
         return [nvals, nseries];
     };
 
@@ -342,7 +348,7 @@
         this._dataColors = [];
         this._barPoints = [];
         
-        if (this.barWidth == null) {
+        if (this.barWidth == null || this.rendererOptions.barWidth == null) {//check pull request https://bitbucket.org/cleonello/jqplot/pull-request/61/fix-for-issue-513/diff
             this.renderer.setBarWidth.call(this);
         }
         
@@ -593,7 +599,7 @@
         var pointx, points, pointy, nvals, nseries, pos;
         
         if (this._stack && this.shadow) {
-            if (this.barWidth == null) {
+            if (this.barWidth == null || this.rendererOptions.barWidth == null) {//check pull request https://bitbucket.org/cleonello/jqplot/pull-request/61/fix-for-issue-513/diff) {
                 this.renderer.setBarWidth.call(this);
             }
         
