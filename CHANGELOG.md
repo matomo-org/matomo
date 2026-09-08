@@ -92,9 +92,12 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   `API.getProcessedReport` places each percentage directly after the metric it belongs to, and returns one only when that
   metric is itself a column of the report: a report with a total for bounces but no `Bounces` column no longer carries a
   `bounce_count_percent_of_total` entry in `columns`, `metricTypes`, `metricsDocumentation` or `reportData`.
-* Scheduled reports now include the `{metric}_percent_of_total` columns in every format that renders a data table: HTML
-  email, PDF, CSV and TSV. In CSV and TSV those columns carry their translated name (eg, `Visits (% of total)`) rather than the
-  column id, while all other columns keep the id they had before.
+* Scheduled reports now include the `{metric}_percent_of_total` columns, with the label depending on how much room the
+  format has. CSV and TSV carry the full translated name (eg, `Visits (%)`) rather than the column id, while all other
+  columns keep the id they had before. HTML email shortens it to `(%)`, since the column always sits directly to the right
+  of the metric it belongs to. PDF leaves the columns out altogether: a portrait page has no room for a percentage after
+  every metric without squeezing the table until values are truncated. The PDF says so in a note on its front page, and
+  the report scheduling form says so under `Report Format`.
 
 ### Deprecations
 * The component-oriented theme variable `@theme-color-widget-background` (`ThemeStyles::$colorWidgetBackground`)

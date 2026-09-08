@@ -39,13 +39,6 @@ class Pdf extends ReportRenderer
     public const MAX_GRAPH_REPORTS = 3;
     public const MAX_2COL_TABLE_REPORTS = 2;
 
-    /**
-     * Widest table that still renders without truncating its cells, label column included.
-     * Measured at the report font: 8 metric columns share the 160mm left over by the label
-     * column, ie 20mm each, which clears the widest value ('$19,426.51', 19.2mm) and the
-     * widest header word ('Conversions', 18.4mm). A ninth drops them to 17mm and money is cut.
-     */
-    public const MAX_TABLE_COLUMNS = 9;
 
     public const IMPORT_FONT_PATH = 'plugins/ImageGraph/fonts/unifont.ttf';
     public const PDF_CONTENT_TYPE = 'pdf';
@@ -245,6 +238,15 @@ class Pdf extends ReportRenderer
             $this->TCPDF->Write(1, $this->formatText(Piwik::translate('ScheduledReports_CustomVisitorSegment') . ' ' . $segment['name']));
         }
 
+        // The percentage columns the other formats carry are left out here, see
+        // ReportRenderer::removePercentOfTotalColumns(). Say so rather than let a reader wonder
+        // why the same scheduled report shows different columns depending on its format.
+        $this->TCPDF->Ln();
+        $this->TCPDF->Ln();
+        $this->TCPDF->SetFont($this->reportFont, '', $this->reportHeaderFontSize - 2);
+        $this->TCPDF->SetTextColor($this->reportTextColor[0], $this->reportTextColor[1], $this->reportTextColor[2]);
+        $this->TCPDF->Write(1, $this->formatText(Piwik::translate('ScheduledReports_PdfNoPercentageColumns')));
+
         $this->TCPDF->Ln(8);
         $this->TCPDF->SetFont($this->reportFont, '', $this->reportHeaderFontSize);
         $this->TCPDF->Ln();
@@ -350,8 +352,7 @@ class Pdf extends ReportRenderer
         $this->evolutionGraph = $processedReport['evolutionGraph'];
         $this->displayTable = $processedReport['displayTable'];
         $this->segment = $processedReport['segment'];
-        $columns = self::shortenPercentOfTotalColumnLabels($processedReport['columns']);
-        $columns = self::capPercentOfTotalColumns($columns, self::MAX_TABLE_COLUMNS);
+        $columns = self::removePercentOfTotalColumns($processedReport['columns']);
 
         list($this->report, $this->reportColumns) = self::processTableFormat($this->reportMetadata, $processedReport['reportData'], $columns);
 
