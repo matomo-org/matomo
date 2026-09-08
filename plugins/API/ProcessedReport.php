@@ -533,8 +533,28 @@ class ProcessedReport
 
         $website = new Site($idSite);
 
-        $period = Period\Factory::build($period, $date);
-        $period = $period->getLocalizedLongString();
+        // Label the report with the period the archive resolved, not one rebuilt from the
+        // query parameters: a module is free to select over a site set of its own making
+        // rather than over $idSite, and MultiSites.getAll does, so a period derived here
+        // from $idSite can name a different day than the rows were counted over. A Map
+        // spans several periods and carries no single one, so it keeps the derivation.
+        $resolvedPeriod = $dataTable instanceof DataTable
+            ? $dataTable->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX)
+            : null;
+
+        if ($resolvedPeriod instanceof Period) {
+            $period = $resolvedPeriod->getLocalizedLongString();
+        } else {
+            // The archive only uses a site timezone when the request names a single site, and
+            // reads it off the parsed list: $website's id does not survive an array idSite.
+            // Of the two factory methods, only build() accepts a multiple-period date.
+            $idSites  = Site::getIdSitesFromIdSitesString($idSite);
+            $timezone = count($idSites) === 1 ? Site::getTimezoneFor($idSites[0]) : false;
+            $period = Period::isMultiplePeriod($date, $period)
+                ? Period\Factory::build($period, $date, $timezone)
+                : Period\Factory::makePeriodFromQueryParams($timezone, $period, $date);
+            $period = $period->getLocalizedLongString();
+        }
 
         $return = array(
             'website'        => $website->getName(),
