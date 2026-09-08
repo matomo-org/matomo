@@ -355,9 +355,9 @@ abstract class ReportRenderer extends BaseFactory
      *
      * The renderers that lay a report out on a fixed width page show the percentage directly to
      * the right of the metric it belongs to, so repeating the metric name in its header only
-     * costs width: `Conversions (% of total)` wraps over several lines and squeezes every other
-     * column. Formats where the header is the only thing identifying a column, such as CSV, keep
-     * the full label instead.
+     * costs width: `Conversions (%)` needs twice the room `(%)` does and squeezes every other
+     * column. Formats where the header is the only thing identifying a column, such as CSV,
+     * keep the full label instead.
      *
      * @param array $reportColumns column name => translation
      * @return array

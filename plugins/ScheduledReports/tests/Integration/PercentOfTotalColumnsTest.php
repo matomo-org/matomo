@@ -16,6 +16,7 @@ use Piwik\Plugins\API\API as APIPlugin;
 use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
 use Piwik\Plugins\ScheduledReports\ScheduledReports;
 use Piwik\ReportRenderer;
+use Piwik\ReportRenderer\Pdf;
 use Piwik\Scheduler\Schedule\Schedule;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -127,6 +128,40 @@ class PercentOfTotalColumnsTest extends IntegrationTestCase
 
         self::assertStringStartsWith('%PDF', $report);
         self::assertGreaterThan(1000, strlen($report));
+    }
+
+    // What the test above cannot see: that Pdf::renderReport() calls the removal at all. Drop the
+    // call and every other assertion here still passes, so pin the columns the renderer keeps.
+    public function testThePdfRendererPaintsNoPercentColumn(): void
+    {
+        $processedReport = APIPlugin::getInstance()->getProcessedReport(
+            $this->idSite,
+            'day',
+            $this->date,
+            'UserCountry',
+            'getCountry'
+        );
+        $processedReport['displayGraph'] = false;
+        $processedReport['evolutionGraph'] = false;
+        $processedReport['displayTable'] = true;
+        $processedReport['segment'] = null;
+
+        // the report the renderer is handed does carry them, so their absence below is the
+        // renderer's doing and not the report's
+        self::assertArrayHasKey('nb_visits_percent_of_total', $processedReport['columns']);
+
+        $renderer = new Pdf();
+        $renderer->setLocale('en');
+        $renderer->renderFrontPage('percent of total columns', $this->date, '', [], null);
+        $renderer->renderReport($processedReport);
+
+        $reportColumns = new \ReflectionProperty(Pdf::class, 'reportColumns');
+        $reportColumns->setAccessible(true);
+
+        $percentColumns = preg_grep('/_percent_of_total$/', array_keys($reportColumns->getValue($renderer)));
+
+        self::assertSame([], $percentColumns);
+        self::assertContains('nb_visits', array_keys($reportColumns->getValue($renderer)));
     }
 
     public function testRateMetricsDoNotGetAPercentageColumn(): void

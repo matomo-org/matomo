@@ -171,7 +171,7 @@
           uicontrol="select"
           name="report_format"
           :title="translate('ScheduledReports_ReportFormat')"
-          :inline-help="translate('ScheduledReports_ReportFormatHelpText')"
+          :inline-help="reportFormatHelpText(reportFormats)"
           :class="reportType"
           v-show="report.type === reportType"
           :model-value="report[`format${reportType}`]"
@@ -463,6 +463,13 @@ export default defineComponent({
     this.onEvolutionPeriodN = debounce(this.onEvolutionPeriodN, 50);
   },
   methods: {
+    // Only the report types offering PDF need the note: percentage columns are left out of that
+    // format alone, see ReportRenderer::removePercentOfTotalColumns().
+    reportFormatHelpText(reportFormats: Record<string, string>): string {
+      return reportFormats && reportFormats.pdf
+        ? translate('ScheduledReports_ReportFormatHelpText')
+        : '';
+    },
     closeReorderTooltips() {
       closeTooltips('.selectedReportsWrapper .dragHandle');
     },
