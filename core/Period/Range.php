@@ -254,15 +254,20 @@ class Range extends Period
         } elseif ($dateRange = Range::parseDateRange($this->strDate)) {
             $strDateStart = $dateRange[1];
             $strDateEnd = $dateRange[2];
-            $startDate = Date::factory($strDateStart);
+            // Only a keyword match separates a relative endpoint from an absolute date here,
+            // as 'last-week' carries a hyphen too. Date::factory() resolves it on UTC's day.
+            $startKeyword = Date::getRelativeKeyword($strDateStart);
+            $endKeyword = Date::getRelativeKeyword($strDateEnd);
 
-            // we set the timezone in the Date object only if the date is relative eg. 'today', 'yesterday', 'now'
-            $timezone = null;
-            if (strpos($strDateEnd, '-') === false) {
-                $timezone = $this->timezone;
-            }
+            $startDate = $startKeyword === null
+                ? Date::factory($strDateStart)
+                : Date::factoryInTimezone($startKeyword, $this->timezone);
 
-            $endDate = Date::factory($strDateEnd, $timezone)->setTime("00:00:00");
+            $endDate = $endKeyword === null
+                ? Date::factory($strDateEnd)
+                : Date::factoryInTimezone($endKeyword, $this->timezone);
+
+            $endDate = $endDate->setTime("00:00:00");
             $maxAllowedEndDate = Date::factory(self::getMaxAllowedEndTimestamp());
 
             if ($endDate->isLater($maxAllowedEndDate)) {
@@ -543,12 +548,13 @@ class Range extends Period
         $timezone = $site->getTimezone();
         $last30Relative = new Range($period, $lastN, $timezone);
 
-        if (strpos($endDate, '-') === false) {
-            // eg today, yesterday, ... needs the timezone
-            $endDate = Date::factoryInTimezone($endDate, $timezone);
-        } else {
-            $endDate = Date::factory($endDate);
-        }
+        // A hyphen does not mark an absolute date: 'last-week' carries one and is relative.
+        $keyword = Date::getRelativeKeyword($endDate);
+
+        $endDate = $keyword === null
+            ? Date::factory($endDate)
+            : Date::factoryInTimezone($keyword, $timezone);
+
         $last30Relative->setDefaultEndDate($endDate);
 
         $date = $last30Relative->getDateStart()->toString() . "," . $last30Relative->getDateEnd()->toString();
