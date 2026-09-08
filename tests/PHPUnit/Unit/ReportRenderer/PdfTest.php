@@ -199,75 +199,39 @@ class PdfTest extends TestCase
     }
 
     /**
-     * @dataProvider getTestDataForCappingPercentColumns
+     * A portrait page has room for the metrics a report already carries and no more, so the PDF
+     * carries none of the percentages the other formats do. Dropping them here rather than
+     * narrowing every column is what keeps values from being truncated.
      */
-    public function testPercentColumnsAreCappedToTheWidestRenderableTable(array $columns, int $maxColumns, array $expected): void
+    public function testEveryPercentColumnIsDroppedFromAPdf(): void
     {
-        $capped = $this->capPercentOfTotalColumns($columns, $maxColumns);
-
-        self::assertSame($expected, array_keys($capped));
-    }
-
-    public function getTestDataForCappingPercentColumns(): array
-    {
-        $narrow = [
-            'label'                       => 'Country',
-            'nb_visits'                   => 'Visits',
-            'nb_visits_percent_of_total'  => '(%)',
-            'nb_actions'                  => 'Actions',
-            'nb_actions_percent_of_total' => '(%)',
-        ];
-
-        // label + 8 metrics + 3 percentages: the last two percentages have to go
-        $wide = [
+        $kept = $this->removePercentOfTotalColumns([
             'label'                       => 'City',
             'nb_visits'                   => 'Visits',
-            'nb_visits_percent_of_total'  => '(%)',
-            'nb_uniq_visitors'            => 'Unique visitors',
+            'nb_visits_percent_of_total'  => 'Visits (%)',
             'nb_actions'                  => 'Actions',
-            'nb_actions_percent_of_total' => '(%)',
-            'nb_users'                    => 'Users',
-            'avg_time_on_site'            => 'Avg. Time on Website',
-            'bounce_rate'                 => 'Bounce Rate',
+            'nb_actions_percent_of_total' => 'Actions (%)',
             'revenue'                     => 'Revenue',
-            'revenue_percent_of_total'    => '(%)',
-        ];
+            'revenue_percent_of_total'    => 'Revenue (%)',
+        ]);
 
-        // a report whose own metrics already exceed the cap keeps every one of them
-        $noPercentages = [
-            'label'             => 'Website',
-            'nb_visits'         => 'Visits',
-            'nb_actions'        => 'Actions',
-            'nb_pageviews'      => 'Pageviews',
-            'hits'              => 'Hits',
-            'revenue'           => 'Revenue',
-            'nb_conversions'    => 'Conversions',
-            'orders'            => 'Orders',
-            'ecommerce_revenue' => 'Ecommerce Revenue',
-            'visits_evolution'  => 'Visits evolution',
-        ];
-
-        return [
-            'already narrow enough' => [$narrow, 9, array_keys($narrow)],
-            'the leftmost percentage survives' => [$wide, 9, [
-                'label',
-                'nb_visits',
-                'nb_visits_percent_of_total',
-                'nb_uniq_visitors',
-                'nb_actions',
-                'nb_users',
-                'avg_time_on_site',
-                'bounce_rate',
-                'revenue',
-            ]],
-            // $wide is exactly 11 columns, so a cap of 11 leaves every percentage in place
-            'a wider cap keeps more of them' => [$wide, 11, array_keys($wide)],
-            // the report's own metrics are the report, they are never dropped to meet the cap
-            'no percentage to drop' => [$noPercentages, 9, array_keys($noPercentages)],
-        ];
+        self::assertSame(['label', 'nb_visits', 'nb_actions', 'revenue'], array_keys($kept));
     }
 
-    public function testPercentColumnLabelsAreShortenedForFixedWidthPages(): void
+    public function testAReportWithoutPercentColumnsIsLeftAlone(): void
+    {
+        $columns = [
+            'label'       => 'Country',
+            'nb_visits'   => 'Visits',
+            'bounce_rate' => 'Bounce Rate',
+        ];
+
+        self::assertSame($columns, $this->removePercentOfTotalColumns($columns));
+    }
+
+    // The HTML report shortens the label instead of dropping the column: it can scroll, and the
+    // percentage sits directly right of the metric it belongs to, so `(%)` is unambiguous there.
+    public function testPercentColumnLabelsAreShortenedForTheHtmlReport(): void
     {
         $shortened = $this->shortenPercentOfTotalColumnLabels([
             'label'                      => 'Country',
@@ -284,12 +248,12 @@ class PdfTest extends TestCase
         ], $shortened);
     }
 
-    private function capPercentOfTotalColumns(array $columns, int $maxColumns): array
+    private function removePercentOfTotalColumns(array $columns): array
     {
-        $method = new ReflectionMethod(Pdf::class, 'capPercentOfTotalColumns');
+        $method = new ReflectionMethod(Pdf::class, 'removePercentOfTotalColumns');
         $method->setAccessible(true);
 
-        return $method->invoke(null, $columns, $maxColumns);
+        return $method->invoke(null, $columns);
     }
 
     private function shortenPercentOfTotalColumnLabels(array $columns): array

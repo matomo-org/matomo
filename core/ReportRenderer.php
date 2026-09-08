@@ -374,31 +374,22 @@ abstract class ReportRenderer extends BaseFactory
     }
 
     /**
-     * Drops the percent of the report total columns that do not fit within $maxColumns.
+     * Drops every percent of the report total column.
      *
-     * Only the percentages are dropped, and the leftmost ones are kept, so the metrics a report
-     * leads with (usually visits) keep theirs. A report whose own metrics already exceed the
-     * limit is left alone: its columns are the report, not an addition to it.
+     * For a format that cannot scroll. A portrait page has room for the metrics a report already
+     * carries and no more: interleaving a percentage after each one squeezes every column until
+     * values are truncated, and the report stops being readable. Fitting them would mean changing
+     * the format itself, with landscape pages or a reduced metric set, which is a separate change.
+     * The PDF says so in a note on its front page, and the report scheduling form says so too.
      *
      * @param array $reportColumns column name => translation
-     * @param int $maxColumns including the label column
      * @return array
      */
-    protected static function capPercentOfTotalColumns(array $reportColumns, int $maxColumns): array
+    protected static function removePercentOfTotalColumns(array $reportColumns): array
     {
-        $excess = count($reportColumns) - $maxColumns;
-        if ($excess <= 0) {
-            return $reportColumns;
-        }
-
-        foreach (array_reverse(array_keys($reportColumns)) as $columnName) {
-            if ($excess <= 0) {
-                break;
-            }
-
+        foreach (array_keys($reportColumns) as $columnName) {
             if (str_ends_with($columnName, PercentOfReportTotal::COLUMN_NAME_SUFFIX)) {
                 unset($reportColumns[$columnName]);
-                $excess--;
             }
         }
 

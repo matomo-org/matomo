@@ -171,6 +171,7 @@
           uicontrol="select"
           name="report_format"
           :title="translate('ScheduledReports_ReportFormat')"
+          :inline-help="translate('ScheduledReports_ReportFormatHelpText')"
           :class="reportType"
           v-show="report.type === reportType"
           :model-value="report[`format${reportType}`]"
