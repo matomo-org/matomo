@@ -530,6 +530,69 @@ class ClickhouseDialectTranslatorTest extends \PHPUnit\Framework\TestCase
         self::assertSame(1, substr_count($out, ':chBind001'), 'the log_action conjunct must not be copied');
     }
 
+    /**
+     * LogAggregator emits the per-table conditions as one parenthesised group and the segment as
+     * another, so the group the driving table's own conjuncts live in also carries a conjunct
+     * naming a joined table. Discarding the whole group for the sake of that one conjunct left
+     * the restriction with no WHERE at all: measured on the POC corpus, the Actions day query
+     * then read 1.92 billion rows per restriction instead of 7.07 million.
+     */
+    public function testUsableConjunctsSurviveAGroupThatAlsoNamesAJoinedTable(): void
+    {
+        $sql = 'SELECT x FROM log_link_visit_action AS log_link_visit_action'
+            . ' LEFT JOIN log_action AS log_action'
+            . ' ON log_link_visit_action.idaction_url = log_action.idaction'
+            . ' WHERE (log_link_visit_action.server_time >= :chBind000'
+            . ' AND log_link_visit_action.idsite IN (1)'
+            . ' AND log_action.type IN (8))';
+
+        $out = ClickhouseDialectTranslator::restrictLogTableJoins($sql);
+
+        self::assertStringContainsString('log_link_visit_action.server_time >= :chBind000', $out);
+        self::assertStringContainsString('log_link_visit_action.idsite IN (1)', $out);
+        // The foreign conjunct still cannot be resolved inside the subquery, so it stays out.
+        self::assertSame(1, substr_count($out, 'log_action.type IN (8)'));
+    }
+
+    /**
+     * Dropping a conjunct from an AND-chain widens the id set and is safe. Dropping a branch of
+     * an OR narrows it, which would restrict a join to fewer ids than it needs, so a group with
+     * a top-level OR is left whole and therefore dropped.
+     */
+    public function testAGroupWithATopLevelOrIsNotTakenApart(): void
+    {
+        $sql = 'SELECT x FROM log_visit AS log_visit'
+            . ' LEFT JOIN log_action AS log_action ON log_visit.idaction_x = log_action.idaction'
+            . ' WHERE (log_visit.idsite = :chBind000 OR log_action.type = :chBind001)';
+
+        $out = ClickhouseDialectTranslator::restrictLogTableJoins($sql);
+
+        self::assertStringContainsString(
+            'idaction IN (SELECT log_visit.idaction_x FROM log_visit AS log_visit))',
+            $out,
+            'no WHERE may be carried over from an OR group'
+        );
+        self::assertSame(1, substr_count($out, ':chBind000'));
+    }
+
+    /**
+     * `(a) AND (b)` also starts with "(" and ends with ")". Unwrapping it as though it were one
+     * group would splice the two halves together and lose the AND between them.
+     */
+    public function testTwoAdjacentGroupsAreEachHandledOnTheirOwn(): void
+    {
+        $sql = 'SELECT x FROM log_visit AS log_visit'
+            . ' LEFT JOIN log_action AS log_action ON log_visit.idaction_x = log_action.idaction'
+            . ' WHERE (log_visit.idsite = :chBind000 AND log_action.type = :chBind001)'
+            . ' AND (log_visit.visit_total_actions > :chBind002)';
+
+        $out = ClickhouseDialectTranslator::restrictLogTableJoins($sql);
+
+        self::assertStringContainsString('log_visit.idsite = :chBind000', $out);
+        self::assertStringContainsString('log_visit.visit_total_actions > :chBind002', $out);
+        self::assertSame(1, substr_count($out, ':chBind001'));
+    }
+
     public function testJoinIsLeftAloneWhenNothingSafeCanBeCarriedOver(): void
     {
         $sql = 'SELECT x FROM log_visit AS log_visit'

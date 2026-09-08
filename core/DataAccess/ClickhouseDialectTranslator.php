@@ -1638,10 +1638,119 @@ class ClickhouseDialectTranslator
         foreach (self::splitTopLevelAnd($where) as $conjunct) {
             if (self::referencesOnly($conjunct, $alias)) {
                 $kept[] = $conjunct;
+                continue;
+            }
+
+            // A parenthesised AND-group is not all-or-nothing. LogAggregator emits the
+            // per-table conditions as one group and the segment as another, so the whole of
+            // `(lvla.server_time >= :a AND lvla.server_time <= :b AND lvla.idsite IN (1)
+            // AND log_action.type IN (8))` was being discarded for the sake of that one
+            // log_action conjunct - leaving the restriction with no WHERE and a full scan of
+            // the driving table. Recursing keeps the usable conjuncts and still only ever
+            // WIDENS the id set, so the superset rule holds.
+            $group = self::unwrapSafeAndGroup($conjunct);
+            if (null === $group) {
+                continue;
+            }
+
+            $nested = self::keepConjunctsReferencingOnly($group, $alias);
+            if ('' !== $nested) {
+                $kept[] = '(' . $nested . ')';
             }
         }
 
         return implode(' AND ', $kept);
+    }
+
+    /**
+     * The inside of $conjunct when it is a single parenthesised group joined by AND, or null.
+     *
+     * Null for anything this cannot safely take apart:
+     *
+     * - not one enclosing pair of parentheses. `(a) AND (b)` also starts with `(` and ends with
+     *   `)`, and splitting it here would drop `AND`;
+     * - a group containing a top-level OR. Dropping a conjunct from an AND-chain widens the id
+     *   set and is safe, but dropping a branch of an OR NARROWS it, which would restrict a join
+     *   to fewer ids than it needs and silently lose rows.
+     */
+    private static function unwrapSafeAndGroup(string $conjunct): ?string
+    {
+        $conjunct = trim($conjunct);
+
+        if ('' === $conjunct || $conjunct[0] !== '(' || substr($conjunct, -1) !== ')') {
+            return null;
+        }
+
+        $depth = 0;
+        $len = strlen($conjunct);
+
+        for ($i = 0; $i < $len; $i++) {
+            $ch = $conjunct[$i];
+
+            if ($ch === "'" || $ch === '"' || $ch === '`') {
+                $i = self::skipQuoted($conjunct, $i) - 1;
+                continue;
+            }
+
+            if ($ch === '(') {
+                $depth++;
+            } elseif ($ch === ')') {
+                $depth--;
+                // The opening parenthesis closed before the end, so there is more than one group.
+                if (0 === $depth && $i !== $len - 1) {
+                    return null;
+                }
+            }
+        }
+
+        if (0 !== $depth) {
+            return null;
+        }
+
+        $inner = substr($conjunct, 1, -1);
+
+        return self::hasTopLevelOr($inner) ? null : $inner;
+    }
+
+    /**
+     * Whether $clause has an OR at parenthesis depth 0, outside string literals.
+     */
+    private static function hasTopLevelOr(string $clause): bool
+    {
+        $depth = 0;
+        $len = strlen($clause);
+
+        for ($i = 0; $i < $len; $i++) {
+            $ch = $clause[$i];
+
+            if ($ch === "'" || $ch === '"' || $ch === '`') {
+                $i = self::skipQuoted($clause, $i) - 1;
+                continue;
+            }
+
+            if ($ch === '(') {
+                $depth++;
+                continue;
+            }
+
+            if ($ch === ')') {
+                $depth--;
+                continue;
+            }
+
+            if (0 !== $depth || ($ch !== 'O' && $ch !== 'o')) {
+                continue;
+            }
+
+            // Word boundary on both sides, so the OR in FLOOR() or a column called `factor`
+            // does not read as an operator.
+            $precededByWord = $i > 0 && preg_match('~[\w`]~', $clause[$i - 1]) === 1;
+            if (!$precededByWord && preg_match('~^OR[\s(]~i', substr($clause, $i, 3)) === 1) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
