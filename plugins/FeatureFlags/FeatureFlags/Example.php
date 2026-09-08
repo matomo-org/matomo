@@ -17,4 +17,9 @@ class Example implements FeatureFlagInterface
     {
         return 'Example';
     }
+
+    public function allowsCookieOverwrite(): bool
+    {
+        return false;
+    }
 }
