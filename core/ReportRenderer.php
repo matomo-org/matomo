@@ -311,12 +311,13 @@ abstract class ReportRenderer extends BaseFactory
      */
     protected static function translatePercentOfTotalColumns(DataTableInterface $report, array $reportColumns): void
     {
-        $suffixLength   = strlen(PercentOfReportTotal::COLUMN_NAME_SUFFIX);
         $percentColumns = [];
 
         foreach ($reportColumns as $columnName => $translation) {
-            if (str_ends_with($columnName, PercentOfReportTotal::COLUMN_NAME_SUFFIX)) {
-                $percentColumns[substr($columnName, 0, -$suffixLength)] = $translation;
+            $metricName = PercentOfReportTotal::getMetricNameFromColumnName($columnName);
+
+            if (null !== $metricName) {
+                $percentColumns[$metricName] = $translation;
             }
         }
 
@@ -324,16 +325,15 @@ abstract class ReportRenderer extends BaseFactory
             return;
         }
 
-        $report->filter(function (DataTable $table) use ($percentColumns, $suffixLength) {
+        $report->filter(function (DataTable $table) use ($percentColumns) {
             foreach ($table->getRows() as $row) {
                 $columns = $row->getColumns();
                 $rebuilt = [];
 
                 foreach ($columns as $columnName => $value) {
-                    if (
-                        str_ends_with($columnName, PercentOfReportTotal::COLUMN_NAME_SUFFIX)
-                        && isset($percentColumns[substr($columnName, 0, -$suffixLength)])
-                    ) {
+                    $metricName = PercentOfReportTotal::getMetricNameFromColumnName($columnName);
+
+                    if (null !== $metricName && isset($percentColumns[$metricName])) {
                         continue; // emitted below, right after the metric it belongs to
                     }
 
@@ -365,7 +365,7 @@ abstract class ReportRenderer extends BaseFactory
     protected static function shortenPercentOfTotalColumnLabels(array $reportColumns): array
     {
         foreach ($reportColumns as $columnName => $translation) {
-            if (str_ends_with($columnName, PercentOfReportTotal::COLUMN_NAME_SUFFIX)) {
+            if (null !== PercentOfReportTotal::getMetricNameFromColumnName($columnName)) {
                 $reportColumns[$columnName] = Piwik::translate('General_ColumnPercentOfReportTotalShort');
             }
         }
@@ -388,7 +388,7 @@ abstract class ReportRenderer extends BaseFactory
     protected static function removePercentOfTotalColumns(array $reportColumns): array
     {
         foreach (array_keys($reportColumns) as $columnName) {
-            if (str_ends_with($columnName, PercentOfReportTotal::COLUMN_NAME_SUFFIX)) {
+            if (null !== PercentOfReportTotal::getMetricNameFromColumnName($columnName)) {
                 unset($reportColumns[$columnName]);
             }
         }
