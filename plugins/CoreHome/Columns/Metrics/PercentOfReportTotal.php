@@ -97,6 +97,22 @@ class PercentOfReportTotal extends ProcessedMetric
         return $this->metricName . self::COLUMN_NAME_SUFFIX;
     }
 
+    /**
+     * Returns the metric a percent of the report total column belongs to, or null when the column
+     * is not one of them.
+     *
+     * The suffix is all that ties a percentage to its metric, so every caller that walks a column
+     * list reads the convention from here rather than spelling it out again.
+     */
+    public static function getMetricNameFromColumnName(string $columnName): ?string
+    {
+        if (!str_ends_with($columnName, self::COLUMN_NAME_SUFFIX)) {
+            return null;
+        }
+
+        return substr($columnName, 0, -strlen(self::COLUMN_NAME_SUFFIX));
+    }
+
     public function getTranslatedName()
     {
         return Piwik::translate('General_ColumnPercentOfReportTotal', $this->metricTranslation);
