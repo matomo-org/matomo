@@ -179,6 +179,21 @@ const browserConfig = {
     protocolTimeout: 300000
 };
 
+// Chrome is free to hint and subpixel-position text differently from one run to the next, which
+// moves individual line boxes by a pixel while the glyphs themselves render identically - enough to
+// fail every text-bearing screenshot in a spec at once. These flags take that freedom away.
+//
+// They are opt-in because turning them on changes how text lands in every screenshot, so a suite
+// has to regenerate its expected files once when it adopts them. Set MATOMO_UI_DETERMINISTIC_TEXT
+// for a suite that has done so.
+if (process.env.MATOMO_UI_DETERMINISTIC_TEXT) {
+    browserConfig.args.push(
+        '--font-render-hinting=none',
+        '--disable-font-subpixel-positioning',
+        '--disable-lcd-text',
+    );
+}
+
 const browserExecutablePath = resolveBrowserExecutablePath();
 if (browserExecutablePath) {
     browserConfig.executablePath = browserExecutablePath;
