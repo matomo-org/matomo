@@ -6,7 +6,7 @@
 {% endset %}
 
 {% if
-    isAutoUpdateEnabled and (
+    isVersionUpdateCheckEnabled and (
         (latest_version_available and hasSomeViewAccess and not isUserIsAnonymous and showUpdateNotificationToUser)
         or (
             isSuperUser

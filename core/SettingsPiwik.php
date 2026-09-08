@@ -256,18 +256,30 @@ class SettingsPiwik
     }
 
     /**
+     * Detect whether user has enabled checking for new versions of Matomo.
+     */
+    public static function isVersionUpdateCheckEnabled(): bool
+    {
+        if (self::isInternetEnabled() === false) {
+            return false;
+        }
+
+        return self::isAutoUpdateEnabled();
+    }
+
+    /**
      * Detect whether user has enabled auto updates. Please note this config is a bit misleading. It is currently
      * actually used for 2 things: To disable making any connections back to Piwik, and to actually disable the auto
      * update of core and plugins.
      */
     public static function isAutoUpdateEnabled(): bool
     {
-        $enableAutoUpdate = (bool) Config::getInstance()->General['enable_auto_update'];
-        if (self::isInternetEnabled() === true && $enableAutoUpdate === true) {
-            return true;
+        if (self::isInternetEnabled() === false) {
+            return false;
         }
 
-        return false;
+        $enableAutoUpdate = (bool) Config::getInstance()->General['enable_auto_update'];
+        return $enableAutoUpdate;
     }
 
     /**
