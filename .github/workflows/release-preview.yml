@@ -40,7 +40,7 @@ on:
       target_branch:
         description: 'Branch to build the preview from'
         type: choice
-        default: '5.x-dev'
+        default: '6.x-dev'
         options:
           - '5.x-dev'
           - '6.x-dev'
