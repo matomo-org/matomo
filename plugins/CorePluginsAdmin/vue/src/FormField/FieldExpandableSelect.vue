@@ -287,6 +287,27 @@ export default defineComponent({
           ? { bottom: `${window.innerHeight - rect.top + LIST_GAP}px` }
           : { top: `${rect.bottom + LIST_GAP}px` }),
       };
+
+      this.applyGeometry();
+    },
+    /**
+     * The bindings above are the source of truth, but they only reach the element on the next
+     * tick, and a scroll or resize has to move the list before anything measures it - the
+     * screenshot harness resizes the viewport and takes the list's rect in the same breath.
+     */
+    applyGeometry() {
+      const dropdown = this.$refs.expandableList as HTMLElement|undefined;
+      const list = this.$refs.optionsList as HTMLElement|undefined;
+
+      if (dropdown) {
+        dropdown.style.left = this.listStyle.left || '';
+        dropdown.style.top = this.listStyle.top || '';
+        dropdown.style.bottom = this.listStyle.bottom || '';
+      }
+
+      if (list) {
+        list.style.maxHeight = `${this.optionsListMaxHeight}px`;
+      }
     },
     fitOptionsList() {
       const list = this.$refs.optionsList as HTMLElement|undefined;
