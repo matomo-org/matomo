@@ -180,12 +180,14 @@ describe("SegmentSelectorEditorTest", function () {
         const isPanelExpanded = await page.evaluate(() => $('.segmentEditorPanel').hasClass('expanded'));
         expect(isPanelExpanded).to.equal(false);
         await moveMouseAwayFromCapturedArea();
+        await page.waitForSelector('.segment-loading .matomo-loader', { hidden: true });
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('2_segment_editor_update');
     });
 
     it("should start editing segment name when segment name edit link clicked", async function() {
         await page.click('.segmentEditorPanel .editSegmentName');
         await page.waitForTimeout(250); // animation
+        await page.waitForSelector('.segment-loading .matomo-loader', { hidden: true });
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('3_segment_editor_edit_name');
     });
 
