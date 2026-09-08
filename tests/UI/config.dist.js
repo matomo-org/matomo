@@ -183,10 +183,15 @@ const browserConfig = {
 // moves individual line boxes by a pixel while the glyphs themselves render identically - enough to
 // fail every text-bearing screenshot in a spec at once. These flags take that freedom away.
 //
-// They are opt-in because turning them on changes how text lands in every screenshot, so a suite
-// has to regenerate its expected files once when it adopts them. Set MATOMO_UI_DETERMINISTIC_TEXT
-// for a suite that has done so.
-if (process.env.MATOMO_UI_DETERMINISTIC_TEXT) {
+// They are opt-in because turning them on changes how text lands in every screenshot, so whoever
+// enables them regenerates the affected expected files once. The switch is process-global, so the
+// granularities it actually supports are a workflow job (a plugin's UI job can set it in `env:`)
+// and the whole repository - not an individual core spec, which shares a process with the rest of
+// its test group. Note browserConfig is also used by the JavaScript unit-test runner.
+if (['1', 'true'].includes(process.env.MATOMO_UI_DETERMINISTIC_TEXT)) {
+    console.log('MATOMO_UI_DETERMINISTIC_TEXT is set: text rendering flags are on, so screenshots '
+        + 'only match expected files generated with them.');
+
     browserConfig.args.push(
         '--font-render-hinting=none',
         '--disable-font-subpixel-positioning',
