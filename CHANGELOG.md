@@ -123,6 +123,28 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   site selector turn their chevrons too. Two changes affect plugin stylesheets: the select's chevron now sets its
   own `font-size` instead of inheriting the surrounding text size, and `.expandableSelector__chevron` uses
   `margin-right` rather than `padding-right`, so that the rotation turns the glyph in place.
+* **A report's actions have moved out of the icon bars above and below the data table into a single report header.**
+  The header is rendered beside the table rather than inside it, so an action element is no longer a descendant of
+  `.dataTable`. A handler bound on the table alone never sees it: bind on the report wrapper instead, or reuse
+  `dataTable._findReportScope()`. Delegate rather than bind directly, because the header's menu is rendered by Vue after
+  a plugin's `init()` runs, and namespace your handler so it survives the reloads that rebuild the table.
+* **A `dataTable` subclass whose `init()` lists its handlers instead of calling the base `bindEventsAndApplyStyle()` must
+  also call `self.syncReportHeaderActions(domElem)`.** Without it the shared header is never told what the report offers,
+  and a dashboard widget - whose header is declared empty and filled from here - shows no actions at all.
+* The classes and ids the old bars carried are gone with them: `.dataTableHeaderControls`, `.searchAction`,
+  `.dataTableSearchInput`, `a.dropdownConfigureIcon`, `.activateVisualizationSelection`, `.periodName`, and the
+  materialize `dropdown-content` wrappers. The action classes themselves are unchanged - `.dataTableAction`,
+  `.activateExportSelection`, `.annotationView` and `.tableIcon[data-footer-icon-id]` still identify the same actions,
+  now inside `.reportHeader__actionsMenu`.
+* **The "rows to display" control is no longer a Materialize select.** `.limitSelection` now holds a
+  `.mtm-selector` - a `button.mtm-selector__trigger` and a panel whose choices are `a[data-limit]`
+  inside `.mtm-dropdownPanel__menu` - so `.select-wrapper`, `input.select-dropdown` and the native
+  `<select>` are gone. Read the current value from the trigger's label and pick one by its
+  `data-limit`. On a report with pagination the control now sits inside
+  `.dataTablePaginationControl` rather than in a row of its own.
+* The "export as image" icon no longer carries the id `dataTableFooterExportAsImageIcon`. It is now scoped to the
+  placement it renders in, `dataTableExportAsImageIcon-header`. A page showing several image-exportable reports still
+  repeats it, so prefer selecting `.dataTableAction.tableIcon` within the report you mean.
 
 ## Matomo 5.14.0
 

@@ -7,6 +7,7 @@
 
 import { mount } from '@vue/test-utils';
 import ReportHeader from './ReportHeader.vue';
+import ExportMenu from '../DataTable/ExportMenu.vue';
 
 vi.mock('../translate', () => ({
   translate: (key: string) => {
@@ -52,22 +53,275 @@ describe('ReportHeader', () => {
     expect(wrapper.find('.reportHeader__title').text()).toBe('Visits Over Time');
   });
 
-  it('should always render the reserved (empty) report-actions region', () => {
+  it('should render the toolbar anchor on the header line', () => {
     const wrapper = mountComponent();
 
-    expect(wrapper.find('.reportHeader__actions').exists()).toBe(true);
+    expect(wrapper.find('.reportHeader__header .reportHeader__toolbar').exists()).toBe(true);
+  });
+
+  describe('report actions menu', () => {
+    // The menu only exists where the report renders footer icons; a subtable has none. It also
+    // needs something to hold, or there is nothing for a trigger to open.
+    const withActions = { showFooter: true, showFooterIcons: true, showExport: true };
+
+    it('should offer the actions menu only when the report has footer icons', () => {
+      expect(mountComponent().find('.reportHeader__actionsTrigger').exists()).toBe(false);
+      expect(mountComponent({ showFooter: true }).find('.reportHeader__actionsTrigger').exists())
+        .toBe(false);
+      expect(mountComponent(withActions).find('.reportHeader__actionsTrigger').exists()).toBe(true);
+    });
+
+    it('should keep the header line for a titleless report that still has actions', () => {
+      const wrapper = mountComponent({ ...withActions, showTitle: false, context: 'widgetized' });
+
+      expect(wrapper.find('.reportHeader__header').exists()).toBe(true);
+      expect(wrapper.find('.reportHeader__title').exists()).toBe(false);
+    });
+
+    // ExpandOnClick closes only on a click outside the element, so without an explicit close the
+    // menu stays open over the report the chosen action just reloaded.
+    it('should close the menu when an action inside it is chosen', async () => {
+      const wrapper = mountComponent(withActions);
+      const actions = wrapper.find('.reportHeader__actions');
+
+      actions.element.classList.add('expanded');
+      expect(actions.classes()).toContain('expanded');
+
+      await wrapper.find('.reportHeader__actionsMenu').trigger('click');
+
+      expect(wrapper.find('.reportHeader__actions').classes()).not.toContain('expanded');
+    });
+
+    // Closing this way bypasses ExpandOnClick, whose own close() then returns early for want of
+    // the class - so a trigger left saying "expanded" here never gets told otherwise again.
+    it('should stop saying the menu is open once an action closes it', async () => {
+      const wrapper = mountComponent(withActions);
+      const trigger = wrapper.find('.reportHeader__actionsTrigger');
+      expect(trigger.attributes('aria-haspopup')).toBe('menu');
+      expect(trigger.attributes('aria-expanded')).toBe('false');
+
+      // ExpandOnClick binds the expander in a timeout, so the click has to come after it
+      await new Promise((resolve) => { setTimeout(resolve, 0); });
+      await trigger.trigger('click');
+      expect(trigger.attributes('aria-expanded')).toBe('true');
+
+      await wrapper.find('.reportHeader__actionsMenu').trigger('click');
+      expect(trigger.attributes('aria-expanded')).toBe('false');
+    });
+
+    // Promoting empties the menu on a report whose only entries were promotable, and a trigger
+    // opening onto nothing is worse than no trigger.
+    it('should offer no trigger once the menu has nothing left to hold', async () => {
+      const wrapper = mountComponent({
+        ...withActions,
+        showAnnotations: true,
+        context: 'widgetized',
+      });
+      expect(wrapper.find('.reportHeader__actionsTrigger').exists()).toBe(true);
+
+      (wrapper.vm as unknown as { promotedCount: number }).promotedCount = 2;
+      await wrapper.vm.$nextTick();
+
+      expect(wrapper.findAll('[data-report-action]').length).toBe(2);
+      expect(wrapper.find('.reportHeader__actionsTrigger').exists()).toBe(false);
+    });
+  });
+
+  // jsdom lays nothing out, so the fit measurement always demotes; these set the count the
+  // measurement would have reached and check what gets drawn at it.
+  describe('promoted report actions', () => {
+    const offered = {
+      showFooter: true,
+      showFooterIcons: true,
+      showExport: true,
+      showExportAsImageIcon: true,
+      showAnnotations: true,
+      exportSupportsFlatten: true,
+      clientSideParameters: { flat: '1' },
+    };
+
+    async function mountPromoted(count: number, customProps = {}) {
+      const wrapper = mountComponent({ ...offered, ...customProps });
+      (wrapper.vm as unknown as { promotedCount: number }).promotedCount = count;
+      await wrapper.vm.$nextTick();
+      return wrapper;
+    }
+
+    it('should draw the export control as a panel, since it holds two entries', async () => {
+      const wrapper = await mountPromoted(1);
+
+      const control = wrapper.find('[data-report-action="export"]');
+      expect(control.exists()).toBe(true);
+      expect(control.find('.mtm-selector__trigger').attributes('aria-haspopup')).toBe('menu');
+      expect(control.find('[role="menu"]').exists()).toBe(true);
+      expect(control.find('a.activateExportSelection').exists()).toBe(true);
+      expect(control.find('a.dataTableAction.tableIcon').exists()).toBe(true);
+
+      // the entries rendering is not enough: what the export directive is handed decides whether
+      // the popover offers a flat export at all
+      expect(wrapper.findComponent(ExportMenu).props()).toMatchObject({
+        exportSupportsFlatten: true,
+        clientSideParameters: { flat: '1' },
+      });
+    });
+
+    it('should draw the annotations control as one icon, since it is one toggle', async () => {
+      const wrapper = await mountPromoted(2);
+
+      const control = wrapper.find('[data-report-action="annotations"]');
+      expect(control.classes()).toContain('mtm-selector--iconOnly');
+      expect(control.find('.mtm-selector__label').exists()).toBe(false);
+
+      // no words, so the state and the name are carried by the button itself
+      const button = control.find('button');
+      expect(button.classes()).toContain('annotationView');
+      expect(button.attributes('aria-pressed')).toBe('false');
+      expect(button.attributes('aria-label')).toBe('Annotations_ShowAnnotations');
+    });
+
+    // jsdom has no matchMedia and lays nothing out, so the fit measurement is handed both.
+    let narrow = false;
+
+    beforeEach(() => {
+      narrow = false;
+      Object.defineProperty(window, 'matchMedia', {
+        writable: true,
+        configurable: true,
+        value: () => ({ matches: narrow }) as MediaQueryList,
+      });
+    });
+    // jsdom lays nothing out, so the fit measurement is handed the widths it would have read.
+    function giveRoom(wrapper: ReturnType<typeof mountComponent>, width: number) {
+      const size = (selector: string, prop: string, value: number) => {
+        Object.defineProperty(wrapper.find(selector).element, prop, {
+          value, configurable: true,
+        });
+      };
+      size('.reportHeader__header', 'clientWidth', width);
+      size('.reportHeader__controls', 'offsetWidth', 100);
+    }
+
+    // The observer skips a width it has already measured, so a demotion that kept the width it was
+    // promoted at could never be undone by returning to it - restoring a window, undoing a zoom.
+    it('should remember the width it demoted at, not the one it promoted at', async () => {
+      const wrapper = mountComponent({ ...offered, context: 'widgetized' });
+      const vm = wrapper.vm as unknown as {
+        updatePromoted: () => Promise<void>; promotedCount: number; lastMeasuredWidth: number;
+      };
+
+      giveRoom(wrapper, 1200);
+      await vm.updatePromoted();
+      expect(vm.promotedCount).toBeGreaterThan(0);
+      expect(vm.lastMeasuredWidth).toBe(1200);
+
+      narrow = true;
+      giveRoom(wrapper, 700);
+      await vm.updatePromoted();
+
+      expect(vm.promotedCount).toBe(0);
+      expect(vm.lastMeasuredWidth).toBe(700);
+    });
+
+    // Maximising a widget changes what shares the line without changing its width.
+    it('should give the controls back when the line gains widget controls', async () => {
+      const wrapper = mountComponent({ ...offered, context: 'widgetized' });
+      const vm = wrapper.vm as unknown as {
+        updatePromoted: () => Promise<void>; promotedCount: number;
+      };
+
+      giveRoom(wrapper, 1200);
+      await vm.updatePromoted();
+      expect(vm.promotedCount).toBeGreaterThan(0);
+
+      await wrapper.setProps({ context: 'dashboard' });
+      await wrapper.vm.$nextTick();
+
+      expect(vm.promotedCount).toBe(0);
+    });
+
+    // Only the template's order enforces this, so re-reversing it must fail something.
+    it('should draw the highest rank nearest the trigger', async () => {
+      const wrapper = await mountPromoted(3, { showPeriods: true, selectablePeriods: ['day'] });
+
+      expect(wrapper.findAll('[data-report-action]')
+        .map((control) => control.attributes('data-report-action')))
+        .toEqual(['annotations', 'export', 'periods']);
+    });
+
+    // The fit loop gives controls back one at a time, and an unmounted one never hears onClosed.
+    it('should stop announcing a control the fit loop took back while it was open', async () => {
+      const wrapper = mountComponent({
+        ...offered,
+        context: 'widgetized',
+        showPeriods: true,
+        selectablePeriods: ['day'],
+      });
+      const vm = wrapper.vm as unknown as {
+        updatePromoted: () => Promise<void>; promotedCount: number; exportExpanded: boolean;
+      };
+
+      giveRoom(wrapper, 1200);
+      await vm.updatePromoted();
+      expect(vm.promotedCount).toBeGreaterThan(1);
+
+      vm.exportExpanded = true;
+      giveRoom(wrapper, 200);
+      await vm.updatePromoted();
+
+      expect(vm.promotedCount).toBe(0);
+      expect(vm.exportExpanded).toBe(false);
+    });
+
+    // The trigger goes away with the menu it opens, and never hears onClosed either.
+    it('should stop announcing the menu when the trigger goes away with it', async () => {
+      const wrapper = mountComponent({
+        showFooter: true,
+        showFooterIcons: true,
+        showExport: true,
+        showAnnotations: true,
+        context: 'widgetized',
+      });
+      const vm = wrapper.vm as unknown as {
+        updatePromoted: () => Promise<void>; actionsExpanded: boolean;
+      };
+
+      vm.actionsExpanded = true;
+      giveRoom(wrapper, 1200);
+      await vm.updatePromoted();
+      await wrapper.vm.$nextTick();
+
+      expect(wrapper.find('.reportHeader__actionsTrigger').exists()).toBe(false);
+      expect(vm.actionsExpanded).toBe(false);
+    });
+
+    it('should promote in priority order, so the least deserving is given back first', async () => {
+      const one = await mountPromoted(1);
+      expect(one.find('[data-report-action="export"]').exists()).toBe(true);
+      expect(one.find('[data-report-action="annotations"]').exists()).toBe(false);
+
+      const none = await mountPromoted(0);
+      expect(none.find('[data-report-action="export"]').exists()).toBe(false);
+    });
   });
 
   it('should render the title by default', () => {
     expect(mountComponent().find('.reportHeader__title').exists()).toBe(true);
   });
 
-  it('should render nothing when there is nothing to show', () => {
+  it('should render no line at all when there is nothing to show', () => {
     const wrapper = mountComponent({ context: 'widgetized', showTitle: false });
 
-    expect(wrapper.find('.reportHeader').exists()).toBe(false);
-    expect(wrapper.find('.reportHeader__title').exists()).toBe(false);
-    expect(wrapper.find('.reportHeader__actions').exists()).toBe(false);
+    expect(wrapper.find('.reportHeader__header').exists()).toBe(false);
+    expect(wrapper.find('.reportHeader__subheader').exists()).toBe(false);
+    // Leaves the host `:empty`, which the stylesheet collapses.
+    expect(wrapper.find('.reportHeader').element.children.length).toBe(0);
+  });
+
+  it('should keep the subheader when only the search is left', () => {
+    const wrapper = mountComponent({ context: 'widgetized', showTitle: false, showSearch: true });
+
+    expect(wrapper.find('.reportHeader__header').exists()).toBe(false);
+    expect(wrapper.find('.reportHeader__subheader .reportHeader__search').exists()).toBe(true);
   });
 
   it('should render the full header when a widgetized report keeps its title', () => {
@@ -268,5 +522,140 @@ describe('ReportHeader', () => {
   it('should add the flush modifier only for a full-page report', () => {
     expect(mountComponent().classes()).not.toContain('reportHeader--flush');
     expect(mountComponent({ context: 'fullPage' }).classes()).toContain('reportHeader--flush');
+  });
+
+  describe('report search', () => {
+    it('should not render the search input by default', () => {
+      expect(mountComponent().find('.reportHeader__search').exists()).toBe(false);
+    });
+
+    it('should render the search input when showSearch is set', () => {
+      const wrapper = mountComponent({ showSearch: true });
+
+      expect(wrapper.find('.reportHeader__search .mtm-searchInput__input').exists()).toBe(true);
+    });
+
+    it('should not render the search input on a minimised widget', () => {
+      // the dashboard hides .widgetContent in this state, so there is no table left to search
+      const wrapper = mountComponent({ context: 'collapsed', showSearch: true });
+
+      expect(wrapper.find('.reportHeader__search').exists()).toBe(false);
+    });
+
+    it('should not render the search input in the widget preview', () => {
+      const wrapper = mountComponent({ context: 'preview', showSearch: true });
+
+      expect(wrapper.find('.reportHeader__search').exists()).toBe(false);
+    });
+
+    it('should render the search input on a titleless widgetized report', () => {
+      const wrapper = mountComponent({ context: 'widgetized', showTitle: false, showSearch: true });
+
+      expect(wrapper.find('.reportHeader__search .mtm-searchInput__input').exists()).toBe(true);
+    });
+
+    it('should seed the search field from searchQuery', () => {
+      const wrapper = mountComponent({ showSearch: true, searchQuery: 'pages' });
+
+      const input = wrapper.find('.mtm-searchInput__input').element as HTMLInputElement;
+      expect(input.value).toBe('pages');
+    });
+
+    it('should debounce typing into a single search dispatch', async () => {
+      vi.useFakeTimers();
+      try {
+        const wrapper = mountComponent({ showSearch: true });
+        const input = wrapper.find('.mtm-searchInput__input');
+
+        await input.setValue('a');
+        await input.setValue('ab');
+        // nothing dispatched within the debounce window
+        expect(wrapper.emitted('search')).toBeUndefined();
+
+        vi.advanceTimersByTime(300);
+        expect(wrapper.emitted('search')).toEqual([[{ keyword: 'ab' }]]);
+      } finally {
+        vi.useRealTimers();
+      }
+    });
+
+    it('should dispatch a bubbling reportheader:search CustomEvent for the jQuery bridge', async () => {
+      vi.useFakeTimers();
+      try {
+        const wrapper = mountComponent({ showSearch: true });
+        const received: string[] = [];
+        wrapper.element.addEventListener('reportheader:search', (e) => {
+          received.push((e as CustomEvent).detail.keyword);
+        });
+
+        await wrapper.find('.mtm-searchInput__input').setValue('term');
+        vi.advanceTimersByTime(300);
+
+        expect(received).toEqual(['term']);
+      } finally {
+        vi.useRealTimers();
+      }
+    });
+
+    it('should apply a clear immediately, without waiting for the debounce', async () => {
+      const wrapper = mountComponent({ showSearch: true, searchQuery: 'term' });
+
+      await wrapper.find('.mtm-searchInput__clear').trigger('click');
+
+      expect(wrapper.emitted('search')).toEqual([[{ keyword: '' }]]);
+    });
+
+    it('should sync the field from searchQuery without dispatching a search', async () => {
+      const wrapper = mountComponent({ showSearch: true });
+
+      await wrapper.setProps({ searchQuery: 'pushed' });
+
+      const input = wrapper.find('.mtm-searchInput__input').element as HTMLInputElement;
+      expect(input.value).toBe('pushed');
+      expect(wrapper.emitted('search')).toBeUndefined();
+    });
+
+    it('should release a pending search when the header is torn down', async () => {
+      vi.useFakeTimers();
+      try {
+        const wrapper = mountComponent({ showSearch: true });
+        const input = wrapper.find('.mtm-searchInput__input');
+
+        (input.element as HTMLInputElement).value = 'gone';
+        await input.trigger('input');
+        expect(vi.getTimerCount()).toBe(1);
+
+        wrapper.unmount();
+
+        // a reload replaces the table under a header that stays put, so a debounce left running
+        // here would outlive the component it belongs to
+        expect(vi.getTimerCount()).toBe(0);
+      } finally {
+        vi.useRealTimers();
+      }
+    });
+
+    it('should not let a server-pushed query revert what is being typed', async () => {
+      vi.useFakeTimers();
+      try {
+        const wrapper = mountComponent({ showSearch: true });
+        const input = wrapper.find('.mtm-searchInput__input');
+
+        (input.element as HTMLInputElement).value = 'typing';
+        await input.trigger('input');
+
+        // a reload settling mid-debounce syncs the pattern it was started with
+        await wrapper.setProps({ searchQuery: 'stale' });
+
+        expect((input.element as HTMLInputElement).value).toBe('typing');
+
+        vi.runAllTimers();
+        await wrapper.vm.$nextTick();
+        expect(wrapper.emitted('search')).toEqual([[{ keyword: 'typing' }]]);
+      } finally {
+        vi.useRealTimers();
+      }
+    });
+
   });
 });

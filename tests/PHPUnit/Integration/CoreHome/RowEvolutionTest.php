@@ -94,12 +94,12 @@ class RowEvolutionTest extends IntegrationTestCase
 
         $html = $view->render();
 
-        $this->assertSame(1, preg_match('/request-params="([^"]*)"/', $html, $matches));
-        $requestParams = json_decode(htmlspecialchars_decode($matches[1]), true);
+        $this->assertSame(1, preg_match('/data-report-actions="([^"]*)"/', $html, $matches));
+        $config = json_decode(html_entity_decode($matches[1], ENT_QUOTES | ENT_HTML5), true);
 
-        $this->assertIsArray($requestParams);
-        $this->assertSame(42, $requestParams['idDummyReport']);
-        $this->assertSame('@rowLabel', $requestParams['label']);
+        $this->assertIsArray($config);
+        $this->assertSame(42, $config['requestParams']['idDummyReport']);
+        $this->assertSame('@rowLabel', $config['requestParams']['label']);
     }
 
     public function testGetRowEvolutionGraphDisablesForecastForEvolutionConfig(): void

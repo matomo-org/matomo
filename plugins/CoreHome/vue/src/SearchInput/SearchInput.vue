@@ -23,6 +23,8 @@
       v-if="showClear && modelValue"
       type="button"
       class="mtm-searchInput__clear"
+      :title="translate('General_Clear')"
+      :aria-label="translate('General_Clear')"
       @click="onClear()"
     />
   </div>
