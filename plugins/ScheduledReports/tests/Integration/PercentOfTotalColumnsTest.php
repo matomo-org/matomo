@@ -61,7 +61,7 @@ class PercentOfTotalColumnsTest extends IntegrationTestCase
     {
         $report = $this->generateReport(ReportRenderer::CSV_FORMAT, 'UserCountry_getCountry');
 
-        self::assertStringContainsString('Visits (% of total)', $report);
+        self::assertStringContainsString('Visits (%)', $report);
         // the internal column name must not leak into the export
         self::assertStringNotContainsString('nb_visits_percent_of_total', $report);
 
@@ -69,10 +69,10 @@ class PercentOfTotalColumnsTest extends IntegrationTestCase
         $header = explode(',', $headerLine);
 
         // the percentage is shown directly after the metric it belongs to
-        self::assertSame('Visits (% of total)', $header[array_search('nb_visits', $header, true) + 1]);
-        self::assertSame('Actions (% of total)', $header[array_search('nb_actions', $header, true) + 1]);
+        self::assertSame('Visits (%)', $header[array_search('nb_visits', $header, true) + 1]);
+        self::assertSame('Actions (%)', $header[array_search('nb_actions', $header, true) + 1]);
 
-        // label, nb_uniq_visitors, nb_visits, Visits (% of total), nb_actions, Actions (% of total)
+        // label, nb_uniq_visitors, nb_visits, Visits (%), nb_actions, Actions (%)
         self::assertStringContainsString('France,3,3,75%,3,75%', $report);
         self::assertStringContainsString('Germany,1,1,25%,1,25%', $report);
     }
@@ -83,8 +83,8 @@ class PercentOfTotalColumnsTest extends IntegrationTestCase
 
         // the report has a report total for bounces and conversions, but shows neither as a
         // column, so a percentage of that total would stand on its own
-        self::assertStringNotContainsString('Bounces (% of total)', $report);
-        self::assertStringNotContainsString('Visits with Conversions (% of total)', $report);
+        self::assertStringNotContainsString('Bounces (%)', $report);
+        self::assertStringNotContainsString('Visits with Conversions (%)', $report);
     }
 
     public function testNonAdditiveMetricsGetNoPercentageColumn(): void
@@ -92,14 +92,14 @@ class PercentOfTotalColumnsTest extends IntegrationTestCase
         $report = $this->generateReport(ReportRenderer::CSV_FORMAT, 'UserCountry_getCountry');
 
         self::assertStringContainsString('nb_uniq_visitors', $report);
-        self::assertStringNotContainsString('Unique Visitors (% of total)', $report);
+        self::assertStringNotContainsString('Unique Visitors (%)', $report);
     }
 
     public function testTsvReportUsesTheColumnTranslationAsHeader(): void
     {
         $report = $this->generateReport(ReportRenderer::TSV_FORMAT, 'UserCountry_getCountry');
 
-        self::assertStringContainsString('Visits (% of total)', $report);
+        self::assertStringContainsString('Visits (%)', $report);
         self::assertStringNotContainsString('nb_visits_percent_of_total', $report);
         self::assertStringContainsString("France\t3\t3\t75%\t3\t75%", $report);
     }
@@ -110,9 +110,23 @@ class PercentOfTotalColumnsTest extends IntegrationTestCase
 
         // the percentage sits next to the metric it belongs to, so repeating the metric name in
         // the header would only make the table wider
-        self::assertStringContainsString('(%)', $report);
-        self::assertStringNotContainsString('(% of total)', $report);
+        self::assertStringContainsString('&nbsp;(%)&nbsp;', $report);
+        self::assertStringNotContainsString('Visits (%)', $report);
         self::assertStringContainsString('75%', $report);
+    }
+
+    // A portrait page cannot take a percentage after every metric without truncating values, so
+    // the PDF carries none of them. The column removal itself is asserted in
+    // tests/PHPUnit/Unit/ReportRenderer/PdfTest.php: TCPDF writes its text as escaped UTF-16BE
+    // inside compressed streams, so grepping the bytes for a header would test the encoder, not
+    // the behaviour. What this covers is that the whole PDF path, front-page note included, runs
+    // for a report that does have eligible metrics.
+    public function testPdfReportIsProducedForAReportWithEligibleMetrics(): void
+    {
+        $report = $this->generateReport(ReportRenderer::PDF_FORMAT, 'UserCountry_getCountry');
+
+        self::assertStringStartsWith('%PDF', $report);
+        self::assertGreaterThan(1000, strlen($report));
     }
 
     public function testRateMetricsDoNotGetAPercentageColumn(): void
@@ -121,7 +135,7 @@ class PercentOfTotalColumnsTest extends IntegrationTestCase
 
         self::assertStringContainsString('bounce_rate', $report);
         self::assertStringNotContainsString('bounce_rate_percent_of_total', $report);
-        self::assertStringNotContainsString('Bounce Rate (% of total)', $report);
+        self::assertStringNotContainsString('Bounce Rate (%)', $report);
     }
 
     public function testReportComputingItsOwnVisitsPercentageKeepsOnlyThatColumn(): void
@@ -130,7 +144,7 @@ class PercentOfTotalColumnsTest extends IntegrationTestCase
 
         // the report computes a visits percentage itself, a second one would be redundant
         self::assertStringContainsString('nb_visits_percentage', $report);
-        self::assertStringNotContainsString('Visits (% of total)', $report);
+        self::assertStringNotContainsString('Visits (%)', $report);
         self::assertStringNotContainsString('nb_visits_percent_of_total', $report);
     }
 
@@ -138,7 +152,7 @@ class PercentOfTotalColumnsTest extends IntegrationTestCase
     {
         $report = $this->generateReport(ReportRenderer::CSV_FORMAT, 'VisitsSummary_get');
 
-        self::assertStringNotContainsString('(% of total)', $report);
+        self::assertStringNotContainsString('(%)', $report);
         self::assertStringNotContainsString('_percent_of_total', $report);
     }
 
@@ -154,7 +168,7 @@ class PercentOfTotalColumnsTest extends IntegrationTestCase
             'getCountry'
         );
 
-        self::assertSame('Visits (% of total)', $processed['columns']['nb_visits_percent_of_total']);
+        self::assertSame('Visits (%)', $processed['columns']['nb_visits_percent_of_total']);
         self::assertSame('75%', $processed['reportData']->getFirstRow()->getColumn('nb_visits_percent_of_total'));
     }
 
