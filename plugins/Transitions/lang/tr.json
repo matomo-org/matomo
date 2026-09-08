@@ -2,7 +2,6 @@
     "Transitions": {
         "AvailableInOtherReports": "Geçişlerin ayrıca şu raporlarda da satır işlemi olarak bulunduğunu biliyor musunuz:",
         "AvailableInOtherReports2": "Bu raporlardaki herhangi bir satırın üzerine gelip simgesine (%s) tıklayarak geçişleri görüntüleyebilirsiniz.",
-        "BouncesInline": "%s hemen çıkma",
         "DirectEntries": "Doğrudan girişler",
         "ErrorBack": "Önceki işleme dön",
         "ExitsInline": "%s çıkış",
@@ -37,7 +36,6 @@
         "Transitions": "Geçişler",
         "TransitionsSubcategoryHelp1": "Geçişler raporu, kullanıcıların belirtilen bir sayfaya gelmeden önce ve sonra yaptıkları işlemleri görüntüler. Bu bölümde, güçlü \"Geçişler\" raporuna nasıl erişeceğinizi ve raporun içeriğini nasıl anlayıp kullanabileceğinizi anlatan bilgiler bulunur.",
         "TransitionsSubcategoryHelp2": "Ayrıntılı bilgi alın",
-        "XOfAllPageviews": "Bu sayfanın tüm görüntülenmelerinden %s",
-        "XOutOfYVisits": "%1$s (toplam %2$s)"
+        "XOfAllPageviews": "Bu sayfanın tüm görüntülenmelerinden %s"
     }
 }

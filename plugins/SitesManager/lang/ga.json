@@ -40,6 +40,7 @@
         "ExceptionInvalidTimezone": "Níl an crios ama \"%s\" bailí. Iontráil crios ama bailí, le do thoil.",
         "ExceptionInvalidUrl": "Ní URL bailí é url '%s'.",
         "ExceptionInvalidWebsiteDescription": "Tá an cur síos rófhada, ceadaítear uasmhéid de 255 carachtar.",
+        "ExceptionMatomoUrlUnknown": "Níorbh fhéidir URL an Matomo seo a chinneadh. Cuir ar aghaidh é mar an paraiméadar piwikUrl le do thoil.",
         "ExceptionNoUrl": "Ní mór duit URL amháin ar a laghad a shonrú don láithreán gréasáin.",
         "ExceptionNonEmptyQueryParamsForNonCustomType": "Níor cheart paraiméadair cheiste le heisiamh a sholáthar nuair nach bhfuil cineál eisiaimh saincheaptha",
         "ExcludedIps": "IPanna Eisiata",
