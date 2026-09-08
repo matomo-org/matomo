@@ -26,6 +26,7 @@ use Piwik\Date;
 use Piwik\Log\LoggerInterface;
 use Piwik\Metrics\Formatter;
 use Piwik\Period\Factory;
+use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Request as PiwikRequest;
 use Piwik\Request\AuthenticationToken;
@@ -35,6 +36,7 @@ use Piwik\SettingsServer;
 use Piwik\Site;
 use Piwik\Tracker\Failures;
 use Piwik\Url;
+use Piwik\Plugins\SitesManager\Model as SitesModel;
 use Piwik\Plugins\UsersManager\Model as UsersModel;
 
 /**
@@ -204,8 +206,11 @@ class API extends \Piwik\Plugin\API
             $segment = null;
         }
 
+        // A single-site report resolves a relative range on the site's own day, a multi-site one on
+        // UTC's (ArchiveQueryFactory), so a relative range is invalidated on each of those days. One
+        // call for all sites keeps the dates the same for sites a listener of the invalidation adds.
         /** Date[]|string[] $dates */
-        [$dates, $invalidDates] = $this->getDatesToInvalidateFromString($dates, $period ?: null);
+        [$dates, $invalidDates] = $this->getDatesToInvalidateFromString($dates, $period ?: null, $idSites);
 
         $invalidationResult = $this->invalidator->markArchivesAsInvalidated($idSites, $dates, $period, $segment, (bool)$cascadeDown, (bool)$_forceInvalidateNonexistent);
 
@@ -416,12 +421,14 @@ class API extends \Piwik\Plugin\API
     /**
      * @param array<int, string>|string $dates
      * @param 'day'|'week'|'month'|'year'|'range'|null $period
+     * @param int[] $idSites
      * @return array{0: array<int, Date|string>, 1: string[]}
      */
-    private function getDatesToInvalidateFromString($dates, ?string $period): array
+    private function getDatesToInvalidateFromString($dates, ?string $period, array $idSites = []): array
     {
         $toInvalidate = [];
         $invalidDates = [];
+        $timezones = null;
 
         if (!is_array($dates)) {
             if ($period !== 'range') {
@@ -444,8 +451,21 @@ class API extends \Piwik\Plugin\API
                     $invalidDates[] = $theDate;
                     continue;
                 }
-                if (count($subPeriods)) {
+                if (count($subPeriods) && !$this->isRelativeRange($theDate)) {
                     $toInvalidate[] = $periodObj->getRangeString();
+                } elseif (count($subPeriods)) {
+                    $timezones ??= $this->getTimezonesOfSites($idSites);
+                    $rangeStrings = [];
+                    foreach (array_merge(['UTC'], $timezones) as $timezone) {
+                        try {
+                            $rangeStrings[] = Factory::makePeriodFromQueryParams($timezone, 'range', $theDate)->getRangeString();
+                        } catch (\Exception $e) {
+                            // A range starting on UTC's today ends before it starts on a day behind UTC's,
+                            // so no report in that timezone can request it.
+                            continue;
+                        }
+                    }
+                    $toInvalidate = array_merge($toInvalidate, array_unique($rangeStrings));
                 } else {
                     $invalidDates[] = $theDate;
                 }
@@ -466,6 +486,35 @@ class API extends \Piwik\Plugin\API
         }
 
         return [$toInvalidate, $invalidDates];
+    }
+
+    /**
+     * @param int[] $idSites
+     * @return string[]
+     */
+    private function getTimezonesOfSites(array $idSites): array
+    {
+        if (empty($idSites)) {
+            return [];
+        }
+
+        // One query rather than a site lookup each, as $idSites can be every site of the instance.
+        $sites = (new SitesModel())->getSitesFromIds($idSites);
+
+        return array_values(array_unique(array_column($sites, 'timezone')));
+    }
+
+    /**
+     * Whether $date (a valid range) resolves differently depending on the current day: lastN, previousN
+     * or an endpoint such as 'today'.
+     */
+    private function isRelativeRange(string $date): bool
+    {
+        $dateRange = Range::parseDateRange($date);
+
+        return $dateRange === false
+            || Date::getRelativeKeyword($dateRange[1]) !== null
+            || Date::getRelativeKeyword($dateRange[2]) !== null;
     }
 
     /**

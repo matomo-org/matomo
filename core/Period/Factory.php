@@ -144,8 +144,9 @@ abstract class Factory
     /**
      * Creates a Period instance using a period, date and timezone.
      *
-     * @param string $timezone The timezone of the date. Only used if `$date` is `'now'`, `'today'`,
-     *                         `'yesterday'` or `'yesterdaySameTime'`.
+     * @param string|false $timezone Timezone the date is resolved in; an empty value means UTC.
+     *                               Applies to relative values such as `'today'` or `'last-week'`,
+     *                               and anchors a `'range'` on that timezone's current day.
      * @param string $period The period string: `"day"`, `"week"`, `"month"`, `"year"`, `"range"`.
      * @param string|Date $date The date or date range string. Can be a special value including
      *                     `'now'`, `'today'`, `'yesterday'`, `'yesterdaySameTime'`.
@@ -161,11 +162,16 @@ abstract class Factory
 
         if ($period == 'range') {
             self::checkPeriodIsEnabled('range');
-            $oPeriod = new Range('range', $date, $timezone, Date::factory('today', $timezone));
+            // Not Date::factory(): it shifts the timestamp but labels the Date in UTC, so 'today'
+            // stays UTC's day and a relative range ends one day out for a site in another zone.
+            $oPeriod = new Range('range', $date, $timezone, Date::factoryInTimezone('today', $timezone));
         } else {
             if (!($date instanceof Date)) {
-                if (preg_match('/^(now|today|yesterday|yesterdaySameTime|last[ -]?(?:week|month|year))$/i', $date)) {
-                    $date = Date::factoryInTimezone($date, $timezone);
+                // A spelling that misses here falls through to factory() and resolves in UTC.
+                $keyword = Date::getRelativeKeyword($date);
+
+                if ($keyword !== null) {
+                    $date = Date::factoryInTimezone($keyword, $timezone);
                 }
                 $date = Date::factory($date);
             }

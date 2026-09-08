@@ -96,6 +96,42 @@ class FactoryTest extends UnitTestCase
             ['2020-12-23 03:37:00', 'America/Chicago', 'week', 'last-month', 'week', '2020-11-16,2020-11-22'],
             ['2020-12-24 03:37:00', 'America/Chicago', 'day', 'last-year', 'day', '2019-12-23,2019-12-23'],
             ['2020-12-24 03:37:00', 'America/Chicago', 'day', '2020-12-23', 'day', '2020-12-23,2020-12-23'],
+
+            // A relative range is measured back from a "today" of its own, which is the day
+            // the timezone is on, not the one UTC is on.
+            ['2020-12-24 16:37:00', 'UTC+12', 'range', 'previous7', 'range', '2020-12-18,2020-12-24'],
+            ['2020-12-24 16:37:00', 'UTC+12', 'range', 'last7', 'range', '2020-12-19,2020-12-25'],
+            ['2020-12-24 03:37:00', 'America/Chicago', 'range', 'previous7', 'range', '2020-12-16,2020-12-22'],
+            ['2020-12-24 03:37:00', 'America/Chicago', 'range', 'last7', 'range', '2020-12-17,2020-12-23'],
+
+            // A relative range end has to land on that same day.
+            ['2020-12-24 16:37:00', 'UTC+12', 'range', '2020-12-01,today', 'range', '2020-12-01,2020-12-25'],
+            ['2020-12-24 20:00:00', 'America/Chicago', 'range', '2020-12-01,today', 'range', '2020-12-01,2020-12-24'],
+
+            // The patterns that admit these keywords are case-insensitive, so resolving them
+            // has to be too, in a range end and on its own.
+            ['2020-12-24 20:00:00', 'America/Chicago', 'range', '2020-12-01,Today', 'range', '2020-12-01,2020-12-24'],
+            ['2020-12-24 16:37:00', 'UTC+12', 'range', '2020-12-01,YESTERDAY', 'range', '2020-12-01,2020-12-24'],
+            ['2020-12-24 03:37:00', 'America/Chicago', 'day', 'Today', 'day', '2020-12-23,2020-12-23'],
+            ['2020-12-24 03:37:00', 'America/Chicago', 'day', 'Last-Week', 'day', '2020-12-16,2020-12-16'],
+
+            // A relative endpoint is a keyword, not a shape, and a start resolves like an end.
+            // NOW is 2020-12-23 in Chicago and 2020-12-24 in UTC, so UTC lands a day late.
+            ['2020-12-24 03:37:00', 'America/Chicago', 'range', '2020-12-01,last-week', 'range', '2020-12-01,2020-12-16'],
+            ['2020-12-24 03:37:00', 'America/Chicago', 'range', '2020-12-01,last week', 'range', '2020-12-01,2020-12-16'],
+            ['2020-12-24 03:37:00', 'America/Chicago', 'range', 'last-week,today', 'range', '2020-12-16,2020-12-23'],
+            ['2020-12-24 03:37:00', 'America/Chicago', 'range', 'last week,today', 'range', '2020-12-16,2020-12-23'],
+
+            // A padded or url-encoded spelling arrives from the request like any other. One
+            // that is not recognised falls through to a UTC-resolved date, a day off here.
+            ['2020-12-24 03:37:00', 'America/Chicago', 'day', 'today ', 'day', '2020-12-23,2020-12-23'],
+            ['2020-12-24 03:37:00', 'America/Chicago', 'day', ' TODAY', 'day', '2020-12-23,2020-12-23'],
+            ['2020-12-24 03:37:00', 'America/Chicago', 'day', 'yesterday ', 'day', '2020-12-22,2020-12-22'],
+            ['2020-12-24 03:37:00', 'America/Chicago', 'day', 'last%20week', 'day', '2020-12-16,2020-12-16'],
+            ['2020-12-24 03:37:00', 'America/Chicago', 'day', 'LAST%20WEEK', 'day', '2020-12-16,2020-12-16'],
+            ['2020-12-24 03:37:00', 'America/Chicago', 'day', 'today%20', 'day', '2020-12-23,2020-12-23'],
+            ['2020-12-24 16:37:00', 'UTC+12', 'day', ' today ', 'day', '2020-12-25,2020-12-25'],
+            ['2020-12-24 16:37:00', 'UTC+12', 'week', 'last%20month', 'week', '2020-11-23,2020-11-29'],
         ];
     }
 

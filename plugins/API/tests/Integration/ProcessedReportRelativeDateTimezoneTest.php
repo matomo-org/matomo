@@ -22,7 +22,8 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 /**
  * getProcessedReport resolves a relative date twice: once for the rows, once for
  * prettyDate. Both have to resolve in the site's timezone, or the label names a
- * different day than the report counts.
+ * different day than the report counts. A relative range resolves an anchor day of
+ * its own, which has to land in the site's timezone for the same reason.
  *
  * @group API
  * @group Plugins
@@ -37,6 +38,9 @@ class ProcessedReportRelativeDateTimezoneTest extends IntegrationTestCase
 
     private const AUCKLAND_YESTERDAY = '2026-09-08';
     private const UTC_YESTERDAY = '2026-09-07';
+
+    /** The seven days ending on Auckland's yesterday. */
+    private const AUCKLAND_PREVIOUS7 = '2026-09-02,2026-09-08';
 
     private int $idSite;
 
@@ -128,6 +132,28 @@ class ProcessedReportRelativeDateTimezoneTest extends IntegrationTestCase
 
         self::assertSame(2, $this->visitsInReport($report['reportData']));
         self::assertSame($this->prettyDateFor(self::AUCKLAND_YESTERDAY), $report['prettyDate']);
+    }
+
+    /**
+     * A relative range is measured back from a "today" of its own. The fixture holds 2 visits on
+     * the site's yesterday and 1 the day before, so a window anchored a day early counts 1, not 3.
+     */
+    public function testARelativeRangeIsCountedAndLabelledOnTheSitesOwnDays(): void
+    {
+        $report = API::getInstance()->getProcessedReport(
+            $this->idSite,
+            'range',
+            'previous7',
+            'VisitsSummary',
+            'get'
+        );
+
+        self::assertSame(3, $this->visitsInReport($report['reportData']));
+        self::assertSame(
+            PeriodFactory::build('range', self::AUCKLAND_PREVIOUS7)->getLocalizedLongString(),
+            $report['prettyDate'],
+            'previous7 did not end on the site\'s yesterday.'
+        );
     }
 
     /** A comma date is a multiple period, so it stays labelled as a range. */
