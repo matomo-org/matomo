@@ -50,6 +50,17 @@ class ProcessedReport
 {
     private ReportsProvider $reportsProvider;
 
+    /**
+     * Goal overview report unique ids advertised up to Matomo 5, mapped to the all-goals reports
+     * that replace them. Their `idGoal=0` parameter named the ecommerce order goal at runtime, so
+     * the reports they identified never held the overview figures their name promised.
+     */
+    private const RENAMED_REPORT_UNIQUE_IDS = [
+        'Goals_get_idGoal--0' => 'Goals_get',
+        'Goals_getVisitsUntilConversion_idGoal--0' => 'Goals_getVisitsUntilConversion',
+        'Goals_getDaysToConversion_idGoal--0' => 'Goals_getDaysToConversion',
+    ];
+
     private const PERFORMANCE_METRICS_TO_FORMAT = [
         'avg_time_network',
         'avg_time_server',
@@ -166,8 +177,55 @@ class ProcessedReport
         return !empty($translation);
     }
 
+    /**
+     * For backward compatibility: resolves a report unique id that is no longer advertised to the
+     * report that replaced it. An unknown id is returned unchanged.
+     *
+     * @param string $apiMethodUniqueId
+     * @return string
+     * @ignore
+     */
+    public static function getRenamedReportUniqueId($apiMethodUniqueId)
+    {
+        return self::RENAMED_REPORT_UNIQUE_IDS[$apiMethodUniqueId] ?? $apiMethodUniqueId;
+    }
+
+    /**
+     * For backward compatibility: resolves each report unique id of a stored or requested
+     * selection, keeping the first occurrence of a report the list ends up naming twice.
+     *
+     * @param array<mixed> $apiMethodUniqueIds
+     * @return array<mixed>
+     * @ignore
+     */
+    public static function getRenamedReportUniqueIds($apiMethodUniqueIds)
+    {
+        $renamed = [];
+        $seen    = [];
+
+        foreach ($apiMethodUniqueIds as $apiMethodUniqueId) {
+            if (!is_string($apiMethodUniqueId)) {
+                $renamed[] = $apiMethodUniqueId;
+                continue;
+            }
+
+            $apiMethodUniqueId = self::getRenamedReportUniqueId($apiMethodUniqueId);
+
+            if (isset($seen[$apiMethodUniqueId])) {
+                continue;
+            }
+
+            $seen[$apiMethodUniqueId] = true;
+            $renamed[] = $apiMethodUniqueId;
+        }
+
+        return $renamed;
+    }
+
     public function getReportMetadataByUniqueId($idSite, $apiMethodUniqueId)
     {
+        $apiMethodUniqueId = self::getRenamedReportUniqueId($apiMethodUniqueId);
+
         $metadata = $this->getReportMetadata($idSite);
 
         foreach ($metadata as $report) {

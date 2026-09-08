@@ -26,6 +26,7 @@ use Piwik\Log;
 use Piwik\NoAccessException;
 use Piwik\Period;
 use Piwik\Piwik;
+use Piwik\Plugins\API\ProcessedReport;
 use Piwik\Plugins\Dashboard\Dashboard;
 use Piwik\Plugins\ImageGraph\ImageGraph;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
@@ -490,6 +491,10 @@ class API extends \Piwik\Plugin\API
 
             // decode report list
             $report['reports'] = json_decode($report['reports'], true);
+
+            if (is_array($report['reports'])) {
+                $report['reports'] = ProcessedReport::getRenamedReportUniqueIds($report['reports']);
+            }
 
             if (
                 !empty($report['parameters']['additionalEmails'])
@@ -1075,6 +1080,8 @@ class API extends \Piwik\Plugin\API
             //sms can only contain one report, we silently discard all but the first
             $requestedReports = array_slice($requestedReports, 0, 1);
         }
+
+        $requestedReports = ProcessedReport::getRenamedReportUniqueIds($requestedReports);
 
         // retrieve available reports
         $availableReportMetadata = self::getReportMetadata($idSite, $reportType);
