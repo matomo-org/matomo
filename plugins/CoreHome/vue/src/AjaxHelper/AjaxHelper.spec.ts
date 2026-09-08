@@ -458,7 +458,13 @@ describe('CoreHome/AjaxHelper', () => {
   });
 
   describe('language parameter', () => {
-    const originalHref = window.location.href;
+    let originalHref = '';
+
+    // Captured per test rather than at collection time: other tests in this file change the URL
+    // without restoring it, so a value read once up front depends on the order they ran in.
+    beforeEach(() => {
+      originalHref = window.location.href;
+    });
 
     afterEach(() => {
       window.history.replaceState({}, '', originalHref);
@@ -477,14 +483,19 @@ describe('CoreHome/AjaxHelper', () => {
       return requestedUrl;
     }
 
-    // Widgets and the reporting menu are fetched separately from the page, so without this they
-    // render in the user's stored language while the page around them is in the requested one.
     it('passes the page language on to its own requests', async () => {
       expect(await urlForPage('?idSite=1&language=es')).toContain('language=es');
     });
 
     it('reads the language from the hash as well as the query string', async () => {
       expect(await urlForPage('?idSite=1#?language=es')).toContain('language=es');
+    });
+
+    it('prefers the language in the hash over the one in the query string', async () => {
+      const url = await urlForPage('?idSite=1&language=fr#?language=es');
+
+      expect(url).toContain('language=es');
+      expect(url).not.toContain('language=fr');
     });
 
     it('sends no language when the page does not ask for one', async () => {
@@ -496,6 +507,23 @@ describe('CoreHome/AjaxHelper', () => {
 
       expect(url).toContain('language=de');
       expect(url).not.toContain('language=es');
+    });
+
+    it('leaves a language posted with the request alone', async () => {
+      window.history.replaceState({}, '', '?idSite=1&language=es');
+
+      let requestedUrl = '';
+      installUrlCapturingAjaxMock((url) => {
+        requestedUrl = url;
+      });
+
+      const helper = new AjaxHelper();
+      helper.addParams({ module: 'API', method: 'X.get' }, 'get');
+      helper.addParams({ language: 'de' }, 'post');
+
+      await helper.send();
+
+      expect(requestedUrl).not.toContain('language=');
     });
   });
 
