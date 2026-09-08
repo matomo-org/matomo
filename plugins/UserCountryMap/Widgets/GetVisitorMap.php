@@ -19,6 +19,7 @@ class GetVisitorMap extends \Piwik\Widget\Widget
         $config->setSubcategoryId('UserCountry_SubmenuLocations');
         $config->setName('UserCountryMap_VisitorMap');
         $config->setAction('visitorMap');
+        $config->setClientSideComponent('UserCountryMap', 'VisitorMapWidget');
         $config->setOrder(1);
     }
 }
