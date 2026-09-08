@@ -1084,7 +1084,7 @@ $(document).ready(function() {
             // The option list is rendered at the page level, so a click inside it is not inside
             // .segment-element and would read as a click away from the editor, closing it and
             // discarding the segment being built. Same reasoning as the escape guard above.
-            if ($(e.target).closest('.expandableSelector__list').length) {
+            if ($(e.target).closest('.expandableSelector__list[data-name="segments"]').length) {
                 return;
             }
 

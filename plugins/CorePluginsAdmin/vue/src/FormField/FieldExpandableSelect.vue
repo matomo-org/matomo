@@ -24,7 +24,6 @@
         :data-name="name"
         :style="listStyle"
         ref="expandableList"
-        @mousedown="isMouseDownInsideList = true"
       >
 
         <div class="searchContainer">
@@ -239,6 +238,7 @@ export default defineComponent({
       const method = isOpen ? 'addEventListener' : 'removeEventListener';
       window[method]('scroll', this.fitOptionsList, true);
       window[method]('resize', this.fitOptionsList);
+      window[method]('mousedown', this.noteMouseDownTarget, true);
 
       if (this.triggerResize) {
         this.triggerResize.disconnect();
@@ -259,6 +259,16 @@ export default defineComponent({
         this.triggerResize = new ResizeObserver(() => this.fitOptionsList());
         this.triggerResize.observe(wrapper);
       }
+    },
+    /**
+     * Recorded on every press rather than only on presses in the list: the directive skips its
+     * outside-click handler when the pointer was used on a scrollbar, so a flag that is only ever
+     * set would still be standing when the next genuine outside click arrived, and swallow it.
+     */
+    noteMouseDownTarget(event: MouseEvent) {
+      const list = this.$refs.expandableList as HTMLElement|undefined;
+
+      this.isMouseDownInsideList = !!list && list.contains(event.target as HTMLElement);
     },
     positionList() {
       const wrapper = (this.$el as HTMLElement).querySelector('.select-wrapper');

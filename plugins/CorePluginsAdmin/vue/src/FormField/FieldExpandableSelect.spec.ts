@@ -195,4 +195,42 @@ describe('CorePluginsAdmin/FormField/FieldExpandableSelect', () => {
       expect(findInBody('.firstLevel').style.maxHeight).toBe('150px');
     });
   });
+
+  describe('closing on a press outside', () => {
+    function pressOn(element: HTMLElement) {
+      element.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
+    }
+
+    async function openSelect() {
+      const wrapper = mountSelect();
+
+      await wrapper.find('.select-wrapper').trigger('click');
+      await wrapper.vm.$nextTick();
+
+      return wrapper;
+    }
+
+    it('stays open when the press started inside the list', async () => {
+      const wrapper = await openSelect();
+
+      pressOn(findInBody('.expandableList'));
+      (wrapper.vm as any).onBlur();
+      await wrapper.vm.$nextTick();
+
+      expect(findInBody('.expandableList').style.display).not.toBe('none');
+    });
+
+    it('closes on a press outside once the pointer has been used in the list', async () => {
+      const wrapper = await openSelect();
+
+      // a scrollbar drag inside the list: the directive skips its outside-click handler for that,
+      // so nothing tells the component the press it recorded is spent
+      pressOn(findInBody('.expandableList'));
+      pressOn(document.body);
+      (wrapper.vm as any).onBlur();
+      await wrapper.vm.$nextTick();
+
+      expect(findInBody('.expandableList').style.display).toBe('none');
+    });
+  });
 });
