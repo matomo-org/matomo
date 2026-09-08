@@ -97,7 +97,15 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   columns keep the id they had before. HTML email shortens it to `(%)`, since the column always sits directly to the right
   of the metric it belongs to. PDF leaves the columns out altogether: a portrait page has no room for a percentage after
   every metric without squeezing the table until values are truncated. The PDF says so in a note on its front page, and
-  the report scheduling form says so under `Report Format`.
+  the report scheduling form says so under `Report Format`. A scheduled report has no request parameter of its own, so
+  unlike an API consumer its owner cannot turn the columns off with `percent_of_total=0`. In CSV and TSV the header of a
+  percentage column follows the report language while every other header keeps its untranslated id, so a consumer
+  matching headers by name sees a different string per language.
+* Custom report format renderers extending `Piwik\ReportRenderer` now receive the `{metric}_percent_of_total` columns as
+  well. `ReportRenderer::translatePercentOfTotalColumns()`, `shortenPercentOfTotalColumnLabels()` and
+  `removePercentOfTotalColumns()` are available to treat them the way the built-in formats do.
+* A PDF report table now fills the page width exactly. Rounding each column up used to push wide tables past the page,
+  clipping the last column of a report carrying ten or more metrics.
 
 ### Deprecations
 * The component-oriented theme variable `@theme-color-widget-background` (`ThemeStyles::$colorWidgetBackground`)
