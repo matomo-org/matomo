@@ -164,7 +164,8 @@ class RealTimeApiTest extends IntegrationTestCase
                 $footer
             );
             self::assertStringContainsString('limited to the top', $footer);
-            self::assertStringContainsString('<br />', $footer);
+            // The message has to be an item, otherwise the footer container cannot space it apart.
+            self::assertStringContainsString('datatableFooterMessage__item', $footer);
             self::assertLessThan(
                 strpos($footer, Piwik::translate('BotTracking_SegmentNotSupported')),
                 strpos($footer, 'limited to the top')

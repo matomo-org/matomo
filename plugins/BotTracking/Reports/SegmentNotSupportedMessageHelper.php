@@ -23,13 +23,15 @@ class SegmentNotSupportedMessageHelper
             return;
         }
 
-        $message = '<p class="alert alert-info">' . Piwik::translate('BotTracking_SegmentNotSupported') . '</p>';
+        // The footer container spaces its items apart, so the message has to be one.
+        $message = '<div class="datatableFooterMessage__item">'
+            . '<p class="alert alert-info">' . Piwik::translate('BotTracking_SegmentNotSupported') . '</p>'
+            . '</div>';
         $existing = $view->config->show_footer_message;
 
         // The real time reports already carry a row-limit footer message; replacing it would drop it.
-        // Joined the way HtmlTable joins two footer messages, so the spacing is not the alert's own.
         $view->config->show_footer_message = is_string($existing) && $existing !== ''
-            ? $existing . '<br />' . $message
+            ? $existing . $message
             : $message;
     }
 }
