@@ -38,8 +38,6 @@ class Pdf extends ReportRenderer
     public const NO_DATA_ROW_COUNT = 6;
     public const MAX_GRAPH_REPORTS = 3;
     public const MAX_2COL_TABLE_REPORTS = 2;
-
-
     public const IMPORT_FONT_PATH = 'plugins/ImageGraph/fonts/unifont.ttf';
     public const PDF_CONTENT_TYPE = 'pdf';
     public const PORTRAIT = 'P';
@@ -240,7 +238,9 @@ class Pdf extends ReportRenderer
 
         // The percentage columns the other formats carry are left out here, see
         // ReportRenderer::removePercentOfTotalColumns(). Say so rather than let a reader wonder
-        // why the same scheduled report shows different columns depending on its format.
+        // why the same scheduled report shows different columns depending on its format. The
+        // front page is written before any report is processed, so the note is worded to hold
+        // even for a PDF whose reports have no eligible metric.
         $this->TCPDF->Ln();
         $this->TCPDF->Ln();
         $this->TCPDF->SetFont($this->reportFont, '', $this->reportHeaderFontSize - 2);
