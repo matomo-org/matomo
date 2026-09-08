@@ -89,7 +89,6 @@
         "NRevenue": "%s revenue",
         "NItems": "%s items",
         "ManageGoals": "Manage Goals",
-        "GoalsOverview": "Goals Overview",
         "GoalsOverviewDocumentation": "This is an overview of your goal conversions. Initially, the graph shows the sum of all conversions. %s Below the graph, you can see conversion reports for each of your goals. The sparklines can be enlarged by clicking on them.",
         "GoalX": "Goal %s",
         "HelpOneConversionPerVisit": "If a Page matching this Goal is refreshed or viewed more than once in a Visit, the Goal will only be tracked the first time the page was loaded during this visit.",

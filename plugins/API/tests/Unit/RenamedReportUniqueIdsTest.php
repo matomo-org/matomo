@@ -71,7 +71,7 @@ class RenamedReportUniqueIdsTest extends \PHPUnit\Framework\TestCase
     public function testGetRenamedReportUniqueIdsKeepsTheFirstSeenPosition(): void
     {
         self::assertSame(
-            ['Goals_get', 'VisitsSummary_get', 'Actions_getPageUrls'],
+            ['Goals_get', 'VisitsSummary_get', 'Actions_getPageUrls', 'VisitsSummary_get'],
             ProcessedReport::getRenamedReportUniqueIds([
                 'Goals_get_idGoal--0',
                 'VisitsSummary_get',
@@ -79,6 +79,22 @@ class RenamedReportUniqueIdsTest extends \PHPUnit\Framework\TestCase
                 'Actions_getPageUrls',
                 'VisitsSummary_get',
             ])
+        );
+    }
+
+    public function testGetRenamedReportUniqueIdsKeepsADuplicateTheResolutionDidNotProduce(): void
+    {
+        self::assertSame(
+            ['VisitsSummary_get', 'VisitsSummary_get'],
+            ProcessedReport::getRenamedReportUniqueIds(['VisitsSummary_get', 'VisitsSummary_get'])
+        );
+    }
+
+    public function testGetRenamedReportUniqueIdsCollapsesTheRetiredIdWhateverOrderItArrivesIn(): void
+    {
+        self::assertSame(
+            ['Goals_get'],
+            ProcessedReport::getRenamedReportUniqueIds(['Goals_get_idGoal--0', 'Goals_get'])
         );
     }
 
@@ -94,6 +110,89 @@ class RenamedReportUniqueIdsTest extends \PHPUnit\Framework\TestCase
                 false,
             ])
         );
+    }
+
+    public function testGetRenamedReportUniqueIdResolvesToTheEcommerceOrderReportWhenItIsAvailable(): void
+    {
+        self::assertSame(
+            'Goals_get_idGoal--ecommerceOrder',
+            ProcessedReport::getRenamedReportUniqueId(
+                'Goals_get_idGoal--0',
+                ['Goals_get', 'Goals_get_idGoal--ecommerceOrder']
+            )
+        );
+    }
+
+    public function testGetRenamedReportUniqueIdResolvesTheConversionDistributionsToAllGoalsWhereEcommerceIsAvailable(): void
+    {
+        self::assertSame(
+            ['Goals_getVisitsUntilConversion', 'Goals_getDaysToConversion'],
+            ProcessedReport::getRenamedReportUniqueIds(
+                ['Goals_getVisitsUntilConversion_idGoal--0', 'Goals_getDaysToConversion_idGoal--0'],
+                [
+                    'Goals_getVisitsUntilConversion',
+                    'Goals_getVisitsUntilConversion_idGoal--ecommerceOrder',
+                    'Goals_getDaysToConversion',
+                    'Goals_getDaysToConversion_idGoal--ecommerceOrder',
+                ]
+            )
+        );
+    }
+
+    public function testGetRenamedReportUniqueIdFallsBackWhenTheEcommerceOrderReportIsNotAvailable(): void
+    {
+        self::assertSame(
+            'Goals_get',
+            ProcessedReport::getRenamedReportUniqueId('Goals_get_idGoal--0', ['Goals_get'])
+        );
+    }
+
+    public function testGetRenamedReportUniqueIdFallsBackWhenNoAvailabilityIsKnown(): void
+    {
+        self::assertSame('Goals_get', ProcessedReport::getRenamedReportUniqueId('Goals_get_idGoal--0'));
+    }
+
+    public function testGetRenamedReportUniqueIdLeavesAnUnknownIdAloneWhateverIsAvailable(): void
+    {
+        self::assertSame(
+            'VisitsSummary_get',
+            ProcessedReport::getRenamedReportUniqueId('VisitsSummary_get', ['Goals_get'])
+        );
+    }
+
+    public function testGetRenamedReportUniqueIdsResolvesAgainstTheAvailableReports(): void
+    {
+        self::assertSame(
+            ['VisitsSummary_get', 'Goals_get_idGoal--ecommerceOrder'],
+            ProcessedReport::getRenamedReportUniqueIds(
+                ['VisitsSummary_get', 'Goals_get_idGoal--0'],
+                ['VisitsSummary_get', 'Goals_get', 'Goals_get_idGoal--ecommerceOrder']
+            )
+        );
+    }
+
+    public function testGetRenamedReportUniqueIdCandidatesListsTheReplacementsMostFaithfulFirst(): void
+    {
+        self::assertSame(
+            ['Goals_get_idGoal--ecommerceOrder', 'Goals_get'],
+            ProcessedReport::getRenamedReportUniqueIdCandidates('Goals_get_idGoal--0')
+        );
+        self::assertSame(
+            ['Goals_getVisitsUntilConversion'],
+            ProcessedReport::getRenamedReportUniqueIdCandidates('Goals_getVisitsUntilConversion_idGoal--0')
+        );
+        self::assertSame(
+            ['VisitsSummary_get'],
+            ProcessedReport::getRenamedReportUniqueIdCandidates('VisitsSummary_get')
+        );
+    }
+
+    public function testHasRenamedReportUniqueIdDetectsARetiredEntry(): void
+    {
+        self::assertTrue(ProcessedReport::hasRenamedReportUniqueId(['Goals_get', 'Goals_get_idGoal--0']));
+        self::assertFalse(ProcessedReport::hasRenamedReportUniqueId(['Goals_get', 'VisitsSummary_get']));
+        self::assertFalse(ProcessedReport::hasRenamedReportUniqueId([null, 5, ['nested']]));
+        self::assertFalse(ProcessedReport::hasRenamedReportUniqueId([]));
     }
 
     public function testGetRenamedReportUniqueIdsReturnsAnEmptyListForAnEmptySelection(): void

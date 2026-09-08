@@ -33,6 +33,7 @@ use Piwik\Plugins\CoreHome\Columns\Metrics\PercentOfReportTotal;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Timer;
+use Piwik\Tracker\GoalManager;
 
 /**
  * @phpstan-type ProcessedReportData array{
@@ -51,14 +52,26 @@ class ProcessedReport
     private ReportsProvider $reportsProvider;
 
     /**
-     * Goal overview report unique ids advertised up to Matomo 5, mapped to the all-goals reports
-     * that replace them. Their `idGoal=0` parameter named the ecommerce order goal at runtime, so
-     * the reports they identified never held the overview figures their name promised.
+     * Goal overview report unique ids advertised up to Matomo 5, mapped to the reports that
+     * replace them, most faithful candidate first. `Goals.get` reads their `idGoal=0` parameter as
+     * the ecommerce order goal, so its retired report never held the overview figures its name
+     * promised: the ecommerce order report carries the same figures and is preferred, but it is only
+     * advertised for sites with ecommerce enabled, while the retired reports were advertised for
+     * every site with a goal. The all-goals report is the fallback for the rest.
+     * `Goals.getVisitsUntilConversion` and `Goals.getDaysToConversion` read `idGoal=0` as all goals,
+     * so the all-goals report carries their figures on every site.
      */
     private const RENAMED_REPORT_UNIQUE_IDS = [
-        'Goals_get_idGoal--0' => 'Goals_get',
-        'Goals_getVisitsUntilConversion_idGoal--0' => 'Goals_getVisitsUntilConversion',
-        'Goals_getDaysToConversion_idGoal--0' => 'Goals_getDaysToConversion',
+        'Goals_get_idGoal--0' => [
+            'Goals_get_idGoal--ecommerceOrder',
+            'Goals_get',
+        ],
+        'Goals_getVisitsUntilConversion_idGoal--0' => [
+            'Goals_getVisitsUntilConversion',
+        ],
+        'Goals_getDaysToConversion_idGoal--0' => [
+            'Goals_getDaysToConversion',
+        ],
     ];
 
     private const PERFORMANCE_METRICS_TO_FORMAT = [
@@ -115,6 +128,8 @@ class ProcessedReport
         $aggregateUniquesUnavailable =
             !SettingsPiwik::isUniqueVisitorsEnabled($period)
             || ($isMultiSiteRequest && Rules::shouldSkipUniqueVisitorsCalculationForMultipleSites());
+
+        $apiParameters = self::withRetiredGoalOverviewParameters($apiModule, $apiAction, $apiParameters);
 
         foreach ($reportsMetadata as $report) {
             $isPerDimensionReport = !empty($report['dimension']) || !empty($report['dimensions']);
@@ -178,30 +193,127 @@ class ProcessedReport
     }
 
     /**
+     * A request addressing a retired goal overview report by module, action and `idGoal=0` is matched
+     * against the report its unique id resolves to, so the metadata describes the figures the
+     * request's data holds. `Goals.get` reads `idGoal=0` as the ecommerce order goal, which report
+     * metadata advertises under its label, so on a site without ecommerce no report is found. The
+     * conversion distributions read it as all goals, whose report carries no `idGoal`.
+     *
+     * @param string $apiModule
+     * @param string $apiAction
+     * @param mixed $apiParameters
+     * @return mixed
+     */
+    private static function withRetiredGoalOverviewParameters($apiModule, $apiAction, $apiParameters)
+    {
+        if (
+            !is_array($apiParameters)
+            || !isset($apiParameters['idGoal'])
+            || is_array($apiParameters['idGoal'])
+            || !is_numeric($apiParameters['idGoal'])
+            || (int) $apiParameters['idGoal'] !== GoalManager::IDGOAL_ORDER
+        ) {
+            return $apiParameters;
+        }
+
+        $report = $apiModule . '_' . $apiAction;
+        $candidates = self::RENAMED_REPORT_UNIQUE_IDS[$report . '_idGoal--' . GoalManager::IDGOAL_ORDER] ?? null;
+
+        if (null === $candidates) {
+            return $apiParameters;
+        }
+
+        if (reset($candidates) === $report . '_idGoal--' . Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
+            $apiParameters['idGoal'] = Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER;
+        } else {
+            unset($apiParameters['idGoal']);
+        }
+
+        return $apiParameters;
+    }
+
+    /**
+     * For backward compatibility: the reports a no longer advertised report unique id resolves to,
+     * most faithful candidate first. An unknown id yields itself.
+     *
+     * @param mixed $apiMethodUniqueId
+     * @return list<mixed>
+     * @ignore
+     */
+    public static function getRenamedReportUniqueIdCandidates($apiMethodUniqueId)
+    {
+        if (!is_string($apiMethodUniqueId)) {
+            return [$apiMethodUniqueId];
+        }
+
+        return self::RENAMED_REPORT_UNIQUE_IDS[$apiMethodUniqueId] ?? [$apiMethodUniqueId];
+    }
+
+    /**
      * For backward compatibility: resolves a report unique id that is no longer advertised to the
      * report that replaced it. An unknown id is returned unchanged.
      *
-     * @param string $apiMethodUniqueId
-     * @return string
+     * Pass the unique ids advertised for the site to get the most faithful replacement that is
+     * actually available there; without them the always-available replacement is returned.
+     *
+     * @param mixed $apiMethodUniqueId
+     * @param list<string>|null $availableUniqueIds
+     * @return mixed
      * @ignore
      */
-    public static function getRenamedReportUniqueId($apiMethodUniqueId)
+    public static function getRenamedReportUniqueId($apiMethodUniqueId, ?array $availableUniqueIds = null)
     {
-        return self::RENAMED_REPORT_UNIQUE_IDS[$apiMethodUniqueId] ?? $apiMethodUniqueId;
+        if (!is_string($apiMethodUniqueId) || !isset(self::RENAMED_REPORT_UNIQUE_IDS[$apiMethodUniqueId])) {
+            return $apiMethodUniqueId;
+        }
+
+        $candidates = self::RENAMED_REPORT_UNIQUE_IDS[$apiMethodUniqueId];
+
+        if (null !== $availableUniqueIds) {
+            foreach ($candidates as $candidate) {
+                if (in_array($candidate, $availableUniqueIds, true)) {
+                    return $candidate;
+                }
+            }
+        }
+
+        return end($candidates);
+    }
+
+    /**
+     * Whether any entry of a stored or requested selection is a report unique id that is no longer
+     * advertised. Lets a caller skip the report metadata lookup that resolving one needs.
+     *
+     * @param array<mixed> $apiMethodUniqueIds
+     * @return bool
+     * @ignore
+     */
+    public static function hasRenamedReportUniqueId($apiMethodUniqueIds)
+    {
+        foreach ($apiMethodUniqueIds as $apiMethodUniqueId) {
+            if (is_string($apiMethodUniqueId) && isset(self::RENAMED_REPORT_UNIQUE_IDS[$apiMethodUniqueId])) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
      * For backward compatibility: resolves each report unique id of a stored or requested
-     * selection, keeping the first occurrence of a report the list ends up naming twice.
+     * selection, keeping the first occurrence of a report the resolution itself ends up naming
+     * twice. A selection that already named the same report twice keeps both entries.
      *
      * @param array<mixed> $apiMethodUniqueIds
+     * @param list<string>|null $availableUniqueIds
      * @return array<mixed>
      * @ignore
      */
-    public static function getRenamedReportUniqueIds($apiMethodUniqueIds)
+    public static function getRenamedReportUniqueIds($apiMethodUniqueIds, ?array $availableUniqueIds = null)
     {
-        $renamed = [];
-        $seen    = [];
+        $renamed     = [];
+        $emitted     = [];
+        $fromRenamed = [];
 
         foreach ($apiMethodUniqueIds as $apiMethodUniqueId) {
             if (!is_string($apiMethodUniqueId)) {
@@ -209,14 +321,24 @@ class ProcessedReport
                 continue;
             }
 
-            $apiMethodUniqueId = self::getRenamedReportUniqueId($apiMethodUniqueId);
+            $wasRenamed        = isset(self::RENAMED_REPORT_UNIQUE_IDS[$apiMethodUniqueId]);
+            $apiMethodUniqueId = self::getRenamedReportUniqueId($apiMethodUniqueId, $availableUniqueIds);
 
-            if (isset($seen[$apiMethodUniqueId])) {
+            // Collapse only a duplicate the resolution produced, so a selection that deliberately
+            // named the same report twice is stored and rendered as it was.
+            if (
+                isset($emitted[$apiMethodUniqueId])
+                && ($wasRenamed || isset($fromRenamed[$apiMethodUniqueId]))
+            ) {
                 continue;
             }
 
-            $seen[$apiMethodUniqueId] = true;
-            $renamed[] = $apiMethodUniqueId;
+            if ($wasRenamed) {
+                $fromRenamed[$apiMethodUniqueId] = true;
+            }
+
+            $renamed[]                   = $apiMethodUniqueId;
+            $emitted[$apiMethodUniqueId] = true;
         }
 
         return $renamed;
@@ -224,13 +346,13 @@ class ProcessedReport
 
     public function getReportMetadataByUniqueId($idSite, $apiMethodUniqueId)
     {
-        $apiMethodUniqueId = self::getRenamedReportUniqueId($apiMethodUniqueId);
-
         $metadata = $this->getReportMetadata($idSite);
 
-        foreach ($metadata as $report) {
-            if ($report['uniqueId'] == $apiMethodUniqueId) {
-                return $report;
+        foreach (self::getRenamedReportUniqueIdCandidates($apiMethodUniqueId) as $candidate) {
+            foreach ($metadata as $report) {
+                if ($report['uniqueId'] == $candidate) {
+                    return $report;
+                }
             }
         }
     }

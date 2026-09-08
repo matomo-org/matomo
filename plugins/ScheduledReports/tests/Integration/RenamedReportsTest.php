@@ -82,6 +82,31 @@ class RenamedReportsTest extends IntegrationTestCase
         self::assertSame(['Goals_get'], $this->getStoredReportsFromApi($idReport));
     }
 
+    public function testAStoredRetiredIdIsReturnedAsTheEcommerceOrderReportWhereEcommerceIsOn(): void
+    {
+        $idSiteWithEcommerce = Fixture::createWebsite('2015-01-01 00:00:00', $ecommerce = 1);
+        GoalsApi::getInstance()->addGoal($idSiteWithEcommerce, 'Thank you page', 'url', 'thank-you', 'contains');
+
+        $idReport = APIScheduledReports::getInstance()->addReport(
+            $idSiteWithEcommerce,
+            'Test report',
+            Schedule::PERIOD_DAY,
+            0,
+            ScheduledReports::EMAIL_TYPE,
+            ReportRenderer::HTML_FORMAT,
+            ['Goals_get'],
+            [
+                ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY,
+                ScheduledReports::ENFORCE_ORDER_PARAMETER => false,
+            ]
+        );
+        $this->overwriteStoredReports($idReport, [self::RETIRED_GOALS_GET]);
+
+        $reports = APIScheduledReports::getInstance()->getReports($idSiteWithEcommerce, false, $idReport);
+
+        self::assertSame(['Goals_get_idGoal--ecommerceOrder'], reset($reports)['reports']);
+    }
+
     public function testACorruptStoredSelectionIsLeftAloneAsBefore(): void
     {
         $idReport = $this->addReport(['Goals_get']);

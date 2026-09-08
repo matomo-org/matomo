@@ -485,6 +485,8 @@ class API extends \Piwik\Plugin\API
             throw new Exception("Requested report couldn't be found.");
         }
 
+        $availableReportIdsByType = [];
+
         foreach ($reports as &$report) {
             // decode report parameters
             $report['parameters'] = json_decode($report['parameters'], true);
@@ -493,7 +495,27 @@ class API extends \Piwik\Plugin\API
             $report['reports'] = json_decode($report['reports'], true);
 
             if (is_array($report['reports'])) {
-                $report['reports'] = ProcessedReport::getRenamedReportUniqueIds($report['reports']);
+                $availableReportIds = null;
+
+                // Only a selection naming a retired report needs the metadata that says which
+                // replacement is available for this site, so the usual case pays nothing for it.
+                if (ProcessedReport::hasRenamedReportUniqueId($report['reports'])) {
+                    $metadataKey = $report['idsite'] . '_' . $report['type'];
+
+                    if (!isset($availableReportIdsByType[$metadataKey])) {
+                        $availableReportIdsByType[$metadataKey] = array_column(
+                            self::getReportMetadata($report['idsite'], $report['type']),
+                            'uniqueId'
+                        );
+                    }
+
+                    $availableReportIds = $availableReportIdsByType[$metadataKey];
+                }
+
+                $report['reports'] = ProcessedReport::getRenamedReportUniqueIds(
+                    $report['reports'],
+                    $availableReportIds
+                );
             }
 
             if (
@@ -1081,8 +1103,6 @@ class API extends \Piwik\Plugin\API
             $requestedReports = array_slice($requestedReports, 0, 1);
         }
 
-        $requestedReports = ProcessedReport::getRenamedReportUniqueIds($requestedReports);
-
         // retrieve available reports
         $availableReportMetadata = self::getReportMetadata($idSite, $reportType);
 
@@ -1090,6 +1110,8 @@ class API extends \Piwik\Plugin\API
         foreach ($availableReportMetadata as $reportMetadata) {
             $availableReportIds[] = $reportMetadata['uniqueId'];
         }
+
+        $requestedReports = ProcessedReport::getRenamedReportUniqueIds($requestedReports, $availableReportIds);
 
         foreach ($requestedReports as $report) {
             if (!in_array($report, $availableReportIds)) {
