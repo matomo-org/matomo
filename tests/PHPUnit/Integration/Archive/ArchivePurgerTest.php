@@ -214,6 +214,37 @@ class ArchivePurgerTest extends IntegrationTestCase
         $this->assertEquals(0, $deletedRowCount);
     }
 
+    public function testPurgeNoSegmentArchivesRejectsHashThatIsNotAFullMd5()
+    {
+        // Extra data set with segment and plugin archives
+        self::$fixture->insertSegmentArchives($this->january);
+
+        $segmentsToDelete = [
+            // A truncated hash would turn the name clause into a prefix match hitting unrelated segments
+            ['definition' => 'abcd1234abcd5678', 'enable_only_idsite' => 1, 'hash' => 'eb5d2797'],
+        ];
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('eb5d2797 expected to be an md5 hash');
+
+        $this->archivePurger->purgeDeletedSegmentArchives($this->january, $segmentsToDelete);
+    }
+
+    public function testPurgeNoSegmentArchivesDoesNotPurgeAllSitesForNegativeSiteId()
+    {
+        // Extra data set with segment and plugin archives
+        self::$fixture->insertSegmentArchives($this->january);
+
+        $segmentsToDelete = [
+            // Only 0 means "all websites", so a corrupt site ID must not widen the purge to every site
+            ['definition' => 'abcd1234abcd5678', 'enable_only_idsite' => -1, 'hash' => Segment::getSegmentHash('abcd1234abcd5678')],
+        ];
+
+        $deletedRowCount = $this->archivePurger->purgeDeletedSegmentArchives($this->january, $segmentsToDelete);
+
+        $this->assertEquals(0, $deletedRowCount);
+    }
+
     private function configureCustomRangePurging()
     {
         Config::getInstance()->General['purge_date_range_archives_after_X_days'] = 3;
