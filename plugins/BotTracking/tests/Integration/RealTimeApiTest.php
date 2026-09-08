@@ -137,8 +137,6 @@ class RealTimeApiTest extends IntegrationTestCase
 
     public function testRealTimeReportFooterKeepsTheLimitWhenSegmented(): void
     {
-        $previousQueryString = $_SERVER['QUERY_STRING'] ?? null;
-
         try {
             Manager::getInstance()->loadPluginTranslations();
 
@@ -146,8 +144,6 @@ class RealTimeApiTest extends IntegrationTestCase
             $_GET['date'] = 'today';
             $_GET['period'] = 'day';
             $_GET['segment'] = 'visitConverted==1';
-            // getRawSegmentFromRequest() reads the encoded segment back off the raw query string.
-            $_SERVER['QUERY_STRING'] = 'segment=visitConverted%3D%3D1';
 
             $view = ViewDataTableFactory::build(
                 $defaultType = null,
@@ -172,12 +168,72 @@ class RealTimeApiTest extends IntegrationTestCase
             );
         } finally {
             unset($_GET['idSite'], $_GET['date'], $_GET['period'], $_GET['segment']);
+        }
+    }
 
-            if ($previousQueryString === null) {
-                unset($_SERVER['QUERY_STRING']);
-            } else {
-                $_SERVER['QUERY_STRING'] = $previousQueryString;
-            }
+    public function testFooterWarnsWhenTheSegmentIsOnlyOneOfTheComparedOnes(): void
+    {
+        try {
+            Manager::getInstance()->loadPluginTranslations();
+
+            $_GET['idSite'] = (string) $this->idSite;
+            $_GET['date'] = 'today';
+            $_GET['period'] = 'day';
+            // Comparing "All visits" against a segment leaves the segment parameter empty.
+            $_GET['segment'] = '';
+            $_GET['compareSegments'] = ['visitConverted==1'];
+
+            $view = ViewDataTableFactory::build(
+                $defaultType = null,
+                'BotTracking.getTopPageUrlsRealTime',
+                $controllerAction = 'BotTracking.getTopPageUrlsRealTime',
+                $forceDefault = false,
+                $loadViewDataTableParametersForUser = false
+            );
+
+            self::assertStringContainsString(
+                Piwik::translate('BotTracking_SegmentNotSupported'),
+                $view->config->show_footer_message
+            );
+        } finally {
+            unset($_GET['idSite'], $_GET['date'], $_GET['period'], $_GET['segment'], $_GET['compareSegments']);
+        }
+    }
+
+    public function testFooterStaysSilentWhenOnlyPeriodsAreCompared(): void
+    {
+        try {
+            Manager::getInstance()->loadPluginTranslations();
+
+            $_GET['idSite'] = (string) $this->idSite;
+            $_GET['date'] = 'today';
+            $_GET['period'] = 'day';
+            $_GET['comparePeriods'] = ['week'];
+            $_GET['compareDates'] = ['today'];
+            // A period comparison still sends the segments, both of them "All visits".
+            $_GET['compareSegments'] = [''];
+
+            $view = ViewDataTableFactory::build(
+                $defaultType = null,
+                'BotTracking.getTopPageUrlsRealTime',
+                $controllerAction = 'BotTracking.getTopPageUrlsRealTime',
+                $forceDefault = false,
+                $loadViewDataTableParametersForUser = false
+            );
+
+            self::assertStringNotContainsString(
+                Piwik::translate('BotTracking_SegmentNotSupported'),
+                (string) $view->config->show_footer_message
+            );
+        } finally {
+            unset(
+                $_GET['idSite'],
+                $_GET['date'],
+                $_GET['period'],
+                $_GET['comparePeriods'],
+                $_GET['compareDates'],
+                $_GET['compareSegments']
+            );
         }
     }
 

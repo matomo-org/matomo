@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace Piwik\Plugins\BotTracking\Reports;
 
-use Piwik\API\Request;
+use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 
@@ -19,7 +19,7 @@ class SegmentNotSupportedMessageHelper
 {
     public static function addSegmentNotSupportedMessage(ViewDataTable $view): void
     {
-        if (empty(Request::getRawSegmentFromRequest())) {
+        if (!self::isSegmentApplied()) {
             return;
         }
 
@@ -33,5 +33,20 @@ class SegmentNotSupportedMessageHelper
         $view->config->show_footer_message = is_string($existing) && $existing !== ''
             ? $existing . $message
             : $message;
+    }
+
+    private static function isSegmentApplied(): bool
+    {
+        // Comparisons keep the compared segments in their own parameter, where "All visits" is an empty entry.
+        $segments = Common::getRequestVar('compareSegments', [], 'array');
+        $segments[] = Common::getRequestVar('segment', '', 'string');
+
+        foreach ($segments as $segment) {
+            if ('' !== trim((string) $segment)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
