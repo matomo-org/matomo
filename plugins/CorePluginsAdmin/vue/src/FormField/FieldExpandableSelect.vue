@@ -179,6 +179,7 @@ export default defineComponent({
       showCategory: '',
       optionsListMaxHeight: 0,
       openAbove: false,
+      triggerResize: null as ResizeObserver|null,
       listStyle: {} as Record<string, string>,
       // the list is teleported out of this component, so a click in it reads as a click outside
       isMouseDownInsideList: false,
@@ -238,6 +239,25 @@ export default defineComponent({
       const method = isOpen ? 'addEventListener' : 'removeEventListener';
       window[method]('scroll', this.fitOptionsList, true);
       window[method]('resize', this.fitOptionsList);
+
+      if (this.triggerResize) {
+        this.triggerResize.disconnect();
+        this.triggerResize = null;
+      }
+
+      if (!isOpen) {
+        return;
+      }
+
+      const wrapper = (this.$el as HTMLElement).querySelector('.select-wrapper');
+
+      // The field settles to its final height a moment after opening, so a list placed against
+      // the height it had at that instant ends up a pixel out. Follow the field's size instead of
+      // guessing the frame it stops changing on.
+      if (wrapper) {
+        this.triggerResize = new ResizeObserver(() => this.fitOptionsList());
+        this.triggerResize.observe(wrapper);
+      }
     },
     positionList() {
       const wrapper = (this.$el as HTMLElement).querySelector('.select-wrapper');
@@ -284,7 +304,11 @@ export default defineComponent({
       const spaceBelow = roomFor(window.innerHeight - wrapperRect.bottom - LIST_GAP);
       const spaceAbove = roomFor(wrapperRect.top - LIST_GAP);
 
+      // every branch states which side it picked: this runs again whenever the field moves or
+      // resizes, and a branch that left the previous answer standing would strand the list above
+      // a field that has since scrolled into open space.
       if (spaceBelow >= minUsableHeight) {
+        this.openAbove = false;
         this.optionsListMaxHeight = spaceBelow;
       } else if (spaceAbove > spaceBelow) {
         // not enough room below: open above the field when that side offers more
@@ -292,6 +316,7 @@ export default defineComponent({
         this.optionsListMaxHeight = Math.max(minUsableHeight, spaceAbove);
       } else {
         // keep a usable minimum on the larger side; the list scrolls for the rest
+        this.openAbove = false;
         this.optionsListMaxHeight = Math.max(minUsableHeight, spaceBelow);
       }
 
