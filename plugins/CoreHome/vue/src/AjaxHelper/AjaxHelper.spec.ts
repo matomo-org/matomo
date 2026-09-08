@@ -457,6 +457,48 @@ describe('CoreHome/AjaxHelper', () => {
     expect(requestedUrl).toContain('segment=pageUrl%3D%3Dhttps%253A%252F%252Fexample.com');
   });
 
+  describe('language parameter', () => {
+    const originalHref = window.location.href;
+
+    afterEach(() => {
+      window.history.replaceState({}, '', originalHref);
+    });
+
+    async function urlForPage(pageQuery: string, params: QueryParameters = {}): Promise<string> {
+      window.history.replaceState({}, '', pageQuery);
+
+      let requestedUrl = '';
+      installUrlCapturingAjaxMock((url) => {
+        requestedUrl = url;
+      });
+
+      await AjaxHelper.fetch({ method: 'X.get', ...params });
+
+      return requestedUrl;
+    }
+
+    // Widgets and the reporting menu are fetched separately from the page, so without this they
+    // render in the user's stored language while the page around them is in the requested one.
+    it('passes the page language on to its own requests', async () => {
+      expect(await urlForPage('?idSite=1&language=es')).toContain('language=es');
+    });
+
+    it('reads the language from the hash as well as the query string', async () => {
+      expect(await urlForPage('?idSite=1#?language=es')).toContain('language=es');
+    });
+
+    it('sends no language when the page does not ask for one', async () => {
+      expect(await urlForPage('?idSite=1')).not.toContain('language=');
+    });
+
+    it('leaves a language set on the request itself alone', async () => {
+      const url = await urlForPage('?idSite=1&language=es', { language: 'de' });
+
+      expect(url).toContain('language=de');
+      expect(url).not.toContain('language=es');
+    });
+  });
+
   describe('date/period validation', () => {
     const validCases: Array<[string, QueryParameters]> = [
       ['day + ISO date', { period: 'day', date: '2024-01-15' }],
