@@ -7,16 +7,16 @@
 
 <template>
   <div
-    class="capabilitiesEdit"
-    :class="{busy: isBusy}"
+    class="capabilitiesEdit inline-block -mb-2"
+    :class="{ 'busy opacity-50': isBusy }"
   >
     <div
       v-for="capability in actualCapabilities"
       :key="capability.id"
-      class="chip"
+      class="chip inline-block mr-2 mb-2"
     >
       <span
-        class="capability-name"
+        class="capability-name pr-[.4rem]"
         :title="`${capability.description} ${
           isIncludedInRole(capability)
             ? `<br/><br/>${translate('UsersManager_IncludedInUsersRole')}`
@@ -26,13 +26,14 @@
         {{ capability.category }}: {{ capability.name }}
       </span>
       <span
-        class="icon-close"
+        class="icon-close float-right mt-[1.4em] text-[.6rem] cursor-pointer"
         v-if="!isIncludedInRole(capability)"
         @click="capabilityToRemoveId = capability.id; onToggleCapability(false)"
       />
     </div>
     <div
-      class="addCapability"
+      class="addCapability inline-block mb-2 align-bottom [&_.input-field]:mt-0
+        [&_.select-wrapper]:max-w-40 [&_.select-dropdown]:px-3 [&_.select-dropdown]:text-[13px]"
       v-if="availableCapabilitiesGrouped.length"
     >
       <Field

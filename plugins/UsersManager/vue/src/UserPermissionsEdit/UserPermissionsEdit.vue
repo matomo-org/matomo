@@ -7,8 +7,11 @@
 
 <template>
   <div
-    class="userPermissionsEdit"
-    :class="{ loading: isLoadingAccess }"
+    class="userPermissionsEdit
+      [&_.dropdown-content_li>span]:text-[13px] [&_.dropdown-content_li>span]:leading-[19px]"
+    :class="{
+      'loading [&_.sites-for-permission-pagination]:opacity-50 [&_table]:opacity-50': isLoadingAccess,
+    }"
   >
     <div
       class="row"
@@ -25,13 +28,14 @@
         </Notification>
       </div>
     </div>
-    <div class="row to-all-websites">
+    <div class="row to-all-websites -mx-[.75em]">
       <div class="col s12">
         <div>
-          <span style="margin-right:3.5px">{{ translate('UsersManager_GiveAccessToAll') }}:</span>
+          <span class="mr-[3.5px]">{{ translate('UsersManager_GiveAccessToAll') }}:</span>
           <div
             id="all-sites-access-select"
-            style="margin-right:3.5px"
+            class="inline-block align-bottom w-[150px] mr-[3.5px]
+              [&_.form-group]:m-0 [&_.input-field]:my-0 [&_.select-dropdown]:mb-0"
           >
             <Field
               v-model="allWebsitesAccssLevelSet"
@@ -49,12 +53,15 @@
             {{ translate('General_Apply') }}
           </a>
         </div>
-        <p style="margin-top:18px">{{ translate('UsersManager_OrManageIndividually') }}:</p>
+        <p class="mt-[18px]">{{ translate('UsersManager_OrManageIndividually') }}:</p>
       </div>
     </div>
-    <div class="filters inlineFormControls row">
+    <div
+      class="filters inlineFormControls row -mx-3 flex flex-row flex-wrap justify-center
+        [&>div:first-child]:flex-1 [&>div>.input-field]:w-[180px] [&_.input-field]:m-0 [&_input]:m-0"
+    >
       <div class="col s12 m12 l8">
-        <div class="input-field bulk-actions" style="margin-right:3.5px">
+        <div class="input-field bulk-actions mr-[3.5px]! [&>a.dropdown-trigger]:mt-[.8rem] [&>a.dropdown-trigger]:mr-4">
           <a
             class="dropdown-trigger btn"
             href=""
@@ -101,7 +108,7 @@
             </li>
           </ul>
         </div>
-        <div class="input-field site-filter" style="margin-right:3.5px">
+        <div class="input-field site-filter mr-[3.5px]!">
           <input
             type="text"
             :value="siteNameFilter"
@@ -110,7 +117,7 @@
             :placeholder="translate('UsersManager_FilterByWebsite')"
           />
         </div>
-        <div class="input-field access-filter" style="margin-right:3.5px">
+        <div class="input-field access-filter mr-[3.5px]!">
           <div>
             <Field
               v-model="accessLevelFilter"
@@ -123,10 +130,13 @@
         </div>
       </div>
       <div
-        class="col s12 m12 l4 sites-for-permission-pagination-container"
+        class="col s12 m12 l4 sites-for-permission-pagination-container relative"
         v-if="totalEntries > limit"
       >
-        <div class="sites-for-permission-pagination">
+        <div
+          class="sites-for-permission-pagination inline-block align-top min-h-10 absolute bottom-0 w-full text-center
+            [&_a.disabled]:pointer-events-none [&_a.disabled]:text-[#9e9e9e]"
+        >
           <a
             class="prev"
             :class="{ disabled: offset <= 0 }"
@@ -136,7 +146,7 @@
               @click="gotoPreviousPage()"
             >&#xAB; {{ translate('General_Previous') }}</span>
           </a>
-          <span class="counter">
+          <span class="counter mx-2">
             <span v-text="paginationText"></span>
           </span>
           <a
@@ -179,7 +189,10 @@
     </div>
     <table
       id="sitesForPermission"
-      class="entityTable_Controls"
+      class="entityTable_Controls my-0 mx-0 w-full text-[100%] border-y-0 rounded-lg
+        [&_td>span]:inline-block
+        [&_.role-select_.select-wrapper]:max-w-40 [&_.role-select_.select-wrapper_input]:text-[13px]
+        [&_.row.form-group_.col]:p-0"
       v-content-table
     >
       <thead>
@@ -231,7 +244,7 @@
             <div v-if="!areAllResultsSelected">
               <span
                 v-html="$sanitize(theDisplayedWebsitesAreSelectedText)"
-                style="margin-right:3.5px"
+                class="mr-[3.5px]"
               ></span>
               <a
                 href="#"
@@ -242,7 +255,7 @@
             <div v-if="areAllResultsSelected">
               <span
                 v-html="$sanitize(allWebsitesAreSelectedText)"
-                style="margin-right:3.5px"
+                class="mr-[3.5px]"
               ></span>
               <a
                 href="#"
@@ -313,9 +326,8 @@
       <div class="modal-footer">
         <a
           href=""
-          class="modal-action modal-close btn"
+          class="modal-action modal-close btn mr-[3.5px]"
           @click.prevent="changeUserRole()"
-          style="margin-right:3.5px"
         >{{ translate('General_Yes') }}</a>
         <a
           href=""
@@ -338,9 +350,8 @@
       <div class="modal-footer">
         <a
           href=""
-          class="modal-action modal-close btn"
+          class="modal-action modal-close btn mr-[3.5px]"
           @click.prevent="changeUserRole()"
-          style="margin-right:3.5px"
         >{{ translate('General_Yes') }}</a>
         <a
           href=""
@@ -360,9 +371,8 @@
       <div class="modal-footer">
         <a
           href=""
-          class="modal-action modal-close btn"
+          class="modal-action modal-close btn mr-[3.5px]"
           @click.prevent="giveAccessToAllSites()"
-          style="margin-right:3.5px"
         >{{ translate('General_Yes') }}</a>
         <a
           href=""

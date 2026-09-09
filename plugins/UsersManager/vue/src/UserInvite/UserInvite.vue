@@ -7,14 +7,14 @@
 
 <template>
   <ContentBlock
-    class="userInviteForm"
+    class="userInviteForm [&_.card-title]:mt-[45px] [&_.card-title]:mb-0 [&_.card-title]:pl-[15px]"
     :content-title="translate('UsersManager_InviteNewUser')"
   >
     <div
       class="row"
       v-form
     >
-      <div class="col s12 m6 invite-notes">
+      <div class="col s12 m6 invite-notes mt-[25px]">
         <div class="form-help">
            <span v-html="$sanitize(
                 translate('UsersManager_InviteSuccessNotification',
@@ -34,7 +34,7 @@
             :title="translate('General_Username')"
           />
         </div>
-        <div class="email-input">
+        <div>
           <Field
             v-model="theUser.email"
             :disabled="isInvitingUser"
@@ -45,7 +45,10 @@
             :title="translate('UsersManager_Email')"
           />
         </div>
-        <div>
+        <div
+          class="[&_.siteSelector]:w-[calc(100%-25px)] [&_.sites\_autocomplete]:mb-4
+            [&_.sites\_autocomplete_.title]:max-w-none [&_.sites\_autocomplete_.title_span]:max-w-none"
+        >
           <Field
             v-model="firstSiteAccess"
             :disabled="isInvitingUser"
@@ -57,9 +60,10 @@
           />
         </div>
         <div>
-          <div class="form-group row" style="position: relative">
-            <div class="col s12 m6 save-button">
+          <div class="form-group row relative">
+            <div class="col s12 m6 save-button mt-[3em]">
               <SaveButton
+                class="absolute bottom-0"
                 :value="translate('UsersManager_InviteUser')"
                 :disabled="!firstSiteAccess || !firstSiteAccess.id
                             || !theUser.login || !theUser.email"
@@ -74,11 +78,11 @@
           />
         </div>
         <div
-          class="entityCancel"
+          class="entityCancel absolute top-5"
         >
           <a
             href=""
-            class="entityCancelLink"
+            class="entityCancelLink text-[14px]"
             @click.prevent="abort()"
           >
             <span class="icon icon-arrow-left">&nbsp;

@@ -7,6 +7,7 @@
 
 import { defineConfig, type Plugin } from 'vite';
 import vue from '@vitejs/plugin-vue';
+import tailwindcss from '@tailwindcss/vite';
 import dts from 'vite-plugin-dts';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -93,6 +94,10 @@ export default defineConfig({
     // These are served by Matomo and must not be resolved/bundled as build assets, matching the
     // previous vue-loader behaviour which left such bare paths untouched.
     vue({ template: { transformAssetUrls: false } }),
+    // Compiles the plugin's Tailwind entry (vue/src/tailwind.css) into <Plugin>.css, which the
+    // AssetManager picks up from vue/dist automatically. Only the plugin's own vue/src is scanned
+    // for class names (see plugins/Morpheus/stylesheets/tailwind.css).
+    tailwindcss(),
     umdMetadataPlugin(),
     // Declarations are not needed during watch mode (matching the previous behaviour of only
     // emitting types when NODE_ENV !== 'development').

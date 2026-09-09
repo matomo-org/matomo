@@ -16,8 +16,7 @@
     </p>
     <div>
     <pre v-copy-to-clipboard="{}"
-         style="font-size: 40px;"
-         class="generatedTokenAuth"
+         class="generatedTokenAuth text-[40px] [.uiTest_&]:invisible"
     ><code>{{ generatedToken }}</code></pre>
     </div>
 

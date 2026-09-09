@@ -1,5 +1,6 @@
 /* compile_me_once={{{CACHE-BUSTER-JS}}} */
 /* Matomo CSS file is compiled with Less. You may be interested in writing a custom Theme for Matomo! */
+@layer matomo-legacy {
 #page #header {
   color: white;
 }
@@ -30,5 +31,6 @@ p {
 }
 body {
     background-color:#b0c4de;
+}
 }
 /* customization via event */

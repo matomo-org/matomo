@@ -31,6 +31,14 @@ class StylesheetUIAssetMerger extends UIAssetMerger
      */
     private array $cssAssetsToReplace = array();
 
+    /**
+     * Stylesheets emitted by the Vite build of a plugin's Vue library (vue/dist/<Plugin>.css). They
+     * are appended unlayered after the legacy CSS, see getMergedAssets().
+     *
+     * @var UIAsset[]
+     */
+    private array $vueDistAssets = array();
+
     public function __construct($mergedAsset, $assetFetcher, $cacheBuster)
     {
         parent::__construct($mergedAsset, $assetFetcher, $cacheBuster);
@@ -61,8 +69,19 @@ class StylesheetUIAssetMerger extends UIAssetMerger
             $compiled = str_replace($this->getCssStatementForReplacement($cssPath), $cssContent, $compiled);
         }
 
+        // Everything compiled from Less (Materialize, Morpheus, plugin stylesheets) goes into one
+        // cascade layer. Unlayered CSS always wins over layered CSS regardless of selector
+        // specificity, so utility classes and component styles emitted by the Vue build no longer
+        // need to out-specify or `!important` the legacy selectors they override.
+        $compiled = "@layer matomo-legacy {\n" . rtrim($compiled) . "\n}\n";
+
+        foreach ($this->vueDistAssets as $asset) {
+            $compiled .= "\n" . $this->processFileContent($asset);
+        }
+
         $this->mergedContent = $compiled;
         $this->cssAssetsToReplace = array();
+        $this->vueDistAssets = array();
 
         return $compiled;
     }
@@ -85,7 +104,9 @@ class StylesheetUIAssetMerger extends UIAssetMerger
                 $path = null;
             }
 
-            if (!empty($path) && Common::stringEndsWith($path, '.css')) {
+            if (!empty($path) && preg_match('~/vue/dist/[^/]+\.css$~', $path)) {
+                $this->vueDistAssets[] = $uiAsset;
+            } elseif (!empty($path) && Common::stringEndsWith($path, '.css')) {
                 // to fix #10173
                 $concatenatedContent .= "\n" . $this->getCssStatementForReplacement($path) . "\n";
                 $this->cssAssetsToReplace[] = $uiAsset;

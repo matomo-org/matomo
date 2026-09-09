@@ -5,6 +5,8 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+import './tailwind.css';
+
 export { default as CapabilitiesEdit } from './CapabilitiesEdit/CapabilitiesEdit.vue';
 export type { default as Capability } from './CapabilitiesStore/Capability';
 export { default as UserPermissionsEdit } from './UserPermissionsEdit/UserPermissionsEdit.vue';

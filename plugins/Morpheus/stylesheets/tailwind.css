@@ -1,0 +1,66 @@
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+/*
+ * Shared Tailwind entry for plugin Vue libraries. A plugin opts in with a vue/src/tailwind.css of
+ *
+ *   @import "../../../Morpheus/stylesheets/tailwind.css";
+ *   @source "./";
+ *
+ * imported from its vue/src/index.ts. Vite emits the result as vue/dist/<Plugin>.css, which the
+ * AssetManager already loads. Preflight is intentionally not imported: Materialize and Morpheus
+ * own the base styles. The default palette is replaced by the Morpheus theme tokens so utilities
+ * follow the active theme (and dark mode) through the --theme-* custom properties.
+ */
+
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities) source(none);
+
+@theme inline {
+  --color-*: initial;
+
+  --color-brand: var(--theme-color-brand);
+  --color-brand-contrast: var(--theme-color-brand-contrast);
+  --color-success: var(--theme-color-success);
+  --color-link: var(--theme-color-link);
+  --color-focus-ring: var(--theme-color-focus-ring);
+
+  --color-text: var(--theme-color-text);
+  --color-text-contrast: var(--theme-color-text-contrast);
+  --color-text-light: var(--theme-color-text-light);
+  --color-text-lighter: var(--theme-color-text-lighter);
+  --color-text-disabled: var(--theme-color-text-disabled);
+  --color-text-placeholder: var(--theme-color-text-placeholder);
+
+  --color-background: var(--theme-color-background-base);
+  --color-background-contrast: var(--theme-color-background-contrast);
+  --color-background-tiny-contrast: var(--theme-color-background-tinyContrast);
+  --color-background-low-contrast: var(--theme-color-background-lowContrast);
+  --color-background-disabled: var(--theme-color-background-disabled);
+
+  --color-border: var(--theme-color-border);
+  --color-border-light: var(--theme-color-border-light);
+  --color-border-alternative: var(--theme-color-border-alternative);
+
+  --color-white: #fff;
+  --color-black: #000;
+  --color-transparent: transparent;
+
+  --font-base: var(--theme-fontFamily-base);
+}
+
+/* Mirrors the .inDarkMode() Less mixin: explicit dark mode, or "auto" following the OS. */
+@custom-variant dark {
+  &:where([data-theme-mode="dark"], [data-theme-mode="dark"] *) {
+    @slot;
+  }
+  @media (prefers-color-scheme: dark) {
+    &:where([data-theme-mode="auto"], [data-theme-mode="auto"] *) {
+      @slot;
+    }
+  }
+}

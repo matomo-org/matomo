@@ -37,7 +37,6 @@ class UsersManager extends \Piwik\Plugin
     public function registerEvents()
     {
         return [
-            'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'SitesManager.deleteSite.end'            => 'deleteSite',
             'Tracker.Cache.getSiteAttributes'        => 'recordAdminUsersInCache',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
@@ -164,21 +163,6 @@ class UsersManager extends \Piwik\Plugin
         }
 
         return reset($siteIds) ?: false;
-    }
-
-    /**
-     * Get CSS files
-     */
-    public function getStylesheetFiles(&$stylesheets)
-    {
-        $stylesheets[] = "plugins/UsersManager/stylesheets/usersManager.less";
-
-        $stylesheets[] = "plugins/UsersManager/vue/src/UsersManager/UsersManager.less";
-        $stylesheets[] = "plugins/UsersManager/vue/src/PagedUsersList/PagedUsersList.less";
-        $stylesheets[] = "plugins/UsersManager/vue/src/UserEditForm/UserEditForm.less";
-        $stylesheets[] = "plugins/UsersManager/vue/src/UserInvite/UserInvite.less";
-        $stylesheets[] = "plugins/UsersManager/vue/src/UserPermissionsEdit/UserPermissionsEdit.less";
-        $stylesheets[] = "plugins/UsersManager/vue/src/CapabilitiesEdit/CapabilitiesEdit.less";
     }
 
     /**

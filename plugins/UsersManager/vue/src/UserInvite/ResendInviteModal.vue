@@ -13,8 +13,11 @@
   <div class="resend-invite-confirm-modal modal" ref="resendInviteConfirmModal">
     <div class="btn-close modal-close"><i class="icon-close"></i></div>
     <div class="modal-content">
-      <h2 class="modal-title">{{ translate('UsersManager_ResendInvite') }}</h2>
+      <h2 class="modal-title pt-0 text-[20px] leading-5 font-semibold">
+        {{ translate('UsersManager_ResendInvite') }}
+      </h2>
       <p
+        class="text-[14px]"
         v-html="$sanitize(translate(
             'UsersManager_InviteConfirmMessage',
             [`<strong>${user?.login}</strong>`,
@@ -22,18 +25,17 @@
             ,
           ))"
       ></p>
-      <p><strong>
+      <p class="text-[14px]"><strong>
         {{ translate('UsersManager_InviteActionNotes', inviteTokenExpiryDays) }}
       </strong></p>
     </div>
     <div class="modal-footer">
-        <span v-if="copied" class="success-copied">
+        <span v-if="copied" class="success-copied mr-[15px] text-[#5D9E52]">
           <i class="icon-success"></i>
           {{ translate('UsersManager_LinkCopied') }}</span>
       <button
         @click="showInviteActionPasswordConfirm('copy')"
-        class="btn btn-copy-link modal-action"
-        style="margin-right:3.5px"
+        class="btn btn-copy-link modal-action mr-[3.5px]"
       >{{ translate('UsersManager_CopyLink') }}</button>
       <button
         class="btn btn-resend modal-action modal-no"

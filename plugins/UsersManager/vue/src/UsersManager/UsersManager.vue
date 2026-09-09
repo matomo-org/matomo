@@ -23,9 +23,9 @@
         <p v-if="currentUserRole === 'admin'">
           {{ translate('UsersManager_ManageUsersAdminDesc') }}
         </p>
-        <div class="row add-user-container">
+        <div class="row add-user-container -mx-3 [&>.col>.input-field]:inline-block">
           <div class="col s12">
-            <div class="input-field" style="margin-right:3.5px">
+            <div class="input-field mr-[3.5px]">
               <a
                 class="btn add-new-user"
                 @click="onAddNewUser()"
@@ -96,7 +96,10 @@
         @updated="userBeingEdited = $event.user"
       />
     </div>
-    <div class="add-existing-user-modal modal" ref="addExistingUserModal">
+    <div
+      class="add-existing-user-modal modal [&_.form-group]:m-0 [&_.input-field]:m-0 [&_input.control\_text]:m-0"
+      ref="addExistingUserModal"
+    >
       <div class="modal-content">
         <h3>{{ translate('UsersManager_AddExistingUser') }}</h3>
         <p>{{ translate('UsersManager_EnterUsernameOrEmail') }}:</p>
@@ -111,9 +114,8 @@
       <div class="modal-footer">
         <a
           href=""
-          class="modal-action modal-close btn"
+          class="modal-action modal-close btn mr-[3.5px]"
           @click.prevent="addExistingUser()"
-          style="margin-right:3.5px"
         >{{ translate('General_Add') }}</a>
         <a
           href=""
