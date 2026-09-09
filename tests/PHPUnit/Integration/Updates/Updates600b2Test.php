@@ -26,7 +26,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/Updates/6.0.0-b2.php';
  * @group Updates600b2Test
  * @group Core
  */
-class Updates600B2Test extends IntegrationTestCase
+class Updates600b2Test extends IntegrationTestCase
 {
     private const TEST_TABLE_MEDIUM = 'archive_blob_test_600_medium';
     private const TEST_TABLE_LONG = 'archive_blob_test_600_long';
@@ -68,7 +68,7 @@ class Updates600B2Test extends IntegrationTestCase
 
     public function testGetMigrationsReturnsEmptyWhenNoArchiveBlobTablesExist(): void
     {
-        // No archive_blob tables at all → no migration needed.
+        // No MEDIUMBLOB archive_blob table of our own → no migration needed.
         $migrations = $this->buildUpdate()->getMigrations($this->createMock(Updater::class));
 
         self::assertSame([], $migrations);

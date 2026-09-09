@@ -41,7 +41,7 @@ class Updates_6_0_0_b2 extends Updates
         }
 
         return [
-            $this->migration->config->set('database', 'archive_blob_tables_may_contain_mediumblob', '1'),
+            $this->migration->config->set('database', ArchiveBlobColumnType::CONFIG_KEY, '1'),
         ];
     }
 
