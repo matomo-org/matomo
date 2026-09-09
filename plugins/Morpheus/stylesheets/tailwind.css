@@ -34,6 +34,9 @@
   --color-text-light: var(--theme-color-text-light);
   --color-text-lighter: var(--theme-color-text-lighter);
   --color-text-disabled: var(--theme-color-text-disabled);
+  --color-text-on-disabled: var(--theme-color-text-on-disabled);
+  --color-headline: var(--theme-color-headline-alternative);
+  --color-warning: #f57c00;
   --color-text-placeholder: var(--theme-color-text-placeholder);
 
   --color-background: var(--theme-color-background-base);

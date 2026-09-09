@@ -9,27 +9,38 @@
   <div
     :aria-checked="selected"
     :aria-disabled="!usableAsDefault"
-    :class="{ 'is-selected': selected, 'is-not-usable': !usableAsDefault }"
-    class="ai-providers-card"
+    :class="{
+      'is-selected border-brand shadow-[inset_0_0_0_1px_var(--theme-color-brand)] bg-background-tiny-contrast': selected,
+      'is-not-usable cursor-default': !usableAsDefault,
+      'hover:border-border': usableAsDefault && !selected,
+    }"
+    class="ai-providers-card flex flex-col bg-background-contrast border border-border-light rounded-md cursor-pointer
+      transition-[border-color] duration-[120ms] ease-in-out focus:outline-none focus-visible:outline-none active:outline-none
+      [&_.matomo-form-field]:m-0 [&_.matomo-form-field]:border-0 [&_.matomo-form-field>.col]:px-0
+      [&_.input-field]:m-0 [&_.input-field>label]:left-0 [&_.matomo-field-select>label]:left-0
+      [&_.matomo-field-select>.select-wrapper+label]:left-0
+      [&_.input-field>input]:pl-0 [&_.input-field>input]:ml-0 [&_.input-field>input]:mb-0
+      [&_.input-field>input]:w-full [&_.input-field>input]:box-border"
     role="radio"
     :tabindex="usableAsDefault ? 0 : -1"
     @click="selectProvider()"
     @keydown.enter.prevent="selectProvider()"
     @keydown.space.prevent="selectProvider()"
   >
-    <div class="ai-providers-card-inner">
+    <div class="ai-providers-card-inner flex flex-1 flex-col gap-4 p-4">
       <div class="ai-providers-card-heading">
-        <div class="ai-providers-card-header">
-          <span class="ai-providers-card-name">{{ provider.name }}</span>
+        <div class="ai-providers-card-header mb-2 flex min-h-6 flex-wrap items-center justify-between gap-x-3 gap-y-2">
+          <span class="ai-providers-card-name min-w-0 flex-auto text-headline text-[15px] font-semibold">{{ provider.name }}</span>
           <span
             v-if="selected"
-            class="ai-providers-card-default"
+            class="ai-providers-card-default flex-none rounded-[3px] bg-brand px-2 py-[3px]
+              text-[10px] font-bold uppercase leading-normal tracking-[0.04em] text-brand-contrast"
           >
             {{ translate('AIProviders_DefaultBadge') }}
           </span>
         </div>
 
-        <p class="ai-providers-card-description">
+        <p class="ai-providers-card-description m-0 text-[13px] leading-normal text-text-light">
           {{ translate(provider.description) }}
         </p>
       </div>
@@ -37,7 +48,7 @@
       <template v-if="canEdit">
         <Field
           v-if="provider.supportsCustomEndpoint"
-          class="ai-providers-endpoint-field"
+          class="ai-providers-endpoint-field mb-4!"
           :model-value="configuration?.endpointUrl"
           :name="`endpointUrl-${provider.id}`"
           :title="translate(provider.endpointFieldTitle)"
@@ -50,7 +61,8 @@
 
         <Field
           v-if="provider.supportsFipsEndpoint"
-          class="ai-providers-fips-field"
+          class="ai-providers-fips-field mb-4! -mt-4! [&_.checkbox_label]:inline-flex [&_.checkbox_label]:items-center
+            [&_.checkbox_input+span]:h-auto [&_.checkbox_input+span]:leading-normal"
           :model-value="configuration?.useFipsEndpoint"
           :name="`useFipsEndpoint-${provider.id}`"
           :title="translate('AIProviders_BedrockUseFipsEndpoint')"
@@ -89,13 +101,14 @@
           />
           <p
             v-else
-            class="ai-providers-card-model-help"
+            class="ai-providers-card-model-help m-0 text-xs leading-normal text-text-light"
           >
             {{ translate('AIProviders_ClickTestConnectionToShowAvailableModels') }}
           </p>
           <button
             v-if="availableModels.length"
-            class="btn-flat ai-providers-refresh-models"
+            class="btn-flat ai-providers-refresh-models mt-1 inline-flex items-center gap-1.5 p-0 text-xs
+              disabled:pointer-events-none disabled:cursor-not-allowed disabled:text-text-on-disabled [&_.icon-reload]:text-xs"
             type="button"
             :disabled="isTesting || !canTest"
             :title="translate('AIProviders_RefreshModels')"
@@ -110,13 +123,13 @@
         </div>
 
         <div
-          :class="{ 'is-connected': provider.configuration.isUsable }"
-          class="ai-providers-card-status"
+          :class="provider.configuration.isUsable ? 'is-connected text-brand' : 'text-text-light'"
+          class="ai-providers-card-status m-0 flex items-center gap-2 text-[13px] leading-normal"
         >
           <span
             aria-hidden="true"
-            class="icon ai-providers-status-icon"
-            :class="provider.configuration.isUsable ? 'icon-ok' : 'icon-minus'"
+            class="icon ai-providers-status-icon flex-none text-sm leading-none"
+            :class="provider.configuration.isUsable ? 'icon-ok text-brand' : 'icon-minus text-border'"
           ></span>
           {{
             provider.configuration.isUsable
@@ -125,9 +138,9 @@
           }}
         </div>
 
-        <div class="ai-providers-card-actions">
+        <div class="ai-providers-card-actions mt-auto flex flex-col items-stretch justify-start gap-3 pt-4">
           <button
-            class="btn btn-outline btn-small"
+            class="btn btn-outline btn-small whitespace-nowrap"
             type="button"
             :disabled="isTesting || !canTest"
             @click.prevent.stop="emit('test')"
@@ -139,7 +152,7 @@
             }}
           </button>
           <button
-            class="btn-flat"
+            class="btn-flat whitespace-nowrap disabled:pointer-events-none disabled:cursor-not-allowed disabled:text-text-on-disabled"
             type="button"
             :disabled="isDisconnecting || !provider.configuration.hasApiKey"
             @click.prevent.stop="emit('disconnect')"
@@ -211,212 +224,3 @@ function selectProvider() {
 }
 </script>
 
-<style lang="less">
-.ai-providers-card {
-  display: flex;
-  flex-direction: column;
-  background: var(--theme-color-background-contrast);
-  border: 1px solid var(--ai-providers-border);
-  border-radius: 6px;
-  cursor: pointer;
-  transition: border-color 120ms ease;
-
-  &:hover:not(.is-not-usable):not(.is-selected) {
-    border-color: var(--ai-providers-border-strong);
-  }
-
-  &.is-selected {
-    border-color: var(--ai-providers-accent);
-    box-shadow: 0 0 0 1px var(--ai-providers-accent) inset;
-    background: var(--theme-color-background-tinyContrast);
-  }
-
-  &.is-not-usable {
-    cursor: default;
-  }
-
-  &:focus,
-  &:focus-visible,
-  &:active {
-    outline: none;
-  }
-
-  // Strip every outer margin Materialize puts on the form field so the card's
-  // own layout (the `gap` on .ai-providers-card-inner) is the single source of
-  // vertical spacing. Without this the row/form-group/input margins stack
-  // unpredictably and collide with the status line.
-  .matomo-form-field {
-    border: 0;
-    margin: 0;
-
-    > .col {
-      padding-left: 0 !important;
-      padding-right: 0 !important;
-    }
-  }
-
-  .input-field {
-    margin: 0;
-  }
-
-  .input-field > label,
-  .input-field.col > label {
-    left: 0 !important;
-  }
-
-  .matomo-field-select > label,
-  .matomo-field-select > .select-wrapper + label {
-    left: 0 !important;
-  }
-
-  .input-field > input {
-    padding-left: 0;
-    margin-left: 0;
-    margin-bottom: 0;
-    width: 100%;
-    box-sizing: border-box;
-  }
-
-  .matomo-form-field.ai-providers-endpoint-field,
-  .matomo-form-field.ai-providers-fips-field {
-    margin-bottom: 16px;
-  }
-
-  // Text fields need the extra headroom above them for their floating label;
-  // the checkbox has none, so collapse the preceding field's spacing to keep
-  // the card's 16px rhythm.
-  .matomo-form-field.ai-providers-fips-field {
-    margin-top: -16px;
-
-    .checkbox label {
-      display: inline-flex;
-      align-items: center;
-    }
-
-    .checkbox [type="checkbox"] + span {
-      height: auto;
-      line-height: 1.5;
-    }
-  }
-}
-
-.ai-providers-card-inner {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  gap: 16px;
-  padding: 16px;
-}
-
-.ai-providers-card-default {
-  flex: none;
-  padding: 3px 8px;
-  background-color: var(--ai-providers-accent);
-  color: var(--theme-color-brand-contrast);
-  border-radius: 3px;
-  font-size: 10px;
-  font-weight: 700;
-  line-height: 1.5;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
-.ai-providers-card-header {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px 12px;
-  // Reserve the badge's height so promoting a card to default doesn't push
-  // the rest of the card content down.
-  min-height: 24px;
-  margin-bottom: 8px;
-}
-
-.ai-providers-card-name {
-  flex: 1 1 auto;
-  min-width: 0;
-  color: var(--ai-providers-heading);
-  font-weight: 600;
-  font-size: 15px;
-}
-
-.ai-providers-card-description {
-  color: var(--ai-providers-text-muted);
-  font-size: 13px;
-  line-height: 1.5;
-  margin: 0;
-}
-
-.ai-providers-refresh-models {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 4px;
-  padding: 0;
-  font-size: 12px;
-
-  &[disabled] {
-    pointer-events: none;
-    cursor: not-allowed;
-    color: var(--theme-color-text-on-disabled);
-  }
-
-  .icon-reload {
-    font-size: 12px;
-  }
-}
-
-.ai-providers-card-model-help {
-  color: var(--ai-providers-text-muted);
-  font-size: 12px;
-  line-height: 1.5;
-  margin: 0;
-}
-
-.ai-providers-card-status {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin: 0;
-  color: var(--ai-providers-text-muted);
-  font-size: 13px;
-  line-height: 1.5;
-
-  &.is-connected {
-    color: var(--ai-providers-accent);
-
-    .ai-providers-status-icon {
-      color: var(--ai-providers-accent);
-    }
-  }
-}
-
-.ai-providers-status-icon {
-  font-size: 14px;
-  line-height: 1;
-  color: var(--ai-providers-border-strong);
-  flex: none;
-}
-
-.ai-providers-card-actions {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  justify-content: flex-start;
-  gap: 12px;
-  margin-top: auto;
-  padding-top: 16px;
-
-  .btn,
-  .btn-flat {
-    white-space: nowrap;
-  }
-
-  .btn-flat[disabled] {
-    pointer-events: none;
-    cursor: not-allowed;
-    color: var(--theme-color-text-on-disabled);
-  }
-}
-</style>

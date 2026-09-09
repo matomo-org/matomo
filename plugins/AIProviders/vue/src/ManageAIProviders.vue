@@ -7,13 +7,13 @@
 
 <template>
   <div class="ai-providers-page">
-    <header class="ai-providers-page-header">
-      <h2 class="ai-providers-page-title">
+    <header class="ai-providers-page-header mb-6">
+      <h2 class="ai-providers-page-title m-0 p-0 text-headline text-[22px] leading-[1.3]">
         <EnrichedHeadline>
           {{ translate('AIProviders_MenuTitle') }}
         </EnrichedHeadline>
       </h2>
-      <p class="ai-providers-page-subtitle">
+      <p class="ai-providers-page-subtitle m-0 mt-1 text-text-light text-sm leading-normal">
         {{ translate('AIProviders_ConfigurationIntro') }}
       </p>
     </header>
@@ -24,10 +24,15 @@
     />
 
     <template v-else-if="settings">
-      <ContentBlock class="ai-providers-content">
+      <ContentBlock class="ai-providers-content relative">
       <span
-        class="ai-providers-unsaved-changes"
-        :class="{ 'is-visible': hasUnsavedChanges }"
+        class="ai-providers-unsaved-changes absolute top-4 right-4 px-3.5 py-[5px] rounded-[3px]
+          bg-warning/20 text-warning dark:bg-warning/18 dark:text-[#f5a557]
+          text-xs font-semibold leading-normal tracking-[0.01em]
+          transition-[opacity,transform] duration-150 ease-in-out"
+        :class="hasUnsavedChanges
+          ? 'is-visible visible opacity-100 translate-y-0'
+          : 'invisible opacity-0 -translate-y-1'"
       >
         {{ translate('AIProviders_UnsavedChanges') }}
       </span>
@@ -39,21 +44,22 @@
           {{ translate('AIProviders_ManagedConfigurationHelp') }}
         </Alert>
 
-        <h3 class="ai-providers-defaults-title">
+        <h3 class="ai-providers-defaults-title m-0 mb-6 p-0 text-headline text-lg leading-[1.4]">
           {{ translate('AIProviders_DefaultsTitle') }}
         </h3>
 
-        <section class="ai-providers-section">
-          <h4 class="ai-providers-subsection-title">
+        <section class="ai-providers-section @container">
+          <h4 class="ai-providers-subsection-title m-0 p-0 text-headline text-[15px] font-semibold leading-[1.4]">
             {{ translate('AIProviders_DefaultProvider') }}
           </h4>
-          <p class="ai-providers-section-help">
+          <p class="ai-providers-section-help m-0 mt-1 mb-4 text-text-light">
             {{ translate('AIProviders_DefaultProviderHelp') }}
           </p>
 
           <div
             :aria-label="translate('AIProviders_DefaultProvider')"
-            class="ai-providers-cards"
+            class="ai-providers-cards mt-4 grid gap-4 grid-cols-[repeat(auto-fit,minmax(280px,1fr))]
+              @[620px]:grid-cols-2 @[960px]:grid-cols-3"
             role="radiogroup"
           >
             <ProviderCard
@@ -79,7 +85,7 @@
 
           <Alert
             v-if="!hasUsableProvider"
-            class="ai-providers-default-warning"
+            class="ai-providers-default-warning mt-4"
             severity="warning"
           >
             {{ translate('AIProviders_NoDefaultProviderWarning') }}
@@ -88,38 +94,41 @@
 
         <section
           v-if="canEditCapabilityLevel"
-          class="ai-providers-section"
+          class="ai-providers-section @container mt-6 pt-6 border-t border-border-light"
         >
-          <h4 class="ai-providers-subsection-title">
+          <h4 class="ai-providers-subsection-title m-0 p-0 text-headline text-[15px] font-semibold leading-[1.4]">
             {{ translate('AIProviders_DefaultCapabilityLevel') }}
           </h4>
-          <p class="ai-providers-section-help">
+          <p class="ai-providers-section-help m-0 mt-1 mb-4 text-text-light">
             {{ translate('AIProviders_DefaultCapabilityLevelHelp') }}
           </p>
 
           <div
             :aria-label="translate('AIProviders_DefaultCapabilityLevel')"
-            class="ai-providers-capability-cards"
+            class="ai-providers-capability-cards grid gap-4 grid-cols-[repeat(auto-fit,minmax(240px,1fr))]"
             role="radiogroup"
           >
             <label
               v-for="capability in capabilityLevelOptions"
               :key="capability.id"
-              :class="{ 'is-selected': defaultCapabilityLevel === capability.id }"
-              class="ai-providers-capability-card"
+              :class="defaultCapabilityLevel === capability.id
+                ? 'is-selected border-brand shadow-[inset_0_0_0_1px_var(--theme-color-brand)] bg-background-tiny-contrast'
+                : 'hover:border-border'"
+              class="ai-providers-capability-card flex flex-col p-4 bg-background-contrast border border-border-light
+                rounded-md cursor-pointer transition-[border-color,box-shadow,background-color] duration-[120ms] ease-in-out"
             >
-              <div class="ai-providers-capability-header">
+              <div class="ai-providers-capability-header mb-2">
                 <input
                   v-model="defaultCapabilityLevel"
                   :value="capability.id"
                   name="defaultCapabilityLevel"
                   type="radio"
                 />
-                <span class="ai-providers-capability-label">{{ capability.label }}</span>
+                <span class="ai-providers-capability-label text-headline font-semibold text-[15px]">{{ capability.label }}</span>
               </div>
               <div
                 v-if="capability.description"
-                class="ai-providers-capability-description"
+                class="ai-providers-capability-description text-text-light text-[13px] leading-normal"
               >
                 {{ capability.description }}
               </div>
@@ -132,11 +141,11 @@
 
     <div
       v-if="settings"
-      class="ai-providers-footer"
+      class="ai-providers-footer mt-6 flex flex-wrap items-center justify-end gap-3"
     >
       <button
         :disabled="isSaving || !hasUnsavedChanges"
-        class="btn btn-outline"
+        class="btn btn-outline disabled:border-transparent"
         type="button"
         @click="cancelChanges()"
       >
@@ -481,185 +490,3 @@ async function saveSettings() {
 onMounted(loadSettings);
 </script>
 
-<style lang="less">
-.ai-providers-page {
-  --ai-providers-border: var(--theme-color-border-light);
-  --ai-providers-border-strong: var(--theme-color-border);
-  --ai-providers-accent: var(--theme-color-brand);
-  --ai-providers-text-muted: var(--theme-color-text-light);
-  --ai-providers-heading: var(--theme-color-headline-alternative);
-
-  h2, h3, h4 {
-    color: var(--ai-providers-heading);
-    margin: 0;
-    padding: 0;
-  }
-}
-
-.ai-providers-page-header {
-  margin-bottom: 24px;
-}
-
-.ai-providers-page-title {
-  font-size: 22px;
-  line-height: 1.3;
-}
-
-.ai-providers-page-subtitle {
-  color: var(--ai-providers-text-muted);
-  font-size: 14px;
-  line-height: 1.5;
-  margin: 4px 0 0;
-}
-
-.ai-providers-defaults-title {
-  font-size: 18px;
-  line-height: 1.4;
-  margin-bottom: 24px!important;
-}
-
-.ai-providers-subsection-title {
-  font-size: 15px;
-  font-weight: 600;
-  line-height: 1.4;
-}
-
-.ai-providers-section + .ai-providers-section {
-  margin-top: 24px;
-  padding-top: 24px;
-  border-top: 1px solid var(--ai-providers-border);
-}
-
-.ai-providers-section-help {
-  color: var(--ai-providers-text-muted);
-  margin: 4px 0 16px;
-}
-
-.ai-providers-cards,
-.ai-providers-capability-cards {
-  display: grid;
-  gap: 16px;
-}
-
-// Query container for the card grid: the content width depends on the admin
-// sidebar, so columns must follow the section width, not the viewport.
-.ai-providers-section {
-  container-type: inline-size;
-}
-
-// Fallback for browsers without container-query support: cards fill and wrap.
-.ai-providers-cards {
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  margin-top: 16px;
-}
-
-.ai-providers-capability-cards {
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-}
-
-// Discrete column counts keep the rows balanced (5 cards: 2+2+1, 3+2).
-@container (min-width: 620px) {
-  .ai-providers-cards {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@container (min-width: 960px) {
-  .ai-providers-cards {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-.ai-providers-default-warning {
-  margin-top: 16px;
-}
-
-.ai-providers-capability-card {
-  display: flex;
-  flex-direction: column;
-  padding: 16px;
-  background: var(--theme-color-background-contrast);
-  border: 1px solid var(--ai-providers-border);
-  border-radius: 6px;
-  cursor: pointer;
-  transition: border-color 120ms ease, box-shadow 120ms ease, background-color 120ms ease;
-
-  &:hover {
-    border-color: var(--ai-providers-border-strong);
-  }
-
-  &.is-selected {
-    border-color: var(--ai-providers-accent);
-    box-shadow: 0 0 0 1px var(--ai-providers-accent) inset;
-    background: var(--theme-color-background-tinyContrast);
-  }
-}
-
-.ai-providers-capability-header {
-  margin-bottom: 8px;
-}
-
-.ai-providers-capability-label {
-  color: var(--ai-providers-heading);
-  font-weight: 600;
-  font-size: 15px;
-}
-
-.ai-providers-capability-description {
-  color: var(--ai-providers-text-muted);
-  font-size: 13px;
-  line-height: 1.5;
-}
-
-.ai-providers-content {
-  position: relative;
-}
-
-.ai-providers-unsaved-changes {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  padding: 5px 14px;
-  // Matomo's @color-orange-brand (#f57c00) as warning accent on a light tint.
-  background: fade(#f57c00, 20%);
-  border-radius: 3px;
-  color: #f57c00;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.01em;
-  line-height: 1.5;
-  visibility: hidden;
-  opacity: 0;
-  transform: translateY(-4px);
-  transition: opacity 150ms ease, transform 150ms ease;
-
-  &.is-visible {
-    visibility: visible;
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  // A solid orange block glows on dark backgrounds; tone it down to a
-  // translucent tint with orange text instead.
-  [data-theme-mode="dark"] & {
-    background: fade(#f57c00, 18%);
-    color: #f5a557;
-  }
-}
-
-.ai-providers-footer {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 12px;
-  margin-top: 24px;
-
-  // The core .btn[disabled] rule swaps background and text color but leaves
-  // the btn-outline brand-green border in place. Keep the border transparent
-  // (rather than removing it) so the button doesn't shrink by 1px.
-  .btn-outline[disabled] {
-    border-color: transparent;
-  }
-}
-</style>
