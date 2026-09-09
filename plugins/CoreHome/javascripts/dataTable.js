@@ -1681,7 +1681,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 			track: true,
 			items: 'span',
 			content: function() {
-				return $(this).parent().data('tooltip');
+				return window.vueSanitizeTooltip($(this).parent().data('tooltip'));
 			},
 			show: false,
 			hide: false,
@@ -1689,10 +1689,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 		});
         domElem.find('span.ratio').tooltip({
             track: true,
-            content: function() {
-                var title = $(this).attr('title');
-                return piwikHelper.escape(title.replace(/\n/g, '<br />'));
-            },
+            content: window.CoreHome.tooltipContent,
             show: {delay: 700, duration: 200},
             hide: false
         })

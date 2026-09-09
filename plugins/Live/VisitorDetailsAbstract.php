@@ -179,9 +179,15 @@ abstract class VisitorDetailsAbstract
      * ```
      * array (
      *          20,   // order id
-     *          'rendered html content'
+     *          'rendered content'
      * )
      * ```
+     *
+     * The content is combined with what every other plugin returns for the same action, and the
+     * result is shown in one tooltip, so it should be text: line breaks are turned into `<br>`,
+     * and of any markup it may only use simple inline formatting (eg. `<b>`, `<em>`) without
+     * attributes. If any part of the combined content carries anything else, the whole tooltip is
+     * shown as text instead of being rendered.
      *
      * **Example:**
      *
