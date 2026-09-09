@@ -12,7 +12,7 @@
         class="browser-default"
         :value="modelValue"
         :aria-label="translate('Marketplace_Categories')"
-        @change="select(($event.target as HTMLSelectElement).value)"
+        @change="selectFromEvent($event)"
       >
         <option v-for="tab in tabs" :key="tab.id" :value="tab.id">{{ tabLabel(tab) }}</option>
       </select>
@@ -68,14 +68,9 @@
 
 <script lang="ts">
 import { defineComponent, markRaw, PropType } from 'vue';
-import { translate, translateOrDefault, ucfirst } from 'CoreHome';
-import {
-  PluginTab,
-  TAB_ALL,
-  TAB_BUNDLES,
-  TAB_PREMIUM,
-  TAB_THEMES,
-} from '../PluginGrid/pluginGrouping';
+import { translate } from 'CoreHome';
+import { PluginTab } from '../PluginGrid/pluginGrouping';
+import { tabLabel } from '../PluginGrid/categoryLabels';
 
 /**
  * At or below this width the bar shows only the first few tabs and moves the rest into a menu.
@@ -143,7 +138,10 @@ export default defineComponent({
       if (event.key === 'Escape' && this.expanded) {
         this.expanded = false;
         // a closed menu must not leave focus on nothing, or the next Tab starts from the top
-        (this.$refs.moreButton as HTMLElement|undefined)?.focus();
+        const moreButton = this.$refs.moreButton as HTMLElement|undefined;
+        if (moreButton) {
+          moreButton.focus();
+        }
       }
     };
     document.addEventListener('mousedown', this.onDocumentClick);
@@ -180,27 +178,40 @@ export default defineComponent({
   },
   methods: {
     translate,
+    /** The cast lives here rather than in the template, which is compiled without TypeScript. */
+    selectFromEvent(event: Event) {
+      this.select((event.target as HTMLSelectElement).value);
+    },
     select(tabId: string) {
       this.expanded = false;
       this.$emit('update:modelValue', tabId);
     },
-    tabLabel(tab: PluginTab): string {
-      if (!tab.isCategory) {
-        const fixed: Record<string, string> = {
-          [TAB_ALL]: 'Marketplace_AllPlugins',
-          [TAB_PREMIUM]: 'Marketplace_PaidPlugins',
-          [TAB_BUNDLES]: 'Marketplace_Bundles',
-          [TAB_THEMES]: 'CorePluginsAdmin_Themes',
-        };
-        return translate(fixed[tab.id] ?? tab.id);
+    tabLabel,
+
+    /**
+     * Moves focus onto the tab that is currently selected.
+     *
+     * For callers that navigate by changing the selection from somewhere else on the page - a
+     * section's "See all" - where the control that had focus is removed by the re-render.
+     *
+     * Below the wide breakpoint the active tab may be one of the overflow tabs, which are
+     * display:none until there is room for them, and focus() does nothing on one of those. The
+     * More button stands in for them there, and already renders as active when it does.
+     */
+    focusActiveTab() {
+      const bar = this.$refs.bar as HTMLElement|undefined;
+      const active = bar?.querySelector<HTMLElement>('.categoryTabs__tab--active');
+      const moreButton = this.$refs.moreButton as HTMLElement|undefined;
+
+      if (active && active.offsetParent !== null) {
+        active.focus();
+        return;
       }
 
-      // the Marketplace's category vocabulary is data, not a fixed list, so a value we have no key
-      // for yet renders as something readable. translateOrDefault, not translate: an unknown key
-      // makes translate() return "The string ... was not loaded in javascript".
-      const key = `Marketplace_Category${ucfirst(tab.id)}`;
-      const label = translateOrDefault(key);
-      return label === key ? ucfirst(tab.id) : label;
+      const fallback = moreButton ?? active;
+      if (fallback) {
+        fallback.focus();
+      }
     },
   },
 });

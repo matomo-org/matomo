@@ -98,13 +98,12 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
-import {
-  MatomoUrl, translate, translateOrDefault, ucfirst,
-} from 'CoreHome';
+import { MatomoUrl, translate } from 'CoreHome';
 import CTAContainer from '../PluginList/CTAContainer.vue';
 import MatomoGlyph from './MatomoGlyph.vue';
 import { PluginCard as PluginCardType } from '../types';
-import { CATEGORY_UNCATEGORISED, ownerLabel } from '../PluginGrid/pluginGrouping';
+import { ownerLabel, pluginCategories } from '../PluginGrid/pluginGrouping';
+import { categoryLabel as labelForCategory } from '../PluginGrid/categoryLabels';
 
 export interface PluginCardState {
   coverImageFailed: boolean;
@@ -154,14 +153,8 @@ export default defineComponent({
         return translate('Marketplace_Bundles');
       }
 
-      const { category } = this.plugin;
-      if (!category || category === CATEGORY_UNCATEGORISED) {
-        return '';
-      }
-
-      const key = `Marketplace_Category${ucfirst(category)}`;
-      const label = translateOrDefault(key);
-      return label === key ? ucfirst(category) : label;
+      // the chip has room for one, so it names the first slug the plugin is filed under
+      return labelForCategory(pluginCategories(this.plugin)[0] ?? '');
     },
     bundleSeatsLabel(): string {
       // Plugins::addBundleSeats() only sets this for a bundle, and only when the seat tier the

@@ -45,12 +45,13 @@
 
     <CategoryTabs
       v-if="tabs.length > 1"
+      ref="categoryTabs"
       :tabs="tabs"
       :model-value="activeTab"
       @update:model-value="updateTab($event)"
     />
 
-    <div class="marketplacePage__resultsBar">
+    <div class="marketplacePage__resultsBar" ref="resultsBar">
       <div class="marketplacePage__resultsCount" aria-live="polite">
         <h2 v-if="resultsHeading">{{ resultsHeading }}</h2>
       </div>
@@ -61,19 +62,26 @@
       />
     </div>
 
+    <div class="marketplacePage__sections" v-if="showSections">
+      <PluginSection
+        v-for="section in sections"
+        :key="section.id"
+        :section-id="section.id"
+        :is-category="section.isCategory"
+        :plugins="section.plugins"
+        v-bind="gridProps"
+        @seeAll="seeAllInSection($event)"
+        @openDetails="openDetailsModal($event)"
+        @requestTrial="showRequestTrialForPlugin = $event"
+        @startFreeTrial="showStartFreeTrialForPlugin = $event"
+      />
+    </div>
+
     <PluginGrid
-      v-if="loading || filteredPlugins.length > 0"
+      v-if="!showSections && (loading || filteredPlugins.length > 0)"
       :plugins="pagedPlugins"
       :skeleton-count="skeletonCount"
-      :is-super-user="isSuperUser"
-      :is-plugins-admin-enabled="isPluginsAdminEnabled"
-      :is-multi-server-environment="isMultiServerEnvironment"
-      :is-valid-consumer="isValidConsumer"
-      :is-auto-update-possible="isAutoUpdatePossible"
-      :activate-nonce="activateNonce"
-      :deactivate-nonce="deactivateNonce"
-      :install-nonce="installNonce"
-      :update-nonce="updateNonce"
+      v-bind="gridProps"
       @openDetails="openDetailsModal($event)"
       @requestTrial="showRequestTrialForPlugin = $event"
       @startFreeTrial="showStartFreeTrialForPlugin = $event"
@@ -105,14 +113,17 @@ import MarketplaceHero from '../MarketplaceHero/MarketplaceHero.vue';
 import CategoryTabs from '../CategoryTabs/CategoryTabs.vue';
 import SortMenu from '../SortMenu/SortMenu.vue';
 import PluginGrid from '../PluginGrid/PluginGrid.vue';
+import PluginSection from '../PluginSection/PluginSection.vue';
 import EmptyState from '../PluginGrid/EmptyState.vue';
 import RequestTrial from '../RequestTrial/RequestTrial.vue';
 import StartFreeTrial from '../StartFreeTrial/StartFreeTrial.vue';
 import PluginDetailsModal from '../PluginDetailsModal/PluginDetailsModal.vue';
 import { PluginCard } from '../types';
 import {
+  buildSections,
   buildTabs,
   filterPlugins,
+  PluginSection as PluginSectionType,
   PluginTab,
   SORT_LAST_UPDATED,
   sortPlugins,
@@ -168,6 +179,7 @@ export default defineComponent({
     CategoryTabs,
     SortMenu,
     PluginGrid,
+    PluginSection,
     EmptyState,
     RequestTrial,
     StartFreeTrial,
@@ -208,12 +220,58 @@ export default defineComponent({
   },
   unmounted() {
     Matomo.postEvent('Marketplace.Marketplace.unmounted', { element: this.$refs.root });
-    this.observer?.disconnect();
-    this.fetchAbortController?.abort();
+    if (this.observer) {
+      this.observer.disconnect();
+    }
+
+    if (this.fetchAbortController) {
+      this.fetchAbortController.abort();
+    }
   },
   computed: {
     tabs(): PluginTab[] {
       return buildTabs(this.allPlugins);
+    },
+    /**
+     * The section stack, each row sorted the way the whole catalogue is.
+     *
+     * Sorting inside the rows is what makes "See all" continuous: the row is the first cards of
+     * the category view it links to, in the same order, rather than a differently ordered sample.
+     */
+    sections(): PluginSectionType[] {
+      return buildSections(this.allPlugins).map((section) => ({
+        ...section,
+        plugins: sortPlugins(section.plugins, this.pluginSort),
+      }));
+    },
+    /**
+     * Whether the page shows the section stack rather than one flat grid.
+     *
+     * Only the All plugins tab, and only with nothing searched for - a tab or a query is a request
+     * for one list, and answering it with ten rows would bury the answer. The catalogue also has
+     * to have arrived: while loading there are no sections to build, so the flat grid keeps
+     * holding the layout with its skeletons. An empty stack covers a failed load and an install
+     * whose Marketplace only carries a handful of plugins.
+     */
+    showSections(): boolean {
+      return !this.loading
+        && this.activeTab === TAB_ALL
+        && !this.searchQuery.trim()
+        && this.sections.length > 0;
+    },
+    /** What every grid on the page needs to render a card, gathered once. */
+    gridProps() {
+      return {
+        isSuperUser: this.isSuperUser,
+        isPluginsAdminEnabled: this.isPluginsAdminEnabled,
+        isMultiServerEnvironment: this.isMultiServerEnvironment,
+        isValidConsumer: this.isValidConsumer,
+        isAutoUpdatePossible: this.isAutoUpdatePossible,
+        activateNonce: this.activateNonce,
+        deactivateNonce: this.deactivateNonce,
+        installNonce: this.installNonce,
+        updateNonce: this.updateNonce,
+      };
     },
     filteredPlugins(): PluginCard[] {
       return sortPlugins(
@@ -259,7 +317,9 @@ export default defineComponent({
     fetchCatalogue() {
       this.loading = true;
       this.loadFailed = false;
-      this.fetchAbortController?.abort();
+      if (this.fetchAbortController) {
+        this.fetchAbortController.abort();
+      }
 
       const abortController = markRaw(new AbortController());
       this.fetchAbortController = abortController;
@@ -347,6 +407,39 @@ export default defineComponent({
       this.updateHash({ sort });
     },
 
+    /**
+     * Opens one section's category, which is the same thing its tab does.
+     *
+     * The tab bar is at the top of the page and a section's link can be most of a screen down it,
+     * so the two things a tab click never has to think about both matter here: the reader would
+     * otherwise be left looking at whitespace under a list that starts above them, and the button
+     * that had focus is removed by the re-render, dropping focus to <body> and sending the next
+     * Tab back to the start of the document.
+     */
+    seeAllInSection(sectionId: string) {
+      this.updateTab(sectionId);
+
+      this.scrollIntoView(this.$refs.resultsBar as HTMLElement|undefined);
+
+      this.$nextTick(() => {
+        const tabs = this.$refs.categoryTabs as { focusActiveTab?: () => void }|undefined;
+        if (tabs && tabs.focusActiveTab) {
+          tabs.focusActiveTab();
+        }
+      });
+    },
+
+    /** Scrolls without animating for readers who have asked for less motion. */
+    scrollIntoView(element?: Element|null) {
+      const reduceMotion = typeof window !== 'undefined'
+        && typeof window.matchMedia === 'function'
+        && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if (element) {
+        element.scrollIntoView({ block: 'start', behavior: reduceMotion ? 'auto' : 'smooth' });
+      }
+    },
+
     resetFilters() {
       this.searchQuery = '';
       this.updateHash({ query: null, category: TAB_ALL, pluginType: null });
@@ -382,8 +475,17 @@ export default defineComponent({
     scrollCardIntoView(pluginName: string) {
       this.$nextTick(() => {
         const root = this.$refs.root as HTMLElement|undefined;
-        const card = root?.querySelector(`[data-plugin="${CSS.escape(pluginName)}"]`);
-        card?.scrollIntoView({ block: 'start', behavior: 'smooth' });
+
+        // a section hands its grid more cards than the row shows and the stylesheet hides the rest
+        // with nth-child, so the first match can be a display:none element - and scrollIntoView
+        // does nothing on one of those. A plugin filed under a category can also be in two
+        // sections at once. offsetParent is null in jsdom, which has no layout, so the fallback
+        // keeps the behaviour tests see unchanged.
+        const cards = [...(root?.querySelectorAll(`[data-plugin="${CSS.escape(pluginName)}"]`) ?? [])];
+        const card = cards.find((element) => (element as HTMLElement).offsetParent !== null)
+          ?? cards[0];
+
+        this.scrollIntoView(card);
       });
     },
 
@@ -397,7 +499,11 @@ export default defineComponent({
         if (!entries.some((entry) => entry.isIntersecting)) {
           return;
         }
-        if (this.loading || this.pageSize >= this.filteredPlugins.length) {
+        // in sections mode every row is capped at one screenful, so there is nothing to page.
+        // The sentinel stays mounted rather than being v-if'd away: observeSentinel() runs once,
+        // and re-adding the element would leave the observer watching a detached node, killing
+        // infinite scroll in the category views for the rest of the session.
+        if (this.loading || this.showSections || this.pageSize >= this.filteredPlugins.length) {
           return;
         }
         // appending must never move focus - infinite scroll plus a screen reader is the usual break

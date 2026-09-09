@@ -355,6 +355,8 @@ class PluginsTest extends IntegrationTestCase
             'hasDownloadLink' => true,
             'licenseStatus' => '',
             'category' => 'customisation',
+            // the fixture predates the field, so normalisation answers with the empty list
+            'categories' => [],
         ];
         $this->assertEquals($expected, $plugin);
     }

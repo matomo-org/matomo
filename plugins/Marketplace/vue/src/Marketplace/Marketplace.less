@@ -45,6 +45,14 @@
   }
 }
 
+// The section stack the All plugins tab opens on. Page-level spacing, so it lives here rather
+// than in PluginSection.less, which styles one section wherever it is mounted.
+.marketplacePage__sections {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
 .marketplacePage__loadError {
   margin-top: 16px;
 }

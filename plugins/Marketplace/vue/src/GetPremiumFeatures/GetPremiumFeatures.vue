@@ -93,9 +93,9 @@ export default defineComponent({
         module: 'Marketplace',
         action: 'overview',
       });
-      const hash = MatomoUrl.stringify({ pluginType: 'premium' });
-
-      return `?${query}#?${hash}`;
+      // the overview root, which opens on the section stack. There is no paid-only view to link
+      // to any more, and the premium plugins this widget promotes sit in their category sections.
+      return `?${query}`;
     },
   },
 });

@@ -66,6 +66,7 @@ class Marketplace extends \Piwik\Plugin
         $stylesheets[] = "plugins/Marketplace/vue/src/SortMenu/SortMenu.less";
         $stylesheets[] = "plugins/Marketplace/vue/src/PluginCard/PluginCard.less";
         $stylesheets[] = "plugins/Marketplace/vue/src/PluginGrid/PluginGrid.less";
+        $stylesheets[] = "plugins/Marketplace/vue/src/PluginSection/PluginSection.less";
         $stylesheets[] = "plugins/Marketplace/vue/src/PluginList/CTAStatus.less";
     }
 
@@ -113,9 +114,11 @@ class Marketplace extends \Piwik\Plugin
         $translationKeys[] = 'Marketplace_CategoryCustomisation';
         $translationKeys[] = 'Marketplace_CategoryDatabase';
         $translationKeys[] = 'Marketplace_CategoryDevelopment';
+        $translationKeys[] = 'Marketplace_CategoryEcommerce';
         $translationKeys[] = 'Marketplace_CategoryInsights';
         $translationKeys[] = 'Marketplace_CategoryIntegration';
         $translationKeys[] = 'Marketplace_CategoryMatomo';
+        $translationKeys[] = 'Marketplace_CategoryOther';
         $translationKeys[] = 'Marketplace_CategorySecurity';
         $translationKeys[] = 'Marketplace_CreateAccountErrorAPI';
         $translationKeys[] = 'Marketplace_CreateAccountErrorLicenseExists';
@@ -148,7 +151,6 @@ class Marketplace extends \Piwik\Plugin
         $translationKeys[] = 'Marketplace_OverviewPluginSubscriptionsAllDetails';
         $translationKeys[] = 'Marketplace_OverviewPluginSubscriptionsMissingInfo';
         $translationKeys[] = 'Marketplace_OverviewPluginSubscriptionsMissingLicenseMessage';
-        $translationKeys[] = 'Marketplace_PaidPlugins';
         $translationKeys[] = 'Marketplace_PluginSubscriptionsList';
         $translationKeys[] = 'Marketplace_PluginUploadDisabled';
         $translationKeys[] = 'Marketplace_PriceFromPerPeriod';
@@ -216,6 +218,7 @@ class Marketplace extends \Piwik\Plugin
         $translationKeys[] = 'Marketplace_Screenshots';
         $translationKeys[] = 'Marketplace_SearchPlaceholder';
         $translationKeys[] = 'Marketplace_SeeAll';
+        $translationKeys[] = 'Marketplace_SeeAllInCategory';
         $translationKeys[] = 'Marketplace_ShownPriceIsExclTax';
         $translationKeys[] = 'Marketplace_TryFreeTrialTitle';
         $translationKeys[] = 'CorePluginsAdmin_Activity';

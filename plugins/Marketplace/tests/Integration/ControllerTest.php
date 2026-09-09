@@ -72,7 +72,7 @@ class ControllerTest extends IntegrationTestCase
         $always = [
             'canBeUpdated',
             'canTrialBeRequested',
-            'category',
+            'categories',
             'consumer',
             'coverImage',
             'createdDateTime',

@@ -87,7 +87,10 @@ export default defineComponent({
     this.onKeydown = (event: KeyboardEvent) => {
       if (event.key === 'Escape' && this.expanded) {
         this.expanded = false;
-        (this.$refs.trigger as HTMLElement|undefined)?.focus();
+        const trigger = this.$refs.trigger as HTMLElement|undefined;
+        if (trigger) {
+          trigger.focus();
+        }
       }
     };
     document.addEventListener('mousedown', this.onDocumentClick);

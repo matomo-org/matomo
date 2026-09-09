@@ -320,6 +320,7 @@ class Plugins
         // by last updated on the client, and "Jun 8, 2026" sorts into a plausible, wrong order.
         $plugin['lastUpdatedRaw'] = $plugin['lastUpdated'] ?? null;
         $plugin['lastUpdated']  = $this->toShortDate($plugin['lastUpdated']);
+        $plugin['categories']   = $this->normaliseCategories($plugin);
         $plugin['canBePurchased'] = !$plugin['isDownloadable'] && !empty($plugin['shop']['url']);
 
         if ($plugin['isInstalled']) {
@@ -538,6 +539,35 @@ class Plugins
      *
      * @param $plugin
      */
+    /**
+     * The category slugs a plugin is filed under, always as a clean list of strings.
+     *
+     * The Marketplace files a plugin under zero or more slugs and sends an empty array for one
+     * nobody has classified. Normalising here means the client never has to tell an unclassified
+     * plugin from a list response cached before the field existed, and it keeps the field present
+     * for {@link Controller::keepPluginCardFields()}, which drops anything not in the payload.
+     *
+     * The singular `category` the Marketplace also sends is stale: it disagrees with the first
+     * entry here on part of the catalogue and reports `uncategorised` for most paid plugins.
+     * Nothing reads it.
+     *
+     * @param array<string, mixed> $plugin
+     * @return string[]
+     */
+    private function normaliseCategories(array $plugin): array
+    {
+        $categories = $plugin['categories'] ?? [];
+
+        if (!is_array($categories)) {
+            return [];
+        }
+
+        return array_values(array_filter(
+            $categories,
+            static fn ($slug) => is_string($slug) && '' !== $slug
+        ));
+    }
+
     private function addBundleSeats(&$plugin): void
     {
         if (empty($plugin['isBundle'])) {

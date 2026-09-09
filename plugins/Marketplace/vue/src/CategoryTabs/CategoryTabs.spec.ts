@@ -40,9 +40,10 @@ function tab(id: string, isCategory = false, count = 1): PluginTab {
 }
 
 const TEN_TABS: PluginTab[] = [
-  tab('all'), tab('premium'), tab('bundles'), tab('themes'),
+  tab('all'), tab('bundles'), tab('themes'),
   tab('acquisition', true), tab('behaviour', true), tab('conversion', true),
   tab('developer', true), tab('insights', true), tab('security', true),
+  tab('other', true),
 ];
 
 // mounted() reads matchMedia and sets isWide, so the bar only settles after a tick
@@ -128,17 +129,17 @@ describe('Marketplace/CategoryTabs', () => {
     beforeEach(() => stubMatchMedia(false));
 
     it('marks only the active tab with aria-current', async () => {
-      const wrapper = await mountTabs(TEN_TABS, 'premium');
+      const wrapper = await mountTabs(TEN_TABS, 'themes');
       const current = wrapper.findAll('.categoryTabs__tab')
         .filter((t) => t.attributes('aria-current') === 'page');
       expect(current).toHaveLength(1);
-      expect(current[0].text()).toBe('Marketplace_PaidPlugins');
+      expect(current[0].text()).toBe('CorePluginsAdmin_Themes');
     });
 
     it('emits the tab id when a tab is clicked', async () => {
       const wrapper = await mountTabs(TEN_TABS);
       await wrapper.findAll('.categoryTabs__tab')[1].trigger('click');
-      expect(wrapper.emitted('update:modelValue')).toEqual([['premium']]);
+      expect(wrapper.emitted('update:modelValue')).toEqual([['bundles']]);
     });
 
     it('uses a translation key for a category that has one', async () => {

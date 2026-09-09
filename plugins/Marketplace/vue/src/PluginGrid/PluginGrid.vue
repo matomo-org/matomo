@@ -36,13 +36,7 @@ import { defineComponent, PropType } from 'vue';
 import PluginCard from '../PluginCard/PluginCard.vue';
 import PluginCardSkeleton from '../PluginCard/PluginCardSkeleton.vue';
 import { PluginCard as PluginCardType } from '../types';
-
-/**
- * The most cards a section row ever renders. The row shows fewer than this at narrower widths, and
- * `pluginGrid.less` does that with nth-child rules rather than JavaScript, so the count never
- * depends on a resize listener.
- */
-const SINGLE_ROW_MAX = 5;
+import { SINGLE_ROW_MAX_CARDS } from './visibleCardCount';
 
 export default defineComponent({
   props: {
@@ -76,7 +70,9 @@ export default defineComponent({
   emits: ['openDetails', 'requestTrial', 'startFreeTrial'],
   computed: {
     visiblePlugins(): PluginCardType[] {
-      return this.singleRow ? this.plugins.slice(0, SINGLE_ROW_MAX) : this.plugins;
+      // the row never renders more than one screenful; `pluginGrid.less` hides whatever is left
+      // over at narrower widths, so the cut here is the widest case only
+      return this.singleRow ? this.plugins.slice(0, SINGLE_ROW_MAX_CARDS) : this.plugins;
     },
   },
 });

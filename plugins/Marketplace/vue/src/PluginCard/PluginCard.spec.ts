@@ -31,7 +31,7 @@ function makePlugin(overrides: Partial<PluginCardType> = {}): PluginCardType {
     displayName: 'Funnels',
     description: 'Understand where visitors drop off',
     owner: 'InnoCraft',
-    category: 'insights',
+    categories: ['insights'],
     coverImage: 'https://plugins.matomo.org/img/funnels.png',
     isFree: true,
     isPaid: false,
@@ -118,17 +118,23 @@ describe('Marketplace/PluginCard', () => {
       expect(wrapper.find('img[src*="matomo-badge"]').exists()).toBe(false);
     });
 
-    it('shows a category chip, but never for an uncategorised plugin', () => {
+    it('shows a category chip, but never for an unclassified plugin', () => {
       const chips = (owner: Partial<PluginCardType>) => mountCard(owner)
         .findAll('.pluginCard__chip').map((chip) => chip.text());
 
-      expect(chips({ category: 'insights' })).toContain('Insights');
-      expect(chips({ category: 'uncategorised' })).toEqual([]);
-      expect(chips({ category: '' })).toEqual([]);
+      expect(chips({ categories: ['insights'] })).toContain('Insights');
+      expect(chips({ categories: ['uncategorised'] })).toEqual([]);
+      expect(chips({ categories: [] })).toEqual([]);
+    });
+
+    it('names the first category, since the chip has room for one', () => {
+      const wrapper = mountCard({ categories: ['insights', 'security'] });
+      expect(wrapper.findAll('.pluginCard__chip').map((chip) => chip.text()))
+        .toEqual(['Insights']);
     });
 
     it('labels a bundle as a bundle rather than by its category', () => {
-      const wrapper = mountCard({ isBundle: true, category: 'insights' });
+      const wrapper = mountCard({ isBundle: true, categories: ['insights'] });
       expect(wrapper.find('.pluginCard__chip').text()).toBe('Marketplace_Bundles');
     });
 

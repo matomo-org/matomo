@@ -405,9 +405,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'downloadNonce',
             'consumer',
             // the overview page groups, filters and sorts the list on the client, so the fields it
-            // orders and tabs by have to travel with the card. lastUpdated is the display string;
-            // lastUpdatedRaw is the one to sort on, see Plugins::enrichPluginInformation().
-            'category',
+            // orders, tabs and sections by have to travel with the card. lastUpdated is the display
+            // string; lastUpdatedRaw is the one to sort on, and categories is the list of slugs the
+            // section stack is built from - both see Plugins::enrichPluginInformation().
+            'categories',
             'isTheme',
             'lastUpdated',
             'lastUpdatedRaw',
