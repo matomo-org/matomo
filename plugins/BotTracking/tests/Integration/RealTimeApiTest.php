@@ -135,6 +135,108 @@ class RealTimeApiTest extends IntegrationTestCase
         }
     }
 
+    public function testRealTimeReportFooterKeepsTheLimitWhenSegmented(): void
+    {
+        try {
+            Manager::getInstance()->loadPluginTranslations();
+
+            $_GET['idSite'] = (string) $this->idSite;
+            $_GET['date'] = 'today';
+            $_GET['period'] = 'day';
+            $_GET['segment'] = 'visitConverted==1';
+
+            $view = ViewDataTableFactory::build(
+                $defaultType = null,
+                'BotTracking.getTopPageUrlsRealTime',
+                $controllerAction = 'BotTracking.getTopPageUrlsRealTime',
+                $forceDefault = false,
+                $loadViewDataTableParametersForUser = false
+            );
+
+            $footer = $view->config->show_footer_message;
+
+            self::assertStringContainsString(
+                Piwik::translate('BotTracking_SegmentNotSupported'),
+                $footer
+            );
+            self::assertStringContainsString('limited to the top', $footer);
+            // The message has to be an item, otherwise the footer container cannot space it apart.
+            self::assertStringContainsString('datatableFooterMessage__item', $footer);
+            self::assertLessThan(
+                strpos($footer, Piwik::translate('BotTracking_SegmentNotSupported')),
+                strpos($footer, 'limited to the top')
+            );
+        } finally {
+            unset($_GET['idSite'], $_GET['date'], $_GET['period'], $_GET['segment']);
+        }
+    }
+
+    public function testFooterWarnsWhenTheSegmentIsOnlyOneOfTheComparedOnes(): void
+    {
+        try {
+            Manager::getInstance()->loadPluginTranslations();
+
+            $_GET['idSite'] = (string) $this->idSite;
+            $_GET['date'] = 'today';
+            $_GET['period'] = 'day';
+            // Comparing "All visits" against a segment leaves the segment parameter empty.
+            $_GET['segment'] = '';
+            $_GET['compareSegments'] = ['visitConverted==1'];
+
+            $view = ViewDataTableFactory::build(
+                $defaultType = null,
+                'BotTracking.getTopPageUrlsRealTime',
+                $controllerAction = 'BotTracking.getTopPageUrlsRealTime',
+                $forceDefault = false,
+                $loadViewDataTableParametersForUser = false
+            );
+
+            self::assertStringContainsString(
+                Piwik::translate('BotTracking_SegmentNotSupported'),
+                $view->config->show_footer_message
+            );
+        } finally {
+            unset($_GET['idSite'], $_GET['date'], $_GET['period'], $_GET['segment'], $_GET['compareSegments']);
+        }
+    }
+
+    public function testFooterStaysSilentWhenOnlyPeriodsAreCompared(): void
+    {
+        try {
+            Manager::getInstance()->loadPluginTranslations();
+
+            $_GET['idSite'] = (string) $this->idSite;
+            $_GET['date'] = 'today';
+            $_GET['period'] = 'day';
+            $_GET['comparePeriods'] = ['week'];
+            $_GET['compareDates'] = ['today'];
+            // A period comparison still sends the segments, both of them "All visits".
+            $_GET['compareSegments'] = [''];
+
+            $view = ViewDataTableFactory::build(
+                $defaultType = null,
+                'BotTracking.getTopPageUrlsRealTime',
+                $controllerAction = 'BotTracking.getTopPageUrlsRealTime',
+                $forceDefault = false,
+                $loadViewDataTableParametersForUser = false
+            );
+
+            self::assertStringNotContainsString(
+                Piwik::translate('BotTracking_SegmentNotSupported'),
+                (string) $view->config->show_footer_message
+            );
+        } finally {
+            unset(
+                $_GET['idSite'],
+                $_GET['date'],
+                $_GET['period'],
+                $_GET['comparePeriods'],
+                $_GET['compareDates'],
+                $_GET['compareSegments']
+            );
+        }
+    }
+
     public function testHiddenRealTimeReportsAreAddedToGlossaryPageItems(): void
     {
         $glossaryItems = [
