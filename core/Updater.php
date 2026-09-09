@@ -336,7 +336,6 @@ class Updater
 
         $this->executeListenerHook('onComponentUpdateFinished', array($componentName, $updatedVersion, $warningMessages));
         ServerFilesGenerator::createFilesForSecurity();
-        ArchiveBlobColumnType::recheckAndUpdateFlag();
         return $warningMessages;
     }
 
@@ -516,7 +515,13 @@ class Updater
 
         Filesystem::deleteAllCacheOnUpdate();
         ServerFilesGenerator::createFilesForSecurity();
-        ArchiveBlobColumnType::recheckAndUpdateFlag();
+
+        try {
+            ArchiveBlobColumnType::recheckAndUpdateFlag();
+        } catch (\Exception $e) {
+            // Clearing the flag is housekeeping; never fail an otherwise successful update over it.
+            $warnings[] = $e->getMessage();
+        }
 
         $result = array(
             'warnings'  => $warnings,

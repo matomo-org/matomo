@@ -70,11 +70,14 @@ class RecheckArchiveBlobTypesTest extends ConsoleCommandTestCase
         self::assertSame(0, $exitCode, $this->getCommandDisplayOutputErrorMessage());
 
         // Flag must still be set.
-        $flag = Config::getInstance()->database['archive_blob_tables_may_contain_mediumblob'] ?? null;
+        $flag = Config::getInstance()->database[ArchiveBlobColumnType::CONFIG_KEY] ?? null;
         self::assertSame('1', $flag);
 
         $output = $this->applicationTester->getDisplay();
-        self::assertStringContainsString(Common::prefixTable(self::TEST_TABLE_MEDIUM), $output);
+        self::assertStringContainsString(
+            'ALTER TABLE `' . Common::prefixTable(self::TEST_TABLE_MEDIUM) . '` MODIFY `value` LONGBLOB NULL;',
+            $output
+        );
     }
 
     // -----------------------------------------------------------------------
@@ -90,8 +93,8 @@ class RecheckArchiveBlobTypesTest extends ConsoleCommandTestCase
 
         self::assertSame(0, $exitCode, $this->getCommandDisplayOutputErrorMessage());
 
-        // Flag must have been removed from local config.
-        $flag = Config::getInstance()->getFromLocalConfig('database')['archive_blob_tables_may_contain_mediumblob'] ?? null;
+        // Read back the same surface setFlag() wrote to, so the assertion can actually fail.
+        $flag = Config::getInstance()->database[ArchiveBlobColumnType::CONFIG_KEY] ?? null;
         self::assertNull($flag, 'Expected flag to be removed from config');
 
         $output = $this->applicationTester->getDisplay();
@@ -106,7 +109,7 @@ class RecheckArchiveBlobTypesTest extends ConsoleCommandTestCase
     {
         $config = Config::getInstance();
         $database = $config->database;
-        $database['archive_blob_tables_may_contain_mediumblob'] = $value;
+        $database[ArchiveBlobColumnType::CONFIG_KEY] = $value;
         $config->database = $database;
         // We don't forceSave() here to avoid touching the real config file in tests.
         // The command reads Config::getInstance() directly, which already has the value in memory.
@@ -116,7 +119,7 @@ class RecheckArchiveBlobTypesTest extends ConsoleCommandTestCase
     {
         $config = Config::getInstance();
         $database = $config->database;
-        unset($database['archive_blob_tables_may_contain_mediumblob']);
+        unset($database[ArchiveBlobColumnType::CONFIG_KEY]);
         $config->database = $database;
     }
 

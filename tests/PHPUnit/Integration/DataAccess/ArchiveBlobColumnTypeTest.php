@@ -76,34 +76,54 @@ class ArchiveBlobColumnTypeTest extends IntegrationTestCase
     // Per-request static cache
     // -----------------------------------------------------------------------
 
-    public function testIsMediumBlobCachesResult(): void
+    public function testIsMediumBlobCachesConclusiveResult(): void
     {
-        $this->createTestTable(self::TEST_TABLE_MEDIUM, 'MEDIUMBLOB');
-        $tableName = Common::prefixTable(self::TEST_TABLE_MEDIUM);
+        $this->createTestTable(self::TEST_TABLE_LONG, 'LONGBLOB');
+        $tableName = Common::prefixTable(self::TEST_TABLE_LONG);
 
-        // Prime the cache.
-        $firstResult = ArchiveBlobColumnType::isMediumBlob($tableName);
-        self::assertTrue($firstResult);
+        self::assertFalse(ArchiveBlobColumnType::isMediumBlob($tableName));
 
-        // Drop the actual table so that any subsequent real DB query would return false.
-        Db::exec('DROP TABLE `' . Common::prefixTable(self::TEST_TABLE_MEDIUM) . '`');
+        // Change the column so an uncached lookup would now answer true.
+        Db::exec('ALTER TABLE `' . $tableName . '` MODIFY `value` MEDIUMBLOB NULL');
 
-        // Should still return true from cache, not from DB.
-        $secondResult = ArchiveBlobColumnType::isMediumBlob($tableName);
-        self::assertTrue($secondResult, 'Expected cached result to be returned after table was dropped');
+        self::assertFalse(
+            ArchiveBlobColumnType::isMediumBlob($tableName),
+            'Expected the cached result, not a fresh lookup'
+        );
     }
 
     public function testClearCacheInvalidatesCache(): void
     {
-        $this->createTestTable(self::TEST_TABLE_MEDIUM, 'MEDIUMBLOB');
-        $tableName = Common::prefixTable(self::TEST_TABLE_MEDIUM);
+        $this->createTestTable(self::TEST_TABLE_LONG, 'LONGBLOB');
+        $tableName = Common::prefixTable(self::TEST_TABLE_LONG);
 
-        ArchiveBlobColumnType::isMediumBlob($tableName); // prime cache
+        ArchiveBlobColumnType::isMediumBlob($tableName);
+        Db::exec('ALTER TABLE `' . $tableName . '` MODIFY `value` MEDIUMBLOB NULL');
 
         ArchiveBlobColumnType::clearCache();
 
-        // After clearing the cache, the result should be re-fetched from DB.
-        self::assertTrue(ArchiveBlobColumnType::isMediumBlob($tableName));
+        self::assertTrue(
+            ArchiveBlobColumnType::isMediumBlob($tableName),
+            'Expected a fresh lookup after the cache was cleared'
+        );
+    }
+
+    /**
+     * The fail-safe answer for a table we could not read must not stick for the rest of the
+     * process, or one transient failure would cap every later archive written to that table.
+     */
+    public function testIsMediumBlobDoesNotCacheInconclusiveResult(): void
+    {
+        $tableName = Common::prefixTable(self::TEST_TABLE_LONG);
+
+        self::assertTrue(ArchiveBlobColumnType::isMediumBlob($tableName), 'expected the fail-safe answer');
+
+        $this->createTestTable(self::TEST_TABLE_LONG, 'LONGBLOB');
+
+        self::assertFalse(
+            ArchiveBlobColumnType::isMediumBlob($tableName),
+            'Expected the fail-safe answer not to have been cached'
+        );
     }
 
     // -----------------------------------------------------------------------
@@ -150,6 +170,20 @@ class ArchiveBlobColumnTypeTest extends IntegrationTestCase
         );
     }
 
+    /**
+     * The '_' in the table prefix is a LIKE wildcard, so it has to be escaped or a table whose
+     * name merely has the same shape as ours would be reported as needing conversion.
+     */
+    public function testGetMediumBlobArchiveTablesEscapesWildcardsInThePrefix(): void
+    {
+        $lookalike = $this->getWildcardLookalikeTableName();
+        $this->createRawTable($lookalike, 'MEDIUMBLOB');
+
+        $tables = ArchiveBlobColumnType::getMediumBlobArchiveTables();
+
+        self::assertNotContains($lookalike, $tables);
+    }
+
     // -----------------------------------------------------------------------
     // Helpers
     // -----------------------------------------------------------------------
@@ -182,6 +216,16 @@ class ArchiveBlobColumnTypeTest extends IntegrationTestCase
         ));
     }
 
+    /**
+     * A table name that the prefix-anchored LIKE pattern only misses because its '_' characters
+     * are escaped: every '_' of the real prefix is replaced by another character, which an
+     * unescaped '_' wildcard would still match.
+     */
+    private function getWildcardLookalikeTableName(): string
+    {
+        return str_replace('_', 'x', Common::prefixTable('archive_blob_')) . 'lookalike';
+    }
+
     private function dropTestTables(): void
     {
         foreach ([self::TEST_TABLE_MEDIUM, self::TEST_TABLE_LONG] as $table) {
@@ -192,11 +236,13 @@ class ArchiveBlobColumnTypeTest extends IntegrationTestCase
             }
         }
 
-        // Drop the foreign table (stored under its raw name, not prefixed).
-        try {
-            Db::exec('DROP TABLE IF EXISTS `' . self::TEST_TABLE_FOREIGN_MEDIUM . '`');
-        } catch (\Exception $e) {
-            // Ignore errors during cleanup.
+        // Drop the tables stored under a raw (un-prefixed) name.
+        foreach ([self::TEST_TABLE_FOREIGN_MEDIUM, $this->getWildcardLookalikeTableName()] as $table) {
+            try {
+                Db::exec('DROP TABLE IF EXISTS `' . $table . '`');
+            } catch (\Exception $e) {
+                // Ignore errors during cleanup.
+            }
         }
     }
 }

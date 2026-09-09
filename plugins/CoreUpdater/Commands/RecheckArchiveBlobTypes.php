@@ -48,7 +48,19 @@ class RecheckArchiveBlobTypes extends ConsoleCommand
         }
 
         // Delegate all detection and flag-clearing logic to the single canonical implementation.
-        $mediumBlobTables = ArchiveBlobColumnType::recheckAndUpdateFlag();
+        try {
+            $mediumBlobTables = ArchiveBlobColumnType::recheckAndUpdateFlag();
+        } catch (\Exception $e) {
+            $output->writeln(
+                '<error>Could not determine which archive_blob tables use MEDIUMBLOB: '
+                . $e->getMessage() . '</error>'
+            );
+            $output->writeln(
+                'The ' . ArchiveBlobColumnType::CONFIG_KEY . ' flag was left unchanged.'
+            );
+
+            return self::FAILURE;
+        }
 
         if (empty($mediumBlobTables)) {
             $output->writeln(
@@ -61,13 +73,12 @@ class RecheckArchiveBlobTypes extends ConsoleCommand
                 'Found %d archive_blob table(s) still using MEDIUMBLOB:',
                 count($mediumBlobTables)
             ));
+            $output->writeln('Run the following, then re-run this command:');
             foreach ($mediumBlobTables as $table) {
-                $output->writeln('  - ' . $table);
+                $output->writeln(sprintf('  ALTER TABLE `%s` MODIFY `value` LONGBLOB NULL;', $table));
             }
             $output->writeln(
-                'The ' . ArchiveBlobColumnType::CONFIG_KEY . ' flag remains set. ' .
-                'To migrate, run ALTER TABLE on the listed tables to change the `value` column to LONGBLOB, ' .
-                'then re-run this command.'
+                'The ' . ArchiveBlobColumnType::CONFIG_KEY . ' flag remains set until they are all converted.'
             );
         }
 
