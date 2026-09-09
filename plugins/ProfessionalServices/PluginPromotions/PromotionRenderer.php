@@ -17,10 +17,23 @@ use Piwik\Piwik;
 use Piwik\Plugins\Marketplace\PluginTrial\Service as PluginTrialService;
 use Piwik\Plugins\Marketplace\SiteAwareLinks;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\BounceRateTrigger;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\FormPageTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\LowConversionRateTrigger;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\MultipleActiveSitesTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\HighConversionRateTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\ScheduledReportsTrigger;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\CampaignConversionsTrigger;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\KeywordsNotDefinedTrigger;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\ManyPagesTrigger;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\ManyUsersTrigger;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\MediaOutlinksTrigger;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\MultipleConversionChannelsTrigger;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\MultiplePageVisitsTrigger;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\MultipleSuperusersTrigger;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\ReturningVisitsTrigger;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\SlowPageTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\SegmentsTrigger;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\WooCommerceUrlsTrigger;
 use Piwik\ProfessionalServices\Advertising;
 use Piwik\Url;
 use Piwik\View;
@@ -59,10 +72,9 @@ class PromotionRenderer
 
         $view->title = Piwik::translate($promotion->getTitleTranslationKey(), $copyArguments['title']);
         $view->text = Piwik::translate($promotion->getTextTranslationKey(), $copyArguments['text']);
-        $view->reason = Piwik::translate(
-            'ProfessionalServices_PromotionReason',
-            Piwik::translate($promotion->getReasonTranslationKey())
-        );
+        // The reason reads as a whole sentence of its own, so it is not wrapped in a
+        // "why you're seeing this" lead-in the way the first copy was.
+        $view->reason = Piwik::translate($promotion->getReasonTranslationKey());
 
         $view->learnMoreUrl = $this->getCampaignUrl($promotion);
         $view->marketplaceUrl = (new SiteAwareLinks())->getOverviewUrl($promotion->getPluginName());
@@ -126,10 +138,19 @@ class PromotionRenderer
         switch ($triggerName) {
             case SegmentsTrigger::NAME:
                 return [
-                    'title' => [$numberFormatter->formatNumber((int) ($context['count'] ?? 0))],
-                    'text' => [],
+                    'title' => [],
+                    'text' => [$numberFormatter->formatNumber((int) ($context['count'] ?? 0))],
                 ];
 
+            // These all name a single count in the body and nothing in the headline.
+            case ManyPagesTrigger::NAME:
+            case ManyUsersTrigger::NAME:
+            case MediaOutlinksTrigger::NAME:
+            case MultiplePageVisitsTrigger::NAME:
+            case MultipleSuperusersTrigger::NAME:
+            case KeywordsNotDefinedTrigger::NAME:
+            case ReturningVisitsTrigger::NAME:
+            case MultipleActiveSitesTrigger::NAME:
             case ScheduledReportsTrigger::NAME:
                 return [
                     'title' => [],
@@ -141,8 +162,52 @@ class PromotionRenderer
                 $bounceRate = $metricsFormatter->getPrettyPercentFromQuotient((float) ($context['bounceRate'] ?? 0));
 
                 return [
-                    'title' => [$url],
+                    'title' => [],
                     'text' => [$bounceRate, $url],
+                ];
+
+            case FormPageTrigger::NAME:
+                return [
+                    'title' => [],
+                    'text' => [
+                        $this->truncateUrl((string) ($context['url'] ?? '')),
+                        $numberFormatter->formatNumber((int) ($context['count'] ?? 0)),
+                    ],
+                ];
+
+            case WooCommerceUrlsTrigger::NAME:
+                return [
+                    'title' => [],
+                    'text' => [$numberFormatter->formatNumber((int) ($context['count'] ?? 0))],
+                ];
+
+            case CampaignConversionsTrigger::NAME:
+                return [
+                    'title' => [],
+                    'text' => [
+                        (string) ($context['name'] ?? ''),
+                        $numberFormatter->formatNumber((int) ($context['count'] ?? 0)),
+                    ],
+                ];
+
+            case MultipleConversionChannelsTrigger::NAME:
+                return [
+                    'title' => [],
+                    'text' => [
+                        (string) ($context['goalName'] ?? ''),
+                        $numberFormatter->formatNumber((int) ($context['count'] ?? 0)),
+                    ],
+                ];
+
+            case SlowPageTrigger::NAME:
+                return [
+                    'title' => [],
+                    'text' => [
+                        $this->truncateUrl((string) ($context['url'] ?? '')),
+                        // One decimal: "3.4 seconds" reads as a measurement where the raw
+                        // float from the archive does not.
+                        $numberFormatter->formatNumber(round((float) ($context['loadTime'] ?? 0), 1), 1),
+                    ],
                 ];
 
             case LowConversionRateTrigger::NAME:
@@ -155,12 +220,10 @@ class PromotionRenderer
                 ];
 
             case HighConversionRateTrigger::NAME:
-                $goalName = (string) ($context['goalName'] ?? '');
-
                 return [
-                    'title' => [$goalName],
+                    'title' => [],
                     'text' => [
-                        $goalName,
+                        (string) ($context['goalName'] ?? ''),
                         $numberFormatter->formatNumber((int) ($context['nbConversions'] ?? 0)),
                     ],
                 ];

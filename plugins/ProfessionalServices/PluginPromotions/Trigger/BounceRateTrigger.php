@@ -9,20 +9,13 @@
 
 namespace Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger;
 
-use Piwik\API\Request;
 use Piwik\DataTable;
-use Piwik\Plugins\ProfessionalServices\PluginPromotions\ArchivedReportReader;
-use Piwik\Plugins\ProfessionalServices\PluginPromotions\DailyTriggerCache;
-use Piwik\Plugins\ProfessionalServices\PluginPromotions\ReportPeriod;
 
 /**
  * Triggers when an entry page of the website received at least 200 visits last week and
  * at least 55% of them bounced.
- *
- * Reads last week's entry pages report from the existing archive only, and caches the
- * outcome for the day.
  */
-class BounceRateTrigger implements PromotionTrigger
+class BounceRateTrigger extends ReportBackedTrigger
 {
     public const NAME = 'bounce_rate';
 
@@ -31,70 +24,39 @@ class BounceRateTrigger implements PromotionTrigger
     public const MINIMUM_BOUNCE_RATE = 0.55;
 
     /**
-     * Rows come back ordered by entry visits, so the qualifying page with the most visits
-     * is always found well within this many rows.
+     * The qualifying page is the busiest one, and the report is ordered by entry visits,
+     * so only the head of it can matter.
      */
     private const ROWS_TO_INSPECT = 50;
-
-    private ArchivedReportReader $reader;
-
-    private ReportPeriod $reportPeriod;
-
-    private DailyTriggerCache $cache;
-
-    public function __construct(ArchivedReportReader $reader, ReportPeriod $reportPeriod, DailyTriggerCache $cache)
-    {
-        $this->reader = $reader;
-        $this->reportPeriod = $reportPeriod;
-        $this->cache = $cache;
-    }
 
     public function getName(): string
     {
         return self::NAME;
     }
 
-    public function evaluate(int $idSite): TriggerResult
+    protected function getRequiredArchives(): array
     {
-        return $this->cache->getOrEvaluate(self::NAME, $idSite, function () use ($idSite) {
-            return $this->evaluateFromReport($idSite);
-        });
+        return ['Actions'];
     }
 
-    private function evaluateFromReport(int $idSite): TriggerResult
+    protected function getApiMethod(): string
     {
-        $period = $this->reportPeriod->forSite($idSite);
-        $periodStart = $period->getDateStart()->toString();
-        $periodEnd = $period->getDateEnd()->toString();
+        return 'Actions.getEntryPageUrls';
+    }
 
-        // Entry pages are only reachable through the Actions API, which builds its own
-        // archive. Reading them is therefore only safe once one already exists.
-        if (!$this->reader->hasCompletedArchive($idSite, 'Actions', $period)) {
-            return TriggerResult::notTriggered($periodStart, $periodEnd);
-        }
-
-        $entryPages = Request::processRequest('Actions.getEntryPageUrls', [
-            'idSite' => $idSite,
-            'period' => ReportPeriod::PERIOD,
-            'date' => ReportPeriod::DATE,
+    protected function getApiParameters(): array
+    {
+        return [
             'flat' => 1,
-            'format_metrics' => 0,
             'filter_sort_column' => 'entry_nb_visits',
             'filter_sort_order' => 'desc',
             'filter_limit' => self::ROWS_TO_INSPECT,
-        ], []);
+        ];
+    }
 
-        if (!$entryPages instanceof DataTable) {
-            return TriggerResult::notTriggered($periodStart, $periodEnd);
-        }
-
-        $entryPage = $this->findQualifyingEntryPage($entryPages);
-
-        if (null === $entryPage) {
-            return TriggerResult::notTriggered($periodStart, $periodEnd);
-        }
-
-        return TriggerResult::triggered($entryPage, $periodStart, $periodEnd);
+    protected function deriveContext(DataTable $report): ?array
+    {
+        return $this->findQualifyingEntryPage($report);
     }
 
     /**

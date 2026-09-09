@@ -56,12 +56,14 @@ class PromotionRendererTest extends IntegrationTestCase
         $html = $this->render(SegmentsTrigger::NAME, ['count' => 6]);
 
         $this->assertStringContainsString('class="productPromotion"', $html);
-        $this->assertStringContainsString('Understand your 6 segments even better', $html);
-        $this->assertStringContainsString('Dig deeper into your segment data', $html);
+        $this->assertStringContainsString('You&#039;ve tailored your audience. Now tailor your reports.', $html);
+        $this->assertStringContainsString('You&#039;re already using 6 segments to focus your analysis', $html);
+        // The reason stands as its own sentence, with no lead-in wrapped around it.
         $this->assertStringContainsString(
-            "Why you&#039;re seeing this: recommended when you have 5+ segments available to analyse.",
+            'Custom Reports is recommended when you use multiple segments and want more control over your reporting.',
             $html
         );
+        $this->assertStringNotContainsString('Why you&#039;re seeing this', $html);
         // A body with no placeholders must still come out interpolated, not raw.
         $this->assertStringNotContainsString('%1$s', $html);
         $this->assertStringContainsString('Try Custom Reports', $html);
@@ -69,10 +71,10 @@ class PromotionRendererTest extends IntegrationTestCase
     }
 
     /**
-     * The headline names the problem and the body carries the figure behind it, so the
-     * two take different translation arguments.
+     * No headline takes a placeholder, so every figure the promotion reports has to reach
+     * the body.
      */
-    public function testTheHeadlineNamesTheProblemAndTheBodyCarriesTheFigure(): void
+    public function testTheHeadlineIsFixedAndTheBodyCarriesTheFigures(): void
     {
         $html = $this->render(LowConversionRateTrigger::NAME, [
             'goalId' => 2,
@@ -82,7 +84,7 @@ class PromotionRendererTest extends IntegrationTestCase
             'conversionRate' => 0.02,
         ]);
 
-        $this->assertStringContainsString('Find where visitors drop off before converting', $html);
+        $this->assertStringContainsString('Where are you losing momentum?', $html);
         $this->assertStringContainsString('Only 2% of visits convert for Purchase', $html);
         $this->assertStringNotContainsString('%%', $html);
         $this->assertStringNotContainsString('%1$s', $html);
@@ -144,14 +146,14 @@ class PromotionRendererTest extends IntegrationTestCase
                 'CustomReports',
                 'ProfessionalServices_PromotionProductCustomReports',
                 'custom_reports',
-                'ProfessionalServices_PromotionSegments',
+                'ProfessionalServices_PromotionCustomReportsSegments',
                 'product-promotion-custom-reports.png',
             ],
             LowConversionRateTrigger::NAME => [
                 'Funnels',
                 'ProfessionalServices_PromotionProductFunnels',
                 'funnels',
-                'ProfessionalServices_PromotionConversionRate',
+                'ProfessionalServices_PromotionFunnelsConversionRate',
                 'product-promotion-funnels.png',
             ],
         ];
