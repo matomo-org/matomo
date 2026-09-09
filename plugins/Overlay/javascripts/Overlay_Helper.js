@@ -27,6 +27,12 @@ var Overlay_Helper = {
             url += '&segment=' + encodeURIComponent(segment);
         }
 
+        // this URL is built in JavaScript, so the page's ?language= reaches the overlay only here
+        var language = piwik.broadcast.getValueFromUrl('language');
+        if (language.length) {
+            url += '&language=' + encodeURIComponent(language);
+        }
+
         var token_auth = piwik.broadcast.getValueFromUrl("token_auth");
         if (token_auth.length && piwik.shouldPropagateTokenAuth) {
             if (!piwik.broadcast.isWidgetizeRequestWithoutSession()) {
