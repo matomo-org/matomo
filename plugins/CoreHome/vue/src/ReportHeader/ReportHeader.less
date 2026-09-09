@@ -1,11 +1,16 @@
+// One spacing value for the whole header — the overlaid controls repeat it as their inset, so
+// they sit where they would in the row. Block-prefixed: every plugin's Less is compiled in one
+// pass, so root variables share a single namespace.
+@_reportHeader_spacing: 20px;
+
 // Widget controls are visible unless the host opts into hover-reveal with the
 // `__reportHeader-onHover` hook.
 .reportHeader {
   display: flex;
   align-items: flex-start;
-  gap: 20px;
+  gap: @_reportHeader_spacing;
   border-radius: 8px;
-  padding: 20px;
+  padding: @_reportHeader_spacing;
   // Anchor for the overlaid widget controls.
   position: relative;
 
@@ -64,7 +69,7 @@
 // used to create is kept.
 .reportHeader--flush {
   padding: 0;
-  margin-bottom: 20px;
+  margin-bottom: @_reportHeader_spacing;
 }
 
 // A report shown without a card had a plain `h2`, not a card title. These values reproduce it
@@ -89,17 +94,14 @@
   opacity: 0;
   // Overlaid, not in the row: reserving width crushed the title in narrow columns.
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: @_reportHeader_spacing;
+  right: @_reportHeader_spacing;
   // Fade the title out behind the icons.
   padding-left: 45px;
   background: linear-gradient(to right, transparent, @theme-color-widget-title-background 45px);
-  // Invisible controls must not block clicks or the drag handle.
-  pointer-events: none;
 }
 
 .__reportHeader-onHover:hover .reportHeader__widgetControls,
 .__reportHeader-onHover:focus-within .reportHeader__widgetControls {
   opacity: 1;
-  pointer-events: auto;
 }
