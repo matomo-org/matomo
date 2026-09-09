@@ -5,9 +5,15 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import { mount } from '@vue/test-utils';
+import { mount, flushPromises } from '@vue/test-utils';
 import { AjaxHelper, NotificationsStore } from 'CoreHome';
 import PersonalSettings from './PersonalSettings.vue';
+
+vi.hoisted(() => {
+  // CoreHome binds the zen mode shortcut on document ready, which fires while the imports are
+  // still being resolved, so the Mousetrap global has to exist before them
+  (window as unknown as { Mousetrap: unknown }).Mousetrap = { bind: () => undefined };
+});
 
 function mountSettings() {
   return mount(PersonalSettings, {
@@ -48,6 +54,8 @@ function mountSettings() {
 }
 
 describe('PersonalSettings', () => {
+  const originalHref = window.location.href;
+
   beforeEach(() => {
     vi.spyOn(AjaxHelper, 'post').mockResolvedValue({} as never);
     vi.spyOn(NotificationsStore, 'show').mockReturnValue('id');
@@ -56,13 +64,15 @@ describe('PersonalSettings', () => {
 
   afterEach(() => {
     vi.restoreAllMocks();
+    window.history.replaceState(null, '', originalHref);
   });
 
   it('stops the URL from pinning the language the user just replaced', async () => {
     window.history.replaceState(null, '', '/index.php?module=UsersManager&language=es');
 
     const wrapper = mountSettings();
-    await (wrapper.vm as unknown as { doSave: () => Promise<void> }).doSave();
+    (wrapper.vm as unknown as { doSave: () => void }).doSave();
+    await flushPromises();
 
     expect(window.location.search).toBe('?module=UsersManager');
   });
@@ -71,7 +81,8 @@ describe('PersonalSettings', () => {
     window.history.replaceState(null, '', '/index.php?module=UsersManager');
 
     const wrapper = mountSettings();
-    await (wrapper.vm as unknown as { doSave: () => Promise<void> }).doSave();
+    (wrapper.vm as unknown as { doSave: () => void }).doSave();
+    await flushPromises();
 
     expect(window.location.search).toBe('?module=UsersManager');
   });
