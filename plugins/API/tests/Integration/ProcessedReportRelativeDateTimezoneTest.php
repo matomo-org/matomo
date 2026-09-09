@@ -227,11 +227,17 @@ class ProcessedReportRelativeDateTimezoneTest extends IntegrationTestCase
 
     /**
      * idSite does not decide the archive's scope for every module. MultiSites.getAll selects
-     * over every site the user can view, so a request naming one site still aggregates in UTC,
-     * and a label derived from that one site's timezone would name a day the rows do not cover.
+     * over every site the user can view, so a request naming one site can resolve relative
+     * dates using UTC. Each site still supplies archives for its own local calendar days.
+     *
+     * @param string[] $expectedDates
+     * @dataProvider getMultiSitesDates
      */
-    public function testAModuleThatSelectsItsOwnSiteSetIsLabelledOnTheTimezoneTheRowsUse(): void
-    {
+    public function testAModuleThatSelectsItsOwnSiteSetIsLabelledOnTheTimezoneTheRowsUse(
+        string $date,
+        string $expectedRange,
+        array $expectedDates
+    ): void {
         $idSite2 = Fixture::createWebsite(
             '2026-09-01 00:00:00',
             0,
@@ -251,16 +257,32 @@ class ProcessedReportRelativeDateTimezoneTest extends IntegrationTestCase
         $report = API::getInstance()->getProcessedReport(
             $this->idSite,
             'day',
-            'yesterday',
+            $date,
             'MultiSites',
             'getAll'
         );
 
+        if (count($expectedDates) > 1) {
+            self::assertInstanceOf(DataTable\Map::class, $report['reportData']);
+            self::assertEqualsCanonicalizing(
+                array_map([$this, 'prettyDateFor'], $expectedDates),
+                array_keys($report['reportData']->getDataTables())
+            );
+        }
+
         self::assertSame(
-            $this->prettyDateFor(self::UTC_YESTERDAY),
+            PeriodFactory::build('range', $expectedRange)->getLocalizedLongString(),
             $report['prettyDate'],
             'prettyDate took the named site\'s timezone for rows the module selected in UTC.'
         );
+    }
+
+    public function getMultiSitesDates(): array
+    {
+        return [
+            ['yesterday', '2026-09-07,2026-09-07', ['2026-09-07']],
+            ['last2', '2026-09-07,2026-09-08', ['2026-09-07', '2026-09-08']],
+        ];
     }
 
     /**
