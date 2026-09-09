@@ -11,6 +11,8 @@
         "DisableVisitorProfileDescription": "Toutes les fonctions liées au journal des visites resteront actives.",
         "DisableVisitsLogAndProfile": "Désactiver le journal des visites et les profils de visiteur",
         "DisableVisitsLogAndProfileDescription": "Supprime également les fonctionnalités qui en dépendent, comme le journal e-commerce, le journal des visites segmentées, la carte en temps réel ou le widget en temps réel. Peut être nécessaire pour se conformer aux lois et directives locales en matière de protection de la vie privée.",
+        "EnableAggregatedRealtimeReports": "Activer les rapports aggrégés en temps réel",
+        "EnableAggregatedRealtimeReportsDescription": "Affiche les paramètres agrégés de protection de la vie privée pour les « 24 dernières heures » et « 30 dernières minutes ». Aucune visiteur individuel, visite, session ou niveau d'action n'est affichée.",
         "ExportThisDatasetToXml": "Exporter ce jeu de données en XML",
         "FirstVisit": "Première visite",
         "GoalType": "Type",

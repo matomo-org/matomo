@@ -23,7 +23,7 @@
         "DefaultSettingsHelp": "Matomo dostarczany jest z domyślnymi ustawieniami. Możesz je spersonalizować teraz lub później w panelu administracyjnym.",
         "DownloadSystemCheck": "Pobierz kontrolę systemu",
         "Email": "Email",
-        "EmailPrivacyNotice": "Twój adres e-mail będzie wykorzystywany wyłącznie do wysyłania Ci naszego newslettera. W tym celu jest on udostępniany firmie Mad Mimi, przy czym dostawca zewnętrzny może ulec zmianie. Nie udostępnimy Twojego adresu e-mail nikomu innemu ani nie wykorzystamy go w żadnym innym celu. W każdej chwili możesz zrezygnować z subskrypcji. Więcej informacji znajdziesz w %1$spolityce prywatności%2$s.",
+        "EmailPrivacyNotice": "Twój adres e-mail będzie wykorzystywany wyłącznie do wysyłania Ci naszego newslettera. Nie udostępnimy Twojego adresu e-mail nikomu innemu ani nie wykorzystamy go w żadnym innym celu. W każdej chwili możesz zrezygnować z subskrypcji. Więcej informacji znajdziesz w %1$spolityce prywatności%2$s.",
         "Extension": "rozszerzenie",
         "FasterReportLoading": "szybsze wczytywanie raportów",
         "Filesystem": "System plików",

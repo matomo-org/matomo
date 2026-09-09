@@ -2,6 +2,7 @@
     "WebsiteMeasurable": {
         "Website": "Web",
         "WebsiteDescription": "Webové stránky se skládají z webových stránek, které se obvykle zobrazují z jedné domény na webu.",
+        "WebsiteLongDescription": "Sledujte na veřejně přístupném webu interakce návštěvníků, jako jsou zobrazení stránek, kliknutí, stahování a události. Jedno měření může zahrnovat více domén a subdomén, případně můžete pro každou z nich vytvořit samostatné měření.",
         "Websites": "Weby"
     }
 }

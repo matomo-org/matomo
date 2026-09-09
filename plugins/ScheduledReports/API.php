@@ -796,7 +796,10 @@ class API extends \Piwik\Plugin\API
         // init report renderer
         $reportRenderer->setIdSite((int)$idSite);
         $reportRenderer->setLocale($language);
-        $reportRenderer->setReport($report);
+        // Render the effective period requested without changing the stored report passed to events.
+        $rendererReport = $report;
+        $rendererReport['period_param'] = $period;
+        $reportRenderer->setReport($rendererReport);
 
         // render report
         $reportName = str_replace(["\r", "\n"], ' ', Common::unsanitizeInputValue((string) $report['description']));

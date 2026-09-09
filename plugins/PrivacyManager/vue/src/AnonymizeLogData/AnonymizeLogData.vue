@@ -193,6 +193,7 @@ import {
   Matomo,
   AjaxHelper,
   SiteSelector,
+  SiteRef,
   debounce,
 } from 'CoreHome';
 import { PasswordConfirmation, Field, SaveButton } from 'CorePluginsAdmin';
@@ -208,7 +209,7 @@ export interface AnonymizeLogDataState {
   anonymizeIp: boolean;
   anonymizeLocation: boolean;
   anonymizeUserId: boolean;
-  site: Record<string, string>;
+  site: SiteRef;
   availableVisitColumns: Option[];
   availableActionColumns: Option[];
   selectedVisitColumns: Record<string, string>[];

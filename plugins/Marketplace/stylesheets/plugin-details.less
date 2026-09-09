@@ -20,7 +20,7 @@
     iframe{
         width:100%;
         border: 0;
-        background-image: url('plugins/Morpheus/images/loading-blue.gif');
+        background-image: url('plugins/Morpheus/images/loading.svg');
         background-repeat: no-repeat;
         background-position: center;
     }
@@ -182,6 +182,14 @@
         @media (max-width: 480px) {
             // full screen takeover
             min-height: 100vh;
+        }
+
+        // the overlay opens as soon as a card is clicked, so the details request has a box to
+        // land in rather than leaving a darkened screen with nothing on it
+        &--loading {
+            align-items: safe center;
+            justify-content: safe center;
+            min-height: 320px;
         }
 
         &--simple-header {
@@ -350,7 +358,7 @@
         iframe{
             width:100%;
             border: 0;
-            background-image: url('plugins/Morpheus/images/loading-blue.gif');
+            background-image: url('plugins/Morpheus/images/loading.svg');
             background-repeat: no-repeat;
             background-position: center;
         }

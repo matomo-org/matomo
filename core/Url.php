@@ -230,11 +230,10 @@ class Url
     }
 
     /**
-     * Validates the **Host** HTTP header (untrusted user input). Used to prevent Host header
-     * attacks.
+     * Checks whether the effective host for the current request is allowed. If proxy host headers are configured,
+     * they take precedence over the Host header.
      *
-     * @param string|null|false $host Contents of Host: header from the HTTP request. If `false`, gets the
-     *                          value from the request.
+     * @param string|null|false $host Hostname to check. If `false`, gets the effective host from the request.
      * @return bool `true` if valid; `false` otherwise.
      */
     public static function isValidHost($host = false): bool
@@ -248,7 +247,7 @@ class Url
         }
 
         if (false === $host || null === $host) {
-            $host = self::getHostFromServerVariable();
+            $host = self::getCurrentHost('', false);
             if (empty($host)) {
                 // if no current host, assume valid
                 return true;
@@ -409,9 +408,9 @@ class Url
     }
 
     /**
-     * Returns the current host.
+     * Returns the current host, preferring the hostname from proxy_host_headers when configured.
      *
-     * @param string $default Default value to return if host unknown
+     * @param string $default Default value to return if no host can be resolved from the request or configuration.
      * @param bool $checkTrustedHost Whether to do trusted host check. Should ALWAYS be true,
      *                               except in Controller.
      * @return string eg, `"example.org"` if the current URL is
@@ -420,15 +419,39 @@ class Url
      */
     public static function getCurrentHost($default = 'unknown', $checkTrustedHost = true)
     {
-        $hostHeaders = [];
-
-        $hostHeadersInConfig = GeneralConfig::getConfigValue('proxy_host_headers');
-        if (is_array($hostHeadersInConfig)) {
-            $hostHeaders = $hostHeadersInConfig;
-        }
-
         $host = self::getHost($checkTrustedHost);
         $default = Common::sanitizeInputValue($host ? $host : $default);
+        $hostFromProxyHeader = self::getHostFromProxyHeaders($default);
+
+        if ($hostFromProxyHeader === $default) {
+            return $default;
+        }
+
+        if ($checkTrustedHost && !self::isValidHost($hostFromProxyHeader)) {
+            return $default;
+        }
+
+        return $hostFromProxyHeader;
+    }
+
+    /**
+     * @internal
+     */
+    public static function isProxyHostValid(): bool
+    {
+        $host = self::getHost();
+        $default = Common::sanitizeInputValue($host ?: '');
+        $hostFromProxyHeader = self::getHostFromProxyHeaders($default);
+
+        return $hostFromProxyHeader === $default || self::isValidHost($hostFromProxyHeader);
+    }
+
+    private static function getHostFromProxyHeaders(string $default): string
+    {
+        $hostHeaders = GeneralConfig::getConfigValue('proxy_host_headers');
+        if (!is_array($hostHeaders)) {
+            $hostHeaders = [];
+        }
 
         return IP::getNonProxyIpFromHeader($default, $hostHeaders);
     }

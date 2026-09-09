@@ -187,7 +187,7 @@ class BlobReportLimitingTest extends SystemTestCase
         ];
     }
 
-    public function getActionsApiForFlatFirstTesting()
+    public function getActionsApiForLegacyArchivingTesting()
     {
         return [
             [
@@ -268,7 +268,13 @@ class BlobReportLimitingTest extends SystemTestCase
         }
     }
 
-    public function testApiWithRankingQueryDisabled()
+    /**
+     * Both archiving modes are checked against the same expected files, as the reports are identical
+     * without the ranking query.
+     *
+     * @dataProvider getArchivingModeRowLimits
+     */
+    public function testApiWithRankingQueryDisabled(int $flatRowLimit)
     {
         self::deleteArchiveTables();
         $generalConfig                                                                =& Config::getInstance()->General;
@@ -276,7 +282,7 @@ class BlobReportLimitingTest extends SystemTestCase
         $generalConfig['datatable_archiving_maximum_rows_subtable_referrers']         = 500;
         $generalConfig['datatable_archiving_maximum_rows_actions']                    = 500;
         $generalConfig['datatable_archiving_maximum_rows_subtable_actions']           = 500;
-        $generalConfig['datatable_archiving_maximum_rows_actions_flat']               = 0;
+        $generalConfig['datatable_archiving_maximum_rows_actions_flat']               = $flatRowLimit;
         $generalConfig['datatable_archiving_maximum_rows_standard']                   = 500;
         $generalConfig['datatable_archiving_maximum_rows_custom_dimensions']          = 500;
         $generalConfig['datatable_archiving_maximum_rows_subtable_custom_dimensions'] = 500;
@@ -296,34 +302,40 @@ class BlobReportLimitingTest extends SystemTestCase
         }
     }
 
-    /**
-     * @dataProvider getActionsApiForFlatFirstTesting
-     */
-    public function testActionsApiWithFlatFirst($api, $params)
+    public function getArchivingModeRowLimits(): iterable
     {
-        self::setUpConfigOptionsFlatFirst();
+        yield 'flat first archiving' => [500];
+        yield 'legacy archiving' => [0];
+    }
+
+    /**
+     * @dataProvider getActionsApiForLegacyArchivingTesting
+     */
+    public function testActionsApiWithLegacyArchiving($api, $params)
+    {
+        self::setUpConfigOptionsLegacyArchiving();
         self::deleteArchiveTables();
 
         if (empty($params['testSuffix'])) {
             $params['testSuffix'] = '';
         }
-        $params['testSuffix'] .= '_flatFirst';
+        $params['testSuffix'] .= '_legacyArchiving';
 
         $this->runApiTests($api, $params);
     }
 
     /**
-     * @dataProvider getActionsApiForFlatFirstTesting
+     * @dataProvider getActionsApiForLegacyArchivingTesting
      */
-    public function testActionsApiWithFlatFirstFlattening($api, $params)
+    public function testActionsApiWithLegacyArchivingFlattening($api, $params)
     {
-        self::setUpConfigOptionsFlatFirst();
+        self::setUpConfigOptionsLegacyArchiving();
         self::deleteArchiveTables();
 
         if (empty($params['testSuffix'])) {
             $params['testSuffix'] = '';
         }
-        $params['testSuffix'] .= '_flatFirst_flattened';
+        $params['testSuffix'] .= '_legacyArchiving_flattened';
 
         // keep flattened assertions focused on day archives
         $params['periods'] = ['day'];
@@ -335,22 +347,22 @@ class BlobReportLimitingTest extends SystemTestCase
         $this->runApiTests($api, $params);
     }
 
-    public function testActionsApiWithFlatFirstRankingQuery()
+    public function testActionsApiWithLegacyArchivingRankingQuery()
     {
-        self::setUpConfigOptionsFlatFirst();
+        self::setUpConfigOptionsLegacyArchiving();
 
         self::deleteArchiveTables();
         Config::getInstance()->General['archiving_ranking_query_row_limit'] = 3;
         ArchivingHelper::reloadConfig();
 
-        foreach ($this->getActionsApiForFlatFirstTesting() as $pair) {
+        foreach ($this->getActionsApiForLegacyArchivingTesting() as $pair) {
             [$apiToCall, $params] = $pair;
 
             $params['periods'] = ['day'];
             if (empty($params['testSuffix'])) {
                 $params['testSuffix'] = '';
             }
-            $params['testSuffix'] .= '_flatFirst_rankingQuery';
+            $params['testSuffix'] .= '_legacyArchiving_rankingQuery';
 
             $this->runApiTests($apiToCall, $params);
         }
@@ -370,7 +382,7 @@ class BlobReportLimitingTest extends SystemTestCase
         $generalConfig['datatable_archiving_maximum_rows_custom_dimensions']          = 3;
         $generalConfig['datatable_archiving_maximum_rows_subtable_custom_dimensions'] = 2;
         $generalConfig['datatable_archiving_maximum_rows_subtable_actions']           = 2;
-        $generalConfig['datatable_archiving_maximum_rows_actions_flat']               = 0;
+        $generalConfig['datatable_archiving_maximum_rows_actions_flat']               = 4;
         $generalConfig['datatable_archiving_maximum_rows_standard']                   = 3;
         $generalConfig['datatable_archiving_maximum_rows_userid_users']               = 3;
         $generalConfig['datatable_archiving_maximum_rows_events']                     = 3;
@@ -380,10 +392,13 @@ class BlobReportLimitingTest extends SystemTestCase
         $generalConfig['datatable_archiving_maximum_rows_site_search'] = 5;
     }
 
-    protected static function setUpConfigOptionsFlatFirst()
+    /**
+     * Legacy hierarchical-only Actions archiving, which installations updated from Matomo 5 keep.
+     */
+    protected static function setUpConfigOptionsLegacyArchiving()
     {
         self::setUpConfigOptions();
-        Config::getInstance()->General['datatable_archiving_maximum_rows_actions_flat'] = 4;
+        Config::getInstance()->General['datatable_archiving_maximum_rows_actions_flat'] = 0;
     }
 }
 
