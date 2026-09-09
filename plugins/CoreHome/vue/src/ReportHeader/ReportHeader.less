@@ -1,3 +1,8 @@
+// One spacing value for the whole header — the overlaid controls repeat it as their inset, so
+// they sit where they would in the row. Block-prefixed: every plugin's Less is compiled in one
+// pass, so root variables share a single namespace.
+@_reportHeader_spacing: 20px;
+
 // Shared, widget-first report header: a leading region (title + future feedback actions) on
 // the left, an inline widget-controls row and a reserved report-actions anchor on the right.
 // Controls are visible by default; a host can opt into hover-reveal via the
@@ -5,9 +10,11 @@
 .reportHeader {
   display: flex;
   align-items: flex-start;
-  gap: 20px;
+  gap: @_reportHeader_spacing;
   border-radius: 8px;
-  padding: 20px;
+  padding: @_reportHeader_spacing;
+  // Anchor for the overlaid widget controls.
+  position: relative;
 
   .reportHeader__main {
     flex: auto;
@@ -63,6 +70,13 @@
 // maximised widget keeps them on. The hook is reference-only — see CSS rules, rule 31.
 .__reportHeader-onHover .reportHeader__widgetControls {
   opacity: 0;
+  // Overlaid, not in the row: reserving width crushed the title in narrow columns.
+  position: absolute;
+  top: @_reportHeader_spacing;
+  right: @_reportHeader_spacing;
+  // Fade the title out behind the icons.
+  padding-left: 45px;
+  background: linear-gradient(to right, transparent, @theme-color-widget-title-background 45px);
 }
 
 .__reportHeader-onHover:hover .reportHeader__widgetControls,
