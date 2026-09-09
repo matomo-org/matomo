@@ -10,102 +10,85 @@
 namespace Piwik\ArchiveProcessor;
 
 use Piwik\Config\DatabaseConfig;
+use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveBlobColumnType;
+use Piwik\Log\LoggerInterface;
 
 /**
- * Caps archive row limits to prevent gzip-compressed DataTable blobs from exceeding the 16 MB
- * limit of legacy MEDIUMBLOB `archive_blob_YYYY_MM` tables.
+ * Reduces configured archive row limits on legacy `archive_blob_YYYY_MM` tables whose `value`
+ * column is still MEDIUMBLOB, so a limit configured above what such a column can hold does not
+ * lead to gzip-compressed DataTable blobs being silently truncated by MySQL at 16 MB.
  *
- * ### When the cap activates
+ * The cap applies only when the `[database] archive_blob_tables_may_contain_mediumblob` flag is
+ * set, the target table is still MEDIUMBLOB, and a row limit above {@see MEDIUMBLOB_MAX_ROWS} is
+ * configured. Tables created since the LONGBLOB schema change are unaffected, so in practice this
+ * is limited to re-archiving periods that predate the upgrade.
  *
- * Only when ALL of the following are true:
- *  1. `[database] archive_blob_tables_may_contain_mediumblob = 1` in config.ini.php.
- *  2. The target archive_blob table still uses a MEDIUMBLOB `value` column.
- *  3. The configured row limit exceeds {@see MEDIUMBLOB_CAP_TRIGGER} (100 000).
- *     A `null` / 0 limit (meaning "unlimited") is treated as exceeding the trigger.
+ * A `null` or `0` limit means "store every row" and is left alone. Those records were already
+ * written unbounded before this cap existed; the cap bounds a limit an operator configured, it
+ * does not impose one where there was none.
  *
- * When any condition is false the configured value is returned unchanged so fresh installs and
- * fully-migrated installs pay zero overhead.
- *
- * ### Why the thresholds are hardcoded
- *
- * Exposing `MEDIUMBLOB_CAP` as a config key would let operators raise it above the safe threshold
- * and reintroduce the truncation risk.  The constants are intentionally not configurable.
+ * This bounds a record's row count, not the byte size MySQL stores. Subtables are written in
+ * chunks (see {@see \Piwik\Archive\Chunk}), so it reduces the risk of exceeding 16 MB rather than
+ * ruling it out.
  */
 final class ArchiveBlobRowCap
 {
     /**
-     * Configured row limits above this value trigger the cap when the table is MEDIUMBLOB.
-     * `null` (unlimited) is also considered to exceed this threshold.
+     * Configured row limits above this value are reduced to it when the table is MEDIUMBLOB.
+     *
+     * Not configurable: exposing it would let operators raise it back above the safe threshold.
      */
-    private const MEDIUMBLOB_CAP_TRIGGER = 100000;
+    private const MEDIUMBLOB_MAX_ROWS = 100000;
 
     /**
-     * The maximum row limit applied when the table is MEDIUMBLOB and the configured limit
-     * exceeds {@see MEDIUMBLOB_CAP_TRIGGER}.
+     * Tables already logged about, so a capped archiving run reports once per table, not per record.
+     *
+     * @var array<string, true>
      */
-    private const MEDIUMBLOB_CAP = 50000;
+    private static array $logged = [];
 
     /**
-     * Returns `true` when the MEDIUMBLOB cap logic may need to run (flag is set to 1).
+     * Returns `true` when the cap may need to run (flag is set).
      *
      * Use this as a cheap guard before obtaining the target table name so that callers do not
      * perform any I/O (DB table-list lookup, INFORMATION_SCHEMA query) when the flag is unset.
      */
     public static function isCapPossiblyNeeded(): bool
     {
-        return (int)(DatabaseConfig::getConfigValue(ArchiveBlobColumnType::CONFIG_KEY) ?? 0) !== 0;
+        return (int) (DatabaseConfig::getConfigValue(ArchiveBlobColumnType::CONFIG_KEY) ?? 0) !== 0;
     }
 
     /**
-     * Returns the effective maximum number of top-level rows to store in a DataTable blob,
-     * applying the MEDIUMBLOB cap when necessary.
+     * Returns the effective row limit to use when serializing a DataTable into `$tableName`.
      *
-     * @param int|null $configuredMax  The operator-configured row limit (null = unlimited).
-     * @param string   $tableName      Fully-prefixed archive_blob table name (used to look up
-     *                                 the column type from INFORMATION_SCHEMA).
-     * @return int|null  The (possibly capped) row limit, or `null` when no cap is needed and
-     *                   the original limit was `null`.
+     * @param int|null $configuredMax The configured row limit; `null` or `0` mean "no limit".
+     * @param string $tableName Fully-prefixed archive_blob table name.
+     * @return int|null The configured limit, reduced to {@see MEDIUMBLOB_MAX_ROWS} if it exceeded it.
      */
     public static function capMaxRows(?int $configuredMax, string $tableName): ?int
     {
-        return self::applyCap($configuredMax, $tableName);
-    }
-
-    /**
-     * Returns the effective maximum number of rows per subtable, applying the MEDIUMBLOB cap
-     * when necessary.
-     *
-     * @param int|null $configuredMax  The operator-configured subtable row limit (null = unlimited).
-     * @param string   $tableName      Fully-prefixed archive_blob table name.
-     */
-    public static function capMaxSubtableRows(?int $configuredMax, string $tableName): ?int
-    {
-        return self::applyCap($configuredMax, $tableName);
-    }
-
-    /**
-     * Core cap logic shared by both public methods.
-     *
-     */
-    private static function applyCap(?int $configuredMax, string $tableName): ?int
-    {
-        // Fast-path: skip all I/O when the flag is not set (fresh installs).
-        $flag = (int)(DatabaseConfig::getConfigValue(ArchiveBlobColumnType::CONFIG_KEY) ?? 0);
-        if ($flag === 0) {
+        if (
+            $configuredMax === null
+            || $configuredMax <= self::MEDIUMBLOB_MAX_ROWS
+            || !self::isCapPossiblyNeeded()
+        ) {
             return $configuredMax;
         }
 
-        // null means "unlimited" — treat as exceeding the trigger.
-        if ($configuredMax !== null && $configuredMax <= self::MEDIUMBLOB_CAP_TRIGGER) {
-            return $configuredMax;
-        }
-
-        // I/O only when flag=1 and limit exceeds trigger.
         if (!ArchiveBlobColumnType::isMediumBlob($tableName)) {
             return $configuredMax;
         }
 
-        return self::MEDIUMBLOB_CAP;
+        if (!isset(self::$logged[$tableName])) {
+            self::$logged[$tableName] = true;
+            StaticContainer::get(LoggerInterface::class)->info(
+                'Archive row limits are capped at {max} for table {table}, which still uses a MEDIUMBLOB value column.'
+                . ' Convert it to LONGBLOB and run core:recheck-archive-blob-types to restore the configured limits.',
+                ['max' => self::MEDIUMBLOB_MAX_ROWS, 'table' => $tableName]
+            );
+        }
+
+        return self::MEDIUMBLOB_MAX_ROWS;
     }
 }

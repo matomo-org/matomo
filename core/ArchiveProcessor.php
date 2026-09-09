@@ -266,7 +266,7 @@ class ArchiveProcessor
                 $blobTable = ArchiveTableCreator::getBlobTable($this->params->getPeriod()->getDateStart(), false);
                 if ($blobTable !== null) {
                     $effectiveMaxRows = ArchiveBlobRowCap::capMaxRows($effectiveMaxRows, $blobTable);
-                    $effectiveMaxSubtableRows = ArchiveBlobRowCap::capMaxSubtableRows($effectiveMaxSubtableRows, $blobTable);
+                    $effectiveMaxSubtableRows = ArchiveBlobRowCap::capMaxRows($effectiveMaxSubtableRows, $blobTable);
                 }
             }
 

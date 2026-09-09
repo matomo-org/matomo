@@ -21,6 +21,7 @@ use Piwik\DataAccess\ArchiveBlobColumnType;
 class ArchiveBlobRowCapTest extends TestCase
 {
     private const TABLE = 'matomo_archive_blob_2024_01';
+    private const MAX_ROWS = 100000;
 
     /**
      * @var mixed
@@ -31,24 +32,20 @@ class ArchiveBlobRowCapTest extends TestCase
     {
         parent::setUp();
 
-        // Save original database config section and clear the flag.
         $this->originalDatabaseConfig = Config::getInstance()->database;
-        $this->clearFlag();
+        $this->setFlag(0);
         ArchiveBlobColumnType::clearCache();
+        $this->resetLoggedTables();
     }
 
     public function tearDown(): void
     {
-        // Restore original database config section.
         Config::getInstance()->database = $this->originalDatabaseConfig;
         ArchiveBlobColumnType::clearCache();
+        $this->resetLoggedTables();
 
         parent::tearDown();
     }
-
-    // -----------------------------------------------------------------------
-    // isCapPossiblyNeeded
-    // -----------------------------------------------------------------------
 
     public function testIsCapPossiblyNeededReturnsFalseWhenFlagUnset(): void
     {
@@ -64,115 +61,74 @@ class ArchiveBlobRowCapTest extends TestCase
         self::assertTrue(ArchiveBlobRowCap::isCapPossiblyNeeded());
     }
 
-    // -----------------------------------------------------------------------
-    // Flag = 0 (unset) fast-path tests
-    // -----------------------------------------------------------------------
-
-    public function testCapMaxRowsFlagUnsetReturnsConfiguredValue(): void
+    public function testCapMaxRowsFlagUnsetReturnsConfiguredValueWithoutQueryingColumnType(): void
     {
         $this->setFlag(0);
-
+        // No cache entry, so a lookup would hit the DB and fail this unit test.
         self::assertSame(150000, ArchiveBlobRowCap::capMaxRows(150000, self::TABLE));
     }
 
-    public function testCapMaxSubtableRowsFlagUnsetReturnsConfiguredValue(): void
-    {
-        $this->setFlag(0);
-
-        self::assertSame(150000, ArchiveBlobRowCap::capMaxSubtableRows(150000, self::TABLE));
-    }
-
-    public function testCapMaxRowsFlagUnsetNullReturnsNull(): void
-    {
-        $this->setFlag(0);
-
-        self::assertNull(ArchiveBlobRowCap::capMaxRows(null, self::TABLE));
-    }
-
-    // -----------------------------------------------------------------------
-    // Flag = 1 + MEDIUMBLOB table
-    // -----------------------------------------------------------------------
-
-    public function testCapMaxRowsMediumBlobConfigured150000ReturnsCap(): void
+    /**
+     * @dataProvider getUncappedLimits
+     */
+    public function testCapMaxRowsMediumBlobLeavesLimitsAtOrBelowMaxUnchanged(?int $configured): void
     {
         $this->setFlag(1);
-        $this->mockIsMediumBlob(true);
+        $this->cacheColumnTypeAsMediumBlob(true);
 
-        self::assertSame(50000, ArchiveBlobRowCap::capMaxRows(150000, self::TABLE));
+        self::assertSame($configured, ArchiveBlobRowCap::capMaxRows($configured, self::TABLE));
     }
 
-    public function testCapMaxRowsMediumBlobConfigured50000ReturnsUnchanged(): void
+    public function getUncappedLimits(): array
     {
-        $this->setFlag(1);
-        $this->mockIsMediumBlob(true);
-
-        // Already at or below trigger — no cap applied.
-        self::assertSame(50000, ArchiveBlobRowCap::capMaxRows(50000, self::TABLE));
+        return [
+            'null means no row limit, and stays that way' => [null],
+            'zero means no row limit, and stays that way' => [0],
+            'well below the maximum' => [500],
+            'exactly at the maximum' => [self::MAX_ROWS],
+        ];
     }
 
-    public function testCapMaxRowsMediumBlobJustAboveTriggerReturnsCap(): void
+    /**
+     * @dataProvider getCappedLimits
+     */
+    public function testCapMaxRowsMediumBlobReducesLimitsAboveMax(int $configured): void
     {
         $this->setFlag(1);
-        $this->mockIsMediumBlob(true);
+        $this->cacheColumnTypeAsMediumBlob(true);
 
-        self::assertSame(50000, ArchiveBlobRowCap::capMaxRows(100001, self::TABLE));
+        self::assertSame(self::MAX_ROWS, ArchiveBlobRowCap::capMaxRows($configured, self::TABLE));
     }
 
-    public function testCapMaxRowsMediumBlobAtTriggerReturnsUnchanged(): void
+    public function getCappedLimits(): array
     {
-        $this->setFlag(1);
-        $this->mockIsMediumBlob(true);
-
-        // Exactly at the trigger boundary — should NOT be capped.
-        self::assertSame(100000, ArchiveBlobRowCap::capMaxRows(100000, self::TABLE));
+        return [
+            'just above the maximum' => [self::MAX_ROWS + 1],
+            'the flat actions limit an operator might configure' => [500000],
+        ];
     }
 
-    public function testCapMaxRowsMediumBlobNullReturnsCap(): void
+    /**
+     * A higher configured limit must never result in fewer stored rows.
+     */
+    public function testCapMaxRowsIsMonotonicAroundTheMaximum(): void
     {
         $this->setFlag(1);
-        $this->mockIsMediumBlob(true);
+        $this->cacheColumnTypeAsMediumBlob(true);
 
-        // null = unlimited — treated as exceeding trigger.
-        self::assertSame(50000, ArchiveBlobRowCap::capMaxRows(null, self::TABLE));
+        $atMax = ArchiveBlobRowCap::capMaxRows(self::MAX_ROWS, self::TABLE);
+        $aboveMax = ArchiveBlobRowCap::capMaxRows(self::MAX_ROWS + 1, self::TABLE);
+
+        self::assertGreaterThanOrEqual($atMax, $aboveMax);
     }
 
-    // -----------------------------------------------------------------------
-    // Flag = 1 + LONGBLOB table
-    // -----------------------------------------------------------------------
-
-    public function testCapMaxRowsLongBlobConfigured150000ReturnsUnchanged(): void
+    public function testCapMaxRowsLongBlobReturnsConfiguredValue(): void
     {
         $this->setFlag(1);
-        $this->mockIsMediumBlob(false);
+        $this->cacheColumnTypeAsMediumBlob(false);
 
         self::assertSame(150000, ArchiveBlobRowCap::capMaxRows(150000, self::TABLE));
     }
-
-    public function testCapMaxRowsLongBlobNullReturnsNull(): void
-    {
-        $this->setFlag(1);
-        $this->mockIsMediumBlob(false);
-
-        self::assertNull(ArchiveBlobRowCap::capMaxRows(null, self::TABLE));
-    }
-
-    // -----------------------------------------------------------------------
-    // Fail-safe: DB error path → cap applied (MEDIUMBLOB fail-safe)
-    // -----------------------------------------------------------------------
-
-    public function testCapMaxRowsDBErrorReturnsCap(): void
-    {
-        $this->setFlag(1);
-        // Prime the static cache with true (MEDIUMBLOB) to simulate the fail-safe result
-        // that ArchiveBlobColumnType::isMediumBlob() would return after catching a DB exception.
-        $this->primeCacheAsMediumBlob(self::TABLE);
-
-        self::assertSame(50000, ArchiveBlobRowCap::capMaxRows(150000, self::TABLE));
-    }
-
-    // -----------------------------------------------------------------------
-    // Helpers
-    // -----------------------------------------------------------------------
 
     private function setFlag(int $value): void
     {
@@ -180,33 +136,27 @@ class ArchiveBlobRowCapTest extends TestCase
         /** @var array<string, scalar> $database */
         $database = $config->database;
         if ($value === 0) {
-            unset($database['archive_blob_tables_may_contain_mediumblob']);
+            unset($database[ArchiveBlobColumnType::CONFIG_KEY]);
         } else {
-            $database['archive_blob_tables_may_contain_mediumblob'] = (string) $value;
+            $database[ArchiveBlobColumnType::CONFIG_KEY] = (string) $value;
         }
         $config->database = $database;
     }
 
-    private function clearFlag(): void
-    {
-        $this->setFlag(0);
-    }
-
     /**
-     * Primes the ArchiveBlobColumnType static cache for $tableName so that isMediumBlob()
-     * returns $result without hitting the DB.
+     * Seeds the column-type cache so isMediumBlob() answers without touching the DB.
      */
-    private function mockIsMediumBlob(bool $result): void
+    private function cacheColumnTypeAsMediumBlob(bool $isMediumBlob): void
     {
-        // Use reflection to set the private static cache directly.
-        $reflection = new \ReflectionClass(ArchiveBlobColumnType::class);
-        $cacheProperty = $reflection->getProperty('cache');
-        $cacheProperty->setAccessible(true);
-        $cacheProperty->setValue(null, [self::TABLE => $result]);
+        $cache = new \ReflectionProperty(ArchiveBlobColumnType::class, 'cache');
+        $cache->setAccessible(true);
+        $cache->setValue(null, [self::TABLE => $isMediumBlob]);
     }
 
-    private function primeCacheAsMediumBlob(string $tableName): void
+    private function resetLoggedTables(): void
     {
-        $this->mockIsMediumBlob(true);
+        $logged = new \ReflectionProperty(ArchiveBlobRowCap::class, 'logged');
+        $logged->setAccessible(true);
+        $logged->setValue(null, []);
     }
 }
