@@ -30,33 +30,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         Nonce::checkNonce(LanguagesManager::LANGUAGE_SELECTION_NONCE, $nonce);
 
         LanguagesManager::setLanguageForSession($language);
-
-        $referrer = Url::getReferrer();
-
-        if (false !== $referrer) {
-            // a language in the URL wins over the session, so keeping it would send the user
-            // back to the language they just replaced
-            Url::redirectToUrl(self::withoutLanguageParameter($referrer));
-        }
-
-        Url::redirectToUrl(Url::getCurrentUrlWithoutQueryString());
-    }
-
-    private static function withoutLanguageParameter(string $url): string
-    {
-        // the hash is split off first, since it carries a query string of its own
-        [$beforeHash, $hash] = array_pad(explode('#', $url, 2), 2, null);
-        [$path, $query] = array_pad(explode('?', $beforeHash, 2), 2, null);
-
-        if (null === $query) {
-            return $url;
-        }
-
-        $query = ltrim(preg_replace('/(^|&)language=[^&]*/', '', $query), '&');
-
-        return $path
-            . ('' === $query ? '' : '?' . $query)
-            . (null === $hash ? '' : '#' . $hash);
+        Url::redirectToReferrer();
     }
 
     public function searchTranslation()
