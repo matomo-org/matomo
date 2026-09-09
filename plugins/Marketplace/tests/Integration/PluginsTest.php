@@ -355,7 +355,6 @@ class PluginsTest extends IntegrationTestCase
             'hasDownloadLink' => true,
             'licenseStatus' => '',
             'category' => 'customisation',
-            // the fixture predates the field, so normalisation answers with the empty list
             'categories' => [],
         ];
         $this->assertEquals($expected, $plugin);
@@ -536,6 +535,42 @@ class PluginsTest extends IntegrationTestCase
         }
     }
 
+    public function testSearchPluginsAnswersTheMarketplacesCoverImagePlaceholdersWithLocalOnes()
+    {
+        $fixture = json_decode($this->service->getFixtureContent('v2.0_plugins.json'), true);
+
+        $covers = [
+            'SecurityInfo' => 'https://plugins.piwik.org/img/categories/uncategorised.png',
+            'CustomAlerts' => 'https://plugins.piwik.org/img/categories/insights.png',
+            'TreemapVisualization' => 'https://plugins.piwik.org/TreemapVisualization/images/1.0.1/_cover.png',
+        ];
+
+        foreach ($fixture['plugins'] as $index => $plugin) {
+            if (isset($covers[$plugin['name']])) {
+                $fixture['plugins'][$index]['coverImage'] = $covers[$plugin['name']];
+            }
+        }
+
+        $this->service->setOnFetchCallback(function () use ($fixture) {
+            return $fixture;
+        });
+
+        $enriched = [];
+        foreach ($this->plugins->searchPlugins('', Sort::DEFAULT_SORT, false) as $plugin) {
+            $enriched[$plugin['name']] = $plugin['coverImage'];
+        }
+
+        $this->assertSame(
+            'plugins/Marketplace/images/categories/uncategorised.png',
+            $enriched['SecurityInfo']
+        );
+        $this->assertSame(
+            'plugins/Marketplace/images/categories/matomo.png',
+            $enriched['CustomAlerts']
+        );
+        $this->assertSame($covers['TreemapVisualization'], $enriched['TreemapVisualization']);
+    }
+
     public function testGetAllPaidPluginsShouldFetchOnlyPaidPlugins()
     {
         $this->plugins->getAllPaidPlugins();
@@ -681,9 +716,6 @@ class PluginsTest extends IntegrationTestCase
 
     public function testEnrichedPluginKeepsASortableDateAlongsideTheDisplayedOne()
     {
-        // The overview page sorts by last updated on the client. lastUpdated is localised for
-        // display by then - sorting "Dec 23, 2014" as a string gives a plausible, wrong order -
-        // so enrichment has to keep the raw value too. Without this the bug is silent.
         $this->service->returnFixture('v2.0_plugins.json');
         $plugins = $this->plugins->searchPlugins($query = '', $sort = Sort::DEFAULT_SORT, $themesOnly = false);
 
@@ -717,9 +749,6 @@ class PluginsTest extends IntegrationTestCase
 
     public function testEnrichedBundleCarriesItsSeatTierForTheCard()
     {
-        // A bundle is sold per seat tier, and the Marketplace only spells that tier into the names
-        // of its shop variations. Cards have nothing to show unless enrichment resolves it, and
-        // resolving it in the browser would mean parsing a display string there.
         $this->service->setOnFetchCallback(function ($action) {
             if ('plugins' !== $action) {
                 return null;
@@ -729,10 +758,7 @@ class PluginsTest extends IntegrationTestCase
                 $this->bundleWithSeatTier('TeamBundle', 'Up to 4 users monthly', 'Up to 4 users'),
                 $this->bundleWithSeatTier('BusinessBundle', 'Up to 20 users monthly', 'Up to 20 users'),
                 $this->bundleWithSeatTier('EnterpriseBundle', 'Up to 50 users monthly', 'Up to 50 users'),
-                // Login SAML and WooCommerce Analytics are sold this way: no number to show
                 $this->bundleWithSeatTier('UnlimitedBundle', 'Unlimited users.', 'Unlimited users.'),
-                // an individual paid plugin offers all three tiers at once, so it has no single
-                // seat count and must not be given one
                 $this->bundleWithSeatTier('CustomReports', 'Up to 4 users', 'Up to 50 users', false),
             ]];
         });
@@ -752,9 +778,6 @@ class PluginsTest extends IntegrationTestCase
 
     public function testEnrichedBundleTakesItsSeatTierFromTheVariationItIsPricedFrom()
     {
-        // The seat tier and the price on a card have to describe the same variation. Reading the
-        // first variation instead of the cheapest one puts "Up to 50 users" next to a four seat
-        // price, and nothing about the card looks wrong.
         $this->service->setOnFetchCallback(function ($action) {
             if ('plugins' !== $action) {
                 return null;

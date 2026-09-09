@@ -94,8 +94,6 @@ export default defineComponent({
   emits: ['openDetails', 'requestTrial', 'startFreeTrial', 'seeAll'],
   data(): PluginSectionState {
     return {
-      // the widest case until mounted() can ask, so the first render is a full row rather than a
-      // "See all" that disappears a tick later
       visibleCards: SINGLE_ROW_MAX_CARDS,
       unobserve: null,
     };

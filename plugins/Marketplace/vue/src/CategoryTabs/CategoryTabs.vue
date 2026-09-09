@@ -61,8 +61,6 @@
         </div>
       </div>
     </div>
-
-    <span class="categoryTabs__announcement" aria-live="polite">{{ activeLabel }}</span>
   </div>
 </template>
 
@@ -87,7 +85,6 @@ const ALWAYS_VISIBLE = 5;
 export interface CategoryTabsState {
   expanded: boolean;
   isWide: boolean;
-  // markRaw'd: Vue must not proxy a MediaQueryList, its methods throw when called on a proxy
   narrowQuery: MediaQueryList|null;
   onNarrowChange: (() => void)|null;
   onDocumentClick: ((event: MouseEvent) => void)|null;
@@ -137,7 +134,6 @@ export default defineComponent({
     this.onKeydown = (event: KeyboardEvent) => {
       if (event.key === 'Escape' && this.expanded) {
         this.expanded = false;
-        // a closed menu must not leave focus on nothing, or the next Tab starts from the top
         const moreButton = this.$refs.moreButton as HTMLElement|undefined;
         if (moreButton) {
           moreButton.focus();

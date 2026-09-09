@@ -244,8 +244,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view = $this->configureViewAndCheckPermission('@Marketplace/overview');
 
         $view->isValidConsumer = $this->consumer->isValidConsumer();
-        // the tab bar and the sort menu build their own options client-side, from the catalogue
-        // and from a fixed list respectively, so the view no longer carries either
         $view->defaultSort = Sort::DEFAULT_SORT;
         $view->installNonce = Nonce::getNonce(static::INSTALL_NONCE);
         $view->updateNonce = Nonce::getNonce(static::UPDATE_NONCE);
@@ -404,17 +402,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'priceFrom',
             'downloadNonce',
             'consumer',
-            // the overview page groups, filters and sorts the list on the client, so the fields it
-            // orders, tabs and sections by have to travel with the card. lastUpdated is the display
-            // string; lastUpdatedRaw is the one to sort on, and categories is the list of slugs the
-            // section stack is built from - both see Plugins::enrichPluginInformation().
             'categories',
             'isTheme',
             'lastUpdated',
             'lastUpdatedRaw',
             'createdDateTime',
             'bundle',
-            // a bundle's seat tier, so the grid can compare tiers without opening each bundle
             'bundleSeats',
             // not rendered on a card, but the modal falls back to the card row when its own request
             // fails, and without these a bundle renders there as an ordinary plugin

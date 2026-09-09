@@ -70,8 +70,6 @@ export default defineComponent({
   emits: ['openDetails', 'requestTrial', 'startFreeTrial'],
   computed: {
     visiblePlugins(): PluginCardType[] {
-      // the row never renders more than one screenful; `pluginGrid.less` hides whatever is left
-      // over at narrower widths, so the cut here is the widest case only
       return this.singleRow ? this.plugins.slice(0, SINGLE_ROW_MAX_CARDS) : this.plugins;
     },
   },

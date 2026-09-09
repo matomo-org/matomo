@@ -5,8 +5,6 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-// Geometry transcribed from the approved prototype rather than re-derived. Its base type is
-// 14px/20px, which is what makes a three line description exactly 60px.
 @_plateHeight: 151px;
 @_shotWidth: 229px;
 @_shotHeight: 137px;
@@ -15,6 +13,20 @@
 @_descriptionLines: 3;
 @_descriptionLineHeight: 20px;
 @_chipHeight: 26px;
+
+.marketplaceFilledButton() {
+  border-color: @theme-color-brand;
+  background: @theme-color-brand;
+  color: @theme-color-brand-contrast !important;
+
+  &:hover,
+  &:focus {
+    border-color: @theme-color-brand;
+    background: @theme-color-brand;
+    color: @theme-color-brand-contrast !important;
+    filter: brightness(0.94);
+  }
+}
 
 .pluginCard {
   position: relative;
@@ -50,8 +62,6 @@
   });
 }
 
-// Fixed width and centred, as drawn: the plate frames the screenshot on both sides, and the
-// screenshot overhangs the bottom edge. The card is ~340px at the design's widest tier.
 .pluginCard__shot {
   position: absolute;
   left: 50%;
@@ -88,7 +98,6 @@
   align-items: center;
   gap: 6px;
   margin-top: 12px;
-  // reserved, so a card carrying no chip is not shorter than its neighbours
   min-height: @_chipHeight;
 }
 
@@ -116,7 +125,6 @@
   });
 }
 
-// Nest element for MatomoGlyph, which draws at 18x11 and takes its colour from here.
 .pluginCard__badge {
   display: flex;
   color: @theme-color-brand;
@@ -127,7 +135,6 @@
   font-size: 16px;
   line-height: 20px;
   font-weight: 600;
-  // a very long name truncates rather than widening the grid column
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -142,9 +149,6 @@
     color: @theme-color-link;
   }
 
-  // Stretched link: this anchor's hit area covers the whole card, so clicking anywhere opens the
-  // details modal without a second, keyboard-unreachable handler on the article. Anything else
-  // clickable in the card has to be lifted above it.
   &::after {
     content: '';
     position: absolute;
@@ -153,9 +157,6 @@
   }
 }
 
-// Doubled selector on purpose: this is a <p>, and the global `.admin p` rule is (0,1,1), so a
-// single class loses to it. It sets padding-bottom: 10px, which -webkit-line-clamp renders a
-// clipped fourth line into, plus a margin-top and line-height of its own.
 .pluginCard .pluginCard__description {
   margin: 6px 0 0;
   padding-bottom: 0;
@@ -192,8 +193,6 @@
   line-height: 1;
 }
 
-// Ticked rather than iconless: the seat tier reads as one of the things the bundle gives you,
-// not as metadata about it.
 .pluginCard__seats {
   display: flex;
   align-items: safe center;
@@ -218,9 +217,6 @@
   white-space: nowrap;
 }
 
-// CTAContainer renders anything from one button to a two-line alert to nothing at all, for a user
-// who cannot install. mt-auto keeps the action row on the card's bottom edge whichever it is, so
-// a grid row of cards ends level. Reserve a button's height and let it grow past that.
 .pluginCard__actions {
   position: relative;
   z-index: 1;
@@ -228,9 +224,6 @@
   padding-top: 14px;
   min-height: 32px;
 
-  // CTAContainer's markup, which this card wraps: the rightmost selector is its class, not ours.
-  // Materialize sizes .btn at 36px/uppercase/2px radius and Matomo's base .btn forces the text
-  // colour with !important, so both have to be answered here to reach the design's buttons.
   .btn {
     height: 32px;
     line-height: 32px;
@@ -242,8 +235,6 @@
     letter-spacing: 0;
   }
 
-  // Secondary: install, update, more details. Outlined, per the prototype - only a paid call to
-  // action is filled, so a free plugin's Install does not shout louder than a trial.
   .btn.btn-block:not(.purchaseable):not(.addToCartLink) {
     border: 1px solid @theme-color-brand;
     line-height: 30px; // 32px, less the border
@@ -267,24 +258,25 @@
     });
   }
 
-  // Primary: the paid call to action. Filled with the brand colour - the prototype's #00a3a8 is
-  // not Matomo's teal, so the token wins over the literal here.
   .btn.purchaseable,
   .btn.addToCartLink {
-    background: @theme-color-brand;
-    color: @theme-color-brand-contrast !important;
-
-    &:hover,
-    &:focus {
-      background: @theme-color-brand;
-      filter: brightness(0.94);
-    }
+    .marketplaceFilledButton();
   }
 
   .btn.purchaseable.disabled {
     filter: none;
     opacity: 0.6;
     cursor: default;
+  }
+}
+
+.pluginCard--bundle .pluginCard__actions {
+  .btn.btn-block:not(.purchaseable):not(.addToCartLink) {
+    .marketplaceFilledButton();
+
+    .inDarkMode({
+      .marketplaceFilledButton();
+    });
   }
 }
 

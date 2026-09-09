@@ -52,8 +52,6 @@ describe('visibleCardCount', () => {
     window.matchMedia = originalMatchMedia;
   });
 
-  // pins the counts PluginGrid.less arrives at. If the stylesheet's nth-child rules change and
-  // this table does not, a section hides its "See all" while cards are still cut off.
   it.each([
     [1900, 5],
     [1801, 5],

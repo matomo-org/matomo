@@ -47,15 +47,6 @@
     }
 }
 
-// The redesign's accent palette, taken from the approved prototype.
-//
-// These are deliberately not @theme-color-* tokens. The mint plate and the mint/teal chip pair are
-// what make the page read as the Marketplace, and no token carries them: the closest,
-// @theme-color-menu-contrast-*, is deprecated in 6.0. Everything else on the page - text, borders,
-// links, surfaces, the brand colour on buttons - does go through tokens.
-//
-// marketplace.less is registered first in Marketplace::getStylesheetFiles(), so these resolve in
-// the component stylesheets that follow it. The dark values are interim, pending the designer.
 @marketplace-plate-bg: #f3fdff;
 @marketplace-plate-ring: #ccf6f5;
 @marketplace-accent-bg: #e1fbfb;
@@ -68,21 +59,9 @@
 @marketplace-accent-text-dark: #4ad3dc;
 @marketplace-card-hover-border-dark: #2f5e5e;
 
-// CoreHome/coreHome.less caps every admin page at 1300px. The plugin grid is designed to reach
-// five columns, which does not fit in that, so the overview page opts out and takes its own cap.
-//
-// Scoped with :has() so no other admin page is touched - `.marketplace` is used by
-// overview.twig alone, and sits as a direct child of #content. :has() is already relied on in
-// core CSS (CoreHome/PeriodSelector, CoreVisualizations/MetricsPicker).
-//
-// 1920px rather than none: the grid stops at five columns, so an uncapped page just makes the
-// cards grow. This keeps them near the ~340px the design draws them at.
 #content.admin:has(> .marketplace) {
     max-width: 1920px;
 
-    // #content.admin is inline-block, so its width is whatever its content happens to ask for.
-    // The overview page's white panel has to span the page rather than the widest card row, or
-    // the hero's centred title and search box sit off centre inside a shrunk-to-fit box.
     display: block;
 }
 
@@ -93,8 +72,6 @@
         color: #858585 !important;
     }
 
-    // CTAContainer's own markup, which PluginCard wraps. Its states run from a single button to a
-    // two-line alert, and the alert has to sit flush inside the card rather than as a banner.
     .cta-container {
         margin: 0;
         position: relative;

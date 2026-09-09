@@ -316,8 +316,6 @@ class Plugins
         $plugin['isActivated']  = $this->isPluginActivated($plugin['name']);
         $plugin['isInvalid']    = $this->pluginManager->isPluginThirdPartyAndBogus($plugin['name']);
         $plugin['canBeUpdated'] = $plugin['isInstalled'] && $this->hasPluginUpdate($plugin);
-        // keep the raw value before it becomes a localised display string. The plugin list sorts
-        // by last updated on the client, and "Jun 8, 2026" sorts into a plausible, wrong order.
         $plugin['lastUpdatedRaw'] = $plugin['lastUpdated'] ?? null;
         $plugin['lastUpdated']  = $this->toShortDate($plugin['lastUpdated']);
         $plugin['categories']   = $this->normaliseCategories($plugin);
@@ -583,18 +581,23 @@ class Plugins
      * If plugin provides a cover image via Marketplace, we use that.
      *
      * If there's no cover image from the marketplace (e.g. for plugins not yet categorised or not providing a custom
-     * cover image), we use Matomo image for Matomo plugins and a generic cover image otherwise.
+     * cover image), we use Matomo image for Matomo plugins and a generic cover image otherwise. The Marketplace's own
+     * category stand-ins count as no cover image here - see {@link isCategoryCoverImage()}.
      *
      * @param $plugin
      */
     private function addPluginCoverImage(&$plugin): void
     {
-        // if plugin provides cover image (either from the screenshots or based on its category, we use that
-        if (!empty($plugin['coverImage'])) {
+        $coverImage = $plugin['coverImage'] ?? '';
+
+        if ('' !== $coverImage && !$this->isCategoryCoverImage($coverImage)) {
             return;
         }
 
-        $coverImage = 'uncategorised';
+        $placeholder = $this->isCategoryCoverImage($coverImage)
+            && !$this->isUncategorisedCoverImage($coverImage)
+                ? 'matomo'
+                : 'uncategorised';
 
         // use Matomo image for paid plugins, i.e. plugins without the isFree flag and with shop info
         if (
@@ -602,10 +605,35 @@ class Plugins
             && empty($plugin['isFree'])
             && !empty($plugin['shop'])
         ) {
-            $coverImage = 'matomo';
+            $placeholder = 'matomo';
         }
 
-        $plugin['coverImage'] = 'plugins/Marketplace/images/categories/' . $coverImage . '.png';
+        $plugin['coverImage'] = 'plugins/Marketplace/images/categories/' . $placeholder . '.png';
+    }
+
+    /**
+     * Whether a cover image is one of the Marketplace's own stand-ins rather than a screenshot.
+     *
+     * A plugin with no screenshot does not arrive without a cover image: the Marketplace fills one
+     * in from the plugin's category, and where it has no art for that category - which is most of
+     * the catalogue - it sends the generic `uncategorised` image. Both are placeholders, so both
+     * fall through to ours.
+     *
+     * Matched on the trailing path rather than the host, so it also catches the local copies the UI
+     * tests rewrite these URLs to (see plugins/Marketplace/config/test.php) and the paths this
+     * method's caller writes, which keeps a second pass over an already enriched plugin stable.
+     */
+    private function isCategoryCoverImage(string $coverImage): bool
+    {
+        return 1 === preg_match('@(^|/)categories/[^/]+\.png$@i', $coverImage);
+    }
+
+    /**
+     * Whether a cover image is the Marketplace's stand-in for a plugin it files under no category.
+     */
+    private function isUncategorisedCoverImage(string $coverImage): bool
+    {
+        return 1 === preg_match('@(^|/)categories/uncategorised\.png$@i', $coverImage);
     }
 
     /**

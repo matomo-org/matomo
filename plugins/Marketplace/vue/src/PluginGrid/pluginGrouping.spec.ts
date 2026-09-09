@@ -90,7 +90,6 @@ describe('Marketplace/pluginGrouping', () => {
     });
 
     it('orders by last updated on the raw date, not the display string', () => {
-      // display order and raw order disagree: sorting the display string puts Apr ahead of Jun
       const plugins = [
         plugin({ name: 'older', lastUpdated: 'Jun 8, 2024', lastUpdatedRaw: '2024-06-08 00:00:00' }),
         plugin({ name: 'newer', lastUpdated: 'Apr 2, 2026', lastUpdatedRaw: '2026-04-02 00:00:00' }),
@@ -146,7 +145,6 @@ describe('Marketplace/pluginGrouping', () => {
         plugin({ name: 'first', owner: 'piwik' }),
         plugin({ name: 'second', owner: 'matomo-org' }),
       ];
-      // piwik and matomo-org both read as "Matomo", so they group together and tie-break by name
       expect(names(sortPlugins(plugins, SORT_DEVELOPER))).toEqual(['first', 'second', 'third']);
     });
 
@@ -229,7 +227,6 @@ describe('Marketplace/pluginGrouping', () => {
       expect(buildTabs(withCategory).map((t) => t.id))
         .toEqual([TAB_ALL, 'insights', 'security']);
 
-      // security delists; its tab must go with it
       expect(buildTabs([withCategory[0]]).map((t) => t.id)).toEqual([TAB_ALL, 'insights']);
     });
 
@@ -303,7 +300,6 @@ describe('Marketplace/pluginGrouping', () => {
     it('returns null for anything else, so the current tab is left alone', () => {
       expect(tabFromLegacyPluginType('')).toBeNull();
       expect(tabFromLegacyPluginType('nonsense')).toBeNull();
-      // the paid-only view is gone, so an old link falls back to All plugins
       expect(tabFromLegacyPluginType('premium')).toBeNull();
     });
   });
@@ -378,9 +374,6 @@ describe('Marketplace/pluginGrouping', () => {
       expect(sections.every((s) => names(s.plugins).includes('t'))).toBe(true);
     });
 
-    // the invariant the section stack rests on: "See all" navigates to the tab of the same id, so
-    // a section that held anything other than that tab's plugins would send the reader somewhere
-    // that does not match the row they clicked from
     it('gives every section exactly the plugins its tab filters to', () => {
       buildSections(catalogue).forEach((section) => {
         expect(names(section.plugins)).toEqual(names(filterPlugins(catalogue, section.id, '')));

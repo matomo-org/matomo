@@ -97,8 +97,6 @@ export interface PluginCard {
   downloadNonce?: string; // only present for a plugin that can be downloaded
   isBundle?: boolean; // only sent for a plugin the Marketplace flags as one
   isTheme: boolean;
-  // the slugs the Marketplace files this plugin under, empty for most of the catalogue. An array
-  // by design, so a plugin can belong to more than one section.
   categories: string[];
   lastUpdated: string; // localised for display, e.g. "Jun 8, 2026" - never sort on this
   lastUpdatedRaw: string | null; // "2026-06-08 06:34:21", the value to sort on

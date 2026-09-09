@@ -100,9 +100,6 @@ class ControllerTest extends IntegrationTestCase
             'owner',
             'priceFrom',
         ];
-        // only set for a plugin that can actually be downloaded, only sent for a bundle, and
-        // 'bundle' plus 'bundleSeats' only travel with one - the latter only when the bundle's
-        // seat tier names a number
         $conditional = ['downloadNonce', 'isBundle', 'bundle', 'bundleSeats'];
 
         foreach ($plugins as $plugin) {

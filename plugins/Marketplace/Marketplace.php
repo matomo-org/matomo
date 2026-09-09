@@ -58,8 +58,6 @@ class Marketplace extends \Piwik\Plugin
         $stylesheets[] = "plugins/Marketplace/stylesheets/plugin-details.less";
         $stylesheets[] = "plugins/Marketplace/stylesheets/marketplace-widget.less";
         $stylesheets[] = "plugins/Marketplace/stylesheets/rich-menu-button.less";
-        // the overview page's components each keep their own stylesheet beside the SFC; the build
-        // never sees these, the asset manager does, so a new one has to be listed here
         $stylesheets[] = "plugins/Marketplace/vue/src/Marketplace/Marketplace.less";
         $stylesheets[] = "plugins/Marketplace/vue/src/MarketplaceHero/MarketplaceHero.less";
         $stylesheets[] = "plugins/Marketplace/vue/src/CategoryTabs/CategoryTabs.less";

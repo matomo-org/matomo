@@ -8,6 +8,7 @@
 <template>
   <article
     class="pluginCard"
+    :class="{ 'pluginCard--bundle': plugin.isBundle }"
     :data-plugin="plugin.name"
   >
     <div class="pluginCard__plate">
@@ -36,9 +37,6 @@
     </div>
 
     <h3 class="pluginCard__title">
-      <!-- PluginCard.less stretches this link over the whole card, so the card body is clickable
-           without a second click handler and the keyboard path is this one anchor. The href is a
-           real deep link, so middle-click and "copy link" work. -->
       <a
         class="pluginCard__titleLink"
         :href="detailsHref"
@@ -49,10 +47,6 @@
 
     <p class="pluginCard__description">{{ plugin.description }}</p>
 
-    <!-- A bundle spends this row on its seat tier instead: all three bundles were published on
-         the same day by the same owner, so the update date and author say nothing, while the tier
-         is what a visitor compares one bundle against another on. Same class, so a row of mixed
-         cards still lines up. -->
     <div class="pluginCard__meta" v-if="bundleSeatsLabel">
       <span class="pluginCard__seats">
         <span class="pluginCard__seatsIcon icon-ok" aria-hidden="true" />
@@ -65,7 +59,6 @@
         <span class="pluginCard__updatedIcon icon-clock" aria-hidden="true" />
         {{ translate('Marketplace_UpdatedOn', plugin.lastUpdated) }}
       </span>
-      <!-- a Matomo plugin is already credited by the chip above; repeating it here is noise -->
       <span
         v-if="!isByMatomo"
         class="pluginCard__owner"
@@ -73,8 +66,6 @@
       >{{ ownerName }}</span>
     </div>
 
-    <!-- cta-container is CTAContainer's own hook in marketplace.less, kept so its button and
-         inline-alert states keep their styling inside the new card -->
     <div class="pluginCard__actions cta-container">
       <CTAContainer
         :is-super-user="isSuperUser"
@@ -145,7 +136,6 @@ export default defineComponent({
       return ownerLabel(this.plugin) === 'Matomo';
     },
     ownerName(): string {
-      // Marketplace_CreatedBy has no placeholder, so passing the name to it drops it
       return translate('Marketplace_ByAuthor', ownerLabel(this.plugin));
     },
     categoryLabel(): string {
@@ -153,12 +143,9 @@ export default defineComponent({
         return translate('Marketplace_Bundles');
       }
 
-      // the chip has room for one, so it names the first slug the plugin is filed under
       return labelForCategory(pluginCategories(this.plugin)[0] ?? '');
     },
     bundleSeatsLabel(): string {
-      // Plugins::addBundleSeats() only sets this for a bundle, and only when the seat tier the
-      // card prices itself from names a number - a bundle sold as "Unlimited users." has none.
       if (!this.plugin.isBundle || !this.plugin.bundleSeats) {
         return '';
       }
@@ -172,8 +159,6 @@ export default defineComponent({
       })}`;
     },
     coverImageSrcset(): string {
-      // covers are published at 880x480 and the Marketplace resizes to whatever is asked for, so a
-      // card on a non-retina display was downloading around three times the pixels it renders
       return `${this.coverImageUrl(440, 240)} 440w, ${this.coverImageUrl(880, 480)} 880w`;
     },
   },

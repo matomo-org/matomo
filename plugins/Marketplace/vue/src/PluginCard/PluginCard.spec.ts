@@ -76,7 +76,6 @@ function mountCard(plugin: Partial<PluginCardType> = {}, props: Record<string, u
     },
     global: {
       mocks: {
-        // the template resolves these off the render context, not the module imports
         translate: (key: string, ...args: string[]) => (
           args.length ? `${key}:${args.join(',')}` : key
         ),
@@ -138,23 +137,24 @@ describe('Marketplace/PluginCard', () => {
       expect(wrapper.find('.pluginCard__chip').text()).toBe('Marketplace_Bundles');
     });
 
+    it('marks a bundle card, which PluginCard.less fills its call to action from', () => {
+      expect(mountCard({ isBundle: true }).classes()).toContain('pluginCard--bundle');
+      expect(mountCard({ isBundle: false }).classes()).not.toContain('pluginCard--bundle');
+    });
+
     it('shows a bundle its seat tier where a plugin shows its update date', () => {
       const wrapper = mountCard({ isBundle: true, bundleSeats: 20 });
       expect(wrapper.find('.pluginCard__seats').text()).toBe('Marketplace_BundleUpToXUsers:20');
-      // the tier takes the row over, so a bundle's meaningless publish date is not repeated
       expect(wrapper.find('.pluginCard__updated').exists()).toBe(false);
     });
 
     it('leaves the seat row off a bundle sold without a seat limit', () => {
-      // Plugins::addBundleSeats() sends no count for "Unlimited users.", so there is nothing to
-      // put in the row and the card falls back to the ordinary meta line
       const wrapper = mountCard({ isBundle: true });
       expect(wrapper.find('.pluginCard__seats').exists()).toBe(false);
       expect(wrapper.find('.pluginCard__updated').exists()).toBe(true);
     });
 
     it('never shows a seat tier on an ordinary plugin', () => {
-      // an individual paid plugin is sold at all three tiers at once, so a single count would lie
       const wrapper = mountCard({ isBundle: false, bundleSeats: 4 });
       expect(wrapper.find('.pluginCard__seats').exists()).toBe(false);
     });
@@ -188,9 +188,6 @@ describe('Marketplace/PluginCard', () => {
     });
 
     it('bylines through a key that really interpolates the name', async () => {
-      // the mock above substitutes into any key, but Matomo's translate() runs sprintf against the
-      // real string: a key with no placeholder silently drops the name and the card reads "by"
-      // followed by nothing. Marketplace_CreatedBy is exactly such a key.
       const en = (await import('../../../lang/en.json')).default as
         { Marketplace: Record<string, string> };
 
@@ -223,21 +220,17 @@ describe('Marketplace/PluginCard', () => {
     );
 
     it('gives the title a real deep link, so middle-click and copy-link work', () => {
-      // PluginCard.less stretches this anchor over the card; it is the whole card's hit area
       expect(mountCard().find('.pluginCard__titleLink').attributes('href'))
         .toBe('#?showPlugin=Funnels');
     });
 
     it('leaves a control inside the card to that control', async () => {
-      // an install link is a real navigation; the card must not turn it into the modal
       const wrapper = mountCard();
       await wrapper.find('.pluginCard__actions a').trigger('click');
       expect(wrapper.emitted('openDetails')).toBeUndefined();
     });
   });
 
-  // CTAContainer, not the prototype, is the specification for what a card may offer. These mount
-  // it for real rather than stubbing it, because the permission suppressions are the point.
   describe('action states', () => {
     it('offers Install to a super user for an installable free plugin', () => {
       expect(actions(mountCard()).text()).toContain('Marketplace_ActionInstall');
@@ -262,7 +255,6 @@ describe('Marketplace/PluginCard', () => {
     });
 
     it('states installed as a card row, not as the modal alert it used to be', () => {
-      // the alert is 60px of left padding and a 2px border, which the card has no room for
       const wrapper = mountCard({ isInstalled: true, isActivated: true });
       expect(actions(wrapper).find('.ctaStatus--success').exists()).toBe(true);
       expect(actions(wrapper).find('.alert').exists()).toBe(false);

@@ -51,12 +51,16 @@
       @update:model-value="updateTab($event)"
     />
 
-    <div class="marketplacePage__resultsBar" ref="resultsBar">
+    <div
+      class="marketplacePage__resultsBar"
+      :class="{ 'marketplacePage__resultsBar--empty': !resultsHeading && !showSort }"
+      ref="resultsBar"
+    >
       <div class="marketplacePage__resultsCount" aria-live="polite">
         <h2 v-if="resultsHeading">{{ resultsHeading }}</h2>
       </div>
       <SortMenu
-        v-if="filteredPlugins.length > 0"
+        v-if="showSort"
         :model-value="pluginSort"
         @update:model-value="updateSort($event)"
       />
@@ -119,6 +123,7 @@ import RequestTrial from '../RequestTrial/RequestTrial.vue';
 import StartFreeTrial from '../StartFreeTrial/StartFreeTrial.vue';
 import PluginDetailsModal from '../PluginDetailsModal/PluginDetailsModal.vue';
 import { PluginCard } from '../types';
+import { tabLabel } from '../PluginGrid/categoryLabels';
 import {
   buildSections,
   buildTabs,
@@ -128,6 +133,7 @@ import {
   SORT_LAST_UPDATED,
   sortPlugins,
   TAB_ALL,
+  TYPE_TABS,
   tabFromLegacyPluginType,
 } from '../PluginGrid/pluginGrouping';
 
@@ -188,7 +194,6 @@ export default defineComponent({
   emits: ['triggerUpdate', 'startTrialStart', 'startTrialStop'],
   data(): MarketplaceState {
     return {
-      // the catalogue request starts in mounted(), which runs after the first render
       loading: true,
       loadFailed: false,
       allPlugins: [],
@@ -204,8 +209,6 @@ export default defineComponent({
     };
   },
   created() {
-    // a keystroke is a re-render now, not a request, but re-sorting the whole catalogue on every
-    // one of them is still enough work to feel laggy while typing
     this.pushQueryToHash = debounce(this.pushQueryToHash.bind(this), 250);
   },
   mounted() {
@@ -285,18 +288,43 @@ export default defineComponent({
     skeletonCount(): number {
       return this.loading ? INITIAL_SKELETONS : 0;
     },
+    /**
+     * What the list below is: a search's result count, or the name of the open category.
+     *
+     * The All plugins tab names nothing - the section stack it opens on carries a heading per
+     * row, and a title over all of them would only repeat the tab that is already marked current.
+     *
+     * A category names itself while the catalogue is still loading: the label comes from the tab,
+     * not from the plugins, so waiting for them would only drop the heading in and push the
+     * skeletons down the moment they arrive.
+     */
     resultsHeading(): string {
-      if (this.loading) {
-        return '';
-      }
       if (this.searchQuery.trim()) {
-        return translate(
+        return this.loading ? '' : translate(
           'Marketplace_ResultsFoundFor',
           this.filteredPlugins.length,
           this.searchQuery,
         );
       }
-      return '';
+      if (this.activeTab === TAB_ALL) {
+        return '';
+      }
+
+      const tab = this.tabs.find((candidate) => candidate.id === this.activeTab);
+      return tabLabel(tab ?? {
+        id: this.activeTab,
+        isCategory: !TYPE_TABS.includes(this.activeTab),
+      });
+    },
+    /**
+     * Sorting is offered over a single list only.
+     *
+     * The section stack is ten lists at once, each cut to a row, so a sort control there would
+     * reorder what the rows contain without the reader seeing an order change - and the rows are
+     * meant to read as an editorial front page rather than a sortable table.
+     */
+    showSort(): boolean {
+      return !this.showSections && this.filteredPlugins.length > 0;
     },
   },
   methods: {
@@ -351,7 +379,6 @@ export default defineComponent({
           if (abortController.signal.aborted) {
             return;
           }
-          // a terminal state, so the skeletons stop rather than spinning forever
           this.loading = false;
           this.loadFailed = true;
         })
@@ -376,8 +403,6 @@ export default defineComponent({
       if (category) {
         this.activeTab = category;
       } else {
-        // CorePluginsAdmin still links in with #?pluginType=themes from ThemesIntro.vue and
-        // PluginsTable.vue. Nothing writes it any more, but reading it has to keep working.
         this.activeTab = tabFromLegacyPluginType((hash.pluginType || '') as string) ?? TAB_ALL;
       }
 
@@ -393,7 +418,6 @@ export default defineComponent({
     },
 
     updateQuery(query: string) {
-      // render against the new term straight away; the hash catches up on the debounce
       this.searchQuery = query;
       this.pageSize = PAGE_SIZE;
       this.pushQueryToHash(query);
@@ -462,8 +486,6 @@ export default defineComponent({
 
       this.openDetailsModal(plugin);
 
-      // the plugin exists but the current tab or search may be hiding it, so clear both rather
-      // than scrolling to a card that is not rendered
       const isVisible = this.filteredPlugins.some((candidate) => candidate.name === showPlugin);
       if (!isVisible) {
         this.resetFilters();
@@ -476,11 +498,6 @@ export default defineComponent({
       this.$nextTick(() => {
         const root = this.$refs.root as HTMLElement|undefined;
 
-        // a section hands its grid more cards than the row shows and the stylesheet hides the rest
-        // with nth-child, so the first match can be a display:none element - and scrollIntoView
-        // does nothing on one of those. A plugin filed under a category can also be in two
-        // sections at once. offsetParent is null in jsdom, which has no layout, so the fallback
-        // keeps the behaviour tests see unchanged.
         const cards = [...(root?.querySelectorAll(`[data-plugin="${CSS.escape(pluginName)}"]`) ?? [])];
         const card = cards.find((element) => (element as HTMLElement).offsetParent !== null)
           ?? cards[0];
@@ -499,14 +516,9 @@ export default defineComponent({
         if (!entries.some((entry) => entry.isIntersecting)) {
           return;
         }
-        // in sections mode every row is capped at one screenful, so there is nothing to page.
-        // The sentinel stays mounted rather than being v-if'd away: observeSentinel() runs once,
-        // and re-adding the element would leave the observer watching a detached node, killing
-        // infinite scroll in the category views for the rest of the session.
         if (this.loading || this.showSections || this.pageSize >= this.filteredPlugins.length) {
           return;
         }
-        // appending must never move focus - infinite scroll plus a screen reader is the usual break
         this.pageSize += PAGE_SIZE;
       }, { rootMargin: '200px' }));
 

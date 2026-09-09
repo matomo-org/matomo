@@ -5,21 +5,22 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-// One row of the overview's section stack. Its own block rather than an element of
-// marketplacePage, following marketplaceEmptyState: the widget sections PG-5473 adds will mount it
-// outside that page too.
+.marketplaceSection.marketplaceSection {
+  margin-top: 0;
+  padding-bottom: 0;
+  line-height: inherit;
+}
+
 .marketplaceSection__header {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 16px;
+  gap: 16px;
+  margin-bottom: 12px;
+  min-height: 32px;
 }
 
-// Morpheus sets a global `h2 { width: 100%; padding: 16px 0; }` in main.less. One class outranks
-// it, so no doubled selector is needed here - but width has to be reset or the heading takes the
-// whole flex row and pushes "See all" onto a line of its own.
 .marketplaceSection__heading {
   width: auto;
   margin: 0;
@@ -27,11 +28,10 @@
   min-width: 0;
   font-size: 20px;
   line-height: 24px;
-  font-weight: 600;
+  font-weight: normal;
   color: @theme-color-text;
 }
 
-// Matches marketplaceEmptyState__reset, the page's other link-shaped button.
 .marketplaceSection__seeAll {
   display: inline-flex;
   align-items: center;

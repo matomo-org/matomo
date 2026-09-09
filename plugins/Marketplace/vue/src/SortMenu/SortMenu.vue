@@ -52,7 +52,6 @@ const OPTIONS = [
   { id: SORT_POPULAR, labelKey: 'Marketplace_SortByPopular' },
   { id: SORT_NEWEST, labelKey: 'Marketplace_SortByNewest' },
   { id: SORT_ALPHA, labelKey: 'Marketplace_SortByAlpha' },
-  // resolved on the client against the plugin owner; the Marketplace has no such sort method
   { id: SORT_DEVELOPER, labelKey: 'Marketplace_SortByDeveloper' },
 ];
 

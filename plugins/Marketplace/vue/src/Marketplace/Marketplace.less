@@ -5,20 +5,13 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-// Block is marketplacePage, not marketplace: overview.twig already wraps the page in a global
-// `.marketplace` element, and reusing that name would collide with it.
-//
-// The prototype stands the whole page - hero, tabs, results bar, grid - on one white panel over
-// the admin background, and everything inside shares the panel's padding as its left edge. The
-// page's footer links and the install-all-purchased-plugins button stay outside it, as drawn.
-// @theme-shadow-overlay is the prototype's own shadow, and is already light/dark aware.
 .marketplacePage {
   padding: 24px;
   border-radius: 4px;
   background: @theme-color-background-contrast;
   box-shadow: @theme-shadow-overlay;
 
-  @media (max-width: 600px) {
+  @media (max-width: 640px) {
     padding: 12px;
   }
 }
@@ -29,24 +22,28 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  margin: 24px 0 16px;
-  // reserved so the grid does not jump when a search puts a heading here
+  margin: 24px 0 12px;
   min-height: 32px;
+}
+
+.marketplacePage__resultsBar--empty {
+  margin-bottom: 0;
+  min-height: 0;
 }
 
 .marketplacePage__resultsCount {
   min-width: 0;
 
   h2 {
+    width: auto;
     margin: 0;
+    padding: 0;
     font-size: 20px;
     line-height: 24px;
     color: @theme-color-text;
   }
 }
 
-// The section stack the All plugins tab opens on. Page-level spacing, so it lives here rather
-// than in PluginSection.less, which styles one section wherever it is mounted.
 .marketplacePage__sections {
   display: flex;
   flex-direction: column;
@@ -57,7 +54,6 @@
   margin-top: 16px;
 }
 
-// The infinite-scroll trigger. It has to have height, or it never intersects the viewport.
 .marketplacePage__sentinel {
   height: 32px;
 }

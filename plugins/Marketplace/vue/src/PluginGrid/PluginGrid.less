@@ -5,8 +5,6 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-// Column counts step down from five. The breakpoints have to stay in step with the
-// --singleRow rules below, which show exactly one row's worth of cards at each width.
 .pluginGrid {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -29,12 +27,6 @@
   }
 }
 
-// A curated section shows one row of cards, so the cut has to match the column count at every
-// width. Below three columns it shows two rows instead, or a section would be a single card.
-//
-// The counts these rules leave visible - 5, 4, 3, 4, 2 - are mirrored in visibleCardCount.ts,
-// which decides whether a section shows its "See all". Change both, or a section will hide the
-// link while cards are cut off.
 .pluginGrid--singleRow {
   > :nth-child(n + 6) {
     display: none;
@@ -84,7 +76,6 @@
   color: @theme-color-text-light;
 }
 
-// Doubled selector: this is a <p>, see the note in PluginCard.less about `.admin p`.
 .marketplaceEmptyState .marketplaceEmptyState__message {
   margin: 16px 0 0;
   padding-bottom: 0;

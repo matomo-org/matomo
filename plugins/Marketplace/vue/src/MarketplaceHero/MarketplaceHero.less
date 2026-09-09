@@ -5,10 +5,10 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-// The design's mint gradient is light-only and has no dark counterpart yet, so dark mode falls
-// back to a flat surface rather than putting light text on a pale wash.
-.marketplaceHero {
-  padding: 48px 24px;
+.marketplaceHero.marketplaceHero {
+  margin-top: 0;
+  line-height: inherit;
+  padding: 55px 24px;
   border-radius: 8px;
   text-align: center;
   background: linear-gradient(100deg, #e8f8fb 0%, #ecfaf9 45%, #d9f8ea 100%);
@@ -18,7 +18,7 @@
   });
 
   @media (max-width: 640px) {
-    padding: 36px 24px;
+    padding: 40px 24px;
   }
 }
 
@@ -32,9 +32,11 @@
 }
 
 .marketplaceHero .marketplaceHero__subtitle {
-  margin: 8px auto 0;
+  margin: 12px auto 0;
   padding-bottom: 0;
   text-align: center;
+  font-size: 14px;
+  line-height: 18px;
   color: @theme-color-text;
 }
 

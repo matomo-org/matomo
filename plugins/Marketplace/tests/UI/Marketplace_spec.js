@@ -11,13 +11,9 @@ describe("Marketplace", function () {
     this.fixture = "Piwik\\Plugins\\Marketplace\\tests\\Fixtures\\SimpleFixtureTrackFewVisits";
 
     var urlBase = '?module=Marketplace&action=overview';
-    // There is no paid-only view any more: paid plugins sit in their category sections, and the
-    // licence states these tests are really about render on the overview either way.
     var overviewUrl = urlBase;
     var themesUrl = urlBase + '#?pluginType=themes';
 
-    // A search always renders the flat grid holding every match, where the overview's section rows
-    // show one screenful each and leave the rest out of the DOM entirely.
     function searchUrl(pluginTitle) {
         return urlBase + '#?query=' + encodeURIComponent(pluginTitle);
     }

@@ -118,7 +118,6 @@ describe('PluginSection', () => {
       ['bundles', false, 'Marketplace_Bundles'],
       ['insights', true, 'Insights'],
       ['other', true, 'Marketplace_CategoryOther'],
-      // no key for this slug yet, so it renders readably rather than as the raw key
       ['ecommerce', true, 'Ecommerce'],
     ])('names the %s section', async (sectionId, isCategory, expected) => {
       const wrapper = await mountSection({ sectionId, isCategory });
@@ -138,7 +137,6 @@ describe('PluginSection', () => {
       expect((await mountSection({ plugins: plugins(2) })).find(seeAll).exists()).toBe(false);
     });
 
-    // the case a fixed threshold of five would get wrong in both directions
     it('counts what this width actually shows, not the widest case', async () => {
       stubViewport(1280);
       expect((await mountSection({ plugins: plugins(5) })).find(seeAll).exists()).toBe(true);

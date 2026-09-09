@@ -9,8 +9,6 @@
   margin-top: 16px;
 }
 
-// Under the narrow breakpoint the bar becomes a native select. CategoryTabs.vue matches this
-// with matchMedia; if the two disagree a tab is either unreachable or offered twice.
 .categoryTabs__select {
   display: none;
 
@@ -86,8 +84,6 @@
   });
 }
 
-// Tabs past the first few are hidden until there is room for them; the overflow menu carries
-// them in the meantime. Keep this breakpoint and WIDE_BREAKPOINT in CategoryTabs.vue in step.
 .categoryTabs__tab--overflow {
   display: inline-flex;
 
@@ -148,13 +144,4 @@
     background: @marketplace-accent-bg-dark;
     color: @marketplace-accent-text-dark;
   });
-}
-
-.categoryTabs__announcement {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
 }

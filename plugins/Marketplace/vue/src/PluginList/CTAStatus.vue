@@ -43,8 +43,6 @@ const ALERT_CLASSES: Record<string, string> = {
   danger: 'alert-danger',
 };
 
-// The card row has no background to carry the tone, so the icon does it. These are the icons the
-// alert draws through ::before, kept the same so a state reads alike in both places.
 const ICON_CLASSES: Record<string, string> = {
   success: 'icon-ok',
   warning: 'icon-warning',

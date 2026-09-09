@@ -160,10 +160,6 @@ export function matchesTab(plugin: PluginCard, tabId: string): boolean {
     case TAB_THEMES:
       return !!plugin.isTheme;
     case TAB_OTHER:
-      // themes and bundles are left out because they have sections of their own and every one of
-      // them is unclassified: without this, Other would be mostly themes. A slug literally named
-      // `other` means the same thing as this bucket, so the two merge rather than splitting the
-      // plugins across a pair of tabs that share an id - see buildTabs().
       return !plugin.isTheme
         && !plugin.isBundle
         && (isUnclassified(plugin) || pluginCategories(plugin).includes(TAB_OTHER));
@@ -184,7 +180,6 @@ export function sortPlugins(plugins: PluginCard[], sort: string): PluginCard[] {
     b.displayName || '',
   );
 
-  // a missing value sorts last in every descending comparison, rather than ahead of everything
   const descending = (a: number|null, b: number|null) => {
     if (a === b) {
       return 0;
@@ -207,8 +202,6 @@ export function sortPlugins(plugins: PluginCard[], sort: string): PluginCard[] {
 
   switch (sort) {
     case SORT_POPULAR:
-      // the API nulls numDownloads for every paid plugin, so this is free plugins first by
-      // definition - not a bug in the comparison
       return sorted.sort((a, b) => descending(
         typeof a.numDownloads === 'number' ? a.numDownloads : null,
         typeof b.numDownloads === 'number' ? b.numDownloads : null,
@@ -221,8 +214,6 @@ export function sortPlugins(plugins: PluginCard[], sort: string): PluginCard[] {
       return sorted.sort((a, b) => ownerLabel(a).localeCompare(ownerLabel(b)) || byName(a, b));
     case SORT_LAST_UPDATED:
     default:
-      // lastUpdated is a localised display string by the time it reaches us; lastUpdatedRaw is the
-      // value to order on. Sorting the display string looks plausible and is wrong.
       return sorted.sort(byDate('lastUpdatedRaw'));
   }
 }
@@ -263,8 +254,6 @@ export function buildTabs(plugins: PluginCard[]): PluginTab[] {
   plugins.forEach((plugin) => {
     pluginCategories(plugin).forEach((slug) => {
       if (slug === TAB_OTHER) {
-        // matchesTab() folds this slug into the synthetic bucket below, so counting it here as
-        // well would produce two tabs sharing one id
         return;
       }
       categoryCounts.set(slug, (categoryCounts.get(slug) ?? 0) + 1);
@@ -275,8 +264,6 @@ export function buildTabs(plugins: PluginCard[]): PluginTab[] {
     tabs.push({ id, count: categoryCounts.get(id) as number, isCategory: true });
   });
 
-  // last, after the named categories: it is where a plugin goes when none of them claims it.
-  // isCategory, so it takes its label from Marketplace_CategoryOther like any other category.
   const otherCount = plugins.filter((plugin) => matchesTab(plugin, TAB_OTHER)).length;
   if (otherCount > 0) {
     tabs.push({ id: TAB_OTHER, count: otherCount, isCategory: true });
@@ -301,7 +288,6 @@ export function buildTabs(plugins: PluginCard[]): PluginTab[] {
  */
 export function buildSections(plugins: PluginCard[]): PluginSection[] {
   return buildTabs(plugins)
-    // the one tab that is a view of the whole catalogue rather than a slice of it
     .filter((tab) => tab.id !== TAB_ALL)
     .map((tab) => ({
       id: tab.id,
@@ -323,8 +309,6 @@ export function tabFromLegacyPluginType(pluginType: string): string|null {
     case 'plugins':
       return TAB_ALL;
     default:
-      // `premium` lands here. The Marketplace no longer has a paid-only view, so an old link
-      // falls back to All plugins rather than to a tab that is not there.
       return null;
   }
 }

@@ -7,7 +7,6 @@
 
 <template>
   <div v-content-intro>
-    <!-- the title and the intro copy both live in MarketplaceHero now -->
     <div class="installAllPaidPlugins" v-if="installAllPaidPluginsVisible">
       <InstallAllPaidPluginsButton
         :disabled="installDisabled"

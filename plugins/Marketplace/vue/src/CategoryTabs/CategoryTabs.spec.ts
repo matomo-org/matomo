@@ -9,7 +9,6 @@ import { mount, VueWrapper } from '@vue/test-utils';
 
 vi.mock('CoreHome', () => ({
   translate: (key: string) => key,
-  // mirrors the real helper: an unknown key comes back unchanged, so the component falls back
   translateOrDefault: (key: string) => (
     key === 'Marketplace_CategoryInsights' ? 'Insights' : key
   ),
@@ -46,7 +45,6 @@ const TEN_TABS: PluginTab[] = [
   tab('other', true),
 ];
 
-// mounted() reads matchMedia and sets isWide, so the bar only settles after a tick
 async function mountTabs(tabs: PluginTab[], modelValue = 'all') {
   const wrapper = mount(CategoryTabs, {
     props: { tabs, modelValue },
@@ -148,13 +146,11 @@ describe('Marketplace/CategoryTabs', () => {
     });
 
     it('falls back to a readable label for a category value with no key yet', async () => {
-      // the Marketplace taxonomy is data; a new value must not render as a raw key
       expect(visibleTabLabels(await mountTabs([tab('all'), tab('somethingNew', true)])))
         .toEqual(['Marketplace_AllPlugins', 'SomethingNew']);
     });
 
     it('renders whatever tab list it is given, so an empty tab is simply absent', async () => {
-      // buildTabs() drops empty tabs; the component must not reintroduce a fixed list
       expect(visibleTabLabels(await mountTabs([tab('all'), tab('themes')])))
         .toEqual(['Marketplace_AllPlugins', 'CorePluginsAdmin_Themes']);
     });
@@ -170,13 +166,6 @@ describe('Marketplace/CategoryTabs', () => {
       (select.element as HTMLSelectElement).value = 'themes';
       await select.trigger('change');
       expect(wrapper.emitted('update:modelValue')).toEqual([['themes']]);
-    });
-
-    it('announces the active tab politely', async () => {
-      const wrapper = await mountTabs(TEN_TABS, 'themes');
-      const announcement = wrapper.find('.categoryTabs__announcement');
-      expect(announcement.attributes('aria-live')).toBe('polite');
-      expect(announcement.text()).toBe('CorePluginsAdmin_Themes');
     });
   });
 });
