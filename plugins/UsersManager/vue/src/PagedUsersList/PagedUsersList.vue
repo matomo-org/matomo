@@ -10,7 +10,7 @@
       class="pagedUsersList"
       :class="{loading: isLoadingUsers}"
   >
-    <div class="userListFilters row">
+    <div class="userListFilters inlineFormControls row">
       <div class="col s12 m12 l8">
         <div class="input-field col s12 m3 l3">
           <a
@@ -167,6 +167,7 @@
     <ContentBlock>
       <table
           id="manageUsersTable"
+          class="entityTable_Controls"
           :class="{ loading: isLoadingUsers }"
           v-content-table
       >

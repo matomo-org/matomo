@@ -1,6 +1,5 @@
 .home {
-    // Alerts are a <p> that brings its own padding; :where() adds no specificity, so every other paragraph is unchanged.
-    p:where(:not(.alert)) {
+    p {
         padding-bottom: 1em;
         margin-right: 1em;
         margin-left: 1em;
@@ -10,7 +9,7 @@
 .card h2 {
     &.card-title,
     .card-title {
-        padding: 0 !important;
+        padding: 0;
     }
 }
 

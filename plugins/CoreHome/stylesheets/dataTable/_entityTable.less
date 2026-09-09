@@ -43,7 +43,7 @@ table.entityTable {
         font-size: 13px;
         line-height: 16px;
         background-color: @theme-color-background-contrast;
-        vertical-align: top !important;
+        vertical-align: top;
         padding: 16px;
         border-bottom: 1px solid @theme-color-background-tinyContrast !important;
         border-radius: 0;
@@ -62,6 +62,52 @@ table.entityTable {
   .entityTable_Sparkline {
     padding: 0;
     width: 100px;
+  }
+}
+
+// tables whose rows contain form controls (selects, checkboxes): controls are centred
+// vertically and lose the vertical margins meant for stand-alone form fields
+table.entityTable.entityTable_Controls {
+  tbody tr td {
+    vertical-align: middle;
+  }
+
+  .matomo-form-field.form-group {
+    margin: 0;
+
+    .input-field {
+      margin: 0;
+      padding: 0;
+    }
+  }
+}
+
+// bulk selection: checkbox column, "select all in search" row, compact checkboxes
+table.entityTable {
+  .select-cell {
+    width: 32px;
+  }
+
+  tbody tr.select-all-row > td {
+    padding: 6px;
+    text-align: center;
+  }
+
+  tbody span.checkbox-container label {
+    transform: scale(.8);
+    height: 1em;
+    line-height: 1em;
+  }
+
+  th .helpIcon {
+    color: @theme-color-text-disabled;
+    font-size: .8rem;
+    margin-left: .1rem;
+    text-decoration: none;
+
+    &:hover, &.sticky {
+      opacity: 1;
+    }
   }
 }
 

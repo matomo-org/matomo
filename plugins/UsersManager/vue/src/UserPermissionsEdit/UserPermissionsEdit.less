@@ -53,19 +53,18 @@
     }
 
     > div > .input-field {
-      display: inline-block;
-      vertical-align: top;
       width: 180px;
     }
+
+    .input-field, input {
+      margin: 0;
+    }
+
 
     .sites-for-permission-pagination {
       display: inline-block;
       vertical-align: top;
       min-height: 2.5rem;
-    }
-
-    .form-group, .input-field, input {
-      margin: 0;
     }
 
     .add-site {
@@ -95,15 +94,6 @@
       display:inline-block;
     }
 
-    .select-cell {
-      width: 32px;
-    }
-
-    span.checkbox-container {
-      transform: scale(.8);
-      margin-top: -4px;
-    }
-
     // the table's shared compact styling sizes the control; only the width and the
     // smaller type are particular to this column
     .role-select .select-wrapper {
@@ -114,11 +104,6 @@
       }
     }
 
-    tr.select-all-row > td {
-      padding: 6px;
-      text-align: center;
-    }
-
     .row.form-group {
       margin: 0;
       .col {
@@ -126,14 +111,6 @@
       }
     }
 
-    tr .input-field {
-      margin-top: 0;
-      margin-bottom: 0;
-    }
-  }
-
-  table.entityTable tbody tr td {
-    vertical-align: middle !important;
   }
 
   .add-permission {
@@ -163,27 +140,6 @@
 
   .delete-site-permission {
     float: right;
-  }
-
-  .delete-access-confirm-modal, .change-access-confirm-modal, .confirm-give-access-all-sites {
-    .modal-no {
-      margin-left: 1em;
-      margin-right: 1em;
-      margin-top: 1em;
-    }
-  }
-
-  th.role_header, th.capabilities_header {
-    .helpIcon {
-      color: #9e9e9e;
-      font-size: .8rem;
-      margin-left: .1rem;
-      text-decoration: none;
-
-      &:hover,&.sticky {
-        opacity: 1;
-      }
-    }
   }
 
   .to-all-websites {
