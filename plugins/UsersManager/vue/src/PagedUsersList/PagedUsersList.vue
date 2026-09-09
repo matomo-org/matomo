@@ -7,10 +7,18 @@
 
 <template>
   <div
-      class="pagedUsersList"
-      :class="{loading: isLoadingUsers}"
+      class="pagedUsersList relative block
+        [&_.dropdown-content_li>span]:text-[13px] [&_.dropdown-content_li>span]:leading-[19px]
+        [&_.siteSelector]:inline-block [&_.sites\_autocomplete]:block [&_.sites\_autocomplete]:ml-0
+        [&_.sites\_autocomplete>.siteSelector]:static [&_.siteSelector.borderedControl]:w-[150px]"
+      :class="{
+        'loading pointer-events-none [&_table]:opacity-50 [&_div.counter]:relative [&_div.counter>span]:opacity-0': isLoadingUsers,
+      }"
   >
-    <div class="userListFilters inlineFormControls row">
+    <div
+      class="userListFilters inlineFormControls row mb-0 -mx-3 [&>.col>.input-field]:p-0
+        [&_.input-field>.btn]:mt-[.7rem] [&_.input-field>.btn]:whitespace-nowrap"
+    >
       <div class="col s12 m12 l8">
         <div class="input-field col s12 m3 l3">
           <a
@@ -116,18 +124,18 @@
         </div>
       </div>
       <div
-          class="input-field col s12 m12 l4 users-list-pagination-container"
+          class="input-field col s12 m12 l4 users-list-pagination-container float-right min-w-[350px]"
           v-if="totalEntries > searchParams.limit"
       >
-        <div class="usersListPagination">
+        <div class="usersListPagination flex flex-row items-center justify-between float-right mt-[.7rem] whitespace-nowrap">
           <a
               class="btn prev"
               :class="{ disabled: searchParams.offset <= 0 }"
               @click.prevent="gotoPreviousPage()"
           >
-            <span class="pointer">&#xAB; {{ translate('General_Previous') }}</span>
+            <span class="pointer cursor-pointer">&#xAB; {{ translate('General_Previous') }}</span>
           </a>
-          <div class="counter">
+          <div class="counter inline-block flex-1 mx-[10px] text-center leading-9 align-bottom">
             <span
                 :class="{ visibility: isLoadingUsers ? 'hidden' : 'visible' }"
             >
@@ -139,6 +147,7 @@
             ) }}
             </span>
             <ActivityIndicator
+                class="[.loading_&]:absolute [.loading_&]:top-1/2 [.loading_&]:left-1/2 [.loading_&]:-translate-1/2 [.loading_&_span]:hidden"
                 :loading="isLoadingUsers"
             />
           </div>
@@ -147,13 +156,13 @@
               :class="{ disabled: searchParams.offset + searchParams.limit >= (totalEntries || 0) }"
               @click.prevent="gotoNextPage()"
           >
-            <span class="pointer">{{ translate('General_Next') }} &#xBB;</span>
+            <span class="pointer cursor-pointer">{{ translate('General_Next') }} &#xBB;</span>
           </a>
         </div>
       </div>
     </div>
     <div
-        class="roles-help-notification"
+        class="roles-help-notification mt-4"
         v-if="isRoleHelpToggled"
     >
       <Notification
@@ -164,10 +173,13 @@
         <span v-html="$sanitize(rolesHelpText)"></span>
       </Notification>
     </div>
-    <ContentBlock>
+    <ContentBlock class="mt-0 mb-5 [&>.card-content]:py-0 [&_.card-title]:mb-0">
       <table
           id="manageUsersTable"
-          class="entityTable_Controls"
+          class="entityTable_Controls my-0 border-y-0 rounded-lg
+            [&_tbody_tr_td.actions-cell]:w-[140px] [&_tbody_tr_td.actions-cell]:p-0
+            [&_tbody_tr_td.actions-cell]:text-left [&_th.actions-cell-header>div]:text-center
+            [&_.select-wrapper]:w-[170px]"
           :class="{ loading: isLoadingUsers }"
           v-content-table
       >
@@ -189,7 +201,7 @@
           </th>
           <th class="first">{{ translate('UsersManager_Username') }}</th>
           <th class="role_header">
-            <span style="margin-right: 3.5px">{{ translate('UsersManager_RoleFor') }}</span>
+            <span class="mr-[3.5px]">{{ translate('UsersManager_RoleFor') }}</span>
             <a
                 href=""
                 class="helpIcon"
@@ -235,7 +247,7 @@
                     'UsersManager_TheDisplayedUsersAreSelected',
                     `<strong>${users.length}</strong>`,
                   ))"
-                    style="margin-right:3.5px"
+                    class="mr-[3.5px]"
                 ></span>
               <a
                   class="toggle-select-all-in-search"
@@ -252,7 +264,7 @@
                     'UsersManager_AllUsersAreSelected',
                     `<strong>${totalEntries}</strong>`,
                   ))"
-                      style="margin-right:3.5px"
+                      class="mr-[3.5px]"
                 ></span>
               <a
                   class="toggle-select-all-in-search"
@@ -328,7 +340,11 @@
             {{ user.last_seen_ago ? translate('UsersManager_XAgo', user.last_seen_ago) : '-' }}
           </td>
           <td id="status">
-              <span :class="Number.isInteger(user.invite_status)? 'pending':user.invite_status"
+              <span :class="[
+                      Number.isInteger(user.invite_status) ? 'pending' : user.invite_status,
+                      { 'text-[green]': user.invite_status === 'active', 'text-[red]': user.invite_status === 'expired',
+                        'text-[orange]': Number.isInteger(user.invite_status) || user.invite_status === 'pending' },
+                    ]"
                     :title="user.invite_status === 'expired' ?
                             translate('UsersManager_ExpiredInviteAutomaticallyRemoved', '3') :
                             ''"
@@ -467,9 +483,8 @@
       <div class="modal-footer">
         <a
             href=""
-            class="modal-action modal-close btn"
+            class="modal-action modal-close btn mr-[3.5px]"
             @click.prevent="changeUserRole()"
-            style="margin-right:3.5px"
         >{{ translate('General_Yes') }}</a>
         <a
             href=""

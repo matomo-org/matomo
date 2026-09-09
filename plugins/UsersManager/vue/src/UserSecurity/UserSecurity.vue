@@ -109,7 +109,7 @@
           ></td>
         </tr>
         <tr v-for="theToken in (tokens || [])" :key="theToken.idusertokenauth">
-          <td><span class="creationDate">{{ theToken.date_created }}</span></td>
+          <td><span class="creationDate [.uiTest_&]:invisible">{{ theToken.date_created }}</span></td>
           <td>{{ theToken.description }}</td>
           <td>
             {{ theToken.last_used ? theToken.last_used : translate('General_Never') }}

@@ -7,7 +7,7 @@
 
 <template>
   <ContentBlock
-    class="userEditForm"
+    class="userEditForm [&_.card-title]:mt-[45px] [&_.card-title]:mb-0 [&_.card-title]:pl-[15px]"
     :class="{ loading: isSavingUserInfo }"
     :content-title="theUser.login"
   >
@@ -18,13 +18,14 @@
       <div
         class="col m2 entityList"
       >
-        <ul class="listCircle">
+        <ul class="listCircle -ml-[15px]">
           <li
             :class="{active: activeTab === 'basic'}"
             class="menuBasicInfo"
           >
             <a
               href=""
+              :class="{ 'font-bold': activeTab === 'basic' }"
               @click.prevent="activeTab = 'basic'"
             >{{ translate('UsersManager_BasicInformation') }}</a>
           </li>
@@ -34,13 +35,15 @@
           >
             <a
               href=""
+              class="mr-[3.5px]"
+              :class="{ 'font-bold': activeTab === 'permissions' }"
               @click.prevent="activeTab = 'permissions'"
-              style="margin-right:3.5px"
             >
               {{ translate('UsersManager_Permissions') }}
             </a>
             <span
-              class="icon-warning"
+              class="icon-warning text-[17px] bg-[#fefbe9] dark:bg-transparent border-[#a18a0b]
+                before:content-['\e621'] before:text-[#a18a0b] hover:opacity-100"
               v-if="!userHasAccess && !theUser.superuser_access"
             />
           </li>
@@ -51,6 +54,7 @@
           >
             <a
               href=""
+              :class="{ 'font-bold': activeTab === 'superuser' }"
               @click.prevent="activeTab = 'superuser'"
             >{{ translate('UsersManager_SuperUserAccess') }}</a>
           </li>
@@ -61,19 +65,20 @@
           >
             <a
               href=""
+              :class="{ 'font-bold': activeTab === '2fa' }"
               @click.prevent="activeTab = '2fa'"
             >{{ translate('UsersManager_TwoFactorAuthentication') }}</a>
           </li>
         </ul>
-        <div class="save-button-spacer hide-on-small-only">
+        <div class="save-button-spacer hide-on-small-only h-12">
         </div>
         <div
-          class="entityCancel"
+          class="entityCancel absolute top-5"
           @click.prevent="onDoneEditing()"
         >
           <a
             href=""
-            class="entityCancelLink"
+            class="entityCancelLink text-[14px]"
           >
             <span class="icon-arrow-left">&nbsp;
             </span>{{ translate('UsersManager_BackToUser') }}</a>
@@ -112,7 +117,7 @@
               }"
             />
           </div>
-          <div class="email-input">
+          <div>
             <Field
               v-model="theUser.email"
               :disabled="isSavingUserInfo || (currentUserRole !== 'superuser')
@@ -126,20 +131,21 @@
             />
           </div>
           <div>
-            <div class="form-group row" style="position: relative">
-              <div class="col s12 m6 save-button">
+            <div class="form-group row relative">
+              <div class="col s12 m6 save-button mt-[3em]">
                 <SaveButton
                   v-if="currentUserRole === 'superuser'"
+                  class="absolute bottom-0 [&_.loadingPiwik]:absolute"
                   :value="translate('UsersManager_SaveBasicInfo')"
                   :saving="isSavingUserInfo"
                   @confirm="isShowingPasswordConfirm = true"
                 />
               </div>
             </div>
-            <p class="resend-notes" v-if="user && isPending"
+            <p class="resend-notes mt-[3em] text-[16px]" v-if="user && isPending"
             >
               {{ translate('UsersManager_InvitationSent') }}
-              <span class="resend-link" @click="resendRequestedUser"
+              <span class="resend-link text-link underline cursor-pointer" @click="resendRequestedUser"
                     v-html="$sanitize(translate('UsersManager_ResendInvite') +
                     '/'+ translate('UsersManager_CopyLink'))"></span>
             </p>
@@ -147,7 +153,7 @@
         </div>
         <div
           v-show="activeTab === 'permissions'"
-          class="user-permissions"
+          class="user-permissions mb-8"
         >
           <div
             v-if="!theUser.superuser_access"
@@ -169,7 +175,7 @@
         </div>
         <div
           v-if="activeTab === 'superuser' && currentUserRole === 'superuser'"
-          class="superuser-access form-group"
+          class="superuser-access form-group mb-8"
         >
           <p v-if="isMarketplacePluginEnabled">{{ translate('UsersManager_SuperUserIntro1') }}</p>
           <p v-else>{{ translate('UsersManager_SuperUserIntro1WithoutMarketplace') }}</p>
@@ -189,7 +195,11 @@
             <li v-html="$sanitize(translateSuperUserRiskString('Compliance'))"></li>
           </ul>
           <div
-            :class="{ 'disabled': isCurrentUser }" :title="superUserAccessTooltipText">
+            :class="{ 'disabled': isCurrentUser }"
+            class="[&.disabled_.checkbox>label>span]:opacity-50 [&.disabled_.checkbox>label>span]:cursor-not-allowed
+              [&.disabled_.checkbox>label>span:hover]:bg-background"
+            :title="superUserAccessTooltipText"
+          >
             <Field
               v-model="superUserAccessChecked"
               @update:model-value="confirmSuperUserChange()"
