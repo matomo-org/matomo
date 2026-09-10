@@ -31,6 +31,14 @@ class DbTable implements \SessionHandlerInterface
     public const TOKEN_HASH_ALGO = 'sha512';
 
     /**
+     * Session data as it was read, keyed by hashed session id. Lets write() tell an unchanged
+     * session from a changed one.
+     *
+     * @var array<string, string>
+     */
+    private array $readData = [];
+
+    /**
      * @param array $config
      */
     public function __construct($config)
@@ -97,6 +105,8 @@ class DbTable implements \SessionHandlerInterface
             $result = '';
         }
 
+        $this->readData[$id] = $result;
+
         return $result;
     }
 
@@ -140,6 +150,24 @@ class DbTable implements \SessionHandlerInterface
     {
         $id = $this->hashSessionId($id);
 
+        // this request did not change the session, so only the timestamps need storing. rewriting
+        // the data column would replace whatever a concurrent request has stored in the meantime.
+        if (isset($this->readData[$id]) && $this->readData[$id] === $data) {
+            $sql = 'INSERT INTO ' . $this->config['name']
+                . ' (' . $this->config['primary'] . ','
+                . $this->config['modifiedColumn'] . ','
+                . $this->config['lifetimeColumn'] . ','
+                . $this->config['dataColumn'] . ')'
+                . ' VALUES (?,?,?,?)'
+                . ' ON DUPLICATE KEY UPDATE '
+                . $this->config['modifiedColumn'] . ' = ?,'
+                . $this->config['lifetimeColumn'] . ' = ?';
+
+            $this->query($sql, [$id, time(), $this->maxLifetime, $data, time(), $this->maxLifetime]);
+
+            return true;
+        }
+
         $sql = 'INSERT INTO ' . $this->config['name']
             . ' (' . $this->config['primary'] . ','
             . $this->config['modifiedColumn'] . ','
@@ -152,6 +180,8 @@ class DbTable implements \SessionHandlerInterface
             . $this->config['dataColumn'] . ' = ?';
 
         $this->query($sql, [$id, time(), $this->maxLifetime, $data, time(), $this->maxLifetime, $data]);
+
+        $this->readData[$id] = $data;
 
         return true;
     }
@@ -166,6 +196,8 @@ class DbTable implements \SessionHandlerInterface
     {
         $id = $this->hashSessionId($id);
 
+        unset($this->readData[$id]);
+
         $sql = 'DELETE FROM `' . $this->config['name'] . '` WHERE ' . $this->config['primary'] . ' = ?';
 
         $this->query($sql, [$id]);
@@ -178,6 +210,8 @@ class DbTable implements \SessionHandlerInterface
      */
     public function destroyAll(): bool
     {
+        $this->readData = [];
+
         $sql = 'TRUNCATE TABLE `' . $this->config['name'] . '`';
 
         $this->query($sql, []);
