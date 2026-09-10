@@ -60,7 +60,8 @@ function decodeEntities(value: string): string {
 // HTML parser will make of it: it discards some tags outright (`<td>` outside a table, `<html>`),
 // which would otherwise leave the title looking like plain text while its characters are dropped.
 function carriesOtherMarkup(html: string): boolean {
-  if (html.indexOf('<!') !== -1) {
+  // the parser discards a comment, and treats '<!', '<?' and '</' before a non-letter as one
+  if (/<[!?]|<\/(?![a-zA-Z])/.test(html)) {
     return true;
   }
 
@@ -69,6 +70,11 @@ function carriesOtherMarkup(html: string): boolean {
   let tag = tags.exec(html);
 
   while (tag !== null) {
+    // an unterminated tag is dropped with everything the parser read into it
+    if (!tag[0].endsWith('>')) {
+      return true;
+    }
+
     const name = tag[2].toLowerCase();
     const attributes = (tag[3] || '').replace(/\/\s*$/, '').trim();
 

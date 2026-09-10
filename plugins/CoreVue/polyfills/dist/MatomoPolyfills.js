@@ -15655,13 +15655,16 @@
     return textarea.value;
   }
   function carriesOtherMarkup(html2) {
-    if (html2.indexOf("<!") !== -1) {
+    if (/<[!?]|<\/(?![a-zA-Z])/.test(html2)) {
       return true;
     }
     const tags = /<(\/?)([a-zA-Z][^\s/>]*)([^>]*)>?/g;
     const open = [];
     let tag = tags.exec(html2);
     while (tag !== null) {
+      if (!tag[0].endsWith(">")) {
+        return true;
+      }
       const name = tag[2].toLowerCase();
       const attributes = (tag[3] || "").replace(/\/\s*$/, "").trim();
       if (!TOOLTIP_TAGS.includes(name) || attributes !== "") {

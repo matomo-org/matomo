@@ -67,7 +67,7 @@ describe('CoreVue/sanitizeTooltip', () => {
 
   // markup that leads the title is parsed into the head unless the body is forced, which used to
   // hide it from the check that picks the text branch - and it was then dropped instead of shown
-  it('keeps the whole title even when its markup would be parsed into the head', () => {
+  it('keeps the whole title even when the parser would discard part of it', () => {
     const titles = [
       '<style>b{color:red}</style><b>n</b>',
       '<script>alert(1)</script>o',
@@ -88,6 +88,18 @@ describe('CoreVue/sanitizeTooltip', () => {
       '<tr><th>h</th></tr>',
       '<colgroup><col>z',
       '<html class="a">text',
+      // an unterminated tag is dropped with everything the parser read into it
+      'A<B',
+      'Rated<b',
+      '<b>x</b',
+      // '<!', '<?' and '</' before a non-letter start a comment the parser discards
+      'x<?y>z',
+      'x</ b>y',
+      'x</>y',
+      // a '<' the parser keeps as text, which needs no fallback
+      'a < b',
+      '5 < 6 > 4',
+      'x<%y>z',
     ];
 
     titles.forEach((title) => {
