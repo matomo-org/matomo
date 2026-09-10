@@ -2524,7 +2524,11 @@ if (typeof window.Matomo !== 'object') {
                     return 0;
                 }
 
-                var cookiePattern = new RegExp('(^|;)[ ]*' + cookieName + '=([^;]*)'),
+                // escape regular expression metacharacters in the cookie name, otherwise
+                // characters such as '.' would match any character and getCookie could
+                // return the value of a different cookie (see #21998)
+                var escapedCookieName = String(cookieName).replace(/[.*+?^${}()|[\]\\]/g, '\\$&'),
+                    cookiePattern = new RegExp('(^|;)[ ]*' + escapedCookieName + '=([^;]*)'),
                     cookieMatch = cookiePattern.exec(documentAlias.cookie);
 
                 return cookieMatch ? decodeWrapper(cookieMatch[2]) : 0;
