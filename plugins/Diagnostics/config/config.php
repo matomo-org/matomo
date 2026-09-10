@@ -36,6 +36,7 @@ return array(
         Piwik\DI::get('Piwik\Plugins\Diagnostics\Diagnostic\DbOverSSLCheck'),
         Piwik\DI::get('Piwik\Plugins\Diagnostics\Diagnostic\DbMaxPacket'),
         Piwik\DI::get('Piwik\Plugins\Diagnostics\Diagnostic\ForceSSLCheck'),
+        Piwik\DI::get('Piwik\Plugins\Diagnostics\Diagnostic\ConfigWriteModeCheck'),
     ),
     'diagnostics.informational' => array(
         Piwik\DI::get('Piwik\Plugins\Diagnostics\Diagnostic\MatomoInformational'),
@@ -58,4 +59,7 @@ return array(
 
     'Piwik\Plugins\Diagnostics\Diagnostic\WriteAccessCheck' => Piwik\DI::autowire()
         ->constructorParameter('tmpPath', Piwik\DI::get('path.tmp')),
+
+    'Piwik\Plugins\Diagnostics\Diagnostic\ConfigWriteModeCheck' => Piwik\DI::autowire()
+        ->constructorParameter('atomicWriteEnabled', Piwik\DI::get('config.atomicwrite.enable')),
 );
