@@ -16,6 +16,9 @@ use Piwik\NumberFormatter;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\Marketplace\PluginTrial\Service as PluginTrialService;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\BusinessBundleTrigger;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\EnterpriseBundleTrigger;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\TeamBundleTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\BounceRateTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\FormPageTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\LowConversionRateTrigger;
@@ -175,6 +178,23 @@ class PromotionRenderer
                 return [
                     'title' => [],
                     'text' => [$numberFormatter->formatNumber((int) ($context['count'] ?? 0))],
+                ];
+
+            // The bundle copy names how many premium products are already in use, which
+            // is what the trigger counts.
+            case TeamBundleTrigger::NAME:
+            case BusinessBundleTrigger::NAME:
+                return [
+                    'title' => [],
+                    'text' => [$numberFormatter->formatNumber((int) ($context['count'] ?? 0))],
+                ];
+
+            // The largest bundle is pitched on the size of the team rather than on how
+            // many products it already has, so its copy names the user count instead.
+            case EnterpriseBundleTrigger::NAME:
+                return [
+                    'title' => [],
+                    'text' => [$numberFormatter->formatNumber((int) ($context['numUsers'] ?? 0))],
                 ];
 
             // These all name a single count in the body and nothing in the headline.

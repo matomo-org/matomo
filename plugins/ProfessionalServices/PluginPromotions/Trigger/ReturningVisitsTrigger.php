@@ -19,7 +19,7 @@ class ReturningVisitsTrigger extends ReportBackedTrigger
 {
     public const NAME = 'returning_visits';
 
-    public const MINIMUM_RETURNING_VISITS = 500;
+    public const MINIMUM_RETURNING_VISITORS = 500;
 
     public function getName(): string
     {
@@ -45,8 +45,11 @@ class ReturningVisitsTrigger extends ReportBackedTrigger
             return null;
         }
 
-        $returning = (int) $row->getColumn('nb_visits_returning');
+        // Distinct visitors rather than visits: the promotion compares groups of people
+        // over time and its copy says "returning visitors", so someone coming back three
+        // times is one of them and not three.
+        $returning = (int) $row->getColumn('nb_uniq_visitors_returning');
 
-        return $returning < self::MINIMUM_RETURNING_VISITS ? null : ['count' => $returning];
+        return $returning < self::MINIMUM_RETURNING_VISITORS ? null : ['count' => $returning];
     }
 }
