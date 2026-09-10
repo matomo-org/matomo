@@ -11,10 +11,10 @@ namespace Piwik\Period;
 
 use Exception;
 use Piwik\Cache;
-use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Period;
+use Piwik\Request;
 
 /**
  * Arbitrary date range representation.
@@ -476,11 +476,11 @@ class Range extends Period
     public static function getDateXPeriodsAgo($subXPeriods, $date = false, $period = false, $timezone = false)
     {
         if ($date === false) {
-            $date = Common::getRequestVar('date');
+            $date = Request::fromRequest()->getStringParameter('date');
         }
 
         if ($period === false) {
-            $period = Common::getRequestVar('period');
+            $period = Request::fromRequest()->getStringParameter('period');
         }
 
         // A relative date resolves on the day $timezone is on, and Date::factory() would hand back
