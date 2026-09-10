@@ -23,6 +23,11 @@ describe('TooltipContent', function () {
   // the tags a tooltip may render; everything else has to be shown as text
   const allowedTags = ['B', 'BR', 'EM', 'I', 'SMALL', 'SPAN', 'STRONG', 'U'];
 
+  // a reporting page wraps every report in a tooltip host of its own, which a widgetized report has
+  // no equivalent of, so both are walked
+  const report = (category, subcategory, extra) => '?module=CoreHome&action=index' + params
+    + '#?' + params.substring(1) + '&category=' + category + '&subcategory=' + subcategory + (extra || '');
+
   const widget = (module, action, extra) => '?module=Widgetize&action=iframe&moduleToWidgetize='
     + module + '&actionToWidgetize=' + action + params + '&filter_limit=50' + (extra || '');
 
@@ -259,6 +264,19 @@ describe('TooltipContent', function () {
 
   it('should show tracked values as text in the user id tooltips', async function () {
     await loadAndSweep(widget('UserId', 'getUsers'), '.dataTable', 30);
+  });
+
+  it('should show tracked values as text in a tag cloud', async function () {
+    // the cloud is not offered as a footer icon for this report, so its view is forced
+    await loadAndSweep(
+      report('General_Actions', 'Actions_SubmenuSitesearch', '&viewDataTable=cloud&forceView=1'),
+      '.tagCloud',
+      12
+    );
+  });
+
+  it('should show tracked values as text in a report on a reporting page', async function () {
+    await loadAndSweep(report('General_Actions', 'General_Pages', '&flat=1'), '.dataTable', 20);
   });
 
   it('should render its own markup in a comparison tooltip', async function () {
