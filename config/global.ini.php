@@ -64,6 +64,14 @@ enable_segment_first_table_join_prefix = 0
 ; Add a query hint for the order of joined tables for all log table queries in MySQL.
 enable_first_table_join_prefix = 0
 
+; Set to 1 by the Matomo 6 update on installs whose archive_blob_* tables still use a MEDIUMBLOB
+; "value" column, from before those tables were created as LONGBLOB. While it is set, configured
+; datatable_archiving_maximum_rows_* limits above 100000 are reduced to 100000 when archiving into
+; such a table, so a blob cannot exceed the 16 MB a MEDIUMBLOB column can hold and be truncated.
+; Run "./console core:recheck-archive-blob-types" to list the affected tables and, once they have
+; been converted to LONGBLOB, remove this setting.
+archive_blob_tables_may_contain_mediumblob = 0
+
 ; If configured, the following queries will be executed on the reader instead of the writer.
 ; * archiving queries that hit a log table
 ; * live queries that hit a log table

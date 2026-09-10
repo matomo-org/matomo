@@ -12,6 +12,7 @@ namespace Piwik\ArchiveProcessor;
 use Piwik\Archive;
 use Piwik\ArchiveProcessor;
 use Piwik\Common;
+use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Piwik;
@@ -385,7 +386,7 @@ abstract class RecordBuilder
         }
 
         $flatSerialized = $flatTable->getSerialized(
-            $flatMaxRowsInTable,
+            $this->capRowLimitForBlobTable($archiveProcessor, $flatMaxRowsInTable),
             null,
             $flatColumnToSortByBeforeTruncation
         );
@@ -408,6 +409,8 @@ abstract class RecordBuilder
             $hierarchicalTransform($hierarchicalTable, $archiveProcessor, $hierarchicalRecord);
         }
 
+        // Stored without a row limit on purpose: it is rebuilt from the flat table above, so it is
+        // already bounded by that table's (capped) limit.
         $hierarchicalSerialized = $hierarchicalTable->getSerialized(
             null,
             null,
@@ -736,6 +739,26 @@ abstract class RecordBuilder
      */
     abstract protected function aggregate(ArchiveProcessor $archiveProcessor): array;
 
+    /**
+     * Applies the legacy MEDIUMBLOB row cap to a configured row limit, if one is needed for the
+     * archive_blob table this period is written to.
+     */
+    private function capRowLimitForBlobTable(ArchiveProcessor $archiveProcessor, ?int $maxRows): ?int
+    {
+        // Only look up the blob table name (which touches the DB table-list cache) when the
+        // MEDIUMBLOB cap flag is set. Fresh installs pay zero I/O overhead via this guard.
+        if ($maxRows === null || !ArchiveBlobRowCap::isCapPossiblyNeeded()) {
+            return $maxRows;
+        }
+
+        $blobTable = ArchiveTableCreator::getBlobTable(
+            $archiveProcessor->getParams()->getPeriod()->getDateStart(),
+            false
+        );
+
+        return $blobTable === null ? $maxRows : ArchiveBlobRowCap::capMaxRows($maxRows, $blobTable);
+    }
+
     protected function insertBlobRecord(
         ArchiveProcessor $archiveProcessor,
         string $recordName,
@@ -744,9 +767,15 @@ abstract class RecordBuilder
         ?int $maxRowsInSubtable,
         ?string $columnToSortByBeforeTruncation
     ): void {
+        $maxRows = $maxRowsInTable ?? $this->maxRowsInTable;
+        $maxSubtableRows = $maxRowsInSubtable ?? $this->maxRowsInSubtable;
+
+        $effectiveMaxRows = $this->capRowLimitForBlobTable($archiveProcessor, $maxRows);
+        $effectiveMaxSubtableRows = $this->capRowLimitForBlobTable($archiveProcessor, $maxSubtableRows);
+
         $serialized = $record->getSerialized(
-            $maxRowsInTable ?? $this->maxRowsInTable,
-            $maxRowsInSubtable ?? $this->maxRowsInSubtable,
+            $effectiveMaxRows,
+            $effectiveMaxSubtableRows,
             $columnToSortByBeforeTruncation ?? $this->columnToSortByBeforeTruncation
         );
         $archiveProcessor->insertBlobRecord($recordName, $serialized);
