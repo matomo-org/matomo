@@ -7,7 +7,7 @@
 
 <template>
   <section class="marketplaceHero">
-    <h1 class="marketplaceHero__title">{{ translate('Marketplace_MatomoMarketplace') }}</h1>
+    <h1 class="marketplaceHero__title">{{ translate('General_MatomoMarketplace') }}</h1>
     <p class="marketplaceHero__subtitle">{{ translate('Marketplace_IntroShort') }}</p>
     <div class="marketplaceHero__search">
       <SearchInput

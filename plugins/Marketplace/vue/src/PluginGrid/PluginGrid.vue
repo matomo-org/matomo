@@ -6,10 +6,7 @@
 -->
 
 <template>
-  <div
-    class="pluginGrid"
-    :class="{ 'pluginGrid--singleRow': singleRow }"
-  >
+  <div class="pluginGrid">
     <PluginCard
       v-for="plugin in visiblePlugins"
       :key="plugin.name"
@@ -36,7 +33,6 @@ import { defineComponent, PropType } from 'vue';
 import PluginCard from '../PluginCard/PluginCard.vue';
 import PluginCardSkeleton from '../PluginCard/PluginCardSkeleton.vue';
 import { PluginCard as PluginCardType } from '../types';
-import { SINGLE_ROW_MAX_CARDS } from './visibleCardCount';
 
 export default defineComponent({
   props: {
@@ -44,10 +40,13 @@ export default defineComponent({
       type: Array as PropType<PluginCardType[]>,
       required: true,
     },
-    /** Render at most one row, for a curated section. */
-    singleRow: {
-      type: Boolean,
-      default: false,
+    /**
+     * Render at most this many cards, for a curated section that shows one row. `null` renders
+     * every plugin it was handed.
+     */
+    maxCards: {
+      type: Number as PropType<number|null>,
+      default: null,
     },
     skeletonCount: {
       type: Number,
@@ -70,7 +69,7 @@ export default defineComponent({
   emits: ['openDetails', 'requestTrial', 'startFreeTrial'],
   computed: {
     visiblePlugins(): PluginCardType[] {
-      return this.singleRow ? this.plugins.slice(0, SINGLE_ROW_MAX_CARDS) : this.plugins;
+      return null === this.maxCards ? this.plugins : this.plugins.slice(0, this.maxCards);
     },
   },
 });

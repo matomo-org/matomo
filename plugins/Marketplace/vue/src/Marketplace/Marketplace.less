@@ -19,7 +19,7 @@
 .marketplacePage__resultsBar {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
+  align-items: safe center;
   justify-content: space-between;
   gap: 12px;
   margin: 24px 0 12px;
@@ -33,15 +33,15 @@
 
 .marketplacePage__resultsCount {
   min-width: 0;
+}
 
-  h2 {
-    width: auto;
-    margin: 0;
-    padding: 0;
-    font-size: 20px;
-    line-height: 24px;
-    color: @theme-color-text;
-  }
+.marketplacePage__resultsHeading {
+  width: auto;
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
+  line-height: 24px;
+  color: @theme-color-text;
 }
 
 .marketplacePage__sections {

@@ -196,15 +196,15 @@ describe('Marketplace/PluginCard', () => {
     });
 
     it('requests a right-sized cover and offers a retina source', () => {
-      const img = mountCard().find('.pluginCard__shot img');
+      const img = mountCard().find('.pluginCard__shotImage');
       expect(img.attributes('src')).toContain('?w=440&h=240');
       expect(img.attributes('srcset')).toContain('?w=880&h=480 880w');
     });
 
     it('drops the image but keeps the frame when the cover 404s', async () => {
       const wrapper = mountCard();
-      await wrapper.find('.pluginCard__shot img').trigger('error');
-      expect(wrapper.find('.pluginCard__shot img').exists()).toBe(false);
+      await wrapper.find('.pluginCard__shotImage').trigger('error');
+      expect(wrapper.find('.pluginCard__shotImage').exists()).toBe(false);
       expect(wrapper.find('.pluginCard__plate').exists()).toBe(true);
     });
   });

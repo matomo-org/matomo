@@ -6,16 +6,16 @@
  */
 
 /**
- * How many cards a single-row section is showing at the current width.
+ * How many cards a single-row section shows at the current width.
  *
- * `PluginGrid.less` cuts a section's row down to one screenful with nth-child rules rather than
- * JavaScript, so a section holding more plugins than fit is not showing them - and its "See all"
- * has to be there. That decision needs the number the stylesheet arrived at, which is why the
- * counts are mirrored here.
+ * `PluginSection` cuts its list to this number and hands the rest to nobody, so the same number
+ * decides both what is rendered and whether the section's "See all" is there. Doing the cut here
+ * rather than in `PluginGrid.less` keeps one answer: overlapping `max-width` blocks all match at
+ * once, so a stylesheet that hides the overflow accumulates rules and can hide a card the count
+ * says is showing.
  *
- * Keep this table and `.pluginGrid--singleRow` in step. Nothing fails loudly if they drift: a
- * "See all" just goes missing while cards are cut off, or appears on a row that is already whole.
- * `visibleCardCount.spec.ts` pins the sequence so an edit to one of them fails a test instead.
+ * Keep the counts below in step with `.pluginGrid`'s column counts - a row is one or two lines of
+ * whatever the grid is showing. `visibleCardCount.spec.ts` pins the sequence.
  *
  * This is a plain module, not a composable, so the MediaQueryList objects are shared by every
  * section on the page and stay out of Vue's reactive proxies - a proxied MediaQueryList throws
@@ -25,8 +25,8 @@
 /**
  * Narrowest first, first match wins: every max-width below the current width matches at once.
  *
- * Below three columns the stylesheet deliberately shows two rows, or a section would come down to
- * a single card, which is why 1280px reports four rather than two.
+ * Below three columns a section deliberately runs to two rows, or it would come down to a single
+ * card, which is why 1280px reports four rather than two.
  */
 export const SINGLE_ROW_BREAKPOINTS: ReadonlyArray<{ query: string, cards: number }> = [
   { query: '(max-width: 760px)', cards: 2 },

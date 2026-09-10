@@ -12,21 +12,23 @@
       ref="trigger"
       class="sortMenu__trigger"
       :aria-expanded="expanded"
-      aria-haspopup="menu"
       @click="expanded = !expanded"
     >
       <span>{{ translate('Marketplace_SortBy') }}: {{ activeLabel }}</span>
       <span class="icon-chevron-down" aria-hidden="true" />
     </button>
 
-    <div class="sortMenu__menu" role="menu" v-if="expanded">
+    <!--
+      A disclosure, not an ARIA menu: menu semantics promise arrow/Home/End navigation and focus
+      moved into the menu, and these are ordinary buttons the tab key already reaches.
+    -->
+    <div class="sortMenu__menu" v-if="expanded">
       <button
         v-for="option in options"
         :key="option.id"
         type="button"
-        role="menuitemradio"
-        :aria-checked="option.id === modelValue"
         class="sortMenu__item"
+        :aria-current="option.id === modelValue ? 'true' : undefined"
         @click="select(option.id)"
       >
         <span>{{ translate(option.labelKey) }}</span>

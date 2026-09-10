@@ -5,16 +5,21 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-@_plateHeight: 151px;
-@_shotWidth: 229px;
-@_shotHeight: 137px;
-@_shotOverhang: 10px;
-@_shotRing: 8px;
-@_descriptionLines: 3;
-@_descriptionLineHeight: 20px;
-@_chipHeight: 26px;
+// Block-prefixed rather than block-scoped: PluginCardSkeleton reuses `.pluginCard` as its root and
+// mirrors this card's geometry, so both blocks in this file read the same numbers. The prefix keeps
+// them from colliding with another component's variables once the stylesheets are concatenated.
+@_pluginCardPlateHeight: 151px;
+@_pluginCardShotWidth: 229px;
+@_pluginCardShotHeight: 137px;
+@_pluginCardShotOverhang: 10px;
+@_pluginCardShotRing: 8px;
+@_pluginCardDescriptionLines: 3;
+@_pluginCardDescriptionLineHeight: 20px;
+@_pluginCardChipHeight: 26px;
 
-.marketplaceFilledButton() {
+// override: Materialize paints .btn from its own palette and wins on the colour, so the brand fill
+// needs !important to stick. Scoped to this block's actions below.
+.pluginCardFilledButton() {
   border-color: @theme-color-brand;
   background: @theme-color-brand;
   color: @theme-color-brand-contrast !important;
@@ -52,7 +57,7 @@
 
 .pluginCard__plate {
   position: relative;
-  height: @_plateHeight;
+  height: @_pluginCardPlateHeight;
   border-radius: 4px;
   overflow: hidden;
   background: @marketplace-plate-bg;
@@ -65,27 +70,27 @@
 .pluginCard__shot {
   position: absolute;
   left: 50%;
-  bottom: -@_shotOverhang;
+  bottom: -@_pluginCardShotOverhang;
   transform: translateX(-50%);
-  width: @_shotWidth;
-  max-width: calc(100% - 2 * @_shotRing);
-  height: @_shotHeight;
+  width: @_pluginCardShotWidth;
+  max-width: ~"calc(100% - @{_pluginCardShotRing} * 2)";
+  height: @_pluginCardShotHeight;
   border-radius: 4px;
   overflow: hidden;
   background: @theme-color-background-contrast;
-  box-shadow: 0 0 0 @_shotRing @marketplace-plate-ring;
+  box-shadow: 0 0 0 @_pluginCardShotRing @marketplace-plate-ring;
   transition: transform 0.5s ease-out;
 
   .inDarkMode({
-    box-shadow: 0 0 0 @_shotRing @marketplace-plate-ring-dark;
+    box-shadow: 0 0 0 @_pluginCardShotRing @marketplace-plate-ring-dark;
   });
+}
 
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: top;
-  }
+.pluginCard__shotImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
 }
 
 .pluginCard:hover .pluginCard__shot {
@@ -95,20 +100,20 @@
 .pluginCard__chips {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
+  align-items: safe center;
   gap: 6px;
   margin-top: 12px;
-  min-height: @_chipHeight;
+  min-height: @_pluginCardChipHeight;
 }
 
 .pluginCard__chip {
   display: inline-flex;
-  align-items: center;
+  align-items: safe center;
   gap: 6px;
-  height: @_chipHeight;
+  height: @_pluginCardChipHeight;
   padding: 0 10px;
   border: 1px solid @theme-color-border-alternative;
-  border-radius: (@_chipHeight / 2);
+  border-radius: (@_pluginCardChipHeight / 2);
   font-size: 12px;
   line-height: 1;
   color: @theme-color-text;
@@ -157,22 +162,21 @@
   }
 }
 
-.pluginCard .pluginCard__description {
+.pluginCard__description {
   margin: 6px 0 0;
-  padding-bottom: 0;
   font-size: 14px;
-  line-height: @_descriptionLineHeight;
+  line-height: @_pluginCardDescriptionLineHeight;
   color: @theme-color-text-light;
   display: -webkit-box;
-  -webkit-line-clamp: @_descriptionLines;
+  -webkit-line-clamp: @_pluginCardDescriptionLines;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  min-height: @_descriptionLines * @_descriptionLineHeight;
+  min-height: @_pluginCardDescriptionLines * @_pluginCardDescriptionLineHeight;
 }
 
 .pluginCard__meta {
   display: flex;
-  align-items: center;
+  align-items: safe center;
   justify-content: space-between;
   gap: 8px;
   margin-top: 8px;
@@ -224,6 +228,8 @@
   padding-top: 14px;
   min-height: 32px;
 
+  // override: the CTAs are Materialize buttons rendered by CTAContainer, and their sizing,
+  // uppercasing and colours all come from .btn. Resizing them to the card is only possible here.
   .btn {
     height: 32px;
     line-height: 32px;
@@ -235,6 +241,8 @@
     letter-spacing: 0;
   }
 
+  // override: the secondary CTA reads as an outline button. Materialize's .btn colour wins on
+  // specificity alone, so the text colour needs !important.
   .btn.btn-block:not(.purchaseable):not(.addToCartLink) {
     border: 1px solid @theme-color-brand;
     line-height: 30px; // 32px, less the border
@@ -260,7 +268,7 @@
 
   .btn.purchaseable,
   .btn.addToCartLink {
-    .marketplaceFilledButton();
+    .pluginCardFilledButton();
   }
 
   .btn.purchaseable.disabled {
@@ -272,26 +280,27 @@
 
 .pluginCard--bundle .pluginCard__actions {
   .btn.btn-block:not(.purchaseable):not(.addToCartLink) {
-    .marketplaceFilledButton();
+    .pluginCardFilledButton();
 
     .inDarkMode({
-      .marketplaceFilledButton();
+      .pluginCardFilledButton();
     });
   }
 }
 
 .pluginCardSkeleton__block,
+.pluginCardSkeleton__textLine,
 .pluginCardSkeleton__chip {
   display: block;
   border-radius: 3px;
   background: @theme-color-background-base;
-  animation: pluginCardSkeletonPulse 1.4s ease-in-out infinite;
+  animation: pluginCardSkeleton__pulse 1.4s ease-in-out infinite;
 }
 
 .pluginCardSkeleton__chip {
   width: 96px;
-  height: @_chipHeight;
-  border-radius: (@_chipHeight / 2);
+  height: @_pluginCardChipHeight;
+  border-radius: (@_pluginCardChipHeight / 2);
 }
 
 .pluginCardSkeleton__chip--short {
@@ -304,18 +313,18 @@
   margin-top: 10px;
 }
 
-.pluginCardSkeleton__lines {
+.pluginCardSkeleton__textBlock {
   display: flex;
   flex-direction: column;
   gap: 6px;
   margin-top: 8px;
-
-  > .pluginCardSkeleton__block {
-    height: 12px;
-  }
 }
 
-.pluginCardSkeleton__block--short {
+.pluginCardSkeleton__textLine {
+  height: 12px;
+}
+
+.pluginCardSkeleton__textLine--short {
   width: 66%;
 }
 
@@ -340,7 +349,7 @@
   }
 }
 
-@keyframes pluginCardSkeletonPulse {
+@keyframes pluginCardSkeleton__pulse {
   0%,
   100% {
     opacity: 1;
@@ -355,6 +364,7 @@
   .pluginCard,
   .pluginCard__shot,
   .pluginCardSkeleton__block,
+  .pluginCardSkeleton__textLine,
   .pluginCardSkeleton__chip {
     transition: none;
     animation: none;

@@ -173,12 +173,23 @@ describe('PluginSection', () => {
   describe('grid', () => {
     beforeEach(() => stubViewport(1900));
 
-    it('hands the grid every plugin, and lets it do the cut', async () => {
+    it('hands the grid every plugin, plus the number this width has room for', async () => {
       const wrapper = await mountSection({ plugins: plugins(9) });
       const grid = wrapper.findComponent({ name: 'PluginGrid' });
 
-      expect(grid.props('singleRow')).toBe(true);
       expect(grid.props('plugins')).toHaveLength(9);
+      expect(grid.props('maxCards')).toBe(5);
+    });
+
+    it('lowers the grid\'s cut with the width, in step with "See all"', async () => {
+      const resizeTo = stubViewport(1900);
+      const wrapper = await mountSection({ plugins: plugins(9) });
+      const grid = wrapper.findComponent({ name: 'PluginGrid' });
+
+      resizeTo(1000);
+      await wrapper.vm.$nextTick();
+
+      expect(grid.props('maxCards')).toBe(4);
     });
 
     it.each(['openDetails', 'requestTrial', 'startFreeTrial'])('forwards %s', async (event) => {

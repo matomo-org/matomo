@@ -46,6 +46,8 @@
 .ctaStatus__action {
   flex: none;
 
+  // override: Materialize sizes .btn-block to the full row; a status line only wants the label's
+  // width, with enough room that the button does not resize as its label changes
   .btn.btn-block {
     width: auto;
     min-width: 110px;

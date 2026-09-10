@@ -29,7 +29,7 @@ describe("Marketplace", function () {
         await page.goto(searchUrl(pluginTitle));
 
         const elem = await page.jQuery(
-          '.card-content .card-title:contains("' + pluginTitle + '")',
+          '.pluginCard__titleLink:contains("' + pluginTitle + '")',
           { waitFor: true }
         );
 

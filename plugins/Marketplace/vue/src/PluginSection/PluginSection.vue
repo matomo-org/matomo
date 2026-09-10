@@ -23,7 +23,7 @@
     </div>
 
     <PluginGrid
-      single-row
+      :max-cards="visibleCards"
       :plugins="plugins"
       :is-super-user="isSuperUser"
       :is-plugins-admin-enabled="isPluginsAdminEnabled"
@@ -71,8 +71,8 @@ export default defineComponent({
       default: false,
     },
     /**
-     * Every plugin in the section, not only the ones the row has room for. The row does its own
-     * cut, and the count is what decides whether "See all" is worth showing.
+     * Every plugin in the section, not only the ones the row has room for. The section cuts the
+     * list down to {@link visibleCards}, and the full count decides whether "See all" is there.
      */
     plugins: {
       type: Array as PropType<PluginCardType[]>,
@@ -116,8 +116,8 @@ export default defineComponent({
     /**
      * Only when the row is leaving something out.
      *
-     * Compared against what the row is showing at this width, not against the list the grid was
-     * handed: below three columns the stylesheet shows two rows, and above them as few as two
+     * Compared against what the row is showing at this width, not against the list the section was
+     * handed: below three columns the row runs to two lines, and above them shows as few as three
      * cards, so a fixed threshold would hide the link on a section with plugins still cut off.
      */
     showSeeAll(): boolean {

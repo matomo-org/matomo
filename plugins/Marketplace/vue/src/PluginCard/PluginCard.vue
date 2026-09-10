@@ -14,6 +14,7 @@
     <div class="pluginCard__plate">
       <div class="pluginCard__shot">
         <img
+          class="pluginCard__shotImage"
           v-if="!coverImageFailed"
           :src="coverImageUrl(440, 240)"
           :srcset="coverImageSrcset"

@@ -13,10 +13,10 @@
       <span class="pluginCardSkeleton__chip pluginCardSkeleton__chip--short" />
     </div>
     <div class="pluginCardSkeleton__block pluginCardSkeleton__title" />
-    <div class="pluginCardSkeleton__lines">
-      <span class="pluginCardSkeleton__block" />
-      <span class="pluginCardSkeleton__block" />
-      <span class="pluginCardSkeleton__block pluginCardSkeleton__block--short" />
+    <div class="pluginCardSkeleton__textBlock">
+      <span class="pluginCardSkeleton__textLine" />
+      <span class="pluginCardSkeleton__textLine" />
+      <span class="pluginCardSkeleton__textLine pluginCardSkeleton__textLine--short" />
     </div>
     <div class="pluginCardSkeleton__block pluginCardSkeleton__meta" />
     <div class="pluginCardSkeleton__block pluginCardSkeleton__action" />

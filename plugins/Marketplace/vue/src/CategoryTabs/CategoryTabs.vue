@@ -9,7 +9,7 @@
   <div class="categoryTabs">
     <div class="categoryTabs__select">
       <select
-        class="browser-default"
+        class="browser-default categoryTabs__selectInput"
         :value="modelValue"
         :aria-label="translate('Marketplace_Categories')"
         @change="selectFromEvent($event)"
@@ -41,21 +41,24 @@
           class="categoryTabs__tab categoryTabs__moreButton"
           :class="{ 'categoryTabs__tab--active': activeIsInOverflow }"
           :aria-expanded="expanded"
-          aria-haspopup="menu"
           @click="expanded = !expanded"
         >
           <span>{{ activeIsInOverflow ? activeLabel : translate('Marketplace_Categories') }}</span>
           <span class="icon-chevron-down" aria-hidden="true" />
         </button>
 
-        <div class="categoryTabs__menu" role="menu" v-if="expanded">
+        <!--
+          A disclosure, not an ARIA menu: menu semantics promise arrow/Home/End navigation and
+          focus moved into the menu, and these are ordinary buttons the tab key already reaches.
+        -->
+        <div class="categoryTabs__menu" v-if="expanded">
           <button
             v-for="tab in overflowTabs"
             :key="tab.id"
             type="button"
-            role="menuitem"
             class="categoryTabs__menuItem"
             :class="{ 'categoryTabs__menuItem--active': tab.id === modelValue }"
+            :aria-current="tab.id === modelValue ? 'page' : undefined"
             @click="select(tab.id)"
           >{{ tabLabel(tab) }}</button>
         </div>

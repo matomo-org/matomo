@@ -318,7 +318,7 @@ class PluginsTest extends IntegrationTestCase
                     'https://plugins.piwik.org/Barometer/images/0.5.0/piwik-barometer-01.png',
                     'https://plugins.piwik.org/Barometer/images/0.5.0/piwik-barometer-02.png',
                 ],
-            'coverImage' => 'https://plugins.piwik.org/img/categories/insights.png',
+            'coverImage' => 'plugins/Marketplace/images/categories/uncategorised.png',
             'previews' =>
                  [ [
                     'type' => 'demo',
@@ -539,15 +539,23 @@ class PluginsTest extends IntegrationTestCase
     {
         $fixture = json_decode($this->service->getFixtureContent('v2.0_plugins.json'), true);
 
-        $covers = [
-            'SecurityInfo' => 'https://plugins.piwik.org/img/categories/uncategorised.png',
-            'CustomAlerts' => 'https://plugins.piwik.org/img/categories/insights.png',
-            'TreemapVisualization' => 'https://plugins.piwik.org/TreemapVisualization/images/1.0.1/_cover.png',
+        // both of the Marketplace's own stand-ins - the generic one and a category one - are
+        // placeholders, so both are replaced; a real screenshot is left alone
+        $overrides = [
+            'SecurityInfo' => ['coverImage' => 'https://plugins.piwik.org/img/categories/uncategorised.png'],
+            'CustomAlerts' => ['coverImage' => 'https://plugins.piwik.org/img/categories/insights.png'],
+            'Barometer' => ['coverImage' => 'https://plugins.piwik.org/img/categories/insights.png'],
+            'TreemapVisualization' => [
+                'coverImage' => 'https://plugins.piwik.org/TreemapVisualization/images/1.0.1/_cover.png',
+            ],
+            // the only combination the Matomo wordmark placeholder is for: a paid plugin Matomo
+            // owns. PaidPlugin1 already arrives with a category stand-in, so only the owner changes
+            'PaidPlugin1' => ['owner' => 'matomo-org'],
         ];
 
         foreach ($fixture['plugins'] as $index => $plugin) {
-            if (isset($covers[$plugin['name']])) {
-                $fixture['plugins'][$index]['coverImage'] = $covers[$plugin['name']];
+            if (isset($overrides[$plugin['name']])) {
+                $fixture['plugins'][$index] = array_merge($plugin, $overrides[$plugin['name']]);
             }
         }
 
@@ -560,15 +568,21 @@ class PluginsTest extends IntegrationTestCase
             $enriched[$plugin['name']] = $plugin['coverImage'];
         }
 
-        $this->assertSame(
-            'plugins/Marketplace/images/categories/uncategorised.png',
-            $enriched['SecurityInfo']
-        );
+        $uncategorised = 'plugins/Marketplace/images/categories/uncategorised.png';
+
+        $this->assertSame($uncategorised, $enriched['SecurityInfo']);
+        // categorised, but free and so not the wordmark's audience
+        $this->assertSame($uncategorised, $enriched['CustomAlerts']);
+        // categorised and third party: the Matomo wordmark must not end up on it
+        $this->assertSame($uncategorised, $enriched['Barometer']);
         $this->assertSame(
             'plugins/Marketplace/images/categories/matomo.png',
-            $enriched['CustomAlerts']
+            $enriched['PaidPlugin1']
         );
-        $this->assertSame($covers['TreemapVisualization'], $enriched['TreemapVisualization']);
+        $this->assertSame(
+            $overrides['TreemapVisualization']['coverImage'],
+            $enriched['TreemapVisualization']
+        );
     }
 
     public function testGetAllPaidPluginsShouldFetchOnlyPaidPlugins()

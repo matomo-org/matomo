@@ -523,21 +523,6 @@ class Plugins
     }
 
     /**
-     * A bundle is licensed for one seat tier, and the Marketplace spells that tier into the name of
-     * each shop variation: "Up to 20 users", or "Up to 20 users monthly" for the monthly one. The
-     * overview's cards show it, so resolve it here instead of parsing a display string in the
-     * browser.
-     *
-     * Read off the variation addPriceFrom() already chose, so a card's seat tier and its price can
-     * never describe different variations. A name carrying no number leaves the field unset rather
-     * than inventing one: the Marketplace also sells "Unlimited users.", which has no tier to show.
-     *
-     * Bundles only, deliberately: an individual paid plugin offers all three tiers at once, so
-     * there is no single seat count to put on its card.
-     *
-     * @param $plugin
-     */
-    /**
      * The category slugs a plugin is filed under, always as a clean list of strings.
      *
      * The Marketplace files a plugin under zero or more slugs and sends an empty array for one
@@ -566,6 +551,21 @@ class Plugins
         ));
     }
 
+    /**
+     * A bundle is licensed for one seat tier, and the Marketplace spells that tier into the name of
+     * each shop variation: "Up to 20 users", or "Up to 20 users monthly" for the monthly one. The
+     * overview's cards show it, so resolve it here instead of parsing a display string in the
+     * browser.
+     *
+     * Read off the variation addPriceFrom() already chose, so a card's seat tier and its price can
+     * never describe different variations. A name carrying no number leaves the field unset rather
+     * than inventing one: the Marketplace also sells "Unlimited users.", which has no tier to show.
+     *
+     * Bundles only, deliberately: an individual paid plugin offers all three tiers at once, so
+     * there is no single seat count to put on its card.
+     *
+     * @param $plugin
+     */
     private function addBundleSeats(&$plugin): void
     {
         if (empty($plugin['isBundle'])) {
@@ -584,6 +584,9 @@ class Plugins
      * cover image), we use Matomo image for Matomo plugins and a generic cover image otherwise. The Marketplace's own
      * category stand-ins count as no cover image here - see {@link isCategoryCoverImage()}.
      *
+     * The Matomo placeholder carries the Matomo wordmark, so ownership alone decides it: a plugin
+     * nobody at Matomo wrote never gets it, however the Marketplace has the plugin categorised.
+     *
      * @param $plugin
      */
     private function addPluginCoverImage(&$plugin): void
@@ -594,10 +597,7 @@ class Plugins
             return;
         }
 
-        $placeholder = $this->isCategoryCoverImage($coverImage)
-            && !$this->isUncategorisedCoverImage($coverImage)
-                ? 'matomo'
-                : 'uncategorised';
+        $placeholder = 'uncategorised';
 
         // use Matomo image for paid plugins, i.e. plugins without the isFree flag and with shop info
         if (
@@ -626,14 +626,6 @@ class Plugins
     private function isCategoryCoverImage(string $coverImage): bool
     {
         return 1 === preg_match('@(^|/)categories/[^/]+\.png$@i', $coverImage);
-    }
-
-    /**
-     * Whether a cover image is the Marketplace's stand-in for a plugin it files under no category.
-     */
-    private function isUncategorisedCoverImage(string $coverImage): bool
-    {
-        return 1 === preg_match('@(^|/)categories/uncategorised\.png$@i', $coverImage);
     }
 
     /**

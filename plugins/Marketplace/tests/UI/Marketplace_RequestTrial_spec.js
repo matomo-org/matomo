@@ -11,7 +11,7 @@ describe('Marketplace_RequestTrial', function () {
   this.fixture = "Piwik\\Plugins\\Marketplace\\tests\\Fixtures\\SimpleFixtureTrackFewVisits";
 
   const pluginsUrl = '?module=Marketplace&action=overview';
-  const requestTrialSelector = '.card-content .cta-container .btn.purchaseable';
+  const requestTrialSelector = '.pluginCard__actions .btn.purchaseable';
 
   before(function () {
     testEnvironment.overrideConfig('General', 'enable_plugins_admin', '1');

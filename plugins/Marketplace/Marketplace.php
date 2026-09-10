@@ -64,6 +64,7 @@ class Marketplace extends \Piwik\Plugin
         $stylesheets[] = "plugins/Marketplace/vue/src/SortMenu/SortMenu.less";
         $stylesheets[] = "plugins/Marketplace/vue/src/PluginCard/PluginCard.less";
         $stylesheets[] = "plugins/Marketplace/vue/src/PluginGrid/PluginGrid.less";
+        $stylesheets[] = "plugins/Marketplace/vue/src/PluginGrid/EmptyState.less";
         $stylesheets[] = "plugins/Marketplace/vue/src/PluginSection/PluginSection.less";
         $stylesheets[] = "plugins/Marketplace/vue/src/PluginList/CTAStatus.less";
     }
@@ -92,6 +93,7 @@ class Marketplace extends \Piwik\Plugin
         $translationKeys[] = 'General_ErrorRequest';
         $translationKeys[] = 'General_Help';
         $translationKeys[] = 'General_Installed';
+        $translationKeys[] = 'General_MatomoMarketplace';
         $translationKeys[] = 'General_MoreDetails';
         $translationKeys[] = 'General_Ok';
         $translationKeys[] = 'General_Plugin';
@@ -139,7 +141,6 @@ class Marketplace extends \Piwik\Plugin
         $translationKeys[] = 'Marketplace_LicenseRenewsNextPaymentDate';
         $translationKeys[] = 'Marketplace_ManageLicenseKeyIntro';
         $translationKeys[] = 'Marketplace_Marketplace';
-        $translationKeys[] = 'Marketplace_MatomoMarketplace';
         $translationKeys[] = 'Marketplace_NoPluginsFound';
         $translationKeys[] = 'Marketplace_NoSubscriptionsFound';
         $translationKeys[] = 'Marketplace_NoThemesFound';

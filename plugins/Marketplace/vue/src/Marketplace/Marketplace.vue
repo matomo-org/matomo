@@ -57,7 +57,7 @@
       ref="resultsBar"
     >
       <div class="marketplacePage__resultsCount" aria-live="polite">
-        <h2 v-if="resultsHeading">{{ resultsHeading }}</h2>
+        <h2 class="marketplacePage__resultsHeading" v-if="resultsHeading">{{ resultsHeading }}</h2>
       </div>
       <SortMenu
         v-if="showSort"
