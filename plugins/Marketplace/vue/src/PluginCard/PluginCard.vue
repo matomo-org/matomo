@@ -32,7 +32,7 @@
     <div class="pluginCard__chips">
       <span class="pluginCard__chip pluginCard__chip--matomo" v-if="isByMatomo">
         <span class="pluginCard__badge"><MatomoGlyph /></span>
-        {{ translate('Marketplace_ByMatomo') }}
+        {{ translate('Marketplace_CategoryMatomo') }}
       </span>
       <span class="pluginCard__chip" v-if="categoryLabel">{{ categoryLabel }}</span>
     </div>

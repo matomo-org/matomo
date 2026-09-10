@@ -5,17 +5,16 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-// Block-prefixed rather than block-scoped: PluginCardSkeleton reuses `.pluginCard` as its root and
-// mirrors this card's geometry, so both blocks in this file read the same numbers. The prefix keeps
-// them from colliding with another component's variables once the stylesheets are concatenated.
-@_pluginCardPlateHeight: 151px;
+// Block-prefixed rather than block-scoped, so they stay reachable from the rules below without
+// colliding with another component's variables once the stylesheets are concatenated. Anything
+// PluginCardSkeleton also has to match lives in marketplace.less as a `@marketplace-card-*`
+// variable instead.
 @_pluginCardShotWidth: 229px;
 @_pluginCardShotHeight: 137px;
 @_pluginCardShotOverhang: 10px;
 @_pluginCardShotRing: 8px;
 @_pluginCardDescriptionLines: 3;
 @_pluginCardDescriptionLineHeight: 20px;
-@_pluginCardChipHeight: 26px;
 
 // override: Materialize paints .btn from its own palette and wins on the colour, so the brand fill
 // needs !important to stick. Scoped to this block's actions below.
@@ -37,9 +36,9 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  padding: 12px;
+  padding: @marketplace-card-padding;
   border: 1px solid @theme-color-border-alternative;
-  border-radius: 8px;
+  border-radius: @marketplace-card-radius;
   background: @theme-color-background-contrast;
   cursor: pointer;
   transition: border-color 0.2s ease-out, box-shadow 0.2s ease-out, transform 0.2s ease-out;
@@ -57,7 +56,7 @@
 
 .pluginCard__plate {
   position: relative;
-  height: @_pluginCardPlateHeight;
+  height: @marketplace-card-plate-height;
   border-radius: 4px;
   overflow: hidden;
   background: @marketplace-plate-bg;
@@ -101,19 +100,19 @@
   display: flex;
   flex-wrap: wrap;
   align-items: safe center;
-  gap: 6px;
+  gap: @marketplace-card-chip-gap;
   margin-top: 12px;
-  min-height: @_pluginCardChipHeight;
+  min-height: @marketplace-card-chip-height;
 }
 
 .pluginCard__chip {
   display: inline-flex;
   align-items: safe center;
   gap: 6px;
-  height: @_pluginCardChipHeight;
+  height: @marketplace-card-chip-height;
   padding: 0 10px;
   border: 1px solid @theme-color-border-alternative;
-  border-radius: (@_pluginCardChipHeight / 2);
+  border-radius: (@marketplace-card-chip-height / 2);
   font-size: 12px;
   line-height: 1;
   color: @theme-color-text;
@@ -288,85 +287,9 @@
   }
 }
 
-.pluginCardSkeleton__block,
-.pluginCardSkeleton__textLine,
-.pluginCardSkeleton__chip {
-  display: block;
-  border-radius: 3px;
-  background: @theme-color-background-base;
-  animation: pluginCardSkeleton__pulse 1.4s ease-in-out infinite;
-}
-
-.pluginCardSkeleton__chip {
-  width: 96px;
-  height: @_pluginCardChipHeight;
-  border-radius: (@_pluginCardChipHeight / 2);
-}
-
-.pluginCardSkeleton__chip--short {
-  width: 80px;
-}
-
-.pluginCardSkeleton__title {
-  width: 112px;
-  height: 16px;
-  margin-top: 10px;
-}
-
-.pluginCardSkeleton__textBlock {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  margin-top: 8px;
-}
-
-.pluginCardSkeleton__textLine {
-  height: 12px;
-}
-
-.pluginCardSkeleton__textLine--short {
-  width: 66%;
-}
-
-.pluginCardSkeleton__meta {
-  width: 96px;
-  height: 12px;
-  margin-top: 12px;
-}
-
-.pluginCardSkeleton__action {
-  height: 32px;
-  margin-top: 12px;
-}
-
-.pluginCard--skeleton {
-  cursor: default;
-
-  &:hover {
-    transform: none;
-    box-shadow: none;
-    border-color: @theme-color-border-alternative;
-  }
-}
-
-@keyframes pluginCardSkeleton__pulse {
-  0%,
-  100% {
-    opacity: 1;
-  }
-
-  50% {
-    opacity: 0.45;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .pluginCard,
-  .pluginCard__shot,
-  .pluginCardSkeleton__block,
-  .pluginCardSkeleton__textLine,
-  .pluginCardSkeleton__chip {
+  .pluginCard__shot {
     transition: none;
-    animation: none;
   }
 }

@@ -63,6 +63,7 @@ class Marketplace extends \Piwik\Plugin
         $stylesheets[] = "plugins/Marketplace/vue/src/CategoryTabs/CategoryTabs.less";
         $stylesheets[] = "plugins/Marketplace/vue/src/SortMenu/SortMenu.less";
         $stylesheets[] = "plugins/Marketplace/vue/src/PluginCard/PluginCard.less";
+        $stylesheets[] = "plugins/Marketplace/vue/src/PluginCard/PluginCardSkeleton.less";
         $stylesheets[] = "plugins/Marketplace/vue/src/PluginGrid/PluginGrid.less";
         $stylesheets[] = "plugins/Marketplace/vue/src/PluginGrid/EmptyState.less";
         $stylesheets[] = "plugins/Marketplace/vue/src/PluginSection/PluginSection.less";
@@ -107,7 +108,6 @@ class Marketplace extends \Piwik\Plugin
         $translationKeys[] = 'Marketplace_BundleUpToXUsers';
         $translationKeys[] = 'Marketplace_Bundles';
         $translationKeys[] = 'Marketplace_ByAuthor';
-        $translationKeys[] = 'Marketplace_ByMatomo';
         $translationKeys[] = 'Marketplace_CannotUpdate';
         $translationKeys[] = 'Marketplace_CannotInstall';
         $translationKeys[] = 'Marketplace_Categories';
@@ -165,7 +165,6 @@ class Marketplace extends \Piwik\Plugin
         $translationKeys[] = 'Marketplace_Sort';
         $translationKeys[] = 'Marketplace_SortBy';
         $translationKeys[] = 'Marketplace_SortByAlpha';
-        $translationKeys[] = 'Marketplace_SortByDeveloper';
         $translationKeys[] = 'Marketplace_SortByLastUpdated';
         $translationKeys[] = 'Marketplace_SortByNewest';
         $translationKeys[] = 'Marketplace_SortByPopular';

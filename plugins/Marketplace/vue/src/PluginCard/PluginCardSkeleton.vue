@@ -6,26 +6,29 @@
 -->
 
 <template>
-  <article class="pluginCard pluginCard--skeleton" aria-hidden="true">
-    <div class="pluginCard__plate pluginCardSkeleton__block" />
-    <div class="pluginCard__chips">
+  <article class="pluginCardSkeleton" aria-hidden="true">
+    <div class="pluginCardSkeleton__plate" />
+    <div class="pluginCardSkeleton__chipRow">
       <span class="pluginCardSkeleton__chip" />
       <span class="pluginCardSkeleton__chip pluginCardSkeleton__chip--short" />
     </div>
-    <div class="pluginCardSkeleton__block pluginCardSkeleton__title" />
+    <div class="pluginCardSkeleton__title" />
     <div class="pluginCardSkeleton__textBlock">
       <span class="pluginCardSkeleton__textLine" />
       <span class="pluginCardSkeleton__textLine" />
       <span class="pluginCardSkeleton__textLine pluginCardSkeleton__textLine--short" />
     </div>
-    <div class="pluginCardSkeleton__block pluginCardSkeleton__meta" />
-    <div class="pluginCardSkeleton__block pluginCardSkeleton__action" />
+    <div class="pluginCardSkeleton__meta" />
+    <div class="pluginCardSkeleton__action" />
   </article>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-/** Holds a card's footprint while the catalogue loads; its geometry must match PluginCard. */
+/**
+ * Holds a card's footprint while the catalogue loads. Its geometry has to match PluginCard, which
+ * is why both read the `@marketplace-card-*` variables rather than one styling the other's DOM.
+ */
 export default defineComponent({});
 </script>

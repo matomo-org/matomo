@@ -54,7 +54,7 @@ const OPTIONS = [
   { id: SORT_POPULAR, labelKey: 'Marketplace_SortByPopular' },
   { id: SORT_NEWEST, labelKey: 'Marketplace_SortByNewest' },
   { id: SORT_ALPHA, labelKey: 'Marketplace_SortByAlpha' },
-  { id: SORT_DEVELOPER, labelKey: 'Marketplace_SortByDeveloper' },
+  { id: SORT_DEVELOPER, labelKey: 'Marketplace_Developer' },
 ];
 
 export interface SortMenuState {

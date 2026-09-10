@@ -151,6 +151,7 @@ export interface MarketplaceState {
   activeTab: string;
   searchQuery: string;
   pageSize: number;
+  paginated: boolean;
   showRequestTrialForPlugin: PluginCard|null;
   showStartFreeTrialForPlugin: PluginCard|null;
   showPluginDetailsForPlugin: PluginCard|null;
@@ -201,6 +202,7 @@ export default defineComponent({
       activeTab: TAB_ALL,
       searchQuery: '',
       pageSize: PAGE_SIZE,
+      paginated: true,
       showRequestTrialForPlugin: null,
       showStartFreeTrialForPlugin: null,
       showPluginDetailsForPlugin: null,
@@ -276,7 +278,16 @@ export default defineComponent({
         this.pluginSort,
       );
     },
+    /**
+     * A page at a time, but only while the sentinel can say the reader reached the bottom. Without
+     * an IntersectionObserver nothing would ever ask for the next page, so the grid renders every
+     * result instead of stopping at the first fifteen for good.
+     */
     pagedPlugins(): PluginCard[] {
+      if (!this.paginated) {
+        return this.filteredPlugins;
+      }
+
       return this.filteredPlugins.slice(0, this.pageSize);
     },
     skeletonCount(): number {
@@ -487,6 +498,7 @@ export default defineComponent({
     observeSentinel() {
       const sentinel = this.$refs.sentinel as HTMLElement|undefined;
       if (!sentinel || typeof IntersectionObserver === 'undefined') {
+        this.paginated = false;
         return;
       }
 

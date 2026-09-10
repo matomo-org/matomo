@@ -103,10 +103,13 @@
       </template>
     </CTAStatus>
 
-    <div v-else-if="plugin.isEligibleForFreeTrial && !inModal && isPluginsAdminEnabled"
+    <button v-else-if="plugin.isEligibleForFreeTrial && !inModal && isPluginsAdminEnabled"
+       type="button"
+       tabindex="7"
        class="btn btn-block purchaseable"
        :title="translate('Marketplace_StartFreeTrial')"
-    >{{ translate('Marketplace_StartFreeTrial') }}</div>
+       @click="$emit('openDetailsModal')"
+    >{{ translate('Marketplace_StartFreeTrial') }}</button>
 
     <a v-else-if="plugin.isEligibleForFreeTrial && inModal"
        class="btn btn-block addToCartLink" target="_blank"

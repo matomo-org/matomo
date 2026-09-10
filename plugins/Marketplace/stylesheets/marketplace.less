@@ -47,6 +47,15 @@
     }
 }
 
+// Card geometry shared by PluginCard and PluginCardSkeleton. The placeholder has to hold exactly
+// the footprint a card takes, so both blocks read these numbers from one place rather than one
+// block styling the other's DOM.
+@marketplace-card-padding: 12px;
+@marketplace-card-radius: 8px;
+@marketplace-card-plate-height: 151px;
+@marketplace-card-chip-height: 26px;
+@marketplace-card-chip-gap: 6px;
+
 @marketplace-plate-bg: #f3fdff;
 @marketplace-plate-ring: #ccf6f5;
 @marketplace-accent-bg: #e1fbfb;
