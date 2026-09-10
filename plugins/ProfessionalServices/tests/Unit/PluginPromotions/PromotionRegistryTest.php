@@ -12,11 +12,28 @@ namespace Piwik\Plugins\ProfessionalServices\tests\Unit\PluginPromotions;
 use PHPUnit\Framework\TestCase;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\PromotionRegistry;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\BounceRateTrigger;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\BusinessBundleTrigger;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\CustomLogoTrigger;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\EnterpriseBundleTrigger;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\FormPageTrigger;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\ManyUsersTrigger;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\MultipleActiveSitesTrigger;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\MultipleSuperusersTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\LowConversionRateTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\HighConversionRateTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\PromotionTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\ScheduledReportsTrigger;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\CampaignConversionsTrigger;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\KeywordsNotDefinedTrigger;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\ManyPagesTrigger;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\MediaOutlinksTrigger;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\MultipleConversionChannelsTrigger;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\MultiplePageVisitsTrigger;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\ReturningVisitsTrigger;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\SlowPageTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\SegmentsTrigger;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\TeamBundleTrigger;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\WooCommerceUrlsTrigger;
 
 /**
  * @group ProfessionalServices
@@ -35,7 +52,24 @@ class PromotionRegistryTest extends TestCase
             $this->makeTrigger(BounceRateTrigger::class, BounceRateTrigger::NAME),
             $this->makeTrigger(LowConversionRateTrigger::class, LowConversionRateTrigger::NAME),
             $this->makeTrigger(HighConversionRateTrigger::class, HighConversionRateTrigger::NAME),
-            $this->makeTrigger(ScheduledReportsTrigger::class, ScheduledReportsTrigger::NAME)
+            $this->makeTrigger(ScheduledReportsTrigger::class, ScheduledReportsTrigger::NAME),
+            $this->makeTrigger(CampaignConversionsTrigger::class, CampaignConversionsTrigger::NAME),
+            $this->makeTrigger(KeywordsNotDefinedTrigger::class, KeywordsNotDefinedTrigger::NAME),
+            $this->makeTrigger(ManyPagesTrigger::class, ManyPagesTrigger::NAME),
+            $this->makeTrigger(MediaOutlinksTrigger::class, MediaOutlinksTrigger::NAME),
+            $this->makeTrigger(MultipleConversionChannelsTrigger::class, MultipleConversionChannelsTrigger::NAME),
+            $this->makeTrigger(MultiplePageVisitsTrigger::class, MultiplePageVisitsTrigger::NAME),
+            $this->makeTrigger(ReturningVisitsTrigger::class, ReturningVisitsTrigger::NAME),
+            $this->makeTrigger(SlowPageTrigger::class, SlowPageTrigger::NAME),
+            $this->makeTrigger(ManyUsersTrigger::class, ManyUsersTrigger::NAME),
+            $this->makeTrigger(CustomLogoTrigger::class, CustomLogoTrigger::NAME),
+            $this->makeTrigger(FormPageTrigger::class, FormPageTrigger::NAME),
+            $this->makeTrigger(WooCommerceUrlsTrigger::class, WooCommerceUrlsTrigger::NAME),
+            $this->makeTrigger(MultipleActiveSitesTrigger::class, MultipleActiveSitesTrigger::NAME),
+            $this->makeTrigger(MultipleSuperusersTrigger::class, MultipleSuperusersTrigger::NAME),
+            $this->makeTrigger(TeamBundleTrigger::class, TeamBundleTrigger::NAME),
+            $this->makeTrigger(BusinessBundleTrigger::class, BusinessBundleTrigger::NAME),
+            $this->makeTrigger(EnterpriseBundleTrigger::class, EnterpriseBundleTrigger::NAME)
         );
     }
 
@@ -52,6 +86,23 @@ class PromotionRegistryTest extends TestCase
             ['Funnels', 'conversion_rate_funnels'],
             ['AbTesting', 'conversion_rate_ab'],
             ['CustomReports', 'scheduled_reports'],
+            ['CrashAnalytics', 'many_pages'],
+            ['MediaAnalytics', 'media_outlinks'],
+            ['UsersFlow', 'multiple_page_visits'],
+            ['SearchEngineKeywordsPerformance', 'keywords_not_defined'],
+            ['LoginSaml', 'many_users'],
+            ['AdvertisingConversionExport', 'campaign_conversions'],
+            ['FormAnalytics', 'form_visits'],
+            ['WhiteLabel', 'custom_logo'],
+            ['WooCommerceAnalytics', 'woocommerce_add_to_cart_urls'],
+            ['RollUpReporting', 'multiple_active_sites'],
+            ['Cohorts', 'returning_visits'],
+            ['MultiChannelConversionAttribution', 'multiple_conversion_channels'],
+            ['SEOWebVitals', 'slow_page'],
+            ['ActivityLog', 'multiple_superusers'],
+            ['TeamBundle', 'multi_product_team'],
+            ['BusinessBundle', 'multi_product_business'],
+            ['EnterpriseBundle', 'multi_product_enterprise'],
         ], $ordered);
     }
 

@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\ProfessionalServices\tests\Unit\PluginPromotions;
 
 use PHPUnit\Framework\TestCase;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\ArchivedReportReader;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\DailyTriggerCache;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\ReportPeriod;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\HighConversionRateTrigger;
@@ -29,6 +30,7 @@ class HighConversionRateTriggerTest extends TestCase
 
         $this->trigger = new HighConversionRateTrigger(
             $this->createMock(WeeklyGoalMetrics::class),
+            $this->createMock(ArchivedReportReader::class),
             $this->createMock(ReportPeriod::class),
             $this->createMock(DailyTriggerCache::class)
         );

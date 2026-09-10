@@ -12,7 +12,7 @@
             <a class="productPromotion__titleLink"
                href="{{ learnMoreUrl }}"
                target="_blank"
-               rel="noopener noreferrer">{{ title }}</a>
+               rel="noreferrer noopener">{{ title }}</a>
         </h2>
         <p class="productPromotion__text">{{ text }}</p>
         <p class="productPromotion__reason">
@@ -26,7 +26,10 @@
                 {{ 'Marketplace_RequestTrial'|translate }}
             </button>
         {% else %}
-            <a class="productPromotion__ctaButton" href="{{ marketplaceUrl }}">{{ tryLabel }}</a>
+            <a class="productPromotion__ctaButton"
+               href="{{ marketplaceUrl }}"
+               target="_blank"
+               rel="noreferrer noopener">{{ tryLabel }}</a>
         {% endif %}
     </div>
 

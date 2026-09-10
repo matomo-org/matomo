@@ -39,13 +39,18 @@ class PromotionRendererTest extends IntegrationTestCase
         FakeAccess::$superUser = true;
         FakeAccess::$identity = 'alice';
         $_GET['idSite'] = 1;
+        // The banner only ever renders inside a dashboard request, and the campaign medium
+        // names that request: without a module and an action core adds no campaign
+        // parameters at all.
+        $_GET['module'] = 'Dashboard';
+        $_GET['action'] = 'embeddedIndex';
 
         $this->renderer = new PromotionRenderer();
     }
 
     public function tearDown(): void
     {
-        unset($_GET['idSite']);
+        unset($_GET['idSite'], $_GET['module'], $_GET['action']);
         Fixture::resetTranslations();
 
         parent::tearDown();
@@ -56,12 +61,14 @@ class PromotionRendererTest extends IntegrationTestCase
         $html = $this->render(SegmentsTrigger::NAME, ['count' => 6]);
 
         $this->assertStringContainsString('class="productPromotion"', $html);
-        $this->assertStringContainsString('Understand your 6 segments even better', $html);
-        $this->assertStringContainsString('Dig deeper into your segment data', $html);
+        $this->assertStringContainsString('You&#039;ve tailored your audience. Now tailor your reports.', $html);
+        $this->assertStringContainsString('You&#039;re already using 6 segments to focus your analysis', $html);
+        // The reason stands as its own sentence, with no lead-in wrapped around it.
         $this->assertStringContainsString(
-            "Why you&#039;re seeing this: recommended when you have 5+ segments available to analyse.",
+            'Custom Reports is recommended when you use multiple segments and want more control over your reporting.',
             $html
         );
+        $this->assertStringNotContainsString('Why you&#039;re seeing this', $html);
         // A body with no placeholders must still come out interpolated, not raw.
         $this->assertStringNotContainsString('%1$s', $html);
         $this->assertStringContainsString('Try Custom Reports', $html);
@@ -69,10 +76,10 @@ class PromotionRendererTest extends IntegrationTestCase
     }
 
     /**
-     * The headline names the problem and the body carries the figure behind it, so the
-     * two take different translation arguments.
+     * No headline takes a placeholder, so every figure the promotion reports has to reach
+     * the body.
      */
-    public function testTheHeadlineNamesTheProblemAndTheBodyCarriesTheFigure(): void
+    public function testTheHeadlineIsFixedAndTheBodyCarriesTheFigures(): void
     {
         $html = $this->render(LowConversionRateTrigger::NAME, [
             'goalId' => 2,
@@ -82,7 +89,7 @@ class PromotionRendererTest extends IntegrationTestCase
             'conversionRate' => 0.02,
         ]);
 
-        $this->assertStringContainsString('Find where visitors drop off before converting', $html);
+        $this->assertStringContainsString('Where are you losing momentum?', $html);
         $this->assertStringContainsString('Only 2% of visits convert for Purchase', $html);
         $this->assertStringNotContainsString('%%', $html);
         $this->assertStringNotContainsString('%1$s', $html);
@@ -93,10 +100,17 @@ class PromotionRendererTest extends IntegrationTestCase
         $html = $this->render(SegmentsTrigger::NAME, ['count' => 6]);
 
         $this->assertStringContainsString('https://plugins.matomo.org/CustomReports', $html);
+        $this->assertStringContainsString('mtm_campaign=app_premiumplugins', $html);
+        $this->assertStringContainsString('mtm_source=matomo_app_onpremise', $html);
+        $this->assertStringContainsString('mtm_medium=app.Dashboard.embeddedIndex', $html);
+        $this->assertStringContainsString('mtm_content=CustomReports', $html);
+        // Until matomo-org/matomo#25153 lets the campaign helper carry `mtm_kwd`, the
+        // trigger name travels under its own parameter.
         $this->assertStringContainsString('trigger_name=segments', $html);
-        $this->assertStringContainsString('mtm_content=custom_reports', $html);
-        $this->assertStringContainsString('rel="noopener noreferrer"', $html);
-        $this->assertStringContainsString('target="_blank"', $html);
+        // Both the headline and the call to action leave the app, so both open in a new
+        // tab and withhold the referrer.
+        $this->assertSame(2, substr_count($html, 'target="_blank"'));
+        $this->assertSame(2, substr_count($html, 'rel="noreferrer noopener"'));
     }
 
     /**
@@ -144,14 +158,14 @@ class PromotionRendererTest extends IntegrationTestCase
                 'CustomReports',
                 'ProfessionalServices_PromoCustomReports',
                 'custom_reports',
-                'ProfessionalServices_PromotionSegments',
+                'ProfessionalServices_PromotionCustomReportsSegments',
                 'product-promotion-custom-reports.png',
             ],
             LowConversionRateTrigger::NAME => [
                 'Funnels',
                 'ProfessionalServices_PromoFunnels',
                 'funnels',
-                'ProfessionalServices_PromotionConversionRate',
+                'ProfessionalServices_PromotionFunnelsConversionRate',
                 'product-promotion-funnels.png',
             ],
         ];

@@ -9,8 +9,6 @@
 
 namespace Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger;
 
-use Piwik\Plugins\ProfessionalServices\PluginPromotions\DailyTriggerCache;
-use Piwik\Plugins\ProfessionalServices\PluginPromotions\ReportPeriod;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\WeeklyGoalMetrics;
 
 /**
@@ -21,11 +19,8 @@ use Piwik\Plugins\ProfessionalServices\PluginPromotions\WeeklyGoalMetrics;
  * website at the same 3% rate, so no goal can ever satisfy both. The conversion floor is
  * the higher of the two, because an A/B test needs volume to be worth running, where a
  * funnel only needs a drop off to investigate.
- *
- * Reads last week's goal metrics from the existing archive only, and caches the outcome
- * for the day.
  */
-class HighConversionRateTrigger implements PromotionTrigger
+class HighConversionRateTrigger extends GoalBackedTrigger
 {
     public const NAME = 'conversion_rate_ab';
 
@@ -33,44 +28,14 @@ class HighConversionRateTrigger implements PromotionTrigger
 
     public const MINIMUM_CONVERSIONS = 500;
 
-    private WeeklyGoalMetrics $goalMetrics;
-
-    private ReportPeriod $reportPeriod;
-
-    private DailyTriggerCache $cache;
-
-    public function __construct(WeeklyGoalMetrics $goalMetrics, ReportPeriod $reportPeriod, DailyTriggerCache $cache)
-    {
-        $this->goalMetrics = $goalMetrics;
-        $this->reportPeriod = $reportPeriod;
-        $this->cache = $cache;
-    }
-
     public function getName(): string
     {
         return self::NAME;
     }
 
-    public function evaluate(int $idSite): TriggerResult
+    protected function deriveContext(array $metrics, int $idSite): ?array
     {
-        return $this->cache->getOrEvaluate(self::NAME, $idSite, function () use ($idSite) {
-            return $this->evaluateFromReport($idSite);
-        });
-    }
-
-    private function evaluateFromReport(int $idSite): TriggerResult
-    {
-        $period = $this->reportPeriod->forSite($idSite);
-        $periodStart = $period->getDateStart()->toString();
-        $periodEnd = $period->getDateEnd()->toString();
-
-        $goal = $this->findQualifyingGoal($this->goalMetrics->read($idSite));
-
-        if (null === $goal) {
-            return TriggerResult::notTriggered($periodStart, $periodEnd);
-        }
-
-        return TriggerResult::triggered($goal, $periodStart, $periodEnd);
+        return $this->findQualifyingGoal($metrics);
     }
 
     /**

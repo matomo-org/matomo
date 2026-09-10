@@ -16,11 +16,28 @@ use Piwik\Plugins\ProfessionalServices\PluginPromotions\PromotionEligibility;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\PromotionRegistry;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\PromotionSelector;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\BounceRateTrigger;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\BusinessBundleTrigger;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\CustomLogoTrigger;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\EnterpriseBundleTrigger;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\FormPageTrigger;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\ManyUsersTrigger;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\MultipleActiveSitesTrigger;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\MultipleSuperusersTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\LowConversionRateTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\HighConversionRateTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\PromotionTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\ScheduledReportsTrigger;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\CampaignConversionsTrigger;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\KeywordsNotDefinedTrigger;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\ManyPagesTrigger;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\MediaOutlinksTrigger;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\MultipleConversionChannelsTrigger;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\MultiplePageVisitsTrigger;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\ReturningVisitsTrigger;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\SlowPageTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\SegmentsTrigger;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\TeamBundleTrigger;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\WooCommerceUrlsTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\TriggerResult;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\UserPromotionState;
 use Piwik\Settings\Storage\UserScopedSettingsAccessManager;
@@ -215,7 +232,24 @@ class PromotionSelectorTest extends IntegrationTestCase
             $this->makeTrigger(BounceRateTrigger::class, BounceRateTrigger::NAME),
             $this->makeTrigger(LowConversionRateTrigger::class, LowConversionRateTrigger::NAME),
             $this->makeTrigger(HighConversionRateTrigger::class, HighConversionRateTrigger::NAME),
-            $this->makeTrigger(ScheduledReportsTrigger::class, ScheduledReportsTrigger::NAME)
+            $this->makeTrigger(ScheduledReportsTrigger::class, ScheduledReportsTrigger::NAME),
+            $this->makeTrigger(CampaignConversionsTrigger::class, CampaignConversionsTrigger::NAME),
+            $this->makeTrigger(KeywordsNotDefinedTrigger::class, KeywordsNotDefinedTrigger::NAME),
+            $this->makeTrigger(ManyPagesTrigger::class, ManyPagesTrigger::NAME),
+            $this->makeTrigger(MediaOutlinksTrigger::class, MediaOutlinksTrigger::NAME),
+            $this->makeTrigger(MultipleConversionChannelsTrigger::class, MultipleConversionChannelsTrigger::NAME),
+            $this->makeTrigger(MultiplePageVisitsTrigger::class, MultiplePageVisitsTrigger::NAME),
+            $this->makeTrigger(ReturningVisitsTrigger::class, ReturningVisitsTrigger::NAME),
+            $this->makeTrigger(SlowPageTrigger::class, SlowPageTrigger::NAME),
+            $this->makeTrigger(ManyUsersTrigger::class, ManyUsersTrigger::NAME),
+            $this->makeTrigger(CustomLogoTrigger::class, CustomLogoTrigger::NAME),
+            $this->makeTrigger(FormPageTrigger::class, FormPageTrigger::NAME),
+            $this->makeTrigger(WooCommerceUrlsTrigger::class, WooCommerceUrlsTrigger::NAME),
+            $this->makeTrigger(MultipleActiveSitesTrigger::class, MultipleActiveSitesTrigger::NAME),
+            $this->makeTrigger(MultipleSuperusersTrigger::class, MultipleSuperusersTrigger::NAME),
+            $this->makeTrigger(TeamBundleTrigger::class, TeamBundleTrigger::NAME),
+            $this->makeTrigger(BusinessBundleTrigger::class, BusinessBundleTrigger::NAME),
+            $this->makeTrigger(EnterpriseBundleTrigger::class, EnterpriseBundleTrigger::NAME)
         );
 
         return new PromotionSelector($registry, $eligibility, $this->userState);
