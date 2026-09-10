@@ -557,6 +557,9 @@ export default defineComponent({
         && !this.plugin.isInstalled
         && !this.plugin.hasExceededLicense
         && this.plugin.isEligibleForFreeTrial
+        // the variations come from the details request, so there are none to pick from when it
+        // failed and the modal is left with the card row alone
+        && this.pluginShopVariations.length > 0
       ) as boolean;
     },
     pluginScreenshots(): string[] {

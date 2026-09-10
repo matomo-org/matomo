@@ -10,9 +10,11 @@
 namespace Piwik\Plugins\Marketplace\tests\Integration;
 
 use Piwik\Access;
+use Piwik\Cache;
 use Piwik\DI;
 use Piwik\FrontController;
 use Piwik\Plugins\Marketplace\Api\Service\Exception as ServiceException;
+use Piwik\Plugins\Marketplace\LicenseKey;
 use Piwik\Plugins\Marketplace\tests\Framework\Mock\Service;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -38,6 +40,8 @@ class ControllerTest extends IntegrationTestCase
      * @var string the list the 'plugins' action answers with, so a test can pick one that suits it
      */
     private $pluginsFixture = 'v2.0_plugins.json';
+
+    private $invalidLicensesCacheKey = 'Marketplace_ExpiredPlugins';
 
     public function setUp(): void
     {
@@ -197,6 +201,27 @@ class ControllerTest extends IntegrationTestCase
         return json_decode($this->dispatch('getPluginDetails', ['pluginName' => $pluginName]), true);
     }
 
+    public function testSubscriptionOverviewClearsTheInvalidLicensesCache()
+    {
+        // this action renders a full admin page, whose menu resolves a site
+        if (!Fixture::siteCreated(1)) {
+            Fixture::createWebsite('2012-01-01 00:00:00');
+        }
+
+        // a license key is what makes the page fetch the consumer and render its license banners
+        (new LicenseKey())->set('consumer2_paid1');
+
+        $stale = ['exceeded' => ['FooPlugin'], 'expired' => [], 'noLicense' => []];
+
+        Cache::getEagerCache()->save($this->invalidLicensesCacheKey, $stale);
+
+        $this->dispatch('subscriptionOverview');
+
+        // the page reads the licenses again while rendering its own banners, so the entry is
+        // repopulated rather than absent - what matters is that the stale value did not survive
+        self::assertNotSame($stale, Cache::getEagerCache()->fetch($this->invalidLicensesCacheKey));
+    }
+
     /**
      * @param array<string, string> $params
      */
@@ -252,6 +277,15 @@ class ControllerTest extends IntegrationTestCase
 
         if ($action === 'plugins') {
             return $this->pluginsFixture;
+        }
+
+        if ($action === 'consumer') {
+            return 'v2.0_consumer-access_token-consumer2_paid1.json';
+        }
+
+        if ($action === 'info') {
+            // the license banners an admin page renders resolve their login link from this
+            return 'emptyObjectResponse.json';
         }
 
         if ($action === 'plugins/NotOnTheMarketplace/info') {
