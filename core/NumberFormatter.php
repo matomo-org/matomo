@@ -130,7 +130,10 @@ class NumberFormatter
             return $value;
         }
 
-        $pattern = $this->getPattern($value, 'Intl_NumberFormatPercent');
+        // The sign has to be read from the number, not from $value: locales that lead with the
+        // percent sign hand us "%15", whose first character sorts below "0", so the string
+        // comparison in isNegative() picked the negative pattern.
+        $pattern = $this->getPattern($newValue, 'Intl_NumberFormatPercent');
 
         return $this->formatNumberWithPattern($pattern, $newValue, $maximumFractionDigits, $minimumFractionDigits);
     }

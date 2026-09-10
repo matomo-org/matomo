@@ -93,7 +93,7 @@
                 {%- if showPercentageValues -%}
                     {{- rowPercentage -}}
                 {%- else -%}
-                    {{- columnValue|default(0)|number(2,0)|rawSafeDecoded -}}
+                    {{- columnValue|default(0)|number(2,0) -}}
                 {%- endif -%}
             </span>
         </td>

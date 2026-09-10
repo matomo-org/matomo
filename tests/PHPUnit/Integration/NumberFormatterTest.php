@@ -64,6 +64,21 @@ class NumberFormatterTest extends \PHPUnit\Framework\TestCase
             // percent formatting
             array('en', '5.299%', 0, 0, '5%'),
             array('en', '5.299%', 3, 0, '5.299%'),
+
+            // percent formatting in locales that lead with the percent sign, where an already
+            // formatted value must not have its sign read from the leading '%'
+            array('tr', '%100', 0, 0, '%100'),
+            array('tr', '%15', 0, 0, '%15'),
+            array('tr', '%0', 0, 0, '%0'),
+            array('ku', '%15', 0, 0, '%15'),
+            array('tr', 15, 0, 0, '15'),
+            // eu leads with the sign as well, but the non-breaking space behind it keeps the
+            // value out of both the numeric parse and the escape syntax
+            array('eu', "%\u{a0}15", 0, 0, "%\u{a0}15"),
+
+            // a genuinely negative percentage keeps its sign in either sign convention
+            array('tr', '-15%', 0, 0, '-%15'),
+            array('en', '-15%', 0, 0, '-15%'),
         );
     }
 
