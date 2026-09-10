@@ -29,13 +29,10 @@ import { defineComponent } from 'vue';
 
 /**
  * A plugin's non-actionable state - installed, cannot install, license missing - with whatever
- * action still remains beside it.
+ * action remains beside it.
  *
- * Two renderings, because the two places this appears want opposite things. In the details modal
- * it stays the alert it has always been, a banner with the action in brackets after the sentence.
- * On a card the prototype draws it as one row: the state on the left in its tone, the remaining
- * action as a button on the right, both inside the card's action area. The alert's 60px left
- * padding and 2px border cannot fit there.
+ * Two renderings: the modal keeps the alert banner it has always had, with the action in brackets;
+ * a card draws one row, state then action, since the alert's padding and border will not fit.
  */
 const ALERT_CLASSES: Record<string, string> = {
   success: 'alert-success',
@@ -64,10 +61,7 @@ export default defineComponent({
       type: Boolean,
       required: true,
     },
-    /**
-     * Whether the caller passes an action at all. The slot is a function either way, so the
-     * caller has to say, or the alert renders an empty pair of brackets.
-     */
+    /** The slot is a function either way, so the caller says, or the brackets render empty. */
     hasAction: {
       type: Boolean,
       default: false,

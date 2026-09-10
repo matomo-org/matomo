@@ -6,6 +6,7 @@
  */
 
 import { PluginCard } from '../types';
+import { makePlugin } from '../testMarketplaceFixtures';
 import {
   buildSections,
   buildTabs,
@@ -28,37 +29,6 @@ import {
   TAB_THEMES,
   tabFromLegacyPluginType,
 } from './pluginGrouping';
-
-function plugin(overrides: Partial<PluginCard> & { name: string }): PluginCard {
-  return {
-    displayName: overrides.name,
-    description: '',
-    owner: 'someone',
-    categories: [],
-    coverImage: '',
-    isFree: true,
-    isPaid: false,
-    isTheme: false,
-    isInstalled: false,
-    isActivated: false,
-    isInvalid: false,
-    isDownloadable: true,
-    canBeUpdated: false,
-    hasDownloadLink: true,
-    hasExceededLicense: false,
-    isMissingLicense: false,
-    isEligibleForFreeTrial: false,
-    isTrialRequested: false,
-    canTrialBeRequested: false,
-    missingRequirements: [],
-    numDownloads: 0,
-    numDownloadsPretty: '0',
-    lastUpdated: 'Jan 1, 2020',
-    lastUpdatedRaw: '2020-01-01 00:00:00',
-    createdDateTime: '2020-01-01 00:00:00',
-    ...overrides,
-  } as unknown as PluginCard;
-}
 
 const names = (plugins: PluginCard[]) => plugins.map((p) => p.name);
 
@@ -84,32 +54,32 @@ describe('Marketplace/pluginGrouping', () => {
 
   describe('sortPlugins', () => {
     it('does not mutate its argument', () => {
-      const plugins = [plugin({ name: 'B' }), plugin({ name: 'A' })];
+      const plugins = [makePlugin({ name: 'B' }), makePlugin({ name: 'A' })];
       sortPlugins(plugins, SORT_ALPHA);
       expect(names(plugins)).toEqual(['B', 'A']);
     });
 
     it('orders by last updated on the raw date, not the display string', () => {
       const plugins = [
-        plugin({ name: 'older', lastUpdated: 'Jun 8, 2024', lastUpdatedRaw: '2024-06-08 00:00:00' }),
-        plugin({ name: 'newer', lastUpdated: 'Apr 2, 2026', lastUpdatedRaw: '2026-04-02 00:00:00' }),
+        makePlugin({ name: 'older', lastUpdated: 'Jun 8, 2024', lastUpdatedRaw: '2024-06-08 00:00:00' }),
+        makePlugin({ name: 'newer', lastUpdated: 'Apr 2, 2026', lastUpdatedRaw: '2026-04-02 00:00:00' }),
       ];
       expect(names(sortPlugins(plugins, SORT_LAST_UPDATED))).toEqual(['newer', 'older']);
     });
 
     it('sorts a malformed date last instead of scattering it', () => {
       const plugins = [
-        plugin({ name: 'broken', lastUpdatedRaw: 'not a date' }),
-        plugin({ name: 'fine', lastUpdatedRaw: '2024-06-08 00:00:00' }),
+        makePlugin({ name: 'broken', lastUpdatedRaw: 'not a date' }),
+        makePlugin({ name: 'fine', lastUpdatedRaw: '2024-06-08 00:00:00' }),
       ];
       expect(names(sortPlugins(plugins, SORT_LAST_UPDATED))).toEqual(['fine', 'broken']);
     });
 
     it('sorts a null download count last rather than treating it as zero', () => {
       const plugins = [
-        plugin({ name: 'unknown', numDownloads: null }),
-        plugin({ name: 'none', numDownloads: 0 }),
-        plugin({ name: 'many', numDownloads: 500 }),
+        makePlugin({ name: 'unknown', numDownloads: null }),
+        makePlugin({ name: 'none', numDownloads: 0 }),
+        makePlugin({ name: 'many', numDownloads: 500 }),
       ];
       expect(names(sortPlugins(plugins, SORT_POPULAR))).toEqual(['many', 'none', 'unknown']);
     });
@@ -117,48 +87,48 @@ describe('Marketplace/pluginGrouping', () => {
     it('leaves paid plugins at the end of the popularity sort, because the API nulls their'
       + ' download count', () => {
       const plugins = [
-        plugin({ name: 'Paid', isPaid: true, numDownloads: null }),
-        plugin({ name: 'Free', numDownloads: 10 }),
+        makePlugin({ name: 'Paid', isPaid: true, numDownloads: null }),
+        makePlugin({ name: 'Free', numDownloads: 10 }),
       ];
       expect(names(sortPlugins(plugins, SORT_POPULAR))).toEqual(['Free', 'Paid']);
     });
 
     it('breaks every tie on the display name so the order is stable', () => {
       const plugins = [
-        plugin({ name: 'Zebra', numDownloads: 5 }),
-        plugin({ name: 'Alpha', numDownloads: 5 }),
+        makePlugin({ name: 'Zebra', numDownloads: 5 }),
+        makePlugin({ name: 'Alpha', numDownloads: 5 }),
       ];
       expect(names(sortPlugins(plugins, SORT_POPULAR))).toEqual(['Alpha', 'Zebra']);
     });
 
     it('sorts by newest on createdDateTime', () => {
       const plugins = [
-        plugin({ name: 'old', createdDateTime: '2015-01-01 00:00:00' }),
-        plugin({ name: 'new', createdDateTime: '2026-01-01 00:00:00' }),
+        makePlugin({ name: 'old', createdDateTime: '2015-01-01 00:00:00' }),
+        makePlugin({ name: 'new', createdDateTime: '2026-01-01 00:00:00' }),
       ];
       expect(names(sortPlugins(plugins, SORT_NEWEST))).toEqual(['new', 'old']);
     });
 
     it('sorts by developer, crediting Matomo-owned plugins to Matomo', () => {
       const plugins = [
-        plugin({ name: 'third', owner: 'zzz' }),
-        plugin({ name: 'first', owner: 'piwik' }),
-        plugin({ name: 'second', owner: 'matomo-org' }),
+        makePlugin({ name: 'third', owner: 'zzz' }),
+        makePlugin({ name: 'first', owner: 'piwik' }),
+        makePlugin({ name: 'second', owner: 'matomo-org' }),
       ];
       expect(names(sortPlugins(plugins, SORT_DEVELOPER))).toEqual(['first', 'second', 'third']);
     });
 
     it('falls back to last updated for an unknown sort method', () => {
       const plugins = [
-        plugin({ name: 'older', lastUpdatedRaw: '2020-01-01 00:00:00' }),
-        plugin({ name: 'newer', lastUpdatedRaw: '2026-01-01 00:00:00' }),
+        makePlugin({ name: 'older', lastUpdatedRaw: '2020-01-01 00:00:00' }),
+        makePlugin({ name: 'newer', lastUpdatedRaw: '2026-01-01 00:00:00' }),
       ];
       expect(names(sortPlugins(plugins, 'nonsense'))).toEqual(['newer', 'older']);
     });
   });
 
   describe('matchesQuery', () => {
-    const p = plugin({
+    const p = makePlugin({
       name: 'Funnels',
       displayName: 'Funnels',
       description: 'Understand where visitors drop off',
@@ -183,9 +153,9 @@ describe('Marketplace/pluginGrouping', () => {
 
   describe('matchesTab', () => {
     it('resolves the type tabs from their flags', () => {
-      const paid = plugin({ name: 'Paid', isPaid: true });
-      const bundle = plugin({ name: 'Bundle', isBundle: true });
-      const theme = plugin({ name: 'Theme', isTheme: true });
+      const paid = makePlugin({ name: 'Paid', isPaid: true });
+      const bundle = makePlugin({ name: 'Bundle', isBundle: true });
+      const theme = makePlugin({ name: 'Theme', isTheme: true });
 
       expect(matchesTab(paid, TAB_ALL)).toBe(true);
       expect(matchesTab(bundle, TAB_BUNDLES)).toBe(true);
@@ -194,35 +164,35 @@ describe('Marketplace/pluginGrouping', () => {
     });
 
     it('resolves anything else as a category the plugin is filed under', () => {
-      const p = plugin({ name: 'p', categories: ['insights'] });
+      const p = makePlugin({ name: 'p', categories: ['insights'] });
       expect(matchesTab(p, 'insights')).toBe(true);
       expect(matchesTab(p, 'security')).toBe(false);
     });
 
     it('matches every category a plugin is filed under, not only the first', () => {
-      const p = plugin({ name: 'p', categories: ['insights', 'security'] });
+      const p = makePlugin({ name: 'p', categories: ['insights', 'security'] });
       expect(matchesTab(p, 'insights')).toBe(true);
       expect(matchesTab(p, 'security')).toBe(true);
     });
 
     it('puts an unclassified plugin in Other, but never a theme or a bundle', () => {
-      expect(matchesTab(plugin({ name: 'a' }), TAB_OTHER)).toBe(true);
-      expect(matchesTab(plugin({ name: 't', isTheme: true }), TAB_OTHER)).toBe(false);
-      expect(matchesTab(plugin({ name: 'b', isBundle: true }), TAB_OTHER)).toBe(false);
-      expect(matchesTab(plugin({ name: 'c', categories: ['insights'] }), TAB_OTHER)).toBe(false);
+      expect(matchesTab(makePlugin({ name: 'a' }), TAB_OTHER)).toBe(true);
+      expect(matchesTab(makePlugin({ name: 't', isTheme: true }), TAB_OTHER)).toBe(false);
+      expect(matchesTab(makePlugin({ name: 'b', isBundle: true }), TAB_OTHER)).toBe(false);
+      expect(matchesTab(makePlugin({ name: 'c', categories: ['insights'] }), TAB_OTHER)).toBe(false);
     });
   });
 
   describe('buildTabs', () => {
     it('hides a type tab with no members', () => {
-      const tabs = buildTabs([plugin({ name: 'Free' })]);
-      expect(tabs.map((t) => t.id)).toEqual([TAB_ALL]);
+      const tabs = buildTabs([makePlugin({ name: 'Free' })]);
+      expect(tabs.map((t) => t.id)).toEqual([TAB_ALL, TAB_OTHER]);
     });
 
     it('hides a category tab once its last member goes', () => {
       const withCategory = [
-        plugin({ name: 'a', categories: ['insights'] }),
-        plugin({ name: 'b', categories: ['security'] }),
+        makePlugin({ name: 'a', categories: ['insights'] }),
+        makePlugin({ name: 'b', categories: ['security'] }),
       ];
       expect(buildTabs(withCategory).map((t) => t.id))
         .toEqual([TAB_ALL, 'insights', 'security']);
@@ -232,25 +202,25 @@ describe('Marketplace/pluginGrouping', () => {
 
     it('never offers the uncategorised sentinel as a tab of its own', () => {
       const tabs = buildTabs([
-        plugin({ name: 'a', categories: ['uncategorised'] }),
-        plugin({ name: 'b' }),
-        plugin({ name: 'c', categories: ['insights'] }),
+        makePlugin({ name: 'a', categories: ['uncategorised'] }),
+        makePlugin({ name: 'b' }),
+        makePlugin({ name: 'c', categories: ['insights'] }),
       ]);
       expect(tabs.map((t) => t.id)).toEqual([TAB_ALL, 'insights', TAB_OTHER]);
     });
 
     it('collects an unclassified plugin into Other, last', () => {
       const tabs = buildTabs([
-        plugin({ name: 'a', categories: [] }),
-        plugin({ name: 'b', categories: undefined as unknown as string[] }),
+        makePlugin({ name: 'a', categories: [] }),
+        makePlugin({ name: 'b', categories: undefined as unknown as string[] }),
       ]);
       expect(tabs.map((t) => t.id)).toEqual([TAB_ALL, TAB_OTHER]);
     });
 
     it('folds a category slug named other into the same tab', () => {
       const tabs = buildTabs([
-        plugin({ name: 'a', categories: ['other'] }),
-        plugin({ name: 'b' }),
+        makePlugin({ name: 'a', categories: ['other'] }),
+        makePlugin({ name: 'b' }),
       ]);
       expect(tabs.map((t) => t.id)).toEqual([TAB_ALL, TAB_OTHER]);
       expect(tabs.find((t) => t.id === TAB_OTHER)?.count).toBe(2);
@@ -258,9 +228,9 @@ describe('Marketplace/pluginGrouping', () => {
 
     it('counts each tab, with all counting the whole catalogue', () => {
       const tabs = buildTabs([
-        plugin({ name: 'a', isPaid: true, categories: ['insights'] }),
-        plugin({ name: 'b', isPaid: true }),
-        plugin({ name: 'c' }),
+        makePlugin({ name: 'a', isPaid: true, categories: ['insights'] }),
+        makePlugin({ name: 'b', isPaid: true }),
+        makePlugin({ name: 'c' }),
       ]);
       expect(tabs).toEqual([
         { id: TAB_ALL, count: 3, isCategory: false },
@@ -271,9 +241,9 @@ describe('Marketplace/pluginGrouping', () => {
 
     it('orders type tabs first, then categories alphabetically', () => {
       const tabs = buildTabs([
-        plugin({ name: 'a', categories: ['security'] }),
-        plugin({ name: 'b', categories: ['customisation'] }),
-        plugin({ name: 't', isTheme: true }),
+        makePlugin({ name: 'a', categories: ['security'] }),
+        makePlugin({ name: 'b', categories: ['customisation'] }),
+        makePlugin({ name: 't', isTheme: true }),
       ]);
       expect(tabs.map((t) => t.id))
         .toEqual([TAB_ALL, TAB_THEMES, 'customisation', 'security']);
@@ -283,9 +253,9 @@ describe('Marketplace/pluginGrouping', () => {
   describe('filterPlugins', () => {
     it('applies the tab and the query together', () => {
       const plugins = [
-        plugin({ name: 'Funnels', categories: ['insights'] }),
-        plugin({ name: 'FunnelFree' }),
-        plugin({ name: 'Heatmaps', categories: ['insights'] }),
+        makePlugin({ name: 'Funnels', categories: ['insights'] }),
+        makePlugin({ name: 'FunnelFree' }),
+        makePlugin({ name: 'Heatmaps', categories: ['insights'] }),
       ];
       expect(names(filterPlugins(plugins, 'insights', 'funnel'))).toEqual(['Funnels']);
     });
@@ -306,14 +276,14 @@ describe('Marketplace/pluginGrouping', () => {
 
   describe('ownerLabel', () => {
     it('credits both Matomo owner names to Matomo', () => {
-      expect(ownerLabel(plugin({ name: 'a', owner: 'piwik' }))).toBe('Matomo');
-      expect(ownerLabel(plugin({ name: 'a', owner: 'matomo-org' }))).toBe('Matomo');
-      expect(ownerLabel(plugin({ name: 'a', owner: 'InnoCraft' }))).toBe('InnoCraft');
+      expect(ownerLabel(makePlugin({ name: 'a', owner: 'piwik' }))).toBe('Matomo');
+      expect(ownerLabel(makePlugin({ name: 'a', owner: 'matomo-org' }))).toBe('Matomo');
+      expect(ownerLabel(makePlugin({ name: 'a', owner: 'InnoCraft' }))).toBe('InnoCraft');
     });
   });
   describe('pluginCategories', () => {
     it('answers with the slugs a plugin is filed under', () => {
-      expect(pluginCategories(plugin({ name: 'a', categories: ['insights'] }))).toEqual(['insights']);
+      expect(pluginCategories(makePlugin({ name: 'a', categories: ['insights'] }))).toEqual(['insights']);
     });
 
     it('reads anything malformed as unclassified rather than throwing', () => {
@@ -325,29 +295,29 @@ describe('Marketplace/pluginGrouping', () => {
       ] as unknown as string[][];
 
       malformed.forEach((categories) => {
-        expect(pluginCategories(plugin({ name: 'a', categories }))).toEqual([]);
+        expect(pluginCategories(makePlugin({ name: 'a', categories }))).toEqual([]);
       });
     });
 
     it('drops empty values, non-strings and the uncategorised sentinel', () => {
       const categories = ['insights', '', 'uncategorised', 7, null] as unknown as string[];
-      expect(pluginCategories(plugin({ name: 'a', categories }))).toEqual(['insights']);
+      expect(pluginCategories(makePlugin({ name: 'a', categories }))).toEqual(['insights']);
     });
 
     it('reports a plugin no category claims', () => {
-      expect(isUnclassified(plugin({ name: 'a' }))).toBe(true);
-      expect(isUnclassified(plugin({ name: 'a', categories: ['uncategorised'] }))).toBe(true);
-      expect(isUnclassified(plugin({ name: 'a', categories: ['insights'] }))).toBe(false);
+      expect(isUnclassified(makePlugin({ name: 'a' }))).toBe(true);
+      expect(isUnclassified(makePlugin({ name: 'a', categories: ['uncategorised'] }))).toBe(true);
+      expect(isUnclassified(makePlugin({ name: 'a', categories: ['insights'] }))).toBe(false);
     });
   });
 
   describe('buildSections', () => {
     const catalogue = [
-      plugin({ name: 'Bundle', isBundle: true }),
-      plugin({ name: 'Theme', isTheme: true }),
-      plugin({ name: 'Sec', categories: ['security'] }),
-      plugin({ name: 'Ins', categories: ['customisation'] }),
-      plugin({ name: 'Loose' }),
+      makePlugin({ name: 'Bundle', isBundle: true }),
+      makePlugin({ name: 'Theme', isTheme: true }),
+      makePlugin({ name: 'Sec', categories: ['security'] }),
+      makePlugin({ name: 'Ins', categories: ['customisation'] }),
+      makePlugin({ name: 'Loose' }),
     ];
 
     it('follows the tab order, without the all tab', () => {
@@ -356,7 +326,7 @@ describe('Marketplace/pluginGrouping', () => {
     });
 
     it('holds every plugin of the section, not only the ones a row shows', () => {
-      const many = Array.from({ length: 9 }, (_, i) => plugin({
+      const many = Array.from({ length: 9 }, (_, i) => makePlugin({
         name: `p${i}`,
         categories: ['insights'],
       }));
@@ -365,11 +335,11 @@ describe('Marketplace/pluginGrouping', () => {
 
     it('leaves out a section with no members, and answers empty for an empty catalogue', () => {
       expect(buildSections([]).map((s) => s.id)).toEqual([]);
-      expect(buildSections([plugin({ name: 'a' })]).map((s) => s.id)).toEqual([TAB_OTHER]);
+      expect(buildSections([makePlugin({ name: 'a' })]).map((s) => s.id)).toEqual([TAB_OTHER]);
     });
 
     it('lets a theme filed under a category sit in both sections', () => {
-      const sections = buildSections([plugin({ name: 't', isTheme: true, categories: ['insights'] })]);
+      const sections = buildSections([makePlugin({ name: 't', isTheme: true, categories: ['insights'] })]);
       expect(sections.map((s) => s.id)).toEqual([TAB_THEMES, 'insights']);
       expect(sections.every((s) => names(s.plugins).includes('t'))).toBe(true);
     });

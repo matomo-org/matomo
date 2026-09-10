@@ -25,15 +25,7 @@
     <PluginGrid
       :max-cards="visibleCards"
       :plugins="plugins"
-      :is-super-user="isSuperUser"
-      :is-plugins-admin-enabled="isPluginsAdminEnabled"
-      :is-multi-server-environment="isMultiServerEnvironment"
-      :is-valid-consumer="isValidConsumer"
-      :is-auto-update-possible="isAutoUpdatePossible"
-      :activate-nonce="activateNonce"
-      :deactivate-nonce="deactivateNonce"
-      :install-nonce="installNonce"
-      :update-nonce="updateNonce"
+      :context="context"
       @openDetails="$emit('openDetails', $event)"
       @requestTrial="$emit('requestTrial', $event)"
       @startFreeTrial="$emit('startFreeTrial', $event)"
@@ -45,7 +37,7 @@
 import { defineComponent, PropType } from 'vue';
 import { translate } from 'CoreHome';
 import PluginGrid from '../PluginGrid/PluginGrid.vue';
-import { PluginCard as PluginCardType } from '../types';
+import { MarketplaceContext, PluginCard as PluginCardType } from '../types';
 import { tabLabel } from '../PluginGrid/categoryLabels';
 import {
   observeVisibleCardCount,
@@ -70,23 +62,12 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-    /**
-     * Every plugin in the section, not only the ones the row has room for. The section cuts the
-     * list down to {@link visibleCards}, and the full count decides whether "See all" is there.
-     */
+    /** Every plugin in the section; the row is cut to {@link visibleCards}, "See all" is not. */
     plugins: {
       type: Array as PropType<PluginCardType[]>,
       required: true,
     },
-    isAutoUpdatePossible: { type: Boolean, required: true },
-    isSuperUser: { type: Boolean, required: true },
-    isValidConsumer: { type: Boolean, required: true },
-    isMultiServerEnvironment: { type: Boolean, required: true },
-    isPluginsAdminEnabled: { type: Boolean, required: true },
-    activateNonce: { type: String, required: true },
-    deactivateNonce: { type: String, required: true },
-    installNonce: { type: String, required: true },
-    updateNonce: { type: String, required: true },
+    context: { type: Object as PropType<MarketplaceContext>, required: true },
   },
   components: {
     PluginGrid,
@@ -114,11 +95,8 @@ export default defineComponent({
       return tabLabel({ id: this.sectionId, isCategory: this.isCategory });
     },
     /**
-     * Only when the row is leaving something out.
-     *
-     * Compared against what the row is showing at this width, not against the list the section was
-     * handed: below three columns the row runs to two lines, and above them shows as few as three
-     * cards, so a fixed threshold would hide the link on a section with plugins still cut off.
+     * Only when the row is leaving something out, measured against what this width shows rather
+     * than a fixed threshold - the row runs from two to five cards depending on the breakpoint.
      */
     showSeeAll(): boolean {
       return this.plugins.length > this.visibleCards;

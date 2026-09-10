@@ -7,22 +7,15 @@
 
 import { mount, VueWrapper } from '@vue/test-utils';
 
-vi.mock('CoreHome', () => ({
-  translate: (key: string) => key,
-  translateOrDefault: (key: string) => (
-    key === 'Marketplace_CategoryInsights' ? 'Insights' : key
-  ),
-  ucfirst: (value: string) => `${value.charAt(0).toUpperCase()}${value.slice(1)}`,
-}));
+// Pulled in dynamically: a vi.mock() factory is hoisted above the file's own imports.
+vi.mock('CoreHome', async () => (await import('../testCoreHomeMock')).coreHomeMock());
 
 /* eslint-disable import/first */
 import CategoryTabs from './CategoryTabs.vue';
 import { PluginTab } from '../PluginGrid/pluginGrouping';
+import { translateStub } from '../testCoreHomeMock';
 
-/**
- * The component asks for `(max-width: 1400px)`, the same test its stylesheet uses. `narrow` here
- * means the bar is showing the overflow menu.
- */
+/** The component's own `(max-width: 1400px)` test; `narrow` means the overflow menu is showing. */
 function stubMatchMedia(narrow: boolean) {
   const listeners: (() => void)[] = [];
   window.matchMedia = vi.fn().mockImplementation((query: string) => ({
@@ -48,7 +41,7 @@ const TEN_TABS: PluginTab[] = [
 async function mountTabs(tabs: PluginTab[], modelValue = 'all') {
   const wrapper = mount(CategoryTabs, {
     props: { tabs, modelValue },
-    global: { mocks: { translate: (key: string) => key } },
+    global: { mocks: { translate: translateStub } },
   });
   await wrapper.vm.$nextTick();
   return wrapper;
@@ -107,7 +100,7 @@ describe('Marketplace/CategoryTabs', () => {
       await wrapper.find('.categoryTabs__moreButton').trigger('click');
       await wrapper.findAll('.categoryTabs__menuItem')[0].trigger('click');
 
-      expect(wrapper.emitted('update:modelValue')).toEqual([['behaviour']]);
+      expect(wrapper.emitted('update:modelValue')).toEqual([['conversion']]);
       expect(wrapper.findAll('.categoryTabs__menuItem')).toHaveLength(0);
     });
 

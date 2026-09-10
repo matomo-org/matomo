@@ -266,9 +266,8 @@ export default defineComponent({
         && !this.isAutoUpdatePossible;
     },
     /**
-     * Whether the installed state offers anything beside the word "Installed" - a download, or
-     * activating and deactivating. Both branches of the template in one expression, because
-     * CTAStatus draws the brackets around them and has to know before rendering them.
+     * Whether the installed state offers anything beside the word "Installed". Both template
+     * branches in one expression, because CTAStatus draws the brackets before rendering them.
      */
     hasInstalledAction(): boolean {
       return this.plugin.missingRequirements.length > 0

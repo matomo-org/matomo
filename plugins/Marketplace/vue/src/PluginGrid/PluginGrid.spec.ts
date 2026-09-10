@@ -7,43 +7,16 @@
 
 import { mount } from '@vue/test-utils';
 
-vi.mock('CoreHome', () => ({
-  MatomoUrl: { parsed: { value: { idSite: '1' } }, hashParsed: { value: {} }, stringify: () => '' },
-  translate: (key: string) => key,
-  translateOrDefault: (key: string) => key,
-  ucfirst: (value: string) => value,
-}));
+// Pulled in dynamically: a vi.mock() factory is hoisted above the file's own imports.
+vi.mock('CoreHome', async () => (await import('../testCoreHomeMock')).coreHomeMock());
 
 /* eslint-disable import/first */
 import PluginGrid from './PluginGrid.vue';
-import { PluginCard as PluginCardType } from '../types';
-
-function plugins(count: number): PluginCardType[] {
-  return Array.from({ length: count }, (_unused, index) => ({
-    name: `plugin${index}`,
-    displayName: `Plugin ${index}`,
-    description: '',
-    owner: 'someone',
-    categories: [],
-    coverImage: '',
-  } as unknown as PluginCardType));
-}
+import { CARD_CONTEXT, makePlugins } from '../testMarketplaceFixtures';
 
 function mountGrid(props: Record<string, unknown>) {
   return mount(PluginGrid, {
-    props: {
-      plugins: plugins(8),
-      isAutoUpdatePossible: true,
-      isSuperUser: true,
-      isValidConsumer: true,
-      isMultiServerEnvironment: false,
-      isPluginsAdminEnabled: true,
-      activateNonce: 'a',
-      deactivateNonce: 'd',
-      installNonce: 'i',
-      updateNonce: 'u',
-      ...props,
-    },
+    props: { plugins: makePlugins(8), context: CARD_CONTEXT, ...props },
     global: { stubs: { PluginCard: true, PluginCardSkeleton: true } },
   });
 }
@@ -63,7 +36,7 @@ describe('PluginGrid', () => {
   });
 
   it('leaves a shorter list alone', () => {
-    const wrapper = mountGrid({ plugins: plugins(2), maxCards: 5 });
+    const wrapper = mountGrid({ plugins: makePlugins(2), maxCards: 5 });
     expect(wrapper.findAllComponents({ name: 'PluginCard' })).toHaveLength(2);
   });
 

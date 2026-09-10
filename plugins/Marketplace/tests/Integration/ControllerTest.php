@@ -100,7 +100,7 @@ class ControllerTest extends IntegrationTestCase
             'owner',
             'priceFrom',
         ];
-        $conditional = ['downloadNonce', 'isBundle', 'bundle', 'bundleSeats'];
+        $conditional = ['downloadNonce', 'isBundle', 'bundleSeats'];
 
         foreach ($plugins as $plugin) {
             $keys = array_keys($plugin);

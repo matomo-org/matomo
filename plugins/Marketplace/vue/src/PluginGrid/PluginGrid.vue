@@ -11,15 +11,7 @@
       v-for="plugin in visiblePlugins"
       :key="plugin.name"
       :plugin="plugin"
-      :is-super-user="isSuperUser"
-      :is-plugins-admin-enabled="isPluginsAdminEnabled"
-      :is-multi-server-environment="isMultiServerEnvironment"
-      :is-valid-consumer="isValidConsumer"
-      :is-auto-update-possible="isAutoUpdatePossible"
-      :activate-nonce="activateNonce"
-      :deactivate-nonce="deactivateNonce"
-      :install-nonce="installNonce"
-      :update-nonce="updateNonce"
+      :context="context"
       @openDetails="$emit('openDetails', $event)"
       @requestTrial="$emit('requestTrial', $event)"
       @startFreeTrial="$emit('startFreeTrial', $event)"
@@ -32,7 +24,7 @@
 import { defineComponent, PropType } from 'vue';
 import PluginCard from '../PluginCard/PluginCard.vue';
 import PluginCardSkeleton from '../PluginCard/PluginCardSkeleton.vue';
-import { PluginCard as PluginCardType } from '../types';
+import { MarketplaceContext, PluginCard as PluginCardType } from '../types';
 
 export default defineComponent({
   props: {
@@ -40,10 +32,7 @@ export default defineComponent({
       type: Array as PropType<PluginCardType[]>,
       required: true,
     },
-    /**
-     * Render at most this many cards, for a curated section that shows one row. `null` renders
-     * every plugin it was handed.
-     */
+    /** At most this many cards, for a section showing one row; `null` renders every plugin. */
     maxCards: {
       type: Number as PropType<number|null>,
       default: null,
@@ -52,15 +41,7 @@ export default defineComponent({
       type: Number,
       default: 0,
     },
-    isAutoUpdatePossible: { type: Boolean, required: true },
-    isSuperUser: { type: Boolean, required: true },
-    isValidConsumer: { type: Boolean, required: true },
-    isMultiServerEnvironment: { type: Boolean, required: true },
-    isPluginsAdminEnabled: { type: Boolean, required: true },
-    activateNonce: { type: String, required: true },
-    deactivateNonce: { type: String, required: true },
-    installNonce: { type: String, required: true },
-    updateNonce: { type: String, required: true },
+    context: { type: Object as PropType<MarketplaceContext>, required: true },
   },
   components: {
     PluginCard,
@@ -69,7 +50,7 @@ export default defineComponent({
   emits: ['openDetails', 'requestTrial', 'startFreeTrial'],
   computed: {
     visiblePlugins(): PluginCardType[] {
-      return null === this.maxCards ? this.plugins : this.plugins.slice(0, this.maxCards);
+      return this.maxCards === null ? this.plugins : this.plugins.slice(0, this.maxCards);
     },
   },
 });

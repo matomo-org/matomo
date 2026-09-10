@@ -69,15 +69,7 @@
 
     <div class="pluginCard__actions cta-container">
       <CTAContainer
-        :is-super-user="isSuperUser"
-        :is-plugins-admin-enabled="isPluginsAdminEnabled"
-        :is-multi-server-environment="isMultiServerEnvironment"
-        :is-valid-consumer="isValidConsumer"
-        :is-auto-update-possible="isAutoUpdatePossible"
-        :activate-nonce="activateNonce"
-        :deactivate-nonce="deactivateNonce"
-        :install-nonce="installNonce"
-        :update-nonce="updateNonce"
+        v-bind="context"
         :plugin="plugin"
         :in-modal="false"
         @openDetailsModal="$emit('openDetails', plugin)"
@@ -93,7 +85,7 @@ import { defineComponent, PropType } from 'vue';
 import { MatomoUrl, translate } from 'CoreHome';
 import CTAContainer from '../PluginList/CTAContainer.vue';
 import MatomoGlyph from './MatomoGlyph.vue';
-import { PluginCard as PluginCardType } from '../types';
+import { MarketplaceContext, PluginCard as PluginCardType } from '../types';
 import { ownerLabel, pluginCategories } from '../PluginGrid/pluginGrouping';
 import { categoryLabel as labelForCategory } from '../PluginGrid/categoryLabels';
 
@@ -107,15 +99,7 @@ export default defineComponent({
       type: Object as PropType<PluginCardType>,
       required: true,
     },
-    isAutoUpdatePossible: { type: Boolean, required: true },
-    isSuperUser: { type: Boolean, required: true },
-    isValidConsumer: { type: Boolean, required: true },
-    isMultiServerEnvironment: { type: Boolean, required: true },
-    isPluginsAdminEnabled: { type: Boolean, required: true },
-    activateNonce: { type: String, required: true },
-    deactivateNonce: { type: String, required: true },
-    installNonce: { type: String, required: true },
-    updateNonce: { type: String, required: true },
+    context: { type: Object as PropType<MarketplaceContext>, required: true },
   },
   components: {
     CTAContainer,

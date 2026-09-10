@@ -26,9 +26,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-/**
- * Holds a card's footprint while the catalogue loads. Its outer geometry has to match PluginCard
- * or the grid reflows the moment real cards arrive.
- */
+/** Holds a card's footprint while the catalogue loads; its geometry must match PluginCard. */
 export default defineComponent({});
 </script>

@@ -74,11 +74,9 @@ import { PluginTab } from '../PluginGrid/pluginGrouping';
 import { tabLabel } from '../PluginGrid/categoryLabels';
 
 /**
- * At or below this width the bar shows only the first few tabs and moves the rest into a menu.
- *
- * It is written as the same max-width test `CategoryTabs.less` uses, not as its min-width
- * inverse: at exactly 1400px a min-width test reports "wide" while the stylesheet has already
- * hidden the overflow tabs, and the tabs past the fifth become unreachable.
+ * At or below this width the bar keeps the first few tabs and moves the rest into a menu. Written
+ * as the same max-width test `CategoryTabs.less` uses: the min-width inverse disagrees with the
+ * stylesheet at exactly 1400px, leaving the tabs past the fifth unreachable.
  */
 const NARROW_BREAKPOINT = '(max-width: 1400px)';
 
@@ -188,14 +186,11 @@ export default defineComponent({
     tabLabel,
 
     /**
-     * Moves focus onto the tab that is currently selected.
+     * Moves focus onto the selected tab, for a caller that changed the selection from elsewhere on
+     * the page - a section's "See all" - whose own control the re-render removes.
      *
-     * For callers that navigate by changing the selection from somewhere else on the page - a
-     * section's "See all" - where the control that had focus is removed by the re-render.
-     *
-     * Below the wide breakpoint the active tab may be one of the overflow tabs, which are
-     * display:none until there is room for them, and focus() does nothing on one of those. The
-     * More button stands in for them there, and already renders as active when it does.
+     * An overflow tab is display:none until there is room for it, and focus() does nothing on one,
+     * so the More button stands in; it already renders as active in that case.
      */
     focusActiveTab() {
       const bar = this.$refs.bar as HTMLElement|undefined;

@@ -73,7 +73,7 @@
         :section-id="section.id"
         :is-category="section.isCategory"
         :plugins="section.plugins"
-        v-bind="gridProps"
+        :context="cardContext"
         @seeAll="seeAllInSection($event)"
         @openDetails="openDetailsModal($event)"
         @requestTrial="showRequestTrialForPlugin = $event"
@@ -85,7 +85,7 @@
       v-if="!showSections && (loading || filteredPlugins.length > 0)"
       :plugins="pagedPlugins"
       :skeleton-count="skeletonCount"
-      v-bind="gridProps"
+      :context="cardContext"
       @openDetails="openDetailsModal($event)"
       @requestTrial="showRequestTrialForPlugin = $event"
       @startFreeTrial="showStartFreeTrialForPlugin = $event"
@@ -122,7 +122,7 @@ import EmptyState from '../PluginGrid/EmptyState.vue';
 import RequestTrial from '../RequestTrial/RequestTrial.vue';
 import StartFreeTrial from '../StartFreeTrial/StartFreeTrial.vue';
 import PluginDetailsModal from '../PluginDetailsModal/PluginDetailsModal.vue';
-import { PluginCard } from '../types';
+import { MarketplaceContext, PluginCard } from '../types';
 import { tabLabel } from '../PluginGrid/categoryLabels';
 import {
   buildSections,
@@ -236,10 +236,8 @@ export default defineComponent({
       return buildTabs(this.allPlugins);
     },
     /**
-     * The section stack, each row sorted the way the whole catalogue is.
-     *
-     * Sorting inside the rows is what makes "See all" continuous: the row is the first cards of
-     * the category view it links to, in the same order, rather than a differently ordered sample.
+     * The section stack, each row sorted the way the whole catalogue is, so that a row is the
+     * first cards of the category it links to rather than a differently ordered sample.
      */
     sections(): PluginSectionType[] {
       return buildSections(this.allPlugins).map((section) => ({
@@ -248,13 +246,9 @@ export default defineComponent({
       }));
     },
     /**
-     * Whether the page shows the section stack rather than one flat grid.
-     *
-     * Only the All plugins tab, and only with nothing searched for - a tab or a query is a request
-     * for one list, and answering it with ten rows would bury the answer. The catalogue also has
-     * to have arrived: while loading there are no sections to build, so the flat grid keeps
-     * holding the layout with its skeletons. An empty stack covers a failed load and an install
-     * whose Marketplace only carries a handful of plugins.
+     * Whether the page shows the section stack rather than one flat grid. Only on All plugins with
+     * nothing searched for: a tab or a query asks for one list, and ten rows would bury it. While
+     * loading there are no sections, so the flat grid holds the layout with its skeletons.
      */
     showSections(): boolean {
       return !this.loading
@@ -263,7 +257,7 @@ export default defineComponent({
         && this.sections.length > 0;
     },
     /** What every grid on the page needs to render a card, gathered once. */
-    gridProps() {
+    cardContext(): MarketplaceContext {
       return {
         isSuperUser: this.isSuperUser,
         isPluginsAdminEnabled: this.isPluginsAdminEnabled,
@@ -289,14 +283,9 @@ export default defineComponent({
       return this.loading ? INITIAL_SKELETONS : 0;
     },
     /**
-     * What the list below is: a search's result count, or the name of the open category.
-     *
-     * The All plugins tab names nothing - the section stack it opens on carries a heading per
-     * row, and a title over all of them would only repeat the tab that is already marked current.
-     *
-     * A category names itself while the catalogue is still loading: the label comes from the tab,
-     * not from the plugins, so waiting for them would only drop the heading in and push the
-     * skeletons down the moment they arrive.
+     * What the list below is: a search's result count, or the name of the open category. All
+     * plugins names nothing, since its rows carry their own headings. A category names itself
+     * while still loading - the label comes from the tab, so waiting would shift the skeletons.
      */
     resultsHeading(): string {
       if (this.searchQuery.trim()) {
@@ -317,11 +306,8 @@ export default defineComponent({
       });
     },
     /**
-     * Sorting is offered over a single list only.
-     *
-     * The section stack is ten lists at once, each cut to a row, so a sort control there would
-     * reorder what the rows contain without the reader seeing an order change - and the rows are
-     * meant to read as an editorial front page rather than a sortable table.
+     * Sorting is offered over a single list only. The section stack is ten lists at once, each cut
+     * to a row, so sorting there would change what the rows hold with no visible reordering.
      */
     showSort(): boolean {
       return !this.showSections && this.filteredPlugins.length > 0;
@@ -333,14 +319,10 @@ export default defineComponent({
     /**
      * The whole catalogue, in the two requests the Marketplace keeps warm.
      *
-     * `Api\Client::getWarmedOverviewLists()` holds exactly ['plugins', ALL], ['plugins', PAID] and
-     * ['themes', ALL] for 90 minutes, refilled hourly by `Tasks::warmCacheEntries()`. Anything
-     * that varies query, sort or purchase type is a different cache key and misses all three, so
-     * this page asks for the unfiltered plugin and theme lists and does the rest on the client.
-     * ['plugins', PAID] is a subset of ['plugins', ALL], reachable here through `isPaid`.
-     *
-     * Do not add a parameter to these two requests. Nothing would break loudly: every tab click
-     * would just become a cold catalogue download.
+     * `Api\Client::getWarmedOverviewLists()` holds only ['plugins', ALL], ['plugins', PAID] and
+     * ['themes', ALL] for 90 minutes. Anything varying query, sort or purchase type is a different
+     * cache key and misses all three, so do not add a parameter here: nothing breaks loudly, every
+     * tab click just becomes a cold catalogue download.
      */
     fetchCatalogue() {
       this.loading = true;
@@ -432,13 +414,9 @@ export default defineComponent({
     },
 
     /**
-     * Opens one section's category, which is the same thing its tab does.
-     *
-     * The tab bar is at the top of the page and a section's link can be most of a screen down it,
-     * so the two things a tab click never has to think about both matter here: the reader would
-     * otherwise be left looking at whitespace under a list that starts above them, and the button
-     * that had focus is removed by the re-render, dropping focus to <body> and sending the next
-     * Tab back to the start of the document.
+     * Opens one section's category, as its tab would. Unlike a tab click this can fire most of a
+     * screen down the page, so it also scrolls the new list into view and moves focus - the
+     * button that had it is removed by the re-render, which would drop focus to <body>.
      */
     seeAllInSection(sectionId: string) {
       this.updateTab(sectionId);

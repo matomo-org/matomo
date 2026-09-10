@@ -7,80 +7,32 @@
 
 import { mount, VueWrapper } from '@vue/test-utils';
 
-vi.mock('CoreHome', () => ({
-  MatomoUrl: {
-    urlParsed: { value: {} },
-    parsed: { value: { idSite: '1' } },
-    hashParsed: { value: {} },
-    stringify: (params: Record<string, unknown>) => new URLSearchParams(
-      Object.entries(params).map(([k, v]) => [k, String(v)]),
-    ).toString(),
-  },
-  translate: (key: string, ...args: string[]) => (args.length ? `${key}:${args.join(',')}` : key),
-  translateOrDefault: (key: string) => key,
-  ucfirst: (value: string) => `${value.charAt(0).toUpperCase()}${value.slice(1)}`,
-}));
+// Pulled in dynamically: a vi.mock() factory is hoisted above the file's own imports.
+vi.mock('CoreHome', async () => (await import('../testCoreHomeMock')).coreHomeMock());
 
 /* eslint-disable import/first */
 import PluginCard from './PluginCard.vue';
-import { PluginCard as PluginCardType } from '../types';
+import { MarketplaceContext, PluginCard as PluginCardType } from '../types';
+import { CARD_CONTEXT, makePlugin } from '../testMarketplaceFixtures';
+import { translateStub } from '../testCoreHomeMock';
 
-function makePlugin(overrides: Partial<PluginCardType> = {}): PluginCardType {
-  return {
-    name: 'Funnels',
-    displayName: 'Funnels',
-    description: 'Understand where visitors drop off',
-    owner: 'InnoCraft',
-    categories: ['insights'],
-    coverImage: 'https://plugins.matomo.org/img/funnels.png',
-    isFree: true,
-    isPaid: false,
-    isTheme: false,
-    isInstalled: false,
-    isActivated: false,
-    isInvalid: false,
-    isDownloadable: true,
-    canBeUpdated: false,
-    hasDownloadLink: true,
-    hasExceededLicense: false,
-    isMissingLicense: false,
-    isEligibleForFreeTrial: false,
-    isTrialRequested: false,
-    canTrialBeRequested: false,
-    missingRequirements: [],
-    numDownloads: 100,
-    numDownloadsPretty: '100',
-    lastUpdated: 'Jun 8, 2026',
-    lastUpdatedRaw: '2026-06-08 00:00:00',
-    createdDateTime: '2020-01-01 00:00:00',
-    consumer: {},
-    licenseStatus: '',
-    ...overrides,
-  } as unknown as PluginCardType;
-}
-
-function mountCard(plugin: Partial<PluginCardType> = {}, props: Record<string, unknown> = {}) {
+function mountCard(
+  plugin: Partial<PluginCardType> = {},
+  context: Partial<MarketplaceContext> = {},
+) {
   return mount(PluginCard, {
     props: {
-      plugin: makePlugin(plugin),
-      isSuperUser: true,
-      isPluginsAdminEnabled: true,
-      isMultiServerEnvironment: false,
-      isValidConsumer: true,
-      isAutoUpdatePossible: true,
-      activateNonce: 'a',
-      deactivateNonce: 'd',
-      installNonce: 'i',
-      updateNonce: 'u',
-      ...props,
+      plugin: makePlugin({
+        description: 'Understand where visitors drop off',
+        owner: 'InnoCraft',
+        categories: ['insights'],
+        numDownloads: 100,
+        ...plugin,
+      }),
+      context: { ...CARD_CONTEXT, ...context },
     },
     global: {
-      mocks: {
-        translate: (key: string, ...args: string[]) => (
-          args.length ? `${key}:${args.join(',')}` : key
-        ),
-        externalRawLink: (url: string) => url,
-      },
+      mocks: { translate: translateStub, externalRawLink: (url: string) => url },
     },
   });
 }

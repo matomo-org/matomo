@@ -10,40 +10,7 @@ import {
   SINGLE_ROW_MAX_CARDS,
   visibleCardCount,
 } from './visibleCardCount';
-
-interface StubbedViewport {
-  /** Moves to a new width and fires `change` on every query, as a browser would. */
-  resizeTo: (width: number) => void;
-  removed: () => number;
-}
-
-/**
- * A matchMedia stub driven by a width rather than a fixed boolean, so the breakpoint table itself
- * is what is under test. jsdom implements no matchMedia at all.
- */
-function stubViewport(width: number): StubbedViewport {
-  let current = width;
-  const handlers: (() => void)[] = [];
-  let removed = 0;
-
-  window.matchMedia = ((query: string) => ({
-    get matches() {
-      const max = /max-width:\s*(\d+)px/.exec(query);
-      return max ? current <= Number(max[1]) : false;
-    },
-    media: query,
-    addEventListener: (_event: string, handler: () => void) => handlers.push(handler),
-    removeEventListener: () => { removed += 1; },
-  })) as unknown as typeof window.matchMedia;
-
-  return {
-    resizeTo: (next: number) => {
-      current = next;
-      handlers.forEach((handler) => handler());
-    },
-    removed: () => removed,
-  };
-}
+import { stubViewport } from '../testMarketplaceFixtures';
 
 describe('visibleCardCount', () => {
   const originalMatchMedia = window.matchMedia;
@@ -83,17 +50,16 @@ describe('visibleCardCount', () => {
     expect(onChange).toHaveBeenCalledWith(2);
   });
 
-  it('detaches every listener once the last subscriber goes', () => {
+  it('detaches its own listeners, and only its own, when it unsubscribes', () => {
     const viewport = stubViewport(1900);
 
     const unobserveA = observeVisibleCardCount(vi.fn());
-    const unobserveB = observeVisibleCardCount(vi.fn());
+    observeVisibleCardCount(vi.fn());
 
     unobserveA();
-    expect(viewport.removed()).toBe(0);
 
-    unobserveB();
-    expect(viewport.removed()).toBeGreaterThan(0);
+    // one per breakpoint, and the second subscriber's are still attached
+    expect(viewport.removed()).toBe(4);
   });
 
   it('stops calling back after unsubscribing', () => {

@@ -523,16 +523,11 @@ class Plugins
     }
 
     /**
-     * The category slugs a plugin is filed under, always as a clean list of strings.
+     * The category slugs a plugin is filed under, always as a clean list of strings, so the client
+     * cannot tell an unclassified plugin from a response cached before the field existed.
      *
-     * The Marketplace files a plugin under zero or more slugs and sends an empty array for one
-     * nobody has classified. Normalising here means the client never has to tell an unclassified
-     * plugin from a list response cached before the field existed, and it keeps the field present
-     * for {@link Controller::keepPluginCardFields()}, which drops anything not in the payload.
-     *
-     * The singular `category` the Marketplace also sends is stale: it disagrees with the first
-     * entry here on part of the catalogue and reports `uncategorised` for most paid plugins.
-     * Nothing reads it.
+     * The singular `category` the Marketplace also sends is stale - it reports `uncategorised` for
+     * most paid plugins - and nothing reads it.
      *
      * @param array<string, mixed> $plugin
      * @return string[]
@@ -552,17 +547,12 @@ class Plugins
     }
 
     /**
-     * A bundle is licensed for one seat tier, and the Marketplace spells that tier into the name of
-     * each shop variation: "Up to 20 users", or "Up to 20 users monthly" for the monthly one. The
-     * overview's cards show it, so resolve it here instead of parsing a display string in the
-     * browser.
+     * The seat tier a bundle is licensed for, which the Marketplace spells into each shop
+     * variation's name ("Up to 20 users"). Resolved here rather than by parsing a display string.
      *
-     * Read off the variation addPriceFrom() already chose, so a card's seat tier and its price can
-     * never describe different variations. A name carrying no number leaves the field unset rather
-     * than inventing one: the Marketplace also sells "Unlimited users.", which has no tier to show.
-     *
-     * Bundles only, deliberately: an individual paid plugin offers all three tiers at once, so
-     * there is no single seat count to put on its card.
+     * Read off the variation addPriceFrom() already chose, so seat tier and price always describe
+     * the same one. A name with no number ("Unlimited users.") leaves the field unset. Bundles
+     * only: a paid plugin offers all three tiers at once, so it has no single count.
      *
      * @param $plugin
      */
@@ -584,8 +574,7 @@ class Plugins
      * cover image), we use Matomo image for Matomo plugins and a generic cover image otherwise. The Marketplace's own
      * category stand-ins count as no cover image here - see {@link isCategoryCoverImage()}.
      *
-     * The Matomo placeholder carries the Matomo wordmark, so ownership alone decides it: a plugin
-     * nobody at Matomo wrote never gets it, however the Marketplace has the plugin categorised.
+     * The Matomo placeholder carries the Matomo wordmark, so ownership alone decides it.
      *
      * @param $plugin
      */
@@ -612,16 +601,12 @@ class Plugins
     }
 
     /**
-     * Whether a cover image is one of the Marketplace's own stand-ins rather than a screenshot.
+     * Whether a cover image is one of the Marketplace's own stand-ins rather than a screenshot. A
+     * plugin with no screenshot still arrives with one, filled in from its category or the generic
+     * `uncategorised` image; both are placeholders, so both fall through to ours.
      *
-     * A plugin with no screenshot does not arrive without a cover image: the Marketplace fills one
-     * in from the plugin's category, and where it has no art for that category - which is most of
-     * the catalogue - it sends the generic `uncategorised` image. Both are placeholders, so both
-     * fall through to ours.
-     *
-     * Matched on the trailing path rather than the host, so it also catches the local copies the UI
-     * tests rewrite these URLs to (see plugins/Marketplace/config/test.php) and the paths this
-     * method's caller writes, which keeps a second pass over an already enriched plugin stable.
+     * Matched on the trailing path, not the host, so it also catches the local copies the UI tests
+     * rewrite these URLs to and the paths this method's caller writes.
      */
     private function isCategoryCoverImage(string $coverImage): bool
     {

@@ -14,14 +14,10 @@ import {
 } from './pluginGrouping';
 
 /**
- * Labels for the tab bar, the card chips and the section headings.
+ * Labels for the tab bar, the card chips and the section headings, which all name the same things.
  *
- * All three name the same things, so they resolve them the same way here rather than each keeping
- * its own copy of the rule.
- *
- * This lives beside `pluginGrouping.ts`, which owns the tab vocabulary, but deliberately not
- * inside it: that module imports nothing from `CoreHome`, and its spec relies on being able to
- * load it without mocking one.
+ * Beside `pluginGrouping.ts` rather than inside it: that module imports nothing from `CoreHome`,
+ * and its spec relies on loading it without mocking one.
  */
 
 /** The tabs that name a plugin type rather than a category slug, and so have a fixed label. */
@@ -32,10 +28,8 @@ const TYPE_TAB_KEYS: Record<string, string> = {
 };
 
 /**
- * The display name for a category slug, or '' for no category.
- *
- * The Marketplace's category vocabulary is data, not a fixed list, so a slug we have no key for
- * yet still renders as something readable. translateOrDefault, not translate: an unknown key makes
+ * The display name for a category slug, or '' for no category. Falls back to the slug itself, so a
+ * category with no key yet still reads. translateOrDefault, not translate: an unknown key makes
  * translate() return "The string ... was not loaded in javascript".
  */
 export function categoryLabel(slug: string): string {

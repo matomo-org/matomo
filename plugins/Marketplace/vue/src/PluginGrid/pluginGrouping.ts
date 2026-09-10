@@ -8,15 +8,11 @@
 import { PluginCard } from '../types';
 
 /**
- * Filtering, sorting and tab construction for the Marketplace overview.
+ * Filtering, sorting and tab construction for the overview, on the client by design.
  *
- * All of it runs on the client, deliberately. `Api\Client::getWarmedOverviewLists()` names the
- * only three queries the Marketplace holds for the longer 90 minute timeout, and any request that
- * varies `query`, `sort` or a category is a different cache key that misses all three. So the page
- * fetches the warmed lists once and does the rest here.
- *
- * Do not move any of this back behind a request parameter. Nothing would fail loudly: every tab
- * click would just become a cold catalogue download.
+ * Only the three queries in `Api\Client::getWarmedOverviewLists()` get the 90 minute cache, and
+ * varying query, sort or category misses all three. Moving any of this behind a request parameter
+ * turns every tab click into a cold catalogue download, silently.
  */
 
 export const TAB_ALL = 'all';
@@ -24,19 +20,14 @@ export const TAB_BUNDLES = 'bundles';
 export const TAB_THEMES = 'themes';
 
 /**
- * Everything no category claims.
- *
- * Not a value the Marketplace sends: an unclassified plugin arrives with an empty `categories`,
- * and this is the id {@link buildTabs} invents so those plugins - most of the catalogue - have a
- * tab and a section of their own rather than being reachable only through All plugins and search.
+ * Everything no category claims. Invented by {@link buildTabs}, not sent by the Marketplace, so
+ * that unclassified plugins - most of the catalogue - get a tab of their own.
  */
 export const TAB_OTHER = 'other';
 
 /**
- * The Marketplace's older singular `category` field used this string to mean "nobody has
- * classified this yet". `categories` says the same thing with an empty array, so this should not
- * appear any more - but if it ever turns up inside the array it has to be dropped, or the tab bar
- * grows an "Uncategorised" tab standing next to "Other" for the same idea.
+ * The legacy singular `category` field's word for unclassified. Dropped if it ever appears in
+ * `categories`, or the bar grows an "Uncategorised" tab beside "Other" for the same idea.
  */
 export const CATEGORY_UNCATEGORISED = 'uncategorised';
 
@@ -47,27 +38,12 @@ export const SORT_NEWEST = 'newest';
 export const SORT_ALPHA = 'alpha';
 export const SORT_DEVELOPER = 'developer';
 
-export const SORT_METHODS = [
-  SORT_LAST_UPDATED,
-  SORT_POPULAR,
-  SORT_NEWEST,
-  SORT_ALPHA,
-  SORT_DEVELOPER,
-] as const;
-
-export type SortMethod = typeof SORT_METHODS[number];
-
 /** The type tabs, in display order. Category tabs are appended to these by {@link buildTabs}. */
 export const TYPE_TABS = [TAB_ALL, TAB_BUNDLES, TAB_THEMES];
 
 export interface PluginTab {
   id: string;
-  /**
-   * How many plugins the tab holds. `all` counts the whole catalogue.
-   *
-   * These do not add up to the catalogue: a plugin filed under two categories is counted by both,
-   * the same way it appears under both tabs. Nothing renders a count today.
-   */
+  /** How many plugins the tab holds; counts overlap, since a plugin can have two categories. */
   count: number;
   /** A category tab takes its label from a translation key; a type tab has a fixed one. */
   isCategory: boolean;
@@ -85,10 +61,8 @@ export interface PluginSection {
 const MATOMO_OWNERS = ['piwik', 'matomo-org'];
 
 /**
- * The Marketplace sends dates as `2015-11-20 19:16:03`. `Date.parse()` is only specified for the
- * ISO form, so parse it ourselves rather than relying on browsers being lenient.
- *
- * Returns `null` for anything unparseable, which callers sort last instead of scattering.
+ * The Marketplace sends `2015-11-20 19:16:03`; `Date.parse()` only specifies the ISO form, so
+ * parse it here. Unparseable values return null, which callers sort last.
  */
 export function parseMarketplaceDate(value: unknown): number|null {
   if (typeof value !== 'string') {
@@ -128,11 +102,8 @@ export function matchesQuery(plugin: PluginCard, query: string): boolean {
 }
 
 /**
- * The category slugs a plugin is filed under.
- *
- * `categories` is an array by design, so belonging to a category is a contains test rather than an
- * equality one and a plugin may appear in more than one section. Anything malformed reads as
- * unclassified rather than throwing: this runs over whatever the Marketplace last sent.
+ * The category slugs a plugin is filed under. An array by design, so a plugin can appear in more
+ * than one section; anything malformed reads as unclassified rather than throwing.
  */
 export function pluginCategories(plugin: PluginCard): string[] {
   const { categories } = plugin;
@@ -169,11 +140,8 @@ export function matchesTab(plugin: PluginCard, tabId: string): boolean {
 }
 
 /**
- * Sorts a copy, never the argument.
- *
- * Every comparison falls back to the display name, so two plugins that tie - and every plugin
- * whose value is missing - keep a stable, predictable order rather than whatever the fetch
- * happened to return.
+ * Sorts a copy, never the argument. Every comparison falls back to the display name, so ties and
+ * missing values keep a predictable order rather than the fetch's.
  */
 export function sortPlugins(plugins: PluginCard[], sort: string): PluginCard[] {
   const byName = (a: PluginCard, b: PluginCard) => (a.displayName || '').localeCompare(
@@ -227,15 +195,9 @@ export function filterPlugins(
 }
 
 /**
- * The tab list, built from the data rather than declared.
- *
- * A tab with no members is left out entirely: the categories the Marketplace ships today hold as
- * few as five plugins, so one delisting is enough to empty one, and a tab that shows an empty grid
- * is worse than a tab that is not there.
- *
- * The category half of this list is data, not a fixed vocabulary. When the Marketplace finishes
- * adopting the user-facing taxonomy the only thing that changes here is which slugs arrive in
- * `plugin.categories`.
+ * The tab list, built from the data rather than declared, so the category half follows whatever
+ * slugs arrive in `plugin.categories`. An empty tab is left out: some categories hold as few as
+ * five plugins, so one delisting can empty one.
  */
 export function buildTabs(plugins: PluginCard[]): PluginTab[] {
   const tabs: PluginTab[] = [];
@@ -273,18 +235,9 @@ export function buildTabs(plugins: PluginCard[]): PluginTab[] {
 }
 
 /**
- * The overview's section stack, derived from the tab list rather than declared beside it.
- *
- * Deriving it is the point. A section and its tab are then the same set by construction, so
- * "See all" lands on exactly the plugins the row was counting and the rule that hides that link
- * when the row already shows everything cannot lie. It also inherits the tab list's order -
- * bundles, themes, categories A-Z, other - and its habit of leaving out an empty group.
- *
- * Sections overlap on purpose: a theme filed under a category appears in both, the same way it
- * already appears under both tabs.
- *
- * Ordering within a section is the caller's, so that the row and the category it links to can be
- * sorted the same way.
+ * The section stack, derived from the tab list so a section and its tab are the same set by
+ * construction: "See all" lands on exactly what the row counted. Sections overlap on purpose.
+ * Ordering within a section is the caller's, so a row and its category can sort alike.
  */
 export function buildSections(plugins: PluginCard[]): PluginSection[] {
   return buildTabs(plugins)
@@ -297,10 +250,8 @@ export function buildSections(plugins: PluginCard[]): PluginSection[] {
 }
 
 /**
- * Maps the legacy `pluginType` hash parameter onto a tab.
- *
- * `CorePluginsAdmin` still links in with `#?pluginType=themes` from `ThemesIntro.vue` and
- * `PluginsTable.vue`, so reading it has to keep working even though nothing writes it any more.
+ * Maps the legacy `pluginType` hash parameter onto a tab. Nothing writes it any more, but
+ * CorePluginsAdmin's ThemesIntro.vue and PluginsTable.vue still link in with it.
  */
 export function tabFromLegacyPluginType(pluginType: string): string|null {
   switch (pluginType) {

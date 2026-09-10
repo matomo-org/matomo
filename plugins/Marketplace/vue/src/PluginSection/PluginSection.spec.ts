@@ -7,92 +7,20 @@
 
 import { mount } from '@vue/test-utils';
 
-vi.mock('CoreHome', () => ({
-  translate: (key: string, ...args: string[]) => [key, ...args].join(' '),
-  translateOrDefault: (key: string) => (
-    key === 'Marketplace_CategoryInsights' ? 'Insights' : key
-  ),
-  ucfirst: (value: string) => `${value.charAt(0).toUpperCase()}${value.slice(1)}`,
-  MatomoUrl: { hashParsed: { value: {} }, stringify: () => '' },
-}));
+// Pulled in dynamically: a vi.mock() factory is hoisted above the file's own imports.
+vi.mock('CoreHome', async () => (await import('../testCoreHomeMock')).coreHomeMock());
 
 /* eslint-disable import/first */
 import PluginSection from './PluginSection.vue';
-import { PluginCard } from '../types';
-
-/**
- * A matchMedia stub driven by a width, so a section can be mounted at a given breakpoint. The
- * counts it produces are `visibleCardCount`'s, which is what decides whether "See all" is there.
- */
-function stubViewport(width: number) {
-  const handlers: (() => void)[] = [];
-  let current = width;
-
-  window.matchMedia = ((query: string) => ({
-    get matches() {
-      const max = /max-width:\s*(\d+)px/.exec(query);
-      return max ? current <= Number(max[1]) : false;
-    },
-    media: query,
-    addEventListener: (_event: string, handler: () => void) => handlers.push(handler),
-    removeEventListener: () => undefined,
-  })) as unknown as typeof window.matchMedia;
-
-  return (next: number) => {
-    current = next;
-    handlers.forEach((handler) => handler());
-  };
-}
-
-function plugins(count: number): PluginCard[] {
-  return Array.from({ length: count }, (_unused, index) => ({
-    name: `plugin${index}`,
-    displayName: `Plugin ${index}`,
-    description: '',
-    owner: 'someone',
-    categories: [],
-    coverImage: '',
-    isFree: true,
-    isPaid: false,
-    isTheme: false,
-    isInstalled: false,
-    isActivated: false,
-    isInvalid: false,
-    isDownloadable: true,
-    canBeUpdated: false,
-    hasDownloadLink: true,
-    hasExceededLicense: false,
-    isMissingLicense: false,
-    isEligibleForFreeTrial: false,
-    isTrialRequested: false,
-    canTrialBeRequested: false,
-    missingRequirements: [],
-    numDownloads: 0,
-    numDownloadsPretty: '0',
-    priceFrom: null,
-    consumer: {},
-    licenseStatus: '',
-    lastUpdated: '',
-    lastUpdatedRaw: null,
-    createdDateTime: null,
-  } as unknown as PluginCard));
-}
+import { CARD_CONTEXT, makePlugins, stubViewport } from '../testMarketplaceFixtures';
 
 async function mountSection(props: Record<string, unknown>) {
   const wrapper = mount(PluginSection, {
     props: {
       sectionId: 'insights',
       isCategory: true,
-      plugins: plugins(3),
-      isAutoUpdatePossible: true,
-      isSuperUser: true,
-      isValidConsumer: true,
-      isMultiServerEnvironment: false,
-      isPluginsAdminEnabled: true,
-      activateNonce: 'a',
-      deactivateNonce: 'd',
-      installNonce: 'i',
-      updateNonce: 'u',
+      plugins: makePlugins(3),
+      context: CARD_CONTEXT,
       ...props,
     },
     global: { stubs: { PluginGrid: true } },
@@ -117,7 +45,7 @@ describe('PluginSection', () => {
       ['themes', false, 'CorePluginsAdmin_Themes'],
       ['bundles', false, 'Marketplace_Bundles'],
       ['insights', true, 'Insights'],
-      ['other', true, 'Marketplace_CategoryOther'],
+      ['other', true, 'Other'],
       ['ecommerce', true, 'Ecommerce'],
     ])('names the %s section', async (sectionId, isCategory, expected) => {
       const wrapper = await mountSection({ sectionId, isCategory });
@@ -128,26 +56,26 @@ describe('PluginSection', () => {
   describe('see all', () => {
     it('is there when the row is leaving something out', async () => {
       stubViewport(1900);
-      expect((await mountSection({ plugins: plugins(6) })).find(seeAll).exists()).toBe(true);
+      expect((await mountSection({ plugins: makePlugins(6) })).find(seeAll).exists()).toBe(true);
     });
 
     it('is not there when the row already shows everything', async () => {
       stubViewport(1900);
-      expect((await mountSection({ plugins: plugins(5) })).find(seeAll).exists()).toBe(false);
-      expect((await mountSection({ plugins: plugins(2) })).find(seeAll).exists()).toBe(false);
+      expect((await mountSection({ plugins: makePlugins(5) })).find(seeAll).exists()).toBe(false);
+      expect((await mountSection({ plugins: makePlugins(2) })).find(seeAll).exists()).toBe(false);
     });
 
     it('counts what this width actually shows, not the widest case', async () => {
       stubViewport(1280);
-      expect((await mountSection({ plugins: plugins(5) })).find(seeAll).exists()).toBe(true);
+      expect((await mountSection({ plugins: makePlugins(5) })).find(seeAll).exists()).toBe(true);
 
       stubViewport(1900);
-      expect((await mountSection({ plugins: plugins(5) })).find(seeAll).exists()).toBe(false);
+      expect((await mountSection({ plugins: makePlugins(5) })).find(seeAll).exists()).toBe(false);
     });
 
     it('appears when the window crosses a breakpoint, without a remount', async () => {
-      const resizeTo = stubViewport(1900);
-      const wrapper = await mountSection({ plugins: plugins(4) });
+      const { resizeTo } = stubViewport(1900);
+      const wrapper = await mountSection({ plugins: makePlugins(4) });
       expect(wrapper.find(seeAll).exists()).toBe(false);
 
       resizeTo(760);
@@ -157,14 +85,14 @@ describe('PluginSection', () => {
 
     it('names the section for a screen reader, since every link reads "See all"', async () => {
       stubViewport(1900);
-      const wrapper = await mountSection({ plugins: plugins(6) });
+      const wrapper = await mountSection({ plugins: makePlugins(6) });
       expect(wrapper.find(seeAll).attributes('aria-label'))
-        .toBe('Marketplace_SeeAllInCategory Insights');
+        .toBe('Marketplace_SeeAllInCategory:Insights');
     });
 
     it('emits the section id when clicked', async () => {
       stubViewport(1900);
-      const wrapper = await mountSection({ plugins: plugins(6) });
+      const wrapper = await mountSection({ plugins: makePlugins(6) });
       await wrapper.find(seeAll).trigger('click');
       expect(wrapper.emitted('seeAll')).toEqual([['insights']]);
     });
@@ -174,7 +102,7 @@ describe('PluginSection', () => {
     beforeEach(() => stubViewport(1900));
 
     it('hands the grid every plugin, plus the number this width has room for', async () => {
-      const wrapper = await mountSection({ plugins: plugins(9) });
+      const wrapper = await mountSection({ plugins: makePlugins(9) });
       const grid = wrapper.findComponent({ name: 'PluginGrid' });
 
       expect(grid.props('plugins')).toHaveLength(9);
@@ -182,8 +110,8 @@ describe('PluginSection', () => {
     });
 
     it('lowers the grid\'s cut with the width, in step with "See all"', async () => {
-      const resizeTo = stubViewport(1900);
-      const wrapper = await mountSection({ plugins: plugins(9) });
+      const { resizeTo } = stubViewport(1900);
+      const wrapper = await mountSection({ plugins: makePlugins(9) });
       const grid = wrapper.findComponent({ name: 'PluginGrid' });
 
       resizeTo(1000);

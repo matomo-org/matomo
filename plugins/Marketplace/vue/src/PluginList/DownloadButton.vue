@@ -32,10 +32,7 @@ export default defineComponent({
       type: Object,
       required: true,
     },
-    /**
-     * Render as a button rather than a bare link. A card pairs this with a plugin's state in one
-     * row, where a link on its own reads as body text.
-     */
+    /** Render as a button, for the card's action row, where a bare link reads as body text. */
     showAsButton: {
       type: Boolean,
       default: false,
