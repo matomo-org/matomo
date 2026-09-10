@@ -98,6 +98,23 @@ function carriesOtherMarkup(html: string): boolean {
 }
 
 /**
+ * The markup profile a tooltip may render: the tags above, with no attribute of any kind.
+ *
+ * Exported so the profile itself can be tested. `sanitizeTooltip()` only reaches this with a title
+ * that already passed the scan below, so nothing going through the public function would exercise
+ * what the options here reject.
+ */
+export function renderAllowedMarkup(html: string): string {
+  return tooltipPurify.sanitize(html, {
+    ALLOWED_TAGS: TOOLTIP_TAGS,
+    ALLOWED_ATTR: [],
+    // both are checked separately from ALLOWED_ATTR, so they would survive on an allowed element
+    ALLOW_DATA_ATTR: false,
+    ALLOW_ARIA_ATTR: false,
+  });
+}
+
+/**
  * Renders the text of a `title` attribute as tooltip content.
  *
  * A title is read back after the browser has decoded the attribute, so it is parsed as HTML a
@@ -121,15 +138,7 @@ export function sanitizeTooltip(val: unknown): string {
     return withLineBreaks(asText(decodeEntities(title)));
   }
 
-  return tooltipPurify.sanitize(content, {
-    ALLOWED_TAGS: TOOLTIP_TAGS,
-    ALLOWED_ATTR: [],
-    // both are checked separately from ALLOWED_ATTR, so they would survive on an allowed element
-    ALLOW_DATA_ATTR: false,
-    ALLOW_ARIA_ATTR: false,
-    // keep the whole title in the body, as the check above does
-    FORCE_BODY: true,
-  });
+  return renderAllowedMarkup(content);
 }
 
 // Returns the given URL if DOMPurify considers it a valid `href` value (i.e. it uses an allowed
