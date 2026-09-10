@@ -142,14 +142,14 @@ class PromotionRendererTest extends IntegrationTestCase
         $definitions = [
             SegmentsTrigger::NAME => [
                 'CustomReports',
-                'ProfessionalServices_PromotionProductCustomReports',
+                'ProfessionalServices_PromoCustomReports',
                 'custom_reports',
                 'ProfessionalServices_PromotionSegments',
                 'product-promotion-custom-reports.png',
             ],
             LowConversionRateTrigger::NAME => [
                 'Funnels',
-                'ProfessionalServices_PromotionProductFunnels',
+                'ProfessionalServices_PromoFunnels',
                 'funnels',
                 'ProfessionalServices_PromotionConversionRate',
                 'product-promotion-funnels.png',

@@ -40,7 +40,7 @@ class PromotionRegistry
             new Promotion(
                 1,
                 'CustomReports',
-                'ProfessionalServices_PromotionProductCustomReports',
+                'ProfessionalServices_PromoCustomReports',
                 $segmentsTrigger,
                 'custom_reports',
                 'ProfessionalServices_PromotionSegments',
@@ -58,7 +58,7 @@ class PromotionRegistry
             new Promotion(
                 3,
                 'Funnels',
-                'ProfessionalServices_PromotionProductFunnels',
+                'ProfessionalServices_PromoFunnels',
                 $lowConversionRateTrigger,
                 'funnels',
                 'ProfessionalServices_PromotionConversionRate',
@@ -76,7 +76,7 @@ class PromotionRegistry
             new Promotion(
                 5,
                 'CustomReports',
-                'ProfessionalServices_PromotionProductCustomReports',
+                'ProfessionalServices_PromoCustomReports',
                 $scheduledReportsTrigger,
                 'custom_reports',
                 'ProfessionalServices_PromotionScheduledReports',
