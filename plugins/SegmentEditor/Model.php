@@ -147,16 +147,12 @@ class Model
             return array();
         }
 
-        $existingSegments = $this->getExistingSegmentsLike($deletedSegments);
+        $existingSegments = $this->getExistingSegmentsSharingArchives($deletedSegments);
 
         foreach ($deletedSegments as $i => $deleted) {
             $deletedSegments[$i]['idsites_to_preserve'] = array();
             foreach ($existingSegments as $existing) {
-                if (
-                    $existing['definition'] != $deleted['definition'] &&
-                    $existing['definition'] != urlencode($deleted['definition']) &&
-                    $existing['definition'] != urldecode($deleted['definition'])
-                ) {
+                if (!$this->sharesArchivesWith($existing, $deleted)) {
                     continue;
                 }
 
@@ -164,8 +160,8 @@ class Model
                     $existing['enable_only_idsite'] == $deleted['enable_only_idsite']
                     || $existing['enable_only_idsite'] == 0
                 ) {
-                    // There is an identical segment (for either the specific site or for all sites) that is active
-                    // The archives for this segment will therefore still be needed
+                    // There is a segment sharing these archives (for either the specific site or for all
+                    // sites) that is active. The archives for this segment will therefore still be needed
                     unset($deletedSegments[$i]);
                     break;
                 } elseif ($deleted['enable_only_idsite'] == 0) {
@@ -179,7 +175,14 @@ class Model
         return $deletedSegments;
     }
 
-    private function getExistingSegmentsLike(array $segments)
+    /**
+     * Returns the segments that are still in use and share their archives with one of the given segments.
+     *
+     * Narrows down the candidates, {@see self::sharesArchivesWith()} then decides per pair of segments.
+     *
+     * @param array $segments Segments as returned by {@see self::getSegmentsDeletedSince()}
+     */
+    private function getExistingSegmentsSharingArchives(array $segments): array
     {
         if (empty($segments)) {
             return array();
@@ -187,28 +190,63 @@ class Model
 
         $whereClauses = array();
         $bind = array();
-        $definitionWhereClauseTemplate = '(definition = ? OR definition = ? OR definition = ?)';
         foreach ($segments as $segment) {
             // Sometimes they are stored encoded and sometimes they aren't
+            $matchWhereClause = '(definition = ? OR definition = ? OR definition = ?';
             $bind[] = $segment['definition'];
             $bind[] = urlencode($segment['definition']);
             $bind[] = urldecode($segment['definition']);
 
+            // Archives are keyed by the hash, so segments sharing it also share their archives
+            if (!empty($segment['hash'])) {
+                $matchWhereClause .= ' OR hash = ?';
+                $bind[] = $segment['hash'];
+            }
+            $matchWhereClause .= ')';
+
             if ($segment['enable_only_idsite'] == 0) {
-                // They deleted an all-sites segment, but there is a single-site segment with same definition?
+                // They deleted an all-sites segment, but there is a single-site segment sharing its archives?
                 // Need to handle this carefully so that the archives for the single-site segment are preserved
-                $whereClauses[] = "$definitionWhereClauseTemplate";
+                $whereClauses[] = $matchWhereClause;
             } else {
-                $whereClauses[] = "($definitionWhereClauseTemplate AND (enable_only_idsite = ? OR enable_only_idsite = 0))";
+                $whereClauses[] = "($matchWhereClause AND (enable_only_idsite = ? OR enable_only_idsite = 0))";
                 $bind[] = $segment['enable_only_idsite'];
             }
         }
         $whereClauses = implode(' OR ', $whereClauses);
 
-        // Check for any non-deleted segments with the same definition
-        $sql = "SELECT DISTINCT definition, enable_only_idsite FROM `" . Common::prefixTable('segment') . "`"
+        // Check for any non-deleted segments that share the archives of one of the deleted segments
+        $sql = "SELECT DISTINCT definition, enable_only_idsite, hash FROM `" . Common::prefixTable('segment') . "`"
             . " WHERE deleted = 0 AND (" . $whereClauses . ")";
         return Db::fetchAll($sql, $bind);
+    }
+
+    /**
+     * Whether an existing segment shares its archives with a deleted one, and therefore still needs them.
+     *
+     * Archives are tied to a segment by its hash, as the archive done flag is `done<hash>`, so any segment
+     * with the same hash shares them. The definitions are compared as well because they are stored in
+     * varying encodings, and {@see \Piwik\Segment::getSegmentHash()} resolves every encoding of a definition
+     * to a stored hash - two segments differing only in encoding can therefore end up sharing archives even
+     * when their stored hashes differ.
+     *
+     * The hashes are compared case insensitively to match the lookups this guards: the done flag is matched
+     * with a `LIKE` and the segment table is queried by hash, both case insensitive for the collations
+     * Matomo uses.
+     */
+    private function sharesArchivesWith(array $existing, array $deleted): bool
+    {
+        if (
+            !empty($deleted['hash'])
+            && !empty($existing['hash'])
+            && strcasecmp($existing['hash'], $deleted['hash']) === 0
+        ) {
+            return true;
+        }
+
+        return $existing['definition'] === $deleted['definition']
+            || $existing['definition'] === urlencode($deleted['definition'])
+            || $existing['definition'] === urldecode($deleted['definition']);
     }
 
     public function deleteSegment($idSegment)
