@@ -58,6 +58,11 @@ class CreateAppSpecificTokenAuthTest extends IntegrationTestCase
         ]);
 
         $this->assertSame('error', $result[0]['result'] ?? null);
+        // Development mode appends a debugging hint to the message, so match on the key only.
+        $this->assertStringContainsString(
+            'UsersManager_ExceptionCreateTokenAuthWithinNestedRequest',
+            (string) ($result[0]['message'] ?? '')
+        );
         // No token may have been created for the user.
         $this->assertEmpty($this->model->getAllNonSystemTokensForLogin(self::LOGIN));
     }
