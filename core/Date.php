@@ -235,6 +235,21 @@ class Date
         return empty($matches[1]) ? $keyword : 'last-' . $matches[1];
     }
 
+    /**
+     * Resolves a value {@link getRelativeKeyword()} recognises in $timezone, and anything else
+     * through {@link factory()}.
+     *
+     * @param mixed $dateString
+     * @param string|false $timezone An empty value means UTC.
+     * @ignore
+     */
+    public static function factoryInTimezoneIfRelative($dateString, $timezone): Date
+    {
+        $keyword = self::getRelativeKeyword($dateString);
+
+        return $keyword === null ? self::factory($dateString) : self::factoryInTimezone($keyword, $timezone);
+    }
+
     private static function nowInTimezone(string $timezone): Date
     {
         $now = self::getNowTimestamp();

@@ -67,6 +67,13 @@ class MockPluginManager extends \Piwik\Plugin\Manager
  */
 class FactoryTest extends UnitTestCase
 {
+    public function tearDown(): void
+    {
+        Date::$now = null;
+
+        parent::tearDown();
+    }
+
     /**
      * @dataProvider getTestDataForMakePeriodFromQueryParams
      */
@@ -132,6 +139,66 @@ class FactoryTest extends UnitTestCase
             ['2020-12-24 03:37:00', 'America/Chicago', 'day', 'today%20', 'day', '2020-12-23,2020-12-23'],
             ['2020-12-24 16:37:00', 'UTC+12', 'day', ' today ', 'day', '2020-12-25,2020-12-25'],
             ['2020-12-24 16:37:00', 'UTC+12', 'week', 'last%20month', 'week', '2020-11-23,2020-11-29'],
+        ];
+    }
+
+    /**
+     * @dataProvider getTestDataForBuildWithRelativeDate
+     */
+    public function testBuildResolvesRelativeDatesInTheGivenTimezone($now, $timezone, $period, $date, $expectedRange)
+    {
+        Date::$now = strtotime($now);
+
+        $this->assertEquals($expectedRange, Period\Factory::build($period, $date, $timezone)->getRangeString());
+    }
+
+    /**
+     * @dataProvider getTestDataForResolveRelativeDate
+     */
+    public function testResolveRelativeDate($timezone, $period, $date, $expected)
+    {
+        // 2020-12-23 in Chicago, 2020-12-24 in UTC.
+        Date::$now = strtotime('2020-12-24 03:37:00');
+
+        $this->assertSame($expected, Period\Factory::resolveRelativeDate($timezone, $period, $date));
+    }
+
+    public function getTestDataForResolveRelativeDate()
+    {
+        return [
+            ['America/Chicago', 'day', 'yesterday', '2020-12-22'],
+            ['America/Chicago', 'week', 'Today ', '2020-12-23'],
+            [false, 'day', 'yesterday', '2020-12-23'],
+            ['America/Chicago', 'range', 'last7', '2020-12-17,2020-12-23'],
+            ['America/Chicago', 'range', '2020-12-01,yesterday', '2020-12-01,2020-12-22'],
+
+            // Anything else is passed on as it is.
+            ['America/Chicago', 'day', '2020-12-24', '2020-12-24'],
+            ['America/Chicago', 'day', 'last7', 'last7'],
+            ['America/Chicago', 'range', '2020-12-01,2020-12-05', '2020-12-01,2020-12-05'],
+        ];
+    }
+
+    public function getTestDataForBuildWithRelativeDate()
+    {
+        return [
+            // NOW is 2020-12-23 in Chicago and 2020-12-25 on UTC+12, so a date left to resolve
+            // in UTC lands a day out in either direction.
+            ['2020-12-24 03:37:00', 'America/Chicago', 'day', 'today', '2020-12-23,2020-12-23'],
+            ['2020-12-24 16:37:00', 'UTC+12', 'day', 'today', '2020-12-25,2020-12-25'],
+            ['2020-12-24 03:37:00', 'America/Chicago', 'day', 'yesterday', '2020-12-22,2020-12-22'],
+            ['2020-12-24 16:37:00', 'UTC+12', 'day', 'yesterday', '2020-12-24,2020-12-24'],
+            ['2020-12-24 03:37:00', 'America/Chicago', 'day', 'last-week', '2020-12-16,2020-12-16'],
+            ['2020-12-24 03:37:00', 'America/Chicago', 'day', 'last week', '2020-12-16,2020-12-16'],
+            ['2020-12-24 03:37:00', 'America/Chicago', 'day', 'last%20week', '2020-12-16,2020-12-16'],
+            ['2020-12-24 16:37:00', 'UTC+12', 'week', 'today', '2020-12-21,2020-12-27'],
+            ['2020-12-24 16:37:00', 'UTC+12', 'month', 'last-month', '2020-11-01,2020-11-30'],
+
+            // An empty timezone means UTC, the way the parameter's other callers read it.
+            ['2020-12-24 16:37:00', false, 'day', 'today', '2020-12-24,2020-12-24'],
+
+            // An absolute date is unaffected by the timezone.
+            ['2020-12-24 03:37:00', 'America/Chicago', 'day', '2020-12-24', '2020-12-24,2020-12-24'],
         ];
     }
 

@@ -254,20 +254,9 @@ class Range extends Period
         } elseif ($dateRange = Range::parseDateRange($this->strDate)) {
             $strDateStart = $dateRange[1];
             $strDateEnd = $dateRange[2];
-            // Only a keyword match separates a relative endpoint from an absolute date here,
-            // as 'last-week' carries a hyphen too. Date::factory() resolves it on UTC's day.
-            $startKeyword = Date::getRelativeKeyword($strDateStart);
-            $endKeyword = Date::getRelativeKeyword($strDateEnd);
-
-            $startDate = $startKeyword === null
-                ? Date::factory($strDateStart)
-                : Date::factoryInTimezone($startKeyword, $this->timezone);
-
-            $endDate = $endKeyword === null
-                ? Date::factory($strDateEnd)
-                : Date::factoryInTimezone($endKeyword, $this->timezone);
-
-            $endDate = $endDate->setTime("00:00:00");
+            // Date::factory() would resolve a relative endpoint such as 'last-week' on UTC's day.
+            $startDate = Date::factoryInTimezoneIfRelative($strDateStart, $this->timezone);
+            $endDate = Date::factoryInTimezoneIfRelative($strDateEnd, $this->timezone)->setTime("00:00:00");
             $maxAllowedEndDate = Date::factory(self::getMaxAllowedEndTimestamp());
 
             if ($endDate->isLater($maxAllowedEndDate)) {
@@ -548,13 +537,7 @@ class Range extends Period
         $timezone = $site->getTimezone();
         $last30Relative = new Range($period, $lastN, $timezone);
 
-        // A hyphen does not mark an absolute date: 'last-week' carries one and is relative.
-        $keyword = Date::getRelativeKeyword($endDate);
-
-        $endDate = $keyword === null
-            ? Date::factory($endDate)
-            : Date::factoryInTimezone($keyword, $timezone);
-
+        $endDate = Date::factoryInTimezoneIfRelative($endDate, $timezone);
         $last30Relative->setDefaultEndDate($endDate);
 
         $date = $last30Relative->getDateStart()->toString() . "," . $last30Relative->getDateEnd()->toString();
