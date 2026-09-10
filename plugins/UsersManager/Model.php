@@ -352,6 +352,8 @@ class Model
      * @param null|string  $dateExpired
      * @param bool  $isSystemToken
      * @param bool  $secureOnly     True if this token can only be used in a secure way (e.g. POST requests), default false
+     * @param null|string $expectedDateRegistered The registration date the account is expected to have. When given,
+     *                                            the token is only stored if the account still matches it.
      *
      * @return int                  Primary key of the new token auth
      * @throws \Piwik\Tracker\Db\DbException
@@ -364,7 +366,8 @@ class Model
         $dateCreated,
         $dateExpired = null,
         $isSystemToken = false,
-        bool $secureOnly = false
+        bool $secureOnly = false,
+        ?string $expectedDateRegistered = null
     ) {
         if (!$this->getUser($login)) {
             throw new \Exception('User ' . $login . ' does not exist');
@@ -382,15 +385,28 @@ class Model
 
         $isSystemToken = (int)$isSystemToken;
 
-        $insertSql = "INSERT INTO " . $this->tokenTable . ' (login, description, password, date_created, date_expired, system_token, hash_algo, secure_only) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+        // the login comes from the user table, so a token is only ever stored for an existing account
+        $insertSql = "INSERT INTO " . $this->tokenTable
+            . ' (login, description, password, date_created, date_expired, system_token, hash_algo, secure_only)'
+            . ' SELECT login, ?, ?, ?, ?, ?, ?, ? FROM ' . $this->userTable . ' WHERE login = ?';
 
         $tokenAuth = $this->hashTokenAuth($tokenAuth);
 
+        $bind = [$description, $tokenAuth, $dateCreated, $dateExpired, $isSystemToken, self::TOKEN_HASH_ALGO, (int) $secureOnly, $login];
+
+        // the caller can name the registration date the account is expected to have, so the token is
+        // stored for that account rather than for the login alone. with none given, nothing extra binds
+        if (null !== $expectedDateRegistered) {
+            $insertSql .= ' AND date_registered <=> ?';
+            $bind[] = $expectedDateRegistered;
+        }
+
         $db = $this->getDb();
-        $db->query(
-            $insertSql,
-            [$login, $description, $tokenAuth, $dateCreated, $dateExpired, $isSystemToken, self::TOKEN_HASH_ALGO, (int) $secureOnly]
-        );
+        $result = $db->query($insertSql, $bind);
+
+        if ($db->rowCount($result) === 0) {
+            throw new \Exception('User ' . $login . ' does not exist');
+        }
 
         return $db->lastInsertId();
     }
@@ -682,6 +698,33 @@ class Model
 
         $db = $this->getDb();
         $db->insert($this->userTable, $user);
+
+        // the insert only succeeds for a login that was free, so anything still referencing it belongs
+        // to an earlier account. anonymous is recreated in place, so it keeps its rows
+        if (strtolower((string) $userLogin) !== 'anonymous') {
+            $this->deleteUserAccess($userLogin);
+            $this->deleteAllTokensForUser($userLogin);
+        }
+
+        /**
+         * Triggered after a user has been created.
+         *
+         * This event should be used to clean up any data that is still related to the new user's login.
+         * The **ScheduledReports** plugin, for example, uses this event to remove the login's reports.
+         *
+         * Observers run before any initial site access has been granted, and while the lock that
+         * serialises user creation is held, so they should be quick.
+         *
+         * @param string $userLogin The login handle of the created user.
+         */
+        try {
+            Piwik::postEvent('UsersManager.addUser', array($userLogin));
+        } catch (\Throwable $e) {
+            StaticContainer::get(LoggerInterface::class)->error(
+                'Error while processing event UsersManager.addUser',
+                ['exception' => $e]
+            );
+        }
     }
 
     public function attachInviteToken(string $userLogin, string $token, int $expiryInDays): void
@@ -815,18 +858,26 @@ class Model
     {
         $db = $this->getDb();
 
-        $insertSql = "INSERT INTO " . Common::prefixTable("access") . ' (idsite, login, access) VALUES (?, ?, ?)';
+        // the login comes from the user table, so an access row is only ever stored for an existing account
+        $insertSql = "INSERT INTO " . Common::prefixTable("access") . ' (idsite, login, access)'
+            . ' SELECT ?, login, ? FROM ' . $this->userTable . ' WHERE login = ?';
         foreach ($idSites as $idsite) {
-            $db->query($insertSql, [$idsite, $userLogin, $access]);
+            $result = $db->query($insertSql, [$idsite, $access, $userLogin]);
+
+            if ($db->rowCount($result) === 0) {
+                throw new \Exception(Piwik::translate('UsersManager_ExceptionUserDoesNotExist', $userLogin));
+            }
         }
     }
 
     public function deleteUser($userLogin): void
     {
+        // keep the access deletion right after the user row: addUserAccess() and addTokenAuth() take the
+        // login from the user table, so nothing can be stored for it in between
         $this->deleteUserOnly($userLogin);
+        $this->deleteUserAccess($userLogin);
         PluginSettingsTable::removeAllUserSettingsForUser($userLogin);
         $this->deleteUserOptions($userLogin);
-        $this->deleteUserAccess($userLogin);
     }
 
     /**
