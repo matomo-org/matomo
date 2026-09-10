@@ -25,6 +25,7 @@ use Piwik\Plugins\AIProviders\Exception\AIProviderClientException;
 use Piwik\Plugins\AIProviders\Exception\AIProviderException;
 use Piwik\Plugins\AIProviders\Exception\AIProviderServerException;
 use Piwik\Plugins\AIProviders\Model\Configuration;
+use Piwik\Plugins\AIProviders\WebSearchUsage;
 
 /**
  * @phpstan-import-type CanonicalMessageArray from CanonicalMessage
@@ -51,6 +52,20 @@ abstract class AIProvider
      * above Anthropic's 1024-token minimum so it is valid for every provider.
      */
     protected const DEFAULT_THINKING_BUDGET = 2048;
+
+    /**
+     * Default provider HTTP timeout for a single-shot completion, unless the
+     * request sets its own.
+     */
+    protected const COMPLETE_TIMEOUT_SECONDS = 30;
+
+    /**
+     * Default timeout for a grounded completion. Server-side search runs several
+     * fetches inside the one HTTP request, so these routinely take 30-90s where
+     * an ungrounded completion takes 2-5s. Note it multiplies with the transient
+     * error retries in {@link sendRequest()}.
+     */
+    protected const WEB_SEARCH_COMPLETE_TIMEOUT_SECONDS = 120;
 
     /**
      * @var string
@@ -345,7 +360,8 @@ abstract class AIProvider
         string $text,
         ?int $inputTokens = null,
         ?int $outputTokens = null,
-        ?string $stopReason = null
+        ?string $stopReason = null,
+        ?WebSearchUsage $webSearch = null
     ): AIProviderResponse {
         return new AIProviderResponse(
             $this->getId(),
@@ -355,9 +371,9 @@ abstract class AIProvider
             $inputTokens,
             $outputTokens,
             $this->getReasoningLevelUsed($request),
-            $this->isWebSearchUsed($request),
             $this->lastRequestExecutionTimeMs,
-            $stopReason
+            $stopReason,
+            $webSearch
         );
     }
 
@@ -393,11 +409,33 @@ abstract class AIProvider
         return $this->wantsThinking($request) ? Configuration::CAPABILITY_THINKING : AIRequest::REASONING_NONE;
     }
 
-    protected function isWebSearchUsed(AIRequest $request): bool
+    /**
+     * Whether the provider has a server-side web search tool that
+     * {@link complete()} can switch on. {@link AIProviderService::complete()}
+     * rejects a grounded request for a provider that returns false.
+     */
+    public function supportsWebSearch(): bool
     {
-        // TODO: Implement provider-specific web search/tool configuration for
-        // OpenAI, Google, Anthropic, and managed providers separately.
         return false;
+    }
+
+    /**
+     * Whether this request runs grounded: the caller asked for search and this
+     * provider can do it.
+     */
+    protected function wantsWebSearch(AIRequest $request): bool
+    {
+        return $request->isWebSearchEnabled() && $this->supportsWebSearch();
+    }
+
+    /**
+     * The HTTP timeout for this completion: the request's own, else the default
+     * for grounded or ungrounded requests.
+     */
+    protected function completionTimeoutSeconds(AIRequest $request): int
+    {
+        return $request->getTimeoutSeconds()
+            ?? ($this->wantsWebSearch($request) ? static::WEB_SEARCH_COMPLETE_TIMEOUT_SECONDS : static::COMPLETE_TIMEOUT_SECONDS);
     }
 
     /**
@@ -437,7 +475,7 @@ abstract class AIProvider
             $payload['response_format'] = ['type' => 'json_object'];
         }
 
-        $response = $this->sendJsonRequest($endpointUrl, $headers, $payload);
+        $response = $this->sendJsonRequest($endpointUrl, $headers, $payload, $this->completionTimeoutSeconds($request));
 
         $text = $response['choices'][0]['message']['content'] ?? '';
         $finishReason = is_string($response['choices'][0]['finish_reason'] ?? null)

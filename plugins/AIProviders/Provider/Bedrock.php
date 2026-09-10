@@ -42,9 +42,6 @@ class Bedrock extends AIProvider
     private const DEFAULT_REGION = 'us-east-1';
     private const DEFAULT_MODEL = 'openai.gpt-oss-120b-1:0';
 
-    /** Timeout for single-shot completions; conversations use the request's own budget. */
-    private const COMPLETE_TIMEOUT_SECONDS = 30;
-
     /** Exact Bedrock model ID fragments that support the gpt-oss reasoning_effort field. */
     private const GPT_OSS_MODEL_PATTERN = '/(?:^|[.\/])openai\.gpt-oss-(?:20b|120b)-1:0$/';
 
@@ -193,7 +190,7 @@ class Bedrock extends AIProvider
             ];
         }
 
-        $response = $this->sendConverseRequest($model, $payload, self::COMPLETE_TIMEOUT_SECONDS, $configuration);
+        $response = $this->sendConverseRequest($model, $payload, $this->completionTimeoutSeconds($request), $configuration);
 
         $stopReason = is_string($response['stopReason'] ?? null) ? $response['stopReason'] : null;
 

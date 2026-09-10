@@ -274,8 +274,7 @@ class ConfigurationTest extends IntegrationTestCase
             ->withModel('gpt-4o-mini')
             ->withMaxTokens(64)
             ->withTemperature(0.5)
-            ->withReasoningLevel('low')
-            ->withWebSearchEnabled(true);
+            ->withReasoningLevel('low');
 
         $response = StaticContainer::get(AIProviderService::class)->complete($request);
 
@@ -287,6 +286,7 @@ class ConfigurationTest extends IntegrationTestCase
         $this->assertSame(64, $capturedBody['max_completion_tokens']);
         $this->assertArrayNotHasKey('max_tokens', $capturedBody);
         $this->assertArrayNotHasKey('temperature', $capturedBody);
+        $this->assertArrayNotHasKey('tools', $capturedBody);
         $this->assertSame('none', $capturedBody['reasoning_effort']);
         $this->assertSame(
             [
@@ -294,6 +294,104 @@ class ConfigurationTest extends IntegrationTestCase
                 ['role' => 'user', 'content' => 'why is the sky blue'],
             ],
             $capturedBody['messages']
+        );
+    }
+
+    public function testWebSearchRequestRunsGroundedAndReportsWhatTheProviderSearched(): void
+    {
+        $this->api->saveSettings(
+            'openai',
+            Configuration::CAPABILITY_INSTANT,
+            (string) json_encode([
+                'openai' => [
+                    'apiKey' => 'secret-openai-key',
+                    'endpointUrl' => '',
+                ],
+            ])
+        );
+
+        $capturedUrl = null;
+        $capturedBody = null;
+        Piwik::addAction('Http.sendHttpRequest', function (
+            string $url,
+            array $httpEventParams,
+            ?string &$response,
+            ?int &$status,
+            array &$headers
+        ) use (
+            &$capturedUrl,
+            &$capturedBody
+): void {
+            $capturedUrl = $url;
+            $capturedBody = json_decode((string) $httpEventParams['body'], true);
+            $response = (string) json_encode([
+                'output' => [
+                    ['type' => 'web_search_call', 'status' => 'completed', 'action' => ['type' => 'search', 'query' => 'sky colour']],
+                    [
+                        'type' => 'message',
+                        'content' => [[
+                            'type' => 'output_text',
+                            'text' => 'Blue light scatters most.',
+                            'annotations' => [
+                                ['type' => 'url_citation', 'url' => 'https://www.example.org/sky', 'title' => 'Why the sky is blue'],
+                            ],
+                        ]],
+                    ],
+                ],
+                'usage' => ['input_tokens' => 900, 'output_tokens' => 20],
+                'status' => 'completed',
+            ]);
+            $status = 200;
+            $headers = ['Content-Type' => 'application/json'];
+        });
+
+        $request = (new AIRequest('why is the sky blue', 'Test'))
+            ->withSystemPrompt('You are concise.')
+            ->withWebSearchEnabled(true);
+
+        $response = StaticContainer::get(AIProviderService::class)->complete($request);
+
+        $this->assertSame('https://api.openai.com/v1/responses', $capturedUrl);
+        $this->assertSame([['type' => 'web_search', 'search_context_size' => 'medium']], $capturedBody['tools']);
+        $this->assertFalse($capturedBody['store']);
+        $this->assertSame(
+            [
+                ['role' => 'developer', 'content' => 'You are concise.'],
+                ['role' => 'user', 'content' => 'why is the sky blue'],
+            ],
+            $capturedBody['input']
+        );
+
+        $this->assertSame('Blue light scatters most.', $response->getText());
+        $this->assertTrue($response->isWebSearchEnabled());
+        $this->assertSame(1, $response->getWebSearchRequestCount());
+        $this->assertSame(['sky colour'], $response->getWebSearchQueries());
+        $this->assertSame(
+            [['url' => 'https://www.example.org/sky', 'title' => 'Why the sky is blue', 'domain' => 'example.org']],
+            $response->getWebSearchCitations()
+        );
+        $this->assertSame(900, $response->getInputTokens());
+    }
+
+    public function testWebSearchRequestIsRejectedForAProviderWithoutWebSearch(): void
+    {
+        $this->api->saveSettings(
+            'custom-provider',
+            Configuration::CAPABILITY_INSTANT,
+            (string) json_encode([
+                'custom-provider' => [
+                    'apiKey' => '',
+                    'endpointUrl' => 'http://localhost:1234/v1',
+                    'model' => 'local-model',
+                ],
+            ])
+        );
+
+        $this->expectException(AIProviderClientException::class);
+        $this->expectExceptionMessage('does not support web search');
+
+        StaticContainer::get(AIProviderService::class)->complete(
+            (new AIRequest('why is the sky blue', 'Test'))->withWebSearchEnabled(true)
         );
     }
 

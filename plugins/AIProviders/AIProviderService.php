@@ -82,6 +82,16 @@ class AIProviderService
         }
 
         $provider = $this->requireProvider($providers, $resolution['providerId']);
+
+        // Fail rather than silently answer ungrounded: a caller that asked for
+        // sources would otherwise store answers it cannot tell apart from grounded ones.
+        if ($request->isWebSearchEnabled() && !$provider->supportsWebSearch()) {
+            throw new AIProviderClientException(sprintf(
+                'Provider "%s" does not support web search.',
+                $provider->getId()
+            ));
+        }
+
         $configuration = $this->configuration->getProviderConfiguration($provider);
 
         $response = $this->runWithProvider($provider, $configuration, $request);

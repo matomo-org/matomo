@@ -131,12 +131,27 @@ class AIRequest
     private $reasoningLevel = self::REASONING_NONE;
 
     /**
-     * Whether the caller wants provider web search. Currently advisory only;
-     * providers do not enable provider-specific web search tools yet.
+     * Whether the caller wants the provider's server-side web search (grounding).
+     * Providers without one reject the request — see
+     * {@link AIProviderService::complete()}. The model still decides whether a
+     * prompt needs a search, so read {@link AIProviderResponse::isWebSearchEnabled()}
+     * for what actually happened.
+     *
+     * Never free: providers charge per search on top of the retrieved page
+     * content, which arrives as input tokens.
      *
      * @var bool
      */
     private $webSearchEnabled = false;
+
+    /**
+     * Provider HTTP timeout, or null for the provider's default: 30s, raised to
+     * 120s for grounded requests because server-side search runs several fetches
+     * inside the one HTTP request.
+     *
+     * @var int|null
+     */
+    private $timeoutSeconds = null;
 
     /**
      * Future provider-specific thinking budget. Not applied to requests yet.
@@ -247,6 +262,17 @@ class AIRequest
         return $request;
     }
 
+    /**
+     * Overrides the provider HTTP timeout; null restores the provider default.
+     */
+    public function withTimeoutSeconds(?int $timeoutSeconds): self
+    {
+        $request = clone $this;
+        $request->timeoutSeconds = $timeoutSeconds === null ? null : max(1, $timeoutSeconds);
+
+        return $request;
+    }
+
     public function withThinkingBudget(?int $thinkingBudget): self
     {
         $request = clone $this;
@@ -330,6 +356,11 @@ class AIRequest
     public function isWebSearchEnabled(): bool
     {
         return $this->webSearchEnabled;
+    }
+
+    public function getTimeoutSeconds(): ?int
+    {
+        return $this->timeoutSeconds;
     }
 
     public function getThinkingBudget(): ?int
