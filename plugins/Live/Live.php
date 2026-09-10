@@ -242,7 +242,9 @@ class Live extends \Piwik\Plugin
         });
 
         foreach ($detailEntries as $detailEntry) {
-            $tooltip .= $detailEntry[1];
+            // the tooltip renders its title as HTML: normalise what a plugin returned to one layer
+            // of escaping, then add the one the render consumes, so it is shown as text
+            $tooltip .= htmlspecialchars(Common::sanitizeInputValue($detailEntry[1]), ENT_QUOTES, 'UTF-8');
         }
     }
 
