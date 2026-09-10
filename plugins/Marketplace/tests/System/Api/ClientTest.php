@@ -88,6 +88,7 @@ class ClientTest extends SystemTestCase
             'bundle',
             'specialOffer',
             'category',
+            'categories',
             'versions',
             'isDownloadable',
             'changelog',
