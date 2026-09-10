@@ -155,7 +155,7 @@ class BlockGeoIpOrganisationTest extends ConsoleCommandTestCase
         $this->assertStringContainsString('has no effect until', $this->applicationTester->getDisplay());
     }
 
-    public function testSeedsTheCustomListFromTheListInEffectNotTheStoredOne()
+    public function testSeedsTheCustomListFromTheListInEffectAndTheStoredOne()
     {
         // a narrower stored list is reachable: the user tried a custom list then switched back to
         // the default one, which the FAQ promises keeps their list
@@ -177,6 +177,9 @@ class BlockGeoIpOrganisationTest extends ConsoleCommandTestCase
         foreach (Configuration::DEFAULT_GEOIP_MATCH_PROVIDERS as $default) {
             $this->assertContains($default, $blocked);
         }
+
+        // nor the admin's own list, which the FAQ promises is kept across a mode switch
+        $this->assertContains('just one org', $blocked);
     }
 
     private function getBlockedOrganisations(): array

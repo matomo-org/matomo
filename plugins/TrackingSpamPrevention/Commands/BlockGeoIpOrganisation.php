@@ -67,13 +67,20 @@ class BlockGeoIpOrganisation extends ConsoleCommand
         // the command runs without a session, so force writability
         $setting->setIsWritableByCurrentUser(true);
 
-        // seed from the list actually in effect: under the default list mode the stored value is
-        // not what is being matched, and it can be an older, narrower snapshot of the constant, so
-        // adding one organisation would otherwise shrink what is blocked
-        $organisations = $switchesToCustomList ? $settings->getBlockedOrganisations() : $setting->getValue();
+        $organisations = $setting->getValue();
         if (!is_array($organisations)) {
             $organisations = [];
         }
+
+        if ($switchesToCustomList) {
+            // seed from the list in effect and the stored one together. Under the default list mode
+            // the stored value is not what is being matched and can be an older, narrower snapshot of
+            // the constant, so seeding from the effective list alone would discard the admin's own
+            // entries - which the FAQ promises are kept - and from the stored list alone would shrink
+            // what is blocked.
+            $organisations = array_merge($settings->getBlockedOrganisations(), $organisations);
+        }
+
         $organisations[] = $name;
 
         $setting->setValue(array_values(array_unique($organisations)));
