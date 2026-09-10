@@ -94,7 +94,6 @@ class Marketplace extends \Piwik\Plugin
         $translationKeys[] = 'General_ErrorRequest';
         $translationKeys[] = 'General_Help';
         $translationKeys[] = 'General_Installed';
-        $translationKeys[] = 'General_MatomoMarketplace';
         $translationKeys[] = 'General_MoreDetails';
         $translationKeys[] = 'General_Ok';
         $translationKeys[] = 'General_Plugin';
@@ -141,6 +140,7 @@ class Marketplace extends \Piwik\Plugin
         $translationKeys[] = 'Marketplace_LicenseRenewsNextPaymentDate';
         $translationKeys[] = 'Marketplace_ManageLicenseKeyIntro';
         $translationKeys[] = 'Marketplace_Marketplace';
+        $translationKeys[] = 'Marketplace_MatomoMarketplace';
         $translationKeys[] = 'Marketplace_NoPluginsFound';
         $translationKeys[] = 'Marketplace_NoSubscriptionsFound';
         $translationKeys[] = 'Marketplace_NoThemesFound';
