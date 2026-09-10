@@ -6,6 +6,6 @@
         {%- endif %}
 
         {# line break above is important #}
-        - {{ dimension|raw }} = {{ value }}
+        - {{ dimension|raw }} = {{ value|rawSafeDecoded }}
     {%- endfor -%}
 {%- endif -%}
