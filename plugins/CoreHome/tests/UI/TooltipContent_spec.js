@@ -17,8 +17,28 @@ describe('TooltipContent', function () {
   // tooltips, which are written for a tooltip and may render
   const marker = 'PL';
 
-  // one per payload class the fixture tracks; the trailing space keeps PL1 apart from PL10
-  const payloadClasses = Array.from({ length: 12 }, (value, index) => 'PL' + (index + 1) + ' ');
+  // the values the fixture tracks; keep in step with TooltipPayloads::getPayloads()
+  const payloads = {
+    plain: 'PL1 plain value',
+    inline: 'PL2 <b>bold</b> <em>em</em>',
+    attribute: 'PL3 <img src=x onerror=window.__tooltipProbe=1>',
+    carrier: 'PL4 <div class=dataTable data-table-type=JqplotGraph data-report=Referrers.getWebsites>y</div>',
+    entities: 'PL5 A & B "q" <3 & <b>',
+    discarded: 'PL6 x</span>y <?z>w A<B',
+    unbalanced: 'PL7 <svg><style>*{display:none}</style></svg> t<b',
+    cyrillic: 'PL8 привет мир <b>ж</b>',
+    chinese: 'PL9 统计分析 <b>数</b>',
+    emoji: 'PL10 hits 😀🔥 <b>x</b>',
+    combining: 'PL11 e\u0301le\u0300ve <b>a</b>',
+    percent: 'PL12 a+b %41 %2F <b>c</b>',
+  };
+
+  // two fields hand the tooltip something other than what was tracked: the tracker escapes an
+  // unpaired bracket inside a url, and `rawSafeDecoded` url decodes the value it renders
+  const transformedPayloads = {
+    'discarded, in a page url': 'PL6 x</span>y <?z&gt;w A&lt;B',
+    'percent, url decoded': 'PL12 a+b A / <b>c</b>',
+  };
 
   // the tags a tooltip may render; everything else has to be shown as text
   const allowedTags = ['B', 'BR', 'EM', 'I', 'SMALL', 'SPAN', 'STRONG', 'U'];
@@ -165,6 +185,18 @@ describe('TooltipContent', function () {
     expect(tooltips.length, 'tooltips carrying a tracked value').to.be.at.least(minimumCount);
   }
 
+  function expectValueShownInFull(tooltips, value, name) {
+    const shown = tooltips.filter((tooltip) => tooltip.text.indexOf(value) !== -1);
+
+    if (!shown.length) {
+      throw new Error('No tooltip shows the value tracked for ' + name + '.'
+        + '\n  expected to contain: ' + JSON.stringify(value)
+        + '\n  closest tooltip:     ' + JSON.stringify(tooltips
+          .filter((tooltip) => tooltip.text.indexOf(value.split(' ')[0] + ' ') !== -1)
+          .map((tooltip) => tooltip.text)[0] || null));
+    }
+  }
+
   async function expectNoPayloadRan() {
     expect(await page.evaluate(() => window.__tooltipProbe)).to.be.undefined;
   }
@@ -199,12 +231,14 @@ describe('TooltipContent', function () {
       90
     );
 
-    // every action type and every payload class ends up in these tooltips
-    expect(tooltips.filter((tooltip) => tooltip.text.indexOf('onerror') !== -1)).to.not.be.empty;
+    // every field the fixture tracks ends up in these tooltips, and none of them is truncated, so
+    // each value has to be readable in one of them exactly as it was tracked
+    Object.keys(payloads).forEach((name) => {
+      expectValueShownInFull(tooltips, payloads[name], name);
+    });
 
-    payloadClasses.forEach((payload) => {
-      expect(tooltips.filter((tooltip) => tooltip.text.indexOf(payload) !== -1),
-        payload + 'is missing from the action tooltips').to.not.be.empty;
+    Object.keys(transformedPayloads).forEach((name) => {
+      expectValueShownInFull(tooltips, transformedPayloads[name], name);
     });
   });
 
@@ -243,11 +277,16 @@ describe('TooltipContent', function () {
   });
 
   it('should show tracked values as text in the page url tooltips', async function () {
-    await loadAndSweep(widget('Actions', 'getPageUrls', '&flat=1'), '.dataTable', 20);
+    const tooltips = await loadAndSweep(widget('Actions', 'getPageUrls', '&flat=1'), '.dataTable', 20);
+
+    // a report truncates a long label, so completeness is checked on the one value short enough
+    expectValueShownInFull(tooltips, '/page/' + payloads.plain, 'plain');
   });
 
   it('should show tracked values as text in the site search keyword tooltips', async function () {
-    await loadAndSweep(widget('Actions', 'getSiteSearchKeywords'), '.dataTable', 15);
+    const tooltips = await loadAndSweep(widget('Actions', 'getSiteSearchKeywords'), '.dataTable', 15);
+
+    expectValueShownInFull(tooltips, payloads.plain, 'plain');
   });
 
   it('should show tracked values as text in the event tooltips', async function () {
@@ -255,28 +294,38 @@ describe('TooltipContent', function () {
   });
 
   it('should show tracked values as text in the ecommerce item tooltips', async function () {
-    await loadAndSweep(widget('Goals', 'getItemsName'), '.dataTable', 10);
+    const tooltips = await loadAndSweep(widget('Goals', 'getItemsName'), '.dataTable', 10);
+
+    expectValueShownInFull(tooltips, 'name ' + payloads.plain, 'plain');
   });
 
   it('should show tracked values as text in the referrer tooltips', async function () {
-    await loadAndSweep(widget('Referrers', 'getWebsites', '&flat=1'), '.dataTable', 10);
+    const tooltips = await loadAndSweep(widget('Referrers', 'getWebsites', '&flat=1'), '.dataTable', 10);
+
+    expectValueShownInFull(tooltips, 'referrer.example/r/PL1-plain', 'plain referrer');
   });
 
   it('should show tracked values as text in the user id tooltips', async function () {
-    await loadAndSweep(widget('UserId', 'getUsers'), '.dataTable', 30);
+    const tooltips = await loadAndSweep(widget('UserId', 'getUsers'), '.dataTable', 30);
+
+    expectValueShownInFull(tooltips, 'uid ' + payloads.plain, 'plain');
   });
 
   it('should show tracked values as text in a tag cloud', async function () {
     // the cloud is not offered as a footer icon for this report, so its view is forced
-    await loadAndSweep(
+    const tooltips = await loadAndSweep(
       report('General_Actions', 'Actions_SubmenuSitesearch', '&viewDataTable=cloud&forceView=1'),
       '.tagCloud',
       12
     );
+
+    expectValueShownInFull(tooltips, payloads.plain, 'plain');
   });
 
   it('should show tracked values as text in a report on a reporting page', async function () {
-    await loadAndSweep(report('General_Actions', 'General_Pages', '&flat=1'), '.dataTable', 20);
+    const tooltips = await loadAndSweep(report('General_Actions', 'General_Pages', '&flat=1'), '.dataTable', 20);
+
+    expectValueShownInFull(tooltips, '/page/' + payloads.plain, 'plain');
   });
 
   it('should render its own markup in a comparison tooltip', async function () {
