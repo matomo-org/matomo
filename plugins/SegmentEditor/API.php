@@ -19,6 +19,7 @@ use Piwik\DataTable\Filter\CalculateEvolutionFilter;
 use Piwik\Date;
 use Piwik\Period\Range;
 use Piwik\Piwik;
+use Piwik\Site;
 use Piwik\Config;
 use Piwik\Segment;
 use Piwik\Plugins\VisitsSummary;
@@ -628,7 +629,7 @@ class API extends \Piwik\Plugin\API
         $data = VisitsSummary\API::getInstance()
             ->get($idSite, $period, $date, $segmentDefinition)
             ->getFirstRow()->getArrayCopy();
-        [$previousDate] = Range::getLastDate($date, $period);
+        [$previousDate] = Range::getLastDate($date, $period, Site::getTimezoneFor($idSite));
         $pastNbVisits = VisitsSummary\API::getInstance()
             ->getVisits($idSite, $period, $previousDate, $segmentDefinition)
             ->getFirstRow()->getColumn('nb_visits');
