@@ -41,10 +41,7 @@
     padding: 15px;
 }
 
-// Blocks that own their own spacing opt out here rather than overriding from their own file.
-// :where() contributes no specificity, so this rule is unchanged for everything else.
-.admin p:where(:not(.marketplaceHero__subtitle, .pluginCard__description, .marketplaceEmptyState__message)),
-.admin section:where(:not(.marketplaceHero, .marketplaceSection)) {
+.admin p, .admin section {
     margin-top: 10px;
     line-height: 140%;
     padding-bottom: 10px;
