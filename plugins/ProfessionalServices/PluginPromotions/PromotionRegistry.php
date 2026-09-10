@@ -119,9 +119,6 @@ class PromotionRegistry
             // These three read the shape of the instance rather than a website's reports,
             // so they sit below every promotion that can say something about the site the
             // user is actually looking at.
-            //
-            // @internal All three reuse the Custom Reports artwork as a placeholder; the
-            //           design has no illustration for them yet.
             new Promotion(
                 10,
                 'LoginSaml',
@@ -129,7 +126,7 @@ class PromotionRegistry
                 $manyUsersTrigger,
                 'login_saml',
                 'ProfessionalServices_PromotionLoginSaml',
-                'product-promotion-custom-reports.png'
+                'product-promotion-login-saml.png'
             ),
             new Promotion(
                 6,
@@ -138,7 +135,7 @@ class PromotionRegistry
                 $manyPagesTrigger,
                 'crash_analytics',
                 'ProfessionalServices_PromotionCrashAnalytics',
-                'product-promotion-custom-reports.png'
+                'product-promotion-crash-analytics.png'
             ),
             new Promotion(
                 7,
@@ -147,7 +144,7 @@ class PromotionRegistry
                 $mediaOutlinksTrigger,
                 'media_analytics',
                 'ProfessionalServices_PromotionMediaAnalytics',
-                'product-promotion-custom-reports.png'
+                'product-promotion-media-analytics.png'
             ),
             new Promotion(
                 8,
@@ -156,7 +153,7 @@ class PromotionRegistry
                 $multiplePageVisitsTrigger,
                 'users_flow',
                 'ProfessionalServices_PromotionUsersFlow',
-                'product-promotion-custom-reports.png'
+                'product-promotion-users-flow.png'
             ),
             new Promotion(
                 9,
@@ -165,7 +162,7 @@ class PromotionRegistry
                 $keywordsNotDefinedTrigger,
                 'search_engine_keywords_performance',
                 'ProfessionalServices_PromotionSearchEngineKeywordsPerformance',
-                'product-promotion-custom-reports.png'
+                'product-promotion-search-engine-keywords-performance.png'
             ),
             new Promotion(
                 11,
@@ -174,7 +171,7 @@ class PromotionRegistry
                 $campaignConversionsTrigger,
                 'advertising_conversion_export',
                 'ProfessionalServices_PromotionAdvertisingConversionExport',
-                'product-promotion-custom-reports.png'
+                'product-promotion-advertising-conversion-export.png'
             ),
             new Promotion(
                 12,
@@ -183,7 +180,7 @@ class PromotionRegistry
                 $formPageTrigger,
                 'form_analytics',
                 'ProfessionalServices_PromotionFormAnalytics',
-                'product-promotion-custom-reports.png'
+                'product-promotion-form-analytics.png'
             ),
             new Promotion(
                 14,
@@ -192,7 +189,7 @@ class PromotionRegistry
                 $wooCommerceUrlsTrigger,
                 'woocommerce_analytics',
                 'ProfessionalServices_PromotionWooCommerceAnalytics',
-                'product-promotion-custom-reports.png'
+                'product-promotion-woocommerce-analytics.png'
             ),
             new Promotion(
                 13,
@@ -201,7 +198,7 @@ class PromotionRegistry
                 $customLogoTrigger,
                 'white_label',
                 'ProfessionalServices_PromotionWhiteLabel',
-                'product-promotion-custom-reports.png'
+                'product-promotion-white-label.png'
             ),
             new Promotion(
                 15,
@@ -210,7 +207,7 @@ class PromotionRegistry
                 $multipleActiveSitesTrigger,
                 'roll_up_reporting',
                 'ProfessionalServices_PromotionRollUpReporting',
-                'product-promotion-custom-reports.png'
+                'product-promotion-roll-up-reporting.png'
             ),
             new Promotion(
                 16,
@@ -219,7 +216,7 @@ class PromotionRegistry
                 $returningVisitsTrigger,
                 'cohorts',
                 'ProfessionalServices_PromotionCohorts',
-                'product-promotion-custom-reports.png'
+                'product-promotion-cohorts.png'
             ),
             new Promotion(
                 17,
@@ -228,7 +225,7 @@ class PromotionRegistry
                 $multipleConversionChannelsTrigger,
                 'multi_channel_conversion_attribution',
                 'ProfessionalServices_PromotionMultiChannelConversionAttribution',
-                'product-promotion-custom-reports.png'
+                'product-promotion-multi-channel-conversion-attribution.png'
             ),
             new Promotion(
                 18,
@@ -237,7 +234,7 @@ class PromotionRegistry
                 $slowPageTrigger,
                 'seo_web_vitals',
                 'ProfessionalServices_PromotionSEOWebVitals',
-                'product-promotion-custom-reports.png'
+                'product-promotion-seo-web-vitals.png'
             ),
             new Promotion(
                 19,
@@ -246,14 +243,13 @@ class PromotionRegistry
                 $multipleSuperusersTrigger,
                 'activity_log',
                 'ProfessionalServices_PromotionActivityLog',
-                'product-promotion-custom-reports.png'
+                'product-promotion-activity-log.png'
             ),
             // The bundles come last: a bundle is only worth pitching once none of the
             // individual products above it has something more specific to say.
             //
-            // @internal All three reuse the Custom Reports artwork as a placeholder. The
-            //           design has no bundle illustration yet, and shipping them without
-            //           one would put the wrong product's picture on the panel.
+            // The design ships one illustration for the three, so they share it rather
+            // than carrying three copies of the same file.
             new Promotion(
                 20,
                 PremiumBundle::TEAM,
@@ -261,7 +257,7 @@ class PromotionRegistry
                 $teamBundleTrigger,
                 'team_bundle',
                 'ProfessionalServices_PromotionTeamBundle',
-                'product-promotion-custom-reports.png'
+                'product-promotion-bundle.png'
             ),
             new Promotion(
                 21,
@@ -270,7 +266,7 @@ class PromotionRegistry
                 $businessBundleTrigger,
                 'business_bundle',
                 'ProfessionalServices_PromotionBusinessBundle',
-                'product-promotion-custom-reports.png'
+                'product-promotion-bundle.png'
             ),
             new Promotion(
                 22,
@@ -279,7 +275,7 @@ class PromotionRegistry
                 $enterpriseBundleTrigger,
                 'enterprise_bundle',
                 'ProfessionalServices_PromotionEnterpriseBundle',
-                'product-promotion-custom-reports.png'
+                'product-promotion-bundle.png'
             ),
         ];
     }
