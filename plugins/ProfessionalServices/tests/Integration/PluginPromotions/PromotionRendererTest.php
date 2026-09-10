@@ -39,13 +39,18 @@ class PromotionRendererTest extends IntegrationTestCase
         FakeAccess::$superUser = true;
         FakeAccess::$identity = 'alice';
         $_GET['idSite'] = 1;
+        // The banner only ever renders inside a dashboard request, and the campaign medium
+        // names that request: without a module and an action core adds no campaign
+        // parameters at all.
+        $_GET['module'] = 'Dashboard';
+        $_GET['action'] = 'embeddedIndex';
 
         $this->renderer = new PromotionRenderer();
     }
 
     public function tearDown(): void
     {
-        unset($_GET['idSite']);
+        unset($_GET['idSite'], $_GET['module'], $_GET['action']);
         Fixture::resetTranslations();
 
         parent::tearDown();
@@ -95,10 +100,17 @@ class PromotionRendererTest extends IntegrationTestCase
         $html = $this->render(SegmentsTrigger::NAME, ['count' => 6]);
 
         $this->assertStringContainsString('https://plugins.matomo.org/CustomReports', $html);
+        $this->assertStringContainsString('mtm_campaign=app_premiumplugins', $html);
+        $this->assertStringContainsString('mtm_source=matomo_app_onpremise', $html);
+        $this->assertStringContainsString('mtm_medium=app.Dashboard.embeddedIndex', $html);
+        $this->assertStringContainsString('mtm_content=CustomReports', $html);
+        // Until matomo-org/matomo#25153 lets the campaign helper carry `mtm_kwd`, the
+        // trigger name travels under its own parameter.
         $this->assertStringContainsString('trigger_name=segments', $html);
-        $this->assertStringContainsString('mtm_content=custom_reports', $html);
-        $this->assertStringContainsString('rel="noopener noreferrer"', $html);
-        $this->assertStringContainsString('target="_blank"', $html);
+        // Both the headline and the call to action leave the app, so both open in a new
+        // tab and withhold the referrer.
+        $this->assertSame(2, substr_count($html, 'target="_blank"'));
+        $this->assertSame(2, substr_count($html, 'rel="noreferrer noopener"'));
     }
 
     /**

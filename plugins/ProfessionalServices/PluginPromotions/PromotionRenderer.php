@@ -14,8 +14,8 @@ use Piwik\Container\StaticContainer;
 use Piwik\Metrics\Formatter;
 use Piwik\NumberFormatter;
 use Piwik\Piwik;
+use Piwik\Plugin\Manager;
 use Piwik\Plugins\Marketplace\PluginTrial\Service as PluginTrialService;
-use Piwik\Plugins\Marketplace\SiteAwareLinks;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\BounceRateTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\FormPageTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\LowConversionRateTrigger;
@@ -34,7 +34,6 @@ use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\ReturningVisitsT
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\SlowPageTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\SegmentsTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\WooCommerceUrlsTrigger;
-use Piwik\ProfessionalServices\Advertising;
 use Piwik\Url;
 use Piwik\View;
 
@@ -44,10 +43,10 @@ use Piwik\View;
 class PromotionRenderer
 {
     /**
-     * Campaign medium for the outbound link, so promotion clicks can be told apart from
+     * Campaign name for the outbound link, so promotion clicks can be told apart from
      * other links to the same Marketplace page.
      */
-    public const CAMPAIGN_MEDIUM = 'App.Dashboard.pluginPromotion';
+    public const CAMPAIGN_NAME = 'app_premiumplugins';
 
     /**
      * Entry page URLs can be arbitrarily long; keep the headline on one line.
@@ -76,8 +75,10 @@ class PromotionRenderer
         // "why you're seeing this" lead-in the way the first copy was.
         $view->reason = Piwik::translate($promotion->getReasonTranslationKey());
 
+        // The headline and the call to action lead to the same page, so they carry the
+        // same campaign parameters and the link is built once.
         $view->learnMoreUrl = $this->getCampaignUrl($promotion);
-        $view->marketplaceUrl = (new SiteAwareLinks())->getOverviewUrl($promotion->getPluginName());
+        $view->marketplaceUrl = $view->learnMoreUrl;
         $view->canRequestTrial = $this->canRequestTrial();
         $view->tryLabel = Piwik::translate('ProfessionalServices_PromotionCtaTry', $productName);
 
@@ -104,8 +105,15 @@ class PromotionRenderer
     }
 
     /**
-     * The one outbound link of the banner, and the only place promotion analytics are
-     * carried. No website data is included, only which promotion was clicked.
+     * The outbound link of the banner, and the only place promotion analytics are carried.
+     * No website data is included, only which promotion was clicked and from where.
+     *
+     * Carries the four campaign parameters `Url::addCampaignParametersToMatomoLink()`
+     * knows today. The scheme also asks for `mtm_group=triggered_ad`,
+     * `mtm_placement=top_banner` and `mtm_kwd=<trigger name>`, which that helper cannot
+     * add yet - matomo-org/matomo#25153 is what will let it. Until then the trigger name
+     * travels as `trigger_name`, and it should move to `mtm_kwd` once the helper supports
+     * it rather than being sent twice.
      */
     private function getCampaignUrl(Promotion $promotion): string
     {
@@ -114,11 +122,38 @@ class PromotionRenderer
 
         return (string) Url::addCampaignParametersToMatomoLink(
             $url,
-            Advertising::CAMPAIGN_NAME_PROFESSIONAL_SERVICES,
-            null,
-            self::CAMPAIGN_MEDIUM,
-            $promotion->getCampaignContent()
+            self::CAMPAIGN_NAME,
+            $this->getCampaignSource(),
+            $this->getCampaignMedium(),
+            $promotion->getPluginName()
         );
+    }
+
+    /**
+     * Spelled the way the campaign scheme spells it, but still telling Cloud and on
+     * premise apart the way core does: an instance reporting the wrong one would be worse
+     * than the casing.
+     */
+    private function getCampaignSource(): string
+    {
+        return 'matomo_app_' . (Manager::getInstance()->isPluginActivated('Cloud') ? 'cloud' : 'onpremise');
+    }
+
+    /**
+     * Where in the app the promotion was shown. Null hands the decision back to core,
+     * which builds the same thing in its own casing and drops the campaign parameters
+     * altogether when there is no module or action to name.
+     */
+    private function getCampaignMedium(): ?string
+    {
+        $module = Piwik::getModule();
+        $action = Piwik::getAction();
+
+        if (empty($module) || empty($action)) {
+            return null;
+        }
+
+        return 'app.' . $module . '.' . $action;
     }
 
     /**
