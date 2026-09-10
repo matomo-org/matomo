@@ -229,6 +229,21 @@ class SchedulingDispatchTest extends IntegrationTestCase
         $this->assertSame(['2026-09-28,2026-10-04', '2026-10-05,2026-10-11'], $this->sentDataPeriods);
     }
 
+    /**
+     * The report data and its date line resolve a relative date on the site's day, so the period sent
+     * with the event has to as well. 05:00 on 2026-10-05 in Shanghai is still 2026-10-04 in UTC.
+     */
+    public function testARelativeDateIsSentForTheSitesDay(): void
+    {
+        $idSite = $this->addShanghaiSite();
+        $idReport = $this->createReport(Schedule::PERIOD_DAY, $periodParam = 'day', $hour = 21, $idSite);
+
+        Date::$now = strtotime('2026-10-04 21:00:00 UTC');
+        APIScheduledReports::getInstance()->sendReport($idReport, 'day', 'yesterday');
+
+        $this->assertSame(['2026-10-04,2026-10-04'], $this->sentDataPeriods);
+    }
+
     private function addShanghaiSite(): int
     {
         FakeAccess::$superUser = true;
