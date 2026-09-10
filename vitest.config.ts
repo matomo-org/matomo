@@ -48,7 +48,7 @@ export default defineConfig({
     include: [
       'plugins/*/vue/**/*.spec.[tj]s',
       'plugins/*/javascripts/**/*.spec.[tj]s',
-      'plugins/CoreVue/polyfills/src/**/*.spec.[tj]s',
+      'plugins/*/polyfills/src/**/*.spec.[tj]s',
     ],
     setupFiles: ['./tests/client/bootstrap.jest.js'],
     // Match the previous Jest behaviour, which did not auto-reset mocks between tests.

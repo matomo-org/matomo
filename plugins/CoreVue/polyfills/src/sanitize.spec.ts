@@ -5,7 +5,9 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import { sanitize, sanitizeTooltip, sanitizeUrl } from './sanitize';
+import {
+  renderAllowedMarkup, sanitize, sanitizeTooltip, sanitizeUrl,
+} from './sanitize';
 
 const ALLOWED_TAGS = ['B', 'BR', 'EM', 'I', 'SMALL', 'SPAN', 'STRONG', 'U'];
 
@@ -149,6 +151,33 @@ describe('CoreVue/sanitizeTooltip', () => {
     const markup = '<div class="aClass" data-some-attribute="1">label</div>';
 
     expect(sanitize(markup)).toEqual(markup);
-    expect(sanitizeTooltip(markup)).not.toContain('<div');
+    expect(sanitizeTooltip(markup))
+      .toEqual('&lt;div class=&quot;aClass&quot; data-some-attribute=&quot;1&quot;&gt;label&lt;/div&gt;');
+  });
+});
+
+// The scan in sanitizeTooltip() diverts anything hostile to the text branch before DOMPurify runs,
+// so these go at the profile directly - otherwise its options could each be dropped with the suite
+// still green, and the profile is what holds if the scan ever lets something through.
+describe('CoreVue/renderAllowedMarkup', () => {
+  it('keeps the formatting a tooltip may use', () => {
+    expect(renderAllowedMarkup('<b>b</b> <em>e</em> <i>i</i> <small>s</small>'))
+      .toEqual('<b>b</b> <em>e</em> <i>i</i> <small>s</small>');
+    expect(renderAllowedMarkup('<span>sp</span> <strong>st</strong> <u>u</u>'))
+      .toEqual('<span>sp</span> <strong>st</strong> <u>u</u>');
+  });
+
+  it('drops every attribute, including the data and aria ones checked separately', () => {
+    expect(renderAllowedMarkup('<b class="x">b</b>')).toEqual('<b>b</b>');
+    expect(renderAllowedMarkup('<span data-table-type="JqplotGraph">y</span>')).toEqual('<span>y</span>');
+    expect(renderAllowedMarkup('<b aria-label="x">b</b>')).toEqual('<b>b</b>');
+    expect(renderAllowedMarkup('<b onclick="alert(1)">b</b>')).toEqual('<b>b</b>');
+    expect(renderAllowedMarkup('<span style="position:fixed;inset:0">y</span>')).toEqual('<span>y</span>');
+  });
+
+  it('drops a tag outside the profile and keeps only its text', () => {
+    expect(renderAllowedMarkup('<div class="dataTable" data-report="r">y</div>')).toEqual('y');
+    expect(renderAllowedMarkup('<a href="javascript:alert(1)">z</a>')).toEqual('z');
+    expect(renderAllowedMarkup('<img src=x onerror=alert(1)>')).toEqual('');
   });
 });

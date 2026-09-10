@@ -15681,21 +15681,22 @@
     }
     return false;
   }
+  function renderAllowedMarkup(html2) {
+    return tooltipPurify.sanitize(html2, {
+      ALLOWED_TAGS: TOOLTIP_TAGS,
+      ALLOWED_ATTR: [],
+      // both are checked separately from ALLOWED_ATTR, so they would survive on an allowed element
+      ALLOW_DATA_ATTR: false,
+      ALLOW_ARIA_ATTR: false
+    });
+  }
   function sanitizeTooltip(val) {
     const title = val === null || val === void 0 ? "" : String(val);
     const content = withLineBreaks(title);
     if (carriesOtherMarkup(content)) {
       return withLineBreaks(asText(decodeEntities(title)));
     }
-    return tooltipPurify.sanitize(content, {
-      ALLOWED_TAGS: TOOLTIP_TAGS,
-      ALLOWED_ATTR: [],
-      // both are checked separately from ALLOWED_ATTR, so they would survive on an allowed element
-      ALLOW_DATA_ATTR: false,
-      ALLOW_ARIA_ATTR: false,
-      // keep the whole title in the body, as the check above does
-      FORCE_BODY: true
-    });
+    return renderAllowedMarkup(content);
   }
   function sanitizeUrl(url) {
     return purify.isValidAttribute("a", "href", url) ? url : "";
