@@ -213,7 +213,7 @@ class Get extends Base
 
                     $currentPeriod     = PeriodFactory::build(
                         Piwik::getPeriod(),
-                        Common::getRequestVar('date'),
+                        \Piwik\Request::fromRequest()->getStringParameter('date'),
                         $timezone
                     );
                     $currentPrettyDate = ($currentPeriod instanceof Month ? $currentPeriod->getLocalizedLongString(
