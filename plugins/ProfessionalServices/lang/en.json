@@ -41,7 +41,6 @@
         "SessionRecordingsFeature01": "See how visitors interact with your site in real-time and uncover valuable insights to improve visitor experience.",
         "SessionRecordingsFeature02": "Identify barriers and successful visitor journeys, leading to higher conversion rates.",
         "SessionRecordingsFeature03": "Gain in-depth insights into how visitors engage with specific content, forms, or elements, to tailor your content and design to better meet visitor preferences.",
-        "PromotionReason": "Why you're seeing this: %1$s",
         "PromotionCtaTry": "Try %1$s",
         "PromotionProductHeatmapSessionRecording": "Heatmaps & Session Recordings",
         "PromotionProductAbTesting": "A/B Testing",
@@ -127,21 +126,6 @@
         "PromotionFunnelsConversionRateReason": "Funnels is recommended when a frequently visited Goal has a low conversion rate, as it signals opportunities for optimisation.",
         "PromotionAbTestingConversionRateTitle": "Put your next idea to the test",
         "PromotionAbTestingConversionRateText": "Your goal %1$s converted %2$s times last week. Put your ideas head-to-head with page variations and find which changes deliver the strongest results.",
-        "PromotionAbTestingConversionRateReason": "A/B Testing is recommended when a Goal has enough conversion activity to establish a baseline for testing variations.",
-        "PromotionSegmentsTitle": "Understand your %1$s segments even better",
-        "PromotionSegmentsText": "Dig deeper into your segment data. Build Custom Reports with the dimensions and metrics that matter to your analysis.",
-        "PromotionSegmentsReason": "recommended when you have 5+ segments available to analyse.",
-        "PromotionScheduledReportsTitle": "Ready to get more from your scheduled reports?",
-        "PromotionScheduledReportsText": "You already send %1$s scheduled reports. Add Custom Reports built around the dimensions and metrics you want to monitor, and send them on the schedule you use today.",
-        "PromotionScheduledReportsReason": "recommended when you already rely on scheduled reports.",
-        "PromotionBounceRateTitle": "See why visitors leave %1$s",
-        "PromotionBounceRateText": "%1$s of visits to %2$s end without another interaction. See how visitors use the page and investigate why they leave.",
-        "PromotionBounceRateReason": "recommended when you have high-traffic pages with an unusually high bounce rate.",
-        "PromotionConversionRateTitle": "Find where visitors drop off before converting",
-        "PromotionConversionRateText": "Only %1$s of visits convert for %2$s. Use Funnels to identify the steps where visitors drop off, so you can optimise the conversion journey.",
-        "PromotionConversionRateReason": "recommended when you have goals with high traffic but low conversion.",
-        "PromotionConversionsTitle": "Ready to optimise %1$s?",
-        "PromotionConversionsText": "Your goal %1$s converted %2$s times last week. Ready to optimise it further? Run an A/B test to compare page variations and measure their impact on conversions.",
-        "PromotionConversionsReason": "recommended when a goal has enough recent conversion volume."
+        "PromotionAbTestingConversionRateReason": "A/B Testing is recommended when a Goal has enough conversion activity to establish a baseline for testing variations."
     }
 }
