@@ -3723,7 +3723,7 @@ parameters:
 		-
 			message: '#^Result of && is always false\.$#'
 			identifier: booleanAnd.alwaysFalse
-			count: 1
+			count: 2
 			path: plugins/Referrers/Columns/Base.php
 
 		-

@@ -19,6 +19,7 @@ use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
 use Piwik\Plugins\Actions\ArchivingHelper;
 use Piwik\Plugins\Referrers\Columns\Metrics\VisitorsFromReferrerPercent;
+use Piwik\Plugins\Referrers\DataTable\Filter\FormatMaskedCampaignLabels;
 use Piwik\Plugins\Referrers\DataTable\Filter\GroupDifferentSocialWritings;
 use Piwik\Site;
 use Piwik\Tracker\Action;
@@ -501,8 +502,12 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasViewAccess($idSite);
         $dataTable = $this->getDataTable(Archiver::CAMPAIGNS_RECORD_NAME, $idSite, $period, $date, $segment, $expanded);
 
+        // the segment has to be built from the stored value, so the label is only made legible
+        // afterwards. Applied rather than queued, so no caller can reach the raw placeholder by
+        // skipping the queued filters.
         $dataTable->filter('AddSegmentByLabel', ['referrerName']);
         $dataTable->queueFilter('PrependSegment', ['referrerType==campaign;']);
+        $dataTable->filter(FormatMaskedCampaignLabels::class);
 
         return $dataTable;
     }

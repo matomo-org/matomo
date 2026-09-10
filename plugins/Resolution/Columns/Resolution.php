@@ -31,8 +31,11 @@ class Resolution extends VisitDimension
      */
     public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
-        // in privacy compliance mode, we can't detect screen resolution
-        if (ResolutionPlugin::isScreenResolutionDetectionDisabledByCompliancePolicy($request->getIdSiteIfExists())) {
+        // in privacy compliance mode, we can't detect screen resolution unless the visitor consented
+        if (
+            !$request->hasConsent()
+            && ResolutionPlugin::isScreenResolutionDetectionDisabledByCompliancePolicy($request->getIdSiteIfExists())
+        ) {
             return Request::UNKNOWN_RESOLUTION;
         }
 

@@ -175,6 +175,7 @@ abstract class Base extends VisitDimension
 
         if (
             $referrerInformation['referer_type'] == Common::REFERRER_TYPE_CAMPAIGN
+            && !$request->hasConsent()
             && CampaignParameterValuesMasked::isEnabled((int) $this->idsite)
         ) {
             $referrerInformation['referer_name'] = CampaignParameterValuesMasked::getPlaceholderValue();
@@ -744,6 +745,7 @@ abstract class Base extends VisitDimension
 
         if (
             $type === Common::REFERRER_TYPE_CAMPAIGN
+            && !$request->hasConsent()
             && CampaignParameterValuesMasked::isEnabled($request->getIdSite())
         ) {
             $name = CampaignParameterValuesMasked::getPlaceholderValue();
@@ -796,6 +798,15 @@ abstract class Base extends VisitDimension
     {
         $existing = mb_strtolower($visitor->getVisitorColumn($infoName) ?? '');
         $new = mb_strtolower($information[$infoName] ?? '');
+
+        // A masked value becoming legible is not a change of referrer: the visitor did not arrive
+        // from somewhere new, we are simply now allowed to see where they came from. Treating it as
+        // a change would start a second visit part way through the first, which would both split
+        // the visit and double the visitor. This applies whenever masking stops - because the
+        // setting was turned off, or because the visitor consented.
+        if (CampaignParameterValuesMasked::isPlaceholderValue($existing)) {
+            return false;
+        }
 
         $result = $existing != $new;
         if ($result) {

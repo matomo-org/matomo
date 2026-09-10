@@ -20,6 +20,7 @@ use Piwik\Http;
 use Piwik\IP;
 use Matomo\Network\IPUtils;
 use Piwik\Piwik;
+use Piwik\Plugins\CoreHome\Columns\Consent;
 use Piwik\Plugins\UsersManager\UsersManager;
 use Piwik\ProxyHttp;
 use Piwik\Segment\SegmentExpression;
@@ -893,6 +894,41 @@ class Request
     public function getForcedVisitorId()
     {
         return $this->getParam('cid');
+    }
+
+    /**
+     * The consent decision this request carries, or null when it carries none.
+     *
+     * A request without the parameter is not the same as a request that says "not consented": the
+     * former is a site that does not use consent at all and must be left entirely unaffected, so
+     * nothing is recorded for it. Both are treated as not consented wherever consent is read.
+     *
+     * @return int|null Consent::CONSENTED, Consent::NOT_CONSENTED, or null when not signalled
+     */
+    public function getConsent(): ?int
+    {
+        $consent = Common::getRequestVar('consent', '', 'string', $this->params);
+
+        if ('1' === $consent) {
+            return Consent::CONSENTED;
+        }
+
+        if ('0' === $consent) {
+            return Consent::NOT_CONSENTED;
+        }
+
+        return null;
+    }
+
+    /**
+     * Whether this request was made with the visitor's consent.
+     *
+     * This is the condition that lifts a policy-controlled restriction. It never imposes one: a
+     * request without consent is only restricted where the setting is separately enforced.
+     */
+    public function hasConsent(): bool
+    {
+        return Consent::CONSENTED === $this->getConsent();
     }
 
     public function getPlugins()
