@@ -25,8 +25,11 @@
   color: @theme-color-text-light;
 }
 
-.marketplaceEmptyState__message {
+// The second class is only here to outrank CoreAdminHome's `.admin p`, which would otherwise set
+// this paragraph's spacing; `padding-bottom` is reset for the same reason.
+.marketplaceEmptyState .marketplaceEmptyState__message {
   margin: 16px 0 0;
+  padding-bottom: 0;
   font-size: 16px;
   line-height: 140%;
   font-weight: 600;

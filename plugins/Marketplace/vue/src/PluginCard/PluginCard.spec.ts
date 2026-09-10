@@ -56,10 +56,10 @@ describe('Marketplace/PluginCard', () => {
     );
 
     it('shows the By Matomo chip only for a Matomo-owned plugin', () => {
-      expect(mountCard({ owner: 'InnoCraft' }).find('.pluginCard__chip--matomo').exists())
+      expect(mountCard({ owner: 'InnoCraft' }).find('.pluginCard__chipItem--matomo').exists())
         .toBe(false);
-      expect(mountCard({ owner: 'piwik' }).find('.pluginCard__chip--matomo').exists()).toBe(true);
-      expect(mountCard({ owner: 'matomo-org' }).find('.pluginCard__chip--matomo').exists())
+      expect(mountCard({ owner: 'piwik' }).find('.pluginCard__chipItem--matomo').exists()).toBe(true);
+      expect(mountCard({ owner: 'matomo-org' }).find('.pluginCard__chipItem--matomo').exists())
         .toBe(true);
     });
 
@@ -71,7 +71,7 @@ describe('Marketplace/PluginCard', () => {
 
     it('shows a category chip, but never for an unclassified plugin', () => {
       const chips = (owner: Partial<PluginCardType>) => mountCard(owner)
-        .findAll('.pluginCard__chip').map((chip) => chip.text());
+        .findAll('.pluginCard__chipItem').map((chip) => chip.text());
 
       expect(chips({ categories: ['insights'] })).toContain('Insights');
       expect(chips({ categories: ['uncategorised'] })).toEqual([]);
@@ -80,13 +80,13 @@ describe('Marketplace/PluginCard', () => {
 
     it('names the first category, since the chip has room for one', () => {
       const wrapper = mountCard({ categories: ['insights', 'security'] });
-      expect(wrapper.findAll('.pluginCard__chip').map((chip) => chip.text()))
+      expect(wrapper.findAll('.pluginCard__chipItem').map((chip) => chip.text()))
         .toEqual(['Insights']);
     });
 
     it('labels a bundle as a bundle rather than by its category', () => {
       const wrapper = mountCard({ isBundle: true, categories: ['insights'] });
-      expect(wrapper.find('.pluginCard__chip').text()).toBe('Marketplace_Bundles');
+      expect(wrapper.find('.pluginCard__chipItem').text()).toBe('Marketplace_Bundles');
     });
 
     it('marks a bundle card, which PluginCard.less fills its call to action from', () => {
@@ -135,7 +135,7 @@ describe('Marketplace/PluginCard', () => {
 
     it('drops the byline for a Matomo plugin, which the chip already credits', () => {
       const wrapper = mountCard({ owner: 'piwik' });
-      expect(wrapper.find('.pluginCard__chip--matomo').exists()).toBe(true);
+      expect(wrapper.find('.pluginCard__chipItem--matomo').exists()).toBe(true);
       expect(wrapper.find('.pluginCard__owner').exists()).toBe(false);
     });
 

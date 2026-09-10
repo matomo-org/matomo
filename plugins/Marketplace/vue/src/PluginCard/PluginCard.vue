@@ -29,12 +29,12 @@
       </div>
     </div>
 
-    <div class="pluginCard__chips">
-      <span class="pluginCard__chip pluginCard__chip--matomo" v-if="isByMatomo">
+    <div class="pluginCard__chipList">
+      <span class="pluginCard__chipItem pluginCard__chipItem--matomo" v-if="isByMatomo">
         <span class="pluginCard__badge"><MatomoGlyph /></span>
         {{ translate('Marketplace_CategoryMatomo') }}
       </span>
-      <span class="pluginCard__chip" v-if="categoryLabel">{{ categoryLabel }}</span>
+      <span class="pluginCard__chipItem" v-if="categoryLabel">{{ categoryLabel }}</span>
     </div>
 
     <h3 class="pluginCard__title">
@@ -67,7 +67,7 @@
       >{{ ownerName }}</span>
     </div>
 
-    <div class="pluginCard__actions cta-container">
+    <div class="pluginCard__actions">
       <CTAContainer
         v-bind="context"
         :plugin="plugin"

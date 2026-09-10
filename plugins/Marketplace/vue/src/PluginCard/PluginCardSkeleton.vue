@@ -8,9 +8,9 @@
 <template>
   <article class="pluginCardSkeleton" aria-hidden="true">
     <div class="pluginCardSkeleton__plate" />
-    <div class="pluginCardSkeleton__chipRow">
-      <span class="pluginCardSkeleton__chip" />
-      <span class="pluginCardSkeleton__chip pluginCardSkeleton__chip--short" />
+    <div class="pluginCardSkeleton__chipList">
+      <span class="pluginCardSkeleton__chipItem" />
+      <span class="pluginCardSkeleton__chipItem pluginCardSkeleton__chipItem--short" />
     </div>
     <div class="pluginCardSkeleton__title" />
     <div class="pluginCardSkeleton__textBlock">

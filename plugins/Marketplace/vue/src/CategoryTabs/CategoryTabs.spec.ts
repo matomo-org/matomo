@@ -51,7 +51,7 @@ async function mountTabs(tabs: PluginTab[], modelValue = 'all') {
 const visibleTabLabels = (wrapper: VueWrapper) => wrapper
   .findAll('.categoryTabs__tab')
   .filter((t) => !t.classes('categoryTabs__tab--overflow')
-    && !t.classes('categoryTabs__moreButton'))
+    && !t.classes('categoryTabs__tab--more'))
   .map((t) => t.text());
 
 describe('Marketplace/CategoryTabs', () => {
@@ -76,7 +76,7 @@ describe('Marketplace/CategoryTabs', () => {
       const wrapper = await mountTabs(TEN_TABS);
       expect(visibleTabLabels(wrapper)).toHaveLength(5);
 
-      await wrapper.find('.categoryTabs__moreButton').trigger('click');
+      await wrapper.find('.categoryTabs__tab--more').trigger('click');
       expect(wrapper.findAll('.categoryTabs__menuItem')).toHaveLength(5);
     });
 
@@ -89,15 +89,15 @@ describe('Marketplace/CategoryTabs', () => {
       'names the overflow button after the active tab when the active tab is inside it',
       async () => {
         const wrapper = await mountTabs(TEN_TABS, 'security');
-        expect(wrapper.find('.categoryTabs__moreButton').text()).toContain('Security');
-        expect(wrapper.find('.categoryTabs__moreButton').classes())
+        expect(wrapper.find('.categoryTabs__tab--more').text()).toContain('Security');
+        expect(wrapper.find('.categoryTabs__tab--more').classes())
           .toContain('categoryTabs__tab--active');
       },
     );
 
     it('closes the menu and emits when an overflow tab is chosen', async () => {
       const wrapper = await mountTabs(TEN_TABS);
-      await wrapper.find('.categoryTabs__moreButton').trigger('click');
+      await wrapper.find('.categoryTabs__tab--more').trigger('click');
       await wrapper.findAll('.categoryTabs__menuItem')[0].trigger('click');
 
       expect(wrapper.emitted('update:modelValue')).toEqual([['conversion']]);
@@ -106,7 +106,7 @@ describe('Marketplace/CategoryTabs', () => {
 
     it('closes the menu on Escape', async () => {
       const wrapper = await mountTabs(TEN_TABS, 'all');
-      await wrapper.find('.categoryTabs__moreButton').trigger('click');
+      await wrapper.find('.categoryTabs__tab--more').trigger('click');
       expect(wrapper.findAll('.categoryTabs__menuItem').length).toBeGreaterThan(0);
 
       document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));

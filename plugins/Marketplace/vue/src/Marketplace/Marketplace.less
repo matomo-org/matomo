@@ -5,6 +5,9 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+// Not `.marketplace`: the overview template already puts that class on the wrapper around this
+// component, and both the plugin's own legacy rules and AnonymousPiwikUsageMeasurement select on
+// it, so the block is qualified instead.
 .marketplacePage {
   padding: 24px;
   border-radius: 4px;

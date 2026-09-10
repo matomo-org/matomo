@@ -38,7 +38,7 @@
         <button
           type="button"
           ref="moreButton"
-          class="categoryTabs__tab categoryTabs__moreButton"
+          class="categoryTabs__tab categoryTabs__tab--more"
           :class="{ 'categoryTabs__tab--active': activeIsInOverflow }"
           :aria-expanded="expanded"
           @click="expanded = !expanded"

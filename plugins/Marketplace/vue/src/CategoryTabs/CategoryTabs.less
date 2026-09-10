@@ -69,19 +69,15 @@
     background: @theme-color-background-base;
   }
   &:focus {
-    background-color: @marketplace-accent-bg;
+    background-color: @theme-color-background-brand-lowContrast;
     outline: none;
   }
 }
 
 .categoryTabs__tab--active {
   border-color: @theme-color-brand;
-  background: @marketplace-accent-bg;
+  background: @theme-color-background-brand-lowContrast;
   color: @theme-color-text;
-
-  .inDarkMode({
-    background: @marketplace-accent-bg-dark;
-  });
 }
 
 .categoryTabs__tab--overflow {
@@ -102,7 +98,7 @@
   }
 }
 
-.categoryTabs__moreButton {
+.categoryTabs__tab--more {
   gap: 6px;
 }
 
@@ -137,11 +133,6 @@
 }
 
 .categoryTabs__menuItem--active {
-  background: @marketplace-accent-bg;
-  color: @marketplace-accent-text;
-
-  .inDarkMode({
-    background: @marketplace-accent-bg-dark;
-    color: @marketplace-accent-text-dark;
-  });
+  background: @theme-color-background-brand-lowContrast;
+  color: @theme-color-text-brand;
 }

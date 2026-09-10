@@ -2,6 +2,9 @@
 
 {% set title %}{{ 'Marketplace_Marketplace'|translate }}{% endset %}
 
+{# The plugin grid lays out up to five cards per row, so it wants the wide content area. #}
+{% block contentClass %}admin--wide{% endblock %}
+
 {% block content %}
 
     <div class="marketplace">

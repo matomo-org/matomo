@@ -21,7 +21,7 @@
 .pluginCardSkeleton__meta,
 .pluginCardSkeleton__action,
 .pluginCardSkeleton__textLine,
-.pluginCardSkeleton__chip {
+.pluginCardSkeleton__chipItem {
   display: block;
   border-radius: 3px;
   background: @theme-color-background-base;
@@ -32,7 +32,7 @@
   height: @marketplace-card-plate-height;
 }
 
-.pluginCardSkeleton__chipRow {
+.pluginCardSkeleton__chipList {
   display: flex;
   flex-wrap: wrap;
   align-items: safe center;
@@ -41,13 +41,13 @@
   min-height: @marketplace-card-chip-height;
 }
 
-.pluginCardSkeleton__chip {
+.pluginCardSkeleton__chipItem {
   width: 96px;
   height: @marketplace-card-chip-height;
   border-radius: (@marketplace-card-chip-height / 2);
 }
 
-.pluginCardSkeleton__chip--short {
+.pluginCardSkeleton__chipItem--short {
   width: 80px;
 }
 
@@ -100,7 +100,7 @@
   .pluginCardSkeleton__meta,
   .pluginCardSkeleton__action,
   .pluginCardSkeleton__textLine,
-  .pluginCardSkeleton__chip {
+  .pluginCardSkeleton__chipItem {
     animation: none;
   }
 }

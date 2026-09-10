@@ -5,7 +5,12 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-.marketplaceHero {
+// override: CoreAdminHome's `.admin section` puts default spacing on every section of an admin
+// page and outranks a lone class, so the tag is the narrowest selector that reaches it. This file
+// is merged after generalSettings.less, so the equal specificity resolves here.
+section.marketplaceHero {
+  margin-top: 0;
+  line-height: inherit;
   padding: 55px 24px;
   border-radius: 8px;
   text-align: center;
@@ -29,8 +34,11 @@
   color: @theme-color-headline-alternative;
 }
 
-.marketplaceHero__subtitle {
+// The second class is only here to outrank CoreAdminHome's `.admin p`, which would otherwise set
+// this paragraph's spacing; `padding-bottom` is reset for the same reason.
+.marketplaceHero .marketplaceHero__subtitle {
   margin: 12px auto 0;
+  padding-bottom: 0;
   font-size: 14px;
   line-height: 18px;
   color: @theme-color-text;

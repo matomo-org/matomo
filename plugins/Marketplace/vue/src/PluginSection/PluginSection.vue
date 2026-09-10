@@ -6,14 +6,14 @@
 -->
 
 <template>
-  <section class="marketplaceSection">
-    <div class="marketplaceSection__header">
-      <h2 class="marketplaceSection__heading">{{ heading }}</h2>
+  <section class="pluginSection">
+    <div class="pluginSection__header">
+      <h2 class="pluginSection__heading">{{ heading }}</h2>
 
       <button
         v-if="showSeeAll"
         type="button"
-        class="marketplaceSection__seeAll"
+        class="pluginSection__seeAll"
         :aria-label="translate('Marketplace_SeeAllInCategory', heading)"
         @click="$emit('seeAll', sectionId)"
       >

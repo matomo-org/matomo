@@ -29,7 +29,7 @@ async function mountSection(props: Record<string, unknown>) {
   return wrapper;
 }
 
-const seeAll = '.marketplaceSection__seeAll';
+const seeAll = '.pluginSection__seeAll';
 
 describe('PluginSection', () => {
   const originalMatchMedia = window.matchMedia;
@@ -49,7 +49,7 @@ describe('PluginSection', () => {
       ['ecommerce', true, 'Ecommerce'],
     ])('names the %s section', async (sectionId, isCategory, expected) => {
       const wrapper = await mountSection({ sectionId, isCategory });
-      expect(wrapper.find('.marketplaceSection__heading').text()).toBe(expected);
+      expect(wrapper.find('.pluginSection__heading').text()).toBe(expected);
     });
   });
 

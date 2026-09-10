@@ -5,17 +5,6 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-// Block-prefixed rather than block-scoped, so they stay reachable from the rules below without
-// colliding with another component's variables once the stylesheets are concatenated. Anything
-// PluginCardSkeleton also has to match lives in marketplace.less as a `@marketplace-card-*`
-// variable instead.
-@_pluginCardShotWidth: 229px;
-@_pluginCardShotHeight: 137px;
-@_pluginCardShotOverhang: 10px;
-@_pluginCardShotRing: 8px;
-@_pluginCardDescriptionLines: 3;
-@_pluginCardDescriptionLineHeight: 20px;
-
 // override: Materialize paints .btn from its own palette and wins on the colour, so the brand fill
 // needs !important to stick. Scoped to this block's actions below.
 .pluginCardFilledButton() {
@@ -32,6 +21,8 @@
   }
 }
 
+// The `@marketplace-card-*` geometry lives in marketplace.less because PluginCardSkeleton has to
+// hold exactly this footprint, so both blocks read those numbers from one place.
 .pluginCard {
   position: relative;
   display: flex;
@@ -44,13 +35,9 @@
   transition: border-color 0.2s ease-out, box-shadow 0.2s ease-out, transform 0.2s ease-out;
 
   &:hover {
-    border-color: @marketplace-card-hover-border;
+    border-color: @theme-color-border-brand;
     box-shadow: @theme-shadow-overlay;
     transform: translateY(-2px);
-
-    .inDarkMode({
-      border-color: @marketplace-card-hover-border-dark;
-    });
   }
 }
 
@@ -59,30 +46,27 @@
   height: @marketplace-card-plate-height;
   border-radius: 4px;
   overflow: hidden;
-  background: @marketplace-plate-bg;
-
-  .inDarkMode({
-    background: @marketplace-plate-bg-dark;
-  });
+  background: @theme-color-background-brand-tinyContrast;
 }
 
 .pluginCard__shot {
+  @_width: 229px;
+  @_height: 137px;
+  @_overhang: 10px;
+  @_ring: 8px;
+
   position: absolute;
   left: 50%;
-  bottom: -@_pluginCardShotOverhang;
+  bottom: -@_overhang;
   transform: translateX(-50%);
-  width: @_pluginCardShotWidth;
-  max-width: ~"calc(100% - @{_pluginCardShotRing} * 2)";
-  height: @_pluginCardShotHeight;
+  width: @_width;
+  max-width: ~"calc(100% - @{_ring} * 2)";
+  height: @_height;
   border-radius: 4px;
   overflow: hidden;
   background: @theme-color-background-contrast;
-  box-shadow: 0 0 0 @_pluginCardShotRing @marketplace-plate-ring;
+  box-shadow: 0 0 0 @_ring @theme-color-border-brand-light;
   transition: transform 0.5s ease-out;
-
-  .inDarkMode({
-    box-shadow: 0 0 0 @_pluginCardShotRing @marketplace-plate-ring-dark;
-  });
 }
 
 .pluginCard__shotImage {
@@ -96,7 +80,7 @@
   transform: translateX(-50%) scale(1.02);
 }
 
-.pluginCard__chips {
+.pluginCard__chipList {
   display: flex;
   flex-wrap: wrap;
   align-items: safe center;
@@ -105,7 +89,7 @@
   min-height: @marketplace-card-chip-height;
 }
 
-.pluginCard__chip {
+.pluginCard__chipItem {
   display: inline-flex;
   align-items: safe center;
   gap: 6px;
@@ -118,15 +102,10 @@
   color: @theme-color-text;
 }
 
-.pluginCard__chip--matomo {
+.pluginCard__chipItem--matomo {
   border-color: transparent;
-  background: @marketplace-accent-bg;
-  color: @marketplace-accent-text;
-
-  .inDarkMode({
-    background: @marketplace-accent-bg-dark;
-    color: @marketplace-accent-text-dark;
-  });
+  background: @theme-color-background-brand-lowContrast;
+  color: @theme-color-text-brand;
 }
 
 .pluginCard__badge {
@@ -161,16 +140,22 @@
   }
 }
 
-.pluginCard__description {
+// The second class is only here to outrank CoreAdminHome's `.admin p`, which would otherwise set
+// this paragraph's spacing and line height; `padding-bottom` is reset for the same reason.
+.pluginCard .pluginCard__description {
+  @_lines: 3;
+  @_lineHeight: 20px;
+
   margin: 6px 0 0;
+  padding-bottom: 0;
   font-size: 14px;
-  line-height: @_pluginCardDescriptionLineHeight;
+  line-height: @_lineHeight;
   color: @theme-color-text-light;
   display: -webkit-box;
-  -webkit-line-clamp: @_pluginCardDescriptionLines;
+  -webkit-line-clamp: @_lines;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  min-height: @_pluginCardDescriptionLines * @_pluginCardDescriptionLineHeight;
+  min-height: @_lines * @_lineHeight;
 }
 
 .pluginCard__meta {
@@ -227,6 +212,19 @@
   padding-top: 14px;
   min-height: 32px;
 
+  // override: Materialize .btn draws no focus ring of its own, and the marketplace has always
+  // lifted these on hover. Both used to arrive through the legacy .cta-container wrapper class.
+  .btn.btn-block {
+    &:hover,
+    &:focus {
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    &:focus {
+      outline: thin dotted;
+    }
+  }
+
   // override: the CTAs are Materialize buttons rendered by CTAContainer, and their sizing,
   // uppercasing and colours all come from .btn. Resizing them to the card is only possible here.
   .btn {
@@ -246,23 +244,13 @@
     border: 1px solid @theme-color-brand;
     line-height: 30px; // 32px, less the border
     background: @theme-color-background-contrast;
-    color: @marketplace-accent-text !important;
+    color: @theme-color-text-brand !important;
 
     &:hover,
     &:focus {
-      background: @marketplace-accent-bg;
-      color: @marketplace-accent-text !important;
+      background: @theme-color-background-brand-lowContrast;
+      color: @theme-color-text-brand !important;
     }
-
-    .inDarkMode({
-      color: @marketplace-accent-text-dark !important;
-
-      &:hover,
-      &:focus {
-        background: @marketplace-accent-bg-dark;
-        color: @marketplace-accent-text-dark !important;
-      }
-    });
   }
 
   .btn.purchaseable,
@@ -280,10 +268,6 @@
 .pluginCard--bundle .pluginCard__actions {
   .btn.btn-block:not(.purchaseable):not(.addToCartLink) {
     .pluginCardFilledButton();
-
-    .inDarkMode({
-      .pluginCardFilledButton();
-    });
   }
 }
 
