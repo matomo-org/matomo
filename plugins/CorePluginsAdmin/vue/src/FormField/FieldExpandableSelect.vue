@@ -90,6 +90,9 @@ import AbortableModifiers from './AbortableModifiers';
 /** Space left between the field and its list. Kept in step with FieldSelect's DROPDOWN_GAP. */
 const LIST_GAP = 8;
 
+/** Gutter kept between the list and the edges of the viewport it is positioned against. */
+const VIEWPORT_MARGIN = 16;
+
 export interface SelectValueInfo {
   key: unknown;
 }
@@ -278,11 +281,18 @@ export default defineComponent({
       }
 
       const rect = wrapper.getBoundingClientRect();
+      const dropdown = this.$refs.expandableList as HTMLElement|undefined;
+
+      // A field near the right edge would put the list past it, and a viewport-positioned list
+      // cannot be scrolled to, so hold it inside. clientWidth rather than innerWidth because that
+      // one counts the scrollbar, and the list would sit under it.
+      const rightmost = document.documentElement.clientWidth - VIEWPORT_MARGIN
+        - (dropdown ? dropdown.offsetWidth : 0);
 
       // The list sizes itself: its own min-width sits on the inner list, and capping the wrapper
       // to the field clipped that off, taking the category chevrons and help icons with it.
       this.listStyle = {
-        left: `${rect.left}px`,
+        left: `${Math.max(0, Math.min(rect.left, rightmost))}px`,
         ...(this.openAbove
           ? { bottom: `${window.innerHeight - rect.top + LIST_GAP}px` }
           : { top: `${rect.bottom + LIST_GAP}px` }),
@@ -324,7 +334,6 @@ export default defineComponent({
       }
 
       const minUsableHeight = 150;
-      const margin = 16;
       const wrapperRect = wrapper.getBoundingClientRect();
 
       // the search box sits between the top of the dropdown and the top of the list. It is the
@@ -332,7 +341,7 @@ export default defineComponent({
       // currently positioned - which matters because this decides where to position it.
       const chromeAboveList = list.getBoundingClientRect().top
         - dropdown.getBoundingClientRect().top;
-      const roomFor = (edge: number) => Math.floor(edge - chromeAboveList) - margin;
+      const roomFor = (edge: number) => Math.floor(edge - chromeAboveList) - VIEWPORT_MARGIN;
 
       const spaceBelow = roomFor(window.innerHeight - wrapperRect.bottom - LIST_GAP);
       const spaceAbove = roomFor(wrapperRect.top - LIST_GAP);

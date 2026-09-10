@@ -196,6 +196,42 @@ describe('CorePluginsAdmin/FormField/FieldExpandableSelect', () => {
     });
   });
 
+  describe('holding the list inside the viewport', () => {
+    function placeField(wrapper: ReturnType<typeof mountSelect>, left: number, listWidth: number) {
+      Object.defineProperty(document.documentElement, 'clientWidth', {
+        value: 1440, configurable: true,
+      });
+      Object.defineProperty(wrapper.find('.select-wrapper').element, 'getBoundingClientRect', {
+        value: () => ({ top: 100, bottom: 130, left, right: left, width: 0, height: 30 }),
+      });
+      Object.defineProperty(findInBody('.expandableList'), 'offsetWidth', {
+        value: listWidth, configurable: true,
+      });
+    }
+
+    it('follows the field when the list fits beside it', async () => {
+      const wrapper = mountSelect();
+      placeField(wrapper, 200, 300);
+
+      await wrapper.find('.select-wrapper').trigger('click');
+      await wrapper.vm.$nextTick();
+
+      expect(findInBody('.expandableList').style.left).toBe('200px');
+    });
+
+    it('holds the list off the right edge when the field is close to it', async () => {
+      const wrapper = mountSelect();
+      placeField(wrapper, 1300, 300);
+
+      await wrapper.find('.select-wrapper').trigger('click');
+      await wrapper.vm.$nextTick();
+
+      // 1440 - 16 - 300; aligning with the field would run 176px past the edge, which a list
+      // positioned against the viewport cannot be scrolled to
+      expect(findInBody('.expandableList').style.left).toBe('1124px');
+    });
+  });
+
   describe('closing on a press outside', () => {
     function pressOn(element: HTMLElement) {
       element.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
