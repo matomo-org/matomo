@@ -11,12 +11,15 @@ namespace Piwik\Plugins\TrackingSpamPrevention\tests\Integration;
 
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
+use Piwik\Option;
+use Piwik\Plugins\CorePluginsAdmin\SettingsMetadata;
 use Piwik\Plugins\TrackingSpamPrevention\BlockedIpRanges;
 use Piwik\Plugins\TrackingSpamPrevention\Configuration;
 use Piwik\Plugins\TrackingSpamPrevention\SystemSettings;
 use Piwik\Settings\FieldConfig;
 use Piwik\Settings\Storage\Factory as StorageFactory;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Version;
 
 /**
  * @group TrackingSpamPrevention
@@ -244,6 +247,70 @@ class SystemSettingsTest extends IntegrationTestCase
         $this->assertSame(SystemSettings::CLOUD_BLOCKING_DEFAULT_LIST, $this->settings->getCloudBlockingMode());
     }
 
+    public function testDefaultsBlockOnAnInstallThatPostdatesTheSplit()
+    {
+        $this->withRecordedVersion(Version::VERSION, function (SystemSettings $settings) {
+            $this->assertSame(true, $settings->block_clouds->getValue());
+            $this->assertSame(SystemSettings::CLOUD_BLOCKING_DEFAULT_LIST, $settings->getCloudBlockingMode());
+        });
+    }
+
+    public function testDefaultsFollowTheOldTickboxOnAnInstallThatPredatesTheSplit()
+    {
+        $this->withRecordedVersion('5.2.0', function (SystemSettings $settings) {
+            $this->assertSame(false, $settings->block_clouds->getValue());
+            $this->assertSame(SystemSettings::CLOUD_BLOCKING_OFF, $settings->getCloudBlockingMode());
+        });
+    }
+
+    public function testCloudBlockingModeFollowsAnEnabledTickboxUntilTheMigrationRuns()
+    {
+        $this->storeLegacyState(true);
+
+        $this->withRecordedVersion('5.2.0', function (SystemSettings $settings) {
+            $this->assertSame(SystemSettings::CLOUD_BLOCKING_CUSTOM_LIST, $settings->getCloudBlockingMode());
+            $this->assertSame(Configuration::DEFAULT_GEOIP_MATCH_PROVIDERS, $settings->getBlockedOrganisations());
+        });
+    }
+
+    public function testBlockedOrganisationsFollowAStoredListUntilTheMigrationRuns()
+    {
+        $this->storeLegacyState(true, ['my custom org']);
+
+        $this->withRecordedVersion('5.2.0', function (SystemSettings $settings) {
+            $this->assertSame(['my custom org'], $settings->getBlockedOrganisations());
+        });
+    }
+
+    public function testBlockedOrganisationsStayOffForAnEmptiedListUntilTheMigrationRuns()
+    {
+        // an emptied list meant "IP ranges on, organisation matching off" before the split
+        $this->storeLegacyState(true, []);
+
+        $this->withRecordedVersion('5.2.0', function (SystemSettings $settings) {
+            $this->assertSame([], $settings->getBlockedOrganisations());
+        });
+    }
+
+    public function testCloudBlockingModeStaysUnsetWhenTheSettingsFormIsSavedBeforeTheMigration()
+    {
+        $this->withRecordedVersion('5.2.0', function (SystemSettings $settings) {
+            // the form posts every field of the plugin, including the one that has no value yet
+            $posted = array_map(function ($setting) {
+                return ['name' => $setting->getName(), 'value' => $setting->getValue()];
+            }, $settings->getSettingsWritableByCurrentUser());
+
+            (new SettingsMetadata())->setPluginSettings(
+                ['TrackingSpamPrevention' => $settings],
+                ['TrackingSpamPrevention' => $posted]
+            );
+            $settings->save();
+
+            $storage = StaticContainer::get(StorageFactory::class)->getPluginStorage('TrackingSpamPrevention', '');
+            $this->assertNull($storage->getValue('cloud_blocking_mode', null, FieldConfig::TYPE_STRING));
+        });
+    }
+
     public function testCloudBlockingModeRejectsUnknownValue()
     {
         $this->expectException(\Exception::class);
@@ -402,6 +469,39 @@ class SystemSettingsTest extends IntegrationTestCase
         return array_map(function ($setting) {
             return $setting->getName();
         }, $settings->getSettingsWritableByCurrentUser());
+    }
+
+    private function storeLegacyState(bool $blockClouds, ?array $organisations = null): void
+    {
+        // written straight to storage: what an install looked like before the split, not what the
+        // settings objects would write today
+        $storage = StaticContainer::get(StorageFactory::class)->getPluginStorage('TrackingSpamPrevention', '');
+        $storage->setValue('block_clouds', $blockClouds);
+
+        if (null !== $organisations) {
+            $storage->setValue('organisation_block_list', $organisations);
+        }
+
+        $storage->save();
+    }
+
+    private function withRecordedVersion(string $version, callable $assertions): void
+    {
+        $option  = 'version_TrackingSpamPrevention';
+        $recorded = Option::get($option);
+
+        Option::set($option, $version);
+
+        try {
+            // the defaults are resolved in init(), so the settings have to be built under the option
+            $assertions(new SystemSettings());
+        } finally {
+            if (false === $recorded) {
+                Option::delete($option);
+            } else {
+                Option::set($option, $recorded);
+            }
+        }
     }
 
     private function withPluginConfig(array $values, callable $assertions): void

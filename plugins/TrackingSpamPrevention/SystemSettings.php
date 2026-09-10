@@ -11,7 +11,9 @@ namespace Piwik\Plugins\TrackingSpamPrevention;
 
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
+use Piwik\Db;
 use Piwik\Intl\Data\Provider\RegionDataProvider;
+use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\TrackingSpamPrevention\Settings\BlockCloudsSetting;
 use Piwik\Plugins\TrackingSpamPrevention\Settings\DefaultOrganisationListSetting;
@@ -28,6 +30,11 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
     public const CLOUD_BLOCKING_OFF = 'off';
     public const CLOUD_BLOCKING_DEFAULT_LIST = 'default';
     public const CLOUD_BLOCKING_CUSTOM_LIST = 'custom';
+
+    private const SPLIT_VERSION = '6.0.0-b2';
+
+    /** @var bool|null */
+    private $installPredatesSplit;
 
     /** @var Setting */
     public $max_actions;
@@ -67,11 +74,14 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 
     protected function init()
     {
+        // registered after the lists so it still displays last, but built before them because
+        // getCloudBlockingMode() reads it and registerOrganisationListSettings() resolves the mode
+        $this->block_clouds = $this->createBlockCloudsSetting();
         $this->cloudBlockingMode = $this->makeCloudBlockingModeSetting();
         $this->defaultOrganisationBlockList = $this->makeDefaultOrganisationBlockListSetting();
         $this->organisationBlockList = $this->makeOrganisationBlockListSetting();
         $this->registerOrganisationListSettings();
-        $this->block_clouds = $this->createBlockCloudsSetting();
+        $this->addSetting($this->block_clouds);
         $this->blockHeadless = $this->createBlockHeadlessSettings();
         $this->blockServerSideLibraries = $this->createBlockServerSideLibrariesSetting();
         $this->max_actions = $this->createMaxActionsSetting();
@@ -94,7 +104,9 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 
     private function createBlockCloudsSetting()
     {
-        $setting = new BlockCloudsSetting('block_clouds', true, FieldConfig::TYPE_BOOL, $this->pluginName);
+        $default = !$this->installPredatesSplit();
+
+        $setting = new BlockCloudsSetting('block_clouds', $default, FieldConfig::TYPE_BOOL, $this->pluginName);
         $setting->setConfigureCallback(function (FieldConfig $field) {
             $field->title = Piwik::translate('TrackingSpamPrevention_SettingBlockCloudIpRangesTitle');
             $field->uiControl = FieldConfig::UI_CONTROL_CHECKBOX;
@@ -103,13 +115,14 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
                 $field->inlineHelp = Piwik::translate('TrackingSpamPrevention_BlockCloudNoteInternetDisabled') . $field->inlineHelp;
             }
         });
-        $this->addSetting($setting);
         return $setting;
     }
 
     private function makeCloudBlockingModeSetting(): Setting
     {
-        return $this->makeSetting('cloud_blocking_mode', self::CLOUD_BLOCKING_DEFAULT_LIST, FieldConfig::TYPE_STRING, function (FieldConfig $field) {
+        $default = $this->installPredatesSplit() ? null : self::CLOUD_BLOCKING_DEFAULT_LIST;
+
+        return $this->makeSetting('cloud_blocking_mode', $default, FieldConfig::TYPE_STRING, function (FieldConfig $field) {
             $field->title = Piwik::translate('TrackingSpamPrevention_SettingCloudBlockingModeTitle');
             $field->introduction = Piwik::translate('TrackingSpamPrevention_SettingsIntroduction');
             $field->inlineHelp = Piwik::translate('TrackingSpamPrevention_SettingCloudBlockingModeHelp');
@@ -397,6 +410,17 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
     {
         $mode = $this->cloudBlockingMode->getValue();
 
+        if ($mode === null) {
+            // nothing stored and no override on an install that predates the split: reproduce what the
+            // single tickbox used to mean until the migration writes a real value. The custom mode is
+            // what does that - it matches organisation_block_list, whose own default is the default
+            // provider list - where the default mode would ignore a narrowed or emptied stored list.
+            // Same mapping as Updates_6_0_0_b2::resolveMode().
+            return $this->block_clouds->getValue()
+                ? self::CLOUD_BLOCKING_CUSTOM_LIST
+                : self::CLOUD_BLOCKING_OFF;
+        }
+
         $known = [self::CLOUD_BLOCKING_OFF, self::CLOUD_BLOCKING_DEFAULT_LIST, self::CLOUD_BLOCKING_CUSTOM_LIST];
 
         if (!in_array($mode, $known, true)) {
@@ -407,6 +431,36 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
         }
 
         return $mode;
+    }
+
+    /**
+     * Both settings default to blocking, which is what a new install should do but not what an install
+     * whose 6.0.0-b2 migration has not run yet was doing. The recorded plugin version is what separates
+     * the two: a new install is stamped with the current version as it is installed, while an existing
+     * one keeps its old version until the update runs. Nothing recorded means the plugin is being
+     * installed right now.
+     */
+    private function installPredatesSplit(): bool
+    {
+        if ($this->installPredatesSplit !== null) {
+            return $this->installPredatesSplit;
+        }
+
+        try {
+            $version = Option::get('version_' . $this->pluginName);
+        } catch (\Exception $e) {
+            // mysql error 1146: there is no option table yet, so the plugin is being installed right
+            // now and there is no earlier state to preserve
+            if (!Db::get()->isErrNo($e, '1146')) {
+                throw $e;
+            }
+
+            $version = false;
+        }
+
+        $this->installPredatesSplit = !empty($version) && version_compare($version, self::SPLIT_VERSION, '<');
+
+        return $this->installPredatesSplit;
     }
 
     private function hasConfigOverride(Setting $setting): bool

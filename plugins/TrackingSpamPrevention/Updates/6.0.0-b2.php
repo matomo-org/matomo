@@ -23,10 +23,10 @@ use Piwik\Updates as PiwikUpdates;
  *    IP range sync, and the new `cloud_blocking_mode` setting decides whether GeoIP organisation
  *    names are matched against nothing, the default list, or a custom list.
  *
- * Every install ends up with the blocking it had before the update. That holds from the moment this
- * update runs, not from the moment the new code is deployed: both new settings default to blocking,
- * so an install that had cloud blocking off matches against the default provider list in the window
- * between deploying and running core:update.
+ * Every install ends up with the blocking it had before the update, and keeps it in the meantime.
+ * Both new settings default to blocking, which is only right for an install that is genuinely new;
+ * SystemSettings tells the two apart by the recorded plugin version, which still predates this
+ * update until the updater stamps it, so nothing changes between deploying and running core:update.
  */
 class Updates_6_0_0_b2 extends PiwikUpdates
 {
