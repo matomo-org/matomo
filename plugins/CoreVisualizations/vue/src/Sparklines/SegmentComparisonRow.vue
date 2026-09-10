@@ -9,7 +9,7 @@
   <div class="sparklineSegmentComparisonRow">
     <span
       class="sparklineSegmentComparisonRow__chip"
-      :title="segmentLabel"
+      :title="segmentLabelTitle"
     >{{ segmentLabel }}</span>
     <PeriodColumns :entry="segment" />
     <!-- The tooltip goes on the slot, not the image: the image scales shorter than the slot. -->
@@ -30,7 +30,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, PropType } from 'vue';
-import { Sparkline } from 'CoreHome';
+import { Matomo, Sparkline } from 'CoreHome';
 import PeriodColumns from './PeriodColumns.vue';
 import { SparklineEntry } from './types';
 
@@ -58,6 +58,9 @@ export default defineComponent({
     // Segment name (compareSegmentPretty); always populated in segment comparison.
     const segmentLabel = computed(() => props.segment.title || '');
 
+    // Vue escapes the chip's text, the title attribute is read back and rendered as tooltip HTML.
+    const segmentLabelTitle = computed(() => Matomo.helper.htmlEntities(segmentLabel.value));
+
     // More than one compared date (segment + date) → widen the sparkline. The period columns
     // themselves are derived and rendered by PeriodColumns from the same entry.
     const isMultiPeriod = computed(() => (props.segment.metricsOrder || []).length > 1);
@@ -69,6 +72,7 @@ export default defineComponent({
 
     return {
       segmentLabel,
+      segmentLabelTitle,
       isMultiPeriod,
       sparklineWidth,
     };

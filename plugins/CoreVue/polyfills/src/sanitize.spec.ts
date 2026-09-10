@@ -53,8 +53,8 @@ describe('CoreVue/sanitizeTooltip', () => {
     expect(sanitizeTooltip('a &lt;img&gt; b &amp; c')).toEqual('a &lt;img&gt; b &amp; c');
   });
 
-  // a title that does not use the tooltipAttr filter - eg. one from a plugin - arrives with its
-  // markup intact; showing all of it as text keeps it readable without rendering any of it
+  // a title that was not escaped for a tooltip - eg. one from a plugin - arrives with its markup
+  // intact; showing all of it as text keeps it readable without rendering any of it
   it('shows a title that carries anything else as text, in full', () => {
     expect(sanitizeTooltip('<img src="x">')).toEqual('&lt;img src=&quot;x&quot;&gt;');
     expect(sanitizeTooltip('<a href="https://matomo.org">link</a>'))

@@ -1456,11 +1456,15 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
         $domElement.data('tooltip', 'enabled');
 
-        if (!isTextEllipsized($domElement)) {
+        // a label with a title of its own always needs the tooltip to render it; one that only
+        // repeats the cell text needs it just when that text is cut off
+        if (!$domElement.attr('title') && !isTextEllipsized($domElement)) {
             return;
         }
 
-        var customToolTipText = $domElement.attr('title') || $domElement.text();
+        // the cell's own text is escaped once, as the tooltip renders its title as HTML
+        var customToolTipText = $domElement.attr('title')
+            || piwikHelper.htmlEntities($domElement.text());
 
         if (customToolTipText) {
             $domElement.attr('title', customToolTipText);
@@ -1468,6 +1472,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
         $domElement.tooltip({
             track: true,
+            content: window.CoreHome.tooltipContent,
             show: false,
             hide: false
         });
