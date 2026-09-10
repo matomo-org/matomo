@@ -120,10 +120,10 @@ class Get extends \Piwik\Plugin\Report
             };
 
             // Add evolution values to sparklines
-            $timezone = Site::getTimezoneFor(Common::getRequestVar('idSite', 0, 'int'));
+            $timezone = Site::getTimezoneFor(\Piwik\Request::fromRequest()->getIntegerParameter('idSite', 0));
             list($lastPeriodDate, $ignore) = Range::getLastDate(false, false, $timezone);
             if ($lastPeriodDate !== false) {
-                $currentPeriod = Period\Factory::build(Piwik::getPeriod(), Common::getRequestVar('date'), $timezone);
+                $currentPeriod = Period\Factory::build(Piwik::getPeriod(), \Piwik\Request::fromRequest()->getStringParameter('date'), $timezone);
                 $currentPrettyDate = ($currentPeriod instanceof Month ? $currentPeriod->getLocalizedLongString() : $currentPeriod->getPrettyString());
                 $lastPeriod = Period\Factory::build(Piwik::getPeriod(), $lastPeriodDate, $timezone);
                 $lastPrettyDate = ($currentPeriod instanceof Month ? $lastPeriod->getLocalizedLongString() : $lastPeriod->getPrettyString());

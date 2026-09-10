@@ -123,7 +123,7 @@ class Get extends Base
 
     public function configureView(ViewDataTable $view)
     {
-        $idGoal = Common::getRequestVar('idGoal', 0, 'string');
+        $idGoal = \Piwik\Request::fromRequest()->getStringParameter('idGoal', '0');
 
         $idSite = $this->getIdSite();
 
@@ -131,7 +131,7 @@ class Get extends Base
             /** @var Sparklines $view */
             $isEcommerceEnabled = $this->isEcommerceEnabled($idSite);
 
-            $onlySummary = Common::getRequestVar('only_summary', 0, 'int');
+            $onlySummary = \Piwik\Request::fromRequest()->getIntegerParameter('only_summary', 0);
 
             if ($onlySummary && !empty($idGoal)) {
                 if (is_numeric($idGoal)) {
@@ -169,7 +169,7 @@ class Get extends Base
                 };
             }
 
-            $allowMultiple = Common::getRequestVar('allow_multiple', 0, 'int');
+            $allowMultiple = \Piwik\Request::fromRequest()->getIntegerParameter('allow_multiple', 0);
 
             if ($allowMultiple) {
                 $view->config->addSparklineMetric(['nb_conversions', 'nb_visits_converted'], $order = 10);
@@ -213,7 +213,7 @@ class Get extends Base
 
                     $currentPeriod     = PeriodFactory::build(
                         Piwik::getPeriod(),
-                        Common::getRequestVar('date'),
+                        \Piwik\Request::fromRequest()->getStringParameter('date'),
                         $timezone
                     );
                     $currentPrettyDate = ($currentPeriod instanceof Month ? $currentPeriod->getLocalizedLongString(
