@@ -2,7 +2,7 @@
     {{ visitInfo.getColumn('serverDatePrettyFirstAction') }}
     {% if isWidget %}<br/>{% else %}-{% endif %} {{ visitInfo.getColumn('serverTimePrettyFirstAction') }}</strong>
 {% if visitInfo.getColumn('visitIp') is not empty %}
-<span class="visitor-log-ip-location visitorLogTooltip" title="{% if visitInfo.getColumn('userId') is not empty %}{{ 'General_UserId'|translate }}: {{ visitInfo.getColumn('userId')|rawSafeDecoded }}
+<span class="visitor-log-ip-location visitorLogTooltip" title="{% if visitInfo.getColumn('userId') is not empty %}{{ 'General_UserId'|translate }}: {{ visitInfo.getColumn('userId')|rawSafeDecoded|e('html_attr') }}
 {% endif %}{% if isProfileEnabled and visitInfo.getColumn('visitorId') is not empty %}{{ 'General_VisitorID'|translate }}: {{ visitInfo.getColumn('visitorId') }}
 {% endif %}{% if visitInfo.getColumn('idVisit') is not empty %}
 {{ 'General_Visit'|translate }} ID: {{ visitInfo.getColumn('idVisit') }}
