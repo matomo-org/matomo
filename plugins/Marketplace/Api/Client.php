@@ -313,7 +313,7 @@ class Client
                 ], true);
             } catch (PhpException $e) {
                 // per list, so one that cannot be reached does not leave the others cold too
-                $this->logger->info('Could not refresh the Marketplace {action} list: {message}', [
+                $this->logger->warning('Could not refresh the Marketplace {action} list: {message}', [
                     'action' => $action,
                     'message' => $e->getMessage(),
                 ]);
@@ -428,7 +428,7 @@ class Client
 
         $params['prefer_stable'] = (int)$this->environment->doesPreferStable();
         $params['piwik'] = $this->environment->getPiwikVersion();
-        $params['php'] = $this->environment->getPhpVersion();
+        $params['php'] = $this->environment->getWebPhpVersion();
         $params['mysql'] = $this->environment->getMySQLVersion();
         $params['num_users'] = $this->environment->getNumUsers();
         $params['num_websites'] = $this->environment->getNumWebsites();
