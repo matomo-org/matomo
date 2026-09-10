@@ -172,6 +172,12 @@ class Google extends AIProvider
             }
 
             if (empty($part['thought']) && is_string($part['text'] ?? null)) {
+                // An empty part is neither text nor a boundary: leave a pending
+                // boundary pending, so the next real fragment still gets its space.
+                if ($part['text'] === '') {
+                    continue;
+                }
+
                 $answer = $this->appendAnswerText($answer, $part['text'], $atBoundary);
                 $atBoundary = false;
                 continue;

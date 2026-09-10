@@ -162,6 +162,12 @@ class Anthropic extends AIProvider
             }
 
             if (($block['type'] ?? null) === 'text' && is_string($block['text'] ?? null)) {
+                // An empty block is neither text nor a boundary: leave a pending
+                // boundary pending, so the next real fragment still gets its space.
+                if ($block['text'] === '') {
+                    continue;
+                }
+
                 $answer = $this->appendAnswerText($answer, $block['text'], $atBoundary);
                 $atBoundary = false;
                 continue;

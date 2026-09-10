@@ -82,7 +82,7 @@ class AIProviderResponse
     private $webSearch;
 
     /**
-     * @param bool $webSearchEnabled Deprecated since Matomo 5.14.0 and ignored; pass a
+     * @param bool $webSearchEnabled Deprecated since 5.14.0 and ignored; pass a
      *                               {@link WebSearchUsage} as $webSearch instead. Kept in place so
      *                               positional callers written against Matomo 5.13.0 keep working.
      *                               Will be removed in Matomo 6.
@@ -149,7 +149,7 @@ class AIProviderResponse
     }
 
     /**
-     * @deprecated since Matomo 5.14.0, use {@link wasWebSearchUsed()}. The name reads as
+     * @deprecated since 5.14.0, use {@link wasWebSearchUsed()} instead. The name reads as
      *             request state, but this reports what the provider actually did, and
      *             {@link AIRequest::isWebSearchEnabled()} keeps the request meaning.
      *             Will be removed in Matomo 6.
@@ -239,7 +239,7 @@ class AIProviderResponse
             'outputTokens' => $this->outputTokens,
             'reasoningLevel' => $this->reasoningLevel,
             'webSearchUsed' => $this->webSearch->wasUsed(),
-            // @deprecated since Matomo 5.14.0, use webSearchUsed.
+            // @deprecated since 5.14.0, use webSearchUsed instead.
             'webSearchEnabled' => $this->webSearch->wasUsed(),
             'webSearchRequestCount' => $this->webSearch->getRequestCount(),
             'webSearchQueries' => $this->webSearch->getQueries(),

@@ -237,6 +237,28 @@ class WebSearchTest extends TestCase
         $this->assertSame('Matomo.', $claude->complete($this->plainRequest(), self::CLAUDE_CONFIG)->getText());
     }
 
+    /**
+     * An empty text block must not swallow the boundary the search blocks
+     * created, or the sentences either side of it run together again.
+     */
+    public function testAnthropicKeepsAPendingBoundaryAcrossAnEmptyTextBlock(): void
+    {
+        $claude = new WebSearchRecordingAnthropic();
+        $claude->mockResponse = [
+            'content' => [
+                ['type' => 'text', 'text' => 'Let me check.'],
+                ['type' => 'server_tool_use', 'id' => 's1', 'name' => 'web_search', 'input' => ['query' => 'q']],
+                ['type' => 'text', 'text' => ''],
+                ['type' => 'text', 'text' => 'Matomo leads.'],
+            ],
+            'stop_reason' => 'end_turn',
+        ];
+
+        $response = $claude->complete($this->groundedRequest(), self::CLAUDE_CONFIG);
+
+        $this->assertSame('Let me check. Matomo leads.', $response->getText());
+    }
+
     public function testAnthropicParsesCitationsQueriesAndRequestCount(): void
     {
         $claude = new WebSearchRecordingAnthropic();

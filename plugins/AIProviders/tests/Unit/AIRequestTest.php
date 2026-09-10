@@ -76,4 +76,16 @@ class AIRequestTest extends TestCase
         $this->assertSame(90, $modified->getTimeoutSeconds());
         $this->assertSame(128, $modified->getThinkingBudget());
     }
+
+    public function testTimeoutSecondsIsClampedToAtLeastOneSecondAndNullRestoresTheDefault(): void
+    {
+        $request = new AIRequest('Prompt', 'Goals');
+
+        $this->assertSame(1, $request->withTimeoutSeconds(0)->getTimeoutSeconds());
+        $this->assertSame(1, $request->withTimeoutSeconds(-5)->getTimeoutSeconds());
+        $this->assertSame(90, $request->withTimeoutSeconds(90)->getTimeoutSeconds());
+        // null is not a value but the absence of one: the provider picks its own
+        // default, which differs for a grounded request.
+        $this->assertNull($request->withTimeoutSeconds(45)->withTimeoutSeconds(null)->getTimeoutSeconds());
+    }
 }

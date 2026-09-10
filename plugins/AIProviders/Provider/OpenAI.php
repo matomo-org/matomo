@@ -164,10 +164,24 @@ class OpenAI extends AIProvider
             }
 
             foreach ($item['content'] as $part) {
-                if (is_array($part) && ($part['type'] ?? null) === 'output_text' && is_string($part['text'] ?? null)) {
-                    $answer = $this->appendAnswerText($answer, $part['text'], $atBoundary);
-                    $atBoundary = false;
+                $text = is_array($part) && ($part['type'] ?? null) === 'output_text' && is_string($part['text'] ?? null)
+                    ? $part['text']
+                    : null;
+
+                if ($text === null) {
+                    // A refusal or any other part type: what follows is not a
+                    // continuation of the sentence before it.
+                    $atBoundary = true;
+                    continue;
                 }
+
+                // An empty part is neither text nor a boundary.
+                if ($text === '') {
+                    continue;
+                }
+
+                $answer = $this->appendAnswerText($answer, $text, $atBoundary);
+                $atBoundary = false;
             }
 
             // The next message is separate prose, not a continuation.
