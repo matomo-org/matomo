@@ -78,7 +78,7 @@
         "InstallAllPurchasedPluginsAction": "Install and activate %d purchased plugins",
         "InstallThesePlugins": "This will install and activate the following plugins:",
         "AllPaidPluginsInstalledAndActivated": "All paid plugins were successfully installed and activated.",
-        "AllPlugins": "All plugins",
+        "Home": "Home",
         "OnlySomePaidPluginsInstalledAndActivated": "Some paid plugins were not installed successfully.",
         "NewVersion": "new version",
         "NoPluginsFound": "No plugins found",

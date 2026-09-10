@@ -135,17 +135,17 @@ describe('Marketplace/CategoryTabs', () => {
 
     it('uses a translation key for a category that has one', async () => {
       expect(visibleTabLabels(await mountTabs([tab('all'), tab('insights', true)])))
-        .toEqual(['Marketplace_AllPlugins', 'Insights']);
+        .toEqual(['Marketplace_Home', 'Insights']);
     });
 
     it('falls back to a readable label for a category value with no key yet', async () => {
       expect(visibleTabLabels(await mountTabs([tab('all'), tab('somethingNew', true)])))
-        .toEqual(['Marketplace_AllPlugins', 'SomethingNew']);
+        .toEqual(['Marketplace_Home', 'SomethingNew']);
     });
 
     it('renders whatever tab list it is given, so an empty tab is simply absent', async () => {
       expect(visibleTabLabels(await mountTabs([tab('all'), tab('themes')])))
-        .toEqual(['Marketplace_AllPlugins', 'CorePluginsAdmin_Themes']);
+        .toEqual(['Marketplace_Home', 'CorePluginsAdmin_Themes']);
     });
 
     it('mirrors the tabs into a native select for small screens', async () => {

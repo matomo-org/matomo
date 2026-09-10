@@ -64,14 +64,6 @@
   white-space: nowrap;
   color: @theme-color-headline-alternative;
   transition: background-color 0.2s ease-out, border-color 0.2s ease-out;
-
-  &:hover {
-    background: @theme-color-background-base;
-  }
-  &:focus {
-    background-color: @theme-color-background-brand-lowContrast;
-    outline: none;
-  }
 }
 
 .categoryTabs__tab--active {
@@ -126,13 +118,35 @@
   text-align: left;
   font-size: 13px;
   color: @theme-color-text;
-
-  &:hover {
-    background: @theme-color-background-base;
-  }
 }
 
 .categoryTabs__menuItem--active {
   background: @theme-color-background-brand-lowContrast;
   color: @theme-color-text-brand;
+}
+
+// override: Materialize's global `button:focus` paints its own fill on every bare <button> and
+// outranks a lone class, so the tag has to appear here for the tabs and menu options to keep their
+// own backgrounds on click. Focus is given the hover background rather than none of its own, and
+// keyboard focus still shows through Morpheus's `:focus-visible` outline.
+button.categoryTabs__tab:hover,
+button.categoryTabs__tab:focus,
+button.categoryTabs__menuItem:hover,
+button.categoryTabs__menuItem:focus {
+  background: @theme-color-background-base;
+}
+
+button.categoryTabs__tab--active:hover,
+button.categoryTabs__tab--active:focus,
+button.categoryTabs__menuItem--active:hover,
+button.categoryTabs__menuItem--active:focus {
+  background: @theme-color-background-brand-lowContrast;
+}
+
+// override: Morpheus's legacy `:focus { outline: thin dotted }` in general/_default.less fires on
+// a plain mouse click, so the tabs and menu options picked up a dotted ring the moment they were clicked. Only the
+// keyboard ring below it - `button:focus-visible` - is wanted, so the click case is turned off here.
+button.categoryTabs__tab:focus:not(:focus-visible),
+button.categoryTabs__menuItem:focus:not(:focus-visible) {
+  outline: none;
 }

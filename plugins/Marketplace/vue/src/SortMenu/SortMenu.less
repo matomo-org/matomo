@@ -29,6 +29,14 @@
   }
 }
 
+// override: Materialize's global `button:focus` paints its own fill on every bare <button> and
+// outranks a lone class, so the tag has to appear here for the trigger to keep its
+// own background on click. Keyboard focus still shows through Morpheus's `:focus-visible`
+// outline, so nothing is lost by dropping the fill.
+button.sortMenu__trigger:focus {
+  background: @theme-color-background-contrast;
+}
+
 .sortMenu__menu {
   position: absolute;
   right: 0;
@@ -56,12 +64,25 @@
   text-align: left;
   font-size: 13px;
   color: @theme-color-text;
+}
 
-  &:hover {
-    background: @theme-color-background-base;
-  }
+// override: Materialize's global `button:focus` paints its own fill on every bare <button> and
+// outranks a lone class, so the tag has to appear here for the options to keep their
+// own background on click. Keyboard focus still shows through Morpheus's `:focus-visible`
+// outline, so nothing is lost by dropping the fill.
+button.sortMenu__item:hover,
+button.sortMenu__item:focus {
+  background: @theme-color-background-base;
 }
 
 .sortMenu__check {
   color: @theme-color-brand;
+}
+
+// override: Morpheus's legacy `:focus { outline: thin dotted }` in general/_default.less fires on
+// a plain mouse click, so the trigger and its options picked up a dotted ring the moment they are clicked. Only the
+// keyboard ring below it - `button:focus-visible` - is wanted, so the click case is turned off here.
+button.sortMenu__trigger:focus:not(:focus-visible),
+button.sortMenu__item:focus:not(:focus-visible) {
+  outline: none;
 }

@@ -548,9 +548,6 @@ class PluginsTest extends IntegrationTestCase
             'TreemapVisualization' => [
                 'coverImage' => 'https://plugins.piwik.org/TreemapVisualization/images/1.0.1/_cover.png',
             ],
-            // the only combination the Matomo wordmark placeholder is for: a paid plugin Matomo
-            // owns. PaidPlugin1 already arrives with a category stand-in, so only the owner changes
-            'PaidPlugin1' => ['owner' => 'matomo-org'],
         ];
 
         foreach ($fixture['plugins'] as $index => $plugin) {
@@ -570,15 +567,13 @@ class PluginsTest extends IntegrationTestCase
 
         $uncategorised = 'plugins/Marketplace/images/categories/uncategorised.png';
 
+        // the generic stand-in, a category one and none at all all land on the same fallback,
+        // whoever owns the plugin: SecurityInfo and CustomAlerts are Matomo's, Barometer is not
         $this->assertSame($uncategorised, $enriched['SecurityInfo']);
-        // categorised, but free and so not the wordmark's audience
         $this->assertSame($uncategorised, $enriched['CustomAlerts']);
-        // categorised and third party: the Matomo wordmark must not end up on it
         $this->assertSame($uncategorised, $enriched['Barometer']);
-        $this->assertSame(
-            'plugins/Marketplace/images/categories/matomo.png',
-            $enriched['PaidPlugin1']
-        );
+        $this->assertSame($uncategorised, $enriched['PaidPlugin1']);
+        // a real screenshot is the one thing that survives
         $this->assertSame(
             $overrides['TreemapVisualization']['coverImage'],
             $enriched['TreemapVisualization']

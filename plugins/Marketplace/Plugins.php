@@ -297,13 +297,23 @@ class Plugins
         return $this->pluginManager->isPluginActivated($pluginName);
     }
 
+    /**
+     * Whether this Matomo already has the plugin's files, which is what decides between offering
+     * it for install and offering to activate it.
+     *
+     * Config's `PluginsInstalled` is not that test. The Marketplace's install action only downloads
+     * and extracts (see PluginInstaller::installOrUpdatePluginFromMarketplace()); a plugin is added
+     * to that list when it is first activated. Asking the config left a plugin that had been
+     * installed but never activated offering "Install" a second time.
+     */
     private function isPluginInstalled($pluginName)
     {
-        if (in_array($pluginName, $this->activatedPluginNames)) {
+        // an activated plugin is installed by definition, and this saves reading the directory
+        if (in_array($pluginName, $this->activatedPluginNames, true)) {
             return true;
         }
 
-        return $this->pluginManager->isPluginInstalled($pluginName, true);
+        return $this->pluginManager->isPluginInFilesystem($pluginName);
     }
 
     private function enrichPluginInformation($plugin)
@@ -571,10 +581,8 @@ class Plugins
      * If plugin provides a cover image via Marketplace, we use that.
      *
      * If there's no cover image from the marketplace (e.g. for plugins not yet categorised or not providing a custom
-     * cover image), we use Matomo image for Matomo plugins and a generic cover image otherwise. The Marketplace's own
+     * cover image), we fall back to one generic image for every plugin, whoever owns it. The Marketplace's own
      * category stand-ins count as no cover image here - see {@link isCategoryCoverImage()}.
-     *
-     * The Matomo placeholder carries the Matomo wordmark, so ownership alone decides it.
      *
      * @param $plugin
      */
@@ -586,18 +594,7 @@ class Plugins
             return;
         }
 
-        $placeholder = 'uncategorised';
-
-        // use Matomo image for paid plugins, i.e. plugins without the isFree flag and with shop info
-        if (
-            in_array(strtolower($plugin['owner']), ['piwik', 'matomo-org'])
-            && empty($plugin['isFree'])
-            && !empty($plugin['shop'])
-        ) {
-            $placeholder = 'matomo';
-        }
-
-        $plugin['coverImage'] = 'plugins/Marketplace/images/categories/' . $placeholder . '.png';
+        $plugin['coverImage'] = 'plugins/Marketplace/images/categories/uncategorised.png';
     }
 
     /**

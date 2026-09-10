@@ -416,7 +416,14 @@ export default defineComponent({
       this.pushQueryToHash(query);
     },
 
+    /**
+     * Sets the tab before writing it to the hash, the way updateQuery does. The hash round trip is
+     * what normally feeds `activeTab` back, but `hashchange` only fires once the current task ends,
+     * so anything reading the rendered tabs on the next tick - `seeAllInSection` below - would
+     * otherwise still find the outgoing tab marked active and move focus onto it.
+     */
     updateTab(tabId: string) {
+      this.activeTab = tabId;
       this.updateHash({ category: tabId, pluginType: null });
     },
 

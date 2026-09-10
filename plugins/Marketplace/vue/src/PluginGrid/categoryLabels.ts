@@ -22,7 +22,7 @@ import {
 
 /** The tabs that name a plugin type rather than a category slug, and so have a fixed label. */
 const TYPE_TAB_KEYS: Record<string, string> = {
-  [TAB_ALL]: 'Marketplace_AllPlugins',
+  [TAB_ALL]: 'Marketplace_Home',
   [TAB_BUNDLES]: 'Marketplace_Bundles',
   [TAB_THEMES]: 'CorePluginsAdmin_Themes',
 };

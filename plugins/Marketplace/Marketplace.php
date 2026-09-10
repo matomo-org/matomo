@@ -103,7 +103,7 @@ class Marketplace extends \Piwik\Plugin
         $translationKeys[] = 'Marketplace_ActionInstall';
         $translationKeys[] = 'Marketplace_ActivateLicenseKey';
         $translationKeys[] = 'Marketplace_AllowedUploadFormats';
-        $translationKeys[] = 'Marketplace_AllPlugins';
+        $translationKeys[] = 'Marketplace_Home';
         $translationKeys[] = 'Marketplace_BrowseMarketplace';
         $translationKeys[] = 'Marketplace_BundleUpToXUsers';
         $translationKeys[] = 'Marketplace_Bundles';

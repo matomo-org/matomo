@@ -42,7 +42,9 @@
 }
 
 .pluginCard__plate {
-  position: relative;
+  display: flex;
+  align-items: safe center;
+  justify-content: safe center;
   height: @marketplace-card-plate-height;
   border-radius: 4px;
   overflow: hidden;
@@ -50,25 +52,27 @@
 }
 
 .pluginCard__shot {
-  @_width: 229px;
-  @_height: 137px;
-  @_overhang: 10px;
-  @_ring: 8px;
+  @_width: 234px;
+  @_gutter: 8px;
 
-  position: absolute;
-  left: 50%;
-  bottom: -@_overhang;
-  transform: translateX(-50%);
+  flex: none;
   width: @_width;
-  max-width: ~"calc(100% - @{_ring} * 2)";
-  height: @_height;
-  border-radius: 4px;
+  // The gutter keeps a narrow card from pushing the screenshot under the plate's clipped edges.
+  max-width: ~"calc(100% - @{_gutter} * 2)";
+  // Height comes from the cover ratio rather than a fixed number, so the screenshot still fills
+  // the frame edge to edge on the narrow cards where `max-width` clamps the width.
+  aspect-ratio: @marketplace-card-cover-ratio;
+  border-radius: 8px;
   overflow: hidden;
   background: @theme-color-background-contrast;
-  box-shadow: 0 0 0 @_ring @theme-color-border-brand-light;
+  // The design's brand-tinted lift, which is what makes the screenshot read as floating on the
+  // plate. No theme token carries a tinted glow - @theme-shadow-overlay is the neutral menu one.
+  box-shadow: 0 5px 20px 0 rgba(0, 133, 128, 0.2);
   transition: transform 0.5s ease-out;
 }
 
+// The frame already matches the marketplace's 880x480 cover art, so `cover` crops nothing; it is
+// here to keep an off-spec image filling the frame instead of letterboxing inside it.
 .pluginCard__shotImage {
   width: 100%;
   height: 100%;
@@ -77,7 +81,7 @@
 }
 
 .pluginCard:hover .pluginCard__shot {
-  transform: translateX(-50%) scale(1.02);
+  transform: scale(1.02);
 }
 
 .pluginCard__chipList {
@@ -86,7 +90,6 @@
   align-items: safe center;
   gap: @marketplace-card-chip-gap;
   margin-top: 12px;
-  min-height: @marketplace-card-chip-height;
 }
 
 .pluginCard__chipItem {
@@ -123,14 +126,11 @@
   white-space: nowrap;
 }
 
+// The card carries the whole hover affordance - border, shadow, lift and the shot's scale - so the
+// title holds its colour throughout; the link is here for the deep link, not for link styling.
 .pluginCard__titleLink {
   color: @theme-color-text;
   text-decoration: none;
-
-  &:hover,
-  &:focus-visible {
-    color: @theme-color-link;
-  }
 
   &::after {
     content: '';
@@ -155,7 +155,10 @@
   -webkit-line-clamp: @_lines;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  min-height: @_lines * @_lineHeight;
+  // No height of its own, deliberately. The clamp sizes the box to the lines it kept, and any
+  // height or min-height taller than that is space the browser paints the next line into - which
+  // is what left half a fourth line showing under the ellipsis. Cards still line up: the grid
+  // stretches them to a common height and `.pluginCard__actions` pins the CTA with `margin-top`.
 }
 
 .pluginCard__meta {
@@ -276,4 +279,19 @@
   .pluginCard__shot {
     transition: none;
   }
+}
+
+// override: the bundled Bootstrap reset in Morpheus (base/bootstrap.css) underlines every anchor on
+// `a:hover, a:focus`, and at two components it outranks the block's own `text-decoration: none`.
+a.pluginCard__titleLink:hover,
+a.pluginCard__titleLink:focus {
+  text-decoration: none;
+}
+
+// override: Morpheus's legacy focus rules - `:focus { outline: thin dotted }` in general/_default.less
+// and `a:focus` in base/bootstrap.css - fire on a plain mouse click. This link's `::after` covers the
+// whole card, so clicking anywhere on a card drew a ring around the title. Only the keyboard ring
+// from `a:focus-visible` is wanted, so the click case is turned off here.
+a.pluginCard__titleLink:focus:not(:focus-visible) {
+  outline: none;
 }
