@@ -1433,6 +1433,64 @@ class RangeTest extends BasePeriodTest
         ];
     }
 
+    /**
+     * @dataProvider getRelativeComparisonDateSpellings
+     */
+    public function testGetLastDateResolvesARelativeDateOnTheGivenTimezoneDay($date)
+    {
+        // 04:37 on the 25th for the given timezone, still the 24th for the server.
+        Date::$now = strtotime('2020-12-24 16:37:00');
+
+        [$strLastDate, $lastPeriod] = Range::getLastDate($date, 'day', 'UTC+12');
+
+        $this->assertEquals('2020-12-24', $strLastDate);
+        $this->assertEquals('2020-12-24', $lastPeriod->toString());
+    }
+
+    public function getRelativeComparisonDateSpellings()
+    {
+        return [
+            ['today'],
+            // The date comes from the request, so it arrives in whatever spelling the caller
+            // sent, and each spelling has to compare against the same earlier day.
+            ['TODAY'],
+            [' today '],
+        ];
+    }
+
+    public function testGetLastDateWithoutATimezoneComparesAgainstTheServerDay()
+    {
+        Date::$now = strtotime('2020-12-24 16:37:00');
+
+        [$strLastDate] = Range::getLastDate('today', 'day');
+
+        $this->assertEquals('2020-12-23', $strLastDate);
+    }
+
+    /**
+     * @dataProvider getDatesWithoutAComparisonPeriod
+     */
+    public function testGetLastDateStillRefusesADateItCannotCompare($date)
+    {
+        Date::$now = strtotime('2020-12-24 16:37:00');
+
+        [$strLastDate, $lastPeriod] = Range::getLastDate($date, 'day', 'UTC+12');
+
+        $this->assertFalse($strLastDate);
+        $this->assertFalse($lastPeriod);
+    }
+
+    public function getDatesWithoutAComparisonPeriod()
+    {
+        return [
+            ['last7'],
+            ['previous30'],
+            // Resolving the keyword must not turn this into a date with a comparison period.
+            ['last-week'],
+            ['last week'],
+        ];
+    }
+
     private function setUpSiteAheadOfTheServerDay()
     {
         // 04:37 on the 25th for the site, still the 24th for the server.
