@@ -418,10 +418,23 @@ class API extends \Piwik\Plugin\API
 
             $actionsByVisitId = array();
 
+            $visitorDetailsManipulators = Visitor::getAllVisitorDetailsInstances();
+
+            // Give each plugin the whole result set before the per-visit loop below, so a
+            // per-visit query can be answered from one batched query instead of one round
+            // trip per row. Columnar engines pay for the round trips in a way MySQL's index
+            // seeks hide, and the loop is the same shape either way.
+            $visitRows = array();
+            foreach ($table->getRows() as $visitRow) {
+                $visitRows[] = $visitRow->getColumns();
+            }
+
+            foreach ($visitorDetailsManipulators as $instance) {
+                $instance->prefetchVisitorDetails($visitRows);
+            }
+
             if (!$doNotFetchActions) {
                 $visitIds = $table->getColumn('idvisit');
-
-                $visitorDetailsManipulators = Visitor::getAllVisitorDetailsInstances();
 
                 foreach ($visitorDetailsManipulators as $instance) {
                     $instance->provideActionsForVisitIds($actionsByVisitId, $visitIds);

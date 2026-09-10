@@ -105,6 +105,28 @@ abstract class VisitorDetailsAbstract
     }
 
     /**
+     * Called once with every visit in the current result set, before extendVisitorDetails() is
+     * called for any of them. Implement it to replace a per-visit query with a single batched
+     * one, keeping the result on the instance for extendVisitorDetails() to read.
+     *
+     * The instances are reused across the whole result set, so state set here survives into
+     * every later call. Rows are the raw visit rows, so they still carry `idvisit` and
+     * `idvisitor`. An implementation must stay optional: extendVisitorDetails() has to work
+     * unchanged when this was never called, because not every Live code path goes through it.
+     *
+     * **Example:**
+     *
+     *     public function prefetchVisitorDetails(array $visits) {
+     *         $this->cache = Model::getMetricsByVisitorIds(array_column($visits, 'idvisitor'));
+     *     }
+     *
+     * @param array $visits  raw visit rows in the current result set
+     */
+    public function prefetchVisitorDetails(array $visits)
+    {
+    }
+
+    /**
      * Allows filtering the provided actions
      *
      * **Example:**

@@ -32,6 +32,69 @@ class VisitorDetails extends VisitorDetailsAbstract
             'lifeTimeConversions' => 0,
             'lifeTimeEcommerceItems' => 0);
 
+    /**
+     * How many visitor ids go into one batched lifetime-metrics query. Live asks for 100 rows
+     * by default; the cap only matters when a caller raises filter_limit a long way.
+     */
+    private const LIFETIME_PREFETCH_CHUNK = 500;
+
+    /**
+     * Lifetime metric rows from prefetchVisitorDetails(), keyed "idSite_visitorIdHex". A key
+     * present with an empty array means "asked for, has no ecommerce conversions" - which is
+     * most visitors, and the reason the key has to exist rather than be absent.
+     *
+     * @var array<string, array>|null
+     */
+    private $lifeTimeStatsByVisitor = null;
+
+    public function prefetchVisitorDetails(array $visits)
+    {
+        $visitorsBySite = array();
+
+        foreach ($visits as $visit) {
+            if (empty($visit['idsite']) || empty($visit['idvisitor'])) {
+                continue;
+            }
+
+            $idSite = (int) $visit['idsite'];
+
+            if (!Site::isEcommerceEnabledFor($idSite)) {
+                continue;
+            }
+
+            // Keyed by the hex form so the same visitor appearing on several visits is asked
+            // for once, which is the common case on a visits log page.
+            $visitorsBySite[$idSite][bin2hex($visit['idvisitor'])] = $visit['idvisitor'];
+        }
+
+        if (empty($visitorsBySite)) {
+            return;
+        }
+
+        if (null === $this->lifeTimeStatsByVisitor) {
+            $this->lifeTimeStatsByVisitor = array();
+        }
+
+        foreach ($visitorsBySite as $idSite => $visitors) {
+            foreach (array_chunk($visitors, self::LIFETIME_PREFETCH_CHUNK, true) as $chunk) {
+                // Seed every requested visitor, so a visitor with no conversions is a cache hit
+                // holding an empty result rather than a miss that falls back to its own query.
+                foreach (array_keys($chunk) as $visitorIdHex) {
+                    $this->lifeTimeStatsByVisitor[$idSite . '_' . $visitorIdHex] = array();
+                }
+
+                $sql  = $this->getSqlEcommerceConversionsLifeTimeMetricsForIdGoal(count($chunk));
+                $rows = $this->getDb()->fetchAll($sql, array_merge(array($idSite), array_values($chunk)));
+
+                foreach ($rows as $row) {
+                    $key = $idSite . '_' . bin2hex($row['idvisitor']);
+                    unset($row['idvisitor']);
+                    $this->lifeTimeStatsByVisitor[$key][] = $row;
+                }
+            }
+        }
+    }
+
     public function extendVisitorDetails(&$visitor)
     {
         if (Site::isEcommerceEnabledFor($visitor['idSite'])) {
@@ -145,8 +208,16 @@ class VisitorDetails extends VisitorDetailsAbstract
      */
     protected function queryEcommerceConversionsVisitorLifeTimeMetricsForVisitor($idSite, $idVisitor)
     {
-        $sql             = $this->getSqlEcommerceConversionsLifeTimeMetricsForIdGoal();
-        $lifeTimeStats = $this->getDb()->fetchAll($sql, array($idSite, @Common::hex2bin($idVisitor)));
+        $cacheKey = $idSite . '_' . $idVisitor;
+
+        if (isset($this->lifeTimeStatsByVisitor[$cacheKey])) {
+            $lifeTimeStats = $this->lifeTimeStatsByVisitor[$cacheKey];
+        } else {
+            // No prefetch for this visitor - either prefetchVisitorDetails() was never called
+            // on this code path, or the visitor id was not readable from the raw row.
+            $sql           = $this->getSqlEcommerceConversionsLifeTimeMetricsForIdGoal();
+            $lifeTimeStats = $this->getDb()->fetchAll($sql, array($idSite, @Common::hex2bin($idVisitor)));
+        }
 
         $defaultStats = array_fill_keys([GoalManager::IDGOAL_CART, GoalManager::IDGOAL_ORDER], self::DEFAULT_LIFETIME_STAT);
 
@@ -175,9 +246,19 @@ class VisitorDetails extends VisitorDetailsAbstract
      * `idgoal` for abandoned carts and orders.
      * @return string
      */
-    protected function getSqlEcommerceConversionsLifeTimeMetricsForIdGoal()
+    protected function getSqlEcommerceConversionsLifeTimeMetricsForIdGoal($visitorCount = 0)
     {
+        // Batched form: one query for a page of visitors instead of one per visitor. The
+        // predicate is the same, widened from = to IN, and the extra GROUP BY column splits
+        // the result back out per visitor.
+        $visitorSelect  = $visitorCount > 0 ? 'log_visit.idvisitor AS idvisitor,' : '';
+        $visitorGroupBy = $visitorCount > 0 ? 'log_visit.idvisitor, ' : '';
+        $visitorWhere   = $visitorCount > 0
+            ? 'IN (' . Common::getSqlStringFieldsArray(array_fill(0, $visitorCount, '')) . ')'
+            : '= ?';
+
         $sql = "SELECT
+                    $visitorSelect
                     idgoal,
                     COALESCE(SUM(" . LogAggregator::getSqlRevenue('revenue') . "), 0) as lifeTimeRevenue,
                     COUNT(*) as lifeTimeConversions,
@@ -187,9 +268,9 @@ class VisitorDetails extends VisitorDetailsAbstract
 					    ON log_visit.idvisit = log_conversion.idvisit
 					WHERE
 					        log_visit.idsite = ?
-					    AND log_visit.idvisitor = ?
+					    AND log_visit.idvisitor $visitorWhere
 						AND log_conversion.idgoal IN ( " . GoalManager::IDGOAL_CART . ", " . GoalManager::IDGOAL_ORDER . " )
-                    GROUP BY idgoal
+                    GROUP BY {$visitorGroupBy}idgoal
         ";
         return $sql;
     }
