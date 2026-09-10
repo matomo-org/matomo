@@ -82,12 +82,12 @@ class AIProviderResponse
     private $webSearch;
 
     /**
-     * @param bool $webSearchEnabled Ignored.
-     * @deprecated since Matomo 5.14.0 the $webSearchEnabled parameter is ignored; pass a
-     *             {@link WebSearchUsage} as $webSearch instead. The parameter is kept so
-     *             positional callers written against Matomo 5.13.0 keep working, and will
-     *             be removed in Matomo 6.
+     * @param bool $webSearchEnabled Deprecated since Matomo 5.14.0 and ignored; pass a
+     *                               {@link WebSearchUsage} as $webSearch instead. Kept in place so
+     *                               positional callers written against Matomo 5.13.0 keep working.
+     *                               Will be removed in Matomo 6.
      */
+    // @phpstan-ignore constructor.unusedParameter ($webSearchEnabled is deliberately ignored, see above)
     public function __construct(
         string $providerId,
         string $providerName,
@@ -108,9 +108,6 @@ class AIProviderResponse
         $this->inputTokens = $inputTokens;
         $this->outputTokens = $outputTokens;
         $this->reasoningLevel = $reasoningLevel;
-        // Deprecated and superseded by $webSearch; discarded so static analysis
-        // sees it consumed rather than forgotten.
-        unset($webSearchEnabled);
         $this->executionTimeMs = $executionTimeMs;
         $this->stopReason = $stopReason;
         $this->webSearch = $webSearch ?? WebSearchUsage::none();

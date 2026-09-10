@@ -7,10 +7,14 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ## Matomo 5.14.0
 
 ### Breaking Changes
-* The non-functional placeholder `Piwik\Plugins\AIProviders\Provider\AIProvider::isWebSearchUsed()`
-  has been removed now that provider web search is implemented. It always returned `false` and no
-  bundled provider overrode it, so a subclass overriding it had no effect on the response. Providers
-  now declare the capability with `supportsWebSearch()` instead.
+* The placeholder `Piwik\Plugins\AIProviders\Provider\AIProvider::isWebSearchUsed()` has been removed
+  now that provider web search is implemented. Its base implementation always returned `false` and no
+  bundled provider overrode it, but the value it returned was passed into the response, so a
+  third-party provider that overrode it did control `AIProviderResponse::isWebSearchEnabled()`. Such a
+  provider must now override `supportsWebSearch()` to declare the capability and pass a
+  `Piwik\Plugins\AIProviders\WebSearchUsage` to `buildResponse()`, which reports the searches, queries
+  and citations the completion actually produced. Overriding the removed method has no effect and
+  raises no error, so check for it when upgrading a provider plugin.
 * The interface `Piwik\Settings\Interfaces\PolicyComparisonInterface` gained four methods used by the granular compliance dashboard: `getPolicySettingId()`, `isExternallyManagedByPolicyPage()`, `getWhatItDoes()` and `getImpact()`. Plugins that implement the interface directly must implement them. Plugins using `Piwik\Settings\Interfaces\Traits\PolicyComparisonTrait` (as all known implementers do) inherit default implementations and are not affected.
 * Exporting a report for a single goal (a goals table or a bar/pie/evolution chart showing one goal's
   conversions or revenue) now returns only the columns shown in the UI, by adding `showColumns` to the
@@ -76,26 +80,6 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * `UsersManager.setUserAccess` now requires `passwordConfirmation` to grant the `admin` role, in either the string or the array form of `access`, on top of the existing check for granting the anonymous user `view` access. As before this applies only to session-authenticated requests, which includes any request sending `force_api_session=1`; plain `token_auth`, `Authorization: Bearer` and CLI calls are unaffected.
 
 ### New APIs
-* `Piwik\Plugins\AIProviders` now implements provider-side web search, also called grounding, so an AI
-  feature can ask the provider to search the web before answering and then read the sources it used.
-  `Piwik\Plugins\AIProviders\AIRequest::withWebSearchEnabled()` is no longer advisory: Anthropic,
-  Google and OpenAI honour it, and AWS Bedrock and the custom provider reject a grounded request with
-  an `AIProviderClientException` rather than silently answering ungrounded.
-  * `AIProviderService::canUseWebSearch($callerPluginName, $requestedProviderId = null)` reports
-    whether a grounded completion can run, answered for the provider `complete()` would actually
-    resolve to, so a feature can degrade before spending anything. The provider entries returned by
-    `getProviderStatusesForCaller()` gained a matching `supportsWebSearch` key.
-  * `AIProviderResponse::wasWebSearchUsed()` reports whether a search actually ran, which is not the
-    same as whether one was requested: given the tool, a model can decide the prompt needs none.
-    `getWebSearchCitations()` returns the deduplicated `url`, `title` and `domain` of each source,
-    `getWebSearchRequestCount()` the number of searches billed, and `getWebSearchQueries()` the
-    queries the model issued where the provider echoes them. The new `Piwik\Plugins\AIProviders\WebSearchUsage`
-    normalises the three providers' incompatible grounding shapes into that one shape.
-  * `AIRequest::withTimeoutSeconds()` overrides the provider HTTP timeout, which now defaults to 120s
-    for a grounded completion and stays at 30s otherwise. Grounded completions are intended for CLI
-    commands and scheduled tasks, because 120s exceeds PHP's default `max_execution_time`.
-  * Grounding is not a marginal cost: every provider charges per search and bills the retrieved page
-    content as input tokens on top.
 * The sparklines visualization has been redesigned as a responsive card grid of metric tiles. Plugin-facing additions that come with it:
   * The new `Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines\Config::$use_metric_labels_as_titles` property lets a sparklines view use its own metric translations as the card titles instead of the generic metric names. Intended for views that relabel shared columns with section-specific names, e.g. the Ecommerce Overview.
   * The `sparkline(src, width, height)` Twig helper accepts optional `width`/`height` display-size parameters (in px, defaults `Piwik\Visualization\Sparkline::DEFAULT_WIDTH`/`DEFAULT_HEIGHT`); the sparkline PNG is rendered at twice the displayed size for hi-DPI screens.

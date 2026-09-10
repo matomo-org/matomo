@@ -126,15 +126,31 @@ final class WebSearchUsage
             ];
         }
 
-        $normalizedQueries = [];
+        return new self($normalized, $requestCount, self::normalizeQueries($queries));
+    }
+
+    /**
+     * Trims, drops empties and deduplicates a provider's reported queries.
+     *
+     * Public because Google and Anthropic derive their search count from the
+     * number of queries, and counting the raw list would report more searches
+     * than {@link getQueries()} lists back.
+     *
+     * @param list<string> $queries
+     * @return list<string>
+     */
+    public static function normalizeQueries(array $queries): array
+    {
+        $normalized = [];
+
         foreach ($queries as $query) {
             $query = self::cap(trim($query), self::MAX_QUERY_LENGTH);
-            if ($query !== '' && !in_array($query, $normalizedQueries, true)) {
-                $normalizedQueries[] = $query;
+            if ($query !== '' && !in_array($query, $normalized, true)) {
+                $normalized[] = $query;
             }
         }
 
-        return new self($normalized, $requestCount, $normalizedQueries);
+        return $normalized;
     }
 
     /**

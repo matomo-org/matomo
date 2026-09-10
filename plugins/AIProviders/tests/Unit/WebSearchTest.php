@@ -105,7 +105,7 @@ class WebSearchTest extends TestCase
         $claude = new WebSearchRecordingAnthropic();
         $claude->mockResponse = [
             'content' => [
-                ['type' => 'text', 'text' => "I'll search for that. "],
+                ['type' => 'text', 'text' => "I'll search for that."],
                 [
                     'type' => 'server_tool_use',
                     'id' => 'srvtoolu_1',
@@ -126,6 +126,8 @@ class WebSearchTest extends TestCase
 
         $response = $claude->complete($this->groundedRequest(), self::CLAUDE_CONFIG);
 
+        // A space is inserted because the search blocks stood between the two, and
+        // Anthropic pads neither side. Without it the sentences ran together.
         $this->assertSame("I'll search for that. Matomo is a leading open source option.", $response->getText());
     }
 
@@ -179,6 +181,62 @@ class WebSearchTest extends TestCase
         $this->assertFalse($response->wasWebSearchUsed());
     }
 
+    /**
+     * Anthropic's own documented grounded shape: the preamble ends with a full
+     * stop and no trailing space, and the post-search block does not start with
+     * one. Joining these with nothing produced "born.Based on the search".
+     */
+    public function testAnthropicSpacesSentencesSeparatedByTheSearchBlocks(): void
+    {
+        $claude = new WebSearchRecordingAnthropic();
+        $claude->mockResponse = [
+            'content' => [
+                ['type' => 'text', 'text' => "I'll search for when Claude Shannon was born."],
+                [
+                    'type' => 'server_tool_use',
+                    'id' => 'srvtoolu_1',
+                    'name' => 'web_search',
+                    'input' => ['query' => 'Claude Shannon birth date'],
+                ],
+                [
+                    'type' => 'web_search_tool_result',
+                    'tool_use_id' => 'srvtoolu_1',
+                    'content' => [
+                        ['type' => 'web_search_result', 'url' => 'https://example.org/s', 'title' => 'Shannon'],
+                    ],
+                ],
+                ['type' => 'text', 'text' => 'Based on the search results, '],
+                ['type' => 'text', 'text' => 'he was born on April 30, 1916.'],
+            ],
+            'stop_reason' => 'end_turn',
+        ];
+
+        $response = $claude->complete($this->groundedRequest(), self::CLAUDE_CONFIG);
+
+        $this->assertSame(
+            "I'll search for when Claude Shannon was born. Based on the search results, he was born on April 30, 1916.",
+            $response->getText()
+        );
+    }
+
+    /**
+     * A thinking block is a boundary too, but it precedes the whole answer, so
+     * nothing may be prepended to it.
+     */
+    public function testAnthropicDoesNotPrependASpaceAfterAThinkingBlock(): void
+    {
+        $claude = new WebSearchRecordingAnthropic();
+        $claude->mockResponse = [
+            'content' => [
+                ['type' => 'thinking', 'thinking' => 'Considering the options.'],
+                ['type' => 'text', 'text' => 'Matomo.'],
+            ],
+            'stop_reason' => 'end_turn',
+        ];
+
+        $this->assertSame('Matomo.', $claude->complete($this->plainRequest(), self::CLAUDE_CONFIG)->getText());
+    }
+
     public function testAnthropicParsesCitationsQueriesAndRequestCount(): void
     {
         $claude = new WebSearchRecordingAnthropic();
@@ -220,7 +278,7 @@ class WebSearchTest extends TestCase
 
         $response = $claude->complete($this->groundedRequest(), self::CLAUDE_CONFIG);
 
-        $this->assertTrue($response->isWebSearchEnabled());
+        $this->assertTrue($response->wasWebSearchUsed());
         $this->assertSame(3, $response->getWebSearchRequestCount());
         $this->assertSame(['best web analytics'], $response->getWebSearchQueries());
         // Cited sources come before merely returned ones.
@@ -261,7 +319,7 @@ class WebSearchTest extends TestCase
 
         $this->assertSame([], $response->getWebSearchCitations());
         $this->assertSame(1, $response->getWebSearchRequestCount());
-        $this->assertTrue($response->isWebSearchEnabled(), 'the search was billed even though it failed');
+        $this->assertTrue($response->wasWebSearchUsed(), 'the search was billed even though it failed');
     }
 
     public function testAnthropicReportsSearchUnusedWhenTheModelChoseNotToSearch(): void
@@ -275,7 +333,7 @@ class WebSearchTest extends TestCase
 
         $response = $claude->complete($this->groundedRequest(), self::CLAUDE_CONFIG);
 
-        $this->assertFalse($response->isWebSearchEnabled());
+        $this->assertFalse($response->wasWebSearchUsed());
         $this->assertSame(0, $response->getWebSearchRequestCount());
         $this->assertSame([], $response->getWebSearchCitations());
     }
@@ -438,7 +496,7 @@ class WebSearchTest extends TestCase
 
         $response = $gemini->complete($this->groundedRequest(), self::GEMINI_CONFIG);
 
-        $this->assertFalse($response->isWebSearchEnabled());
+        $this->assertFalse($response->wasWebSearchUsed());
         $this->assertSame(0, $response->getWebSearchRequestCount());
     }
 
@@ -537,7 +595,7 @@ class WebSearchTest extends TestCase
 
         $response = $openAI->complete($this->groundedRequest(), self::OPENAI_CONFIG);
 
-        $this->assertSame("First part.\nSecond part.", $response->getText());
+        $this->assertSame('First part. Second part.', $response->getText());
     }
 
     public function testOpenAiParsesUrlCitationAnnotationsAndCountsSearchCalls(): void
@@ -571,7 +629,7 @@ class WebSearchTest extends TestCase
 
         $response = $openAI->complete($this->groundedRequest(), self::OPENAI_CONFIG);
 
-        $this->assertTrue($response->isWebSearchEnabled());
+        $this->assertTrue($response->wasWebSearchUsed());
         $this->assertSame(2, $response->getWebSearchRequestCount());
         $this->assertSame(['best web analytics'], $response->getWebSearchQueries());
         $this->assertSame([
@@ -606,10 +664,12 @@ class WebSearchTest extends TestCase
     }
 
     /**
-     * Parts of one message join with nothing between them, separate messages
-     * with a newline: the first is a citation split, the second distinct prose.
+     * Parts of one message are a sentence split at a citation boundary and carry
+     * their own spacing, so nothing is inserted. A separate message starts new
+     * prose and OpenAI pads neither side, so one space is inserted. Never a
+     * newline: a boundary can fall inside a JSON string value.
      */
-    public function testOpenAiJoinsPartsWithinAMessageButNewlinesBetweenMessages(): void
+    public function testOpenAiJoinsPartsWithinAMessageAndSpacesBetweenMessages(): void
     {
         $openAI = new WebSearchRecordingOpenAI();
         $openAI->mockResponse = [
@@ -625,7 +685,29 @@ class WebSearchTest extends TestCase
 
         $response = $openAI->complete($this->groundedRequest(), self::OPENAI_CONFIG);
 
-        $this->assertSame("Matomo is open source.\nIt self-hosts.", $response->getText());
+        $this->assertSame('Matomo is open source. It self-hosts.', $response->getText());
+    }
+
+    /**
+     * The boundary between two output messages must not be a newline: a grounded
+     * JSON answer can be split across them, and a raw newline inside a string
+     * value makes the response undecodable.
+     */
+    public function testOpenAiGroundedJsonSurvivesAMessageBoundary(): void
+    {
+        $openAI = new WebSearchRecordingOpenAI();
+        $openAI->mockResponse = [
+            'output' => [
+                ['type' => 'web_search_call', 'action' => ['type' => 'search', 'query' => 'analytics']],
+                ['type' => 'message', 'content' => [['type' => 'output_text', 'text' => '{"verdict": "Matomo is ']]],
+                ['type' => 'message', 'content' => [['type' => 'output_text', 'text' => 'open source"}']]],
+            ],
+            'status' => 'completed',
+        ];
+
+        $response = $openAI->complete($this->groundedRequest()->withJsonResponse(), self::OPENAI_CONFIG);
+
+        $this->assertSame(['verdict' => 'Matomo is open source'], $response->getJsonData());
     }
 
     public function testOpenAiIncompleteDetailsReasonWinsOverStatusAsStopReason(): void
@@ -680,7 +762,7 @@ class WebSearchTest extends TestCase
 
         $this->assertArrayNotHasKey('tools', $custom->sentPayload);
         $this->assertSame(30, $custom->sentTimeout, 'no grounded timeout for a provider that cannot ground');
-        $this->assertFalse($response->isWebSearchEnabled());
+        $this->assertFalse($response->wasWebSearchUsed());
         $this->assertSame([], $response->getWebSearchCitations());
         $this->assertNull(
             $response->getWebSearchRequestCount(),

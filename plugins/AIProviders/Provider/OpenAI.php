@@ -141,39 +141,40 @@ class OpenAI extends AIProvider
     }
 
     /**
-     * Concatenates the `output_text` parts of every `message` item. The output
-     * is a typed item list (`reasoning`, `web_search_call`, `message`, …) and a
-     * grounded answer can span several `message` items.
+     * Assembles the answer from the `output_text` parts of every `message` item.
+     * The output is a typed item list (`reasoning`, `web_search_call`,
+     * `message`, …) and a grounded answer can span several `message` items.
      *
-     * Parts within one message are joined with nothing between them, because a
-     * grounded answer splits mid-sentence at a citation boundary and each part
-     * carries its own spacing; a separator there would break the prose, and in
-     * JSON mode a newline inside a string value makes the response undecodable.
-     * Separate messages are distinct blocks of prose and keep a newline.
+     * Parts of one message continue a sentence; a new message, or any other item
+     * between them, starts one. Spacing across both is handled by
+     * {@link appendAnswerText()}, which never inserts a newline, so a boundary
+     * falling inside a JSON string value cannot make the answer undecodable.
      *
      * @param list<array<string, mixed>> $outputItems
      */
     private function extractResponsesText(array $outputItems): string
     {
-        $messages = [];
+        $answer = '';
+        $atBoundary = false;
+
         foreach ($outputItems as $item) {
             if (($item['type'] ?? null) !== 'message' || !is_array($item['content'] ?? null)) {
+                $atBoundary = true;
                 continue;
             }
 
-            $parts = [];
             foreach ($item['content'] as $part) {
                 if (is_array($part) && ($part['type'] ?? null) === 'output_text' && is_string($part['text'] ?? null)) {
-                    $parts[] = $part['text'];
+                    $answer = $this->appendAnswerText($answer, $part['text'], $atBoundary);
+                    $atBoundary = false;
                 }
             }
 
-            if ($parts !== []) {
-                $messages[] = implode('', $parts);
-            }
+            // The next message is separate prose, not a continuation.
+            $atBoundary = true;
         }
 
-        return implode("\n", $messages);
+        return $answer;
     }
 
     /**

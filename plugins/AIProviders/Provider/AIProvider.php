@@ -422,6 +422,41 @@ abstract class AIProvider
     }
 
     /**
+     * Appends one fragment of answer text to the answer being assembled,
+     * inserting a single space only where a boundary needs one.
+     *
+     * Grounded answers arrive in pieces, and the two kinds of gap between them
+     * need opposite treatment:
+     *
+     * - Two *adjacent* text fragments are one sentence split at a citation
+     *   boundary, and each carries its own spacing, so nothing may be inserted.
+     *   Anthropic sends `"Matomo is "` then `"the leading option"`.
+     * - Fragments separated by something else, a tool-use block, a skipped
+     *   reasoning part or a separate output message, are separate sentences and
+     *   the provider does not pad them. Anthropic sends
+     *   `"I'll search for that."` then the search blocks then
+     *   `"Based on the search results, "`, which run together unjoined.
+     *
+     * A space rather than a newline, because a fragment boundary can fall inside
+     * a JSON string value, where a raw newline makes the response undecodable.
+     * Nothing is inserted when either side already carries boundary whitespace.
+     *
+     * @param bool $atBoundary Whether something other than answer text stood between the two.
+     */
+    protected function appendAnswerText(string $answer, string $fragment, bool $atBoundary): string
+    {
+        if ($answer === '' || $fragment === '') {
+            return $answer . $fragment;
+        }
+
+        $needsSpace = $atBoundary
+            && rtrim($answer) === $answer
+            && ltrim($fragment) === $fragment;
+
+        return $answer . ($needsSpace ? ' ' : '') . $fragment;
+    }
+
+    /**
      * Whether the provider has a server-side web search tool that
      * {@link complete()} can switch on. {@link AIProviderService::complete()}
      * rejects a grounded request for a provider that returns false.

@@ -236,7 +236,7 @@ class ConfigurationTest extends IntegrationTestCase
         $this->assertSame(12, $response->getInputTokens());
         $this->assertSame(7, $response->getOutputTokens());
         $this->assertSame(AIRequest::REASONING_NONE, $response->getReasoningLevel());
-        $this->assertFalse($response->isWebSearchEnabled());
+        $this->assertFalse($response->wasWebSearchUsed());
         $this->assertIsInt($response->getExecutionTimeMs());
     }
 
@@ -280,7 +280,7 @@ class ConfigurationTest extends IntegrationTestCase
 
         $this->assertSame('Blue light scatters most.', $response->getText());
         $this->assertSame(AIRequest::REASONING_NONE, $response->getReasoningLevel());
-        $this->assertFalse($response->isWebSearchEnabled());
+        $this->assertFalse($response->wasWebSearchUsed());
         $this->assertIsArray($capturedBody);
         $this->assertSame('gpt-4o-mini', $capturedBody['model']);
         $this->assertSame(64, $capturedBody['max_completion_tokens']);
@@ -363,7 +363,7 @@ class ConfigurationTest extends IntegrationTestCase
         );
 
         $this->assertSame('Blue light scatters most.', $response->getText());
-        $this->assertTrue($response->isWebSearchEnabled());
+        $this->assertTrue($response->wasWebSearchUsed());
         $this->assertSame(1, $response->getWebSearchRequestCount());
         $this->assertSame(['sky colour'], $response->getWebSearchQueries());
         $this->assertSame(

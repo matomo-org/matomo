@@ -134,7 +134,7 @@ class AIRequest
      * Whether the caller wants the provider's server-side web search (grounding).
      * Providers without one reject the request — see
      * {@link AIProviderService::complete()}. The model still decides whether a
-     * prompt needs a search, so read {@link AIProviderResponse::isWebSearchEnabled()}
+     * prompt needs a search, so read {@link AIProviderResponse::wasWebSearchUsed()}
      * for what actually happened.
      *
      * Never free: providers charge per search on top of the retrieved page

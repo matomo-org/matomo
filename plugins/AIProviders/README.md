@@ -130,6 +130,11 @@ provider rather than the one you asked for.
 not override that. A grounded request can come back with no search at all, so read
 `wasWebSearchUsed()` and `getWebSearchRequestCount()` on the response for what actually happened.
 
+Grounded answers arrive in fragments, which AIProviders reassembles: adjacent fragments are one
+sentence split at a citation boundary and are joined as-is, while a fragment after a tool block or a
+separate output message starts a new sentence and gets a single space. Never a newline, so a boundary
+falling inside a JSON string value cannot break `getJsonData()`.
+
 **Citation titles and queries are untrusted model output.** They are length-capped but otherwise
 verbatim, so escape them where you render them. URLs are guaranteed to be `http(s)`.
 

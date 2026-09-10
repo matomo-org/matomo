@@ -140,14 +140,10 @@ class Anthropic extends AIProvider
     }
 
     /**
-     * Concatenates every `text` block in order. The answer is not a single
+     * Assembles the answer from every `text` block in order. It is not a single
      * block: extended thinking puts a `thinking` block first, and web search
      * splits the prose around `server_tool_use`/`web_search_tool_result` blocks.
-     *
-     * Joined with nothing between them, because a grounded answer is split
-     * mid-sentence at a citation boundary and each fragment carries its own
-     * spacing. Inserting a separator would break the prose, and in JSON mode a
-     * newline landing inside a string value makes the response undecodable.
+     * Spacing across those gaps is handled by {@link appendAnswerText()}.
      *
      * @param mixed $content
      */
@@ -157,18 +153,26 @@ class Anthropic extends AIProvider
             return '';
         }
 
-        $texts = [];
+        $answer = '';
+        $atBoundary = false;
+
         foreach ($content as $block) {
             if (!is_array($block)) {
                 continue;
             }
 
             if (($block['type'] ?? null) === 'text' && is_string($block['text'] ?? null)) {
-                $texts[] = $block['text'];
+                $answer = $this->appendAnswerText($answer, $block['text'], $atBoundary);
+                $atBoundary = false;
+                continue;
             }
+
+            // A thinking, server_tool_use or web_search_tool_result block: the
+            // next text block starts a new sentence rather than continuing one.
+            $atBoundary = true;
         }
 
-        return implode('', $texts);
+        return $answer;
     }
 
     /**
@@ -229,12 +233,13 @@ class Anthropic extends AIProvider
         }
 
         $requestCount = $response['usage']['server_tool_use']['web_search_requests'] ?? null;
+        // Normalised first so the fallback count cannot exceed what
+        // getWebSearchQueries() lists back.
+        $queries = WebSearchUsage::normalizeQueries($queries);
 
         return WebSearchUsage::fromProviderData(
             array_merge($cited, $returned),
-            // Counted on the deduplicated queries so the fallback cannot exceed
-            // what getWebSearchQueries() reports.
-            is_numeric($requestCount) ? (int) $requestCount : count(array_unique($queries)),
+            is_numeric($requestCount) ? (int) $requestCount : count($queries),
             $queries
         );
     }

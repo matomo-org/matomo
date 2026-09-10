@@ -41,12 +41,14 @@ class Google extends AIProvider
      *
      * Deliberately a fixed list rather than a public suffix list: this only has
      * to reject the handful of titles Google returns as filenames, and a wrong
-     * answer costs one bogus entry in a domain count.
+     * answer costs one bogus entry in a domain count. Extensions that are also
+     * real top-level domains (`zip`, `mov`) are left out, so a genuine domain is
+     * never discarded.
      */
     private const NON_HOSTNAME_SUFFIXES = [
         'pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'txt', 'csv', 'rtf',
-        'html', 'htm', 'php', 'aspx', 'json', 'xml', 'zip', 'gz',
-        'jpg', 'jpeg', 'png', 'gif', 'svg', 'webp', 'mp3', 'mp4', 'mov',
+        'html', 'htm', 'php', 'aspx', 'json', 'xml', 'gz',
+        'jpg', 'jpeg', 'png', 'gif', 'svg', 'webp', 'mp3', 'mp4',
     ];
 
     public function __construct()
@@ -147,13 +149,11 @@ class Google extends AIProvider
     }
 
     /**
-     * Concatenates every text part in order: a grounded candidate returns
-     * several, so reading `parts[0]` truncated the answer. Parts flagged
-     * `thought` are the reasoning summary, not the answer, and are skipped.
-     *
-     * Joined with nothing between them: the parts split mid-sentence and carry
-     * their own spacing, and in JSON mode a separator inside a string value
-     * makes the response undecodable.
+     * Assembles the answer from every text part in order: a grounded candidate
+     * returns several, so reading `parts[0]` truncated it. Parts flagged
+     * `thought` are the reasoning summary rather than the answer and are
+     * skipped, which is itself a boundary. Spacing across gaps is handled by
+     * {@link appendAnswerText()}.
      *
      * @param mixed $parts
      */
@@ -163,18 +163,24 @@ class Google extends AIProvider
             return '';
         }
 
-        $texts = [];
+        $answer = '';
+        $atBoundary = false;
+
         foreach ($parts as $part) {
-            if (!is_array($part) || !empty($part['thought'])) {
+            if (!is_array($part)) {
                 continue;
             }
 
-            if (is_string($part['text'] ?? null)) {
-                $texts[] = $part['text'];
+            if (empty($part['thought']) && is_string($part['text'] ?? null)) {
+                $answer = $this->appendAnswerText($answer, $part['text'], $atBoundary);
+                $atBoundary = false;
+                continue;
             }
+
+            $atBoundary = true;
         }
 
-        return implode('', $texts);
+        return $answer;
     }
 
     /**
@@ -215,9 +221,11 @@ class Google extends AIProvider
             ];
         }
 
-        // Counted on the deduplicated queries so it cannot exceed what
-        // getWebSearchQueries() reports.
-        return WebSearchUsage::fromProviderData($citations, count(array_unique($queries)), $queries);
+        // Google reports no search counter, so the count is the number of queries it
+        // ran. Normalised first so it cannot exceed what getWebSearchQueries() lists.
+        $queries = WebSearchUsage::normalizeQueries($queries);
+
+        return WebSearchUsage::fromProviderData($citations, count($queries), $queries);
     }
 
     /**
