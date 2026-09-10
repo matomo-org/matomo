@@ -136,6 +136,39 @@ class FactoryTest extends UnitTestCase
     }
 
     /**
+     * @dataProvider getTestDataForBuildWithRelativeDate
+     */
+    public function testBuildResolvesRelativeDatesInTheGivenTimezone($now, $timezone, $period, $date, $expectedRange)
+    {
+        Date::$now = strtotime($now);
+
+        $this->assertEquals($expectedRange, Period\Factory::build($period, $date, $timezone)->getRangeString());
+    }
+
+    public function getTestDataForBuildWithRelativeDate()
+    {
+        return [
+            // NOW is 2020-12-23 in Chicago and 2020-12-25 on UTC+12, so a date left to resolve
+            // in UTC lands a day out in either direction.
+            ['2020-12-24 03:37:00', 'America/Chicago', 'day', 'today', '2020-12-23,2020-12-23'],
+            ['2020-12-24 16:37:00', 'UTC+12', 'day', 'today', '2020-12-25,2020-12-25'],
+            ['2020-12-24 03:37:00', 'America/Chicago', 'day', 'yesterday', '2020-12-22,2020-12-22'],
+            ['2020-12-24 16:37:00', 'UTC+12', 'day', 'yesterday', '2020-12-24,2020-12-24'],
+            ['2020-12-24 03:37:00', 'America/Chicago', 'day', 'last-week', '2020-12-16,2020-12-16'],
+            ['2020-12-24 03:37:00', 'America/Chicago', 'day', 'last week', '2020-12-16,2020-12-16'],
+            ['2020-12-24 03:37:00', 'America/Chicago', 'day', 'last%20week', '2020-12-16,2020-12-16'],
+            ['2020-12-24 16:37:00', 'UTC+12', 'week', 'today', '2020-12-21,2020-12-27'],
+            ['2020-12-24 16:37:00', 'UTC+12', 'month', 'last-month', '2020-11-01,2020-11-30'],
+
+            // An empty timezone means UTC, the way the parameter's other callers read it.
+            ['2020-12-24 16:37:00', false, 'day', 'today', '2020-12-24,2020-12-24'],
+
+            // An absolute date is unaffected by the timezone.
+            ['2020-12-24 03:37:00', 'America/Chicago', 'day', '2020-12-24', '2020-12-24,2020-12-24'],
+        ];
+    }
+
+    /**
      * @dataProvider getBuildTestData
      */
     public function testBuildCreatesCorrectPeriodInstances(

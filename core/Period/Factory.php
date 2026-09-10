@@ -64,7 +64,9 @@ abstract class Factory
      *
      * @param string $period `"day"`, `"week"`, `"month"`, `"year"`, `"range"`.
      * @param Date|string $date A date within the period or the range of dates.
-     * @param string $timezone Optional timezone that will be used only when $period is 'range' or $date is 'last|previous'
+     * @param string|false $timezone Timezone the date is resolved in; an empty value means UTC.
+     *                               Applies when $period is 'range', or when $date is a relative
+     *                               or multiple-period value such as 'today' or 'last7'.
      * @return \Piwik\Period
      */
     public static function build($period, $date, $timezone = 'UTC')
@@ -80,7 +82,12 @@ abstract class Factory
                 return new Range($period, $date, $timezone);
             }
 
-            $dateObject = Date::factory($date);
+            // Date::factory() would resolve a relative date on UTC's day, not the timezone's.
+            $keyword = Date::getRelativeKeyword($date);
+
+            $dateObject = $keyword === null
+                ? Date::factory($date)
+                : Date::factoryInTimezone($keyword, $timezone);
         } elseif ($date instanceof Date) {
             $dateObject = $date;
         } else {
