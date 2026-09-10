@@ -181,7 +181,7 @@ class Date
      * 'now', 'today', 'yesterday' and 'last-week'.)
      *
      * @param string $dateString
-     * @param string $timezone
+     * @param string|false $timezone An empty value means UTC.
      * @return Date
      * @ignore
      */
