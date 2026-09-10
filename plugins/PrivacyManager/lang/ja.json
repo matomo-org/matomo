@@ -257,7 +257,6 @@
         "PleaseEnableVisitorLogsProfiles": "このサイトのデータにアクセスする必要がある場合は、%1$sサイト設定%2$sで訪問ログか訪問者プロフィールを有効にしてください。",
         "PleaseEnableVisitorLogsProfilesSites": "これらのサイトのデータにアクセスする必要がある場合は、%1$sサイト設定%2$sで訪問ログまたは訪問者プロフィールを有効にしてください。",
         "PluginDescription": "ユーザーのプライバシーを向上させ、Matomo インスタンスのプライバシーを地域の法律に準拠させるようにします。",
-        "PolicyControlledSetting": "プライバシーコンプライアンスポリシーがこの設定よりも優先されるため、現時点では設定を変更しても効果はありません。",
         "PreviousRawDataAnonymizations": "これまでの生データの匿名化",
         "PrivacyPolicy": "プライバシーポリシー",
         "PrivacyPolicyUrl": "プライバシーポリシー URL",

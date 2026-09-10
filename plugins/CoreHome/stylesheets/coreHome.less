@@ -1,5 +1,6 @@
 .home {
-    p {
+    // Alerts are a <p> that brings its own padding; :where() adds no specificity, so every other paragraph is unchanged.
+    p:where(:not(.alert)) {
         padding-bottom: 1em;
         margin-right: 1em;
         margin-left: 1em;
@@ -156,7 +157,7 @@ div.pk-emptyGraph {
     line-height: 20px;
     font-weight: normal;
     text-align: center;
-    background: url(plugins/Morpheus/images/loading-blue.gif) no-repeat center 20px;
+    background: url(plugins/Morpheus/images/loading.svg) no-repeat center 20px;
 }
 
 .Piwik_Popover_Loading_NameWithSubject {

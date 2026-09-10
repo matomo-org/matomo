@@ -50,14 +50,22 @@
       </a>
     </Passthrough>
 
-    <div class="dropdown positionInViewport">
-      <span v-if="latestVersionAvailable && isSuperUser" v-html="$sanitize(updateNowText)"></span>
-      <span
-        v-else-if="latestVersionAvailable && hasSomeViewAccess && !isAnonymous"
-        v-html="$sanitize(updateAvailableText)"
-      ></span>
+    <!-- Two nodes on purpose: the outer one owns placement, the inner one owns appearance. -->
+    <div class="piwikSelector__dropdown positionInViewport">
+      <div class="mtm-dropdownPanel">
+        <div class="mtm-dropdownPanel__text">
+          <span
+            v-if="latestVersionAvailable && isSuperUser"
+            v-html="$sanitize(updateNowText)"
+          ></span>
+          <span
+            v-else-if="latestVersionAvailable && hasSomeViewAccess && !isAnonymous"
+            v-html="$sanitize(updateAvailableText)"
+          ></span>
 
-      {{ translate('General_YouAreCurrentlyUsing', piwikVersion || '') }}
+          {{ translate('General_YouAreCurrentlyUsing', piwikVersion || '') }}
+        </div>
+      </div>
     </div>
   </div>
 </template>

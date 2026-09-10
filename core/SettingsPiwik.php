@@ -202,15 +202,20 @@ class SettingsPiwik
             || $currentUrl !== $url
         ) {
             $host = Url::getHostFromUrl($currentUrl);
+            $isProxyHostValid = Url::isProxyHostValid();
 
             if (
                 strlen($currentUrl) >= strlen('http://a/')
                 && Url::isValidHost($host)
                 && !Url::isLocalHost($host)
+                && $isProxyHostValid
             ) {
                 self::overwritePiwikUrl($currentUrl);
             }
-            $url = $currentUrl;
+
+            if ($isProxyHostValid || empty($url)) {
+                $url = $currentUrl;
+            }
         }
 
         if (ProxyHttp::isHttps()) {

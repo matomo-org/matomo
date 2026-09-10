@@ -57,6 +57,8 @@ abstract class AbstractAIChatbotsRealTimeReport extends Report
         $view->config->show_pie_chart         = false;
         $view->config->show_tag_cloud         = false;
         $view->config->disable_row_evolution  = true;
+
+        SegmentNotSupportedMessageHelper::addSegmentNotSupportedMessage($view);
     }
 
     public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory): void
