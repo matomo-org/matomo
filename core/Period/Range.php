@@ -49,8 +49,8 @@ class Range extends Period
      * @param string $strPeriod The type of period each subperiod is. Either `'day'`, `'week'`,
      *                          `'month'` or `'year'`.
      * @param string $strDate The date range, eg, `'2007-07-24,2013-11-15'`.
-     * @param string $timezone The timezone to use, eg, `'UTC'`.
-     * @param bool|Date $today The date to use as _today_. Defaults to `Date::factory('today', $timzeone)`.
+     * @param string|false $timezone The timezone to use, eg, `'UTC'`. An empty value means UTC.
+     * @param bool|Date $today The date to use as _today_. Defaults to `Date::factory('now', $timezone)`.
      * @api
      */
     public function __construct($strPeriod, $strDate, $timezone = 'UTC', $today = false)
@@ -459,11 +459,11 @@ class Range extends Period
     /**
      * Returns the date that is X periods before the supplied date.
      *
-     * @param bool|string $date The date to get the last date of.
-     * @param bool|string $period The period to use (either 'day', 'week', 'month', 'year');
      * @param int         $subXPeriods How many periods in the past the date should be, for instance 1 or 7.
      *                    If sub period is 365 days and the current year is a leap year we assume you want to get the
      *                    day one year ago and change the value to 366 days therefore.
+     * @param bool|string $date The date to get the last date of.
+     * @param bool|string $period The period to use (either 'day', 'week', 'month', 'year');
      *
      * @return array An array with two elements, a string for the date before $date and
      *               a Period instance for the period before $date.
@@ -538,7 +538,8 @@ class Range extends Period
      * @param string $period The sub period type, `'day'`, `'week'`, `'month'` and `'year'`.
      * @param int $lastN The number of periods of type `$period` that the result range should
      *                   span.
-     * @param string $endDate The desired end date of the range.
+     * @param string $endDate The desired end date of the range, either an absolute date or a
+     *                        relative value such as `'today'` or `'last-week'`.
      * @param \Piwik\Site $site The site whose timezone should be used.
      * @return string The date range string, eg, `'2012-01-02,2013-01-02'`.
      * @api

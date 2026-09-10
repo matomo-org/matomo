@@ -155,8 +155,8 @@ abstract class Factory
      *                               Applies to relative values such as `'today'` or `'last-week'`,
      *                               and anchors a `'range'` on that timezone's current day.
      * @param string $period The period string: `"day"`, `"week"`, `"month"`, `"year"`, `"range"`.
-     * @param string|Date $date The date or date range string. Can be a special value including
-     *                     `'now'`, `'today'`, `'yesterday'`, `'yesterdaySameTime'`.
+     * @param string|Date $date The date or date range string. Can be a relative value such as
+     *                          `'now'`, `'today'`, `'yesterdaySameTime'` or `'last-week'`.
      * @return \Piwik\Period
      */
     public static function makePeriodFromQueryParams($timezone, $period, $date)
