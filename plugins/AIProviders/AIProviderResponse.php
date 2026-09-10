@@ -81,6 +81,13 @@ class AIProviderResponse
      */
     private $webSearch;
 
+    /**
+     * @param bool $webSearchEnabled Ignored.
+     * @deprecated since Matomo 5.14.0 the $webSearchEnabled parameter is ignored; pass a
+     *             {@link WebSearchUsage} as $webSearch instead. The parameter is kept so
+     *             positional callers written against Matomo 5.13.0 keep working, and will
+     *             be removed in Matomo 6.
+     */
     public function __construct(
         string $providerId,
         string $providerName,
@@ -89,6 +96,7 @@ class AIProviderResponse
         ?int $inputTokens = null,
         ?int $outputTokens = null,
         string $reasoningLevel = AIRequest::REASONING_NONE,
+        bool $webSearchEnabled = false,
         ?int $executionTimeMs = null,
         ?string $stopReason = null,
         ?WebSearchUsage $webSearch = null
@@ -100,19 +108,12 @@ class AIProviderResponse
         $this->inputTokens = $inputTokens;
         $this->outputTokens = $outputTokens;
         $this->reasoningLevel = $reasoningLevel;
+        // Deprecated and superseded by $webSearch; discarded so static analysis
+        // sees it consumed rather than forgotten.
+        unset($webSearchEnabled);
         $this->executionTimeMs = $executionTimeMs;
         $this->stopReason = $stopReason;
         $this->webSearch = $webSearch ?? WebSearchUsage::none();
-    }
-
-    public function getProviderId(): string
-    {
-        return $this->providerId;
-    }
-
-    public function getProviderName(): string
-    {
-        return $this->providerName;
     }
 
     public function getText(): string
@@ -141,19 +142,30 @@ class AIProviderResponse
     }
 
     /**
-     * Whether the provider's web search actually ran — not whether it was
-     * requested. A model given the tool can decide the prompt needs no search.
+     * Whether the provider's web search actually ran, which is not the same as
+     * whether it was requested: a model given the tool can decide the prompt
+     * needs no search.
      */
-    public function isWebSearchEnabled(): bool
+    public function wasWebSearchUsed(): bool
     {
         return $this->webSearch->wasUsed();
     }
 
     /**
+     * @deprecated since Matomo 5.14.0, use {@link wasWebSearchUsed()}. The name reads as
+     *             request state, but this reports what the provider actually did, and
+     *             {@link AIRequest::isWebSearchEnabled()} keeps the request meaning.
+     *             Will be removed in Matomo 6.
+     */
+    public function isWebSearchEnabled(): bool
+    {
+        return $this->wasWebSearchUsed();
+    }
+
+    /**
      * Web sources attached to this answer, deduplicated, cited ones first where
-     * the provider distinguishes them. URLs are guaranteed http(s). For Google
-     * the `url` is its grounding redirect and only `domain` identifies the
-     * publisher — see {@link WebSearchUsage}.
+     * the provider distinguishes them. Titles are untrusted model output; see
+     * {@link WebSearchUsage} for what is and is not guaranteed.
      *
      * @return list<WebSearchCitationArray>
      */
@@ -229,6 +241,8 @@ class AIProviderResponse
             'inputTokens' => $this->inputTokens,
             'outputTokens' => $this->outputTokens,
             'reasoningLevel' => $this->reasoningLevel,
+            'webSearchUsed' => $this->webSearch->wasUsed(),
+            // @deprecated since Matomo 5.14.0, use webSearchUsed.
             'webSearchEnabled' => $this->webSearch->wasUsed(),
             'webSearchRequestCount' => $this->webSearch->getRequestCount(),
             'webSearchQueries' => $this->webSearch->getQueries(),

@@ -144,6 +144,11 @@ class Anthropic extends AIProvider
      * block: extended thinking puts a `thinking` block first, and web search
      * splits the prose around `server_tool_use`/`web_search_tool_result` blocks.
      *
+     * Joined with nothing between them, because a grounded answer is split
+     * mid-sentence at a citation boundary and each fragment carries its own
+     * spacing. Inserting a separator would break the prose, and in JSON mode a
+     * newline landing inside a string value makes the response undecodable.
+     *
      * @param mixed $content
      */
     private function concatenateTextBlocks($content): string
@@ -163,7 +168,7 @@ class Anthropic extends AIProvider
             }
         }
 
-        return implode("\n", $texts);
+        return implode('', $texts);
     }
 
     /**
@@ -202,8 +207,13 @@ class Anthropic extends AIProvider
             }
 
             if ($type === 'web_search_tool_result') {
-                foreach ($this->webSearchResultRows($block['content'] ?? null) as $row) {
-                    $returned[] = ['url' => $row['url'] ?? null, 'title' => $row['title'] ?? null];
+                // A failed search (e.g. max_uses_exceeded) still returns HTTP 200 with
+                // `content` set to a single web_search_tool_result_error object rather
+                // than a list of rows; its scalar members fail the is_array() test below.
+                foreach ((is_array($block['content'] ?? null) ? $block['content'] : []) as $row) {
+                    if (is_array($row) && ($row['type'] ?? null) === 'web_search_result') {
+                        $returned[] = ['url' => $row['url'] ?? null, 'title' => $row['title'] ?? null];
+                    }
                 }
                 continue;
             }
@@ -222,33 +232,11 @@ class Anthropic extends AIProvider
 
         return WebSearchUsage::fromProviderData(
             array_merge($cited, $returned),
-            is_numeric($requestCount) ? (int) $requestCount : count($queries),
+            // Counted on the deduplicated queries so the fallback cannot exceed
+            // what getWebSearchQueries() reports.
+            is_numeric($requestCount) ? (int) $requestCount : count(array_unique($queries)),
             $queries
         );
-    }
-
-    /**
-     * The `web_search_result` rows of one result block. A failed search (for
-     * example `max_uses_exceeded`) still returns HTTP 200 with `content` set to a
-     * single `web_search_tool_result_error` object instead of a list of rows.
-     *
-     * @param mixed $content
-     * @return list<array<string, mixed>>
-     */
-    private function webSearchResultRows($content): array
-    {
-        if (!is_array($content) || ($content['type'] ?? null) === 'web_search_tool_result_error') {
-            return [];
-        }
-
-        $rows = [];
-        foreach ($content as $row) {
-            if (is_array($row) && ($row['type'] ?? null) === 'web_search_result') {
-                $rows[] = $row;
-            }
-        }
-
-        return $rows;
     }
 
     /**

@@ -55,15 +55,26 @@ abstract class AIProvider
 
     /**
      * Default provider HTTP timeout for a single-shot completion, unless the
-     * request sets its own.
+     * request sets its own with {@link AIRequest::withTimeoutSeconds()}.
      */
     protected const COMPLETE_TIMEOUT_SECONDS = 30;
 
     /**
      * Default timeout for a grounded completion. Server-side search runs several
      * fetches inside the one HTTP request, so these routinely take 30-90s where
-     * an ungrounded completion takes 2-5s. Note it multiplies with the transient
-     * error retries in {@link sendRequest()}.
+     * an ungrounded completion takes 2-5s.
+     *
+     * This exceeds PHP's default 30s `max_execution_time`, so grounded
+     * completions are meant for CLI commands and scheduled tasks, where it is
+     * unlimited. A caller running one inside a web request must either raise
+     * that limit itself or lower this with
+     * {@link AIRequest::withTimeoutSeconds()}, or the request dies before the
+     * provider answers.
+     *
+     * A retryable HTTP status (see {@link TRANSIENT_ERROR_STATUS_CODES}) can
+     * multiply both the wall time and the per-search fees, because each attempt
+     * runs its own searches. A transport-level timeout does not: it throws on
+     * the first attempt.
      */
     protected const WEB_SEARCH_COMPLETE_TIMEOUT_SECONDS = 120;
 
@@ -371,6 +382,7 @@ abstract class AIProvider
             $inputTokens,
             $outputTokens,
             $this->getReasoningLevelUsed($request),
+            false, // deprecated $webSearchEnabled slot, superseded by $webSearch below
             $this->lastRequestExecutionTimeMs,
             $stopReason,
             $webSearch
@@ -962,16 +974,23 @@ abstract class AIProvider
     }
 
     /**
-     * Derives the OpenAI-compatible models-listing endpoint from a chat
-     * completions endpoint, e.g. `.../v1/chat/completions` or a bare `.../v1`
-     * base both become `.../v1/models` — the standard `GET {base}/models`
-     * probe used by the "test connection" flow.
+     * Derives a sibling OpenAI-compatible endpoint from a chat completions
+     * endpoint, e.g. `.../v1/chat/completions` or a bare `.../v1` base both
+     * become `.../v1/{$path}`.
      */
-    protected function openAiCompatibleModelsEndpoint(string $chatEndpointUrl): string
+    protected function openAiCompatibleEndpoint(string $chatEndpointUrl, string $path): string
     {
         $base = preg_replace('#/chat/completions/?$#', '', $chatEndpointUrl) ?? $chatEndpointUrl;
 
-        return rtrim($base, '/') . '/models';
+        return rtrim($base, '/') . '/' . $path;
+    }
+
+    /**
+     * The standard `GET {base}/models` probe used by the "test connection" flow.
+     */
+    protected function openAiCompatibleModelsEndpoint(string $chatEndpointUrl): string
+    {
+        return $this->openAiCompatibleEndpoint($chatEndpointUrl, 'models');
     }
 
     /**
@@ -987,8 +1006,12 @@ abstract class AIProvider
      * @param array<string, mixed> $payload
      * @return array<string, mixed>
      */
-    protected function sendJsonRequest(string $url, array $headers, array $payload, int $timeoutSeconds = 30): array
-    {
+    protected function sendJsonRequest(
+        string $url,
+        array $headers,
+        array $payload,
+        int $timeoutSeconds = self::COMPLETE_TIMEOUT_SECONDS
+    ): array {
         $requestBody = json_encode($payload);
 
         if (!is_string($requestBody)) {

@@ -373,6 +373,24 @@ class ConfigurationTest extends IntegrationTestCase
         $this->assertSame(900, $response->getInputTokens());
     }
 
+    public function testCanUseWebSearchAnswersForTheProviderThatWouldActuallyRun(): void
+    {
+        $this->api->saveSettings(
+            'openai',
+            Configuration::CAPABILITY_INSTANT,
+            (string) json_encode([
+                'openai' => ['apiKey' => 'secret-openai-key', 'endpointUrl' => ''],
+            ])
+        );
+
+        $service = StaticContainer::get(AIProviderService::class);
+
+        $this->assertTrue($service->canUseWebSearch('Test'));
+        // A provider the caller asks for by name is answered for too, so a
+        // feature can degrade before spending anything.
+        $this->assertFalse($service->canUseWebSearch('Test', 'custom-provider'));
+    }
+
     public function testWebSearchRequestIsRejectedForAProviderWithoutWebSearch(): void
     {
         $this->api->saveSettings(
@@ -739,9 +757,11 @@ class ConfigurationTest extends IntegrationTestCase
         $this->assertTrue($statusesById['anthropic']['isConfigured']);
         $this->assertFalse($statusesById['google']['isConfigured']);
         $this->assertSame(
-            ['id', 'name', 'isConfigured'],
+            ['id', 'name', 'isConfigured', 'supportsWebSearch'],
             array_keys($statusesById['anthropic'])
         );
+        $this->assertTrue($statusesById['anthropic']['supportsWebSearch']);
+        $this->assertFalse($statusesById['bedrock']['supportsWebSearch']);
     }
 
     public function testNonAllowlistedCallerOnlySeesTheForcedProvider(): void

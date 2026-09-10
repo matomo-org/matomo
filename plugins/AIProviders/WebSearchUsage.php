@@ -18,35 +18,37 @@ use Piwik\UrlHelper;
  * for one completion: the web sources attached to the answer, how many searches
  * ran, and the queries the model issued.
  *
- * The providers report grounding in three incompatible shapes — Anthropic uses
- * `server_tool_use`/`web_search_tool_result` blocks plus per-text-block
- * citations, Google a `groundingMetadata` object, OpenAI typed output items
- * carrying `url_citation` annotations. This plugin owns the translation so a
- * caller reads one shape and can switch providers without changing its code.
- *
- * What that flattening hides, so callers know what they are reading:
+ * Providers report grounding in three incompatible shapes, so this class owns
+ * the translation and a caller reads one shape whichever provider ran. What the
+ * flattening hides:
  *
  * - Anthropic reports both cited sources and every returned search result, so
- *   citations list the cited ones first. `requestCount` is Anthropic's own
- *   counter.
+ *   citations list the cited ones first. `requestCount` is its own counter.
  * - Google reports every retrieved grounding chunk and draws no cited/uncited
- *   distinction. Its `url` is the Vertex AI Search redirect Google returns,
- *   *not* the publisher URL — the publisher host is in `domain`. Google has no
- *   search counter, so `requestCount` is derived from the number of queries.
- * - OpenAI reports cited sources only. `requestCount` counts its
- *   `web_search_call` items, and `queries` can be empty even when searches ran,
- *   because OpenAI does not always echo the query it used.
+ *   distinction. Its `url` is the redirect Google returns, *not* the publisher
+ *   URL, and the publisher host is in `domain`. It has no search counter, so
+ *   `requestCount` is derived from the deduplicated query count. Two chunks from
+ *   one page therefore do not collapse: count distinct `domain`, not `url`.
+ * - OpenAI reports cited sources only. `requestCount` counts its `search`
+ *   actions, and `queries` can be empty even when searches ran.
  *
- * A consequence worth knowing before computing shares: "citations" is not the
- * same denominator on all three providers, and because Google's URLs are
- * per-chunk redirects, two chunks from one publisher page do not collapse
- * during deduplication. Count distinct `domain` rather than distinct `url` when
- * the question is "how many sources".
+ * URLs are guaranteed to be http(s) and are length-capped. Titles and queries
+ * are untrusted model output, capped in length but otherwise verbatim: escape
+ * them at the point of rendering.
  *
  * @phpstan-type WebSearchCitationArray array{url: string, title: string, domain: string}
  */
 final class WebSearchUsage
 {
+    /**
+     * Length caps for model-controlled strings. Providers have no documented
+     * limit, and these values are stored and rendered by callers, so a runaway
+     * title cannot bloat a row or a page.
+     */
+    private const MAX_URL_LENGTH = 2048;
+    private const MAX_TITLE_LENGTH = 300;
+    private const MAX_QUERY_LENGTH = 300;
+
     /**
      * @var list<WebSearchCitationArray>
      */
@@ -87,16 +89,13 @@ final class WebSearchUsage
      * Normalises one provider's parsed grounding data.
      *
      * Citations are filtered to http(s) URLs and deduplicated by URL keeping the
-     * first occurrence (providers list the most relevant first).
+     * first occurrence, since providers list the most relevant first.
      *
-     * The `domain` key decides who owns domain resolution, and the distinction
-     * matters: when a citation omits the key entirely the domain is derived from
-     * the URL host, but when the key is present it is trusted verbatim — even
-     * when empty. Google needs that, because its URL is a redirect whose host is
-     * Google's own: deriving from the URL there would label every source
-     * `vertexaisearch.cloud.google.com`, and an empty string is Google's honest
-     * "no trustworthy publisher domain for this chunk". Anthropic and OpenAI omit
-     * the key and get the derived host.
+     * A `domain` key that is present is trusted verbatim, even when empty, and
+     * an absent one is derived from the URL host. Google needs that: its URL is
+     * its own redirect, so deriving there would label every source
+     * `vertexaisearch.cloud.google.com`, and an empty string is its honest "no
+     * publisher domain for this chunk".
      *
      * @param list<array{url?: mixed, title?: mixed, domain?: mixed}> $citations
      * @param int|null $requestCount Provider-reported search count, or null when it reports none.
@@ -122,14 +121,14 @@ final class WebSearchUsage
 
             $normalized[] = [
                 'url' => $url,
-                'title' => is_string($citation['title'] ?? null) ? trim($citation['title']) : '',
+                'title' => self::cap(is_string($citation['title'] ?? null) ? trim($citation['title']) : '', self::MAX_TITLE_LENGTH),
                 'domain' => $domain,
             ];
         }
 
         $normalizedQueries = [];
         foreach ($queries as $query) {
-            $query = trim($query);
+            $query = self::cap(trim($query), self::MAX_QUERY_LENGTH);
             if ($query !== '' && !in_array($query, $normalizedQueries, true)) {
                 $normalizedQueries[] = $query;
             }
@@ -178,30 +177,22 @@ final class WebSearchUsage
     }
 
     /**
-     * @return array{citations: list<WebSearchCitationArray>, requestCount: int|null, queries: list<string>}
-     */
-    public function toArray(): array
-    {
-        return [
-            'citations' => $this->citations,
-            'requestCount' => $this->requestCount,
-            'queries' => $this->queries,
-        ];
-    }
-
-    /**
-     * Rejects anything that is not an http(s) URL. Citation URLs are
-     * model-controlled data that callers will render as links, so a
+     * Rejects anything that is not an http(s) URL of sane length. Citation URLs
+     * are model-controlled data that callers will render as links, so a
      * `javascript:` or `data:` scheme must never leave this plugin.
      */
     private static function isUsableUrl(string $url): bool
     {
-        return preg_match('~^https?://~i', $url) === 1 && self::hostFromUrl($url) !== '';
+        return strlen($url) <= self::MAX_URL_LENGTH
+            && preg_match('~^https?://~i', $url) === 1
+            && self::hostFromUrl($url) !== '';
     }
 
-    /**
-     * Publisher host of a URL, or '' when it carries none.
-     */
+    private static function cap(string $value, int $maxLength): string
+    {
+        return mb_strlen($value) > $maxLength ? mb_substr($value, 0, $maxLength) : $value;
+    }
+
     private static function hostFromUrl(string $url): string
     {
         $host = UrlHelper::getHostFromUrl($url);
@@ -211,14 +202,15 @@ final class WebSearchUsage
 
     /**
      * Normalises a hostname for grouping and display: lowercased, trailing dot
-     * and leading `www.` stripped, matching how callers normalise their own
-     * configured domains so both sides compare equal.
+     * and leading `www.` stripped.
      */
     private static function normalizeHost(string $host): string
     {
         $host = strtolower(rtrim(trim($host), '.'));
 
-        if (strpos($host, 'www.') === 0) {
+        // Only when a dotted name remains, so the registered domain `www.com`
+        // does not collapse to the meaningless `com`.
+        if (strpos($host, 'www.') === 0 && substr_count($host, '.') > 1) {
             $host = substr($host, 4);
         }
 

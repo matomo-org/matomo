@@ -39,12 +39,6 @@ class WebSearchTest extends TestCase
         'endpointUrl' => 'http://localhost:1234/v1',
         'model' => 'local-model',
     ];
-    private const BEDROCK_CONFIG = [
-        'apiKey' => 'k',
-        'endpointUrl' => '',
-        'region' => 'us-east-1',
-        'model' => 'openai.gpt-oss-120b-1:0',
-    ];
 
     public function testSupportsWebSearchFlags(): void
     {
@@ -76,21 +70,11 @@ class WebSearchTest extends TestCase
         $this->assertSame([
             ['type' => 'web_search_20250305', 'name' => 'web_search', 'max_uses' => 5],
         ], $claude->sentPayload['tools']);
-    }
-
-    /**
-     * No tool_choice is sent: Anthropic defaults it to "auto" when tools are
-     * present, which is the behaviour we want (the model decides whether the
-     * prompt needs fresh sources) and an explicit auto would invalidate caching.
-     */
-    public function testAnthropicSendsNoToolChoiceSoTheModelDecides(): void
-    {
-        $claude = new WebSearchRecordingAnthropic();
-
-        $claude->complete($this->groundedRequest(), self::CLAUDE_CONFIG);
-
+        // No tool_choice: Anthropic defaults it to "auto" when tools are present,
+        // so Claude decides whether the prompt needs fresh sources.
         $this->assertArrayNotHasKey('tool_choice', $claude->sentPayload);
     }
+
 
     public function testAnthropicUsesTheLongerTimeoutOnlyForGroundedRequests(): void
     {
@@ -121,7 +105,7 @@ class WebSearchTest extends TestCase
         $claude = new WebSearchRecordingAnthropic();
         $claude->mockResponse = [
             'content' => [
-                ['type' => 'text', 'text' => "I'll search for that."],
+                ['type' => 'text', 'text' => "I'll search for that. "],
                 [
                     'type' => 'server_tool_use',
                     'id' => 'srvtoolu_1',
@@ -142,7 +126,57 @@ class WebSearchTest extends TestCase
 
         $response = $claude->complete($this->groundedRequest(), self::CLAUDE_CONFIG);
 
-        $this->assertSame("I'll search for that.\nMatomo is a leading open source option.", $response->getText());
+        $this->assertSame("I'll search for that. Matomo is a leading open source option.", $response->getText());
+    }
+
+    /**
+     * Regression guard for the real defect a separator caused: a grounded answer
+     * splits mid-sentence, so any character inserted between the fragments lands
+     * inside the JSON string value and makes the response undecodable.
+     */
+    public function testGroundedJsonModeSurvivesACitationSplitInsideAStringValue(): void
+    {
+        $claude = new WebSearchRecordingAnthropic();
+        $claude->mockResponse = [
+            'content' => [
+                ['type' => 'text', 'text' => '{"verdict": "Matomo is '],
+                [
+                    'type' => 'text',
+                    'text' => 'the leading option"}',
+                    'citations' => [[
+                        'type' => 'web_search_result_location',
+                        'url' => 'https://matomo.org/',
+                        'title' => 'Matomo',
+                    ]],
+                ],
+            ],
+            'stop_reason' => 'end_turn',
+        ];
+
+        $response = $claude->complete($this->groundedRequest()->withJsonResponse(), self::CLAUDE_CONFIG);
+
+        $this->assertSame(['verdict' => 'Matomo is the leading option'], $response->getJsonData());
+    }
+
+    /**
+     * The multi-block read also changed the ungrounded path, where extended
+     * thinking puts a thinking block before the answer.
+     */
+    public function testAnthropicUngroundedThinkingResponseReturnsOnlyTheAnswer(): void
+    {
+        $claude = new WebSearchRecordingAnthropic();
+        $claude->mockResponse = [
+            'content' => [
+                ['type' => 'thinking', 'thinking' => 'Let me consider the options.'],
+                ['type' => 'text', 'text' => 'Matomo.'],
+            ],
+            'stop_reason' => 'end_turn',
+        ];
+
+        $response = $claude->complete($this->plainRequest(), self::CLAUDE_CONFIG);
+
+        $this->assertSame('Matomo.', $response->getText());
+        $this->assertFalse($response->wasWebSearchUsed());
     }
 
     public function testAnthropicParsesCitationsQueriesAndRequestCount(): void
@@ -299,7 +333,7 @@ class WebSearchTest extends TestCase
         $gemini->mockResponse = [
             'candidates' => [[
                 'content' => ['parts' => [
-                    ['text' => 'First fragment.'],
+                    ['text' => 'First fragment. '],
                     ['text' => 'Second fragment.'],
                 ]],
             ]],
@@ -307,7 +341,7 @@ class WebSearchTest extends TestCase
 
         $response = $gemini->complete($this->groundedRequest(), self::GEMINI_CONFIG);
 
-        $this->assertSame("First fragment.\nSecond fragment.", $response->getText());
+        $this->assertSame('First fragment. Second fragment.', $response->getText());
     }
 
     public function testGoogleSkipsThoughtParts(): void
@@ -327,61 +361,56 @@ class WebSearchTest extends TestCase
         $this->assertSame('The answer.', $response->getText());
     }
 
-    public function testGooglePrefersAnExplicitWebDomain(): void
+    /**
+     * `web.domain` wins, then the URI host unless it is Google's redirect, then
+     * the title when it looks like a hostname. Google in practice sends only the
+     * redirect plus a bare-host title, and a prose title yields '' rather than a
+     * guess a caller could not tell from a real value.
+     *
+     * @dataProvider getGroundingChunkDomains
+     * @param array<string, mixed> $web
+     */
+    public function testGoogleResolvesTheCitationDomain(array $web, string $expected): void
     {
-        $response = $this->completeGoogleWithChunks([
-            ['web' => [
-                'uri' => 'https://vertexaisearch.cloud.google.com/grounding-api-redirect/abc',
-                'title' => 'Some Page Title',
-                'domain' => 'uefa.com',
-            ]],
-        ]);
+        $response = $this->completeGoogleWithChunks([['web' => $web]]);
 
-        $this->assertSame('uefa.com', $response->getWebSearchCitations()[0]['domain']);
+        $this->assertSame($expected, $response->getWebSearchCitations()[0]['domain']);
     }
 
     /**
-     * The shape Google actually returns: a redirect URI whose host is Google's,
-     * no `web.domain`, and the publisher host as the title.
+     * @return iterable<string, array{array<string, mixed>, string}>
      */
-    public function testGoogleFallsBackToTheTitleWhenTheUriIsAGroundingRedirect(): void
+    public function getGroundingChunkDomains(): iterable
     {
-        $response = $this->completeGoogleWithChunks([
-            ['web' => [
-                'uri' => 'https://vertexaisearch.cloud.google.com/grounding-api-redirect/abc',
-                'title' => 'Matomo.org',
-            ]],
-        ]);
-
-        $citation = $response->getWebSearchCitations()[0];
-
-        $this->assertSame('matomo.org', $citation['domain']);
-        $this->assertSame('https://vertexaisearch.cloud.google.com/grounding-api-redirect/abc', $citation['url']);
+        yield 'explicit web.domain wins over redirect uri and title' => [
+            ['uri' => 'https://vertexaisearch.cloud.google.com/grounding-api-redirect/abc', 'title' => 'Some Page Title', 'domain' => 'uefa.com'],
+            'uefa.com',
+        ];
+        yield 'bare-host title behind a redirect uri' => [
+            ['uri' => 'https://vertexaisearch.cloud.google.com/grounding-api-redirect/abc', 'title' => 'Matomo.org'],
+            'matomo.org',
+        ];
+        yield 'prose title behind a redirect uri yields nothing' => [
+            ['uri' => 'https://vertexaisearch.cloud.google.com/grounding-api-redirect/abc', 'title' => 'Who won Euro 2024 - full report'],
+            '',
+        ];
+        yield 'filename title is not a hostname' => [
+            ['uri' => 'https://vertexaisearch.cloud.google.com/grounding-api-redirect/abc', 'title' => 'report.pdf'],
+            '',
+        ];
+        yield 'host derived from a non-redirect uri' => [
+            ['uri' => 'https://www.example.org/a', 'title' => 'Example'],
+            'example.org',
+        ];
     }
 
-    /**
-     * A prose title is not a domain: an empty string is reported rather than a
-     * guess a caller could not distinguish from a real value.
-     */
-    public function testGoogleReportsNoDomainWhenNeitherUriNorTitleYieldsOne(): void
+    public function testGoogleKeepsTheRedirectUrlAsTheCitationUrl(): void
     {
         $response = $this->completeGoogleWithChunks([
-            ['web' => [
-                'uri' => 'https://vertexaisearch.cloud.google.com/grounding-api-redirect/abc',
-                'title' => 'Who won Euro 2024 - full report',
-            ]],
+            ['web' => ['uri' => 'https://vertexaisearch.cloud.google.com/grounding-api-redirect/abc', 'title' => 'Matomo.org']],
         ]);
 
-        $this->assertSame('', $response->getWebSearchCitations()[0]['domain']);
-    }
-
-    public function testGoogleDerivesTheDomainFromANonRedirectUri(): void
-    {
-        $response = $this->completeGoogleWithChunks([
-            ['web' => ['uri' => 'https://www.example.org/a', 'title' => 'Example']],
-        ]);
-
-        $this->assertSame('example.org', $response->getWebSearchCitations()[0]['domain']);
+        $this->assertSame('https://vertexaisearch.cloud.google.com/grounding-api-redirect/abc', $response->getWebSearchCitations()[0]['url']);
     }
 
     public function testGoogleDerivesTheRequestCountFromItsSearchQueries(): void
@@ -415,14 +444,35 @@ class WebSearchTest extends TestCase
 
     // -- OpenAI: payload ------------------------------------------------------
 
-    public function testOpenAiGroundedCompleteTargetsTheResponsesEndpoint(): void
+    /**
+     * The grounded request switches API, offers the tool without forcing it, and
+     * disables the Responses API's server-side prompt storage, which chat
+     * completions does not do and which Matomo prompts must not be subject to.
+     */
+    public function testOpenAiGroundedCompleteSendsTheResponsesRequest(): void
     {
         $openAI = new WebSearchRecordingOpenAI();
 
-        $openAI->complete($this->groundedRequest(), self::OPENAI_CONFIG);
+        $openAI->complete($this->groundedRequest()->withMaxTokens(64), self::OPENAI_CONFIG);
 
         $this->assertSame('https://api.openai.com/v1/responses', $openAI->sentUrl);
         $this->assertSame(120, $openAI->sentTimeout);
+        $this->assertSame(
+            [['type' => 'web_search', 'search_context_size' => 'medium']],
+            $openAI->sentPayload['tools']
+        );
+        $this->assertArrayNotHasKey('tool_choice', $openAI->sentPayload);
+        $this->assertFalse($openAI->sentPayload['store'], 'prompts must not be retained by OpenAI');
+        $this->assertSame(
+            [['role' => 'user', 'content' => 'best web analytics tools']],
+            $openAI->sentPayload['input']
+        );
+        $this->assertSame('none', $openAI->sentPayload['reasoning']['effort']);
+        $this->assertSame(64, $openAI->sentPayload['max_output_tokens']);
+        $this->assertArrayNotHasKey('messages', $openAI->sentPayload);
+        $this->assertArrayNotHasKey('max_completion_tokens', $openAI->sentPayload);
+        $this->assertArrayNotHasKey('max_tokens', $openAI->sentPayload);
+        $this->assertArrayNotHasKey('temperature', $openAI->sentPayload);
     }
 
     public function testOpenAiUngroundedCompleteStaysOnChatCompletions(): void
@@ -436,51 +486,12 @@ class WebSearchTest extends TestCase
         $this->assertSame(30, $openAI->sentTimeout);
     }
 
-    public function testOpenAiOffersTheWebSearchToolAndLetsTheModelDecide(): void
-    {
-        $openAI = new WebSearchRecordingOpenAI();
-
-        $openAI->complete($this->groundedRequest(), self::OPENAI_CONFIG);
-
-        $this->assertSame(
-            [['type' => 'web_search', 'search_context_size' => 'medium']],
-            $openAI->sentPayload['tools']
-        );
-        $this->assertArrayNotHasKey('tool_choice', $openAI->sentPayload);
-    }
-
-    public function testOpenAiCompleteSendsTheResponsesPayloadShape(): void
-    {
-        $openAI = new WebSearchRecordingOpenAI();
-
-        $openAI->complete($this->groundedRequest()->withMaxTokens(64), self::OPENAI_CONFIG);
-
-        $this->assertSame(
-            [['role' => 'user', 'content' => 'best web analytics tools']],
-            $openAI->sentPayload['input']
-        );
-        $this->assertSame('none', $openAI->sentPayload['reasoning']['effort']);
-        $this->assertSame(64, $openAI->sentPayload['max_output_tokens']);
-        $this->assertArrayNotHasKey('messages', $openAI->sentPayload);
-        $this->assertArrayNotHasKey('max_completion_tokens', $openAI->sentPayload);
-        $this->assertArrayNotHasKey('max_tokens', $openAI->sentPayload);
-        $this->assertArrayNotHasKey('temperature', $openAI->sentPayload);
-    }
-
     /**
-     * The Responses API stores prompts and output server-side by default, which
-     * chat completions does not. Matomo prompts carry customer data, so storage
-     * must be switched off on every request.
+     * The system prompt is an input message with the `developer` role, not the
+     * top-level `instructions` field, because OpenAI does not count
+     * `instructions` when it looks for the word "json" that native JSON mode
+     * requires.
      */
-    public function testOpenAiCompleteDisablesServerSideStorage(): void
-    {
-        $openAI = new WebSearchRecordingOpenAI();
-
-        $openAI->complete($this->groundedRequest(), self::OPENAI_CONFIG);
-
-        $this->assertFalse($openAI->sentPayload['store']);
-    }
-
     public function testOpenAiCompleteSendsTheSystemPromptAsADeveloperInputMessage(): void
     {
         $openAI = new WebSearchRecordingOpenAI();
@@ -570,6 +581,53 @@ class WebSearchTest extends TestCase
         $this->assertSame(800, $response->getOutputTokens());
     }
 
+    /**
+     * Reasoning models emit open_page and find_in_page actions on the same
+     * web_search_call item type. Counting those as searches would overstate the
+     * per-search fee a caller is billed for.
+     */
+    public function testOpenAiCountsOnlySearchActionsNotPageFollowUps(): void
+    {
+        $openAI = new WebSearchRecordingOpenAI();
+        $openAI->mockResponse = [
+            'output' => [
+                ['type' => 'web_search_call', 'action' => ['type' => 'search', 'query' => 'best analytics']],
+                ['type' => 'web_search_call', 'action' => ['type' => 'open_page', 'url' => 'https://matomo.org/']],
+                ['type' => 'web_search_call', 'action' => ['type' => 'find_in_page', 'pattern' => 'privacy']],
+                ['type' => 'message', 'content' => [['type' => 'output_text', 'text' => 'Matomo.']]],
+            ],
+            'status' => 'completed',
+        ];
+
+        $response = $openAI->complete($this->groundedRequest(), self::OPENAI_CONFIG);
+
+        $this->assertSame(1, $response->getWebSearchRequestCount());
+        $this->assertSame(['best analytics'], $response->getWebSearchQueries());
+    }
+
+    /**
+     * Parts of one message join with nothing between them, separate messages
+     * with a newline: the first is a citation split, the second distinct prose.
+     */
+    public function testOpenAiJoinsPartsWithinAMessageButNewlinesBetweenMessages(): void
+    {
+        $openAI = new WebSearchRecordingOpenAI();
+        $openAI->mockResponse = [
+            'output' => [
+                ['type' => 'message', 'content' => [
+                    ['type' => 'output_text', 'text' => 'Matomo is '],
+                    ['type' => 'output_text', 'text' => 'open source.'],
+                ]],
+                ['type' => 'message', 'content' => [['type' => 'output_text', 'text' => 'It self-hosts.']]],
+            ],
+            'status' => 'completed',
+        ];
+
+        $response = $openAI->complete($this->groundedRequest(), self::OPENAI_CONFIG);
+
+        $this->assertSame("Matomo is open source.\nIt self-hosts.", $response->getText());
+    }
+
     public function testOpenAiIncompleteDetailsReasonWinsOverStatusAsStopReason(): void
     {
         $truncated = new WebSearchRecordingOpenAI();
@@ -630,17 +688,6 @@ class WebSearchTest extends TestCase
         );
     }
 
-    public function testBedrockIgnoresAWebSearchRequest(): void
-    {
-        $bedrock = new WebSearchRecordingBedrock();
-
-        $response = $bedrock->complete($this->groundedRequest(), self::BEDROCK_CONFIG);
-
-        $this->assertArrayNotHasKey('tools', $bedrock->sentPayload);
-        $this->assertArrayNotHasKey('toolConfig', $bedrock->sentPayload);
-        $this->assertFalse($response->isWebSearchEnabled());
-        $this->assertNull($response->getWebSearchRequestCount());
-    }
 
     // -- helpers --------------------------------------------------------------
 
@@ -760,31 +807,5 @@ class WebSearchRecordingCustomProvider extends CustomProvider
         $this->sentTimeout = $timeoutSeconds;
 
         return ['choices' => [['message' => ['content' => 'ok'], 'finish_reason' => 'stop']]];
-    }
-}
-
-class WebSearchRecordingBedrock extends Bedrock
-{
-    /** @var array<string, mixed> */
-    public $sentPayload = [];
-
-    /** @var int|null */
-    public $sentTimeout = null;
-
-    // Intercepted at sendConverseRequest() rather than sendJsonRequest() so the
-    // test does not depend on Bedrock's region/endpoint derivation.
-    protected function sendConverseRequest(
-        string $model,
-        array $payload,
-        int $timeoutSeconds,
-        array $configuration
-    ): array {
-        $this->sentPayload = $payload;
-        $this->sentTimeout = $timeoutSeconds;
-
-        return [
-            'output' => ['message' => ['content' => [['text' => 'ok']]]],
-            'stopReason' => 'end_turn',
-        ];
     }
 }

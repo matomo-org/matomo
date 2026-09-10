@@ -141,6 +141,40 @@ class WebSearchUsageTest extends TestCase
         $this->assertSame('example.org', $usage->getCitations()[0]['domain']);
     }
 
+    public function testKeepsWwwWhenStrippingItWouldLeaveABareSuffix(): void
+    {
+        $usage = WebSearchUsage::fromProviderData(
+            [['url' => 'https://www.com/a']],
+            1,
+            []
+        );
+
+        $this->assertSame('www.com', $usage->getCitations()[0]['domain']);
+    }
+
+    public function testCapsUntrustedTitleAndQueryLength(): void
+    {
+        $usage = WebSearchUsage::fromProviderData(
+            [['url' => 'https://example.org/a', 'title' => str_repeat('t', 400)]],
+            1,
+            [str_repeat('q', 400)]
+        );
+
+        $this->assertSame(300, mb_strlen($usage->getCitations()[0]['title']));
+        $this->assertSame(300, mb_strlen($usage->getQueries()[0]));
+    }
+
+    public function testDropsAnAbsurdlyLongUrl(): void
+    {
+        $usage = WebSearchUsage::fromProviderData(
+            [['url' => 'https://example.org/' . str_repeat('a', 2100)]],
+            1,
+            []
+        );
+
+        $this->assertSame([], $usage->getCitations());
+    }
+
     public function testDeduplicatesAndTrimsQueries(): void
     {
         $usage = WebSearchUsage::fromProviderData([], 2, ['  best analytics  ', 'best analytics', '']);
@@ -180,22 +214,5 @@ class WebSearchUsageTest extends TestCase
 
         $this->assertFalse($usage->wasUsed());
         $this->assertSame(0, $usage->getRequestCount(), 'a reported zero is not the same as "cannot report"');
-    }
-
-    public function testToArrayShape(): void
-    {
-        $usage = WebSearchUsage::fromProviderData(
-            [['url' => 'https://matomo.org/blog', 'title' => 'Matomo']],
-            1,
-            ['best analytics']
-        );
-
-        $this->assertSame([
-            'citations' => [
-                ['url' => 'https://matomo.org/blog', 'title' => 'Matomo', 'domain' => 'matomo.org'],
-            ],
-            'requestCount' => 1,
-            'queries' => ['best analytics'],
-        ], $usage->toArray());
     }
 }

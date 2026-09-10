@@ -112,7 +112,7 @@ class OpenAI extends AIProvider
         ];
 
         $response = $this->sendJsonRequest(
-            $this->getResponsesEndpoint($this->getEndpointUrl($configuration)),
+            $this->openAiCompatibleEndpoint($this->getEndpointUrl($configuration), 'responses'),
             ['Authorization' => 'Bearer ' . $this->getApiKey($configuration)],
             $payload,
             $this->completionTimeoutSeconds($request)
@@ -141,39 +141,39 @@ class OpenAI extends AIProvider
     }
 
     /**
-     * Derives the Responses endpoint from the configured chat completions
-     * endpoint, so one configured URL serves both entry points.
-     */
-    private function getResponsesEndpoint(string $chatEndpointUrl): string
-    {
-        $base = preg_replace('#/chat/completions/?$#', '', $chatEndpointUrl) ?? $chatEndpointUrl;
-
-        return rtrim($base, '/') . '/responses';
-    }
-
-    /**
      * Concatenates the `output_text` parts of every `message` item. The output
      * is a typed item list (`reasoning`, `web_search_call`, `message`, …) and a
      * grounded answer can span several `message` items.
+     *
+     * Parts within one message are joined with nothing between them, because a
+     * grounded answer splits mid-sentence at a citation boundary and each part
+     * carries its own spacing; a separator there would break the prose, and in
+     * JSON mode a newline inside a string value makes the response undecodable.
+     * Separate messages are distinct blocks of prose and keep a newline.
      *
      * @param list<array<string, mixed>> $outputItems
      */
     private function extractResponsesText(array $outputItems): string
     {
-        $texts = [];
+        $messages = [];
         foreach ($outputItems as $item) {
             if (($item['type'] ?? null) !== 'message' || !is_array($item['content'] ?? null)) {
                 continue;
             }
 
+            $parts = [];
             foreach ($item['content'] as $part) {
                 if (is_array($part) && ($part['type'] ?? null) === 'output_text' && is_string($part['text'] ?? null)) {
-                    $texts[] = $part['text'];
+                    $parts[] = $part['text'];
                 }
+            }
+
+            if ($parts !== []) {
+                $messages[] = implode('', $parts);
             }
         }
 
-        return implode("\n", $texts);
+        return implode("\n", $messages);
     }
 
     /**
@@ -193,7 +193,13 @@ class OpenAI extends AIProvider
             $type = $item['type'] ?? null;
 
             if ($type === 'web_search_call') {
-                $searchCalls++;
+                // Reasoning models emit open_page and find_in_page actions on this
+                // same item type. Those are follow-ups within a search, not new
+                // billed searches, so counting them would overstate the fee.
+                $action = $item['action']['type'] ?? null;
+                if ($action === null || $action === 'search') {
+                    $searchCalls++;
+                }
                 if (is_string($item['action']['query'] ?? null)) {
                     $queries[] = $item['action']['query'];
                 }

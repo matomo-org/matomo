@@ -34,6 +34,21 @@ class Google extends AIProvider
      */
     private const GROUNDING_REDIRECT_HOST = 'vertexaisearch.cloud.google.com';
 
+    /**
+     * Final labels that make a dotted title a filename rather than a hostname.
+     * A shape check alone cannot tell `report.pdf` from `example.pdf`, and no
+     * hostname worth crediting ends in one of these.
+     *
+     * Deliberately a fixed list rather than a public suffix list: this only has
+     * to reject the handful of titles Google returns as filenames, and a wrong
+     * answer costs one bogus entry in a domain count.
+     */
+    private const NON_HOSTNAME_SUFFIXES = [
+        'pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'txt', 'csv', 'rtf',
+        'html', 'htm', 'php', 'aspx', 'json', 'xml', 'zip', 'gz',
+        'jpg', 'jpeg', 'png', 'gif', 'svg', 'webp', 'mp3', 'mp4', 'mov',
+    ];
+
     public function __construct()
     {
         parent::__construct(
@@ -113,13 +128,15 @@ class Google extends AIProvider
             $this->completionTimeoutSeconds($request)
         );
 
+        $finishReason = $response['candidates'][0]['finishReason'] ?? null;
+
         return $this->buildResponse(
             $request,
             $model,
             $this->concatenateTextParts($response['candidates'][0]['content']['parts'] ?? null),
             isset($response['usageMetadata']['promptTokenCount']) ? (int) $response['usageMetadata']['promptTokenCount'] : null,
             isset($response['usageMetadata']['candidatesTokenCount']) ? (int) $response['usageMetadata']['candidatesTokenCount'] : null,
-            null,
+            is_string($finishReason) && $finishReason !== '' ? $finishReason : null,
             $this->parseWebSearchUsage($request, $response)
         );
     }
@@ -133,6 +150,10 @@ class Google extends AIProvider
      * Concatenates every text part in order: a grounded candidate returns
      * several, so reading `parts[0]` truncated the answer. Parts flagged
      * `thought` are the reasoning summary, not the answer, and are skipped.
+     *
+     * Joined with nothing between them: the parts split mid-sentence and carry
+     * their own spacing, and in JSON mode a separator inside a string value
+     * makes the response undecodable.
      *
      * @param mixed $parts
      */
@@ -153,7 +174,7 @@ class Google extends AIProvider
             }
         }
 
-        return implode("\n", $texts);
+        return implode('', $texts);
     }
 
     /**
@@ -194,17 +215,18 @@ class Google extends AIProvider
             ];
         }
 
-        return WebSearchUsage::fromProviderData($citations, count($queries), $queries);
+        // Counted on the deduplicated queries so it cannot exceed what
+        // getWebSearchQueries() reports.
+        return WebSearchUsage::fromProviderData($citations, count(array_unique($queries)), $queries);
     }
 
     /**
-     * Publisher host of a grounding chunk. Google's `web.uri` is a redirect whose
-     * host is Google's own, and in practice no `web.domain` is returned; the
-     * publisher host arrives as the bare `web.title` ("matomo.org"). Order:
-     * `web.domain` when present, the URI host unless it is the redirect
-     * service, then the title when it is a hostname rather than prose. '' when
-     * none yields one: a visible gap beats a guess a caller cannot tell from a
-     * real value.
+     * Publisher host of a grounding chunk, or '' when nothing yields one, which
+     * a caller can see rather than mistake for a real value.
+     *
+     * `web.uri` is a redirect whose host is Google's own, and in practice no
+     * `web.domain` comes back: the publisher host arrives as the bare
+     * `web.title` ("matomo.org"), so the title is sniffed for a hostname shape.
      *
      * @param array<string, mixed> $web
      */
@@ -223,9 +245,22 @@ class Google extends AIProvider
             return $host;
         }
 
-        $title = is_string($web['title'] ?? null) ? strtolower(trim($web['title'])) : '';
+        // Requires an alphabetic final label, so a version ("1.2") is not
+        // mistaken for a hostname. Case and any `www.` are normalised by
+        // WebSearchUsage.
+        $title = is_string($web['title'] ?? null) ? trim($web['title']) : '';
+        $isHostname = preg_match(
+            '~^[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*\.[a-z]{2,}$~i',
+            $title
+        ) === 1;
 
-        return preg_match('~^[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)+$~', $title) === 1 ? $title : '';
+        if (!$isHostname) {
+            return '';
+        }
+
+        $suffix = strtolower(substr($title, (int) strrpos($title, '.') + 1));
+
+        return in_array($suffix, self::NON_HOSTNAME_SUFFIXES, true) ? '' : $title;
     }
 
     /**

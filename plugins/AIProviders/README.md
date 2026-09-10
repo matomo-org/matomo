@@ -95,7 +95,7 @@ When a managed environment forces a provider from configuration, the service als
     'inputTokens' => 42,                   // input/prompt tokens reported by the provider, or null
     'outputTokens' => 12,                  // output/completion tokens reported by the provider, or null
     'reasoningLevel' => 'none',            // reasoning level used
-    'webSearchEnabled' => false,           // whether provider-side web search actually ran
+    'webSearchUsed' => false,              // whether provider-side web search actually ran
     'webSearchRequestCount' => null,       // searches performed, or null when none ran / not reported
     'webSearchQueries' => [],              // queries the model issued, when the provider echoes them
     'webSearchCitations' => [],            // ['url' => …, 'title' => …, 'domain' => …] per source
@@ -113,7 +113,7 @@ $response = $service->complete(
     (new AIRequest($prompt, 'YourPlugin'))->withWebSearchEnabled(true)
 );
 
-if ($response->isWebSearchEnabled()) {
+if ($response->wasWebSearchUsed()) {
     foreach ($response->getWebSearchCitations() as $citation) {
         // $citation['url'], $citation['title'], $citation['domain']
     }
@@ -122,25 +122,34 @@ if ($response->isWebSearchEnabled()) {
 
 Supported by Anthropic, Google and OpenAI. Providers without a web search tool (AWS Bedrock, custom
 provider) reject the request with an `AIProviderClientException` rather than silently answering
-ungrounded; check `supportsWebSearch()` on the provider up front if you need to fall back.
+ungrounded. Call `$service->canUseWebSearch('YourPlugin')` first if you need to fall back: it answers
+for the provider `complete()` would actually resolve to, which on a managed instance is the forced
+provider rather than the one you asked for.
 
 **The model decides whether to search.** All three providers let the model choose, and AIProviders does
 not override that. A grounded request can come back with no search at all, so read
-`isWebSearchEnabled()` and `getWebSearchRequestCount()` on the response for what actually happened.
+`wasWebSearchUsed()` and `getWebSearchRequestCount()` on the response for what actually happened.
+
+**Citation titles and queries are untrusted model output.** They are length-capped but otherwise
+verbatim, so escape them where you render them. URLs are guaranteed to be `http(s)`.
 
 **Grounding is not a marginal cost.** Every provider charges per search, and the retrieved page content
 is billed as input tokens on top. Expect roughly 10-30x the cost of the same request ungrounded. The
 number of searches is capped on Anthropic (`max_uses`: 5) and the retrieved context on OpenAI
 (`search_context_size`: medium); Google exposes no cap at all.
 
-Grounded requests are slow (30-90s). The provider timeout defaults to 120s for them (30s otherwise);
-override with `withTimeoutSeconds()`.
+Grounded requests are slow (30-90s). The provider timeout defaults to 120s for them (30s otherwise).
+That exceeds PHP's default 30s `max_execution_time`, so **grounded completions are meant for CLI
+commands and scheduled tasks**, where it is unlimited. From a web request, either raise that limit
+yourself or lower the timeout with `withTimeoutSeconds()`, or the request dies before the provider
+answers. A retryable HTTP status also re-runs the searches, so it multiplies both the wall time and the
+per-search fees.
 
 Two provider-specific caveats:
 
 - **Google's citation URLs are not publisher URLs.** It returns a grounding redirect, so `url` is a
-  `vertexaisearch.cloud.google.com` link and only `domain` (taken from the chunk title, which Google
-  sets to the publisher host) identifies the publisher. Two sources from the same page therefore do
+  `vertexaisearch.cloud.google.com` link and only `domain`, taken from the chunk title which Google
+  sets to the publisher host, identifies the publisher. Two sources from the same page therefore do
   not deduplicate for Google: count distinct `domain`, not distinct `url`. When the title is not a
   hostname, `domain` is an empty string rather than a guess.
 - **Combining web search with JSON mode is degraded, not native.** OpenAI rejects the two together, so
