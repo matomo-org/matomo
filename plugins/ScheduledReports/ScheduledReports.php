@@ -93,6 +93,7 @@ class ScheduledReports extends \Piwik\Plugin
             'ScheduledReports.allowMultipleReports'     => 'allowMultipleReports',
             'ScheduledReports.sendReport'               => 'sendReport',
             'Template.reportParametersScheduledReports' => 'templateReportParametersScheduledReports',
+            'UsersManager.addUser'                      => 'deleteUserReport',
             'UsersManager.deleteUser'                   => 'deleteUserReport',
             'UsersManager.removeSiteAccess'             => 'deleteUserReportForSites',
             'SitesManager.deleteSite.end'               => 'deleteSiteReport',
@@ -648,6 +649,11 @@ class ScheduledReports extends \Piwik\Plugin
         throw new Exception($errorMessage);
     }
 
+    /**
+     * Removes every report owned by the given login.
+     *
+     * Also runs when a user is created, so a login that is reused starts without reports.
+     */
     public function deleteUserReport($userLogin)
     {
         $this->getModel()->deleteAllReportForUser($userLogin);

@@ -1251,6 +1251,8 @@ class API extends \Piwik\Plugin\API
 
         $this->executeConcurrencySafe($userLogin, function () use ($userLogin, $access, $idSites, $roles, $capabilities) {
             $idSites = $this->getIdSitesCheckAdminAccess($idSites);
+            // confirm the user still exists before the rows below are replaced
+            $this->checkUserExist($userLogin);
             $this->checkUsersHasNotSuperUserAccess($userLogin);
 
             $this->model->deleteUserAccess($userLogin, $idSites);
@@ -1590,7 +1592,17 @@ class API extends \Piwik\Plugin\API
         }
 
         $generatedToken = $this->model->generateRandomTokenAuth();
-        $this->model->addTokenAuth($userLogin, $generatedToken, $description, Date::now()->getDatetime(), $expireDate, false, $secureOnly);
+        $this->model->addTokenAuth(
+            $userLogin,
+            $generatedToken,
+            $description,
+            Date::now()->getDatetime(),
+            $expireDate,
+            false,
+            $secureOnly,
+            // bind the token to the account whose password was just confirmed
+            $user['date_registered'] ?? null
+        );
 
         return $generatedToken;
     }
