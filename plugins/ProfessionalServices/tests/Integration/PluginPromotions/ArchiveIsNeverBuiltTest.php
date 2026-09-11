@@ -60,7 +60,7 @@ class ArchiveIsNeverBuiltTest extends IntegrationTestCase
         parent::tearDown();
     }
 
-    public function testTheEntryPagesTriggerBuildsNoArchive(): void
+    public function testThePageTitlesTriggerBuildsNoArchive(): void
     {
         $before = $this->getArchiveState();
 
@@ -91,7 +91,7 @@ class ArchiveIsNeverBuiltTest extends IntegrationTestCase
     {
         $before = $this->getArchiveState();
 
-        Request::processRequest('Actions.getEntryPageUrls', [
+        Request::processRequest('Actions.getPageTitles', [
             'idSite' => self::IDSITE,
             'period' => ReportPeriod::PERIOD,
             'date' => ReportPeriod::DATE,
@@ -104,14 +104,14 @@ class ArchiveIsNeverBuiltTest extends IntegrationTestCase
 
     /**
      * The other side of the guard: once the archive exists the trigger reads it, reports
-     * the qualifying entry page, and still adds nothing to the archive tables.
+     * the qualifying page, and still adds nothing to the archive tables.
      */
-    public function testTheEntryPagesTriggerReadsAnArchiveThatAlreadyExists(): void
+    public function testThePageTitlesTriggerReadsAnArchiveThatAlreadyExists(): void
     {
         $this->trackBouncingVisitsOnAPopularEntryPage();
 
         // Build the archive the way a normal report request would.
-        Request::processRequest('Actions.getEntryPageUrls', [
+        Request::processRequest('Actions.getPageTitles', [
             'idSite' => self::IDSITE,
             'period' => ReportPeriod::PERIOD,
             'date' => ReportPeriod::DATE,
@@ -124,7 +124,9 @@ class ArchiveIsNeverBuiltTest extends IntegrationTestCase
         $result = StaticContainer::get(BounceRateTrigger::class)->evaluate(self::IDSITE);
 
         $this->assertTrue($result->isTriggered());
-        $this->assertStringContainsString('/pricing', $result->getContext()['url']);
+        // The promotion names the page by its title, which is what the tracker sent as
+        // the action name.
+        $this->assertSame('Pricing', $result->getContext()['title']);
         // 210 from this test plus the single /pricing visit tracked in setUp().
         $this->assertSame(211, $result->getContext()['entryVisits']);
         $this->assertSame(1.0, $result->getContext()['bounceRate']);

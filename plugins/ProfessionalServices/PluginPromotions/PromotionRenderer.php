@@ -27,7 +27,7 @@ use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\HighConversionRa
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\ScheduledReportsTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\CampaignConversionsTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\KeywordsNotDefinedTrigger;
-use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\ManyPagesTrigger;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\ManySitesTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\ManyUsersTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\MediaOutlinksTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\MultipleConversionChannelsTrigger;
@@ -198,7 +198,7 @@ class PromotionRenderer
                 ];
 
             // These all name a single count in the body and nothing in the headline.
-            case ManyPagesTrigger::NAME:
+            case ManySitesTrigger::NAME:
             case ManyUsersTrigger::NAME:
             case MediaOutlinksTrigger::NAME:
             case MultiplePageVisitsTrigger::NAME:
@@ -213,12 +213,13 @@ class PromotionRenderer
                 ];
 
             case BounceRateTrigger::NAME:
-                $url = $this->truncateUrl((string) ($context['url'] ?? ''));
                 $bounceRate = $metricsFormatter->getPrettyPercentFromQuotient((float) ($context['bounceRate'] ?? 0));
 
                 return [
                     'title' => [],
-                    'text' => [$bounceRate, $url],
+                    // A page title, which can be as long as a URL, so it is trimmed the
+                    // same way to keep the sentence on one line.
+                    'text' => [$bounceRate, $this->truncateUrl((string) ($context['title'] ?? ''))],
                 ];
 
             case FormPageTrigger::NAME:

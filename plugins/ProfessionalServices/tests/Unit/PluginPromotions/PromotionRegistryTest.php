@@ -25,7 +25,7 @@ use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\PromotionTrigger
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\ScheduledReportsTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\CampaignConversionsTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\KeywordsNotDefinedTrigger;
-use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\ManyPagesTrigger;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\ManySitesTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\MediaOutlinksTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\MultipleConversionChannelsTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\MultiplePageVisitsTrigger;
@@ -55,7 +55,7 @@ class PromotionRegistryTest extends TestCase
             $this->makeTrigger(ScheduledReportsTrigger::class, ScheduledReportsTrigger::NAME),
             $this->makeTrigger(CampaignConversionsTrigger::class, CampaignConversionsTrigger::NAME),
             $this->makeTrigger(KeywordsNotDefinedTrigger::class, KeywordsNotDefinedTrigger::NAME),
-            $this->makeTrigger(ManyPagesTrigger::class, ManyPagesTrigger::NAME),
+            $this->makeTrigger(ManySitesTrigger::class, ManySitesTrigger::NAME),
             $this->makeTrigger(MediaOutlinksTrigger::class, MediaOutlinksTrigger::NAME),
             $this->makeTrigger(MultipleConversionChannelsTrigger::class, MultipleConversionChannelsTrigger::NAME),
             $this->makeTrigger(MultiplePageVisitsTrigger::class, MultiplePageVisitsTrigger::NAME),
@@ -84,9 +84,9 @@ class PromotionRegistryTest extends TestCase
             ['CustomReports', 'segments'],
             ['HeatmapSessionRecording', 'bounce_rate'],
             ['Funnels', 'conversion_rate_funnels'],
-            ['AbTesting', 'conversion_rate_ab'],
+            ['AbTesting', 'conversion_rate_ABtesting'],
             ['CustomReports', 'scheduled_reports'],
-            ['CrashAnalytics', 'many_pages'],
+            ['CrashAnalytics', 'many_sites'],
             ['MediaAnalytics', 'media_outlinks'],
             ['UsersFlow', 'multiple_page_visits'],
             ['SearchEngineKeywordsPerformance', 'keywords_not_defined'],

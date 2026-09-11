@@ -41,10 +41,10 @@ class BounceRateTriggerTest extends TestCase
     public function testAppliesBothThresholds(int $entryVisits, int $bounceCount, bool $expectedToQualify): void
     {
         $entryPages = $this->makeReport([
-            ['label' => '/pricing', 'entry_nb_visits' => $entryVisits, 'entry_bounce_count' => $bounceCount],
+            ['label' => 'Pricing', 'nb_visits' => $entryVisits, 'entry_nb_visits' => $entryVisits, 'entry_bounce_count' => $bounceCount],
         ]);
 
-        $qualifying = $this->trigger->findQualifyingEntryPage($entryPages);
+        $qualifying = $this->trigger->findQualifyingPage($entryPages);
 
         $this->assertSame($expectedToQualify, null !== $qualifying);
     }
@@ -69,50 +69,50 @@ class BounceRateTriggerTest extends TestCase
     {
         // Ordered by entry visits descending, the way the report is requested.
         $entryPages = $this->makeReport([
-            ['label' => '/product', 'entry_nb_visits' => 900, 'entry_bounce_count' => 480],
-            ['label' => '/download', 'entry_nb_visits' => 720, 'entry_bounce_count' => 490],
-            ['label' => '/pricing', 'entry_nb_visits' => 450, 'entry_bounce_count' => 324],
+            ['label' => 'Product', 'nb_visits' => 900, 'entry_nb_visits' => 900, 'entry_bounce_count' => 480],
+            ['label' => 'Download', 'nb_visits' => 720, 'entry_nb_visits' => 720, 'entry_bounce_count' => 490],
+            ['label' => 'Pricing', 'nb_visits' => 450, 'entry_nb_visits' => 450, 'entry_bounce_count' => 324],
         ]);
 
-        $qualifying = $this->trigger->findQualifyingEntryPage($entryPages);
+        $qualifying = $this->trigger->findQualifyingPage($entryPages);
 
         // /product has more visits but does not bounce often enough, /pricing bounces more
         // but has fewer visits.
-        $this->assertSame('/download', $qualifying['url']);
+        $this->assertSame('Download', $qualifying['title']);
         $this->assertSame(720, $qualifying['entryVisits']);
     }
 
     /**
-     * The headline names the page, so it wants the path rather than the full URL the row
-     * also carries.
+     * The copy names the page, and a title is what reads there.
      */
-    public function testReportsThePagePathRatherThanTheFullUrl(): void
+    public function testReportsThePageTitle(): void
     {
-        $entryPages = $this->makeReport([
-            ['label' => '/pricing', 'entry_nb_visits' => 500, 'entry_bounce_count' => 400],
+        $pages = $this->makeReport([
+            ['label' => 'Pricing and plans', 'nb_visits' => 500, 'entry_nb_visits' => 500, 'entry_bounce_count' => 400],
         ]);
-        $entryPages->getFirstRow()->setMetadata('url', 'https://example.org/pricing');
 
-        $qualifying = $this->trigger->findQualifyingEntryPage($entryPages);
-
-        $this->assertSame('/pricing', $qualifying['url']);
+        $this->assertSame('Pricing and plans', $this->trigger->findQualifyingPage($pages)['title']);
     }
 
-    public function testFallsBackToTheFullUrlWhenTheRowHasNoLabel(): void
+    /**
+     * A page title that was never an entry page carries no entry metrics at all: the
+     * report gives false for both, not zero, so it must be skipped rather than divided by.
+     */
+    public function testAPageThatWasNeverAnEntryPageIsSkipped(): void
     {
-        $entryPages = $this->makeReport([
-            ['label' => '', 'entry_nb_visits' => 500, 'entry_bounce_count' => 400],
+        $pages = $this->makeReport([
+            ['label' => 'Features', 'nb_visits' => 900, 'entry_nb_visits' => false, 'entry_bounce_count' => false],
+            ['label' => 'Pricing', 'nb_visits' => 600, 'entry_nb_visits' => 600, 'entry_bounce_count' => 500],
         ]);
-        $entryPages->getFirstRow()->setMetadata('url', 'https://example.org/pricing');
 
-        $qualifying = $this->trigger->findQualifyingEntryPage($entryPages);
+        $qualifying = $this->trigger->findQualifyingPage($pages);
 
-        $this->assertSame('https://example.org/pricing', $qualifying['url']);
+        $this->assertSame('Pricing', $qualifying['title']);
     }
 
     public function testReturnsNothingForAnEmptyReport(): void
     {
-        $this->assertNull($this->trigger->findQualifyingEntryPage(new DataTable()));
+        $this->assertNull($this->trigger->findQualifyingPage(new DataTable()));
     }
 
     /**

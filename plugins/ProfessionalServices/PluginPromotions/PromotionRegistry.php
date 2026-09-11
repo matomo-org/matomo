@@ -22,7 +22,7 @@ use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\HighConversionRa
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\ScheduledReportsTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\CampaignConversionsTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\KeywordsNotDefinedTrigger;
-use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\ManyPagesTrigger;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\ManySitesTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\MediaOutlinksTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\MultipleConversionChannelsTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\MultiplePageVisitsTrigger;
@@ -54,7 +54,7 @@ class PromotionRegistry
         ScheduledReportsTrigger $scheduledReportsTrigger,
         CampaignConversionsTrigger $campaignConversionsTrigger,
         KeywordsNotDefinedTrigger $keywordsNotDefinedTrigger,
-        ManyPagesTrigger $manyPagesTrigger,
+        ManySitesTrigger $manySitesTrigger,
         MediaOutlinksTrigger $mediaOutlinksTrigger,
         MultipleConversionChannelsTrigger $multipleConversionChannelsTrigger,
         MultiplePageVisitsTrigger $multiplePageVisitsTrigger,
@@ -132,7 +132,7 @@ class PromotionRegistry
                 6,
                 'CrashAnalytics',
                 'ProfessionalServices_PromotionProductCrashAnalytics',
-                $manyPagesTrigger,
+                $manySitesTrigger,
                 'crash_analytics',
                 'ProfessionalServices_PromotionCrashAnalytics',
                 'product-promotion-crash-analytics.png'

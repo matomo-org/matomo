@@ -16,7 +16,6 @@ use Piwik\Plugins\ProfessionalServices\PluginPromotions\ArchivedReportReader;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\DailyTriggerCache;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\ReportPeriod;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\CampaignConversionsTrigger;
-use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\ManyPagesTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\MediaOutlinksTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\MultipleConversionChannelsTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\MultiplePageVisitsTrigger;
@@ -32,22 +31,6 @@ use Piwik\Plugins\ProfessionalServices\PluginPromotions\WeeklyGoalMetrics;
  */
 class ReportCountingTriggersTest extends TestCase
 {
-    public function testActivePagesAreCountedUntilTheVisitFloorIsCrossed(): void
-    {
-        // Ordered by visits descending, the way the report is requested.
-        $pages = $this->makeReport([
-            ['label' => '/a', 'nb_visits' => 400],
-            ['label' => '/b', 'nb_visits' => 120],
-            ['label' => '/c', 'nb_visits' => 100],
-            ['label' => '/d', 'nb_visits' => 99],
-            ['label' => '/e', 'nb_visits' => 500],
-        ]);
-
-        // Counting stops at /d, so the out of order /e is never reached: the report is
-        // sorted, and a row below the floor means every later row is too.
-        $this->assertSame(3, $this->manyPages()->countActivePages($pages));
-    }
-
     public function testOnlyMediaHostsCountTowardsOutlinkClicks(): void
     {
         $outlinks = $this->makeReport([
@@ -228,11 +211,6 @@ class ReportCountingTriggersTest extends TestCase
         $pages = $this->makeReport([['label' => '/p', 'nb_hits' => 499, 'avg_page_load_time' => 9.0]]);
 
         $this->assertNull($this->slowPage()->findSlowestBusyPage($pages));
-    }
-
-    private function manyPages(): ManyPagesTrigger
-    {
-        return new ManyPagesTrigger(...$this->reportDependencies());
     }
 
     private function mediaOutlinks(): MediaOutlinksTrigger

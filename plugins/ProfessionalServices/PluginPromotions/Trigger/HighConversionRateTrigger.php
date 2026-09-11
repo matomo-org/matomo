@@ -22,7 +22,7 @@ use Piwik\Plugins\ProfessionalServices\PluginPromotions\WeeklyGoalMetrics;
  */
 class HighConversionRateTrigger extends GoalBackedTrigger
 {
-    public const NAME = 'conversion_rate_ab';
+    public const NAME = 'conversion_rate_ABtesting';
 
     public const MINIMUM_CONVERSION_RATE = 0.03;
 
