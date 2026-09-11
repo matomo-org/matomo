@@ -32,6 +32,7 @@ class BotDetector
         'Gemini-Deep-Research'  => self::BOT_TYPE_AI_CHATBOT,
         'Claude-User'           => self::BOT_TYPE_AI_CHATBOT,
         'Perplexity-User'       => self::BOT_TYPE_AI_CHATBOT,
+        'DuckAssistBot'         => self::BOT_TYPE_AI_CHATBOT,
         'Google-GeminiNotebook' => self::BOT_TYPE_AI_CHATBOT,
         'Google-NotebookLM'     => self::BOT_TYPE_AI_CHATBOT,
     ];
