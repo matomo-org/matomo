@@ -50,10 +50,7 @@
         {% if row.getMetadata('html_label_prefix') %}<span class='label-prefix'>{{ row.getMetadata('html_label_prefix') | raw }}&nbsp;</span>{% endif -%}
 {% endif %}<span class="value">
     {%- if row.getColumn(column) or (column=='label' and (row.getColumn(column) is same as("0") or row.getColumn(column) is same as(0))) -%}
-        {#- Flattening a report with its dimensions shown promotes each dimension to a column of
-            its own, holding a label rather than a metric, so those decode like the label does.
-            Same condition as the label markup above. -#}
-        {%- if column=='label' or column in dimensions -%}
+        {%- if column=='label' -%}
             {{- row.getColumn(column)|rawSafeDecoded -}}
         {%- elseif showPercentageValues -%}
             {{- rowPercentage -}}
@@ -61,7 +58,14 @@
             {%- if row.getMetadata('html_column_' ~ column ~ '_prefix') -%}
                 <span class='column-prefix'>{{ row.getMetadata('html_column_' ~ column ~ '_prefix') | raw }}</span>
             {%- endif -%}
-            {{- row.getColumn(column)|number(2,0) -}}
+            {#- Flattening a report with its dimensions shown promotes each dimension to a column
+                of its own, and those hold a tracked label, URL encoded like the label column is.
+                A metric value is not: reading one as a URL rewrites the number it shows. -#}
+            {%- if column in dimensions -%}
+                {{- row.getColumn(column)|number(2,0)|rawSafeDecoded -}}
+            {%- else -%}
+                {{- row.getColumn(column)|number(2,0)|rawSafeDecodedEntities -}}
+            {%- endif -%}
             {%- if row.getMetadata('html_column_' ~ column ~ '_suffix') -%}
                 <span class='column-suffix'>{{ row.getMetadata('html_column_' ~ column ~ '_suffix') | raw }}</span>
             {%- endif -%}

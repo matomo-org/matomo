@@ -92,13 +92,39 @@ class DataTableCellPercentRenderingTest extends IntegrationTestCase
     /**
      * Flattening a report with its dimensions shown gives each dimension a column of its own, and
      * those hold tracked labels - already encoded once - rather than metrics. They are the one
-     * kind of value in this branch that still has to be decoded rather than only escaped.
+     * kind of value in this branch that still has to be read as a URL.
      */
     public function testADimensionColumnOfAFlattenedTableIsDecodedLikeALabel(): void
     {
         $rendered = $this->renderCellValue('en', 'Tom &amp; Jerry / search%20results', ['bounce_rate']);
 
         self::assertSame('Tom &amp; Jerry / search results', $rendered);
+    }
+
+    /**
+     * Piwik\Metrics\Formatter\Html writes the entity rather than the character, and
+     * Piwik\Plugin\Visualization gives every visualization that formatter, so pretty time, size
+     * and money values all arrive here carrying it. Rendering the entity as text instead of
+     * resolving it widens the column and shifts the whole table.
+     *
+     * @dataProvider getValuesCarryingEntities
+     */
+    public function testAnEntityWrittenByTheFormatterIsResolvedRatherThanShown(
+        string $formattedValue,
+        string $expected
+    ): void {
+        self::assertSame($expected, $this->renderCellValue('en', $formattedValue));
+    }
+
+    public function getValuesCarryingEntities(): array
+    {
+        return [
+            // Formatter\Html::replaceSpaceWithNonBreakingSpace()
+            ['3&nbsp;min&nbsp;21s', "3\u{a0}min\u{a0}21s"],
+            ['128&nbsp;M', "128\u{a0}M"],
+            // a value already encoded once stays encoded exactly once
+            ['Tom &amp; Jerry', 'Tom &amp; Jerry'],
+        ];
     }
 
     /**

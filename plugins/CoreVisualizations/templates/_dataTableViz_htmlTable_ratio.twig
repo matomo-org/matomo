@@ -45,7 +45,7 @@
             {%- if row.getMetadata('html_column_' ~ column ~ '_prefix') -%}
                 <span class='column-prefix'>{{ row.getMetadata('html_column_' ~ column ~ '_prefix') | raw }}</span>
             {%- endif -%}
-            {{- row.getColumn(column)|default(0)|number(2,0) -}}
+            {{- row.getColumn(column)|default(0)|number(2,0)|rawSafeDecodedEntities -}}
             {%- if row.getMetadata('html_column_' ~ column ~ '_suffix') -%}
                 <span class='column-suffix'>{{ row.getMetadata('html_column_' ~ column ~ '_suffix') | raw }}</span>
             {%- endif -%}
