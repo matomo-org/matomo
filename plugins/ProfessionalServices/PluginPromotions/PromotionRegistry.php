@@ -26,7 +26,7 @@ use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\ManySitesTrigger
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\MediaOutlinksTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\MultipleConversionChannelsTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\MultiplePageVisitsTrigger;
-use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\ReturningVisitsTrigger;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\ReturningVisitorsTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\SlowPageTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\SegmentsTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\TeamBundleTrigger;
@@ -58,7 +58,7 @@ class PromotionRegistry
         MediaOutlinksTrigger $mediaOutlinksTrigger,
         MultipleConversionChannelsTrigger $multipleConversionChannelsTrigger,
         MultiplePageVisitsTrigger $multiplePageVisitsTrigger,
-        ReturningVisitsTrigger $returningVisitsTrigger,
+        ReturningVisitorsTrigger $returningVisitorsTrigger,
         SlowPageTrigger $slowPageTrigger,
         ManyUsersTrigger $manyUsersTrigger,
         CustomLogoTrigger $customLogoTrigger,
@@ -213,7 +213,7 @@ class PromotionRegistry
                 16,
                 'Cohorts',
                 'ProfessionalServices_PromotionProductCohorts',
-                $returningVisitsTrigger,
+                $returningVisitorsTrigger,
                 'cohorts',
                 'ProfessionalServices_PromotionCohorts',
                 'product-promotion-cohorts.png'

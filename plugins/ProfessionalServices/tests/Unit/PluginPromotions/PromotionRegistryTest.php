@@ -29,7 +29,7 @@ use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\ManySitesTrigger
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\MediaOutlinksTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\MultipleConversionChannelsTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\MultiplePageVisitsTrigger;
-use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\ReturningVisitsTrigger;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\ReturningVisitorsTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\SlowPageTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\SegmentsTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\TeamBundleTrigger;
@@ -59,7 +59,7 @@ class PromotionRegistryTest extends TestCase
             $this->makeTrigger(MediaOutlinksTrigger::class, MediaOutlinksTrigger::NAME),
             $this->makeTrigger(MultipleConversionChannelsTrigger::class, MultipleConversionChannelsTrigger::NAME),
             $this->makeTrigger(MultiplePageVisitsTrigger::class, MultiplePageVisitsTrigger::NAME),
-            $this->makeTrigger(ReturningVisitsTrigger::class, ReturningVisitsTrigger::NAME),
+            $this->makeTrigger(ReturningVisitorsTrigger::class, ReturningVisitorsTrigger::NAME),
             $this->makeTrigger(SlowPageTrigger::class, SlowPageTrigger::NAME),
             $this->makeTrigger(ManyUsersTrigger::class, ManyUsersTrigger::NAME),
             $this->makeTrigger(CustomLogoTrigger::class, CustomLogoTrigger::NAME),
@@ -96,7 +96,7 @@ class PromotionRegistryTest extends TestCase
             ['WhiteLabel', 'custom_logo'],
             ['WooCommerceAnalytics', 'woocommerce_add_to_cart_urls'],
             ['RollUpReporting', 'multiple_active_sites'],
-            ['Cohorts', 'returning_visits'],
+            ['Cohorts', 'returning_visitors'],
             ['MultiChannelConversionAttribution', 'multiple_conversion_channels'],
             ['SEOWebVitals', 'slow_page'],
             ['ActivityLog', 'multiple_superusers'],

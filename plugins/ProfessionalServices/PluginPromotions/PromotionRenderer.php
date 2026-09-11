@@ -33,7 +33,7 @@ use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\MediaOutlinksTri
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\MultipleConversionChannelsTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\MultiplePageVisitsTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\MultipleSuperusersTrigger;
-use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\ReturningVisitsTrigger;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\ReturningVisitorsTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\SlowPageTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\SegmentsTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\WooCommerceUrlsTrigger;
@@ -212,7 +212,7 @@ class PromotionRenderer
             case MultiplePageVisitsTrigger::NAME:
             case MultipleSuperusersTrigger::NAME:
             case KeywordsNotDefinedTrigger::NAME:
-            case ReturningVisitsTrigger::NAME:
+            case ReturningVisitorsTrigger::NAME:
             case MultipleActiveSitesTrigger::NAME:
             case ScheduledReportsTrigger::NAME:
                 return [

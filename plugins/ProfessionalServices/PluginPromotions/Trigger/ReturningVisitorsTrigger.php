@@ -15,9 +15,9 @@ use Piwik\DataTable;
  * Triggers when enough visitors are coming back for groups of them to be worth comparing
  * over time.
  */
-class ReturningVisitsTrigger extends ReportBackedTrigger
+class ReturningVisitorsTrigger extends ReportBackedTrigger
 {
-    public const NAME = 'returning_visits';
+    public const NAME = 'returning_visitors';
 
     public const MINIMUM_RETURNING_VISITORS = 500;
 
