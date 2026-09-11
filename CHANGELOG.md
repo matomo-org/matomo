@@ -7,14 +7,6 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ## Matomo 5.14.0
 
 ### Breaking Changes
-* The placeholder `Piwik\Plugins\AIProviders\Provider\AIProvider::isWebSearchUsed()` has been removed
-  now that provider web search is implemented. Its base implementation always returned `false` and no
-  bundled provider overrode it, but the value it returned was passed into the response, so a
-  third-party provider that overrode it did control `AIProviderResponse::isWebSearchEnabled()`. Such a
-  provider must now override `supportsWebSearch()` to declare the capability and pass a
-  `Piwik\Plugins\AIProviders\WebSearchUsage` to `buildResponse()`, which reports the searches, queries
-  and citations the completion actually produced. Overriding the removed method has no effect and
-  raises no error, so check for it when upgrading a provider plugin.
 * The interface `Piwik\Settings\Interfaces\PolicyComparisonInterface` gained four methods used by the granular compliance dashboard: `getPolicySettingId()`, `isExternallyManagedByPolicyPage()`, `getWhatItDoes()` and `getImpact()`. Plugins that implement the interface directly must implement them. Plugins using `Piwik\Settings\Interfaces\Traits\PolicyComparisonTrait` (as all known implementers do) inherit default implementations and are not affected.
 * Exporting a report for a single goal (a goals table or a bar/pie/evolution chart showing one goal's
   conversions or revenue) now returns only the columns shown in the UI, by adding `showColumns` to the
@@ -58,10 +50,18 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   the new `webSearchUsed` key. The name reads as request state, but both report what the provider
   actually did, while `AIRequest::isWebSearchEnabled()` keeps the request meaning. Both will be removed
   in Matomo 6.
-* The `$webSearchEnabled` parameter of the `AIProviderResponse` constructor is ignored. Pass a
-  `Piwik\Plugins\AIProviders\WebSearchUsage` as the new trailing `$webSearch` parameter instead. The
-  parameter is kept in place so positional callers written against Matomo 5.13.0 keep working, and will
-  be removed in Matomo 6.
+* The `$webSearchEnabled` parameter of the `AIProviderResponse` constructor is deprecated. Pass a
+  `Piwik\Plugins\AIProviders\WebSearchUsage` as the new trailing `$webSearch` parameter instead, which
+  reports the searches, queries and citations a completion actually produced rather than a bare flag.
+  The parameter keeps its position and its meaning, so positional callers written against Matomo 5.13.0
+  keep working and a `true` still makes `wasWebSearchUsed()` report a search. It will be removed in
+  Matomo 6.
+* `Piwik\Plugins\AIProviders\Provider\AIProvider::isWebSearchUsed()` is deprecated. It was a
+  placeholder whose base implementation always returned `false`, and no bundled provider overrode it,
+  but a third-party provider that did override it controlled `AIProviderResponse::isWebSearchEnabled()`.
+  Such a provider should now override `supportsWebSearch()` to declare the capability and pass a
+  `WebSearchUsage` to `buildResponse()`. An existing override is still honoured by
+  `wasWebSearchUsed()` for the transition, and will stop being consulted in Matomo 6.
 
 ### HTTP API
 * A new `keep_flattened_dimension_columns` parameter keeps the columns a flattened report adds for its

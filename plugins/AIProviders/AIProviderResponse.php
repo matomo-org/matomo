@@ -82,12 +82,20 @@ class AIProviderResponse
     private $webSearch;
 
     /**
-     * @param bool $webSearchEnabled Deprecated since 5.14.0 and ignored; pass a
-     *                               {@link WebSearchUsage} as $webSearch instead. Kept in place so
-     *                               positional callers written against Matomo 5.13.0 keep working.
-     *                               Will be removed in Matomo 6.
+     * Legacy "web search was used" flag from the deprecated constructor parameter.
+     * Only ever true for a caller that predates {@link WebSearchUsage}.
+     *
+     * @var bool
      */
-    // @phpstan-ignore constructor.unusedParameter ($webSearchEnabled is deliberately ignored, see above)
+    private $legacyWebSearchEnabled;
+
+    /**
+     * @param bool $webSearchEnabled Deprecated since 5.14.0; pass a {@link WebSearchUsage} as
+     *                               $webSearch instead, which reports what the search actually
+     *                               did rather than a bare flag. Still honoured by
+     *                               {@link wasWebSearchUsed()} so callers and providers written
+     *                               against Matomo 5.13.0 keep working. Will be removed in Matomo 6.
+     */
     public function __construct(
         string $providerId,
         string $providerName,
@@ -111,6 +119,7 @@ class AIProviderResponse
         $this->executionTimeMs = $executionTimeMs;
         $this->stopReason = $stopReason;
         $this->webSearch = $webSearch ?? WebSearchUsage::none();
+        $this->legacyWebSearchEnabled = $webSearchEnabled;
     }
 
     public function getText(): string
@@ -145,7 +154,7 @@ class AIProviderResponse
      */
     public function wasWebSearchUsed(): bool
     {
-        return $this->webSearch->wasUsed();
+        return $this->webSearch->wasUsed() || $this->legacyWebSearchEnabled;
     }
 
     /**
@@ -238,9 +247,9 @@ class AIProviderResponse
             'inputTokens' => $this->inputTokens,
             'outputTokens' => $this->outputTokens,
             'reasoningLevel' => $this->reasoningLevel,
-            'webSearchUsed' => $this->webSearch->wasUsed(),
+            'webSearchUsed' => $this->wasWebSearchUsed(),
             // @deprecated since 5.14.0, use webSearchUsed instead.
-            'webSearchEnabled' => $this->webSearch->wasUsed(),
+            'webSearchEnabled' => $this->wasWebSearchUsed(),
             'webSearchRequestCount' => $this->webSearch->getRequestCount(),
             'webSearchQueries' => $this->webSearch->getQueries(),
             'webSearchCitations' => $this->webSearch->getCitations(),

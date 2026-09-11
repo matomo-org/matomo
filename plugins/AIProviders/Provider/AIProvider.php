@@ -382,7 +382,10 @@ abstract class AIProvider
             $inputTokens,
             $outputTokens,
             $this->getReasoningLevelUsed($request),
-            false, // deprecated $webSearchEnabled slot, superseded by $webSearch below
+            // Deprecated slot, superseded by $webSearch below. Still consulted so a
+            // provider written against Matomo 5.13.0, whose only way to report a
+            // search was overriding isWebSearchUsed(), keeps being believed.
+            $this->isWebSearchUsed($request),
             $this->lastRequestExecutionTimeMs,
             $stopReason,
             $webSearch
@@ -462,6 +465,19 @@ abstract class AIProvider
      * rejects a grounded request for a provider that returns false.
      */
     public function supportsWebSearch(): bool
+    {
+        return false;
+    }
+
+    /**
+     * @deprecated since 5.14.0. Override {@link supportsWebSearch()} to declare the
+     *             capability and pass a {@link WebSearchUsage} to {@link buildResponse()},
+     *             which reports the searches, queries and citations a completion actually
+     *             produced instead of a bare flag. An override is still honoured by
+     *             {@link AIProviderResponse::wasWebSearchUsed()} for the transition.
+     *             Will be removed in Matomo 6.
+     */
+    protected function isWebSearchUsed(AIRequest $request): bool
     {
         return false;
     }

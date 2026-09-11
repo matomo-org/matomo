@@ -792,6 +792,26 @@ class WebSearchTest extends TestCase
         );
     }
 
+    // -- deprecated provider surface -----------------------------------------
+
+    /**
+     * A provider written against Matomo 5.13.0 could only report a search by
+     * overriding the now-deprecated isWebSearchUsed(). Dropping that override on
+     * the floor would silently downgrade its answers to "ungrounded", so it is
+     * still consulted until Matomo 6.
+     */
+    public function testALegacyProviderOverridingIsWebSearchUsedIsStillBelieved(): void
+    {
+        $legacy = new WebSearchLegacyOverrideProvider();
+
+        $response = $legacy->complete($this->groundedRequest(), self::CUSTOM_CONFIG);
+
+        $this->assertTrue($response->wasWebSearchUsed());
+        $this->assertTrue($response->isWebSearchEnabled());
+        // The flag carries no detail; only a WebSearchUsage does.
+        $this->assertSame([], $response->getWebSearchCitations());
+        $this->assertNull($response->getWebSearchRequestCount());
+    }
 
     // -- helpers --------------------------------------------------------------
 
@@ -910,6 +930,23 @@ class WebSearchRecordingCustomProvider extends CustomProvider
         $this->sentPayload = $payload;
         $this->sentTimeout = $timeoutSeconds;
 
+        return ['choices' => [['message' => ['content' => 'ok'], 'finish_reason' => 'stop']]];
+    }
+}
+
+/**
+ * Mimics a third-party provider written against Matomo 5.13.0: it reports a search
+ * through the deprecated override and never passes a WebSearchUsage.
+ */
+class WebSearchLegacyOverrideProvider extends CustomProvider
+{
+    protected function isWebSearchUsed(AIRequest $request): bool
+    {
+        return $request->isWebSearchEnabled();
+    }
+
+    protected function sendJsonRequest(string $url, array $headers, array $payload, int $timeoutSeconds = self::COMPLETE_TIMEOUT_SECONDS): array
+    {
         return ['choices' => [['message' => ['content' => 'ok'], 'finish_reason' => 'stop']]];
     }
 }

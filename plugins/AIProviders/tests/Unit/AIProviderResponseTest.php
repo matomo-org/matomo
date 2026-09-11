@@ -7,9 +7,7 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-// No declare(strict_types=1) on purpose: the compatibility test below mimics a caller
-// written against Matomo 5.13.0, and coercion of its positional arguments is the
-// behaviour under test.
+declare(strict_types=1);
 
 namespace Piwik\Plugins\AIProviders\tests\Unit;
 
@@ -26,9 +24,10 @@ class AIProviderResponseTest extends TestCase
 {
     /**
      * The positional shape Matomo 5.13.0 shipped, argument for argument. The
-     * $webSearchEnabled slot is kept and ignored precisely so this keeps binding
-     * the execution time and stop reason to the right parameters; without it
-     * `true` coerced into $executionTimeMs and reported a 1ms provider round trip.
+     * deprecated $webSearchEnabled slot is kept so this keeps binding the execution
+     * time and stop reason to the right parameters — removing it would have bound
+     * `true` to $executionTimeMs — and it keeps its meaning, so a 5.13.0 caller that
+     * reported a search still has that search reported back.
      */
     public function testTheMatomo5130PositionalConstructorStillBindsCorrectly(): void
     {
@@ -47,10 +46,22 @@ class AIProviderResponseTest extends TestCase
 
         $this->assertSame(1234, $response->getExecutionTimeMs());
         $this->assertSame('stop', $response->getStopReason());
-        // The deprecated flag is ignored: only a WebSearchUsage reports a search.
-        $this->assertFalse($response->wasWebSearchUsed());
+        // The deprecated flag is still honoured, so the caller's report survives.
+        $this->assertTrue($response->wasWebSearchUsed());
+        $this->assertTrue($response->isWebSearchEnabled());
+        // It carries no detail, though: only a WebSearchUsage has queries or sources.
         $this->assertNull($response->getWebSearchRequestCount());
         $this->assertSame([], $response->getWebSearchCitations());
+        $this->assertSame([], $response->getWebSearchQueries());
+    }
+
+    /**
+     * The deprecated flag reports a search, it does not veto one: a provider that
+     * has migrated to WebSearchUsage passes `false` in the old slot.
+     */
+    public function testTheDeprecatedFlagDoesNotOverrideAWebSearchUsage(): void
+    {
+        $this->assertTrue($this->groundedResponse()->wasWebSearchUsed());
     }
 
     public function testTheDeprecatedReaderAgreesWithTheCurrentOne(): void
