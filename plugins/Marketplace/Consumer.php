@@ -21,7 +21,7 @@ class Consumer
 
     /**
      * Whether the Marketplace actually answered the last consumer request, as opposed to the
-     * request failing. An answer listing no license for a plugin is a real answer.
+     * request failing or arriving empty. An answer whose license list is empty is a real answer.
      */
     private bool $consumerAvailable = false;
 
@@ -57,7 +57,9 @@ class Consumer
     {
         if ($this->consumer === false) {
             $consumer = $this->marketplaceClient->getConsumer();
-            $this->consumerAvailable = $consumer !== null;
+            // a 200 carrying an empty body reaches here as '', which says nothing about the
+            // consumer's licenses; a real answer always carries the list, empty or not
+            $this->consumerAvailable = is_array($consumer) && array_key_exists('licenses', $consumer);
 
             if (!empty($consumer)) {
                 $this->consumer = $consumer;
@@ -105,6 +107,7 @@ class Consumer
     public function getConsumerPluginLicenses(): ?array
     {
         if ($this->pluginLicenses === null) {
+            // populates consumerAvailable, so it has to run before the guard below reads it
             $consumer = $this->getConsumer();
 
             if (!$this->consumerAvailable) {

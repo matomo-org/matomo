@@ -61,11 +61,23 @@ class Environment
 
     public function getPhpVersion()
     {
-        $running = PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION . '.' . PHP_RELEASE_VERSION;
+        return PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION . '.' . PHP_RELEASE_VERSION;
+    }
+
+    /**
+     * Returns the PHP version the web server runs, which is the one the Marketplace is asked to
+     * answer for.
+     *
+     * Plenty of hosts run cron under a different PHP build than the web server, and this version is
+     * part of every Marketplace cache key, so a scheduled task asking for its own version would warm
+     * entries no page ever reads. Do not use this to decide what this process can run: for that the
+     * version in hand is the only true answer, and {@link getPhpVersion()} gives it.
+     */
+    public function getWebPhpVersion(): string
+    {
+        $running = $this->getPhpVersion();
 
         if (!Common::isPhpCliMode()) {
-            // remembered because this version is part of every Marketplace cache key, and plenty of
-            // hosts serve the web with a different PHP build than the one cron runs
             if (Option::get(self::OPTION_WEB_PHP_VERSION) !== $running) {
                 Option::set(self::OPTION_WEB_PHP_VERSION, $running);
             }
@@ -73,8 +85,7 @@ class Environment
             return $running;
         }
 
-        // so a scheduled task warms the entries the browser will read rather than a set of its own.
-        // Before any page has recorded one there is nothing better than the version in hand.
+        // before any page has recorded one there is nothing better than the version in hand
         $webVersion = Option::get(self::OPTION_WEB_PHP_VERSION);
 
         return !empty($webVersion) ? $webVersion : $running;
