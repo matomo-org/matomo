@@ -138,7 +138,12 @@ class Google extends AIProvider
             $this->completionTimeoutSeconds($request)
         );
 
-        $finishReason = $response['candidates'][0]['finishReason'] ?? null;
+        // Mapped through the same canonical vocabulary the conversation path uses,
+        // so `end_turn`/`max_tokens` mean the same thing whichever provider ran.
+        $finishReason = is_string($response['candidates'][0]['finishReason'] ?? null)
+            ? $response['candidates'][0]['finishReason']
+            : '';
+        $stopReason = $this->resolveStopReason([], $finishReason);
 
         return $this->buildResponse(
             $request,
@@ -146,7 +151,7 @@ class Google extends AIProvider
             $this->concatenateTextParts($response['candidates'][0]['content']['parts'] ?? null),
             isset($response['usageMetadata']['promptTokenCount']) ? (int) $response['usageMetadata']['promptTokenCount'] : null,
             isset($response['usageMetadata']['candidatesTokenCount']) ? (int) $response['usageMetadata']['candidatesTokenCount'] : null,
-            is_string($finishReason) && $finishReason !== '' ? $finishReason : null,
+            $stopReason !== '' ? $stopReason : null,
             $this->parseWebSearchUsage($request, $response)
         );
     }

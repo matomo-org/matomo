@@ -104,6 +104,12 @@ When a managed environment forces a provider from configuration, the service als
 ]
 ```
 
+`stopReason` is the provider's own vocabulary, not a normalised one. Anthropic, AWS Bedrock and Google
+report `end_turn` / `max_tokens` (Google's `STOP` / `MAX_TOKENS` are mapped onto those, and `SAFETY` /
+`RECITATION` onto `guardrail_intervened`); OpenAI reports `stop` / `length` on both its grounded and
+ungrounded paths. Match against the values of the provider you resolved to, and pass unrecognised ones
+through rather than treating them as failures.
+
 ### Web search (grounding)
 
 Ask the provider to search the web before answering, and read the sources it used:

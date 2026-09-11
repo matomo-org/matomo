@@ -39,6 +39,12 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
     commands and scheduled tasks, because 120s exceeds PHP's default `max_execution_time`.
   * Grounding is not a marginal cost: every provider charges per search and bills the retrieved page
     content as input tokens on top.
+* `AIProviderResponse::getStopReason()` now reports a value for Google completions, which previously
+  always returned `null`. Google's `finishReason` is mapped onto the same vocabulary the conversation
+  API already uses (`STOP` becomes `end_turn`, `MAX_TOKENS` becomes `max_tokens`, `SAFETY` and
+  `RECITATION` become `guardrail_intervened`), so it matches AWS Bedrock and Anthropic. OpenAI keeps
+  reporting `stop` / `length` on both its grounded and ungrounded paths. A caller that treats an
+  unrecognised stop reason as a failure will start seeing Google values.
 * The new `Piwik\Http\SecurityHeaders::sendForDataResponse()` sends the header set for a response that is data rather than application UI: `X-Content-Type-Options: nosniff`, `Referrer-Policy: no-referrer`, `X-Frame-Options: deny` unless `[General] enable_framed_pages` allows embedding, and a `Content-Security-Policy` that allows no scripts, forms or base URI, only inline styles and images from Matomo itself (built by the new `Piwik\View\SecurityPolicy::restrictToDataResponse()`). Core sends it for the API endpoint itself, report exports, inline report previews, and the API module's `listAllMethods` and `listSegments` actions, which return HTML without a view; `action=listAllAPI`, which renders one, keeps the headers of a regular page. Call it in a plugin that streams an export or a report, before writing any output.
 * Two new events let plugins customise the "No data has been recorded yet" page, on both the standalone page and its embedding in the reporting UI:
   * `Template.siteWithoutData.afterTrackingMethods` collects additional HTML rendered below the tracking methods list and the section for temporarily hiding the page.

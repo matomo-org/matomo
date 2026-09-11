@@ -13,6 +13,7 @@ namespace Piwik\Plugins\AIProviders\tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 use Piwik\Plugins\AIProviders\AIConversationRequest;
+use Piwik\Plugins\AIProviders\AIConversationResponse;
 use Piwik\Plugins\AIProviders\AIProviderResponse;
 use Piwik\Plugins\AIProviders\AIRequest;
 use Piwik\Plugins\AIProviders\Exception\AIProviderClientException;
@@ -447,6 +448,42 @@ class WebSearchTest extends TestCase
         );
     }
 
+    /**
+     * Google's finishReason is mapped onto the same canonical vocabulary the
+     * conversation path uses, so `end_turn` means the same thing whichever
+     * provider ran instead of Google alone shouting `STOP`.
+     *
+     * @dataProvider getGoogleFinishReasons
+     */
+    public function testGoogleMapsTheFinishReasonOntoTheCanonicalStopReason(
+        ?string $finishReason,
+        ?string $expected
+    ): void {
+        $gemini = new WebSearchRecordingGoogle();
+        $candidate = ['content' => ['parts' => [['text' => 'Answer.']]]];
+        if ($finishReason !== null) {
+            $candidate['finishReason'] = $finishReason;
+        }
+        $gemini->mockResponse = ['candidates' => [$candidate]];
+
+        $response = $gemini->complete($this->plainRequest(), self::GEMINI_CONFIG);
+
+        $this->assertSame($expected, $response->getStopReason());
+    }
+
+    /**
+     * @return iterable<string, array{string|null, string|null}>
+     */
+    public function getGoogleFinishReasons(): iterable
+    {
+        yield 'end of turn' => ['STOP', AIConversationResponse::STOP_END_TURN];
+        yield 'truncated' => ['MAX_TOKENS', AIConversationResponse::STOP_MAX_TOKENS];
+        yield 'safety' => ['SAFETY', AIConversationResponse::STOP_GUARDRAIL_INTERVENED];
+        yield 'recitation' => ['RECITATION', AIConversationResponse::STOP_GUARDRAIL_INTERVENED];
+        yield 'unrecognised passes through' => ['OTHER', 'OTHER'];
+        yield 'absent stays null' => [null, null];
+    }
+
     // -- Google: parsing ------------------------------------------------------
 
     /**
@@ -778,7 +815,13 @@ class WebSearchTest extends TestCase
         $this->assertSame(['verdict' => 'Matomo is open source'], $response->getJsonData());
     }
 
-    public function testOpenAiIncompleteDetailsReasonWinsOverStatusAsStopReason(): void
+    /**
+     * `incomplete_details.reason` is the specific outcome and wins over the
+     * generic `status`, and both are reported in the same vocabulary the
+     * ungrounded chat-completions path uses, so getStopReason() does not depend
+     * on whether the completion happened to be grounded.
+     */
+    public function testOpenAiReportsGroundedStopReasonsInTheChatCompletionsVocabulary(): void
     {
         $truncated = new WebSearchRecordingOpenAI();
         $truncated->mockResponse = [
@@ -789,13 +832,29 @@ class WebSearchTest extends TestCase
 
         $completed = new WebSearchRecordingOpenAI();
 
+        // Same values the ungrounded path reports as `finish_reason`.
         $this->assertSame(
-            'max_output_tokens',
+            'length',
             $truncated->complete($this->groundedRequest(), self::OPENAI_CONFIG)->getStopReason()
         );
         $this->assertSame(
-            'completed',
+            'stop',
             $completed->complete($this->groundedRequest(), self::OPENAI_CONFIG)->getStopReason()
+        );
+    }
+
+    /**
+     * An outcome with no chat-completions equivalent is passed through, because
+     * only the raw value says what went wrong.
+     */
+    public function testOpenAiPassesThroughAnUnrecognisedResponsesStatus(): void
+    {
+        $failed = new WebSearchRecordingOpenAI();
+        $failed->mockResponse = ['output' => [], 'status' => 'failed'];
+
+        $this->assertSame(
+            'failed',
+            $failed->complete($this->groundedRequest(), self::OPENAI_CONFIG)->getStopReason()
         );
     }
 

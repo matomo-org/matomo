@@ -26,6 +26,14 @@ class OpenAI extends AIProvider
     private const REASONING_EFFORT_THINKING = 'medium';
 
     /**
+     * Chat-completions `finish_reason` values. The grounded path runs against the
+     * Responses API, which names the same outcomes differently, and reports these
+     * so a caller reads one vocabulary per provider.
+     */
+    private const FINISH_REASON_STOP = 'stop';
+    private const FINISH_REASON_LENGTH = 'length';
+
+    /**
      * How much retrieved page content a search may pull into the prompt
      * (`low`/`medium`/`high`). OpenAI's own default; it is also the cost knob,
      * since search content is billed as input tokens on top of the per-call fee.
@@ -125,19 +133,45 @@ class OpenAI extends AIProvider
             }
         }
 
-        // `incomplete_details.reason` is the specific outcome (e.g. max_output_tokens);
-        // `status` the generic one.
-        $stopReason = $response['incomplete_details']['reason'] ?? $response['status'] ?? null;
-
         return $this->buildResponse(
             $request,
             $model,
             $this->extractResponsesText($outputItems),
             isset($response['usage']['input_tokens']) ? (int) $response['usage']['input_tokens'] : null,
             isset($response['usage']['output_tokens']) ? (int) $response['usage']['output_tokens'] : null,
-            is_string($stopReason) && $stopReason !== '' ? $stopReason : null,
+            $this->resolveResponsesStopReason($response),
             $this->parseWebSearchUsage($outputItems)
         );
+    }
+
+    /**
+     * Translates the Responses API outcome into the same stop reasons this
+     * provider's chat-completions path reports, so `getStopReason()` does not
+     * depend on whether the completion happened to be grounded.
+     *
+     * `incomplete_details.reason` is the specific outcome and wins over the
+     * generic `status`. Anything unrecognised (`failed`, `cancelled`) is passed
+     * through rather than flattened, since only the raw value says what went
+     * wrong.
+     *
+     * @param array<string, mixed> $response
+     */
+    private function resolveResponsesStopReason(array $response): ?string
+    {
+        $reason = $response['incomplete_details']['reason'] ?? $response['status'] ?? null;
+
+        if (!is_string($reason) || $reason === '') {
+            return null;
+        }
+
+        switch ($reason) {
+            case 'completed':
+                return self::FINISH_REASON_STOP;
+            case 'max_output_tokens':
+                return self::FINISH_REASON_LENGTH;
+            default:
+                return $reason;
+        }
     }
 
     /**
