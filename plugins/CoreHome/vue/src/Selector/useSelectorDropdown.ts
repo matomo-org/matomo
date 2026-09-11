@@ -96,6 +96,8 @@ export default function useSelectorDropdown(
 
   function close() {
     expanded.value = false;
+    // ExpandOnClick keeps its state in the class, so a panel closing itself has to drop it too.
+    panel()?.classList.remove(options.expandedClass);
   }
 
   // Escape and a keyboard-activated entry leave the focus in a panel about to disappear; a pointer

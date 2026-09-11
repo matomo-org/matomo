@@ -643,16 +643,11 @@ export default defineComponent({
   },
   methods: {
     annotationsWording,
-    // Picking a period is the end of the interaction. ExpandOnClick keeps its state in the class,
-    // so dropping it is how a panel closes itself - the same move MetricsPicker makes.
+    // Picking a period is the end of the interaction, and the directive never hears it.
     closePromotedPeriods(event: MouseEvent|KeyboardEvent) {
-      (this.$refs.periodsSelector as HTMLElement | undefined)
-        ?.classList.remove('mtm-selector--expanded');
       this.promotedPeriods.closedBy(event);
     },
     closePromotedExport(event: MouseEvent|KeyboardEvent) {
-      (this.$refs.exportSelector as HTMLElement | undefined)
-        ?.classList.remove('mtm-selector--expanded');
       this.promotedExport.closedBy(event);
     },
     isPromoted(action: PromotableActionId): boolean {
@@ -739,8 +734,6 @@ export default defineComponent({
     // Picking an entry is the end of the interaction, and ExpandOnClick only closes on a click
     // outside, so the menu would hang open over the report it just reloaded.
     closeActions(event: MouseEvent) {
-      (this.$refs.actions as HTMLElement | undefined)
-        ?.classList.remove('reportHeader__actions--expanded');
       this.actionsSelector.closedBy(event);
     },
     onControl(intent: string) {
