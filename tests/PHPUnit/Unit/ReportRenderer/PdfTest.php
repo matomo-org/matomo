@@ -9,10 +9,12 @@
 
 namespace Piwik\Tests\Unit\ReportRenderer;
 
+use Piwik\Piwik;
 use Piwik\ReportRenderer\Pdf;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use ReflectionMethod;
+use ReflectionObject;
 use ReflectionProperty;
 
 /**
@@ -118,7 +120,153 @@ class PdfTest extends TestCase
     }
 
     /**
-     * Exercises the label rendering in isolation, without building a TCPDF document.
+     * A table wider than the page has its last column clipped by TCPDF, which used to happen
+     * once a report had around ten metric columns: the metric width was rounded to the nearest
+     * millimetre, and half a millimetre per column is enough to push the table off the page.
+     *
+     * @dataProvider getColumnCounts
+     */
+    public function testColumnWidthsNeverExceedThePageWidth(int $metricColumns, float $labelWidth)
+    {
+        $renderer = $this->newRenderer();
+
+        $reflection = new ReflectionObject($renderer);
+
+        $labelCellWidth = $reflection->getProperty('labelCellWidth');
+        $labelCellWidth->setAccessible(true);
+        $labelCellWidth->setValue($renderer, $labelWidth);
+
+        $fit = $reflection->getMethod('fitColumnWidthsToPage');
+        $fit->setAccessible(true);
+        $fit->invoke($renderer, $metricColumns);
+
+        $pageWidth = $reflection->getProperty('reportWidthPortrait');
+        $pageWidth->setAccessible(true);
+        $pageWidth = $pageWidth->getValue($renderer);
+
+        $cellWidth = $reflection->getProperty('cellWidth');
+        $cellWidth->setAccessible(true);
+        $cellWidth = $cellWidth->getValue($renderer);
+
+        $totalWidth = $reflection->getProperty('totalWidth');
+        $totalWidth->setAccessible(true);
+
+        $label = $labelCellWidth->getValue($renderer);
+
+        self::assertGreaterThan(0, $cellWidth, 'every metric column gets some width');
+        self::assertGreaterThan(0, $label, 'the label column gets some width');
+        self::assertSame(
+            (float) $pageWidth,
+            (float) ($label + $metricColumns * $cellWidth),
+            'the table fills the page exactly'
+        );
+        self::assertSame((float) $pageWidth, (float) $totalWidth->getValue($renderer));
+    }
+
+    public function getColumnCounts(): array
+    {
+        return [
+            'one metric'                       => [1, 136.0],
+            'four metrics'                     => [4, 117.0],
+            'eight metrics, wide label'        => [8, 80.0],
+            // a report with a percentage next to each of its metrics
+            'ten metrics, short label'         => [10, 35.0],
+            'ten metrics, wide label'          => [10, 80.0],
+            'sixteen metrics'                  => [16, 35.0],
+        ];
+    }
+
+    public function testASingleColumnTableGivesTheWholePageToTheLabel()
+    {
+        $renderer = $this->newRenderer();
+
+        $reflection = new ReflectionObject($renderer);
+
+        $fit = $reflection->getMethod('fitColumnWidthsToPage');
+        $fit->setAccessible(true);
+        $fit->invoke($renderer, 0);
+
+        $labelCellWidth = $reflection->getProperty('labelCellWidth');
+        $labelCellWidth->setAccessible(true);
+
+        $pageWidth = $reflection->getProperty('reportWidthPortrait');
+        $pageWidth->setAccessible(true);
+
+        self::assertSame(
+            $pageWidth->getValue($renderer),
+            $labelCellWidth->getValue($renderer)
+        );
+    }
+
+    /**
+     * A portrait page has room for the metrics a report already carries and no more, so the PDF
+     * carries none of the percentages the other formats do. Dropping them here rather than
+     * narrowing every column is what keeps values from being truncated.
+     */
+    public function testEveryPercentColumnIsDroppedFromAPdf(): void
+    {
+        $kept = $this->removePercentOfTotalColumns([
+            'label'                       => 'City',
+            'nb_visits'                   => 'Visits',
+            'nb_visits_percent_of_total'  => 'Visits (%)',
+            'nb_actions'                  => 'Actions',
+            'nb_actions_percent_of_total' => 'Actions (%)',
+            'revenue'                     => 'Revenue',
+            'revenue_percent_of_total'    => 'Revenue (%)',
+        ]);
+
+        self::assertSame(['label', 'nb_visits', 'nb_actions', 'revenue'], array_keys($kept));
+    }
+
+    public function testAReportWithoutPercentColumnsIsLeftAlone(): void
+    {
+        $columns = [
+            'label'       => 'Country',
+            'nb_visits'   => 'Visits',
+            'bounce_rate' => 'Bounce Rate',
+        ];
+
+        self::assertSame($columns, $this->removePercentOfTotalColumns($columns));
+    }
+
+    // The HTML report shortens the label instead of dropping the column: it can scroll, and the
+    // percentage sits directly right of the metric it belongs to, so `(%)` is unambiguous there.
+    public function testPercentColumnLabelsAreShortenedForTheHtmlReport(): void
+    {
+        $shortened = $this->shortenPercentOfTotalColumnLabels([
+            'label'                      => 'Country',
+            'nb_visits'                  => 'Visits',
+            'nb_visits_percent_of_total' => 'Visits (%)',
+            'bounce_rate'                => 'Bounce Rate',
+        ]);
+
+        self::assertSame([
+            'label'                      => 'Country',
+            'nb_visits'                  => 'Visits',
+            'nb_visits_percent_of_total' => Piwik::translate('General_ColumnPercentOfReportTotalShort'),
+            'bounce_rate'                => 'Bounce Rate',
+        ], $shortened);
+    }
+
+    private function removePercentOfTotalColumns(array $columns): array
+    {
+        $method = new ReflectionMethod(Pdf::class, 'removePercentOfTotalColumns');
+        $method->setAccessible(true);
+
+        return $method->invoke(null, $columns);
+    }
+
+    private function shortenPercentOfTotalColumnLabels(array $columns): array
+    {
+        $method = new ReflectionMethod(Pdf::class, 'shortenPercentOfTotalColumnLabels');
+        $method->setAccessible(true);
+
+        return $method->invoke(null, $columns);
+    }
+
+    /**
+     * Exercises the renderer in isolation, without building a TCPDF document: none of the
+     * behaviour under test here paints anything.
      */
     private function newRenderer(): Pdf
     {

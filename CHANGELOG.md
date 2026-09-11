@@ -74,6 +74,26 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   (unique visitors and users) are excluded, as their report total is not a meaningful denominator. The columns can be disabled
   by setting the new `percent_of_total=0` request parameter (or `totals=0`). Note for CSV/TSV consumers parsing columns by
   position: the new columns change the header and column count, pass `percent_of_total=0` to keep the previous output.
+  A report that already expresses a metric as a percentage of its own, through a `{metric}_percentage` column (eg,
+  `DevicePlugins.getPlugin`, whose percentage leaves out the visits of browsers where plugins cannot be detected), does not
+  get a `{metric}_percent_of_total` column for that metric, as the two percentages would contradict each other.
+  `API.getProcessedReport` places each percentage directly after the metric it belongs to, and returns one only when that
+  metric is itself a column of the report: a report with a total for bounces but no `Bounces` column no longer carries a
+  `bounce_count_percent_of_total` entry in `columns`, `metricTypes`, `metricsDocumentation` or `reportData`.
+* Scheduled reports now include the `{metric}_percent_of_total` columns, with the label depending on how much room the
+  format has. CSV and TSV carry the full translated name (eg, `Visits (%)`) rather than the column id, while all other
+  columns keep the id they had before. HTML email shortens it to `(%)`, since the column always sits directly to the right
+  of the metric it belongs to. PDF leaves the columns out altogether: a portrait page has no room for a percentage after
+  every metric without squeezing the table until values are truncated. The PDF says so in a note on its front page, and
+  the report scheduling form says so under `Report Format`. A scheduled report has no request parameter of its own, so
+  unlike an API consumer its owner cannot turn the columns off with `percent_of_total=0`. In CSV and TSV the header of a
+  percentage column follows the report language while every other header keeps its untranslated id, so a consumer
+  matching headers by name sees a different string per language.
+* Custom report format renderers extending `Piwik\ReportRenderer` now receive the `{metric}_percent_of_total` columns as
+  well. `ReportRenderer::translatePercentOfTotalColumns()`, `shortenPercentOfTotalColumnLabels()` and
+  `removePercentOfTotalColumns()` are available to treat them the way the built-in formats do.
+* A PDF report table now fills the page width exactly. Rounding each column up used to push wide tables past the page,
+  clipping the last column of a report carrying ten or more metrics.
 
 ### Deprecations
 * The component-oriented theme variable `@theme-color-widget-background` (`ThemeStyles::$colorWidgetBackground`)
