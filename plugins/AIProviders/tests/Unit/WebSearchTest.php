@@ -77,7 +77,6 @@ class WebSearchTest extends TestCase
         $this->assertArrayNotHasKey('tool_choice', $claude->sentPayload);
     }
 
-
     public function testAnthropicUsesTheLongerTimeoutOnlyForGroundedRequests(): void
     {
         $claude = new WebSearchRecordingAnthropic();
@@ -961,7 +960,7 @@ class WebSearchRecordingAnthropic extends Anthropic
     /** @var array<string, mixed> */
     public $mockResponse = ['content' => [['type' => 'text', 'text' => 'ok']], 'stop_reason' => 'end_turn'];
 
-    protected function sendJsonRequest(string $url, array $headers, array $payload, int $timeoutSeconds = 30): array
+    protected function sendJsonRequest(string $url, array $headers, array $payload, int $timeoutSeconds = self::COMPLETE_TIMEOUT_SECONDS): array
     {
         $this->sentPayload = $payload;
         $this->sentTimeout = $timeoutSeconds;
@@ -981,7 +980,7 @@ class WebSearchRecordingGoogle extends Google
     /** @var array<string, mixed> */
     public $mockResponse = ['candidates' => [['content' => ['parts' => [['text' => 'ok']]]]]];
 
-    protected function sendJsonRequest(string $url, array $headers, array $payload, int $timeoutSeconds = 30): array
+    protected function sendJsonRequest(string $url, array $headers, array $payload, int $timeoutSeconds = self::COMPLETE_TIMEOUT_SECONDS): array
     {
         $this->sentPayload = $payload;
         $this->sentTimeout = $timeoutSeconds;
@@ -1007,7 +1006,7 @@ class WebSearchRecordingOpenAI extends OpenAI
         'status' => 'completed',
     ];
 
-    protected function sendJsonRequest(string $url, array $headers, array $payload, int $timeoutSeconds = 30): array
+    protected function sendJsonRequest(string $url, array $headers, array $payload, int $timeoutSeconds = self::COMPLETE_TIMEOUT_SECONDS): array
     {
         $this->sentUrl = $url;
         $this->sentPayload = $payload;
@@ -1030,7 +1029,7 @@ class WebSearchRecordingCustomProvider extends CustomProvider
     /** @var int|null */
     public $sentTimeout = null;
 
-    protected function sendJsonRequest(string $url, array $headers, array $payload, int $timeoutSeconds = 30): array
+    protected function sendJsonRequest(string $url, array $headers, array $payload, int $timeoutSeconds = self::COMPLETE_TIMEOUT_SECONDS): array
     {
         $this->sentPayload = $payload;
         $this->sentTimeout = $timeoutSeconds;

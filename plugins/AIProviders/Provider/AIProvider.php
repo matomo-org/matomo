@@ -64,12 +64,18 @@ abstract class AIProvider
      * fetches inside the one HTTP request, so these routinely take 30-90s where
      * an ungrounded completion takes 2-5s.
      *
-     * This exceeds PHP's default 30s `max_execution_time`, so grounded
-     * completions are meant for CLI commands and scheduled tasks, where it is
-     * unlimited. A caller running one inside a web request must either raise
-     * that limit itself or lower this with
-     * {@link AIRequest::withTimeoutSeconds()}, or the request dies before the
+     * That outlasts the default read timeout of every common web server and
+     * proxy in front of PHP (nginx `fastcgi_read_timeout` and Apache `Timeout`
+     * are both 60s), which cut the connection whatever PHP is configured to
+     * allow. So grounded completions are meant for CLI commands and scheduled
+     * tasks, which have nothing in front of them. A caller running one inside a
+     * web request must either raise those limits itself or lower this with
+     * {@link AIRequest::withTimeoutSeconds()}, or the connection dies before the
      * provider answers.
+     *
+     * PHP's own `max_execution_time` is the lesser worry: on non-Windows SAPIs
+     * it does not advance while a cURL transfer is waiting, so a long provider
+     * call alone rarely trips it.
      *
      * A retryable HTTP status (see {@link TRANSIENT_ERROR_STATUS_CODES}) can
      * multiply both the wall time and the per-search fees, because each attempt

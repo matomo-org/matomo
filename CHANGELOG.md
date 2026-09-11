@@ -21,24 +21,18 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   feature can ask the provider to search the web before answering and then read the sources it used.
   `Piwik\Plugins\AIProviders\AIRequest::withWebSearchEnabled()` is no longer advisory: Anthropic,
   Google and OpenAI honour it, while AWS Bedrock and the custom provider reject a grounded request with
-  an `AIProviderClientException` rather than silently answering ungrounded.
-  * `AIProviderService::canUseWebSearch($callerPluginName, $requestedProviderId = null)` reports whether
-    a grounded completion can run, answered for the provider `complete()` would actually resolve to, so
-    a feature can degrade before spending anything. The provider entries returned by
-    `getProviderStatusesForCaller()` gained a matching `supportsWebSearch` key.
-  * `AIProviderResponse::wasWebSearchUsed()` reports whether a search actually ran, which is not the
-    same as whether one was requested: given the tool, a model can decide the prompt needs none.
-    `getWebSearchCitations()` returns the deduplicated `url`, `title` and `domain` of each source,
-    `getWebSearchRequestCount()` the number of searches billed, and `getWebSearchQueries()` the queries
-    the model issued where the provider echoes them. Citation titles and queries are untrusted model
-    output, length-capped but otherwise verbatim, so escape them where they are rendered. The new
-    `Piwik\Plugins\AIProviders\WebSearchUsage` normalises the three providers' incompatible grounding
-    shapes into that one shape.
-  * `AIRequest::withTimeoutSeconds()` overrides the provider HTTP timeout, which now defaults to 120s
-    for a grounded completion and stays at 30s otherwise. Grounded completions are intended for CLI
-    commands and scheduled tasks, because 120s exceeds PHP's default `max_execution_time`.
-  * Grounding is not a marginal cost: every provider charges per search and bills the retrieved page
-    content as input tokens on top.
+  an `AIProviderClientException` rather than silently answering ungrounded. `AIProviderResponse` gained
+  `wasWebSearchUsed()`, `getWebSearchCitations()`, `getWebSearchRequestCount()` and
+  `getWebSearchQueries()`, backed by the new `Piwik\Plugins\AIProviders\WebSearchUsage`, which
+  normalises the three providers' incompatible grounding shapes; `AIProviderService::canUseWebSearch()`
+  and the new `supportsWebSearch` key of `getProviderStatusesForCaller()` let a feature check first.
+  Citation titles and queries are untrusted model output, length-capped but otherwise verbatim, so
+  escape them where they are rendered. Grounding is not a marginal cost: every provider charges per
+  search and bills the retrieved page content as input tokens on top. See `plugins/AIProviders/README.md`
+  for the per-provider caveats and the cost and timeout implications.
+* `AIRequest::withTimeoutSeconds()` overrides the provider HTTP timeout, which now defaults to 120s for
+  a grounded completion and stays at 30s otherwise. That outlasts the default read timeout of common
+  web servers and proxies, so grounded completions are intended for CLI commands and scheduled tasks.
 * `AIProviderResponse::getStopReason()` now reports a value for Google completions, which previously
   always returned `null`. Google's `finishReason` is mapped onto the same vocabulary the conversation
   API already uses (`STOP` becomes `end_turn`, `MAX_TOKENS` becomes `max_tokens`, `SAFETY` and

@@ -391,6 +391,52 @@ class ConfigurationTest extends IntegrationTestCase
         $this->assertFalse($service->canUseWebSearch('Test', 'custom-provider'));
     }
 
+    /**
+     * The reason canUseWebSearch() exists rather than callers reading
+     * supportsWebSearch() themselves: on a managed instance the forced provider
+     * wins, so a locked caller must be told about that provider's capability and
+     * not the one it would have asked for.
+     */
+    public function testCanUseWebSearchAnswersForTheForcedProviderOnAManagedInstance(): void
+    {
+        $this->api->saveSettings(
+            'bedrock',
+            Configuration::CAPABILITY_INSTANT,
+            (string) json_encode([
+                'bedrock' => ['apiKey' => 'ak:sk', 'endpointUrl' => 'us-east-1'],
+                'openai' => ['apiKey' => 'secret-openai-key', 'endpointUrl' => ''],
+            ])
+        );
+        Config::getInstance()->AIProviders = [
+            'defaultProvider' => 'bedrock',
+            'providerSelectionAllowlist' => ['ExamplePlugin'],
+        ];
+
+        $service = StaticContainer::get(AIProviderService::class);
+
+        // Locked to Bedrock, which has no web search, even though OpenAI is
+        // configured and is what the caller asked for.
+        $this->assertFalse($service->canUseWebSearch('OtherPlugin'));
+        $this->assertFalse($service->canUseWebSearch('OtherPlugin', 'openai'));
+        // An allowlisted caller keeps its requested provider, so it can ground.
+        $this->assertTrue($service->canUseWebSearch('ExamplePlugin', 'openai'));
+    }
+
+    public function testCanUseWebSearchIsFalseForAnUnknownRequestedProvider(): void
+    {
+        $this->api->saveSettings(
+            'openai',
+            Configuration::CAPABILITY_INSTANT,
+            (string) json_encode([
+                'openai' => ['apiKey' => 'secret-openai-key', 'endpointUrl' => ''],
+            ])
+        );
+
+        $this->assertFalse(
+            StaticContainer::get(AIProviderService::class)->canUseWebSearch('Test', 'not-a-provider')
+        );
+    }
+
     public function testWebSearchRequestIsRejectedForAProviderWithoutWebSearch(): void
     {
         $this->api->saveSettings(
