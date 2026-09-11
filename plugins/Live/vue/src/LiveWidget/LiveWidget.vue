@@ -57,6 +57,7 @@ import {
   Matomo,
   MatomoLoader,
   MatomoUrl,
+  tooltipContent,
 } from 'CoreHome';
 import {
   AutoRefreshController,
@@ -440,10 +441,7 @@ export default defineComponent({
 
       $list.tooltip({
         track: true,
-        content() {
-          const title = $(this).attr('title') || '';
-          return window.vueSanitize(title.replace(/\n/g, '<br />'));
-        },
+        content: tooltipContent,
         show: { delay: 100, duration: 0 },
         hide: false,
       });

@@ -39,7 +39,7 @@
     {% import 'macros.twig' as piwik %}
 
     <span class='label{% if row.getMetadata('is_aggregate') %} highlighted{% endif %}'
-    {% if properties is defined and properties.tooltip_metadata_name is not empty %}title="{{ row.getMetadata(properties.tooltip_metadata_name) }}"{% endif %}>
+    {% if properties is defined and properties.tooltip_metadata_name is not empty %}title="{{ row.getMetadata(properties.tooltip_metadata_name)|rawSafeDecoded|e('html_attr') }}"{% endif %}>
         {% if column=='label' %}
             {% if not row.getIdSubDataTable() and row.getMetadata('url') and not row.getMetadata('logo') %}
                 <span class="icon-outlink"></span>
