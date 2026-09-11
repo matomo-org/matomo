@@ -88,7 +88,7 @@
        :title="translate('Marketplace_StartFreeTrial')"
     >{{ translate('Marketplace_StartFreeTrial') }}</div>
 
-    <a v-else-if="plugin.isEligibleForFreeTrial && inModal"
+    <a v-else-if="plugin.isEligibleForFreeTrial && inModal && shopVariationUrl"
        class="btn btn-block addToCartLink" target="_blank"
        :title="translate('Marketplace_ClickToCompletePurchase')"
        rel="noreferrer noopener"
@@ -98,6 +98,7 @@
     <MoreDetailsAction
       v-else-if="!inModal && !plugin.isDownloadable && (
                    plugin.isPaid
+                   || plugin.isNewBundle
                    || plugin.missingRequirements.length > 0
                    || !isAutoUpdatePossible
                  )"

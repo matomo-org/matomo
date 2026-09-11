@@ -86,7 +86,7 @@ class TasksTest extends \PHPUnit\Framework\TestCase
 
         $logger = $this->createMock(LoggerInterface::class);
         $logger->expects($this->once())
-            ->method('info')
+            ->method('warning')
             ->with($this->stringContains('Could not warm the Marketplace cache'));
 
         $this->buildTasks($api, $logger)->warmCacheEntries();
