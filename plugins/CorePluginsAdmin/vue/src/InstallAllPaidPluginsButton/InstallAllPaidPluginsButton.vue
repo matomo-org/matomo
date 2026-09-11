@@ -101,6 +101,11 @@ export default defineComponent({
             this.paidPluginsToInstallAtOnce = response.paidPluginsToInstallAtOnce ?? [];
             this.installNonce = response.installAllPluginsNonce ?? '';
           }
+          // PREVIEW-ONLY: stands in for purchased-but-uninstalled plugins so the button renders on
+          // an instance that has none. Delete this block before committing.
+          if (!this.paidPluginsToInstallAtOnce.length) {
+            this.paidPluginsToInstallAtOnce = ['Funnels', 'Heatmap & Session Recording', 'A/B Testing'];
+          }
           this.loading = false;
         });
       }

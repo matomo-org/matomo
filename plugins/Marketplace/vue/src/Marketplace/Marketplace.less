@@ -19,6 +19,25 @@
   }
 }
 
+// Left-aligned onto the same edge as the category tabs below it, so the page keeps one starting
+// column. The spacing is on the button, not this box: the button removes itself when nothing is
+// purchased, and margin here would leave a gap behind where it was.
+.marketplacePage__installAction {
+  display: flex;
+  justify-content: flex-start;
+
+  .btn {
+    margin: 16px 0 0;
+  }
+
+  // The loader renders inline before the label, so it needs the label's leading off its own box.
+  button .matomo-loader {
+    margin-top: 2px;
+    margin-right: 16px;
+    vertical-align: text-top;
+  }
+}
+
 .marketplacePage__resultsBar {
   display: flex;
   flex-wrap: wrap;

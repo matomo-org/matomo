@@ -43,8 +43,23 @@
       @update:model-value="updateQuery($event)"
     />
 
+    <!--
+      No `v-if` on the count: the button hides itself when there is nothing purchased to install,
+      and this wrapper carries no chrome of its own, so an empty one is invisible. The spacing sits
+      on the button rather than here for the same reason - see InstallAllPaidPluginsButton.
+    -->
+    <div class="marketplacePage__installAction" v-if="installAllPaidPluginsVisible">
+      <InstallAllPaidPluginsButton :disabled="installDisabled" />
+    </div>
+
+    <!--
+      Hidden while searching rather than reset: a search covers the whole catalogue, so a tab left
+      on screen would either sit highlighted over results it is not filtering, or have to be moved
+      to All on the reader's behalf. Out of the way, the open tab survives the search and is still
+      there, unchanged, once the query is cleared.
+    -->
     <CategoryTabs
-      v-if="tabs.length > 1"
+      v-if="tabs.length > 1 && !searchQuery.trim()"
       ref="categoryTabs"
       :tabs="tabs"
       :model-value="activeTab"
@@ -113,6 +128,7 @@ import {
   MatomoUrl,
   translate,
 } from 'CoreHome';
+import { InstallAllPaidPluginsButton } from 'CorePluginsAdmin';
 import MarketplaceHero from '../MarketplaceHero/MarketplaceHero.vue';
 import CategoryTabs from '../CategoryTabs/CategoryTabs.vue';
 import SortMenu from '../SortMenu/SortMenu.vue';
@@ -180,8 +196,11 @@ export default defineComponent({
     deactivateNonce: { type: String, required: true },
     updateNonce: { type: String, required: true },
     numUsers: { type: Number, required: true },
+    installAllPaidPluginsVisible: Boolean,
+    installDisabled: Boolean,
   },
   components: {
+    InstallAllPaidPluginsButton,
     MarketplaceHero,
     CategoryTabs,
     SortMenu,
@@ -273,8 +292,13 @@ export default defineComponent({
       };
     },
     filteredPlugins(): PluginCard[] {
+      // A search spans the whole catalogue: the tab is dropped rather than intersected, so a
+      // query typed while a category is open still finds everything. The tab itself is left set -
+      // its row is hidden for the duration - so clearing the query returns to it.
+      const tab = this.searchQuery.trim() ? TAB_ALL : this.activeTab;
+
       return sortPlugins(
-        filterPlugins(this.allPlugins, this.activeTab, this.searchQuery),
+        filterPlugins(this.allPlugins, tab, this.searchQuery),
         this.pluginSort,
       );
     },

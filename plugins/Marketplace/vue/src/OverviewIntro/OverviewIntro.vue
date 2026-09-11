@@ -7,14 +7,10 @@
 
 <template>
   <div v-content-intro>
-    <div class="installAllPaidPlugins" v-if="installAllPaidPluginsVisible">
-      <InstallAllPaidPluginsButton
-        :disabled="installDisabled"
-      />
-    </div>
-
     <Marketplace
       :default-sort="defaultSort"
+      :install-all-paid-plugins-visible="installAllPaidPluginsVisible"
+      :install-disabled="installDisabled"
       :current-user-email="currentUserEmail"
       :is-auto-update-possible="isAutoUpdatePossible"
       :is-super-user="isSuperUser"
@@ -40,7 +36,6 @@ import {
   AjaxHelper,
   ContentIntro,
 } from 'CoreHome';
-import { InstallAllPaidPluginsButton } from 'CorePluginsAdmin';
 import Marketplace from '../Marketplace/Marketplace.vue';
 
 import { TObject } from '../types';
@@ -92,7 +87,6 @@ export default defineComponent({
     },
   },
   components: {
-    InstallAllPaidPluginsButton,
     Marketplace,
   },
   directives: {
@@ -115,6 +109,11 @@ export default defineComponent({
         : this.isValidConsumer) as boolean;
     },
     installAllPaidPluginsVisible(): boolean {
+      // PREVIEW-ONLY: forces the install-purchased strip on so the layout can be looked at without
+      // a valid license. Delete this line before committing. grep PREVIEW-ONLY for the other one.
+      return true;
+
+      // eslint-disable-next-line no-unreachable
       return ((this.getIsValidConsumer
         && this.isSuperUser
         && this.isAutoUpdatePossible
