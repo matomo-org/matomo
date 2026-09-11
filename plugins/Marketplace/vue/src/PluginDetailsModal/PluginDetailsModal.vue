@@ -552,6 +552,8 @@ export default defineComponent({
         && !this.plugin.isInstalled
         && !this.plugin.hasExceededLicense
         && (this.plugin.isEligibleForFreeTrial || this.plugin.isNewBundle)
+        // the variations come from the details request, so there are none to pick from when it
+        // failed and the modal is left with the card row alone
         && hasShopPricing(this.plugin)
       ) as boolean;
     },
