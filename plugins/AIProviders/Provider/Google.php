@@ -16,6 +16,7 @@ use Piwik\Plugins\AIProviders\AIConversationResponse;
 use Piwik\Plugins\AIProviders\AIProviderResponse;
 use Piwik\Plugins\AIProviders\AIRequest;
 use Piwik\Plugins\AIProviders\CanonicalMessage;
+use Piwik\Plugins\AIProviders\Exception\AIProviderClientException;
 use Piwik\Plugins\AIProviders\WebSearchUsage;
 use Piwik\UrlHelper;
 
@@ -73,11 +74,18 @@ class Google extends AIProvider
 
     /**
      * Custom Google chat completion method.
+     *
+     * Grounding and JSON mode cannot be combined here, so the request is
+     * rejected rather than answered ungrounded; see
+     * {@link checkWebSearchIsUsable()}.
+     *
      * @see https://ai.google.dev/gemini-api/docs/text-generation
      * @param array<string, string> $configuration
      */
     public function complete(AIRequest $request, array $configuration): AIProviderResponse
     {
+        $this->checkWebSearchIsUsable($request);
+
         $model = $this->resolveModel($request);
 
         $payload = [
@@ -146,6 +154,29 @@ class Google extends AIProvider
     public function supportsWebSearch(): bool
     {
         return true;
+    }
+
+    /**
+     * Rejects the one grounded request Gemini cannot serve: with JSON mode on it
+     * accepts the search tool and then never searches, so the answer comes back
+     * ungrounded. Asking for JSON suppresses grounding both through
+     * `responseMimeType` and through the instruction {@link getSystemPrompt()}
+     * appends, so dropping either would not restore it.
+     *
+     * Thrown rather than degraded for the same reason
+     * {@link \Piwik\Plugins\AIProviders\AIProviderService::complete()} rejects a
+     * provider with no web search at all: a caller that asked for sources should
+     * not have to discover after paying that it never got any.
+     */
+    private function checkWebSearchIsUsable(AIRequest $request): void
+    {
+        if ($this->wantsWebSearch($request) && $request->isJsonResponse()) {
+            throw new AIProviderClientException(sprintf(
+                '%s cannot combine web search with JSON mode. Drop withJsonResponse() to keep the sources, '
+                . 'or withWebSearchEnabled() to keep the native JSON format.',
+                $this->getName()
+            ));
+        }
     }
 
     /**

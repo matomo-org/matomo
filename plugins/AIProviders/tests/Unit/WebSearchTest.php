@@ -15,6 +15,7 @@ use PHPUnit\Framework\TestCase;
 use Piwik\Plugins\AIProviders\AIConversationRequest;
 use Piwik\Plugins\AIProviders\AIProviderResponse;
 use Piwik\Plugins\AIProviders\AIRequest;
+use Piwik\Plugins\AIProviders\Exception\AIProviderClientException;
 use Piwik\Plugins\AIProviders\Provider\Anthropic;
 use Piwik\Plugins\AIProviders\Provider\Bedrock;
 use Piwik\Plugins\AIProviders\Provider\CustomProvider;
@@ -398,6 +399,51 @@ class WebSearchTest extends TestCase
         $this->assertStringContainsString(
             '"tools":[{"google_search":{}}]',
             (string) json_encode($gemini->sentPayload)
+        );
+    }
+
+    /**
+     * Verified against gemini-3.1-flash-lite: Gemini accepts the tool alongside a
+     * JSON request (HTTP 200) but then answers without searching, and asking for
+     * JSON suppresses grounding through the prompt instruction too — so dropping
+     * responseMimeType would not restore the search and would only lose the native
+     * format as well. The combination is therefore refused before anything is
+     * spent, for the same reason a provider with no web search at all is refused.
+     */
+    public function testGoogleRejectsWebSearchCombinedWithJsonMode(): void
+    {
+        $gemini = new WebSearchRecordingGoogle();
+
+        $this->expectException(AIProviderClientException::class);
+        $this->expectExceptionMessage('cannot combine web search with JSON mode');
+
+        $gemini->complete($this->groundedRequest()->withJsonResponse(), self::GEMINI_CONFIG);
+    }
+
+    /**
+     * Only the combination is refused: either option on its own is untouched.
+     */
+    public function testGoogleAcceptsJsonModeAndWebSearchSeparately(): void
+    {
+        $json = new WebSearchRecordingGoogle();
+        $json->mockResponse = [
+            'candidates' => [[
+                'content' => ['parts' => [['text' => '{"winner": "Spain"}']]],
+                'finishReason' => 'STOP',
+            ]],
+        ];
+        $jsonResponse = $json->complete($this->plainRequest()->withJsonResponse(), self::GEMINI_CONFIG);
+
+        $this->assertSame(['winner' => 'Spain'], $jsonResponse->getJsonData());
+        $this->assertArrayNotHasKey('tools', $json->sentPayload);
+
+        $grounded = new WebSearchRecordingGoogle();
+        $grounded->complete($this->groundedRequest(), self::GEMINI_CONFIG);
+
+        $this->assertArrayNotHasKey('responseMimeType', $grounded->sentPayload['generationConfig']);
+        $this->assertStringContainsString(
+            '"tools":[{"google_search":{}}]',
+            (string) json_encode($grounded->sentPayload)
         );
     }
 

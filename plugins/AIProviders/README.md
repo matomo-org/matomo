@@ -139,27 +139,40 @@ falling inside a JSON string value cannot break `getJsonData()`.
 verbatim, so escape them where you render them. URLs are guaranteed to be `http(s)`.
 
 **Grounding is not a marginal cost.** Every provider charges per search, and the retrieved page content
-is billed as input tokens on top. Expect roughly 10-30x the cost of the same request ungrounded. The
-number of searches is capped on Anthropic (`max_uses`: 5) and the retrieved context on OpenAI
-(`search_context_size`: medium); Google exposes no cap at all.
+is billed as input tokens on top, so a grounded request costs a multiple of the same request
+ungrounded rather than a little more. The number of searches is capped on Anthropic (`max_uses`: 5)
+and the retrieved context on OpenAI (`search_context_size`: medium); Google exposes no cap at all.
 
 Grounded requests are slow (30-90s). The provider timeout defaults to 120s for them (30s otherwise).
-That exceeds PHP's default 30s `max_execution_time`, so **grounded completions are meant for CLI
-commands and scheduled tasks**, where it is unlimited. From a web request, either raise that limit
-yourself or lower the timeout with `withTimeoutSeconds()`, or the request dies before the provider
-answers. A retryable HTTP status also re-runs the searches, so it multiplies both the wall time and the
-per-search fees.
+That outlasts the default read timeout of every common web server and proxy in front of PHP (nginx
+`fastcgi_read_timeout` and Apache `Timeout` are both 60s), which cut the connection whatever PHP is
+configured to allow. So **grounded completions are meant for CLI commands and scheduled tasks**, which
+have nothing in front of them. From a web request, either raise those limits yourself or lower the
+timeout with `withTimeoutSeconds()`, or the connection dies before the provider answers. (PHP's own
+`max_execution_time` is the lesser worry: on non-Windows SAPIs it does not advance while a cURL
+transfer is waiting.) A retryable HTTP status also re-runs the searches, so it multiplies both the wall
+time and the per-search fees.
 
-Two provider-specific caveats:
+Four provider-specific caveats:
 
 - **Google's citation URLs are not publisher URLs.** It returns a grounding redirect, so `url` is a
   `vertexaisearch.cloud.google.com` link and only `domain`, taken from the chunk title which Google
   sets to the publisher host, identifies the publisher. Two sources from the same page therefore do
   not deduplicate for Google: count distinct `domain`, not distinct `url`. When the title is not a
   hostname, `domain` is an empty string rather than a guess.
-- **Combining web search with JSON mode is degraded, not native.** OpenAI rejects the two together, so
-  `withJsonResponse()` on a grounded request relies on the prompt instruction alone; handle a `null`
-  from `getJsonData()`. Google accepts the combination but may not search at all in JSON mode.
+- **On OpenAI, combining web search with JSON mode is degraded, not native.** OpenAI rejects
+  `text.format` together with web search, so `withJsonResponse()` on a grounded request relies on the
+  prompt instruction alone; handle a `null` from `getJsonData()`. The search itself still runs.
+- **On Google, web search and JSON mode cannot combine at all, so the request is rejected** with an
+  `AIProviderClientException`. Gemini would accept it and then answer without searching. Verified
+  against `gemini-3.1-flash-lite`: asking for JSON suppresses grounding two independent ways, through
+  `responseMimeType: application/json` and through the JSON instruction `withJsonResponse()` adds to
+  the prompt, so dropping either one does not restore it. Drop one of the two calls; `canUseWebSearch()`
+  cannot warn you, because it does not see the request.
+- **Anthropic can pause mid-search.** With several searches to run it may end the turn early and expect
+  the message back to resume. AIProviders is deliberately single-round-trip, so the partial answer is
+  returned as-is with `getStopReason()` reporting `pause_turn`. Check it before treating a grounded
+  Anthropic answer as complete.
 
 ### JSON mode
 

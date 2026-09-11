@@ -222,6 +222,12 @@ class AIProviderService
      * wins unless the caller is allowlisted, and a forced provider without web
      * search makes every grounded request throw.
      *
+     * Answers for the provider only, not for a specific request: it takes no
+     * {@link AIRequest} and so cannot see request options that a provider
+     * refuses to combine with search. Google rejects grounding together with
+     * {@link AIRequest::withJsonResponse()}, and a `true` here does not warn
+     * about it.
+     *
      * @param string|null $requestedProviderId The same value the caller would pass to
      *                                         {@link AIRequest::withProviderId()}, if any.
      */
