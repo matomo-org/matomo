@@ -74,12 +74,11 @@ export default function useSelectorDropdown(
     return visibleItems(panel(), match, folded);
   }
 
-  function focusIndex(index: number) {
-    items()[index]?.focus();
+  function focusAt(walkable: HTMLElement[], index: number) {
+    walkable[index]?.focus();
   }
 
-  function step(by: number) {
-    const walkable = items();
+  function step(walkable: HTMLElement[], by: number) {
     if (!walkable.length) {
       return;
     }
@@ -87,12 +86,19 @@ export default function useSelectorDropdown(
     const at = walkable.indexOf(document.activeElement as HTMLElement);
     if (at === -1) {
       // Nothing inside is focused, so a step down enters at the top and a step up at the bottom.
-      focusIndex(by > 0 ? 0 : walkable.length - 1);
+      focusAt(walkable, by > 0 ? 0 : walkable.length - 1);
       return;
     }
 
-    focusIndex((at + by + walkable.length) % walkable.length);
+    focusAt(walkable, (at + by + walkable.length) % walkable.length);
   }
+
+  const walk: Record<string, (walkable: HTMLElement[]) => void> = {
+    ArrowDown: (walkable) => step(walkable, 1),
+    ArrowUp: (walkable) => step(walkable, -1),
+    Home: (walkable) => focusAt(walkable, 0),
+    End: (walkable) => focusAt(walkable, walkable.length - 1),
+  };
 
   function close() {
     expanded.value = false;
@@ -127,7 +133,7 @@ export default function useSelectorDropdown(
         // A button opened with the keyboard reports no pointer, and only then does the panel take
         // the focus off the trigger.
         if (walksItems && (event as MouseEvent).detail === 0) {
-          setTimeout(() => focusIndex(0), 0);
+          setTimeout(() => focusAt(items(), 0), 0);
         }
       },
       onClosed: closedBy,
@@ -138,16 +144,9 @@ export default function useSelectorDropdown(
         return;
       }
 
-      const keys: Record<string, () => void> = {
-        ArrowDown: () => step(1),
-        ArrowUp: () => step(-1),
-        Home: () => focusIndex(0),
-        End: () => focusIndex(items().length - 1),
-      };
-
-      if (keys[event.key]) {
+      if (walk[event.key]) {
         event.preventDefault();
-        keys[event.key]();
+        walk[event.key](items());
       }
     },
 
