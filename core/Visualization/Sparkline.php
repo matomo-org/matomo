@@ -23,10 +23,13 @@ class Sparkline implements ViewInterface
     public const DEFAULT_HEIGHT = 50;
     public const LINE_THICKNESS = 4;
     public const POINT_SIZE = 6;
-    // We now create different sized width for Sparklines based on the card designs
-    // This max width will still be adjusted as we create new Sparkline modes.
-    public const MAX_WIDTH = 1000;
-    public const MAX_HEIGHT = 250;
+    // Sparkline cards request the image at twice its displayed size, for hi-DPI screens. These
+    // caps are that doubled size: 800px wide is more than any card can be, and 64px tall is more
+    // than any sparkline asks for. The client caps its own width to match (useSparklineSlotSize.ts)
+    // so a request is never clamped here, which would squash the image.
+    // They also bound memory per request: the drawing library works at 4x before scaling down.
+    public const MAX_WIDTH = 1600;
+    public const MAX_HEIGHT = 128;
 
 
     /**

@@ -130,7 +130,9 @@ describe("DashboardManager", function () {
 
     it("should load widgets on smaller screen", async function(){
         await page.webpage.setViewport({ width: 815, height: 512 });
-        await page.waitForTimeout(500);
+        // Not a fixed wait: the narrower viewport re-measures every sparkline card, and each one
+        // requests a new image at its new size.
+        await page.waitForNetworkIdle();
         expect(await page.screenshotSelector('.top_controls, #dashboard')).to.matchImage('small_screen');
     });
 
