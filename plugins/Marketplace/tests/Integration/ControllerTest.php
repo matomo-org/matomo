@@ -89,6 +89,7 @@ class ControllerTest extends IntegrationTestCase
             'isInstalled',
             'isInvalid',
             'isMissingLicense',
+            'isNewBundle',
             'isPaid',
             'isTrialRequested',
             'licenseStatus',
