@@ -33,12 +33,30 @@ describe('TooltipContent', function () {
     percent: 'PL12 a+b %41 %2F <b>c</b>',
   };
 
+  // a report label is url decoded on its way out, so the percent encoded value arrives resolved
+  const reportPayloads = Object.assign({}, payloads, { percent: 'PL12 a b A / <b>c</b>' });
+
+  // referrer urls are parsed before they are stored, so the fixture tracks these instead
+  const referrerPayloads = {
+    plain: 'PL1-plain',
+    inline: 'PL2-<b>bold</b>',
+    attribute: 'PL3-<img/src=x/onerror=window.__tooltipProbe=1>',
+    carrier: 'PL4-<div/class=dataTable/data-table-type=JqplotGraph>y</div>',
+    discarded: 'PL6-x</span>y<?z>wA<B',
+    unbalanced: 'PL7-<svg><style>*{display:none}</style></svg>t<b',
+    emoji: 'PL10-😀🔥',
+  };
+
   // two fields hand the tooltip something other than what was tracked: the tracker escapes an
   // unpaired bracket inside a url, and `rawSafeDecoded` url decodes the value it renders
   const transformedPayloads = {
     'discarded, in a page url': 'PL6 x</span>y <?z&gt;w A&lt;B',
     'percent, url decoded': 'PL12 a+b A / <b>c</b>',
   };
+
+  // how much of a label a metric tooltip is certain to still hold: it embeds the label cut to forty
+  // characters of the value as stored, and escaping makes that fewer characters to read
+  const labelPrefixLength = 15;
 
   // the tags a tooltip may render; everything else has to be shown as text
   const allowedTags = ['B', 'BR', 'EM', 'I', 'SMALL', 'SPAN', 'STRONG', 'U'];
@@ -91,9 +109,14 @@ describe('TooltipContent', function () {
         // read a line break as one, so the text can be compared to the title character for character
         $(clone).find('br').replaceWith('\n');
 
+        const row = $(this).closest('tr');
+
         results.push({
           title,
           opened: true,
+          // the cell renders the whole label, where the metric tooltips beside it embed a copy cut
+          // to forty characters of the stored value
+          label: row.length ? row.find('td.label span.label span.value').first().text().trim() : '',
           text: clone.textContent,
           breaks: content.querySelectorAll('br').length,
           elements: Array.from(content.querySelectorAll('*')).map((node) => ({
@@ -175,6 +198,11 @@ describe('TooltipContent', function () {
 
       expectTooltipToShowItsTitle(tooltip);
 
+      if (tooltip.label) {
+        expect(tooltip.text, 'a tooltip does not repeat the label of its row: ' + tooltip.label)
+          .to.contain(tooltip.label.substring(0, labelPrefixLength));
+      }
+
       escapedMarkup.forEach((pattern) => {
         expect(tooltip.text, 'a value escaped one layer too deep in tooltip for title ' + tooltip.title)
           .to.not.match(pattern);
@@ -183,6 +211,26 @@ describe('TooltipContent', function () {
 
     // a selector that stops matching would otherwise leave nothing to assert on
     expect(tooltips.length, 'tooltips carrying a tracked value').to.be.at.least(minimumCount);
+  }
+
+  function readLabels(hostSelector) {
+    return page.evaluate((selector) => window.jQuery(selector)
+      .find('tbody tr td.label span.label span.value')
+      .map(function () {
+        return window.jQuery(this).text().trim();
+      }).get(), hostSelector);
+  }
+
+  /**
+   * Every payload class has to arrive in a report as the value that was tracked, whether or not the
+   * row it lands in carries a tooltip of its own.
+   */
+  function expectEveryPayloadInLabels(labels, labelFor, values) {
+    Object.keys(values).forEach((name) => {
+      const label = labelFor(values[name]);
+
+      expect(labels, 'no row shows the value tracked for ' + name).to.include(label);
+    });
   }
 
   function expectValueShownInFull(tooltips, value, name) {
@@ -277,38 +325,47 @@ describe('TooltipContent', function () {
   });
 
   it('should show tracked values as text in the page url tooltips', async function () {
-    const tooltips = await loadAndSweep(widget('Actions', 'getPageUrls', '&flat=1'), '.dataTable', 20);
+    await loadAndSweep(widget('Actions', 'getPageUrls', '&flat=1'), '.dataTable', 20);
 
-    // a report truncates a long label, so completeness is checked on the one value short enough
-    expectValueShownInFull(tooltips, '/page/' + payloads.plain, 'plain');
+    expectEveryPayloadInLabels(await readLabels('.dataTable'), (value) => '/page/' + value, reportPayloads);
   });
 
   it('should show tracked values as text in the site search keyword tooltips', async function () {
-    const tooltips = await loadAndSweep(widget('Actions', 'getSiteSearchKeywords'), '.dataTable', 15);
+    await loadAndSweep(widget('Actions', 'getSiteSearchKeywords'), '.dataTable', 15);
 
-    expectValueShownInFull(tooltips, payloads.plain, 'plain');
+    expectEveryPayloadInLabels(await readLabels('.dataTable'), (value) => value, reportPayloads);
   });
 
   it('should show tracked values as text in the event tooltips', async function () {
     await loadAndSweep(widget('Events', 'getCategory', '&flat=1'), '.dataTable', 1);
+
+    expectEveryPayloadInLabels(
+      await readLabels('.dataTable'),
+      (value) => 'cat ' + value + ' - act ' + value,
+      reportPayloads
+    );
   });
 
   it('should show tracked values as text in the ecommerce item tooltips', async function () {
-    const tooltips = await loadAndSweep(widget('Goals', 'getItemsName'), '.dataTable', 10);
+    await loadAndSweep(widget('Goals', 'getItemsName'), '.dataTable', 10);
 
-    expectValueShownInFull(tooltips, 'name ' + payloads.plain, 'plain');
+    expectEveryPayloadInLabels(await readLabels('.dataTable'), (value) => 'name ' + value, reportPayloads);
   });
 
   it('should show tracked values as text in the referrer tooltips', async function () {
-    const tooltips = await loadAndSweep(widget('Referrers', 'getWebsites', '&flat=1'), '.dataTable', 10);
+    await loadAndSweep(widget('Referrers', 'getWebsites', '&flat=1'), '.dataTable', 10);
 
-    expectValueShownInFull(tooltips, 'referrer.example/r/PL1-plain', 'plain referrer');
+    expectEveryPayloadInLabels(
+      await readLabels('.dataTable'),
+      (value) => 'referrer.example/r/' + value,
+      referrerPayloads
+    );
   });
 
   it('should show tracked values as text in the user id tooltips', async function () {
-    const tooltips = await loadAndSweep(widget('UserId', 'getUsers'), '.dataTable', 30);
+    await loadAndSweep(widget('UserId', 'getUsers'), '.dataTable', 30);
 
-    expectValueShownInFull(tooltips, 'uid ' + payloads.plain, 'plain');
+    expectEveryPayloadInLabels(await readLabels('.dataTable'), (value) => 'uid ' + value, reportPayloads);
   });
 
   it('should show tracked values as text in a tag cloud', async function () {
@@ -331,9 +388,9 @@ describe('TooltipContent', function () {
   });
 
   it('should show tracked values as text in a report on a reporting page', async function () {
-    const tooltips = await loadAndSweep(report('General_Actions', 'General_Pages', '&flat=1'), '.dataTable', 20);
+    await loadAndSweep(report('General_Actions', 'General_Pages', '&flat=1'), '.dataTable', 20);
 
-    expectValueShownInFull(tooltips, '/page/' + payloads.plain, 'plain');
+    expectEveryPayloadInLabels(await readLabels('.dataTable'), (value) => '/page/' + value, reportPayloads);
   });
 
   it('should render its own markup in a comparison tooltip', async function () {
