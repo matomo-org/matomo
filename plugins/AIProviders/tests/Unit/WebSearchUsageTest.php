@@ -183,6 +183,18 @@ class WebSearchUsageTest extends TestCase
     }
 
     /**
+     * fromProviderData() takes raw provider JSON, so a query that is documented as
+     * a string can arrive as anything. Dropped rather than coerced, matching how
+     * every citation field is guarded.
+     */
+    public function testDropsQueriesThatAreNotStrings(): void
+    {
+        $usage = WebSearchUsage::fromProviderData([], 2, ['best analytics', 42, null, ['nested'], true]);
+
+        $this->assertSame(['best analytics'], $usage->getQueries());
+    }
+
+    /**
      * The providers disagree on what they report, so any positive evidence has to
      * count — otherwise spend that really happened would be reported as no search.
      *

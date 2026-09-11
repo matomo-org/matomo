@@ -99,7 +99,7 @@ final class WebSearchUsage
      *
      * @param list<array{url?: mixed, title?: mixed, domain?: mixed}> $citations
      * @param int|null $requestCount Provider-reported search count, or null when it reports none.
-     * @param list<string> $queries
+     * @param list<mixed> $queries Raw provider queries; normalised by {@link normalizeQueries()}.
      */
     public static function fromProviderData(array $citations, ?int $requestCount, array $queries): self
     {
@@ -136,7 +136,11 @@ final class WebSearchUsage
      * number of queries, and counting the raw list would report more searches
      * than {@link getQueries()} lists back.
      *
-     * @param list<string> $queries
+     * Non-string entries are dropped rather than coerced, for the same reason
+     * {@link fromProviderData()} guards every citation field: this takes raw
+     * provider JSON, where a documented string can arrive as anything.
+     *
+     * @param list<mixed> $queries
      * @return list<string>
      */
     public static function normalizeQueries(array $queries): array
@@ -144,7 +148,7 @@ final class WebSearchUsage
         $normalized = [];
 
         foreach ($queries as $query) {
-            $query = self::cap(trim($query), self::MAX_QUERY_LENGTH);
+            $query = self::cap(is_string($query) ? trim($query) : '', self::MAX_QUERY_LENGTH);
             if ($query !== '' && !in_array($query, $normalized, true)) {
                 $normalized[] = $query;
             }
