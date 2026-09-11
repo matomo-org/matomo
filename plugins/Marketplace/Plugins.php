@@ -297,15 +297,6 @@ class Plugins
         return $this->pluginManager->isPluginActivated($pluginName);
     }
 
-    /**
-     * Whether this Matomo already has the plugin's files, which is what decides between offering
-     * it for install and offering to activate it.
-     *
-     * Config's `PluginsInstalled` is not that test. The Marketplace's install action only downloads
-     * and extracts (see PluginInstaller::installOrUpdatePluginFromMarketplace()); a plugin is added
-     * to that list when it is first activated. Asking the config left a plugin that had been
-     * installed but never activated offering "Install" a second time.
-     */
     private function isPluginInstalled($pluginName)
     {
         // an activated plugin is installed by definition, and this saves reading the directory
@@ -313,7 +304,7 @@ class Plugins
             return true;
         }
 
-        return $this->pluginManager->isPluginInFilesystem($pluginName);
+        return $this->pluginManager->isPluginInstalled($pluginName, true);
     }
 
     private function enrichPluginInformation($plugin)
