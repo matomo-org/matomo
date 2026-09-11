@@ -73,7 +73,7 @@ export interface OptionGroup {
   disabled?: boolean;
 }
 
-// distance between the field and its open panel, matching FieldExpandableSelect.less
+// distance between the field and its open panel, matching FieldExpandableSelect's LIST_GAP
 const DROPDOWN_GAP = 8;
 
 function initMaterialSelect(
