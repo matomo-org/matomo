@@ -15,6 +15,7 @@ use Piwik\Period\Month;
 use Piwik\Period\Range;
 use Piwik\Period\Week;
 use Piwik\Period\Year;
+use Piwik\Site;
 
 /**
  * @group Core
@@ -1382,5 +1383,126 @@ class RangeTest extends BasePeriodTest
 
         $this->assertEquals(1, $range->getNumberOfSubperiods());
         $this->assertEquals($expected->getRangeString(), $range->getRangeString());
+    }
+
+    /**
+     * @dataProvider getRelativeEndDateSpellings
+     */
+    public function testGetRelativeToEndDateResolvesBothSpellingsOnTheSiteDay($endDate)
+    {
+        $this->setUpSiteAheadOfTheServerDay();
+
+        $range = Range::getRelativeToEndDate('day', 'last7', $endDate, new Site(1));
+
+        $this->assertEquals('2020-12-12,2020-12-18', $range);
+    }
+
+    public function getRelativeEndDateSpellings()
+    {
+        return [
+            ['last week'],
+            ['last-week'],
+            // The endpoint arrives in whatever spelling the caller sent, and every spelling
+            // resolves to the same keyword, so all of them end on the same day.
+            ['last%20week'],
+            ['last+week'],
+            [' last week '],
+            ['LAST-WEEK'],
+        ];
+    }
+
+    /**
+     * @dataProvider getRelativeEndDateTodaySpellings
+     */
+    public function testGetRelativeToEndDateResolvesATodaySpellingOnTheSiteDay($endDate)
+    {
+        $this->setUpSiteAheadOfTheServerDay();
+
+        $range = Range::getRelativeToEndDate('day', 'last7', $endDate, new Site(1));
+
+        $this->assertEquals('2020-12-19,2020-12-25', $range);
+    }
+
+    public function getRelativeEndDateTodaySpellings()
+    {
+        return [
+            ['today'],
+            ['today '],
+            ['%74oday'],
+            ['TODAY'],
+        ];
+    }
+
+    /**
+     * @dataProvider getRelativeComparisonDateSpellings
+     */
+    public function testGetLastDateResolvesARelativeDateOnTheGivenTimezoneDay($date)
+    {
+        // 04:37 on the 25th for the given timezone, still the 24th for the server.
+        Date::$now = strtotime('2020-12-24 16:37:00');
+
+        [$strLastDate, $lastPeriod] = Range::getLastDate($date, 'day', 'UTC+12');
+
+        $this->assertEquals('2020-12-24', $strLastDate);
+        $this->assertEquals('2020-12-24', $lastPeriod->toString());
+    }
+
+    public function getRelativeComparisonDateSpellings()
+    {
+        return [
+            ['today'],
+            // The date comes from the request, so it arrives in whatever spelling the caller
+            // sent, and each spelling has to compare against the same earlier day.
+            ['TODAY'],
+            [' today '],
+        ];
+    }
+
+    public function testGetLastDateWithoutATimezoneComparesAgainstTheServerDay()
+    {
+        Date::$now = strtotime('2020-12-24 16:37:00');
+
+        [$strLastDate] = Range::getLastDate('today', 'day');
+
+        $this->assertEquals('2020-12-23', $strLastDate);
+    }
+
+    /**
+     * @dataProvider getDatesWithoutAComparisonPeriod
+     */
+    public function testGetLastDateStillRefusesADateItCannotCompare($date)
+    {
+        Date::$now = strtotime('2020-12-24 16:37:00');
+
+        [$strLastDate, $lastPeriod] = Range::getLastDate($date, 'day', 'UTC+12');
+
+        $this->assertFalse($strLastDate);
+        $this->assertFalse($lastPeriod);
+    }
+
+    public function getDatesWithoutAComparisonPeriod()
+    {
+        return [
+            ['last7'],
+            ['previous30'],
+            // Resolving the keyword must not turn this into a date with a comparison period.
+            ['last-week'],
+            ['last week'],
+        ];
+    }
+
+    private function setUpSiteAheadOfTheServerDay()
+    {
+        // 04:37 on the 25th for the site, still the 24th for the server.
+        Date::$now = strtotime('2020-12-24 16:37:00');
+        Site::setSites([1 => [
+            'idsite' => 1,
+            'name' => 'Site',
+            'timezone' => 'UTC+12',
+            'ecommerce' => 0,
+            'sitesearch' => 0,
+            'exclude_unknown_urls' => 0,
+            'keep_url_fragment' => 0,
+        ]]);
     }
 }

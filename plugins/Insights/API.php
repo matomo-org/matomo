@@ -12,6 +12,7 @@ namespace Piwik\Plugins\Insights;
 use Piwik\API\Request as ApiRequest;
 use Piwik\DataTable;
 use Piwik\Piwik;
+use Piwik\Site;
 
 /**
  * Provides API methods for insight and mover/shaker comparisons between report periods.
@@ -229,7 +230,7 @@ class API extends \Piwik\Plugin\API
         $currentReport  = $this->model->requestReport($idSite, $period, $date, $reportUniqueId, $metric, $segment);
         $this->checkReportIsValid($currentReport);
 
-        $lastDate       = $this->model->getLastDate($date, $period, $comparedToXPeriods);
+        $lastDate       = $this->model->getLastDate($date, $period, $comparedToXPeriods, Site::getTimezoneFor($idSite));
         $lastTotalValue = $this->model->getTotalValue($idSite, $period, $lastDate, $metric, $segment);
         $lastReport     = $this->model->requestReport($idSite, $period, $lastDate, $reportUniqueId, $metric, $segment);
         $this->checkReportIsValid($lastReport);
@@ -289,7 +290,7 @@ class API extends \Piwik\Plugin\API
         $currentReport  = $this->model->requestReport($idSite, $period, $date, $reportUniqueId, $metric, $segment);
         $this->checkReportIsValid($currentReport);
 
-        $lastDate       = $this->model->getLastDate($date, $period, $comparedToXPeriods);
+        $lastDate       = $this->model->getLastDate($date, $period, $comparedToXPeriods, Site::getTimezoneFor($idSite));
         $lastTotalValue = $this->model->getTotalValue($idSite, $period, $lastDate, $metric, $segment);
         $lastReport     = $this->model->requestReport($idSite, $period, $lastDate, $reportUniqueId, $metric, $segment);
         $this->checkReportIsValid($lastReport);

@@ -177,32 +177,62 @@ class Date
 
     /**
      * Returns Date w/ UTC timestamp of time $dateString/$timezone.
-     * (Only applies to special strings, like 'now','today','yesterday','yesterdaySameTime'.
+     * (Only applies to the relative strings {@link getRelativeKeyword()} recognises, such as
+     * 'now', 'today', 'yesterday' and 'last-week'.)
      *
      * @param string $dateString
-     * @param string $timezone
+     * @param string|false $timezone An empty value means UTC.
      * @return Date
      * @ignore
      */
     public static function factoryInTimezone($dateString, $timezone)
     {
-        if ($dateString === 'now') {
-            return self::nowInTimezone((string)$timezone);
-        } elseif ($dateString === 'today') {
-            return self::todayInTimezone((string)$timezone);
-        } elseif ($dateString === 'yesterday') {
-            return self::yesterdayInTimezone((string)$timezone);
-        } elseif ($dateString === 'yesterdaySameTime') {
-            return self::yesterdaySameTimeInTimezone((string)$timezone);
-        } elseif (preg_match('/^last[ -]?week$/i', urldecode($dateString))) {
-            return self::lastWeekInTimezone((string)$timezone);
-        } elseif (preg_match('/^last[ -]?month$/i', urldecode($dateString))) {
-            return self::lastMonthInTimezone((string)$timezone);
-        } elseif (preg_match('/^last[ -]?year$/i', urldecode($dateString))) {
-            return self::lastYearInTimezone((string)$timezone);
-        } else {
-            throw new \Exception("Date::factoryInTimezone() should not be used with $dateString.");
+        switch (self::getRelativeKeyword($dateString)) {
+            case 'now':
+                return self::nowInTimezone((string)$timezone);
+            case 'today':
+                return self::todayInTimezone((string)$timezone);
+            case 'yesterday':
+                return self::yesterdayInTimezone((string)$timezone);
+            case 'yesterdaysametime':
+                return self::yesterdaySameTimeInTimezone((string)$timezone);
+            case 'last-week':
+                return self::lastWeekInTimezone((string)$timezone);
+            case 'last-month':
+                return self::lastMonthInTimezone((string)$timezone);
+            case 'last-year':
+                return self::lastYearInTimezone((string)$timezone);
         }
+
+        throw new \Exception("Date::factoryInTimezone() should not be used with $dateString.");
+    }
+
+    /**
+     * Returns the normalised spelling of $dateString if it is one of the relative values
+     * {@link factoryInTimezone()} resolves, and `null` if it is not.
+     *
+     * These values reach Matomo as query parameters, so a padded, url-encoded or differently
+     * cased spelling is recognised the way a literal one is. Anything else is an absolute date
+     * and belongs in {@link factory()}.
+     *
+     * @param mixed $dateString
+     * @return string|null One of `'now'`, `'today'`, `'yesterday'`, `'yesterdaysametime'`,
+     *                     `'last-week'`, `'last-month'` or `'last-year'`.
+     * @ignore
+     */
+    public static function getRelativeKeyword($dateString): ?string
+    {
+        if (!is_string($dateString)) {
+            return null;
+        }
+
+        $keyword = strtolower(trim(urldecode($dateString)));
+
+        if (!preg_match('/^(?:now|today|yesterday|yesterdaysametime|last[ -]?(week|month|year))$/', $keyword, $matches)) {
+            return null;
+        }
+
+        return empty($matches[1]) ? $keyword : 'last-' . $matches[1];
     }
 
     private static function nowInTimezone(string $timezone): Date
