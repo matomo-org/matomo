@@ -52,6 +52,15 @@ class PromotionRenderer
     public const CAMPAIGN_NAME = 'app_premiumplugins';
 
     /**
+     * Campaign group and placement for the outbound link. Every promotion shares them:
+     * the group separates triggered promotions from the rest of the app's campaign
+     * traffic, and the placement names the one slot they are rendered in.
+     */
+    public const CAMPAIGN_GROUP = 'triggered_ad';
+
+    public const CAMPAIGN_PLACEMENT = 'top_banner';
+
+    /**
      * Entry page URLs can be arbitrarily long; keep the headline on one line.
      */
     private const MAX_URL_LENGTH = 60;
@@ -111,24 +120,23 @@ class PromotionRenderer
      * The outbound link of the banner, and the only place promotion analytics are carried.
      * No website data is included, only which promotion was clicked and from where.
      *
-     * Carries the four campaign parameters `Url::addCampaignParametersToMatomoLink()`
-     * knows today. The scheme also asks for `mtm_group=triggered_ad`,
-     * `mtm_placement=top_banner` and `mtm_kwd=<trigger name>`, which that helper cannot
-     * add yet - matomo-org/matomo#25153 is what will let it. Until then the trigger name
-     * travels as `trigger_name`, and it should move to `mtm_kwd` once the helper supports
-     * it rather than being sent twice.
+     * `mtm_kwd` is the one dimension of the scheme that `addCampaignParametersToMatomoLink()`
+     * takes no argument for, so the trigger name is put on the URL directly; the helper
+     * preserves the query string it is given and only merges its own parameters in.
      */
     private function getCampaignUrl(Promotion $promotion): string
     {
         $url = 'https://plugins.matomo.org/' . $promotion->getPluginName()
-            . '?trigger_name=' . urlencode($promotion->getTriggerName());
+            . '?mtm_kwd=' . urlencode($promotion->getTriggerName());
 
         return (string) Url::addCampaignParametersToMatomoLink(
             $url,
             self::CAMPAIGN_NAME,
             $this->getCampaignSource(),
             $this->getCampaignMedium(),
-            $promotion->getPluginName()
+            self::CAMPAIGN_GROUP,
+            $promotion->getPluginName(),
+            self::CAMPAIGN_PLACEMENT
         );
     }
 

@@ -103,10 +103,12 @@ class PromotionRendererTest extends IntegrationTestCase
         $this->assertStringContainsString('mtm_campaign=app_premiumplugins', $html);
         $this->assertStringContainsString('mtm_source=matomo_app_onpremise', $html);
         $this->assertStringContainsString('mtm_medium=app.Dashboard.embeddedIndex', $html);
+        $this->assertStringContainsString('mtm_group=triggered_ad', $html);
         $this->assertStringContainsString('mtm_content=CustomReports', $html);
-        // Until matomo-org/matomo#25153 lets the campaign helper carry `mtm_kwd`, the
-        // trigger name travels under its own parameter.
-        $this->assertStringContainsString('trigger_name=segments', $html);
+        $this->assertStringContainsString('mtm_placement=top_banner', $html);
+        // The campaign helper takes no argument for `mtm_kwd`, so the trigger name is put
+        // on the URL itself and must survive the helper merging its own parameters in.
+        $this->assertStringContainsString('mtm_kwd=segments', $html);
         // Both the headline and the call to action leave the app, so both open in a new
         // tab and withhold the referrer.
         $this->assertSame(2, substr_count($html, 'target="_blank"'));
