@@ -15,7 +15,7 @@
         {% set evolutionPretty = '+' ~ evolution.percent %}
     {% endif %}
 
-    <span class="metricEvolution" title="{{ evolution.tooltip|rawSafeDecoded|e('html_attr') }}">
+    <span class="metricEvolution" title="{{ evolution.tooltip|rawSafeDecodedEntities|e('html_attr') }}">
     <img style="padding-right:4px" src="plugins/MultiSites/images/{{ evolutionIcon }}" alt="" />
     <strong class="{{ evolutionClass }}" aria-hidden="true">{{ evolutionPretty }}</strong></span>
 {% endmacro %}
