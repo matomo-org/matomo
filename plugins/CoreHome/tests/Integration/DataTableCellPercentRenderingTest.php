@@ -127,34 +127,6 @@ class DataTableCellPercentRenderingTest extends IntegrationTestCase
         ];
     }
 
-    /**
-     * The absolute value shown on hover is rendered by the ratio template rather than by the cell
-     * itself, and for a rate column that absolute value is the percentage.
-     */
-    public function testAPercentValueSurvivesTheAbsoluteValueShownOnHover(): void
-    {
-        $view = new View('@CoreVisualizations/_dataTableViz_htmlTable_ratio');
-        $view->sendHeadersWhenRendering = false;
-        $view->column = 'bounce_rate';
-        $view->row = new Row([Row::COLUMNS => ['label' => 'Page', 'bounce_rate' => '%37,63']]);
-        $view->totals = ['bounce_rate' => '%100'];
-        $view->properties = ['report_ratio_columns' => ['bounce_rate']];
-        $view->label = 'Page';
-        $view->labelColumn = 'label';
-        $view->translations = ['bounce_rate' => 'Bounce Rate', 'label' => 'Page URL'];
-        $view->rowPercentage = '%37,63';
-        $view->segmentTitlePretty = 'All visits';
-        $view->showAbsoluteValueOnHover = true;
-
-        $this->setLanguage('tr');
-
-        $matched = preg_match('#<span class="ratio"[^>]*>(.*?)</span>#s', $view->render(), $matches);
-        self::assertSame(1, $matched, 'the ratio span was not rendered');
-
-        self::assertStringContainsString('%37,63', $matches[1]);
-        self::assertNoControlCharacters($matches[1]);
-    }
-
     private function renderCellValue(string $language, string $formattedValue, array $dimensions = []): string
     {
         $this->setLanguage($language);

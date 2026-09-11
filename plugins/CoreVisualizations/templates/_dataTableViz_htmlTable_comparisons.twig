@@ -79,7 +79,7 @@
             {% include "@CoreVisualizations/_dataTableViz_htmlTable_ratio.twig" with {
                 'changePercentage': columnChange,
                 'totals': rowComparisonTotals,
-                'label': comparedRow.getColumn('label'),
+                'label': comparedRow.getColumn('label')|rawSafeDecoded,
                 'labelColumn': properties.columns_to_display|first,
                 'forceZero': true,
                 'tooltipSuffix': comparisonTooltipSuffix,
