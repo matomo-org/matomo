@@ -111,7 +111,7 @@ export default function useSelectorDropdown(
   function closedBy(event: MouseEvent|KeyboardEvent) {
     close();
 
-    const byKeyboard = event.type === 'keyup' || (event as MouseEvent).detail === 0;
+    const byKeyboard = (event as MouseEvent).detail === 0;
     if (byKeyboard && panel()?.contains(document.activeElement)) {
       trigger()?.focus();
     }
