@@ -179,6 +179,12 @@ class InvalidLicenses
                 if (!empty($plugin['isFree'])) {
                     continue;
                 }
+                // the paid listing also carries bundles, which are licence products rather than
+                // installable plugins; they cannot be activated or deactivated, so naming one in
+                // "deactivated because you have no license" would be meaningless
+                if (!empty($plugin['isBundle'])) {
+                    continue;
+                }
                 $pluginName = $plugin['name'];
                 if ($this->isPluginInActivatedPluginsList($pluginName)) {
                     if (empty($plugin['consumer']['license'])) {

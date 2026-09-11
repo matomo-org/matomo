@@ -688,42 +688,62 @@ class UrlTest extends \PHPUnit\Framework\TestCase
     /**
      * @group AddCampaignParametersToMatomoLink
      */
-    public function testAddCampaignParametersToMatomoLinkOnlyAddsContentWhenItIsGiven()
+    public function testAddCampaignParametersToMatomoLinkTagsTheShopDomain()
     {
         $this->resetGlobalVariables();
-        $_GET['module'] = 'CoreHomeAdmin';
-        $_GET['action'] = 'trackingCodeGenerator';
+        $_GET['module'] = 'Marketplace';
+        $_GET['action'] = 'overview';
 
-        $url = 'https://plugins.matomo.org/CustomReports';
-        $withoutContent = $url . '?mtm_campaign=App_ProfessionalServices&mtm_source=Matomo_App_OnPremise'
-            . '&mtm_medium=App.Dashboard.pluginPromotion';
-
+        // the shop is a first party Matomo domain; purchases started in the app are attributed there
         $this->assertSame(
-            $withoutContent,
-            Url::addCampaignParametersToMatomoLink($url, 'App_ProfessionalServices', null, 'App.Dashboard.pluginPromotion')
+            'https://shop.matomo.org/checkout/?add-to-cart=1&mtm_campaign=Matomo_App'
+            . '&mtm_source=Matomo_App_OnPremise&mtm_medium=App.Marketplace.overview',
+            Url::addCampaignParametersToMatomoLink('https://shop.matomo.org/checkout/?add-to-cart=1')
         );
 
-        $withContent = $withoutContent . '&mtm_content=custom_reports';
+        // an unrelated domain is still left alone
+        $this->assertSame(
+            'https://example.com/checkout/?add-to-cart=1',
+            Url::addCampaignParametersToMatomoLink('https://example.com/checkout/?add-to-cart=1')
+        );
+    }
+
+    /**
+     * @group AddCampaignParametersToMatomoLink
+     */
+    public function testAddCampaignParametersToMatomoLinkAddsOptionalDimensionsOnlyWhenGiven()
+    {
+        $this->resetGlobalVariables();
+        $_GET['module'] = 'Marketplace';
+        $_GET['action'] = 'overview';
 
         $this->assertSame(
-            $withContent,
+            'https://shop.matomo.org/checkout/?mtm_campaign=app_bundles&mtm_source=matomo_app_onpremise'
+            . '&mtm_medium=app.marketplace.overview&mtm_group=in_app_marketplace'
+            . '&mtm_content=enterprise_bundle&mtm_placement=add_to_cart',
             Url::addCampaignParametersToMatomoLink(
-                $url,
-                'App_ProfessionalServices',
-                null,
-                'App.Dashboard.pluginPromotion',
-                'custom_reports'
+                'https://shop.matomo.org/checkout/',
+                'app_bundles',
+                'matomo_app_onpremise',
+                'app.marketplace.overview',
+                'in_app_marketplace',
+                'enterprise_bundle',
+                'add_to_cart'
             )
         );
 
+        // group, content and placement are optional and must not appear empty
         $this->assertSame(
-            '<a target="_blank" rel="noreferrer noopener" href="' . $withContent . '">',
-            Url::getExternalLinkTag(
-                $url,
-                'App_ProfessionalServices',
+            'https://shop.matomo.org/checkout/?mtm_campaign=app_bundles&mtm_source=matomo_app_onpremise'
+            . '&mtm_medium=app.marketplace.overview',
+            Url::addCampaignParametersToMatomoLink(
+                'https://shop.matomo.org/checkout/',
+                'app_bundles',
+                'matomo_app_onpremise',
+                'app.marketplace.overview',
                 null,
-                'App.Dashboard.pluginPromotion',
-                'custom_reports'
+                '',
+                null
             )
         );
     }
