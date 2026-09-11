@@ -1,0 +1,297 @@
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+// override: Materialize paints .btn from its own palette and wins on the colour, so the brand fill
+// needs !important to stick. Scoped to this block's actions below.
+.pluginCardFilledButton() {
+  border-color: @theme-color-brand;
+  background: @theme-color-brand;
+  color: @theme-color-brand-contrast !important;
+
+  &:hover,
+  &:focus {
+    border-color: @theme-color-brand;
+    background: @theme-color-brand;
+    color: @theme-color-brand-contrast !important;
+    filter: brightness(0.94);
+  }
+}
+
+// The `@marketplace-card-*` geometry lives in marketplace.less because PluginCardSkeleton has to
+// hold exactly this footprint, so both blocks read those numbers from one place.
+.pluginCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: @marketplace-card-padding;
+  border: 1px solid @theme-color-border-alternative;
+  border-radius: @marketplace-card-radius;
+  background: @theme-color-background-contrast;
+  cursor: pointer;
+  transition: border-color 0.2s ease-out, box-shadow 0.2s ease-out, transform 0.2s ease-out;
+
+  &:hover {
+    border-color: @theme-color-border-brand;
+    box-shadow: @theme-shadow-overlay;
+    transform: translateY(-2px);
+  }
+}
+
+.pluginCard__plate {
+  display: flex;
+  align-items: safe center;
+  justify-content: safe center;
+  height: @marketplace-card-plate-height;
+  border-radius: 4px;
+  overflow: hidden;
+  background: @theme-color-background-brand-tinyContrast;
+}
+
+.pluginCard__shot {
+  @_width: 234px;
+  @_gutter: 8px;
+
+  flex: none;
+  width: @_width;
+  // The gutter keeps a narrow card from pushing the screenshot under the plate's clipped edges.
+  max-width: ~"calc(100% - @{_gutter} * 2)";
+  // Height comes from the cover ratio rather than a fixed number, so the screenshot still fills
+  // the frame edge to edge on the narrow cards where `max-width` clamps the width.
+  aspect-ratio: @marketplace-card-cover-ratio;
+  border-radius: 8px;
+  overflow: hidden;
+  background: @theme-color-background-contrast;
+  // The design's brand-tinted lift, which is what makes the screenshot read as floating on the
+  // plate. No theme token carries a tinted glow - @theme-shadow-overlay is the neutral menu one.
+  box-shadow: 0 5px 20px 0 rgba(0, 133, 128, 0.2);
+  transition: transform 0.5s ease-out;
+}
+
+// The frame already matches the marketplace's 880x480 cover art, so `cover` crops nothing; it is
+// here to keep an off-spec image filling the frame instead of letterboxing inside it.
+.pluginCard__shotImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+
+.pluginCard:hover .pluginCard__shot {
+  transform: scale(1.02);
+}
+
+.pluginCard__chipList {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: safe center;
+  gap: @marketplace-card-chip-gap;
+  margin-top: 12px;
+}
+
+.pluginCard__chipItem {
+  display: inline-flex;
+  align-items: safe center;
+  gap: 6px;
+  height: @marketplace-card-chip-height;
+  padding: 0 10px;
+  border: 1px solid @theme-color-border-alternative;
+  border-radius: (@marketplace-card-chip-height / 2);
+  font-size: 12px;
+  line-height: 1;
+  color: @theme-color-text;
+}
+
+.pluginCard__chipItem--matomo {
+  border-color: transparent;
+  background: @theme-color-background-brand-lowContrast;
+  color: @theme-color-text-brand;
+}
+
+.pluginCard__badge {
+  display: flex;
+  color: @theme-color-brand;
+}
+
+.pluginCard__title {
+  margin: 10px 0 0;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// The card carries the whole hover affordance - border, shadow, lift and the shot's scale - so the
+// title holds its colour throughout; the link is here for the deep link, not for link styling.
+.pluginCard__titleLink {
+  color: @theme-color-text;
+  text-decoration: none;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+}
+
+// The second class is only here to outrank CoreAdminHome's `.admin p`, which would otherwise set
+// this paragraph's spacing and line height; `padding-bottom` is reset for the same reason.
+.pluginCard .pluginCard__description {
+  @_lines: 3;
+  @_lineHeight: 20px;
+
+  margin: 6px 0 0;
+  padding-bottom: 0;
+  font-size: 14px;
+  line-height: @_lineHeight;
+  color: @theme-color-text-light;
+  display: -webkit-box;
+  -webkit-line-clamp: @_lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  // No height of its own, deliberately. The clamp sizes the box to the lines it kept, and any
+  // height or min-height taller than that is space the browser paints the next line into - which
+  // is what left half a fourth line showing under the ellipsis. Cards still line up: the grid
+  // stretches them to a common height and `.pluginCard__actions` pins the CTA with `margin-top`.
+}
+
+.pluginCard__meta {
+  display: flex;
+  align-items: safe center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 8px;
+  font-size: 12px;
+  color: @theme-color-text-light;
+}
+
+.pluginCard__updated {
+  display: flex;
+  align-items: safe center;
+  gap: 6px;
+  flex: none;
+  white-space: nowrap;
+}
+
+.pluginCard__updatedIcon {
+  font-size: 14px;
+  line-height: 1;
+}
+
+.pluginCard__seats {
+  display: flex;
+  align-items: safe center;
+  gap: 6px;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pluginCard__seatsIcon {
+  font-size: 13px;
+  line-height: 1;
+  flex: none;
+  color: @theme-color-brand;
+}
+
+.pluginCard__owner {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pluginCard__actions {
+  position: relative;
+  z-index: 1;
+  margin-top: auto;
+  padding-top: 14px;
+  min-height: 32px;
+
+  // override: Materialize .btn draws no focus ring of its own, and the marketplace has always
+  // lifted these on hover. Both used to arrive through the legacy .cta-container wrapper class.
+  .btn.btn-block {
+    &:hover,
+    &:focus {
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    &:focus {
+      outline: thin dotted;
+    }
+  }
+
+  // override: the CTAs are Materialize buttons rendered by CTAContainer, and their sizing,
+  // uppercasing and colours all come from .btn. Resizing them to the card is only possible here.
+  .btn {
+    height: 32px;
+    line-height: 32px;
+    padding: 0 12px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+
+  // override: the secondary CTA reads as an outline button. Materialize's .btn colour wins on
+  // specificity alone, so the text colour needs !important.
+  .btn.btn-block:not(.purchaseable):not(.addToCartLink) {
+    border: 1px solid @theme-color-brand;
+    line-height: 30px; // 32px, less the border
+    background: @theme-color-background-contrast;
+    color: @theme-color-text-brand !important;
+
+    &:hover,
+    &:focus {
+      background: @theme-color-background-brand-lowContrast;
+      color: @theme-color-text-brand !important;
+    }
+  }
+
+  .btn.purchaseable,
+  .btn.addToCartLink {
+    .pluginCardFilledButton();
+  }
+
+  .btn.purchaseable.disabled {
+    filter: none;
+    opacity: 0.6;
+    cursor: default;
+  }
+}
+
+.pluginCard--bundle .pluginCard__actions {
+  .btn.btn-block:not(.purchaseable):not(.addToCartLink) {
+    .pluginCardFilledButton();
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pluginCard,
+  .pluginCard__shot {
+    transition: none;
+  }
+}
+
+// override: the bundled Bootstrap reset in Morpheus (base/bootstrap.css) underlines every anchor on
+// `a:hover, a:focus`, and at two components it outranks the block's own `text-decoration: none`.
+a.pluginCard__titleLink:hover,
+a.pluginCard__titleLink:focus {
+  text-decoration: none;
+}
+
+// override: Morpheus's legacy focus rules - `:focus { outline: thin dotted }` in general/_default.less
+// and `a:focus` in base/bootstrap.css - fire on a plain mouse click. This link's `::after` covers the
+// whole card, so clicking anywhere on a card drew a ring around the title. Only the keyboard ring
+// from `a:focus-visible` is wanted, so the click case is turned off here.
+a.pluginCard__titleLink:focus:not(:focus-visible) {
+  outline: none;
+}

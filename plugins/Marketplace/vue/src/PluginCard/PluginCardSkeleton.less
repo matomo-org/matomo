@@ -1,0 +1,106 @@
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+// The shell repeats PluginCard's own so the placeholder occupies the same grid cell; every number
+// they share comes from the `@marketplace-card-*` variables in marketplace.less.
+.pluginCardSkeleton {
+  display: flex;
+  flex-direction: column;
+  padding: @marketplace-card-padding;
+  border: 1px solid @theme-color-border-alternative;
+  border-radius: @marketplace-card-radius;
+  background: @theme-color-background-contrast;
+}
+
+.pluginCardSkeleton__plate,
+.pluginCardSkeleton__title,
+.pluginCardSkeleton__meta,
+.pluginCardSkeleton__action,
+.pluginCardSkeleton__textLine,
+.pluginCardSkeleton__chipItem {
+  display: block;
+  border-radius: 3px;
+  background: @theme-color-background-base;
+  animation: pluginCardSkeleton__pulse 1.4s ease-in-out infinite;
+}
+
+.pluginCardSkeleton__plate {
+  height: @marketplace-card-plate-height;
+}
+
+.pluginCardSkeleton__chipList {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: safe center;
+  gap: @marketplace-card-chip-gap;
+  margin-top: 12px;
+  min-height: @marketplace-card-chip-height;
+}
+
+.pluginCardSkeleton__chipItem {
+  width: 96px;
+  height: @marketplace-card-chip-height;
+  border-radius: (@marketplace-card-chip-height / 2);
+}
+
+.pluginCardSkeleton__chipItem--short {
+  width: 80px;
+}
+
+.pluginCardSkeleton__title {
+  width: 112px;
+  height: 16px;
+  margin-top: 10px;
+}
+
+.pluginCardSkeleton__textBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.pluginCardSkeleton__textLine {
+  height: 12px;
+}
+
+.pluginCardSkeleton__textLine--short {
+  width: 66%;
+}
+
+.pluginCardSkeleton__meta {
+  width: 96px;
+  height: 12px;
+  margin-top: 12px;
+}
+
+.pluginCardSkeleton__action {
+  height: 32px;
+  margin-top: 12px;
+}
+
+@keyframes pluginCardSkeleton__pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.45;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pluginCardSkeleton__plate,
+  .pluginCardSkeleton__title,
+  .pluginCardSkeleton__meta,
+  .pluginCardSkeleton__action,
+  .pluginCardSkeleton__textLine,
+  .pluginCardSkeleton__chipItem {
+    animation: none;
+  }
+}

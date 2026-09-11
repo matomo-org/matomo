@@ -1,0 +1,88 @@
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+.sortMenu {
+  position: relative;
+  flex: none;
+}
+
+.sortMenu__trigger {
+  display: flex;
+  align-items: safe center;
+  gap: 8px;
+  height: 32px;
+  padding: 0 12px;
+  border: 1px solid @theme-color-border-alternative;
+  border-radius: 4px;
+  background: @theme-color-background-contrast;
+  cursor: pointer;
+  font-size: 13px;
+  color: @theme-color-text;
+  transition: border-color 0.15s ease-out;
+
+  &:hover {
+    border-color: @theme-color-brand;
+  }
+}
+
+// override: Materialize's global `button:focus` paints its own fill on every bare <button> and
+// outranks a lone class, so the tag has to appear here for the trigger to keep its
+// own background on click. Keyboard focus still shows through Morpheus's `:focus-visible`
+// outline, so nothing is lost by dropping the fill.
+button.sortMenu__trigger:focus {
+  background: @theme-color-background-contrast;
+}
+
+.sortMenu__menu {
+  position: absolute;
+  right: 0;
+  z-index: 20;
+  margin-top: 4px;
+  width: 208px;
+  padding: 4px 0;
+  border: 1px solid @theme-color-border-alternative;
+  border-radius: 4px;
+  background: @theme-color-background-contrast;
+  box-shadow: @theme-shadow-overlay;
+}
+
+.sortMenu__item {
+  display: flex;
+  align-items: safe center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  height: 32px;
+  padding: 0 12px;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  text-align: left;
+  font-size: 13px;
+  color: @theme-color-text;
+}
+
+// override: Materialize's global `button:focus` paints its own fill on every bare <button> and
+// outranks a lone class, so the tag has to appear here for the options to keep their
+// own background on click. Keyboard focus still shows through Morpheus's `:focus-visible`
+// outline, so nothing is lost by dropping the fill.
+button.sortMenu__item:hover,
+button.sortMenu__item:focus {
+  background: @theme-color-background-base;
+}
+
+.sortMenu__check {
+  color: @theme-color-brand;
+}
+
+// override: Morpheus's legacy `:focus { outline: thin dotted }` in general/_default.less fires on
+// a plain mouse click, so the trigger and its options picked up a dotted ring the moment they are clicked. Only the
+// keyboard ring below it - `button:focus-visible` - is wanted, so the click case is turned off here.
+button.sortMenu__trigger:focus:not(:focus-visible),
+button.sortMenu__item:focus:not(:focus-visible) {
+  outline: none;
+}

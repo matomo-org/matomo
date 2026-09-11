@@ -93,9 +93,7 @@ export default defineComponent({
         module: 'Marketplace',
         action: 'overview',
       });
-      const hash = MatomoUrl.stringify({ pluginType: 'premium' });
-
-      return `?${query}#?${hash}`;
+      return `?${query}`;
     },
   },
 });

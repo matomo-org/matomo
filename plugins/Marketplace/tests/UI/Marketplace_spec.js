@@ -11,22 +11,29 @@ describe("Marketplace", function () {
     this.fixture = "Piwik\\Plugins\\Marketplace\\tests\\Fixtures\\SimpleFixtureTrackFewVisits";
 
     var urlBase = '?module=Marketplace&action=overview';
-    var paidPluginsUrl = urlBase + '#?pluginType=premium';
     var themesUrl = urlBase + '#?pluginType=themes';
-    var pluginsUrl = urlBase;
+
+    function searchUrl(pluginTitle) {
+        return urlBase + '#?query=' + encodeURIComponent(pluginTitle);
+    }
+
+    // The redesign dropped the premium tab these captures used to open: the overview requests
+    // only the unfiltered catalogue, so nothing narrows it to paid plugins any more. Searching
+    // the mock's paid plugins is what now puts those cards, and only those cards, on one screen.
+    var paidPluginsUrl = searchUrl('Paid Plugin');
 
     var noLicense = 'noLicense';
     var expiredLicense = 'expiredLicense';
     var exceededLicense = 'exceededLicense';
     var validLicense = 'validLicense';
 
-    async function loadPluginDetailPage(pluginTitle, isFreePlugin)
+    async function loadPluginDetailPage(pluginTitle)
     {
         await page.goto('about:blank');
-        await page.goto(isFreePlugin ? pluginsUrl : paidPluginsUrl);
+        await page.goto(searchUrl(pluginTitle));
 
         const elem = await page.jQuery(
-          '.card-content .card-title:contains("' + pluginTitle + '")',
+          '.pluginCard__titleLink:contains("' + pluginTitle + '")',
           { waitFor: true }
         );
 
@@ -193,39 +200,35 @@ describe("Marketplace", function () {
 
         it(mode + ' should open paid plugins modal for paid plugin 1', async function () {
             setEnvironment(mode, validLicense);
-            await page.goto('about:blank');
-            await page.goto(paidPluginsUrl);
-            await loadPluginDetailPage('Paid Plugin 1', false);
+            await loadPluginDetailPage('Paid Plugin 1');
 
             await captureWithPluginDetails('paid_plugin1_plugin_details_' + mode);
         });
 
         it(mode + ' should open paid plugins modal for paid plugin 2', async function () {
             setEnvironment(mode, validLicense);
-            await page.goto('about:blank');
-            await page.goto(paidPluginsUrl);
-            await loadPluginDetailPage('Paid Plugin 2', false);
+            await loadPluginDetailPage('Paid Plugin 2');
 
             await captureWithPluginDetails('paid_plugin2_plugin_details_' + mode);
         });
 
         it(mode + ' should open paid plugins modal for paid plugin 3', async function () {
             setEnvironment(mode, validLicense);
-            await loadPluginDetailPage('Paid Plugin 3', false);
+            await loadPluginDetailPage('Paid Plugin 3');
 
             await captureWithPluginDetails('paid_plugin3_plugin_details_' + mode);
         });
 
         it(mode + ' should open paid plugins modal for paid plugin 4', async function () {
             setEnvironment(mode, validLicense);
-            await loadPluginDetailPage('Paid Plugin 4', false);
+            await loadPluginDetailPage('Paid Plugin 4');
 
             await captureWithPluginDetails('paid_plugin4_plugin_details_' + mode);
         });
 
         it(mode + ' should open paid plugins modal for paid plugin 5', async function () {
             setEnvironment(mode, validLicense);
-            await loadPluginDetailPage('Paid Plugin 5', false);
+            await loadPluginDetailPage('Paid Plugin 5');
 
             await captureWithPluginDetails('paid_plugin5_plugin_details_' + mode);
         });
@@ -265,8 +268,7 @@ describe("Marketplace", function () {
         it('should show free plugin details', async function() {
             setEnvironment(mode, noLicense);
 
-            var isFree = true;
-            await loadPluginDetailPage('Treemap Visualization', isFree);
+            await loadPluginDetailPage('Treemap Visualization');
 
             await captureWithPluginDetails('free_plugin_details_' + mode);
         });
@@ -275,8 +277,7 @@ describe("Marketplace", function () {
             setEnvironment(mode, noLicense);
 
             assumePaidPluginsActivated();
-            var isFree = false;
-            await loadPluginDetailPage('Paid Plugin 1', isFree);
+            await loadPluginDetailPage('Paid Plugin 1');
 
             await captureWithPluginDetails('paid_plugin_details_no_license_' + mode);
         });
@@ -285,8 +286,7 @@ describe("Marketplace", function () {
             setEnvironment(mode, validLicense);
 
             assumePaidPluginsActivated();
-            var isFree = false;
-            await loadPluginDetailPage('Paid Plugin 1', isFree);
+            await loadPluginDetailPage('Paid Plugin 1');
 
             await captureWithPluginDetails('paid_plugin_details_valid_license_' + mode + '_installed');
         });
@@ -294,8 +294,7 @@ describe("Marketplace", function () {
         it('should show an add to cart button with user selector', async function() {
             setEnvironment(mode, noLicense);
 
-            var isFree = false;
-            await loadPluginDetailPage('Paid Plugin 1', isFree);
+            await loadPluginDetailPage('Paid Plugin 1');
 
             await captureWithPluginDetails('paid_plugin_details_add_to_cart_' + mode);
         });
@@ -304,8 +303,7 @@ describe("Marketplace", function () {
             setEnvironment(mode, exceededLicense);
 
             assumePaidPluginsActivated();
-            var isFree = false;
-            await loadPluginDetailPage('Paid Plugin 1', isFree);
+            await loadPluginDetailPage('Paid Plugin 1');
 
             await captureWithPluginDetails('paid_plugin_details_exceeded_license_' + mode);
         });

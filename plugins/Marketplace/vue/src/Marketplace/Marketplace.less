@@ -1,0 +1,81 @@
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+// Not `.marketplace`: the overview template already puts that class on the wrapper around this
+// component, and both the plugin's own legacy rules and AnonymousPiwikUsageMeasurement select on
+// it, so the block is qualified instead.
+.marketplacePage {
+  padding: 24px;
+  border-radius: 4px;
+  background: @theme-color-background-contrast;
+  box-shadow: @theme-shadow-overlay;
+
+  @media (max-width: 640px) {
+    padding: 12px;
+  }
+}
+
+// Left-aligned onto the same edge as the category tabs below it, so the page keeps one starting
+// column. The spacing is on the button, not this box: the button removes itself when nothing is
+// purchased, and margin here would leave a gap behind where it was.
+.marketplacePage__installAction {
+  display: flex;
+  justify-content: flex-start;
+
+  .btn {
+    margin: 16px 0 0;
+  }
+
+  // The loader renders inline before the label, so it needs the label's leading off its own box.
+  button .matomo-loader {
+    margin-top: 2px;
+    margin-right: 16px;
+    vertical-align: text-top;
+  }
+}
+
+.marketplacePage__resultsBar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: safe center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 24px 0 12px;
+  min-height: 32px;
+}
+
+.marketplacePage__resultsBar--empty {
+  margin-bottom: 0;
+  min-height: 0;
+}
+
+.marketplacePage__resultsCount {
+  min-width: 0;
+}
+
+.marketplacePage__resultsHeading {
+  width: auto;
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
+  line-height: 24px;
+  color: @theme-color-text;
+}
+
+.marketplacePage__sections {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.marketplacePage__loadError {
+  margin-top: 16px;
+}
+
+.marketplacePage__sentinel {
+  height: 32px;
+}

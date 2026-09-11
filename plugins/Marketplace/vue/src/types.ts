@@ -96,6 +96,31 @@ export interface PluginCard {
   licenseStatus: string;
   downloadNonce?: string; // only present for a plugin that can be downloaded
   isBundle?: boolean; // only sent for a plugin the Marketplace flags as one
+  isTheme: boolean;
+  categories: string[];
+  lastUpdated: string; // localised for display, e.g. "Jun 8, 2026" - never sort on this
+  lastUpdatedRaw: string | null; // "2026-06-08 06:34:21", the value to sort on
+  createdDateTime: string | null; // "2017-05-17 06:34:21"
+  bundleSeats?: number; // seat tier of a bundle; absent when the tier carries no number
+}
+
+/**
+ * The permissions and nonces a plugin's call to action is built from.
+ *
+ * Passed down from the page as one object rather than as nine props: nothing between the page and
+ * the card reads any of them, and forwarding them individually meant declaring and re-binding the
+ * same nine names at every level.
+ */
+export interface MarketplaceContext {
+  isSuperUser: boolean;
+  isPluginsAdminEnabled: boolean;
+  isMultiServerEnvironment: boolean;
+  isValidConsumer: boolean;
+  isAutoUpdatePossible: boolean;
+  activateNonce: string;
+  deactivateNonce: string;
+  installNonce: string;
+  updateNonce: string;
 }
 
 /**
@@ -104,15 +129,12 @@ export interface PluginCard {
  */
 export interface PluginDetails extends PluginCard {
   homepage: string | null;
-  createdDateTime: string | unknown; // "2017-05-17 06:34:21"
   donate: [];
   support: [];
-  isTheme: boolean;
   keywords: string[];
   basePrice: number;
   authors: TObjectArray;
   repositoryUrl: string | null;
-  lastUpdated: string;
   latestVersion: string;
   screenshots: string[];
   previews: TObjectArray;

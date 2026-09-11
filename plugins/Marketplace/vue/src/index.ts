@@ -14,4 +14,9 @@ export { default as MissingReqsNotice } from './MissingReqsNotice/MissingReqsNot
 export { default as OverviewIntro } from './OverviewIntro/OverviewIntro.vue';
 export { default as SubscriptionOverview } from './SubscriptionOverview/SubscriptionOverview.vue';
 export { default as RichMenuButton } from './RichMenuButton/RichMenuButton.vue';
-export { default as PluginList } from './PluginList/PluginList.vue';
+export { default as PluginGrid } from './PluginGrid/PluginGrid.vue';
+export { default as PluginSection } from './PluginSection/PluginSection.vue';
+export { default as PluginCard } from './PluginCard/PluginCard.vue';
+export { default as CategoryTabs } from './CategoryTabs/CategoryTabs.vue';
+export { default as MarketplaceHero } from './MarketplaceHero/MarketplaceHero.vue';
+export { default as SortMenu } from './SortMenu/SortMenu.vue';

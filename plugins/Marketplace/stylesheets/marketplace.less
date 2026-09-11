@@ -24,16 +24,6 @@
     }
 }
 
-.installAllPaidPlugins {
-    margin: 8px 0 0;
-
-    button .matomo-loader {
-        margin-top: 2px;
-        margin-right: 16px;
-        vertical-align: text-top;
-    }
-}
-
 #installAllPaidPluginsAtOnce {
     ul {
         margin-top: 24px;
@@ -47,271 +37,29 @@
     }
 }
 
+// Card geometry shared by PluginCard and PluginCardSkeleton. The placeholder has to hold exactly
+// the footprint a card takes, so both blocks read these numbers from one place rather than one
+// block styling the other's DOM.
+@marketplace-card-padding: 12px;
+@marketplace-card-radius: 8px;
+// The marketplace serves plugin cover art at 880x480, so the card screenshot holds that ratio and
+// nothing gets cropped. The plate is taller than the screenshot it centres, which is what leaves
+// the art floating clear of all four edges.
+@marketplace-card-cover-ratio: ~"11 / 6";
+@marketplace-card-plate-height: 151px;
+@marketplace-card-chip-height: 26px;
+@marketplace-card-chip-gap: 6px;
+
 .marketplace {
-    max-width: 1300px;
-
-    .enrichedHeadline {
-        min-height: 27px;
-    }
-
-    .marketplaceActions.row,
-    .pluginListContainer.row {
-        margin: 0 -0.75rem;
-    }
-
-    .marketplaceActions.row {
-        margin-top: 20px;
-    }
 
     .btn.disabled,
     .btn[disabled] {
         color: #858585 !important;
     }
 
-    .marketplaceActions {
-        margin-bottom: 0;
-    }
-
-    .plugin-search {
-        position: relative;
-        margin-right: 20px;
-        .icon-search {
-            position: absolute;
-            bottom: 32px;
-            right: -16px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-    }
-
-    .card-holder {
-        text-decoration: none;
-        display: block;
-        border-radius: 4px;
-
-        &:hover {
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            cursor: pointer;
-
-            .card {
-                .card-title-link {
-                    .card-title {
-                        color: #1976d2 !important;
-                    }
-
-                    .card-title-chevron {
-                        visibility: visible;
-                    }
-                }
-            }
-        }
-
-        .card {
-            display: flex;
-            flex-direction: column;
-            flex-grow: 0;
-            position: relative;
-            margin-top: 8px;
-            height: 550px;
-            border: 1px solid @theme-color-border;
-            border-radius: 4px;
-            overflow: visible;
-            box-shadow: 0 4px 8px @theme-color-boxShadow;
-            transition: box-shadow 0.3s ease;
-            text-decoration: none;
-            color: @theme-color-text-highContrast;
-
-            @media (max-width: 480px) {
-                height: 380px; // as there's no image
-            }
-            @media (min-width: 601px) and (max-width: 767px), (min-width: 992px) and (max-width: 1200px) {
-                height: 520px;
-            }
-            @media (min-width: 1700px) {
-                height: 580px;
-            }
-            @media (min-width: 1900px) {
-                height: 610px;
-            }
-
-            .cover-image {
-                width: 100%;
-                max-width: 550px;
-                height: auto;
-                margin: 0 auto 16px;
-
-                @media (max-width: 480px) {
-                    display: none;
-                }
-            }
-
-            .card-content {
-                padding: 24px;
-                display: flex;
-                flex-direction: column;
-                flex-grow: 1;
-
-                .content-container {
-                    flex-grow: 1;
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: space-between;
-                }
-
-                .card-content-bottom {
-                    position: relative;
-                }
-
-                .card-description {
-                    margin: 0;
-
-                    font-size: 16px;
-                    font-style: normal;
-                    font-weight: 400;
-                    line-height: 24px; /* 150% */
-                    letter-spacing: 0.08px;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    display: -webkit-box;
-                    -webkit-box-orient: vertical;
-                    -webkit-line-clamp: 4;
-
-                    @media (max-width: 480px) {
-                        -webkit-line-clamp: 5;
-                    }
-
-                    @media (max-width: 600px) {
-                        -webkit-line-clamp: 2;
-                    }
-
-                    &[data-clamp="2"] {
-                        -webkit-line-clamp: 2;
-
-                        @media (max-width: 480px) {
-                            -webkit-line-clamp: 4;
-                        }
-                    }
-
-                    &[data-clamp="1"] {
-                        -webkit-line-clamp: 1;
-
-                        @media (max-width: 480px) {
-                            -webkit-line-clamp: 3;
-                        }
-                    }
-                }
-
-                .card-title-link {
-                    text-decoration: none;
-
-                    &:focus {
-                        .card-title {
-                            color: #1976d2 !important;
-                        }
-                        .card-title-chevron,
-                        .card-focus {
-                            visibility: visible;
-                            cursor: pointer;
-                        }
-                    }
-                }
-
-                .card-title {
-                    margin: 20px 0 16px;
-                    font-size: 24px;
-                    font-style: normal;
-                    font-weight: 700;
-                    line-height: 32px;
-                }
-
-                .card-focus {
-                    position: absolute;
-                    width: 100%;
-                    height: 100%;
-                    top: 0;
-                    left: 0;
-                    outline: thin dashed;
-                    outline-offset: 1px;
-                    border-radius: 4px;
-                    visibility: hidden;
-                    content: "";
-                    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-                }
-
-                .card-title-chevron {
-                    visibility: hidden;
-                }
-
-                .price {
-                    color: #f18332;
-
-                    font-size: 14px;
-                    font-style: normal;
-                    font-weight: 700;
-                    line-height: 21px; /* 150% */
-                }
-
-                .downloads {
-                    color: #686868;
-
-                    font-size: 16px;
-                    font-style: normal;
-                    font-weight: 700;
-                    line-height: 24px; /* 150% */
-
-                    margin-bottom: 16px;
-                }
-
-                .owner {
-                    color: #686868;
-                    margin-bottom: 8px;
-                    font-size: 14px;
-                    font-weight: 400;
-                    line-height: 24px;
-                }
-            }
-        }
-    }
-
-    .matomo-badge {
-        position: absolute;
-        width: 64px;
-        height: 40px;
-
-        @media (max-width: 480px), (min-width: 601px) and (max-width: 767px), (min-width: 992px) and (max-width: 1200px) {
-            width: 48px;
-            height: 32px;
-        }
-    }
-
-    .matomo-badge-bottom {
-        display: block;
-        right: -5px;
-        bottom: -1px;
-
-        @media (max-width: 480px) {
-            display: none;
-        }
-    }
-
-    .matomo-badge-top {
-        display: none;
-
-        @media (max-width: 480px) {
-            display: block;
-            top: 20px;
-            right: 20px;
-        }
-    }
-
     .cta-container {
-        width: 70%;
         margin: 0;
         position: relative;
-
-        @media (max-width: 480px) {
-            width: auto;
-        }
 
         .btn.btn-block {
             &:hover,
@@ -322,10 +70,6 @@
             &:focus {
                 outline: thin dotted;
             }
-        }
-
-        .btn.purchaseable {
-            background: #3E7ECF;
         }
 
         .alert {

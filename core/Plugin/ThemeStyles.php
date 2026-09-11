@@ -23,6 +23,7 @@ class ThemeStyles
         'colorBrand' => 'theme-color-brand',
         'colorBrandContrast' => 'theme-color-brand-contrast',
         'colorSuccess' => 'theme-color-success',
+        'colorWarning' => 'theme-color-warning',
         'colorFocusRing' => 'theme-color-focus-ring',
         'colorFocusRingAlternative' => 'theme-color-focus-ring-alternative',
         'colorTextHighContrast' => 'theme-color-text-highContrast',
@@ -36,6 +37,7 @@ class ThemeStyles
         'colorTextInvertContrast' => 'theme-color-text-invert-contrast',
         'colorTextInvertLight' => 'theme-color-text-invert-light',
         'colorTextDisabled' => 'theme-color-text-disabled',
+        'colorTextBrand' => 'theme-color-text-brand',
         'colorLink' => 'theme-color-link',
         'colorBaseSeries' => 'theme-color-base-series',
         'colorHeadlineAlternative' => 'theme-color-headline-alternative',
@@ -46,10 +48,14 @@ class ThemeStyles
         'colorBackgroundLowContrast' => 'theme-color-background-lowContrast',
         'colorBackgroundContrast' => 'theme-color-background-contrast',
         'colorBackgroundHighContrast' => 'theme-color-background-highContrast',
+        'colorBackgroundBrandTinyContrast' => 'theme-color-background-brand-tinyContrast',
+        'colorBackgroundBrandLowContrast' => 'theme-color-background-brand-lowContrast',
         'colorBackgroundDisabled' => 'theme-color-background-disabled',
         'colorBorder' => 'theme-color-border',
         'colorBorderAlternative' => 'theme-color-border-alternative',
         'colorBorderLight' => 'theme-color-border-light',
+        'colorBorderBrand' => 'theme-color-border-brand',
+        'colorBorderBrandLight' => 'theme-color-border-brand-light',
         'colorBoxShadow' => 'theme-color-boxShadow',
         'shadowOverlay' => 'theme-shadow-overlay',
         'colorCode' => 'theme-color-code',
@@ -99,6 +105,15 @@ class ThemeStyles
      * @var string|array<string>
      */
     public $colorSuccess = ['#43a047', '#66bb6a'];
+
+    /**
+     * Semantic "needs attention / not yet fatal" amber, the counterpart to $colorSuccess. Kept
+     * theme-independent from $colorBrand for the same reason.
+     *
+     * @var string|array<string>
+     * @since Matomo 6.0.0
+     */
+    public $colorWarning = ['#a18a0b', '#d4b93c'];
 
     /**
      * @var string|array<string>
@@ -170,6 +185,15 @@ class ThemeStyles
      * @var string|array<string>
      */
     public $colorLink = ['#1976D2', '#778fd4'];
+
+    /**
+     * Text sitting on $colorBackgroundBrandTinyContrast or $colorBackgroundBrandLowContrast, where
+     * $colorBrand itself does not reach the required contrast ratio.
+     *
+     * @var string|array<string>
+     * @since Matomo 6.0.0
+     */
+    public $colorTextBrand = ['#186f72', '#4ad3dc'];
 
     /**
      * @var string|array<string>
@@ -296,9 +320,40 @@ class ThemeStyles
     public $colorBackgroundDisabled = ['#d9d9d9', '#303339'];
 
     /**
+     * Brand-tinted surfaces, for panels and chips that should read as part of the product rather
+     * than as neutral chrome. "Tiny" is the fainter of the two, for large areas; "low" carries
+     * enough contrast for a selected or highlighted control.
+     *
+     * @var string|array<string>
+     * @since Matomo 6.0.0
+     */
+    public $colorBackgroundBrandTinyContrast = ['#f3fdff', '#16302f'];
+
+    /**
+     * @var string|array<string>
+     * @since Matomo 6.0.0
+     */
+    public $colorBackgroundBrandLowContrast = ['#e1fbfb', '#16302f'];
+
+    /**
      * @var string|array<string>
      */
     public $colorBorderLight = ['#a9a399', '#645e54'];
+
+    /**
+     * Brand-tinted borders, the counterpart to $colorBorderAlternative for elements drawn on a
+     * brand-tinted surface. "Light" is the fainter of the two.
+     *
+     * @var string|array<string>
+     * @since Matomo 6.0.0
+     */
+    public $colorBorderBrand = ['#bfe7e9', '#2f5e5e'];
+
+    /**
+     * @var string|array<string>
+     * @since Matomo 6.0.0
+     */
+    public $colorBorderBrandLight = ['#ccf6f5', '#1d3f3e'];
 
     /**
      * @var string|array<string>

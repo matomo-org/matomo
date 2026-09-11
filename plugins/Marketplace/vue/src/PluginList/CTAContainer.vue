@@ -7,13 +7,19 @@
 
 <template>
   <template v-if="isSuperUser">
-    <div v-if="plugin.isMissingLicense"
-         class="alert alert-danger alert-no-background">
-      {{ translate('Marketplace_LicenseMissing') }}
-      <span v-if="!inModal"
-        style="white-space:nowrap"
-      >(<MoreDetailsAction @action="$emit('openDetailsModal')"/>)</span>
-    </div>
+    <CTAStatus
+      v-if="plugin.isMissingLicense"
+      tone="danger"
+      :label="translate('Marketplace_LicenseMissing')"
+      :in-modal="inModal"
+      :has-action="!inModal"
+    >
+      <MoreDetailsAction
+        :show-as-button="true"
+        :label="translate('General_MoreDetails')"
+        @action="$emit('openDetailsModal')"
+      />
+    </CTAStatus>
 
     <a v-else-if="inModal && plugin.hasExceededLicense && plugin.consumer.loginUrl"
        class="btn btn-block"
@@ -23,13 +29,19 @@
        :href="externalRawLink(plugin.consumer.loginUrl)"
     >{{ translate('Marketplace_UpgradeSubscription') }}</a>
 
-    <div v-else-if="plugin.hasExceededLicense"
-         class="alert alert-danger alert-no-background">
-      {{ translate('Marketplace_LicenseExceeded') }}
-      <span v-if="!inModal"
-        style="white-space:nowrap"
-      >(<MoreDetailsAction @action="$emit('openDetailsModal')"/>)</span>
-    </div>
+    <CTAStatus
+      v-else-if="plugin.hasExceededLicense"
+      tone="danger"
+      :label="translate('Marketplace_LicenseExceeded')"
+      :in-modal="inModal"
+      :has-action="!inModal"
+    >
+      <MoreDetailsAction
+        :show-as-button="true"
+        :label="translate('General_MoreDetails')"
+        @action="$emit('openDetailsModal')"
+      />
+    </CTAStatus>
 
     <template
       v-else-if="plugin.canBeUpdated && 0 == plugin.missingRequirements.length"
@@ -39,54 +51,65 @@
          class="btn btn-block"
          :href="linkToUpdate(plugin.name)"
       >{{ translate('CoreUpdater_UpdateTitle') }}</a>
-      <div v-else
-           class="alert alert-warning alert-no-background">
-        {{ translate('Marketplace_CannotUpdate') }}
-        <span
-          style="white-space:nowrap"
-          v-if="!inModal ||
-              (plugin.missingRequirements.length === 0
-              && plugin.isDownloadable && !isAutoUpdatePossible
-              )"
-        >(<MoreDetailsAction @action="$emit('openDetailsModal')" v-if="!inModal" />
-          <DownloadButton
-            :plugin="plugin"
-            :show-or="!inModal"
-            :is-auto-update-possible="isAutoUpdatePossible"
-          />)</span>
-      </div>
+      <CTAStatus
+        v-else
+        tone="warning"
+        :label="translate('Marketplace_CannotUpdate')"
+        :in-modal="inModal"
+        :has-action="!inModal || isDownloadableWithoutAutoUpdate"
+      >
+        <MoreDetailsAction
+          v-if="!inModal"
+          :show-as-button="true"
+          :label="translate('General_MoreDetails')"
+          @action="$emit('openDetailsModal')"
+        />
+        <DownloadButton
+          :plugin="plugin"
+          :show-as-button="!inModal"
+          :is-auto-update-possible="isAutoUpdatePossible"
+        />
+      </CTAStatus>
     </template>
 
-    <div v-else-if="plugin.isInstalled"
-         class="alert alert-success alert-no-background">
-      {{ translate('General_Installed') }}
-
+    <CTAStatus
+      v-else-if="plugin.isInstalled"
+      tone="success"
+      :label="translate('General_Installed')"
+      :in-modal="inModal"
+      :has-action="hasInstalledAction"
+    >
       <template v-if="plugin.missingRequirements.length > 0 || !isAutoUpdatePossible">
-        (<DownloadButton
+        <DownloadButton
           :plugin="plugin"
-          :show-or="false"
+          :show-as-button="!inModal"
           :is-auto-update-possible="isAutoUpdatePossible"
-        />)
+        />
       </template>
       <template v-else-if="!plugin.isInvalid && !isMultiServerEnvironment && isPluginsAdminEnabled">
-        (<a v-if="plugin.isActivated"
-            tabindex="7"
-            :href="linkToDeactivate(plugin.name)"
-        >{{ translate('CorePluginsAdmin_Deactivate') }}</a
-        ><template v-else-if="plugin.missingRequirements.length > 0">
+        <a v-if="plugin.isActivated"
+           tabindex="7"
+           :class="{ 'btn btn-block': !inModal }"
+           :href="linkToDeactivate(plugin.name)"
+        >{{ translate('CorePluginsAdmin_Deactivate') }}</a>
+        <template v-else-if="plugin.missingRequirements.length > 0">
           -
-        </template
-        ><a v-else
-            tabindex="7"
-            :href="linkToActivate(plugin.name)"
-        >{{ translate('CorePluginsAdmin_Activate') }}</a>)
+        </template>
+        <a v-else
+           tabindex="7"
+           :class="{ 'btn btn-block': !inModal }"
+           :href="linkToActivate(plugin.name)"
+        >{{ translate('CorePluginsAdmin_Activate') }}</a>
       </template>
-    </div>
+    </CTAStatus>
 
-    <div v-else-if="plugin.isEligibleForFreeTrial && !inModal && isPluginsAdminEnabled"
+    <button v-else-if="plugin.isEligibleForFreeTrial && !inModal && isPluginsAdminEnabled"
+       type="button"
+       tabindex="7"
        class="btn btn-block purchaseable"
        :title="translate('Marketplace_StartFreeTrial')"
-    >{{ translate('Marketplace_StartFreeTrial') }}</div>
+       @click="$emit('openDetailsModal')"
+    >{{ translate('Marketplace_StartFreeTrial') }}</button>
 
     <a v-else-if="plugin.isEligibleForFreeTrial && inModal"
        class="btn btn-block addToCartLink" target="_blank"
@@ -106,24 +129,25 @@
       @action="$emit('openDetailsModal')"
     />
 
-    <div
+    <CTAStatus
       v-else-if="plugin.missingRequirements.length > 0 || !isAutoUpdatePossible"
-      class="alert alert-warning alert-no-background"
+      tone="warning"
+      :label="translate('Marketplace_CannotInstall')"
+      :in-modal="inModal"
+      :has-action="!inModal || isDownloadableWithoutAutoUpdate"
     >
-      {{ translate('Marketplace_CannotInstall') }}
-      <span
-        style="white-space:nowrap"
-        v-if="!inModal ||
-              (plugin.missingRequirements.length === 0
-              && plugin.isDownloadable && !isAutoUpdatePossible
-              )"
-      >(<MoreDetailsAction @action="$emit('openDetailsModal')" v-if="!inModal" />
-        <DownloadButton
-          :plugin="plugin"
-          :show-or="!inModal"
-          :is-auto-update-possible="isAutoUpdatePossible"
-        />)</span>
-    </div>
+      <MoreDetailsAction
+        v-if="!inModal"
+        :show-as-button="true"
+        :label="translate('General_MoreDetails')"
+        @action="$emit('openDetailsModal')"
+      />
+      <DownloadButton
+        :plugin="plugin"
+        :show-as-button="!inModal"
+        :is-auto-update-possible="isAutoUpdatePossible"
+      />
+    </CTAStatus>
 
     <a v-else-if="isPluginsAdminEnabled && plugin.hasDownloadLink"
        tabindex="7"
@@ -171,6 +195,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { MatomoUrl } from 'CoreHome';
+import CTAStatus from './CTAStatus.vue';
 import DownloadButton from './DownloadButton.vue';
 import MoreDetailsAction from './MoreDetailsAction.vue';
 
@@ -232,8 +257,26 @@ export default defineComponent({
     'startFreeTrial',
   ],
   components: {
-    MoreDetailsAction,
+    CTAStatus,
     DownloadButton,
+    MoreDetailsAction,
+  },
+  computed: {
+    /** The one case DownloadButton renders anything: an update it cannot apply for you. */
+    isDownloadableWithoutAutoUpdate(): boolean {
+      return this.plugin.missingRequirements.length === 0
+        && this.plugin.isDownloadable
+        && !this.isAutoUpdatePossible;
+    },
+    /**
+     * Whether the installed state offers anything beside the word "Installed". Both template
+     * branches in one expression, because CTAStatus draws the brackets before rendering them.
+     */
+    hasInstalledAction(): boolean {
+      return this.plugin.missingRequirements.length > 0
+        || !this.isAutoUpdatePossible
+        || (!this.plugin.isInvalid && !this.isMultiServerEnvironment && this.isPluginsAdminEnabled);
+    },
   },
   methods: {
     linkToActivate(pluginName: string) {

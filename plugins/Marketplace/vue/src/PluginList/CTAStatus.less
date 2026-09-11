@@ -1,0 +1,55 @@
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+.ctaStatus {
+  display: flex;
+  align-items: safe center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.ctaStatus__label {
+  display: flex;
+  align-items: safe center;
+  gap: 6px;
+  min-width: 0;
+  font-size: 12px;
+  color: @theme-color-text-light;
+}
+
+.ctaStatus__icon {
+  flex: none;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.ctaStatus--success .ctaStatus__icon {
+  color: @theme-color-success;
+}
+
+.ctaStatus--warning .ctaStatus__icon {
+  color: @theme-color-warning;
+}
+
+.ctaStatus--danger .ctaStatus__icon {
+  color: @color-red-matomo;
+}
+
+.ctaStatus--danger .ctaStatus__label {
+  color: @color-red-matomo;
+}
+
+.ctaStatus__action {
+  flex: none;
+
+  // override: Materialize sizes .btn-block to the full row; a status line only wants the label's
+  // width, with enough room that the button does not resize as its label changes
+  .btn.btn-block {
+    width: auto;
+    min-width: 110px;
+  }
+}

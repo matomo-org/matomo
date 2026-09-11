@@ -72,8 +72,10 @@ class ControllerTest extends IntegrationTestCase
         $always = [
             'canBeUpdated',
             'canTrialBeRequested',
+            'categories',
             'consumer',
             'coverImage',
+            'createdDateTime',
             'description',
             'displayName',
             'hasDownloadLink',
@@ -86,7 +88,10 @@ class ControllerTest extends IntegrationTestCase
             'isInvalid',
             'isMissingLicense',
             'isPaid',
+            'isTheme',
             'isTrialRequested',
+            'lastUpdated',
+            'lastUpdatedRaw',
             'licenseStatus',
             'missingRequirements',
             'name',
@@ -95,8 +100,7 @@ class ControllerTest extends IntegrationTestCase
             'owner',
             'priceFrom',
         ];
-        // only set for a plugin that can actually be downloaded, and only sent for a bundle
-        $conditional = ['downloadNonce', 'isBundle'];
+        $conditional = ['downloadNonce', 'isBundle', 'bundleSeats'];
 
         foreach ($plugins as $plugin) {
             $keys = array_keys($plugin);
