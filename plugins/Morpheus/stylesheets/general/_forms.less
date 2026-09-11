@@ -1,3 +1,20 @@
+// filter / toolbar rows: form controls side by side without the stand-alone field margins
+.inlineFormControls {
+  .form-group,
+  .form-group .input-field {
+    margin: 0;
+  }
+
+  .form-group input {
+    margin-bottom: 0;
+  }
+
+  > .col > .input-field {
+    display: inline-block;
+    vertical-align: top;
+  }
+}
+
 .form-group {
   margin-bottom: 20px;
   margin-top: 20px;

@@ -30,10 +30,6 @@
     padding-bottom: 0;
   }
 
-  table.entityTable tbody tr td {
-    vertical-align: middle !important;
-  }
-
   table.entityTable tbody tr td.actions-cell {
     width: 140px;
     padding: 0;
@@ -45,17 +41,6 @@
   }
 
   table#manageUsersTable {
-    .matomo-form-field {
-      &.form-group {
-        margin: 0;
-      }
-      .input-field {
-        margin-top: 0;
-        margin-bottom: 0;
-        padding: 0;
-      }
-    }
-
     // Roomier than the 140px this replaced, so a longer translation of a role name is not
     // ellipsised; a fixed width rather than a floor, because the control is a block-level
     // flex box and would otherwise fill the cell. The compact input and caret overrides
@@ -64,35 +49,6 @@
       width: 170px;
     }
 
-    th.role_header {
-      .helpIcon {
-        color: #9e9e9e;
-        font-size: .8rem;
-        margin-left: .1rem;
-        text-decoration: none;
-
-        &:hover,&.sticky {
-          opacity: 1;
-        }
-      }
-    }
-  }
-
-  tbody span.checkbox-container {
-    label {
-      transform: scale(.8);
-      height: 1em;
-      line-height: 1em;
-    }
-  }
-
-  .select-cell {
-    width: 32px;
-  }
-
-  table.entityTable tbody tr.select-all-row > td {
-    padding: 6px;
-    text-align: center;
   }
 
   .sites_autocomplete {
@@ -102,16 +58,7 @@
 
   .userListFilters {
     > .col > .input-field {
-      display: inline-block;
-      vertical-align: top;
       padding: 0;
-    }
-
-    .form-group, .form-group .input-field {
-      margin: 0;
-    }
-    .form-group input {
-      margin-bottom: 0;
     }
 
     .input-field > .btn {
@@ -152,14 +99,6 @@
       text-align: center;
       margin-left: 10px;
       margin-right: 10px;
-    }
-  }
-
-  .delete-user-confirm-modal,.change-user-role-confirm-modal,.resend-invite-confirm-modal {
-    .modal-no {
-      margin-left: 1em;
-      margin-right: 1em;
-      margin-top: 1em;
     }
   }
 

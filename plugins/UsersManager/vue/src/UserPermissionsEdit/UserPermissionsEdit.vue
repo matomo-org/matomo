@@ -52,7 +52,7 @@
         <p style="margin-top:18px">{{ translate('UsersManager_OrManageIndividually') }}:</p>
       </div>
     </div>
-    <div class="filters row">
+    <div class="filters inlineFormControls row">
       <div class="col s12 m12 l8">
         <div class="input-field bulk-actions" style="margin-right:3.5px">
           <a
@@ -179,6 +179,7 @@
     </div>
     <table
       id="sitesForPermission"
+      class="entityTable_Controls"
       v-content-table
     >
       <thead>
