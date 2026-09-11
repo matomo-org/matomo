@@ -94,7 +94,7 @@ describe('ReportHeader', () => {
     });
 
     // Closing this way bypasses ExpandOnClick, whose own close() then returns early for want of
-    // the class - so a trigger left saying "expanded" here never gets told otherwise again.
+    // the class, so a trigger left saying "expanded" here never gets told otherwise again.
     it('should stop saying the menu is open once an action closes it', async () => {
       const wrapper = mountComponent(withActions);
       const trigger = wrapper.find('.reportHeader__actionsTrigger');
@@ -138,7 +138,7 @@ describe('ReportHeader', () => {
     });
 
     // Picking an entry folds the panel without the directive hearing it, so the focus has to be
-    // handed back by hand - and only to the keyboard that asked for it.
+    // handed back by hand, and only to the keyboard that asked for it.
     it('should give the focus back when the keyboard picks from a promoted panel', async () => {
       const wrapper = mountComponent({
         showFooter: true,
@@ -158,7 +158,7 @@ describe('ReportHeader', () => {
       entry.focus();
       expect(document.activeElement).toBe(entry);
 
-      // A keyboard-activated click reports no pointer, which is `detail: 0` - the default here,
+      // A keyboard-activated click reports no pointer, which is `detail: 0`: the default here,
       // and not something trigger() can set on a read-only UIEvent.
       entry.dispatchEvent(new MouseEvent('click', { bubbles: true }));
       await wrapper.vm.$nextTick();
@@ -286,7 +286,8 @@ describe('ReportHeader', () => {
     }
 
     // The observer skips a width it has already measured, so a demotion that kept the width it was
-    // promoted at could never be undone by returning to it - restoring a window, undoing a zoom.
+    // promoted at could never be undone by returning to it, say by restoring a window or undoing
+    // a zoom.
     it('should remember the width it demoted at, not the one it promoted at', async () => {
       const wrapper = mountComponent({ ...offered, context: 'widgetized' });
       const vm = wrapper.vm as unknown as {

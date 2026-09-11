@@ -11,8 +11,8 @@ import { ref, Ref } from 'vue';
  * What every selector in the design system does, and nothing it draws.
  *
  * A trigger that folds a panel out, the state that says so, the keys that walk it and the focus
- * that follows. What varies between them - anchored left or right, one column or several, a menu
- * or a search field or a paragraph - is markup and stylesheet, and stays with the consumer. A
+ * that follows. What varies between them (anchored left or right, one column or several, a menu
+ * or a search field or a paragraph) is markup and stylesheet, and stays with the consumer. A
  * component that owned those too would need an option per selector; this one needs none.
  */
 
@@ -38,7 +38,7 @@ export interface SelectorDropdown {
   expandBinding: (expander: string) => Record<string, unknown>;
   // Bind to the panel's root: @keydown="selector.onKeydown".
   onKeydown: (event: KeyboardEvent) => void;
-  // Closing by hand, when a panel folds without the directive hearing it - picking an entry, say.
+  // Closing by hand, when a panel folds without the directive hearing it: picking an entry, say.
   // Takes the event so the focus goes back where a keyboard left it.
   closedBy: (event: MouseEvent|KeyboardEvent) => void;
   close: () => void;
