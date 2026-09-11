@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\API;
 
+use Piwik\Access;
 use Piwik\API\Proxy;
 use Piwik\API\Request;
 use Piwik\ArchiveProcessor\Rules;
@@ -23,6 +24,7 @@ use Piwik\DataTable\Filter\ColumnDelete;
 use Piwik\Date;
 use Piwik\Http\BadRequestException;
 use Piwik\IP;
+use Piwik\NoAccessException;
 use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugin\SettingsProvider;
@@ -580,6 +582,11 @@ class API extends \Piwik\Plugin\API
         $rootIsSessionToken = $authToken->isSessionToken();
         $rootTokenAuth = $authToken->getAuthToken();
 
+        // A session token that reached us as a URL parameter only authorizes requests which do not
+        // change state. Sub-requests inherit that token from the root request instead of passing
+        // through Access again, so the restriction has to be carried down here.
+        $nestedMethodsMustBeReadOnly = $rootIsSessionToken && !$authToken->wasTokenAuthProvidedSecurely();
+
         $result = [];
         foreach ($urls as $url) {
             $nestedRequest = \Piwik\Request::fromQueryString($url);
@@ -592,12 +599,16 @@ class API extends \Piwik\Plugin\API
             $params += $queryParameters;
 
             $method = $params['method'] ?? '';
+            $method = !empty($method) && is_string($method)
+                ? preg_replace('/[^\w\.]+/', '', Common::sanitizeInputValue($method))
+                : '';
 
-            if (
-                !empty($method) && is_string($method) &&
-                preg_replace('/[^\w\.]+/', '', Common::sanitizeInputValue($method)) === 'API.getBulkRequest'
-            ) {
+            if ($method === 'API.getBulkRequest') {
                 continue;
+            }
+
+            if ($nestedMethodsMustBeReadOnly && !Access::isReadOnlyApiMethod($method)) {
+                throw new NoAccessException(Piwik::translate('Login_TokenAuthenticationFailedInsecure'));
             }
 
             $req = new Request($params);

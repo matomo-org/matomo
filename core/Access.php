@@ -43,6 +43,15 @@ use Piwik\Session\SessionAuth;
 class Access
 {
     /**
+     * API methods that follow the read-only naming convention but dispatch further API methods,
+     * and therefore must never be treated as read-only. Compared case insensitively, so entries
+     * have to be lower case.
+     *
+     * @var string[]
+     */
+    private const DISPATCHER_API_METHODS = ['api.getbulkrequest'];
+
+    /**
      * Array of idsites available to the current user, indexed by permission level
      * @see getSitesIdWith*()
      *
@@ -164,7 +173,7 @@ class Access
 
         $isApiRequest = Piwik::getModule() === 'API' && (Piwik::getAction() === 'index' || !Piwik::getAction());
         $apiMethod = Request::getMethodIfApiRequest(null);
-        $isGetApiRequest = !empty($apiMethod) && 1 === substr_count($apiMethod, '.') && strpos($apiMethod, '.get') > 0;
+        $isGetApiRequest = self::isReadOnlyApiMethod($apiMethod);
 
         $token = StaticContainer::get(AuthenticationToken::class);
 
@@ -201,6 +210,31 @@ class Access
         }
 
         return true;
+    }
+
+    /**
+     * Returns true if the given API method may be authenticated with a session token that was not
+     * provided securely, ie. one that reached us as a URL parameter. That channel is restricted to
+     * requests which do not change state.
+     *
+     * Read-only is inferred from the `Plugin.getSomething` naming convention, so the test describes
+     * how a method is named rather than what it does. A dispatcher such as API.getBulkRequest
+     * matches the convention but executes arbitrary nested methods with the caller's privileges,
+     * which would defeat the restriction, so dispatchers are excluded explicitly.
+     *
+     * @param string|null $apiMethod API method in `Plugin.method` notation.
+     */
+    public static function isReadOnlyApiMethod(?string $apiMethod): bool
+    {
+        if (empty($apiMethod)) {
+            return false;
+        }
+
+        if (in_array(strtolower($apiMethod), self::DISPATCHER_API_METHODS, true)) {
+            return false;
+        }
+
+        return 1 === substr_count($apiMethod, '.') && strpos($apiMethod, '.get') > 0;
     }
 
     public function getRawSitesWithSomeViewAccess($login)

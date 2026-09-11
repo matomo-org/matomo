@@ -671,6 +671,41 @@ class AccessTest extends IntegrationTestCase
         self::assertStringContainsString('<result>' . Version::VERSION . '</result>', $response);
     }
 
+    /**
+     * @dataProvider getReadOnlyApiMethods
+     */
+    public function testIsReadOnlyApiMethod($apiMethod, $expected)
+    {
+        $this->assertSame($expected, Access::isReadOnlyApiMethod($apiMethod));
+    }
+
+    public function getReadOnlyApiMethods()
+    {
+        return [
+            // dispatchers match the naming convention but execute arbitrary nested methods
+            ['API.getBulkRequest', false],
+            ['api.getbulkrequest', false],
+            ['API.GETBULKREQUEST', false],
+
+            // genuine read-only methods
+            ['API.get', true],
+            ['API.getMatomoVersion', true],
+            ['UsersManager.getUsers', true],
+            ['SitesManager.getSitesWithAtLeastViewAccess', true],
+
+            // state changing methods
+            ['SitesManager.setGlobalExcludedIps', false],
+            ['CoreAdminHome.setTrustedHosts', false],
+            ['UsersManager.addUser', false],
+
+            // malformed input
+            [null, false],
+            ['', false],
+            ['NotAnApiMethod', false],
+            ['Some.Nested.getThing', false],
+        ];
+    }
+
     private function switchUser($user)
     {
         $mock = $this->createPiwikAuthMockInstance();
