@@ -12,6 +12,8 @@ namespace Piwik\Plugins\CoreAdminHome\tests\Integration;
 use Piwik\Archive\ArchivePurger;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
+use Piwik\DataAccess\ArchiveTableCreator;
+use Piwik\DataAccess\ArchiveWriter;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Mail;
@@ -19,6 +21,7 @@ use Piwik\Plugins\CoreAdminHome\Emails\JsTrackingCodeMissingEmail;
 use Piwik\Plugins\CoreAdminHome\Emails\TrackingFailuresEmail;
 use Piwik\Plugins\CoreAdminHome\Tasks;
 use Piwik\Plugins\CoreAdminHome\Tasks\ArchivesToPurgeDistributedList;
+use Piwik\Plugins\SegmentEditor\Model as SegmentModel;
 use Piwik\Scheduler\Task;
 use Piwik\Tests\Fixtures\RawArchiveDataWithTempAndInvalidated;
 use Piwik\Tests\Framework\Fixture;
@@ -113,6 +116,52 @@ class TasksTest extends IntegrationTestCase
 
         $wasPurged = $this->tasks->purgeOutdatedArchives();
         $this->assertTrue($wasPurged);
+    }
+
+    public function testPurgeOrphanedArchivesPreservesArchivesOfAStillUsedSegmentWithTheSameHash()
+    {
+        $idSite = Fixture::createWebsite('2015-01-01 00:00:00');
+
+        $segmentModel = new SegmentModel();
+
+        // A segment that is still in use, with a space in its definition written as %20
+        $idSegmentInUse = $segmentModel->createSegment([
+            'name' => 'Still in use',
+            'definition' => 'pageUrl=@a%20b',
+            'login' => 'user1',
+            'enable_only_idsite' => $idSite,
+        ]);
+
+        // A second segment with the same definition in a different encoding, which gets deleted
+        $idSegmentDeleted = $segmentModel->createSegment([
+            'name' => 'Deleted',
+            'definition' => 'pageUrl=@a+b',
+            'login' => 'user2',
+            'enable_only_idsite' => $idSite,
+        ]);
+        $segmentModel->deleteSegment($idSegmentDeleted);
+
+        // Both definitions have the same hash, which means both segments share the same archives
+        $hash = $segmentModel->getSegment($idSegmentInUse)['hash'];
+        $this->assertSame($hash, $segmentModel->getSegment($idSegmentDeleted)['hash']);
+
+        $numericTable = ArchiveTableCreator::getNumericTable($this->january, true);
+        Db::exec(sprintf(
+            "INSERT INTO `%s` (idarchive, idsite, name, value, date1, date2, period, ts_archived)"
+            . " VALUES (9001, %d, 'done%s.VisitsSummary', %d, '2015-01-03', '2015-01-03', 1, '2015-01-03 12:12:12')",
+            $numericTable,
+            $idSite,
+            $hash,
+            ArchiveWriter::DONE_OK
+        ));
+
+        $this->tasks->purgeOrphanedArchives();
+
+        $this->assertEquals(
+            1,
+            Db::fetchOne("SELECT COUNT(*) FROM `$numericTable` WHERE idarchive = 9001"),
+            'the archives of the segment that is still in use must not be purged'
+        );
     }
 
     public function testScheduleAddsRightAmountOfTasks()
