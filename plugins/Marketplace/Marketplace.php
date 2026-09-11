@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Marketplace;
 
 use Piwik\Container\StaticContainer;
 use Piwik\Plugin;
+use Piwik\Plugins\Marketplace\Plugins\InvalidLicenses;
 use Piwik\Plugins\Marketplace\PluginTrial\Service as PluginTrialService;
 use Piwik\Request;
 use Piwik\SettingsPiwik;
@@ -50,6 +51,8 @@ class Marketplace extends \Piwik\Plugin
     {
         $marketplace = StaticContainer::get('Piwik\Plugins\Marketplace\Api\Client');
         $marketplace->clearAllCacheEntries();
+
+        StaticContainer::get(InvalidLicenses::class)->clearCache();
     }
 
     public function getStylesheetFiles(&$stylesheets)
@@ -81,6 +84,7 @@ class Marketplace extends \Piwik\Plugin
         $translationKeys[] = 'General_Documentation';
         $translationKeys[] = 'General_Download';
         $translationKeys[] = 'General_Downloads';
+        $translationKeys[] = 'General_ErrorRequest';
         $translationKeys[] = 'General_Help';
         $translationKeys[] = 'General_Installed';
         $translationKeys[] = 'General_MoreDetails';
