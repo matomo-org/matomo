@@ -357,6 +357,22 @@ class UrlHelperTest extends \PHPUnit\Framework\TestCase
                 array('p1' => 'v1', 'p2' => 'v2', 'p3' => 'v3', 'p4' => 'v4', 'utm_source' => 'gekko', 'utm_medium' => 'email', 'utm_campaign' => 'daily'),
                 array('/p[1|3]/', '/utm_/'),
             ),
+            // uppercase regex metacharacters must keep their meaning (#25105)
+            array(
+                'keep=1',
+                array('ad_abc' => '1', 'keep' => '1'),
+                array('/^ad_\D+$/'),
+            ),
+            array(
+                'ad_123=1&keep=1',
+                array('ad_123' => '1', 'keep' => '1'),
+                array('/^ad_\D+$/'),
+            ),
+            array(
+                'keep=1',
+                array('ad_.x' => '1', 'keep' => '1'),
+                array('/^ad_\Q.x\E$/'),
+            ),
         );
     }
 
