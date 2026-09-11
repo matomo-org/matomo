@@ -41,6 +41,8 @@
         "InvalidPluginsAdminDisabled": "如需更新或卸载这些插件，请联系您的 Matomo 管理员，管理员可以使用命令行或直接更新配置。",
         "InvalidPluginsWarning": "以下插件不兼容 %1$s，无法加载：%2$s。",
         "InvalidPluginsYouCanUninstall": "您可以在%1$s插件管理%2$s页面更新或者卸载这些插件。",
+        "InvalidSiteUrlError": "此 URL 无效。内容可能已被移动、删除或不再可用（URL 上的网站 ID 设置为 '%s'）。",
+        "InvalidSiteUrlErrorHelp": "请返回上一页，或回到仪表盘以选择网站。",
         "JSTrackingDocumentationHelp": "为了方便访问，下方提供了最受欢迎的高级选项。有关更多选项（包括如何跟踪目标、自定义变量、电子商务订单和废弃购物车），请查看%1$s Matomo Javascript跟踪文档%2$s。",
         "JSTrackingIntro1": "您可以通过多种不同方式跟踪您网站的访问者。 推荐通过 JavaScript 实现。要使用此方法必须确保您网站的每个网页都含有追踪 JavaScript 代码，您可以在此处生成这些代码。",
         "JSTrackingIntro2": "有了网站的 JavaScript 追踪代码后，您就可以复制并粘贴到所有需要 Matomo 追踪的页面代码中。",

@@ -1,6 +1,5 @@
 {
     "Transitions": {
-        "BouncesInline": "%s bounces",
         "DirectEntries": "Direct entries",
         "Transitions": "Transitions",
         "ErrorBack": "Go back to the previous action",
@@ -22,11 +21,14 @@
         "FromAIAssistants": "From AI assistants",
         "FromWebsites": "From websites",
         "IncomingTraffic": "Incoming traffic",
+        "LoadingTransitionsFor": "Loading Transitions for %s",
         "LoopsInline": "%s page reloads",
         "NoDataForAction": "No data for %s",
         "NoDataForActionDetails": "Either the action had no pageviews during the period, or it is invalid.",
         "PeriodNotAllowed": "Select a valid time period",
         "PeriodNotAllowedDetails": "Try selecting a period with fewer days for this feature.",
+        "OtherDestinations": "Other destinations",
+        "OtherSources": "Other sources",
         "OutgoingTraffic": "Outgoing traffic",
         "PluginDescription": "Reports previous and following actions for each page URL in a new \"Transitions\" report, available in the \"Actions\" reports via a new icon.",
         "ShareOfAllPageviews": "This page had %1$s pageviews (%2$s of all pageviews)",
@@ -35,7 +37,6 @@
         "ToFollowingSiteSearches": "Internal searches",
         "ToFollowingSiteSearchesInline": "%s internal searches",
         "XOfAllPageviews": "%s of all views of this page",
-        "XOutOfYVisits": "%1$s (out of %2$s)",
         "PageURLTransitions": "Page URL transitions",
         "TransitionsSubcategoryHelp1": "Transitions is a report showing the things your visitors did directly before and after viewing a given page. This page explains how to access, understand, and use the powerful \"Transitions\" report.",
         "TransitionsSubcategoryHelp2": "More details"

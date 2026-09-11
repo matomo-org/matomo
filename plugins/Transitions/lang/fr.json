@@ -2,7 +2,6 @@
     "Transitions": {
         "AvailableInOtherReports": "Le saviez-vous ? Les transitions sont également disponibles sous forme d'action en ligne dans les rapports suivants :",
         "AvailableInOtherReports2": "Lancez les transitions en cliquant sur leur icône (%s) après avoir survolé une ligne dans l'un de ces rapports.",
-        "BouncesInline": "%s rebonds",
         "DirectEntries": "Entrées directes",
         "ErrorBack": "Retour à l'action précédente",
         "ExitsInline": "%s sorties",
@@ -37,7 +36,6 @@
         "Transitions": "Transitions",
         "TransitionsSubcategoryHelp1": "Le rapport « Transitions » présente les actions de vos visiteurs juste avant et juste après la consultation d'une page. Cette page explique comment accéder à ce rapport, le comprendre et l'utiliser.",
         "TransitionsSubcategoryHelp2": "Plus de détails",
-        "XOfAllPageviews": "%s de toutes les pages vues",
-        "XOutOfYVisits": "%1$s (de %2$s)"
+        "XOfAllPageviews": "%s de toutes les pages vues"
     }
 }

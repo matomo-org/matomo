@@ -45,6 +45,7 @@ class GlobalSettingsStore {
       searchKeywordParametersGlobal: '',
       searchCategoryParametersGlobal: '',
       exclusionTypeForQueryParams: '',
+      exclusionTypeForQueryParamsPolicyControlled: {},
     },
   });
 
@@ -90,6 +91,8 @@ class GlobalSettingsStore {
         searchKeywordParametersGlobal: response.searchKeywordParametersGlobal || '',
         searchCategoryParametersGlobal: response.searchCategoryParametersGlobal || '',
         exclusionTypeForQueryParams: response.exclusionTypeForQueryParams || '',
+        exclusionTypeForQueryParamsPolicyControlled:
+          response.exclusionTypeForQueryParamsPolicyControlled || {},
       };
     }).finally(() => {
       this.privateState.isLoading = false;

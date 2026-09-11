@@ -8,7 +8,14 @@
 <template>
   <div ref="root" class="modal" id="pluginDetailsModal">
     <div
-      v-if="!isLoading"
+      v-if="isLoading"
+      class="modal-content modal-content--loading"
+    >
+      <ActivityIndicator :loading="true" />
+    </div>
+
+    <div
+      v-else
       class="modal-content"
       :class="{ 'modal-content--simple-header': !hasHeaderMetadata }"
     >
@@ -61,15 +68,21 @@
 
       <div
         class="modal-content__main"
-        :class="{'modal-content__main--with-free-trial': showFreeTrialDropdown }"
+        :class="{'modal-content__main--with-shop-pricing': showShopPricing }"
       >
         <div class="plugin-description">
           <MissingReqsNotice v-if="showMissingRequirementsNoticeIfApplicable" :plugin="plugin" />
 
-          <div v-if="isMultiServerEnvironment" class="alert alert-warning">
+          <div
+            v-if="showDeploymentWarnings && isMultiServerEnvironment"
+            class="alert alert-warning"
+          >
             {{ translate('Marketplace_MultiServerEnvironmentWarning') }}
           </div>
-          <div v-else-if="!isAutoUpdatePossible" class="alert alert-warning">
+          <div
+            v-else-if="showDeploymentWarnings && !isAutoUpdatePossible"
+            class="alert alert-warning"
+          >
             {{
               translate(
                 'Marketplace_AutoUpdateDisabledWarning',
@@ -102,6 +115,10 @@
                class="alert alert-warning"
                v-html="$sanitize(getDownloadLinkMissingHelpText(plugin.displayName))"
           >
+          </div>
+
+          <div v-if="fetchErrorMessage" class="alert alert-danger">
+            {{ fetchErrorMessage }}
           </div>
 
           <div v-html="$sanitize(pluginDescription)"></div>
@@ -237,7 +254,13 @@
               v-for="screenshot in pluginScreenshots"
               :key="`screenshot-${screenshot}`"
             >
-              <img :src="`${screenshot}?w=800`" width="800" alt="">
+              <img
+                :src="`${screenshot}?w=800`"
+                width="800"
+                alt=""
+                loading="lazy"
+                decoding="async"
+              >
               <figcaption>{{ getScreenshotBaseName(screenshot) }}</figcaption>
             </figure>
           </div>
@@ -267,77 +290,69 @@
       </div>
       <div
         class="modal-content__footer"
-        :class="{'modal-content__footer--with-free-trial': showFreeTrialDropdown }"
+        :class="{'modal-content__footer--with-shop-pricing': showShopPricing }"
       >
-        <img v-if="showFreeTrialDropdown && isMatomoPlugin"
-             class="matomo-badge matomo-badge-modal"
-             src="plugins/Marketplace/images/matomo-badge.png"
-             aria-label="Matomo plugin"
-             alt=""
-        />
-        <div class="cta-container cta-container-modal">
-          <div v-if="showFreeTrialDropdown" class="free-trial">
-            <div class="free-trial-lead-in">{{ translate('Marketplace_TryFreeTrialTitle') }}</div>
-            <select
-              class="free-trial-dropdown"
-              :title="`${translate('Marketplace_ShownPriceIsExclTax')} ${translate(
-                'Marketplace_CurrentNumPiwikUsers',
-                numUsers
-                )}`"
-              v-model="selectedPluginShopVariationUrl"
-              @change="changeSelectedPluginShopVariationUrl"
-            >
-              <option v-for="(variation, index) in plugin.shop.variations" :key="`var-${index}`"
-                      :value="variation.addToCartUrl"
-                      :title="`${translate(
-                      'Marketplace_PriceExclTax',
-                      String(variation.price),
-                      variation.currency
-                    )} ${translate('Marketplace_CurrentNumPiwikUsers', numUsers)}`"
-              >{{ variation.name }} - {{ variation.prettyPrice }} / {{ variation.period }}</option>
-            </select>
-          </div>
-
-          <CTAContainer
-            :is-super-user="isSuperUser"
-            :is-plugins-admin-enabled="isPluginsAdminEnabled"
-            :is-multi-server-environment="isMultiServerEnvironment"
-            :is-valid-consumer="isValidConsumer"
-            :is-auto-update-possible="isAutoUpdatePossible"
-            :activate-nonce="activateNonce"
-            :deactivate-nonce="deactivateNonce"
-            :install-nonce="installNonce"
-            :update-nonce="updateNonce"
+        <div class="modal-content__shopPricing" v-if="showShopPricing">
+          <ShopPricing
             :plugin="plugin"
-            :in-modal="true"
-            :shop-variation-url="selectedShopVariationUrl"
-            @requestTrial="emitTrialEvent('requestTrial')"
-            @startFreeTrial="emitTrialEvent('startFreeTrial')"
+            :num-users="numUsers"
+            :show-free-trial-lead-in="plugin.isEligibleForFreeTrial"
+            :use-period-tabs="plugin.isNewBundle"
           />
         </div>
-        <img v-if="!showFreeTrialDropdown && isMatomoPlugin"
-             class="matomo-badge matomo-badge-modal"
-             src="plugins/Marketplace/images/matomo-badge.png"
-             aria-label="Matomo plugin"
-             alt=""
-        />
+
+        <template v-else>
+          <div class="cta-container cta-container-modal">
+            <CTAContainer
+              :is-super-user="isSuperUser"
+              :is-plugins-admin-enabled="isPluginsAdminEnabled"
+              :is-multi-server-environment="isMultiServerEnvironment"
+              :is-valid-consumer="isValidConsumer"
+              :is-auto-update-possible="isAutoUpdatePossible"
+              :activate-nonce="activateNonce"
+              :deactivate-nonce="deactivateNonce"
+              :install-nonce="installNonce"
+              :update-nonce="updateNonce"
+              :plugin="plugin"
+              :in-modal="true"
+              :shop-variation-url="selectedShopVariationUrl"
+              @requestTrial="emitTrialEvent('requestTrial')"
+              @startFreeTrial="emitTrialEvent('startFreeTrial')"
+            />
+          </div>
+          <img v-if="isMatomoPlugin"
+               class="matomo-badge matomo-badge-modal"
+               src="plugins/Marketplace/images/matomo-badge.svg"
+               aria-label="Matomo plugin"
+               alt=""
+          />
+        </template>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent , PropType } from 'vue';
-import { MatomoUrl, translate, externalLink } from 'CoreHome';
+import { defineComponent, PropType } from 'vue';
+import {
+  ActivityIndicator,
+  AjaxHelper,
+  MatomoUrl,
+  translate,
+  externalLink,
+} from 'CoreHome';
 import {
   IPluginShopDetails,
   IPluginShopReviews,
   IPluginShopVariation,
+  PluginCard,
   PluginDetails,
   TObject,
   TObjectArray,
 } from '../types';
 import CTAContainer from '../PluginList/CTAContainer.vue';
+import ShopPricing from './ShopPricing.vue';
+import { hasShopPricing } from './shopPricing';
 import MissingReqsNotice from '../MissingReqsNotice/MissingReqsNotice.vue';
 
 const { $ } = window;
@@ -366,14 +381,16 @@ export interface PluginSupportItem {
 
 export interface PluginDetailsModalState {
   isLoading: boolean;
-  currentPluginShopVariationUrl: string;
+  fetchedDetails: PluginDetails|null;
+  fetchAbortController: AbortController|null;
+  fetchErrorMessage: string;
 }
 
 export default defineComponent({
-  components: { MissingReqsNotice, CTAContainer },
+  components: { ActivityIndicator, MissingReqsNotice, CTAContainer, ShopPricing },
   props: {
     modelValue: {
-      type: Object as PropType<PluginDetails | null>,
+      type: Object as PropType<PluginCard | null>,
       default: () => null,
     },
     activateNonce: {
@@ -424,7 +441,9 @@ export default defineComponent({
   data(): PluginDetailsModalState {
     return {
       isLoading: true,
-      currentPluginShopVariationUrl: '',
+      fetchedDetails: null,
+      fetchAbortController: null,
+      fetchErrorMessage: '',
     };
   },
   emits: [
@@ -447,7 +466,12 @@ export default defineComponent({
   },
   computed: {
     plugin(): PluginDetails {
-      return this.modelValue as PluginDetails;
+      // the plugin list only carries the fields its cards render, so everything else arrives from
+      // getPluginDetails once the modal opens
+      return {
+        ...(this.modelValue as PluginCard),
+        ...(this.fetchedDetails || {}),
+      } as PluginDetails;
     },
     pluginLatestVersion(): PluginVersion {
       const versions: TObjectArray = this.plugin.versions || [{}];
@@ -485,7 +509,7 @@ export default defineComponent({
       return (this.plugin.activity || {}) as PluginActivityInfo;
     },
     pluginChangelogUrl(): string {
-      return this.plugin.changelog.url as string || '';
+      return (this.plugin.changelog?.url as string) || '';
     },
     pluginSupport(): PluginSupportItem[] {
       return (this.plugin.support || []) as PluginSupportItem[];
@@ -515,13 +539,22 @@ export default defineComponent({
       const license: TObject = this.pluginLatestVersion?.license as TObject || {};
       return !!license.name;
     },
-    showFreeTrialDropdown(): boolean {
+    showDeploymentWarnings(): boolean {
+      // both warnings tell you that you will have to download the plugin and deploy it yourself.
+      // A bundle is a licence purchase with no download of its own — the plugins it covers are
+      // installed individually afterwards — so neither warning is actionable for one.
+      return !this.plugin.isBundle;
+    },
+    showShopPricing(): boolean {
       return (
         this.isSuperUser
         && !this.plugin.isMissingLicense
         && !this.plugin.isInstalled
         && !this.plugin.hasExceededLicense
-        && this.plugin.isEligibleForFreeTrial
+        && (this.plugin.isEligibleForFreeTrial || this.plugin.isNewBundle)
+        // the variations come from the details request, so there are none to pick from when it
+        // failed and the modal is left with the card row alone
+        && hasShopPricing(this.plugin)
       ) as boolean;
     },
     pluginScreenshots(): string[] {
@@ -546,21 +579,11 @@ export default defineComponent({
         : null;
       return recommendedVariations.length ? recommendedVariations[0] : defaultVariation;
     },
-    selectedPluginShopVariationUrl(): string {
-      return this.currentPluginShopVariationUrl
-        ? this.currentPluginShopVariationUrl
-        : this.pluginShopRecommendedVariation?.addToCartUrl || '';
-    },
     selectedShopVariationUrl(): string {
-      return this.selectedPluginShopVariationUrl || '';
+      return this.pluginShopRecommendedVariation?.addToCartUrl || '';
     },
   },
   methods: {
-    changeSelectedPluginShopVariationUrl(event: Event) {
-      if (event) {
-        this.currentPluginShopVariationUrl = (event.target as HTMLSelectElement).value;
-      }
-    },
     applyExternalTarget() {
       setTimeout(() => {
         const root = this.$refs.root as HTMLElement;
@@ -636,13 +659,72 @@ export default defineComponent({
             showPlugin: null,
           });
           this.$emit('update:modelValue', null);
+          this.abortDetailsFetch();
+          this.fetchedDetails = null;
+          this.fetchErrorMessage = '';
           this.isLoading = true;
         },
       }).modal('open');
 
-      setTimeout(() => {
+      this.fetchPluginDetails();
+    },
+    abortDetailsFetch() {
+      if (this.fetchAbortController) {
+        this.fetchAbortController.abort();
+        this.fetchAbortController = null;
+      }
+    },
+    fetchPluginDetails() {
+      const pluginName = (this.modelValue as PluginCard)?.name;
+
+      if (!pluginName) {
+        return;
+      }
+
+      this.abortDetailsFetch();
+      this.isLoading = true;
+      this.fetchErrorMessage = '';
+      // details from the plugin opened before must not survive into this one, or a failed
+      // request would show the new plugin's card data beside the old one's shop and versions
+      this.fetchedDetails = null;
+
+      const abortController = new AbortController();
+      this.fetchAbortController = abortController;
+
+      AjaxHelper.post(
+        {
+          module: 'Marketplace',
+          action: 'getPluginDetails',
+          format: 'JSON',
+        },
+        { pluginName },
+        {
+          withTokenInUrl: true,
+          abortController,
+          // the modal covers the page, so a notification behind it would never be seen
+          createErrorNotification: false,
+        },
+      ).then((response) => {
+        if (this.fetchAbortController !== abortController) {
+          return; // superseded, so this belongs to a plugin the user is no longer looking at
+        }
+
+        this.fetchedDetails = response as PluginDetails;
+      }).catch((response) => {
+        if (this.fetchAbortController !== abortController) {
+          return;
+        }
+
+        this.fetchErrorMessage = (response?.message as string)
+          || translate('General_ErrorRequest', '', '');
+      }).finally(() => {
+        if (this.fetchAbortController !== abortController) {
+          return; // superseded or aborted, whoever replaced it owns the loading state
+        }
+
+        this.fetchAbortController = null;
         this.isLoading = false;
-      }, 10); // just to prevent showing the modal when the plugin data are not yet passed in
+      });
     },
     getPendingLicenseHelpText(pluginName: string) {
       return translate(

@@ -35,7 +35,10 @@
       padding: 8px 2%;
     }
 
-    select, input {
+    // the restyled selects size and type themselves from FieldSelect/
+    // FieldExpandableSelect so they match the site selector; this compact
+    // styling stays for the plain value input
+    select, input:where(:not(.select-dropdown)) {
       .font-default(12px, 14px);
       color: @theme-color-text;
       font-weight: 600;

@@ -231,7 +231,7 @@ https://www.example.org/</placeholder>
 					<row>Ecommerce enabled</row>
 				</availableValues>
 				<description />
-				<inlineHelp>When enabled, the &quot;Goals&quot; report will have a new &quot;Ecommerce&quot; section.&lt;br /&gt;Matomo allows for advanced Ecommerce Analytics tracking and reporting. Learn more about &lt;a href='https://matomo.org/docs/ecommerce-analytics/' target='_blank'&gt; Ecommerce Analytics&lt;/a&gt;.</inlineHelp>
+				<inlineHelp>When enabled, the &quot;Goals&quot; report will have a new &quot;Ecommerce&quot; section.&lt;br /&gt;Matomo allows for advanced Ecommerce Analytics tracking and reporting. Learn more about &lt;a href='https://matomo.org/docs/ecommerce-analytics/' target='_blank'&gt; Ecommerce Analytics&lt;/a&gt;.&lt;br /&gt;&lt;br /&gt;CNIL Website Analytics Compliance is enforced for every website in this Matomo. Ecommerce can stay enabled, but that policy restricts the ecommerce data Matomo collects. &lt;a href=&quot;index.php?module=PrivacyManager&amp;action=compliance&amp;idSite=1&quot;&gt;View privacy compliance overview&lt;/a&gt;</inlineHelp>
 				<introduction />
 				<condition />
 				<fullWidth>0</fullWidth>

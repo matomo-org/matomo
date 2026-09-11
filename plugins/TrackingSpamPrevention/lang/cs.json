@@ -1,5 +1,29 @@
 {
     "TrackingSpamPrevention": {
-        "SettingNotificationEmailTitle": "Notifikační e-mail"
+        "BanIpNotificationMailSubject": "IP adresa byla zablokována kvůli příliš vysokému počtu akcí.",
+        "BlockCloudNoteInternetDisabled": "Protože je v konfiguraci Matoma vypnutý přístup k internetu, tato funkce nebude fungovat.",
+        "PluginDescription": "Tento plugin nabízí různé možnosti, jak zabránit spammerům a botům ve zkreslování vašich dat, abyste se na ně mohli znovu spolehnout.",
+        "SettingBlockCloudDescription": "Blokuje sledovací požadavky pocházející od poskytovatelů cloudových služeb, jako jsou AWS, Azure, DigitalOcean, Google Cloud a Oracle, a to stažením seznamu jejich rozsahů IP adres. Pokud ke sledování používáte pouze JavaScriptový tracker, mělo by být bezpečné volbu zapnout, protože jeho sledovací požadavky nepocházejí z cloudu, ledaže používá VPN směrující data přes poskytovatele cloudových služeb. Nastavení platí pro všechny vaše weby.",
+        "SettingBlockCloudTitle": "Blokovat sledovací požadavky z cloudu",
+        "SettingBlockHeadlessDescription": "Jde o prohlížeče bez uživatelského rozhraní, které se většinou používají k automatizaci. Pokud sledujete pouze běžné weby nebo aplikace, mělo by být bezpečné tuto volbu zapnout. Může zablokovat další boty a spamové požadavky, které by jinak nebyly odhaleny.",
+        "SettingBlockHeadlessTitle": "Blokovat headless prohlížeče",
+        "SettingBlockSdksAndLibrariesHelp": "Zapněte tuto volbu pouze tehdy, pokud sledování provádí JavaScriptový tracker nebo Matomo Tag Manager. Zablokuje sledovací požadavky odesílané HTTP klienty a sledovacími knihovnami bez JavaScriptu, včetně nástrojů jako cURL, Guzzle a Postman.%3$s%1$sPoznámka:%2$s Tuto volbu nezapínejte, pokud sledovací data odesíláte pomocí Matomo PHP Tracking SDK, Java SDK, Python SDK, Android SDK, iOS SDK nebo jiných sledovacích knihoven bez JavaScriptu.",
+        "SettingBlockSdksAndLibrariesTitle": "Blokovat provoz z SDK a serverových knihoven",
+        "SettingExcludedCountriesDescription": "Nesledujte návštěvníky z těchto zemí. Návštěvníci mimo vaši cílovou oblast budou pravděpodobně boti nebo spammeři; nastavení můžete také použít k tomu, abyste se vyhnuli právním předpisům na ochranu soukromí v jiných jurisdikcích.",
+        "SettingExcludedCountriesTitle": "Vyloučit země",
+        "SettingIncludedCountriesDescription": "Tím se vyloučí všechny ostatní země. Další informace najdete u nastavení „Vyloučit země“.",
+        "SettingIncludedCountriesTitle": "Sledovat pouze návštěvníky z těchto zemí",
+        "SettingIpAllowListHelp": "Zadejte IP adresy nebo rozsahy CIDR, kterým je povoleno odesílat sledovací požadavky. Každou hodnotu zadejte na samostatný řádek.",
+        "SettingIpAllowListTitle": "Seznam povolených IP adres",
+        "SettingIpBlockListHelp": "Zadejte IP adresy nebo rozsahy CIDR, kterým chcete zablokovat odesílání sledovacích požadavků. Každou hodnotu zadejte na samostatný řádek. Matomo může automaticky blokovat i další IP adresy, které se v tomto seznamu nezobrazí, například denně načítané rozsahy IP adres poskytovatelů cloudových služeb při zapnuté volbě „Blokovat sledovací požadavky z cloudu“ nebo IP adresy dočasně zablokované kvůli překročení maximálního počtu akcí.",
+        "SettingIpBlockListTitle": "Seznam blokovaných IP adres",
+        "SettingMaxActionsDescription": "Výchozí hodnota „0“ zaznamenává všechny akce. Jedna návštěva na většině webů obvykle neobsahuje více než 100 až 300 akcí. Aktivitu nad tímto limitem lze patrně považovat za spam ve sledování, bota nebo útok. Matomo přestane zaznamenávat další akce a zablokuje příslušné IP adresy až na 24 hodin, aby snížilo zatížení serveru a zachovalo přesnost dat.",
+        "SettingMaxActionsTitle": "Maximální počet zaznamenaných akcí za návštěvu",
+        "SettingNotificationEmailDescription": "Na tuto e-mailovou adresu se odešle upozornění pokaždé, když je IP adresa zablokována kvůli příliš mnoha akcím. V budoucnu mohou být přidány další důvody upozornění.",
+        "SettingNotificationEmailTitle": "E-mail pro upozornění",
+        "SettingOrganisationBlockListHelp": "Zablokuje sledovací požadavky, pokud IP adresa návštěvníka patří určené organizaci, například poskytovateli hostingu nebo cloudových služeb. Každou organizaci zadejte na samostatný řádek. Používejte konkrétní názvy, abyste předešli nechtěným shodám. Shoda nastane u každé organizace, jejíž název obsahuje zadanou hodnotu. Tento seznam se použije pouze při zapnuté volbě „Blokovat sledovací požadavky z cloudu“.%3$s%1$sPoznámka:%2$s Vymazáním seznamu se blokování organizací vypne; výchozí seznam se neobnoví.",
+        "SettingOrganisationBlockListPlaceholder": "Poskytovatel cloudového hostingu A%1$sPoskytovatel cloudového hostingu B",
+        "SettingOrganisationBlockListTitle": "Seznam blokovaných organizací",
+        "SettingsIntroduction": "Spamový provoz a provoz botů mohou zvyšovat počet sledovacích požadavků a vnášet do přehledů nežádoucí data. Nakonfigurujte tato nastavení, abyste takový provoz omezili dříve, než ovlivní vaše analytická data."
     }
 }

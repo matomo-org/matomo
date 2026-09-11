@@ -100,6 +100,7 @@
         "ColumnPageGenerationTime": "Temps de génération de la page",
         "ColumnPageviews": "Pages vues",
         "ColumnPageviewsDocumentation": "Le nombre de fois que cette page a été visitée.",
+        "ColumnPercentOfReportTotalDocumentation": "Le pourcentage total du rapport total %1$s que cette ligne représente.",
         "ColumnPercentageVisits": "%% Visites",
         "ColumnPercentageVisitsDocumentation": "Le pourcentage du nombre total de visites.",
         "ColumnRevenue": "Revenu",

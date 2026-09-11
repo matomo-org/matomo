@@ -24,7 +24,7 @@
         "DefaultSettingsHelp": "Matomo ya incluye ajustes predeterminados. Puede personalizarlos ahora o llevarlos a cabo posteriormente en la pantalla de administración.",
         "DownloadSystemCheck": "Descargar la comprobación del sistema",
         "Email": "Correo electrónico",
-        "EmailPrivacyNotice": "Su dirección de correo electrónico solo se utilizará para enviarle el boletín. Se comparte con Mad Mimi para hacerlo, pero el proveedor de terceros podría cambiar. No compartiremos su correo electrónico con nadie más ni lo utilizaremos para ningún otro propósito. Dese de baja en cualquier momento. La %1$snorma de privacidad%2$s tiene más información.",
+        "EmailPrivacyNotice": "Su dirección de correo electrónico solo se utilizará para enviarle el boletín. No compartiremos su correo electrónico con nadie más ni lo utilizaremos para ningún otro propósito. Dese de baja en cualquier momento. La %1$snorma de privacidad%2$s tiene más información.",
         "ErrorExpired1": "Su instalación de Matomo comenzó hace más de 3 días, pero no se ha completado.",
         "ErrorExpired2": "Siga estos pasos para continuar la instalación:",
         "ErrorExpired3": "Abra el archivo %1$sconfig/config.ini.php%2$s en el directorio de instalación de su Matomo.",

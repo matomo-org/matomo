@@ -1,6 +1,5 @@
 {
     "Transitions": {
-        "BouncesInline": "%s پس زده",
         "DirectEntries": "ورودی های مستقیم",
         "ErrorBack": "به فعالیت قبلی برگرد",
         "ExitsInline": "%s خروج",
@@ -21,7 +20,6 @@
         "ToFollowingSiteSearches": "جستجوهای داخلی",
         "ToFollowingSiteSearchesInline": "%s جستجوهای داخلی",
         "TransitionsSubcategoryHelp2": "جزئیات بیشتر",
-        "XOfAllPageviews": "%s از همه ی بازدیدهای این صفحه",
-        "XOutOfYVisits": "%1$s (از %2$s)"
+        "XOfAllPageviews": "%s از همه ی بازدیدهای این صفحه"
     }
 }

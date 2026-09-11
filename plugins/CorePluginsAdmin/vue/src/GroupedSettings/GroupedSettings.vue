@@ -21,7 +21,7 @@ export default defineComponent({
   props: {
     groupName: String,
     settings: {
-      type: Array as PropType<Setting[]>,
+      type: Array as PropType<readonly Setting[]>,
       required: true,
     },
     allSettingValues: {
