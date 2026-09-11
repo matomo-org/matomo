@@ -73,7 +73,10 @@ p {
   color: @theme-color-text;
 }
 
-#content p {
+// The `#content` id outranks any component's own classes, so a component whose copy is
+// not 13px/18px has to be excluded here rather than fight this rule from its own file.
+// `:where()` adds no specificity, so nothing else about this rule changes.
+#content p:where(:not(.productPromotion__text, .productPromotion__reason)) {
   margin-left: 0;
   margin-right: 0;
   .font-default(13px, 18px);

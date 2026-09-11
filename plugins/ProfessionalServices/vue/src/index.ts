@@ -6,3 +6,4 @@
  */
 
 export { default as DismissPromoWidget } from './DismissPromoWidget/DismissPromoWidget';
+export { default as ProductPromotion } from './ProductPromotion/ProductPromotion';
