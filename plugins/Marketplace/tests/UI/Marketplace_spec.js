@@ -11,12 +11,16 @@ describe("Marketplace", function () {
     this.fixture = "Piwik\\Plugins\\Marketplace\\tests\\Fixtures\\SimpleFixtureTrackFewVisits";
 
     var urlBase = '?module=Marketplace&action=overview';
-    var overviewUrl = urlBase;
     var themesUrl = urlBase + '#?pluginType=themes';
 
     function searchUrl(pluginTitle) {
         return urlBase + '#?query=' + encodeURIComponent(pluginTitle);
     }
+
+    // The redesign dropped the premium tab these captures used to open: the overview requests
+    // only the unfiltered catalogue, so nothing narrows it to paid plugins any more. Searching
+    // the mock's paid plugins is what now puts those cards, and only those cards, on one screen.
+    var paidPluginsUrl = searchUrl('Paid Plugin');
 
     var noLicense = 'noLicense';
     var expiredLicense = 'expiredLicense';
@@ -136,7 +140,7 @@ describe("Marketplace", function () {
             setEnvironment(mode, noLicense);
 
             await page.goto('about:blank');
-            await page.goto(overviewUrl);
+            await page.goto(paidPluginsUrl);
 
             await captureMarketplace('paid_plugins_no_license_' + mode);
         });
@@ -145,13 +149,13 @@ describe("Marketplace", function () {
             setEnvironment(mode, validLicense);
 
             await page.goto('about:blank');
-            await page.goto(overviewUrl);
+            await page.goto(paidPluginsUrl);
 
             await captureMarketplace('paid_plugins_with_license_' + mode);
         });
 
         if (mode === 'superuser') {
-          [overviewUrl, '?module=Marketplace&action=manageLicenseKey&idSite=1&period=day&date=yesterday', '?module=CorePluginsAdmin&action=plugins&idSite=1&period=day&date=yesterday&activated=']
+          [paidPluginsUrl, '?module=Marketplace&action=manageLicenseKey&idSite=1&period=day&date=yesterday', '?module=CorePluginsAdmin&action=plugins&idSite=1&period=day&date=yesterday&activated=']
             .forEach(function (url, index) {
               it(mode + ' for a user with license key should be able to open paid plugins ' + index, async() => {
                   var indexArray = ['paidPluginsUrl', 'manageLicenseKeyUrl', 'managePluginsUrl'];
@@ -196,8 +200,6 @@ describe("Marketplace", function () {
 
         it(mode + ' should open paid plugins modal for paid plugin 1', async function () {
             setEnvironment(mode, validLicense);
-            await page.goto('about:blank');
-            await page.goto(overviewUrl);
             await loadPluginDetailPage('Paid Plugin 1');
 
             await captureWithPluginDetails('paid_plugin1_plugin_details_' + mode);
@@ -205,8 +207,6 @@ describe("Marketplace", function () {
 
         it(mode + ' should open paid plugins modal for paid plugin 2', async function () {
             setEnvironment(mode, validLicense);
-            await page.goto('about:blank');
-            await page.goto(overviewUrl);
             await loadPluginDetailPage('Paid Plugin 2');
 
             await captureWithPluginDetails('paid_plugin2_plugin_details_' + mode);
@@ -238,7 +238,7 @@ describe("Marketplace", function () {
             assumePaidPluginsActivated();
 
             await page.goto('about:blank');
-            await page.goto(overviewUrl);
+            await page.goto(paidPluginsUrl);
 
             await captureMarketplace('paid_plugins_with_exceeded_license_' + mode);
         });

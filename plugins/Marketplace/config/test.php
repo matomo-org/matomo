@@ -138,6 +138,32 @@ return array(
             return json_encode($content);
         }
 
+        // The Marketplace's unfiltered plugins list already carries every paid plugin the
+        // consumer's access token reveals; `purchase_type=paid` only narrows it. The fixtures are
+        // split the other way round, so join them back together here. The overview requests the
+        // unfiltered list alone - see `Api\Client::getWarmedOverviewLists()` - so without this no
+        // paid plugin reaches the page at all, and every license state renders the same.
+        function mergePaidPluginsIntoList($listContent, $paidContent)
+        {
+            $list = json_decode($listContent, true);
+            $paid = json_decode($paidContent, true);
+
+            $plugins = [];
+
+            foreach ($list['plugins'] ?? [] as $plugin) {
+                $plugins[$plugin['name']] = $plugin;
+            }
+
+            // the paid fixture's copy wins: it is the one carrying this consumer's license details
+            foreach ($paid['plugins'] ?? [] as $plugin) {
+                $plugins[$plugin['name']] = $plugin;
+            }
+
+            $list['plugins'] = array_values($plugins);
+
+            return json_encode($list);
+        }
+
         $isExceededUser = $c->get('test.vars.consumer') === 'exceededLicense';
         $isExpiredUser = $c->get('test.vars.consumer') === 'expiredLicense';
         $isValidUser = $c->get('test.vars.consumer') === 'validLicense';
@@ -175,7 +201,10 @@ return array(
             } elseif ($action === 'consumer/validate' && $service->getAccessToken() === 'invalid') {
                 return $service->getFixtureContent('v2.0_consumer_validate-access_token-notexistingtoken.json');
             } elseif ($action === 'plugins' && empty($params['purchase_type']) && empty($params['query'])) {
-                $content = $service->getFixtureContent('v2.0_plugins.json');
+                $content = mergePaidPluginsIntoList(
+                    $service->getFixtureContent('v2.0_plugins.json'),
+                    $service->getFixtureContent($paidPluginsFixture())
+                );
                 return updateUrlsInFixtureContent($content);
             } elseif ($action === 'plugins' && !empty($params['purchase_type']) && $params['purchase_type'] === PurchaseType::TYPE_PAID && empty($params['query'])) {
                 $content = $service->getFixtureContent($paidPluginsFixture());
