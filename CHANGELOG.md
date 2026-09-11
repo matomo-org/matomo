@@ -18,10 +18,51 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The `Marketplace.searchPlugins` controller action now returns only the fields the plugin cards render, and the `plugins` template variable the `Marketplace.GetNewPlugins` and `Marketplace.GetPremiumFeatures` widgets pass to their templates has been reduced the same way. The version history, shop details, screenshots, support links, authors, changelog and activity they used to carry are served per plugin by the new `Marketplace.getPluginDetails` action instead, which the plugin details modal requests when it opens. A template overriding either widget has to fetch anything beyond the card fields itself.
 
 ### New APIs
+* `Piwik\Plugins\AIProviders` now implements provider-side web search, also called grounding, so an AI
+  feature can ask the provider to search the web before answering and then read the sources it used.
+  `Piwik\Plugins\AIProviders\AIRequest::withWebSearchEnabled()` is no longer advisory: Anthropic,
+  Google and OpenAI honour it, while AWS Bedrock and the custom provider reject a grounded request with
+  an `AIProviderClientException` rather than silently answering ungrounded. `AIProviderResponse` gained
+  `wasWebSearchUsed()`, `getWebSearchCitations()`, `getWebSearchRequestCount()` and
+  `getWebSearchQueries()`, backed by the new `Piwik\Plugins\AIProviders\WebSearchUsage`, which
+  normalises the three providers' incompatible grounding shapes; `AIProviderService::canUseWebSearch()`
+  and the new `supportsWebSearch` key of `getProviderStatusesForCaller()` let a feature check first.
+  Citation titles and queries are untrusted model output, length-capped but otherwise verbatim, so
+  escape them where they are rendered. Grounding is not a marginal cost: every provider charges per
+  search and bills the retrieved page content as input tokens on top. See `plugins/AIProviders/README.md`
+  for the per-provider caveats and the cost and timeout implications.
+* `AIRequest::withTimeoutSeconds()` overrides the provider HTTP timeout, which now defaults to 120s for
+  a grounded completion and stays at 30s otherwise. That outlasts the default read timeout of common
+  web servers and proxies, so grounded completions are intended for CLI commands and scheduled tasks.
+* `AIProviderResponse::getStopReason()` now reports a value for Google completions, which previously
+  always returned `null`. Google's `finishReason` is mapped onto the same vocabulary the conversation
+  API already uses (`STOP` becomes `end_turn`, `MAX_TOKENS` becomes `max_tokens`, `SAFETY` and
+  `RECITATION` become `guardrail_intervened`), so it matches AWS Bedrock and Anthropic. OpenAI keeps
+  reporting `stop` / `length` on both its grounded and ungrounded paths. A caller that treats an
+  unrecognised stop reason as a failure will start seeing Google values.
 * The new `Piwik\Http\SecurityHeaders::sendForDataResponse()` sends the header set for a response that is data rather than application UI: `X-Content-Type-Options: nosniff`, `Referrer-Policy: no-referrer`, `X-Frame-Options: deny` unless `[General] enable_framed_pages` allows embedding, and a `Content-Security-Policy` that allows no scripts, forms or base URI, only inline styles and images from Matomo itself (built by the new `Piwik\View\SecurityPolicy::restrictToDataResponse()`). Core sends it for the API endpoint itself, report exports, inline report previews, and the API module's `listAllMethods` and `listSegments` actions, which return HTML without a view; `action=listAllAPI`, which renders one, keeps the headers of a regular page. Call it in a plugin that streams an export or a report, before writing any output.
 * Two new events let plugins customise the "No data has been recorded yet" page, on both the standalone page and its embedding in the reporting UI:
   * `Template.siteWithoutData.afterTrackingMethods` collects additional HTML rendered below the tracking methods list and the section for temporarily hiding the page.
   * `SitesManager.siteWithoutData.showInviteTeamMemberLink` lets a plugin hide the "Invite Team Member" link by setting the posted flag to `false`.
+
+### Deprecations
+* `Piwik\Plugins\AIProviders\AIProviderResponse::isWebSearchEnabled()` is deprecated in favour of
+  `wasWebSearchUsed()`, and the `webSearchEnabled` key of `AIProviderResponse::toArray()` in favour of
+  the new `webSearchUsed` key. The name reads as request state, but both report what the provider
+  actually did, while `AIRequest::isWebSearchEnabled()` keeps the request meaning. Both will be removed
+  in Matomo 6.
+* The `$webSearchEnabled` parameter of the `AIProviderResponse` constructor is deprecated. Pass a
+  `Piwik\Plugins\AIProviders\WebSearchUsage` as the new trailing `$webSearch` parameter instead, which
+  reports the searches, queries and citations a completion actually produced rather than a bare flag.
+  The parameter keeps its position and its meaning, so positional callers written against Matomo 5.13.0
+  keep working and a `true` still makes `wasWebSearchUsed()` report a search. It will be removed in
+  Matomo 6.
+* `Piwik\Plugins\AIProviders\Provider\AIProvider::isWebSearchUsed()` is deprecated. It was a
+  placeholder whose base implementation always returned `false`, and no bundled provider overrode it,
+  but a third-party provider that did override it controlled `AIProviderResponse::isWebSearchEnabled()`.
+  Such a provider should now override `supportsWebSearch()` to declare the capability and pass a
+  `WebSearchUsage` to `buildResponse()`. An existing override is still honoured by
+  `wasWebSearchUsed()` for the transition, and will stop being consulted in Matomo 6.
 
 ### HTTP API
 * A new `keep_flattened_dimension_columns` parameter keeps the columns a flattened report adds for its

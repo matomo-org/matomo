@@ -82,6 +82,16 @@ class AIProviderService
         }
 
         $provider = $this->requireProvider($providers, $resolution['providerId']);
+
+        // Fail rather than silently answer ungrounded: a caller that asked for
+        // sources would otherwise store answers it cannot tell apart from grounded ones.
+        if ($request->isWebSearchEnabled() && !$provider->supportsWebSearch()) {
+            throw new AIProviderClientException(sprintf(
+                '%s does not support web search.',
+                $provider->getName()
+            ));
+        }
+
         $configuration = $this->configuration->getProviderConfiguration($provider);
 
         $response = $this->runWithProvider($provider, $configuration, $request);
@@ -201,6 +211,39 @@ class AIProviderService
         }
 
         return ['status' => self::CONVERSATION_READY] + $base;
+    }
+
+    /**
+     * Whether a grounded completion from this caller can run, so a feature that
+     * needs sources can degrade before spending anything.
+     *
+     * Answered for the provider {@link complete()} would actually resolve to,
+     * which is what makes it usable: on a managed instance the forced provider
+     * wins unless the caller is allowlisted, and a forced provider without web
+     * search makes every grounded request throw.
+     *
+     * Answers for the provider only, not for a specific request: it takes no
+     * {@link AIRequest} and so cannot see request options that a provider
+     * refuses to combine with search. Google rejects grounding together with
+     * {@link AIRequest::withJsonResponse()}, and a `true` here does not warn
+     * about it.
+     *
+     * @param string|null $requestedProviderId The same value the caller would pass to
+     *                                         {@link AIRequest::withProviderId()}, if any.
+     */
+    public function canUseWebSearch(string $callerPluginName, ?string $requestedProviderId = null): bool
+    {
+        $providers = AIProviders::getAvailableProviders();
+
+        try {
+            $resolution = $this->resolveProviderId($requestedProviderId, $callerPluginName, $providers);
+            $provider = $this->requireProvider($providers, $resolution['providerId']);
+        } catch (InvalidArgumentException $e) {
+            return false;
+        }
+
+        return $provider->supportsWebSearch()
+            && $provider->isConfigured($this->configuration->getProviderConfiguration($provider));
     }
 
     /**
@@ -408,6 +451,7 @@ class AIProviderService
                 'isConfigured' => $provider->isConfigured(
                     $this->configuration->getProviderConfiguration($provider)
                 ),
+                'supportsWebSearch' => $provider->supportsWebSearch(),
             ];
         }, $usableProviders);
     }

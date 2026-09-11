@@ -95,11 +95,90 @@ When a managed environment forces a provider from configuration, the service als
     'inputTokens' => 42,                   // input/prompt tokens reported by the provider, or null
     'outputTokens' => 12,                  // output/completion tokens reported by the provider, or null
     'reasoningLevel' => 'none',            // reasoning level used
-    'webSearchEnabled' => false,           // whether provider-side web search was used
+    'webSearchUsed' => false,              // whether provider-side web search actually ran
+    'webSearchRequestCount' => null,       // searches performed, or null when none ran / not reported
+    'webSearchQueries' => [],              // queries the model issued, when the provider echoes them
+    'webSearchCitations' => [],            // ['url' => …, 'title' => …, 'domain' => …] per source
     'executionTimeMs' => 1234,             // total request time in milliseconds, including retries, or null
     'stopReason' => 'stop',                // provider stop reason, if available, or null
 ]
 ```
+
+`stopReason` is the provider's own vocabulary, not a normalised one. Anthropic, AWS Bedrock and Google
+report `end_turn` / `max_tokens` (Google's `STOP` / `MAX_TOKENS` are mapped onto those, and `SAFETY` /
+`RECITATION` onto `guardrail_intervened`); OpenAI reports `stop` / `length` on both its grounded and
+ungrounded paths. Match against the values of the provider you resolved to, and pass unrecognised ones
+through rather than treating them as failures.
+
+### Web search (grounding)
+
+Ask the provider to search the web before answering, and read the sources it used:
+
+```php
+$response = $service->complete(
+    (new AIRequest($prompt, 'YourPlugin'))->withWebSearchEnabled(true)
+);
+
+if ($response->wasWebSearchUsed()) {
+    foreach ($response->getWebSearchCitations() as $citation) {
+        // $citation['url'], $citation['title'], $citation['domain']
+    }
+}
+```
+
+Supported by Anthropic, Google and OpenAI. Providers without a web search tool (AWS Bedrock, custom
+provider) reject the request with an `AIProviderClientException` rather than silently answering
+ungrounded. Call `$service->canUseWebSearch('YourPlugin')` first if you need to fall back: it answers
+for the provider `complete()` would actually resolve to, which on a managed instance is the forced
+provider rather than the one you asked for.
+
+**The model decides whether to search.** All three providers let the model choose, and AIProviders does
+not override that. A grounded request can come back with no search at all, so read
+`wasWebSearchUsed()` and `getWebSearchRequestCount()` on the response for what actually happened.
+
+Grounded answers arrive in fragments, which AIProviders reassembles: adjacent fragments are one
+sentence split at a citation boundary and are joined as-is, while a fragment after a tool block or a
+separate output message starts a new sentence and gets a single space. Never a newline, so a boundary
+falling inside a JSON string value cannot break `getJsonData()`.
+
+**Citation titles and queries are untrusted model output.** They are length-capped but otherwise
+verbatim, so escape them where you render them. URLs are guaranteed to be `http(s)`.
+
+**Grounding is not a marginal cost.** Every provider charges per search, and the retrieved page content
+is billed as input tokens on top, so a grounded request costs a multiple of the same request
+ungrounded rather than a little more. The number of searches is capped on Anthropic (`max_uses`: 5)
+and the retrieved context on OpenAI (`search_context_size`: medium); Google exposes no cap at all.
+
+Grounded requests are slow (30-90s). The provider timeout defaults to 120s for them (30s otherwise).
+That outlasts the default read timeout of every common web server and proxy in front of PHP (nginx
+`fastcgi_read_timeout` and Apache `Timeout` are both 60s), which cut the connection whatever PHP is
+configured to allow. So **grounded completions are meant for CLI commands and scheduled tasks**, which
+have nothing in front of them. From a web request, either raise those limits yourself or lower the
+timeout with `withTimeoutSeconds()`, or the connection dies before the provider answers. (PHP's own
+`max_execution_time` is the lesser worry: on non-Windows SAPIs it does not advance while a cURL
+transfer is waiting.) A retryable HTTP status also re-runs the searches, so it multiplies both the wall
+time and the per-search fees.
+
+Four provider-specific caveats:
+
+- **Google's citation URLs are not publisher URLs.** It returns a grounding redirect, so `url` is a
+  `vertexaisearch.cloud.google.com` link and only `domain`, taken from the chunk title which Google
+  sets to the publisher host, identifies the publisher. Two sources from the same page therefore do
+  not deduplicate for Google: count distinct `domain`, not distinct `url`. When the title is not a
+  hostname, `domain` is an empty string rather than a guess.
+- **On OpenAI, combining web search with JSON mode is degraded, not native.** OpenAI rejects
+  `text.format` together with web search, so `withJsonResponse()` on a grounded request relies on the
+  prompt instruction alone; handle a `null` from `getJsonData()`. The search itself still runs.
+- **On Google, web search and JSON mode cannot combine at all, so the request is rejected** with an
+  `AIProviderClientException`. Gemini would accept it and then answer without searching. Verified
+  against `gemini-3.1-flash-lite`: asking for JSON suppresses grounding two independent ways, through
+  `responseMimeType: application/json` and through the JSON instruction `withJsonResponse()` adds to
+  the prompt, so dropping either one does not restore it. Drop one of the two calls; `canUseWebSearch()`
+  cannot warn you, because it does not see the request.
+- **Anthropic can pause mid-search.** With several searches to run it may end the turn early and expect
+  the message back to resume. AIProviders is deliberately single-round-trip, so the partial answer is
+  returned as-is with `getStopReason()` reporting `pause_turn`. Check it before treating a grounded
+  Anthropic answer as complete.
 
 ### JSON mode
 
