@@ -319,7 +319,15 @@ describe('TooltipContent', function () {
       12
     );
 
-    expectValueShownInFull(tooltips, payloads.plain, 'plain');
+    // a cloud puts the whole value in the title, where a report cell truncates its label, so this
+    // is the second surface every value can be checked against in full
+    Object.keys(payloads).forEach((name) => {
+      // the keyword the cloud is built from was url decoded once more on its way, so the `+` of the
+      // percent encoded value reached the template as a space
+      const expected = name === 'percent' ? 'PL12 a b A / <b>c</b>' : payloads[name];
+
+      expectValueShownInFull(tooltips, expected, name);
+    });
   });
 
   it('should show tracked values as text in a report on a reporting page', async function () {
