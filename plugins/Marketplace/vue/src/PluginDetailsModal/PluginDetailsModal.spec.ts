@@ -31,6 +31,14 @@ vi.mock('CoreHome', () => ({
   AjaxHelper: {
     post: mockPost,
   },
+  // needed by the ShopPricing block the footer renders once the details carry a variation.
+  // en-US grouping is enough here; the real formatter is locale driven and covered elsewhere
+  NumberFormatter: {
+    formatNumber: (value: number, max: number, min: number) => Number(value).toLocaleString(
+      'en-US',
+      { maximumFractionDigits: max, minimumFractionDigits: min },
+    ),
+  },
   MatomoUrl: {
     hashParsed: { value: {} },
     updateHash: vi.fn(),
@@ -233,7 +241,7 @@ describe('PluginDetailsModal', () => {
 
     expect(wrapper.find('.alert-danger').text()).toContain('There was an error reading');
     expect(wrapper.find('.addToCartLink').exists()).toBe(false);
-    expect(wrapper.find('.free-trial-dropdown').exists()).toBe(false);
+    expect(wrapper.find('.shopPricing').exists()).toBe(false);
   });
 
   it('offers the purchase link once the details carry a shop variation', async () => {
@@ -260,7 +268,10 @@ describe('PluginDetailsModal', () => {
     await flushPromises();
 
     expect(wrapper.find('.addToCartLink').attributes('href')).toBe('https://shop.example/cart');
-    expect(wrapper.find('.free-trial-dropdown').exists()).toBe(true);
+    // the free trial dropdown this used to pin is now the ShopPricing block, and its lead-in is
+    // what tells a trial-eligible visitor the price they are looking at starts as a trial
+    expect(wrapper.find('.shopPricing').exists()).toBe(true);
+    expect(wrapper.find('.shopPricing__leadIn').exists()).toBe(true);
   });
 
   it('falls back to a generic message when the failure carries none', async () => {

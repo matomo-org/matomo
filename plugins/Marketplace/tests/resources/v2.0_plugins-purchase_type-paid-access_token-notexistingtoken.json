@@ -189,6 +189,150 @@
                 "loginUrl": "https://shop.piwik.org/my-account"
             },
             "category": "matomo"
+        },
+        {
+            "name": "EnterpriseBundle",
+            "displayName": "Enterprise Bundle",
+            "owner": "InnoCraft",
+            "description": "Elevate your global brand’s end-to-end marketing with intelligent analytics, including enterprise-grade compliance and elite support to drive impact at scale.",
+            "homepage": "https://matomo.org",
+            "createdDateTime": "2026-06-02 21:42:52",
+            "donate": [],
+            "support": [],
+            "isTheme": false,
+            "keywords": [
+                "optimization",
+                "conversion",
+                "cro",
+                "sales",
+                "content",
+                "bundle",
+                "revenue",
+                "premium",
+                "support"
+            ],
+            "basePrice": 40800,
+            "authors": [
+                {
+                    "name": "Matomo",
+                    "email": "hello@matomo.org",
+                    "homepage": "https://matomo.org"
+                }
+            ],
+            "repositoryUrl": null,
+            "lastUpdated": "2026-06-02 21:42:52",
+            "latestVersion": "1.0.0",
+            "numDownloads": null,
+            "screenshots": [],
+            "coverImage": "https://plugins.matomo.org/img/categories/matomo.png",
+            "previews": [],
+            "activity": {
+                "numCommits": null,
+                "numContributors": null,
+                "lastCommitDate": null
+            },
+            "featured": false,
+            "isFree": false,
+            "isPaid": true,
+            "isBundle": true,
+            "isNewBundle": true,
+            "isCustomPlugin": false,
+            "shop": {
+                "url": "https://plugins.matomo.org/EnterpriseBundle",
+                "variations": [
+                    {
+                        "price": "3400",
+                        "prettyPrice": "3400EUR",
+                        "currency": "EUR",
+                        "period": "month",
+                        "name": "Up to 50 users monthly",
+                        "discount": 0,
+                        "prettyDiscount": "",
+                        "addToCartUrl": "https://shop.matomo.org/checkout/?add-to-cart=1&variation_id=2&aelia_cs_currency=EUR",
+                        "addToCartEmbedUrl": "",
+                        "cheapest": false
+                    },
+                    {
+                        "price": "4080",
+                        "prettyPrice": "USD4080",
+                        "currency": "USD",
+                        "period": "month",
+                        "name": "Up to 50 users monthly",
+                        "discount": 0,
+                        "prettyDiscount": "",
+                        "addToCartUrl": "https://shop.matomo.org/checkout/?add-to-cart=1&variation_id=2&aelia_cs_currency=USD",
+                        "addToCartEmbedUrl": "",
+                        "cheapest": true
+                    },
+                    {
+                        "price": "34000",
+                        "prettyPrice": "34000EUR",
+                        "currency": "EUR",
+                        "period": "year",
+                        "name": "Up to 50 users",
+                        "discount": 0,
+                        "prettyDiscount": "",
+                        "addToCartUrl": "https://shop.matomo.org/checkout/?add-to-cart=1&variation_id=1&aelia_cs_currency=EUR",
+                        "addToCartEmbedUrl": "",
+                        "cheapest": false
+                    },
+                    {
+                        "price": "40800",
+                        "prettyPrice": "USD40800",
+                        "currency": "USD",
+                        "period": "year",
+                        "name": "Up to 50 users",
+                        "discount": 0,
+                        "prettyDiscount": "",
+                        "addToCartUrl": "https://shop.matomo.org/checkout/?add-to-cart=1&variation_id=1&aelia_cs_currency=USD",
+                        "addToCartEmbedUrl": "",
+                        "cheapest": false
+                    }
+                ],
+                "reviews": {
+                    "embedUrl": "",
+                    "height": 200,
+                    "averageRating": "0",
+                    "ratingCount": 0,
+                    "reviewCount": 0
+                }
+            },
+            "bundle": {
+                "plugins": []
+            },
+            "specialOffer": "",
+            "category": "uncategorised",
+            "versions": [
+                {
+                    "name": "1.0.0",
+                    "release": "2026-06-02 21:42:52",
+                    "requires": {
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
+                    },
+                    "wordPressCompatible": true,
+                    "onPremiseCompatible": true,
+                    "numDownloads": 0,
+                    "license": {
+                        "name": "GPL v3+",
+                        "url": ""
+                    },
+                    "repositoryChangelogUrl": null,
+                    "readmeHtml": {
+                        "description": "",
+                        "faq": "",
+                        "changelog": "",
+                        "documentation": ""
+                    },
+                    "download": "/api/2.0/plugins/EnterpriseBundle/download/1.0.0"
+                }
+            ],
+            "isDownloadable": false,
+            "changelog": {
+                "url": ""
+            },
+            "consumer": {
+                "license": null
+            }
         }
     ]
 }
