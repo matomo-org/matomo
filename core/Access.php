@@ -159,7 +159,7 @@ class Access
 
         $result = null;
 
-        $isApiRequest = Piwik::getModule() === 'API' && (Piwik::getAction() === 'index' || !Piwik::getAction());
+        $isApiRequest = Request::isApiHttpRequest();
         $apiMethod = Request::getMethodIfApiRequest(null);
         $isGetApiRequest = !empty($apiMethod) && 1 === substr_count($apiMethod, '.') && strpos($apiMethod, '.get') > 0;
 
