@@ -109,11 +109,6 @@ export default defineComponent({
         : this.isValidConsumer) as boolean;
     },
     installAllPaidPluginsVisible(): boolean {
-      // PREVIEW-ONLY: forces the install-purchased strip on so the layout can be looked at without
-      // a valid license. Delete this line before committing. grep PREVIEW-ONLY for the other one.
-      return true;
-
-      // eslint-disable-next-line no-unreachable
       return ((this.getIsValidConsumer
         && this.isSuperUser
         && this.isAutoUpdatePossible
