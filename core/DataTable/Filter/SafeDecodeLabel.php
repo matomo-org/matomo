@@ -42,17 +42,33 @@ class SafeDecodeLabel extends BaseFilter
         if (empty($value)) {
             return $value;
         }
-        $raw = urldecode($value);
-        $value = htmlspecialchars_decode($raw, ENT_QUOTES);
+
+        return self::decodeEntitiesSafe(urldecode($value));
+    }
+
+    /**
+     * Normalises the given value to exactly one level of HTML encoding, without reading it as a
+     * URL. For a value that is already formatted for display - a metric carrying the `&nbsp;`
+     * entities `Piwik\Metrics\Formatter\Html` writes, say - `decodeLabelSafe()` would read a `%`
+     * and the two characters behind it as a percent-escape and rewrite the value.
+     *
+     * @param string $value
+     * @return string
+     */
+    public static function decodeEntitiesSafe($value)
+    {
+        if (empty($value)) {
+            return $value;
+        }
+
+        $value = htmlspecialchars_decode($value, ENT_QUOTES);
 
         // ENT_IGNORE so that if utf8 string has some errors, we simply discard invalid code unit sequences
         $style = ENT_QUOTES | ENT_IGNORE;
 
         // See changes in 5.4: https://nikic.github.com/2012/01/28/htmlspecialchars-improvements-in-PHP-5-4.html
         // Note: at some point we should change ENT_IGNORE to ENT_SUBSTITUTE
-        $value = htmlspecialchars($value, $style, 'UTF-8');
-
-        return $value;
+        return htmlspecialchars($value, $style, 'UTF-8');
     }
 
     /**
