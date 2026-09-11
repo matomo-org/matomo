@@ -167,19 +167,35 @@ return array(
         $isExceededUser = $c->get('test.vars.consumer') === 'exceededLicense';
         $isExpiredUser = $c->get('test.vars.consumer') === 'expiredLicense';
         $isValidUser = $c->get('test.vars.consumer') === 'validLicense';
+        $isValidUserWithoutLicenses = $c->get('test.vars.consumer') === 'validLicenseNoPlugins';
         $createAccountResponseCode = (int) $c->get('test.vars.createAccountResponseCode');
         $startFreeTrialSuccess = $c->get('test.vars.startFreeTrialSuccess');
 
         // which paid plugins fixture this consumer sees. The generic PaidPluginN info branch below
         // answers out of the same one, so a card and its modal cannot disagree. PaidPlugin1 is the
         // exception: it is served by its own info fixtures above, which can differ from this list.
-        $paidPluginsFixture = function () use ($service, $isExceededUser, $isExpiredUser, $isValidUser) {
+        $paidPluginsFixture = function () use (
+            $service,
+            $isExceededUser,
+            $isExpiredUser,
+            $isValidUser,
+            $isValidUserWithoutLicenses
+        ) {
             if ($isExceededUser) {
                 return 'v2.0_plugins-purchase_type-paid-num_users-201-access_token-consumer2_paid1.json';
             }
 
             if ($isExpiredUser) {
                 return 'v2.0_plugins-purchase_type-paid-access_token-consumer1_paid2_custom1.json';
+            }
+
+            // a license key is set, so the branch below would otherwise serve the list of a consumer
+            // licensing every paid plugin - which the Marketplace marks downloadable, and a
+            // downloadable plugin cannot be purchased, so no plugin would be trial eligible. This
+            // consumer holds no plugin license, so it sees the same rows an unlicensed one does.
+            // Matches the `plugins` response of MockConsumer::buildValidLicenseWithoutPluginLicenses().
+            if ($isValidUserWithoutLicenses) {
+                return 'v2.0_plugins-purchase_type-paid-access_token-notexistingtoken.json';
             }
 
             if ($service->hasAccessToken() || $isValidUser) {
@@ -189,7 +205,17 @@ return array(
             return 'v2.0_plugins-purchase_type-paid-access_token-notexistingtoken.json';
         };
 
-        $service->setOnDownloadCallback(function ($action, $params) use ($service, $isExceededUser, $startFreeTrialSuccess, $createAccountResponseCode, $paidPluginsFixture) {
+        $service->setOnDownloadCallback(function (
+            $action,
+            $params
+        ) use (
+            $service,
+            $isExceededUser,
+            $isValidUserWithoutLicenses,
+            $startFreeTrialSuccess,
+            $createAccountResponseCode,
+            $paidPluginsFixture
+        ) {
             if ($action === 'info') {
                 return $service->getFixtureContent('v2.0_info.json');
             } elseif ($action === 'consumer' && $service->getAccessToken() === 'valid') {
@@ -219,6 +245,11 @@ return array(
                 return updateUrlsInFixtureContent($content);
             } elseif ($action === 'plugins/PaidPlugin1/info' && $service->hasAccessToken() && $isExceededUser) {
                 $content = $service->getFixtureContent('v2.0_plugins_PaidPlugin1_info-purchase_type-paid-num_users-201-access_token-consumer2_paid1.json');
+                return updateUrlsInFixtureContent($content);
+            } elseif ($action === 'plugins/PaidPlugin1/info' && $isValidUserWithoutLicenses) {
+                // its own info fixtures are all licensed copies, so keep the modal agreeing with the
+                // card this consumer sees - see $paidPluginsFixture above
+                $content = $service->getFixtureContent('v2.0_plugins_PaidPlugin1_info.json');
                 return updateUrlsInFixtureContent($content);
             } elseif ($action === 'plugins/PaidPlugin1/info' && $service->hasAccessToken()) {
                 $content = $service->getFixtureContent('v2.0_plugins_PaidPlugin1_info-access_token-consumer3_paid1_custom2.json');
