@@ -167,7 +167,6 @@ class Marketplace extends \Piwik\Plugin
         $translationKeys[] = 'Marketplace_SortByAlpha';
         $translationKeys[] = 'Marketplace_SortByLastUpdated';
         $translationKeys[] = 'Marketplace_SortByNewest';
-        $translationKeys[] = 'Marketplace_SortByPopular';
         $translationKeys[] = 'Marketplace_SpecialOffer';
         $translationKeys[] = 'Marketplace_StartFreeTrial';
         $translationKeys[] = 'Marketplace_SubscriptionEndDate';

@@ -22,7 +22,6 @@ import {
   SORT_DEVELOPER,
   SORT_LAST_UPDATED,
   SORT_NEWEST,
-  SORT_POPULAR,
   TAB_ALL,
   TAB_BUNDLES,
   TAB_OTHER,
@@ -73,32 +72,6 @@ describe('Marketplace/pluginGrouping', () => {
         makePlugin({ name: 'fine', lastUpdatedRaw: '2024-06-08 00:00:00' }),
       ];
       expect(names(sortPlugins(plugins, SORT_LAST_UPDATED))).toEqual(['fine', 'broken']);
-    });
-
-    it('sorts a null download count last rather than treating it as zero', () => {
-      const plugins = [
-        makePlugin({ name: 'unknown', numDownloads: null }),
-        makePlugin({ name: 'none', numDownloads: 0 }),
-        makePlugin({ name: 'many', numDownloads: 500 }),
-      ];
-      expect(names(sortPlugins(plugins, SORT_POPULAR))).toEqual(['many', 'none', 'unknown']);
-    });
-
-    it('leaves paid plugins at the end of the popularity sort, because the API nulls their'
-      + ' download count', () => {
-      const plugins = [
-        makePlugin({ name: 'Paid', isPaid: true, numDownloads: null }),
-        makePlugin({ name: 'Free', numDownloads: 10 }),
-      ];
-      expect(names(sortPlugins(plugins, SORT_POPULAR))).toEqual(['Free', 'Paid']);
-    });
-
-    it('breaks every tie on the display name so the order is stable', () => {
-      const plugins = [
-        makePlugin({ name: 'Zebra', numDownloads: 5 }),
-        makePlugin({ name: 'Alpha', numDownloads: 5 }),
-      ];
-      expect(names(sortPlugins(plugins, SORT_POPULAR))).toEqual(['Alpha', 'Zebra']);
     });
 
     it('sorts by newest on createdDateTime', () => {

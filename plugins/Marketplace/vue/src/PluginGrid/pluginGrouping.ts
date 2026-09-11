@@ -31,9 +31,8 @@ export const TAB_OTHER = 'other';
  */
 export const CATEGORY_UNCATEGORISED = 'uncategorised';
 
-/** Sort methods. The first four match `Marketplace\Input\Sort`; developer is client-side only. */
+/** Sort methods. The first three match `Marketplace\Input\Sort`; developer is client-side only. */
 export const SORT_LAST_UPDATED = 'lastupdated';
-export const SORT_POPULAR = 'popular';
 export const SORT_NEWEST = 'newest';
 export const SORT_ALPHA = 'alpha';
 export const SORT_DEVELOPER = 'developer';
@@ -169,11 +168,6 @@ export function sortPlugins(plugins: PluginCard[], sort: string): PluginCard[] {
   const sorted = [...plugins];
 
   switch (sort) {
-    case SORT_POPULAR:
-      return sorted.sort((a, b) => descending(
-        typeof a.numDownloads === 'number' ? a.numDownloads : null,
-        typeof b.numDownloads === 'number' ? b.numDownloads : null,
-      ) || byName(a, b));
     case SORT_NEWEST:
       return sorted.sort(byDate('createdDateTime'));
     case SORT_ALPHA:

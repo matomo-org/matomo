@@ -46,12 +46,10 @@ import {
   SORT_DEVELOPER,
   SORT_LAST_UPDATED,
   SORT_NEWEST,
-  SORT_POPULAR,
 } from '../PluginGrid/pluginGrouping';
 
 const OPTIONS = [
   { id: SORT_LAST_UPDATED, labelKey: 'Marketplace_SortByLastUpdated' },
-  { id: SORT_POPULAR, labelKey: 'Marketplace_SortByPopular' },
   { id: SORT_NEWEST, labelKey: 'Marketplace_SortByNewest' },
   { id: SORT_ALPHA, labelKey: 'Marketplace_SortByAlpha' },
   { id: SORT_DEVELOPER, labelKey: 'Marketplace_Developer' },
