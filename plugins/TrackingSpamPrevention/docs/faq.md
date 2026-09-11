@@ -2,7 +2,7 @@
 
 __How do I allow specific IPs to not be blocked?__
 
-Say you are using AWS to replay your traffic using log analytics. When you have the block clouds feature enabled, all the requests from your AWS would be blocked. However, you can specifically allow your own IPs to be allowed and not blocked using the "IP allow list" setting in "Administration => General Settings". Enter one IP address or CIDR range per line.
+Say you are using AWS to replay your traffic using log analytics. When you have cloud provider IP range blocking enabled, all the requests from your AWS would be blocked. However, you can specifically allow your own IPs to be allowed and not blocked using the "IP allow list" setting in "Administration => General Settings". Enter one IP address or CIDR range per line.
 
 Alternatively, you can force a list of allowed IP ranges by editing your `config/config.ini.php` file like this (this overrides the setting, and the field is hidden from the UI while the override is in place):
 
@@ -43,15 +43,17 @@ __How can I block specific organisations from being tracked?__
 
 This can be useful if you are receiving spam requests from a provider that isn't automatically detected yet by this plugin.
 
-For this to work the "Block tracking requests from the cloud" setting must be enabled and a geolocation provider must be enabled.
+For this to work a geolocation provider must be enabled, and "Block tracking requests from Cloud hosting providers" in "Administration => General Settings" must be set to "Use custom organisation list". The "Organisation block list" starts from whatever list is already stored for your installation, which is Matomo's default set of hosting and datacenter providers until something changes it. Extend or trim it as needed. Note that a stored list stops following Matomo's maintained one, so if you find yourself on this option after upgrading and did not choose it, selecting "Use Matomo's default provider list" puts you back on the list Matomo keeps up to date.
 
-You can block any organisation (if the geolocation database you are using includes this information) using the "Organisation block list" setting in "Administration => General Settings". Enter one organisation per line. The list is pre-filled with a default set of hosting and datacenter providers, which you can extend or trim as needed.
+The other two options need no list of your own: "Use Matomo's default provider list" always matches against the current default set, and "Do not block Cloud hosting providers" turns organisation matching off. Your custom list is kept either way, so it is still there when you switch back.
 
 Alternatively, you can execute a command to block a new organisation like this:
 
 ```bash
 ./console trackingspamprevention:block-geo-ip-organisation --organisation-name="Example"
 ```
+
+When "Use Matomo's default provider list" is selected the command switches to the custom organisation list, so that the organisation it adds is actually matched. When blocking is turned off it leaves that alone and tells you the entry has no effect until you select the custom list.
 
 You can also force a list of blocked organisations by editing your `config/config.ini.php` file like this (this overrides the setting, and the field is hidden from the UI while the override is in place):
 
@@ -60,6 +62,8 @@ You can also force a list of blocked organisations by editing your `config/confi
 organisation_block_list[] = "ExampleOrg"
 organisation_block_list[] = "another example"
 ```
+
+An overridden list is used whenever organisation blocking is on, including under "Use Matomo's default provider list".
 
 Each organisation will be compared lower case and the organisation only needs to contain the configured value, it does not need to match it exactly.
 
