@@ -80,7 +80,6 @@
         "PluginUploadDisabled": "Manuell plugin uppladdning är inaktiverad i konfigurationsfilen. För att tillåta detta behöver konfigurationsfilen uppdateras med rätt inställningar av en administratör för systemet",
         "PluginVersionInfo": "%1$s från %2$s",
         "PluginWebsite": "Plugin sida",
-        "PriceExclTax": "%1$s %2$s ex. moms.",
         "PriceFromPerPeriod": "Från %1$s/%2$s",
         "RemoveLicenseKey": "Ta bort licensnyckeln",
         "RequestTrial": "Begär utvärderingstid",
