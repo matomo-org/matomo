@@ -87,7 +87,6 @@
         "PluginUploadDisabled": "Le téléchargement du plugin est désactivé dans le fichier de configuration. Afin d'activer cette fonctionnalité, veuillez mettre à jour votre configuration ou contacter votre administrateur",
         "PluginVersionInfo": "%1$s de %2$s",
         "PluginWebsite": "Site du composant additionnel",
-        "PriceExclTax": "%1$s %2$s tax. exc.",
         "PriceFromPerPeriod": "Pour %1$s / %2$s",
         "RemoveLicenseKey": "Supprimer la clé de licence",
         "RequestTrial": "Demander un essai",
