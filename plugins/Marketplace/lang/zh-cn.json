@@ -80,7 +80,6 @@
         "PluginUploadDisabled": "插件上传在配置文件中被禁用。 为了启用此功能，请更新您的配置或与管理员联系",
         "PluginVersionInfo": "%1$s 从 %2$s",
         "PluginWebsite": "插件网站",
-        "PriceExclTax": "%1$s%2$s不含税。",
         "PriceFromPerPeriod": "从%1$s/%2$s",
         "RemoveLicenseKey": "删除许可证密钥",
         "RequestTrial": "请求试用",

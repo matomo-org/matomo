@@ -87,7 +87,6 @@
         "PluginUploadDisabled": "Unggahan pengaya dinonaktifkan di berkas konfigurasi. Untuk mengaktifkan fitur ini, perbarui konfigurasi Anda atau hubungi administrator Anda",
         "PluginVersionInfo": "%1$s dari %2$s",
         "PluginWebsite": "Situs Web Pengaya",
-        "PriceExclTax": "%1$s %2$s tidak termasuk pajak.",
         "PriceFromPerPeriod": "Dari %1$s / %2$s",
         "RemoveLicenseKey": "Hapus kunci lisensi",
         "RequestTrial": "Minta uji coba",
