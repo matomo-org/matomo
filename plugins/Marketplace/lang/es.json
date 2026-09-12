@@ -87,7 +87,6 @@
         "PluginUploadDisabled": "La carga del complemento está deshabilitada en el archivo de configuración. Para habilitar esta función, actualice su configuración o comuníquese con su administrador",
         "PluginVersionInfo": "%1$s de %2$s",
         "PluginWebsite": "Sitio web del complemento",
-        "PriceExclTax": "%1$s %2$s impuestos excluidos.",
         "PriceFromPerPeriod": "Desde %1$s / %2$s",
         "RemoveLicenseKey": "Eliminar clave de licencia",
         "RequestTrial": "Solicitar prueba",
