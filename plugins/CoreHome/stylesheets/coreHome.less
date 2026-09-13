@@ -128,7 +128,10 @@ div .sparkline {
     margin-top: 10px;
 }
 
-.sparkline img {
+// `.sparklineImg` is the Vue Sparkline's image and styles itself — see Sparkline.less. Excluding
+// it here keeps all of its rules in one file. `:where()` adds no specificity, so legacy sparkline
+// images are unaffected.
+.sparkline img:where(:not(.sparklineImg)) {
     vertical-align: middle;
     padding-right: 10px;
     margin-top: 0;
