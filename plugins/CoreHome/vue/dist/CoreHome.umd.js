@@ -12407,20 +12407,23 @@ const {
     });
   }
 });
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/Sparkline/Sparkline.vue?vue&type=template&id=197ce498
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/Sparkline/Sparkline.vue?vue&type=template&id=557855d1
 
-const Sparklinevue_type_template_id_197ce498_hoisted_1 = ["src", "width", "height"];
-function Sparklinevue_type_template_id_197ce498_render(_ctx, _cache, $props, $setup, $data, $options) {
+const Sparklinevue_type_template_id_557855d1_hoisted_1 = ["src", "width", "height"];
+function Sparklinevue_type_template_id_557855d1_render(_ctx, _cache, $props, $setup, $data, $options) {
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("img", {
     class: "sparklineImg",
     loading: "lazy",
     alt: "",
     src: _ctx.sparklineUrl,
     width: _ctx.width,
-    height: _ctx.height
-  }, null, 8, Sparklinevue_type_template_id_197ce498_hoisted_1);
+    height: _ctx.height,
+    style: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeStyle"])(_ctx.sizeStyle),
+    onLoad: _cache[0] || (_cache[0] = $event => _ctx.hasLoaded = true),
+    onError: _cache[1] || (_cache[1] = $event => _ctx.hasLoaded = true)
+  }, null, 44, Sparklinevue_type_template_id_557855d1_hoisted_1);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Sparkline/Sparkline.vue?vue&type=template&id=197ce498
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Sparkline/Sparkline.vue?vue&type=template&id=557855d1
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/Sparkline/Sparkline.vue?vue&type=script&lang=ts
 
@@ -12437,10 +12440,15 @@ function Sparklinevue_type_template_id_197ce498_render(_ctx, _cache, $props, $se
     width: Number,
     height: Number
   },
+  // So a parent can show its own placeholder while an image is loading. Only changes are emitted,
+  // not the initial `true` — a parent that cares starts out in its loading state anyway.
+  emits: ['loadingChange'],
   data() {
     return {
       isWidget: false,
-      themeMode: Matomo_Matomo.getThemeMode()
+      themeMode: Matomo_Matomo.getThemeMode(),
+      // False while an image is on its way, so a parent can show a placeholder instead.
+      hasLoaded: false
     };
   },
   mounted() {
@@ -12450,7 +12458,29 @@ function Sparklinevue_type_template_id_197ce498_render(_ctx, _cache, $props, $se
   beforeUnmount() {
     window.removeEventListener('themeModeChange', this.onThemeModeChange);
   },
+  watch: {
+    // A new url means a new request, so go back to loading until it arrives. The browser keeps
+    // showing the current image until then, so nothing goes blank.
+    sparklineUrl() {
+      this.hasLoaded = false;
+    },
+    hasLoaded(value) {
+      this.$emit('loadingChange', !value);
+    }
+  },
   computed: {
+    // Draw the image at the size the props ask for. The width/height attributes alone can't do
+    // this, because any CSS rule beats them — including the 100x25 default in Sparkline.less.
+    sizeStyle() {
+      const {
+        width,
+        height
+      } = this;
+      return typeof width === 'number' && typeof height === 'number' ? {
+        width: `${width}px`,
+        height: `${height}px`
+      } : undefined;
+    },
     sparklineUrl() {
       const {
         seriesIndices,
@@ -12462,8 +12492,7 @@ function Sparklinevue_type_template_id_197ce498_render(_ctx, _cache, $props, $se
         sparklineColors.lineColor = sparklineColors.lineColor.filter((c, index) => seriesIndices.indexOf(index) !== -1);
       }
       const colors = JSON.stringify(sparklineColors);
-      // The width/height props are the displayed size; the PNG is rendered at twice that so it
-      // stays crisp on hi-DPI screens.
+      // Ask for twice the displayed size, so the image stays sharp on hi-DPI screens.
       const sizeParams = Object.assign(Object.assign({}, typeof this.width === 'number' ? {
         width: this.width * 2
       } : {}), typeof this.height === 'number' ? {
@@ -12520,7 +12549,7 @@ function Sparklinevue_type_template_id_197ce498_render(_ctx, _cache, $props, $se
 
 
 
-Sparklinevue_type_script_lang_ts.render = Sparklinevue_type_template_id_197ce498_render
+Sparklinevue_type_script_lang_ts.render = Sparklinevue_type_template_id_557855d1_render
 
 /* harmony default export */ var Sparkline = (Sparklinevue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/Progressbar/Progressbar.vue?vue&type=template&id=f800d6ec
