@@ -9,7 +9,7 @@
   <div class="sparklineSegmentComparisonRow">
     <span
       class="sparklineSegmentComparisonRow__chip"
-      :title="segmentLabel"
+      :title="segmentLabelTitle"
     >{{ segmentLabel }}</span>
     <PeriodColumns :entry="segment" />
     <!-- The slot's measured size is passed to Sparkline, which draws the image at exactly that
@@ -43,7 +43,7 @@ import {
   PropType,
   ref,
 } from 'vue';
-import { Sparkline } from 'CoreHome';
+import { Matomo, Sparkline } from 'CoreHome';
 import PeriodColumns from './PeriodColumns.vue';
 import useSparklineSlotSize from './useSparklineSlotSize';
 import { SparklineEntry } from './types';
@@ -72,6 +72,9 @@ export default defineComponent({
     // Segment name (compareSegmentPretty); always populated in segment comparison.
     const segmentLabel = computed(() => props.segment.title || '');
 
+    // Vue escapes the chip's text, the title attribute is read back and rendered as tooltip HTML.
+    const segmentLabelTitle = computed(() => Matomo.helper.htmlEntities(segmentLabel.value));
+
     // Sparkline size, measured from the slot it will be drawn in.
     const sparklineSlot = ref<HTMLElement | null>(null);
     const {
@@ -90,6 +93,7 @@ export default defineComponent({
 
     return {
       segmentLabel,
+      segmentLabelTitle,
       sparklineSlot,
       sparklineWidth,
       sparklineHeight,

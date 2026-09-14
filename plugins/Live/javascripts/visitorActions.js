@@ -27,8 +27,7 @@ function initializeVisitorActions(elem) {
             if ($(this).hasClass('visitorLogIconWithDetails')) {
                 return $('<ul>').html($('ul', $(this)).html());
             }
-            var title = $(this).attr('title');
-            return $('<a>').text( title ).html().replace(/\n/g, '<br />');
+            return window.CoreHome.tooltipContent.call(this);
         },
         tooltipClass: 'small',
         open: function() { tooltipIsOpened = true; },
