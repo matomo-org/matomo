@@ -157,7 +157,7 @@ class ResultFingerprintTest extends TestCase
         self::assertNotSame($one['digest'], $other['digest']);
     }
 
-    public function testArchiveDigestSeesReportContentsAndTheirOrder(): void
+    public function testArchiveDigestSeesReportContents(): void
     {
         $rows = [['label' => '/news/', 2 => 9], ['label' => '/sport/', 2 => 4]];
 
@@ -171,13 +171,91 @@ class ResultFingerprintTest extends TestCase
                 [['label' => '/news/', 2 => 8], ['label' => '/sport/', 2 => 4]]
             ))]],
         ]);
-        $reordered = ResultFingerprint::ofArchivedReports([
+        $changedMembership = ResultFingerprint::ofArchivedReports([
             'numeric' => [],
-            'blob' => [['name' => 'Actions_actions', 'value' => gzcompress(serialize(array_reverse($rows)))]],
+            'blob' => [['name' => 'Actions_actions', 'value' => gzcompress(serialize(
+                [['label' => '/news/', 2 => 9], ['label' => '/weather/', 2 => 4]]
+            ))]],
         ]);
 
-        self::assertNotSame($base['digest'], $changedValue['digest']);
-        self::assertNotSame($base['digest'], $reordered['digest'], 'ranking is part of the report');
+        self::assertNotSame($base['digest'], $changedValue['digest'], 'a changed metric is a changed report');
+        self::assertNotSame($base['digest'], $changedMembership['digest'], 'a changed row is a changed report');
+    }
+
+    /**
+     * Both engines emit the same rows in a different order whenever a metric ties, and a report
+     * is sorted again when it is read, so the stored order is an artifact of the aggregation.
+     * Comparing it would report every Events report as a disagreement and mean nothing - the
+     * same failure mode as the visit count it replaced, in the other direction.
+     */
+    public function testArchiveDigestIgnoresTheOrderRowsWereStoredIn(): void
+    {
+        $rows = [['label' => 'category-108', 2 => 1], ['label' => 'category-6', 2 => 1]];
+
+        $one = ResultFingerprint::ofArchivedReports([
+            'numeric' => [],
+            'blob' => [['name' => 'Events_name_category', 'value' => gzcompress(serialize($rows))]],
+        ]);
+        $reordered = ResultFingerprint::ofArchivedReports([
+            'numeric' => [],
+            'blob' => [['name' => 'Events_name_category', 'value' => gzcompress(serialize(array_reverse($rows)))]],
+        ]);
+
+        self::assertSame($one['digest'], $reordered['digest']);
+    }
+
+    /**
+     * A report blob nests: the outer value maps subtable id to a STRING that is itself a
+     * serialized row set. Comparing those strings as text makes every scalar the two engines
+     * render differently look like a disagreement - MySQL writes s:1:"1" where ClickHouse
+     * writes i:1 - which is what the whole normalisation exists to absorb. Taken from the bytes
+     * the two engines actually wrote for Events_name_category on 2026-08-03.
+     */
+    public function testArchiveDigestRecursesIntoNestedSerializedSubtables(): void
+    {
+        $subtable = static function (string $columnValue): string {
+            return serialize([
+                400 => serialize([
+                    [[ 'label' => 'category-108', 1 => 1, 2 => $columnValue ], [], null],
+                ]),
+            ]);
+        };
+
+        $mysql = ResultFingerprint::ofArchivedReports([
+            'numeric' => [],
+            'blob' => [['name' => 'Events_name_category', 'value' => gzcompress($subtable('1'))]],
+        ]);
+        $clickhouse = ResultFingerprint::ofArchivedReports([
+            'numeric' => [],
+            'blob' => [['name' => 'Events_name_category', 'value' => gzcompress(serialize([
+                400 => serialize([
+                    [[ 'label' => 'category-108', 1 => 1, 2 => 1 ], [], null],
+                ]),
+            ]))]],
+        ]);
+
+        self::assertSame($mysql['digest'], $clickhouse['digest']);
+    }
+
+    /**
+     * A label can legitimately start with a serialization marker. It must stay a label.
+     */
+    public function testALabelThatLooksLikeSerializedDataIsNotUnserialized(): void
+    {
+        $one = ResultFingerprint::ofArchivedReports([
+            'numeric' => [],
+            'blob' => [['name' => 'Actions_actions', 'value' => gzcompress(serialize(
+                [['label' => 'a:1 ratio', 2 => 4]]
+            ))]],
+        ]);
+        $other = ResultFingerprint::ofArchivedReports([
+            'numeric' => [],
+            'blob' => [['name' => 'Actions_actions', 'value' => gzcompress(serialize(
+                [['label' => 'i:2 ratio', 2 => 4]]
+            ))]],
+        ]);
+
+        self::assertNotSame($one['digest'], $other['digest']);
     }
 
     /**

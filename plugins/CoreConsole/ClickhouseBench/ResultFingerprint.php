@@ -116,8 +116,10 @@ final class ResultFingerprint
      *   different scale and type ('15' against 15, 1.0 against '1'), and a sum of floats
      *   accumulated in a different order can differ in the last bits. Six places is finer
      *   than a hundredth of a cent, so a real difference in a revenue total still shows.
-     * - report rows keep their order. Order is the ranking, which is part of the report, and
-     *   this matches how the visit list is fingerprinted.
+     * - report rows are compared as a set, not a sequence. Both engines emit the same rows in
+     *   a different order whenever a metric ties - and a report is sorted again when it is
+     *   read, so the stored order is an artifact of the aggregation rather than the answer.
+     *   A difference that matters still shows, because it changes which rows are present.
      *
      * @param array{
      *     numeric: array<int, array{name: string, value: mixed}>,
@@ -176,21 +178,35 @@ final class ResultFingerprint
             $raw = $value;
         }
 
-        // Shape check before unserialising, for two reasons: a blob that did not decode is a
-        // case this method handles rather than an error, and unserialize() warns on input that
-        // was never serialized at all. Serialized values always open with their type marker.
-        if (!preg_match('~^[abdisN]:~', $raw)) {
-            return 'raw:' . md5($raw);
-        }
-
-        // safe_unserialize() rather than unserialize(): the blob is data out of the database
-        // and plain unserialize() would build objects out of whatever it names.
-        $decoded = Common::safe_unserialize($raw);
-        if ($decoded === false && $raw !== serialize(false)) {
+        $decoded = self::unserializeOrNull($raw);
+        if ($decoded === null) {
             return 'raw:' . md5($raw);
         }
 
         return md5((string) json_encode(self::canonicalValue($decoded)));
+    }
+
+    /**
+     * @return mixed|null null when $value is not a serialized PHP value
+     */
+    private static function unserializeOrNull(string $value)
+    {
+        // Shape check before unserialising, for two reasons: a blob that did not decode is a
+        // case this class handles rather than an error, and unserialize() warns on input that
+        // was never serialized at all. A report label can quite legitimately begin "a:" or
+        // "i:", so the marker is matched in full rather than by its first letter.
+        if (!preg_match('~^(a:\d+:\{|s:\d+:"|i:-?\d+;|d:[-\d.eE+]+;|b:[01];|N;)~', $value)) {
+            return null;
+        }
+
+        // safe_unserialize() rather than unserialize(): a blob is data out of the database and
+        // plain unserialize() would build objects out of whatever it names.
+        $decoded = Common::safe_unserialize($value);
+        if ($decoded === false && $value !== 'b:0;') {
+            return null;
+        }
+
+        return $decoded;
     }
 
     /**
@@ -199,15 +215,48 @@ final class ResultFingerprint
      */
     private static function canonicalValue($value)
     {
-        if (is_array($value)) {
-            $out = [];
-            foreach ($value as $key => $item) {
-                $out[is_string($key) ? $key : (string) $key] = self::canonicalValue($item);
+        // A report blob nests: the outer value is a map of subtable id to a STRING that is
+        // itself a serialized row set. Without recursing into those strings the whole subtable
+        // is compared as raw text, and every formatting difference between the two engines -
+        // s:1:"1" against i:1 - comes back as a difference in the answer.
+        if (is_string($value)) {
+            $inner = self::unserializeOrNull($value);
+            if ($inner !== null) {
+                return self::canonicalValue($inner);
             }
-            return $out;
         }
 
-        return self::canonicalScalar($value);
+        if (!is_array($value)) {
+            return self::canonicalScalar($value);
+        }
+
+        $out = [];
+        foreach ($value as $key => $item) {
+            $out[(string) $key] = self::canonicalValue($item);
+        }
+
+        if (self::isList($value)) {
+            $rows = array_values($out);
+            usort($rows, static function ($left, $right): int {
+                return strcmp((string) json_encode($left), (string) json_encode($right));
+            });
+
+            return $rows;
+        }
+
+        // Keys here are meaningful - subtable ids, column ids, 'label' - so they are kept and
+        // only their order is normalised.
+        ksort($out);
+
+        return $out;
+    }
+
+    /**
+     * @param array<mixed> $value
+     */
+    private static function isList(array $value): bool
+    {
+        return $value === [] || array_keys($value) === range(0, count($value) - 1);
     }
 
     /**
