@@ -167,6 +167,17 @@ describe('CoreHome/SearchInput', () => {
     expect(wrapper.emitted('update:modelValue')).toEqual([['日本']]);
   });
 
+  it('offers nothing to clear while the field is empty', () => {
+    const wrapper = mount(SearchInput, {
+      props: {
+        modelValue: '',
+        showClear: true,
+      },
+    });
+
+    expect(wrapper.find('.mtm-searchInput__clear').exists()).toBe(false);
+  });
+
   it('gives the icon-only clear button an accessible name', () => {
     const wrapper = mount(SearchInput, {
       props: {
