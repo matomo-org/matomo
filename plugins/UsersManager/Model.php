@@ -765,14 +765,19 @@ class Model
         ]);
     }
 
+    /**
+     * Attaches a copy-and-paste invitation link to a pending user.
+     *
+     * @return bool Whether the link was attached to the invitation the caller read.
+     */
     public function attachInviteLinkToken(
         string $userLogin,
+        #[\SensitiveParameter]
         string $token,
         string $expectedInviteToken,
         int $expiryInDays
     ): bool {
-        // Pin the write to the pending invitation the caller read, so it fails rather than land on an
-        // account whose invitation has since changed.
+        // The link is only attached while the account still carries the invitation the caller read.
         $sql = sprintf(
             'UPDATE `%s`
              SET `invite_link_token` = ?,
@@ -797,9 +802,12 @@ class Model
      * Used by the password reset flow, which must not extend an invitation. Compare with
      * reissueInviteTokenForPendingUser(), which renews the expiry because resending an invitation is
      * meant to revive a lapsed one.
+     *
+     * @return bool Whether the token was replaced on the invitation the caller read.
      */
     public function replaceInviteTokenForPendingUser(
         string $userLogin,
+        #[\SensitiveParameter]
         string $token,
         string $expectedInviteToken,
         string $expectedEmail
@@ -831,37 +839,104 @@ class Model
      *
      * Unlike replaceInviteTokenForPendingUser() this carries no expiry predicate, because resending an
      * invitation is meant to revive one that has already lapsed. Pass the current address as $email to
-     * leave it where it is.
+     * leave it where it is, and $hashedPassword when the same call is also setting a password.
+     *
+     * @return bool Whether the invitation the caller read was the one reissued.
      */
     public function reissueInviteTokenForPendingUser(
         string $userLogin,
+        #[\SensitiveParameter]
         string $token,
         string $expectedInviteToken,
         string $expectedEmail,
         string $email,
-        int $expiryInDays
+        int $expiryInDays,
+        #[\SensitiveParameter]
+        ?string $hashedPassword = null
     ): bool {
+        $set = [
+            '`invite_token` = ?',
+            '`invite_link_token` = NULL',
+            '`invite_expired_at` = ?',
+            '`email` = ?',
+        ];
+        $bind = [
+            $this->hashTokenAuth($token),
+            Date::now()->addDay($expiryInDays)->getDatetime(),
+            $email,
+        ];
+
+        // A password given alongside the address rides on the same statement as everything else.
+        // ts_password_modified is set explicitly here because updateUserFields() is not doing it for us.
+        if (null !== $hashedPassword) {
+            $set[] = '`password` = ?';
+            $set[] = '`ts_password_modified` = ?';
+            $bind[] = $hashedPassword;
+            $bind[] = Date::now()->getDatetime();
+        }
+
         // Rotating the token and moving the address are one statement, so an invitation can never be live
         // for an address the account no longer has.
         $sql = sprintf(
             'UPDATE `%s`
-             SET `invite_token` = ?,
-                 `invite_link_token` = NULL,
-                 `invite_expired_at` = ?,
-                 `email` = ?
+             SET %s
              WHERE `login` = ?
                AND `invite_token` = ?
                AND `email` = ?',
-            $this->userTable
+            $this->userTable,
+            implode(', ', $set)
         );
-        $query = $this->getDb()->query($sql, [
-            $this->hashTokenAuth($token),
-            Date::now()->addDay($expiryInDays)->getDatetime(),
-            $email,
+        $query = $this->getDb()->query($sql, array_merge($bind, [
             $userLogin,
             $expectedInviteToken,
             $expectedEmail,
-        ]);
+        ]));
+
+        return $query->rowCount() === 1;
+    }
+
+    /**
+     * Updates a pending user's address and password while leaving their invitation alone.
+     *
+     * The write is pinned to the invitation the caller read, so it only lands while the account is still
+     * that same pending user. Only call it when there is something to write: a statement that changes no
+     * column reports no affected row, and is indistinguishable from one that matched nothing.
+     *
+     * @return bool Whether the pending account the caller read was the one updated.
+     */
+    public function updatePendingUser(
+        string $userLogin,
+        #[\SensitiveParameter]
+        ?string $hashedPassword,
+        string $email,
+        string $expectedInviteToken,
+        string $expectedEmail
+    ): bool {
+        $set = ['`email` = ?'];
+        $bind = [$email];
+
+        // ts_password_modified is set explicitly here because updateUserFields() is not doing it for us
+        if (!empty($hashedPassword)) {
+            $set[] = '`password` = ?';
+            $set[] = '`ts_password_modified` = ?';
+            $bind[] = $hashedPassword;
+            $bind[] = Date::now()->getDatetime();
+        }
+
+        $sql = sprintf(
+            'UPDATE `%s`
+             SET %s
+             WHERE `login` = ?
+               AND `invite_token` = ?
+               AND `email` = ?',
+            $this->userTable,
+            implode(', ', $set)
+        );
+        $query = $this->getDb()->query($sql, array_merge($bind, [
+            $userLogin,
+            $expectedInviteToken,
+            $expectedEmail,
+        ]));
 
         return $query->rowCount() === 1;
     }

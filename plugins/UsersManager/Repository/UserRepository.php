@@ -113,31 +113,40 @@ class UserRepository
     /**
      * Issues a fresh invitation to a pending user, optionally moving them to a new address.
      *
-     * @return bool Whether the invitation was reissued. False means the account stopped being the pending
-     *              user that was read a moment ago, in which case no mail is sent.
+     * The expected values have to come from the read the caller gated on, so the write can only land on
+     * that same pending invitation. A password belonging to the same call goes in on that same write.
+     *
+     * @return bool Whether the invitation was reissued. False means the account is no longer the pending
+     *              user the caller read, in which case nothing was written and no mail is sent.
      */
-    public function reInviteUser(string $userLogin, int $expiryInDays, ?string $newEmail = null): bool
-    {
-        $user = $this->model->getUser($userLogin);
-        $email = $newEmail ?? $user['email'];
+    public function reInviteUser(
+        string $userLogin,
+        string $expectedInviteToken,
+        string $expectedEmail,
+        int $expiryInDays,
+        ?string $newEmail = null,
+        #[\SensitiveParameter]
+        ?string $hashedPassword = null
+    ): bool {
+        $email = $newEmail ?? $expectedEmail;
         $generatedToken = $this->model->generateRandomInviteToken();
 
         if (
             !$this->model->reissueInviteTokenForPendingUser(
                 $userLogin,
                 $generatedToken,
-                $user['invite_token'],
-                $user['email'],
+                $expectedInviteToken,
+                $expectedEmail,
                 $email,
-                $expiryInDays
+                $expiryInDays,
+                $hashedPassword
             )
         ) {
             return false;
         }
 
         // notify the address the invitation now belongs to, not the one it was read with
-        $user['email'] = $email;
-        $this->sendInvitationEmail($user, $generatedToken, $expiryInDays);
+        $this->sendInvitationEmail(['login' => $userLogin, 'email' => $email], $generatedToken, $expiryInDays);
 
         return true;
     }
