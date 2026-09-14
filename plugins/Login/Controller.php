@@ -89,6 +89,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     private $whatsNewProvider;
 
+    /**
+     * @var UsersModel
+     */
     private $usersModel;
 
     /**
