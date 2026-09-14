@@ -412,6 +412,30 @@ class Twig
             ['is_safe' => ['all']]
         );
         $this->twig->addFilter($rawSafeDecoded);
+
+        $rawSafeDecodedEntities = new TwigFilter(
+            'rawSafeDecodedEntities',
+            /**
+             * Like rawSafeDecoded, but for a value that is already formatted for display rather
+             * than a label: it resolves the entities the formatter wrote and escapes the rest,
+             * without reading the value as a URL.
+             *
+             * @param ?string $string
+             * @return string
+             */
+            function ($string) {
+                if ($string === null) {
+                    return '';
+                }
+
+                $nonBreakingSpace = html_entity_decode('&nbsp;', ENT_COMPAT | ENT_HTML401, 'UTF-8');
+                $string = str_replace('&nbsp;', $nonBreakingSpace, $string);
+
+                return SafeDecodeLabel::decodeEntitiesSafe($string);
+            },
+            ['is_safe' => ['all']]
+        );
+        $this->twig->addFilter($rawSafeDecodedEntities);
     }
 
     protected function addFilterPrettyDate(): void

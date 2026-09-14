@@ -1,7 +1,6 @@
-.autocompleteMatched {
-  color: #5256BE;
-  font-weight: bold;
-}
+// Only the selector button and its placement in a page belong here. The dropdown is painted by
+// the generic `.mtm-dropdownPanel` and `.mtm-searchInput` blocks.
+
 .siteSelector {
   width: auto;
 
@@ -14,14 +13,6 @@
       color: #9e9e9e;
       font-style: italic;
     }
-  }
-  .dropdown {
-    min-width: 210px;
-    padding-top: 0;
-  }
-
-  .ui-widget.ui-widget-content {
-    border: none;
   }
 }
 
@@ -53,18 +44,6 @@
   }
 }
 
-.siteSelector .custom_select_ul_list li a,
-.siteSelector .custom_select_all a,
-.siteSelector .custom_select_main_link > span {
-  display: inline-block;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  padding: 0;
-  color: @theme-color-text;
-  width: 100%;
-}
-
 .siteSelector.piwikSelector a.title {
   > span {
     max-width: 161px;
@@ -85,94 +64,6 @@
   span {
     vertical-align: top;
   }
-}
-
-.siteSelector .custom_select_ul_list,
-.siteSelector ul.ui-autocomplete {
-  position: relative;
-  list-style: none;
-  line-height: 18px;
-  padding: 0 0 15px 0;
-  box-shadow: none !important;
-}
-
-.siteSelector .custom_select_ul_list {
-  padding: 0 0 5px 0;
-}
-
-.siteSelector .custom_select_ul_list li,
-.siteSelector .custom_select_all {
-  a, div {
-    line-height: 18px;
-    height: auto;
-    display: block;
-    text-decoration: none;
-  }
-
-  div.noresult {
-    font-style: italic;
-    margin-bottom: 5px;
-  }
-}
-
-.siteSelector .custom_select_ul_list li a:hover,
-.siteSelector .custom_select_all a:hover {
-  background: @theme-color-background-tinyContrast;
-}
-
-.siteSelector .custom_select_all a {
-  text-decoration: none;
-  &:hover {
-    text-decoration: none;
-  }
-}
-
-.siteSelector .custom_select_search {
-  margin: 0 0 8px 0;
-  height: 33px;
-  display: block;
-  white-space: nowrap;
-  position: relative;
-
-  .inp {
-    vertical-align: top;
-    width: 100%;
-    padding: 7px 6px !important;
-    border: 1px solid #d0d0d0 !important;
-    background: transparent !important;
-    font-size: 11px !important;
-    color: @theme-color-text !important;
-  }
-  .reset {
-    position: absolute;
-    top: 8px;
-    right: 4px;
-    cursor: pointer;
-  }
-}
-
-.sites_selector_container>.siteSelector {
-  padding-left: 12px;
-}
-
-.custom_selector_container .ui-menu-item,
-.custom_selector_container .ui-menu-item a {
-  float:none;position:static
-}
-
-.custom_select_block_show {
-  height: auto;
-  overflow: visible;
-  max-width:inherit;
-}
-
-.sites_selector_container {
-  padding-top: 5px;
-}
-
-.siteSelect a {
-  white-space: normal;
-  text-align: left;
 }
 
 .siteSelector.disabled {

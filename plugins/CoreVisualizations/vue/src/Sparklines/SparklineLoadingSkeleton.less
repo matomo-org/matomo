@@ -1,0 +1,31 @@
+// A placeholder for a sparkline that hasn't arrived yet: a soft block with a highlight sweeping
+// across it. Owned by no component — put it on whichever element should hold the space.
+.sparklineLoadingSkeleton {
+  border-radius: 4px;
+  background-color: @theme-color-background-tinyContrast;
+  background-image: linear-gradient(
+    90deg,
+    @theme-color-background-tinyContrast 0%,
+    @theme-color-background-contrast 50%,
+    @theme-color-background-tinyContrast 100%
+  );
+  // Wider than the element, to give the highlight somewhere to travel.
+  background-size: 200% 100%;
+  animation: sparklineLoadingSkeleton__sweep 1.4s ease-in-out infinite;
+
+  // Drop the animation for anyone who asked for less motion; the plain block still reads as
+  // "nothing here yet".
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@keyframes sparklineLoadingSkeleton__sweep {
+  from {
+    background-position: 200% 0;
+  }
+
+  to {
+    background-position: -200% 0;
+  }
+}

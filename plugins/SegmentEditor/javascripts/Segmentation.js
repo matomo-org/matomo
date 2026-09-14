@@ -313,7 +313,12 @@ Segmentation = (function($) {
 
             $("body").on("keyup", function (e) {
                 if(e.keyCode == "27" || e.which === 27) {
-                    if (self.target.find('[uicontrol="expandable-select"] .expandableList:visible').length) {
+                    // The dimension list is rendered into the body, so it is no longer a descendant
+                    // of this editor and cannot be reached from self.target. The name keeps this to
+                    // the segment editor's own lists rather than any other expandable select on the
+                    // page, but every AND/OR row renders one, so it matches several: :visible is
+                    // what narrows it to the open one and cannot be dropped.
+                    if ($('.expandableSelector__list[data-name="segments"]:visible').length) {
                         return;
                     }
                     if (Piwik_Popover.isOpen()) {
@@ -1076,6 +1081,13 @@ $(document).ready(function() {
         });
 
         this.onMouseUp = function(e) {
+            // The option list is rendered at the page level, so a click inside it is not inside
+            // .segment-element and would read as a click away from the editor, closing it and
+            // discarding the segment being built. Same reasoning as the escape guard above.
+            if ($(e.target).closest('.expandableSelector__list[data-name="segments"]').length) {
+                return;
+            }
+
             if ($(e.target).closest('.segment-element').length === 0
                 && !$(e.target).is('.ui-menu-item-wrapper')
                 && !$(e.target).is('.segment-element')

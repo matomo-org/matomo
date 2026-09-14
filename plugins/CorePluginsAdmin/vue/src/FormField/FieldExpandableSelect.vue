@@ -12,69 +12,73 @@
       class="select-wrapper expandableSelector__wrapper"
       :class="{ 'expandableSelector__wrapper--expanded': showSelect }"
     >
-      <input type="text" class="select-dropdown" readonly :value="modelValueText"/>
+      <input type="text" class="select-dropdown" readonly :value="modelValueText" />
       <span class="expandableSelector__chevron icon icon-chevron-down" />
     </div>
 
-    <div
-      v-show="showSelect"
-      class="expandableList"
-      :class="{ 'expandableSelector__list--above': openAbove }"
-      ref="expandableList"
-    >
-
-      <div class="searchContainer">
-        <input
-          type="text"
-          placeholder="Search"
-          v-model="searchTerm"
-          class="expandableSearch browser-default"
-          v-focus-if="{ focused: showSelect }"
-        />
-      </div>
-      <ul
-        class="collection firstLevel"
-        ref="optionsList"
-        :style="optionsListStyle"
+    <Teleport to="body">
+      <div
+        v-show="showSelect"
+        class="expandableList expandableSelector__list"
+        :class="{ 'expandableSelector__list--above': openAbove }"
+        :data-name="name"
+        :style="listStyle"
+        ref="expandableList"
       >
-        <li
-          v-for="(options, index) in availableOptions"
-          class="collection-item"
-          v-show="visibleChildren(options).length"
-          :key="index"
-        >
-          <h4
-            class="expandableListCategory"
-            @click="onCategoryClicked(options)"
-          >
-            {{ options.group }}
-            <span
-              class="secondary-content"
-              :class='{
-                "icon-chevron-right": showCategory !== options.group,
-                "icon-chevron-down": showCategory === options.group
-              }'
-            />
-          </h4>
 
-          <ul v-show="showCategory === options.group || searchTerm" class="collection secondLevel">
-            <li
-              class="expandableListItem collection-item valign-wrapper"
-              v-for="children in visibleChildren(options)"
-              :key="children.key"
-              @click="onValueClicked(children)"
+        <div class="searchContainer">
+          <input
+            type="text"
+            placeholder="Search"
+            v-model="searchTerm"
+            class="expandableSearch browser-default"
+            v-focus-if="{ focused: showSelect }"
+          />
+        </div>
+        <ul
+          class="collection firstLevel"
+          ref="optionsList"
+          :style="optionsListStyle"
+        >
+          <li
+            v-for="(options, index) in availableOptions"
+            class="collection-item"
+            v-show="visibleChildren(options).length"
+            :key="index"
+          >
+            <h4
+              class="expandableListCategory"
+              @click="onCategoryClicked(options)"
             >
-              <span class="primary-content">{{ children.value }}</span>
+              {{ options.group }}
               <span
-                v-show="children.tooltip"
-                :title="children.tooltip"
-                class="secondary-content icon-help"
-              ></span>
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </div>
+                class="secondary-content"
+                :class='{
+                  "icon-chevron-right": showCategory !== options.group,
+                  "icon-chevron-down": showCategory === options.group,
+                }'
+              />
+            </h4>
+
+            <ul v-show="showCategory === options.group || searchTerm" class="collection secondLevel">
+              <li
+                class="expandableListItem collection-item valign-wrapper"
+                v-for="children in visibleChildren(options)"
+                :key="children.key"
+                @click="onValueClicked(children)"
+              >
+                <span class="primary-content">{{ children.value }}</span>
+                <span
+                  v-show="children.tooltip"
+                  :title="children.tooltip"
+                  class="secondary-content icon-help"
+                />
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </Teleport>
   </div>
 </template>
 
@@ -82,6 +86,12 @@
 import { defineComponent, PropType } from 'vue';
 import { Matomo, FocusAnywhereButHere, FocusIf } from 'CoreHome';
 import AbortableModifiers from './AbortableModifiers';
+
+/** Space left between the field and its list. Kept in step with FieldSelect's DROPDOWN_GAP. */
+const LIST_GAP = 8;
+
+/** Gutter kept between the list and the edges of the viewport it is positioned against. */
+const VIEWPORT_MARGIN = 16;
 
 export interface SelectValueInfo {
   key: unknown;
@@ -147,6 +157,9 @@ export default defineComponent({
     modelModifiers: Object,
     availableOptions: Array as PropType<OptionGroup[]>,
     title: String,
+    // the list is rendered at the page level, away from anything identifying the field it belongs
+    // to, so the field's name is carried across as a data attribute for callers to target
+    name: String,
     searchOnGroup: {
       type: Boolean,
       default: false,
@@ -158,6 +171,9 @@ export default defineComponent({
   },
   inheritAttrs: false,
   emits: ['update:modelValue'],
+  beforeUnmount() {
+    this.trackTrigger(false);
+  },
   data() {
     return {
       showSelect: false,
@@ -165,6 +181,10 @@ export default defineComponent({
       showCategory: '',
       optionsListMaxHeight: 0,
       openAbove: false,
+      triggerResize: null as ResizeObserver|null,
+      listStyle: {} as Record<string, string>,
+      // the list is teleported out of this component, so a click in it reads as a click outside
+      isMouseDownInsideList: false,
     };
   },
   computed: {
@@ -207,6 +227,96 @@ export default defineComponent({
 
       if (this.showSelect) {
         this.$nextTick(() => this.fitOptionsList());
+        this.trackTrigger(true);
+        return;
+      }
+
+      this.trackTrigger(false);
+    },
+    /**
+     * A floating list is positioned against the viewport, so anything that moves the field has to
+     * move the list with it. Capture, because the ancestor that scrolls is usually not the window.
+     */
+    trackTrigger(isOpen: boolean) {
+      const method = isOpen ? 'addEventListener' : 'removeEventListener';
+      window[method]('scroll', this.fitOptionsList, true);
+      window[method]('resize', this.fitOptionsList);
+      window[method]('mousedown', this.noteMouseDownTarget, true);
+
+      if (this.triggerResize) {
+        this.triggerResize.disconnect();
+        this.triggerResize = null;
+      }
+
+      if (!isOpen) {
+        return;
+      }
+
+      const wrapper = (this.$el as HTMLElement).querySelector('.select-wrapper');
+
+      // The field settles to its final height a moment after opening, so a list placed against
+      // the height it had at that instant ends up a pixel out. Follow the field's size instead of
+      // guessing the frame it stops changing on. Where the observer is missing the scroll and
+      // resize listeners above still apply; only the settling correction is lost.
+      if (wrapper && typeof ResizeObserver !== 'undefined') {
+        this.triggerResize = new ResizeObserver(() => this.fitOptionsList());
+        this.triggerResize.observe(wrapper);
+      }
+    },
+    /**
+     * Recorded on every press rather than only on presses in the list: the directive skips its
+     * outside-click handler when the pointer was used on a scrollbar, so a flag that is only ever
+     * set would still be standing when the next genuine outside click arrived, and swallow it.
+     */
+    noteMouseDownTarget(event: MouseEvent) {
+      const list = this.$refs.expandableList as HTMLElement|undefined;
+
+      this.isMouseDownInsideList = !!list && list.contains(event.target as HTMLElement);
+    },
+    positionList() {
+      const wrapper = (this.$el as HTMLElement).querySelector('.select-wrapper');
+
+      if (!wrapper) {
+        return;
+      }
+
+      const rect = wrapper.getBoundingClientRect();
+      const dropdown = this.$refs.expandableList as HTMLElement|undefined;
+
+      // A field near the right edge would put the list past it, and a viewport-positioned list
+      // cannot be scrolled to, so hold it inside. clientWidth rather than innerWidth because that
+      // one counts the scrollbar, and the list would sit under it.
+      const rightmost = document.documentElement.clientWidth - VIEWPORT_MARGIN
+        - (dropdown ? dropdown.offsetWidth : 0);
+
+      // The list sizes itself: its own min-width sits on the inner list, and capping the wrapper
+      // to the field clipped that off, taking the category chevrons and help icons with it.
+      this.listStyle = {
+        left: `${Math.max(0, Math.min(rect.left, rightmost))}px`,
+        ...(this.openAbove
+          ? { bottom: `${window.innerHeight - rect.top + LIST_GAP}px` }
+          : { top: `${rect.bottom + LIST_GAP}px` }),
+      };
+
+      this.applyGeometry();
+    },
+    /**
+     * The bindings above are the source of truth, but they only reach the element on the next
+     * tick, and a scroll or resize has to move the list before anything measures it - the
+     * screenshot harness resizes the viewport and takes the list's rect in the same breath.
+     */
+    applyGeometry() {
+      const dropdown = this.$refs.expandableList as HTMLElement|undefined;
+      const list = this.$refs.optionsList as HTMLElement|undefined;
+
+      if (dropdown) {
+        dropdown.style.left = this.listStyle.left || '';
+        dropdown.style.top = this.listStyle.top || '';
+        dropdown.style.bottom = this.listStyle.bottom || '';
+      }
+
+      if (list) {
+        list.style.maxHeight = `${this.optionsListMaxHeight}px`;
       }
     },
     fitOptionsList() {
@@ -217,31 +327,42 @@ export default defineComponent({
         return;
       }
 
-      const minUsableHeight = 150;
-      const margin = 16;
-      const listRect = list.getBoundingClientRect();
-      const spaceBelow = Math.floor(window.innerHeight - listRect.top) - margin;
+      const wrapper = (this.$el as HTMLElement).querySelector('.select-wrapper');
 
-      if (spaceBelow >= minUsableHeight) {
-        this.optionsListMaxHeight = spaceBelow;
+      if (!wrapper) {
         return;
       }
 
-      // not enough room below: open above the field when that side offers more
-      const dropdownRect = dropdown.getBoundingClientRect();
-      const wrapperRect = (this.$el as HTMLElement)
-        .querySelector('.select-wrapper')!.getBoundingClientRect();
-      const chromeAboveList = listRect.top - dropdownRect.top;
-      const spaceAbove = Math.floor(wrapperRect.top - 8 - chromeAboveList) - margin;
+      const minUsableHeight = 150;
+      const wrapperRect = wrapper.getBoundingClientRect();
 
-      if (spaceAbove > spaceBelow) {
+      // the search box sits between the top of the dropdown and the top of the list. It is the
+      // distance between two rects of the same element, so it holds wherever the dropdown is
+      // currently positioned - which matters because this decides where to position it.
+      const chromeAboveList = list.getBoundingClientRect().top
+        - dropdown.getBoundingClientRect().top;
+      const roomFor = (edge: number) => Math.floor(edge - chromeAboveList) - VIEWPORT_MARGIN;
+
+      const spaceBelow = roomFor(window.innerHeight - wrapperRect.bottom - LIST_GAP);
+      const spaceAbove = roomFor(wrapperRect.top - LIST_GAP);
+
+      // every branch states which side it picked: this runs again whenever the field moves or
+      // resizes, and a branch that left the previous answer standing would strand the list above
+      // a field that has since scrolled into open space.
+      if (spaceBelow >= minUsableHeight) {
+        this.openAbove = false;
+        this.optionsListMaxHeight = spaceBelow;
+      } else if (spaceAbove > spaceBelow) {
+        // not enough room below: open above the field when that side offers more
         this.openAbove = true;
         this.optionsListMaxHeight = Math.max(minUsableHeight, spaceAbove);
-        return;
+      } else {
+        // keep a usable minimum on the larger side; the list scrolls for the rest
+        this.openAbove = false;
+        this.optionsListMaxHeight = Math.max(minUsableHeight, spaceBelow);
       }
 
-      // keep a usable minimum on the larger side; the page scrolls for the rest
-      this.optionsListMaxHeight = Math.max(minUsableHeight, spaceBelow);
+      this.positionList();
     },
     normalize(value: string) {
       return Matomo.helper.normalize(value);
@@ -258,7 +379,15 @@ export default defineComponent({
       return options.values.filter((x) => this.isSearchMatch(x.value));
     },
     onBlur() {
+      // the directive tests whether the click landed inside this component's element, and the
+      // list no longer is one, so a click in the list has to be recognised here instead
+      if (this.isMouseDownInsideList) {
+        this.isMouseDownInsideList = false;
+        return;
+      }
+
       this.showSelect = false;
+      this.trackTrigger(false);
     },
     onCategoryClicked(options: OptionGroup) {
       if (this.showCategory === options.group) {
@@ -269,6 +398,8 @@ export default defineComponent({
     },
     onValueClicked(selectedValue: SelectValueInfo) {
       this.showSelect = false;
+      this.isMouseDownInsideList = false;
+      this.trackTrigger(false);
 
       if (!(this.modelModifiers as AbortableModifiers)?.abortable) {
         this.$emit('update:modelValue', selectedValue.key);
