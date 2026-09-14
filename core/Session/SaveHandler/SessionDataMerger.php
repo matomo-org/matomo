@@ -58,9 +58,9 @@ class SessionDataMerger
         }
 
         $merged = $this->mergeArrays(
-            $this->removeNulls($baseData),
-            $this->removeNulls($myData),
-            $this->removeNulls($theirData)
+            $baseData,
+            $this->removeAddedNulls($baseData, $myData),
+            $this->removeAddedNulls($baseData, $theirData)
         );
 
         return $this->encode($merged);
@@ -182,13 +182,19 @@ class SessionDataMerger
 
     /**
      * Reading a session value that is not set stores it as null, because Zend returns it by
-     * reference. Those are not real values and must not win over what another request stored.
+     * reference. That can only add a key that was not stored before, so a null is dropped when
+     * it is new. One that was already there is a value someone stored on purpose, and stays.
      */
-    private function removeNulls(array $data)
+    private function removeAddedNulls(array $base, array $data)
     {
         foreach ($data as $key => $value) {
+            $inBase = array_key_exists($key, $base);
+
             if (null === $value) {
-                unset($data[$key]);
+                if (!$inBase) {
+                    unset($data[$key]);
+                }
+
                 continue;
             }
 
@@ -196,9 +202,11 @@ class SessionDataMerger
                 continue;
             }
 
-            $value = $this->removeNulls($value);
+            $nestedBase = $inBase && is_array($base[$key]) ? $base[$key] : [];
+            $value = $this->removeAddedNulls($nestedBase, $value);
 
-            if ([] === $value) {
+            // a container that held nothing but new nulls was never there to begin with
+            if ([] === $value && !$inBase) {
                 unset($data[$key]);
                 continue;
             }
