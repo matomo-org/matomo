@@ -10,6 +10,9 @@
             "donate": {},
             "support": [],
             "isTheme": false,
+            "categories": [
+                "development"
+            ],
             "keywords": [
                 "page2images",
                 "website",
@@ -278,7 +281,10 @@
                 },
                 "loginUrl": "https://shop.piwik.org/my-account"
             },
-            "category": "matomo"
+            "category": "matomo",
+            "categories": [
+                "insights"
+            ]
         },
         {
             "name": "PaidPlugin2",
@@ -293,6 +299,9 @@
             },
             "support": [],
             "isTheme": false,
+            "categories": [
+                "integration"
+            ],
             "keywords": [
                 "GrabGravatar",
                 "avatar",
