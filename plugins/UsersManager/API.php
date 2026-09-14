@@ -999,21 +999,32 @@ class API extends \Piwik\Plugin\API
             $this->confirmCurrentUserPassword($passwordConfirmation);
         }
 
-        $this->model->updateUser($userLogin, $password, $email);
+        // A pending user's address has to move in the same statement that rotates their invitation,
+        // otherwise the token sent to the previous address stays redeemable in between the two writes.
+        if ($hasEmailChanged && $this->model->isPendingUser($userLogin)) {
+            $reinvited = $this->userRepository->reInviteUser(
+                $userLogin,
+                GeneralConfig::getIntegerConfigValue('default_invite_user_token_expiry_days', 0),
+                $email
+            );
+
+            if (!$reinvited) {
+                throw new Exception(Piwik::translate('UsersManager_ExceptionUserDoesNotExist', $userLogin));
+            }
+
+            // the address is already stored; this only covers a password supplied in the same call
+            if (!empty($password)) {
+                $this->model->updateUser($userLogin, $password, $email);
+            }
+        } else {
+            $this->model->updateUser($userLogin, $password, $email);
+
+            if ($hasEmailChanged && $isEmailNotificationOnInConfig) {
+                $this->sendEmailChangedEmail($userInfo, $email);
+            }
+        }
 
         Cache::deleteTrackerCache();
-
-        if ($hasEmailChanged && $this->model->isPendingUser($userLogin)) {
-            // If the email of a user is changed, who was invited and did not yet accept the invitation
-            // we send a new invite to the new address.
-            // this will indirectly invalidate the invitation sent to the previous address
-            $this->userRepository->reInviteUser(
-                $userLogin,
-                GeneralConfig::getIntegerConfigValue('default_invite_user_token_expiry_days', 0)
-            );
-        } elseif ($hasEmailChanged && $isEmailNotificationOnInConfig) {
-            $this->sendEmailChangedEmail($userInfo, $email);
-        }
 
         if ($passwordHasBeenUpdated && $requirePasswordConfirmation && $isEmailNotificationOnInConfig) {
             $this->sendPasswordChangedEmail($userInfo);
@@ -1795,7 +1806,11 @@ class API extends \Piwik\Plugin\API
             }
         }
 
-        $this->userRepository->reInviteUser($userLogin, (int)$expiryInDays);
+        // The write is pinned to the invitation read above. If the account no longer carries it, it is
+        // treated exactly as if it had never been pending.
+        if (!$this->userRepository->reInviteUser($userLogin, (int)$expiryInDays)) {
+            throw new Exception(Piwik::translate('UsersManager_ExceptionUserDoesNotExist', $userLogin));
+        }
 
         /**
          * Triggered after a new user was invited.
@@ -1846,7 +1861,13 @@ class API extends \Piwik\Plugin\API
             }
         }
 
-        $token = $this->userRepository->generateInviteToken($userLogin, (int)$expiryInDays);
+        $token = $this->userRepository->generateInviteToken($userLogin, $user['invite_token'], (int)$expiryInDays);
+
+        // The write is pinned to the invitation read above. If the account no longer carries it, it is
+        // treated exactly as if it had never been pending.
+        if (null === $token) {
+            throw new Exception(Piwik::translate('UsersManager_ExceptionUserDoesNotExist', $userLogin));
+        }
 
         /**
          * Triggered after a new user invite token was generate.
