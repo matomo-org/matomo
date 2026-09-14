@@ -45,10 +45,13 @@
     border: 0;
     background: transparent;
     cursor: pointer;
-  }
+    color: @theme-color-text-placeholder;
+    // The icon would otherwise sit on a baseline and push itself out of the button.
+    line-height: 0;
 
-  &:hover .mtm-searchInput__clear {
-    background: url(plugins/CoreHome/images/reset_search.png);
+    &:hover {
+      color: @theme-color-text;
+    }
   }
 
   // For a surface that already carries enough to look at: shorter, and no box of its own in any
