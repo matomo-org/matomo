@@ -40,6 +40,7 @@
         "ExceptionInvalidTimezone": "時區「%s」無效。請輸入正確的時區。",
         "ExceptionInvalidUrl": "網址「%s」並非有效的網址。",
         "ExceptionInvalidWebsiteDescription": "說明太長，最多只能有 255 個字元。",
+        "ExceptionMatomoUrlUnknown": "無法判斷這個 Matomo 的網址，請以 piwikUrl 參數傳入。",
         "ExceptionNoUrl": "你必須至少為此網站指定一個網址。",
         "ExceptionNonEmptyQueryParamsForNonCustomType": "排除類型不是自訂時，不得提供要排除的查詢參數",
         "ExcludedIps": "排除 IP",

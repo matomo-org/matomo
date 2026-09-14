@@ -1,6 +1,5 @@
 {
     "Transitions": {
-        "BouncesInline": "%s põrget",
         "DirectEntries": "Otse sisenemisi",
         "ErrorBack": "Mine tagasi eelmisele tegevusele",
         "ExitsInline": "%s väljumist",
@@ -21,7 +20,6 @@
         "ToFollowingSiteSearches": "Sisemised otsingud",
         "ToFollowingSiteSearchesInline": "%s sisemist otsingut",
         "TransitionsSubcategoryHelp2": "Rohkem detaile",
-        "XOfAllPageviews": "%s kõigist antud lehe vaatamistest",
-        "XOutOfYVisits": "%1$s (%2$s kõigist)"
+        "XOfAllPageviews": "%s kõigist antud lehe vaatamistest"
     }
 }

@@ -11,6 +11,8 @@ describe("SegmentSelectorEditorTest", function () {
     const getSegmentQuery = n => '.segmentList li:nth-of-type(' + (n+1) + ')';
     const getSegmentStarQuery = n => getSegmentQuery(n) + ' .starSegment';
     var selectorsToCapture = ".segmentEditorPanel,.segmentEditorPanel .dropdown-body,.segment-element";
+    // the dimension list is rendered at the page level, so it has to be named to stay in shot
+    var selectorsWithOpenList = selectorsToCapture + ",.expandableSelector__list";
     var generalParams = 'idSite=1&period=year&date=2012-08-09';
     var url = '?module=CoreHome&action=index&' + generalParams + '#?' + generalParams + '&category=General_Actions&subcategory=General_Pages';
 
@@ -43,8 +45,21 @@ describe("SegmentSelectorEditorTest", function () {
     async function selectDimension(prefixSelector, category, name)
     {
         await (await page.jQuery(prefixSelector + ' .metricListBlock .select-wrapper', { waitFor: true })).click();
-        await (await page.jQuery(prefixSelector + ' .metricListBlock .expandableList h4:contains(' + category + ')', { waitFor: true })).click();
-        await (await page.jQuery(prefixSelector + ' .metricListBlock .expandableList .secondLevel li:contains(' + name + ')', { waitFor: true })).click();
+        await page.waitForFunction('$(".expandableList:visible").length > 0');
+
+        // the list keeps the category it last expanded, so clicking that one again would collapse
+        // it. The click itself stays a real one, so it exercises what a user actually does.
+        const categoryClosed = await page.evaluate(function (category) {
+            var $category = $('.expandableList:visible h4:contains(' + category + ')');
+
+            return !$category.closest('li').find('.secondLevel').is(':visible');
+        }, category);
+
+        if (categoryClosed) {
+            await (await page.jQuery('.expandableList:visible h4:contains(' + category + ')')).click();
+        }
+
+        await (await page.jQuery('.expandableList:visible .secondLevel:visible li:contains(' + name + ')', { waitFor: true })).click();
     }
 
     async function moveMouseAwayFromCapturedArea()
@@ -180,12 +195,14 @@ describe("SegmentSelectorEditorTest", function () {
         const isPanelExpanded = await page.evaluate(() => $('.segmentEditorPanel').hasClass('expanded'));
         expect(isPanelExpanded).to.equal(false);
         await moveMouseAwayFromCapturedArea();
+        await page.waitForSelector('.segment-loading .matomo-loader', { hidden: true });
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('2_segment_editor_update');
     });
 
     it("should start editing segment name when segment name edit link clicked", async function() {
         await page.click('.segmentEditorPanel .editSegmentName');
         await page.waitForTimeout(250); // animation
+        await page.waitForSelector('.segment-loading .matomo-loader', { hidden: true });
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('3_segment_editor_edit_name');
     });
 
@@ -396,26 +413,26 @@ describe("SegmentSelectorEditorTest", function () {
 
     it('should display autocomplete dropdown options correctly with lower case', async function() {
         await page.click('.expandableSelector .select-wrapper');
-        await page.waitForSelector('.expandableSelector .expandableSearch', { visible: true });
-        await page.type('.expandableSelector .expandableSearch', 'event');
+        const search = await page.jQuery('.expandableList:visible .expandableSearch', { waitFor: true });
+        await search.type('event');
         await page.waitForTimeout(100);
-        expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('autocomplete_lowercase');
+        expect(await page.screenshotSelector(selectorsWithOpenList)).to.matchImage('autocomplete_lowercase');
     });
 
     it('should display autocomplete dropdown options correctly with upper case', async function() {
-        const input = await page.$('.expandableSelector .expandableSearch');
+        const input = await page.jQuery('.expandableList:visible .expandableSearch');
         await input.click({ clickCount: 3 })
-        await page.type('.expandableSelector .expandableSearch', 'EVENT');
+        await input.type('EVENT');
         await page.waitForTimeout(100);
-        expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('autocomplete_uppercase');
+        expect(await page.screenshotSelector(selectorsWithOpenList)).to.matchImage('autocomplete_uppercase');
     });
 
     it('should display autocomplete dropdown options correctly with capitalized', async function() {
-        const input = await page.$('.expandableSelector .expandableSearch');
+        const input = await page.jQuery('.expandableList:visible .expandableSearch');
         await input.click({ clickCount: 3 })
-        await page.type('.expandableSelector .expandableSearch', 'Event');
+        await input.type('Event');
         await page.waitForTimeout(100);
-        expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('autocomplete_capitalized');
+        expect(await page.screenshotSelector(selectorsWithOpenList)).to.matchImage('autocomplete_capitalized');
     });
 
 
@@ -616,5 +633,33 @@ describe("SegmentSelectorEditorTest", function () {
 
         expect(result.didThrow).to.equal(true);
         expect(result.message).to.contain('Segmentation is initialized more than once on this page.');
+    });
+
+    it("should close only the dimension list when escape is pressed while it is open", async function() {
+        // last in the file, so it inherits whatever the tests before it left open or half-built.
+        // The url differs from theirs only by its hash, which does not reload, so reload for a
+        // known starting point rather than guarding each piece of leftover state in turn.
+        await page.goto(url);
+        await page.reload();
+        await page.waitForNetworkIdle();
+
+        await page.click('.segmentationContainer .title');
+        await page.waitForSelector('.add_new_segment', { visible: true });
+        await page.click('.add_new_segment');
+        await page.waitForNetworkIdle();
+        await page.waitForSelector('.segmentRow0');
+
+        await (await page.jQuery('.segmentRow0 .metricListBlock .select-wrapper', { waitFor: true })).click();
+        await page.waitForFunction('$(".expandableList:visible").length > 0');
+
+        await page.keyboard.press('Escape');
+        await page.waitForFunction('!$(".expandableList:visible").length');
+
+        // The list is rendered at the page level, so the editor can only tell that it was open by
+        // looking outside itself. Miss that and this escape takes the half-written segment with it.
+        expect(await page.evaluate(() => $('.segmentEditorPanel').hasClass('editing'))).to.equal(true);
+
+        await page.keyboard.press('Escape');
+        await page.waitForFunction('!$(".segmentEditorPanel").hasClass("editing")');
     });
 });

@@ -40,6 +40,7 @@
         "ExceptionInvalidTimezone": "Časová zóna %s je neplatná. Prozím zadejte platnou zónu.",
         "ExceptionInvalidUrl": "URL '%s' není platné URL.",
         "ExceptionInvalidWebsiteDescription": "Popis je příliš dlouhý. Je povoleno nejvýše 255 znaků.",
+        "ExceptionMatomoUrlUnknown": "URL tohoto Matoma se nepodařilo určit. Předejte ji jako parametr piwikUrl.",
         "ExceptionNoUrl": "Musíte zadat alespoň jednu URL pro web.",
         "ExceptionNonEmptyQueryParamsForNonCustomType": "Pokud typ vyloučení není vlastní, nesmí být zadány parametry dotazu, které se mají vyloučit",
         "ExcludedIps": "Vynechané IP adresy",

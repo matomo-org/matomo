@@ -19,6 +19,30 @@ describe("Transitions", function () {
         await page.waitForFunction((mode) => window.piwik.getThemeMode() === mode, {}, themeMode);
     }
 
+    /**
+     * The row highlight and the ribbon emphasis both animate over .15s, so a capture taken right
+     * after a hover can land mid-transition. The end state is what these tests assert on.
+     */
+    async function freezeTransitions()
+    {
+        await page.evaluate(() => {
+            const style = document.createElement('style');
+            style.textContent
+                = '.transitionsRow, .transitionsRibbons__band { transition: none !important; }';
+            document.head.appendChild(style);
+        });
+    }
+
+    /** The ribbon layer measures the rows in an animation frame after they render. */
+    async function waitForRibbons()
+    {
+        await page.waitForFunction(() => {
+            const rows = document.querySelectorAll('[data-ribbon-key]').length;
+            const bands = document.querySelectorAll('.transitionsRibbons__band').length;
+            return rows > 0 && rows === bands;
+        });
+    }
+
     async function selectValue(field, title)
     {
         await page.webpage.evaluate((field) => {
@@ -39,6 +63,8 @@ describe("Transitions", function () {
 
         await page.waitForNetworkIdle();
         await page.waitForSelector('.ui-dialog', { visible: true });
+        await page.waitForSelector('.ui-dialog .transitionsCenterCard', { visible: true });
+        await waitForRibbons();
 
         expect(await page.screenshotSelector('.ui-dialog')).to.matchImage('transitions_popup_titles');
     });
@@ -49,12 +75,11 @@ describe("Transitions", function () {
                     + "popover=RowAction$3ATransitions$3Aurl$3Ahttp$3A$2F$2Fpiwik.net$2Fdocs$2Fmanage-websites$2F");
         await page.waitForNetworkIdle();
 
-        await (await page.$('.Transitions_CurveTextRight')).hover();
-        await page.waitForSelector('.ui-tooltip', { visible: true });
-
-        // the tooltip will, in most cases, not be visible in the screenshot
-        // removing and re-adding a clone to the DOM seems to fix that problem
-        await page.evaluate(() => $('.ui-dialog').append($('.ui-tooltip').remove().clone()));
+        await page.waitForSelector('.transitionsCenterCard', { visible: true });
+        await waitForRibbons();
+        await freezeTransitions();
+        await (await page.$('.transitionsRow--outgoing')).hover();
+        await page.waitForSelector('.transitionsRow--highlighted');
 
         expect(await page.screenshotSelector('.ui-dialog')).to.matchImage('transitions_popup_urls');
     });
@@ -67,30 +92,54 @@ describe("Transitions", function () {
     it('should show report in reporting ui with data', async function () {
         await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=Transitions_Transitions");
         await page.waitForNetworkIdle();
+        await waitForRibbons();
         expect(await page.screenshotSelector('.pageWrap')).to.matchImage('transitions_report_with_data_report');
     });
 
     it('should show report in widget ui in selector', async function () {
         await page.goto("?module=Widgetize&action=iframe&widget=1&moduleToWidgetize=Transitions&actionToWidgetize=getTransitions&"+generalParams+"&disableLink=1&widget=1");
         await page.waitForNetworkIdle();
+        await waitForRibbons();
         expect(await page.screenshotSelector('body')).to.matchImage('transitions_report_with_data_widget');
     });
 
     it('should be possible to switch report', async function () {
         await selectValue('[name="actionName"]', 'category/meta');
         await page.waitForNetworkIdle();
+        await waitForRibbons();
         expect(await page.screenshotSelector('body')).to.matchImage('transitions_report_switch_url');
     });
 
     it('should be possible to show page titles', async function () {
         await selectValue('[name="actionType"]', 'Title');
         await page.waitForNetworkIdle();
+        await waitForRibbons();
         expect(await page.screenshotSelector('body')).to.matchImage('transitions_report_switch_type_title');
     });
 
     it('should show the search engines when clicked', async function () {
-        await page.evaluate(() => $('.Transitions_SingleLine:contains(From search engines)').click());
+        await page.evaluate(
+            () => $('.transitionsRow--summary:contains(From search engines)').click()
+        );
+        await page.waitForFunction(() => Array.prototype.some.call(
+            document.querySelectorAll('.transitionsSection__title'),
+            (title) => title.textContent.indexOf('From search engines') !== -1,
+        ));
+        await waitForRibbons();
         expect(await page.screenshotSelector('body')).to.matchImage('transitions_report_search_engines');
+    });
+
+    it('should show report in dark mode', async function () {
+        await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=Transitions_Transitions");
+        await page.waitForNetworkIdle();
+        await setThemeMode('dark');
+        try {
+          await page.waitForSelector('.transitionsCenterCard');
+          await waitForRibbons();
+          expect(await page.screenshotSelector('.pageWrap')).to.matchImage('transitions_report_dark_mode');
+        } finally {
+          await setThemeMode('light');
+        }
     });
 
     it('should show period not allowed for disabled periods', async function () {
@@ -98,8 +147,15 @@ describe("Transitions", function () {
         await testEnvironment.overrideConfig('Transitions_1', 'max_period_allowed', 'day');
         await testEnvironment.save();
         try {
+          // An earlier test may already have left the browser on this exact URL, in which case
+          // goto() is a no-op -- same document, same hash, so no router event -- and the report
+          // stays on screen with the data it fetched before max_period_allowed was narrowed.
+          // Reload to force a real load, and wait for the error itself so that a stale render
+          // fails the test instead of being captured as the expectation.
           await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=Transitions_Transitions");
+          await page.reload();
           await page.waitForNetworkIdle();
+          await page.waitForSelector('.transitionsReport__error', { visible: true });
           expect(await page.screenshotSelector('.pageWrap'))
             .to
             .matchImage('transitions_report_period_not_allowed');
@@ -142,11 +198,11 @@ describe("Transitions", function () {
         await (await page.jQuery('a.actionTransitions:visible')).click();
 
         await page.waitForNetworkIdle();
-        await page.waitForSelector('#Transitions_CenterBox');
+        await page.waitForSelector('.transitionsCenterCard');
 
         await setThemeMode('dark');
-        const centerBoxCount = await page.evaluate(() => $('#Transitions_CenterBox').length);
-        expect(centerBoxCount).to.be.equal(1);
+        const centerCardCount = await page.evaluate(() => $('.transitionsCenterCard').length);
+        expect(centerCardCount).to.be.equal(1);
 
         await setThemeMode('light');
     });

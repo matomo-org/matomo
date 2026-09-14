@@ -28,6 +28,24 @@ use Piwik\Policy\CompliancePolicy;
  */
 interface PolicyComparisonInterface
 {
+    /** The required value is the only compliant one. */
+    public const POLICY_CONSTRAINT_EXACT = 'exact';
+
+    /** The required value is a lower bound; values above it are compliant too. */
+    public const POLICY_CONSTRAINT_MIN = 'min';
+
+    /** The required value is an upper bound; values below it are compliant too. */
+    public const POLICY_CONSTRAINT_MAX = 'max';
+
+    /** Enforced for every site through a value set in the config file. */
+    public const ENFORCEMENT_SCOPE_CONFIG = 'config';
+
+    /** Enforced for every site, either instance wide or by an instance wide policy. */
+    public const ENFORCEMENT_SCOPE_INSTANCE = 'instance';
+
+    /** Enforced for one site only. */
+    public const ENFORCEMENT_SCOPE_SITE = 'site';
+
     /**
      * The policies this setting is a requirement of, and the value each of them requires.
      *
@@ -121,4 +139,44 @@ interface PolicyComparisonInterface
      * @since Matomo 6.0.0 — {@link PolicyComparisonTrait} provides a default.
      */
     public static function isEnforcementWritable(?int $idSite = null): bool;
+
+    /**
+     * Where the enforcement of this setting originates for the given scope, so that a settings
+     * screen can tell the user whether the value is decided for this website alone or for the
+     * whole Matomo. Null when the setting is not enforced there at all.
+     *
+     * Mirrors the resolution order of {@link isEnforced()}.
+     *
+     * @param int|null $idSite The website to check, or null for the instance wide state.
+     * @return self::ENFORCEMENT_SCOPE_*|null
+     *
+     * @since Matomo 6.0.0 — {@link PolicyComparisonTrait} provides a default.
+     */
+    public static function getEnforcementScope(?int $idSite = null): ?string;
+
+    /**
+     * How the requirement of the given policy constrains this setting.
+     *
+     * `POLICY_CONSTRAINT_EXACT` means the required value is the only compliant one, so the
+     * regular settings field can be shown read-only. A `MIN`/`MAX` requirement is only a bound:
+     * a stricter value stays a valid choice, so the field must remain editable and instead offer
+     * the compliant values only.
+     *
+     * @param class-string<CompliancePolicy> $policy
+     * @return self::POLICY_CONSTRAINT_*
+     *
+     * @since Matomo 6.0.0 — {@link PolicyComparisonTrait} provides a default.
+     */
+    public static function getPolicyConstraintType(string $policy): string;
+
+    /**
+     * Whether the given value satisfies the requirement of the given policy. Values of settings
+     * the policy does not control are always compliant.
+     *
+     * @param T $value
+     * @param class-string<CompliancePolicy> $policy
+     *
+     * @since Matomo 6.0.0 — {@link PolicyComparisonTrait} provides a default.
+     */
+    public static function isValueCompliantWithPolicy($value, string $policy): bool;
 }
