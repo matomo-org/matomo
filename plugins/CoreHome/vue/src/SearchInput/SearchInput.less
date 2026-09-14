@@ -49,9 +49,12 @@
     border: 0;
     background: transparent;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     color: @theme-color-text-placeholder;
-    // The icon would otherwise sit on a baseline and push itself out of the button.
-    line-height: 0;
+    // Smaller than the button, so the cross keeps the weight it had as an image.
+    font-size: 9px;
 
     &:hover {
       color: @theme-color-text;

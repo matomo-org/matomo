@@ -187,6 +187,6 @@ describe('CoreHome/SearchInput', () => {
     });
 
     expect(wrapper.find('.mtm-searchInput__clear').attributes('aria-label')).toBe('General_Clear');
-    expect(wrapper.find('.mtm-searchInput__clear svg').attributes('aria-hidden')).toBe('true');
+    expect(wrapper.find('.mtm-searchInput__clear .icon-close').attributes('aria-hidden')).toBe('true');
   });
 });
