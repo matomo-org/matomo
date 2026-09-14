@@ -19,7 +19,6 @@ use Piwik\DataTable\Renderer;
 use Piwik\ExceptionHandler;
 use Piwik\Http\HttpCodeException;
 use Piwik\Http\SecurityHeaders;
-use Piwik\Piwik;
 use Piwik\Plugin\ReportsProvider;
 use Piwik\Plugins\Monolog\Processor\ExceptionToTextProcessor;
 use Piwik\Plugins\PrivacyManager\DataRounding;
@@ -37,6 +36,11 @@ class ResponseBuilder
     private $shouldPrintBacktrace = false;
 
     /**
+     * Captured up front: a nested API call overlays `module=API` while it runs, which would
+     * otherwise make a page's own response look like API output. The module is checked rather
+     * than the root API method, as that is unset when the method name does not parse and the
+     * error response for those is a data response too.
+     *
      * @var bool
      */
     private $isApiHttpRequest;
@@ -52,7 +56,7 @@ class ResponseBuilder
         $this->request      = $request;
         $this->apiRenderer  = ApiRenderer::factory($outputFormat, $request);
         $this->shouldPrintBacktrace = $shouldPrintBacktrace === null ? ExceptionHandler::shouldPrintBackTraceWithMessage() : $shouldPrintBacktrace;
-        $this->isApiHttpRequest = self::isApiHttpRequest();
+        $this->isApiHttpRequest = Request::isApiHttpRequest();
     }
 
     public function disableSendHeader()
@@ -288,23 +292,5 @@ class ResponseBuilder
         }
 
         $this->apiRenderer->sendHeader();
-    }
-
-    /**
-     * Whether the request being served is the API endpoint itself, so that its response can be
-     * sent as a data response. An API call made while rendering a page must not turn that page into
-     * one, as a page does need to run scripts, and the module also serves HTML pages (eg. listAllAPI)
-     * which send their headers through the view.
-     *
-     * Only meaningful before the response is built, as {@see Request::processRequest()} overlays
-     * `module=API` onto the request parameters while it runs. The module is checked rather than
-     * {@see Request::isRootRequestApiRequest()}, as that only knows requests whose method name
-     * parses, leaving the errors for the ones that do not.
-     */
-    private static function isApiHttpRequest(): bool
-    {
-        $action = Piwik::getAction();
-
-        return Piwik::getModule() === 'API' && (empty($action) || $action === 'index');
     }
 }
