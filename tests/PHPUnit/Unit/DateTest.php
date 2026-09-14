@@ -538,6 +538,54 @@ class DateTest extends \PHPUnit\Framework\TestCase
             ['lastyear', 'UTC+5', '2011-12-31 00:00:00', '2012-12-31 14:00:00'],
             ['last year', 'UTC+5', '2012-01-01 00:00:00', '2012-12-31 19:00:00'],
             ['last-year', 'Antarctica/Mawson', '2012-01-01 00:00:00', '2012-12-31 19:00:00'],
+
+            // The callers recognise these keywords in a query parameter, which can arrive
+            // padded or url-encoded, so every spelling they accept has to resolve here too.
+            ['TODAY', 'UTC+5', '2013-01-01 00:00:00', '2012-12-31 19:00:00'],
+            [' today ', 'UTC+5', '2013-01-01 00:00:00', '2012-12-31 19:00:00'],
+            ['YESTERDAY ', 'UTC+5', '2012-12-31 00:00:00', '2012-12-31 19:00:00'],
+            ['YesterdaySameTime', 'UTC+5', '2012-12-31 01:00:00', '2012-12-31 20:00:00'],
+            ['last%20week', 'UTC+5', '2012-12-25 00:00:00', '2012-12-31 19:00:00'],
+            ['LAST-WEEK', 'UTC+5', '2012-12-25 00:00:00', '2012-12-31 19:00:00'],
+            ['  last%20month', 'UTC+5', '2012-12-01 00:00:00', '2012-12-31 19:00:00'],
+            ['Last%20Year ', 'UTC+5', '2012-01-01 00:00:00', '2012-12-31 19:00:00'],
+        ];
+    }
+
+    /**
+     * @dataProvider getTestDataForGetRelativeKeyword
+     */
+    public function testGetRelativeKeyword($dateString, $expected)
+    {
+        $this->assertSame($expected, Date::getRelativeKeyword($dateString));
+    }
+
+    public function getTestDataForGetRelativeKeyword()
+    {
+        return [
+            ['now', 'now'],
+            ['today', 'today'],
+            ['TODAY', 'today'],
+            [' today ', 'today'],
+            ['yesterday', 'yesterday'],
+            ['yesterdaySameTime', 'yesterdaysametime'],
+            ['lastWeek', 'last-week'],
+            ['last week', 'last-week'],
+            ['last-week', 'last-week'],
+            ['last%20week', 'last-week'],
+            ['LAST%20WEEK', 'last-week'],
+            ['last month', 'last-month'],
+            ['last-year', 'last-year'],
+
+            // Anything else is an absolute date and belongs in factory().
+            ['2012-02-03', null],
+            ['last7', null],
+            ['previous30', null],
+            ['2012-02-03,today', null],
+            ['tomorrow', null],
+            ['', null],
+            [1356998400, null],
+            [null, null],
         ];
     }
 

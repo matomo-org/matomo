@@ -25,6 +25,7 @@ use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
 use Piwik\Plugins\Referrers\Archiver;
 use Piwik\Report\ReportWidgetFactory;
+use Piwik\Site;
 use Piwik\Widget\WidgetsList;
 
 class Get extends Base
@@ -78,9 +79,12 @@ class Get extends Base
             $view->config->addTranslations($this->getSparklineTranslations());
 
             // add evolution values
-            [$lastPeriodDate, $ignore] = Range::getLastDate();
+            // The archive resolves a relative date on the site's own day, so anchor the
+            // comparison period there too, or the two land on different days.
+            $timezone = Site::getTimezoneFor(\Piwik\Request::fromRequest()->getIntegerParameter('idSite'));
+            [$lastPeriodDate, $ignore] = Range::getLastDate(false, false, $timezone);
             if ($lastPeriodDate !== false) {
-                $date = Common::getRequestVar('date');
+                $date = \Piwik\Request::fromRequest()->getStringParameter('date');
 
                 /** @var DataTable $previousData */
                 $previousData = Request::processRequest('Referrers.get', ['date' => $lastPeriodDate]);
