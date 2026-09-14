@@ -42,6 +42,7 @@ final class CaseRunner
 
     private ConsoleProcess $process;
     private MetricsReader $metrics;
+    private ArchiveReader $archives;
 
     /** @var array<string, mixed> */
     private array $options;
@@ -53,6 +54,7 @@ final class CaseRunner
     {
         $this->process = $process;
         $this->metrics = $metrics;
+        $this->archives = new ArchiveReader();
         $this->options = $options + [
             'archiveDriver' => self::DRIVER_REQUEST,
             'invalidate' => true,
@@ -187,9 +189,7 @@ final class CaseRunner
             $isWarmup,
             true,
             $measured['wallMs'],
-            $isCronArchive
-                ? ResultFingerprint::ofArchiveLog($measured['output'])
-                : ResultFingerprint::of($decoded),
+            $this->fingerprint($case, $isCronArchive, $measured['output'], $decoded),
             $archiveMs,
             $archiveExclusiveMs,
             $archiveCount,
@@ -368,6 +368,37 @@ final class CaseRunner
         }
 
         return implode('&', $parts);
+    }
+
+    /**
+     * What the run returned, in a form the two engines can be compared on.
+     *
+     * An archive case is fingerprinted on the archives it wrote rather than on the response
+     * to the archiving request, because the response carries only nb_visits and the new
+     * archive ids. Both legs write their archives to MySQL, so the comparison is like for
+     * like. When there is nothing to read - no archive tables yet, ArchivingMetrics absent,
+     * a plugin-scoped archive under a flag this case does not own - it falls back to the
+     * response, which ResultFingerprint marks WEAK.
+     *
+     * @param mixed $decoded
+     * @return array{strength: string, rows: ?int, digest: string, summary: string}
+     */
+    private function fingerprint(BenchCase $case, bool $isCronArchive, string $output, $decoded): array
+    {
+        if ($case->isArchive()) {
+            $period = PeriodFactory::build($case->getPeriod(), $case->getDate());
+            if ($this->archives->isAvailable($period)) {
+                $archived = $this->archives->read($case->getIdSite(), $period, $this->doneFlag($case));
+                $fingerprint = ResultFingerprint::ofArchivedReports($archived);
+                if ($fingerprint['strength'] === ResultFingerprint::STRONG) {
+                    return $fingerprint;
+                }
+            }
+        }
+
+        return $isCronArchive
+            ? ResultFingerprint::ofArchiveLog($output)
+            : ResultFingerprint::of($decoded);
     }
 
     private function doneFlag(BenchCase $case): string

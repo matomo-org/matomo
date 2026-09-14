@@ -51,13 +51,188 @@ class ResultFingerprintTest extends TestCase
         self::assertSame($mysql['digest'], $clickhouse['digest']);
     }
 
-    public function testAnArchivingResultIsFingerprintedOnItsVisitCount(): void
+    /**
+     * The fallback for an archive whose archives could not be read. It is WEAK: a visit count
+     * is not evidence that two engines built the same reports out of those visits.
+     */
+    public function testAnArchivingResponseWithoutReadableArchivesIsOnlyItsVisitCountAndIsWeak(): void
     {
         $first = ResultFingerprint::of(['idarchives' => [11], 'nb_visits' => 3069]);
         $second = ResultFingerprint::of(['idarchives' => [4096], 'nb_visits' => 3069]);
 
-        self::assertSame(ResultFingerprint::STRONG, $first['strength']);
+        self::assertSame(ResultFingerprint::WEAK, $first['strength']);
         self::assertSame($first['digest'], $second['digest'], 'a new archive id is not a new answer');
+    }
+
+    public function testAnArchiveIsFingerprintedOnEveryMetricAndReportItWrote(): void
+    {
+        $fingerprint = ResultFingerprint::ofArchivedReports([
+            'numeric' => [
+                ['name' => 'nb_visits', 'value' => '15'],
+                ['name' => 'nb_actions', 'value' => '61'],
+            ],
+            'blob' => [
+                ['name' => 'Actions_actions', 'value' => gzcompress(serialize([['label' => '/news/', 2 => 9]]))],
+            ],
+        ]);
+
+        self::assertSame(ResultFingerprint::STRONG, $fingerprint['strength']);
+        self::assertSame(3, $fingerprint['rows']);
+        self::assertSame('2 metrics, 1 reports', $fingerprint['summary']);
+    }
+
+    /**
+     * The row order the two databases hand the archive rows back in is not part of the answer -
+     * neither query has an ORDER BY - so it must not move the digest.
+     */
+    public function testArchiveDigestDoesNotDependOnTheOrderRowsComeBackIn(): void
+    {
+        $blob = gzcompress(serialize([['label' => 'x']]));
+
+        $one = ResultFingerprint::ofArchivedReports([
+            'numeric' => [['name' => 'nb_visits', 'value' => '15'], ['name' => 'nb_actions', 'value' => '61']],
+            'blob' => [['name' => 'A', 'value' => $blob], ['name' => 'B', 'value' => $blob]],
+        ]);
+        $other = ResultFingerprint::ofArchivedReports([
+            'numeric' => [['name' => 'nb_actions', 'value' => '61'], ['name' => 'nb_visits', 'value' => '15']],
+            'blob' => [['name' => 'B', 'value' => $blob], ['name' => 'A', 'value' => $blob]],
+        ]);
+
+        self::assertSame($one['digest'], $other['digest']);
+    }
+
+    /**
+     * The two engines return metrics with different types and scales, and a float sum
+     * accumulated in a different order can differ in the last bits. Neither is a disagreement
+     * about the answer.
+     */
+    public function testArchiveDigestIgnoresNumericTypeAndScale(): void
+    {
+        $mysql = ResultFingerprint::ofArchivedReports([
+            'numeric' => [
+                ['name' => 'nb_visits', 'value' => '15'],
+                ['name' => 'revenue', 'value' => '99.900000000000006'],
+            ],
+            'blob' => [],
+        ]);
+        $clickhouse = ResultFingerprint::ofArchivedReports([
+            'numeric' => [
+                ['name' => 'nb_visits', 'value' => 15],
+                ['name' => 'revenue', 'value' => 99.9],
+            ],
+            'blob' => [],
+        ]);
+
+        self::assertSame($mysql['digest'], $clickhouse['digest']);
+    }
+
+    public function testArchiveDigestChangesWhenAMetricChanges(): void
+    {
+        $one = ResultFingerprint::ofArchivedReports([
+            'numeric' => [['name' => 'nb_visits', 'value' => '15']],
+            'blob' => [],
+        ]);
+        $other = ResultFingerprint::ofArchivedReports([
+            'numeric' => [['name' => 'nb_visits', 'value' => '16']],
+            'blob' => [],
+        ]);
+
+        self::assertNotSame($one['digest'], $other['digest']);
+    }
+
+    /**
+     * A difference of a hundredth of a cent is still a difference in a revenue total.
+     */
+    public function testArchiveDigestStillSeesASmallRealDifference(): void
+    {
+        $one = ResultFingerprint::ofArchivedReports([
+            'numeric' => [['name' => 'revenue', 'value' => '10.0001']],
+            'blob' => [],
+        ]);
+        $other = ResultFingerprint::ofArchivedReports([
+            'numeric' => [['name' => 'revenue', 'value' => '10.0002']],
+            'blob' => [],
+        ]);
+
+        self::assertNotSame($one['digest'], $other['digest']);
+    }
+
+    public function testArchiveDigestSeesReportContentsAndTheirOrder(): void
+    {
+        $rows = [['label' => '/news/', 2 => 9], ['label' => '/sport/', 2 => 4]];
+
+        $base = ResultFingerprint::ofArchivedReports([
+            'numeric' => [],
+            'blob' => [['name' => 'Actions_actions', 'value' => gzcompress(serialize($rows))]],
+        ]);
+        $changedValue = ResultFingerprint::ofArchivedReports([
+            'numeric' => [],
+            'blob' => [['name' => 'Actions_actions', 'value' => gzcompress(serialize(
+                [['label' => '/news/', 2 => 8], ['label' => '/sport/', 2 => 4]]
+            ))]],
+        ]);
+        $reordered = ResultFingerprint::ofArchivedReports([
+            'numeric' => [],
+            'blob' => [['name' => 'Actions_actions', 'value' => gzcompress(serialize(array_reverse($rows)))]],
+        ]);
+
+        self::assertNotSame($base['digest'], $changedValue['digest']);
+        self::assertNotSame($base['digest'], $reordered['digest'], 'ranking is part of the report');
+    }
+
+    /**
+     * done flags carry the archive's status, not a report value, and the status can differ
+     * legitimately between two runs of the same case.
+     */
+    public function testArchiveDigestIgnoresDoneFlags(): void
+    {
+        $withFlag = ResultFingerprint::ofArchivedReports([
+            'numeric' => [['name' => 'nb_visits', 'value' => '15'], ['name' => 'done3afbfb51', 'value' => '1']],
+            'blob' => [],
+        ]);
+        $withOtherFlag = ResultFingerprint::ofArchivedReports([
+            'numeric' => [['name' => 'nb_visits', 'value' => '15'], ['name' => 'done3afbfb51', 'value' => '5']],
+            'blob' => [],
+        ]);
+
+        self::assertSame($withFlag['digest'], $withOtherFlag['digest']);
+        self::assertSame(1, $withFlag['rows'], 'the flag is not counted as a metric');
+    }
+
+    /**
+     * A blob that will not uncompress is still compared, as bytes. Skipping it would quietly
+     * drop a report out of the comparison while the fingerprint still claimed to be strong.
+     */
+    public function testAnUnreadableBlobIsComparedAsBytes(): void
+    {
+        $one = ResultFingerprint::ofArchivedReports([
+            'numeric' => [],
+            'blob' => [['name' => 'Actions_actions', 'value' => 'not gzip at all']],
+        ]);
+        $same = ResultFingerprint::ofArchivedReports([
+            'numeric' => [],
+            'blob' => [['name' => 'Actions_actions', 'value' => 'not gzip at all']],
+        ]);
+        $different = ResultFingerprint::ofArchivedReports([
+            'numeric' => [],
+            'blob' => [['name' => 'Actions_actions', 'value' => 'not gzip either']],
+        ]);
+
+        self::assertSame(ResultFingerprint::STRONG, $one['strength']);
+        self::assertSame($one['digest'], $same['digest']);
+        self::assertNotSame($one['digest'], $different['digest']);
+    }
+
+    /**
+     * Nothing read is not agreement. It has to be weak, so the caller falls back rather than
+     * reporting two engines as matching because neither wrote anything the reader could find.
+     */
+    public function testAnArchiveWithNoReadableRowsIsWeak(): void
+    {
+        $fingerprint = ResultFingerprint::ofArchivedReports(['numeric' => [], 'blob' => []]);
+
+        self::assertSame(ResultFingerprint::WEAK, $fingerprint['strength']);
+        self::assertSame('no archive rows found', $fingerprint['summary']);
     }
 
     public function testAnythingElseIsMarkedWeak(): void

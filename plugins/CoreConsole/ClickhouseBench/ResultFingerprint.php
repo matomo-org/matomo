@@ -11,6 +11,8 @@ declare(strict_types=1);
 
 namespace Piwik\Plugins\CoreConsole\ClickhouseBench;
 
+use Piwik\Common;
+
 /**
  * A comparable summary of what a case returned, so a timing can be checked against the answer
  * that produced it. Two engines that disagree about the result are not two engines to compare
@@ -24,7 +26,14 @@ namespace Piwik\Plugins\CoreConsole\ClickhouseBench;
  *
  * - a list of visits           -> the ordered idVisit values. This is the real check: same
  *                                 visits, same order, and it held on the corpus.
- * - an archiving result        -> nb_visits. idarchives are new row ids on every run.
+ * - an archiving result        -> every metric and every report the archive wrote, read back
+ *                                 out of the archive tables by ArchiveReader. Those tables are
+ *                                 MySQL on both legs, so what they hold is directly comparable
+ *                                 and a difference is a difference in what was computed.
+ * - an archiving result whose
+ *   archives could not be read -> nb_visits, marked WEAK. A visit count is not evidence that
+ *                                 two engines built the same reports, and labelling it strong
+ *                                 is how this harness used to overstate what it had checked.
  * - anything else              -> row count plus a digest of the payload, marked weak, because
  *                                 a mismatch there is as likely to be formatting as a defect.
  */
@@ -65,9 +74,19 @@ final class ResultFingerprint
             );
         }
 
+        // Reached only when the archive tables could not be read - ArchiveReader is what an
+        // archive case is fingerprinted on. WEAK, because a visit count says the two engines
+        // agree about how many visits the day had and nothing at all about the few hundred
+        // reports they each built from those visits. It was labelled strong for a fortnight
+        // and the A/B write-ups inherited that overstatement.
         $nbVisits = self::extractNbVisits($decoded);
         if ($nbVisits !== null) {
-            return self::result(self::STRONG, null, 'nb_visits:' . $nbVisits, $nbVisits . ' visits archived');
+            return self::result(
+                self::WEAK,
+                null,
+                'nb_visits:' . $nbVisits,
+                $nbVisits . ' visits archived, reports not compared'
+            );
         }
 
         $normalised = self::stripVolatile($decoded);
@@ -79,6 +98,139 @@ final class ResultFingerprint
             md5((string) json_encode($normalised)),
             $rows === null ? 'scalar response' : $rows . ' rows'
         );
+    }
+
+    /**
+     * A fingerprint over what an archive actually wrote, from ArchiveReader::read().
+     *
+     * This is the archive equivalent of the ordered visit id list: it compares the answer,
+     * not a count of the inputs to it. Every metric in archive_numeric and every report in
+     * archive_blob goes in, so the two engines have to agree on all of them.
+     *
+     * Three normalisations, each one covering a way the same answer can be written down
+     * differently, and no more than that - the point of the fingerprint is to notice a real
+     * disagreement, so anything normalised away has to be provably not one:
+     *
+     * - done flags are dropped. Their value is the archive's status, not a report value.
+     * - numbers are compared as numbers to 6 decimal places. The engines return metrics with
+     *   different scale and type ('15' against 15, 1.0 against '1'), and a sum of floats
+     *   accumulated in a different order can differ in the last bits. Six places is finer
+     *   than a hundredth of a cent, so a real difference in a revenue total still shows.
+     * - report rows keep their order. Order is the ranking, which is part of the report, and
+     *   this matches how the visit list is fingerprinted.
+     *
+     * @param array{
+     *     numeric: array<int, array{name: string, value: mixed}>,
+     *     blob: array<int, array{name: string, value: mixed}>
+     * } $archived
+     * @return array{strength: string, rows: ?int, digest: string, summary: string}
+     */
+    public static function ofArchivedReports(array $archived): array
+    {
+        $metrics = [];
+        foreach ($archived['numeric'] ?? [] as $row) {
+            $name = (string) ($row['name'] ?? '');
+            if ($name === '' || strpos($name, 'done') === 0) {
+                continue;
+            }
+            $metrics[] = $name . '=' . self::canonicalScalar($row['value'] ?? null);
+        }
+
+        $reports = [];
+        foreach ($archived['blob'] ?? [] as $row) {
+            $name = (string) ($row['name'] ?? '');
+            if ($name === '') {
+                continue;
+            }
+            $reports[] = $name . '=' . self::canonicalBlob((string) ($row['value'] ?? ''));
+        }
+
+        if (empty($metrics) && empty($reports)) {
+            return self::result(self::WEAK, 0, '', 'no archive rows found');
+        }
+
+        // Sorted because the row order the two databases hand back is not part of the answer;
+        // the order WITHIN a report blob is, and that is preserved inside canonicalBlob().
+        sort($metrics);
+        sort($reports);
+
+        return self::result(
+            self::STRONG,
+            count($metrics) + count($reports),
+            md5(implode("\n", $metrics) . "\n--\n" . implode("\n", $reports)),
+            count($metrics) . ' metrics, ' . count($reports) . ' reports'
+        );
+    }
+
+    /**
+     * One report blob, reduced to a digest of its contents.
+     *
+     * Blobs are gzcompress(serialize($rows)). A blob that will not uncompress or unserialize
+     * is digested as raw bytes rather than skipped - that still compares equal when the two
+     * engines wrote the same bytes, and it never silently drops a report from the comparison.
+     */
+    private static function canonicalBlob(string $value): string
+    {
+        $raw = @gzuncompress($value);
+        if ($raw === false) {
+            $raw = $value;
+        }
+
+        // Shape check before unserialising, for two reasons: a blob that did not decode is a
+        // case this method handles rather than an error, and unserialize() warns on input that
+        // was never serialized at all. Serialized values always open with their type marker.
+        if (!preg_match('~^[abdisN]:~', $raw)) {
+            return 'raw:' . md5($raw);
+        }
+
+        // safe_unserialize() rather than unserialize(): the blob is data out of the database
+        // and plain unserialize() would build objects out of whatever it names.
+        $decoded = Common::safe_unserialize($raw);
+        if ($decoded === false && $raw !== serialize(false)) {
+            return 'raw:' . md5($raw);
+        }
+
+        return md5((string) json_encode(self::canonicalValue($decoded)));
+    }
+
+    /**
+     * @param mixed $value
+     * @return mixed
+     */
+    private static function canonicalValue($value)
+    {
+        if (is_array($value)) {
+            $out = [];
+            foreach ($value as $key => $item) {
+                $out[is_string($key) ? $key : (string) $key] = self::canonicalValue($item);
+            }
+            return $out;
+        }
+
+        return self::canonicalScalar($value);
+    }
+
+    /**
+     * @param mixed $value
+     */
+    private static function canonicalScalar($value): string
+    {
+        if ($value === null) {
+            return '';
+        }
+
+        if (is_bool($value)) {
+            return $value ? '1' : '0';
+        }
+
+        if (is_int($value) || is_float($value) || (is_string($value) && is_numeric($value))) {
+            $number = sprintf('%.6F', (float) $value);
+            $number = rtrim(rtrim($number, '0'), '.');
+            // sprintf('%.6F', -0.0) is '-0.000000', which trims to '-0'.
+            return $number === '' || $number === '-0' ? '0' : $number;
+        }
+
+        return (string) $value;
     }
 
     /**
