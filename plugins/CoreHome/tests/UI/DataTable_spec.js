@@ -135,6 +135,42 @@ describe('DataTable', function () {
     }));
   }
 
+  it('should link summary rows to the row limits documentation', async function () {
+    await loadWidget();
+    await page.waitForFunction((widgetSel) => {
+      const reportElement = document.querySelector(`${widgetSel} [data-report]`);
+      return reportElement && window.$(reportElement).data('uiControlObject');
+    }, {}, widgetSelector);
+
+    const helpLink = await page.evaluate((widgetSel) => {
+      const reportElement = document.querySelector(`${widgetSel} [data-report]`);
+      const tableBody = reportElement.querySelector('table.dataTable tbody');
+      const summaryRow = document.createElement('tr');
+      summaryRow.className = 'summaryRow';
+      summaryRow.innerHTML = '<td class="label"><span class="value">Others</span></td>';
+      tableBody.appendChild(summaryRow);
+
+      const $reportElement = window.$(reportElement);
+      $reportElement.data('uiControlObject').handleSummaryRow($reportElement);
+      window.$(summaryRow).trigger('mouseenter');
+
+      const link = summaryRow.querySelector(
+        'a[rel~="noreferrer"][rel~="noopener"][target="_blank"]',
+      );
+      return {
+        pathname: new URL(link.href).pathname,
+        rel: link.rel,
+        target: link.target,
+      };
+    }, widgetSelector);
+
+    expect(helpLink).to.deep.equal({
+      pathname: '/faq/reports/understanding-row-limits-and-others-rows/',
+      rel: 'noreferrer noopener',
+      target: '_blank',
+    });
+  });
+
   it('should total every row of the report when no table search is active', async function () {
     await loadWidget();
     await toggleTotalsRow();
@@ -284,6 +320,37 @@ describe('DataTable', function () {
 
     expect(subtableCell.value).to.match(/%$/);
     expect(subtableCell.hover).to.match(/^[\d,.]+$/);
+  });
+
+  it('should show percentages on the subpages of a recursively searched hierarchical report', async function () {
+    // a recursive search keeps the page hierarchy and embeds the matching subpages into the report,
+    // instead of loading them through a request of their own like expanding a row does
+    const searchedUrl = "?module=Widgetize&action=iframe&moduleToWidgetize=Actions"
+      + "&actionToWidgetize=getPageUrls&idSite=1&period=year&date=2012-08-09&viewDataTable=table"
+      + "&flat=0&filter_column_recursive=label&filter_pattern_recursive=one.html"
+      + "&show_percentage_values=1";
+
+    await page.goto(searchedUrl);
+    await page.waitForNetworkIdle();
+    await page.waitForSelector('tbody tr.level1', { visible: true });
+
+    const rows = await page.evaluate(() => ['level0', 'level1']
+      .map((levelClass) => {
+        const row = document.querySelector(`tbody tr.${levelClass}`);
+        // the first metric column is nb_hits, one of the columns a report total is calculated for
+        const cell = row.querySelector('td.column');
+
+        return {
+          label: row.querySelector('td.label span.value').textContent.trim(),
+          value: cell.querySelector('span.value').textContent.trim(),
+          hover: cell.querySelector('span.ratio').textContent.trim(),
+        };
+      }));
+
+    // the searched page and the subpage it matched both relate to the pageviews of the whole report,
+    // 556, so their percentages stay comparable, and both keep their absolute value on hover
+    expect(rows[0]).to.deep.equal({ label: 'page', value: '4.5%', hover: '25' });
+    expect(rows[1]).to.deep.equal({ label: '/one.html', value: '4%', hover: '22' });
   });
 
   it('should show percentages on comparison rows as well as on their parent row', async function () {

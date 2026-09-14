@@ -28,6 +28,7 @@ use Piwik\Metrics\Formatter;
 use Piwik\Period\Factory;
 use Piwik\Piwik;
 use Piwik\Request as PiwikRequest;
+use Piwik\Request\AuthenticationToken;
 use Piwik\Segment;
 use Piwik\Scheduler\Scheduler;
 use Piwik\SettingsServer;
@@ -110,15 +111,24 @@ class API extends \Piwik\Plugin\API
 
     /**
      * @param string[] $trustedHosts
+     * @param string|null $passwordConfirmation Current user's password confirmation when required by session auth.
      * @return true
      * @internal
      */
-    public function setTrustedHosts($trustedHosts): bool
-    {
+    public function setTrustedHosts(
+        $trustedHosts,
+        #[\SensitiveParameter]
+        ?string $passwordConfirmation = null
+    ): bool {
         Piwik::checkUserHasSuperUserAccess();
 
         if (!Controller::isGeneralSettingsAdminEnabled()) {
             throw new Exception('General settings admin is not enabled');
+        }
+
+        // check password confirmation only when using session auth
+        if (StaticContainer::get(AuthenticationToken::class)->isSessionToken()) {
+            $this->confirmCurrentUserPassword($passwordConfirmation);
         }
 
         if (!empty($trustedHosts)) {

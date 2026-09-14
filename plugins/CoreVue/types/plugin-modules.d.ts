@@ -10,6 +10,39 @@
 // that augment `CoreHome` with the fuller type.
 
 declare module 'CoreHome' {
+  export interface AjaxOptions {
+    withTokenInUrl?: boolean;
+    postParams?: QueryParameters;
+    headers?: Record<string, string>;
+    format?: string;
+    createErrorNotification?: boolean;
+    abortController?: AbortController;
+    returnResponseObject?: boolean;
+    errorElement?: HTMLElement|JQuery|string;
+    redirectOnSuccess?: QueryParameters|boolean;
+    abortable?: boolean;
+  }
+
+  export const AjaxHelper: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    fetch<R = any>(
+      params: QueryParameters|QueryParameters[],
+      options?: AjaxOptions,
+    ): Promise<R>;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    post<R = any>(
+      params: QueryParameters,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      postParams?: any,
+      options?: AjaxOptions,
+    ): Promise<R>;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    oneAtATime<R = any>(
+      method: string,
+      options?: AjaxOptions,
+    ): (params: QueryParameters, postParams?: QueryParameters) => Promise<R>;
+  };
+
   export const ComparisonsStoreInstance: {
     getSegmentComparisons(): Array<{ params: { segment: string } }>;
     isComparisonEnabled(): boolean | null;
@@ -39,5 +72,34 @@ declare module 'CoreHome' {
     getDateAndPeriodFromUrl(): { date: string; period: string };
     updatePageTitle(): void;
     updatePeriodParamsFromUrl(): void;
+  };
+
+  export interface NotificationType {
+    id?: string;
+    notificationInstanceId?: string;
+    group?: string;
+    title?: string;
+    message: string;
+    context: 'success'|'error'|'info'|'warning';
+    type: 'toast'|'persistent'|'transient'|'help';
+    noclear?: boolean;
+    toastLength?: number;
+    style?: string|Record<string, unknown>;
+    class?: string;
+    animate?: boolean;
+    placeat?: string|HTMLElement|JQuery;
+    prepend?: boolean;
+  }
+
+  export const NotificationsStore: {
+    readonly state: import('vue').DeepReadonly<{ notifications: NotificationType[] }>;
+    appendNotification(notification: NotificationType): void;
+    prependNotification(notification: NotificationType): void;
+    remove(id: string): void;
+    parseNotificationDivs(): void;
+    clearTransientNotifications(): void;
+    show(notification: NotificationType): string;
+    scrollToNotification(notificationInstanceId: string): void;
+    toast(notification: NotificationType): void;
   };
 }

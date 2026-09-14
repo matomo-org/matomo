@@ -29,6 +29,8 @@ use Piwik\Plugins\Goals\Reports\GetMetrics;
 use Piwik\Segment;
 use Piwik\Segment\SegmentExpression;
 use Piwik\Site;
+use Piwik\Validators\BaseValidator;
+use Piwik\Validators\CharacterLength;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\GoalManager;
 use Piwik\Plugins\VisitFrequency\API as VisitFrequencyAPI;
@@ -56,7 +58,7 @@ use Piwik\Validators\WhitelistedValue;
  * @method static \Piwik\Plugins\Goals\API getInstance()
  *
  * @phpstan-import-type GoalStoredRecord from Model
- * @phpstan-type GoalMatchAttribute 'url'|'title'|'file'|'external_website'|'manually'|'visit_duration'|'visit_total_actions'|'visit_total_pageviews'|'event_action'|'event_category'|'event_name'
+ * @phpstan-type GoalMatchAttribute 'url'|'title'|'file'|'external_website'|'manually'|'visit_duration'|'event_action'|'event_category'|'event_name'
  * @phpstan-type GoalPatternType ''|'regex'|'contains'|'exact'|'greater_than'
  * @phpstan-type GoalRecord array{
  *     idgoal: int|string,
@@ -187,11 +189,13 @@ class API extends \Piwik\Plugin\API
      *
      * @param int $idSite The numeric ID of the website to configure the goal for.
      * @param string $name Goal name.
-     * @param string $matchAttribute Attribute used to match conversions.
+     * @param string $matchAttribute Attribute used to match conversions. One of `url`, `title`, `file`,
+     *                                `external_website`, `manually`, `visit_duration`, `event_action`,
+     *                                `event_category` or `event_name`.
      * @phpstan-param GoalMatchAttribute $matchAttribute
      * @param string $pattern Match pattern. Use a URL, title, filename, external website, or event value for string
-     *                        match attributes; use a numeric threshold for visit duration, actions, or pageview
-     *                        match attributes; this value is ignored for `manually`.
+     *                        match attributes; use a numeric threshold in minutes for `visit_duration`; this value is
+     *                        ignored for `manually`.
      * @param string $patternType Matching operator. Numeric match attributes only accept `greater_than`; string match
      *                            attributes accept `exact`, `contains`, or `regex`; use an empty string for `manually`.
      * @phpstan-param GoalPatternType $patternType
@@ -223,6 +227,7 @@ class API extends \Piwik\Plugin\API
         $patternType = $this->checkPatternType($patternType, $matchAttribute);
         $pattern = $this->checkPattern($pattern, $matchAttribute);
         $this->checkPatternIsValid($patternType, $pattern, $matchAttribute);
+        $this->checkFieldLengths($name, $description, $pattern, $matchAttribute);
 
         $revenue = Common::forceDotAsSeparatorForDecimalPoint((float)$revenue);
 
@@ -238,6 +243,8 @@ class API extends \Piwik\Plugin\API
             'deleted' => 0,
             'event_value_as_revenue' => (int)$useEventValueAsRevenue,
         );
+
+        $this->checkEventValueAsRevenue($goal);
 
         $idGoal = $this->getModel()->createGoalForSite($idSite, $goal);
 
@@ -255,14 +262,18 @@ class API extends \Piwik\Plugin\API
     /**
      * Updates an existing goal without reprocessing already recorded conversions.
      *
+     * Fails if the site has no such goal.
+     *
      * @param int $idSite The numeric ID of the website the goal belongs to.
      * @param int $idGoal Goal ID to update.
      * @param string $name Goal name.
-     * @param string $matchAttribute Attribute used to match conversions.
+     * @param string $matchAttribute Attribute used to match conversions. One of `url`, `title`, `file`,
+     *                                `external_website`, `manually`, `visit_duration`, `event_action`,
+     *                                `event_category` or `event_name`.
      * @phpstan-param GoalMatchAttribute $matchAttribute
      * @param string $pattern Match pattern. Use a URL, title, filename, external website, or event value for string
-     *                        match attributes; use a numeric threshold for visit duration, actions, or pageview
-     *                        match attributes; this value is ignored for `manually`.
+     *                        match attributes; use a numeric threshold in minutes for `visit_duration`; this value is
+     *                        ignored for `manually`.
      * @param string $patternType Matching operator. Numeric match attributes only accept `greater_than`; string match
      *                            attributes accept `exact`, `contains`, or `regex`; use an empty string for `manually`.
      * @phpstan-param GoalPatternType $patternType
@@ -289,11 +300,18 @@ class API extends \Piwik\Plugin\API
     ): void {
         Piwik::checkUserHasWriteAccess($idSite);
 
+        $idGoal = (int) $idGoal;
+
+        if (!$this->getModel()->doesGoalExist($idGoal, $idSite)) {
+            throw new Exception("There is no goal with id '$idGoal' for site with id '$idSite'.");
+        }
+
         $patternType = Common::unsanitizeInputValue($patternType);
 
         $patternType = $this->checkPatternType($patternType, $matchAttribute);
         $pattern = $this->checkPattern($pattern, $matchAttribute);
         $this->checkPatternIsValid($patternType, $pattern, $matchAttribute);
+        $this->checkFieldLengths($name, $description, $pattern, $matchAttribute);
 
         $revenue = Common::forceDotAsSeparatorForDecimalPoint((float)$revenue);
 
@@ -362,6 +380,18 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * Ensures the given values still fit their columns, as the database would otherwise truncate them silently.
+     */
+    private function checkFieldLengths(string $name, string $description, string $pattern, string $matchAttribute): void
+    {
+        BaseValidator::check(Piwik::translate('Goals_GoalName'), Common::unsanitizeInputValue($name), [new CharacterLength(null, 50)]);
+        BaseValidator::check(Piwik::translate('General_Description'), Common::unsanitizeInputValue($description), [new CharacterLength(null, 255)]);
+        BaseValidator::check(Piwik::translate('Goals_Pattern'), Common::unsanitizeInputValue($pattern), [new CharacterLength(null, 255)]);
+        // unlike the fields above this one is no free text, so the stored value is what has to fit
+        BaseValidator::check('matchAttribute', $matchAttribute, [new CharacterLength(null, 20)]);
+    }
+
+    /**
      * @param string|null $patternType
      * @param string $matchAttribute
      * @phpstan-return GoalPatternType
@@ -410,6 +440,8 @@ class API extends \Piwik\Plugin\API
      * Soft deletes a given Goal.
      * Stats data in the archives will still be recorded, but not displayed.
      *
+     * Nothing is deleted if the site has no such goal.
+     *
      * @param int $idSite The numeric ID of the website to query.
      * @param int $idGoal The numeric ID of the goal to delete.
      *
@@ -418,6 +450,18 @@ class API extends \Piwik\Plugin\API
     public function deleteGoal(int $idSite, $idGoal)
     {
         Piwik::checkUserHasWriteAccess($idSite);
+
+        $idGoal = (int) $idGoal;
+
+        // the reserved ecommerce ids are no goals, so only ids of goals configured for the site
+        // may reach the conversion deletion below
+        if (
+            $idGoal === GoalManager::IDGOAL_ORDER
+            || $idGoal === GoalManager::IDGOAL_CART
+            || !$this->getModel()->doesGoalExist($idGoal, $idSite)
+        ) {
+            return;
+        }
 
         $this->getModel()->deleteGoal($idSite, $idGoal);
         $this->getModel()->deleteGoalConversions($idSite, $idGoal);

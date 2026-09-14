@@ -13,7 +13,12 @@ use Piwik\IP;
 use Piwik\Measurable\Type\TypeManager;
 use Matomo\Network\IPUtils;
 use Piwik\Piwik;
+use Piwik\Plugin\Manager;
+use Piwik\Plugins\Ecommerce\Settings\EcommerceRestricted;
 use Piwik\Plugins\WebsiteMeasurable\Settings\Urls;
+use Piwik\Policy\CompliancePolicy;
+use Piwik\Policy\PolicyManager;
+use Piwik\Settings\Interfaces\PolicyComparisonInterface;
 use Piwik\Settings\Measurable\MeasurableProperty;
 use Piwik\Settings\Setting;
 use Piwik\Settings\FieldConfig;
@@ -394,7 +399,9 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
 
     private function makeEcommerce()
     {
-        return $this->makeProperty('ecommerce', $default = 0, FieldConfig::TYPE_INT, function (FieldConfig $field) {
+        $idSite = $this->idSite;
+
+        return $this->makeProperty('ecommerce', $default = 0, FieldConfig::TYPE_INT, function (FieldConfig $field) use ($idSite) {
             $field->title = Piwik::translate('Goals_Ecommerce');
             $field->inlineHelp = Piwik::translate('SitesManager_EcommerceHelp')
                 . '<br />'
@@ -402,12 +409,80 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
                     'SitesManager_PiwikOffersEcommerceAnalytics',
                     ["<a href='" . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/ecommerce-analytics/') . "' target='_blank'>", '</a>']
                 );
+
+            $restrictingPolicy = self::findPolicyRestrictingEcommerce($idSite);
+            if ($restrictingPolicy) {
+                $field->inlineHelp .= '<br /><br />' . self::getEcommerceRestrictedNote($restrictingPolicy, $idSite);
+            }
+
             $field->uiControl = FieldConfig::UI_CONTROL_SINGLE_SELECT;
             $field->availableValues = [
                 0 => Piwik::translate('SitesManager_NotAnEcommerceSite'),
                 1 => Piwik::translate('SitesManager_EnableEcommerce'),
             ];
         });
+    }
+
+    /**
+     * A site may stay an ecommerce site while a compliance policy is enforced: the policy restricts
+     * what ecommerce tracking collects rather than whether ecommerce is on, so this field is only
+     * annotated and never locked or overridden like the settings a policy determines outright.
+     *
+     * EcommerceRestricted has no underlying Matomo setting of its own, so it cannot be matched
+     * by setting name the way PolicyManager matches the other policy-controlled settings.
+     *
+     * @return class-string<CompliancePolicy>|null
+     */
+    private static function findPolicyRestrictingEcommerce(int $idSite): ?string
+    {
+        if (!Manager::getInstance()->isPluginActivated('Ecommerce')) {
+            return null;
+        }
+
+        if (!EcommerceRestricted::isEnforced($idSite)) {
+            return null;
+        }
+
+        foreach (PolicyManager::getAllPolicies() as $policyClass) {
+            if (EcommerceRestricted::isControlledBySpecificPolicy($policyClass, $idSite)) {
+                return $policyClass;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Says where the restriction comes from, and points at the compliance dashboard the way the
+     * settings a policy determines outright do. A policy pinned in the config file cannot be
+     * changed from there, so no link is offered for it.
+     *
+     * @param class-string<CompliancePolicy> $policyClass
+     */
+    private static function getEcommerceRestrictedNote(string $policyClass, int $idSite): string
+    {
+        $scope = EcommerceRestricted::getEnforcementScope($idSite);
+        $notes = [
+            PolicyComparisonInterface::ENFORCEMENT_SCOPE_CONFIG => 'Ecommerce_EcommercePolicyRestrictedNoteConfig',
+            PolicyComparisonInterface::ENFORCEMENT_SCOPE_SITE => 'Ecommerce_EcommercePolicyRestrictedNoteWebsite',
+        ];
+        $note = Piwik::translate(
+            $notes[$scope] ?? 'Ecommerce_EcommercePolicyRestrictedNoteInstance',
+            $policyClass::getTitle()
+        );
+
+        if ($scope === PolicyComparisonInterface::ENFORCEMENT_SCOPE_CONFIG) {
+            return $note;
+        }
+
+        $complianceUrl = 'index.php' . Url::getCurrentQueryStringWithParametersModified([
+            'module' => 'PrivacyManager',
+            'action' => 'compliance',
+            'idSite' => $idSite ?: 'all',
+        ]);
+
+        return $note . ' <a href="' . $complianceUrl . '">'
+            . Piwik::translate('PrivacyManager_ViewPrivacyComplianceOverview') . '</a>';
     }
 
     public function checkAndReturnCommaSeparatedStringList($parameters)

@@ -124,6 +124,7 @@ class API extends \Piwik\Plugin\API
         }
 
         $this->marketplaceClient->clearAllCacheEntries();
+        $this->expired->clearCache();
 
         $licenseKey = trim($result['data']['license_key'] ?? '');
         $status = $result['status'];
@@ -220,6 +221,7 @@ class API extends \Piwik\Plugin\API
         );
 
         $this->marketplaceClient->clearAllCacheEntries();
+        $this->expired->clearCache();
 
         if (
             201 !== $result['status']

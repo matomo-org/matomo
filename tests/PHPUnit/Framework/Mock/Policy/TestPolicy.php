@@ -13,10 +13,14 @@ class TestPolicy extends \Piwik\Policy\CompliancePolicy
     /** @var array<int,bool> */
     private static $perSite = [];
 
+    /** @var bool|null */
+    private static $configValue = null;
+
     public static function reset(): void
     {
         self::$system = false;
         self::$perSite = [];
+        self::$configValue = null;
     }
 
     public static function getName(): string
@@ -64,6 +68,16 @@ class TestPolicy extends \Piwik\Policy\CompliancePolicy
         $manager = new MockManager();
         $manager->setActivatedPlugins([]);
         return $manager;
+    }
+
+    public static function getConfigValue(?int $idSite = null)
+    {
+        return self::$configValue;
+    }
+
+    public static function setConfigValue(?bool $value): void
+    {
+        self::$configValue = $value;
     }
 
     public static function setState($instanceLevel, $siteLevel)

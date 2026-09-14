@@ -1152,6 +1152,29 @@ class Common
     }
 
     /**
+     * Returns the value already set for a response header, or an empty string when it is unset.
+     * Only headers set explicitly are reported, not the content type PHP defaults to.
+     *
+     * @param string $name The header name.
+     */
+    public static function getSentHeader(string $name): string
+    {
+        // in test mode no real headers are emitted, sendHeader() records them instead, keeping the
+        // value as it was written rather than as it is read back below
+        if (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE) {
+            return trim((string) (self::$headersSentInTests[$name] ?? ''));
+        }
+
+        foreach (headers_list() as $header) {
+            if (stripos($header, $name . ':') === 0) {
+                return trim(substr($header, strlen($name) + 1));
+            }
+        }
+
+        return '';
+    }
+
+    /**
      * Sends the given response code if supported.
      *
      * @param int $code  Eg 204

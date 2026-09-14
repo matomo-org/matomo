@@ -35,6 +35,9 @@ return array(
         if ($consumerTest == 'validLicense') {
             $consumer = MockConsumer::buildValidLicense();
             $licenseKey->set('123456789');
+        } elseif ($consumerTest == 'validLicenseNoPlugins') {
+            $consumer = MockConsumer::buildValidLicenseWithoutPluginLicenses();
+            $licenseKey->set('123456789');
         } elseif ($consumerTest == 'exceededLicense') {
             $consumer = MockConsumer::buildExceededLicense();
             $licenseKey->set('1234567891');
@@ -141,7 +144,26 @@ return array(
         $createAccountResponseCode = (int) $c->get('test.vars.createAccountResponseCode');
         $startFreeTrialSuccess = $c->get('test.vars.startFreeTrialSuccess');
 
-        $service->setOnDownloadCallback(function ($action, $params) use ($service, $isExceededUser, $isValidUser, $isExpiredUser, $startFreeTrialSuccess, $createAccountResponseCode) {
+        // which paid plugins fixture this consumer sees. The generic PaidPluginN info branch below
+        // answers out of the same one, so a card and its modal cannot disagree. PaidPlugin1 is the
+        // exception: it is served by its own info fixtures above, which can differ from this list.
+        $paidPluginsFixture = function () use ($service, $isExceededUser, $isExpiredUser, $isValidUser) {
+            if ($isExceededUser) {
+                return 'v2.0_plugins-purchase_type-paid-num_users-201-access_token-consumer2_paid1.json';
+            }
+
+            if ($isExpiredUser) {
+                return 'v2.0_plugins-purchase_type-paid-access_token-consumer1_paid2_custom1.json';
+            }
+
+            if ($service->hasAccessToken() || $isValidUser) {
+                return 'v2.0_plugins-purchase_type-paid-access_token-consumer2_paid1.json';
+            }
+
+            return 'v2.0_plugins-purchase_type-paid-access_token-notexistingtoken.json';
+        };
+
+        $service->setOnDownloadCallback(function ($action, $params) use ($service, $isExceededUser, $startFreeTrialSuccess, $createAccountResponseCode, $paidPluginsFixture) {
             if ($action === 'info') {
                 return $service->getFixtureContent('v2.0_info.json');
             } elseif ($action === 'consumer' && $service->getAccessToken() === 'valid') {
@@ -155,17 +177,8 @@ return array(
             } elseif ($action === 'plugins' && empty($params['purchase_type']) && empty($params['query'])) {
                 $content = $service->getFixtureContent('v2.0_plugins.json');
                 return updateUrlsInFixtureContent($content);
-            } elseif ($action === 'plugins' && $isExceededUser && !empty($params['purchase_type']) && $params['purchase_type'] === PurchaseType::TYPE_PAID && empty($params['query'])) {
-                $content = $service->getFixtureContent('v2.0_plugins-purchase_type-paid-num_users-201-access_token-consumer2_paid1.json');
-                return updateUrlsInFixtureContent($content);
-            } elseif ($action === 'plugins' && $isExpiredUser && !empty($params['purchase_type']) && $params['purchase_type'] === PurchaseType::TYPE_PAID && empty($params['query'])) {
-                $content = $service->getFixtureContent('v2.0_plugins-purchase_type-paid-access_token-consumer1_paid2_custom1.json');
-                return updateUrlsInFixtureContent($content);
-            } elseif ($action === 'plugins' && ($service->hasAccessToken() || $isValidUser) && !empty($params['purchase_type']) && $params['purchase_type'] === PurchaseType::TYPE_PAID && empty($params['query'])) {
-                $content = $service->getFixtureContent('v2.0_plugins-purchase_type-paid-access_token-consumer2_paid1.json');
-                return updateUrlsInFixtureContent($content);
-            } elseif ($action === 'plugins' && !$service->hasAccessToken() && !empty($params['purchase_type']) && $params['purchase_type'] === PurchaseType::TYPE_PAID && empty($params['query'])) {
-                $content = $service->getFixtureContent('v2.0_plugins-purchase_type-paid-access_token-notexistingtoken.json');
+            } elseif ($action === 'plugins' && !empty($params['purchase_type']) && $params['purchase_type'] === PurchaseType::TYPE_PAID && empty($params['query'])) {
+                $content = $service->getFixtureContent($paidPluginsFixture());
                 return updateUrlsInFixtureContent($content);
             } elseif ($action === 'themes' && empty($params['purchase_type']) && empty($params['query'])) {
                 return $service->getFixtureContent('v2.0_themes.json');
@@ -184,6 +197,16 @@ return array(
             } elseif ($action === 'plugins/PaidPlugin1/info' && !$service->hasAccessToken()) {
                 $content = $service->getFixtureContent('v2.0_plugins_PaidPlugin1_info.json');
                 return updateUrlsInFixtureContent($content);
+            } elseif (preg_match('@^plugins/(PaidPlugin\d+)/info$@', $action, $matches)) {
+                // a list entry and an info response have the same shape, so serve the plugin
+                // straight out of the list fixture rather than duplicating it per plugin
+                $content = json_decode($service->getFixtureContent($paidPluginsFixture()), true);
+
+                foreach ($content['plugins'] ?? [] as $plugin) {
+                    if ($plugin['name'] === $matches[1]) {
+                        return updateUrlsInFixtureContent(json_encode($plugin));
+                    }
+                }
             } elseif ($action === 'plugins/PaidPlugin1/freeTrial') {
                 // this endpoint should only be called with "$getExtendedInfo = true"
                 return [

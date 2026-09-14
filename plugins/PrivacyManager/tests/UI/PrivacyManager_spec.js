@@ -108,6 +108,34 @@ describe("PrivacyManager", function () {
         await page.waitForNetworkIdle();
     }
 
+    async function complianceScopeState()
+    {
+        return await page.evaluate(() => {
+            const checked = document.querySelector('input[name="complianceScope"]:checked');
+            const selector = document.querySelector('#complianceSite a.title');
+            const notice = document.querySelector('.complianceScopeNotice');
+            const overrideNote = document.querySelector('.complianceScopeOverrideNote');
+
+            return {
+                scope: checked ? checked.value : null,
+                hasSiteSelector: !!selector,
+                selectedSite: selector ? selector.innerText.trim() : null,
+                notice: notice ? notice.innerText.trim() : null,
+                overrideNote: overrideNote ? overrideNote.innerText.trim() : null,
+                // true for either compliance dashboard, so the scope assertions below do not
+          // depend on the GranularPrivacyCompliance feature flag
+          hasDashboard: !!document.querySelector('.compliance table.dataTable'),
+            };
+        });
+    }
+
+    async function selectComplianceScope(scope)
+    {
+        await page.click('#complianceScope' + scope);
+        await page.waitForNetworkIdle();
+        await page.waitForTimeout(250);
+    }
+
     async function anonymizePastData()
     {
         await page.click('.anonymizePastData .btn');
@@ -468,11 +496,18 @@ describe("PrivacyManager", function () {
         await page.waitForSelector('.compliance', { visible: true });
         await page.waitForSelector('table.dataTable.compliance', { visible: true });
 
+        // reaching the page through the menu always starts on the global configuration
+        const state = await complianceScopeState();
+        expect(state.scope).to.equal('all');
+        expect(state.hasSiteSelector).to.equal(false);
+        expect(state.notice).to.equal('You are currently configuring settings for all websites.');
+
         expect(await page.screenshotSelector('.compliance')).to.matchImage('compliance');
     });
 
     it('should show compliance is enforced when checkbox is selected', async function() {
-      await page.goto('?module=PrivacyManager&action=compliance&idSite=1&period=day&date=yesterday');
+      await page.goto('?module=PrivacyManager&action=compliance&idSite=1&complianceScope=site'
+        + '&period=day&date=yesterday');
       await page.waitForNetworkIdle();
 
       await page.waitForSelector('.compliance', { visible: true });
@@ -486,36 +521,97 @@ describe("PrivacyManager", function () {
     });
 
     it('should load a new compliance page when site selector is changed', async function() {
-      await page.goto('?module=PrivacyManager&action=compliance&idSite=1&period=day&date=yesterday');
+      await page.goto('?module=PrivacyManager&action=compliance&idSite=1&complianceScope=site'
+        + '&period=day&date=yesterday');
       await page.waitForNetworkIdle();
-      await (await page.jQuery('#complianceSite a')).click();
-      await page.waitForTimeout(150);
-      await (await page.jQuery('#complianceSite li:nth-child(2)')).click();
-      await page.waitForNetworkIdle();
+      await selectSite(2);
+
+      const state = await complianceScopeState();
+      expect(state.scope).to.equal('site');
+      expect(state.selectedSite).to.equal('Site 2');
+      expect(state.notice).to.equal('You are currently configuring settings for Site 2 only.');
+      expect(state.hasDashboard).to.equal(true);
 
       expect(await page.screenshotSelector('.compliance')).to.matchImage('compliance_different_site');
     });
 
-    it('should select All Websites when idSite is not provided', async function() {
-      await page.goto('?module=PrivacyManager&action=compliance');
+    it('should configure all websites when no scope is requested', async function() {
+      await page.goto('?module=PrivacyManager&action=compliance&idSite=1');
       await page.waitForNetworkIdle();
 
-      const siteSelectorContent = await page.evaluate(() => {
-        return $('#complianceSite a.title').text();
-      });
-
-      expect(siteSelectorContent).to.be.equal('All Websites');
+      const state = await complianceScopeState();
+      expect(state.scope).to.equal('all');
+      expect(state.hasSiteSelector).to.equal(false);
+      expect(state.hasDashboard).to.equal(true);
     });
 
-    it('should select All Websites when idSite equals all', async function() {
+    it('should configure all websites when idSite equals all', async function() {
       await page.goto('?module=PrivacyManager&action=compliance&idSite=all');
       await page.waitForNetworkIdle();
 
-      const siteSelectorContent = await page.evaluate(() => {
-        return $('#complianceSite a.title').text();
-      });
+      const state = await complianceScopeState();
+      expect(state.scope).to.equal('all');
+      expect(state.hasSiteSelector).to.equal(false);
+      expect(state.overrideNote).to.equal('Enabling settings under All Websites applies them to'
+        + ' every website and overrides any website-specific settings. Disabling them here does'
+        + ' not turn them off for websites that enable them individually.');
+      expect(state.notice).to.equal('You are currently configuring settings for all websites.');
+    });
 
-      expect(siteSelectorContent).to.be.equal('All Websites');
+    it('should configure a single website when one is requested', async function() {
+      await page.goto('?module=PrivacyManager&action=compliance&idSite=2&complianceScope=site');
+      await page.waitForNetworkIdle();
+
+      const state = await complianceScopeState();
+      expect(state.scope).to.equal('site');
+      expect(state.hasSiteSelector).to.equal(true);
+      expect(state.selectedSite).to.equal('Site 2');
+      expect(state.notice).to.equal('You are currently configuring settings for Site 2 only.');
+      expect(state.hasDashboard).to.equal(true);
+    });
+
+    it('should only show the website selector once a single website is being configured', async function() {
+      await page.goto('?module=PrivacyManager&action=compliance&idSite=all');
+      await page.waitForNetworkIdle();
+
+      await selectComplianceScope('site');
+
+      // no website has been picked yet, so there is nothing to configure
+      let state = await complianceScopeState();
+      expect(state.scope).to.equal('site');
+      expect(state.hasSiteSelector).to.equal(true);
+      expect(state.selectedSite).to.equal('Select a website');
+      expect(state.notice).to.equal(null);
+      expect(state.hasDashboard).to.equal(false);
+
+      await selectSite(3);
+
+      state = await complianceScopeState();
+      expect(state.selectedSite).to.equal('Site 3');
+      expect(state.notice).to.equal('You are currently configuring settings for Site 3 only.');
+      expect(state.hasDashboard).to.equal(true);
+
+      await selectComplianceScope('all');
+
+      state = await complianceScopeState();
+      expect(state.hasSiteSelector).to.equal(false);
+      expect(state.notice).to.equal('You are currently configuring settings for all websites.');
+      expect(state.hasDashboard).to.equal(true);
+    });
+
+    it('should not offer All Websites inside the website selector', async function() {
+      await page.goto('?module=PrivacyManager&action=compliance&idSite=1&complianceScope=site');
+      await page.waitForNetworkIdle();
+
+      await page.click('#complianceSite a.title');
+      await page.waitForTimeout(250);
+
+      const entries = await page.evaluate(
+        () => Array.from(document.querySelectorAll('#complianceSite .dropdown a'))
+          .map((link) => link.innerText.trim()),
+      );
+
+      expect(entries).to.not.include('All Websites');
     });
 
     it('should hide the policy controls when policy is enabled via config', async function() {
@@ -528,5 +624,93 @@ describe("PrivacyManager", function () {
       await page.waitForNetworkIdle();
 
       expect(await page.screenshotSelector('.compliance')).to.matchImage('compliance_config_enabled');
+    });
+
+    it('should show the granular dashboard as read only when policy is enabled via config', async function() {
+      // self-contained: set both overrides here instead of relying on the previous test
+      testEnvironment.overrideConfig('FeatureFlags', {
+        GranularPrivacyCompliance_feature: 'enabled',
+      });
+      testEnvironment.overrideConfig('CnilPolicy', {
+        cnil_v1_policy_enabled: '1',
+      });
+      testEnvironment.save();
+
+      try {
+        await page.goto('?module=PrivacyManager&action=compliance&idSite=1&complianceScope=site'
+          + '&period=day&date=yesterday');
+        await page.waitForNetworkIdle();
+        await page.waitForSelector('table.granularCompliance', { visible: true });
+
+        expect(await page.screenshotSelector('.compliance')).to.matchImage('compliance_granular_config_enabled');
+      } finally {
+        delete testEnvironment.configOverride.CnilPolicy;
+        testEnvironment.save();
+      }
+    });
+
+    it('should show the granular dashboard with per setting toggles', async function() {
+      await page.goto('?module=PrivacyManager&action=compliance&idSite=1&complianceScope=site'
+        + '&period=day&date=yesterday');
+      await page.waitForNetworkIdle();
+      await page.waitForSelector('table.granularCompliance', { visible: true });
+
+      // the scope selector sits above the granular dashboard as well
+      const state = await complianceScopeState();
+      expect(state.scope).to.equal('site');
+      expect(state.selectedSite).to.equal('Site 1');
+      expect(state.notice).to.equal('You are currently configuring settings for Site 1 only.');
+
+      expect(await page.screenshotSelector('.compliance')).to.matchImage('compliance_granular');
+    });
+
+    it('should mark a toggled setting as applies on save until it is saved', async function() {
+      await page.click('.switch-DevicesDetection-DeviceModelDetectionDisabled .lever');
+      await page.waitForTimeout(150);
+
+      expect(await page.screenshotSelector('.compliance')).to.matchImage('compliance_granular_toggle_pending');
+    });
+
+    it('should save toggled settings after password confirmation', async function() {
+      await (await page.jQuery('.granularCompliance-cnil_v1-save input')).click();
+      await page.waitForTimeout(150);
+      await confirmPassword();
+      await page.waitForNetworkIdle();
+      await page.waitForTimeout(250);
+
+      expect(await page.screenshotSelector('.compliance')).to.matchImage('compliance_granular_saved');
+    });
+
+    it('should turn all toggles on when using enforce all settings', async function() {
+      await page.click('.granularComplianceEnforceAllButton');
+      await page.waitForTimeout(150);
+
+      expect(await page.screenshotSelector('.compliance')).to.matchImage('compliance_granular_enforce_all_pending');
+    });
+
+    it('should show the granular dashboard when configuring all websites', async function() {
+      await page.goto('?module=PrivacyManager&action=compliance&idSite=1&period=day&date=yesterday');
+      await page.waitForNetworkIdle();
+      await page.waitForSelector('table.granularCompliance', { visible: true });
+
+      // the default scope reaches the granular dashboard too
+      let state = await complianceScopeState();
+      expect(state.scope).to.equal('all');
+      expect(state.hasSiteSelector).to.equal(false);
+      expect(state.notice).to.equal('You are currently configuring settings for all websites.');
+
+      await selectComplianceScope('site');
+
+      state = await complianceScopeState();
+      expect(state.hasSiteSelector).to.equal(true);
+      expect(state.selectedSite).to.equal('Select a website');
+      expect(await page.$('table.granularCompliance')).to.equal(null);
+    });
+
+    after(async function () {
+      // leave no config overrides or pending page state behind for later tests
+      delete testEnvironment.configOverride.FeatureFlags;
+      delete testEnvironment.configOverride.CnilPolicy;
+      testEnvironment.save();
     });
   });

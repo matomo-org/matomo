@@ -24,7 +24,7 @@
         "DefaultSettingsHelp": "Matomo ist mit Standardeinstellungen vorkonfiguriert. Sie können diese nun personalisieren oder dies später im Adminbereich nachholen.",
         "DownloadSystemCheck": "Systemcheck herunterladen",
         "Email": "E-Mail",
-        "EmailPrivacyNotice": "Ihre E-Mail-Adresse wird nur dafür verwendet, Ihnen den Newsletter zu senden. Sie wird dafür an Mad Mini weitergegeben, aber der Third-Party Anbieter könnte ändern. Wir werden Ihre E-Mail-Adresse mit niemandem sonst teilen oder sie für etwas anderes verwenden. Sie können den Newsletter jederzeit abbestellen. Die %1$sDatenschutzerklärung%2$s liefert weitere Informationen.",
+        "EmailPrivacyNotice": "Ihre E-Mail-Adresse wird nur dafür verwendet, Ihnen den Newsletter zu senden. Wir werden Ihre E-Mail-Adresse mit niemandem sonst teilen oder sie für etwas anderes verwenden. Sie können den Newsletter jederzeit abbestellen. Die %1$sDatenschutzerklärung%2$s liefert weitere Informationen.",
         "ErrorExpired1": "Ihre Matomo-Installation wurde vor mehr als 3 Tagen gestartet, ist jedoch noch nicht abgeschlossen.",
         "ErrorExpired2": "Bitte folgen Sie diesen Schritten, um die Installation fortzusetzen:",
         "ErrorExpired3": "Öffnen Sie die Datei %1$sconfig/config.ini.php%2$s in Ihrem Matomo Installationsverzeichnis.",

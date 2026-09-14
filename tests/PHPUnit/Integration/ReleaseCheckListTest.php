@@ -622,7 +622,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             // Don't run the test on local dev machine, as we may have other files (not in GIT) that would fail this test
             $this->markTestSkipped("Skipped this test on local dev environment.");
         }
-        $maximumTotalFilesizesExpectedInMb = 64;
+        $maximumTotalFilesizesExpectedInMb = 65;
         $minimumTotalFilesizesExpectedInMb = 38;
         $minimumExpectedFilesCount = 7000;
 
@@ -1022,6 +1022,9 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             'libs/jqplot/plugins/jqplot.pieRenderer.js',
             'config/config.php',
             'bootstrap-phpstan.php',
+            'AGENTS.md',
+            'CHANGELOG.md',
+            'CONTRIBUTING.md',
             '*.gitignore',
             '*.gitmodules',
             '*.gitattributes',

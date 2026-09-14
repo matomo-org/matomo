@@ -9,7 +9,9 @@
 
 namespace Piwik\Plugins\API\test\Unit;
 
+use Piwik\Common;
 use Piwik\DataTable;
+use Piwik\DataTable\Renderer;
 use Piwik\Plugins\API\Renderer\Csv;
 
 /**
@@ -26,6 +28,15 @@ class CsvRendererTest extends \PHPUnit\Framework\TestCase
     public function setUp(): void
     {
         $this->builder = $this->makeBuilder(array('method' => 'MultiSites_getAll', 'convertToUnicode' => 0));
+
+        Common::$headersSentInTests = [];
+    }
+
+    public function tearDown(): void
+    {
+        Common::$headersSentInTests = [];
+
+        parent::tearDown();
     }
 
     public function testRenderSuccessShouldIncludeMessage()
@@ -41,6 +52,29 @@ ok", $response);
         $response = $this->builder->renderException("The error message", new \Exception('The other message'));
 
         $this->assertEquals('Error: The error message', $response);
+    }
+
+    public function testRenderExceptionShouldNotBeServedAsHtml()
+    {
+        $this->builder->renderException("The error message", new \Exception('The other message'));
+
+        $this->assertSame(
+            'text/plain; charset=utf-8',
+            trim(Common::$headersSentInTests['Content-Type'] ?? '')
+        );
+    }
+
+    /**
+     * The message is escaped for markup before it reaches the renderer, which a plain text response
+     * would otherwise show as the escapes themselves.
+     */
+    public function testRenderExceptionShouldServeTheMessageUnescaped()
+    {
+        $message = Renderer::formatValueXml('The value "5" is not allowed for segment a<b&c');
+
+        $response = $this->builder->renderException($message, new \Exception('The other message'));
+
+        $this->assertSame('Error: The value "5" is not allowed for segment a<b&c', $response);
     }
 
     public function testRenderExceptionShouldRespectNewlines()

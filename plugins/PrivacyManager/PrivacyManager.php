@@ -207,7 +207,7 @@ class PrivacyManager extends Plugin
     public function onConfigureVisualisation(Plugin\Visualization $view)
     {
         $roundingRequest = [
-            'idSite' => $view->requestConfig->getRequestParam('idSite') ?: $view->requestConfig->getRequestParam('idsite'),
+            'idSite' => $view->requestConfig->getRequestParam('idSite'),
             'segment' => $view->requestConfig->getRequestParam('segment'),
         ];
 
@@ -222,7 +222,7 @@ class PrivacyManager extends Plugin
         }
 
         if ($view->requestConfig->getApiModuleToRequest() === 'Referrers' && !$view->requestConfig->idSubtable) {
-            $idSite = $view->requestConfig->getRequestParam('idsite');
+            $idSite = $view->requestConfig->getRequestParam('idSite');
             if (!is_numeric($idSite) || !$idSite) {
                 $idSite = null;
             } else {
@@ -566,7 +566,11 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_UseSiteSpecificSettings';
         $translationKeys[] = 'PrivacyManager_UseSiteSpecificSettingsHelpText';
         $translationKeys[] = 'PrivacyManager_Compliance';
-        $translationKeys[] = 'PrivacyManager_ComplianceSelectSite';
+        $translationKeys[] = 'PrivacyManager_ComplianceApplySettingsTo';
+        $translationKeys[] = 'PrivacyManager_ComplianceScopeSingleWebsite';
+        $translationKeys[] = 'PrivacyManager_ComplianceScopeOverrideNote';
+        $translationKeys[] = 'PrivacyManager_ComplianceScopeAllWebsitesNotice';
+        $translationKeys[] = 'PrivacyManager_ComplianceScopeSingleWebsiteNotice';
         $translationKeys[] = 'PrivacyManager_ComplianceEnforceCheckboxIntro';
         $translationKeys[] = 'PrivacyManager_ComplianceEnforceCheckboxTitle';
         $translationKeys[] = 'PrivacyManager_ComplianceEnforceCheckboxHelp';
@@ -576,6 +580,18 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_ComplianceCompliant';
         $translationKeys[] = 'PrivacyManager_ComplianceNonCompliant';
         $translationKeys[] = 'PrivacyManager_ComplianceComplianceUnknown';
+        $translationKeys[] = 'PrivacyManager_ComplianceEnforceAllTitle';
+        $translationKeys[] = 'PrivacyManager_ComplianceEnforceAllDescription';
+        $translationKeys[] = 'PrivacyManager_ComplianceEnforceAllSettings';
+        $translationKeys[] = 'General_Description';
+        $translationKeys[] = 'PrivacyManager_ComplianceTableImpact';
+        $translationKeys[] = 'PrivacyManager_ComplianceStatusEnforced';
+        $translationKeys[] = 'PrivacyManager_ComplianceStatusCompliantEnforced';
+        $translationKeys[] = 'PrivacyManager_ComplianceStatusAppliesOnSave';
+        $translationKeys[] = 'PrivacyManager_ComplianceStatusOnByDefault';
+        $translationKeys[] = 'PrivacyManager_ComplianceStatusManual';
+        $translationKeys[] = 'PrivacyManager_ComplianceSettingsSaved';
+        $translationKeys[] = 'PrivacyManager_ComplianceManagedOutsideTitle';
         $translationKeys[] = 'General_ErrorTryAgain';
         $translationKeys[] = 'General_ExceptionContactSupportGeneric';
         $translationKeys[] = 'PrivacyManager_ComplianceCNILTitle';

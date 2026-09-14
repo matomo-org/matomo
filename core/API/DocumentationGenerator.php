@@ -270,6 +270,7 @@ class DocumentationGenerator
         $aParameters['labelSeries'] = false;
         $aParameters['flat'] = false;
         $aParameters['show_dimensions'] = false;
+        $aParameters['keep_flattened_dimension_columns'] = false;
         $aParameters['include_aggregate_rows'] = false;
         $aParameters['filter_offset'] = false;
         $aParameters['filter_limit'] = false;

@@ -67,6 +67,16 @@ class ReferrerAnonymisation implements CustomSettingInterface, PolicyComparisonI
         return Piwik::translate('PrivacyManager_ReferrerAnonymizationSettingTitle');
     }
 
+    public static function getWhatItDoes(?int $idSite = null): string
+    {
+        return Piwik::translate('PrivacyManager_ReferrerAnonymizationSettingWhatItDoes');
+    }
+
+    public static function getImpact(?int $idSite = null): string
+    {
+        return Piwik::translate('PrivacyManager_ReferrerAnonymizationSettingImpact');
+    }
+
     public static function getComplianceRequirementNote(?int $idSite = null): string
     {
         return Piwik::translate('PrivacyManager_ReferrerAnonymizationSettingRequirementNote');
@@ -84,6 +94,12 @@ class ReferrerAnonymisation implements CustomSettingInterface, PolicyComparisonI
         $policies[CnilPolicy::class] = ReferrerAnonymizer::EXCLUDE_PATH;
 
         return $policies;
+    }
+
+    public static function getPolicyConstraintType(string $policy): string
+    {
+        // a policy sets the least amount of the referrer to strip, stripping more stays compliant
+        return PolicyComparisonInterface::POLICY_CONSTRAINT_MIN;
     }
 
     public static function getInstance(?int $idSite = null): self

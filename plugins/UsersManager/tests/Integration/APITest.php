@@ -1711,6 +1711,27 @@ class APITest extends IntegrationTestCase
         self::assertTrue($user);
     }
 
+    public function testGenerateInviteLinkRejectsAlreadyActiveUser()
+    {
+        // an account that has already accepted its invitation is not pending, so no invite link may be issued for it
+        $this->api->addUser('activeUser', 'password', 'activeUser@matomo.org');
+
+        self::expectException(\Exception::class);
+        self::expectExceptionMessage('UsersManager_ExceptionUserDoesNotExist');
+
+        $this->api->generateInviteLink('activeUser');
+    }
+
+    public function testResendInviteRejectsAlreadyActiveUser()
+    {
+        $this->api->addUser('activeUser', 'password', 'activeUser@matomo.org');
+
+        self::expectException(\Exception::class);
+        self::expectExceptionMessage('UsersManager_ExceptionUserDoesNotExist');
+
+        $this->api->resendInvite('activeUser');
+    }
+
     public function testInviteUserAsAdminForAnotherSiteDoesntWork()
     {
         self::expectException(\Exception::class);

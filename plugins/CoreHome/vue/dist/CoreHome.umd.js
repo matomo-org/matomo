@@ -1091,6 +1091,105 @@ class MatomoUrl_MatomoUrl {
 const instance = new MatomoUrl_MatomoUrl();
 /* harmony default export */ var src_MatomoUrl_MatomoUrl = (instance);
 MatomoUrl_piwik.updatePeriodParamsFromUrl = instance.updatePeriodParamsFromUrl.bind(instance);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoUrl/queryParameterNames.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+// Reject unsupported or ambiguous request parameter names.
+const NULL_BYTE = '\u0000';
+const APPENDS_LIKE_EMPTY_SUBSCRIPT = /\[[ \t\n\v\f\r]\]/;
+const COMPLETE_SUBSCRIPTS = /^[^[]+(?:\[[^\]]*\])*$/;
+const UNTERMINATED_FIRST_SUBSCRIPT = /^[^[]+\[[^\]]*$/;
+const REWRITTEN_IN_A_BASE_NAME = /[. ]/g;
+const REWRITTEN_IN_A_WHOLE_NAME = /[. []/g;
+function isCanonicalQueryParameterName(name) {
+  if (name === '' || name.includes(NULL_BYTE) || name.startsWith(' ') || APPENDS_LIKE_EMPTY_SUBSCRIPT.test(name)) {
+    return false;
+  }
+  return !name.includes('[') || COMPLETE_SUBSCRIPTS.test(name) || UNTERMINATED_FIRST_SUBSCRIPT.test(name);
+}
+function getServerParameterName(name) {
+  const firstSubscript = name.indexOf('[');
+  if (firstSubscript === -1) {
+    return name.replace(REWRITTEN_IN_A_BASE_NAME, '_');
+  }
+  if (!COMPLETE_SUBSCRIPTS.test(name)) {
+    return name.replace(REWRITTEN_IN_A_WHOLE_NAME, '_');
+  }
+  return name.substring(0, firstSubscript).replace(REWRITTEN_IN_A_BASE_NAME, '_') + name.substring(firstSubscript);
+}
+function reportUnsupportedQueryParameterName(name) {
+  console.error(`Dropping request parameter with an unsupported name: ${name}`);
+}
+function decodeParameterName(encodedName) {
+  try {
+    return decodeURIComponent(encodedName.replace(/\+/g, '%20'));
+  } catch (e) {
+    return null;
+  }
+}
+function parseQueryParameter(pair) {
+  if (!pair) {
+    return null;
+  }
+  const separatorIndex = pair.indexOf('=');
+  const encodedName = separatorIndex === -1 ? pair : pair.substring(0, separatorIndex);
+  const name = decodeParameterName(encodedName);
+  if (name === null || !isCanonicalQueryParameterName(name)) {
+    reportUnsupportedQueryParameterName(encodedName);
+    return null;
+  }
+  return {
+    pair,
+    encodedName,
+    name,
+    serverName: getServerParameterName(name)
+  };
+}
+// The same name repeated is one parameter, so only differing names are ambiguous.
+function findAmbiguousServerNames(parameters) {
+  const firstNameByServerName = new Map();
+  const ambiguous = new Set();
+  parameters.forEach(({
+    name,
+    serverName
+  }) => {
+    const firstName = firstNameByServerName.get(serverName);
+    if (firstName === undefined) {
+      firstNameByServerName.set(serverName, name);
+    } else if (firstName !== name) {
+      ambiguous.add(serverName);
+    }
+  });
+  return ambiguous;
+}
+/**
+ * Filters unsupported parameter names from a serialized query string.
+ */
+function dropMalformedQueryParameters(queryString) {
+  if (!queryString) {
+    return queryString;
+  }
+  const parameters = queryString.split('&').map(parseQueryParameter).filter(parameter => parameter !== null);
+  const ambiguousServerNames = findAmbiguousServerNames(parameters);
+  const keptParameters = parameters.filter(({
+    encodedName,
+    name,
+    serverName
+  }) => {
+    if (serverName !== name && ambiguousServerNames.has(serverName)) {
+      reportUnsupportedQueryParameterName(encodedName);
+      return false;
+    }
+    return true;
+  });
+  return keptParameters.map(({
+    pair
+  }) => pair).join('&');
+}
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/CookieHelper/CookieHelper.ts
 /*
  * General utils for managing cookies in Typescript.
@@ -1140,6 +1239,7 @@ function AjaxHelper_defineProperty(obj, key, value) { if (key in obj) { Object.d
  * @link    https://matomo.org
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 
 
 
@@ -1709,6 +1809,11 @@ class AjaxHelper_AjaxHelper {
     const params = typeof initialParams === 'string' ? window.broadcast.getValuesFromUrl(initialParams) : initialParams;
     const arrayParams = ['compareSegments', 'comparePeriods', 'compareDates'];
     Object.keys(params).forEach(key => {
+      // String input is validated after serialization.
+      if (!isCanonicalQueryParameterName(key)) {
+        reportUnsupportedQueryParameterName(key);
+        return;
+      }
       let value = params[key];
       if (arrayParams.indexOf(key) !== -1 && !value) {
         return;
@@ -2022,7 +2127,16 @@ class AjaxHelper_AjaxHelper {
 AjaxHelper_defineProperty(AjaxHelper_AjaxHelper, "UNSUPPORTED_BULK_RESPONSE_OBJECT_ERROR", 'AjaxHelper returnResponseObject is not supported for bulk requests.');
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/AjaxHelper/AjaxHelper.adapter.ts
 
+
 window.ajaxHelper = AjaxHelper_AjaxHelper;
+// Apply the shared parameter-name validation to query strings produced by jQuery.
+(function guardSerializedParameterNames(jq) {
+  const originalParam = jq.param;
+  function param(...args) {
+    return dropMalformedQueryParameters(originalParam.apply(this, args));
+  }
+  jq.param = param;
+})(window.$);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/NumberFormatter/NumberFormatter.ts
 function NumberFormatter_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 /*!
@@ -12293,20 +12407,23 @@ const {
     });
   }
 });
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/Sparkline/Sparkline.vue?vue&type=template&id=197ce498
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/Sparkline/Sparkline.vue?vue&type=template&id=557855d1
 
-const Sparklinevue_type_template_id_197ce498_hoisted_1 = ["src", "width", "height"];
-function Sparklinevue_type_template_id_197ce498_render(_ctx, _cache, $props, $setup, $data, $options) {
+const Sparklinevue_type_template_id_557855d1_hoisted_1 = ["src", "width", "height"];
+function Sparklinevue_type_template_id_557855d1_render(_ctx, _cache, $props, $setup, $data, $options) {
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("img", {
     class: "sparklineImg",
     loading: "lazy",
     alt: "",
     src: _ctx.sparklineUrl,
     width: _ctx.width,
-    height: _ctx.height
-  }, null, 8, Sparklinevue_type_template_id_197ce498_hoisted_1);
+    height: _ctx.height,
+    style: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeStyle"])(_ctx.sizeStyle),
+    onLoad: _cache[0] || (_cache[0] = $event => _ctx.hasLoaded = true),
+    onError: _cache[1] || (_cache[1] = $event => _ctx.hasLoaded = true)
+  }, null, 44, Sparklinevue_type_template_id_557855d1_hoisted_1);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Sparkline/Sparkline.vue?vue&type=template&id=197ce498
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Sparkline/Sparkline.vue?vue&type=template&id=557855d1
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/Sparkline/Sparkline.vue?vue&type=script&lang=ts
 
@@ -12323,10 +12440,15 @@ function Sparklinevue_type_template_id_197ce498_render(_ctx, _cache, $props, $se
     width: Number,
     height: Number
   },
+  // So a parent can show its own placeholder while an image is loading. Only changes are emitted,
+  // not the initial `true` — a parent that cares starts out in its loading state anyway.
+  emits: ['loadingChange'],
   data() {
     return {
       isWidget: false,
-      themeMode: Matomo_Matomo.getThemeMode()
+      themeMode: Matomo_Matomo.getThemeMode(),
+      // False while an image is on its way, so a parent can show a placeholder instead.
+      hasLoaded: false
     };
   },
   mounted() {
@@ -12336,7 +12458,29 @@ function Sparklinevue_type_template_id_197ce498_render(_ctx, _cache, $props, $se
   beforeUnmount() {
     window.removeEventListener('themeModeChange', this.onThemeModeChange);
   },
+  watch: {
+    // A new url means a new request, so go back to loading until it arrives. The browser keeps
+    // showing the current image until then, so nothing goes blank.
+    sparklineUrl() {
+      this.hasLoaded = false;
+    },
+    hasLoaded(value) {
+      this.$emit('loadingChange', !value);
+    }
+  },
   computed: {
+    // Draw the image at the size the props ask for. The width/height attributes alone can't do
+    // this, because any CSS rule beats them — including the 100x25 default in Sparkline.less.
+    sizeStyle() {
+      const {
+        width,
+        height
+      } = this;
+      return typeof width === 'number' && typeof height === 'number' ? {
+        width: `${width}px`,
+        height: `${height}px`
+      } : undefined;
+    },
     sparklineUrl() {
       const {
         seriesIndices,
@@ -12348,8 +12492,7 @@ function Sparklinevue_type_template_id_197ce498_render(_ctx, _cache, $props, $se
         sparklineColors.lineColor = sparklineColors.lineColor.filter((c, index) => seriesIndices.indexOf(index) !== -1);
       }
       const colors = JSON.stringify(sparklineColors);
-      // The width/height props are the displayed size; the PNG is rendered at twice that so it
-      // stays crisp on hi-DPI screens.
+      // Ask for twice the displayed size, so the image stays sharp on hi-DPI screens.
       const sizeParams = Object.assign(Object.assign({}, typeof this.width === 'number' ? {
         width: this.width * 2
       } : {}), typeof this.height === 'number' ? {
@@ -12406,7 +12549,7 @@ function Sparklinevue_type_template_id_197ce498_render(_ctx, _cache, $props, $se
 
 
 
-Sparklinevue_type_script_lang_ts.render = Sparklinevue_type_template_id_197ce498_render
+Sparklinevue_type_script_lang_ts.render = Sparklinevue_type_template_id_557855d1_render
 
 /* harmony default export */ var Sparkline = (Sparklinevue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/Progressbar/Progressbar.vue?vue&type=template&id=f800d6ec

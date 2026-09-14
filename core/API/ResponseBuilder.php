@@ -18,6 +18,8 @@ use Piwik\DataTable\Filter\Pattern;
 use Piwik\DataTable\Renderer;
 use Piwik\ExceptionHandler;
 use Piwik\Http\HttpCodeException;
+use Piwik\Http\SecurityHeaders;
+use Piwik\Piwik;
 use Piwik\Plugin\ReportsProvider;
 use Piwik\Plugins\Monolog\Processor\ExceptionToTextProcessor;
 use Piwik\Plugins\PrivacyManager\DataRounding;
@@ -35,6 +37,11 @@ class ResponseBuilder
     private $shouldPrintBacktrace = false;
 
     /**
+     * @var bool
+     */
+    private $isApiHttpRequest;
+
+    /**
      * @param string $outputFormat
      * @param array $request
      * @param bool|null $shouldPrintBacktrace
@@ -45,6 +52,7 @@ class ResponseBuilder
         $this->request      = $request;
         $this->apiRenderer  = ApiRenderer::factory($outputFormat, $request);
         $this->shouldPrintBacktrace = $shouldPrintBacktrace === null ? ExceptionHandler::shouldPrintBackTraceWithMessage() : $shouldPrintBacktrace;
+        $this->isApiHttpRequest = self::isApiHttpRequest();
     }
 
     public function disableSendHeader()
@@ -264,8 +272,39 @@ class ResponseBuilder
 
     private function sendHeaderIfEnabled()
     {
-        if ($this->sendHeader) {
-            $this->apiRenderer->sendHeader();
+        if (!$this->sendHeader) {
+            return;
         }
+
+        if ($this->isApiHttpRequest) {
+            SecurityHeaders::sendForDataResponse();
+        }
+
+        // an API method that streamed its own response has already sent the content type for the
+        // body it wrote, and overwriting it would mislabel that body. A content type on its own
+        // says nothing, as one is also set for a response whose body is still to be rendered.
+        if (ob_get_contents() && '' !== Common::getSentHeader('Content-Type')) {
+            return;
+        }
+
+        $this->apiRenderer->sendHeader();
+    }
+
+    /**
+     * Whether the request being served is the API endpoint itself, so that its response can be
+     * sent as a data response. An API call made while rendering a page must not turn that page into
+     * one, as a page does need to run scripts, and the module also serves HTML pages (eg. listAllAPI)
+     * which send their headers through the view.
+     *
+     * Only meaningful before the response is built, as {@see Request::processRequest()} overlays
+     * `module=API` onto the request parameters while it runs. The module is checked rather than
+     * {@see Request::isRootRequestApiRequest()}, as that only knows requests whose method name
+     * parses, leaving the errors for the ones that do not.
+     */
+    private static function isApiHttpRequest(): bool
+    {
+        $action = Piwik::getAction();
+
+        return Piwik::getModule() === 'API' && (empty($action) || $action === 'index');
     }
 }

@@ -14,6 +14,7 @@ use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Site;
+use Piwik\Plugins\Live\Settings\AggregatedRealtimeReportsEnabled as AggregatedRealtimeReportsEnabledSetting;
 use Piwik\Plugins\Live\Settings\VisitorLogDisabled as VisitorLogDisabledSetting;
 
 class Live extends \Piwik\Plugin
@@ -94,6 +95,28 @@ class Live extends \Piwik\Plugin
 
         return true;
     }
+
+    /**
+     * Returns whether the aggregated real-time reports are enabled (for the given site).
+     *
+     * When the detailed visits log is disabled, this setting keeps the aggregated real-time widget
+     * available, showing only the "Last 24 hours" / "Last 30 minutes" counters without any
+     * individual visitor information.
+     */
+    public static function isAggregatedRealtimeEnabled(?int $idSite = null): bool
+    {
+        return AggregatedRealtimeReportsEnabledSetting::getInstance($idSite)->getValue() === true;
+    }
+
+    /**
+     * Returns whether the aggregated real-time widget should be limited to the aggregated counters
+     * only, i.e. the detailed visits log is disabled but the aggregated real-time reports are enabled.
+     */
+    public static function shouldShowAggregatedRealtimeOnly(?int $idSite = null): bool
+    {
+        return !self::isVisitorLogEnabled($idSite) && self::isAggregatedRealtimeEnabled($idSite);
+    }
+
     /**
      * Throws an exception if visitor profile is disabled
      *
