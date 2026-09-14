@@ -15620,6 +15620,87 @@
     return DOMPurify;
   }
   var purify = createDOMPurify();
+  /*!
+   * Matomo - free/libre analytics platform
+   *
+   * @link    https://matomo.org
+   * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+   */
+  function hasSafeRel(rel) {
+    const parts = rel.split(/\s+/);
+    return parts.includes("noopener") && parts.includes("noreferrer");
+  }
+  purify.addHook("afterSanitizeAttributes", (node) => {
+    if (node.hasAttribute("target") && node.getAttribute("target") === "_blank" && (!node.hasAttribute("rel") || !hasSafeRel(node.getAttribute("rel")))) {
+      node.removeAttribute("target");
+    }
+  });
+  function sanitize(val) {
+    return purify.sanitize(val, {
+      ADD_ATTR: ["target"],
+      FORBID_TAGS: ["style"]
+    });
+  }
+  const TOOLTIP_TAGS = ["b", "br", "em", "i", "small", "span", "strong", "u"];
+  const tooltipPurify = purify(window);
+  function asText(value) {
+    return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  }
+  function withLineBreaks(value) {
+    return value.replace(/\n/g, "<br />");
+  }
+  function decodeEntities(value) {
+    const textarea = document.createElement("textarea");
+    textarea.innerHTML = value;
+    return textarea.value;
+  }
+  function carriesOtherMarkup(html2) {
+    if (/<[!?]|<\/(?![a-zA-Z])/.test(html2)) {
+      return true;
+    }
+    const tags = /<(\/?)([a-zA-Z][^\s/>]*)([^>]*)>?/g;
+    const open = [];
+    let tag = tags.exec(html2);
+    while (tag !== null) {
+      if (!tag[0].endsWith(">")) {
+        return true;
+      }
+      const name = tag[2].toLowerCase();
+      const attributes = (tag[3] || "").replace(/\/\s*$/, "").trim();
+      if (!TOOLTIP_TAGS.includes(name) || attributes !== "") {
+        return true;
+      }
+      if (tag[1] === "/") {
+        if (open.pop() !== name) {
+          return true;
+        }
+      } else if (name !== "br") {
+        open.push(name);
+      }
+      tag = tags.exec(html2);
+    }
+    return false;
+  }
+  function renderAllowedMarkup(html2) {
+    return tooltipPurify.sanitize(html2, {
+      ALLOWED_TAGS: TOOLTIP_TAGS,
+      ALLOWED_ATTR: [],
+      // both are checked separately from ALLOWED_ATTR, so they would survive on an allowed element
+      ALLOW_DATA_ATTR: false,
+      ALLOW_ARIA_ATTR: false
+    });
+  }
+  function sanitizeTooltip(val) {
+    const title = val === null || val === void 0 ? "" : String(val);
+    const content = withLineBreaks(title);
+    if (carriesOtherMarkup(content)) {
+      return withLineBreaks(asText(decodeEntities(title)));
+    }
+    return renderAllowedMarkup(content);
+  }
+  function sanitizeUrl(url) {
+    return purify.isValidAttribute("a", "href", url) ? url : "";
+  }
   var extendStatics = function(d, b) {
     extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d2, b2) {
       d2.__proto__ = b2;
@@ -16625,22 +16706,7 @@
       return result;
     }, {});
   };
-  function hasSafeRel(rel) {
-    const parts = rel.split(/\s+/);
-    return parts.includes("noopener") && parts.includes("noreferrer");
-  }
-  purify.addHook("afterSanitizeAttributes", (node) => {
-    if (node.hasAttribute("target") && node.getAttribute("target") === "_blank" && (!node.hasAttribute("rel") || !hasSafeRel(node.getAttribute("rel")))) {
-      node.removeAttribute("target");
-    }
-  });
-  window.vueSanitize = function vueSanitize(val) {
-    return purify.sanitize(val, {
-      ADD_ATTR: ["target"],
-      FORBID_TAGS: ["style"]
-    });
-  };
-  window.vueSanitizeUrl = function vueSanitizeUrl(url) {
-    return purify.isValidAttribute("a", "href", url) ? url : "";
-  };
+  window.vueSanitize = sanitize;
+  window.vueSanitizeTooltip = sanitizeTooltip;
+  window.vueSanitizeUrl = sanitizeUrl;
 })();
