@@ -40,14 +40,7 @@ exports.chai = 'chai-1.9.0';
 /**
  * Mocha reporters to use (can be multiple delimited by a comma).
  */
-/**
- * Whether the Testomatio reporter is active. It keeps sending API requests after mocha's end
- * event, so the runner has to wait for it before exiting (see #21760). Exported so that wait
- * is only paid when there is actually something to flush.
- */
-exports.usesTestomatioReporter = !!(process.env.TESTOMATIO && process.env.SHOULD_SEND_TO_TESTOMATIO === 'true');
-
-if (exports.usesTestomatioReporter) {
+if (process.env.TESTOMATIO && process.env.SHOULD_SEND_TO_TESTOMATIO === 'true') {
   exports.reporter = 'mocha-multi-reporters';
   exports.reporterOptions = {
     reporterEnabled: 'spec, @testomatio/reporter/lib/adapter/mocha.js',

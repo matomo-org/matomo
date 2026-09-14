@@ -326,22 +326,34 @@ Application.prototype.doRunTests = function (mocha) {
     });
 
     this.runner.on('end', function() {
-      const failures = this.failures;
+      process.exitCode = this.failures;
+
+      // Read off the merged config rather than a flag decided in config.dist.js: run-tests.js
+      // layers tests/UI/config.js over the defaults, so a local override can turn the reporter on
+      // or off and a flag settled in the defaults would not follow it.
+      const reporterEnabled = (config.reporterOptions || {}).reporterEnabled;
+      const usesTestomatioReporter = typeof reporterEnabled === 'string'
+        && reporterEnabled.indexOf('@testomatio/reporter') !== -1;
 
       // The Testomatio reporter keeps sending API requests after this event, so when it is active
       // we still have to wait for it (#21760). Without it there is nothing left to flush, and the
       // wait is dead time on every run.
-      if (config.usesTestomatioReporter) {
-        setTimeout(() => process.exit(failures), 10000);
+      if (usesTestomatioReporter) {
+        setTimeout(() => process.exit(), 10000);
         return;
       }
 
-      // Setting exitCode and letting node exit on its own drains stdout first; a bare
-      // process.exit() truncates piped output. The browser is what holds the loop open, so close
-      // it. The timer is a safety net only and is unref'd so it cannot itself delay the exit.
-      process.exitCode = failures;
+      // Letting node exit on its own drains stdout first; a bare process.exit() truncates piped
+      // output. The browser is what holds the loop open, so close it.
       page.browser.close().catch(() => {});
-      setTimeout(() => process.exit(failures), 5000).unref();
+
+      // Safety net only, and unref'd so it cannot itself delay the exit. It announces itself: this
+      // path is the bare process.exit() the line above avoids, so a silent firing would quietly
+      // bring back both the truncation and the ten seconds with nothing to notice.
+      setTimeout(() => {
+        console.log('Forcing exit: something is still holding the event loop open after the run.');
+        process.exit();
+      }, 5000).unref();
     })
 };
 
