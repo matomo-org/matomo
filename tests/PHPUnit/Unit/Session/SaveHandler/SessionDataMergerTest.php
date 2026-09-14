@@ -157,6 +157,20 @@ class SessionDataMergerTest extends TestCase
         );
     }
 
+    public function testMergeArraysKeepsANonceThisRequestIssuedToReplaceTheOneAnotherRequestUsed()
+    {
+        // the same thing the other way round: a request that consumes a nonce and issues a new one
+        // for the form it renders must keep the new one when another request consumed it first
+        $base = ['Piwik_OptOut' => ['nonce' => 'used']];
+        $mine = ['Piwik_OptOut' => ['nonce' => 'fresh']];
+        $theirs = [];
+
+        $this->assertSame(
+            ['Piwik_OptOut' => ['nonce' => 'fresh']],
+            $this->merger->mergeArrays($base, $mine, $theirs)
+        );
+    }
+
     public function testMergeArraysStillRemovesANamespaceThatChangedButKeptTheUsedNonce()
     {
         $base = ['Login.login' => ['nonce' => 'used']];
@@ -192,6 +206,41 @@ class SessionDataMergerTest extends TestCase
         $theirs = [$key => ['nonce' => 'two']];
 
         $this->assertSame([], $this->merger->mergeArrays($base, $mine, $theirs));
+    }
+
+    public function testMergeArraysDropsIdentityAnotherRequestAddedWhileThisOneLoggedOut()
+    {
+        $base = [SessionFingerprint::USER_NAME_SESSION_VAR_NAME => 'chip'];
+        // this request logged out
+        $mine = [];
+        // the other one was still finishing a two factor check, so these keys are new to it
+        $theirs = [
+            SessionFingerprint::USER_NAME_SESSION_VAR_NAME => 'chip',
+            SessionFingerprint::SESSION_INFO_TWO_FACTOR_AUTH_VERIFIED => 1,
+            SessionFingerprint::SESSION_INFO_TWO_FACTOR_AUTH_VERIFIED_USER => 'chip',
+        ];
+
+        $this->assertSame([], $this->merger->mergeArrays($base, $mine, $theirs));
+    }
+
+    public function testMergeArraysKeepsAnIdentityAnotherRequestAddedWhenNobodyLoggedOut()
+    {
+        // nothing was removed here, so this is a login happening next to an anonymous request
+        $base = [];
+        $mine = ['notification' => ['a' => 1]];
+        $theirs = [
+            SessionFingerprint::USER_NAME_SESSION_VAR_NAME => 'chip',
+            SessionFingerprint::SESSION_INFO_SESSION_VAR_NAME => ['expiration' => 100],
+        ];
+
+        $this->assertSame(
+            [
+                'notification' => ['a' => 1],
+                SessionFingerprint::USER_NAME_SESSION_VAR_NAME => 'chip',
+                SessionFingerprint::SESSION_INFO_SESSION_VAR_NAME => ['expiration' => 100],
+            ],
+            $this->merger->mergeArrays($base, $mine, $theirs)
+        );
     }
 
     public function testMergeKeepsARealNonceWhenTheOtherRequestOnlyLookedAtIt()
