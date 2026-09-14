@@ -25,6 +25,12 @@ class Session extends Zend_Session
 {
     public const SESSION_NAME = 'MATOMO_SESSID';
 
+    /**
+     * Classes that may be restored from stored session data. Anything else is a class the
+     * session was never meant to hold.
+     */
+    public const SESSION_DATA_ALLOWED_CLASSES = [Notification::class];
+
     public static $sessionName = self::SESSION_NAME;
 
     protected static $sessionStarted = false;
