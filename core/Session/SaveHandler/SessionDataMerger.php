@@ -99,8 +99,15 @@ class SessionDataMerger
     {
         $merged = [];
         $keys = array_keys($base + $mine + $theirs);
+        // logging out takes the whole identity with it, so once one request has removed one of
+        // these keys the other one cannot carry any of them over - not even one it just added
+        $loggedOut = $this->hasLoggedOut($base, $mine) || $this->hasLoggedOut($base, $theirs);
 
         foreach ($keys as $key) {
+            if ($loggedOut && in_array($key, self::IDENTITY_KEYS, true)) {
+                continue;
+            }
+
             $inBase = array_key_exists($key, $base);
             $inMine = array_key_exists($key, $mine);
             $inTheirs = array_key_exists($key, $theirs);
@@ -135,10 +142,12 @@ class SessionDataMerger
             }
 
             // one side removed it while the other changed it. the side that removed it had seen
-            // the value - a consumed nonce, or a logout - so removing wins.
+            // the value - a consumed nonce, or a logout - so removing wins, whichever side it was.
             if (!$inMine || !$inTheirs) {
-                if (!$inMine && $this->isReplacedNonce($key, $baseValue, $theirValue)) {
-                    $merged[$key] = $theirValue;
+                $kept = $inMine ? $myValue : $theirValue;
+
+                if ($this->isReplacedNonce($key, $baseValue, $kept)) {
+                    $merged[$key] = $kept;
                 }
                 continue;
             }
@@ -159,25 +168,41 @@ class SessionDataMerger
     }
 
     /**
-     * Whether the other request replaced a nonce this request consumed. A namespace written by
-     * Nonce holds nothing but the nonce itself, so a different value there is a new nonce that
-     * nobody has used yet, and removing it would only force the form to be reloaded.
+     * Whether a request logged out, which is what removing one of the keys identifying the
+     * session amounts to. A request that never had them is only anonymous, not logged out.
      */
-    private function isReplacedNonce($key, $base, $theirs)
+    private function hasLoggedOut(array $base, array $data)
+    {
+        foreach (self::IDENTITY_KEYS as $key) {
+            if (array_key_exists($key, $base) && !array_key_exists($key, $data)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Whether the side that kept this key issued a nonce to replace the one the other side
+     * consumed. A namespace written by Nonce holds nothing but the nonce itself, so a different
+     * value there is a new nonce nobody has used yet, and dropping it would only force the form
+     * it was issued for to be reloaded.
+     */
+    private function isReplacedNonce($key, $base, $kept)
     {
         if (in_array($key, self::IDENTITY_KEYS, true)) {
             return false;
         }
 
-        if (!is_array($base) || !is_array($theirs)) {
+        if (!is_array($base) || !is_array($kept)) {
             return false;
         }
 
-        if (array_keys($base) !== ['nonce'] || array_keys($theirs) !== ['nonce']) {
+        if (array_keys($base) !== ['nonce'] || array_keys($kept) !== ['nonce']) {
             return false;
         }
 
-        return $base['nonce'] !== $theirs['nonce'];
+        return $base['nonce'] !== $kept['nonce'];
     }
 
     /**
