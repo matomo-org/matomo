@@ -206,6 +206,44 @@ class SessionDataMergerTest extends TestCase
         $this->assertSame(['Login.login' => ['nonce' => 'abc']], $merged);
     }
 
+    public function testMergeDropsAWholeNamespaceAnotherRequestOnlyLookedAt()
+    {
+        // reading one value of a namespace that is not set stores the namespace as well
+        $base = $this->merger->encode(['user.name' => 'chip']);
+        $mine = $this->merger->encode(['user.name' => 'chip', 'siteWithoutData' => ['ignoreMessage' => null]]);
+        $theirs = $this->merger->encode(['user.name' => 'chip', 'Dashboard' => ['layout' => 'x']]);
+
+        $merged = $this->merger->decode($this->merger->merge($base, $mine, $theirs));
+
+        $this->assertSame(['user.name' => 'chip', 'Dashboard' => ['layout' => 'x']], $merged);
+    }
+
+    public function testMergeKeepsANullThatWasAlreadyStored()
+    {
+        // this one is not something a read added, it is a value someone stored on purpose
+        $base = $this->merger->encode(['prefs' => ['lastReport' => null]]);
+        $mine = $this->merger->encode(['prefs' => ['lastReport' => null], 'fromMe' => 1]);
+        $theirs = $this->merger->encode(['prefs' => ['lastReport' => null], 'fromThem' => 1]);
+
+        $merged = $this->merger->decode($this->merger->merge($base, $mine, $theirs));
+
+        $this->assertSame(
+            ['prefs' => ['lastReport' => null], 'fromMe' => 1, 'fromThem' => 1],
+            $merged
+        );
+    }
+
+    public function testMergeLetsARequestStoreANullOverAValueItRead()
+    {
+        $base = $this->merger->encode(['prefs' => ['lastReport' => 'yesterday']]);
+        $mine = $this->merger->encode(['prefs' => ['lastReport' => null]]);
+        $theirs = $this->merger->encode(['prefs' => ['lastReport' => 'yesterday'], 'fromThem' => 1]);
+
+        $merged = $this->merger->decode($this->merger->merge($base, $mine, $theirs));
+
+        $this->assertSame(['prefs' => ['lastReport' => null], 'fromThem' => 1], $merged);
+    }
+
     public function testMergeKeepsMetadataEachRequestStampedForADifferentNamespace()
     {
         $base = $this->merger->encode(['__ZF' => []]);
