@@ -95,7 +95,7 @@ final class SyncVerifier
         $this->checkFinalSetting();
         $this->checkWatermarks();
         $this->checkRecentWindow($windowMinutes);
-        $this->checkNothingMarkedDeleted();
+        $this->checkNothingMarkedDeleted($windowMinutes);
 
         if ($level === self::LEVEL_FULL) {
             $this->checkUpdatesLanded($windowMinutes, $sampleSize);
@@ -202,23 +202,32 @@ final class SyncVerifier
     /**
      * A row whose latest version is a delete should not be readable. If any are marked deleted,
      * FINAL is what is hiding them, and a read without it would return rows MySQL does not have.
+     *
+     * Bounded to the same recent window as everything else, deliberately. Unbounded, this is a
+     * SUM over every row of a multi-billion-row table, and with FINAL on - which is exactly when
+     * this check runs - that is minutes of work for a question about rows the churn just wrote.
      */
-    private function checkNothingMarkedDeleted(): void
+    private function checkNothingMarkedDeleted(int $windowMinutes): void
     {
-        foreach (array_keys(self::TIME_COLUMNS) as $table) {
+        $since = Db::get()->fetchOne('SELECT DATE_SUB(NOW(), INTERVAL ' . (int) $windowMinutes . ' MINUTE)');
+
+        foreach (self::TIME_COLUMNS as $table => $column) {
             try {
                 $deleted = (int) Db::getAnalytics()->fetchOne(
-                    'SELECT SUM(_peerdb_is_deleted) FROM ' . Common::prefixTable($table)
+                    'SELECT COALESCE(SUM(_peerdb_is_deleted), 0) FROM ' . Common::prefixTable($table)
+                    . ' WHERE ' . $column . ' >= ?',
+                    [$since]
                 );
             } catch (Exception $e) {
                 // The column only exists on a CDC-populated copy. Absent is not a failure.
                 continue;
             }
 
+            $label = $table . ' deletes (last ' . $windowMinutes . 'm)';
             if ($deleted === 0) {
-                $this->pass($table . ' deletes', 'no rows marked deleted');
+                $this->pass($label, 'no rows marked deleted');
             } else {
-                $this->warn($table . ' deletes', number_format($deleted) . ' row(s) marked deleted');
+                $this->warn($label, number_format($deleted) . ' row(s) marked deleted');
             }
         }
     }
