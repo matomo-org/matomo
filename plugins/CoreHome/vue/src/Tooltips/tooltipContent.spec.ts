@@ -9,7 +9,7 @@ import tooltipContent from './tooltipContent';
 
 // The sanitizer itself lives in the polyfill bundle, so it is stubbed with an identity function
 // here - these tests cover what the helper does around it.
-const sanitize = vi.fn((value: unknown) => `${value}`);
+const sanitize = jest.fn((value: unknown) => `${value}`);
 
 (window as unknown as { vueSanitizeTooltip: unknown }).vueSanitizeTooltip = sanitize;
 
