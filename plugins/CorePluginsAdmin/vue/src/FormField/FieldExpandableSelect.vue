@@ -20,8 +20,8 @@
       <div
         v-show="showSelect"
         class="expandableList expandableSelector__list"
-        :class="{ 'expandableSelector__list--above': openAbove }"
         :data-name="name"
+        :data-matomo-modal-escapee="isInsideModal ? '' : null"
         :style="listStyle"
         ref="expandableList"
       >
@@ -185,6 +185,9 @@ export default defineComponent({
       listStyle: {} as Record<string, string>,
       // the list is teleported out of this component, so a click in it reads as a click outside
       isMouseDownInsideList: false,
+      // only a list whose field sits inside a Materialize modal may opt out of that modal's focus
+      // trap; marking every list would let one hold focus over an unrelated modal
+      isInsideModal: false,
     };
   },
   computed: {
@@ -224,6 +227,8 @@ export default defineComponent({
     toggleSelect() {
       this.showSelect = !this.showSelect;
       this.openAbove = false;
+      // resolved per open rather than once: modals are built and torn down around the field
+      this.isInsideModal = !!(this.$el as HTMLElement).closest('.modal');
 
       if (this.showSelect) {
         this.$nextTick(() => this.fitOptionsList());
@@ -238,10 +243,19 @@ export default defineComponent({
      * move the list with it. Capture, because the ancestor that scrolls is usually not the window.
      */
     trackTrigger(isOpen: boolean) {
-      const method = isOpen ? 'addEventListener' : 'removeEventListener';
-      window[method]('scroll', this.fitOptionsList, true);
-      window[method]('resize', this.fitOptionsList);
-      window[method]('mousedown', this.noteMouseDownTarget, true);
+      // Explicit branches rather than an indexed window[method]: indexing away the union loses
+      // the specific overload, and a MouseEvent handler no longer type-checks against it.
+      if (isOpen) {
+        window.addEventListener('scroll', this.fitOptionsList, true);
+        window.addEventListener('resize', this.fitOptionsList);
+        window.addEventListener('mousedown', this.noteMouseDownTarget, true);
+        window.addEventListener('mouseup', this.clearMouseDownMarker);
+      } else {
+        window.removeEventListener('scroll', this.fitOptionsList, true);
+        window.removeEventListener('resize', this.fitOptionsList);
+        window.removeEventListener('mousedown', this.noteMouseDownTarget, true);
+        window.removeEventListener('mouseup', this.clearMouseDownMarker);
+      }
 
       if (this.triggerResize) {
         this.triggerResize.disconnect();
@@ -272,6 +286,17 @@ export default defineComponent({
       const list = this.$refs.expandableList as HTMLElement|undefined;
 
       this.isMouseDownInsideList = !!list && list.contains(event.target as HTMLElement);
+    },
+    /**
+     * The marker must not outlive the press that set it. Press inside the teleported list and
+     * release on the field and the directive sees a release it owns, so it never calls blur() and
+     * nothing clears the marker; the next Escape - which reaches blur() without a mousedown of its
+     * own - is then swallowed instead of closing the list. Bound on window without capture, which
+     * a browser probe confirms runs after the directive's own documentElement handler, so the
+     * marker is still standing while the directive decides and is cleared straight afterwards.
+     */
+    clearMouseDownMarker() {
+      this.isMouseDownInsideList = false;
     },
     positionList() {
       const wrapper = (this.$el as HTMLElement).querySelector('.select-wrapper');
@@ -352,8 +377,13 @@ export default defineComponent({
       if (spaceBelow >= minUsableHeight) {
         this.openAbove = false;
         this.optionsListMaxHeight = spaceBelow;
-      } else if (spaceAbove > spaceBelow) {
-        // not enough room below: open above the field when that side offers more
+      } else if (spaceAbove > spaceBelow && spaceAbove + VIEWPORT_MARGIN >= minUsableHeight) {
+        // not enough room below: open above the field when that side can actually hold the list.
+        // Anchored by its bottom edge to the field, a minimum-height list puts its top edge at
+        // spaceAbove - (minUsableHeight - VIEWPORT_MARGIN), so it only leaves the viewport below
+        // that - and a fixed-position list cannot be scrolled to. Testing spaceAbove against the
+        // bare minimum instead would reject layouts that still fit, sending them below the field
+        // where there is even less room. Falling through keeps the overshoot reachable.
         this.openAbove = true;
         this.optionsListMaxHeight = Math.max(minUsableHeight, spaceAbove);
       } else {

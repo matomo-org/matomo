@@ -72,6 +72,9 @@ afterEach(() => {
   // and wiping the markup would leave those attached to elements no test can reach any more
   mounted.splice(0).forEach((wrapper) => wrapper.unmount());
   document.body.innerHTML = '';
+  // vitest.config.ts does not set unstubGlobals, so a stubbed innerHeight would otherwise stay in
+  // force for every later describe block and make them order-dependent
+  vi.unstubAllGlobals();
 });
 
 describe('CorePluginsAdmin/FormField/FieldExpandableSelect', () => {
@@ -79,6 +82,32 @@ describe('CorePluginsAdmin/FormField/FieldExpandableSelect', () => {
     mountSelect({ name: 'selectexpand' });
 
     expect(findInBody('.expandableSelector__list').dataset.name).toBe('selectexpand');
+  });
+
+  it('does not exempt the list from a modal focus trap when the field is not in a modal', async () => {
+    const wrapper = mountSelect();
+    await wrapper.find('.select-wrapper').trigger('click');
+
+    // marking every list would let one hold focus over an unrelated modal
+    expect(findInBody('.expandableSelector__list').hasAttribute('data-matomo-modal-escapee'))
+      .toBe(false);
+  });
+
+  it('exempts the list from the focus trap when its field is inside a modal', async () => {
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    document.body.appendChild(modal);
+
+    const wrapper = mount(FieldExpandableSelect as any, {
+      attachTo: modal,
+      props: { availableOptions },
+    });
+    mounted.push(wrapper);
+
+    await wrapper.find('.select-wrapper').trigger('click');
+
+    expect(findInBody('.expandableSelector__list').hasAttribute('data-matomo-modal-escapee'))
+      .toBe(true);
   });
 
   it('defaults searchOnGroup to false', () => {
@@ -133,8 +162,11 @@ describe('CorePluginsAdmin/FormField/FieldExpandableSelect', () => {
   });
 
   describe('viewport fitting', () => {
+    // configurable so a test can lay the same elements out twice, which is what re-running the
+    // fit against a moved field needs
     function mockRect(element: Element, top: number, height = 0) {
       Object.defineProperty(element, 'getBoundingClientRect', {
+        configurable: true,
         value: () => ({
           top, bottom: top + height, left: 0, right: 0, width: 0, height,
         }),
@@ -193,6 +225,82 @@ describe('CorePluginsAdmin/FormField/FieldExpandableSelect', () => {
       expect(findInBody('.expandableList').style.top).toBe('138px');
       expect(findInBody('.expandableList').style.bottom).toBe('');
       expect(findInBody('.firstLevel').style.maxHeight).toBe('150px');
+    });
+
+    it('stays below the field when above has more room but still not enough', async () => {
+      const wrapper = mountSelect();
+      vi.stubGlobal('innerHeight', 300);
+      // -4px below and 126px above: above offers more, but cannot take the 150px minimum. Opening
+      // above anchors the list's bottom edge to the field and overshoots off the top of the
+      // viewport, which a fixed-position list gives no way to reach.
+      layOut(wrapper, 200);
+
+      await wrapper.find('.select-wrapper').trigger('click');
+      await wrapper.vm.$nextTick();
+
+      expect(findInBody('.expandableList').style.top).toBe('238px');
+      expect(findInBody('.expandableList').style.bottom).toBe('');
+      expect(findInBody('.firstLevel').style.maxHeight).toBe('150px');
+    });
+
+    it('still opens above when the room there holds the list within the gutter', async () => {
+      const wrapper = mountSelect();
+      vi.stubGlobal('innerHeight', 378);
+      // 60px below and 140px above. Anchored by its bottom edge, a 150px list puts its top edge at
+      // 140 - (150 - 16) = 6px, so it is fully on screen and only eats into the 16px gutter - the
+      // same trade the below-the-field branch already makes. Testing spaceAbove against the bare
+      // 150 would send this below, where 60px of room clips it far worse.
+      layOut(wrapper, 214);
+
+      await wrapper.find('.select-wrapper').trigger('click');
+      await wrapper.vm.$nextTick();
+
+      expect(findInBody('.expandableList').style.bottom).toBe('172px');
+      expect(findInBody('.expandableList').style.top).toBe('');
+      expect(findInBody('.firstLevel').style.maxHeight).toBe('150px');
+    });
+
+    it('returns the list below the field once it scrolls back into open space', async () => {
+      const wrapper = mountSelect();
+      vi.stubGlobal('innerHeight', 400);
+      layOut(wrapper, 292);
+
+      await wrapper.find('.select-wrapper').trigger('click');
+      await wrapper.vm.$nextTick();
+      expect(findInBody('.expandableList').style.bottom).toBe('116px');
+
+      // the field moves back into open space while the list is still open; the branch that picked
+      // "above" has to be undone, or the list stays stranded above a field that no longer needs it
+      vi.stubGlobal('innerHeight', 800);
+      layOut(wrapper, 300);
+      (wrapper.vm as any).fitOptionsList();
+      await wrapper.vm.$nextTick();
+
+      expect(findInBody('.expandableList').style.top).toBe('338px');
+      expect(findInBody('.expandableList').style.bottom).toBe('');
+    });
+  });
+
+  describe('closing after a press that started inside the list', () => {
+    it('clears the press marker on mouseup so a later escape still closes', async () => {
+      const wrapper = mountSelect();
+      await wrapper.find('.select-wrapper').trigger('click');
+      await wrapper.vm.$nextTick();
+
+      // a press inside the teleported list must not read as a click outside the field
+      findInBody('.expandableList').dispatchEvent(
+        new MouseEvent('mousedown', { bubbles: true }),
+      );
+      expect((wrapper.vm as any).isMouseDownInsideList).toBe(true);
+
+      // the outside-click directive skips its handler when the pointer was used on a scrollbar,
+      // so nothing there clears the marker; releasing the press has to
+      window.dispatchEvent(new MouseEvent('mouseup', { bubbles: true }));
+      expect((wrapper.vm as any).isMouseDownInsideList).toBe(false);
+
+      // escape reaches blur() without a mousedown of its own, and must not be swallowed
+      (wrapper.vm as any).onBlur();
+      expect((wrapper.vm as any).showSelect).toBe(false);
     });
   });
 
