@@ -259,6 +259,103 @@ class ResultFingerprintTest extends TestCase
     }
 
     /**
+     * Subtable ids are handed out in the order rows happen to be walked, so two engines that
+     * agree on every label and every metric still number their subtables differently - and
+     * therefore pack them into different _chunk_ blobs. Measured on 2026-08-03: all 200
+     * event-category labels matched, every nb_events and nb_visits matched, and the subtable
+     * id was the only difference across six "differing" reports.
+     */
+    public function testSubtableRenumberingIsNotAReportDifference(): void
+    {
+        $subtable = static function (int $id, string $child): array {
+            return [$id => serialize([[['label' => $child, 2 => 7], [], null]])];
+        };
+
+        $mysql = ResultFingerprint::ofArchivedReports([
+            'numeric' => [],
+            'blob' => [
+                ['name' => 'Events_category_action', 'value' => gzcompress(serialize([
+                    [['label' => 'category-10', 2 => 244], [], 24],
+                    [['label' => 'category-72', 2 => 242], [], 25],
+                ]))],
+                ['name' => 'Events_category_action_chunk_0_99', 'value' => gzcompress(serialize(
+                    $subtable(24, 'download') + $subtable(25, 'play')
+                ))],
+            ],
+        ]);
+
+        $clickhouse = ResultFingerprint::ofArchivedReports([
+            'numeric' => [],
+            'blob' => [
+                ['name' => 'Events_category_action', 'value' => gzcompress(serialize([
+                    [['label' => 'category-72', 2 => 242], [], 23],
+                    [['label' => 'category-10', 2 => 244], [], 24],
+                ]))],
+                ['name' => 'Events_category_action_chunk_0_99', 'value' => gzcompress(serialize(
+                    $subtable(23, 'play') + $subtable(24, 'download')
+                ))],
+            ],
+        ]);
+
+        self::assertSame($mysql['digest'], $clickhouse['digest']);
+    }
+
+    /**
+     * The flattening must not make everything equal. A subtable whose contents changed is a
+     * changed report even when the ids line up.
+     */
+    public function testAChangedSubtableIsStillAReportDifference(): void
+    {
+        $build = static function (string $child, int $events): array {
+            return [
+                'numeric' => [],
+                'blob' => [
+                    ['name' => 'Events_category_action', 'value' => gzcompress(serialize([
+                        [['label' => 'category-10', 2 => 244], [], 24],
+                    ]))],
+                    ['name' => 'Events_category_action_chunk_0_99', 'value' => gzcompress(serialize([
+                        24 => serialize([[['label' => $child, 2 => $events], [], null]]),
+                    ]))],
+                ],
+            ];
+        };
+
+        $base = ResultFingerprint::ofArchivedReports($build('download', 7));
+        $changedChild = ResultFingerprint::ofArchivedReports($build('stream', 7));
+        $changedMetric = ResultFingerprint::ofArchivedReports($build('download', 8));
+
+        self::assertNotSame($base['digest'], $changedChild['digest']);
+        self::assertNotSame($base['digest'], $changedMetric['digest']);
+    }
+
+    /**
+     * A subtable nothing points at cannot be given a label path, but dropping it would let a
+     * report quietly gain or lose one. It is compared by content instead.
+     */
+    public function testAnUnreferencedSubtableStillCounts(): void
+    {
+        $root = ['name' => 'Events_category_action', 'value' => gzcompress(serialize([
+            [['label' => 'category-10', 2 => 244], [], 24],
+        ]))];
+
+        $withOrphan = ResultFingerprint::ofArchivedReports([
+            'numeric' => [],
+            'blob' => [$root, ['name' => 'Events_category_action_chunk_0_99', 'value' => gzcompress(serialize([
+                24 => serialize([[['label' => 'download', 2 => 7], [], null]]),
+                99 => serialize([[['label' => 'orphan', 2 => 1], [], null]]),
+            ]))]],
+        ]);
+        $withoutOrphan = ResultFingerprint::ofArchivedReports([
+            'numeric' => [],
+            'blob' => [$root, ['name' => 'Events_category_action_chunk_0_99', 'value' => gzcompress(serialize([
+                24 => serialize([[['label' => 'download', 2 => 7], [], null]]),
+            ]))]],
+        ]);
+
+        self::assertNotSame($withOrphan['digest'], $withoutOrphan['digest']);
+    }
+
+    /**
      * done flags carry the archive's status, not a report value, and the status can differ
      * legitimately between two runs of the same case.
      */

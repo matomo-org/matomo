@@ -120,6 +120,10 @@ final class ResultFingerprint
      *   a different order whenever a metric ties - and a report is sorted again when it is
      *   read, so the stored order is an artifact of the aggregation rather than the answer.
      *   A difference that matters still shows, because it changes which rows are present.
+     * - subtable ids are resolved to the label path that reaches them, never compared as
+     *   numbers. Ids are handed out in the order rows happen to be walked, so the same report
+     *   built by the two engines numbers its subtables differently and stores them in
+     *   different _chunk_ blobs. The tree is the same tree; only the node names differ.
      *
      * @param array{
      *     numeric: array<int, array{name: string, value: mixed}>,
@@ -138,14 +142,7 @@ final class ResultFingerprint
             $metrics[] = $name . '=' . self::canonicalScalar($row['value'] ?? null);
         }
 
-        $reports = [];
-        foreach ($archived['blob'] ?? [] as $row) {
-            $name = (string) ($row['name'] ?? '');
-            if ($name === '') {
-                continue;
-            }
-            $reports[] = $name . '=' . self::canonicalBlob((string) ($row['value'] ?? ''));
-        }
+        $reports = self::digestReportFamilies($archived['blob'] ?? []);
 
         if (empty($metrics) && empty($reports)) {
             return self::result(self::WEAK, 0, '', 'no archive rows found');
@@ -171,6 +168,173 @@ final class ResultFingerprint
      * is digested as raw bytes rather than skipped - that still compares equal when the two
      * engines wrote the same bytes, and it never silently drops a report from the comparison.
      */
+    /**
+     * One digest per report, with each report's subtables folded into it.
+     *
+     * A Matomo report is a tree: a root blob "Events_category_action" whose rows each point at
+     * a subtable id, and "Events_category_action_chunk_0_99" blobs holding those subtables
+     * keyed by id. The ids are assigned in the order the rows happen to be walked, so two
+     * engines that agree on every label and every metric still number their subtables
+     * differently and therefore pack them into different chunk blobs - which, compared as
+     * blobs, reads as six reports disagreeing when none do. Measured: for 2026-08-03 all 200
+     * event-category labels matched and every nb_events and nb_visits matched; the subtable id
+     * was the only difference.
+     *
+     * So the family is flattened to its label paths instead. Each row becomes
+     * "category-10 > download" against its columns, which is what the report means, and the id
+     * that got it there is never compared.
+     *
+     * @param array<int, array{name: string, value: mixed}> $blobs
+     * @return string[] one "name=digest" entry per report family
+     */
+    private static function digestReportFamilies(array $blobs): array
+    {
+        $families = [];
+        foreach ($blobs as $blob) {
+            $name = (string) ($blob['name'] ?? '');
+            if ($name === '') {
+                continue;
+            }
+
+            $family = (string) preg_replace('~_chunk_\d+_\d+$~', '', $name);
+            $isChunk = $family !== $name;
+            $families[$family][$isChunk ? 'chunks' : 'root'][] = (string) ($blob['value'] ?? '');
+        }
+
+        $digests = [];
+        foreach ($families as $family => $parts) {
+            $digests[] = $family . '=' . self::digestReportFamily($parts['root'] ?? [], $parts['chunks'] ?? []);
+        }
+
+        return $digests;
+    }
+
+    /**
+     * @param string[] $rootBlobs
+     * @param string[] $chunkBlobs
+     */
+    private static function digestReportFamily(array $rootBlobs, array $chunkBlobs): string
+    {
+        $subtables = [];
+        foreach ($chunkBlobs as $blob) {
+            $decoded = self::decodeBlob($blob);
+            if (!is_array($decoded)) {
+                // Not a subtable map. Digest it as-is rather than dropping it.
+                $subtables['raw:' . md5($blob)] = null;
+                continue;
+            }
+            foreach ($decoded as $id => $rows) {
+                $rows = is_string($rows) ? self::unserializeOrNull($rows) : $rows;
+                if (is_array($rows)) {
+                    $subtables[(string) $id] = $rows;
+                }
+            }
+        }
+
+        $lines = [];
+        $visited = [];
+        foreach ($rootBlobs as $blob) {
+            $rows = self::decodeBlob($blob);
+            if (!self::looksLikeReportRows($rows)) {
+                // Not a DataTable - a simple serialized value, or something that would not
+                // decode. Compare it whole; it has no subtables to resolve.
+                $lines[] = 'blob' . "\t" . self::canonicalBlob($blob);
+                continue;
+            }
+            self::flattenReportRows($rows, $subtables, '', $lines, $visited);
+        }
+
+        // A subtable no row points at cannot be given a label path. Compared by content, so it
+        // still counts, and so a report that grew or lost one is not silently equal.
+        foreach ($subtables as $id => $rows) {
+            if (isset($visited[$id]) || !is_array($rows)) {
+                continue;
+            }
+            $orphan = [];
+            self::flattenReportRows($rows, [], '(unreferenced)', $orphan, $visited);
+            $lines = array_merge($lines, $orphan);
+        }
+
+        sort($lines);
+
+        return md5(implode("\n", $lines));
+    }
+
+    /**
+     * @param mixed $rows
+     * @param array<string, mixed> $subtables
+     * @param string[] $lines
+     * @param array<string, bool> $visited
+     */
+    private static function flattenReportRows(
+        $rows,
+        array $subtables,
+        string $prefix,
+        array &$lines,
+        array &$visited
+    ): void {
+        if (!is_array($rows)) {
+            return;
+        }
+
+        foreach ($rows as $row) {
+            if (!is_array($row)) {
+                $lines[] = $prefix . "\t" . (string) json_encode(self::canonicalValue($row));
+                continue;
+            }
+
+            $columns = $row[0] ?? [];
+            $label = is_array($columns) ? (string) ($columns['label'] ?? '') : '';
+            $path = $prefix === '' ? $label : $prefix . ' > ' . $label;
+
+            $lines[] = $path . "\t" . (string) json_encode(self::canonicalValue([
+                'columns' => $columns,
+                'metadata' => $row[1] ?? [],
+            ]));
+
+            $id = $row[3] ?? null;
+            if ($id === null || is_array($id)) {
+                continue;
+            }
+
+            $key = (string) $id;
+            if (!array_key_exists($key, $subtables) || isset($visited[$key])) {
+                continue;
+            }
+
+            // Guard against a cycle: a malformed blob pointing back up would recurse forever.
+            $visited[$key] = true;
+            self::flattenReportRows($subtables[$key], $subtables, $path, $lines, $visited);
+        }
+    }
+
+    /**
+     * @param mixed $rows
+     */
+    private static function looksLikeReportRows($rows): bool
+    {
+        if (!is_array($rows) || $rows === [] || !self::isList($rows)) {
+            return false;
+        }
+
+        $first = reset($rows);
+
+        return is_array($first) && isset($first[0]) && is_array($first[0]);
+    }
+
+    /**
+     * @return mixed|null
+     */
+    private static function decodeBlob(string $value)
+    {
+        $raw = @gzuncompress($value);
+        if ($raw === false) {
+            $raw = $value;
+        }
+
+        return self::unserializeOrNull($raw);
+    }
+
     private static function canonicalBlob(string $value): string
     {
         $raw = @gzuncompress($value);
