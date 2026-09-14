@@ -705,8 +705,15 @@ class Model
         // the insert only succeeds for a login that was free, so anything still referencing it belongs
         // to an earlier account. anonymous is recreated in place, so it keeps its rows
         if (strtolower((string) $userLogin) !== 'anonymous') {
-            $this->deleteUserAccess($userLogin);
-            $this->deleteAllTokensForUser($userLogin);
+            try {
+                $this->deleteUserAccess($userLogin);
+                $this->deleteAllTokensForUser($userLogin);
+            } catch (\Throwable $e) {
+                // the new account would inherit whatever is left, so it must not stay behind either
+                $db->query("DELETE FROM " . $this->userTable . " WHERE login = ?", $userLogin);
+
+                throw $e;
+            }
         }
 
         /**
