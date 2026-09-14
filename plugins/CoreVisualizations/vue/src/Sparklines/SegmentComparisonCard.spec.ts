@@ -13,6 +13,12 @@ import { mount } from '@vue/test-utils';
 // ucfirst.spec.
 jest.mock('CoreHome', () => ({
   Tooltips: {},
+  Matomo: {
+    helper: {
+      htmlEntities: (value: string) => value
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'),
+    },
+  },
   ucfirst: jest.fn((text?: string) => text ?? ''),
   Sparkline: {
     name: 'Sparkline',

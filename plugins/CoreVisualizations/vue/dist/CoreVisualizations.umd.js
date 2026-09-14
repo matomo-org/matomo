@@ -1798,20 +1798,20 @@ function SegmentComparisonCardvue_type_template_id_7f53d9a2_render(_ctx, _cache,
 }
 // CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/Sparklines/SegmentComparisonCard.vue?vue&type=template&id=7f53d9a2
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/Sparklines/SegmentComparisonRow.vue?vue&type=template&id=7a970442
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/Sparklines/SegmentComparisonRow.vue?vue&type=template&id=c879a4bc
 
-const SegmentComparisonRowvue_type_template_id_7a970442_hoisted_1 = {
+const SegmentComparisonRowvue_type_template_id_c879a4bc_hoisted_1 = {
   class: "sparklineSegmentComparisonRow"
 };
-const SegmentComparisonRowvue_type_template_id_7a970442_hoisted_2 = ["title"];
-const SegmentComparisonRowvue_type_template_id_7a970442_hoisted_3 = ["title"];
-function SegmentComparisonRowvue_type_template_id_7a970442_render(_ctx, _cache, $props, $setup, $data, $options) {
+const SegmentComparisonRowvue_type_template_id_c879a4bc_hoisted_2 = ["title"];
+const SegmentComparisonRowvue_type_template_id_c879a4bc_hoisted_3 = ["title"];
+function SegmentComparisonRowvue_type_template_id_c879a4bc_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_PeriodColumns = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("PeriodColumns");
   const _component_Sparkline = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Sparkline");
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SegmentComparisonRowvue_type_template_id_7a970442_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SegmentComparisonRowvue_type_template_id_c879a4bc_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
     class: "sparklineSegmentComparisonRow__chip",
-    title: _ctx.segmentLabel
-  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.segmentLabel), 9, SegmentComparisonRowvue_type_template_id_7a970442_hoisted_2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_PeriodColumns, {
+    title: _ctx.segmentLabelTitle
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.segmentLabel), 9, SegmentComparisonRowvue_type_template_id_c879a4bc_hoisted_2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_PeriodColumns, {
     entry: _ctx.segment
   }, null, 8, ["entry"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
     ref: "sparklineSlot",
@@ -1829,9 +1829,9 @@ function SegmentComparisonRowvue_type_template_id_7a970442_render(_ctx, _cache, 
     params: _ctx.segment.url,
     "series-indices": _ctx.segment.seriesIndices,
     onLoadingChange: _cache[0] || (_cache[0] = $event => _ctx.isImageLoading = $event)
-  }, null, 8, ["class", "width", "height", "params", "series-indices"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 10, SegmentComparisonRowvue_type_template_id_7a970442_hoisted_3)]);
+  }, null, 8, ["class", "width", "height", "params", "series-indices"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 10, SegmentComparisonRowvue_type_template_id_c879a4bc_hoisted_3)]);
 }
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/Sparklines/SegmentComparisonRow.vue?vue&type=template&id=7a970442
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/Sparklines/SegmentComparisonRow.vue?vue&type=template&id=c879a4bc
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/Sparklines/SegmentComparisonRow.vue?vue&type=script&lang=ts
 
@@ -1861,6 +1861,8 @@ function SegmentComparisonRowvue_type_template_id_7a970442_render(_ctx, _cache, 
   setup(props) {
     // Segment name (compareSegmentPretty); always populated in segment comparison.
     const segmentLabel = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => props.segment.title || '');
+    // Vue escapes the chip's text, the title attribute is read back and rendered as tooltip HTML.
+    const segmentLabelTitle = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => external_CoreHome_["Matomo"].helper.htmlEntities(segmentLabel.value));
     // Sparkline size, measured from the slot it will be drawn in.
     const sparklineSlot = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(null);
     const {
@@ -1876,6 +1878,7 @@ function SegmentComparisonRowvue_type_template_id_7a970442_render(_ctx, _cache, 
     const isSparklineLoading = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => isResizePending.value || isImageLoading.value);
     return {
       segmentLabel,
+      segmentLabelTitle,
       sparklineSlot,
       sparklineWidth,
       sparklineHeight,
@@ -1890,7 +1893,7 @@ function SegmentComparisonRowvue_type_template_id_7a970442_render(_ctx, _cache, 
 
 
 
-SegmentComparisonRowvue_type_script_lang_ts.render = SegmentComparisonRowvue_type_template_id_7a970442_render
+SegmentComparisonRowvue_type_script_lang_ts.render = SegmentComparisonRowvue_type_template_id_c879a4bc_render
 
 /* harmony default export */ var SegmentComparisonRow = (SegmentComparisonRowvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/Sparklines/SegmentComparisonCard.vue?vue&type=script&lang=ts
