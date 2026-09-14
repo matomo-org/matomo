@@ -135,6 +135,9 @@ ul.browser-default {
   // The count sits on the corner of the icon the way it does in the desktop bar, rather than
   // at the far right of the row where the shared sidenav rule pins it. Scoped to this drawer:
   // the reporting menu keeps whatever the sidenav gives it.
+  //
+  // The offset is the row's 32px padding (Morpheus `_navs.less`, `.sidenav li > a`) plus half
+  // the 24px icon below, so the count overlaps its right half. Move either and this follows.
   #mobile-top-menu .badge-menu-item {
     top: 8px;
     left: 48px;
