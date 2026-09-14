@@ -110,12 +110,36 @@ class UserRepository
         $this->sendInvitationEmail($user, $generatedToken, $expiryInDays);
     }
 
-    public function reInviteUser(string $userLogin, int $expiryInDays): void
+    /**
+     * Issues a fresh invitation to a pending user, optionally moving them to a new address.
+     *
+     * @return bool Whether the invitation was reissued. False means the account stopped being the pending
+     *              user that was read a moment ago, in which case no mail is sent.
+     */
+    public function reInviteUser(string $userLogin, int $expiryInDays, ?string $newEmail = null): bool
     {
         $user = $this->model->getUser($userLogin);
+        $email = $newEmail ?? $user['email'];
         $generatedToken = $this->model->generateRandomInviteToken();
-        $this->model->attachInviteToken($userLogin, $generatedToken, $expiryInDays);
+
+        if (
+            !$this->model->reissueInviteTokenForPendingUser(
+                $userLogin,
+                $generatedToken,
+                $user['invite_token'],
+                $user['email'],
+                $email,
+                $expiryInDays
+            )
+        ) {
+            return false;
+        }
+
+        // notify the address the invitation now belongs to, not the one it was read with
+        $user['email'] = $email;
         $this->sendInvitationEmail($user, $generatedToken, $expiryInDays);
+
+        return true;
     }
 
     /**
@@ -143,10 +167,26 @@ class UserRepository
         return $generatedToken;
     }
 
-    public function generateInviteToken(string $userLogin, int $expiryInDays): string
+    /**
+     * Issues a copy-and-paste invitation link for an unchanged pending user.
+     *
+     * @return string|null Null when the account is no longer the pending user that was read.
+     */
+    public function generateInviteToken(string $userLogin, string $expectedInviteToken, int $expiryInDays): ?string
     {
         $generatedToken = $this->model->generateRandomInviteToken();
-        $this->model->attachInviteLinkToken($userLogin, $generatedToken, $expiryInDays);
+
+        if (
+            !$this->model->attachInviteLinkToken(
+                $userLogin,
+                $generatedToken,
+                $expectedInviteToken,
+                $expiryInDays
+            )
+        ) {
+            return null;
+        }
+
         return $generatedToken;
     }
 
