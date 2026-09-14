@@ -132,6 +132,15 @@ ul.browser-default {
     }
   }
 
+  // The count sits on the corner of the icon the way it does in the desktop bar, rather than
+  // at the far right of the row where the shared sidenav rule pins it. Scoped to this drawer:
+  // the reporting menu keeps whatever the sidenav gives it.
+  #mobile-top-menu .badge-menu-item {
+    top: 8px;
+    left: 48px;
+    right: unset;
+  }
+
   // The drawer shows the icon next to the entry's name rather than instead of it. A fixed
   // width keeps the names lined up whatever glyph precedes them, and taking the row's own
   // line-height puts the icon on the same centre line as the text it labels.
