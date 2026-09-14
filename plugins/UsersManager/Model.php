@@ -314,7 +314,7 @@ class Model
                 // endless loop in case there is some bug somewhere
                 throw new \Exception('Failed to generate token');
             }
-        } while ($this->getUserByInviteToken($token));
+        } while ($this->inviteTokenExists($token));
 
         return $token;
     }
@@ -625,10 +625,32 @@ class Model
         $token = $this->hashTokenAuth($tokenAuth);
         if (!empty($token)) {
             $db = $this->getDb();
-            return $db->fetchRow("SELECT * FROM " . $this->userTable . " WHERE `invite_token` = ? or `invite_link_token` = ?", [$token ,$token]);
+            // A token is only redeemable while the account is still pending, so one left behind on an
+            // account that has since been accepted resolves to nothing.
+            $sql = "SELECT * FROM " . $this->userTable . "
+                    WHERE (`invite_token` = ? OR `invite_link_token` = ?)
+                      AND `invite_token` IS NOT NULL";
+            return $db->fetchRow($sql, [$token, $token]);
         }
 
         return null;
+    }
+
+    /**
+     * Whether any account holds the given invite token, pending or not.
+     *
+     * Token generation needs to stay globally unique, so this deliberately does not apply the pending
+     * filter that getUserByInviteToken() uses for redemption.
+     */
+    private function inviteTokenExists(
+        #[\SensitiveParameter]
+        string $token
+    ): bool {
+        $hashedToken = $this->hashTokenAuth($token);
+        $sql = "SELECT 1 FROM " . $this->userTable
+             . " WHERE `invite_token` = ? OR `invite_link_token` = ? LIMIT 1";
+
+        return (bool) $this->getDb()->fetchOne($sql, [$hashedToken, $hashedToken]);
     }
 
     /**
@@ -696,14 +718,39 @@ class Model
         ]);
     }
 
-    public function attachInviteLinkToken(string $userLogin, string $token, int $expiryInDays): void
-    {
-        $this->updateUserFields($userLogin, [
-            'invite_link_token' => $this->hashTokenAuth($token),
-            'invite_expired_at' => Date::now()->addDay($expiryInDays)->getDatetime(),
+    public function attachInviteLinkToken(
+        string $userLogin,
+        string $token,
+        string $expectedInviteToken,
+        int $expiryInDays
+    ): bool {
+        // Pin the write to the pending invitation the caller read, so it fails rather than land on an
+        // account whose invitation has since changed.
+        $sql = sprintf(
+            'UPDATE `%s`
+             SET `invite_link_token` = ?,
+                 `invite_expired_at` = ?
+             WHERE `login` = ?
+               AND `invite_token` = ?',
+            $this->userTable
+        );
+        $query = $this->getDb()->query($sql, [
+            $this->hashTokenAuth($token),
+            Date::now()->addDay($expiryInDays)->getDatetime(),
+            $userLogin,
+            $expectedInviteToken,
         ]);
+
+        return $query->rowCount() === 1;
     }
 
+    /**
+     * Rotates the invite token of a pending user without touching the expiry.
+     *
+     * Used by the password reset flow, which must not extend an invitation. Compare with
+     * reissueInviteTokenForPendingUser(), which renews the expiry because resending an invitation is
+     * meant to revive a lapsed one.
+     */
     public function replaceInviteTokenForPendingUser(
         string $userLogin,
         string $token,
@@ -726,6 +773,126 @@ class Model
             $userLogin,
             $expectedInviteToken,
             $expectedEmail,
+            Date::now()->getDatetime(),
+        ]);
+
+        return $query->rowCount() === 1;
+    }
+
+    /**
+     * Rotates the invite token of a pending user, renews the expiry and moves the address.
+     *
+     * Unlike replaceInviteTokenForPendingUser() this carries no expiry predicate, because resending an
+     * invitation is meant to revive one that has already lapsed. Pass the current address as $email to
+     * leave it where it is.
+     */
+    public function reissueInviteTokenForPendingUser(
+        string $userLogin,
+        string $token,
+        string $expectedInviteToken,
+        string $expectedEmail,
+        string $email,
+        int $expiryInDays
+    ): bool {
+        // Rotating the token and moving the address are one statement, so an invitation can never be live
+        // for an address the account no longer has.
+        $sql = sprintf(
+            'UPDATE `%s`
+             SET `invite_token` = ?,
+                 `invite_link_token` = NULL,
+                 `invite_expired_at` = ?,
+                 `email` = ?
+             WHERE `login` = ?
+               AND `invite_token` = ?
+               AND `email` = ?',
+            $this->userTable
+        );
+        $query = $this->getDb()->query($sql, [
+            $this->hashTokenAuth($token),
+            Date::now()->addDay($expiryInDays)->getDatetime(),
+            $email,
+            $userLogin,
+            $expectedInviteToken,
+            $expectedEmail,
+        ]);
+
+        return $query->rowCount() === 1;
+    }
+
+    /**
+     * Redeems a pending user's invitation and sets their password.
+     *
+     * @return bool Whether the invitation was still redeemable and has now been redeemed.
+     */
+    public function consumeInviteToken(
+        string $userLogin,
+        #[\SensitiveParameter]
+        string $token,
+        #[\SensitiveParameter]
+        string $hashedPassword
+    ): bool {
+        $hashedToken = $this->hashTokenAuth($token);
+        $now = Date::now()->getDatetime();
+
+        // Redeem the invitation and set the password in one statement, so an account is activated at most
+        // once however many of its tokens are presented. ts_password_modified is set explicitly here
+        // because updateUserFields() is not doing it for us.
+        $sql = sprintf(
+            'UPDATE `%s`
+             SET `password` = ?,
+                 `ts_password_modified` = ?,
+                 `invite_token` = NULL,
+                 `invite_link_token` = NULL,
+                 `invite_accept_at` = ?,
+                 `invite_expired_at` = NULL
+             WHERE `login` = ?
+               AND (`invite_token` = ? OR `invite_link_token` = ?)
+               AND `invite_token` IS NOT NULL
+               AND `invite_expired_at` IS NOT NULL
+               AND `invite_expired_at` >= ?',
+            $this->userTable
+        );
+        $query = $this->getDb()->query($sql, [
+            $hashedPassword,
+            $now,
+            $now,
+            $userLogin,
+            $hashedToken,
+            $hashedToken,
+            $now,
+        ]);
+
+        return $query->rowCount() === 1;
+    }
+
+    /**
+     * Deletes the user row of a pending user who declined their invitation.
+     *
+     * The delete carries the invitation in its WHERE clause, so it only ever removes the pending account
+     * it was given. The expiry predicate is deliberately more lenient than the one in
+     * consumeInviteToken(), matching the check the decline page has always applied.
+     *
+     * @return bool Whether a row was removed.
+     */
+    public function deletePendingUserByInviteToken(
+        string $userLogin,
+        #[\SensitiveParameter]
+        string $token
+    ): bool {
+        $hashedToken = $this->hashTokenAuth($token);
+
+        $sql = sprintf(
+            'DELETE FROM `%s`
+             WHERE `login` = ?
+               AND (`invite_token` = ? OR `invite_link_token` = ?)
+               AND `invite_token` IS NOT NULL
+               AND (`invite_expired_at` IS NULL OR `invite_expired_at` >= ?)',
+            $this->userTable
+        );
+        $query = $this->getDb()->query($sql, [
+            $userLogin,
+            $hashedToken,
+            $hashedToken,
             Date::now()->getDatetime(),
         ]);
 
