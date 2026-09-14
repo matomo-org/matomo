@@ -724,10 +724,16 @@ class ClickhouseDialectTranslatorTest extends \PHPUnit\Framework\TestCase
      * Goals contributes `AND visit_entry_idaction_url IS NOT NULL` to a query driven by
      * log_conversion - a log_visit column, written without its table. Carried into
      * `FROM log_conversion WHERE ...` it does not merely narrow the wrong set, it fails as an
-     * unknown identifier, so the whole conjunct group has to be dropped. This surfaced as one
-     * failing Actions system test once log_visit joins started being restricted.
+     * unknown identifier, so that conjunct has to go. This surfaced as one failing Actions
+     * system test once log_visit joins started being restricted.
+     *
+     * Only that conjunct goes. Dropping the group it sits in takes `log_conversion.idsite`
+     * with it and leaves a restriction with no WHERE at all, which is a full scan of the
+     * driving table dressed up as a restriction - the mixed AND-group bug, worth 187 s
+     * against 3.7 s on the POC corpus. The test asserted that old shape until the fix
+     * landed.
      */
-    public function testAConjunctNamingAColumnWithoutItsTableIsDropped(): void
+    public function testAConjunctNamingAColumnWithoutItsTableIsDroppedWithoutLosingItsGroup(): void
     {
         $sql = 'SELECT x FROM log_conversion AS log_conversion'
             . ' LEFT JOIN log_visit AS log_visit ON log_visit.idvisit = log_conversion.idvisit'
@@ -736,11 +742,16 @@ class ClickhouseDialectTranslatorTest extends \PHPUnit\Framework\TestCase
         $out = ClickhouseDialectTranslator::restrictLogTableJoins($sql);
 
         self::assertStringContainsString(
-            'WHERE idvisit IN (SELECT log_conversion.idvisit FROM log_conversion AS log_conversion))',
+            'WHERE idvisit IN (SELECT log_conversion.idvisit FROM log_conversion AS log_conversion'
+            . ' WHERE (log_conversion.idsite IN (:chBind000)))',
             $out,
-            'the conjunct group is dropped whole, leaving a restriction with no WHERE'
+            'the restriction keeps the conjunct it can evaluate'
         );
-        self::assertSame(1, substr_count($out, 'visit_entry_idaction_url'));
+        self::assertSame(
+            1,
+            substr_count($out, 'visit_entry_idaction_url'),
+            'the unqualified conjunct stays in the outer WHERE and never enters the restriction'
+        );
     }
 
     /**
