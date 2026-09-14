@@ -50,4 +50,23 @@
   &:hover .mtm-searchInput__clear {
     background: url(plugins/CoreHome/images/reset_search.png);
   }
+
+  // For a surface that already carries enough to look at: shorter, and no box of its own in any
+  // state. The icon goes flush left, so the text starts 12px earlier too.
+  &.mtm-searchInput--ghost {
+    .mtm-searchInput__icon {
+      left: 0;
+    }
+
+    .mtm-searchInput__input {
+      height: 30px;
+      padding: 7px 12px 7px 23px;
+      border: 0;
+
+      &:focus-visible {
+        border: 0;
+        outline: none;
+      }
+    }
+  }
 }

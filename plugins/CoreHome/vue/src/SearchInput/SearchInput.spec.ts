@@ -75,6 +75,18 @@ describe('CoreHome/SearchInput', () => {
     expect(wrapperDiv.attributes('title')).toBeUndefined();
   });
 
+  it('carries the ghost modifier on the block, where its stylesheet nests it', () => {
+    const wrapper = mount(SearchInput, {
+      props: {
+        modelValue: '',
+        ghost: true,
+      },
+    });
+
+    expect(wrapper.find('.mtm-searchInput').classes()).toContain('mtm-searchInput--ghost');
+    expect(wrapper.find('input').classes()).not.toContain('mtm-searchInput--ghost');
+  });
+
   it('forwards a listener set on the component to the input exactly once', async () => {
     // guards inheritAttrs: false: otherwise the bubbling event would invoke the listener twice
     const onKeydown = vi.fn();

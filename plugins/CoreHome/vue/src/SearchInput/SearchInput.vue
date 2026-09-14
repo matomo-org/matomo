@@ -6,7 +6,7 @@
 -->
 
 <template>
-  <div class="mtm-searchInput">
+  <div class="mtm-searchInput" :class="{ 'mtm-searchInput--ghost': ghost }">
     <span class="mtm-searchInput__icon">
       <span class="icon-search" />
     </span>
@@ -49,6 +49,11 @@ export default defineComponent({
       default: '',
     },
     showClear: {
+      type: Boolean,
+      default: false,
+    },
+    // A prop rather than a class on the component: `inheritAttrs: false` sends that to the input.
+    ghost: {
       type: Boolean,
       default: false,
     },
