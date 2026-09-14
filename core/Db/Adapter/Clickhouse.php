@@ -514,7 +514,21 @@ class Clickhouse implements AdapterInterface
 
         // The synced tables are ReplacingMergeTree: FINAL collapses row versions so reads
         // see current-row state (and drops rows whose latest version is a delete).
-        $client->settings()->set('final', 1);
+        //
+        // On by default, because while a CDC pipe is writing this is a correctness setting:
+        // an UPDATE arrives as a new row version, and without FINAL a query can see both the
+        // old and the new one until the parts merge. Matomo updates a log_visit row on every
+        // action of a live visit, so that window is not rare.
+        //
+        // It is configurable because it is expensive and, on a copy that holds exactly one
+        // version per row, buys nothing. Replaying all 136 queries of one segmented day
+        // archive on the POC corpus: 300.7 s and 9.71 billion rows with FINAL, 150.7 s and
+        // 5.64 billion without - 2.00x the time for an identical answer. FINAL has to read
+        // whole granule ranges per part in order to merge them, so it gives back much of what
+        // the skip indices prune. A bulk-loaded copy with no live pipe can show it holds one
+        // version per row - count() identical with final=0 and final=1, which on all five log
+        // tables it is - and take that cost back.
+        $client->settings()->set('final', self::finalSetting($this->config));
 
         // Matomo stores UTC datetimes; pin the session so a ClickHouse server running in
         // another timezone cannot shift toDate()/toHour() results.
@@ -539,6 +553,30 @@ class Clickhouse implements AdapterInterface
         }
 
         return $this->client = $client;
+    }
+
+    /**
+     * Whether reads collapse row versions with FINAL, for a [database_analytics] config.
+     *
+     * Defaults to on. Only an explicit falsey 'final' turns it off, so an install that says
+     * nothing keeps the safe behaviour - unlike OPTIONAL_QUERY_SETTINGS, where empty means
+     * "do not send it" and the server's own default applies.
+     *
+     * @param array<string, mixed> $config
+     */
+    public static function finalSetting(array $config): int
+    {
+        $configured = (string) ($config['final'] ?? '');
+        if ('' === $configured) {
+            return 1;
+        }
+
+        // FILTER_NULL_ON_FAILURE so a value that is not recognisably a boolean - a typo, a
+        // stray comment, an expression someone meant to be read another way - leaves FINAL on
+        // rather than quietly turning a correctness setting off.
+        $parsed = filter_var($configured, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+
+        return $parsed === false ? 0 : 1;
     }
 
     /**

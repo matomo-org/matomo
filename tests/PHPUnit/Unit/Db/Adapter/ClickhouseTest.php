@@ -17,6 +17,40 @@ use Piwik\Db\Adapter\Clickhouse;
  */
 class ClickhouseTest extends \PHPUnit\Framework\TestCase
 {
+    /**
+     * FINAL defaults to ON. While a CDC pipe is writing it is a correctness setting - an
+     * UPDATE lands as a second row version - so an install that configures nothing has to get
+     * the safe answer, not the fast one.
+     */
+    public function testFinalIsOnWhenNothingIsConfigured()
+    {
+        self::assertSame(1, Clickhouse::finalSetting([]));
+        self::assertSame(1, Clickhouse::finalSetting(['final' => '']));
+    }
+
+    /**
+     * @dataProvider getFinalSettingValues
+     */
+    public function testFinalIsOnlyTurnedOffByAnExplicitFalseyValue(int $expected, $configured)
+    {
+        self::assertSame($expected, Clickhouse::finalSetting(['final' => $configured]));
+    }
+
+    public function getFinalSettingValues(): array
+    {
+        return [
+            'zero'        => [0, '0'],
+            'false'       => [0, 'false'],
+            'off'         => [0, 'off'],
+            'no'          => [0, 'no'],
+            'one'         => [1, '1'],
+            'true'        => [1, 'true'],
+            'on'          => [1, 'on'],
+            // Anything filter_var cannot read as a boolean is not a request to turn it off.
+            'nonsense'    => [1, 'maybe'],
+        ];
+    }
+
     public function testConvertPositionalBindsProducesFixedWidthNamedParams()
     {
         [$sql, $params] = Clickhouse::convertPositionalBinds(

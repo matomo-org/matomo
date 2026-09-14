@@ -155,6 +155,18 @@ max_bytes_before_external_group_by =
 ; current versions - hash first, falling back only under memory pressure), which is
 ; normally faster on production-sized hardware.
 join_algorithm =
+; Collapse ReplacingMergeTree row versions on read with FINAL. Unlike the four settings
+; above, empty does NOT mean "do not send it": this one defaults to 1, because while a CDC
+; pipe is writing it is a correctness setting. An UPDATE arrives as a new row version and
+; until the parts merge a query without FINAL can see the old one as well, which for a
+; log_visit row that is updated on every action of a live visit is not a rare window.
+; Set it to 0 only for a copy that provably holds one version per row - a bulk-loaded
+; corpus with no live pipe, where count() is identical with final=0 and final=1. It is
+; worth checking: FINAL has to read whole granule ranges per part in order to merge them,
+; which gives back much of what the skip indices prune. Replaying all 136 queries of one
+; segmented day archive on the POC corpus took 300.7 s with it and 150.7 s without, for an
+; identical answer - 2.00x.
+final =
 
 [database_tests]
 host = "127.0.0.1"
