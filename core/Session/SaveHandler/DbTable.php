@@ -342,14 +342,22 @@ class DbTable implements \SessionHandlerInterface
 
     private function insertIfAbsent($id, $data)
     {
-        $sql = 'INSERT IGNORE INTO ' . $this->config['name']
+        $sql = 'INSERT INTO ' . $this->config['name']
             . ' (' . $this->config['primary'] . ','
             . $this->config['modifiedColumn'] . ','
             . $this->config['lifetimeColumn'] . ','
             . $this->config['dataColumn'] . ')'
             . ' VALUES (?,?,?,?)';
 
-        return $this->didChangeRow($sql, [$id, time(), $this->maxLifetime, $data]);
+        try {
+            return $this->didChangeRow($sql, [$id, time(), $this->maxLifetime, $data]);
+        } catch (Exception $e) {
+            if (Db::get()->isErrNo($e, Migration\Db::ERROR_CODE_DUPLICATE_ENTRY)) {
+                return false;
+            }
+
+            throw $e;
+        }
     }
 
     /**

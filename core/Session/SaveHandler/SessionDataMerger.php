@@ -28,6 +28,12 @@ use Zend_Session;
 class SessionDataMerger
 {
     /**
+     * Pathological session values can contain recursive arrays. Limit recursion to the current
+     * subtree so unrelated session values, including nonces and identity, are still merged.
+     */
+    private const MAX_MERGE_DEPTH = 64;
+
+    /**
      * Keys identifying the session itself. Removing one of these is how a logout takes effect,
      * so a concurrent change must never bring one back.
      */
@@ -97,6 +103,15 @@ class SessionDataMerger
      */
     public function mergeArrays(array $base, array $mine, array $theirs)
     {
+        return $this->mergeArraysAtDepth($base, $mine, $theirs, 0);
+    }
+
+    private function mergeArraysAtDepth(array $base, array $mine, array $theirs, $depth)
+    {
+        if ($depth >= self::MAX_MERGE_DEPTH) {
+            return $mine;
+        }
+
         $merged = [];
         $keys = array_keys($base + $mine + $theirs);
         // logging out takes the whole identity with it, so once one request has removed one of
@@ -157,7 +172,7 @@ class SessionDataMerger
             $nestedBase = $inBase ? $baseValue : [];
 
             if ($this->isMap($nestedBase) && $this->isMap($myValue) && $this->isMap($theirValue)) {
-                $merged[$key] = $this->mergeArrays($nestedBase, $myValue, $theirValue);
+                $merged[$key] = $this->mergeArraysAtDepth($nestedBase, $myValue, $theirValue, $depth + 1);
                 continue;
             }
 
@@ -210,8 +225,12 @@ class SessionDataMerger
      * reference. That can only add a key that was not stored before, so a null is dropped when
      * it is new. One that was already there is a value someone stored on purpose, and stays.
      */
-    private function removeAddedNulls(array $base, array $data)
+    private function removeAddedNulls(array $base, array $data, $depth = 0)
     {
+        if ($depth >= self::MAX_MERGE_DEPTH) {
+            return $data;
+        }
+
         foreach ($data as $key => $value) {
             $inBase = array_key_exists($key, $base);
 
@@ -228,7 +247,7 @@ class SessionDataMerger
             }
 
             $nestedBase = $inBase && is_array($base[$key]) ? $base[$key] : [];
-            $value = $this->removeAddedNulls($nestedBase, $value);
+            $value = $this->removeAddedNulls($nestedBase, $value, $depth + 1);
 
             // a container that held nothing but new nulls was never there to begin with
             if ([] === $value && !$inBase) {
