@@ -812,14 +812,14 @@ $.extend(DataTable.prototype, UIControl.prototype, {
     // Rebound, not added to: handleLimit runs again after every reload and nothing detaches them.
     _bindLimitSelectorDismissal: function () {
         function collapse($selectors) {
-            $selectors.removeClass('expanded')
+            $selectors.removeClass('mtm-selector--expanded')
                 .find('.mtm-selector__trigger').attr('aria-expanded', 'false');
         }
 
         $(document)
             .off('click.limitSelection keyup.limitSelection')
             .on('click.limitSelection', function (event) {
-                $('.limitSelection .mtm-selector.expanded').each(function () {
+                $('.limitSelection .mtm-selector--expanded').each(function () {
                     var $selector = $(this);
                     if (!$selector.is(event.target) && !$selector.has(event.target).length) {
                         collapse($selector);
@@ -828,16 +828,18 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             })
             .on('keyup.limitSelection', function (event) {
                 if (event.key === 'Escape') {
-                    collapse($('.limitSelection .mtm-selector.expanded'));
+                    collapse($('.limitSelection .mtm-selector--expanded'));
                 }
             });
     },
-    // The Vue selectors get this from ExpandOnClick; this one is jQuery, so it toggles its own class.
+    // The Vue selectors get this from ExpandOnClick; this one is jQuery, so it toggles the block's
+    // own modifier itself. It has to be the modifier and not a bare `expanded`: _selector.less
+    // nests every open state under `.mtm-selector--expanded`, so that is what reveals the panel.
     _bindLimitSelector: function ($selector, onPick) {
         var $trigger = $selector.find('.mtm-selector__trigger');
 
         function close() {
-            $selector.removeClass('expanded');
+            $selector.removeClass('mtm-selector--expanded');
             $trigger.attr('aria-expanded', 'false');
         }
 
@@ -845,8 +847,8 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         $trigger.on('click', function (event) {
             event.preventDefault();
 
-            var opening = !$selector.hasClass('expanded');
-            $selector.toggleClass('expanded', opening);
+            var opening = !$selector.hasClass('mtm-selector--expanded');
+            $selector.toggleClass('mtm-selector--expanded', opening);
             $trigger.attr('aria-expanded', opening ? 'true' : 'false');
         });
 

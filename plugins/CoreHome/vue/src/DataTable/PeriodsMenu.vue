@@ -21,7 +21,7 @@
         :aria-checked="activePeriod === selectablePeriod"
         :class="`mtm-dropdownPanel__menuLink tableIcon ${activePeriod === selectablePeriod
           ? 'activeIcon' : ''}`"
-        @click="$emit('pick')"
+        @click="$emit('pick', $event)"
         @keydown.enter.prevent="activateItem"
         @keydown.space.prevent="activateItem"
       >

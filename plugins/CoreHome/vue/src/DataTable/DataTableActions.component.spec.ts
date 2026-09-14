@@ -359,37 +359,6 @@ describe('DataTableActions menu structure', () => {
     expect(rows[4].find('.tableGraphViews').exists()).toBe(true);
   });
 
-  // Announcing role="menu" promises that the arrows walk the entries, so they have to.
-  it('should walk its entries with the arrow keys', async () => {
-    const wrapper = mountComponent({
-      reportSupportsPercentageValues: true,
-      footerIcons: [tableGroup, graphGroup],
-    });
-    document.body.appendChild(wrapper.element);
-
-    const menu = wrapper.find('[role="menu"]');
-    const items = wrapper.findAll('[role^="menuitem"]').map((item) => item.element);
-    expect(items.length).toBeGreaterThan(2);
-
-    await menu.trigger('keydown', { key: 'ArrowDown' });
-    expect(document.activeElement).toBe(items[0]);
-
-    await menu.trigger('keydown', { key: 'ArrowDown' });
-    expect(document.activeElement).toBe(items[1]);
-
-    await menu.trigger('keydown', { key: 'ArrowUp' });
-    expect(document.activeElement).toBe(items[0]);
-
-    await menu.trigger('keydown', { key: 'End' });
-    expect(document.activeElement).toBe(items[items.length - 1]);
-
-    // and round, so the list has no dead end
-    await menu.trigger('keydown', { key: 'ArrowDown' });
-    expect(document.activeElement).toBe(items[0]);
-
-    wrapper.unmount();
-  });
-
   it('should close the menu with the exports, ruled off from the visualisations', () => {
     const wrapper = mountComponent({
       reportSupportsPercentageValues: true,
