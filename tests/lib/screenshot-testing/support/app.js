@@ -326,8 +326,22 @@ Application.prototype.doRunTests = function (mocha) {
     });
 
     this.runner.on('end', function() {
-      // we are terminating but we are waiting for all other events to finish
-      setTimeout(() => process.exit(this.failures), 10000);
+      const failures = this.failures;
+
+      // The Testomatio reporter keeps sending API requests after this event, so when it is active
+      // we still have to wait for it (#21760). Without it there is nothing left to flush, and the
+      // wait is dead time on every run.
+      if (config.usesTestomatioReporter) {
+        setTimeout(() => process.exit(failures), 10000);
+        return;
+      }
+
+      // Setting exitCode and letting node exit on its own drains stdout first; a bare
+      // process.exit() truncates piped output. The browser is what holds the loop open, so close
+      // it. The timer is a safety net only and is unref'd so it cannot itself delay the exit.
+      process.exitCode = failures;
+      page.browser.close().catch(() => {});
+      setTimeout(() => process.exit(failures), 5000).unref();
     })
 };
 
