@@ -132,6 +132,19 @@ ul.browser-default {
     }
   }
 
+  // The drawer shows the icon next to the entry's name rather than instead of it. A fixed
+  // width keeps the names lined up whatever glyph precedes them, and taking the row's own
+  // line-height puts the icon on the same centre line as the text it labels.
+  #mobile-top-menu .navbar-icon {
+    display: inline-block;
+    width: 24px;
+    margin-right: 16px;
+    font-size: 16px;
+    line-height: inherit;
+    text-align: center;
+    vertical-align: top;
+  }
+
   ul:not(#mobile-top-menu) {
     a {
       color: @theme-color-header-text;
