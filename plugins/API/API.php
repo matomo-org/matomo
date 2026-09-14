@@ -12,6 +12,7 @@ namespace Piwik\Plugins\API;
 use Piwik\API\Proxy;
 use Piwik\API\Request;
 use Piwik\ArchiveProcessor\Rules;
+use Matomo\Cache\Transient as TransientCache;
 use Piwik\Cache;
 use Piwik\CacheId;
 use Piwik\Category\CategoryList;
@@ -563,6 +564,9 @@ class API extends \Piwik\Plugin\API
         $rootIsSessionToken = $authToken->isSessionToken();
         $rootTokenAuth = $authToken->getAuthToken();
 
+        $container = StaticContainer::getContainer();
+        $baselineTransientCache = Cache::getTransientCache();
+
         $result = [];
         foreach ($urls as $url) {
             $nestedRequest = \Piwik\Request::fromQueryString($url);
@@ -584,7 +588,17 @@ class API extends \Piwik\Plugin\API
             }
 
             $req = new Request($params);
-            $result[] = json_decode($req->process(), true);
+
+            // Each sub-request is a separate logical request. Give it its own transient (per-request)
+            // cache, seeded from the state before the batch, so one sub-request cannot read or
+            // overwrite another's cache entries while still reusing anything the outer request had
+            // already cached.
+            $container->set(TransientCache::class, clone $baselineTransientCache);
+            try {
+                $result[] = json_decode($req->process(), true);
+            } finally {
+                $container->set(TransientCache::class, $baselineTransientCache);
+            }
         }
         return $result;
     }
