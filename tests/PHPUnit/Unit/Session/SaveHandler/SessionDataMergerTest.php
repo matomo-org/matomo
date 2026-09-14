@@ -332,23 +332,26 @@ class SessionDataMergerTest extends TestCase
     {
         ini_set('memory_limit', '64M');
 
-        $base = [
-            'plugin.recursive' => $this->makeRecursiveData('base'),
-            'Login.login' => ['nonce' => 'used'],
-            SessionFingerprint::USER_NAME_SESSION_VAR_NAME => 'chip',
-            SessionFingerprint::SESSION_INFO_SESSION_VAR_NAME => ['expiration' => 100],
-        ];
-        $mine = [
-            'plugin.recursive' => $this->makeRecursiveData('mine'),
-            'mine.top' => 1,
-        ];
-        $theirs = [
-            'plugin.recursive' => $this->makeRecursiveData('theirs'),
-            'Login.login' => ['nonce' => 'used'],
-            SessionFingerprint::USER_NAME_SESSION_VAR_NAME => 'chip',
-            SessionFingerprint::SESSION_INFO_SESSION_VAR_NAME => ['expiration' => 200],
-            'theirs.top' => 1,
-        ];
+        $base = [];
+        $this->addRecursiveData($base, 'base');
+        $base['Login.login'] = ['nonce' => 'used'];
+        $base[SessionFingerprint::USER_NAME_SESSION_VAR_NAME] = 'chip';
+        $base[SessionFingerprint::SESSION_INFO_SESSION_VAR_NAME] = ['expiration' => 100];
+
+        $mine = [];
+        $this->addRecursiveData($mine, 'mine');
+        $mine['mine.top'] = 1;
+
+        $theirs = [];
+        $this->addRecursiveData($theirs, 'theirs');
+        $theirs['Login.login'] = ['nonce' => 'used'];
+        $theirs[SessionFingerprint::USER_NAME_SESSION_VAR_NAME] = 'chip';
+        $theirs[SessionFingerprint::SESSION_INFO_SESSION_VAR_NAME] = ['expiration' => 200];
+        $theirs['theirs.top'] = 1;
+
+        // built in place so the reference really is a cycle - returning it from a helper would
+        // serialize as null and the test would pass without the depth limit
+        $this->assertMatchesRegularExpression('/R:\\d+;/', serialize($base));
 
         $merged = $this->merger->decode($this->merger->merge(
             $this->merger->encode($base),
@@ -363,17 +366,16 @@ class SessionDataMergerTest extends TestCase
         $this->assertArrayNotHasKey(SessionFingerprint::SESSION_INFO_SESSION_VAR_NAME, $merged);
         $this->assertIsArray($merged['plugin.recursive']);
 
-        $replacementBase = [
-            'plugin.recursive' => $this->makeRecursiveData('base'),
-            'Login.login' => ['nonce' => 'used'],
-        ];
-        $replacementMine = [
-            'plugin.recursive' => $this->makeRecursiveData('mine'),
-        ];
-        $replacementTheirs = [
-            'plugin.recursive' => $this->makeRecursiveData('theirs'),
-            'Login.login' => ['nonce' => 'fresh'],
-        ];
+        $replacementBase = [];
+        $this->addRecursiveData($replacementBase, 'base');
+        $replacementBase['Login.login'] = ['nonce' => 'used'];
+
+        $replacementMine = [];
+        $this->addRecursiveData($replacementMine, 'mine');
+
+        $replacementTheirs = [];
+        $this->addRecursiveData($replacementTheirs, 'theirs');
+        $replacementTheirs['Login.login'] = ['nonce' => 'fresh'];
 
         $replaced = $this->merger->decode($this->merger->merge(
             $this->merger->encode($replacementBase),
@@ -393,11 +395,9 @@ class SessionDataMergerTest extends TestCase
         $this->assertNull($this->merger->merge($readable, $readable, 'thirddata'));
     }
 
-    private function makeRecursiveData($value)
+    private function addRecursiveData(array &$session, $value)
     {
-        $data = ['value' => $value];
-        $data['self'] = &$data;
-
-        return $data;
+        $session['plugin.recursive'] = ['value' => $value];
+        $session['plugin.recursive']['self'] = &$session['plugin.recursive'];
     }
 }

@@ -219,7 +219,7 @@ class DbTableTest extends IntegrationTestCase
         $this->assertSame(['layout' => 'x'], $stored['Dashboard'] ?? null);
     }
 
-    public function testFirstWriteDoesNotIgnoreDatabaseErrorsOtherThanDuplicateEntries()
+    public function testFirstWriteRethrowsDatabaseErrorsOtherThanDuplicateEntries()
     {
         $table = Common::prefixTable('session_write_error_test');
 
@@ -228,19 +228,20 @@ class DbTableTest extends IntegrationTestCase
                 id VARCHAR(128) NOT NULL,
                 modified INT NOT NULL,
                 lifetime INT NOT NULL,
-                data VARCHAR(4) NOT NULL,
+                data MEDIUMTEXT NOT NULL,
                 PRIMARY KEY (id)
             )"
         );
 
         $config = Session::getDbTableConfig();
         $config['name'] = $table;
+        $config['dataColumn'] = 'missing_data';
         $handler = new DbTable($config);
 
         $this->expectException(\Exception::class);
 
         try {
-            $handler->write('testid', 'too-long');
+            $handler->write('testid', 'testdata');
         } finally {
             Db::exec("DROP TEMPORARY TABLE IF EXISTS `$table`");
         }
