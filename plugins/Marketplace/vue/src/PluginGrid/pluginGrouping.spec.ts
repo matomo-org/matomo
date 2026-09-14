@@ -122,6 +122,36 @@ describe('Marketplace/pluginGrouping', () => {
     it('does not match an unrelated term', () => {
       expect(matchesQuery(p, 'heatmap')).toBe(false);
     });
+
+    it('covers keywords, the way the Marketplace\'s own query search does', () => {
+      const ldap = makePlugin({
+        name: 'LoginLdap',
+        displayName: 'LoginLdap',
+        description: '',
+        keywords: ['login', 'authentication', 'kerberos'],
+      });
+
+      expect(matchesQuery(ldap, 'kerberos')).toBe(true);
+      expect(matchesQuery(ldap, 'sso')).toBe(false);
+    });
+
+    it('survives a plugin whose keywords are missing or malformed', () => {
+      const odd = makePlugin({ name: 'odd', keywords: undefined as unknown as string[] });
+      expect(matchesQuery(odd, 'odd')).toBe(true);
+      expect(matchesQuery(odd, 'nothing')).toBe(false);
+    });
+
+    it('matches the owner as the card credits it, not only as the API spells it', () => {
+      const own = makePlugin({
+        name: 'own',
+        displayName: 'own',
+        description: '',
+        owner: 'piwik',
+      });
+
+      expect(matchesQuery(own, 'matomo')).toBe(true);
+      expect(matchesQuery(own, 'piwik')).toBe(true);
+    });
   });
 
   describe('matchesTab', () => {
@@ -188,6 +218,19 @@ describe('Marketplace/pluginGrouping', () => {
         makePlugin({ name: 'b', categories: undefined as unknown as string[] }),
       ]);
       expect(tabs.map((t) => t.id)).toEqual([TAB_ALL, TAB_OTHER]);
+    });
+
+    it('orders the category tabs by their label rather than by their slug', () => {
+      const labels: Record<string, string> = { security: 'Analyse', insights: 'Zebra' };
+      const tabs = buildTabs(
+        [
+          makePlugin({ name: 'a', categories: ['insights'] }),
+          makePlugin({ name: 'b', categories: ['security'] }),
+        ],
+        (tab) => labels[tab.id] ?? tab.id,
+      );
+
+      expect(tabs.map((t) => t.id)).toEqual([TAB_ALL, 'security', 'insights']);
     });
 
     it('folds a category slug named other into the same tab', () => {

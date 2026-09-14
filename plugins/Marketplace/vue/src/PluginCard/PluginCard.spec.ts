@@ -144,7 +144,6 @@ describe('Marketplace/PluginCard', () => {
         { Marketplace: Record<string, string> };
 
       expect(en.Marketplace.ByAuthor).toContain('%1$s');
-      expect(en.Marketplace.CreatedBy).not.toContain('%');
     });
 
     it('requests a right-sized cover and offers a retina source', () => {

@@ -10,7 +10,7 @@
     v-if="plugin.missingRequirements.length === 0 && plugin.isDownloadable && !isAutoUpdatePossible"
   >
     <span onclick="$(this).css('display', 'none')">
-      <a tabindex="7"
+      <a
          :class="['plugin-details', 'download', { 'btn btn-block': showAsButton }]"
          :href="linkTo({
             module: 'Marketplace',

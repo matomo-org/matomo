@@ -46,6 +46,7 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [],
             "versions": [
                 {
                     "name": "3.0.1",
@@ -128,6 +129,9 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [
+                "security"
+            ],
             "versions": [
                 {
                     "name": "6.1.11",

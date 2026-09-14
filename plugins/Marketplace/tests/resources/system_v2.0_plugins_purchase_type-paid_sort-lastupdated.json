@@ -53,6 +53,7 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [],
             "versions": [
                 {
                     "name": "6.3.5",
@@ -135,6 +136,7 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [],
             "versions": [
                 {
                     "name": "6.2.2",
@@ -219,6 +221,7 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [],
             "versions": [
                 {
                     "name": "1.0.0",
@@ -303,6 +306,7 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [],
             "versions": [
                 {
                     "name": "1.0.0",
@@ -387,6 +391,7 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [],
             "versions": [
                 {
                     "name": "1.0.0",
@@ -474,6 +479,7 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [],
             "versions": [
                 {
                     "name": "6.4.0",
@@ -558,6 +564,7 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [],
             "versions": [
                 {
                     "name": "6.0.14",
@@ -637,6 +644,7 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [],
             "versions": [
                 {
                     "name": "6.4.12",
@@ -724,6 +732,7 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [],
             "versions": [
                 {
                     "name": "6.5.2",
@@ -812,6 +821,7 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [],
             "versions": [
                 {
                     "name": "6.3.7",
@@ -899,6 +909,7 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [],
             "versions": [
                 {
                     "name": "6.5.3",
@@ -983,6 +994,7 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [],
             "versions": [
                 {
                     "name": "6.4.0",
@@ -1062,6 +1074,7 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [],
             "versions": [
                 {
                     "name": "6.1.8",
@@ -1147,6 +1160,7 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [],
             "versions": [
                 {
                     "name": "6.0.14",
@@ -1234,6 +1248,7 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [],
             "versions": [
                 {
                     "name": "6.0.9",
@@ -1318,6 +1333,7 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [],
             "versions": [
                 {
                     "name": "6.0.11",
@@ -1401,6 +1417,7 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [],
             "versions": [
                 {
                     "name": "6.0.29",
@@ -1486,6 +1503,9 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [
+                "database"
+            ],
             "versions": [
                 {
                     "name": "6.0.11",
@@ -1569,6 +1589,7 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [],
             "versions": [
                 {
                     "name": "6.0.12",
@@ -1650,6 +1671,7 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [],
             "versions": [
                 {
                     "name": "6.1.9",
@@ -1730,6 +1752,7 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [],
             "versions": [
                 {
                     "name": "6.0.5",

@@ -102,14 +102,14 @@ return array(
                 $plugin['shop']['reviews']['embedUrl'] = '';
             }
 
-            // preg_replace patterns
+            // preg_replace patterns. No rule for the Marketplace's own /img/categories/ cover
+            // stand-ins: Plugins::addPluginCoverImage() replaces every one of them with the local
+            // uncategorised.png, whatever URL they arrive under, so a local copy is never reached.
             $from = [
                 '@^https?://.*?/([^/]*?)/images/([^/]*?)/(.*?)$@',
-                '@^https?://.*?/img/categories/(.*?)$@i',
             ];
             $to = [
                 'plugins/Marketplace/tests/resources/images/plugins/$1/images/$2/$3',
-                'plugins/Marketplace/tests/resources/images/categories/$1',
             ];
 
             if (!empty($plugin['coverImage'])) {

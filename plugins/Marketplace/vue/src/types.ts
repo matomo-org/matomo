@@ -98,6 +98,7 @@ export interface PluginCard {
   isBundle?: boolean; // only sent for a plugin the Marketplace flags as one
   isTheme: boolean;
   categories: string[];
+  keywords: string[]; // searched client-side, the way the Marketplace's own query search does
   lastUpdated: string; // localised for display, e.g. "Jun 8, 2026" - never sort on this
   lastUpdatedRaw: string | null; // "2026-06-08 06:34:21", the value to sort on
   createdDateTime: string | null; // "2017-05-17 06:34:21"
@@ -131,7 +132,6 @@ export interface PluginDetails extends PluginCard {
   homepage: string | null;
   donate: [];
   support: [];
-  keywords: string[];
   basePrice: number;
   authors: TObjectArray;
   repositoryUrl: string | null;

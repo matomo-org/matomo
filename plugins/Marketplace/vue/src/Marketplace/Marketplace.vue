@@ -40,6 +40,7 @@
 
     <MarketplaceHero
       :model-value="searchQuery"
+      :plugin-count="allPlugins.length"
       @update:model-value="updateQuery($event)"
     />
 
@@ -92,7 +93,6 @@
         @seeAll="seeAllInSection($event)"
         @openDetails="openDetailsModal($event)"
         @requestTrial="showRequestTrialForPlugin = $event"
-        @startFreeTrial="showStartFreeTrialForPlugin = $event"
       />
     </div>
 
@@ -103,11 +103,11 @@
       :context="cardContext"
       @openDetails="openDetailsModal($event)"
       @requestTrial="showRequestTrialForPlugin = $event"
-      @startFreeTrial="showStartFreeTrialForPlugin = $event"
     />
 
     <EmptyState
       v-if="!loading && !loadFailed && filteredPlugins.length === 0"
+      :has-query="!!searchQuery.trim()"
       @reset="resetFilters()"
     />
 
@@ -123,7 +123,6 @@
 import { defineComponent, markRaw, watch } from 'vue';
 import {
   AjaxHelper,
-  debounce,
   Matomo,
   MatomoUrl,
   translate,
@@ -153,11 +152,32 @@ import {
   tabFromLegacyPluginType,
 } from '../PluginGrid/pluginGrouping';
 
+/**
+ * The hash parameter holding the open tab.
+ *
+ * Namespaced, and deliberately not `category`: the Marketplace is in the reporting menu as well as
+ * the admin one, and on a reporting page `category` is CoreHome's own menu category. Writing that
+ * one navigates the whole page away and unmounts this component; reading it hands back the
+ * reporting category id, which matches no tab.
+ */
+const CATEGORY_PARAM = 'pluginCategory';
+
 /** How many cards a filtered view adds at a time. */
 const PAGE_SIZE = 15;
 
 /** Placeholder cards to hold the layout on a cold load. */
 const INITIAL_SKELETONS = 10;
+
+/** How long the search box waits after the last keystroke before writing the query to the hash. */
+const QUERY_DEBOUNCE_MS = 250;
+
+/**
+ * How long a catalogue request may hang before the page calls it a failure.
+ *
+ * `AjaxHelper.send()` neither resolves nor rejects when the request never reaches the server
+ * (`xhr.status === 0`), so without this the skeletons would sit there for good.
+ */
+const FETCH_TIMEOUT_MS = 30000;
 
 export interface MarketplaceState {
   loading: boolean;
@@ -173,6 +193,7 @@ export interface MarketplaceState {
   showPluginDetailsForPlugin: PluginCard|null;
   observer: IntersectionObserver|null;
   fetchAbortController: AbortController|null;
+  queryHashTimeout: ReturnType<typeof setTimeout>|null;
 }
 
 export default defineComponent({
@@ -227,10 +248,8 @@ export default defineComponent({
       showPluginDetailsForPlugin: null,
       observer: null,
       fetchAbortController: null,
+      queryHashTimeout: null,
     };
-  },
-  created() {
-    this.pushQueryToHash = debounce(this.pushQueryToHash.bind(this), 250);
   },
   mounted() {
     Matomo.postEvent('Marketplace.Marketplace.mounted', { element: this.$refs.root });
@@ -251,17 +270,19 @@ export default defineComponent({
     if (this.fetchAbortController) {
       this.fetchAbortController.abort();
     }
+
+    this.cancelQueryHashWrite();
   },
   computed: {
     tabs(): PluginTab[] {
-      return buildTabs(this.allPlugins);
+      return buildTabs(this.allPlugins, tabLabel);
     },
     /**
      * The section stack, each row sorted the way the whole catalogue is, so that a row is the
      * first cards of the category it links to rather than a differently ordered sample.
      */
     sections(): PluginSectionType[] {
-      return buildSections(this.allPlugins).map((section) => ({
+      return buildSections(this.allPlugins, tabLabel).map((section) => ({
         ...section,
         plugins: sortPlugins(section.plugins, this.pluginSort),
       }));
@@ -324,11 +345,15 @@ export default defineComponent({
      */
     resultsHeading(): string {
       if (this.searchQuery.trim()) {
-        return this.loading ? '' : translate(
-          'Marketplace_ResultsFoundFor',
-          this.filteredPlugins.length,
-          this.searchQuery,
-        );
+        if (this.loading) {
+          return '';
+        }
+
+        const found = this.filteredPlugins.length;
+
+        return found === 1
+          ? translate('Marketplace_OneResultFoundFor', this.searchQuery)
+          : translate('Marketplace_ResultsFoundFor', found, this.searchQuery);
       }
       if (this.activeTab === TAB_ALL) {
         return '';
@@ -380,7 +405,22 @@ export default defineComponent({
         { withTokenInUrl: true, abortController },
       );
 
-      return Promise.all([warmedRequest(false), warmedRequest(true)])
+      // A request that never reaches the server settles neither way in AjaxHelper, so the pair is
+      // raced against a timer rather than awaited on its own - see FETCH_TIMEOUT_MS.
+      let timedOut = false;
+      let timeoutHandle: ReturnType<typeof setTimeout>|null = null;
+      const givesUp = new Promise<never>((resolve, reject) => {
+        timeoutHandle = setTimeout(() => {
+          timedOut = true;
+          abortController.abort();
+          reject(new Error('The Marketplace catalogue request timed out.'));
+        }, FETCH_TIMEOUT_MS);
+      });
+
+      return Promise.race([
+        Promise.all([warmedRequest(false), warmedRequest(true)]),
+        givesUp,
+      ])
         .then(([plugins, themes]) => {
           const merged = new Map<string, PluginCard>();
           ([] as PluginCard[]).concat(plugins ?? [], themes ?? []).forEach((plugin) => {
@@ -393,13 +433,19 @@ export default defineComponent({
           this.openDeepLinkedPlugin();
         })
         .catch(() => {
-          if (abortController.signal.aborted) {
+          // a fetch this component itself replaced or abandoned leaves the page as it is; the
+          // timeout aborts too, and is the one abort that does mean the catalogue is unavailable
+          if (abortController.signal.aborted && !timedOut) {
             return;
           }
           this.loading = false;
           this.loadFailed = true;
         })
         .finally(() => {
+          if (timeoutHandle) {
+            clearTimeout(timeoutHandle);
+          }
+
           if (this.fetchAbortController === abortController) {
             this.fetchAbortController = null;
           }
@@ -413,25 +459,51 @@ export default defineComponent({
     readStateFromHash() {
       const hash = MatomoUrl.hashParsed.value;
 
-      this.searchQuery = (hash.query || '') as string;
-      this.pluginSort = (hash.sort || this.defaultSort || SORT_LAST_UPDATED) as string;
+      const searchQuery = (hash.query || '') as string;
+      const pluginSort = (hash.sort || this.defaultSort || SORT_LAST_UPDATED) as string;
+      const category = (hash[CATEGORY_PARAM] || '') as string;
+      const activeTab = category
+        || tabFromLegacyPluginType((hash.pluginType || '') as string)
+        || TAB_ALL;
 
-      const category = (hash.category || '') as string;
-      if (category) {
-        this.activeTab = category;
-      } else {
-        this.activeTab = tabFromLegacyPluginType((hash.pluginType || '') as string) ?? TAB_ALL;
+      // Only a change to what is listed starts the list over. This runs on every hash write, and
+      // some of them leave the list alone - closing the details modal clears `showPlugin` - so
+      // resetting unconditionally would throw away however far the reader had scrolled.
+      const listChanged = searchQuery !== this.searchQuery
+        || pluginSort !== this.pluginSort
+        || activeTab !== this.activeTab;
+
+      this.searchQuery = searchQuery;
+      this.pluginSort = pluginSort;
+      this.activeTab = activeTab;
+
+      if (listChanged) {
+        this.pageSize = PAGE_SIZE;
       }
-
-      this.pageSize = PAGE_SIZE;
     },
 
     updateHash(changes: Record<string, unknown>) {
       MatomoUrl.updateHash({ ...MatomoUrl.hashParsed.value, ...changes });
     },
 
+    /**
+     * Writes the query to the hash once the typing stops. Its own timer rather than CoreHome's
+     * `debounce`, which hands back no way to call a pending write off - and resetFilters() has to,
+     * or a write scheduled by the last keystroke lands after the reset and puts the query back.
+     */
     pushQueryToHash(query: string) {
-      this.updateHash({ query });
+      this.cancelQueryHashWrite();
+      this.queryHashTimeout = setTimeout(() => {
+        this.queryHashTimeout = null;
+        this.updateHash({ query });
+      }, QUERY_DEBOUNCE_MS);
+    },
+
+    cancelQueryHashWrite() {
+      if (this.queryHashTimeout) {
+        clearTimeout(this.queryHashTimeout);
+        this.queryHashTimeout = null;
+      }
     },
 
     updateQuery(query: string) {
@@ -448,7 +520,10 @@ export default defineComponent({
      */
     updateTab(tabId: string) {
       this.activeTab = tabId;
-      this.updateHash({ category: tabId, pluginType: null });
+      // set here as well as in readStateFromHash(), which only resets what it sees change and is
+      // handed a tab this has already applied
+      this.pageSize = PAGE_SIZE;
+      this.updateHash({ [CATEGORY_PARAM]: tabId, pluginType: null });
     },
 
     updateSort(sort: string) {
@@ -484,9 +559,13 @@ export default defineComponent({
       }
     },
 
+    /** Sets the state before writing the hash, for the reason given on updateTab(). */
     resetFilters() {
+      this.cancelQueryHashWrite();
       this.searchQuery = '';
-      this.updateHash({ query: null, category: TAB_ALL, pluginType: null });
+      this.activeTab = TAB_ALL;
+      this.pageSize = PAGE_SIZE;
+      this.updateHash({ query: null, [CATEGORY_PARAM]: null, pluginType: null });
     },
 
     openDetailsModal(plugin: PluginCard) {

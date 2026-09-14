@@ -90,6 +90,7 @@ class ControllerTest extends IntegrationTestCase
             'isPaid',
             'isTheme',
             'isTrialRequested',
+            'keywords',
             'lastUpdated',
             'lastUpdatedRaw',
             'licenseStatus',
@@ -138,6 +139,29 @@ class ControllerTest extends IntegrationTestCase
             self::assertArrayHasKey($name, $cards);
             self::assertTrue($cards[$name]['isBundle'] ?? false, "$name reaches the modal as a plugin");
         }
+    }
+
+    public function testSearchPluginsCarriesTheCategorySlugsTheTabBarIsBuiltFrom()
+    {
+        // the tab bar, the section stack and the card chips are all derived from this one field,
+        // client-side, so nothing else on the page can stand in for it
+        $this->pluginsFixture = 'system_v2.0_plugins_sort-lastupdated.json';
+
+        $cards = array_column($this->searchPlugins(), 'categories', 'name');
+
+        self::assertNotEmpty($cards);
+        self::assertSame(['security'], $cards['SecurityInfo'] ?? null);
+        self::assertSame(['database'], $cards['CustomAlerts'] ?? null);
+        // a plugin no category claims reaches the client as an empty list, never as a missing key
+        self::assertSame([], $cards['WooCommerceAnalytics'] ?? null);
+
+        $slugs = array_unique(array_merge(...array_values($cards)));
+        sort($slugs);
+
+        self::assertSame(
+            ['customisation', 'database', 'development', 'insights', 'integration', 'security'],
+            $slugs
+        );
     }
 
     public function testGetPluginDetailsReturnsTheFieldsTheListOmits()

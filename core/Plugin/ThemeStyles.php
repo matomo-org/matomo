@@ -24,6 +24,7 @@ class ThemeStyles
         'colorBrandContrast' => 'theme-color-brand-contrast',
         'colorSuccess' => 'theme-color-success',
         'colorWarning' => 'theme-color-warning',
+        'colorDanger' => 'theme-color-danger',
         'colorFocusRing' => 'theme-color-focus-ring',
         'colorFocusRingAlternative' => 'theme-color-focus-ring-alternative',
         'colorTextHighContrast' => 'theme-color-text-highContrast',
@@ -114,6 +115,16 @@ class ThemeStyles
      * @since Matomo 6.0.0
      */
     public $colorWarning = ['#a18a0b', '#d4b93c'];
+
+    /**
+     * Semantic "this has failed / is blocking" red, completing $colorSuccess and $colorWarning.
+     * Kept theme-independent from $colorBrand for the same reason, and a pair rather than the flat
+     * @color-red-matomo it replaces, which does not reach 4.5:1 on a dark background.
+     *
+     * @var string|array<string>
+     * @since Matomo 6.0.0
+     */
+    public $colorDanger = ['#c0322e', '#ef7f7c'];
 
     /**
      * @var string|array<string>

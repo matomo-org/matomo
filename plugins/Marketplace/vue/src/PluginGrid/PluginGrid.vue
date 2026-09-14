@@ -14,7 +14,6 @@
       :context="context"
       @openDetails="$emit('openDetails', $event)"
       @requestTrial="$emit('requestTrial', $event)"
-      @startFreeTrial="$emit('startFreeTrial', $event)"
     />
     <PluginCardSkeleton v-for="index in skeletonCount" :key="`skeleton-${index}`" />
   </div>
@@ -47,7 +46,7 @@ export default defineComponent({
     PluginCard,
     PluginCardSkeleton,
   },
-  emits: ['openDetails', 'requestTrial', 'startFreeTrial'],
+  emits: ['openDetails', 'requestTrial'],
   computed: {
     visiblePlugins(): PluginCardType[] {
       return this.maxCards === null ? this.plugins : this.plugins.slice(0, this.maxCards);

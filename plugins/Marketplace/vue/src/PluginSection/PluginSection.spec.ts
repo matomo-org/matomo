@@ -120,7 +120,7 @@ describe('PluginSection', () => {
       expect(grid.props('maxCards')).toBe(4);
     });
 
-    it.each(['openDetails', 'requestTrial', 'startFreeTrial'])('forwards %s', async (event) => {
+    it.each(['openDetails', 'requestTrial'])('forwards %s', async (event) => {
       const wrapper = await mountSection({});
       const plugin = wrapper.props('plugins')[0];
 

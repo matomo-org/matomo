@@ -23,7 +23,6 @@
 
     <a v-else-if="inModal && plugin.hasExceededLicense && plugin.consumer.loginUrl"
        class="btn btn-block"
-       tabindex="7"
        target="_blank"
        rel="noreferrer noopener"
        :href="externalRawLink(plugin.consumer.loginUrl)"
@@ -47,7 +46,6 @@
       v-else-if="plugin.canBeUpdated && 0 == plugin.missingRequirements.length"
     >
       <a v-if="isAutoUpdatePossible && isPluginsAdminEnabled"
-         tabindex="7"
          class="btn btn-block"
          :href="linkToUpdate(plugin.name)"
       >{{ translate('CoreUpdater_UpdateTitle') }}</a>
@@ -88,7 +86,6 @@
       </template>
       <template v-else-if="!plugin.isInvalid && !isMultiServerEnvironment && isPluginsAdminEnabled">
         <a v-if="plugin.isActivated"
-           tabindex="7"
            :class="{ 'btn btn-block': !inModal }"
            :href="linkToDeactivate(plugin.name)"
         >{{ translate('CorePluginsAdmin_Deactivate') }}</a>
@@ -96,7 +93,6 @@
           -
         </template>
         <a v-else
-           tabindex="7"
            :class="{ 'btn btn-block': !inModal }"
            :href="linkToActivate(plugin.name)"
         >{{ translate('CorePluginsAdmin_Activate') }}</a>
@@ -105,7 +101,6 @@
 
     <button v-else-if="plugin.isEligibleForFreeTrial && !inModal && isPluginsAdminEnabled"
        type="button"
-       tabindex="7"
        class="btn btn-block purchaseable"
        :title="translate('Marketplace_StartFreeTrial')"
        @click="$emit('openDetailsModal')"
@@ -150,7 +145,6 @@
     </CTAStatus>
 
     <a v-else-if="isPluginsAdminEnabled && plugin.hasDownloadLink"
-       tabindex="7"
        :href="linkToInstall(plugin.name)"
        class="btn btn-block"
     >
@@ -168,14 +162,12 @@
   </template>
 
   <a v-else-if="plugin.isTrialRequested"
-     tabindex="7"
      class="btn btn-block purchaseable disabled"
      href=""
      :title="translate('Marketplace_TrialRequested')"
   >{{ translate('Marketplace_TrialRequested') }}</a>
 
   <a v-else-if="plugin.canTrialBeRequested && !plugin.isMissingLicense"
-     tabindex="7"
      class="btn btn-block purchaseable"
      href=""
      @click.prevent="$emit('requestTrial');"
@@ -254,7 +246,6 @@ export default defineComponent({
   emits: [
     'openDetailsModal',
     'requestTrial',
-    'startFreeTrial',
   ],
   components: {
     CTAStatus,

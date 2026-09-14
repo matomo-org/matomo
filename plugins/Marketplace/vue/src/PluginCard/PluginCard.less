@@ -80,6 +80,12 @@
   object-position: top;
 }
 
+// Only the stand-in: it is line art on an opaque white ground, which on a dark page is a bright
+// tile on every card without a screenshot. A real screenshot is left as the plugin shipped it.
+.pluginCard__shotImage--placeholder {
+  filter: @theme-filter-on-illustration;
+}
+
 .pluginCard:hover .pluginCard__shot {
   transform: scale(1.02);
 }

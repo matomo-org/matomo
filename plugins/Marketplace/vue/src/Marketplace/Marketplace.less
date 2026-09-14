@@ -26,11 +26,14 @@
   display: flex;
   justify-content: flex-start;
 
+  // override: InstallAllPaidPluginsButton is CorePluginsAdmin's, rendered here as-is, so its own
+  // spacing has to be set from the outside.
   .btn {
     margin: 16px 0 0;
   }
 
-  // The loader renders inline before the label, so it needs the label's leading off its own box.
+  // override: the loader inside that same button renders inline before the label, so it needs the
+  // label's leading taken off its own box.
   button .matomo-loader {
     margin-top: 2px;
     margin-right: 16px;

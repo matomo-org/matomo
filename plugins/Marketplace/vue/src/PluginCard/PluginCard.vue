@@ -15,6 +15,7 @@
       <div class="pluginCard__shot">
         <img
           class="pluginCard__shotImage"
+          :class="{ 'pluginCard__shotImage--placeholder': isPlaceholderCover }"
           v-if="!coverImageFailed"
           :src="coverImageUrl(440, 240)"
           :srcset="coverImageSrcset"
@@ -74,7 +75,6 @@
         :in-modal="false"
         @openDetailsModal="$emit('openDetails', plugin)"
         @requestTrial="$emit('requestTrial', plugin)"
-        @startFreeTrial="$emit('startFreeTrial', plugin)"
       />
     </div>
   </article>
@@ -88,6 +88,13 @@ import MatomoGlyph from './MatomoGlyph.vue';
 import { MarketplaceContext, PluginCard as PluginCardType } from '../types';
 import { ownerLabel, pluginCategories } from '../PluginGrid/pluginGrouping';
 import { categoryLabel as labelForCategory } from '../PluginGrid/categoryLabels';
+
+/**
+ * The one stand-in `Plugins::addPluginCoverImage()` falls back to for a plugin with no screenshot.
+ * It is line art on a white ground, so on a dark page it needs the same inversion every other
+ * Matomo illustration gets - a real screenshot must not be touched.
+ */
+const PLACEHOLDER_COVER = 'plugins/Marketplace/images/categories/uncategorised.png';
 
 export interface PluginCardState {
   coverImageFailed: boolean;
@@ -105,7 +112,7 @@ export default defineComponent({
     CTAContainer,
     MatomoGlyph,
   },
-  emits: ['openDetails', 'requestTrial', 'startFreeTrial'],
+  emits: ['openDetails', 'requestTrial'],
   data(): PluginCardState {
     return {
       coverImageFailed: false,
@@ -142,6 +149,9 @@ export default defineComponent({
         ...MatomoUrl.hashParsed.value,
         showPlugin: this.plugin.name,
       })}`;
+    },
+    isPlaceholderCover(): boolean {
+      return (this.plugin.coverImage || '').endsWith(PLACEHOLDER_COVER);
     },
     coverImageSrcset(): string {
       return `${this.coverImageUrl(440, 240)} 440w, ${this.coverImageUrl(880, 480)} 880w`;

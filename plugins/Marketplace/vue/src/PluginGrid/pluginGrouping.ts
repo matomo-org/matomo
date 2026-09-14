@@ -90,14 +90,28 @@ export function ownerLabel(plugin: PluginCard): string {
   return MATOMO_OWNERS.includes(plugin.owner) ? 'Matomo' : (plugin.owner || '');
 }
 
+/**
+ * The same fields the Marketplace's own `plugins?query=` search covers, plus the owner as the card
+ * credits it - "Matomo" has to find a piwik-owned plugin, since that is the only name on screen.
+ */
 export function matchesQuery(plugin: PluginCard, query: string): boolean {
   const needle = (query || '').trim().toLowerCase();
   if (!needle) {
     return true;
   }
 
-  return [plugin.displayName, plugin.name, plugin.description, plugin.owner]
-    .some((field) => (field || '').toLowerCase().includes(needle));
+  const fields = [
+    plugin.displayName,
+    plugin.name,
+    plugin.description,
+    plugin.owner,
+    ownerLabel(plugin),
+    ...(Array.isArray(plugin.keywords) ? plugin.keywords : []),
+  ];
+
+  return fields.some((field) => (typeof field === 'string' ? field : '')
+    .toLowerCase()
+    .includes(needle));
 }
 
 /**
@@ -188,12 +202,21 @@ export function filterPlugins(
   return plugins.filter((plugin) => matchesTab(plugin, tabId) && matchesQuery(plugin, query));
 }
 
+/** How a tab is named on screen. Ordering the category tabs is the only thing this is used for. */
+export type TabLabeller = (tab: Pick<PluginTab, 'id'|'isCategory'>) => string;
+
+/** Falls back to the slug, so a caller with no translations still gets a stable order. */
+const slugAsLabel: TabLabeller = (tab) => tab.id;
+
 /**
  * The tab list, built from the data rather than declared, so the category half follows whatever
  * slugs arrive in `plugin.categories`. An empty tab is left out: some categories hold as few as
  * five plugins, so one delisting can empty one.
+ *
+ * `labelFor` is a parameter rather than an import so that this module stays free of `CoreHome` -
+ * see the note in `categoryLabels.ts`.
  */
-export function buildTabs(plugins: PluginCard[]): PluginTab[] {
+export function buildTabs(plugins: PluginCard[], labelFor: TabLabeller = slugAsLabel): PluginTab[] {
   const tabs: PluginTab[] = [];
 
   TYPE_TABS.forEach((id) => {
@@ -216,9 +239,14 @@ export function buildTabs(plugins: PluginCard[]): PluginTab[] {
     });
   });
 
-  [...categoryCounts.keys()].sort().forEach((id) => {
-    tabs.push({ id, count: categoryCounts.get(id) as number, isCategory: true });
-  });
+  // Ordered by the label rather than the slug: the slug is always English, so any other locale
+  // would otherwise get a bar sorted by words its reader never sees.
+  [...categoryCounts.keys()]
+    .sort((a, b) => labelFor({ id: a, isCategory: true })
+      .localeCompare(labelFor({ id: b, isCategory: true })))
+    .forEach((id) => {
+      tabs.push({ id, count: categoryCounts.get(id) as number, isCategory: true });
+    });
 
   const otherCount = plugins.filter((plugin) => matchesTab(plugin, TAB_OTHER)).length;
   if (otherCount > 0) {
@@ -233,8 +261,11 @@ export function buildTabs(plugins: PluginCard[]): PluginTab[] {
  * construction: "See all" lands on exactly what the row counted. Sections overlap on purpose.
  * Ordering within a section is the caller's, so a row and its category can sort alike.
  */
-export function buildSections(plugins: PluginCard[]): PluginSection[] {
-  return buildTabs(plugins)
+export function buildSections(
+  plugins: PluginCard[],
+  labelFor: TabLabeller = slugAsLabel,
+): PluginSection[] {
+  return buildTabs(plugins, labelFor)
     .filter((tab) => tab.id !== TAB_ALL)
     .map((tab) => ({
       id: tab.id,

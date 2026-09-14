@@ -35,12 +35,11 @@
   color: @theme-color-warning;
 }
 
-.ctaStatus--danger .ctaStatus__icon {
-  color: @color-red-matomo;
-}
-
+// The label is coloured here as well as the icon, so this has to be the semantic token rather than
+// the flat @color-red-matomo, which has no dark pair and reads at ~3.2:1 on a dark card.
+.ctaStatus--danger .ctaStatus__icon,
 .ctaStatus--danger .ctaStatus__label {
-  color: @color-red-matomo;
+  color: @theme-color-danger;
 }
 
 .ctaStatus__action {

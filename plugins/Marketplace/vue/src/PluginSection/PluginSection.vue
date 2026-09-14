@@ -17,7 +17,7 @@
         :aria-label="translate('Marketplace_SeeAllInCategory', heading)"
         @click="$emit('seeAll', sectionId)"
       >
-        <span>{{ translate('Marketplace_SeeAll') }}</span>
+        <span>{{ translate('General_SeeAll') }}</span>
         <span class="icon-chevron-right" aria-hidden="true" />
       </button>
     </div>
@@ -28,7 +28,6 @@
       :context="context"
       @openDetails="$emit('openDetails', $event)"
       @requestTrial="$emit('requestTrial', $event)"
-      @startFreeTrial="$emit('startFreeTrial', $event)"
     />
   </section>
 </template>
@@ -72,7 +71,7 @@ export default defineComponent({
   components: {
     PluginGrid,
   },
-  emits: ['openDetails', 'requestTrial', 'startFreeTrial', 'seeAll'],
+  emits: ['openDetails', 'requestTrial', 'seeAll'],
   data(): PluginSectionState {
     return {
       visibleCards: SINGLE_ROW_MAX_CARDS,

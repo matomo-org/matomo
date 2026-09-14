@@ -52,11 +52,23 @@ describe("Marketplace", function () {
         expect(await page.screenshotSelector(selector)).to.matchImage(screenshotName);
     }
 
+    // The catalogue is fetched and the grid rendered after load, so network idle on its own can
+    // land while the page is still all skeletons. Waiting for whatever the grid settled on - cards,
+    // the empty state or the load error - is what makes a capture repeatable.
+    async function waitForCatalogue()
+    {
+        await page.waitForNetworkIdle();
+        await page.waitForSelector(
+          '.pluginCard, .marketplaceEmptyState, .marketplacePage__loadError',
+          { visible: true }
+        );
+    }
+
     async function captureMarketplace(screenshotName, selector)
     {
-        if (!selector) {
-            await page.waitForNetworkIdle();
+        await waitForCatalogue();
 
+        if (!selector) {
             const element = await page.$('.marketplace');
             expect(await element.screenshot()).to.matchImage(screenshotName);
             return;
@@ -164,6 +176,12 @@ describe("Marketplace", function () {
                   await page.goto('about:blank');
                   await page.goto(url);
 
+                  // .pageWrap is there from the first paint, so on the overview it says nothing
+                  // about whether the catalogue has rendered yet
+                  if (url === paidPluginsUrl) {
+                      await waitForCatalogue();
+                  }
+
                   // redact specific version changes
                   page.evaluate(() => {
                     $('div[vue-entry="CorePluginsAdmin.PluginsTableWithUpdates"] .vers a[title="Changelog"]').text('x.x.x => x.x.x');
@@ -183,7 +201,8 @@ describe("Marketplace", function () {
                   await page.waitForTimeout(500);
 
                   const elem = await page.jQuery(
-                    '.installAllPaidPluginsAtOnceButton.btn'
+                    '.installAllPaidPluginsAtOnceButton.btn',
+                    { waitFor: true }
                   );
 
                   await elem.click();

@@ -555,7 +555,10 @@ class Plugins
      * the same one. A name with no number ("Unlimited users.") leaves the field unset. Bundles
      * only: a paid plugin offers all three tiers at once, so it has no single count.
      *
-     * @param $plugin
+     * The number is read whole, group separators and all: matching digits alone reads "Up to 1,000
+     * users" as 0, and a 0 renders nothing, so the wrong answer would never show up on screen.
+     *
+     * @param array<string, mixed> $plugin
      */
     private function addBundleSeats(&$plugin): void
     {
@@ -563,8 +566,12 @@ class Plugins
             return;
         }
 
-        if (preg_match('/(\d+)\s*users/i', $plugin['priceFrom']['name'] ?? '', $matches)) {
-            $plugin['bundleSeats'] = (int) $matches[1];
+        if (preg_match('/(\d[\d,.\x{00A0}\x{202F} ]*)\s*users/iu', $plugin['priceFrom']['name'] ?? '', $matches)) {
+            $seats = (int) preg_replace('/\D/', '', $matches[1]);
+
+            if ($seats > 0) {
+                $plugin['bundleSeats'] = $seats;
+            }
         }
     }
 
