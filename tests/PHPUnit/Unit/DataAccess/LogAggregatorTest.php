@@ -24,6 +24,92 @@ use Piwik\Tracker\GoalManager;
  */
 class LogAggregatorTest extends \PHPUnit\Framework\TestCase
 {
+    protected function tearDown(): void
+    {
+        \Piwik\Config::getInstance()->PerfCorpus = [];
+        parent::tearDown();
+    }
+
+    private function dateStartFor(string $configured): string
+    {
+        if ('' !== $configured) {
+            \Piwik\Config::getInstance()->PerfCorpus = ['archiving_window_days' => $configured];
+        }
+
+        $aggregator = new LogAggregator(new Parameters(
+            new Site(1),
+            Factory::build('day', Date::factory('2026-08-03')),
+            $this->createMock(Segment::class)
+        ));
+
+        $property = new \ReflectionProperty(LogAggregator::class, 'dateStart');
+        $property->setAccessible(true);
+
+        return $property->getValue($aggregator)->toString('Y-m-d');
+    }
+
+    /**
+     * The benchmark widening is off unless it is explicitly asked for. It makes an archive hold
+     * reports for a week while claiming to be a day, so anything other than off-by-default would
+     * be a way to silently corrupt an install.
+     *
+     * @dataProvider getArchivingWindowValuesThatChangeNothing
+     */
+    public function testTheArchivingWindowIsOffUnlessAskedFor(string $configured)
+    {
+        self::assertSame('2026-08-03', $this->dateStartFor($configured));
+    }
+
+    public function getArchivingWindowValuesThatChangeNothing(): array
+    {
+        return [
+            'unset' => [''],
+            'empty' => ['0'],
+            'one day is already the period' => ['1'],
+            'negative is nonsense' => ['-5'],
+            'not a number' => ['banana'],
+        ];
+    }
+
+    /**
+     * @dataProvider getArchivingWindowValuesThatWiden
+     */
+    public function testTheArchivingWindowWidensTheStartAndNothingElse(string $configured, string $expectedStart)
+    {
+        self::assertSame($expectedStart, $this->dateStartFor($configured));
+    }
+
+    public function getArchivingWindowValuesThatWiden(): array
+    {
+        return [
+            'a week ending on the archived day' => ['7', '2026-07-28'],
+            'two days' => ['2', '2026-08-02'],
+            'a month' => ['30', '2026-07-05'],
+        ];
+    }
+
+    /**
+     * The point of widening in LogAggregator rather than in the period is that the archive keeps
+     * its identity: the done flag, date1, date2 and period must still say "the day asked for", or
+     * the archive is written somewhere nobody will look for it and an A/B comparison stops
+     * comparing like with like.
+     */
+    public function testTheArchivingWindowLeavesTheArchiveIdentityAlone()
+    {
+        \Piwik\Config::getInstance()->PerfCorpus = ['archiving_window_days' => '7'];
+
+        $params = new Parameters(
+            new Site(1),
+            Factory::build('day', Date::factory('2026-08-03')),
+            $this->createMock(Segment::class)
+        );
+        new LogAggregator($params);
+
+        self::assertSame('2026-08-03', $params->getPeriod()->getDateStart()->toString('Y-m-d'));
+        self::assertSame('2026-08-03', $params->getPeriod()->getDateEnd()->toString('Y-m-d'));
+        self::assertSame('day', $params->getPeriod()->getLabel());
+    }
+
     public function testQueryConversionsByDimensionForcingIndexFlagJoinPrefixHint()
     {
         $expectedSql = 'SELECT /*+ JOIN_PREFIX(log_conversion) */ /* segmenthash  */ /* sites 1 */ ';

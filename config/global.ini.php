@@ -168,6 +168,21 @@ join_algorithm =
 ; identical answer - 2.00x.
 final =
 
+[PerfCorpus]
+; BENCHMARK ONLY, and unsafe anywhere else. Widens the log-selection window used by archiving so
+; that one archive aggregates more hits than the period it is archiving actually contains: set it
+; to 7 and a day archive reads the seven days ending on that day. It exists to measure how
+; archiving scales with volume on a corpus too small to answer that by loading more rows.
+;
+; The archive's done flag, date1, date2 and period are deliberately unchanged, so Matomo records a
+; day archive for the day it was asked for - holding reports that describe a week. Those reports
+; are wrong. Only ever set this on a throwaway benchmark instance, and purge its archives
+; afterwards. Empty or 1 = off, which is the default and the only safe value.
+;
+; Applies to both database engines, so an A/B comparison between them stays valid. Live queries
+; are unaffected: the Visits Log does not go through LogAggregator.
+archiving_window_days =
+
 [database_tests]
 host = "127.0.0.1"
 username = "@USERNAME@"

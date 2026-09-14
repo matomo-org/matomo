@@ -164,12 +164,46 @@ class LogAggregator
 
     public function __construct(Parameters $params, ?LoggerInterface $logger = null)
     {
-        $this->dateStart = $params->getDateTimeStart();
+        $this->dateStart = self::widenStartForBenchmark($params->getDateTimeStart());
         $this->dateEnd = $params->getDateTimeEnd();
         $this->segment = $params->getSegment();
         $this->sites = $params->getIdSites();
         $this->logger = $logger ?: StaticContainer::get(LoggerInterface::class);
         $this->params = $params;
+    }
+
+    /**
+     * BENCHMARK ONLY. Widens the log-selection window so one archive aggregates more hits than
+     * the period it is archiving actually contains.
+     *
+     * The question it answers is how archiving scales with volume, on a corpus too small to
+     * answer it by loading more rows. Setting [PerfCorpus] archiving_window_days = 7 makes a day
+     * archive read the seven days ending on that day - roughly seven times the visits and
+     * actions - without a second corpus and without a reload.
+     *
+     * It is the only honest place to do it. Every archiving query derives its bounds from
+     * $dateStart and $dateEnd, so widening here widens all of them consistently, and it is
+     * engine-agnostic: the MySQL and ClickHouse legs of an A/B both get the same window, so the
+     * comparison between them stays valid. Rewriting dates in a database adapter would widen one
+     * leg only, and rewriting the period would change the archive's identity.
+     *
+     * What it deliberately does NOT change: the archive's done flag, date1, date2 and period.
+     * Matomo still records a day archive for the day it was asked for. The reports it holds are
+     * therefore WRONG - they describe a week and claim to be a day - which is why this is unsafe
+     * anywhere but a throwaway benchmark instance, and why it is off unless explicitly set.
+     *
+     * Live queries are unaffected: the Visits Log does not go through LogAggregator.
+     */
+    private static function widenStartForBenchmark(Date $dateStart): Date
+    {
+        $section = Config::getInstance()->PerfCorpus;
+        $days = is_array($section) ? (int) ($section['archiving_window_days'] ?? 0) : 0;
+
+        if ($days <= 1) {
+            return $dateStart;
+        }
+
+        return $dateStart->subDay($days - 1);
     }
 
     /**
