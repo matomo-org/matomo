@@ -9,7 +9,7 @@
     left: 12px;
     margin: auto;
     // The auto margins centre it only against a height of its own.
-    height: 14px;
+    height: 1em;
     font-size: 14px;
     line-height: 1;
     color: @theme-color-text-placeholder;
@@ -80,7 +80,8 @@
       border-radius: 0;
 
       &:focus-visible {
-        border-color: @theme-color-focus-ring;
+        border: 0;
+        border-bottom: 2px solid @theme-color-focus-ring;
         outline: none;
       }
     }
