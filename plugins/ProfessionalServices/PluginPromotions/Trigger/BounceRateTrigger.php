@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger;
 
 use Piwik\DataTable;
+use Piwik\Piwik;
 
 /**
  * Triggers when a page of the website was entered at least 200 times last week and at
@@ -90,8 +91,11 @@ class BounceRateTrigger extends ReportBackedTrigger
 
             // Derived from the raw counts rather than read from the `bounce_rate` column,
             // which is a processed metric the API renders as a localised string by default.
-            $bounceRate = (float) (((int) $row->getColumn('entry_bounce_count')) / $entryVisits);
+            $bounceCount = (int) $row->getColumn('entry_bounce_count');
+            $bounceRate = (float) ($bounceCount / $entryVisits);
 
+            // The threshold is applied to the exact rate. Rounding first would let 54.5%
+            // through a 55% floor.
             if ($bounceRate < self::MINIMUM_BOUNCE_RATE) {
                 continue;
             }
@@ -99,7 +103,10 @@ class BounceRateTrigger extends ReportBackedTrigger
             return [
                 'title' => (string) $row->getColumn('label'),
                 'entryVisits' => $entryVisits,
-                'bounceRate' => $bounceRate,
+                // Reported the way core rounds it for display. `BounceRate::compute()`
+                // divides through `getQuotientSafe(..., 2)`, so a report showing 72% would
+                // otherwise sit beside a banner saying 71.875%.
+                'bounceRate' => (float) Piwik::getQuotientSafe($bounceCount, $entryVisits, 2),
             ];
         }
 

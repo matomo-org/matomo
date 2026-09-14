@@ -15,7 +15,7 @@ use Piwik\Plugins\ProfessionalServices\PluginPromotions\CustomBranding;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\CustomLogoTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\ManyUsersTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\MultipleSuperusersTrigger;
-use Piwik\Plugins\UsersManager\Model;
+use Piwik\Plugins\UsersManager\API as UsersManagerApi;
 
 /**
  * The promotions pitched on the shape of the instance rather than on a website's reports.
@@ -98,7 +98,7 @@ class InstanceStateTriggersTest extends TestCase
     ): void {
         $trigger = new MultipleSuperusersTrigger(
             $this->makeEnvironment($numUsers),
-            $this->makeUserModel($numSuperusers)
+            $this->makeUsersManager($numSuperusers)
         );
 
         $this->assertSame($expectedToFire, $trigger->evaluate(1)->isTriggered());
@@ -122,7 +122,7 @@ class InstanceStateTriggersTest extends TestCase
 
     public function testTheAuditPromotionReportsBothCountsForTheCopy(): void
     {
-        $trigger = new MultipleSuperusersTrigger($this->makeEnvironment(31), $this->makeUserModel(4));
+        $trigger = new MultipleSuperusersTrigger($this->makeEnvironment(31), $this->makeUsersManager(4));
 
         $this->assertSame(['count' => 31, 'numSuperusers' => 4], $trigger->evaluate(1)->getContext());
     }
@@ -135,9 +135,9 @@ class InstanceStateTriggersTest extends TestCase
         return $environment;
     }
 
-    private function makeUserModel(int $numSuperusers): Model
+    private function makeUsersManager(int $numSuperusers): UsersManagerApi
     {
-        $model = $this->createMock(Model::class);
+        $model = $this->createMock(UsersManagerApi::class);
         $model->method('getUsersHavingSuperUserAccess')->willReturn(array_fill(0, $numSuperusers, ['login' => 'admin']));
 
         return $model;

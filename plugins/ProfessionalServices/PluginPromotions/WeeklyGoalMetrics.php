@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\ProfessionalServices\PluginPromotions;
 
 use Piwik\DataTable;
+use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\Goals\API as GoalsApi;
 use Piwik\Plugins\Goals\Archiver as GoalsArchiver;
@@ -84,7 +85,9 @@ class WeeklyGoalMetrics
                 'name' => (string) $goal['name'],
                 'nbConversions' => (int) $row->getColumn(GoalsArchiver::getRecordName('nb_conversions', $idGoal)),
                 'nbVisitsConverted' => $nbVisitsConverted,
-                'conversionRate' => (float) ($nbVisitsConverted / $siteVisits),
+                // Rounded to 4 decimals like core's ConversionRate::compute(), so the
+                // figure in the banner is the one the Goals report shows.
+                'conversionRate' => (float) Piwik::getQuotientSafe($nbVisitsConverted, $siteVisits, 4),
             ];
         }
 

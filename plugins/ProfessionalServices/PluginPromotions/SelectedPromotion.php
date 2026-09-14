@@ -21,13 +21,10 @@ class SelectedPromotion
 
     private TriggerResult $triggerResult;
 
-    private int $idSite;
-
-    public function __construct(Promotion $promotion, TriggerResult $triggerResult, int $idSite)
+    public function __construct(Promotion $promotion, TriggerResult $triggerResult)
     {
         $this->promotion = $promotion;
         $this->triggerResult = $triggerResult;
-        $this->idSite = $idSite;
     }
 
     public function getPromotion(): Promotion
@@ -38,10 +35,5 @@ class SelectedPromotion
     public function getTriggerResult(): TriggerResult
     {
         return $this->triggerResult;
-    }
-
-    public function getIdSite(): int
-    {
-        return $this->idSite;
     }
 }

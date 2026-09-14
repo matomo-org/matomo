@@ -42,11 +42,33 @@ class ArchivedReportReader
 {
     /**
      * Builds an archive query that is guaranteed not to launch archiving.
+     *
+     * A segment may be given, in which case the segment's own archive is read. That
+     * archive is a separate record with its own done flag, so it is missing far more often
+     * than the unsegmented one; the opt-out below is what keeps a missing one from being
+     * built here, and the caller simply reads no value.
      */
-    public function buildArchive(int $idSite, string $period, string $date): Archive
+    public function buildArchive(int $idSite, string $period, string $date, string $segment = ''): Archive
     {
         /** @var Archive $archive */
-        $archive = Archive::build($idSite, $period, $date);
+        $archive = Archive::build($idSite, $period, $date, $segment);
+        $archive->forceFetchingWithoutLaunchingArchiving();
+
+        return $archive;
+    }
+
+    /**
+     * The same query for a set of websites at once.
+     *
+     * `Archive` accepts many site ids and reads them in one go, so counting a portfolio
+     * costs one query rather than one per website.
+     *
+     * @param int[] $idSites
+     */
+    public function buildArchiveForSites(array $idSites, string $period, string $date): Archive
+    {
+        /** @var Archive $archive */
+        $archive = Archive::build($idSites, $period, $date);
         $archive->forceFetchingWithoutLaunchingArchiving();
 
         return $archive;

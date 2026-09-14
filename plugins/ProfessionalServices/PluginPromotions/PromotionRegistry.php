@@ -76,7 +76,6 @@ class PromotionRegistry
                 'CustomReports',
                 'ProfessionalServices_PromoCustomReports',
                 $segmentsTrigger,
-                'custom_reports',
                 'ProfessionalServices_PromotionCustomReportsSegments',
                 'product-promotion-custom-reports.png'
             ),
@@ -85,7 +84,6 @@ class PromotionRegistry
                 'HeatmapSessionRecording',
                 'ProfessionalServices_PromotionProductHeatmapSessionRecording',
                 $bounceRateTrigger,
-                'heatmap_session_recording',
                 'ProfessionalServices_PromotionHeatmapSessionRecordingBounceRate',
                 'product-promotion-heatmap-session-recording.png'
             ),
@@ -94,7 +92,6 @@ class PromotionRegistry
                 'Funnels',
                 'ProfessionalServices_PromoFunnels',
                 $lowConversionRateTrigger,
-                'funnels',
                 'ProfessionalServices_PromotionFunnelsConversionRate',
                 'product-promotion-funnels.png'
             ),
@@ -103,7 +100,6 @@ class PromotionRegistry
                 'AbTesting',
                 'ProfessionalServices_PromotionProductAbTesting',
                 $highConversionRateTrigger,
-                'ab_testing',
                 'ProfessionalServices_PromotionAbTestingConversionRate',
                 'product-promotion-ab-testing.png'
             ),
@@ -112,7 +108,6 @@ class PromotionRegistry
                 'CustomReports',
                 'ProfessionalServices_PromoCustomReports',
                 $scheduledReportsTrigger,
-                'custom_reports',
                 'ProfessionalServices_PromotionCustomReportsScheduledReports',
                 'product-promotion-custom-reports.png'
             ),
@@ -124,7 +119,6 @@ class PromotionRegistry
                 'LoginSaml',
                 'ProfessionalServices_PromotionProductLoginSaml',
                 $manyUsersTrigger,
-                'login_saml',
                 'ProfessionalServices_PromotionLoginSaml',
                 'product-promotion-login-saml.png'
             ),
@@ -133,7 +127,6 @@ class PromotionRegistry
                 'CrashAnalytics',
                 'ProfessionalServices_PromotionProductCrashAnalytics',
                 $manySitesTrigger,
-                'crash_analytics',
                 'ProfessionalServices_PromotionCrashAnalytics',
                 'product-promotion-crash-analytics.png'
             ),
@@ -142,7 +135,6 @@ class PromotionRegistry
                 'MediaAnalytics',
                 'ProfessionalServices_PromotionProductMediaAnalytics',
                 $mediaOutlinksTrigger,
-                'media_analytics',
                 'ProfessionalServices_PromotionMediaAnalytics',
                 'product-promotion-media-analytics.png'
             ),
@@ -151,7 +143,6 @@ class PromotionRegistry
                 'UsersFlow',
                 'ProfessionalServices_PromotionProductUsersFlow',
                 $multiplePageVisitsTrigger,
-                'users_flow',
                 'ProfessionalServices_PromotionUsersFlow',
                 'product-promotion-users-flow.png'
             ),
@@ -160,7 +151,6 @@ class PromotionRegistry
                 'SearchEngineKeywordsPerformance',
                 'ProfessionalServices_PromotionProductSearchEngineKeywordsPerformance',
                 $keywordsNotDefinedTrigger,
-                'search_engine_keywords_performance',
                 'ProfessionalServices_PromotionSearchEngineKeywordsPerformance',
                 'product-promotion-search-engine-keywords-performance.png'
             ),
@@ -169,7 +159,6 @@ class PromotionRegistry
                 'AdvertisingConversionExport',
                 'ProfessionalServices_PromotionProductAdvertisingConversionExport',
                 $campaignConversionsTrigger,
-                'advertising_conversion_export',
                 'ProfessionalServices_PromotionAdvertisingConversionExport',
                 'product-promotion-advertising-conversion-export.png'
             ),
@@ -178,7 +167,6 @@ class PromotionRegistry
                 'FormAnalytics',
                 'ProfessionalServices_PromotionProductFormAnalytics',
                 $formPageTrigger,
-                'form_analytics',
                 'ProfessionalServices_PromotionFormAnalytics',
                 'product-promotion-form-analytics.png'
             ),
@@ -187,7 +175,6 @@ class PromotionRegistry
                 'WooCommerceAnalytics',
                 'ProfessionalServices_PromotionProductWooCommerceAnalytics',
                 $wooCommerceUrlsTrigger,
-                'woocommerce_analytics',
                 'ProfessionalServices_PromotionWooCommerceAnalytics',
                 'product-promotion-woocommerce-analytics.png'
             ),
@@ -196,7 +183,6 @@ class PromotionRegistry
                 'WhiteLabel',
                 'ProfessionalServices_PromotionProductWhiteLabel',
                 $customLogoTrigger,
-                'white_label',
                 'ProfessionalServices_PromotionWhiteLabel',
                 'product-promotion-white-label.png'
             ),
@@ -205,7 +191,6 @@ class PromotionRegistry
                 'RollUpReporting',
                 'ProfessionalServices_PromotionProductRollUpReporting',
                 $multipleActiveSitesTrigger,
-                'roll_up_reporting',
                 'ProfessionalServices_PromotionRollUpReporting',
                 'product-promotion-roll-up-reporting.png'
             ),
@@ -214,7 +199,6 @@ class PromotionRegistry
                 'Cohorts',
                 'ProfessionalServices_PromotionProductCohorts',
                 $returningVisitorsTrigger,
-                'cohorts',
                 'ProfessionalServices_PromotionCohorts',
                 'product-promotion-cohorts.png'
             ),
@@ -223,7 +207,6 @@ class PromotionRegistry
                 'MultiChannelConversionAttribution',
                 'ProfessionalServices_PromotionProductMultiChannelConversionAttribution',
                 $multipleConversionChannelsTrigger,
-                'multi_channel_conversion_attribution',
                 'ProfessionalServices_PromotionMultiChannelConversionAttribution',
                 'product-promotion-multi-channel-conversion-attribution.png'
             ),
@@ -232,7 +215,6 @@ class PromotionRegistry
                 'SEOWebVitals',
                 'ProfessionalServices_PromotionProductSEOWebVitals',
                 $slowPageTrigger,
-                'seo_web_vitals',
                 'ProfessionalServices_PromotionSEOWebVitals',
                 'product-promotion-seo-web-vitals.png'
             ),
@@ -241,7 +223,6 @@ class PromotionRegistry
                 'ActivityLog',
                 'ProfessionalServices_PromotionProductActivityLog',
                 $multipleSuperusersTrigger,
-                'activity_log',
                 'ProfessionalServices_PromotionActivityLog',
                 'product-promotion-activity-log.png'
             ),
@@ -255,7 +236,6 @@ class PromotionRegistry
                 PremiumBundle::TEAM,
                 'ProfessionalServices_PromotionProductTeamBundle',
                 $teamBundleTrigger,
-                'team_bundle',
                 'ProfessionalServices_PromotionTeamBundle',
                 'product-promotion-bundle.png'
             ),
@@ -264,7 +244,6 @@ class PromotionRegistry
                 PremiumBundle::BUSINESS,
                 'ProfessionalServices_PromotionProductBusinessBundle',
                 $businessBundleTrigger,
-                'business_bundle',
                 'ProfessionalServices_PromotionBusinessBundle',
                 'product-promotion-bundle.png'
             ),
@@ -273,7 +252,6 @@ class PromotionRegistry
                 PremiumBundle::ENTERPRISE,
                 'ProfessionalServices_PromotionProductEnterpriseBundle',
                 $enterpriseBundleTrigger,
-                'enterprise_bundle',
                 'ProfessionalServices_PromotionEnterpriseBundle',
                 'product-promotion-bundle.png'
             ),

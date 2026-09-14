@@ -33,6 +33,11 @@ class UserPromotionState
 
     private UserScopedSettingsAccessManager $accessManager;
 
+    /** @var array<string, mixed> */
+    private array $loaded = [];
+
+    private ?string $loadedFor = null;
+
     public function __construct(UserScopedSettingsAccessManager $accessManager)
     {
         $this->accessManager = $accessManager;
@@ -114,6 +119,15 @@ class UserPromotionState
     /**
      * @return array<string, mixed>
      */
+    /**
+     * The stored state, read once per user per request.
+     *
+     * Every promotion in the ladder asks whether its product is in cooldown, and the
+     * settings table underneath does no caching of its own, so without this the same
+     * single row is selected once for each of them.
+     *
+     * @return array<string, mixed>
+     */
     private function load(): array
     {
         $userLogin = Piwik::getCurrentUserLogin();
@@ -121,9 +135,16 @@ class UserPromotionState
             return [];
         }
 
+        if (($this->loadedFor ?? null) === $userLogin) {
+            return $this->loaded;
+        }
+
         $value = $this->accessManager->get(self::PLUGIN_NAME, $userLogin, self::STORE_KEY, []);
 
-        return is_array($value) ? $value : [];
+        $this->loadedFor = $userLogin;
+        $this->loaded = is_array($value) ? $value : [];
+
+        return $this->loaded;
     }
 
     /**
@@ -132,6 +153,9 @@ class UserPromotionState
     private function save(string $userLogin, array $state): void
     {
         $this->accessManager->set(self::PLUGIN_NAME, $userLogin, self::STORE_KEY, $state);
+
+        $this->loadedFor = $userLogin;
+        $this->loaded = $state;
     }
 
     /**

@@ -19,6 +19,7 @@ interface ProductPromotionDirectiveValue {
   productName: string;
   onDismissHandler?: (event: Event) => void;
   onRequestTrialHandler?: (event: Event) => void;
+  confirmElement?: HTMLElement | null;
 }
 
 function onDismiss(
@@ -51,7 +52,11 @@ function onRequestTrial(
 ) {
   event.preventDefault();
 
-  const confirm = element.querySelector<HTMLElement>('[data-role=requestTrialConfirm]');
+  // Held from when the directive mounted rather than looked up now. modalConfirm() moves
+  // this node out of the banner and into a modal on the body, and never puts it back, so
+  // a fresh query finds nothing the second time and the link would quietly do nothing
+  // after the user declines once.
+  const confirm = binding.value.confirmElement;
   if (!confirm) {
     return;
   }
@@ -99,6 +104,8 @@ export default {
 
     const requestTrial = element.querySelector<HTMLElement>('[data-role=requestTrial]');
     if (requestTrial) {
+      binding.value.confirmElement = element
+        .querySelector<HTMLElement>('[data-role=requestTrialConfirm]');
       binding.value.onRequestTrialHandler = onRequestTrial.bind(null, element, binding);
       requestTrial.addEventListener('click', binding.value.onRequestTrialHandler!);
     }

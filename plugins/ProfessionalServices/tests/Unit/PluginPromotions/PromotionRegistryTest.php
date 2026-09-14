@@ -111,8 +111,6 @@ class PromotionRegistryTest extends TestCase
         $segments = $this->registry->findByPluginAndTrigger('CustomReports', 'segments');
         $scheduledReports = $this->registry->findByPluginAndTrigger('CustomReports', 'scheduled_reports');
 
-        $this->assertSame('custom_reports', $segments->getCampaignContent());
-        $this->assertSame('custom_reports', $scheduledReports->getCampaignContent());
 
         // Same product, so they must share the dismissal cooldown, but they stay
         // distinguishable for campaign attribution.

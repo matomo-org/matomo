@@ -10,7 +10,7 @@
 namespace Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger;
 
 use Piwik\Plugins\Marketplace\Environment;
-use Piwik\Plugins\UsersManager\Model;
+use Piwik\Plugins\UsersManager\API as UsersManagerApi;
 
 /**
  * Triggers on an instance with enough users, several of whom can change anything, for an
@@ -33,12 +33,12 @@ class MultipleSuperusersTrigger implements PromotionTrigger
 
     private Environment $environment;
 
-    private Model $userModel;
+    private UsersManagerApi $usersManager;
 
-    public function __construct(Environment $environment, Model $userModel)
+    public function __construct(Environment $environment, UsersManagerApi $usersManager)
     {
         $this->environment = $environment;
-        $this->userModel = $userModel;
+        $this->usersManager = $usersManager;
     }
 
     public function getName(): string
@@ -54,7 +54,10 @@ class MultipleSuperusersTrigger implements PromotionTrigger
             return TriggerResult::notTriggered();
         }
 
-        $numSuperusers = count($this->userModel->getUsersHavingSuperUserAccess());
+        // UsersManager's own API rather than its Model: reaching into another plugin's
+        // internals is what the API is there to avoid. It asks only that the user is not
+        // anonymous, and an anonymous visitor is nobody to advertise a paid plugin to.
+        $numSuperusers = count($this->usersManager->getUsersHavingSuperUserAccess());
 
         if ($numSuperusers < self::MINIMUM_SUPERUSERS) {
             return TriggerResult::notTriggered();

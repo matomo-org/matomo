@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\ProfessionalServices\tests\Integration\PluginPromotions;
 
+use Piwik\Config;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Promotion;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\PromotionRenderer;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\SelectedPromotion;
@@ -116,6 +117,46 @@ class PromotionRendererTest extends IntegrationTestCase
     }
 
     /**
+     * Everything else here renders as a super user, who is never offered a trial, so the
+     * trial half of the template went unrendered by any test. This covers it - and it is
+     * the variant an ordinary user actually gets: a button rather than a link, and the
+     * confirmation dialog the directive hands to modalConfirm().
+     */
+    public function testANonSuperUserIsOfferedTheTrialControls(): void
+    {
+        FakeAccess::$superUser = false;
+        FakeAccess::$idSitesView = [1];
+
+        $html = $this->render(SegmentsTrigger::NAME, ['count' => 6]);
+
+        $this->assertStringContainsString('data-role="requestTrial"', $html);
+
+        // The directive takes hold of this node when it mounts, because modalConfirm()
+        // moves it out of the banner and it cannot be found again afterwards.
+        $this->assertStringContainsString('data-role="requestTrialConfirm"', $html);
+
+        $this->assertStringContainsString('data-role="dismiss"', $html);
+    }
+
+    /**
+     * `disable_tracking_matomo_app_links` exists so that an instance can stop links out of
+     * the app from identifying it. The helper honours it by returning the URL untouched,
+     * which is easy to defeat by hand-appending a parameter of one's own afterwards.
+     */
+    public function testTheOutboundLinkCarriesNoCampaignParametersWhenTrackingThemIsDisabled(): void
+    {
+        Config::getInstance()->General['disable_tracking_matomo_app_links'] = 1;
+
+        $html = $this->render(SegmentsTrigger::NAME, ['count' => 6]);
+
+        $this->assertStringContainsString('https://plugins.matomo.org/CustomReports', $html);
+
+        foreach (['mtm_campaign', 'mtm_source', 'mtm_medium', 'mtm_group', 'mtm_content', 'mtm_placement', 'mtm_kwd'] as $parameter) {
+            $this->assertStringNotContainsString($parameter, $html, $parameter . ' survived the opt-out');
+        }
+    }
+
+    /**
      * Goal names and page URLs are entered by users of the instance, so they must never
      * reach the page unescaped.
      */
@@ -159,28 +200,26 @@ class PromotionRendererTest extends IntegrationTestCase
             SegmentsTrigger::NAME => [
                 'CustomReports',
                 'ProfessionalServices_PromoCustomReports',
-                'custom_reports',
                 'ProfessionalServices_PromotionCustomReportsSegments',
                 'product-promotion-custom-reports.png',
             ],
             LowConversionRateTrigger::NAME => [
                 'Funnels',
                 'ProfessionalServices_PromoFunnels',
-                'funnels',
                 'ProfessionalServices_PromotionFunnelsConversionRate',
                 'product-promotion-funnels.png',
             ],
         ];
 
-        [$pluginName, $productKey, $campaignContent, $translationPrefix, $image] = $definitions[$triggerName];
+        [$pluginName, $productKey, $translationPrefix, $image] = $definitions[$triggerName];
 
         $trigger = $this->createMock(PromotionTrigger::class);
         $trigger->method('getName')->willReturn($triggerName);
 
-        $promotion = new Promotion(1, $pluginName, $productKey, $trigger, $campaignContent, $translationPrefix, $image);
+        $promotion = new Promotion(1, $pluginName, $productKey, $trigger, $translationPrefix, $image);
 
         return $this->renderer->render(
-            new SelectedPromotion($promotion, TriggerResult::triggered($context, '2026-08-17', '2026-08-23'), 1)
+            new SelectedPromotion($promotion, TriggerResult::triggered($context, '2026-08-17', '2026-08-23'))
         );
     }
 

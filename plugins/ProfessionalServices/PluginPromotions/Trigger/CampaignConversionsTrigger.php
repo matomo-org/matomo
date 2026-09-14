@@ -48,7 +48,10 @@ class CampaignConversionsTrigger extends ReportBackedTrigger
             // `nb_conversions` on each campaign row.
             'idGoal' => 0,
             'filter_update_columns_when_show_all_goals' => 1,
-            'filter_sort_column' => 'nb_visits',
+            // Sorted by conversions, not visits. The trigger wants the best converting
+            // campaign, so with any other ordering the row it wants can fall outside the
+            // limit below and the promotion names the wrong campaign, or none.
+            'filter_sort_column' => 'nb_conversions',
             'filter_sort_order' => 'desc',
             'filter_limit' => self::ROWS_TO_INSPECT,
         ];
@@ -62,9 +65,9 @@ class CampaignConversionsTrigger extends ReportBackedTrigger
     /**
      * Returns the campaign with the most conversions, or null when none converted enough.
      *
-     * The rows are ordered by visits rather than conversions, so every one has to be
-     * looked at: the campaign that brought the most people is not necessarily the one
-     * that converted them.
+     * The rows are asked for in conversion order, so the first qualifying row is already
+     * the answer. They are still all scanned rather than trusting that ordering, which
+     * costs nothing on at most one page of rows.
      *
      * @return array{name: string, count: int}|null
      */

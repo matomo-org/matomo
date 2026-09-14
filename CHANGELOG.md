@@ -65,6 +65,10 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * Added contextual recommendations for Premium products based on how Matomo is being used.
 
 ### New APIs
+* The new `Template.beforeDashboardWidgets` event is posted at the top of the dashboard, above the widgets, and allows
+  a plugin to render its own content there. It is posted by `plugins/Dashboard/templates/embeddedIndex.twig`; like the
+  other `Template.*` events, a listener takes the rendered output by reference (`function (&$out)`) and appends its
+  markup to it.
 * The new `DragHandle` Vue component in CoreHome renders the standard 6-dot drag-handle icon, for use inside `DraggableList` rows. The `DraggableList` component's `handle` option now also works with real browser drags, which retarget `dragstart` to the draggable element (previously the handle was only recognised in synthetically dispatched events).
 * The new `closeTooltips()` helper in CoreHome closes the jQuery UI tooltips bound to a selector's elements, including pending delayed shows — for cases where no mouse event will fire that would close them, eg. once an HTML5 drag has started.
 * A new `#[Piwik\Http\JsonResponse]` attribute can be applied to a plugin controller action to declare that it returns a JSON response. When present, Matomo (re-)sends the `Content-Type: application/json` header after the action has returned, so it can no longer be overwritten by output produced while the action builds its response (for example a rendered `Piwik\View`, which sends `text/html`). An action using the attribute must return the JSON string, must not send the header itself, and must not emit output (`echo`/`print`/`flush`) or call `exit`/`die` before returning — otherwise the response headers are committed first and the JSON `Content-Type` cannot be applied. The attribute is not inherited: a subclass overriding a JSON action must re-declare it. These requirements are enforced by PHPStan rules.

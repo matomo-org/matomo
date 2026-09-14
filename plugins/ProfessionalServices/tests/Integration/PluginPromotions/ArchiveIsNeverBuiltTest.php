@@ -19,6 +19,10 @@ use Piwik\Plugins\ProfessionalServices\PluginPromotions\ReportPeriod;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\BounceRateTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\LowConversionRateTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\HighConversionRateTrigger;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\ReturningVisitorsTrigger;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\PromotionRegistry;
+use Piwik\Plugins\VisitFrequency\API as VisitFrequencyApi;
+use Piwik\Segment;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -83,71 +87,108 @@ class ArchiveIsNeverBuiltTest extends IntegrationTestCase
     }
 
     /**
-     * Control: the identical report request, made without going through the trigger, does
-     * build an archive. Without this the tests above could pass simply because archiving
-     * was never possible in the first place.
+     * The Cohorts trigger wants the returning half of `VisitFrequency`, which lives in a
+     * segment archive with a done flag of its own. Reading it through `VisitFrequency.get`
+     * built that archive on a dashboard render, because the gate only ever saw the
+     * unsegmented one. It now reads the segment archive directly, and must build nothing
+     * whether or not that archive happens to exist.
      */
-    public function testTheSameReportRequestOutsideATriggerDoesBuildAnArchive(): void
+    public function testTheReturningVisitorsTriggerBuildsNoArchive(): void
     {
         $before = $this->getArchiveState();
 
-        Request::processRequest('Actions.getPageTitles', [
+        $result = StaticContainer::get(ReturningVisitorsTrigger::class)->evaluate(self::IDSITE);
+
+        $this->assertFalse($result->isTriggered());
+        $this->assertSame($before, $this->getArchiveState());
+    }
+
+    /**
+     * And once the segment archive does exist, the trigger reads that record - the point
+     * of reading the archive directly was to stop building it, not to count something
+     * else. A known figure is written into the returning segment's own archive, so a
+     * trigger reading any other record, or any other metric, reads something else.
+     */
+    public function testTheReturningVisitorsTriggerReadsTheSegmentArchiveVisitFrequencyBuilds(): void
+    {
+        // Build the archives a normal VisitFrequency request would, segment included.
+        Request::processRequest('VisitFrequency.get', [
             'idSite' => self::IDSITE,
             'period' => ReportPeriod::PERIOD,
             'date' => ReportPeriod::DATE,
-            'flat' => 1,
             'format_metrics' => 0,
         ], []);
 
-        $this->assertNotSame($before, $this->getArchiveState());
-    }
-
-    /**
-     * The other side of the guard: once the archive exists the trigger reads it, reports
-     * the qualifying page, and still adds nothing to the archive tables.
-     */
-    public function testThePageTitlesTriggerReadsAnArchiveThatAlreadyExists(): void
-    {
-        $this->trackBouncingVisitsOnAPopularEntryPage();
-
-        // Build the archive the way a normal report request would.
-        Request::processRequest('Actions.getPageTitles', [
-            'idSite' => self::IDSITE,
-            'period' => ReportPeriod::PERIOD,
-            'date' => ReportPeriod::DATE,
-            'flat' => 1,
-        ], []);
+        $this->setReturningUniqueVisitorsInArchive(640);
 
         $before = $this->getArchiveState();
-        $this->assertNotSame([], $before, 'the archive must exist for this test to mean anything');
 
-        $result = StaticContainer::get(BounceRateTrigger::class)->evaluate(self::IDSITE);
+        $result = StaticContainer::get(ReturningVisitorsTrigger::class)->evaluate(self::IDSITE);
 
         $this->assertTrue($result->isTriggered());
-        // The promotion names the page by its title, which is what the tracker sent as
-        // the action name.
-        $this->assertSame('Pricing', $result->getContext()['title']);
-        // 210 from this test plus the single /pricing visit tracked in setUp().
-        $this->assertSame(211, $result->getContext()['entryVisits']);
-        $this->assertSame(1.0, $result->getContext()['bounceRate']);
-
-        $this->assertSame($before, $this->getArchiveState(), 'reading the report must add nothing');
+        $this->assertSame(640, $result->getContext()['count']);
+        $this->assertSame($before, $this->getArchiveState(), 'reading the segment must add nothing');
     }
 
     /**
-     * 210 single page visits on one entry page: above the visit threshold, and every visit
-     * bounces.
+     * Writes `nb_uniq_visitors` into the archive of the segment VisitFrequency uses for
+     * its returning half, which is the record the trigger is supposed to read.
      */
-    private function trackBouncingVisitsOnAPopularEntryPage(): void
+    private function setReturningUniqueVisitorsInArchive(int $value): void
     {
-        $tracker = Fixture::getTracker(self::IDSITE, '2026-08-18 08:00:00', true, true);
-        $tracker->setUrl('http://example.org/pricing');
+        $segment = new Segment(urldecode(VisitFrequencyApi::RETURNING_VISITOR_SEGMENT), [self::IDSITE]);
+        $period = StaticContainer::get(ReportPeriod::class)->forSite(self::IDSITE);
 
-        for ($i = 0; $i < 210; $i++) {
-            $tracker->setForceVisitDateTime(Date::factory('2026-08-18 08:00:00')->addPeriod($i, 'minute')->getDatetime());
-            $tracker->setNewVisitorId();
-            $tracker->setIp('10.10.' . (int) ($i / 250) . '.' . ($i % 250 + 1));
-            Fixture::checkResponse($tracker->doTrackPageView('Pricing'));
+        $table = ArchiveTableCreator::getNumericTable($period->getDateStart(), false);
+
+        $idArchive = Db::fetchOne(
+            'SELECT idarchive FROM ' . $table . " WHERE idsite = ? AND period = ? AND date1 = ? AND date2 = ?"
+            . " AND name LIKE ? ORDER BY ts_archived DESC LIMIT 1",
+            [
+                self::IDSITE,
+                $period->getId(),
+                $period->getDateStart()->toString(),
+                $period->getDateEnd()->toString(),
+                'done' . $segment->getHash() . '%',
+            ]
+        );
+
+        $this->assertNotEmpty($idArchive, 'the returning segment archive must exist for this test to mean anything');
+
+        Db::query('DELETE FROM ' . $table . ' WHERE idarchive = ? AND name = ?', [$idArchive, 'nb_uniq_visitors']);
+        Db::query(
+            'INSERT INTO ' . $table . ' (idarchive, idsite, date1, date2, period, ts_archived, name, value)'
+            . ' VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+            [
+                $idArchive,
+                self::IDSITE,
+                $period->getDateStart()->toString(),
+                $period->getDateEnd()->toString(),
+                $period->getId(),
+                Date::now()->getDatetime(),
+                'nb_uniq_visitors',
+                $value,
+            ]
+        );
+    }
+
+    /**
+     * No trigger in the registry may build an archive, whatever it reads. The two tests
+     * above pin down the ones with a history; this one covers the rest, and covers any
+     * trigger added later without a test of its own.
+     */
+    public function testNoRegisteredTriggerBuildsAnArchive(): void
+    {
+        $before = $this->getArchiveState();
+
+        foreach (StaticContainer::get(PromotionRegistry::class)->getAllByPriority() as $promotion) {
+            $promotion->getTrigger()->evaluate(self::IDSITE);
+
+            $this->assertSame(
+                $before,
+                $this->getArchiveState(),
+                'the ' . $promotion->getTriggerName() . ' trigger built an archive'
+            );
         }
     }
 
@@ -169,14 +210,30 @@ class ArchiveIsNeverBuiltTest extends IntegrationTestCase
     }
 
     /**
-     * @return array<string, int>
+     * Every archive row, identified by what would change if it were rebuilt.
+     *
+     * A plain row count is not enough. Re-archiving an existing period replaces the record
+     * in place: the count is identical afterwards and only `idarchive` and `ts_archived`
+     * move. A trigger that rebuilt the archives it was supposed to only read would have
+     * passed a count-based assertion, which is exactly how that went unnoticed once.
+     *
+     * @return array<string, string>
      */
     private function getArchiveState(): array
     {
         $state = [];
 
         foreach (ArchiveTableCreator::getTablesArchivesInstalled(null, true) as $table) {
-            $state[$table] = (int) Db::fetchOne('SELECT COUNT(*) FROM ' . $table);
+            $rows = Db::fetchAll(
+                'SELECT idarchive, idsite, date1, date2, period, name, ts_archived FROM ' . $table
+                . ' ORDER BY idarchive, name'
+            );
+
+            foreach ($rows as $row) {
+                $key = $table . '|' . $row['idarchive'] . '|' . $row['name'];
+                $state[$key] = $row['idsite'] . '|' . $row['date1'] . '|' . $row['date2']
+                    . '|' . $row['period'] . '|' . $row['ts_archived'];
+            }
         }
 
         return $state;

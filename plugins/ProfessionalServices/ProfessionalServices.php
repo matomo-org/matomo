@@ -12,6 +12,8 @@ namespace Piwik\Plugins\ProfessionalServices;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
+use Piwik\Log\LoggerInterface;
+use Piwik\Piwik;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\DailyTriggerCache;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\PromotionRenderer;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\PromotionSelector;
@@ -60,6 +62,10 @@ class ProfessionalServices extends \Piwik\Plugin
      */
     public function renderDashboardPromotion(&$out)
     {
+        if (!$this->isTheAppsOwnDashboard()) {
+            return;
+        }
+
         try {
             $selected = StaticContainer::get(PromotionSelector::class)->select();
 
@@ -73,9 +79,30 @@ class ProfessionalServices extends \Piwik\Plugin
             );
 
             $out .= StaticContainer::get(PromotionRenderer::class)->render($selected);
-        } catch (\Exception $e) {
-            // A promotion is never important enough to break a dashboard.
+        } catch (\Throwable $e) {
+            // A promotion is never important enough to break a dashboard. Throwable rather
+            // than Exception because the likeliest failure here is not an exception at
+            // all: the copy carries placeholders, and translating a string whose
+            // translation has lost one throws a ValueError out of sprintf.
+            StaticContainer::get(LoggerInterface::class)->warning(
+                'Could not render the dashboard plugin promotion: {message}',
+                ['message' => $e->getMessage(), 'exception' => $e]
+            );
         }
+    }
+
+    /**
+     * Whether this render is the dashboard inside the app, as opposed to a copy of it
+     * somewhere the promotion has no business being.
+     *
+     * `Dashboard/index.twig` includes the same template to build the exported widget, and
+     * Widgetize can render it into an iframe on someone else's page. Both post this event,
+     * neither is a place to advertise: the reader may not even be a Matomo user, and the
+     * dismiss control writes to whoever's session happens to be behind the export.
+     */
+    private function isTheAppsOwnDashboard(): bool
+    {
+        return Piwik::getModule() === 'Dashboard' && Piwik::getAction() === 'embeddedIndex';
     }
 
     public function deletePromotionTriggerCache($idSite)

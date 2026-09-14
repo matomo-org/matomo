@@ -9,10 +9,10 @@
 
 namespace Piwik\Plugins\ProfessionalServices\PluginPromotions;
 
-use Exception;
 use Piwik\Container\StaticContainer;
 use Piwik\Metrics\Formatter;
 use Piwik\NumberFormatter;
+use Piwik\Log\LoggerInterface;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\Marketplace\PluginTrial\Service as PluginTrialService;
@@ -111,7 +111,12 @@ class PromotionRenderer
 
         try {
             return StaticContainer::get(PluginTrialService::class)->isEnabled();
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
+            StaticContainer::get(LoggerInterface::class)->debug(
+                'Could not check whether plugin trials are enabled: {message}',
+                ['message' => $e->getMessage()]
+            );
+
             return false;
         }
     }
@@ -121,15 +126,18 @@ class PromotionRenderer
      * No website data is included, only which promotion was clicked and from where.
      *
      * `mtm_kwd` is the one dimension of the scheme that `addCampaignParametersToMatomoLink()`
-     * takes no argument for, so the trigger name is put on the URL directly; the helper
-     * preserves the query string it is given and only merges its own parameters in.
+     * takes no argument for, so the trigger name has to be put on the URL here.
+     *
+     * It is appended afterwards, and only when the helper actually tagged the link. The
+     * helper returns the URL untouched when tagging is off - `disable_tracking_matomo_app_links`
+     * exists so that nothing identifying the app leaves it, and a hand-appended parameter
+     * would sail straight past that opt-out and defeat the setting on its own.
      */
     private function getCampaignUrl(Promotion $promotion): string
     {
-        $url = 'https://plugins.matomo.org/' . $promotion->getPluginName()
-            . '?mtm_kwd=' . urlencode($promotion->getTriggerName());
+        $url = 'https://plugins.matomo.org/' . $promotion->getPluginName();
 
-        return (string) Url::addCampaignParametersToMatomoLink(
+        $tagged = (string) Url::addCampaignParametersToMatomoLink(
             $url,
             self::CAMPAIGN_NAME,
             $this->getCampaignSource(),
@@ -138,6 +146,12 @@ class PromotionRenderer
             $promotion->getPluginName(),
             self::CAMPAIGN_PLACEMENT
         );
+
+        if ($tagged === $url) {
+            return $url;
+        }
+
+        return $tagged . '&mtm_kwd=' . urlencode($promotion->getTriggerName());
     }
 
     /**

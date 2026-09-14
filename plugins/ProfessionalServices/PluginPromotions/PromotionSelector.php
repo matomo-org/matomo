@@ -9,7 +9,6 @@
 
 namespace Piwik\Plugins\ProfessionalServices\PluginPromotions;
 
-use Exception;
 use Piwik\Container\StaticContainer;
 use Piwik\Log\LoggerInterface;
 use Piwik\Piwik;
@@ -82,7 +81,7 @@ class PromotionSelector
                 continue;
             }
 
-            return new SelectedPromotion($promotion, $result, (int) $idSite);
+            return new SelectedPromotion($promotion, $result);
         }
 
         return null;
@@ -92,8 +91,10 @@ class PromotionSelector
     {
         try {
             return $promotion->getTrigger()->evaluate($idSite);
-        } catch (Exception $e) {
-            // A promotion is never important enough to break a dashboard.
+        } catch (\Throwable $e) {
+            // A promotion is never important enough to break a dashboard. Throwable, not
+            // Exception: a TypeError or a ValueError out of a trigger would otherwise
+            // escape and take the dashboard with it.
             StaticContainer::get(LoggerInterface::class)->debug(
                 'Could not evaluate the {trigger} plugin promotion trigger: {message}',
                 ['trigger' => $promotion->getTriggerName(), 'message' => $e->getMessage()]
@@ -111,7 +112,12 @@ class PromotionSelector
     {
         try {
             return StaticContainer::get(PluginTrialService::class)->wasRequested($pluginName);
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
+            StaticContainer::get(LoggerInterface::class)->debug(
+                'Could not check whether a trial is pending for {plugin}: {message}',
+                ['plugin' => $pluginName, 'message' => $e->getMessage()]
+            );
+
             return false;
         }
     }

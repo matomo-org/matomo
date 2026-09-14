@@ -29,8 +29,6 @@ class Promotion
 
     private PromotionTrigger $trigger;
 
-    private string $campaignContent;
-
     private string $translationKeyPrefix;
 
     private string $imageName;
@@ -40,7 +38,6 @@ class Promotion
         string $pluginName,
         string $productNameTranslationKey,
         PromotionTrigger $trigger,
-        string $campaignContent,
         string $translationKeyPrefix,
         string $imageName
     ) {
@@ -48,7 +45,6 @@ class Promotion
         $this->pluginName = $pluginName;
         $this->productNameTranslationKey = $productNameTranslationKey;
         $this->trigger = $trigger;
-        $this->campaignContent = $campaignContent;
         $this->translationKeyPrefix = $translationKeyPrefix;
         $this->imageName = $imageName;
     }
@@ -87,14 +83,6 @@ class Promotion
     public function getTriggerName(): string
     {
         return $this->trigger->getName();
-    }
-
-    /**
-     * Value sent as `mtm_content` on the outbound campaign link.
-     */
-    public function getCampaignContent(): string
-    {
-        return $this->campaignContent;
     }
 
     public function getTitleTranslationKey(): string

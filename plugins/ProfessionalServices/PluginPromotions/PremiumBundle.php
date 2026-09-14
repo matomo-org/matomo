@@ -29,9 +29,6 @@ final class PremiumBundle
      * `Marketplace\Plugins::getCurrentLicenseFor()`. A legacy account is not offered it,
      * and {@see PremiumEntitlements::isBundleOffered()} is what keeps the promotion away
      * from those accounts.
-     *
-     * @internal The exact product name is still **unconfirmed**; everything here keys off
-     *           this constant, so correcting it is a one line change.
      */
     public const TEAM = 'TeamBundle';
 
