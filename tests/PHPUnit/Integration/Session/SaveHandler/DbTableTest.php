@@ -9,6 +9,7 @@
 
 namespace Piwik\Tests\Integration\Session\SaveHandler;
 
+use Piwik\Common;
 use Piwik\Db;
 use Piwik\SettingsPiwik;
 use Piwik\Session;
@@ -216,6 +217,33 @@ class DbTableTest extends IntegrationTestCase
 
         $this->assertSame(['nonce' => 'abc'], $stored['Login.login'] ?? null);
         $this->assertSame(['layout' => 'x'], $stored['Dashboard'] ?? null);
+    }
+
+    public function testFirstWriteDoesNotIgnoreDatabaseErrorsOtherThanDuplicateEntries()
+    {
+        $table = Common::prefixTable('session_write_error_test');
+
+        Db::exec(
+            "CREATE TEMPORARY TABLE `$table` (
+                id VARCHAR(128) NOT NULL,
+                modified INT NOT NULL,
+                lifetime INT NOT NULL,
+                data VARCHAR(4) NOT NULL,
+                PRIMARY KEY (id)
+            )"
+        );
+
+        $config = Session::getDbTableConfig();
+        $config['name'] = $table;
+        $handler = new DbTable($config);
+
+        $this->expectException(\Exception::class);
+
+        try {
+            $handler->write('testid', 'too-long');
+        } finally {
+            Db::exec("DROP TEMPORARY TABLE IF EXISTS `$table`");
+        }
     }
 
     public function testWriteReplacesAnExpiredSessionInsteadOfMergingWithIt()
