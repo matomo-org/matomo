@@ -145,39 +145,115 @@ class SessionDataMergerTest extends TestCase
         );
     }
 
-    public function testMergeArraysKeepsANonceIssuedToReplaceTheOneThisRequestUsed()
+    public function testMergeArraysRemovesANonceOneRequestConsumedEvenWhenTheOtherReissuedIt()
     {
+        // consuming a nonce unsets its namespace. the request that issued a replacement had not
+        // seen it used yet, so the removal wins and the form it rendered is reloaded once.
         $base = ['Login.login' => ['nonce' => 'used']];
         $mine = [];
         $theirs = ['Login.login' => ['nonce' => 'fresh']];
 
+        $this->assertSame([], $this->merger->mergeArrays($base, $mine, $theirs));
+    }
+
+    public function testMergeArraysKeepsExpiryMetadataOneRequestPrunedAndTheOtherReissued()
+    {
+        // Zend prunes an expired record when the session starts, so the request that read the
+        // session after that stores neither. dropping the record the other request reissued
+        // would leave its value with nothing left to expire it.
+        $base = ['A' => ['nonce' => 'used'], '__ZF' => ['A' => ['ENVT' => ['nonce' => 100]]]];
+        $mine = [];
+        $theirs = ['A' => ['nonce' => 'fresh'], '__ZF' => ['A' => ['ENVT' => ['nonce' => 200]]]];
+
         $this->assertSame(
-            ['Login.login' => ['nonce' => 'fresh']],
+            ['__ZF' => ['A' => ['ENVT' => ['nonce' => 200]]]],
             $this->merger->mergeArrays($base, $mine, $theirs)
         );
     }
 
-    public function testMergeArraysKeepsANonceThisRequestIssuedToReplaceTheOneAnotherRequestUsed()
+    public function testMergeArraysKeepsExpiryMetadataThisRequestReissuedAfterTheOtherPrunedIt()
     {
-        // the same thing the other way round: a request that consumes a nonce and issues a new one
-        // for the form it renders must keep the new one when another request consumed it first
-        $base = ['Piwik_OptOut' => ['nonce' => 'used']];
-        $mine = ['Piwik_OptOut' => ['nonce' => 'fresh']];
+        // the same thing the other way round, so neither request is favoured
+        $base = ['A' => ['nonce' => 'used'], '__ZF' => ['A' => ['ENVT' => ['nonce' => 100]]]];
+        $mine = ['A' => ['nonce' => 'fresh'], '__ZF' => ['A' => ['ENVT' => ['nonce' => 200]]]];
         $theirs = [];
 
         $this->assertSame(
-            ['Piwik_OptOut' => ['nonce' => 'fresh']],
+            ['__ZF' => ['A' => ['ENVT' => ['nonce' => 200]]]],
             $this->merger->mergeArrays($base, $mine, $theirs)
         );
     }
 
-    public function testMergeArraysStillRemovesANamespaceThatChangedButKeptTheUsedNonce()
+    public function testMergeArraysKeepsExpiryMetadataForANamespaceTheOtherRequestJustAdded()
     {
-        $base = ['Login.login' => ['nonce' => 'used']];
+        $base = ['A' => ['nonce' => 'used'], '__ZF' => ['A' => ['ENVT' => ['nonce' => 100]]]];
         $mine = [];
-        $theirs = ['Login.login' => ['nonce' => 'used', 'other' => 1]];
+        $theirs = [
+            'A' => ['nonce' => 'fresh'],
+            'B' => ['secret' => 's'],
+            '__ZF' => ['A' => ['ENVT' => ['nonce' => 200]], 'B' => ['ENVT' => ['secret' => 300]]],
+        ];
 
-        $this->assertSame([], $this->merger->mergeArrays($base, $mine, $theirs));
+        $merged = $this->merger->mergeArrays($base, $mine, $theirs);
+
+        $this->assertSame(
+            ['A' => ['ENVT' => ['nonce' => 200]], 'B' => ['ENVT' => ['secret' => 300]]],
+            $merged['__ZF']
+        );
+    }
+
+    public function testMergeArraysKeepsEveryStampWhenBothRequestsWroteTheSameNamespace()
+    {
+        // PasswordVerifier stamps three variables of the Login namespace in one place and only
+        // redirectParams in another, so two requests can hold different halves of one record
+        $base = [];
+        $mine = [
+            'Login' => ['redirectParams' => ['x']],
+            '__ZF' => ['Login' => ['ENVT' => ['redirectParams' => 9000]]],
+        ];
+        $theirs = [
+            'Login' => ['lastPasswordAuth' => 'd', 'passwordVerifiedLogin' => 'chip'],
+            '__ZF' => ['Login' => ['ENVT' => [
+                'redirectParams' => 1800,
+                'lastPasswordAuth' => 1800,
+                'passwordVerifiedLogin' => 1800,
+            ]]],
+        ];
+
+        $merged = $this->merger->mergeArrays($base, $mine, $theirs);
+
+        $this->assertSame(
+            ['redirectParams' => 9000, 'lastPasswordAuth' => 1800, 'passwordVerifiedLogin' => 1800],
+            $merged['__ZF']['Login']['ENVT']
+        );
+    }
+
+    public function testMergeArraysDoesNotBringBackAnExpiryRecordTheStoringRequestPruned()
+    {
+        // the record described a value that had already expired, and this request stored the
+        // namespace again without stamping it. the other request touched neither.
+        $base = ['D' => ['v' => 1], '__ZF' => ['D' => ['ENT' => 50]]];
+        $mine = ['D' => ['v' => 2]];
+        $theirs = ['D' => ['v' => 1], '__ZF' => ['D' => ['ENT' => 50]]];
+
+        $this->assertSame(['D' => ['v' => 2]], $this->merger->mergeArrays($base, $mine, $theirs));
+    }
+
+    public function testMergeArraysDoesNotTreatANestedIdentityKeyAsALogout()
+    {
+        // the keys identifying the session only exist at the top level, so a plugin storing one
+        // of those names inside its own namespace has not logged anybody out
+        $user = SessionFingerprint::USER_NAME_SESSION_VAR_NAME;
+        $info = SessionFingerprint::SESSION_INFO_SESSION_VAR_NAME;
+
+        $base = ['plugin' => [$user => 'chip', $info => ['e' => 1]]];
+        $mine = ['plugin' => [$info => ['e' => 1]]];
+        $theirs = ['plugin' => [$user => 'chip', $info => ['e' => 9]]];
+
+        $this->assertSame(
+            ['plugin' => [$info => ['e' => 9]]],
+            $this->merger->mergeArrays($base, $mine, $theirs)
+        );
     }
 
     public function testMergeArraysKeepsIdentityKeysRemovedWhenAnotherRequestChangedThem()
@@ -193,17 +269,6 @@ class SessionDataMergerTest extends TestCase
             SessionFingerprint::USER_NAME_SESSION_VAR_NAME => 'chip',
             SessionFingerprint::SESSION_INFO_SESSION_VAR_NAME => ['expiration' => 200],
         ];
-
-        $this->assertSame([], $this->merger->mergeArrays($base, $mine, $theirs));
-    }
-
-    public function testMergeArraysKeepsAnIdentityKeyRemovedEvenWhenItLooksLikeANonce()
-    {
-        $key = SessionFingerprint::SESSION_INFO_SESSION_VAR_NAME;
-
-        $base = [$key => ['nonce' => 'one']];
-        $mine = [];
-        $theirs = [$key => ['nonce' => 'two']];
 
         $this->assertSame([], $this->merger->mergeArrays($base, $mine, $theirs));
     }
@@ -383,7 +448,7 @@ class SessionDataMergerTest extends TestCase
             $this->merger->encode($replacementTheirs)
         ));
 
-        $this->assertSame(['nonce' => 'fresh'], $replaced['Login.login']);
+        $this->assertArrayNotHasKey('Login.login', $replaced);
     }
 
     public function testMergeReturnsNullWhenAnyOfTheValuesCannotBeRead()
