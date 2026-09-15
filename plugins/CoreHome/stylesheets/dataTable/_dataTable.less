@@ -438,9 +438,12 @@ table.dataTable td #urlLink {
     text-decoration: none;
   }
 
-  &.activeIcon {
-    background-color: @theme-color-background-tinyContrast;
-  }
+}
+
+// The tint belongs to an icon bar, not to every `tableIcon`: in the report header's menu a tick
+// beside the label marks the active entry instead.
+.tableIconsGroup .activeIcon {
+  background-color: @theme-color-background-tinyContrast;
 }
 
 .tableIconsGroup > span > span {
@@ -663,18 +666,6 @@ td.cellSubDataTable .loadingPiwik {
       font-size: 18px;
     }
 
-    .periodName {
-      padding-left:8px;
-      padding-right:8px;
-      font-size:16px;
-      text-transform:capitalize;
-    }
-  }
-
-  .activatePeriodsSelection {
-    width:auto;
-    text-align:left;
-    padding-left:8px;
   }
 }
 .widgetContent {
@@ -682,21 +673,6 @@ td.cellSubDataTable .loadingPiwik {
     overflow-x: scroll;
   }
 }
-.dataTableHeaderControls {
-  margin-top: -10px;
-  margin-bottom: 5px;
-
-  .widgetpreview-preview .widget &,
-  #dashboardWidgetsArea .widget &,
-  .dataTable.isDataTableEmpty:not(.hasSearchKeyword) & {
-    display: none;
-  }
-
-  .widgetized .dataTable.dataTableVizHtmlTable .dataTableWrapper & {
-    margin-top: 0;
-  }
-}
-
 .theWidgetContent .card .card-content, table.dataTable {
   div.dataTableScroller {
     margin-left: -20px;
