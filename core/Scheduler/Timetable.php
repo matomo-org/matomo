@@ -142,6 +142,17 @@ class Timetable
         return $oneHourFromNow;
     }
 
+    public function rescheduleTaskAndRunNow(Task $task)
+    {
+        $now = Date::factory('now');
+
+        // update the scheduled time
+        $this->timetable[$task->getName()] = $now->getTimestamp();
+        $this->save();
+
+        return $now;
+    }
+
     public function save()
     {
         Option::set(self::TIMETABLE_OPTION_STRING, serialize($this->timetable));

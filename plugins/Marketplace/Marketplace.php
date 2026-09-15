@@ -34,7 +34,39 @@ class Marketplace extends \Piwik\Plugin
             'PluginManager.pluginInstalled' => 'removePluginTrialRequest',
             'PluginManager.pluginActivated' => 'removePluginTrialRequest',
             'Widget.filterWidgets' => 'filterWidgets',
+            'CoreUpdater.update.end' => 'warmCacheAfterUpdate',
+            'Installation.defaultSettingsForm.submit' => 'warmCacheAfterInstallation',
         );
+    }
+
+    public function warmCacheAfterUpdate(): void
+    {
+        // an installation runs the updater too, at a point where no site and no user exist yet.
+        // Both counts are part of every Marketplace cache key, so warming from there would fill
+        // entries the finished installation never reads back. warmCacheAfterInstallation() covers
+        // that case, from a step late enough for the counts to have settled.
+        if (!SettingsPiwik::isMatomoInstalled()) {
+            return;
+        }
+
+        $this->warmCacheSoon();
+    }
+
+    public function warmCacheAfterInstallation(): void
+    {
+        $this->warmCacheSoon();
+    }
+
+    private function warmCacheSoon(): void
+    {
+        try {
+            StaticContainer::get(CacheWarmer::class)->warmSoon();
+        } catch (\Throwable $e) {
+            // building the warmer reaches Api\Service, which an installation partway through
+            // writing its configuration may not be able to resolve. warmSoon() reports anything
+            // that goes wrong once it is running; getting this far is not worth failing an
+            // installation or an update over.
+        }
     }
 
     public function isTrackerPlugin()

@@ -275,6 +275,24 @@ class Scheduler
     }
 
     /**
+     * Determines a task's scheduled time and persists it, overwriting the previous scheduled time.
+     *
+     * The task will be run by the next scheduler run, and rescheduled onto its own schedule from
+     * there. A task is due or it is not, so calling this repeatedly before that run still results
+     * in a single execution - which is what makes it safe to call from something that happens as
+     * often as a cache being cleared.
+     *
+     * @param Task $task Describes the scheduled task being rescheduled.
+     * @api
+     */
+    public function rescheduleTaskAndRunNow(Task $task)
+    {
+        $this->logger->debug('Rescheduling task and setting it to run now {task}', array('task' => $task->getName()));
+
+        $this->timetable->rescheduleTaskAndRunNow($task);
+    }
+
+    /**
      * Returns true if the scheduler is currently running a task.
      *
      * @return bool

@@ -118,6 +118,22 @@ class TasksTest extends \PHPUnit\Framework\TestCase
         );
     }
 
+    public function testGetWarmCacheEntriesTaskNamesTheTaskScheduleRegisters()
+    {
+        $this->tasks->schedule();
+
+        $names = array_map(
+            static function ($task) {
+                return $task->getName();
+            },
+            $this->tasks->getScheduledTasks()
+        );
+
+        // CacheWarmer marks this task due by name, so a name schedule() never registered would be
+        // marked due and then never run - with nothing to show that it had not worked
+        $this->assertContains($this->tasks->getWarmCacheEntriesTask()->getName(), $names);
+    }
+
     /**
      * @return array<int, array{0: string, 1: string}>
      */
