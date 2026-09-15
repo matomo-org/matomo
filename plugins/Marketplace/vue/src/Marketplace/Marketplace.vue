@@ -193,6 +193,7 @@ export interface MarketplaceState {
   showPluginDetailsForPlugin: PluginCard|null;
   observer: IntersectionObserver|null;
   fetchAbortController: AbortController|null;
+  fetchTimeout: ReturnType<typeof setTimeout>|null;
   queryHashTimeout: ReturnType<typeof setTimeout>|null;
 }
 
@@ -248,6 +249,7 @@ export default defineComponent({
       showPluginDetailsForPlugin: null,
       observer: null,
       fetchAbortController: null,
+      fetchTimeout: null,
       queryHashTimeout: null,
     };
   },
@@ -269,6 +271,11 @@ export default defineComponent({
 
     if (this.fetchAbortController) {
       this.fetchAbortController.abort();
+    }
+
+    if (this.fetchTimeout) {
+      clearTimeout(this.fetchTimeout);
+      this.fetchTimeout = null;
     }
 
     this.cancelQueryHashWrite();
@@ -408,20 +415,25 @@ export default defineComponent({
       // A request that never reaches the server settles neither way in AjaxHelper, so the pair is
       // raced against a timer rather than awaited on its own - see FETCH_TIMEOUT_MS.
       let timedOut = false;
-      let timeoutHandle: ReturnType<typeof setTimeout>|null = null;
       const givesUp = new Promise<never>((resolve, reject) => {
-        timeoutHandle = setTimeout(() => {
+        this.fetchTimeout = setTimeout(() => {
           timedOut = true;
           abortController.abort();
           reject(new Error('The Marketplace catalogue request timed out.'));
         }, FETCH_TIMEOUT_MS);
       });
+      const timeoutHandle = this.fetchTimeout;
 
       return Promise.race([
         Promise.all([warmedRequest(false), warmedRequest(true)]),
         givesUp,
       ])
         .then(([plugins, themes]) => {
+          // a fetch this component has already replaced must not write over the newer one's state
+          if (this.fetchAbortController !== abortController) {
+            return;
+          }
+
           const merged = new Map<string, PluginCard>();
           ([] as PluginCard[]).concat(plugins ?? [], themes ?? []).forEach((plugin) => {
             if (plugin && plugin.name) {
@@ -433,8 +445,14 @@ export default defineComponent({
           this.openDeepLinkedPlugin();
         })
         .catch(() => {
-          // a fetch this component itself replaced or abandoned leaves the page as it is; the
-          // timeout aborts too, and is the one abort that does mean the catalogue is unavailable
+          // a fetch this component itself replaced or abandoned leaves the page as it is - an
+          // aborted request never settles in AjaxHelper, so a superseded fetch reaches here only
+          // once its own timer fires, long after the fetch that replaced it has painted the page
+          if (this.fetchAbortController !== abortController) {
+            return;
+          }
+
+          // the timeout aborts too, and is the one abort that does mean the catalogue is unavailable
           if (abortController.signal.aborted && !timedOut) {
             return;
           }
@@ -444,6 +462,10 @@ export default defineComponent({
         .finally(() => {
           if (timeoutHandle) {
             clearTimeout(timeoutHandle);
+          }
+
+          if (this.fetchTimeout === timeoutHandle) {
+            this.fetchTimeout = null;
           }
 
           if (this.fetchAbortController === abortController) {

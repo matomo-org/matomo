@@ -79,7 +79,6 @@ class Marketplace extends \Piwik\Plugin
     {
         $translationKeys[] = 'CorePluginsAdmin_Activate';
         $translationKeys[] = 'CorePluginsAdmin_Deactivate';
-        $translationKeys[] = 'CorePluginsAdmin_Marketplace';
         $translationKeys[] = 'CorePluginsAdmin_MissingRequirementsNotice';
         $translationKeys[] = 'CorePluginsAdmin_PluginsExtendPiwik';
         $translationKeys[] = 'CorePluginsAdmin_Status';
@@ -187,7 +186,6 @@ class Marketplace extends \Piwik\Plugin
         $translationKeys[] = 'Marketplace_UpgradeSubscription';
         $translationKeys[] = 'Marketplace_UploadZipFile';
         $translationKeys[] = 'Marketplace_ViewSubscriptions';
-        $translationKeys[] = 'Mobile_LoadingReport';
         $translationKeys[] = 'Marketplace_AddToCart';
         $translationKeys[] = 'Marketplace_Authors';
         $translationKeys[] = 'Marketplace_AutoUpdateDisabledWarning';

@@ -338,7 +338,7 @@ class ThemeStyles
      * @var string|array<string>
      * @since Matomo 6.0.0
      */
-    public $colorBackgroundBrandTinyContrast = ['#f3fdff', '#16302f'];
+    public $colorBackgroundBrandTinyContrast = ['#f3fdff', '#152e2d'];
 
     /**
      * @var string|array<string>
