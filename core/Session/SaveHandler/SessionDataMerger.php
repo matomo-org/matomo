@@ -30,8 +30,12 @@ class SessionDataMerger
     /**
      * Pathological session values can contain recursive arrays. Limit recursion to the current
      * subtree so unrelated session values, including nonces and identity, are still merged.
+     *
+     * The deepest thing a session really holds is an expiry record - __ZF, namespace, ENVT,
+     * variable - so this leaves room to spare. Anything deeper keeps what this request stored,
+     * which is what would have happened to the whole session before merging existed.
      */
-    private const MAX_MERGE_DEPTH = 64;
+    private const MAX_MERGE_DEPTH = 8;
 
     /**
      * Keys identifying the session itself. Removing one of these is how a logout takes effect,
