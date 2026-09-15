@@ -942,6 +942,9 @@ $(document).ready(function() {
                     alert(response.message);
                 } else {
                     params.idsegment = response.value;
+                    // the name is stored escaped, so escape it here too and the list reads the
+                    // same before and after the next page load
+                    params.name = piwikHelper.htmlEntities(params.name);
                     self.props.availableSegments.push(params);
                     self.rebuild();
 
