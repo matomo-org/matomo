@@ -62,7 +62,10 @@ class Auth implements \Piwik\Auth
         } catch (\Zend_Db_Statement_Exception $e) {
             // user_token_auth table might not yet exist when updating to Matomo 4
             if (strpos($e->getMessage(), 'user_token_auth') && !DbHelper::tableExists(Common::prefixTable('user_token_auth'))) {
-                return new AuthResult(AuthResult::SUCCESS, 'anonymous', 'anonymous');
+                // No token scope to apply, and declaring that is what keeps
+                // Access::resolveTokenAccessLevelForResult() from querying the table this branch exists
+                // because it does not have.
+                return new AuthResult(AuthResult::SUCCESS, 'anonymous', 'anonymous', ['token_access_level' => null]);
             }
 
             throw $e;
@@ -90,7 +93,9 @@ class Auth implements \Piwik\Auth
             }
             $this->token_auth = null; // make sure to generate a random token
 
-            return $this->authenticationSuccess($user);
+            // A password login carries no token scope. The token reported below is generated here and is
+            // not stored, so declaring the absent scope also saves a lookup that could never match.
+            return $this->authenticationSuccess($user, ['token_access_level' => null]);
         }
 
         return new AuthResult(AuthResult::FAILURE, $login, null);
@@ -98,11 +103,15 @@ class Auth implements \Piwik\Auth
 
     private function authenticateWithToken($token)
     {
-        $user = $this->userModel->getUserByTokenAuth($token);
+        $tokenMetadata = $this->userModel->getTokenMetadataByTokenAuth($token);
+        $user = null;
+        if (!empty($tokenMetadata['login'])) {
+            $user = $this->userModel->getUser($tokenMetadata['login']);
+        }
 
         if (!empty($user['login'])) {
             $this->userModel->setTokenAuthWasUsed($token, Date::now()->getDatetime());
-            return $this->authenticationSuccess($user);
+            return $this->authenticationSuccess($user, $this->makeAuthContextFromTokenMetadata($tokenMetadata));
         }
 
         return new AuthResult(AuthResult::FAILURE, null, $token);
@@ -110,17 +119,21 @@ class Auth implements \Piwik\Auth
 
     private function authenticateWithLoginAndToken($token, $login)
     {
-        $user = $this->userModel->getUserByTokenAuth($token);
+        $tokenMetadata = $this->userModel->getTokenMetadataByTokenAuth($token);
+        $user = null;
+        if (!empty($tokenMetadata['login'])) {
+            $user = $this->userModel->getUser($tokenMetadata['login']);
+        }
 
         if (!empty($user['login']) && $user['login'] === $login) {
             $this->userModel->setTokenAuthWasUsed($token, Date::now()->getDatetime());
-            return $this->authenticationSuccess($user);
+            return $this->authenticationSuccess($user, $this->makeAuthContextFromTokenMetadata($tokenMetadata));
         }
 
         return new AuthResult(AuthResult::FAILURE, $login, $token);
     }
 
-    private function authenticationSuccess(array $user)
+    private function authenticationSuccess(array $user, ?array $authContext = null)
     {
         if (empty($this->token_auth)) {
             $this->token_auth = $this->userModel->generateRandomTokenAuth();
@@ -130,7 +143,22 @@ class Auth implements \Piwik\Auth
         $isSuperUser = (int) $user['superuser_access'];
         $code = $isSuperUser ? AuthResult::SUCCESS_SUPERUSER_AUTH_CODE : AuthResult::SUCCESS;
 
-        return new AuthResult($code, $user['login'], $this->token_auth);
+        return new AuthResult($code, $user['login'], $this->token_auth, $authContext);
+    }
+
+    /**
+     * @param array<string,mixed>|null $tokenMetadata
+     * @return array<string,mixed>|null
+     */
+    private function makeAuthContextFromTokenMetadata(?array $tokenMetadata): ?array
+    {
+        if (empty($tokenMetadata)) {
+            return null;
+        }
+
+        return [
+            'token_access_level' => $tokenMetadata['access_level'] ?? null,
+        ];
     }
 
     /**

@@ -10,13 +10,18 @@
 namespace Piwik\Tracker;
 
 use Exception;
+use Piwik\Access;
+use Piwik\Access\Role\Admin;
+use Piwik\Access\Role\Write;
 use Piwik\Request\AuthenticationToken;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Cookie;
+use Piwik\Exception\AuthenticationFailedException;
 use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Http;
+use Piwik\Http\BadRequestException;
 use Piwik\IP;
 use Matomo\Network\IPUtils;
 use Piwik\Piwik;
@@ -176,12 +181,29 @@ class Request
                 return;
             }
 
-            if (empty($tokenAuth) && !empty($this->params)) {
-                $tokenAuth = StaticContainer::get(AuthenticationToken::class)->getAuthToken($this->params);
-            }
+            try {
+                if (empty($tokenAuth) && !empty($this->params)) {
+                    $tokenAuth = StaticContainer::get(AuthenticationToken::class)->getAuthToken($this->params);
+                }
 
-            if (empty($tokenAuth)) {
-                $tokenAuth = StaticContainer::get(AuthenticationToken::class)->getAuthToken();
+                if (empty($tokenAuth)) {
+                    $tokenAuth = StaticContainer::get(AuthenticationToken::class)->getAuthToken();
+                }
+            } catch (AuthenticationFailedException | BadRequestException $e) {
+                // Token detection rejects some parameter combinations outright, e.g. a scoped token sent
+                // with force_api_session=1. A tracking request must not surface that as an exception; it is
+                // simply not authenticated. Only these two rejections are treated that way: anything else
+                // out of detection (a database error on the token lookup, say) is not a statement about the
+                // request's credentials and propagates to the tracker's own exception handling rather than
+                // silently downgrading the request to unauthenticated.
+                Common::printDebug("failed to authenticate: " . $e->getMessage());
+                $this->isAuthenticated = false;
+
+                // Record the failure the same way an invalid token of plausible shape is recorded below.
+                // Skipping it would leave Tracking Failures empty for exactly the misconfiguration it exists
+                // to report, with only the printDebug line above as a trace, and that is off in production.
+                StaticContainer::get('Piwik\Tracker\Failures')->logFailure(Failures::FAILURE_ID_NOT_AUTHENTICATED, $this);
+                return;
             }
 
             $cache = PiwikCache::getTransientCache();
@@ -225,19 +247,27 @@ class Request
             return false;
         }
 
-        // Now checking the list of admin token_auth cached in the Tracker config file
-        if (!empty($idSite) && $idSite > 0) {
-            $website = Cache::getCacheWebsiteAttributes($idSite);
-            $userModel = new \Piwik\Plugins\UsersManager\Model();
-            $tokenAuthHashed = $userModel->hashTokenAuth($tokenAuth);
-            $hashedToken = UsersManager::hashTrackingToken((string) $tokenAuthHashed, $idSite);
+        if (empty($idSite) || $idSite <= 0) {
+            Common::printDebug("WARNING! token_auth was supplied with an invalid idSite, Super User / Admin / Write was NOT authenticated");
 
-            if (
-                array_key_exists('tracking_token_auth', $website)
-                && in_array($hashedToken, $website['tracking_token_auth'], true)
-            ) {
-                return true;
-            }
+            // No failure is posted here. Nothing was authenticated, so there is no credential failure to
+            // report: an invalid idSite is a malformed request, and counting it towards Login's brute-force
+            // detection would let a misconfigured integration holding a perfectly valid token lock its own
+            // address out.
+            return false;
+        }
+
+        // Now checking the list of admin token_auth cached in the Tracker config file
+        $website = Cache::getCacheWebsiteAttributes($idSite);
+        $userModel = new \Piwik\Plugins\UsersManager\Model();
+        $tokenAuthHashed = $userModel->hashTokenAuth($tokenAuth);
+        $hashedToken = UsersManager::hashTrackingToken((string) $tokenAuthHashed, $idSite);
+
+        if (
+            array_key_exists('tracking_token_auth', $website)
+            && in_array($hashedToken, $website['tracking_token_auth'], true)
+        ) {
+            return true;
         }
 
         Piwik::postEvent('Request.initAuthenticationObject');
@@ -248,13 +278,31 @@ class Request
         $auth->setLogin(null);
         $auth->setPassword(null);
         $auth->setPasswordHash(null);
-        $access = $auth->authenticate();
+        $access = new Access();
+        if (!$access->reloadAccess($auth)) {
+            Common::printDebug("WARNING! token_auth could not be authenticated, Super User / Admin / Write was NOT authenticated");
 
-        if (!empty($access) && $access->hasSuperUserAccess()) {
+            /**
+             * @ignore
+             * @internal
+             */
+            Piwik::postEvent('Tracker.Request.authenticate.failed');
+
+            return false;
+        }
+
+        // Admin/write tokens are normally authenticated via the per-site tracker cache above; the slow path
+        // also accepts them so it stays correct during cache-miss windows (e.g. just after a user/token
+        // change) and so scoped-token role clamping in Access::reloadAccess() is honoured here.
+        // The accepted token shape must stay consistent with the access_level filter in
+        // {@see \Piwik\Plugins\UsersManager\Model::getAllHashedTokensForTrackerCacheForLogins()}: both
+        // paths reject view-scoped tokens and accept unscoped or write/admin/superuser-scoped tokens
+        // for users with admin or write site role. Keep them in sync.
+        if ($access->hasSuperUserAccess() || in_array($access->getRoleForSite($idSite), [Write::ID, Admin::ID], true)) {
             return true;
         }
 
-        Common::printDebug("WARNING! token_auth = $tokenAuth is not valid, Super User / Admin / Write was NOT authenticated");
+        Common::printDebug("WARNING! token_auth authenticated but lacks Super User / Admin / Write role for idSite=$idSite");
 
         /**
          * @ignore

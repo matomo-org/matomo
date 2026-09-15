@@ -1529,6 +1529,20 @@ class API extends \Piwik\Plugin\API
      * @param int|string $expireHours Optional number of hours before the token expires. Ignored when `$expireDate` is
      *                                set.
      * @param bool $secureOnly `true` if the token must not be accepted in GET requests.
+     * @param string|null $accessLevel Optional maximum permission to embed in the generated token, one of `view`,
+     *                                 `write`, `admin` or `superuser`, and never above the user's own highest
+     *                                 access. If omitted, `null`, or an empty string, the token remains unscoped
+     *                                 and preserves the user's normal token behavior. A scoped token derives its
+     *                                 capabilities from the capped role, plus any capability granted to the user
+     *                                 outside a role whose lowest including role is at or below the chosen level;
+     *                                 a capability that needs more than the chosen level is not honoured by it.
+     *                                 A second limit applies when this request is itself authenticated by a
+     *                                 scoped token: the new token may then be no less restricted than that one,
+     *                                 so any level above it is refused and so is leaving this unset, an unscoped
+     *                                 token being the least restricted outcome there is. A request made with a
+     *                                 `view`-scoped token can therefore only issue `view`. Requests that carry no
+     *                                 token scope — password or session login, an unscoped token, or a token
+     *                                 scoped to `superuser` — are subject to the per-user cap alone.
      * @return string Newly generated app-specific token.
      */
     public function createAppSpecificTokenAuth(
@@ -1538,7 +1552,8 @@ class API extends \Piwik\Plugin\API
         string $description,
         $expireDate = null,
         $expireHours = 0,
-        bool $secureOnly = false
+        bool $secureOnly = false,
+        ?string $accessLevel = null
     ) {
         // Only allowed as a top-level request, not nested within another API request.
         if (ApiRequest::isRootRequestApiRequest() && !ApiRequest::isCurrentApiRequestTheRootApiRequest()) {
@@ -1581,10 +1596,53 @@ class API extends \Piwik\Plugin\API
             $expireDate = Date::factory($expireDate)->getDatetime();
         }
 
+        // The HTTP API layer (core/API/Proxy.php) preserves empty-string parameters rather than
+        // substituting the default, so a caller who sends `access_level=` (matching the form's
+        // "Inherit user access" hidden input default) lands here with an empty string. Coerce it
+        // to null so HTTP and PHP callers both end up at the unscoped path.
+        if ($accessLevel === '') {
+            $accessLevel = null;
+        }
+        $accessLevel = $this->model->normalizeAndValidateTokenAccessLevelForUser($userLogin, $accessLevel, false);
+        $this->checkTokenScopeOfRequestAllowsIssuing($accessLevel);
+
         $generatedToken = $this->model->generateRandomTokenAuth();
-        $this->model->addTokenAuth($userLogin, $generatedToken, $description, Date::now()->getDatetime(), $expireDate, false, $secureOnly);
+        $this->model->addTokenAuth($userLogin, $generatedToken, $description, Date::now()->getDatetime(), $expireDate, false, $secureOnly, $accessLevel);
 
         return $generatedToken;
+    }
+
+    /**
+     * Rejects issuing a token that would be less restricted than the token authenticating this request.
+     *
+     * Without this a scoped token escapes its own scope by minting a fresh one, which would leave the cap
+     * meaningless for the case it exists for: handing a limited credential to something that should stay
+     * limited. The current password is still required to reach this point, so this does not defend against
+     * someone who already knows it; it keeps the scope a property of the credential rather than of a single
+     * request made with it.
+     *
+     * A request that is not scoped by a token (password or session login, or an unscoped token) is
+     * unaffected, and so is a token scoped to 'superuser', which is not a restriction.
+     *
+     * @param string|null $accessLevel Access level the new token would carry, null meaning unscoped.
+     */
+    private function checkTokenScopeOfRequestAllowsIssuing(?string $accessLevel): void
+    {
+        $requestAccessLevel = Access::getInstance()->getTokenAccessLevel();
+        if ($requestAccessLevel === null || $requestAccessLevel === 'superuser') {
+            return;
+        }
+
+        $rankings = Access::getTokenAccessLevelRankings();
+
+        // An unscoped token is the least restricted outcome there is, so rank it above every level.
+        $requestedRanking = $accessLevel === null
+            ? $rankings['superuser']
+            : ($rankings[$accessLevel] ?? $rankings['superuser']);
+
+        if ($requestedRanking > ($rankings[$requestAccessLevel] ?? 0)) {
+            throw new Exception(Piwik::translate('UsersManager_ExceptionCreateTokenAuthAboveRequestTokenScope'));
+        }
     }
 
     /**
