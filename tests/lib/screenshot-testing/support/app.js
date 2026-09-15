@@ -341,24 +341,30 @@ Application.prototype.doRunTests = function (mocha) {
             || (reporter === 'mocha-multi-reporters'
                 && namesTestomatio((config.reporterOptions || {}).reporterEnabled));
 
+        // Nothing after this event needs the browser - the Testomatio adapter only reports run
+        // status over HTTP - so close it on both paths and let Chrome go. Report a failure rather
+        // than swallowing it: a close that rejects leaves the loop open, and it is the one thing
+        // that would explain the forced exit below.
+        page.browser.close().catch((e) => {
+            console.log('Failed to close the browser: ' + (e && e.message ? e.message : e));
+        });
+
         // The Testomatio reporter keeps sending API requests after this event, so when it is
         // active we still have to wait for it (#21760). Without it there is nothing left to
-        // flush, and the wait is dead time on every run.
+        // flush, and the wait is dead time on every run. Closing the browser above cannot shorten
+        // this wait, because the timer is ref'd.
         if (usesTestomatioReporter) {
             setTimeout(() => process.exit(), 10000);
             return;
         }
 
-        // Letting node exit on its own drains stdout first; a bare process.exit() truncates piped
-        // output. The browser is what holds the loop open, so close it.
-        page.browser.close().catch(() => {});
-
-        // Safety net only, and unref'd so it cannot itself delay the exit. It has to announce
-        // itself, or a silent firing would quietly bring back both the truncation and the ten
-        // seconds with nothing to notice - so exit from the write's callback rather than the same
-        // tick, because stdout is asynchronous when it is a pipe (CI, or any `| tee`) and
-        // process.exit() discards pending writes. The inner timer is only there so a wedged pipe
-        // cannot hang the run instead.
+        // Safety net only, and unref'd so it cannot itself delay the exit. The window also covers
+        // the close started above, which measured 124ms after a real suite - so ~40x headroom
+        // before a healthy run could trip this. It has to announce itself, or a silent firing
+        // would quietly bring back both the truncation and the ten seconds with nothing to notice
+        // - so exit from the write's callback rather than the same tick, because stdout is
+        // asynchronous when it is a pipe (CI, or any `| tee`) and process.exit() discards pending
+        // writes. The inner timer is only there so a wedged pipe cannot hang the run instead.
         setTimeout(() => {
             setTimeout(() => process.exit(), 1000).unref();
             process.stdout.write(
