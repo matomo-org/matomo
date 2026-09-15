@@ -805,6 +805,131 @@ class ClickhouseDialectTranslatorTest extends \PHPUnit\Framework\TestCase
         }
     }
 
+    // ---------------------------------------------------------------------
+    // Restricting inside a WHERE-clause sub-query (the negated segment)
+    // ---------------------------------------------------------------------
+
+    /**
+     * A negated segment component compiles to `idvisit NOT IN (SELECT ... JOIN ... JOIN ...)`.
+     * The recursion used to reach `FROM (...)` blocks only, so that sub-query kept its joins
+     * whole while every join around it was restricted. On the POC corpus one report for one day
+     * read 1,968,332,161 rows - the whole of log_link_visit_action - against 60,743,680 once the
+     * restriction reaches inside.
+     */
+    public function testJoinsInsideANegatedSegmentSubqueryAreRestricted(): void
+    {
+        $sql = 'SELECT x FROM log_visit AS log_visit'
+            . ' WHERE log_visit.idsite = :chBind000'
+            . ' AND ( log_visit.idvisit NOT IN (SELECT log_visit.idvisit FROM log_visit AS log_visit'
+            . ' LEFT JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit'
+            . ' LEFT JOIN log_action AS log_action ON log_link_visit_action.idaction_url = log_action.idaction'
+            . ' WHERE log_visit.idsite = :chBind001 AND log_action.name_lower LIKE :chBind002) )';
+
+        $out = ClickhouseDialectTranslator::restrictLogTableJoins($sql);
+
+        self::assertStringContainsString(
+            'LEFT JOIN (SELECT * FROM log_link_visit_action WHERE idvisit IN'
+            . ' (SELECT log_visit.idvisit FROM log_visit AS log_visit WHERE log_visit.idsite = :chBind001))'
+            . ' AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit',
+            $out
+        );
+        self::assertStringContainsString(
+            'LEFT JOIN (SELECT *, `name_lower` FROM log_action WHERE idaction IN'
+            . ' (SELECT log_link_visit_action.idaction_url FROM',
+            $out
+        );
+    }
+
+    /**
+     * The negation itself must not be carried into the restrictions built for its siblings. It
+     * names joined aliases, so referencesOnly() already drops it - this pins that down, because
+     * copying a sub-query that now contains its own restrictions would grow the statement on
+     * every pass.
+     */
+    public function testTheNegationIsNotCopiedIntoASiblingRestriction(): void
+    {
+        $sql = 'SELECT x FROM log_visit AS log_visit'
+            . ' LEFT JOIN log_action AS log_action ON log_visit.visit_entry_idaction_url = log_action.idaction'
+            . ' WHERE log_visit.idsite = :chBind000'
+            . ' AND ( log_visit.idvisit NOT IN (SELECT log_visit.idvisit FROM log_visit AS log_visit'
+            . ' LEFT JOIN log_link_visit_action AS lvla ON lvla.idvisit = log_visit.idvisit'
+            . ' WHERE log_visit.idsite = :chBind001) )';
+
+        $out = ClickhouseDialectTranslator::restrictLogTableJoins($sql);
+
+        self::assertSame(1, substr_count($out, 'NOT IN'), 'the negation must appear exactly once');
+        self::assertStringContainsString(
+            'WHERE idaction IN (SELECT log_visit.visit_entry_idaction_url FROM log_visit AS log_visit'
+            . ' WHERE log_visit.idsite = :chBind000)',
+            $out
+        );
+    }
+
+    /**
+     * A value list is not a sub-query. `IN (:chBind000)` in particular is how every bound id
+     * list arrives, so treating it as one would corrupt the statement.
+     *
+     * @dataProvider predicateValueListProvider
+     */
+    public function testValueListsAreNotTreatedAsSubqueries(string $sql): void
+    {
+        self::assertSame($sql, ClickhouseDialectTranslator::restrictLogTableJoins($sql));
+    }
+
+    public function predicateValueListProvider(): array
+    {
+        return [
+            'bound list' => [
+                'SELECT x FROM log_visit AS log_visit WHERE log_visit.idsite IN (:chBind000)',
+            ],
+            'literal list' => [
+                'SELECT x FROM log_visit AS log_visit WHERE log_visit.idsite IN (1, 2, 3)',
+            ],
+            'IN inside an identifier is not the keyword' => [
+                'SELECT x FROM log_visit AS log_visit WHERE log_visit.location_region IN (7)',
+            ],
+        ];
+    }
+
+    /**
+     * A sub-query correlated to the enclosing query names an alias that does not exist in its
+     * own scope. restrictOneJoin() cannot resolve it and leaves the join alone - the recursion
+     * must not change that.
+     */
+    public function testCorrelatedPredicateSubqueryIsLeftAlone(): void
+    {
+        $sql = 'SELECT x FROM log_visit AS outer_visit'
+            . ' WHERE outer_visit.idvisit NOT IN (SELECT lv.idvisit FROM log_visit AS lv'
+            . ' LEFT JOIN log_link_visit_action AS lvla ON lvla.idvisit = outer_visit.idvisit'
+            . ' WHERE lv.idsite = :chBind000)';
+
+        self::assertSame($sql, ClickhouseDialectTranslator::restrictLogTableJoins($sql));
+    }
+
+    /**
+     * A segment needle is free to contain a parenthesis. Scanning for the closing bracket
+     * without honouring quotes would end the sub-query inside the literal and cut the statement
+     * in half.
+     */
+    public function testAParenthesisInsideALiteralDoesNotTruncateTheSubquery(): void
+    {
+        $sql = "SELECT x FROM log_visit AS log_visit"
+            . " WHERE log_visit.idvisit NOT IN (SELECT log_visit.idvisit FROM log_visit AS log_visit"
+            . " LEFT JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit"
+            . " WHERE log_visit.idsite = 1 AND log_link_visit_action.custom_var_v1 = '%budget (2026)%')"
+            . " AND log_visit.idsite = 1";
+
+        $out = ClickhouseDialectTranslator::restrictLogTableJoins($sql);
+
+        self::assertStringEndsWith("AND log_visit.idsite = 1", $out);
+        self::assertStringContainsString("'%budget (2026)%'", $out);
+        self::assertSame(
+            substr_count($sql, '('),
+            substr_count($out, '(') - substr_count($out, '(SELECT') + substr_count($sql, '(SELECT'),
+            'brackets stay balanced'
+        );
+    }
+
     /**
      * @dataProvider unsafeToRewriteProvider
      */

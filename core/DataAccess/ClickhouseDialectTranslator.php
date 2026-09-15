@@ -1386,7 +1386,117 @@ class ClickhouseDialectTranslator
             return self::restrictLogTableJoins($inner);
         });
 
+        $sql = self::mapPredicateSubqueries($sql, static function (string $inner): string {
+            return self::restrictLogTableJoins($inner);
+        });
+
         return self::restrictLogTableJoinsInScope($sql);
+    }
+
+    /**
+     * Applies $callback to the body of every `IN (SELECT ...)` predicate in this scope.
+     *
+     * mapFromBlocks() only descends into `FROM (...)`, so a sub-query hanging off a WHERE
+     * predicate was never reached. A negated segment component compiles to exactly that -
+     * `log_visit.idvisit NOT IN (SELECT ... FROM log_visit LEFT JOIN log_link_visit_action ...)`
+     * - which left the anti-join as the one join in the statement still reading a whole log
+     * table while every other join around it was restricted. Measured on the POC corpus,
+     * one report for one day: 1,968,332,161 rows read against 60,743,680 once the restriction
+     * reaches inside, for a result with an identical row count and checksum.
+     *
+     * Restricting under a negation is safe for the reason it is safe anywhere: this pass never
+     * changes what a query RETURNS, only how much it reads. The restriction is keyed off the
+     * sub-query's own driving WHERE, so the only rows it removes are rows that WHERE removed
+     * already. The distinction matters more here than elsewhere - the set feeding a NOT IN has
+     * to be exact, not merely a superset, because widening it would exclude visits the segment
+     * was meant to keep. A correlated sub-query is handled by restrictOneJoin() and
+     * drivingRestriction() as before: neither can resolve an alias belonging to an enclosing
+     * scope, so both leave it alone.
+     *
+     * `IN` is matched rather than `NOT IN` because the latter contains it. Value lists are left
+     * alone - `IN (1, 2)` and `IN (:chBind000)` are not sub-queries.
+     *
+     * @param callable(string): string $callback
+     */
+    private static function mapPredicateSubqueries(string $sql, callable $callback): string
+    {
+        if (!preg_match('~\bIN\s*\(~i', $sql)) {
+            return $sql;
+        }
+
+        $len = strlen($sql);
+        $result = '';
+        $i = 0;
+
+        while ($i < $len) {
+            $ch = $sql[$i];
+
+            if ($ch === "'" || $ch === '"' || $ch === '`') {
+                $end = self::skipQuoted($sql, $i);
+                $result .= substr($sql, $i, $end - $i);
+                $i = $end;
+                continue;
+            }
+
+            if (
+                ($ch === 'I' || $ch === 'i')
+                && ($i === 0 || !preg_match('~[\w`]~', $sql[$i - 1]))
+                && preg_match('~^IN\s*\(~i', substr($sql, $i), $m)
+            ) {
+                $parenOpen = $i + strlen($m[0]) - 1;
+                $parenClose = self::closingParen($sql, $parenOpen);
+
+                if ($parenClose < 0) {
+                    break;
+                }
+
+                $inner = substr($sql, $parenOpen + 1, $parenClose - $parenOpen - 1);
+
+                if (preg_match('~^\s*(?:/\*.*?\*/\s*)*SELECT\s~is', $inner)) {
+                    $result .= $m[0] . $callback($inner) . ')';
+                    $i = $parenClose + 1;
+                    continue;
+                }
+            }
+
+            $result .= $ch;
+            $i++;
+        }
+
+        return $result . substr($sql, $i);
+    }
+
+    /**
+     * The offset of the `)` closing the `(` at $open, or -1 when it is unbalanced.
+     *
+     * Quote-aware, because a segment needle is free to contain a parenthesis: a page URL
+     * matching `%(2026)%` would otherwise close the sub-query early and cut the statement in
+     * half.
+     */
+    private static function closingParen(string $sql, int $open): int
+    {
+        $len = strlen($sql);
+        $depth = 0;
+
+        for ($i = $open; $i < $len; $i++) {
+            $ch = $sql[$i];
+
+            if ($ch === "'" || $ch === '"' || $ch === '`') {
+                $i = self::skipQuoted($sql, $i) - 1;
+                continue;
+            }
+
+            if ($ch === '(') {
+                $depth++;
+            } elseif ($ch === ')') {
+                $depth--;
+                if ($depth === 0) {
+                    return $i;
+                }
+            }
+        }
+
+        return -1;
     }
 
     private static function restrictLogTableJoinsInScope(string $sql): string
