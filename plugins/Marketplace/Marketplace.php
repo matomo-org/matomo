@@ -16,6 +16,7 @@ use Piwik\Plugins\Marketplace\PluginTrial\Service as PluginTrialService;
 use Piwik\Request;
 use Piwik\SettingsPiwik;
 use Piwik\Widget\WidgetsList;
+use Throwable;
 
 class Marketplace extends \Piwik\Plugin
 {
@@ -61,7 +62,7 @@ class Marketplace extends \Piwik\Plugin
     {
         try {
             StaticContainer::get(CacheWarmer::class)->warmSoon();
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             // building the warmer reaches Api\Service, which an installation partway through
             // writing its configuration may not be able to resolve. warmSoon() reports anything
             // that goes wrong once it is running; getting this far is not worth failing an

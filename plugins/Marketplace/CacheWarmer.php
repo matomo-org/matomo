@@ -12,8 +12,10 @@ namespace Piwik\Plugins\Marketplace;
 use Piwik\CliMulti;
 use Piwik\CliMulti\CliPhp;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Log\LoggerInterface;
 use Piwik\Scheduler\Scheduler;
+use Piwik\Scheduler\Task;
 use Piwik\SettingsPiwik;
 use Throwable;
 
@@ -39,6 +41,8 @@ class CacheWarmer
 
     private CliMulti $cliMulti;
 
+    private CliPhp $cliPhp;
+
     private LoggerInterface $logger;
 
     public function __construct(
@@ -47,6 +51,7 @@ class CacheWarmer
         Tasks $tasks,
         Environment $environment,
         CliMulti $cliMulti,
+        CliPhp $cliPhp,
         LoggerInterface $logger
     ) {
         $this->api = $api;
@@ -54,6 +59,7 @@ class CacheWarmer
         $this->tasks = $tasks;
         $this->environment = $environment;
         $this->cliMulti = $cliMulti;
+        $this->cliPhp = $cliPhp;
         $this->logger = $logger;
     }
 
@@ -71,7 +77,7 @@ class CacheWarmer
             $phpBinary = $this->findPhpBinaryForBackgroundRun();
 
             if (null === $phpBinary) {
-                $this->scheduler->rescheduleTaskAndRunNow($this->tasks->getWarmCacheEntriesTask());
+                $this->markTaskDue();
                 return;
             }
 
@@ -99,34 +105,65 @@ class CacheWarmer
             return null;
         }
 
-        $binary = (new CliPhp())->findPhpBinary();
+        $binary = $this->cliPhp->findPhpBinary();
 
         return empty($binary) ? null : $binary;
     }
 
+    private function markTaskDue(): void
+    {
+        $this->scheduler->rescheduleTaskAndRunNow($this->getWarmCacheTask());
+    }
+
     private function runInBackground(string $phpBinary): void
     {
-        // the web server's PHP version is part of every Marketplace cache key and only a web
-        // request can record it, so it is stored before handing over to a process that would
-        // otherwise warm entries under the CLI version, which no page reads
+        // belt and braces: every route to this point has already fetched through Api\Client, which
+        // records the version before it looks the entry up. Recording it here too keeps the
+        // guarantee local, because the version is part of every cache key and the process about to
+        // be spawned runs under the CLI one, which no page reads.
         $this->environment->getWebPhpVersion();
 
-        shell_exec($this->buildWarmCommand($phpBinary));
+        // null means the command could not be executed at all - shell_exec disabled, or a binary
+        // that will not run. It cannot tell us whether a started child then booted successfully,
+        // so this recovers only the failure it can actually see.
+        if (null === $this->execute($this->buildWarmCommand($phpBinary))) {
+            $this->markTaskDue();
+        }
     }
 
     /**
-     * The command the background process runs. Kept apart from running it so a test can read it:
-     * the redirection below swallows anything a malformed command would have said.
+     * Runs the command that warms the cache. Separated so a test can read what would be run
+     * without running it: the redirection in the command swallows everything a failure would say.
      */
-    protected function buildWarmCommand(string $phpBinary): string
+    protected function execute(string $command): ?string
     {
+        return shell_exec($command);
+    }
+
+    private function buildWarmCommand(string $phpBinary): string
+    {
+        // without this the child resolves no hostname and falls back to config/config.ini.php, so
+        // on a per-hostname-config install it would warm a different instance than the one that
+        // just updated. Same guard as core/Updater/Migration/Plugin/Activate.php: the comparison
+        // means the hostname already resolved to a config file that exists.
+        $domain = Config::getLocalConfigPath() === Config::getDefaultLocalConfigPath()
+            ? ''
+            : Config::getHostname();
+        $domainArg = !empty($domain) ? '--matomo-domain=' . escapeshellarg($domain) . ' ' : '';
+
         // no --force: a named task runs through Scheduler::runTaskNow(), which does not consult
         // the timetable, so the hourly schedule is left exactly as it was
         return sprintf(
-            '%s %s/console core:run-scheduled-tasks %s > /dev/null 2>&1 &',
-            $phpBinary,
-            PIWIK_INCLUDE_PATH,
-            escapeshellarg($this->tasks->getWarmCacheEntriesTask()->getName())
+            '%s %s %score:run-scheduled-tasks %s > /dev/null 2>&1 &',
+            escapeshellarg($phpBinary),
+            escapeshellarg(PIWIK_INCLUDE_PATH . '/console'),
+            $domainArg,
+            escapeshellarg($this->getWarmCacheTask()->getName())
         );
+    }
+
+    private function getWarmCacheTask(): Task
+    {
+        return $this->tasks->getWarmCacheEntriesTask();
     }
 }
