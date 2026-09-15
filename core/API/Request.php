@@ -13,7 +13,6 @@ use Exception;
 use Piwik\Access;
 use Piwik\Http\HttpCodeException;
 use Piwik\Request\AuthenticationToken;
-use Piwik\Cache;
 use Piwik\Common;
 use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
@@ -89,6 +88,16 @@ class Request
      * The count of nested API request invocations. Used to determine if the currently executing request is the root or not.
      */
     private static int $nestedApiInvocationCount = 0;
+
+    /**
+     * The API method of the root request when that request is an API request, or null otherwise.
+     *
+     * Kept as process state rather than in the transient cache: the cache can be cleared while a
+     * request is still being processed, and this value must stay stable for the whole request.
+     *
+     * @var string|null
+     */
+    private static $rootRequestApiMethod = null;
 
     private $request = null;
 
@@ -351,7 +360,7 @@ class Request
      */
     public static function setIsRootRequestApiRequest($currentApiMethod)
     {
-        Cache::getTransientCache()->save('API.setIsRootRequestApiRequest', $currentApiMethod);
+        self::$rootRequestApiMethod = $currentApiMethod;
     }
 
     /**
@@ -361,7 +370,7 @@ class Request
      */
     public static function getRootApiRequestMethod()
     {
-        return Cache::getTransientCache()->fetch('API.setIsRootRequestApiRequest');
+        return self::$rootRequestApiMethod;
     }
 
     /**
@@ -373,8 +382,7 @@ class Request
      */
     public static function isRootRequestApiRequest()
     {
-        $apiMethod = Cache::getTransientCache()->fetch('API.setIsRootRequestApiRequest');
-        return !empty($apiMethod);
+        return !empty(self::$rootRequestApiMethod);
     }
 
     /**
