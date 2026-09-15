@@ -358,9 +358,11 @@ Application.prototype.doRunTests = function (mocha) {
             return;
         }
 
-        // Safety net only, and unref'd so it cannot itself delay the exit. The window also covers
-        // the close started above, which measured 124ms after a real suite - so ~40x headroom
-        // before a healthy run could trip this. It has to announce itself, or a silent firing
+        // Safety net only, and unref'd so it cannot itself delay the exit. The window covers
+        // everything still pending after this event, not just the close above: measured end-to-
+        // exit at 108ms on UsersManager, the suite whose after() hooks call testEnvironment's
+        // fetch-based API helper right before the run ends, so an idle keep-alive socket is
+        // included in that number. It has to announce itself, or a silent firing
         // would quietly bring back both the truncation and the ten seconds with nothing to notice
         // - so exit from the write's callback rather than the same tick, because stdout is
         // asynchronous when it is a pipe (CI, or any `| tee`) and process.exit() discards pending
