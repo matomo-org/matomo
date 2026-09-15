@@ -40,8 +40,13 @@ function asText(value: string): string {
   return value
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
+    .replace(/>/g, '&gt;');
+}
+
+// The result is an element's content, where a quote needs no escaping. Escaping it anyway keeps
+// the content inert in an attribute value, so a caller cannot get that wrong.
+function escapeQuotes(html: string): string {
+  return html.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 
 function withLineBreaks(value: string): string {
@@ -128,17 +133,18 @@ export function renderAllowedMarkup(html: string): string {
  * part that is not allowed, the whole title is then shown as text, so nothing is lost from it.
  * Entities are resolved for that, so both cases display the same characters.
  *
- * The result is HTML for an element's content and must not be put into an attribute value.
+ * The result is HTML for an element's content, with both quote characters escaped so that it says
+ * the same thing in an attribute value.
  */
 export function sanitizeTooltip(val: unknown): string {
   const title = val === null || val === undefined ? '' : String(val);
   const content = withLineBreaks(title);
 
   if (carriesOtherMarkup(content)) {
-    return withLineBreaks(asText(decodeEntities(title)));
+    return escapeQuotes(withLineBreaks(asText(decodeEntities(title))));
   }
 
-  return renderAllowedMarkup(content);
+  return escapeQuotes(renderAllowedMarkup(content));
 }
 
 // Returns the given URL if DOMPurify considers it a valid `href` value (i.e. it uses an allowed
