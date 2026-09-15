@@ -96,7 +96,7 @@ class Nonce
     {
         $ns = new SessionNamespace($id);
         // checking it must not store anything - reading a value that is not set would add it as null
-        $nonce = isset($ns->nonce) ? $ns->nonce : null;
+        $nonce = $ns->nonce ?? null;
 
         $additionalErrors = '';
 
