@@ -328,12 +328,9 @@ Application.prototype.doRunTests = function (mocha) {
     this.runner.on('end', function () {
         process.exitCode = this.failures;
 
-        // Read off the merged config rather than a flag decided in config.dist.js: run-tests.js
-        // layers tests/UI/config.js over the defaults, so a local override can turn the reporter
-        // on or off and a flag settled in the defaults would not follow it. reporterEnabled only
-        // names reporters when mocha-multi-reporters is the one running, and the merge is shallow,
-        // so an override that sets reporter alone leaves the defaults' reporterOptions behind it -
-        // reading that list unconditionally would take the wait for a run using only `spec`.
+        // reporterEnabled only names reporters under mocha-multi-reporters, and run-tests.js
+        // merges tests/UI/config.js over the defaults shallowly, so an override setting `reporter`
+        // alone leaves the defaults' reporterOptions standing behind it.
         const reporter = config.reporter;
         const namesTestomatio = (value) => typeof value === 'string'
             && value.indexOf('@testomatio/reporter') !== -1;
@@ -341,32 +338,20 @@ Application.prototype.doRunTests = function (mocha) {
             || (reporter === 'mocha-multi-reporters'
                 && namesTestomatio((config.reporterOptions || {}).reporterEnabled));
 
-        // Nothing after this event needs the browser - the Testomatio adapter only reports run
-        // status over HTTP - so close it on both paths and let Chrome go. Report a failure rather
-        // than swallowing it: a close that rejects leaves the loop open, and it is the one thing
-        // that would explain the forced exit below.
+        // a rejected close leaves the loop open, which is what the forced exit below would report
         page.browser.close().catch((e) => {
             console.log('Failed to close the browser: ' + (e && e.message ? e.message : e));
         });
 
-        // The Testomatio reporter keeps sending API requests after this event, so when it is
-        // active we still have to wait for it (#21760). Without it there is nothing left to
-        // flush, and the wait is dead time on every run. Closing the browser above cannot shorten
-        // this wait, because the timer is ref'd.
+        // the reporter keeps sending API requests after this event (#21760)
         if (usesTestomatioReporter) {
             setTimeout(() => process.exit(), 10000);
             return;
         }
 
-        // Safety net only, and unref'd so it cannot itself delay the exit. The window covers
-        // everything still pending after this event, not just the close above: measured end-to-
-        // exit at 108ms on UsersManager, the suite whose after() hooks call testEnvironment's
-        // fetch-based API helper right before the run ends, so an idle keep-alive socket is
-        // included in that number. It has to announce itself, or a silent firing
-        // would quietly bring back both the truncation and the ten seconds with nothing to notice
-        // - so exit from the write's callback rather than the same tick, because stdout is
-        // asynchronous when it is a pipe (CI, or any `| tee`) and process.exit() discards pending
-        // writes. The inner timer is only there so a wedged pipe cannot hang the run instead.
+        // Safety net, unref'd so it never delays a healthy exit - which measured 108ms end-to-exit.
+        // process.exit() discards pending stdout writes when stdout is a pipe, so exit from the
+        // write's callback, with a backstop in case the pipe itself is wedged.
         setTimeout(() => {
             setTimeout(() => process.exit(), 1000).unref();
             process.stdout.write(
