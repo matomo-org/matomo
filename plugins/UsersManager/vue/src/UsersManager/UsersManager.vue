@@ -226,7 +226,7 @@ export default defineComponent({
   },
   data(): UsersManagerState {
     return {
-      isEditing: !!MatomoUrl.urlParsed.value.showadduser,
+      isEditing: false,
       isInviting: false,
       isCurrentUserSuperUser: true,
       users: [],
@@ -248,6 +248,11 @@ export default defineComponent({
   },
   created() {
     this.fetchUsers();
+
+    if (MatomoUrl.urlParsed.value.showadduser) {
+      // through onAddNewUser, so a plugin vetoing UsersManager.initAddUser is still honoured
+      this.onAddNewUser();
+    }
   },
   watch: {
     limit() {
