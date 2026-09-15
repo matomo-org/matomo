@@ -89,7 +89,6 @@
         "PluginUploadDisabled": "外掛上傳已在設定檔中停用。若要啟用這項功能，請更新你的設定或聯絡你的管理員",
         "PluginVersionInfo": "%1$s 來自 %2$s",
         "PluginWebsite": "外掛網站",
-        "PriceExclTax": "%1$s %2$s 不含稅。",
         "PriceFromPerPeriod": "最低 %1$s / %2$s",
         "RemoveLicenseKey": "移除授權金鑰",
         "RequestTrial": "申請試用",
