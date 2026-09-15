@@ -551,9 +551,13 @@ class Plugins
      * The seat tier a bundle is licensed for, which the Marketplace spells into each shop
      * variation's name ("Up to 20 users"). Resolved here rather than by parsing a display string.
      *
-     * Read off the variation addPriceFrom() already chose, so seat tier and price always describe
-     * the same one. A name with no number ("Unlimited users.") leaves the field unset. Bundles
-     * only: a paid plugin offers all three tiers at once, so it has no single count.
+     * The tier belongs to the bundle product rather than to the variation: Team, Business and
+     * Enterprise are three separate products, and a bundle's variations are its billing periods
+     * times the currencies each is priced in - four rows over two variation ids - every one of
+     * them repeating that product's tier in its name. Any variation therefore answers this, and
+     * reading it off the one addPriceFrom() already chose keeps seat tier and price describing the
+     * same row. A name with no number ("Unlimited users.") leaves the field unset. Bundles only: a
+     * paid plugin offers all three tiers at once, so it has no single count.
      *
      * The number is read whole, group separators and all: matching digits alone reads "Up to 1,000
      * users" as 0, and a 0 renders nothing, so the wrong answer would never show up on screen.

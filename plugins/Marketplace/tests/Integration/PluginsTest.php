@@ -785,6 +785,10 @@ class PluginsTest extends IntegrationTestCase
         self::assertArrayNotHasKey('bundleSeats', $plugins['CustomReports']);
     }
 
+    /**
+     * The shop prices one tier per bundle, so its variations always agree and this input does not
+     * occur. Pinned anyway so the variation the tier is read from stays the priced-from one.
+     */
     public function testEnrichedBundleTakesItsSeatTierFromTheVariationItIsPricedFrom()
     {
         $this->service->setOnFetchCallback(function ($action) {
@@ -805,7 +809,9 @@ class PluginsTest extends IntegrationTestCase
 
     /**
      * A bundle as the Marketplace sends it, trimmed to what enrichment reads. $cheapestVariation
-     * is the one addPriceFrom() picks, and it is deliberately not listed first.
+     * is the one addPriceFrom() picks, and it is deliberately not listed first. The two names are
+     * separate parameters only so a disagreeing pair can be pinned; the shop repeats one tier
+     * across every variation of a bundle.
      */
     private function bundleWithSeatTier(
         string $name,

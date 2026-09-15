@@ -122,7 +122,7 @@ describe('Marketplace/CategoryTabs', () => {
     it('marks only the active tab with aria-current', async () => {
       const wrapper = await mountTabs(TEN_TABS, 'themes');
       const current = wrapper.findAll('.categoryTabs__tab')
-        .filter((t) => t.attributes('aria-current') === 'page');
+        .filter((t) => t.attributes('aria-current') === 'true');
       expect(current).toHaveLength(1);
       expect(current[0].text()).toBe('CorePluginsAdmin_Themes');
     });

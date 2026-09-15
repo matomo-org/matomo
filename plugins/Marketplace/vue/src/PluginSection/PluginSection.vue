@@ -17,7 +17,7 @@
         :aria-label="translate('Marketplace_SeeAllInCategory', heading)"
         @click="$emit('seeAll', sectionId)"
       >
-        <span>{{ translate('General_SeeAll') }}</span>
+        <span>{{ translate('Marketplace_SeeAll') }}</span>
         <span class="icon-chevron-right" aria-hidden="true" />
       </button>
     </div>

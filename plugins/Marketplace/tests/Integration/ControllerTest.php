@@ -141,6 +141,20 @@ class ControllerTest extends IntegrationTestCase
         }
     }
 
+    public function testSearchPluginsCarriesTheSeatTierEachBundleIsSoldAt()
+    {
+        // the tier belongs to the bundle product, and the list repeats it across that product's
+        // variations - two billing periods in two currencies - so the label the card shows must
+        // not depend on which of them addPriceFrom() picked
+        $this->pluginsFixture = 'system_v2.0_plugins_sort-lastupdated.json';
+
+        $cards = array_column($this->searchPlugins(), null, 'name');
+
+        self::assertSame(4, $cards['TeamBundle']['bundleSeats'] ?? null);
+        self::assertSame(20, $cards['BusinessBundle']['bundleSeats'] ?? null);
+        self::assertSame(50, $cards['EnterpriseBundle']['bundleSeats'] ?? null);
+    }
+
     public function testSearchPluginsCarriesTheCategorySlugsTheTabBarIsBuiltFrom()
     {
         // the tab bar, the section stack and the card chips are all derived from this one field,

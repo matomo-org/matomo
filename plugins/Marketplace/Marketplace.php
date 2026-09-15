@@ -98,7 +98,6 @@ class Marketplace extends \Piwik\Plugin
         $translationKeys[] = 'General_Ok';
         $translationKeys[] = 'General_Plugin';
         $translationKeys[] = 'General_Plugins';
-        $translationKeys[] = 'General_SeeAll';
         $translationKeys[] = 'Login_ConfirmPasswordToContinue';
         $translationKeys[] = 'Marketplace_ActionInstall';
         $translationKeys[] = 'Marketplace_ActivateLicenseKey';
@@ -212,6 +211,7 @@ class Marketplace extends \Piwik\Plugin
         $translationKeys[] = 'Marketplace_Screenshots';
         $translationKeys[] = 'Marketplace_SearchPlaceholder';
         $translationKeys[] = 'Marketplace_SearchPlaceholderWithCount';
+        $translationKeys[] = 'Marketplace_SeeAll';
         $translationKeys[] = 'Marketplace_SeeAllInCategory';
         $translationKeys[] = 'Marketplace_ShowAllPlugins';
         $translationKeys[] = 'Marketplace_ShownPriceIsExclTax';

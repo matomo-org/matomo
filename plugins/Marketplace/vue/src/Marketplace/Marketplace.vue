@@ -526,8 +526,17 @@ export default defineComponent({
       this.updateHash({ [CATEGORY_PARAM]: tabId, pluginType: null });
     },
 
+    /**
+     * Sets the sort before writing it to the hash, for the reason given on updateTab(), and lets a
+     * query the search box has typed but not yet written go first: updateHash() merges into the
+     * hash as it stands, so writing during the debounce would put the outgoing query back and the
+     * search box - bound to `searchQuery` - would revert until the pending write landed.
+     */
     updateSort(sort: string) {
-      this.updateHash({ sort });
+      this.cancelQueryHashWrite();
+      this.pluginSort = sort;
+      this.pageSize = PAGE_SIZE;
+      this.updateHash({ sort, query: this.searchQuery || null });
     },
 
     /**

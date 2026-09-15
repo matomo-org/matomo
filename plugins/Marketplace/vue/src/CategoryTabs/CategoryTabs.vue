@@ -19,6 +19,10 @@
     </div>
 
     <div class="categoryTabs__bar" ref="bar">
+      <!--
+        aria-current is `true` rather than `page` on every tab here and on the sort options: these
+        filter the list in place, so nothing navigates and no tab is a page.
+      -->
       <div class="categoryTabs__list">
         <button
           v-for="(tab, index) in tabs"
@@ -29,7 +33,7 @@
             'categoryTabs__tab--active': tab.id === modelValue,
             'categoryTabs__tab--overflow': index >= alwaysVisibleCount,
           }"
-          :aria-current="tab.id === modelValue ? 'page' : undefined"
+          :aria-current="tab.id === modelValue ? 'true' : undefined"
           @click="select(tab.id)"
         >{{ tabLabel(tab) }}</button>
       </div>
@@ -58,7 +62,7 @@
             type="button"
             class="categoryTabs__menuItem"
             :class="{ 'categoryTabs__menuItem--active': tab.id === modelValue }"
-            :aria-current="tab.id === modelValue ? 'page' : undefined"
+            :aria-current="tab.id === modelValue ? 'true' : undefined"
             @click="select(tab.id)"
           >{{ tabLabel(tab) }}</button>
         </div>
