@@ -15644,7 +15644,10 @@
   const TOOLTIP_TAGS = ["b", "br", "em", "i", "small", "span", "strong", "u"];
   const tooltipPurify = purify(window);
   function asText(value) {
-    return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+  function escapeQuotes(html2) {
+    return html2.replace(/"/g, "&quot;").replace(/'/g, "&#39;");
   }
   function withLineBreaks(value) {
     return value.replace(/\n/g, "<br />");
@@ -15694,9 +15697,9 @@
     const title = val === null || val === void 0 ? "" : String(val);
     const content = withLineBreaks(title);
     if (carriesOtherMarkup(content)) {
-      return withLineBreaks(asText(decodeEntities(title)));
+      return escapeQuotes(withLineBreaks(asText(decodeEntities(title))));
     }
-    return renderAllowedMarkup(content);
+    return escapeQuotes(renderAllowedMarkup(content));
   }
   function sanitizeUrl(url) {
     return purify.isValidAttribute("a", "href", url) ? url : "";

@@ -51,6 +51,11 @@ describe('CoreVue/sanitizeTooltip', () => {
     expect(sanitizeTooltip('Conversions: <b>12</b>')).toEqual('Conversions: <b>12</b>');
   });
 
+  it('escapes both quote characters, so the content reads the same in an attribute', () => {
+    expect(sanitizeTooltip('Bob\'s "page"')).toEqual('Bob&#39;s &quot;page&quot;');
+    expect(sanitizeTooltip('<img alt=\'x\'>')).toEqual('&lt;img alt=&#39;x&#39;&gt;');
+  });
+
   it('leaves already escaped text alone, so double escaped titles read correctly', () => {
     expect(sanitizeTooltip('a &lt;img&gt; b &amp; c')).toEqual('a &lt;img&gt; b &amp; c');
   });
