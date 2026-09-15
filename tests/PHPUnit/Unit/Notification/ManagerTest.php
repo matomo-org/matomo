@@ -12,6 +12,7 @@ namespace Piwik\Tests\Unit\Notification;
 use PHPUnit\Framework\TestCase;
 use Piwik\Notification;
 use Piwik\Notification\Manager;
+use Piwik\Session\SessionNamespace;
 
 class ManagerTest extends TestCase
 {
@@ -62,6 +63,52 @@ class ManagerTest extends TestCase
             ['aabcd a a k', 'Invalid Notification ID given. Only word characters (AlNum + underscore) allowed.'],
             ['a23%$%', 'Invalid Notification ID given. Only word characters (AlNum + underscore) allowed.'],
         ];
+    }
+
+    /**
+     * Also the guard that keeps testARequestWithoutNotificationsDoesNotWriteToTheSession honest:
+     * if the session were not enabled, both tests would pass for the wrong reason.
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
+    public function testNotificationIsKeptInTheSessionForTheNextRequest()
+    {
+        $this->enableSession();
+
+        Manager::notify('alpha', new Notification('hello'));
+
+        $this->assertNotSame([], $_SESSION, 'the notification never reached the session');
+
+        // the next request starts with nothing in memory and reads the session back
+        Manager::cancelAllNotifications();
+
+        $toDisplay = Manager::getAllNotificationsToDisplay();
+
+        $this->assertArrayHasKey('alpha', $toDisplay);
+        $this->assertSame('hello', $toDisplay['alpha']->message);
+    }
+
+    /**
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
+    public function testARequestWithoutNotificationsDoesNotWriteToTheSession()
+    {
+        $this->enableSession();
+
+        $this->assertSame([], Manager::getAllNotificationsToDisplay());
+        Manager::cancelAllNonPersistent();
+
+        $this->assertSame([], $_SESSION, 'an empty render must leave the session untouched');
+    }
+
+    private function enableSession(): void
+    {
+        $_SESSION = [];
+
+        // in CLI this only flips Zend's readable/writable flags, which is what Manager checks
+        new SessionNamespace('notification');
     }
 
     public function testNotifyDoesNotAddNotificationIfThereAreAlreadyMoreThanThirty()
