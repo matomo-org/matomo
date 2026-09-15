@@ -405,13 +405,15 @@ export default defineComponent({
       if (spaceBelow >= minUsableHeight) {
         this.openAbove = false;
         this.optionsListMaxHeight = spaceBelow;
-      } else if (spaceAbove > spaceBelow && spaceAbove + VIEWPORT_MARGIN >= minUsableHeight) {
-        // not enough room below: open above the field when that side can actually hold the list.
-        // Anchored by its bottom edge to the field, a minimum-height list puts its top edge at
-        // spaceAbove - (minUsableHeight - VIEWPORT_MARGIN), so it only leaves the viewport below
-        // that - and a fixed-position list cannot be scrolled to. Testing spaceAbove against the
-        // bare minimum instead would reject layouts that still fit, sending them below the field
-        // where there is even less room. Falling through keeps the overshoot reachable.
+      } else if (spaceAbove > spaceBelow) {
+        // Not enough room below, so open above whenever that side offers more - without a further
+        // test that it reaches the minimum. Opening above anchors the dropdown's bottom edge to
+        // the field and the options sit at the bottom of it, so they stay on screen and it is the
+        // search box above them that gets clipped when the room is tight. Below, the overflow
+        // falls past the viewport and takes the options with it: measured at a 300px viewport with
+        // the field at 200, above leaves 150px of options visible and clips 8px of the search box,
+        // while below leaves 12px of options. Neither overflow can be scrolled to - the list is
+        // position: fixed - so the choice is only ever about which end stays visible.
         this.openAbove = true;
         this.optionsListMaxHeight = Math.max(minUsableHeight, spaceAbove);
       } else {

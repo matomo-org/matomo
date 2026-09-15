@@ -252,19 +252,20 @@ describe('CorePluginsAdmin/FormField/FieldExpandableSelect', () => {
       expect(findInBody('.firstLevel').style.maxHeight).toBe('150px');
     });
 
-    it('stays below the field when above has more room but still not enough', async () => {
+    it('opens above when the room there is more, even below the usable minimum', async () => {
       const wrapper = mountSelect();
       vi.stubGlobal('innerHeight', 300);
-      // -4px below and 126px above: above offers more, but cannot take the 150px minimum. Opening
-      // above anchors the list's bottom edge to the field and overshoots off the top of the
-      // viewport, which a fixed-position list gives no way to reach.
+      // -4px below and 126px above: neither reaches 150, and above wins. Measured in a browser at
+      // this exact layout, opening above leaves the full 150px of options on screen and clips 8px
+      // of the search box; opening below would leave 12px of options. The options sit at the
+      // bottom of the dropdown, so the side with less room clips the search box, not the list.
       layOut(wrapper, 200);
 
       await wrapper.find('.select-wrapper').trigger('click');
       await wrapper.vm.$nextTick();
 
-      expect(findInBody('.expandableList').style.top).toBe('238px');
-      expect(findInBody('.expandableList').style.bottom).toBe('');
+      expect(findInBody('.expandableList').style.bottom).toBe('108px');
+      expect(findInBody('.expandableList').style.top).toBe('');
       expect(findInBody('.firstLevel').style.maxHeight).toBe('150px');
     });
 
