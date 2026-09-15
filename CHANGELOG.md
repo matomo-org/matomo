@@ -115,6 +115,15 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   site selector turn their chevrons too. Two changes affect plugin stylesheets: the select's chevron now sets its
   own `font-size` instead of inheriting the surrounding text size, and `.expandableSelector__chevron` uses
   `margin-right` rather than `padding-right`, so that the rotation turns the glyph in place.
+* The expandable select (`uicontrol="expandable-select"`) now renders its option list as a direct child of
+  `<body>` and positions it against the viewport, so that a scrolling or clipping ancestor — a modal, a panel —
+  can no longer cut it off. The list is no longer a descendant of `.expandableSelector`, so plugin stylesheets
+  and scripts that reached it that way (or through an enclosing `.modal`) no longer match. It carries the
+  classes `expandableList expandableSelector__list` and a `data-name` attribute holding the field's name, which
+  is the supported way to target a particular field's list. An element rendered at page level that belongs to a
+  control inside a Materialize modal can set `data-matomo-modal-escapee` to that modal's
+  `data-matomo-modal-id` to be exempted from its focus trap, which otherwise prevents it from holding focus. The
+  exemption applies only to the modal named, so an element belonging to one modal cannot hold focus over another.
 
 ## Matomo 5.14.0
 

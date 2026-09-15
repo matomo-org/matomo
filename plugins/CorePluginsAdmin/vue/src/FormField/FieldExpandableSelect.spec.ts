@@ -72,6 +72,9 @@ afterEach(() => {
   // and wiping the markup would leave those attached to elements no test can reach any more
   mounted.splice(0).forEach((wrapper) => wrapper.unmount());
   document.body.innerHTML = '';
+  // vitest.config.ts does not set unstubGlobals, so a stubbed innerHeight would otherwise stay in
+  // force for every later describe block and make them order-dependent
+  vi.unstubAllGlobals();
 });
 
 describe('CorePluginsAdmin/FormField/FieldExpandableSelect', () => {
@@ -79,6 +82,108 @@ describe('CorePluginsAdmin/FormField/FieldExpandableSelect', () => {
     mountSelect({ name: 'selectexpand' });
 
     expect(findInBody('.expandableSelector__list').dataset.name).toBe('selectexpand');
+  });
+
+  it('does not exempt the list from a modal focus trap when the field is not in a modal', async () => {
+    const wrapper = mountSelect();
+    await wrapper.find('.select-wrapper').trigger('click');
+
+    // marking every list would let one hold focus over an unrelated modal
+    expect(findInBody('.expandableSelector__list').hasAttribute('data-matomo-modal-escapee'))
+      .toBe(false);
+  });
+
+  it('exempts the list from the focus trap when its field is inside a modal', async () => {
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    document.body.appendChild(modal);
+
+    const wrapper = mount(FieldExpandableSelect as any, {
+      attachTo: modal,
+      props: { availableOptions },
+    });
+    mounted.push(wrapper);
+
+    await wrapper.find('.select-wrapper').trigger('click');
+
+    expect(findInBody('.expandableSelector__list').hasAttribute('data-matomo-modal-escapee'))
+      .toBe(true);
+  });
+
+  it('names the modal it belongs to, so a sibling modal does not share the exemption', async () => {
+    const ids = [];
+
+    for (let i = 0; i < 2; i += 1) {
+      const modal = document.createElement('div');
+      modal.className = 'modal';
+      document.body.appendChild(modal);
+
+      const wrapper = mount(FieldExpandableSelect as any, {
+        attachTo: modal,
+        props: { availableOptions },
+      });
+      mounted.push(wrapper);
+
+      // eslint-disable-next-line no-await-in-loop
+      await wrapper.find('.select-wrapper').trigger('click');
+      ids.push(modal.getAttribute('data-matomo-modal-id'));
+    }
+
+    expect(ids[0]).toBeTruthy();
+    expect(ids[1]).toBeTruthy();
+    // a shared or absent token would let a list escape the trap of a modal stacked above its own
+    expect(ids[0]).not.toBe(ids[1]);
+  });
+
+  /**
+   * The two halves of this contract sit in different files, joined only by matching string
+   * literals: this component writes data-matomo-modal-id and data-matomo-modal-escapee, and
+   * materialize-bc.js reads them. Either side's own spec stays green if the other is renamed,
+   * so drive the markup this component really emits through the real shim.
+   */
+  it('is let through the real shim by the modal it tags, and trapped by any other', async () => {
+    const trapped: unknown[] = [];
+    const ready: Array<() => void> = [];
+    const M = {
+      initializeJqueryWrapper: () => {},
+      Tabs: {},
+      Modal: {
+        prototype: {
+          _handleFocus(this: unknown, event: { target: unknown }) { trapped.push(event.target); },
+        },
+      },
+    };
+    const jq = (() => ({ ready: (cb: () => void) => { ready.push(cb); } })) as any;
+    jq.fn = {};
+    (globalThis as any).M = M;
+    (globalThis as any).$ = jq;
+
+    await import('../../../../CoreHome/javascripts/materialize-bc.js');
+    ready.forEach((cb) => cb());
+
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    document.body.appendChild(modal);
+
+    const wrapper = mount(FieldExpandableSelect as any, {
+      attachTo: modal,
+      props: { availableOptions },
+    });
+    mounted.push(wrapper);
+    await wrapper.find('.select-wrapper').trigger('click');
+
+    const search = findInBody('.expandableSelector__list .expandableSearch');
+
+    M.Modal.prototype._handleFocus.call({ el: modal }, { target: search });
+    expect(trapped.length).toBe(0);
+
+    const other = document.createElement('div');
+    other.setAttribute('data-matomo-modal-id', 'someone-else');
+    M.Modal.prototype._handleFocus.call({ el: other }, { target: search });
+    expect(trapped.length).toBe(1);
+
+    delete (globalThis as any).M;
+    delete (globalThis as any).$;
   });
 
   it('defaults searchOnGroup to false', () => {
@@ -133,8 +238,11 @@ describe('CorePluginsAdmin/FormField/FieldExpandableSelect', () => {
   });
 
   describe('viewport fitting', () => {
+    // configurable so a test can lay the same elements out twice, which is what re-running the
+    // fit against a moved field needs
     function mockRect(element: Element, top: number, height = 0) {
       Object.defineProperty(element, 'getBoundingClientRect', {
+        configurable: true,
         value: () => ({
           top, bottom: top + height, left: 0, right: 0, width: 0, height,
         }),
@@ -193,6 +301,83 @@ describe('CorePluginsAdmin/FormField/FieldExpandableSelect', () => {
       expect(findInBody('.expandableList').style.top).toBe('138px');
       expect(findInBody('.expandableList').style.bottom).toBe('');
       expect(findInBody('.firstLevel').style.maxHeight).toBe('150px');
+    });
+
+    it('opens above when the room there is more, even below the usable minimum', async () => {
+      const wrapper = mountSelect();
+      vi.stubGlobal('innerHeight', 300);
+      // -4px below and 126px above: neither reaches 150, and above wins. Measured in a browser at
+      // this exact layout, opening above leaves the full 150px of options on screen and clips 8px
+      // of the search box; opening below would leave 12px of options. The options sit at the
+      // bottom of the dropdown, so the side with less room clips the search box, not the list.
+      layOut(wrapper, 200);
+
+      await wrapper.find('.select-wrapper').trigger('click');
+      await wrapper.vm.$nextTick();
+
+      expect(findInBody('.expandableList').style.bottom).toBe('108px');
+      expect(findInBody('.expandableList').style.top).toBe('');
+      expect(findInBody('.firstLevel').style.maxHeight).toBe('150px');
+    });
+
+    it('still opens above when the room there holds the list within the gutter', async () => {
+      const wrapper = mountSelect();
+      vi.stubGlobal('innerHeight', 378);
+      // 60px below and 140px above. Anchored by its bottom edge, a 150px list puts its top edge at
+      // 140 - (150 - 16) = 6px, so it is fully on screen and only eats into the 16px gutter - the
+      // same trade the below-the-field branch already makes. Testing spaceAbove against the bare
+      // 150 would send this below, where 60px of room clips it far worse.
+      layOut(wrapper, 214);
+
+      await wrapper.find('.select-wrapper').trigger('click');
+      await wrapper.vm.$nextTick();
+
+      expect(findInBody('.expandableList').style.bottom).toBe('172px');
+      expect(findInBody('.expandableList').style.top).toBe('');
+      expect(findInBody('.firstLevel').style.maxHeight).toBe('150px');
+    });
+
+    it('returns the list below the field once it scrolls back into open space', async () => {
+      const wrapper = mountSelect();
+      vi.stubGlobal('innerHeight', 400);
+      layOut(wrapper, 292);
+
+      await wrapper.find('.select-wrapper').trigger('click');
+      await wrapper.vm.$nextTick();
+      expect(findInBody('.expandableList').style.bottom).toBe('116px');
+
+      // the field moves back into open space while the list is still open; the branch that picked
+      // "above" has to be undone, or the list stays stranded above a field that no longer needs it
+      vi.stubGlobal('innerHeight', 800);
+      layOut(wrapper, 300);
+      (wrapper.vm as any).fitOptionsList();
+      await wrapper.vm.$nextTick();
+
+      expect(findInBody('.expandableList').style.top).toBe('338px');
+      expect(findInBody('.expandableList').style.bottom).toBe('');
+    });
+  });
+
+  describe('closing after a press that started inside the list', () => {
+    it('clears the press marker on mouseup so a later escape still closes', async () => {
+      const wrapper = mountSelect();
+      await wrapper.find('.select-wrapper').trigger('click');
+      await wrapper.vm.$nextTick();
+
+      // a press inside the teleported list must not read as a click outside the field
+      findInBody('.expandableList').dispatchEvent(
+        new MouseEvent('mousedown', { bubbles: true }),
+      );
+      expect((wrapper.vm as any).isMouseDownInsideList).toBe(true);
+
+      // releasing on the field is a release the directive owns, so it never calls blur() and
+      // nothing there clears the marker; releasing the press has to
+      window.dispatchEvent(new MouseEvent('mouseup', { bubbles: true }));
+      expect((wrapper.vm as any).isMouseDownInsideList).toBe(false);
+
+      // escape reaches blur() without a mousedown of its own, and must not be swallowed
+      (wrapper.vm as any).onBlur();
+      expect((wrapper.vm as any).showSelect).toBe(false);
     });
   });
 
