@@ -8,15 +8,20 @@
 import { PluginCard } from '../types';
 import { makePlugin } from '../testMarketplaceFixtures';
 import {
+  buildPromoSections,
   buildSections,
   buildTabs,
   filterPlugins,
+  isOwned,
   isUnclassified,
   matchesQuery,
   matchesTab,
   ownerLabel,
   pluginCategories,
+  pluginPromotions,
   parseMarketplaceDate,
+  SECTION_BESTSELLING,
+  SECTION_FEATURED,
   sortPlugins,
   SORT_ALPHA,
   SORT_DEVELOPER,
@@ -324,6 +329,146 @@ describe('Marketplace/pluginGrouping', () => {
       expect(isUnclassified(makePlugin({ name: 'a' }))).toBe(true);
       expect(isUnclassified(makePlugin({ name: 'a', categories: ['uncategorised'] }))).toBe(true);
       expect(isUnclassified(makePlugin({ name: 'a', categories: ['insights'] }))).toBe(false);
+    });
+  });
+
+  describe('pluginPromotions', () => {
+    it('reads the positions the Marketplace sent', () => {
+      const plugin = makePlugin({ promotions: { featured: 0, bestselling: 2 } });
+      expect(pluginPromotions(plugin)).toEqual({ featured: 0, bestselling: 2 });
+    });
+
+    it('answers empty for a plugin in no list', () => {
+      expect(pluginPromotions(makePlugin({ promotions: {} }))).toEqual({});
+    });
+
+    it('answers empty rather than throwing for a response from before the field existed', () => {
+      expect(pluginPromotions(makePlugin({ promotions: undefined }))).toEqual({});
+      expect(pluginPromotions(makePlugin({ promotions: null as never }))).toEqual({});
+      expect(pluginPromotions(makePlugin({ promotions: [] as never }))).toEqual({});
+    });
+
+    it('drops an entry whose position is not a number, since the rows order on it', () => {
+      const plugin = makePlugin({
+        promotions: { featured: '1', bestselling: null, newest: NaN, '': 0 } as never,
+      });
+      expect(pluginPromotions(plugin)).toEqual({});
+    });
+  });
+
+  describe('isOwned', () => {
+    it('counts an installed plugin and a licensed one, whatever the licence says', () => {
+      expect(isOwned(makePlugin({ isInstalled: true }))).toBe(true);
+      expect(isOwned(makePlugin({ licenseStatus: 'Active' }))).toBe(true);
+      expect(isOwned(makePlugin({ licenseStatus: 'Cancelled' }))).toBe(true);
+    });
+
+    it('does not count a requested trial, which is not a licence', () => {
+      expect(isOwned(makePlugin({ isTrialRequested: true }))).toBe(false);
+      expect(isOwned(makePlugin())).toBe(false);
+    });
+  });
+
+  describe('buildPromoSections', () => {
+    const featured = (name: string, position: number, overrides = {}) => makePlugin({
+      name,
+      promotions: { featured: position },
+      ...overrides,
+    });
+
+    const enoughFeatured = () => [
+      featured('d', 3),
+      featured('b', 1),
+      featured('a', 0),
+      featured('c', 2),
+    ];
+
+    it('puts Featured before Best selling', () => {
+      const plugins = [
+        ...enoughFeatured(),
+        makePlugin({ name: 'e', promotions: { bestselling: 0 } }),
+      ];
+
+      expect(buildPromoSections(plugins).map((s) => s.id))
+        .toEqual([SECTION_FEATURED, SECTION_BESTSELLING]);
+    });
+
+    it('orders a row by the position the Marketplace gave it, not by name or date', () => {
+      expect(names(buildPromoSections(enoughFeatured())[0].plugins))
+        .toEqual(['a', 'b', 'c', 'd']);
+    });
+
+    it('falls back to the display name when two plugins share a position', () => {
+      const plugins = [
+        featured('d', 1), featured('c', 1), featured('b', 0), featured('a', 0),
+      ];
+      expect(names(buildPromoSections(plugins)[0].plugins)).toEqual(['a', 'b', 'c', 'd']);
+    });
+
+    it('marks the rows as having no tab, so their See all expands in place', () => {
+      expect(buildPromoSections(enoughFeatured())[0])
+        .toMatchObject({ hasTab: false, isCategory: false });
+    });
+
+    it('leaves out of Featured what the reader already has', () => {
+      const plugins = [
+        ...enoughFeatured(),
+        featured('installed', 4, { isInstalled: true }),
+        featured('licensed', 5, { licenseStatus: 'Active' }),
+      ];
+
+      expect(names(buildPromoSections(plugins)[0].plugins)).toEqual(['a', 'b', 'c', 'd']);
+    });
+
+    it('hides Featured entirely once too few are left to fill it', () => {
+      const plugins = [...enoughFeatured(), featured('e', 4)];
+      const owned = plugins.map((plugin, index) => (index < 2
+        ? { ...plugin, isInstalled: true }
+        : plugin));
+
+      // three left is one row of stragglers at the top of the page, so the row goes rather than
+      // shrinks - the threshold counts what is left after the reader's own plugins are dropped
+      expect(buildPromoSections(owned).map((s) => s.id)).toEqual([]);
+    });
+
+    it('keeps Best selling whole, so the reader can see they already have the popular ones', () => {
+      const plugins = [
+        makePlugin({ name: 'a', promotions: { bestselling: 0 }, isInstalled: true }),
+        makePlugin({ name: 'b', promotions: { bestselling: 1 }, licenseStatus: 'Cancelled' }),
+      ];
+
+      const sections = buildPromoSections(plugins);
+
+      expect(sections.map((s) => s.id)).toEqual([SECTION_BESTSELLING]);
+      expect(names(sections[0].plugins)).toEqual(['a', 'b']);
+    });
+
+    it('shows Best selling from a single plugin, unlike Featured', () => {
+      const plugins = [makePlugin({ name: 'a', promotions: { bestselling: 0 } })];
+      expect(buildPromoSections(plugins).map((s) => s.id)).toEqual([SECTION_BESTSELLING]);
+    });
+
+    it('answers empty for a catalogue with nothing promoted', () => {
+      expect(buildPromoSections([makePlugin({ name: 'a' })])).toEqual([]);
+      expect(buildPromoSections([])).toEqual([]);
+    });
+
+    it('lets one plugin lead both rows', () => {
+      const plugins = [
+        ...enoughFeatured(),
+        makePlugin({ name: 'z', promotions: { featured: 4, bestselling: 0 } }),
+      ];
+
+      const sections = buildPromoSections(plugins);
+
+      expect(names(sections[0].plugins)).toEqual(['a', 'b', 'c', 'd', 'z']);
+      expect(names(sections[1].plugins)).toEqual(['z']);
+    });
+
+    it('does not mutate the catalogue it was given', () => {
+      const plugins = enoughFeatured();
+      buildPromoSections(plugins);
+      expect(names(plugins)).toEqual(['d', 'b', 'a', 'c']);
     });
   });
 

@@ -206,7 +206,10 @@
             "category": "matomo",
             "categories": [
                 "insights"
-            ]
+            ],
+            "promotions": {
+                "featured": 7
+            }
         }
     ]
 }

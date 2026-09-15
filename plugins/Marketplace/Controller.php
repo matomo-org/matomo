@@ -403,6 +403,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'downloadNonce',
             'consumer',
             'categories',
+            'promotions',
             'keywords',
             'isTheme',
             'lastUpdated',

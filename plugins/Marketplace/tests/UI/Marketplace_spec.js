@@ -338,6 +338,55 @@ describe("Marketplace", function () {
         });
     });
 
+    // Asserted on the DOM rather than captured: the promoted rows are the same cards the other
+    // captures already cover, and what is being pinned here is their order and the expanding
+    // "See all", neither of which a screenshot states any more precisely than this does.
+    describe('promoted sections', function () {
+        async function sectionHeadings()
+        {
+            return await page.evaluate(
+                () => [...document.querySelectorAll('.pluginSection__heading')].map((h) => h.textContent.trim())
+            );
+        }
+
+        async function firstSectionCardCount()
+        {
+            return await page.evaluate(
+                () => document.querySelectorAll('.pluginSection:first-child .pluginCard').length
+            );
+        }
+
+        it('leads the overview with Featured, then Best selling, then Bundles', async function () {
+            setEnvironment('superuser', noLicense);
+
+            await page.goto('about:blank');
+            await page.goto(urlBase);
+            await waitForCatalogue();
+
+            const headings = await sectionHeadings();
+
+            expect(headings.slice(0, 3)).to.deep.equal(['Featured', 'Best selling', 'Bundles']);
+        });
+
+        it('expands a promoted row in place instead of opening a tab', async function () {
+            setEnvironment('superuser', noLicense);
+
+            await page.goto('about:blank');
+            await page.goto(urlBase);
+            await waitForCatalogue();
+
+            const beforeCards = await firstSectionCardCount();
+
+            const seeAll = await page.$('.pluginSection:first-child .pluginSection__seeAll');
+            await seeAll.click();
+            await page.waitForTimeout(100);
+
+            expect(await firstSectionCardCount()).to.be.above(beforeCards);
+            // the row expanded where it stands, so the section stack is still what is on screen
+            expect((await sectionHeadings())[0]).to.equal('Featured');
+        });
+    });
+
     [noLicense, expiredLicense, exceededLicense].forEach(function (consumer) {
         // when there is no license it should not show a warning! as it could be due to network problems etc
         it('should show a warning if license is ' + consumer, async function() {

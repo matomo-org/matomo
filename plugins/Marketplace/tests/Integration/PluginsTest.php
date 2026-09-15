@@ -356,6 +356,7 @@ class PluginsTest extends IntegrationTestCase
             'licenseStatus' => '',
             'category' => 'customisation',
             'categories' => [],
+            'promotions' => [],
         ];
         $this->assertEquals($expected, $plugin);
     }
@@ -756,6 +757,68 @@ class PluginsTest extends IntegrationTestCase
         self::assertGreaterThan(0, $checked, 'no plugin in the fixture carries a last updated date');
     }
 
+    public function testEnrichedPluginCarriesThePromotionPositionsItIsListedAt()
+    {
+        $this->service->setOnFetchCallback(function ($action) {
+            if ('plugins' !== $action) {
+                return null;
+            }
+
+            return ['plugins' => [
+                $this->promotedPlugin('CustomReports', ['featured' => 0, 'bestselling' => 1]),
+                $this->promotedPlugin('UsersFlow', ['bestselling' => 4]),
+                $this->promotedPlugin('Bandwidth', []),
+                // a response cached before the field existed, which has to read as "no promotions"
+                // rather than reaching the client as a missing key the grouping would have to guard
+                $this->promotedPlugin('LogViewer', null),
+            ]];
+        });
+
+        $plugins = array_column(
+            $this->plugins->searchPlugins($query = '', $sort = Sort::DEFAULT_SORT, $themesOnly = false),
+            'promotions',
+            'name'
+        );
+
+        self::assertSame(['featured' => 0, 'bestselling' => 1], $plugins['CustomReports']);
+        self::assertSame(['bestselling' => 4], $plugins['UsersFlow']);
+        self::assertSame([], $plugins['Bandwidth']);
+        self::assertSame([], $plugins['LogViewer']);
+    }
+
+    /**
+     * The positions cross a trust boundary and are read as numbers by the client, which orders the
+     * rows on them. Anything that is not one is dropped rather than coerced: a slug left in the
+     * response with a null position would otherwise sort to the front of Featured.
+     */
+    public function testEnrichedPluginDropsPromotionEntriesThatAreNotPositions()
+    {
+        $this->service->setOnFetchCallback(function ($action) {
+            if ('plugins' !== $action) {
+                return null;
+            }
+
+            return ['plugins' => [
+                $this->promotedPlugin('CustomReports', [
+                    'featured' => '3',
+                    'bestselling' => null,
+                    'newest' => 'first',
+                    '' => 2,
+                ]),
+                $this->promotedPlugin('UsersFlow', 'featured'),
+            ]];
+        });
+
+        $plugins = array_column(
+            $this->plugins->searchPlugins($query = '', $sort = Sort::DEFAULT_SORT, $themesOnly = false),
+            'promotions',
+            'name'
+        );
+
+        self::assertSame(['featured' => 3], $plugins['CustomReports']);
+        self::assertSame([], $plugins['UsersFlow']);
+    }
+
     public function testEnrichedBundleCarriesItsSeatTierForTheCard()
     {
         $this->service->setOnFetchCallback(function ($action) {
@@ -834,6 +897,31 @@ class PluginsTest extends IntegrationTestCase
                 ],
             ],
         ];
+    }
+
+    /**
+     * A plugin as the Marketplace sends it, trimmed to what enrichment reads, carrying the
+     * promotions given. Pass null for a response from before the field existed.
+     *
+     * @param array<string, mixed>|string|null $promotions
+     * @return array<string, mixed>
+     */
+    private function promotedPlugin(string $name, $promotions): array
+    {
+        $plugin = [
+            'name' => $name,
+            'displayName' => $name,
+            'owner' => 'InnoCraft',
+            'isDownloadable' => false,
+            'lastUpdated' => '2026-06-02 21:42:40',
+            'shop' => ['url' => 'https://plugins.matomo.org/' . $name, 'variations' => []],
+        ];
+
+        if (null !== $promotions) {
+            $plugin['promotions'] = $promotions;
+        }
+
+        return $plugin;
     }
 
     public function testSearchPluginsShouldFlagUpdatablePluginsFromTheUpdateSummary()

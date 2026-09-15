@@ -51,6 +51,7 @@
             "categories": [
                 "integration"
             ],
+            "promotions": {},
             "versions": [
                 {
                     "name": "6.0.2",
@@ -134,6 +135,7 @@
             "categories": [
                 "development"
             ],
+            "promotions": {},
             "versions": [
                 {
                     "name": "6.0.3",
@@ -216,6 +218,7 @@
             "categories": [
                 "development"
             ],
+            "promotions": {},
             "versions": [
                 {
                     "name": "6.0.6",
@@ -298,6 +301,7 @@
             "categories": [
                 "database"
             ],
+            "promotions": {},
             "versions": [
                 {
                     "name": "6.3.1",
@@ -376,6 +380,7 @@
             "specialOffer": "",
             "category": "uncategorised",
             "categories": [],
+            "promotions": {},
             "versions": [
                 {
                     "name": "3.1.10",
@@ -460,6 +465,7 @@
             "categories": [
                 "database"
             ],
+            "promotions": {},
             "versions": [
                 {
                     "name": "6.0.3",
@@ -539,6 +545,7 @@
             "categories": [
                 "customisation"
             ],
+            "promotions": {},
             "versions": [
                 {
                     "name": "6.0.6",
@@ -621,6 +628,7 @@
             "categories": [
                 "database"
             ],
+            "promotions": {},
             "versions": [
                 {
                     "name": "6.0.3",
@@ -703,6 +711,7 @@
             "categories": [
                 "database"
             ],
+            "promotions": {},
             "versions": [
                 {
                     "name": "6.0.3",
@@ -788,6 +797,7 @@
             "categories": [
                 "security"
             ],
+            "promotions": {},
             "versions": [
                 {
                     "name": "6.0.1",
@@ -869,6 +879,7 @@
             "categories": [
                 "integration"
             ],
+            "promotions": {},
             "versions": [
                 {
                     "name": "6.1.8",
@@ -951,6 +962,7 @@
             "specialOffer": "",
             "category": "uncategorised",
             "categories": [],
+            "promotions": {},
             "versions": [
                 {
                     "name": "4.0.1",
@@ -1031,6 +1043,7 @@
             "categories": [
                 "insights"
             ],
+            "promotions": {},
             "versions": [
                 {
                     "name": "6.0.2",
@@ -1110,6 +1123,7 @@
             "categories": [
                 "development"
             ],
+            "promotions": {},
             "versions": [
                 {
                     "name": "6.0.2",
@@ -1193,6 +1207,7 @@
             "categories": [
                 "development"
             ],
+            "promotions": {},
             "versions": [
                 {
                     "name": "6.0.1",
@@ -1272,6 +1287,7 @@
             "specialOffer": "",
             "category": "uncategorised",
             "categories": [],
+            "promotions": {},
             "versions": [
                 {
                     "name": "3.0.1",
@@ -1357,6 +1373,7 @@
             "categories": [
                 "security"
             ],
+            "promotions": {},
             "versions": [
                 {
                     "name": "6.1.11",
@@ -1440,6 +1457,7 @@
             "categories": [
                 "database"
             ],
+            "promotions": {},
             "versions": [
                 {
                     "name": "6.0.6",
@@ -1522,6 +1540,7 @@
             "categories": [
                 "insights"
             ],
+            "promotions": {},
             "versions": [
                 {
                     "name": "6.2.1",
@@ -1612,6 +1631,7 @@
             "categories": [
                 "integration"
             ],
+            "promotions": {},
             "versions": [
                 {
                     "name": "6.0.4",
@@ -1696,6 +1716,7 @@
             "categories": [
                 "integration"
             ],
+            "promotions": {},
             "versions": [
                 {
                     "name": "6.1.0",
@@ -1781,6 +1802,7 @@
             "categories": [
                 "development"
             ],
+            "promotions": {},
             "versions": [
                 {
                     "name": "6.0.7",
@@ -1865,6 +1887,7 @@
             "categories": [
                 "security"
             ],
+            "promotions": {},
             "versions": [
                 {
                     "name": "6.1.0",
@@ -1947,6 +1970,7 @@
             "categories": [
                 "insights"
             ],
+            "promotions": {},
             "versions": [
                 {
                     "name": "6.0.6",
@@ -2029,6 +2053,7 @@
             "categories": [
                 "development"
             ],
+            "promotions": {},
             "versions": [
                 {
                     "name": "6.2.0",
@@ -2109,6 +2134,7 @@
             "categories": [
                 "security"
             ],
+            "promotions": {},
             "versions": [
                 {
                     "name": "6.0.4",
@@ -2190,6 +2216,7 @@
             "categories": [
                 "integration"
             ],
+            "promotions": {},
             "versions": [
                 {
                     "name": "6.0.4",
@@ -2272,6 +2299,7 @@
             "categories": [
                 "development"
             ],
+            "promotions": {},
             "versions": [
                 {
                     "name": "6.0.2",
@@ -2355,6 +2383,7 @@
             "categories": [
                 "security"
             ],
+            "promotions": {},
             "versions": [
                 {
                     "name": "6.0.9",
@@ -2438,6 +2467,7 @@
             "categories": [
                 "insights"
             ],
+            "promotions": {},
             "versions": [
                 {
                     "name": "6.0.7",
@@ -2518,6 +2548,7 @@
             "categories": [
                 "development"
             ],
+            "promotions": {},
             "versions": [
                 {
                     "name": "6.1.5",

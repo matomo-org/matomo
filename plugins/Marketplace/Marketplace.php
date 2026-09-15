@@ -101,6 +101,7 @@ class Marketplace extends \Piwik\Plugin
         $translationKeys[] = 'Marketplace_ActionInstall';
         $translationKeys[] = 'Marketplace_ActivateLicenseKey';
         $translationKeys[] = 'Marketplace_AllowedUploadFormats';
+        $translationKeys[] = 'Marketplace_BestSelling';
         $translationKeys[] = 'Marketplace_BrowseMarketplace';
         $translationKeys[] = 'Marketplace_BundleUpToXUsers';
         $translationKeys[] = 'Marketplace_Bundles';
@@ -192,6 +193,7 @@ class Marketplace extends \Piwik\Plugin
         $translationKeys[] = 'Marketplace_ByXDevelopers';
         $translationKeys[] = 'Marketplace_ClickToCompletePurchase';
         $translationKeys[] = 'Marketplace_Developer';
+        $translationKeys[] = 'Marketplace_Featured';
         $translationKeys[] = 'Marketplace_FeaturedPlugin';
         $translationKeys[] = 'Marketplace_Home';
         $translationKeys[] = 'Marketplace_LastCommitTime';
@@ -211,6 +213,8 @@ class Marketplace extends \Piwik\Plugin
         $translationKeys[] = 'Marketplace_SearchPlaceholderWithCount';
         $translationKeys[] = 'Marketplace_SeeAll';
         $translationKeys[] = 'Marketplace_SeeAllInCategory';
+        $translationKeys[] = 'Marketplace_SeeLess';
+        $translationKeys[] = 'Marketplace_SeeLessInCategory';
         $translationKeys[] = 'Marketplace_ShowAllPlugins';
         $translationKeys[] = 'Marketplace_ShownPriceIsExclTax';
         $translationKeys[] = 'Marketplace_TryFreeTrialTitle';

@@ -100,7 +100,8 @@
                 "license": null
             },
             "category": "customisation",
-            "categories": []
+            "categories": [],
+            "promotions": {}
         },
         {
             "name": "AnonymousPiwikUsageMeasurement",
@@ -263,7 +264,8 @@
             "category": "uncategorised",
             "categories": [
                 "integration"
-            ]
+            ],
+            "promotions": {}
         },
         {
             "name": "ApiGetWithSitesInfo",
@@ -364,7 +366,8 @@
                 "license": null
             },
             "category": "uncategorised",
-            "categories": []
+            "categories": [],
+            "promotions": {}
         },
         {
             "name": "Bandwidth",
@@ -467,7 +470,8 @@
             "category": "uncategorised",
             "categories": [
                 "development"
-            ]
+            ],
+            "promotions": {}
         },
         {
             "name": "Barometer",
@@ -615,7 +619,8 @@
                 "license": null
             },
             "category": "uncategorised",
-            "categories": []
+            "categories": [],
+            "promotions": {}
         },
         {
             "name": "Chat",
@@ -876,7 +881,8 @@
                 "license": null
             },
             "category": "uncategorised",
-            "categories": []
+            "categories": [],
+            "promotions": {}
         },
         {
             "name": "ClickHeat",
@@ -1017,7 +1023,8 @@
                 "license": null
             },
             "category": "uncategorised",
-            "categories": []
+            "categories": [],
+            "promotions": {}
         },
         {
             "name": "Counter",
@@ -1089,7 +1096,8 @@
                 "license": null
             },
             "category": "uncategorised",
-            "categories": []
+            "categories": [],
+            "promotions": {}
         },
         {
             "name": "CustomAlerts",
@@ -1407,7 +1415,8 @@
             "category": "uncategorised",
             "categories": [
                 "database"
-            ]
+            ],
+            "promotions": {}
         },
         {
             "name": "CustomDimensions",
@@ -1528,7 +1537,8 @@
                 "license": null
             },
             "category": "uncategorised",
-            "categories": []
+            "categories": [],
+            "promotions": {}
         },
         {
             "name": "CustomOptOut",
@@ -1625,7 +1635,8 @@
                 "license": null
             },
             "category": "uncategorised",
-            "categories": []
+            "categories": [],
+            "promotions": {}
         },
         {
             "name": "ExcludeByDDNS",
@@ -1858,7 +1869,8 @@
                 "license": null
             },
             "category": "uncategorised",
-            "categories": []
+            "categories": [],
+            "promotions": {}
         },
         {
             "name": "FeedAnnotation",
@@ -1930,7 +1942,8 @@
                 "license": null
             },
             "category": "uncategorised",
-            "categories": []
+            "categories": [],
+            "promotions": {}
         },
         {
             "name": "FlagCounter",
@@ -2100,7 +2113,8 @@
                 "license": null
             },
             "category": "uncategorised",
-            "categories": []
+            "categories": [],
+            "promotions": {}
         },
         {
             "name": "FreeMobileMessaging",
@@ -2161,7 +2175,8 @@
                 "license": null
             },
             "category": "uncategorised",
-            "categories": []
+            "categories": [],
+            "promotions": {}
         },
         {
             "name": "GoogleAuthenticator",
@@ -2310,7 +2325,8 @@
                 "license": null
             },
             "category": "uncategorised",
-            "categories": []
+            "categories": [],
+            "promotions": {}
         },
         {
             "name": "GrabGravatar",
@@ -2434,7 +2450,8 @@
                 "license": null
             },
             "category": "uncategorised",
-            "categories": []
+            "categories": [],
+            "promotions": {}
         },
         {
             "name": "IntranetGeoIP",
@@ -2808,7 +2825,8 @@
                 "license": null
             },
             "category": "uncategorised",
-            "categories": []
+            "categories": [],
+            "promotions": {}
         },
         {
             "name": "Ip2Hostname",
@@ -2933,7 +2951,8 @@
                 "license": null
             },
             "category": "uncategorised",
-            "categories": []
+            "categories": [],
+            "promotions": {}
         },
         {
             "name": "IP2Location",
@@ -3142,7 +3161,8 @@
                 "license": null
             },
             "category": "uncategorised",
-            "categories": []
+            "categories": [],
+            "promotions": {}
         },
         {
             "name": "IPv6Usage",
@@ -3230,7 +3250,8 @@
                 "license": null
             },
             "category": "uncategorised",
-            "categories": []
+            "categories": [],
+            "promotions": {}
         },
         {
             "name": "kDebug",
@@ -3334,7 +3355,8 @@
                 "license": null
             },
             "category": "uncategorised",
-            "categories": []
+            "categories": [],
+            "promotions": {}
         },
         {
             "name": "LdapConnection",
@@ -3459,7 +3481,8 @@
                 "license": null
             },
             "category": "uncategorised",
-            "categories": []
+            "categories": [],
+            "promotions": {}
         },
         {
             "name": "LdapVisitorInfo",
@@ -3605,7 +3628,8 @@
                 "license": null
             },
             "category": "uncategorised",
-            "categories": []
+            "categories": [],
+            "promotions": {}
         },
         {
             "name": "LiveTab",
@@ -3755,7 +3779,8 @@
                 "license": null
             },
             "category": "uncategorised",
-            "categories": []
+            "categories": [],
+            "promotions": {}
         },
         {
             "name": "LoginHttpAuth",
@@ -3852,7 +3877,8 @@
                 "license": null
             },
             "category": "uncategorised",
-            "categories": []
+            "categories": [],
+            "promotions": {}
         },
         {
             "name": "LoginRevokable",
@@ -3913,7 +3939,8 @@
                 "license": null
             },
             "category": "uncategorised",
-            "categories": []
+            "categories": [],
+            "promotions": {}
         },
         {
             "name": "LogViewer",
@@ -4016,7 +4043,8 @@
             "category": "uncategorised",
             "categories": [
                 "database"
-            ]
+            ],
+            "promotions": {}
         },
         {
             "name": "page2images-visual-link",
@@ -4089,7 +4117,8 @@
                 "license": null
             },
             "category": "uncategorised",
-            "categories": []
+            "categories": [],
+            "promotions": {}
         },
         {
             "name": "PaidPlugin1",
@@ -4282,7 +4311,10 @@
             "category": "matomo",
             "categories": [
                 "insights"
-            ]
+            ],
+            "promotions": {
+                "featured": 7
+            }
         },
         {
             "name": "PerformanceInfo",
@@ -4428,7 +4460,8 @@
                 "license": null
             },
             "category": "uncategorised",
-            "categories": []
+            "categories": [],
+            "promotions": {}
         },
         {
             "name": "PerformanceMonitor",
@@ -4610,7 +4643,8 @@
                 "license": null
             },
             "category": "uncategorised",
-            "categories": []
+            "categories": [],
+            "promotions": {}
         },
         {
             "name": "QueuedTracking",
@@ -5013,7 +5047,8 @@
             "category": "uncategorised",
             "categories": [
                 "development"
-            ]
+            ],
+            "promotions": {}
         },
         {
             "name": "ReferrersManager",
@@ -5110,7 +5145,8 @@
                 "license": null
             },
             "category": "uncategorised",
-            "categories": []
+            "categories": [],
+            "promotions": {}
         },
         {
             "name": "RerUserDates",
@@ -5394,7 +5430,8 @@
                 "license": null
             },
             "category": "uncategorised",
-            "categories": []
+            "categories": [],
+            "promotions": {}
         },
         {
             "name": "SecurityInfo",
@@ -5490,7 +5527,8 @@
             "category": "uncategorised",
             "categories": [
                 "security"
-            ]
+            ],
+            "promotions": {}
         },
         {
             "name": "ServerMonitor",
@@ -5574,7 +5612,8 @@
                 "license": null
             },
             "category": "uncategorised",
-            "categories": []
+            "categories": [],
+            "promotions": {}
         },
         {
             "name": "ShibbolethLogin",
@@ -5678,7 +5717,8 @@
                 "license": null
             },
             "category": "uncategorised",
-            "categories": []
+            "categories": [],
+            "promotions": {}
         },
         {
             "name": "ShortcodeTracker",
@@ -5819,7 +5859,8 @@
                 "license": null
             },
             "category": "uncategorised",
-            "categories": []
+            "categories": [],
+            "promotions": {}
         },
         {
             "name": "SimpleSysMon",
@@ -5986,7 +6027,8 @@
                 "license": null
             },
             "category": "uncategorised",
-            "categories": []
+            "categories": [],
+            "promotions": {}
         },
         {
             "name": "SnoopyBehavioralScoring",
@@ -6072,7 +6114,8 @@
                 "license": null
             },
             "category": "uncategorised",
-            "categories": []
+            "categories": [],
+            "promotions": {}
         },
         {
             "name": "TasksTimetable",
@@ -6214,7 +6257,8 @@
             "category": "uncategorised",
             "categories": [
                 "development"
-            ]
+            ],
+            "promotions": {}
         },
         {
             "name": "TopPagesByActions",
@@ -6318,7 +6362,8 @@
                 "license": null
             },
             "category": "uncategorised",
-            "categories": []
+            "categories": [],
+            "promotions": {}
         },
         {
             "name": "TrackingCodeCustomizer",
@@ -6419,7 +6464,8 @@
                 "license": null
             },
             "category": "uncategorised",
-            "categories": []
+            "categories": [],
+            "promotions": {}
         },
         {
             "name": "TreemapVisualization",
@@ -6521,7 +6567,8 @@
             "category": "insights",
             "categories": [
                 "insights"
-            ]
+            ],
+            "promotions": {}
         },
         {
             "name": "UptimeRobotMonitor",
@@ -6634,7 +6681,8 @@
                 "license": null
             },
             "category": "uncategorised",
-            "categories": []
+            "categories": [],
+            "promotions": {}
         },
         {
             "name": "VisitorAvatar",
@@ -6755,7 +6803,8 @@
                 "license": null
             },
             "category": "uncategorised",
-            "categories": []
+            "categories": [],
+            "promotions": {}
         }
     ]
 }

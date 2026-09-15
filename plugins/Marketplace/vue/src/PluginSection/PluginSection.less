@@ -53,6 +53,16 @@ section.pluginSection {
   }
 }
 
+// The chevron points along the row it opens, and turns to point back once the row is open. Only a
+// row with no tab can be open, so a tabbed section's chevron never turns.
+.pluginSection__seeAllIcon {
+  transition: transform 0.15s ease;
+}
+
+.pluginSection__seeAllIcon--expanded {
+  transform: rotate(-90deg);
+}
+
 // override: Materialize's global `button:focus` paints its own fill on every bare <button> and
 // outranks a lone class, so the tag has to appear here for this link-styled button to keep its
 // own background on click. Keyboard focus still shows through Morpheus's `:focus-visible`

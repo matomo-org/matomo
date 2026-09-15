@@ -88,9 +88,12 @@
         :key="section.id"
         :section-id="section.id"
         :is-category="section.isCategory"
+        :has-tab="section.hasTab"
+        :expanded="expandedSections.includes(section.id)"
         :plugins="section.plugins"
         :context="cardContext"
         @seeAll="seeAllInSection($event)"
+        @toggleExpanded="toggleSectionExpanded($event)"
         @openDetails="openDetailsModal($event)"
         @requestTrial="showRequestTrialForPlugin = $event"
       />
@@ -140,6 +143,7 @@ import PluginDetailsModal from '../PluginDetailsModal/PluginDetailsModal.vue';
 import { MarketplaceContext, PluginCard } from '../types';
 import { tabLabel } from '../PluginGrid/categoryLabels';
 import {
+  buildPromoSections,
   buildSections,
   buildTabs,
   filterPlugins,
@@ -188,6 +192,7 @@ export interface MarketplaceState {
   searchQuery: string;
   pageSize: number;
   paginated: boolean;
+  expandedSections: string[];
   showRequestTrialForPlugin: PluginCard|null;
   showStartFreeTrialForPlugin: PluginCard|null;
   showPluginDetailsForPlugin: PluginCard|null;
@@ -244,6 +249,7 @@ export default defineComponent({
       searchQuery: '',
       pageSize: PAGE_SIZE,
       paginated: true,
+      expandedSections: [],
       showRequestTrialForPlugin: null,
       showStartFreeTrialForPlugin: null,
       showPluginDetailsForPlugin: null,
@@ -289,10 +295,16 @@ export default defineComponent({
      * first cards of the category it links to rather than a differently ordered sample.
      */
     sections(): PluginSectionType[] {
-      return buildSections(this.allPlugins, tabLabel).map((section) => ({
-        ...section,
-        plugins: sortPlugins(section.plugins, this.pluginSort),
-      }));
+      // The promoted rows keep the order the Marketplace gave them - promoting a plugin is
+      // pointless if the page's sort can move it to the end of the row - so only the stack below
+      // them is re-sorted. Sorting is hidden on this view anyway; see showSort().
+      return [
+        ...buildPromoSections(this.allPlugins),
+        ...buildSections(this.allPlugins, tabLabel).map((section) => ({
+          ...section,
+          plugins: sortPlugins(section.plugins, this.pluginSort),
+        })),
+      ];
     },
     /**
      * Whether the page shows the section stack rather than one flat grid. Only on All plugins with
@@ -577,6 +589,20 @@ export default defineComponent({
           tabs.focusActiveTab();
         }
       });
+    },
+
+    /**
+     * Opens or closes a promoted row in place. Nothing is written to the hash: the row is not a
+     * tab, and a reader arriving on the page should see the Marketplace's own first row rather
+     * than someone else's expanded one.
+     */
+    toggleSectionExpanded(sectionId: string) {
+      if (this.expandedSections.includes(sectionId)) {
+        this.expandedSections = this.expandedSections.filter((id) => id !== sectionId);
+        return;
+      }
+
+      this.expandedSections = [...this.expandedSections, sectionId];
     },
 
     /** Scrolls without animating for readers who have asked for less motion. */

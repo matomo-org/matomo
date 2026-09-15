@@ -20,6 +20,24 @@ export const TAB_BUNDLES = 'bundles';
 export const TAB_THEMES = 'themes';
 
 /**
+ * The two promoted rows at the top of the overview. Not tabs and not categories: the Marketplace
+ * chooses what is in them and in what order, and "See all" opens the row in place rather than
+ * moving to a list of its own - see {@link buildPromoSections}.
+ */
+export const SECTION_FEATURED = 'featured';
+export const SECTION_BESTSELLING = 'bestselling';
+
+/** The promoted sections, in display order. Featured leads, Best selling follows. */
+export const PROMO_SECTIONS = [SECTION_FEATURED, SECTION_BESTSELLING];
+
+/**
+ * Featured is the first thing on the page, so a row of one or two reads as an empty Marketplace
+ * rather than as a short list. Below this many it is left out entirely; every other section shows
+ * from one plugin up.
+ */
+export const FEATURED_MIN_PLUGINS = 4;
+
+/**
  * Everything no category claims. Invented by {@link buildTabs}, not sent by the Marketplace, so
  * that unclassified plugins - most of the catalogue - get a tab of their own.
  */
@@ -53,6 +71,12 @@ export interface PluginSection {
   /** The tab the section links to, and what "See all" writes to the `category` hash parameter. */
   id: string;
   isCategory: boolean;
+  /**
+   * Whether the section has a tab behind it. False for the promoted rows, whose "See all" expands
+   * the row where it stands: there is no tab for it to open, and the set is the Marketplace's
+   * choice rather than a category anyone can browse to.
+   */
+  hasTab: boolean;
   /** Every plugin in the section, not only the ones a single row has room for. */
   plugins: PluginCard[];
 }
@@ -128,6 +152,43 @@ export function pluginCategories(plugin: PluginCard): string[] {
   return categories.filter((slug): slug is string => (
     typeof slug === 'string' && !!slug && slug !== CATEGORY_UNCATEGORISED
   ));
+}
+
+/**
+ * The promotion lists this plugin appears in, as slug -> position. Anything malformed reads as no
+ * promotion rather than throwing: a bad position would otherwise decide where a card sits.
+ */
+export function pluginPromotions(plugin: PluginCard): Record<string, number> {
+  const { promotions } = plugin;
+
+  if (!promotions || typeof promotions !== 'object' || Array.isArray(promotions)) {
+    return {};
+  }
+
+  const positions: Record<string, number> = {};
+
+  Object.keys(promotions).forEach((slug) => {
+    const position = promotions[slug];
+
+    if (slug && typeof position === 'number' && Number.isFinite(position)) {
+      positions[slug] = position;
+    }
+  });
+
+  return positions;
+}
+
+/**
+ * Whether the reader already has this plugin, by any route: installed, or covered by a license
+ * whatever its state. A cancelled or expired license still means they have seen the plugin and
+ * decided, so Featured - which is there to introduce plugins - passes over it. A requested trial
+ * is not a licence and does not count.
+ *
+ * Only Featured filters on this. Best selling deliberately shows what the reader owns, so that
+ * owning the popular ones is visible rather than inferred from an absence.
+ */
+export function isOwned(plugin: PluginCard): boolean {
+  return !!plugin.isInstalled || !!plugin.licenseStatus;
 }
 
 /** Whether no category claims this plugin. */
@@ -270,8 +331,42 @@ export function buildSections(
     .map((tab) => ({
       id: tab.id,
       isCategory: tab.isCategory,
+      hasTab: true,
       plugins: plugins.filter((plugin) => matchesTab(plugin, tab.id)),
     }));
+}
+
+/**
+ * The promoted rows, in front of the stack {@link buildSections} derives from the tab bar.
+ *
+ * Kept apart from that one on purpose: those sections are a tab's contents by construction, and
+ * these have no tab. Ordering is the Marketplace's position, not the page's sort - promoting a
+ * plugin is pointless if the reader's sort can move it to the bottom of the row - and ties fall
+ * back to the display name so a duplicated position cannot reorder itself between renders.
+ *
+ * A row the reader has nothing to gain from is left out: Featured hides what they already own, and
+ * then hides itself unless {@link FEATURED_MIN_PLUGINS} plugins are left to show.
+ */
+export function buildPromoSections(plugins: PluginCard[]): PluginSection[] {
+  const sections: PluginSection[] = [];
+
+  PROMO_SECTIONS.forEach((id) => {
+    const promoted = plugins
+      .filter((plugin) => id in pluginPromotions(plugin))
+      .filter((plugin) => id !== SECTION_FEATURED || !isOwned(plugin))
+      .sort((a, b) => (pluginPromotions(a)[id] - pluginPromotions(b)[id])
+        || (a.displayName || '').localeCompare(b.displayName || ''));
+
+    const minimum = id === SECTION_FEATURED ? FEATURED_MIN_PLUGINS : 1;
+
+    if (promoted.length >= minimum) {
+      sections.push({
+        id, isCategory: false, hasTab: false, plugins: promoted,
+      });
+    }
+  });
+
+  return sections;
 }
 
 /**
