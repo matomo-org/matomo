@@ -325,35 +325,42 @@ Application.prototype.doRunTests = function (mocha) {
         page._reset();
     });
 
-    this.runner.on('end', function() {
-      process.exitCode = this.failures;
+    this.runner.on('end', function () {
+        process.exitCode = this.failures;
 
-      // Read off the merged config rather than a flag decided in config.dist.js: run-tests.js
-      // layers tests/UI/config.js over the defaults, so a local override can turn the reporter on
-      // or off and a flag settled in the defaults would not follow it.
-      const reporterEnabled = (config.reporterOptions || {}).reporterEnabled;
-      const usesTestomatioReporter = typeof reporterEnabled === 'string'
-        && reporterEnabled.indexOf('@testomatio/reporter') !== -1;
+        // Read off the merged config rather than a flag decided in config.dist.js: run-tests.js
+        // layers tests/UI/config.js over the defaults, so a local override can turn the reporter
+        // on or off and a flag settled in the defaults would not follow it. Both shapes count: the
+        // adapter named in a mocha-multi-reporters list, and the adapter used as the sole reporter.
+        const reporters = [config.reporter, (config.reporterOptions || {}).reporterEnabled];
+        const usesTestomatioReporter = reporters.some((value) => typeof value === 'string'
+            && value.indexOf('@testomatio/reporter') !== -1);
 
-      // The Testomatio reporter keeps sending API requests after this event, so when it is active
-      // we still have to wait for it (#21760). Without it there is nothing left to flush, and the
-      // wait is dead time on every run.
-      if (usesTestomatioReporter) {
-        setTimeout(() => process.exit(), 10000);
-        return;
-      }
+        // The Testomatio reporter keeps sending API requests after this event, so when it is
+        // active we still have to wait for it (#21760). Without it there is nothing left to
+        // flush, and the wait is dead time on every run.
+        if (usesTestomatioReporter) {
+            setTimeout(() => process.exit(), 10000);
+            return;
+        }
 
-      // Letting node exit on its own drains stdout first; a bare process.exit() truncates piped
-      // output. The browser is what holds the loop open, so close it.
-      page.browser.close().catch(() => {});
+        // Letting node exit on its own drains stdout first; a bare process.exit() truncates piped
+        // output. The browser is what holds the loop open, so close it.
+        page.browser.close().catch(() => {});
 
-      // Safety net only, and unref'd so it cannot itself delay the exit. It announces itself: this
-      // path is the bare process.exit() the line above avoids, so a silent firing would quietly
-      // bring back both the truncation and the ten seconds with nothing to notice.
-      setTimeout(() => {
-        console.log('Forcing exit: something is still holding the event loop open after the run.');
-        process.exit();
-      }, 5000).unref();
+        // Safety net only, and unref'd so it cannot itself delay the exit. It has to announce
+        // itself, or a silent firing would quietly bring back both the truncation and the ten
+        // seconds with nothing to notice - so exit from the write's callback rather than the same
+        // tick, because stdout is asynchronous when it is a pipe (CI, or any `| tee`) and
+        // process.exit() discards pending writes. The inner timer is only there so a wedged pipe
+        // cannot hang the run instead.
+        setTimeout(() => {
+            setTimeout(() => process.exit(), 1000).unref();
+            process.stdout.write(
+                'Forcing exit: something is still holding the event loop open after the run.\n',
+                () => process.exit(),
+            );
+        }, 5000).unref();
     })
 };
 
