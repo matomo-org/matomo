@@ -203,11 +203,38 @@ class Access
         return true;
     }
 
+    /**
+     * Returns the sites the given login has access to, as access/idsite pairs.
+     *
+     * Only a login that has a user row resolves to sites. The anonymous user is exempt.
+     *
+     * @param string $login
+     * @return array
+     */
     public function getRawSitesWithSomeViewAccess($login)
     {
+        // anonymous is exempt, its user row is only created during installation and cannot be removed
+        // through the API
+        if (strtolower((string) $login) !== 'anonymous' && !$this->loginExists((string) $login)) {
+            return array();
+        }
+
         $sql = self::getSqlAccessSite("access, t2.idsite");
 
-        return Db::fetchAll($sql, $login);
+        return Db::fetchAll($sql, array($login));
+    }
+
+    /**
+     * Returns whether a user row exists for the given login.
+     *
+     * The login is bound as a parameter rather than compared against another table, so a difference in
+     * column collation cannot affect the result.
+     */
+    private function loginExists(string $login): bool
+    {
+        $userTable = Common::prefixTable('user');
+
+        return false !== Db::fetchOne("SELECT 1 FROM `" . $userTable . "` WHERE login = ? LIMIT 1", array($login));
     }
 
     /**

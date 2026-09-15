@@ -14,6 +14,7 @@ use Piwik\Access\Role\Write;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\EventDispatcher;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\Plugins\UsersManager\API;
 use Piwik\Plugins\UsersManager\Model;
@@ -437,6 +438,161 @@ class ModelTest extends IntegrationTestCase
         $this->assertEquals($id4, $tokens[0]['idusertokenauth']);
         $this->assertEquals($id5, $tokens[1]['idusertokenauth']);
         $this->assertCount(2, $tokens);
+    }
+
+    public function testAddUserAccessRefusesALoginWithoutAUser()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_ExceptionUserDoesNotExist');
+
+        try {
+            $this->model->addUserAccess('noSuchLogin', View::ID, array(1));
+        } finally {
+            $this->assertSame(0, $this->countAccessRows('noSuchLogin'));
+        }
+    }
+
+    public function testAddUserAccessStillGrantsAccessToAnExistingUser()
+    {
+        $this->model->addUserAccess($this->login, View::ID, array(1));
+
+        $this->assertEquals(array(
+            array('site' => '1', 'access' => View::ID),
+        ), $this->model->getSitesAccessFromUser($this->login));
+    }
+
+    public function testAddUserRemovesAccessAndTokensLeftBehindByAnEarlierAccount()
+    {
+        $recycledLogin = 'recycledLogin';
+
+        $this->insertAccessRow($recycledLogin, 1, View::ID);
+        $this->insertTokenRow($recycledLogin);
+
+        $this->assertSame(1, $this->countAccessRows($recycledLogin));
+        $this->assertCount(1, $this->model->getAllNonSystemTokensForLogin($recycledLogin));
+
+        // added through the model directly, the way just in time provisioning creates users
+        $this->model->addUser($recycledLogin, 'password', 'recycled@example.org', Date::now()->getDatetime());
+
+        $this->assertSame(0, $this->countAccessRows($recycledLogin));
+        $this->assertSame(array(), $this->model->getSitesAccessFromUser($recycledLogin));
+        $this->assertSame(array(), $this->model->getAllNonSystemTokensForLogin($recycledLogin));
+    }
+
+    public function testAddUserKeepsTheAccessOfTheAnonymousUser()
+    {
+        // the anonymous user is created during installation, so it can already be present here
+        Db::query('DELETE FROM ' . Common::prefixTable('user') . ' WHERE login = ?', array('anonymous'));
+
+        $this->insertAccessRow('anonymous', 1, View::ID);
+        $this->assertSame(1, $this->countAccessRows('anonymous'));
+
+        $this->model->addUser('anonymous', '', 'anonymous@example.org', Date::now()->getDatetime());
+
+        $this->assertSame(1, $this->countAccessRows('anonymous'));
+    }
+
+    public function testAddUserAnnouncesTheCreatedLoginOnce()
+    {
+        $observedLogins = array();
+
+        EventDispatcher::getInstance()->addObserver(
+            'UsersManager.addUser',
+            function ($userLogin) use (&$observedLogins) {
+                $observedLogins[] = $userLogin;
+            }
+        );
+
+        $this->model->addUser('createdLogin', 'password', 'created@example.org', Date::now()->getDatetime());
+
+        $this->assertSame(array('createdLogin'), $observedLogins);
+    }
+
+    public function testAddTokenAuthRefusesARegistrationDateThatDoesNotMatchTheAccount()
+    {
+        $otherDateRegistered = Date::factory($this->getDateRegistered($this->login))->addDay(1)->getDatetime();
+
+        $caught = null;
+
+        try {
+            $this->model->addTokenAuth(
+                $this->login,
+                'token',
+                'MyDescription',
+                Date::now()->getDatetime(),
+                null,
+                false,
+                false,
+                $otherDateRegistered
+            );
+        } catch (\Exception $e) {
+            $caught = $e;
+        }
+
+        $this->assertNotNull($caught, 'A registration date that does not match should not store a token');
+        $this->assertSame(array(), $this->model->getAllNonSystemTokensForLogin($this->login));
+    }
+
+    public function testAddTokenAuthStoresTheTokenWhenTheRegistrationDateMatchesTheAccount()
+    {
+        $idToken = $this->model->addTokenAuth(
+            $this->login,
+            'token',
+            'MyDescription',
+            Date::now()->getDatetime(),
+            null,
+            false,
+            false,
+            $this->getDateRegistered($this->login)
+        );
+
+        $tokens = $this->model->getAllNonSystemTokensForLogin($this->login);
+
+        $this->assertCount(1, $tokens);
+        $this->assertEquals($idToken, $tokens[0]['idusertokenauth']);
+    }
+
+    public function testAddTokenAuthStoresTheTokenWhenNoRegistrationDateIsGiven()
+    {
+        $idToken = $this->model->addTokenAuth($this->login, 'token', 'MyDescription', Date::now()->getDatetime());
+
+        $tokens = $this->model->getAllNonSystemTokensForLogin($this->login);
+
+        $this->assertCount(1, $tokens);
+        $this->assertEquals($idToken, $tokens[0]['idusertokenauth']);
+    }
+
+    private function getDateRegistered(string $login): string
+    {
+        return (string) Db::fetchOne(
+            'SELECT date_registered FROM ' . Common::prefixTable('user') . ' WHERE login = ?',
+            array($login)
+        );
+    }
+
+    private function countAccessRows(string $login): int
+    {
+        return (int) Db::fetchOne(
+            'SELECT COUNT(*) FROM ' . Common::prefixTable('access') . ' WHERE login = ?',
+            array($login)
+        );
+    }
+
+    private function insertAccessRow(string $login, int $idSite, string $access): void
+    {
+        Db::query(
+            'INSERT INTO ' . Common::prefixTable('access') . ' (login, idsite, access) VALUES (?, ?, ?)',
+            array($login, $idSite, $access)
+        );
+    }
+
+    private function insertTokenRow(string $login): void
+    {
+        Db::query(
+            'INSERT INTO ' . Common::prefixTable('user_token_auth')
+                . ' (login, description, password, hash_algo, date_created) VALUES (?, ?, ?, ?, ?)',
+            array($login, 'MyDescription', hash('sha512', $login), 'sha512', Date::now()->getDatetime())
+        );
     }
 
     private function insertSessionRowForLogin(string $login, $prependstring): void
