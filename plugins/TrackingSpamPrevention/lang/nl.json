@@ -2,8 +2,6 @@
     "TrackingSpamPrevention": {
         "BanIpNotificationMailSubject": "Een IP werd uitgesloten wegens het genereren van te veel activiteit.",
         "BlockCloudNoteInternetDisabled": "Als Internet uit staat in uw Matomo-configuratie, zal deze functionaliteit niet werken.",
-        "SettingBlockCloudDescription": "Blokkeert volgverzoeken die afkomstig zijn van cloud providers zoals AWS, Azure, Digital Ocean, Google Cloud en Oracle door een lijst van hun IP-bereiken op te halen. Het zou veilig moeten zijn om aan te zetten indien u enkel de Javascript-tracker gebruikt, omdat hun trackingverzoeken niet uit de cloud afkomstig zijn, tenzij men een VPN gebruikt die gegevens door cloud providers routeert. De instelling geldt voor al uw sites.",
-        "SettingBlockCloudTitle": "Blokkeert volgverzoeken vanuit de cloud",
         "SettingBlockHeadlessDescription": "Dit zijn browsers zonder gebruikersinterface, meestal toegepast bij automatisering. Het zou veilig moeten zijn om dit in te schakelen als u alleen gewone websites of apps hebt. Dit kan extra bots en spamverzoeken blokkeren die anders niet zouden worden gedetecteerd.",
         "SettingBlockHeadlessTitle": "Blokkeer headless browsers",
         "SettingExcludedCountriesDescription": "Volg geen bezoekers uit deze landen. Bezoekers buiten uw doelgebied zijn waarschijnlijk bots of spammers, of u kunt het gebruiken om privacywetgeving in andere rechtsgebieden te vermijden.",
