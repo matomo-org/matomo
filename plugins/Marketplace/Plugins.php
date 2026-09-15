@@ -320,6 +320,7 @@ class Plugins
         $plugin['lastUpdatedRaw'] = $plugin['lastUpdated'] ?? null;
         $plugin['lastUpdated']  = $this->toShortDate($plugin['lastUpdated']);
         $plugin['categories']   = $this->normaliseCategories($plugin);
+        $plugin['promotions']   = $this->normalisePromotions($plugin);
         $plugin['canBePurchased'] = !$plugin['isDownloadable'] && !empty($plugin['shop']['url']);
 
         if ($plugin['isInstalled']) {
@@ -545,6 +546,37 @@ class Plugins
             $categories,
             static fn ($slug) => is_string($slug) && '' !== $slug
         ));
+    }
+
+    /**
+     * The promotion lists a plugin appears in, as slug => position, so the overview can build a
+     * section for each and order it the way the Marketplace does.
+     *
+     * The position is the plugin's index in the list the Marketplace keeps, so reordering a
+     * promotion is a reordering there and nothing here. A plugin in no list arrives with an empty
+     * map; so does a response cached before the field existed, which is why a missing field is not
+     * distinguished from an empty one.
+     *
+     * @param array<string, mixed> $plugin
+     * @return array<string, int>
+     */
+    private function normalisePromotions(array $plugin): array
+    {
+        $promotions = $plugin['promotions'] ?? [];
+
+        if (!is_array($promotions)) {
+            return [];
+        }
+
+        $normalised = [];
+
+        foreach ($promotions as $slug => $position) {
+            if (is_string($slug) && '' !== $slug && is_numeric($position)) {
+                $normalised[$slug] = (int) $position;
+            }
+        }
+
+        return $normalised;
     }
 
     /**

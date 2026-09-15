@@ -200,7 +200,10 @@
             "category": "matomo",
             "categories": [
                 "insights"
-            ]
+            ],
+            "promotions": {
+                "featured": 7
+            }
         },
         {
             "name": "PaidPlugin2",
@@ -402,7 +405,10 @@
             "category": "matomo",
             "categories": [
                 "integration"
-            ]
+            ],
+            "promotions": {
+                "featured": 8
+            }
         },
         {
             "name": "PaidPlugin3",
@@ -604,7 +610,10 @@
             "category": "matomo",
             "categories": [
                 "security"
-            ]
+            ],
+            "promotions": {
+                "bestselling": 5
+            }
         },
         {
             "name": "PaidPlugin4",
@@ -806,7 +815,8 @@
             "category": "matomo",
             "categories": [
                 "ecommerce"
-            ]
+            ],
+            "promotions": {}
         },
         {
             "name": "PaidPlugin5",
@@ -1008,7 +1018,8 @@
             "category": "matomo",
             "categories": [
                 "customisation"
-            ]
+            ],
+            "promotions": {}
         }
     ]
 }

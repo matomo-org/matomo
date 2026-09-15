@@ -14,16 +14,21 @@
         v-if="showSeeAll"
         type="button"
         class="pluginSection__seeAll"
-        :aria-label="translate('Marketplace_SeeAllInCategory', heading)"
-        @click="$emit('seeAll', sectionId)"
+        :aria-label="seeAllAriaLabel"
+        :aria-expanded="hasTab ? undefined : expanded"
+        @click="$emit(hasTab ? 'seeAll' : 'toggleExpanded', sectionId)"
       >
-        <span>{{ translate('Marketplace_SeeAll') }}</span>
-        <span class="icon-chevron-right" aria-hidden="true" />
+        <span>{{ seeAllLabel }}</span>
+        <span
+          class="icon-chevron-right pluginSection__seeAllIcon"
+          :class="{ 'pluginSection__seeAllIcon--expanded': isExpanded }"
+          aria-hidden="true"
+        />
       </button>
     </div>
 
     <PluginGrid
-      :max-cards="visibleCards"
+      :max-cards="maxCards"
       :plugins="plugins"
       :context="context"
       @openDetails="$emit('openDetails', $event)"
@@ -61,6 +66,19 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    /**
+     * Mirrors `PluginSection.hasTab`. False for a promoted row, whose "See all" has no tab to
+     * open and so expands the row where it stands instead.
+     */
+    hasTab: {
+      type: Boolean,
+      default: true,
+    },
+    /** Whether a row with no tab is currently showing everything it holds. Owned by the page. */
+    expanded: {
+      type: Boolean,
+      default: false,
+    },
     /** Every plugin in the section; the row is cut to {@link visibleCards}, "See all" is not. */
     plugins: {
       type: Array as PropType<PluginCardType[]>,
@@ -71,7 +89,7 @@ export default defineComponent({
   components: {
     PluginGrid,
   },
-  emits: ['openDetails', 'requestTrial', 'seeAll'],
+  emits: ['openDetails', 'requestTrial', 'seeAll', 'toggleExpanded'],
   data(): PluginSectionState {
     return {
       visibleCards: SINGLE_ROW_MAX_CARDS,
@@ -96,9 +114,30 @@ export default defineComponent({
     /**
      * Only when the row is leaving something out, measured against what this width shows rather
      * than a fixed threshold - the row runs from two to five cards depending on the breakpoint.
+     * An expanded row keeps the button: it is the only way back to one row.
      */
     showSeeAll(): boolean {
-      return this.plugins.length > this.visibleCards;
+      return this.plugins.length > this.visibleCards || this.isExpanded;
+    },
+    /** Expanding belongs to a row with no tab; a tabbed row's "See all" opens the tab instead. */
+    isExpanded(): boolean {
+      return !this.hasTab && this.expanded;
+    },
+    /** Every card once expanded; one row's worth otherwise. */
+    maxCards(): number|null {
+      return this.isExpanded ? null : this.visibleCards;
+    },
+    seeAllLabel(): string {
+      return this.isExpanded
+        ? translate('Marketplace_SeeLess')
+        : translate('Marketplace_SeeAll');
+    },
+    seeAllAriaLabel(): string {
+      if (this.isExpanded) {
+        return translate('Marketplace_SeeLessInCategory', this.heading);
+      }
+
+      return translate('Marketplace_SeeAllInCategory', this.heading);
     },
   },
   methods: {

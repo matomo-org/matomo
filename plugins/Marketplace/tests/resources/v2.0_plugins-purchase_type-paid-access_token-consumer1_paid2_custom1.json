@@ -13,6 +13,7 @@
             "categories": [
                 "development"
             ],
+            "promotions": {},
             "keywords": [
                 "page2images",
                 "website",
@@ -284,7 +285,10 @@
             "category": "matomo",
             "categories": [
                 "insights"
-            ]
+            ],
+            "promotions": {
+                "featured": 7
+            }
         },
         {
             "name": "PaidPlugin2",
@@ -302,6 +306,9 @@
             "categories": [
                 "integration"
             ],
+            "promotions": {
+                "featured": 8
+            },
             "keywords": [
                 "GrabGravatar",
                 "avatar",
