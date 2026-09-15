@@ -106,22 +106,9 @@ class Session extends Zend_Session
             // - user  - we can't verify that user-defined session handler functions have already been set via session_set_save_handler()
             // - mm    - this handler is not recommended, unsupported, not available for Windows, and has a potential concurrency issue
 
+            // SessionSerializeHandlerCheck reports it when the server does not let us set this
             if (@ini_get('session.serialize_handler') !== 'php_serialize') {
                 @ini_set('session.serialize_handler', 'php_serialize');
-
-                $handler = @ini_get('session.serialize_handler');
-
-                if ($handler !== 'php_serialize') {
-                    // stored in any other format the session cannot be read back, so two requests
-                    // changing it at the same time can no longer be merged and the one writing
-                    // last replaces what the other stored
-                    StaticContainer::get(LoggerInterface::class)->warning(
-                        'Sessions are stored as {handler} because session.serialize_handler could not be'
-                        . ' set to php_serialize. Changes two requests make at the same time cannot be kept'
-                        . ' apart, so one of them may be lost.',
-                        ['handler' => $handler, 'ignoreInScreenWriter' => true]
-                    );
-                }
             }
 
             $config = self::getDbTableConfig();
