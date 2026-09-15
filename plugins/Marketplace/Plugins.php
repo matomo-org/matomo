@@ -299,7 +299,8 @@ class Plugins
 
     private function isPluginInstalled($pluginName)
     {
-        if (in_array($pluginName, $this->activatedPluginNames)) {
+        // an activated plugin is installed by definition, and this saves reading the directory
+        if (in_array($pluginName, $this->activatedPluginNames, true)) {
             return true;
         }
 
@@ -316,7 +317,9 @@ class Plugins
         $plugin['isActivated']  = $this->isPluginActivated($plugin['name']);
         $plugin['isInvalid']    = $this->pluginManager->isPluginThirdPartyAndBogus($plugin['name']);
         $plugin['canBeUpdated'] = $plugin['isInstalled'] && $this->hasPluginUpdate($plugin);
+        $plugin['lastUpdatedRaw'] = $plugin['lastUpdated'] ?? null;
         $plugin['lastUpdated']  = $this->toShortDate($plugin['lastUpdated']);
+        $plugin['categories']   = $this->normaliseCategories($plugin);
         $plugin['canBePurchased'] = !$plugin['isDownloadable'] && !empty($plugin['shop']['url']);
 
         if ($plugin['isInstalled']) {
@@ -377,6 +380,7 @@ class Plugins
             && empty($this->getCurrentLicenseFor($plugin));
 
         $this->addPriceFrom($plugin);
+        $this->addBundleSeats($plugin);
         $this->addPluginCoverImage($plugin);
         $this->prettifyNumberOfDownloads($plugin);
 
@@ -520,32 +524,92 @@ class Plugins
     }
 
     /**
+     * The category slugs a plugin is filed under, always as a clean list of strings, so the client
+     * cannot tell an unclassified plugin from a response cached before the field existed.
+     *
+     * The singular `category` the Marketplace also sends is stale - it reports `uncategorised` for
+     * most paid plugins - and nothing reads it.
+     *
+     * @param array<string, mixed> $plugin
+     * @return string[]
+     */
+    private function normaliseCategories(array $plugin): array
+    {
+        $categories = $plugin['categories'] ?? [];
+
+        if (!is_array($categories)) {
+            return [];
+        }
+
+        return array_values(array_filter(
+            $categories,
+            static fn ($slug) => is_string($slug) && '' !== $slug
+        ));
+    }
+
+    /**
+     * The seat tier a bundle is licensed for, which the Marketplace spells into each shop
+     * variation's name ("Up to 20 users"). Resolved here rather than by parsing a display string.
+     *
+     * The tier belongs to the bundle product rather than to the variation: Team, Business and
+     * Enterprise are three separate products, and a bundle's variations are its billing periods
+     * times the currencies each is priced in - four rows over two variation ids - every one of
+     * them repeating that product's tier in its name. Any variation therefore answers this, and
+     * reading it off the one addPriceFrom() already chose keeps seat tier and price describing the
+     * same row. A name with no number ("Unlimited users.") leaves the field unset. Bundles only: a
+     * paid plugin offers all three tiers at once, so it has no single count.
+     *
+     * The number is read whole, group separators and all: matching digits alone reads "Up to 1,000
+     * users" as 0, and a 0 renders nothing, so the wrong answer would never show up on screen.
+     *
+     * @param array<string, mixed> $plugin
+     */
+    private function addBundleSeats(&$plugin): void
+    {
+        if (empty($plugin['isBundle'])) {
+            return;
+        }
+
+        if (preg_match('/(\d[\d,.\x{00A0}\x{202F} ]*)\s*users/iu', $plugin['priceFrom']['name'] ?? '', $matches)) {
+            $seats = (int) preg_replace('/\D/', '', $matches[1]);
+
+            if ($seats > 0) {
+                $plugin['bundleSeats'] = $seats;
+            }
+        }
+    }
+
+    /**
      * If plugin provides a cover image via Marketplace, we use that.
      *
      * If there's no cover image from the marketplace (e.g. for plugins not yet categorised or not providing a custom
-     * cover image), we use Matomo image for Matomo plugins and a generic cover image otherwise.
+     * cover image), we fall back to one generic image for every plugin, whoever owns it. The Marketplace's own
+     * category stand-ins count as no cover image here - see {@link isCategoryCoverImage()}.
      *
      * @param $plugin
      */
     private function addPluginCoverImage(&$plugin): void
     {
-        // if plugin provides cover image (either from the screenshots or based on its category, we use that
-        if (!empty($plugin['coverImage'])) {
+        $coverImage = $plugin['coverImage'] ?? '';
+
+        if ('' !== $coverImage && !$this->isCategoryCoverImage($coverImage)) {
             return;
         }
 
-        $coverImage = 'uncategorised';
+        $plugin['coverImage'] = 'plugins/Marketplace/images/categories/uncategorised.png';
+    }
 
-        // use Matomo image for paid plugins, i.e. plugins without the isFree flag and with shop info
-        if (
-            in_array(strtolower($plugin['owner']), ['piwik', 'matomo-org'])
-            && empty($plugin['isFree'])
-            && !empty($plugin['shop'])
-        ) {
-            $coverImage = 'matomo';
-        }
-
-        $plugin['coverImage'] = 'plugins/Marketplace/images/categories/' . $coverImage . '.png';
+    /**
+     * Whether a cover image is one of the Marketplace's own stand-ins rather than a screenshot. A
+     * plugin with no screenshot still arrives with one, filled in from its category or the generic
+     * `uncategorised` image; both are placeholders, so both fall through to ours.
+     *
+     * Matched on the trailing path, not the host, so it also catches the local copies the UI tests
+     * rewrite these URLs to and the paths this method's caller writes.
+     */
+    private function isCategoryCoverImage(string $coverImage): bool
+    {
+        return 1 === preg_match('@(^|/)categories/[^/]+\.png$@i', $coverImage);
     }
 
     /**

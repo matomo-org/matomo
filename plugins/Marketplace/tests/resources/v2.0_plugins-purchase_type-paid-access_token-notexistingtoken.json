@@ -188,7 +188,10 @@
                 "license": null,
                 "loginUrl": "https://shop.piwik.org/my-account"
             },
-            "category": "matomo"
+            "category": "matomo",
+            "categories": [
+                "insights"
+            ]
         }
     ]
 }

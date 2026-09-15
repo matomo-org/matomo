@@ -72,8 +72,10 @@ class ControllerTest extends IntegrationTestCase
         $always = [
             'canBeUpdated',
             'canTrialBeRequested',
+            'categories',
             'consumer',
             'coverImage',
+            'createdDateTime',
             'description',
             'displayName',
             'hasDownloadLink',
@@ -86,7 +88,11 @@ class ControllerTest extends IntegrationTestCase
             'isInvalid',
             'isMissingLicense',
             'isPaid',
+            'isTheme',
             'isTrialRequested',
+            'keywords',
+            'lastUpdated',
+            'lastUpdatedRaw',
             'licenseStatus',
             'missingRequirements',
             'name',
@@ -95,8 +101,7 @@ class ControllerTest extends IntegrationTestCase
             'owner',
             'priceFrom',
         ];
-        // only set for a plugin that can actually be downloaded, and only sent for a bundle
-        $conditional = ['downloadNonce', 'isBundle'];
+        $conditional = ['downloadNonce', 'isBundle', 'bundleSeats'];
 
         foreach ($plugins as $plugin) {
             $keys = array_keys($plugin);
@@ -134,6 +139,43 @@ class ControllerTest extends IntegrationTestCase
             self::assertArrayHasKey($name, $cards);
             self::assertTrue($cards[$name]['isBundle'] ?? false, "$name reaches the modal as a plugin");
         }
+    }
+
+    public function testSearchPluginsCarriesTheSeatTierEachBundleIsSoldAt()
+    {
+        // the tier belongs to the bundle product, and the list repeats it across that product's
+        // variations - two billing periods in two currencies - so the label the card shows must
+        // not depend on which of them addPriceFrom() picked
+        $this->pluginsFixture = 'system_v2.0_plugins_sort-lastupdated.json';
+
+        $cards = array_column($this->searchPlugins(), null, 'name');
+
+        self::assertSame(4, $cards['TeamBundle']['bundleSeats'] ?? null);
+        self::assertSame(20, $cards['BusinessBundle']['bundleSeats'] ?? null);
+        self::assertSame(50, $cards['EnterpriseBundle']['bundleSeats'] ?? null);
+    }
+
+    public function testSearchPluginsCarriesTheCategorySlugsTheTabBarIsBuiltFrom()
+    {
+        // the tab bar, the section stack and the card chips are all derived from this one field,
+        // client-side, so nothing else on the page can stand in for it
+        $this->pluginsFixture = 'system_v2.0_plugins_sort-lastupdated.json';
+
+        $cards = array_column($this->searchPlugins(), 'categories', 'name');
+
+        self::assertNotEmpty($cards);
+        self::assertSame(['security'], $cards['SecurityInfo'] ?? null);
+        self::assertSame(['database'], $cards['CustomAlerts'] ?? null);
+        // a plugin no category claims reaches the client as an empty list, never as a missing key
+        self::assertSame([], $cards['WooCommerceAnalytics'] ?? null);
+
+        $slugs = array_unique(array_merge(...array_values($cards)));
+        sort($slugs);
+
+        self::assertSame(
+            ['customisation', 'database', 'development', 'insights', 'integration', 'security'],
+            $slugs
+        );
     }
 
     public function testGetPluginDetailsReturnsTheFieldsTheListOmits()
