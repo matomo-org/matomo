@@ -82,6 +82,17 @@ function onRequestTrial(
         // A pending trial request suppresses the promotion, so it would not come back on
         // the next dashboard load either.
         element.remove();
+      }).catch(() => {
+        // The request failed, so no trial is pending and the banner has to stay: removing
+        // it would hide the only way back to this offer. Without this the rejection is an
+        // unhandled promise and the user is told nothing at all.
+        NotificationsStore.show({
+          message: translate('ProfessionalServices_PromotionTrialRequestFailed'),
+          context: 'error',
+          id: 'productPromotionTrialRequestFailed',
+          placeat: '#notificationContainer',
+          type: 'transient',
+        });
       });
     },
   });

@@ -109,7 +109,11 @@ class PremiumEntitlements
      */
     private function getLicensedProductNames(): ?array
     {
-        $licenses = $this->consumer->getConsumerPluginLicenses();
+        // Cached-only: this runs while a dashboard is rendering, and the alternative is a
+        // synchronous request to plugins.matomo.org with a 60 second timeout on the busiest
+        // page in the app. An hourly task keeps the entry warm; a cold one reads as "cannot
+        // tell", which already means no bundle is promoted.
+        $licenses = $this->consumer->getConsumerPluginLicenses(true);
 
         if (null === $licenses) {
             return null;
