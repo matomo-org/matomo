@@ -46,6 +46,12 @@ class SessionDataMerger
     ];
 
     /**
+     * Where Zend_Session records when a namespace or one of its variables expires. Only ever
+     * written at the top level, because a namespace name cannot start with an underscore.
+     */
+    private const EXPIRY_METADATA_KEY = '__ZF';
+
+    /**
      * Merges the session this request wants to store with the one currently stored.
      *
      * @param string $base   the session as this request read it
@@ -106,7 +112,7 @@ class SessionDataMerger
         return $this->mergeArraysAtDepth($base, $mine, $theirs, 0);
     }
 
-    private function mergeArraysAtDepth(array $base, array $mine, array $theirs, $depth)
+    private function mergeArraysAtDepth(array $base, array $mine, array $theirs, $depth, $isExpiryMetadata = false)
     {
         if ($depth >= self::MAX_MERGE_DEPTH) {
             return $mine;
@@ -115,8 +121,10 @@ class SessionDataMerger
         $merged = [];
         $keys = array_keys($base + $mine + $theirs);
         // logging out takes the whole identity with it, so once one request has removed one of
-        // these keys the other one cannot carry any of them over - not even one it just added
-        $loggedOut = $this->hasLoggedOut($base, $mine) || $this->hasLoggedOut($base, $theirs);
+        // these keys the other one cannot carry any of them over - not even one it just added.
+        // they only ever exist at the top level, so a plugin nesting one is not a logout.
+        $loggedOut = $depth === 0
+            && ($this->hasLoggedOut($base, $mine) || $this->hasLoggedOut($base, $theirs));
 
         foreach ($keys as $key) {
             if ($loggedOut && in_array($key, self::IDENTITY_KEYS, true)) {
@@ -156,13 +164,15 @@ class SessionDataMerger
                 continue;
             }
 
+            $inMetadata = $isExpiryMetadata || ($depth === 0 && $key === self::EXPIRY_METADATA_KEY);
+
             // one side removed it while the other changed it. the side that removed it had seen
             // the value - a consumed nonce, or a logout - so removing wins, whichever side it was.
             if (!$inMine || !$inTheirs) {
-                $kept = $inMine ? $myValue : $theirValue;
-
-                if ($this->isReplacedNonce($key, $baseValue, $kept)) {
-                    $merged[$key] = $kept;
+                // expiry records are the exception: the side that dropped one did so because Zend
+                // had already pruned what it described, and a value left without one never expires.
+                if ($inMetadata) {
+                    $merged[$key] = $inMine ? $myValue : $theirValue;
                 }
                 continue;
             }
@@ -172,7 +182,7 @@ class SessionDataMerger
             $nestedBase = $inBase ? $baseValue : [];
 
             if ($this->isMap($nestedBase) && $this->isMap($myValue) && $this->isMap($theirValue)) {
-                $merged[$key] = $this->mergeArraysAtDepth($nestedBase, $myValue, $theirValue, $depth + 1);
+                $merged[$key] = $this->mergeArraysAtDepth($nestedBase, $myValue, $theirValue, $depth + 1, $inMetadata);
                 continue;
             }
 
@@ -195,29 +205,6 @@ class SessionDataMerger
         }
 
         return false;
-    }
-
-    /**
-     * Whether the side that kept this key issued a nonce to replace the one the other side
-     * consumed. A namespace written by Nonce holds nothing but the nonce itself, so a different
-     * value there is a new nonce nobody has used yet, and dropping it would only force the form
-     * it was issued for to be reloaded.
-     */
-    private function isReplacedNonce($key, $base, $kept)
-    {
-        if (in_array($key, self::IDENTITY_KEYS, true)) {
-            return false;
-        }
-
-        if (!is_array($base) || !is_array($kept)) {
-            return false;
-        }
-
-        if (array_keys($base) !== ['nonce'] || array_keys($kept) !== ['nonce']) {
-            return false;
-        }
-
-        return $base['nonce'] !== $kept['nonce'];
     }
 
     /**
