@@ -123,12 +123,13 @@ class CacheWarmer
         // be spawned runs under the CLI one, which no page reads.
         $this->environment->getWebPhpVersion();
 
-        // null means the command could not be executed at all - shell_exec disabled, or a binary
-        // that will not run. It cannot tell us whether a started child then booted successfully,
-        // so this recovers only the failure it can actually see.
-        if (null === $this->execute($this->buildWarmCommand($phpBinary))) {
-            $this->markTaskDue();
-        }
+        // marked due as well as spawned. The command discards its output, so shell_exec returns
+        // null whether the child booted or died, and a child that dies would otherwise leave the
+        // cache cold with nothing anywhere to say so. The next scheduler run then warms it; the
+        // price is one redundant warm on this path, which only a person can trigger.
+        $this->markTaskDue();
+
+        $this->execute($this->buildWarmCommand($phpBinary));
     }
 
     /**
@@ -155,7 +156,10 @@ class CacheWarmer
         // the timetable, so the hourly schedule is left exactly as it was
         return sprintf(
             '%s %s %score:run-scheduled-tasks %s > /dev/null 2>&1 &',
-            escapeshellarg($phpBinary),
+            // not escaped: findPhpBinary() returns the binary with its own arguments attached
+            // ("/usr/bin/php8.4 -q", or PHP_BINARY . " --php" for hhvm), so quoting it would name
+            // a file that does not exist. CliMulti::buildCommand() interpolates it the same way.
+            $phpBinary,
             escapeshellarg(PIWIK_INCLUDE_PATH . '/console'),
             $domainArg,
             escapeshellarg($this->getWarmCacheTask()->getName())

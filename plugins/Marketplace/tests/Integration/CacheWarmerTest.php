@@ -35,7 +35,8 @@ class CacheWarmerTest extends IntegrationTestCase
 {
     private const WARM_CACHE_TASK = 'Piwik\Plugins\Marketplace\Tasks.warmCacheEntries';
 
-    private const PHP_BINARY = '/usr/bin/php';
+    // what CliPhp::findPhpBinary() really returns: the binary with its own arguments attached
+    private const PHP_BINARY = '/usr/bin/php8.4 -q';
 
     private $originalCliMode;
 
@@ -147,10 +148,7 @@ class CacheWarmerTest extends IntegrationTestCase
     {
         Common::$isCliMode = false;
 
-        $scheduler = $this->createMock(Scheduler::class);
-        $scheduler->expects($this->never())->method('rescheduleTaskAndRunNow');
-
-        $warmer = $this->buildRecordingWarmer($scheduler);
+        $warmer = $this->buildRecordingWarmer($this->createMock(Scheduler::class));
         $warmer->warmSoon();
 
         // the command is spawned with its output discarded, so a name the scheduler cannot resolve
@@ -160,8 +158,12 @@ class CacheWarmerTest extends IntegrationTestCase
             (string) $warmer->command
         );
         self::assertStringContainsString(escapeshellarg(PIWIK_INCLUDE_PATH . '/console'), (string) $warmer->command);
-        self::assertStringStartsWith(escapeshellarg(self::PHP_BINARY) . ' ', (string) $warmer->command);
         self::assertStringEndsWith('> /dev/null 2>&1 &', (string) $warmer->command);
+
+        // deliberately unquoted: the binary arrives with its arguments attached, so quoting it
+        // would name a file that does not exist and the shell would fail behind the redirection
+        self::assertStringStartsWith(self::PHP_BINARY . ' ', (string) $warmer->command);
+        self::assertStringNotContainsString(escapeshellarg(self::PHP_BINARY), (string) $warmer->command);
 
         // this install uses the default config file, so naming a host would be noise at best and
         // the wrong instance at worst - the paired test below covers the per-hostname case
@@ -189,17 +191,20 @@ class CacheWarmerTest extends IntegrationTestCase
         );
     }
 
-    public function testWarmSoonMarksTheTaskDueWhenTheBackgroundCommandCannotBeExecuted(): void
+    public function testTheBackgroundRunAlsoMarksTheTaskDueSoAChildThatDiesIsNotLost(): void
     {
         Common::$isCliMode = false;
 
+        // the command discards its output, so nothing can observe a child that failed to boot;
+        // leaving the task due means the next scheduler run warms the cache instead
         $scheduler = $this->createMock(Scheduler::class);
-        $scheduler->expects($this->once())->method('rescheduleTaskAndRunNow');
+        $scheduler->expects($this->once())
+            ->method('rescheduleTaskAndRunNow')
+            ->with($this->callback(static function (Task $task) {
+                return self::WARM_CACHE_TASK === $task->getName();
+            }));
 
         $warmer = $this->buildRecordingWarmer($scheduler);
-        // what shell_exec returns when it could not run the command at all
-        $warmer->result = null;
-
         $warmer->warmSoon();
 
         self::assertNotNull($warmer->command);
