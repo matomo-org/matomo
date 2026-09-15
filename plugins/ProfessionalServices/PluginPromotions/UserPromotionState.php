@@ -23,7 +23,7 @@ use Piwik\Settings\Storage\UserScopedSettingsAccessManager;
  */
 class UserPromotionState
 {
-    public const GLOBAL_COOLDOWN_IN_DAYS = 7;
+    public const GLOBAL_COOLDOWN_IN_DAYS = 18;
 
     public const PRODUCT_COOLDOWN_IN_MONTHS = 6;
 
@@ -116,9 +116,6 @@ class UserPromotionState
         $this->save($userLogin, $state);
     }
 
-    /**
-     * @return array<string, mixed>
-     */
     /**
      * The stored state, read once per user per request.
      *

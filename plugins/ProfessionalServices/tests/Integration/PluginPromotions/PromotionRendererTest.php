@@ -10,6 +10,8 @@
 namespace Piwik\Plugins\ProfessionalServices\tests\Integration\PluginPromotions;
 
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\PromotionRegistry;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Promotion;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\PromotionRenderer;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\SelectedPromotion;
@@ -114,6 +116,65 @@ class PromotionRendererTest extends IntegrationTestCase
         // tab and withhold the referrer.
         $this->assertSame(2, substr_count($html, 'target="_blank"'));
         $this->assertSame(2, substr_count($html, 'rel="noreferrer noopener"'));
+    }
+
+    /**
+     * Every registered promotion, rendered.
+     *
+     * The copy is 22 translated strings carrying positional placeholders, and the renderer
+     * supplies the arguments per trigger. If the two ever disagree, `sprintf` throws a
+     * ValueError - not an Exception - which the dashboard catches and turns into a banner
+     * that silently does not appear. Nothing else in the suite renders more than two of
+     * them, so this walks the registry and checks each one comes out as finished prose.
+     */
+    public function testEveryRegisteredPromotionRendersWithoutLeftoverPlaceholders(): void
+    {
+        $registry = StaticContainer::get(PromotionRegistry::class);
+        $renderer = StaticContainer::get(PromotionRenderer::class);
+
+        $promotions = $registry->getAllByPriority();
+        $this->assertCount(22, $promotions, 'the registry is expected to hold 22 promotions');
+
+        foreach ($promotions as $promotion) {
+            $selected = new SelectedPromotion(
+                $promotion,
+                TriggerResult::triggered($this->everyContextValue(), '2026-08-17', '2026-08-23')
+            );
+
+            $html = $renderer->render($selected);
+            $where = $promotion->getPluginName() . '/' . $promotion->getTriggerName();
+
+            $this->assertNotSame('', trim($html), $where . ' rendered nothing');
+
+            // An unconsumed placeholder means the copy asks for an argument the renderer
+            // does not pass for this trigger.
+            $this->assertDoesNotMatchRegularExpression('/%\d+\$s/', $html, $where . ' left a placeholder unfilled');
+            $this->assertStringNotContainsString('%s', $html, $where . ' left a placeholder unfilled');
+        }
+    }
+
+    /**
+     * A context carrying every key any trigger produces, so one render call can stand in
+     * for all of them. A trigger only ever reads the keys it set itself.
+     *
+     * @return array<string, mixed>
+     */
+    private function everyContextValue(): array
+    {
+        return [
+            'count' => 7,
+            'numUsers' => 24,
+            'numSuperusers' => 4,
+            'name' => 'Spring sale',
+            'goalName' => 'Newsletter signup',
+            'nbConversions' => 640,
+            'conversionRate' => 0.0271,
+            'bounceRate' => 0.72,
+            'entryVisits' => 310,
+            'title' => 'Pricing',
+            'url' => 'example.org/pricing',
+            'loadTime' => 4.2,
+        ];
     }
 
     /**

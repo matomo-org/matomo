@@ -59,14 +59,14 @@ class UserPromotionStateTest extends IntegrationTestCase
         $this->assertFalse($this->state->isProductInCooldown('Funnels'));
     }
 
-    public function testTheGlobalCooldownEndsAfterSevenDaysButTheProductCooldownRemains(): void
+    public function testTheGlobalCooldownEndsAfterEighteenDaysButTheProductCooldownRemains(): void
     {
         $this->state->dismiss('CustomReports', 'segments');
 
-        Date::$now = strtotime('2026-09-02 10:00:00 UTC'); // six days later
+        Date::$now = strtotime('2026-09-13 10:00:00 UTC'); // seventeen days later
         $this->assertTrue($this->state->isInGlobalCooldown());
 
-        Date::$now = strtotime('2026-09-04 10:00:00 UTC'); // eight days later
+        Date::$now = strtotime('2026-09-15 10:00:00 UTC'); // nineteen days later
         $this->assertFalse($this->state->isInGlobalCooldown());
         $this->assertTrue($this->state->isProductInCooldown('CustomReports'));
     }

@@ -118,7 +118,7 @@ class PromotionSelectorTest extends IntegrationTestCase
         $this->assertNull($this->makeSelector()->select());
     }
 
-    public function testDismissingStartsASevenDayGlobalCooldownAndThenTheNextProductIsShown(): void
+    public function testDismissingStartsAnEighteenDayGlobalCooldownAndThenTheNextProductIsShown(): void
     {
         $this->triggering = ['segments' => true, 'bounce_rate' => true];
         $selector = $this->makeSelector();
@@ -127,10 +127,10 @@ class PromotionSelectorTest extends IntegrationTestCase
 
         $this->userState->dismiss('CustomReports', 'segments');
 
-        // Nothing at all for the next seven days, not even a different product.
+        // Nothing at all for the next eighteen days, not even a different product.
         $this->assertNull($selector->select());
 
-        Date::$now = strtotime('2026-09-04 10:00:00 UTC');
+        Date::$now = strtotime('2026-09-15 10:00:00 UTC');
 
         // Custom Reports is still in its six month cooldown, so the next eligible product
         // takes its place.

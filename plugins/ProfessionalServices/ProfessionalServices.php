@@ -62,7 +62,7 @@ class ProfessionalServices extends \Piwik\Plugin
      */
     public function renderDashboardPromotion(&$out)
     {
-        if (!$this->isTheAppsOwnDashboard()) {
+        if (!$this->isTheAppsOwnDashboard() || !$this->canBuildPromotions()) {
             return;
         }
 
@@ -84,11 +84,33 @@ class ProfessionalServices extends \Piwik\Plugin
             // than Exception because the likeliest failure here is not an exception at
             // all: the copy carries placeholders, and translating a string whose
             // translation has lost one throws a ValueError out of sprintf.
+            // `{exception}` rather than `{message}`: ExceptionToTextProcessor replaces the
+            // whole message with the formatted exception when the context carries one and
+            // the message does not name it, which would throw this sentence away.
             StaticContainer::get(LoggerInterface::class)->warning(
-                'Could not render the dashboard plugin promotion: {message}',
-                ['message' => $e->getMessage(), 'exception' => $e]
+                'Could not render the dashboard plugin promotion: {exception}',
+                ['exception' => $e]
             );
         }
+    }
+
+    /**
+     * Whether the promotions can be constructed at all.
+     *
+     * Asking the container for the selector builds the registry, which builds all 22
+     * triggers, three of which reach `Marketplace\Api\Service` - and its `$domain` is
+     * defined in the Marketplace plugin's own DI config, which is only loaded while that
+     * plugin is activated. Without this gate a deactivated Marketplace turns every
+     * dashboard render into a PHP-DI definition error; the catch below would log it, and
+     * on the default `log_writers[] = screen` that dump lands on the page itself.
+     *
+     * Checked before the container is touched, because by the time an exception is thrown
+     * the damage is already a warning notification on a page the user did nothing to
+     * deserve.
+     */
+    private function canBuildPromotions(): bool
+    {
+        return Plugin\Manager::getInstance()->isPluginActivated('Marketplace');
     }
 
     /**

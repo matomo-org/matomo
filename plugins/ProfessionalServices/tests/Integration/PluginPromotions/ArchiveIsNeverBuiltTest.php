@@ -131,6 +131,36 @@ class ArchiveIsNeverBuiltTest extends IntegrationTestCase
     }
 
     /**
+     * Builds the archives a normal visit to the reporting pages would, so the triggers
+     * below run against an instance where reading a report is possible.
+     */
+    private function archiveTheFixturePeriod(): void
+    {
+        $common = [
+            'idSite' => self::IDSITE,
+            'period' => ReportPeriod::PERIOD,
+            'date' => ReportPeriod::DATE,
+            'format_metrics' => 0,
+        ];
+
+        $methods = [
+            'VisitsSummary.get',
+            'Actions.getPageTitles',
+            'Actions.getPageUrls',
+            'Actions.getOutlinks',
+            'Referrers.getKeywords',
+            'Referrers.getCampaigns',
+            'VisitorInterest.getNumberOfVisitsPerPage',
+            'VisitFrequency.get',
+            'Goals.get',
+        ];
+
+        foreach ($methods as $method) {
+            Request::processRequest($method, $common, []);
+        }
+    }
+
+    /**
      * Writes `nb_uniq_visitors` into the archive of the segment VisitFrequency uses for
      * its returning half, which is the record the trigger is supposed to read.
      */
@@ -179,7 +209,13 @@ class ArchiveIsNeverBuiltTest extends IntegrationTestCase
      */
     public function testNoRegisteredTriggerBuildsAnArchive(): void
     {
+        // The archives have to exist first. Without them every report-backed trigger stops
+        // at the hasCompletedArchive() gate and never reaches the request that could launch
+        // archiving, so the loop would pass without exercising the path it guards.
+        $this->archiveTheFixturePeriod();
+
         $before = $this->getArchiveState();
+        $this->assertNotSame([], $before, 'the archives must exist for this test to mean anything');
 
         foreach (StaticContainer::get(PromotionRegistry::class)->getAllByPriority() as $promotion) {
             $promotion->getTrigger()->evaluate(self::IDSITE);

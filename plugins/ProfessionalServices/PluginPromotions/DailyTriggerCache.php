@@ -38,8 +38,19 @@ class DailyTriggerCache
             return TriggerResult::fromArray($cached);
         }
 
-        /** @var TriggerResult $result */
-        $result = $evaluate();
+        try {
+            /** @var TriggerResult $result */
+            $result = $evaluate();
+        } catch (\Throwable $e) {
+            // A trigger that fails is cached as "did not fire" before the failure is passed
+            // on. Without this a reliably broken trigger - a missing plugin, a report that
+            // throws - repeats its archive reads on every dashboard request for every
+            // user, forever, while being logged only at debug level. Storing the negative
+            // bounds that to once per website per day, which is what the cache is for.
+            $this->store($triggerName, $idSite, $today, TriggerResult::notTriggered());
+
+            throw $e;
+        }
 
         $this->store($triggerName, $idSite, $today, $result);
 

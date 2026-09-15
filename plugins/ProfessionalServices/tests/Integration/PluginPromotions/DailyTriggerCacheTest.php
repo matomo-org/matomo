@@ -88,6 +88,45 @@ class DailyTriggerCacheTest extends IntegrationTestCase
         $this->assertFalse($stored['triggered']);
     }
 
+    /**
+     * A trigger that throws is cached as "did not fire" before the failure is passed on.
+     * Otherwise a reliably broken trigger - a missing plugin, a report that throws - would
+     * repeat its archive reads on every dashboard request for every user, indefinitely,
+     * while being logged only at debug level.
+     */
+    public function testAFailingTriggerIsCachedSoItIsNotRetriedAllDay(): void
+    {
+        $throwing = function (): TriggerResult {
+            $this->evaluations++;
+
+            throw new \RuntimeException('the report blew up');
+        };
+
+        try {
+            $this->cache->getOrEvaluate('bounce_rate', 1, $throwing);
+            $this->fail('the failure must reach the caller so it can be logged');
+        } catch (\RuntimeException $e) {
+            $this->assertSame('the report blew up', $e->getMessage());
+        }
+
+        // Same day, same site: the stored negative answers instead of running it again.
+        $result = $this->cache->getOrEvaluate('bounce_rate', 1, $throwing);
+
+        $this->assertSame(1, $this->evaluations, 'the failing trigger must not run twice in a day');
+        $this->assertFalse($result->isTriggered());
+
+        // A new day retries it, so a transient failure is not cached forever.
+        Date::$now = strtotime('2026-08-28 10:00:00 UTC');
+
+        try {
+            $this->cache->getOrEvaluate('bounce_rate', 1, $throwing);
+        } catch (\RuntimeException $e) {
+            // expected
+        }
+
+        $this->assertSame(2, $this->evaluations);
+    }
+
     public function testResultsAreKeptPerWebsite(): void
     {
         $this->cache->getOrEvaluate('bounce_rate', 1, $this->triggering());

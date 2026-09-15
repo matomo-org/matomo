@@ -100,7 +100,7 @@
         "PromotionActivityLogTitle": "Who's making changes behind the scenes?",
         "PromotionActivityLogText": "You have %1$s registered users. Know exactly who did what and when, with a record of activity across your Matomo instance. Make every change traceable for auditing and compliance.",
         "PromotionActivityLogReason": "Activity Log is recommended when multiple users access Matomo and an audit trail can support compliance requirements.",
-        "PromotionProductTeamBundle": "Teams Bundle",
+        "PromotionProductTeamBundle": "Team Bundle",
         "PromotionProductBusinessBundle": "Business Bundle",
         "PromotionProductEnterpriseBundle": "Enterprise Bundle",
         "PromotionTeamBundleTitle": "More tools. More support.",
