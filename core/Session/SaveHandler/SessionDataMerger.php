@@ -63,7 +63,7 @@ class SessionDataMerger
      * @param string $theirs the session that is stored now
      * @return string|null the merged session, or null when any of them cannot be read
      */
-    public function merge($base, $mine, $theirs)
+    public function merge(string $base, string $mine, string $theirs): ?string
     {
         $baseData = $this->decode($base);
         $myData = $this->decode($mine);
@@ -85,7 +85,7 @@ class SessionDataMerger
     /**
      * @return array|null null when the value is not a session written by Matomo
      */
-    public function decode($data)
+    public function decode(?string $data): ?array
     {
         if ($data === '' || $data === null) {
             return [];
@@ -103,7 +103,7 @@ class SessionDataMerger
         return is_array($session) ? $session : null;
     }
 
-    public function encode(array $session)
+    public function encode(array $session): string
     {
         return serialize(Zend_Session::buildSessionData($session));
     }
@@ -111,96 +111,103 @@ class SessionDataMerger
     /**
      * Merges one level of the session. Public so the rules below can be tested on their own.
      */
-    public function mergeArrays(array $base, array $mine, array $theirs)
+    public function mergeArrays(array $base, array $mine, array $theirs): array
     {
         return $this->mergeArraysAtDepth($base, $mine, $theirs, 0);
     }
 
-    private function mergeArraysAtDepth(array $base, array $mine, array $theirs, $depth, $isExpiryMetadata = false)
-    {
+    private function mergeArraysAtDepth(
+        array $base,
+        array $mine,
+        array $theirs,
+        int $depth,
+        bool $isExpiryMetadata = false
+    ): array {
         if ($depth >= self::MAX_MERGE_DEPTH) {
             return $mine;
         }
 
-        $merged = [];
-        $keys = array_keys($base + $mine + $theirs);
         // logging out takes the whole identity with it, so once one request has removed one of
         // these keys the other one cannot carry any of them over - not even one it just added.
         // they only ever exist at the top level, so a plugin nesting one is not a logout.
         $loggedOut = $depth === 0
             && ($this->hasLoggedOut($base, $mine) || $this->hasLoggedOut($base, $theirs));
 
-        foreach ($keys as $key) {
+        $merged = [];
+
+        foreach (array_keys($base + $mine + $theirs) as $key) {
             if ($loggedOut && in_array($key, self::IDENTITY_KEYS, true)) {
                 continue;
             }
 
-            $inBase = array_key_exists($key, $base);
-            $inMine = array_key_exists($key, $mine);
-            $inTheirs = array_key_exists($key, $theirs);
+            $isMetadata = $isExpiryMetadata || ($depth === 0 && $key === self::EXPIRY_METADATA_KEY);
+            $kept = $this->mergeKey($base, $mine, $theirs, $key, $depth, $isMetadata);
 
-            $baseValue = $inBase ? $base[$key] : null;
-            $myValue = $inMine ? $mine[$key] : null;
-            $theirValue = $inTheirs ? $theirs[$key] : null;
-
-            // both sides agree, including both having removed it
-            if ($inMine === $inTheirs && (!$inMine || $this->isSame($myValue, $theirValue))) {
-                if ($inMine) {
-                    $merged[$key] = $myValue;
-                }
-                continue;
+            if (null !== $kept) {
+                $merged[$key] = $kept[0];
             }
-
-            $changedByMe = $inBase ? (!$inMine || !$this->isSame($myValue, $baseValue)) : $inMine;
-            $changedByThem = $inBase ? (!$inTheirs || !$this->isSame($theirValue, $baseValue)) : $inTheirs;
-
-            if (!$changedByMe) {
-                if ($inTheirs) {
-                    $merged[$key] = $theirValue;
-                }
-                continue;
-            }
-
-            if (!$changedByThem) {
-                if ($inMine) {
-                    $merged[$key] = $myValue;
-                }
-                continue;
-            }
-
-            $inMetadata = $isExpiryMetadata || ($depth === 0 && $key === self::EXPIRY_METADATA_KEY);
-
-            // one side removed it while the other changed it. the side that removed it had seen
-            // the value - a consumed nonce, or a logout - so removing wins, whichever side it was.
-            if (!$inMine || !$inTheirs) {
-                // expiry records are the exception: the side that dropped one did so because Zend
-                // had already pruned what it described, and a value left without one never expires.
-                if ($inMetadata) {
-                    $merged[$key] = $inMine ? $myValue : $theirValue;
-                }
-                continue;
-            }
-
-            // both changed it. merge a level deeper when each side is a map, so that entries
-            // stored under their own key - notifications, for instance - do not replace each other.
-            $nestedBase = $inBase ? $baseValue : [];
-
-            if ($this->isMap($nestedBase) && $this->isMap($myValue) && $this->isMap($theirValue)) {
-                $merged[$key] = $this->mergeArraysAtDepth($nestedBase, $myValue, $theirValue, $depth + 1, $inMetadata);
-                continue;
-            }
-
-            $merged[$key] = $myValue;
         }
 
         return $merged;
     }
 
     /**
+     * Resolves one key. Returns the value to keep wrapped in an array, or null when the key is gone.
+     */
+    private function mergeKey(array $base, array $mine, array $theirs, $key, int $depth, bool $isMetadata): ?array
+    {
+        $inBase = array_key_exists($key, $base);
+        $inMine = array_key_exists($key, $mine);
+        $inTheirs = array_key_exists($key, $theirs);
+
+        // both sides agree, including both having removed it
+        if ($inMine === $inTheirs && (!$inMine || $this->isSame($mine[$key], $theirs[$key]))) {
+            return $inMine ? [$mine[$key]] : null;
+        }
+
+        if (!$this->hasChanged($base, $mine, $key, $inBase, $inMine)) {
+            return $inTheirs ? [$theirs[$key]] : null;
+        }
+
+        if (!$this->hasChanged($base, $theirs, $key, $inBase, $inTheirs)) {
+            return $inMine ? [$mine[$key]] : null;
+        }
+
+        if (!$inMine || !$inTheirs) {
+            // one side removed it while the other changed it. the side that removed it had seen the
+            // value - a consumed nonce, or a logout - so removing wins. expiry records are the
+            // exception: a value left without one would never expire.
+            return $isMetadata ? [$inMine ? $mine[$key] : $theirs[$key]] : null;
+        }
+
+        // both changed it. merge a level deeper when each side is a map, so that entries stored
+        // under their own key - notifications, for instance - do not replace each other.
+        $nestedBase = $inBase ? $base[$key] : [];
+
+        if ($this->isMap($nestedBase) && $this->isMap($mine[$key]) && $this->isMap($theirs[$key])) {
+            return [$this->mergeArraysAtDepth($nestedBase, $mine[$key], $theirs[$key], $depth + 1, $isMetadata)];
+        }
+
+        return [$mine[$key]];
+    }
+
+    /**
+     * Whether one side changed the key, which covers adding and removing it as well.
+     */
+    private function hasChanged(array $base, array $side, $key, bool $inBase, bool $inSide): bool
+    {
+        if ($inBase !== $inSide) {
+            return true;
+        }
+
+        return $inSide && !$this->isSame($side[$key], $base[$key]);
+    }
+
+    /**
      * Whether a request logged out, which is what removing one of the keys identifying the
      * session amounts to. A request that never had them is only anonymous, not logged out.
      */
-    private function hasLoggedOut(array $base, array $data)
+    private function hasLoggedOut(array $base, array $data): bool
     {
         foreach (self::IDENTITY_KEYS as $key) {
             if (array_key_exists($key, $base) && !array_key_exists($key, $data)) {
@@ -216,7 +223,7 @@ class SessionDataMerger
      * reference. That can only add a key that was not stored before, so a null is dropped when
      * it is new. One that was already there is a value someone stored on purpose, and stays.
      */
-    private function removeAddedNulls(array $base, array $data, $depth = 0)
+    private function removeAddedNulls(array $base, array $data, int $depth = 0): array
     {
         if ($depth >= self::MAX_MERGE_DEPTH) {
             return $data;
@@ -256,7 +263,7 @@ class SessionDataMerger
      * A map is keyed by something meaningful, so entries can be merged by key. A list is not:
      * two requests appending to one both write to the same position.
      */
-    private function isMap($value)
+    private function isMap($value): bool
     {
         if (!is_array($value)) {
             return false;
@@ -265,8 +272,12 @@ class SessionDataMerger
         return [] === $value || array_keys($value) !== range(0, count($value) - 1);
     }
 
-    private function isSame($left, $right)
+    private function isSame($left, $right): bool
     {
+        if ($left === $right) {
+            return true;
+        }
+
         // the session may hold objects, which must be compared by what they contain
         return serialize($left) === serialize($right);
     }

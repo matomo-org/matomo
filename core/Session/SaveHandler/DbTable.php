@@ -129,47 +129,32 @@ class DbTable implements \SessionHandlerInterface
 
     private function fetchOne($sql, $bind)
     {
-        try {
-            $result = Db::get()->fetchOne($sql, $bind);
-        } catch (Exception $e) {
-            if (Db::get()->isErrNo($e, Migration\Db::ERROR_CODE_TABLE_NOT_EXISTS)) {
-                $this->migrateToDbSessionTable();
-                $result = Db::get()->fetchOne($sql, $bind);
-            } else {
-                throw $e;
-            }
-        }
-        return $result;
+        return $this->runQuery('fetchOne', $sql, $bind);
     }
 
     private function fetchRow($sql, $bind)
     {
-        try {
-            $result = Db::get()->fetchRow($sql, $bind);
-        } catch (Exception $e) {
-            if (Db::get()->isErrNo($e, Migration\Db::ERROR_CODE_TABLE_NOT_EXISTS)) {
-                $this->migrateToDbSessionTable();
-                $result = Db::get()->fetchRow($sql, $bind);
-            } else {
-                throw $e;
-            }
-        }
-        return $result;
+        return $this->runQuery('fetchRow', $sql, $bind);
     }
 
     private function query($sql, $bind)
     {
+        return $this->runQuery('query', $sql, $bind);
+    }
+
+    private function runQuery($method, $sql, $bind)
+    {
         try {
-            $result = Db::get()->query($sql, $bind);
+            return Db::get()->$method($sql, $bind);
         } catch (Exception $e) {
-            if (Db::get()->isErrNo($e, Migration\Db::ERROR_CODE_TABLE_NOT_EXISTS)) {
-                $this->migrateToDbSessionTable();
-                $result = Db::get()->query($sql, $bind);
-            } else {
+            if (!Db::get()->isErrNo($e, Migration\Db::ERROR_CODE_TABLE_NOT_EXISTS)) {
                 throw $e;
             }
+
+            $this->migrateToDbSessionTable();
+
+            return Db::get()->$method($sql, $bind);
         }
-        return $result;
     }
 
     /**
@@ -182,38 +167,39 @@ class DbTable implements \SessionHandlerInterface
     {
         $id = $this->hashSessionId($id);
 
-        $read = isset($this->readData[$id]) ? $this->readData[$id] : null;
+        $read = $this->readData[$id] ?? null;
 
         // this request did not change the session, so only the timestamps need storing. rewriting
         // the data column would replace whatever a concurrent request has stored in the meantime.
-        if ($read !== null && $read === $data) {
+        if ($read === $data) {
             $this->touchTimestamps($id, $data);
 
             return true;
         }
 
-        if ($read === null || $read === '') {
-            // there was nothing to build on, so claim the row instead of assuming this request is
-            // the only one starting the session
-            if ($this->insertIfAbsent($id, $data)) {
-                $this->readData[$id] = $data;
-
-                return true;
-            }
-
-            $row = $this->fetchSessionRow($id);
-
-            if (empty($row)) {
-                return $this->store($id, $data);
-            }
-
-            $expected = (string) $row[$this->config['dataColumn']];
-            // an expired row holds a session that is over. using it as the base lets this request
-            // win every key, so none of the old session is merged back in.
-            $base = $this->hasExpired($row) ? $expected : '';
-        } else {
-            $expected = $base = $read;
+        if ($read !== null && $read !== '') {
+            return $this->storeMerging($id, $data, $read, $read);
         }
+
+        // there was nothing to build on, so claim the row instead of assuming this request is
+        // the only one starting the session
+        if ($this->insertIfAbsent($id, $data)) {
+            $this->readData[$id] = $data;
+
+            return true;
+        }
+
+        $row = $this->fetchSessionRow($id);
+
+        if (empty($row)) {
+            return $this->store($id, $data);
+        }
+
+        $expected = (string) $row[$this->config['dataColumn']];
+
+        // an expired row holds a session that is over. using it as the base lets this request
+        // win every key, so none of the old session is merged back in.
+        $base = $this->hasExpired($row) ? $expected : '';
 
         return $this->storeMerging($id, $data, $base, $expected);
     }
@@ -223,24 +209,36 @@ class DbTable implements \SessionHandlerInterface
      */
     private function storeMerging($id, $data, $base, $expected)
     {
-        // the row already holds something this request never read, so there is something to merge
-        // before the first attempt is worth making
-        if ($base !== $expected) {
-            $merged = $this->merger->merge($base, $data, $expected);
+        for ($attempt = 1; $attempt <= self::MAX_WRITE_ATTEMPTS; $attempt++) {
+            // the row holds something this request never read, so merge it in before storing
+            if ($base !== $expected) {
+                $merged = $this->merger->merge($base, $data, $expected);
 
-            if (null !== $merged) {
+                if (null === $merged) {
+                    // not a session this can read, so keep the newest value as it always used to
+                    $this->getLogger()->debug(
+                        'Session data stored by another request could not be read, so it is being replaced'
+                        . ' rather than merged into.'
+                    );
+
+                    break;
+                }
+
                 $data = $merged;
-            } else {
-                $this->getLogger()->debug(
-                    'Session data stored by another request could not be read, so it is being replaced'
-                    . ' rather than merged into.'
-                );
+                // what was just merged in is what this attempt builds on
+                $base = $expected;
             }
 
-            $base = $expected;
-        }
+            if ($attempt === self::MAX_WRITE_ATTEMPTS) {
+                $this->getLogger()->warning(
+                    'Gave up merging a session after {attempts} attempts, so it is being stored as it is.'
+                    . ' Anything another request stored in the meantime is lost.',
+                    ['attempts' => self::MAX_WRITE_ATTEMPTS]
+                );
 
-        for ($attempt = 1; $attempt <= self::MAX_WRITE_ATTEMPTS; $attempt++) {
+                break;
+            }
+
             if ($this->compareAndSet($id, $expected, $data)) {
                 $this->readData[$id] = $data;
 
@@ -264,32 +262,15 @@ class DbTable implements \SessionHandlerInterface
                 return true;
             }
 
-            $merged = $this->merger->merge($base, $data, $current);
-
-            if (null === $merged) {
-                // not a session this can read, so keep the newest value as it always used to
-                $this->getLogger()->debug(
-                    'Session data stored by another request could not be read, so it is being replaced'
-                    . ' rather than merged into.'
-                );
-
+            if ($current === $expected) {
+                // the compare-and-set just failed against these bytes, so it can never match
                 break;
             }
 
-            $data = $merged;
-            // what was just merged in is what the next attempt builds on
-            $base = $expected = $current;
+            $expected = $current;
 
-            if ($attempt < self::MAX_WRITE_ATTEMPTS) {
-                // spread retries out so that several requests do not keep colliding in step
-                usleep(mt_rand(0, 2000));
-            } else {
-                $this->getLogger()->warning(
-                    'Gave up merging a session after {attempts} attempts, so it is being stored as it is.'
-                    . ' Anything another request stored in the meantime is lost.',
-                    ['attempts' => self::MAX_WRITE_ATTEMPTS]
-                );
-            }
+            // spread retries out so that several requests do not keep colliding in step
+            usleep(mt_rand(0, 2000));
         }
 
         return $this->store($id, $data);
@@ -309,14 +290,22 @@ class DbTable implements \SessionHandlerInterface
         return true;
     }
 
-    private function touchTimestamps($id, $data)
+    /**
+     * The row every write stores, without whatever it does about one already being there.
+     */
+    private function insertSql()
     {
-        $sql = 'INSERT INTO ' . $this->config['name']
+        return 'INSERT INTO ' . $this->config['name']
             . ' (' . $this->config['primary'] . ','
             . $this->config['modifiedColumn'] . ','
             . $this->config['lifetimeColumn'] . ','
             . $this->config['dataColumn'] . ')'
-            . ' VALUES (?,?,?,?)'
+            . ' VALUES (?,?,?,?)';
+    }
+
+    private function touchTimestamps($id, $data)
+    {
+        $sql = $this->insertSql()
             . ' ON DUPLICATE KEY UPDATE '
             . $this->config['modifiedColumn'] . ' = ?,'
             . $this->config['lifetimeColumn'] . ' = ?';
@@ -326,12 +315,7 @@ class DbTable implements \SessionHandlerInterface
 
     private function upsert($id, $data)
     {
-        $sql = 'INSERT INTO ' . $this->config['name']
-            . ' (' . $this->config['primary'] . ','
-            . $this->config['modifiedColumn'] . ','
-            . $this->config['lifetimeColumn'] . ','
-            . $this->config['dataColumn'] . ')'
-            . ' VALUES (?,?,?,?)'
+        $sql = $this->insertSql()
             . ' ON DUPLICATE KEY UPDATE '
             . $this->config['modifiedColumn'] . ' = ?,'
             . $this->config['lifetimeColumn'] . ' = ?,'
@@ -342,15 +326,8 @@ class DbTable implements \SessionHandlerInterface
 
     private function insertIfAbsent($id, $data)
     {
-        $sql = 'INSERT INTO ' . $this->config['name']
-            . ' (' . $this->config['primary'] . ','
-            . $this->config['modifiedColumn'] . ','
-            . $this->config['lifetimeColumn'] . ','
-            . $this->config['dataColumn'] . ')'
-            . ' VALUES (?,?,?,?)';
-
         try {
-            return $this->didChangeRow($sql, [$id, time(), $this->maxLifetime, $data]);
+            return $this->didChangeRow($this->insertSql(), [$id, time(), $this->maxLifetime, $data]);
         } catch (Exception $e) {
             if (Db::get()->isErrNo($e, Migration\Db::ERROR_CODE_DUPLICATE_ENTRY)) {
                 return false;

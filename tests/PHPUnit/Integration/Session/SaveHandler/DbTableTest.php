@@ -103,10 +103,7 @@ class DbTableTest extends IntegrationTestCase
     public function testWriteComparesTheStoredDataAsBytes()
     {
         $merger = new class extends SessionDataMerger {
-            /**
-             * @return string
-             */
-            public function merge($base, $mine, $theirs)
+            public function merge(string $base, string $mine, string $theirs): string
             {
                 return 'mergedvalue';
             }
