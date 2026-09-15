@@ -37,12 +37,21 @@ ul.browser-default {
     float: right;
   }
 
+  // The glyph is drawn at 24px, but the button keeps the size it had when the glyph filled
+  // it: what used to be the font-size is now the box the icon is centred in, so neither the
+  // bar's height nor the tap target changes. content-box is explicit because Materialize
+  // sets border-box globally, which would otherwise absorb the padding into the box.
   .icon-more-verti,
   .icon-menu-hamburger {
     // nav{line-height:56px} - {padding:10+10px}
-    font-size: 36px;
+    box-sizing: content-box;
+    width: 36px;
+    height: 36px;
+    font-size: 24px;
     padding: 8px 10px 10px;
-    display: inline-block;
+    display: inline-flex;
+    align-items: safe center;
+    justify-content: safe center;
     cursor: pointer;
     color: @theme-color-header-text;
   }
@@ -51,7 +60,8 @@ ul.browser-default {
     .icon-more-verti,
     .icon-menu-hamburger {
       // nav{line-height:64px} - {padding:10+10px}
-      font-size: 48px;
+      width: 48px;
+      height: 48px;
     }
   }
 
@@ -120,6 +130,31 @@ ul.browser-default {
         outline-offset: -2px;
       }
     }
+  }
+
+  // The count sits on the corner of the icon the way it does in the desktop bar, rather than
+  // at the far right of the row where the shared sidenav rule pins it. Scoped to this drawer:
+  // the reporting menu keeps whatever the sidenav gives it.
+  //
+  // The offset is the row's 32px padding (Morpheus `_navs.less`, `.sidenav li > a`) plus half
+  // the 24px icon below, so the count overlaps its right half. Move either and this follows.
+  #mobile-top-menu .badge-menu-item {
+    top: 8px;
+    left: 48px;
+    right: unset;
+  }
+
+  // The drawer shows the icon next to the entry's name rather than instead of it. A fixed
+  // width keeps the names lined up whatever glyph precedes them, and taking the row's own
+  // line-height puts the icon on the same centre line as the text it labels.
+  #mobile-top-menu .navbar-icon {
+    display: inline-block;
+    width: 24px;
+    margin-right: 16px;
+    font-size: 16px;
+    line-height: inherit;
+    text-align: center;
+    vertical-align: top;
   }
 
   ul:not(#mobile-top-menu) {
