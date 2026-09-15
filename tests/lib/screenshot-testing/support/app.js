@@ -330,11 +330,16 @@ Application.prototype.doRunTests = function (mocha) {
 
         // Read off the merged config rather than a flag decided in config.dist.js: run-tests.js
         // layers tests/UI/config.js over the defaults, so a local override can turn the reporter
-        // on or off and a flag settled in the defaults would not follow it. Both shapes count: the
-        // adapter named in a mocha-multi-reporters list, and the adapter used as the sole reporter.
-        const reporters = [config.reporter, (config.reporterOptions || {}).reporterEnabled];
-        const usesTestomatioReporter = reporters.some((value) => typeof value === 'string'
-            && value.indexOf('@testomatio/reporter') !== -1);
+        // on or off and a flag settled in the defaults would not follow it. reporterEnabled only
+        // names reporters when mocha-multi-reporters is the one running, and the merge is shallow,
+        // so an override that sets reporter alone leaves the defaults' reporterOptions behind it -
+        // reading that list unconditionally would take the wait for a run using only `spec`.
+        const reporter = config.reporter;
+        const namesTestomatio = (value) => typeof value === 'string'
+            && value.indexOf('@testomatio/reporter') !== -1;
+        const usesTestomatioReporter = namesTestomatio(reporter)
+            || (reporter === 'mocha-multi-reporters'
+                && namesTestomatio((config.reporterOptions || {}).reporterEnabled));
 
         // The Testomatio reporter keeps sending API requests after this event, so when it is
         // active we still have to wait for it (#21760). Without it there is nothing left to
