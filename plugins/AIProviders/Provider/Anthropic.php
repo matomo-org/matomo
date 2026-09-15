@@ -75,7 +75,6 @@ class Anthropic extends AIProvider
         $payload = [
             'model' => $model,
             'max_tokens' => $request->getMaxTokens(),
-            'temperature' => $request->getTemperature(),
             'messages' => [
                 [
                     'role' => 'user',
@@ -83,6 +82,10 @@ class Anthropic extends AIProvider
                 ],
             ],
         ];
+
+        if ($this->shouldSendTemperature($model, $configuration)) {
+            $payload['temperature'] = $request->getTemperature();
+        }
 
         $this->applyThinking($payload, $request);
 
@@ -137,6 +140,16 @@ class Anthropic extends AIProvider
         }
 
         return '';
+    }
+
+    /**
+     * Anthropic deprecated `temperature` for every model released after Claude
+     * Opus 4.6; those reject a custom value with a 400 even when thinking is
+     * off. Opus 4.6 and older still accept it.
+     */
+    protected function supportsTemperature(string $model): bool
+    {
+        return preg_match(self::ANTHROPIC_TEMPERATURE_MODEL_PATTERN, $model) === 1;
     }
 
     /**
@@ -211,9 +224,12 @@ class Anthropic extends AIProvider
         $payload = [
             'model' => $model,
             'max_tokens' => $request->getMaxTokens(),
-            'temperature' => $request->getTemperature(),
             'messages' => $this->canonicalMessagesToAnthropic($request->getMessages()),
         ];
+
+        if ($this->shouldSendTemperature($model, $configuration)) {
+            $payload['temperature'] = $request->getTemperature();
+        }
 
         $systemPrompt = $request->getSystemPrompt();
         if ($systemPrompt !== null && $systemPrompt !== '') {

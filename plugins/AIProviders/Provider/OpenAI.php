@@ -86,7 +86,7 @@ class OpenAI extends AIProvider
         return 'max_completion_tokens';
     }
 
-    protected function chatCompletionSupportsTemperature(): bool
+    protected function supportsTemperature(string $model): bool
     {
         return false;
     }

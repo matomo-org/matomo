@@ -53,6 +53,21 @@ abstract class AIProvider
     protected const DEFAULT_THINKING_BUDGET = 2048;
 
     /**
+     * Claude models that still accept a custom `temperature`.
+     *
+     * Anthropic deprecated the sampling parameters for every model released
+     * after Claude Opus 4.6: those accept only the default and reject any
+     * other value with a 400. The boundary is shared by the native Anthropic
+     * API and Bedrock, so this matches both the plain IDs (`claude-opus-4-6`)
+     * and the vendor-qualified, optionally region-prefixed Bedrock ones
+     * (`eu.anthropic.claude-opus-4-6`).
+     *
+     * @see https://platform.claude.com/docs/en/api/messages
+     */
+    protected const ANTHROPIC_TEMPERATURE_MODEL_PATTERN =
+        '#(?:^|[./])(?:anthropic\\.)?claude-(?:3|sonnet-4|haiku-4|opus-4-[156])#i';
+
+    /**
      * @var string
      */
     private $id;
@@ -463,7 +478,7 @@ abstract class AIProvider
             'messages' => $messages,
         ];
         $payload[$this->chatCompletionTokenLimitField()] = $request->getMaxTokens();
-        if ($this->chatCompletionSupportsTemperature()) {
+        if ($this->supportsTemperature($model)) {
             $payload['temperature'] = $request->getTemperature();
         }
 
@@ -509,13 +524,38 @@ abstract class AIProvider
     }
 
     /**
-     * Whether the provider accepts a custom `temperature`. Reasoning models
-     * (e.g. OpenAI's gpt-5 family) only allow the default temperature, so they
-     * override this to false and the field is omitted.
+     * Whether the model accepts a custom `temperature`.
+     *
+     * True here because a provider whose whole catalogue accepts the field
+     * needs no per-model decision. Providers whose catalogue mixes models that
+     * accept and reject it override this with an allowlist, so an unrecognised
+     * model resolves to false: sending the field to a model that rejects it
+     * fails the whole request with a 400, while omitting it for one that would
+     * have accepted it only falls back to that model's own default. Those
+     * allowlists are expected to shrink as the parameter is deprecated across
+     * vendors, until none is needed.
      */
-    protected function chatCompletionSupportsTemperature(): bool
+    protected function supportsTemperature(string $model): bool
     {
         return true;
+    }
+
+    /**
+     * Whether to put `temperature` in the payload for this model: the
+     * per-provider configuration override when one is set, otherwise model
+     * detection.
+     *
+     * The override exists because the per-provider model lists are static and
+     * ship on Matomo's release cadence, so an administrator needs a way to
+     * correct either direction without waiting for a release.
+     *
+     * @param array<string, mixed> $configuration
+     */
+    protected function shouldSendTemperature(string $model, array $configuration): bool
+    {
+        $override = $configuration['sendTemperature'] ?? null;
+
+        return is_bool($override) ? $override : $this->supportsTemperature($model);
     }
 
     /**
@@ -573,7 +613,7 @@ abstract class AIProvider
             'messages' => $this->canonicalMessagesToOpenAI($request->getMessages(), $request->getSystemPrompt()),
         ];
         $payload[$this->chatCompletionTokenLimitField()] = $request->getMaxTokens();
-        if ($this->chatCompletionSupportsTemperature()) {
+        if ($this->supportsTemperature($model)) {
             $payload['temperature'] = $request->getTemperature();
         }
 

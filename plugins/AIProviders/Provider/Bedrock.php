@@ -59,6 +59,34 @@ class Bedrock extends AIProvider
     /** @var non-empty-list<string> */
     private const CACHE_WRITE_USAGE_KEYS = ['cacheWriteInputTokens', 'cacheWriteInputTokenCount'];
 
+    /**
+     * Model families that accept `inferenceConfig.temperature` on Converse.
+     *
+     * An allowlist on purpose. Bedrock's catalogue is open-ended and admins can
+     * configure any model ID, so an unrecognised model must degrade to the
+     * model's own default rather than 400 with "This model doesn't support the
+     * temperature field". Claude is covered separately by
+     * {@link self::ANTHROPIC_TEMPERATURE_MODEL_PATTERN}, which the native
+     * Anthropic provider shares.
+     *
+     * Seeded from the models.dev catalogue on 2026-09-15 (all 161 Bedrock
+     * entries carry an explicit flag; AWS itself publishes none). Two models
+     * recorded there as accepting `temperature` are deliberately left out
+     * because they are reported to reject it in practice: `openai.gpt-5.4`
+     * (inconsistent with every other gpt-5 entry) and `xai.grok-4.6`. Omitting
+     * a disputed model costs determinism; including one wrongly costs the
+     * request.
+     *
+     * Expected to shrink rather than grow: `temperature` is deprecated across
+     * vendors, so new families arrive unlisted and simply run at their default.
+     */
+    private const TEMPERATURE_MODEL_PATTERN = '#(?:^|[./])(?:'
+        . 'ai21\\.|amazon\\.nova-|cohere\\.|deepseek\\.|google\\.gemma-|meta\\.llama'
+        . '|minimax\\.|mistral\\.|moonshot(?:ai)?\\.|nvidia\\.|qwen\\.|writer\\.|zai\\.'
+        . '|openai\\.gpt-oss'
+        . '|xai\\.grok-4\\.3'
+        . ')#i';
+
     /** Exact Bedrock model ID fragments that support the gpt-oss reasoning_effort field. */
     private const GPT_OSS_MODEL_PATTERN = '/(?:^|[.\/])openai\.gpt-oss-(?:20b|120b)-1:0$/';
 
@@ -192,9 +220,12 @@ class Bedrock extends AIProvider
             ],
             'inferenceConfig' => [
                 'maxTokens' => $request->getMaxTokens(),
-                'temperature' => $request->getTemperature(),
             ],
         ];
+
+        if ($this->shouldSendTemperature($model, $configuration)) {
+            $payload['inferenceConfig']['temperature'] = $request->getTemperature();
+        }
 
         // Completions carry a per-request thinking budget that overrides the
         // capability level, so resolve the effective intent via wantsThinking().
@@ -243,9 +274,12 @@ class Bedrock extends AIProvider
             'messages' => $this->canonicalMessagesToBedrock($request->getMessages()),
             'inferenceConfig' => [
                 'maxTokens' => $request->getMaxTokens(),
-                'temperature' => $request->getTemperature(),
             ],
         ];
+
+        if ($this->shouldSendTemperature($model, $configuration)) {
+            $payload['inferenceConfig']['temperature'] = $request->getTemperature();
+        }
 
         // Conversation requests have no thinking budget, so the capability
         // level alone decides whether reasoning is on.
@@ -733,6 +767,12 @@ class Bedrock extends AIProvider
                 ? ['type' => 'enabled', 'maxReasoningEffort' => 'medium']
                 : ['type' => 'disabled'];
         }
+    }
+
+    protected function supportsTemperature(string $model): bool
+    {
+        return preg_match(self::TEMPERATURE_MODEL_PATTERN, $model) === 1
+            || preg_match(self::ANTHROPIC_TEMPERATURE_MODEL_PATTERN, $model) === 1;
     }
 
     private function isGptOssModel(string $model): bool

@@ -36,6 +36,14 @@ use Piwik\Plugins\AIProviders\Provider\AIProvider;
  *        openaiApiKey = "..."                ; or env MATOMO_AIPROVIDERS_OPENAI_API_KEY
  *        custom-providerEndpointUrl = "..."  ; or env MATOMO_AIPROVIDERS_CUSTOM_PROVIDER_ENDPOINT_URL
  *        bedrockUseFipsEndpoint = "1"        ; or env MATOMO_AIPROVIDERS_BEDROCK_USE_FIPS_ENDPOINT
+ *        bedrockSendTemperature = "0"        ; or env MATOMO_AIPROVIDERS_BEDROCK_SEND_TEMPERATURE
+ *
+ * `<provider>SendTemperature` overrides whether `temperature` is sent, for the
+ * providers whose catalogue mixes models that accept and reject it (AWS Bedrock
+ * and Anthropic). Leave it unset to let the provider decide per model (see
+ * {@link AIProvider::supportsTemperature()}); set it only to correct a model
+ * the shipped lists get wrong, in either direction, without waiting for a
+ * Matomo release.
  *
  * An endpoint is only read for the providers that have an endpoint field (see
  * {@link AIProvider::supportsCustomEndpoint()}); the fixed hosted providers
@@ -203,7 +211,7 @@ class Configuration
      * never see credentials.
      *
      * @internal
-     * @return array{apiKey: string, endpointUrl: string, model: string, useFipsEndpoint: bool}
+     * @return array{apiKey: string, endpointUrl: string, model: string, useFipsEndpoint: bool, sendTemperature: bool|null}
      */
     public function getProviderConfiguration(AIProvider $provider): array
     {
@@ -231,11 +239,14 @@ class Configuration
             'useFipsEndpoint' => $configFileConfiguration['useFipsEndpoint'] !== null
                 ? $configFileConfiguration['useFipsEndpoint']
                 : $storedConfiguration['useFipsEndpoint'],
+            // Config-file/env only: an escape hatch for the static per-model
+            // temperature support lists, never an admin-UI setting.
+            'sendTemperature' => $configFileConfiguration['sendTemperature'],
         ];
     }
 
     /**
-     * @param array{apiKey: string, endpointUrl: string, model: string, useFipsEndpoint: bool|null} $configFileConfiguration
+     * @param array{apiKey: string, endpointUrl: string, model: string, useFipsEndpoint: bool|null, sendTemperature: bool|null} $configFileConfiguration
      * @param array{apiKey: string, endpointUrl: string, model: string, useFipsEndpoint: bool} $storedConfiguration
      */
     private function resolveEndpointUrl(
@@ -272,7 +283,7 @@ class Configuration
      * unsaved values from the admin UI for connection testing.
      *
      * @param array<string, mixed> $submittedProviderConfiguration
-     * @return array{apiKey: string, endpointUrl: string, model: string, useFipsEndpoint: bool}
+     * @return array{apiKey: string, endpointUrl: string, model: string, useFipsEndpoint: bool, sendTemperature: bool|null}
      */
     public function getProviderConfigurationForUse(
         AIProvider $provider,
@@ -308,6 +319,9 @@ class Configuration
             'endpointUrl' => $this->getSubmittedEndpointUrl($submittedProviderConfiguration, $provider),
             'model' => $this->getSubmittedModel($submittedProviderConfiguration, $provider),
             'useFipsEndpoint' => $this->getSubmittedUseFipsEndpoint($submittedProviderConfiguration, $provider),
+            // Config-file/env only, so a connection test exercises the same
+            // decision complete() would make; the form cannot submit it.
+            'sendTemperature' => $existingConfiguration['sendTemperature'],
         ];
     }
 
@@ -887,7 +901,7 @@ class Configuration
     }
 
     /**
-     * @return array{apiKey: string, endpointUrl: string, model: string, useFipsEndpoint: bool|null}
+     * @return array{apiKey: string, endpointUrl: string, model: string, useFipsEndpoint: bool|null, sendTemperature: bool|null}
      */
     private function getConfigFileProviderConfiguration(string $providerId): array
     {
@@ -896,6 +910,7 @@ class Configuration
             'endpointUrl' => $this->getConfigFileValue($providerId, 'EndpointUrl', 'ENDPOINT_URL'),
             'model' => $this->getConfigFileValue($providerId, 'Model', 'MODEL'),
             'useFipsEndpoint' => $this->getConfigFileBooleanValue($providerId, 'UseFipsEndpoint', 'USE_FIPS_ENDPOINT'),
+            'sendTemperature' => $this->getConfigFileBooleanValue($providerId, 'SendTemperature', 'SEND_TEMPERATURE'),
         ];
     }
 
