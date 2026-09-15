@@ -93,17 +93,11 @@ const LIST_GAP = 8;
 /** Gutter kept between the list and the edges of the viewport it is positioned against. */
 const VIEWPORT_MARGIN = 16;
 
-/** Marks a modal so a list teleported out of it can still name the modal it came from. */
+/** Materialize modals have no stable identity of their own, so tag the one a list belongs to. */
 const MODAL_ID_ATTRIBUTE = 'data-matomo-modal-id';
 
 let modalIdCounter = 0;
 
-/**
- * Returns an identifier for the Materialize modal containing `element`, tagging the modal with one
- * if it has none, or null when the element is not inside a modal. Materialize builds modals without
- * a stable identity of their own, and a teleported list needs to name the one it belongs to so that
- * only that modal's focus trap lets it through.
- */
 function identifyOwningModal(element: HTMLElement): string|null {
   const modal = element.closest('.modal');
 
@@ -211,10 +205,7 @@ export default defineComponent({
       listStyle: {} as Record<string, string>,
       // the list is teleported out of this component, so a click in it reads as a click outside
       isMouseDownInsideList: false,
-      // Names the modal this list belongs to, or null when the field is not in one. The focus trap
-      // is exempted only for the modal that owns the list: marking every list would let one hold
-      // focus over an unrelated modal, and marking it for "some modal" would still let a list
-      // belonging to an underlying modal escape the trap of the one stacked on top of it.
+      // the modal this list belongs to, or null outside one; only that modal exempts it
       escapeeModalId: null as string|null,
     };
   },
@@ -316,12 +307,10 @@ export default defineComponent({
       this.isMouseDownInsideList = !!list && list.contains(event.target as HTMLElement);
     },
     /**
-     * The marker must not outlive the press that set it. Press inside the teleported list and
-     * release on the field and the directive sees a release it owns, so it never calls blur() and
-     * nothing clears the marker; the next Escape - which reaches blur() without a mousedown of its
-     * own - is then swallowed instead of closing the list. Bound on window without capture, which
-     * a browser probe confirms runs after the directive's own documentElement handler, so the
-     * marker is still standing while the directive decides and is cleared straight afterwards.
+     * Press inside the list and release on the field and the directive owns that release, so it
+     * never calls blur() and nothing clears the marker - the next Escape is then swallowed. On
+     * window without capture, which a browser probe confirms runs after the directive's own
+     * documentElement handler, so the marker still stands while the directive decides.
      */
     clearMouseDownMarker() {
       this.isMouseDownInsideList = false;
@@ -406,14 +395,11 @@ export default defineComponent({
         this.openAbove = false;
         this.optionsListMaxHeight = spaceBelow;
       } else if (spaceAbove > spaceBelow) {
-        // Not enough room below, so open above whenever that side offers more - without a further
-        // test that it reaches the minimum. Opening above anchors the dropdown's bottom edge to
-        // the field and the options sit at the bottom of it, so they stay on screen and it is the
-        // search box above them that gets clipped when the room is tight. Below, the overflow
-        // falls past the viewport and takes the options with it: measured at a 300px viewport with
-        // the field at 200, above leaves 150px of options visible and clips 8px of the search box,
-        // while below leaves 12px of options. Neither overflow can be scrolled to - the list is
-        // position: fixed - so the choice is only ever about which end stays visible.
+        // Open above whenever that side offers more, without testing it reaches the minimum: the
+        // options sit at the bottom of the dropdown, so opening above clips the search box while
+        // opening below clips the options. Measured at a 300px viewport with the field at 200,
+        // above leaves 150px of options and below leaves 12px. Neither overflow can be scrolled
+        // to - the list is position: fixed.
         this.openAbove = true;
         this.optionsListMaxHeight = Math.max(minUsableHeight, spaceAbove);
       } else {
