@@ -326,6 +326,8 @@ declare global {
     // Accepts unknown to match the runtime implementation (DOMPurify tolerates non-string input),
     // so callers don't have to coerce possibly-undefined bindings before sanitizing.
     vueSanitize(content?: unknown): string;
+    // Strict profile for content read back from `title` attributes, see the implementation.
+    vueSanitizeTooltip(content?: unknown): string;
     vueSanitizeUrl(url: string): string;
     showEmptyDashboardNotification(): void;
   }
