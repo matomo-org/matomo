@@ -27,6 +27,17 @@ class Anthropic extends AIProvider
     private const DEFAULT_MODEL = 'claude-haiku-4-5';
     private const ANTHROPIC_VERSION = '2023-06-01';
 
+    /**
+     * Prompt-cache counters. `usage.input_tokens` excludes both of them, so a
+     * cached request under-reports its input by the whole cached prefix.
+     *
+     * @var non-empty-list<string>
+     */
+    private const CACHE_READ_USAGE_KEYS = ['cache_read_input_tokens'];
+
+    /** @var non-empty-list<string> */
+    private const CACHE_WRITE_USAGE_KEYS = ['cache_creation_input_tokens'];
+
     // Anthropic requires budget_tokens >= 1024 and strictly < max_tokens; this
     // headroom keeps room for the visible answer on top of the thinking budget.
     private const THINKING_MIN_BUDGET = 1024;
@@ -96,9 +107,11 @@ class Anthropic extends AIProvider
             $request,
             $model,
             $text,
-            isset($response['usage']['input_tokens']) ? (int) $response['usage']['input_tokens'] : null,
-            isset($response['usage']['output_tokens']) ? (int) $response['usage']['output_tokens'] : null,
-            $stopReason
+            $this->readUsageTokens($response['usage'] ?? null, ['input_tokens']),
+            $this->readUsageTokens($response['usage'] ?? null, ['output_tokens']),
+            $stopReason,
+            $this->readUsageTokens($response['usage'] ?? null, self::CACHE_READ_USAGE_KEYS),
+            $this->readUsageTokens($response['usage'] ?? null, self::CACHE_WRITE_USAGE_KEYS)
         );
     }
 
@@ -229,8 +242,10 @@ class Anthropic extends AIProvider
             $model,
             $this->anthropicContentToCanonical($rawContent),
             $stopReason,
-            isset($response['usage']['input_tokens']) ? (int) $response['usage']['input_tokens'] : null,
-            isset($response['usage']['output_tokens']) ? (int) $response['usage']['output_tokens'] : null
+            $this->readUsageTokens($response['usage'] ?? null, ['input_tokens']),
+            $this->readUsageTokens($response['usage'] ?? null, ['output_tokens']),
+            $this->readUsageTokens($response['usage'] ?? null, self::CACHE_READ_USAGE_KEYS),
+            $this->readUsageTokens($response['usage'] ?? null, self::CACHE_WRITE_USAGE_KEYS)
         );
     }
 

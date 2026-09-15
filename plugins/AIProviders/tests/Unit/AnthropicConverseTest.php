@@ -291,6 +291,47 @@ class AnthropicConverseTest extends TestCase
         );
     }
 
+    /**
+     * `usage.input_tokens` counts only the uncached prefix, so the cache
+     * counters have to be read on top of it rather than assumed to be in it.
+     */
+    public function testResponseReportsCacheTokensApartFromInputTokens(): void
+    {
+        $claude = new RecordingAnthropic();
+        $claude->cannedResponse = [
+            'content' => [['type' => 'text', 'text' => 'Checking your sites now.']],
+            'stop_reason' => 'end_turn',
+            'usage' => [
+                'input_tokens' => 4,
+                'output_tokens' => 21,
+                'cache_read_input_tokens' => 3072,
+                'cache_creation_input_tokens' => 412,
+            ],
+        ];
+
+        $response = $claude->converse($this->simpleRequest(), self::CONFIGURATION);
+
+        $this->assertSame(4, $response->getInputTokens());
+        $this->assertSame(21, $response->getOutputTokens());
+        $this->assertSame(3072, $response->getCacheReadTokens());
+        $this->assertSame(412, $response->getCacheWriteTokens());
+    }
+
+    public function testResponseReportsNoCacheTokensWhenTheResponseOmitsThem(): void
+    {
+        $claude = new RecordingAnthropic();
+        $claude->cannedResponse = [
+            'content' => [['type' => 'text', 'text' => 'Hi there.']],
+            'stop_reason' => 'end_turn',
+            'usage' => ['input_tokens' => 3, 'output_tokens' => 4],
+        ];
+
+        $response = $claude->converse($this->simpleRequest(), self::CONFIGURATION);
+
+        $this->assertNull($response->getCacheReadTokens());
+        $this->assertNull($response->getCacheWriteTokens());
+    }
+
     public function testResponseContentIsParsedIntoCanonicalBlocks(): void
     {
         $claude = new RecordingAnthropic();

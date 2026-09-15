@@ -50,6 +50,25 @@ class AIProviderResponse
     private $outputTokens;
 
     /**
+     * Number of input tokens served from the provider's prompt cache, or null
+     * when the provider does not report cache usage. Not part of
+     * {@link $inputTokens}: providers that cache report the two separately
+     * because a cache read is billed at a reduced rate.
+     *
+     * @var int|null
+     */
+    private $cacheReadTokens;
+
+    /**
+     * Number of input tokens written into the provider's prompt cache, or null
+     * when the provider does not report cache usage. Not part of
+     * {@link $inputTokens}, and billed at a premium rate.
+     *
+     * @var int|null
+     */
+    private $cacheWriteTokens;
+
+    /**
      * Provider reasoning level that was actually applied.
      *
      * @var string
@@ -87,7 +106,9 @@ class AIProviderResponse
         string $reasoningLevel = AIRequest::REASONING_NONE,
         bool $webSearchEnabled = false,
         ?int $executionTimeMs = null,
-        ?string $stopReason = null
+        ?string $stopReason = null,
+        ?int $cacheReadTokens = null,
+        ?int $cacheWriteTokens = null
     ) {
         $this->providerId = $providerId;
         $this->providerName = $providerName;
@@ -99,6 +120,8 @@ class AIProviderResponse
         $this->webSearchEnabled = $webSearchEnabled;
         $this->executionTimeMs = $executionTimeMs;
         $this->stopReason = $stopReason;
+        $this->cacheReadTokens = $cacheReadTokens;
+        $this->cacheWriteTokens = $cacheWriteTokens;
     }
 
     public function getText(): string
@@ -119,6 +142,16 @@ class AIProviderResponse
     public function getOutputTokens(): ?int
     {
         return $this->outputTokens;
+    }
+
+    public function getCacheReadTokens(): ?int
+    {
+        return $this->cacheReadTokens;
+    }
+
+    public function getCacheWriteTokens(): ?int
+    {
+        return $this->cacheWriteTokens;
     }
 
     public function getReasoningLevel(): string
@@ -177,6 +210,8 @@ class AIProviderResponse
             'text' => $this->text,
             'inputTokens' => $this->inputTokens,
             'outputTokens' => $this->outputTokens,
+            'cacheReadTokens' => $this->cacheReadTokens,
+            'cacheWriteTokens' => $this->cacheWriteTokens,
             'reasoningLevel' => $this->reasoningLevel,
             'webSearchEnabled' => $this->webSearchEnabled,
             'executionTimeMs' => $this->executionTimeMs,
