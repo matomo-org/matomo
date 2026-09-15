@@ -1540,8 +1540,10 @@ class API extends \Piwik\Plugin\API
         $expireHours = 0,
         bool $secureOnly = false
     ) {
-        // Only allowed as a top-level request, not nested within another API request.
-        if (ApiRequest::isRootRequestApiRequest() && !ApiRequest::isCurrentApiRequestTheRootApiRequest()) {
+        // Only allowed as a top-level request, not nested within another API request. Base this on
+        // the actual API call nesting rather than request-scoped cache state, which is not a
+        // reliable signal for this decision.
+        if (ApiRequest::isCurrentApiRequestNestedInAnotherApiRequest()) {
             throw new Exception(Piwik::translate('UsersManager_ExceptionCreateTokenAuthWithinNestedRequest'));
         }
 
