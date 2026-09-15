@@ -121,8 +121,9 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   and scripts that reached it that way (or through an enclosing `.modal`) no longer match. It carries the
   classes `expandableList expandableSelector__list` and a `data-name` attribute holding the field's name, which
   is the supported way to target a particular field's list. An element rendered at page level that belongs to a
-  control inside a Materialize modal can mark itself `data-matomo-modal-escapee` to be exempted from the modal's focus
-  trap, which otherwise prevents it from holding focus.
+  control inside a Materialize modal can set `data-matomo-modal-escapee` to that modal's
+  `data-matomo-modal-id` to be exempted from its focus trap, which otherwise prevents it from holding focus. The
+  exemption applies only to the modal named, so an element belonging to one modal cannot hold focus over another.
 
 ## Matomo 5.14.0
 

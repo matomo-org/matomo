@@ -110,6 +110,31 @@ describe('CorePluginsAdmin/FormField/FieldExpandableSelect', () => {
       .toBe(true);
   });
 
+  it('names the modal it belongs to, so a sibling modal does not share the exemption', async () => {
+    const ids = [];
+
+    for (let i = 0; i < 2; i += 1) {
+      const modal = document.createElement('div');
+      modal.className = 'modal';
+      document.body.appendChild(modal);
+
+      const wrapper = mount(FieldExpandableSelect as any, {
+        attachTo: modal,
+        props: { availableOptions },
+      });
+      mounted.push(wrapper);
+
+      // eslint-disable-next-line no-await-in-loop
+      await wrapper.find('.select-wrapper').trigger('click');
+      ids.push(modal.getAttribute('data-matomo-modal-id'));
+    }
+
+    expect(ids[0]).toBeTruthy();
+    expect(ids[1]).toBeTruthy();
+    // a shared or absent token would let a list escape the trap of a modal stacked above its own
+    expect(ids[0]).not.toBe(ids[1]);
+  });
+
   it('defaults searchOnGroup to false', () => {
     const wrapper = mountSelect();
     expect((wrapper.vm as any).searchOnGroup).toBe(false);
@@ -293,8 +318,8 @@ describe('CorePluginsAdmin/FormField/FieldExpandableSelect', () => {
       );
       expect((wrapper.vm as any).isMouseDownInsideList).toBe(true);
 
-      // the outside-click directive skips its handler when the pointer was used on a scrollbar,
-      // so nothing there clears the marker; releasing the press has to
+      // releasing on the field is a release the directive owns, so it never calls blur() and
+      // nothing there clears the marker; releasing the press has to
       window.dispatchEvent(new MouseEvent('mouseup', { bubbles: true }));
       expect((wrapper.vm as any).isMouseDownInsideList).toBe(false);
 

@@ -21,7 +21,7 @@
         v-show="showSelect"
         class="expandableList expandableSelector__list"
         :data-name="name"
-        :data-matomo-modal-escapee="isInsideModal ? '' : null"
+        :data-matomo-modal-escapee="escapeeModalId"
         :style="listStyle"
         ref="expandableList"
       >
@@ -92,6 +92,32 @@ const LIST_GAP = 8;
 
 /** Gutter kept between the list and the edges of the viewport it is positioned against. */
 const VIEWPORT_MARGIN = 16;
+
+/** Marks a modal so a list teleported out of it can still name the modal it came from. */
+const MODAL_ID_ATTRIBUTE = 'data-matomo-modal-id';
+
+let modalIdCounter = 0;
+
+/**
+ * Returns an identifier for the Materialize modal containing `element`, tagging the modal with one
+ * if it has none, or null when the element is not inside a modal. Materialize builds modals without
+ * a stable identity of their own, and a teleported list needs to name the one it belongs to so that
+ * only that modal's focus trap lets it through.
+ */
+function identifyOwningModal(element: HTMLElement): string|null {
+  const modal = element.closest('.modal');
+
+  if (!modal) {
+    return null;
+  }
+
+  if (!modal.getAttribute(MODAL_ID_ATTRIBUTE)) {
+    modalIdCounter += 1;
+    modal.setAttribute(MODAL_ID_ATTRIBUTE, `expandable-select-modal-${modalIdCounter}`);
+  }
+
+  return modal.getAttribute(MODAL_ID_ATTRIBUTE);
+}
 
 export interface SelectValueInfo {
   key: unknown;
@@ -185,9 +211,11 @@ export default defineComponent({
       listStyle: {} as Record<string, string>,
       // the list is teleported out of this component, so a click in it reads as a click outside
       isMouseDownInsideList: false,
-      // only a list whose field sits inside a Materialize modal may opt out of that modal's focus
-      // trap; marking every list would let one hold focus over an unrelated modal
-      isInsideModal: false,
+      // Names the modal this list belongs to, or null when the field is not in one. The focus trap
+      // is exempted only for the modal that owns the list: marking every list would let one hold
+      // focus over an unrelated modal, and marking it for "some modal" would still let a list
+      // belonging to an underlying modal escape the trap of the one stacked on top of it.
+      escapeeModalId: null as string|null,
     };
   },
   computed: {
@@ -228,7 +256,7 @@ export default defineComponent({
       this.showSelect = !this.showSelect;
       this.openAbove = false;
       // resolved per open rather than once: modals are built and torn down around the field
-      this.isInsideModal = !!(this.$el as HTMLElement).closest('.modal');
+      this.escapeeModalId = identifyOwningModal(this.$el as HTMLElement);
 
       if (this.showSelect) {
         this.$nextTick(() => this.fitOptionsList());
