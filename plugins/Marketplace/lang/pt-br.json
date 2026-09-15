@@ -87,7 +87,6 @@
         "PluginUploadDisabled": "O carregamento de plugins está desabilitado no arquivo de configuração. Para habilitar este recurso por favor atualize sua configuração ou entre em contato com o seu administrador",
         "PluginVersionInfo": "%1$s de %2$s",
         "PluginWebsite": "Site de Plugin",
-        "PriceExclTax": "%1$s %2$s taxas excluídas.",
         "PriceFromPerPeriod": "De %1$s / %2$s",
         "RemoveLicenseKey": "Remover chave de licença",
         "RequestTrial": "Solicitar avaliação",
