@@ -942,9 +942,9 @@ $(document).ready(function() {
                     alert(response.message);
                 } else {
                     params.idsegment = response.value;
-                    // the name is stored escaped, so escape it here too and the list reads the
-                    // same before and after the next page load
-                    params.name = piwikHelper.htmlEntities(params.name);
+                    // the name is stored decoded and escaped, so do the same here and the list
+                    // reads the same before and after the next page load
+                    params.name = piwikHelper.htmlEntities(piwikHelper.htmlDecode(params.name));
                     self.props.availableSegments.push(params);
                     self.rebuild();
 
@@ -983,7 +983,7 @@ $(document).ready(function() {
                         }
                     }
 
-                    params.name = piwikHelper.htmlEntities(params.name);
+                    params.name = piwikHelper.htmlEntities(piwikHelper.htmlDecode(params.name));
                     $.extend( self.props.availableSegments[idx], params);
                     self.rebuild();
 
