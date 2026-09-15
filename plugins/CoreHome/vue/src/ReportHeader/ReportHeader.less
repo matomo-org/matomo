@@ -1,6 +1,6 @@
-// One spacing value for the whole header — the overlaid controls repeat it as their inset, so
-// they sit where they would in the row. Block-prefixed: every plugin's Less is compiled in one
-// pass, so root variables share a single namespace.
+// The overlaid controls repeat the header's padding as their inset, so the two are one value.
+// Block-prefixed: every plugin's Less is compiled in one pass, so root variables share a
+// single namespace.
 @_reportHeader_spacing: 20px;
 
 // Widget controls are visible unless the host opts into hover-reveal with the
@@ -13,7 +13,7 @@
   gap: 12px;
   border-radius: 8px;
   padding: @_reportHeader_spacing;
-  // Anchor for the overlaid widget controls.
+  // Anchor for the overlaid controls.
   position: relative;
 
   // A titleless widgetized report with no search has neither line; collapse instead of leaving
@@ -183,15 +183,19 @@
 // hook (e.g. the dashboard widget), hide the controls until the host is hovered or a control
 // is focused. Absent the hook the controls stay visible (base rule above), which is how a
 // maximised widget keeps them on. The hook is reference-only — see CSS rules, rule 31.
-.__reportHeader-onHover .reportHeader__widgetControls {
-  opacity: 0;
-  // Overlaid, not in the row: reserving width crushed the title in narrow columns.
+// Overlaid, not in the row: controls that are invisible at rest still reserved their width and
+// left the title a few pixels wide in a narrow dashboard column.
+.__reportHeader-onHover .reportHeader__controls {
   position: absolute;
   top: @_reportHeader_spacing;
   right: @_reportHeader_spacing;
-  // Fade the title out behind the icons.
+  // Fades the title out behind the icons rather than letting the two collide.
   padding-left: 45px;
   background: linear-gradient(to right, transparent, @theme-color-widget-title-background 45px);
+}
+
+.__reportHeader-onHover .reportHeader__widgetControls {
+  opacity: 0;
 }
 
 .__reportHeader-onHover:hover .reportHeader__widgetControls,
