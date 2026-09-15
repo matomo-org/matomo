@@ -93,7 +93,13 @@ class Client
         return $info;
     }
 
-    public function getConsumer()
+    /**
+     * @param bool $cachedOnly Return null rather than requesting the consumer when it is not
+     *                         cached. For callers on a request path that must not wait on
+     *                         plugins.matomo.org; {@link Tasks::warmCacheEntries()} keeps the
+     *                         entry filled so those callers still get an answer.
+     */
+    public function getConsumer(bool $cachedOnly = false)
     {
         if (!$this->service->hasAccessToken()) {
             // without a license key the Marketplace answers 403, so there is no consumer to ask for
@@ -101,12 +107,25 @@ class Client
         }
 
         try {
-            $licenses = $this->fetch('consumer', array());
+            $licenses = $this->fetch('consumer', array(), false, $cachedOnly);
         } catch (Exception $e) {
             $licenses = null;
         }
 
         return $licenses;
+    }
+
+    /**
+     * Refills the consumer entry, so that a reader which will not wait on the network still
+     * finds one. Does nothing without a license key, where there is no consumer to fetch.
+     */
+    public function refreshConsumerCache(): void
+    {
+        if (!$this->service->hasAccessToken()) {
+            return;
+        }
+
+        $this->fetch('consumer', array(), true);
     }
 
     public function isValidConsumer()
