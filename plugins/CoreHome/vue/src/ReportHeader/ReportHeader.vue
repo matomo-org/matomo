@@ -246,6 +246,7 @@
           :model-value="query"
           :placeholder="searchPlaceholder"
           :show-clear="true"
+          :ghost="true"
           @update:model-value="onQueryInput"
         />
       </div>
