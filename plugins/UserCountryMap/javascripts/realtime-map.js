@@ -12,7 +12,11 @@
 
     var UIControl = require('piwik/UI').UIControl;
 
-    var RealtimeMap = window.UserCountryMap.RealtimeMap = function (element) {
+    // Legacy namespace (see visitor-map.js); kept separate from the Vue plugin
+    // UMD global window.UserCountryMap so the two cannot clobber each other.
+    var UserCountryMap = window.UserCountryMapLegacy = window.UserCountryMapLegacy || {};
+
+    var RealtimeMap = UserCountryMap.RealtimeMap = function (element) {
         UIControl.call(this, element);
         this._init();
         this.run();
