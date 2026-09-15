@@ -12,6 +12,12 @@ import { mount } from '@vue/test-utils';
 // Sparkline. CoreHome has no jest module mapping, so mock it virtually.
 jest.mock('CoreHome', () => ({
   Tooltips: {},
+  Matomo: {
+    helper: {
+      htmlEntities: (value: string) => value
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'),
+    },
+  },
   // ucfirst is mocked as an identity passthrough; its capitalization is covered by ucfirst.spec.
   ucfirst: (s?: string) => s ?? '',
   Sparkline: {
@@ -80,6 +86,14 @@ describe('CoreVisualizations/SegmentComparisonRow', () => {
 
     expect(chip.text()).toBe('Eu visitors');
     expect(chip.attributes('title')).toBe('Eu visitors');
+  });
+
+  it('escapes the title, which the tooltip renders as HTML', () => {
+    const chip = createWrapper({ segment: segment({ title: '<b>Eu</b> & "visitors"' }) })
+      .find('.sparklineSegmentComparisonRow__chip');
+
+    expect(chip.text()).toBe('<b>Eu</b> & "visitors"');
+    expect(chip.attributes('title')).toBe('&lt;b&gt;Eu&lt;/b&gt; &amp; &quot;visitors&quot;');
   });
 
   it('renders the primary and secondary metric values, formatting raw numbers', () => {
