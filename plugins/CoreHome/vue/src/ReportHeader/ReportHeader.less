@@ -1,3 +1,8 @@
+// The overlaid controls repeat the header's padding as their inset, so the two are one value.
+// Block-prefixed: every plugin's Less is compiled in one pass, so root variables share a
+// single namespace.
+@_reportHeader_spacing: 20px;
+
 // Widget controls are visible unless the host opts into hover-reveal with the
 // `__reportHeader-onHover` hook.
 .reportHeader {
@@ -7,7 +12,9 @@
   flex-direction: column;
   gap: 12px;
   border-radius: 8px;
-  padding: 20px;
+  padding: @_reportHeader_spacing;
+  // Anchor for the overlaid controls.
+  position: relative;
 
   // A titleless widgetized report with no search has neither line; collapse instead of leaving
   // a padded box behind.
@@ -176,6 +183,17 @@
 // hook (e.g. the dashboard widget), hide the controls until the host is hovered or a control
 // is focused. Absent the hook the controls stay visible (base rule above), which is how a
 // maximised widget keeps them on. The hook is reference-only — see CSS rules, rule 31.
+// Overlaid, not in the row: controls that are invisible at rest still reserved their width and
+// left the title a few pixels wide in a narrow dashboard column.
+.__reportHeader-onHover .reportHeader__controls {
+  position: absolute;
+  top: @_reportHeader_spacing;
+  right: @_reportHeader_spacing;
+  // Fades the title out behind the icons rather than letting the two collide.
+  padding-left: 45px;
+  background: linear-gradient(to right, transparent, @theme-color-widget-title-background 45px);
+}
+
 .__reportHeader-onHover .reportHeader__widgetControls {
   opacity: 0;
 }
