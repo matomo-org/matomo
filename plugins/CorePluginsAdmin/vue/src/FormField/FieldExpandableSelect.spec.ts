@@ -135,6 +135,57 @@ describe('CorePluginsAdmin/FormField/FieldExpandableSelect', () => {
     expect(ids[0]).not.toBe(ids[1]);
   });
 
+  /**
+   * The two halves of this contract sit in different files, joined only by matching string
+   * literals: this component writes data-matomo-modal-id and data-matomo-modal-escapee, and
+   * materialize-bc.js reads them. Either side's own spec stays green if the other is renamed,
+   * so drive the markup this component really emits through the real shim.
+   */
+  it('is let through the real shim by the modal it tags, and trapped by any other', async () => {
+    const trapped: unknown[] = [];
+    const ready: Array<() => void> = [];
+    const M = {
+      initializeJqueryWrapper: () => {},
+      Tabs: {},
+      Modal: {
+        prototype: {
+          _handleFocus(this: unknown, event: { target: unknown }) { trapped.push(event.target); },
+        },
+      },
+    };
+    const jq = (() => ({ ready: (cb: () => void) => { ready.push(cb); } })) as any;
+    jq.fn = {};
+    (globalThis as any).M = M;
+    (globalThis as any).$ = jq;
+
+    await import('../../../../CoreHome/javascripts/materialize-bc.js');
+    ready.forEach((cb) => cb());
+
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    document.body.appendChild(modal);
+
+    const wrapper = mount(FieldExpandableSelect as any, {
+      attachTo: modal,
+      props: { availableOptions },
+    });
+    mounted.push(wrapper);
+    await wrapper.find('.select-wrapper').trigger('click');
+
+    const search = findInBody('.expandableSelector__list .expandableSearch');
+
+    M.Modal.prototype._handleFocus.call({ el: modal }, { target: search });
+    expect(trapped.length).toBe(0);
+
+    const other = document.createElement('div');
+    other.setAttribute('data-matomo-modal-id', 'someone-else');
+    M.Modal.prototype._handleFocus.call({ el: other }, { target: search });
+    expect(trapped.length).toBe(1);
+
+    delete (globalThis as any).M;
+    delete (globalThis as any).$;
+  });
+
   it('defaults searchOnGroup to false', () => {
     const wrapper = mountSelect();
     expect((wrapper.vm as any).searchOnGroup).toBe(false);

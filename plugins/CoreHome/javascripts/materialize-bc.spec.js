@@ -88,4 +88,5 @@ describe('materialize-bc modal focus trap', function () {
 
         expect(trapped.length).to.equal(1);
     });
+
 });
