@@ -324,6 +324,32 @@ describe('ReportHeader', () => {
       expect(vm.promotedCount).toBe(0);
     });
 
+    // An embed carries the hover hook but no widget controls, so the fit alone would promote,
+    // and the hook overlays the controls on the title: a promoted button would sit on the words
+    // for good rather than fading in over them.
+    it('should promote nothing inside a host that overlays the controls', async () => {
+      const host = document.createElement('div');
+      host.className = '__reportHeader-onHover';
+      document.body.appendChild(host);
+
+      const wrapper = mount(ReportHeader, {
+        props: { context: 'widgetized', reportTitle: 'Visits Over Time', ...offered },
+        attachTo: host,
+        global: { stubs: { EnrichedHeadline: EnrichedHeadlineStub } },
+      });
+      const vm = wrapper.vm as unknown as {
+        updatePromoted: () => Promise<void>; promotedCount: number;
+      };
+
+      giveRoom(wrapper, 1200);
+      await vm.updatePromoted();
+
+      expect(vm.promotedCount).toBe(0);
+
+      wrapper.unmount();
+      host.remove();
+    });
+
     // Only the template's order enforces this, so re-reversing it must fail something.
     it('should draw the highest rank nearest the trigger', async () => {
       const wrapper = await mountPromoted(3, { showPeriods: true, selectablePeriods: ['day'] });
