@@ -119,6 +119,30 @@ class TimetableTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($timetable->shouldExecuteTask($task->getName()));
     }
 
+    public function testRescheduleTaskAndRunNowKeepsWhatAnotherProcessWroteMeanwhile()
+    {
+        self::stubPiwikOption(serialize([]));
+
+        // read at construction, as the Scheduler does when the container resolves it
+        $timetable = new Timetable();
+
+        $task = $this->getMockBuilder(Task::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $task->method('getName')->willReturn('taskName');
+
+        // another process reschedules a different task in between
+        $otherRunsAt = time() + 3600;
+        Option::set(Timetable::TIMETABLE_OPTION_STRING, serialize(['otherTask' => $otherRunsAt]));
+
+        $timetable->rescheduleTaskAndRunNow($task);
+
+        // without the re-read, save() would write back the stale copy and put otherTask back to
+        // whatever it was before - an already-past time, so it would run a second time
+        $this->assertSame($otherRunsAt, $timetable->getTimetable()['otherTask'] ?? null);
+        $this->assertTrue($timetable->shouldExecuteTask($task->getName()));
+    }
+
     /**
      * Dataprovider for testTaskHasBeenScheduledOnce
      */

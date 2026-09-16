@@ -40,6 +40,7 @@ class MarketplaceTest extends IntegrationTestCase
         parent::setUp();
 
         SpyCacheWarmer::$warmSoonCalls = 0;
+        SpyCacheWarmer::$builds = 0;
     }
 
     public function tearDown(): void
@@ -68,6 +69,7 @@ class MarketplaceTest extends IntegrationTestCase
 
         // the warmer must not be built from inside the updater: doing so moved PrivacyManager's
         // anonymisation settings in NoVisitTest, so the update path marks the task due instead
+        self::assertSame(0, SpyCacheWarmer::$builds, 'the warmer was constructed inside the updater');
         self::assertSame(0, SpyCacheWarmer::$warmSoonCalls);
     }
 
@@ -97,7 +99,11 @@ class MarketplaceTest extends IntegrationTestCase
     public function provideContainerConfig()
     {
         return [
-            CacheWarmer::class => new SpyCacheWarmer(),
+            // a factory, not an instance: the regression here is the warmer being *built* inside
+            // the updater, and handing over a ready-made object would make that free and invisible
+            CacheWarmer::class => \Piwik\DI::factory(static function () {
+                return new SpyCacheWarmer();
+            }),
         ];
     }
 }
@@ -109,8 +115,11 @@ class SpyCacheWarmer extends CacheWarmer
 {
     public static $warmSoonCalls = 0;
 
+    public static $builds = 0;
+
     public function __construct()
     {
+        self::$builds++;
     }
 
     public function warmSoon(): void

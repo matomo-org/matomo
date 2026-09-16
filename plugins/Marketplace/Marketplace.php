@@ -60,7 +60,16 @@ class Marketplace extends \Piwik\Plugin
             StaticContainer::get(Scheduler::class)
                 ->rescheduleTaskAndRunNow(Tasks::getWarmCacheEntriesTask());
         } catch (Throwable $e) {
-            // an update must not fail over a warm that is only an optimisation
+            // an update must not fail over a warm that is only an optimisation, but without a line
+            // here there would be nothing to triage from if the timetable write kept failing
+            try {
+                StaticContainer::get(LoggerInterface::class)->debug(
+                    'Could not mark the Marketplace cache warming task due: {message}',
+                    ['message' => $e->getMessage()]
+                );
+            } catch (Throwable $ignored) {
+                // the container is what failed, so it cannot be relied on to report it either
+            }
         }
     }
 

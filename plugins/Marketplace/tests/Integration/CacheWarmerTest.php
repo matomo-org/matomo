@@ -73,8 +73,9 @@ class CacheWarmerTest extends IntegrationTestCase
         Common::$isCliMode = false;
 
         $api = $this->apiWithWarmLists(false);
-        // pins the order the guard is named for: an instance with no outbound internet must not be
-        // asked about the cache at all
+        // defence in depth rather than a live case: Plugin\Manager drops plugins whose
+        // requiresInternetConnection() is true when internet features are off, so this handler is
+        // not even registered then. Pins the short-circuit order regardless.
         $api->expects($this->never())->method('hasWarmOverviewLists');
 
         $scheduler = $this->createMock(Scheduler::class);
@@ -107,10 +108,11 @@ class CacheWarmerTest extends IntegrationTestCase
         $this->buildWarmer($scheduler, $this->apiWithWarmLists(false), $this->cliMulti(false))->warmSoon();
     }
 
-    public function testWarmSoonMarksTheTaskDueForACommandLineUpdateEvenWhenItCouldSpawnAProcess(): void
+    public function testWarmSoonMarksTheTaskDueFromTheCommandLineEvenWhenItCouldSpawnAProcess(): void
     {
-        // an unattended deployment has nobody waiting on a page, and a fleet of them would reach
-        // this at the same moment, so each instance is left to warm on its own next scheduler run
+        // defensive: core has no command-line installer, so nothing reaches this today. If one
+        // ever calls in, nobody is waiting on a page and a fleet would all spawn at once, so it
+        // must fall back to marking the task due
         Common::$isCliMode = true;
 
         $scheduler = $this->createMock(Scheduler::class);
@@ -119,7 +121,7 @@ class CacheWarmerTest extends IntegrationTestCase
         $this->buildWarmer($scheduler, $this->apiWithWarmLists(false), $this->cliMulti(true))->warmSoon();
     }
 
-    public function testWarmSoonDoesNotLetAFailureReachTheInstallOrUpdateThatTriggeredIt(): void
+    public function testWarmSoonDoesNotLetAFailureReachTheInstallationThatTriggeredIt(): void
     {
         Common::$isCliMode = false;
 

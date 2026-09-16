@@ -20,14 +20,18 @@ use Piwik\SettingsPiwik;
 use Throwable;
 
 /**
- * Brings the warming that {@link Tasks::warmCacheEntries()} does on the hour forward to a moment
- * the cache is known to be cold and the Marketplace is about to be opened.
+ * Brings the warming that {@link Tasks::warmCacheEntries()} does on the hour forward to the end of
+ * an installation, where the cache is certainly cold and the Marketplace is the next thing a new
+ * administrator tends to open.
  *
  * A newly registered task is only entered into the timetable on the scheduler's first run, never
- * executed by it (see Timetable::shouldExecuteTask()), so after an installation or an update the
- * overview lists stay cold for at least an hour - and longer on an instance whose scheduler runs
- * only from tracker requests. Whoever opens the Marketplace in that window pays for every request
- * the page needs, which is the slowest it ever is.
+ * executed by it (see Timetable::shouldExecuteTask()), so a fresh installation leaves the overview
+ * lists cold for at least an hour - and longer on an instance that has no traffic yet to drive the
+ * scheduler at all. Whoever opens the Marketplace in that window pays for every request the page
+ * needs, which is the slowest it ever is.
+ *
+ * Updates do not come through here: {@link Marketplace::warmCacheAfterUpdate()} only marks the task
+ * due, because building this class from inside the updater disturbs what other plugins report.
  */
 class CacheWarmer
 {
@@ -79,8 +83,8 @@ class CacheWarmer
 
             $this->runInBackground($phpBinary);
         } catch (Throwable $e) {
-            // warming is an optimisation, so nothing here may fail the installation or update that
-            // triggered it - including an error, which a bad php binary path would raise
+            // warming is an optimisation, so nothing here may fail the installation that triggered
+            // it - including an error, which a bad php binary path would raise
             $this->logger->warning('Could not warm the Marketplace cache ahead of time: {message}', [
                 'message' => $e->getMessage(),
             ]);
@@ -103,10 +107,10 @@ class CacheWarmer
      */
     private function findPhpBinaryForBackgroundRun(): ?string
     {
-        // an update run from the command line is usually an unattended deployment: nobody is
-        // waiting on a page, and across a fleet every instance would reach this line at once.
-        // Marking the task due spreads that over each instance's own next scheduler run, and costs
-        // the Marketplace nothing it was not already going to be asked for.
+        // defensive rather than reachable: core has no command-line installer, so today every
+        // caller is a web request. A CLI caller must never spawn - nobody would be waiting on the
+        // page it warms, and across a fleet every instance would reach this line at once - so it
+        // falls back to marking the task due and warming on its own next scheduler run.
         if (Common::isPhpCliMode() || !$this->cliMulti->supportsAsync()) {
             return null;
         }
@@ -135,7 +139,15 @@ class CacheWarmer
         // price is one redundant warm on this path, which only a person can trigger.
         $this->markTaskDue();
 
-        $this->execute($this->buildWarmCommand($phpBinary));
+        $command = $this->buildWarmCommand($phpBinary);
+
+        // the only trace that this ran: the command discards both streams, so a child that dies
+        // says nothing anywhere. CliMulti::executeAsyncCli() logs its command the same way.
+        $this->logger->debug('Warming the Marketplace cache in the background: {command}', [
+            'command' => $command,
+        ]);
+
+        $this->execute($command);
     }
 
     /**
@@ -150,8 +162,8 @@ class CacheWarmer
     private function buildWarmCommand(string $phpBinary): string
     {
         // without this the child resolves no hostname and falls back to config/config.ini.php, so
-        // on a per-hostname-config install it would warm a different instance than the one that
-        // just updated. Same guard as core/Updater/Migration/Plugin/Activate.php: the comparison
+        // on a per-hostname-config install it would warm a different instance than the one being
+        // installed. Same guard as core/Updater/Migration/Plugin/Activate.php: the comparison
         // means the hostname already resolved to a config file that exists.
         $domain = Config::getLocalConfigPath() === Config::getDefaultLocalConfigPath()
             ? ''
