@@ -75,6 +75,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * Two new events let plugins customise the "No data has been recorded yet" page, on both the standalone page and its embedding in the reporting UI:
   * `Template.siteWithoutData.afterTrackingMethods` collects additional HTML rendered below the tracking methods list and the section for temporarily hiding the page.
   * `SitesManager.siteWithoutData.showInviteTeamMemberLink` lets a plugin hide the "Invite Team Member" link by setting the posted flag to `false`.
+* The new `PrivacyManager.compliancePolicySettingsUpdated` event announces the compliance policy settings a request has just changed, so an audit trail can record who changed what. It is posted by `PrivacyManager.setCompliancePolicySettings` and `PrivacyManager.enforceCompliancePolicySettings` once per request, and only when something actually changed: a request that fails, or that repeats the state a policy is already in, posts nothing. Its single array parameter holds the policy id, the `idSite` the policy was changed for (`null` for the instance wide state), whether every toggleable setting of the policy is enforced afterwards, and the settings whose enforcement state or compliance status changed. It deliberately carries no request parameters, and therefore no password confirmation or authentication token.
 
 ### HTTP API
 * Report rows now include a percentage-of-report-total value for each metric the report processes totals for, as an additional

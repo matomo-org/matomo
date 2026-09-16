@@ -76,6 +76,55 @@ class ComplianceSettingsProvider
     }
 
     /**
+     * Compares two payloads of {@link getPolicySettings()} and returns the settings whose
+     * enforcement state or compliance status differs between them.
+     *
+     * Settings are matched on their stable identifier. One that is missing from either
+     * payload is left out: the set of settings a policy controls only changes when plugins
+     * are activated or deactivated, which is not a compliance change anyone performed here.
+     *
+     * @param array<string, mixed> $before payload taken before the settings were written
+     * @param array<string, mixed> $after payload taken after the settings were written
+     * @return array<int, array{id: string, name: string, enforced: bool|null, previousEnforced: bool|null, status: string, previousStatus: string}>
+     */
+    public function diffPolicySettings(array $before, array $after): array
+    {
+        $previousById = [];
+
+        foreach ($before['settings'] ?? [] as $setting) {
+            $previousById[$setting['id']] = $setting;
+        }
+
+        $changes = [];
+
+        foreach ($after['settings'] ?? [] as $setting) {
+            if (!array_key_exists($setting['id'], $previousById)) {
+                continue;
+            }
+
+            $previous = $previousById[$setting['id']];
+
+            if (
+                $previous['enforced'] === $setting['enforced']
+                && $previous['status'] === $setting['status']
+            ) {
+                continue;
+            }
+
+            $changes[] = [
+                'id' => $setting['id'],
+                'name' => $setting['name'],
+                'enforced' => $setting['enforced'],
+                'previousEnforced' => $previous['enforced'],
+                'status' => $setting['status'],
+                'previousStatus' => $previous['status'],
+            ];
+        }
+
+        return $changes;
+    }
+
+    /**
      * @param class-string<CompliancePolicy> $policyClass
      * @return array<int, array<string, mixed>>
      */
