@@ -497,7 +497,7 @@ class ModelTest extends IntegrationTestCase
         $observedLogins = array();
 
         EventDispatcher::getInstance()->addObserver(
-            'UsersManager.addUser',
+            'UsersManager.createUser',
             function ($userLogin) use (&$observedLogins) {
                 $observedLogins[] = $userLogin;
             }

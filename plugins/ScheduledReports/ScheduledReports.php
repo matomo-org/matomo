@@ -93,7 +93,7 @@ class ScheduledReports extends \Piwik\Plugin
             'ScheduledReports.allowMultipleReports'     => 'allowMultipleReports',
             'ScheduledReports.sendReport'               => 'sendReport',
             'Template.reportParametersScheduledReports' => 'templateReportParametersScheduledReports',
-            'UsersManager.addUser'                      => 'deleteUserReport',
+            'UsersManager.createUser'                   => 'deleteUserReport',
             'UsersManager.deleteUser'                   => 'deleteUserReport',
             'UsersManager.removeSiteAccess'             => 'deleteUserReportForSites',
             'SitesManager.deleteSite.end'               => 'deleteSiteReport',
