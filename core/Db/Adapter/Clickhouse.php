@@ -534,6 +534,19 @@ class Clickhouse implements AdapterInterface
         // another timezone cannot shift toDate()/toHour() results.
         $client->settings()->set('session_timezone', 'UTC');
 
+        // A ClickHouse TEMPORARY TABLE lives in the session, so the segment cache in
+        // LogAggregator cannot work without one. The id has to be stable for the life of the
+        // process, because a table created by one query has to still be there for the next,
+        // and unique across processes, because two processes sharing an id serialise against
+        // each other with "Session is locked by a concurrent client".
+        //
+        // Sessions are per REPLICA. On a multi-replica service the load balancer moves
+        // requests between nodes and the temporary table only exists on the one that created
+        // it - measured ~40% misses on a two-node service. That is why the segment cache is
+        // off by default and gated on [database_analytics] segment_cache.
+        $client->settings()->set('session_id', self::sessionId());
+        $client->settings()->set('session_timeout', 600);
+
         // Sizing and planner settings, every one of them optional and unset by default.
         // These were previously pinned here to values chosen for a 2.55 GiB ddev
         // container - fewer parallel streams and early spilling to disk - which is
@@ -564,6 +577,23 @@ class Clickhouse implements AdapterInterface
      *
      * @param array<string, mixed> $config
      */
+    /**
+     * A session id, stable for this process and unique across processes.
+     *
+     * Stable because a TEMPORARY TABLE created by one query has to still be there for the
+     * next; unique because two processes sharing a session id serialise against each other.
+     */
+    private static function sessionId(): string
+    {
+        static $id = null;
+
+        if (null === $id) {
+            $id = sprintf('matomo-%d-%s', getmypid(), bin2hex(random_bytes(6)));
+        }
+
+        return $id;
+    }
+
     public static function finalSetting(array $config): int
     {
         $configured = (string) ($config['final'] ?? '');

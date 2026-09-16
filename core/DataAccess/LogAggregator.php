@@ -303,15 +303,30 @@ class LogAggregator
             return false;
         }
 
-        // The segment temp-table optimization creates a MySQL temporary table and then JOINs
-        // against it in the main aggregation query. When analytics queries are routed to
-        // ClickHouse the temp table does not exist there, so disable the cache and let the
-        // segment conditions be inlined as WHERE clauses instead.
+        $config = Config::getInstance();
+
+        // On the analytics database the optimisation is opt-in and off by default, because it
+        // depends on something MySQL gives for free and ClickHouse does not: a temporary table
+        // that is still there on the next query.
+        //
+        // A ClickHouse TEMPORARY TABLE lives in the session, and a session lives on ONE replica.
+        // A multi-replica service spreads requests across replicas, so the table is missing from
+        // roughly half of them - measured 40% misses on a two-node service. Losing it is not a
+        // wrong answer, createTemporaryTable() simply rebuilds it, but rebuilding the segment on
+        // half the queries is worse than never caching it. Enable this only on a service where
+        // the session is known to stay put: a single-replica service, or replica-aware routing.
+        //
+        // It is also not obviously a win the way it is on MySQL. MySQL needs it because
+        // resolving a segment per query costs it about a minute; ClickHouse resolves the same
+        // segment inline in about a second, and idvisit is not a leading sorting-key column on
+        // log_link_visit_action, so joining a temporary table of visit ids is not a shape the
+        // sorting key serves. Measure it before believing it.
         if (Db::hasAnalyticsConfigured()) {
-            return false;
+            $analytics = $config->database_analytics;
+
+            return !empty($analytics['segment_cache']);
         }
 
-        $config = Config::getInstance();
         $general = $config->General;
         return !empty($general['enable_segments_cache']);
     }
@@ -338,6 +353,16 @@ class LogAggregator
 
         if ($this->doesSegmentTableExist($table)) {
             return; // no need to create the table, it was already created... better to have a select vs unneeded create table
+        }
+
+        // The analytics database holds the log tables the INSERT ... SELECT reads, so the
+        // temporary table has to be created on that connection, not on the MySQL reader.
+        // Its dialect differs enough that sharing the MySQL statements is not possible:
+        // no PRIMARY KEY clause, an explicit engine, INSERT rather than INSERT IGNORE, and
+        // no transaction level to set.
+        if (Db::hasAnalyticsConfigured()) {
+            $this->createTemporaryTableOnAnalyticsDb($table, $segmentSelectSql, $segmentSelectBind);
+            return;
         }
 
         $engine = '';
@@ -387,6 +412,35 @@ class LogAggregator
         $readerDb->query($insertIntoStatement, $segmentSelectBind);
 
         $transactionLevel->restorePreviousStatus();
+    }
+
+    /**
+     * Build the segment temporary table on the analytics database.
+     *
+     * ClickHouse differences that matter, all of them load-bearing:
+     *  - no PRIMARY KEY clause on a temporary table, and an engine is required. Memory is
+     *    right here: the table is one UInt64 column, it is read many times and written once,
+     *    and it dies with the session anyway.
+     *  - INSERT, not INSERT IGNORE. The select already carries DISTINCT, and ClickHouse has
+     *    no such modifier.
+     *  - no transaction level. Db\TransactionLevel is MySQL-only and there is no lock here
+     *    to avoid taking.
+     *  - the statements go through query(), not exec(). exec() reaches the client's write()
+     *    path, which sends readonly=0, and a user whose profile pins readonly=2 - the least
+     *    privilege that can still create a temporary table - is refused with
+     *    "Cannot modify 'readonly' setting in readonly mode".
+     *
+     * @param array<scalar> $segmentSelectBind
+     */
+    private function createTemporaryTableOnAnalyticsDb(
+        string $table,
+        string $segmentSelectSql,
+        array $segmentSelectBind
+    ): void {
+        $db = $this->getDb();
+
+        $db->query('CREATE TEMPORARY TABLE ' . $table . ' (idvisit UInt64) ENGINE = Memory');
+        $db->query('INSERT INTO ' . $table . ' (idvisit) ' . $segmentSelectSql, $segmentSelectBind);
     }
 
     /**
