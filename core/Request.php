@@ -10,6 +10,7 @@
 namespace Piwik;
 
 use InvalidArgumentException;
+use Piwik\Exception\MissingRequestParameterException;
 
 /**
  * Provides (type safe) access methods for request parameters.
@@ -30,6 +31,8 @@ class Request
     protected $requestParameters;
 
     private static $exceptionMsg = "The parameter '%s' isn't set in the Request and a default value wasn't provided.";
+    private static $invalidValueExceptionMsg
+        = "The parameter '%s' was provided with an invalid value and a default value wasn't provided.";
 
     public function __construct(array $requestParameters)
     {
@@ -121,7 +124,7 @@ class Request
             return $default;
         }
 
-        throw new InvalidArgumentException(sprintf(self::$exceptionMsg, $name));
+        throw new MissingRequestParameterException(sprintf(self::$exceptionMsg, $name));
     }
 
     /**
@@ -143,7 +146,7 @@ class Request
             return $default;
         }
 
-        throw new InvalidArgumentException(sprintf(self::$exceptionMsg, $name));
+        throw new InvalidArgumentException(sprintf(self::$invalidValueExceptionMsg, $name));
     }
 
     /**
@@ -165,7 +168,7 @@ class Request
             return $default;
         }
 
-        throw new InvalidArgumentException(sprintf(self::$exceptionMsg, $name));
+        throw new InvalidArgumentException(sprintf(self::$invalidValueExceptionMsg, $name));
     }
 
     /**
@@ -187,7 +190,7 @@ class Request
             return $default;
         }
 
-        throw new InvalidArgumentException(sprintf(self::$exceptionMsg, $name));
+        throw new InvalidArgumentException(sprintf(self::$invalidValueExceptionMsg, $name));
     }
 
     /**
@@ -221,7 +224,7 @@ class Request
             return $default;
         }
 
-        throw new InvalidArgumentException(sprintf(self::$exceptionMsg, $name));
+        throw new InvalidArgumentException(sprintf(self::$invalidValueExceptionMsg, $name));
     }
 
     /**
@@ -245,7 +248,7 @@ class Request
             return $default;
         }
 
-        throw new InvalidArgumentException(sprintf(self::$exceptionMsg, $name));
+        throw new InvalidArgumentException(sprintf(self::$invalidValueExceptionMsg, $name));
     }
 
     /**
@@ -263,12 +266,13 @@ class Request
             // Note we can't simply pass the default to getParameter here, in case the default would be string
             // we would otherwise try to parse it as json below, which might result in unexpected behavior
             $parameter = $this->getParameter($name);
-        } catch (InvalidArgumentException $e) {
-            $parameter = null;
-
+        } catch (MissingRequestParameterException $e) {
             if ($default !== null) {
                 return $default;
             }
+
+            // Not the invalid-value throw below: nothing was supplied.
+            throw $e;
         }
 
         if (is_string($parameter)) {
@@ -283,7 +287,7 @@ class Request
             return $default;
         }
 
-        throw new InvalidArgumentException(sprintf(self::$exceptionMsg, $name));
+        throw new InvalidArgumentException(sprintf(self::$invalidValueExceptionMsg, $name));
     }
 
     private function filterNullBytes($value)

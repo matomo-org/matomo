@@ -532,4 +532,49 @@ class RequestTest extends IntegrationTestCase
             'Piwik\Access' => $this->access,
         );
     }
+
+    public function testProcessRequestRejectsAnUnusableValueForAnOptionalNullableParameter(): void
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('General_InvalidValueForParameter');
+
+        Access::doAsSuperUser(function () {
+            Request::processRequest('Annotations.getAll', [
+                'idSite' => 1,
+                'date'   => ['unusable' => 'value'],
+            ]);
+        });
+    }
+
+    public function testProcessRequestRejectsAnUnusableValueForAnOptionalNullableIntegerParameter(): void
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('General_InvalidValueForParameter');
+
+        Access::doAsSuperUser(function () {
+            Request::processRequest('Annotations.getAll', [
+                'idSite' => 1,
+                'lastN'  => ['unusable' => 'value'],
+            ]);
+        });
+    }
+
+    public function testProcessRequestAcceptsAnOptionalNullableParameterThatWasNotSupplied(): void
+    {
+        $result = Access::doAsSuperUser(function () {
+            return Request::processRequest('Annotations.getAll', ['idSite' => 1]);
+        });
+
+        self::assertIsArray($result);
+    }
+
+    public function testProcessRequestStillReportsARequiredParameterThatWasNotSupplied(): void
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('General_PleaseSpecifyValue');
+
+        Access::doAsSuperUser(function () {
+            Request::processRequest('Annotations.getAll', []);
+        });
+    }
 }

@@ -11,6 +11,7 @@
 
 namespace Piwik\Tests\Unit;
 
+use Piwik\Exception\MissingRequestParameterException;
 use Piwik\Request;
 
 /**
@@ -462,5 +463,111 @@ class RequestTest extends \PHPUnit\Framework\TestCase
         yield 'array value' => [['a' => 'b', 'c', 5 => true]];
         yield 'string value' => ['random string'];
         yield 'json string value' => ['{"a":"b","b":{"0":false,"1":1.22,"key":{}}}'];
+    }
+
+    public function testMissingRequestParameterExceptionExtendsInvalidArgumentExceptionForBackwardCompatibility(): void
+    {
+        self::assertInstanceOf(\InvalidArgumentException::class, new MissingRequestParameterException('x'));
+    }
+
+    /**
+     * @dataProvider getTypedGetterNames
+     */
+    public function testTypedGetterThrowsMissingExceptionWhenParameterWasNotSupplied(string $getter): void
+    {
+        $request = new Request([]);
+
+        self::expectException(MissingRequestParameterException::class);
+
+        $request->$getter('parameter');
+    }
+
+    /**
+     * @dataProvider getTypedGetterNames
+     */
+    public function testTypedGetterTreatsAnExplicitNullValueAsNotSupplied(string $getter): void
+    {
+        $request = new Request(['parameter' => null]);
+
+        self::expectException(MissingRequestParameterException::class);
+
+        $request->$getter('parameter');
+    }
+
+    /**
+     * @dataProvider getSuppliedButUnusableValues
+     */
+    public function testTypedGetterThrowsPlainInvalidArgumentExceptionForASuppliedButUnusableValue(
+        string $getter,
+        $requestValue
+    ): void {
+        $request = new Request(['parameter' => $requestValue]);
+
+        try {
+            $request->$getter('parameter');
+            self::fail('Expected an exception for ' . $getter);
+        } catch (MissingRequestParameterException $e) {
+            self::fail($getter . ' reported a supplied value as a missing parameter');
+        } catch (\InvalidArgumentException $e) {
+            self::assertStringContainsString('invalid value', $e->getMessage());
+        }
+    }
+
+    public function testGetStringParameterTreatsAnEmptyStringAsASuppliedValue(): void
+    {
+        $request = new Request(['parameter' => '']);
+
+        self::assertSame('', $request->getStringParameter('parameter'));
+    }
+
+    public function testGetParameterThrowsMissingExceptionWhenNotSuppliedAndNoDefaultGiven(): void
+    {
+        $request = new Request([]);
+
+        self::expectException(MissingRequestParameterException::class);
+
+        $request->getParameter('parameter');
+    }
+
+    /**
+     * @dataProvider getTypedGetterNames
+     */
+    public function testTypedGetterStillReturnsTheDefaultWhenOneIsGiven(string $getter): void
+    {
+        $defaults = [
+            'getIntegerParameter' => 5,
+            'getFloatParameter'   => 1.5,
+            'getStringParameter'  => 'default',
+            'getBoolParameter'    => true,
+            'getArrayParameter'   => ['a'],
+            'getJsonParameter'    => ['a'],
+        ];
+
+        $request = new Request([]);
+
+        self::assertSame($defaults[$getter], $request->$getter('parameter', $defaults[$getter]));
+    }
+
+    public function getTypedGetterNames(): iterable
+    {
+        yield 'getIntegerParameter' => ['getIntegerParameter'];
+        yield 'getFloatParameter' => ['getFloatParameter'];
+        yield 'getStringParameter' => ['getStringParameter'];
+        yield 'getBoolParameter' => ['getBoolParameter'];
+        yield 'getArrayParameter' => ['getArrayParameter'];
+        yield 'getJsonParameter' => ['getJsonParameter'];
+    }
+
+    public function getSuppliedButUnusableValues(): iterable
+    {
+        yield 'integer given an array' => ['getIntegerParameter', ['x' => 'y']];
+        yield 'integer given a word' => ['getIntegerParameter', 'notanumber'];
+        yield 'float given an array' => ['getFloatParameter', ['x' => 'y']];
+        yield 'string given an array' => ['getStringParameter', ['x' => 'y']];
+        yield 'string given an object' => ['getStringParameter', new \stdClass()];
+        yield 'bool given an array' => ['getBoolParameter', ['x' => 'y']];
+        yield 'bool given a word' => ['getBoolParameter', 'notabool'];
+        yield 'array given a string' => ['getArrayParameter', 'notanarray'];
+        yield 'json given a non-json string' => ['getJsonParameter', 'notjson'];
     }
 }
