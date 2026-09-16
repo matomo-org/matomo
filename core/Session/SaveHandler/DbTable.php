@@ -45,14 +45,16 @@ class DbTable implements \SessionHandlerInterface
      *
      * @var array<string, string>
      */
-    private array $readData = [];
+    private $readData = [];
 
     /**
      * Merging only works while the session is stored the way {@see \Piwik\Session::start()} asks PHP
      * to store it. That ini_set is allowed to fail, and if it ever does every merge below returns
      * null and writing quietly goes back to storing whatever was written last.
+     *
+     * @var SessionDataMerger
      */
-    private SessionDataMerger $merger;
+    private $merger;
 
     /**
      * @param array $config
@@ -366,7 +368,7 @@ class DbTable implements \SessionHandlerInterface
 
     private function hasExpired($row)
     {
-        return $row[$this->config['modifiedColumn']] + $row[$this->config['lifetimeColumn']] < time();
+        return (int) $row[$this->config['modifiedColumn']] + (int) $row[$this->config['lifetimeColumn']] < time();
     }
 
     private function didChangeRow($sql, $bind)

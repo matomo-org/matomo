@@ -18,7 +18,10 @@ use Piwik\Translation\Translator;
  */
 class SessionSerializeHandlerCheck implements Diagnostic
 {
-    private Translator $translator;
+    /**
+     * @var Translator
+     */
+    private $translator;
 
     public function __construct(Translator $translator)
     {

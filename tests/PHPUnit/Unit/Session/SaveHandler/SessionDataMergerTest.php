@@ -416,7 +416,7 @@ class SessionDataMergerTest extends TestCase
 
         // built in place so the reference really is a cycle - returning it from a helper would
         // serialize as null and the test would pass without the depth limit
-        $this->assertMatchesRegularExpression('/R:\\d+;/', serialize($base));
+        $this->assertRegExp('/R:\\d+;/', serialize($base));
 
         $merged = $this->merger->decode($this->merger->merge(
             $this->merger->encode($base),
