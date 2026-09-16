@@ -38,11 +38,11 @@ class AiRecommenderTest extends TestCase
                     && $request->getIdSite() === 1
                     && $request->isJsonResponse()
                     && $request->getMaxTokens() === 4000
-                    && strpos($request->getUserPrompt(), '"signals"') !== false
-                    && strpos($request->getUserPrompt(), '"baselineGoals"') !== false
+                    && strpos($request->getUserPrompt(), '"pages"') !== false
+                    && strpos($request->getUserPrompt(), '"candidates"') !== false
                     && strpos($request->getUserPrompt(), '"existingGoals"') !== false
-                    && strpos($request->getUserPrompt(), 'internal_destination') !== false
-                    && strpos($request->getUserPrompt(), '"form"') !== false
+                    && strpos($request->getUserPrompt(), '"forms"') !== false
+                    && strpos($request->getUserPrompt(), '"ctaLinks"') !== false
                     && strpos($request->getUserPrompt(), '/contact') !== false;
             }))
             ->willReturn(new AIProviderResponse(
@@ -85,6 +85,10 @@ class AiRecommenderTest extends TestCase
             'pagesCrawled' => 3,
             'errors' => [],
             'technologies' => ['WordPress'],
+            'pages' => [
+                ['path' => '/', 'title' => 'Example', 'heading' => 'Example'],
+                ['path' => '/pricing', 'title' => 'Pricing', 'heading' => 'Plans'],
+            ],
             'links' => [
                 [
                     'linkText' => 'Contact',
@@ -108,7 +112,9 @@ class AiRecommenderTest extends TestCase
                     'count' => 1,
                 ],
             ],
-            'downloads' => [],
+            'downloads' => [
+                ['href' => 'https://example.com/files/guide.pdf', 'labels' => ['Guide'], 'sourcePages' => [], 'count' => 1],
+            ],
             'contactLinks' => [],
             'externalLinks' => [],
         ], 1, [
@@ -221,6 +227,7 @@ class AiRecommenderTest extends TestCase
             'pagesCrawled' => 1,
             'errors' => [],
             'technologies' => [],
+            'pages' => [['path' => '/pricing', 'title' => 'Pricing', 'heading' => '']],
             'links' => [],
             'forms' => [],
             'downloads' => [],

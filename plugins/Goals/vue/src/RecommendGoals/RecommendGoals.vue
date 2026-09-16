@@ -10,17 +10,16 @@
     v-if="shouldShowRecommendations"
     :content-title="translate('Goals_RecommendedGoals')"
     :feature="translate('Goals_RecommendedGoals')"
+    :help-text="translate('Goals_RecommendedGoalsIntro')"
     class="recommendGoals"
   >
-    <p class="recommendGoals-intro">{{ translate('Goals_RecommendedGoalsIntro') }}</p>
-
     <ActivityIndicator :loading="isLoadingSaved" />
 
     <div v-if="hasRun && !isLoading">
       <div v-if="recommendations.length">
         <div class="recommendGoals-list">
           <RecommendGoalCard
-            v-for="rec in recommendations"
+            v-for="rec in visibleRecommendations"
             :key="recKey(rec)"
             :rec="rec"
             :accepted="isAccepted(rec)"
@@ -31,6 +30,15 @@
             @dismiss="dismissOne(rec)"
           />
         </div>
+
+        <button
+          v-if="hiddenRecommendationCount > 0"
+          type="button"
+          class="btn-flat recommendGoals-showMore"
+          @click="showAllRecommendations = true"
+        >
+          {{ translate('Goals_RecommendShowMore', hiddenRecommendationCount) }}
+        </button>
 
         <div class="recommendGoals-actions">
           <button
@@ -267,6 +275,16 @@ const pendingRecommendations = computed(
   () => recommendations.value.filter((rec) => !isAccepted(rec)),
 );
 
+// the strongest suggestions are shown first, the ranked rest on request
+const visibleRecommendationCount = 5;
+const showAllRecommendations = ref(false);
+const visibleRecommendations = computed(() => (showAllRecommendations.value
+  ? recommendations.value
+  : recommendations.value.slice(0, visibleRecommendationCount)));
+const hiddenRecommendationCount = computed(
+  () => recommendations.value.length - visibleRecommendations.value.length,
+);
+
 const scanButtonLabel = computed(() => (hasRun.value
   ? translate('Goals_RecommendRescan')
   : translate('Goals_RecommendGoals')));
@@ -347,6 +365,7 @@ function loadSavedRecommendations() {
       providerName.value = response.providerName;
     }
     recommendations.value = response.goals || [];
+    showAllRecommendations.value = false;
     manualGoals.value = response.manualGoals || [];
     recommendationMode.value = response.mode || null;
     generatedAt.value = response.generatedAt;

@@ -29,10 +29,18 @@ use Psr\Log\LoggerInterface;
  */
 class HomepageAnalyzer
 {
-    public const MAX_LINKS = 60;
+    /** Ranked same-origin destinations kept for the recommenders. */
+    public const MAX_LINKS = 500;
 
     private const MAX_PAGES = 50;
-    private const MAX_LINKS_PER_PAGE = 40;
+    /** Same-origin links queued for crawling per page (best discovery score first). */
+    private const MAX_QUEUED_LINKS_PER_PAGE = 40;
+
+    /** Hard bound on distinct links extracted per page. */
+    private const MAX_EXTRACTED_LINKS_PER_PAGE = 250;
+
+    /** Links at the start of the main content that count as hero calls to action. */
+    private const HERO_LINKS_PER_PAGE = 6;
     private const MAX_LINK_TEXT_LENGTH = 120;
 
     /** Hard cap on bytes kept per fetched page (Range hint plus post-fetch enforcement). */
@@ -65,6 +73,14 @@ class HomepageAnalyzer
             return null;
         }
 
+        return $this->analyzeUrl($url, $idSite, $timeout);
+    }
+
+    /**
+     * @return array<string, mixed>|null Null when the homepage cannot be fetched.
+     */
+    public function analyzeUrl(string $url, ?int $idSite = null, int $timeout = 5): ?array
+    {
         $startUrl = $this->normalizeCrawlUrl($url);
         if ($startUrl === null) {
             return null;
@@ -122,6 +138,8 @@ class HomepageAnalyzer
             'contactLinks' => $this->rankContactLinks($pages),
             'externalLinks' => $this->rankExternalLinks($pages),
             'technologies' => $this->detectTechnologies($idSite, $html, $response['headers'] ?? []),
+            'platform' => $this->detectEcommercePlatform($html),
+            'pages' => $this->summarizePages($pages),
             'pagesCrawled' => count($pages),
             'manualSignals' => $this->aggregateManualSignals($pages),
         ];
@@ -200,6 +218,78 @@ class HomepageAnalyzer
         return $response;
     }
 
+    protected function getCrawlDeadlineSeconds(): int
+    {
+        return self::MAX_CRAWL_SECONDS;
+    }
+
+    protected function getMaxPages(): int
+    {
+        return max(1, (int) (Config::getInstance()->Goals['recommendation_max_crawl_pages'] ?? self::MAX_PAGES));
+    }
+
+    private function extractFirstText(\DOMXPath $xpath, string $query): string
+    {
+        $nodes = $xpath->query($query);
+        if ($nodes === false || $nodes->length === 0) {
+            return '';
+        }
+
+        return $this->truncateText((string) $nodes->item(0)->textContent, 120);
+    }
+
+    /**
+     * Compact per-page summary for the recommenders.
+     *
+     * @param array<int, array{url: string, title?: string, heading?: string, signals?: array<string, mixed>}> $pages
+     * @return array<int, array{path: string, title: string, heading: string, types: string[], hasAddToCart: bool}>
+     */
+    private function summarizePages(array $pages): array
+    {
+        $summary = [];
+        foreach ($pages as $page) {
+            $path = rtrim((string) parse_url($page['url'], PHP_URL_PATH), '/');
+            $summary[] = [
+                'path' => $path === '' ? '/' : $path,
+                'title' => (string) ($page['title'] ?? ''),
+                'heading' => (string) ($page['heading'] ?? ''),
+                'types' => $page['signals']['structuredTypes'] ?? [],
+                'hasAddToCart' => !empty($page['signals']['hasAddToCart']),
+            ];
+        }
+
+        return $summary;
+    }
+
+    /**
+     * Shop platform from homepage markup; its checkout and confirmation URLs are
+     * fixed and never reachable by the crawl.
+     */
+    private function detectEcommercePlatform(string $html): ?string
+    {
+        // asset paths and template markers only: plain product names appear in copy text too
+        $markers = [
+            'shopify' => ['cdn.shopify.com', 'shopify.theme', 'myshopify.com'],
+            'woocommerce' => ['plugins/woocommerce/', 'wc-add-to-cart', 'wc_add_to_cart_params', 'class="woocommerce'],
+            'edd' => ['easy-digital-downloads/', 'edd-blocks', 'edd_ajax', 'edd_scripts'],
+            'shopware' => ['/widgets/listing/', '/widgets/checkout/', 'shopware.min.js', 'class="is--'],
+            'magento' => ['mage/cookies', 'Magento_Theme', 'data-mage-init', 'mage-init'],
+            'prestashop' => ['prestashop = ', 'themes/classic/assets', 'modules/ps_'],
+            'sfcc' => ['/on/demandware.store/', 'demandware.static', 'dwanalytics'],
+        ];
+        $haystack = substr($html, 0, self::MAX_RESPONSE_BYTES);
+
+        foreach ($markers as $platform => $needles) {
+            foreach ($needles as $needle) {
+                if (stripos($haystack, $needle) !== false) {
+                    return $platform;
+                }
+            }
+        }
+
+        return null;
+    }
+
     private function getLogger(): LoggerInterface
     {
         return StaticContainer::get(LoggerInterface::class);
@@ -209,7 +299,7 @@ class HomepageAnalyzer
      * @return array<int, array{
      *   url: string,
      *   links: array<int, array{
-     *     linkText: string, linkTarget: string, url: string, area: string, isButtonLike: bool, weight: int
+     *     linkText: string, linkTarget: string, url: string, area: string, isButtonLike: bool, isHero: bool, weight: int
      *   }>,
      *   signals: array<string, mixed>
      * }>
@@ -217,20 +307,22 @@ class HomepageAnalyzer
     private function crawlSameOriginPages(string $startUrl, string $host, string $homepageHtml, int $timeout): array
     {
         $queue = [$startUrl];
-        $queued = [$startUrl => true];
+        $queued = [rtrim($startUrl, '/') => true];
         $visited = [];
         $pages = [];
         $htmlByUrl = [$startUrl => $homepageHtml];
-        $deadline = microtime(true) + self::MAX_CRAWL_SECONDS;
-        $maxPages = max(1, (int) (Config::getInstance()->Goals['recommendation_max_crawl_pages'] ?? self::MAX_PAGES));
+        $deadline = microtime(true) + $this->getCrawlDeadlineSeconds();
+        $maxPages = $this->getMaxPages();
 
         while (!empty($queue) && count($pages) < $maxPages && microtime(true) < $deadline) {
-            $currentUrl = array_shift($queue);
-            if (!is_string($currentUrl) || isset($visited[$currentUrl])) {
+            $currentUrl = (string) array_shift($queue);
+            $urlKey = rtrim($currentUrl, '/');
+            if ($urlKey === '' || isset($visited[$urlKey])) {
                 continue;
             }
 
-            $visited[$currentUrl] = true;
+            // /x and /x/ are one page: fetched with the slash the site uses, tracked without it
+            $visited[$urlKey] = true;
             $html = $htmlByUrl[$currentUrl] ?? null;
 
             if ($html === null) {
@@ -259,20 +351,33 @@ class HomepageAnalyzer
             $signals = $xpath !== null
                 ? $this->extractManualSignals($xpath, $currentUrl, $host)
                 : $this->emptyManualSignals();
-            $pages[] = ['url' => $currentUrl, 'links' => $links, 'signals' => $signals];
+            $pages[] = [
+                'url' => $currentUrl,
+                'links' => $links,
+                'signals' => $signals,
+                'title' => $xpath !== null ? $this->extractFirstText($xpath, '//title') : '',
+                'heading' => $xpath !== null ? $this->extractFirstText($xpath, '//h1') : '',
+            ];
 
             usort($links, function (array $a, array $b): int {
                 return $this->discoveryScore($b) <=> $this->discoveryScore($a);
             });
 
-            foreach (array_slice($links, 0, self::MAX_LINKS_PER_PAGE) as $link) {
+            // only new links use the per-page budget, so repeated navigation cannot fill it
+            $queuedFromPage = 0;
+            foreach ($links as $link) {
+                if ($queuedFromPage >= self::MAX_QUEUED_LINKS_PER_PAGE) {
+                    break;
+                }
                 $url = $link['url'];
-                if (isset($queued[$url]) || isset($visited[$url])) {
+                $urlKey = rtrim($url, '/');
+                if (isset($queued[$urlKey]) || isset($visited[$urlKey])) {
                     continue;
                 }
 
                 $queue[] = $url;
-                $queued[$url] = true;
+                $queued[$urlKey] = true;
+                ++$queuedFromPage;
             }
         }
 
@@ -285,7 +390,7 @@ class HomepageAnalyzer
      * @param array<int, array{
      *   url: string,
      *   links: array<int, array{
-     *     linkText: string, linkTarget: string, url: string, area: string, isButtonLike: bool, weight: int
+     *     linkText: string, linkTarget: string, url: string, area: string, isButtonLike: bool, isHero: bool, weight: int
      *   }>
      * }> $pages
      * @return array<int, array{
@@ -310,6 +415,7 @@ class HomepageAnalyzer
                         'exampleUrls' => [],
                         'occurrenceCount' => 0,
                         'buttonLikeCount' => 0,
+                        'heroCount' => 0,
                     ];
                 }
 
@@ -330,6 +436,9 @@ class HomepageAnalyzer
                 if ($link['isButtonLike']) {
                     ++$buckets[$target]['buttonLikeCount'];
                 }
+                if (!empty($link['isHero'])) {
+                    ++$buckets[$target]['heroCount'];
+                }
             }
         }
 
@@ -347,6 +456,7 @@ class HomepageAnalyzer
                 'labelSamples' => array_slice($labelSamples, 0, 5),
                 'exampleUrls' => array_slice(array_keys($bucket['exampleUrls']), 0, 3),
                 'buttonLikeCount' => $bucket['buttonLikeCount'],
+                'heroCount' => $bucket['heroCount'],
             ];
         }
 
@@ -381,7 +491,7 @@ class HomepageAnalyzer
      * link metadata. External links, anchors, and non-http schemes are dropped.
      *
      * @return array<int, array{
-     *   linkText: string, linkTarget: string, url: string, area: string, isButtonLike: bool, weight: int
+     *   linkText: string, linkTarget: string, url: string, area: string, isButtonLike: bool, isHero: bool, weight: int
      * }>
      */
     private function extractLinks(\DOMXPath $xpath, string $baseUrl, string $host): array
@@ -393,6 +503,7 @@ class HomepageAnalyzer
         }
 
         $links = [];
+        $mainLinks = 0;
 
         foreach ($anchors as $anchor) {
             if (!$anchor instanceof \DOMElement) {
@@ -404,8 +515,8 @@ class HomepageAnalyzer
                 continue;
             }
 
-            $target = (string) parse_url($url, PHP_URL_PATH);
-            if ($target === '' || $target === '/') {
+            $target = rtrim((string) parse_url($url, PHP_URL_PATH), '/');
+            if ($target === '') {
                 continue;
             }
 
@@ -417,16 +528,23 @@ class HomepageAnalyzer
                 continue;
             }
 
+            // the first links of the main content are the page's primary calls to action
+            $isHero = in_array($area, ['main', 'section'], true) && $mainLinks < self::HERO_LINKS_PER_PAGE;
+            if (in_array($area, ['main', 'section'], true)) {
+                ++$mainLinks;
+            }
+
             $links[$key] = [
                 'linkText' => $linkText,
                 'linkTarget' => $target,
                 'url' => $url,
                 'area' => $area,
                 'isButtonLike' => $isButtonLike,
+                'isHero' => $isHero,
                 'weight' => $this->areaWeight($area) + ($isButtonLike ? 2 : 0),
             ];
 
-            if (count($links) >= self::MAX_LINKS_PER_PAGE) {
+            if (count($links) >= self::MAX_EXTRACTED_LINKS_PER_PAGE) {
                 break;
             }
         }
@@ -511,6 +629,8 @@ class HomepageAnalyzer
         $forms = $this->extractForms($xpath, $baseUrl);
 
         return [
+            'hasAddToCart' => $this->hasAddToCartControl($xpath),
+            'structuredTypes' => $this->extractStructuredTypes($xpath),
             'downloadExtensions' => $downloadExtensions,
             'outlinkHosts' => $outlinkHosts,
             'hasContactLinks' => $hasContactLinks,
@@ -551,12 +671,51 @@ class HomepageAnalyzer
                 'method' => strtolower($form->getAttribute('method') ?: 'post'),
                 'submitText' => $this->extractSubmitText($xpath, $form),
                 'fields' => $fields,
+                'fieldTypes' => $this->extractFieldTypes($xpath, $form),
                 'area' => $this->detectArea($form),
                 'context' => $this->truncateText($form->textContent, 140),
             ];
         }
 
-        return array_slice($result, 0, 4);
+        return array_slice($result, 0, 6);
+    }
+
+    /**
+     * Normalised input types of a form, with autocomplete and name hints mapped on.
+     *
+     * @return string[]
+     */
+    private function extractFieldTypes(\DOMXPath $xpath, \DOMElement $form): array
+    {
+        $fields = $xpath->query('.//input | .//textarea | .//select', $form);
+        if ($fields === false) {
+            return [];
+        }
+
+        $types = [];
+        foreach ($fields as $field) {
+            if (!$field instanceof \DOMElement) {
+                continue;
+            }
+            $type = strtolower($field->getAttribute('type') ?: $field->tagName);
+            if (in_array($type, ['hidden', 'submit', 'button', 'image', 'reset'], true)) {
+                continue;
+            }
+            $autocomplete = strtolower($field->getAttribute('autocomplete'));
+            $name = strtolower($field->getAttribute('name') . ' ' . $field->getAttribute('id'));
+            if ($autocomplete === 'email' || preg_match('/e-?mail/', $name)) {
+                $type = 'email';
+            } elseif ($autocomplete === 'tel' || preg_match('/\b(tel|phone|telefon|telephone)\b/', $name)) {
+                $type = 'tel';
+            } elseif (preg_match('/password|passwort|mot_de_passe|contrase/', $name)) {
+                $type = 'password';
+            } elseif (preg_match('/\b(date|datum|checkin|check-in|arrival|arrivo|fecha)\b/', $name)) {
+                $type = 'date';
+            }
+            $types[] = $type;
+        }
+
+        return array_slice($types, 0, 12);
     }
 
     /**
@@ -673,6 +832,65 @@ class HomepageAnalyzer
         return $result;
     }
 
+    /**
+     * Add-to-cart control: a form posting to a cart endpoint, or a platform marker
+     * class or attribute. Never copy text.
+     */
+    private function hasAddToCartControl(\DOMXPath $xpath): bool
+    {
+        $forms = $xpath->query('//form[@action]');
+        if ($forms !== false) {
+            foreach ($forms as $form) {
+                if (
+                    $form instanceof \DOMElement
+                    && preg_match('#(cart/add|/cart\b|add-to-cart|addarticle|checkout/cart/add|panier|warenkorb)#i', $form->getAttribute('action'))
+                    && $xpath->query('.//button | .//input[@type="submit"]', $form)->length > 0
+                ) {
+                    return true;
+                }
+            }
+        }
+
+        $markers = $xpath->query(
+            '//*[contains(@class, "add-to-cart") or contains(@class, "add_to_cart") or contains(@class, "addtocart")'
+            . ' or contains(@class, "product-form__submit") or contains(@class, "buy-widget") or @data-add-to-cart'
+            . ' or contains(@class, "tocart") or contains(@name, "add-to-cart") or contains(@id, "add-to-cart")'
+            . ' or contains(@class, "btn-add-to-cart") or contains(@class, "cart-add")]'
+        );
+
+        return $markers !== false && $markers->length > 0;
+    }
+
+    /**
+     * schema.org types from JSON-LD and microdata, e.g. Product, Event, Restaurant, Course.
+     *
+     * @return string[]
+     */
+    private function extractStructuredTypes(\DOMXPath $xpath): array
+    {
+        $types = [];
+        $scripts = $xpath->query('//script[@type="application/ld+json"]');
+        if ($scripts !== false) {
+            foreach ($scripts as $script) {
+                if (preg_match_all('/"@type"\s*:\s*"([A-Za-z]+)"/', $script->textContent, $matches)) {
+                    foreach ($matches[1] as $type) {
+                        $types[$type] = true;
+                    }
+                }
+            }
+        }
+        $items = $xpath->query('//*[@itemtype]');
+        if ($items !== false) {
+            foreach ($items as $item) {
+                if ($item instanceof \DOMElement && preg_match('#schema\.org/([A-Za-z]+)#', $item->getAttribute('itemtype'), $m)) {
+                    $types[$m[1]] = true;
+                }
+            }
+        }
+
+        return array_slice(array_keys($types), 0, 12);
+    }
+
     private function isContentForm(\DOMXPath $xpath, \DOMElement $form): bool
     {
         if (strtolower($form->getAttribute('role')) === 'search') {
@@ -712,6 +930,8 @@ class HomepageAnalyzer
     private function emptyManualSignals(): array
     {
         return [
+            'hasAddToCart' => false,
+            'structuredTypes' => [],
             'downloadExtensions' => [],
             'outlinkHosts' => [],
             'hasContactLinks' => false,
@@ -787,6 +1007,8 @@ class HomepageAnalyzer
                     $buckets[$key] = [
                         'action' => (string) ($form['action'] ?? ''),
                         'fields' => $form['fields'] ?? [],
+                        'fieldTypes' => $form['fieldTypes'] ?? [],
+                        'area' => (string) ($form['area'] ?? ''),
                         'submitTexts' => [],
                         'contexts' => [],
                         'sourcePages' => [],
@@ -990,9 +1212,13 @@ class HomepageAnalyzer
             $path = ($directory ?: '/') . $href;
         }
 
+        $hadTrailingSlash = substr((string) strtok($path, '?#'), -1) === '/';
         $path = $this->normalizePath($path);
         if ($path === '/' || $path === '') {
             return null;
+        }
+        if ($hadTrailingSlash) {
+            $path .= '/';
         }
 
         return $this->normalizeCrawlUrl($baseScheme . '://' . $host . $path);
@@ -1010,7 +1236,12 @@ class HomepageAnalyzer
             return null;
         }
 
-        $path = isset($parts['path']) ? $this->normalizePath((string) $parts['path']) : '/';
+        $rawPath = (string) ($parts['path'] ?? '/');
+        $path = $this->normalizePath($rawPath);
+        // keep a trailing slash for fetching: some servers answer 404 without it
+        if ($path !== '/' && substr($rawPath, -1) === '/') {
+            $path .= '/';
+        }
 
         return $scheme . '://' . $this->getUrlAuthority($url) . $path;
     }
@@ -1155,7 +1386,7 @@ class HomepageAnalyzer
      * @param array<string, string>|array $headers
      * @return string[]
      */
-    private function detectTechnologies(int $idSite, string $html, array $headers): array
+    private function detectTechnologies(?int $idSite, string $html, array $headers): array
     {
         try {
             $this->siteContentDetector->detectContent(
