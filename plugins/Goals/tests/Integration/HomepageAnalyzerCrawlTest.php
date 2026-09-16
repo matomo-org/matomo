@@ -203,6 +203,33 @@ class HomepageAnalyzerCrawlTest extends IntegrationTestCase
         $this->assertSame(['email', 'textarea'], $analysis['forms'][0]['fieldTypes']);
     }
 
+    public function testCrawlFlagsABigHomepageWithHardlyAnyLinksAsRenderedInTheBrowser()
+    {
+        $analyzer = $this->makeAnalyzer([
+            'http://example.com/' => [
+                'status' => 200,
+                'headers' => [],
+                'data' => '<html><body><a href="/help">Help</a>' . str_repeat('<script>var x = "' . str_repeat('a', 100) . '";</script>', 1400) . '</body></html>',
+                'effectiveUrl' => 'http://example.com/',
+            ],
+            'http://example.com/help' => [
+                'status' => 403,
+                'headers' => [],
+                'data' => '<html><body>blocked</body></html>',
+                'effectiveUrl' => 'http://example.com/help',
+            ],
+        ]);
+
+        $analysis = $analyzer->analyze($this->idSite);
+
+        $this->assertNotNull($analysis);
+        $this->assertTrue($analysis['crawl']['homepageClientSideRendered']);
+        $this->assertSame(1, $analysis['crawl']['blockedPages']);
+        $this->assertSame(0, $analysis['crawl']['failedFetches']);
+        $this->assertFalse($analysis['crawl']['deadlineReached']);
+        $this->assertSame($analysis['crawl'], $analyzer->getLastCrawlStats());
+    }
+
     /**
      * @param array<string, array<string, mixed>> $responsesByUrl
      */

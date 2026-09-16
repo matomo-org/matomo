@@ -89,3 +89,51 @@ describe('RecommendGoals AI availability', () => {
     expect(w.find('.recommendGoals-privacyNote').text()).toBe('note from server');
   });
 });
+
+describe('RecommendGoals scan warnings', () => {
+  async function mountWithWarnings(warnings: unknown[], goals: unknown[] = []) {
+    mockFetch.mockResolvedValue({
+      mode: 'deterministic',
+      goals,
+      manualGoals: [],
+      warnings,
+      useAi: false,
+      generatedAt: 1700000000,
+      aiAvailability: 'available',
+    });
+    const wrapper = mount(RecommendGoals, {
+      props: { userCanEditGoals: true },
+      global: { stubs: { RecommendGoalCard: true } },
+    });
+    await flush();
+    return wrapper;
+  }
+
+  it('shows the single server warning with its severity', async () => {
+    const w = await mountWithWarnings([
+      { type: 'blocked', severity: 'warning', message: 'The site blocked the scanner.' },
+    ]);
+
+    const notice = w.find('.recommendGoals-notice');
+    expect(notice.exists()).toBe(true);
+    expect(notice.classes()).toContain('recommendGoals-notice--warning');
+    expect(notice.text()).toContain('The site blocked the scanner.');
+    expect(notice.find('.icon-warning').exists()).toBe(true);
+  });
+
+  it('renders an info notice without the warning styling', async () => {
+    const w = await mountWithWarnings([
+      { type: 'fewConversions', severity: 'info', message: 'Few actions worth tracking.' },
+    ]);
+
+    const notice = w.find('.recommendGoals-notice');
+    expect(notice.classes()).not.toContain('recommendGoals-notice--warning');
+    expect(notice.find('.icon-info').exists()).toBe(true);
+  });
+
+  it('shows nothing when the scan had nothing to explain', async () => {
+    const w = await mountWithWarnings([]);
+
+    expect(w.find('.recommendGoals-notice').exists()).toBe(false);
+  });
+});

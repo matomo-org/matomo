@@ -71,6 +71,7 @@ class GoalRecommendationsTest extends IntegrationTestCase
             'mode' => null,
             'goals' => [],
             'manualGoals' => [],
+            'warnings' => [],
             'useAi' => false,
             'generatedAt' => null,
             'remainingAiScans' => null,
@@ -365,6 +366,69 @@ class GoalRecommendationsTest extends IntegrationTestCase
         $result = $this->makeRecommendationService($aiRecommender)->getRecommendations($this->idSite, true);
 
         $this->assertSame(Piwik::translate('Goals_RecommendationAiRequestFailed'), $result['aiError']);
+    }
+
+    /**
+     * @dataProvider getThinResultScenarios
+     */
+    public function testGetRecommendationsExplainsThinResultsWithOneWarning(?array $analysis, int $goalCount, ?string $expectedType): void
+    {
+        $goals = [];
+        for ($i = 0; $i < $goalCount; $i++) {
+            $goals[] = ['name' => 'Goal ' . $i, 'matchAttribute' => 'url', 'pattern' => '/page-' . $i, 'patternType' => 'contains'];
+        }
+        $analyzer = $this->createMock(HomepageAnalyzer::class);
+        $analyzer->method('analyze')->willReturn($analysis);
+        $analyzer->method('getLastCrawlStats')->willReturn(
+            $analysis['crawl'] ?? ['blockedPages' => 1, 'failedFetches' => 0, 'clientSideRenderedPages' => 0, 'deadlineReached' => false]
+        );
+        $deterministic = $this->createMock(DeterministicRecommender::class);
+        $deterministic->method('recommend')->willReturn($goals);
+        $manual = $this->createMock(ManualSuggestionRecommender::class);
+        $manual->method('recommend')->willReturn([]);
+        $service = new GoalRecommendationService(
+            $analyzer,
+            $deterministic,
+            $manual,
+            new RecommendationStore(),
+            StaticContainer::get(LockBackend::class),
+            $this->createMock(AiRecommender::class)
+        );
+
+        $result = $service->getRecommendations($this->idSite, false);
+
+        $this->assertCount($expectedType === null ? 0 : 1, $result['warnings']);
+        if ($expectedType !== null) {
+            $this->assertSame($expectedType, $result['warnings'][0]['type']);
+            $this->assertSame(
+                Piwik::translate('Goals_RecommendScan' . ucfirst($expectedType), [(string) ($analysis['pagesCrawled'] ?? 0)]),
+                $result['warnings'][0]['message']
+            );
+            // the warning is part of the saved scan, so it survives a reload (a refused homepage saves nothing)
+            $this->assertSame(
+                $analysis === null ? [] : $result['warnings'],
+                $service->getSavedRecommendations($this->idSite)['warnings']
+            );
+        }
+    }
+
+    public function getThinResultScenarios(): array
+    {
+        $clean = ['url' => 'https://example.org', 'pagesCrawled' => 40, 'crawl' => ['blockedPages' => 0, 'failedFetches' => 1, 'clientSideRenderedPages' => 0, 'deadlineReached' => false]];
+
+        return [
+            'enough goals, nothing to explain' => [$clean, 5, null],
+            'bot protection on a thin result' => [array_merge($clean, ['crawl' => ['blockedPages' => 4, 'failedFetches' => 0, 'clientSideRenderedPages' => 0, 'deadlineReached' => false]]), 2, 'blocked'],
+            'bot protection with enough goals is not worth a banner' => [array_merge($clean, ['crawl' => ['blockedPages' => 4, 'failedFetches' => 0, 'clientSideRenderedPages' => 0, 'deadlineReached' => false]]), 4, null],
+            'pages rendered in the browser' => [array_merge($clean, ['pagesCrawled' => 25, 'crawl' => ['blockedPages' => 0, 'failedFetches' => 0, 'clientSideRenderedPages' => 12, 'deadlineReached' => false]]), 2, 'partialRead'],
+            'browser rendered site with plenty of goals still gets the note' => [array_merge($clean, ['pagesCrawled' => 25, 'crawl' => ['blockedPages' => 0, 'failedFetches' => 0, 'clientSideRenderedPages' => 12, 'deadlineReached' => false]]), 8, 'partialRead'],
+            'homepage rendered in the browser, subpages fine' => [array_merge($clean, ['pagesCrawled' => 25, 'crawl' => ['blockedPages' => 0, 'failedFetches' => 0, 'clientSideRenderedPages' => 1, 'homepageClientSideRendered' => true, 'deadlineReached' => false]]), 3, 'partialRead'],
+            'time budget ran out early' => [array_merge($clean, ['pagesCrawled' => 4, 'crawl' => ['blockedPages' => 0, 'failedFetches' => 0, 'clientSideRenderedPages' => 0, 'deadlineReached' => true]]), 1, 'stoppedEarly'],
+            'most fetches failed' => [array_merge($clean, ['pagesCrawled' => 6, 'crawl' => ['blockedPages' => 0, 'failedFetches' => 9, 'clientSideRenderedPages' => 0, 'deadlineReached' => false]]), 2, 'stoppedEarly'],
+            'clean crawl, site has little to track' => [$clean, 2, 'fewConversions'],
+            'clean crawl with three goals needs no excuse' => [$clean, 3, null],
+            'homepage itself refused' => [null, 0, 'blocked'],
+        ];
     }
 
     private function makeRecommendationService(

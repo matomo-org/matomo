@@ -16,6 +16,16 @@
     <ActivityIndicator :loading="isLoadingSaved" />
 
     <div v-if="hasRun && !isLoading">
+      <div
+        v-if="scanWarning"
+        class="recommendGoals-notice"
+        :class="'recommendGoals-notice--' + scanWarning.severity"
+        role="status"
+      >
+        <span :class="scanWarning.severity === 'warning' ? 'icon-warning' : 'icon-info'"></span>
+        <span>{{ scanWarning.message }}</span>
+      </div>
+
       <div v-if="recommendations.length">
         <div class="recommendGoals-list">
           <RecommendGoalCard
@@ -87,6 +97,101 @@
           </li>
         </ul>
       </details>
+
+      <!-- TEMPORARY (ID-277 debugging): development mode only, remove before merge -->
+      <details class="recommendGoals-debug" v-if="debug">
+        <summary>
+          <span class="icon-chevron-right"></span>
+          Debug: crawl input and candidates (this will be removed before deployment)
+        </summary>
+        <p class="recommendGoals-intro">
+          {{ debug.url }} &middot; {{ debug.pagesCrawled }} pages crawled &middot;
+          platform: {{ debug.platform || 'unknown' }} &middot;
+          detected: {{ debug.technologies.join(', ') || 'none' }}
+        </p>
+
+        <h4>Candidates, scored ({{ debug.candidates.length }})</h4>
+        <table class="recommendGoals-debugTable">
+          <tr>
+            <th>#</th><th>offered</th><th>category</th><th>trigger</th>
+            <th>pattern</th><th>label</th><th>conf</th><th>prom</th><th>score</th><th>source</th>
+          </tr>
+          <tr v-for="(row, index) in debug.candidates" :key="'cand-' + index">
+            <td>{{ index + 1 }}</td>
+            <td>{{ row.offered ? 'yes' : '' }}</td>
+            <td>{{ row.category }}</td>
+            <td>{{ row.matchAttribute }}</td>
+            <td><code>{{ row.pattern }}</code></td>
+            <td>{{ row.label }}</td>
+            <td>{{ row.confidence }}</td>
+            <td>{{ row.prominence }}</td>
+            <td>{{ row.score }}</td>
+            <td>{{ row.source }}</td>
+          </tr>
+        </table>
+
+        <h4>Ranked links ({{ debug.links.length }})</h4>
+        <table class="recommendGoals-debugTable">
+          <tr><th>#</th><th>path</th><th>label</th><th>pages</th><th>button</th><th>hero</th></tr>
+          <tr v-for="(row, index) in debug.links" :key="'link-' + index">
+            <td>{{ index + 1 }}</td>
+            <td><code>{{ row.path }}</code></td>
+            <td>{{ row.label }}</td>
+            <td>{{ row.pages }}</td>
+            <td>{{ row.button }}</td>
+            <td>{{ row.hero }}</td>
+          </tr>
+        </table>
+
+        <h4>Crawled pages ({{ debug.pages.length }})</h4>
+        <table class="recommendGoals-debugTable">
+          <tr>
+            <th>#</th><th>path</th><th>title</th><th>heading</th><th>schema.org</th><th>cart</th>
+          </tr>
+          <tr v-for="(row, index) in debug.pages" :key="'page-' + index">
+            <td>{{ index + 1 }}</td>
+            <td><code>{{ row.path }}</code></td>
+            <td>{{ row.title }}</td>
+            <td>{{ row.heading }}</td>
+            <td>{{ row.types.join(', ') }}</td>
+            <td>{{ row.hasAddToCart ? 'yes' : '' }}</td>
+          </tr>
+        </table>
+
+        <h4>Forms ({{ debug.forms.length }})</h4>
+        <table class="recommendGoals-debugTable">
+          <tr><th>#</th><th>field types</th><th>submit</th><th>pages</th><th>first page</th></tr>
+          <tr v-for="(row, index) in debug.forms" :key="'form-' + index">
+            <td>{{ index + 1 }}</td>
+            <td>{{ row.fieldTypes.join(', ') }}</td>
+            <td>{{ row.submit }}</td>
+            <td>{{ row.pages }}</td>
+            <td><code>{{ row.firstPage }}</code></td>
+          </tr>
+        </table>
+
+        <h4>External hosts ({{ debug.externalHosts.length }})</h4>
+        <table class="recommendGoals-debugTable">
+          <tr><th>#</th><th>host</th><th>label</th><th>example</th><th>pages</th></tr>
+          <tr v-for="(row, index) in debug.externalHosts" :key="'host-' + index">
+            <td>{{ index + 1 }}</td>
+            <td>{{ row.host }}</td>
+            <td>{{ row.label }}</td>
+            <td><code>{{ row.example }}</code></td>
+            <td>{{ row.pages }}</td>
+          </tr>
+        </table>
+
+        <h4>Downloads ({{ debug.downloads.length }})</h4>
+        <table class="recommendGoals-debugTable">
+          <tr><th>#</th><th>file</th><th>label</th></tr>
+          <tr v-for="(row, index) in debug.downloads" :key="'dl-' + index">
+            <td>{{ index + 1 }}</td>
+            <td><code>{{ row.href }}</code></td>
+            <td>{{ row.label }}</td>
+          </tr>
+        </table>
+      </details>
     </div>
 
     <Alert severity="warning" v-if="aiError && !isLoading">{{ aiError }}</Alert>
@@ -95,7 +200,7 @@
     </Alert>
     <Alert severity="danger" v-if="createError && !isLoading">{{ createError }}</Alert>
 
-    <div class="recommendGoals-scanProgress" v-if="isLoading">
+    <div class="recommendGoals-scanProgress" v-if="isLoading" role="status" aria-live="polite">
       <Progressbar :progress="scanProgress" :label="scanProgressLabel" />
       <p class="recommendGoals-scanHint">{{ translate('Goals_RecommendProgressHint') }}</p>
     </div>
@@ -169,7 +274,13 @@ import {
 } from 'CoreHome';
 import RecommendGoalCard from './RecommendGoalCard.vue';
 import useScanProgress from './useScanProgress';
-import type { RecommendedGoal, RecommendedManualGoal, RecommendationsResponse } from './types';
+import type {
+  RecommendedGoal,
+  RecommendedManualGoal,
+  RecommendationsResponse,
+  RecommendationDebug,
+  RecommendationWarning,
+} from './types';
 
 const props = withDefaults(defineProps<{
   goals?: Record<string, Record<string, unknown>>;
@@ -200,6 +311,11 @@ const createError = ref<string|null>(null);
 const recommendationMode = ref<string|null>(null);
 const recommendations = ref<RecommendedGoal[]>([]);
 const manualGoals = ref<RecommendedManualGoal[]>([]);
+const warnings = ref<RecommendationWarning[]>([]);
+// the server sends at most one, the most severe cause of a thin result
+const scanWarning = computed(() => warnings.value[0] || null);
+// TEMPORARY (ID-277 debugging): only filled in development mode
+const debug = ref<RecommendationDebug|null>(null);
 const generatedAt = ref<number|null>(null);
 const remainingAiScans = ref<number|null>(null);
 const providerName = ref<string>(translate('Goals_RecommendAiProviderFallback'));
@@ -367,6 +483,7 @@ function loadSavedRecommendations() {
     recommendations.value = response.goals || [];
     showAllRecommendations.value = false;
     manualGoals.value = response.manualGoals || [];
+    warnings.value = response.warnings || [];
     recommendationMode.value = response.mode || null;
     generatedAt.value = response.generatedAt;
     useAi.value = !!response.useAi;
@@ -395,6 +512,7 @@ function recommend() {
   }, { createErrorNotification: false }).then((response) => {
     recommendations.value = (response && response.goals) || [];
     manualGoals.value = (response && response.manualGoals) || [];
+    warnings.value = (response && response.warnings) || [];
     aiError.value = (response && response.aiError) || null;
     recommendationMode.value = (response && response.mode) || null;
     generatedAt.value = (response && response.generatedAt) || null;
@@ -410,10 +528,12 @@ function recommend() {
     if (response && response.privacyNote) {
       serverPrivacyNote.value = response.privacyNote;
     }
+    debug.value = (response && response.debug) || null;
     hasRun.value = true;
   }).catch((error: unknown) => {
     recommendations.value = [];
     manualGoals.value = [];
+    warnings.value = [];
     aiError.value = error instanceof Error && error.message === 'Rate Limit was exceed'
       ? translate('Goals_RecommendScanAlreadyRunning')
       : translate('Goals_RecommendError');
@@ -489,6 +609,7 @@ function dismiss() {
     hasRun.value = false;
     recommendations.value = [];
     manualGoals.value = [];
+    warnings.value = [];
     aiError.value = null;
     createError.value = null;
     recommendationMode.value = null;

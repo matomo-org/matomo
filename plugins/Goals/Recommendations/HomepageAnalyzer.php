@@ -41,6 +41,24 @@ class HomepageAnalyzer
 
     /** Links at the start of the main content that count as hero calls to action. */
     private const HERO_LINKS_PER_PAGE = 6;
+
+    /** Links taken from embedded JSON payloads per page. */
+    private const MAX_EMBEDDED_LINKS_PER_PAGE = 60;
+
+    /** Characters searched after an embedded link for its label. */
+    private const EMBEDDED_LABEL_WINDOW = 400;
+
+    /** A page with fewer anchors than this and a large body renders its navigation in the browser. */
+    private const CLIENT_SIDE_MAX_ANCHORS = 25;
+    private const CLIENT_SIDE_MIN_BYTES = 50000;
+
+    /**
+     * Looser cutoff for the homepage alone: a start page this large with this few links
+     * is an application shell. Measured on 24 server-rendered sites without a false
+     * positive, while catching udemy.com in both of its homepage variants.
+     */
+    private const HOMEPAGE_CLIENT_SIDE_MAX_ANCHORS = 40;
+    private const HOMEPAGE_CLIENT_SIDE_MIN_BYTES = 150000;
     private const MAX_LINK_TEXT_LENGTH = 120;
 
     /** Hard cap on bytes kept per fetched page (Range hint plus post-fetch enforcement). */
@@ -56,6 +74,26 @@ class HomepageAnalyzer
      * @var SiteContentDetector
      */
     private $siteContentDetector;
+
+    /**
+     * Counters of the last crawl that explain a thin result: pages the site refused
+     * (bot protection), pages that could not be fetched, pages whose navigation is
+     * rendered in the browser, and whether the time budget ran out.
+     *
+     * @var array{blockedPages: int, failedFetches: int, clientSideRenderedPages: int, homepageClientSideRendered: bool, deadlineReached: bool}
+     */
+    private $crawlStats = self::EMPTY_CRAWL_STATS;
+
+    private const EMPTY_CRAWL_STATS = [
+        'blockedPages' => 0,
+        'failedFetches' => 0,
+        'clientSideRenderedPages' => 0,
+        'homepageClientSideRendered' => false,
+        'deadlineReached' => false,
+    ];
+
+    /** HTTP statuses that mean the site refused the request rather than failed. */
+    private const BLOCKED_STATUSES = [401, 403, 429, 503];
 
     public function __construct(?SiteContentDetector $siteContentDetector = null)
     {
@@ -81,12 +119,13 @@ class HomepageAnalyzer
      */
     public function analyzeUrl(string $url, ?int $idSite = null, int $timeout = 5): ?array
     {
+        $this->crawlStats = self::EMPTY_CRAWL_STATS;
         $startUrl = $this->normalizeCrawlUrl($url);
         if ($startUrl === null) {
             return null;
         }
 
-        $response = $this->fetchHomepage($startUrl, $timeout);
+        $response = $this->usableResponse($this->fetchHomepage($startUrl, $timeout), $startUrl);
 
         if ($response === null) {
             return null;
@@ -141,11 +180,15 @@ class HomepageAnalyzer
             'platform' => $this->detectEcommercePlatform($html),
             'pages' => $this->summarizePages($pages),
             'pagesCrawled' => count($pages),
+            'crawl' => $this->crawlStats,
             'manualSignals' => $this->aggregateManualSignals($pages),
         ];
     }
 
     /**
+     * Raw fetch, any status. Null when internet features are off or the request
+     * itself failed; see usableResponse() for the status and content type checks.
+     *
      * @return array{status?: ?int, headers?: ?array, data?: ?string, effectiveUrl?: string}|null
      */
     protected function fetchHomepage(string $url, int $timeout): ?array
@@ -184,10 +227,27 @@ class HomepageAnalyzer
             );
             return null;
         } catch (\Exception $e) {
+            ++$this->crawlStats['failedFetches'];
             $this->getLogger()->debug(
                 'Goals recommendations: homepage fetch failed for {url}: {message}',
                 ['url' => $url, 'message' => $e->getMessage()]
             );
+            return null;
+        }
+
+        return $response;
+    }
+
+    /**
+     * Keeps only successful HTML responses and counts the rest as refused (bot
+     * protection statuses) or failed, so a thin result can be explained.
+     *
+     * @param array{status?: ?int, headers?: ?array, data?: ?string, effectiveUrl?: string}|null $response
+     * @return array{status?: ?int, headers?: ?array, data?: ?string, effectiveUrl?: string}|null
+     */
+    private function usableResponse(?array $response, string $url): ?array
+    {
+        if ($response === null) {
             return null;
         }
 
@@ -203,6 +263,11 @@ class HomepageAnalyzer
                 && stripos($contentType, 'application/xhtml+xml') === false
             )
         ) {
+            if (in_array($status, self::BLOCKED_STATUSES, true)) {
+                ++$this->crawlStats['blockedPages'];
+            } else {
+                ++$this->crawlStats['failedFetches'];
+            }
             $this->getLogger()->debug(
                 'Goals recommendations: skipping {url} (HTTP status {status}, content type {contentType}).',
                 ['url' => $url, 'status' => $status, 'contentType' => $contentType]
@@ -216,6 +281,17 @@ class HomepageAnalyzer
         }
 
         return $response;
+    }
+
+    /**
+     * Counters of the last analyze() call, also available when it returned null
+     * because the homepage itself was refused.
+     *
+     * @return array{blockedPages: int, failedFetches: int, clientSideRenderedPages: int, homepageClientSideRendered: bool, deadlineReached: bool}
+     */
+    public function getLastCrawlStats(): array
+    {
+        return $this->crawlStats;
     }
 
     protected function getCrawlDeadlineSeconds(): int
@@ -326,7 +402,7 @@ class HomepageAnalyzer
             $html = $htmlByUrl[$currentUrl] ?? null;
 
             if ($html === null) {
-                $response = $this->fetchHomepage($currentUrl, $timeout);
+                $response = $this->usableResponse($this->fetchHomepage($currentUrl, $timeout), $currentUrl);
                 $html = is_array($response) ? (string) ($response['data'] ?? '') : '';
 
                 $pageHost = is_array($response)
@@ -348,6 +424,21 @@ class HomepageAnalyzer
 
             $xpath = $this->loadXpath($html);
             $links = $xpath !== null ? $this->extractLinks($xpath, $currentUrl, $host) : [];
+            $anchorCount = count($links);
+            $embedded = $this->extractEmbeddedLinks($html, $currentUrl, $host, $links);
+            $links = array_merge($links, $embedded);
+            if ($this->isClientSideRendered($html, $anchorCount, count($embedded))) {
+                ++$this->crawlStats['clientSideRenderedPages'];
+            }
+            // the homepage alone decides a lot: a big start page with hardly any links means the
+            // navigation is built in the browser, whatever the subpages look like
+            if (
+                $currentUrl === $startUrl
+                && $anchorCount < self::HOMEPAGE_CLIENT_SIDE_MAX_ANCHORS
+                && strlen($html) > self::HOMEPAGE_CLIENT_SIDE_MIN_BYTES
+            ) {
+                $this->crawlStats['homepageClientSideRendered'] = true;
+            }
             $signals = $xpath !== null
                 ? $this->extractManualSignals($xpath, $currentUrl, $host)
                 : $this->emptyManualSignals();
@@ -380,6 +471,8 @@ class HomepageAnalyzer
                 ++$queuedFromPage;
             }
         }
+
+        $this->crawlStats['deadlineReached'] = !empty($queue) && count($pages) < $maxPages && microtime(true) >= $deadline;
 
         return $pages;
     }
@@ -550,6 +643,106 @@ class HomepageAnalyzer
         }
 
         return array_values($links);
+    }
+
+    /**
+     * Same-origin links that only exist inside embedded JSON, which single page
+     * applications use for navigation they render in the browser. Their labels come
+     * from the neighbouring text property when the payload carries one.
+     *
+     * @param array<int, array{linkTarget: string}> $anchorLinks links already found in the markup
+     * @return array<int, array{
+     *   linkText: string, linkTarget: string, url: string, area: string, isButtonLike: bool, isHero: bool, weight: int
+     * }>
+     */
+    private function extractEmbeddedLinks(string $html, string $baseUrl, string $host, array $anchorLinks): array
+    {
+        if (!$this->isEmbeddedLinkMiningEnabled()) {
+            return [];
+        }
+
+        $found = preg_match_all(
+            '#"(?:href|url|link|permalink|path)"\s*:\s*"(/[^"\\\s]{1,200}|https?://[^"\\\s]{1,200})"#i',
+            $html,
+            $matches,
+            PREG_OFFSET_CAPTURE
+        );
+        if (!$found) {
+            return [];
+        }
+
+        $seen = array_fill_keys(array_column($anchorLinks, 'linkTarget'), true);
+        $links = [];
+        foreach ($matches[1] as $match) {
+            [$href, $offset] = $match;
+            $url = $this->resolveSameOriginUrl(str_replace('\\/', '/', $href), $baseUrl, $host);
+            if ($url === null) {
+                continue;
+            }
+            $target = rtrim((string) parse_url($url, PHP_URL_PATH), '/');
+            if ($target === '' || isset($seen[$target]) || $this->isNonContentPath($target)) {
+                continue;
+            }
+
+            $seen[$target] = true;
+            $links[] = [
+                'linkText' => $this->extractNeighbouringText($html, $offset),
+                'linkTarget' => $target,
+                'url' => $url,
+                'area' => 'script',
+                'isButtonLike' => false,
+                'isHero' => false,
+                'weight' => 1,
+            ];
+            if (count($links) >= self::MAX_EMBEDDED_LINKS_PER_PAGE) {
+                break;
+            }
+        }
+
+        return $links;
+    }
+
+    /**
+     * Experimental: links inside embedded JSON are not rendered markup, so they are
+     * only mined when the instance opts in.
+     */
+    protected function isEmbeddedLinkMiningEnabled(): bool
+    {
+        return 1 === (int) (Config::getInstance()->Goals['recommendation_embedded_links'] ?? 0);
+    }
+
+    /**
+     * The text property that follows an embedded link, e.g. {"href":"/x","text":"Pricing"}.
+     */
+    private function extractNeighbouringText(string $html, int $offset): string
+    {
+        $window = substr($html, $offset, self::EMBEDDED_LABEL_WINDOW);
+        if (preg_match('#"(?:text|label|title|name|anchor)"\s*:\s*"([^"\\\\]{1,80})"#i', $window, $match)) {
+            return $this->normalizeLinkText($match[1]);
+        }
+
+        return '';
+    }
+
+    /**
+     * Assets, APIs and tracking endpoints that appear in embedded payloads next to
+     * the navigation links.
+     */
+    private function isNonContentPath(string $path): bool
+    {
+        return preg_match('#^/(api|graphql|_next|_nuxt|static|assets?|cdn|media|sitemap|wp-json|feed|rss)(/|$)#i', $path) === 1
+            || preg_match('#\.(js|css|json|xml|txt|png|jpe?g|gif|svg|webp|ico|woff2?|ttf|mp4|mp3)$#i', $path) === 1;
+    }
+
+    /**
+     * A large page with almost no anchors but many links inside embedded payloads
+     * renders its navigation in the browser, so a crawl sees only a fraction of it.
+     */
+    private function isClientSideRendered(string $html, int $anchorCount, int $embeddedCount): bool
+    {
+        return $anchorCount < self::CLIENT_SIDE_MAX_ANCHORS
+            && $embeddedCount > $anchorCount
+            && strlen($html) > self::CLIENT_SIDE_MIN_BYTES;
     }
 
     /**

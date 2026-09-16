@@ -27,6 +27,13 @@ class DeterministicRecommender
      */
     private $boosts = [];
 
+    /**
+     * TEMPORARY (ID-277 debugging): every scored candidate of the last recommend() call.
+     *
+     * @var array<int, array<string, mixed>>
+     */
+    private $lastCandidates = [];
+
     /** Goals returned; the UI shows the first ones and offers the rest on demand. */
     public const MAX_RECOMMENDATIONS = 10;
 
@@ -426,6 +433,7 @@ class DeterministicRecommender
         };
         usort($best, $byScore);
         usort($runnersUp, $byScore);
+        $this->lastCandidates = $this->describeCandidates($candidates, array_merge($best, $runnersUp));
 
         $goals = [];
         $seen = [];
@@ -444,6 +452,53 @@ class DeterministicRecommender
         }
 
         return $goals;
+    }
+
+    /**
+     * TEMPORARY (ID-277 debugging): all candidates of the last run, scored and flagged
+     * with whether they made it into the returned goals, best first.
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    public function getLastCandidates(): array
+    {
+        return $this->lastCandidates;
+    }
+
+    /**
+     * TEMPORARY (ID-277 debugging).
+     *
+     * @param array<int, array<string, mixed>> $candidates
+     * @param array<int, array<string, mixed>> $offered
+     * @return array<int, array<string, mixed>>
+     */
+    private function describeCandidates(array $candidates, array $offered): array
+    {
+        $offeredKeys = [];
+        foreach ($offered as $candidate) {
+            $offeredKeys[$candidate['matchAttribute'] . ':' . $candidate['pattern']] = true;
+        }
+
+        $described = [];
+        foreach ($candidates as $candidate) {
+            $described[] = [
+                'category' => $candidate['category'],
+                'matchAttribute' => $candidate['matchAttribute'],
+                'pattern' => $candidate['pattern'],
+                'label' => (string) ($candidate['label'] ?: ($candidate['evidence'][1] ?? '')),
+                'confidence' => round((float) $candidate['confidence'], 2),
+                'prominence' => round((float) $candidate['prominence'], 2),
+                'score' => round($this->score($candidate), 1),
+                'source' => (string) $candidate['source'],
+                'offered' => isset($offeredKeys[$candidate['matchAttribute'] . ':' . $candidate['pattern']]),
+            ];
+        }
+
+        usort($described, function (array $a, array $b): int {
+            return $b['score'] <=> $a['score'];
+        });
+
+        return $described;
     }
 
     /**
@@ -551,7 +606,8 @@ class DeterministicRecommender
                 $bestCategory,
                 'url',
                 $path,
-                min(1.0, 0.4 + $bestStrength * 0.15 - (count($segments) - 1) * 0.1 + ($exact ? 0.1 : 0)),
+                min(1.0, 0.4 + $bestStrength * 0.15 - (count($segments) - 1) * 0.1 + ($exact ? 0.1 : 0))
+                    - ($this->isEmbeddedOnly($link) ? 0.15 : 0),
                 $this->prominence($link, $pagesCrawled),
                 'rule',
                 $evidence,
@@ -1115,6 +1171,17 @@ class DeterministicRecommender
         return min(1.0, (int) ($link['pageCount'] ?? 0) / $pagesCrawled) * 0.4
             + ((int) ($link['buttonLikeCount'] ?? 0) > 0 ? 0.3 : 0)
             + ((int) ($link['heroCount'] ?? 0) > 0 ? 0.15 : 0);
+    }
+
+    /**
+     * A link that only exists in an embedded payload was never rendered as an anchor,
+     * so the page may not even exist any more.
+     *
+     * @param array<string, mixed> $link
+     */
+    private function isEmbeddedOnly(array $link): bool
+    {
+        return ($link['areas'] ?? []) === ['script'];
     }
 
     /**
