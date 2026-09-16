@@ -279,6 +279,8 @@ declare global {
     initTopControls(): void;
     initializeSparklines(): void;
     vueSanitize(content: string): string;
+    // Strict profile for content read back from `title` attributes, see the implementation.
+    vueSanitizeTooltip(content?: unknown): string;
     vueSanitizeUrl(url: string): string;
     showEmptyDashboardNotification(): void;
   }

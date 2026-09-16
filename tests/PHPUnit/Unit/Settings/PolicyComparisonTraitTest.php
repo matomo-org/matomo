@@ -5,6 +5,7 @@ namespace Piwik\Tests\Unit\Settings;
 use PHPUnit\Framework\TestCase;
 use Piwik\Policy\PolicyEnforcementBypass;
 use Piwik\Policy\PolicyManager;
+use Piwik\Settings\Interfaces\PolicyComparisonInterface;
 use Piwik\Tests\Framework\Mock\Policy\TestPolicy;
 use Piwik\Tests\Framework\Mock\Settings\InMemoryPolicyEnforcementState;
 use Piwik\Tests\Framework\Mock\Settings\TraitImpls\ExternallyManagedPolicyComparisonTraitImpl;
@@ -390,5 +391,97 @@ class PolicyComparisonTraitTest extends TestCase
         TestPolicy::setConfigValue(true);
 
         $this->assertFalse(PolicyComparisonTraitImpl::isEnforcementWritable());
+    }
+
+    public function testGetEnforcementScopeIsNullWhileTheSettingIsNotEnforced()
+    {
+        $this->assertNull(PolicyComparisonTraitImpl::getEnforcementScope());
+        $this->assertNull(PolicyComparisonTraitImpl::getEnforcementScope(self::IDSITE));
+    }
+
+    public function testGetEnforcementScopeReportsAConfigControlledPolicy()
+    {
+        TestPolicy::setConfigValue(true);
+
+        // a policy pinned in config.ini.php cannot be changed from the compliance dashboard
+        $this->assertSame(
+            PolicyComparisonInterface::ENFORCEMENT_SCOPE_CONFIG,
+            PolicyComparisonTraitImpl::getEnforcementScope()
+        );
+        $this->assertSame(
+            PolicyComparisonInterface::ENFORCEMENT_SCOPE_CONFIG,
+            PolicyComparisonTraitImpl::getEnforcementScope(self::IDSITE)
+        );
+    }
+
+    public function testGetEnforcementScopeReportsAnInstanceWideEnforcementState()
+    {
+        PolicyComparisonTraitImpl::setEnforced(true);
+
+        // an instance wide state covers every site, so it stays the origin for a single site too
+        $this->assertSame(
+            PolicyComparisonInterface::ENFORCEMENT_SCOPE_INSTANCE,
+            PolicyComparisonTraitImpl::getEnforcementScope()
+        );
+        $this->assertSame(
+            PolicyComparisonInterface::ENFORCEMENT_SCOPE_INSTANCE,
+            PolicyComparisonTraitImpl::getEnforcementScope(self::IDSITE)
+        );
+    }
+
+    public function testGetEnforcementScopeReportsASiteLevelEnforcementState()
+    {
+        PolicyComparisonTraitImpl::setEnforced(true, self::IDSITE);
+
+        $this->assertSame(
+            PolicyComparisonInterface::ENFORCEMENT_SCOPE_SITE,
+            PolicyComparisonTraitImpl::getEnforcementScope(self::IDSITE)
+        );
+        // another site is unaffected, and nothing is enforced instance wide
+        $this->assertNull(PolicyComparisonTraitImpl::getEnforcementScope(self::OTHER_IDSITE));
+        $this->assertNull(PolicyComparisonTraitImpl::getEnforcementScope());
+    }
+
+    public function testGetEnforcementScopeFallsBackToAnInstanceWidePolicy()
+    {
+        // no state of its own, so the setting follows the policy it subscribes to
+        TestPolicy::setSystemValue(true);
+
+        $this->assertSame(
+            PolicyComparisonInterface::ENFORCEMENT_SCOPE_INSTANCE,
+            PolicyComparisonTraitImpl::getEnforcementScope()
+        );
+        $this->assertSame(
+            PolicyComparisonInterface::ENFORCEMENT_SCOPE_INSTANCE,
+            PolicyComparisonTraitImpl::getEnforcementScope(self::IDSITE)
+        );
+    }
+
+    public function testGetEnforcementScopeFallsBackToASiteLevelPolicy()
+    {
+        TestPolicy::setMeasurableValue(self::IDSITE, true);
+
+        $this->assertSame(
+            PolicyComparisonInterface::ENFORCEMENT_SCOPE_SITE,
+            PolicyComparisonTraitImpl::getEnforcementScope(self::IDSITE)
+        );
+        $this->assertNull(PolicyComparisonTraitImpl::getEnforcementScope(self::OTHER_IDSITE));
+        $this->assertNull(PolicyComparisonTraitImpl::getEnforcementScope());
+    }
+
+    public function testPolicyRequirementsAreExactUnlessASettingSaysOtherwise()
+    {
+        // most requirements leave no compliant alternative, so the field they control can be locked
+        $this->assertSame(
+            PolicyComparisonInterface::POLICY_CONSTRAINT_EXACT,
+            PolicyComparisonTraitImpl::getPolicyConstraintType(TestPolicy::class)
+        );
+    }
+
+    public function testValuesAreCompliantWithPoliciesThatDoNotControlTheSetting()
+    {
+        $this->assertTrue(
+            PolicyComparisonTraitImpl::isValueCompliantWithPolicy(false, 'Some\\Other\\Policy')
+        );
     }
 }

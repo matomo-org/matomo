@@ -9,6 +9,10 @@
 
 import jqXHR = JQuery.jqXHR;
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
+import {
+  isCanonicalQueryParameterName,
+  reportUnsupportedQueryParameterName,
+} from '../MatomoUrl/queryParameterNames';
 import Matomo from '../Matomo/Matomo';
 import { setCookie } from '../CookieHelper/CookieHelper';
 import { Periods, Range } from '../Periods';
@@ -745,6 +749,12 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
 
     const arrayParams = ['compareSegments', 'comparePeriods', 'compareDates'];
     Object.keys(params).forEach((key) => {
+      // String input is validated after serialization.
+      if (!isCanonicalQueryParameterName(key)) {
+        reportUnsupportedQueryParameterName(key);
+        return;
+      }
+
       let value = params[key];
       if (arrayParams.indexOf(key) !== -1
         && !value

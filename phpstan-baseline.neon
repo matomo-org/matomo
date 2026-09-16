@@ -371,16 +371,6 @@ parameters:
 			path: core/DataAccess/ArchivingDbAdapter.php
 
 		-
-			message: "#^Parameter \\#3 \\$where of method Piwik\\\\DataAccess\\\\LogQueryBuilder\\:\\:buildSelectQuery\\(\\) expects string, false given\\.$#"
-			count: 1
-			path: core/DataAccess/LogQueryBuilder.php
-
-		-
-			message: "#^Parameter \\#6 \\$limitAndOffset of method Piwik\\\\DataAccess\\\\LogQueryBuilder\\:\\:buildSelectQuery\\(\\) expects int\\|string, null given\\.$#"
-			count: 1
-			path: core/DataAccess/LogQueryBuilder.php
-
-		-
 			message: "#^Call to an undefined method Piwik\\\\Db\\|Piwik\\\\Db\\\\AdapterInterface\\|Piwik\\\\Tracker\\\\Db\\:\\:fetchCol\\(\\)\\.$#"
 			count: 2
 			path: core/DataAccess/Model.php

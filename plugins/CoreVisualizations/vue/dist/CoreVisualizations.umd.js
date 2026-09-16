@@ -1143,14 +1143,15 @@ function SparklinesGridvue_type_template_id_15709986_render(_ctx, _cache, $props
 }
 // CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/SparklinesGrid/SparklinesGrid.vue?vue&type=template&id=15709986
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/Sparklines/SparklineCard.vue?vue&type=template&id=4308735a
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/Sparklines/SparklineCard.vue?vue&type=template&id=7f39d684
 
-const SparklineCardvue_type_template_id_4308735a_hoisted_1 = ["data-graph-params", "data-series-indices"];
-const SparklineCardvue_type_template_id_4308735a_hoisted_2 = {
+const SparklineCardvue_type_template_id_7f39d684_hoisted_1 = ["data-graph-params", "data-series-indices"];
+const SparklineCardvue_type_template_id_7f39d684_hoisted_2 = {
   key: 0,
   class: "sparklineCard__title"
 };
-function SparklineCardvue_type_template_id_4308735a_render(_ctx, _cache, $props, $setup, $data, $options) {
+const SparklineCardvue_type_template_id_7f39d684_hoisted_3 = ["title"];
+function SparklineCardvue_type_template_id_7f39d684_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_DateComparison = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("DateComparison");
   const _component_NoComparison = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("NoComparison");
   const _component_Sparkline = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Sparkline");
@@ -1160,7 +1161,7 @@ function SparklineCardvue_type_template_id_4308735a_render(_ctx, _cache, $props,
     }]),
     "data-graph-params": _ctx.graphParamsAttr,
     "data-series-indices": _ctx.seriesIndicesAttr
-  }, [_ctx.sparkline.title ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SparklineCardvue_type_template_id_4308735a_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.sparkline.title), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.isComparison ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_DateComparison, {
+  }, [_ctx.sparkline.title ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SparklineCardvue_type_template_id_7f39d684_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.sparkline.title), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.isComparison ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_DateComparison, {
     key: 1,
     sparkline: _ctx.sparkline
   }, null, 8, ["sparkline"])) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_NoComparison, {
@@ -1168,17 +1169,24 @@ function SparklineCardvue_type_template_id_4308735a_render(_ctx, _cache, $props,
     sparkline: _ctx.sparkline,
     "all-metrics-documentation": _ctx.allMetricsDocumentation
   }, null, 8, ["sparkline", "all-metrics-documentation"])), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
+    ref: "sparklineSlot",
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["sparklineCard__sparkline", {
-      'sparklineCard__sparkline--wide': _ctx.isComparison
-    }])
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Sparkline, {
+      sparklineLoadingSkeleton: _ctx.isSparklineLoading
+    }]),
+    title: _ctx.sparkline.tooltip || undefined
+  }, [_ctx.sparklineWidth > 0 && _ctx.sparklineHeight > 0 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_Sparkline, {
+    key: 0,
+    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["sparklineImg--fluid", {
+      'sparklineImg--hidden': _ctx.isSparklineLoading
+    }]),
     width: _ctx.sparklineWidth,
-    height: 40,
+    height: _ctx.sparklineHeight,
     params: _ctx.sparkline.url,
-    "series-indices": _ctx.sparkline.seriesIndices
-  }, null, 8, ["width", "params", "series-indices"])], 2)], 10, SparklineCardvue_type_template_id_4308735a_hoisted_1);
+    "series-indices": _ctx.sparkline.seriesIndices,
+    onLoadingChange: _cache[0] || (_cache[0] = $event => _ctx.isImageLoading = $event)
+  }, null, 8, ["class", "width", "height", "params", "series-indices"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 10, SparklineCardvue_type_template_id_7f39d684_hoisted_3)], 10, SparklineCardvue_type_template_id_7f39d684_hoisted_1);
 }
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/Sparklines/SparklineCard.vue?vue&type=template&id=4308735a
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/Sparklines/SparklineCard.vue?vue&type=template&id=7f39d684
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/Sparklines/NoComparison.vue?vue&type=template&id=44e340e0
 
@@ -1551,7 +1559,134 @@ function sparklineSeriesIndicesAttr(entry) {
   } = entry;
   return seriesIndices && seriesIndices.length ? JSON.stringify(seriesIndices) : null;
 }
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/Sparklines/useSparklineSlotSize.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+// Widest sparkline we will ever display. Must stay at Sparkline::MAX_WIDTH / 2
+// (core/Visualization/Sparkline.php), since the image is requested at twice this. Asking for more
+// than the server allows gets clamped there, which would squash the image.
+const MAX_DISPLAY_WIDTH = 800;
+// Tallest sparkline we will ever display, mirroring MAX_DISPLAY_WIDTH: half of
+// Sparkline::MAX_HEIGHT, since the image is requested at twice this.
+const MAX_DISPLAY_HEIGHT = 64;
+// Wait this long after a resize before acting on it, so dragging a window edge costs one request
+// per card instead of one per frame.
+const RESIZE_DEBOUNCE_MS = 150;
+// Ignore width changes smaller than this. A scrollbar appearing, a font settling or a one-pixel
+// reflow would otherwise cost a fresh server-rendered PNG per card, and blank each one behind its
+// placeholder while it arrives. Ignoring one leaves the image at its old width: if the slot grew,
+// it simply sits that many pixels narrow; if the slot shrank, `max-width: 100%` squeezes it
+// horizontally, since Sparkline pins the height inline. Either way it is under a percent of a card.
+const MIN_WIDTH_CHANGE_PX = 8;
+/**
+ * Measures a sparkline slot so its image can be requested at exactly the size it is shown at,
+ * rather than being drawn at a fixed size and rescaled by CSS. That rescaling is what made the
+ * line thickness and the gap below the sparkline change with the card width.
+ *
+ * Both values are 0 until the slot has been measured, so callers should not render the sparkline
+ * until they are positive. A slot in a hidden tab or collapsed widget measures 0 at first and
+ * becomes measurable once it is shown.
+ *
+ * `isResizePending` is true from the moment a resize is observed until it has been acted on, so a
+ * card is never in a state where it looks settled but is about to swap its image. It is set before
+ * the debounce rather than after, which also keeps the refetch inside the window
+ * `PageRenderer.waitForNetworkIdle()` samples: that sleeps 750ms before its first check, so a
+ * request started `RESIZE_DEBOUNCE_MS` after a resize is always counted. Keep the debounce well
+ * under that 750ms or a spec that waits for the network can capture a half-loaded card.
+ */
+function useSparklineSlotSize(slot) {
+  const width = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(0);
+  const height = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(0);
+  const isResizePending = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(false);
+  let observer = null;
+  let resizeTimeout = null;
+  /**
+   * The width this slot should ask for, or null when the current one still stands. Called both to
+   * apply a measurement and, from the observer, to decide whether a reflow is worth reacting to at
+   * all - a layout pass that leaves the slot the same width must not put the card back into its
+   * loading state, or anything that forces a layout (the screenshot runner included) makes every
+   * card blink.
+   */
+  function resolveWidth(measured) {
+    // Round down, never up. A wider image than its slot overflows rather than shrinks (Morpheus
+    // sets `flex-shrink: 0` on it), and even a fraction of a pixel of overflow can add a
+    // horizontal scrollbar, which resizes the slot, which resizes the image again.
+    const next = Math.min(Math.floor(measured), MAX_DISPLAY_WIDTH);
+    // Keep the last known width when the slot measures 0, which happens while the Dashboard
+    // detaches a widget to maximise it. Otherwise the sparkline would vanish and refetch each time.
+    if (next <= 0) {
+      return null;
+    }
+    // The first measurement always counts; after that a change has to be worth a new request.
+    if (width.value !== 0 && Math.abs(next - width.value) < MIN_WIDTH_CHANGE_PX) {
+      return null;
+    }
+    return next;
+  }
+  // The single place the slot is measured, used both on mount and on every resize.
+  function applySize(el) {
+    const rect = el.getBoundingClientRect();
+    const nextWidth = resolveWidth(rect.width);
+    if (nextWidth !== null) {
+      width.value = nextWidth;
+    }
+    // Height is measured once, then left alone: it is fixed in CSS, and following it would let the
+    // image resize the slot it was measured from. A slot that mounts hidden measures 0, so keep
+    // looking until there is a real height to use.
+    if (height.value === 0) {
+      height.value = Math.min(Math.floor(rect.height), MAX_DISPLAY_HEIGHT);
+    }
+  }
+  Object(external_commonjs_vue_commonjs2_vue_root_Vue_["onMounted"])(() => {
+    const el = slot.value;
+    if (!el) {
+      return;
+    }
+    // Measure during mount rather than waiting for the observer's first callback, so the image
+    // request starts early enough for the UI screenshot runner to wait for it.
+    applySize(el);
+    // The size the observer hands us is ignored: it can be stale by the time the debounce fires,
+    // so measure again instead.
+    observer = new ResizeObserver(() => {
+      // Observer callbacks run after layout, so measuring here is free. Ignore a reflow that leaves
+      // the slot the same size: reacting to it would blank the card behind its placeholder for the
+      // length of the debounce, for no change at all.
+      if (resolveWidth(el.getBoundingClientRect().width) === null && height.value !== 0) {
+        return;
+      }
+      // Flagged here rather than after the debounce, so nothing can report itself settled while a
+      // refetch is already scheduled. See the note on the return value above.
+      isResizePending.value = true;
+      if (resizeTimeout) {
+        clearTimeout(resizeTimeout);
+      }
+      resizeTimeout = setTimeout(() => {
+        applySize(el);
+        isResizePending.value = false;
+      }, RESIZE_DEBOUNCE_MS);
+    });
+    observer.observe(el);
+  });
+  Object(external_commonjs_vue_commonjs2_vue_root_Vue_["onBeforeUnmount"])(() => {
+    var _observer;
+    if (resizeTimeout) {
+      clearTimeout(resizeTimeout);
+    }
+    (_observer = observer) === null || _observer === void 0 || _observer.disconnect();
+  });
+  return {
+    width,
+    height,
+    isResizePending
+  };
+}
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/Sparklines/SparklineCard.vue?vue&type=script&lang=ts
+
 
 
 
@@ -1596,15 +1731,28 @@ function sparklineSeriesIndicesAttr(entry) {
     // the .sparkline wrapper. Shared with SegmentComparisonCard, which puts them on the card root.
     const graphParamsAttr = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => sparklineGraphParamsAttr(props.sparkline));
     const seriesIndicesAttr = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => sparklineSeriesIndicesAttr(props.sparkline));
-    // Displayed sparkline width; comparison cards are wider so their sparkline is too. Kept in sync
-    // with the .sparklineCard__sparkline max-width in the .less (Sparkline renders the PNG at 2x
-    // this, and the CSS cap stops it scaling past that crisp source). Height stays 40 for both.
-    const sparklineWidth = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => isComparison.value ? 760 : 380);
+    // Sparkline size, measured from the slot it will be drawn in.
+    const sparklineSlot = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(null);
+    const {
+      width: sparklineWidth,
+      height: sparklineHeight,
+      isResizePending
+    } = useSparklineSlotSize(sparklineSlot);
+    // Starts true so the placeholder also covers the time before the slot has been measured, when
+    // there is no image yet. Sparkline tells us about every change after that.
+    const isImageLoading = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(true);
+    // A pending resize counts as loading too: the image on screen is about to be replaced, so the
+    // placeholder covers the swap rather than letting a stale-sized image sit there.
+    const isSparklineLoading = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => isResizePending.value || isImageLoading.value);
     return {
       isComparison,
       graphParamsAttr,
       seriesIndicesAttr,
-      sparklineWidth
+      sparklineSlot,
+      sparklineWidth,
+      sparklineHeight,
+      isImageLoading,
+      isSparklineLoading
     };
   }
 }));
@@ -1614,7 +1762,7 @@ function sparklineSeriesIndicesAttr(entry) {
 
 
 
-SparklineCardvue_type_script_lang_ts.render = SparklineCardvue_type_template_id_4308735a_render
+SparklineCardvue_type_script_lang_ts.render = SparklineCardvue_type_template_id_7f39d684_render
 
 /* harmony default export */ var SparklineCard = (SparklineCardvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/Sparklines/SegmentComparisonCard.vue?vue&type=template&id=7f53d9a2
@@ -1650,34 +1798,43 @@ function SegmentComparisonCardvue_type_template_id_7f53d9a2_render(_ctx, _cache,
 }
 // CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/Sparklines/SegmentComparisonCard.vue?vue&type=template&id=7f53d9a2
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/Sparklines/SegmentComparisonRow.vue?vue&type=template&id=fd8e0dde
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/Sparklines/SegmentComparisonRow.vue?vue&type=template&id=c879a4bc
 
-const SegmentComparisonRowvue_type_template_id_fd8e0dde_hoisted_1 = {
+const SegmentComparisonRowvue_type_template_id_c879a4bc_hoisted_1 = {
   class: "sparklineSegmentComparisonRow"
 };
-const SegmentComparisonRowvue_type_template_id_fd8e0dde_hoisted_2 = ["title"];
-function SegmentComparisonRowvue_type_template_id_fd8e0dde_render(_ctx, _cache, $props, $setup, $data, $options) {
+const SegmentComparisonRowvue_type_template_id_c879a4bc_hoisted_2 = ["title"];
+const SegmentComparisonRowvue_type_template_id_c879a4bc_hoisted_3 = ["title"];
+function SegmentComparisonRowvue_type_template_id_c879a4bc_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_PeriodColumns = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("PeriodColumns");
   const _component_Sparkline = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Sparkline");
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SegmentComparisonRowvue_type_template_id_fd8e0dde_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SegmentComparisonRowvue_type_template_id_c879a4bc_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
     class: "sparklineSegmentComparisonRow__chip",
-    title: _ctx.segmentLabel
-  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.segmentLabel), 9, SegmentComparisonRowvue_type_template_id_fd8e0dde_hoisted_2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_PeriodColumns, {
+    title: _ctx.segmentLabelTitle
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.segmentLabel), 9, SegmentComparisonRowvue_type_template_id_c879a4bc_hoisted_2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_PeriodColumns, {
     entry: _ctx.segment
   }, null, 8, ["entry"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
+    ref: "sparklineSlot",
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["sparklineSegmentComparisonRow__sparkline", {
-      'sparklineSegmentComparisonRow__sparkline--wide': _ctx.isMultiPeriod
-    }])
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Sparkline, {
+      sparklineLoadingSkeleton: _ctx.isSparklineLoading
+    }]),
+    title: _ctx.segment.tooltip || undefined
+  }, [_ctx.sparklineWidth > 0 && _ctx.sparklineHeight > 0 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_Sparkline, {
+    key: 0,
+    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["sparklineImg--fluid", {
+      'sparklineImg--hidden': _ctx.isSparklineLoading
+    }]),
     width: _ctx.sparklineWidth,
-    height: 40,
+    height: _ctx.sparklineHeight,
     params: _ctx.segment.url,
-    "series-indices": _ctx.segment.seriesIndices
-  }, null, 8, ["width", "params", "series-indices"])], 2)]);
+    "series-indices": _ctx.segment.seriesIndices,
+    onLoadingChange: _cache[0] || (_cache[0] = $event => _ctx.isImageLoading = $event)
+  }, null, 8, ["class", "width", "height", "params", "series-indices"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 10, SegmentComparisonRowvue_type_template_id_c879a4bc_hoisted_3)]);
 }
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/Sparklines/SegmentComparisonRow.vue?vue&type=template&id=fd8e0dde
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/Sparklines/SegmentComparisonRow.vue?vue&type=template&id=c879a4bc
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/Sparklines/SegmentComparisonRow.vue?vue&type=script&lang=ts
+
 
 
 
@@ -1704,17 +1861,29 @@ function SegmentComparisonRowvue_type_template_id_fd8e0dde_render(_ctx, _cache, 
   setup(props) {
     // Segment name (compareSegmentPretty); always populated in segment comparison.
     const segmentLabel = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => props.segment.title || '');
-    // More than one compared date (segment + date) → widen the sparkline. The period columns
-    // themselves are derived and rendered by PeriodColumns from the same entry.
-    const isMultiPeriod = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => (props.segment.metricsOrder || []).length > 1);
-    // Displayed sparkline width; segment + date rows draw one series per date so they are wider,
-    // matching the date-comparison card. Kept in sync with the `--wide` max-width in the .less
-    // (Sparkline renders the PNG at 2x this; the CSS cap stops it scaling past that crisp source).
-    const sparklineWidth = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => isMultiPeriod.value ? 760 : 380);
+    // Vue escapes the chip's text, the title attribute is read back and rendered as tooltip HTML.
+    const segmentLabelTitle = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => external_CoreHome_["Matomo"].helper.htmlEntities(segmentLabel.value));
+    // Sparkline size, measured from the slot it will be drawn in.
+    const sparklineSlot = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(null);
+    const {
+      width: sparklineWidth,
+      height: sparklineHeight,
+      isResizePending
+    } = useSparklineSlotSize(sparklineSlot);
+    // Starts true so the placeholder also covers the time before the slot has been measured, when
+    // there is no image yet. Sparkline tells us about every change after that.
+    const isImageLoading = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(true);
+    // A pending resize counts as loading too: the image on screen is about to be replaced, so the
+    // placeholder covers the swap rather than letting a stale-sized image sit there.
+    const isSparklineLoading = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => isResizePending.value || isImageLoading.value);
     return {
       segmentLabel,
-      isMultiPeriod,
-      sparklineWidth
+      segmentLabelTitle,
+      sparklineSlot,
+      sparklineWidth,
+      sparklineHeight,
+      isImageLoading,
+      isSparklineLoading
     };
   }
 }));
@@ -1724,7 +1893,7 @@ function SegmentComparisonRowvue_type_template_id_fd8e0dde_render(_ctx, _cache, 
 
 
 
-SegmentComparisonRowvue_type_script_lang_ts.render = SegmentComparisonRowvue_type_template_id_fd8e0dde_render
+SegmentComparisonRowvue_type_script_lang_ts.render = SegmentComparisonRowvue_type_template_id_c879a4bc_render
 
 /* harmony default export */ var SegmentComparisonRow = (SegmentComparisonRowvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/Sparklines/SegmentComparisonCard.vue?vue&type=script&lang=ts

@@ -73,4 +73,33 @@ declare module 'CoreHome' {
     updatePageTitle(): void;
     updatePeriodParamsFromUrl(): void;
   };
+
+  export interface NotificationType {
+    id?: string;
+    notificationInstanceId?: string;
+    group?: string;
+    title?: string;
+    message: string;
+    context: 'success'|'error'|'info'|'warning';
+    type: 'toast'|'persistent'|'transient'|'help';
+    noclear?: boolean;
+    toastLength?: number;
+    style?: string|Record<string, unknown>;
+    class?: string;
+    animate?: boolean;
+    placeat?: string|HTMLElement|JQuery;
+    prepend?: boolean;
+  }
+
+  export const NotificationsStore: {
+    readonly state: import('vue').DeepReadonly<{ notifications: NotificationType[] }>;
+    appendNotification(notification: NotificationType): void;
+    prependNotification(notification: NotificationType): void;
+    remove(id: string): void;
+    parseNotificationDivs(): void;
+    clearTransientNotifications(): void;
+    show(notification: NotificationType): string;
+    scrollToNotification(notificationInstanceId: string): void;
+    toast(notification: NotificationType): void;
+  };
 }

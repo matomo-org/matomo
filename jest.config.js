@@ -6,6 +6,7 @@ module.exports = {
   },
   testMatch: [
     '**/plugins/*/vue/**/*.spec.[tj]s',
+    '**/plugins/*/polyfills/src/**/*.spec.[tj]s',
   ],
   globals: {
     'ts-jest': {

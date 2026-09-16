@@ -71,7 +71,7 @@ ul.ulGoalTopElements img {
     // scan in progress: the core progress bar, then loader and phase label on one line
     .recommendGoals-scanProgress {
         border-top: 1px solid @theme-color-border-alternative;
-        margin-top: 20px;
+        margin: 24px 0 8px;
         padding-top: 16px;
 
         .progressbar {
@@ -92,9 +92,9 @@ ul.ulGoalTopElements img {
     }
 
     .recommendGoals-scanHint {
-        color: @theme-color-text-light;
+        color: @theme-color-text-lighter;
         font-size: 12px;
-        margin: 6px 0 0 30px;
+        margin: 4px 0 0;
     }
 
     .recommendGoals-footer {
@@ -181,22 +181,6 @@ ul.ulGoalTopElements img {
         color: @theme-color-text-light;
         font-size: 12px;
         margin: 0;
-    }
-
-    .recommendGoals-scanProgress {
-        margin: 24px 0 8px;
-
-        // align the shared Progressbar (ships with 22px/24px outer margins)
-        // with the surrounding block content
-        .progressbar {
-            margin: 0;
-        }
-    }
-
-    .recommendGoals-scanHint {
-        color: @theme-color-text-lighter;
-        font-size: 12px;
-        margin: 4px 0 0;
     }
 
     .recommendGoals-list {

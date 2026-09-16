@@ -171,6 +171,7 @@ __webpack_require__.d(__webpack_exports__, "DropdownMenu", function() { return /
 __webpack_require__.d(__webpack_exports__, "FocusAnywhereButHere", function() { return /* reexport */ FocusAnywhereButHere; });
 __webpack_require__.d(__webpack_exports__, "FocusIf", function() { return /* reexport */ FocusIf; });
 __webpack_require__.d(__webpack_exports__, "Tooltips", function() { return /* reexport */ Tooltips; });
+__webpack_require__.d(__webpack_exports__, "tooltipContent", function() { return /* reexport */ tooltipContent_tooltipContent; });
 __webpack_require__.d(__webpack_exports__, "MatomoDialog", function() { return /* reexport */ MatomoDialog; });
 __webpack_require__.d(__webpack_exports__, "MatomoModal", function() { return /* reexport */ MatomoModal; });
 __webpack_require__.d(__webpack_exports__, "ExpandOnClick", function() { return /* reexport */ ExpandOnClick; });
@@ -1091,6 +1092,105 @@ class MatomoUrl_MatomoUrl {
 const instance = new MatomoUrl_MatomoUrl();
 /* harmony default export */ var src_MatomoUrl_MatomoUrl = (instance);
 MatomoUrl_piwik.updatePeriodParamsFromUrl = instance.updatePeriodParamsFromUrl.bind(instance);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoUrl/queryParameterNames.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+// Reject unsupported or ambiguous request parameter names.
+const NULL_BYTE = '\u0000';
+const APPENDS_LIKE_EMPTY_SUBSCRIPT = /\[[ \t\n\v\f\r]\]/;
+const COMPLETE_SUBSCRIPTS = /^[^[]+(?:\[[^\]]*\])*$/;
+const UNTERMINATED_FIRST_SUBSCRIPT = /^[^[]+\[[^\]]*$/;
+const REWRITTEN_IN_A_BASE_NAME = /[. ]/g;
+const REWRITTEN_IN_A_WHOLE_NAME = /[. []/g;
+function isCanonicalQueryParameterName(name) {
+  if (name === '' || name.includes(NULL_BYTE) || name.startsWith(' ') || APPENDS_LIKE_EMPTY_SUBSCRIPT.test(name)) {
+    return false;
+  }
+  return !name.includes('[') || COMPLETE_SUBSCRIPTS.test(name) || UNTERMINATED_FIRST_SUBSCRIPT.test(name);
+}
+function getServerParameterName(name) {
+  const firstSubscript = name.indexOf('[');
+  if (firstSubscript === -1) {
+    return name.replace(REWRITTEN_IN_A_BASE_NAME, '_');
+  }
+  if (!COMPLETE_SUBSCRIPTS.test(name)) {
+    return name.replace(REWRITTEN_IN_A_WHOLE_NAME, '_');
+  }
+  return name.substring(0, firstSubscript).replace(REWRITTEN_IN_A_BASE_NAME, '_') + name.substring(firstSubscript);
+}
+function reportUnsupportedQueryParameterName(name) {
+  console.error(`Dropping request parameter with an unsupported name: ${name}`);
+}
+function decodeParameterName(encodedName) {
+  try {
+    return decodeURIComponent(encodedName.replace(/\+/g, '%20'));
+  } catch (e) {
+    return null;
+  }
+}
+function parseQueryParameter(pair) {
+  if (!pair) {
+    return null;
+  }
+  const separatorIndex = pair.indexOf('=');
+  const encodedName = separatorIndex === -1 ? pair : pair.substring(0, separatorIndex);
+  const name = decodeParameterName(encodedName);
+  if (name === null || !isCanonicalQueryParameterName(name)) {
+    reportUnsupportedQueryParameterName(encodedName);
+    return null;
+  }
+  return {
+    pair,
+    encodedName,
+    name,
+    serverName: getServerParameterName(name)
+  };
+}
+// The same name repeated is one parameter, so only differing names are ambiguous.
+function findAmbiguousServerNames(parameters) {
+  const firstNameByServerName = new Map();
+  const ambiguous = new Set();
+  parameters.forEach(({
+    name,
+    serverName
+  }) => {
+    const firstName = firstNameByServerName.get(serverName);
+    if (firstName === undefined) {
+      firstNameByServerName.set(serverName, name);
+    } else if (firstName !== name) {
+      ambiguous.add(serverName);
+    }
+  });
+  return ambiguous;
+}
+/**
+ * Filters unsupported parameter names from a serialized query string.
+ */
+function dropMalformedQueryParameters(queryString) {
+  if (!queryString) {
+    return queryString;
+  }
+  const parameters = queryString.split('&').map(parseQueryParameter).filter(parameter => parameter !== null);
+  const ambiguousServerNames = findAmbiguousServerNames(parameters);
+  const keptParameters = parameters.filter(({
+    encodedName,
+    name,
+    serverName
+  }) => {
+    if (serverName !== name && ambiguousServerNames.has(serverName)) {
+      reportUnsupportedQueryParameterName(encodedName);
+      return false;
+    }
+    return true;
+  });
+  return keptParameters.map(({
+    pair
+  }) => pair).join('&');
+}
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/CookieHelper/CookieHelper.ts
 /*
  * General utils for managing cookies in Typescript.
@@ -1140,6 +1240,7 @@ function AjaxHelper_defineProperty(obj, key, value) { if (key in obj) { Object.d
  * @link    https://matomo.org
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 
 
 
@@ -1709,6 +1810,11 @@ class AjaxHelper_AjaxHelper {
     const params = typeof initialParams === 'string' ? window.broadcast.getValuesFromUrl(initialParams) : initialParams;
     const arrayParams = ['compareSegments', 'comparePeriods', 'compareDates'];
     Object.keys(params).forEach(key => {
+      // String input is validated after serialization.
+      if (!isCanonicalQueryParameterName(key)) {
+        reportUnsupportedQueryParameterName(key);
+        return;
+      }
       let value = params[key];
       if (arrayParams.indexOf(key) !== -1 && !value) {
         return;
@@ -2022,7 +2128,16 @@ class AjaxHelper_AjaxHelper {
 AjaxHelper_defineProperty(AjaxHelper_AjaxHelper, "UNSUPPORTED_BULK_RESPONSE_OBJECT_ERROR", 'AjaxHelper returnResponseObject is not supported for bulk requests.');
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/AjaxHelper/AjaxHelper.adapter.ts
 
+
 window.ajaxHelper = AjaxHelper_AjaxHelper;
+// Apply the shared parameter-name validation to query strings produced by jQuery.
+(function guardSerializedParameterNames(jq) {
+  const originalParam = jq.param;
+  function param(...args) {
+    return dropMalformedQueryParameters(originalParam.apply(this, args));
+  }
+  jq.param = param;
+})(window.$);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/NumberFormatter/NumberFormatter.ts
 function NumberFormatter_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 /*!
@@ -2925,6 +3040,26 @@ function doFocusIf(el, binding) {
     doFocusIf(el, binding);
   }
 });
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Tooltips/tooltipContent.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+/**
+ * Content transform for jQuery UI tooltips that show the `title` of the hovered element.
+ *
+ * Meant to be passed as the widget's `content` option, so it is called with the target element as
+ * `this`.
+ *
+ * jQuery UI inserts what we return with `.html()`, and the browser has already decoded the
+ * attribute, so the value is parsed as HTML a second time. It therefore goes through the tooltip
+ * sanitizer rather than the general one, which also turns the title's line breaks into `<br />`.
+ */
+function tooltipContent_tooltipContent() {
+  return window.vueSanitizeTooltip(this.getAttribute('title') || '');
+}
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Tooltips/Tooltips.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -2932,16 +3067,13 @@ function doFocusIf(el, binding) {
  * @link    https://matomo.org
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 const {
   $: Tooltips_$
 } = window;
 // Tracks the MutationObserver attached to each tooltip host so it can be
 // disconnected again when the host element is unmounted.
 const observers = new WeakMap();
-function defaultContentTransform() {
-  const title = Tooltips_$(this).attr('title') || '';
-  return window.vueSanitize(title.replace(/\n/g, '<br />'));
-}
 /**
  * jQuery UI shows a single, delegated tooltip for every descendant of the host
  * element that has a `title`. It only auto-closes a tooltip when its target
@@ -2984,7 +3116,7 @@ function setupTooltips(el, binding) {
   }
   Tooltips_$(el).tooltip({
     track: true,
-    content: ((_binding$value = binding.value) === null || _binding$value === void 0 ? void 0 : _binding$value.content) || defaultContentTransform,
+    content: ((_binding$value = binding.value) === null || _binding$value === void 0 ? void 0 : _binding$value.content) || tooltipContent_tooltipContent,
     show: typeof ((_binding$value2 = binding.value) === null || _binding$value2 === void 0 ? void 0 : _binding$value2.show) !== 'undefined' ? (_binding$value3 = binding.value) === null || _binding$value3 === void 0 ? void 0 : _binding$value3.show : {
       delay: ((_binding$value4 = binding.value) === null || _binding$value4 === void 0 ? void 0 : _binding$value4.delay) || 700,
       duration: ((_binding$value5 = binding.value) === null || _binding$value5 === void 0 ? void 0 : _binding$value5.duration) || 200
@@ -4234,44 +4366,44 @@ const {
 ContentBlockvue_type_script_lang_ts.render = ContentBlockvue_type_template_id_7546a849_render
 
 /* harmony default export */ var ContentBlock = (ContentBlockvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/Comparisons/Comparisons.vue?vue&type=template&id=50602006
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/Comparisons/Comparisons.vue?vue&type=template&id=23a3e9d8
 
-const Comparisonsvue_type_template_id_50602006_hoisted_1 = {
+const Comparisonsvue_type_template_id_23a3e9d8_hoisted_1 = {
   key: 0,
   ref: "root",
   class: "matomo-comparisons"
 };
-const Comparisonsvue_type_template_id_50602006_hoisted_2 = {
+const Comparisonsvue_type_template_id_23a3e9d8_hoisted_2 = {
   class: "comparison-type"
 };
-const Comparisonsvue_type_template_id_50602006_hoisted_3 = ["title"];
-const Comparisonsvue_type_template_id_50602006_hoisted_4 = ["href"];
-const Comparisonsvue_type_template_id_50602006_hoisted_5 = ["title"];
-const Comparisonsvue_type_template_id_50602006_hoisted_6 = {
+const Comparisonsvue_type_template_id_23a3e9d8_hoisted_3 = ["title"];
+const Comparisonsvue_type_template_id_23a3e9d8_hoisted_4 = ["href"];
+const Comparisonsvue_type_template_id_23a3e9d8_hoisted_5 = ["title"];
+const Comparisonsvue_type_template_id_23a3e9d8_hoisted_6 = {
   class: "comparison-period-label"
 };
-const Comparisonsvue_type_template_id_50602006_hoisted_7 = ["onClick"];
-const Comparisonsvue_type_template_id_50602006_hoisted_8 = ["title"];
-const Comparisonsvue_type_template_id_50602006_hoisted_9 = {
+const Comparisonsvue_type_template_id_23a3e9d8_hoisted_7 = ["onClick"];
+const Comparisonsvue_type_template_id_23a3e9d8_hoisted_8 = ["title"];
+const Comparisonsvue_type_template_id_23a3e9d8_hoisted_9 = {
   class: "loadingPiwik",
   style: {
     "display": "none"
   }
 };
-function Comparisonsvue_type_template_id_50602006_render(_ctx, _cache, $props, $setup, $data, $options) {
+function Comparisonsvue_type_template_id_23a3e9d8_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_MatomoLoader = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("MatomoLoader");
   const _directive_tooltips = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("tooltips");
-  return _ctx.isComparing ? Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", Comparisonsvue_type_template_id_50602006_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h3", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Comparisons')), 1), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.segmentComparisons, (comparison, $index) => {
+  return _ctx.isComparing ? Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", Comparisonsvue_type_template_id_23a3e9d8_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h3", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Comparisons')), 1), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.segmentComparisons, (comparison, $index) => {
     return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
       class: "comparison card",
       key: comparison.index
-    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", Comparisonsvue_type_template_id_50602006_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Segment')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
+    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", Comparisonsvue_type_template_id_23a3e9d8_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Segment')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
       class: "title",
       title: _ctx.getTitleTooltip(comparison)
     }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
       target: "_blank",
       href: _ctx.getUrlToSegment(comparison.params.segment)
-    }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(comparison.title), 9, Comparisonsvue_type_template_id_50602006_hoisted_4)], 8, Comparisonsvue_type_template_id_50602006_hoisted_3), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.periodComparisons, periodComparison => {
+    }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(comparison.title), 9, Comparisonsvue_type_template_id_23a3e9d8_hoisted_4)], 8, Comparisonsvue_type_template_id_23a3e9d8_hoisted_3), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.periodComparisons, periodComparison => {
       return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
         class: "comparison-period",
         key: periodComparison.index,
@@ -4281,7 +4413,7 @@ function Comparisonsvue_type_template_id_50602006_render(_ctx, _cache, $props, $
         style: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeStyle"])({
           'background-color': _ctx.getSeriesColor(comparison, periodComparison)
         })
-      }, null, 4), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", Comparisonsvue_type_template_id_50602006_hoisted_6, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(periodComparison.title) + " (" + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.getComparisonPeriodType(periodComparison)) + ") ", 1)], 8, Comparisonsvue_type_template_id_50602006_hoisted_5);
+      }, null, 4), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", Comparisonsvue_type_template_id_23a3e9d8_hoisted_6, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(periodComparison.title) + " (" + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.getComparisonPeriodType(periodComparison)) + ") ", 1)], 8, Comparisonsvue_type_template_id_23a3e9d8_hoisted_5);
     }), 128)), _ctx.segmentComparisons.length > 1 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
       key: 0,
       class: "remove-button",
@@ -4289,14 +4421,13 @@ function Comparisonsvue_type_template_id_50602006_render(_ctx, _cache, $props, $
     }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
       class: "icon icon-close",
       title: _ctx.translate('General_ClickToRemoveComp')
-    }, null, 8, Comparisonsvue_type_template_id_50602006_hoisted_8)], 8, Comparisonsvue_type_template_id_50602006_hoisted_7)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]);
-  }), 128)), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", Comparisonsvue_type_template_id_50602006_hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_MatomoLoader), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_LoadingData')), 1)])])), [[_directive_tooltips, {
+    }, null, 8, Comparisonsvue_type_template_id_23a3e9d8_hoisted_8)], 8, Comparisonsvue_type_template_id_23a3e9d8_hoisted_7)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]);
+  }), 128)), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", Comparisonsvue_type_template_id_23a3e9d8_hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_MatomoLoader), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_LoadingData')), 1)])])), [[_directive_tooltips, {
     duration: 200,
-    delay: 200,
-    content: _ctx.transformTooltipContent
+    delay: 200
   }]]) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Comparisons/Comparisons.vue?vue&type=template&id=50602006
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Comparisons/Comparisons.vue?vue&type=template&id=23a3e9d8
 
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Segmentation/Segments.store.ts
 function Segments_store_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -4654,19 +4785,11 @@ class Comparisons_store_ComparisonsStore {
     const segmentComparisons = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => Comparisons_store_instance.getSegmentComparisons());
     const periodComparisons = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => Comparisons_store_instance.getPeriodComparisons());
     const getSeriesColor = Comparisons_store_instance.getSeriesColor.bind(Comparisons_store_instance);
-    function transformTooltipContent() {
-      const title = window.$(this).attr('title');
-      if (!title) {
-        return title;
-      }
-      return window.vueSanitize(title.replace(/\n/g, '<br />'));
-    }
     return {
       isComparing,
       segmentComparisons,
       periodComparisons,
-      getSeriesColor,
-      transformTooltipContent
+      getSeriesColor
     };
   },
   methods: {
@@ -4742,7 +4865,7 @@ class Comparisons_store_ComparisonsStore {
       const comparisonRowIndex = Comparisons_store_instance.getComparisonSeriesIndex(periodComp.index, segmentComp.index);
       const comparisonRow = visitsSummary.reportData.comparisons[comparisonRowIndex];
       const firstPeriodRow = visitsSummary.reportData.comparisons[segmentComp.index];
-      let tooltip = '<div class="comparison-card-tooltip">';
+      let tooltip = '';
       let visitsPercent = (comparisonRow.nb_visits / firstRow.nb_visits * 100).toFixed(2);
       visitsPercent = `${visitsPercent}%`;
       tooltip += translate('General_ComparisonCardTooltip1', [`'${this.htmlentities(comparisonRow.compareSegmentPretty)}'`, comparisonRow.comparePeriodPretty, visitsPercent, comparisonRow.nb_visits.toString(), firstRow.nb_visits.toString()]);
@@ -4750,7 +4873,6 @@ class Comparisons_store_ComparisonsStore {
         tooltip += '<br/><br/>';
         tooltip += translate('General_ComparisonCardTooltip2', [comparisonRow.nb_visits_change.toString(), this.htmlentities(firstPeriodRow.compareSegmentPretty), firstPeriodRow.comparePeriodPretty]);
       }
-      tooltip += '</div>';
       return tooltip;
     },
     htmlentities(str) {
@@ -4770,7 +4892,7 @@ class Comparisons_store_ComparisonsStore {
 
 
 
-Comparisonsvue_type_script_lang_ts.render = Comparisonsvue_type_template_id_50602006_render
+Comparisonsvue_type_script_lang_ts.render = Comparisonsvue_type_template_id_23a3e9d8_render
 
 /* harmony default export */ var Comparisons = (Comparisonsvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/MenuItemsDropdown/MenuItemsDropdown.vue?vue&type=template&id=2ca24410
@@ -10997,16 +11119,16 @@ function WidgetByDimensionContainervue_type_template_id_ad0a8c4a_render(_ctx, _c
 WidgetByDimensionContainervue_type_script_lang_ts.render = WidgetByDimensionContainervue_type_template_id_ad0a8c4a_render
 
 /* harmony default export */ var WidgetByDimensionContainer = (WidgetByDimensionContainervue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/Widget/Widget.vue?vue&type=template&id=17541248
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/Widget/Widget.vue?vue&type=template&id=b2f3c98c
 
-const Widgetvue_type_template_id_17541248_hoisted_1 = ["id"];
-const Widgetvue_type_template_id_17541248_hoisted_2 = {
+const Widgetvue_type_template_id_b2f3c98c_hoisted_1 = ["id"];
+const Widgetvue_type_template_id_b2f3c98c_hoisted_2 = {
   key: 2
 };
-const Widgetvue_type_template_id_17541248_hoisted_3 = {
+const Widgetvue_type_template_id_b2f3c98c_hoisted_3 = {
   key: 3
 };
-function Widgetvue_type_template_id_17541248_render(_ctx, _cache, $props, $setup, $data, $options) {
+function Widgetvue_type_template_id_b2f3c98c_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_WidgetLoader = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("WidgetLoader");
   const _component_ClientWidgetRenderer = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ClientWidgetRenderer");
   const _component_WidgetContainer = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("WidgetContainer");
@@ -11027,17 +11149,18 @@ function Widgetvue_type_template_id_17541248_render(_ctx, _cache, $props, $setup
     key: 1,
     widget: _ctx.actualWidget,
     widgetized: _ctx.widgetized
-  }, null, 8, ["widget", "widgetized"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.actualWidget.isContainer && _ctx.actualWidget.layout !== 'ByDimension' && !this.preventRecursion ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", Widgetvue_type_template_id_17541248_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_WidgetContainer, {
+  }, null, 8, ["widget", "widgetized"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.actualWidget.isContainer && _ctx.actualWidget.layout !== 'ByDimension' && !this.preventRecursion ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", Widgetvue_type_template_id_b2f3c98c_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_WidgetContainer, {
     container: _ctx.actualWidget.widgets
-  }, null, 8, ["container"])])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.actualWidget.isContainer && _ctx.actualWidget.layout === 'ByDimension' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", Widgetvue_type_template_id_17541248_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_WidgetByDimensionContainer, {
+  }, null, 8, ["container"])])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.actualWidget.isContainer && _ctx.actualWidget.layout === 'ByDimension' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", Widgetvue_type_template_id_b2f3c98c_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_WidgetByDimensionContainer, {
     widgets: _ctx.actualWidget.widgets
-  }, null, 8, ["widgets"])])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 10, Widgetvue_type_template_id_17541248_hoisted_1)), [[_directive_tooltips, {
-    content: _ctx.tooltipContent
+  }, null, 8, ["widgets"])])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 10, Widgetvue_type_template_id_b2f3c98c_hoisted_1)), [[_directive_tooltips, {
+    content: _ctx.widgetTooltipContent
   }]]) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Widget/Widget.vue?vue&type=template&id=17541248
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Widget/Widget.vue?vue&type=template&id=b2f3c98c
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/Widget/Widget.vue?vue&type=script&lang=ts
+
 
 
 
@@ -11107,17 +11230,16 @@ function findContainer(widgetsByCategory, containerId) {
     };
   },
   setup() {
-    function tooltipContent() {
+    function widgetTooltipContent() {
       const $this = window.$(this);
       if ($this.hasClass('matomo-form-field')) {
         // do not show it for form fields
         return '';
       }
-      const title = window.$(this).attr('title') || '';
-      return window.vueSanitize(title.replace(/\n/g, '<br />'));
+      return tooltipContent_tooltipContent.call(this);
     }
     return {
-      tooltipContent
+      widgetTooltipContent
     };
   },
   created() {
@@ -11186,7 +11308,7 @@ function findContainer(widgetsByCategory, containerId) {
 
 
 
-Widgetvue_type_script_lang_ts.render = Widgetvue_type_template_id_17541248_render
+Widgetvue_type_script_lang_ts.render = Widgetvue_type_template_id_b2f3c98c_render
 
 /* harmony default export */ var Widget_Widget = (Widgetvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/ReportingPage/ReportingPage.vue?vue&type=template&id=f759ac26
@@ -12293,20 +12415,23 @@ const {
     });
   }
 });
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/Sparkline/Sparkline.vue?vue&type=template&id=197ce498
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/Sparkline/Sparkline.vue?vue&type=template&id=557855d1
 
-const Sparklinevue_type_template_id_197ce498_hoisted_1 = ["src", "width", "height"];
-function Sparklinevue_type_template_id_197ce498_render(_ctx, _cache, $props, $setup, $data, $options) {
+const Sparklinevue_type_template_id_557855d1_hoisted_1 = ["src", "width", "height"];
+function Sparklinevue_type_template_id_557855d1_render(_ctx, _cache, $props, $setup, $data, $options) {
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("img", {
     class: "sparklineImg",
     loading: "lazy",
     alt: "",
     src: _ctx.sparklineUrl,
     width: _ctx.width,
-    height: _ctx.height
-  }, null, 8, Sparklinevue_type_template_id_197ce498_hoisted_1);
+    height: _ctx.height,
+    style: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeStyle"])(_ctx.sizeStyle),
+    onLoad: _cache[0] || (_cache[0] = $event => _ctx.hasLoaded = true),
+    onError: _cache[1] || (_cache[1] = $event => _ctx.hasLoaded = true)
+  }, null, 44, Sparklinevue_type_template_id_557855d1_hoisted_1);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Sparkline/Sparkline.vue?vue&type=template&id=197ce498
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Sparkline/Sparkline.vue?vue&type=template&id=557855d1
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/Sparkline/Sparkline.vue?vue&type=script&lang=ts
 
@@ -12323,10 +12448,15 @@ function Sparklinevue_type_template_id_197ce498_render(_ctx, _cache, $props, $se
     width: Number,
     height: Number
   },
+  // So a parent can show its own placeholder while an image is loading. Only changes are emitted,
+  // not the initial `true` — a parent that cares starts out in its loading state anyway.
+  emits: ['loadingChange'],
   data() {
     return {
       isWidget: false,
-      themeMode: Matomo_Matomo.getThemeMode()
+      themeMode: Matomo_Matomo.getThemeMode(),
+      // False while an image is on its way, so a parent can show a placeholder instead.
+      hasLoaded: false
     };
   },
   mounted() {
@@ -12336,7 +12466,29 @@ function Sparklinevue_type_template_id_197ce498_render(_ctx, _cache, $props, $se
   beforeUnmount() {
     window.removeEventListener('themeModeChange', this.onThemeModeChange);
   },
+  watch: {
+    // A new url means a new request, so go back to loading until it arrives. The browser keeps
+    // showing the current image until then, so nothing goes blank.
+    sparklineUrl() {
+      this.hasLoaded = false;
+    },
+    hasLoaded(value) {
+      this.$emit('loadingChange', !value);
+    }
+  },
   computed: {
+    // Draw the image at the size the props ask for. The width/height attributes alone can't do
+    // this, because any CSS rule beats them — including the 100x25 default in Sparkline.less.
+    sizeStyle() {
+      const {
+        width,
+        height
+      } = this;
+      return typeof width === 'number' && typeof height === 'number' ? {
+        width: `${width}px`,
+        height: `${height}px`
+      } : undefined;
+    },
     sparklineUrl() {
       const {
         seriesIndices,
@@ -12348,8 +12500,7 @@ function Sparklinevue_type_template_id_197ce498_render(_ctx, _cache, $props, $se
         sparklineColors.lineColor = sparklineColors.lineColor.filter((c, index) => seriesIndices.indexOf(index) !== -1);
       }
       const colors = JSON.stringify(sparklineColors);
-      // The width/height props are the displayed size; the PNG is rendered at twice that so it
-      // stays crisp on hi-DPI screens.
+      // Ask for twice the displayed size, so the image stays sharp on hi-DPI screens.
       const sizeParams = Object.assign(Object.assign({}, typeof this.width === 'number' ? {
         width: this.width * 2
       } : {}), typeof this.height === 'number' ? {
@@ -12406,7 +12557,7 @@ function Sparklinevue_type_template_id_197ce498_render(_ctx, _cache, $props, $se
 
 
 
-Sparklinevue_type_script_lang_ts.render = Sparklinevue_type_template_id_197ce498_render
+Sparklinevue_type_script_lang_ts.render = Sparklinevue_type_template_id_557855d1_render
 
 /* harmony default export */ var Sparkline = (Sparklinevue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/Progressbar/Progressbar.vue?vue&type=template&id=f800d6ec
@@ -14352,6 +14503,7 @@ class EntityDuplicatorStore_EntityDuplicatorStore {
  * @link    https://matomo.org
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 
 
 

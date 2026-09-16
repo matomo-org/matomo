@@ -511,11 +511,12 @@
 			<row>
 				<name>disable_visitor_log</name>
 				<title>Turn off Visits log and Visitor profiles</title>
-				<value>0</value>
+				<value>1</value>
 				<defaultValue>0</defaultValue>
 				<type>boolean</type>
 				<uiControl>checkbox</uiControl>
 				<uiControlAttributes>
+					<disabled>disabled</disabled>
 				</uiControlAttributes>
 				<availableValues />
 				<description />
@@ -527,6 +528,10 @@
 					<compliancePolicyControlled>
 						<cnil_v1>
 							<requiredValue>1</requiredValue>
+							<effectiveValue>1</effectiveValue>
+							<constraintType>exact</constraintType>
+							<scope>instance</scope>
+							<policyTitle>CNIL Website Analytics Compliance</policyTitle>
 						</cnil_v1>
 					</compliancePolicyControlled>
 					<idSite />

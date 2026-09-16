@@ -102,6 +102,12 @@ class ReportRetention implements
         return $policyValues;
     }
 
+    public static function getPolicyConstraintType(string $policy): string
+    {
+        // a policy caps how long data may be kept, retaining it for less stays compliant
+        return PolicyComparisonInterface::POLICY_CONSTRAINT_MAX;
+    }
+
     public static function getInstance(?int $idSite = null): self
     {
         $values = self::getPolicyRequiredValues($idSite);

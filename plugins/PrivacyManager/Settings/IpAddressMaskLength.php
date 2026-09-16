@@ -100,6 +100,12 @@ class IpAddressMaskLength implements CustomSettingInterface, PolicyComparisonInt
         return $policies;
     }
 
+    public static function getPolicyConstraintType(string $policy): string
+    {
+        // a policy sets the minimum number of bytes to mask, masking more stays compliant
+        return PolicyComparisonInterface::POLICY_CONSTRAINT_MIN;
+    }
+
     public static function getInstance(?int $idSite = null): self
     {
         $values = self::getPolicyRequiredValues($idSite);
