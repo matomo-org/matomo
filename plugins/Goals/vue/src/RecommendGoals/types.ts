@@ -8,6 +8,9 @@
 export interface RecommendedGoal {
   id?: string;
   name: string;
+  category?: string;
+  priority?: number;
+  needsSetup?: boolean;
   matchAttribute: string;
   pattern: string;
   patternType: string;

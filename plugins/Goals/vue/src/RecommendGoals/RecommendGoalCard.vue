@@ -101,7 +101,8 @@ defineEmits<{
 }>();
 /* eslint-enable func-call-spacing, no-spaced-func */
 
-const needsSetup = computed(() => (props.rec.matchAttribute || '').indexOf('event_') === 0);
+const needsSetup = computed(() => (props.rec.needsSetup
+  || (props.rec.matchAttribute || '').indexOf('event_') === 0));
 
 const hasEvidence = computed(() => !!(props.rec.reason
   || (props.rec.evidence && props.rec.evidence.length)
