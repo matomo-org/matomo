@@ -570,4 +570,50 @@ class RequestTest extends \PHPUnit\Framework\TestCase
         yield 'array given a string' => ['getArrayParameter', 'notanarray'];
         yield 'json given a non-json string' => ['getJsonParameter', 'notjson'];
     }
+
+    /**
+     * @dataProvider getTypedGetterNamesRejectingFalse
+     */
+    public function testTypedGetterTreatsALiteralFalseAsNotSupplied(string $getter): void
+    {
+        $request = new Request(['parameter' => false]);
+
+        self::expectException(MissingRequestParameterException::class);
+
+        $request->$getter('parameter');
+    }
+
+    /**
+     * @dataProvider getTypedGetterNamesRejectingFalse
+     */
+    public function testTypedGetterStillReturnsTheDefaultForALiteralFalse(string $getter): void
+    {
+        $defaults = [
+            'getIntegerParameter' => 5,
+            'getFloatParameter'   => 1.5,
+            'getStringParameter'  => 'default',
+            'getArrayParameter'   => ['a'],
+            'getJsonParameter'    => ['a'],
+        ];
+
+        $request = new Request(['parameter' => false]);
+
+        self::assertSame($defaults[$getter], $request->$getter('parameter', $defaults[$getter]));
+    }
+
+    public function testGetBoolParameterStillAcceptsALiteralFalseAsAValue(): void
+    {
+        $request = new Request(['parameter' => false]);
+
+        self::assertFalse($request->getBoolParameter('parameter'));
+    }
+
+    public function getTypedGetterNamesRejectingFalse(): iterable
+    {
+        yield 'getIntegerParameter' => ['getIntegerParameter'];
+        yield 'getFloatParameter' => ['getFloatParameter'];
+        yield 'getStringParameter' => ['getStringParameter'];
+        yield 'getArrayParameter' => ['getArrayParameter'];
+        yield 'getJsonParameter' => ['getJsonParameter'];
+    }
 }

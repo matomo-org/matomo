@@ -146,7 +146,7 @@ class Request
             return $default;
         }
 
-        throw new InvalidArgumentException(sprintf(self::$invalidValueExceptionMsg, $name, 'integer'));
+        $this->throwUnusableValue($name, 'integer', $parameter);
     }
 
     /**
@@ -168,7 +168,7 @@ class Request
             return $default;
         }
 
-        throw new InvalidArgumentException(sprintf(self::$invalidValueExceptionMsg, $name, 'float'));
+        $this->throwUnusableValue($name, 'float', $parameter);
     }
 
     /**
@@ -190,7 +190,7 @@ class Request
             return $default;
         }
 
-        throw new InvalidArgumentException(sprintf(self::$invalidValueExceptionMsg, $name, 'string'));
+        $this->throwUnusableValue($name, 'string', $parameter);
     }
 
     /**
@@ -224,7 +224,7 @@ class Request
             return $default;
         }
 
-        throw new InvalidArgumentException(sprintf(self::$invalidValueExceptionMsg, $name, 'bool'));
+        $this->throwUnusableValue($name, 'bool', $parameter);
     }
 
     /**
@@ -248,7 +248,7 @@ class Request
             return $default;
         }
 
-        throw new InvalidArgumentException(sprintf(self::$invalidValueExceptionMsg, $name, 'array'));
+        $this->throwUnusableValue($name, 'array', $parameter);
     }
 
     /**
@@ -287,7 +287,21 @@ class Request
             return $default;
         }
 
-        throw new InvalidArgumentException(sprintf(self::$invalidValueExceptionMsg, $name, 'json'));
+        $this->throwUnusableValue($name, 'json', $parameter);
+    }
+
+    /**
+     * An untyped API parameter declaring `= false` resolves to a literal false when absent, and that value is
+     * forwarded into sub-requests. It means "not supplied" rather than an unusable value, and a request can
+     * never carry it: everything arriving over HTTP is a string.
+     */
+    private function throwUnusableValue(string $name, string $expectedType, $parameter): never
+    {
+        if (false === $parameter) {
+            throw new MissingRequestParameterException(sprintf(self::$exceptionMsg, $name));
+        }
+
+        throw new InvalidArgumentException(sprintf(self::$invalidValueExceptionMsg, $name, $expectedType));
     }
 
     private function filterNullBytes($value)

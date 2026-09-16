@@ -577,4 +577,20 @@ class RequestTest extends IntegrationTestCase
             Request::processRequest('Annotations.getAll', []);
         });
     }
+
+    public function testProcessRequestAcceptsTheLegacyFalseSentinelForATypedParameter(): void
+    {
+        // API.get and friends declare `$segment = false` untyped and forward that literal into sub-requests
+        // whose own parameter is typed `?string $segment = null`.
+        $result = Access::doAsSuperUser(function () {
+            return Request::processRequest('VisitFrequency.get', [
+                'idSite'  => 1,
+                'period'  => 'day',
+                'date'    => 'today',
+                'segment' => false,
+            ]);
+        });
+
+        self::assertNotNull($result);
+    }
 }
