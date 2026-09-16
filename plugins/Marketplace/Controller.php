@@ -436,6 +436,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'hasExceededLicense',
             'isMissingLicense',
             'isEligibleForFreeTrial',
+            'isNewBundle',
             'isTrialRequested',
             'canTrialBeRequested',
             'missingRequirements',
