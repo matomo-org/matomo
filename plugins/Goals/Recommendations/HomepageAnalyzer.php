@@ -42,20 +42,15 @@ class HomepageAnalyzer
     /** Links at the start of the main content that count as hero calls to action. */
     private const HERO_LINKS_PER_PAGE = 6;
 
-    /** Links taken from embedded JSON payloads per page. */
-    private const MAX_EMBEDDED_LINKS_PER_PAGE = 60;
-
-    /** Characters searched after an embedded link for its label. */
-    private const EMBEDDED_LABEL_WINDOW = 400;
-
-    /** A page with fewer anchors than this and a large body renders its navigation in the browser. */
+    /** A page with fewer links than this and a large body renders its navigation in the browser. */
     private const CLIENT_SIDE_MAX_ANCHORS = 25;
     private const CLIENT_SIDE_MIN_BYTES = 50000;
 
     /**
      * Looser cutoff for the homepage alone: a start page this large with this few links
      * is an application shell. Measured on 24 server-rendered sites without a false
-     * positive, while catching udemy.com in both of its homepage variants.
+     * positive, while catching udemy.com in both of its homepage variants. The per
+     * page cutoff above is stricter and only counts towards a share of all pages.
      */
     private const HOMEPAGE_CLIENT_SIDE_MAX_ANCHORS = 40;
     private const HOMEPAGE_CLIENT_SIDE_MIN_BYTES = 150000;
@@ -425,9 +420,7 @@ class HomepageAnalyzer
             $xpath = $this->loadXpath($html);
             $links = $xpath !== null ? $this->extractLinks($xpath, $currentUrl, $host) : [];
             $anchorCount = count($links);
-            $embedded = $this->extractEmbeddedLinks($html, $currentUrl, $host, $links);
-            $links = array_merge($links, $embedded);
-            if ($this->isClientSideRendered($html, $anchorCount, count($embedded))) {
+            if ($anchorCount < self::CLIENT_SIDE_MAX_ANCHORS && strlen($html) > self::CLIENT_SIDE_MIN_BYTES) {
                 ++$this->crawlStats['clientSideRenderedPages'];
             }
             // the homepage alone decides a lot: a big start page with hardly any links means the
@@ -643,106 +636,6 @@ class HomepageAnalyzer
         }
 
         return array_values($links);
-    }
-
-    /**
-     * Same-origin links that only exist inside embedded JSON, which single page
-     * applications use for navigation they render in the browser. Their labels come
-     * from the neighbouring text property when the payload carries one.
-     *
-     * @param array<int, array{linkTarget: string}> $anchorLinks links already found in the markup
-     * @return array<int, array{
-     *   linkText: string, linkTarget: string, url: string, area: string, isButtonLike: bool, isHero: bool, weight: int
-     * }>
-     */
-    private function extractEmbeddedLinks(string $html, string $baseUrl, string $host, array $anchorLinks): array
-    {
-        if (!$this->isEmbeddedLinkMiningEnabled()) {
-            return [];
-        }
-
-        $found = preg_match_all(
-            '#"(?:href|url|link|permalink|path)"\s*:\s*"(/[^"\\\s]{1,200}|https?://[^"\\\s]{1,200})"#i',
-            $html,
-            $matches,
-            PREG_OFFSET_CAPTURE
-        );
-        if (!$found) {
-            return [];
-        }
-
-        $seen = array_fill_keys(array_column($anchorLinks, 'linkTarget'), true);
-        $links = [];
-        foreach ($matches[1] as $match) {
-            [$href, $offset] = $match;
-            $url = $this->resolveSameOriginUrl(str_replace('\\/', '/', $href), $baseUrl, $host);
-            if ($url === null) {
-                continue;
-            }
-            $target = rtrim((string) parse_url($url, PHP_URL_PATH), '/');
-            if ($target === '' || isset($seen[$target]) || $this->isNonContentPath($target)) {
-                continue;
-            }
-
-            $seen[$target] = true;
-            $links[] = [
-                'linkText' => $this->extractNeighbouringText($html, $offset),
-                'linkTarget' => $target,
-                'url' => $url,
-                'area' => 'script',
-                'isButtonLike' => false,
-                'isHero' => false,
-                'weight' => 1,
-            ];
-            if (count($links) >= self::MAX_EMBEDDED_LINKS_PER_PAGE) {
-                break;
-            }
-        }
-
-        return $links;
-    }
-
-    /**
-     * Experimental: links inside embedded JSON are not rendered markup, so they are
-     * only mined when the instance opts in.
-     */
-    protected function isEmbeddedLinkMiningEnabled(): bool
-    {
-        return 1 === (int) (Config::getInstance()->Goals['recommendation_embedded_links'] ?? 0);
-    }
-
-    /**
-     * The text property that follows an embedded link, e.g. {"href":"/x","text":"Pricing"}.
-     */
-    private function extractNeighbouringText(string $html, int $offset): string
-    {
-        $window = substr($html, $offset, self::EMBEDDED_LABEL_WINDOW);
-        if (preg_match('#"(?:text|label|title|name|anchor)"\s*:\s*"([^"\\\\]{1,80})"#i', $window, $match)) {
-            return $this->normalizeLinkText($match[1]);
-        }
-
-        return '';
-    }
-
-    /**
-     * Assets, APIs and tracking endpoints that appear in embedded payloads next to
-     * the navigation links.
-     */
-    private function isNonContentPath(string $path): bool
-    {
-        return preg_match('#^/(api|graphql|_next|_nuxt|static|assets?|cdn|media|sitemap|wp-json|feed|rss)(/|$)#i', $path) === 1
-            || preg_match('#\.(js|css|json|xml|txt|png|jpe?g|gif|svg|webp|ico|woff2?|ttf|mp4|mp3)$#i', $path) === 1;
-    }
-
-    /**
-     * A large page with almost no anchors but many links inside embedded payloads
-     * renders its navigation in the browser, so a crawl sees only a fraction of it.
-     */
-    private function isClientSideRendered(string $html, int $anchorCount, int $embeddedCount): bool
-    {
-        return $anchorCount < self::CLIENT_SIDE_MAX_ANCHORS
-            && $embeddedCount > $anchorCount
-            && strlen($html) > self::CLIENT_SIDE_MIN_BYTES;
     }
 
     /**

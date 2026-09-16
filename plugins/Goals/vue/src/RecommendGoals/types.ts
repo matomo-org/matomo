@@ -32,6 +32,7 @@ export interface RecommendedManualGoal {
   category: string;
 }
 
+// TODO: remove before final deployment:
 // TEMPORARY (ID-277 debugging): development-mode payload describing the crawl
 export interface RecommendationDebug {
   url: string;

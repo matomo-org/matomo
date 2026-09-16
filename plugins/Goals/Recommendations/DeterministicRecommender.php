@@ -606,8 +606,7 @@ class DeterministicRecommender
                 $bestCategory,
                 'url',
                 $path,
-                min(1.0, 0.4 + $bestStrength * 0.15 - (count($segments) - 1) * 0.1 + ($exact ? 0.1 : 0))
-                    - ($this->isEmbeddedOnly($link) ? 0.15 : 0),
+                min(1.0, 0.4 + $bestStrength * 0.15 - (count($segments) - 1) * 0.1 + ($exact ? 0.1 : 0)),
                 $this->prominence($link, $pagesCrawled),
                 'rule',
                 $evidence,
@@ -1171,17 +1170,6 @@ class DeterministicRecommender
         return min(1.0, (int) ($link['pageCount'] ?? 0) / $pagesCrawled) * 0.4
             + ((int) ($link['buttonLikeCount'] ?? 0) > 0 ? 0.3 : 0)
             + ((int) ($link['heroCount'] ?? 0) > 0 ? 0.15 : 0);
-    }
-
-    /**
-     * A link that only exists in an embedded payload was never rendered as an anchor,
-     * so the page may not even exist any more.
-     *
-     * @param array<string, mixed> $link
-     */
-    private function isEmbeddedOnly(array $link): bool
-    {
-        return ($link['areas'] ?? []) === ['script'];
     }
 
     /**

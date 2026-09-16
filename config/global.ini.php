@@ -1637,11 +1637,6 @@ CommonPIIParams[] = zipcode
 ; Maximum number of same-origin pages fetched when analysing a website for goal recommendations
 recommendation_max_crawl_pages = 50
 
-; Experimental: also read same-origin links out of embedded JSON payloads when analysing a website
-; for goal recommendations. Helps on sites that render their navigation in the browser, but those
-; payloads are not rendered markup and can change between requests.
-recommendation_embedded_links = 0
-
 ; Maximum number of AI-assisted goal recommendation scans allowed per site and day.
 ; Set to 0 for no limit. Useful for managed environments to cap AI provider usage.
 recommendation_ai_daily_scan_limit = 0
