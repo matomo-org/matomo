@@ -18,7 +18,7 @@ describe('OptOutJS', function () {
         if (useTracker) {
             hasConsent = await page.evaluate(() => window.Matomo.getTracker().hasConsent());
         } else {
-            hasConsent = await page.evaluate(() => !!window.MatomoConsent.hasConsent());
+            hasConsent = await page.evaluate(() => window.MatomoConsent.hasConsent());
         }
 
         expect(hasConsent).to.equal(expectedState);
