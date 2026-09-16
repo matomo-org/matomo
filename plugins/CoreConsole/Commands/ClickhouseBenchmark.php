@@ -77,7 +77,7 @@ engines are being compared on. --period and --date drive the archive cases as be
 
   # the full segment set, more warmups, JSON out
   ./console clickhouse:benchmark --date=2026-08-03 \
-      --segments=none,compound,negated,conversion,ecommerce \
+      --segments=none,compound,broad,negated,conversion,ecommerce \
       --warmups=2 --iterations=5 --json=bench.json
 
   # the production archiving path end to end (needs the segments stored, see --setup-segments)
@@ -98,7 +98,7 @@ HELP);
         $this->addRequiredValueOption('period', null, 'day, week, month, year or range.', 'day');
         $this->addRequiredValueOption('engine', null, 'Engines to measure, comma separated: mysql, clickhouse. Both by default.', '');
         $this->addRequiredValueOption('suite', null, 'Case groups to run, comma separated: api, archive.', 'api,archive');
-        $this->addRequiredValueOption('segments', null, 'Segments to run, comma separated: none, compound, negated, conversion, ecommerce.', 'none,compound');
+        $this->addRequiredValueOption('segments', null, 'Segments to run, comma separated: none, compound, broad, negated, conversion, ecommerce.', 'none,compound');
         $this->addRequiredValueOption('case', null, 'Only run these case ids. Globs allowed, eg "v1*". Repeatable.', [], true);
         $this->addRequiredValueOption('iterations', null, 'Timed iterations per case per engine.', 3);
         $this->addRequiredValueOption('warmups', null, 'Discarded iterations before the timed ones. ClickHouse Cloud needs more than one to converge.', 2);
@@ -117,6 +117,7 @@ HELP);
         $this->addRequiredValueOption('needle-excluded-url', null, 'pageUrl needle excluded by the negated segment.', '/sport/');
         $this->addRequiredValueOption('needle-title', null, 'pageTitle needle for the built-in segments.', 'Budget');
         $this->addRequiredValueOption('needle-transitions-title', null, 'pageTitle needle for the Transitions cases. Must MATCH the page in --transitions-url.', 'City');
+        $this->addRequiredValueOption('needle-broad-title', null, 'pageTitle needle for the broad segment. Separate from --needle-title so widening this one does not also redefine compound, negated, conversion and ecommerce.', 'City');
         $this->addRequiredValueOption('needle-country', null, 'countryCode for the built-in segments.', 'de');
         $this->addRequiredValueOption('needle-product', null, 'productName needle for the ecommerce segment.', 'Daily');
         $this->addRequiredValueOption('needle-goal', null, 'idgoal for the conversion segment.', '1');
@@ -687,6 +688,7 @@ HELP);
             'excludedUrl' => (string) $input->getOption('needle-excluded-url'),
             'title' => (string) $input->getOption('needle-title'),
             'transitionsTitle' => (string) $input->getOption('needle-transitions-title'),
+            'broadTitle' => (string) $input->getOption('needle-broad-title'),
             'country' => (string) $input->getOption('needle-country'),
             'product' => (string) $input->getOption('needle-product'),
             'idGoal' => (string) $input->getOption('needle-goal'),

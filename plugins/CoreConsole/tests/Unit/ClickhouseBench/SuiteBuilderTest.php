@@ -36,6 +36,18 @@ class SuiteBuilderTest extends TestCase
         );
     }
 
+    public function testBroadSegmentCarriesNoVisitScopeComponent(): void
+    {
+        $segments = SuiteBuilder::defaultSegments(SuiteBuilder::defaultNeedles());
+
+        // The whole point of this one is what it does NOT contain. countryCode and deviceType are
+        // what let MySQL cut log_visit down before it reaches the joins, so a broad segment that
+        // quietly regained either of them would measure the compound case again under a new name.
+        self::assertSame('pageTitle=@City', $segments['broad']);
+        self::assertStringNotContainsString('countryCode', $segments['broad']);
+        self::assertStringNotContainsString('deviceType', $segments['broad']);
+    }
+
     public function testNegatedSegmentIsTheCompoundOnePlusExactlyOneComponent(): void
     {
         $segments = SuiteBuilder::defaultSegments(SuiteBuilder::defaultNeedles());
@@ -62,10 +74,10 @@ class SuiteBuilderTest extends TestCase
      */
     public function testCaseIdsMatchTheSqlBenchmarkNaming(): void
     {
-        $cases = $this->build(['none', 'compound', 'negated', 'conversion', 'ecommerce']);
+        $cases = $this->build(['none', 'compound', 'broad', 'negated', 'conversion', 'ecommerce']);
 
         self::assertSame(
-            ['v1', 'a1', 'v1s', 'a1s', 'v1n', 'a1n', 'v1c', 'a1c', 'v1e', 'a1e'],
+            ['v1', 'a1', 'v1s', 'a1s', 'v1b', 'a1b', 'v1n', 'a1n', 'v1c', 'a1c', 'v1e', 'a1e'],
             array_map(static fn(BenchCase $case): string => $case->getId(), $cases)
         );
     }

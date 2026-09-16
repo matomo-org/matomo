@@ -50,6 +50,7 @@ final class SuiteBuilder
     private const SEGMENT_SUFFIX = [
         'none' => '1',
         'compound' => '1s',
+        'broad' => '1b',
         'negated' => '1n',
         'conversion' => '1c',
         'ecommerce' => '1e',
@@ -61,6 +62,13 @@ final class SuiteBuilder
      * - compound: the two action-scope components name DIFFERENT dimensions, so they compile
      *   to two separate log_action joins rather than sharing one, and the two visit-scope
      *   components are what make the result set small enough that MySQL loses its early exit.
+     * - broad: ONE action-scope component and nothing else. The two visit-scope components in
+     *   compound are what let MySQL cut the driving table down before it reaches the joins, so
+     *   dropping them costs 15.8 s -> 61.1 s on the same day (measured 16 Sept, 2026-08-03).
+     *   It also matches 683,859 visits against compound's 2,967, and match count is what scales
+     *   a segmented archive once the segment temp table has amortised the join away. Deliberately
+     *   the TITLE component, not the URL one: log_action type 4 is 5M rows against type 1's 236M,
+     *   so it cannot be mistaken for a needle chosen to make one engine scan more.
      * - negated: compound plus one excluded URL. "This visit never touched X" is a statement
      *   about the whole visit, so it compiles to NOT IN wrapping a second copy of the join.
      * - conversion / ecommerce: reach log_conversion and log_conversion_item, the tables
@@ -77,6 +85,7 @@ final class SuiteBuilder
         $country = $needles['country'];
         $product = $needles['product'];
         $idGoal = $needles['idGoal'];
+        $broadTitle = $needles['broadTitle'];
 
         $compound = sprintf(
             'pageUrl=@%s;pageTitle=@%s;countryCode==%s;deviceType==desktop',
@@ -88,6 +97,7 @@ final class SuiteBuilder
         return [
             'none' => '',
             'compound' => $compound,
+            'broad' => 'pageTitle=@' . $broadTitle,
             'negated' => $compound . ';pageUrl!@' . $excludedUrl,
             'conversion' => $compound . ';visitConvertedGoalId==' . $idGoal,
             'ecommerce' => $compound . ';productName=@' . $product,
@@ -110,6 +120,12 @@ final class SuiteBuilder
             // report is already pinned to, so its title needle has to MATCH that page or the
             // report comes back empty. Its selectivity is irrelevant - it cannot filter anything.
             'transitionsTitle' => 'City',
+            // The broad segment carries its OWN title needle so that widening it cannot quietly
+            // redefine compound, negated, conversion and ecommerce as well - they all embed
+            // 'title', and changing a stored segment's definition is how you end up archiving
+            // five new segments instead of measuring one. 'City' matches 683,859 visits of
+            // 2026-08-03's 1,226,102 (55.8%); 'Budget' matches 22,059 (1.8%).
+            'broadTitle' => 'City',
         ];
     }
 
