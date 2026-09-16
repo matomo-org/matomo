@@ -96,6 +96,29 @@ class TimetableTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(Date::factory('now')->addHour(1)->getTimeStamp(), $timetable->getTimetable()[$task->getName()]);
     }
 
+    public function testRescheduleTaskAndRunNow()
+    {
+        self::stubPiwikOption(serialize([]));
+
+        $timetable = new Timetable();
+        $task = $this->getMockBuilder(Task::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $task->method('getName')->willReturn('taskName');
+
+        // bracketed rather than compared to one timestamp, which would flake whenever the second
+        // ticks over between the call and the assertion
+        $before = time();
+        $timetable->rescheduleTaskAndRunNow($task);
+        $after = time();
+
+        $scheduledTime = $timetable->getTimetable()[$task->getName()];
+
+        $this->assertGreaterThanOrEqual($before, $scheduledTime);
+        $this->assertLessThanOrEqual($after, $scheduledTime);
+        $this->assertTrue($timetable->shouldExecuteTask($task->getName()));
+    }
+
     /**
      * Dataprovider for testTaskHasBeenScheduledOnce
      */

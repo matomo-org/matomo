@@ -10,12 +10,14 @@
 namespace Piwik\Plugins\Marketplace;
 
 use Piwik\Container\StaticContainer;
+use Piwik\Log\LoggerInterface;
 use Piwik\Plugin;
 use Piwik\Plugins\Marketplace\Plugins\InvalidLicenses;
 use Piwik\Plugins\Marketplace\PluginTrial\Service as PluginTrialService;
 use Piwik\Request;
 use Piwik\SettingsPiwik;
 use Piwik\Widget\WidgetsList;
+use Throwable;
 
 class Marketplace extends \Piwik\Plugin
 {
@@ -34,7 +36,47 @@ class Marketplace extends \Piwik\Plugin
             'PluginManager.pluginInstalled' => 'removePluginTrialRequest',
             'PluginManager.pluginActivated' => 'removePluginTrialRequest',
             'Widget.filterWidgets' => 'filterWidgets',
+            'CoreUpdater.update.end' => 'warmCacheAfterUpdate',
+            'Installation.defaultSettingsForm.submit' => 'warmCacheAfterInstallation',
         );
+    }
+
+    public function warmCacheAfterUpdate(): void
+    {
+        // an installation runs the updater too, at a point where no site and no user exist yet.
+        // Both counts are part of every Marketplace cache key, so warming from there would fill
+        // entries the finished installation never reads back. warmCacheAfterInstallation() covers
+        // that case, from a step late enough for the counts to have settled.
+        if (!SettingsPiwik::isMatomoInstalled()) {
+            return;
+        }
+
+        $this->warmCacheSoon();
+    }
+
+    public function warmCacheAfterInstallation(): void
+    {
+        $this->warmCacheSoon();
+    }
+
+    private function warmCacheSoon(): void
+    {
+        try {
+            StaticContainer::get(CacheWarmer::class)->warmSoon();
+        } catch (Throwable $e) {
+            // only a container failure reaches here - a bad override, or a partial deploy - since
+            // warmSoon() reports everything that goes wrong once it is running. That would leave
+            // the feature dead with nothing to show for it, so it is logged, but it must not fail
+            // the installation or update that triggered it.
+            try {
+                StaticContainer::get(LoggerInterface::class)->debug(
+                    'Could not build the Marketplace cache warmer: {message}',
+                    ['message' => $e->getMessage()]
+                );
+            } catch (Throwable $ignored) {
+                // the container is what failed, so it cannot be relied on to report it either
+            }
+        }
     }
 
     public function isTrackerPlugin()

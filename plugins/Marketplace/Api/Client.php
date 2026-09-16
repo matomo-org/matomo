@@ -321,6 +321,22 @@ class Client
         }
     }
 
+    /**
+     * Whether every list {@link refreshOverviewListCaches()} refills is already cached, so that a
+     * caller about to warm them can tell there is nothing to do without issuing a request.
+     */
+    public function hasWarmOverviewLists(): bool
+    {
+        foreach (self::getWarmedOverviewLists() as list($action, $purchaseType)) {
+            // a cached but empty list reads back as [], so only null means the entry is missing
+            if (null === $this->searchFor($action, '', '', Sort::DEFAULT_SORT, $purchaseType, true)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public function searchForPlugins($keywords, $query, $sort, $purchaseType)
     {
         return $this->searchFor('plugins', $keywords, $query, $sort, $purchaseType);
