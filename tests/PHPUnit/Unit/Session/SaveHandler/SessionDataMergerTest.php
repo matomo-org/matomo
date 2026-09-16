@@ -35,8 +35,6 @@ class SessionDataMergerTest extends TestCase
 
     public function tearDown(): void
     {
-        // one test lowers it so a merge that lost its depth limit runs out of memory instead of
-        // taking the machine down with it
         ini_set('memory_limit', $this->memoryLimit);
 
         parent::tearDown();
@@ -406,7 +404,9 @@ class SessionDataMergerTest extends TestCase
 
     public function testMergeBoundsRecursiveDataWithoutSkippingSecurityRules()
     {
-        ini_set('memory_limit', '64M');
+        // a merge that lost its depth limit would recurse until it filled memory, so cap what
+        // this test may add. relative to what is already held, since the suite shares the process
+        ini_set('memory_limit', (string) (memory_get_usage(true) + 64 * 1024 * 1024));
 
         $base = [];
         $this->addRecursiveData($base, 'base');
