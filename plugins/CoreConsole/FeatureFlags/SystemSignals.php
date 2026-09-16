@@ -19,4 +19,9 @@ class SystemSignals implements FeatureFlagInterface
     {
         return 'SystemSignals';
     }
+
+    public function allowsCookieOverwrite(): bool
+    {
+        return true;
+    }
 }
