@@ -259,13 +259,20 @@ table.dataTable td #urlLink {
   font-size: 12px;
   color: #184A83;
   cursor: pointer;
-  visibility: hidden;
+  // Not `visibility`: a link the current page cannot offer would still hold its width and push
+  // the pagination away from the left edge.
+  display: none;
   text-decoration: underline;
   &:hover {
     text-decoration: underline;
   }
-  @media print{
-    display: none;
+}
+
+// Screen only, so a printed report still drops the links it cannot follow.
+@media screen {
+  .dataTablePrevious--available,
+  .dataTableNext--available {
+    display: inline;
   }
 }
 

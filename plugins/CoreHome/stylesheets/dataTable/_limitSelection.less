@@ -1,25 +1,52 @@
-// One global Less scope: a bare `@_gap` here would replace the design system's for every file.
-@_limitSelection-controlHeight: 38px;
-@_limitSelection-gap: 20px;
-
-// Out of the flow so the counter stays centred on the full width. Not by a transform, which would
-// open a stacking context and trap the panel behind the next report.
+// The pagination and the rows-to-display selector share this line.
 .dataTablePaginationControl {
-  position: relative;
+  @_inset: 20px;
+
   display: flex;
   align-items: center;
-  justify-content: center;
+  // Both children stay in the flow, so the selector drops onto a line of its own rather than
+  // coming to rest on top of the pagination.
+  flex-wrap: wrap;
+  // The row's only spacing. Being counted when the row is measured, it is also what makes the
+  // selector wrap before it can meet the pagination.
+  column-gap: 16px;
+  row-gap: 8px;
+  padding-left: @_inset;
+  padding-right: @_inset;
+
+  // Materialize's `.row` carries a clearfix, which a flex row has no use for. Left alone it counts
+  // as an item and claims a gap of its own after the selector.
+  &::after {
+    display: none;
+  }
+
+  // Legacy spacing of its own, which would offset the row's inset and shift the line as the links
+  // come and go.
+  .dataTablePages {
+    margin: 0;
+  }
+
+  .limitSelection {
+    // Takes the far end of its line, leaving the pagination on the left.
+    margin-left: auto;
+  }
+}
+
+// Reports that already inset their whole content: the row's own inset would sit on top of theirs
+// and push the selector twice as far from the edge.
+.widget .dataTableVizEvolution .dataTablePaginationControl,
+body.widgetized .dataTableVizVisitorLog .dataTablePaginationControl {
+  padding-left: 0;
+  padding-right: 0;
 }
 
 // Only lines that carry the control, which is twice as tall as the text beside it.
 .dataTablePaginationControl--withLimit {
-  min-height: @_limitSelection-controlHeight;
-  padding-bottom: @_limitSelection-gap - 4px;
-}
+  @_controlHeight: 38px;
+  @_gap: 20px;
 
-// Flush with the content edge, so the selector lines up with the table and the controls beside it.
-// The breathing room is the container's own padding, which an inset here would double.
-.dataTablePaginationControl .limitSelection {
-  position: absolute;
-  right: 0;
+  // The selector's contents arrive from JavaScript once the table has loaded; without this the
+  // row would grow under it.
+  min-height: @_controlHeight;
+  padding-bottom: @_gap - 4px;
 }
