@@ -8,13 +8,12 @@
             <div class="row dataTablePaginationControl{% if showLimitSelection %} dataTablePaginationControl--withLimit{% endif %}">
                 {% if properties.show_pagination_control %}
                     <span class="dataTablePrevious">&lsaquo; {% if clientSideParameters.dataTablePreviousIsFirst is defined %}{{ 'General_First'|translate }}{% else %}{{ 'General_Previous'|translate }}{% endif %}</span>
-                    &nbsp;
                 {% endif %}
                 {% if properties.show_offset_information %}
                     <span class="dataTablePages"></span>
                 {% endif %}
                 {% if properties.show_pagination_control %}
-                    &nbsp;<span class="dataTableNext">{{ 'General_Next'|translate }} &rsaquo;</span>
+                    <span class="dataTableNext">{{ 'General_Next'|translate }} &rsaquo;</span>
                 {% endif %}
                 {# The selector's only home: a second placement elsewhere drifts from this one. #}
                 {% if showLimitSelection %}
