@@ -287,7 +287,7 @@ class Scheduler
      */
     public function rescheduleTaskAndRunNow(Task $task)
     {
-        $this->logger->debug('Rescheduling task and setting it to run now {task}', array('task' => $task->getName()));
+        $this->logger->debug('Rescheduling task and setting it to run now {task}', ['task' => $task->getName()]);
 
         $this->timetable->rescheduleTaskAndRunNow($task);
     }

@@ -118,6 +118,22 @@ class TasksTest extends \PHPUnit\Framework\TestCase
         );
     }
 
+    public function testHasWarmOverviewListsAnswersForTheWholeWarmedSet()
+    {
+        // CacheWarmer decides whether to do anything at all on this answer, and an inversion is
+        // silent both ways: always true warms nothing, always false warms on every install
+        $this->assertFalse($this->api->hasWarmOverviewLists());
+
+        $this->tasks->warmCacheEntries();
+        $this->assertTrue($this->api->hasWarmOverviewLists());
+
+        // one of the three on its own is not enough, or the warmer would skip while the overview
+        // page still pays for the lists nothing refilled
+        $this->api->clearAllCacheEntries();
+        $this->api->searchForPlugins('', '', Sort::DEFAULT_SORT, PurchaseType::TYPE_ALL);
+        $this->assertFalse($this->api->hasWarmOverviewLists());
+    }
+
     public function testGetWarmCacheEntriesTaskNamesTheTaskScheduleRegisters()
     {
         $this->tasks->schedule();

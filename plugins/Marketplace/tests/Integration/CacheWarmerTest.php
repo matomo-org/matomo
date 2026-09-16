@@ -144,6 +144,22 @@ class CacheWarmerTest extends IntegrationTestCase
         $warmer->warmSoon();
     }
 
+    public function testWarmSoonStillMarksTheTaskDueWhenTheCacheProbeFails(): void
+    {
+        Common::$isCliMode = false;
+
+        // the probe reaches the database and the cache backend, so it can fail on its own - the
+        // cheap half of this class should survive that
+        $api = $this->createMock(Client::class);
+        $api->method('hasWarmOverviewLists')
+            ->willThrowException(new Exception('MySQL server has gone away'));
+
+        $scheduler = $this->createMock(Scheduler::class);
+        $scheduler->expects($this->once())->method('rescheduleTaskAndRunNow');
+
+        $this->buildWarmer($scheduler, $api)->warmSoon();
+    }
+
     public function testTheBackgroundCommandRunsTheTaskThatWarmsTheCache(): void
     {
         Common::$isCliMode = false;

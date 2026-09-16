@@ -88,6 +88,16 @@ class CacheWarmer
             $this->logger->warning('Could not warm the Marketplace cache ahead of time: {message}', [
                 'message' => $e->getMessage(),
             ]);
+
+            try {
+                // whatever failed above reached the database or the cache backend, while marking
+                // the task due is one option write, so it is worth its own attempt - otherwise the
+                // cheap half of this class is lost to a failure in the half that probes. Marking
+                // due twice is harmless: the timetable holds one time per task.
+                $this->markTaskDue();
+            } catch (Throwable $ignored) {
+                // nothing cheaper is left, so the hourly task warms on its own schedule
+            }
         }
     }
 
