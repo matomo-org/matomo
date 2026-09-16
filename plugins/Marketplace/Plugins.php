@@ -589,9 +589,6 @@ class Plugins
 
     /**
      * The seat count a variation name spells out, or null when it names an unnumbered tier.
-     *
-     * @param string $variationName
-     * @return int|null
      */
     private function readSeatTier(string $variationName): ?int
     {
