@@ -156,6 +156,12 @@ ul.browser-default {
     vertical-align: top;
   }
 
+  // The language entry is raw HTML, so it never gets the icon spacer: pad by the spacer's
+  // 24px and its 16px margin on top of the row's own 32px.
+  #mobile-top-menu .languageSelection {
+    padding-left: 72px;
+  }
+
   ul:not(#mobile-top-menu) {
     a {
       color: @theme-color-header-text;
