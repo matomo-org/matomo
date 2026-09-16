@@ -110,12 +110,45 @@ class UserRepository
         $this->sendInvitationEmail($user, $generatedToken, $expiryInDays);
     }
 
-    public function reInviteUser(string $userLogin, int $expiryInDays): void
-    {
-        $user = $this->model->getUser($userLogin);
+    /**
+     * Issues a fresh invitation to a pending user, optionally moving them to a new address.
+     *
+     * The expected values have to come from the read the caller gated on, so the write can only land on
+     * that same pending invitation. A password belonging to the same call goes in on that same write.
+     *
+     * @return bool Whether the invitation was reissued. False means the account is no longer the pending
+     *              user the caller read, in which case nothing was written and no mail is sent.
+     */
+    public function reInviteUser(
+        string $userLogin,
+        string $expectedInviteToken,
+        string $expectedEmail,
+        int $expiryInDays,
+        ?string $newEmail = null,
+        #[\SensitiveParameter]
+        ?string $hashedPassword = null
+    ): bool {
+        $email = $newEmail ?? $expectedEmail;
         $generatedToken = $this->model->generateRandomInviteToken();
-        $this->model->attachInviteToken($userLogin, $generatedToken, $expiryInDays);
-        $this->sendInvitationEmail($user, $generatedToken, $expiryInDays);
+
+        if (
+            !$this->model->reissueInviteTokenForPendingUser(
+                $userLogin,
+                $generatedToken,
+                $expectedInviteToken,
+                $expectedEmail,
+                $email,
+                $expiryInDays,
+                $hashedPassword
+            )
+        ) {
+            return false;
+        }
+
+        // notify the address the invitation now belongs to, not the one it was read with
+        $this->sendInvitationEmail(['login' => $userLogin, 'email' => $email], $generatedToken, $expiryInDays);
+
+        return true;
     }
 
     /**
@@ -143,10 +176,26 @@ class UserRepository
         return $generatedToken;
     }
 
-    public function generateInviteToken(string $userLogin, int $expiryInDays): string
+    /**
+     * Issues a copy-and-paste invitation link for an unchanged pending user.
+     *
+     * @return string|null Null when the account is no longer the pending user that was read.
+     */
+    public function generateInviteToken(string $userLogin, string $expectedInviteToken, int $expiryInDays): ?string
     {
         $generatedToken = $this->model->generateRandomInviteToken();
-        $this->model->attachInviteLinkToken($userLogin, $generatedToken, $expiryInDays);
+
+        if (
+            !$this->model->attachInviteLinkToken(
+                $userLogin,
+                $generatedToken,
+                $expectedInviteToken,
+                $expiryInDays
+            )
+        ) {
+            return null;
+        }
+
         return $generatedToken;
     }
 
