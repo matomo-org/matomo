@@ -170,6 +170,7 @@ class CorePluginsAdmin extends Plugin
         $translations[] = 'UsersManager_ConfirmWithPassword';
         $translations[] = 'UsersManager_ConfirmWithReAuthentication';
         $translations[] = 'UsersManager_YourCurrentPassword';
+        $translations[] = 'CorePluginsAdmin_TypeWordToConfirm';
         $translations[] = 'PrivacyManager_PolicyControlledSettingLockedConfig';
         $translations[] = 'PrivacyManager_PolicyControlledSettingLockedInstance';
         $translations[] = 'PrivacyManager_PolicyControlledSettingLockedWebsite';

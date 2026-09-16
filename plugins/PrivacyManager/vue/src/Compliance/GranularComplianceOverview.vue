@@ -73,9 +73,14 @@
           <PasswordConfirmation
             :model-value="showPasswordConfirmation"
             :passwordFieldId="'passwordGranular' + complianceType"
+            :require-delete-confirmation="rawDataRetentionEnforced"
             @confirmed="saveSettings"
             @aborted="resetSave"
-          />
+          >
+            <h2 v-if="rawDataRetentionEnforced">
+              {{ translate('PrivacyManager_ComplianceEnforceRetentionConfirm') }}
+            </h2>
+          </PasswordConfirmation>
         </template>
       </template>
     </template>
@@ -94,6 +99,10 @@ import { ActivityIndicator, ContentBlock } from 'CoreHome';
 import { PasswordConfirmation, SaveButton } from 'CorePluginsAdmin';
 import { createGranularComplianceStore } from './GranularCompliance.store';
 import GranularComplianceTable from './GranularComplianceTable.vue';
+
+// the id shape comes from PolicyComparisonTrait::getPolicySettingId(): the plugin name, a
+// dot, and the setting class' short name
+const RAW_DATA_RETENTION_SETTING_ID = 'PrivacyManager.ReportRetention';
 
 export default defineComponent({
   props: {
@@ -147,6 +156,11 @@ export default defineComponent({
     );
     const hasUnsavedChanges = computed(() => store.dirtySettingIds.value.length > 0);
     const canSave = computed(() => !store.state.configControlled);
+    // turning raw data retention on schedules permanent deletion of old visit data, so the
+    // save has to be acknowledged rather than only re-authenticated
+    const rawDataRetentionEnforced = computed(
+      () => !!store.state.localEnforced[RAW_DATA_RETENTION_SETTING_ID],
+    );
 
     // the save buttons can sit far below the notification area, so bring the
     // outcome of a save into view once it is rendered
@@ -173,6 +187,7 @@ export default defineComponent({
       externalSettings,
       hasUnsavedChanges,
       canSave,
+      rawDataRetentionEnforced,
       showPasswordConfirmation: ref(false),
     };
   },

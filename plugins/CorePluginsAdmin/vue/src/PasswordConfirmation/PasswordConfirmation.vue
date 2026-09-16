@@ -20,6 +20,19 @@
           {{ translate('UsersManager_ConfirmWithReAuthentication') }}
         </div>
       </div>
+      <div v-if="requireDeleteConfirmation" class="delete-confirmation-div">
+        <Field
+          v-model="deleteConfirmation"
+          :uicontrol="'text'"
+          :name="'deleteConfirmation'"
+          :id="deleteConfirmationFieldId"
+          :autocomplete="'off'"
+          :full-width="true"
+          :title="deleteConfirmationTitle"
+          :ui-control-attributes="{ autocapitalize: 'off' }"
+        >
+        </Field>
+      </div>
       <div v-show="requiresPasswordConfirmation" class="password-confirmation-div">
         <Field
           v-model="passwordConfirmation"
@@ -38,13 +51,15 @@
     <div class="modal-footer">
       <component
         v-if="!!alternativeIdentityConfirmationComponent"
+        v-show="!deleteConfirmationMissing"
         :is="asComponent(alternativeIdentityConfirmationComponent)"
         @confirmed="onConfirm"
       ></component>
       <a
         href=""
         class="modal-action modal-close btn confirm-password-btn"
-        :disabled="requiresPasswordConfirmation && !passwordConfirmation ? true : undefined"
+        :disabled="deleteConfirmationMissing
+          || (requiresPasswordConfirmation && !passwordConfirmation) ? true : undefined"
         @click="onClickConfirm($event)"
       >{{ translate('General_Confirm') }}</a>
       <a
@@ -58,11 +73,20 @@
 
 <script lang="ts">
 import { defineComponent, Component } from 'vue';
-import { Matomo, AutoClearPassword, useExternalPluginComponent } from 'CoreHome';
+import {
+  Matomo,
+  AutoClearPassword,
+  translate,
+  useExternalPluginComponent,
+} from 'CoreHome';
 import Field from '../Field/Field.vue';
 import KeyPressEvent = JQuery.KeyPressEvent;
 
 const { $ } = window;
+
+// deliberately not translated: the acknowledgement is the same word in every language, so
+// there is only ever one thing to type whichever language the UI is shown in
+const DELETE_CONFIRMATION_WORD = 'delete';
 
 interface PluginComponent {
   plugin: string,
@@ -71,6 +95,7 @@ interface PluginComponent {
 
 export interface PasswordConfirmationState {
   passwordConfirmation: string;
+  deleteConfirmation: string;
   slotHasContent: boolean;
   altIdConfirmComponent: PluginComponent;
 }
@@ -88,10 +113,19 @@ export default defineComponent({
       type: String,
       default: () => 'currentUserPassword',
     },
+    /**
+     * Whether the user also has to type `delete` before they can confirm. For actions that
+     * permanently remove data, where a password alone does not show the impact was understood.
+     */
+    requireDeleteConfirmation: {
+      type: Boolean,
+      default: false,
+    },
   },
   data(): PasswordConfirmationState {
     return {
       passwordConfirmation: '',
+      deleteConfirmation: '',
       slotHasContent: true,
       altIdConfirmComponent: { plugin: '', component: '' },
     };
@@ -113,14 +147,28 @@ export default defineComponent({
     },
     onClickConfirm(event: MouseEvent) {
       event.preventDefault();
+
+      if (this.deleteConfirmationMissing) {
+        // the button also carries Materialize's modal-close, which listens on the modal
+        // itself - without this it would close the dialog without confirming anything
+        event.stopPropagation();
+        return;
+      }
+
       this.onConfirm(this.passwordConfirmation);
-      this.passwordConfirmation = '';
     },
     onConfirm(passwordConfirmation: string) {
+      // only the typed word is checked here. An empty password is a valid confirmation for
+      // single sign-on users, whose identity component replaces the password field entirely.
+      if (this.deleteConfirmationMissing) {
+        return;
+      }
+
       const root = this.$refs.root as HTMLElement;
       const $root = $(root);
       $root.modal('close');
       this.$emit('confirmed', passwordConfirmation);
+      this.resetFields();
     },
     onClickCancel(event: MouseEvent) {
       event.preventDefault();
@@ -128,30 +176,36 @@ export default defineComponent({
       const $root = $(root);
       $root.modal('close');
       this.$emit('aborted');
+      this.resetFields();
+    },
+    resetFields() {
       this.passwordConfirmation = '';
+      this.deleteConfirmation = '';
     },
     showPasswordConfirmModal() {
       // done here, as the event might not yet have been subscribed in an earlier phase
       Matomo.postEvent('PasswordConfirmation.altIdComponent', this.altIdConfirmComponent);
 
+      this.resetFields();
       this.slotHasContent = !(this.$refs.content as HTMLElement).matches(':empty');
       const root = this.$refs.root as HTMLElement;
       const $root = $(root);
       const onEnter = (event: KeyPressEvent) => {
         const keycode = event.keyCode ? event.keyCode : event.which;
         if (keycode === 13) {
-          $root.modal('close');
-          this.$emit('confirmed', this.passwordConfirmation);
-          this.passwordConfirmation = '';
+          this.onConfirm(this.passwordConfirmation);
         }
       };
 
       $root.modal({
         dismissible: false,
         onOpenEnd: () => {
-          const passwordField = `.modal.open #${this.passwordFieldId}`;
-          $(passwordField).focus();
-          $(passwordField).off('keypress').keypress(onEnter);
+          // the typed confirmation, when required, renders above the password field, so
+          // focus whichever of the two comes first
+          const fields = $(`.modal.open #${this.deleteConfirmationFieldId}, `
+            + `.modal.open #${this.passwordFieldId}`);
+          fields.off('keypress').keypress(onEnter);
+          fields.first().focus();
         },
         onCloseEnd: () => {
           this.$emit('update:modelValue', false);
@@ -162,6 +216,20 @@ export default defineComponent({
   computed: {
     requiresPasswordConfirmation() {
       return !!Matomo.requiresPasswordConfirmation;
+    },
+    deleteConfirmationTitle() {
+      // emphasised rather than quoted, so nobody wonders whether the quotes are part of it
+      return translate(
+        'CorePluginsAdmin_TypeWordToConfirm',
+        `<strong>${DELETE_CONFIRMATION_WORD}</strong>`,
+      );
+    },
+    deleteConfirmationFieldId() {
+      return `${this.passwordFieldId}DeleteConfirmation`;
+    },
+    deleteConfirmationMissing() {
+      return this.requireDeleteConfirmation
+        && this.deleteConfirmation !== DELETE_CONFIRMATION_WORD;
     },
     alternativeIdentityConfirmationComponent() {
       if (this.altIdConfirmComponent.plugin && this.altIdConfirmComponent.component) {

@@ -131,6 +131,7 @@
     />
     <PasswordConfirmation
       v-model="showPasswordConfirmModal"
+      :require-delete-confirmation="enabled"
       @confirmed="saveSettings"
     >
       <h2 v-if="enabled && !enableDeleteLogs">

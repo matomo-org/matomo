@@ -39,9 +39,14 @@
           <PasswordConfirmation
             :model-value="showPasswordConfirmation"
             :passwordFieldId="'password' + complianceType"
+            :require-delete-confirmation="shouldEnforceComplianceMode"
             @confirmed="saveSettings"
             @aborted="resetSave"
-          />
+          >
+            <h2 v-if="shouldEnforceComplianceMode">
+              {{ translate('PrivacyManager_ComplianceEnforceRetentionConfirm') }}
+            </h2>
+          </PasswordConfirmation>
         </template>
       </template>
     </template>

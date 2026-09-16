@@ -60,6 +60,7 @@
         "ComplianceEnforceCheckboxIntro": "Enforce compliance where possible",
         "ComplianceEnforceCheckboxTitle": "Enforce settings that help support CNIL consent-exemption alignment where possible",
         "ComplianceEnforceCheckboxHelp": "Enabling this option will automatically apply supported configuration changes within Matomo. <br/><br/>Note that some conditions require changes to the Customer's implementation outside the Matomo environment.<br/>These elements are not controlled or verified through this UI.",
+        "ComplianceEnforceRetentionConfirm": "You are about to enforce a limit on how long raw data is kept. Raw visit data older than the configured retention period will be permanently deleted and cannot be recovered.",
         "ComplianceCompliant": "Compliant",
         "ComplianceNonCompliant": "Non-compliant",
         "ComplianceComplianceUnknown": "unknown",
