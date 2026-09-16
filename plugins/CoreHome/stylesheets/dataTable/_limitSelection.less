@@ -1,7 +1,5 @@
 // The pagination and the rows-to-display selector share this line.
 .dataTablePaginationControl {
-  @_inset: 20px;
-
   display: flex;
   align-items: center;
   // Both children stay in the flow, so the selector drops onto a line of its own rather than
@@ -11,8 +9,6 @@
   // selector wrap before it can meet the pagination.
   column-gap: 16px;
   row-gap: 8px;
-  padding-left: @_inset;
-  padding-right: @_inset;
 
   // Materialize's `.row` carries a clearfix, which a flex row has no use for. Left alone it counts
   // as an item and claims a gap of its own after the selector.
@@ -30,14 +26,6 @@
     // Takes the far end of its line, leaving the pagination on the left.
     margin-left: auto;
   }
-}
-
-// Reports that already inset their whole content: the row's own inset would sit on top of theirs
-// and push the selector twice as far from the edge.
-.widget .dataTableVizEvolution .dataTablePaginationControl,
-body.widgetized .dataTableVizVisitorLog .dataTablePaginationControl {
-  padding-left: 0;
-  padding-right: 0;
 }
 
 // Only lines that carry the control, which is twice as tall as the text beside it.

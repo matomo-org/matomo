@@ -607,8 +607,19 @@ td.cellSubDataTable .loadingPiwik {
     overflow-x: scroll;
   }
 }
+// A table's text sits 20px inside its box, from the cells' padding; the line under it is placed
+// the same way rather than insetting itself, so it follows wherever the cells go.
+.dataTableWrapper:has(table.dataTable) .dataTablePaginationControl {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
 .theWidgetContent .card .card-content, table.dataTable {
-  div.dataTableScroller {
+  // The card and the subtable cell pad the table's box. The scroller escapes that padding so the
+  // rows can reach the edge, and the footer navigation escapes it alongside them, which leaves the
+  // line above with a single inset rather than two.
+  div.dataTableScroller,
+  .dataTableWrapper:has(table.dataTable) .dataTableFooterNavigation {
     margin-left: -20px;
     width: ~"calc(100% + 40px)";
   }
