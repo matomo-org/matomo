@@ -21,10 +21,25 @@ class SessionDataMergerTest extends TestCase
      */
     private $merger;
 
+    /**
+     * @var string
+     */
+    private $memoryLimit;
+
     public function setUp(): void
     {
         parent::setUp();
         $this->merger = new SessionDataMerger();
+        $this->memoryLimit = ini_get('memory_limit');
+    }
+
+    public function tearDown(): void
+    {
+        // one test lowers it so a merge that lost its depth limit runs out of memory instead of
+        // taking the machine down with it
+        ini_set('memory_limit', $this->memoryLimit);
+
+        parent::tearDown();
     }
 
     public function testDecodeReadsBackWhatEncodeWrote()
@@ -389,10 +404,6 @@ class SessionDataMergerTest extends TestCase
         );
     }
 
-    /**
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     */
     public function testMergeBoundsRecursiveDataWithoutSkippingSecurityRules()
     {
         ini_set('memory_limit', '64M');

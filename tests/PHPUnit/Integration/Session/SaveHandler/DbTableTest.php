@@ -298,8 +298,10 @@ class DbTableTest extends IntegrationTestCase
      * Everything else builds the stored value with buildSessionData(). This checks that is really
      * what PHP hands the handler, so the merge cannot be reading a shape that never occurs.
      *
+     * Runs on its own because it starts a real session. Global state stays preserved so the
+     * child process inherits the already loaded dependencies rather than reloading them.
+     *
      * @runInSeparateProcess
-     * @preserveGlobalState disabled
      */
     public function testStoresWhatPhpWritesInAFormTheMergerCanRead()
     {

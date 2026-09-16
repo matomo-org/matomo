@@ -28,6 +28,7 @@ class ManagerTest extends TestCase
         parent::tearDown();
 
         Manager::cancelAllNotifications();
+        $this->disableSession();
     }
 
     public function testNotifyAddsNotificationToNotificationArray()
@@ -68,9 +69,6 @@ class ManagerTest extends TestCase
     /**
      * Also the guard that keeps testARequestWithoutNotificationsDoesNotWriteToTheSession honest:
      * if the session were not enabled, both tests would pass for the wrong reason.
-     *
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
      */
     public function testNotificationIsKeptInTheSessionForTheNextRequest()
     {
@@ -89,10 +87,6 @@ class ManagerTest extends TestCase
         $this->assertSame('hello', $toDisplay['alpha']->message);
     }
 
-    /**
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     */
     public function testARequestWithoutNotificationsDoesNotWriteToTheSession()
     {
         $this->enableSession();
@@ -109,6 +103,25 @@ class ManagerTest extends TestCase
 
         // in CLI this only flips Zend's readable/writable flags, which is what Manager checks
         new SessionNamespace('notification');
+    }
+
+    /**
+     * Those flags and the manager's cached namespace are static, so without this the rest of the
+     * suite would run as if a session were open.
+     */
+    private function disableSession(): void
+    {
+        $_SESSION = [];
+
+        foreach (['_readable', '_writable'] as $flag) {
+            $property = new \ReflectionProperty(\Zend_Session_Abstract::class, $flag);
+            $property->setAccessible(true);
+            $property->setValue(null, false);
+        }
+
+        $session = new \ReflectionProperty(Manager::class, 'session');
+        $session->setAccessible(true);
+        $session->setValue(null, null);
     }
 
     public function testNotifyDoesNotAddNotificationIfThereAreAlreadyMoreThanThirty()
