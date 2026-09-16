@@ -108,24 +108,28 @@
     color: @theme-color-text;
   }
 
-  .productPromotion__titleLink {
-    color: inherit;
-    text-decoration: none;
-  }
-
-  .productPromotion__titleLink:hover,
-  .productPromotion__titleLink:focus {
-    text-decoration: underline;
-  }
-
-  .productPromotion__titleLink:focus-visible {
-    outline: 2px solid @theme-color-focus-ring;
-    outline-offset: 2px;
-  }
-
   .productPromotion__text {
     margin: @_copyGap 0 0;
     font-weight: 400;
+  }
+
+  // The figure the promotion is built on links to the report it was read from. Underlined
+  // rather than coloured, because it sits inside a sentence and a colour change there
+  // reads as emphasis rather than as something to click.
+  .productPromotion__metric {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+
+    &:hover,
+    &:focus-visible {
+      color: @theme-color-brand;
+    }
+
+    &:focus-visible {
+      outline: 2px solid @theme-color-focus-ring;
+      outline-offset: 2px;
+    }
   }
 
   .productPromotion__reason {

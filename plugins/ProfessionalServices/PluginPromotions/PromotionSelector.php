@@ -60,7 +60,21 @@ class PromotionSelector
             return null;
         }
 
-        foreach ($this->registry->getAllByPriority() as $promotion) {
+        // One promotion is active at a time for a user, across every website. Once they
+        // have been shown one it holds the slot, so a website whose own promotion would
+        // otherwise fire shows nothing until the slot is free again.
+        $active = $this->userState->getActivePromotion();
+
+        // A promotion that can no longer be shown at all - its plugin was installed, it was
+        // dismissed into cooldown, or a trial is pending on it - hands the slot back here
+        // rather than after the loop, so the ladder is reconsidered on this very request
+        // instead of leaving the user with a blank dashboard once.
+        if (null !== $active && !$this->isStillShowable($active)) {
+            $this->userState->releaseActivePromotion();
+            $active = null;
+        }
+
+        foreach ($this->candidates($active) as $promotion) {
             $pluginName = $promotion->getPluginName();
 
             if (!$this->eligibility->isAllowedForPlugin($pluginName)) {
@@ -81,10 +95,58 @@ class PromotionSelector
                 continue;
             }
 
+            // Whether to show it is answered afresh for this website; what it says is not.
+            // The outcome recorded when the promotion took the slot is shown again, so the
+            // number in the copy does not move as later weeks are archived.
+            if (null !== $active && !empty($active['result'])) {
+                $result = Trigger\TriggerResult::fromArray($active['result']);
+            }
+
             return new SelectedPromotion($promotion, $result);
         }
 
         return null;
+    }
+
+    /**
+     * The promotions this request may choose between: every one in priority order while the
+     * slot is free, or only the promotion already holding it.
+     *
+     * @param array{pluginName: string, triggerName: string}|null $active
+     * @return Promotion[]
+     */
+    private function candidates(?array $active): array
+    {
+        if (null === $active) {
+            return $this->registry->getAllByPriority();
+        }
+
+        $promotion = $this->registry->findByPluginAndTrigger($active['pluginName'], $active['triggerName']);
+
+        // A promotion that no longer exists - renamed or removed between releases - must
+        // not wedge the slot shut for the rest of its lifetime.
+        if (null === $promotion) {
+            $this->userState->releaseActivePromotion();
+
+            return $this->registry->getAllByPriority();
+        }
+
+        return [$promotion];
+    }
+
+    /**
+     * Whether the promotion holding the slot could still be shown to this user somewhere,
+     * ignoring whether its trigger fires for the website in front of them.
+     *
+     * @param array{pluginName: string, triggerName: string} $active
+     */
+    private function isStillShowable(array $active): bool
+    {
+        $pluginName = $active['pluginName'];
+
+        return $this->eligibility->isAllowedForPlugin($pluginName)
+            && !$this->userState->isProductInCooldown($pluginName)
+            && !$this->isTrialPending($pluginName);
     }
 
     private function evaluate(Promotion $promotion, int $idSite): ?Trigger\TriggerResult

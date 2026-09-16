@@ -75,7 +75,8 @@ class ProfessionalServices extends \Piwik\Plugin
 
             StaticContainer::get(UserPromotionState::class)->recordShown(
                 $selected->getPromotion()->getPluginName(),
-                $selected->getPromotion()->getTriggerName()
+                $selected->getPromotion()->getTriggerName(),
+                $selected->getTriggerResult()->toArray()
             );
 
             $out .= StaticContainer::get(PromotionRenderer::class)->render($selected);

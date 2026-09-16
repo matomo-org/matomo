@@ -85,6 +85,10 @@ class UserPromotionState
         $product['productCooldownUntil'] = $now->addPeriod(self::PRODUCT_COOLDOWN_IN_MONTHS, 'month')->getTimestamp();
         $state['products'][$pluginName] = $product;
 
+        // The dismissed promotion must not keep holding the slot, or the global cooldown
+        // would expire only for the slot to stay locked to something already refused.
+        unset($state['activePromotion']);
+
         $this->save($userLogin, $state);
     }
 
@@ -93,7 +97,11 @@ class UserPromotionState
      * informational only and is written at most once per day to keep dashboard requests
      * free of repeated writes.
      */
-    public function recordShown(string $pluginName, string $triggerName): void
+    /**
+     * @param array<string, mixed>|null $lockedResult the trigger outcome to keep showing for
+     *                                                as long as this promotion holds the slot
+     */
+    public function recordShown(string $pluginName, string $triggerName, ?array $lockedResult = null): void
     {
         $userLogin = Piwik::getCurrentUserLogin();
         if (empty($userLogin)) {
@@ -112,6 +120,71 @@ class UserPromotionState
         $product['lastShownAt'] = $now->getTimestamp();
         $product['lastTriggerName'] = $triggerName;
         $state['products'][$pluginName] = $product;
+
+        $active = $state['activePromotion'] ?? [];
+        $alreadyHeld = ($active['pluginName'] ?? null) === $pluginName
+            && ($active['triggerName'] ?? null) === $triggerName;
+
+        $state['activePromotion'] = [
+            'pluginName' => $pluginName,
+            'triggerName' => $triggerName,
+            // The figure the copy quotes is settled when the promotion is first shown and
+            // kept, so a number the user has already read does not change underneath them
+            // as each new week is archived. Only a promotion taking the slot writes it.
+            'result' => $alreadyHeld ? ($active['result'] ?? $lockedResult) : $lockedResult,
+        ];
+
+        $this->save($userLogin, $state);
+    }
+
+    /**
+     * The promotion currently holding this user's single advertising slot, or null when the
+     * slot is free.
+     *
+     * One promotion is shown to a user at a time, across every website they can see. The
+     * first one they are shown takes the slot and keeps it: on a website where its own
+     * condition is not met they are shown nothing, rather than whatever else would have
+     * qualified there. The slot is only ever given up by {@see dismiss()} or by the
+     * promotion becoming ineligible - its plugin installed, or a trial pending on it.
+     *
+     * `result` is the trigger outcome recorded when the promotion took the slot, so the
+     * figure in its copy stays the one the user first read rather than being recalculated
+     * from each new week's reports.
+     *
+     * @return array{pluginName: string, triggerName: string, result: array<string, mixed>|null}|null
+     */
+    public function getActivePromotion(): ?array
+    {
+        $active = $this->load()['activePromotion'] ?? null;
+
+        if (empty($active['pluginName']) || empty($active['triggerName'])) {
+            return null;
+        }
+
+        return [
+            'pluginName' => (string) $active['pluginName'],
+            'triggerName' => (string) $active['triggerName'],
+            'result' => isset($active['result']) && is_array($active['result']) ? $active['result'] : null,
+        ];
+    }
+
+    /**
+     * Frees the slot, so the next promotion that fires may take it.
+     */
+    public function releaseActivePromotion(): void
+    {
+        $userLogin = Piwik::getCurrentUserLogin();
+        if (empty($userLogin)) {
+            return;
+        }
+
+        $state = $this->load();
+
+        if (!isset($state['activePromotion'])) {
+            return;
+        }
+
+        unset($state['activePromotion']);
 
         $this->save($userLogin, $state);
     }

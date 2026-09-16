@@ -14,6 +14,7 @@ use Piwik\Metrics\Formatter;
 use Piwik\NumberFormatter;
 use Piwik\Log\LoggerInterface;
 use Piwik\Piwik;
+use Piwik\Plugins\Marketplace\SiteAwareLinks;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\Marketplace\PluginTrial\Service as PluginTrialService;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\BusinessBundleTrigger;
@@ -65,6 +66,13 @@ class PromotionRenderer
      */
     private const MAX_URL_LENGTH = 60;
 
+    private ReportLink $reportLink;
+
+    public function __construct(?ReportLink $reportLink = null)
+    {
+        $this->reportLink = $reportLink ?: new ReportLink();
+    }
+
     public function render(SelectedPromotion $selected): string
     {
         $promotion = $selected->getPromotion();
@@ -76,21 +84,29 @@ class PromotionRenderer
         $view->productName = $productName;
         $view->imageUrl = 'plugins/ProfessionalServices/images/' . $promotion->getImageName();
 
-        $copyArguments = $this->getCopyArguments(
-            $promotion->getTriggerName(),
-            $selected->getTriggerResult()->getContext()
-        );
+        $context = $selected->getTriggerResult()->getContext();
+        $copyArguments = $this->getCopyArguments($promotion->getTriggerName(), $context);
 
-        $view->title = Piwik::translate($promotion->getTitleTranslationKey(), $copyArguments['title']);
-        $view->text = Piwik::translate($promotion->getTextTranslationKey(), $copyArguments['text']);
+        $view->title = Piwik::translate(
+            $promotion->getTitleTranslationKey(),
+            $this->escapeArguments($copyArguments['title'])
+        );
+        $view->text = Piwik::translate(
+            $promotion->getTextTranslationKey(),
+            $this->linkToReport(
+                $this->escapeArguments($copyArguments['text']),
+                $promotion->getTriggerName(),
+                $context,
+                $selected->getTriggerResult()->getPeriodStart()
+            )
+        );
         // The reason reads as a whole sentence of its own, so it is not wrapped in a
         // "why you're seeing this" lead-in the way the first copy was.
         $view->reason = Piwik::translate($promotion->getReasonTranslationKey());
 
-        // The headline and the call to action lead to the same page, so they carry the
-        // same campaign parameters and the link is built once.
-        $view->learnMoreUrl = $this->getCampaignUrl($promotion);
-        $view->marketplaceUrl = $view->learnMoreUrl;
+        // The call to action is the only thing that leaves the app for the Marketplace;
+        // the headline is plain text.
+        $view->marketplaceUrl = $this->getCampaignUrl($promotion);
         $view->canRequestTrial = $this->canRequestTrial();
         $view->tryLabel = Piwik::translate('ProfessionalServices_PromotionCtaTry', $productName);
 
@@ -179,6 +195,75 @@ class PromotionRenderer
         }
 
         return 'app.' . $module . '.' . $action;
+    }
+
+    /**
+     * The copy is rendered as HTML so that the figure can be a link to the report it came
+     * from, which means every value interpolated into it has to be escaped here - several
+     * of them are page titles, page URLs, goal names and campaign names entered by users of
+     * the instance.
+     *
+     * @param array<int, string> $arguments
+     * @return array<int, string>
+     */
+    private function escapeArguments(array $arguments): array
+    {
+        return array_map(
+            static function ($argument): string {
+                return htmlspecialchars((string) $argument, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+            },
+            $arguments
+        );
+    }
+
+    /**
+     * Links everything the body copy quotes - the figure and, where there is one, the thing
+     * it is about: the goal, the campaign, the page - to the report they were all read from.
+     *
+     * Every argument is linked rather than a chosen one, and deliberately so. The arguments
+     * are not in a fixed order: the conversion rate copy reads "Only 2% of visits convert
+     * for Purchase" while the A/B testing copy reads "Your goal Purchase converted 640
+     * times", so the figure is first in one and second in the other. Picking by position
+     * would link the goal name in one of them and the number in the other.
+     *
+     * Done by replacing the arguments rather than by adding placeholders to the copy, so the
+     * translated strings stay exactly as they were approved and translators never see
+     * markup.
+     *
+     * @param array<int, string> $arguments already escaped
+     * @param array<string, mixed> $context
+     * @return array<int, string>
+     */
+    private function linkToReport(array $arguments, string $triggerName, array $context, ?string $periodStart): array
+    {
+        if (empty($arguments)) {
+            return $arguments;
+        }
+
+        $idSite = (new SiteAwareLinks())->getCurrentValidIdSiteOrDefault();
+
+        if (false === $idSite) {
+            return $arguments;
+        }
+
+        $url = $this->reportLink->getUrl($triggerName, (int) $idSite, $context, $periodStart);
+
+        if (null === $url) {
+            return $arguments;
+        }
+
+        $href = htmlspecialchars($url, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+
+        foreach ($arguments as $index => $argument) {
+            if ('' === trim($argument)) {
+                continue;
+            }
+
+            $arguments[$index] = '<a class="productPromotion__metric" href="' . $href . '">'
+                . $argument . '</a>';
+        }
+
+        return $arguments;
     }
 
     /**

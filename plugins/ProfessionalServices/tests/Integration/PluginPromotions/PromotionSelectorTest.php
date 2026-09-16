@@ -56,12 +56,38 @@ class PromotionSelectorTest extends IntegrationTestCase
 
     private const SITE_TWO = 2;
 
+    private const SITE_THREE = 3;
+
+    private const SITE_FOUR = 4;
+
     private UserPromotionState $userState;
 
     /**
      * @var array<string, bool> which trigger names fire, per test
      */
     private array $triggering = [];
+
+    /**
+     * @var array<int, array<string, bool>> which trigger names fire for one website, where
+     *                                      a test needs the websites to differ
+     */
+    private array $triggeringPerSite = [];
+
+    /**
+     * @var string[]|null plugin names still allowed to be promoted, or null for all of them
+     */
+    private ?array $allowedPlugins = null;
+
+    /**
+     * @var array<string, mixed> the context the last shown promotion rendered with
+     */
+    private array $lastContext = [];
+
+    /**
+     * @var int what a firing trigger currently reports, so a test can move the underlying
+     *          figure between renders
+     */
+    private int $reportedCount = 5;
 
     /**
      * @var array<string, int> how often each trigger was evaluated
@@ -74,6 +100,8 @@ class PromotionSelectorTest extends IntegrationTestCase
 
         Date::$now = strtotime('2026-08-27 10:00:00 UTC');
 
+        Fixture::createWebsite('2026-01-01 00:00:00');
+        Fixture::createWebsite('2026-01-01 00:00:00');
         Fixture::createWebsite('2026-01-01 00:00:00');
         Fixture::createWebsite('2026-01-01 00:00:00');
 
@@ -222,10 +250,266 @@ class PromotionSelectorTest extends IntegrationTestCase
         $this->assertNull($this->makeSelector(false)->select());
     }
 
+    /**
+     * Only one promotion is active at a time for a user, across every website they can see.
+     * Which one it is depends on where they happened to look first: the promotion they were
+     * shown takes the slot, and the other website shows nothing while it holds it.
+     */
+    public function testTheFirstWebsiteLookedAtDecidesWhichPromotionTheUserGets(): void
+    {
+        $this->triggeringPerSite = [
+            self::SITE_ONE => ['segments' => true],
+            self::SITE_TWO => ['bounce_rate' => true],
+        ];
+
+        $this->asUser('alice');
+
+        // Alice opens website two first, so she gets its promotion...
+        $this->assertSame('HeatmapSessionRecording', $this->showOn(self::SITE_TWO));
+
+        // ...and website one shows nothing, even though its own promotion would fire there.
+        $this->assertNull($this->showOn(self::SITE_ONE));
+    }
+
+    public function testAnotherUserLookingTheOtherWayRoundGetsTheOtherPromotion(): void
+    {
+        $this->triggeringPerSite = [
+            self::SITE_ONE => ['segments' => true],
+            self::SITE_TWO => ['bounce_rate' => true],
+        ];
+
+        $this->asUser('bob');
+
+        $this->assertSame('CustomReports', $this->showOn(self::SITE_ONE));
+
+        $this->assertNull($this->showOn(self::SITE_TWO));
+    }
+
+    /**
+     * The slot holds a promotion, not a website. When the same promotion is what fires on
+     * the other website too, there is nothing to suppress.
+     */
+    public function testThePromotionHoldingTheSlotStillShowsOnEveryWebsiteItFiresOn(): void
+    {
+        $this->triggeringPerSite = [
+            self::SITE_ONE => ['segments' => true],
+            self::SITE_TWO => ['segments' => true],
+        ];
+
+        $this->asUser('carol');
+
+        $this->assertSame('CustomReports', $this->showOn(self::SITE_ONE));
+
+        $this->assertSame('CustomReports', $this->showOn(self::SITE_TWO));
+    }
+
+    /**
+     * Nothing below the promotion holding the slot is even looked at, so holding the slot
+     * costs no archive reads on the websites it does not fire on.
+     */
+    public function testNoOtherTriggerIsEvaluatedWhileThePromotionHoldsTheSlot(): void
+    {
+        $this->triggeringPerSite = [
+            self::SITE_ONE => ['segments' => true],
+            self::SITE_TWO => ['bounce_rate' => true],
+        ];
+
+        $this->asUser('dave');
+
+        $this->showOn(self::SITE_ONE);
+
+        $this->evaluations = [];
+
+        $this->showOn(self::SITE_TWO);
+
+        $this->assertSame(['segments' => 1], $this->evaluations);
+    }
+
+    /**
+     * The worked example the behaviour was specified with: Custom Reports is chosen on the
+     * first website looked at, and every other website then answers only the question "may
+     * Custom Reports be shown here?" - never "what else would qualify?".
+     */
+    public function testOnceChosenEveryOtherWebsiteOnlyAsksAboutThatOnePromotion(): void
+    {
+        $this->triggeringPerSite = [
+            // eight segments, so Custom Reports qualifies
+            self::SITE_ONE => ['segments' => true],
+            // three segments: Custom Reports does not qualify, and nothing else is asked
+            self::SITE_TWO => [],
+            // two segments: same again
+            self::SITE_THREE => [],
+            // three segments but a high bounce rate, so Heatmaps would qualify here - and
+            // is still not shown, because Custom Reports holds the slot
+            self::SITE_FOUR => ['bounce_rate' => true],
+        ];
+
+        $this->asUser('ivan');
+
+        $this->assertSame('CustomReports', $this->showOn(self::SITE_ONE));
+        $this->assertNull($this->showOn(self::SITE_TWO));
+        $this->assertNull($this->showOn(self::SITE_THREE));
+        $this->assertNull($this->showOn(self::SITE_FOUR));
+
+        // Only the chosen promotion was ever evaluated on the later websites.
+        $this->assertSame(['segments' => 4], $this->evaluations);
+    }
+
+    /**
+     * The figure a promotion quotes is settled when it is first shown and then kept. A
+     * number the user has already read must not move underneath them as each new week is
+     * archived, so the trigger is asked again only whether it still qualifies - never for a
+     * fresh figure.
+     */
+    public function testTheFigureInTheCopyIsLockedWhenThePromotionIsFirstShown(): void
+    {
+        $this->triggeringPerSite = [self::SITE_ONE => ['segments' => true]];
+        $this->reportedCount = 8;
+
+        $this->asUser('karl');
+
+        $this->assertSame('CustomReports', $this->showOn(self::SITE_ONE));
+        $this->assertSame(8, $this->lastContext['count']);
+
+        // A later week archives, and the user has since deleted two segments.
+        Date::$now = strtotime('2026-09-15 10:00:00 UTC');
+        $this->reportedCount = 6;
+
+        $this->assertSame('CustomReports', $this->showOn(self::SITE_ONE));
+        $this->assertSame(8, $this->lastContext['count'], 'the figure first shown must not move');
+    }
+
+    /**
+     * The lock belongs to the slot, not to the product: once the slot is handed on, the
+     * promotion that takes it quotes its own, current figure.
+     */
+    public function testAPromotionTakingTheSlotQuotesItsOwnFigure(): void
+    {
+        $this->triggeringPerSite = [self::SITE_ONE => ['segments' => true, 'bounce_rate' => true]];
+        $this->reportedCount = 8;
+
+        $this->asUser('lena');
+
+        $this->assertSame('CustomReports', $this->showOn(self::SITE_ONE));
+        $this->assertSame(8, $this->lastContext['count']);
+
+        $this->userState->dismiss('CustomReports', 'segments');
+
+        Date::$now = strtotime('2026-09-15 10:00:00 UTC');
+        $this->reportedCount = 3;
+
+        $this->assertSame('HeatmapSessionRecording', $this->showOn(self::SITE_ONE));
+        $this->assertSame(3, $this->lastContext['count']);
+    }
+
+    /**
+     * The slot is kept for as long as the promotion stays eligible - there is no expiry on
+     * it, so a user who neither dismisses it nor installs the plugin keeps being offered
+     * the same one.
+     */
+    public function testTheSlotIsKeptIndefinitelyWhileThePromotionStaysEligible(): void
+    {
+        $this->triggeringPerSite = [
+            self::SITE_ONE => ['segments' => true],
+            self::SITE_TWO => ['bounce_rate' => true],
+        ];
+
+        $this->asUser('judy');
+
+        $this->assertSame('CustomReports', $this->showOn(self::SITE_ONE));
+
+        // Months later, with no dismissal in between, nothing has changed hands.
+        Date::$now = strtotime('2027-03-01 10:00:00 UTC');
+
+        $this->assertNull($this->showOn(self::SITE_TWO));
+        $this->assertSame('CustomReports', $this->showOn(self::SITE_ONE));
+    }
+
+    /**
+     * Dismissing hands the slot back. Otherwise the global cooldown would expire only for
+     * the slot to stay locked to a promotion the user has already refused.
+     */
+    public function testDismissingFreesTheSlotForAnotherPromotion(): void
+    {
+        $this->triggeringPerSite = [
+            self::SITE_ONE => ['segments' => true],
+            self::SITE_TWO => ['bounce_rate' => true],
+        ];
+
+        $this->asUser('frank');
+
+        $this->assertSame('CustomReports', $this->showOn(self::SITE_ONE));
+
+        $this->userState->dismiss('CustomReports', 'segments');
+
+        // The global cooldown silences everything first.
+        $this->assertNull($this->showOn(self::SITE_TWO));
+
+        Date::$now = strtotime('2026-09-15 10:00:00 UTC');
+
+        $this->assertSame('HeatmapSessionRecording', $this->showOn(self::SITE_TWO));
+    }
+
+    /**
+     * Installing the promoted plugin makes its promotion ineligible, which hands the slot
+     * back. The next promotion takes it on that same dashboard, rather than the user seeing
+     * one blank render first.
+     */
+    public function testInstallingThePromotedPluginHandsTheSlotOnImmediately(): void
+    {
+        $this->triggeringPerSite = [
+            self::SITE_ONE => ['segments' => true, 'bounce_rate' => true],
+        ];
+
+        $this->asUser('grace');
+
+        $this->assertSame('CustomReports', $this->showOn(self::SITE_ONE));
+
+        // Custom Reports is now installed, so nothing may promote it any more.
+        $this->allowedPlugins = ['HeatmapSessionRecording'];
+
+        $this->assertSame('HeatmapSessionRecording', $this->showOn(self::SITE_ONE));
+    }
+
+    /**
+     * Selects for one website and records the result the way the dashboard does, since it
+     * is displaying a promotion - not choosing one - that claims the single slot.
+     *
+     * @return string|null the plugin promoted, or null when nothing was shown
+     */
+    private function showOn(int $idSite): ?string
+    {
+        $_GET['idSite'] = $idSite;
+
+        $selected = $this->makeSelector()->select();
+
+        if (null === $selected) {
+            return null;
+        }
+
+        $this->userState->recordShown(
+            $selected->getPromotion()->getPluginName(),
+            $selected->getPromotion()->getTriggerName(),
+            $selected->getTriggerResult()->toArray()
+        );
+
+        $this->lastContext = $selected->getTriggerResult()->getContext();
+
+        return $selected->getPromotion()->getPluginName();
+    }
+
     private function makeSelector(bool $promotionsAllowed = true): PromotionSelector
     {
         $eligibility = $this->createMock(PromotionEligibility::class);
-        $eligibility->method('isAllowedForPlugin')->willReturn($promotionsAllowed);
+        $eligibility->method('isAllowedForPlugin')->willReturnCallback(
+            function (string $pluginName) use ($promotionsAllowed): bool {
+                if (!$promotionsAllowed) {
+                    return false;
+                }
+
+                return null === $this->allowedPlugins || in_array($pluginName, $this->allowedPlugins, true);
+            }
+        );
 
         $registry = new PromotionRegistry(
             $this->makeTrigger(SegmentsTrigger::class, SegmentsTrigger::NAME),
@@ -263,12 +547,16 @@ class PromotionSelectorTest extends IntegrationTestCase
     {
         $trigger = $this->createMock($className);
         $trigger->method('getName')->willReturn($name);
-        $trigger->method('evaluate')->willReturnCallback(function () use ($name): TriggerResult {
+        $trigger->method('evaluate')->willReturnCallback(function (int $idSite) use ($name): TriggerResult {
             $this->evaluations[$name] = ($this->evaluations[$name] ?? 0) + 1;
 
-            return empty($this->triggering[$name])
-                ? TriggerResult::notTriggered()
-                : TriggerResult::triggered(['count' => 5]);
+            $fires = array_key_exists($idSite, $this->triggeringPerSite)
+                ? !empty($this->triggeringPerSite[$idSite][$name])
+                : !empty($this->triggering[$name]);
+
+            return $fires
+                ? TriggerResult::triggered(['count' => $this->reportedCount])
+                : TriggerResult::notTriggered();
         });
 
         return $trigger;
@@ -278,7 +566,7 @@ class PromotionSelectorTest extends IntegrationTestCase
     {
         FakeAccess::$superUser = false;
         FakeAccess::$identity = $login;
-        FakeAccess::$idSitesView = [self::SITE_ONE, self::SITE_TWO];
+        FakeAccess::$idSitesView = [self::SITE_ONE, self::SITE_TWO, self::SITE_THREE, self::SITE_FOUR];
     }
 
     public function provideContainerConfig()

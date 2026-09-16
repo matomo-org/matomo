@@ -15,6 +15,7 @@ use Piwik\Plugins\ProfessionalServices\PluginPromotions\PromotionRegistry;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Promotion;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\PromotionRenderer;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\SelectedPromotion;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\HighConversionRateTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\LowConversionRateTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\PromotionTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\SegmentsTrigger;
@@ -65,7 +66,9 @@ class PromotionRendererTest extends IntegrationTestCase
 
         $this->assertStringContainsString('class="productPromotion"', $html);
         $this->assertStringContainsString('You&#039;ve tailored your audience. Now tailor your reports.', $html);
-        $this->assertStringContainsString('You&#039;re already using 6 segments to focus your analysis', $html);
+        // The headline is escaped by the template; the body is not, because it carries the
+        // link around the figure - so its apostrophe arrives as itself rather than &#039;.
+        $this->assertStringContainsString("You're already using 6 segments to focus your analysis", $html);
         // The reason stands as its own sentence, with no lead-in wrapped around it.
         $this->assertStringContainsString(
             'Custom Reports is recommended when you use multiple segments and want more control over your reporting.',
@@ -93,7 +96,8 @@ class PromotionRendererTest extends IntegrationTestCase
         ]);
 
         $this->assertStringContainsString('Where are you losing momentum?', $html);
-        $this->assertStringContainsString('Only 2% of visits convert for Purchase', $html);
+        // Tags stripped, because the figure itself is a link to the report it came from.
+        $this->assertStringContainsString('Only 2% of visits convert for Purchase', strip_tags($html));
         $this->assertStringNotContainsString('%%', $html);
         $this->assertStringNotContainsString('%1$s', $html);
     }
@@ -114,8 +118,11 @@ class PromotionRendererTest extends IntegrationTestCase
         $this->assertStringContainsString('mtm_kwd=segments', $html);
         // Both the headline and the call to action leave the app, so both open in a new
         // tab and withhold the referrer.
-        $this->assertSame(2, substr_count($html, 'target="_blank"'));
-        $this->assertSame(2, substr_count($html, 'rel="noreferrer noopener"'));
+        // Only the call to action leaves the app - the headline is plain text - and the
+        // report link on the figure stays inside Matomo, so it opens in the same tab.
+        $this->assertSame(1, substr_count($html, 'target="_blank"'));
+        $this->assertSame(1, substr_count($html, 'rel="noreferrer noopener"'));
+        $this->assertStringNotContainsString('productPromotion__titleLink', $html);
     }
 
     /**
@@ -221,6 +228,65 @@ class PromotionRendererTest extends IntegrationTestCase
      * Goal names and page URLs are entered by users of the instance, so they must never
      * reach the page unescaped.
      */
+    /**
+     * The figure a promotion is built on links to the report it was read from, at the week
+     * the figure came from rather than the current one - so a reader who follows it sees
+     * the same number the banner quotes.
+     */
+    public function testTheFigureLinksToTheReportItCameFrom(): void
+    {
+        $html = $this->render(LowConversionRateTrigger::NAME, [
+            'goalId' => 2,
+            'goalName' => 'Newsletter signup',
+            'nbVisits' => 5000,
+            'nbConversions' => 100,
+            'conversionRate' => 0.02,
+        ]);
+
+        $this->assertStringContainsString('class="productPromotion__metric"', $html);
+        $this->assertStringContainsString('category=Goals_Goals', $html);
+        $this->assertStringContainsString('subcategory=2', $html);
+        // The reporting week the locked figure was read from, not today's.
+        $this->assertStringContainsString('date=2026-08-17', $html);
+
+        // Both the rate and the goal it is about lead to the same report.
+        $this->assertSame(2, substr_count($html, 'class="productPromotion__metric"'));
+        $this->assertMatchesRegularExpression('/productPromotion__metric[^>]*>Newsletter signup</', $html);
+    }
+
+    /**
+     * The copy arguments are not in a fixed order - the conversion rate copy leads with the
+     * figure, the A/B testing copy leads with the goal name - so linking by position would
+     * link the wrong word in one of them.
+     */
+    public function testTheGoalNameAndTheFigureAreBothLinkedWhicheverOrderTheCopyUsesThem(): void
+    {
+        $html = $this->render(HighConversionRateTrigger::NAME, [
+            'goalId' => 3,
+            'goalName' => 'Purchase',
+            'nbVisits' => 10000,
+            'nbConversions' => 640,
+            'conversionRate' => 0.064,
+        ]);
+
+        $this->assertSame(2, substr_count($html, 'class="productPromotion__metric"'));
+        $this->assertMatchesRegularExpression('/productPromotion__metric[^>]*>Purchase</', $html);
+        $this->assertMatchesRegularExpression('/productPromotion__metric[^>]*>640</', $html);
+        $this->assertStringContainsString('subcategory=3', $html);
+    }
+
+    /**
+     * A promotion with no report behind it - the bundles, the user counts, the custom logo -
+     * renders its figure as plain text rather than a dead link.
+     */
+    public function testAPromotionWithoutAReportRendersThePlainFigure(): void
+    {
+        $html = $this->render(SegmentsTrigger::NAME, ['count' => 6]);
+
+        $this->assertStringNotContainsString('productPromotion__metric', $html);
+        $this->assertStringContainsString('6', $html);
+    }
+
     public function testUserSuppliedValuesAreEscaped(): void
     {
         $html = $this->render(LowConversionRateTrigger::NAME, [
@@ -233,6 +299,10 @@ class PromotionRendererTest extends IntegrationTestCase
 
         $this->assertStringNotContainsString('<script>alert(1)</script>', $html);
         $this->assertStringContainsString('&lt;script&gt;', $html);
+
+        // The body copy is rendered as HTML so the figure can be a link, which is exactly
+        // why every other value interpolated into it has to arrive already escaped.
+        $this->assertStringContainsString('productPromotion__metric', $html, 'this promotion should link its figure');
     }
 
     /**
@@ -269,6 +339,12 @@ class PromotionRendererTest extends IntegrationTestCase
                 'ProfessionalServices_PromoFunnels',
                 'ProfessionalServices_PromotionFunnelsConversionRate',
                 'product-promotion-funnels.png',
+            ],
+            HighConversionRateTrigger::NAME => [
+                'AbTesting',
+                'ProfessionalServices_PromotionProductAbTesting',
+                'ProfessionalServices_PromotionAbTestingConversionRate',
+                'product-promotion-ab-testing.png',
             ],
         ];
 
