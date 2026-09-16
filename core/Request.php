@@ -32,7 +32,7 @@ class Request
 
     private static $exceptionMsg = "The parameter '%s' isn't set in the Request and a default value wasn't provided.";
     private static $invalidValueExceptionMsg
-        = "The parameter '%s' was provided with an invalid value and a default value wasn't provided.";
+        = "The parameter '%s' in the Request is not of type '%s' and a default value wasn't provided.";
 
     public function __construct(array $requestParameters)
     {
@@ -146,7 +146,7 @@ class Request
             return $default;
         }
 
-        throw new InvalidArgumentException(sprintf(self::$invalidValueExceptionMsg, $name));
+        throw new InvalidArgumentException(sprintf(self::$invalidValueExceptionMsg, $name, 'integer'));
     }
 
     /**
@@ -168,7 +168,7 @@ class Request
             return $default;
         }
 
-        throw new InvalidArgumentException(sprintf(self::$invalidValueExceptionMsg, $name));
+        throw new InvalidArgumentException(sprintf(self::$invalidValueExceptionMsg, $name, 'float'));
     }
 
     /**
@@ -190,7 +190,7 @@ class Request
             return $default;
         }
 
-        throw new InvalidArgumentException(sprintf(self::$invalidValueExceptionMsg, $name));
+        throw new InvalidArgumentException(sprintf(self::$invalidValueExceptionMsg, $name, 'string'));
     }
 
     /**
@@ -224,7 +224,7 @@ class Request
             return $default;
         }
 
-        throw new InvalidArgumentException(sprintf(self::$invalidValueExceptionMsg, $name));
+        throw new InvalidArgumentException(sprintf(self::$invalidValueExceptionMsg, $name, 'bool'));
     }
 
     /**
@@ -248,7 +248,7 @@ class Request
             return $default;
         }
 
-        throw new InvalidArgumentException(sprintf(self::$invalidValueExceptionMsg, $name));
+        throw new InvalidArgumentException(sprintf(self::$invalidValueExceptionMsg, $name, 'array'));
     }
 
     /**
@@ -287,7 +287,7 @@ class Request
             return $default;
         }
 
-        throw new InvalidArgumentException(sprintf(self::$invalidValueExceptionMsg, $name));
+        throw new InvalidArgumentException(sprintf(self::$invalidValueExceptionMsg, $name, 'json'));
     }
 
     private function filterNullBytes($value)

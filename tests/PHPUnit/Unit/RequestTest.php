@@ -509,7 +509,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
         } catch (MissingRequestParameterException $e) {
             self::fail($getter . ' reported a supplied value as a missing parameter');
         } catch (\InvalidArgumentException $e) {
-            self::assertStringContainsString('invalid value', $e->getMessage());
+            self::assertStringContainsString('is not of type', $e->getMessage());
         }
     }
 
