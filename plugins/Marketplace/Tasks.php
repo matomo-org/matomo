@@ -48,13 +48,17 @@ class Tasks extends \Piwik\Plugin\Tasks
     }
 
     /**
-     * The same task {@link schedule()} registers, for {@link CacheWarmer} to mark due ahead of its
+     * The same task {@link schedule()} registers, for callers that want it marked due ahead of its
      * next hourly run. TasksTest pins the two against each other, because a task named here that
      * schedule() never registered would be marked due and then never run.
      */
-    public function getWarmCacheEntriesTask(): Task
+    public static function getWarmCacheEntriesTask(): Task
     {
-        return new Task($this, 'warmCacheEntries', null, Schedule::factory('hourly'), self::LOWEST_PRIORITY);
+        // built from the class name rather than an instance, so naming the task costs nothing:
+        // constructing this class pulls in the Marketplace API client, and CoreUpdater.update.end
+        // fires from inside Updater::updateComponents(), where building that graph changes what
+        // other plugins see - it moved PrivacyManager's anonymisation settings in NoVisitTest.
+        return new Task(self::class, 'warmCacheEntries', null, Schedule::factory('hourly'), self::LOWEST_PRIORITY);
     }
 
     public function clearAllCacheEntries()

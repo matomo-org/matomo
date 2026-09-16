@@ -20,8 +20,6 @@ use Piwik\Log\NullLogger;
 use Piwik\Plugins\Marketplace\Api\Client;
 use Piwik\Plugins\Marketplace\CacheWarmer;
 use Piwik\Plugins\Marketplace\Environment;
-use Piwik\Plugins\Marketplace\Tasks;
-use Piwik\Plugins\Marketplace\UpdateCommunication;
 use Piwik\Scheduler\Scheduler;
 use Piwik\Scheduler\Task;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -242,7 +240,6 @@ class CacheWarmerTest extends IntegrationTestCase
         return new CacheWarmer(
             $api,
             $scheduler,
-            $this->buildTasks(),
             $this->createMock(Environment::class),
             $cliMulti ?: $this->cliMulti(false),
             $this->cliPhp(),
@@ -255,19 +252,9 @@ class CacheWarmerTest extends IntegrationTestCase
         return new RecordingCacheWarmer(
             $this->apiWithWarmLists(false),
             $scheduler,
-            $this->buildTasks(),
             $this->createMock(Environment::class),
             $this->cliMulti(true),
             $this->cliPhp(),
-            new NullLogger()
-        );
-    }
-
-    private function buildTasks(): Tasks
-    {
-        return new Tasks(
-            $this->createMock(UpdateCommunication::class),
-            $this->createMock(Client::class),
             new NullLogger()
         );
     }

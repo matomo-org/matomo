@@ -15,6 +15,8 @@ use Piwik\Piwik;
 use Piwik\Plugins\Installation\FormDefaultSettings;
 use Piwik\Plugins\Marketplace\CacheWarmer;
 use Piwik\Plugins\Marketplace\Marketplace;
+use Piwik\Plugins\Marketplace\Tasks;
+use Piwik\Scheduler\Timetable;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
@@ -24,7 +26,14 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class MarketplaceTest extends IntegrationTestCase
 {
+    private const WARM_CACHE_TASK = 'Piwik\\Plugins\\Marketplace\\Tasks.warmCacheEntries';
+
     private $cacheKey = 'Marketplace_ExpiredPlugins';
+
+    private function taskIsNotDue(): void
+    {
+        (new Timetable())->rescheduleTaskAndRunTomorrow(Tasks::getWarmCacheEntriesTask());
+    }
 
     public function setUp(): void
     {
@@ -49,11 +58,17 @@ class MarketplaceTest extends IntegrationTestCase
         self::assertFalse(Cache::getEagerCache()->contains($this->cacheKey));
     }
 
-    public function testFinishingAnUpdateWarmsTheMarketplaceCache(): void
+    public function testFinishingAnUpdateMarksTheWarmTaskDueWithoutBuildingTheWarmer(): void
     {
+        $this->taskIsNotDue();
+
         Piwik::postEvent('CoreUpdater.update.end');
 
-        self::assertSame(1, SpyCacheWarmer::$warmSoonCalls);
+        self::assertTrue((new Timetable())->shouldExecuteTask(self::WARM_CACHE_TASK));
+
+        // the warmer must not be built from inside the updater: doing so moved PrivacyManager's
+        // anonymisation settings in NoVisitTest, so the update path marks the task due instead
+        self::assertSame(0, SpyCacheWarmer::$warmSoonCalls);
     }
 
     public function testFinishingAnUpdateDoesNotWarmWhileAnInstallationIsStillInProgress(): void
@@ -61,10 +76,11 @@ class MarketplaceTest extends IntegrationTestCase
         // an installation runs the updater before the first site and user exist, and both counts
         // are part of every Marketplace cache key, so warming there fills entries nothing reads
         Config::getInstance()->General['installation_in_progress'] = 1;
+        $this->taskIsNotDue();
 
         Piwik::postEvent('CoreUpdater.update.end');
 
-        self::assertSame(0, SpyCacheWarmer::$warmSoonCalls);
+        self::assertFalse((new Timetable())->shouldExecuteTask(self::WARM_CACHE_TASK));
     }
 
     public function testFinishingAnInstallationWarmsTheMarketplaceCache(): void

@@ -35,8 +35,6 @@ class CacheWarmer
 
     private Scheduler $scheduler;
 
-    private Tasks $tasks;
-
     private Environment $environment;
 
     private CliMulti $cliMulti;
@@ -48,7 +46,6 @@ class CacheWarmer
     public function __construct(
         Api\Client $api,
         Scheduler $scheduler,
-        Tasks $tasks,
         Environment $environment,
         CliMulti $cliMulti,
         CliPhp $cliPhp,
@@ -56,7 +53,6 @@ class CacheWarmer
     ) {
         $this->api = $api;
         $this->scheduler = $scheduler;
-        $this->tasks = $tasks;
         $this->environment = $environment;
         $this->cliMulti = $cliMulti;
         $this->cliPhp = $cliPhp;
@@ -178,6 +174,6 @@ class CacheWarmer
 
     private function getWarmCacheTask(): Task
     {
-        return $this->tasks->getWarmCacheEntriesTask();
+        return Tasks::getWarmCacheEntriesTask();
     }
 }
