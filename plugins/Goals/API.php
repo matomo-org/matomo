@@ -121,18 +121,19 @@ class API extends \Piwik\Plugin\API
 
         $cacheId = self::getCacheId($idSite);
         $cache = $this->getGoalsInfoStaticCache();
+
+        $idSite = Site::getIdSitesFromIdSitesString($idSite, false, true);
+
+        if (empty($idSite)) {
+            return [];
+        }
+
+        // Check access on every call, not only when the cache is populated. The cache is shared for
+        // the whole request and may already have been filled by a more privileged actor (for
+        // example a rebuild running under super user), so a cache hit must not skip the check.
+        Piwik::checkUserHasViewAccess($idSite);
+
         if (!$cache->contains($cacheId)) {
-            // note: the reason this is secure is because the above cache is a static cache and cleared after each request
-            // if we were to use a different cache that persists the result, this would not be secure because when a
-            // result is in the cache, it would just return the result
-            $idSite = Site::getIdSitesFromIdSitesString($idSite, false, true);
-
-            if (empty($idSite)) {
-                return [];
-            }
-
-            Piwik::checkUserHasViewAccess($idSite);
-
             $goals = $this->getModel()->getActiveGoals($idSite);
             $cleanedGoals = [];
             $indexByIdGoal = 1 === count($idSite);
