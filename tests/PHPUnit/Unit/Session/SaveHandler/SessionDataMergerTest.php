@@ -53,6 +53,27 @@ class SessionDataMergerTest extends TestCase
         $this->assertNull($this->merger->decode($data));
     }
 
+    public function testDecodeStaysQuietAboutASessionAnotherSerializeHandlerStored()
+    {
+        // what the default `php` handler stores when the server does not let Matomo set
+        // php_serialize. unserialize() warns about it, which would end up in the log.
+        $stored = 'data|' . serialize(base64_encode(serialize(['user.name' => 'chip'])));
+
+        $warnings = [];
+        set_error_handler(function ($errno, $errstr) use (&$warnings) {
+            $warnings[] = $errstr;
+            return true;
+        });
+
+        try {
+            $this->assertNull($this->merger->decode($stored));
+        } finally {
+            restore_error_handler();
+        }
+
+        $this->assertSame([], $warnings);
+    }
+
     public function getUnreadableData()
     {
         return [
