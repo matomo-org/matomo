@@ -5,14 +5,14 @@
  * Version: @VERSION
  * Revision: @REVISION
  *
- * Copyright (c) 2009-2013 Chris Leonello
- * jqPlot is currently available for use in all personal or commercial projects 
- * under both the MIT (http://www.opensource.org/licenses/mit-license.php) and GPL 
- * version 2.0 (http://www.gnu.org/licenses/gpl-2.0.html) licenses. This means that you can 
- * choose the license that best suits your project and use it accordingly. 
+ * Copyright (c) 2009-2016 Chris Leonello
+ * jqPlot is currently available for use in all personal or commercial projects
+ * under both the MIT (http://www.opensource.org/licenses/mit-license.php) and GPL
+ * version 2.0 (http://www.gnu.org/licenses/gpl-2.0.html) licenses. This means that you can
+ * choose the license that best suits your project and use it accordingly.
  *
- * Although not required, the author would appreciate an email letting him 
- * know of any substantial use of jqPlot.  You can reach the author at: 
+ * Although not required, the author would appreciate an email letting him
+ * know of any substantial use of jqPlot.  You can reach the author at:
  * chris at jqplot dot com or see http://www.jqplot.com/info.php .
  *
  * If you are feeling kind and generous, consider supporting the project by
@@ -26,7 +26,7 @@
  *     http://hexmen.com/js/sprintf.js
  *     The author (Ash Searle) has placed this code in the public domain:
  *     "This code is unrestricted: you are free to use it however you like."
- * 
+ *
  */
 (function($) {
     // class $.jqplot.TableLegendRenderer
@@ -34,11 +34,11 @@
     $.jqplot.TableLegendRenderer = function(){
         //
     };
-    
+
     $.jqplot.TableLegendRenderer.prototype.init = function(options) {
         $.extend(true, this, options);
     };
-        
+
     $.jqplot.TableLegendRenderer.prototype.addrow = function (label, color, pad, reverse) {
         var rs = (pad) ? this.rowSpacing+'px' : '0px';
         var tr;
@@ -97,7 +97,7 @@
         tr = null;
         elem = null;
     };
-    
+
     // called with scope of legend
     $.jqplot.TableLegendRenderer.prototype.draw = function() {
         if (this._elem) {
@@ -120,29 +120,31 @@
                 ss['border'] = this.border;
             }
             if (this.fontSize) {
-                ss['fontSize'] = this.fontSize;
+                ss['font-size'] = this.fontSize;
             }
             if (this.fontFamily) {
-                ss['fontFamily'] = this.fontFamily;
+                ss['font-family'] = this.fontFamily;
             }
             if (this.textColor) {
-                ss['textColor'] = this.textColor;
+                ss['color'] = this.textColor;
             }
             if (this.marginTop != null) {
-                ss['marginTop'] = this.marginTop;
+                ss['margin-top'] = this.marginTop;
             }
             if (this.marginBottom != null) {
-                ss['marginBottom'] = this.marginBottom;
+                ss['margin-bottom'] = this.marginBottom;
             }
             if (this.marginLeft != null) {
-                ss['marginLeft'] = this.marginLeft;
+                ss['margin-left'] = this.marginLeft;
             }
             if (this.marginRight != null) {
-                ss['marginRight'] = this.marginRight;
+                ss['margin-right'] = this.marginRight;
             }
-            
-        
-            var pad = false, 
+
+            this._elem.css(ss);
+
+
+            var pad = false,
                 reverse = false,
                 s;
             for (var i = 0; i< series.length; i++) {
@@ -169,7 +171,7 @@
                         if (item) {
                             this.renderer.addrow.call(this, item.label, item.color, pad);
                             pad = true;
-                        } 
+                        }
                     }
                     lt = null;
                 }
@@ -177,9 +179,9 @@
         }
         return this._elem;
     };
-    
+
     $.jqplot.TableLegendRenderer.prototype.pack = function(offsets) {
-        if (this.show) {       
+        if (this.show) {
             if (this.placement == 'insideGrid') {
                 switch (this.location) {
                     case 'nw':
@@ -230,7 +232,7 @@
                         this._elem.css({right:a, bottom:b});
                         break;
                 }
-                
+
             }
             else if (this.placement == 'outside'){
                 switch (this.location) {
@@ -318,6 +320,6 @@
                         break;
                 }
             }
-        } 
+        }
     };
 })(jQuery);
