@@ -22,7 +22,7 @@
         "MustBeLoggedIn": "You must be logged in to create and schedule custom reports.",
         "NoRecipients": "This report has no recipients",
         "Pagination": "Page %1$s of %2$s",
-        "PdfNoPercentageColumns": "Note: some percentage columns are only included in the HTML, CSV and TSV report formats.",
+        "PdfNoPercentageColumns": "Note: if you need the percentage of the total for applicable metrics, such as Visits, Users or Actions, choose the HTML, CSV or TSV format instead.",
         "PiwikReports": "Matomo Reports",
         "PleaseFindAttachedFile": "Please find your %1$s report for %2$s in the attached file.",
         "SentFromX": "Sent from %s.",
