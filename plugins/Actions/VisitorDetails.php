@@ -30,13 +30,18 @@ class VisitorDetails extends VisitorDetailsAbstract
 
     public function provideActionsForVisitIds(&$actions, $visitIds)
     {
-        $actionDetails = $this->queryActionsForVisits($visitIds);
-        // use while / array_shift combination instead of foreach to save memory
-        while (is_array($actionDetails) && count($actionDetails)) {
-            $action  = array_shift($actionDetails);
-            $idVisit = $action['idvisit'];
-            unset($action['idvisit']);
-            $actions[$idVisit][] = $action;
+        // This function can receive thousands visit ids, leading to database overload
+        // Chunks allow to fetch fewer data per database call
+        $chunksVisitIds = array_chunk($visitIds, 200);
+        foreach($chunksVisitIds as $chunk) {
+            $actionDetails = $this->queryActionsForVisits($chunk);
+            // use while / array_shift combination instead of foreach to save memory
+            while (is_array($actionDetails) && count($actionDetails)) {
+                $action  = array_shift($actionDetails);
+                $idVisit = $action['idvisit'];
+                unset($action['idvisit']);
+                $actions[$idVisit][] = $action;
+            }
         }
     }
 
