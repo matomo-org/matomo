@@ -49,11 +49,16 @@ class Dependency
             $missingVersions = $this->getMissingVersions($currentVersion, $requiredVersion);
 
             if (!empty($missingVersions)) {
+                $allUpperBounds = count(array_filter($missingVersions, function ($v) {
+                    return (bool) preg_match('/^</', $v);
+                })) === count($missingVersions);
+
                 $missingRequirements[] = array(
                     'requirement'     => $name,
                     'actualVersion'   => $currentVersion,
                     'requiredVersion' => $requiredVersion,
                     'causedBy'        => implode(', ', $missingVersions),
+                    'tooNew'          => $allUpperBounds,
                 );
             }
         }
