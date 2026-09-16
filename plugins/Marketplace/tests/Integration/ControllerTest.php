@@ -143,9 +143,9 @@ class ControllerTest extends IntegrationTestCase
 
     public function testSearchPluginsCarriesTheSeatTierEachBundleIsSoldAt()
     {
-        // the tier belongs to the bundle product, and the list repeats it across that product's
-        // variations - two billing periods in two currencies - so the label the card shows must
-        // not depend on which of them addPriceFrom() picked
+        // these three bundles are one product per tier, and the list repeats that tier across a
+        // product's variations - two billing periods in two currencies - so the label the card
+        // shows must not depend on which of them addPriceFrom() picked
         $this->pluginsFixture = 'system_v2.0_plugins_sort-lastupdated.json';
 
         $cards = array_column($this->searchPlugins(), null, 'name');

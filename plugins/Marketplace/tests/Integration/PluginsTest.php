@@ -786,10 +786,12 @@ class PluginsTest extends IntegrationTestCase
     }
 
     /**
-     * The shop prices one tier per bundle, so its variations always agree and this input does not
-     * occur. Pinned anyway so the variation the tier is read from stays the priced-from one.
+     * A bundle sold at all three tiers is one product with six variations, as ContentBundle and
+     * TrackingBundle are in the Marketplace's own system tests. The card carries no price to say
+     * which tier it is quoting, so a bundle whose variations disagree gets no seat label at all -
+     * rather than the priced-from tier's, which would read "Up to 4 users" on every such bundle.
      */
-    public function testEnrichedBundleTakesItsSeatTierFromTheVariationItIsPricedFrom()
+    public function testEnrichedBundleHasNoSeatTierWhenItsVariationsDisagree()
     {
         $this->service->setOnFetchCallback(function ($action) {
             if ('plugins' !== $action) {
@@ -797,7 +799,36 @@ class PluginsTest extends IntegrationTestCase
             }
 
             return ['plugins' => [
-                $this->bundleWithSeatTier('TeamBundle', 'Up to 4 users monthly', 'Up to 50 users'),
+                $this->bundleWithSeatTier('ContentBundle', 'Up to 4 users', '5 to 15 users'),
+                $this->bundleWithSeatTier('TrackingBundle', 'Up to 4 users', 'Unlimited users'),
+            ]];
+        });
+
+        $plugins = array_column(
+            $this->plugins->searchPlugins($query = '', $sort = Sort::DEFAULT_SORT, $themesOnly = false),
+            null,
+            'name'
+        );
+
+        self::assertSame('Up to 4 users', $plugins['ContentBundle']['priceFrom']['name']);
+        self::assertArrayNotHasKey('bundleSeats', $plugins['ContentBundle']);
+        self::assertArrayNotHasKey('bundleSeats', $plugins['TrackingBundle']);
+    }
+
+    /**
+     * A bundle priced at one tier - the shape the older Team, Business and Enterprise products
+     * have - keeps its label, and the tier is read off the variations rather than off the price,
+     * so it does not depend on which of them addPriceFrom() happened to pick.
+     */
+    public function testEnrichedBundleTakesItsSeatTierFromAgreeingVariations()
+    {
+        $this->service->setOnFetchCallback(function ($action) {
+            if ('plugins' !== $action) {
+                return null;
+            }
+
+            return ['plugins' => [
+                $this->bundleWithSeatTier('TeamBundle', 'Up to 4 users monthly', 'Up to 4 users'),
             ]];
         });
 
@@ -810,8 +841,7 @@ class PluginsTest extends IntegrationTestCase
     /**
      * A bundle as the Marketplace sends it, trimmed to what enrichment reads. $cheapestVariation
      * is the one addPriceFrom() picks, and it is deliberately not listed first. The two names are
-     * separate parameters only so a disagreeing pair can be pinned; the shop repeats one tier
-     * across every variation of a bundle.
+     * separate parameters so that a bundle whose variations disagree on the tier can be pinned.
      */
     private function bundleWithSeatTier(
         string $name,

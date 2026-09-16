@@ -551,13 +551,15 @@ class Plugins
      * The seat tier a bundle is licensed for, which the Marketplace spells into each shop
      * variation's name ("Up to 20 users"). Resolved here rather than by parsing a display string.
      *
-     * The tier belongs to the bundle product rather than to the variation: Team, Business and
-     * Enterprise are three separate products, and a bundle's variations are its billing periods
-     * times the currencies each is priced in - four rows over two variation ids - every one of
-     * them repeating that product's tier in its name. Any variation therefore answers this, and
-     * reading it off the one addPriceFrom() already chose keeps seat tier and price describing the
-     * same row. A name with no number ("Unlimited users.") leaves the field unset. Bundles only: a
-     * paid plugin offers all three tiers at once, so it has no single count.
+     * Only when every variation names the same tier, which not every bundle manages. The older
+     * bundles are one product per tier - Team, Business and Enterprise - so their variations are
+     * billing periods times currencies and all repeat that product's tier, and the card reads it.
+     * A newer bundle is one product sold at all three tiers, six variations over "Up to 4 users",
+     * "5 to 15 users" and "Unlimited users", and there no single count describes the card: it
+     * carries no price to say which tier it is quoting, so taking the one addPriceFrom() picked
+     * would label every such bundle "Up to 4 users". Leaving the field unset drops the label
+     * instead. A name with no number ("Unlimited users") is a tier of its own and counts here.
+     * Bundles only: a paid plugin offers all three tiers at once, so it has no single count.
      *
      * The number is read whole, group separators and all: matching digits alone reads "Up to 1,000
      * users" as 0, and a 0 renders nothing, so the wrong answer would never show up on screen.
@@ -570,13 +572,36 @@ class Plugins
             return;
         }
 
-        if (preg_match('/(\d[\d,.\x{00A0}\x{202F} ]*)\s*users/iu', $plugin['priceFrom']['name'] ?? '', $matches)) {
-            $seats = (int) preg_replace('/\D/', '', $matches[1]);
+        $tiers = [];
 
-            if ($seats > 0) {
-                $plugin['bundleSeats'] = $seats;
-            }
+        foreach ($plugin['shop']['variations'] ?? [] as $variation) {
+            $tiers[] = $this->readSeatTier($variation['name'] ?? '');
         }
+
+        if (!count($tiers) || count(array_unique($tiers, SORT_REGULAR)) > 1) {
+            return;
+        }
+
+        if (null !== $tiers[0]) {
+            $plugin['bundleSeats'] = $tiers[0];
+        }
+    }
+
+    /**
+     * The seat count a variation name spells out, or null when it names an unnumbered tier.
+     *
+     * @param string $variationName
+     * @return int|null
+     */
+    private function readSeatTier(string $variationName): ?int
+    {
+        if (!preg_match('/(\d[\d,.\x{00A0}\x{202F} ]*)\s*users/iu', $variationName, $matches)) {
+            return null;
+        }
+
+        $seats = (int) preg_replace('/\D/', '', $matches[1]);
+
+        return $seats > 0 ? $seats : null;
     }
 
     /**
