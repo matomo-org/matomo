@@ -1,7 +1,9 @@
 <div class="dataTableFeatures">
     <div class="dataTableFooterNavigation">
 
-{% set showLimitSelection = not isDataTableEmpty and (properties.show_footer_icons and properties.show_pagination_control or properties.show_limit_control) %}
+{# The same condition dataTable.js applies before it fills the control: a wider one renders the
+   line, and its height, for a report that never gets a selector - a tag cloud, say. #}
+{% set showLimitSelection = not isDataTableEmpty and properties.show_limit_control %}
 {% set hasPagination = not isDataTableEmpty and (properties.show_offset_information or properties.show_pagination_control) %}
 
         {% if hasPagination or showLimitSelection %}
