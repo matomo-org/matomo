@@ -728,10 +728,10 @@ class Model
          * @param string $userLogin The login handle of the created user.
          */
         try {
-            Piwik::postEvent('UsersManager.addUser', array($userLogin));
+            Piwik::postEvent('UsersManager.createUser', array($userLogin));
         } catch (\Throwable $e) {
             StaticContainer::get(LoggerInterface::class)->error(
-                'Error while processing event UsersManager.addUser',
+                'Error while processing event UsersManager.createUser',
                 ['exception' => $e]
             );
         }
