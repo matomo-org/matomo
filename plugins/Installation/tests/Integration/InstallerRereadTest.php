@@ -114,7 +114,7 @@ class InstallerRereadTest extends IntegrationTestCase
         // Mid-install config on disk: the guard passes and the stale file is cleared.
         file_put_contents(
             $this->localPath,
-            "; <?php exit; ?>\n[database]\nusername = \"root\"\n[General]\ninstallation_in_progress = 1\n[Extra]\nmarker = \"deleteme\"\n"
+            "; <?php exit; ?>\n[database]\nusername = \"root\"\n[General]\ninstallation_in_progress = 1\ninstallation_first_accessed = 123\n[Extra]\nmarker = \"deleteme\"\n"
         );
 
         $this->invoke('deleteConfigFileIfNeeded');
