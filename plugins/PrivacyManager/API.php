@@ -866,9 +866,15 @@ class API extends \Piwik\Plugin\API
 
         $idSite = $this->resolveCompliancePolicyIdSite($idSite);
 
+        $before = $this->complianceSettingsProvider->getPolicySettings($policy, $idSite);
+
         PolicyManager::setPolicySettingEnforcedStatuses($policy, $settingValues, $idSite);
 
-        return $this->complianceSettingsProvider->getPolicySettings($policy, $idSite);
+        $after = $this->complianceSettingsProvider->getPolicySettings($policy, $idSite);
+
+        $this->postCompliancePolicySettingsUpdated($policy, $idSite, $before, $after);
+
+        return $after;
     }
 
     /**
@@ -903,9 +909,76 @@ class API extends \Piwik\Plugin\API
             $settingValues[$settingClass::getPolicySettingId()] = true;
         }
 
+        $before = $this->complianceSettingsProvider->getPolicySettings($policy, $idSite);
+
         PolicyManager::setPolicySettingEnforcedStatuses($policy, $settingValues, $idSite);
 
-        return $this->complianceSettingsProvider->getPolicySettings($policy, $idSite);
+        $after = $this->complianceSettingsProvider->getPolicySettings($policy, $idSite);
+
+        $this->postCompliancePolicySettingsUpdated($policy, $idSite, $before, $after);
+
+        return $after;
+    }
+
+    /**
+     * Announces the compliance policy settings a request has just changed, so an audit trail
+     * can record who changed what.
+     *
+     * Nothing is posted when the request left every setting as it was, which keeps a save
+     * that repeats the current state out of the audit trail. A request that fails never
+     * reaches this point, so it is not announced either.
+     *
+     * @param class-string<CompliancePolicy> $policy
+     * @param array<string, mixed> $before payload taken before the settings were written
+     * @param array<string, mixed> $after payload taken after the settings were written
+     */
+    private function postCompliancePolicySettingsUpdated(
+        string $policy,
+        ?int $idSite,
+        array $before,
+        array $after
+    ): void {
+        $changes = $this->complianceSettingsProvider->diffPolicySettings($before, $after);
+
+        if (empty($changes)) {
+            return;
+        }
+
+        /**
+         * Triggered after a request changed the enforcement state of one or more settings of a
+         * compliance policy, for example through the privacy compliance page.
+         *
+         * The event is only triggered when something actually changed, and deliberately carries
+         * nothing but the resulting compliance state: no request parameters, and therefore no
+         * password confirmation or authentication token, are passed on.
+         *
+         * **Example**
+         *
+         *     Piwik::addAction('PrivacyManager.compliancePolicySettingsUpdated', function ($update) {
+         *         foreach ($update['changes'] as $change) {
+         *             Log::info($change['name'] . ' is now ' . $change['status']);
+         *         }
+         *     });
+         *
+         * @param array $update Details of the change, containing the following data:
+         *
+         *                      - **policy**: The id of the compliance policy that was changed,
+         *                                    e.g. `cnil_v1`.
+         *                      - **idSite**: The website the policy was changed for, or `null`
+         *                                    when the instance wide state was changed.
+         *                      - **policyEnforced**: Whether every toggleable setting of the
+         *                                            policy is enforced after the change.
+         *                      - **changes**: The settings whose enforcement state or compliance
+         *                                     status changed, each holding its `id`, `name`,
+         *                                     `enforced`, `previousEnforced`, `status` and
+         *                                     `previousStatus`.
+         */
+        Piwik::postEvent('PrivacyManager.compliancePolicySettingsUpdated', [[
+            'policy' => $policy::getName(),
+            'idSite' => $idSite,
+            'policyEnforced' => !empty($after['policyEnforced']),
+            'changes' => $changes,
+        ]]);
     }
 
     /**
