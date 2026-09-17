@@ -139,7 +139,8 @@ class Updater
                     // ignore any error should this fail too. this might be the case eg if
                     // the user upgrades from one major version to another major version
                     if (is_string($responseCliMulti)) {
-                        $messages[] = $responseCliMulti; // show why the original request failed eg invalid ssl certificate
+                        // show why the original request failed eg invalid ssl certificate
+                        $messages[] = self::MESSAGE_FAILED_PREFIX . $responseCliMulti;
                     }
                 }
             }

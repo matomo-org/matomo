@@ -41,9 +41,7 @@ class UpdaterTest extends IntegrationTestCase
 
         Fixture::loadAllTranslations();
 
-        if (!PluginManager::getInstance()->isPluginActivated('Marketplace')) {
-            PluginManager::getInstance()->activatePlugin('Marketplace');
-        }
+        self::assertTrue(PluginManager::getInstance()->isPluginActivated('Marketplace'));
     }
 
     public function tearDown(): void
@@ -62,17 +60,43 @@ class UpdaterTest extends IntegrationTestCase
 
         $messages = $this->buildUpdater()->oneClickUpdatePartTwo(Version::VERSION);
 
-        // the plugin without a valid license is reported and skipped ...
-        self::assertContains(
+        $failed = array_search(
             Updater::MESSAGE_FAILED_PREFIX
             . 'Could not update plugin PaidPlugin1: Failed to download plugin: Plugin is not downloadable.'
             . ' License may be missing or expired.',
-            $messages
+            $messages,
+            true
         );
 
-        // ... and the one that can be updated is still attempted
-        self::assertContains('Updating plugin TreemapVisualization to version 99.0.0', $messages);
+        // the plugin without a valid license is reported ...
+        self::assertIsInt($failed);
+
+        // ... and the run moves on to the next plugin instead of ending there. That one is only
+        // carried as far as its download here, as the mocked service hands back no usable archive -
+        // reaching it at all is what the run used to stop short of.
+        $next = array_search('Updating plugin TreemapVisualization to version 99.0.0', $messages, true);
+        self::assertIsInt($next);
+        self::assertGreaterThan($failed, $next);
         self::assertContains('plugins/TreemapVisualization/info', $this->requestedActions);
+    }
+
+    /**
+     * The templates decide by the prefix alone whether a line is a failure, so a changed constant
+     * would silently go back to ticking failures off as done.
+     */
+    public function testBothUpdateLogTemplatesAgreeWithTheFailureMarker()
+    {
+        $marker = trim(Updater::MESSAGE_FAILED_PREFIX);
+
+        foreach (['updateSuccess.twig', 'updateHttpError.twig'] as $template) {
+            $path = PIWIK_INCLUDE_PATH . '/plugins/CoreUpdater/templates/' . $template;
+
+            self::assertStringContainsString(
+                "starts with '" . $marker . "'",
+                file_get_contents($path),
+                $template . ' no longer tests for ' . Updater::class . '::MESSAGE_FAILED_PREFIX'
+            );
+        }
     }
 
     public function testOneClickUpdatePartTwoReportsAFailedUpdateCheckInsteadOfStayingSilent()
