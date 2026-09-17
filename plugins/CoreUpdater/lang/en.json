@@ -1,6 +1,7 @@
 {
     "CoreUpdater": {
         "CheckingForPluginUpdates": "Checking for new plugin updates",
+        "CheckingForPluginUpdatesFailed": "Could not check for plugin updates: %1$s",
         "ClickHereToViewSqlQueries": "Click here to view and copy the list of SQL queries and console commands that will get executed",
         "CriticalErrorDuringTheUpgradeProcess": "Critical Error during the update process:",
         "DatabaseUpgradeRequired": "Database Upgrade Required",
@@ -60,6 +61,7 @@
         "UpdateHasBeenCancelledExplanation": "Matomo One Click Update has been cancelled. If you can't fix the above error message, it is recommended that you manually update Matomo. %1$s Please check out the %2$sUpdate documentation%3$s to get started!",
         "UpdateTitle": "Update",
         "UpdatingPluginXToVersionY": "Updating plugin %1$s to version %2$s",
+        "UpdatingPluginXFailedY": "Could not update plugin %1$s: %2$s",
         "UpdateSuccessTitle": "Matomo has been successfully updated!",
         "UpdateErrorTitle": "Update error",
         "ThankYouUpdatePiwik": "Thank you for using Matomo and keeping it up to date!",
