@@ -64,7 +64,8 @@ class UpdaterTest extends IntegrationTestCase
 
         // the plugin without a valid license is reported and skipped ...
         self::assertContains(
-            'Could not update plugin PaidPlugin1: Failed to download plugin: Plugin is not downloadable.'
+            Updater::MESSAGE_FAILED_PREFIX
+            . 'Could not update plugin PaidPlugin1: Failed to download plugin: Plugin is not downloadable.'
             . ' License may be missing or expired.',
             $messages
         );
@@ -80,7 +81,10 @@ class UpdaterTest extends IntegrationTestCase
 
         $messages = $this->buildUpdater()->oneClickUpdatePartTwo(Version::VERSION);
 
-        self::assertContains('Could not check for plugin updates: Marketplace unavailable', $messages);
+        self::assertContains(
+            Updater::MESSAGE_FAILED_PREFIX . 'Could not check for plugin updates: Marketplace unavailable',
+            $messages
+        );
     }
 
     private function answerWith(array $pluginInfoFixtures): void
