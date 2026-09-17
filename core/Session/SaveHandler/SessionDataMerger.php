@@ -56,6 +56,13 @@ class SessionDataMerger
     private const EXPIRY_METADATA_KEY = '__ZF';
 
     /**
+     * How a stored session starts once {@see \Zend_Session::buildSessionData()} has wrapped it and
+     * php_serialize has serialized it. Every other serialize handler stores name|value pairs
+     * instead, which unserialize() warns about rather than simply refusing to read.
+     */
+    private const ENVELOPE_PREFIX = 'a:1:{s:4:"data";s:';
+
+    /**
      * Merges the session this request wants to store with the one currently stored.
      *
      * @param string $base   the session as this request read it
@@ -89,6 +96,12 @@ class SessionDataMerger
     {
         if ($data === '' || $data === null) {
             return [];
+        }
+
+        // this is handed whatever is in the row, so check it looks like a session Matomo stored
+        // before unserialize() is asked to read it
+        if (0 !== strncmp($data, self::ENVELOPE_PREFIX, strlen(self::ENVELOPE_PREFIX))) {
+            return null;
         }
 
         // the envelope itself never holds an object, only the session inside it may
