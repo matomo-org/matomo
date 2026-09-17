@@ -291,13 +291,15 @@ class Request
     }
 
     /**
-     * An untyped API parameter declaring `= false` resolves to a literal false when absent, and that value is
-     * forwarded into sub-requests. It means "not supplied" rather than an unusable value, and a request can
-     * never carry it: everything arriving over HTTP is a string.
+     * Two values reach a typed getter meaning "nothing was supplied" rather than naming an unusable one: a
+     * literal false, which is what an untyped parameter declaring `= false` resolves to when absent before
+     * being forwarded into sub-requests, and an empty string, which is how a query string carries a
+     * parameter that was written without a value. getStringParameter() accepts '' as a value of its own and
+     * returns before reaching this point, so only the other getters see it here.
      */
     private function throwUnusableValue(string $name, string $expectedType, $parameter): never
     {
-        if (false === $parameter) {
+        if (false === $parameter || '' === $parameter) {
             throw new MissingRequestParameterException(sprintf(self::$exceptionMsg, $name));
         }
 

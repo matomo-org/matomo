@@ -608,6 +608,15 @@ class RequestTest extends \PHPUnit\Framework\TestCase
         self::assertFalse($request->getBoolParameter('parameter'));
     }
 
+    public function getTypedGetterNamesRejectingEmptyString(): iterable
+    {
+        // getStringParameter is absent on purpose: '' is a valid string and is returned as a value.
+        yield 'getIntegerParameter' => ['getIntegerParameter'];
+        yield 'getFloatParameter' => ['getFloatParameter'];
+        yield 'getArrayParameter' => ['getArrayParameter'];
+        yield 'getJsonParameter' => ['getJsonParameter'];
+    }
+
     public function getTypedGetterNamesRejectingFalse(): iterable
     {
         yield 'getIntegerParameter' => ['getIntegerParameter'];
@@ -615,5 +624,44 @@ class RequestTest extends \PHPUnit\Framework\TestCase
         yield 'getStringParameter' => ['getStringParameter'];
         yield 'getArrayParameter' => ['getArrayParameter'];
         yield 'getJsonParameter' => ['getJsonParameter'];
+    }
+
+    /**
+     * @dataProvider getTypedGetterNamesRejectingEmptyString
+     */
+    public function testTypedGetterTreatsAnEmptyStringAsNotSupplied(string $getter): void
+    {
+        // A query string carries `&param=` as an empty string; for these getters it names no usable value.
+        $request = new Request(['parameter' => '']);
+
+        self::expectException(MissingRequestParameterException::class);
+
+        $request->$getter('parameter');
+    }
+
+    /**
+     * @dataProvider getTypedGetterNamesRejectingEmptyString
+     */
+    public function testTypedGetterStillReturnsTheDefaultForAnEmptyString(string $getter): void
+    {
+        $defaults = [
+            'getIntegerParameter' => 5,
+            'getFloatParameter'   => 1.5,
+            'getArrayParameter'   => ['a'],
+            'getJsonParameter'    => ['a'],
+        ];
+
+        $request = new Request(['parameter' => '']);
+
+        self::assertSame($defaults[$getter], $request->$getter('parameter', $defaults[$getter]));
+    }
+
+    public function testGetBoolParameterTreatsAnEmptyStringAsNotSupplied(): void
+    {
+        $request = new Request(['parameter' => '']);
+
+        self::expectException(MissingRequestParameterException::class);
+
+        $request->getBoolParameter('parameter');
     }
 }
