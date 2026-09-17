@@ -124,7 +124,7 @@
       </div>
 
       <RecommendGoals
-        v-if="!onlyShowAddNewGoal"
+        v-if="goalRecommendationsEnabled && !onlyShowAddNewGoal"
         v-show="showGoalList"
         :goals="currentGoals"
         :user-can-edit-goals="userCanEditGoals"
@@ -141,7 +141,7 @@
 
     <div v-show="userCanEditGoals">
       <RecommendGoals
-        v-if="onlyShowAddNewGoal"
+        v-if="goalRecommendationsEnabled && onlyShowAddNewGoal"
         :goals="currentGoals"
         :user-can-edit-goals="userCanEditGoals"
         @created="onRecommendedGoalsCreated"
@@ -469,6 +469,7 @@ export default defineComponent({
   props: {
     onlyShowAddNewGoal: Boolean,
     userCanEditGoals: Boolean,
+    goalRecommendationsEnabled: Boolean,
     ecommerceEnabled: Boolean,
     goals: {
       type: Object,
