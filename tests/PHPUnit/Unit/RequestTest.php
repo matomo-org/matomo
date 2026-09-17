@@ -563,6 +563,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
         yield 'integer given an array' => ['getIntegerParameter', ['x' => 'y']];
         yield 'integer given a word' => ['getIntegerParameter', 'notanumber'];
         yield 'float given an array' => ['getFloatParameter', ['x' => 'y']];
+        yield 'float given a word' => ['getFloatParameter', 'notanumber'];
         yield 'string given an array' => ['getStringParameter', ['x' => 'y']];
         yield 'string given an object' => ['getStringParameter', new \stdClass()];
         yield 'bool given an array' => ['getBoolParameter', ['x' => 'y']];
