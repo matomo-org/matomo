@@ -570,7 +570,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         }
 
         $view = new View('@Marketplace/' . $template);
-        $this->setBasicVariablesView($view);
         $view->errorMessage = '';
 
         $pluginInfos = [];
@@ -599,6 +598,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $notification->context = Notification::CONTEXT_INFO;
             Notification\Manager::notify('Marketplace_PluginsCouldNotBeUpdated', $notification);
         }
+
+        // only now, as the view copies the pending notifications once and the loop above adds to them
+        $this->setBasicVariablesView($view);
 
         $view->plugins = $pluginInfos;
 
