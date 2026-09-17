@@ -324,19 +324,24 @@ describe('ReportHeader', () => {
       expect(vm.promotedCount).toBe(0);
     });
 
-    // An embed carries the hover hook but no widget controls, so the fit alone would promote,
-    // and the hook overlays the controls on the title: a promoted button would sit on the words
-    // for good rather than fading in over them.
-    it('should promote nothing inside a host that overlays the controls', async () => {
+    // An embed carries the hover hook but no widget controls, so the fit alone would promote, and
+    // the hook overlays the controls on the title: a promoted button would sit on the words for
+    // good rather than fading in over them. A title-less embed has nothing to cover, and the
+    // widgetized graphs are drawn that way.
+    function mountInOverlayHost(props: Record<string, unknown>) {
       const host = document.createElement('div');
       host.className = '__reportHeader-onHover';
       document.body.appendChild(host);
-
       const wrapper = mount(ReportHeader, {
-        props: { context: 'widgetized', reportTitle: 'Visits Over Time', ...offered },
+        props: { context: 'widgetized', ...offered, ...props },
         attachTo: host,
         global: { stubs: { EnrichedHeadline: EnrichedHeadlineStub } },
       });
+      return { wrapper, host };
+    }
+
+    it('should promote nothing where the controls are overlaid on a title', async () => {
+      const { wrapper, host } = mountInOverlayHost({ reportTitle: 'Visits Over Time' });
       const vm = wrapper.vm as unknown as {
         updatePromoted: () => Promise<void>; promotedCount: number;
       };
@@ -345,6 +350,21 @@ describe('ReportHeader', () => {
       await vm.updatePromoted();
 
       expect(vm.promotedCount).toBe(0);
+
+      wrapper.unmount();
+      host.remove();
+    });
+
+    it('should still promote in an overlay host that draws no title', async () => {
+      const { wrapper, host } = mountInOverlayHost({ showTitle: false });
+      const vm = wrapper.vm as unknown as {
+        updatePromoted: () => Promise<void>; promotedCount: number;
+      };
+
+      giveRoom(wrapper, 1200);
+      await vm.updatePromoted();
+
+      expect(vm.promotedCount).toBeGreaterThan(0);
 
       wrapper.unmount();
       host.remove();
