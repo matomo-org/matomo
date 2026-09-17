@@ -1,0 +1,66 @@
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+// Named for the plugin rather than the file: `.emptyState` is too generic for the global namespace.
+.marketplaceEmptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: safe center;
+  text-align: center;
+  padding: 80px 0;
+}
+
+.marketplaceEmptyState__icon {
+  display: flex;
+  align-items: safe center;
+  justify-content: safe center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: @theme-color-background-base;
+  color: @theme-color-text-light;
+}
+
+// The second class is only here to outrank CoreAdminHome's `.admin p`, which would otherwise set
+// this paragraph's spacing; `padding-bottom` is reset for the same reason.
+.marketplaceEmptyState .marketplaceEmptyState__message {
+  margin: 16px 0 0;
+  padding-bottom: 0;
+  font-size: 16px;
+  line-height: 140%;
+  font-weight: 600;
+  color: @theme-color-text;
+}
+
+.marketplaceEmptyState__reset {
+  margin-top: 12px;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  font-size: 13px;
+  color: @theme-color-link;
+
+  &:hover,
+  &:focus-visible {
+    text-decoration: underline;
+  }
+}
+
+// override: Materialize's global `button:focus` paints its own fill on every bare <button> and
+// outranks a lone class, so the tag has to appear here for this link-styled button to keep its
+// own background on click. Keyboard focus still shows through Morpheus's `:focus-visible`
+// outline, so nothing is lost by dropping the fill.
+button.marketplaceEmptyState__reset:focus {
+  background: none;
+}
+
+// override: Morpheus's legacy `:focus { outline: thin dotted }` in general/_default.less fires on
+// a plain mouse click, so this button picked up a dotted ring the moment it was clicked. Only the
+// keyboard ring below it - `button:focus-visible` - is wanted, so the click case is turned off here.
+button.marketplaceEmptyState__reset:focus:not(:focus-visible) {
+  outline: none;
+}
