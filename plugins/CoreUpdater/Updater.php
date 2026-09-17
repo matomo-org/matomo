@@ -31,6 +31,8 @@ use Piwik\Version;
 class Updater
 {
     public const OPTION_LATEST_VERSION = 'UpdateCheck_LatestVersion';
+    /** Marks an update log message as a failure, so the log does not tick it off as done. */
+    public const MESSAGE_FAILED_PREFIX = "\u{2717} ";
     public const PATH_TO_EXTRACT_LATEST_VERSION = '/latest/';
     public const DOWNLOAD_TIMEOUT = 720;
 
@@ -189,7 +191,7 @@ class Updater
                     } catch (\Throwable $e) {
                         // one plugin that cannot be updated - an expired or missing license being the
                         // common case - must not keep the remaining ones on their old version
-                        $messages[] = $this->translator->translate(
+                        $messages[] = self::MESSAGE_FAILED_PREFIX . $this->translator->translate(
                             'CoreUpdater_UpdatingPluginXFailedY',
                             [$pluginName, $e->getMessage()]
                         );
@@ -198,7 +200,8 @@ class Updater
             } catch (MarketplaceApi\Exception $e) {
                 // there is a problem with the connection to the server, so no plugin can be updated
                 // in this run - report it instead of letting the update look like it found nothing
-                $messages[] = $this->translator->translate('CoreUpdater_CheckingForPluginUpdatesFailed', $e->getMessage());
+                $messages[] = self::MESSAGE_FAILED_PREFIX
+                    . $this->translator->translate('CoreUpdater_CheckingForPluginUpdatesFailed', $e->getMessage());
             } catch (Exception $e) {
                 throw new UpdaterException($e, $messages);
             }
