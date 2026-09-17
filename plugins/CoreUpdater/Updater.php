@@ -182,11 +182,23 @@ class Updater
                         'CoreUpdater_UpdatingPluginXToVersionY',
                         [$pluginName, $pluginWithUpdate['version']]
                     );
-                    $pluginInstaller = new PluginInstaller($marketplaceClient);
-                    $pluginInstaller->installOrUpdatePluginFromMarketplace($pluginName);
+
+                    try {
+                        $pluginInstaller = new PluginInstaller($marketplaceClient);
+                        $pluginInstaller->installOrUpdatePluginFromMarketplace($pluginName);
+                    } catch (\Throwable $e) {
+                        // one plugin that cannot be updated - an expired or missing license being the
+                        // common case - must not keep the remaining ones on their old version
+                        $messages[] = $this->translator->translate(
+                            'CoreUpdater_UpdatingPluginXFailedY',
+                            [$pluginName, $e->getMessage()]
+                        );
+                    }
                 }
             } catch (MarketplaceApi\Exception $e) {
-                // there is a problem with the connection to the server, ignore for now
+                // there is a problem with the connection to the server, so no plugin can be updated
+                // in this run - report it instead of letting the update look like it found nothing
+                $messages[] = $this->translator->translate('CoreUpdater_CheckingForPluginUpdatesFailed', $e->getMessage());
             } catch (Exception $e) {
                 throw new UpdaterException($e, $messages);
             }
