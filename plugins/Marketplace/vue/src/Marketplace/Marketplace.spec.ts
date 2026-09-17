@@ -33,7 +33,7 @@ vi.mock('CoreHome', async () => {
       // drops emptied parameters, as CoreHome's does - the component clears one by writing null
       updateHash: (params: Record<string, unknown>) => {
         hashParsed.value = Object.fromEntries(
-          Object.entries(params).filter(([, value]) => null !== value && undefined !== value),
+          Object.entries(params).filter(([, value]) => value !== null && value !== undefined),
         );
       },
     },

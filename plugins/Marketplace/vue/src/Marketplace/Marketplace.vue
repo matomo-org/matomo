@@ -108,6 +108,7 @@
     <EmptyState
       v-if="!loading && !loadFailed && filteredPlugins.length === 0"
       :has-query="!!searchQuery.trim()"
+      :can-reset="hasActiveFilters"
       @reset="resetFilters()"
     />
 
@@ -322,6 +323,13 @@ export default defineComponent({
         updateNonce: this.updateNonce,
       };
     },
+    /**
+     * Whether resetFilters() has anything left to clear. An empty catalogue reaches the empty
+     * state with nothing filtered, and a reset button there would do nothing when pressed.
+     */
+    hasActiveFilters(): boolean {
+      return !!this.searchQuery.trim() || this.activeTab !== TAB_ALL;
+    },
     filteredPlugins(): PluginCard[] {
       // A search spans the whole catalogue: the tab is dropped rather than intersected, so a
       // query typed while a category is open still finds everything. The tab itself is left set -
@@ -459,7 +467,7 @@ export default defineComponent({
             return;
           }
 
-          // the timeout aborts too, and is the one abort that does mean the catalogue is unavailable
+          // the timeout aborts too, and is the one abort that does mean the catalogue is gone
           if (abortController.signal.aborted && !timedOut) {
             return;
           }
@@ -552,7 +560,11 @@ export default defineComponent({
       // set here as well as in readStateFromHash(), which only resets what it sees change and is
       // handed a tab this has already applied
       this.pageSize = PAGE_SIZE;
-      this.updateHash({ [CATEGORY_PARAM]: tabId, pluginType: null });
+      // Home is the default the hash is read back as, so it is dropped rather than written out
+      this.updateHash({
+        [CATEGORY_PARAM]: tabId === TAB_ALL ? null : tabId,
+        pluginType: null,
+      });
     },
 
     /**

@@ -56,7 +56,6 @@ class ThemeStyles
         'colorBorderAlternative' => 'theme-color-border-alternative',
         'colorBorderLight' => 'theme-color-border-light',
         'colorBorderBrand' => 'theme-color-border-brand',
-        'colorBorderBrandLight' => 'theme-color-border-brand-light',
         'colorBoxShadow' => 'theme-color-boxShadow',
         'shadowOverlay' => 'theme-shadow-overlay',
         'colorCode' => 'theme-color-code',
@@ -118,8 +117,8 @@ class ThemeStyles
 
     /**
      * Semantic "this has failed / is blocking" red, completing $colorSuccess and $colorWarning.
-     * Kept theme-independent from $colorBrand for the same reason, and a pair rather than the flat
-     * @color-red-matomo it replaces, which does not reach 4.5:1 on a dark background.
+     * Kept theme-independent from $colorBrand for the same reason, and a pair rather than
+     * the flat @color-red-matomo it replaces, which does not reach 4.5:1 on a dark background.
      *
      * @var string|array<string>
      * @since Matomo 6.0.0
@@ -352,19 +351,13 @@ class ThemeStyles
     public $colorBorderLight = ['#a9a399', '#645e54'];
 
     /**
-     * Brand-tinted borders, the counterpart to $colorBorderAlternative for elements drawn on a
-     * brand-tinted surface. "Light" is the fainter of the two.
+     * Brand-tinted border, the counterpart to $colorBorderAlternative for elements drawn on a
+     * brand-tinted surface.
      *
      * @var string|array<string>
      * @since Matomo 6.0.0
      */
     public $colorBorderBrand = ['#bfe7e9', '#2f5e5e'];
-
-    /**
-     * @var string|array<string>
-     * @since Matomo 6.0.0
-     */
-    public $colorBorderBrandLight = ['#ccf6f5', '#1d3f3e'];
 
     /**
      * @var string|array<string>

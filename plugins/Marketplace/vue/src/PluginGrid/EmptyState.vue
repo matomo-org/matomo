@@ -10,6 +10,7 @@
     <span class="marketplaceEmptyState__icon icon-search" aria-hidden="true" />
     <p class="marketplaceEmptyState__message">{{ translate('Marketplace_NoPluginsFound') }}</p>
     <button
+      v-if="canReset"
       type="button"
       class="marketplaceEmptyState__reset"
       @click="$emit('reset')"
@@ -27,6 +28,14 @@ export default defineComponent({
     hasQuery: {
       type: Boolean,
       default: false,
+    },
+    /**
+     * Whether a filter is set at all. An empty catalogue renders this state with nothing filtered,
+     * where a reset button would be offered for a state it cannot change.
+     */
+    canReset: {
+      type: Boolean,
+      default: true,
     },
   },
   emits: ['reset'],
