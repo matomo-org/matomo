@@ -226,7 +226,7 @@ export default defineComponent({
   },
   data(): UsersManagerState {
     return {
-      isEditing: !!MatomoUrl.urlParsed.value.showadduser,
+      isEditing: false,
       isInviting: false,
       isCurrentUserSuperUser: true,
       users: [],
@@ -248,6 +248,11 @@ export default defineComponent({
   },
   created() {
     this.fetchUsers();
+
+    // the quick links widget links here with showadduser=1 to open the invite form
+    if (MatomoUrl.urlParsed.value.showadduser === '1') {
+      this.onAddNewUser();
+    }
   },
   watch: {
     limit() {
