@@ -73,11 +73,11 @@
           <PasswordConfirmation
             :model-value="showPasswordConfirmation"
             :passwordFieldId="'passwordGranular' + complianceType"
-            :require-delete-confirmation="rawDataRetentionEnforced"
+            :require-delete-confirmation="rawDataRetentionBeingEnabled"
             @confirmed="saveSettings"
             @aborted="resetSave"
           >
-            <h2 v-if="rawDataRetentionEnforced">
+            <h2 v-if="rawDataRetentionBeingEnabled">
               {{ translate('PrivacyManager_ComplianceEnforceRetentionConfirm') }}
             </h2>
           </PasswordConfirmation>
@@ -157,9 +157,11 @@ export default defineComponent({
     const hasUnsavedChanges = computed(() => store.dirtySettingIds.value.length > 0);
     const canSave = computed(() => !store.state.configControlled);
     // turning raw data retention on schedules permanent deletion of old visit data, so the
-    // save has to be acknowledged rather than only re-authenticated
-    const rawDataRetentionEnforced = computed(
-      () => !!store.state.localEnforced[RAW_DATA_RETENTION_SETTING_ID],
+    // save has to be acknowledged rather than only re-authenticated. save() posts the changed
+    // settings only, so a retention setting left as it was schedules nothing new
+    const rawDataRetentionBeingEnabled = computed(
+      () => !!store.state.localEnforced[RAW_DATA_RETENTION_SETTING_ID]
+        && store.dirtySettingIds.value.includes(RAW_DATA_RETENTION_SETTING_ID),
     );
 
     // the save buttons can sit far below the notification area, so bring the
@@ -187,7 +189,7 @@ export default defineComponent({
       externalSettings,
       hasUnsavedChanges,
       canSave,
-      rawDataRetentionEnforced,
+      rawDataRetentionBeingEnabled,
       showPasswordConfirmation: ref(false),
     };
   },

@@ -12,7 +12,7 @@ vi.mock('CoreHome', () => ({
   Matomo: { requiresPasswordConfirmation: true, postEvent: () => {} },
   AutoClearPassword: {},
   translate: (key: string, ...args: string[]) => [key, ...args].join('|'),
-  useExternalPluginComponent: () => null,
+  useExternalPluginComponent: vi.fn(() => null),
 }));
 
 // replaced so the modal can be mounted without pulling in the whole form stack
@@ -35,7 +35,7 @@ vi.mock('../Field/Field.vue', () => ({
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 (window as any).$.fn.modal = function modal() { return this; };
 
-import { Matomo } from 'CoreHome';
+import { Matomo, useExternalPluginComponent } from 'CoreHome';
 import PasswordConfirmation from './PasswordConfirmation.vue';
 
 function mountModal(props: Record<string, unknown> = {}, requiresPassword = true) {
@@ -58,6 +58,31 @@ function mountModal(props: Record<string, unknown> = {}, requiresPassword = true
 
 function isConfirmDisabled(wrapper: ReturnType<typeof mountModal>) {
   return wrapper.find('.confirm-password-btn').attributes('disabled') === 'true';
+}
+
+// stands in for LoginSaml's re-authentication button, which replaces the password field for
+// single sign-on users and confirms on their behalf
+const altIdClicked = vi.fn();
+const AltIdStub = defineComponent({
+  name: 'AltIdStub',
+  methods: { onClick: altIdClicked },
+  template: '<a href="" class="modal-action btn" @click="onClick"></a>',
+});
+
+async function mountModalWithAltId(props: Record<string, unknown> = {}) {
+  (useExternalPluginComponent as ReturnType<typeof vi.fn>).mockReturnValue(AltIdStub);
+
+  const wrapper = mountModal(props);
+  // the component is normally announced while the modal opens, which these tests never do
+  await wrapper.setData({
+    altIdConfirmComponent: { plugin: 'LoginSaml', component: 'PasswordConfirmationReAuth' },
+  });
+
+  return wrapper;
+}
+
+function altIdButton(wrapper: ReturnType<typeof mountModal>) {
+  return wrapper.findComponent({ name: 'AltIdStub' });
 }
 
 describe('CorePluginsAdmin/PasswordConfirmation', () => {
@@ -83,6 +108,43 @@ describe('CorePluginsAdmin/PasswordConfirmation', () => {
       wrapper.vm.onConfirm('');
 
       expect(wrapper.emitted('confirmed')).toEqual([['']]);
+    });
+
+    // enter means what pressing Confirm means, and Confirm is disabled without a password
+    it('does not confirm on enter while the password is empty', () => {
+      const wrapper = mountModal();
+
+      wrapper.vm.onKeyPressConfirm({ keyCode: 13 });
+
+      expect(wrapper.emitted('confirmed')).toBeUndefined();
+    });
+
+    it('confirms on enter once the password is given', async () => {
+      const wrapper = mountModal();
+      await wrapper.setData({ passwordConfirmation: 'a password' });
+
+      wrapper.vm.onKeyPressConfirm({ keyCode: 13 });
+
+      expect(wrapper.emitted('confirmed')).toEqual([['a password']]);
+    });
+
+    // the button is only styled as disabled, so activating it by keyboard still reaches the
+    // handler and it has to refuse there too
+    it('does not confirm when pressed while the password is empty', async () => {
+      const wrapper = mountModal();
+
+      await wrapper.find('.confirm-password-btn').trigger('click');
+
+      expect(wrapper.emitted('confirmed')).toBeUndefined();
+    });
+
+    it('confirms when pressed once the password is given', async () => {
+      const wrapper = mountModal();
+      await wrapper.setData({ passwordConfirmation: 'a password' });
+
+      await wrapper.find('.confirm-password-btn').trigger('click');
+
+      expect(wrapper.emitted('confirmed')).toEqual([['a password']]);
     });
   });
 
@@ -181,6 +243,71 @@ describe('CorePluginsAdmin/PasswordConfirmation', () => {
 
       expect(wrapper.vm.passwordConfirmation).toBe('');
       expect(wrapper.vm.deleteConfirmation).toBe('');
+    });
+  });
+
+  describe('with an alternative identity confirmation component', () => {
+    beforeEach(() => {
+      altIdClicked.mockClear();
+    });
+
+    // hiding it outright left single sign-on users looking at nothing but Cancel, where
+    // everyone else sees a Confirm button that is merely greyed out
+    it('keeps the button on screen while the word is missing', async () => {
+      const wrapper = await mountModalWithAltId({ requireDeleteConfirmation: true });
+
+      expect(altIdButton(wrapper).isVisible()).toBe(true);
+      expect(altIdButton(wrapper).classes()).toContain('disabled');
+    });
+
+    it('lets the button through once the word is typed', async () => {
+      const wrapper = await mountModalWithAltId({ requireDeleteConfirmation: true });
+
+      await wrapper.setData({ deleteConfirmation: 'delete' });
+
+      expect(altIdButton(wrapper).classes()).not.toContain('disabled');
+    });
+
+    it('does nothing on enter while the word is missing', async () => {
+      const wrapper = await mountModalWithAltId({ requireDeleteConfirmation: true });
+
+      wrapper.vm.onKeyPressConfirm({ keyCode: 13 });
+
+      expect(altIdClicked).not.toHaveBeenCalled();
+      expect(wrapper.emitted('confirmed')).toBeUndefined();
+    });
+
+    // the component confirms for them, so enter has to start it rather than confirm with
+    // the empty password sitting behind it
+    it('presses the button on enter once the word is typed', async () => {
+      const wrapper = await mountModalWithAltId({ requireDeleteConfirmation: true });
+      await wrapper.setData({ deleteConfirmation: 'delete' });
+
+      wrapper.vm.onKeyPressConfirm({ keyCode: 13 });
+
+      expect(altIdClicked).toHaveBeenCalled();
+      expect(wrapper.emitted('confirmed')).toBeUndefined();
+    });
+
+    it('leaves the button alone while it reports itself disabled', async () => {
+      const wrapper = await mountModalWithAltId({ requireDeleteConfirmation: true });
+      await wrapper.setData({ deleteConfirmation: 'delete' });
+      altIdButton(wrapper).element.setAttribute('disabled', 'true');
+
+      wrapper.vm.onKeyPressConfirm({ keyCode: 13 });
+
+      expect(altIdClicked).not.toHaveBeenCalled();
+    });
+
+    // by far the most common case: every confirmation that schedules no deletion at all
+    it('is left untouched without requireDeleteConfirmation', async () => {
+      const wrapper = await mountModalWithAltId();
+
+      expect(altIdButton(wrapper).classes()).not.toContain('disabled');
+
+      wrapper.vm.onKeyPressConfirm({ keyCode: 13 });
+
+      expect(altIdClicked).toHaveBeenCalled();
     });
   });
 });

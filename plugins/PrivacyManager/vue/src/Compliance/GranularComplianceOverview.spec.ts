@@ -82,10 +82,12 @@ describe('PrivacyManager/GranularComplianceOverview', () => {
     expect(requiresTypedDeletion(wrapper)).toBe(false);
   });
 
-  it('asks for the deletion to be typed out while raw data retention is enforced', async () => {
+  // the save posts the changed settings only, so leaving retention as it was schedules no
+  // deletion and the word would be asked for nothing
+  it('asks for a password alone while raw data retention stays enforced', async () => {
     const wrapper = await mountOverview(setting(RAW_DATA_RETENTION, true));
 
-    expect(requiresTypedDeletion(wrapper)).toBe(true);
+    expect(requiresTypedDeletion(wrapper)).toBe(false);
   });
 
   it('asks for the deletion to be typed out once raw data retention is switched on', async () => {
@@ -100,6 +102,18 @@ describe('PrivacyManager/GranularComplianceOverview', () => {
   it('asks for a password alone when another setting is switched on', async () => {
     const wrapper = await mountOverview(
       setting(RAW_DATA_RETENTION, false),
+      setting('DevicesDetection.DeviceModelDetectionDisabled', false),
+    );
+
+    wrapper.vm.toggleSetting('DevicesDetection.DeviceModelDetectionDisabled');
+    await wrapper.vm.$nextTick();
+
+    expect(requiresTypedDeletion(wrapper)).toBe(false);
+  });
+
+  it('asks for a password alone when another setting changes with retention on', async () => {
+    const wrapper = await mountOverview(
+      setting(RAW_DATA_RETENTION, true),
       setting('DevicesDetection.DeviceModelDetectionDisabled', false),
     );
 

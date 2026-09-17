@@ -51,15 +51,15 @@
     <div class="modal-footer">
       <component
         v-if="!!alternativeIdentityConfirmationComponent"
-        v-show="!deleteConfirmationMissing"
+        ref="altIdComponent"
         :is="asComponent(alternativeIdentityConfirmationComponent)"
+        :class="{ disabled: deleteConfirmationMissing }"
         @confirmed="onConfirm"
       ></component>
       <a
         href=""
         class="modal-action modal-close btn confirm-password-btn"
-        :disabled="deleteConfirmationMissing
-          || (requiresPasswordConfirmation && !passwordConfirmation) ? true : undefined"
+        :disabled="cannotConfirm ? true : undefined"
         @click="onClickConfirm($event)"
       >{{ translate('General_Confirm') }}</a>
       <a
@@ -72,7 +72,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, Component } from 'vue';
+import { defineComponent, Component, ComponentPublicInstance } from 'vue';
 import {
   Matomo,
   AutoClearPassword,
@@ -148,7 +148,7 @@ export default defineComponent({
     onClickConfirm(event: MouseEvent) {
       event.preventDefault();
 
-      if (this.deleteConfirmationMissing) {
+      if (this.cannotConfirm) {
         // the button also carries Materialize's modal-close, which listens on the modal
         // itself - without this it would close the dialog without confirming anything
         event.stopPropagation();
@@ -170,6 +170,34 @@ export default defineComponent({
       this.$emit('confirmed', passwordConfirmation);
       this.resetFields();
     },
+    onKeyPressConfirm(event: KeyPressEvent) {
+      const keycode = event.keyCode ? event.keyCode : event.which;
+      if (keycode !== 13) {
+        return;
+      }
+
+      // the injected component confirms on the user's behalf, so Enter starts it rather
+      // than confirming with the empty password sitting behind it
+      if (this.alternativeIdentityConfirmationComponent) {
+        if (!this.deleteConfirmationMissing) {
+          this.clickAlternativeIdentityConfirmation();
+        }
+        return;
+      }
+
+      if (!this.cannotConfirm) {
+        this.onConfirm(this.passwordConfirmation);
+      }
+    },
+    clickAlternativeIdentityConfirmation() {
+      const altId = this.$refs.altIdComponent as ComponentPublicInstance | undefined;
+      const element = altId?.$el as unknown;
+      // the component owns its own in-flight state: LoginSaml marks the button disabled
+      // while a re-authentication tab is already open
+      if (element instanceof HTMLElement && !element.hasAttribute('disabled')) {
+        element.click();
+      }
+    },
     onClickCancel(event: MouseEvent) {
       event.preventDefault();
       const root = this.$refs.root as HTMLElement;
@@ -190,12 +218,6 @@ export default defineComponent({
       this.slotHasContent = !(this.$refs.content as HTMLElement).matches(':empty');
       const root = this.$refs.root as HTMLElement;
       const $root = $(root);
-      const onEnter = (event: KeyPressEvent) => {
-        const keycode = event.keyCode ? event.keyCode : event.which;
-        if (keycode === 13) {
-          this.onConfirm(this.passwordConfirmation);
-        }
-      };
 
       $root.modal({
         dismissible: false,
@@ -204,7 +226,7 @@ export default defineComponent({
           // focus whichever of the two comes first
           const fields = $(`.modal.open #${this.deleteConfirmationFieldId}, `
             + `.modal.open #${this.passwordFieldId}`);
-          fields.off('keypress').keypress(onEnter);
+          fields.off('keypress').keypress(this.onKeyPressConfirm);
           fields.first().focus();
         },
         onCloseEnd: () => {
@@ -230,6 +252,11 @@ export default defineComponent({
     deleteConfirmationMissing() {
       return this.requireDeleteConfirmation
         && this.deleteConfirmation !== DELETE_CONFIRMATION_WORD;
+    },
+    // Enter has to mean exactly what clicking Confirm means, so both read the same condition
+    cannotConfirm() {
+      return this.deleteConfirmationMissing
+        || (this.requiresPasswordConfirmation && !this.passwordConfirmation);
     },
     alternativeIdentityConfirmationComponent() {
       if (this.altIdConfirmComponent.plugin && this.altIdConfirmComponent.component) {
