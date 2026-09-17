@@ -34,6 +34,11 @@ class GetGoalsAccessTest extends IntegrationTestCase
      */
     private $idSite;
 
+    /**
+     * @var int
+     */
+    private $otherIdSite;
+
     public function setUp(): void
     {
         parent::setUp();
@@ -43,6 +48,9 @@ class GetGoalsAccessTest extends IntegrationTestCase
         FakeAccess::clearAccess(true);
         $this->idSite = Fixture::createWebsite('2014-01-01 00:00:00');
         $this->api->addGoal($this->idSite, 'secret goal', 'url', 'secret-pattern', 'contains');
+
+        $this->otherIdSite = Fixture::createWebsite('2014-01-01 00:00:00');
+        $this->api->addGoal($this->otherIdSite, 'other site goal', 'url', 'other-pattern', 'contains');
     }
 
     public function provideContainerConfig()
@@ -73,5 +81,21 @@ class GetGoalsAccessTest extends IntegrationTestCase
         $goals = $this->api->getGoals($this->idSite);
 
         $this->assertNotEmpty($goals);
+    }
+
+    public function testGetGoalsForAllSitesDoesNotReturnGoalsOfSitesTheUserCannotAccess()
+    {
+        // Populate the cache for "all" sites with full access, so the cache holds every site's goals.
+        FakeAccess::clearAccess(true);
+        $this->api->getGoals('all');
+
+        // A user who can only access the first site asks for "all": must get only that site's goals,
+        // not the cached result populated for every site.
+        FakeAccess::clearAccess(false, [], [$this->idSite], 'viewer');
+        $goals = $this->api->getGoals('all');
+
+        $names = array_column($goals, 'name');
+        $this->assertContains('secret goal', $names);
+        $this->assertNotContains('other site goal', $names);
     }
 }

@@ -119,7 +119,6 @@ class API extends \Piwik\Plugin\API
             $idSite = implode(',', $idSite);
         }
 
-        $cacheId = self::getCacheId($idSite);
         $cache = $this->getGoalsInfoStaticCache();
 
         $idSite = Site::getIdSitesFromIdSitesString($idSite, false, true);
@@ -132,6 +131,12 @@ class API extends \Piwik\Plugin\API
         // the whole request and may already have been filled by a more privileged actor (for
         // example a rebuild running under super user), so a cache hit must not skip the check.
         Piwik::checkUserHasViewAccess($idSite);
+
+        // Key the cache on the resolved site ids rather than the raw input. "all" resolves to a
+        // different set of sites depending on the caller's access, so keying on the input string
+        // would let one caller read a cache entry another caller populated for a wider set of sites.
+        sort($idSite);
+        $cacheId = self::getCacheId(implode(',', $idSite));
 
         if (!$cache->contains($cacheId)) {
             $goals = $this->getModel()->getActiveGoals($idSite);
