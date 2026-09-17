@@ -61,6 +61,17 @@ class GoalRecommendationsTest extends IntegrationTestCase
 
         self::$aiProviderStatuses = [];
         $this->idSite = Fixture::createWebsite('2024-01-01 00:00:00');
+        Config::getInstance()->FeatureFlags = ['GoalRecommendations_feature' => 'enabled'];
+    }
+
+    public function testRecommendationApiRequiresFeatureFlag()
+    {
+        Config::getInstance()->FeatureFlags = ['GoalRecommendations_feature' => 'disabled'];
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('not enabled');
+
+        $this->api->getSavedRecommendedGoals($this->idSite);
     }
 
     public function testGetSavedRecommendedGoalsReturnsEmptyResultWhenNothingSaved()

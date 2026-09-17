@@ -23,6 +23,8 @@ use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\API\DataTable\MergeDataTables;
 use Piwik\Plugins\CoreHome\Columns\Metrics\ConversionRate;
+use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
+use Piwik\Plugins\Goals\FeatureFlags\GoalRecommendations;
 use Piwik\Plugins\Goals\Columns\Metrics\AverageOrderRevenue;
 use Piwik\Plugin\ReportsProvider;
 use Piwik\Plugins\Goals\Columns\Metrics\GoalConversionRate;
@@ -175,6 +177,8 @@ class API extends \Piwik\Plugin\API
      * and an AI provider is configured through the AIProviders plugin, AI is used
      * for richer suggestions, falling back to the rule-based ones on any failure.
      *
+     * Requires the `GoalRecommendations` feature flag to be enabled on this instance.
+     *
      * @param int $idSite The numeric ID of the website to analyse.
      * @param bool $useAi Whether to use AI (opt-in). Rule-based suggestions are used when false.
      * @return array Recommendation result with `mode` ("ai" or "deterministic"), a `goals` list of
@@ -197,6 +201,7 @@ class API extends \Piwik\Plugin\API
     public function runGoalRecommendationScan(int $idSite, bool $useAi = false): array
     {
         Piwik::checkUserHasWriteAccess($idSite);
+        $this->checkGoalRecommendationsEnabled();
 
         return $this->getRecommendationService()->getRecommendations($idSite, $useAi, $this->getGoals($idSite));
     }
@@ -205,6 +210,7 @@ class API extends \Piwik\Plugin\API
      * Returns the goal recommendations saved by the last scan for a site.
      *
      * When no scan result is saved, an empty result with a null `generatedAt` is returned.
+     * Requires the `GoalRecommendations` feature flag to be enabled on this instance.
      *
      * @param int $idSite The numeric ID of the website whose saved recommendations should be returned.
      * @return array Saved recommendation result with `mode`, `goals`, `manualGoals`, `useAi`
@@ -219,12 +225,14 @@ class API extends \Piwik\Plugin\API
     public function getSavedRecommendedGoals(int $idSite): array
     {
         Piwik::checkUserHasWriteAccess($idSite);
+        $this->checkGoalRecommendationsEnabled();
 
         return $this->getRecommendationService()->getSavedRecommendations($idSite);
     }
 
     /**
      * Dismisses the saved goal recommendations for a site so they are no longer shown.
+     * Requires the `GoalRecommendations` feature flag to be enabled on this instance.
      *
      * @param int $idSite The numeric ID of the website whose recommendations should be dismissed.
      * @return array Success response for API clients.
@@ -233,6 +241,7 @@ class API extends \Piwik\Plugin\API
     public function dismissRecommendedGoals(int $idSite): array
     {
         Piwik::checkUserHasWriteAccess($idSite);
+        $this->checkGoalRecommendationsEnabled();
 
         $this->getRecommendationService()->dismiss($idSite);
 
@@ -244,6 +253,7 @@ class API extends \Piwik\Plugin\API
      *
      * The dismissal lasts until the next recommendation scan replaces the saved
      * results. When no saved recommendation has the given identifier, nothing changes.
+     * Requires the `GoalRecommendations` feature flag to be enabled on this instance.
      *
      * @param int $idSite The numeric ID of the website the recommendation belongs to.
      * @param string $recommendationId The `id` of the recommended goal as returned by
@@ -254,6 +264,7 @@ class API extends \Piwik\Plugin\API
     public function dismissRecommendedGoal(int $idSite, string $recommendationId): array
     {
         Piwik::checkUserHasWriteAccess($idSite);
+        $this->checkGoalRecommendationsEnabled();
 
         $recommendationId = Common::unsanitizeInputValue($recommendationId);
         $success = $this->getRecommendationService()->dismissRecommendation($idSite, $recommendationId);
@@ -264,6 +275,16 @@ class API extends \Piwik\Plugin\API
     private function getRecommendationService(): GoalRecommendationService
     {
         return StaticContainer::get(GoalRecommendationService::class);
+    }
+
+    /**
+     * @throws Exception when the GoalRecommendations feature flag is not enabled on this instance.
+     */
+    private function checkGoalRecommendationsEnabled(): void
+    {
+        if (!StaticContainer::get(FeatureFlagManager::class)->isFeatureActive(GoalRecommendations::class)) {
+            throw new Exception('Goal recommendations are not enabled on this Matomo instance.');
+        }
     }
 
     /**
