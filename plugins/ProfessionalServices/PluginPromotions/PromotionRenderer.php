@@ -369,7 +369,11 @@ class PromotionRenderer
                         $this->truncateUrl((string) ($context['url'] ?? '')),
                         // One decimal: "3.4 seconds" reads as a measurement where the raw
                         // float from the archive does not.
-                        $numberFormatter->formatNumber(round((float) ($context['loadTime'] ?? 0), 1), 1),
+                        // One decimal, always: the minimum matters as much as the maximum
+                        // here, because without it a page that loads in exactly 3.0s reads
+                        // as "takes 3 seconds", which is a page speed quoted to no
+                        // precision at all.
+                        $numberFormatter->formatNumber(round((float) ($context['loadTime'] ?? 0), 1), 1, 1),
                     ],
                 ];
 

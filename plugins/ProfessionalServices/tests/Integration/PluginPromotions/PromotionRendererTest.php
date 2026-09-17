@@ -19,6 +19,7 @@ use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\HighConversionRa
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\LowConversionRateTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\PromotionTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\SegmentsTrigger;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\SlowPageTrigger;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\TriggerResult;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
@@ -207,6 +208,34 @@ class PromotionRendererTest extends IntegrationTestCase
     }
 
     /**
+     * The page speed is always quoted to one decimal. A maximum on its own is not enough:
+     * a page loading in exactly 3.0 seconds would otherwise read as "takes 3 seconds", a
+     * figure with no precision at all - and the trigger's own floor is 3.0, so round
+     * numbers are exactly where this lands.
+     *
+     * @dataProvider getLoadTimes
+     */
+    public function testThePageSpeedAlwaysCarriesOneDecimal(float $loadTime, string $expected): void
+    {
+        $html = $this->render(SlowPageTrigger::NAME, [
+            'url' => 'example.org/pricing',
+            'pageviews' => 900,
+            'loadTime' => $loadTime,
+        ]);
+
+        $this->assertStringContainsString($expected . ' seconds', strip_tags($html));
+    }
+
+    public function getLoadTimes(): iterable
+    {
+        yield 'a whole number of seconds' => [3.0, '3.0'];
+        yield 'rounding down to a whole number' => [4.04, '4.0'];
+        yield 'rounding up to a whole number' => [4.96, '5.0'];
+        yield 'a fraction' => [12.349, '12.3'];
+        yield 'two figures' => [10.0, '10.0'];
+    }
+
+    /**
      * `disable_tracking_matomo_app_links` exists so that an instance can stop links out of
      * the app from identifying it. The helper honours it by returning the URL untouched,
      * which is easy to defeat by hand-appending a parameter of one's own afterwards.
@@ -345,6 +374,12 @@ class PromotionRendererTest extends IntegrationTestCase
                 'ProfessionalServices_PromotionProductAbTesting',
                 'ProfessionalServices_PromotionAbTestingConversionRate',
                 'product-promotion-ab-testing.png',
+            ],
+            SlowPageTrigger::NAME => [
+                'SEOWebVitals',
+                'ProfessionalServices_PromotionProductSEOWebVitals',
+                'ProfessionalServices_PromotionSEOWebVitals',
+                'product-promotion-seo-web-vitals.png',
             ],
         ];
 
