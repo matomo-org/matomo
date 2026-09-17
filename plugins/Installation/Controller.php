@@ -647,7 +647,7 @@ class Controller extends ControllerAdmin
         $this->abortAsAlreadyInstalled($possibleErrorMessage);
     }
 
-    private function abortAsAlreadyInstalled($possibleErrorMessage = null)
+    protected function abortAsAlreadyInstalled($possibleErrorMessage = null)
     {
         $possibleErrorMessage = $possibleErrorMessage ? sprintf('<br/><br/>Original error was "%s".<br/>', $possibleErrorMessage) : '';
 
