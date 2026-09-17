@@ -638,6 +638,11 @@ class Controller extends ControllerAdmin
             return;
         }
 
+        $this->abortAsAlreadyInstalled($possibleErrorMessage);
+    }
+
+    private function abortAsAlreadyInstalled($possibleErrorMessage = null)
+    {
         $possibleErrorMessage = $possibleErrorMessage ? sprintf('<br/><br/>Original error was "%s".<br/>', $possibleErrorMessage) : '';
 
         \Piwik\Plugins\Login\Controller::clearSession();
