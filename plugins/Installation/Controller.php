@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\Installation;
 
 use Exception;
+use Matomo\Ini\IniReader;
 use Piwik\Access;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\AssetManager;
@@ -610,6 +611,11 @@ class Controller extends ControllerAdmin
             $config->General['assume_secure_protocol'] = '1';
         }
 
+        // Re-confirm from disk that no completed install exists before writing over it.
+        if ($this->onDiskConfigLooksInstalled()) {
+            $this->abortAsAlreadyInstalled();
+        }
+
         $config->General['salt'] = Common::generateUniqId();
         $config->General['installation_in_progress'] = 1;
         $this->setTrustedHost($config);
@@ -654,6 +660,27 @@ class Controller extends ControllerAdmin
                   '</a>')
         );
         Piwik::exitWithErrorMessage($message);
+    }
+
+    /**
+     * Reads the local config straight from disk (bypassing the in-memory copy) and returns true
+     * only for a completed install: database credentials present and no in-progress flag. Fresh,
+     * mid-install, missing and unparsable configs return false, so a real install is never blocked.
+     */
+    private function onDiskConfigLooksInstalled(): bool
+    {
+        $path = Config::getInstance()->getLocalPath();
+
+        try {
+            $parsed = (new IniReader())->readFile($path);
+        } catch (Exception $e) {
+            return false;
+        }
+
+        $hasDatabaseUser = !empty($parsed['database']['username']);
+        $inProgress      = !empty($parsed['General']['installation_in_progress']);
+
+        return $hasDatabaseUser && !$inProgress;
     }
 
     /**
@@ -759,6 +786,11 @@ class Controller extends ControllerAdmin
         $config = Config::getInstance();
 
         if ($config->existsLocalConfig()) {
+            // Re-confirm from disk that no completed install exists before deleting the config.
+            if ($this->onDiskConfigLooksInstalled()) {
+                $this->abortAsAlreadyInstalled();
+            }
+
             $firstInstallationAccess = $config->General['installation_first_accessed'];
             $settingsProvider = StaticContainer::get(GlobalSettingsProvider::class);
 
@@ -840,6 +872,11 @@ class Controller extends ControllerAdmin
             && is_numeric($config->General['installation_first_accessed'])
         ) {
             return;
+        }
+
+        // Re-confirm from disk that no completed install exists before latching this marker.
+        if ($this->onDiskConfigLooksInstalled()) {
+            $this->abortAsAlreadyInstalled();
         }
 
         $config->General['installation_first_accessed'] = $timestamp;
