@@ -70,6 +70,12 @@ class InstallerRereadTest extends IntegrationTestCase
         $this->originalConfig = $container->get('Piwik\Config');
         $this->originalProvider = $container->get(GlobalSettingsProvider::class);
 
+        $this->wireConfigAtLocalPath();
+    }
+
+    private function wireConfigAtLocalPath(): void
+    {
+        $container = StaticContainer::getContainer();
         $provider = new GlobalSettingsProvider(null, $this->localPath);
         $container->set(GlobalSettingsProvider::class, $provider);
         $container->set('Piwik\Config', new Config($provider));
@@ -116,6 +122,8 @@ class InstallerRereadTest extends IntegrationTestCase
             $this->localPath,
             "; <?php exit; ?>\n[database]\nusername = \"root\"\n[General]\ninstallation_in_progress = 1\ninstallation_first_accessed = 123\n[Extra]\nmarker = \"deleteme\"\n"
         );
+        // Reload the in-memory config from the file just written so it matches disk.
+        $this->wireConfigAtLocalPath();
 
         $this->invoke('deleteConfigFileIfNeeded');
 
