@@ -16,6 +16,7 @@
 <div
     vue-entry="Goals.ManageGoals"
     user-can-edit-goals="{{ userCanEditGoals|json_encode }}"
+    goal-recommendations-enabled="{{ goalRecommendationsEnabled|default(false)|json_encode }}"
     only-show-add-new-goal="{{ onlyShowAddNewGoal|default(false)|json_encode }}"
     ecommerce-enabled="{{ ecommerceEnabled|json_encode }}"
     currency-symbol="{{ currencySymbol|default('')|json_encode }}"
