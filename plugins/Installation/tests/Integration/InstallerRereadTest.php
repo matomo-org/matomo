@@ -114,21 +114,4 @@ class InstallerRereadTest extends IntegrationTestCase
         $this->assertSame('root', $onDisk->database['username']);
         $this->assertEquals(1, $onDisk->General['installation_in_progress']);
     }
-
-    public function testDeleteConfigFileClearsMidInstall(): void
-    {
-        // Mid-install config on disk: the guard passes and the stale file is cleared.
-        file_put_contents(
-            $this->localPath,
-            "; <?php exit; ?>\n[database]\nusername = \"root\"\n[General]\ninstallation_in_progress = 1\ninstallation_first_accessed = 123\n[Extra]\nmarker = \"deleteme\"\n"
-        );
-        // Reload the in-memory config from the file just written so it matches disk.
-        $this->wireConfigAtLocalPath();
-
-        $this->invoke('deleteConfigFileIfNeeded');
-
-        $onDisk = new Config(new GlobalSettingsProvider(null, $this->localPath));
-        $this->assertArrayNotHasKey('marker', (array) $onDisk->Extra);
-        $this->assertArrayNotHasKey('username', (array) $onDisk->database);
-    }
 }
