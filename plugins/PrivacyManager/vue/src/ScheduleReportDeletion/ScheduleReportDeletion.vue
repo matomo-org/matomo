@@ -101,6 +101,7 @@
       />
       <PasswordConfirmation
         v-model="showPasswordConfirmModalForPurge"
+        :require-delete-confirmation="true"
         @confirmed="executePurgeNow"
       >
         <h2>{{ translate('PrivacyManager_PurgeNowConfirm') }}</h2>
