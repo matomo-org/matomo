@@ -95,10 +95,6 @@ abstract class IntegrationTestCase extends SystemTestCase
         // Otherwise fixtures can't be used to e.g. manipulate static instances
         PiwikCache::getEagerCache()->flushAll();
         PiwikCache::getTransientCache()->flushAll();
-        // The root-request API marker is now process state rather than a transient-cache entry, so
-        // flushing the cache above no longer resets it. Clear it explicitly so it does not leak
-        // between tests.
-        \Piwik\API\Request::setIsRootRequestApiRequest(null);
         EventDispatcher::getInstance()->clearCache();
         Option::clearCache();
     }
