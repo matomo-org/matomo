@@ -47,8 +47,52 @@ abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSet
 
     public static function getDescription(): string
     {
-        $description = static::generateDescription();
+        return self::decorateDescription(static::generateDescription());
+    }
 
+    /**
+     * Returns the description shown above the granular per-setting compliance table.
+     *
+     * Policies without dedicated copy for the granular table fall back to the description
+     * returned by {@link getDescription()}.
+     *
+     * @internal Only needed while the granular table and the legacy compliance table coexist.
+     */
+    public static function getGranularDescription(): string
+    {
+        return self::decorateDescription(static::generateGranularDescription());
+    }
+
+    protected static function generateGranularDescription(): string
+    {
+        return static::generateDescription();
+    }
+
+    /**
+     * Returns the status legend of the granular per-setting table as list markup.
+     *
+     * The list is built here rather than in the translations so that translators cannot
+     * break the markup or the class the bullets depend on.
+     */
+    protected static function getGranularStatusLegend(): string
+    {
+        $items = [
+            'General_ComplianceStatusLegendCompliant',
+            'General_ComplianceStatusLegendCompliantEnforced',
+            'General_ComplianceStatusLegendNonCompliant',
+            'General_ComplianceStatusLegendManual',
+        ];
+
+        $legend = '';
+        foreach ($items as $item) {
+            $legend .= '<li>' . Piwik::translate($item) . '</li>';
+        }
+
+        return "<ul class='browser-default'>" . $legend . '</ul>';
+    }
+
+    private static function decorateDescription(string $description): string
+    {
         /**
          * This event is triggered while the description of a compliance policy is
          * being generated. The policy description can be modified via this event.
@@ -71,7 +115,7 @@ abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSet
         if ($shouldShowWarnings) {
             $warnings = static::generateWarnings();
             if (!empty($warnings)) {
-                $description .= '<br/>' . static::generateWarnings();
+                $description .= '<br/>' . $warnings;
             }
         }
 

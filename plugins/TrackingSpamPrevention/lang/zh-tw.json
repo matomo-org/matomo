@@ -1,6 +1,29 @@
 {
     "TrackingSpamPrevention": {
-        "SettingMaxActionsDescription": "預設值為「0」將記錄所有動作。大多數網站通常不會超過 100 到 300 條記錄。可以簡單假設其他活動會是追蹤垃圾郵件、機器人或攻擊。Matomo 不會記錄進一步的操作並封鎖它們的IP地址，以減少伺服器負載並保持數據準確性，封鎖時間長達 24 小時。",
-        "SettingMaxActionsTitle": "每次訪問記錄的最大動作數"
+        "BanIpNotificationMailSubject": "有 IP 因產生過多活動而被封鎖。",
+        "BlockCloudNoteInternetDisabled": "由於你的 Matomo 設定已關閉網際網路功能，此功能將無法運作。",
+        "PluginDescription": "這個外掛提供多種選項，防止垃圾訊息發送者與機器人讓你的資料失準，讓你能再次信任自己的資料。",
+        "SettingBlockCloudDescription": "取得 AWS、Azure、Digital Ocean、Google Cloud 與 Oracle 等雲端供應商的 IP 範圍清單，並封鎖來自這些來源的追蹤請求。如果你只使用 JavaScript 追蹤器進行追蹤，開啟這個選項應該不會有問題，因為這類追蹤請求不會來自雲端，除非訪客使用會經由雲端供應商轉送流量的 VPN。此設定會套用到你所有的網站。",
+        "SettingBlockCloudTitle": "封鎖來自雲端的追蹤請求",
+        "SettingBlockHeadlessDescription": "這是指沒有使用者介面的瀏覽器，多用於自動化作業。如果你只有一般的網站或應用程式，開啟這個選項應該不會有問題。它可以封鎖其他原本偵測不到的機器人與垃圾請求。",
+        "SettingBlockHeadlessTitle": "封鎖無頭瀏覽器",
+        "SettingBlockSdksAndLibrariesHelp": "只有在你完全使用 JavaScript 追蹤器或 Matomo 代碼管理工具進行追蹤時，才啟用這個選項。它會封鎖由 HTTP 客戶端與非 JavaScript 追蹤函式庫所送出的追蹤請求，包含 cURL、Guzzle 與 Postman 等工具。%3$s%1$s注意：%2$s如果你是透過 Matomo PHP、Java、Python、Android、iOS 等非 JavaScript 追蹤 SDK 或函式庫傳送追蹤資料，請不要啟用這個選項。",
+        "SettingBlockSdksAndLibrariesTitle": "封鎖來自 SDK 與伺服器端函式庫的流量",
+        "SettingExcludedCountriesDescription": "不要追蹤來自這些國家的訪客。你目標區域之外的訪客很可能是機器人或垃圾訊息發送者，你也可以用它來避開其他司法管轄區的隱私法規。",
+        "SettingExcludedCountriesTitle": "排除國家",
+        "SettingIncludedCountriesDescription": "這會排除所有其他國家。詳情請參閱「排除國家」設定的說明。",
+        "SettingIncludedCountriesTitle": "只追蹤來自這些國家的訪客",
+        "SettingIpAllowListHelp": "指定允許送出追蹤請求的 IP 位址或 CIDR 範圍，一行一個。",
+        "SettingIpAllowListTitle": "IP 允許清單",
+        "SettingIpBlockListHelp": "指定要封鎖、不允許送出追蹤請求的 IP 位址或 CIDR 範圍，一行一個。Matomo 可能會自動封鎖其他不會出現在此清單中的 IP，例如啟用「封鎖來自雲端的追蹤請求」時每日取得的雲端供應商 IP 範圍，或是因超過最大活動數限制而被暫時封鎖的 IP。",
+        "SettingIpBlockListTitle": "IP 封鎖清單",
+        "SettingMaxActionsDescription": "預設值「0」會紀錄所有活動。多數網站通常不會超過 100 到 300 個。超過這個範圍時，可以合理推測是垃圾追蹤、機器人或攻擊。Matomo 會停止紀錄後續活動，並封鎖其 IP 位址最多 24 小時，以降低伺服器負載並維持資料準確度。",
+        "SettingMaxActionsTitle": "每次訪問要紀錄的最大活動數",
+        "SettingNotificationEmailDescription": "每當有 IP 因為活動數過多而被封鎖時，系統會通知這個 e-mail 位址。未來可能會加入更多通知原因。",
+        "SettingNotificationEmailTitle": "通知 e-mail",
+        "SettingOrganisationBlockListHelp": "當訪客的 IP 位址屬於指定的組織（例如主機代管或雲端供應商）時，封鎖其追蹤請求。一行輸入一個組織。請使用具體的名稱以避免誤判：任何名稱包含你所輸入內容的組織都會被比對到。此清單只有在啟用「封鎖來自雲端的追蹤請求」時才會生效。%3$s%1$s注意：%2$s清空此清單會停用組織封鎖，並不會還原為預設清單。",
+        "SettingOrganisationBlockListPlaceholder": "雲端主機供應商 A%1$s雲端主機供應商 B",
+        "SettingOrganisationBlockListTitle": "組織封鎖清單",
+        "SettingsIntroduction": "垃圾流量與機器人流量會膨脹追蹤請求數，並在報表中帶入不需要的資料。請設定以下選項，在這些流量影響你的分析之前先減少它們。"
     }
 }

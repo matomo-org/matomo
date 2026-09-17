@@ -35,9 +35,9 @@
   },
   "include": [
     "./plugins/CoreVue/types/index.d.ts",
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "src/**/*.vue"
+    "plugins/*/vue/src/**/*.ts",
+    "plugins/*/vue/src/**/*.tsx",
+    "plugins/*/vue/src/**/*.vue"
   ],
   "exclude": [
     "node_modules"

@@ -1,6 +1,5 @@
 {
     "Transitions": {
-        "BouncesInline": "%s käväisyä",
         "DirectEntries": "Suorat merkinnät",
         "ErrorBack": "Palaa takaisin edelliseen toimintoon",
         "ExitsInline": "%s poistumista",
@@ -28,7 +27,6 @@
         "ToFollowingSiteSearchesInline": "%s sisäistä hakua",
         "Transitions": "Siirtymät",
         "TransitionsSubcategoryHelp2": "Lisätietoja",
-        "XOfAllPageviews": "%s kaikista tämän sivun katseluista",
-        "XOutOfYVisits": "%1$s (%2$s:stä)"
+        "XOfAllPageviews": "%s kaikista tämän sivun katseluista"
     }
 }

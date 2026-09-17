@@ -45,7 +45,8 @@ on:
           - '5.x-dev'
           - '6.x-dev'
   schedule:
-    - cron: '0 1 * * *' # 1am daily
+    # Scheduled in the evening (UTC) so a preview build is ready earlier in the day.
+    - cron: '0 18 * * *' # 6pm UTC daily
 
 # Two builds for the same target would force-push the same preview branch and
 # race for the same version number, so they are queued instead of cancelled.

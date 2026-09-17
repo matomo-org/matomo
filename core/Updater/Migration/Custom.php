@@ -14,6 +14,11 @@ use Piwik\Updater\Migration;
 /**
  * Create a custom migration that can execute any callback.
  *
+ * A migration that throws fails the update, and a plugin not bundled with core is then deactivated
+ * so the rest of the update can finish. Let errors escape from a callback the plugin cannot work
+ * without; have one doing best-effort work catch its own, rather than cost the plugin its
+ * activation.
+ *
  * @api
  */
 class Custom extends Migration

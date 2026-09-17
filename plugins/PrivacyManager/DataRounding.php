@@ -636,9 +636,6 @@ class DataRounding
         try {
             $requestObject = new Request($request);
             $idSite = $requestObject->getParameter('idSite', null);
-            if (is_null($idSite)) {
-                $idSite = $requestObject->getParameter('idsite', null);
-            }
 
             if (!is_array($idSite) && !is_scalar($idSite)) {
                 return [];

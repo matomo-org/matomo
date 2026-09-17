@@ -68,7 +68,7 @@
 [submodule "misc/log-analytics"]
     path = misc/log-analytics
     url = https://github.com/matomo-org/matomo-log-analytics.git
-    branch = 5.x-dev
+    branch = 6.x-dev
 [submodule "plugins/Morpheus/icons"]
     path = plugins/Morpheus/icons
     url = https://github.com/matomo-org/matomo-icons.git

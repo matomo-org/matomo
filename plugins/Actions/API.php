@@ -21,6 +21,7 @@ use Piwik\Plugins\Actions\Columns\Metrics\AverageTimeOnPage;
 use Piwik\Plugins\Actions\Columns\Metrics\BounceRate;
 use Piwik\Plugins\Actions\Columns\Metrics\ExitRate;
 use Piwik\Plugin\ReportsProvider;
+use Piwik\Request;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\PageUrl;
 
@@ -824,9 +825,10 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Reads the pre-flattened archive record directly for top-level flat requests when flat-first
-     * archiving is enabled, avoiding loading the hierarchy and collapsing it again at request time.
-     * Otherwise (and for subtable drill-downs) reads the hierarchical record as before.
+     * Reads the pre-flattened archive record directly for top-level requests that the request-time
+     * flattener will act on, when flat-first archiving is enabled, avoiding loading the hierarchy and
+     * collapsing it again at request time. Otherwise (and for subtable drill-downs) reads the
+     * hierarchical record as before.
      *
      * @param int|string|int[] $idSite
      * @param string|null|false $segment
@@ -846,7 +848,18 @@ class API extends \Piwik\Plugin\API
         $depth,
         bool $flat
     ) {
-        $useFlatRecord = $flat && empty($idSubtable) && ArchivingHelper::isFlatArchivingEnabled();
+        // aggregate rows are the category rows of the hierarchy, and the dimension columns are built
+        // from the hierarchy levels, so both need the hierarchical record the flat record replaces
+        $request = Request::fromRequest();
+        $needsHierarchy = $request->getBoolParameter('include_aggregate_rows', false)
+            || $request->getBoolParameter('show_dimensions', false);
+
+        // a depth limit trims the tree the flattener then walks, which the flat record cannot reproduce
+        $useFlatRecord = $flat
+            && empty($idSubtable)
+            && empty($depth)
+            && !$needsHierarchy
+            && ArchivingHelper::isFlatArchivingEnabled();
 
         if (!$useFlatRecord) {
             return Archive::createDataTableFromArchive($hierarchicalRecord, $idSite, $period, $date, $segment, $expanded, $flat, $idSubtable, $depth);
