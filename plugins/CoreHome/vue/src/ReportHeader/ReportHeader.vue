@@ -701,10 +701,11 @@ export default defineComponent({
       const promotable = this.promotable.length;
       // Widget controls leave too little of the line to share, so nothing comes out beside them
       // until the fit is tuned more finely. A host carrying the hover hook overlays the controls
-      // on the title, which only reads as intended while they stay narrow, so promotion is off
-      // there too - read live, because a widget drops the hook as it is maximised.
+      // on the title, where anything wider than the trigger would sit on the words for good, so
+      // promotion is off there too - but only where there is a title to cover, and read live,
+      // because a widget drops the hook as it is maximised.
       if (!promotable || this.hasControls
-        || row.closest('.__reportHeader-onHover')
+        || (this.showTitle && row.closest('.__reportHeader-onHover'))
         || window.matchMedia(NO_PROMOTION_BREAKPOINT).matches) {
         this.demoteAll();
         return;
