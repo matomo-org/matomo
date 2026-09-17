@@ -23,8 +23,10 @@ use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Plugin;
+use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Plugins\Goals\Archiver;
 use Piwik\Plugins\Installation\FormDefaultSettings;
+use Piwik\Plugins\PrivacyManager\FeatureFlags\GranularPrivacyCompliance;
 use Piwik\Plugins\PrivacyManager\Model\LogDataAnonymizations;
 use Piwik\Plugins\PrivacyManager\Settings\IPAnonymisation;
 use Piwik\Request;
@@ -49,6 +51,13 @@ class PrivacyManager extends Plugin
     public const OPTION_LAST_DELETE_PIWIK_LOGS_INITIAL = "lastDelete_piwik_logs_initial";
     public const OPTION_USERID_SALT = 'useridsalt';
 
+    /**
+     * Title of the What's New entry in `changes.json` announcing the granular compliance settings.
+     * The entry is only shown while the feature it announces is available.
+     *
+     * @internal
+     */
+    public const CHANGE_TITLE_GRANULAR_COMPLIANCE = 'More control over CNIL compliance settings';
 
     // options for data purging feature array[configName => configSection]
     public static $purgeDataOptions = [
@@ -191,7 +200,30 @@ class PrivacyManager extends Plugin
             'CustomJsTracker.shouldAddTrackerFile'    => 'shouldAddTrackerFile',
             'Request.shouldDisablePostProcessing'     => 'shouldDisablePostProcessing',
             'SitesManager.deleteSite.end'             => 'deleteSiteSpecificAnonymisationSettings',
+            'Changes.filterChanges'                   => 'filterChanges',
         ];
+    }
+
+    /**
+     * Hides the What's New entry announcing the granular compliance settings while that feature is
+     * not available.
+     *
+     * The entry is recorded when the plugin is updated, but the feature flag can be switched on or
+     * off at any time afterwards, so the entry is filtered when it is displayed rather than when it
+     * is recorded.
+     *
+     * @param array<int|string, array<string, mixed>> $changes
+     */
+    public function filterChanges(array &$changes): void
+    {
+        if (StaticContainer::get(FeatureFlagManager::class)->isFeatureActive(GranularPrivacyCompliance::class)) {
+            return;
+        }
+
+        $changes = array_values(array_filter($changes, static function ($change) {
+            return ($change['plugin_name'] ?? '') !== 'PrivacyManager'
+                || ($change['title'] ?? '') !== self::CHANGE_TITLE_GRANULAR_COMPLIANCE;
+        }));
     }
 
     public function shouldDisablePostProcessing(&$shouldDisable, $request)
