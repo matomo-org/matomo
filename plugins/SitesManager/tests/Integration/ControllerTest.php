@@ -64,6 +64,8 @@ class ControllerTest extends IntegrationTestCase
         $html = $this->renderSiteWithoutDataCta();
 
         self::assertStringContainsString('icon-user-add', $html);
+        // the link has to ask for the invite screen, not just the users page
+        self::assertStringContainsString('showadduser', $html);
     }
 
     public function testAfterTrackingMethodsContentIsEmptyByDefault()
