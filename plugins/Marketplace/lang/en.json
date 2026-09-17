@@ -67,6 +67,7 @@
         "InstallThesePlugins": "This will install and activate the following plugins:",
         "AllPaidPluginsInstalledAndActivated": "All paid plugins were successfully installed and activated.",
         "OnlySomePaidPluginsInstalledAndActivated": "Some paid plugins were not installed successfully.",
+        "PluginsCouldNotBeUpdated": "The following plugins could not be updated: %1$s",
         "NewVersion": "new version",
         "NoPluginsFound": "No plugins found",
         "NoThemesFound": "No themes found",
