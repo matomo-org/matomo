@@ -81,6 +81,7 @@
         "PluginDetailsNotAvailable": "The details for the %1$s plugin could not be loaded. Please check your internet connection and try again.",
         "PluginKeywords": "Keywords",
         "PluginNotFoundOnMarketplace": "The plugin %1$s could not be found on the Marketplace.",
+        "PluginsCouldNotBeUpdated": "The following plugins could not be updated: %1$s",
         "PluginUpdateAvailable": "You are using version %1$s and a new version %2$s is available.",
         "PluginVersionInfo": "%1$s from %2$s",
         "PluginWebsite": "Plugin Website",
