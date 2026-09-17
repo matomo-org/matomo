@@ -718,8 +718,9 @@ describe("UsersManager", function () {
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('manage_users_back');
     });
 
-    // The quick links widget links here with showadduser=1. That used to open the edit form with no
-    // user, which fetched permissions for an empty login and showed an error banner.
+    // The quick links widget and the no-data screen link here with showadduser=1. That used to
+    // open the edit form with no user, which fetched permissions for an empty login and showed
+    // an error banner.
     it('should open the invite form when showadduser is in the URL', async function () {
         let sitesAccessRequests = 0;
         const requestHandler = (request) => {

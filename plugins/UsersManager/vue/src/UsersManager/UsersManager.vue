@@ -249,7 +249,7 @@ export default defineComponent({
   created() {
     this.fetchUsers();
 
-    // the quick links widget links here with showadduser=1 to open the invite form
+    // the quick links widget and the no-data screen link here with showadduser=1
     if (MatomoUrl.urlParsed.value.showadduser === '1') {
       this.onAddNewUser();
     }
