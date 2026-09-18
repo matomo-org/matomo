@@ -572,6 +572,7 @@ class Goals extends \Piwik\Plugin
         $translationKeys[] = 'Goals_RecommendRescan';
         $translationKeys[] = 'Goals_RecommendScanAlreadyRunning';
         $translationKeys[] = 'Goals_RecommendScansRemainingToday';
+        $translationKeys[] = 'Goals_RecommendShowMore';
         $translationKeys[] = 'Goals_RecommendWhatDataIsShared';
         $translationKeys[] = 'Goals_RecommendWhySuggested';
         $translationKeys[] = 'Goals_RecommendTriggerContains';

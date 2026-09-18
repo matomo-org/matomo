@@ -16,6 +16,7 @@ use Piwik\Concurrency\Lock;
 use Piwik\Concurrency\LockBackend;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
+use Piwik\Development;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\AIProviders\Exception\AIProviderClientException;
@@ -37,6 +38,24 @@ class GoalRecommendationService
     private const SITE_SCAN_LOCK_NAMESPACE = 'Goals.recommendationScan.site.';
 
     private const USER_SCAN_LOCK_NAMESPACE = 'Goals.recommendationScan.user.';
+
+    /** A scan with at least this many goals needs no explanation. */
+    private const WARN_BELOW_GOALS = 4;
+
+    /** Bot protection: this many refused pages on a thin result. */
+    private const BLOCKED_PAGES_WARNING = 3;
+
+    /** Share of crawled pages whose navigation is rendered in the browser (the homepage alone also counts). */
+    private const CLIENT_SIDE_SHARE_WARNING = 0.3;
+
+    /** Time budget ran out before this many pages: the crawl stalled. */
+    private const STALLED_BELOW_PAGES = 10;
+
+    /** Share of attempted fetches that failed. */
+    private const FAILED_FETCH_SHARE_WARNING = 0.34;
+
+    /** Fewer goals than this on a clean crawl: the site offers few trackable actions. */
+    private const FEW_CONVERSIONS_BELOW_GOALS = 3;
 
     /**
      * @var HomepageAnalyzer
@@ -91,8 +110,10 @@ class GoalRecommendationService
      * @return array{
      *   mode: string, goals: array<int, array<string, mixed>>,
      *   manualGoals: array<int, array{name: string, howTo: string, category: string}>,
+     *   warnings: array<int, array{type: string, severity: string, message: string}>,
      *   aiError: ?string, generatedAt: ?int, remainingAiScans: ?int,
-     *   providerName: string, aiAvailability: string, privacyNote: string
+     *   providerName: string, aiAvailability: string, privacyNote: string,
+     *   debug: ?array<string, mixed>
      * }
      */
     public function getRecommendations(int $idSite, bool $useAi, array $existingGoals = []): array
@@ -115,8 +136,10 @@ class GoalRecommendationService
      * @return array{
      *   mode: string, goals: array<int, array<string, mixed>>,
      *   manualGoals: array<int, array{name: string, howTo: string, category: string}>,
+     *   warnings: array<int, array{type: string, severity: string, message: string}>,
      *   aiError: ?string, generatedAt: ?int, remainingAiScans: ?int,
-     *   providerName: string, aiAvailability: string, privacyNote: string
+     *   providerName: string, aiAvailability: string, privacyNote: string,
+     *   debug: ?array<string, mixed>
      * }
      */
     private function generateRecommendations(int $idSite, bool $useAi, array $existingGoals): array
@@ -128,17 +151,21 @@ class GoalRecommendationService
                 'Goals recommendations: could not analyse the homepage for site {idSite}.',
                 ['idSite' => $idSite]
             );
+            $warnings = $this->buildWarnings(['crawl' => $this->homepageAnalyzer->getLastCrawlStats()], []);
 
             return [
                 'mode' => 'deterministic',
                 'goals' => [],
                 'manualGoals' => [],
-                'aiError' => Piwik::translate('Goals_RecommendCouldNotAnalyze'),
+                'warnings' => $warnings,
+                // the blocked warning already explains the empty result
+                'aiError' => empty($warnings) ? Piwik::translate('Goals_RecommendCouldNotAnalyze') : null,
                 'generatedAt' => null,
                 'remainingAiScans' => $this->getRemainingAiScans($idSite),
                 'providerName' => $this->getConfiguredProviderName(),
                 'aiAvailability' => $this->getAiAvailability(),
                 'privacyNote' => $this->getPrivacyNote(),
+                'debug' => null,
             ];
         }
 
@@ -201,18 +228,140 @@ class GoalRecommendationService
 
         $goals = $this->assignRecommendationIds($goals);
         $manualGoals = $this->filterManualSuggestions($this->manualRecommender->recommend($analysis), $goals);
-        $saved = $this->store->save($idSite, $useAi, $mode, $goals, $manualGoals);
+        $warnings = $this->buildWarnings($analysis, $goals);
+        $saved = $this->store->save($idSite, $useAi, $mode, $goals, $manualGoals, $warnings);
 
         return [
             'mode' => $mode,
             'goals' => $goals,
             'manualGoals' => $manualGoals,
+            'warnings' => $warnings,
             'aiError' => $aiError,
             'generatedAt' => $saved['generatedAt'],
             'remainingAiScans' => $this->getRemainingAiScans($idSite),
             'providerName' => $this->getConfiguredProviderName(),
             'aiAvailability' => $this->getAiAvailability(),
             'privacyNote' => $this->getPrivacyNote(),
+            'debug' => $this->buildDebugPayload($analysis),
+        ];
+    }
+
+    /**
+     * Explains the result to the user. At most one warning, the most severe cause
+     * first: the site refused the crawler, its pages are rendered in the browser, the
+     * time budget ran out, or the site simply offers few trackable actions. A scan
+     * that found enough goals only keeps the browser-rendering note, since that one
+     * says the suggestions may be incomplete rather than that something went wrong.
+     *
+     * @param array<string, mixed> $analysis
+     * @param array<int, array<string, mixed>> $goals
+     * @return array<int, array{type: string, severity: string, message: string}>
+     */
+    private function buildWarnings(array $analysis, array $goals): array
+    {
+        $crawl = array_merge(
+            ['blockedPages' => 0, 'failedFetches' => 0, 'clientSideRenderedPages' => 0, 'homepageClientSideRendered' => false, 'deadlineReached' => false],
+            (array) ($analysis['crawl'] ?? [])
+        );
+        $pagesCrawled = (int) ($analysis['pagesCrawled'] ?? 0);
+        $attempted = $pagesCrawled + $crawl['blockedPages'] + $crawl['failedFetches'];
+
+        if ($pagesCrawled === 0 && $crawl['blockedPages'] > 0) {
+            return [$this->warning('blocked', 'warning', 'Goals_RecommendScanBlocked')];
+        }
+        $isClientSideRendered = $crawl['homepageClientSideRendered']
+            || ($pagesCrawled > 0 && $crawl['clientSideRenderedPages'] / $pagesCrawled >= self::CLIENT_SIDE_SHARE_WARNING);
+        if (count($goals) >= self::WARN_BELOW_GOALS) {
+            // a good result needs no excuse, but the owner should still know the crawl saw only part of the site
+            return $isClientSideRendered ? [$this->warning('partialRead', 'info', 'Goals_RecommendScanPartialRead')] : [];
+        }
+        if ($crawl['blockedPages'] >= self::BLOCKED_PAGES_WARNING) {
+            return [$this->warning('blocked', 'warning', 'Goals_RecommendScanBlocked')];
+        }
+        if ($isClientSideRendered) {
+            return [$this->warning('partialRead', 'info', 'Goals_RecommendScanPartialRead')];
+        }
+        if (
+            ($crawl['deadlineReached'] && $pagesCrawled < self::STALLED_BELOW_PAGES)
+            || ($attempted > 0 && $crawl['failedFetches'] / $attempted > self::FAILED_FETCH_SHARE_WARNING)
+        ) {
+            return [$this->warning('stoppedEarly', 'info', 'Goals_RecommendScanStoppedEarly', [$pagesCrawled])];
+        }
+        if ($pagesCrawled > 0 && count($goals) < self::FEW_CONVERSIONS_BELOW_GOALS) {
+            return [$this->warning('fewConversions', 'info', 'Goals_RecommendScanFewConversions', [$pagesCrawled])];
+        }
+
+        return [];
+    }
+
+    /**
+     * @param array<int, string|int> $args
+     * @return array{type: string, severity: string, message: string}
+     */
+    private function warning(string $type, string $severity, string $translationKey, array $args = []): array
+    {
+        return [
+            'type' => $type,
+            'severity' => $severity,
+            'message' => Piwik::translate($translationKey, array_map('strval', $args)),
+        ];
+    }
+
+    /**
+     * TEMPORARY (ID-277 debugging): what the crawl found and every candidate the
+     * recommenders could choose from. Development mode only, never persisted.
+     *
+     * @param array<string, mixed> $analysis
+     * @return array<string, mixed>|null
+     */
+    private function buildDebugPayload(array $analysis): ?array
+    {
+        if (!Development::isEnabled()) {
+            return null;
+        }
+
+        $links = array_map(function (array $link): array {
+            return [
+                'path' => (string) ($link['linkTarget'] ?? ''),
+                'label' => (string) ($link['labelSamples'][0] ?? $link['linkText'] ?? ''),
+                'pages' => (int) ($link['pageCount'] ?? 0),
+                'button' => (int) ($link['buttonLikeCount'] ?? 0),
+                'hero' => (int) ($link['heroCount'] ?? 0),
+            ];
+        }, array_values(array_filter($analysis['links'] ?? [], 'is_array')));
+
+        $forms = array_map(function (array $form): array {
+            return [
+                'fieldTypes' => array_values($form['fieldTypes'] ?? []),
+                'submit' => (string) ($form['submitTexts'][0] ?? ''),
+                'pages' => count($form['sourcePages'] ?? []),
+                'firstPage' => (string) ($form['sourcePages'][0] ?? ''),
+            ];
+        }, array_values(array_filter($analysis['forms'] ?? [], 'is_array')));
+
+        $hosts = array_map(function (array $host): array {
+            return [
+                'host' => (string) ($host['host'] ?? ''),
+                'label' => (string) ($host['labels'][0] ?? ''),
+                'example' => (string) ($host['examples'][0] ?? $host['href'] ?? ''),
+                'pages' => count($host['sourcePages'] ?? []),
+            ];
+        }, array_values(array_filter($analysis['externalLinks'] ?? [], 'is_array')));
+
+        return [
+            'url' => (string) ($analysis['url'] ?? ''),
+            'platform' => $analysis['platform'] ?? null,
+            'technologies' => array_values($analysis['technologies'] ?? []),
+            'pagesCrawled' => (int) ($analysis['pagesCrawled'] ?? 0),
+            'crawl' => $analysis['crawl'] ?? [],
+            'pages' => array_values($analysis['pages'] ?? []),
+            'links' => $links,
+            'forms' => $forms,
+            'externalHosts' => $hosts,
+            'downloads' => array_map(function (array $download): array {
+                return ['href' => (string) ($download['href'] ?? ''), 'label' => (string) ($download['labels'][0] ?? '')];
+            }, array_values(array_filter($analysis['downloads'] ?? [], 'is_array'))),
+            'candidates' => $this->deterministicRecommender->getLastCandidates(),
         ];
     }
 
@@ -256,6 +405,7 @@ class GoalRecommendationService
      *
      * @return array{
      *   mode: ?string, goals: array<int, array<string, mixed>>, manualGoals: array<int, array<string, mixed>>,
+     *   warnings: array<int, array{type: string, severity: string, message: string}>,
      *   useAi: bool, generatedAt: ?int, remainingAiScans: ?int,
      *   providerName: string, aiAvailability: string, privacyNote: string
      * }
@@ -268,6 +418,7 @@ class GoalRecommendationService
                 'mode' => null,
                 'goals' => [],
                 'manualGoals' => [],
+                'warnings' => [],
                 'useAi' => false,
                 'generatedAt' => null,
                 'remainingAiScans' => $this->getRemainingAiScans($idSite),
@@ -287,6 +438,7 @@ class GoalRecommendationService
             'mode' => $saved['mode'],
             'goals' => $goals,
             'manualGoals' => $saved['manualGoals'],
+            'warnings' => $saved['warnings'],
             'useAi' => $saved['useAi'],
             'generatedAt' => $saved['generatedAt'],
             'remainingAiScans' => $this->getRemainingAiScans($idSite),

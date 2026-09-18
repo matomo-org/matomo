@@ -182,13 +182,18 @@ class API extends \Piwik\Plugin\API
      * @return array Recommendation result with `mode` ("ai" or "deterministic"), a `goals` list of
      *               Matomo-compatible goal suggestions, a `manualGoals` list of
      *               non-URL `{name, howTo, category}` ideas the user must create manually, an optional
-     *               `aiError`, the `generatedAt` timestamp of the scan, and `remainingAiScans`
-     *               (AI-assisted scans left today, or null when unlimited).
+     *               `aiError`, a `warnings` list explaining a thin result (site blocked the crawler,
+     *               pages rendered in the browser, scan stopped early, few trackable actions),
+     *               the `generatedAt` timestamp of the scan, `remainingAiScans`
+     *               (AI-assisted scans left today, or null when unlimited) and, in development
+     *               mode only, a `debug` payload describing the crawl and the scored candidates.
      * @phpstan-return array{
      *   mode: string, goals: array<int, array<string, mixed>>,
      *   manualGoals: array<int, array{name: string, howTo: string, category: string}>,
+     *   warnings: array<int, array{type: string, severity: string, message: string}>,
      *   aiError: ?string, generatedAt: ?int, remainingAiScans: ?int,
-     *   providerName: string, aiAvailability: string, privacyNote: string
+     *   providerName: string, aiAvailability: string, privacyNote: string,
+     *   debug: ?array<string, mixed>
      * }
      */
     public function runGoalRecommendationScan(int $idSite, bool $useAi = false): array

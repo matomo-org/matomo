@@ -30,9 +30,10 @@ class RecommendationStore
      *
      * @param array<int, array<string, mixed>> $goals
      * @param array<int, array{name: string, howTo: string, category: string}> $manualGoals
+     * @param array<int, array{type: string, severity: string, message: string}> $warnings
      * @return array<string, mixed> The saved payload.
      */
-    public function save(int $idSite, bool $useAi, string $mode, array $goals, array $manualGoals): array
+    public function save(int $idSite, bool $useAi, string $mode, array $goals, array $manualGoals, array $warnings = []): array
     {
         $data = [
             'generatedAt' => Date::now()->getTimestamp(),
@@ -40,6 +41,7 @@ class RecommendationStore
             'mode' => $mode,
             'goals' => array_values($goals),
             'manualGoals' => array_values($manualGoals),
+            'warnings' => array_values($warnings),
             'dismissed' => [],
         ];
 
@@ -53,7 +55,8 @@ class RecommendationStore
      *
      * @return array{
      *   generatedAt: int, useAi: bool, mode: string, goals: array<int, array<string, mixed>>,
-     *   manualGoals: array<int, array<string, mixed>>, dismissed: array<string, int>
+     *   manualGoals: array<int, array<string, mixed>>, warnings: array<int, array<string, mixed>>,
+     *   dismissed: array<string, int>
      * }|null
      */
     public function get(int $idSite): ?array
@@ -74,6 +77,7 @@ class RecommendationStore
             'mode' => (string) ($data['mode'] ?? 'deterministic'),
             'goals' => is_array($data['goals'] ?? null) ? array_values($data['goals']) : [],
             'manualGoals' => is_array($data['manualGoals'] ?? null) ? array_values($data['manualGoals']) : [],
+            'warnings' => is_array($data['warnings'] ?? null) ? array_values($data['warnings']) : [],
             'dismissed' => is_array($data['dismissed'] ?? null) ? $data['dismissed'] : [],
         ];
     }

@@ -68,6 +68,35 @@ ul.ulGoalTopElements img {
 }
 
 #content .recommendGoals {
+    // scan in progress: the core progress bar, then loader and phase label on one line
+    .recommendGoals-scanProgress {
+        border-top: 1px solid @theme-color-border-alternative;
+        margin: 24px 0 8px;
+        padding-top: 16px;
+
+        .progressbar {
+            margin: 0;
+
+            > span {
+                align-items: center;
+                display: flex;
+                gap: 10px;
+                margin-top: 12px;
+            }
+
+            .label {
+                color: @theme-color-text;
+                font-size: 13px;
+            }
+        }
+    }
+
+    .recommendGoals-scanHint {
+        color: @theme-color-text-lighter;
+        font-size: 12px;
+        margin: 4px 0 0;
+    }
+
     .recommendGoals-footer {
         margin-top: 20px;
     }
@@ -154,22 +183,6 @@ ul.ulGoalTopElements img {
         margin: 0;
     }
 
-    .recommendGoals-scanProgress {
-        margin: 24px 0 8px;
-
-        // align the shared Progressbar (ships with 22px/24px outer margins)
-        // with the surrounding block content
-        .progressbar {
-            margin: 0;
-        }
-    }
-
-    .recommendGoals-scanHint {
-        color: @theme-color-text-lighter;
-        font-size: 12px;
-        margin: 4px 0 0;
-    }
-
     .recommendGoals-list {
         display: flex;
         flex-direction: column;
@@ -184,6 +197,16 @@ ul.ulGoalTopElements img {
 
         &:hover {
             box-shadow: 0 1px 5px @theme-color-boxShadow;
+        }
+    }
+
+    // a goal that already exists is settled: light green, no hover lift
+    .recommendGoals-card--added {
+        background: fade(@color-green-matomo, 7%);
+        border-color: fade(@color-green-matomo, 35%);
+
+        &:hover {
+            box-shadow: none;
         }
     }
 
@@ -312,7 +335,8 @@ ul.ulGoalTopElements img {
 
     // suppress the browser default focus ring on click; keep it for keyboard navigation
     .recommendGoals-evidence summary,
-    .recommendGoals-manual summary {
+    .recommendGoals-manual summary,
+    .recommendGoals-debug summary {
         &:focus:not(:focus-visible) {
             outline: none;
         }
@@ -454,7 +478,65 @@ ul.ulGoalTopElements img {
         -webkit-box-decoration-break: clone;
     }
 
-    .recommendGoals-manual {
+    // one line explaining a thin scan result: blue means information, orange means a problem,
+    // same tint recipe as the "needs setup" chip
+    .recommendGoals-notice {
+        align-items: flex-start;
+        background: fade(@color-blue-matomo, 8%);
+        border: 1px solid fade(@color-blue-matomo, 50%);
+        border-radius: 3px;
+        color: @theme-color-text;
+        display: flex;
+        font-size: 13px;
+        gap: 8px;
+        line-height: 1.45;
+        margin: 0 0 16px;
+        padding: 10px 12px;
+
+        [class^="icon-"] {
+            color: @color-blue-matomo;
+            flex: 0 0 auto;
+            font-size: 15px;
+            line-height: 1.3;
+        }
+    }
+
+    .recommendGoals-notice--warning {
+        background: fade(#f57c00, 8%);
+        border-color: fade(#f57c00, 50%);
+
+        [class^="icon-"] {
+            color: #f57c00;
+        }
+    }
+
+    // TEMPORARY (ID-277 debugging): remove together with the debug payload
+    .recommendGoals-debug h4 {
+        font-size: 13px;
+        margin: 16px 0 4px;
+    }
+
+    .recommendGoals-debugTable {
+        font-family: monospace;
+        font-size: 11px;
+        width: 100%;
+
+        th,
+        td {
+            border-bottom: 1px solid @theme-color-border-light;
+            padding: 2px 6px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        code {
+            font-size: 11px;
+            word-break: break-all;
+        }
+    }
+
+    .recommendGoals-manual,
+    .recommendGoals-debug {
         border-top: 1px solid @theme-color-border-alternative;
         margin-top: 24px;
         padding-top: 12px;
@@ -551,7 +633,8 @@ ul.ulGoalTopElements img {
 
     @media (prefers-reduced-motion: reduce) {
         .recommendGoals-evidence summary .icon-chevron-right,
-        .recommendGoals-manual summary .icon-chevron-right {
+        .recommendGoals-manual summary .icon-chevron-right,
+        .recommendGoals-debug summary .icon-chevron-right {
             transition: none;
         }
     }
