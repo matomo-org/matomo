@@ -171,12 +171,15 @@ class Build extends ConsoleCommand
         } else {
             $attempts = 0;
             while ($attempts < self::RETRY_COUNT) {
+                $cmdOutput = [];
                 exec($command, $cmdOutput, $returnCode);
 
                 $concattedOutput = implode("\n", $cmdOutput);
                 if ($this->isTypeScriptRaceConditionInOutput($plugin, $concattedOutput)) {
                     $output->writeln("<comment>The TypeScript compiler encountered a race condition when compiling "
                         . "files (files that exist were not found), retrying.</comment>");
+
+                    Filesystem::unlinkRecursive(PIWIK_INCLUDE_PATH . "/node_modules/.cache", true);
 
                     ++$attempts;
                     continue;

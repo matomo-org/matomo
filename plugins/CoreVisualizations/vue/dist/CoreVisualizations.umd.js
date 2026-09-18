@@ -1673,11 +1673,12 @@ function useSparklineSlotSize(slot) {
     observer.observe(el);
   });
   Object(external_commonjs_vue_commonjs2_vue_root_Vue_["onBeforeUnmount"])(() => {
-    var _observer;
     if (resizeTimeout) {
       clearTimeout(resizeTimeout);
     }
-    (_observer = observer) === null || _observer === void 0 || _observer.disconnect();
+    if (observer) {
+      observer.disconnect();
+    }
   });
   return {
     width,

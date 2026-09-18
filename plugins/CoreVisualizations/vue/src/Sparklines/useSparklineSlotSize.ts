@@ -145,7 +145,9 @@ export default function useSparklineSlotSize(
       clearTimeout(resizeTimeout);
     }
 
-    observer?.disconnect();
+    if (observer) {
+      observer.disconnect();
+    }
   });
 
   return { width, height, isResizePending };
