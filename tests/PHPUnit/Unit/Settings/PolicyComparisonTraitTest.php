@@ -72,6 +72,14 @@ class PolicyComparisonTraitTest extends TestCase
         $this->assertSame([TestPolicy::class => null], $values);
     }
 
+    public function testGetPolicyOrderLeavesASettingWithoutItsOwnPositionAtTheEnd()
+    {
+        $this->assertSame(
+            PolicyComparisonInterface::POLICY_ORDER_LAST,
+            PolicyComparisonTraitImpl::getPolicyOrder()
+        );
+    }
+
     public function testIsControlledBySpecificPolicy()
     {
         $this->assertTrue(

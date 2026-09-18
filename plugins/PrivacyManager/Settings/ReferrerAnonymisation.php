@@ -85,6 +85,11 @@ class ReferrerAnonymisation implements CustomSettingInterface, PolicyComparisonI
         return '';
     }
 
+    public static function getPolicyOrder(): int
+    {
+        return 60;
+    }
+
     public static function getPolicyRequirements(): array
     {
         $policies = [];

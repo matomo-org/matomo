@@ -118,6 +118,11 @@ class AggregatedRealtimeReportsEnabled implements MeasurableSettingInterface, Po
         return Piwik::translate('Live_EnableAggregatedRealtimeReportsPolicySettingRequirementNote');
     }
 
+    public static function getPolicyOrder(): int
+    {
+        return 45;
+    }
+
     public static function getPolicyRequirements(): array
     {
         $policyValues = [];
