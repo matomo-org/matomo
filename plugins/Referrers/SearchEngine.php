@@ -326,7 +326,7 @@ class SearchEngine extends Singleton
             }
 
             foreach ($keywordsHiddenFor as $path) {
-                if (strlen($path) > 1 && substr($path, 0, 1) == '/' && substr($path, -1, 1) == '/') {
+                if (strlen($path) > 1 && substr($path, 0, 1) == '/' && str_ends_with($path, '/')) {
                     if (preg_match($path, $pathWithQueryAndFragment)) {
                         $key = false;
                         break;
@@ -497,6 +497,6 @@ class SearchEngine extends Singleton
             return false;
         }
         $path = str_replace("{k}", $keyword, $definition['backlink']);
-        return $url . (substr($url, -1) != '/' ? '/' : '') . $path;
+        return $url . (!str_ends_with($url, '/') ? '/' : '') . $path;
     }
 }

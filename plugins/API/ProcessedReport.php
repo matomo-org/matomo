@@ -918,7 +918,7 @@ class ProcessedReport
     private function calculateTotals($simpleTotals, $totals)
     {
         foreach ($simpleTotals as $metric => $value) {
-            if (0 === strpos($metric, 'avg_') || '_rate' === substr($metric, -5) || '_evolution' === substr($metric, -10)) {
+            if (0 === strpos($metric, 'avg_') || str_ends_with($metric, '_rate') || str_ends_with($metric, '_evolution')) {
                 continue; // skip average, rate and evolution metrics
             }
 
