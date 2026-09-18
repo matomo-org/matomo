@@ -413,6 +413,30 @@ class UsersManagerTest extends IntegrationTestCase
         $this->api->deleteUser("superuser");
     }
 
+    public function testAddUserKeepsTheAccessOfAnExistingLoginWhenUsernameChecksAreDisabled()
+    {
+        // with this setting the uniqueness validator returns early, so the insert is what rejects the login
+        \Piwik\Config::getInstance()->General['disable_checks_usernames_attributes'] = 1;
+
+        $this->api->addUser('existinguser', 'password', 'existinguser@example.org');
+        $this->api->setUserAccess('existinguser', 'view', array(1));
+
+        $caught = null;
+
+        try {
+            $this->api->addUser('existinguser', 'password', 'anotheremail@example.org');
+        } catch (Exception $e) {
+            $caught = $e;
+        }
+
+        $this->assertNotNull($caught, 'Adding a user with an already used login should not succeed');
+
+        $this->assertEquals(
+            array(array('site' => '1', 'access' => 'view')),
+            $this->model->getSitesAccessFromUser('existinguser')
+        );
+    }
+
     /**
      * normal case, user deleted
      */
