@@ -321,7 +321,7 @@ class API extends \Piwik\Plugin\API
 
     private function assertPreferenceNameIsSupported(string $preference): void
     {
-        if (false !== strpos($preference, self::OPTION_NAME_PREFERENCE_SEPARATOR)) {
+        if (str_contains($preference, self::OPTION_NAME_PREFERENCE_SEPARATOR)) {
             throw new Exception("Preference name cannot contain underscores.");
         }
 

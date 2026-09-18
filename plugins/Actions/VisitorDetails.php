@@ -194,7 +194,7 @@ class VisitorDetails extends VisitorDetailsAbstract
             unset($action['url_prefix']);
         }
 
-        if (!empty($action['url']) && strpos($action['url'], 'http://') === 0) {
+        if (!empty($action['url']) && str_starts_with($action['url'], 'http://')) {
             $host = parse_url($action['url'], PHP_URL_HOST);
 
             if ($host && PageUrl::shouldUseHttpsHost($visitorDetails['idSite'], $host)) {

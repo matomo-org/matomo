@@ -918,7 +918,7 @@ class ProcessedReport
     private function calculateTotals($simpleTotals, $totals)
     {
         foreach ($simpleTotals as $metric => $value) {
-            if (0 === strpos($metric, 'avg_') || '_rate' === substr($metric, -5) || '_evolution' === substr($metric, -10)) {
+            if (str_starts_with($metric, 'avg_') || '_rate' === substr($metric, -5) || '_evolution' === substr($metric, -10)) {
                 continue; // skip average, rate and evolution metrics
             }
 
@@ -936,9 +936,9 @@ class ProcessedReport
 
             if (!array_key_exists($metric, $totals)) {
                 $totals[$metric] = $value;
-            } elseif (0 === strpos($metric, 'min_')) {
+            } elseif (str_starts_with($metric, 'min_')) {
                 $totals[$metric] = min($totals[$metric], $value);
-            } elseif (0 === strpos($metric, 'max_')) {
+            } elseif (str_starts_with($metric, 'max_')) {
                 $totals[$metric] = max($totals[$metric], $value);
             } elseif ($value) {
                 $totals[$metric] += $value;
@@ -1019,33 +1019,33 @@ class ProcessedReport
             return $value;
         }
 
-        if (strpos($columnName, '_change') !== false) { // comparison change columns are formatted by DataComparisonFilter
+        if (str_contains($columnName, '_change')) { // comparison change columns are formatted by DataComparisonFilter
             return $value == '0' ? '+0%' : $value;
         }
 
         // percent-of-total metrics are quotients, this must be checked before the money/time
         // formatting below so eg 'revenue_percent_of_total' is not formatted as money
-        if (strpos($columnName, PercentOfReportTotal::COLUMN_NAME_SUFFIX) !== false) {
+        if (str_contains($columnName, PercentOfReportTotal::COLUMN_NAME_SUFFIX)) {
             return $formatter->getPrettyPercentFromQuotient($value);
         }
 
         // Display time in human readable
-        if (in_array($columnName, self::PERFORMANCE_METRICS_TO_FORMAT) || strpos($columnName, 'time_generation') !== false) {
+        if (in_array($columnName, self::PERFORMANCE_METRICS_TO_FORMAT) || str_contains($columnName, 'time_generation')) {
             return $formatter->getPrettyTimeFromSeconds($value, true);
         }
-        if (strpos($columnName, 'time') !== false) {
+        if (str_contains($columnName, 'time')) {
             return $formatter->getPrettyTimeFromSeconds($value);
         }
 
         // Add revenue symbol to revenues
-        $isMoneyMetric = strpos($columnName, 'revenue') !== false || strpos($columnName, 'price') !== false;
-        if ($isMoneyMetric && strpos($columnName, 'evolution') === false) {
+        $isMoneyMetric = str_contains($columnName, 'revenue') || str_contains($columnName, 'price');
+        if ($isMoneyMetric && !str_contains($columnName, 'evolution')) {
             return $formatter->getPrettyMoney($value, $idSite);
         }
 
         // Add % symbol to rates
-        if (strpos($columnName, '_rate') !== false) {
-            if (strpos($value, "%") === false) {
+        if (str_contains($columnName, '_rate')) {
+            if (!str_contains($value, "%")) {
                 return (100 * $value) . "%";
             }
         }

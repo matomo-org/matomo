@@ -1919,7 +1919,7 @@ class API extends \Piwik\Plugin\API
      */
     public function getTimezoneName(string $timezone, ?string $countryCode = null, ?bool $multipleTimezonesInCountry = null): string
     {
-        if (substr($timezone, 0, 3) === 'UTC') {
+        if (str_starts_with($timezone, 'UTC')) {
             return $this->translator->translate('SitesManager_Format_Utc', str_replace(['.25', '.5', '.75'], [':15', ':30', ':45'], substr($timezone, 3)));
         }
 

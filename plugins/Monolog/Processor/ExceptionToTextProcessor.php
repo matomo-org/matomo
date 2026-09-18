@@ -51,7 +51,7 @@ class ExceptionToTextProcessor
 
         if (
             !isset($record['message'])
-            || strpos($record['message'], '{exception}') === false
+            || !str_contains($record['message'], '{exception}')
         ) {
             $message = $exceptionStr;
         } else {

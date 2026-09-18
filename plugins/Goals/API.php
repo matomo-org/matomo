@@ -364,8 +364,8 @@ class API extends \Piwik\Plugin\API
     {
         if (
             $patternType == 'exact'
-            && substr($pattern, 0, 4) != 'http'
-            && substr($matchAttribute, 0, 6) != 'event_'
+            && !str_starts_with($pattern, 'http')
+            && !str_starts_with($matchAttribute, 'event_')
             && $matchAttribute != 'title'
         ) {
             throw new Exception(Piwik::translate('Goals_ExceptionInvalidMatchingString', array("http:// or https://", "http://www.yourwebsite.com/newsletter/subscribed.html")));
@@ -841,7 +841,7 @@ class API extends \Piwik\Plugin\API
 
         if ($showAllGoalSpecificMetrics && !empty($requestedColumns)) {
             foreach ($requestedColumns as $requestedColumn) {
-                if (strpos($requestedColumn, '_conversion_rate') !== false) {
+                if (str_contains($requestedColumn, '_conversion_rate')) {
                     $columnIdGoal = Goals::getGoalIdFromGoalColumn($requestedColumn);
                     if ($columnIdGoal) {
                         $goalConversionRate = new GoalConversionRate($idSite, $columnIdGoal);
