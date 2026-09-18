@@ -173,6 +173,16 @@
         "PluginDownloadLinkMissingPremium": "The %1$s plugin could not be installed. Please check your license. If you have an active subscription for the %1$s plugin, try installing it manually using a zip file downloaded from your %2$sMarketplace account%3$s. %4$sLearn more%5$s.",
         "PluginDownloadLinkMissingFree": "The %1$s plugin could not be installed, try installing it manually using a zip file from this %2$slink%3$s. %4$sLearn more%5$s.",
         "PluginDownloadLinkMissingDescription": "Unable to fetch download link for %1$s plugin, try installing the plugin manually from marketplace. %2$sLearn more%3$s.",
-        "OverviewPluginSubscriptionsMissingLicenseMessage": "You do not have a license key set. If you have purchased a plugin subscription, go to the %1$sLicense key page%2$s and enter your key. If you are interested in purchasing a plugin, visit the %3$sMarketplace%4$s to explore the available plugins and bundles."
+        "OverviewPluginSubscriptionsMissingLicenseMessage": "You do not have a license key set. If you have purchased a plugin subscription, go to the %1$sLicense key page%2$s and enter your key. If you are interested in purchasing a plugin, visit the %3$sMarketplace%4$s to explore the available plugins and bundles.",
+        "PayAnnually": "Pay annually",
+        "PayMonthly": "Pay monthly",
+        "XMonthsFree": "%1$s months free",
+        "OneMonthFree": "1 month free",
+        "BillingPeriod": "Billing period",
+        "PerMonthWithCurrency": "%1$s\/month",
+        "PerYearWithCurrency": "%1$s\/year",
+        "NumberOfUsers": "Number of users",
+        "BilledAnnually": "%1$s billed annually",
+        "BilledAnnuallyWithSavings": "%1$s billed annually - save %2$s"
     }
 }

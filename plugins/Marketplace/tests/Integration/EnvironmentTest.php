@@ -61,21 +61,31 @@ class EnvironmentTest extends IntegrationTestCase
         $this->assertTrue(version_compare($phpVersion[0], $this->environment->getPhpVersion(), '>='));
     }
 
-    public function testGetPhpVersionPrefersTheVersionAPageRecordedWhenRunningUnderCli()
+    public function testGetPhpVersionReturnsTheRunningVersionEvenWhenAPageRecordedAnother()
+    {
+        // plugin installs check require.php against this, so it has to describe the process in hand
+        Option::set(Environment::OPTION_WEB_PHP_VERSION, '8.1.99');
+
+        $phpVersion = explode('-', phpversion());
+
+        $this->assertSame($phpVersion[0], $this->environment->getPhpVersion());
+    }
+
+    public function testGetWebPhpVersionPrefersTheVersionAPageRecordedWhenRunningUnderCli()
     {
         // the tests themselves run under the CLI binary, which is the case this covers: a scheduled
         // task has to build the same cache key the browser will read, or it warms entries nothing
         // ever hits and the page pays the cold path anyway
         Option::set(Environment::OPTION_WEB_PHP_VERSION, '8.1.99');
 
-        $this->assertSame('8.1.99', $this->environment->getPhpVersion());
+        $this->assertSame('8.1.99', $this->environment->getWebPhpVersion());
     }
 
-    public function testGetPhpVersionFallsBackToTheRunningVersionWhenNoPageHasRecordedOne()
+    public function testGetWebPhpVersionFallsBackToTheRunningVersionWhenNoPageHasRecordedOne()
     {
         $phpVersion = explode('-', phpversion());
 
-        $this->assertSame($phpVersion[0], $this->environment->getPhpVersion());
+        $this->assertSame($phpVersion[0], $this->environment->getWebPhpVersion());
     }
 
     public function testGetPiwikVersion()

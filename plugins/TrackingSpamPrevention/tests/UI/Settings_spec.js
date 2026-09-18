@@ -26,4 +26,17 @@ describe("TrackingSpamPreventionSettings", function () {
         await page.waitForTimeout(20000);
         expect(await page.screenshotSelector(selector)).to.matchImage('page');
     });
+
+    it("should show the default provider list read-only when the default list is selected", async function () {
+        // the radio input itself is visually replaced by the span materialize renders next to it
+        await page.click('#cloud_blocking_modedefault + span');
+        await page.waitForSelector('#default_organisation_block_list', { visible: true });
+
+        const isDisabled = await page.evaluate(
+            () => document.querySelector('#default_organisation_block_list').disabled
+        );
+        expect(isDisabled).to.equal(true);
+
+        expect(await page.screenshotSelector(selector)).to.matchImage('default_list');
+    });
 });

@@ -325,9 +325,40 @@ Application.prototype.doRunTests = function (mocha) {
         page._reset();
     });
 
-    this.runner.on('end', function() {
-      // we are terminating but we are waiting for all other events to finish
-      setTimeout(() => process.exit(this.failures), 10000);
+    this.runner.on('end', function () {
+        process.exitCode = this.failures;
+
+        // reporterEnabled only names reporters under mocha-multi-reporters, and run-tests.js
+        // merges tests/UI/config.js over the defaults shallowly, so an override setting `reporter`
+        // alone leaves the defaults' reporterOptions standing behind it.
+        const reporter = config.reporter;
+        const namesTestomatio = (value) => typeof value === 'string'
+            && value.indexOf('@testomatio/reporter') !== -1;
+        const usesTestomatioReporter = namesTestomatio(reporter)
+            || (reporter === 'mocha-multi-reporters'
+                && namesTestomatio((config.reporterOptions || {}).reporterEnabled));
+
+        // a rejected close leaves the loop open, which is what the forced exit below would report
+        page.browser.close().catch((e) => {
+            console.log('Failed to close the browser: ' + (e && e.message ? e.message : e));
+        });
+
+        // the reporter keeps sending API requests after this event (#21760)
+        if (usesTestomatioReporter) {
+            setTimeout(() => process.exit(), 10000);
+            return;
+        }
+
+        // Safety net, unref'd so it never delays a healthy exit - which measured 108ms end-to-exit.
+        // process.exit() discards pending stdout writes when stdout is a pipe, so exit from the
+        // write's callback, with a backstop in case the pipe itself is wedged.
+        setTimeout(() => {
+            setTimeout(() => process.exit(), 1000).unref();
+            process.stdout.write(
+                'Forcing exit: something is still holding the event loop open after the run.\n',
+                () => process.exit(),
+            );
+        }, 5000).unref();
     })
 };
 

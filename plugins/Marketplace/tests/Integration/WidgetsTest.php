@@ -65,10 +65,36 @@ class WidgetsTest extends IntegrationTestCase
         self::assertNotEmpty($plugins);
 
         foreach ($plugins as $plugin) {
-            foreach (['versions', 'shop', 'support', 'authors', 'changelog', 'activity'] as $field) {
+            foreach (['versions', 'shop', 'support', 'authors', 'changelog', 'activity', 'screenshots'] as $field) {
                 self::assertArrayNotHasKey($field, $plugin, "$field is not rendered by this widget");
             }
         }
+    }
+
+    public function testGetNewPluginsKeepsScreenshotsForTheAdminTemplateOnly()
+    {
+        $this->service->returnFixture('v2.0_plugins.json');
+        $widget = new GetNewPlugins(Client::build($this->service));
+
+        $_GET['isAdminPage'] = '1';
+        $admin = $this->renderedPlugins($widget);
+        unset($_GET['isAdminPage']);
+
+        self::assertNotEmpty($admin);
+
+        // only the admin template renders a screenshot, and they are the largest field here
+        $rendered = ['name', 'displayName', 'description', 'screenshots'];
+
+        foreach ($admin as $plugin) {
+            self::assertSame([], array_diff(array_keys($plugin), $rendered));
+        }
+
+        self::assertNotEmpty(
+            array_filter($admin, function ($plugin) {
+                return array_key_exists('screenshots', $plugin);
+            }),
+            'the admin template renders a screenshot, so at least one plugin must carry the field'
+        );
     }
 
     /**

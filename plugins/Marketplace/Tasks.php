@@ -61,7 +61,7 @@ class Tasks extends \Piwik\Plugin\Tasks
             $this->api->refreshOverviewListCaches();
         } catch (Exception $e) {
             // the Marketplace being unreachable must not fail the scheduled run
-            $this->logger->info('Could not warm the Marketplace cache: {message}', [
+            $this->logger->warning('Could not warm the Marketplace cache: {message}', [
                 'message' => $e->getMessage(),
             ]);
         }

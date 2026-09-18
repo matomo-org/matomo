@@ -104,7 +104,7 @@ describe("PrivacyManager", function () {
     async function selectSite(id)
     {
         await page.click('.siteSelector a.title');
-        await page.click('.siteSelector .dropdown .custom_select_ul_list a[href*="idSite=' + id + '"]');
+        await page.click('.siteSelector .mtm-dropdownPanel__menu a[href*="idSite=' + id + '"]');
         await page.waitForNetworkIdle();
     }
 

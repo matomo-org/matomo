@@ -120,6 +120,26 @@ class ConsumerTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($expected, $this->buildConsumer()->getConsumer());
     }
 
+    public function testGetConsumerPluginLicensesReportsTheMarketplaceUnreachableWhenTheResponseIsEmpty()
+    {
+        $this->service->authenticate('123456789');
+        // a 200 with an empty body, which the service hands on as '' rather than as a decoded array
+        $this->service->setOnDownloadCallback(function () {
+            return '';
+        });
+
+        // null and not [], or every premium plugin would be shown as having lost its license
+        $this->assertNull($this->buildConsumer()->getConsumerPluginLicenses());
+    }
+
+    public function testGetConsumerPluginLicensesReturnsAnEmptyListWhenTheConsumerHoldsNoLicense()
+    {
+        $this->service->authenticate('123456789');
+        $this->service->returnFixture('v2.0_consumer-access_token-validbutnolicense.json');
+
+        $this->assertSame([], $this->buildConsumer()->getConsumerPluginLicenses());
+    }
+
     public function getConsumerNotAuthenticated()
     {
         return array(

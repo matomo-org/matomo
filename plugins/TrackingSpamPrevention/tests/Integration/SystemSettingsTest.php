@@ -9,10 +9,17 @@
 
 namespace Piwik\Plugins\TrackingSpamPrevention\tests\Integration;
 
+use Piwik\Config;
+use Piwik\Container\StaticContainer;
+use Piwik\Option;
+use Piwik\Plugins\CorePluginsAdmin\SettingsMetadata;
 use Piwik\Plugins\TrackingSpamPrevention\BlockedIpRanges;
 use Piwik\Plugins\TrackingSpamPrevention\Configuration;
 use Piwik\Plugins\TrackingSpamPrevention\SystemSettings;
+use Piwik\Settings\FieldConfig;
+use Piwik\Settings\Storage\Factory as StorageFactory;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Version;
 
 /**
  * @group TrackingSpamPrevention
@@ -40,12 +47,12 @@ class SystemSettingsTest extends IntegrationTestCase
 
     public function testBlockCloudDefault()
     {
-        $this->assertSame(false, $this->settings->block_clouds->getValue());
+        $this->assertSame(true, $this->settings->block_clouds->getValue());
     }
 
-    public function testBlockCloudHasSettingsIntroduction()
+    public function testCloudBlockingModeHasSettingsIntroduction()
     {
-        $field = $this->settings->block_clouds->configureField();
+        $field = $this->settings->cloudBlockingMode->configureField();
 
         $this->assertSame(
             'TrackingSpamPrevention_SettingsIntroduction',
@@ -55,6 +62,7 @@ class SystemSettingsTest extends IntegrationTestCase
 
     public function testBlockCloudEnableGetOldValue()
     {
+        $this->settings->block_clouds->setValue(0);// it is on by default
         $this->settings->block_clouds->setValue(1);
         $this->assertSame(true, $this->settings->block_clouds->getValue());
         $this->assertSame(false, $this->settings->block_clouds->getOldValue());
@@ -229,14 +237,157 @@ class SystemSettingsTest extends IntegrationTestCase
 
     public function testGetBlockedOrganisationsReturnsCleanedValues()
     {
+        $this->settings->cloudBlockingMode->setValue(SystemSettings::CLOUD_BLOCKING_CUSTOM_LIST);
         $this->settings->organisationBlockList->setValue(['ExampleOrg', 'Another Org']);
         $this->assertSame(['exampleorg', 'another org'], $this->settings->getBlockedOrganisations());
+    }
+
+    public function testCloudBlockingModeDefault()
+    {
+        $this->assertSame(SystemSettings::CLOUD_BLOCKING_DEFAULT_LIST, $this->settings->getCloudBlockingMode());
+    }
+
+    public function testDefaultsBlockOnAnInstallThatPostdatesTheSplit()
+    {
+        $this->withRecordedVersion(Version::VERSION, function (SystemSettings $settings) {
+            $this->assertSame(true, $settings->block_clouds->getValue());
+            $this->assertSame(SystemSettings::CLOUD_BLOCKING_DEFAULT_LIST, $settings->getCloudBlockingMode());
+        });
+    }
+
+    public function testDefaultsFollowTheOldTickboxOnAnInstallThatPredatesTheSplit()
+    {
+        $this->withRecordedVersion('5.2.0', function (SystemSettings $settings) {
+            $this->assertSame(false, $settings->block_clouds->getValue());
+            $this->assertSame(SystemSettings::CLOUD_BLOCKING_OFF, $settings->getCloudBlockingMode());
+        });
+    }
+
+    public function testCloudBlockingModeFollowsAnEnabledTickboxUntilTheMigrationRuns()
+    {
+        $this->storeLegacyState(true);
+
+        $this->withRecordedVersion('5.2.0', function (SystemSettings $settings) {
+            $this->assertSame(SystemSettings::CLOUD_BLOCKING_CUSTOM_LIST, $settings->getCloudBlockingMode());
+            $this->assertSame(Configuration::DEFAULT_GEOIP_MATCH_PROVIDERS, $settings->getBlockedOrganisations());
+        });
+    }
+
+    public function testBlockedOrganisationsFollowAStoredListUntilTheMigrationRuns()
+    {
+        $this->storeLegacyState(true, ['my custom org']);
+
+        $this->withRecordedVersion('5.2.0', function (SystemSettings $settings) {
+            $this->assertSame(['my custom org'], $settings->getBlockedOrganisations());
+        });
+    }
+
+    public function testBlockedOrganisationsStayOffForAnEmptiedListUntilTheMigrationRuns()
+    {
+        // an emptied list meant "IP ranges on, organisation matching off" before the split
+        $this->storeLegacyState(true, []);
+
+        $this->withRecordedVersion('5.2.0', function (SystemSettings $settings) {
+            $this->assertSame([], $settings->getBlockedOrganisations());
+        });
+    }
+
+    public function testCloudBlockingModeStaysUnsetWhenTheSettingsFormIsSavedBeforeTheMigration()
+    {
+        $this->withRecordedVersion('5.2.0', function (SystemSettings $settings) {
+            // the form posts every field of the plugin, including the one that has no value yet
+            $posted = array_map(function ($setting) {
+                return ['name' => $setting->getName(), 'value' => $setting->getValue()];
+            }, $settings->getSettingsWritableByCurrentUser());
+
+            (new SettingsMetadata())->setPluginSettings(
+                ['TrackingSpamPrevention' => $settings],
+                ['TrackingSpamPrevention' => $posted]
+            );
+            $settings->save();
+
+            $storage = StaticContainer::get(StorageFactory::class)->getPluginStorage('TrackingSpamPrevention', '');
+            $this->assertNull($storage->getValue('cloud_blocking_mode', null, FieldConfig::TYPE_STRING));
+        });
+    }
+
+    public function testCloudBlockingModeRejectsUnknownValue()
+    {
+        $this->expectException(\Exception::class);
+        $this->settings->cloudBlockingMode->setValue('somethingelse');
+    }
+
+    public function testGetBlockedOrganisationsIsEmptyWhenBlockingIsOff()
+    {
+        $this->settings->cloudBlockingMode->setValue(SystemSettings::CLOUD_BLOCKING_OFF);
+        $this->settings->organisationBlockList->setValue(['exampleorg']);
+
+        $this->assertSame([], $this->settings->getBlockedOrganisations());
+    }
+
+    public function testGetBlockedOrganisationsIgnoresCustomListUnderDefaultMode()
+    {
+        // the custom list is kept while another option is selected, it just is not used
+        $this->settings->organisationBlockList->setValue(['exampleorg']);
+
+        $this->assertSame(Configuration::DEFAULT_GEOIP_MATCH_PROVIDERS, $this->settings->getBlockedOrganisations());
+        $this->assertSame(['exampleorg'], $this->settings->organisationBlockList->getValue());
+    }
+
+    public function testGetBlockedOrganisationsPrefersConfigOverrideUnderDefaultMode()
+    {
+        $this->withPluginConfig(['organisation_block_list' => [' Override Org ']], function () {
+            $this->assertSame(['override org'], $this->settings->getBlockedOrganisations());
+        });
+    }
+
+    public function testGetCloudBlockingModeFallsBackToDefaultForUnknownConfigValue()
+    {
+        $this->withPluginConfig(['cloud_blocking_mode' => 'nonsense'], function () {
+            $this->assertSame(SystemSettings::CLOUD_BLOCKING_DEFAULT_LIST, $this->settings->getCloudBlockingMode());
+            $this->assertSame(Configuration::DEFAULT_GEOIP_MATCH_PROVIDERS, $this->settings->getBlockedOrganisations());
+        });
+    }
+
+    public function testDefaultOrganisationBlockListReportsTheCurrentDefaultList()
+    {
+        $this->assertSame(
+            Configuration::DEFAULT_GEOIP_MATCH_PROVIDERS,
+            $this->settings->defaultOrganisationBlockList->getValue()
+        );
+    }
+
+    public function testDefaultOrganisationBlockListIsNeverStored()
+    {
+        // the settings form posts this field like any other, and a stored copy would stop tracking
+        // later additions to the default list
+        $this->settings->defaultOrganisationBlockList->setValue(['something', 'else']);
+        $this->settings->save();
+
+        $storage = StaticContainer::get(StorageFactory::class)->getPluginStorage('TrackingSpamPrevention', '');
+
+        $this->assertNull($storage->getValue('default_organisation_block_list', null, FieldConfig::TYPE_ARRAY));
+        $this->assertSame(
+            Configuration::DEFAULT_GEOIP_MATCH_PROVIDERS,
+            $this->settings->defaultOrganisationBlockList->getValue()
+        );
+    }
+
+    public function testSaveDoesNotSyncWhenBlockCloudsWasNotChanged()
+    {
+        $ranges = $this->makeRanges();
+        // block_clouds is on by default, so an unrelated save must not read as it being turned on
+        $this->settings->max_actions->setValue(10);
+        $this->settings->save();
+
+        $this->assertEmpty($ranges->getBlockedRanges());
     }
 
     public function testSaveShouldSyncWhenEnabled()
     {
         $ranges = $this->makeRanges();
         $this->assertEmpty($ranges->getBlockedRanges());
+        $this->settings->block_clouds->setValue(false);// it is on by default, so make it a real change
         $this->settings->block_clouds->setValue(true);
         $this->settings->save();
         $this->assertNotEmpty($ranges->getBlockedRanges());
@@ -245,8 +396,13 @@ class SystemSettingsTest extends IntegrationTestCase
     public function testSaveShouldEmptyRangesWhenDisabledButNoChange()
     {
         $ranges = $this->makeRanges();
+        $this->settings->block_clouds->setValue(false);
+        $this->settings->save();
+
         $ranges->updateBlockedIpRanges();
         $this->assertNotEmpty($ranges->getBlockedRanges());
+
+        // saving again without changing the value must keep IPs banned for exceeding max actions
         $this->settings->block_clouds->setValue(false);
         $this->settings->save();
         $this->assertNotEmpty($ranges->getBlockedRanges());
@@ -261,6 +417,106 @@ class SystemSettingsTest extends IntegrationTestCase
         $this->settings->block_clouds->setValue(false);
         $this->settings->save();
         $this->assertEmpty($ranges->getBlockedRanges());
+    }
+
+    public function testDefaultListFieldIsHiddenWhenTheOrganisationListIsOverridden()
+    {
+        $this->withPluginConfig(['organisation_block_list' => ['override org']], function () {
+            // showing "the default list" beside an override would name a list that is not in use
+            $this->assertNotContains('default_organisation_block_list', $this->writableSettingNames());
+        });
+    }
+
+    public function testCustomListStaysVisibleWhenTheBlockingModeIsOverridden()
+    {
+        $this->withPluginConfig(['cloud_blocking_mode' => SystemSettings::CLOUD_BLOCKING_CUSTOM_LIST], function () {
+            $settings = new SystemSettings();
+            $names = $this->writableSettingNames($settings);
+
+            // the mode is absent from the settings payload, so a client-side condition referring to
+            // it would hide the one list still in effect
+            $this->assertContains('organisation_block_list', $names);
+            $this->assertNotContains('default_organisation_block_list', $names);
+            $this->assertNull($settings->organisationBlockList->configureField()->condition);
+        });
+    }
+
+    public function testDefaultListFieldIsTheOnlyOneShownWhenTheModeIsOverriddenToTheDefaultList()
+    {
+        $this->withPluginConfig(['cloud_blocking_mode' => SystemSettings::CLOUD_BLOCKING_DEFAULT_LIST], function () {
+            $names = $this->writableSettingNames();
+
+            $this->assertContains('default_organisation_block_list', $names);
+            $this->assertNotContains('organisation_block_list', $names);
+        });
+    }
+
+    public function testNeitherListIsShownWhenTheModeIsOverriddenToOff()
+    {
+        $this->withPluginConfig(['cloud_blocking_mode' => SystemSettings::CLOUD_BLOCKING_OFF], function () {
+            $names = $this->writableSettingNames();
+
+            $this->assertNotContains('default_organisation_block_list', $names);
+            $this->assertNotContains('organisation_block_list', $names);
+        });
+    }
+
+    private function writableSettingNames(?SystemSettings $settings = null): array
+    {
+        // registration is decided in init(), so the settings have to be built under the config override
+        $settings = $settings ?? new SystemSettings();
+
+        return array_map(function ($setting) {
+            return $setting->getName();
+        }, $settings->getSettingsWritableByCurrentUser());
+    }
+
+    private function storeLegacyState(bool $blockClouds, ?array $organisations = null): void
+    {
+        // written straight to storage: what an install looked like before the split, not what the
+        // settings objects would write today
+        $storage = StaticContainer::get(StorageFactory::class)->getPluginStorage('TrackingSpamPrevention', '');
+        $storage->setValue('block_clouds', $blockClouds);
+
+        if (null !== $organisations) {
+            $storage->setValue('organisation_block_list', $organisations);
+        }
+
+        $storage->save();
+    }
+
+    private function withRecordedVersion(string $version, callable $assertions): void
+    {
+        $option  = 'version_TrackingSpamPrevention';
+        $recorded = Option::get($option);
+
+        Option::set($option, $version);
+
+        try {
+            // the defaults are resolved in init(), so the settings have to be built under the option
+            $assertions(new SystemSettings());
+        } finally {
+            if (false === $recorded) {
+                Option::delete($option);
+            } else {
+                Option::set($option, $recorded);
+            }
+        }
+    }
+
+    private function withPluginConfig(array $values, callable $assertions): void
+    {
+        $sectionBefore = Config::getInstance()->TrackingSpamPrevention;
+        $section = is_array($sectionBefore) ? $sectionBefore : [];
+
+        Config::getInstance()->TrackingSpamPrevention = array_merge($section, $values);
+
+        try {
+            $assertions();
+        } finally {
+            // in-memory config changes leak into later tests of this class, so restore the section
+            Config::getInstance()->TrackingSpamPrevention = $sectionBefore;
+        }
     }
 
     private function makeRanges()

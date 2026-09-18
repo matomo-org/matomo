@@ -85,6 +85,8 @@ use Piwik\Log\LoggerInterface;
  */
 class Request
 {
+    private const ROOT_API_METHOD_CACHE_KEY = 'API.setIsRootRequestApiRequest';
+
     /**
      * The count of nested API request invocations. Used to determine if the currently executing request is the root or not.
      */
@@ -347,21 +349,21 @@ class Request
     /**
      * @ignore
      * @internal
-     * @param string $currentApiMethod
+     * @param string|null $currentApiMethod
      */
     public static function setIsRootRequestApiRequest($currentApiMethod)
     {
-        Cache::getTransientCache()->save('API.setIsRootRequestApiRequest', $currentApiMethod);
+        Cache::getTransientCache()->save(self::ROOT_API_METHOD_CACHE_KEY, $currentApiMethod);
     }
 
     /**
      * @ignore
      * @internal
-     * @return string current Api Method if it is an api request
+     * @return string|false|null current Api Method if it is an api request
      */
     public static function getRootApiRequestMethod()
     {
-        return Cache::getTransientCache()->fetch('API.setIsRootRequestApiRequest');
+        return Cache::getTransientCache()->fetch(self::ROOT_API_METHOD_CACHE_KEY);
     }
 
     /**
@@ -369,12 +371,10 @@ class Request
      * request within any request, have a look at {@link isApiRequest()}.
      *
      * @return bool
-     * @throws Exception
      */
     public static function isRootRequestApiRequest()
     {
-        $apiMethod = Cache::getTransientCache()->fetch('API.setIsRootRequestApiRequest');
-        return !empty($apiMethod);
+        return !empty(self::getRootApiRequestMethod());
     }
 
     /**
@@ -402,6 +402,24 @@ class Request
     public static function isCurrentApiRequestNestedInAnotherApiRequest(): bool
     {
         return self::$nestedApiInvocationCount > 1;
+    }
+
+    /**
+     * Whether the request being served is the API endpoint itself. The module dispatches the
+     * requested method through its index action; its other actions accept a method parameter
+     * without dispatching it.
+     *
+     * Reads the live request, so it is only meaningful before a nested API call overlays
+     * `module=API` onto the request parameters.
+     *
+     * @ignore
+     * @internal
+     */
+    public static function isApiHttpRequest(): bool
+    {
+        $action = Piwik::getAction();
+
+        return Piwik::getModule() === 'API' && (empty($action) || $action === 'index');
     }
 
     /**

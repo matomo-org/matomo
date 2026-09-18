@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Marketplace;
 
 use Piwik\Container\StaticContainer;
 use Piwik\Plugin;
+use Piwik\Plugins\Marketplace\Plugins\InvalidLicenses;
 use Piwik\Plugins\Marketplace\PluginTrial\Service as PluginTrialService;
 use Piwik\Request;
 use Piwik\SettingsPiwik;
@@ -50,6 +51,8 @@ class Marketplace extends \Piwik\Plugin
     {
         $marketplace = StaticContainer::get('Piwik\Plugins\Marketplace\Api\Client');
         $marketplace->clearAllCacheEntries();
+
+        StaticContainer::get(InvalidLicenses::class)->clearCache();
     }
 
     public function getStylesheetFiles(&$stylesheets)
@@ -68,6 +71,7 @@ class Marketplace extends \Piwik\Plugin
         $stylesheets[] = "plugins/Marketplace/vue/src/PluginGrid/EmptyState.less";
         $stylesheets[] = "plugins/Marketplace/vue/src/PluginSection/PluginSection.less";
         $stylesheets[] = "plugins/Marketplace/vue/src/PluginList/CTAStatus.less";
+        $stylesheets[] = "plugins/Marketplace/vue/src/PluginDetailsModal/ShopPricing.less";
     }
 
     public function getJsFiles(&$jsFiles)
@@ -204,7 +208,6 @@ class Marketplace extends \Piwik\Plugin
         $translationKeys[] = 'Marketplace_PluginLicenseMissingDescription';
         $translationKeys[] = 'Marketplace_PluginsNotAvailable';
         $translationKeys[] = 'Marketplace_PluginWebsite';
-        $translationKeys[] = 'Marketplace_PriceExclTax';
         $translationKeys[] = 'Marketplace_Reviews';
         $translationKeys[] = 'Marketplace_Screenshots';
         $translationKeys[] = 'Marketplace_SearchPlaceholder';
@@ -222,6 +225,17 @@ class Marketplace extends \Piwik\Plugin
         $translationKeys[] = 'Marketplace_PluginDownloadLinkMissingPremium';
         $translationKeys[] = 'Marketplace_PluginDownloadLinkMissingFree';
         $translationKeys[] = 'Marketplace_PluginDownloadLinkMissingDescription';
+        $translationKeys[] = 'Marketplace_PayAnnually';
+        $translationKeys[] = 'Marketplace_PayMonthly';
+        $translationKeys[] = 'Marketplace_XMonthsFree';
+        $translationKeys[] = 'Marketplace_OneMonthFree';
+        $translationKeys[] = 'Marketplace_BillingPeriod';
+        $translationKeys[] = 'Marketplace_PerMonthWithCurrency';
+        $translationKeys[] = 'Marketplace_PerYearWithCurrency';
+        $translationKeys[] = 'Marketplace_NumberOfUsers';
+        $translationKeys[] = 'Marketplace_BilledAnnually';
+        $translationKeys[] = 'Marketplace_BilledAnnuallyWithSavings';
+        $translationKeys[] = 'SitesManager_Currency';
     }
 
     /**
