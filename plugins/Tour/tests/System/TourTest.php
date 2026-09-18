@@ -14,6 +14,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Piwik;
 use Piwik\Plugins\Tour\Engagement\ChallengeAddedAnnotation;
+use Piwik\Plugins\Tour\Engagement\ChallengeAddRecommendedGoals;
 use Piwik\Plugins\Tour\Engagement\ChallengeInvitedUser;
 use Piwik\Plugins\Tour\Engagement\ChallengeCreatedGoal;
 use Piwik\Plugins\Tour\tests\Fixtures\SimpleFixtureTrackFewVisits;
@@ -44,6 +45,27 @@ class TourTest extends SystemTestCase
 
         Request::processRequest('Goals.addGoal', array(
             'idSite' => self::$fixture->idSite, 'name' => 'MyGoal', 'matchAttribute' => 'url', 'pattern' => 'foobar', 'patternType' => 'contains',
+        ));
+
+        $this->assertTrue($goal->isCompleted(Piwik::getCurrentUserLogin()));
+    }
+
+    public function testHasAddedRecommendedGoal()
+    {
+        $goal = StaticContainer::get(ChallengeAddRecommendedGoals::class);
+
+        $this->assertFalse($goal->isCompleted(Piwik::getCurrentUserLogin()));
+
+        Request::processRequest('Goals.addGoal', array(
+            'idSite' => self::$fixture->idSite, 'name' => 'MyRegularGoal', 'matchAttribute' => 'url', 'pattern' => 'regular', 'patternType' => 'contains',
+        ));
+
+        $this->assertFalse($goal->isCompleted(Piwik::getCurrentUserLogin()));
+        $this->assertStringContainsString('subcategory=Goals_ManageGoals', $goal->getUrl());
+
+        Request::processRequest('Goals.addGoal', array(
+            'idSite' => self::$fixture->idSite, 'name' => 'MyRecommendedGoal', 'matchAttribute' => 'url', 'pattern' => 'recommended', 'patternType' => 'contains',
+            ChallengeAddRecommendedGoals::REQUEST_PARAMETER => 1,
         ));
 
         $this->assertTrue($goal->isCompleted(Piwik::getCurrentUserLogin()));
