@@ -282,7 +282,7 @@ class SessionDataMerger
             return false;
         }
 
-        return [] === $value || array_keys($value) !== range(0, count($value) - 1);
+        return [] === $value || !array_is_list($value);
     }
 
     private function isSame($left, $right): bool
