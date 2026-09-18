@@ -117,6 +117,30 @@ describe('CoreHome/AjaxHelper', () => {
     }) as typeof window.$.ajax;
   }
 
+  function installAbortingAjaxMock(): void {
+    (window.$ as JQueryStatic & { ajax: typeof window.$.ajax }).ajax = (() => {
+      const xhr = {
+        readyState: 4,
+        status: 0,
+        statusText: 'abort',
+        responseJSON: null,
+        abort: vi.fn(),
+        getResponseHeader() {
+          return null;
+        },
+        then() {
+          return this;
+        },
+        fail(callback: (request: JQueryXhr, status: string, errorThrown: unknown) => void) {
+          callback(this as unknown as JQueryXhr, 'abort', new Error('aborted'));
+          return this;
+        },
+      };
+
+      return xhr as unknown as JQueryXhr;
+    }) as typeof window.$.ajax;
+  }
+
   beforeEach(() => {
     consoleLogSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
     notificationCallCount = 0;
@@ -299,6 +323,30 @@ describe('CoreHome/AjaxHelper', () => {
     expect(() => {
       helper.send();
     }).toThrow(unsupportedBulkResponseObjectError);
+  });
+
+  it('should reject an aborted request when the caller asked to be told about it', async () => {
+    installAbortingAjaxMock();
+
+    const request = AjaxHelper.fetch(
+      { method: 'API.getMatomoVersion' },
+      { rejectOnAbort: true },
+    );
+
+    await expect(request).rejects.toMatchObject({ status: 0, statusText: 'abort' });
+  });
+
+  it('should leave an aborted request unsettled by default', async () => {
+    installAbortingAjaxMock();
+
+    let settled = false;
+    AjaxHelper.fetch({ method: 'API.getMatomoVersion' })
+      .then(() => { settled = true; }, () => { settled = true; });
+
+    await Promise.resolve();
+    await Promise.resolve();
+
+    expect(settled).toBe(false);
   });
 
   it('should reject chunked fetch requests when aborted', async () => {

@@ -28,6 +28,7 @@ export interface AjaxOptions {
   errorElement?: HTMLElement|JQuery|string;
   redirectOnSuccess?: QueryParameters|boolean;
   abortable?: boolean;
+  rejectOnAbort?: boolean;
 }
 
 interface ErrorResponse {
@@ -217,6 +218,12 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
 
   abortable = true;
 
+  /**
+   * Whether an aborted request rejects the promise returned by send(). Off by default, as
+   * navigating the page aborts every queued request at once.
+   */
+  rejectOnAbort = false;
+
   defaultParams = ['idSite', 'period', 'date', 'segment', 'language'];
 
   resolveWithHelper = false;
@@ -313,6 +320,10 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
 
     if (options.abortable === false) {
       helper.abortable = false;
+    }
+
+    if (options.rejectOnAbort) {
+      helper.rejectOnAbort = true;
     }
 
     return helper.send().then((result: R | ErrorResponse | AjaxHelper) => {
@@ -973,6 +984,9 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
         }
 
         if (xhr.statusText === 'abort' || xhr.status === 0) {
+          if (this.rejectOnAbort) {
+            reject(xhr);
+          }
           return;
         }
 
