@@ -98,7 +98,7 @@ class PromotionRendererTest extends IntegrationTestCase
 
         $this->assertStringContainsString('Where are you losing momentum?', $html);
         // Tags stripped, because the figure itself is a link to the report it came from.
-        $this->assertStringContainsString('Only 2% of visits convert for Purchase', strip_tags($html));
+        $this->assertStringContainsString('Only 2% of visits converted for Purchase last week', strip_tags($html));
         $this->assertStringNotContainsString('%%', $html);
         $this->assertStringNotContainsString('%1$s', $html);
     }
