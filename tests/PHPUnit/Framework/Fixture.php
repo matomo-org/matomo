@@ -616,13 +616,13 @@ class Fixture extends \PHPUnit\Framework\Assert
             $piwikUrl = $piwikUrl . ':' . $piwikPort;
         }
 
-        if (strpos($piwikUrl, 'http://') !== 0) {
+        if (!str_starts_with($piwikUrl, 'http://')) {
             $piwikUrl = 'http://' . $piwikUrl . '/';
         }
 
         $pathBeforeRoot = 'tests';
         // Running from a plugin
-        if (strpos($piwikUrl, 'plugins/') !== false) {
+        if (str_contains($piwikUrl, 'plugins/')) {
             $pathBeforeRoot = 'plugins';
         }
 
@@ -794,7 +794,7 @@ class Fixture extends \PHPUnit\Framework\Assert
             }
         } catch (Exception $e) {
             // duplicate entry errors are expected
-            if (strpos($e->getMessage(), 'Duplicate entry') === false) {
+            if (!str_contains($e->getMessage(), 'Duplicate entry')) {
                 throw $e;
             }
         }
@@ -938,8 +938,8 @@ class Fixture extends \PHPUnit\Framework\Assert
         $gdInfo = gd_info();
         return
             stristr(php_uname(), self::IMAGES_GENERATED_ONLY_FOR_OS) &&
-            strpos(phpversion(), self::IMAGES_GENERATED_FOR_PHP) !== false &&
-            strpos($gdInfo['GD Version'], self::IMAGES_GENERATED_FOR_GD) !== false;
+            str_contains(phpversion(), self::IMAGES_GENERATED_FOR_PHP) &&
+            str_contains($gdInfo['GD Version'], self::IMAGES_GENERATED_FOR_GD);
     }
 
     public static function executeLogImporter($logFile, $options, $allowFailure = false)

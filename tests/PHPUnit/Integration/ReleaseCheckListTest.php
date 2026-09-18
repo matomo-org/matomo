@@ -174,7 +174,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         // Check the index.php has "backtrace disabled"
         $content = file_get_contents(PIWIK_INCLUDE_PATH . "/index.php");
         $expected = "define('PIWIK_PRINT_ERROR_BACKTRACE', false);";
-        $this->assertTrue(false !== strpos($content, $expected), 'index.php should contain: ' . $expected);
+        $this->assertTrue(str_contains($content, $expected), 'index.php should contain: ' . $expected);
     }
 
     private function checkEqual($key, $valueExpected)
@@ -254,7 +254,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
                 continue;
             }
             $content = file_get_contents($file);
-            $foundPattern = strpos($content, $patternFailIfFound) !== false;
+            $foundPattern = str_contains($content, $patternFailIfFound);
 
             if ($foundPattern) {
                 $foundPatterns[] = $file;
@@ -279,7 +279,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
     private function isFileOrPathAllowed($allowedFiles, $file)
     {
         foreach ($allowedFiles as $allowedFile) {
-            if (strpos($file, $allowedFile) === 0) {
+            if (str_starts_with($file, $allowedFile)) {
                 return true;
             }
         }
@@ -330,14 +330,14 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         $tested = 0;
         foreach ($files as $file) {
             // skip files in these folders
-            if (strpos($file, '/libs/') !== false) {
+            if (str_contains($file, '/libs/')) {
                 continue;
             }
 
             $handle = fopen($file, "r");
             $expectedStart = "<?php";
 
-            $isIniFile = strpos($file, ".ini.php") !== false;
+            $isIniFile = str_contains($file, ".ini.php");
             if ($isIniFile) {
                 $expectedStart = "; <?php exit;";
             }
@@ -389,7 +389,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         foreach ($objects as $name => $object) {
             if (
                 is_dir($name)
-                && strpos($name, "/.") === false
+                && !str_contains($name, "/.")
             ) {
                 $paths[] = $name;
             }
@@ -458,16 +458,16 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         foreach (Filesystem::globr(PIWIK_DOCUMENT_ROOT, '*') as $file) {
             // skip files in these folders
             if (
-                strpos($file, '/.git/') !== false ||
-                strpos($file, '/documentation/') !== false ||
-                strpos($file, '/tests/') !== false ||
-                strpos($file, '/lang/') !== false ||
-                strpos($file, 'yuicompressor') !== false ||
-                (strpos($file, '/vendor') !== false && strpos($file, '/vendor/piwik') === false) ||
-                strpos($file, '/tmp/') !== false ||
-                strpos($file, '/node_modules/') !== false ||
-                strpos($file, '/Morpheus/icons/src/') !== false ||
-                strpos($file, '/phantomjs/') !== false
+                str_contains($file, '/.git/') ||
+                str_contains($file, '/documentation/') ||
+                str_contains($file, '/tests/') ||
+                str_contains($file, '/lang/') ||
+                str_contains($file, 'yuicompressor') ||
+                (str_contains($file, '/vendor') && !str_contains($file, '/vendor/piwik')) ||
+                str_contains($file, '/tmp/') ||
+                str_contains($file, '/node_modules/') ||
+                str_contains($file, '/Morpheus/icons/src/') ||
+                str_contains($file, '/phantomjs/')
             ) {
                 continue;
             }
@@ -483,7 +483,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
                 // expect CRLF
                 if (preg_match('/\.(bat|ps1)$/', $file)) {
                     $contents = str_replace("\r\n", '', $contents);
-                    $this->assertTrue(strpos($contents, "\n") === false, 'Incorrect line endings in ' . $file);
+                    $this->assertTrue(!str_contains($contents, "\n"), 'Incorrect line endings in ' . $file);
                 } else {
                     // expect native
                     $hasWindowsEOL = strpos($contents, "\r\n");
@@ -561,7 +561,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         $errors = array();
         foreach ($files as $file) {
             // skip files in these folders
-            if (strpos($file, '/libs/') !== false) {
+            if (str_contains($file, '/libs/')) {
                 continue;
             }
 
@@ -587,14 +587,14 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
      */
     protected function isSkipPhpFileStartWithPhpBlock($file, $isIniFile)
     {
-        $isIniFileInTests = strpos($file, "/tests/") !== false;
-        $isTestResultFile = strpos($file, "/System/expected") !== false
-            || strpos($file, "tests/resources/Updater/") !== false
-            || strpos($file, "Twig/Tests/") !== false
-            || strpos($file, "processed/") !== false
-            || strpos($file, "/vendor/") !== false
-            || (strpos($file, "tmp/") !== false && strpos($file, 'index.php') !== false);
-        $isLib = strpos($file, "lib/xhprof") !== false || strpos($file, "phpunit/phpunit") !== false;
+        $isIniFileInTests = str_contains($file, "/tests/");
+        $isTestResultFile = str_contains($file, "/System/expected")
+            || str_contains($file, "tests/resources/Updater/")
+            || str_contains($file, "Twig/Tests/")
+            || str_contains($file, "processed/")
+            || str_contains($file, "/vendor/")
+            || (str_contains($file, "tmp/") && str_contains($file, 'index.php'));
+        $isLib = str_contains($file, "lib/xhprof") || str_contains($file, "phpunit/phpunit");
 
         return ($isIniFile && $isIniFileInTests) || $isTestResultFile || $isLib;
     }
@@ -605,7 +605,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
     protected function isPathAddedToGit($pluginPath)
     {
         $gitOutput = shell_exec('git ls-files ' . $pluginPath . ' --error-unmatch 2>&1');
-        $addedToGit = (strlen($gitOutput) > 0) && strpos($gitOutput, 'error: pathspec') === false;
+        $addedToGit = (strlen($gitOutput) > 0) && !str_contains($gitOutput, 'error: pathspec');
         return $addedToGit;
     }
 
@@ -774,12 +774,12 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         if ($this->isFileBelongToTests($file)) {
             return false;
         }
-        if (strpos($file, PIWIK_INCLUDE_PATH . "/tmp/") !== false) {
+        if (str_contains($file, PIWIK_INCLUDE_PATH . "/tmp/")) {
             return false;
         }
 
         // ignore downloaded geoip files
-        if ((strpos($file, 'GeoIP') !== false || strpos($file, 'DBIP') !== false) && strpos($file, '.mmdb') !== false) {
+        if ((str_contains($file, 'GeoIP') || str_contains($file, 'DBIP')) && str_contains($file, '.mmdb')) {
             return false;
         }
 
@@ -812,7 +812,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
      */
     private function isPluginSubmoduleAndThereforeNotFoundInFinalRelease($file)
     {
-        if (strpos($file, PIWIK_INCLUDE_PATH . "/plugins/") === false) {
+        if (!str_contains($file, PIWIK_INCLUDE_PATH . "/plugins/")) {
             return false;
         }
 
@@ -862,7 +862,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
     private function isFilePathFoundInArray($file, $filesToMatchAgainst)
     {
         foreach ($filesToMatchAgainst as $fileToMatchAgainst) {
-            if (strpos($file, $fileToMatchAgainst) !== false || fnmatch(PIWIK_INCLUDE_PATH . '/' . $fileToMatchAgainst, $file)) {
+            if (str_contains($file, $fileToMatchAgainst) || fnmatch(PIWIK_INCLUDE_PATH . '/' . $fileToMatchAgainst, $file)) {
                 return true;
             }
         }
@@ -1127,15 +1127,15 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             }
 
             if (
-                strpos($file, 'vendor/php-di/php-di/website/') !== false
-                || strpos($file, 'vendor/phpmailer/phpmailer/language/') !== false
-                || strpos($file, 'vendor/wikimedia/less.php/') !== false
-                || strpos($file, 'node_modules/') !== false
-                || strpos($file, 'vendor/mayflower/mo4-coding-standard/') !== false
-                || strpos($file, 'vendor/symfony/polyfill-iconv/') !== false
-                || strpos($file, 'vendor/symfony/polyfill-intl-normalizer/') !== false
-                || strpos($file, 'plugins/CoreVue/polyfills/dist/MatomoPolyfills.min.js') !== false
-                || strpos($file, 'plugins/VisitorGenerator/vendor/fzaninotto/faker/src/Faker/Provider/') !== false
+                str_contains($file, 'vendor/php-di/php-di/website/')
+                || str_contains($file, 'vendor/phpmailer/phpmailer/language/')
+                || str_contains($file, 'vendor/wikimedia/less.php/')
+                || str_contains($file, 'node_modules/')
+                || str_contains($file, 'vendor/mayflower/mo4-coding-standard/')
+                || str_contains($file, 'vendor/symfony/polyfill-iconv/')
+                || str_contains($file, 'vendor/symfony/polyfill-intl-normalizer/')
+                || str_contains($file, 'plugins/CoreVue/polyfills/dist/MatomoPolyfills.min.js')
+                || str_contains($file, 'plugins/VisitorGenerator/vendor/fzaninotto/faker/src/Faker/Provider/')
                 || preg_match('%/plugins/[a-zA-Z0-9_]+/vue/dist%', $file)
             ) {
                 continue;
