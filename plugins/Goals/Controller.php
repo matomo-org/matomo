@@ -291,7 +291,7 @@ class Controller extends \Piwik\Plugin\Controller
         $columnTranslation = '';
         // find the right translation for this column, eg. find 'revenue' if column is Goal_1_revenue
         foreach ($nameToLabel as $metric => $metricTranslation) {
-            if (strpos($columnName, $metric) !== false) {
+            if (str_contains($columnName, $metric)) {
                 $columnTranslation = $this->translator->translate($metricTranslation);
                 break;
             }

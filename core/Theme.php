@@ -116,7 +116,7 @@ class Theme
         }
 
         // or if it's already rewritten
-        if (strpos($pathAsset, $this->themeName) !== false) {
+        if (str_contains($pathAsset, $this->themeName)) {
             return $source;
         }
 

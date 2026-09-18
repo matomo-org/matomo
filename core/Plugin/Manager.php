@@ -236,7 +236,7 @@ class Manager
             $gitModules = file_get_contents(PIWIK_INCLUDE_PATH . '/.gitmodules');
         }
         // All submodules are officially maintained plugins
-        return false !== strpos($gitModules, "plugins/" . $pluginName . "\n");
+        return str_contains($gitModules, "plugins/" . $pluginName . "\n");
     }
 
     /**
@@ -507,7 +507,7 @@ class Manager
 
     private static function getPluginRealPath(string $path): string
     {
-        if (strpos($path, '../') !== false) {
+        if (str_contains($path, '../')) {
             // for tests, only do it when needed re performance etc
             $real = realpath($path);
             if ($real && Common::stringEndsWith($path, '/')) {

@@ -179,8 +179,8 @@ class FixtureRepository
         // Any directory separator is rejected, plus the bare "parent" name.
         if (
             $filename === '..'
-            || strpos($filename, '/') !== false
-            || strpos($filename, '\\') !== false
+            || str_contains($filename, '/')
+            || str_contains($filename, '\\')
         ) {
             throw new \Exception(sprintf(
                 'Marketplace manifest entry for "%s" contains an unsafe filename: "%s".',

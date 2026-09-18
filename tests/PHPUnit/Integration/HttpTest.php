@@ -71,7 +71,7 @@ class HttpTest extends \PHPUnit\Framework\TestCase
     {
         $this->assertNotNull(Http::getTransportMethod());
         $result = Http::sendHttpRequestBy($method, Fixture::getRootUrl() . 'matomo.js', 30);
-        $this->assertTrue(strpos($result, 'Matomo') !== false);
+        $this->assertTrue(str_contains($result, 'Matomo'));
     }
 
     public function testFetchApiLatestVersion()

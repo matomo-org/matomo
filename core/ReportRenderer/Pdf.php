@@ -683,7 +683,7 @@ class Pdf extends ReportRenderer
             $candidate = 'https://' . $candidate;
         }
         $host = parse_url($candidate, PHP_URL_HOST);
-        $isValidHost = $host && strpos($host, '.') !== false;
+        $isValidHost = $host && str_contains($host, '.');
         $isValidUrl = filter_var($candidate, FILTER_VALIDATE_URL) !== false && $isValidHost;
         return $isValidUrl ? $candidate : null;
     }

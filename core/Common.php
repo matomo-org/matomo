@@ -1032,7 +1032,7 @@ class Common
         ];
 
         foreach ($return as &$list) {
-            if (strpos($list, ',') !== false) {
+            if (str_contains($list, ',')) {
                 $list = explode(',', $list);
             } else {
                 $list = array($list);
@@ -1116,7 +1116,7 @@ class Common
     public static function sendHeader($header, $replace = true)
     {
         if (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE) {
-            if (strpos($header, ':') !== false) {
+            if (str_contains($header, ':')) {
                 [$headerName, $headerValue] = explode(':', $header, 2);
             } else {
                 $headerName = $header;
