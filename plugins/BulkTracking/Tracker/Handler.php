@@ -9,7 +9,7 @@
 
 namespace Piwik\Plugins\BulkTracking\Tracker;
 
-use Piwik\AuthResult;
+use Piwik\Access;
 use Piwik\Container\StaticContainer;
 use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
@@ -132,8 +132,11 @@ class Handler extends Tracker\Handler
         $auth->setLogin(null);
         $auth->setPassword(null);
         $auth->setPasswordHash(null);
-        $access = $auth->authenticate();
 
-        return $access->getCode() == AuthResult::SUCCESS_SUPERUSER_AUTH_CODE;
+        // Through Access rather than the result code, because reloadAccess() applies the access_level cap.
+        // A fresh instance leaves the request-wide one, and each Tracker\Request's own, untouched.
+        $access = new Access();
+
+        return $access->reloadAccess($auth) && $access->hasSuperUserAccess();
     }
 }
