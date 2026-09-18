@@ -249,83 +249,10 @@ table.dataTable td #urlLink {
 
 .dataTablePages {
   margin: 10px;
-  color: @theme-color-text;
+  // Quieter than the rows it counts, which are what the reader is here for.
+  color: @theme-color-text-lighter;
   font-weight: normal;
   .font-default(13px, 14px);
-}
-
-.dataTableSearchInput {
-  display: inline-block;
-  opacity: 0;
-  color: #adadad !important;
-  min-height: 30px !important;
-  padding-left: 25px !important;
-  transition: opacity 0.3s ease !important;
-  box-shadow: 0 0 !important;
-  visibility: hidden;
-  height: 1rem !important;
-  width: calc(~'100% - 25px') !important;
-}
-
-.searchAction:hover {
-  .dataTableSearchInput {
-    &:hover,
-    &:focus {
-      color: #333 !important;
-    }
-  }
-}
-
-.searchAction {
-  transition: width 0.3s ease !important;
-  text-align: left !important;
-  padding-left: 10px;
-  position: relative;
-  cursor: pointer;
-
-  .icon-search {
-    display: inline-block;
-    cursor: pointer;
-    z-index: 1;
-    position: absolute;
-    top: 8px;
-    left: 8px;
-  }
-
-  .icon-close {
-    display: none;
-  }
-}
-
-.searchAction.searchActive {
-  cursor: text;
-
-  .dataTableSearchInput {
-    visibility: visible;
-    opacity: 1;
-  }
-
-  .icon-close {
-    display: inline-block;
-    font-size: 10px;
-    cursor: pointer;
-    position: absolute;
-    top: 12px;
-    right: 10px;
-    color: #adadad !important;
-    &:hover,
-    &:focus {
-      color: #333 !important;
-    }
-  }
-  .icon-search {
-    cursor: pointer;
-    color: #adadad !important;
-    &:hover,
-    &:focus {
-      color: #333 !important;
-    }
-  }
 }
 
 .dataTableNext,
@@ -333,13 +260,20 @@ table.dataTable td #urlLink {
   font-size: 12px;
   color: #184A83;
   cursor: pointer;
-  visibility: hidden;
+  // Not `visibility`: a link the current page cannot offer would still hold its width and push
+  // the pagination away from the left edge.
+  display: none;
   text-decoration: underline;
   &:hover {
     text-decoration: underline;
   }
-  @media print{
-    display: none;
+}
+
+// Screen only, so a printed report still drops the links it cannot follow.
+@media screen {
+  .dataTablePrevious--available,
+  .dataTableNext--available {
+    display: inline;
   }
 }
 
@@ -438,9 +372,12 @@ table.dataTable td #urlLink {
     text-decoration: none;
   }
 
-  &.activeIcon {
-    background-color: @theme-color-background-tinyContrast;
-  }
+}
+
+// The tint belongs to an icon bar, not to every `tableIcon`: in the report header's menu a tick
+// beside the label marks the active entry instead.
+.tableIconsGroup .activeIcon {
+  background-color: @theme-color-background-tinyContrast;
 }
 
 .tableIconsGroup > span > span {
@@ -663,18 +600,6 @@ td.cellSubDataTable .loadingPiwik {
       font-size: 18px;
     }
 
-    .periodName {
-      padding-left:8px;
-      padding-right:8px;
-      font-size:16px;
-      text-transform:capitalize;
-    }
-  }
-
-  .activatePeriodsSelection {
-    width:auto;
-    text-align:left;
-    padding-left:8px;
   }
 }
 .widgetContent {
@@ -682,23 +607,19 @@ td.cellSubDataTable .loadingPiwik {
     overflow-x: scroll;
   }
 }
-.dataTableHeaderControls {
-  margin-top: -10px;
-  margin-bottom: 5px;
-
-  .widgetpreview-preview .widget &,
-  #dashboardWidgetsArea .widget &,
-  .dataTable.isDataTableEmpty:not(.hasSearchKeyword) & {
-    display: none;
-  }
-
-  .widgetized .dataTable.dataTableVizHtmlTable .dataTableWrapper & {
-    margin-top: 0;
-  }
+// A table's text sits 20px inside its box, from the cells' padding; the line under it is placed
+// the same way rather than insetting itself, so it follows wherever the cells go.
+.dataTableWrapper:has(table.dataTable) .dataTablePaginationControl {
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 .theWidgetContent .card .card-content, table.dataTable {
-  div.dataTableScroller {
+  // The card and the subtable cell pad the table's box. The scroller escapes that padding so the
+  // rows can reach the edge, and the footer navigation escapes it alongside them, which leaves the
+  // line above with a single inset rather than two.
+  div.dataTableScroller,
+  .dataTableWrapper:has(table.dataTable) .dataTableFooterNavigation {
     margin-left: -20px;
     width: ~"calc(100% + 40px)";
   }

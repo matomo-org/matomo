@@ -1,131 +1,40 @@
-.limitSelection {
-  text-align: right;
-  position: relative;
-  margin-left: 5px;
-  min-height: 20px;
-  padding-top: 4px;
-  vertical-align: top;
-  padding-right: 0 !important;
-  padding-left: 0 !important;
-}
+// The pagination and the rows-to-display selector share this line.
+.dataTablePaginationControl {
+  display: flex;
+  align-items: center;
+  // Both children stay in the flow, so the selector drops onto a line of its own rather than
+  // coming to rest on top of the pagination.
+  flex-wrap: wrap;
+  // The row's only spacing. Being counted when the row is measured, it is also what makes the
+  // selector wrap before it can meet the pagination.
+  column-gap: 16px;
+  row-gap: 8px;
 
-.limitSelection.hidden {
-  display: none;
-}
-
-.limitSelection > div {
-  .select-wrapper:hover {
-    background-color: #edecec;
-    border-radius: 2px;
-    color: @theme-color-brand !important;
-    cursor: pointer;
-
-    .inDarkMode({
-      background-color: @theme-color-background-tinyContrast;
-    });
-
-    input.select-dropdown,
-    span.caret {
-      color: @theme-color-brand !important;
-      opacity: 1;
-       &:hover {
-         color: @theme-color-brand !important;
-         opacity: 1;
-       }
-    }
-
-    input.select-dropdown {
-      &:hover {
-        border-color: @theme-color-brand !important;
-      }
-    }
+  // Materialize's `.row` carries a clearfix, which a flex row has no use for. Left alone it counts
+  // as an item and claims a gap of its own after the selector.
+  &::after {
+    display: none;
   }
 
-  .select-wrapper {
-    padding-right: 24px;
-
-    input.select-dropdown {
-      height: 36px;
-      line-height: 30px;
-      font-size: 16px;
-      margin-bottom: 0;
-      width: 100%;
-      padding-right: 24px;
-      text-align: right;
-      overflow: hidden;
-      border: 0;
-      transition: all 0s;
-      color: @theme-color-brand !important;
-      opacity: 0.7;
-      &:hover {
-        color: @theme-color-brand !important;
-        opacity: 1;
-        border-color: @theme-color-brand !important;
-      }
-    }
-
-    svg.caret {
-      fill: @theme-color-brand !important;
-      opacity: 0.7;
-      &:hover {
-        fill: @theme-color-brand !important;
-        opacity: 1;
-      }
-    }
+  // Legacy spacing of its own, which would offset the row's inset and shift the line as the links
+  // come and go.
+  .dataTablePages {
+    margin: 0;
   }
 
-  margin-top: 0;
-  margin-bottom: 0;
-  display: inline-block;
-  width: 56px;
-  height: 36px;
-}
-
-.widgetpreview-preview,
-#dashboardWidgetsArea {
-  .limitSelection .select-wrapper span.caret {
-    top: 9px;
-  }
-}
-body > .widget {
-  .limitSelection .select-wrapper span.caret {
-    top: 9px;
+  .limitSelection {
+    // Takes the far end of its line, leaving the pagination on the left.
+    margin-left: auto;
   }
 }
 
-.limitSelection.disabled > div {
-  opacity: 0.5;
-  cursor: not-allowed;
-  filter: Alpha(opacity=50);
-}
+// Only lines that carry the control, which is twice as tall as the text beside it.
+.dataTablePaginationControl--withLimit {
+  @_controlHeight: 38px;
+  @_gap: 20px;
 
-.limitSelection.visible > div {
-  background-image: url(plugins/Morpheus/images/sort_subtable_asc_light.png)
-}
-
-.limitSelection > ul {
-  margin-top: 1px;
-  overflow: visible;
-}
-
-.limitSelection > ul > li {
-  cursor: pointer;
-  padding: 0 10px 0 4px;
-  font-size: 1em;
-  font-weight: bold;
-  height: 24px;
-  margin-top: -48px;
-  background-color: @theme-color-background-contrast;
-  border-left: 1px solid #ccc;
-  border-right: 1px solid #ccc;
-  vertical-align: middle;
-  text-align: right;
-}
-
-.limitSelection > ul > li.last {
-  border-top: 1px solid #ccc;
-}
-
-.limitSelection > ul > li:hover {
-  background-color: @theme-color-background-tinyContrast;
+  // The selector's contents arrive from JavaScript once the table has loaded; without this the
+  // row would grow under it.
+  min-height: @_controlHeight;
+  padding-bottom: @_gap - 4px;
 }

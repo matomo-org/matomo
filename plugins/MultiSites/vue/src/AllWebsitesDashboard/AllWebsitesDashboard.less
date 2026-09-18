@@ -343,10 +343,12 @@
     line-height: 38px;
     text-align: center;
 
+    // These are driven by `v-show`, which sets `display`, so the shared rule above has to be
+    // undone in the same property.
     .dataTablePrevious,
     .dataTableNext {
       cursor: pointer;
-      visibility: visible;
+      display: inline;
     }
   }
 
