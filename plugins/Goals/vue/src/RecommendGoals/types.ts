@@ -8,6 +8,9 @@
 export interface RecommendedGoal {
   id?: string;
   name: string;
+  category?: string;
+  priority?: number;
+  needsSetup?: boolean;
   matchAttribute: string;
   pattern: string;
   patternType: string;
@@ -29,10 +32,42 @@ export interface RecommendedManualGoal {
   category: string;
 }
 
+// TODO: remove before final deployment:
+// TEMPORARY (ID-277 debugging): development-mode payload describing the crawl
+export interface RecommendationDebug {
+  url: string;
+  platform?: string|null;
+  technologies: string[];
+  pagesCrawled: number;
+  pages: { path: string; title: string; heading: string; types: string[]; hasAddToCart: boolean }[];
+  links: { path: string; label: string; pages: number; button: number; hero: number }[];
+  forms: { fieldTypes: string[]; submit: string; pages: number; firstPage: string }[];
+  externalHosts: { host: string; label: string; example: string; pages: number }[];
+  downloads: { href: string; label: string }[];
+  candidates: {
+    category: string;
+    matchAttribute: string;
+    pattern: string;
+    label: string;
+    confidence: number;
+    prominence: number;
+    score: number;
+    source: string;
+    offered: boolean;
+  }[];
+}
+
+export interface RecommendationWarning {
+  type: string;
+  severity: 'info'|'warning';
+  message: string;
+}
+
 export interface RecommendationsResponse {
   mode?: string|null;
   goals?: RecommendedGoal[];
   manualGoals?: RecommendedManualGoal[];
+  warnings?: RecommendationWarning[];
   aiError?: string|null;
   useAi?: boolean;
   generatedAt?: number|null;
@@ -40,4 +75,5 @@ export interface RecommendationsResponse {
   providerName?: string;
   aiAvailability?: string;
   privacyNote?: string;
+  debug?: RecommendationDebug|null;
 }
