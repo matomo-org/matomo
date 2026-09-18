@@ -10,12 +10,15 @@
 namespace Piwik\Plugins\Marketplace;
 
 use Piwik\Container\StaticContainer;
+use Piwik\Log\LoggerInterface;
 use Piwik\Plugin;
 use Piwik\Plugins\Marketplace\Plugins\InvalidLicenses;
 use Piwik\Plugins\Marketplace\PluginTrial\Service as PluginTrialService;
 use Piwik\Request;
+use Piwik\Scheduler\Scheduler;
 use Piwik\SettingsPiwik;
 use Piwik\Widget\WidgetsList;
+use Throwable;
 
 class Marketplace extends \Piwik\Plugin
 {
@@ -34,7 +37,64 @@ class Marketplace extends \Piwik\Plugin
             'PluginManager.pluginInstalled' => 'removePluginTrialRequest',
             'PluginManager.pluginActivated' => 'removePluginTrialRequest',
             'Widget.filterWidgets' => 'filterWidgets',
+            'CoreUpdater.update.end' => 'warmCacheAfterUpdate',
+            'Installation.defaultSettingsForm.submit' => 'warmCacheAfterInstallation',
         );
+    }
+
+    public function warmCacheAfterUpdate(): void
+    {
+        // an installation runs the updater too, at a point where no site and no user exist yet.
+        // Both counts are part of every Marketplace cache key, so warming from there would fill
+        // entries the finished installation never reads back. warmCacheAfterInstallation() covers
+        // that case, from a step late enough for the counts to have settled.
+        if (!SettingsPiwik::isMatomoInstalled()) {
+            return;
+        }
+
+        try {
+            // deliberately not the CacheWarmer. This fires from inside Updater::updateComponents(),
+            // and building the Marketplace container graph there changes what other plugins see -
+            // it moved PrivacyManager's anonymisation settings in NoVisitTest. Marking the task due
+            // needs only the scheduler, so the next scheduler run warms instead of a spawned child.
+            StaticContainer::get(Scheduler::class)
+                ->rescheduleTaskAndRunNow(Tasks::getWarmCacheEntriesTask());
+        } catch (Throwable $e) {
+            // an update must not fail over a warm that is only an optimisation, but without a line
+            // here there would be nothing to triage from if the timetable write kept failing
+            try {
+                StaticContainer::get(LoggerInterface::class)->debug(
+                    'Could not mark the Marketplace cache warming task due: {message}',
+                    ['message' => $e->getMessage()]
+                );
+            } catch (Throwable $ignored) {
+                // the container is what failed, so it cannot be relied on to report it either
+            }
+        }
+    }
+
+    public function warmCacheAfterInstallation(): void
+    {
+        try {
+            // the full warmer, unlike the update path above: this fires from the installer's last
+            // step rather than from inside the updater, so building it here is safe and the
+            // administrator about to land in Matomo gets the spawned warm rather than waiting for
+            // a scheduler run that a brand new instance may not have for some time.
+            StaticContainer::get(CacheWarmer::class)->warmSoon();
+        } catch (Throwable $e) {
+            // only a container failure reaches here - a bad override, or a partial deploy - since
+            // warmSoon() reports everything that goes wrong once it is running. That would leave
+            // the feature dead with nothing to show for it, so it is logged, but it must not fail
+            // the installation that triggered it.
+            try {
+                StaticContainer::get(LoggerInterface::class)->debug(
+                    'Could not build the Marketplace cache warmer: {message}',
+                    ['message' => $e->getMessage()]
+                );
+            } catch (Throwable $ignored) {
+                // the container is what failed, so it cannot be relied on to report it either
+            }
+        }
     }
 
     public function isTrackerPlugin()

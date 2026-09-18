@@ -88,6 +88,29 @@ class SchedulerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(Date::factory('tomorrow')->getTimeStamp(), $scheduler->getScheduledTimeForMethod(Plugin::class, 'getVersion', null));
     }
 
+    public function testRescheduleTaskAndRunNow()
+    {
+        $timetable = serialize(self::getTestTimetable());
+        self::stubPiwikOption($timetable);
+
+        $plugin = new Plugin();
+        $task = new Task($plugin, 'getVersion', null, null);
+
+        $taskLoader = $this->getMockBuilder('Piwik\Scheduler\TaskLoader')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $scheduler = new Scheduler($taskLoader, new NullLogger(), new ScheduledTaskLock(new InMemoryLockBackend()));
+
+        $before = time();
+        $scheduler->rescheduleTaskAndRunNow($task);
+        $after = time();
+
+        $scheduledTime = $scheduler->getScheduledTimeForMethod(Plugin::class, 'getVersion', null);
+
+        $this->assertGreaterThanOrEqual($before, $scheduledTime);
+        $this->assertLessThanOrEqual($after, $scheduledTime);
+    }
+
     /**
      * Dataprovider for testRun
      */
