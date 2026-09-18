@@ -236,6 +236,29 @@ class PromotionRendererTest extends IntegrationTestCase
     }
 
     /**
+     * With trial requests turned off instance-wide there is no trial to offer, so the
+     * promotion falls back to the ordinary product call to action and the reader can still
+     * go and read about the plugin.
+     */
+    public function testTheProductCallToActionIsUsedWhenTrialRequestsAreDisabled(): void
+    {
+        Config::getInstance()->General['plugin_trial_request_expiration_in_days'] = -1;
+
+        FakeAccess::$superUser = false;
+        FakeAccess::$idSitesView = [1];
+
+        $html = $this->render(SegmentsTrigger::NAME, ['count' => 6]);
+
+        $this->assertStringNotContainsString('data-role="requestTrial"', $html);
+        $this->assertStringNotContainsString('data-role="requestTrialConfirm"', $html);
+
+        // The ordinary product call to action, leading to the Marketplace page.
+        $this->assertStringContainsString('https://plugins.matomo.org/CustomReports', $html);
+        $this->assertStringContainsString('Custom Reports', $html);
+        $this->assertStringContainsString('data-role="dismiss"', $html);
+    }
+
+    /**
      * `disable_tracking_matomo_app_links` exists so that an instance can stop links out of
      * the app from identifying it. The helper honours it by returning the URL untouched,
      * which is easy to defeat by hand-appending a parameter of one's own afterwards.

@@ -64,6 +64,10 @@ describe('ProductPromotion', function () {
 
     it('looks like the design', async function () {
         await loadDashboard();
+        // Wait for webfonts before capturing: the screenshot is otherwise sometimes taken
+        // with the fallback face still in use, which changes every glyph and makes the
+        // comparison fail for a reason that has nothing to do with the banner.
+        await page.evaluate(() => document.fonts.ready);
         expect(await page.screenshotSelector(banner)).to.matchImage('promotion_superuser');
     });
 

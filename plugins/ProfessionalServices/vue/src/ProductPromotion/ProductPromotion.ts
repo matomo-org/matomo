@@ -52,6 +52,15 @@ function onRequestTrial(
 ) {
   event.preventDefault();
 
+  // Already asked for. The button is disabled once the request succeeds, which stops a
+  // real click, but not a programmatic one - and asking twice would send the super users
+  // a second email for the same plugin.
+  const requestTrial = element.querySelector<HTMLButtonElement>('[data-role=requestTrial]');
+
+  if (requestTrial && requestTrial.disabled) {
+    return;
+  }
+
   // Held from when the directive mounted rather than looked up now. modalConfirm() moves
   // this node out of the banner and into a modal on the body, and never puts it back, so
   // a fresh query finds nothing the second time and the link would quietly do nothing
@@ -79,9 +88,15 @@ function onRequestTrial(
 
         NotificationsStore.scrollToNotification(notificationInstanceId);
 
-        // A pending trial request suppresses the promotion, so it would not come back on
-        // the next dashboard load either.
-        element.remove();
+        // The banner stays put and its button becomes the same disabled "Trial requested"
+        // state the Marketplace uses, so the click is confirmed where the user made it.
+        // It does not need to survive a reload: a pending trial request makes the promotion
+        // ineligible, so the next dashboard load leaves it out altogether.
+        if (requestTrial) {
+          requestTrial.disabled = true;
+          requestTrial.classList.add('productPromotion__ctaButton--requested');
+          requestTrial.textContent = translate('Marketplace_TrialRequested');
+        }
       }).catch(() => {
         // The request failed, so no trial is pending and the banner has to stay: removing
         // it would hide the only way back to this offer. Without this the rejection is an
@@ -98,6 +113,31 @@ function onRequestTrial(
   });
 }
 
+/**
+ * Drops the artwork from the layout when it cannot be loaded, so that a missing image costs
+ * the reader nothing: the copy, the call to action and the dismiss control stay where they
+ * are and take the space back. Without this the figure keeps its column and the banner
+ * carries an empty panel, or a broken-image icon, for the rest of the page's life.
+ */
+function hideFigureIfImageFails(element: HTMLElement): void {
+  const image = element.querySelector<HTMLImageElement>('.productPromotion__image');
+
+  if (!image) {
+    return;
+  }
+
+  const hideFigure = () => element.classList.add('productPromotion--noFigure');
+
+  // The failure may already have happened - a cached 404, or an image that finished while
+  // the directive was still being mounted - in which case no event is coming.
+  if (image.complete && image.naturalWidth === 0) {
+    hideFigure();
+    return;
+  }
+
+  image.addEventListener('error', hideFigure, { once: true });
+}
+
 export default {
   mounted(
     element: HTMLElement,
@@ -106,6 +146,8 @@ export default {
     if (!binding.value?.pluginName) {
       return;
     }
+
+    hideFigureIfImageFails(element);
 
     const dismiss = element.querySelector<HTMLElement>('[data-role=dismiss]');
     if (dismiss) {

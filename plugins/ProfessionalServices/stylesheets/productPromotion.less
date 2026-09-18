@@ -75,6 +75,13 @@
     width: @_figureWidth;
   }
 
+  // Set by the directive when the artwork cannot be loaded. The banner has to stay
+  // readable and usable without it, rather than reserving the space for a panel that will
+  // never arrive.
+  &.productPromotion--noFigure .productPromotion__figure {
+    display: none;
+  }
+
   .productPromotion__image {
     display: block;
     // The artwork is drawn at its natural size only while the row is exactly as tall as
@@ -130,6 +137,15 @@
       outline: 2px solid @theme-color-focus-ring;
       outline-offset: 2px;
     }
+  }
+
+  // Once the trial has been asked for the button stays where it was, showing that the
+  // request went through rather than vanishing along with the banner.
+  .productPromotion__ctaButton--requested {
+    background: @theme-color-background-base;
+    color: @theme-color-text-light;
+    cursor: default;
+    pointer-events: none;
   }
 
   .productPromotion__reason {
@@ -276,6 +292,15 @@
       grid-row: 1 / -1;
       grid-column: 1;
       width: auto;
+    }
+
+    &.productPromotion--noFigure {
+      grid-template-columns: 1fr;
+
+      .productPromotion__content,
+      .productPromotion__cta {
+        grid-column: 1;
+      }
     }
 
     .productPromotion__content {

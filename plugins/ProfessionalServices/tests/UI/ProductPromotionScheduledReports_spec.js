@@ -40,6 +40,10 @@ describe('ProductPromotionScheduledReports', function () {
         // Instance state rather than a report, so the figure is plain text, not a link.
         expect(await page.$('.productPromotion__metric')).to.equal(null);
 
+        // Wait for webfonts before capturing: the screenshot is otherwise sometimes taken
+        // with the fallback face still in use, which changes every glyph and makes the
+        // comparison fail for a reason that has nothing to do with the banner.
+        await page.evaluate(() => document.fonts.ready);
         expect(await page.screenshotSelector(banner)).to.matchImage('promotion_scheduled_reports');
     });
 });

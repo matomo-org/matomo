@@ -20,8 +20,9 @@ use Piwik\ProfessionalServices\Advertising;
  * These are the same conditions the promo widgets check in
  * {@see \Piwik\Plugins\ProfessionalServices\PromoWidgetApplicable}, minus the widget
  * specific dismissal: promotions must be enabled in the configuration, the instance must
- * be able to reach the Marketplace, and there is nothing to promote once the plugin is
- * already installed.
+ * be able to reach the Marketplace, and there is nothing to promote once the customer has
+ * the plugin - installed on disk even if deactivated, or covered by their license and not
+ * downloaded yet.
  */
 class PromotionEligibility
 {
@@ -29,10 +30,13 @@ class PromotionEligibility
 
     private Config $config;
 
-    public function __construct(Manager $manager, Config $config)
+    private PremiumEntitlements $entitlements;
+
+    public function __construct(Manager $manager, Config $config, PremiumEntitlements $entitlements)
     {
         $this->manager = $manager;
         $this->config = $config;
+        $this->entitlements = $entitlements;
     }
 
     public function isAllowedForPlugin(string $pluginName): bool
@@ -49,6 +53,16 @@ class PromotionEligibility
             return false;
         }
 
-        return $this->manager->isPluginActivated($pluginName) === false;
+        // Present on disk, whether or not it is switched on. A plugin sitting deactivated
+        // has already been obtained, and offering it again reads as not knowing what the
+        // customer has. `isPluginActivated()` alone let that case through.
+        if ($this->manager->isPluginInFilesystem($pluginName)) {
+            return false;
+        }
+
+        // Or paid for and not installed yet. Only a definite yes rules the promotion out:
+        // the Marketplace being unreachable means there is no license information to go on,
+        // and that must not silence every promotion on an instance that cannot reach it.
+        return true !== $this->entitlements->isLicensed($pluginName);
     }
 }

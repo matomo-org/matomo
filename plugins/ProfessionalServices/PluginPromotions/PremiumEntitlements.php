@@ -99,6 +99,24 @@ class PremiumEntitlements
     }
 
     /**
+     * Whether the license already covers this product, whether or not it has been
+     * downloaded. A customer who has paid for a plugin should not be sold it again.
+     *
+     * @return bool|null null when the Marketplace could not be reached, which is not the
+     *                   same as "not licensed"
+     */
+    public function isLicensed(string $pluginName): ?bool
+    {
+        $licensed = $this->getLicensedProductNames();
+
+        if (null === $licensed) {
+            return null;
+        }
+
+        return in_array($pluginName, $licensed, true);
+    }
+
+    /**
      * The products the license covers, by name.
      *
      * A license row is counted when the Marketplace says it is valid, which is the field

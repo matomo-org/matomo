@@ -61,6 +61,10 @@ describe('ProductPromotionBounceRate', function () {
         await page.waitForSelector(banner, { timeout: 10000 });
         await page.waitForNetworkIdle();
 
+        // Wait for webfonts before capturing: the screenshot is otherwise sometimes taken
+        // with the fallback face still in use, which changes every glyph and makes the
+        // comparison fail for a reason that has nothing to do with the banner.
+        await page.evaluate(() => document.fonts.ready);
         expect(await page.screenshotSelector(banner)).to.matchImage('promotion_bounce_rate');
     });
 });

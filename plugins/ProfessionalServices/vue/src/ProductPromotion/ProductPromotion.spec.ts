@@ -42,6 +42,9 @@ interface DirectiveValue {
 function mountBanner(): { element: HTMLElement, binding: DirectiveBinding<DirectiveValue> } {
   const element = document.createElement('section');
   element.innerHTML = `
+    <div class="productPromotion__figure">
+      <img class="productPromotion__image" src="promo.png" alt="">
+    </div>
     <a data-role="dismiss" href="#"></a>
     <button data-role="requestTrial"></button>
     <div class="ui-confirm" data-role="requestTrialConfirm"></div>
@@ -107,7 +110,7 @@ describe('ProductPromotion directive', () => {
     expect(modalConfirm.mock.calls[1][0]).toBe(modalConfirm.mock.calls[0][0]);
   });
 
-  it('requests the trial and removes the banner once it is confirmed', async () => {
+  it('keeps the banner and disables the button once the trial is requested', async () => {
     const { element } = mountBanner();
     modalConfirm.mockImplementation((node: HTMLElement, callbacks: Record<string, () => void>) => {
       callbacks.yes();
@@ -122,7 +125,34 @@ describe('ProductPromotion directive', () => {
       { pluginName: 'AbTesting' },
     );
     expect(showNotification).toHaveBeenCalled();
-    expect(document.body.contains(element)).toBe(false);
+
+    // The confirmation the user sees is the button itself, where they clicked.
+    expect(document.body.contains(element)).toBe(true);
+
+    const cta = element.querySelector<HTMLButtonElement>('[data-role=requestTrial]')!;
+    expect(cta.disabled).toBe(true);
+    expect(cta.classList.contains('productPromotion__ctaButton--requested')).toBe(true);
+    expect(cta.textContent).toEqual('Marketplace_TrialRequested');
+  });
+
+  it('cannot be asked for twice once it has been requested', async () => {
+    const { element } = mountBanner();
+    modalConfirm.mockImplementation((node: HTMLElement, callbacks: Record<string, () => void>) => {
+      callbacks.yes();
+    });
+
+    click(element, 'requestTrial');
+    await Promise.resolve();
+    await Promise.resolve();
+
+    post.mockClear();
+    modalConfirm.mockClear();
+
+    // A disabled button fires no click, so nothing reaches the API a second time.
+    click(element, 'requestTrial');
+
+    expect(modalConfirm).not.toHaveBeenCalled();
+    expect(post).not.toHaveBeenCalled();
   });
 
   it('keeps the banner and reports the failure when the trial request fails', async () => {
@@ -142,6 +172,42 @@ describe('ProductPromotion directive', () => {
     expect(showNotification).toHaveBeenCalledWith(
       expect.objectContaining({ context: 'error' }),
     );
+  });
+
+  it('drops the artwork from the layout when the image cannot be loaded', () => {
+    const { element } = mountBanner();
+
+    expect(element.classList.contains('productPromotion--noFigure')).toBe(false);
+
+    element.querySelector('.productPromotion__image')!.dispatchEvent(new Event('error'));
+
+    expect(element.classList.contains('productPromotion--noFigure')).toBe(true);
+
+    // Everything the reader needs is still there.
+    expect(element.querySelector('[data-role=dismiss]')).not.toEqual(null);
+    expect(element.querySelector('[data-role=requestTrial]')).not.toEqual(null);
+  });
+
+  it('drops the artwork when the image had already failed before mounting', () => {
+    const element = document.createElement('section');
+    element.innerHTML = `
+      <div class="productPromotion__figure">
+        <img class="productPromotion__image" src="gone.png" alt="">
+      </div>
+      <a data-role="dismiss" href="#"></a>
+    `;
+    document.body.appendChild(element);
+
+    // No error event is coming for an image that finished failing already.
+    const image = element.querySelector('.productPromotion__image')!;
+    Object.defineProperty(image, 'complete', { value: true });
+    Object.defineProperty(image, 'naturalWidth', { value: 0 });
+
+    ProductPromotion.mounted(element, {
+      value: { pluginName: 'AbTesting', triggerName: 't', productName: 'A/B Testing' },
+    } as DirectiveBinding<DirectiveValue>);
+
+    expect(element.classList.contains('productPromotion--noFigure')).toBe(true);
   });
 
   it('does nothing at all when the directive has no plugin to promote', () => {
