@@ -67,7 +67,7 @@ class CliPhp
 
     private function isHhvmBinary($bin)
     {
-        return false !== strpos($bin, 'hhvm');
+        return str_contains($bin, 'hhvm');
     }
 
     private function isValidPhpVersion($bin)

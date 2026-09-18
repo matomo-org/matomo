@@ -163,7 +163,7 @@ class Filesystem
 
             $output = @shell_exec($command);
             if ($output) {
-                $commandFailed = (false !== strpos($output, "no file systems processed"));
+                $commandFailed = (str_contains($output, "no file systems processed"));
                 $output = trim($output);
                 $outputArray = explode("\n", $output);
                 if (

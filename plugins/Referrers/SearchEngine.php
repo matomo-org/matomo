@@ -236,14 +236,14 @@ class SearchEngine extends Singleton
 
         $key = null;
         if ($searchEngineName === 'Google Images') {
-            if (strpos($query, '&prev') !== false) {
+            if (str_contains($query, '&prev')) {
                 $query = urldecode(trim(UrlHelper::getParameterFromQueryString($query, 'prev')));
                 $query = str_replace('&', '&amp;', strstr($query, '?'));
             }
             $searchEngineName = 'Google Images';
         } elseif (
             $searchEngineName === 'Google'
-            && (strpos($query, '&as_') !== false || strpos($query, 'as_') === 0)
+            && (str_contains($query, '&as_') || strpos($query, 'as_') === 0)
         ) {
             $keys = array();
             $key  = UrlHelper::getParameterFromQueryString($query, 'as_q');
@@ -299,8 +299,8 @@ class SearchEngine extends Singleton
                         empty($key)
                         && (
                             // empty keyword parameter
-                            strpos($query, sprintf('&%s=', $variableName)) !== false
-                            || strpos($query, sprintf('?%s=', $variableName)) !== false
+                            str_contains($query, sprintf('&%s=', $variableName))
+                            || str_contains($query, sprintf('?%s=', $variableName))
                         )
                     ) {
                         $key = false;

@@ -387,7 +387,7 @@ class SettingsPiwik
                                 && strpos($fetched, $expectedStringAlt) === false
                                 && strpos($fetched, $expectedStringAlreadyInstalled) === false;
 
-        $hasError = false !== strpos($fetched, PAGE_TITLE_WHEN_ERROR);
+        $hasError = str_contains($fetched, PAGE_TITLE_WHEN_ERROR);
 
         if ($hasError || $expectedStringNotFound) {
             throw new Exception("\nMatomo should be running at: "

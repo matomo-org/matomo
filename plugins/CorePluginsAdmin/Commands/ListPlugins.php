@@ -35,7 +35,7 @@ class ListPlugins extends ConsoleCommand
 
         if (!empty($pluginFilter)) {
             $plugins = array_filter($plugins, function ($pluginName) use ($pluginFilter) {
-                return strpos($pluginName, $pluginFilter) !== false;
+                return str_contains($pluginName, $pluginFilter);
             });
         }
 

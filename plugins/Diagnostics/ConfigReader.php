@@ -113,7 +113,7 @@ class ConfigReader
             'password', 'secret', 'apikey', 'privatekey', 'admin_pass', 'md5', 'sha1',
         );
         foreach ($passwordFields as $value) {
-            if (strpos($key, $value) !== false) {
+            if (str_contains($key, $value)) {
                 return true;
             }
         }

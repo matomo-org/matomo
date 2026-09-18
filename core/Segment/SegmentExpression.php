@@ -439,11 +439,11 @@ class SegmentExpression
      */
     private function escapeLikeString($str)
     {
-        if (false !== strpos($str, '%')) {
+        if (str_contains($str, '%')) {
             $str = str_replace("%", "\%", $str);
         }
 
-        if (false !== strpos($str, '_')) {
+        if (str_contains($str, '_')) {
             $str = str_replace("_", "\_", $str);
         }
 

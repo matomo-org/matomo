@@ -227,7 +227,7 @@ function getDeviceTypeLogo($label)
 
 function getModelName($label)
 {
-    if (strpos($label, ';') !== false) {
+    if (str_contains($label, ';')) {
         [$brand, $model] = explode(';', $label, 2);
     } else {
         $brand = null;

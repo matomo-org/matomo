@@ -193,7 +193,7 @@ class CalculateConversionPages extends ConsoleCommand
 
         // Only allow the goals parameter to be used if a single site is specified
         $idSite = $this->getInput()->getOption('idsite');
-        if (!is_numeric($idSite) || strpos($idSite, ',') !== false) {
+        if (!is_numeric($idSite) || str_contains($idSite, ',')) {
             throw new \InvalidArgumentException("The goals parameter can only be used when a single website is specified using the idsite parameter", $code = 0);
         }
 

@@ -270,7 +270,7 @@ class TestsRun extends ConsoleCommand
 
     private function isCoverageEnabled($options)
     {
-        return false !== strpos($options, '--coverage');
+        return str_contains($options, '--coverage');
     }
 
     private function isXdebugLoaded()

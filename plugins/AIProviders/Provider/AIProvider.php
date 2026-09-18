@@ -1279,11 +1279,11 @@ abstract class AIProvider
     {
         $message = strtolower($message);
 
-        return strpos($message, 'api key') !== false
-            || strpos($message, 'x-api-key') !== false
-            || strpos($message, 'authentication') !== false
-            || strpos($message, 'unauthorized') !== false
-            || strpos($message, 'invalid key') !== false;
+        return str_contains($message, 'api key')
+            || str_contains($message, 'x-api-key')
+            || str_contains($message, 'authentication')
+            || str_contains($message, 'unauthorized')
+            || str_contains($message, 'invalid key');
     }
 
     /**

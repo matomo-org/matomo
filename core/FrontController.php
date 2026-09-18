@@ -591,8 +591,8 @@ class FrontController extends Singleton
 
     private function closeSessionEarlyForFasterUI()
     {
-        $isDashboardReferrer = !empty($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], 'module=CoreHome&action=index') !== false;
-        $isAllWebsitesReferrer = !empty($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], 'module=MultiSites&action=index') !== false;
+        $isDashboardReferrer = !empty($_SERVER['HTTP_REFERER']) && str_contains($_SERVER['HTTP_REFERER'], 'module=CoreHome&action=index');
+        $isAllWebsitesReferrer = !empty($_SERVER['HTTP_REFERER']) && str_contains($_SERVER['HTTP_REFERER'], 'module=MultiSites&action=index');
 
         if (
             $isDashboardReferrer
