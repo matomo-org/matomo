@@ -93,7 +93,7 @@ class PercentOfTotalColumnsTest extends IntegrationTestCase
         $report = $this->generateReport(ReportRenderer::CSV_FORMAT, 'UserCountry_getCountry');
 
         self::assertStringContainsString('nb_uniq_visitors', $report);
-        self::assertStringNotContainsString('Unique Visitors (%)', $report);
+        self::assertStringNotContainsString('Unique visitors (%)', $report);
     }
 
     public function testTsvReportUsesTheColumnTranslationAsHeader(): void
