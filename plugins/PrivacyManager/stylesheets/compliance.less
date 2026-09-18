@@ -6,6 +6,57 @@
     margin: 10px 0;
   }
 
+  .complianceScope {
+    margin-bottom: 20px;
+
+    // "Apply settings to" introduces a page section, like the policy card titles below
+    // it, so follow the page headline style at a smaller size rather than the small grey
+    // label FieldRadio renders by default (which came out smaller than its own options).
+    .fieldRadioTitle {
+      color: @theme-color-headline-alternative;
+      .font-default(20px, 26px);
+      margin: 0 0 10px;
+    }
+
+    .complianceScopeSite,
+    .complianceScopeOverrideNote,
+    .complianceScopeNotice {
+      // match the horizontal padding materialize applies to the form field column
+      padding-left: 0.75rem;
+    }
+
+    // The radio group and everything under it form one block, so drop the trailing
+    // spacing materialize gives the form field row and the last radio option. A negative
+    // margin cannot be used instead: the form field column is floated, so pulling the
+    // selector up would make it wrap beside the radios rather than sit under them.
+    .matomo-form-field {
+      margin-bottom: 0;
+    }
+
+    p.radio:last-child {
+      margin-bottom: 0;
+
+      // the shared label rule above adds 10px below every label; the selector sits
+      // directly under this one, so it provides its own spacing instead
+      label {
+        margin-bottom: 0;
+      }
+    }
+
+    // sit the website selector directly under the option it belongs to, left aligned
+    // with that option's radio button (materialize draws it at the label's left edge)
+    .complianceScopeSite {
+      margin: 4px 0 15px;
+    }
+
+    .complianceScopeOverrideNote,
+    .complianceScopeNotice {
+      color: @theme-color-text-lighter;
+      .font-default(13px, 18px);
+      margin: 5px 0;
+    }
+  }
+
   .status {
     line-height: 1.5rem;
     padding-left: 0.5rem;

@@ -1,6 +1,5 @@
 {
     "Transitions": {
-        "BouncesInline": "%s odbijanja",
         "DirectEntries": "Direktni ulasci",
         "ErrorBack": "Vrati se na prethodnu akciju",
         "ExitsInline": "%s izlaza",
@@ -26,7 +25,6 @@
         "ToFollowingSiteSearches": "Pretraživanja sajta",
         "ToFollowingSiteSearchesInline": "%s pretraživanja sajta",
         "TransitionsSubcategoryHelp2": "Više detalja",
-        "XOfAllPageviews": "%s od svih pregleda ove strane",
-        "XOutOfYVisits": "%1$s (od %2$s)"
+        "XOfAllPageviews": "%s od svih pregleda ove strane"
     }
 }

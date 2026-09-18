@@ -3,6 +3,7 @@
         "JsTrackingCodeInstallCheckFailureMessage": "Ověření sledovacího kódu se nezdařilo. Ověřte prosím, zda jste kód správně nainstalovali. %1$sZjistěte více%2$s.",
         "JsTrackingCodeInstallCheckFailureMessageWordpress": "Ověření sledovacího kódu se nezdařilo. Ověřte prosím, zda jste nainstalovali zásuvný modul \"%1$s\" a zda jste provedli všechny kroky. %2$sZjistěte více%3$s.",
         "JsTrackingCodeInstallCheckSuccessMessage": "Sledovací kód byl úspěšně nainstalován! Tato obrazovka zmizí, jakmile budou pro vaše webové stránky sledována nějaká data.",
+        "OptionalTestInstallationDescription": "Volitelné: Chcete-li ověřit, že sledovací kód dokáže odesílat požadavky do vaší instance Matomo, zadejte přesnou adresu URL, kterou sledujete, a klikněte na „Otestovat instalaci“. Otevře se nová karta, která by se měla do 10 sekund zavřít.",
         "PluginDescription": "Ověřte, zda byl kód pro sledování nainstalován na váš web a zda může odesílat požadavky na sledování zpět do instance Matomo",
         "TestInstallationBtnText": "Zkušební instalace"
     }

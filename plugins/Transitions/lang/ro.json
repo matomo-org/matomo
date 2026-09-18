@@ -1,6 +1,5 @@
 {
     "Transitions": {
-        "BouncesInline": "%s salturi",
         "DirectEntries": "Intrări directe",
         "ErrorBack": "Du-te înapoi la acțiunea anterioară",
         "ExitsInline": "%s ieșiri",
@@ -23,7 +22,6 @@
         "ToFollowingSiteSearches": "Căutări interne",
         "ToFollowingSiteSearchesInline": "%s căutări interne",
         "TransitionsSubcategoryHelp2": "Mai multe detalii",
-        "XOfAllPageviews": "%s toate vizualizarile de pe aceasta pagina",
-        "XOutOfYVisits": "%1$s (din %2$s)"
+        "XOfAllPageviews": "%s toate vizualizarile de pe aceasta pagina"
     }
 }

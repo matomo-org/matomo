@@ -11,9 +11,11 @@ namespace Piwik\Plugins\ScheduledReports\tests\Integration;
 
 use Piwik\API\Proxy;
 use Piwik\API\Request;
+use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\Date;
+use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
 use Piwik\Plugins\ScheduledReports\GeneratedReport;
@@ -22,6 +24,8 @@ use Piwik\Plugins\ScheduledReports\Tasks;
 use Piwik\Plugins\ScheduledReports\WidgetReportMapper;
 use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
+use Piwik\Plugins\UsersManager\API as APIUsersManager;
+use Piwik\Plugins\UsersManager\Model as UsersManagerModel;
 use Piwik\Plugins\Dashboard\Model as DashboardModel;
 use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\NoAccessException;
@@ -635,6 +639,68 @@ class ApiTest extends IntegrationTestCase
         \Piwik\Plugins\ScheduledReports\API::unsetInstance();
     }
 
+    public function testAddingAUserRemovesReportsLeftBehindByAnEarlierAccountWithThatLogin()
+    {
+        self::setSuperUser();
+        $this->addReportOwnedBy('recycledLogin');
+
+        // delete the account, leaving its report in place
+        $this->deleteUserRow('recycledLogin');
+        $this->assertCount(1, $this->getReportsForLogin('recycledLogin'));
+
+        APIUsersManager::getInstance()->addUser('recycledLogin', 'password', 'recycled2@example.org');
+
+        $this->assertSame(array(), $this->getReportsForLogin('recycledLogin'));
+    }
+
+    public function testAddingAUserThroughTheModelRemovesReportsLeftBehindByAnEarlierAccountWithThatLogin()
+    {
+        self::setSuperUser();
+        $this->addReportOwnedBy('recycledModelLogin');
+
+        // delete the account, leaving its report in place
+        $this->deleteUserRow('recycledModelLogin');
+        $this->assertCount(1, $this->getReportsForLogin('recycledModelLogin'));
+
+        // added through the model directly, the way just in time provisioning creates users
+        (new UsersManagerModel())->addUser(
+            'recycledModelLogin',
+            'password',
+            'recycledmodel@example.org',
+            Date::now()->getDatetime()
+        );
+
+        $this->assertSame(array(), $this->getReportsForLogin('recycledModelLogin'));
+    }
+
+    private function addReportOwnedBy(string $login): void
+    {
+        APIUsersManager::getInstance()->addUser($login, 'password', $login . '@example.org');
+        APIUsersManager::getInstance()->setUserAccess($login, 'view', $this->idSite);
+
+        $originalIdentity = FakeAccess::$identity;
+        FakeAccess::$identity = $login;
+
+        try {
+            self::addReport(self::getDailyPDFReportData($this->idSite));
+        } finally {
+            FakeAccess::$identity = $originalIdentity;
+        }
+    }
+
+    private function deleteUserRow(string $login): void
+    {
+        Db::query('DELETE FROM ' . Common::prefixTable('user') . ' WHERE login = ?', array($login));
+    }
+
+    private function getReportsForLogin(string $login): array
+    {
+        return Db::fetchAll(
+            'SELECT idreport FROM ' . Common::prefixTable('report') . ' WHERE login = ?',
+            array($login)
+        );
+    }
+
     /**
      * Dataprovider for testGetReportSubjectAndReportTitle
      */
@@ -949,6 +1015,17 @@ class ApiTest extends IntegrationTestCase
         );
 
         self::assertStringContainsString('id="VisitsSummary_get"', $result);
+
+        $effectivePeriod = $period ?: Schedule::PERIOD_DAY;
+        $periodTranslationKey = $effectivePeriod === Schedule::PERIOD_RANGE
+            ? 'General_DateRangeInPeriodList'
+            : 'Intl_Period' . ucfirst($effectivePeriod);
+        $expectedHeader = Piwik::translate('ScheduledReports_PleaseFindBelow', [
+            Piwik::translate($periodTranslationKey),
+            Site::getNameFor(1),
+        ]);
+
+        self::assertStringContainsString($expectedHeader, $result);
     }
 
     /**
@@ -990,6 +1067,39 @@ class ApiTest extends IntegrationTestCase
             'last7',
             'range',
         ];
+    }
+
+    public function testGenerateReportUsesDefaultDataPeriodForNeverScheduledReport(): void
+    {
+        $idReport = APIScheduledReports::getInstance()->addReport(
+            1,
+            '',
+            Schedule::PERIOD_NEVER,
+            0,
+            ScheduledReports::EMAIL_TYPE,
+            ReportRenderer::HTML_FORMAT,
+            [
+                'VisitsSummary_get',
+            ],
+            [
+                ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY,
+            ]
+        );
+
+        $result = APIScheduledReports::getInstance()->generateReport(
+            $idReport,
+            '2024-01-01',
+            false,
+            APIScheduledReports::OUTPUT_RETURN
+        );
+
+        $expectedHeader = Piwik::translate('ScheduledReports_PleaseFindBelow', [
+            Piwik::translate('Intl_PeriodDay'),
+            Site::getNameFor(1),
+        ]);
+
+        self::assertStringContainsString($expectedHeader, $result);
+        self::assertStringNotContainsString('Intl_PeriodNever', $result);
     }
 
     public function testGenerateReportThrowsIfMultiplePeriodsRequested()

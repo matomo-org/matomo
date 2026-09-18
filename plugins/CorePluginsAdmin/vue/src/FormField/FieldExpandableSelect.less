@@ -2,6 +2,10 @@
 
   position: relative;
 
+  // the same reserve FieldSelect.less takes, so an expandable select and a standard one
+  // have the same footprint and both sit on the centre line of a plain input beside them
+  margin-top: 5px;
+
   // nested under the block so the rules keep the specificity the pre-BEM
   // selectors had against legacy styles targeting the Materialize classes;
   // border/radius/shadow values mirror the selector look in
@@ -41,7 +45,50 @@
   }
 
   .expandableSelector__chevron {
-    padding-right: 16px;
+    // margin rather than padding: padding would sit inside the box the rotation turns
+    // about, so the glyph would swing sideways instead of flipping in place
+    margin-right: 16px;
+    color: @theme-color-text;
+    // rotation timing follows MetricsPicker, so the dropdowns behave alike when open
+    transition: transform .15s ease;
+  }
+
+  .expandableSelector__wrapper--expanded .expandableSelector__chevron {
+    transform: rotate(180deg);
+  }
+
+
+}
+
+// The list is rendered into the body rather than inside the selector, so that a modal or any
+// other scrolling ancestor cannot clip it. That puts it outside the block above, so it is styled
+// here through its own class, so that it cannot be caught by a legacy rule written for the days
+// when the list sat inside its field, such as TagManager's `.modal.open .expandableList`.
+//
+// Positioned against the viewport by the component, which measures the field it belongs to and
+// keeps the two together while anything scrolls.
+.expandableSelector__list {
+  position: fixed;
+  z-index: 9999;
+  background: @theme-color-background-contrast;
+  color: @theme-color-text;
+  border: 1px solid @theme-color-border;
+  border-radius: 8px;
+  box-shadow: 0 0 3px #A5B1CA4D, 0 10px 40px #A5B1CA4D;
+  overflow: hidden;
+
+  .inDarkMode({
+    box-shadow: 0 0 3px #00000080, 0 10px 40px #00000080;
+  });
+
+  .collection {
+    background: @theme-color-background-contrast;
+    border-color: @theme-color-border;
+  }
+
+  .collection .collection-item {
+    background: @theme-color-background-contrast;
+    border-color: @theme-color-border;
     color: @theme-color-text;
   }
 
@@ -115,44 +162,14 @@
 
   .expandableSearch {
     vertical-align: top;
+    // stated here rather than inherited: the list is rendered at the page level now, away from
+    // the form styles that used to give the typed query its weight
+    font-weight: bold;
     padding: 7px 6px !important;
     border: 1px solid @theme-color-border !important;
     background: @theme-color-background-contrast !important;
     font-size: 11px !important;
     color: @theme-color-text !important;
     width: 100% !important;
-  }
-
-  .expandableList {
-    position: absolute;
-    z-index: 9999;
-    margin-top: 8px;
-    background: @theme-color-background-contrast;
-    color: @theme-color-text;
-    border: 1px solid @theme-color-border;
-    border-radius: 8px;
-    box-shadow: 0 0 3px #A5B1CA4D, 0 10px 40px #A5B1CA4D;
-    overflow: hidden;
-
-    .inDarkMode({
-      box-shadow: 0 0 3px #00000080, 0 10px 40px #00000080;
-    });
-
-    .collection {
-      background: @theme-color-background-contrast;
-      border-color: @theme-color-border;
-    }
-
-    .collection .collection-item {
-      background: @theme-color-background-contrast;
-      border-color: @theme-color-border;
-      color: @theme-color-text;
-    }
-  }
-
-  // placed after the .expandableList rule so the equal-specificity margin wins
-  .expandableSelector__list--above {
-    bottom: ~"calc(100% + 8px)";
-    margin-top: 0;
   }
 }

@@ -63,12 +63,10 @@ class ComplianceSettingsProvider
             $settings[] = $externalSetting;
         }
 
-        $details = $policyClass::getDetails();
-
         return [
-            'policy' => $details['id'],
-            'title' => $details['title'],
-            'description' => $details['description'],
+            'policy' => $policyClass::getName(),
+            'title' => $policyClass::getTitle(),
+            'description' => $policyClass::getGranularDescription(),
             'configControlled' => PolicyManager::isPolicyConfigControlled($policyClass),
             'policyEnforced' => $toggleableCount > 0 && $allToggleablesEnforced,
             'settings' => $settings,

@@ -1,5 +1,6 @@
 {
     "CoreHome": {
+        "AIInsights": "AI 洞察",
         "AdblockIsMaybeUsed": "如果您使用的是广告拦截，请禁用此网站，以确保Matomo工作没有任何问题。",
         "AddTotalsRowDataTable": "该报告未显示总计行%s显示总计行",
         "CategoryNoData": "该分类没有数据。 请试试 \"包含所有数据\"。",
@@ -114,8 +115,12 @@
         "ShortcutWebsiteSelector": "打开网站选择器",
         "ShortcutZenMode": "对于Zen模式",
         "ShortcutsAvailable": "可用的快捷方式",
+        "ShowAbsoluteValues": "显示绝对值",
+        "ShowAbsoluteValuesDataTable": "报告正在显示百分比 %s 显示绝对值",
         "ShowExportUrl": "显示导出URL",
         "ShowJSCode": "显示插入的Javascript代码",
+        "ShowPercentageValues": "显示百分比",
+        "ShowPercentageValuesDataTable": "报告正在显示绝对值 %s 显示百分比",
         "SkipToContent": "跳过，查看内容",
         "SoftwareSubcategoryHelp": "软件部分展示了您的访问者在访问网站时使用的操作系统、浏览器和插件，以便您可以优化您的网站，以确保它与最流行的配置完全兼容。",
         "StandardReport": "标准报告",

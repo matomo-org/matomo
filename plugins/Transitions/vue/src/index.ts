@@ -9,3 +9,4 @@ export { default as TransitionExporter } from './TransitionExporter/TransitionEx
 export { default as TransitionSwitcher } from './TransitionSwitcher/TransitionSwitcher.vue';
 export { default as TransitionsPage } from './TransitionsPage/TransitionsPage.vue';
 export { default as TransitionExporterLink } from './TransitionExporter/TransitionExporterLink.vue';
+export { default as TransitionsReport } from './TransitionsReport/TransitionsReport.vue';
