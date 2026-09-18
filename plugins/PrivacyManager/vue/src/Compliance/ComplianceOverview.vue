@@ -112,9 +112,9 @@ export default defineComponent({
       { immediate: true },
     );
 
-    // enforcing the policy switches the raw data retention cap on, which schedules permanent
-    // deletion of older visit data. Saving again while it is already enforced schedules
-    // nothing, so the acknowledgement is only asked for when this save turns it on
+    // enforcing the policy caps how long raw data may be kept. Whether that cap purges
+    // anything is gated separately on delete_logs_enable, so ask for the acknowledgement
+    // when this save turns enforcement on, and not when it is already on
     const rawDataRetentionBeingEnabled = computed(
       () => shouldEnforceComplianceMode.value && !store.state.complianceModeEnforced,
     );

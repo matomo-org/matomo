@@ -156,9 +156,9 @@ export default defineComponent({
     );
     const hasUnsavedChanges = computed(() => store.dirtySettingIds.value.length > 0);
     const canSave = computed(() => !store.state.configControlled);
-    // turning raw data retention on schedules permanent deletion of old visit data, so the
-    // save has to be acknowledged rather than only re-authenticated. save() posts the changed
-    // settings only, so a retention setting left as it was schedules nothing new
+    // raw data retention caps how long raw data may be kept. Whether that cap purges
+    // anything is gated separately on delete_logs_enable. save() posts changed settings
+    // only, so ask for the acknowledgement when this save turns enforcement on
     const rawDataRetentionBeingEnabled = computed(
       () => !!store.state.localEnforced[RAW_DATA_RETENTION_SETTING_ID]
         && store.dirtySettingIds.value.includes(RAW_DATA_RETENTION_SETTING_ID),
