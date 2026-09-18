@@ -353,8 +353,7 @@ class IniFileChain
     protected function getUserSettingsFile()
     {
         // the user settings file is the last key in $settingsChain
-        end($this->settingsChain);
-        return key($this->settingsChain);
+        return array_key_last($this->settingsChain);
     }
 
     /**
