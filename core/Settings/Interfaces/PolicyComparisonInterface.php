@@ -46,6 +46,9 @@ interface PolicyComparisonInterface
     /** Enforced for one site only. */
     public const ENFORCEMENT_SCOPE_SITE = 'site';
 
+    /** Order hint of a setting that does not ask for a position of its own. */
+    public const POLICY_ORDER_LAST = 1000;
+
     /**
      * The policies this setting is a requirement of, and the value each of them requires.
      *
@@ -77,6 +80,18 @@ interface PolicyComparisonInterface
      * @since Matomo 6.0.0 — {@link PolicyComparisonTrait} provides a default.
      */
     public static function getPolicySettingId(): string;
+
+    /**
+     * The order hint deciding where a compliance dashboard lists this setting, lowest first.
+     *
+     * Follows the order hints of the Matomo menus: a setting says where it wants to sit rather
+     * than a policy listing the settings it controls, and settings sharing a hint are ordered by
+     * their policy setting id. A setting that does not ask for a position keeps
+     * {@link self::POLICY_ORDER_LAST} and is listed after the settings that do.
+     *
+     * @since Matomo 6.0.0 — {@link PolicyComparisonTrait} provides a default.
+     */
+    public static function getPolicyOrder(): int;
 
     /**
      * Whether this setting cannot be enforced from the compliance dashboard and

@@ -59,6 +59,11 @@ class OnlyMajorVersions implements
         return '';
     }
 
+    public static function getPolicyOrder(): int
+    {
+        return 35;
+    }
+
     public static function getPolicyRequirements(): array
     {
         return [
