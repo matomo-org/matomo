@@ -46,6 +46,7 @@ class Challenges
 
         if ($this->isActivePlugin('Goals')) {
             $challenges[] = StaticContainer::get(ChallengeCreatedGoal::class);
+            $challenges[] = StaticContainer::get(ChallengeAddRecommendedGoals::class);
         }
 
         $challenges[] = StaticContainer::get(ChallengeCustomLogo::class);

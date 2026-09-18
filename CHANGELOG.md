@@ -20,6 +20,9 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ### New APIs
 * The new `Piwik\Http\SecurityHeaders::sendForDataResponse()` sends the header set for a response that is data rather than application UI: `X-Content-Type-Options: nosniff`, `Referrer-Policy: no-referrer`, `X-Frame-Options: deny` unless `[General] enable_framed_pages` allows embedding, and a `Content-Security-Policy` that allows no scripts, forms or base URI, only inline styles and images from Matomo itself (built by the new `Piwik\View\SecurityPolicy::restrictToDataResponse()`). Core sends it for the API endpoint itself, report exports, inline report previews, and the API module's `listAllMethods` and `listSegments` actions, which return HTML without a view; `action=listAllAPI`, which renders one, keeps the headers of a regular page. Call it in a plugin that streams an export or a report, before writing any output.
+* `Piwik\Http::sendHttpRequest()` and `Piwik\Http::sendHttpRequestBy()` extended info (`$getExtendedInfo = true`)
+  now includes an `effectiveUrl` entry: the final URL after following redirects. Best effort on the `fopen`
+  transport, which follows redirects internally.
 * Two new events let plugins customise the "No data has been recorded yet" page, on both the standalone page and its embedding in the reporting UI:
   * `Template.siteWithoutData.afterTrackingMethods` collects additional HTML rendered below the tracking methods list and the section for temporarily hiding the page.
   * `SitesManager.siteWithoutData.showInviteTeamMemberLink` lets a plugin hide the "Invite Team Member" link by setting the posted flag to `false`.
