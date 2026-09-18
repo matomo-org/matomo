@@ -1,6 +1,7 @@
 {
     "Live": {
         "ActionsAndDuration": "%2$s 中 %1$s アクション",
+        "AggregatedRealtimeReportsEnabledPolicySettingTitle": "集約されたリアルタイムレポートが有効になりました",
         "AveragePageGenerationTime": "このビジターの各ページの読み込みには、平均して %1$s時間がかかりました。",
         "CalculatedOverNPageViews": "このビジターの最後の%1$sページビューを使用して計算されます。",
         "ClickToSeeAllContents": "各コンテンツのインタラクション/インプレッションを見るためにクリック",
@@ -11,6 +12,14 @@
         "DisableVisitorProfileDescription": "すべてのビジットログ関連機能は常に機能します。",
         "DisableVisitsLogAndProfile": "ビジットログとビジタープロファイルをオフにする",
         "DisableVisitsLogAndProfileDescription": "また、e コマース ログ、セグメント化されたビジットログ、リアルタイム マップ、リアルタイム ウィジェットなど、これらに依存する機能も削除します。 地域のプライバシー法/ガイドラインを遵守する必要がある場合があります。",
+        "DisableVisitsLogAndProfileImpact": "<strong>訪問者 &gt; 訪問履歴</strong>と訪問者プロフィールの表示は利用できません。",
+        "DisableVisitsLogAndProfileWhatItDoes": "訪問ログと訪問者プロフィールの機能は無効になっています。<br><br>これにより、個々の訪問者の閲覧経路や詳細な訪問時の行動を再構築することができません。",
+        "EnableAggregatedRealtimeReports": "集約されたリアルタイムレポートを有効にする",
+        "EnableAggregatedRealtimeReportsDescription": "「過去24時間」と「過去30分」のプライバシー安全な集計メトリクスを表示します。個々の訪問者、訪問、セッション、アクションレベルの情報は表示されません。",
+        "EnableAggregatedRealtimeReportsImpact": "<strong>訪問者 &gt; リアルタイム</strong> は、集計されたカウンターのみを表示し、数値は四捨五入されています。",
+        "EnableAggregatedRealtimeReportsPolicySettingRequirementNote": "リアルタイムの集計レポートを有効にする必要があります。",
+        "EnableAggregatedRealtimeReportsWhatItDoes": "集計されたリアルタイムレポートは、訪問ログがオフのときでも利用可能です。<br><br>表示されるのは「過去24時間」と「過去30分」の合計だけで、それぞれの数値は四捨五入されるため、個々の訪問者や訪問、セッション、アクションの情報は公開されません。",
+        "ExportThisDatasetToXml": "このデータセットをXMLにエクスポートする",
         "FirstVisit": "最初の訪問",
         "GoalType": "タイプ",
         "HideMap": "隠れたマップ",
@@ -57,6 +66,7 @@
         "VisitorLog": "ビジットログ",
         "VisitorLogDocumentation": "この表には、選択した日付範囲内の最新のビジットが表示されます。 ビジットの日付にカーソルを合わせると、最新のビジットがいつ発生したかがわかります。 %1$s 日付範囲に今日が含まれている場合、ビジターをリアルタイムで確認できます。 %2$s ここに表示されるデータは、アーカイブ cron ジョブを使用するかどうか、および使用頻度に関係なく、常にライブです。",
         "VisitorLogNoDataMessagePurged": "古い生データの定期的な削除がオンになっており、このレポートの日付が %s 日を超えているため、データがパージされた可能性があります。 スーパーユーザーは、[管理] → [プライバシー] に移動して、この設定を変更できます。",
+        "VisitorLogPolicySettingRequirementNote": "訪問ログは無効にする必要があります。",
         "VisitorLogSubcategoryHelp1": "ビジットログには、Web サイトへのすべてのビジットが詳細に表示されます。 各ビジターが実行したアクション、サイトへのアクセス方法、ビジターについての情報などを (地域のプライバシー規制に準拠しながら) 調べます。",
         "VisitorLogSubcategoryHelp2": "Matomo の他のレポートは、ビジターが集計レベルでどのように行動するかを示しますが、ビジットログは詳細を提供します。 また、セグメントを使用して特定のタイプのビジットに絞り込み、ビジターをよりよく理解することもできます。",
         "VisitorLogSubcategoryHelp3": "詳細については、ビジットログ ガイドをご覧ください。",
@@ -64,6 +74,7 @@
         "VisitorsInRealTime": "リアルタイムビジット",
         "VisitorsLastVisit": "また、%s 日前に訪問しました。",
         "VisitsFrom": "から %1$s%2$s が %3$s を訪問",
-        "VisitsLog": "訪問履歴"
+        "VisitsLog": "訪問履歴",
+        "VisitsLogAndProfileDisabledPolicySettingTitle": "訪問ログと訪問者プロフィールが無効になっています"
     }
 }

@@ -284,6 +284,13 @@ class Controller extends \Piwik\Plugin\Controller
             $params['segment'] = urldecode($params['segment']);
         }
 
+        // Both maps request their data with their own $.ajax wrapper rather than through
+        // AjaxHelper, so the page's ?language= only reaches them by being baked in here.
+        $language = Common::getRequestVar('language', '', 'string');
+        if (!empty($language)) {
+            $params['language'] = $language;
+        }
+
         if ($encode) {
             $params = json_encode($params);
         }

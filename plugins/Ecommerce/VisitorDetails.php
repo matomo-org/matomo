@@ -195,8 +195,7 @@ class VisitorDetails extends VisitorDetailsAbstract
     }
 
     /**
-     * @param $idVisit
-     * @param $limit
+     * @param $idVisits
      * @return array
      * @throws \Exception
      */
@@ -243,7 +242,6 @@ class VisitorDetails extends VisitorDetailsAbstract
     /**
      * @param $idVisit
      * @param $idOrder
-     * @param $actionsLimit
      * @return array
      * @throws \Exception
      */

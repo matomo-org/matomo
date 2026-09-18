@@ -13,6 +13,12 @@ import { mount } from '@vue/test-utils';
 // casing behavior is covered by ucfirst.spec.
 vi.mock('CoreHome', () => ({
   Tooltips: {},
+  Matomo: {
+    helper: {
+      htmlEntities: (value: string) => value
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'),
+    },
+  },
   ucfirst: vi.fn((text?: string) => text ?? ''),
   Sparkline: {
     name: 'Sparkline',

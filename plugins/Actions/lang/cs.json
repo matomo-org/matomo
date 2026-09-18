@@ -1,6 +1,7 @@
 {
     "Actions": {
         "ActionType": "Typ akce",
+        "ActionTypeSegmentHelp": "Typ akce, například: %s",
         "ActionTypes": "Typy akcí",
         "ActionsInVisit": "Akce během návštěvy",
         "AvgGenerationTimeTooltip": "Průměr dle %1$s přístupů %2$s mezi %3$s a %4$s",
@@ -66,6 +67,7 @@
         "PagesSubcategoryHelp3": "Použijte ikonu plus a mínus vlevo k navigaci.",
         "PluginDescription": "Hlášení o zobrazeních a názvech stránek. Umožňuje měřit interní vyhledávač vašich webových stránek. Automaticky sleduje kliknutí na externí odkazy a stahování souborů.",
         "RevisitedPages": "Stránky navštívené více než jednou",
+        "SearchesSegmentHelp": "Chcete-li vybrat všechny návštěvy využívající interní vyhledávání na webu, použijte: %s",
         "SiteSearchCategories": "Kategorie (Vyhledávání na webu)",
         "SiteSearchCategories1": "Tento report shrnuje kategorie, které návštěvníci vybrali při vyhledávání na stránkách.",
         "SiteSearchCategories2": "Například elektronické obchody mívají filtr kategorií, aby mohli zákazníci zvolit, ve které kategorii bude provedeno hledání.",

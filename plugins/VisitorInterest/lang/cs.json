@@ -1,24 +1,25 @@
 {
     "VisitorInterest": {
-        "BetweenXYMinutes": "%1$s-%2$s minut",
-        "BetweenXYSeconds": "%1$s-%2$ss",
+        "BetweenXYMinutes": "%1$s–%2$s min",
+        "BetweenXYSeconds": "%1$s–%2$s s",
         "ColumnPagesPerVisit": "Stránek za návštěvu",
+        "ColumnPercentageVisitsDocumentation": "Procentní podíl návštěv, při nichž návštěvníci dosáhli uvedeného celkového počtu návštěv.",
         "ColumnVisitDuration": "Doba návštěvy",
         "Engagement": "Zapojení",
         "NPages": "%s stránek",
         "OnePage": "1 stránka",
-        "PluginDescription": "Hlásí zájem vašich návštěvníků: počet zobrazených stránek, čas na stránkách, dny od poslední návštěvy aj.",
+        "PluginDescription": "Zájem návštěvníků: počet zobrazených stránek, čas strávený na webu, počet dnů od poslední návštěvy a další údaje.",
         "VisitNum": "Číslo návštěvníka",
         "VisitsByDaysSinceLast": "Návštěvy po dnech od posledního navštívení",
         "VisitsPerDuration": "Doba zobrazení na návštěvníka",
         "VisitsPerNbOfPages": "Počet stránek na návštěvníka",
         "WidgetLengths": "Doba návštěv",
-        "WidgetLengthsDocumentation": "V tomto hlášení vidíte, kolik návštěv mělo určitou celkovou délku. Nejdříve je toto hlášení zobrazeno jako tag cloud, častější doby jsou větším písmem.",
+        "WidgetLengthsDocumentation": "Počet návštěv s určitou celkovou délkou. Přehled se zpočátku zobrazuje jako mrak značek, v němž jsou častější délky znázorněny větším písmem.",
         "WidgetPages": "Stránek za návštěvu",
-        "WidgetPagesDocumentation": "V tomto hlášení je zobrazeno, kolik návštěv provedlo určité množství zobrazení stránek. Nejdříve je toto hlášení zobrazeno jako tag cloud, častější čísla mají větší písmo.",
+        "WidgetPagesDocumentation": "Počet návštěv s určitým počtem zobrazení stránek. Přehled se zpočátku zobrazuje jako mrak značek, v němž jsou častější počty stránek znázorněny větším písmem.",
         "WidgetVisitsByDaysSinceLast": "Návštěvy po dnech od posledního navštívení",
-        "WidgetVisitsByDaysSinceLastDocumentation": "V tomto hlášení vidíte kolik návštěv provedli návštěvníci, kteří v minulosti stránku navštívili opakovaně.",
-        "WidgetVisitsByNumDocumentation": "V tomto hlášení vidíte, kolik návštěv bylo n-tou návštěvou, t. j. návštěvníky, kteří navštívili vaše stránky aspoň n-krát.",
-        "visitsByVisitCount": "Návstěvy podle pořadí"
+        "WidgetVisitsByDaysSinceLastDocumentation": "Počet návštěv vracejících se návštěvníků, jejichž poslední návštěva proběhla před určitým počtem dnů.",
+        "WidgetVisitsByNumDocumentation": "Počet návštěvníků, kteří dosáhli své N. návštěvy, tj. celkový počet návštěvníků, kteří váš web navštívili alespoň tolikrát.",
+        "visitsByVisitCount": "Návštěvy podle pořadového čísla"
     }
 }

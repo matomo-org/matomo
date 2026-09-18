@@ -33,6 +33,8 @@ use Piwik\Plugins\Goals\Recommendations\GoalRecommendationService;
 use Piwik\Segment;
 use Piwik\Segment\SegmentExpression;
 use Piwik\Site;
+use Piwik\Validators\BaseValidator;
+use Piwik\Validators\CharacterLength;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\GoalManager;
 use Piwik\Plugins\VisitFrequency\API as VisitFrequencyAPI;
@@ -60,7 +62,7 @@ use Piwik\Validators\WhitelistedValue;
  * @method static \Piwik\Plugins\Goals\API getInstance()
  *
  * @phpstan-import-type GoalStoredRecord from Model
- * @phpstan-type GoalMatchAttribute 'url'|'title'|'file'|'external_website'|'manually'|'visit_duration'|'visit_total_actions'|'visit_total_pageviews'|'event_action'|'event_category'|'event_name'
+ * @phpstan-type GoalMatchAttribute 'url'|'title'|'file'|'external_website'|'manually'|'visit_duration'|'event_action'|'event_category'|'event_name'
  * @phpstan-type GoalPatternType ''|'regex'|'contains'|'exact'|'greater_than'
  * @phpstan-type GoalRecord array{
  *     idgoal: int|string,
@@ -310,11 +312,13 @@ class API extends \Piwik\Plugin\API
      *
      * @param int $idSite The numeric ID of the website to configure the goal for.
      * @param string $name Goal name.
-     * @param string $matchAttribute Attribute used to match conversions.
+     * @param string $matchAttribute Attribute used to match conversions. One of `url`, `title`, `file`,
+     *                                `external_website`, `manually`, `visit_duration`, `event_action`,
+     *                                `event_category` or `event_name`.
      * @phpstan-param GoalMatchAttribute $matchAttribute
      * @param string $pattern Match pattern. Use a URL, title, filename, external website, or event value for string
-     *                        match attributes; use a numeric threshold for visit duration, actions, or pageview
-     *                        match attributes; this value is ignored for `manually`.
+     *                        match attributes; use a numeric threshold in minutes for `visit_duration`; this value is
+     *                        ignored for `manually`.
      * @param string $patternType Matching operator. Numeric match attributes only accept `greater_than`; string match
      *                            attributes accept `exact`, `contains`, or `regex`; use an empty string for `manually`.
      * @phpstan-param GoalPatternType $patternType
@@ -333,11 +337,11 @@ class API extends \Piwik\Plugin\API
         $matchAttribute,
         $pattern,
         $patternType,
-        $caseSensitive = false,
+        bool $caseSensitive = false,
         $revenue = false,
-        $allowMultipleConversionsPerVisit = false,
+        bool $allowMultipleConversionsPerVisit = false,
         string $description = '',
-        $useEventValueAsRevenue = false
+        bool $useEventValueAsRevenue = false
     ) {
         Piwik::checkUserHasWriteAccess($idSite);
 
@@ -346,6 +350,7 @@ class API extends \Piwik\Plugin\API
         $patternType = $this->checkPatternType($patternType, $matchAttribute);
         $pattern = $this->checkPattern($pattern, $matchAttribute);
         $this->checkPatternIsValid($patternType, $pattern, $matchAttribute);
+        $this->checkFieldLengths($name, $description, $pattern, $matchAttribute);
 
         $revenue = Common::forceDotAsSeparatorForDecimalPoint((float)$revenue);
 
@@ -361,6 +366,8 @@ class API extends \Piwik\Plugin\API
             'deleted' => 0,
             'event_value_as_revenue' => (int)$useEventValueAsRevenue,
         );
+
+        $this->checkEventValueAsRevenue($goal);
 
         $idGoal = $this->getModel()->createGoalForSite($idSite, $goal);
 
@@ -378,14 +385,18 @@ class API extends \Piwik\Plugin\API
     /**
      * Updates an existing goal without reprocessing already recorded conversions.
      *
+     * Fails if the site has no such goal.
+     *
      * @param int $idSite The numeric ID of the website the goal belongs to.
      * @param int $idGoal Goal ID to update.
      * @param string $name Goal name.
-     * @param string $matchAttribute Attribute used to match conversions.
+     * @param string $matchAttribute Attribute used to match conversions. One of `url`, `title`, `file`,
+     *                                `external_website`, `manually`, `visit_duration`, `event_action`,
+     *                                `event_category` or `event_name`.
      * @phpstan-param GoalMatchAttribute $matchAttribute
      * @param string $pattern Match pattern. Use a URL, title, filename, external website, or event value for string
-     *                        match attributes; use a numeric threshold for visit duration, actions, or pageview
-     *                        match attributes; this value is ignored for `manually`.
+     *                        match attributes; use a numeric threshold in minutes for `visit_duration`; this value is
+     *                        ignored for `manually`.
      * @param string $patternType Matching operator. Numeric match attributes only accept `greater_than`; string match
      *                            attributes accept `exact`, `contains`, or `regex`; use an empty string for `manually`.
      * @phpstan-param GoalPatternType $patternType
@@ -399,24 +410,29 @@ class API extends \Piwik\Plugin\API
      */
     public function updateGoal(
         int $idSite,
-        $idGoal,
+        int $idGoal,
         string $name,
         $matchAttribute,
         $pattern,
         $patternType,
-        $caseSensitive = false,
+        bool $caseSensitive = false,
         $revenue = false,
-        $allowMultipleConversionsPerVisit = false,
+        bool $allowMultipleConversionsPerVisit = false,
         string $description = '',
-        $useEventValueAsRevenue = false
+        bool $useEventValueAsRevenue = false
     ): void {
         Piwik::checkUserHasWriteAccess($idSite);
+
+        if (!$this->getModel()->doesGoalExist($idGoal, $idSite)) {
+            throw new Exception("There is no goal with id '$idGoal' for site with id '$idSite'.");
+        }
 
         $patternType = Common::unsanitizeInputValue($patternType);
 
         $patternType = $this->checkPatternType($patternType, $matchAttribute);
         $pattern = $this->checkPattern($pattern, $matchAttribute);
         $this->checkPatternIsValid($patternType, $pattern, $matchAttribute);
+        $this->checkFieldLengths($name, $description, $pattern, $matchAttribute);
 
         $revenue = Common::forceDotAsSeparatorForDecimalPoint((float)$revenue);
 
@@ -485,6 +501,18 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * Ensures the given values still fit their columns, as the database would otherwise truncate them silently.
+     */
+    private function checkFieldLengths(string $name, string $description, string $pattern, string $matchAttribute): void
+    {
+        BaseValidator::check(Piwik::translate('Goals_GoalName'), Common::unsanitizeInputValue($name), [new CharacterLength(null, 50)]);
+        BaseValidator::check(Piwik::translate('General_Description'), Common::unsanitizeInputValue($description), [new CharacterLength(null, 255)]);
+        BaseValidator::check(Piwik::translate('Goals_Pattern'), Common::unsanitizeInputValue($pattern), [new CharacterLength(null, 255)]);
+        // unlike the fields above this one is no free text, so the stored value is what has to fit
+        BaseValidator::check('matchAttribute', $matchAttribute, [new CharacterLength(null, 20)]);
+    }
+
+    /**
      * @param string|null $patternType
      * @param string $matchAttribute
      * @phpstan-return GoalPatternType
@@ -533,14 +561,26 @@ class API extends \Piwik\Plugin\API
      * Soft deletes a given Goal.
      * Stats data in the archives will still be recorded, but not displayed.
      *
+     * Nothing is deleted if the site has no such goal.
+     *
      * @param int $idSite The numeric ID of the website to query.
      * @param int $idGoal The numeric ID of the goal to delete.
      *
      * @return void
      */
-    public function deleteGoal(int $idSite, $idGoal)
+    public function deleteGoal(int $idSite, int $idGoal)
     {
         Piwik::checkUserHasWriteAccess($idSite);
+
+        // the reserved ecommerce ids are no goals, so only ids of goals configured for the site
+        // may reach the conversion deletion below
+        if (
+            $idGoal === GoalManager::IDGOAL_ORDER
+            || $idGoal === GoalManager::IDGOAL_CART
+            || !$this->getModel()->doesGoalExist($idGoal, $idSite)
+        ) {
+            return;
+        }
 
         $this->getModel()->deleteGoal($idSite, $idGoal);
         $this->getModel()->deleteGoalConversions($idSite, $idGoal);
@@ -556,11 +596,10 @@ class API extends \Piwik\Plugin\API
      *
      * @param int|string|int[] $idSite
      * @param 'day'|'week'|'month'|'year'|'range' $period
-     * @param bool $abandonedCarts
      * @param string|null|false $segment
      * @return DataTable|DataTable\Map
      */
-    protected function getItems(string $recordName, $idSite, string $period, string $date, $abandonedCarts, $segment)
+    protected function getItems(string $recordName, $idSite, string $period, string $date, bool $abandonedCarts, $segment)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -686,7 +725,7 @@ class API extends \Piwik\Plugin\API
      *                                   Supports AND (;) and OR (,) operators.
      * @return DataTable|DataTable\Map Ecommerce product metrics grouped by SKU.
      */
-    public function getItemsSku($idSite, string $period, string $date, $abandonedCarts = false, $segment = false)
+    public function getItemsSku($idSite, string $period, string $date, bool $abandonedCarts = false, $segment = false)
     {
         $dataTable = $this->getItems('Goals_ItemsSku', $idSite, $period, $date, $abandonedCarts, $segment);
         $dataTable->filter('AddSegmentByLabel', ['productSku']);
@@ -711,7 +750,7 @@ class API extends \Piwik\Plugin\API
      *                                   Supports AND (;) and OR (,) operators.
      * @return DataTable|DataTable\Map Ecommerce product metrics grouped by name.
      */
-    public function getItemsName($idSite, string $period, string $date, $abandonedCarts = false, $segment = false)
+    public function getItemsName($idSite, string $period, string $date, bool $abandonedCarts = false, $segment = false)
     {
         $dataTable = $this->getItems('Goals_ItemsName', $idSite, $period, $date, $abandonedCarts, $segment);
         $dataTable->filter('AddSegmentByLabel', ['productName']);
@@ -736,7 +775,7 @@ class API extends \Piwik\Plugin\API
      *                                   Supports AND (;) and OR (,) operators.
      * @return DataTable|DataTable\Map Ecommerce product metrics grouped by category.
      */
-    public function getItemsCategory($idSite, string $period, string $date, $abandonedCarts = false, $segment = false)
+    public function getItemsCategory($idSite, string $period, string $date, bool $abandonedCarts = false, $segment = false)
     {
         $dataTable = $this->getItems('Goals_ItemsCategory', $idSite, $period, $date, $abandonedCarts, $segment);
         $dataTable->filter('AddSegmentByLabel', ['productCategory']);
@@ -790,7 +829,7 @@ class API extends \Piwik\Plugin\API
      * @return DataTable|DataTable\Map Goal metrics with additional columns for all visits, new visits, and returning
      *                                 visits.
      */
-    public function get($idSite, string $period, string $date, $segment = false, $idGoal = false, $columns = [], $showAllGoalSpecificMetrics = false, $compare = false)
+    public function get($idSite, string $period, string $date, $segment = false, $idGoal = false, $columns = [], bool $showAllGoalSpecificMetrics = false, bool $compare = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -825,7 +864,7 @@ class API extends \Piwik\Plugin\API
                     'idGoal' => $idGoal,
                     'columns' => $columns,
                     'showAllGoalSpecificMetrics' => $showAllGoalSpecificMetrics,
-                    'format_metrics' => !empty($compare) ? 0 : Common::getRequestVar('format_metrics', 'bc'),
+                    'format_metrics' => $compare ? 0 : Common::getRequestVar('format_metrics', 'bc'),
                 ), $default = []);
             } finally {
                 \Piwik\Plugin\Archiver::$ARCHIVE_DEPENDENT = $startingArchiveDependent;
@@ -850,7 +889,7 @@ class API extends \Piwik\Plugin\API
         // format the comparison rows either — formatting them turns revenue into a currency string and the chart cannot plot
         // it as a number.
         $formatMetricsRequest = \Piwik\Request::fromRequest()->getStringParameter('format_metrics', 'bc');
-        if (!empty($compare) && $formatMetricsRequest !== '0') {
+        if ($compare && $formatMetricsRequest !== '0') {
             $getMetricsReport = ReportsProvider::factory('Goals', 'getMetrics');
             $table->queueFilter(function (DataTable $t) use ($getMetricsReport) {
                 $t->setMetadata(Metrics\Formatter::PROCESSED_METRICS_FORMATTED_FLAG, false);
@@ -889,7 +928,7 @@ class API extends \Piwik\Plugin\API
      * @deprecated
      * @internal
      */
-    public function getMetrics($idSite, string $period, string $date, $segment = false, $idGoal = false, $columns = [], $showAllGoalSpecificMetrics = false)
+    public function getMetrics($idSite, string $period, string $date, $segment = false, $idGoal = false, $columns = [], bool $showAllGoalSpecificMetrics = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
         $archive = Archive::build($idSite, $period, $date, $segment);

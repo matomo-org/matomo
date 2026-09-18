@@ -38,6 +38,7 @@ interface GranularComplianceStoreState {
   idSite: string | null;
   loading: boolean;
   saving: boolean;
+  description: string;
   configControlled: boolean;
   policyEnforced: boolean;
   settings: PolicySetting[];
@@ -61,6 +62,7 @@ export function createGranularComplianceStore(policy: string): GranularComplianc
     idSite: null,
     loading: false,
     saving: false,
+    description: '',
     configControlled: false,
     policyEnforced: false,
     settings: [],
@@ -71,6 +73,7 @@ export function createGranularComplianceStore(policy: string): GranularComplianc
   });
 
   function applyPayload(payload: PolicySettingsPayload) {
+    state.description = payload.description;
     state.configControlled = payload.configControlled;
     state.policyEnforced = payload.policyEnforced;
     state.settings = payload.settings;

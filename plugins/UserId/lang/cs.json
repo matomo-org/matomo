@@ -3,6 +3,11 @@
         "PluginDescription": "Zobrazí reporty uživatel",
         "ThereIsNoDataForThisReportHelp": "%1$sPřečtěte si uživatelskou příručku, kde se dozvíte, jak generovat data pro tuto zprávu.%2$s",
         "UserId": "UserId",
+        "UserIdDisabledSettingImpact": "Hodnoty ID uživatele se neshromažďují. Nejsou dostupné přehledy ani segmenty podle ID uživatele ani analýza napříč návštěvami založená na ID uživatele.",
+        "UserIdDisabledSettingRequirementNote": "Shromažďování ID uživatele při sledování musí být vypnuto.",
+        "UserIdDisabledSettingTitle": "ID uživatele vypnuto",
+        "UserIdDisabledSettingWhatItDoes": "Sledování pomocí ID uživatele je vypnuto. Implementace měření nesmějí odesílat ID uživatelů prostřednictvím metody setUserId ani rovnocenných metod.<br><br>To brání přímé identifikaci návštěvníků a jejich propojování napříč návštěvami či zařízeními.",
+        "UserIdSegmentHelp": "libovolný neprázdný jedinečný řetězec identifikující uživatele (například e-mailová adresa nebo uživatelské jméno).",
         "UserReportDocumentation": "Zobrazuje návštěvy a další obecné metriky pro každé jednotlivé Uživatelské ID.",
         "UserReportTitle": "ID uživatelů",
         "VisitorsUserSubcategoryHelp": "Přehled uživatelských ID zobrazuje návštěvy spojené se všemi registrovanými a přihlášenými uživateli. Pochopte využívání webu podle jeho konkrétních uživatelů a zjistěte, kdo jsou vaši nejaktivnější a nejméně aktivní uživatelé."
