@@ -1045,7 +1045,7 @@ class ProcessedReport
 
         // Add % symbol to rates
         if (str_contains($columnName, '_rate')) {
-            if (!str_contains($value, "%")) {
+            if (!str_contains($value, '%')) {
                 return (100 * $value) . "%";
             }
         }

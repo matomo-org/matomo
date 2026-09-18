@@ -65,7 +65,7 @@ class AddSegmentByRangeLabel extends BaseFilter
             }
 
             // if there's more than one element, handle as a range w/ an upper bound
-            if (str_contains($label, "-")) {
+            if (str_contains($label, '-')) {
                 // get the range
                 sscanf($label, "%d - %d", $lowerBound, $upperBound);
 

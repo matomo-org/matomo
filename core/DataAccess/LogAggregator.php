@@ -907,8 +907,8 @@ class LogAggregator
 
     protected function isFieldFunctionOrComplexExpression($field)
     {
-        return str_contains($field, "(")
-            || str_contains($field, "CASE");
+        return str_contains($field, '(')
+            || str_contains($field, 'CASE');
     }
 
     protected function getSelectAliasAs($metricId)

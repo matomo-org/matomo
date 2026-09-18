@@ -337,7 +337,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             $handle = fopen($file, "r");
             $expectedStart = "<?php";
 
-            $isIniFile = str_contains($file, ".ini.php");
+            $isIniFile = str_contains($file, '.ini.php');
             if ($isIniFile) {
                 $expectedStart = "; <?php exit;";
             }
@@ -389,7 +389,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         foreach ($objects as $name => $object) {
             if (
                 is_dir($name)
-                && !str_contains($name, "/.")
+                && !str_contains($name, '/.')
             ) {
                 $paths[] = $name;
             }
@@ -587,14 +587,14 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
      */
     protected function isSkipPhpFileStartWithPhpBlock($file, $isIniFile)
     {
-        $isIniFileInTests = str_contains($file, "/tests/");
-        $isTestResultFile = str_contains($file, "/System/expected")
-            || str_contains($file, "tests/resources/Updater/")
-            || str_contains($file, "Twig/Tests/")
-            || str_contains($file, "processed/")
-            || str_contains($file, "/vendor/")
-            || (str_contains($file, "tmp/") && str_contains($file, 'index.php'));
-        $isLib = str_contains($file, "lib/xhprof") || str_contains($file, "phpunit/phpunit");
+        $isIniFileInTests = str_contains($file, '/tests/');
+        $isTestResultFile = str_contains($file, '/System/expected')
+            || str_contains($file, 'tests/resources/Updater/')
+            || str_contains($file, 'Twig/Tests/')
+            || str_contains($file, 'processed/')
+            || str_contains($file, '/vendor/')
+            || (str_contains($file, 'tmp/') && str_contains($file, 'index.php'));
+        $isLib = str_contains($file, 'lib/xhprof') || str_contains($file, 'phpunit/phpunit');
 
         return ($isIniFile && $isIniFileInTests) || $isTestResultFile || $isLib;
     }
@@ -774,7 +774,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         if ($this->isFileBelongToTests($file)) {
             return false;
         }
-        if (str_contains($file, PIWIK_INCLUDE_PATH . "/tmp/")) {
+        if (str_contains($file, PIWIK_INCLUDE_PATH . '/tmp/')) {
             return false;
         }
 
@@ -812,7 +812,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
      */
     private function isPluginSubmoduleAndThereforeNotFoundInFinalRelease($file)
     {
-        if (!str_contains($file, PIWIK_INCLUDE_PATH . "/plugins/")) {
+        if (!str_contains($file, PIWIK_INCLUDE_PATH . '/plugins/')) {
             return false;
         }
 

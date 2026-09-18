@@ -236,7 +236,7 @@ class Manager
             $gitModules = file_get_contents(PIWIK_INCLUDE_PATH . '/.gitmodules');
         }
         // All submodules are officially maintained plugins
-        return str_contains($gitModules, "plugins/" . $pluginName . "\n");
+        return str_contains($gitModules, 'plugins/' . $pluginName . "\n");
     }
 
     /**
