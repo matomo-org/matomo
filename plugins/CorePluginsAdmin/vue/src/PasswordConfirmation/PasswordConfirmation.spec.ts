@@ -288,6 +288,18 @@ describe('CorePluginsAdmin/PasswordConfirmation', () => {
         .not.toContain('passwordConfirmation__altIdConfirmation--disabled');
     });
 
+    // pointer-events only stops the mouse. Without inert the greyed button is still one tab
+    // away, and a sign-on round trip started from there would be discarded on the way back
+    it('takes the greyed button out of the focus order while the word is missing', async () => {
+      const wrapper = await mountModalWithAltId({ requireDeleteConfirmation: true });
+
+      expect(altIdWrapper(wrapper).attributes('inert')).toBe('true');
+
+      await wrapper.setData({ deleteConfirmation: 'delete' });
+
+      expect(altIdWrapper(wrapper).attributes('inert')).toBeUndefined();
+    });
+
     it('does nothing on enter while the word is missing', async () => {
       const wrapper = await mountModalWithAltId({ requireDeleteConfirmation: true });
 

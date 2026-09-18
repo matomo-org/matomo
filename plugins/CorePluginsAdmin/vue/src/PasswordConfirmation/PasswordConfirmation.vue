@@ -56,6 +56,7 @@
         :class="{
           'passwordConfirmation__altIdConfirmation--disabled': deleteConfirmationMissing,
         }"
+        :inert="deleteConfirmationMissing ? true : undefined"
       >
         <component
           :is="asComponent(alternativeIdentityConfirmationComponent)"
