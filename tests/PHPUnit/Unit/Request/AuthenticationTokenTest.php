@@ -9,7 +9,7 @@
 
 namespace Piwik\Tests\Unit\Request;
 
-class AuthenticationToken extends \PHPUnit\Framework\TestCase
+class AuthenticationTokenTest extends \PHPUnit\Framework\TestCase
 {
     public function tearDown(): void
     {
