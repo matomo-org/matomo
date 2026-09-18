@@ -12,6 +12,9 @@
 
     var UIControl = require('piwik/UI').UIControl;
 
+    // longest a failing refresh loop waits before trying again
+    var MAX_REFRESH_RETRY_MS = 300000;
+
     var RealtimeMap = window.UserCountryMap.RealtimeMap = function (element) {
         UIControl.call(this, element);
         this._init();
@@ -82,6 +85,8 @@
                 isFullscreenWidget = $('.widget').parent().get(0) == document.body,
                 now,
                 nextReqTimer,
+                currentReq,
+                consecutiveFailures = 0,
                 symbolFadeInTimer = [],
                 colorMode = 'default',
                 currentMap = 'world',
@@ -359,6 +364,7 @@
                     }
 
                     // successful request, so set timeout for next API call
+                    consecutiveFailures = 0;
                     nextReqTimer = setTimeout(refreshVisits, config.liveRefreshAfterMs);
 
                     // hide loading indicator
@@ -501,15 +507,53 @@
                     firstRun = false;
                 }
 
+                /*
+                 * a failed request must not end the refresh loop, unless the server rejected it:
+                 * a rejected authentication is recorded as another failed login every time.
+                 */
+                function failedRequest(xhr) {
+                    if (xhr !== currentReq) {
+                        return; // a newer request has taken over
+                    }
+                    currentReq = null;
+
+                    // if the map has been destroyed, do nothing
+                    if (!self.map || !self.$element.length || !$.contains(document, self.$element[0])) {
+                        return;
+                    }
+
+                    $('.realTimeMap_overlay img').hide();
+
+                    if (!window.CoreHome.isRetryableRequestError(xhr)) {
+                        // nothing more is coming, so stop claiming data is on its way
+                        $('.realTimeMap_overlay .loading_data').hide();
+                        $('#loadingError').show();
+                        return;
+                    }
+
+                    consecutiveFailures++;
+
+                    var base = config.liveRefreshAfterMs;
+                    var delay = Math.min(
+                        base * Math.pow(2, consecutiveFailures - 1),
+                        Math.max(MAX_REFRESH_RETRY_MS, base)
+                    );
+
+                    // keep firstRun, the map symbols are only set up on the first report
+                    nextReqTimer = setTimeout(function () { refreshVisits(firstRun); }, delay);
+                }
+
                 if (firstRun && lastVisits.length) {
                     // zoom changed, use cached report data
                     gotNewReport(lastVisits.slice());
                 } else if (Visibility.hidden()) {
-                    nextReqTimer = setTimeout(refreshVisits, config.liveRefreshAfterMs);
+                    nextReqTimer = setTimeout(function () { refreshVisits(firstRun); }, config.liveRefreshAfterMs);
                 } else {
                     // request API for new data
                     $('.realTimeMap_overlay img').show();
-                    ajax(_reportParams(firstRun)).done(gotNewReport);
+                    // assigned first, so the handlers can spot a superseded request
+                    currentReq = ajax(_reportParams(firstRun));
+                    currentReq.done(gotNewReport).fail(failedRequest);
                 }
             }
 
@@ -572,6 +616,13 @@
                 }
 
                 clearTimeout(nextReqTimer);
+                // the loop is restarted from scratch below, so earlier failures no longer count
+                consecutiveFailures = 0;
+                var pendingReq = currentReq;
+                currentReq = null;
+                if (pendingReq) {
+                    pendingReq.abort();
+                }
                 $.each(symbolFadeInTimer, function (i, t) {
                     clearTimeout(t);
                 });
