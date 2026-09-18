@@ -808,7 +808,7 @@ class Mysql implements SchemaInterface
 
         // Note: This check for MariaDb is here on purpose, so it's working correctly for people
         // having MySQL still configured, when using MariaDb
-        if (strpos($version, "mariadb") === false) {
+        if (!str_contains($version, "mariadb")) {
             return false;
         }
 

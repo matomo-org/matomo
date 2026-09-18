@@ -330,11 +330,11 @@ class Segment
         if (!empty($availableSegment['unionOfSegments'])) {
             foreach ($availableSegment['unionOfSegments'] as $segmentNameOfUnion) {
                 $unionSegment = $this->getSegmentByName($segmentNameOfUnion);
-                if (strpos($unionSegment['sqlSegment'], 'log_visit.') === 0) {
+                if (str_starts_with($unionSegment['sqlSegment'], 'log_visit.')) {
                     return true;
                 }
             }
-        } elseif (strpos($availableSegment['sqlSegment'], 'log_visit.') === 0) {
+        } elseif (str_starts_with($availableSegment['sqlSegment'], 'log_visit.')) {
             return true;
         }
 
@@ -437,7 +437,7 @@ class Segment
 
             // additional key columns scope the join to the same row on both tables (eg the site id),
             // so a value cannot match a row that only shares the primary join column
-            $sourceTable = strpos((string) $sqlName, '.') !== false ? strstr($sqlName, '.', true) : null;
+            $sourceTable = str_contains((string) $sqlName, '.') ? strstr($sqlName, '.', true) : null;
             if ($sourceTable !== null) {
                 foreach ($join->getAdditionalKeyColumns() as $keyColumn) {
                     $joinConditions[] = $sourceTable . '.' . $keyColumn . ' = ' . $tableAlias . '.' . $keyColumn;
@@ -697,20 +697,20 @@ class Segment
     private static function containsCondition($segment, $operator, $segmentCondition)
     {
         // check when segment/condition are of same encoding
-        return strpos($segment, $operator . $segmentCondition) !== false
-            || strpos($segment, $segmentCondition . $operator) !== false
+        return str_contains($segment, $operator . $segmentCondition)
+            || str_contains($segment, $segmentCondition . $operator)
 
             // check when both operator & condition are urlencoded in $segment
-            || strpos($segment, urlencode($operator . $segmentCondition)) !== false
-            || strpos($segment, urlencode($segmentCondition . $operator)) !== false
+            || str_contains($segment, urlencode($operator . $segmentCondition))
+            || str_contains($segment, urlencode($segmentCondition . $operator))
 
             // check when operator is not urlencoded, but condition is in $segment
-            || strpos($segment, $operator . urlencode($segmentCondition)) !== false
-            || strpos($segment, urlencode($segmentCondition) . $operator) !== false
+            || str_contains($segment, $operator . urlencode($segmentCondition))
+            || str_contains($segment, urlencode($segmentCondition) . $operator)
 
             // check when segment condition is urlencoded & $segment isn't
-            || strpos($segment, $operator . urldecode($segmentCondition)) !== false
-            || strpos($segment, urldecode($segmentCondition) . $operator) !== false
+            || str_contains($segment, $operator . urldecode($segmentCondition))
+            || str_contains($segment, urldecode($segmentCondition) . $operator)
 
             || $segment === $segmentCondition
             || $segment === urlencode($segmentCondition)

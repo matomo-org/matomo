@@ -222,7 +222,7 @@ class AuthenticationToken
 
     private function getTokenAuthFromHeader(): ?string
     {
-        if (!empty($_SERVER['HTTP_AUTHORIZATION']) && strpos($_SERVER['HTTP_AUTHORIZATION'], 'Bearer ') === 0) {
+        if (!empty($_SERVER['HTTP_AUTHORIZATION']) && str_starts_with($_SERVER['HTTP_AUTHORIZATION'], 'Bearer ')) {
             return substr($_SERVER['HTTP_AUTHORIZATION'], 7);
         }
 
@@ -244,7 +244,7 @@ class AuthenticationToken
         }
 
         $requestBody = file_get_contents('php://input');
-        if (!empty($requestBody) && strpos($requestBody, '{') === 0) {
+        if (!empty($requestBody) && str_starts_with($requestBody, '{')) {
             $jsonContent = json_decode($requestBody, true);
 
             if (is_array($jsonContent) && !empty($jsonContent['token_auth']) && is_string($jsonContent['token_auth'])) {

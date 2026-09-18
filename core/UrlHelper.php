@@ -162,7 +162,7 @@ class UrlHelper
             return false;
         }
 
-        if (strpos($url, ':') === false) {
+        if (!str_contains($url, ':')) {
             return true;
         }
 
@@ -314,7 +314,7 @@ class UrlHelper
         $parsedUrl = parse_url($url);
 
         // If an anchor is included in the URL parse_url() will not split the anchor and query, so we do that there
-        if (isset($parsedUrl['fragment']) && strpos($parsedUrl['fragment'], '?') !== false) {
+        if (isset($parsedUrl['fragment']) && str_contains($parsedUrl['fragment'], '?')) {
             $parsedUrl['query'] = substr($parsedUrl['fragment'], strpos($parsedUrl['fragment'], '?') + 1);
             $parsedUrl['fragment'] = substr($parsedUrl['fragment'], 0, strpos($parsedUrl['fragment'], '?'));
         }
@@ -322,7 +322,7 @@ class UrlHelper
         $result = '';
 
         if (isset($parsedUrl['path'])) {
-            if (substr($parsedUrl['path'], 0, 1) == '/') {
+            if (str_starts_with($parsedUrl['path'], '/')) {
                 $parsedUrl['path'] = substr($parsedUrl['path'], 1);
             }
             $result .= $parsedUrl['path'];
