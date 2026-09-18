@@ -38,6 +38,8 @@
         "RecommendedPrivateDirectories": "Diretórios Privados Recomendados",
         "RequiredPrivateDirectories": "Diretórios Privados Necessários",
         "Sections": "Seções",
+        "SessionStorageFormat": "Formato de Armazenamento de Sessão",
+        "SessionStorageFormatWarning": "As sessões são armazenadas como %1$s porque não foi possível definir session.serialize_handler como php_serialize; portanto, alterações feitas simultaneamente por duas requisições podem ser perdidas. Defina-o como php_serialize no seu php.ini.",
         "UrlsAccessibleViaBrowser": "Descobrimos que as URLs acima podem ser acessadas pelo navegador, mas recomendamos que não sejam. Se possível, restrinja o acesso a elas."
     }
 }
