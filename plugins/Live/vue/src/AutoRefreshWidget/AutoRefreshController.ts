@@ -5,6 +5,8 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+import { isRetryableRequestError } from 'CoreHome';
+
 type RefreshResult = {
   updated: boolean;
 };
@@ -29,6 +31,8 @@ export class AutoRefreshController<TResponse> {
   private currentInterval: number;
 
   private updateInterval: number | null = null;
+
+  private consecutiveFailures = 0;
 
   private visibilityListenerId: number | null = null;
 
@@ -55,6 +59,17 @@ export class AutoRefreshController<TResponse> {
     }
 
     return DEFAULT_INTERVAL_MS;
+  }
+
+  /**
+   * Delay after a failed request, doubling with each consecutive failure.
+   */
+  private resolveRetryInterval(): number {
+    const baseInterval = this.resolveBaseInterval();
+    const backoff = baseInterval * (2 ** (this.consecutiveFailures - 1));
+
+    // a retry is never due sooner than a normal refresh would have been
+    return Math.min(backoff, Math.max(this.resolveMaxInterval(), baseInterval));
   }
 
   private resolveMaxInterval(): number {
@@ -137,8 +152,15 @@ export class AutoRefreshController<TResponse> {
       return;
     }
 
+    let responded = false;
+
     this.options.request()
-      .then((response) => Promise.resolve(this.options.handleResponse(response)))
+      .then((response) => {
+        responded = true;
+        this.consecutiveFailures = 0;
+
+        return Promise.resolve(this.options.handleResponse(response));
+      })
       .then((result) => {
         const baseInterval = this.resolveBaseInterval();
         const isUpdated = this.getUpdatedResult(result);
@@ -160,12 +182,27 @@ export class AutoRefreshController<TResponse> {
           this.options.onError(error);
         }
 
-        this.schedule(this.resolveBaseInterval());
+        // only handling the response failed, so keep refreshing
+        if (responded) {
+          this.schedule(this.resolveBaseInterval());
+          return;
+        }
+
+        // repeating a rejected request cannot help, and an expired session would have every
+        // attempt recorded as another failed login
+        if (!isRetryableRequestError(error)) {
+          this.clearUpdate();
+          return;
+        }
+
+        this.consecutiveFailures += 1;
+        this.schedule(this.resolveRetryInterval());
       });
   }
 
   start(): void {
     this.currentInterval = 0;
+    this.consecutiveFailures = 0;
     this.update();
   }
 
