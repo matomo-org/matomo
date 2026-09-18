@@ -158,7 +158,7 @@ class PageUrl
             return '';
         } else {
             // Remove trailing Hash tag in ?query#hash#
-            if (substr($urlFragment, -1) == '#') {
+            if (str_ends_with($urlFragment, '#')) {
                 $urlFragment = substr($urlFragment, 0, strlen($urlFragment) - 1);
             }
             return $urlFragment;

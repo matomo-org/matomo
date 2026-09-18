@@ -121,7 +121,7 @@ class Actions extends BaseFilter
                 if ($isFlattening) {
                     $label = $row->getColumn('label');
                     $stringToSearch = $actionDelimiter . $defaultActionName;
-                    if (substr($label, -strlen($stringToSearch)) == $stringToSearch) {
+                    if ($stringToSearch !== '' && str_ends_with($label, $stringToSearch)) {
                         $label = substr($label, 0, -strlen($defaultActionName));
                         $label = rtrim($label, $actionDelimiter) . $actionDelimiter;
                         $row->setColumn('label', $label);
