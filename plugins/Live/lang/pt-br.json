@@ -1,6 +1,7 @@
 {
     "Live": {
         "ActionsAndDuration": "%1$s ações em %2$s",
+        "AggregatedRealtimeReportsEnabledPolicySettingTitle": "Relatórios agregados em tempo real habilitados",
         "AveragePageGenerationTime": "Cada página levou %1$s para carregar, em média, para este visitante.",
         "CalculatedOverNPageViews": "Calculado usando as últimas %1$s exibições de página deste visitante.",
         "ClickToSeeAllContents": "Clique para ver cada interação",
@@ -11,6 +12,13 @@
         "DisableVisitorProfileDescription": "Todos os recursos relacionados ao registro de visitas sempre funcionam.",
         "DisableVisitsLogAndProfile": "Desative o registro de visitas e os perfis de visitantes",
         "DisableVisitsLogAndProfileDescription": "Também remove recursos que dependem destes, como o registro de comércio eletrônico, o registro de visitas segmentadas, o mapa em tempo real ou o widget em tempo real. Pode ser necessário cumprir as leis/diretrizes de privacidade locais.",
+        "DisableVisitsLogAndProfileImpact": "<strong>Visitantes &gt; Registro de Visitas</strong> e as visualizações de Perfil do Visitante estão indisponíveis.",
+        "DisableVisitsLogAndProfileWhatItDoes": "Os recursos de Registro de Visitas e Perfil do Visitante estão desativados.<br><br>Isso impede a reconstrução do caminho de navegação de um visitante individual e do comportamento detalhado em nível de visita.",
+        "EnableAggregatedRealtimeReports": "Habilitar relatórios agregados em tempo real",
+        "EnableAggregatedRealtimeReportsDescription": "Exibe métricas agregadas que preservam a privacidade referentes às \"Últimas 24 horas\" e aos \"Últimos 30 minutos\". Não são exibidas informações em nível de visitante individual, visita, sessão ou ação.",
+        "EnableAggregatedRealtimeReportsImpact": "<strong>Visitantes &gt; Tempo real</strong> exibe apenas os contadores agregados, com valores arredondados.",
+        "EnableAggregatedRealtimeReportsPolicySettingRequirementNote": "É necessário habilitar relatórios agregados em tempo real.",
+        "EnableAggregatedRealtimeReportsWhatItDoes": "Relatórios agregados em tempo real permanecem disponíveis enquanto o Registro de Visitas estiver desativado.<br><br>São exibidos apenas os totais referentes às \"Últimas 24 horas\" e aos \"Últimos 30 minutos\", com valores arredondados; assim, não são expostas informações em nível individual de visitante, visita, sessão ou ação.",
         "ExportThisDatasetToXml": "Exportar este conjunto de dados para XML",
         "FirstVisit": "Primeira visita",
         "GoalType": "Tipo",
@@ -66,6 +74,7 @@
         "VisitorsInRealTime": "Visitas em tempo real",
         "VisitorsLastVisit": "Também visitou %s dias antes.",
         "VisitsFrom": "%1$s%2$s visitas%3$s de",
-        "VisitsLog": "Log de visitas"
+        "VisitsLog": "Log de visitas",
+        "VisitsLogAndProfileDisabledPolicySettingTitle": "Registro de visitas e perfis de visitantes desativados"
     }
 }
