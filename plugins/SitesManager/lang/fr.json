@@ -40,6 +40,7 @@
         "ExceptionInvalidTimezone": "Le fuseau horaire '%s' n'est pas valide. Veuillez entrer un fuseau horaire valide.",
         "ExceptionInvalidUrl": "L'url '%s' n'est pas une URL valide.",
         "ExceptionInvalidWebsiteDescription": "La description est trop longue, un maximum de 255 caractères est autorisé.",
+        "ExceptionMatomoUrlUnknown": "L'URL de ce Matomo n'a pas pu être déterminée. Veuillez le passer comme paramètre piwikUrl.",
         "ExceptionNoUrl": "Vous devez spécifier au moins une URL pour le site.",
         "ExceptionNonEmptyQueryParamsForNonCustomType": "Les paramètres de requête à exclure ne doivent pas être fournis lorsque le type d'exclusion n'est pas personnalisé",
         "ExcludedIps": "IPs Exclues",
