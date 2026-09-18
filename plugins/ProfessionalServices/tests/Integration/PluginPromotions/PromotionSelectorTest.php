@@ -326,6 +326,36 @@ class PromotionSelectorTest extends IntegrationTestCase
     }
 
     /**
+     * A promotion recorded against the slot that no longer exists - renamed or removed
+     * between releases - releases the slot, and must take its recorded outcome with it.
+     * Leaving that outcome behind handed the vanished promotion's figures to whichever
+     * promotion was shown in its place, so the copy quoted a number from somewhere else.
+     */
+    public function testAVanishedPromotionDoesNotLendItsFiguresToTheNextOne(): void
+    {
+        $this->triggeringPerSite = [self::SITE_ONE => ['segments' => true]];
+        $this->reportedCount = 9;
+
+        $this->asUser('mona');
+
+        // A slot held by something the registry has never heard of, with a figure of its own.
+        $this->userState->recordShown('RemovedPlugin', 'removed_trigger', [
+            'triggered' => true,
+            'context' => ['count' => 4321],
+            'periodStart' => '2026-01-01',
+            'periodEnd' => '2026-01-07',
+        ]);
+
+        $this->assertSame('CustomReports', $this->showOn(self::SITE_ONE));
+        $this->assertSame(9, $this->lastContext['count'], 'the figure must be its own, not the vanished one');
+
+        // And the slot now belongs to the promotion actually being shown.
+        $active = $this->userState->getActivePromotion();
+        $this->assertSame('CustomReports', $active['pluginName']);
+        $this->assertSame('segments', $active['triggerName']);
+    }
+
+    /**
      * The worked example the behaviour was specified with: Custom Reports is chosen on the
      * first website looked at, and every other website then answers only the question "may
      * Custom Reports be shown here?" - never "what else would qualify?".

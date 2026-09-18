@@ -77,15 +77,18 @@ class API extends \Piwik\Plugin\API
      * on this plugin, both for this user only and across every website they can access.
      *
      * @internal
+     * @param string $pluginName  Name of the promoted plugin as the Marketplace knows it,
+     *                            eg. `CustomReports`. Must name a registered promotion
+     *                            together with `$triggerName`.
+     * @param string $triggerName Name of the trigger the promotion was shown for, eg.
+     *                            `segments`. A plugin can be promoted by more than one
+     *                            trigger, and dismissing any of them silences the plugin.
      * @return bool Returns `true` when the dismissal was recorded.
+     * @throws \Exception If the plugin and trigger do not name a registered promotion.
      */
-    public function dismissDashboardPromotion(): bool
+    public function dismissDashboardPromotion(string $pluginName, string $triggerName): bool
     {
         Piwik::checkUserIsNotAnonymous();
-
-        $request = Request::fromRequest();
-        $pluginName = $request->getStringParameter('pluginName');
-        $triggerName = $request->getStringParameter('triggerName');
 
         if (null === $this->get(PromotionRegistry::class)->findByPluginAndTrigger($pluginName, $triggerName)) {
             throw new \Exception('Can\'t dismiss unknown plugin promotion ' . $pluginName);

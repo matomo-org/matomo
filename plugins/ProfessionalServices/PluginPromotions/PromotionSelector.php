@@ -64,17 +64,18 @@ class PromotionSelector
         // have been shown one it holds the slot, so a website whose own promotion would
         // otherwise fire shows nothing until the slot is free again.
         $active = $this->userState->getActivePromotion();
+        $held = $this->resolveHeldPromotion($active);
 
-        // A promotion that can no longer be shown at all - its plugin was installed, it was
-        // dismissed into cooldown, or a trial is pending on it - hands the slot back here
-        // rather than after the loop, so the ladder is reconsidered on this very request
-        // instead of leaving the user with a blank dashboard once.
-        if (null !== $active && !$this->isStillShowable($active)) {
-            $this->userState->releaseActivePromotion();
+        // Whatever released the slot, the recorded outcome goes with it. Keeping $active
+        // while falling back to the full ladder would hand the released promotion's figures
+        // to whichever promotion is shown instead.
+        if (null === $held) {
             $active = null;
         }
 
-        foreach ($this->candidates($active) as $promotion) {
+        $candidates = null === $held ? $this->registry->getAllByPriority() : [$held];
+
+        foreach ($candidates as $promotion) {
             $pluginName = $promotion->getPluginName();
 
             if (!$this->eligibility->isAllowedForPlugin($pluginName)) {
@@ -109,29 +110,42 @@ class PromotionSelector
     }
 
     /**
-     * The promotions this request may choose between: every one in priority order while the
-     * slot is free, or only the promotion already holding it.
+     * The promotion holding the slot, or null once it has been given up.
+     *
+     * Every reason the slot can be released is decided here, in one place, so that the
+     * caller has a single answer to act on. Releasing it in more than one place is what
+     * allowed a released promotion's recorded outcome to still be applied to a different
+     * promotion.
      *
      * @param array{pluginName: string, triggerName: string}|null $active
-     * @return Promotion[]
      */
-    private function candidates(?array $active): array
+    private function resolveHeldPromotion(?array $active): ?Promotion
     {
         if (null === $active) {
-            return $this->registry->getAllByPriority();
+            return null;
+        }
+
+        // It can no longer be shown at all - its plugin was installed, it was dismissed
+        // into cooldown, or a trial is pending on it. Handing the slot back here rather
+        // than after the loop lets the ladder be reconsidered on this very request, instead
+        // of leaving the user with a blank dashboard once.
+        if (!$this->isStillShowable($active)) {
+            $this->userState->releaseActivePromotion();
+
+            return null;
         }
 
         $promotion = $this->registry->findByPluginAndTrigger($active['pluginName'], $active['triggerName']);
 
-        // A promotion that no longer exists - renamed or removed between releases - must
-        // not wedge the slot shut for the rest of its lifetime.
+        // It no longer exists - renamed or removed between releases - and must not wedge
+        // the slot shut for good.
         if (null === $promotion) {
             $this->userState->releaseActivePromotion();
 
-            return $this->registry->getAllByPriority();
+            return null;
         }
 
-        return [$promotion];
+        return $promotion;
     }
 
     /**

@@ -48,10 +48,7 @@ class DismissDashboardPromotionTest extends IntegrationTestCase
 
         $this->assertFalse($state->isProductInCooldown('CustomReports'));
 
-        $_GET['pluginName'] = 'CustomReports';
-        $_GET['triggerName'] = 'segments';
-
-        $this->assertTrue($this->api->dismissDashboardPromotion());
+        $this->assertTrue($this->api->dismissDashboardPromotion('CustomReports', 'segments'));
 
         $this->assertTrue($state->isInGlobalCooldown());
         $this->assertTrue($state->isProductInCooldown('CustomReports'));
@@ -61,12 +58,9 @@ class DismissDashboardPromotionTest extends IntegrationTestCase
     {
         FakeAccess::$identity = 'anonymous';
 
-        $_GET['pluginName'] = 'CustomReports';
-        $_GET['triggerName'] = 'segments';
-
         $this->expectException(\Exception::class);
 
-        $this->api->dismissDashboardPromotion();
+        $this->api->dismissDashboardPromotion('CustomReports', 'segments');
     }
 
     /**
@@ -75,13 +69,10 @@ class DismissDashboardPromotionTest extends IntegrationTestCase
      */
     public function testAnUnknownPromotionIsRejected(): void
     {
-        $_GET['pluginName'] = 'NotAPlugin';
-        $_GET['triggerName'] = 'segments';
-
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Can\'t dismiss unknown plugin promotion NotAPlugin');
 
-        $this->api->dismissDashboardPromotion();
+        $this->api->dismissDashboardPromotion('NotAPlugin', 'segments');
     }
 
     /**
@@ -90,19 +81,9 @@ class DismissDashboardPromotionTest extends IntegrationTestCase
      */
     public function testAKnownPluginWithTheWrongTriggerIsRejected(): void
     {
-        $_GET['pluginName'] = 'CustomReports';
-        $_GET['triggerName'] = 'bounce_rate';
-
         $this->expectException(\Exception::class);
 
-        $this->api->dismissDashboardPromotion();
-    }
-
-    public function tearDown(): void
-    {
-        unset($_GET['pluginName'], $_GET['triggerName']);
-
-        parent::tearDown();
+        $this->api->dismissDashboardPromotion('CustomReports', 'bounce_rate');
     }
 
     public function provideContainerConfig()
