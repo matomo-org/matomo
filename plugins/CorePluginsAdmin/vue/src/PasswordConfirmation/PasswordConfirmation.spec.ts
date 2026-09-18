@@ -61,16 +61,30 @@ function isConfirmDisabled(wrapper: ReturnType<typeof mountModal>) {
 }
 
 // stands in for LoginSaml's re-authentication button, which replaces the password field for
-// single sign-on users and confirms on their behalf
+// single sign-on users and confirms on their behalf with the token its tab produced
 const altIdClicked = vi.fn();
+const ALT_ID_TOKEN = 'reAuth_0123456789abcdef';
 const AltIdStub = defineComponent({
   name: 'AltIdStub',
-  methods: { onClick: altIdClicked },
+  emits: ['confirmed'],
+  methods: {
+    onClick() {
+      altIdClicked();
+      this.$emit('confirmed', ALT_ID_TOKEN);
+    },
+  },
   template: '<a href="" class="modal-action btn" @click="onClick"></a>',
 });
 
-async function mountModalWithAltId(props: Record<string, unknown> = {}) {
-  (useExternalPluginComponent as ReturnType<typeof vi.fn>).mockReturnValue(AltIdStub);
+// a component may render more than one root node, which used to leave $el a text node
+const AltIdFragmentStub = defineComponent({
+  ...AltIdStub,
+  name: 'AltIdFragmentStub',
+  template: '<span class="hint"></span><a href="" class="modal-action btn" @click="onClick"></a>',
+});
+
+async function mountModalWithAltId(props: Record<string, unknown> = {}, stub = AltIdStub) {
+  (useExternalPluginComponent as ReturnType<typeof vi.fn>).mockReturnValue(stub);
 
   const wrapper = mountModal(props);
   // the component is normally announced while the modal opens, which these tests never do
@@ -81,8 +95,12 @@ async function mountModalWithAltId(props: Record<string, unknown> = {}) {
   return wrapper;
 }
 
+function altIdWrapper(wrapper: ReturnType<typeof mountModal>) {
+  return wrapper.find('.passwordConfirmation__altIdConfirmation');
+}
+
 function altIdButton(wrapper: ReturnType<typeof mountModal>) {
-  return wrapper.findComponent({ name: 'AltIdStub' });
+  return altIdWrapper(wrapper).find('.btn');
 }
 
 describe('CorePluginsAdmin/PasswordConfirmation', () => {
@@ -257,7 +275,8 @@ describe('CorePluginsAdmin/PasswordConfirmation', () => {
       const wrapper = await mountModalWithAltId({ requireDeleteConfirmation: true });
 
       expect(altIdButton(wrapper).isVisible()).toBe(true);
-      expect(altIdButton(wrapper).classes()).toContain('disabled');
+      expect(altIdWrapper(wrapper).classes())
+        .toContain('passwordConfirmation__altIdConfirmation--disabled');
     });
 
     it('lets the button through once the word is typed', async () => {
@@ -265,7 +284,8 @@ describe('CorePluginsAdmin/PasswordConfirmation', () => {
 
       await wrapper.setData({ deleteConfirmation: 'delete' });
 
-      expect(altIdButton(wrapper).classes()).not.toContain('disabled');
+      expect(altIdWrapper(wrapper).classes())
+        .not.toContain('passwordConfirmation__altIdConfirmation--disabled');
     });
 
     it('does nothing on enter while the word is missing', async () => {
@@ -286,7 +306,22 @@ describe('CorePluginsAdmin/PasswordConfirmation', () => {
       wrapper.vm.onKeyPressConfirm({ keyCode: 13 });
 
       expect(altIdClicked).toHaveBeenCalled();
-      expect(wrapper.emitted('confirmed')).toBeUndefined();
+      expect(wrapper.emitted('confirmed')).toEqual([[ALT_ID_TOKEN]]);
+    });
+
+    it('reaches the button of a component rendering more than one root node', async () => {
+      const wrapper = await mountModalWithAltId(
+        { requireDeleteConfirmation: true },
+        AltIdFragmentStub,
+      );
+      expect(altIdWrapper(wrapper).classes())
+        .toContain('passwordConfirmation__altIdConfirmation--disabled');
+
+      await wrapper.setData({ deleteConfirmation: 'delete' });
+      wrapper.vm.onKeyPressConfirm({ keyCode: 13 });
+
+      expect(altIdClicked).toHaveBeenCalled();
+      expect(wrapper.emitted('confirmed')).toEqual([[ALT_ID_TOKEN]]);
     });
 
     it('leaves the button alone while it reports itself disabled', async () => {
@@ -303,7 +338,8 @@ describe('CorePluginsAdmin/PasswordConfirmation', () => {
     it('is left untouched without requireDeleteConfirmation', async () => {
       const wrapper = await mountModalWithAltId();
 
-      expect(altIdButton(wrapper).classes()).not.toContain('disabled');
+      expect(altIdWrapper(wrapper).classes())
+        .not.toContain('passwordConfirmation__altIdConfirmation--disabled');
 
       wrapper.vm.onKeyPressConfirm({ keyCode: 13 });
 

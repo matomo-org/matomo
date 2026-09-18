@@ -49,13 +49,19 @@
       </div>
     </div>
     <div class="modal-footer">
-      <component
+      <span
         v-if="!!alternativeIdentityConfirmationComponent"
-        ref="altIdComponent"
-        :is="asComponent(alternativeIdentityConfirmationComponent)"
-        :class="{ disabled: deleteConfirmationMissing }"
-        @confirmed="onConfirm"
-      ></component>
+        ref="altIdConfirmation"
+        class="passwordConfirmation__altIdConfirmation"
+        :class="{
+          'passwordConfirmation__altIdConfirmation--disabled': deleteConfirmationMissing,
+        }"
+      >
+        <component
+          :is="asComponent(alternativeIdentityConfirmationComponent)"
+          @confirmed="onConfirm"
+        ></component>
+      </span>
       <a
         href=""
         class="modal-action modal-close btn confirm-password-btn"
@@ -72,7 +78,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, Component, ComponentPublicInstance } from 'vue';
+import { defineComponent, Component } from 'vue';
 import {
   Matomo,
   AutoClearPassword,
@@ -190,12 +196,11 @@ export default defineComponent({
       }
     },
     clickAlternativeIdentityConfirmation() {
-      const altId = this.$refs.altIdComponent as ComponentPublicInstance | undefined;
-      const element = altId?.$el as unknown;
-      // the component owns its own in-flight state: LoginSaml marks the button disabled
-      // while a re-authentication tab is already open
-      if (element instanceof HTMLElement && !element.hasAttribute('disabled')) {
-        element.click();
+      const wrapper = this.$refs.altIdConfirmation as HTMLElement | undefined;
+      const button = wrapper?.querySelector('.btn');
+      // LoginSaml marks its button disabled while a re-authentication tab is already open
+      if (button instanceof HTMLElement && !button.hasAttribute('disabled')) {
+        button.click();
       }
     },
     onClickCancel(event: MouseEvent) {
@@ -211,6 +216,17 @@ export default defineComponent({
       this.deleteConfirmation = '';
     },
     showPasswordConfirmModal() {
+      /**
+       * Triggered before the confirmation dialog opens, so a plugin can confirm the user's
+       * identity in place of the password field.
+       *
+       * The component renders inside a wrapper the dialog owns, and needs a single `<a>` or
+       * `<button>` with the `btn` class - that is what Enter presses, and what is greyed out
+       * while the typed delete is missing. Emit `confirmed` with the credential the caller
+       * receives instead of a password, and declare it in `emits`.
+       *
+       * @param object params The plugin and component name to render, empty by default.
+       */
       // done here, as the event might not yet have been subscribed in an earlier phase
       Matomo.postEvent('PasswordConfirmation.altIdComponent', this.altIdConfirmComponent);
 
