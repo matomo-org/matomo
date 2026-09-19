@@ -1,0 +1,50 @@
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+// override: CoreAdminHome's `.admin section` puts default spacing on every section of an admin
+// page and outranks a lone class, so the tag is the narrowest selector that reaches it. This file
+// is merged after generalSettings.less, so the equal specificity resolves here.
+section.marketplaceHero {
+  margin-top: 0;
+  line-height: inherit;
+  padding: 55px 24px;
+  border-radius: 8px;
+  text-align: center;
+  background: linear-gradient(100deg, #e8f8fb 0%, #ecfaf9 45%, #d9f8ea 100%);
+
+  .inDarkMode({
+    background: @theme-color-background-lowContrast;
+  });
+
+  @media (max-width: 640px) {
+    padding: 40px 24px;
+  }
+}
+
+.marketplaceHero__title {
+  margin: 0;
+  font-size: 28px;
+  line-height: 36px;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+  color: @theme-color-headline-alternative;
+}
+
+// The second class is only here to outrank CoreAdminHome's `.admin p`, which would otherwise set
+// this paragraph's spacing; `padding-bottom` is reset for the same reason.
+.marketplaceHero .marketplaceHero__subtitle {
+  margin: 12px auto 0;
+  padding-bottom: 0;
+  font-size: 14px;
+  line-height: 18px;
+  color: @theme-color-text;
+}
+
+.marketplaceHero__search {
+  margin: 24px auto 0;
+  max-width: 430px;
+}

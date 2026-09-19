@@ -53,6 +53,7 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [],
             "versions": [
                 {
                     "name": "6.3.5",
@@ -134,6 +135,9 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [
+                "security"
+            ],
             "versions": [
                 {
                     "name": "6.1.0",
@@ -216,6 +220,7 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [],
             "versions": [
                 {
                     "name": "6.2.2",
@@ -298,6 +303,9 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [
+                "development"
+            ],
             "versions": [
                 {
                     "name": "6.0.7",
@@ -378,6 +386,9 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [
+                "development"
+            ],
             "versions": [
                 {
                     "name": "6.0.3",
@@ -457,6 +468,9 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [
+                "database"
+            ],
             "versions": [
                 {
                     "name": "6.3.1",
@@ -535,12 +549,80 @@
             "isPaid": true,
             "isBundle": true,
             "isCustomPlugin": false,
-            "shop": null,
+            "shop": {
+                "url": "https://plugins.matomo.org/EnterpriseBundle",
+                "variations": [
+                    {
+                        "product_variation_id": 130543,
+                        "price": "3400",
+                        "prettyPrice": "3400EUR",
+                        "currency": "EUR",
+                        "period": "month",
+                        "name": "Up to 50 users monthly",
+                        "discount": 0,
+                        "prettyDiscount": "",
+                        "addToCartUrl": "https://shop.matomo.org/checkout/?add-to-cart=130541&variation_id=130543&aelia_cs_currency=EUR",
+                        "addToCheckoutUrl": "https://shop.matomo.org/checkout/?add-to-cart=130541&variation_id=130543",
+                        "addToCartEmbedUrl": "https://shop.matomo.org/product/plugin-enterprisebundle/?attribute_type=Up+to+50+users+monthly&add-to-cart=130541&variation_id=130543&aelia_cs_currency=EUR",
+                        "cheapest": false
+                    },
+                    {
+                        "product_variation_id": 130543,
+                        "price": "4080",
+                        "prettyPrice": "USD4080",
+                        "currency": "USD",
+                        "period": "month",
+                        "name": "Up to 50 users monthly",
+                        "discount": 0,
+                        "prettyDiscount": "",
+                        "addToCartUrl": "https://shop.matomo.org/checkout/?add-to-cart=130541&variation_id=130543&aelia_cs_currency=USD",
+                        "addToCheckoutUrl": "https://shop.matomo.org/checkout/?add-to-cart=130541&variation_id=130543",
+                        "addToCartEmbedUrl": "https://shop.matomo.org/product/plugin-enterprisebundle/?attribute_type=Up+to+50+users+monthly&add-to-cart=130541&variation_id=130543&aelia_cs_currency=USD",
+                        "cheapest": true
+                    },
+                    {
+                        "product_variation_id": 130542,
+                        "price": "34000",
+                        "prettyPrice": "34000EUR",
+                        "currency": "EUR",
+                        "period": "year",
+                        "name": "Up to 50 users",
+                        "discount": 0,
+                        "prettyDiscount": "",
+                        "addToCartUrl": "https://shop.matomo.org/checkout/?add-to-cart=130541&variation_id=130542&aelia_cs_currency=EUR",
+                        "addToCheckoutUrl": "https://shop.matomo.org/checkout/?add-to-cart=130541&variation_id=130542",
+                        "addToCartEmbedUrl": "https://shop.matomo.org/product/plugin-enterprisebundle/?attribute_type=Up+to+50+users&add-to-cart=130541&variation_id=130542&aelia_cs_currency=EUR",
+                        "cheapest": false
+                    },
+                    {
+                        "product_variation_id": 130542,
+                        "price": "40800",
+                        "prettyPrice": "USD40800",
+                        "currency": "USD",
+                        "period": "year",
+                        "name": "Up to 50 users",
+                        "discount": 0,
+                        "prettyDiscount": "",
+                        "addToCartUrl": "https://shop.matomo.org/checkout/?add-to-cart=130541&variation_id=130542&aelia_cs_currency=USD",
+                        "addToCheckoutUrl": "https://shop.matomo.org/checkout/?add-to-cart=130541&variation_id=130542",
+                        "addToCartEmbedUrl": "https://shop.matomo.org/product/plugin-enterprisebundle/?attribute_type=Up+to+50+users&add-to-cart=130541&variation_id=130542&aelia_cs_currency=USD",
+                        "cheapest": false
+                    }
+                ],
+                "reviews": {
+                    "embedUrl": "https://shop.matomo.org/product/plugin-enterprisebundle/?show_reviews=1&piwik_embed=1",
+                    "height": 200,
+                    "averageRating": null,
+                    "ratingCount": 0,
+                    "reviewCount": 0
+                }
+            },
             "bundle": {
                 "plugins": []
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [],
             "versions": [
                 {
                     "name": "1.0.0",
@@ -619,12 +701,80 @@
             "isPaid": true,
             "isBundle": true,
             "isCustomPlugin": false,
-            "shop": null,
+            "shop": {
+                "url": "https://plugins.matomo.org/BusinessBundle",
+                "variations": [
+                    {
+                        "product_variation_id": 130533,
+                        "price": "1450",
+                        "prettyPrice": "1450EUR",
+                        "currency": "EUR",
+                        "period": "month",
+                        "name": "Up to 20 users monthly",
+                        "discount": 0,
+                        "prettyDiscount": "",
+                        "addToCartUrl": "https://shop.matomo.org/checkout/?add-to-cart=130531&variation_id=130533&aelia_cs_currency=EUR",
+                        "addToCheckoutUrl": "https://shop.matomo.org/checkout/?add-to-cart=130531&variation_id=130533",
+                        "addToCartEmbedUrl": "https://shop.matomo.org/product/plugin-businessbundle/?attribute_type=Up+to+20+users+monthly&add-to-cart=130531&variation_id=130533&aelia_cs_currency=EUR",
+                        "cheapest": false
+                    },
+                    {
+                        "product_variation_id": 130533,
+                        "price": "1740",
+                        "prettyPrice": "USD1740",
+                        "currency": "USD",
+                        "period": "month",
+                        "name": "Up to 20 users monthly",
+                        "discount": 0,
+                        "prettyDiscount": "",
+                        "addToCartUrl": "https://shop.matomo.org/checkout/?add-to-cart=130531&variation_id=130533&aelia_cs_currency=USD",
+                        "addToCheckoutUrl": "https://shop.matomo.org/checkout/?add-to-cart=130531&variation_id=130533",
+                        "addToCartEmbedUrl": "https://shop.matomo.org/product/plugin-businessbundle/?attribute_type=Up+to+20+users+monthly&add-to-cart=130531&variation_id=130533&aelia_cs_currency=USD",
+                        "cheapest": true
+                    },
+                    {
+                        "product_variation_id": 130532,
+                        "price": "14500",
+                        "prettyPrice": "14500EUR",
+                        "currency": "EUR",
+                        "period": "year",
+                        "name": "Up to 20 users",
+                        "discount": 0,
+                        "prettyDiscount": "",
+                        "addToCartUrl": "https://shop.matomo.org/checkout/?add-to-cart=130531&variation_id=130532&aelia_cs_currency=EUR",
+                        "addToCheckoutUrl": "https://shop.matomo.org/checkout/?add-to-cart=130531&variation_id=130532",
+                        "addToCartEmbedUrl": "https://shop.matomo.org/product/plugin-businessbundle/?attribute_type=Up+to+20+users&add-to-cart=130531&variation_id=130532&aelia_cs_currency=EUR",
+                        "cheapest": false
+                    },
+                    {
+                        "product_variation_id": 130532,
+                        "price": "17400",
+                        "prettyPrice": "USD17400",
+                        "currency": "USD",
+                        "period": "year",
+                        "name": "Up to 20 users",
+                        "discount": 0,
+                        "prettyDiscount": "",
+                        "addToCartUrl": "https://shop.matomo.org/checkout/?add-to-cart=130531&variation_id=130532&aelia_cs_currency=USD",
+                        "addToCheckoutUrl": "https://shop.matomo.org/checkout/?add-to-cart=130531&variation_id=130532",
+                        "addToCartEmbedUrl": "https://shop.matomo.org/product/plugin-businessbundle/?attribute_type=Up+to+20+users&add-to-cart=130531&variation_id=130532&aelia_cs_currency=USD",
+                        "cheapest": false
+                    }
+                ],
+                "reviews": {
+                    "embedUrl": "https://shop.matomo.org/product/plugin-businessbundle/?show_reviews=1&piwik_embed=1",
+                    "height": 200,
+                    "averageRating": null,
+                    "ratingCount": 0,
+                    "reviewCount": 0
+                }
+            },
             "bundle": {
                 "plugins": []
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [],
             "versions": [
                 {
                     "name": "1.0.0",
@@ -703,12 +853,80 @@
             "isPaid": true,
             "isBundle": true,
             "isCustomPlugin": false,
-            "shop": null,
+            "shop": {
+                "url": "https://plugins.matomo.org/TeamBundle",
+                "variations": [
+                    {
+                        "product_variation_id": 130525,
+                        "price": "275",
+                        "prettyPrice": "275EUR",
+                        "currency": "EUR",
+                        "period": "month",
+                        "name": "Up to 4 users monthly",
+                        "discount": 0,
+                        "prettyDiscount": "",
+                        "addToCartUrl": "https://shop.matomo.org/checkout/?add-to-cart=130523&variation_id=130525&aelia_cs_currency=EUR",
+                        "addToCheckoutUrl": "https://shop.matomo.org/checkout/?add-to-cart=130523&variation_id=130525",
+                        "addToCartEmbedUrl": "https://shop.matomo.org/product/plugin-teambundle/?attribute_type=Up+to+4+users+monthly&add-to-cart=130523&variation_id=130525&aelia_cs_currency=EUR",
+                        "cheapest": false
+                    },
+                    {
+                        "product_variation_id": 130525,
+                        "price": "330",
+                        "prettyPrice": "USD330",
+                        "currency": "USD",
+                        "period": "month",
+                        "name": "Up to 4 users monthly",
+                        "discount": 0,
+                        "prettyDiscount": "",
+                        "addToCartUrl": "https://shop.matomo.org/checkout/?add-to-cart=130523&variation_id=130525&aelia_cs_currency=USD",
+                        "addToCheckoutUrl": "https://shop.matomo.org/checkout/?add-to-cart=130523&variation_id=130525",
+                        "addToCartEmbedUrl": "https://shop.matomo.org/product/plugin-teambundle/?attribute_type=Up+to+4+users+monthly&add-to-cart=130523&variation_id=130525&aelia_cs_currency=USD",
+                        "cheapest": true
+                    },
+                    {
+                        "product_variation_id": 130524,
+                        "price": "2750",
+                        "prettyPrice": "2750EUR",
+                        "currency": "EUR",
+                        "period": "year",
+                        "name": "Up to 4 users",
+                        "discount": 0,
+                        "prettyDiscount": "",
+                        "addToCartUrl": "https://shop.matomo.org/checkout/?add-to-cart=130523&variation_id=130524&aelia_cs_currency=EUR",
+                        "addToCheckoutUrl": "https://shop.matomo.org/checkout/?add-to-cart=130523&variation_id=130524",
+                        "addToCartEmbedUrl": "https://shop.matomo.org/product/plugin-teambundle/?attribute_type=Up+to+4+users&add-to-cart=130523&variation_id=130524&aelia_cs_currency=EUR",
+                        "cheapest": false
+                    },
+                    {
+                        "product_variation_id": 130524,
+                        "price": "3300",
+                        "prettyPrice": "USD3300",
+                        "currency": "USD",
+                        "period": "year",
+                        "name": "Up to 4 users",
+                        "discount": 0,
+                        "prettyDiscount": "",
+                        "addToCartUrl": "https://shop.matomo.org/checkout/?add-to-cart=130523&variation_id=130524&aelia_cs_currency=USD",
+                        "addToCheckoutUrl": "https://shop.matomo.org/checkout/?add-to-cart=130523&variation_id=130524",
+                        "addToCartEmbedUrl": "https://shop.matomo.org/product/plugin-teambundle/?attribute_type=Up+to+4+users&add-to-cart=130523&variation_id=130524&aelia_cs_currency=USD",
+                        "cheapest": false
+                    }
+                ],
+                "reviews": {
+                    "embedUrl": "https://shop.matomo.org/product/plugin-teambundle/?show_reviews=1&piwik_embed=1",
+                    "height": 200,
+                    "averageRating": null,
+                    "ratingCount": 0,
+                    "reviewCount": 0
+                }
+            },
             "bundle": {
                 "plugins": []
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [],
             "versions": [
                 {
                     "name": "1.0.0",
@@ -796,6 +1014,9 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [
+                "integration"
+            ],
             "versions": [
                 {
                     "name": "6.0.4",
@@ -875,6 +1096,9 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [
+                "insights"
+            ],
             "versions": [
                 {
                     "name": "6.2.1",
@@ -956,6 +1180,9 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [
+                "integration"
+            ],
             "versions": [
                 {
                     "name": "6.1.0",
@@ -1043,6 +1270,7 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [],
             "versions": [
                 {
                     "name": "6.4.0",
@@ -1121,6 +1349,9 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [
+                "integration"
+            ],
             "versions": [
                 {
                     "name": "6.1.8",
@@ -1205,6 +1436,7 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [],
             "versions": [
                 {
                     "name": "6.0.14",
@@ -1284,6 +1516,7 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [],
             "versions": [
                 {
                     "name": "6.4.12",
@@ -1371,6 +1604,7 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [],
             "versions": [
                 {
                     "name": "6.5.2",
@@ -1459,6 +1693,7 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [],
             "versions": [
                 {
                     "name": "6.3.7",
@@ -1546,6 +1781,7 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [],
             "versions": [
                 {
                     "name": "6.5.3",
@@ -1628,6 +1864,9 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [
+                "security"
+            ],
             "versions": [
                 {
                     "name": "6.1.11",
@@ -1712,6 +1951,7 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [],
             "versions": [
                 {
                     "name": "6.4.0",
@@ -1792,6 +2032,9 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [
+                "security"
+            ],
             "versions": [
                 {
                     "name": "6.0.9",
@@ -1871,6 +2114,7 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [],
             "versions": [
                 {
                     "name": "6.1.8",
@@ -1956,6 +2200,7 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [],
             "versions": [
                 {
                     "name": "6.0.14",
@@ -2035,6 +2280,9 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [
+                "insights"
+            ],
             "versions": [
                 {
                     "name": "6.0.6",
@@ -2115,6 +2363,9 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [
+                "insights"
+            ],
             "versions": [
                 {
                     "name": "6.0.7",
@@ -2202,6 +2453,7 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [],
             "versions": [
                 {
                     "name": "6.0.9",
@@ -2286,6 +2538,7 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [],
             "versions": [
                 {
                     "name": "6.0.11",
@@ -2369,6 +2622,7 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [],
             "versions": [
                 {
                     "name": "6.0.29",
@@ -2454,6 +2708,9 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [
+                "database"
+            ],
             "versions": [
                 {
                     "name": "6.0.11",
@@ -2537,6 +2794,7 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [],
             "versions": [
                 {
                     "name": "6.0.12",
@@ -2617,6 +2875,9 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [
+                "database"
+            ],
             "versions": [
                 {
                     "name": "6.0.6",
@@ -2693,6 +2954,9 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [
+                "customisation"
+            ],
             "versions": [
                 {
                     "name": "6.0.6",
@@ -2774,6 +3038,9 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [
+                "database"
+            ],
             "versions": [
                 {
                     "name": "6.0.3",
@@ -2853,6 +3120,9 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [
+                "development"
+            ],
             "versions": [
                 {
                     "name": "6.0.6",
@@ -2934,6 +3204,7 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [],
             "versions": [
                 {
                     "name": "6.1.9",
@@ -3012,6 +3283,9 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [
+                "integration"
+            ],
             "versions": [
                 {
                     "name": "6.0.4",
@@ -3091,6 +3365,9 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [
+                "development"
+            ],
             "versions": [
                 {
                     "name": "6.2.0",
@@ -3168,6 +3445,9 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [
+                "development"
+            ],
             "versions": [
                 {
                     "name": "6.1.5",
@@ -3247,6 +3527,9 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [
+                "development"
+            ],
             "versions": [
                 {
                     "name": "6.0.2",
@@ -3327,6 +3610,7 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [],
             "versions": [
                 {
                     "name": "6.0.5",
@@ -3407,6 +3691,9 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [
+                "integration"
+            ],
             "versions": [
                 {
                     "name": "6.0.2",
@@ -3483,6 +3770,9 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [
+                "development"
+            ],
             "versions": [
                 {
                     "name": "6.0.2",
@@ -3562,6 +3852,9 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [
+                "database"
+            ],
             "versions": [
                 {
                     "name": "6.0.3",
@@ -3639,6 +3932,9 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [
+                "security"
+            ],
             "versions": [
                 {
                     "name": "6.0.4",
@@ -3719,6 +4015,9 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [
+                "development"
+            ],
             "versions": [
                 {
                     "name": "6.0.1",
@@ -3796,6 +4095,9 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [
+                "insights"
+            ],
             "versions": [
                 {
                     "name": "6.0.2",
@@ -3878,6 +4180,9 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [
+                "security"
+            ],
             "versions": [
                 {
                     "name": "6.0.1",
@@ -3957,6 +4262,9 @@
             },
             "specialOffer": "",
             "category": "uncategorised",
+            "categories": [
+                "database"
+            ],
             "versions": [
                 {
                     "name": "6.0.3",
