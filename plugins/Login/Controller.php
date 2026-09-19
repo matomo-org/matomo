@@ -90,6 +90,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     private $whatsNewProvider;
 
     /**
+     * @var UsersModel
+     */
+    private $usersModel;
+
+    /**
      * @param PasswordResetter $passwordResetter
      * @param \Piwik\Auth $auth
      * @param SessionInitializer $sessionInitializer
@@ -98,6 +103,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      * @param SystemSettings $systemSettings
      * @param PasswordStrength $passwordStrength
      * @param WhatsNewProvider $whatsNewProvider
+     * @param UsersModel $usersModel
      */
     public function __construct(
         $passwordResetter = null,
@@ -107,7 +113,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $bruteForceDetection = null,
         $systemSettings = null,
         $passwordStrength = null,
-        $whatsNewProvider = null
+        $whatsNewProvider = null,
+        $usersModel = null
     ) {
         parent::__construct();
 
@@ -150,6 +157,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $whatsNewProvider = StaticContainer::get(WhatsNewProvider::class);
         }
         $this->whatsNewProvider = $whatsNewProvider;
+
+        if (empty($usersModel)) {
+            $usersModel = new UsersModel();
+        }
+        $this->usersModel = $usersModel;
     }
 
     /**
@@ -703,7 +715,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     public function acceptInvitation()
     {
-        $model = new UsersModel();
+        $model = $this->usersModel;
         $passwordHelper = new Password();
         $view = new View('@Login/invitation');
 
@@ -773,17 +785,15 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 $password = UsersManager::getPasswordHash($password);
                 $password = $passwordHelper->hash($password);
 
-                // update pending user to active user
-                $model->updateUserFields(
-                    $user['login'],
-                    [
-                        'password'          => $password,
-                        'invite_token'      => null,
-                        'invite_link_token' => null,
-                        'invite_accept_at'  => Date::now()->getDatetime(),
-                        'invite_expired_at' => null,
-                    ]
-                );
+                // Update pending user to active user. The redemption is pinned to the invitation looked
+                // up above, and whether it applied decides whether we continue.
+                if (!$model->consumeInviteToken($user['login'], $token, $password)) {
+                    throw new RedirectException(
+                        Piwik::translate('Login_InvalidOrExpiredTokenV2'),
+                        SettingsPiwik::getPiwikUrl(),
+                        3
+                    );
+                }
 
                 // send e-mail to inviter
                 if (!empty($user['invited_by'])) {
@@ -828,7 +838,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
     public function declineInvitation()
     {
-        $model = new UsersModel();
+        $model = $this->usersModel;
 
         $token = Common::getRequestVar('token', null, 'string');
         $form = Common::getRequestVar('invitation_form', false, 'string');
@@ -848,7 +858,13 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view = new View('@Login/invitationDecline');
 
         if ($form) {
-            // remove user
+            // The delete is pinned to the invitation looked up above, so only a request that actually
+            // removed the row goes on to clean up and notify.
+            if (!$model->deletePendingUserByInviteToken($user['login'], $token)) {
+                throw new Exception(Piwik::translate('Login_InvalidOrExpiredToken'));
+            }
+
+            // clean up everything that hung off the row: access, settings, options and tokens
             try {
                 $model->deleteUser($user['login']);
             } catch (\Exception $e) {
