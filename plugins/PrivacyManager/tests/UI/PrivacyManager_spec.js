@@ -215,6 +215,10 @@ describe("PrivacyManager", function () {
             $('.confirm-password-modal input[name=currentUserPassword]:visible')
                 .val(superUserPassword)
                 .change();
+            // settings that schedule data deletion also ask for the word to be typed out
+            $('.confirm-password-modal input[name=deleteConfirmation]:visible')
+                .val('delete')
+                .change();
         }, superUserPassword);
 
         await page.waitForTimeout(250);
@@ -385,6 +389,38 @@ describe("PrivacyManager", function () {
         await setAnonymizeStartEndDate();
 
         await captureAnonymizeLogData('anonymizelogdata_one_site_and_custom_date_confirmed');
+    });
+
+    it('should ask for the deletion to be typed out when enabling raw data deletion', async function() {
+        await loadActionPage('privacySettings');
+        await page.waitForNetworkIdle();
+
+        await page.waitForSelector('#deleteLogSettingEnabled label', { visible: true });
+        await page.click('#deleteLogSettingEnabled label');
+        await page.waitForTimeout(250);
+        await (await page.jQuery('#deleteLogsAnchor input.btn[value=Save]')).click();
+        await page.waitForSelector('.modal-overlay');
+        await page.waitForTimeout(500);
+
+        await captureModal('delete_logs_type_delete_required');
+    });
+
+    it('should allow confirming once the deletion has been typed out', async function() {
+        await page.evaluate((password) => {
+            $('.confirm-password-modal.open input[name=deleteConfirmation]:visible')
+                .val('delete')
+                .change();
+            $('.confirm-password-modal.open input[name=currentUserPassword]:visible')
+                .val(password)
+                .change();
+        }, superUserPassword);
+        await page.waitForTimeout(250);
+
+        await captureModal('delete_logs_type_delete_given');
+
+        // leave the setting as it was found, the save is deliberately not gone through with
+        await (await page.jQuery('.confirm-password-modal.open .modal-no:visible')).click();
+        await page.waitForTimeout(300);
     });
 
     it('should load GDPR tools page', async function() {

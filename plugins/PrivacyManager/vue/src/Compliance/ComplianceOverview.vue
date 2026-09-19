@@ -39,9 +39,14 @@
           <PasswordConfirmation
             :model-value="showPasswordConfirmation"
             :passwordFieldId="'password' + complianceType"
+            :require-delete-confirmation="rawDataRetentionBeingEnabled"
             @confirmed="saveSettings"
             @aborted="resetSave"
-          />
+          >
+            <h2 v-if="rawDataRetentionBeingEnabled">
+              {{ translate('PrivacyManager_ComplianceEnforceRetentionConfirm') }}
+            </h2>
+          </PasswordConfirmation>
         </template>
       </template>
     </template>
@@ -51,7 +56,7 @@
 <script lang="ts">
 
 import {
-  defineComponent, watch, ref,
+  computed, defineComponent, watch, ref,
 } from 'vue';
 import { ActivityIndicator, ContentBlock } from 'CoreHome';
 import { Field, PasswordConfirmation, SaveButton } from 'CorePluginsAdmin';
@@ -107,6 +112,13 @@ export default defineComponent({
       { immediate: true },
     );
 
+    // enforcing the policy caps how long raw data may be kept. Whether that cap purges
+    // anything is gated separately on delete_logs_enable, so ask for the acknowledgement
+    // when this save turns enforcement on, and not when it is already on
+    const rawDataRetentionBeingEnabled = computed(
+      () => shouldEnforceComplianceMode.value && !store.state.complianceModeEnforced,
+    );
+
     watch(
       () => props.idSite,
       (newSite) => {
@@ -121,6 +133,7 @@ export default defineComponent({
       state: store.state,
       saveComplianceStatus: store.saveComplianceStatus,
       shouldEnforceComplianceMode,
+      rawDataRetentionBeingEnabled,
       showPasswordConfirmation: ref(false),
     };
   },
