@@ -25,6 +25,12 @@
 			</goals>
 			<nb_conversions>3</nb_conversions>
 			<revenue>15</revenue>
+			<nb_visits_percent_of_total>25%</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>25%</nb_actions_percent_of_total>
+			<nb_visits_converted_percent_of_total>25%</nb_visits_converted_percent_of_total>
+			<nb_conversions_percent_of_total>25%</nb_conversions_percent_of_total>
+			<bounce_count_percent_of_total>25%</bounce_count_percent_of_total>
+			<revenue_percent_of_total>25%</revenue_percent_of_total>
 			<lat>47.25</lat>
 			<long>6.02</long>
 			<segment>city==Besan%C3%A7on;regionCode==BFC;countryCode==fr</segment>
@@ -59,6 +65,12 @@
 			</goals>
 			<nb_conversions>3</nb_conversions>
 			<revenue>15</revenue>
+			<nb_visits_percent_of_total>25%</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>25%</nb_actions_percent_of_total>
+			<nb_visits_converted_percent_of_total>25%</nb_visits_converted_percent_of_total>
+			<nb_conversions_percent_of_total>25%</nb_conversions_percent_of_total>
+			<bounce_count_percent_of_total>25%</bounce_count_percent_of_total>
+			<revenue_percent_of_total>25%</revenue_percent_of_total>
 			<lat>123.46</lat>
 			<long>21.32</long>
 			<segment>city==Stratford-upon-Avon;regionCode==WAR;countryCode==gb</segment>
@@ -93,6 +105,12 @@
 			</goals>
 			<nb_conversions>3</nb_conversions>
 			<revenue>15</revenue>
+			<nb_visits_percent_of_total>25%</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>25%</nb_actions_percent_of_total>
+			<nb_visits_converted_percent_of_total>25%</nb_visits_converted_percent_of_total>
+			<nb_conversions_percent_of_total>25%</nb_conversions_percent_of_total>
+			<bounce_count_percent_of_total>25%</bounce_count_percent_of_total>
+			<revenue_percent_of_total>25%</revenue_percent_of_total>
 			<city_name>Unknown</city_name>
 			<city>xx</city>
 			<region>xx</region>
@@ -125,6 +143,12 @@
 			</goals>
 			<nb_conversions>3</nb_conversions>
 			<revenue>15</revenue>
+			<nb_visits_percent_of_total>25%</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>25%</nb_actions_percent_of_total>
+			<nb_visits_converted_percent_of_total>25%</nb_visits_converted_percent_of_total>
+			<nb_conversions_percent_of_total>25%</nb_conversions_percent_of_total>
+			<bounce_count_percent_of_total>25%</bounce_count_percent_of_total>
+			<revenue_percent_of_total>25%</revenue_percent_of_total>
 			<lat>49.25</lat>
 			<long>-123.13</long>
 			<segment>city==Vancouver;regionCode==BC;countryCode==ca</segment>
@@ -161,6 +185,12 @@
 			</goals>
 			<nb_conversions>6</nb_conversions>
 			<revenue>30</revenue>
+			<nb_visits_percent_of_total>50%</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>50%</nb_actions_percent_of_total>
+			<nb_visits_converted_percent_of_total>50%</nb_visits_converted_percent_of_total>
+			<nb_conversions_percent_of_total>50%</nb_conversions_percent_of_total>
+			<bounce_count_percent_of_total>50%</bounce_count_percent_of_total>
+			<revenue_percent_of_total>50%</revenue_percent_of_total>
 			<lat>49.25</lat>
 			<long>-123.13</long>
 			<segment>city==Vancouver;regionCode==BC;countryCode==ca</segment>
@@ -195,6 +225,12 @@
 			</goals>
 			<nb_conversions>3</nb_conversions>
 			<revenue>15</revenue>
+			<nb_visits_percent_of_total>25%</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>25%</nb_actions_percent_of_total>
+			<nb_visits_converted_percent_of_total>25%</nb_visits_converted_percent_of_total>
+			<nb_conversions_percent_of_total>25%</nb_conversions_percent_of_total>
+			<bounce_count_percent_of_total>25%</bounce_count_percent_of_total>
+			<revenue_percent_of_total>25%</revenue_percent_of_total>
 			<segment>city==Nuneaton+and+Bedworth;regionCode==WAR;countryCode==gb</segment>
 			<city_name>Nuneaton and Bedworth</city_name>
 			<region>WAR</region>
@@ -227,6 +263,12 @@
 			</goals>
 			<nb_conversions>3</nb_conversions>
 			<revenue>15</revenue>
+			<nb_visits_percent_of_total>25%</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>25%</nb_actions_percent_of_total>
+			<nb_visits_converted_percent_of_total>25%</nb_visits_converted_percent_of_total>
+			<nb_conversions_percent_of_total>25%</nb_conversions_percent_of_total>
+			<bounce_count_percent_of_total>25%</bounce_count_percent_of_total>
+			<revenue_percent_of_total>25%</revenue_percent_of_total>
 			<city_name>Unknown</city_name>
 			<city>xx</city>
 			<region>xx</region>
@@ -261,6 +303,12 @@
 			</goals>
 			<nb_conversions>3</nb_conversions>
 			<revenue>15</revenue>
+			<nb_visits_percent_of_total>50%</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>50%</nb_actions_percent_of_total>
+			<nb_visits_converted_percent_of_total>50%</nb_visits_converted_percent_of_total>
+			<nb_conversions_percent_of_total>50%</nb_conversions_percent_of_total>
+			<bounce_count_percent_of_total>50%</bounce_count_percent_of_total>
+			<revenue_percent_of_total>50%</revenue_percent_of_total>
 			<lat>124.46</lat>
 			<long>22.23</long>
 			<segment>city==Stratford-upon-Avon;regionCode==WAR;countryCode==gb</segment>
@@ -295,6 +343,12 @@
 			</goals>
 			<nb_conversions>3</nb_conversions>
 			<revenue>15</revenue>
+			<nb_visits_percent_of_total>50%</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>50%</nb_actions_percent_of_total>
+			<nb_visits_converted_percent_of_total>50%</nb_visits_converted_percent_of_total>
+			<nb_conversions_percent_of_total>50%</nb_conversions_percent_of_total>
+			<bounce_count_percent_of_total>50%</bounce_count_percent_of_total>
+			<revenue_percent_of_total>50%</revenue_percent_of_total>
 			<city_name>Unknown</city_name>
 			<city>xx</city>
 			<region>xx</region>

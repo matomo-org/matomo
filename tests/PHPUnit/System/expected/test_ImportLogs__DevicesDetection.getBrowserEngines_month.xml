@@ -10,6 +10,10 @@
 		<nb_visits_converted>22</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>23</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
+		<nb_visits_percent_of_total>53.5%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>51%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>56.4%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>55.3%</bounce_count_percent_of_total>
 		<segment>browserEngine==WebKit</segment>
 	</row>
 	<row>
@@ -22,6 +26,10 @@
 		<nb_visits_converted>8</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>8</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>18.6%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>17.6%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>20.5%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>18.4%</bounce_count_percent_of_total>
 		<segment>browserEngine==Trident</segment>
 	</row>
 	<row>
@@ -34,6 +42,10 @@
 		<nb_visits_converted>5</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>4</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>2</sum_daily_nb_users>
+		<nb_visits_percent_of_total>11.6%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>17.6%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>12.8%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>7.9%</bounce_count_percent_of_total>
 		<segment>browserEngine==Blink</segment>
 	</row>
 	<row>
@@ -46,6 +58,10 @@
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>11.6%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>9.8%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>5.1%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>13.2%</bounce_count_percent_of_total>
 		<segment>browserEngine==</segment>
 	</row>
 	<row>
@@ -58,6 +74,10 @@
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>3.9%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>5.1%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>5.3%</bounce_count_percent_of_total>
 		<segment>browserEngine==Gecko</segment>
 	</row>
 </result>

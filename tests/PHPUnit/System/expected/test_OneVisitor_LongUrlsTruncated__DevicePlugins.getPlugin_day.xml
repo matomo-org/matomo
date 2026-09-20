@@ -4,17 +4,20 @@
 		<label>Cookie</label>
 		<nb_visits>7</nb_visits>
 		<nb_visits_percentage>100 %</nb_visits_percentage>
+		<nb_visits_percent_of_total>33,3 %</nb_visits_percent_of_total>
 		<logo>plugins/Morpheus/icons/dist/plugins/cookie.png</logo>
 	</row>
 	<row>
 		<label>Flash</label>
 		<nb_visits>7</nb_visits>
 		<nb_visits_percentage>100 %</nb_visits_percentage>
+		<nb_visits_percent_of_total>33,3 %</nb_visits_percent_of_total>
 		<logo>plugins/Morpheus/icons/dist/plugins/flash.png</logo>
 	</row>
 	<row>
 		<label>Autres</label>
 		<nb_visits>7</nb_visits>
 		<nb_visits_percentage>100 %</nb_visits_percentage>
+		<nb_visits_percent_of_total>33,3 %</nb_visits_percent_of_total>
 	</row>
 </result>

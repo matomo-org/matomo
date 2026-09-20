@@ -10,6 +10,8 @@
 		<min_bandwidth />
 		<max_bandwidth />
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>16%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>16%</nb_hits_percent_of_total>
 		<subtable>
 			<row>
 				<label>/</label>
@@ -21,6 +23,8 @@
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth />
 				<max_bandwidth />
+				<nb_visits_percent_of_total>4%</nb_visits_percent_of_total>
+				<nb_hits_percent_of_total>4%</nb_hits_percent_of_total>
 				<url>http://othersite10.com/</url>
 				<segment>outlinkUrl==http%253A%252F%252Fothersite10.com%252F</segment>
 			</row>
@@ -33,6 +37,8 @@
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth />
 				<max_bandwidth />
+				<nb_visits_percent_of_total>12%</nb_visits_percent_of_total>
+				<nb_hits_percent_of_total>12%</nb_hits_percent_of_total>
 			</row>
 		</subtable>
 	</row>
@@ -46,5 +52,7 @@
 		<min_bandwidth />
 		<max_bandwidth />
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>84%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>84%</nb_hits_percent_of_total>
 	</row>
 </result>

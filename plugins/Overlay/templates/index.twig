@@ -72,7 +72,7 @@
 
             // The startOverlaySession URL is matched by piwik.js::isOverlaySession(). Only the
             // canonical handshake parameters (module, action, idSite, period, date, segment) belong here.
-            var iframeSrc = 'index.php?module=Overlay&action=startOverlaySession&idSite={{ idSite }}&period={{ period }}&date={{ rawDate }}&segment={{ segment }}';
+            var iframeSrc = 'index.php?module=Overlay&action=startOverlaySession&idSite={{ idSite|e('js') }}&period={{ period|e('js') }}&date={{ rawDate|e('js') }}&segment={{ segment|e('js') }}';
             var iframePostParams = null;
             if (piwik.shouldPropagateTokenAuth) {
                 iframePostParams = {
@@ -83,7 +83,7 @@
                 }
             }
 
-            Piwik_Overlay.init(iframeSrc, '{{ idSite }}', '{{ period }}', '{{ rawDate }}', '{{ segment }}', iframePostParams);
+            Piwik_Overlay.init(iframeSrc, '{{ idSite|e('js') }}', '{{ period|e('js') }}', '{{ rawDate|e('js') }}', '{{ segment|e('js') }}', iframePostParams);
 
             window.Piwik_Overlay_Translations = {
                 domain: "{{ 'Overlay_Domain'|translate }}"

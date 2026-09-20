@@ -12,6 +12,9 @@
 		<nb_conversions>1</nb_conversions>
 		<revenue>1000</revenue>
 		<nb_visits>0</nb_visits>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
+		<nb_conversions_percent_of_total>100%</nb_conversions_percent_of_total>
+		<revenue_percent_of_total>100%</revenue_percent_of_total>
 		<segment>referrerType==campaign;referrerName==campaign+name+-+yeah%21</segment>
 		<subtable>
 			<row>
@@ -26,6 +29,9 @@
 				<nb_conversions>1</nb_conversions>
 				<revenue>1000</revenue>
 				<nb_visits>0</nb_visits>
+				<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
+				<nb_conversions_percent_of_total>100%</nb_conversions_percent_of_total>
+				<revenue_percent_of_total>100%</revenue_percent_of_total>
 			</row>
 		</subtable>
 	</row>

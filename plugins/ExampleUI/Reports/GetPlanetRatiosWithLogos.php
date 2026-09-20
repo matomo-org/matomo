@@ -20,6 +20,9 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\Cloud;
  */
 class GetPlanetRatiosWithLogos extends Base
 {
+    /**
+     * @return void
+     */
     protected function init()
     {
         parent::init();
@@ -35,10 +38,13 @@ class GetPlanetRatiosWithLogos extends Base
         return Cloud::ID;
     }
 
+    /**
+     * @return void
+     */
     public function configureView(ViewDataTable $view)
     {
         $view->config->display_logo_instead_of_label = true;
-        $view->config->columns_to_display = array('label', 'value');
+        $view->config->columns_to_display = ['label', 'value'];
         $view->config->addTranslation('value', 'times the diameter of Earth');
     }
 }

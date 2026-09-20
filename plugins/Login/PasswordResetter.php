@@ -14,13 +14,16 @@ use Piwik\Access;
 use Piwik\Auth\Password;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
+use Piwik\Date;
 use Piwik\IP;
+use Piwik\Metrics\Formatter;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\Login\Emails\PasswordResetEmail;
 use Piwik\Plugins\Login\Emails\PasswordResetCancelEmail;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 use Piwik\Plugins\UsersManager\Model;
+use Piwik\Plugins\UsersManager\Repository\UserRepository;
 use Piwik\Plugins\UsersManager\UserLoginHelper;
 use Piwik\Plugins\UsersManager\UsersManager;
 use Piwik\Plugins\UsersManager\UserUpdater;
@@ -39,7 +42,9 @@ use Piwik\Url;
  * 3. PasswordResetter will generate a reset token and email the user a link
  *    to confirm that they requested a password reset. (This way an attacker
  *    cannot reset a user's password if they do not have control of the user's
- *    email address.)
+ *    email address.) For a pending invitee, it will instead refresh the
+ *    invitation link token and email an activation link that keeps the
+ *    invitation's original expiry.
  * 4. The user opens the email and clicks on the link. The link leads to
  *    a controller action that finishes the password reset process.
  * 5. When the link is clicked, PasswordResetter will update the user's password
@@ -198,7 +203,9 @@ class PasswordResetter
      * information as an {@link Option} and send an email with the reset confirmation
      * link to the user whose password is being reset.
      *
-     * The email confirmation link will contain the generated reset token.
+     * For an active user, the email confirmation link contains the generated
+     * reset token. For a pending invitee, the email contains an activation link
+     * that preserves the original invitation expiry.
      *
      * @param string $loginOrEmail The user's login or email address.
      * @param string $newPassword The un-hashed/unencrypted password.
@@ -217,7 +224,7 @@ class PasswordResetter
         }
 
         // get the user's login
-        $user = $this->getUserInformation($loginOrEmail);
+        $user = $this->getUserInformationForPasswordResetInitiation($loginOrEmail);
         if ($user === null) {
             // throw a custom exception type so it can be handled/suppressed
             throw new PasswordResetUserIsInvalidException(Piwik::translate('Login_InvalidUsernameEmail'));
@@ -230,7 +237,10 @@ class PasswordResetter
 
         // ... send email with confirmation link
         try {
-            $this->sendEmailConfirmationLink($user, $keySuffix);
+            if (!$this->sendEmailConfirmationLink($user, $keySuffix)) {
+                $this->removePasswordResetInfo($login);
+                return;
+            }
         } catch (Exception $ex) {
             // remove password reset info
             $this->removePasswordResetInfo($login);
@@ -475,6 +485,47 @@ class PasswordResetter
     }
 
     /**
+     * @return array<string, mixed>|null
+     */
+    protected function getUserInformationForPasswordResetInitiation(string $loginOrMail): ?array
+    {
+        $user = $this->getUserInformation($loginOrMail);
+        if ($user !== null) {
+            return $user;
+        }
+
+        $pendingUser = $this->getPendingUserInformation($loginOrMail);
+        if (empty($pendingUser['invite_token']) || empty($pendingUser['invite_expired_at'])) {
+            return null;
+        }
+
+        try {
+            $inviteExpiresAt = Date::factory($pendingUser['invite_expired_at']);
+        } catch (Exception $e) {
+            return null;
+        }
+
+        if ($inviteExpiresAt->isEarlier(Date::now())) {
+            return null;
+        }
+
+        return $pendingUser;
+    }
+
+    /**
+     * Returns pending user information based on a login or email.
+     *
+     * Derived classes can override this method to provide custom pending user
+     * querying logic.
+     *
+     * @return array<string, mixed>|null
+     */
+    protected function getPendingUserInformation(string $loginOrMail): ?array
+    {
+        return UserLoginHelper::findUserByLoginOrEmail($loginOrMail);
+    }
+
+    /**
      * Checks the password hash that was retrieved from the Option table. Used as a sanity check
      * when finishing the reset password process. If a password is obviously malformed, changing
      * a user's password to it will keep the user from being able to login again.
@@ -522,23 +573,45 @@ class PasswordResetter
      *
      * @param array $user User info for the requested password reset.
      * @param string $keySuffix The suffix used in generating a token.
+     * @return bool Whether an email send was attempted.
      */
-    private function sendEmailConfirmationLink($user, $keySuffix)
+    private function sendEmailConfirmationLink($user, $keySuffix): bool
     {
         $login = $user['login'];
         $email = $user['email'];
-
-        // construct a password reset token from user information
-        $resetToken = $this->generatePasswordResetToken($user, $keySuffix);
-
         $ip = IP::getIpFromHeader();
-        $urlBase = Url::getCurrentUrlWithoutQueryString()
-            . "?module={$this->confirmPasswordModule}"
-            . "&login=" . urlencode($login)
-            . "&resetToken=" . urlencode($resetToken);
+        $linkValidity = null;
 
-        $urlCancel = $urlBase . "&action={$this->cancelResetPasswordAction}";
-        $urlConfirm = $urlBase . "&action={$this->confirmPasswordAction}";
+        if (!empty($user['invite_token'])) {
+            $inviteToken = StaticContainer::get(UserRepository::class)->refreshInviteToken(
+                $login,
+                $user['invite_token'],
+                $email
+            );
+            if ($inviteToken === null) {
+                return false;
+            }
+
+            $urlConfirm = Url::getCurrentUrlWithoutQueryString()
+                . '?module=' . urlencode(Piwik::getLoginPluginName())
+                . '&action=acceptInvitation'
+                . '&token=' . urlencode($inviteToken);
+            $urlCancel = '';
+
+            $expiryInSeconds = Date::factory($user['invite_expired_at'])->getTimestamp()
+                - Date::now()->getTimestamp();
+            $linkValidity = (new Formatter())->getPrettyTimeFromSeconds($expiryInSeconds, true);
+        } else {
+            // construct a password reset token from user information
+            $resetToken = $this->generatePasswordResetToken($user, $keySuffix);
+            $urlBase = Url::getCurrentUrlWithoutQueryString()
+                . "?module={$this->confirmPasswordModule}"
+                . "&login=" . urlencode($login)
+                . "&resetToken=" . urlencode($resetToken);
+
+            $urlCancel = $urlBase . "&action={$this->cancelResetPasswordAction}";
+            $urlConfirm = $urlBase . "&action={$this->confirmPasswordAction}";
+        }
 
         // send email with new password
         $mail = StaticContainer::getContainer()->make(PasswordResetEmail::class, [
@@ -546,6 +619,7 @@ class PasswordResetter
             'ip' => $ip,
             'resetUrl' => $urlConfirm,
             'cancelUrl' => $urlCancel,
+            'linkValidity' => $linkValidity,
         ]);
         $mail->addTo($email, $login);
 
@@ -556,6 +630,8 @@ class PasswordResetter
         }
 
         @$mail->send();
+
+        return true;
     }
 
     /**

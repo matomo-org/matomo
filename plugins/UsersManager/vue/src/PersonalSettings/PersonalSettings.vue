@@ -288,6 +288,7 @@ export default defineComponent({
           withTokenInUrl: true,
         },
       ).then(() => {
+        this.dropLanguageOverrideFromUrl();
         Matomo.setThemeMode(this.theThemeMode);
         const id = NotificationsStore.show({
           message: translate('CoreAdminHome_SettingsSaveSuccess'),
@@ -302,6 +303,18 @@ export default defineComponent({
       }).catch(() => {
         this.loading = false;
       });
+    },
+    dropLanguageOverrideFromUrl() {
+      const url = new URL(window.location.href);
+
+      // a language in the URL wins over the stored one, so the next page load would show the
+      // language the user just replaced
+      if (!url.searchParams.has('language')) {
+        return;
+      }
+
+      url.searchParams.delete('language');
+      window.history.replaceState(null, '', url.toString());
     },
   },
 });

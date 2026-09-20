@@ -46,12 +46,10 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasViewAccess($idSite);
 
-        $table = DataTable::makeFromSimpleArray(array(
-            array('label' => 'My Label 1', 'nb_visits' => '1'),
-            array('label' => 'My Label 2', 'nb_visits' => '5'),
-        ));
-
-        return $table;
+        return DataTable::makeFromSimpleArray([
+            ['label' => 'My Label 1', 'nb_visits' => '1'],
+            ['label' => 'My Label 2', 'nb_visits' => '5'],
+        ]);
     }
 
     /**
@@ -66,11 +64,10 @@ class API extends \Piwik\Plugin\API
         return $archive->getDataTableFromNumeric([ExampleMetric::EXAMPLEPLUGIN_METRIC_NAME, ExampleMetric2::EXAMPLEPLUGIN_CONST_METRIC_NAME]);
     }
 
-    public function getSegmentHash(string $idSite, string $segment)
+    public function getSegmentHash(string $idSite, string $segment): string
     {
         Piwik::checkUserHasViewAccess($idSite);
 
-        $segment = new Segment($segment, [$idSite]);
-        return $segment->getHash();
+        return (new Segment($segment, [$idSite]))->getHash();
     }
 }

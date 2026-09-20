@@ -10,6 +10,10 @@
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>50%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>50%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>50%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>50%</bounce_count_percent_of_total>
 		<url>http://piwik.org/contribute%</url>
 		<Referrers_Website>piwik.org</Referrers_Website>
 		<Referrers_WebsitePage>contribute%</Referrers_WebsitePage>
@@ -23,6 +27,10 @@
 				<nb_visits_converted>1</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<nb_visits_percent_of_total>50%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>50%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>50%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>50%</bounce_count_percent_of_total>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>month</comparePeriod>
@@ -40,6 +48,10 @@
 				<nb_visits_converted>1</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<nb_visits_percent_of_total>50%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>50%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>50%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>50%</bounce_count_percent_of_total>
 				<compareSegment>operatingSystemCode%3D%3DWIN</compareSegment>
 				<compareSegmentPretty>operatingSystemCode==WIN</compareSegmentPretty>
 				<comparePeriod>month</comparePeriod>
@@ -57,6 +69,10 @@
 				<nb_visits_converted>1</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<nb_visits_percent_of_total>50%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>50%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>50%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>50%</bounce_count_percent_of_total>
 				<nb_visits_change>+0%</nb_visits_change>
 				<nb_visits_change_from>+0%</nb_visits_change_from>
 				<nb_actions_change>+0%</nb_actions_change>
@@ -73,6 +89,14 @@
 				<sum_daily_nb_uniq_visitors_change_from>+0%</sum_daily_nb_uniq_visitors_change_from>
 				<sum_daily_nb_users_change>+0%</sum_daily_nb_users_change>
 				<sum_daily_nb_users_change_from>+0%</sum_daily_nb_users_change_from>
+				<nb_visits_percent_of_total_change>+0%</nb_visits_percent_of_total_change>
+				<nb_visits_percent_of_total_change_from>+0%</nb_visits_percent_of_total_change_from>
+				<nb_actions_percent_of_total_change>+0%</nb_actions_percent_of_total_change>
+				<nb_actions_percent_of_total_change_from>+0%</nb_actions_percent_of_total_change_from>
+				<nb_visits_converted_percent_of_total_change>+0%</nb_visits_converted_percent_of_total_change>
+				<nb_visits_converted_percent_of_total_change_from>+0%</nb_visits_converted_percent_of_total_change_from>
+				<bounce_count_percent_of_total_change>+0%</bounce_count_percent_of_total_change>
+				<bounce_count_percent_of_total_change_from>+0%</bounce_count_percent_of_total_change_from>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>week</comparePeriod>
@@ -90,6 +114,10 @@
 				<nb_visits_converted>1</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<nb_visits_percent_of_total>50%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>50%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>50%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>50%</bounce_count_percent_of_total>
 				<nb_visits_change>+0%</nb_visits_change>
 				<nb_visits_change_from>+0%</nb_visits_change_from>
 				<nb_actions_change>+0%</nb_actions_change>
@@ -106,6 +134,14 @@
 				<sum_daily_nb_uniq_visitors_change_from>+0%</sum_daily_nb_uniq_visitors_change_from>
 				<sum_daily_nb_users_change>+0%</sum_daily_nb_users_change>
 				<sum_daily_nb_users_change_from>+0%</sum_daily_nb_users_change_from>
+				<nb_visits_percent_of_total_change>+0%</nb_visits_percent_of_total_change>
+				<nb_visits_percent_of_total_change_from>+0%</nb_visits_percent_of_total_change_from>
+				<nb_actions_percent_of_total_change>+0%</nb_actions_percent_of_total_change>
+				<nb_actions_percent_of_total_change_from>+0%</nb_actions_percent_of_total_change_from>
+				<nb_visits_converted_percent_of_total_change>+0%</nb_visits_converted_percent_of_total_change>
+				<nb_visits_converted_percent_of_total_change_from>+0%</nb_visits_converted_percent_of_total_change_from>
+				<bounce_count_percent_of_total_change>+0%</bounce_count_percent_of_total_change>
+				<bounce_count_percent_of_total_change_from>+0%</bounce_count_percent_of_total_change_from>
 				<compareSegment>operatingSystemCode%3D%3DWIN</compareSegment>
 				<compareSegmentPretty>operatingSystemCode==WIN</compareSegmentPretty>
 				<comparePeriod>week</comparePeriod>
@@ -126,6 +162,10 @@
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>50%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>50%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>50%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>50%</bounce_count_percent_of_total>
 		<url>http://sn110w.snt110.mail.live.com/mail/InboxLight.aspx?n=184083971</url>
 		<Referrers_Website>sn110w.snt110.mail.live.com</Referrers_Website>
 		<Referrers_WebsitePage>mail/InboxLight.aspx?n=184083971</Referrers_WebsitePage>
@@ -139,6 +179,10 @@
 				<nb_visits_converted>1</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<nb_visits_percent_of_total>50%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>50%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>50%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>50%</bounce_count_percent_of_total>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>month</comparePeriod>
@@ -156,6 +200,10 @@
 				<nb_visits_converted>1</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<nb_visits_percent_of_total>50%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>50%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>50%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>50%</bounce_count_percent_of_total>
 				<compareSegment>operatingSystemCode%3D%3DWIN</compareSegment>
 				<compareSegmentPretty>operatingSystemCode==WIN</compareSegmentPretty>
 				<comparePeriod>month</comparePeriod>
@@ -173,6 +221,10 @@
 				<nb_visits_converted>1</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<nb_visits_percent_of_total>50%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>50%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>50%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>50%</bounce_count_percent_of_total>
 				<nb_visits_change>+0%</nb_visits_change>
 				<nb_visits_change_from>+0%</nb_visits_change_from>
 				<nb_actions_change>+0%</nb_actions_change>
@@ -189,6 +241,14 @@
 				<sum_daily_nb_uniq_visitors_change_from>+0%</sum_daily_nb_uniq_visitors_change_from>
 				<sum_daily_nb_users_change>+0%</sum_daily_nb_users_change>
 				<sum_daily_nb_users_change_from>+0%</sum_daily_nb_users_change_from>
+				<nb_visits_percent_of_total_change>+0%</nb_visits_percent_of_total_change>
+				<nb_visits_percent_of_total_change_from>+0%</nb_visits_percent_of_total_change_from>
+				<nb_actions_percent_of_total_change>+0%</nb_actions_percent_of_total_change>
+				<nb_actions_percent_of_total_change_from>+0%</nb_actions_percent_of_total_change_from>
+				<nb_visits_converted_percent_of_total_change>+0%</nb_visits_converted_percent_of_total_change>
+				<nb_visits_converted_percent_of_total_change_from>+0%</nb_visits_converted_percent_of_total_change_from>
+				<bounce_count_percent_of_total_change>+0%</bounce_count_percent_of_total_change>
+				<bounce_count_percent_of_total_change_from>+0%</bounce_count_percent_of_total_change_from>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>week</comparePeriod>
@@ -206,6 +266,10 @@
 				<nb_visits_converted>1</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<nb_visits_percent_of_total>50%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>50%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>50%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>50%</bounce_count_percent_of_total>
 				<nb_visits_change>+0%</nb_visits_change>
 				<nb_visits_change_from>+0%</nb_visits_change_from>
 				<nb_actions_change>+0%</nb_actions_change>
@@ -222,6 +286,14 @@
 				<sum_daily_nb_uniq_visitors_change_from>+0%</sum_daily_nb_uniq_visitors_change_from>
 				<sum_daily_nb_users_change>+0%</sum_daily_nb_users_change>
 				<sum_daily_nb_users_change_from>+0%</sum_daily_nb_users_change_from>
+				<nb_visits_percent_of_total_change>+0%</nb_visits_percent_of_total_change>
+				<nb_visits_percent_of_total_change_from>+0%</nb_visits_percent_of_total_change_from>
+				<nb_actions_percent_of_total_change>+0%</nb_actions_percent_of_total_change>
+				<nb_actions_percent_of_total_change_from>+0%</nb_actions_percent_of_total_change_from>
+				<nb_visits_converted_percent_of_total_change>+0%</nb_visits_converted_percent_of_total_change>
+				<nb_visits_converted_percent_of_total_change_from>+0%</nb_visits_converted_percent_of_total_change_from>
+				<bounce_count_percent_of_total_change>+0%</bounce_count_percent_of_total_change>
+				<bounce_count_percent_of_total_change_from>+0%</bounce_count_percent_of_total_change_from>
 				<compareSegment>operatingSystemCode%3D%3DWIN</compareSegment>
 				<compareSegmentPretty>operatingSystemCode==WIN</compareSegmentPretty>
 				<comparePeriod>week</comparePeriod>

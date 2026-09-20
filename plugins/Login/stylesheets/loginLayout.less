@@ -1,0 +1,127 @@
+/* Only the pages using this layout fill the viewport. @ScheduledReports/unsubscribe.twig borrows
+   the same bodyId without the layout, and a flex column would collapse its Materialize grid. The
+   height and background sit on the body so the #bottomAd probe below the layout stays inside them. */
+#loginPage.app-loginLayout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: @theme-color-background-contrast;
+
+    .loginSection {
+        margin-top: 40px;
+
+        .btn {
+            margin: 0;
+            box-shadow: none;
+            &:hover {
+                box-shadow: none;
+            }
+        }
+
+        /* override: global form styles float submit buttons right; these forms keep them in flow. */
+        .submit {
+            float: none;
+        }
+
+        /* The decline screen's prompt has no fields, so space its button off the text above. */
+        .invitationDecline .submit {
+            margin-top: 24px;
+        }
+    }
+}
+
+/* REFRESHED LOGIN LAYOUT
+   Logo + login form centred in the primary column, "What's New" panel on a rounded,
+   brand-tinted surface filling the secondary column. Columns stack on tablet/mobile.
+***********************/
+.loginLayout {
+    display: flex;
+    align-items: stretch;
+    box-sizing: border-box;
+    /* Grows into the height the body has left over, so the column can centre its content. */
+    flex: auto;
+
+    .loginLayout__primary {
+        display: flex;
+        flex-direction: column;
+        justify-content: safe center;
+        flex: auto;
+        /* Without this the fixed-width content below keeps the column from ever shrinking. */
+        min-width: 0;
+        box-sizing: border-box;
+        padding: 24px;
+    }
+
+    /* A fixed-width, horizontally centred stack keeps logo, form and links on one left edge. */
+    .loginLayout__logo,
+    .loginLayout__content,
+    .loginLayout__footerLinks {
+        box-sizing: border-box;
+        width: 450px;
+        max-width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .loginLayout__footerLinks {
+        margin-top: 24px;
+    }
+
+    .loginLayout__secondary {
+        display: flex;
+        flex-direction: column;
+        justify-content: safe center;
+        /* Stretch rather than centre: the panel fills the padding box, so the padding itself is
+           the teal frame around it - hence uniform on all four sides. */
+        align-items: stretch;
+        flex: none;
+        box-sizing: border-box;
+        width: 50%;
+        /* Same 24px inset the primary column uses, but not on the side facing it. */
+        margin: 24px 24px 24px 0;
+        padding: 40px;
+        border-radius: 24px;
+        /* Decorative brand surface, layered radial highlights over a vertical base wash. */
+        background-image: ~"radial-gradient(166.67% 208.33% at 258.33% 66.67%, rgba(229, 255, 252, 0.60) 0%, rgba(229, 255, 252, 0.00) 100%), radial-gradient(192.31% 138.89% at 63.89% -111.54%, rgba(209, 255, 247, 0.60) 0%, rgba(209, 255, 247, 0.00) 100%), radial-gradient(142.86% 178.57% at -85.71% 50%, rgba(204, 252, 255, 0.65) 0%, rgba(204, 255, 245, 0.00) 100%), radial-gradient(166.67% 156.25% at 75% 210%, rgba(224, 255, 250, 0.70) 0%, rgba(224, 255, 250, 0.00) 100%), radial-gradient(125% 113.64% at 145.45% -20%, rgba(154, 255, 241, 0.55) 0%, rgba(51, 204, 184, 0.00) 100%), radial-gradient(113.64% 125% at -12.5% 113.64%, rgba(102, 242, 229, 0.55) 0%, rgba(102, 242, 229, 0.00) 100%), radial-gradient(90.91% 90.91% at -8.18% -13.64%, rgba(0, 180, 190, 0.60) 0%, rgba(0, 190, 174, 0.00) 100%), radial-gradient(104.17% 86.21% at 127.59% 141.67%, rgba(49, 238, 241, 0.65) 0%, rgba(77, 224, 204, 0.00) 100%), linear-gradient(183deg, #F2FFFF 17.92%, #5DC7CD 132.86%)";
+    }
+
+    /* override: the sign-in form reads as a plain column in the refreshed design, so strip
+       the Morpheus/Materialize card chrome that contentBlock.twig wraps it in. */
+    .card {
+        border: 0;
+        margin: 0;
+        border-radius: 0;
+        background-color: transparent;
+    }
+
+    /* override: Materialize pads the card; the refreshed layout sets its own spacing instead. */
+    .card-content {
+        padding: 0;
+
+        .card-title {
+            font-size: 28px;
+            font-weight: 600;
+            line-height: 36px;
+            margin-bottom: 16px;
+        }
+    }
+
+    /* override: Materialize insets grid columns by 12px (`.row .col`) and shifts the floating
+       label to match (`.input-field.col label`); every page here lines up with the logo. */
+    .row .col {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .input-field.col label {
+        left: 0;
+    }
+
+    /* Tablet and below: drop the secondary column so the sign in form has the page to
+       itself. Any narrower and the two columns fight over the width. */
+    @media (max-width: 1040px) {
+        .loginLayout__secondary {
+            display: none;
+        }
+    }
+}

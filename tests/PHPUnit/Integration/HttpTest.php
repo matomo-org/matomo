@@ -12,7 +12,10 @@ namespace Piwik\Tests\Integration;
 use Piwik\Container\StaticContainer;
 use Piwik\EventDispatcher;
 use Piwik\Http;
+use Piwik\Http\EgressBlockedException;
+use Piwik\Http\EgressHostValidator;
 use Piwik\Piwik;
+use Piwik\Plugin\Manager;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Version;
 
@@ -22,6 +25,33 @@ use Piwik\Version;
  */
 class HttpTest extends \PHPUnit\Framework\TestCase
 {
+    private ?array $originalBlocklist = null;
+
+    private ?EgressHostValidator $originalEgressValidator = null;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->originalBlocklist = StaticContainer::get('http.blocklist.hosts');
+        $this->originalEgressValidator = StaticContainer::get(EgressHostValidator::class);
+    }
+
+    protected function tearDown(): void
+    {
+        // Some tests register Http.sendHttpRequest observers to mock responses. Observers
+        // can't be removed, so replace the dispatcher to keep them from leaking into later tests.
+        StaticContainer::getContainer()->set(
+            EventDispatcher::class,
+            new EventDispatcher(Manager::getInstance())
+        );
+
+        StaticContainer::getContainer()->set('http.blocklist.hosts', $this->originalBlocklist);
+        StaticContainer::getContainer()->set(EgressHostValidator::class, $this->originalEgressValidator);
+
+        parent::tearDown();
+    }
+
     /**
      * Dataprovider for testFetchRemoteFile
      */
@@ -403,6 +433,7 @@ class HttpTest extends \PHPUnit\Framework\TestCase
             ),
             'verifySsl' => true,
             'destinationPath' => $destinationPath,
+            'validateEgressIp' => false,
         ), null, null, array()), $params);
 
         $this->assertNotEmpty($params2[4]);// headers
@@ -418,6 +449,7 @@ class HttpTest extends \PHPUnit\Framework\TestCase
             ),
             'verifySsl' => true,
             'destinationPath' => $destinationPath,
+            'validateEgressIp' => false,
         ), '{"adf2":"44","afc23":"ab12","method":"post"}', 200), $params2);
     }
 
@@ -473,6 +505,227 @@ class HttpTest extends \PHPUnit\Framework\TestCase
             ['rtp://custom.url', 'Protocol rtp not in list of allowed protocols: http,https'],
             ['/local/file', 'Missing scheme in given url'],
         ];
+    }
+
+    public function testSendHttpRequestByWithEgressValidationFollowsRedirects()
+    {
+        $this->allowEgressValidationForTestHost();
+
+        $result = Http::sendHttpRequestBy(
+            'curl',
+            Fixture::getRootUrl() . 'tests/resources/redirector.php?redirects=2',
+            30,
+            null,
+            null,
+            null,
+            0,
+            false,
+            false,
+            false,
+            true,
+            'GET',
+            null,
+            null,
+            null,
+            array(),
+            null,
+            true,
+            true // $validateEgressIp
+        );
+
+        $this->assertEquals(200, $result['status']);
+        self::assertStringContainsString('redirects=0', $result['data']);
+    }
+
+    public function testSendHttpRequestByWithEgressValidationRejectsRedirectToPrivateHost()
+    {
+        $this->allowEgressValidationForTestHost();
+
+        self::expectException(EgressBlockedException::class);
+        self::expectExceptionMessage('Refusing to fetch: host resolves to a private or reserved address.');
+
+        Http::sendHttpRequestBy(
+            'curl',
+            Fixture::getRootUrl() . 'tests/resources/redirector.php?target=' . urlencode('http://10.0.0.1/'),
+            30,
+            null,
+            null,
+            null,
+            0,
+            false,
+            false,
+            false,
+            true,
+            'GET',
+            null,
+            null,
+            null,
+            array(),
+            null,
+            true,
+            true // $validateEgressIp
+        );
+    }
+
+    public function testSendHttpRequestByWithEgressValidationIgnoresForgedLocationInResponseBody()
+    {
+        $this->allowEgressValidationForTestHost();
+
+        $result = Http::sendHttpRequestBy(
+            'curl',
+            Fixture::getRootUrl() . 'tests/resources/redirector.php?redirects=1&forgeLocation='
+                . urlencode('http://169.254.169.254/latest/meta-data/'),
+            30,
+            getExtendedInfo: true,
+            validateEgressIp: true
+        );
+
+        $this->assertEquals(200, $result['status']);
+        self::assertStringContainsString('redirects=0', $result['data']);
+    }
+
+    public function testSendHttpRequestByWithEgressValidationDropsSecretsCrossOriginButKeepsRelaxedCertCheck()
+    {
+        $this->allowEgressValidationForTestHost();
+
+        // A different port on the same host is a different origin, and stays within the allowlisted
+        // loopback ranges so the hop is validated rather than rejected.
+        $host = (string) parse_url(Fixture::getRootUrl(), PHP_URL_HOST);
+        $target = 'http://' . $host . ':9/';
+
+        $hops = [];
+        Piwik::addAction('Http.sendHttpRequest', function ($url, $params, &$response) use (&$hops) {
+            $hops[] = $params;
+            if (count($hops) === 2) {
+                $response = 'stopped'; // handle the second hop so it never reaches the network
+            }
+        });
+
+        Http::sendHttpRequestBy(
+            'curl',
+            Fixture::getRootUrl() . 'tests/resources/redirector.php?target=' . urlencode($target),
+            30,
+            acceptInvalidSslCertificate: true,
+            getExtendedInfo: true,
+            httpMethod: 'POST',
+            httpUsername: 'user',
+            httpPassword: 'secret',
+            requestBody: array('a' => 'b'),
+            additionalHeaders: array('X-Caller: keep-me'),
+            validateEgressIp: true
+        );
+
+        self::assertCount(2, $hops);
+
+        // credentials, caller headers, the body and the method must not survive the origin change
+        self::assertSame(array('POST', 'GET'), array_column($hops, 'httpMethod'));
+        self::assertSame(array('a' => 'b'), $hops[0]['body']);
+        self::assertNull($hops[1]['body']);
+        self::assertContains('X-Caller: keep-me', $hops[0]['headers']);
+        self::assertNotContains('X-Caller: keep-me', $hops[1]['headers']);
+        self::assertNotEmpty(preg_grep('/^Authorization:/', $hops[0]['headers']));
+        self::assertEmpty(preg_grep('/^Authorization:/', $hops[1]['headers']));
+
+        // the relaxed certificate check does survive, see the rationale in Http::sendHttpRequestBy()
+        self::assertSame(array(false, false), array_column($hops, 'verifySsl'));
+    }
+
+    public function testSendHttpRequestByWithEgressValidationRejectsBlockedHostAfterCanonicalisation()
+    {
+        $this->allowEgressValidationForTestHost();
+
+        // lowercased because the exception reports the canonicalised (lowercased) host
+        $host = strtolower((string) parse_url(Fixture::getRootUrl(), PHP_URL_HOST));
+        if (filter_var($host, FILTER_VALIDATE_IP)) {
+            $this->markTestSkipped('Test requires a DNS test host, not an IP literal.');
+        }
+
+        // Blocklist the plain host. The raw request host carries a trailing dot, so it slips the
+        // pre-connection check, but canonicalisation strips the dot and the re-check must catch it.
+        StaticContainer::getContainer()->set('http.blocklist.hosts', [$host]);
+
+        self::expectException(\Exception::class);
+        self::expectExceptionMessage('Hostname ' . $host . ' is in list of disallowed hosts');
+
+        $url = str_ireplace('://' . $host, '://' . $host . '.', Fixture::getRootUrl())
+            . 'tests/resources/redirector.php';
+
+        Http::sendHttpRequestBy(
+            'curl',
+            $url,
+            30,
+            null,
+            null,
+            null,
+            0,
+            false,
+            false,
+            false,
+            true,
+            'GET',
+            null,
+            null,
+            null,
+            array(),
+            null,
+            true,
+            true // $validateEgressIp
+        );
+    }
+
+    public function testSendHttpRequestWithEgressValidationRejectsRedirectWhenDownloadingToFile()
+    {
+        $this->allowEgressValidationForTestHost();
+
+        $destinationPath = PIWIK_DOCUMENT_ROOT . '/tmp/latest/egress-redirect-test';
+
+        try {
+            Http::sendHttpRequest(
+                Fixture::getRootUrl() . 'tests/resources/redirector.php?redirects=1',
+                30,
+                null,
+                $destinationPath,
+                0,
+                false,
+                false,
+                false,
+                'GET',
+                null,
+                null,
+                true,
+                true // $validateEgressIp
+            );
+            $this->fail('Expected the redirect to be refused while downloading to a file');
+        } catch (EgressBlockedException $e) {
+            self::assertSame('SSRF-safe HTTP requests cannot follow redirects when downloading to a file.', $e->getMessage());
+            // the truncated download must not be left behind for the caller to pick up
+            clearstatcache(true, $destinationPath);
+            self::assertFileDoesNotExist($destinationPath);
+        } finally {
+            @unlink($destinationPath);
+        }
+    }
+
+    /**
+     * Lets the SSRF-safe path accept the local test host, which resolves to loopback
+     * and would otherwise be rejected as non-public. Keeps the real curl transport,
+     * pinning and redirect re-validation in place.
+     */
+    private function allowEgressValidationForTestHost(): void
+    {
+        $host = (string) parse_url(Fixture::getRootUrl(), PHP_URL_HOST);
+
+        $allowedRanges = ['127.0.0.1', '::1'];
+        if (filter_var($host, FILTER_VALIDATE_IP)) {
+            $allowedRanges[] = $host;
+        } else {
+            $allowedRanges = array_merge($allowedRanges, gethostbynamel($host) ?: []);
+        }
+
+        StaticContainer::getContainer()->set(
+            EgressHostValidator::class,
+            new EgressHostValidator(null, array_unique($allowedRanges))
+        );
     }
 
     /**

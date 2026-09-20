@@ -36,8 +36,6 @@ use Piwik\Measurable\Type\TypeManager;
 use Piwik\Version;
 use Piwik\Widget\WidgetsList;
 
-require_once PIWIK_INCLUDE_PATH . '/core/Config.php';
-
 /**
  * This API is the <a href='https://matomo.org/docs/analytics-api/metadata/' rel='noreferrer' target='_blank'>Metadata API</a>: it gives information about all other available APIs methods, as well as providing
  * human readable and more complete outputs than normal API methods.
@@ -994,7 +992,9 @@ class Plugin extends \Piwik\Plugin
 
     public function detectIsApiRequest(): void
     {
-        Request::setIsRootRequestApiRequest(Request::getMethodIfApiRequest($request = null));
+        Request::setIsRootRequestApiRequest(
+            Request::isApiHttpRequest() ? Request::getMethodIfApiRequest($request = null) : null
+        );
     }
 
     /**

@@ -19,11 +19,14 @@ class VisitsWithUserIdAndCustomData extends Fixture
     public $dateTime = '2018-02-01 11:22:33';
     public $idSite = 1;
 
-    private static $countryCodes = ['CA', 'CN', 'DE', 'ES', 'FR', 'IE', 'IN', 'IT', 'MX', 'PT', 'RU', 'GB', 'US'];
+    /**
+     * @var string[]
+     */
+    private static array $countryCodes = ['CA', 'CN', 'DE', 'ES', 'FR', 'IE', 'IN', 'IT', 'MX', 'PT', 'RU', 'GB', 'US'];
 
     public function setUp(): void
     {
-        if (!self::siteCreated($idSite = 1)) {
+        if (!self::siteCreated($this->idSite)) {
             self::createWebsite($this->dateTime);
         }
 
@@ -38,13 +41,13 @@ class VisitsWithUserIdAndCustomData extends Fixture
         $this->insertCustomGroupLogData();
     }
 
-    private function trackVisits()
+    private function trackVisits(): void
     {
-        $t = self::getTracker($this->idSite, $this->dateTime, $defaultInit = true);
+        $t = self::getTracker($this->idSite, $this->dateTime, defaultInit: true);
         $t->setTokenAuth(self::getTokenAuth());
         $t->enableBulkTracking();
 
-        foreach (array('user1', 'user2', 'user3', 'user4', null) as $key => $userId) {
+        foreach (['user1', 'user2', 'user3', 'user4', null] as $key => $userId) {
             for ($numVisits = 0; $numVisits < ($key + 1) * 10; $numVisits++) {
                 $visitDateTime = Date::factory($this->dateTime)->addHour($numVisits)->getDatetime();
                 $t->setForceVisitDateTime($visitDateTime);
@@ -95,7 +98,7 @@ class VisitsWithUserIdAndCustomData extends Fixture
         self::checkBulkTrackingResponse($t->doBulkTrack());
     }
 
-    private function insertCustomUserLogData()
+    private function insertCustomUserLogData(): void
     {
         $customLog = new CustomUserLog();
         $customLog->addUserInformation('user1', 'admin', 'men');
@@ -104,10 +107,10 @@ class VisitsWithUserIdAndCustomData extends Fixture
         $customLog->addUserInformation('user4', '', 'men');
     }
 
-    private function insertCustomGroupLogData()
+    private function insertCustomGroupLogData(): void
     {
         $customGroup = new CustomGroupLog();
-        $customGroup->addGroupInformation('admin', 1);
-        $customGroup->addGroupInformation('user', 0);
+        $customGroup->addGroupInformation('admin', true);
+        $customGroup->addGroupInformation('user', false);
     }
 }

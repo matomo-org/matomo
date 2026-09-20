@@ -21,6 +21,10 @@
 			<ai_chatbots_requests_evolution_trend>0</ai_chatbots_requests_evolution_trend>
 			<revenue_evolution>100%</revenue_evolution>
 			<revenue_evolution_trend>1</revenue_evolution_trend>
+			<nb_visits_percent_of_total>100%</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>100%</nb_actions_percent_of_total>
+			<hits_percent_of_total>100%</hits_percent_of_total>
+			<revenue_percent_of_total>100%</revenue_percent_of_total>
 			<idsite>1</idsite>
 			<ratio>1</ratio>
 			<currencySymbol>$</currencySymbol>
@@ -57,6 +61,10 @@
 			<ai_chatbots_requests_evolution_trend>0</ai_chatbots_requests_evolution_trend>
 			<revenue_evolution>200%</revenue_evolution>
 			<revenue_evolution_trend>1</revenue_evolution_trend>
+			<nb_visits_percent_of_total>87.5%</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>91.2%</nb_actions_percent_of_total>
+			<hits_percent_of_total>91.2%</hits_percent_of_total>
+			<revenue_percent_of_total>100%</revenue_percent_of_total>
 			<idsite>1</idsite>
 			<ratio>1</ratio>
 			<currencySymbol>$</currencySymbol>
@@ -91,6 +99,10 @@
 			<ai_chatbots_requests_evolution_trend>0</ai_chatbots_requests_evolution_trend>
 			<revenue_evolution>0%</revenue_evolution>
 			<revenue_evolution_trend>0</revenue_evolution_trend>
+			<nb_visits_percent_of_total>12.5%</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>8.8%</nb_actions_percent_of_total>
+			<hits_percent_of_total>8.8%</hits_percent_of_total>
+			<revenue_percent_of_total>0%</revenue_percent_of_total>
 			<idsite>2</idsite>
 			<ratio>1</ratio>
 			<currencySymbol>$</currencySymbol>
@@ -127,6 +139,10 @@
 			<ai_chatbots_requests_evolution_trend>0</ai_chatbots_requests_evolution_trend>
 			<revenue_evolution>-66.7%</revenue_evolution>
 			<revenue_evolution_trend>-1</revenue_evolution_trend>
+			<nb_visits_percent_of_total>100%</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>100%</nb_actions_percent_of_total>
+			<hits_percent_of_total>100%</hits_percent_of_total>
+			<revenue_percent_of_total>100%</revenue_percent_of_total>
 			<idsite>1</idsite>
 			<ratio>1</ratio>
 			<currencySymbol>$</currencySymbol>

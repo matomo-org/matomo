@@ -33,6 +33,7 @@
 			<max_event_value>The maximum value for this event</max_event_value>
 			<nb_events_with_value>Number of events where an Event value was set</nb_events_with_value>
 			<avg_event_value>The average of all values for this event</avg_event_value>
+			<nb_visits_percent_of_total>The percentage of the report's total Visits that this row represents.</nb_visits_percent_of_total>
 		</metricsDocumentation>
 		<processedMetrics>
 			<avg_event_value>The average of all values for this event</avg_event_value>
@@ -46,6 +47,7 @@
 			<max_event_value>number</max_event_value>
 			<nb_events_with_value>number</nb_events_with_value>
 			<avg_event_value>number</avg_event_value>
+			<nb_visits_percent_of_total>percent</nb_visits_percent_of_total>
 		</metricTypes>
 		<actionToLoadSubTables>getNameFromActionId</actionToLoadSubTables>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Events&amp;apiAction=getAction&amp;period=range&amp;date=2010-01-03,2010-01-09</imageGraphUrl>
@@ -62,6 +64,7 @@
 		<max_event_value>Maximum Event value</max_event_value>
 		<nb_events_with_value>Events with a value</nb_events_with_value>
 		<avg_event_value>The average of all values for this event</avg_event_value>
+		<nb_visits_percent_of_total>Visits (% of total)</nb_visits_percent_of_total>
 	</columns>
 	<reportData>
 		<result prettyDate="Sunday, January 3, 2010">
@@ -74,6 +77,7 @@
 				<sum_event_value>0</sum_event_value>
 				<min_event_value>0</min_event_value>
 				<max_event_value>0</max_event_value>
+				<nb_visits_percent_of_total>14%</nb_visits_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -85,6 +89,7 @@
 				<sum_event_value>0</sum_event_value>
 				<min_event_value>0</min_event_value>
 				<max_event_value>0</max_event_value>
+				<nb_visits_percent_of_total>14%</nb_visits_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -96,6 +101,7 @@
 				<sum_event_value>0</sum_event_value>
 				<min_event_value>0</min_event_value>
 				<max_event_value>0</max_event_value>
+				<nb_visits_percent_of_total>9.3%</nb_visits_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -107,6 +113,7 @@
 				<sum_event_value>0</sum_event_value>
 				<min_event_value>0</min_event_value>
 				<max_event_value>0</max_event_value>
+				<nb_visits_percent_of_total>9.3%</nb_visits_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -118,6 +125,7 @@
 				<sum_event_value>0</sum_event_value>
 				<min_event_value>0</min_event_value>
 				<max_event_value>0</max_event_value>
+				<nb_visits_percent_of_total>9.3%</nb_visits_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -129,6 +137,7 @@
 				<sum_event_value>0</sum_event_value>
 				<min_event_value>0</min_event_value>
 				<max_event_value>0</max_event_value>
+				<nb_visits_percent_of_total>9.3%</nb_visits_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -140,6 +149,7 @@
 				<sum_event_value>57.32</sum_event_value>
 				<min_event_value>9</min_event_value>
 				<max_event_value>10</max_event_value>
+				<nb_visits_percent_of_total>9.3%</nb_visits_percent_of_total>
 				<avg_event_value>9.55</avg_event_value>
 			</row>
 			<row>
@@ -151,6 +161,7 @@
 				<sum_event_value>0</sum_event_value>
 				<min_event_value>0</min_event_value>
 				<max_event_value>0</max_event_value>
+				<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -162,6 +173,7 @@
 				<sum_event_value>19.32</sum_event_value>
 				<min_event_value>9.66</min_event_value>
 				<max_event_value>9.66</max_event_value>
+				<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
 				<avg_event_value>9.66</avg_event_value>
 			</row>
 			<row>
@@ -173,6 +185,7 @@
 				<sum_event_value>0</sum_event_value>
 				<min_event_value>0</min_event_value>
 				<max_event_value>0</max_event_value>
+				<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -184,6 +197,7 @@
 				<sum_event_value>0</sum_event_value>
 				<min_event_value>0</min_event_value>
 				<max_event_value>0</max_event_value>
+				<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -195,6 +209,7 @@
 				<sum_event_value>0</sum_event_value>
 				<min_event_value>0</min_event_value>
 				<max_event_value>0</max_event_value>
+				<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -206,6 +221,7 @@
 				<sum_event_value>23</sum_event_value>
 				<min_event_value>0</min_event_value>
 				<max_event_value>23</max_event_value>
+				<nb_visits_percent_of_total>2.3%</nb_visits_percent_of_total>
 				<avg_event_value>11.5</avg_event_value>
 			</row>
 		</result>
@@ -219,6 +235,7 @@
 				<sum_event_value>0</sum_event_value>
 				<min_event_value>0</min_event_value>
 				<max_event_value>0</max_event_value>
+				<nb_visits_percent_of_total>14.3%</nb_visits_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -230,6 +247,7 @@
 				<sum_event_value>0</sum_event_value>
 				<min_event_value>0</min_event_value>
 				<max_event_value>0</max_event_value>
+				<nb_visits_percent_of_total>14.3%</nb_visits_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -241,6 +259,7 @@
 				<sum_event_value>0</sum_event_value>
 				<min_event_value>0</min_event_value>
 				<max_event_value>0</max_event_value>
+				<nb_visits_percent_of_total>9.5%</nb_visits_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -252,6 +271,7 @@
 				<sum_event_value>0</sum_event_value>
 				<min_event_value>0</min_event_value>
 				<max_event_value>0</max_event_value>
+				<nb_visits_percent_of_total>9.5%</nb_visits_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -263,6 +283,7 @@
 				<sum_event_value>0</sum_event_value>
 				<min_event_value>0</min_event_value>
 				<max_event_value>0</max_event_value>
+				<nb_visits_percent_of_total>9.5%</nb_visits_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -274,6 +295,7 @@
 				<sum_event_value>0</sum_event_value>
 				<min_event_value>0</min_event_value>
 				<max_event_value>0</max_event_value>
+				<nb_visits_percent_of_total>9.5%</nb_visits_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -285,6 +307,7 @@
 				<sum_event_value>28.66</sum_event_value>
 				<min_event_value>9</min_event_value>
 				<max_event_value>10</max_event_value>
+				<nb_visits_percent_of_total>9.5%</nb_visits_percent_of_total>
 				<avg_event_value>9.55</avg_event_value>
 			</row>
 			<row>
@@ -296,6 +319,7 @@
 				<sum_event_value>0</sum_event_value>
 				<min_event_value>0</min_event_value>
 				<max_event_value>0</max_event_value>
+				<nb_visits_percent_of_total>4.8%</nb_visits_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -307,6 +331,7 @@
 				<sum_event_value>9.66</sum_event_value>
 				<min_event_value>9.66</min_event_value>
 				<max_event_value>9.66</max_event_value>
+				<nb_visits_percent_of_total>4.8%</nb_visits_percent_of_total>
 				<avg_event_value>9.66</avg_event_value>
 			</row>
 			<row>
@@ -318,6 +343,7 @@
 				<sum_event_value>0</sum_event_value>
 				<min_event_value>0</min_event_value>
 				<max_event_value>0</max_event_value>
+				<nb_visits_percent_of_total>4.8%</nb_visits_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -329,6 +355,7 @@
 				<sum_event_value>0</sum_event_value>
 				<min_event_value>0</min_event_value>
 				<max_event_value>0</max_event_value>
+				<nb_visits_percent_of_total>4.8%</nb_visits_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
@@ -340,6 +367,7 @@
 				<sum_event_value>0</sum_event_value>
 				<min_event_value>0</min_event_value>
 				<max_event_value>0</max_event_value>
+				<nb_visits_percent_of_total>4.8%</nb_visits_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 		</result>

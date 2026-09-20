@@ -1042,9 +1042,10 @@ class API extends \Piwik\Plugin\API
         /** @phpstan-var UserRow $user */
         $user = $this->model->getUser($userLogin);
 
-        // If user is not a super user check if the user was invited by the current user
+        // If user is not a super user check if the user was invited by the current user and is still pending.
+        // Read the pending state from the same row we resolved by login, so the two checks cannot disagree.
         if (!Piwik::hasUserSuperUserAccess()) {
-            if ($user['invited_by'] !== Piwik::getCurrentUserLogin() || !$this->model->isPendingUser($userLogin)) {
+            if ($user['invited_by'] !== Piwik::getCurrentUserLogin() || empty($user['invite_token'])) {
                 throw new NoAccessException(Piwik::translate('UsersManager_ExceptionUserDoesNotExist', $userLogin));
             }
         }
@@ -1238,6 +1239,8 @@ class API extends \Piwik\Plugin\API
 
         $this->executeConcurrencySafe($userLogin, function () use ($userLogin, $access, $idSites, $roles, $capabilities) {
             $idSites = $this->getIdSitesCheckAdminAccess($idSites);
+            // confirm the user still exists before the rows below are replaced
+            $this->checkUserExist($userLogin);
             $this->checkUsersHasNotSuperUserAccess($userLogin);
 
             $this->model->deleteUserAccess($userLogin, $idSites);
@@ -1581,7 +1584,17 @@ class API extends \Piwik\Plugin\API
         }
 
         $generatedToken = $this->model->generateRandomTokenAuth();
-        $this->model->addTokenAuth($userLogin, $generatedToken, $description, Date::now()->getDatetime(), $expireDate, false, $secureOnly);
+        $this->model->addTokenAuth(
+            $userLogin,
+            $generatedToken,
+            $description,
+            Date::now()->getDatetime(),
+            $expireDate,
+            false,
+            $secureOnly,
+            // bind the token to the account whose password was just confirmed
+            $user['date_registered'] ?? null
+        );
 
         return $generatedToken;
     }
@@ -1756,12 +1769,14 @@ class API extends \Piwik\Plugin\API
             new NumberRange(self::MIN_INVITE_EXPIRY_IN_DAYS, self::MAX_INVITE_EXPIRY_IN_DAYS),
         ]);
 
-        if (!$this->model->isPendingUser($userLogin)) {
-            throw new Exception(Piwik::translate('UsersManager_ExceptionUserDoesNotExist', $userLogin));
-        }
-
         /** @phpstan-var UserRow $user */
         $user = $this->model->getUser($userLogin);
+
+        // Resolve the account by login first and require that same row to still be pending. Checking
+        // pending state and reading the account must always answer about the same user.
+        if (empty($user['invite_token'])) {
+            throw new Exception(Piwik::translate('UsersManager_ExceptionUserDoesNotExist', $userLogin));
+        }
 
         // If user is not a super user check if the user was invited by the current user
         if (!Piwik::hasUserSuperUserAccess()) {
@@ -1805,12 +1820,14 @@ class API extends \Piwik\Plugin\API
             new NumberRange(self::MIN_INVITE_EXPIRY_IN_DAYS, self::MAX_INVITE_EXPIRY_IN_DAYS),
         ]);
 
-        if (!$this->model->isPendingUser($userLogin)) {
-            throw new Exception(Piwik::translate('UsersManager_ExceptionUserDoesNotExist', $userLogin));
-        }
-
         /** @phpstan-var UserRow $user */
         $user = $this->model->getUser($userLogin);
+
+        // Resolve the account by login first and require that same row to still be pending. Checking
+        // pending state and reading the account must always answer about the same user.
+        if (empty($user['invite_token'])) {
+            throw new Exception(Piwik::translate('UsersManager_ExceptionUserDoesNotExist', $userLogin));
+        }
 
         // If user is not a super user check if the user was invited by the current user
         if (!Piwik::hasUserSuperUserAccess()) {

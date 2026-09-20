@@ -248,7 +248,11 @@ class Visualization extends ViewDataTable
         $view->properties  = array_merge($this->requestConfig->getProperties(), $this->config->getProperties());
         $view->reportLastUpdatedMessage = $this->reportLastUpdatedMessage;
         $view->footerIcons = $this->config->footer_icons;
-        $view->isWidget    = Common::getRequestVar('widget', 0, 'int');
+        $request           = \Piwik\Request::fromRequest();
+        $view->isWidget    = $request->getIntegerParameter('widget', 0);
+        // Route-derived so it can't be forced onto a non-iframe request via a query param.
+        $view->isWidgetizedIframe = $request->getStringParameter('module', '') === 'Widgetize'
+            && $request->getStringParameter('action', '') === 'iframe';
         $view->notifications = [];
         $view->isComparing = $this->isComparing();
 

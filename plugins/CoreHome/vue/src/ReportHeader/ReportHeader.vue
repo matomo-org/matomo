@@ -7,6 +7,7 @@
 
 <template>
   <div
+    v-if="!isEmpty"
     class="reportHeader"
     :class="{
       'reportHeader--flush': isFullPage && !plainTitle,
@@ -18,6 +19,7 @@
            SingleMetricView and UserCountryMap look for. `.self` stops the key handlers
            cancelling links EnrichedHeadline renders inside the heading. -->
       <component
+        v-if="showTitle"
         :is="titleTag"
         class="reportHeader__title widgetName"
         :class="{ 'reportHeader__title--clickable': titleClickable }"
@@ -131,6 +133,12 @@ export default defineComponent({
     enriched: Boolean,
     // Keeps the plain heading metrics of a report that is not shown in a card.
     plainTitle: Boolean,
+    // A titleless widgetized embed still mounts the header as an actions anchor, so only the
+    // heading is suppressed, not the whole component.
+    showTitle: {
+      type: Boolean,
+      default: true,
+    },
     // Left empty on purpose: EnrichedHeadline then names the rated feature after the rendered
     // title, i.e. the widget name. Only dataTable.js sets it, to follow a related report.
     featureName: {
@@ -166,6 +174,11 @@ export default defineComponent({
     hasControls(): boolean {
       const c = this.controls;
       return c.minimise || c.maximise || c.refresh || c.close;
+    },
+    // No title and no controls to render. Actions are always empty today; a later story that adds
+    // them must widen this so the full header comes back.
+    isEmpty(): boolean {
+      return !this.showTitle && !this.hasControls;
     },
     isFullPage(): boolean {
       return this.context === 'fullPage';

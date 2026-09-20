@@ -14,6 +14,8 @@ namespace Piwik\Plugins\PrivacyManager\tests\System;
 use Piwik\API\Request;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
+use Piwik\Metrics\Formatter;
+use Piwik\Piwik;
 use Piwik\Policy\CnilPolicy;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Fixtures\UITestFixture;
@@ -406,6 +408,53 @@ class DataRoundingCoverageTest extends SystemTestCase
             CnilPolicy::setActiveStatus(1, false);
             CnilPolicy::setActiveStatus(2, false);
             CnilPolicy::setActiveStatus(null, true);
+        }
+    }
+
+    public function testPercentOfTotalMetricsAreQuotientsOfTheRoundedValues(): void
+    {
+        $baseRequest = [
+            'module' => 'API',
+            'method' => 'Referrers.getReferrerType',
+            'format' => 'original',
+            'idSite' => 1,
+            'period' => 'year',
+            'date' => '2012-08-09',
+            'language' => 'en',
+            'segment' => self::DEFAULT_SEGMENT,
+            'filter_limit' => '-1',
+            'token_auth' => Fixture::getTokenAuth(),
+        ];
+
+        /** @var DataTable $table */
+        $table = (new Request($baseRequest + ['format_metrics' => '0']))->process();
+
+        $totals = $table->getMetadata('totalsUnformatted');
+        $this->assertIsArray($totals);
+        $this->assertArrayHasKey('nb_visits', $totals);
+        $this->assertSame($this->roundToNearestTen((int) $totals['nb_visits']), (int) $totals['nb_visits']);
+        $this->assertGreaterThan(0, $table->getRowsCountWithoutSummaryRow());
+
+        $formatter = new Formatter();
+
+        /** @var DataTable $formattedTable */
+        $formattedTable = (new Request($baseRequest + ['format_metrics' => '1']))->process();
+        $formattedRows = $formattedTable->getRows();
+
+        // the percentage must be the quotient of the values the API returns: the rounded row
+        // value divided by the rounded report total, both for the raw quotient and the
+        // formatted percentage
+        foreach ($table->getRows() as $rowId => $row) {
+            $nbVisits = $row->getColumn('nb_visits');
+            $expectedQuotient = Piwik::getQuotientSafe($nbVisits, $totals['nb_visits'], 3);
+
+            $this->assertSame($this->roundToNearestTen((int) $nbVisits), (int) $nbVisits);
+            $this->assertSame($expectedQuotient, $row->getColumn('nb_visits_percent_of_total'));
+
+            $this->assertSame(
+                $formatter->getPrettyPercentFromQuotient($expectedQuotient),
+                $formattedRows[$rowId]->getColumn('nb_visits_percent_of_total')
+            );
         }
     }
 

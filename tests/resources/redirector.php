@@ -6,6 +6,7 @@
 
 $redirect = $_GET['redirects'] ?? 0;
 $target = $_GET['target'] ?? '';
+$forgedLocation = $_GET['forgeLocation'] ?? '';
 
 $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ?
         "https" : "http") . "://" . $_SERVER['HTTP_HOST'] .
@@ -20,6 +21,9 @@ if ($target) {
 if ($redirect > 0) {
     header('HTTP/1.1 302 Found');
     header('Location: ' . preg_replace('/(redirects=[0-9]+)/', 'redirects=' . ($redirect - 1), $url));
+    if ($forgedLocation) {
+        echo "HTTP/1.1 200 OK\r\nLocation: " . $forgedLocation . "\r\nX-Forged: yes\r\n\r\n";
+    }
     exit;
 }
 

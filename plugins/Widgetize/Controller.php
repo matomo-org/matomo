@@ -152,7 +152,7 @@ class Controller extends \Piwik\Plugin\Controller
 
     private function assertDispatchedContentIsEmbeddable(string $module, string $action): void
     {
-        $contentType = $this->getDispatchedContentType();
+        $contentType = Common::getSentHeader('Content-Type');
 
         // An empty content type means the action did not set one explicitly and the (HTML) default applies.
         // Only actions returning HTML (or no explicit content type) can be embedded into the iframe document.
@@ -167,22 +167,6 @@ class Controller extends \Piwik\Plugin\Controller
                 $action
             ));
         }
-    }
-
-    private function getDispatchedContentType(): string
-    {
-        // In CLI / test mode no real headers are emitted, but Common::sendHeader() records them instead.
-        if (Common::isPhpCliMode()) {
-            return (string) (Common::$headersSentInTests['Content-Type'] ?? '');
-        }
-
-        foreach (headers_list() as $header) {
-            if (stripos($header, 'content-type:') === 0) {
-                return trim(substr($header, strlen('content-type:')));
-            }
-        }
-
-        return '';
     }
 
     private function findClientWidgetMetadata(string $module, string $action): ?array

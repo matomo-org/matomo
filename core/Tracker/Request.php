@@ -494,6 +494,9 @@ class Request
         return isset($this->params[$name]);
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getParams()
     {
         return $this->params;

@@ -110,6 +110,39 @@ describe("TwoFactorAuth", function () {
         expect(widgetsCount).to.equal(1);
     });
 
+    // The 2FA screens extend @Login/loginLayout.twig, so they get the panel too. Geometry only -
+    // it has its own baseline in the Login specs. The finally only clears the flag: the panel
+    // itself stays cached for the tests below, which is fine as they all crop to .loginSection.
+    it('should show the auth code screen beside the What\'s New panel', async function () {
+        testEnvironment.loadChanges = 1;
+        testEnvironment.save();
+
+        try {
+            await loginUser('with2FA', false);
+            await page.waitForSelector('.loginWhatsNew__entry');
+
+            const layout = await page.evaluate(function () {
+                const de = document.documentElement;
+                const primary = document.querySelector('.loginLayout__primary').getBoundingClientRect();
+                const panel = document.querySelector('.loginWhatsNew').getBoundingClientRect();
+
+                return {
+                    entries: document.querySelectorAll('.loginWhatsNew__entry').length,
+                    panelRightOfForm: panel.left >= primary.right,
+                    panelVisible: panel.width > 0 && panel.height > 0,
+                    noOverflow: de.scrollWidth <= de.clientWidth,
+                };
+            });
+
+            expect(layout).to.deep.equal({
+                entries: 3, panelRightOfForm: true, panelVisible: true, noOverflow: true,
+            });
+        } finally {
+            delete testEnvironment.loadChanges;
+            testEnvironment.save();
+        }
+    });
+
     it('when logging in through logme and not providing auth code it should show auth code screen', async function () {
         await loginUser('with2FA', false);
         const section = await page.waitForSelector('.loginSection');

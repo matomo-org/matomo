@@ -29,7 +29,9 @@ class Widget extends \Piwik\Widget\Widget
             return;
         }
 
-        if (!Live::isVisitorLogEnabled($idSite)) {
+        // Keep the widget available when the detailed visits log is disabled but the aggregated
+        // real-time reports are enabled, so it can still show the aggregated counters only.
+        if (!Live::isVisitorLogEnabled($idSite) && !Live::isAggregatedRealtimeEnabled($idSite)) {
             $config->disable();
         }
     }

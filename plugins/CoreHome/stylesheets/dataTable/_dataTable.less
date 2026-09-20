@@ -43,6 +43,14 @@ table.dataTable .totalsRow {
   .ratio {
     display: none;
   }
+
+  .totalsRowNote {
+    display: block;
+    color: @theme-color-text-light;
+    font-weight: normal;
+    white-space: nowrap;
+    .font-default(11px, 14px);
+  }
 }
 
 table.dataTable td.label,
@@ -232,6 +240,11 @@ table.dataTable td #urlLink {
   text-align: left;
   margin: 10px;
   margin-left: 1px;
+}
+
+.datatableFooterMessage__item {
+  // One line of footer text, the same gap the other messages get from the <br /> between them.
+  margin-top: 18px;
 }
 
 .dataTablePages {

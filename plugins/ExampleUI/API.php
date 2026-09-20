@@ -23,17 +23,17 @@ use Piwik\Period\Range;
  */
 class API extends \Piwik\Plugin\API
 {
-    public static $disableRandomness = false;
+    public static bool $disableRandomness = false;
 
-    public function getTemperaturesEvolution(string $date, string $period)
+    public function getTemperaturesEvolution(string $date, string $period): DataTable
     {
-        $temperatures = array();
+        $temperatures = [];
 
-        $date   = Date::factory('2013-10-10', 'UTC');
-        $period = new Range($period, 'last30');
-        $period->setDefaultEndDate($date);
+        $endDate = Date::factory('2013-10-10', 'UTC');
+        $range   = new Range($period, 'last30');
+        $range->setDefaultEndDate($endDate);
 
-        foreach ($period->getSubperiods() as $subPeriod) {
+        foreach ($range->getSubperiods() as $subPeriod) {
             if (self::$disableRandomness) {
                 $server1 = 50;
                 $server2 = 40;
@@ -42,27 +42,25 @@ class API extends \Piwik\Plugin\API
                 $server2 = mt_rand(40, 110);
             }
 
-            $value = array('server1' => $server1, 'server2' => $server2);
-
-            $temperatures[$subPeriod->getLocalizedShortString()] = $value;
+            $temperatures[$subPeriod->getLocalizedShortString()] = ['server1' => $server1, 'server2' => $server2];
         }
 
         return DataTable::makeFromIndexedArray($temperatures);
     }
 
-    public function getTemperatures()
+    public function getTemperatures(): DataTable
     {
-        $xAxis = array(
+        $xAxis = [
             '0h', '1h', '2h', '3h', '4h', '5h', '6h', '7h', '8h', '9h', '10h', '11h',
             '12h', '13h', '14h', '15h', '16h', '17h', '18h', '19h', '20h', '21h', '22h', '23h',
-        );
+        ];
 
         $temperatureValues = array_slice(range(50, 90), 0, count($xAxis));
         if (!self::$disableRandomness) {
             shuffle($temperatureValues);
         }
 
-        $temperatures = array();
+        $temperatures = [];
         foreach ($xAxis as $i => $xAxisLabel) {
             $temperatures[$xAxisLabel] = $temperatureValues[$i];
         }
@@ -70,9 +68,9 @@ class API extends \Piwik\Plugin\API
         return DataTable::makeFromIndexedArray($temperatures);
     }
 
-    public function getPlanetRatios()
+    public function getPlanetRatios(): DataTable
     {
-        $planetRatios = array(
+        $planetRatios = [
             'Mercury' => 0.382,
             'Venus'   => 0.949,
             'Earth'   => 1.00,
@@ -81,21 +79,24 @@ class API extends \Piwik\Plugin\API
             'Saturn'  => 9.449,
             'Uranus'  => 4.007,
             'Neptune' => 3.883,
-        );
+        ];
 
         return DataTable::makeFromIndexedArray($planetRatios);
     }
 
-    public function getPlanetRatiosWithLogos()
+    public function getPlanetRatiosWithLogos(): DataTable
     {
         $planetsDataTable = $this->getPlanetRatios();
 
         foreach ($planetsDataTable->getRows() as $row) {
-            $logo = sprintf('plugins/ExampleUI/images/icons-planet/%s.png', strtolower($row->getColumn('label')));
-            $url = sprintf('http://en.wikipedia.org/wiki/%s', $row->getColumn('label'));
+            $label = $row->getColumn('label');
 
-            $row->addMetadata('logo', $logo);
-            $row->addMetadata('url', $url);
+            if (!is_string($label)) {
+                continue;
+            }
+
+            $row->addMetadata('logo', sprintf('plugins/ExampleUI/images/icons-planet/%s.png', strtolower($label)));
+            $row->addMetadata('url', sprintf('http://en.wikipedia.org/wiki/%s', $label));
         }
 
         return $planetsDataTable;

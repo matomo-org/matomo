@@ -20,6 +20,12 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		
+		<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>16.7%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>33.3%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>33.3%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>50%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>0%</revenue_percent_of_total>
 		<avg_time_on_site>1</avg_time_on_site>
 		<bounce_rate>100%</bounce_rate>
 		<nb_actions_per_visit>1</nb_actions_per_visit>
@@ -45,6 +51,12 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		
+		<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>66.7%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>33.3%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>33.3%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>0%</revenue_percent_of_total>
 		<avg_time_on_site>1082</avg_time_on_site>
 		<bounce_rate>0%</bounce_rate>
 		<nb_actions_per_visit>4</nb_actions_per_visit>
@@ -70,6 +82,12 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		
+		<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>16.7%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>33.3%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>33.3%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>50%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>0%</revenue_percent_of_total>
 		<avg_time_on_site>0</avg_time_on_site>
 		<bounce_rate>100%</bounce_rate>
 		<nb_actions_per_visit>1</nb_actions_per_visit>

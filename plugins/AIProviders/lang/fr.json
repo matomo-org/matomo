@@ -1,0 +1,8 @@
+{
+    "AIProviders": {
+        "ApiKey": "Clé API",
+        "DefaultBadge": "Par défaut",
+        "Model": "Modèle",
+        "TestingConnection": "Tests en cours…"
+    }
+}

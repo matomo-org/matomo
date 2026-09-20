@@ -10,11 +10,10 @@
  * CoreVue/Commands/Build.php, which sets MATOMO_CURRENT_PLUGIN and MATOMO_ALL_PLUGINS.
  *
  * Usage:
- *   node vite-runner.mjs <plugins/Name>            build <Name>.umd.js + <Name>.umd.min.js
+ *   node vite-runner.mjs <plugins/Name>            build <Name>.umd.min.js
  *   node vite-runner.mjs <plugins/Name> --watch    watch and rebuild <Name>.development.umd.js
  *
- * A normal build runs two passes (unminified, then minified) because Vite emits a single artifact
- * per invocation. The phase is communicated to vite.config.ts through MATOMO_VUE_PHASE.
+ * The phase is communicated to vite.config.ts through MATOMO_VUE_PHASE.
  */
 
 import path from 'node:path';
@@ -46,7 +45,6 @@ try {
   if (watch) {
     await runPhase('dev', { build: { watch: {} } });
   } else {
-    await runPhase('prod');
     await runPhase('min');
   }
 } catch (error) {

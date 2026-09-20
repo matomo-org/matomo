@@ -26,12 +26,21 @@ describe("DeactivatedFeatures", function () {
     });
 
 
-    async function setFeatures(idSite, vLog, vProfile) {
+    async function setFeatures(idSite, vLog, vProfile, vAggregatedRealtime = 0) {
         await testEnvironment.callApi("SitesManager.updateSite", {
             idSite: idSite, settingValues: {
                 Live: [
                     {name: 'disable_visitor_log', value: vLog},
                     {name: 'disable_visitor_profile', value: vProfile},
+                ]
+            }
+        });
+        // the aggregated real-time setting is only exposed (writable) once the visits log is
+        // disabled, so it has to be set in a second call
+        await testEnvironment.callApi("SitesManager.updateSite", {
+            idSite: idSite, settingValues: {
+                Live: [
+                    {name: 'enable_aggregated_realtime_reports', value: vAggregatedRealtime},
                 ]
             }
         });
@@ -73,6 +82,24 @@ describe("DeactivatedFeatures", function () {
 
         const realtimemap = await page.$('#secondNavBar .navbar a[href*="UserCountryMap_RealTimeMap"]');
         expect(realtimemap).to.be.not.ok;
+    });
+
+    it('realtime widget shows aggregated counters only when only aggregated real-time reports enabled', async function () {
+        await setFeatures(1, 1, 1, 1);
+        // render the widget in isolation to avoid the reporting page's redirect/polling timing
+        await page.goto("?module=Widgetize&action=iframe&moduleToWidgetize=Live&actionToWidgetize=widget&idSite=1&period=day&date=today");
+
+        // the aggregated "Last 24 hours" / "Last 30 minutes" counters are shown
+        await page.waitForSelector('#visitsTotal', {visible: true});
+        const total = await page.$('#visitsTotal');
+        expect(total).to.be.ok;
+
+        // but no individual visitor stream and no live controls are shown
+        const stream = await page.$('#visitsLive');
+        expect(stream).to.be.not.ok;
+
+        const footer = await page.$('.visitsLiveFooter');
+        expect(footer).to.be.not.ok;
     });
 
     it('it should not show visits log, when opened directly but disabled', async function () {
@@ -273,6 +300,11 @@ describe("DeactivatedFeatures", function () {
 
         const profile = await page.$('#LivePluginSettings #disable_visitor_profile');
         expect(profile).to.be.not.ok;
+
+        // even though disable_visitor_log is config-controlled (non-writable, so omitted from the
+        // payload), the aggregated real-time setting must still be reachable - it is gated server-side
+        const aggregated = await page.$('#LivePluginSettings #enable_aggregated_realtime_reports');
+        expect(aggregated).to.be.ok;
     });
 
     it('measurable settings for live plugin should be available by default', async function () {
@@ -286,6 +318,36 @@ describe("DeactivatedFeatures", function () {
 
         const profile = await page.$('[idsite="1"] #disable_visitor_profile');
         expect(profile).to.be.ok;
+    });
+
+    it('measurable aggregated real-time setting is available when the site visits log is disabled', async function () {
+        await setFeatures(1, 1, 0, 0); // disable this site's visits log
+        await page.goto("?module=SitesManager&action=index&idSite=1");
+        await page.waitForNetworkIdle();
+        await page.click('[idsite="1"] .icon-edit');
+        await page.waitForNetworkIdle();
+
+        // the per-site "Enable aggregated real-time reports" setting is exposed (server-side gate)
+        await page.waitForSelector('[idsite="1"] #enable_aggregated_realtime_reports', {visible: true});
+        const aggregated = await page.$('[idsite="1"] #enable_aggregated_realtime_reports');
+        expect(aggregated).to.be.ok;
+    });
+
+    it('measurable aggregated real-time setting is available when the visits log is disabled globally', async function () {
+        await setConfig(1, 1); // disable the visits log globally -> disable_visitor_log is non-writable per site
+        await page.goto("?module=SitesManager&action=index&idSite=1");
+        await page.waitForNetworkIdle();
+        await page.click('[idsite="1"] .icon-edit');
+        await page.waitForNetworkIdle();
+
+        // the per-site disable_visitor_log is hidden (non-writable), but the aggregated setting must
+        // still be reachable so the per-site opt-in is not lost
+        const log = await page.$('[idsite="1"] #disable_visitor_log');
+        expect(log).to.be.not.ok;
+
+        await page.waitForSelector('[idsite="1"] #enable_aggregated_realtime_reports', {visible: true});
+        const aggregated = await page.$('[idsite="1"] #enable_aggregated_realtime_reports');
+        expect(aggregated).to.be.ok;
     });
 
     it('measurable settings for live plugin should be available by default', async function () {

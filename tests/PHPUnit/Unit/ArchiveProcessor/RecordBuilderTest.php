@@ -1667,6 +1667,45 @@ class RecordBuilderTest extends TestCase
         $this->assertFalse($recordBuilder->isBuilderForAtLeastOneOf($archiveProcessor, ['AnotherPlugin_anotherReport2', 'AThirdPlugin_anotherReport3']));
     }
 
+    public function testQuerySingleBlobRowsReadsThroughTheArchiveProcessorInsteadOfBuildingItsOwnArchive()
+    {
+        $recordBuilder = new class () extends ArchiveProcessor\RecordBuilder {
+            public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
+            {
+                return [];
+            }
+
+            protected function aggregate(ArchiveProcessor $archiveProcessor): array
+            {
+                return [];
+            }
+
+            public function queryRows(ArchiveProcessor $archiveProcessor, string $recordName): iterable
+            {
+                return $this->querySingleBlobRows($archiveProcessor, $recordName);
+            }
+        };
+
+        $blobRows = [[
+            'name' => 'TestPlugin_myReport',
+            'idsite' => 1,
+            'date1' => '2020-03-04',
+            'date2' => '2020-03-04',
+            'value' => 'the blob',
+            'ts_archived' => '2020-03-05 00:00:00',
+        ]];
+
+        // the record path must go through the archive processor's own Archive: a second instance would launch
+        // archiving for the subperiods again, which can replace an archive this build already resolved
+        $archiveProcessor = $this->createMock(ArchiveProcessor::class);
+        $archiveProcessor->expects($this->once())
+            ->method('querySingleBlobRecord')
+            ->with('TestPlugin_myReport')
+            ->willReturn($blobRows);
+
+        $this->assertSame($blobRows, $recordBuilder->queryRows($archiveProcessor, 'TestPlugin_myReport'));
+    }
+
     public function getMockArchiveProcessor(
         string $period = 'day',
         ?array $requestedReports = null,

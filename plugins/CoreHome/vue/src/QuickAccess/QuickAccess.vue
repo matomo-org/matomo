@@ -11,25 +11,17 @@
     class="quickAccessInside"
     v-focus-anywhere-but-here="{ blur: onBlur }"
   >
-    <!-- TODO: use the SearchInput component here instead of recreating its DOM. -->
-    <div class="mtm-searchInput">
-      <span class="mtm-searchInput__icon">
-        <span class="icon-search" />
-      </span>
-      <input
-        class="mtm-searchInput__input browser-default"
-        @keydown="onKeypress($event)"
-        @focus="searchActive = true"
-        v-model="searchTerm"
-        type="text"
-        tabindex="5"
-        v-focus-if="{ focused: searchActive }"
-        v-tooltips
-        :title="quickAccessTitle"
-        :placeholder="translate('General_Search')"
-        ref="input"
-      />
-    </div>
+    <!-- attrs/listeners fall through to the input; v-tooltips lands on SearchInput's root -->
+    <SearchInput
+      ref="searchInput"
+      v-model="searchTerm"
+      :focused="searchActive"
+      v-tooltips
+      :title="quickAccessTitle"
+      tabindex="5"
+      @keydown="onKeypress($event)"
+      @focus="searchActive = true"
+    />
     <div
       class="dropdown quickAccessDropdown"
       v-show="searchTerm && searchActive"
@@ -40,7 +32,7 @@
       <ul v-for="subcategory in menuItems" :key="subcategory.title">
         <li
           class="quick-access-category"
-          @click="searchTerm = subcategory.title;searchMenu(searchTerm)"
+          @click="searchTerm = subcategory.title"
         >
           {{ subcategory.title }}
         </li>
@@ -102,7 +94,7 @@
 <script lang="ts">
 import { DeepReadonly, defineComponent } from 'vue';
 import FocusAnywhereButHere from '../FocusAnywhereButHere/FocusAnywhereButHere';
-import FocusIf from '../FocusIf/FocusIf';
+import SearchInput from '../SearchInput/SearchInput.vue';
 import { translate } from '../translate';
 import SitesStore from '../SiteSelector/SitesStore';
 import Site from '../SiteSelector/Site';
@@ -177,12 +169,23 @@ function scrollFirstElementIntoView(element: HTMLElement) {
 
 export default defineComponent({
   name: 'QuickAccess',
+  components: {
+    SearchInput,
+  },
   directives: {
     FocusAnywhereButHere,
-    FocusIf,
     Tooltips,
   },
   watch: {
+    // driven by the field's value rather than by keydown, so that changes made without a keystroke
+    // (committing an IME candidate with the mouse, pasting from the context menu) also search
+    searchTerm(newValue: string) {
+      if (!newValue) {
+        return;
+      }
+
+      this.searchMenu(newValue);
+    },
     searchActive(newValue: boolean) {
       const root = this.$refs.root as HTMLElement;
       if (!root || !root.parentElement) {
@@ -282,6 +285,12 @@ export default defineComponent({
       const isTabKey = event.which === 9;
       const isEscKey = event.which === 27;
 
+      // while an IME is composing, these keys belong to the candidate window, not to the results
+      if (event.isComposing) {
+        this.searchActive = true;
+        return;
+      }
+
       if (event.which === 38) {
         this.highlightPreviousItem();
         event.preventDefault();
@@ -297,9 +306,9 @@ export default defineComponent({
       } else if (isTabKey) {
         this.searchActive = false;
       } else {
+        // the search itself runs off the searchTerm watcher
         setTimeout(() => {
           this.searchActive = true;
-          this.searchMenu(this.searchTerm);
         });
       }
     },
@@ -336,9 +345,7 @@ export default defineComponent({
     deactivateSearch() {
       this.searchTerm = '';
       this.searchActive = false;
-      if (this.$refs.input) {
-        (this.$refs.input as HTMLElement).blur();
-      }
+      (this.$refs.searchInput as { blur?: () => void } | undefined)?.blur?.();
     },
     makeSureSelectedItemIsInViewport() {
       const element = this.getCurrentlySelectedElement();

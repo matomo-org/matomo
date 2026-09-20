@@ -13,6 +13,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Auth;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Exception\RedirectException;
 use Piwik\Plugins\Login\Controller;
 use Piwik\Plugins\Login\PasswordResetter;
 use Piwik\Nonce;
@@ -146,6 +147,18 @@ class ControllerTest extends IntegrationTestCase
         $this->assertTrue((new Model())->isPendingUser('test'));
         // and the set password form is rendered again instead
         $this->assertStringContainsString('invitation_form', $response);
+    }
+
+    public function testAcceptInvitationRejectsInvitationWithoutExpiry()
+    {
+        [, $token] = $this->generateTestUser();
+
+        (new Model())->updateUserFields('test', ['invite_expired_at' => null]);
+        $_POST['token'] = $token;
+
+        $this->expectException(RedirectException::class);
+
+        $this->controller->acceptInvitation();
     }
 
     public function testAuthenticateAndRedirectRebuildsFormRedirectUrl()

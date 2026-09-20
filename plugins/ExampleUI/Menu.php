@@ -13,8 +13,11 @@ use Piwik\Menu\MenuAdmin;
 
 class Menu extends \Piwik\Plugin\Menu
 {
+    /**
+     * @return void
+     */
     public function configureAdminMenu(MenuAdmin $menu)
     {
-        $menu->addPlatformItem('ExampleUI_UiNotifications', $this->urlForAction('notifications'), $order = 10);
+        $menu->addPlatformItem('ExampleUI_UiNotifications', $this->urlForAction('notifications'), 10);
     }
 }

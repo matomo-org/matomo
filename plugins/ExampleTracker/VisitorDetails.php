@@ -14,11 +14,18 @@ use Piwik\View;
 
 class VisitorDetails extends VisitorDetailsAbstract
 {
+    /**
+     * @param array<string, mixed> $visitor
+     * @return void
+     */
     public function extendVisitorDetails(&$visitor)
     {
-        $visitor['myCustomVisitParam'] = isset($this->details['example_visit_dimension']) ? $this->details['example_visit_dimension'] : 'no-value';
+        $visitor['myCustomVisitParam'] = $this->details['example_visit_dimension'] ?? 'no-value';
     }
 
+    /**
+     * @param array<string, mixed> $visitorDetails
+     */
     public function renderIcons($visitorDetails)
     {
         if (empty($visitorDetails['myCustomVisitParam'])) {

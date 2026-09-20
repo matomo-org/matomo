@@ -10,6 +10,10 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>8</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>8</sum_daily_nb_users>
+		<nb_visits_percent_of_total>9.6%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>6.5%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>11.9%</bounce_count_percent_of_total>
 	</row>
 	<row>
 		<label>Windows / Firefox / 1024x768</label>
@@ -21,6 +25,10 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>25</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>25</sum_daily_nb_users>
+		<nb_visits_percent_of_total>6%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>4%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>9.9%</bounce_count_percent_of_total>
 	</row>
 	<row>
 		<label>Others</label>
@@ -32,5 +40,9 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>85</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>85</sum_daily_nb_users>
+		<nb_visits_percent_of_total>84.4%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>89.5%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>78.2%</bounce_count_percent_of_total>
 	</row>
 </result>

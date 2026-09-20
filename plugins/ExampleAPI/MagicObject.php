@@ -11,15 +11,15 @@ namespace Piwik\Plugins\ExampleAPI;
 
 /**
  * Magic Object
- *
  */
 class MagicObject
 {
-    public function incredible()
+    public string $great = 'formidable';
+
+    protected string $wonderful = 'magnifique';
+
+    public function incredible(): string
     {
         return 'Incroyable';
     }
-
-    protected $wonderful = 'magnifique';
-    public $great = 'formidable';
 }

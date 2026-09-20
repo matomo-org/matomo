@@ -24,6 +24,12 @@
 			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
 			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
 			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
+			<nb_visits_percent_of_total>The percentage of the report's total Visits that this row represents.</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>The percentage of the report's total Actions that this row represents.</nb_actions_percent_of_total>
+			<nb_visits_converted_percent_of_total>The percentage of the report's total Visits with Conversions that this row represents.</nb_visits_converted_percent_of_total>
+			<nb_conversions_percent_of_total>The percentage of the report's total Conversions that this row represents.</nb_conversions_percent_of_total>
+			<bounce_count_percent_of_total>The percentage of the report's total Bounces that this row represents.</bounce_count_percent_of_total>
+			<revenue_percent_of_total>The percentage of the report's total Revenue that this row represents.</revenue_percent_of_total>
 		</metricsDocumentation>
 		<processedMetrics>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
@@ -38,6 +44,12 @@
 			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<nb_actions_per_visit>number</nb_actions_per_visit>
+			<nb_visits_percent_of_total>percent</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>percent</nb_actions_percent_of_total>
+			<nb_visits_converted_percent_of_total>percent</nb_visits_converted_percent_of_total>
+			<nb_conversions_percent_of_total>percent</nb_conversions_percent_of_total>
+			<bounce_count_percent_of_total>percent</bounce_count_percent_of_total>
+			<revenue_percent_of_total>percent</revenue_percent_of_total>
 		</metricTypes>
 		<actionToLoadSubTables>getCustomDimension</actionToLoadSubTables>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=CustomDimensions&amp;apiAction=getCustomDimension&amp;idDimension=1&amp;period=year&amp;date=2013-01-23</imageGraphUrl>
@@ -51,12 +63,24 @@
 		<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 		<bounce_rate>Bounce Rate</bounce_rate>
 		<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
+		<nb_visits_percent_of_total>Visits (% of total)</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>Actions (% of total)</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>Visits with Conversions (% of total)</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>Conversions (% of total)</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>Bounces (% of total)</bounce_count_percent_of_total>
+		<revenue_percent_of_total>Revenue (% of total)</revenue_percent_of_total>
 	</columns>
 	<reportData>
 		<row>
 			<label>value1</label>
 			<nb_visits>1</nb_visits>
 			<nb_actions>1</nb_actions>
+			<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>16.7%</nb_actions_percent_of_total>
+			<nb_visits_converted_percent_of_total>33.3%</nb_visits_converted_percent_of_total>
+			<nb_conversions_percent_of_total>33.3%</nb_conversions_percent_of_total>
+			<bounce_count_percent_of_total>50%</bounce_count_percent_of_total>
+			<revenue_percent_of_total>0%</revenue_percent_of_total>
 			<nb_actions_per_visit>1</nb_actions_per_visit>
 			<avg_time_on_site>00:00:01</avg_time_on_site>
 			<bounce_rate>100%</bounce_rate>
@@ -65,6 +89,12 @@
 			<label>value5 1</label>
 			<nb_visits>1</nb_visits>
 			<nb_actions>4</nb_actions>
+			<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>66.7%</nb_actions_percent_of_total>
+			<nb_visits_converted_percent_of_total>33.3%</nb_visits_converted_percent_of_total>
+			<nb_conversions_percent_of_total>33.3%</nb_conversions_percent_of_total>
+			<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
+			<revenue_percent_of_total>0%</revenue_percent_of_total>
 			<nb_actions_per_visit>4</nb_actions_per_visit>
 			<avg_time_on_site>00:18:02</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
@@ -73,6 +103,12 @@
 			<label>Value not defined</label>
 			<nb_visits>1</nb_visits>
 			<nb_actions>1</nb_actions>
+			<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>16.7%</nb_actions_percent_of_total>
+			<nb_visits_converted_percent_of_total>33.3%</nb_visits_converted_percent_of_total>
+			<nb_conversions_percent_of_total>33.3%</nb_conversions_percent_of_total>
+			<bounce_count_percent_of_total>50%</bounce_count_percent_of_total>
+			<revenue_percent_of_total>0%</revenue_percent_of_total>
 			<nb_actions_per_visit>1</nb_actions_per_visit>
 			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>100%</bounce_rate>

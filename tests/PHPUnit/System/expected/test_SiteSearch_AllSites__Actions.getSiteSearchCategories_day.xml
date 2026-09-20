@@ -7,6 +7,8 @@
 				<nb_visits>2</nb_visits>
 				<nb_actions>3</nb_actions>
 				<nb_pages_per_search>1.5</nb_pages_per_search>
+				<nb_visits_percent_of_total>100%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>100%</nb_actions_percent_of_total>
 				<segment>siteSearchCategory==Search+Category</segment>
 			</row>
 		</result>
@@ -16,6 +18,8 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_pages_per_search>1</nb_pages_per_search>
+				<nb_visits_percent_of_total>50%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>50%</nb_actions_percent_of_total>
 				<segment>siteSearchCategory==Bad+No+Result+Category+%3A%28</segment>
 			</row>
 			<row>
@@ -23,6 +27,8 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_pages_per_search>1</nb_pages_per_search>
+				<nb_visits_percent_of_total>50%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>50%</nb_actions_percent_of_total>
 				<segment>siteSearchCategory==Category</segment>
 			</row>
 		</result>
@@ -39,6 +45,8 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_pages_per_search>1</nb_pages_per_search>
+				<nb_visits_percent_of_total>100%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>100%</nb_actions_percent_of_total>
 				<segment>siteSearchCategory==Bad+No+Result+Category+bis+%3A%28</segment>
 			</row>
 		</result>

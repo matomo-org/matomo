@@ -78,6 +78,8 @@ class SetGetReferrerTypeSubtables extends DataTable\BaseFilter
                         'idSubtable' => $typeReferrer,
                         'disable_generic_filters' => true,
                         'disable_queued_filters' => !$this->expanded,
+                        // the outer request computes percent-of-total metrics for subtable rows itself
+                        'percent_of_total' => 0,
                     ], []);
 
                     $row->setSubtable($subtable);

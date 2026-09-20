@@ -10,6 +10,10 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>21</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>21</sum_daily_nb_users>
+		<nb_visits_percent_of_total>25.1%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>17%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>29.8%</bounce_count_percent_of_total>
 		<segment>city==Toronto;regionCode==ON;countryCode==ca</segment>
 		<city_name>Toronto</city_name>
 		<region>ON</region>
@@ -28,6 +32,10 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>24</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>24</sum_daily_nb_users>
+		<nb_visits_percent_of_total>23%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>20.4%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>20.2%</bounce_count_percent_of_total>
 		<segment>city==Melbourne;regionCode==VIC;countryCode==au</segment>
 		<city_name>Melbourne</city_name>
 		<region>VIC</region>
@@ -46,6 +54,10 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>73</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>73</sum_daily_nb_users>
+		<nb_visits_percent_of_total>51.9%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>62.7%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>50%</bounce_count_percent_of_total>
 		<logo>plugins/Morpheus/icons/dist/flags/xx.png</logo>
 	</row>
 </result>
