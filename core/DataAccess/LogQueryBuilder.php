@@ -39,6 +39,11 @@ class LogQueryBuilder
      */
     private const LOG_VISIT_REFERENCE_REGEX = '/(?<![a-zA-Z0-9_])`?log_visit`?\s*\./i';
 
+    /**
+     * Index on log_visit (idsite, visit_last_action_time) that serves the order by of the visits log.
+     */
+    private const LOG_VISIT_TIME_INDEX = 'index_idsite_datetime';
+
     private LogTablesProvider $logTableProvider;
 
     /**
@@ -209,6 +214,7 @@ class LogQueryBuilder
         }
 
         $alias = self::LOG_VISIT_OUTER_ALIAS;
+        $outerWhere = $this->aliasLogVisitTable($where, $alias);
 
         $visitMatchesSegment = $this->buildSelectQuery(
             '1',
@@ -222,8 +228,8 @@ class LogQueryBuilder
 
         return $this->buildSelectQuery(
             $this->aliasLogVisitTable($select, $alias),
-            Common::prefixTable('log_visit') . " AS $alias",
-            $this->getWhereMatchBoth($this->aliasLogVisitTable($where, $alias), "EXISTS ($visitMatchesSegment)"),
+            Common::prefixTable('log_visit') . " AS $alias" . $this->forceVisitTimeIndex($outerWhere),
+            $this->getWhereMatchBoth($outerWhere, "EXISTS ($visitMatchesSegment)"),
             false,
             $this->aliasLogVisitTable($orderBy, $alias),
             $limitAndOffset
@@ -271,6 +277,29 @@ class LogQueryBuilder
     private function aliasLogVisitTable($sqlExpression, $alias)
     {
         return preg_replace('/(?<![a-zA-Z0-9_])log_visit\./', $alias . '.', (string) $sqlExpression);
+    }
+
+    /**
+     * The index hint the rewritten query needs, if any.
+     *
+     * MariaDB before 11.4 matches only idsite on index_idsite_datetime when it reads the outer table
+     * of a correlated subquery, so it walks a site's whole history instead of the date range that was
+     * asked for, and the rewritten query ends up costing more than the group by it replaces. Naming
+     * the index makes it use both columns, which is what MySQL and newer MariaDB pick on their own,
+     * so the hint costs them nothing.
+     *
+     * Looking up a single visitor has a much better index and must not be pushed onto this one.
+     *
+     * @param string $where  the conditions on the outer log_visit, already aliased
+     * @return string
+     */
+    private function forceVisitTimeIndex($where)
+    {
+        if (strpos($where, '.idvisitor') !== false) {
+            return '';
+        }
+
+        return ' FORCE INDEX (' . self::LOG_VISIT_TIME_INDEX . ')';
     }
 
     /**

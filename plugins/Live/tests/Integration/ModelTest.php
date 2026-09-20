@@ -330,7 +330,8 @@ class ModelTest extends IntegrationTestCase
         );
 
         // the joined table moves into a subquery, so the group by that removed the visits it
-        // duplicated is no longer needed
+        // duplicated is no longer needed. The visitor has a better index than the one the visits
+        // log walks by time, so this query is left to pick its own
         $expectedSql = ' SELECT log_visit_outer.*
                         FROM log_visit AS log_visit_outer
                         WHERE (
@@ -412,7 +413,7 @@ class ModelTest extends IntegrationTestCase
         // the condition on log_visit cannot be pulled out of the OR, so the whole segment stays
         // inside the subquery, where log_visit is available as well
         $expectedSql = ' SELECT log_visit_outer.*
-                        FROM log_visit AS log_visit_outer
+                        FROM log_visit AS log_visit_outer FORCE INDEX (index_idsite_datetime)
                         WHERE (
                             log_visit_outer.idsite in (?)
                             AND log_visit_outer.visit_last_action_time >= ?
@@ -434,6 +435,39 @@ class ModelTest extends IntegrationTestCase
         );
         $this->assertEquals(SegmentTest::removeExtraWhiteSpaces($expectedSql), SegmentTest::removeExtraWhiteSpaces($sql));
         $this->assertEquals(SegmentTest::removeExtraWhiteSpaces($expectedBind), SegmentTest::removeExtraWhiteSpaces($bind));
+    }
+
+    /**
+     * Some databases read the whole history of a site instead of the date range that was asked for
+     * unless the rewritten query names the index it walks, which costs more than the group by the
+     * rewrite removed. Looking up one visitor has a better index and has to keep using it.
+     */
+    public function testMakeLogVisitsQueryStringForcesTheVisitTimeIndexUnlessAVisitorIsLookedUp()
+    {
+        $model = new Model();
+        [$dateStart, $dateEnd] = $model->getStartAndEndDate($idSite = 1, 'month', '2010-01-01');
+
+        $query = function ($visitorId) use ($model, $dateStart, $dateEnd) {
+            [$sql] = $model->makeLogVisitsQueryString(
+                $idSite = 1,
+                $dateStart,
+                $dateEnd,
+                $segment = 'siteSearchCategory==Test',
+                $offset = 0,
+                $limit = 100,
+                $visitorId,
+                $minTimestamp = false,
+                $filterSortOrder = false
+            );
+
+            return $sql;
+        };
+
+        $this->assertStringContainsString(
+            'log_visit AS log_visit_outer FORCE INDEX (index_idsite_datetime)',
+            $query(false)
+        );
+        $this->assertStringNotContainsString('FORCE INDEX', $query('abc'));
     }
 
     public function testMakeLogVisitsQueryStringKeepsTheGroupByWhenIntersectingWithAClickedRowSegment()
