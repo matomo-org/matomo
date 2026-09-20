@@ -31,6 +31,14 @@ vi.mock('CoreHome', () => ({
   AjaxHelper: {
     post: mockPost,
   },
+  // needed by the ShopPricing block the footer renders once the details carry a variation.
+  // en-US grouping is enough here; the real formatter is locale driven and covered elsewhere
+  NumberFormatter: {
+    formatNumber: (value: number, max: number, min: number) => Number(value).toLocaleString(
+      'en-US',
+      { maximumFractionDigits: max, minimumFractionDigits: min },
+    ),
+  },
   MatomoUrl: {
     hashParsed: { value: {} },
     updateHash: vi.fn(),
@@ -87,7 +95,7 @@ const detailsResponse = {
   versions: [{ name: '1.2.3', readmeHtml: { description: '<p>readme</p>' } }],
 };
 
-function mountModal() {
+function mountModal(renderCta = false) {
   return mount(PluginDetailsModal, {
     props: {
       modelValue: null,
@@ -112,7 +120,7 @@ function mountModal() {
         externalLink: (url: string) => url,
       },
       stubs: {
-        CTAContainer: true,
+        ...(renderCta ? {} : { CTAContainer: true }),
         MissingReqsNotice: true,
       },
     },
@@ -220,6 +228,50 @@ describe('PluginDetailsModal', () => {
     expect(vmOf(wrapper).pluginShopVariations).toEqual([]);
     expect(vmOf(wrapper).pluginScreenshots).toEqual([]);
     expect(vmOf(wrapper).pluginChangelogUrl).toBe('');
+  });
+
+  it('offers no purchase link when the details the shop URL comes from could not be fetched', async () => {
+    mockPost.mockRejectedValue({ message: 'There was an error reading the response' });
+
+    // CTAContainer is rendered for real here: the card row alone cannot supply a shop variation,
+    // so an unguarded "add to cart" would link to the empty string and reload the page
+    const wrapper = mountModal(true);
+    await wrapper.setProps({ modelValue: { ...cardRow, isEligibleForFreeTrial: true } });
+    await flushPromises();
+
+    expect(wrapper.find('.alert-danger').text()).toContain('There was an error reading');
+    expect(wrapper.find('.addToCartLink').exists()).toBe(false);
+    expect(wrapper.find('.shopPricing').exists()).toBe(false);
+  });
+
+  it('offers the purchase link once the details carry a shop variation', async () => {
+    mockPost.mockResolvedValue({
+      ...detailsResponse,
+      isEligibleForFreeTrial: true,
+      shop: {
+        url: 'https://shop.example',
+        variations: [{
+          name: 'Business',
+          prettyPrice: '$100',
+          period: 'year',
+          price: 100,
+          currency: 'USD',
+          recommended: true,
+          addToCartUrl: 'https://shop.example/cart',
+        }],
+        reviews: {},
+      },
+    });
+
+    const wrapper = mountModal(true);
+    await wrapper.setProps({ modelValue: { ...cardRow, isEligibleForFreeTrial: true } });
+    await flushPromises();
+
+    expect(wrapper.find('.addToCartLink').attributes('href')).toBe('https://shop.example/cart');
+    // the free trial dropdown this used to pin is now the ShopPricing block, and its lead-in is
+    // what tells a trial-eligible visitor the price they are looking at starts as a trial
+    expect(wrapper.find('.shopPricing').exists()).toBe(true);
+    expect(wrapper.find('.shopPricing__leadIn').exists()).toBe(true);
   });
 
   it('falls back to a generic message when the failure carries none', async () => {

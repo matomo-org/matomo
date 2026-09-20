@@ -118,8 +118,8 @@ class ThemeStyles
 
     /**
      * Semantic "this has failed / is blocking" red, completing $colorSuccess and $colorWarning.
-     * Kept theme-independent from $colorBrand for the same reason, and a pair rather than the flat
-     * @color-red-matomo it replaces, which does not reach 4.5:1 on a dark background.
+     * Kept theme-independent from $colorBrand for the same reason, and a pair rather than
+     * the flat @color-red-matomo it replaces, which does not reach 4.5:1 on a dark background.
      *
      * @var string|array<string>
      * @since Matomo 6.0.0

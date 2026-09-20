@@ -14,7 +14,7 @@
 // implicitly; with the esbuild based Vite build they have to be imported explicitly.
 import 'core-js/stable';
 
-import DOMPurify from 'dompurify';
+import { sanitize, sanitizeTooltip, sanitizeUrl } from './sanitize';
 import * as tslib from 'tslib';
 import 'abortcontroller-polyfill/dist/abortcontroller-polyfill-only';
 
@@ -30,30 +30,6 @@ Object.fromEntries = function fromEntries(it) {
 
 import './jqueryNativeEventTrigger';
 
-function hasSafeRel(rel: string) {
-  const parts = rel.split(/\s+/);
-  return parts.includes('noopener') && parts.includes('noreferrer');
-}
-
-// remove target=_blank if a link doesn't have noopener noreferrer
-DOMPurify.addHook('afterSanitizeAttributes', (node: Element) => {
-  if (node.hasAttribute('target')
-    && node.getAttribute('target') === '_blank'
-    && (!node.hasAttribute('rel')
-      || !hasSafeRel(node.getAttribute('rel')))
-  ) {
-    node.removeAttribute('target');
-  }
-});
-
-window.vueSanitize = function vueSanitize(val: unknown): string {
-  // Sanitised snippets never need a stylesheet, so drop any <style> element.
-  return DOMPurify.sanitize(val, { ADD_ATTR: ['target'], FORBID_TAGS: ['style'] });
-};
-
-// Returns the given URL if DOMPurify considers it a valid `href` value (i.e. it uses an allowed
-// scheme such as http(s)/mailto/tel and contains no dangerous payload), otherwise an empty string.
-// Use it to guard dynamic `:href`/`:src` bindings, e.g. `:href="$sanitizeUrl(url)"`.
-window.vueSanitizeUrl = function vueSanitizeUrl(url: string): string {
-  return DOMPurify.isValidAttribute('a', 'href', url) ? url : '';
-};
+window.vueSanitize = sanitize;
+window.vueSanitizeTooltip = sanitizeTooltip;
+window.vueSanitizeUrl = sanitizeUrl;

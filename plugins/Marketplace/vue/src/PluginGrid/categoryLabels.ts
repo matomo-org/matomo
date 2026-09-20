@@ -38,16 +38,23 @@ const TYPE_TAB_KEYS: Record<string, string> = {
  * The display name for a category slug, or '' for no category. Falls back to the slug itself, so a
  * category with no key yet still reads. translateOrDefault, not translate: an unknown key makes
  * translate() return "The string ... was not loaded in javascript".
+ *
+ * Capitalised as English, not in the reader's locale: the slug is an ASCII identifier and half of
+ * what it builds is a translation key. Left to the browser's locale, 'insights' capitalises to
+ * 'Insights' everywhere except Turkish and Azerbaijani, where the i takes a dot - so those two
+ * would look up Marketplace_Categoryİnsights, a key nobody wrote, miss, and fall back to a
+ * spelling of the slug no other reader sees.
  */
 export function categoryLabel(slug: string): string {
   if (!slug) {
     return '';
   }
 
-  const key = `Marketplace_Category${ucfirst(slug)}`;
+  const name = ucfirst(slug, 'en');
+  const key = `Marketplace_Category${name}`;
   const label = translateOrDefault(key);
 
-  return label === key ? ucfirst(slug) : label;
+  return label === key ? name : label;
 }
 
 export function tabLabel(tab: Pick<PluginTab, 'id'|'isCategory'>): string {

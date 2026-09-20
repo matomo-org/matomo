@@ -23,7 +23,9 @@ export function coreHomeMock() {
     // Returns the key, which is what an untranslated key does in the browser: categoryLabel()
     // then falls back to ucfirst(slug), the path most category slugs really take.
     translateOrDefault: (key: string) => key,
-    ucfirst: (value: string) => `${value.charAt(0).toUpperCase()}${value.slice(1)}`,
+    // honours the locale argument, as CoreHome's does: categoryLabel() passes 'en' on purpose
+    ucfirst: (value: string, locale?: string) => `${
+      value.charAt(0).toLocaleUpperCase(locale || undefined)}${value.slice(1)}`,
     MatomoUrl: {
       urlParsed: { value: {} },
       parsed: { value: { idSite: '1' } },

@@ -22,6 +22,7 @@ use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\ProfessionalServices\Advertising;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Plugin;
+use Piwik\Version;
 
 /**
  * @group Marketplace
@@ -144,6 +145,45 @@ class PluginsTest extends IntegrationTestCase
     {
         $plugin = $this->plugins->getPluginInfo('fooBarBaz');
         $this->assertSame([], $plugin);
+    }
+
+    public function testEnrichmentReplacesTheEmbeddedLicenseWithTheOneTheFlagsCameFrom()
+    {
+        // PaidPlugin1's own entry embeds "license": null while the consumer response holds an
+        // exceeded one. Plugins\InvalidLicenses classifies the admin-page license banners off
+        // consumer.license, so an enriched plugin must not carry a different answer from the flags
+        // beside it — that is how the banner and the plugin card came to disagree.
+        // activated, because enrichPluginInformation() only resolves license state for an installed
+        // plugin — which is also the only kind InvalidLicenses classifies
+        $this->plugins->setActivatedPluginNames(['PaidPlugin1']);
+        $this->service->returnFixture('v2.0_plugins_PaidPlugin1_info.json');
+        $this->consumerService->authenticate('123456789');
+        $this->consumerService->returnFixture(
+            'v2.0_consumer-num_users-201-access_token-consumer2_paid1.json'
+        );
+
+        $plugin = $this->plugins->getPluginInfo('PaidPlugin1');
+
+        $this->assertNotEmpty($plugin['consumer']['license']);
+        $this->assertTrue($plugin['consumer']['license']['isExceeded']);
+        $this->assertTrue($plugin['hasExceededLicense']);
+    }
+
+    public function testLicenseInformationReportsAnExceededLicenseFromTheConsumerResponse()
+    {
+        // the positive half of the precedence: the consumer response is what has to be able to say
+        // "exceeded", because that is the state the plugin list's embedded copy can no longer be
+        // trusted for. Without this, nothing pins hasExceededLicense === true via the consumer.
+        $this->service->returnFixture('v2.0_plugins_PaidPlugin1_info.json');
+        $this->consumerService->authenticate('123456789');
+        $this->consumerService->returnFixture(
+            'v2.0_consumer-num_users-201-access_token-consumer2_paid1.json'
+        );
+
+        $plugin = $this->plugins->getLicenseValidInfo('PaidPlugin1');
+
+        $this->assertTrue($plugin['hasExceededLicense']);
+        $this->assertFalse($plugin['isMissingLicense']);
     }
 
     public function testLicenseInformationPrefersTheConsumerOverTheCopyEmbeddedInThePlugin()
@@ -349,6 +389,7 @@ class PluginsTest extends IntegrationTestCase
                 'url' => 'http://plugins.piwik.org/Barometer/changelog',
             ],
             'canBePurchased' => false,
+            'isNewBundle' => false,
             'isEligibleForFreeTrial' => false,
             'priceFrom' => null,
             'numDownloadsPretty' => '0',
@@ -442,6 +483,166 @@ class PluginsTest extends IntegrationTestCase
             'v2.0_plugins_PaidPlugin1_info-access_token-consumer3_paid1_custom2.json',
             false,
         ];
+
+        yield 'bundle the marketplace flagged as sold directly' => [
+            'NewBundle1',
+            'v2.0_plugins_NewBundle1_info.json',
+            false,
+        ];
+
+        // without the flag nothing changes: the bundle keeps the free-trial flow it had before
+        yield 'bundle the marketplace did not flag' => [
+            'LegacyBundle1',
+            'v2.0_plugins_LegacyBundle1_info.json',
+            true,
+        ];
+    }
+
+    /**
+     * @dataProvider getPluginInfoShouldSetNewBundleFlagTestData
+     */
+    public function testGetPluginInfoShouldSetNewBundleFlag(
+        string $pluginName,
+        string $fixtureName,
+        bool $isNewBundle
+    ): void {
+        $this->service->returnFixture($fixtureName);
+
+        $plugin = $this->plugins->getPluginInfo($pluginName);
+
+        self::assertArrayHasKey('isNewBundle', $plugin);
+        self::assertSame($isNewBundle, $plugin['isNewBundle']);
+    }
+
+    /**
+     * @return iterable<string, array<string|bool>>
+     */
+    public function getPluginInfoShouldSetNewBundleFlagTestData(): iterable
+    {
+        yield 'plugin that is no bundle' => [
+            'PaidPlugin1',
+            'v2.0_plugins_PaidPlugin1_info.json',
+            false,
+        ];
+
+        yield 'bundle the marketplace flagged as sold directly' => [
+            'NewBundle1',
+            'v2.0_plugins_NewBundle1_info.json',
+            true,
+        ];
+
+        yield 'bundle the marketplace did not flag' => [
+            'LegacyBundle1',
+            'v2.0_plugins_LegacyBundle1_info.json',
+            false,
+        ];
+    }
+
+    /**
+     * @dataProvider getSupportsNewBundlesTestData
+     */
+    public function testSupportsNewBundlesGatesOnTheCoreVersion(string $coreVersion, bool $expected): void
+    {
+        self::assertSame($expected, Plugins::supportsNewBundles($coreVersion));
+    }
+
+    /**
+     * @return iterable<string, array<string|bool>>
+     */
+    public function getSupportsNewBundlesTestData(): iterable
+    {
+        yield 'older minor' => ['5.13.9', false];
+        // PHP orders pre-releases alpha < beta < rc < release, and the branch this ships in
+        // reports 5.14.0-alpha while in development, so it has to count as supported
+        yield 'alpha of the supported version' => ['5.14.0-alpha', true];
+        yield 'beta of the supported version' => ['5.14.0-b1', true];
+        yield 'stable supported version' => ['5.14.0', true];
+        yield 'later minor' => ['5.15.2', true];
+        yield 'next major' => ['6.0.0-b1', true];
+    }
+
+    public function testGetPluginInfoSellsBundlesDirectlyOnThisCore(): void
+    {
+        // guards the bundle expectations below, which only hold while this core clears the gate
+        self::assertTrue(
+            Plugins::supportsNewBundles(),
+            'Bundle expectations assume a core that sells bundles directly; running ' . Version::VERSION
+        );
+
+        $this->service->returnFixture('v2.0_plugins_NewBundle1_info.json');
+        $plugin = $this->plugins->getPluginInfo('NewBundle1');
+
+        self::assertTrue($plugin['isNewBundle']);
+    }
+
+    public function testGetPluginInfoIgnoresTheMarketplaceFlagOnAnUnsupportedCore(): void
+    {
+        // the flag alone is not enough; a core below the threshold keeps the old behaviour
+        self::assertFalse(Plugins::supportsNewBundles('5.13.9'));
+    }
+
+    /**
+     * @dataProvider getShopCampaignTaggingTestData
+     */
+    public function testGetPluginInfoTagsAddToCartLinksWithCampaignParameters(
+        string $pluginName,
+        string $fixtureName,
+        string $expectedCampaign,
+        string $expectedContent
+    ): void {
+        $_GET['module'] = 'Marketplace';
+        $_GET['action'] = 'overview';
+
+        $this->service->returnFixture($fixtureName);
+
+        $plugin = $this->plugins->getPluginInfo($pluginName);
+
+        self::assertNotEmpty($plugin['shop']['variations']);
+
+        foreach ($plugin['shop']['variations'] as $variation) {
+            $query = parse_url($variation['addToCartUrl'], PHP_URL_QUERY);
+            parse_str($query, $params);
+
+            self::assertSame($expectedCampaign, $params['mtm_campaign']);
+            self::assertSame('in_app_marketplace', $params['mtm_group']);
+            self::assertSame($expectedContent, $params['mtm_content']);
+            self::assertSame('add_to_cart', $params['mtm_placement']);
+            self::assertSame('app.marketplace.overview', $params['mtm_medium']);
+            self::assertStringStartsWith('matomo_app_', $params['mtm_source']);
+
+            // the variation the shop needs to identify the product must survive tagging
+            self::assertArrayHasKey('add-to-cart', $params);
+        }
+    }
+
+    /**
+     * @return iterable<string, array<string>>
+     */
+    public function getShopCampaignTaggingTestData(): iterable
+    {
+        yield 'bundle gets the bundle campaign' => [
+            'NewBundle1',
+            'v2.0_plugins_NewBundle1_info.json',
+            'app_bundles',
+            'new_bundle1',
+        ];
+    }
+
+    public function testGetPluginInfoLeavesNonMatomoShopLinksUntouched(): void
+    {
+        $_GET['module'] = 'Marketplace';
+        $_GET['action'] = 'overview';
+
+        // this fixture's cart links point at plugins.piwik.org, which is not a Matomo shop domain
+        $this->service->returnFixture('v2.0_plugins_PaidPlugin1_info.json');
+
+        $plugin = $this->plugins->getPluginInfo('PaidPlugin1');
+
+        self::assertNotEmpty($plugin['shop']['variations']);
+
+        foreach ($plugin['shop']['variations'] as $variation) {
+            self::assertStringNotContainsString('mtm_campaign', $variation['addToCartUrl']);
+        }
     }
 
     public function testSearchPluginsWithSearchAndNoPluginsFoundShouldCallCorrectApi()
@@ -461,7 +662,7 @@ class PluginsTest extends IntegrationTestCase
             'release_channel' => 'latest_stable',
             'prefer_stable' => 1,
             'piwik' => '2.16.3',
-            'php' => '7.0.1',
+            'php' => '8.2.99',
             'mysql' => '5.7.1',
             'num_users' => 5,
             'num_websites' => 21,
@@ -488,7 +689,7 @@ class PluginsTest extends IntegrationTestCase
             'release_channel' => 'latest_stable',
             'prefer_stable' => 1,
             'piwik' => '2.16.3',
-            'php' => '7.0.1',
+            'php' => '8.2.99',
             'mysql' => '5.7.1',
             'num_users' => 5,
             'num_websites' => 21,
@@ -849,10 +1050,12 @@ class PluginsTest extends IntegrationTestCase
     }
 
     /**
-     * The shop prices one tier per bundle, so its variations always agree and this input does not
-     * occur. Pinned anyway so the variation the tier is read from stays the priced-from one.
+     * A bundle sold at all three tiers is one product with six variations, as ContentBundle and
+     * TrackingBundle are in the Marketplace's own system tests. The card carries no price to say
+     * which tier it is quoting, so a bundle whose variations disagree gets no seat label at all -
+     * rather than the priced-from tier's, which would read "Up to 4 users" on every such bundle.
      */
-    public function testEnrichedBundleTakesItsSeatTierFromTheVariationItIsPricedFrom()
+    public function testEnrichedBundleHasNoSeatTierWhenItsVariationsDisagree()
     {
         $this->service->setOnFetchCallback(function ($action) {
             if ('plugins' !== $action) {
@@ -860,7 +1063,36 @@ class PluginsTest extends IntegrationTestCase
             }
 
             return ['plugins' => [
-                $this->bundleWithSeatTier('TeamBundle', 'Up to 4 users monthly', 'Up to 50 users'),
+                $this->bundleWithSeatTier('ContentBundle', 'Up to 4 users', '5 to 15 users'),
+                $this->bundleWithSeatTier('TrackingBundle', 'Up to 4 users', 'Unlimited users'),
+            ]];
+        });
+
+        $plugins = array_column(
+            $this->plugins->searchPlugins($query = '', $sort = Sort::DEFAULT_SORT, $themesOnly = false),
+            null,
+            'name'
+        );
+
+        self::assertSame('Up to 4 users', $plugins['ContentBundle']['priceFrom']['name']);
+        self::assertArrayNotHasKey('bundleSeats', $plugins['ContentBundle']);
+        self::assertArrayNotHasKey('bundleSeats', $plugins['TrackingBundle']);
+    }
+
+    /**
+     * A bundle priced at one tier - the shape the older Team, Business and Enterprise products
+     * have - keeps its label, and the tier is read off the variations rather than off the price,
+     * so it does not depend on which of them addPriceFrom() happened to pick.
+     */
+    public function testEnrichedBundleTakesItsSeatTierFromAgreeingVariations()
+    {
+        $this->service->setOnFetchCallback(function ($action) {
+            if ('plugins' !== $action) {
+                return null;
+            }
+
+            return ['plugins' => [
+                $this->bundleWithSeatTier('TeamBundle', 'Up to 4 users monthly', 'Up to 4 users'),
             ]];
         });
 
@@ -873,8 +1105,7 @@ class PluginsTest extends IntegrationTestCase
     /**
      * A bundle as the Marketplace sends it, trimmed to what enrichment reads. $cheapestVariation
      * is the one addPriceFrom() picks, and it is deliberately not listed first. The two names are
-     * separate parameters only so a disagreeing pair can be pinned; the shop repeats one tier
-     * across every variation of a bundle.
+     * separate parameters so that a bundle whose variations disagree on the tier can be pinned.
      */
     private function bundleWithSeatTier(
         string $name,

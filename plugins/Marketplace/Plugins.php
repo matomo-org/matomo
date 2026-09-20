@@ -18,9 +18,35 @@ use Piwik\Plugin\Dependency as PluginDependency;
 use Piwik\Plugin;
 use Piwik\Plugins\Marketplace\Input\PurchaseType;
 use Piwik\Plugins\Marketplace\Input\Sort;
+use Piwik\Piwik;
+use Piwik\Url;
+use Piwik\Version;
 
 class Plugins
 {
+    /**
+     * Campaign dimensions for links that leave the app for the Matomo shop, so purchases can be
+     * attributed back to the marketplace. The campaign separates the product families; the exact
+     * product is carried by mtm_content.
+     */
+    private const CAMPAIGN_PREMIUM_PLUGINS = 'app_premiumplugins';
+    private const CAMPAIGN_PREMIUM_THEMES = 'app_premiumthemes';
+    private const CAMPAIGN_BUNDLES = 'app_bundles';
+    private const CAMPAIGN_GROUP = 'in_app_marketplace';
+    private const CAMPAIGN_PLACEMENT_ADD_TO_CART = 'add_to_cart';
+    // the Marketplace is never activated on Cloud, so the source is always the on-premise app
+    private const CAMPAIGN_SOURCE = 'matomo_app_onpremise';
+    private const CAMPAIGN_MEDIUM_PREFIX = 'app.';
+
+    /**
+     * Bundles are only sold directly from this core version onwards; before it they go through
+     * the free-trial flow.
+     *
+     * The -alpha suffix matters: PHP orders pre-releases alpha < beta < rc < release, so a plain
+     * '5.14.0' — or even '5.14.0-b1' — would exclude 5.14.0-alpha, which is what the 5.x branch
+     * this ships in reports while in development.
+     */
+    private const MIN_CORE_VERSION_FOR_NEW_BUNDLES = '5.14.0-alpha';
     private Api\Client $marketplaceClient;
 
     private Consumer $consumer;
@@ -442,11 +468,18 @@ class Plugins
         $plugin = $this->addMissingRequirements($plugin);
         $plugin = $this->addConsumerLicenseStatus($plugin);
 
+        // the marketplace decides which bundles are sold outright; without the flag a bundle keeps
+        // the free-trial flow it had before. The core check stays in front of it so an older
+        // Matomo is never switched over by the flag alone.
+        $plugin['isNewBundle'] = self::supportsNewBundles() && !empty($plugin['isNewBundle']);
+
         $plugin['isEligibleForFreeTrial'] =
             $plugin['canBePurchased']
+            && !$plugin['isNewBundle']
             && empty($plugin['missingRequirements'])
             && empty($this->getCurrentLicenseFor($plugin));
 
+        $this->addCampaignParametersToShopUrls($plugin);
         $this->addPriceFrom($plugin);
         $this->addBundleSeats($plugin);
         $this->addPluginCoverImage($plugin);
@@ -568,6 +601,100 @@ class Plugins
     }
 
     /**
+     * Whether this Matomo is new enough to sell bundles directly rather than through a free trial.
+     *
+     * @param string|null $coreVersion defaults to the running core; pass a version to check another
+     */
+    public static function supportsNewBundles(?string $coreVersion = null): bool
+    {
+        return version_compare(
+            $coreVersion ?? Version::VERSION,
+            self::MIN_CORE_VERSION_FOR_NEW_BUNDLES,
+            '>='
+        );
+    }
+
+    /**
+     * Tags every add-to-cart link with the campaign dimensions the shop reports on, so a purchase
+     * can be traced back to the product and the placement it was started from.
+     *
+     * Runs before addPriceFrom() so the variation it picks carries the tagged link too.
+     */
+    private function addCampaignParametersToShopUrls(&$plugin): void
+    {
+        if (empty($plugin['shop']['variations']) || !is_array($plugin['shop']['variations'])) {
+            return;
+        }
+
+        $campaign = $this->getShopCampaignName($plugin);
+        $content = $this->toCampaignSlug($plugin['name'] ?? '');
+
+        foreach ($plugin['shop']['variations'] as $index => $variation) {
+            if (empty($variation['addToCartUrl'])) {
+                continue;
+            }
+
+            $plugin['shop']['variations'][$index]['addToCartUrl'] = Url::addCampaignParametersToMatomoLink(
+                $variation['addToCartUrl'],
+                $campaign,
+                self::CAMPAIGN_SOURCE,
+                $this->getShopCampaignMedium(),
+                self::CAMPAIGN_GROUP,
+                $content,
+                self::CAMPAIGN_PLACEMENT_ADD_TO_CART
+            );
+        }
+    }
+
+    /**
+     * Bundles and themes are reported on separately from single premium plugins.
+     */
+    private function getShopCampaignName($plugin): string
+    {
+        if (!empty($plugin['isBundle'])) {
+            return self::CAMPAIGN_BUNDLES;
+        }
+
+        if (!empty($plugin['isTheme'])) {
+            return self::CAMPAIGN_PREMIUM_THEMES;
+        }
+
+        return self::CAMPAIGN_PREMIUM_PLUGINS;
+    }
+
+    /**
+     * The page the link was rendered on, eg. app.marketplace.overview. Returns null outside a
+     * request, where there is no page to name and the link is left untagged.
+     */
+    private function getShopCampaignMedium(): ?string
+    {
+        $module = Piwik::getModule();
+        $action = Piwik::getAction();
+
+        if (empty($module) || empty($action)) {
+            return null;
+        }
+
+        return strtolower(self::CAMPAIGN_MEDIUM_PREFIX . $module . '.' . $action);
+    }
+
+    /**
+     * Turns a plugin name into the campaign wording used for it, eg. HeatmapSessionRecording
+     * becomes heatmap_session_recording. Runs of capitals are kept together so an acronym does
+     * not split into single letters.
+     */
+    private function toCampaignSlug(string $name): string
+    {
+        $spaced = preg_replace(
+            ['/([a-z\d])([A-Z])/', '/([A-Z]+)([A-Z][a-z])/'],
+            '$1_$2',
+            $name
+        );
+
+        return strtolower($spaced);
+    }
+
+    /**
      * Find the cheapest shop variant, and if none is found specified, return the first variant.
      *
      * @param $plugin
@@ -650,13 +777,15 @@ class Plugins
      * The seat tier a bundle is licensed for, which the Marketplace spells into each shop
      * variation's name ("Up to 20 users"). Resolved here rather than by parsing a display string.
      *
-     * The tier belongs to the bundle product rather than to the variation: Team, Business and
-     * Enterprise are three separate products, and a bundle's variations are its billing periods
-     * times the currencies each is priced in - four rows over two variation ids - every one of
-     * them repeating that product's tier in its name. Any variation therefore answers this, and
-     * reading it off the one addPriceFrom() already chose keeps seat tier and price describing the
-     * same row. A name with no number ("Unlimited users.") leaves the field unset. Bundles only: a
-     * paid plugin offers all three tiers at once, so it has no single count.
+     * Only when every variation names the same tier, which not every bundle manages. The older
+     * bundles are one product per tier - Team, Business and Enterprise - so their variations are
+     * billing periods times currencies and all repeat that product's tier, and the card reads it.
+     * A newer bundle is one product sold at all three tiers, six variations over "Up to 4 users",
+     * "5 to 15 users" and "Unlimited users", and there no single count describes the card: it
+     * carries no price to say which tier it is quoting, so taking the one addPriceFrom() picked
+     * would label every such bundle "Up to 4 users". Leaving the field unset drops the label
+     * instead. A name with no number ("Unlimited users") is a tier of its own and counts here.
+     * Bundles only: a paid plugin offers all three tiers at once, so it has no single count.
      *
      * The number is read whole, group separators and all: matching digits alone reads "Up to 1,000
      * users" as 0, and a 0 renders nothing, so the wrong answer would never show up on screen.
@@ -669,13 +798,33 @@ class Plugins
             return;
         }
 
-        if (preg_match('/(\d[\d,.\x{00A0}\x{202F} ]*)\s*users/iu', $plugin['priceFrom']['name'] ?? '', $matches)) {
-            $seats = (int) preg_replace('/\D/', '', $matches[1]);
+        $tiers = [];
 
-            if ($seats > 0) {
-                $plugin['bundleSeats'] = $seats;
-            }
+        foreach ($plugin['shop']['variations'] ?? [] as $variation) {
+            $tiers[] = $this->readSeatTier($variation['name'] ?? '');
         }
+
+        if (!count($tiers) || count(array_unique($tiers, SORT_REGULAR)) > 1) {
+            return;
+        }
+
+        if (null !== $tiers[0]) {
+            $plugin['bundleSeats'] = $tiers[0];
+        }
+    }
+
+    /**
+     * The seat count a variation name spells out, or null when it names an unnumbered tier.
+     */
+    private function readSeatTier(string $variationName): ?int
+    {
+        if (!preg_match('/(\d[\d,.\x{00A0}\x{202F} ]*)\s*users/iu', $variationName, $matches)) {
+            return null;
+        }
+
+        $seats = (int) preg_replace('/\D/', '', $matches[1]);
+
+        return $seats > 0 ? $seats : null;
     }
 
     /**

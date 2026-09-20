@@ -96,6 +96,7 @@ export interface PluginCard {
   licenseStatus: string;
   downloadNonce?: string; // only present for a plugin that can be downloaded
   isBundle?: boolean; // only sent for a plugin the Marketplace flags as one
+  isNewBundle: boolean;
   isTheme: boolean;
   categories: string[];
   /** Promotion slug -> the plugin's position in that list, e.g. `{ featured: 0 }`. */

@@ -36,10 +36,10 @@ use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
-use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\UsersManager\Model as UsersModel;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
+use Piwik\Translation\Translator;
 use Piwik\Url;
 use Piwik\Plugin;
 use Piwik\View;
@@ -687,8 +687,8 @@ abstract class Controller
         $timezoneOffsetInSeconds = Date::getUtcOffset($siteTimezone);
         $view->timezoneOffset = $timezoneOffsetInSeconds;
 
-        $language = LanguagesManager::getLanguageForSession();
-        $view->language = !empty($language) ? $language : LanguagesManager::getLanguageCodeForCurrentUser();
+        // the language the page was rendered in, which a ?language= in the URL overrides
+        $view->language = StaticContainer::get(Translator::class)->getCurrentLanguage();
 
         $this->setBasicVariablesViewAs($view, $viewType);
 

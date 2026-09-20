@@ -257,9 +257,12 @@ return array(
             } elseif ($action === 'plugins/PaidPlugin1/info' && !$service->hasAccessToken()) {
                 $content = $service->getFixtureContent('v2.0_plugins_PaidPlugin1_info.json');
                 return updateUrlsInFixtureContent($content);
-            } elseif (preg_match('@^plugins/(PaidPlugin\d+)/info$@', $action, $matches)) {
+            } elseif (preg_match('@^plugins/([^/]+)/info$@', $action, $matches)) {
                 // a list entry and an info response have the same shape, so serve the plugin
-                // straight out of the list fixture rather than duplicating it per plugin
+                // straight out of the list fixture rather than duplicating it per plugin. This
+                // covers the bundles the list carries too, which the details modal needs for their
+                // shop variations: the cards get those from the list, but the modal asks for the
+                // plugin on its own and the card fields it falls back to hold no shop.
                 $content = json_decode($service->getFixtureContent($paidPluginsFixture()), true);
 
                 foreach ($content['plugins'] ?? [] as $plugin) {
@@ -267,6 +270,9 @@ return array(
                         return updateUrlsInFixtureContent(json_encode($plugin));
                     }
                 }
+
+                // a plugin the list does not carry falls through to the no-response path below,
+                // the same as before this branch stopped being PaidPluginN only
             } elseif ($action === 'plugins/PaidPlugin1/freeTrial') {
                 // this endpoint should only be called with "$getExtendedInfo = true"
                 return [

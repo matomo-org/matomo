@@ -123,6 +123,7 @@
     <EmptyState
       v-if="!loading && !loadFailed && filteredPlugins.length === 0"
       :has-query="!!searchQuery.trim()"
+      :can-reset="hasActiveFilters"
       @reset="resetFilters()"
     />
 
@@ -329,12 +330,15 @@ export default defineComponent({
     },
     /**
      * Whether the page shows the section stack rather than one flat grid. Only on All plugins with
-     * nothing searched for: a tab or a query asks for one list, and ten rows would bury it. While
-     * loading there are no sections, so the flat grid holds the layout with its skeletons.
+     * nothing searched for: a tab or a query asks for one list, and ten rows would bury it.
+     *
+     * Keyed off the catalogue rather than off `loading`: the first load has no plugins and so no
+     * sections, and the flat grid holds the layout with its skeletons; but refresh() loads again
+     * over a catalogue that is still there, and reading `loading` would collapse the stack to a
+     * flat grid for the length of that request and then build it back.
      */
     showSections(): boolean {
-      return !this.loading
-        && this.activeTab === TAB_ALL
+      return this.activeTab === TAB_ALL
         && !this.activePromotion
         && !this.searchQuery.trim()
         && this.sections.length > 0;
@@ -352,6 +356,13 @@ export default defineComponent({
         installNonce: this.installNonce,
         updateNonce: this.updateNonce,
       };
+    },
+    /**
+     * Whether resetFilters() has anything left to clear. An empty catalogue reaches the empty
+     * state with nothing filtered, and a reset button there would do nothing when pressed.
+     */
+    hasActiveFilters(): boolean {
+      return !!this.searchQuery.trim() || this.activeTab !== TAB_ALL;
     },
     filteredPlugins(): PluginCard[] {
       // A search spans the whole catalogue: the tab is dropped rather than intersected, so a
@@ -387,8 +398,12 @@ export default defineComponent({
 
       return this.filteredPlugins.slice(0, this.pageSize);
     },
+    /**
+     * Skeletons stand in for a catalogue that is not there yet. A refresh() over one already on
+     * screen shows the cards it has instead - see showSections().
+     */
     skeletonCount(): number {
-      return this.loading ? INITIAL_SKELETONS : 0;
+      return this.loading && this.allPlugins.length === 0 ? INITIAL_SKELETONS : 0;
     },
     /**
      * What the list below is: a search's result count, or the name of the open category. All
@@ -500,7 +515,7 @@ export default defineComponent({
             return;
           }
 
-          // the timeout aborts too, and is the one abort that does mean the catalogue is unavailable
+          // the timeout aborts too, and is the one abort that does mean the catalogue is gone
           if (abortController.signal.aborted && !timedOut) {
             return;
           }
@@ -599,7 +614,12 @@ export default defineComponent({
       // set here as well as in readStateFromHash(), which only resets what it sees change and is
       // handed a tab this has already applied
       this.pageSize = PAGE_SIZE;
-      this.updateHash({ [CATEGORY_PARAM]: tabId, [PROMOTION_PARAM]: null, pluginType: null });
+      // Home is the default the hash is read back as, so it is dropped rather than written out
+      this.updateHash({
+        [CATEGORY_PARAM]: tabId === TAB_ALL ? null : tabId,
+        [PROMOTION_PARAM]: null,
+        pluginType: null,
+      });
     },
 
     /**

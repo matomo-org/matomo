@@ -9,9 +9,11 @@
 
 namespace Piwik\Plugins\CoreVisualizations\tests\Integration;
 
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable\Row;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Translation\Translator;
 use Piwik\View;
 
 /**
@@ -79,6 +81,44 @@ class RatioTooltipEncodingTest extends IntegrationTestCase
     }
 
     /**
+     * The tooltip quotes the row's percentage, and in a locale whose percent pattern leads with
+     * the sign that reads as "%12,5". Decoding the assembled sentence as a URL took "%12" for an
+     * escape, so the tooltip disagreed with the cell it describes.
+     */
+    public function testALeadingPercentSignSurvivesInTheTooltip(): void
+    {
+        StaticContainer::get(Translator::class)->setCurrentLanguage('tr');
+
+        $readBack = $this->decodeAttribute($this->titleFrom($this->makeView('Sayfa')));
+
+        self::assertStringContainsString('%12,5', $readBack);
+        self::assertStringNotContainsString("\u{fffd}", $readBack);
+    }
+
+    /**
+     * The absolute value shown on hover is the row's own metric, so for a rate column it carries
+     * the same leading sign as the cell.
+     */
+    public function testALeadingPercentSignSurvivesInTheAbsoluteValueShownOnHover(): void
+    {
+        StaticContainer::get(Translator::class)->setCurrentLanguage('tr');
+
+        $view = $this->makeView('Sayfa');
+        $view->column = 'bounce_rate';
+        $view->row = new Row([Row::COLUMNS => ['label' => 'Sayfa', 'bounce_rate' => '%37,63']]);
+        $view->totals = ['bounce_rate' => '%100'];
+        $view->properties = ['report_ratio_columns' => ['bounce_rate']];
+        $view->translations = ['bounce_rate' => 'Hemen Cikma Orani', 'label' => 'Sayfa'];
+        $view->rowPercentage = '%37,63';
+        $view->showAbsoluteValueOnHover = true;
+
+        $matched = preg_match('#<span class="ratio"[^>]*>(.*?)</span>#s', $view->render(), $matches);
+        self::assertSame(1, $matched, 'the ratio span was not rendered');
+
+        self::assertStringContainsString('%37,63', $matches[1]);
+    }
+
+    /**
      * The value of the title attribute as the tooltip reads it, ie. after the HTML parser has
      * decoded the attribute once.
      */
@@ -89,6 +129,18 @@ class RatioTooltipEncodingTest extends IntegrationTestCase
 
     private function renderTooltipTitle(string $label, string $tooltipSuffix = ''): string
     {
+        $view = $this->makeView($label, $tooltipSuffix);
+        $view->rowPercentage = '12.5%';
+
+        return $this->titleFrom($view);
+    }
+
+    /**
+     * Without a rowPercentage the template works it out itself, which is what puts a
+     * locale-formatted percentage into the tooltip.
+     */
+    private function makeView(string $label, string $tooltipSuffix = ''): View
+    {
         $view = new View('@CoreVisualizations/_dataTableViz_htmlTable_ratio');
         $view->sendHeadersWhenRendering = false;
         $view->column = 'nb_visits';
@@ -98,10 +150,14 @@ class RatioTooltipEncodingTest extends IntegrationTestCase
         $view->label = $label;
         $view->labelColumn = 'label';
         $view->translations = ['nb_visits' => 'Visits', 'label' => 'Keyword'];
-        $view->rowPercentage = '12.5%';
         $view->segmentTitlePretty = 'All visits';
         $view->tooltipSuffix = $tooltipSuffix;
 
+        return $view;
+    }
+
+    private function titleFrom(View $view): string
+    {
         $matched = preg_match('/<span class="ratio"\s+title="([^"]*)"/', $view->render(), $matches);
 
         self::assertSame(1, $matched, 'the ratio span was not rendered');

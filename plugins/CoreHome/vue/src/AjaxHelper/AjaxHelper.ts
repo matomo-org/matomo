@@ -217,7 +217,7 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
 
   abortable = true;
 
-  defaultParams = ['idSite', 'period', 'date', 'segment'];
+  defaultParams = ['idSite', 'period', 'date', 'segment', 'language'];
 
   resolveWithHelper = false;
 
@@ -1094,6 +1094,9 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
       idSite: Matomo.idSite ? Matomo.idSite.toString() : broadcast.getValueFromUrl('idSite'),
       period: Matomo.period || broadcast.getValueFromUrl('period'),
       segment,
+      // Widgets and the reporting menu are loaded by their own requests, which the page's
+      // ?language= would otherwise not reach, leaving them in the user's stored language.
+      language: MatomoUrl.getSearchParam('language'),
     };
 
     const params = originalParams;
