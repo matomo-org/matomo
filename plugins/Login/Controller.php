@@ -862,7 +862,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         if ($form) {
             // Freeing this login and creating it again must not interleave: UserRepository::create()
             // takes the same lock, and addUserAccess()/addTokenAuth() insert from the user table, so
-            // while we hold it nothing can attach itself to the login we are removing.
+            // while we hold it nothing can grant itself access to the login we are removing. Only the
+            // records a brand new account can already own belong in here — the settings and options
+            // below accumulate over a lifetime, and holding a global lock over the plugin fan-out would
+            // make every unrelated invite on the instance wait for it.
             $lock = StaticContainer::getContainer()->make(Lock::class, ['namespace' => 'UsersManager']);
             $lock->execute('createUser', function () use ($model, $user, $token) {
                 // The delete is pinned to the invitation looked up above, so only a request that actually
@@ -871,18 +874,23 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                     throw new Exception(Piwik::translate('Login_InvalidOrExpiredToken'));
                 }
 
-                // clean up everything that hung off the row: access, settings, options and tokens
-                try {
-                    $model->deleteUser($user['login']);
-                } catch (\Throwable $e) {
-                    // the account itself is already gone, and addUser() clears what is left for a login
-                    // before it can be used again, so a failed cleanup must not fail the decline
-                    StaticContainer::get(LoggerInterface::class)->error(
-                        'Failed to clean up after a declined invitation',
-                        ['exception' => $e]
-                    );
-                }
+                $model->deleteUserAccess($user['login']);
+                $model->deleteAllTokensForUser($user['login']);
             });
+
+            // clean up the rest: settings, options and whatever plugins hung off the login
+            try {
+                $model->deleteUser($user['login']);
+            } catch (\Throwable $e) {
+                // the account, its access and its tokens are already gone, and addUser() re-clears those
+                // three for a login before it can be used again. Settings and options are not re-cleared,
+                // so say which login they belong to rather than failing a decline that has already done
+                // the part that matters.
+                StaticContainer::get(LoggerInterface::class)->error(
+                    sprintf('Failed to clean up after %s declined an invitation: {exception}', $user['login']),
+                    ['exception' => $e]
+                );
+            }
 
             // send e-mail to inviter
             if (!empty($user['invited_by'])) {

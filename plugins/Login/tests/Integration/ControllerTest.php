@@ -258,23 +258,30 @@ class ControllerTest extends IntegrationTestCase
         }
     }
 
-    public function testDeclineInvitationHoldsTheCreateUserLockWhileTheLoginIsFreed()
+    public function testDeclineInvitationHoldsTheCreateUserLockOnlyWhileTheLoginIsFreed()
     {
         [, $token] = $this->generateTestUser();
 
-        $lockWasHeld = null;
+        $lockHeldForTheDelete = null;
+        $lockHeldForTheCleanup = null;
 
         $realModel = new Model();
         $usersModel = $this->getMockBuilder(Model::class)
-            ->onlyMethods(['deletePendingUserByInviteToken'])
+            ->onlyMethods(['deletePendingUserByInviteToken', 'deleteUser'])
             ->getMock();
+
         $usersModel->method('deletePendingUserByInviteToken')
-            ->willReturnCallback(function ($userLogin, $presentedToken) use ($realModel, &$lockWasHeld) {
-                // this is where a request creating the same login would be waiting
-                $contender = StaticContainer::getContainer()->make(Lock::class, ['namespace' => 'UsersManager']);
-                $lockWasHeld = !$contender->acquireLock('createUser');
+            ->willReturnCallback(function ($userLogin, $presentedToken) use ($realModel, &$lockHeldForTheDelete) {
+                $lockHeldForTheDelete = !$this->canTakeTheCreateUserLock();
 
                 return $realModel->deletePendingUserByInviteToken($userLogin, $presentedToken);
+            });
+
+        $usersModel->method('deleteUser')
+            ->willReturnCallback(function ($userLogin) use ($realModel, &$lockHeldForTheCleanup) {
+                $lockHeldForTheCleanup = !$this->canTakeTheCreateUserLock();
+
+                $realModel->deleteUser($userLogin);
             });
 
         $_POST['token'] = $token;
@@ -282,9 +289,27 @@ class ControllerTest extends IntegrationTestCase
 
         $this->buildController($usersModel)->declineInvitation();
 
-        // nothing may create this login between the row going and the records that hung off it
-        self::assertTrue($lockWasHeld);
+        // nothing may create this login while the row, its access and its tokens are going
+        self::assertTrue($lockHeldForTheDelete);
+        // but an unrelated invite must not queue behind the settings and plugin cleanup
+        self::assertFalse($lockHeldForTheCleanup);
         self::assertEmpty($realModel->getUser('test'));
+    }
+
+    /**
+     * Answers as a concurrent UserRepository::create() would: can this request take the lock right now?
+     */
+    private function canTakeTheCreateUserLock(): bool
+    {
+        $contender = StaticContainer::getContainer()->make(Lock::class, ['namespace' => 'UsersManager']);
+
+        if (!$contender->acquireLock('createUser')) {
+            return false;
+        }
+
+        $contender->unlock();
+
+        return true;
     }
 
     public function testDeclineInvitationDeletesThePendingAccount()
