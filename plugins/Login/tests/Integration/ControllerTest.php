@@ -12,7 +12,9 @@ namespace Piwik\Plugins\Login\tests\Integration;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Auth;
 use Piwik\Common;
+use Piwik\Concurrency\Lock;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Exception\RedirectException;
 use Piwik\Plugins\Login\Controller;
 use Piwik\Plugins\Login\PasswordResetter;
@@ -242,18 +244,47 @@ class ControllerTest extends IntegrationTestCase
         $_POST['token'] = $linkToken;
         $_POST['invitation_form'] = 'Decline';
 
+        self::expectException(\Exception::class);
+        self::expectExceptionMessage('Login_InvalidOrExpiredToken');
+
         try {
             $this->buildController($usersModel)->declineInvitation();
-            self::fail('Expected declineInvitation to refuse');
-        } catch (\Exception $e) {
-            self::assertStringContainsString('Login_InvalidOrExpiredToken', $e->getMessage());
+        } finally {
+            // the account that was activated must survive the decline, and no deletion may be announced
+            $user = $realModel->getUser('test');
+            self::assertNotEmpty($user);
+            self::assertSame('passwordFromTheAcceptance', $user['password']);
+            self::assertFalse($declined);
         }
+    }
 
-        // the account that was activated must survive the decline, and no deletion may be announced
-        $user = $realModel->getUser('test');
-        self::assertNotEmpty($user);
-        self::assertSame('passwordFromTheAcceptance', $user['password']);
-        self::assertFalse($declined);
+    public function testDeclineInvitationHoldsTheCreateUserLockWhileTheLoginIsFreed()
+    {
+        [, $token] = $this->generateTestUser();
+
+        $lockWasHeld = null;
+
+        $realModel = new Model();
+        $usersModel = $this->getMockBuilder(Model::class)
+            ->onlyMethods(['deletePendingUserByInviteToken'])
+            ->getMock();
+        $usersModel->method('deletePendingUserByInviteToken')
+            ->willReturnCallback(function ($userLogin, $presentedToken) use ($realModel, &$lockWasHeld) {
+                // this is where a request creating the same login would be waiting
+                $contender = StaticContainer::getContainer()->make(Lock::class, ['namespace' => 'UsersManager']);
+                $lockWasHeld = !$contender->acquireLock('createUser');
+
+                return $realModel->deletePendingUserByInviteToken($userLogin, $presentedToken);
+            });
+
+        $_POST['token'] = $token;
+        $_POST['invitation_form'] = 'Decline';
+
+        $this->buildController($usersModel)->declineInvitation();
+
+        // nothing may create this login between the row going and the records that hung off it
+        self::assertTrue($lockWasHeld);
+        self::assertEmpty($realModel->getUser('test'));
     }
 
     public function testDeclineInvitationDeletesThePendingAccount()

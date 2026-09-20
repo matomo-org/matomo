@@ -14,12 +14,14 @@ use Piwik\Access;
 use Piwik\Auth\Password;
 use Piwik\Auth\PasswordStrength;
 use Piwik\Common;
+use Piwik\Concurrency\Lock;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Exception\RedirectException;
 use Piwik\IP;
 use Piwik\Log;
+use Piwik\Log\LoggerInterface;
 use Piwik\Nonce;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreAdminHome\Emails\UserAcceptInvitationEmail;
@@ -858,19 +860,29 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view = new View('@Login/invitationDecline');
 
         if ($form) {
-            // The delete is pinned to the invitation looked up above, so only a request that actually
-            // removed the row goes on to clean up and notify.
-            if (!$model->deletePendingUserByInviteToken($user['login'], $token)) {
-                throw new Exception(Piwik::translate('Login_InvalidOrExpiredToken'));
-            }
+            // Freeing this login and creating it again must not interleave: UserRepository::create()
+            // takes the same lock, and addUserAccess()/addTokenAuth() insert from the user table, so
+            // while we hold it nothing can attach itself to the login we are removing.
+            $lock = StaticContainer::getContainer()->make(Lock::class, ['namespace' => 'UsersManager']);
+            $lock->execute('createUser', function () use ($model, $user, $token) {
+                // The delete is pinned to the invitation looked up above, so only a request that actually
+                // removed the row goes on to clean up and notify.
+                if (!$model->deletePendingUserByInviteToken($user['login'], $token)) {
+                    throw new Exception(Piwik::translate('Login_InvalidOrExpiredToken'));
+                }
 
-            // clean up everything that hung off the row: access, settings, options and tokens
-            try {
-                $model->deleteUser($user['login']);
-            } catch (\Exception $e) {
-                // deleting the user triggers an event, which might call methods that require a user to be logged in
-                // as those operations might not be needed for a pending user, we simply ignore any errors here
-            }
+                // clean up everything that hung off the row: access, settings, options and tokens
+                try {
+                    $model->deleteUser($user['login']);
+                } catch (\Throwable $e) {
+                    // the account itself is already gone, and addUser() clears what is left for a login
+                    // before it can be used again, so a failed cleanup must not fail the decline
+                    StaticContainer::get(LoggerInterface::class)->error(
+                        'Failed to clean up after a declined invitation',
+                        ['exception' => $e]
+                    );
+                }
+            });
 
             // send e-mail to inviter
             if (!empty($user['invited_by'])) {

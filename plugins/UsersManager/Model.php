@@ -759,13 +759,63 @@ class Model
         }
     }
 
-    public function attachInviteToken(string $userLogin, string $token, int $expiryInDays): void
-    {
-        $this->updateUserFields($userLogin, [
-          'invite_token'      => $this->hashTokenAuth($token),
-          'invite_link_token' => null,
-          'invite_expired_at' => Date::now()->addDay($expiryInDays)->getDatetime(),
-        ]);
+    /**
+     * Attaches a first invitation to an account, and records who issued it.
+     *
+     * A caller that has just created the account can name the registration date it gave the row, the way
+     * addTokenAuth() takes one. The invitation then lands on that account rather than on whatever holds
+     * the login by now, and only while the account is not already carrying an invitation. Callers that
+     * name no date are rotating an invitation on an account they have already resolved, and are left
+     * alone.
+     *
+     * @param null|string $invitedBy              Login of the inviter, when the same write should record it.
+     * @param null|string $expectedDateRegistered Registration date the account is expected to have.
+     *
+     * @return bool Whether the invitation was attached.
+     */
+    public function attachInviteToken(
+        string $userLogin,
+        #[\SensitiveParameter]
+        string $token,
+        int $expiryInDays,
+        ?string $invitedBy = null,
+        ?string $expectedDateRegistered = null
+    ): bool {
+        $set = [
+            '`invite_token` = ?',
+            '`invite_link_token` = NULL',
+            '`invite_expired_at` = ?',
+        ];
+        $bind = [
+            $this->hashTokenAuth($token),
+            Date::now()->addDay($expiryInDays)->getDatetime(),
+        ];
+
+        if (null !== $invitedBy) {
+            $set[] = '`invited_by` = ?';
+            $bind[] = $invitedBy;
+        }
+
+        $sql = sprintf(
+            'UPDATE `%s`
+             SET %s
+             WHERE `login` = ?',
+            $this->userTable,
+            implode(', ', $set)
+        );
+        $bind[] = $userLogin;
+
+        // the date alone only narrows the row to the second, so pair it with the account still being
+        // uninvited: a login freed and taken again within that second is not the one we created
+        if (null !== $expectedDateRegistered) {
+            $sql .= ' AND `date_registered` <=> ?
+                      AND `invite_token` IS NULL';
+            $bind[] = $expectedDateRegistered;
+        }
+
+        $query = $this->getDb()->query($sql, $bind);
+
+        return $query->rowCount() === 1;
     }
 
     /**
