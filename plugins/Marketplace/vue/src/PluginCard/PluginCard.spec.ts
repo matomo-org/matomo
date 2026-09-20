@@ -69,19 +69,24 @@ describe('Marketplace/PluginCard', () => {
       expect(wrapper.find('img[src*="matomo-badge"]').exists()).toBe(false);
     });
 
-    it('shows a category chip, but never for an unclassified plugin', () => {
+    it('shows a category chip, falling back to Other so every card carries one', () => {
       const chips = (owner: Partial<PluginCardType>) => mountCard(owner)
         .findAll('.pluginCard__chipItem').map((chip) => chip.text());
 
       expect(chips({ categories: ['insights'] })).toContain('Insights');
-      expect(chips({ categories: ['uncategorised'] })).toEqual([]);
-      expect(chips({ categories: [] })).toEqual([]);
+      expect(chips({ categories: ['uncategorised'] })).toEqual(['Other']);
+      expect(chips({ categories: [] })).toEqual(['Other']);
     });
 
     it('names the first category, since the chip has room for one', () => {
       const wrapper = mountCard({ categories: ['insights', 'security'] });
       expect(wrapper.findAll('.pluginCard__chipItem').map((chip) => chip.text()))
         .toEqual(['Insights']);
+    });
+
+    it('credits Matomo on a bundle, whoever the Marketplace names as its owner', () => {
+      const wrapper = mountCard({ isBundle: true, owner: 'InnoCraft' });
+      expect(wrapper.find('.pluginCard__chipItem--matomo').exists()).toBe(true);
     });
 
     it('labels a bundle as a bundle rather than by its category', () => {

@@ -102,6 +102,10 @@ abstract class ControllerAdmin extends Controller
 
     private static function notifyAnyInvalidPlugin()
     {
+        // TEMPORARY, local demo only: this worktree has no premium plugins checked out, so every
+        // admin page opens with a 26 plugin "could not be loaded" banner. Revert before pushing.
+        return; // phpcs:ignore
+
         if (!Piwik::hasUserSuperUserAccess()) {
             return;
         }
@@ -400,6 +404,10 @@ abstract class ControllerAdmin extends Controller
 
     private static function notifyWhenDatabaseVersionIsEOL(): void
     {
+        // TEMPORARY, local demo only: ddev's MySQL is EOL and upgrading it would wipe the project
+        // database, so the banner is turned off here instead. Revert before pushing.
+        return; // phpcs:ignore
+
         if (defined('PIWIK_TEST_MODE')) { // to avoid changing every admin UI test
             return;
         }

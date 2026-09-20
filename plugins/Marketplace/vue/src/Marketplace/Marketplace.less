@@ -41,6 +41,45 @@
   }
 }
 
+// The way out of a promotion's list. A link-styled <button> rather than an <a>: it changes the
+// hash this page owns, and an href would have the browser treat it as navigation.
+.marketplacePage__backLink {
+  display: inline-flex;
+  align-items: safe center;
+  gap: 4px;
+  margin-top: 24px;
+  border: 0;
+  padding: 0;
+  background: none;
+  cursor: pointer;
+  font-size: 13px;
+  color: @theme-color-link;
+
+  &:hover,
+  &:focus-visible {
+    text-decoration: underline;
+  }
+}
+
+// The link and the heading below it are one block, so the bar drops the top margin that would
+// otherwise separate them. Only when the link is there; on every other view the bar keeps it.
+.marketplacePage__backLink + .marketplacePage__resultsBar {
+  margin-top: 8px;
+}
+
+// override: Materialize's global `button:focus` paints its own fill on every bare <button> and
+// outranks a lone class, so the tag has to appear here for this link-styled button to keep its
+// own background on click - as on .pluginSection__seeAll, for the same reason.
+button.marketplacePage__backLink:focus {
+  background: none;
+}
+
+// override: Morpheus's legacy `:focus { outline: thin dotted }` in general/_default.less fires on
+// a plain mouse click, so only the keyboard ring - `button:focus-visible` - is wanted here.
+button.marketplacePage__backLink:focus:not(:focus-visible) {
+  outline: none;
+}
+
 .marketplacePage__resultsBar {
   display: flex;
   flex-wrap: wrap;

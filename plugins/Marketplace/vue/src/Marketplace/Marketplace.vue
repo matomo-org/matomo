@@ -67,6 +67,21 @@
       @update:model-value="updateTab($event)"
     />
 
+    <!--
+      The way out of a promotion's list. A promotion has no tab, so nothing in the bar above is
+      highlighted while one is open and the reader would otherwise have no marked way back.
+    -->
+    <button
+      type="button"
+      class="marketplacePage__backLink"
+      ref="backLink"
+      v-if="activePromotion && !searchQuery.trim()"
+      @click="closePromotion()"
+    >
+      <span class="icon-chevron-left marketplacePage__backIcon" aria-hidden="true" />
+      <span>{{ translate('Marketplace_BackToMarketplace') }}</span>
+    </button>
+
     <div
       class="marketplacePage__resultsBar"
       :class="{ 'marketplacePage__resultsBar--empty': !resultsHeading && !showSort }"
@@ -88,12 +103,9 @@
         :key="section.id"
         :section-id="section.id"
         :is-category="section.isCategory"
-        :has-tab="section.hasTab"
-        :expanded="expandedSections.includes(section.id)"
         :plugins="section.plugins"
         :context="cardContext"
         @seeAll="seeAllInSection($event)"
-        @toggleExpanded="toggleSectionExpanded($event)"
         @openDetails="openDetailsModal($event)"
         @requestTrial="showRequestTrialForPlugin = $event"
       />
@@ -147,8 +159,10 @@ import {
   buildSections,
   buildTabs,
   filterPlugins,
+  isPromoSection,
   PluginSection as PluginSectionType,
   PluginTab,
+  promotedPlugins,
   SORT_LAST_UPDATED,
   sortPlugins,
   TAB_ALL,
@@ -165,6 +179,13 @@ import {
  * reporting category id, which matches no tab.
  */
 const CATEGORY_PARAM = 'pluginCategory';
+
+/**
+ * The hash parameter holding the open promotion, if any. Its own parameter rather than a value of
+ * {@link CATEGORY_PARAM}: a promotion is not a tab, and writing it there would leave the tab bar
+ * looking for a tab that does not exist and highlighting none of them.
+ */
+const PROMOTION_PARAM = 'pluginPromotion';
 
 /** How many cards a filtered view adds at a time. */
 const PAGE_SIZE = 15;
@@ -189,10 +210,10 @@ export interface MarketplaceState {
   allPlugins: PluginCard[];
   pluginSort: string;
   activeTab: string;
+  activePromotion: string;
   searchQuery: string;
   pageSize: number;
   paginated: boolean;
-  expandedSections: string[];
   showRequestTrialForPlugin: PluginCard|null;
   showStartFreeTrialForPlugin: PluginCard|null;
   showPluginDetailsForPlugin: PluginCard|null;
@@ -246,10 +267,10 @@ export default defineComponent({
       allPlugins: [],
       pluginSort: this.defaultSort || SORT_LAST_UPDATED,
       activeTab: TAB_ALL,
+      activePromotion: '',
       searchQuery: '',
       pageSize: PAGE_SIZE,
       paginated: true,
-      expandedSections: [],
       showRequestTrialForPlugin: null,
       showStartFreeTrialForPlugin: null,
       showPluginDetailsForPlugin: null,
@@ -314,6 +335,7 @@ export default defineComponent({
     showSections(): boolean {
       return !this.loading
         && this.activeTab === TAB_ALL
+        && !this.activePromotion
         && !this.searchQuery.trim()
         && this.sections.length > 0;
     },
@@ -334,7 +356,18 @@ export default defineComponent({
     filteredPlugins(): PluginCard[] {
       // A search spans the whole catalogue: the tab is dropped rather than intersected, so a
       // query typed while a category is open still finds everything. The tab itself is left set -
-      // its row is hidden for the duration - so clearing the query returns to it.
+      // its row is hidden for the duration - so clearing the query returns to it. An open
+      // promotion is set aside the same way, and comes back with the query cleared.
+      if (this.activePromotion && !this.searchQuery.trim()) {
+        // Sorted like any other list on this view, promotion order and all: the sort control is
+        // on screen here, and a list that ignored it would look broken. The row on the overview
+        // is the one that keeps the Marketplace's order - see buildPromoSections().
+        return sortPlugins(
+          promotedPlugins(this.allPlugins, this.activePromotion),
+          this.pluginSort,
+        );
+      }
+
       const tab = this.searchQuery.trim() ? TAB_ALL : this.activeTab;
 
       return sortPlugins(
@@ -373,6 +406,9 @@ export default defineComponent({
         return found === 1
           ? translate('Marketplace_OneResultFoundFor', this.searchQuery)
           : translate('Marketplace_ResultsFoundFor', found, this.searchQuery);
+      }
+      if (this.activePromotion) {
+        return tabLabel({ id: this.activePromotion, isCategory: false });
       }
       if (this.activeTab === TAB_ALL) {
         return '';
@@ -499,17 +535,21 @@ export default defineComponent({
       const activeTab = category
         || tabFromLegacyPluginType((hash.pluginType || '') as string)
         || TAB_ALL;
+      const promotion = (hash[PROMOTION_PARAM] || '') as string;
+      const activePromotion = isPromoSection(promotion) ? promotion : '';
 
       // Only a change to what is listed starts the list over. This runs on every hash write, and
       // some of them leave the list alone - closing the details modal clears `showPlugin` - so
       // resetting unconditionally would throw away however far the reader had scrolled.
       const listChanged = searchQuery !== this.searchQuery
         || pluginSort !== this.pluginSort
-        || activeTab !== this.activeTab;
+        || activeTab !== this.activeTab
+        || activePromotion !== this.activePromotion;
 
       this.searchQuery = searchQuery;
       this.pluginSort = pluginSort;
       this.activeTab = activeTab;
+      this.activePromotion = activePromotion;
 
       if (listChanged) {
         this.pageSize = PAGE_SIZE;
@@ -554,10 +594,12 @@ export default defineComponent({
      */
     updateTab(tabId: string) {
       this.activeTab = tabId;
+      // a tab and a promotion are two views of their own, so opening one closes the other
+      this.activePromotion = '';
       // set here as well as in readStateFromHash(), which only resets what it sees change and is
       // handed a tab this has already applied
       this.pageSize = PAGE_SIZE;
-      this.updateHash({ [CATEGORY_PARAM]: tabId, pluginType: null });
+      this.updateHash({ [CATEGORY_PARAM]: tabId, [PROMOTION_PARAM]: null, pluginType: null });
     },
 
     /**
@@ -579,6 +621,11 @@ export default defineComponent({
      * button that had it is removed by the re-render, which would drop focus to <body>.
      */
     seeAllInSection(sectionId: string) {
+      if (isPromoSection(sectionId)) {
+        this.openPromotion(sectionId);
+        return;
+      }
+
       this.updateTab(sectionId);
 
       this.scrollIntoView(this.$refs.resultsBar as HTMLElement|undefined);
@@ -592,17 +639,31 @@ export default defineComponent({
     },
 
     /**
-     * Opens or closes a promoted row in place. Nothing is written to the hash: the row is not a
-     * tab, and a reader arriving on the page should see the Marketplace's own first row rather
-     * than someone else's expanded one.
+     * Opens a promotion's own list, the way seeAllInSection() opens a category's tab. Written to
+     * the hash so the view survives a reload and the browser's Back leaves it, and focus moves to
+     * the way out: the button that had it is removed by the re-render, and no tab is highlighted
+     * for this view, so focus would otherwise drop to <body>.
      */
-    toggleSectionExpanded(sectionId: string) {
-      if (this.expandedSections.includes(sectionId)) {
-        this.expandedSections = this.expandedSections.filter((id) => id !== sectionId);
-        return;
-      }
+    openPromotion(sectionId: string) {
+      this.activePromotion = sectionId;
+      this.activeTab = TAB_ALL;
+      this.pageSize = PAGE_SIZE;
+      this.updateHash({
+        [PROMOTION_PARAM]: sectionId,
+        [CATEGORY_PARAM]: null,
+        pluginType: null,
+      });
 
-      this.expandedSections = [...this.expandedSections, sectionId];
+      this.scrollIntoView(this.$refs.resultsBar as HTMLElement|undefined);
+
+      this.$nextTick(() => (this.$refs.backLink as HTMLElement|undefined)?.focus());
+    },
+
+    /** Leaves a promotion's list for the overview it was opened from. */
+    closePromotion() {
+      this.activePromotion = '';
+      this.pageSize = PAGE_SIZE;
+      this.updateHash({ [PROMOTION_PARAM]: null });
     },
 
     /** Scrolls without animating for readers who have asked for less motion. */
@@ -621,8 +682,14 @@ export default defineComponent({
       this.cancelQueryHashWrite();
       this.searchQuery = '';
       this.activeTab = TAB_ALL;
+      this.activePromotion = '';
       this.pageSize = PAGE_SIZE;
-      this.updateHash({ query: null, [CATEGORY_PARAM]: null, pluginType: null });
+      this.updateHash({
+        query: null,
+        [CATEGORY_PARAM]: null,
+        [PROMOTION_PARAM]: null,
+        pluginType: null,
+      });
     },
 
     openDetailsModal(plugin: PluginCard) {

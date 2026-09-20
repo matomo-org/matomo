@@ -99,7 +99,7 @@ describe('PluginSection', () => {
   });
 
   describe('a promoted section, which has no tab', () => {
-    const promoted = { sectionId: 'featured', isCategory: false, hasTab: false };
+    const promoted = { sectionId: 'featured', isCategory: false };
 
     beforeEach(() => stubViewport(1900));
 
@@ -108,49 +108,24 @@ describe('PluginSection', () => {
       expect(wrapper.find('.pluginSection__heading').text()).toBe('Marketplace_Featured');
     });
 
-    it('asks the page to expand it rather than to open a tab', async () => {
+    it('asks the page for its own list, as a tabbed section asks for its tab', async () => {
       const wrapper = await mountSection({ ...promoted, plugins: makePlugins(6) });
 
       await wrapper.find(seeAll).trigger('click');
 
-      expect(wrapper.emitted('toggleExpanded')).toEqual([['featured']]);
-      expect(wrapper.emitted('seeAll')).toBeUndefined();
+      expect(wrapper.emitted('seeAll')).toEqual([['featured']]);
     });
 
-    it('shows one row until the page says it is expanded, then all of it', async () => {
-      const wrapper = await mountSection({ ...promoted, plugins: makePlugins(9) });
-      expect(wrapper.findComponent({ name: 'PluginGrid' }).props('maxCards')).toBe(5);
+    it('names itself for a screen reader from its own heading', async () => {
+      const wrapper = await mountSection({ ...promoted, plugins: makePlugins(6) });
 
-      const expanded = await mountSection({
-        ...promoted,
-        expanded: true,
-        plugins: makePlugins(9),
-      });
-      expect(expanded.findComponent({ name: 'PluginGrid' }).props('maxCards')).toBeNull();
-    });
-
-    it('keeps the button once expanded, since it is the only way back to one row', async () => {
-      const wrapper = await mountSection({ ...promoted, expanded: true, plugins: makePlugins(2) });
-
-      expect(wrapper.find(seeAll).exists()).toBe(true);
-      expect(wrapper.find(seeAll).text()).toContain('Marketplace_SeeLess');
       expect(wrapper.find(seeAll).attributes('aria-label'))
-        .toBe('Marketplace_SeeLessInCategory:Marketplace_Featured');
+        .toBe('Marketplace_SeeAllInCategory:Marketplace_Featured');
     });
 
-    it('tells a screen reader whether the row is open', async () => {
-      const closed = await mountSection({ ...promoted, plugins: makePlugins(6) });
-      expect(closed.find(seeAll).attributes('aria-expanded')).toBe('false');
+    it('shows one row of what it holds, like any other section', async () => {
+      const wrapper = await mountSection({ ...promoted, plugins: makePlugins(9) });
 
-      const open = await mountSection({ ...promoted, expanded: true, plugins: makePlugins(6) });
-      expect(open.find(seeAll).attributes('aria-expanded')).toBe('true');
-    });
-
-    it('leaves a tabbed section unexpandable, whatever the page passes', async () => {
-      const wrapper = await mountSection({ expanded: true, plugins: makePlugins(9) });
-
-      expect(wrapper.find(seeAll).attributes('aria-expanded')).toBeUndefined();
-      expect(wrapper.find(seeAll).text()).toContain('Marketplace_SeeAll');
       expect(wrapper.findComponent({ name: 'PluginGrid' }).props('maxCards')).toBe(5);
     });
   });

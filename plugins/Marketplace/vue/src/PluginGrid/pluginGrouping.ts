@@ -21,8 +21,8 @@ export const TAB_THEMES = 'themes';
 
 /**
  * The two promoted rows at the top of the overview. Not tabs and not categories: the Marketplace
- * chooses what is in them and in what order, and "See all" opens the row in place rather than
- * moving to a list of its own - see {@link buildPromoSections}.
+ * chooses what is in them and in what order, and "See all" opens a list of its own rather than a
+ * tab - see {@link buildPromoSections} and {@link promotedPlugins}.
  */
 export const SECTION_FEATURED = 'featured';
 export const SECTION_BESTSELLING = 'bestselling';
@@ -68,15 +68,12 @@ export interface PluginTab {
 
 /** One row of the overview's section stack: a heading, a row of cards and a "See all". */
 export interface PluginSection {
-  /** The tab the section links to, and what "See all" writes to the `category` hash parameter. */
+  /**
+   * What the section lists: a tab id for the stack, a promotion slug for the promoted rows. Which
+   * of the two "See all" opens is {@link isPromoSection}'s answer rather than a field here.
+   */
   id: string;
   isCategory: boolean;
-  /**
-   * Whether the section has a tab behind it. False for the promoted rows, whose "See all" expands
-   * the row where it stands: there is no tab for it to open, and the set is the Marketplace's
-   * choice rather than a category anyone can browse to.
-   */
-  hasTab: boolean;
   /** Every plugin in the section, not only the ones a single row has room for. */
   plugins: PluginCard[];
 }
@@ -331,7 +328,6 @@ export function buildSections(
     .map((tab) => ({
       id: tab.id,
       isCategory: tab.isCategory,
-      hasTab: true,
       plugins: plugins.filter((plugin) => matchesTab(plugin, tab.id)),
     }));
 }
@@ -340,28 +336,42 @@ export function buildSections(
  * The promoted rows, in front of the stack {@link buildSections} derives from the tab bar.
  *
  * Kept apart from that one on purpose: those sections are a tab's contents by construction, and
- * these have no tab. Ordering is the Marketplace's position, not the page's sort - promoting a
- * plugin is pointless if the reader's sort can move it to the bottom of the row - and ties fall
- * back to the display name so a duplicated position cannot reorder itself between renders.
+ * these have no tab, so their "See all" opens the promotion's own list - see
+ * {@link promotedPlugins}, which is what both the row and that list are cut from.
  *
  * A row the reader has nothing to gain from is left out: Featured hides what they already own, and
  * then hides itself unless {@link FEATURED_MIN_PLUGINS} plugins are left to show.
  */
+export function isPromoSection(sectionId: string): boolean {
+  return PROMO_SECTIONS.includes(sectionId);
+}
+
+/**
+ * Everything one promotion holds, in the Marketplace's order: the row shows the first cards of
+ * this and its "See all" view shows all of them, so both are the same list cut in two places.
+ *
+ * Ordering is the Marketplace's position rather than the page's sort - promoting a plugin is
+ * pointless if the reader's sort can move it to the bottom of the row - and ties fall back to the
+ * display name so a duplicated position cannot reorder itself between renders.
+ */
+export function promotedPlugins(plugins: PluginCard[], sectionId: string): PluginCard[] {
+  return plugins
+    .filter((plugin) => sectionId in pluginPromotions(plugin))
+    .filter((plugin) => sectionId !== SECTION_FEATURED || !isOwned(plugin))
+    .sort((a, b) => (pluginPromotions(a)[sectionId] - pluginPromotions(b)[sectionId])
+      || (a.displayName || '').localeCompare(b.displayName || ''));
+}
+
 export function buildPromoSections(plugins: PluginCard[]): PluginSection[] {
   const sections: PluginSection[] = [];
 
   PROMO_SECTIONS.forEach((id) => {
-    const promoted = plugins
-      .filter((plugin) => id in pluginPromotions(plugin))
-      .filter((plugin) => id !== SECTION_FEATURED || !isOwned(plugin))
-      .sort((a, b) => (pluginPromotions(a)[id] - pluginPromotions(b)[id])
-        || (a.displayName || '').localeCompare(b.displayName || ''));
-
+    const promoted = promotedPlugins(plugins, id);
     const minimum = id === SECTION_FEATURED ? FEATURED_MIN_PLUGINS : 1;
 
     if (promoted.length >= minimum) {
       sections.push({
-        id, isCategory: false, hasTab: false, plugins: promoted,
+        id, isCategory: false, plugins: promoted,
       });
     }
   });

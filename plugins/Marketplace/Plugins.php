@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\Marketplace;
 
+use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\NumberFormatter;
@@ -139,7 +140,73 @@ class Plugins
             $plugins[$index] = $this->enrichPluginInformation($plugin);
         }
 
-        return array_values($plugins);
+        return $this->mockPromotions(array_values($plugins), $themesOnly);
+    }
+
+    /**
+     * TEMPORARY, development only: fakes the `promotions` the Marketplace does not send yet, so the
+     * overview's Featured and Best selling rows can be seen with real catalogue data.
+     *
+     * Off unless `[Marketplace] mock_promotions = 1` is set in config.ini.php, and only ever fills
+     * a plugin that arrived without promotions, so a real response always wins. Delete before
+     * merging.
+     *
+     * The themes list is left alone: the overview fetches plugins and themes as two requests and
+     * merges them, so numbering both from zero would put two plugins at every position, and the
+     * display-name tiebreak - not the promotion - would then decide the row.
+     *
+     * @param array<int, array<string, mixed>> $plugins
+     * @return array<int, array<string, mixed>>
+     */
+    private function mockPromotions(array $plugins, bool $themesOnly): array
+    {
+        if ($themesOnly || empty(Config::getInstance()->Marketplace['mock_promotions'])) {
+            return $plugins;
+        }
+
+        // Matomo's own plugins first, so the promoted rows read like the design's rather than like
+        // whatever the catalogue happens to list first; anything else only fills a short row.
+        $order = array_keys($plugins);
+        usort($order, function ($a, $b) use ($plugins) {
+            return (int) !$this->isMatomoOwned($plugins[$a]) <=> (int) !$this->isMatomoOwned($plugins[$b]);
+        });
+
+        $featured = 0;
+        $bestselling = 0;
+
+        foreach ($order as $index) {
+            $plugin = $plugins[$index];
+
+            if (!empty($plugin['promotions'])) {
+                continue;
+            }
+
+            $promotions = [];
+
+            // Featured hides what the reader owns, so only unowned plugins are worth putting in it
+            if ($featured < 8 && empty($plugin['isInstalled']) && empty($plugin['licenseStatus'])) {
+                $promotions['featured'] = $featured++;
+            } elseif ($bestselling < 6) {
+                // Best selling deliberately includes owned plugins, so it takes whatever is left
+                $promotions['bestselling'] = $bestselling++;
+            }
+
+            $plugins[$index]['promotions'] = $promotions;
+        }
+
+        return $plugins;
+    }
+
+    /**
+     * TEMPORARY, development only: whether Matomo owns this plugin, as the card credits it. Used
+     * only by {@link mockPromotions()}. Delete before merging.
+     *
+     * @param array<string, mixed> $plugin
+     */
+    private function isMatomoOwned(array $plugin): bool
+    {
+        return !empty($plugin['isBundle'])
+            || in_array(strtolower($plugin['owner'] ?? ''), ['piwik', 'matomo-org'], true);
     }
 
     public function getAllPaidPlugins()
@@ -628,7 +695,46 @@ class Plugins
             return;
         }
 
-        $plugin['coverImage'] = 'plugins/Marketplace/images/categories/uncategorised.png';
+        $plugin['coverImage'] = $this->mockCoverImage($plugin)
+            ?: 'plugins/Marketplace/images/categories/uncategorised.png';
+    }
+
+    /**
+     * TEMPORARY, development only: a local thumbnail for a plugin the Marketplace has no screenshot
+     * for, so the overview can be seen with artwork on every card.
+     *
+     * Off unless `[Marketplace] mock_covers = 1` is set in config.ini.php, and only consulted where
+     * a real cover image is missing, so the Marketplace's own screenshots always win. Matched on
+     * the display name, which is how the files are named. Delete before merging.
+     *
+     * @param array<string, mixed> $plugin
+     */
+    private function mockCoverImage(array $plugin): string
+    {
+        if (empty(Config::getInstance()->Marketplace['mock_covers'])) {
+            return '';
+        }
+
+        static $byName = null;
+
+        $dir = 'plugins/Marketplace/images/demo-covers';
+
+        if (null === $byName) {
+            $byName = [];
+            foreach (glob(PIWIK_INCLUDE_PATH . '/' . $dir . '/*.png') ?: [] as $file) {
+                $byName[$this->coverImageKey(basename($file, '.png'))] = $dir . '/' . basename($file);
+            }
+        }
+
+        // matched on letters and digits alone, so "A/B Testing" still finds "AB Testing.png"
+        $key = $this->coverImageKey($plugin['displayName'] ?? '');
+
+        return '' !== $key && isset($byName[$key]) ? $byName[$key] : '';
+    }
+
+    private function coverImageKey(string $name): string
+    {
+        return preg_replace('/[^a-z0-9]+/', '', strtolower($name));
     }
 
     /**

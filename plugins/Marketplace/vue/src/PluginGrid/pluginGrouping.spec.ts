@@ -405,9 +405,8 @@ describe('Marketplace/pluginGrouping', () => {
       expect(names(buildPromoSections(plugins)[0].plugins)).toEqual(['a', 'b', 'c', 'd']);
     });
 
-    it('marks the rows as having no tab, so their See all expands in place', () => {
-      expect(buildPromoSections(enoughFeatured())[0])
-        .toMatchObject({ hasTab: false, isCategory: false });
+    it('marks the rows as no category, since a promotion is not one', () => {
+      expect(buildPromoSections(enoughFeatured())[0]).toMatchObject({ isCategory: false });
     });
 
     it('leaves out of Featured what the reader already has', () => {

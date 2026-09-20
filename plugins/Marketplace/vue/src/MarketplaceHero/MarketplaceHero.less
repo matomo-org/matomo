@@ -14,7 +14,15 @@ section.marketplaceHero {
   padding: 55px 24px;
   border-radius: 8px;
   text-align: center;
-  background: linear-gradient(100deg, #e8f8fb 0%, #ecfaf9 45%, #d9f8ea 100%);
+  // Two corner washes over a near-white base, as the design builds it: a cyan haze bleeding in
+  // from the bottom left and a stronger green one from the top right. Figma draws each as a
+  // 514x768 rectangle blurred by 200px and mostly parked outside the frame, so only its falloff
+  // shows; these are that falloff as radial gradients, which paint far more cheaply than two
+  // blurred layers and - at that blur radius - lose nothing but a tilt no one can see.
+  background:
+    radial-gradient(60% 180% at 5% 130%, rgba(0, 242, 255, 0.15), transparent 70%),
+    radial-gradient(45% 200% at 99% -20%, rgba(50, 255, 193, 0.4), transparent 70%),
+    #f6ffff;
 
   .inDarkMode({
     background: @theme-color-background-lowContrast;
