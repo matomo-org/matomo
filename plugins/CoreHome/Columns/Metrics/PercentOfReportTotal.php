@@ -115,7 +115,7 @@ class PercentOfReportTotal extends ProcessedMetric
 
     public function getTranslatedName()
     {
-        return Piwik::translate('General_ColumnPercentOfReportTotal', $this->metricTranslation);
+        return Piwik::translate('General_ColumnPercentOfReportTotalShort', $this->metricTranslation);
     }
 
     public function getDocumentation()

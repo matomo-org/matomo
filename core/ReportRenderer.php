@@ -366,7 +366,7 @@ abstract class ReportRenderer extends BaseFactory
     {
         foreach ($reportColumns as $columnName => $translation) {
             if (null !== PercentOfReportTotal::getMetricNameFromColumnName($columnName)) {
-                $reportColumns[$columnName] = Piwik::translate('General_ColumnPercentOfReportTotalShort');
+                $reportColumns[$columnName] = Piwik::translate('General_ColumnPercentOfReportTotalSymbol');
             }
         }
 
