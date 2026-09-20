@@ -58,9 +58,12 @@
       on screen would either sit highlighted over results it is not filtering, or have to be moved
       to All on the reader's behalf. Out of the way, the open tab survives the search and is still
       there, unchanged, once the query is cleared.
+
+      An open promotion is held back for the same reason: it is not one of the tabs, so any tab
+      left highlighted would claim results it is not filtering. The back link below replaces it.
     -->
     <CategoryTabs
-      v-if="tabs.length > 1 && !searchQuery.trim()"
+      v-if="tabs.length > 1 && !searchQuery.trim() && !activePromotion"
       ref="categoryTabs"
       :tabs="tabs"
       :model-value="activeTab"
@@ -68,14 +71,14 @@
     />
 
     <!--
-      The way out of a promotion's list. A promotion has no tab, so nothing in the bar above is
-      highlighted while one is open and the reader would otherwise have no marked way back.
+      The way out of a promotion's list. A promotion has no tab of its own, so the tab bar above is
+      hidden while one is open and the reader would otherwise have no marked way back.
     -->
     <button
       type="button"
       class="marketplacePage__backLink"
       ref="backLink"
-      v-if="activePromotion && !searchQuery.trim()"
+      v-if="showBackLink"
       @click="closePromotion()"
     >
       <span class="icon-chevron-left marketplacePage__backIcon" aria-hidden="true" />
@@ -84,7 +87,10 @@
 
     <div
       class="marketplacePage__resultsBar"
-      :class="{ 'marketplacePage__resultsBar--empty': !resultsHeading && !showSort }"
+      :class="{
+        'marketplacePage__resultsBar--empty': !resultsHeading && !showSort,
+        'marketplacePage__resultsBar--underBackLink': showBackLink,
+      }"
       ref="resultsBar"
     >
       <div class="marketplacePage__resultsCount" aria-live="polite">
@@ -342,6 +348,14 @@ export default defineComponent({
         && !this.activePromotion
         && !this.searchQuery.trim()
         && this.sections.length > 0;
+    },
+    /**
+     * Whether the way out of a promotion's list is on screen. A search sets the promotion aside
+     * rather than closing it - see filteredPlugins() - so there is nothing to go back from while
+     * a query is typed.
+     */
+    showBackLink(): boolean {
+      return !!this.activePromotion && !this.searchQuery.trim();
     },
     /** What every grid on the page needs to render a card, gathered once. */
     cardContext(): MarketplaceContext {
@@ -732,6 +746,17 @@ export default defineComponent({
       const isVisible = this.filteredPlugins.some((candidate) => candidate.name === showPlugin);
       if (!isVisible) {
         this.resetFilters();
+      }
+
+      // Being in the results is not enough to be on the page: the grid renders the first
+      // `pageSize` of them and the rest wait on the sentinel, so a card ranked further down has no
+      // element for scrollCardIntoView() to find. Grow the page by whole pages until it does. The
+      // section stack renders its own cards and pages nothing, so it is left alone.
+      if (!this.showSections) {
+        const position = this.filteredPlugins.findIndex((c) => c.name === showPlugin) + 1;
+        if (position > this.pageSize) {
+          this.pageSize = Math.ceil(position / PAGE_SIZE) * PAGE_SIZE;
+        }
       }
 
       this.scrollCardIntoView(showPlugin as string);

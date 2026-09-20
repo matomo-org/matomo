@@ -61,12 +61,6 @@
   }
 }
 
-// The link and the heading below it are one block, so the bar drops the top margin that would
-// otherwise separate them. Only when the link is there; on every other view the bar keeps it.
-.marketplacePage__backLink + .marketplacePage__resultsBar {
-  margin-top: 8px;
-}
-
 // override: Materialize's global `button:focus` paints its own fill on every bare <button> and
 // outranks a lone class, so the tag has to appear here for this link-styled button to keep its
 // own background on click - as on .pluginSection__seeAll, for the same reason.
@@ -88,6 +82,12 @@ button.marketplacePage__backLink:focus:not(:focus-visible) {
   gap: 12px;
   margin: 24px 0 12px;
   min-height: 32px;
+}
+
+// The back link and the heading below it are one block, so the bar drops the top margin that
+// would otherwise separate them. Only under the link; on every other view the bar keeps it.
+.marketplacePage__resultsBar--underBackLink {
+  margin-top: 8px;
 }
 
 .marketplacePage__resultsBar--empty {
