@@ -15,6 +15,7 @@ use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Piwik;
+use Piwik\Plugins\CoreHome\Columns\Metrics\PercentOfReportTotal;
 use Piwik\BaseFactory;
 
 /**
@@ -183,6 +184,13 @@ abstract class Renderer extends BaseFactory
      */
     public static function formatValueXml($value)
     {
+        if (is_string($value)) {
+            // XML cannot hold these characters and has no character reference for them, so a value
+            // holding one can only be rendered without it. Done for every string, as `is_numeric()`
+            // accepts surrounding whitespace and so is true for a numeric string holding one too
+            $value = preg_replace('/[\x00-\x08\x0b\x0c\x0e-\x1f]/', '', $value);
+        }
+
         if (
             is_string($value)
             && !is_numeric($value)
@@ -253,6 +261,14 @@ abstract class Renderer extends BaseFactory
             foreach (array('metrics', 'processedMetrics', 'metricsGoal', 'processedMetricsGoal') as $index) {
                 if (isset($meta[$index]) && is_array($meta[$index])) {
                     $t = array_merge($t, $meta[$index]);
+                }
+            }
+
+            // derive translations for the percent-of-total metrics from their base metric translation
+            foreach ($t as $name => $translation) {
+                $percentOfTotalName = $name . PercentOfReportTotal::COLUMN_NAME_SUFFIX;
+                if (!isset($t[$percentOfTotalName])) {
+                    $t[$percentOfTotalName] = Piwik::translate('General_ColumnPercentOfReportTotal', $translation);
                 }
             }
 

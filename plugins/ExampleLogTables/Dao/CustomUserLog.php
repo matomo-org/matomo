@@ -15,58 +15,52 @@ use Piwik\DbHelper;
 
 class CustomUserLog
 {
-    private $table = 'log_custom';
-    private $tablePrefixed = '';
+    private const TABLE = 'log_custom';
+
+    private readonly string $tablePrefixed;
 
     public function __construct()
     {
-        $this->tablePrefixed = Common::prefixTable($this->table);
+        $this->tablePrefixed = Common::prefixTable(self::TABLE);
     }
 
-    public function install()
+    public function install(): void
     {
-        DbHelper::createTable($this->table, "
+        DbHelper::createTable(self::TABLE, "
                   `user_id` VARCHAR(191) NOT NULL,
                   `gender` VARCHAR(30) NOT NULL,
                   `group` VARCHAR(30) NOT NULL,
                   PRIMARY KEY (user_id)");
     }
 
-    public function uninstall()
+    public function uninstall(): void
     {
         Db::query(sprintf('DROP TABLE IF EXISTS `%s`', $this->tablePrefixed));
     }
 
-    private function getDb()
+    /**
+     * @return list<array<array-key, string|int|float|null>>
+     */
+    public function getAllRecords(): array
     {
-        return Db::get();
+        return Db::fetchAll('SELECT * FROM ' . $this->tablePrefixed);
     }
 
-    public function getAllRecords()
+    public function addUserInformation(string $userId, string $group, string $gender): void
     {
-        return $this->getDb()->fetchAll('SELECT * FROM ' . $this->tablePrefixed);
-    }
-
-    public function addUserInformation($userId, $group, $gender)
-    {
-        $columns = array(
+        $columns = [
             'user_id' => $userId,
             'group' => $group,
             'gender' => $gender,
-        );
-
-        $bind = array_values($columns);
-        $placeholder = Common::getSqlStringFieldsArray($columns);
+        ];
 
         $sql = sprintf(
             'INSERT INTO `%s` (`%s`) VALUES(%s)',
             $this->tablePrefixed,
             implode('`,`', array_keys($columns)),
-            $placeholder
+            Common::getSqlStringFieldsArray($columns)
         );
 
-        $db = $this->getDb();
-
-        $db->query($sql, $bind);
+        Db::query($sql, array_values($columns));
     }
 }

@@ -2,7 +2,6 @@
     "Transitions": {
         "AvailableInOtherReports": "Visste du at overganger også er tilgjengelig som en rad-handling i følgende rapporter:",
         "AvailableInOtherReports2": "Hold pekeren over en av disse rapportene og klikk på overgangsikonet %s for å starte den.",
-        "BouncesInline": "%s sprett",
         "DirectEntries": "Direkte treff",
         "ErrorBack": "Gå tilbake til forrige handling",
         "ExitsInline": "%s utganger",
@@ -36,7 +35,6 @@
         "Transitions": "Overganger",
         "TransitionsSubcategoryHelp1": "Overganger gir den en rapport som viser deg de tingene besøkende gjorde rett før eller etter de så en gitt side. Denne siden forklarer hvordan man finner, forstår og bruker den kraftige overgangsrapporten.",
         "TransitionsSubcategoryHelp2": "Flere detaljer",
-        "XOfAllPageviews": "%s av alle besøk på denne siden",
-        "XOutOfYVisits": "%1$s (av %2$s)"
+        "XOfAllPageviews": "%s av alle besøk på denne siden"
     }
 }

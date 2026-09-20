@@ -71,9 +71,11 @@ class HelloWorld extends ConsoleCommand
 
         $name = $input->getOption('name');
 
-        $message = sprintf('<info>HelloWorld: %s</info>', $name);
+        if (!is_string($name)) {
+            $name = '';
+        }
 
-        $output->writeln($message);
+        $output->writeln(sprintf('<info>HelloWorld: %s</info>', $name));
 
         return self::SUCCESS;
     }

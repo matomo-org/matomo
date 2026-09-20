@@ -24,6 +24,9 @@ use Piwik\Widget\WidgetsList;
  */
 class GetTemperaturesEvolution extends Base
 {
+    /**
+     * @return void
+     */
     protected function init()
     {
         parent::init();
@@ -33,6 +36,9 @@ class GetTemperaturesEvolution extends Base
         $this->order = 111;
     }
 
+    /**
+     * @return void
+     */
     public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory)
     {
         $widgetsList->addWidgetConfig(
@@ -46,36 +52,42 @@ class GetTemperaturesEvolution extends Base
                     ->setName('ExampleUI_TemperaturesEvolution')
                     ->setSubcategoryId('Evolution Graph')
                     ->forceViewDataTable(Evolution::ID)
-                    ->setParameters(array('columns' => array('server1', 'server2')))
+                    ->setParameters(['columns' => ['server1', 'server2']])
         );
     }
 
     /**
      * Here you can configure how your report should be displayed. For instance whether your report supports a search
      * etc. You can also change the default request config. For instance change how many rows are displayed by default.
+     *
+     * @return void
      */
     public function configureView(ViewDataTable $view)
     {
         if ($view->isViewDataTableId(Sparklines::ID)) {
-
             /** @var Sparklines $view */
-            $view->config->addSparklineMetric(array('server1'));
-            $view->config->addSparklineMetric(array('server2'));
-            $view->config->addTranslations(array('server1' => 'Evolution of temperature for server piwik.org'));
-            $view->config->addTranslations(array('server2' => 'Evolution of temperature for server dev.piwik.org'));
+            $view->config->addSparklineMetric(['server1']);
+            $view->config->addSparklineMetric(['server2']);
+            $view->config->addTranslations([
+                'server1' => 'Evolution of temperature for server piwik.org',
+                'server2' => 'Evolution of temperature for server dev.piwik.org',
+            ]);
         } elseif ($view->isViewDataTableId(Evolution::ID)) {
-
             /** @var Evolution $view */
-            $selectableColumns = array('server1', 'server2');
+            $selectableColumns = ['server1', 'server2'];
 
-            $columns = Common::getRequestVar('columns', false);
-            if (!empty($columns)) {
-                $columns = Piwik::getArrayFromApiParameter($columns);
+            // the requested columns may be sent as a comma separated string or as an array
+            $requestedColumns = Common::getRequestVar('columns', '');
+
+            if (is_string($requestedColumns)) {
+                $requestedColumns = Piwik::getArrayFromApiParameter($requestedColumns);
+            } elseif (!is_array($requestedColumns)) {
+                $requestedColumns = [];
             }
 
-            $columns = array_merge($columns ? $columns : array(), $selectableColumns);
-            $view->config->columns_to_display = $columns;
+            $columns = array_merge(array_filter($requestedColumns, 'is_string'), $selectableColumns);
 
+            $view->config->columns_to_display = $columns;
             $view->config->addTranslations(array_combine($columns, $columns));
             $view->config->selectable_columns = $selectableColumns;
             $view->requestConfig->filter_sort_column = 'label';

@@ -11,6 +11,9 @@ namespace Piwik\Plugins\ExamplePlugin;
 
 class Tasks extends \Piwik\Plugin\Tasks
 {
+    /**
+     * @return void
+     */
     public function schedule()
     {
         $this->hourly('myTask');  // method will be executed once every hour
@@ -26,12 +29,12 @@ class Tasks extends \Piwik\Plugin\Tasks
         $this->monthly('myTaskWithParam', 'anystring', self::HIGH_PRIORITY);
     }
 
-    public function myTask()
+    public function myTask(): void
     {
         // do something
     }
 
-    public function myTaskWithParam($param)
+    public function myTaskWithParam(string $param): void
     {
         // do something
     }

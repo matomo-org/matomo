@@ -28,7 +28,7 @@ class Html extends ApiRenderer
     {
         Common::sendHeader('Content-Type: text/plain; charset=utf-8', true);
 
-        return nl2br($message);
+        return $this->messageAsPlainText($message);
     }
 
     public function renderDataTable($dataTable)

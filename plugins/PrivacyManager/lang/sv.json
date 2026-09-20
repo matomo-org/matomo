@@ -56,7 +56,6 @@
         "ComplianceEnforceCheckboxIntro": "Tvinga regelefterlevnad när det är möjligt",
         "ComplianceEnforceCheckboxTitle": "Tillämpa inställningar som hjälper till att stödja regelefterlevnad där det är möjligt",
         "ComplianceNonCompliant": "icke-följsam",
-        "ComplianceSelectSite": "Välj en webbplats nedan för att få en indikation om webbplatsen är kompatibel med den angivna integritetslagen",
         "ComplianceTableSettingNotes": "Anteckningar",
         "ComplianceTableSettingStatus": "Status",
         "ConsentManagementPlatformsOutro": "Om du inte använder någon av ovanstående samtyckeshanterarna kan du implementera %1$sspårning med samtycke genom att använda Matomos JavaScript API%2$s.",

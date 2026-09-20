@@ -23,6 +23,12 @@
 		<revenue>150</revenue>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>57.1%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>57.9%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>57.1%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>57.7%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>55.6%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>57.7%</revenue_percent_of_total>
 		<code>cn</code>
 		<logo>plugins/Morpheus/icons/dist/flags/cn.png</logo>
 		<segment>countryCode==cn</segment>
@@ -51,6 +57,12 @@
 		<revenue>45</revenue>
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>17.1%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>16.8%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>17.1%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>17.3%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>16.7%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>17.3%</revenue_percent_of_total>
 		<code>ca</code>
 		<logo>plugins/Morpheus/icons/dist/flags/ca.png</logo>
 		<segment>countryCode==ca</segment>
@@ -79,6 +91,12 @@
 		<revenue>20</revenue>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
+		<nb_visits_percent_of_total>8.6%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>7.4%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>8.6%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>7.7%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>11.1%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>7.7%</revenue_percent_of_total>
 		<code>fr</code>
 		<logo>plugins/Morpheus/icons/dist/flags/fr.png</logo>
 		<segment>countryCode==fr</segment>
@@ -107,6 +125,12 @@
 		<revenue>15</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>5.7%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>5.3%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>5.7%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>5.8%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>5.6%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>5.8%</revenue_percent_of_total>
 		<code>id</code>
 		<logo>plugins/Morpheus/icons/dist/flags/id.png</logo>
 		<segment>countryCode==id</segment>
@@ -135,6 +159,12 @@
 		<revenue>15</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>5.7%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>6.3%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>5.7%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>5.8%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>5.6%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>5.8%</revenue_percent_of_total>
 		<code>it</code>
 		<logo>plugins/Morpheus/icons/dist/flags/it.png</logo>
 		<segment>countryCode==it</segment>
@@ -163,6 +193,12 @@
 		<revenue>15</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>5.7%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>6.3%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>5.7%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>5.8%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>5.6%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>5.8%</revenue_percent_of_total>
 		<code>us</code>
 		<logo>plugins/Morpheus/icons/dist/flags/us.png</logo>
 		<segment>countryCode==us</segment>

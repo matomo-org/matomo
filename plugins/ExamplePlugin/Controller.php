@@ -17,11 +17,11 @@ namespace Piwik\Plugins\ExamplePlugin;
  */
 class Controller extends \Piwik\Plugin\Controller
 {
-    public function index()
+    public function index(): string
     {
         // Render the Twig template templates/index.twig and assign the view variable answerToLife to the view.
-        return $this->renderTemplate('index', array(
+        return $this->renderTemplate('index', [
             'answerToLife' => 42,
-        ));
+        ]);
     }
 }

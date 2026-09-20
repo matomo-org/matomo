@@ -327,6 +327,7 @@ class ColumnDimensionTest extends IntegrationTestCase
         'Piwik\Plugins\Contents\Columns\ContentName',
         'Piwik\Plugins\Contents\Columns\ContentPiece',
         'Piwik\Plugins\Contents\Columns\ContentTarget',
+        'Piwik\Plugins\CoreHome\Columns\Consent',
         'Piwik\Plugins\CoreHome\Columns\Profilable',
         'Piwik\Plugins\CoreHome\Columns\ServerTime',
         'Piwik\Plugins\CoreHome\Columns\UserId',

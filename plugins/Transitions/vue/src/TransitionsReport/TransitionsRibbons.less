@@ -1,0 +1,66 @@
+.transitionsRibbons {
+  // Designer-specified: blue incoming, green outgoing, deeper at the far end of the gradient.
+  // No semantic theme token for either, so the dark values are spelled out.
+  @_incomingPale: #EAF1F8;
+  @_incomingDeep: #D6E4F4;
+  @_incomingPaleDark: #1E2A3A;
+  @_incomingDeepDark: #26374D;
+  @_outgoingPale: #E1FBFB;
+  @_outgoingDeep: #C9F2F2;
+  @_outgoingPaleDark: #15302E;
+  @_outgoingDeepDark: #1D423F;
+
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+
+  .transitionsRibbons__stopOuter {
+    stop-color: @_incomingDeep;
+
+    .inDarkMode({
+      stop-color: @_incomingDeepDark;
+    });
+  }
+
+  .transitionsRibbons__stopInner {
+    stop-color: @_incomingPale;
+
+    .inDarkMode({
+      stop-color: @_incomingPaleDark;
+    });
+  }
+
+  .transitionsRibbons__stopOuter--outgoing {
+    stop-color: @_outgoingDeep;
+
+    .inDarkMode({
+      stop-color: @_outgoingDeepDark;
+    });
+  }
+
+  .transitionsRibbons__stopInner--outgoing {
+    stop-color: @_outgoingPale;
+
+    .inDarkMode({
+      stop-color: @_outgoingPaleDark;
+    });
+  }
+
+  .transitionsRibbons__band {
+    opacity: .85;
+    transition: opacity .15s ease;
+  }
+
+  .transitionsRibbons__band--highlighted {
+    opacity: 1;
+  }
+}
+
+// override: bootstrap.css and the normalize.css inside Materialize's minified build both reset
+// `svg:not(:root) { overflow: hidden }`, which would clip the bands where they reach under their
+// rows. Qualified on purpose: `:not(:root)` is (0,1,1), which a plain class cannot beat, and the
+// Materialize copy lives in node_modules, so matching specificity and loading later is the fix.
+svg.transitionsRibbons {
+  overflow: visible;
+}

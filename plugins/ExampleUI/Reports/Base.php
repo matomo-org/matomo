@@ -13,6 +13,9 @@ use Piwik\Plugin\Report;
 
 abstract class Base extends Report
 {
+    /**
+     * @return void
+     */
     protected function init()
     {
         $this->categoryId = 'ExampleUI_UiFramework';

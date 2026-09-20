@@ -11,6 +11,7 @@ namespace Piwik\Plugins\CoreVisualizations\Visualizations;
 
 use Piwik\Common;
 use Piwik\DataTable;
+use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
 use Piwik\Plugin\Metric;
 use Piwik\Plugin\ProcessedMetric;
 use Piwik\Plugins\CoreVisualizations\Metrics\Formatter\Numeric;
@@ -48,13 +49,36 @@ abstract class Graph extends Visualization
     public function beforeRender()
     {
         if ($this->config->show_goals) {
-            $this->config->translations['nb_conversions'] = Piwik::translate('Goals_ColumnConversions');
-            $this->config->translations['revenue'] = Piwik::translate('General_TotalRevenue');
+            [$conversionsColumn, $revenueColumn] = $this->getGoalMetricColumns();
+            $this->config->translations[$conversionsColumn] = Piwik::translate('Goals_ColumnConversions');
+            $this->config->translations[$revenueColumn] = Piwik::translate('General_TotalRevenue');
+
+            // When a specific goal's metric is charted, keep the data export aligned with the
+            // charted goal-specific column(s) rather than dumping the aggregated all-goals data.
+            // (The label column is always kept by ColumnDelete, so it needs no explicit entry.)
+            if (false !== $this->getSpecificGoalId() && array_intersect([$conversionsColumn, $revenueColumn], $this->config->columns_to_display)) {
+                $this->config->export_parameters_to_modify['showColumns'] = implode(',', $this->config->columns_to_display);
+                // a flattened export adds a column per dimension, whose names only exist after
+                // flattening and so cannot be part of the allowlist above
+                $this->config->export_parameters_to_modify['keep_flattened_dimension_columns'] = 1;
+            }
         }
     }
 
     public function beforeLoadDataTable()
     {
+        $idGoal = $this->getSpecificGoalId();
+        if (false !== $idGoal) {
+            // For a specific goal, the aggregated nb_conversions / revenue columns sum conversions
+            // across all goals. Trigger the goal-column processing (as the goals table does) so the
+            // per-goal goal_<idGoal>_nb_conversions / goal_<idGoal>_revenue columns are available,
+            // and chart those instead of the aggregated ones.
+            $this->requestConfig->request_parameters_to_modify['filter_update_columns_when_show_all_goals'] = $idGoal;
+            $this->requestConfig->request_parameters_to_modify['filter_show_goal_columns_process_goals'] = $idGoal;
+
+            $this->config->columns_to_display = $this->replaceAggregatedGoalColumns($this->config->columns_to_display, $idGoal);
+        }
+
         // TODO: this should not be required here. filter_limit should not be a view property, instead HtmlTable should use 'limit' or something,
         //       and manually set request_parameters_to_modify['filter_limit'] based on that. (same for filter_offset).
         $this->requestConfig->request_parameters_to_modify['filter_limit'] = false;
@@ -174,9 +198,10 @@ abstract class Graph extends Visualization
         }
 
         if ($this->config->show_goals) {
+            [$conversionsColumn, $revenueColumn] = $this->getGoalMetricColumns();
             $this->config->addTranslations([
-                'nb_conversions' => Piwik::translate('Goals_ColumnConversions'),
-                'revenue'        => Piwik::translate('General_TotalRevenue'),
+                $conversionsColumn => Piwik::translate('Goals_ColumnConversions'),
+                $revenueColumn     => Piwik::translate('General_TotalRevenue'),
             ]);
         }
 
@@ -195,8 +220,7 @@ abstract class Graph extends Visualization
     {
         $defaultColumns = $this->getDefaultColumnsToDisplay();
         if ($this->config->show_goals) {
-            $goalMetrics       = array('nb_conversions', 'revenue');
-            $defaultColumns    = array_merge($defaultColumns, $goalMetrics);
+            $defaultColumns = array_merge($defaultColumns, $this->getGoalMetricColumns());
         }
 
         // Use the subset of default columns that are actually present in the datatable
@@ -281,5 +305,94 @@ abstract class Graph extends Visualization
         }
 
         return $metrics;
+    }
+
+    /**
+     * Returns the goal conversion and revenue columns the graph should offer and chart.
+     *
+     * When a specific goal is selected these are the per-goal columns
+     * (goal_<idGoal>_nb_conversions / goal_<idGoal>_revenue), otherwise the aggregated
+     * nb_conversions / revenue columns that sum every goal.
+     *
+     * @return string[] [$conversionsColumn, $revenueColumn]
+     */
+    private function getGoalMetricColumns(): array
+    {
+        $idGoal = $this->getSpecificGoalId();
+
+        if (false === $idGoal) {
+            return ['nb_conversions', 'revenue'];
+        }
+
+        return [
+            $this->makeGoalColumn($idGoal, 'nb_conversions'),
+            $this->makeGoalColumn($idGoal, 'revenue'),
+        ];
+    }
+
+    /**
+     * Replaces the aggregated goal columns in the given list with the per-goal columns
+     * for the selected goal, leaving all other columns untouched.
+     */
+    private function replaceAggregatedGoalColumns(array $columns, $idGoal): array
+    {
+        $map = [
+            'nb_conversions' => $this->makeGoalColumn($idGoal, 'nb_conversions'),
+            'revenue'        => $this->makeGoalColumn($idGoal, 'revenue'),
+        ];
+
+        foreach ($columns as $key => $column) {
+            if (isset($map[$column])) {
+                $columns[$key] = $map[$column];
+            }
+        }
+
+        return $columns;
+    }
+
+    private function makeGoalColumn($idGoal, string $column): string
+    {
+        return 'goal_' . $idGoal . '_' . $column;
+    }
+
+    /**
+     * Returns the id of the currently selected goal when the graph should chart that goal's
+     * specific conversion/revenue columns instead of the aggregated ones, or false otherwise.
+     *
+     * Returns false when goals are not shown, when no specific goal is selected (eg, the goals
+     * overview or the full goals table), or when the report exposes its goal metrics through a
+     * different set of columns (eg, Actions page/entry page reports).
+     *
+     * @return int|string|false
+     */
+    private function getSpecificGoalId()
+    {
+        if (!$this->config->show_goals) {
+            return false;
+        }
+
+        $idGoal = (new \Piwik\Request($this->getRequestArray()))->getStringParameter('idGoal', '');
+
+        // A specific site goal (positive id) or the ecommerce order goal, both of which expose
+        // goal_<idGoal>_nb_conversions / goal_<idGoal>_revenue columns. The goals overview, the full
+        // goals table and the abandoned cart goal are intentionally excluded.
+        $isSpecificGoal = (is_numeric($idGoal) && (int) $idGoal > 0)
+            || $idGoal === Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER;
+
+        if (!$isSpecificGoal) {
+            return false;
+        }
+
+        // Only the "normal" per-goal columns (goal_<idGoal>_nb_conversions / _revenue) are handled
+        // here. Actions page/entry reports expose goal metrics through different columns and are
+        // left untouched.
+        $requestMethod = $this->requestConfig->getApiModuleToRequest() . '.' . $this->requestConfig->getApiMethodToRequest();
+        if (AddColumnsProcessedMetricsGoal::getProcessOnlyIdGoalToUseForReport($idGoal, $requestMethod) !== $idGoal) {
+            return false;
+        }
+
+        // Normalise numeric goal ids to int so the built column names are canonical
+        // (eg, "goal_1_nb_conversions"), matching how goal columns are keyed elsewhere.
+        return is_numeric($idGoal) ? (int) $idGoal : $idGoal;
     }
 }

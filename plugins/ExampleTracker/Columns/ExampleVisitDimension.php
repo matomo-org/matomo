@@ -50,7 +50,7 @@ class ExampleVisitDimension extends VisitDimension
 
     /**
      * The name of the dimension which will be visible for instance in the UI of a related report and in the mobile app.
-     * @return string
+     * @var string
      */
     protected $nameSingular = 'ExampleTracker_DimensionName';
 
@@ -70,7 +70,7 @@ class ExampleVisitDimension extends VisitDimension
      * to perform any action on a new visit you can just remove this method.
      *
      * @param Action|null $action
-     * @return mixed|false
+     * @return string|int
      */
     public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
@@ -96,8 +96,7 @@ class ExampleVisitDimension extends VisitDimension
      * will be updated. If you do not want to perform any action on a new visit you can just remove this method.
      *
      * @param Action|null $action
-     *
-     * @return mixed|false
+     * @return string|int|false
      */
     public function onExistingVisit(Request $request, Visitor $visitor, $action)
     {
@@ -110,7 +109,7 @@ class ExampleVisitDimension extends VisitDimension
             return false; // Do not change an already persisted value
         }
 
-        return $visitor->getVisitorColumn($this->columnName) + 1;
+        return $this->getAchievementPoints($visitor) + 1;
     }
 
     /**
@@ -120,12 +119,11 @@ class ExampleVisitDimension extends VisitDimension
      * action url. Return boolean false if you do not want to change the current value.
      *
      * @param Action|null $action
-     *
-     * @return mixed|false
+     * @return int
      */
     public function onConvertedVisit(Request $request, Visitor $visitor, $action)
     {
-        return $visitor->getVisitorColumn($this->columnName) + 5;  // give this visitor 5 extra achievement points
+        return $this->getAchievementPoints($visitor) + 5;  // give this visitor 5 extra achievement points
     }
 
     /**
@@ -135,11 +133,9 @@ class ExampleVisitDimension extends VisitDimension
      * conversion. Once you implement this event and a $columnType is defined a column in the log_conversion MySQL table
      * will be created automatically.
      *
-     * @param Request $request
-     * @param Visitor $visitor
      * @param Action|null $action
-     *
      * @return mixed
+     *
     public function onAnyGoalConversion(Request $request, Visitor $visitor, $action)
     {
         return $visitor->getVisitorColumn($this->columnName);
@@ -151,10 +147,22 @@ class ExampleVisitDimension extends VisitDimension
      * a value depending on the value of other dimensions. You can do this by defining an array of dimension names.
      * If you access any value of any other column within your events, you should require them here. Otherwise those
      * values may not be available.
-     * @return array
+     *
+     * @return string[]
     public function getRequiredVisitFields()
     {
-        return array('idsite', 'server_time');
+        return ['idsite', 'server_time'];
     }
     */
+
+    /**
+     * Reads the currently persisted value for this dimension. A visitor column is not guaranteed to hold a number,
+     * so the raw value needs to be checked before it is used in a calculation.
+     */
+    private function getAchievementPoints(Visitor $visitor): int
+    {
+        $points = $visitor->getVisitorColumn($this->columnName);
+
+        return is_numeric($points) ? (int) $points : 0;
+    }
 }

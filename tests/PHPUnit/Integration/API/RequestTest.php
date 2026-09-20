@@ -407,6 +407,22 @@ class RequestTest extends IntegrationTestCase
         }
     }
 
+    public function testIsCurrentApiRequestNestedInAnotherApiRequestReflectsInvocationDepth()
+    {
+        try {
+            $this->setNestedApiInvocationCount(0);
+            $this->assertFalse(Request::isCurrentApiRequestNestedInAnotherApiRequest());
+
+            $this->setNestedApiInvocationCount(1);
+            $this->assertFalse(Request::isCurrentApiRequestNestedInAnotherApiRequest());
+
+            $this->setNestedApiInvocationCount(2);
+            $this->assertTrue(Request::isCurrentApiRequestNestedInAnotherApiRequest());
+        } finally {
+            $this->setNestedApiInvocationCount(0);
+        }
+    }
+
     private function assertSameUserAsBeforeIsAuthenticated()
     {
         $this->assertEquals($this->userAuthToken, $this->access->getTokenAuth());
@@ -470,6 +486,29 @@ class RequestTest extends IntegrationTestCase
         StaticContainer::getContainer()->set('token_auth.write_admin_allowed_module_actions', $moduleActions);
     }
 
+    /**
+     * The exception is raised before the requested format was accepted, so the fallback builder
+     * renders it — and must send nothing for the enclosing response.
+     */
+    public function testProcessRequestSendsNoDataResponseHeadersForANestedRequestWithAnInvalidFormat()
+    {
+        $_GET = ['module' => 'API'];
+        Common::$headersSentInTests = [];
+        $this->setNestedApiInvocationCount(1);
+
+        try {
+            Request::processRequest('API.getMatomoVersion', ['format' => 'no-such-format']);
+
+            $this->assertArrayNotHasKey('X-Content-Type-Options', Common::$headersSentInTests);
+            $this->assertArrayNotHasKey('X-Frame-Options', Common::$headersSentInTests);
+            $this->assertArrayNotHasKey('Content-Security-Policy', Common::$headersSentInTests);
+        } finally {
+            $this->setNestedApiInvocationCount(0);
+            $_GET = [];
+            Common::$headersSentInTests = [];
+        }
+    }
+
     private function setNestedApiInvocationCount(int $count): void
     {
         $reflection = new ReflectionClass(Request::class);
@@ -492,5 +531,66 @@ class RequestTest extends IntegrationTestCase
             'Piwik\Auth'     => $this->auth,
             'Piwik\Access' => $this->access,
         );
+    }
+
+    public function testProcessRequestRejectsAnUnusableValueForAnOptionalNullableParameter(): void
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('General_InvalidValueForParameter');
+
+        Access::doAsSuperUser(function () {
+            Request::processRequest('Annotations.getAll', [
+                'idSite' => 1,
+                'date'   => ['unusable' => 'value'],
+            ]);
+        });
+    }
+
+    public function testProcessRequestRejectsAnUnusableValueForAnOptionalNullableIntegerParameter(): void
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('General_InvalidValueForParameter');
+
+        Access::doAsSuperUser(function () {
+            Request::processRequest('Annotations.getAll', [
+                'idSite' => 1,
+                'lastN'  => ['unusable' => 'value'],
+            ]);
+        });
+    }
+
+    public function testProcessRequestAcceptsAnOptionalNullableParameterThatWasNotSupplied(): void
+    {
+        $result = Access::doAsSuperUser(function () {
+            return Request::processRequest('Annotations.getAll', ['idSite' => 1]);
+        });
+
+        self::assertIsArray($result);
+    }
+
+    public function testProcessRequestStillReportsARequiredParameterThatWasNotSupplied(): void
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('General_PleaseSpecifyValue');
+
+        Access::doAsSuperUser(function () {
+            Request::processRequest('Annotations.getAll', []);
+        });
+    }
+
+    public function testProcessRequestAcceptsTheLegacyFalseSentinelForATypedParameter(): void
+    {
+        // API.get and friends declare `$segment = false` untyped and forward that literal into sub-requests
+        // whose own parameter is typed `?string $segment = null`.
+        $result = Access::doAsSuperUser(function () {
+            return Request::processRequest('VisitFrequency.get', [
+                'idSite'  => 1,
+                'period'  => 'day',
+                'date'    => 'today',
+                'segment' => false,
+            ]);
+        });
+
+        self::assertNotNull($result);
     }
 }

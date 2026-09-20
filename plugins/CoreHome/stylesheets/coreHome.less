@@ -1,5 +1,6 @@
 .home {
-    p {
+    // Alerts are a <p> that brings its own padding; :where() adds no specificity, so every other paragraph is unchanged.
+    p:where(:not(.alert)) {
         padding-bottom: 1em;
         margin-right: 1em;
         margin-left: 1em;
@@ -127,7 +128,10 @@ div .sparkline {
     margin-top: 10px;
 }
 
-.sparkline img {
+// `.sparklineImg` is the Vue Sparkline's image and styles itself — see Sparkline.less. Excluding
+// it here keeps all of its rules in one file. `:where()` adds no specificity, so legacy sparkline
+// images are unaffected.
+.sparkline img:where(:not(.sparklineImg)) {
     vertical-align: middle;
     padding-right: 10px;
     margin-top: 0;
@@ -156,7 +160,7 @@ div.pk-emptyGraph {
     line-height: 20px;
     font-weight: normal;
     text-align: center;
-    background: url(plugins/Morpheus/images/loading-blue.gif) no-repeat center 20px;
+    background: url(plugins/Morpheus/images/loading.svg) no-repeat center 20px;
 }
 
 .Piwik_Popover_Loading_NameWithSubject {

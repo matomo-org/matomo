@@ -85,6 +85,8 @@ use Piwik\Log\LoggerInterface;
  */
 class Request
 {
+    private const ROOT_API_METHOD_CACHE_KEY = 'API.setIsRootRequestApiRequest';
+
     /**
      * The count of nested API request invocations. Used to determine if the currently executing request is the root or not.
      */
@@ -134,11 +136,6 @@ class Request
             $requestArray = $requestParsed + $defaultRequest;
         }
 
-        foreach ($requestArray as &$element) {
-            if (!is_array($element)) {
-                $element = trim((string) $element);
-            }
-        }
         return $requestArray;
     }
 
@@ -301,6 +298,10 @@ class Request
 
             if (empty($response)) {
                 $response = new ResponseBuilder('console', $this->request);
+                // as above, this one renders the exception for a nested request as well
+                if (!self::isCurrentApiRequestTheRootApiRequest()) {
+                    $response->disableSendHeader();
+                }
             }
 
             $toReturn = $response->getResponseException($e);
@@ -348,21 +349,21 @@ class Request
     /**
      * @ignore
      * @internal
-     * @param string $currentApiMethod
+     * @param string|null $currentApiMethod
      */
     public static function setIsRootRequestApiRequest($currentApiMethod)
     {
-        Cache::getTransientCache()->save('API.setIsRootRequestApiRequest', $currentApiMethod);
+        Cache::getTransientCache()->save(self::ROOT_API_METHOD_CACHE_KEY, $currentApiMethod);
     }
 
     /**
      * @ignore
      * @internal
-     * @return string current Api Method if it is an api request
+     * @return string|false|null current Api Method if it is an api request
      */
     public static function getRootApiRequestMethod()
     {
-        return Cache::getTransientCache()->fetch('API.setIsRootRequestApiRequest');
+        return Cache::getTransientCache()->fetch(self::ROOT_API_METHOD_CACHE_KEY);
     }
 
     /**
@@ -370,12 +371,10 @@ class Request
      * request within any request, have a look at {@link isApiRequest()}.
      *
      * @return bool
-     * @throws Exception
      */
     public static function isRootRequestApiRequest()
     {
-        $apiMethod = Cache::getTransientCache()->fetch('API.setIsRootRequestApiRequest');
-        return !empty($apiMethod);
+        return !empty(self::getRootApiRequestMethod());
     }
 
     /**
@@ -393,15 +392,46 @@ class Request
     }
 
     /**
+     * Checks if the currently executing API request is running inside another API request.
+     *
+     * This is true only for "child" API requests, i.e. requests that were dispatched
+     * programmatically from within another API method (for example the sub-requests run by
+     * {@link \Piwik\Plugins\API\API::getBulkRequest()}). It is false for the root request and
+     * when no API request is currently being processed.
+     */
+    public static function isCurrentApiRequestNestedInAnotherApiRequest(): bool
+    {
+        return self::$nestedApiInvocationCount > 1;
+    }
+
+    /**
+     * Whether the request being served is the API endpoint itself. The module dispatches the
+     * requested method through its index action; its other actions accept a method parameter
+     * without dispatching it.
+     *
+     * Reads the live request, so it is only meaningful before a nested API call overlays
+     * `module=API` onto the request parameters.
+     *
+     * @ignore
+     * @internal
+     */
+    public static function isApiHttpRequest(): bool
+    {
+        $action = Piwik::getAction();
+
+        return Piwik::getModule() === 'API' && (empty($action) || $action === 'index');
+    }
+
+    /**
      * Detect if request is an API request. Meaning the module is 'API' and an API method having a valid format was
      * specified. Note that this method will return true even if the actual request is for example a regular UI
      * reporting page request but within this request we are currently processing an API request (eg a
      * controller calls Request::processRequest('API.getMatomoVersion')). To find out if the root request is an API
      * request or not, call {@link isRootRequestApiRequest()}
      *
-     * @param array $request  eg array('module' => 'API', 'method' => 'Test.getMethod')
+     * @param array|null $request  eg array('module' => 'API', 'method' => 'Test.getMethod'), or
+     *                             null to read them from the query string and the request body
      * @return bool
-     * @throws Exception
      */
     public static function isApiRequest($request)
     {

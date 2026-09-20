@@ -480,6 +480,8 @@ csp_enabled = 1
 
 ; If set, and csp_enabled is on, Matomo will send a report-uri in the Content-Security-Policy-Report-Only header
 ; instead of a Content-Security-Policy header.
+; Responses that carry data rather than application UI (API output, exports, generated reports) are not
+; covered: their policy is always enforced.
 csp_report_only = 0
 
 ; If set to 1 Matomo will prefer using SERVER_NAME variable over HTTP_HOST.
@@ -573,7 +575,7 @@ auth_token_rotation_notification_days = 180
 auth_token_default_expiration_days = 180
 
 ; Number of days before the expiration date of a personal auth token, where an email notification is sent to the user.
-; If set to 0 days, notifications won't be sent. 
+; If set to 0 days, notifications won't be sent.
 ; Recommended to keep enabled for best security.
 auth_token_expiration_notification_days = 30
 
@@ -623,12 +625,16 @@ datatable_archiving_maximum_rows_custom_dimensions = 1000
 datatable_archiving_maximum_rows_subtable_custom_dimensions = 1000
 
 ; maximum number of rows for any of the Actions tables (pages, downloads, outlinks)
+; note: not used for page URLs and titles while datatable_archiving_maximum_rows_actions_flat is enabled
 datatable_archiving_maximum_rows_actions = 500
 ; maximum number of rows used when archiving flat page/title actions before rebuilding hierarchy
-; if set to 0, legacy hierarchical-only Actions archiving is used
-datatable_archiving_maximum_rows_actions_flat = 0
+; this is the row cap for the page URL and page title reports, whose categories are then not truncated
+; per category; if set to 0, legacy hierarchical-only Actions archiving is used
+; note: the Matomo 6 update sets this to 0 for existing installations, to keep their legacy archiving
+datatable_archiving_maximum_rows_actions_flat = 10000
 ; maximum number of rows for pages in categories (sub pages, when clicking on the + for a page category)
-; note: should not exceed the display limit in Piwik\Actions\Controller::ACTIONS_REPORT_ROWS_DISPLAY
+; note: not used for page URLs and titles while datatable_archiving_maximum_rows_actions_flat is enabled
+; note: should not exceed the display limit in Piwik\Plugins\Actions\Actions::ACTIONS_REPORT_ROWS_DISPLAY
 ; because each subdirectory doesn't have paging at the bottom, so all data should be displayed if possible.
 datatable_archiving_maximum_rows_subtable_actions = 100
 ; maximum number of rows for the Site Search table
@@ -677,7 +683,7 @@ live_widget_visitor_count_last_minutes = 3
 live_visitor_profile_max_visits_to_aggregate = 100
 
 ; maximum number of AI chatbots listed in the real-time AI Chatbots reports
-live_ai_chatbots_maximum_rows = 100 
+live_ai_chatbots_maximum_rows = 100
 ; maximum number of page URLs listed in the real-time AI Chatbots top page URL reports
 live_ai_chatbots_top_page_urls_maximum_rows = 100
 
@@ -721,7 +727,9 @@ multi_server_environment = 0
 ; de facto standard (X-Forwarded-For)
 ;proxy_client_headers[] = HTTP_X_FORWARDED_FOR
 
-; List of proxy headers for host IP addresses
+; List of proxy headers for the public hostname. When configured, the hostname from these headers takes precedence over
+; the Host header and is validated against trusted_hosts. List both names in trusted_hosts: the tracker config cache is
+; keyed on the Host header and is only written for a host listed there.
 ;
 ; de facto standard (X-Forwarded-Host)
 ;proxy_host_headers[] = HTTP_X_FORWARDED_HOST
@@ -885,6 +893,12 @@ enable_update_communication = 1
 ; If you may need to download GeoIP updates or other stuff using other protocols like ftp you may need to extend this list.
 allowed_outgoing_protocols = 'http,https'
 
+; Requests fetching a user-configured URL (e.g. for site content detection) refuse private, loopback and
+; reserved IP addresses. If this Matomo tracks intranet sites on such addresses, allowlist their ranges
+; here (single IPs, CIDR or wildcards, IPv4 and IPv6). Keep the ranges as narrow as possible.
+; allowed_private_egress_ranges[] = "10.0.0.0/8"
+; allowed_private_egress_ranges[] = "192.168.1.*"
+
 ; This option forces matomo marketplace and matomo api requests to use HTTP, as default we use HTTPS to improve security
 ; If you have a problem loading the marketplace, please enable this config option
 force_matomo_http_request = 0
@@ -1035,8 +1049,12 @@ window_look_back_for_visitor = 0
 default_time_one_page_visit = 0
 
 ; Comma separated list of URL query string variable names that will be removed from your tracked URLs
-; By default, Matomo will remove the most common parameters which are known to change often (eg. session ID parameters)
-url_query_parameter_to_exclude_from_url = "gclid,fbclid,msclkid,twclid,wbraid,gbraid,yclid,fb_xd_fragment,fb_comment_id,phpsessid,jsessionid,sessionid,aspsessionid,doing_wp_cron,sid,pk_vid,li_fat_id"
+; By default, Matomo will remove the most common parameters which are known to change often (eg. session ID parameters
+; and advertising/attribution tracking parameters)
+; An entry can either be a parameter name (eg. gclid) or a regular expression including its delimiters, as used below.
+; As this list is split on commas, a regular expression must not contain a
+; comma. Matching is case insensitive, so entries should always be written in lower case.
+url_query_parameter_to_exclude_from_url = "gclid,fbclid,msclkid,twclid,wbraid,gbraid,yclid,fb_xd_fragment,fb_comment_id,phpsessid,jsessionid,sessionid,aspsessionid,doing_wp_cron,sid,pk_vid,li_fat_id,token_auth,token,gad_source,gad_campaignid,/^hsa_(acc|ad|cam|grp|kw|la|mt|net|ol|src|tgt|ver)$/"
 
 ; If set to 1, Matomo will use the default provider if no other provider is configured.
 ; In addition the default provider will be used as a fallback when the configure provider does not return any results.
@@ -1345,6 +1363,8 @@ Plugins[] = JsTrackerInstallCheck
 Plugins[] = FeatureFlags
 Plugins[] = AIAgents
 Plugins[] = BotTracking
+Plugins[] = AIProviders
+Plugins[] = TrackingSpamPrevention
 
 [PluginsInstalled]
 PluginsInstalled[] = Diagnostics

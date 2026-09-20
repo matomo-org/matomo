@@ -4,48 +4,56 @@
 		
 		<nb_visits>390</nb_visits>
 		<nb_visits_percentage>98%</nb_visits_percentage>
+		<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
 		<logo>plugins/Morpheus/icons/dist/plugins/cookie.png</logo>
 	</row>
 	<row>
 		
 		<nb_visits>380</nb_visits>
 		<nb_visits_percentage>96%</nb_visits_percentage>
+		<nb_visits_percent_of_total>32.5%</nb_visits_percent_of_total>
 		<logo>plugins/Morpheus/icons/dist/plugins/flash.png</logo>
 	</row>
 	<row>
 		
 		<nb_visits>380</nb_visits>
 		<nb_visits_percentage>96%</nb_visits_percentage>
+		<nb_visits_percent_of_total>32.5%</nb_visits_percent_of_total>
 		<logo>plugins/Morpheus/icons/dist/plugins/java.png</logo>
 	</row>
 	<row>
 		
 		<nb_visits>10</nb_visits>
 		<nb_visits_percentage>3%</nb_visits_percentage>
+		<nb_visits_percent_of_total>0.9%</nb_visits_percent_of_total>
 		<logo>plugins/Morpheus/icons/dist/plugins/pdf.png</logo>
 	</row>
 	<row>
 		
 		<nb_visits>10</nb_visits>
 		<nb_visits_percentage>3%</nb_visits_percentage>
+		<nb_visits_percent_of_total>0.9%</nb_visits_percent_of_total>
 		<logo>plugins/Morpheus/icons/dist/plugins/windowsmedia.png</logo>
 	</row>
 	<row>
 		
 		<nb_visits>0</nb_visits>
 		<nb_visits_percentage>0%</nb_visits_percentage>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 		<logo>plugins/Morpheus/icons/dist/plugins/quicktime.png</logo>
 	</row>
 	<row>
 		
 		<nb_visits>0</nb_visits>
 		<nb_visits_percentage>0%</nb_visits_percentage>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 		<logo>plugins/Morpheus/icons/dist/plugins/realplayer.png</logo>
 	</row>
 	<row>
 		
 		<nb_visits>0</nb_visits>
 		<nb_visits_percentage>0%</nb_visits_percentage>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 		<logo>plugins/Morpheus/icons/dist/plugins/silverlight.png</logo>
 	</row>
 </result>

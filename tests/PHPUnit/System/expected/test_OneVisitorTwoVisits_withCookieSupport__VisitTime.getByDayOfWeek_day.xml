@@ -3,26 +3,31 @@
 	<row>
 		<label>Monday</label>
 		<nb_visits>0</nb_visits>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 		<day_of_week>1</day_of_week>
 	</row>
 	<row>
 		<label>Tuesday</label>
 		<nb_visits>0</nb_visits>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 		<day_of_week>2</day_of_week>
 	</row>
 	<row>
 		<label>Wednesday</label>
 		<nb_visits>0</nb_visits>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 		<day_of_week>3</day_of_week>
 	</row>
 	<row>
 		<label>Thursday</label>
 		<nb_visits>0</nb_visits>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 		<day_of_week>4</day_of_week>
 	</row>
 	<row>
 		<label>Friday</label>
 		<nb_visits>0</nb_visits>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 		<day_of_week>5</day_of_week>
 	</row>
 	<row>
@@ -34,11 +39,16 @@
 		<sum_visit_length>1622</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>2</nb_visits_converted>
+		<nb_visits_percent_of_total>100%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>100%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>100%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>100%</bounce_count_percent_of_total>
 		<day_of_week>6</day_of_week>
 	</row>
 	<row>
 		<label>Sunday</label>
 		<nb_visits>0</nb_visits>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
 		<day_of_week>7</day_of_week>
 	</row>
 </result>

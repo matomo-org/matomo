@@ -115,6 +115,8 @@ class ArchiveProcessor
     protected function getArchive()
     {
         if (empty($this->archive)) {
+            // a day period has no subperiods, so getSubPeriods() returns the period itself; an archive can
+            // also aggregate several sites for the same period (eg for roll-up day archives)
             $subPeriods = $this->params->getSubPeriods();
             $idSites = $this->params->getIdSites();
             $this->archive = Archive::factory($this->params->getSegment(), $subPeriods, $idSites);
@@ -126,6 +128,20 @@ class ArchiveProcessor
         }
 
         return $this->archive;
+    }
+
+    /**
+     * Queries the blob rows of a single record from the archives of the subperiods this archive aggregates.
+     * Record builders must read through this rather than building their own Archive: a second instance
+     * launches archiving for the subperiods again, which can replace an archive this build already resolved.
+     *
+     * @return iterable<array{idsite: int|string, name: string, date1: string, date2: string, value: string,
+     *     ts_archived: string}>
+     * @internal
+     */
+    public function querySingleBlobRecord(string $recordName): iterable
+    {
+        return $this->getArchive()->querySingleBlob($recordName);
     }
 
     public function setNumberOfVisits($visits, $visitsConverted)

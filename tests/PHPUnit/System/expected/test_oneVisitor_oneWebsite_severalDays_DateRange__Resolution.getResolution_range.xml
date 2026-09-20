@@ -10,6 +10,10 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>100%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>100%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>100%</bounce_count_percent_of_total>
 		<segment>resolution==1024x768</segment>
 	</row>
 </result>

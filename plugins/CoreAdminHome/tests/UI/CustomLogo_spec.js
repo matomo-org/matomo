@@ -58,7 +58,8 @@ describe("CustomLogo", function () {
 
             copyLogo(useSvg);
             await page.goto("");
-            var navWrap = await page.$('.nav-wrapper');
+            // The login layout renders the logo in its own header block rather than the top bar.
+            var navWrap = await page.$('.loginLayout__logo');
             expect(await navWrap.screenshot()).to.matchImage('login'+appendName);
         });
 

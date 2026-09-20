@@ -41,6 +41,7 @@ class Inconsistencies
             'bounce_rate_returning',
             'nb_visits_percentage',
             '/.*_evolution/',
+            '/.*_percent_of_total/',
             '/step_.*_rate/',
             '/funnel_.*_rate/',
             '/form_.*_rate/',

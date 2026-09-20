@@ -10,6 +10,8 @@
 		<min_bandwidth />
 		<max_bandwidth />
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>40%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>40%</nb_hits_percent_of_total>
 		<is_summary>1</is_summary>
 		<Actions_DownloadUrl>Others</Actions_DownloadUrl>
 	</row>
@@ -23,6 +25,8 @@
 		<min_bandwidth />
 		<max_bandwidth />
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>16%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>16%</nb_hits_percent_of_total>
 		<Actions_DownloadUrl>cloudsite5.com/ - Others</Actions_DownloadUrl>
 		<is_summary>1</is_summary>
 	</row>
@@ -36,6 +40,8 @@
 		<min_bandwidth />
 		<max_bandwidth />
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>16%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>16%</nb_hits_percent_of_total>
 		<Actions_DownloadUrl>cloudsite6.com/ - Others</Actions_DownloadUrl>
 		<is_summary>1</is_summary>
 	</row>
@@ -49,6 +55,8 @@
 		<min_bandwidth />
 		<max_bandwidth />
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>16%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>16%</nb_hits_percent_of_total>
 		<Actions_DownloadUrl>cloudsite7.com/ - Others</Actions_DownloadUrl>
 		<is_summary>1</is_summary>
 	</row>
@@ -63,6 +71,8 @@
 		<min_bandwidth />
 		<max_bandwidth />
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>4%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>4%</nb_hits_percent_of_total>
 		<url>http://cloudsite5.com/20/download</url>
 		<Actions_DownloadUrl>cloudsite5.com/20/download</Actions_DownloadUrl>
 		<segment>downloadUrl==http%253A%252F%252Fcloudsite5.com%252F20%252Fdownload</segment>
@@ -78,6 +88,8 @@
 		<min_bandwidth />
 		<max_bandwidth />
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>4%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>4%</nb_hits_percent_of_total>
 		<url>http://cloudsite6.com/24/download</url>
 		<Actions_DownloadUrl>cloudsite6.com/24/download</Actions_DownloadUrl>
 		<segment>downloadUrl==http%253A%252F%252Fcloudsite6.com%252F24%252Fdownload</segment>
@@ -93,6 +105,8 @@
 		<min_bandwidth />
 		<max_bandwidth />
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>4%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>4%</nb_hits_percent_of_total>
 		<url>http://cloudsite7.com/28/download</url>
 		<Actions_DownloadUrl>cloudsite7.com/28/download</Actions_DownloadUrl>
 		<segment>downloadUrl==http%253A%252F%252Fcloudsite7.com%252F28%252Fdownload</segment>

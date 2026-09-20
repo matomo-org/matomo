@@ -11,6 +11,10 @@
 			<nb_visits_converted>0</nb_visits_converted>
 			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<nb_visits_percent_of_total>10%</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>13.3%</nb_actions_percent_of_total>
+			<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+			<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 			<segment>referrerUrl==http%3A%2F%2Ffacebook.com%2Fwhatever</segment>
 			<url>http://facebook.com/whatever</url>
 		</row>
@@ -24,6 +28,10 @@
 			<nb_visits_converted>0</nb_visits_converted>
 			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<nb_visits_percent_of_total>10%</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>13.3%</nb_actions_percent_of_total>
+			<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+			<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 			<segment>referrerUrl==http%3A%2F%2Ffb.me%2F%3Fq%3Dsdlfjs%26n%3Dslfjsd</segment>
 			<url>http://fb.me/?q=sdlfjs&amp;n=slfjsd</url>
 		</row>
@@ -37,6 +45,10 @@
 			<nb_visits_converted>0</nb_visits_converted>
 			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<nb_visits_percent_of_total>10%</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>6.7%</nb_actions_percent_of_total>
+			<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+			<bounce_count_percent_of_total>20%</bounce_count_percent_of_total>
 			<segment>referrerUrl==http%3A%2F%2Fmixi.jp</segment>
 			<url>http://mixi.jp</url>
 		</row>
@@ -50,6 +62,10 @@
 			<nb_visits_converted>0</nb_visits_converted>
 			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<nb_visits_percent_of_total>10%</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>13.3%</nb_actions_percent_of_total>
+			<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+			<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 			<segment>referrerUrl==http%3A%2F%2Fskyrock.com</segment>
 			<url>http://skyrock.com</url>
 		</row>
@@ -63,6 +79,10 @@
 			<nb_visits_converted>0</nb_visits_converted>
 			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<nb_visits_percent_of_total>10%</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>6.7%</nb_actions_percent_of_total>
+			<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+			<bounce_count_percent_of_total>20%</bounce_count_percent_of_total>
 			<segment>referrerUrl==http%3A%2F%2Ft.co%2Fid%2F%3Fy%3Ddsfs</segment>
 			<url>http://t.co/id/?y=dsfs</url>
 		</row>
@@ -76,6 +96,10 @@
 			<nb_visits_converted>0</nb_visits_converted>
 			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<nb_visits_percent_of_total>10%</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>6.7%</nb_actions_percent_of_total>
+			<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+			<bounce_count_percent_of_total>20%</bounce_count_percent_of_total>
 			<segment>referrerUrl==http%3A%2F%2Ftwitter.com%2Fwhatever2</segment>
 			<url>http://twitter.com/whatever2</url>
 		</row>
@@ -89,6 +113,10 @@
 			<nb_visits_converted>0</nb_visits_converted>
 			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<nb_visits_percent_of_total>10%</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>6.7%</nb_actions_percent_of_total>
+			<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+			<bounce_count_percent_of_total>20%</bounce_count_percent_of_total>
 			<segment>referrerUrl==http%3A%2F%2Fwww.facebook.com%2Fanother%2Fpath</segment>
 			<url>http://www.facebook.com/another/path</url>
 		</row>
@@ -102,6 +130,10 @@
 			<nb_visits_converted>0</nb_visits_converted>
 			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<nb_visits_percent_of_total>10%</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>13.3%</nb_actions_percent_of_total>
+			<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+			<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 			<segment>referrerUrl==http%3A%2F%2Fwww.flickr.com</segment>
 			<url>http://www.flickr.com</url>
 		</row>
@@ -115,6 +147,10 @@
 			<nb_visits_converted>0</nb_visits_converted>
 			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<nb_visits_percent_of_total>10%</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>13.3%</nb_actions_percent_of_total>
+			<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+			<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 			<segment>referrerUrl==http%3A%2F%2Fwww.twitter.com%2Findex%3Fa%3D2334</segment>
 			<url>http://www.twitter.com/index?a=2334</url>
 		</row>
@@ -128,6 +164,10 @@
 			<nb_visits_converted>0</nb_visits_converted>
 			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<nb_visits_percent_of_total>10%</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>6.7%</nb_actions_percent_of_total>
+			<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+			<bounce_count_percent_of_total>20%</bounce_count_percent_of_total>
 			<segment>referrerUrl==http%3A%2F%2Fxanga.com</segment>
 			<url>http://xanga.com</url>
 		</row>
@@ -143,6 +183,10 @@
 			<nb_visits_converted>0</nb_visits_converted>
 			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+			<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+			<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 			<segment>referrerUrl==http%3A%2F%2Ft.co%2Fid%2F%3Fy%3Ddsfs</segment>
 			<url>http://t.co/id/?y=dsfs</url>
 		</row>
@@ -156,6 +200,10 @@
 			<nb_visits_converted>0</nb_visits_converted>
 			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+			<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+			<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 			<segment>referrerUrl==http%3A%2F%2Ftwitter.com%2Fwhatever2</segment>
 			<url>http://twitter.com/whatever2</url>
 		</row>
@@ -169,6 +217,10 @@
 			<nb_visits_converted>0</nb_visits_converted>
 			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 			<sum_daily_nb_users>0</sum_daily_nb_users>
+			<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+			<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+			<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 			<segment>referrerUrl==http%3A%2F%2Fwww.facebook.com%2Fanother%2Fpath</segment>
 			<url>http://www.facebook.com/another/path</url>
 		</row>

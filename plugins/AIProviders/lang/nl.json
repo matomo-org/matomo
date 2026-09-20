@@ -1,0 +1,19 @@
+{
+    "AIProviders": {
+        "AnthropicDefaultModelDescription": "Standaardmodel: claude-haiku-4-5",
+        "ApiKey": "API-sleutel",
+        "ApiKeyAlreadyConfiguredPlaceholder": "Voer een nieuwe sleutel in om de sleutel te vervangen.",
+        "ApiKeyPlaceholder": "Geef uw API-sleutel",
+        "BedrockEndpointPlaceholder": "bvb. eu-central-1",
+        "BedrockEndpointTitle": "AWS regio",
+        "BedrockUseFipsEndpoint": "Gebruik FIPS endpoint",
+        "ClickTestConnectionToShowAvailableModels": "Klik test verbinding om de beschikbare modellen te tonen.",
+        "ConfigurationIntro": "Configureer AI providers en standaard AI-gedrag in Matomo.",
+        "CustomProviderDescription": "Gebruik uw eigen OpenAI-compatibel endpoint.",
+        "DefaultBadge": "Standaard",
+        "DefaultProvider": "Standaard provider",
+        "DefaultsTitle": "Wijzig provider-instellingen en standaardwaardes",
+        "Model": "Model",
+        "TestingConnection": "Testen…"
+    }
+}

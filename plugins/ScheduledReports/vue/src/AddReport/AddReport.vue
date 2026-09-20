@@ -308,6 +308,8 @@
       <div
         v-if="allowMultipleReportsByReportType[report.type] && selectedReportsForCurrentType.length"
         class="draggableListPanel selectedReportsWrapper"
+        v-tooltips="{ duration: 200, delay: 200 }"
+        @dragstart="closeReorderTooltips()"
       >
         <div class="draggableListHeading selectedReportsHeading">
           <h3>{{ translate('ScheduledReports_SelectedReports') }}</h3>
@@ -322,7 +324,10 @@
           @reorder="onSelectedReportsReorder"
         >
           <template #default="{ item: reportItem }">
-            <span class="icon-menu-hamburger drag-icon"></span>
+            <DragHandle
+              :title="translate('ScheduledReports_ReorderReport')"
+              @pointerdown="closeReorderTooltips()"
+            />
             <span>{{ decode((reportItem as ReportMetadata).name) }}</span>
           </template>
         </DraggableList>
@@ -349,7 +354,10 @@ import {
 } from 'vue';
 import {
   ContentBlock,
+  closeTooltips,
   DraggableList,
+  DragHandle,
+  Tooltips,
   Matomo,
   MatomoUrl,
   translate,
@@ -442,16 +450,21 @@ export default defineComponent({
   components: {
     ContentBlock,
     DraggableList,
+    DragHandle,
     Field,
     SaveButton,
   },
   directives: {
     Form,
+    Tooltips,
   },
   created() {
     this.onEvolutionPeriodN = debounce(this.onEvolutionPeriodN, 50);
   },
   methods: {
+    closeReorderTooltips() {
+      closeTooltips('.selectedReportsWrapper .dragHandle');
+    },
     onEvolutionPeriodN(event: Event) {
       this.$emit('change', {
         prop: 'evolutionPeriodN',

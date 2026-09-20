@@ -157,6 +157,7 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/vue/src/MultiPairField/MultiPairField.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/DropdownMenu/DropdownMenu.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/DraggableList/DraggableList.less";
+        $stylesheets[] = "plugins/CoreHome/vue/src/DragHandle/DragHandle.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/Sparkline/Sparkline.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/FieldArray/FieldArray.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/Comparisons/Comparisons.less";
@@ -238,6 +239,10 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_Menu';
         $translationKeys[] = 'CoreHome_AddTotalsRowDataTable';
         $translationKeys[] = 'CoreHome_RemoveTotalsRowDataTable';
+        $translationKeys[] = 'CoreHome_ShowPercentageValuesDataTable';
+        $translationKeys[] = 'CoreHome_ShowAbsoluteValuesDataTable';
+        $translationKeys[] = 'CoreHome_ShowPercentageValues';
+        $translationKeys[] = 'CoreHome_ShowAbsoluteValues';
         $translationKeys[] = 'CoreHome_PeriodHasOnlyRawData';
         $translationKeys[] = 'CoreHome_PeriodHasOnlyRawDataNoVisitsLog';
         $translationKeys[] = 'SitesManager_NotFound';

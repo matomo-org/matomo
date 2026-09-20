@@ -24,6 +24,7 @@ use Piwik\Plugin\Report;
 use Piwik\Plugin\ReportsProvider;
 use Piwik\Plugins\API\Filter\DataComparisonFilter;
 use Piwik\Plugins\CoreHome\Columns\Metrics\EvolutionMetric;
+use Piwik\Plugins\CoreHome\Columns\Metrics\PercentOfReportTotal;
 use Piwik\Plugins\PrivacyManager\DataRounding;
 use Piwik\Request;
 
@@ -111,6 +112,7 @@ class DataTablePostProcessor
         $dataTable = $this->applyPivotByFilter($dataTable);
         $dataTable = $this->applyTotalsCalculator($dataTable);
         $dataTable = $this->applyFlattener($dataTable);
+        $dataTable = $this->applyPercentOfTotalMetrics($dataTable);
 
         if ($this->callbackBeforeGenericFilters) {
             call_user_func($this->callbackBeforeGenericFilters, $dataTable);
@@ -224,6 +226,46 @@ class DataTablePostProcessor
     }
 
     /**
+     * Registers processed metrics exposing each row's metric value as a percentage of the
+     * report total (eg, 'nb_visits_percent_of_total'), based on the totals calculated by
+     * ReportTotalsCalculator. Can be disabled with percent_of_total=0.
+     *
+     * @param DataTableInterface $dataTable
+     * @return DataTableInterface
+     */
+    public function applyPercentOfTotalMetrics($dataTable)
+    {
+        if (!(new Request($this->request))->getBoolParameter('percent_of_total', true)) {
+            return $dataTable;
+        }
+
+        // tables can inherit totals metadata from another API request (eg, Referrers.getAll),
+        // disabling totals should disable the percentages based on them as well
+        if (1 != Common::getRequestVar('totals', '1', 'integer', $this->request)) {
+            return $dataTable;
+        }
+
+        if (!$this->report || !$this->report->getDimension()) {
+            // without a report dimension there is a single row (eg, VisitsSummary.get),
+            // a percentage of the total is not meaningful
+            return $dataTable;
+        }
+
+        if (Common::getRequestVar('pivotBy', false, 'string', $this->request)) {
+            // pivoted tables have one column per pivot dimension value, a percentage of
+            // the report total is not meaningful there
+            return $dataTable;
+        }
+
+        $report = $this->report;
+        $dataTable->filter(function (DataTable $table) use ($report) {
+            PercentOfReportTotal::addMetricsToTable($table, $report);
+        });
+
+        return $dataTable;
+    }
+
+    /**
      * @param DataTableInterface $dataTable
      * @return DataTableInterface
      */
@@ -249,7 +291,20 @@ class DataTablePostProcessor
                 $genericFilter->disableFilters(array('Limit', 'Truncate'));
             }
 
+            $totalsCalculator = new ReportTotalsCalculator($this->apiModule, $this->apiMethod, $this->request, $this->report);
+            $genericFilter->setCallbackBeforeRowLimitingFilters(function (DataTable $table) use ($totalsCalculator) {
+                // the table still holds every row matching the request here, so the totals row can be
+                // recalculated for the table search before the rows are limited to the requested page
+                $totalsCalculator->calculateFilteredTotals($table);
+            });
+
             $genericFilter->filter($dataTable);
+
+            // when the percent-of-total columns were computed before the generic filters ran,
+            // the Truncate filter summed the per row quotients into its summary row
+            $dataTable->filter(function (DataTable $table) {
+                PercentOfReportTotal::recomputeSummaryRows($table);
+            });
         }
 
         return $dataTable;
@@ -355,6 +410,19 @@ class DataTablePostProcessor
         $showColumns = Common::getRequestVar('showColumns', '', 'string', $this->request);
         $hideColumnsRecursively = Common::getRequestVar('hideColumnsRecursively', intval($this->report && $this->report->getModule() == 'Live'), 'int', $this->request);
         $showRawMetrics = Common::getRequestVar('showRawMetrics', 0, 'int', $this->request);
+
+        $keepFlattenedDimensionColumns = (new Request($this->request))
+            ->getBoolParameter('keep_flattened_dimension_columns', false);
+
+        if ($keepFlattenedDimensionColumns && !empty($showColumns)) {
+            // Flattening with "show dimensions" adds dimension columns whose names only exist after
+            // flattening, so a caller-provided showColumns allowlist cannot include them. Keep those
+            // dimension columns so an allowlist does not discard the flattened breakdown. This is
+            // opt-in: showColumns is a public API parameter, so an allowlist is never widened
+            // unless the caller asks for it.
+            $showColumns = $this->addFlattenedDimensionsToShowColumns($showColumns, $dataTable);
+        }
+
         if (
             !empty($hideColumns)
             || !empty($showColumns)
@@ -365,6 +433,61 @@ class DataTablePostProcessor
         }
 
         return $dataTable;
+    }
+
+    /**
+     * Appends any dimension columns added by the flattener to a showColumns allowlist so they are
+     * not dropped by {@link ColumnDelete}. Dimension column names only exist after flattening, so
+     * callers that set showColumns cannot include them up front.
+     *
+     * Only called when the request opts in with keep_flattened_dimension_columns=1.
+     */
+    private function addFlattenedDimensionsToShowColumns(string $showColumns, DataTableInterface $dataTable): string
+    {
+        $dimensions = $this->getFlattenedDimensions($dataTable);
+        if (empty($dimensions)) {
+            return $showColumns;
+        }
+
+        $columns = array_filter(array_map('trim', explode(',', $showColumns)), static function ($column) {
+            return $column !== '';
+        });
+
+        return implode(',', array_values(array_unique(array_merge($columns, $dimensions))));
+    }
+
+    private function getFlattenedDimensions(DataTableInterface $dataTable): array
+    {
+        if ($dataTable instanceof DataTable\Map) {
+            foreach ($dataTable->getDataTables() as $childTable) {
+                $dimensions = $this->getFlattenedDimensions($childTable);
+                if (!empty($dimensions)) {
+                    return $dimensions;
+                }
+            }
+
+            return [];
+        }
+
+        if (!$dataTable instanceof DataTable) {
+            return [];
+        }
+
+        $dimensions = $dataTable->getMetadata('dimensions');
+        if (!is_array($dimensions) || empty($dimensions)) {
+            return [];
+        }
+
+        // The flattener records the dimensions it walked on every flat request, but only adds them
+        // as columns when "show dimensions" is requested and the report has more than one dimension.
+        // Keep the ones that ended up as columns, so a caller's allowlist is never widened by names
+        // that are not columns at all.
+        $firstRow = $dataTable->getFirstRow();
+        if (false === $firstRow) {
+            return [];
+        }
+
+        return array_values(array_intersect($dimensions, array_keys($firstRow->getColumns())));
     }
 
     public function removeTemporaryMetrics(DataTableInterface $dataTable)

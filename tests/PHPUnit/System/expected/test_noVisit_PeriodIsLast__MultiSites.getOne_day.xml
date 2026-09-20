@@ -19,6 +19,10 @@
 		<ai_chatbots_requests_evolution_trend>0</ai_chatbots_requests_evolution_trend>
 		<revenue_evolution>0%</revenue_evolution>
 		<revenue_evolution_trend>0</revenue_evolution_trend>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>0%</nb_actions_percent_of_total>
+		<hits_percent_of_total>0%</hits_percent_of_total>
+		<revenue_percent_of_total>0%</revenue_percent_of_total>
 	</result>
 	<result date="2009-01-05">
 		<nb_visits>0</nb_visits>
@@ -39,6 +43,10 @@
 		<ai_chatbots_requests_evolution_trend>0</ai_chatbots_requests_evolution_trend>
 		<revenue_evolution>0%</revenue_evolution>
 		<revenue_evolution_trend>0</revenue_evolution_trend>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>0%</nb_actions_percent_of_total>
+		<hits_percent_of_total>0%</hits_percent_of_total>
+		<revenue_percent_of_total>0%</revenue_percent_of_total>
 	</result>
 	<result date="2009-01-06">
 		<nb_visits>0</nb_visits>
@@ -59,6 +67,10 @@
 		<ai_chatbots_requests_evolution_trend>0</ai_chatbots_requests_evolution_trend>
 		<revenue_evolution>0%</revenue_evolution>
 		<revenue_evolution_trend>0</revenue_evolution_trend>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>0%</nb_actions_percent_of_total>
+		<hits_percent_of_total>0%</hits_percent_of_total>
+		<revenue_percent_of_total>0%</revenue_percent_of_total>
 	</result>
 	<result date="2009-01-07">
 		<nb_visits>0</nb_visits>
@@ -79,6 +91,10 @@
 		<ai_chatbots_requests_evolution_trend>0</ai_chatbots_requests_evolution_trend>
 		<revenue_evolution>0%</revenue_evolution>
 		<revenue_evolution_trend>0</revenue_evolution_trend>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>0%</nb_actions_percent_of_total>
+		<hits_percent_of_total>0%</hits_percent_of_total>
+		<revenue_percent_of_total>0%</revenue_percent_of_total>
 	</result>
 	<result date="2009-01-08">
 		<nb_visits>0</nb_visits>
@@ -99,6 +115,10 @@
 		<ai_chatbots_requests_evolution_trend>0</ai_chatbots_requests_evolution_trend>
 		<revenue_evolution>0%</revenue_evolution>
 		<revenue_evolution_trend>0</revenue_evolution_trend>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>0%</nb_actions_percent_of_total>
+		<hits_percent_of_total>0%</hits_percent_of_total>
+		<revenue_percent_of_total>0%</revenue_percent_of_total>
 	</result>
 	<result date="2009-01-09">
 		<nb_visits>0</nb_visits>
@@ -119,6 +139,10 @@
 		<ai_chatbots_requests_evolution_trend>0</ai_chatbots_requests_evolution_trend>
 		<revenue_evolution>0%</revenue_evolution>
 		<revenue_evolution_trend>0</revenue_evolution_trend>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>0%</nb_actions_percent_of_total>
+		<hits_percent_of_total>0%</hits_percent_of_total>
+		<revenue_percent_of_total>0%</revenue_percent_of_total>
 	</result>
 	<result date="2009-01-10">
 		<nb_visits>0</nb_visits>
@@ -139,5 +163,9 @@
 		<ai_chatbots_requests_evolution_trend>0</ai_chatbots_requests_evolution_trend>
 		<revenue_evolution>0%</revenue_evolution>
 		<revenue_evolution_trend>0</revenue_evolution_trend>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>0%</nb_actions_percent_of_total>
+		<hits_percent_of_total>0%</hits_percent_of_total>
+		<revenue_percent_of_total>0%</revenue_percent_of_total>
 	</result>
 </results>

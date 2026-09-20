@@ -3,53 +3,66 @@
 	<row>
 		<label>1 visit</label>
 		<nb_conversions>1</nb_conversions>
+		<nb_conversions_percent_of_total>50%</nb_conversions_percent_of_total>
 	</row>
 	<row>
 		<label>2 visits</label>
 		<nb_conversions>1</nb_conversions>
+		<nb_conversions_percent_of_total>50%</nb_conversions_percent_of_total>
 	</row>
 	<row>
 		<label>3 visits</label>
 		<nb_conversions>0</nb_conversions>
+		<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
 	</row>
 	<row>
 		<label>4 visits</label>
 		<nb_conversions>0</nb_conversions>
+		<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
 	</row>
 	<row>
 		<label>5 visits</label>
 		<nb_conversions>0</nb_conversions>
+		<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
 	</row>
 	<row>
 		<label>6 visits</label>
 		<nb_conversions>0</nb_conversions>
+		<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
 	</row>
 	<row>
 		<label>7 visits</label>
 		<nb_conversions>0</nb_conversions>
+		<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
 	</row>
 	<row>
 		<label>8 visits</label>
 		<nb_conversions>0</nb_conversions>
+		<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
 	</row>
 	<row>
 		<label>9-14 visits</label>
 		<nb_conversions>0</nb_conversions>
+		<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
 	</row>
 	<row>
 		<label>15-25 visits</label>
 		<nb_conversions>0</nb_conversions>
+		<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
 	</row>
 	<row>
 		<label>26-50 visits</label>
 		<nb_conversions>0</nb_conversions>
+		<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
 	</row>
 	<row>
 		<label>51-100 visits</label>
 		<nb_conversions>0</nb_conversions>
+		<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
 	</row>
 	<row>
 		<label>101+ visits</label>
 		<nb_conversions>0</nb_conversions>
+		<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
 	</row>
 </result>

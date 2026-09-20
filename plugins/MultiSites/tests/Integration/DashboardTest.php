@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\MultiSites\tests\Integration;
 
+use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Period;
 use Piwik\Plugins\MultiSites\Dashboard;
@@ -114,7 +115,6 @@ class DashboardTest extends IntegrationTestCase
                 'previous_hits' => 0,
                 'previous_revenue' => 0,
                 'previous_nb_conversions' => 0,
-                'previous_nb_actions' => 0,
                 'ai_chatbots_requests'                 => 0,
                 'ai_chatbots_requests_evolution'       => '0%',
                 'ai_chatbots_requests_evolution_trend' => 0,
@@ -153,7 +153,6 @@ class DashboardTest extends IntegrationTestCase
                 'previous_hits' => 0,
                 'previous_revenue' => 0,
                 'previous_nb_conversions' => 0,
-                'previous_nb_actions' => 0,
                 'ai_chatbots_requests'                 => 0,
                 'ai_chatbots_requests_evolution'       => '0%',
                 'ai_chatbots_requests_evolution_trend' => 0,
@@ -192,7 +191,6 @@ class DashboardTest extends IntegrationTestCase
                 'previous_hits' => 0,
                 'previous_revenue' => 0,
                 'previous_nb_conversions' => 0,
-                'previous_nb_actions' => 0,
                 'ai_chatbots_requests'                 => 0,
                 'ai_chatbots_requests_evolution'       => '0%',
                 'ai_chatbots_requests_evolution_trend' => 0,
@@ -289,6 +287,21 @@ class DashboardTest extends IntegrationTestCase
         $expectedSites = $this->buildSitesArray([1, 2, 3, 4, 5, 6, 7, 8]);
 
         $this->assertEquals($expectedSites, $this->dashboard->getSites([], $limit = 20));
+    }
+
+    /**
+     * The sites are rendered through a nested response builder while a page is built, so it must
+     * send no headers for the outer response.
+     */
+    public function testGetSitesSendsNoResponseHeaders()
+    {
+        $this->setSitesTable(8);
+
+        Common::$headersSentInTests = [];
+
+        $this->dashboard->getSites([], $limit = 20);
+
+        $this->assertSame([], Common::$headersSentInTests);
     }
 
     public function testGetSitesShouldApplyALimit()

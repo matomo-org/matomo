@@ -38,6 +38,8 @@
         "RecommendedPrivateDirectories": "Comhadlanna Príobháideacha Molta",
         "RequiredPrivateDirectories": "Comhadlanna Príobháideacha Riachtanach",
         "Sections": "Ailt",
+        "SessionStorageFormat": "Formáid Stórála Seisiúin",
+        "SessionStorageFormatWarning": "Stóráiltear seisiúin mar %1$s toisc nach bhféadfaí `session.serialize_handler` a shocrú ar `php_serialize`; dá bhrí sin, d’fhéadfaí athruithe a dhéanann dhá iarratas ag an am céanna a chailleadh. Socraigh é ar `php_serialize` i do chomhad `php.ini`.",
         "UrlsAccessibleViaBrowser": "Fuaireamar amach go bhfuil na URLanna thuas inrochtana tríd an mbrabhsálaí, ach molaimid nár cheart dóibh a bheith. Más féidir, cuir srian le rochtain orthu."
     }
 }

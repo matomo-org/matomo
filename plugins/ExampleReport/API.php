@@ -11,6 +11,7 @@ namespace Piwik\Plugins\ExampleReport;
 
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
+use Piwik\Piwik;
 
 /**
  * API for plugin ExampleReport
@@ -21,17 +22,16 @@ class API extends \Piwik\Plugin\API
 {
     /**
      * Another example method that returns a data table.
-     * @param int    $idSite
-     * @param string $period
-     * @param string $date
-     * @param bool|string $segment
-     * @return DataTable
+     *
+     * @param string $idSite (might be a number, or the string all)
      */
-    public function getExampleReport($idSite, $period, $date, $segment = false)
+    public function getExampleReport(string $idSite, string $period, string $date, ?string $segment = null): DataTable
     {
+        Piwik::checkUserHasViewAccess($idSite);
+
         $table = new DataTable();
 
-        $table->addRowFromArray(array(Row::COLUMNS => array('nb_visits' => 5)));
+        $table->addRowFromArray([Row::COLUMNS => ['nb_visits' => 5]]);
 
         return $table;
     }

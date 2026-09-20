@@ -18,6 +18,7 @@ use Piwik\DataTable\Filter\Pattern;
 use Piwik\DataTable\Renderer;
 use Piwik\ExceptionHandler;
 use Piwik\Http\HttpCodeException;
+use Piwik\Http\SecurityHeaders;
 use Piwik\Plugin\ReportsProvider;
 use Piwik\Plugins\Monolog\Processor\ExceptionToTextProcessor;
 use Piwik\Plugins\PrivacyManager\DataRounding;
@@ -33,6 +34,13 @@ class ResponseBuilder
     private $apiModule = false;
     private $apiMethod = false;
     private $shouldPrintBacktrace = false;
+    /**
+     * Captured up front: a nested API call overlays `module=API` while it runs, which would
+     * otherwise make a page's own response look like API output. The module is checked rather
+     * than the root API method, as that is unset when the method name does not parse and the
+     * error response for those is a data response too.
+     */
+    private bool $isApiHttpRequest;
 
     /**
      * @param string $outputFormat
@@ -45,6 +53,7 @@ class ResponseBuilder
         $this->request      = $request;
         $this->apiRenderer  = ApiRenderer::factory($outputFormat, $request);
         $this->shouldPrintBacktrace = $shouldPrintBacktrace === null ? ExceptionHandler::shouldPrintBackTraceWithMessage() : $shouldPrintBacktrace;
+        $this->isApiHttpRequest = Request::isApiHttpRequest();
     }
 
     public function disableSendHeader()
@@ -143,7 +152,11 @@ class ResponseBuilder
             $this->sendHeader
             && $e instanceof HttpCodeException
             && $e->getCode() > 0
+            && Request::isRootRequestApiRequest()
         ) {
+            // Only the response of an actual API HTTP request may carry the exception's HTTP code.
+            // API calls issued while rendering a regular page (e.g. a widget fetching additional
+            // data) would otherwise overwrite the status code of an outer response that succeeds.
             http_response_code($e->getCode());
         }
 
@@ -264,8 +277,21 @@ class ResponseBuilder
 
     private function sendHeaderIfEnabled()
     {
-        if ($this->sendHeader) {
-            $this->apiRenderer->sendHeader();
+        if (!$this->sendHeader) {
+            return;
         }
+
+        if ($this->isApiHttpRequest) {
+            SecurityHeaders::sendForDataResponse();
+        }
+
+        // an API method that streamed its own response has already sent the content type for the
+        // body it wrote, and overwriting it would mislabel that body. A content type on its own
+        // says nothing, as one is also set for a response whose body is still to be rendered.
+        if (ob_get_contents() && '' !== Common::getSentHeader('Content-Type')) {
+            return;
+        }
+
+        $this->apiRenderer->sendHeader();
     }
 }

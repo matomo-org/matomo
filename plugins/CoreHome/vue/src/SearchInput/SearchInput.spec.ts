@@ -54,4 +54,165 @@ describe('CoreHome/SearchInput', () => {
 
     expect(wrapper.emitted('update:modelValue')?.[0]).toEqual(['']);
   });
+
+  // A consumer that puts the input in a positive tabindex (the site selector uses 4) would
+  // otherwise leave the button on the default 0, which sorts it after every positive-tabindex
+  // element in the document instead of next to its own input.
+  it('gives the clear button the same tabindex as the input', () => {
+    const wrapper = mount(SearchInput, {
+      props: {
+        modelValue: 'country',
+        showClear: true,
+      },
+      attrs: {
+        tabindex: '4',
+      },
+    });
+
+    expect(wrapper.find('.mtm-searchInput__input').attributes('tabindex')).toBe('4');
+    expect(wrapper.find('.mtm-searchInput__clear').attributes('tabindex')).toBe('4');
+  });
+
+  it('leaves the clear button at its natural tab order when the input sets no tabindex', () => {
+    const wrapper = mount(SearchInput, {
+      props: {
+        modelValue: 'country',
+        showClear: true,
+      },
+    });
+
+    expect(wrapper.find('.mtm-searchInput__clear').attributes('tabindex')).toBeUndefined();
+  });
+
+  // Clearing empties the value, which unmounts the button the user just activated, so focus has
+  // to be handed back to the input rather than falling through to <body>.
+  it('returns focus to the input when the clear button is used', async () => {
+    const wrapper = mount(SearchInput, {
+      props: {
+        modelValue: 'country',
+        showClear: true,
+      },
+      attachTo: document.body,
+    });
+
+    const input = wrapper.find('.mtm-searchInput__input').element as HTMLInputElement;
+    expect(document.activeElement).not.toBe(input);
+
+    await wrapper.find('.mtm-searchInput__clear').trigger('click');
+
+    expect(document.activeElement).toBe(input);
+
+    wrapper.unmount();
+  });
+
+  it('gives the clear button a translated title', () => {
+    const wrapper = mount(SearchInput, {
+      props: {
+        modelValue: 'country',
+        showClear: true,
+      },
+    });
+
+    expect(wrapper.find('.mtm-searchInput__clear').attributes('title')).toBe('General_Clear');
+  });
+
+  it('applies attributes set on the component to the input, not to the wrapper', () => {
+    const wrapper = mount(SearchInput, {
+      props: {
+        modelValue: '',
+      },
+      attrs: {
+        tabindex: '5',
+        title: 'Search menu entries',
+      },
+    });
+
+    const input = wrapper.find('input');
+    expect(input.attributes('tabindex')).toBe('5');
+    expect(input.attributes('title')).toBe('Search menu entries');
+
+    const wrapperDiv = wrapper.find('.mtm-searchInput');
+    expect(wrapperDiv.attributes('tabindex')).toBeUndefined();
+    expect(wrapperDiv.attributes('title')).toBeUndefined();
+  });
+
+  it('forwards a listener set on the component to the input exactly once', async () => {
+    // guards inheritAttrs: false: otherwise the bubbling event would invoke the listener twice
+    const onKeydown = vi.fn();
+    const wrapper = mount(SearchInput, {
+      props: {
+        modelValue: '',
+      },
+      attrs: {
+        onKeydown,
+        onFocus: onKeydown,
+      },
+    });
+
+    await wrapper.find('input').trigger('keydown');
+
+    expect(onKeydown).toHaveBeenCalledTimes(1);
+  });
+
+  it('focuses the input when the focused prop becomes true', async () => {
+    vi.useFakeTimers();
+
+    try {
+      const wrapper = mount(SearchInput, {
+        props: {
+          modelValue: '',
+          focused: false,
+        },
+        attachTo: document.body,
+      });
+
+      await wrapper.setProps({ focused: true });
+      vi.advanceTimersByTime(10);
+
+      expect(document.activeElement).toBe(wrapper.find('input').element);
+      wrapper.unmount();
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it('blur() removes focus from the input', () => {
+    const wrapper = mount(SearchInput, {
+      props: {
+        modelValue: '',
+      },
+      attachTo: document.body,
+    });
+
+    const input = wrapper.find('input').element as HTMLInputElement;
+    input.focus();
+    expect(document.activeElement).toBe(input);
+
+    (wrapper.vm as unknown as { blur: () => void }).blur();
+
+    expect(document.activeElement).not.toBe(input);
+    wrapper.unmount();
+  });
+
+  it('does not emit while text is still being composed', async () => {
+    const wrapper = mount(SearchInput, {
+      props: {
+        modelValue: '',
+      },
+    });
+
+    const input = wrapper.find('input');
+    const element = input.element as HTMLInputElement;
+
+    await input.trigger('compositionstart');
+    element.value = 'にほn';
+    await input.trigger('input');
+
+    expect(wrapper.emitted('update:modelValue')).toBeUndefined();
+
+    element.value = '日本';
+    await input.trigger('compositionend');
+
+    expect(wrapper.emitted('update:modelValue')).toEqual([['日本']]);
+  });
 });

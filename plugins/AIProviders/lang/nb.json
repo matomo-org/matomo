@@ -1,0 +1,8 @@
+{
+    "AIProviders": {
+        "ApiKey": "API-nøkkel",
+        "DefaultBadge": "Standard",
+        "Model": "Modell",
+        "TestingConnection": "Tester …"
+    }
+}

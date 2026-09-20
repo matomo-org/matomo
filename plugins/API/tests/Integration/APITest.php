@@ -124,26 +124,6 @@ class APITest extends IntegrationTestCase
         }
     }
 
-    public function testArchiveReportsRequestWithWhitespacePaddedMethodDeniesViewOnlyUser()
-    {
-        $this->setAnonymousAccessForSite(1, 'view');
-
-        try {
-            $response = $this->processRootApiRequest([
-                'module' => 'API',
-                'method' => ' CoreAdminHome.archiveReports ',
-                'idSite' => '1',
-                'period' => 'day',
-                'date' => '2012-01-01',
-                'format' => 'json',
-            ]);
-
-            $this->assertResponseIsSuperUserPermissionError($response);
-        } finally {
-            $this->restoreAnonymousAccessForSite(1);
-        }
-    }
-
     public function testGetBulkRequestWithWhitespacePaddedMethodsDeniesArchiveReportsForViewOnlyUser()
     {
         $this->setAnonymousAccessForSite(1, 'view');
@@ -151,13 +131,15 @@ class APITest extends IntegrationTestCase
         try {
             $response = $this->processRootApiRequest([
                 'module' => 'API',
-                'method' => ' API.getBulkRequest ',
+                'method' => 'API.getBulkRequest',
                 'format' => 'json',
                 'urls' => [$this->makeArchiveReportsBulkUrl(1, null, ' CoreAdminHome.archiveReports ')],
             ]);
 
             $this->assertCount(1, $response);
-            $this->assertResponseIsSuperUserPermissionError($response[0]);
+            // request parameters are no longer trimmed, so the padded method does not resolve to a
+            // plugin at all and is rejected before the superuser check applies
+            $this->assertResponseIsError($response[0]);
         } finally {
             $this->restoreAnonymousAccessForSite(1);
         }
@@ -585,6 +567,39 @@ class APITest extends IntegrationTestCase
         }
     }
 
+    /**
+     * @dataProvider getDetectIsApiRequestCases
+     */
+    public function testDetectIsApiRequest(array $requestParams, ?string $expectedMethod)
+    {
+        $rootApiMethod = Request::getRootApiRequestMethod();
+        $get = $_GET;
+        $post = $_POST;
+
+        try {
+            $_GET = $requestParams;
+            $_POST = [];
+            (new \Piwik\Plugins\API\Plugin())->detectIsApiRequest();
+
+            $this->assertSame($expectedMethod, Request::getRootApiRequestMethod());
+            $this->assertSame(null !== $expectedMethod, Request::isRootRequestApiRequest());
+        } finally {
+            $_GET = $get;
+            $_POST = $post;
+            Request::setIsRootRequestApiRequest($rootApiMethod ?: '');
+        }
+    }
+
+    public function getDetectIsApiRequestCases(): iterable
+    {
+        yield 'no action' => [['module' => 'API', 'method' => 'API.get'], 'API.get'];
+        yield 'index action' => [['module' => 'API', 'action' => 'index', 'method' => 'API.get'], 'API.get'];
+        yield 'glossary action' => [['module' => 'API', 'action' => 'glossary', 'method' => 'API.get'], null];
+        yield 'get action' => [['module' => 'API', 'action' => 'get', 'method' => 'API.get'], null];
+        yield 'no method' => [['module' => 'API', 'action' => 'index'], null];
+        yield 'other module' => [['module' => 'CoreHome', 'action' => 'index', 'method' => 'API.get'], null];
+    }
+
     private function assertResponseIsPermissionError($response)
     {
         $this->assertSame('error', $response['result']);
@@ -594,6 +609,11 @@ class APITest extends IntegrationTestCase
     private function assertResponseIsSuccess($response)
     {
         $this->assertArrayNotHasKey('result', $response);
+    }
+
+    private function assertResponseIsError($response)
+    {
+        $this->assertSame('error', $response['result']);
     }
 
     private function assertResponseIsSuperUserPermissionError($response)

@@ -27,29 +27,29 @@ class SimpleSystemTest extends SystemTestCase
     /**
      * @dataProvider getApiForTesting
      */
-    public function testApi($api, $params)
+    public function testApi($api, $params): void
     {
         $this->runApiTests($api, $params);
     }
 
     public function getApiForTesting()
     {
-        $api = array(
+        $api = [
             'API.get',
             'Goals.getItemsSku',
-        );
+        ];
 
-        $apiToTest   = array();
-        $apiToTest[] = array($api,
-            array(
-                'idSite'     => 1,
-                'date'       => self::$fixture->dateTime,
-                'periods'    => array('day'),
-                'testSuffix' => '',
-            ),
-        );
-
-        return $apiToTest;
+        return [
+            [
+                $api,
+                [
+                    'idSite'     => 1,
+                    'date'       => self::$fixture->dateTime,
+                    'periods'    => ['day'],
+                    'testSuffix' => '',
+                ],
+            ],
+        ];
     }
 
     public static function getOutputPrefix()
@@ -59,7 +59,7 @@ class SimpleSystemTest extends SystemTestCase
 
     public static function getPathToTestDirectory()
     {
-        return dirname(__FILE__);
+        return __DIR__;
     }
 }
 

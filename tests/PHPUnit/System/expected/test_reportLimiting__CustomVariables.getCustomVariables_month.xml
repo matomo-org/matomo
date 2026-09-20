@@ -3,6 +3,7 @@
 	<row>
 		<label>liked</label>
 		<nb_actions>60</nb_actions>
+		<nb_actions_percent_of_total>20%</nb_actions_percent_of_total>
 		<slots>
 			<row>
 				<scope>page</scope>
@@ -16,18 +17,21 @@
 				<nb_visits>48</nb_visits>
 				<nb_actions>48</nb_actions>
 				<sum_daily_nb_uniq_visitors>15</sum_daily_nb_uniq_visitors>
+				<nb_actions_percent_of_total>16%</nb_actions_percent_of_total>
 			</row>
 			<row>
 				<label>Others</label>
 				<nb_visits>12</nb_visits>
 				<nb_actions>12</nb_actions>
 				<sum_daily_nb_uniq_visitors>12</sum_daily_nb_uniq_visitors>
+				<nb_actions_percent_of_total>4%</nb_actions_percent_of_total>
 			</row>
 		</subtable>
 	</row>
 	<row>
 		<label>name</label>
 		<nb_actions>60</nb_actions>
+		<nb_actions_percent_of_total>20%</nb_actions_percent_of_total>
 		<slots>
 			<row>
 				<scope>page</scope>
@@ -41,17 +45,20 @@
 				<nb_visits>3</nb_visits>
 				<nb_actions>3</nb_actions>
 				<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
+				<nb_actions_percent_of_total>1%</nb_actions_percent_of_total>
 			</row>
 			<row>
 				<label>Others</label>
 				<nb_visits>57</nb_visits>
 				<nb_actions>57</nb_actions>
 				<sum_daily_nb_uniq_visitors>57</sum_daily_nb_uniq_visitors>
+				<nb_actions_percent_of_total>19%</nb_actions_percent_of_total>
 			</row>
 		</subtable>
 	</row>
 	<row>
 		<label>Others</label>
 		<nb_actions>180</nb_actions>
+		<nb_actions_percent_of_total>60%</nb_actions_percent_of_total>
 	</row>
 </result>

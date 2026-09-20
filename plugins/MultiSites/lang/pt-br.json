@@ -1,6 +1,9 @@
 {
     "MultiSites": {
+        "AiChatbotsRequests": "Solicitações de chatbots de IA",
+        "AiChatbotsSegmentationTooltip": "A segmentação não está disponível para esta métrica porque as solicitações de chatbots de IA (como as do ChatGPT) não estão vinculadas a visitas ou visitantes comuns.",
         "AllWebsitesDashboardDocumentation": "Este relatório fornece uma visão geral informativa de cada um de seus sites, contendo as métricas mais gerais sobre seus visitantes.",
+        "AllWebsitesDashboardErrorMessage": "Os dados não estão disponíveis no momento. Isso pode ocorrer devido a um problema temporário no servidor ou porque o relatório contém uma quantidade excessiva de dados. Por favor, tente novamente mais tarde. Se o problema persistir, entre em contato com o administrador do Matomo para obter assistência.",
         "AllWebsitesDashboardTitle": "Todos os sites",
         "Evolution": "Evolução",
         "EvolutionComparisonDay": "%1$s%2$s neste dia, comparado a %3$s%2$s no período parcial anterior (%4$s) Evolução: %5$s",
@@ -9,10 +12,28 @@
         "EvolutionComparisonProportional": "Quando o período anterior também estava %1$s completo, teria havido uma estimativa %2$s%3$s\n(fora de um total de %4$s %3$s no período anterior).",
         "EvolutionComparisonWeek": "%1$s%2$s nesta semana comparado a %3$s%2$s no período parcial anterior (%4$s) Evolução:%5$s",
         "EvolutionComparisonYear": "%1$s %2$s este ano em comparação com %3$s %2$s no período parcial anterior (%4$s) Evolução: %5$s",
+        "EvolutionFromPreviousDay": "Do dia anterior",
+        "EvolutionFromPreviousMonth": "Do mês anterior",
+        "EvolutionFromPreviousPeriod": "Do período anterior",
+        "EvolutionFromPreviousWeek": "Da semana anterior",
+        "EvolutionFromPreviousYear": "Do ano anterior",
         "LoadingWebsites": "Carregando sites",
+        "MetricDocumentationAiChatbotsRequests": "Número total de solicitações ao chatbot de IA registradas para este site.",
+        "MetricDocumentationEvolution": "A variação percentual desta métrica em relação ao período anterior para este site. Um valor positivo indica crescimento, enquanto um valor negativo sinaliza uma queda.",
+        "MetricDocumentationHits": "O número total de ações registradas para este site, incluindo visualizações de página, downloads e links externos.",
+        "MetricDocumentationHitsIncludingAi": "O número total de ações registradas para este site, incluindo visualizações de página, downloads, links externos e solicitações de chatbots de IA.",
+        "MetricDocumentationPageviews": "O número total de páginas visualizadas neste site. Isso inclui múltiplas visualizações da mesma página por um único visitante.",
+        "MetricDocumentationRevenue": "A receita total registrada para este site. Esta métrica está disponível se o acompanhamento de comércio eletrônico estiver ativado e reflete compras ou receitas baseadas em metas.",
+        "MetricDocumentationVisits": "O número total de visitas registradas neste site. Uma visita começa quando um usuário acessa o site e termina após um período de inatividade ou quando a sessão expira.",
+        "MetricDocumentationWebsite": "A lista de sites monitorados exibida no painel. Cada linha representa um site distinto com seus respectivos dados de análise.",
         "PluginDescription": "Veja e compare todos os seus sites e aplicativos neste útil painel 'Todos os sites'.",
+        "SegmentationNotSupported": "A segmentação não é suportada",
         "SingleWebsitesDashboardDocumentation": "Este relatório fornece uma visão geral informativa de um site específico, contendo as métricas mais gerais sobre seus visitantes.",
         "TopLinkTooltip": "Comparar estatísticas de Web Analytics de todos os seus sites.",
-        "TotalPageviews": "Total de Exibições de Páginas"
+        "TotalAiChatbotsRequests": "Total de solicitações para chatbots de IA",
+        "TotalHits": "Total de acessos",
+        "TotalHitsIncludingAiTooltip": "Total de Acessos: Incluindo todos os acessos de humanos e solicitações de chatbots de IA",
+        "TotalPageviews": "Total de Exibições de Páginas",
+        "TotalVisits": "Total de visitas"
     }
 }

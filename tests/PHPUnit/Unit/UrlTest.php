@@ -74,6 +74,128 @@ class UrlTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($test[4], Url::getCurrentHost(), $description);
     }
 
+    public function testConfiguredProxyHostIsUsedForTrustedHostCheck()
+    {
+        Url::setHost('matomo-app');
+        $_SERVER['HTTP_X_FORWARDED_HOST'] = 'example.org';
+        Config::getInstance()->General['proxy_host_headers'] = ['HTTP_X_FORWARDED_HOST'];
+        Config::getInstance()->General['enable_trusted_host_check'] = 1;
+        Config::getInstance()->General['trusted_hosts'] = ['example.org'];
+
+        $this->assertTrue(Url::isValidHost());
+        $this->assertSame('example.org', Url::getCurrentHost());
+    }
+
+    public function testUntrustedConfiguredProxyHostIsRejected()
+    {
+        Url::setHost('matomo-app');
+        $_SERVER['HTTP_X_FORWARDED_HOST'] = 'untrusted.example.net';
+        Config::getInstance()->General['proxy_host_headers'] = ['HTTP_X_FORWARDED_HOST'];
+        Config::getInstance()->General['enable_trusted_host_check'] = 1;
+        Config::getInstance()->General['trusted_hosts'] = ['example.org'];
+
+        $this->assertFalse(Url::isValidHost());
+        $this->assertSame('example.org', Url::getCurrentHost());
+    }
+
+    public function testConfiguredProxyHostMustPassHostValidation()
+    {
+        Url::setHost('matomo-app');
+        $_SERVER['HTTP_X_FORWARDED_HOST'] = 'untrusted.example.net';
+        Config::getInstance()->General['proxy_host_headers'] = ['HTTP_X_FORWARDED_HOST'];
+        Config::getInstance()->General['enable_trusted_host_check'] = 1;
+        Config::getInstance()->General['trusted_hosts'] = ['example.org'];
+
+        $this->assertFalse(Url::isProxyHostValid());
+    }
+
+    public function testRequestWithoutProxyHostPassesProxyHostValidation()
+    {
+        Url::setHost('example.org');
+        unset($_SERVER['HTTP_X_FORWARDED_HOST']);
+        Config::getInstance()->General['proxy_host_headers'] = ['HTTP_X_FORWARDED_HOST'];
+        Config::getInstance()->General['enable_trusted_host_check'] = 1;
+        Config::getInstance()->General['trusted_hosts'] = ['example.org'];
+
+        $this->assertTrue(Url::isProxyHostValid());
+    }
+
+    public function testProxyHostValidationUsesTheFirstUsableConfiguredHeader()
+    {
+        Url::setHost('untrusted.example.net');
+        $_SERVER['HTTP_X_FORWARDED_HOST'] = 'unknown';
+        $_SERVER['HTTP_X_ALTERNATE_FORWARDED_HOST'] = 'proxy.example.org';
+        Config::getInstance()->General['proxy_host_headers'] = [
+            'HTTP_X_FORWARDED_HOST',
+            'HTTP_X_ALTERNATE_FORWARDED_HOST',
+        ];
+        Config::getInstance()->General['enable_trusted_host_check'] = 1;
+        Config::getInstance()->General['trusted_hosts'] = ['example.org'];
+
+        $this->assertTrue(Url::isProxyHostValid());
+    }
+
+    public function testProxyHostValidationStopsAtTheFirstUsableConfiguredHeader()
+    {
+        Url::setHost('example.org');
+        $_SERVER['HTTP_X_FORWARDED_HOST'] = 'unknown';
+        $_SERVER['HTTP_X_ALTERNATE_FORWARDED_HOST'] = 'untrusted.example.net';
+        $_SERVER['HTTP_X_LAST_FORWARDED_HOST'] = 'example.org';
+        Config::getInstance()->General['proxy_host_headers'] = [
+            'HTTP_X_FORWARDED_HOST',
+            'HTTP_X_ALTERNATE_FORWARDED_HOST',
+            'HTTP_X_LAST_FORWARDED_HOST',
+        ];
+        Config::getInstance()->General['enable_trusted_host_check'] = 1;
+        Config::getInstance()->General['trusted_hosts'] = ['example.org'];
+
+        $this->assertFalse(Url::isProxyHostValid());
+    }
+
+    public function testDiscardedProxyHostPassesProxyHostValidation()
+    {
+        Url::setHost('untrusted.example.net');
+        $_SERVER['HTTP_X_FORWARDED_HOST'] = 'unknown';
+        Config::getInstance()->General['proxy_host_headers'] = ['HTTP_X_FORWARDED_HOST'];
+        Config::getInstance()->General['enable_trusted_host_check'] = 1;
+        Config::getInstance()->General['trusted_hosts'] = ['example.org'];
+
+        $this->assertTrue(Url::isProxyHostValid());
+    }
+
+    public function testProxyHostPassesValidationWhenTrustedHostCheckIsDisabled()
+    {
+        Url::setHost('example.org');
+        $_SERVER['HTTP_X_FORWARDED_HOST'] = 'other.example.net';
+        Config::getInstance()->General['proxy_host_headers'] = ['HTTP_X_FORWARDED_HOST'];
+        Config::getInstance()->General['enable_trusted_host_check'] = 0;
+        Config::getInstance()->General['trusted_hosts'] = ['example.org'];
+
+        $this->assertTrue(Url::isProxyHostValid());
+    }
+
+    public function testProxyHostPassesValidationWithoutConfiguredTrustedHosts()
+    {
+        Url::setHost('matomo-app');
+        $_SERVER['HTTP_X_FORWARDED_HOST'] = 'example.org';
+        Config::getInstance()->General['proxy_host_headers'] = ['HTTP_X_FORWARDED_HOST'];
+        Config::getInstance()->General['enable_trusted_host_check'] = 1;
+        Config::getInstance()->General['trusted_hosts'] = [];
+
+        $this->assertTrue(Url::isProxyHostValid());
+    }
+
+    public function testDefaultHostIsNotSeededIntoTrustedHostsWithoutARequestHost()
+    {
+        unset($_SERVER['HTTP_HOST'], $_SERVER['SERVER_NAME'], $_SERVER['SERVER_PORT']);
+        Config::getInstance()->General['proxy_host_headers'] = [];
+        Config::getInstance()->General['enable_trusted_host_check'] = 1;
+        Config::getInstance()->General['trusted_hosts'] = [];
+
+        $this->assertSame('unknown', Url::getCurrentHost());
+        $this->assertSame([], Config::getInstance()->General['trusted_hosts']);
+    }
+
     public function testGetHostWithTrustedHosts()
     {
         Config::getInstance()->General['enable_trusted_host_check'] = 1;
@@ -560,6 +682,69 @@ class UrlTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(
             'https://matomo.org/faq/123?mtm_campaign=Matomo_App&mtm_source=Matomo_App_OnPremise&mtm_medium=App.CoreHomeAdmin.trackingCodeGenerator',
             Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/123')
+        );
+    }
+
+    /**
+     * @group AddCampaignParametersToMatomoLink
+     */
+    public function testAddCampaignParametersToMatomoLinkTagsTheShopDomain()
+    {
+        $this->resetGlobalVariables();
+        $_GET['module'] = 'Marketplace';
+        $_GET['action'] = 'overview';
+
+        // the shop is a first party Matomo domain; purchases started in the app are attributed there
+        $this->assertSame(
+            'https://shop.matomo.org/checkout/?add-to-cart=1&mtm_campaign=Matomo_App'
+            . '&mtm_source=Matomo_App_OnPremise&mtm_medium=App.Marketplace.overview',
+            Url::addCampaignParametersToMatomoLink('https://shop.matomo.org/checkout/?add-to-cart=1')
+        );
+
+        // an unrelated domain is still left alone
+        $this->assertSame(
+            'https://example.com/checkout/?add-to-cart=1',
+            Url::addCampaignParametersToMatomoLink('https://example.com/checkout/?add-to-cart=1')
+        );
+    }
+
+    /**
+     * @group AddCampaignParametersToMatomoLink
+     */
+    public function testAddCampaignParametersToMatomoLinkAddsOptionalDimensionsOnlyWhenGiven()
+    {
+        $this->resetGlobalVariables();
+        $_GET['module'] = 'Marketplace';
+        $_GET['action'] = 'overview';
+
+        $this->assertSame(
+            'https://shop.matomo.org/checkout/?mtm_campaign=app_bundles&mtm_source=matomo_app_onpremise'
+            . '&mtm_medium=app.marketplace.overview&mtm_group=in_app_marketplace'
+            . '&mtm_content=enterprise_bundle&mtm_placement=add_to_cart',
+            Url::addCampaignParametersToMatomoLink(
+                'https://shop.matomo.org/checkout/',
+                'app_bundles',
+                'matomo_app_onpremise',
+                'app.marketplace.overview',
+                'in_app_marketplace',
+                'enterprise_bundle',
+                'add_to_cart'
+            )
+        );
+
+        // group, content and placement are optional and must not appear empty
+        $this->assertSame(
+            'https://shop.matomo.org/checkout/?mtm_campaign=app_bundles&mtm_source=matomo_app_onpremise'
+            . '&mtm_medium=app.marketplace.overview',
+            Url::addCampaignParametersToMatomoLink(
+                'https://shop.matomo.org/checkout/',
+                'app_bundles',
+                'matomo_app_onpremise',
+                'app.marketplace.overview',
+                null,
+                '',
+                null
+            )
         );
     }
 

@@ -1,0 +1,46 @@
+.transitionSwitcher {
+  // The gutter the Materialize grid used, so the two fields stay where they are.
+  @_gutter: 1.5rem;
+  @_halfGutter: (@_gutter / 2);
+
+  .transitionSwitcher__selects {
+    display: flex;
+    gap: @_gutter;
+  }
+
+  .transitionSwitcher__typeField {
+    flex: none;
+    width: ~"calc(25% - @{_halfGutter})";
+  }
+
+  .transitionSwitcher__nameField {
+    flex: auto;
+    min-width: 0;
+  }
+
+  .transitionSwitcher__report {
+    // 36px above the report; the select leaves 25px of its own. Padding, because a margin here
+    // collapses with the row above.
+    padding-top: 11px;
+    // 36px down to the export row.
+    margin-bottom: 36px;
+  }
+
+  // The Widgetize shell has no card padding, so pad here instead. That is also the room the
+  // report's row shadows bleed into.
+  body.app-widgetized & {
+    padding-left: @_halfGutter;
+    padding-right: @_halfGutter;
+  }
+
+  // Below this the two selects have no room side by side.
+  @media (max-width: 600px) {
+    .transitionSwitcher__selects {
+      flex-direction: column;
+    }
+
+    .transitionSwitcher__typeField {
+      width: auto;
+    }
+  }
+}

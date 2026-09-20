@@ -1,5 +1,8 @@
+{# "is not defined" check so a direct render of this partial without the variable still shows the link #}
+{% if showInviteTeamMemberLink is not defined or showInviteTeamMemberLink %}
 <a rel="noreferrer noopener" target="_blank" href="{{ inviteUserLink }}">
     <span class="icon-user-add"></span>
     {{ 'UsersManager_InviteTeamMember'|translate }}
 </a>
+{% endif %}
 {{ postEvent('Template.siteWithoutData.additionalCta') }}

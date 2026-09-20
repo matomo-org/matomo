@@ -19,6 +19,7 @@
 			<nb_impressions>The number of times a content block, such as a banner or an ad, was displayed on a page.</nb_impressions>
 			<nb_interactions>The number of times a content block was interacted with (eg, a 'click' on a banner or ad).</nb_interactions>
 			<interaction_rate>The ratio of content impressions to interactions.</interaction_rate>
+			<nb_visits_percent_of_total>The percentage of the report's total Visits that this row represents.</nb_visits_percent_of_total>
 		</metricsDocumentation>
 		<processedMetrics>
 			<interaction_rate>Interaction Rate</interaction_rate>
@@ -27,6 +28,7 @@
 			<nb_impressions>number</nb_impressions>
 			<nb_interactions>number</nb_interactions>
 			<interaction_rate>percent</interaction_rate>
+			<nb_visits_percent_of_total>percent</nb_visits_percent_of_total>
 		</metricTypes>
 		<actionToLoadSubTables>getContentNames</actionToLoadSubTables>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Contents&amp;apiAction=getContentNames&amp;period=range&amp;date=2010-01-03,2010-01-09</imageGraphUrl>
@@ -38,6 +40,7 @@
 		<nb_impressions>Impressions</nb_impressions>
 		<nb_interactions>Content Interactions</nb_interactions>
 		<interaction_rate>Interaction Rate</interaction_rate>
+		<nb_visits_percent_of_total>Visits (% of total)</nb_visits_percent_of_total>
 	</columns>
 	<reportData>
 		<result prettyDate="Sunday, January 3, 2010">
@@ -45,18 +48,21 @@
 				<label>ImageAd</label>
 				<nb_impressions>8</nb_impressions>
 				<nb_interactions>2</nb_interactions>
+				<nb_visits_percent_of_total>50%</nb_visits_percent_of_total>
 				<interaction_rate>25%</interaction_rate>
 			</row>
 			<row>
 				<label>Text Ad</label>
 				<nb_impressions>6</nb_impressions>
 				<nb_interactions>4</nb_interactions>
+				<nb_visits_percent_of_total>37.5%</nb_visits_percent_of_total>
 				<interaction_rate>66.67%</interaction_rate>
 			</row>
 			<row>
 				<label>Video Ad</label>
 				<nb_impressions>4</nb_impressions>
 				<nb_interactions>0</nb_interactions>
+				<nb_visits_percent_of_total>12.5%</nb_visits_percent_of_total>
 				<interaction_rate>0%</interaction_rate>
 			</row>
 		</result>

@@ -81,6 +81,26 @@ class SecurityPolicyTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $this->securityPolicy->createHeaderString());
     }
 
+    public function testDataResponsePolicyReplacesAllDirectivesAndIsAlwaysEnforced()
+    {
+        $this->securityPolicy->addPolicy('default-src', '*.matomo.org');
+        $this->securityPolicy->restrictToDataResponse();
+
+        $expected = "Content-Security-Policy: default-src 'none'; style-src 'unsafe-inline'; "
+            . "img-src 'self' data:; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; ";
+        $this->assertEquals($expected, $this->securityPolicy->createHeaderString());
+    }
+
+    public function testDataResponsePolicyRespectsDisabledCsp()
+    {
+        $this->generalConfig['csp_enabled'] = 0;
+        $this->securityPolicy = new SecurityPolicy(Config::getInstance());
+
+        $this->securityPolicy->restrictToDataResponse();
+
+        $this->assertSame('', $this->securityPolicy->createHeaderString());
+    }
+
     public function testCanRemoveDirective()
     {
         $this->securityPolicy->removeDirective('default-src');

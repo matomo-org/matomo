@@ -10,8 +10,8 @@
 namespace Piwik\Plugins\ExampleSettingsPlugin;
 
 use Piwik\Plugins\MobileAppMeasurable\Type as MobileAppType;
-use Piwik\Settings\Setting;
 use Piwik\Settings\FieldConfig;
+use Piwik\Settings\Measurable\MeasurableSetting;
 
 /**
  * Defines Settings for ExampleSettingsPlugin.
@@ -24,12 +24,13 @@ use Piwik\Settings\FieldConfig;
  */
 class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
 {
-    /** @var Setting|null */
-    public $appId;
+    public ?MeasurableSetting $appId = null;
 
-    /** @var Setting */
-    public $contactEmails;
+    public MeasurableSetting $contactEmails;
 
+    /**
+     * @return void
+     */
     protected function init()
     {
         if ($this->hasMeasurableType(MobileAppType::ID)) {
@@ -40,7 +41,7 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
         $this->contactEmails = $this->makeContactEmailsSetting();
     }
 
-    private function makeAppIdSetting()
+    private function makeAppIdSetting(): MeasurableSetting
     {
         $defaultValue = '';
         $type = FieldConfig::TYPE_STRING;
@@ -52,9 +53,9 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
         });
     }
 
-    private function makeContactEmailsSetting()
+    private function makeContactEmailsSetting(): MeasurableSetting
     {
-        $defaultValue = array();
+        $defaultValue = [];
         $type = FieldConfig::TYPE_ARRAY;
 
         return $this->makeSetting('contact_email', $defaultValue, $type, function (FieldConfig $field) {
