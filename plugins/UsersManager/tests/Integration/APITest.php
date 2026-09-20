@@ -184,13 +184,15 @@ class APITest extends IntegrationTestCase
     {
         Config::getInstance()->General['enable_update_users_email'] = 1;
 
-        foreach ($this->interleavesToAssert as $assertInterleaveFired) {
-            $assertInterleaveFired();
+        try {
+            foreach ($this->interleavesToAssert as $assertInterleaveFired) {
+                $assertInterleaveFired();
+            }
+        } finally {
+            $this->interleavesToAssert = [];
+
+            parent::tearDown();
         }
-
-        $this->interleavesToAssert = [];
-
-        parent::tearDown();
     }
 
     public function testSetUserAccessShouldTriggerRemoveSiteAccessEventIfAccessToAWebsiteIsRemoved()
@@ -1787,6 +1789,30 @@ class APITest extends IntegrationTestCase
         }
     }
 
+    public function testInviteUserRefusesWhenTheLoginIsTakenBySomeoneElseMidRequest()
+    {
+        $api = $this->buildApiInterleavedWith(function () {
+            // the login is freed and handed to a different account before the invitation is attached
+            $this->model->deleteUser('pendingLoginTest');
+            $this->api->inviteUser('pendingLoginTest', 'someone.else@matomo.org', 1);
+        });
+
+        $mailedTo = $this->captureMailRecipients();
+
+        self::expectException(\Exception::class);
+        self::expectExceptionMessage('UsersManager_ExceptionUserDoesNotExist');
+
+        try {
+            $api->inviteUser('pendingLoginTest', 'pendingLoginTest@matomo.org', 1);
+        } finally {
+            // the invitation belongs to the account this call created, not to whoever holds the login now
+            $user = $this->model->getUser('pendingLoginTest');
+            self::assertSame('someone.else@matomo.org', $user['email']);
+            self::assertNotSame($this->model->hashTokenAuth('reissuedToken'), $user['invite_token']);
+            self::assertNotContains('pendingLoginTest@matomo.org', $mailedTo->getArrayCopy());
+        }
+    }
+
     public function testResendInviteFailsWhenTheInvitationIsAcceptedMidRequest()
     {
         $this->api->inviteUser('pendingLoginTest', 'pendingLoginTest@matomo.org', 1);
@@ -1797,17 +1823,18 @@ class APITest extends IntegrationTestCase
 
         $mailedTo = $this->captureMailRecipients();
 
+        self::expectException(\Exception::class);
+        self::expectExceptionMessage('UsersManager_ExceptionUserDoesNotExist');
+
         try {
             $api->resendInvite('pendingLoginTest');
-            self::fail('Expected resendInvite to refuse');
-        } catch (\Exception $e) {
-            self::assertStringContainsString('UsersManager_ExceptionUserDoesNotExist', $e->getMessage());
+        } finally {
+            // the account is active now, so no invitation may have been written back onto it or mailed
+            $user = $this->model->getUser('pendingLoginTest');
+            self::assertNull($user['invite_token']);
+            self::assertNull($user['invite_expired_at']);
+            self::assertCount(0, $mailedTo);
         }
-
-        $user = $this->model->getUser('pendingLoginTest');
-        self::assertNull($user['invite_token']);
-        self::assertNull($user['invite_expired_at']);
-        self::assertCount(0, $mailedTo);
     }
 
     public function testResendInviteFailsWhenTheAddressChangesMidRequest()
@@ -1821,16 +1848,16 @@ class APITest extends IntegrationTestCase
 
         $mailedTo = $this->captureMailRecipients();
 
+        self::expectException(\Exception::class);
+        self::expectExceptionMessage('UsersManager_ExceptionUserDoesNotExist');
+
         try {
             $api->resendInvite('pendingLoginTest');
-            self::fail('Expected resendInvite to refuse');
-        } catch (\Exception $e) {
-            self::assertStringContainsString('UsersManager_ExceptionUserDoesNotExist', $e->getMessage());
+        } finally {
+            // an invitation must never be mailed to an address the account no longer has
+            self::assertCount(0, $mailedTo);
+            self::assertSame($originalToken, $this->model->getUser('pendingLoginTest')['invite_token']);
         }
-
-        // an invitation must never be mailed to an address the account no longer has
-        self::assertCount(0, $mailedTo);
-        self::assertSame($originalToken, $this->model->getUser('pendingLoginTest')['invite_token']);
     }
 
     public function testUpdateUserInvalidatesThePreviousInvitationWhenTheAddressChanges()
@@ -1877,17 +1904,18 @@ class APITest extends IntegrationTestCase
 
         $mailedTo = $this->captureMailRecipients();
 
+        self::expectException(\Exception::class);
+        self::expectExceptionMessage('UsersManager_ExceptionUserDoesNotExist');
+
         try {
             $api->resendInvite('pendingLoginTest');
-            self::fail('Expected resendInvite to refuse');
-        } catch (\Exception $e) {
-            self::assertStringContainsString('UsersManager_ExceptionUserDoesNotExist', $e->getMessage());
+        } finally {
+            // the account is active now, so no invitation may have been written back onto it or mailed
+            $user = $this->model->getUser('pendingLoginTest');
+            self::assertNull($user['invite_token']);
+            self::assertNull($user['invite_expired_at']);
+            self::assertCount(0, $mailedTo);
         }
-
-        $user = $this->model->getUser('pendingLoginTest');
-        self::assertNull($user['invite_token']);
-        self::assertNull($user['invite_expired_at']);
-        self::assertCount(0, $mailedTo);
     }
 
     public function testUpdateUserFailsWhenTheInvitationIsAcceptedBeforeTheWrite()

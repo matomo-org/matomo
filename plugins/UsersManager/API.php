@@ -1814,17 +1814,17 @@ class API extends \Piwik\Plugin\API
         /** @phpstan-var UserRow $user */
         $user = $this->model->getUser($userLogin);
 
+        // If user is not a super user check if the user was invited by the current user. Authorisation
+        // comes first, so the answer is the same for every login the caller has no claim to, whether it
+        // holds someone else's invitation, an active account or nothing at all.
+        if (!Piwik::hasUserSuperUserAccess() && ($user['invited_by'] ?? null) !== Piwik::getCurrentUserLogin()) {
+            throw new NoAccessException(Piwik::translate('UsersManager_ExceptionResendInviteDenied', $userLogin));
+        }
+
         // Resolve the account by login first and require that same row to still be pending. Checking
         // pending state and reading the account must always answer about the same user.
         if (empty($user['invite_token'])) {
             throw new Exception(Piwik::translate('UsersManager_ExceptionUserDoesNotExist', $userLogin));
-        }
-
-        // If user is not a super user check if the user was invited by the current user
-        if (!Piwik::hasUserSuperUserAccess()) {
-            if ($user['invited_by'] !== Piwik::getCurrentUserLogin()) {
-                throw new NoAccessException(Piwik::translate('UsersManager_ExceptionResendInviteDenied', $userLogin));
-            }
         }
 
         // The write is pinned to the invitation read above. If the account no longer carries it, it is
@@ -1877,17 +1877,17 @@ class API extends \Piwik\Plugin\API
         /** @phpstan-var UserRow $user */
         $user = $this->model->getUser($userLogin);
 
+        // If user is not a super user check if the user was invited by the current user. Authorisation
+        // comes first, so the answer is the same for every login the caller has no claim to, whether it
+        // holds someone else's invitation, an active account or nothing at all.
+        if (!Piwik::hasUserSuperUserAccess() && ($user['invited_by'] ?? null) !== Piwik::getCurrentUserLogin()) {
+            throw new NoAccessException(Piwik::translate('UsersManager_ExceptionResendInviteDenied', $userLogin));
+        }
+
         // Resolve the account by login first and require that same row to still be pending. Checking
         // pending state and reading the account must always answer about the same user.
         if (empty($user['invite_token'])) {
             throw new Exception(Piwik::translate('UsersManager_ExceptionUserDoesNotExist', $userLogin));
-        }
-
-        // If user is not a super user check if the user was invited by the current user
-        if (!Piwik::hasUserSuperUserAccess()) {
-            if ($user['invited_by'] !== Piwik::getCurrentUserLogin()) {
-                throw new NoAccessException(Piwik::translate('UsersManager_ExceptionResendInviteDenied', $userLogin));
-            }
         }
 
         $token = $this->userRepository->generateInviteToken($userLogin, $user['invite_token'], (int)$expiryInDays);
