@@ -91,7 +91,8 @@ describe('Marketplace/PluginCard', () => {
 
     it('labels a bundle as a bundle rather than by its category', () => {
       const wrapper = mountCard({ isBundle: true, categories: ['insights'] });
-      expect(wrapper.find('.pluginCard__chipItem').text()).toBe('Marketplace_Bundles');
+      expect(wrapper.findAll('.pluginCard__chipItem').map((chip) => chip.text()))
+        .toEqual(['Marketplace_CategoryMatomo', 'Marketplace_Bundles']);
     });
 
     it('marks a bundle card, which PluginCard.less fills its call to action from', () => {
