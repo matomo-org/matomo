@@ -13,7 +13,11 @@ use Piwik\Access;
 use Piwik\Cache;
 use Piwik\DI;
 use Piwik\FrontController;
+use Piwik\Nonce;
+use Piwik\Piwik;
+use Piwik\Plugins\CorePluginsAdmin\PluginInstaller;
 use Piwik\Plugins\Marketplace\Api\Service\Exception as ServiceException;
+use Piwik\Plugins\Marketplace\Controller;
 use Piwik\Plugins\Marketplace\LicenseKey;
 use Piwik\Plugins\Marketplace\tests\Framework\Mock\Service;
 use Piwik\Tests\Framework\Fixture;
@@ -42,6 +46,17 @@ class ControllerTest extends IntegrationTestCase
     private $pluginsFixture = 'v2.0_plugins.json';
 
     private $invalidLicensesCacheKey = 'Marketplace_ExpiredPlugins';
+
+    /**
+     * @var array<string, string|\Exception> what a plugin's info request is answered with, either
+     *      the name of a fixture or the exception the request fails with
+     */
+    private $pluginInfoAnswers = [];
+
+    /**
+     * @var string[] the plugins the installer was asked to install or update, in order
+     */
+    private $installedPlugins = [];
 
     public function setUp(): void
     {
@@ -202,6 +217,44 @@ class ControllerTest extends IntegrationTestCase
         return json_decode($this->dispatch('getPluginDetails', ['pluginName' => $pluginName]), true);
     }
 
+    public function testUpdatePluginUpdatesTheRemainingPluginsWhenAnInfoRequestFails()
+    {
+        // a plugin the license key no longer covers is answered with an error on its info request,
+        // which is raised before the plugin is downloaded and used to end the whole run there
+        $this->pluginInfoAnswers = [
+            'SecurityInfo' => new ServiceException('Requested plugin does not exist.', ServiceException::API_ERROR),
+            'TreemapVisualization' => 'v2.0_plugins_TreemapVisualization_info.json',
+        ];
+
+        $response = $this->dispatchUpdate('SecurityInfo,TreemapVisualization');
+
+        self::assertSame(['TreemapVisualization'], $this->installedPlugins);
+        self::assertStringContainsString('Requested plugin does not exist.', $response);
+        self::assertStringContainsString(
+            Piwik::translate('Marketplace_PluginsCouldNotBeUpdated', 'SecurityInfo'),
+            $response
+        );
+    }
+
+    private function dispatchUpdate(string $pluginName): string
+    {
+        // the update view renders a full admin page, whose menu resolves a site
+        if (!Fixture::siteCreated(1)) {
+            Fixture::createWebsite('2012-01-01 00:00:00');
+        }
+
+        $_GET = [
+            'module' => 'Marketplace',
+            'action' => 'updatePlugin',
+            'pluginName' => $pluginName,
+            'nonce' => Nonce::getNonce(Controller::UPDATE_NONCE),
+        ];
+
+        return Access::doAsSuperUser(function () {
+            return FrontController::getInstance()->fetchDispatch('Marketplace', 'updatePlugin');
+        });
+    }
+
     public function testSubscriptionOverviewClearsTheInvalidLicensesCache()
     {
         // this action renders a full admin page, whose menu resolves a site
@@ -261,10 +314,34 @@ class ControllerTest extends IntegrationTestCase
         $this->service->setOnDownloadCallback(function ($action) {
             return $this->service->getFixtureContent($this->fixtureFor($action));
         });
+        $this->service->setOnFetchCallback(function ($action) {
+            foreach ($this->pluginInfoAnswers as $pluginName => $answer) {
+                if ($action !== sprintf('plugins/%s/info', $pluginName)) {
+                    continue;
+                }
+
+                if ($answer instanceof \Exception) {
+                    throw $answer;
+                }
+
+                return json_decode($this->service->getFixtureContent($answer), true);
+            }
+
+            // anything else is answered out of the fixtures fixtureFor() wires up
+            return null;
+        });
+
+        $installer = $this->createMock(PluginInstaller::class);
+        $installer->method('installOrUpdatePluginFromMarketplace')->willReturnCallback(
+            function ($pluginName) {
+                $this->installedPlugins[] = $pluginName;
+            }
+        );
 
         return [
             'dev.forced_plugin_update_result' => [],
             'Piwik\Plugins\Marketplace\Api\Service' => DI::value($this->service),
+            'Piwik\Plugins\CorePluginsAdmin\PluginInstaller' => DI::value($installer),
         ];
     }
 

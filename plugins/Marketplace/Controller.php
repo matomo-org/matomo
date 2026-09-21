@@ -575,15 +575,18 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $pluginInfos = [];
         $failedPlugins = [];
         foreach ($plugins as $pluginName) {
-            $currentPluginInfo = $this->plugins->getPluginInfo($pluginName);
+            $currentPluginInfo = [];
 
             try {
+                // inside the try as well, as it fails for a plugin the license key no longer covers
+                $currentPluginInfo = $this->plugins->getPluginInfo($pluginName);
                 $this->pluginInstaller->installOrUpdatePluginFromMarketplace($pluginName);
                 $pluginInfos[] = $currentPluginInfo;
             } catch (\Exception $e) {
                 // one plugin that cannot be updated - an expired or missing license being the common
                 // case - must not keep the remaining selected ones on their old version
                 $failedPlugins[] = $pluginName;
+
                 $this->notifyAboutFailedInstallOrUpdate($pluginName, $currentPluginInfo, $e);
             }
         }
@@ -607,7 +610,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         return $view;
     }
 
-    private function notifyAboutFailedInstallOrUpdate($pluginName, $currentPluginInfo, \Exception $e): void
+    private function notifyAboutFailedInstallOrUpdate($pluginName, array $currentPluginInfo, \Exception $e): void
     {
         $message = $e->getMessage();
         $isRaw = false;
