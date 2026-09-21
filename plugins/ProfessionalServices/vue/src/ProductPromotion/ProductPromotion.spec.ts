@@ -174,6 +174,22 @@ describe('ProductPromotion directive', () => {
     );
   });
 
+  it('keeps the banner and reports the failure when dismissing fails', async () => {
+    const { element } = mountBanner();
+    post.mockRejectedValue(new Error('network down'));
+
+    click(element, 'dismiss');
+    await Promise.resolve();
+    await Promise.resolve();
+    await Promise.resolve();
+
+    // It was not dismissed, so it must still be there to try again.
+    expect(document.body.contains(element)).toBe(true);
+    expect(showNotification).toHaveBeenCalledWith(
+      expect.objectContaining({ context: 'error' }),
+    );
+  });
+
   it('drops the artwork from the layout when the image cannot be loaded', () => {
     const { element } = mountBanner();
 

@@ -133,11 +133,12 @@ class ReportCountingTriggersTest extends TestCase
     {
         $rows = [];
         foreach ($conversionsPerType as $i => $conversions) {
-            $rows[] = ['label' => 'type' . $i, 'nb_conversions' => $conversions];
+            $rows[] = ['label' => 'type' . $i, 'goal_1_nb_conversions' => $conversions];
         }
 
         $counted = $this->multipleConversionChannels()->countChannelsOverShare(
             $this->makeReport($rows),
+            1,
             (int) array_sum($conversionsPerType)
         );
 
@@ -160,9 +161,44 @@ class ReportCountingTriggersTest extends TestCase
 
     public function testNoChannelIsCountedWhenAGoalHasNoConversions(): void
     {
-        $report = $this->makeReport([['label' => 'direct', 'nb_conversions' => 0]]);
+        $report = $this->makeReport([['label' => 'direct', 'goal_1_nb_conversions' => 0]]);
 
-        $this->assertSame(0, $this->multipleConversionChannels()->countChannelsOverShare($report, 0));
+        $this->assertSame(0, $this->multipleConversionChannels()->countChannelsOverShare($report, 1, 0));
+    }
+
+    /**
+     * On a site with more than one goal the row's plain `nb_conversions` is the total
+     * across every goal, while the goal being promoted has a column of its own. Reading
+     * the plain one made every channel look far bigger than it was, and the promotion
+     * fired for sites where no channel carried a tenth of *this* goal.
+     */
+    public function testChannelShareIgnoresConversionsBelongingToOtherGoals(): void
+    {
+        // Goal 1 took 300 conversions, spread 40/30/30 - no channel reaches a tenth of the
+        // 3000 the site's goals took together, but two comfortably clear a tenth of 300.
+        $report = $this->makeReport([
+            ['label' => 'direct', 'nb_conversions' => 1500, 'goal_1_nb_conversions' => 150],
+            ['label' => 'search', 'nb_conversions' => 1000, 'goal_1_nb_conversions' => 120],
+            ['label' => 'social', 'nb_conversions' => 500, 'goal_1_nb_conversions' => 30],
+        ]);
+
+        $this->assertSame(3, $this->multipleConversionChannels()->countChannelsOverShare($report, 1, 300));
+    }
+
+    /**
+     * The other half of the same mistake: the all-goals total made thin channels look like
+     * contributors. Goal 2 barely converted, and only one channel carried it.
+     */
+    public function testAChannelIsNotCountedOnAnotherGoalsConversions(): void
+    {
+        $report = $this->makeReport([
+            ['label' => 'direct', 'nb_conversions' => 900, 'goal_2_nb_conversions' => 95],
+            ['label' => 'search', 'nb_conversions' => 900, 'goal_2_nb_conversions' => 3],
+            ['label' => 'social', 'nb_conversions' => 900, 'goal_2_nb_conversions' => 2],
+        ]);
+
+        // Reading the plain column would have counted all three.
+        $this->assertSame(1, $this->multipleConversionChannels()->countChannelsOverShare($report, 2, 100));
     }
 
     public function testTheBusiestSlowPageWins(): void

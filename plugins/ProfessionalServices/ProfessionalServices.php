@@ -139,6 +139,7 @@ class ProfessionalServices extends \Piwik\Plugin
         $translationKeys[] = 'Marketplace_TrialRequested';
         $translationKeys[] = 'ProfessionalServices_DismissedNotification';
         $translationKeys[] = 'ProfessionalServices_PromotionTrialRequestFailed';
+        $translationKeys[] = 'ProfessionalServices_PromotionDismissFailed';
         $translationKeys[] = 'ProfessionalServices_PromoFunnels';
         $translationKeys[] = 'ProfessionalServices_PromoFormAnalytics';
         $translationKeys[] = 'ProfessionalServices_PromoMediaAnalytics';

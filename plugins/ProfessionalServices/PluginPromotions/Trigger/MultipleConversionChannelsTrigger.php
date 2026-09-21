@@ -11,6 +11,7 @@ namespace Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger;
 
 use Piwik\API\Request;
 use Piwik\DataTable;
+use Piwik\Plugins\Goals\Goals;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\ReportPeriod;
 
 /**
@@ -87,6 +88,10 @@ class MultipleConversionChannelsTrigger extends GoalBackedTrigger
             'period' => ReportPeriod::PERIOD,
             'date' => ReportPeriod::DATE,
             'format_metrics' => 0,
+            // `Referrers.getReferrerType()` declares no idGoal of its own, but the API's
+            // post-processor reads one from the request to decide which goal's columns to
+            // add ({@see \Piwik\API\DataTablePostProcessor}), which is what puts
+            // `goal_<idGoal>_nb_conversions` on each row.
             'idGoal' => $idGoal,
             'filter_update_columns_when_show_all_goals' => 1,
             'filter_limit' => -1,
@@ -96,22 +101,33 @@ class MultipleConversionChannelsTrigger extends GoalBackedTrigger
             return 0;
         }
 
-        return $this->countChannelsOverShare($referrerTypes, $nbConversions);
+        return $this->countChannelsOverShare($referrerTypes, $idGoal, $nbConversions);
     }
 
     /**
+     * How many referrer types carried at least the minimum share of one goal's conversions.
+     *
+     * Reads the goal's own column rather than the row's plain `nb_conversions`. On a site
+     * with more than one goal that plain column is the total across every goal, so
+     * dividing it by a single goal's conversions overstates each channel's share and the
+     * promotion fires for sites where no channel really contributes a tenth of this goal.
+     *
      * @param int $nbConversions the goal's conversions across every channel
      */
-    public function countChannelsOverShare(DataTable $referrerTypes, int $nbConversions): int
+    public function countChannelsOverShare(DataTable $referrerTypes, int $idGoal, int $nbConversions): int
     {
         if ($nbConversions <= 0) {
             return 0;
         }
 
+        $column = Goals::makeGoalColumn($idGoal, 'nb_conversions');
         $channels = 0;
 
         foreach ($referrerTypes->getRows() as $row) {
-            $conversions = (int) $row->getColumn('nb_conversions');
+            // Deliberately no fallback to the plain column: without the goal's own figure
+            // there is nothing to compare, and guessing with the all-goals total is the
+            // bug this replaced.
+            $conversions = (int) $row->getColumn($column);
 
             if (($conversions / $nbConversions) >= self::MINIMUM_CHANNEL_SHARE) {
                 $channels++;

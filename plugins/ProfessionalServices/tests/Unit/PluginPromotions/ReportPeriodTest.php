@@ -50,8 +50,10 @@ class ReportPeriodTest extends TestCase
 
         $reportPeriod = new ReportPeriod();
 
-        $this->assertSame('2026-08-17', $reportPeriod->getStartDate(self::IDSITE), 'start of week for ' . $today);
-        $this->assertSame('2026-08-23', $reportPeriod->getEndDate(self::IDSITE), 'end of week for ' . $today);
+        $period = $reportPeriod->forSite(self::IDSITE);
+
+        $this->assertSame('2026-08-17', $period->getDateStart()->toString(), 'start of week for ' . $today);
+        $this->assertSame('2026-08-23', $period->getDateEnd()->toString(), 'end of week for ' . $today);
     }
 
     /**

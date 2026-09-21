@@ -87,10 +87,10 @@ class PromotionRenderer
         $context = $selected->getTriggerResult()->getContext();
         $copyArguments = $this->getCopyArguments($promotion->getTriggerName(), $context);
 
-        $view->title = Piwik::translate(
-            $promotion->getTitleTranslationKey(),
-            $this->escapeArguments($copyArguments['title'])
-        );
+        // Not escaped here: the template escapes `{{ title }}` itself. Doing both would
+        // show a page title containing an ampersand as `&amp;amp;` the first time a
+        // headline takes an argument.
+        $view->title = Piwik::translate($promotion->getTitleTranslationKey(), $copyArguments['title']);
         $view->text = Piwik::translate(
             $promotion->getTextTranslationKey(),
             $this->linkToReport(
@@ -198,10 +198,11 @@ class PromotionRenderer
     }
 
     /**
-     * The copy is rendered as HTML so that the figure can be a link to the report it came
-     * from, which means every value interpolated into it has to be escaped here - several
-     * of them are page titles, page URLs, goal names and campaign names entered by users of
-     * the instance.
+     * The body copy is rendered as HTML so that the figure can be a link to the report it
+     * came from, which means every value interpolated into *it* has to be escaped here -
+     * several of them are page titles, page URLs, goal names and campaign names entered by
+     * users of the instance. The headline is left alone, because the template still
+     * escapes it.
      *
      * @param array<int, string> $arguments
      * @return array<int, string>

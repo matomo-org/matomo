@@ -33,20 +33,4 @@ class ReportPeriod
     {
         return PeriodFactory::makePeriodFromQueryParams(Site::getTimezoneFor($idSite), self::PERIOD, self::DATE);
     }
-
-    /**
-     * Start of the last completed week, as `YYYY-MM-DD`.
-     */
-    public function getStartDate(int $idSite): string
-    {
-        return $this->forSite($idSite)->getDateStart()->toString();
-    }
-
-    /**
-     * End of the last completed week, as `YYYY-MM-DD`.
-     */
-    public function getEndDate(int $idSite): string
-    {
-        return $this->forSite($idSite)->getDateEnd()->toString();
-    }
 }

@@ -111,19 +111,30 @@ class UserPromotionState
         $now = Date::factory(Date::getNowTimestamp());
         $state = $this->load();
         $lastShownAt = $state['products'][$pluginName]['lastShownAt'] ?? null;
-
-        if (!empty($lastShownAt) && Date::factory((int) $lastShownAt)->toString() === $now->toString()) {
-            return;
-        }
-
-        $product = $state['products'][$pluginName] ?? [];
-        $product['lastShownAt'] = $now->getTimestamp();
-        $product['lastTriggerName'] = $triggerName;
-        $state['products'][$pluginName] = $product;
+        $shownToday = !empty($lastShownAt)
+            && Date::factory((int) $lastShownAt)->toString() === $now->toString();
 
         $active = $state['activePromotion'] ?? [];
         $alreadyHeld = ($active['pluginName'] ?? null) === $pluginName
             && ($active['triggerName'] ?? null) === $triggerName;
+
+        // Nothing has changed: this promotion already holds the slot and today's display
+        // is already on record. This is the steady state, and it must not write.
+        if ($shownToday && $alreadyHeld) {
+            return;
+        }
+
+        // The daily record is only rewritten once a day, but the claim is not throttled
+        // with it. A slot released mid-day - a renamed trigger, a promotion dropped from
+        // the registry - can be taken by the same plugin under a second trigger on the
+        // same day, and skipping the write there left nothing holding the slot, so the
+        // ladder was walked again on every dashboard until midnight.
+        if (!$shownToday) {
+            $product = $state['products'][$pluginName] ?? [];
+            $product['lastShownAt'] = $now->getTimestamp();
+            $product['lastTriggerName'] = $triggerName;
+            $state['products'][$pluginName] = $product;
+        }
 
         $state['activePromotion'] = [
             'pluginName' => $pluginName,

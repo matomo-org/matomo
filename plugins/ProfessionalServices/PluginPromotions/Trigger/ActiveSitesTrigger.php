@@ -19,6 +19,12 @@ use Piwik\Plugins\ProfessionalServices\PluginPromotions\ReportPeriod;
  * The counting itself lives in {@see ActiveSitesCount}, which both subclasses are handed
  * the same instance of, so a dashboard asks the question once no matter how many of these
  * promotions are registered.
+ *
+ * Deliberately outside {@see \Piwik\Plugins\ProfessionalServices\PluginPromotions\DailyTriggerCache}.
+ * That cache is keyed on a trigger and one website, which suits an answer that depends on
+ * that website's reports. This answer depends on which websites the *user* may see, so a
+ * cached one would be handed to the next user whatever their access. The cost is held down
+ * by the per-request memo in `ActiveSitesCount` instead.
  */
 abstract class ActiveSitesTrigger implements PromotionTrigger
 {

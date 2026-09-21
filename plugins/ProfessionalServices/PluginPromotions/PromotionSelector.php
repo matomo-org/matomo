@@ -86,13 +86,17 @@ class PromotionSelector
                 continue;
             }
 
-            if ($this->isTrialPending($pluginName)) {
-                continue;
-            }
-
             $result = $this->evaluate($promotion, (int) $idSite);
 
             if (null === $result || !$result->isTriggered()) {
+                continue;
+            }
+
+            // Asked only of a promotion that would otherwise be shown. The trigger answer
+            // is cached for the day while this is a fresh option read every time - and one
+            // that can turn into a write when it finds an expired request - so asking it of
+            // all 22 promotions made a steady dashboard render pay for 22 of them.
+            if ($this->isTrialPending($pluginName)) {
                 continue;
             }
 

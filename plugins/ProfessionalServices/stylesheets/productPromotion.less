@@ -78,7 +78,7 @@
   // Set by the directive when the artwork cannot be loaded. The banner has to stay
   // readable and usable without it, rather than reserving the space for a panel that will
   // never arrive.
-  &.productPromotion--noFigure .productPromotion__figure {
+  &--noFigure .productPromotion__figure {
     display: none;
   }
 
@@ -294,7 +294,7 @@
       width: auto;
     }
 
-    &.productPromotion--noFigure {
+    &--noFigure {
       grid-template-columns: 1fr;
 
       .productPromotion__content,

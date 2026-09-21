@@ -36,12 +36,22 @@ function onDismiss(
   }, {
     pluginName: binding.value.pluginName,
     triggerName: binding.value.triggerName,
-  }).catch((e) => {
-    Matomo.helper.hideAjaxLoading();
-    throw e;
   }).then(() => {
     Matomo.helper.hideAjaxLoading();
     element.remove();
+  }).catch(() => {
+    // Handled rather than re-thrown: re-throwing here ends the chain in an unhandled
+    // rejection, which tells the user nothing and shows up only in the console. The
+    // banner stays, since it was not dismissed.
+    Matomo.helper.hideAjaxLoading();
+
+    NotificationsStore.show({
+      message: translate('ProfessionalServices_PromotionDismissFailed'),
+      context: 'error',
+      id: 'productPromotionDismissFailed',
+      placeat: '#notificationContainer',
+      type: 'transient',
+    });
   });
 }
 
