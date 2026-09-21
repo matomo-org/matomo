@@ -1226,6 +1226,25 @@ class Model
         $db->query("DELETE FROM " . $this->userTable . " WHERE login = ?", $userLogin);
         $db->query("DELETE FROM " . $this->tokenTable . " WHERE login = ?", $userLogin);
 
+        $this->postUserDeletedEvent($userLogin);
+    }
+
+    /**
+     * Removes what a login leaves behind outside the user table: whatever plugins keep for it, its
+     * settings and its options.
+     *
+     * Callers that have already removed one specific account use this rather than deleteUser(), which
+     * resolves the account by login again and so would delete whoever holds that login by then.
+     */
+    public function cleanupDeletedUser(string $userLogin): void
+    {
+        $this->postUserDeletedEvent($userLogin);
+        PluginSettingsTable::removeAllUserSettingsForUser($userLogin);
+        $this->deleteUserOptions($userLogin);
+    }
+
+    private function postUserDeletedEvent(string $userLogin): void
+    {
         /**
          * Triggered after a user has been deleted.
          *
