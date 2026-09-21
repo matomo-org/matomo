@@ -82,12 +82,10 @@ class UserRepository
             Piwik::checkUserHasAdminAccess($initialIdSite);
         }
 
-        $dateRegistered = Date::now()->getDatetime();
-
         // Serialise the uniqueness validation and the insert so two concurrent requests cannot both pass the
         // checks and then persist records whose login and email overlap.
         $lock = StaticContainer::getContainer()->make(Lock::class, ['namespace' => 'UsersManager']);
-        $lock->execute('createUser', function () use ($userLogin, $email, $password, $isPasswordHashed, $dateRegistered, $invitation) {
+        $lock->execute('createUser', function () use ($userLogin, $email, $password, $isPasswordHashed, $invitation) {
             BaseValidator::check(Piwik::translate('General_Username'), $userLogin, [new Login(true)]);
             BaseValidator::check(Piwik::translate('Installation_Email'), $email, [new Email(true), $this->allowedEmailDomain]);
 
@@ -100,7 +98,7 @@ class UserRepository
                 $password = $this->password->hash($passwordTransformed);
             }
 
-            $this->model->addUser($userLogin, $password, $email, $dateRegistered, $invitation);
+            $this->model->addUser($userLogin, $password, $email, Date::now()->getDatetime(), $invitation);
         });
 
         if ($initialIdSite) {
