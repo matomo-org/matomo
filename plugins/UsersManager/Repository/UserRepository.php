@@ -57,10 +57,11 @@ class UserRepository
     }
 
     /**
-     * Creates an account.
+     * Creates an account, optionally with an invitation already on it.
      *
-     * @return string The registration date the account was given, which identifies the row this call
-     *                inserted to a caller that has more to write to it.
+     * @param array $invitation Invitation to issue along with the account, in the shape Model::addUser()
+     *                          documents. Passing it here keeps the account and its invitation to a
+     *                          single write.
      *
      * @throws \Exception
      */
@@ -70,8 +71,10 @@ class UserRepository
         ?int $initialIdSite = null,
         #[\SensitiveParameter]
         string $password = '',
-        bool $isPasswordHashed = false
-    ): string {
+        bool $isPasswordHashed = false,
+        #[\SensitiveParameter]
+        array $invitation = []
+    ): void {
 
 
         if (!Piwik::hasUserSuperUserAccess()) {
@@ -84,7 +87,7 @@ class UserRepository
         // Serialise the uniqueness validation and the insert so two concurrent requests cannot both pass the
         // checks and then persist records whose login and email overlap.
         $lock = StaticContainer::getContainer()->make(Lock::class, ['namespace' => 'UsersManager']);
-        $lock->execute('createUser', function () use ($userLogin, $email, $password, $isPasswordHashed, $dateRegistered) {
+        $lock->execute('createUser', function () use ($userLogin, $email, $password, $isPasswordHashed, $dateRegistered, $invitation) {
             BaseValidator::check(Piwik::translate('General_Username'), $userLogin, [new Login(true)]);
             BaseValidator::check(Piwik::translate('Installation_Email'), $email, [new Email(true), $this->allowedEmailDomain]);
 
@@ -97,7 +100,7 @@ class UserRepository
                 $password = $this->password->hash($passwordTransformed);
             }
 
-            $this->model->addUser($userLogin, $password, $email, $dateRegistered);
+            $this->model->addUser($userLogin, $password, $email, $dateRegistered, $invitation);
         });
 
         if ($initialIdSite) {
@@ -105,28 +108,19 @@ class UserRepository
         }
 
         $this->sendUserCreationNotification($userLogin);
-
-        return $dateRegistered;
     }
 
     public function inviteUser(string $userLogin, string $email, ?int $initialIdSite = null, $expiryInDays = null): void
     {
-        $dateRegistered = $this->create($userLogin, $email, $initialIdSite);
         $generatedToken = $this->model->generateRandomInviteToken();
 
-        // Record the inviter and attach the invitation in one statement, pinned to the account this call
-        // inserted, so neither can land on a login that was freed and taken again in the meantime.
-        if (
-            !$this->model->attachInviteToken(
-                $userLogin,
-                $generatedToken,
-                $expiryInDays,
-                Piwik::getCurrentUserLogin(),
-                $dateRegistered
-            )
-        ) {
-            throw new \Exception(Piwik::translate('UsersManager_ExceptionUserDoesNotExist', $userLogin));
-        }
+        // The invitation and the inviter go in with the account itself: there is then no second write that
+        // has to find the row again, and so no way for one to land on a different holder of the login.
+        $this->create($userLogin, $email, $initialIdSite, '', false, [
+            'token'        => $generatedToken,
+            'expiryInDays' => $expiryInDays,
+            'invitedBy'    => Piwik::getCurrentUserLogin(),
+        ]);
 
         $this->sendInvitationEmail(['login' => $userLogin, 'email' => $email], $generatedToken, $expiryInDays);
     }

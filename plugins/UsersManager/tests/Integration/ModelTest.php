@@ -562,44 +562,31 @@ class ModelTest extends IntegrationTestCase
         $this->assertEquals($idToken, $tokens[0]['idusertokenauth']);
     }
 
-    public function testAttachInviteTokenAttachesTheFirstInvitationToTheAccountItWasGiven()
+    public function testAddUserWritesTheInvitationWithTheAccount()
     {
-        $dateRegistered = Date::now()->getDatetime();
-        $this->model->addUser($this->login3, '', 'pending@pending.de', $dateRegistered);
-
-        self::assertTrue(
-            $this->model->attachInviteToken($this->login3, 'inviteToken', 7, $this->login, $dateRegistered)
-        );
+        $this->model->addUser($this->login3, '', 'pending@pending.de', Date::now()->getDatetime(), [
+            'token'        => 'inviteToken',
+            'expiryInDays' => 7,
+            'invitedBy'    => $this->login,
+        ]);
 
         $stored = $this->model->getUser($this->login3);
         self::assertSame($this->model->hashTokenAuth('inviteToken'), $stored['invite_token']);
         self::assertSame($this->login, $stored['invited_by']);
+        self::assertSame(
+            Date::now()->addDay(7)->toString('Y-m-d'),
+            Date::factory($stored['invite_expired_at'])->toString('Y-m-d')
+        );
     }
 
-    public function testAttachInviteTokenRefusesWhenTheLoginBelongsToAnotherAccount()
+    public function testAddUserLeavesTheInvitationFieldsEmptyWhenNoneIsGiven()
     {
-        $dateRegistered = Date::now()->subDay(1)->getDatetime();
-        $this->model->addUser($this->login3, '', 'someone.else@pending.de', Date::now()->getDatetime());
-
-        self::assertFalse(
-            $this->model->attachInviteToken($this->login3, 'inviteToken', 7, $this->login, $dateRegistered)
-        );
+        $this->model->addUser($this->login3, '', 'pending@pending.de', Date::now()->getDatetime());
 
         $stored = $this->model->getUser($this->login3);
         self::assertNull($stored['invite_token']);
+        self::assertNull($stored['invite_expired_at']);
         self::assertNull($stored['invited_by']);
-    }
-
-    public function testAttachInviteTokenRefusesWhenTheAccountIsAlreadyInvited()
-    {
-        // a login freed and taken again within the same second shares its registration date, so the
-        // invitation the replacement already carries is what tells the two apart
-        $user = $this->createPendingUser();
-
-        self::assertFalse(
-            $this->model->attachInviteToken($this->login3, 'secondToken', 7, $this->login, $user['date_registered'])
-        );
-        self::assertSame($user['invite_token'], $this->model->getUser($this->login3)['invite_token']);
     }
 
     public function testAttachInviteLinkTokenAttachesLinkToPendingUser()

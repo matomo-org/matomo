@@ -1813,20 +1813,20 @@ class APITest extends IntegrationTestCase
     public function testInviteUserRefusesWhenTheLoginIsTakenBySomeoneElseMidRequest()
     {
         $api = $this->buildApiInterleavedWith(function () {
-            // the login is freed and handed to a different account before the invitation is attached
-            $this->model->deleteUser('pendingLoginTest');
+            // a different person is given the login before this invitation reaches the database
             $this->api->inviteUser('pendingLoginTest', 'someone.else@matomo.org', 1);
         });
 
         $mailedTo = $this->captureMailRecipients();
 
         self::expectException(\Exception::class);
-        self::expectExceptionMessage('UsersManager_ExceptionUserDoesNotExist');
+        self::expectExceptionMessage('UsersManager_ExceptionLoginExists');
 
         try {
             $api->inviteUser('pendingLoginTest', 'pendingLoginTest@matomo.org', 1);
         } finally {
-            // the invitation belongs to the account this call created, not to whoever holds the login now
+            // the account holding the login keeps the invitation it was given, and the refused call
+            // mailed nobody
             $user = $this->model->getUser('pendingLoginTest');
             self::assertSame('someone.else@matomo.org', $user['email']);
             self::assertNotSame($this->model->hashTokenAuth('reissuedToken'), $user['invite_token']);
