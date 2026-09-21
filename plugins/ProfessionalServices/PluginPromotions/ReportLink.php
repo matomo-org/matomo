@@ -50,7 +50,16 @@ class ReportLink
         MultiplePageVisitsTrigger::NAME => ['General_Actions', 'VisitorInterest_Engagement'],
         ReturningVisitorsTrigger::NAME => ['General_Actions', 'VisitorInterest_Engagement'],
         KeywordsNotDefinedTrigger::NAME => ['Referrers_Referrers', 'Referrers_SubmenuSearchEngines'],
-        CampaignConversionsTrigger::NAME => ['Referrers_Referrers', 'Referrers_Campaigns'],
+        // The Goals view of the campaigns report, not its default one. This promotion
+        // quotes the campaign's goal conversions, and the default view lists visits - so
+        // the reader would land on a bigger, unrelated number. The parameter forces the
+        // view for this visit only; a stored preference is written by
+        // `CoreHome.saveViewDataTableParameters`, which this does not go through.
+        CampaignConversionsTrigger::NAME => [
+            'Referrers_Referrers',
+            'Referrers_Campaigns',
+            ['viewDataTable' => 'tableGoals'],
+        ],
         MultipleConversionChannelsTrigger::NAME => ['Referrers_Referrers', 'Referrers_WidgetGetAll'],
     ];
 
@@ -77,6 +86,7 @@ class ReportLink
         }
 
         [$category, $subcategory] = $page;
+        $extra = $page[2] ?? [];
 
         $params = [
             'idSite' => $idSite,
@@ -86,7 +96,7 @@ class ReportLink
             'date' => $periodStart ?: ReportPeriod::DATE,
             'category' => $category,
             'subcategory' => $subcategory,
-        ];
+        ] + $extra;
 
         return 'index.php?module=CoreHome&action=index&' . Url::getQueryStringFromParameters([
             'idSite' => $idSite,
@@ -97,7 +107,7 @@ class ReportLink
 
     /**
      * @param array<string, mixed> $context
-     * @return array{0: string, 1: string}|null
+     * @return array{0: string, 1: string, 2?: array<string, string>}|null
      */
     private function getPage(string $triggerName, array $context): ?array
     {

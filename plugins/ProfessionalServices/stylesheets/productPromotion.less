@@ -78,8 +78,15 @@
   // Set by the directive when the artwork cannot be loaded. The banner has to stay
   // readable and usable without it, rather than reserving the space for a panel that will
   // never arrive.
-  &--noFigure .productPromotion__figure {
-    display: none;
+  &--noFigure {
+    // The artwork was the row's left inset - the row itself only pads the right - so
+    // without it the copy would sit against the border. Matching the right padding keeps
+    // the banner symmetrical instead.
+    padding-left: @_paddingRight;
+
+    .productPromotion__figure {
+      display: none;
+    }
   }
 
   .productPromotion__image {
@@ -296,6 +303,7 @@
 
     &--noFigure {
       grid-template-columns: 1fr;
+      padding-left: @_paddingRightTablet;
 
       .productPromotion__content,
       .productPromotion__cta {

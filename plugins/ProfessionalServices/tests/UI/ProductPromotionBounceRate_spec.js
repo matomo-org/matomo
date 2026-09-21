@@ -17,6 +17,7 @@ describe('ProductPromotionBounceRate', function () {
 
     const banner = '.productPromotion';
     const metric = '.productPromotion__metric';
+    const ctaButton = '.productPromotion__ctaButton';
 
     before(function () {
         testEnvironment.enableProfessionalSupportAdsForUITests = true;
@@ -54,6 +55,38 @@ describe('ProductPromotionBounceRate', function () {
         );
         expect(text).to.contain('Pricing');
         expect(text).to.not.contain('<script');
+    });
+
+    it('stays readable and takes back the space when the artwork fails to load', async function () {
+        await page.goto(dashboardUrl);
+        await page.waitForSelector(banner, { timeout: 10000 });
+
+        // Point the image at something that cannot load, the way blocking the request in
+        // DevTools would.
+        await page.evaluate(() => {
+            const img = document.querySelector('.productPromotion__image');
+            img.src = 'plugins/ProfessionalServices/images/this-file-does-not-exist.png';
+        });
+
+        await page.waitForSelector('.productPromotion--noFigure', { timeout: 10000 });
+        await page.waitForNetworkIdle();
+
+        // No empty panel and no broken-image icon left behind.
+        const figureVisible = await page.evaluate(() => {
+            const figure = document.querySelector('.productPromotion__figure');
+            return figure ? figure.getBoundingClientRect().width > 0 : false;
+        });
+        expect(figureVisible).to.equal(false);
+
+        // Everything the reader needs is still there and still usable.
+        expect(await page.$('.productPromotion__title')).to.not.equal(null);
+        expect(await page.$('.productPromotion__metric')).to.not.equal(null);
+        expect(await page.$('.productPromotion__reason')).to.not.equal(null);
+        expect(await page.$(ctaButton)).to.not.equal(null);
+        expect(await page.$('[data-role=dismiss]')).to.not.equal(null);
+
+        await page.evaluate(() => document.fonts.ready);
+        expect(await page.screenshotSelector(banner)).to.matchImage('promotion_without_artwork');
     });
 
     it('looks like the design', async function () {
