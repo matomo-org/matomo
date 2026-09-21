@@ -17,6 +17,7 @@ use Piwik\NoAccessException;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Policy\CnilPolicy;
+use Piwik\Settings\PolicyEnforcementState;
 use Piwik\Plugins\PrivacyManager\API;
 use Piwik\Plugins\PrivacyManager\Settings\IPAnonymisation;
 use Piwik\Plugins\PrivacyManager\Settings\IpAddressMaskLength;
@@ -584,6 +585,60 @@ class ApiTest extends IntegrationTestCase
         );
 
         $this->assertCount(0, $updates);
+    }
+
+    public function testSetCompliancePolicySettingsWritesNothingWhenOneSettingCannotBeChanged(): void
+    {
+        $this->enableGranularComplianceFeature();
+
+        // pin one setting's instance wide enforcement state in the config, so it cannot be written
+        Config::getInstance()->PrivacyManager = [
+            'DataRoundingEnabled' . PolicyEnforcementState::SETTING_NAME_SUFFIX => 1,
+        ];
+
+        $updates = $this->captureCompliancePolicySettingsUpdated();
+
+        $thrown = null;
+
+        try {
+            $this->api->setCompliancePolicySettings('all', 'cnil_v1', [
+                'PrivacyManager.IPAnonymisation' => 1,
+                'PrivacyManager.DataRoundingEnabled' => 0,
+            ]);
+            $this->fail('A setting that cannot be written should be rejected');
+        } catch (Exception $e) {
+            $thrown = $e;
+        }
+
+        // the writable setting listed before the rejected one must not have been written: a change
+        // that went live while the request reported failure could never be announced afterwards,
+        // because a retry would find nothing left to change
+        $this->assertNull(IPAnonymisation::getStoredEnforcementState(null));
+        $this->assertCount(0, $updates);
+
+        // and it is refused upfront rather than part way through the write
+        $this->assertStringContainsString('PrivacyManager.DataRoundingEnabled', $thrown->getMessage());
+    }
+
+    public function testSetCompliancePolicySettingsSucceedsWhenAListenerFails(): void
+    {
+        $this->enableGranularComplianceFeature();
+
+        Piwik::addAction('PrivacyManager.compliancePolicySettingsUpdated', static function (): void {
+            throw new Exception('the audit trail is having a bad day');
+        });
+
+        // a broken listener must not report a save that already happened as failed, otherwise the
+        // caller retries, finds nothing left to change, and the change is never announced at all
+        $payload = $this->api->setCompliancePolicySettings(
+            $this->siteId,
+            'cnil_v1',
+            ['PrivacyManager.IPAnonymisation' => 1]
+        );
+
+        $settings = $this->getSettingsById($payload);
+        $this->assertTrue($settings['PrivacyManager.IPAnonymisation']['enforced']);
+        $this->assertTrue(IPAnonymisation::isEnforced($this->siteId));
     }
 
     public function testSetCompliancePolicySettingsAnnouncesNothingWhenTheRequestFails(): void
