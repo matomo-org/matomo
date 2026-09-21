@@ -63,7 +63,6 @@
         "PluginUploadDisabled": "Liitännäisten lataus on estetty asetustiedostossa. Ota tämä ominaisuus käyttöön päivittämällä asetustiedosto tai ota yhteys ylläpitoon.",
         "PluginVersionInfo": "%1$s %2$s:sta",
         "PluginWebsite": "Liitännäissivu",
-        "PriceExclTax": "%1$s %2$s poislukien verot",
         "RemoveLicenseKey": "Poista lisenssiavain",
         "Reviews": "Arvostelut",
         "Screenshots": "Kuvakaappaukset",
