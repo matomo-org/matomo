@@ -243,7 +243,7 @@ class PdfTest extends TestCase
         self::assertSame([
             'label'                      => 'Country',
             'nb_visits'                  => 'Visits',
-            'nb_visits_percent_of_total' => Piwik::translate('General_ColumnPercentOfReportTotalShort'),
+            'nb_visits_percent_of_total' => Piwik::translate('General_ColumnPercentOfReportTotalSymbol'),
             'bounce_rate'                => 'Bounce Rate',
         ], $shortened);
     }
