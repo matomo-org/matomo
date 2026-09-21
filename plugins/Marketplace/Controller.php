@@ -295,7 +295,15 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $purchaseType = (new PurchaseType())->getPurchaseType($purchaseType);
         $sort = (new Sort())->getSort($sort);
 
-        $plugins = $this->plugins->searchPlugins($query, $sort, $themesOnly, $purchaseType);
+        // the overview's Vue app is the only caller, so its links are rendered on the overview
+        // page and not on this endpoint - see Plugins::CAMPAIGN_MEDIUM_OVERVIEW
+        $plugins = $this->plugins->searchPlugins(
+            $query,
+            $sort,
+            $themesOnly,
+            $purchaseType,
+            Plugins::CAMPAIGN_MEDIUM_OVERVIEW
+        );
 
         foreach ($plugins as &$plugin) {
             if ($plugin['isDownloadable']) {
@@ -336,7 +344,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         try {
             $pluginName = (new PluginName())->getPluginName();
 
-            $plugin = $this->plugins->getPluginInfoPreferringList($pluginName);
+            $plugin = $this->plugins->getPluginInfoPreferringList(
+                $pluginName,
+                Plugins::CAMPAIGN_MEDIUM_OVERVIEW
+            );
         } catch (Exception $e) {
             // the Marketplace being unreachable is this action's most likely failure, not an
             // exceptional one, since it is requested every time a details modal is opened

@@ -100,7 +100,6 @@
         "PluginUpdateAvailable": "You are using version %1$s and a new version %2$s is available.",
         "PluginVersionInfo": "%1$s from %2$s",
         "PluginWebsite": "Plugin Website",
-        "PriceExclTax": "%1$s %2$s excl. tax.",
         "TrialRequested": "Trial requested",
         "TrialRequestedNotification1": "A user has requested to start a trial of the %1$s plugin. To start this trial for free, go to %2$sthe marketplace%3$s and click on “Start free trial”.",
         "TrialRequestedNotification2": "For more information about the %1$s plugin, %2$sclick here%3$s.",

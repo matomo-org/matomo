@@ -162,7 +162,7 @@ class PluginsTest extends IntegrationTestCase
             'v2.0_consumer-num_users-201-access_token-consumer2_paid1.json'
         );
 
-        $plugin = $this->plugins->getPluginInfo('PaidPlugin1');
+        $plugin = $this->plugins->getPluginInfo('PaidPlugin1', Plugins::CAMPAIGN_MEDIUM_OVERVIEW);
 
         $this->assertNotEmpty($plugin['consumer']['license']);
         $this->assertTrue($plugin['consumer']['license']['isExceeded']);
@@ -590,12 +590,9 @@ class PluginsTest extends IntegrationTestCase
         string $expectedCampaign,
         string $expectedContent
     ): void {
-        $_GET['module'] = 'Marketplace';
-        $_GET['action'] = 'overview';
-
         $this->service->returnFixture($fixtureName);
 
-        $plugin = $this->plugins->getPluginInfo($pluginName);
+        $plugin = $this->plugins->getPluginInfo($pluginName, Plugins::CAMPAIGN_MEDIUM_OVERVIEW);
 
         self::assertNotEmpty($plugin['shop']['variations']);
 
@@ -628,11 +625,28 @@ class PluginsTest extends IntegrationTestCase
         ];
     }
 
+    public function testGetPluginInfoTagsShopLinksWithTheRequestsPageWhenNoMediumIsNamed(): void
+    {
+        $_GET['module'] = 'CorePluginsAdmin';
+        $_GET['action'] = 'plugins';
+
+        $this->service->returnFixture('v2.0_plugins_NewBundle1_info.json');
+
+        $plugin = $this->plugins->getPluginInfo('NewBundle1');
+
+        self::assertNotEmpty($plugin['shop']['variations']);
+
+        foreach ($plugin['shop']['variations'] as $variation) {
+            parse_str((string) parse_url($variation['addToCartUrl'], PHP_URL_QUERY), $params);
+
+            self::assertSame('app.corepluginsadmin.plugins', $params['mtm_medium']);
+        }
+
+        unset($_GET['module'], $_GET['action']);
+    }
+
     public function testGetPluginInfoLeavesNonMatomoShopLinksUntouched(): void
     {
-        $_GET['module'] = 'Marketplace';
-        $_GET['action'] = 'overview';
-
         // this fixture's cart links point at plugins.piwik.org, which is not a Matomo shop domain
         $this->service->returnFixture('v2.0_plugins_PaidPlugin1_info.json');
 

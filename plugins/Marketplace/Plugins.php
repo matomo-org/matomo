@@ -9,7 +9,6 @@
 
 namespace Piwik\Plugins\Marketplace;
 
-use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\NumberFormatter;
@@ -37,6 +36,16 @@ class Plugins
     // the Marketplace is never activated on Cloud, so the source is always the on-premise app
     private const CAMPAIGN_SOURCE = 'matomo_app_onpremise';
     private const CAMPAIGN_MEDIUM_PREFIX = 'app.';
+
+    /**
+     * The Marketplace overview, as the campaign medium names it.
+     *
+     * The overview's plugin cards are fetched by its Vue app, so the request that builds a shop
+     * link names the Ajax endpoint rather than the page the link is rendered on. The endpoints
+     * serving that page pass this instead of leaving the medium to be derived; see
+     * {@link getShopCampaignMedium()}.
+     */
+    public const CAMPAIGN_MEDIUM_OVERVIEW = self::CAMPAIGN_MEDIUM_PREFIX . 'marketplace.overview';
 
     /**
      * Bundles are only sold directly from this core version onwards; before it they go through
@@ -80,10 +89,16 @@ class Plugins
         $this->numberFormatter = NumberFormatter::getInstance();
     }
 
-    public function getPluginInfo($pluginName)
+    /**
+     * @param string      $pluginName
+     * @param string|null $campaignMedium the page the plugin's shop links are rendered on, for
+     *                                    callers whose request does not name it - see
+     *                                    {@link CAMPAIGN_MEDIUM_OVERVIEW}
+     */
+    public function getPluginInfo($pluginName, ?string $campaignMedium = null)
     {
         $plugin = $this->marketplaceClient->getPluginInfo($pluginName);
-        $plugin = $this->enrichPluginInformation($plugin);
+        $plugin = $this->enrichPluginInformation($plugin, $campaignMedium);
 
         return $plugin;
     }
@@ -101,20 +116,24 @@ class Plugins
      * Only an already cached list is used. Fetching one to answer for a single plugin would download
      * the whole catalogue where the info request downloads one plugin.
      *
+     * @param string|null $campaignMedium the page the plugin's shop links are rendered on, for
+     *                                    callers whose request does not name it - see
+     *                                    {@link CAMPAIGN_MEDIUM_OVERVIEW}
+     *
      * @return array<string, mixed>
      */
-    public function getPluginInfoPreferringList(string $pluginName): array
+    public function getPluginInfoPreferringList(string $pluginName, ?string $campaignMedium = null): array
     {
         $plugin = $this->marketplaceClient->findInCachedOverviewLists($pluginName);
 
         if (null !== $plugin) {
             // the raw cached list entry, so only the plugin that was asked for is enriched. Going
             // through searchPlugins() would enrich the whole catalogue to return one.
-            return $this->enrichPluginInformation($plugin);
+            return $this->enrichPluginInformation($plugin, $campaignMedium);
         }
 
         // either the lists are cold or this is a plugin they filter out — ask for it directly
-        return $this->getPluginInfo($pluginName);
+        return $this->getPluginInfo($pluginName, $campaignMedium);
     }
 
     public function getLicenseValidInfo($pluginName)
@@ -154,7 +173,11 @@ class Plugins
         );
     }
 
-    public function searchPlugins($query, $sort, $themesOnly, $purchaseType = '')
+    /**
+     * @param string|null $campaignMedium the page the shop links are rendered on, for callers whose
+     *                                    request does not name it - see {@link CAMPAIGN_MEDIUM_OVERVIEW}
+     */
+    public function searchPlugins($query, $sort, $themesOnly, $purchaseType = '', ?string $campaignMedium = null)
     {
         if ($themesOnly) {
             $plugins = $this->marketplaceClient->searchForThemes('', $query, $sort, $purchaseType);
@@ -163,76 +186,10 @@ class Plugins
         }
 
         foreach ($plugins as $index => $plugin) {
-            $plugins[$index] = $this->enrichPluginInformation($plugin);
+            $plugins[$index] = $this->enrichPluginInformation($plugin, $campaignMedium);
         }
 
-        return $this->mockPromotions(array_values($plugins), $themesOnly);
-    }
-
-    /**
-     * TEMPORARY, development only: fakes the `promotions` the Marketplace does not send yet, so the
-     * overview's Featured and Best selling rows can be seen with real catalogue data.
-     *
-     * Off unless `[Marketplace] mock_promotions = 1` is set in config.ini.php, and only ever fills
-     * a plugin that arrived without promotions, so a real response always wins. Delete before
-     * merging.
-     *
-     * The themes list is left alone: the overview fetches plugins and themes as two requests and
-     * merges them, so numbering both from zero would put two plugins at every position, and the
-     * display-name tiebreak - not the promotion - would then decide the row.
-     *
-     * @param array<int, array<string, mixed>> $plugins
-     * @return array<int, array<string, mixed>>
-     */
-    private function mockPromotions(array $plugins, bool $themesOnly): array
-    {
-        if ($themesOnly || empty(Config::getInstance()->Marketplace['mock_promotions'])) {
-            return $plugins;
-        }
-
-        // Matomo's own plugins first, so the promoted rows read like the design's rather than like
-        // whatever the catalogue happens to list first; anything else only fills a short row.
-        $order = array_keys($plugins);
-        usort($order, function ($a, $b) use ($plugins) {
-            return (int) !$this->isMatomoOwned($plugins[$a]) <=> (int) !$this->isMatomoOwned($plugins[$b]);
-        });
-
-        $featured = 0;
-        $bestselling = 0;
-
-        foreach ($order as $index) {
-            $plugin = $plugins[$index];
-
-            if (!empty($plugin['promotions'])) {
-                continue;
-            }
-
-            $promotions = [];
-
-            // Featured hides what the reader owns, so only unowned plugins are worth putting in it
-            if ($featured < 8 && empty($plugin['isInstalled']) && empty($plugin['licenseStatus'])) {
-                $promotions['featured'] = $featured++;
-            } elseif ($bestselling < 6) {
-                // Best selling deliberately includes owned plugins, so it takes whatever is left
-                $promotions['bestselling'] = $bestselling++;
-            }
-
-            $plugins[$index]['promotions'] = $promotions;
-        }
-
-        return $plugins;
-    }
-
-    /**
-     * TEMPORARY, development only: whether Matomo owns this plugin, as the card credits it. Used
-     * only by {@link mockPromotions()}. Delete before merging.
-     *
-     * @param array<string, mixed> $plugin
-     */
-    private function isMatomoOwned(array $plugin): bool
-    {
-        return !empty($plugin['isBundle'])
-            || in_array(strtolower($plugin['owner'] ?? ''), ['piwik', 'matomo-org'], true);
+        return array_values($plugins);
     }
 
     public function getAllPaidPlugins()
@@ -400,7 +357,7 @@ class Plugins
         return $this->pluginManager->isPluginInstalled($pluginName, true);
     }
 
-    private function enrichPluginInformation($plugin)
+    private function enrichPluginInformation($plugin, ?string $campaignMedium = null)
     {
         if (empty($plugin)) {
             return $plugin;
@@ -479,7 +436,7 @@ class Plugins
             && empty($plugin['missingRequirements'])
             && empty($this->getCurrentLicenseFor($plugin));
 
-        $this->addCampaignParametersToShopUrls($plugin);
+        $this->addCampaignParametersToShopUrls($plugin, $campaignMedium);
         $this->addPriceFrom($plugin);
         $this->addBundleSeats($plugin);
         $this->addPluginCoverImage($plugin);
@@ -619,8 +576,11 @@ class Plugins
      * can be traced back to the product and the placement it was started from.
      *
      * Runs before addPriceFrom() so the variation it picks carries the tagged link too.
+     *
+     * @param string|null $campaignMedium the page the links are rendered on; derived from the
+     *                                    request when the caller does not name one
      */
-    private function addCampaignParametersToShopUrls(&$plugin): void
+    private function addCampaignParametersToShopUrls(&$plugin, ?string $campaignMedium = null): void
     {
         if (empty($plugin['shop']['variations']) || !is_array($plugin['shop']['variations'])) {
             return;
@@ -638,7 +598,7 @@ class Plugins
                 $variation['addToCartUrl'],
                 $campaign,
                 self::CAMPAIGN_SOURCE,
-                $this->getShopCampaignMedium(),
+                $campaignMedium ?? $this->getShopCampaignMedium(),
                 self::CAMPAIGN_GROUP,
                 $content,
                 self::CAMPAIGN_PLACEMENT_ADD_TO_CART
@@ -663,8 +623,11 @@ class Plugins
     }
 
     /**
-     * The page the link was rendered on, eg. app.marketplace.overview. Returns null outside a
-     * request, where there is no page to name and the link is left untagged.
+     * The page the current request renders, eg. app.corepluginsadmin.plugins. Returns null outside
+     * a request, where there is no page to name and the link is left untagged.
+     *
+     * Only correct where the page itself is the request. A page whose links are built by an Ajax
+     * endpoint names its placement with $campaignMedium instead, or this reports the endpoint.
      */
     private function getShopCampaignMedium(): ?string
     {
@@ -844,46 +807,7 @@ class Plugins
             return;
         }
 
-        $plugin['coverImage'] = $this->mockCoverImage($plugin)
-            ?: 'plugins/Marketplace/images/categories/uncategorised.png';
-    }
-
-    /**
-     * TEMPORARY, development only: a local thumbnail for a plugin the Marketplace has no screenshot
-     * for, so the overview can be seen with artwork on every card.
-     *
-     * Off unless `[Marketplace] mock_covers = 1` is set in config.ini.php, and only consulted where
-     * a real cover image is missing, so the Marketplace's own screenshots always win. Matched on
-     * the display name, which is how the files are named. Delete before merging.
-     *
-     * @param array<string, mixed> $plugin
-     */
-    private function mockCoverImage(array $plugin): string
-    {
-        if (empty(Config::getInstance()->Marketplace['mock_covers'])) {
-            return '';
-        }
-
-        static $byName = null;
-
-        $dir = 'plugins/Marketplace/images/demo-covers';
-
-        if (null === $byName) {
-            $byName = [];
-            foreach (glob(PIWIK_INCLUDE_PATH . '/' . $dir . '/*.png') ?: [] as $file) {
-                $byName[$this->coverImageKey(basename($file, '.png'))] = $dir . '/' . basename($file);
-            }
-        }
-
-        // matched on letters and digits alone, so "A/B Testing" still finds "AB Testing.png"
-        $key = $this->coverImageKey($plugin['displayName'] ?? '');
-
-        return '' !== $key && isset($byName[$key]) ? $byName[$key] : '';
-    }
-
-    private function coverImageKey(string $name): string
-    {
-        return preg_replace('/[^a-z0-9]+/', '', strtolower($name));
+        $plugin['coverImage'] = 'plugins/Marketplace/images/categories/uncategorised.png';
     }
 
     /**
