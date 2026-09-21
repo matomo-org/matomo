@@ -21,8 +21,8 @@ use Throwable;
 
 /**
  * Brings the warming that {@link Tasks::warmCacheEntries()} does on the hour forward to the end of
- * an installation, where the cache is certainly cold and the Marketplace is the next thing a new
- * administrator tends to open.
+ * an installation or an update, where the cache is certainly cold and the Marketplace is the next
+ * thing an administrator tends to open.
  *
  * A newly registered task is only entered into the timetable on the scheduler's first run, never
  * executed by it (see Timetable::shouldExecuteTask()), so a fresh installation leaves the overview
@@ -30,8 +30,10 @@ use Throwable;
  * scheduler at all. Whoever opens the Marketplace in that window pays for every request the page
  * needs, which is the slowest it ever is.
  *
- * Updates do not come through here: {@link Marketplace::warmCacheAfterUpdate()} only marks the task
- * due, because building this class from inside the updater disturbs what other plugins report.
+ * An update reaches this class too, but only once its request has finished:
+ * {@link Marketplace::warmCacheAfterUpdate()} marks the task due from inside the updater, where
+ * building this class disturbs what other plugins report, and defers the spawn to the end of the
+ * request.
  */
 class CacheWarmer
 {

@@ -279,8 +279,7 @@ class Scheduler
      *
      * The task will be run by the next scheduler run, and rescheduled onto its own schedule from
      * there. A task is due or it is not, so calling this repeatedly before that run still results
-     * in a single execution - which is what makes it safe to call from something that happens as
-     * often as a cache being cleared.
+     * in a single execution, at the cost of one option read and one option write per call.
      *
      * @param Task $task Describes the scheduled task being rescheduled.
      * @api
