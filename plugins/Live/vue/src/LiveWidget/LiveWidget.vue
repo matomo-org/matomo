@@ -132,6 +132,8 @@ export default defineComponent({
             },
             {
               format: 'html',
+              // an abort has to reach the refresh loop, otherwise it stops for good
+              rejectOnAbort: true,
             },
           );
         },

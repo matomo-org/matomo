@@ -32,6 +32,7 @@ export * from './externalLink';
 export { default as Alert } from './Alert/Alert.vue';
 export { default as AjaxHelper } from './AjaxHelper/AjaxHelper';
 export type { AjaxOptions } from './AjaxHelper/AjaxHelper';
+export { default as isRetryableRequestError } from './AjaxHelper/requestError';
 export { setCookie, getCookie, deleteCookie } from './CookieHelper/CookieHelper';
 export { default as MatomoUrl } from './MatomoUrl/MatomoUrl';
 export { Matomo };

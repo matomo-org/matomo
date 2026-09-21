@@ -56,6 +56,8 @@ export default defineComponent({
       },
       request: () => AjaxHelper.fetch(this.dataUrlParams as Record<string, unknown>, {
         format: 'html',
+        // an abort has to reach the refresh loop, otherwise it stops for good
+        rejectOnAbort: true,
       }),
       handleResponse: (response) => this.replaceContent(response),
     });
