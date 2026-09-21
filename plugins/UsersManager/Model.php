@@ -883,7 +883,7 @@ class Model
 
         // A password given alongside the address rides on the same statement as everything else.
         // ts_password_modified is set explicitly here because updateUserFields() is not doing it for us.
-        if (null !== $hashedPassword) {
+        if (!empty($hashedPassword)) {
             $set[] = '`password` = ?';
             $set[] = '`ts_password_modified` = ?';
             $bind[] = $hashedPassword;
