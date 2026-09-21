@@ -470,6 +470,35 @@ class ModelTest extends IntegrationTestCase
         $this->assertStringNotContainsString('FORCE INDEX', $query('abc'));
     }
 
+    public function testMakeLogVisitsQueryStringKeepsTheGroupByWhenTheSegmentLooksUpAVisitor()
+    {
+        $model = new Model();
+        [$dateStart, $dateEnd] = $model->getStartAndEndDate($idSite = 1, 'month', '2010-01-01');
+
+        $query = function ($segment) use ($model, $dateStart, $dateEnd) {
+            [$sql] = $model->makeLogVisitsQueryString(
+                $idSite = 1,
+                $dateStart,
+                $dateEnd,
+                $segment,
+                $offset = 0,
+                $limit = 100,
+                $visitorId = false,
+                $minTimestamp = false,
+                $filterSortOrder = false
+            );
+
+            return $sql;
+        };
+
+        // the visitor id would end up in the subquery, where index_idsite_idvisitor_time cannot serve it
+        $this->assertStringContainsString(
+            'GROUP BY',
+            $query('siteSearchCategory==Test;visitorId==0123456789abcdef')
+        );
+        $this->assertStringNotContainsString('GROUP BY', $query('siteSearchCategory==Test'));
+    }
+
     public function testMakeLogVisitsQueryStringKeepsTheGroupByWhenIntersectingWithAClickedRowSegment()
     {
         $model = new Model();

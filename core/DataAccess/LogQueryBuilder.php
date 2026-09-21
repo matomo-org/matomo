@@ -26,6 +26,11 @@ class LogQueryBuilder
     private const LOG_VISIT_ID_COLUMN = 'log_visit.idvisit';
 
     /**
+     * Column a segment uses to look up a single visitor.
+     */
+    private const LOG_VISIT_VISITOR_COLUMN = 'log_visit.idvisitor';
+
+    /**
      * Alias the outer log_visit gets when the joined tables move into a subquery. It is the outer
      * table that is renamed and not the one in the subquery, because the segment conditions can
      * contain subqueries of their own that select from log_visit again, eg. `actionUrl!@x`. Leaving
@@ -179,8 +184,9 @@ class LogQueryBuilder
      * @param string|false    $orderBy
      * @param string|int|null $limitAndOffset
      * @param JoinTables      $tables         Tables of the generated join, in the order they are joined.
-     * @return string|null The query, or null when it does not have the shape this rewrite is
-     *                     equivalent for and the caller has to build the grouped query instead.
+     * @return string|null The query, or null when the caller has to build the grouped query
+     *                     instead, either because the rewrite is not equivalent for this shape or
+     *                     because the grouped query has a better index available.
      */
     private function buildVisitQueryWithoutGroupBy($select, $from, $where, $segmentWhere, $groupBy, $orderBy, $limitAndOffset, JoinTables $tables)
     {
@@ -210,6 +216,12 @@ class LogQueryBuilder
         }
 
         if (empty($segmentWhere)) {
+            return null;
+        }
+
+        // the segment moves into the subquery, so a visitor id in it would leave the outer log_visit
+        // without one, and index_idsite_idvisitor_time answers that lookup from a handful of rows
+        if (strpos($segmentWhere, self::LOG_VISIT_VISITOR_COLUMN) !== false) {
             return null;
         }
 
