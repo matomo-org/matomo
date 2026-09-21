@@ -23,6 +23,7 @@ use Piwik\Piwik;
 use Piwik\Auth\PasswordStrength;
 use Piwik\Date;
 use Piwik\Plugins\UsersManager\Model;
+use Piwik\Plugins\UsersManager\Repository\UserRepository;
 use Piwik\Session\SessionInitializer;
 
 /**
@@ -267,7 +268,7 @@ class ControllerTest extends IntegrationTestCase
 
         $realModel = new Model();
         $usersModel = $this->getMockBuilder(Model::class)
-            ->onlyMethods(['deletePendingUserByInviteToken', 'deleteUser'])
+            ->onlyMethods(['deletePendingUserByInviteToken', 'cleanupDeletedUser'])
             ->getMock();
 
         $usersModel->method('deletePendingUserByInviteToken')
@@ -277,11 +278,11 @@ class ControllerTest extends IntegrationTestCase
                 return $realModel->deletePendingUserByInviteToken($userLogin, $presentedToken);
             });
 
-        $usersModel->method('deleteUser')
+        $usersModel->method('cleanupDeletedUser')
             ->willReturnCallback(function ($userLogin) use ($realModel, &$lockHeldForTheCleanup) {
                 $lockHeldForTheCleanup = !$this->canTakeTheCreateUserLock();
 
-                $realModel->deleteUser($userLogin);
+                $realModel->cleanupDeletedUser($userLogin);
             });
 
         $_POST['token'] = $token;
@@ -294,6 +295,32 @@ class ControllerTest extends IntegrationTestCase
         // but an unrelated invite must not queue behind the settings and plugin cleanup
         self::assertFalse($lockHeldForTheCleanup);
         self::assertEmpty($realModel->getUser('test'));
+    }
+
+    public function testDeclineInvitationLeavesAnAccountCreatedAfterItAlone()
+    {
+        [, $token] = $this->generateTestUser();
+
+        $realModel = new Model();
+        $usersModel = $this->getMockBuilder(Model::class)
+            ->onlyMethods(['cleanupDeletedUser'])
+            ->getMock();
+
+        $usersModel->method('cleanupDeletedUser')
+            ->willReturnCallback(function ($userLogin) use ($realModel) {
+                // an invite hands the freed login to a different person before the cleanup runs
+                StaticContainer::get(UserRepository::class)->create($userLogin, 'someone.else@matomo.org');
+
+                $realModel->cleanupDeletedUser($userLogin);
+            });
+
+        $_POST['token'] = $token;
+        $_POST['invitation_form'] = 'Decline';
+
+        $this->buildController($usersModel)->declineInvitation();
+
+        // the decline removed the account it was handed; the login belongs to someone else now
+        self::assertSame('someone.else@matomo.org', $realModel->getUser('test')['email'] ?? null);
     }
 
     /**
