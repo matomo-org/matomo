@@ -882,7 +882,7 @@
             },
             "category": "uncategorised",
             "categories": [],
-            "promotions": {}
+            "promotions": {"featured": 1}
         },
         {
             "name": "ClickHeat",
@@ -1024,7 +1024,7 @@
             },
             "category": "uncategorised",
             "categories": [],
-            "promotions": {}
+            "promotions": {"featured": 2}
         },
         {
             "name": "Counter",
@@ -1097,7 +1097,7 @@
             },
             "category": "uncategorised",
             "categories": [],
-            "promotions": {}
+            "promotions": {"featured": 3}
         },
         {
             "name": "CustomAlerts",
@@ -1636,7 +1636,7 @@
             },
             "category": "uncategorised",
             "categories": [],
-            "promotions": {}
+            "promotions": {"featured": 4}
         },
         {
             "name": "ExcludeByDDNS",
@@ -1943,7 +1943,7 @@
             },
             "category": "uncategorised",
             "categories": [],
-            "promotions": {}
+            "promotions": {"bestselling": 1}
         },
         {
             "name": "FlagCounter",
@@ -2114,7 +2114,7 @@
             },
             "category": "uncategorised",
             "categories": [],
-            "promotions": {}
+            "promotions": {"featured": 5}
         },
         {
             "name": "FreeMobileMessaging",
@@ -2451,7 +2451,7 @@
             },
             "category": "uncategorised",
             "categories": [],
-            "promotions": {}
+            "promotions": {"bestselling": 2}
         },
         {
             "name": "IntranetGeoIP",
@@ -3251,7 +3251,7 @@
             },
             "category": "uncategorised",
             "categories": [],
-            "promotions": {}
+            "promotions": {"bestselling": 3}
         },
         {
             "name": "kDebug",
@@ -3356,7 +3356,7 @@
             },
             "category": "uncategorised",
             "categories": [],
-            "promotions": {}
+            "promotions": {"bestselling": 4}
         },
         {
             "name": "LdapConnection",

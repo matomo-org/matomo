@@ -55,8 +55,21 @@ export const SORT_NEWEST = 'newest';
 export const SORT_ALPHA = 'alpha';
 export const SORT_DEVELOPER = 'developer';
 
-/** The type tabs, in display order. Category tabs are appended to these by {@link buildTabs}. */
+/**
+ * The tabs that are not categories. Themes is one of them but does not lead the bar with the
+ * others: {@link buildTabs} files it after the category run, beside Other.
+ */
 export const TYPE_TABS = [TAB_ALL, TAB_BUNDLES, TAB_THEMES];
+
+/** The type tabs that lead the bar, in display order. Category tabs follow them. */
+const LEADING_TYPE_TABS = [TAB_ALL, TAB_BUNDLES];
+
+/**
+ * The tabs that close the bar, in display order, after the categories. Neither is a category a
+ * plugin can carry: Themes is a kind of plugin and Other is what no category claimed, so both
+ * would break the alphabetical run they now follow.
+ */
+const TRAILING_TABS = [TAB_THEMES, TAB_OTHER];
 
 export interface PluginTab {
   id: string;
@@ -277,7 +290,7 @@ const slugAsLabel: TabLabeller = (tab) => tab.id;
 export function buildTabs(plugins: PluginCard[], labelFor: TabLabeller = slugAsLabel): PluginTab[] {
   const tabs: PluginTab[] = [];
 
-  TYPE_TABS.forEach((id) => {
+  LEADING_TYPE_TABS.forEach((id) => {
     const count = id === TAB_ALL
       ? plugins.length
       : plugins.filter((plugin) => matchesTab(plugin, id)).length;
@@ -306,10 +319,13 @@ export function buildTabs(plugins: PluginCard[], labelFor: TabLabeller = slugAsL
       tabs.push({ id, count: categoryCounts.get(id) as number, isCategory: true });
     });
 
-  const otherCount = plugins.filter((plugin) => matchesTab(plugin, TAB_OTHER)).length;
-  if (otherCount > 0) {
-    tabs.push({ id: TAB_OTHER, count: otherCount, isCategory: true });
-  }
+  TRAILING_TABS.forEach((id) => {
+    const count = plugins.filter((plugin) => matchesTab(plugin, id)).length;
+
+    if (count > 0) {
+      tabs.push({ id, count, isCategory: !TYPE_TABS.includes(id) });
+    }
+  });
 
   return tabs;
 }

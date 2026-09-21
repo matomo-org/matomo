@@ -260,14 +260,14 @@ describe('Marketplace/pluginGrouping', () => {
       ]);
     });
 
-    it('orders type tabs first, then categories alphabetically', () => {
+    it('orders type tabs first, then categories alphabetically, then themes', () => {
       const tabs = buildTabs([
         makePlugin({ name: 'a', categories: ['security'] }),
         makePlugin({ name: 'b', categories: ['customisation'] }),
         makePlugin({ name: 't', isTheme: true }),
       ]);
       expect(tabs.map((t) => t.id))
-        .toEqual([TAB_ALL, TAB_THEMES, 'customisation', 'security']);
+        .toEqual([TAB_ALL, 'customisation', 'security', TAB_THEMES]);
     });
   });
 
@@ -482,7 +482,7 @@ describe('Marketplace/pluginGrouping', () => {
 
     it('follows the tab order, without the all tab', () => {
       expect(buildSections(catalogue).map((s) => s.id))
-        .toEqual([TAB_BUNDLES, TAB_THEMES, 'customisation', 'security', TAB_OTHER]);
+        .toEqual([TAB_BUNDLES, 'customisation', 'security', TAB_THEMES, TAB_OTHER]);
     });
 
     it('holds every plugin of the section, not only the ones a row shows', () => {
@@ -500,7 +500,7 @@ describe('Marketplace/pluginGrouping', () => {
 
     it('lets a theme filed under a category sit in both sections', () => {
       const sections = buildSections([makePlugin({ name: 't', isTheme: true, categories: ['insights'] })]);
-      expect(sections.map((s) => s.id)).toEqual([TAB_THEMES, 'insights']);
+      expect(sections.map((s) => s.id)).toEqual(['insights', TAB_THEMES]);
       expect(sections.every((s) => names(s.plugins).includes('t'))).toBe(true);
     });
 
