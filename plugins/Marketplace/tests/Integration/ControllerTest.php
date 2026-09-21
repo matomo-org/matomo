@@ -236,6 +236,30 @@ class ControllerTest extends IntegrationTestCase
         );
     }
 
+    public function testUpdatePluginNotifiesOnlyOnceAboutAFailureThatHitsEveryPlugin()
+    {
+        // a Marketplace or network error is answered to every info request alike, and a persistent
+        // notification per selected plugin would only repeat the same message
+        $unreachable = new ServiceException('Marketplace could not be reached', ServiceException::HTTP_ERROR);
+
+        $this->pluginInfoAnswers = [
+            'SecurityInfo' => $unreachable,
+            'Provider' => $unreachable,
+            'TreemapVisualization' => 'v2.0_plugins_TreemapVisualization_info.json',
+        ];
+
+        $response = $this->dispatchUpdate('SecurityInfo,Provider,TreemapVisualization');
+
+        self::assertSame(['TreemapVisualization'], $this->installedPlugins);
+        self::assertSame(1, substr_count($response, 'Marketplace could not be reached'));
+
+        // both are still named as not updated, only the error itself is not repeated
+        self::assertStringContainsString(
+            Piwik::translate('Marketplace_PluginsCouldNotBeUpdated', 'SecurityInfo, Provider'),
+            $response
+        );
+    }
+
     private function dispatchUpdate(string $pluginName): string
     {
         // the update view renders a full admin page, whose menu resolves a site

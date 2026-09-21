@@ -574,6 +574,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $pluginInfos = [];
         $failedPlugins = [];
+        $notifiedMessages = [];
         foreach ($plugins as $pluginName) {
             $currentPluginInfo = [];
 
@@ -587,7 +588,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 // case - must not keep the remaining selected ones on their old version
                 $failedPlugins[] = $pluginName;
 
-                $this->notifyAboutFailedInstallOrUpdate($pluginName, $currentPluginInfo, $e);
+                // a Marketplace or network error fails every plugin with the same message
+                if (!in_array($e->getMessage(), $notifiedMessages, true)) {
+                    $notifiedMessages[] = $e->getMessage();
+                    $this->notifyAboutFailedInstallOrUpdate($pluginName, $currentPluginInfo, $e);
+                }
             }
         }
 
