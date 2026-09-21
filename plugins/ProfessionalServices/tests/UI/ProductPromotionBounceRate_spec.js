@@ -61,11 +61,13 @@ describe('ProductPromotionBounceRate', function () {
         await page.goto(dashboardUrl);
         await page.waitForSelector(banner, { timeout: 10000 });
 
-        // Point the image at something that cannot load, the way blocking the request in
-        // DevTools would.
+        // A payload the browser cannot decode, so the error fires immediately and without
+        // a request. Pointing at a missing path instead sends the request through Matomo's
+        // front controller, which answers with a 500 error page rather than a 404 and puts
+        // that whole page into the test's rendering log.
         await page.evaluate(() => {
             const img = document.querySelector('.productPromotion__image');
-            img.src = 'plugins/ProfessionalServices/images/this-file-does-not-exist.png';
+            img.src = 'data:image/png;base64,this-is-not-a-png';
         });
 
         await page.waitForSelector('.productPromotion--noFigure', { timeout: 10000 });
