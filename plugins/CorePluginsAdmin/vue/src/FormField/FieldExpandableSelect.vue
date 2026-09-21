@@ -20,8 +20,8 @@
       <div
         v-show="showSelect"
         class="expandableList expandableSelector__list"
-        :class="{ 'expandableSelector__list--above': openAbove }"
         :data-name="name"
+        :data-matomo-modal-escapee="escapeeModalId"
         :style="listStyle"
         ref="expandableList"
       >
@@ -92,6 +92,26 @@ const LIST_GAP = 8;
 
 /** Gutter kept between the list and the edges of the viewport it is positioned against. */
 const VIEWPORT_MARGIN = 16;
+
+/** Materialize modals have no stable identity of their own, so tag the one a list belongs to. */
+const MODAL_ID_ATTRIBUTE = 'data-matomo-modal-id';
+
+let modalIdCounter = 0;
+
+function identifyOwningModal(element: HTMLElement): string|null {
+  const modal = element.closest('.modal');
+
+  if (!modal) {
+    return null;
+  }
+
+  if (!modal.getAttribute(MODAL_ID_ATTRIBUTE)) {
+    modalIdCounter += 1;
+    modal.setAttribute(MODAL_ID_ATTRIBUTE, `expandable-select-modal-${modalIdCounter}`);
+  }
+
+  return modal.getAttribute(MODAL_ID_ATTRIBUTE);
+}
 
 export interface SelectValueInfo {
   key: unknown;
@@ -185,6 +205,8 @@ export default defineComponent({
       listStyle: {} as Record<string, string>,
       // the list is teleported out of this component, so a click in it reads as a click outside
       isMouseDownInsideList: false,
+      // the modal this list belongs to, or null outside one; only that modal exempts it
+      escapeeModalId: null as string|null,
     };
   },
   computed: {
@@ -224,6 +246,8 @@ export default defineComponent({
     toggleSelect() {
       this.showSelect = !this.showSelect;
       this.openAbove = false;
+      // resolved per open rather than once: modals are built and torn down around the field
+      this.escapeeModalId = identifyOwningModal(this.$el as HTMLElement);
 
       if (this.showSelect) {
         this.$nextTick(() => this.fitOptionsList());
@@ -238,10 +262,19 @@ export default defineComponent({
      * move the list with it. Capture, because the ancestor that scrolls is usually not the window.
      */
     trackTrigger(isOpen: boolean) {
-      const method = isOpen ? 'addEventListener' : 'removeEventListener';
-      window[method]('scroll', this.fitOptionsList, true);
-      window[method]('resize', this.fitOptionsList);
-      window[method]('mousedown', this.noteMouseDownTarget, true);
+      // Explicit branches rather than an indexed window[method]: indexing away the union loses
+      // the specific overload, and a MouseEvent handler no longer type-checks against it.
+      if (isOpen) {
+        window.addEventListener('scroll', this.fitOptionsList, true);
+        window.addEventListener('resize', this.fitOptionsList);
+        window.addEventListener('mousedown', this.noteMouseDownTarget, true);
+        window.addEventListener('mouseup', this.clearMouseDownMarker);
+      } else {
+        window.removeEventListener('scroll', this.fitOptionsList, true);
+        window.removeEventListener('resize', this.fitOptionsList);
+        window.removeEventListener('mousedown', this.noteMouseDownTarget, true);
+        window.removeEventListener('mouseup', this.clearMouseDownMarker);
+      }
 
       if (this.triggerResize) {
         this.triggerResize.disconnect();
@@ -272,6 +305,15 @@ export default defineComponent({
       const list = this.$refs.expandableList as HTMLElement|undefined;
 
       this.isMouseDownInsideList = !!list && list.contains(event.target as HTMLElement);
+    },
+    /**
+     * Press inside the list and release on the field and the directive owns that release, so it
+     * never calls blur() and nothing clears the marker - the next Escape is then swallowed. On
+     * window without capture, which a browser probe confirms runs after the directive's own
+     * documentElement handler, so the marker still stands while the directive decides.
+     */
+    clearMouseDownMarker() {
+      this.isMouseDownInsideList = false;
     },
     positionList() {
       const wrapper = (this.$el as HTMLElement).querySelector('.select-wrapper');
@@ -353,7 +395,11 @@ export default defineComponent({
         this.openAbove = false;
         this.optionsListMaxHeight = spaceBelow;
       } else if (spaceAbove > spaceBelow) {
-        // not enough room below: open above the field when that side offers more
+        // Open above whenever that side offers more, without testing it reaches the minimum: the
+        // options sit at the bottom of the dropdown, so opening above clips the search box while
+        // opening below clips the options. Measured at a 300px viewport with the field at 200,
+        // above leaves 150px of options and below leaves 12px. Neither overflow can be scrolled
+        // to - the list is position: fixed.
         this.openAbove = true;
         this.optionsListMaxHeight = Math.max(minUsableHeight, spaceAbove);
       } else {

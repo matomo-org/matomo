@@ -10,6 +10,7 @@
 namespace Piwik;
 
 use InvalidArgumentException;
+use Piwik\Exception\MissingRequestParameterException;
 
 /**
  * Provides (type safe) access methods for request parameters.
@@ -30,6 +31,8 @@ class Request
     protected $requestParameters;
 
     private static $exceptionMsg = "The parameter '%s' isn't set in the Request and a default value wasn't provided.";
+    private static $invalidValueExceptionMsg
+        = "The parameter '%s' in the Request is not of type '%s' and a default value wasn't provided.";
 
     public function __construct(array $requestParameters)
     {
@@ -121,7 +124,7 @@ class Request
             return $default;
         }
 
-        throw new InvalidArgumentException(sprintf(self::$exceptionMsg, $name));
+        throw new MissingRequestParameterException(sprintf(self::$exceptionMsg, $name));
     }
 
     /**
@@ -143,7 +146,7 @@ class Request
             return $default;
         }
 
-        throw new InvalidArgumentException(sprintf(self::$exceptionMsg, $name));
+        $this->throwUnusableValue($name, 'integer', $parameter);
     }
 
     /**
@@ -165,7 +168,7 @@ class Request
             return $default;
         }
 
-        throw new InvalidArgumentException(sprintf(self::$exceptionMsg, $name));
+        $this->throwUnusableValue($name, 'float', $parameter);
     }
 
     /**
@@ -187,7 +190,7 @@ class Request
             return $default;
         }
 
-        throw new InvalidArgumentException(sprintf(self::$exceptionMsg, $name));
+        $this->throwUnusableValue($name, 'string', $parameter);
     }
 
     /**
@@ -221,7 +224,7 @@ class Request
             return $default;
         }
 
-        throw new InvalidArgumentException(sprintf(self::$exceptionMsg, $name));
+        $this->throwUnusableValue($name, 'bool', $parameter);
     }
 
     /**
@@ -245,7 +248,7 @@ class Request
             return $default;
         }
 
-        throw new InvalidArgumentException(sprintf(self::$exceptionMsg, $name));
+        $this->throwUnusableValue($name, 'array', $parameter);
     }
 
     /**
@@ -263,12 +266,13 @@ class Request
             // Note we can't simply pass the default to getParameter here, in case the default would be string
             // we would otherwise try to parse it as json below, which might result in unexpected behavior
             $parameter = $this->getParameter($name);
-        } catch (InvalidArgumentException $e) {
-            $parameter = null;
-
+        } catch (MissingRequestParameterException $e) {
             if ($default !== null) {
                 return $default;
             }
+
+            // Not the invalid-value throw below: nothing was supplied.
+            throw $e;
         }
 
         if (is_string($parameter)) {
@@ -283,7 +287,23 @@ class Request
             return $default;
         }
 
-        throw new InvalidArgumentException(sprintf(self::$exceptionMsg, $name));
+        $this->throwUnusableValue($name, 'json', $parameter);
+    }
+
+    /**
+     * Two values reach a typed getter meaning "nothing was supplied" rather than naming an unusable one: a
+     * literal false, which is what an untyped parameter declaring `= false` resolves to when absent before
+     * being forwarded into sub-requests, and an empty string, which is how a query string carries a
+     * parameter that was written without a value. getStringParameter() accepts '' as a value of its own and
+     * returns before reaching this point, so only the other getters see it here.
+     */
+    private function throwUnusableValue(string $name, string $expectedType, $parameter): never
+    {
+        if (false === $parameter || '' === $parameter) {
+            throw new MissingRequestParameterException(sprintf(self::$exceptionMsg, $name));
+        }
+
+        throw new InvalidArgumentException(sprintf(self::$invalidValueExceptionMsg, $name, $expectedType));
     }
 
     private function filterNullBytes($value)

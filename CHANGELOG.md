@@ -7,6 +7,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ## Matomo 6.0.0
 
 ### Breaking Changes
+* API method parameters are now validated against their declared type. A parameter supplied with a value its declared type cannot accept, for example an array where a string is expected, is rejected with a bad request error. For a parameter declared with a `null` default this replaces the previous silent fallback to `null`; for a parameter declared without a default the error message changes from `General_PleaseSpecifyValue` to `General_InvalidValueForParameter`. Parameters declared with any other default still fall back to it. A parameter that is not supplied continues to use its default, as does one supplied without a value (`&param=`) — except `string` parameters, which receive `''` as they always have. This applies to API classes that set `$autoSanitizeInputParams = false` or methods annotated `@unsanitized`; every other API method resolves its parameters through the sanitizing path and is unaffected.
 * Before upgrading a proxied installation that configures `[General] proxy_host_headers`, add both the public hostname and the hostname used to reach Matomo to `trusted_hosts`; otherwise the invalid-host warning replaces the login form. With trusted-host checking enabled, `Piwik\Url::isValidHost()` without an explicit hostname now validates the proxy-derived hostname, and `Piwik\Url::getCurrentHost()` returns that hostname only when it is accepted, falling back to the request/configuration-derived hostname otherwise. New installations record both hostnames automatically.
 * The deprecated method `Piwik\Archive::getBlob()` has been removed. Use one of the `Piwik\Archive::getDataTable*()` methods instead.
 * The deprecated method `Piwik\Archive::clearStaticCache()` has been removed. It was a no-op kept only for backwards compatibility.
@@ -115,6 +116,15 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   site selector turn their chevrons too. Two changes affect plugin stylesheets: the select's chevron now sets its
   own `font-size` instead of inheriting the surrounding text size, and `.expandableSelector__chevron` uses
   `margin-right` rather than `padding-right`, so that the rotation turns the glyph in place.
+* The expandable select (`uicontrol="expandable-select"`) now renders its option list as a direct child of
+  `<body>` and positions it against the viewport, so that a scrolling or clipping ancestor — a modal, a panel —
+  can no longer cut it off. The list is no longer a descendant of `.expandableSelector`, so plugin stylesheets
+  and scripts that reached it that way (or through an enclosing `.modal`) no longer match. It carries the
+  classes `expandableList expandableSelector__list` and a `data-name` attribute holding the field's name, which
+  is the supported way to target a particular field's list. An element rendered at page level that belongs to a
+  control inside a Materialize modal can set `data-matomo-modal-escapee` to that modal's
+  `data-matomo-modal-id` to be exempted from its focus trap, which otherwise prevents it from holding focus. The
+  exemption applies only to the modal named, so an element belonging to one modal cannot hold focus over another.
 
 ## Matomo 5.14.0
 
