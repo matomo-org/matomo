@@ -13,6 +13,7 @@ use Exception;
 use Piwik\Common;
 use Piwik\DataAccess\LogQueryBuilder\JoinGenerator;
 use Piwik\DataAccess\LogQueryBuilder\JoinTables;
+use Piwik\DbHelper;
 use Piwik\Plugin\LogTablesProvider;
 use Piwik\Segment\SegmentExpression;
 
@@ -50,6 +51,11 @@ class LogQueryBuilder
     private const LOG_VISIT_TIME_INDEX = 'index_idsite_datetime';
 
     private LogTablesProvider $logTableProvider;
+
+    /**
+     * Whether log_visit has the index above, looked up once per instance.
+     */
+    private ?bool $hasVisitTimeIndex = null;
 
     /**
      * Forces to use a subselect when generating the query. Set value to the FORCE_INNER_GROUP_BY_NO_SUBSELECT constant to force not using a subselect.
@@ -227,6 +233,14 @@ class LogQueryBuilder
 
         $alias = self::LOG_VISIT_OUTER_ALIAS;
         $outerWhere = $this->aliasLogVisitTable($where, $alias);
+        $indexHint = $this->forceVisitTimeIndex($outerWhere);
+
+        // naming an index that is not there is a hard error, and without it the outer query would
+        // have to sort every matching visit and run the subquery for each one, which is more work
+        // than the group by this replaces
+        if ('' !== $indexHint && !$this->hasVisitTimeIndex()) {
+            return null;
+        }
 
         $visitMatchesSegment = $this->buildSelectQuery(
             '1',
@@ -240,7 +254,7 @@ class LogQueryBuilder
 
         return $this->buildSelectQuery(
             $this->aliasLogVisitTable($select, $alias),
-            Common::prefixTable('log_visit') . " AS $alias" . $this->forceVisitTimeIndex($outerWhere),
+            Common::prefixTable('log_visit') . " AS $alias" . $indexHint,
             $this->getWhereMatchBoth($outerWhere, "EXISTS ($visitMatchesSegment)"),
             false,
             $this->aliasLogVisitTable($orderBy, $alias),
@@ -312,6 +326,24 @@ class LogQueryBuilder
         }
 
         return ' FORCE INDEX (' . self::LOG_VISIT_TIME_INDEX . ')';
+    }
+
+    /**
+     * Whether log_visit still has the index the hint names. It has been in the schema since 2011, so
+     * this only answers false where it was removed by hand.
+     *
+     * @return bool
+     */
+    private function hasVisitTimeIndex()
+    {
+        if (null === $this->hasVisitTimeIndex) {
+            $this->hasVisitTimeIndex = DbHelper::tableHasIndex(
+                Common::prefixTable('log_visit'),
+                self::LOG_VISIT_TIME_INDEX
+            );
+        }
+
+        return $this->hasVisitTimeIndex;
     }
 
     /**

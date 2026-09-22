@@ -470,6 +470,43 @@ class ModelTest extends IntegrationTestCase
         $this->assertStringNotContainsString('FORCE INDEX', $query('abc'));
     }
 
+    /**
+     * Naming an index the table does not have fails the query outright, so an installation that
+     * removed this one has to keep the grouped query rather than lose the visits log.
+     */
+    public function testMakeLogVisitsQueryStringKeepsTheGroupByWhenTheVisitTimeIndexIsMissing()
+    {
+        $table = Common::prefixTable('log_visit');
+
+        Db::exec("ALTER TABLE `$table` DROP INDEX index_idsite_datetime");
+
+        try {
+            $model = new Model();
+            [$dateStart, $dateEnd] = $model->getStartAndEndDate($idSite = 1, 'month', '2010-01-01');
+
+            [$sql, $bind] = $model->makeLogVisitsQueryString(
+                $idSite = 1,
+                $dateStart,
+                $dateEnd,
+                $segment = 'siteSearchCategory==Test',
+                $offset = 0,
+                $limit = 100,
+                $visitorId = false,
+                $minTimestamp = false,
+                $filterSortOrder = false
+            );
+
+            $this->assertStringNotContainsString('FORCE INDEX', $sql);
+            $this->assertStringNotContainsString('log_visit_outer', $sql);
+            $this->assertStringContainsString('GROUP BY', $sql);
+
+            // the query the rewrite declined still has to run
+            $this->assertSame([], Db::fetchAll($sql, $bind));
+        } finally {
+            Db::exec("ALTER TABLE `$table` ADD INDEX index_idsite_datetime (idsite, visit_last_action_time)");
+        }
+    }
+
     public function testMakeLogVisitsQueryStringKeepsTheGroupByWhenTheSegmentLooksUpAVisitor()
     {
         $model = new Model();
