@@ -469,7 +469,7 @@ class FixtureRepository
 
     private function isJsonFixture(string $filename): bool
     {
-        return substr($filename, -5) === '.json';
+        return str_ends_with($filename, '.json');
     }
 
     private function logMiss(string $url, string $key): void

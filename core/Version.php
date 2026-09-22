@@ -84,7 +84,7 @@ final class Version
             );
 
             return sprintf('%s-alpha.%s', $newVersion, $dt);
-        } elseif ('alpha' === substr($version, -5)) {
+        } elseif (str_ends_with($version, 'alpha')) {
             // -alpha
             return $version . '.' . $dt;
         } else {
