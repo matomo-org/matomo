@@ -183,19 +183,33 @@
 // hook (e.g. the dashboard widget), hide the controls until the host is hovered or a control
 // is focused. Absent the hook the controls stay visible (base rule above), which is how a
 // maximised widget keeps them on. The hook is reference-only — see CSS rules, rule 31.
-// Overlaid, not in the row: controls that are invisible at rest still reserved their width and
-// left the title a few pixels wide in a narrow dashboard column.
+// What the widget controls are placed against. Held to the top of the row so they land on the
+// first line of a title that wraps: centred, they sit between its lines and fade both.
 .__reportHeader-onHover .reportHeader__controls {
-  position: absolute;
-  top: @_reportHeader_spacing;
-  right: @_reportHeader_spacing;
-  // Fades the title out behind the icons rather than letting the two collide.
-  padding-left: 45px;
-  background: linear-gradient(to right, transparent, @theme-color-widget-title-background 45px);
+  position: relative;
+  align-self: flex-start;
 }
 
+// Held to the top too, so the backdrop starts where the title does: centred against a taller
+// trigger it sits two pixels lower, and the fade stops above the descenders.
+.__reportHeader-onHover .reportHeader__title {
+  align-self: flex-start;
+}
+
+// Laid over the title rather than in the row: reserving width for controls that are invisible
+// most of the time left the title a few pixels wide in a narrow column. `right: 100%` puts them
+// against the trigger, which stays in the row and so keeps giving the header its height.
 .__reportHeader-onHover .reportHeader__widgetControls {
   opacity: 0;
+  position: absolute;
+  // Their own height, not the group's: a report with no menu leaves it empty, and a box the
+  // height of nothing draws no backdrop and spills its icons below the line.
+  top: 0;
+  right: 100%;
+  padding-left: 45px;
+  // Covers the gap the row would have left, so no title shows between these and the trigger.
+  padding-right: 8px;
+  background: linear-gradient(to right, transparent, @theme-color-widget-title-background 45px);
 }
 
 .__reportHeader-onHover:hover .reportHeader__widgetControls,
