@@ -1251,6 +1251,8 @@ class API extends \Piwik\Plugin\API
 
         $this->executeConcurrencySafe($userLogin, function () use ($userLogin, $access, $idSites, $roles, $capabilities) {
             $idSites = $this->getIdSitesCheckAdminAccess($idSites);
+            // confirm the user still exists before the rows below are replaced
+            $this->checkUserExist($userLogin);
             $this->checkUsersHasNotSuperUserAccess($userLogin);
 
             $this->model->deleteUserAccess($userLogin, $idSites);
@@ -1548,8 +1550,10 @@ class API extends \Piwik\Plugin\API
         $expireHours = 0,
         bool $secureOnly = false
     ) {
-        // Only allowed as a top-level request, not nested within another API request.
-        if (ApiRequest::isRootRequestApiRequest() && !ApiRequest::isCurrentApiRequestTheRootApiRequest()) {
+        // Only allowed as a top-level request, not nested within another API request. Base this on
+        // the actual API call nesting rather than request-scoped cache state, which is not a
+        // reliable signal for this decision.
+        if (ApiRequest::isCurrentApiRequestNestedInAnotherApiRequest()) {
             throw new Exception(Piwik::translate('UsersManager_ExceptionCreateTokenAuthWithinNestedRequest'));
         }
 
@@ -1590,7 +1594,17 @@ class API extends \Piwik\Plugin\API
         }
 
         $generatedToken = $this->model->generateRandomTokenAuth();
-        $this->model->addTokenAuth($userLogin, $generatedToken, $description, Date::now()->getDatetime(), $expireDate, false, $secureOnly);
+        $this->model->addTokenAuth(
+            $userLogin,
+            $generatedToken,
+            $description,
+            Date::now()->getDatetime(),
+            $expireDate,
+            false,
+            $secureOnly,
+            // bind the token to the account whose password was just confirmed
+            $user['date_registered'] ?? null
+        );
 
         return $generatedToken;
     }

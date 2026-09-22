@@ -585,6 +585,39 @@ class APITest extends IntegrationTestCase
         }
     }
 
+    /**
+     * @dataProvider getDetectIsApiRequestCases
+     */
+    public function testDetectIsApiRequest(array $requestParams, ?string $expectedMethod)
+    {
+        $rootApiMethod = Request::getRootApiRequestMethod();
+        $get = $_GET;
+        $post = $_POST;
+
+        try {
+            $_GET = $requestParams;
+            $_POST = [];
+            (new \Piwik\Plugins\API\Plugin())->detectIsApiRequest();
+
+            $this->assertSame($expectedMethod, Request::getRootApiRequestMethod());
+            $this->assertSame(null !== $expectedMethod, Request::isRootRequestApiRequest());
+        } finally {
+            $_GET = $get;
+            $_POST = $post;
+            Request::setIsRootRequestApiRequest($rootApiMethod ?: '');
+        }
+    }
+
+    public function getDetectIsApiRequestCases(): iterable
+    {
+        yield 'no action' => [['module' => 'API', 'method' => 'API.get'], 'API.get'];
+        yield 'index action' => [['module' => 'API', 'action' => 'index', 'method' => 'API.get'], 'API.get'];
+        yield 'glossary action' => [['module' => 'API', 'action' => 'glossary', 'method' => 'API.get'], null];
+        yield 'get action' => [['module' => 'API', 'action' => 'get', 'method' => 'API.get'], null];
+        yield 'no method' => [['module' => 'API', 'action' => 'index'], null];
+        yield 'other module' => [['module' => 'CoreHome', 'action' => 'index', 'method' => 'API.get'], null];
+    }
+
     private function assertResponseIsPermissionError($response)
     {
         $this->assertSame('error', $response['result']);
