@@ -366,7 +366,7 @@ class Request
     /**
      * @ignore
      * @internal
-     * @return string|false|null current Api Method if it is an api request
+     * @return string|null current Api Method if it is an api request
      */
     public static function getRootApiRequestMethod()
     {
