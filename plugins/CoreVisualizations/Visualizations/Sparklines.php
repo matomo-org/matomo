@@ -506,7 +506,7 @@ class Sparklines extends ViewDataTable
 
     private function formatSparklineMetricValue($value, string $columnName, array $columnMetrics, MetricFormatter $metricFormatter, int $idSite)
     {
-        if (strpos($columnName, 'revenue') !== false && $idSite > 0) {
+        if (str_contains($columnName, 'revenue') && $idSite > 0) {
             return $metricFormatter->getPrettyMoney($value, $idSite);
         }
 

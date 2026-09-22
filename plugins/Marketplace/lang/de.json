@@ -87,7 +87,6 @@
         "PluginUploadDisabled": "Das Hochladen von Plugins ist in der Konfigurationsdatei deaktiviert. Um diese Funktion zu aktivieren, passen Sie die Konfigurationsdatei an oder kontaktieren Sie ihren Administrator",
         "PluginVersionInfo": "%1$s vom %2$s",
         "PluginWebsite": "Webseite des Plugins",
-        "PriceExclTax": "%1$s %2$s exkl. Steuern.",
         "PriceFromPerPeriod": "Ab %1$s / %2$s",
         "RemoveLicenseKey": "Lizenzschlüssel entfernen",
         "RequestTrial": "Testversion anfragen",

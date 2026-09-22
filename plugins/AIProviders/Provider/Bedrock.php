@@ -45,6 +45,63 @@ class Bedrock extends AIProvider
     /** Timeout for single-shot completions; conversations use the request's own budget. */
     private const COMPLETE_TIMEOUT_SECONDS = 30;
 
+    /**
+     * Model families that accept `inferenceConfig.temperature` on Converse.
+     *
+     * Best effort, and deliberately so. AWS publishes no per-model inference
+     * parameter table: the Converse documentation describes `temperature`
+     * generically, and the model listing returns modalities and lifecycle but
+     * never parameter schemas. This list is therefore compiled from published
+     * capability data (e.g. models.dev) and reported behaviour rather than
+     * from a vendor contract, and it will lag the catalogue.
+     *
+     * That is why it is an allowlist rather than a denylist: the two ways of
+     * being wrong are not symmetric. Sending the field to a model that rejects
+     * it fails the whole request with a 400, while omitting it for one that
+     * would have accepted it only falls back to that model's own default. A
+     * model AWS adds later, or one this list gets wrong, loses its temperature
+     * instead of losing its answer. Claude is covered separately by
+     * {@link self::ANTHROPIC_TEMPERATURE_MODEL_PATTERN}.
+     *
+     * Entries are vendor-level where the whole catalogue accepts the field.
+     * `xai.grok-` covers Grok 4.6, which Converse reaches only through its
+     * cross-Region inference IDs (`us.`/`global.`); Grok 4.3 is served on the
+     * mantle endpoint alone and never reaches this provider.
+     */
+    private const TEMPERATURE_MODEL_PATTERN = '#(?:^|[./])(?:'
+        . 'ai21\\.|amazon\\.nova-|amazon\\.titan-text-|cohere\\.|deepseek\\.|google\\.gemma-'
+        . '|meta\\.llama|minimax\\.|mistral\\.|moonshot(?:ai)?\\.|nvidia\\.|qwen\\.|writer\\.'
+        . '|zai\\.|openai\\.gpt-oss|xai\\.grok-'
+        . ')#i';
+
+    /**
+     * Claude models on Bedrock that still accept a custom `temperature`.
+     *
+     * Same best-effort caveat as
+     * {@link self::TEMPERATURE_MODEL_PATTERN}, split out because Claude is the
+     * one vendor where the boundary falls inside the catalogue rather than
+     * around it: the sampling parameters were retired for the releases after
+     * Claude Opus 4.6, so the family name alone does not decide it. What
+     * Converse does with the field for a post-boundary Claude is not
+     * documented by AWS and has not been verified against the endpoint here.
+     *
+     * Bedrock serves Claude under vendor-qualified, optionally region-prefixed
+     * IDs (`eu.anthropic.claude-opus-4-6`).
+     *
+     * Every Claude 3 accepts it. In the 4 families the accepted point releases
+     * are listed one by one, and the trailing lookahead rejects any point
+     * release that is not: without it `sonnet-4` would also match the
+     * post-boundary `claude-sonnet-4-7`, and `opus-4-1` would match
+     * `claude-opus-4-10`. A bare family name still matches the undotted
+     * release and its dated IDs (`claude-opus-4-20250514`).
+     *
+     * `0` is listed for both minor-less Claude 4 releases because that is the
+     * alias Anthropic gives them (`claude-opus-4-0`, `claude-sonnet-4-0`).
+     */
+    private const ANTHROPIC_TEMPERATURE_MODEL_PATTERN =
+        '#(?:^|[./])(?:anthropic\\.)?claude-'
+        . '(?:3|(?:opus-4(?:-[0156])?|sonnet-4(?:-[056])?|haiku-4(?:-5)?)(?!-?\\d{1,2}(?:\\D|$)))#i';
+
     /** Exact Bedrock model ID fragments that support the gpt-oss reasoning_effort field. */
     private const GPT_OSS_MODEL_PATTERN = '/(?:^|[.\/])openai\.gpt-oss-(?:20b|120b)-1:0$/';
 
@@ -178,9 +235,12 @@ class Bedrock extends AIProvider
             ],
             'inferenceConfig' => [
                 'maxTokens' => $request->getMaxTokens(),
-                'temperature' => $request->getTemperature(),
             ],
         ];
+
+        if ($this->modelSupportsTemperature($model)) {
+            $payload['inferenceConfig']['temperature'] = $request->getTemperature();
+        }
 
         // Completions carry a per-request thinking budget that overrides the
         // capability level, so resolve the effective intent via wantsThinking().
@@ -227,9 +287,12 @@ class Bedrock extends AIProvider
             'messages' => $this->canonicalMessagesToBedrock($request->getMessages()),
             'inferenceConfig' => [
                 'maxTokens' => $request->getMaxTokens(),
-                'temperature' => $request->getTemperature(),
             ],
         ];
+
+        if ($this->modelSupportsTemperature($model)) {
+            $payload['inferenceConfig']['temperature'] = $request->getTemperature();
+        }
 
         // Conversation requests have no thinking budget, so the capability
         // level alone decides whether reasoning is on.
@@ -715,6 +778,15 @@ class Bedrock extends AIProvider
                 ? ['type' => 'enabled', 'maxReasoningEffort' => 'medium']
                 : ['type' => 'disabled'];
         }
+    }
+
+    /**
+     * Whether this model accepts a custom `temperature` on Converse.
+     */
+    private function modelSupportsTemperature(string $model): bool
+    {
+        return preg_match(self::TEMPERATURE_MODEL_PATTERN, $model) === 1
+            || preg_match(self::ANTHROPIC_TEMPERATURE_MODEL_PATTERN, $model) === 1;
     }
 
     private function isGptOssModel(string $model): bool

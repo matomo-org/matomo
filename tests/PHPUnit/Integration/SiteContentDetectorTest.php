@@ -81,7 +81,7 @@ class SiteContentDetectorTest extends IntegrationTestCase
 
         // an intranet site is refused by default now, so the reason must clear the default WARN level
         $refusals = array_filter($logger->records, function (array $record): bool {
-            return $record[0] === LogLevel::WARNING && strpos($record[1], 'was refused') !== false;
+            return $record[0] === LogLevel::WARNING && str_contains($record[1], 'was refused');
         });
 
         self::assertCount(1, $refusals, 'expected one WARNING refusal, got: ' . var_export($logger->records, true));

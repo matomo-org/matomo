@@ -208,8 +208,25 @@ class Fixture extends \PHPUnit\Framework\Assert
         return self::getConfig()->database_tests['dbname'];
     }
 
+    /**
+     * Lets the HTTP test proxies under tests/PHPUnit/proxy/ serve requests on this
+     * instance. Keep the path in sync with that directory's includes.php.
+     */
+    private static function enableHttpTestProxies()
+    {
+        $tmpDir = PIWIK_INCLUDE_PATH . '/tmp';
+
+        if (!is_dir($tmpDir)) {
+            @mkdir($tmpDir, 0755, true);
+        }
+
+        @touch($tmpDir . '/http-test-proxies-enabled');
+    }
+
     public function performSetUp($setupEnvironmentOnly = false)
     {
+        self::enableHttpTestProxies();
+
         // PHPUnit can execute data providers from non-selected tests during discovery.
         // Ensure no singleton/cache state leaks into fixture setup.
         self::clearInMemoryCaches();
@@ -622,7 +639,7 @@ class Fixture extends \PHPUnit\Framework\Assert
 
         $pathBeforeRoot = 'tests';
         // Running from a plugin
-        if (strpos($piwikUrl, 'plugins/') !== false) {
+        if (str_contains($piwikUrl, 'plugins/')) {
             $pathBeforeRoot = 'plugins';
         }
 
@@ -938,8 +955,8 @@ class Fixture extends \PHPUnit\Framework\Assert
         $gdInfo = gd_info();
         return
             stristr(php_uname(), self::IMAGES_GENERATED_ONLY_FOR_OS) &&
-            strpos(phpversion(), self::IMAGES_GENERATED_FOR_PHP) !== false &&
-            strpos($gdInfo['GD Version'], self::IMAGES_GENERATED_FOR_GD) !== false;
+            str_contains(phpversion(), self::IMAGES_GENERATED_FOR_PHP) &&
+            str_contains($gdInfo['GD Version'], self::IMAGES_GENERATED_FOR_GD);
     }
 
     public static function executeLogImporter($logFile, $options, $allowFailure = false)

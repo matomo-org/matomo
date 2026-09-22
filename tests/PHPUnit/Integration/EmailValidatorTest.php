@@ -30,7 +30,7 @@ class EmailValidatorTest extends \PHPUnit\Framework\TestCase
 
         $tlds = explode("\n", $response['data']);
         foreach ($tlds as $key => $tld) {
-            if (strpos($tld, '#') !== false || $tld == "") {
+            if (str_contains($tld, '#') || $tld == "") {
                 unset($tlds[$key]);
             }
         }

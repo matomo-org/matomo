@@ -406,7 +406,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
             $line = trim($line);
 
             // the only command that is not a JSON literal
-            if (false !== strpos($line, 'document.')) {
+            if (str_contains($line, 'document.')) {
                 continue;
             }
 

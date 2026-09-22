@@ -807,8 +807,8 @@ abstract class SystemTestCase extends TestCase
         }
         foreach ($tables as $table => $rows) {
             // create table if it's an archive table
-            if (strpos($table, 'archive_') !== false && !in_array($table, $archiveTables)) {
-                $tableType = strpos($table, 'archive_numeric') !== false ? 'archive_numeric' : 'archive_blob';
+            if (str_contains($table, 'archive_') && !in_array($table, $archiveTables)) {
+                $tableType = str_contains($table, 'archive_numeric') ? 'archive_numeric' : 'archive_blob';
 
                 $createSql = DbHelper::getTableCreateSql($tableType);
                 $createSql = str_replace(Common::prefixTable($tableType), $table, $createSql);

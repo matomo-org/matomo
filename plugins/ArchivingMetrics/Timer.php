@@ -151,7 +151,7 @@ final class Timer
             $context->period->getLabel(),
             $context->plugin
         );
-        if (strpos($doneFlag, '.') !== false) {
+        if (str_contains($doneFlag, '.')) {
             return false;
         }
 

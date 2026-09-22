@@ -184,7 +184,7 @@ function recursive_test_files(string $rootDir): array
     );
     foreach ($it as $info) {
         /** @var SplFileInfo $info */
-        if ($info->isFile() && substr($info->getFilename(), -8) === 'Test.php') {
+        if ($info->isFile() && str_ends_with($info->getFilename(), 'Test.php')) {
             $out[] = $info->getPathname();
         }
     }

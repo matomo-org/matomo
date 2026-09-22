@@ -455,11 +455,11 @@ class CoreHome extends \Piwik\Plugin
             Access::doAsSuperUser(function () use (&$translationKeys) {
                 $menu = MenuAdmin::getInstance()->getMenu();
                 foreach ($menu as $level1 => $level2) {
-                    if (strpos($level1, '_') !== false) {
+                    if (str_contains($level1, '_')) {
                         $translationKeys[] = $level1;
                     }
                     foreach ($level2 as $name => $params) {
-                        if (strpos($name, '_') !== false) {
+                        if (str_contains($name, '_')) {
                             $translationKeys[] = $name;
                         }
                     }
