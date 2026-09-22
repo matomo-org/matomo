@@ -265,6 +265,36 @@ export function sortPlugins(plugins: PluginCard[], sort: string): PluginCard[] {
   }
 }
 
+/**
+ * Bundles by seat tier, smallest first, so the Team, Business and Enterprise ladder reads in the
+ * order it is priced in rather than alphabetically.
+ *
+ * A bundle whose tier carries no number - `bundleSeats` is unset, see `Plugins::addBundleSeats()` -
+ * sorts last: "Unlimited users" is the top of the ladder, and a bundle whose variations disagree
+ * on a tier has no place on it. Ties fall back to the display name, as every other sort does.
+ */
+export function sortBundles(plugins: PluginCard[]): PluginCard[] {
+  return [...plugins].sort((a, b) => {
+    const seatsA = typeof a.bundleSeats === 'number' ? a.bundleSeats : Infinity;
+    const seatsB = typeof b.bundleSeats === 'number' ? b.bundleSeats : Infinity;
+
+    return (seatsA === seatsB ? 0 : seatsA - seatsB)
+      || (a.displayName || '').localeCompare(b.displayName || '');
+  });
+}
+
+/**
+ * How one tab's list is ordered. Bundles have an order of their own - see {@link sortBundles} -
+ * and ignore the sort control; every other tab is {@link sortPlugins}.
+ */
+export function sortTabPlugins(
+  plugins: PluginCard[],
+  sort: string,
+  tabId: string,
+): PluginCard[] {
+  return tabId === TAB_BUNDLES ? sortBundles(plugins) : sortPlugins(plugins, sort);
+}
+
 export function filterPlugins(
   plugins: PluginCard[],
   tabId: string,

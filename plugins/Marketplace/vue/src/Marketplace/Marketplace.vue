@@ -172,7 +172,9 @@ import {
   promotedPlugins,
   SORT_LAST_UPDATED,
   sortPlugins,
+  sortTabPlugins,
   TAB_ALL,
+  TAB_BUNDLES,
   TYPE_TABS,
   tabFromLegacyPluginType,
 } from '../PluginGrid/pluginGrouping';
@@ -320,7 +322,8 @@ export default defineComponent({
     },
     /**
      * The section stack, each row sorted the way the whole catalogue is, so that a row is the
-     * first cards of the category it links to rather than a differently ordered sample.
+     * first cards of the category it links to rather than a differently ordered sample. Bundles
+     * are the exception on both counts - see sortTabPlugins().
      */
     sections(): PluginSectionType[] {
       // The promoted rows keep the order the Marketplace gave them - promoting a plugin is
@@ -330,7 +333,7 @@ export default defineComponent({
         ...buildPromoSections(this.allPlugins),
         ...buildSections(this.allPlugins, tabLabel).map((section) => ({
           ...section,
-          plugins: sortPlugins(section.plugins, this.pluginSort),
+          plugins: sortTabPlugins(section.plugins, this.pluginSort, section.id),
         })),
       ];
     },
@@ -395,9 +398,10 @@ export default defineComponent({
 
       const tab = this.searchQuery.trim() ? TAB_ALL : this.activeTab;
 
-      return sortPlugins(
+      return sortTabPlugins(
         filterPlugins(this.allPlugins, tab, this.searchQuery),
         this.pluginSort,
+        tab,
       );
     },
     /**
@@ -452,9 +456,18 @@ export default defineComponent({
     /**
      * Sorting is offered over a single list only. The section stack is ten lists at once, each cut
      * to a row, so sorting there would change what the rows hold with no visible reordering.
+     *
+     * Bundles are left out for the same reason: they carry a seat order of their own - see
+     * sortTabPlugins() - and a control that reordered nothing would read as a broken one. Only
+     * while that tab is the list on screen, though: a search or a promotion sets the tab aside,
+     * and what those show does sort.
      */
     showSort(): boolean {
-      return !this.showSections && this.filteredPlugins.length > 0;
+      const showingBundles = this.activeTab === TAB_BUNDLES
+        && !this.activePromotion
+        && !this.searchQuery.trim();
+
+      return !this.showSections && !showingBundles && this.filteredPlugins.length > 0;
     },
   },
   methods: {

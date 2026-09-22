@@ -22,7 +22,9 @@ import {
   parseMarketplaceDate,
   SECTION_BESTSELLING,
   SECTION_FEATURED,
+  sortBundles,
   sortPlugins,
+  sortTabPlugins,
   SORT_ALPHA,
   SORT_DEVELOPER,
   SORT_LAST_UPDATED,
@@ -102,6 +104,50 @@ describe('Marketplace/pluginGrouping', () => {
         makePlugin({ name: 'newer', lastUpdatedRaw: '2026-01-01 00:00:00' }),
       ];
       expect(names(sortPlugins(plugins, 'nonsense'))).toEqual(['newer', 'older']);
+    });
+  });
+
+  describe('sortBundles', () => {
+    it('does not mutate its argument', () => {
+      const plugins = [makePlugin({ name: 'B', bundleSeats: 20 }), makePlugin({ name: 'A', bundleSeats: 5 })];
+      sortBundles(plugins);
+      expect(names(plugins)).toEqual(['B', 'A']);
+    });
+
+    it('orders by seats ascending', () => {
+      const plugins = [
+        makePlugin({ name: 'business', bundleSeats: 20 }),
+        makePlugin({ name: 'team', bundleSeats: 5 }),
+        makePlugin({ name: 'enterprise', bundleSeats: 100 }),
+      ];
+      expect(names(sortBundles(plugins))).toEqual(['team', 'business', 'enterprise']);
+    });
+
+    it('sorts a bundle with no seat count last, by name', () => {
+      const plugins = [
+        makePlugin({ name: 'unlimited2' }),
+        makePlugin({ name: 'unlimited1' }),
+        makePlugin({ name: 'team', bundleSeats: 5 }),
+      ];
+      expect(names(sortBundles(plugins))).toEqual(['team', 'unlimited1', 'unlimited2']);
+    });
+  });
+
+  describe('sortTabPlugins', () => {
+    it('orders the bundles tab by seats, whatever the sort method', () => {
+      const plugins = [
+        makePlugin({ name: 'aaa', bundleSeats: 20, isBundle: true }),
+        makePlugin({ name: 'zzz', bundleSeats: 5, isBundle: true }),
+      ];
+      expect(names(sortTabPlugins(plugins, SORT_ALPHA, TAB_BUNDLES))).toEqual(['zzz', 'aaa']);
+    });
+
+    it('leaves every other tab to sortPlugins', () => {
+      const plugins = [
+        makePlugin({ name: 'zzz', bundleSeats: 5 }),
+        makePlugin({ name: 'aaa', bundleSeats: 20 }),
+      ];
+      expect(names(sortTabPlugins(plugins, SORT_ALPHA, TAB_ALL))).toEqual(['aaa', 'zzz']);
     });
   });
 
