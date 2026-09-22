@@ -109,6 +109,59 @@ class SorterTest extends UnitTestCase
         $this->assertSame('nb_visits', $this->sorter->getPrimaryColumnToSort($table, 'any_random_column_that_doesnt_exist'));
     }
 
+    public function testGetPrimaryColumnToSortShouldUseRevenueWhenFirstRowLacksItButALaterRowHasIt()
+    {
+        $table = $this->createDataTable(array(
+            array('label' => 'view only', 'nb_visits' => 19),
+            array('label' => 'purchased', 'nb_visits' => 2, 'revenue' => 80.74),
+        ));
+
+        $this->assertSame('revenue', $this->sorter->getPrimaryColumnToSort($table, 'revenue'));
+    }
+
+    public function testGetPrimaryColumnToSortShouldUseRevenueMetricIdWhenFirstRowLacksItButALaterRowHasIt()
+    {
+        // "revenue" maps to the ecommerce item metric. Product rows store that id until ReplaceColumnNames.
+        $table = $this->createDataTable(array(
+            array('label' => 'view only', 'nb_visits' => 19),
+            array('label' => 'purchased', 'nb_visits' => 2, Metrics::INDEX_ECOMMERCE_ITEM_REVENUE => 80.74),
+        ));
+
+        $this->assertSame(Metrics::INDEX_ECOMMERCE_ITEM_REVENUE, $this->sorter->getPrimaryColumnToSort($table, 'revenue'));
+    }
+
+    public function testGetPrimaryColumnToSortShouldFallbackToNbVisitsWhenNoRowHasTheRequestedColumn()
+    {
+        $table = $this->createDataTable(array(
+            array('label' => 'view only', 'nb_visits' => 19),
+            array('label' => 'also viewed', 'nb_visits' => 4),
+        ));
+
+        $this->assertSame('nb_visits', $this->sorter->getPrimaryColumnToSort($table, 'revenue'));
+    }
+
+    public function testSortByRevenueSinksRowsMissingRevenueWhenTheFirstRowHasNone()
+    {
+        $table = $this->createDataTable(array(
+            array('label' => 'view only', 'nb_visits' => 19),
+            array('label' => 'purchased', 'nb_visits' => 2, 'revenue' => 80.74),
+            array('label' => 'bigger purchase', 'nb_visits' => 1, 'revenue' => 200.8),
+        ));
+
+        $this->config->primaryColumnToSort = $this->sorter->getPrimaryColumnToSort($table, 'revenue');
+        $this->config->primarySortOrder = SORT_DESC;
+        $this->config->primarySortFlags = $this->sorter->getBestSortFlags($table, $this->config->primaryColumnToSort);
+
+        $this->sorter->sort($table);
+
+        $labels = array();
+        foreach ($table->getRows() as $row) {
+            $labels[] = $row->getColumn('label');
+        }
+
+        $this->assertSame(array('bigger purchase', 'purchased', 'view only'), $labels);
+    }
+
     public function testGetPrimaryColumnToSortShouldFallbackToThePassedColumnNameIfColumnCannotBeFoundAndNbVisitsDoesNotExist()
     {
         $table = $this->createDataTable(array(array('label' => 'nintendo')));
