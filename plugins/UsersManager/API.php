@@ -1531,6 +1531,12 @@ class API extends \Piwik\Plugin\API
      * @param int|string $expireHours Optional number of hours before the token expires. Ignored when `$expireDate` is
      *                                set.
      * @param bool $secureOnly `true` if the token must not be accepted in GET requests.
+     * @param string|null $accessLevel Optional maximum permission to embed in the generated token, one of `view`,
+     *                                 `write`, `admin` or `superuser`, and never above the user's own highest
+     *                                 access. Omitted, `null` or empty leaves the token unscoped. When the
+     *                                 request is itself made with a scoped token, the new token may be no less
+     *                                 restricted than that one, so a higher level is refused and so is leaving
+     *                                 this unset - a `view`-scoped token can only issue `view`.
      * @return string Newly generated app-specific token.
      */
     public function createAppSpecificTokenAuth(
@@ -1540,7 +1546,8 @@ class API extends \Piwik\Plugin\API
         string $description,
         $expireDate = null,
         $expireHours = 0,
-        bool $secureOnly = false
+        bool $secureOnly = false,
+        ?string $accessLevel = null
     ) {
         // Only allowed as a top-level request, not nested within another API request. Base this on
         // the actual API call nesting rather than request-scoped cache state, which is not a
@@ -1585,6 +1592,14 @@ class API extends \Piwik\Plugin\API
             $expireDate = Date::factory($expireDate)->getDatetime();
         }
 
+        // Proxy.php preserves empty-string parameters rather than substituting the default, so a caller
+        // sending `access_level=` (the form's "Inherit user access" default) arrives with an empty string.
+        if ($accessLevel === '') {
+            $accessLevel = null;
+        }
+        $accessLevel = $this->model->normalizeAndValidateTokenAccessLevelForUser($userLogin, $accessLevel, false);
+        UsersManager::checkTokenScopeOfRequestAllowsIssuing($accessLevel);
+
         $generatedToken = $this->model->generateRandomTokenAuth();
         $this->model->addTokenAuth(
             $userLogin,
@@ -1594,6 +1609,7 @@ class API extends \Piwik\Plugin\API
             $expireDate,
             false,
             $secureOnly,
+            $accessLevel,
             // bind the token to the account whose password was just confirmed
             $user['date_registered'] ?? null
         );

@@ -653,7 +653,8 @@ class API extends \Piwik\Plugin\API
                 return Access::getInstance()->getSitesIdWithAtLeastViewAccess();
             }
 
-            $accessRaw = Access::getInstance()->getRawSitesWithSomeViewAccess($_restrictSitesToLogin);
+            // The capped variant: raw rows would answer past the token's access level.
+            $accessRaw = Access::getInstance()->getRawSitesWithSomeViewAccessWithinTokenScope($_restrictSitesToLogin);
             $sitesId = array_column($accessRaw, 'idsite');
             return array_map('intval', $sitesId);
         } else {
