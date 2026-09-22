@@ -275,7 +275,7 @@ class ArchiveInvalidator
         bool $doNotCreateInvalidations = false
     ) {
         $plugin = null;
-        if ($name && strpos($name, '.') !== false) {
+        if ($name && str_contains($name, '.')) {
             [$plugin] = explode('.', $name);
         } elseif ($name) {
             $plugin = $name;

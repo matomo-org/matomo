@@ -287,7 +287,7 @@ class SegmentEditor extends \Piwik\Plugin
 
         $idSites = Site::getIdSitesFromIdSitesString($idSite);
 
-        if (strpos($date, ',') !== false) { // if getting multiple periods, check the whole range for visits
+        if (str_contains($date, ',')) { // if getting multiple periods, check the whole range for visits
             $periodStr = 'range';
         }
 

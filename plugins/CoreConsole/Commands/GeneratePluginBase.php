@@ -167,7 +167,7 @@ abstract class GeneratePluginBase extends ConsoleCommand
                 }
             }
 
-            if (strpos($requiredVersion, '||') !== false || strpos($requiredVersion, ' ') !== false) {
+            if (str_contains($requiredVersion, '||') || str_contains($requiredVersion, ' ')) {
                 // user is using custom piwik version require, we do not overwrite anything.
                 return;
             }

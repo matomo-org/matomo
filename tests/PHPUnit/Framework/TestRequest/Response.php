@@ -251,9 +251,9 @@ class Response
         }
 
         $dateTime = $this->requestUrl['date'];
-        return strpos($dateTime, 'last') !== false
-            || strpos($dateTime, 'today') !== false
-            || strpos($dateTime, 'now') !== false;
+        return str_contains($dateTime, 'last')
+            || str_contains($dateTime, 'today')
+            || str_contains($dateTime, 'now');
     }
 
     private function shouldDeleteLiveIds()

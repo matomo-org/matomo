@@ -1081,32 +1081,32 @@ class ProcessedReport
             return $value;
         }
 
-        if (strpos($columnName, '_change') !== false) { // comparison change columns are formatted by DataComparisonFilter
+        if (str_contains($columnName, '_change')) { // comparison change columns are formatted by DataComparisonFilter
             return $value == '0' ? '+0%' : $value;
         }
 
         // percent-of-total metrics are quotients, this must be checked before the money/time
         // formatting below so eg 'revenue_percent_of_total' is not formatted as money
-        if (strpos($columnName, PercentOfReportTotal::COLUMN_NAME_SUFFIX) !== false) {
+        if (str_contains($columnName, PercentOfReportTotal::COLUMN_NAME_SUFFIX)) {
             return $formatter->getPrettyPercentFromQuotient($value);
         }
 
         // Display time in human readable
-        if (in_array($columnName, self::PERFORMANCE_METRICS_TO_FORMAT) || strpos($columnName, 'time_generation') !== false) {
+        if (in_array($columnName, self::PERFORMANCE_METRICS_TO_FORMAT) || str_contains($columnName, 'time_generation')) {
             return $formatter->getPrettyTimeFromSeconds($value, true);
         }
-        if (strpos($columnName, 'time') !== false) {
+        if (str_contains($columnName, 'time')) {
             return $formatter->getPrettyTimeFromSeconds($value);
         }
 
         // Add revenue symbol to revenues
-        $isMoneyMetric = strpos($columnName, 'revenue') !== false || strpos($columnName, 'price') !== false;
+        $isMoneyMetric = str_contains($columnName, 'revenue') || str_contains($columnName, 'price');
         if ($isMoneyMetric && strpos($columnName, 'evolution') === false) {
             return $formatter->getPrettyMoney($value, $idSite);
         }
 
         // Add % symbol to rates
-        if (strpos($columnName, '_rate') !== false) {
+        if (str_contains($columnName, '_rate')) {
             if (strpos($value, "%") === false) {
                 return (100 * $value) . "%";
             }

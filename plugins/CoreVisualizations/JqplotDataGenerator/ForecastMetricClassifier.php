@@ -282,9 +282,9 @@ class ForecastMetricClassifier
         // unrelated names that happen to contain the literal letters (lifetime_*, wavelength).
         if (
             $this->hasRatioShapedColumnName($columnName)
-            || strpos($columnName, '_time') !== false
+            || str_contains($columnName, '_time')
             || strpos($columnName, 'time_') === 0
-            || strpos($columnName, '_length') !== false
+            || str_contains($columnName, '_length')
             || strpos($columnName, 'length_') === 0
         ) {
             return 2;
@@ -302,8 +302,8 @@ class ForecastMetricClassifier
         // first line, so it reaches 0 either way and is not what the name check is here for.
         if (
             strpos($columnName, 'nb_') === 0
-            || strpos($columnName, '_nb_') !== false
-            || strpos($columnName, '_count') !== false
+            || str_contains($columnName, '_nb_')
+            || str_contains($columnName, '_count')
             || $this->isBlobRowCountColumnName($columnName)
             || in_array($columnName, ['hits', 'items', 'quantity', 'orders', 'goals'], true)
         ) {
@@ -352,7 +352,7 @@ class ForecastMetricClassifier
         }
 
         foreach (self::DEDUPLICATED_COUNT_BASE_NAMES as $baseName) {
-            if (strpos($columnName, $baseName) !== false) {
+            if (str_contains($columnName, $baseName)) {
                 return true;
             }
         }
@@ -372,9 +372,9 @@ class ForecastMetricClassifier
      */
     private function hasRatioShapedColumnName(string $columnName): bool
     {
-        return strpos($columnName, '_rate') !== false
-            || strpos($columnName, '_percentage') !== false
+        return str_contains($columnName, '_rate')
+            || str_contains($columnName, '_percentage')
             || strpos($columnName, 'avg_') === 0
-            || strpos($columnName, '_per_') !== false;
+            || str_contains($columnName, '_per_');
     }
 }

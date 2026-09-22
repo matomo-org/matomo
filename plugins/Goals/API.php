@@ -847,7 +847,7 @@ class API extends \Piwik\Plugin\API
 
         if ($showAllGoalSpecificMetrics && !empty($requestedColumns)) {
             foreach ($requestedColumns as $requestedColumn) {
-                if (strpos($requestedColumn, '_conversion_rate') !== false) {
+                if (str_contains($requestedColumn, '_conversion_rate')) {
                     $columnIdGoal = Goals::getGoalIdFromGoalColumn($requestedColumn);
                     if ($columnIdGoal) {
                         $goalConversionRate = new GoalConversionRate($idSite, $columnIdGoal);
