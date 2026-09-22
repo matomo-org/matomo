@@ -1552,6 +1552,10 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         // Current archives only persist row arrays, so do not allow objects in the default path.
         $rows = Common::safe_unserialize($serialized, []);
 
+        if (is_array($rows) && !$this->payloadCanContainObjectsOrReferences($serialized)) {
+            return $rows;
+        }
+
         if ($this->isValidRowsPayload($rows, $allowLegacySerializedRowObjects = false)) {
             return $rows;
         }
@@ -1573,6 +1577,29 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         }
 
         return $rows;
+    }
+
+    /**
+     * Whether the payload holds a type marker for anything isValidRowsPayload() is looking for.
+     * With classes disallowed an object can only come from "O:", "C:" or "E:", and the recursive
+     * array that makes the scan fail can only come from "R:", so a payload without any of those
+     * has nothing to find and does not need to be walked at all.
+     *
+     * Enums are the odd one out: they are restored as real instances even though classes are
+     * disallowed, which is why "E:" has to be in the list.
+     *
+     * A marker that is really part of a label just gets the regular scan, so a false positive
+     * costs time rather than safety.
+     */
+    private function payloadCanContainObjectsOrReferences(string $serialized): bool
+    {
+        foreach (['O:', 'C:', 'E:', 'R:'] as $marker) {
+            if (str_contains($serialized, $marker)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private function isValidRowsPayload($rows, bool $allowLegacySerializedRowObjects): bool
