@@ -96,7 +96,7 @@ async function mountModalWithAltId(props: Record<string, unknown> = {}, stub = A
 }
 
 function altIdWrapper(wrapper: ReturnType<typeof mountModal>) {
-  return wrapper.find('.passwordConfirmation__altIdConfirmation');
+  return wrapper.find('.confirmPasswordModal__altIdConfirmation');
 }
 
 function altIdButton(wrapper: ReturnType<typeof mountModal>) {
@@ -276,7 +276,7 @@ describe('CorePluginsAdmin/PasswordConfirmation', () => {
 
       expect(altIdButton(wrapper).isVisible()).toBe(true);
       expect(altIdWrapper(wrapper).classes())
-        .toContain('passwordConfirmation__altIdConfirmation--disabled');
+        .toContain('confirmPasswordModal__altIdConfirmation--disabled');
     });
 
     it('lets the button through once the word is typed', async () => {
@@ -285,7 +285,7 @@ describe('CorePluginsAdmin/PasswordConfirmation', () => {
       await wrapper.setData({ deleteConfirmation: 'delete' });
 
       expect(altIdWrapper(wrapper).classes())
-        .not.toContain('passwordConfirmation__altIdConfirmation--disabled');
+        .not.toContain('confirmPasswordModal__altIdConfirmation--disabled');
     });
 
     // pointer-events only stops the mouse. Without inert the greyed button is still one tab
@@ -327,7 +327,7 @@ describe('CorePluginsAdmin/PasswordConfirmation', () => {
         AltIdFragmentStub,
       );
       expect(altIdWrapper(wrapper).classes())
-        .toContain('passwordConfirmation__altIdConfirmation--disabled');
+        .toContain('confirmPasswordModal__altIdConfirmation--disabled');
 
       await wrapper.setData({ deleteConfirmation: 'delete' });
       wrapper.vm.onKeyPressConfirm({ keyCode: 13 });
@@ -351,7 +351,7 @@ describe('CorePluginsAdmin/PasswordConfirmation', () => {
       const wrapper = await mountModalWithAltId();
 
       expect(altIdWrapper(wrapper).classes())
-        .not.toContain('passwordConfirmation__altIdConfirmation--disabled');
+        .not.toContain('confirmPasswordModal__altIdConfirmation--disabled');
 
       wrapper.vm.onKeyPressConfirm({ keyCode: 13 });
 

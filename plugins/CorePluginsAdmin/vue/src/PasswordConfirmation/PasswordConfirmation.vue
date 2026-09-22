@@ -52,9 +52,9 @@
       <span
         v-if="!!alternativeIdentityConfirmationComponent"
         ref="altIdConfirmation"
-        class="passwordConfirmation__altIdConfirmation"
+        class="confirmPasswordModal__altIdConfirmation"
         :class="{
-          'passwordConfirmation__altIdConfirmation--disabled': deleteConfirmationMissing,
+          'confirmPasswordModal__altIdConfirmation--disabled': deleteConfirmationMissing,
         }"
         :inert="deleteConfirmationMissing ? true : undefined"
       >
