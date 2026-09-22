@@ -71,7 +71,6 @@
         "PluginUploadDisabled": "Загрузка плагина отключена в конфигурационном файле. Чтобы включить эту функцию, обновите конфигурацию или обратитесь к администратору",
         "PluginVersionInfo": "%1$s – %2$s",
         "PluginWebsite": "Сайт плагина",
-        "PriceExclTax": "%1$s %2$s без налога.",
         "PriceFromPerPeriod": "С %1$s/%2$s/",
         "RemoveLicenseKey": "Удалить лицензионный ключ",
         "Reviews": "Отзывы",

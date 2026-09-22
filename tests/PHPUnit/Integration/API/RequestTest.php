@@ -111,6 +111,130 @@ class RequestTest extends IntegrationTestCase
         $this->assertTrue($this->access->hasSuperUserAccess());
     }
 
+    public function testProcessClearsSuperUserPermissionBeforeAuthenticatingDifferentToken()
+    {
+        $this->access->setSuperUserAccess(true);
+        $this->access->expects($this->exactly(2))->method('reloadAccess');
+
+        $this->auth->expects($this->at(0))->method('setLogin')->with($this->equalTo(null));
+        $this->auth->expects($this->at(1))->method('setTokenAuth')->with($this->equalTo('scopedToken'));
+        $this->auth->expects($this->at(2))->method('authenticate')->willReturnCallback(function () {
+            $this->assertFalse($this->access->hasSuperUserAccess());
+            return new AuthResult(AuthResult::SUCCESS, 'login1', 'scopedToken');
+        });
+
+        $this->auth->expects($this->at(3))->method('setLogin')->with($this->equalTo(null));
+        $this->auth->expects($this->at(4))->method('setTokenAuth')->with($this->equalTo($this->userAuthToken));
+        $this->auth->expects($this->at(5))->method('authenticate')->will($this->returnValue(new AuthResult(AuthResult::SUCCESS, 'login', $this->userAuthToken)));
+
+        $request = new Request(array('method' => 'API.getPiwikVersion', 'token_auth' => 'scopedToken'));
+        $request->process();
+
+        $this->assertSameUserAsBeforeIsAuthenticated();
+        $this->assertTrue($this->access->hasSuperUserAccess());
+    }
+
+    public function testProcessKeepsSuperUserPermissionWhenTokenIsEmpty()
+    {
+        $this->access->setSuperUserAccess(true);
+        $this->access->expects($this->exactly(2))->method('reloadAccess');
+
+        $this->auth->expects($this->at(0))->method('setLogin')->with($this->equalTo(null));
+        $this->auth->expects($this->at(1))->method('setTokenAuth')->with($this->equalTo(''));
+        $this->auth->expects($this->at(2))->method('authenticate')->willReturnCallback(function () {
+            $this->assertTrue(
+                $this->access->hasSuperUserAccess(),
+                'Super-user state must be preserved during authenticate() for empty token'
+            );
+            return new AuthResult(AuthResult::SUCCESS, 'login1', '');
+        });
+
+        $this->auth->expects($this->at(3))->method('setLogin')->with($this->equalTo(null));
+        $this->auth->expects($this->at(4))->method('setTokenAuth')->with($this->equalTo($this->userAuthToken));
+        $this->auth->expects($this->at(5))->method('authenticate')->will($this->returnValue(new AuthResult(AuthResult::SUCCESS, 'login', $this->userAuthToken)));
+
+        $request = new Request(array('method' => 'API.getPiwikVersion', 'token_auth' => ''));
+        $request->process();
+
+        $this->assertSameUserAsBeforeIsAuthenticated();
+        $this->assertTrue($this->access->hasSuperUserAccess());
+    }
+
+    public function testProcessKeepsSuperUserPermissionWhenTokenIsAnonymous()
+    {
+        $this->access->setSuperUserAccess(true);
+        $this->access->expects($this->exactly(2))->method('reloadAccess');
+
+        $this->auth->expects($this->at(0))->method('setLogin')->with($this->equalTo(null));
+        $this->auth->expects($this->at(1))->method('setTokenAuth')->with($this->equalTo('anonymous'));
+        $this->auth->expects($this->at(2))->method('authenticate')->willReturnCallback(function () {
+            $this->assertTrue(
+                $this->access->hasSuperUserAccess(),
+                'Super-user state must be preserved during authenticate() for anonymous token'
+            );
+            return new AuthResult(AuthResult::SUCCESS, 'login1', 'anonymous');
+        });
+
+        $this->auth->expects($this->at(3))->method('setLogin')->with($this->equalTo(null));
+        $this->auth->expects($this->at(4))->method('setTokenAuth')->with($this->equalTo($this->userAuthToken));
+        $this->auth->expects($this->at(5))->method('authenticate')->will($this->returnValue(new AuthResult(AuthResult::SUCCESS, 'login', $this->userAuthToken)));
+
+        $request = new Request(array('method' => 'API.getPiwikVersion', 'token_auth' => 'anonymous'));
+        $request->process();
+
+        $this->assertSameUserAsBeforeIsAuthenticated();
+        $this->assertTrue($this->access->hasSuperUserAccess());
+    }
+
+    public function testReloadAuthRestoresSuperUserPermissionWhenTokenAuthenticatesNothing()
+    {
+        $this->access->setSuperUserAccess(true);
+
+        // A caller that stringifies an absent token sends a non-empty value that is no credential, e.g.
+        // the `'' + params.token_auth` idiom yielding "undefined". Nothing authenticated, so there is no
+        // scope to enforce and the access the request arrived with has to come back.
+        $this->replaceContainerAuthWithResult(new AuthResult(AuthResult::FAILURE, null, 'undefined'));
+
+        Request::reloadAuthUsingTokenAuth(['token_auth' => 'undefined']);
+
+        $this->assertTrue($this->access->hasSuperUserAccess());
+    }
+
+    public function testReloadAuthKeepsSuperUserPermissionClearedWhenTokenAuthenticates()
+    {
+        $this->access->setSuperUserAccess(true);
+
+        // The counterpart of the restore above: a token that does authenticate must not get the ambient
+        // super-user access back, because that is exactly the inheritance the reset exists to prevent.
+        $this->replaceContainerAuthWithResult(new AuthResult(AuthResult::SUCCESS, 'login1', 'scopedToken'));
+
+        Request::reloadAuthUsingTokenAuth(['token_auth' => 'scopedToken']);
+
+        $this->assertFalse($this->access->hasSuperUserAccess());
+    }
+
+    /**
+     * Rebinds `Piwik\Auth` to a mock returning the given result, and asserts on the way that the ambient
+     * super-user access was cleared before authentication ran. The class-wide mock from
+     * provideContainerConfig() already answers authenticate() with `expects($this->any())`, so a second
+     * expectation registered on it would never be reached.
+     */
+    private function replaceContainerAuthWithResult(AuthResult $result): void
+    {
+        $auth = $this->getMockBuilder('Piwik\Plugins\Login\Auth')
+                     ->onlyMethods(['authenticate', 'setTokenAuth', 'setLogin'])
+                     ->getMock();
+        $auth->method('authenticate')->willReturnCallback(function () use ($result) {
+            $this->assertFalse(
+                $this->access->hasSuperUserAccess(),
+                'Ambient super-user access must be cleared before the token is authenticated'
+            );
+            return $result;
+        });
+
+        StaticContainer::getContainer()->set('Piwik\Auth', $auth);
+    }
+
     public function testIsApiRequestShouldDetectIfItIsApiRequestOrNot()
     {
         $this->assertFalse(Request::isApiRequest(array()));
@@ -531,5 +655,66 @@ class RequestTest extends IntegrationTestCase
             'Piwik\Auth'     => $this->auth,
             'Piwik\Access' => $this->access,
         );
+    }
+
+    public function testProcessRequestRejectsAnUnusableValueForAnOptionalNullableParameter(): void
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('General_InvalidValueForParameter');
+
+        Access::doAsSuperUser(function () {
+            Request::processRequest('Annotations.getAll', [
+                'idSite' => 1,
+                'date'   => ['unusable' => 'value'],
+            ]);
+        });
+    }
+
+    public function testProcessRequestRejectsAnUnusableValueForAnOptionalNullableIntegerParameter(): void
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('General_InvalidValueForParameter');
+
+        Access::doAsSuperUser(function () {
+            Request::processRequest('Annotations.getAll', [
+                'idSite' => 1,
+                'lastN'  => ['unusable' => 'value'],
+            ]);
+        });
+    }
+
+    public function testProcessRequestAcceptsAnOptionalNullableParameterThatWasNotSupplied(): void
+    {
+        $result = Access::doAsSuperUser(function () {
+            return Request::processRequest('Annotations.getAll', ['idSite' => 1]);
+        });
+
+        self::assertIsArray($result);
+    }
+
+    public function testProcessRequestStillReportsARequiredParameterThatWasNotSupplied(): void
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('General_PleaseSpecifyValue');
+
+        Access::doAsSuperUser(function () {
+            Request::processRequest('Annotations.getAll', []);
+        });
+    }
+
+    public function testProcessRequestAcceptsTheLegacyFalseSentinelForATypedParameter(): void
+    {
+        // API.get and friends declare `$segment = false` untyped and forward that literal into sub-requests
+        // whose own parameter is typed `?string $segment = null`.
+        $result = Access::doAsSuperUser(function () {
+            return Request::processRequest('VisitFrequency.get', [
+                'idSite'  => 1,
+                'period'  => 'day',
+                'date'    => 'today',
+                'segment' => false,
+            ]);
+        });
+
+        self::assertNotNull($result);
     }
 }
