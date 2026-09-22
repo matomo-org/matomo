@@ -542,6 +542,14 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         DataTable::fromSerializedArray($serialized);
     }
 
+    public function testUnserializeFailsForAPayloadThatIsNotAnArrayOfRows(): void
+    {
+        self::expectException(\Exception::class);
+        self::expectExceptionMessage('The unserialization has failed!');
+
+        DataTable::fromSerializedArray(serialize('not an array'));
+    }
+
     public function testSumRowMetadataCustomAggregationOperation(): void
     {
         $metadata1 = ['mytest' => 'value1'];

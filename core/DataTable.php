@@ -1552,23 +1552,21 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         // Current archives only persist row arrays, so do not allow objects in the default path.
         $rows = Common::safe_unserialize($serialized, []);
 
-        if (!$this->isValidRowsPayload($rows, $allowLegacySerializedRowObjects = false)) {
-            $rows = false;
+        if ($this->isValidRowsPayload($rows, $allowLegacySerializedRowObjects = false)) {
+            return $rows;
         }
 
-        if ($rows === false) {
-            // Legacy object payloads are attempted as a fallback for BC.
-            $legacySerialized = str_replace(
-                array_map(function ($class) {
-                    return $class . ':';
-                }, self::$previousRowClasses),
-                self::$rowClassToUseForUnserialize . ':',
-                $serialized
-            );
-            $rows = Common::safe_unserialize($legacySerialized, [
-                \Piwik_DataTable_SerializedRow::class,
-            ]);
-        }
+        // Legacy object payloads are attempted as a fallback for BC.
+        $legacySerialized = str_replace(
+            array_map(function ($class) {
+                return $class . ':';
+            }, self::$previousRowClasses),
+            self::$rowClassToUseForUnserialize . ':',
+            $serialized
+        );
+        $rows = Common::safe_unserialize($legacySerialized, [
+            \Piwik_DataTable_SerializedRow::class,
+        ]);
 
         if (!$this->isValidRowsPayload($rows, $allowLegacySerializedRowObjects = true)) {
             throw new Exception("The unserialization has failed!");
