@@ -509,6 +509,22 @@ class RequestTest extends IntegrationTestCase
         }
     }
 
+    public function testRootApiRequestMarkerSurvivesACacheFlush()
+    {
+        Request::setIsRootRequestApiRequest('API.getBulkRequest');
+
+        try {
+            // Clearing caches while a request is still being processed must not reset the
+            // root-request marker.
+            Cache::getTransientCache()->flushAll();
+
+            $this->assertTrue(Request::isRootRequestApiRequest());
+            $this->assertSame('API.getBulkRequest', Request::getRootApiRequestMethod());
+        } finally {
+            Request::setIsRootRequestApiRequest(null);
+        }
+    }
+
     private function setNestedApiInvocationCount(int $count): void
     {
         $reflection = new ReflectionClass(Request::class);
@@ -519,7 +535,7 @@ class RequestTest extends IntegrationTestCase
         if ($count > 0) {
             Request::setIsRootRequestApiRequest('API.getPiwikVersion');
         } else {
-            Cache::getTransientCache()->delete('API.setIsRootRequestApiRequest');
+            Request::setIsRootRequestApiRequest(null);
         }
     }
 
