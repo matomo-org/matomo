@@ -406,6 +406,7 @@ class Fixture extends \PHPUnit\Framework\Assert
         FrontController::$requestId = null;
         Cache::$cache = null;
         Common::$isCliMode = null;
+        \Piwik\API\Request::setIsRootRequestApiRequest(null);
         Common::$headersSentInTests = [];
         MockFileMethods::reset();
         DataTableManager::getInstance()->deleteAll();
