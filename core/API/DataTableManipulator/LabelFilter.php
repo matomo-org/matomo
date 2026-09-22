@@ -34,6 +34,11 @@ class LabelFilter extends DataTableManipulator
 
     private string $labelColumn;
 
+    /**
+     * The label the next subtable to be loaded will be searched for, if any.
+     */
+    private ?string $nextLabelPart = null;
+
     public function __construct($apiModule = false, $apiMethod = false, $request = array(), string $labelColumn = 'label')
     {
         parent::__construct($apiModule, $apiMethod, $request);
@@ -101,13 +106,89 @@ class LabelFilter extends DataTableManipulator
             return $row;
         }
 
-        $subTable = $this->loadSubtable($dataTable, $row);
+        $this->nextLabelPart = $labelParts[0];
+
+        try {
+            $subTable = $this->loadSubtable($dataTable, $row);
+        } finally {
+            $this->nextLabelPart = null;
+        }
+
         if ($subTable === null) {
             // no more subtables but label parts left => no match found
             return false;
         }
 
         return $this->doFilterRecursiveDescend($labelParts, $subTable);
+    }
+
+    /**
+     * We are looking for a single row, so drop the others before the subtable is post-processed.
+     * If the label doesn't match here it may still match once the subtable has been post-processed,
+     * so in that case keep the whole table and let the regular search deal with it.
+     *
+     * What this does not promise is that the row matching now is the one that would have matched
+     * later. Post-processing rewrites labels, so two rows can end up sharing one, and whichever of
+     * them matches here wins. The search picks arbitrarily between equal labels either way.
+     *
+     * @param mixed $dataTable
+     * @param array $request
+     * @return mixed
+     */
+    protected function pruneLoadedSubtable($dataTable, array $request)
+    {
+        if ($this->nextLabelPart === null || !$dataTable instanceof DataTable) {
+            return $dataTable;
+        }
+
+        if ($this->hasFilterDependingOnOtherRows($request)) {
+            return $dataTable;
+        }
+
+        $row = $this->findRowForLabel($this->labelColumn, $this->nextLabelPart, $dataTable);
+
+        if ($row === false) {
+            return $dataTable;
+        }
+
+        // a summary row is still labelled -1 at this point, and an ordinary row can be labelled
+        // that too, so a match here may be the wrong one of the two. keep the whole table and let
+        // the regular search pick, once the summary row has been renamed.
+        if ($row === $dataTable->getSummaryRow()) {
+            return $dataTable;
+        }
+
+        $dataTable->setRows([$row]);
+
+        return $dataTable;
+    }
+
+    /**
+     * Whether a generic filter still to be applied to the subtable decides what to keep by looking
+     * at the other rows. ExcludeLowPopulation can derive its threshold from the sum of a column
+     * across the whole table, and the row limiting filters keep rows by position, so for those the
+     * rows we are about to drop are part of the result rather than just overhead.
+     *
+     * Both row limiting filters are skipped when their own parameter is missing, and an unlimited
+     * limit cannot drop anything, so in those cases there is nothing to protect. A truncate of zero
+     * is not one of those cases: it keeps the summary row alone, so it has to be read as a value
+     * rather than tested for emptiness.
+     */
+    private function hasFilterDependingOnOtherRows(array $request): bool
+    {
+        if (!empty($request['filter_excludelowpop'])) {
+            return true;
+        }
+
+        if (isset($request['filter_truncate']) && (int) $request['filter_truncate'] >= 0) {
+            return true;
+        }
+
+        if (isset($request['filter_limit']) && (int) $request['filter_limit'] !== -1) {
+            return true;
+        }
+
+        return !empty($request['filter_offset']);
     }
 
     /**

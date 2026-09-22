@@ -202,6 +202,7 @@ abstract class DataTableManipulator
         unset($request['filter_pattern_recursive']);
 
         $dataTable = Proxy::getInstance()->call($class, $method, $request);
+        $dataTable = $this->pruneLoadedSubtable($dataTable, $request);
         $response = new ResponseBuilder($format = 'original', $request);
         $response->disableSendHeader();
         $dataTable = $response->getResponse($dataTable, $apiModule, $method);
@@ -214,6 +215,21 @@ abstract class DataTableManipulator
             });
         }
 
+        return $dataTable;
+    }
+
+    /**
+     * Gives a manipulator the chance to drop rows of a subtable that was just loaded, before it is
+     * post-processed. Post-processing costs time in proportion to the number of rows, so a
+     * manipulator that only needs one of them can save the rest of that work here.
+     *
+     * @param mixed $dataTable
+     * @param array $request The request the subtable was loaded with, so an implementation can tell
+     *                       whether the remaining filters would notice the dropped rows.
+     * @return mixed
+     */
+    protected function pruneLoadedSubtable($dataTable, array $request)
+    {
         return $dataTable;
     }
 }
