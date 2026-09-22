@@ -67,13 +67,6 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ### New APIs
 * The new `DragHandle` Vue component in CoreHome renders the standard 6-dot drag-handle icon, for use inside `DraggableList` rows. The `DraggableList` component's `handle` option now also works with real browser drags, which retarget `dragstart` to the draggable element (previously the handle was only recognised in synthetically dispatched events).
 * The new `closeTooltips()` helper in CoreHome closes the jQuery UI tooltips bound to a selector's elements, including pending delayed shows — for cases where no mouse event will fire that would close them, eg. once an HTML5 drag has started.
-* The new `Piwik\Http\SecurityHeaders::sendForDataResponse()` sends the header set for a response that is data rather than application UI: `X-Content-Type-Options: nosniff`, `Referrer-Policy: no-referrer`, `X-Frame-Options: deny` unless `[General] enable_framed_pages` allows embedding, and a `Content-Security-Policy` that allows no scripts, forms or base URI, only inline styles and images from Matomo itself (built by the new `Piwik\View\SecurityPolicy::restrictToDataResponse()`). Core sends it for the API endpoint itself, report exports, inline report previews, and the API module's `listAllMethods` and `listSegments` actions, which return HTML without a view; `action=listAllAPI`, which renders one, keeps the headers of a regular page. Call it in a plugin that streams an export or a report, before writing any output.
-* `Piwik\Http::sendHttpRequest()` and `Piwik\Http::sendHttpRequestBy()` extended info (`$getExtendedInfo = true`)
-  now includes an `effectiveUrl` entry: the final URL after following redirects. Best effort on the `fopen`
-  transport, which follows redirects internally.
-* The sparklines visualization has been redesigned as a responsive card grid of metric tiles. Plugin-facing additions that come with it:
-  * The new `Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines\Config::$use_metric_labels_as_titles` property lets a sparklines view use its own metric translations as the card titles instead of the generic metric names. Intended for views that relabel shared columns with section-specific names, e.g. the Ecommerce Overview.
-  * The `sparkline(src, width, height)` Twig helper accepts optional `width`/`height` display-size parameters (in px, defaults `Piwik\Visualization\Sparkline::DEFAULT_WIDTH`/`DEFAULT_HEIGHT`); the sparkline PNG is rendered at twice the displayed size for hi-DPI screens.
 * The generic dropdown panel (`plugins/Morpheus/stylesheets/ui/_dropdown-panel.less`) gained the elements `.mtm-dropdownPanel__search` (a nest element that hosts a search input inside a panel), `.mtm-dropdownPanel__searchMatch` (the part of a menu label matching the typed term) and `.mtm-dropdownPanel__noResult` (the row shown when a search yields nothing), plus the modifiers `.mtm-dropdownPanel__menu--scrollable` (caps the menu at `calc(80vh - 60px)` and scrolls) and `.mtm-dropdownPanel__menu--gutter` (an 8px horizontal gutter so the rows line up with a search input above them). The panel itself is now a fixed 254px wide rather than a 240px minimum. `.mtm-dropdownPanel__menuLabel` now truncates with an ellipsis instead of only allowing it.
 * The `SearchInput` clear button exported from `CoreHome` now carries a translated `title` (`General_Clear`), giving it an accessible name.
 * A new `#[Piwik\Http\JsonResponse]` attribute can be applied to a plugin controller action to declare that it returns a JSON response. When present, Matomo (re-)sends the `Content-Type: application/json` header after the action has returned, so it can no longer be overwritten by output produced while the action builds its response (for example a rendered `Piwik\View`, which sends `text/html`). An action using the attribute must return the JSON string, must not send the header itself, and must not emit output (`echo`/`print`/`flush`) or call `exit`/`die` before returning — otherwise the response headers are committed first and the JSON `Content-Type` cannot be applied. The attribute is not inherited: a subclass overriding a JSON action must re-declare it. These requirements are enforced by PHPStan rules.
@@ -132,6 +125,13 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   control inside a Materialize modal can set `data-matomo-modal-escapee` to that modal's
   `data-matomo-modal-id` to be exempted from its focus trap, which otherwise prevents it from holding focus. The
   exemption applies only to the modal named, so an element belonging to one modal cannot hold focus over another.
+
+## Matomo 5.14.1
+
+### New APIs
+* `Piwik\Http::sendHttpRequest()` and `Piwik\Http::sendHttpRequestBy()` extended info (`$getExtendedInfo = true`)
+  now includes an `effectiveUrl` entry: the final URL after following redirects. Best effort on the `fopen`
+  transport, which follows redirects internally.
 
 ## Matomo 5.14.0
 
