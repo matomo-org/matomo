@@ -74,7 +74,7 @@ export default defineComponent({
       return sortOrderables(this.widgets as Widget[]);
     },
     widgetsByCategory() {
-      const byCategory: Record<string, WidgetCategory> = {};
+      const byCategory: Record<string, WidgetCategory> = Object.create(null);
 
       this.widgetsSorted.forEach((widget) => {
         const category = widget.subcategory?.name;

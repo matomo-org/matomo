@@ -36,13 +36,14 @@ widgetsHelper.getAvailableWidgets = function (callback) {
 
     function mergeCategoriesAndSubCategories(availableWidgets)
     {
-        var categorized = {};
+        var categorized = Object.create(null);
 
         $.each(availableWidgets, function (index, widget) {
             var category = widget.category.name;
 
             if (!categorized[category]) {
-                categorized[category] = {'-': []};
+                categorized[category] = Object.create(null);
+                categorized[category]['-'] = [];
             }
 
             var subcategory = '-';
@@ -57,7 +58,7 @@ widgetsHelper.getAvailableWidgets = function (callback) {
             categorized[category][subcategory].push(widget);
         });
 
-        var moved = {};
+        var moved = Object.create(null);
 
         $.each(categorized, function (category, widgets) {
             $.each(widgets, function (subcategory, subwidgets) {
