@@ -12,6 +12,8 @@ namespace Piwik\Plugins\BulkTracking\tests\Integration;
 use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Plugins\BulkTracking\tests\Mock\TrackerResponse;
+use Piwik\Date;
+use Piwik\Plugins\UsersManager\Model as UsersModel;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\Tracker\ScheduledTasksRunner;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -146,6 +148,53 @@ class HandlerTest extends IntegrationTestCase
         $this->handler->process($this->tracker, $this->requestSet);
 
         $this->assertSame(2, $this->tracker->getCountOfLoggedRequests());
+    }
+
+    public function testProcessAuthenticatesABulkRequestMadeWithAnUnscopedSuperUserToken()
+    {
+        $token = $this->createSuperUserToken(null);
+
+        $this->requestSet->setTokenAuth($token);
+        $this->requestSet->setRequests(array());
+
+        $this->handler->process($this->tracker, $this->requestSet);
+
+        $this->assertTrue($this->response->isAuthenticated());
+    }
+
+    public function testProcessDoesNotAuthenticateABulkRequestMadeWithASuperUserTokenScopedBelowSuperUser()
+    {
+        // The token belongs to a super user, so the authentication itself succeeds as a super-user one.
+        // What the bulk request may do is decided by the access the token carries after its scope is
+        // applied, which is no longer super-user access.
+        $token = $this->createSuperUserToken('view');
+
+        $this->requestSet->setTokenAuth($token);
+        $this->requestSet->setRequests(array());
+
+        $this->handler->process($this->tracker, $this->requestSet);
+
+        $this->assertFalse($this->response->isAuthenticated());
+    }
+
+    private function createSuperUserToken(?string $accessLevel): string
+    {
+        Fixture::createSuperUser(false);
+
+        $model = new UsersModel();
+        $token = $model->generateRandomTokenAuth();
+        $model->addTokenAuth(
+            Fixture::ADMIN_USER_LOGIN,
+            $token,
+            'bulk tracking token ' . (string) $accessLevel,
+            Date::now()->getDatetime(),
+            null,
+            false,
+            false,
+            $accessLevel
+        );
+
+        return $token;
     }
 
     private function buildException()

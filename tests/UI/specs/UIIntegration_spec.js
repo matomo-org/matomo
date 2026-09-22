@@ -631,6 +631,13 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         this.title = parentSuite.title; // to make sure the screenshot prefix is the same
 
         it('should not be possible to render any action using token_auth with at least some admin access', async function () {
+            // Use real auth so the URL token is actually resolved to its user.
+            // FakeAccess ignores the token and would leave the request as a non-superuser
+            // after this branch's setSuperUserAccess(false) reset in forceReloadAuthUsingTokenAuth(),
+            // bypassing the checkTokenAuthIsNotLimited() throw the test is asserting.
+            testEnvironment.testUseMockAuth = 0;
+            testEnvironment.save();
+
             await page.goto("?" + generalParams + "&module=CoreAdminHome&action=home&token_auth=c4ca4238a0b923820dcc509a6f75849b");
 
             expect(await page.screenshot({ fullPage: true })).to.matchImage('admin_home_admintoken_not_allowed');
