@@ -120,7 +120,9 @@ class AuthenticationToken
 
     private function shouldSkipConflictingAuthValidation(): bool
     {
-        return ApiRequest::isRootRequestApiRequest() && !ApiRequest::isCurrentApiRequestTheRootApiRequest();
+        // Base this on the actual API call nesting rather than request-scoped cache state, which is
+        // not a reliable signal for this decision.
+        return ApiRequest::isCurrentApiRequestNestedInAnotherApiRequest();
     }
 
     /**
