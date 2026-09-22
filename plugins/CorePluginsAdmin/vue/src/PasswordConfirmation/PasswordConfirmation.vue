@@ -20,19 +20,6 @@
           {{ translate('UsersManager_ConfirmWithReAuthentication') }}
         </div>
       </div>
-      <div v-if="requireDeleteConfirmation" class="delete-confirmation-div">
-        <Field
-          v-model="deleteConfirmation"
-          :uicontrol="'text'"
-          :name="'deleteConfirmation'"
-          :id="deleteConfirmationFieldId"
-          :autocomplete="'off'"
-          :full-width="true"
-          :title="deleteConfirmationTitle"
-          :ui-control-attributes="{ autocapitalize: 'off' }"
-        >
-        </Field>
-      </div>
       <div v-show="requiresPasswordConfirmation" class="password-confirmation-div">
         <Field
           v-model="passwordConfirmation"
@@ -44,6 +31,19 @@
           :full-width="true"
           :title="translate('UsersManager_YourCurrentPassword')"
           v-auto-clear-password
+        >
+        </Field>
+      </div>
+      <div v-if="requireDeleteConfirmation" class="delete-confirmation-div">
+        <Field
+          v-model="deleteConfirmation"
+          :uicontrol="'text'"
+          :name="'deleteConfirmation'"
+          :id="deleteConfirmationFieldId"
+          :autocomplete="'off'"
+          :full-width="true"
+          :title="deleteConfirmationTitle"
+          :ui-control-attributes="{ autocapitalize: 'off' }"
         >
         </Field>
       </div>
@@ -239,12 +239,12 @@ export default defineComponent({
       $root.modal({
         dismissible: false,
         onOpenEnd: () => {
-          // the typed confirmation, when required, renders above the password field, so
-          // focus whichever of the two comes first
+          // the password field is hidden when the install does not ask for a password, so
+          // focus the first of the two that is actually on screen
           const fields = $(`.modal.open #${this.deleteConfirmationFieldId}, `
             + `.modal.open #${this.passwordFieldId}`);
           fields.off('keypress').keypress(this.onKeyPressConfirm);
-          fields.first().focus();
+          fields.filter(':visible').first().focus();
         },
         onCloseEnd: () => {
           this.$emit('update:modelValue', false);
