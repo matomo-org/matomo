@@ -14,6 +14,7 @@ use Piwik\Access;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\NoAccessException;
+use Piwik\Option;
 use Piwik\Policy\CnilPolicy;
 use Piwik\Plugins\PrivacyManager\API;
 use Piwik\Plugins\PrivacyManager\Settings\IPAnonymisation;
@@ -152,6 +153,41 @@ class ApiTest extends IntegrationTestCase
 
         $this->assertSame($maskLength, IpAddressMaskLength::getCustomValue());
         $this->assertFalse(IpAddressMaskLength::isCompliant(CnilPolicy::class, $this->siteId));
+    }
+
+    public function testSetDeleteLogsSettingsKeepsTheStoredRetentionWhileAPolicyCapsIt(): void
+    {
+        // what the user had configured before any policy applied
+        $this->api->setDeleteLogsSettings(1, 1000, Fixture::ADMIN_USER_PASSWORD);
+        $this->assertSame(1000, (int) Option::get('delete_logs_older_than'));
+
+        CnilPolicy::setActiveStatus(null, true);
+
+        try {
+            // the field is pre-filled with the capped value the policy puts in effect and the form
+            // posts it back whether or not it was touched, so storing it would lose the user's own
+            $this->api->setDeleteLogsSettings(1, 759, Fixture::ADMIN_USER_PASSWORD);
+
+            $this->assertSame(1000, (int) Option::get('delete_logs_older_than'));
+        } finally {
+            CnilPolicy::setActiveStatus(null, false);
+        }
+    }
+
+    public function testSetDeleteLogsSettingsStoresARetentionStricterThanThePolicyRequires(): void
+    {
+        $this->api->setDeleteLogsSettings(1, 1000, Fixture::ADMIN_USER_PASSWORD);
+
+        CnilPolicy::setActiveStatus(null, true);
+
+        try {
+            // keeping data for less than the cap is the user's own choice and has to be kept
+            $this->api->setDeleteLogsSettings(1, 180, Fixture::ADMIN_USER_PASSWORD);
+
+            $this->assertSame(180, (int) Option::get('delete_logs_older_than'));
+        } finally {
+            CnilPolicy::setActiveStatus(null, false);
+        }
     }
 
     public function testGetCompliancePolicySettingsThrowsWhenFeatureIsNotEnabled(): void

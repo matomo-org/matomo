@@ -2,7 +2,6 @@
     "Transitions": {
         "AvailableInOtherReports": "ご存知ですか？ トランジションは、次のレポートの行アクションとしても利用できます。",
         "AvailableInOtherReports2": "これらのレポートのいずれかの行にカーソルを合わせた後、アイコン (%s) をクリックしてトランジションを起動します。",
-        "BouncesInline": "%s のバウンス",
         "DirectEntries": "直接エントリー",
         "ErrorBack": "前の操作に戻る",
         "ExitsInline": "%s 終了",
@@ -37,7 +36,6 @@
         "Transitions": "トランジション",
         "TransitionsSubcategoryHelp1": "トランジションは、ビジターが特定のページを表示する直前と直後に行ったことを示すレポートです。 このページでは、強力な \"トランジション\" レポートにアクセスし、理解し、使用する方法について説明します。",
         "TransitionsSubcategoryHelp2": "詳細",
-        "XOfAllPageviews": "このページの全ビューの %s",
-        "XOutOfYVisits": "(%2$s の内の ) %1$s"
+        "XOfAllPageviews": "このページの全ビューの %s"
     }
 }

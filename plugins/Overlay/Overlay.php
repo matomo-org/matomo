@@ -62,7 +62,6 @@ class Overlay extends \Piwik\Plugin
             || ($module === 'CoreHome' && $action === 'getRowEvolutionGraph') // Row evolution (graph)
             || ($module === 'CoreHome' && $action === 'saveViewDataTableParameters') // store chart changes (within row evolution & transitions)
             || $module === 'Annotations' // required to interact with annotations in evolution charts (within row evolution)
-            || ($module === 'Transitions' && $action === 'renderPopover') // Transitions
             || ($module === 'API' && 0 === strpos($method, 'Transitions.')) // Transitions API data
             || ($module === 'Live' && $action === 'indexVisitorLog') // Visits Log
             || ($module === 'Live' && $action === 'getLastVisitsDetails') // Visits Log (pagination)

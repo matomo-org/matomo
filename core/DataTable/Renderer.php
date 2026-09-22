@@ -268,7 +268,7 @@ abstract class Renderer extends BaseFactory
             foreach ($t as $name => $translation) {
                 $percentOfTotalName = $name . PercentOfReportTotal::COLUMN_NAME_SUFFIX;
                 if (!isset($t[$percentOfTotalName])) {
-                    $t[$percentOfTotalName] = Piwik::translate('General_ColumnPercentOfReportTotal', $translation);
+                    $t[$percentOfTotalName] = Piwik::translate('General_ColumnPercentOfReportTotalShort', $translation);
                 }
             }
 

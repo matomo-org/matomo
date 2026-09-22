@@ -118,7 +118,7 @@
             function ajax(params, dataType) {
                 dataType = dataType || 'json';
                 params = $.extend({}, params);
-                var token_auth = '' + params.token_auth;
+                var token_auth = params.token_auth ? String(params.token_auth) : '';
                 delete params['token_auth'];
                 return $.ajax({
                     url: 'index.php?' + $.param(params),
@@ -1246,6 +1246,9 @@
                 });
 
                 if (column) { requestParams.column = column; }
+                // this popover is server-rendered, so it needs the page's language like the
+                // report requests above; the params here are picked one by one, not spread
+                if (config.reqParams.language) { requestParams.language = config.reqParams.language; }
 
                 ajax(requestParams, 'html')
                     .done(function (html) {

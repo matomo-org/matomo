@@ -434,6 +434,26 @@ describe("BotTracking", function () {
         expect(matchingFooterMessages).to.be.at.least(3);
     });
 
+    it('should show segment not supported footer message on the AI Chatbots Realtime page when segmented', async function () {
+        const segment = encodeURIComponent('visitConverted==1');
+        await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_AIAssistants&subcategory=BotTracking_AIChatbotsRealtime&segment=" + segment);
+        await page.waitForNetworkIdle();
+
+        const footerMessages = await page.$$eval('.datatableFooterMessage', (nodes) => {
+            return nodes.map((node) => (node.textContent || '').trim());
+        });
+
+        const segmentMessage = 'Report does not support segmentation. The data displayed is your standard, unsegmented report data.';
+        const withSegmentMessage = footerMessages.filter((text) => text.includes(segmentMessage));
+
+        // The realtime page holds four widgets, each of which must carry the message.
+        expect(withSegmentMessage.length).to.be.at.least(4);
+
+        // The row limit footer these reports already carry must survive alongside it.
+        const withRowLimit = withSegmentMessage.filter((text) => text.includes('This report is limited to the top'));
+        expect(withRowLimit.length).to.equal(withSegmentMessage.length);
+    });
+
     // The hover tests come last: hovering a column leaves it highlighted, and that state survives
     // the navigation of a following test, which would then capture the percentages as well.
     it('should show the percentage of the report total when hovering a metric column', async function () {

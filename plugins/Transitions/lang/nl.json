@@ -2,7 +2,6 @@
     "Transitions": {
         "AvailableInOtherReports": "Wist u dit? Transities zijn ook beschikbaar als een rij-actie in de volgende rapporten:",
         "AvailableInOtherReports2": "Start transities door op hun pictogram (%s) te klikken nadat je met de muis over een rij in een van deze rapporten beweegt.",
-        "BouncesInline": "%s bounces",
         "DirectEntries": "Directe bezoeken",
         "ErrorBack": "Ga terug naar de vorige actie",
         "ExitsInline": "%s einde bezoeken",
@@ -36,7 +35,6 @@
         "Transitions": "Transities",
         "TransitionsSubcategoryHelp1": "Transities is een rapport dat toont wat uw bezoekers deden meteen voor en na het bekijken van een bepaalde pagina. Op deze pagina wordt uitgelegd hoe u het krachtige rapport \"Transities\" kunt openen, begrijpen en gebruiken.",
         "TransitionsSubcategoryHelp2": "Meer details",
-        "XOfAllPageviews": "%s van alle weergaven van deze pagina",
-        "XOutOfYVisits": "%1$s (van de %2$s)"
+        "XOfAllPageviews": "%s van alle weergaven van deze pagina"
     }
 }

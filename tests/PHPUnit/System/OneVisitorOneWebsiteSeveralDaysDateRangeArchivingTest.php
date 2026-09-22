@@ -16,6 +16,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Piwik;
+use Piwik\Plugins\Actions\ArchivingHelper;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\VisitsOverSeveralDays;
 
@@ -118,11 +119,14 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends SystemTestCa
         // so we only archived the parent table
         $expectedActionsBlobs = 1;
 
+        // with flat-first archiving the pre-flattened record is stored next to the hierarchical one
+        $expectedActionsFlatBlobs = ArchivingHelper::isFlatArchivingEnabled() ? 1 : 0;
+
         // When flat=1, Actions plugin will process 5 + 1 extra chunk blobs (URL = 'http://example.org/sub1/sub2/sub3/news')
-        $expectedActionsBlobsWhenFlattened = $expectedActionsBlobs + 1;
+        $expectedActionsBlobsWhenFlattened = $expectedActionsBlobs + 1 + $expectedActionsFlatBlobs;
 
         $tests = array(
-            'archive_blob_2010_12'    => ( ($expectedActionsBlobs + 1) /*Actions*/
+            'archive_blob_2010_12'    => ( ($expectedActionsBlobs + 1 + $expectedActionsFlatBlobs) /*Actions*/
                     + 1 /* Resolution */
                     + 1 /* VisitTime */) * 3,
 

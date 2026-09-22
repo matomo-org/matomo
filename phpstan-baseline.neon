@@ -1705,24 +1705,6 @@ parameters:
 			path: core/Tracker/Request.php
 
 		-
-			message: '#^Parameter \#1 \$password of method Piwik\\Auth\:\:setPassword\(\) expects string, null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/Tracker/Request.php
-
-		-
-			message: '#^Parameter \#1 \$passwordHash of method Piwik\\Auth\:\:setPasswordHash\(\) expects string, null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/Tracker/Request.php
-
-		-
-			message: '#^Variable \$access in empty\(\) always exists and is not falsy\.$#'
-			identifier: empty.variable
-			count: 1
-			path: core/Tracker/Request.php
-
-		-
 			message: '#^Call to function is_null\(\) with string will always evaluate to false\.$#'
 			identifier: function.impossibleType
 			count: 1
@@ -1757,36 +1739,6 @@ parameters:
 			identifier: deadCode.unreachable
 			count: 1
 			path: core/Tracker/TableLogAction.php
-
-		-
-			message: '#^Call to function is_array\(\) with non\-empty\-array will always evaluate to true\.$#'
-			identifier: function.alreadyNarrowedType
-			count: 1
-			path: core/Tracker/TrackerCodeGenerator.php
-
-		-
-			message: '#^Call to function is_array\(\) with true will always evaluate to false\.$#'
-			identifier: function.impossibleType
-			count: 1
-			path: core/Tracker/TrackerCodeGenerator.php
-
-		-
-			message: '#^Offset ''httpsPiwikUrl'' does not exist on array\{idSite\: int, piwikUrl\: string, options\: string, optionsBeforeTrackerUrl\: '''', protocol\: ''//''\|''https\://'', loadAsync\: true, trackNoScript\: bool, matomoJsFilename\: mixed, \.\.\.\}\.$#'
-			identifier: offsetAccess.notFound
-			count: 1
-			path: core/Tracker/TrackerCodeGenerator.php
-
-		-
-			message: '#^Offset ''httpsPiwikUrl'' on array\{idSite\: int, piwikUrl\: string, options\: string, optionsBeforeTrackerUrl\: '''', protocol\: ''//''\|''https\://'', loadAsync\: true, trackNoScript\: bool, matomoJsFilename\: mixed, \.\.\.\} in empty\(\) does not exist\.$#'
-			identifier: empty.offset
-			count: 1
-			path: core/Tracker/TrackerCodeGenerator.php
-
-		-
-			message: '#^Parameter \#2 \$string of function explode expects string, true given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/Tracker/TrackerCodeGenerator.php
 
 		-
 			message: '#^Instanceof between \*NEVER\* and Piwik\\Tracker\\VisitInterface will always evaluate to false\.$#'
@@ -2390,18 +2342,6 @@ parameters:
 
 		-
 			message: '#^Parameter \#1 \$login of method Piwik\\Auth\:\:setLogin\(\) expects string, null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: plugins/BulkTracking/Tracker/Handler.php
-
-		-
-			message: '#^Parameter \#1 \$password of method Piwik\\Auth\:\:setPassword\(\) expects string, null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: plugins/BulkTracking/Tracker/Handler.php
-
-		-
-			message: '#^Parameter \#1 \$passwordHash of method Piwik\\Auth\:\:setPasswordHash\(\) expects string, null given\.$#'
 			identifier: argument.type
 			count: 1
 			path: plugins/BulkTracking/Tracker/Handler.php
@@ -3475,12 +3415,6 @@ parameters:
 			path: plugins/Login/PasswordResetter.php
 
 		-
-			message: '#^Parameter \#1 \$passwordHash of method Piwik\\Auth\:\:setPasswordHash\(\) expects string, null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: plugins/Login/PasswordVerifier.php
-
-		-
 			message: '#^Binary operation "\+" between int\<1, max\> and string results in an error\.$#'
 			identifier: binaryOp.invalid
 			count: 1
@@ -3783,12 +3717,6 @@ parameters:
 		-
 			message: '#^Call to function is_string\(\) with non\-falsy\-string will always evaluate to true\.$#'
 			identifier: function.alreadyNarrowedType
-			count: 1
-			path: plugins/SitesManager/API.php
-
-		-
-			message: '#^Parameter \#14 \$excludedQueryParams of method Piwik\\Tracker\\TrackerCodeGenerator\:\:generate\(\) expects bool, string given\.$#'
-			identifier: argument.type
 			count: 1
 			path: plugins/SitesManager/API.php
 

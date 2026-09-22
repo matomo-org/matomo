@@ -677,9 +677,6 @@ class API extends \Piwik\Plugin\API
                     // regardless of the parameters present in the original request.
                     'disable_queued_filters' => 0,
                     'disable_generic_filters' => 0,
-                    // scheduled reports render every processed report column, adding the
-                    // percent-of-total columns would bloat the emailed tables
-                    'percent_of_total' => 0,
                 ];
 
                 // all Websites dashboard should not be truncated in the report
@@ -796,7 +793,10 @@ class API extends \Piwik\Plugin\API
         // init report renderer
         $reportRenderer->setIdSite((int)$idSite);
         $reportRenderer->setLocale($language);
-        $reportRenderer->setReport($report);
+        // Render the effective period requested without changing the stored report passed to events.
+        $rendererReport = $report;
+        $rendererReport['period_param'] = $period;
+        $reportRenderer->setReport($rendererReport);
 
         // render report
         $reportName = str_replace(["\r", "\n"], ' ', Common::unsanitizeInputValue((string) $report['description']));

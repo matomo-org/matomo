@@ -182,7 +182,9 @@ class SessionAuth implements Auth
         $isSuperUser = (int) $user['superuser_access'];
         $code = $isSuperUser ? AuthResult::SUCCESS_SUPERUSER_AUTH_CODE : AuthResult::SUCCESS;
 
-        return new AuthResult($code, $user['login'], $tokenAuth);
+        // Declaring the key states that a session login carries no scope; without it core would look the
+        // session's temporary token up in user_token_auth on every request.
+        return new AuthResult($code, $user['login'], $tokenAuth, ['token_access_level' => null]);
     }
 
     protected function initNewBlankSession(SessionFingerprint $sessionFingerprint)
@@ -236,7 +238,9 @@ class SessionAuth implements Auth
             Session::getSameSiteCookieValue()
         );
 
-        // ...and we also update the expiration time stored server side so we can prevent expired sessions from being reused
+        // ...and we keep the expiration stored server side in step with it, which is the value that
+        // actually prevents expired sessions from being reused. That one is only written once it
+        // has moved on materially, so it can lag the cookie slightly.
         $sessionFingerprint->updateSessionExpirationTime();
     }
 
