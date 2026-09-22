@@ -10,8 +10,7 @@ import Matomo from '../Matomo/Matomo';
 import type { DataTableAction, FooterIconGroup } from './DataTableActions.vue';
 
 /**
- * What _dataTableActions.twig publishes about one report. Declared beside the store rather than in
- * a reader, so the template that writes it and everything that reads it share one shape.
+ * What _dataTableActions.twig publishes about one report.
  */
 export interface ReportActionsConfig {
   showFooter: boolean;

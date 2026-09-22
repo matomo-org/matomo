@@ -12,8 +12,7 @@ import { ref, Ref } from 'vue';
  *
  * A trigger that folds a panel out, the state that says so, the keys that walk it and the focus
  * that follows. What varies between them (anchored left or right, one column or several, a menu
- * or a search field or a paragraph) is markup and stylesheet, and stays with the consumer. A
- * component that owned those too would need an option per selector; this one needs none.
+ * or a search field or a paragraph) is markup and stylesheet, and stays with the consumer.
  */
 
 export interface SelectorDropdownOptions {

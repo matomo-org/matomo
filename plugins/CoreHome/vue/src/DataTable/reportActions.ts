@@ -11,7 +11,7 @@ export type PromotableActionId = 'periods' | 'export' | 'annotations';
 
 /**
  * The actions a header may lift out of its menu, most deserving first, and rendered in that order
- * right to left from the trigger. Fixed: a report says what it offers, never where it goes.
+ * right to left from the trigger.
  */
 export const PROMOTABLE_ACTIONS: PromotableActionId[] = ['periods', 'export', 'annotations'];
 
