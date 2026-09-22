@@ -80,10 +80,17 @@ class ArchivedReportReader
      *
      * Only fully completed archives count. An invalidated or temporary one may be rebuilt
      * when it is requested, which is exactly what must not happen here.
+     *
+     * A segment may be given, for the readers whose figure lives in a segment's own archive
+     * rather than the unsegmented one.
      */
-    public function hasCompletedArchive(int $idSite, string $pluginName, Period $period): bool
-    {
-        $parameters = new Parameters(new Site($idSite), $period, new Segment('', [$idSite]));
+    public function hasCompletedArchive(
+        int $idSite,
+        string $pluginName,
+        Period $period,
+        string $segment = ''
+    ): bool {
+        $parameters = new Parameters(new Site($idSite), $period, new Segment($segment, [$idSite]));
         $parameters->setRequestedPlugin($pluginName);
 
         $archiveInfo = ArchiveSelector::getArchiveIdAndVisits($parameters, false, false);

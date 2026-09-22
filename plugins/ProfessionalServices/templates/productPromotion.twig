@@ -11,7 +11,17 @@
         <h2 class="productPromotion__title" id="productPromotionTitle">{{ title }}</h2>
         <p class="productPromotion__text">{{ text|raw }}</p>
         <p class="productPromotion__reason">
-            <span class="productPromotion__reasonIcon icon-info" aria-hidden="true"></span>{{ reason }}
+            {% if reasonIconUrl %}
+                <img class="productPromotion__reasonIcon productPromotion__reasonIcon--remote"
+                     src="{{ reasonIconUrl }}"
+                     alt=""
+                     aria-hidden="true"
+                     width="16"
+                     height="16"
+                     data-role="reasonIcon">
+            {% else %}
+                <span class="productPromotion__reasonIcon icon-info" aria-hidden="true"></span>
+            {% endif %}{{ reason }}
         </p>
     </div>
 

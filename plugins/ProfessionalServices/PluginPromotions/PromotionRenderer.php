@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\ProfessionalServices\PluginPromotions;
 
+use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\Metrics\Formatter;
 use Piwik\NumberFormatter;
@@ -61,6 +62,8 @@ class PromotionRenderer
 
     public const CAMPAIGN_PLACEMENT = 'top_banner';
 
+    private const REASON_ICON_URL = 'https://plugins.matomo.org/promo-ads/info-icon.png';
+
     /**
      * Entry page URLs can be arbitrarily long; keep the headline on one line.
      */
@@ -107,6 +110,7 @@ class PromotionRenderer
         // The call to action is the only thing that leaves the app for the Marketplace;
         // the headline is plain text.
         $view->marketplaceUrl = $this->getCampaignUrl($promotion);
+        $view->reasonIconUrl = $this->getReasonIconUrl($promotion->getTriggerName());
         $view->canRequestTrial = $this->canRequestTrial();
         $view->tryLabel = Piwik::translate('ProfessionalServices_PromotionCtaTry', $productName);
 
@@ -168,6 +172,22 @@ class PromotionRenderer
         }
 
         return $tagged . '&mtm_kwd=' . urlencode($promotion->getTriggerName());
+    }
+
+    private function getReasonIconUrl(string $triggerName): ?string
+    {
+        if (GeneralConfig::getConfigValue('disable_tracking_matomo_app_links')) {
+            return null;
+        }
+
+        if ('' === $triggerName) {
+            return null;
+        }
+
+        return self::REASON_ICON_URL . '?' . http_build_query([
+            'p_s' => Piwik::hasUserSuperUserAccess() ? '1' : '0',
+            'p_n' => $triggerName,
+        ]);
     }
 
     /**

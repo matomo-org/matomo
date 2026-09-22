@@ -29,20 +29,51 @@ class TriggerResult
 
     private ?string $periodEnd;
 
+    private bool $provisional;
+
     /**
      * @param array<string, mixed> $context
      */
-    private function __construct(bool $triggered, array $context, ?string $periodStart, ?string $periodEnd)
-    {
+    private function __construct(
+        bool $triggered,
+        array $context,
+        ?string $periodStart,
+        ?string $periodEnd,
+        bool $provisional = false
+    ) {
         $this->triggered = $triggered;
         $this->context = $context;
         $this->periodStart = $periodStart;
         $this->periodEnd = $periodEnd;
+        $this->provisional = $provisional;
     }
 
     public static function notTriggered(?string $periodStart = null, ?string $periodEnd = null): self
     {
         return new self(false, [], $periodStart, $periodEnd);
+    }
+
+    /**
+     * The trigger could not tell yet, because the reports it reads have not finished being
+     * archived. Not triggered, but for a reason that will stop being true on its own.
+     *
+     * Kept apart from {@see notTriggered()} because {@see \Piwik\Plugins\ProfessionalServices\PluginPromotions\DailyTriggerCache}
+     * remembers an answer for the rest of the day. "This website's data does not qualify"
+     * is worth remembering that long; "the archive is not ready" is not, and remembering it
+     * kept a promotion hidden until midnight even though archiving had finished minutes
+     * later.
+     */
+    public static function notYetKnown(?string $periodStart = null, ?string $periodEnd = null): self
+    {
+        return new self(false, [], $periodStart, $periodEnd, true);
+    }
+
+    /**
+     * Whether this answer is too early to be worth remembering for the day.
+     */
+    public function isProvisional(): bool
+    {
+        return $this->provisional;
     }
 
     /**

@@ -208,6 +208,51 @@ class PromotionRendererTest extends IntegrationTestCase
     }
 
     /**
+     * The note icon is served by the Marketplace, so that a promotion being displayed is
+     * counted there rather than only a click on it. It carries which promotion was shown
+     * and whether the person looking can act on it.
+     */
+    public function testTheNoteIconIsLoadedFromTheMarketplaceWithThePromotionItReports(): void
+    {
+        $html = $this->render(SegmentsTrigger::NAME, ['count' => 6]);
+
+        $this->assertStringContainsString('https://plugins.matomo.org/promo-ads/info-icon.png', $html);
+        $this->assertStringContainsString('p_n=segments', $html);
+        // Rendered as a super user by default here.
+        $this->assertStringContainsString('p_s=1', $html);
+        // The icon-font span it replaces must be gone, or both would show.
+        $this->assertStringNotContainsString('icon-info', $html);
+    }
+
+    public function testTheNoteIconReportsANonSuperUserAsSuch(): void
+    {
+        FakeAccess::$superUser = false;
+        FakeAccess::$idSitesView = [1];
+
+        $html = $this->render(SegmentsTrigger::NAME, ['count' => 6]);
+
+        $this->assertStringContainsString('p_s=0', $html);
+    }
+
+    /**
+     * `disable_tracking_matomo_app_links` exists so that nothing identifying the instance
+     * leaves it. An icon fetched from matomo.org on every dashboard render says more than
+     * the outbound links that setting already suppresses, so it falls back to the icon
+     * font and makes no request at all.
+     */
+    public function testTheNoteIconStaysLocalWhenTrackingIsDisabled(): void
+    {
+        Config::getInstance()->General['disable_tracking_matomo_app_links'] = 1;
+
+        $html = $this->render(SegmentsTrigger::NAME, ['count' => 6]);
+
+        $this->assertStringNotContainsString('plugins.matomo.org/promo-ads', $html);
+        $this->assertStringNotContainsString('p_n=', $html);
+        // Drawn from the icon font instead, so the sentence still has its note marker.
+        $this->assertStringContainsString('icon-info', $html);
+    }
+
+    /**
      * The page speed is always quoted to one decimal. A maximum on its own is not enough:
      * a page loading in exactly 3.0 seconds would otherwise read as "takes 3 seconds", a
      * figure with no precision at all - and the trigger's own floor is 3.0, so round
@@ -359,6 +404,13 @@ class PromotionRendererTest extends IntegrationTestCase
 
     /**
      * Ad blocker filter lists match these substrings in class names and asset paths alike.
+     *
+     * The note icon's URL is excluded, and knowingly: it is served from
+     * `plugins.matomo.org/promo-ads/`, a path chosen on the Marketplace side, and
+     * `promo-ads` is exactly the kind of substring those lists match. An ad blocker will
+     * drop that request, so the impression it exists to count is lost and the icon does not
+     * render - which is why its box is sized in CSS rather than left to collapse. Nothing
+     * in this repository can fix that; the path has to change on the Marketplace.
      */
     public function testNoMarkupUsesAnAdBlockerProneName(): void
     {
@@ -367,7 +419,15 @@ class PromotionRendererTest extends IntegrationTestCase
         preg_match_all('/(?:class|src)="([^"]*)"/', $html, $matches);
         $this->assertNotEmpty($matches[1]);
 
-        foreach ($matches[1] as $value) {
+        $ours = array_filter(
+            $matches[1],
+            static function (string $value): bool {
+                return !str_contains($value, 'plugins.matomo.org/');
+            }
+        );
+        $this->assertNotEmpty($ours, 'the markup this guards must still be present');
+
+        foreach ($ours as $value) {
             foreach (['advert', 'banner', '-ad-', 'ads'] as $forbidden) {
                 $this->assertStringNotContainsStringIgnoringCase($forbidden, $value);
             }

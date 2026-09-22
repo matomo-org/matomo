@@ -104,7 +104,10 @@ abstract class ReportBackedTrigger implements PromotionTrigger
 
         foreach ($this->getRequiredArchives() as $pluginName) {
             if (!$this->reader->hasCompletedArchive($idSite, $pluginName, $period)) {
-                return TriggerResult::notTriggered($periodStart, $periodEnd);
+                // Not "does not qualify" but "cannot tell yet", so the answer is not
+                // remembered for the day and the promotion can appear as soon as
+                // archiving has finished.
+                return TriggerResult::notYetKnown($periodStart, $periodEnd);
             }
         }
 

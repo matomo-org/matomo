@@ -200,6 +200,16 @@
     color: @theme-color-brand;
   }
 
+  // Served by the Marketplace rather than drawn from the icon font, so it needs its own
+  // box: an image has no font-size to take its height from. Sized explicitly so the line
+  // does not reflow if the request is slow, and so a request that never arrives leaves a
+  // gap of exactly the right shape rather than collapsing the sentence.
+  .productPromotion__reasonIcon--remote {
+    display: block;
+    width: @_reasonIconSize;
+    height: @_reasonIconSize;
+  }
+
   .productPromotion__cta {
     flex: none;
     box-sizing: border-box;

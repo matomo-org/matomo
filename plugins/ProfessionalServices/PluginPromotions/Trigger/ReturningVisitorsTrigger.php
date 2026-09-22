@@ -71,13 +71,23 @@ class ReturningVisitorsTrigger implements PromotionTrigger
         $periodStart = $period->getDateStart()->toString();
         $periodEnd = $period->getDateEnd()->toString();
 
+        $segment = urldecode(VisitFrequencyApi::RETURNING_VISITOR_SEGMENT);
+
+        // Asked explicitly rather than inferred from the value read below. A missing
+        // archive and a website with no returning visitors both read as zero, and the two
+        // need different answers: the first will settle once archiving finishes, the second
+        // is settled already and worth remembering for the day.
+        if (!$this->reader->hasCompletedArchive($idSite, 'VisitsSummary', $period, $segment)) {
+            return TriggerResult::notYetKnown($periodStart, $periodEnd);
+        }
+
         $archive = $this->reader->buildArchive(
             $idSite,
             ReportPeriod::PERIOD,
             ReportPeriod::DATE,
             // The same segment VisitFrequency uses for its returning half, so this reads
             // the archive that method would have read rather than one of our own.
-            urldecode(VisitFrequencyApi::RETURNING_VISITOR_SEGMENT)
+            $segment
         );
 
         // Distinct visitors rather than visits: the promotion compares groups of people

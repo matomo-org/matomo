@@ -88,7 +88,9 @@ abstract class GoalBackedTrigger implements PromotionTrigger
 
         foreach ($this->getRequiredArchives() as $pluginName) {
             if (!$this->reader->hasCompletedArchive($idSite, $pluginName, $period)) {
-                return TriggerResult::notTriggered($periodStart, $periodEnd);
+                // "Cannot tell yet" rather than "does not qualify", so the day's cache does
+                // not hold the promotion back once archiving has finished.
+                return TriggerResult::notYetKnown($periodStart, $periodEnd);
             }
         }
 

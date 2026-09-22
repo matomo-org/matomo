@@ -127,6 +127,43 @@ class DailyTriggerCacheTest extends IntegrationTestCase
         $this->assertSame(2, $this->evaluations);
     }
 
+    /**
+     * A promotion that could not be judged because archiving had not finished must not be
+     * held back for the rest of the day once it has.
+     *
+     * "This website's data does not qualify" is worth remembering until midnight. "The
+     * archive is not ready" is a different answer, and remembering it meant a promotion
+     * whose reports finished archiving a minute later stayed hidden until the next day.
+     */
+    public function testAnAnswerTheTriggerCouldNotSettleYetIsNotRemembered(): void
+    {
+        $archiveReady = false;
+        $evaluate = function () use (&$archiveReady): TriggerResult {
+            $this->evaluations++;
+
+            if (!$archiveReady) {
+                return TriggerResult::notYetKnown('2026-08-17', '2026-08-23');
+            }
+
+            return TriggerResult::triggered(['url' => '/pricing'], '2026-08-17', '2026-08-23');
+        };
+
+        $this->assertFalse($this->cache->getOrEvaluate('bounce_rate', 1, $evaluate)->isTriggered());
+        $this->assertSame(1, $this->evaluations);
+
+        // Still the same day, and archiving has since finished.
+        $archiveReady = true;
+        $result = $this->cache->getOrEvaluate('bounce_rate', 1, $evaluate);
+
+        $this->assertTrue($result->isTriggered(), 'the promotion must appear once the archive is there');
+        $this->assertSame('/pricing', $result->getContext()['url']);
+        $this->assertSame(2, $this->evaluations, 'the provisional answer must not have been remembered');
+
+        // And now that it is settled, it is remembered for the rest of the day.
+        $this->cache->getOrEvaluate('bounce_rate', 1, $evaluate);
+        $this->assertSame(2, $this->evaluations);
+    }
+
     public function testResultsAreKeptPerWebsite(): void
     {
         $this->cache->getOrEvaluate('bounce_rate', 1, $this->triggering());

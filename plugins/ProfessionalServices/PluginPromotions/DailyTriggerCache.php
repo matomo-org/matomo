@@ -52,7 +52,12 @@ class DailyTriggerCache
             throw $e;
         }
 
-        $this->store($triggerName, $idSite, $today, $result);
+        // A provisional answer is one the trigger could not settle yet, because the
+        // reports it reads are still being archived. Remembering it would keep the
+        // promotion hidden until midnight even though archiving finished minutes later.
+        if (!$result->isProvisional()) {
+            $this->store($triggerName, $idSite, $today, $result);
+        }
 
         return $result;
     }
