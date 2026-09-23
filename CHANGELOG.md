@@ -63,6 +63,9 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * Several parameters of the `Goals` API methods now declare a native `bool` type: `caseSensitive`, `allowMultipleConversionsPerVisit` and `useEventValueAsRevenue` of `Goals.addGoal` and `Goals.updateGoal`, `abandonedCarts` of `Goals.getItemsSku`, `Goals.getItemsName` and `Goals.getItemsCategory`, and `showAllGoalSpecificMetrics` and `compare` of `Goals.get` and `Goals.getMetrics`. Over HTTP these parameters were previously passed through as raw strings, so any value other than `0` was truthy: `&abandonedCarts=false` returned abandoned carts rather than purchased products. They are now read like every other boolean parameter, which accepts `0`, `1`, `false` and `true` and falls back to the default for anything else. Plugins calling these methods directly in PHP must pass a boolean or a value PHP can coerce to one; `null` is no longer accepted.
 * The `idGoal` parameter of `Goals.deleteGoal` and `Goals.updateGoal` now declares a native `int` type, like `Goals.getGoal` already did. A value that is not a number, such as `idGoal=ecommerceOrder`, is rejected by the API layer instead of being coerced to `0`. Plugins calling these methods directly in PHP must pass an integer or a numeric string.
 * The site selector dropdown (`CoreHome.SiteSelector`) now uses the generic dropdown panel and search input markup, so the classes it used to expose have been removed: `custom_select_search`, `custom_select_container`, `custom_select_ul_list`, `custom_select_all`, `websiteSearch`, `inp`, `reset`, `noresult`, `autocompleteMatched`, and the `dropdown` class on the panel itself. Code that selected inside the site selector must target `.piwikSelector__dropdown` for the panel, `.mtm-dropdownPanel__menu` for the site list, `.mtm-dropdownPanel__menuItem` / `.mtm-dropdownPanel__menuLink` / `.mtm-dropdownPanel__menuLabel` for an entry, `.mtm-dropdownPanel__noResult` for the empty state, `.mtm-dropdownPanel__searchMatch` for the highlighted search term, and `.mtm-searchInput__input` / `.mtm-searchInput__clear` for the search field. The unused Less rules that styled `custom_select_search` inside `.segment-element` have been removed from `plugins/SegmentEditor/stylesheets/segmentation.less` and `plugins/Morpheus/stylesheets/ui/_components.less`. `plugins/CoreHome/vue/src/SiteSelector/SiteSelector.less` also drops the now unmatched global rules `.sites_selector_container`, `.custom_select_block_show`, `.custom_selector_container .ui-menu-item`, `.siteSelect a` and `.custom_select_main_link`; nothing in core or the bundled plugins carried that markup, but a third-party plugin reproducing it would lose the styling. The internal `AllSitesLink.vue` component has been removed: it was never exported from `CoreHome`, and its "All Websites" row is now rendered by `SiteSelector.vue` as a regular panel menu item.
+* The deprecated `$webSearchEnabled` parameter of the `Piwik\Plugins\AIProviders\AIProviderResponse` constructor has been removed. Pass a `Piwik\Plugins\AIProviders\WebSearchUsage` instead, which reports the searches, queries and citations a completion actually produced rather than a bare flag. It occupied position 8, so a caller that passes the execution time and stop reason positionally must drop the flag or those values now bind to the wrong parameters; the execution time, stop reason and `WebSearchUsage` each move up one position, so `WebSearchUsage` is now 10th rather than the 11th it held in Matomo 5.14.0.
+* The deprecated method `Piwik\Plugins\AIProviders\AIProviderResponse::isWebSearchEnabled()` has been removed, along with the `webSearchEnabled` key of `AIProviderResponse::toArray()`. Use `wasWebSearchUsed()` and the `webSearchUsed` key instead, which say what they mean; `Piwik\Plugins\AIProviders\AIRequest::isWebSearchEnabled()` is unaffected and keeps reporting what the request asked for.
+* The deprecated method `Piwik\Plugins\AIProviders\Provider\AIProvider::isWebSearchUsed()` has been removed and is no longer consulted. A provider that reported a search by overriding it must now override `supportsWebSearch()` to declare the capability and pass a `WebSearchUsage` to `buildResponse()`; an override left in place is simply ignored, so such a provider's answers report no search until it migrates.
 
 ### New APIs
 * The new `DragHandle` Vue component in CoreHome renders the standard 6-dot drag-handle icon, for use inside `DraggableList` rows. The `DraggableList` component's `handle` option now also works with real browser drags, which retarget `dragstart` to the draggable element (previously the handle was only recognised in synthetically dispatched events).
@@ -141,11 +144,52 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * Tooltip content - the `title` of the hovered element, or the `data-tooltip` a report cell carries - may only use simple inline formatting (`b`, `br`, `em`, `i`, `small`, `span`, `strong`, `u`, without attributes). Content carrying anything else is displayed as text in full rather than rendered, so nothing is lost from it, but a `div`, an `img` or a `class` no longer has any effect. A report cell tooltip built from `<column>_tooltip` row metadata used to be inserted without a sanitizer and now shows markup as text. What a plugin returns from `Piwik\Plugins\Live\VisitorDetailsAbstract::renderActionTooltip()` for the `Live.renderActionTooltip` event is escaped where the entries are combined, so the visitor log's action tooltip shows that content as text even when it uses those tags; separate entries with a line break as before. Markup Matomo puts in a tooltip itself lost the classes it carried - `tooltip-action-*` in the visits log tooltip and `comparison-card-tooltip` in the comparison cards - since attributes are not kept; nothing in Matomo styled them, but a third-party theme might. Tooltips track the cursor and close as soon as it leaves their target, so their content was never interactive.
 
 ### New APIs
+* `Piwik\Plugins\AIProviders` now implements provider-side web search, also called grounding, so an AI
+  feature can ask the provider to search the web before answering and then read the sources it used.
+  `Piwik\Plugins\AIProviders\AIRequest::withWebSearchEnabled()` is no longer advisory: Anthropic,
+  Google and OpenAI honour it, while AWS Bedrock and the custom provider reject a grounded request with
+  an `AIProviderClientException` rather than silently answering ungrounded. `AIProviderResponse` gained
+  `wasWebSearchUsed()`, `getWebSearchCitations()`, `getWebSearchRequestCount()` and
+  `getWebSearchQueries()`, backed by the new `Piwik\Plugins\AIProviders\WebSearchUsage`, which
+  normalises the three providers' incompatible grounding shapes; `AIProviderService::canUseWebSearch()`
+  and the new `supportsWebSearch` key of `getProviderStatusesForCaller()` let a feature check first.
+  Citation titles and queries are untrusted model output, length-capped but otherwise verbatim, so
+  escape them where they are rendered. Grounding is not a marginal cost: every provider charges per
+  search and bills the retrieved page content as input tokens on top. See `plugins/AIProviders/README.md`
+  for the per-provider caveats and the cost and timeout implications.
+* `AIRequest::withTimeoutSeconds()` overrides the provider HTTP timeout, which now defaults to 120s for
+  a grounded completion and stays at 30s otherwise. That outlasts the default read timeout of common
+  web servers and proxies, so grounded completions are intended for CLI commands and scheduled tasks.
+* `AIProviderResponse::getStopReason()` now reports a value for Google completions, which previously
+  always returned `null`. Google's `finishReason` is mapped onto the same vocabulary the conversation
+  API already uses (`STOP` becomes `end_turn`, `MAX_TOKENS` becomes `max_tokens`, `SAFETY` and
+  `RECITATION` become `guardrail_intervened`), so it matches AWS Bedrock and Anthropic. OpenAI keeps
+  reporting `stop` / `length` on both its grounded and ungrounded paths. A caller that treats an
+  unrecognised stop reason as a failure will start seeing Google values.
 * The new `Piwik\Http\SecurityHeaders::sendForDataResponse()` sends the header set for a response that is data rather than application UI: `X-Content-Type-Options: nosniff`, `Referrer-Policy: no-referrer`, `X-Frame-Options: deny` unless `[General] enable_framed_pages` allows embedding, and a `Content-Security-Policy` that allows no scripts, forms or base URI, only inline styles and images from Matomo itself (built by the new `Piwik\View\SecurityPolicy::restrictToDataResponse()`). Core sends it for the API endpoint itself, report exports, inline report previews, and the API module's `listAllMethods` and `listSegments` actions, which return HTML without a view; `action=listAllAPI`, which renders one, keeps the headers of a regular page. Call it in a plugin that streams an export or a report, before writing any output.
 * Two new events let plugins customise the "No data has been recorded yet" page, on both the standalone page and its embedding in the reporting UI:
   * `Template.siteWithoutData.afterTrackingMethods` collects additional HTML rendered below the tracking methods list and the section for temporarily hiding the page.
   * `SitesManager.siteWithoutData.showInviteTeamMemberLink` lets a plugin hide the "Invite Team Member" link by setting the posted flag to `false`.
 * The new `CoreHome.tooltipContent` renders the `title` of the hovered element as the content of a jQuery UI tooltip, and `window.vueSanitizeTooltip()` does the same for a value at hand in plain JavaScript. Both keep only the simple inline formatting a tooltip may show and fall back to displaying the whole value as text, so a title that was not written for a tooltip loses nothing while nothing in it is rendered.
+
+### Deprecations
+* `Piwik\Plugins\AIProviders\AIProviderResponse::isWebSearchEnabled()` is deprecated in favour of
+  `wasWebSearchUsed()`, and the `webSearchEnabled` key of `AIProviderResponse::toArray()` in favour of
+  the new `webSearchUsed` key. The name reads as request state, but both report what the provider
+  actually did, while `AIRequest::isWebSearchEnabled()` keeps the request meaning. Both will be removed
+  in Matomo 6.
+* The `$webSearchEnabled` parameter of the `AIProviderResponse` constructor is deprecated. Pass a
+  `Piwik\Plugins\AIProviders\WebSearchUsage` as the new trailing `$webSearch` parameter instead, which
+  reports the searches, queries and citations a completion actually produced rather than a bare flag.
+  The parameter keeps its position and its meaning, so positional callers written against Matomo 5.13.0
+  keep working and a `true` still makes `wasWebSearchUsed()` report a search. It will be removed in
+  Matomo 6.
+* `Piwik\Plugins\AIProviders\Provider\AIProvider::isWebSearchUsed()` is deprecated. It was a
+  placeholder whose base implementation always returned `false`, and no bundled provider overrode it,
+  but a third-party provider that did override it controlled `AIProviderResponse::isWebSearchEnabled()`.
+  Such a provider should now override `supportsWebSearch()` to declare the capability and pass a
+  `WebSearchUsage` to `buildResponse()`. An existing override is still honoured by
+  `wasWebSearchUsed()` for the transition, and will stop being consulted in Matomo 6.
 
 ### HTTP API
 * A new `keep_flattened_dimension_columns` parameter keeps the columns a flattened report adds for its

@@ -35,6 +35,7 @@ class AIRequestTest extends TestCase
         $this->assertSame(AIRequest::DEFAULT_TEMPERATURE, $request->getTemperature());
         $this->assertSame(AIRequest::REASONING_NONE, $request->getReasoningLevel());
         $this->assertFalse($request->isWebSearchEnabled());
+        $this->assertNull($request->getTimeoutSeconds());
         $this->assertNull($request->getThinkingBudget());
     }
 
@@ -53,6 +54,7 @@ class AIRequestTest extends TestCase
             ->withTemperature(0.7)
             ->withReasoningLevel('low')
             ->withWebSearchEnabled(true)
+            ->withTimeoutSeconds(90)
             ->withThinkingBudget(128);
 
         // The original request is unchanged.
@@ -71,6 +73,19 @@ class AIRequestTest extends TestCase
         $this->assertSame(0.7, $modified->getTemperature());
         $this->assertSame('low', $modified->getReasoningLevel());
         $this->assertTrue($modified->isWebSearchEnabled());
+        $this->assertSame(90, $modified->getTimeoutSeconds());
         $this->assertSame(128, $modified->getThinkingBudget());
+    }
+
+    public function testTimeoutSecondsIsClampedToAtLeastOneSecondAndNullRestoresTheDefault(): void
+    {
+        $request = new AIRequest('Prompt', 'Goals');
+
+        $this->assertSame(1, $request->withTimeoutSeconds(0)->getTimeoutSeconds());
+        $this->assertSame(1, $request->withTimeoutSeconds(-5)->getTimeoutSeconds());
+        $this->assertSame(90, $request->withTimeoutSeconds(90)->getTimeoutSeconds());
+        // null is not a value but the absence of one: the provider picks its own
+        // default, which differs for a grounded request.
+        $this->assertNull($request->withTimeoutSeconds(45)->withTimeoutSeconds(null)->getTimeoutSeconds());
     }
 }
