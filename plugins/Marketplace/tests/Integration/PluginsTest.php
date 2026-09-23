@@ -438,6 +438,40 @@ class PluginsTest extends IntegrationTestCase
         self::assertFalse($plugin['isEligibleForFreeTrial']);
     }
 
+    public function testLicenseStatusFallsBackToTheEmbeddedCopyWhenTheMarketplaceCannotBeReached(): void
+    {
+        // not authenticated, so the consumer lookup has no answer. The cached plugin's own copy
+        // says Active, and reading the missing answer as "no license" would show it as unowned
+        $this->service->returnFixture('v2.0_plugins_PaidPlugin1_info-access_token-consumer3_paid1_custom2.json');
+
+        $plugin = $this->plugins->getPluginInfo('PaidPlugin1');
+
+        self::assertFalse($plugin['isInstalled']);
+        self::assertSame('Active', $plugin['licenseStatus']);
+    }
+
+    public function testLicenseStatusPrefersTheConsumerOverTheEmbeddedCopy(): void
+    {
+        // the same embedded Active license, but a consumer that answers holding none: the plugin
+        // lists are cached for longer, so the consumer is the fresher answer
+        $this->letTheConsumerAnswerHoldingNoLicences();
+        $this->service->returnFixture('v2.0_plugins_PaidPlugin1_info-access_token-consumer3_paid1_custom2.json');
+
+        $plugin = $this->plugins->getPluginInfo('PaidPlugin1');
+
+        self::assertSame('', $plugin['licenseStatus']);
+    }
+
+    public function testLicenseStatusIgnoresTheMarketplacesTrialSuppression(): void
+    {
+        // the scalar that keeps a bundle out of the trial flow is not a license row with a status
+        $this->service->returnFixture('v2.0_plugins_PaidPlugin1_info-license-suppressed.json');
+
+        $plugin = $this->plugins->getPluginInfo('PaidPlugin1');
+
+        self::assertSame('', $plugin['licenseStatus']);
+    }
+
     private function letTheConsumerAnswerHoldingNoLicences(): void
     {
         // authenticated, or Client::getConsumer() short circuits and the licences read as unknown

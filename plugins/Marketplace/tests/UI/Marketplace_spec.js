@@ -409,7 +409,7 @@ describe("Marketplace", function () {
 
             const seeAll = await page.$('.pluginSection:first-child .pluginSection__seeAll');
             await seeAll.click();
-            await page.waitForTimeout(100);
+            await page.waitForSelector('.marketplacePage__backLink', { visible: true });
 
             // the section stack is gone: this is the promotion's own list, headed by its name
             expect(await sectionHeadings()).to.deep.equal([]);
@@ -421,7 +421,7 @@ describe("Marketplace", function () {
             )).to.be.above(rowCards);
 
             await (await page.$('.marketplacePage__backLink')).click();
-            await page.waitForTimeout(100);
+            await page.waitForSelector('.pluginSection__heading', { visible: true });
 
             expect((await sectionHeadings())[0]).to.equal('Featured');
         });

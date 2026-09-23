@@ -835,10 +835,23 @@ class Plugins
         $plugin['numDownloadsPretty'] = $this->numberFormatter->formatNumberCompact($num);
     }
 
+    /**
+     * Adds the status of the consumer's license for the plugin, or '' where it holds none.
+     *
+     * Where the Marketplace could not be reached this falls back to the license the plugin carries,
+     * as {@link getCurrentLicenseFor()} does, rather than reading the missing answer as "no license"
+     * and showing every licensed plugin as unowned. That method is not reused because it also
+     * returns the scalar the Marketplace sets to suppress a bundle's trial, which is not a license
+     * and would hide the consumer's real status for that bundle.
+     */
     private function addConsumerLicenseStatus($plugin): array
     {
-        $consumerPluginLicenseInfo = $this->consumer->getConsumerPluginLicenseStatus();
-        $plugin['licenseStatus'] = $consumerPluginLicenseInfo[$plugin['name']] ?? '';
+        $licenses = $this->consumer->getConsumerPluginLicenses();
+        $license = $licenses === null
+            ? ($plugin['consumer']['license'] ?? null)
+            : ($licenses[$plugin['name']] ?? null);
+
+        $plugin['licenseStatus'] = is_array($license) ? (string) ($license['status'] ?? '') : '';
 
         return $plugin;
     }

@@ -91,8 +91,9 @@ function stubIntersectionObserver(): { scrollToBottom: () => void } {
   return { scrollToBottom: () => callback?.([{ isIntersecting: true }]) };
 }
 
-function mountPage() {
+function mountPage(attachTo?: HTMLElement) {
   return mount(Marketplace, {
+    attachTo,
     props: {
       defaultSort: 'lastupdated',
       installNonce: 'i',
@@ -115,6 +116,29 @@ function mountPage() {
       },
     },
   });
+}
+
+/**
+ * Enough Featured plugins for the row to show, and one category for a row of its own - the page
+ * shows the section stack only while it has sections.
+ */
+function promotedCatalogue(): PluginCard[] {
+  return [
+    ...makePlugins(4).map((plugin, index) => ({ ...plugin, promotions: { featured: index } })),
+    makePlugin({ name: 'Funnels', categories: ['insights'] }),
+  ];
+}
+
+/** The row with the given id, as the section stack hands it to its PluginSection. */
+function section(wrapper: VueWrapper, sectionId: string): VueWrapper {
+  const found = wrapper.findAllComponents({ name: 'PluginSection' })
+    .find((candidate) => candidate.props('sectionId') === sectionId);
+
+  if (!found) {
+    throw new Error(`no ${sectionId} section on the page`);
+  }
+
+  return found as VueWrapper;
 }
 
 /** How many cards the flat grid is currently handed. */
@@ -271,6 +295,98 @@ describe('Marketplace', () => {
       await wrapper.vm.$nextTick();
 
       expect(wrapper.vm.pageSize).toBe(45);
+    });
+  });
+
+  describe('promotion lists', () => {
+    it('opens a promotion from its row in place of the section stack', async () => {
+      respondWith(promotedCatalogue());
+
+      const wrapper = mountPage();
+      await vi.runOnlyPendingTimersAsync();
+
+      section(wrapper, 'featured').vm.$emit('seeAll', 'featured');
+      await wrapper.vm.$nextTick();
+
+      expect(wrapper.vm.activePromotion).toBe('featured');
+      expect(MatomoUrl.hashParsed.value).toEqual({ pluginPromotion: 'featured' });
+      expect(wrapper.vm.showSections).toBe(false);
+      // a promotion is not a tab, so no tab is left highlighted over it
+      expect(wrapper.findComponent({ name: 'CategoryTabs' }).exists()).toBe(false);
+      expect(wrapper.find('.marketplacePage__backLink').exists()).toBe(true);
+      expect(gridSize(wrapper)).toBe(4);
+    });
+
+    it('moves focus to the way back, as the button that had it is gone', async () => {
+      respondWith(promotedCatalogue());
+
+      const wrapper = mountPage(document.body);
+      await vi.runOnlyPendingTimersAsync();
+
+      section(wrapper, 'featured').vm.$emit('seeAll', 'featured');
+      await wrapper.vm.$nextTick();
+      await wrapper.vm.$nextTick();
+
+      expect(document.activeElement).toBe(wrapper.find('.marketplacePage__backLink').element);
+
+      wrapper.unmount();
+    });
+
+    it('leaves the tab it was opened over, so going back returns to the overview', async () => {
+      respondWith(promotedCatalogue());
+      MatomoUrl.hashParsed.value = { pluginCategory: 'insights' };
+
+      const wrapper = mountPage();
+      await vi.runOnlyPendingTimersAsync();
+
+      wrapper.vm.openPromotion('featured');
+      await wrapper.vm.$nextTick();
+
+      expect(wrapper.vm.activeTab).toBe('all');
+      expect(MatomoUrl.hashParsed.value).toEqual({ pluginPromotion: 'featured' });
+    });
+
+    it('goes back to the section stack from the back link', async () => {
+      respondWith(promotedCatalogue());
+      MatomoUrl.hashParsed.value = { pluginPromotion: 'featured' };
+
+      const wrapper = mountPage();
+      await vi.runOnlyPendingTimersAsync();
+      expect(wrapper.vm.activePromotion).toBe('featured');
+
+      wrapper.vm.pageSize = 45;
+      await wrapper.find('.marketplacePage__backLink').trigger('click');
+
+      expect(wrapper.vm.activePromotion).toBe('');
+      expect(wrapper.vm.pageSize).toBe(PAGE_SIZE);
+      expect(MatomoUrl.hashParsed.value).toEqual({});
+      expect(wrapper.vm.showSections).toBe(true);
+      expect(wrapper.find('.marketplacePage__backLink').exists()).toBe(false);
+    });
+
+    it('opens a category row in its tab rather than as a promotion', async () => {
+      respondWith(promotedCatalogue());
+
+      const wrapper = mountPage();
+      await vi.runOnlyPendingTimersAsync();
+
+      section(wrapper, 'insights').vm.$emit('seeAll', 'insights');
+      await wrapper.vm.$nextTick();
+
+      expect(wrapper.vm.activeTab).toBe('insights');
+      expect(wrapper.vm.activePromotion).toBe('');
+      expect(MatomoUrl.hashParsed.value).toEqual({ pluginCategory: 'insights' });
+    });
+
+    it('ignores a promotion in the hash that the page has no row for', async () => {
+      respondWith(promotedCatalogue());
+      MatomoUrl.hashParsed.value = { pluginPromotion: 'somethingElse' };
+
+      const wrapper = mountPage();
+      await vi.runOnlyPendingTimersAsync();
+
+      expect(wrapper.vm.activePromotion).toBe('');
+      expect(wrapper.vm.showSections).toBe(true);
     });
   });
 
