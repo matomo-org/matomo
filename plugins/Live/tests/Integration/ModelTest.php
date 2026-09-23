@@ -328,18 +328,25 @@ class ModelTest extends IntegrationTestCase
             $minTimestamp = false,
             $filterSortOrder = false
         );
-        $expectedSql = ' SELECT log_visit.* 
-                        FROM log_visit AS log_visit 
-                        LEFT JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit 
-                        WHERE ( 
-                            log_visit.idsite in (?) 
-                            AND log_visit.idvisitor = ? 
-                            AND log_visit.visit_last_action_time >= ? 
-                            AND log_visit.visit_last_action_time <= ? ) 
-                            AND ( log_link_visit_action.search_cat = ? ) 
-                        GROUP BY log_visit.idvisit 
-                        ORDER BY log_visit.idsite DESC, log_visit.visit_last_action_time DESC, log_visit.idvisit DESC
-                         LIMIT 10, 100';
+
+        // the joined table moves into a subquery, so the group by that removed the visits it
+        // duplicated is no longer needed. The visitor has a better index than the one the visits
+        // log walks by time, so this query is left to pick its own
+        $expectedSql = ' SELECT log_visit_outer.*
+                        FROM log_visit AS log_visit_outer
+                        WHERE (
+                            log_visit_outer.idsite in (?)
+                            AND log_visit_outer.idvisitor = ?
+                            AND log_visit_outer.visit_last_action_time >= ?
+                            AND log_visit_outer.visit_last_action_time <= ? )
+                            AND ( EXISTS (
+                                SELECT 1
+                                FROM log_visit AS log_visit
+                                LEFT JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
+                                WHERE log_visit.idvisit = log_visit_outer.idvisit
+                                    AND ( log_link_visit_action.search_cat = ? ) ) )
+                        ORDER BY log_visit_outer.idsite DESC, log_visit_outer.visit_last_action_time DESC, log_visit_outer.idvisit DESC
+                        LIMIT 10, 100';
         $expectedBind = array(
             '1',
             Common::hex2bin('abc'),
@@ -349,6 +356,207 @@ class ModelTest extends IntegrationTestCase
         );
         $this->assertEquals(SegmentTest::removeExtraWhiteSpaces($expectedSql), SegmentTest::removeExtraWhiteSpaces($sql));
         $this->assertEquals(SegmentTest::removeExtraWhiteSpaces($expectedBind), SegmentTest::removeExtraWhiteSpaces($bind));
+    }
+
+    public function testMakeLogVisitsQueryStringWhenSegmentOnlyUsesTheVisitTable()
+    {
+        $model = new Model();
+        [$dateStart, $dateEnd] = $model->getStartAndEndDate($idSite = 1, 'month', '2010-01-01');
+        [$sql, $bind] = $model->makeLogVisitsQueryString(
+            $idSite = 1,
+            $dateStart,
+            $dateEnd,
+            $segment = 'countryCode==fr',
+            $offset = 0,
+            $limit = 100,
+            $visitorId = false,
+            $minTimestamp = false,
+            $filterSortOrder = false
+        );
+
+        // nothing is joined that could return a visit twice, so there is nothing to group
+        $expectedSql = ' SELECT log_visit.*
+                        FROM log_visit AS log_visit
+                        WHERE (
+                            log_visit.idsite in (?)
+                            AND log_visit.visit_last_action_time >= ?
+                            AND log_visit.visit_last_action_time <= ? )
+                            AND ( log_visit.location_country = ? )
+                        ORDER BY log_visit.idsite DESC, log_visit.visit_last_action_time DESC, log_visit.idvisit DESC
+                        LIMIT 0, 100';
+        $expectedBind = array(
+            '1',
+            '2010-01-01 00:00:00',
+            '2010-02-01 00:00:00',
+            'fr',
+        );
+        $this->assertEquals(SegmentTest::removeExtraWhiteSpaces($expectedSql), SegmentTest::removeExtraWhiteSpaces($sql));
+        $this->assertEquals(SegmentTest::removeExtraWhiteSpaces($expectedBind), SegmentTest::removeExtraWhiteSpaces($bind));
+    }
+
+    public function testMakeLogVisitsQueryStringWhenSegmentCombinesTablesWithOr()
+    {
+        $model = new Model();
+        [$dateStart, $dateEnd] = $model->getStartAndEndDate($idSite = 1, 'month', '2010-01-01');
+        [$sql, $bind] = $model->makeLogVisitsQueryString(
+            $idSite = 1,
+            $dateStart,
+            $dateEnd,
+            $segment = 'siteSearchCategory==Test,countryCode==fr',
+            $offset = 0,
+            $limit = 100,
+            $visitorId = false,
+            $minTimestamp = false,
+            $filterSortOrder = false
+        );
+
+        // the condition on log_visit cannot be pulled out of the OR, so the whole segment stays
+        // inside the subquery, where log_visit is available as well
+        $expectedSql = ' SELECT log_visit_outer.*
+                        FROM log_visit AS log_visit_outer FORCE INDEX (index_idsite_datetime)
+                        WHERE (
+                            log_visit_outer.idsite in (?)
+                            AND log_visit_outer.visit_last_action_time >= ?
+                            AND log_visit_outer.visit_last_action_time <= ? )
+                            AND ( EXISTS (
+                                SELECT 1
+                                FROM log_visit AS log_visit
+                                LEFT JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
+                                WHERE log_visit.idvisit = log_visit_outer.idvisit
+                                    AND (( log_link_visit_action.search_cat = ? OR log_visit.location_country = ? )) ) )
+                        ORDER BY log_visit_outer.idsite DESC, log_visit_outer.visit_last_action_time DESC, log_visit_outer.idvisit DESC
+                        LIMIT 0, 100';
+        $expectedBind = array(
+            '1',
+            '2010-01-01 00:00:00',
+            '2010-02-01 00:00:00',
+            'Test',
+            'fr',
+        );
+        $this->assertEquals(SegmentTest::removeExtraWhiteSpaces($expectedSql), SegmentTest::removeExtraWhiteSpaces($sql));
+        $this->assertEquals(SegmentTest::removeExtraWhiteSpaces($expectedBind), SegmentTest::removeExtraWhiteSpaces($bind));
+    }
+
+    /**
+     * Some databases read the whole history of a site instead of the date range that was asked for
+     * unless the rewritten query names the index it walks, which costs more than the group by the
+     * rewrite removed. Looking up one visitor has a better index and has to keep using it.
+     */
+    public function testMakeLogVisitsQueryStringForcesTheVisitTimeIndexUnlessAVisitorIsLookedUp()
+    {
+        $model = new Model();
+        [$dateStart, $dateEnd] = $model->getStartAndEndDate($idSite = 1, 'month', '2010-01-01');
+
+        $query = function ($visitorId) use ($model, $dateStart, $dateEnd) {
+            [$sql] = $model->makeLogVisitsQueryString(
+                $idSite = 1,
+                $dateStart,
+                $dateEnd,
+                $segment = 'siteSearchCategory==Test',
+                $offset = 0,
+                $limit = 100,
+                $visitorId,
+                $minTimestamp = false,
+                $filterSortOrder = false
+            );
+
+            return $sql;
+        };
+
+        $this->assertStringContainsString(
+            'log_visit AS log_visit_outer FORCE INDEX (index_idsite_datetime)',
+            $query(false)
+        );
+        $this->assertStringNotContainsString('FORCE INDEX', $query('abc'));
+    }
+
+    /**
+     * Naming an index the table does not have fails the query outright, so an installation that
+     * removed this one has to keep the grouped query rather than lose the visits log.
+     */
+    public function testMakeLogVisitsQueryStringKeepsTheGroupByWhenTheVisitTimeIndexIsMissing()
+    {
+        $table = Common::prefixTable('log_visit');
+
+        Db::exec("ALTER TABLE `$table` DROP INDEX index_idsite_datetime");
+
+        try {
+            $model = new Model();
+            [$dateStart, $dateEnd] = $model->getStartAndEndDate($idSite = 1, 'month', '2010-01-01');
+
+            [$sql, $bind] = $model->makeLogVisitsQueryString(
+                $idSite = 1,
+                $dateStart,
+                $dateEnd,
+                $segment = 'siteSearchCategory==Test',
+                $offset = 0,
+                $limit = 100,
+                $visitorId = false,
+                $minTimestamp = false,
+                $filterSortOrder = false
+            );
+
+            $this->assertStringNotContainsString('FORCE INDEX', $sql);
+            $this->assertStringNotContainsString('log_visit_outer', $sql);
+            $this->assertStringContainsString('GROUP BY', $sql);
+
+            // the query the rewrite declined still has to run
+            $this->assertSame([], Db::fetchAll($sql, $bind));
+        } finally {
+            Db::exec("ALTER TABLE `$table` ADD INDEX index_idsite_datetime (idsite, visit_last_action_time)");
+        }
+    }
+
+    public function testMakeLogVisitsQueryStringKeepsTheGroupByWhenTheSegmentLooksUpAVisitor()
+    {
+        $model = new Model();
+        [$dateStart, $dateEnd] = $model->getStartAndEndDate($idSite = 1, 'month', '2010-01-01');
+
+        $query = function ($segment) use ($model, $dateStart, $dateEnd) {
+            [$sql] = $model->makeLogVisitsQueryString(
+                $idSite = 1,
+                $dateStart,
+                $dateEnd,
+                $segment,
+                $offset = 0,
+                $limit = 100,
+                $visitorId = false,
+                $minTimestamp = false,
+                $filterSortOrder = false
+            );
+
+            return $sql;
+        };
+
+        // the visitor id would end up in the subquery, where index_idsite_idvisitor_time cannot serve it
+        $this->assertStringContainsString(
+            'GROUP BY',
+            $query('siteSearchCategory==Test;visitorId==0123456789abcdef')
+        );
+        $this->assertStringNotContainsString('GROUP BY', $query('siteSearchCategory==Test'));
+    }
+
+    public function testMakeLogVisitsQueryStringKeepsTheGroupByWhenIntersectingWithAClickedRowSegment()
+    {
+        $model = new Model();
+        [$dateStart, $dateEnd] = $model->getStartAndEndDate($idSite = 1, 'month', '2010-01-01');
+        [$sql, $bind] = $model->makeLogVisitsQueryString(
+            $idSite = 1,
+            $dateStart,
+            $dateEnd,
+            $segment = 'actionUrl=@needle',
+            $offset = 0,
+            $limit = 100,
+            $visitorId = false,
+            $minTimestamp = false,
+            $filterSortOrder = false,
+            $intersectSegment = 'actionUrl=@haystack'
+        );
+
+        // the clicked row segment is intersected with a subquery that selects from log_visit again,
+        // so the outer log_visit cannot be renamed and the group by has to stay
+        $this->assertStringContainsString('GROUP BY', $sql);
+        $this->assertStringNotContainsString('log_visit_outer', $sql);
     }
 
     public function testMakeLogVisitsQueryStringAddsMaxExecutionHintIfConfigured()
@@ -806,6 +1014,162 @@ class ModelTest extends IntegrationTestCase
         $config->General = $general;
     }
 
+    /**
+     * @see https://github.com/matomo-org/matomo/issues/13861
+     */
+    public function testQueryLogVisitsReturnsAVisitOnceWhenSeveralOfItsActionsMatchTheSegment()
+    {
+        $this->trackVisitWithActions('2010-03-01 03:00:00', $this->urls(['/needle/one', '/needle/two', '/needle/three']));
+        $this->trackVisitWithActions('2010-03-01 04:00:00', $this->urls(['/haystack']));
+
+        $visits = $this->queryVisitsLog('actionUrl=@needle', $offset = 0, $limit = 10);
+
+        $this->assertCount(1, $visits);
+        $this->assertEquals('2010-03-01 03:00:00', $visits[0]['visit_first_action_time']);
+    }
+
+    /**
+     * @see https://github.com/matomo-org/matomo/issues/13861
+     */
+    public function testQueryLogVisitsFillsTheLimitWithDistinctVisitsWhenSeveralActionsMatchTheSegment()
+    {
+        for ($visit = 1; $visit <= 5; $visit++) {
+            $this->trackVisitWithActions('2010-03-02 0' . $visit . ':00:00', $this->urls(['/needle/one', '/needle/two', '/needle/three']));
+        }
+
+        $visits = $this->queryVisitsLog('actionUrl=@needle', $offset = 0, $limit = 3, '2010-03-02');
+
+        $this->assertCount(3, $visits);
+        $this->assertCount(3, array_unique(array_column($visits, 'idvisit')));
+    }
+
+    public function testQueryLogVisitsPagesThroughDistinctVisitsWhenSeveralActionsMatchTheSegment()
+    {
+        for ($visit = 1; $visit <= 5; $visit++) {
+            $this->trackVisitWithActions('2010-03-03 0' . $visit . ':00:00', $this->urls(['/needle/one', '/needle/two']));
+        }
+
+        $all = array_column($this->queryVisitsLog('actionUrl=@needle', 0, 10, '2010-03-03'), 'idvisit');
+        $this->assertCount(5, $all);
+
+        $page = array_column($this->queryVisitsLog('actionUrl=@needle', 2, 2, '2010-03-03'), 'idvisit');
+
+        $this->assertEquals(array_slice($all, 2, 2), $page);
+    }
+
+    /**
+     * The visits log asks the joined log tables for a match instead of grouping their rows away, so
+     * it has to select the same visits in the same order as the grouped query did, whichever tables
+     * the segment touches and however its conditions are combined.
+     *
+     * The expected lists were captured from the grouped query. restoreDbTables() truncates the log
+     * tables before each test, which resets AUTO_INCREMENT, so the five visits below are always
+     * idvisit 1 to 5 in the order they are tracked here.
+     *
+     * @dataProvider getSegmentsAcrossLogTables
+     */
+    public function testMakeLogVisitsQueryStringSelectsTheVisitsTheGroupedQuerySelected($segment, $offset, $limit, $order, array $expectedIdVisits, bool $expectsSubquery)
+    {
+        $this->trackEquivalenceVisits();
+
+        [$sql, $bind] = $this->visitsLogQuery($segment, $offset, $limit, $order, '2010-03-04');
+
+        // a regression that quietly falls back to the grouped query has to fail here rather than
+        // pass by returning the right visits the slow way
+        $this->assertStringNotContainsString('GROUP BY', $sql);
+
+        if ($expectsSubquery) {
+            $this->assertStringContainsString('EXISTS (', $sql);
+        } else {
+            $this->assertStringNotContainsString('EXISTS (', $sql);
+        }
+
+        $this->assertEquals($expectedIdVisits, array_column(Db::fetchAll($sql, $bind), 'idvisit'));
+    }
+
+    public function getSegmentsAcrossLogTables()
+    {
+        // per segment: whether it joins another log table, so that the segment moves into an EXISTS
+        // subquery, and the ordered idvisit lists the grouped query returned for the combinations
+        // below. A segment resolving to log_visit columns alone joins nothing that could return a
+        // visit twice, so there the group by is dropped and no subquery is built. actionUrl!@ is one
+        // of those: the negation becomes a NOT IN subquery on log_visit itself.
+        $expectations = [
+            'actionUrl=@needle' => [true, [[5, 3, 1], [1, 3, 5], [1], [5]]],
+            'actionUrl=@needle;userId==someone@example.com' => [true, [[1], [1], [], []]],
+            'actionUrl=@needle,userId==someone@example.com' => [true, [[5, 4, 3, 1], [1, 3, 4, 5], [3, 1], [4, 5]]],
+            'actionUrl=@needle;pageTitle=@Page' => [true, [[5, 3, 1], [1, 3, 5], [1], [5]]],
+            'actionUrl=@needle,pageTitle=@haystack' => [true, [[5, 4, 3, 2, 1], [1, 2, 3, 4, 5], [3, 2], [3, 4]]],
+            'actionUrl!@needle' => [false, [[4, 2], [2, 4], [], []]],
+            'userId==someone@example.com' => [false, [[4, 1], [1, 4], [], []]],
+            'entryPageUrl=@needle' => [true, [[5, 3, 1], [1, 3, 5], [1], [5]]],
+        ];
+
+        $combinations = [['DESC', 0, 10], ['ASC', 0, 10], ['DESC', 2, 2], ['ASC', 2, 2]];
+
+        $cases = [];
+        foreach ($expectations as $segment => [$expectsSubquery, $expectedIdVisits]) {
+            foreach ($combinations as $index => [$order, $offset, $limit]) {
+                $cases["$segment $order $offset,$limit"] = [$segment, $offset, $limit, $order, $expectedIdVisits[$index], $expectsSubquery];
+            }
+        }
+
+        return $cases;
+    }
+
+    private function trackEquivalenceVisits(): void
+    {
+        $this->trackVisitWithActions('2010-03-04 01:00:00', $this->urls(['/needle/one', '/needle/two', '/needle/three']), 'someone@example.com');
+        $this->trackVisitWithActions('2010-03-04 02:00:00', $this->urls(['/haystack']), 'nobody@example.com');
+        $this->trackVisitWithActions('2010-03-04 03:00:00', $this->urls(['/needle/one']), 'nobody@example.com');
+        $this->trackVisitWithActions('2010-03-04 04:00:00', $this->urls(['/haystack/one', '/haystack/two']), 'someone@example.com');
+        $this->trackVisitWithActions('2010-03-04 05:00:00', $this->urls(['/needle/one', '/haystack/two']), 'nobody@example.com');
+    }
+
+    private function queryVisitsLog(string $segment, int $offset, int $limit, string $date = '2010-03-01'): array
+    {
+        return (new Model())->queryLogVisits(
+            1,
+            'day',
+            $date,
+            $segment,
+            $offset,
+            $limit,
+            $visitorId = false,
+            $minTimestamp = false,
+            $filterSortOrder = 'desc'
+        );
+    }
+
+    private function visitsLogQuery(string $segment, int $offset, int $limit, string $order, string $date): array
+    {
+        $model = new Model();
+        [$dateStart, $dateEnd] = $model->getStartAndEndDate(1, 'day', $date);
+
+        return $model->makeLogVisitsQueryString(
+            1,
+            $dateStart,
+            $dateEnd,
+            $segment,
+            $offset,
+            $limit,
+            $visitorId = false,
+            $minTimestamp = false,
+            $order
+        );
+    }
+
+    /**
+     * @param string[] $paths
+     * @return string[]
+     */
+    private function urls(array $paths): array
+    {
+        return array_map(static function (string $path) {
+            return 'http://example.org' . $path;
+        }, $paths);
+    }
+
     private function trackPageView(): void
     {
         // Needed for the tests that may execute a sleep() to test max execution time. Otherwise if the table is empty
@@ -826,17 +1190,21 @@ class ModelTest extends IntegrationTestCase
         Fixture::checkResponse($t->doTrackPageView('Visit at ' . $dateTime));
     }
 
-    private function trackVisitWithActions(string $dateTime, array $urls): void
+    private function trackVisitWithActions(string $dateTime, array $urls, ?string $userId = null): void
     {
         $tracker = Fixture::getTracker(1, $dateTime, $defaultInit = true);
         $tracker->setTokenAuth(Fixture::getTokenAuth());
         $tracker->setNewVisitorId();
 
-        foreach ($urls as $index => $url) {
+        if (null !== $userId) {
+            $tracker->setUserId($userId);
+        }
+
+        foreach (array_values($urls) as $index => $url) {
             $actionTime = Date::factory($dateTime)->addPeriod($index, 'second')->getDatetime();
             $tracker->setForceVisitDateTime($actionTime);
             $tracker->setUrl($url);
-            Fixture::checkResponse($tracker->doTrackPageView('Visit action ' . $index));
+            Fixture::checkResponse($tracker->doTrackPageView('Page ' . $url));
         }
     }
 

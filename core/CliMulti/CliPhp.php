@@ -67,7 +67,7 @@ class CliPhp
 
     private function isHhvmBinary($bin)
     {
-        return false !== strpos($bin, 'hhvm');
+        return str_contains($bin, 'hhvm');
     }
 
     private function isValidPhpVersion($bin)
@@ -94,7 +94,7 @@ class CliPhp
     private function getPhpCommandIfValid($path)
     {
         if (!empty($path) && @is_executable($path)) {
-            if (0 === strpos($path, PHP_BINDIR) && $this->isValidPhpType($path)) {
+            if (str_starts_with($path, PHP_BINDIR) && $this->isValidPhpType($path)) {
                 return $path;
             }
         }

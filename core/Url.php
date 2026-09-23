@@ -574,7 +574,7 @@ class Url
     {
         if (
             UrlHelper::isLookLikeUrl($url)
-            || strpos($url, 'index.php') === 0
+            || str_starts_with($url, 'index.php')
         ) {
             Common::sendResponseCode(302);
             Common::sendHeader("X-Robots-Tag: noindex");

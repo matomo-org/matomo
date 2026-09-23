@@ -22,7 +22,7 @@ final class Version
      * The current Matomo version.
      * @var string
      */
-    public const VERSION = '6.0.0-b2';
+    public const VERSION = '6.0.0-b3';
 
     public const MAJOR_VERSION = 6;
 
@@ -84,7 +84,7 @@ final class Version
             );
 
             return sprintf('%s-alpha.%s', $newVersion, $dt);
-        } elseif ('alpha' === substr($version, -5)) {
+        } elseif (str_ends_with($version, 'alpha')) {
             // -alpha
             return $version . '.' . $dt;
         } else {

@@ -200,7 +200,7 @@ class OptOutManager
 
         // We put together the url based on the parsed parameters manually to ensure it might not include unexpected values
         // for protocol less urls starting with //, we need to prepend the double slash again
-        $matomoUrl = (strpos($matomoUrl, '//') === 0 ? '//' : '') . UrlHelper::getParseUrlReverse($parsedUrl);
+        $matomoUrl = (str_starts_with($matomoUrl, '//') ? '//' : '') . UrlHelper::getParseUrlReverse($parsedUrl);
 
         return '<div id="matomo-opt-out"></div>
 <script src="' . rtrim($matomoUrl, '/') . '/index.php?module=CoreAdminHome&action=optOutJS&divId=matomo-opt-out&language=' . $language . ($applyStyling ? '&backgroundColor=' . $backgroundColor . '&fontColor=' . $fontColor . '&fontSize=' . $fontSize . '&fontFamily=' . $fontFamily : '') . '&showIntro=' . ($showIntro ? '1' : '0') . '"></script>';

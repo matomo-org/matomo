@@ -194,15 +194,15 @@ class Controller extends \Piwik\Plugin\Controller
             throw new Exception('Auto updater is disabled');
         }
 
-        $task = "Couldn't update Marketplace plugins.";
+        $task = Updater::MESSAGE_FAILED_PREFIX . "Couldn't update Marketplace plugins.";
 
         $nonce = Common::getRequestVar('nonce', '', 'string');
         if (empty($nonce)) {
-            return json_encode(['No token. ' . $task]);
+            return json_encode([$task . ' No token.']);
         }
         $value = Option::get('NonceOneClickUpdatePartTwo');
         if (empty($value)) {
-            return json_encode(['Invalid token. ' . $task]);
+            return json_encode([$task . ' Invalid token.']);
         }
         $value = json_decode($value, true);
 
@@ -212,16 +212,16 @@ class Controller extends \Piwik\Plugin\Controller
             || time() > (int) $value['ttl']
             || $nonce !== $value['nonce']
         ) {
-            return json_encode(['Invalid nonce or nonce expired. ' . $task]);
+            return json_encode([$task . ' Invalid nonce or nonce expired.']);
         }
 
         try {
             $messages = $this->updater->oneClickUpdatePartTwo();
         } catch (UpdaterException $e) {
             $messages = $e->getUpdateLogMessages();
-            $messages[] = $e->getMessage();
+            $messages[] = Updater::MESSAGE_FAILED_PREFIX . $e->getMessage();
         } catch (Exception $e) {
-            $messages = [$e->getMessage()];
+            $messages = [Updater::MESSAGE_FAILED_PREFIX . $e->getMessage()];
         }
 
         return json_encode($messages);
@@ -419,7 +419,7 @@ class Controller extends \Piwik\Plugin\Controller
             foreach ($componentsWithUpdateFile as $name => $filenames) {
                 if ($name == 'core') {
                     $coreToUpdate = true;
-                } elseif (0 === strpos($name, 'log_')) {
+                } elseif (str_starts_with($name, 'log_')) {
                     $dimensionsToUpdate[] = $name;
                 } else {
                     $pluginNamesToUpdate[] = $name;

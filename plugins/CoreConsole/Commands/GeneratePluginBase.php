@@ -161,13 +161,13 @@ abstract class GeneratePluginBase extends ConsoleCommand
             // the piwik version.
 
             foreach (['<>','!=', '<=','==', '^'] as $comparison) {
-                if (strpos($requiredVersion, $comparison) === 0) {
+                if (str_starts_with($requiredVersion, $comparison)) {
                     // user is using custom piwik version require, we do not overwrite anything.
                     return;
                 }
             }
 
-            if (strpos($requiredVersion, '||') !== false || strpos($requiredVersion, ' ') !== false) {
+            if (str_contains($requiredVersion, '||') || str_contains($requiredVersion, ' ')) {
                 // user is using custom piwik version require, we do not overwrite anything.
                 return;
             }
@@ -288,7 +288,7 @@ abstract class GeneratePluginBase extends ConsoleCommand
         // search for namespace line before the class starts
         $useLine = 0;
         foreach (new \LimitIterator($file, 0, $targetClass->getStartLine()) as $index => $line) {
-            if (0 === strpos(trim($line), 'namespace ')) {
+            if (str_starts_with(trim($line), 'namespace ')) {
                 $useLine = $index + 1;
                 break;
             }

@@ -314,7 +314,7 @@ class UrlHelper
         $parsedUrl = parse_url($url);
 
         // If an anchor is included in the URL parse_url() will not split the anchor and query, so we do that there
-        if (isset($parsedUrl['fragment']) && strpos($parsedUrl['fragment'], '?') !== false) {
+        if (isset($parsedUrl['fragment']) && str_contains($parsedUrl['fragment'], '?')) {
             $parsedUrl['query'] = substr($parsedUrl['fragment'], strpos($parsedUrl['fragment'], '?') + 1);
             $parsedUrl['fragment'] = substr($parsedUrl['fragment'], 0, strpos($parsedUrl['fragment'], '?'));
         }

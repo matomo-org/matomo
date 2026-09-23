@@ -245,17 +245,17 @@ class API extends \Piwik\Plugin\API
 
     private function isNumericArchiveTable(string $name): bool
     {
-        return strpos($name, Common::prefixTable('archive_numeric_')) === 0;
+        return str_starts_with($name, Common::prefixTable('archive_numeric_'));
     }
 
     private function isBlobArchiveTable(string $name): bool
     {
-        return strpos($name, Common::prefixTable('archive_blob_')) === 0;
+        return str_starts_with($name, Common::prefixTable('archive_blob_'));
     }
 
     private function isTrackerTable(string $name): bool
     {
-        return strpos($name, Common::prefixTable('log_')) === 0;
+        return str_starts_with($name, Common::prefixTable('log_'));
     }
 
     /**

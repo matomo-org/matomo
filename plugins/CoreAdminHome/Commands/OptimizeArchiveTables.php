@@ -81,7 +81,7 @@ class OptimizeArchiveTables extends ConsoleCommand
             } elseif ($dateSpecifier == self::CURRENT_MONTH_STRING) {
                 $now = Date::factory('now');
                 return array(ArchiveTableCreator::getTableMonthFromDate($now));
-            } elseif (strpos($dateSpecifier, 'last') === 0) {
+            } elseif (str_starts_with($dateSpecifier, 'last')) {
                 $lastN = substr($dateSpecifier, 4);
                 if (!ctype_digit($lastN)) {
                     throw new \Exception("Invalid lastN specifier '$lastN'. The end must be an integer, eg, last1 or last2.");

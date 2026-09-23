@@ -310,7 +310,7 @@ class NumberFormatter
             return $value;
         }
 
-        $usesGrouping = (strpos($pattern, ',') !== false);
+        $usesGrouping = (str_contains($pattern, ','));
         // if pattern has number groups, parse them.
         if ($usesGrouping) {
             preg_match('/#+0/', $pattern, $primaryGroupMatches);

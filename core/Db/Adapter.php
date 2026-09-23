@@ -141,7 +141,7 @@ class Adapter
         );
 
         foreach ($safeMessageMap as $search_term => $safeMessage) {
-            if (strpos($message, $search_term) !== false) {
+            if (str_contains($message, $search_term)) {
                 return $safeMessage;
             }
         }

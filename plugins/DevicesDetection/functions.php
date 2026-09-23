@@ -227,7 +227,7 @@ function getDeviceTypeLogo($label)
 
 function getModelName($label)
 {
-    if (strpos($label, ';') !== false) {
+    if (str_contains($label, ';')) {
         [$brand, $model] = explode(';', $label, 2);
     } else {
         $brand = null;
@@ -242,7 +242,7 @@ function getModelName($label)
     if (!$model) {
         $model = Piwik::translate('General_Unknown');
     } else {
-        if (strpos($model, 'generic ') === 0) {
+        if (str_starts_with($model, 'generic ')) {
             $model = substr($model, 8);
             if ($model == 'mobile') {
                 $model = Piwik::translate(

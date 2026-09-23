@@ -236,14 +236,14 @@ class SearchEngine extends Singleton
 
         $key = null;
         if ($searchEngineName === 'Google Images') {
-            if (strpos($query, '&prev') !== false) {
+            if (str_contains($query, '&prev')) {
                 $query = urldecode(trim(UrlHelper::getParameterFromQueryString($query, 'prev')));
                 $query = str_replace('&', '&amp;', strstr($query, '?'));
             }
             $searchEngineName = 'Google Images';
         } elseif (
             $searchEngineName === 'Google'
-            && (strpos($query, '&as_') !== false || strpos($query, 'as_') === 0)
+            && (str_contains($query, '&as_') || str_starts_with($query, 'as_'))
         ) {
             $keys = array();
             $key  = UrlHelper::getParameterFromQueryString($query, 'as_q');
@@ -299,8 +299,8 @@ class SearchEngine extends Singleton
                         empty($key)
                         && (
                             // empty keyword parameter
-                            strpos($query, sprintf('&%s=', $variableName)) !== false
-                            || strpos($query, sprintf('?%s=', $variableName)) !== false
+                            str_contains($query, sprintf('&%s=', $variableName))
+                            || str_contains($query, sprintf('?%s=', $variableName))
                         )
                     ) {
                         $key = false;
@@ -326,7 +326,7 @@ class SearchEngine extends Singleton
             }
 
             foreach ($keywordsHiddenFor as $path) {
-                if (strlen($path) > 1 && substr($path, 0, 1) == '/' && substr($path, -1, 1) == '/') {
+                if (strlen($path) > 1 && substr($path, 0, 1) == '/' && str_ends_with($path, '/')) {
                     if (preg_match($path, $pathWithQueryAndFragment)) {
                         $key = false;
                         break;
@@ -497,6 +497,6 @@ class SearchEngine extends Singleton
             return false;
         }
         $path = str_replace("{k}", $keyword, $definition['backlink']);
-        return $url . (substr($url, -1) != '/' ? '/' : '') . $path;
+        return $url . (!str_ends_with($url, '/') ? '/' : '') . $path;
     }
 }
