@@ -198,7 +198,7 @@ class UrlHelper
         $uri .= !empty($parsed['port']) ? ':' . $parsed['port'] : '';
 
         if (!empty($parsed['path'])) {
-            $uri .= (!strncmp($parsed['path'], '/', 1))
+            $uri .= str_starts_with($parsed['path'], '/')
                 ? $parsed['path']
                 : ((!empty($uri) ? '/' : '') . $parsed['path']);
         }

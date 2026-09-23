@@ -378,10 +378,10 @@ class SearchEngine extends Singleton
         } elseif (array_key_exists($hostPattern, $searchEngines)) {
             $host = $hostPattern;
         } elseif (!array_key_exists($host, $searchEngines)) {
-            if (!strncmp($query, 'cx=partner-pub-', 15)) {
+            if (str_starts_with($query, 'cx=partner-pub-')) {
                 // Google custom search engine
                 $host = 'google.com/cse';
-            } elseif (!strncmp($path, '/pemonitorhosted/ws/results/', 28)) {
+            } elseif (str_starts_with($path, '/pemonitorhosted/ws/results/')) {
                 // private-label search powered by InfoSpace Metasearch
                 $host = 'wsdsold.infospace.com';
             } elseif (strpos($host, '.images.search.yahoo.com') != false) {
