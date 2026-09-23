@@ -375,10 +375,10 @@ class RowEvolution
 
             if ($change !== false) {
                 $lowerIsBetter = Metrics::isLowerValueBetter($metric);
-                if (substr($change, 0, 1) == '+') {
+                if (str_starts_with($change, '+')) {
                     $changeClass = $lowerIsBetter ? 'bad' : 'good';
                     $changeImage = $lowerIsBetter ? 'arrow_up_red' : 'arrow_up';
-                } elseif (substr($change, 0, 1) == '-') {
+                } elseif (str_starts_with($change, '-')) {
                     $changeClass = $lowerIsBetter ? 'good' : 'bad';
                     $changeImage = $lowerIsBetter ? 'arrow_down_green' : 'arrow_down';
                 } else {

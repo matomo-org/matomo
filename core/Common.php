@@ -165,7 +165,7 @@ class Common
     {
         $sapiType = php_sapi_name();
 
-        return substr($sapiType, 0, 3) === 'cgi';
+        return str_starts_with($sapiType, 'cgi');
     }
 
     /**

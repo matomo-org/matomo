@@ -884,7 +884,7 @@ class Http
                 $header = '';
                 // redirects are included in the output html, so we look for the last line that starts w/ HTTP/...
                 // to split the response
-                while (substr($response, 0, 5) == "HTTP/") {
+                while (str_starts_with($response, "HTTP/")) {
                     $split = explode("\r\n\r\n", $response, 2);
 
                     if (count($split) == 2) {
