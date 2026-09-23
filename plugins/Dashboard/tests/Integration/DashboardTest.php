@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\Dashboard\tests\Integration;
 
 use Piwik\Plugins\Dashboard\Dashboard;
+use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
@@ -116,5 +117,58 @@ class DashboardTest extends IntegrationTestCase
         $decoded = $this->dashboard->decodeLayout($layout);
 
         $this->assertSame('', $decoded[0][0]->uniqueId);
+    }
+
+    public function testRemoveWidgetsNotAvailableToUserKeepsAnAvailableWidget()
+    {
+        $layout = '[[{"uniqueId":"widgetLivewidget","parameters":{"module":"Live","action":"widget"}}]]';
+
+        $columns = $this->getColumnsOfFilteredLayout($layout);
+
+        $this->assertSame('widgetLivewidget', $columns[0][0]->uniqueId);
+    }
+
+    public function testRemoveWidgetsNotAvailableToUserRemovesAWidgetThatNoPluginDefines()
+    {
+        $layout = '[[{"uniqueId":"widgetNoSuchModulenoSuchAction",'
+            . '"parameters":{"module":"NoSuchModule","action":"noSuchAction"}},'
+            . '{"uniqueId":"widgetLivewidget","parameters":{"module":"Live","action":"widget"}}]]';
+
+        $columns = $this->getColumnsOfFilteredLayout($layout);
+
+        $this->assertCount(1, $columns[0]);
+        $this->assertSame('widgetLivewidget', $columns[0][0]->uniqueId);
+    }
+
+    public function testRemoveWidgetsNotAvailableToUserRemovesAWidgetTheUserMayNotSee()
+    {
+        // A superuser creating or copying a dashboard for someone else stores their own widgets in
+        // it. Tour is superuser only, so the same layout must come back differently per user.
+        $layout = '[[{"uniqueId":"widgetTourgetEngagement",'
+            . '"parameters":{"module":"Tour","action":"getEngagement"}}]]';
+
+        FakeAccess::$superUser = true;
+        $asSuperUser = $this->getColumnsOfFilteredLayout($layout);
+
+        FakeAccess::$superUser = false;
+        FakeAccess::$identity = 'eva';
+        $asRegularUser = $this->getColumnsOfFilteredLayout($layout);
+
+        $this->assertCount(1, $asSuperUser[0]);
+        $this->assertCount(0, $asRegularUser[0]);
+    }
+
+    private function getColumnsOfFilteredLayout(string $layout): array
+    {
+        $filtered = $this->dashboard->removeWidgetsNotAvailableToUser($layout);
+
+        return (array) $this->dashboard->decodeLayout($filtered)->columns;
+    }
+
+    public function provideContainerConfig()
+    {
+        return array(
+            'Piwik\Access' => new FakeAccess(),
+        );
     }
 }

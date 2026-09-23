@@ -15,6 +15,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Category\Subcategory;
 use Piwik\Widget\WidgetConfig;
+use Piwik\Widget\WidgetsList;
 use Piwik\Plugin;
 
 class Dashboard extends \Piwik\Plugin
@@ -265,6 +266,66 @@ class Dashboard extends \Piwik\Plugin
 
         $layout = $this->encodeLayout($layoutObject);
         return $layout;
+    }
+
+    /**
+     * Drops every widget of a stored layout that the current user is not allowed to see.
+     *
+     * A layout can name widgets its owner has no access to: a superuser creating, resetting or
+     * copying a dashboard for someone else builds it from their own widget list, and the result is
+     * never re-checked against the user it is saved for. Serving such a widget makes the browser
+     * request an API method that answers 401, which surfaces as a generic request error.
+     *
+     * Must not be called while the widget list is being built: {@see self::addWidgetConfigs()} runs
+     * at that point and would recurse back into here through the default layout.
+     *
+     * @param string|array|object $layout
+     * @return string
+     */
+    public function removeWidgetsNotAvailableToUser($layout)
+    {
+        $layoutObject = $this->decodeLayout($layout);
+
+        if (is_array($layoutObject)) {
+            $layoutObject = (object)array(
+                'config'  => array('layout' => '33-33-33'),
+                'columns' => $layoutObject,
+            );
+        }
+
+        if (empty($layoutObject) || empty($layoutObject->columns)) {
+            return $this->encodeLayout($layoutObject);
+        }
+
+        $availableWidgets = array();
+
+        foreach (WidgetsList::get()->getWidgetConfigs() as $widgetConfig) {
+            $availableWidgets[$widgetConfig->getModule() . '.' . $widgetConfig->getAction()] = true;
+        }
+
+        $columns = (array)$layoutObject->columns;
+
+        foreach ($columns as $index => $column) {
+            $widgets = array();
+
+            foreach ((array)$column as $widget) {
+                // A layout holds widgets as objects, but a caller may hand one over already decoded
+                // into arrays, so read both shapes through the same cast.
+                $parameters = (array)(((array)$widget)['parameters'] ?? array());
+                $module = $parameters['module'] ?? '';
+                $action = $parameters['action'] ?? '';
+
+                if ('' !== $module && isset($availableWidgets[$module . '.' . $action])) {
+                    $widgets[] = $widget;
+                }
+            }
+
+            $columns[$index] = $widgets;
+        }
+
+        $layoutObject->columns = $columns;
+
+        return $this->encodeLayout($layoutObject);
     }
 
     public function decodeLayout($layout)
