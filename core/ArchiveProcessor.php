@@ -538,10 +538,10 @@ class ArchiveProcessor
 
     protected function guessOperationForColumn($column)
     {
-        if (strpos($column, 'max_') === 0) {
+        if (str_starts_with($column, 'max_')) {
             return 'max';
         }
-        if (strpos($column, 'min_') === 0) {
+        if (str_starts_with($column, 'min_')) {
             return 'min';
         }
         return 'sum';

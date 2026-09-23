@@ -215,15 +215,15 @@ class StylesheetUIAssetMerger extends UIAssetMerger
                 $publicPath   = $matches[1] . $relativePath;
             } else {
                 foreach ($webDirs as $absPath => $relativePath) {
-                    if (strpos($baseDirectory, $relativePath) === 0) {
-                        if (strpos($matches[2], '.') === 0) {
+                    if (str_starts_with($baseDirectory, $relativePath)) {
+                        if (str_starts_with($matches[2], '.')) {
                             // eg ../images/ok.png
                             $fileRelative = $baseDirectory . '/' . $matches[2];
                             $fileAbsolute = $absPath . str_replace($relativePath, '', $fileRelative);
                             if (file_exists($fileAbsolute)) {
                                 return $matches[1] . $fileRelative;
                             }
-                        } elseif (strpos($matches[2], 'plugins/') === 0) {
+                        } elseif (str_starts_with($matches[2], 'plugins/')) {
                             // eg plugins/Foo/images/ok.png
                             $fileRelative = substr($matches[2], strlen('plugins/'));
                             $fileAbsolute = $absPath . $fileRelative;

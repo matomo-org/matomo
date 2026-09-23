@@ -279,7 +279,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
     private function isFileOrPathAllowed($allowedFiles, $file)
     {
         foreach ($allowedFiles as $allowedFile) {
-            if (strpos($file, $allowedFile) === 0) {
+            if (str_starts_with($file, $allowedFile)) {
                 return true;
             }
         }

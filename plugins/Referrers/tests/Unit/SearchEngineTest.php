@@ -164,7 +164,7 @@ class SearchEngineTest extends \PHPUnit\Framework\TestCase
         // Get list of existing favicons
         $favicons = scandir(PIWIK_PATH_TEST_TO_ROOT . '/plugins/Morpheus/icons/dist/searchEngines/');
         foreach ($favicons as $name) {
-            if ($name[0] == '.' || strpos($name, 'xx.') === 0) {
+            if ($name[0] == '.' || str_starts_with($name, 'xx.')) {
                 continue;
             }
 

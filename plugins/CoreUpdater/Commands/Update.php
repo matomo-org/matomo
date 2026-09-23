@@ -344,7 +344,7 @@ class Update extends ConsoleCommand
     {
         $dimensions = array();
         foreach ($componentsWithUpdateFile as $componentName => $updates) {
-            if (0 === strpos($componentName, 'log_')) {
+            if (str_starts_with($componentName, 'log_')) {
                 $dimensions[] = $componentName;
             }
         }

@@ -397,7 +397,7 @@ class LogAggregator
 
                 if ($logTable->getDateTimeColumn()) {
                     $whereTest = $this->getWhereStatement($logTable->getName(), $logTable->getDateTimeColumn());
-                    if (strpos($where, $whereTest) === 0) {
+                    if (str_starts_with($where, $whereTest)) {
                         // we don't need to apply the where statement again as it would have been applied already
                         // in the temporary table... instead it should join the tables through the idvisit index
                         $where = ltrim(str_replace($whereTest, '', $where));
@@ -1524,7 +1524,7 @@ class LogAggregator
         foreach ($row as $label => $count) {
             if (
                 empty($lookForThisPrefix)
-                || strpos($label, $lookForThisPrefix) === 0
+                || str_starts_with($label, $lookForThisPrefix)
             ) {
                 $cleanLabel = substr($label, strlen($lookForThisPrefix));
                 $cleanRow[$cleanLabel] = array($columnName => $count);

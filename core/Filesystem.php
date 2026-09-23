@@ -563,7 +563,7 @@ class Filesystem
     private static function isPathWithinTmpFolder($path)
     {
         $pathIsTmp = StaticContainer::get('path.tmp');
-        $isPathWithinTmpFolder = strpos($path, $pathIsTmp) === 0;
+        $isPathWithinTmpFolder = str_starts_with($path, $pathIsTmp);
         return $isPathWithinTmpFolder;
     }
 
