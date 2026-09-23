@@ -799,7 +799,7 @@ class ArchivingHelper
         if (
             $actionType === Action::TYPE_PAGE_URL
             && $label !== self::getUnknownActionName(Action::TYPE_PAGE_URL)
-            && substr($label, 0, 1) !== '/'
+            && !str_starts_with($label, '/')
         ) {
             return '/' . $label;
         }

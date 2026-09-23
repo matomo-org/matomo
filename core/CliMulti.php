@@ -282,7 +282,7 @@ class CliMulti
             if (
                 !empty($content)
                 && is_string($content)
-                && mb_substr(trim($content), 0, strlen($search)) === $search
+                && str_starts_with(trim($content), $search)
             ) {
                 $content = trim(mb_substr(trim($content), strlen($search)));
             }
