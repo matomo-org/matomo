@@ -77,10 +77,10 @@ abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSet
     protected static function getGranularStatusLegend(): string
     {
         $items = [
-            'General_ComplianceStatusLegendCompliant2',
-            'General_ComplianceStatusLegendCompliantEnforced',
-            'General_ComplianceStatusLegendNonCompliant2',
-            'General_ComplianceStatusLegendManual2',
+            'General_ComplianceCNILStatusLegendCompliant',
+            'General_ComplianceCNILStatusLegendCompliantEnforced',
+            'General_ComplianceCNILStatusLegendNonCompliant',
+            'General_ComplianceCNILStatusLegendManual',
         ];
 
         $legend = '';
