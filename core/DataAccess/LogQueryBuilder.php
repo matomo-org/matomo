@@ -13,7 +13,7 @@ use Exception;
 use Piwik\Common;
 use Piwik\DataAccess\LogQueryBuilder\JoinGenerator;
 use Piwik\DataAccess\LogQueryBuilder\JoinTables;
-use Piwik\DbHelper;
+use Piwik\Db;
 use Piwik\Plugin\LogTablesProvider;
 use Piwik\Segment\SegmentExpression;
 
@@ -332,15 +332,20 @@ class LogQueryBuilder
      * Whether log_visit still has the index the hint names. It has been in the schema since 2011, so
      * this only answers false where it was removed by hand.
      *
+     * Asked of the reader rather than through DbHelper, because the reader is what runs the hinted
+     * query and it need not be a replication replica of the writer.
+     *
      * @return bool
      */
     private function hasVisitTimeIndex()
     {
         if (null === $this->hasVisitTimeIndex) {
-            $this->hasVisitTimeIndex = DbHelper::tableHasIndex(
-                Common::prefixTable('log_visit'),
-                self::LOG_VISIT_TIME_INDEX
+            $index = Db::getReader()->fetchOne(
+                'SHOW INDEX FROM `' . Common::prefixTable('log_visit') . '` WHERE Key_name = ?',
+                [self::LOG_VISIT_TIME_INDEX]
             );
+
+            $this->hasVisitTimeIndex = !empty($index);
         }
 
         return $this->hasVisitTimeIndex;
