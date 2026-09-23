@@ -4,7 +4,7 @@
 		<label>blog</label>
 		<nb_visits>15</nb_visits>
 		<nb_hits>18</nb_hits>
-		<sum_time_spent>158</sum_time_spent>
+		<sum_time_spent>159</sum_time_spent>
 		<nb_hits_with_time_network>1</nb_hits_with_time_network>
 		<min_time_network>0.0100</min_time_network>
 		<max_time_network>0.0100</max_time_network>
@@ -70,7 +70,7 @@
 				<label>category</label>
 				<nb_visits>12</nb_visits>
 				<nb_hits>15</nb_hits>
-				<sum_time_spent>158</sum_time_spent>
+				<sum_time_spent>159</sum_time_spent>
 				<nb_hits_with_time_network>0</nb_hits_with_time_network>
 				<min_time_network />
 				<max_time_network />
@@ -250,7 +250,7 @@
 						<label>community</label>
 						<nb_visits>2</nb_visits>
 						<nb_hits>3</nb_hits>
-						<sum_time_spent>7</sum_time_spent>
+						<sum_time_spent>8</sum_time_spent>
 						<nb_hits_with_time_network>0</nb_hits_with_time_network>
 						<min_time_network />
 						<max_time_network />
@@ -299,7 +299,7 @@
 						<entry_nb_visits_percent_of_total>2%</entry_nb_visits_percent_of_total>
 						<entry_nb_actions_percent_of_total>1.4%</entry_nb_actions_percent_of_total>
 						<exit_nb_visits_percent_of_total>2.1%</exit_nb_visits_percent_of_total>
-						<avg_time_on_page>2</avg_time_on_page>
+						<avg_time_on_page>3</avg_time_on_page>
 						<bounce_rate>100%</bounce_rate>
 						<exit_rate>50%</exit_rate>
 						<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory%252Fcommunity</segment>
@@ -308,7 +308,7 @@
 								<label>/index</label>
 								<nb_visits>2</nb_visits>
 								<nb_hits>3</nb_hits>
-								<sum_time_spent>7</sum_time_spent>
+								<sum_time_spent>8</sum_time_spent>
 								<nb_hits_with_time_network>0</nb_hits_with_time_network>
 								<min_time_network />
 								<max_time_network />
@@ -360,7 +360,7 @@
 								<entry_nb_visits_percent_of_total>2%</entry_nb_visits_percent_of_total>
 								<entry_nb_actions_percent_of_total>1.4%</entry_nb_actions_percent_of_total>
 								<exit_nb_visits_percent_of_total>2.1%</exit_nb_visits_percent_of_total>
-								<avg_time_on_page>2</avg_time_on_page>
+								<avg_time_on_page>3</avg_time_on_page>
 								<bounce_rate>100%</bounce_rate>
 								<exit_rate>50%</exit_rate>
 								<url>http://piwik.net/blog/category/community/</url>

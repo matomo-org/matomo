@@ -73,10 +73,8 @@ class Updates_6_0_0_b4 extends PiwikUpdates
             'index_idsite_server_time'
         );
 
-        // Covering indexes for the legacy time-on-page anti-join: its per-row NOT EXISTS probe
-        // filters on (idvisit, idaction_url|idaction_name, time_spent), and without these every
-        // probe falls back to ~pageviews-per-visit primary-key row fetches (measured ~10x slower
-        // day archiving on 1.7M rows/day once accurate data exists).
+        // The legacy time-on-page anti-join probes per row on (idvisit, idaction_url|idaction_name),
+        // which a visit's own actions already narrow to a row or two.
         $migrations[] = $this->migration->db->addIndex(
             'log_page_view_time',
             ['idvisit', 'idaction_url', 'time_spent'],

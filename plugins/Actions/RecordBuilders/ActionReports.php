@@ -838,27 +838,27 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
                  AND log_link_visit_action.%s > 0"
             . $this->getWhereClauseActionIsNotEvent();
 
-        // Keyed on the credited action, since time_spent_ref_action credits the previous page.
-        // The time_spent > 0 guard keeps the legacy value where the writer captured nothing:
-        // a trailing page-view with no following hit, or data predating the writer.
-        //
-        // The key is per (visit, action), not per pageview instance, so a page viewed twice
-        // shares one decision. Both instances carry their own time, because every hit closes
-        // the most recent row whether or not it has a pv_id.
-        $whereUrl = $whereBase . "
+        // Keyed on the credited action, since time_spent_ref_action credits the previous page,
+        // and on time, because a page viewed twice in one visit has a row per view. Drop the
+        // legacy value only where the interval it credits overlaps the span a row measured,
+        // which is server_time through server_time + time_spent. Matching on the action alone
+        // would let one closed row suppress every other view of that page, including views the
+        // writer never captured, whose time would then be counted by neither path; requiring
+        // the hit itself to fall inside the span would miss the hit that closed a row the cap
+        // cut short, and count its interval twice. A row that was never closed spans nothing.
+        $spanCovered = "
                  AND NOT EXISTS (
                         SELECT 1 FROM `$pageViewTimeTable` AS pvt
                          WHERE pvt.idvisit = log_link_visit_action.idvisit
-                           AND pvt.idaction_url = log_link_visit_action.idaction_url_ref
-                           AND pvt.time_spent > 0
+                           AND pvt.%s = log_link_visit_action.%s
+                           AND pvt.server_time < log_link_visit_action.server_time
+                           AND log_link_visit_action.server_time
+                               - INTERVAL log_link_visit_action.time_spent_ref_action SECOND
+                               < pvt.server_time + INTERVAL pvt.time_spent SECOND
                      )";
-        $whereName = $whereBase . "
-                 AND NOT EXISTS (
-                        SELECT 1 FROM `$pageViewTimeTable` AS pvt
-                         WHERE pvt.idvisit = log_link_visit_action.idvisit
-                           AND pvt.idaction_name = log_link_visit_action.idaction_name_ref
-                           AND pvt.time_spent > 0
-                     )";
+
+        $whereUrl = $whereBase . sprintf($spanCovered, 'idaction_url', 'idaction_url_ref');
+        $whereName = $whereBase . sprintf($spanCovered, 'idaction_name', 'idaction_name_ref');
 
         $groupBy = "log_link_visit_action.%s";
 

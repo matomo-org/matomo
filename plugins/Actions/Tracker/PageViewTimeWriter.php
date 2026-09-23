@@ -51,7 +51,8 @@ class PageViewTimeWriter
     }
 
     /**
-     * Cap applied at write time only; the archiver sums already-capped values.
+     * Bounds one measurement, not a page's reported total: the archiver sums already-capped
+     * rows, and the legacy metric it falls back to has never had a per-page bound either.
      */
     private static function getVisitStandardLength(): int
     {

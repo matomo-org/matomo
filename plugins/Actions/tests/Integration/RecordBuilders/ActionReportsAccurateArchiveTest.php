@@ -358,6 +358,87 @@ class ActionReportsAccurateArchiveTest extends IntegrationTestCase
         return $sum;
     }
 
+    /**
+     * Two tabs on the same visit, the second revisiting a page the first already left.
+     *
+     * The second view's row is never closed, so its interval reaches the report only through
+     * the legacy metric. Matching the anti-join on the action alone would let the first view's
+     * closed row suppress it, and the seconds would be counted by neither path.
+     */
+    public function testSecondViewOfAPageKeepsItsLegacyTimeWhileTheFirstViewIsAccurate(): void
+    {
+        $day = '2026-06-28';
+
+        $tracker = Fixture::getTracker($this->idSite, $day . ' 12:00:00', true, true);
+        $tracker->setTokenAuth(Fixture::getTokenAuth());
+
+        // Tab 1 reads /repeat for 10s, then moves to /other.
+        $tracker->setUrl('https://example.org/repeat');
+        $tracker->setPageviewId('aaaaaa');
+        Fixture::checkResponse($tracker->doTrackPageView('Repeat'));
+
+        $tracker->setForceVisitDateTime($day . ' 12:00:10');
+        $tracker->setUrl('https://example.org/other');
+        $tracker->setPageviewId('bbbbbb');
+        Fixture::checkResponse($tracker->doTrackPageView('Other'));
+
+        // Tab 2 opens /repeat again. This closes /other's row, not the first /repeat row.
+        $tracker->setForceVisitDateTime($day . ' 12:00:20');
+        $tracker->setUrl('https://example.org/repeat');
+        $tracker->setPageviewId('cccccc');
+        Fixture::checkResponse($tracker->doTrackPageView('Repeat'));
+
+        // Tab 1 downloads a file, carrying tab 1's pv_id, so /other's row grows instead of the
+        // second /repeat row. Legacy credits /repeat, because tab 2 moved the visit exit url.
+        $tracker->setForceVisitDateTime($day . ' 12:00:30');
+        $tracker->setPageviewId('bbbbbb');
+        Fixture::checkResponse($tracker->doTrackAction('https://example.org/file.zip', 'download'));
+
+        (new CronArchive())->main();
+
+        $rows = $this->readPageUrlRows('day', $day);
+
+        // 10s measured for the first view, 10s from legacy for the second.
+        $this->assertSame(20, (int) ($rows['https://example.org/repeat']['sum_time_spent'] ?? -1));
+        $this->assertSame(20, (int) ($rows['https://example.org/other']['sum_time_spent'] ?? -1));
+    }
+
+    /**
+     * A page held longer than visit_standard_length, so its measured span is capped.
+     *
+     * The hit that closed the row then sits beyond the capped span. Its legacy value still
+     * covers the same interval, so counting it on top of the capped one would report the page
+     * twice over.
+     */
+    public function testAPageHeldPastTheCapIsNotCountedTwice(): void
+    {
+        $day = '2026-06-29';
+
+        $tracker = Fixture::getTracker($this->idSite, $day . ' 12:00:00', true, true);
+        $tracker->setTokenAuth(Fixture::getTokenAuth());
+        $tracker->setUrl('https://example.org/long');
+        $tracker->setPageviewId('aaaaaa');
+        Fixture::checkResponse($tracker->doTrackPageView('Long'));
+
+        // An event moves visit_last_action_time, so the legacy value credited later is measured
+        // from here rather than from the pageview.
+        $tracker->setForceVisitDateTime($day . ' 12:00:10');
+        Fixture::checkResponse($tracker->doTrackEvent('Video', 'play'));
+
+        // Still the same visit: the window is measured from the last action, not the pageview.
+        $tracker->setForceVisitDateTime($day . ' 12:30:05');
+        $tracker->setUrl('https://example.org/next');
+        $tracker->setPageviewId('bbbbbb');
+        Fixture::checkResponse($tracker->doTrackPageView('Next'));
+
+        (new CronArchive())->main();
+
+        $rows = $this->readPageUrlRows('day', $day);
+
+        // Capped at visit_standard_length, not 1800 + the 1795s legacy value on top.
+        $this->assertSame(1800, (int) ($rows['https://example.org/long']['sum_time_spent'] ?? -1));
+    }
+
     private function readPageUrlRows(string $period, string $date, $segment = false): array
     {
         $report = ActionsAPI::getInstance()->getPageUrls($this->idSite, $period, $date, $segment, false, false, -1, false, 'flat');
