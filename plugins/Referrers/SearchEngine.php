@@ -243,7 +243,7 @@ class SearchEngine extends Singleton
             $searchEngineName = 'Google Images';
         } elseif (
             $searchEngineName === 'Google'
-            && (str_contains($query, '&as_') || strpos($query, 'as_') === 0)
+            && (str_contains($query, '&as_') || str_starts_with($query, 'as_'))
         ) {
             $keys = array();
             $key  = UrlHelper::getParameterFromQueryString($query, 'as_q');

@@ -777,13 +777,13 @@ class ArchivingHelper
         $lastSegment = (string) $segments[$lastIndex];
 
         if ($actionType === Action::TYPE_PAGE_URL) {
-            if (strpos($lastSegment, self::URL_ACTION_LEAF_MARKER) === 0) {
+            if (str_starts_with($lastSegment, self::URL_ACTION_LEAF_MARKER)) {
                 $lastSegment = substr($lastSegment, strlen(self::URL_ACTION_LEAF_MARKER));
             }
             $segments[$lastIndex] = $lastSegment;
             $delimiter = self::$actionUrlCategoryDelimiter;
         } else {
-            if (strpos($lastSegment, self::TITLE_ACTION_LEAF_MARKER) === 0) {
+            if (str_starts_with($lastSegment, self::TITLE_ACTION_LEAF_MARKER)) {
                 $lastSegment = substr($lastSegment, strlen(self::TITLE_ACTION_LEAF_MARKER));
             }
             $segments[$lastIndex] = $lastSegment;

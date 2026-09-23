@@ -419,7 +419,7 @@ class Controller extends \Piwik\Plugin\Controller
             foreach ($componentsWithUpdateFile as $name => $filenames) {
                 if ($name == 'core') {
                     $coreToUpdate = true;
-                } elseif (0 === strpos($name, 'log_')) {
+                } elseif (str_starts_with($name, 'log_')) {
                     $dimensionsToUpdate[] = $name;
                 } else {
                     $pluginNamesToUpdate[] = $name;

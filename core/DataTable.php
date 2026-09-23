@@ -1033,7 +1033,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         foreach ($this->getRows() as $row) {
             $columns = $row->getColumns();
             foreach ($columns as $column => $value) {
-                if (strpos($column, $namePrefix) === 0) {
+                if (str_starts_with($column, $namePrefix)) {
                     $columnValues[] = $row->getColumn($column);
                 }
             }

@@ -116,7 +116,7 @@ class Urls extends \Piwik\Settings\Measurable\MeasurableProperty
                 empty($scheme)
                 && strpos($url, '://') === false
             ) {
-                if (strpos($url, '//') === 0) {
+                if (str_starts_with($url, '//')) {
                     $url = 'http:' . $url;
                 } else {
                     $url = 'http://' . $url;
