@@ -14,16 +14,16 @@
         v-if="showSeeAll"
         type="button"
         class="pluginSection__seeAll"
-        :aria-label="translate('Marketplace_SeeAllInCategory', heading)"
+        :aria-label="seeAllAriaLabel"
         @click="$emit('seeAll', sectionId)"
       >
-        <span>{{ translate('Marketplace_SeeAll') }}</span>
+        <span>{{ seeAllLabel }}</span>
         <span class="icon-chevron-right" aria-hidden="true" />
       </button>
     </div>
 
     <PluginGrid
-      :max-cards="visibleCards"
+      :max-cards="maxCards"
       :plugins="plugins"
       :context="context"
       @openDetails="$emit('openDetails', $event)"
@@ -51,7 +51,10 @@ export interface PluginSectionState {
 
 export default defineComponent({
   props: {
-    /** The tab this section links to: `bundles`, `themes`, a category slug, or `other`. */
+    /**
+     * What this section lists: `bundles`, `themes`, a category slug, `other`, or a promotion slug.
+     * Emitted with `seeAll`, which the page turns into the tab or the promotion list it names.
+     */
     sectionId: {
       type: String,
       required: true,
@@ -99,6 +102,16 @@ export default defineComponent({
      */
     showSeeAll(): boolean {
       return this.plugins.length > this.visibleCards;
+    },
+    /** One row's worth; the rest is what "See all" opens. */
+    maxCards(): number {
+      return this.visibleCards;
+    },
+    seeAllLabel(): string {
+      return translate('Marketplace_SeeAll');
+    },
+    seeAllAriaLabel(): string {
+      return translate('Marketplace_SeeAllInCategory', this.heading);
     },
   },
   methods: {

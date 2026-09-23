@@ -38,6 +38,16 @@ class Plugins
     private const CAMPAIGN_MEDIUM_PREFIX = 'app.';
 
     /**
+     * The Marketplace overview, as the campaign medium names it.
+     *
+     * The overview's plugin cards are fetched by its Vue app, so the request that builds a shop
+     * link names the Ajax endpoint rather than the page the link is rendered on. The endpoints
+     * serving that page pass this instead of leaving the medium to be derived; see
+     * {@link getShopCampaignMedium()}.
+     */
+    public const CAMPAIGN_MEDIUM_OVERVIEW = self::CAMPAIGN_MEDIUM_PREFIX . 'marketplace.overview';
+
+    /**
      * Bundles are only sold directly from this core version onwards; before it they go through
      * the free-trial flow.
      *
@@ -79,10 +89,16 @@ class Plugins
         $this->numberFormatter = NumberFormatter::getInstance();
     }
 
-    public function getPluginInfo($pluginName)
+    /**
+     * @param string      $pluginName
+     * @param string|null $campaignMedium the page the plugin's shop links are rendered on, for
+     *                                    callers whose request does not name it - see
+     *                                    {@link CAMPAIGN_MEDIUM_OVERVIEW}
+     */
+    public function getPluginInfo($pluginName, ?string $campaignMedium = null)
     {
         $plugin = $this->marketplaceClient->getPluginInfo($pluginName);
-        $plugin = $this->enrichPluginInformation($plugin);
+        $plugin = $this->enrichPluginInformation($plugin, $campaignMedium);
 
         return $plugin;
     }
@@ -100,20 +116,24 @@ class Plugins
      * Only an already cached list is used. Fetching one to answer for a single plugin would download
      * the whole catalogue where the info request downloads one plugin.
      *
+     * @param string|null $campaignMedium the page the plugin's shop links are rendered on, for
+     *                                    callers whose request does not name it - see
+     *                                    {@link CAMPAIGN_MEDIUM_OVERVIEW}
+     *
      * @return array<string, mixed>
      */
-    public function getPluginInfoPreferringList(string $pluginName): array
+    public function getPluginInfoPreferringList(string $pluginName, ?string $campaignMedium = null): array
     {
         $plugin = $this->marketplaceClient->findInCachedOverviewLists($pluginName);
 
         if (null !== $plugin) {
             // the raw cached list entry, so only the plugin that was asked for is enriched. Going
             // through searchPlugins() would enrich the whole catalogue to return one.
-            return $this->enrichPluginInformation($plugin);
+            return $this->enrichPluginInformation($plugin, $campaignMedium);
         }
 
         // either the lists are cold or this is a plugin they filter out — ask for it directly
-        return $this->getPluginInfo($pluginName);
+        return $this->getPluginInfo($pluginName, $campaignMedium);
     }
 
     public function getLicenseValidInfo($pluginName)
@@ -153,7 +173,11 @@ class Plugins
         );
     }
 
-    public function searchPlugins($query, $sort, $themesOnly, $purchaseType = '')
+    /**
+     * @param string|null $campaignMedium the page the shop links are rendered on, for callers whose
+     *                                    request does not name it - see {@link CAMPAIGN_MEDIUM_OVERVIEW}
+     */
+    public function searchPlugins($query, $sort, $themesOnly, $purchaseType = '', ?string $campaignMedium = null)
     {
         if ($themesOnly) {
             $plugins = $this->marketplaceClient->searchForThemes('', $query, $sort, $purchaseType);
@@ -162,7 +186,7 @@ class Plugins
         }
 
         foreach ($plugins as $index => $plugin) {
-            $plugins[$index] = $this->enrichPluginInformation($plugin);
+            $plugins[$index] = $this->enrichPluginInformation($plugin, $campaignMedium);
         }
 
         return array_values($plugins);
@@ -333,7 +357,7 @@ class Plugins
         return $this->pluginManager->isPluginInstalled($pluginName, true);
     }
 
-    private function enrichPluginInformation($plugin)
+    private function enrichPluginInformation($plugin, ?string $campaignMedium = null)
     {
         if (empty($plugin)) {
             return $plugin;
@@ -346,6 +370,7 @@ class Plugins
         $plugin['lastUpdatedRaw'] = $plugin['lastUpdated'] ?? null;
         $plugin['lastUpdated']  = $this->toShortDate($plugin['lastUpdated']);
         $plugin['categories']   = $this->normaliseCategories($plugin);
+        $plugin['promotions']   = $this->normalisePromotions($plugin);
         $plugin['canBePurchased'] = !$plugin['isDownloadable'] && !empty($plugin['shop']['url']);
 
         if ($plugin['isInstalled']) {
@@ -411,7 +436,7 @@ class Plugins
             && empty($plugin['missingRequirements'])
             && empty($this->getCurrentLicenseFor($plugin));
 
-        $this->addCampaignParametersToShopUrls($plugin);
+        $this->addCampaignParametersToShopUrls($plugin, $campaignMedium);
         $this->addPriceFrom($plugin);
         $this->addBundleSeats($plugin);
         $this->addPluginCoverImage($plugin);
@@ -551,8 +576,11 @@ class Plugins
      * can be traced back to the product and the placement it was started from.
      *
      * Runs before addPriceFrom() so the variation it picks carries the tagged link too.
+     *
+     * @param string|null $campaignMedium the page the links are rendered on; derived from the
+     *                                    request when the caller does not name one
      */
-    private function addCampaignParametersToShopUrls(&$plugin): void
+    private function addCampaignParametersToShopUrls(&$plugin, ?string $campaignMedium = null): void
     {
         if (empty($plugin['shop']['variations']) || !is_array($plugin['shop']['variations'])) {
             return;
@@ -570,7 +598,7 @@ class Plugins
                 $variation['addToCartUrl'],
                 $campaign,
                 self::CAMPAIGN_SOURCE,
-                $this->getShopCampaignMedium(),
+                $campaignMedium ?? $this->getShopCampaignMedium(),
                 self::CAMPAIGN_GROUP,
                 $content,
                 self::CAMPAIGN_PLACEMENT_ADD_TO_CART
@@ -595,8 +623,11 @@ class Plugins
     }
 
     /**
-     * The page the link was rendered on, eg. app.marketplace.overview. Returns null outside a
-     * request, where there is no page to name and the link is left untagged.
+     * The page the current request renders, eg. app.corepluginsadmin.plugins. Returns null outside
+     * a request, where there is no page to name and the link is left untagged.
+     *
+     * Only correct where the page itself is the request. A page whose links are built by an Ajax
+     * endpoint names its placement with $campaignMedium instead, or this reports the endpoint.
      */
     private function getShopCampaignMedium(): ?string
     {
@@ -672,6 +703,37 @@ class Plugins
             $categories,
             static fn ($slug) => is_string($slug) && '' !== $slug
         ));
+    }
+
+    /**
+     * The promotion lists a plugin appears in, as slug => position, so the overview can build a
+     * section for each and order it the way the Marketplace does.
+     *
+     * The position is the plugin's index in the list the Marketplace keeps, so reordering a
+     * promotion is a reordering there and nothing here. A plugin in no list arrives with an empty
+     * map; so does a response cached before the field existed, which is why a missing field is not
+     * distinguished from an empty one.
+     *
+     * @param array<string, mixed> $plugin
+     * @return array<string, int>
+     */
+    private function normalisePromotions(array $plugin): array
+    {
+        $promotions = $plugin['promotions'] ?? [];
+
+        if (!is_array($promotions)) {
+            return [];
+        }
+
+        $normalised = [];
+
+        foreach ($promotions as $slug => $position) {
+            if (is_string($slug) && '' !== $slug && is_numeric($position)) {
+                $normalised[$slug] = (int) $position;
+            }
+        }
+
+        return $normalised;
     }
 
     /**
@@ -773,10 +835,23 @@ class Plugins
         $plugin['numDownloadsPretty'] = $this->numberFormatter->formatNumberCompact($num);
     }
 
+    /**
+     * Adds the status of the consumer's license for the plugin, or '' where it holds none.
+     *
+     * Where the Marketplace could not be reached this falls back to the license the plugin carries,
+     * as {@link getCurrentLicenseFor()} does, rather than reading the missing answer as "no license"
+     * and showing every licensed plugin as unowned. That method is not reused because it also
+     * returns the scalar the Marketplace sets to suppress a bundle's trial, which is not a license
+     * and would hide the consumer's real status for that bundle.
+     */
     private function addConsumerLicenseStatus($plugin): array
     {
-        $consumerPluginLicenseInfo = $this->consumer->getConsumerPluginLicenseStatus();
-        $plugin['licenseStatus'] = $consumerPluginLicenseInfo[$plugin['name']] ?? '';
+        $licenses = $this->consumer->getConsumerPluginLicenses();
+        $license = $licenses === null
+            ? ($plugin['consumer']['license'] ?? null)
+            : ($licenses[$plugin['name']] ?? null);
+
+        $plugin['licenseStatus'] = is_array($license) ? (string) ($license['status'] ?? '') : '';
 
         return $plugin;
     }

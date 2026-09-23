@@ -105,6 +105,7 @@ class ControllerTest extends IntegrationTestCase
             'numDownloadsPretty',
             'owner',
             'priceFrom',
+            'promotions',
         ];
         $conditional = ['downloadNonce', 'isBundle', 'bundleSeats'];
 
@@ -181,6 +182,21 @@ class ControllerTest extends IntegrationTestCase
             ['customisation', 'database', 'development', 'insights', 'integration', 'security'],
             $slugs
         );
+    }
+
+    public function testSearchPluginsCarriesThePromotionPositionsTheHomeSectionsAreOrderedBy()
+    {
+        // the Featured and Best selling rows are built and ordered client-side from this field
+        // alone; the position is the plugin's place in the list the Marketplace keeps
+        $this->pluginsFixture = 'system_v2.0_plugins_sort-lastupdated.json';
+
+        $cards = array_column($this->searchPlugins(), 'promotions', 'name');
+
+        self::assertNotEmpty($cards);
+        self::assertSame(['featured' => 0, 'bestselling' => 1], $cards['CustomReports'] ?? null);
+        self::assertSame(['bestselling' => 4], $cards['UsersFlow'] ?? null);
+        // a plugin in no list reaches the client as an empty map, never as a missing key
+        self::assertSame([], $cards['WooCommerceAnalytics'] ?? null);
     }
 
     public function testGetPluginDetailsReturnsTheFieldsTheListOmits()

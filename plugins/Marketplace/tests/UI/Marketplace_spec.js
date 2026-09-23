@@ -368,6 +368,65 @@ describe("Marketplace", function () {
         });
     });
 
+    // Asserted on the DOM rather than captured: the promoted rows are the same cards the other
+    // captures already cover, and what is being pinned here is their order and where their
+    // "See all" goes, neither of which a screenshot states any more precisely than this does.
+    describe('promoted sections', function () {
+        async function sectionHeadings()
+        {
+            return await page.evaluate(
+                () => [...document.querySelectorAll('.pluginSection__heading')].map((h) => h.textContent.trim())
+            );
+        }
+
+        async function firstSectionCardCount()
+        {
+            return await page.evaluate(
+                () => document.querySelectorAll('.pluginSection:first-child .pluginCard').length
+            );
+        }
+
+        it('leads the overview with Featured, then Best selling, then Bundles', async function () {
+            setEnvironment('superuser', noLicense);
+
+            await page.goto('about:blank');
+            await page.goto(urlBase);
+            await waitForCatalogue();
+
+            const headings = await sectionHeadings();
+
+            expect(headings.slice(0, 3)).to.deep.equal(['Featured', 'Best selling', 'Bundles']);
+        });
+
+        it('opens a promoted row in a list of its own, with a way back', async function () {
+            setEnvironment('superuser', noLicense);
+
+            await page.goto('about:blank');
+            await page.goto(urlBase);
+            await waitForCatalogue();
+
+            const rowCards = await firstSectionCardCount();
+
+            const seeAll = await page.$('.pluginSection:first-child .pluginSection__seeAll');
+            await seeAll.click();
+            await page.waitForSelector('.marketplacePage__backLink', { visible: true });
+
+            // the section stack is gone: this is the promotion's own list, headed by its name
+            expect(await sectionHeadings()).to.deep.equal([]);
+            expect(await page.evaluate(
+                () => document.querySelector('.marketplacePage__resultsHeading').textContent.trim()
+            )).to.equal('Featured');
+            expect(await page.evaluate(
+                () => document.querySelectorAll('.pluginCard').length
+            )).to.be.above(rowCards);
+
+            await (await page.$('.marketplacePage__backLink')).click();
+            await page.waitForSelector('.pluginSection__heading', { visible: true });
+
+            expect((await sectionHeadings())[0]).to.equal('Featured');
+        });
+    });
+
     [noLicense, expiredLicense, exceededLicense].forEach(function (consumer) {
         // when there is no license it should not show a warning! as it could be due to network problems etc
         it('should show a warning if license is ' + consumer, async function() {

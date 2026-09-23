@@ -98,6 +98,38 @@ describe('PluginSection', () => {
     });
   });
 
+  describe('a promoted section, which has no tab', () => {
+    const promoted = { sectionId: 'featured', isCategory: false };
+
+    beforeEach(() => stubViewport(1900));
+
+    it('names itself from its own key rather than as a category', async () => {
+      const wrapper = await mountSection(promoted);
+      expect(wrapper.find('.pluginSection__heading').text()).toBe('Marketplace_Featured');
+    });
+
+    it('asks the page for its own list, as a tabbed section asks for its tab', async () => {
+      const wrapper = await mountSection({ ...promoted, plugins: makePlugins(6) });
+
+      await wrapper.find(seeAll).trigger('click');
+
+      expect(wrapper.emitted('seeAll')).toEqual([['featured']]);
+    });
+
+    it('names itself for a screen reader from its own heading', async () => {
+      const wrapper = await mountSection({ ...promoted, plugins: makePlugins(6) });
+
+      expect(wrapper.find(seeAll).attributes('aria-label'))
+        .toBe('Marketplace_SeeAllInCategory:Marketplace_Featured');
+    });
+
+    it('shows one row of what it holds, like any other section', async () => {
+      const wrapper = await mountSection({ ...promoted, plugins: makePlugins(9) });
+
+      expect(wrapper.findComponent({ name: 'PluginGrid' }).props('maxCards')).toBe(5);
+    });
+  });
+
   describe('grid', () => {
     beforeEach(() => stubViewport(1900));
 

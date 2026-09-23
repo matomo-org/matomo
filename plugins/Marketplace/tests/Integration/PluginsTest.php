@@ -162,7 +162,7 @@ class PluginsTest extends IntegrationTestCase
             'v2.0_consumer-num_users-201-access_token-consumer2_paid1.json'
         );
 
-        $plugin = $this->plugins->getPluginInfo('PaidPlugin1');
+        $plugin = $this->plugins->getPluginInfo('PaidPlugin1', Plugins::CAMPAIGN_MEDIUM_OVERVIEW);
 
         $this->assertNotEmpty($plugin['consumer']['license']);
         $this->assertTrue($plugin['consumer']['license']['isExceeded']);
@@ -397,6 +397,7 @@ class PluginsTest extends IntegrationTestCase
             'licenseStatus' => '',
             'category' => 'customisation',
             'categories' => [],
+            'promotions' => [],
         ];
         $this->assertEquals($expected, $plugin);
     }
@@ -435,6 +436,40 @@ class PluginsTest extends IntegrationTestCase
         $plugin = $this->plugins->getPluginInfo('PaidPlugin1');
 
         self::assertFalse($plugin['isEligibleForFreeTrial']);
+    }
+
+    public function testLicenseStatusFallsBackToTheEmbeddedCopyWhenTheMarketplaceCannotBeReached(): void
+    {
+        // not authenticated, so the consumer lookup has no answer. The cached plugin's own copy
+        // says Active, and reading the missing answer as "no license" would show it as unowned
+        $this->service->returnFixture('v2.0_plugins_PaidPlugin1_info-access_token-consumer3_paid1_custom2.json');
+
+        $plugin = $this->plugins->getPluginInfo('PaidPlugin1');
+
+        self::assertFalse($plugin['isInstalled']);
+        self::assertSame('Active', $plugin['licenseStatus']);
+    }
+
+    public function testLicenseStatusPrefersTheConsumerOverTheEmbeddedCopy(): void
+    {
+        // the same embedded Active license, but a consumer that answers holding none: the plugin
+        // lists are cached for longer, so the consumer is the fresher answer
+        $this->letTheConsumerAnswerHoldingNoLicences();
+        $this->service->returnFixture('v2.0_plugins_PaidPlugin1_info-access_token-consumer3_paid1_custom2.json');
+
+        $plugin = $this->plugins->getPluginInfo('PaidPlugin1');
+
+        self::assertSame('', $plugin['licenseStatus']);
+    }
+
+    public function testLicenseStatusIgnoresTheMarketplacesTrialSuppression(): void
+    {
+        // the scalar that keeps a bundle out of the trial flow is not a license row with a status
+        $this->service->returnFixture('v2.0_plugins_PaidPlugin1_info-license-suppressed.json');
+
+        $plugin = $this->plugins->getPluginInfo('PaidPlugin1');
+
+        self::assertSame('', $plugin['licenseStatus']);
     }
 
     private function letTheConsumerAnswerHoldingNoLicences(): void
@@ -589,12 +624,9 @@ class PluginsTest extends IntegrationTestCase
         string $expectedCampaign,
         string $expectedContent
     ): void {
-        $_GET['module'] = 'Marketplace';
-        $_GET['action'] = 'overview';
-
         $this->service->returnFixture($fixtureName);
 
-        $plugin = $this->plugins->getPluginInfo($pluginName);
+        $plugin = $this->plugins->getPluginInfo($pluginName, Plugins::CAMPAIGN_MEDIUM_OVERVIEW);
 
         self::assertNotEmpty($plugin['shop']['variations']);
 
@@ -627,11 +659,28 @@ class PluginsTest extends IntegrationTestCase
         ];
     }
 
+    public function testGetPluginInfoTagsShopLinksWithTheRequestsPageWhenNoMediumIsNamed(): void
+    {
+        $_GET['module'] = 'CorePluginsAdmin';
+        $_GET['action'] = 'plugins';
+
+        $this->service->returnFixture('v2.0_plugins_NewBundle1_info.json');
+
+        $plugin = $this->plugins->getPluginInfo('NewBundle1');
+
+        self::assertNotEmpty($plugin['shop']['variations']);
+
+        foreach ($plugin['shop']['variations'] as $variation) {
+            parse_str((string) parse_url($variation['addToCartUrl'], PHP_URL_QUERY), $params);
+
+            self::assertSame('app.corepluginsadmin.plugins', $params['mtm_medium']);
+        }
+
+        unset($_GET['module'], $_GET['action']);
+    }
+
     public function testGetPluginInfoLeavesNonMatomoShopLinksUntouched(): void
     {
-        $_GET['module'] = 'Marketplace';
-        $_GET['action'] = 'overview';
-
         // this fixture's cart links point at plugins.piwik.org, which is not a Matomo shop domain
         $this->service->returnFixture('v2.0_plugins_PaidPlugin1_info.json');
 
@@ -957,6 +1006,68 @@ class PluginsTest extends IntegrationTestCase
         self::assertGreaterThan(0, $checked, 'no plugin in the fixture carries a last updated date');
     }
 
+    public function testEnrichedPluginCarriesThePromotionPositionsItIsListedAt()
+    {
+        $this->service->setOnFetchCallback(function ($action) {
+            if ('plugins' !== $action) {
+                return null;
+            }
+
+            return ['plugins' => [
+                $this->promotedPlugin('CustomReports', ['featured' => 0, 'bestselling' => 1]),
+                $this->promotedPlugin('UsersFlow', ['bestselling' => 4]),
+                $this->promotedPlugin('Bandwidth', []),
+                // a response cached before the field existed, which has to read as "no promotions"
+                // rather than reaching the client as a missing key the grouping would have to guard
+                $this->promotedPlugin('LogViewer', null),
+            ]];
+        });
+
+        $plugins = array_column(
+            $this->plugins->searchPlugins($query = '', $sort = Sort::DEFAULT_SORT, $themesOnly = false),
+            'promotions',
+            'name'
+        );
+
+        self::assertSame(['featured' => 0, 'bestselling' => 1], $plugins['CustomReports']);
+        self::assertSame(['bestselling' => 4], $plugins['UsersFlow']);
+        self::assertSame([], $plugins['Bandwidth']);
+        self::assertSame([], $plugins['LogViewer']);
+    }
+
+    /**
+     * The positions cross a trust boundary and are read as numbers by the client, which orders the
+     * rows on them. Anything that is not one is dropped rather than coerced: a slug left in the
+     * response with a null position would otherwise sort to the front of Featured.
+     */
+    public function testEnrichedPluginDropsPromotionEntriesThatAreNotPositions()
+    {
+        $this->service->setOnFetchCallback(function ($action) {
+            if ('plugins' !== $action) {
+                return null;
+            }
+
+            return ['plugins' => [
+                $this->promotedPlugin('CustomReports', [
+                    'featured' => '3',
+                    'bestselling' => null,
+                    'newest' => 'first',
+                    '' => 2,
+                ]),
+                $this->promotedPlugin('UsersFlow', 'featured'),
+            ]];
+        });
+
+        $plugins = array_column(
+            $this->plugins->searchPlugins($query = '', $sort = Sort::DEFAULT_SORT, $themesOnly = false),
+            'promotions',
+            'name'
+        );
+
+        self::assertSame(['featured' => 3], $plugins['CustomReports']);
+        self::assertSame([], $plugins['UsersFlow']);
+    }
+
     public function testEnrichedBundleCarriesItsSeatTierForTheCard()
     {
         $this->service->setOnFetchCallback(function ($action) {
@@ -1065,6 +1176,31 @@ class PluginsTest extends IntegrationTestCase
                 ],
             ],
         ];
+    }
+
+    /**
+     * A plugin as the Marketplace sends it, trimmed to what enrichment reads, carrying the
+     * promotions given. Pass null for a response from before the field existed.
+     *
+     * @param array<string, mixed>|string|null $promotions
+     * @return array<string, mixed>
+     */
+    private function promotedPlugin(string $name, $promotions): array
+    {
+        $plugin = [
+            'name' => $name,
+            'displayName' => $name,
+            'owner' => 'InnoCraft',
+            'isDownloadable' => false,
+            'lastUpdated' => '2026-06-02 21:42:40',
+            'shop' => ['url' => 'https://plugins.matomo.org/' . $name, 'variations' => []],
+        ];
+
+        if (null !== $promotions) {
+            $plugin['promotions'] = $promotions;
+        }
+
+        return $plugin;
     }
 
     public function testSearchPluginsShouldFlagUpdatablePluginsFromTheUpdateSummary()

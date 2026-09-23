@@ -8,6 +8,8 @@
 import { translate, translateOrDefault, ucfirst } from 'CoreHome';
 import {
   PluginTab,
+  SECTION_BESTSELLING,
+  SECTION_FEATURED,
   TAB_ALL,
   TAB_BUNDLES,
   TAB_THEMES,
@@ -20,11 +22,16 @@ import {
  * and its spec relies on loading it without mocking one.
  */
 
-/** The tabs that name a plugin type rather than a category slug, and so have a fixed label. */
+/**
+ * The sections that name a plugin type or a promotion rather than a category slug, and so have a
+ * fixed label. The promoted two have no tab, but their headings are resolved the same way.
+ */
 const TYPE_TAB_KEYS: Record<string, string> = {
   [TAB_ALL]: 'Marketplace_Home',
   [TAB_BUNDLES]: 'Marketplace_Bundles',
   [TAB_THEMES]: 'CorePluginsAdmin_Themes',
+  [SECTION_FEATURED]: 'Marketplace_Featured',
+  [SECTION_BESTSELLING]: 'Marketplace_BestSelling',
 };
 
 /**

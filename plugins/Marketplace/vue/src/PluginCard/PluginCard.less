@@ -28,6 +28,7 @@
   display: flex;
   flex-direction: column;
   padding: @marketplace-card-padding;
+  min-height: @marketplace-card-height;
   border: 1px solid @theme-color-border-alternative;
   border-radius: @marketplace-card-radius;
   background: @theme-color-background-contrast;
@@ -156,7 +157,7 @@
   padding-bottom: 0;
   font-size: 14px;
   line-height: @_lineHeight;
-  color: @theme-color-text-light;
+  color: @theme-color-text-lighter;
   display: -webkit-box;
   -webkit-line-clamp: @_lines;
   -webkit-box-orient: vertical;
@@ -164,36 +165,42 @@
   // No height of its own, deliberately. The clamp sizes the box to the lines it kept, and any
   // height or min-height taller than that is space the browser paints the next line into - which
   // is what left half a fourth line showing under the ellipsis. Cards still line up: the grid
-  // stretches them to a common height and `.pluginCard__actions` pins the CTA with `margin-top`.
+  // stretches them to a common height and `.pluginCard__meta` takes up the slack below.
 }
 
+// Pinned to the foot of the card with the CTA below it, rather than left to follow the
+// description: the grid stretches every card to the tallest, so a one-line description would
+// otherwise leave this row floating halfway up while its neighbours' sat at the bottom. The auto
+// margin lives here rather than on `.pluginCard__actions` - two of them would split the slack
+// between the two rows and pin neither.
 .pluginCard__meta {
   display: flex;
   align-items: safe center;
   justify-content: space-between;
   gap: 8px;
-  margin-top: 8px;
-  font-size: 12px;
-  color: @theme-color-text-light;
+  margin-top: auto;
+  padding-top: 8px;
+  font-size: 11px;
+  color: @theme-color-text-lighter;
 }
 
 .pluginCard__updated {
   display: flex;
   align-items: safe center;
-  gap: 6px;
+  gap: 8px;
   flex: none;
   white-space: nowrap;
 }
 
 .pluginCard__updatedIcon {
-  font-size: 14px;
+  font-size: 11px;
   line-height: 1;
 }
 
 .pluginCard__seats {
   display: flex;
   align-items: safe center;
-  gap: 6px;
+  gap: 8px;
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -201,7 +208,7 @@
 }
 
 .pluginCard__seatsIcon {
-  font-size: 13px;
+  font-size: 11px;
   line-height: 1;
   flex: none;
   color: @theme-color-brand;
@@ -217,8 +224,7 @@
 .pluginCard__actions {
   position: relative;
   z-index: 1;
-  margin-top: auto;
-  padding-top: 14px;
+  padding-top: 15px;
   min-height: 32px;
 
   // override: Materialize .btn draws no focus ring of its own, and the marketplace has always

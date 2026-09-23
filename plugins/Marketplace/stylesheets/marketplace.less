@@ -47,6 +47,12 @@
 // the art floating clear of all four edges.
 @marketplace-card-cover-ratio: ~"11 / 6";
 @marketplace-card-plate-height: 151px;
+// One height for every card, so a row reads as a row whatever its descriptions run to. The tallest
+// a card's content comes to is about 382px - plate, two chips, a title, three clamped description
+// lines, the meta row and the CTA - so this leaves a little air rather than squeezing any card.
+// A `min-height`: the grid stretches items to the tallest in the row anyway, so this is the fixed
+// height in practice, and nothing can clip the CTA if a chip row ever wraps on a narrow card.
+@marketplace-card-height: 404px;
 @marketplace-card-chip-height: 26px;
 @marketplace-card-chip-gap: 6px;
 

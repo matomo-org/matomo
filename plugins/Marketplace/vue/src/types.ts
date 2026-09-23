@@ -99,6 +99,8 @@ export interface PluginCard {
   isNewBundle: boolean;
   isTheme: boolean;
   categories: string[];
+  /** Promotion slug -> the plugin's position in that list, e.g. `{ featured: 0 }`. */
+  promotions: Record<string, number>;
   keywords: string[]; // searched client-side, the way the Marketplace's own query search does
   lastUpdated: string; // localised for display, e.g. "Jun 8, 2026" - never sort on this
   lastUpdatedRaw: string | null; // "2026-06-08 06:34:21", the value to sort on

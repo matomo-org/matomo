@@ -20,6 +20,24 @@ export const TAB_BUNDLES = 'bundles';
 export const TAB_THEMES = 'themes';
 
 /**
+ * The two promoted rows at the top of the overview. Not tabs and not categories: the Marketplace
+ * chooses what is in them and in what order, and "See all" opens a list of its own rather than a
+ * tab - see {@link buildPromoSections} and {@link promotedPlugins}.
+ */
+export const SECTION_FEATURED = 'featured';
+export const SECTION_BESTSELLING = 'bestselling';
+
+/** The promoted sections, in display order. Featured leads, Best selling follows. */
+export const PROMO_SECTIONS = [SECTION_FEATURED, SECTION_BESTSELLING];
+
+/**
+ * Featured is the first thing on the page, so a row of one or two reads as an empty Marketplace
+ * rather than as a short list. Below this many it is left out entirely; every other section shows
+ * from one plugin up.
+ */
+export const FEATURED_MIN_PLUGINS = 4;
+
+/**
  * Everything no category claims. Invented by {@link buildTabs}, not sent by the Marketplace, so
  * that unclassified plugins - most of the catalogue - get a tab of their own.
  */
@@ -37,8 +55,21 @@ export const SORT_NEWEST = 'newest';
 export const SORT_ALPHA = 'alpha';
 export const SORT_DEVELOPER = 'developer';
 
-/** The type tabs, in display order. Category tabs are appended to these by {@link buildTabs}. */
+/**
+ * The tabs that are not categories. Themes is one of them but does not lead the bar with the
+ * others: {@link buildTabs} files it after the category run, beside Other.
+ */
 export const TYPE_TABS = [TAB_ALL, TAB_BUNDLES, TAB_THEMES];
+
+/** The type tabs that lead the bar, in display order. Category tabs follow them. */
+const LEADING_TYPE_TABS = [TAB_ALL, TAB_BUNDLES];
+
+/**
+ * The tabs that close the bar, in display order, after the categories. Neither is a category a
+ * plugin can carry: Themes is a kind of plugin and Other is what no category claimed, so both
+ * would break the alphabetical run they now follow.
+ */
+const TRAILING_TABS = [TAB_THEMES, TAB_OTHER];
 
 export interface PluginTab {
   id: string;
@@ -50,7 +81,10 @@ export interface PluginTab {
 
 /** One row of the overview's section stack: a heading, a row of cards and a "See all". */
 export interface PluginSection {
-  /** The tab the section links to, and what "See all" writes to the `category` hash parameter. */
+  /**
+   * What the section lists: a tab id for the stack, a promotion slug for the promoted rows. Which
+   * of the two "See all" opens is {@link isPromoSection}'s answer rather than a field here.
+   */
   id: string;
   isCategory: boolean;
   /** Every plugin in the section, not only the ones a single row has room for. */
@@ -130,6 +164,43 @@ export function pluginCategories(plugin: PluginCard): string[] {
   ));
 }
 
+/**
+ * The promotion lists this plugin appears in, as slug -> position. Anything malformed reads as no
+ * promotion rather than throwing: a bad position would otherwise decide where a card sits.
+ */
+export function pluginPromotions(plugin: PluginCard): Record<string, number> {
+  const { promotions } = plugin;
+
+  if (!promotions || typeof promotions !== 'object' || Array.isArray(promotions)) {
+    return {};
+  }
+
+  const positions: Record<string, number> = {};
+
+  Object.keys(promotions).forEach((slug) => {
+    const position = promotions[slug];
+
+    if (slug && typeof position === 'number' && Number.isFinite(position)) {
+      positions[slug] = position;
+    }
+  });
+
+  return positions;
+}
+
+/**
+ * Whether the reader already has this plugin, by any route: installed, or covered by a license
+ * whatever its state. A cancelled or expired license still means they have seen the plugin and
+ * decided, so Featured - which is there to introduce plugins - passes over it. A requested trial
+ * is not a licence and does not count.
+ *
+ * Only Featured filters on this. Best selling deliberately shows what the reader owns, so that
+ * owning the popular ones is visible rather than inferred from an absence.
+ */
+export function isOwned(plugin: PluginCard): boolean {
+  return !!plugin.isInstalled || !!plugin.licenseStatus;
+}
+
 /** Whether no category claims this plugin. */
 export function isUnclassified(plugin: PluginCard): boolean {
   return pluginCategories(plugin).length === 0;
@@ -194,6 +265,36 @@ export function sortPlugins(plugins: PluginCard[], sort: string): PluginCard[] {
   }
 }
 
+/**
+ * Bundles by seat tier, smallest first, so the Team, Business and Enterprise ladder reads in the
+ * order it is priced in rather than alphabetically.
+ *
+ * A bundle whose tier carries no number - `bundleSeats` is unset, see `Plugins::addBundleSeats()` -
+ * sorts last: "Unlimited users" is the top of the ladder, and a bundle whose variations disagree
+ * on a tier has no place on it. Ties fall back to the display name, as every other sort does.
+ */
+export function sortBundles(plugins: PluginCard[]): PluginCard[] {
+  return [...plugins].sort((a, b) => {
+    const seatsA = typeof a.bundleSeats === 'number' ? a.bundleSeats : Infinity;
+    const seatsB = typeof b.bundleSeats === 'number' ? b.bundleSeats : Infinity;
+
+    return (seatsA === seatsB ? 0 : seatsA - seatsB)
+      || (a.displayName || '').localeCompare(b.displayName || '');
+  });
+}
+
+/**
+ * How one tab's list is ordered. Bundles have an order of their own - see {@link sortBundles} -
+ * and ignore the sort control; every other tab is {@link sortPlugins}.
+ */
+export function sortTabPlugins(
+  plugins: PluginCard[],
+  sort: string,
+  tabId: string,
+): PluginCard[] {
+  return tabId === TAB_BUNDLES ? sortBundles(plugins) : sortPlugins(plugins, sort);
+}
+
 export function filterPlugins(
   plugins: PluginCard[],
   tabId: string,
@@ -219,7 +320,7 @@ const slugAsLabel: TabLabeller = (tab) => tab.id;
 export function buildTabs(plugins: PluginCard[], labelFor: TabLabeller = slugAsLabel): PluginTab[] {
   const tabs: PluginTab[] = [];
 
-  TYPE_TABS.forEach((id) => {
+  LEADING_TYPE_TABS.forEach((id) => {
     const count = id === TAB_ALL
       ? plugins.length
       : plugins.filter((plugin) => matchesTab(plugin, id)).length;
@@ -248,10 +349,13 @@ export function buildTabs(plugins: PluginCard[], labelFor: TabLabeller = slugAsL
       tabs.push({ id, count: categoryCounts.get(id) as number, isCategory: true });
     });
 
-  const otherCount = plugins.filter((plugin) => matchesTab(plugin, TAB_OTHER)).length;
-  if (otherCount > 0) {
-    tabs.push({ id: TAB_OTHER, count: otherCount, isCategory: true });
-  }
+  TRAILING_TABS.forEach((id) => {
+    const count = plugins.filter((plugin) => matchesTab(plugin, id)).length;
+
+    if (count > 0) {
+      tabs.push({ id, count, isCategory: !TYPE_TABS.includes(id) });
+    }
+  });
 
   return tabs;
 }
@@ -272,6 +376,53 @@ export function buildSections(
       isCategory: tab.isCategory,
       plugins: plugins.filter((plugin) => matchesTab(plugin, tab.id)),
     }));
+}
+
+/**
+ * The promoted rows, in front of the stack {@link buildSections} derives from the tab bar.
+ *
+ * Kept apart from that one on purpose: those sections are a tab's contents by construction, and
+ * these have no tab, so their "See all" opens the promotion's own list - see
+ * {@link promotedPlugins}, which is what both the row and that list are cut from.
+ *
+ * A row the reader has nothing to gain from is left out: Featured hides what they already own, and
+ * then hides itself unless {@link FEATURED_MIN_PLUGINS} plugins are left to show.
+ */
+export function isPromoSection(sectionId: string): boolean {
+  return PROMO_SECTIONS.includes(sectionId);
+}
+
+/**
+ * Everything one promotion holds, in the Marketplace's order: the row shows the first cards of
+ * this and its "See all" view shows all of them, so both are the same list cut in two places.
+ *
+ * Ordering is the Marketplace's position rather than the page's sort - promoting a plugin is
+ * pointless if the reader's sort can move it to the bottom of the row - and ties fall back to the
+ * display name so a duplicated position cannot reorder itself between renders.
+ */
+export function promotedPlugins(plugins: PluginCard[], sectionId: string): PluginCard[] {
+  return plugins
+    .filter((plugin) => sectionId in pluginPromotions(plugin))
+    .filter((plugin) => sectionId !== SECTION_FEATURED || !isOwned(plugin))
+    .sort((a, b) => (pluginPromotions(a)[sectionId] - pluginPromotions(b)[sectionId])
+      || (a.displayName || '').localeCompare(b.displayName || ''));
+}
+
+export function buildPromoSections(plugins: PluginCard[]): PluginSection[] {
+  const sections: PluginSection[] = [];
+
+  PROMO_SECTIONS.forEach((id) => {
+    const promoted = promotedPlugins(plugins, id);
+    const minimum = id === SECTION_FEATURED ? FEATURED_MIN_PLUGINS : 1;
+
+    if (promoted.length >= minimum) {
+      sections.push({
+        id, isCategory: false, plugins: promoted,
+      });
+    }
+  });
+
+  return sections;
 }
 
 /**

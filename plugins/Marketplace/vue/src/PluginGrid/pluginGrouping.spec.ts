@@ -8,16 +8,23 @@
 import { PluginCard } from '../types';
 import { makePlugin } from '../testMarketplaceFixtures';
 import {
+  buildPromoSections,
   buildSections,
   buildTabs,
   filterPlugins,
+  isOwned,
   isUnclassified,
   matchesQuery,
   matchesTab,
   ownerLabel,
   pluginCategories,
+  pluginPromotions,
   parseMarketplaceDate,
+  SECTION_BESTSELLING,
+  SECTION_FEATURED,
+  sortBundles,
   sortPlugins,
+  sortTabPlugins,
   SORT_ALPHA,
   SORT_DEVELOPER,
   SORT_LAST_UPDATED,
@@ -97,6 +104,50 @@ describe('Marketplace/pluginGrouping', () => {
         makePlugin({ name: 'newer', lastUpdatedRaw: '2026-01-01 00:00:00' }),
       ];
       expect(names(sortPlugins(plugins, 'nonsense'))).toEqual(['newer', 'older']);
+    });
+  });
+
+  describe('sortBundles', () => {
+    it('does not mutate its argument', () => {
+      const plugins = [makePlugin({ name: 'B', bundleSeats: 20 }), makePlugin({ name: 'A', bundleSeats: 5 })];
+      sortBundles(plugins);
+      expect(names(plugins)).toEqual(['B', 'A']);
+    });
+
+    it('orders by seats ascending', () => {
+      const plugins = [
+        makePlugin({ name: 'business', bundleSeats: 20 }),
+        makePlugin({ name: 'team', bundleSeats: 5 }),
+        makePlugin({ name: 'enterprise', bundleSeats: 100 }),
+      ];
+      expect(names(sortBundles(plugins))).toEqual(['team', 'business', 'enterprise']);
+    });
+
+    it('sorts a bundle with no seat count last, by name', () => {
+      const plugins = [
+        makePlugin({ name: 'unlimited2' }),
+        makePlugin({ name: 'unlimited1' }),
+        makePlugin({ name: 'team', bundleSeats: 5 }),
+      ];
+      expect(names(sortBundles(plugins))).toEqual(['team', 'unlimited1', 'unlimited2']);
+    });
+  });
+
+  describe('sortTabPlugins', () => {
+    it('orders the bundles tab by seats, whatever the sort method', () => {
+      const plugins = [
+        makePlugin({ name: 'aaa', bundleSeats: 20, isBundle: true }),
+        makePlugin({ name: 'zzz', bundleSeats: 5, isBundle: true }),
+      ];
+      expect(names(sortTabPlugins(plugins, SORT_ALPHA, TAB_BUNDLES))).toEqual(['zzz', 'aaa']);
+    });
+
+    it('leaves every other tab to sortPlugins', () => {
+      const plugins = [
+        makePlugin({ name: 'zzz', bundleSeats: 5 }),
+        makePlugin({ name: 'aaa', bundleSeats: 20 }),
+      ];
+      expect(names(sortTabPlugins(plugins, SORT_ALPHA, TAB_ALL))).toEqual(['aaa', 'zzz']);
     });
   });
 
@@ -255,14 +306,14 @@ describe('Marketplace/pluginGrouping', () => {
       ]);
     });
 
-    it('orders type tabs first, then categories alphabetically', () => {
+    it('orders type tabs first, then categories alphabetically, then themes', () => {
       const tabs = buildTabs([
         makePlugin({ name: 'a', categories: ['security'] }),
         makePlugin({ name: 'b', categories: ['customisation'] }),
         makePlugin({ name: 't', isTheme: true }),
       ]);
       expect(tabs.map((t) => t.id))
-        .toEqual([TAB_ALL, TAB_THEMES, 'customisation', 'security']);
+        .toEqual([TAB_ALL, 'customisation', 'security', TAB_THEMES]);
     });
   });
 
@@ -327,6 +378,145 @@ describe('Marketplace/pluginGrouping', () => {
     });
   });
 
+  describe('pluginPromotions', () => {
+    it('reads the positions the Marketplace sent', () => {
+      const plugin = makePlugin({ promotions: { featured: 0, bestselling: 2 } });
+      expect(pluginPromotions(plugin)).toEqual({ featured: 0, bestselling: 2 });
+    });
+
+    it('answers empty for a plugin in no list', () => {
+      expect(pluginPromotions(makePlugin({ promotions: {} }))).toEqual({});
+    });
+
+    it('answers empty rather than throwing for a response from before the field existed', () => {
+      expect(pluginPromotions(makePlugin({ promotions: undefined }))).toEqual({});
+      expect(pluginPromotions(makePlugin({ promotions: null as never }))).toEqual({});
+      expect(pluginPromotions(makePlugin({ promotions: [] as never }))).toEqual({});
+    });
+
+    it('drops an entry whose position is not a number, since the rows order on it', () => {
+      const plugin = makePlugin({
+        promotions: { featured: '1', bestselling: null, newest: NaN, '': 0 } as never,
+      });
+      expect(pluginPromotions(plugin)).toEqual({});
+    });
+  });
+
+  describe('isOwned', () => {
+    it('counts an installed plugin and a licensed one, whatever the licence says', () => {
+      expect(isOwned(makePlugin({ isInstalled: true }))).toBe(true);
+      expect(isOwned(makePlugin({ licenseStatus: 'Active' }))).toBe(true);
+      expect(isOwned(makePlugin({ licenseStatus: 'Cancelled' }))).toBe(true);
+    });
+
+    it('does not count a requested trial, which is not a licence', () => {
+      expect(isOwned(makePlugin({ isTrialRequested: true }))).toBe(false);
+      expect(isOwned(makePlugin())).toBe(false);
+    });
+  });
+
+  describe('buildPromoSections', () => {
+    const featured = (name: string, position: number, overrides = {}) => makePlugin({
+      name,
+      promotions: { featured: position },
+      ...overrides,
+    });
+
+    const enoughFeatured = () => [
+      featured('d', 3),
+      featured('b', 1),
+      featured('a', 0),
+      featured('c', 2),
+    ];
+
+    it('puts Featured before Best selling', () => {
+      const plugins = [
+        ...enoughFeatured(),
+        makePlugin({ name: 'e', promotions: { bestselling: 0 } }),
+      ];
+
+      expect(buildPromoSections(plugins).map((s) => s.id))
+        .toEqual([SECTION_FEATURED, SECTION_BESTSELLING]);
+    });
+
+    it('orders a row by the position the Marketplace gave it, not by name or date', () => {
+      expect(names(buildPromoSections(enoughFeatured())[0].plugins))
+        .toEqual(['a', 'b', 'c', 'd']);
+    });
+
+    it('falls back to the display name when two plugins share a position', () => {
+      const plugins = [
+        featured('d', 1), featured('c', 1), featured('b', 0), featured('a', 0),
+      ];
+      expect(names(buildPromoSections(plugins)[0].plugins)).toEqual(['a', 'b', 'c', 'd']);
+    });
+
+    it('marks the rows as no category, since a promotion is not one', () => {
+      expect(buildPromoSections(enoughFeatured())[0]).toMatchObject({ isCategory: false });
+    });
+
+    it('leaves out of Featured what the reader already has', () => {
+      const plugins = [
+        ...enoughFeatured(),
+        featured('installed', 4, { isInstalled: true }),
+        featured('licensed', 5, { licenseStatus: 'Active' }),
+      ];
+
+      expect(names(buildPromoSections(plugins)[0].plugins)).toEqual(['a', 'b', 'c', 'd']);
+    });
+
+    it('hides Featured entirely once too few are left to fill it', () => {
+      const plugins = [...enoughFeatured(), featured('e', 4)];
+      const owned = plugins.map((plugin, index) => (index < 2
+        ? { ...plugin, isInstalled: true }
+        : plugin));
+
+      // three left is one row of stragglers at the top of the page, so the row goes rather than
+      // shrinks - the threshold counts what is left after the reader's own plugins are dropped
+      expect(buildPromoSections(owned).map((s) => s.id)).toEqual([]);
+    });
+
+    it('keeps Best selling whole, so the reader can see they already have the popular ones', () => {
+      const plugins = [
+        makePlugin({ name: 'a', promotions: { bestselling: 0 }, isInstalled: true }),
+        makePlugin({ name: 'b', promotions: { bestselling: 1 }, licenseStatus: 'Cancelled' }),
+      ];
+
+      const sections = buildPromoSections(plugins);
+
+      expect(sections.map((s) => s.id)).toEqual([SECTION_BESTSELLING]);
+      expect(names(sections[0].plugins)).toEqual(['a', 'b']);
+    });
+
+    it('shows Best selling from a single plugin, unlike Featured', () => {
+      const plugins = [makePlugin({ name: 'a', promotions: { bestselling: 0 } })];
+      expect(buildPromoSections(plugins).map((s) => s.id)).toEqual([SECTION_BESTSELLING]);
+    });
+
+    it('answers empty for a catalogue with nothing promoted', () => {
+      expect(buildPromoSections([makePlugin({ name: 'a' })])).toEqual([]);
+      expect(buildPromoSections([])).toEqual([]);
+    });
+
+    it('lets one plugin lead both rows', () => {
+      const plugins = [
+        ...enoughFeatured(),
+        makePlugin({ name: 'z', promotions: { featured: 4, bestselling: 0 } }),
+      ];
+
+      const sections = buildPromoSections(plugins);
+
+      expect(names(sections[0].plugins)).toEqual(['a', 'b', 'c', 'd', 'z']);
+      expect(names(sections[1].plugins)).toEqual(['z']);
+    });
+
+    it('does not mutate the catalogue it was given', () => {
+      const plugins = enoughFeatured();
+      buildPromoSections(plugins);
+      expect(names(plugins)).toEqual(['d', 'b', 'a', 'c']);
+    });
+  });
+
   describe('buildSections', () => {
     const catalogue = [
       makePlugin({ name: 'Bundle', isBundle: true }),
@@ -338,7 +528,7 @@ describe('Marketplace/pluginGrouping', () => {
 
     it('follows the tab order, without the all tab', () => {
       expect(buildSections(catalogue).map((s) => s.id))
-        .toEqual([TAB_BUNDLES, TAB_THEMES, 'customisation', 'security', TAB_OTHER]);
+        .toEqual([TAB_BUNDLES, 'customisation', 'security', TAB_THEMES, TAB_OTHER]);
     });
 
     it('holds every plugin of the section, not only the ones a row shows', () => {
@@ -356,7 +546,7 @@ describe('Marketplace/pluginGrouping', () => {
 
     it('lets a theme filed under a category sit in both sections', () => {
       const sections = buildSections([makePlugin({ name: 't', isTheme: true, categories: ['insights'] })]);
-      expect(sections.map((s) => s.id)).toEqual([TAB_THEMES, 'insights']);
+      expect(sections.map((s) => s.id)).toEqual(['insights', TAB_THEMES]);
       expect(sections.every((s) => names(s.plugins).includes('t'))).toBe(true);
     });
 

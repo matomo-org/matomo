@@ -54,6 +54,7 @@
             "specialOffer": "",
             "category": "uncategorised",
             "categories": [],
+            "promotions": {},
             "versions": [
                 {
                     "name": "6.3.5",
@@ -137,6 +138,9 @@
             "specialOffer": "",
             "category": "uncategorised",
             "categories": [],
+            "promotions": {
+                "featured": 4
+            },
             "versions": [
                 {
                     "name": "6.2.2",
@@ -290,6 +294,7 @@
             "specialOffer": "",
             "category": "uncategorised",
             "categories": [],
+            "promotions": {},
             "versions": [
                 {
                     "name": "1.0.0",
@@ -442,6 +447,7 @@
             "specialOffer": "",
             "category": "uncategorised",
             "categories": [],
+            "promotions": {},
             "versions": [
                 {
                     "name": "1.0.0",
@@ -594,6 +600,7 @@
             "specialOffer": "",
             "category": "uncategorised",
             "categories": [],
+            "promotions": {},
             "versions": [
                 {
                     "name": "1.0.0",
@@ -682,6 +689,10 @@
             "specialOffer": "",
             "category": "uncategorised",
             "categories": [],
+            "promotions": {
+                "featured": 2,
+                "bestselling": 2
+            },
             "versions": [
                 {
                     "name": "6.4.0",
@@ -767,6 +778,9 @@
             "specialOffer": "",
             "category": "uncategorised",
             "categories": [],
+            "promotions": {
+                "featured": 5
+            },
             "versions": [
                 {
                     "name": "6.0.14",
@@ -847,6 +861,10 @@
             "specialOffer": "",
             "category": "uncategorised",
             "categories": [],
+            "promotions": {
+                "featured": 0,
+                "bestselling": 1
+            },
             "versions": [
                 {
                     "name": "6.4.12",
@@ -935,6 +953,7 @@
             "specialOffer": "",
             "category": "uncategorised",
             "categories": [],
+            "promotions": {},
             "versions": [
                 {
                     "name": "6.5.2",
@@ -1024,6 +1043,7 @@
             "specialOffer": "",
             "category": "uncategorised",
             "categories": [],
+            "promotions": {},
             "versions": [
                 {
                     "name": "6.3.7",
@@ -1112,6 +1132,9 @@
             "specialOffer": "",
             "category": "uncategorised",
             "categories": [],
+            "promotions": {
+                "featured": 6
+            },
             "versions": [
                 {
                     "name": "6.5.3",
@@ -1197,6 +1220,10 @@
             "specialOffer": "",
             "category": "uncategorised",
             "categories": [],
+            "promotions": {
+                "featured": 1,
+                "bestselling": 0
+            },
             "versions": [
                 {
                     "name": "6.4.0",
@@ -1277,6 +1304,7 @@
             "specialOffer": "",
             "category": "uncategorised",
             "categories": [],
+            "promotions": {},
             "versions": [
                 {
                     "name": "6.1.8",
@@ -1363,6 +1391,9 @@
             "specialOffer": "",
             "category": "uncategorised",
             "categories": [],
+            "promotions": {
+                "featured": 3
+            },
             "versions": [
                 {
                     "name": "6.0.14",
@@ -1451,6 +1482,9 @@
             "specialOffer": "",
             "category": "uncategorised",
             "categories": [],
+            "promotions": {
+                "bestselling": 4
+            },
             "versions": [
                 {
                     "name": "6.0.9",
@@ -1536,6 +1570,7 @@
             "specialOffer": "",
             "category": "uncategorised",
             "categories": [],
+            "promotions": {},
             "versions": [
                 {
                     "name": "6.0.11",
@@ -1620,6 +1655,9 @@
             "specialOffer": "",
             "category": "uncategorised",
             "categories": [],
+            "promotions": {
+                "bestselling": 3
+            },
             "versions": [
                 {
                     "name": "6.0.29",
@@ -1708,6 +1746,7 @@
             "categories": [
                 "database"
             ],
+            "promotions": {},
             "versions": [
                 {
                     "name": "6.0.11",
@@ -1792,6 +1831,7 @@
             "specialOffer": "",
             "category": "uncategorised",
             "categories": [],
+            "promotions": {},
             "versions": [
                 {
                     "name": "6.0.12",
@@ -1874,6 +1914,7 @@
             "specialOffer": "",
             "category": "uncategorised",
             "categories": [],
+            "promotions": {},
             "versions": [
                 {
                     "name": "6.1.9",
@@ -1955,6 +1996,7 @@
             "specialOffer": "",
             "category": "uncategorised",
             "categories": [],
+            "promotions": {},
             "versions": [
                 {
                     "name": "6.0.5",

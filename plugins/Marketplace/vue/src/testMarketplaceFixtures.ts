@@ -21,6 +21,7 @@ export function makePlugin(overrides: Partial<PluginCard> = {}): PluginCard {
     description: '',
     owner: 'someone',
     categories: [],
+    promotions: {},
     keywords: [],
     coverImage: 'https://plugins.matomo.org/img/funnels.png',
     isFree: true,
