@@ -38,7 +38,7 @@
         <div class="granularComplianceEnforceAll" v-if="canSave">
           <div class="granularComplianceEnforceAllText">
             <h3>{{ translate('PrivacyManager_ComplianceEnforceAllTitle') }}</h3>
-            <p>{{ translate('PrivacyManager_ComplianceEnforceAllDescription') }}</p>
+            <p>{{ translate('PrivacyManager_ComplianceCNILEnforceAllDescription') }}</p>
           </div>
           <button
             type="button"
