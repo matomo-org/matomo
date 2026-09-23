@@ -111,16 +111,12 @@ class ActionsRequestProcessor extends RequestProcessor
             && PageViewTimeWriter::isEnabled($request->getIdSiteIfExists())
         ) {
             try {
-                // Writer also runs when $action is null (ping requests) so the active pageview row
-                // accumulates time. Skipped only when the visit row could not be found.
+                // Also runs when $action is null (pings), so the active row keeps accumulating.
                 (new PageViewTimeWriter())->write($action, $visitProperties, $request);
             } catch (\Throwable $e) {
-                // The accurate metric is best-effort: rows that are missing here fall back to the
-                // legacy time_spent_ref_action path at archive time (the archiver only drops a
-                // legacy contribution when an accurate row with time_spent > 0 exists). A failure
-                // must therefore never abort the request — the visit update and the remaining
-                // request processors still have to run (e.g. while log_page_view_time does not
-                // exist yet because core:update has not run after deploying the new version).
+                // Best-effort: a missing row falls back to the legacy path at archive time, so
+                // a failure here must never abort the visit update or the later processors.
+                // Reached e.g. when core:update has not yet created the table after a deploy.
                 StaticContainer::get(LoggerInterface::class)->warning(
                     'Failed to record accurate page view time: {exception}',
                     ['exception' => $e]

@@ -766,11 +766,7 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
             $orderBy = false;
         }
 
-        // Every recorded row already carries the accurate time_spent captured by the tracker
-        // writer (page-views are closed when the next page-view / site-search arrives, and
-        // heartbeats/events keep the current row up to date). Any residual last-visit row that
-        // was never closed shows 0 seconds — matching the legacy semantics where the last hit
-        // in a visit has no next action to derive time_spent_ref_action from.
+        // A row never closed shows 0, matching legacy semantics for the last hit in a visit.
         $select = "log_page_view_time.%s as idaction, $extraSelects
                 SUM(log_page_view_time.time_spent) as `" . PiwikMetrics::INDEX_PAGE_SUM_TIME_SPENT . "`";
 
@@ -837,24 +833,18 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         $select = "log_link_visit_action.%s as idaction, $extraSelects
                 sum(log_link_visit_action.time_spent_ref_action) as `" . PiwikMetrics::INDEX_PAGE_SUM_TIME_SPENT . "`";
 
-        // Base filters shared by both the URL and name queries.
         $whereBase = $logAggregator->getWhereStatement('log_link_visit_action', 'server_time');
         $whereBase .= " AND log_link_visit_action.time_spent_ref_action > 0
                  AND log_link_visit_action.%s > 0"
             . $this->getWhereClauseActionIsNotEvent();
 
-        // Anti-join keyed on the *credited* action: `time_spent_ref_action` credits the previous
-        // page (via `idaction_url_ref` / `idaction_name_ref`), so we drop a legacy row iff the
-        // accurate writer already recorded time for that credited page in the same visit. The
-        // `pvt.time_spent > 0` guard keeps the legacy contribution where accurate captured
-        // nothing, e.g. a trailing page-view with no following hit, or rows predating the
-        // writer. When accurate did capture time, the legacy contribution is already covered
-        // and we drop the row to avoid double-counting.
+        // Keyed on the credited action, since time_spent_ref_action credits the previous page.
+        // The time_spent > 0 guard keeps the legacy value where the writer captured nothing:
+        // a trailing page-view with no following hit, or data predating the writer.
         //
-        // The key is per (visit, action), not per pageview *instance*, so the same page viewed
-        // twice in one visit shares one anti-join decision. The writer closes the most recent
-        // row for every hit, with or without pv_id, so both instances carry their own time and
-        // the shared key does not lose one of them.
+        // The key is per (visit, action), not per pageview instance, so a page viewed twice
+        // shares one decision. Both instances carry their own time, because every hit closes
+        // the most recent row whether or not it has a pv_id.
         $whereUrl = $whereBase . "
                  AND NOT EXISTS (
                         SELECT 1 FROM `$pageViewTimeTable` AS pvt

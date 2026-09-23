@@ -233,9 +233,8 @@ class JoinGenerator
         $table = $logTable->getName();
 
         foreach ($availableLogTables as $availableLogTable) {
-            // a join declared between the two tables via getWaysToJoinToOtherLogTables() wins over
-            // the generic per-visit join: the declared column pair is more precise, e.g. joining two
-            // tables that both hold many rows per visit on idvisit alone would multiply their rows
+            // A declared join beats the generic per-visit one: joining two tables that each hold
+            // many rows per visit on idvisit alone would multiply their rows.
             $declaredJoin = $this->findDeclaredWayToJoin($logTable, $availableLogTable);
             if ($declaredJoin !== null) {
                 $join = $declaredJoin;

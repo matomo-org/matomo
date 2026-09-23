@@ -20,43 +20,20 @@ use Piwik\Tracker\Visit\VisitProperties;
 /**
  * Writes accurate per-pageview time-spent rows to log_page_view_time.
  *
- * Designed for the hot tracker path:
- *  - Single SQL statement per call (no SELECTs on the write path).
- *  - UPSERT keyed on (idvisit, idlink_va) so a retried tracker request for the same
- *    log_link_visit_action row is idempotent, and multi-tab attribution relies on the
- *    per-action idlink_va rather than the potentially-shared pv_id (a single page-view
- *    plus its site-search hit share the same pv_id but have distinct idlink_va values).
- *  - The visit_standard_length cap is applied in SQL so we never need a round-trip to read it
- *    or compute it client-side per row.
- *
- * Per-tab accuracy is best-effort: the class assumes the browser supplies a per-tab `pv_id`.
- * When it is present, every hit reaches the exact tab's row. Without one, a non-pageview hit
- * falls back to the most recent row in the visit, matching how the legacy path attributes it.
- *
- * Note: `closePreviousPageView()` picks the most recent row in the visit that is not the
- * currently-inserting one, and pv_id-less hits resolve the same way. With two tabs open, a
- * new pageview in tab A closes whichever
- * *earlier* row was most recent — that may be tab B, meaning tab B is credited with any
- * time up to A's server_time. This is an approximation; treat it as "reasonable" rather
- * than "per-tab exact" for interleaved multi-tab sessions.
+ * Attribution is per tab while the browser supplies `pv_id`. Without one, a hit closes the
+ * most recent row in the visit instead, which is also the row the legacy path credits. With
+ * two tabs open that most-recent row may belong to the other tab, so treat multi-tab
+ * attribution as reasonable rather than exact.
  *
  * Accepted residual inaccuracies (deliberate, do not "fix" without revisiting the design):
- *  - Cross-midnight visits (only possible with the non-default
- *    `create_new_visit_after_midnight = 0`): a day-2 hit can close a day-1 row after day 1
- *    was already archived, leaving that archive stale while the anti-join drops the day-2
- *    legacy credit. Core accepts the same staleness class for visit metrics under that
- *    setting (a continuing visit changes yesterday's aggregates without invalidation), and
- *    invalidating here would re-archive yesterday every day on such installs. With the
- *    default setting both UPDATEs are scoped to the current visit, which cannot span
- *    midnight, so day-1 rows are never touched from day 2.
- *  - Partial failure: if this writer's INSERT fails while the same hit's
- *    log_link_visit_action INSERT succeeded, the visit has a recorded action without a pvt
- *    row; a later hit of any kind can then grow the previous row across the gap while the
- *    legacy path still credits the missing action, overcounting that interval once. Only the
- *    INSERT causes this - a failed close leaves the row at 0, which the anti-join treats as
- *    absent.
- *    The inconsistency is between llva and pvt, so coupling the two would violate the fault
- *    isolation above.
+ *  - Cross-midnight visits, only reachable with `create_new_visit_after_midnight = 0`: a
+ *    day-2 hit can close a day-1 row after day 1 was archived, leaving that archive stale.
+ *    Core accepts the same staleness for visit metrics under that setting, and invalidating
+ *    here would re-archive yesterday every day.
+ *  - Partial failure: if this writer's INSERT fails while the hit's log_link_visit_action
+ *    INSERT succeeded, a later hit grows the previous row across the gap while the legacy
+ *    path still credits the missing action, overcounting that interval once. Only the INSERT
+ *    does this; a failed close leaves the row at 0, which the anti-join treats as absent.
  */
 class PageViewTimeWriter
 {
@@ -65,9 +42,7 @@ class PageViewTimeWriter
     public const DEFAULT_VISIT_STANDARD_LENGTH = 1800;
 
     /**
-     * @return bool True when the tracker should write to log_page_view_time. The kill-switch is
-     *              read via TrackerConfig so it picks up per-INI overrides without restart,
-     *              including per-site `[Tracker_N]` sections when an idSite is given.
+     * Read via TrackerConfig so a per-site `[Tracker_N]` section can override it.
      */
     public static function isEnabled(?int $idSite = null): bool
     {
@@ -76,9 +51,7 @@ class PageViewTimeWriter
     }
 
     /**
-     * @return int visit_standard_length in seconds, used as the SQL-side cap on time_spent.
-     *             The cap is applied at write time only: the archiver sums the already-capped
-     *             values and does not re-cap.
+     * Cap applied at write time only; the archiver sums already-capped values.
      */
     private static function getVisitStandardLength(): int
     {
@@ -108,8 +81,7 @@ class PageViewTimeWriter
         if ($action !== null && $this->isRecordableAction($action)) {
             $idLinkVa = (int) $action->getIdLinkVisitAction();
             if ($idLinkVa <= 0) {
-                // No log_link_visit_action row was produced (recording was skipped upstream);
-                // we would have nothing to key on for the anti-join. Bail out.
+                // No log_link_visit_action row, so nothing for the anti-join to key on.
                 return;
             }
 
@@ -125,8 +97,6 @@ class PageViewTimeWriter
                 $serverTimeSql
             );
 
-            // Cheaper alternative to a correlated-subquery backfill at archive time: at most
-            // one indexed UPDATE per recorded hit, and the archive query can stay flat.
             $this->closePreviousPageView($idVisit, $idLinkVa, $serverTimeSql, $cap);
             return;
         }
@@ -162,23 +132,15 @@ class PageViewTimeWriter
         $table = Common::prefixTable(self::TABLE);
         $db = Tracker::getDatabase();
 
-        // Find the most-recent prior row in this visit, excluding the row this hit just
-        // inserted (idlink_va, and the strict server_time bound).
-        // Ordering by (server_time, idpageviewtime) is deterministic even when concurrent
-        // requests arrive out of chronological order.
+        // The row this hit just inserted is excluded by idlink_va and by the strict
+        // server_time bound. GREATEST() lets out-of-order heartbeats only grow time_spent.
         //
-        // The nested SELECT with a derived table is a workaround for the MySQL restriction that
-        // an UPDATE cannot reference the target table directly in a subquery; it also lets us
-        // avoid `UPDATE ... ORDER BY ... LIMIT 1` (unsafe under statement-based binlog replication).
+        // The derived table works around MySQL not allowing an UPDATE to reference its target
+        // in a subquery, and avoids `UPDATE ... ORDER BY ... LIMIT 1`, which is binlog-unsafe.
         //
-        // GREATEST() ensures out-of-order heartbeats can only grow time_spent; LEAST() caps it
-        // at visit_standard_length so a stalled tab can't inflate one page.
-        //
-        // The cap is interpolated as a numeric literal (not a `?` bind param) because PDO_MYSQL
-        // emulated prepares (the tracker default) sends bound integers as quoted strings, and
-        // `LEAST('1800', 25)` triggers MySQL's string comparison rule ('1800' < '25' lexically)
-        // so the cap wins even when the diff is well below it. `$cap` is a validated int from
-        // Tracker config, safe to inline.
+        // $cap is interpolated rather than bound: PDO_MYSQL emulated prepares (the tracker
+        // default) send bound ints as strings, and LEAST('1800', 25) compares lexically, so
+        // the cap would always win. It is a validated int from Tracker config.
         $sql = "UPDATE `$table`
                    SET time_spent = LEAST($cap, GREATEST(time_spent, TIMESTAMPDIFF(SECOND, server_time, ?)))
                  WHERE idpageviewtime = (
@@ -206,10 +168,8 @@ class PageViewTimeWriter
         $table = Common::prefixTable(self::TABLE);
         $db = Tracker::getDatabase();
 
-        // Single-statement upsert keyed on (idvisit, idlink_va). Idempotent for a retried tracker
-        // request: the second run refreshes idaction_url / idaction_name without disturbing
-        // time_spent accumulated between the two runs (heartbeats between the retries can only
-        // grow it via GREATEST() in updateTimeSpent()).
+        // A retried request must not reset time_spent accumulated since the first run, so the
+        // upsert refreshes the idaction columns only.
         $sql = "INSERT INTO `$table`
                     (idsite, idvisit, idlink_va, idpageview, idaction_url, idaction_name, server_time, time_spent)
                 VALUES (?, ?, ?, ?, ?, ?, ?, 0)
@@ -236,13 +196,9 @@ class PageViewTimeWriter
         $table = Common::prefixTable(self::TABLE);
         $db = Tracker::getDatabase();
 
-        // A page-view and its site-search hit share the same pv_id (the JS tracker does not
-        // rotate pv_id between them), so (idvisit, pv_id) can match multiple rows. Update the
-        // most-recent one — that is the currently-active row for this tab.
-        //
-        // The derived-table form avoids the statement-based-binlog warning that
-        // `UPDATE ... ORDER BY ... LIMIT 1` triggers. `$cap` is inlined for the same reason as
-        // in closePreviousPageView(): PDO emulated prepares would send it as a quoted string.
+        // A page-view and its site-search hit share one pv_id, so (idvisit, pv_id) can match
+        // several rows; the most recent is the active one. Derived table and inlined $cap for
+        // the same reasons as closePreviousPageView().
         $sql = "UPDATE `$table`
                    SET time_spent = LEAST($cap, GREATEST(time_spent, TIMESTAMPDIFF(SECOND, server_time, ?)))
                  WHERE idpageviewtime = (

@@ -55,13 +55,9 @@ class VisitorDetails extends VisitorDetailsAbstract
                 continue; // skip to next page view
             }
 
-            // Prefer the accurate per-pageview time recorded in `log_page_view_time` when
-            // available. It already represents the full time on this page (including events,
-            // content impressions and heartbeats), so we use it directly and skip the legacy
-            // walk-forward summation which would otherwise double-count. A value of `0` means
-            // the row was inserted but never closed (last hit of an in-progress visit, or a
-            // visit that pre-dates the writer), so we fall through to the legacy walk-forward
-            // rather than displaying a spurious 0s.
+            // pageTimeSpent already covers events, content impressions and heartbeats, so the
+            // legacy walk-forward below would double-count. 0 means the row was never closed
+            // (last hit of an open visit, or pre-writer data), so fall through instead.
             if (isset($action['pageTimeSpent']) && (int) $action['pageTimeSpent'] > 0) {
                 $action['timeSpent']       = (int) $action['pageTimeSpent'];
                 $action['timeSpentPretty'] = $formatter->getPrettyTimeFromSeconds($action['timeSpent'], true);
@@ -338,16 +334,9 @@ class VisitorDetails extends VisitorDetailsAbstract
 					log_link_visit_action.time_on_load ) AS pageLoadTime,';
         }
 
-        // LEFT JOIN log_page_view_time so the visit log can surface the new accurate per-pageview
-        // time. The legacy `timeSpentRef` column (`log_link_visit_action.time_spent_ref_action`)
-        // is left unchanged so `provideActionsForVisit()`'s walk-forward aggregation continues to
-        // behave for pre-upgrade visits. The new accurate value is exposed in `pageTimeSpent`,
-        // populated only on rows the tracker writer recorded; `provideActionsForVisit()` prefers
-        // it over the walk-forward when it is > 0.
-        //
-        // Join on idlink_va — a globally unique BIGINT column present on both tables — rather
-        // than idpageview, which on utf8mb3 installs would need a runtime `COLLATE utf8mb4_bin`
-        // (fatal MySQL error 1253 on installs that never upgraded to utf8mb4).
+        // timeSpentRef is kept alongside pageTimeSpent so the walk-forward still works for
+        // pre-writer visits. Joined on idlink_va rather than idpageview: the latter would need
+        // a runtime COLLATE on utf8mb3 installs and fatals there with MySQL error 1253.
         $sql           = "
 				SELECT
 					log_link_visit_action.idvisit,
