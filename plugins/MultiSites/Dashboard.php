@@ -224,7 +224,7 @@ class Dashboard
             } elseif (!$labelMatches) {
                 $group = $site->getMetadata('group');
 
-                if (!$group || false === strpos(strtolower($group), $pattern)) {
+                if (!$group || !str_contains(strtolower($group), $pattern)) {
                     $sitesByGroup->deleteRow($index);
                 }
             }

@@ -988,7 +988,7 @@ class GoalManager
     {
         if (
             str_contains($pattern, '/')
-            && strpos($pattern, '\\/') === false
+            && !str_contains($pattern, '\\/')
         ) {
             $pattern = str_replace('/', '\\/', $pattern);
         }

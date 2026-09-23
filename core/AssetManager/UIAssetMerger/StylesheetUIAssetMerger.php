@@ -203,7 +203,7 @@ class StylesheetUIAssetMerger extends UIAssetMerger
             $absolutePath = PIWIK_DOCUMENT_ROOT . "/$baseDirectory/" . $matches[2];
 
             // Allow to import extension less file
-            if (strpos($matches[2], '.') === false) {
+            if (!str_contains($matches[2], '.')) {
                 $absolutePath .= '.less';
             }
 

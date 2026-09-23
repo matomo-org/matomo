@@ -73,7 +73,7 @@ function getBrowserName($label)
 
     if ($short && array_key_exists($short, $browsers)) {
         return trim(ucfirst($browsers[$short]));
-    } elseif (strlen($label) > 2 && strpos($label, 'UNK') === false) {
+    } elseif (strlen($label) > 2 && !str_contains($label, 'UNK')) {
         return $label;
     }
 

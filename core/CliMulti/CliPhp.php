@@ -85,10 +85,10 @@ class CliPhp
         }
         $path = basename($path);
 
-        return false === strpos($path, 'fpm')
-        && false === strpos($path, 'cgi')
-        && false === strpos($path, 'phpunit')
-        && false === strpos($path, 'lsphp');
+        return !str_contains($path, 'fpm')
+        && !str_contains($path, 'cgi')
+        && !str_contains($path, 'phpunit')
+        && !str_contains($path, 'lsphp');
     }
 
     private function getPhpCommandIfValid($path)

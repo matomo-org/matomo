@@ -162,7 +162,7 @@ class UrlHelper
             return false;
         }
 
-        if (strpos($url, ':') === false) {
+        if (!str_contains($url, ':')) {
             return true;
         }
 
