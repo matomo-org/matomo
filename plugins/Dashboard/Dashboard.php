@@ -15,6 +15,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Category\Subcategory;
 use Piwik\Widget\WidgetConfig;
+use Piwik\Widget\WidgetContainerConfig;
 use Piwik\Widget\WidgetsList;
 use Piwik\Plugin;
 
@@ -293,7 +294,14 @@ class Dashboard extends \Piwik\Plugin
             );
         }
 
-        if (empty($layoutObject) || empty($layoutObject->columns)) {
+        if (empty($layoutObject)) {
+            $layoutObject = (object)array(
+                'config'  => array('layout' => '33-33-33'),
+                'columns' => array(),
+            );
+        }
+
+        if (empty($layoutObject->columns)) {
             return $this->encodeLayout($layoutObject);
         }
 
@@ -301,6 +309,15 @@ class Dashboard extends \Piwik\Plugin
 
         foreach (WidgetsList::get()->getWidgetConfigs() as $widgetConfig) {
             $availableWidgets[$widgetConfig->getModule() . '.' . $widgetConfig->getAction()] = true;
+
+            // A widget can exist only inside a container, and the widget list the browser works from
+            // flattens those one level, so a layout names them directly. Index them too, otherwise
+            // reports such as Event Names or Content Names would be dropped from every dashboard.
+            if ($widgetConfig instanceof WidgetContainerConfig) {
+                foreach ($widgetConfig->getWidgetConfigs() as $containedWidget) {
+                    $availableWidgets[$containedWidget->getModule() . '.' . $containedWidget->getAction()] = true;
+                }
+            }
         }
 
         $columns = (array)$layoutObject->columns;
