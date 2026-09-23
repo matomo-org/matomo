@@ -62,23 +62,21 @@ class VisitDimensionSetAfterConversionTest extends IntegrationTestCase
     }
 
     /**
-     * Only the two conversions that happened after the visit was tagged are credited to the value.
+     * Including the one tracked before the dimension was sent. That conversion carries no value of
+     * its own, so it is credited to the value its visit ended with rather than to nothing.
      */
-    public function testOnlyConversionsThatHappenedAfterTaggingAreCreditedToTheValue(): void
+    public function testEveryConversionOfTheVisitsIsCreditedToTheValue(): void
     {
-        self::assertSame(2, $this->conversionsOf($this->taggedRow()));
+        self::assertSame(3, $this->conversionsOf($this->taggedRow()));
     }
 
     /**
-     * The conversion that happened before the dimension was ever sent is not moved to another row,
-     * it is absent from the report: aggregateFromConversions() filters on
-     * `log_conversion.custom_dimension_N is not null`, and that conversion's snapshot is null.
-     *
-     * So the report accounts for fewer conversions than the goal actually recorded, and no row in it
-     * can be summed to recover the difference. This is the part a reader cannot reconcile, and the
-     * assertion to flip once dev-20706 is fixed.
+     * The report has to account for every conversion the goal recorded. A conversion whose copy of
+     * the dimension is null used to match no row at all, because aggregateFromConversions() filtered
+     * on `log_conversion.custom_dimension_N is not null`, so the report came up short and no row in
+     * it could be summed to recover the difference.
      */
-    public function testTheConversionTrackedBeforeTheDimensionIsMissingFromTheReport(): void
+    public function testTheReportAccountsForEveryConversionTheGoalRecorded(): void
     {
         $inReport = 0;
         foreach ($this->report()->getRows() as $row) {
@@ -86,7 +84,7 @@ class VisitDimensionSetAfterConversionTest extends IntegrationTestCase
         }
 
         self::assertSame(3, $this->conversionsTheGoalRecorded());
-        self::assertSame(2, $inReport, 'the report no longer drops a conversion, dev-20706 is fixed');
+        self::assertSame($this->conversionsTheGoalRecorded(), $inReport);
     }
 
     private function report(): DataTable
