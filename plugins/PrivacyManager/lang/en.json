@@ -64,7 +64,7 @@
         "ComplianceNonCompliant": "Non-compliant",
         "ComplianceComplianceUnknown": "unknown",
         "ComplianceEnforceAllTitle": "Enforce settings that help support consent-exemption alignment where possible",
-        "ComplianceCNILEnforceAllDescription": "By selecting this option, the CNIL consent-exemption settings that can be controlled from this display will be enforced. Note that settings marked as “Managed outside this page” require changes to implementations outside the Matomo instance, e.g., on your privacy notice, your website or systems under your control.",
+        "ComplianceCNILEnforceAllDescription": "By selecting this option, the CNIL consent-exemption settings that can be controlled from this display will be enforced. The changes only take effect once you review and save them, so you can turn individual settings back off before saving. Note that settings marked as “%1$s” require changes to implementations outside the Matomo instance, e.g., on your privacy notice, your website or systems under your control.",
         "ComplianceEnforceAllSettings": "Enforce all settings",
         "ComplianceTableImpact": "Impact",
         "ComplianceStatusEnforced": "Enforced",
