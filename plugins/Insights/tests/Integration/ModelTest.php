@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\Insights\tests\Integration;
 
 use Piwik\Container\StaticContainer;
+use Piwik\Date;
 use Piwik\DataTable;
 use Piwik\Plugins\Insights\Model;
 use Piwik\Plugins\Insights\tests\Fixtures\SomeVisitsDifferentPathsOnTwoDays;
@@ -37,6 +38,15 @@ class ModelTest extends SystemTestCase
         parent::setUp();
 
         $this->model = StaticContainer::getContainer()->make('Piwik\Plugins\Insights\Model');
+
+        Date::$now = null;
+    }
+
+    public function tearDown(): void
+    {
+        Date::$now = null;
+
+        parent::tearDown();
     }
 
     public function testRequestReportShouldReturnTheDataTableOfTheReportAndContainReportTotals()
@@ -112,6 +122,34 @@ class ModelTest extends SystemTestCase
         $total = $this->model->getMetricTotalValue($table, 'unknown_metric');
 
         $this->assertEquals(0, $total);
+    }
+
+    /**
+     * @dataProvider getRelativeDateSpellings
+     */
+    public function testGetLastDateResolvesARelativeDateInTheGivenTimezone($date)
+    {
+        // 04:37 on the 25th for the site, still the 24th for the server.
+        Date::$now = strtotime('2020-12-24 16:37:00');
+
+        $this->assertEquals('2020-12-24', $this->model->getLastDate($date, 'day', 1, 'UTC+12'));
+    }
+
+    public function getRelativeDateSpellings()
+    {
+        return [
+            ['today'],
+            // The date comes from the request, so it arrives in whatever spelling was sent.
+            ['TODAY'],
+            [' today '],
+        ];
+    }
+
+    public function testGetLastDateWithoutATimezoneComparesAgainstTheServerDay()
+    {
+        Date::$now = strtotime('2020-12-24 16:37:00');
+
+        $this->assertEquals('2020-12-23', $this->model->getLastDate('today', 'day', 1));
     }
 
     public function testGetLastDateShouldThrowExceptionIfNotPossibleToGetLastDate()

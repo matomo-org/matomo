@@ -533,8 +533,24 @@ class ProcessedReport
 
         $website = new Site($idSite);
 
-        $period = Period\Factory::build($period, $date);
-        $period = $period->getLocalizedLongString();
+        // Modules such as MultiSites.getAll select their own sites, so the requested site's
+        // timezone is not necessarily the one the rows were selected in.
+        $isMultiplePeriod = Period::isMultiplePeriod($date, $period);
+        $resolvedPeriod = $this->getPeriodFromTable($dataTable, $isMultiplePeriod);
+
+        if ($resolvedPeriod instanceof Period) {
+            $period = $resolvedPeriod->getLocalizedLongString();
+        } else {
+            // The archive only uses a site timezone when the request names a single site, and
+            // reads it off the parsed list: $website's id does not survive an array idSite.
+            // Of the two factory methods, only build() accepts a multiple-period date.
+            $idSites  = Site::getIdSitesFromIdSitesString($idSite);
+            $timezone = count($idSites) === 1 ? Site::getTimezoneFor($idSites[0]) : false;
+            $period = $isMultiplePeriod
+                ? Period\Factory::build($period, $date, $timezone)
+                : Period\Factory::makePeriodFromQueryParams($timezone, $period, $date);
+            $period = $period->getLocalizedLongString();
+        }
 
         $return = array(
             'website'        => $website->getName(),
@@ -549,6 +565,46 @@ class ProcessedReport
             $return['timerMillis'] = $timer->getTimeMs(0);
         }
         return $return;
+    }
+
+    private function getPeriodFromTable(DataTable|DataTable\Map $dataTable, bool $spanAsRange = false): ?Period
+    {
+        if ($dataTable instanceof DataTable) {
+            $period = $dataTable->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX);
+            return $period instanceof Period ? $period : null;
+        }
+
+        $firstPeriod = null;
+        $startDate = null;
+        $endDate = null;
+        foreach ($dataTable->getDataTables() as $table) {
+            $period = $this->getPeriodFromTable($table);
+            if ($period === null) {
+                return null;
+            }
+
+            $firstPeriod = $firstPeriod ?? $period;
+            // Compare calendar dates directly; each site's UTC boundaries can differ.
+            $start = $period->getDateStart()->toString();
+            $end = $period->getDateEnd()->toString();
+            $startDate = $startDate === null ? $start : min($startDate, $start);
+            $endDate = $endDate === null ? $end : max($endDate, $end);
+        }
+
+        // A multiple-period date was labelled as a range even when it covers a single period,
+        // so keep that shape rather than naming the one subperiod it reduced to.
+        if (
+            $firstPeriod === null
+            || (!$spanAsRange
+                && $startDate === $firstPeriod->getDateStart()->toString()
+                && $endDate === $firstPeriod->getDateEnd()->toString())
+        ) {
+            return $firstPeriod;
+        }
+
+        // Not Factory::build(): it rejects 'range' on an installation that disabled the period
+        // for the API, and this labels rows already selected rather than requesting a period.
+        return new Period\Range('range', $startDate . ',' . $endDate);
     }
 
     /**
