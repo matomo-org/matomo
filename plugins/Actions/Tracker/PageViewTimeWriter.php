@@ -52,9 +52,10 @@ use Piwik\Tracker\Visit\VisitProperties;
  *  - Partial failure: if this writer's INSERT fails while the same hit's
  *    log_link_visit_action INSERT succeeded, the visit has a recorded action without a pvt
  *    row; a later close can then grow the previous row across the gap while the legacy path
- *    still credits the missing action, overcounting that interval once. No ordering of, or
- *    transaction around, the pvt statements alone can prevent this (the inconsistency is
- *    between llva and pvt), and coupling the two would violate the fault isolation above.
+ *    still credits the missing action, overcounting that interval once. Only the INSERT
+ *    causes this - a failed close leaves the row at 0, which the anti-join treats as absent.
+ *    The inconsistency is between llva and pvt, so coupling the two would violate the fault
+ *    isolation above.
  */
 class PageViewTimeWriter
 {
@@ -111,11 +112,8 @@ class PageViewTimeWriter
                 return;
             }
 
-            // Close the previous row in this visit before inserting the new one. This is the
-            // cheaper alternative to a correlated-subquery backfill at archive time: at most
-            // one indexed UPDATE per recorded hit, and the archive query can stay flat.
-            $this->closePreviousPageView($idVisit, $idLinkVa, $serverTimeSql, $cap);
-
+            // Insert before closing: if the close fails, this row still exists at 0 and the
+            // next hit closes it instead of reaching past it, which would count the gap twice.
             $this->insertPageView(
                 $idSite,
                 $idVisit,
@@ -125,6 +123,10 @@ class PageViewTimeWriter
                 (int) $action->getIdActionName(),
                 $serverTimeSql
             );
+
+            // Cheaper alternative to a correlated-subquery backfill at archive time: at most
+            // one indexed UPDATE per recorded hit, and the archive query can stay flat.
+            $this->closePreviousPageView($idVisit, $idLinkVa, $serverTimeSql, $cap);
             return;
         }
 
@@ -154,8 +156,8 @@ class PageViewTimeWriter
         $table = Common::prefixTable(self::TABLE);
         $db = Tracker::getDatabase();
 
-        // Find the most-recent prior row in this visit (excluding the currently-inserting row,
-        // which is not yet in the table but on retry can already be present via ON DUPLICATE).
+        // Find the most-recent prior row in this visit, excluding the row this hit just
+        // inserted (idlink_va, and the strict server_time bound).
         // Ordering by (server_time, idpageviewtime) is deterministic even when concurrent
         // requests arrive out of chronological order.
         //
