@@ -7,33 +7,10 @@
 
 <template>
   <div v-content-intro>
-    <h2>
-      <EnrichedHeadline
-        :feature-name="translate('CorePluginsAdmin_Marketplace')"
-      >
-        {{ translate('Marketplace_Marketplace') }}
-      </EnrichedHeadline>
-    </h2>
-
-    <div class="marketplaceIntro">
-      <p v-if="!isSuperUser">
-          {{ translate('Marketplace_Intro') }}
-      </p>
-      <p v-else>
-          {{ translate('Marketplace_IntroSuperUser') }}
-      </p>
-    </div>
-
-    <div class="installAllPaidPlugins" v-if="installAllPaidPluginsVisible">
-      <InstallAllPaidPluginsButton
-        :disabled="installDisabled"
-      />
-    </div>
-
     <Marketplace
-      :plugin-type-options="pluginTypeOptions"
       :default-sort="defaultSort"
-      :plugin-sort-options="pluginSortOptions"
+      :install-all-paid-plugins-visible="installAllPaidPluginsVisible"
+      :install-disabled="installDisabled"
       :current-user-email="currentUserEmail"
       :is-auto-update-possible="isAutoUpdatePossible"
       :is-super-user="isSuperUser"
@@ -57,9 +34,8 @@
 import { defineComponent } from 'vue';
 import {
   AjaxHelper,
-  ContentIntro, EnrichedHeadline, MatomoUrl,
+  ContentIntro,
 } from 'CoreHome';
-import { InstallAllPaidPluginsButton } from 'CorePluginsAdmin';
 import Marketplace from '../Marketplace/Marketplace.vue';
 
 import { TObject } from '../types';
@@ -101,16 +77,8 @@ export default defineComponent({
     },
     isPluginUploadEnabled: Boolean,
     uploadLimit: [String, Number],
-    pluginTypeOptions: {
-      type: Object,
-      required: true,
-    },
     defaultSort: {
       type: String,
-      required: true,
-    },
-    pluginSortOptions: {
-      type: Object,
       required: true,
     },
     numUsers: {
@@ -119,8 +87,6 @@ export default defineComponent({
     },
   },
   components: {
-    InstallAllPaidPluginsButton,
-    EnrichedHeadline,
     Marketplace,
   },
   directives: {
@@ -150,9 +116,6 @@ export default defineComponent({
       ) || (
         this.installDisabled && this.installLoading
       )) as boolean;
-    },
-    showThemes(): boolean {
-      return MatomoUrl.hashParsed.value.pluginType as string === 'themes';
     },
   },
   methods: {

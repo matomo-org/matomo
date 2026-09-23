@@ -162,7 +162,7 @@ class PluginsTest extends IntegrationTestCase
             'v2.0_consumer-num_users-201-access_token-consumer2_paid1.json'
         );
 
-        $plugin = $this->plugins->getPluginInfo('PaidPlugin1');
+        $plugin = $this->plugins->getPluginInfo('PaidPlugin1', Plugins::CAMPAIGN_MEDIUM_OVERVIEW);
 
         $this->assertNotEmpty($plugin['consumer']['license']);
         $this->assertTrue($plugin['consumer']['license']['isExceeded']);
@@ -349,6 +349,7 @@ class PluginsTest extends IntegrationTestCase
                     'homepage' => 'http://geekproject.eu',
                  ],],
             'repositoryUrl' => 'https://github.com/halfdan/piwik-barometer-plugin',
+            'lastUpdatedRaw' => '2014-12-23 00:41:21',
             'lastUpdated' => 'Dec 23, 2014',
             'latestVersion' => '0.5.0',
             'numDownloads' => 0,
@@ -357,7 +358,7 @@ class PluginsTest extends IntegrationTestCase
                     'https://plugins.piwik.org/Barometer/images/0.5.0/piwik-barometer-01.png',
                     'https://plugins.piwik.org/Barometer/images/0.5.0/piwik-barometer-02.png',
                 ],
-            'coverImage' => 'https://plugins.piwik.org/img/categories/insights.png',
+            'coverImage' => 'plugins/Marketplace/images/categories/uncategorised.png',
             'previews' =>
                  [ [
                     'type' => 'demo',
@@ -395,6 +396,8 @@ class PluginsTest extends IntegrationTestCase
             'hasDownloadLink' => true,
             'licenseStatus' => '',
             'category' => 'customisation',
+            'categories' => [],
+            'promotions' => [],
         ];
         $this->assertEquals($expected, $plugin);
     }
@@ -433,6 +436,40 @@ class PluginsTest extends IntegrationTestCase
         $plugin = $this->plugins->getPluginInfo('PaidPlugin1');
 
         self::assertFalse($plugin['isEligibleForFreeTrial']);
+    }
+
+    public function testLicenseStatusFallsBackToTheEmbeddedCopyWhenTheMarketplaceCannotBeReached(): void
+    {
+        // not authenticated, so the consumer lookup has no answer. The cached plugin's own copy
+        // says Active, and reading the missing answer as "no license" would show it as unowned
+        $this->service->returnFixture('v2.0_plugins_PaidPlugin1_info-access_token-consumer3_paid1_custom2.json');
+
+        $plugin = $this->plugins->getPluginInfo('PaidPlugin1');
+
+        self::assertFalse($plugin['isInstalled']);
+        self::assertSame('Active', $plugin['licenseStatus']);
+    }
+
+    public function testLicenseStatusPrefersTheConsumerOverTheEmbeddedCopy(): void
+    {
+        // the same embedded Active license, but a consumer that answers holding none: the plugin
+        // lists are cached for longer, so the consumer is the fresher answer
+        $this->letTheConsumerAnswerHoldingNoLicences();
+        $this->service->returnFixture('v2.0_plugins_PaidPlugin1_info-access_token-consumer3_paid1_custom2.json');
+
+        $plugin = $this->plugins->getPluginInfo('PaidPlugin1');
+
+        self::assertSame('', $plugin['licenseStatus']);
+    }
+
+    public function testLicenseStatusIgnoresTheMarketplacesTrialSuppression(): void
+    {
+        // the scalar that keeps a bundle out of the trial flow is not a license row with a status
+        $this->service->returnFixture('v2.0_plugins_PaidPlugin1_info-license-suppressed.json');
+
+        $plugin = $this->plugins->getPluginInfo('PaidPlugin1');
+
+        self::assertSame('', $plugin['licenseStatus']);
     }
 
     private function letTheConsumerAnswerHoldingNoLicences(): void
@@ -587,12 +624,9 @@ class PluginsTest extends IntegrationTestCase
         string $expectedCampaign,
         string $expectedContent
     ): void {
-        $_GET['module'] = 'Marketplace';
-        $_GET['action'] = 'overview';
-
         $this->service->returnFixture($fixtureName);
 
-        $plugin = $this->plugins->getPluginInfo($pluginName);
+        $plugin = $this->plugins->getPluginInfo($pluginName, Plugins::CAMPAIGN_MEDIUM_OVERVIEW);
 
         self::assertNotEmpty($plugin['shop']['variations']);
 
@@ -625,11 +659,28 @@ class PluginsTest extends IntegrationTestCase
         ];
     }
 
+    public function testGetPluginInfoTagsShopLinksWithTheRequestsPageWhenNoMediumIsNamed(): void
+    {
+        $_GET['module'] = 'CorePluginsAdmin';
+        $_GET['action'] = 'plugins';
+
+        $this->service->returnFixture('v2.0_plugins_NewBundle1_info.json');
+
+        $plugin = $this->plugins->getPluginInfo('NewBundle1');
+
+        self::assertNotEmpty($plugin['shop']['variations']);
+
+        foreach ($plugin['shop']['variations'] as $variation) {
+            parse_str((string) parse_url($variation['addToCartUrl'], PHP_URL_QUERY), $params);
+
+            self::assertSame('app.corepluginsadmin.plugins', $params['mtm_medium']);
+        }
+
+        unset($_GET['module'], $_GET['action']);
+    }
+
     public function testGetPluginInfoLeavesNonMatomoShopLinksUntouched(): void
     {
-        $_GET['module'] = 'Marketplace';
-        $_GET['action'] = 'overview';
-
         // this fixture's cart links point at plugins.piwik.org, which is not a Matomo shop domain
         $this->service->returnFixture('v2.0_plugins_PaidPlugin1_info.json');
 
@@ -732,6 +783,51 @@ class PluginsTest extends IntegrationTestCase
                 self::assertStringNotContainsString($piwikProCampaign, $plugin['homepage']);
             }
         }
+    }
+
+    public function testSearchPluginsAnswersTheMarketplacesCoverImagePlaceholdersWithLocalOnes()
+    {
+        $fixture = json_decode($this->service->getFixtureContent('v2.0_plugins.json'), true);
+
+        // both of the Marketplace's own stand-ins - the generic one and a category one - are
+        // placeholders, so both are replaced; a real screenshot is left alone
+        $overrides = [
+            'SecurityInfo' => ['coverImage' => 'https://plugins.piwik.org/img/categories/uncategorised.png'],
+            'CustomAlerts' => ['coverImage' => 'https://plugins.piwik.org/img/categories/insights.png'],
+            'Barometer' => ['coverImage' => 'https://plugins.piwik.org/img/categories/insights.png'],
+            'TreemapVisualization' => [
+                'coverImage' => 'https://plugins.piwik.org/TreemapVisualization/images/1.0.1/_cover.png',
+            ],
+        ];
+
+        foreach ($fixture['plugins'] as $index => $plugin) {
+            if (isset($overrides[$plugin['name']])) {
+                $fixture['plugins'][$index] = array_merge($plugin, $overrides[$plugin['name']]);
+            }
+        }
+
+        $this->service->setOnFetchCallback(function () use ($fixture) {
+            return $fixture;
+        });
+
+        $enriched = [];
+        foreach ($this->plugins->searchPlugins('', Sort::DEFAULT_SORT, false) as $plugin) {
+            $enriched[$plugin['name']] = $plugin['coverImage'];
+        }
+
+        $uncategorised = 'plugins/Marketplace/images/categories/uncategorised.png';
+
+        // the generic stand-in, a category one and none at all all land on the same fallback,
+        // whoever owns the plugin: SecurityInfo and CustomAlerts are Matomo's, Barometer is not
+        $this->assertSame($uncategorised, $enriched['SecurityInfo']);
+        $this->assertSame($uncategorised, $enriched['CustomAlerts']);
+        $this->assertSame($uncategorised, $enriched['Barometer']);
+        $this->assertSame($uncategorised, $enriched['PaidPlugin1']);
+        // a real screenshot is the one thing that survives
+        $this->assertSame(
+            $overrides['TreemapVisualization']['coverImage'],
+            $enriched['TreemapVisualization']
+        );
     }
 
     public function testGetAllPaidPluginsShouldFetchOnlyPaidPlugins()
@@ -875,6 +971,236 @@ class PluginsTest extends IntegrationTestCase
         // enriching the list must not resolve each updatable plugin's info, which used to cost one
         // extra request per plugin having an update
         $this->assertSame(['plugins', 'plugins/checkUpdates'], $apis);
+    }
+
+    public function testEnrichedPluginKeepsASortableDateAlongsideTheDisplayedOne()
+    {
+        $this->service->returnFixture('v2.0_plugins.json');
+        $plugins = $this->plugins->searchPlugins($query = '', $sort = Sort::DEFAULT_SORT, $themesOnly = false);
+
+        self::assertNotEmpty($plugins);
+
+        $checked = 0;
+
+        foreach ($plugins as $plugin) {
+            self::assertArrayHasKey('lastUpdatedRaw', $plugin, $plugin['name']);
+
+            if (empty($plugin['lastUpdatedRaw'])) {
+                continue;
+            }
+
+            self::assertMatchesRegularExpression(
+                '/^\d{4}-\d{2}-\d{2}/',
+                $plugin['lastUpdatedRaw'],
+                sprintf('%s carries a display string where the sortable date belongs', $plugin['name'])
+            );
+            self::assertNotSame(
+                $plugin['lastUpdated'],
+                $plugin['lastUpdatedRaw'],
+                sprintf('%s was never given a localised display date', $plugin['name'])
+            );
+
+            $checked++;
+        }
+
+        self::assertGreaterThan(0, $checked, 'no plugin in the fixture carries a last updated date');
+    }
+
+    public function testEnrichedPluginCarriesThePromotionPositionsItIsListedAt()
+    {
+        $this->service->setOnFetchCallback(function ($action) {
+            if ('plugins' !== $action) {
+                return null;
+            }
+
+            return ['plugins' => [
+                $this->promotedPlugin('CustomReports', ['featured' => 0, 'bestselling' => 1]),
+                $this->promotedPlugin('UsersFlow', ['bestselling' => 4]),
+                $this->promotedPlugin('Bandwidth', []),
+                // a response cached before the field existed, which has to read as "no promotions"
+                // rather than reaching the client as a missing key the grouping would have to guard
+                $this->promotedPlugin('LogViewer', null),
+            ]];
+        });
+
+        $plugins = array_column(
+            $this->plugins->searchPlugins($query = '', $sort = Sort::DEFAULT_SORT, $themesOnly = false),
+            'promotions',
+            'name'
+        );
+
+        self::assertSame(['featured' => 0, 'bestselling' => 1], $plugins['CustomReports']);
+        self::assertSame(['bestselling' => 4], $plugins['UsersFlow']);
+        self::assertSame([], $plugins['Bandwidth']);
+        self::assertSame([], $plugins['LogViewer']);
+    }
+
+    /**
+     * The positions cross a trust boundary and are read as numbers by the client, which orders the
+     * rows on them. Anything that is not one is dropped rather than coerced: a slug left in the
+     * response with a null position would otherwise sort to the front of Featured.
+     */
+    public function testEnrichedPluginDropsPromotionEntriesThatAreNotPositions()
+    {
+        $this->service->setOnFetchCallback(function ($action) {
+            if ('plugins' !== $action) {
+                return null;
+            }
+
+            return ['plugins' => [
+                $this->promotedPlugin('CustomReports', [
+                    'featured' => '3',
+                    'bestselling' => null,
+                    'newest' => 'first',
+                    '' => 2,
+                ]),
+                $this->promotedPlugin('UsersFlow', 'featured'),
+            ]];
+        });
+
+        $plugins = array_column(
+            $this->plugins->searchPlugins($query = '', $sort = Sort::DEFAULT_SORT, $themesOnly = false),
+            'promotions',
+            'name'
+        );
+
+        self::assertSame(['featured' => 3], $plugins['CustomReports']);
+        self::assertSame([], $plugins['UsersFlow']);
+    }
+
+    public function testEnrichedBundleCarriesItsSeatTierForTheCard()
+    {
+        $this->service->setOnFetchCallback(function ($action) {
+            if ('plugins' !== $action) {
+                return null;
+            }
+
+            return ['plugins' => [
+                $this->bundleWithSeatTier('TeamBundle', 'Up to 4 users monthly', 'Up to 4 users'),
+                $this->bundleWithSeatTier('BusinessBundle', 'Up to 20 users monthly', 'Up to 20 users'),
+                $this->bundleWithSeatTier('EnterpriseBundle', 'Up to 50 users monthly', 'Up to 50 users'),
+                $this->bundleWithSeatTier('UnlimitedBundle', 'Unlimited users.', 'Unlimited users.'),
+                $this->bundleWithSeatTier('CustomReports', 'Up to 4 users', 'Up to 50 users', false),
+            ]];
+        });
+
+        $plugins = array_column(
+            $this->plugins->searchPlugins($query = '', $sort = Sort::DEFAULT_SORT, $themesOnly = false),
+            null,
+            'name'
+        );
+
+        self::assertSame(4, $plugins['TeamBundle']['bundleSeats']);
+        self::assertSame(20, $plugins['BusinessBundle']['bundleSeats']);
+        self::assertSame(50, $plugins['EnterpriseBundle']['bundleSeats']);
+        self::assertArrayNotHasKey('bundleSeats', $plugins['UnlimitedBundle']);
+        self::assertArrayNotHasKey('bundleSeats', $plugins['CustomReports']);
+    }
+
+    /**
+     * A bundle sold at all three tiers is one product with six variations, as ContentBundle and
+     * TrackingBundle are in the Marketplace's own system tests. The card carries no price to say
+     * which tier it is quoting, so a bundle whose variations disagree gets no seat label at all -
+     * rather than the priced-from tier's, which would read "Up to 4 users" on every such bundle.
+     */
+    public function testEnrichedBundleHasNoSeatTierWhenItsVariationsDisagree()
+    {
+        $this->service->setOnFetchCallback(function ($action) {
+            if ('plugins' !== $action) {
+                return null;
+            }
+
+            return ['plugins' => [
+                $this->bundleWithSeatTier('ContentBundle', 'Up to 4 users', '5 to 15 users'),
+                $this->bundleWithSeatTier('TrackingBundle', 'Up to 4 users', 'Unlimited users'),
+            ]];
+        });
+
+        $plugins = array_column(
+            $this->plugins->searchPlugins($query = '', $sort = Sort::DEFAULT_SORT, $themesOnly = false),
+            null,
+            'name'
+        );
+
+        self::assertSame('Up to 4 users', $plugins['ContentBundle']['priceFrom']['name']);
+        self::assertArrayNotHasKey('bundleSeats', $plugins['ContentBundle']);
+        self::assertArrayNotHasKey('bundleSeats', $plugins['TrackingBundle']);
+    }
+
+    /**
+     * A bundle priced at one tier - the shape the older Team, Business and Enterprise products
+     * have - keeps its label, and the tier is read off the variations rather than off the price,
+     * so it does not depend on which of them addPriceFrom() happened to pick.
+     */
+    public function testEnrichedBundleTakesItsSeatTierFromAgreeingVariations()
+    {
+        $this->service->setOnFetchCallback(function ($action) {
+            if ('plugins' !== $action) {
+                return null;
+            }
+
+            return ['plugins' => [
+                $this->bundleWithSeatTier('TeamBundle', 'Up to 4 users monthly', 'Up to 4 users'),
+            ]];
+        });
+
+        $plugins = $this->plugins->searchPlugins($query = '', $sort = Sort::DEFAULT_SORT, $themesOnly = false);
+
+        self::assertSame('Up to 4 users monthly', $plugins[0]['priceFrom']['name']);
+        self::assertSame(4, $plugins[0]['bundleSeats']);
+    }
+
+    /**
+     * A bundle as the Marketplace sends it, trimmed to what enrichment reads. $cheapestVariation
+     * is the one addPriceFrom() picks, and it is deliberately not listed first. The two names are
+     * separate parameters so that a bundle whose variations disagree on the tier can be pinned.
+     */
+    private function bundleWithSeatTier(
+        string $name,
+        string $cheapestVariation,
+        string $otherVariation,
+        bool $isBundle = true
+    ): array {
+        return [
+            'name' => $name,
+            'displayName' => $name,
+            'owner' => 'InnoCraft',
+            'isDownloadable' => false,
+            'isBundle' => $isBundle,
+            'lastUpdated' => '2026-06-02 21:42:40',
+            'shop' => [
+                'url' => 'https://plugins.matomo.org/' . $name,
+                'variations' => [
+                    ['name' => $otherVariation, 'period' => 'year', 'cheapest' => false],
+                    ['name' => $cheapestVariation, 'period' => 'month', 'cheapest' => true],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * A plugin as the Marketplace sends it, trimmed to what enrichment reads, carrying the
+     * promotions given. Pass null for a response from before the field existed.
+     *
+     * @param array<string, mixed>|string|null $promotions
+     * @return array<string, mixed>
+     */
+    private function promotedPlugin(string $name, $promotions): array
+    {
+        $plugin = [
+            'name' => $name,
+            'displayName' => $name,
+            'owner' => 'InnoCraft',
+            'isDownloadable' => false,
+            'lastUpdated' => '2026-06-02 21:42:40',
+            'shop' => ['url' => 'https://plugins.matomo.org/' . $name, 'variations' => []],
+        ];
+
+        if (null !== $promotions) {
+            $plugin['promotions'] = $promotions;
+        }
+
+        return $plugin;
     }
 
     public function testSearchPluginsShouldFlagUpdatablePluginsFromTheUpdateSummary()

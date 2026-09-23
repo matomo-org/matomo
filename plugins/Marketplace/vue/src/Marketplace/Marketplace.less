@@ -1,0 +1,123 @@
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+// Not `.marketplace`: the overview template already puts that class on the wrapper around this
+// component, and both the plugin's own legacy rules and AnonymousPiwikUsageMeasurement select on
+// it, so the block is qualified instead.
+.marketplacePage {
+  padding: 24px;
+  border-radius: 4px;
+  background: @theme-color-background-contrast;
+  box-shadow: @theme-shadow-overlay;
+
+  @media (max-width: 640px) {
+    padding: 12px;
+  }
+}
+
+// Left-aligned onto the same edge as the category tabs below it, so the page keeps one starting
+// column. The spacing is on the button, not this box: the button removes itself when nothing is
+// purchased, and margin here would leave a gap behind where it was.
+.marketplacePage__installAction {
+  display: flex;
+  justify-content: flex-start;
+
+  // override: InstallAllPaidPluginsButton is CorePluginsAdmin's, rendered here as-is, so its own
+  // spacing has to be set from the outside.
+  .btn {
+    margin: 16px 0 0;
+  }
+
+  // override: the loader inside that same button renders inline before the label, so it needs the
+  // label's leading taken off its own box.
+  button .matomo-loader {
+    margin-top: 2px;
+    margin-right: 16px;
+    vertical-align: text-top;
+  }
+}
+
+// The way out of a promotion's list. A link-styled <button> rather than an <a>: it changes the
+// hash this page owns, and an href would have the browser treat it as navigation.
+.marketplacePage__backLink {
+  display: inline-flex;
+  align-items: safe center;
+  gap: 4px;
+  margin-top: 24px;
+  border: 0;
+  padding: 0;
+  background: none;
+  cursor: pointer;
+  font-size: 13px;
+  color: @theme-color-link;
+
+  &:hover,
+  &:focus-visible {
+    text-decoration: underline;
+  }
+}
+
+// override: Materialize's global `button:focus` paints its own fill on every bare <button> and
+// outranks a lone class, so the tag has to appear here for this link-styled button to keep its
+// own background on click - as on .pluginSection__seeAll, for the same reason.
+button.marketplacePage__backLink:focus {
+  background: none;
+}
+
+// override: Morpheus's legacy `:focus { outline: thin dotted }` in general/_default.less fires on
+// a plain mouse click, so only the keyboard ring - `button:focus-visible` - is wanted here.
+button.marketplacePage__backLink:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.marketplacePage__resultsBar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: safe center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 24px 0 12px;
+  min-height: 32px;
+}
+
+// The back link and the heading below it are one block, so the bar drops the top margin that
+// would otherwise separate them. Only under the link; on every other view the bar keeps it.
+.marketplacePage__resultsBar--underBackLink {
+  margin-top: 8px;
+}
+
+.marketplacePage__resultsBar--empty {
+  margin-bottom: 0;
+  min-height: 0;
+}
+
+.marketplacePage__resultsCount {
+  min-width: 0;
+}
+
+.marketplacePage__resultsHeading {
+  width: auto;
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
+  line-height: 24px;
+  color: @theme-color-text;
+}
+
+.marketplacePage__sections {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.marketplacePage__loadError {
+  margin-top: 16px;
+}
+
+.marketplacePage__sentinel {
+  height: 32px;
+}

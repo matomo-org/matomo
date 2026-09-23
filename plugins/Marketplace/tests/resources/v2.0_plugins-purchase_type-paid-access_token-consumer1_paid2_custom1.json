@@ -10,6 +10,10 @@
             "donate": {},
             "support": [],
             "isTheme": false,
+            "categories": [
+                "development"
+            ],
+            "promotions": {},
             "keywords": [
                 "page2images",
                 "website",
@@ -278,7 +282,13 @@
                 },
                 "loginUrl": "https://shop.piwik.org/my-account"
             },
-            "category": "matomo"
+            "category": "matomo",
+            "categories": [
+                "insights"
+            ],
+            "promotions": {
+                "featured": 7
+            }
         },
         {
             "name": "PaidPlugin2",
@@ -293,6 +303,12 @@
             },
             "support": [],
             "isTheme": false,
+            "categories": [
+                "integration"
+            ],
+            "promotions": {
+                "featured": 8
+            },
             "keywords": [
                 "GrabGravatar",
                 "avatar",

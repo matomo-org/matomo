@@ -197,7 +197,13 @@
                 },
                 "loginUrl": "https://shop.piwik.org/my-account"
             },
-            "category": "matomo"
+            "category": "matomo",
+            "categories": [
+                "insights"
+            ],
+            "promotions": {
+                "featured": 7
+            }
         },
         {
             "name": "PaidPlugin2",
@@ -396,7 +402,13 @@
                 },
                 "loginUrl": "https://shop.piwik.org/my-account"
             },
-            "category": "matomo"
+            "category": "matomo",
+            "categories": [
+                "integration"
+            ],
+            "promotions": {
+                "featured": 8
+            }
         },
         {
             "name": "PaidPlugin3",
@@ -595,7 +607,13 @@
                 },
                 "loginUrl": "https://shop.piwik.org/my-account"
             },
-            "category": "matomo"
+            "category": "matomo",
+            "categories": [
+                "security"
+            ],
+            "promotions": {
+                "bestselling": 5
+            }
         },
         {
             "name": "PaidPlugin4",
@@ -794,7 +812,11 @@
                 },
                 "loginUrl": "https://shop.piwik.org/my-account"
             },
-            "category": "matomo"
+            "category": "matomo",
+            "categories": [
+                "ecommerce"
+            ],
+            "promotions": {}
         },
         {
             "name": "PaidPlugin5",
@@ -993,7 +1015,11 @@
                 },
                 "loginUrl": "https://shop.piwik.org/my-account"
             },
-            "category": "matomo"
+            "category": "matomo",
+            "categories": [
+                "customisation"
+            ],
+            "promotions": {}
         }
     ]
 }

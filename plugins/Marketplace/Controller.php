@@ -250,17 +250,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view = $this->configureViewAndCheckPermission('@Marketplace/overview');
 
         $view->isValidConsumer = $this->consumer->isValidConsumer();
-        $view->pluginTypeOptions = array(
-            'plugins' => Piwik::translate('General_Plugins'),
-            'premium' => Piwik::translate('Marketplace_PaidPlugins'),
-            'themes' => Piwik::translate('CorePluginsAdmin_Themes'),
-        );
-        $view->pluginSortOptions = array(
-            Sort::METHOD_LAST_UPDATED => Piwik::translate('Marketplace_SortByLastUpdated'),
-            Sort::METHOD_POPULAR => Piwik::translate('Marketplace_SortByPopular'),
-            Sort::METHOD_NEWEST => Piwik::translate('Marketplace_SortByNewest'),
-            Sort::METHOD_ALPHA => Piwik::translate('Marketplace_SortByAlpha'),
-        );
         $view->defaultSort = Sort::DEFAULT_SORT;
         $view->installNonce = Nonce::getNonce(static::INSTALL_NONCE);
         $view->updateNonce = Nonce::getNonce(static::UPDATE_NONCE);
@@ -306,7 +295,15 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $purchaseType = (new PurchaseType())->getPurchaseType($purchaseType);
         $sort = (new Sort())->getSort($sort);
 
-        $plugins = $this->plugins->searchPlugins($query, $sort, $themesOnly, $purchaseType);
+        // the overview's Vue app is the only caller, so its links are rendered on the overview
+        // page and not on this endpoint - see Plugins::CAMPAIGN_MEDIUM_OVERVIEW
+        $plugins = $this->plugins->searchPlugins(
+            $query,
+            $sort,
+            $themesOnly,
+            $purchaseType,
+            Plugins::CAMPAIGN_MEDIUM_OVERVIEW
+        );
 
         foreach ($plugins as &$plugin) {
             if ($plugin['isDownloadable']) {
@@ -347,7 +344,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         try {
             $pluginName = (new PluginName())->getPluginName();
 
-            $plugin = $this->plugins->getPluginInfoPreferringList($pluginName);
+            $plugin = $this->plugins->getPluginInfoPreferringList(
+                $pluginName,
+                Plugins::CAMPAIGN_MEDIUM_OVERVIEW
+            );
         } catch (Exception $e) {
             // the Marketplace being unreachable is this action's most likely failure, not an
             // exceptional one, since it is requested every time a details modal is opened
@@ -420,6 +420,14 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'priceFrom',
             'downloadNonce',
             'consumer',
+            'categories',
+            'promotions',
+            'keywords',
+            'isTheme',
+            'lastUpdated',
+            'lastUpdatedRaw',
+            'createdDateTime',
+            'bundleSeats',
             // not rendered on a card, but the modal falls back to the card row when its own request
             // fails, and without these a bundle renders there as an ordinary plugin
             'isBundle',
