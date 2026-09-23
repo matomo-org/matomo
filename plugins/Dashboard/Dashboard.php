@@ -252,17 +252,11 @@ class Dashboard extends \Piwik\Plugin
         // we will only return the widgets that are from enabled plugins
 
         if (is_array($layoutObject)) {
-            $layoutObject = (object)array(
-                'config'  => array('layout' => '33-33-33'),
-                'columns' => $layoutObject,
-            );
+            $layoutObject = $this->layoutObjectFromColumns($layoutObject);
         }
 
         if (empty($layoutObject) || empty($layoutObject->columns)) {
-            $layoutObject = (object)array(
-                'config'  => array('layout' => '33-33-33'),
-                'columns' => array(),
-            );
+            $layoutObject = $this->layoutObjectFromColumns(array());
         }
 
         $layout = $this->encodeLayout($layoutObject);
@@ -288,17 +282,11 @@ class Dashboard extends \Piwik\Plugin
         $layoutObject = $this->decodeLayout($layout);
 
         if (is_array($layoutObject)) {
-            $layoutObject = (object)array(
-                'config'  => array('layout' => '33-33-33'),
-                'columns' => $layoutObject,
-            );
+            $layoutObject = $this->layoutObjectFromColumns($layoutObject);
         }
 
         if (empty($layoutObject)) {
-            $layoutObject = (object)array(
-                'config'  => array('layout' => '33-33-33'),
-                'columns' => array(),
-            );
+            $layoutObject = $this->layoutObjectFromColumns(array());
         }
 
         if (empty($layoutObject->columns)) {
@@ -343,6 +331,23 @@ class Dashboard extends \Piwik\Plugin
         $layoutObject->columns = $columns;
 
         return $this->encodeLayout($layoutObject);
+    }
+
+    /**
+     * Wraps columns into the object shape of a layout, with the default column widths.
+     *
+     * '33-33-33' is three columns of a third each, the same fallback the dashboard JavaScript
+     * applies. {@see Controller::getAvailableLayouts()} holds the widths a user can choose from.
+     *
+     * @param array $columns
+     * @return object
+     */
+    private function layoutObjectFromColumns(array $columns)
+    {
+        return (object)array(
+            'config'  => array('layout' => '33-33-33'),
+            'columns' => $columns,
+        );
     }
 
     public function decodeLayout($layout)
