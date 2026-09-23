@@ -299,7 +299,7 @@ class FileIntegrity
      */
     protected static function isFileFromPluginNotInManifest($file, $pluginsInManifest)
     {
-        if (strpos($file, 'plugins/') !== 0) {
+        if (!str_starts_with($file, 'plugins/')) {
             return false;
         }
 

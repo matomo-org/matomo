@@ -57,7 +57,7 @@ class EmailValidatorTest extends \PHPUnit\Framework\TestCase
 
         $errors = array();
         foreach ($tlds as $key => $tld) {
-            if (strpos(mb_strtolower($tld), 'xn--') !== 0) {
+            if (!str_starts_with(mb_strtolower($tld), 'xn--')) {
                 $tld = mb_strtolower($tld);
             }
             $domainNameExtension = idn_to_ascii($tld, 0, INTL_IDNA_VARIANT_UTS46);
@@ -96,7 +96,7 @@ class EmailValidatorTest extends \PHPUnit\Framework\TestCase
         }
 
         foreach ($tlds as $key => $tld) {
-            if (strpos(mb_strtolower($tld), 'xn--') !== 0) {
+            if (!str_starts_with(mb_strtolower($tld), 'xn--')) {
                 $tld = mb_strtolower($tld);
             }
             $this->assertFalse(

@@ -165,7 +165,7 @@ class Actions extends BaseFilter
         // `<main_url>/<path-to-folder>`. Strip the main URL to get the path-only portion
         // that we can re-attach to each known host.
         $mainUrlNormalized = rtrim($mainUrl, '/') . '/';
-        if (strpos($folderUrlStart, $mainUrlNormalized) !== 0) {
+        if (!str_starts_with($folderUrlStart, $mainUrlNormalized)) {
             return $original;
         }
         $folderPath = substr($folderUrlStart, strlen($mainUrlNormalized));

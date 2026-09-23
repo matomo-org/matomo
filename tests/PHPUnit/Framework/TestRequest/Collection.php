@@ -317,7 +317,7 @@ class Collection
         ) {
             return true;
         } elseif (
-            ((strpos($methodName, 'get') !== 0 && $methodName != 'generateReport')
+            ((!str_starts_with($methodName, 'get') && $methodName != 'generateReport')
                 || in_array($moduleName, $this->apiNotToCall) === true
                 || in_array($apiId, $this->apiNotToCall) === true
             )

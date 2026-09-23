@@ -426,7 +426,7 @@ class FixtureRepository
             if (strpos($key, '__') === 0) {
                 continue;
             }
-            if (strpos($key, '/') !== 0) {
+            if (!str_starts_with($key, '/')) {
                 throw new \Exception(sprintf(
                     'Marketplace fixture manifest "%s" has an unrecognised key "%s" — URL keys must start with "/", documentation keys with "__".',
                     $path,

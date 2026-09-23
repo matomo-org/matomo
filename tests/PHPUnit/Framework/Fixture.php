@@ -633,7 +633,7 @@ class Fixture extends \PHPUnit\Framework\Assert
             $piwikUrl = $piwikUrl . ':' . $piwikPort;
         }
 
-        if (strpos($piwikUrl, 'http://') !== 0) {
+        if (!str_starts_with($piwikUrl, 'http://')) {
             $piwikUrl = 'http://' . $piwikUrl . '/';
         }
 
