@@ -25,7 +25,7 @@ use Piwik\Tracker\Cache;
  *  - Heartbeat (ping=1) with the same pv_id updates time_spent
  *  - A second PV with a *different* pv_id does NOT collapse the first row (per-tab attribution)
  *  - PV without pv_id is recorded with NULL idpageview
- *  - Non-PV without pv_id is skipped (cannot safely attribute in a multi-tab session)
+ *  - Non-PV without pv_id closes the most recent pageview row
  *  - Non-ASCII pv_id is treated as absent (idpageview is an ascii-only column)
  *  - time_spent is capped at visit_standard_length
  *  - Kill-switch (record_accurate_page_view_time = 0) disables all writes
@@ -201,14 +201,13 @@ class PageViewTimeWriterTest extends IntegrationTestCase
         $this->assertNotNull($rows[0]['idaction_url']);
     }
 
-    public function testEventWithoutPvIdIsSkippedToProtectMultiTabAttribution()
+    public function testEventWithoutPvIdClosesTheMostRecentPageView()
     {
         // Simulate a tracker that doesn't emit pv_id (older SDKs / server-side libs). setPageviewId('')
-        // suppresses the auto-generated pv_id while leaving everything else intact. Without a pv_id
-        // we cannot safely attribute time to a specific tab (an event's idaction_url is a TYPE_EVENT
-        // row, not the page's TYPE_PAGE_URL row), so the writer skips the update. The row from the
-        // initial PV stays at time_spent = 0; the legacy archive path still credits this pageview
-        // via `time_spent_ref_action` on the following action.
+        // suppresses the auto-generated pv_id while leaving everything else intact. An event's own
+        // idaction_url is a TYPE_EVENT row, so it cannot be matched by idaction; the writer instead
+        // closes the most recent row, which is the page the legacy path credits too. Legacy cannot
+        // fill this in: events are excluded from the legacy time query entirely.
         $tracker = $this->getTracker($this->baseTime);
         $tracker->setPageviewId('');
         $tracker->setUrl('https://example.org/no-pvid');
@@ -222,7 +221,7 @@ class PageViewTimeWriterTest extends IntegrationTestCase
         $rows = $this->fetchPageViewTimeRows();
         $this->assertCount(1, $rows);
         $this->assertNull($rows[0]['idpageview']);
-        $this->assertSame(0, (int) $rows[0]['time_spent'], 'Without pv_id we cannot safely attribute; row stays untouched');
+        $this->assertSame(15, (int) $rows[0]['time_spent'], 'A pv_id-less event closes the most recent pageview row');
     }
 
     public function testNonAsciiPvIdIsTreatedAsAbsentInsteadOfFailingTheWrite()

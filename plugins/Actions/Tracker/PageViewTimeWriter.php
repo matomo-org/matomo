@@ -30,12 +30,12 @@ use Piwik\Tracker\Visit\VisitProperties;
  *    or compute it client-side per row.
  *
  * Per-tab accuracy is best-effort: the class assumes the browser supplies a per-tab `pv_id`.
- * When it is present, every hit reaches the exact tab's row. Non-pageview hits with no
- * `pv_id` are a no-op: events use their own TYPE_EVENT idaction (different from the page's
- * TYPE_PAGE_URL idaction), so matching by idaction_url would never find the pageview row.
+ * When it is present, every hit reaches the exact tab's row. Without one, a non-pageview hit
+ * falls back to the most recent row in the visit, matching how the legacy path attributes it.
  *
  * Note: `closePreviousPageView()` picks the most recent row in the visit that is not the
- * currently-inserting one. With two tabs open, a new pageview in tab A closes whichever
+ * currently-inserting one, and pv_id-less hits resolve the same way. With two tabs open, a
+ * new pageview in tab A closes whichever
  * *earlier* row was most recent — that may be tab B, meaning tab B is credited with any
  * time up to A's server_time. This is an approximation; treat it as "reasonable" rather
  * than "per-tab exact" for interleaved multi-tab sessions.
@@ -51,9 +51,10 @@ use Piwik\Tracker\Visit\VisitProperties;
  *    midnight, so day-1 rows are never touched from day 2.
  *  - Partial failure: if this writer's INSERT fails while the same hit's
  *    log_link_visit_action INSERT succeeded, the visit has a recorded action without a pvt
- *    row; a later close can then grow the previous row across the gap while the legacy path
- *    still credits the missing action, overcounting that interval once. Only the INSERT
- *    causes this - a failed close leaves the row at 0, which the anti-join treats as absent.
+ *    row; a later hit of any kind can then grow the previous row across the gap while the
+ *    legacy path still credits the missing action, overcounting that interval once. Only the
+ *    INSERT causes this - a failed close leaves the row at 0, which the anti-join treats as
+ *    absent.
  *    The inconsistency is between llva and pvt, so coupling the two would violate the fault
  *    isolation above.
  */
@@ -131,10 +132,15 @@ class PageViewTimeWriter
         }
 
         // Non-recorded hit: ping, event, content, outlink, download, page title only, etc.
-        // Without pv_id we cannot safely attribute to a specific tab (events log their own
-        // TYPE_EVENT idaction, so matching by idaction_url here would never find the pageview
-        // row). Skip rather than touch the wrong row.
+        // Without pv_id, fall back to closing the most recent row: that is the same page the
+        // legacy path credits, since only pageviews and site searches move the visit exit ids.
         if ($pvId === null) {
+            if ($action === null || (int) $action->getIdLinkVisitAction() <= 0) {
+                // Nothing in log_link_visit_action to align with (ping, ecommerce, manual goal).
+                return;
+            }
+
+            $this->closePreviousPageView($idVisit, (int) $action->getIdLinkVisitAction(), $serverTimeSql, $cap);
             return;
         }
 

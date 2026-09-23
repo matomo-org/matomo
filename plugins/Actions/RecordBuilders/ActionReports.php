@@ -846,21 +846,15 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         // Anti-join keyed on the *credited* action: `time_spent_ref_action` credits the previous
         // page (via `idaction_url_ref` / `idaction_name_ref`), so we drop a legacy row iff the
         // accurate writer already recorded time for that credited page in the same visit. The
-        // `pvt.time_spent > 0` guard is what makes this safe for pv_id-less follow-up hits
-        // (older trackers, server-side SDKs, log import): the writer inserts the page-view row
-        // but cannot bump `time_spent` when a subsequent event/download/outlink has no pv_id and
-        // there is no later page-view to close it, so the accurate row stays at 0 and legacy has
-        // to fill in. When accurate did capture time (`time_spent > 0`), the legacy contribution
-        // is already covered and we drop the row to avoid double-counting the same visit's
-        // outlinks/downloads/content interactions.
+        // `pvt.time_spent > 0` guard keeps the legacy contribution where accurate captured
+        // nothing, e.g. a trailing page-view with no following hit, or rows predating the
+        // writer. When accurate did capture time, the legacy contribution is already covered
+        // and we drop the row to avoid double-counting.
         //
-        // The key is per (visit, action), not per pageview *instance*: when the same page is
-        // viewed twice in one visit and only one instance got accurate time (the other closed
-        // solely by a pv_id-less hit), the other instance's legacy contribution is dropped too
-        // and its seconds are lost. This asymmetry is deliberate — the metric may undercount in
-        // that edge case but can never double-count; an instance-exact anti-join would need a
-        // self-join to the predecessor pageview, which is not worth the query cost. Pinned by
-        // ActionReportsAccurateArchiveTest::testRepeatedUrlClosedByPvIdLessHitOnlyUndercountsNeverInflates().
+        // The key is per (visit, action), not per pageview *instance*, so the same page viewed
+        // twice in one visit shares one anti-join decision. The writer closes the most recent
+        // row for every hit, with or without pv_id, so both instances carry their own time and
+        // the shared key does not lose one of them.
         $whereUrl = $whereBase . "
                  AND NOT EXISTS (
                         SELECT 1 FROM `$pageViewTimeTable` AS pvt

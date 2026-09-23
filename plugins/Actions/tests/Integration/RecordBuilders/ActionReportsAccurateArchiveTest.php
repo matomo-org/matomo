@@ -259,7 +259,7 @@ class ActionReportsAccurateArchiveTest extends IntegrationTestCase
         $this->assertSame(60, (int) ($rows['https://example.org/seg-b']['sum_time_spent'] ?? -1));
     }
 
-    public function testRepeatedUrlClosedByPvIdLessHitOnlyUndercountsNeverInflates(): void
+    public function testRepeatedUrlClosedByPvIdLessHitKeepsBothInstances(): void
     {
         $day = '2026-06-28';
 
@@ -282,8 +282,8 @@ class ActionReportsAccurateArchiveTest extends IntegrationTestCase
         $tracker->setPageviewId('cccccc');
         Fixture::checkResponse($tracker->doTrackPageView('Repeat'));
 
-        // A pv_id-less follow-up hit (older tracker, server-side SDK, log import) cannot close
-        // the second /repeat pageview, so its accurate row stays at 0 seconds.
+        // A pv_id-less follow-up hit (older tracker, server-side SDK, log import) closes the
+        // most recent row, which is the second /repeat pageview.
         $tracker->setForceVisitDateTime($day . ' 12:01:10');
         $tracker->setPageviewId('');
         Fixture::checkResponse($tracker->doTrackAction('https://example.org/file.zip', 'download'));
@@ -292,13 +292,60 @@ class ActionReportsAccurateArchiveTest extends IntegrationTestCase
 
         $rows = $this->readPageUrlRows('day', $day);
 
-        // The anti-join drops every legacy contribution for /repeat because the first /repeat
-        // instance has an accurate row with time_spent > 0. The second instance's 30s (credited
-        // only via legacy time_spent_ref_action on the download) is therefore lost: 10s instead
-        // of the true 40s. This asymmetry is deliberate — the metric may undercount in this
-        // edge case but must never double-count. See ActionReports::archiveDayActionsTimeLegacy().
-        $this->assertSame(10, (int) ($rows['https://example.org/repeat']['sum_time_spent'] ?? -1));
+        // Both /repeat instances carry their own accurate time (10s + 30s), so the shared
+        // per-(visit, action) anti-join key does not lose the second one.
+        $this->assertSame(40, (int) ($rows['https://example.org/repeat']['sum_time_spent'] ?? -1));
         $this->assertSame(30, (int) ($rows['https://example.org/other']['sum_time_spent'] ?? -1));
+    }
+
+    public function testPvIdLessHitAfterAPvIdCarryingHitKeepsBothIntervals(): void
+    {
+        $day = '2026-06-24';
+
+        $tracker = Fixture::getTracker($this->idSite, $day . ' 12:00:00', true, true);
+        $tracker->setTokenAuth(Fixture::getTokenAuth());
+        $tracker->setUrl('https://example.org/mixed');
+        $tracker->setPageviewId('aaaaaa');
+        Fixture::checkResponse($tracker->doTrackPageView('Mixed'));
+
+        // First download carries pv_id, second does not: the page must end up with the whole
+        // 25s, not just the first 10s.
+        $tracker->setForceVisitDateTime($day . ' 12:00:10');
+        Fixture::checkResponse($tracker->doTrackAction('https://example.org/one.zip', 'download'));
+
+        $tracker->setForceVisitDateTime($day . ' 12:00:25');
+        $tracker->setPageviewId('');
+        Fixture::checkResponse($tracker->doTrackAction('https://example.org/two.zip', 'download'));
+
+        (new CronArchive())->main();
+
+        $rows = $this->readPageUrlRows('day', $day);
+        $this->assertSame(25, (int) ($rows['https://example.org/mixed']['sum_time_spent'] ?? -1));
+    }
+
+    public function testPvIdLessHitDoesNotFreezeTheRowAgainstLaterHeartbeats(): void
+    {
+        $day = '2026-06-25';
+
+        $tracker = Fixture::getTracker($this->idSite, $day . ' 12:00:00', true, true);
+        $tracker->setTokenAuth(Fixture::getTokenAuth());
+        $tracker->setUrl('https://example.org/frozen');
+        $tracker->setPageviewId('aaaaaa');
+        Fixture::checkResponse($tracker->doTrackPageView('Frozen'));
+
+        $tracker->setForceVisitDateTime($day . ' 12:00:10');
+        $tracker->setPageviewId('');
+        Fixture::checkResponse($tracker->doTrackAction('https://example.org/x.zip', 'download'));
+
+        // A later pv_id-carrying heartbeat must still grow the row past the pv_id-less bump.
+        $tracker->setForceVisitDateTime($day . ' 12:00:40');
+        $tracker->setPageviewId('aaaaaa');
+        Fixture::checkResponse($tracker->doPing());
+
+        (new CronArchive())->main();
+
+        $rows = $this->readPageUrlRows('day', $day);
+        $this->assertSame(40, (int) ($rows['https://example.org/frozen']['sum_time_spent'] ?? -1));
     }
 
     private function readSumTimeSpent(string $period, string $date): int
