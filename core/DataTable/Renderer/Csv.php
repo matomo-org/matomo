@@ -221,11 +221,11 @@ class Csv extends Renderer
 
             // surround value with double quotes if it contains a double quote or a commonly used separator
             if (
-                strpos($value, '"') !== false
-                || strpos($value, $this->separator) !== false
-                || strpos($value, $this->lineEnd) !== false
-                || strpos($value, ',') !== false
-                || strpos($value, ';') !== false
+                str_contains($value, '"')
+                || str_contains($value, $this->separator)
+                || str_contains($value, $this->lineEnd)
+                || str_contains($value, ',')
+                || str_contains($value, ';')
             ) {
                 $value = '"' . str_replace('"', '""', $value) . '"';
             }
@@ -285,7 +285,7 @@ class Csv extends Renderer
 
             if ($period === 'range') {
                 $period = new Range($period, $date);
-            } elseif (strpos($date, ',') !== false) {
+            } elseif (str_contains($date, ',')) {
                 $period = new Range('range', $date);
             } else {
                 $period = Period\Factory::build($period, $date);

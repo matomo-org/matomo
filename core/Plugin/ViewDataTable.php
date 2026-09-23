@@ -526,7 +526,7 @@ abstract class ViewDataTable implements ViewInterface
 
         if (
             Period::isMultiplePeriod($date, $period)
-            || strpos($idSite, ',') !== false
+            || str_contains($idSite, ',')
             || $idSite == 'all'
         ) {
             return false;

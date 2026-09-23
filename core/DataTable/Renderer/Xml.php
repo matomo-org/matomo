@@ -128,7 +128,7 @@ class Xml extends Renderer
             if ($isAssociativeArray) {
                 // a key like `idgoal=1` is rendered as a row attribute for backwards compatibility,
                 // but only when the part in front of the `=` can be used as an attribute name
-                if (strpos($key, '=') !== false && self::isValidXmlTagName(strstr($key, '=', true))) {
+                if (str_contains($key, '=') && self::isValidXmlTagName(strstr($key, '=', true))) {
                     [$keyAttributeName, $keyAttributeValue] = explode('=', $key, 2);
                     $attribute = $keyAttributeName . '="' . self::formatAttributeValueXml($keyAttributeValue) . '"';
 

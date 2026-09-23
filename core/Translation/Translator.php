@@ -85,7 +85,7 @@ class Translator
         $args          = is_array($args) ? $args : [$args];
         $translationId = $translationId ?? '';
 
-        if (strpos($translationId, "_") !== false) {
+        if (str_contains($translationId, "_")) {
             [$plugin, $key] = explode("_", $translationId, 2);
             $language = is_string($language) ? $language : $this->currentLanguage;
 

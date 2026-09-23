@@ -104,11 +104,11 @@ class Controller extends \Piwik\Plugin\Controller
 
         if ($config->getName() && Common::getRequestVar('showtitle', '', 'string') === '1') {
             if (
-                strpos($content, '<h2') !== false
-                || strpos($content, ' content-title=') !== false
-                || strpos($content, 'CoreHome.EnrichedHeadline') !== false
-                || strpos($content, 'CoreHome.ReportHeader') !== false
-                || strpos($content, '<h1') !== false
+                str_contains($content, '<h2')
+                || str_contains($content, ' content-title=')
+                || str_contains($content, 'CoreHome.EnrichedHeadline')
+                || str_contains($content, 'CoreHome.ReportHeader')
+                || str_contains($content, '<h1')
             ) {
                 // already includes title
                 return $content;
@@ -261,7 +261,7 @@ class Controller extends \Piwik\Plugin\Controller
     {
         if (empty($rowEvolution)) {
             $label = Common::getRequestVar('label', '', 'string');
-            $isMultiRowEvolution = strpos($label, ',') !== false;
+            $isMultiRowEvolution = str_contains($label, ',');
 
             $rowEvolution = $this->makeRowEvolution($isMultiRowEvolution, $graphType = 'graphEvolution');
             $rowEvolution->useAvailableMetrics();

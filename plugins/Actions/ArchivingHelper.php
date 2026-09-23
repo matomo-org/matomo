@@ -1174,7 +1174,7 @@ class ArchivingHelper
         }
 
         $name = $urlPath;
-        if ($name === '' || substr($name, -1) == '/') {
+        if ($name === '' || str_ends_with($name, '/')) {
             $name .= self::$defaultActionName;
         }
 
