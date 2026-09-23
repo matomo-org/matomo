@@ -133,7 +133,7 @@ abstract class GeneratePluginBase extends ConsoleCommand
         $piwikVersion     = Version::VERSION;
         $nextMajorVersion = (int) substr($piwikVersion, 0, strpos($piwikVersion, '.')) + 1;
         $secondPartPiwikVersionRequire = ',<' . $nextMajorVersion . '.0.0-b1';
-        if (false === strpos($piwikVersion, '-')) {
+        if (!str_contains($piwikVersion, '-')) {
             // see https://github.com/composer/composer/issues/4080 we need to specify -stable otherwise it would match
             // $piwikVersion-dev meaning it would also match all pre-released. However, we only want to match a stable
             // release

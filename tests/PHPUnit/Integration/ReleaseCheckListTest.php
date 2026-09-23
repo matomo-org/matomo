@@ -389,7 +389,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         foreach ($objects as $name => $object) {
             if (
                 is_dir($name)
-                && strpos($name, "/.") === false
+                && !str_contains($name, "/.")
             ) {
                 $paths[] = $name;
             }
@@ -463,7 +463,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
                 str_contains($file, '/tests/') ||
                 str_contains($file, '/lang/') ||
                 str_contains($file, 'yuicompressor') ||
-                (str_contains($file, '/vendor') && strpos($file, '/vendor/piwik') === false) ||
+                (str_contains($file, '/vendor') && !str_contains($file, '/vendor/piwik')) ||
                 str_contains($file, '/tmp/') ||
                 str_contains($file, '/node_modules/') ||
                 str_contains($file, '/Morpheus/icons/src/') ||
@@ -483,13 +483,11 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
                 // expect CRLF
                 if (preg_match('/\.(bat|ps1)$/', $file)) {
                     $contents = str_replace("\r\n", '', $contents);
-                    $this->assertTrue(strpos($contents, "\n") === false, 'Incorrect line endings in ' . $file);
+                    $this->assertTrue(!str_contains($contents, "\n"), 'Incorrect line endings in ' . $file);
                 } else {
                     // expect native
-                    $hasWindowsEOL = strpos($contents, "\r\n");
-
                     // overwrite translations files with incorrect line endings
-                    $this->assertTrue($hasWindowsEOL === false, 'Incorrect line endings \r\n found in ' . $file);
+                    $this->assertTrue(!str_contains($contents, "\r\n"), 'Incorrect line endings \r\n found in ' . $file);
                 }
             }
         }
@@ -605,7 +603,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
     protected function isPathAddedToGit($pluginPath)
     {
         $gitOutput = shell_exec('git ls-files ' . $pluginPath . ' --error-unmatch 2>&1');
-        $addedToGit = (strlen($gitOutput) > 0) && strpos($gitOutput, 'error: pathspec') === false;
+        $addedToGit = (strlen($gitOutput) > 0) && !str_contains($gitOutput, 'error: pathspec');
         return $addedToGit;
     }
 
@@ -812,7 +810,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
      */
     private function isPluginSubmoduleAndThereforeNotFoundInFinalRelease($file)
     {
-        if (strpos($file, PIWIK_INCLUDE_PATH . "/plugins/") === false) {
+        if (!str_contains($file, PIWIK_INCLUDE_PATH . "/plugins/")) {
             return false;
         }
 

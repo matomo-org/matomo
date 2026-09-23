@@ -1202,7 +1202,7 @@ class Common
             throw new Exception('Response code not supported: ' . $code);
         }
 
-        if (strpos(PHP_SAPI, '-fcgi') === false) {
+        if (!str_contains(PHP_SAPI, '-fcgi')) {
             $key = 'HTTP/1.1';
 
             if (

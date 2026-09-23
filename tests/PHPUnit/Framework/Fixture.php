@@ -811,7 +811,7 @@ class Fixture extends \PHPUnit\Framework\Assert
             }
         } catch (Exception $e) {
             // duplicate entry errors are expected
-            if (strpos($e->getMessage(), 'Duplicate entry') === false) {
+            if (!str_contains($e->getMessage(), 'Duplicate entry')) {
                 throw $e;
             }
         }

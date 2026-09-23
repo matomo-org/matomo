@@ -78,7 +78,7 @@ class Updates_4_6_0_b4 extends PiwikUpdates
 
         if (!empty($doneFlagsToMigrate)) {
             foreach (ArchiveTableCreator::getTablesArchivesInstalled() as $table) {
-                if (strpos($table, 'numeric') === false) {
+                if (!str_contains($table, 'numeric')) {
                     continue;
                 }
 

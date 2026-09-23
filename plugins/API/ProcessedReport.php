@@ -1101,13 +1101,13 @@ class ProcessedReport
 
         // Add revenue symbol to revenues
         $isMoneyMetric = str_contains($columnName, 'revenue') || str_contains($columnName, 'price');
-        if ($isMoneyMetric && strpos($columnName, 'evolution') === false) {
+        if ($isMoneyMetric && !str_contains($columnName, 'evolution')) {
             return $formatter->getPrettyMoney($value, $idSite);
         }
 
         // Add % symbol to rates
         if (str_contains($columnName, '_rate')) {
-            if (strpos($value, "%") === false) {
+            if (!str_contains($value, "%")) {
                 return (100 * $value) . "%";
             }
         }

@@ -578,7 +578,7 @@ class CliMulti
         if ($this->runAsSuperUser) {
             $tokenAuth = self::getSuperUserTokenAuth();
 
-            if (strpos($url, '?') === false) {
+            if (!str_contains($url, '?')) {
                 $url .= '?';
             } else {
                 $url .= '&';
@@ -612,7 +612,7 @@ class CliMulti
     {
         $isTestMode = defined('PIWIK_TEST_MODE');
 
-        if ($isTestMode && false === strpos($url, '?')) {
+        if ($isTestMode && !str_contains($url, '?')) {
             $url .= "?testmode=1";
         } elseif ($isTestMode) {
             $url .= "&testmode=1";
