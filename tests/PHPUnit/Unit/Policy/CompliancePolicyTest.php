@@ -43,11 +43,11 @@ class CompliancePolicyTest extends TestCase
     public function testGetGranularDescriptionUsesTheGranularCopyAndKeepsTheWarnings(): void
     {
         $this->assertSame(
-            'Granular test policy description<br/>Test policy warning',
+            'Granular test policy description<br/><br/>Test policy warning',
             GranularTestPolicy::getGranularDescription()
         );
         $this->assertSame(
-            'Test policy description<br/>Test policy warning',
+            'Test policy description<br/><br/>Test policy warning',
             GranularTestPolicy::getDescription()
         );
     }
