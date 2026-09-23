@@ -186,7 +186,6 @@ class AiRecommenderTest extends TestCase
                 10,
                 4000,
                 AIRequest::REASONING_NONE,
-                false,
                 null,
                 'max_tokens'
             ));
