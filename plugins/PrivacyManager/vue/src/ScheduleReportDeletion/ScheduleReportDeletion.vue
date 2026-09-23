@@ -104,7 +104,8 @@
         :require-delete-confirmation="true"
         @confirmed="executePurgeNow"
       >
-        <h2>{{ translate('PrivacyManager_PurgeNowConfirm') }}</h2>
+        <h2>{{ translate('PrivacyManager_PurgeNowConfirmTitle') }}</h2>
+        <p>{{ translate('PrivacyManager_PurgeNowConfirmBody') }}</p>
       </PasswordConfirmation>
     </ContentBlock>
   </div>

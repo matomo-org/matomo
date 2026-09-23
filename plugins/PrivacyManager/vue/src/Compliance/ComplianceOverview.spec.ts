@@ -104,8 +104,11 @@ describe('PrivacyManager/ComplianceOverview', () => {
 
     await setCheckbox(wrapper, true);
 
-    expect(wrapper.find('h2').text())
-      .toBe('PrivacyManager_ComplianceEnforceRetentionConfirm');
+    const dialog = wrapper.findComponent({ name: 'PasswordConfirmationStub' });
+    expect(dialog.find('h2').text())
+      .toBe('PrivacyManager_ComplianceEnforceRetentionConfirmTitle');
+    expect(dialog.find('p').text())
+      .toBe('PrivacyManager_ComplianceEnforceRetentionConfirmBody');
   });
 
   it('asks for a password alone when enforcement is switched off', async () => {

@@ -43,9 +43,10 @@
             @confirmed="saveSettings"
             @aborted="resetSave"
           >
-            <h2 v-if="rawDataRetentionBeingEnabled">
-              {{ translate('PrivacyManager_ComplianceEnforceRetentionConfirm') }}
-            </h2>
+            <template v-if="rawDataRetentionBeingEnabled">
+              <h2>{{ translate('PrivacyManager_ComplianceEnforceRetentionConfirmTitle') }}</h2>
+              <p>{{ translate('PrivacyManager_ComplianceEnforceRetentionConfirmBody') }}</p>
+            </template>
           </PasswordConfirmation>
         </template>
       </template>
