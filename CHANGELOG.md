@@ -145,6 +145,14 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   control inside a Materialize modal can set `data-matomo-modal-escapee` to that modal's
   `data-matomo-modal-id` to be exempted from its focus trap, which otherwise prevents it from holding focus. The
   exemption applies only to the modal named, so an element belonging to one modal cannot hold focus over another.
+* A dashboard layout is now filtered against the widgets available to the user it is served to, so a
+  widget that user may not use is dropped instead of being rendered and left to fail on its own API
+  calls. This matters for a plugin that disables a widget for some users: `createNewDashboardForUser`,
+  `resetDashboardLayout` and `copyDashboardToUser` build a layout from the *calling* user's widget list
+  and store it for someone else, so such a widget could end up saved in a dashboard whose owner has no
+  access to it. The filtering lives in the new
+  `Piwik\Plugins\Dashboard\Dashboard::removeWidgetsNotAvailableToUser()`, which must not be called
+  while the widget list is being built.
 
 ## Matomo 5.14.0
 
