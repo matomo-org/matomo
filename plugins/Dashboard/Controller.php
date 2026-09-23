@@ -187,6 +187,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         if (!empty($layout)) {
             $layout = $this->dashboard->removeDisabledPluginFromLayout($layout);
+            $layout = $this->dashboard->removeWidgetsNotAvailableToUser($layout);
         }
 
         return $layout;
