@@ -70,7 +70,7 @@ class Updates_5_0_0_b1 extends PiwikUpdates
         foreach ($tables as $table) {
             $migrations[] = $this->migration->db->sql(sprintf('DELETE FROM `%s` WHERE ts_archived is null', $table));
 
-            $hasPrefix = strpos($table, 'archive') !== 0;
+            $hasPrefix = !str_starts_with($table, 'archive');
             if ($hasPrefix) {
                 $table = Common::unprefixTable($table);
             }

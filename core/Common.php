@@ -111,7 +111,7 @@ class Common
 
         if (
             empty($prefixTable)
-            || strpos($table, $prefixTable) !== 0
+            || !str_starts_with($table, $prefixTable)
         ) {
             return $table;
         }

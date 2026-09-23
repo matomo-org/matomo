@@ -332,7 +332,7 @@ class Update extends ConsoleCommand
         foreach ($componentsWithUpdateFile as $componentName => $updates) {
             if (
                 $componentName !== 'core'
-                && 0 !== strpos($componentName, 'log_')
+                && !str_starts_with($componentName, 'log_')
             ) {
                 $plugins[] = $componentName;
             }
