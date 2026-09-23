@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\Dashboard\tests\Integration;
 
 use Piwik\Plugins\Dashboard\Dashboard;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -156,6 +157,68 @@ class DashboardTest extends IntegrationTestCase
 
         $this->assertCount(1, $asSuperUser[0]);
         $this->assertCount(0, $asRegularUser[0]);
+    }
+
+    public function testRemoveWidgetsNotAvailableToUserKeepsAWidgetThatOnlyExistsInsideAContainer()
+    {
+        // Event Names is reachable only through the Events container, so it is absent from the top
+        // level of the widget list while the browser still offers it as a dashboard widget.
+        $layout = '[[{"uniqueId":"widgetEventsgetNamesecondaryDimensioneventAction",'
+            . '"parameters":{"module":"Events","action":"getName","secondaryDimension":"eventAction"}}]]';
+
+        $columns = $this->getColumnsOfFilteredLayout($layout);
+
+        $this->assertCount(1, $columns[0]);
+    }
+
+    /**
+     * The server must never be stricter than the widget list the browser builds its dashboard from,
+     * otherwise it deletes widgets users legitimately own.
+     */
+    public function testRemoveWidgetsNotAvailableToUserKeepsEveryWidgetOfferedByTheWidgetMetadata()
+    {
+        $idSite = Fixture::createWebsite('2020-01-01 00:00:00');
+
+        $widgets = array();
+
+        foreach (\Piwik\Plugins\API\API::getInstance()->getWidgetMetadata($idSite) as $widget) {
+            if (!empty($widget['module'])) {
+                $widgets[] = array(
+                    'uniqueId' => 'widget' . $widget['module'] . $widget['action'],
+                    'parameters' => array('module' => $widget['module'], 'action' => $widget['action']),
+                );
+            }
+        }
+
+        $this->assertNotEmpty($widgets);
+
+        $columns = $this->getColumnsOfFilteredLayout(json_encode(array($widgets)));
+
+        $this->assertCount(count($widgets), $columns[0]);
+    }
+
+    public function testRemoveWidgetsNotAvailableToUserKeepsTheColumnLayout()
+    {
+        $layout = '{"config":{"layout":"50-50"},'
+            . '"columns":[[{"uniqueId":"widgetLivewidget","parameters":{"module":"Live","action":"widget"}}],[]]}';
+
+        $decoded = $this->dashboard->decodeLayout(
+            $this->dashboard->removeWidgetsNotAvailableToUser($layout)
+        );
+
+        $this->assertSame('50-50', $decoded->config->layout);
+    }
+
+    public function testRemoveWidgetsNotAvailableToUserHandlesColumnsEncodedAsObject()
+    {
+        $layout = '{"config":{"layout":"100"},'
+            . '"columns":{"0":[{"uniqueId":"widgetLivewidget","parameters":{"module":"Live","action":"widget"}},'
+            . '{"uniqueId":"widgetNoSuchModulenoSuchAction","parameters":{"module":"NoSuchModule","action":"noSuchAction"}}]}}';
+
+        $columns = $this->getColumnsOfFilteredLayout($layout);
+
+        $this->assertCount(1, $columns[0]);
+        $this->assertSame('widgetLivewidget', $columns[0][0]->uniqueId);
     }
 
     private function getColumnsOfFilteredLayout(string $layout): array

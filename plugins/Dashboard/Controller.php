@@ -172,11 +172,9 @@ class Controller extends \Piwik\Plugin\Controller
     {
         if (Piwik::isUserIsAnonymous()) {
             $session = new SessionNamespace("Dashboard");
-            if (!isset($session->dashboardLayout)) {
-                return $this->dashboard->getDefaultLayout();
-            }
-
-            $layout = $session->dashboardLayout;
+            // Not an early return: the default layout is stored by a superuser and can hold widgets
+            // that are theirs alone, so it has to go through the filtering below as well.
+            $layout = isset($session->dashboardLayout) ? $session->dashboardLayout : false;
         } else {
             $layout = $this->dashboard->getLayoutForUser(Piwik::getCurrentUserLogin(), $idDashboard);
         }
