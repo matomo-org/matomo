@@ -491,7 +491,7 @@ class Range extends Period
         $strLastDate = false;
         $lastPeriod  = false;
         if (!preg_match('/(last|previous)([0-9]*)/', $date, $regs)) {
-            if (strpos($date, ',')) {
+            if (str_contains($date, ',')) {
                 // date in the form of 2011-01-01,2011-02-02
 
                 $rangePeriod = new Range($period, $date);
