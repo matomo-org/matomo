@@ -428,7 +428,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         // We put together the url based on the parsed parameters manually to ensure it might not redirect to unexpected locations
         // unescaped slashes in username or password part for example have unexpected results in browsers
         // for protocol less urls starting with //, we need to prepend the double slash to have a url that passes the valid url check in redirect logic
-        $urlToRedirect = (strpos($urlToRedirect, '//') === 0 ? '//' : '') . UrlHelper::getParseUrlReverse($parsedUrl);
+        $urlToRedirect = (str_starts_with($urlToRedirect, '//') ? '//' : '') . UrlHelper::getParseUrlReverse($parsedUrl);
 
         if (empty($urlToRedirect)) {
             $redirect = Request::fromRequest()->getStringParameter('form_redirect', '');
@@ -444,7 +444,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                     !empty($host) && !empty($currentHost) && $host == $currentHost && Url::isValidHost($host)
                 ) {
                     // rebuild the url from its parsed parts, consistent with the handling of the url parameter above
-                    $urlToRedirect = (strpos($redirect, '//') === 0 ? '//' : '') . UrlHelper::getParseUrlReverse(parse_url($redirect));
+                    $urlToRedirect = (str_starts_with($redirect, '//') ? '//' : '') . UrlHelper::getParseUrlReverse(parse_url($redirect));
                 }
             }
         }

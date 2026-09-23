@@ -162,7 +162,7 @@ class UrlHelper
             return false;
         }
 
-        if (strpos($url, ':') === false) {
+        if (!str_contains($url, ':')) {
             return true;
         }
 
@@ -322,7 +322,7 @@ class UrlHelper
         $result = '';
 
         if (isset($parsedUrl['path'])) {
-            if (substr($parsedUrl['path'], 0, 1) == '/') {
+            if (str_starts_with($parsedUrl['path'], '/')) {
                 $parsedUrl['path'] = substr($parsedUrl['path'], 1);
             }
             $result .= $parsedUrl['path'];

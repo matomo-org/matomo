@@ -537,7 +537,7 @@ abstract class Dimension
         $method = new \ReflectionMethod($this, $method);
         $declaringClass = $method->getDeclaringClass();
 
-        return 0 === strpos($declaringClass->name, 'Piwik\Plugins');
+        return str_starts_with($declaringClass->name, 'Piwik\Plugins');
     }
 
     /**

@@ -574,7 +574,7 @@ class Url
     {
         if (
             UrlHelper::isLookLikeUrl($url)
-            || strpos($url, 'index.php') === 0
+            || str_starts_with($url, 'index.php')
         ) {
             Common::sendResponseCode(302);
             Common::sendHeader("X-Robots-Tag: noindex");
@@ -924,7 +924,7 @@ class Url
         $host = @$_SERVER['SERVER_NAME'];
         if (!empty($host)) {
             if (
-                strpos($host, ':') === false
+                !str_contains($host, ':')
                 && !empty($_SERVER['SERVER_PORT'])
                 && $_SERVER['SERVER_PORT'] != 80
                 && $_SERVER['SERVER_PORT'] != 443

@@ -807,8 +807,8 @@ class Model
 
             if (
                 !in_array($date, array('now', 'today', 'yesterdaySameTime'))
-                && strpos($date, 'last') === false
-                && strpos($date, 'previous') === false
+                && !str_contains($date, 'last')
+                && !str_contains($date, 'previous')
                 && Date::factory($dateString)->toString('Y-m-d') != Date::factory('now', $currentTimezone)->toString()
             ) {
                 $dateEnd = $processedPeriod->getDateEnd()->setTimezone($currentTimezone);

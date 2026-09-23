@@ -230,7 +230,7 @@ class Formatter
             foreach ($dataTable->getRows() as $row) {
                 foreach ($row->getColumns() as $column => $columnValue) {
                     if (
-                        strpos($column, 'revenue') === false
+                        !str_contains($column, 'revenue')
                         || !is_numeric($columnValue)
                     ) {
                         continue;

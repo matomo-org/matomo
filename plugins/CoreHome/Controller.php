@@ -115,11 +115,11 @@ class Controller extends \Piwik\Plugin\Controller
             }
 
             if (
-                strpos($content, '<!-- has-content-block -->') === false
-                && strpos($content, 'class="card"') === false
-                && strpos($content, "class='card'") === false
-                && strpos($content, 'class="card-content"') === false
-                && strpos($content, "class='card-content'") === false
+                !str_contains($content, '<!-- has-content-block -->')
+                && !str_contains($content, 'class="card"')
+                && !str_contains($content, "class='card'")
+                && !str_contains($content, 'class="card-content"')
+                && !str_contains($content, "class='card-content'")
             ) {
                 $view = new View('@CoreHome/_singleWidget');
                 $view->title = $config->getName();

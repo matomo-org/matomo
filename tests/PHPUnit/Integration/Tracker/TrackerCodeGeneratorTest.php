@@ -774,7 +774,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
                 '_paq.push(["setExcludedReferrers", [' . $json . ']]);',
             ];
 
-            if (strpos($value, ',') === false) {
+            if (!str_contains($value, ',')) {
                 yield "excludedQueryParams as string / $label" => [
                     ['excludedQueryParams' => $value],
                     '_paq.push(["setExcludedQueryParams", [' . $json . ']]);',

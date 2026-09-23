@@ -73,7 +73,7 @@ function getBrowserName($label)
 
     if ($short && array_key_exists($short, $browsers)) {
         return trim(ucfirst($browsers[$short]));
-    } elseif (strlen($label) > 2 && strpos($label, 'UNK') === false) {
+    } elseif (strlen($label) > 2 && !str_contains($label, 'UNK')) {
         return $label;
     }
 
@@ -242,7 +242,7 @@ function getModelName($label)
     if (!$model) {
         $model = Piwik::translate('General_Unknown');
     } else {
-        if (strpos($model, 'generic ') === 0) {
+        if (str_starts_with($model, 'generic ')) {
             $model = substr($model, 8);
             if ($model == 'mobile') {
                 $model = Piwik::translate(

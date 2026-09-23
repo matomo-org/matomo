@@ -123,7 +123,7 @@ class Insight extends DataTable\Filter\CalculateEvolutionFilter
         $columns = $row->getColumns();
         $columns['growth_percent'] = $growthPercentage;
         $columns['growth_percent_numeric'] = str_replace('%', '', $growthPercentage);
-        $columns['grown']      = '-' != substr($growthPercentage, 0, 1);
+        $columns['grown']      = !str_starts_with($growthPercentage, '-');
         $columns['value_old']  = $oldValue;
         $columns['value_new']  = $newValue;
         $columns['difference'] = $difference;

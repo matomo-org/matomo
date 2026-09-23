@@ -523,7 +523,7 @@ class Sparklines extends ViewDataTable
             return $comparisonRows[$segment][$period][$date];
         }
 
-        if (strpos($date, ',') === false) {
+        if (!str_contains($date, ',')) {
             $rangeDate = Factory::build($period, $date)->getRangeString();
             if (isset($comparisonRows[$segment][$period][$rangeDate])) {
                 return $comparisonRows[$segment][$period][$rangeDate];

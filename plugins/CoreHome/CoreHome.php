@@ -108,7 +108,7 @@ class CoreHome extends \Piwik\Plugin
                     $metric->getDbTableName() === 'log_visit'
                     && $metricName !== 'nb_uniq_visitors'
                     && $metricName !== 'nb_visits'
-                    && strpos($metricName, ArchivedMetric::AGGREGATION_SUM_PREFIX) === 0
+                    && str_starts_with($metricName, ArchivedMetric::AGGREGATION_SUM_PREFIX)
                 ) {
                     $metric = $computedMetricFactory->createComputedMetric($metric->getName(), 'nb_visits', ComputedMetric::AGGREGATION_AVG);
                     $list->addMetric($metric);
