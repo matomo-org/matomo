@@ -56,6 +56,17 @@
 @marketplace-card-chip-height: 26px;
 @marketplace-card-chip-gap: 6px;
 
+// Plugin page geometry, shared by PluginDetails and PluginDetailsSkeleton for the same reason.
+// The content column and the sidebar add up to the width the head is given, so the head sits
+// flush over both; neither may run the full width of a wide admin area, which is what made the
+// old modal hard to read.
+@marketplace-details-aside-width: 356px;
+@marketplace-details-gap: 16px;
+@marketplace-details-width: 1320px;
+// Where the sidebar stops earning its place beside the content and moves underneath it. Above the
+// grid's own breakpoints, because this column is narrower than a row of cards.
+@marketplace-details-stack-width: 992px;
+
 .marketplace {
 
     .btn.disabled,

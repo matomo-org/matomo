@@ -12,6 +12,7 @@ import {
   buildSections,
   buildTabs,
   filterPlugins,
+  isByMatomo,
   isOwned,
   isUnclassified,
   matchesQuery,
@@ -348,6 +349,17 @@ describe('Marketplace/pluginGrouping', () => {
       expect(ownerLabel(makePlugin({ name: 'a', owner: 'InnoCraft' }))).toBe('InnoCraft');
     });
   });
+
+  describe('isByMatomo', () => {
+    it('credits a plugin a Matomo owner name publishes', () => {
+      expect(isByMatomo(makePlugin({ name: 'a', owner: 'piwik' }))).toBe(true);
+      expect(isByMatomo(makePlugin({ name: 'a', owner: 'InnoCraft' }))).toBe(false);
+    });
+
+    it('credits every bundle, whoever the Marketplace names as its owner', () => {
+      expect(isByMatomo(makePlugin({ name: 'a', owner: 'InnoCraft', isBundle: true }))).toBe(true);
+    });
+  });
   describe('pluginCategories', () => {
     it('answers with the slugs a plugin is filed under', () => {
       expect(pluginCategories(makePlugin({ name: 'a', categories: ['insights'] }))).toEqual(['insights']);
@@ -396,7 +408,12 @@ describe('Marketplace/pluginGrouping', () => {
 
     it('drops an entry whose position is not a number, since the rows order on it', () => {
       const plugin = makePlugin({
-        promotions: { featured: '1', bestselling: null, newest: NaN, '': 0 } as never,
+        promotions: {
+          featured: '1',
+          bestselling: null,
+          newest: NaN,
+          '': 0,
+        } as never,
       });
       expect(pluginPromotions(plugin)).toEqual({});
     });

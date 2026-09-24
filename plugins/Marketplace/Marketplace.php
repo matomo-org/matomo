@@ -71,7 +71,9 @@ class Marketplace extends \Piwik\Plugin
         $stylesheets[] = "plugins/Marketplace/vue/src/PluginGrid/EmptyState.less";
         $stylesheets[] = "plugins/Marketplace/vue/src/PluginSection/PluginSection.less";
         $stylesheets[] = "plugins/Marketplace/vue/src/PluginList/CTAStatus.less";
-        $stylesheets[] = "plugins/Marketplace/vue/src/PluginDetailsModal/ShopPricing.less";
+        $stylesheets[] = "plugins/Marketplace/vue/src/PluginDetails/PluginDetails.less";
+        $stylesheets[] = "plugins/Marketplace/vue/src/PluginDetails/PluginDetailsSkeleton.less";
+        $stylesheets[] = "plugins/Marketplace/vue/src/PluginDetails/ShopPricing.less";
     }
 
     public function getJsFiles(&$jsFiles)
@@ -82,6 +84,7 @@ class Marketplace extends \Piwik\Plugin
     public function getClientSideTranslationKeys(&$translationKeys)
     {
         $translationKeys[] = 'CorePluginsAdmin_Activate';
+        $translationKeys[] = 'CorePluginsAdmin_Changelog';
         $translationKeys[] = 'CorePluginsAdmin_Deactivate';
         $translationKeys[] = 'CorePluginsAdmin_MissingRequirementsNotice';
         $translationKeys[] = 'CorePluginsAdmin_PluginsExtendPiwik';
@@ -91,16 +94,20 @@ class Marketplace extends \Piwik\Plugin
         $translationKeys[] = 'CorePluginsAdmin_ThemesDescription';
         $translationKeys[] = 'CorePluginsAdmin_ViewAllMarketplacePlugins';
         $translationKeys[] = 'CoreUpdater_UpdateTitle';
+        $translationKeys[] = 'General_Details';
         $translationKeys[] = 'General_Documentation';
+        $translationKeys[] = 'General_Faq';
         $translationKeys[] = 'General_Download';
         $translationKeys[] = 'General_Downloads';
         $translationKeys[] = 'General_ErrorRequest';
         $translationKeys[] = 'General_Help';
         $translationKeys[] = 'General_Installed';
         $translationKeys[] = 'General_MoreDetails';
+        $translationKeys[] = 'Mobile_NavigationBack';
         $translationKeys[] = 'General_Ok';
         $translationKeys[] = 'General_Plugin';
         $translationKeys[] = 'General_Plugins';
+        $translationKeys[] = 'General_Source';
         $translationKeys[] = 'Login_ConfirmPasswordToContinue';
         $translationKeys[] = 'Marketplace_ActionInstall';
         $translationKeys[] = 'Marketplace_ActivateLicenseKey';
@@ -193,19 +200,19 @@ class Marketplace extends \Piwik\Plugin
         $translationKeys[] = 'Marketplace_UploadZipFile';
         $translationKeys[] = 'Marketplace_ViewSubscriptions';
         $translationKeys[] = 'Marketplace_AddToCart';
-        $translationKeys[] = 'Marketplace_Authors';
         $translationKeys[] = 'Marketplace_AutoUpdateDisabledWarning';
-        $translationKeys[] = 'Marketplace_ByXDevelopers';
         $translationKeys[] = 'Marketplace_ClickToCompletePurchase';
         $translationKeys[] = 'Marketplace_Developer';
         $translationKeys[] = 'Marketplace_Featured';
         $translationKeys[] = 'Marketplace_FeaturedPlugin';
         $translationKeys[] = 'Marketplace_Home';
-        $translationKeys[] = 'Marketplace_LastCommitTime';
         $translationKeys[] = 'Marketplace_LastUpdated';
         $translationKeys[] = 'Marketplace_License';
         $translationKeys[] = 'Marketplace_MultiServerEnvironmentWarning';
+        $translationKeys[] = 'Marketplace_Free';
+        $translationKeys[] = 'Marketplace_NumDownloads';
         $translationKeys[] = 'Marketplace_NumDownloadsLatestVersion';
+        $translationKeys[] = 'Marketplace_NumReviews';
         $translationKeys[] = 'Marketplace_PluginKeywords';
         $translationKeys[] = 'Marketplace_PluginLicenseExceededDescription';
         $translationKeys[] = 'Marketplace_PluginLicenseMissingDescription';
@@ -219,8 +226,6 @@ class Marketplace extends \Piwik\Plugin
         $translationKeys[] = 'Marketplace_SeeAllInCategory';
         $translationKeys[] = 'Marketplace_ShowAllPlugins';
         $translationKeys[] = 'Marketplace_ShownPriceIsExclTax';
-        $translationKeys[] = 'Marketplace_TryFreeTrialTitle';
-        $translationKeys[] = 'CorePluginsAdmin_Activity';
         $translationKeys[] = 'CorePluginsAdmin_Version';
         $translationKeys[] = 'CorePluginsAdmin_Websites';
         $translationKeys[] = 'Marketplace_PluginLicenseStatusPending';
@@ -232,13 +237,25 @@ class Marketplace extends \Piwik\Plugin
         $translationKeys[] = 'Marketplace_PayMonthly';
         $translationKeys[] = 'Marketplace_XMonthsFree';
         $translationKeys[] = 'Marketplace_OneMonthFree';
+        $translationKeys[] = 'Marketplace_OneReview';
         $translationKeys[] = 'Marketplace_BillingPeriod';
         $translationKeys[] = 'Marketplace_PerMonthWithCurrency';
         $translationKeys[] = 'Marketplace_PerYearWithCurrency';
-        $translationKeys[] = 'Marketplace_NumberOfUsers';
+        $translationKeys[] = 'Marketplace_PricePerMonth';
+        $translationKeys[] = 'Marketplace_PricePerYear';
         $translationKeys[] = 'Marketplace_BilledAnnually';
         $translationKeys[] = 'Marketplace_BilledAnnuallyWithSavings';
+        $translationKeys[] = 'Marketplace_BilledMonthly';
+        $translationKeys[] = 'Marketplace_BilledMonthlyWithSavings';
         $translationKeys[] = 'SitesManager_Currency';
+        $translationKeys[] = 'Marketplace_AboutThisPlugin';
+        $translationKeys[] = 'Marketplace_SwitchToCurrency';
+        $translationKeys[] = 'Marketplace_SelectUsers';
+        $translationKeys[] = 'Marketplace_UnlimitedWebsites';
+        $translationKeys[] = 'Marketplace_StartFree30DayTrial';
+        $translationKeys[] = 'Marketplace_OpenSourceLicense';
+        $translationKeys[] = 'Marketplace_Requires';
+        $translationKeys[] = 'Marketplace_RequiresMatomoVersion';
     }
 
     /**
