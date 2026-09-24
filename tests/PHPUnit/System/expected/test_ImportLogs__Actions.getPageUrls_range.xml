@@ -4,7 +4,7 @@
 		<label>blog</label>
 		<nb_visits>15</nb_visits>
 		<nb_hits>18</nb_hits>
-		<sum_time_spent>60</sum_time_spent>
+		<sum_time_spent>158</sum_time_spent>
 		<nb_hits_with_time_network>1</nb_hits_with_time_network>
 		<min_time_network>0.0100</min_time_network>
 		<max_time_network>0.0100</max_time_network>
@@ -61,7 +61,7 @@
 		<entry_nb_visits_percent_of_total>27.5%</entry_nb_visits_percent_of_total>
 		<entry_nb_actions_percent_of_total>32.9%</entry_nb_actions_percent_of_total>
 		<exit_nb_visits_percent_of_total>25.5%</exit_nb_visits_percent_of_total>
-		<avg_time_on_page>3</avg_time_on_page>
+		<avg_time_on_page>9</avg_time_on_page>
 		<bounce_rate>93%</bounce_rate>
 		<exit_rate>87%</exit_rate>
 		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog</segment>
@@ -70,7 +70,7 @@
 				<label>category</label>
 				<nb_visits>12</nb_visits>
 				<nb_hits>15</nb_hits>
-				<sum_time_spent>60</sum_time_spent>
+				<sum_time_spent>158</sum_time_spent>
 				<nb_hits_with_time_network>0</nb_hits_with_time_network>
 				<min_time_network />
 				<max_time_network />
@@ -119,7 +119,7 @@
 				<entry_nb_visits_percent_of_total>21.6%</entry_nb_visits_percent_of_total>
 				<entry_nb_actions_percent_of_total>28.6%</entry_nb_actions_percent_of_total>
 				<exit_nb_visits_percent_of_total>19.6%</exit_nb_visits_percent_of_total>
-				<avg_time_on_page>4</avg_time_on_page>
+				<avg_time_on_page>11</avg_time_on_page>
 				<bounce_rate>91%</bounce_rate>
 				<exit_rate>83%</exit_rate>
 				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory</segment>
@@ -128,7 +128,7 @@
 						<label>meta</label>
 						<nb_visits>10</nb_visits>
 						<nb_hits>12</nb_hits>
-						<sum_time_spent>52</sum_time_spent>
+						<sum_time_spent>151</sum_time_spent>
 						<nb_hits_with_time_network>0</nb_hits_with_time_network>
 						<min_time_network />
 						<max_time_network />
@@ -177,7 +177,7 @@
 						<entry_nb_visits_percent_of_total>19.6%</entry_nb_visits_percent_of_total>
 						<entry_nb_actions_percent_of_total>27.1%</entry_nb_actions_percent_of_total>
 						<exit_nb_visits_percent_of_total>17.6%</exit_nb_visits_percent_of_total>
-						<avg_time_on_page>4</avg_time_on_page>
+						<avg_time_on_page>13</avg_time_on_page>
 						<bounce_rate>90%</bounce_rate>
 						<exit_rate>90%</exit_rate>
 						<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory%252Fmeta</segment>
@@ -186,7 +186,7 @@
 								<label>/index</label>
 								<nb_visits>10</nb_visits>
 								<nb_hits>12</nb_hits>
-								<sum_time_spent>52</sum_time_spent>
+								<sum_time_spent>151</sum_time_spent>
 								<nb_hits_with_time_network>0</nb_hits_with_time_network>
 								<min_time_network />
 								<max_time_network />
@@ -238,7 +238,7 @@
 								<entry_nb_visits_percent_of_total>19.6%</entry_nb_visits_percent_of_total>
 								<entry_nb_actions_percent_of_total>27.1%</entry_nb_actions_percent_of_total>
 								<exit_nb_visits_percent_of_total>17.6%</exit_nb_visits_percent_of_total>
-								<avg_time_on_page>4</avg_time_on_page>
+								<avg_time_on_page>13</avg_time_on_page>
 								<bounce_rate>90%</bounce_rate>
 								<exit_rate>90%</exit_rate>
 								<url>http://www.included2.com/blog/category/meta/</url>
@@ -250,7 +250,7 @@
 						<label>community</label>
 						<nb_visits>2</nb_visits>
 						<nb_hits>3</nb_hits>
-						<sum_time_spent>8</sum_time_spent>
+						<sum_time_spent>7</sum_time_spent>
 						<nb_hits_with_time_network>0</nb_hits_with_time_network>
 						<min_time_network />
 						<max_time_network />
@@ -299,7 +299,7 @@
 						<entry_nb_visits_percent_of_total>2%</entry_nb_visits_percent_of_total>
 						<entry_nb_actions_percent_of_total>1.4%</entry_nb_actions_percent_of_total>
 						<exit_nb_visits_percent_of_total>2%</exit_nb_visits_percent_of_total>
-						<avg_time_on_page>3</avg_time_on_page>
+						<avg_time_on_page>2</avg_time_on_page>
 						<bounce_rate>100%</bounce_rate>
 						<exit_rate>50%</exit_rate>
 						<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory%252Fcommunity</segment>
@@ -308,7 +308,7 @@
 								<label>/index</label>
 								<nb_visits>2</nb_visits>
 								<nb_hits>3</nb_hits>
-								<sum_time_spent>8</sum_time_spent>
+								<sum_time_spent>7</sum_time_spent>
 								<nb_hits_with_time_network>0</nb_hits_with_time_network>
 								<min_time_network />
 								<max_time_network />
@@ -360,7 +360,7 @@
 								<entry_nb_visits_percent_of_total>2%</entry_nb_visits_percent_of_total>
 								<entry_nb_actions_percent_of_total>1.4%</entry_nb_actions_percent_of_total>
 								<exit_nb_visits_percent_of_total>2%</exit_nb_visits_percent_of_total>
-								<avg_time_on_page>3</avg_time_on_page>
+								<avg_time_on_page>2</avg_time_on_page>
 								<bounce_rate>100%</bounce_rate>
 								<exit_rate>50%</exit_rate>
 								<url>http://piwik.net/blog/category/community/</url>
@@ -1112,7 +1112,7 @@
 		<label>docs</label>
 		<nb_visits>6</nb_visits>
 		<nb_hits>7</nb_hits>
-		<sum_time_spent>0</sum_time_spent>
+		<sum_time_spent>1</sum_time_spent>
 		<nb_hits_with_time_network>1</nb_hits_with_time_network>
 		<min_time_network>0.0130</min_time_network>
 		<max_time_network>0.0130</max_time_network>
@@ -1178,7 +1178,7 @@
 				<label>manage-websites</label>
 				<nb_visits>3</nb_visits>
 				<nb_hits>4</nb_hits>
-				<sum_time_spent>0</sum_time_spent>
+				<sum_time_spent>1</sum_time_spent>
 				<nb_hits_with_time_network>0</nb_hits_with_time_network>
 				<min_time_network />
 				<max_time_network />
@@ -1236,7 +1236,7 @@
 						<label>/index</label>
 						<nb_visits>3</nb_visits>
 						<nb_hits>4</nb_hits>
-						<sum_time_spent>0</sum_time_spent>
+						<sum_time_spent>1</sum_time_spent>
 						<nb_hits_with_time_network>0</nb_hits_with_time_network>
 						<min_time_network />
 						<max_time_network />
@@ -1608,7 +1608,7 @@
 		<label>faq</label>
 		<nb_visits>5</nb_visits>
 		<nb_hits>7</nb_hits>
-		<sum_time_spent>26</sum_time_spent>
+		<sum_time_spent>52</sum_time_spent>
 		<nb_hits_with_time_network>0</nb_hits_with_time_network>
 		<min_time_network />
 		<max_time_network />
@@ -1665,7 +1665,7 @@
 		<entry_nb_visits_percent_of_total>7.8%</entry_nb_visits_percent_of_total>
 		<entry_nb_actions_percent_of_total>5.7%</entry_nb_actions_percent_of_total>
 		<exit_nb_visits_percent_of_total>9.8%</exit_nb_visits_percent_of_total>
-		<avg_time_on_page>4</avg_time_on_page>
+		<avg_time_on_page>7</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq</segment>
@@ -1674,7 +1674,7 @@
 				<label>/index</label>
 				<nb_visits>3</nb_visits>
 				<nb_hits>5</nb_hits>
-				<sum_time_spent>26</sum_time_spent>
+				<sum_time_spent>52</sum_time_spent>
 				<nb_hits_with_time_network>0</nb_hits_with_time_network>
 				<min_time_network />
 				<max_time_network />
@@ -1726,7 +1726,7 @@
 				<entry_nb_visits_percent_of_total>3.9%</entry_nb_visits_percent_of_total>
 				<entry_nb_actions_percent_of_total>2.9%</entry_nb_actions_percent_of_total>
 				<exit_nb_visits_percent_of_total>5.9%</exit_nb_visits_percent_of_total>
-				<avg_time_on_page>5</avg_time_on_page>
+				<avg_time_on_page>10</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<url>http://piwik.net/faq/</url>
@@ -1982,7 +1982,7 @@
 		<label>hello</label>
 		<nb_visits>3</nb_visits>
 		<nb_hits>4</nb_hits>
-		<sum_time_spent>0</sum_time_spent>
+		<sum_time_spent>1800</sum_time_spent>
 		<nb_hits_with_time_network>0</nb_hits_with_time_network>
 		<min_time_network />
 		<max_time_network />
@@ -2039,7 +2039,7 @@
 		<entry_nb_visits_percent_of_total>3.9%</entry_nb_visits_percent_of_total>
 		<entry_nb_actions_percent_of_total>5.7%</entry_nb_actions_percent_of_total>
 		<exit_nb_visits_percent_of_total>3.9%</exit_nb_visits_percent_of_total>
-		<avg_time_on_page>0</avg_time_on_page>
+		<avg_time_on_page>450</avg_time_on_page>
 		<bounce_rate>50%</bounce_rate>
 		<exit_rate>67%</exit_rate>
 		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fhello</segment>
@@ -2048,7 +2048,7 @@
 				<label>world</label>
 				<nb_visits>2</nb_visits>
 				<nb_hits>2</nb_hits>
-				<sum_time_spent>0</sum_time_spent>
+				<sum_time_spent>1800</sum_time_spent>
 				<nb_hits_with_time_network>0</nb_hits_with_time_network>
 				<min_time_network />
 				<max_time_network />
@@ -2097,7 +2097,7 @@
 				<entry_nb_visits_percent_of_total>2%</entry_nb_visits_percent_of_total>
 				<entry_nb_actions_percent_of_total>1.4%</entry_nb_actions_percent_of_total>
 				<exit_nb_visits_percent_of_total>2%</exit_nb_visits_percent_of_total>
-				<avg_time_on_page>0</avg_time_on_page>
+				<avg_time_on_page>900</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>50%</exit_rate>
 				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fhello%252Fworld</segment>
@@ -2106,7 +2106,7 @@
 						<label>/6,681965</label>
 						<nb_visits>2</nb_visits>
 						<nb_hits>2</nb_hits>
-						<sum_time_spent>0</sum_time_spent>
+						<sum_time_spent>1800</sum_time_spent>
 						<nb_hits_with_time_network>0</nb_hits_with_time_network>
 						<min_time_network />
 						<max_time_network />
@@ -2158,7 +2158,7 @@
 						<entry_nb_visits_percent_of_total>2%</entry_nb_visits_percent_of_total>
 						<entry_nb_actions_percent_of_total>1.4%</entry_nb_actions_percent_of_total>
 						<exit_nb_visits_percent_of_total>2%</exit_nb_visits_percent_of_total>
-						<avg_time_on_page>0</avg_time_on_page>
+						<avg_time_on_page>900</avg_time_on_page>
 						<bounce_rate>100%</bounce_rate>
 						<exit_rate>50%</exit_rate>
 						<url>http://hello.example.com/hello/world/6,681965</url>

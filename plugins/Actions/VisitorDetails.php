@@ -51,8 +51,19 @@ class VisitorDetails extends VisitorDetailsAbstract
         $nextActionId = 0;
         foreach ($actionDetails as $idx => &$action) {
             if ($idx < $nextActionId || !$this->isPageView($action)) {
-                unset($action['timeSpentRef']);
+                unset($action['timeSpentRef'], $action['pageTimeSpent']);
                 continue; // skip to next page view
+            }
+
+            // pageTimeSpent already covers events, content impressions and heartbeats, so the
+            // legacy walk-forward below would double-count. 0 means the row was never closed
+            // (last hit of an open visit, or pre-writer data), so fall through instead.
+            if (isset($action['pageTimeSpent']) && (int) $action['pageTimeSpent'] > 0) {
+                $action['timeSpent']       = (int) $action['pageTimeSpent'];
+                $action['timeSpentPretty'] = $formatter->getPrettyTimeFromSeconds($action['timeSpent'], true);
+                $nextActionId              = $idx + 1;
+                unset($action['timeSpentRef'], $action['pageTimeSpent']);
+                continue;
             }
 
             $action['timeSpent'] = 0;
@@ -102,7 +113,7 @@ class VisitorDetails extends VisitorDetailsAbstract
                 $action['timeSpentPretty'] = $formatter->getPrettyTimeFromSeconds($action['timeSpent'], true);
             }
 
-            unset($action['timeSpentRef']);
+            unset($action['timeSpentRef'], $action['pageTimeSpent']);
         }
 
         $actions = $actionDetails;
@@ -323,6 +334,9 @@ class VisitorDetails extends VisitorDetailsAbstract
 					log_link_visit_action.time_on_load ) AS pageLoadTime,';
         }
 
+        // timeSpentRef is kept alongside pageTimeSpent so the walk-forward still works for
+        // pre-writer visits. Joined on idlink_va rather than idpageview: the latter would need
+        // a runtime COLLATE on utf8mb3 installs and fatals there with MySQL error 1253.
         $sql           = "
 				SELECT
 					log_link_visit_action.idvisit,
@@ -334,7 +348,8 @@ class VisitorDetails extends VisitorDetailsAbstract
 					log_link_visit_action.idpageview,
 					log_link_visit_action.idlink_va,
 					log_link_visit_action.server_time as serverTimePretty,
-					log_link_visit_action.time_spent_ref_action as timeSpentRef,
+					log_link_visit_action.time_spent_ref_action AS timeSpentRef,
+					log_page_view_time.time_spent AS pageTimeSpent,
 					log_link_visit_action.idlink_va AS pageId,
 					log_link_visit_action.custom_float,
 					$pagePerformanceSelect
@@ -347,6 +362,9 @@ class VisitorDetails extends VisitorDetailsAbstract
 					ON  log_link_visit_action.idaction_url = log_action.idaction
 					LEFT JOIN `" . Common::prefixTable('log_action') . "` AS log_action_title
 					ON  log_link_visit_action.idaction_name = log_action_title.idaction
+					LEFT JOIN `" . Common::prefixTable('log_page_view_time') . "` AS log_page_view_time
+					ON  log_page_view_time.idvisit = log_link_visit_action.idvisit
+					AND log_page_view_time.idlink_va = log_link_visit_action.idlink_va
 					" . implode(" ", $customJoins) . "
 				WHERE log_link_visit_action.idvisit IN ('" . implode("','", $idVisits) . "')
 				ORDER BY log_link_visit_action.idvisit, log_link_visit_action.server_time, log_link_visit_action.idlink_va

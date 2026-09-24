@@ -64,6 +64,13 @@ abstract class LogTable
      * `log_foo_bar (idlogfoobar, idlogfoo)` and a table `log_foo(idlogfoo, idsite, idvisit)`, then you can in the
      * log table instance for `log_foo_bar` return `array('log_foo' => 'idlogfoo')`. This tells the core that a join
      * with that other log table is possible using the specified column.
+     *
+     * A join declared here also wins over the generic idvisit/idaction join to the same partner table.
+     * Partners are tried in join order starting with the FROM table, and the first partner that yields any
+     * join is used, so a declared join does not replace a generic join to an earlier table: with `log_visit`
+     * as the FROM table, a table declaring a join to `log_link_visit_action` is still joined to `log_visit`
+     * on idvisit. Declare one when the generic join to that partner would be wrong, e.g. two tables that each
+     * hold many rows per visit are joined 1:1 on the declared column instead of being multiplied on idvisit.
      * @return array
      */
     public function getWaysToJoinToOtherLogTables()

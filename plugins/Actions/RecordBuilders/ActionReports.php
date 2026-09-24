@@ -13,6 +13,7 @@ use Piwik\API\Request;
 use Piwik\ArchiveProcessor;
 use Piwik\ArchiveProcessor\Record;
 use Piwik\Cache;
+use Piwik\Common;
 use Piwik\Config\GeneralConfig;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\DataTable;
@@ -733,9 +734,77 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
     }
 
     /**
-     * Time per action
+     * Time per action.
      */
     protected function archiveDayActionsTime(LogAggregator $logAggregator, array $actionsTablesByType, int $rankingQueryLimit, array $tableModesByType = [])
+    {
+        $this->archiveDayActionsTimeAccurate($logAggregator, $actionsTablesByType, $rankingQueryLimit, $tableModesByType);
+        $this->archiveDayActionsTimeLegacy($logAggregator, $actionsTablesByType, $rankingQueryLimit, $tableModesByType);
+    }
+
+    private function archiveDayActionsTimeAccurate(LogAggregator $logAggregator, array $actionsTablesByType, int $rankingQueryLimit, array $tableModesByType): void
+    {
+        $rankingQuery = false;
+        if ($rankingQueryLimit > 0) {
+            $rankingQuery = new RankingQuery($rankingQueryLimit);
+            $rankingQuery->addLabelColumn('idaction');
+            $rankingQuery->addColumn(PiwikMetrics::INDEX_PAGE_SUM_TIME_SPENT, 'sum');
+            $rankingQuery->partitionResultIntoMultipleGroups('type', array_keys($actionsTablesByType));
+
+            $extraSelects = "log_action.type, log_action.name, count(*) as `" . PiwikMetrics::INDEX_PAGE_NB_HITS . "`,";
+            $from = [
+                'log_page_view_time',
+                [
+                    'table'  => 'log_action',
+                    'joinOn' => 'log_page_view_time.%s = log_action.idaction',
+                ],
+            ];
+            $orderBy = '`' . PiwikMetrics::INDEX_PAGE_NB_HITS . '` DESC, log_action.name ASC';
+        } else {
+            $extraSelects = false;
+            $from = 'log_page_view_time';
+            $orderBy = false;
+        }
+
+        // A row never closed shows 0, matching legacy semantics for the last hit in a visit.
+        $select = "log_page_view_time.%s as idaction, $extraSelects
+                SUM(log_page_view_time.time_spent) as `" . PiwikMetrics::INDEX_PAGE_SUM_TIME_SPENT . "`";
+
+        $where = $logAggregator->getWhereStatement('log_page_view_time', 'server_time');
+        $where .= ' AND log_page_view_time.%s > 0';
+
+        $groupBy = 'log_page_view_time.%s';
+
+        $this->archiveDayQueryProcess(
+            $logAggregator,
+            $actionsTablesByType,
+            $select,
+            $from,
+            $where,
+            $groupBy,
+            $orderBy,
+            'idaction_url',
+            $rankingQuery,
+            [],
+            $tableModesByType
+        );
+
+        $this->archiveDayQueryProcess(
+            $logAggregator,
+            $actionsTablesByType,
+            $select,
+            $from,
+            $where,
+            $groupBy,
+            $orderBy,
+            'idaction_name',
+            $rankingQuery,
+            [],
+            $tableModesByType
+        );
+    }
+
+    private function archiveDayActionsTimeLegacy(LogAggregator $logAggregator, array $actionsTablesByType, int $rankingQueryLimit, array $tableModesByType): void
     {
         $rankingQuery = false;
         if ($rankingQueryLimit > 0) {
@@ -759,13 +828,37 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
             $orderBy = false;
         }
 
+        $pageViewTimeTable = Common::prefixTable('log_page_view_time');
+
         $select = "log_link_visit_action.%s as idaction, $extraSelects
                 sum(log_link_visit_action.time_spent_ref_action) as `" . PiwikMetrics::INDEX_PAGE_SUM_TIME_SPENT . "`";
 
-        $where = $logAggregator->getWhereStatement('log_link_visit_action', 'server_time');
-        $where .= " AND log_link_visit_action.time_spent_ref_action > 0
+        $whereBase = $logAggregator->getWhereStatement('log_link_visit_action', 'server_time');
+        $whereBase .= " AND log_link_visit_action.time_spent_ref_action > 0
                  AND log_link_visit_action.%s > 0"
             . $this->getWhereClauseActionIsNotEvent();
+
+        // Keyed on the credited action, since time_spent_ref_action credits the previous page.
+        // The time_spent > 0 guard keeps the legacy value where the writer captured nothing:
+        // a trailing page-view with no following hit, or data predating the writer.
+        //
+        // The key is per (visit, action), not per pageview instance, so a page viewed twice
+        // shares one decision. Both instances carry their own time, because every hit closes
+        // the most recent row whether or not it has a pv_id.
+        $whereUrl = $whereBase . "
+                 AND NOT EXISTS (
+                        SELECT 1 FROM `$pageViewTimeTable` AS pvt
+                         WHERE pvt.idvisit = log_link_visit_action.idvisit
+                           AND pvt.idaction_url = log_link_visit_action.idaction_url_ref
+                           AND pvt.time_spent > 0
+                     )";
+        $whereName = $whereBase . "
+                 AND NOT EXISTS (
+                        SELECT 1 FROM `$pageViewTimeTable` AS pvt
+                         WHERE pvt.idvisit = log_link_visit_action.idvisit
+                           AND pvt.idaction_name = log_link_visit_action.idaction_name_ref
+                           AND pvt.time_spent > 0
+                     )";
 
         $groupBy = "log_link_visit_action.%s";
 
@@ -774,7 +867,7 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
             $actionsTablesByType,
             $select,
             $from,
-            $where,
+            $whereUrl,
             $groupBy,
             $orderBy,
             "idaction_url_ref",
@@ -788,7 +881,7 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
             $actionsTablesByType,
             $select,
             $from,
-            $where,
+            $whereName,
             $groupBy,
             $orderBy,
             "idaction_name_ref",
