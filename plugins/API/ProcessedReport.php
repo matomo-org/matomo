@@ -28,6 +28,7 @@ use Piwik\Metrics;
 use Piwik\Metrics\Formatter;
 use Piwik\Period;
 use Piwik\Piwik;
+use Piwik\Plugin;
 use Piwik\Plugin\ReportsProvider;
 use Piwik\Plugins\CoreHome\Columns\Metrics\PercentOfReportTotal;
 use Piwik\SettingsPiwik;
@@ -278,6 +279,33 @@ class ProcessedReport
         }
 
         return end($candidates);
+    }
+
+    /**
+     * The replacements of the no longer advertised report unique ids that the site offers, without
+     * building its report metadata: the ecommerce order reports are only advertised where the
+     * Ecommerce plugin is active and the site has ecommerce enabled, the all-goals reports always.
+     *
+     * @return list<string>
+     * @ignore
+     */
+    public static function getRenamedReportUniqueIdsAvailableFor(int $idSite): array
+    {
+        $isEcommerceEnabled = Plugin\Manager::getInstance()->isPluginActivated('Ecommerce')
+            && Site::isEcommerceEnabledFor($idSite);
+
+        $ecommerceOrderSuffix = '_idGoal--' . Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER;
+        $availableUniqueIds   = [];
+
+        foreach (self::RENAMED_REPORT_UNIQUE_IDS as $candidates) {
+            foreach ($candidates as $candidate) {
+                if ($isEcommerceEnabled || !str_ends_with($candidate, $ecommerceOrderSuffix)) {
+                    $availableUniqueIds[] = $candidate;
+                }
+            }
+        }
+
+        return $availableUniqueIds;
     }
 
     /**

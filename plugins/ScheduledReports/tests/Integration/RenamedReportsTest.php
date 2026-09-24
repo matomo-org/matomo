@@ -107,6 +107,19 @@ class RenamedReportsTest extends IntegrationTestCase
         self::assertSame(['Goals_get_idGoal--ecommerceOrder'], reset($reports)['reports']);
     }
 
+    public function testAStoredRetiredIdOnASiteTheOwnerCanNoLongerViewDoesNotFailTheListing(): void
+    {
+        $idReport = $this->addReport(['Goals_get']);
+        $this->overwriteStoredReports($idReport, [self::RETIRED_GOALS_GET]);
+
+        $idOtherSite = Fixture::createWebsite('2015-01-01 00:00:00');
+        FakeAccess::clearAccess(false, [], [$idOtherSite], FakeAccess::$superUserLogin);
+
+        $reports = APIScheduledReports::getInstance()->getReports();
+
+        self::assertSame(['Goals_get'], reset($reports)['reports']);
+    }
+
     public function testACorruptStoredSelectionIsLeftAloneAsBefore(): void
     {
         $idReport = $this->addReport(['Goals_get']);

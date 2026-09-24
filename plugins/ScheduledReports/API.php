@@ -485,8 +485,6 @@ class API extends \Piwik\Plugin\API
             throw new Exception("Requested report couldn't be found.");
         }
 
-        $availableReportIdsByType = [];
-
         foreach ($reports as &$report) {
             // decode report parameters
             $report['parameters'] = json_decode($report['parameters'], true);
@@ -497,19 +495,14 @@ class API extends \Piwik\Plugin\API
             if (is_array($report['reports'])) {
                 $availableReportIds = null;
 
-                // Only a selection naming a retired report needs the metadata that says which
-                // replacement is available for this site, so the usual case pays nothing for it.
-                if (ProcessedReport::hasRenamedReportUniqueId($report['reports'])) {
-                    $metadataKey = $report['idsite'] . '_' . $report['type'];
-
-                    if (!isset($availableReportIdsByType[$metadataKey])) {
-                        $availableReportIdsByType[$metadataKey] = array_column(
-                            self::getReportMetadata($report['idsite'], $report['type']),
-                            'uniqueId'
-                        );
-                    }
-
-                    $availableReportIds = $availableReportIdsByType[$metadataKey];
+                // Only a selection naming a retired report needs to know which replacement the site
+                // offers. An owner who lost view access on the site gets the always-available
+                // replacement, as the site lookup would otherwise fail the whole listing.
+                if (
+                    ProcessedReport::hasRenamedReportUniqueId($report['reports'])
+                    && Piwik::isUserHasViewAccess($report['idsite'])
+                ) {
+                    $availableReportIds = ProcessedReport::getRenamedReportUniqueIdsAvailableFor((int) $report['idsite']);
                 }
 
                 $report['reports'] = ProcessedReport::getRenamedReportUniqueIds(
