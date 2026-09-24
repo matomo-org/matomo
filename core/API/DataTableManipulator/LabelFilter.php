@@ -202,6 +202,7 @@ class LabelFilter extends DataTableManipulator
         unset($request['label']);
         unset($request['flat']);
         $request['totals'] = 0;
+        $request['filter_sort_column'] = ''; // do not sort, we only want to find a matching column
 
         return $request;
     }
