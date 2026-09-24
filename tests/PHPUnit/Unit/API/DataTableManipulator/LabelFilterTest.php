@@ -139,6 +139,71 @@ class LabelFilterTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @dataProvider getLabelsThatAreEqualOnceDecoded
+     */
+    public function testPruneLoadedSubtableKeepsTheWholeTableWhenAnotherLabelMatchesOnceDecoded(array $labels)
+    {
+        $table = $this->makeTableWithLabels(array_merge(['other'], $labels));
+        $filter = new LabelFilter();
+
+        $pruned = $this->pruneFor($filter, $table, 'a & b');
+
+        $this->assertSame(3, $pruned->getRowsCount());
+    }
+
+    public function getLabelsThatAreEqualOnceDecoded(): array
+    {
+        return [
+            'html encoded' => [['a &amp; b', 'a & b']],
+            'url encoded' => [['a%20%26%20b', 'a & b']],
+        ];
+    }
+
+    public function testPruneLoadedSubtableKeepsARowWithAValueForEachColumnTheWantedRowLacks()
+    {
+        $table = $this->makeTableWithRows([
+            'wanted' => ['sum_time_network' => 0],
+            // a numeric string can hold no value too
+            'zero as text' => ['sum_time_network' => '0.0'],
+            'timed' => ['sum_time_network' => 5],
+            'timed too' => ['sum_time_network' => 7],
+        ]);
+        $filter = new LabelFilter();
+
+        $pruned = $this->pruneFor($filter, $table, 'wanted', [], true);
+
+        $this->assertSame(['wanted', 'timed'], $pruned->getColumn('label'));
+    }
+
+    public function testPruneLoadedSubtableKeepsARowForEachGoalTheWantedRowLacks()
+    {
+        // a goal counts whatever its values are, as that is how the goal columns get added
+        $table = $this->makeTableWithRows([
+            'wanted' => ['goals' => ['idgoal=1' => ['nb_conversions' => 1]]],
+            'same goal' => ['goals' => ['idgoal=1' => ['nb_conversions' => 3]]],
+            'other goal' => ['goals' => ['idgoal=2' => ['nb_conversions' => 0]]],
+        ]);
+        $filter = new LabelFilter();
+
+        $pruned = $this->pruneFor($filter, $table, 'wanted', [], true);
+
+        $this->assertSame(['wanted', 'other goal'], $pruned->getColumn('label'));
+    }
+
+    public function testPruneLoadedSubtableKeepsOnlyTheWantedRowWhenTheDescentGoesDeeper()
+    {
+        $table = $this->makeTableWithRows([
+            'wanted' => ['sum_time_network' => 0],
+            'timed' => ['sum_time_network' => 5],
+        ]);
+        $filter = new LabelFilter();
+
+        $pruned = $this->pruneFor($filter, $table, 'wanted');
+
+        $this->assertSame(['wanted'], $pruned->getColumn('label'));
+    }
+
+    /**
      * The label the descent is after is remembered on the filter for the duration of the subtable
      * load, so a test has to set it the same way doFilterRecursiveDescend() does.
      */
@@ -146,13 +211,18 @@ class LabelFilterTest extends \PHPUnit\Framework\TestCase
         LabelFilter $filter,
         DataTable $table,
         ?string $labelPart,
-        array $request = []
+        array $request = [],
+        bool $labelPartIsLast = false
     ): DataTable {
         $class = new \ReflectionClass(LabelFilter::class);
 
         $property = $class->getProperty('nextLabelPart');
         $property->setAccessible(true);
         $property->setValue($filter, $labelPart);
+
+        $property = $class->getProperty('nextLabelPartIsLast');
+        $property->setAccessible(true);
+        $property->setValue($filter, $labelPartIsLast);
 
         $method = $class->getMethod('pruneLoadedSubtable');
         $method->setAccessible(true);
@@ -165,6 +235,16 @@ class LabelFilterTest extends \PHPUnit\Framework\TestCase
         $table = new DataTable();
         foreach ($labels as $label) {
             $table->addRow(new Row([Row::COLUMNS => ['label' => $label, 'nb_visits' => 1]]));
+        }
+
+        return $table;
+    }
+
+    private function makeTableWithRows(array $columnsByLabel): DataTable
+    {
+        $table = new DataTable();
+        foreach ($columnsByLabel as $label => $columns) {
+            $table->addRow(new Row([Row::COLUMNS => ['label' => $label, 'nb_visits' => 1] + $columns]));
         }
 
         return $table;

@@ -111,6 +111,68 @@ class LabelFilterTest extends IntegrationTestCase
         $this->assertSame(['-1'], $this->getLabelsFromPageUrls(['label' => 'dir>-1']));
     }
 
+    public function testRecursiveLabelSortsTheSubtableByTheReportDefaultBeforeAnOffset()
+    {
+        // the descent has always sorted the subtable by the report's default column, whatever sort
+        // the request asks for. sorted by label the row we are after would come first and the
+        // offset would drop it
+        $this->assertSame(['/target'], $this->getLabelsFromPageUrls([
+            'filter_offset' => 2,
+            'filter_sort_column' => 'label',
+            'filter_sort_order' => 'desc',
+        ]));
+    }
+
+    public function testRecursiveLabelKeepsColumnsOnlyASiblingHasAValueFor()
+    {
+        // the page performance metrics drop their columns when no row in the subtable has a timing
+        // sum, and here only a sibling of the row we are after has one
+        self::$subtableShape = 'siblingWithTiming';
+
+        $row = $this->getRowFromPageUrls();
+
+        $this->assertSame(1, $row['nb_hits_with_time_network'] ?? null);
+        $this->assertEquals($this->getRowFromPageUrlsWithoutPruning(), $row);
+    }
+
+    public function testRecursiveLabelPicksTheSameRowWhenTwoLabelsAreEqualOnceDecoded()
+    {
+        // both labels end up as "/a &amp; b" once post-processing decodes them, and the search then
+        // picks the one the sort puts last, which is the one with fewer hits
+        self::$subtableShape = 'labelsEqualOnceDecoded';
+
+        $params = ['label' => 'dir>' . urlencode('/a & b')];
+        $row = $this->getRowFromPageUrls($params);
+
+        $this->assertSame(5, $row['nb_hits']);
+        $this->assertEquals($this->getRowFromPageUrlsWithoutPruning($params), $row);
+    }
+
+    private function getRowFromPageUrls(array $params = []): array
+    {
+        $table = Request::processRequest('Actions.getPageUrls', array_merge([
+            'idSite' => 1,
+            'period' => 'day',
+            'date' => self::DATE,
+            'label' => 'dir>' . urlencode('/target'),
+            'filter_limit' => -1,
+            'format' => 'original',
+        ], $params));
+
+        $this->assertSame(1, $table->getRowsCount());
+
+        return $table->getFirstRow()->getColumns();
+    }
+
+    /**
+     * A limit the subtable does not reach keeps every row, but it is one of the filters the prune
+     * steps aside for, so the subtable is post-processed whole, as it was before the prune existed.
+     */
+    private function getRowFromPageUrlsWithoutPruning(array $params = []): array
+    {
+        return $this->getRowFromPageUrls(array_merge($params, ['filter_limit' => 1000]));
+    }
+
     private function getLabelsFromPageUrls(array $params = []): array
     {
         $table = Request::processRequest('Actions.getPageUrls', array_merge([
@@ -155,6 +217,27 @@ class LabelFilterTest extends IntegrationTestCase
         }
 
         $rows[] = ['label' => '/target', 'nb_visits' => 1, 'nb_hits' => 1];
+
+        if (self::$subtableShape === 'siblingWithTiming') {
+            $rows[0] += [
+                'sum_time_network' => 120,
+                'nb_hits_with_time_network' => 60,
+                'min_time_network' => 1,
+                'max_time_network' => 3,
+            ];
+            // a hit timed at less than a millisecond
+            $rows[2] += [
+                'sum_time_network' => 0,
+                'nb_hits_with_time_network' => 1,
+                'min_time_network' => 0,
+                'max_time_network' => 0,
+            ];
+        }
+
+        if (self::$subtableShape === 'labelsEqualOnceDecoded') {
+            $rows[] = ['label' => '/a &amp; b', 'nb_visits' => 20, 'nb_hits' => 20];
+            $rows[] = ['label' => '/a & b', 'nb_visits' => 5, 'nb_hits' => 5];
+        }
 
         $table = new DataTable();
         $table->addRowsFromSimpleArray($rows);

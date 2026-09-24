@@ -12,6 +12,8 @@ namespace Piwik\API\DataTableManipulator;
 use Piwik\API\DataTableManipulator;
 use Piwik\Common;
 use Piwik\DataTable;
+use Piwik\DataTable\Filter\SafeDecodeLabel;
+use Piwik\DataTable\Row;
 
 /**
  * This class is responsible for handling the label parameter that can be
@@ -38,6 +40,11 @@ class LabelFilter extends DataTableManipulator
      * The label the next subtable to be loaded will be searched for, if any.
      */
     private ?string $nextLabelPart = null;
+
+    /**
+     * Whether the row searched for in that subtable is the one the search returns.
+     */
+    private bool $nextLabelPartIsLast = false;
 
     public function __construct($apiModule = false, $apiMethod = false, $request = array(), string $labelColumn = 'label')
     {
@@ -107,11 +114,13 @@ class LabelFilter extends DataTableManipulator
         }
 
         $this->nextLabelPart = $labelParts[0];
+        $this->nextLabelPartIsLast = count($labelParts) === 1;
 
         try {
             $subTable = $this->loadSubtable($dataTable, $row);
         } finally {
             $this->nextLabelPart = null;
+            $this->nextLabelPartIsLast = false;
         }
 
         if ($subTable === null) {
@@ -125,11 +134,8 @@ class LabelFilter extends DataTableManipulator
     /**
      * We are looking for a single row, so drop the others before the subtable is post-processed.
      * If the label doesn't match here it may still match once the subtable has been post-processed,
-     * so in that case keep the whole table and let the regular search deal with it.
-     *
-     * What this does not promise is that the row matching now is the one that would have matched
-     * later. Post-processing rewrites labels, so two rows can end up sharing one, and whichever of
-     * them matches here wins. The search picks arbitrarily between equal labels either way.
+     * so in that case keep the whole table and let the regular search deal with it. When the row is
+     * the one the search returns, a few other rows are kept too, see getRowsForWholeTableChecks().
      *
      * @param mixed $dataTable
      * @param array $request
@@ -145,22 +151,108 @@ class LabelFilter extends DataTableManipulator
             return $dataTable;
         }
 
-        $row = $this->findRowForLabel($this->labelColumn, $this->nextLabelPart, $dataTable);
+        $row = $this->findOnlyRowForLabel($this->nextLabelPart, $dataTable);
 
-        if ($row === false) {
+        // a summary row is still labelled -1 at this point, and only gets its real label during
+        // post-processing, so a match on it is not the row the search will find
+        if ($row === null || $row === $dataTable->getSummaryRow()) {
             return $dataTable;
         }
 
-        // a summary row is still labelled -1 at this point, and an ordinary row can be labelled
-        // that too, so a match here may be the wrong one of the two. keep the whole table and let
-        // the regular search pick, once the summary row has been renamed.
-        if ($row === $dataTable->getSummaryRow()) {
-            return $dataTable;
+        $rows = [$row];
+
+        // a row we only descend through is used for its subtable id alone, so its columns don't matter
+        if ($this->nextLabelPartIsLast) {
+            $rows = $this->getRowsForWholeTableChecks($row, $dataTable);
         }
 
-        $dataTable->setRows([$row]);
+        $dataTable->setRows($rows);
 
         return $dataTable;
+    }
+
+    /**
+     * Finds the row the search will pick once the subtable has been post-processed, as long as only
+     * one row can be it. Post-processing decodes the labels, so rows stored as "a &amp; b" and
+     * "a & b" both end up as "a &amp; b", and the search then picks whichever of them the sort puts
+     * last. Only the whole table can tell which one that is, so if more than one row matches, as
+     * its label reads now or once decoded, no row is returned.
+     */
+    private function findOnlyRowForLabel(string $labelPart, DataTable $dataTable): ?Row
+    {
+        $variations = array_flip($this->getLabelVariations($labelPart));
+        $match = null;
+
+        foreach ($dataTable->getRows() as $row) {
+            $label = (string) ($row->getColumn($this->labelColumn) ?: $row->getMetadata($this->labelColumn));
+
+            if (isset($variations[$label]) || isset($variations[SafeDecodeLabel::decodeLabelSafe($label)])) {
+                if ($match !== null) {
+                    return null;
+                }
+
+                $match = $row;
+            }
+        }
+
+        return $match;
+    }
+
+    /**
+     * Some post-processing looks at every row before it computes anything. The PagePerformance and
+     * page generation time metrics drop their columns when no row has a value for them, and goal
+     * columns are added for every goal any row has. Left with the target row alone, those checks
+     * would only see that row, and the row we return could lose columns it has on the whole table.
+     *
+     * So next to the target row, keep one row with a value for each column, and each goal, the rows
+     * kept so far have no value for. The search only returns the target row, so the extra rows
+     * never reach the output.
+     *
+     * @return Row[]
+     */
+    private function getRowsForWholeTableChecks(Row $target, DataTable $dataTable): array
+    {
+        $covered = [];
+        $coveredKeys = [];
+        $this->coverColumns($target->getColumns(), $covered, $coveredKeys);
+
+        $rows = [$target];
+
+        foreach ($dataTable->getRowsWithoutSummaryRow() as $row) {
+            if ($row !== $target && $this->coverColumns($row->getColumns(), $covered, $coveredKeys)) {
+                $rows[] = $row;
+            }
+        }
+
+        return $rows;
+    }
+
+    /**
+     * Records the columns of a row that have a value and are not covered yet. For a column holding
+     * an array, like goals, it is the keys that get covered, whatever their values are.
+     *
+     * @return bool whether the row covered anything new
+     */
+    private function coverColumns(array $columns, array &$covered, array &$coveredKeys): bool
+    {
+        $coveredNew = false;
+
+        // array_filter() drops the empty values, which keeps this cheap on rows with nothing new
+        foreach (array_filter(array_diff_key($columns, $covered)) as $name => $value) {
+            if (is_array($value)) {
+                $newKeys = array_diff_key($value, $coveredKeys[$name] ?? []);
+                if (!empty($newKeys)) {
+                    $coveredKeys[$name] = ($coveredKeys[$name] ?? []) + $newKeys;
+                    $coveredNew = true;
+                }
+            } elseif (!is_numeric($value) || $value != 0) {
+                // a numeric string such as '0.0' has no value either, but array_filter() keeps it
+                $covered[$name] = true;
+                $coveredNew = true;
+            }
+        }
+
+        return $coveredNew;
     }
 
     /**
