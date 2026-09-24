@@ -36,8 +36,11 @@ export function coreHomeMock() {
       urlParsed: { value: {} },
       parsed: { value: { idSite: '1' } },
       hashParsed: { value: {} },
+      // drops emptied parameters, as CoreHome's does - a page clears one by passing null
       stringify: (params: Record<string, unknown>) => new URLSearchParams(
-        Object.entries(params).map(([key, value]) => [key, String(value)]),
+        Object.entries(params)
+          .filter(([, value]) => value !== '' && value !== null && value !== undefined)
+          .map(([key, value]) => [key, String(value)]),
       ).toString(),
     },
   };
