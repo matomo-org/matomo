@@ -838,8 +838,14 @@ export default defineComponent({
         this.goal.match_attribute = 'file';
       }
     },
-    onRecommendedGoalsCreated(idGoals: number[]) {
+    async onRecommendedGoalsCreated(idGoals: number[]) {
       this.refreshGoals();
+
+      // the menu and report pages only know goals from page load, so new goals and
+      // their report links need a reload of both
+      if (Matomo.helper.isReportingPage()) {
+        await ReportingMenuStore.reloadMenuItems();
+      }
 
       if (idGoals.length === 1) {
         this.showNotificationMessage(idGoals[0], true);
