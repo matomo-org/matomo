@@ -12,6 +12,7 @@ namespace Piwik\Tests\Unit\API\DataTableManipulator;
 use Piwik\API\DataTableManipulator\LabelFilter;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
+use Piwik\Plugins\CoreHome\Columns\Metrics\VisitsPercent;
 
 class LabelFilterTest extends \PHPUnit\Framework\TestCase
 {
@@ -113,6 +114,11 @@ class LabelFilterTest extends \PHPUnit\Framework\TestCase
             'limit' => [['filter_limit' => 10]],
             // a pattern can drop the rows kept for the whole table checks
             'pattern' => [['filter_pattern' => 'wanted']],
+            // zero is a pattern too, it matches every label with a 0 in it
+            'pattern of zero' => [['filter_pattern' => '0']],
+            // the rows without visits are deleted, and one of them can be a row kept for the whole table checks
+            'rows without visits deleted' => [['filter_add_columns_when_show_all_columns' => '1']],
+            'label column hidden' => [['hideColumns' => 'nb_visits,label']],
         ];
     }
 
@@ -137,6 +143,11 @@ class LabelFilterTest extends \PHPUnit\Framework\TestCase
             'unlimited as a string' => [['filter_limit' => '-1']],
             'no value to exclude on' => [['filter_excludelowpop' => '']],
             'a sort is per row' => [['filter_sort_column' => 'nb_visits']],
+            // the value row evolution sends, which keeps the rows without visits
+            'rows without visits kept' => [['filter_add_columns_when_show_all_columns' => '0']],
+            'another column hidden' => [['hideColumns' => 'nb_visits']],
+            // the label column is always among the columns shown
+            'columns shown' => [['showColumns' => 'nb_visits']],
         ];
     }
 
@@ -159,6 +170,123 @@ class LabelFilterTest extends \PHPUnit\Framework\TestCase
             'html encoded' => [['a &amp; b', 'a & b']],
             'url encoded' => [['a%20%26%20b', 'a & b']],
         ];
+    }
+
+    /**
+     * @dataProvider getQueuedFiltersThatMayChangeLabels
+     */
+    public function testPruneLoadedSubtableKeepsTheWholeTableWhenAQueuedFilterMayChangeLabels($className, array $parameters)
+    {
+        $table = $this->makeTableWithLabels(['other', 'wanted', 'another']);
+        $table->queueFilter($className, $parameters);
+        $filter = new LabelFilter();
+
+        $pruned = $this->pruneFor($filter, $table, 'wanted');
+
+        $this->assertSame(3, $pruned->getRowsCount());
+    }
+
+    public function getQueuedFiltersThatMayChangeLabels(): array
+    {
+        $callback = function ($value) {
+            return $value;
+        };
+
+        return [
+            'a filter replacing column values' => ['ColumnCallbackReplace', [['label'], $callback]],
+            'a filter from a plugin' => ['Piwik\Plugins\Referrers\DataTable\Filter\KeywordNotDefined', []],
+            'metadata added under the label column' => ['ColumnCallbackAddMetadata', ['label', 'label', $callback]],
+            'the label column deleted' => ['ColumnDelete', [['label']]],
+            'the label column deleted from a list' => ['ColumnDelete', ['nb_visits,label']],
+            'the label column renamed' => ['ReplaceColumnNames', [['label' => 'renamed']]],
+            'another column renamed to the label column' => ['ReplaceColumnNames', [['url' => 'label']]],
+            // a callable cannot be inspected, so it may do anything
+            'a callable' => [function (DataTable $table) {
+            }, []],
+        ];
+    }
+
+    /**
+     * @dataProvider getQueuedFiltersThatKeepLabels
+     */
+    public function testPruneLoadedSubtablePrunesWhenTheQueuedFiltersKeepLabels($className, array $parameters)
+    {
+        $table = $this->makeTableWithLabels(['other', 'wanted', 'another']);
+        $table->queueFilter($className, $parameters);
+        $filter = new LabelFilter();
+
+        $pruned = $this->pruneFor($filter, $table, 'wanted');
+
+        $this->assertSame(1, $pruned->getRowsCount());
+    }
+
+    public function getQueuedFiltersThatKeepLabels(): array
+    {
+        $callback = function ($value) {
+            return $value;
+        };
+
+        return [
+            'by short name' => ['ColumnDelete', [['nb_visits']]],
+            'by full name' => ['Piwik\DataTable\Filter\ReplaceColumnNames', []],
+            'metadata added under another name' => ['ColumnCallbackAddMetadata', ['label', 'url', $callback]],
+            // the columns to keep never include the label column, but it is kept anyway
+            'columns to keep' => ['ColumnDelete', [[], ['nb_visits']]],
+            'columns to keep with nothing to delete' => ['ColumnDelete', [false, ['nb_visits']]],
+            'another column renamed' => ['ReplaceColumnNames', [['nb_hits' => 'hits']]],
+        ];
+    }
+
+    public function testPruneLoadedSubtableKeepsTheWholeTableWhenColumnsToKeepLeaveOutTheRowIdentifier()
+    {
+        // only the label column is kept whatever the columns to keep are, a row identifier is not
+        $table = new DataTable();
+        foreach (['other', 'wanted', 'another'] as $id) {
+            $table->addRow(new Row([Row::COLUMNS => ['label' => 'crash', 'idlogcrash' => $id, 'nb_visits' => 1]]));
+        }
+        $table->queueFilter('ColumnDelete', [[], ['nb_visits']]);
+        $filter = new LabelFilter(false, false, [], 'idlogcrash');
+
+        $pruned = $this->pruneFor($filter, $table, 'wanted');
+
+        $this->assertSame(3, $pruned->getRowsCount());
+    }
+
+    public function testPruneLoadedSubtableKeepsTheWholeTableWhenTheColumnsShownLeaveOutTheRowIdentifier()
+    {
+        $table = new DataTable();
+        foreach (['other', 'wanted', 'another'] as $id) {
+            $table->addRow(new Row([Row::COLUMNS => ['label' => 'crash', 'idlogcrash' => $id, 'nb_visits' => 1]]));
+        }
+        $filter = new LabelFilter(false, false, [], 'idlogcrash');
+
+        $pruned = $this->pruneFor($filter, $table, 'wanted', ['showColumns' => 'nb_visits']);
+
+        $this->assertSame(3, $pruned->getRowsCount());
+    }
+
+    public function testPruneLoadedSubtableKeepsTheWholeTableForAMetricThatLooksAtEveryRow()
+    {
+        // the share of visits is computed against the sum of visits over the table
+        $table = $this->makeTableWithLabels(['other', 'wanted', 'another']);
+        $table->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME, [new VisitsPercent()]);
+        $filter = new LabelFilter();
+
+        $pruned = $this->pruneFor($filter, $table, 'wanted', [], true);
+
+        $this->assertSame(3, $pruned->getRowsCount());
+    }
+
+    public function testPruneLoadedSubtableIgnoresAMetricThatLooksAtEveryRowWhenTheDescentGoesDeeper()
+    {
+        // only the subtable id of the row matters when the descent goes deeper
+        $table = $this->makeTableWithLabels(['other', 'wanted', 'another']);
+        $table->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME, [new VisitsPercent()]);
+        $filter = new LabelFilter();
+
+        $pruned = $this->pruneFor($filter, $table, 'wanted');
+
+        $this->assertSame(1, $pruned->getRowsCount());
     }
 
     public function testPruneLoadedSubtableKeepsARowWithAValueForEachColumnTheWantedRowLacks()
@@ -229,7 +357,7 @@ class LabelFilterTest extends \PHPUnit\Framework\TestCase
         $method = $class->getMethod('pruneLoadedSubtable');
         $method->setAccessible(true);
 
-        return $method->invoke($filter, $table, $request);
+        return $method->invoke($filter, $table, $request, '', '');
     }
 
     private function makeTableWithLabels(array $labels): DataTable

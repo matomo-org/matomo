@@ -15,6 +15,8 @@ use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Metrics;
 use Piwik\Period\Factory as PeriodFactory;
+use Piwik\Plugins\CoreHome\Columns\Metrics\VisitsPercent;
+use Piwik\Plugins\Referrers\API as ReferrersAPI;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -45,11 +47,17 @@ class LabelFilterTest extends IntegrationTestCase
      */
     private static string $subtableShape = 'siblings';
 
+    /**
+     * The label of the one row of the root table, which a pattern has to match too.
+     */
+    private static string $rootLabel = 'dir';
+
     public function setUp(): void
     {
         parent::setUp();
 
         self::$subtableShape = 'siblings';
+        self::$rootLabel = 'dir';
 
         // the descent resolves the method to load subtables with from the report metadata, which
         // needs a site to look the report up for
@@ -174,6 +182,83 @@ class LabelFilterTest extends IntegrationTestCase
         $this->assertSame(array_keys($this->getRowFromPageUrlsWithoutPruning($params)), array_keys($row));
     }
 
+    public function testRecursiveLabelKeepsColumnsWhenAPatternOfZeroRemovesTheSiblingThatHasThem()
+    {
+        // "0" is a pattern like any other. It drops the first sibling with a timing sum but keeps
+        // the second one, so the page performance metrics still see a timing sum on the subtable
+        self::$subtableShape = 'siblingsWithTimingForAPatternOfZero';
+        self::$rootLabel = 'dir0';
+
+        $params = ['label' => 'dir0>' . urlencode('/target0'), 'filter_pattern' => '0'];
+        $row = $this->getRowFromPageUrls($params);
+
+        $this->assertArrayHasKey('avg_time_network', $row);
+        $this->assertEquals($this->getRowFromPageUrlsWithoutPruning($params), $row);
+    }
+
+    public function testRecursiveLabelPicksTheSameRowWhenAQueuedFilterRenamesALabel()
+    {
+        // Referrers renames the empty keyword to "Keyword not defined" after the subtable is
+        // loaded, and a real keyword can already read like that
+        self::$subtableShape = 'renamedLabel';
+
+        $params = ['label' => 'dir>' . urlencode(ReferrersAPI::getKeywordNotDefinedString())];
+        $row = $this->getRowFromPageUrls($params);
+
+        $this->assertEquals($this->getRowFromPageUrlsWithoutPruning($params), $row);
+    }
+
+    public function testRecursiveLabelComputesAMetricThatLooksAtEveryRowOnTheWholeSubtable()
+    {
+        // the share of visits is one visit out of 91 on the whole subtable
+        self::$subtableShape = 'visitsPercent';
+
+        $row = $this->getRowFromPageUrls();
+
+        $this->assertEquals(0.01, $row['nb_visits_percentage']);
+        $this->assertEquals($this->getRowFromPageUrlsWithoutPruning(), $row);
+    }
+
+    public function testRecursiveLabelPicksTheSameRowWhenAQueuedFilterDeletesTheLabelColumn()
+    {
+        // with the label column gone the rows are identified by their label metadata, which is
+        // another row's label column
+        self::$subtableShape = 'deletedLabelColumn';
+
+        $row = $this->getRowFromPageUrls();
+
+        $this->assertSame(5, $row['nb_visits']);
+        $this->assertEquals($this->getRowFromPageUrlsWithoutPruning(), $row);
+    }
+
+    public function testRecursiveLabelPicksTheSameRowWhenTheRequestHidesTheLabelColumn()
+    {
+        // hideColumns deletes the label column before the search, see the test above
+        self::$subtableShape = 'conflictingLabelMetadata';
+
+        $row = $this->getRowFromPageUrls(['hideColumns' => 'label']);
+
+        $this->assertSame(5, $row['nb_visits']);
+        $this->assertEquals($this->getRowFromPageUrlsWithoutPruning(['hideColumns' => 'label']), $row);
+    }
+
+    public function testRecursiveLabelKeepsTheGoalColumnsWhenTheRowsWithoutVisitsAreDeleted()
+    {
+        // the first row showing the goal has a conversion but no visit, so it is deleted before
+        // the goal columns are added, and only a later row still shows the goal
+        self::$subtableShape = 'conversionOnlyGoal';
+
+        $params = [
+            'filter_add_columns_when_show_all_columns' => 1,
+            'filter_update_columns_when_show_all_goals' => 1,
+            'idGoal' => 0,
+        ];
+        $row = $this->getRowFromPageUrls($params);
+
+        $this->assertArrayHasKey('goal_3_nb_conversions', $row);
+        $this->assertEquals($this->getRowFromPageUrlsWithoutPruning($params), $row);
+    }
+
     private function getRowFromPageUrls(array $params = []): array
     {
         $table = Request::processRequest('Actions.getPageUrls', array_merge([
@@ -217,8 +302,10 @@ class LabelFilterTest extends IntegrationTestCase
     {
         $hits = array_sum(self::SIBLING_HITS) + 1;
 
-        $row = new Row([Row::COLUMNS => ['label' => 'dir', 'nb_visits' => $hits, 'nb_hits' => $hits]]);
+        $row = new Row([Row::COLUMNS => ['label' => self::$rootLabel, 'nb_visits' => $hits, 'nb_hits' => $hits]]);
         $row->setNonLoadedSubtableId(self::SUBTABLE_ID);
+        // hideColumns deletes the label column on the root table too
+        $row->setMetadata('label', self::$rootLabel);
 
         $table = new DataTable();
         $table->addRow($row);
@@ -277,6 +364,24 @@ class LabelFilterTest extends IntegrationTestCase
             ];
         }
 
+        if (self::$subtableShape === 'siblingsWithTimingForAPatternOfZero') {
+            $timing = [
+                'sum_time_network' => 120,
+                'nb_hits_with_time_network' => 60,
+                'min_time_network' => 1,
+                'max_time_network' => 3,
+            ];
+            // "/sibling1" is the first row with a timing sum and has no 0 in its label
+            $rows[1] += $timing;
+            $rows[] = ['label' => '/timed0', 'nb_visits' => 5, 'nb_hits' => 5] + $timing;
+            $rows[] = ['label' => '/target0', 'nb_visits' => 1, 'nb_hits' => 1];
+        }
+
+        if (self::$subtableShape === 'renamedLabel') {
+            $rows[] = ['label' => '', 'nb_visits' => 12, 'nb_hits' => 12];
+            $rows[] = ['label' => ReferrersAPI::getKeywordNotDefinedString(), 'nb_visits' => 19, 'nb_hits' => 19];
+        }
+
         if (self::$subtableShape === 'goals') {
             $rows[0]['goals'] = ['idgoal=2' => [Metrics::INDEX_GOAL_NB_CONVERSIONS => 1]];
             $rows[1]['goals'] = ['idgoal=1' => [Metrics::INDEX_GOAL_NB_CONVERSIONS => 1]];
@@ -284,6 +389,24 @@ class LabelFilterTest extends IntegrationTestCase
                 'idgoal=1' => [Metrics::INDEX_GOAL_NB_CONVERSIONS => 1],
                 'idgoal=2' => [Metrics::INDEX_GOAL_NB_CONVERSIONS => 1],
             ];
+        }
+
+        if (self::$subtableShape === 'conversionOnlyGoal') {
+            // the first sibling already has a value for every column, so the second one is the
+            // only row kept for the goal
+            $rows[1]['nb_visits'] = 0;
+            $rows[1]['nb_hits'] = 0;
+            $rows[1]['goals'] = ['idgoal=3' => [Metrics::INDEX_GOAL_NB_CONVERSIONS => 1]];
+            $rows[] = [
+                'label' => '/converted',
+                'nb_visits' => 5,
+                'nb_hits' => 5,
+                'goals' => ['idgoal=3' => [Metrics::INDEX_GOAL_NB_CONVERSIONS => 2]],
+            ];
+        }
+
+        if (in_array(self::$subtableShape, ['deletedLabelColumn', 'conflictingLabelMetadata'], true)) {
+            $rows[] = ['label' => '/renamed', 'nb_visits' => 5, 'nb_hits' => 5];
         }
 
         if (self::$subtableShape === 'labelsEqualOnceDecoded') {
@@ -295,6 +418,23 @@ class LabelFilterTest extends IntegrationTestCase
         $table = new DataTable();
         foreach ($rows as $columns) {
             $table->addRow(new Row([Row::COLUMNS => $columns]));
+        }
+
+        if (in_array(self::$subtableShape, ['deletedLabelColumn', 'conflictingLabelMetadata'], true)) {
+            $table->getRowFromLabel('/target')->setMetadata('label', '/elsewhere');
+            $table->getRowFromLabel('/renamed')->setMetadata('label', '/target');
+        }
+
+        if (self::$subtableShape === 'deletedLabelColumn') {
+            $table->queueFilter('ColumnDelete', [['label']]);
+        }
+
+        if (self::$subtableShape === 'renamedLabel') {
+            $table->queueFilter('Piwik\Plugins\Referrers\DataTable\Filter\KeywordNotDefined');
+        }
+
+        if (self::$subtableShape === 'visitsPercent') {
+            $table->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME, [new VisitsPercent()]);
         }
 
         return $table;

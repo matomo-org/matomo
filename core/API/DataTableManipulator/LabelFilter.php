@@ -14,6 +14,13 @@ use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\Filter\SafeDecodeLabel;
 use Piwik\DataTable\Row;
+use Piwik\Metrics;
+use Piwik\Plugin\ProcessedMetric;
+use Piwik\Plugin\Report;
+use Piwik\Plugin\ReportsProvider;
+use Piwik\Plugins\Actions\Columns\Metrics\AveragePageGenerationTime;
+use Piwik\Plugins\CoreHome\Columns\Metrics\PercentOfReportTotal;
+use Piwik\Plugins\PagePerformance\Columns\Metrics\AveragePerformanceMetric;
 
 /**
  * This class is responsible for handling the label parameter that can be
@@ -29,6 +36,23 @@ class LabelFilter extends DataTableManipulator
     public const TERMINAL_OPERATOR = '@';
     public const FLAG_IS_ROW_EVOLUTION = 'label_index';
 
+    /**
+     * Processed metrics whose beforeCompute() only checks that some row has a value for a column,
+     * which the rows kept by getRowsForWholeTableChecks() preserve. PercentOfReportTotal reads the
+     * totals instead of the rows.
+     */
+    private const BEFORE_COMPUTE_SAFE_ON_PRUNED_TABLE = [
+        ProcessedMetric::class,
+        AveragePerformanceMetric::class,
+        AveragePageGenerationTime::class,
+        PercentOfReportTotal::class,
+    ];
+
+    /**
+     * @var array<string, bool> whether a processed metric needs the whole table, by class name
+     */
+    private static array $metricNeedsWholeTable = [];
+
     private $labels;
     private $addLabelIndex;
     private $isComparing;
@@ -37,12 +61,12 @@ class LabelFilter extends DataTableManipulator
     private string $labelColumn;
 
     /**
-     * The label the next subtable to be loaded will be searched for, if any.
+     * The label the next loaded subtable is searched for, if any.
      */
     private ?string $nextLabelPart = null;
 
     /**
-     * Whether the row searched for in that subtable is the one the search returns.
+     * Whether that is the last label part, so the row found is the one the search returns.
      */
     private bool $nextLabelPartIsLast = false;
 
@@ -132,51 +156,42 @@ class LabelFilter extends DataTableManipulator
     }
 
     /**
-     * We are looking for a single row, so drop the others before the subtable is post-processed.
-     * If the label doesn't match here it may still match once the subtable has been post-processed,
-     * so in that case keep the whole table and let the regular search deal with it. When the row is
-     * the one the search returns, a few other rows are kept too, see getRowsForWholeTableChecks().
+     * Drops the rows we don't look for before the subtable is post-processed, which is where the time
+     * goes on large subtables. When post-processing could make the search pick another row, the
+     * whole table is kept.
      *
      * @param mixed $dataTable
-     * @param array $request
      * @return mixed
      */
-    protected function pruneLoadedSubtable($dataTable, array $request)
+    protected function pruneLoadedSubtable($dataTable, array $request, string $apiModule, string $method)
     {
-        if ($this->nextLabelPart === null || !$dataTable instanceof DataTable) {
-            return $dataTable;
-        }
-
-        if ($this->hasFilterDependingOnOtherRows($request)) {
+        if (
+            $this->nextLabelPart === null
+            || !$dataTable instanceof DataTable
+            || $this->requestNeedsWholeTable($request)
+            || $this->hasQueuedFilterThatMayChangeLabels($dataTable)
+            || ($this->nextLabelPartIsLast && $this->hasProcessedMetricNeedingWholeTable($dataTable, $apiModule, $method))
+        ) {
             return $dataTable;
         }
 
         $row = $this->findOnlyRowForLabel($this->nextLabelPart, $dataTable);
 
-        // a summary row is still labelled -1 at this point, and only gets its real label during
-        // post-processing, so a match on it is not the row the search will find
+        // the summary row is still labelled -1 here and only gets its real label later
         if ($row === null || $row === $dataTable->getSummaryRow()) {
             return $dataTable;
         }
 
-        $rows = [$row];
-
-        // a row we only descend through is used for its subtable id alone, so its columns don't matter
-        if ($this->nextLabelPartIsLast) {
-            $rows = $this->getRowsForWholeTableChecks($row, $dataTable);
-        }
-
-        $dataTable->setRows($rows);
+        // a row we only descend through is needed for its subtable id alone
+        $dataTable->setRows($this->nextLabelPartIsLast ? $this->getRowsForWholeTableChecks($row, $dataTable) : [$row]);
 
         return $dataTable;
     }
 
     /**
-     * Finds the row the search will pick once the subtable has been post-processed, as long as only
-     * one row can be it. Post-processing decodes the labels, so rows stored as "a &amp; b" and
-     * "a & b" both end up as "a &amp; b", and the search then picks whichever of them the sort puts
-     * last. Only the whole table can tell which one that is, so if more than one row matches, as
-     * its label reads now or once decoded, no row is returned.
+     * Finds the row the search will return, or null if more than one row may be it. Post-processing
+     * decodes the labels, so "a &amp; b" and "a & b" end up the same, and only the whole table can
+     * tell which of them the search picks.
      */
     private function findOnlyRowForLabel(string $labelPart, DataTable $dataTable): ?Row
     {
@@ -199,15 +214,10 @@ class LabelFilter extends DataTableManipulator
     }
 
     /**
-     * Some post-processing looks at every row before it computes anything. The PagePerformance and
-     * page generation time metrics drop their columns when no row has a value for them, and goal
-     * columns are added for every goal any row has. Left with the target row alone, those checks
-     * would only see that row, and the row we return could lose columns it has on the whole table.
-     *
-     * So next to the target row, keep the first row with a value for each column, and each goal.
-     * Goal columns are added in the order the rows first show each goal, so the rows keep their
-     * order in the table. The search only returns the target row, so the extra rows never reach
-     * the output.
+     * Some post-processing checks every row first: the page performance and generation time metrics
+     * drop columns no row has a value for, and goal columns are added for every goal some row has.
+     * So next to the target, keep the first row with a value for each column and each goal, in table
+     * order as goal columns follow it. The search only returns the target.
      *
      * @return Row[]
      */
@@ -227,8 +237,8 @@ class LabelFilter extends DataTableManipulator
     }
 
     /**
-     * Records the columns of a row that have a value and are not covered yet. For a column holding
-     * an array, like goals, it is the keys that get covered, whatever their values are.
+     * Marks the columns of a row that have a value and aren't covered yet. For an array column, like
+     * goals, its keys get covered.
      *
      * @return bool whether the row covered anything new
      */
@@ -236,7 +246,7 @@ class LabelFilter extends DataTableManipulator
     {
         $coveredNew = false;
 
-        // array_filter() drops the empty values, which keeps this cheap on rows with nothing new
+        // array_filter() drops the empty values, so a row with nothing new stays cheap
         foreach (array_filter(array_diff_key($columns, $covered)) as $name => $value) {
             if (is_array($value)) {
                 $newKeys = array_diff_key($value, $coveredKeys[$name] ?? []);
@@ -245,7 +255,7 @@ class LabelFilter extends DataTableManipulator
                     $coveredNew = true;
                 }
             } elseif (!is_numeric($value) || $value != 0) {
-                // a numeric string such as '0.0' has no value either, but array_filter() keeps it
+                // array_filter() keeps a zero string such as '0.0'
                 $covered[$name] = true;
                 $coveredNew = true;
             }
@@ -255,23 +265,29 @@ class LabelFilter extends DataTableManipulator
     }
 
     /**
-     * Whether a generic filter still to be applied to the subtable decides what to keep by looking
-     * at the other rows. ExcludeLowPopulation can derive its threshold from the sum of a column
-     * across the whole table, and the row limiting filters keep rows by position, so for those the
-     * rows we are about to drop are part of the result rather than just overhead. A pattern can
-     * remove the rows kept for the whole table checks, see getRowsForWholeTableChecks().
-     *
-     * Both row limiting filters are skipped when their own parameter is missing, and an unlimited
-     * limit cannot drop anything, so in those cases there is nothing to protect. A truncate of zero
-     * is not one of those cases: it keeps the summary row alone, so it has to be read as a value
-     * rather than tested for emptiness.
+     * Whether a filter the request asks for needs the rows we would drop:
+     * - ExcludeLowPopulation can take its threshold from the whole table
+     * - limit, offset and truncate keep rows by position
+     * - a pattern, or AddColumnsProcessedMetrics deleting the rows without visits, can remove the
+     *   rows kept by getRowsForWholeTableChecks()
+     * - hideColumns and showColumns can delete the column the rows are identified by
      */
-    private function hasFilterDependingOnOtherRows(array $request): bool
+    private function requestNeedsWholeTable(array $request): bool
     {
-        if (!empty($request['filter_excludelowpop']) || !empty($request['filter_pattern'])) {
+        if (
+            !empty($request['filter_excludelowpop'])
+            || !empty($request['filter_add_columns_when_show_all_columns'])
+            || !empty($request['filter_offset'])
+        ) {
             return true;
         }
 
+        // "0" is a pattern too
+        if (isset($request['filter_pattern']) && (string) $request['filter_pattern'] !== '') {
+            return true;
+        }
+
+        // a truncate of 0 still keeps the summary row alone, and a limit of -1 is no limit
         if (isset($request['filter_truncate']) && (int) $request['filter_truncate'] >= 0) {
             return true;
         }
@@ -280,7 +296,109 @@ class LabelFilter extends DataTableManipulator
             return true;
         }
 
-        return !empty($request['filter_offset']);
+        return $this->deletesLabelColumn($request['hideColumns'] ?? '', $request['showColumns'] ?? '');
+    }
+
+    /**
+     * Whether a queued filter may change a label. Queued filters run before the search, so a renamed
+     * label can make another row match. Referrers, for example, renames the empty keyword to "Keyword
+     * not defined", which can also be a real keyword. Callables and unknown filters count as
+     * changing labels.
+     */
+    private function hasQueuedFilterThatMayChangeLabels(DataTable $dataTable): bool
+    {
+        foreach ($dataTable->getQueuedFilters() as $filter) {
+            if (!is_string($filter['className']) || $this->queuedFilterMayChangeLabels($filter['className'], $filter['parameters'])) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function queuedFilterMayChangeLabels(string $className, array $parameters): bool
+    {
+        $name = ltrim($className, '\\');
+        if (str_starts_with($name, 'Piwik\\DataTable\\Filter\\')) {
+            $name = substr($name, strlen('Piwik\\DataTable\\Filter\\'));
+        }
+
+        return match ($name) {
+            'ColumnDelete' => $this->deletesLabelColumn($parameters[0] ?? [], $parameters[1] ?? []),
+            'ReplaceColumnNames' => $this->isInMapping($parameters[0] ?? Metrics::getMappingFromIdToName()),
+            'ColumnCallbackAddMetadata', 'MetadataCallbackAddMetadata' => ($parameters[1] ?? null) === $this->labelColumn,
+            // the summary row is kept when pruning, so the search still sees it renamed
+            'ReplaceSummaryRowLabel', 'PrependSegment' => false,
+            default => true,
+        };
+    }
+
+    /**
+     * Whether ColumnDelete with these arguments deletes the column the rows are identified by. The
+     * columns to keep always include "label", but no other column.
+     *
+     * @param mixed $columnsToRemove
+     * @param mixed $columnsToKeep
+     */
+    private function deletesLabelColumn($columnsToRemove, $columnsToKeep): bool
+    {
+        $columnsToKeep = $this->toColumnList($columnsToKeep);
+
+        return in_array($this->labelColumn, $this->toColumnList($columnsToRemove), true)
+            || ($columnsToKeep !== [] && $this->labelColumn !== 'label' && !in_array($this->labelColumn, $columnsToKeep, true));
+    }
+
+    /**
+     * Reads a column list the way ColumnDelete does: a string is split on commas, and anything but a
+     * string or an array is no columns.
+     *
+     * @param mixed $columns
+     */
+    private function toColumnList($columns): array
+    {
+        if (is_string($columns)) {
+            return $columns === '' ? [] : explode(',', $columns);
+        }
+
+        return is_array($columns) ? $columns : [];
+    }
+
+    /**
+     * Whether a ReplaceColumnNames mapping renames the label column or renames another column to it.
+     *
+     * @param mixed $mapping
+     */
+    private function isInMapping($mapping): bool
+    {
+        return !is_array($mapping)
+            || array_key_exists($this->labelColumn, $mapping) || in_array($this->labelColumn, $mapping, true);
+    }
+
+    /**
+     * Whether a processed metric's beforeCompute() looks at the rows in a way the rows kept by
+     * getRowsForWholeTableChecks() don't preserve, like summing a column over the table. Metrics the
+     * generic filters add later aren't seen here, which is fine as long as they don't override
+     * beforeCompute().
+     */
+    private function hasProcessedMetricNeedingWholeTable(DataTable $dataTable, string $apiModule, string $method): bool
+    {
+        // a manipulator can be built without a module, and then there is no report to look up
+        $report = $apiModule === '' ? null : ReportsProvider::factory($apiModule, $method);
+
+        foreach (Report::getProcessedMetricsForTable($dataTable, $report) as $metric) {
+            $class = get_class($metric);
+
+            if (!isset(self::$metricNeedsWholeTable[$class])) {
+                $declaringClass = (new \ReflectionMethod($metric, 'beforeCompute'))->getDeclaringClass()->getName();
+                self::$metricNeedsWholeTable[$class] = !in_array($declaringClass, self::BEFORE_COMPUTE_SAFE_ON_PRUNED_TABLE, true);
+            }
+
+            if (self::$metricNeedsWholeTable[$class]) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**

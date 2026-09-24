@@ -202,7 +202,7 @@ abstract class DataTableManipulator
         unset($request['filter_pattern_recursive']);
 
         $dataTable = Proxy::getInstance()->call($class, $method, $request);
-        $dataTable = $this->pruneLoadedSubtable($dataTable, $request);
+        $dataTable = $this->pruneLoadedSubtable($dataTable, $request, $apiModule, $method);
         $response = new ResponseBuilder($format = 'original', $request);
         $response->disableSendHeader();
         $dataTable = $response->getResponse($dataTable, $apiModule, $method);
@@ -226,9 +226,12 @@ abstract class DataTableManipulator
      * @param mixed $dataTable
      * @param array $request The request the subtable was loaded with, so an implementation can tell
      *                       whether the remaining filters would notice the dropped rows.
+     * @param string $apiModule The module the subtable was loaded with.
+     * @param string $method The method the subtable was loaded with. Together with the module, it is
+     *                       what post-processing looks the report up by.
      * @return mixed
      */
-    protected function pruneLoadedSubtable($dataTable, array $request)
+    protected function pruneLoadedSubtable($dataTable, array $request, string $apiModule, string $method)
     {
         return $dataTable;
     }
