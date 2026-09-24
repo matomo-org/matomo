@@ -570,48 +570,75 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         }
 
         $view = new View('@Marketplace/' . $template);
-        $this->setBasicVariablesView($view);
         $view->errorMessage = '';
 
         $pluginInfos = [];
+        $failedPlugins = [];
+        $notifiedMessages = [];
         foreach ($plugins as $pluginName) {
-            $currentPluginInfo = $this->plugins->getPluginInfo($pluginName);
-            $pluginInfos[] = $currentPluginInfo;
+            $currentPluginInfo = [];
 
             try {
+                // inside the try as well, as it fails for a plugin the license key no longer covers
+                $currentPluginInfo = $this->plugins->getPluginInfo($pluginName);
                 $this->pluginInstaller->installOrUpdatePluginFromMarketplace($pluginName);
+                $pluginInfos[] = $currentPluginInfo;
             } catch (\Exception $e) {
-                $message = $e->getMessage();
-                $isRaw = false;
-                if (stripos($message, 'PCLZIP_ERR_BAD_FORMAT') !== false) {
-                    $faqLink = Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/plugins/faq_21/');
-                    if (!empty($currentPluginInfo['isPaid'])) {
-                        $downloadLink = Url::addCampaignParametersToMatomoLink('https://shop.matomo.org/my-account/downloads');
-                        $translateKey = 'Marketplace_PluginDownloadLinkMissingPremium';
-                    } else {
-                        $downloadLink = Url::addCampaignParametersToMatomoLink('https://plugins.matomo.org/' . $pluginName);
-                        $translateKey = 'Marketplace_PluginDownloadLinkMissingFree';
-                    }
-                    $message = Piwik::translate($translateKey, [$pluginName, Url::getExternalLinkTag($downloadLink), '</a>', Url::getExternalLinkTag($faqLink), '</a>']);
-                    $isRaw = true;
-                }
-                $notification = new Notification($message);
-                $notification->context = Notification::CONTEXT_ERROR;
-                $notification->type = Notification::TYPE_PERSISTENT;
-                $notification->flags = Notification::FLAG_CLEAR;
-                if ((method_exists($e, 'isHtmlMessage') && $e->isHtmlMessage()) || $isRaw) {
-                    $notification->raw = true;
-                }
-                Notification\Manager::notify('CorePluginsAdmin_InstallPlugin', $notification);
+                // one plugin that cannot be updated - an expired or missing license being the common
+                // case - must not keep the remaining selected ones on their old version
+                $failedPlugins[] = $pluginName;
 
-                Url::redirectToReferrer();
-                return;
+                // a Marketplace or network error fails every plugin with the same message
+                if (!in_array($e->getMessage(), $notifiedMessages, true)) {
+                    $notifiedMessages[] = $e->getMessage();
+                    $this->notifyAboutFailedInstallOrUpdate($pluginName, $currentPluginInfo, $e);
+                }
             }
         }
+
+        if (empty($pluginInfos)) {
+            Url::redirectToReferrer();
+            return;
+        }
+
+        if (!empty($failedPlugins)) {
+            $notification = new Notification(Piwik::translate('Marketplace_PluginsCouldNotBeUpdated', implode(', ', $failedPlugins)));
+            $notification->context = Notification::CONTEXT_INFO;
+            Notification\Manager::notify('Marketplace_PluginsCouldNotBeUpdated', $notification);
+        }
+
+        // only now, as the view copies the pending notifications once and the loop above adds to them
+        $this->setBasicVariablesView($view);
 
         $view->plugins = $pluginInfos;
 
         return $view;
+    }
+
+    private function notifyAboutFailedInstallOrUpdate($pluginName, array $currentPluginInfo, \Exception $e): void
+    {
+        $message = $e->getMessage();
+        $isRaw = false;
+        if (stripos($message, 'PCLZIP_ERR_BAD_FORMAT') !== false) {
+            $faqLink = Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/plugins/faq_21/');
+            if (!empty($currentPluginInfo['isPaid'])) {
+                $downloadLink = Url::addCampaignParametersToMatomoLink('https://shop.matomo.org/my-account/downloads');
+                $translateKey = 'Marketplace_PluginDownloadLinkMissingPremium';
+            } else {
+                $downloadLink = Url::addCampaignParametersToMatomoLink('https://plugins.matomo.org/' . $pluginName);
+                $translateKey = 'Marketplace_PluginDownloadLinkMissingFree';
+            }
+            $message = Piwik::translate($translateKey, [$pluginName, Url::getExternalLinkTag($downloadLink), '</a>', Url::getExternalLinkTag($faqLink), '</a>']);
+            $isRaw = true;
+        }
+        $notification = new Notification($message);
+        $notification->context = Notification::CONTEXT_ERROR;
+        $notification->type = Notification::TYPE_PERSISTENT;
+        $notification->flags = Notification::FLAG_CLEAR;
+        if ((method_exists($e, 'isHtmlMessage') && $e->isHtmlMessage()) || $isRaw) {
+            $notification->raw = true;
+        }
+        Notification\Manager::notify('CorePluginsAdmin_InstallPlugin' . $pluginName, $notification);
     }
 
     private function getPluginNameIfNonceValid($nonceName)

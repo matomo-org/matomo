@@ -56,7 +56,7 @@ class ArchivedMetric extends Metric
 
     public function __construct(Dimension $dimension, $aggregation = false)
     {
-        if (!empty($aggregation) && strpos($aggregation, '%s') === false) {
+        if (!empty($aggregation) && !str_contains($aggregation, '%s')) {
             throw new \Exception(sprintf('The given aggregation for %s.%s needs to include a %%s for the column name', $dimension->getDbTableName(), $dimension->getColumnName()));
         }
 

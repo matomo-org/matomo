@@ -9,6 +9,10 @@
 
 namespace Piwik\Plugins\UsersManager;
 
+use Piwik\Access;
+use Piwik\Access\Role\Admin;
+use Piwik\Access\Role\View;
+use Piwik\Access\Role\Write;
 use Piwik\Request\AuthenticationToken;
 use Piwik\Common;
 use Piwik\Config\GeneralConfig;
@@ -23,6 +27,7 @@ use Piwik\Plugins\UsersManager\Sql\SiteAccessFilter;
 use Piwik\Plugins\UsersManager\Sql\UserTableFilter;
 use Piwik\Session\SessionFingerprint;
 use Piwik\Settings\Storage\Backend\PluginSettingsTable;
+use Piwik\Updater\Migration\Db as DbMigration;
 use Piwik\SettingsPiwik;
 use Piwik\Validators\BaseValidator;
 use Piwik\Validators\CharacterLength;
@@ -192,6 +197,91 @@ class Model
         return $return;
     }
 
+    /**
+     * Validates a requested token access level against the user's maximum and returns the value to persist.
+     *
+     * @param string $userLogin Login of the user the token belongs to.
+     * @param string|null $accessLevel Requested access level, or null when no specific level was provided.
+     * @param bool $defaultToMaximum Whether a null `$accessLevel` should fall back to the user's maximum access
+     *                               level (true) or stay null to keep the token unscoped (false).
+     * @return string|null The validated access level, or null when no scope should be applied.
+     */
+    public function normalizeAndValidateTokenAccessLevelForUser(string $userLogin, ?string $accessLevel, bool $defaultToMaximum = true): ?string
+    {
+        $maxAccessLevel = $this->getMaxTokenAccessLevelForUser($userLogin);
+        if ($accessLevel === null) {
+            return $defaultToMaximum ? $maxAccessLevel : null;
+        }
+
+        $this->checkValidTokenAccessLevel($accessLevel);
+
+        if ($maxAccessLevel === null) {
+            throw new \Exception(Piwik::translate('UsersManager_InvalidTokenAccessLevelTooHigh'));
+        }
+
+        $this->checkRequestedTokenAccessLevelIsAllowed($accessLevel, $maxAccessLevel);
+
+        return $accessLevel;
+    }
+
+    /**
+     * Returns every level at or below the user's maximum, least to most privileged, or an empty array when
+     * the user has no access at all.
+     *
+     * @param string $userLogin Login of the user the token belongs to.
+     * @return string[]
+     */
+    public function getAllowedTokenAccessLevelsForUser(string $userLogin): array
+    {
+        $maxAccessLevel = $this->getMaxTokenAccessLevelForUser($userLogin);
+        if ($maxAccessLevel === null) {
+            return [];
+        }
+
+        $rankings = $this->getTokenAccessLevelRanking();
+        $maxRanking = $rankings[$maxAccessLevel];
+
+        $result = [];
+        foreach (Access::getTokenAccessLevels() as $candidate) {
+            if ($rankings[$candidate] <= $maxRanking) {
+                $result[] = $candidate;
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * Returns the highest access level a user effectively has: the superuser flag, else the highest per-site
+     * role held across all sites.
+     *
+     * @param string $userLogin Login of the user.
+     * @return string|null One of 'superuser', 'admin', 'write', 'view', or null when the user has no access.
+     */
+    public function getMaxTokenAccessLevelForUser(string $userLogin): ?string
+    {
+        $user = $this->getUser($userLogin);
+        if (!empty($user['superuser_access'])) {
+            return 'superuser';
+        }
+
+        $siteAccess = $this->getSitesAccessFromUser($userLogin);
+        $accessValues = array_column($siteAccess, 'access');
+        if (in_array(Admin::ID, $accessValues, true)) {
+            return Admin::ID;
+        }
+
+        if (in_array(Write::ID, $accessValues, true)) {
+            return Write::ID;
+        }
+
+        if (in_array(View::ID, $accessValues, true)) {
+            return View::ID;
+        }
+
+        return null;
+    }
+
     public function getSitesAccessFromUserWithFilters(
         $userLogin,
         $limit = null,
@@ -314,7 +404,7 @@ class Model
                 // endless loop in case there is some bug somewhere
                 throw new \Exception('Failed to generate token');
             }
-        } while ($this->getUserByInviteToken($token));
+        } while ($this->inviteTokenExists($token));
 
         return $token;
     }
@@ -355,6 +445,8 @@ class Model
      * @param null|string  $dateExpired
      * @param bool  $isSystemToken
      * @param bool  $secureOnly     True if this token can only be used in a secure way (e.g. POST requests), default false
+     * @param null|string $accessLevel    The access level the token is scoped to, null for a token that inherits the
+     *                                    user's access
      * @param null|string $expectedDateRegistered The registration date the account is expected to have. When given,
      *                                            the token is only stored if the account still matches it.
      *
@@ -370,6 +462,7 @@ class Model
         $dateExpired = null,
         $isSystemToken = false,
         bool $secureOnly = false,
+        ?string $accessLevel = null,
         ?string $expectedDateRegistered = null
     ) {
         if (!$this->getUser($login)) {
@@ -388,14 +481,32 @@ class Model
 
         $isSystemToken = (int)$isSystemToken;
 
-        // the login comes from the user table, so a token is only ever stored for an existing account
-        $insertSql = "INSERT INTO " . $this->tokenTable
-            . ' (login, description, password, date_created, date_expired, system_token, hash_algo, secure_only)'
-            . ' SELECT login, ?, ?, ?, ?, ?, ?, ? FROM ' . $this->userTable . ' WHERE login = ?';
-
         $tokenAuth = $this->hashTokenAuth($tokenAuth);
 
-        $bind = [$description, $tokenAuth, $dateCreated, $dateExpired, $isSystemToken, self::TOKEN_HASH_ALGO, (int) $secureOnly, $login];
+        $columns = [
+            'login', 'description', 'password', 'date_created', 'date_expired', 'system_token', 'hash_algo',
+            'secure_only',
+        ];
+        $bind = [
+            $description, $tokenAuth, $dateCreated, $dateExpired, $isSystemToken,
+            self::TOKEN_HASH_ALGO, (int) $secureOnly,
+        ];
+
+        // access_level is added by core/Updates/6.0.0-b3.php, and Matomo serves requests while an upgrade
+        // is pending, so the column is only named when there is a scope to store. A request that does ask
+        // for one is refused below, since it cannot be persisted until the migration has run.
+        if ($accessLevel !== null) {
+            $columns[] = 'access_level';
+            $bind[] = $accessLevel;
+        }
+
+        $bind[] = $login;
+
+        // the login comes from the user table, so a token is only ever stored for an existing account
+        $insertSql = "INSERT INTO " . $this->tokenTable
+            . ' (' . implode(', ', $columns) . ')'
+            . ' SELECT login, ' . rtrim(str_repeat('?, ', count($columns) - 1), ', ')
+            . ' FROM ' . $this->userTable . ' WHERE login = ?';
 
         // the caller can name the registration date the account is expected to have, so the token is
         // stored for that account rather than for the login alone. with none given, nothing extra binds
@@ -405,7 +516,20 @@ class Model
         }
 
         $db = $this->getDb();
-        $result = $db->query($insertSql, $bind);
+
+        try {
+            $result = $db->query($insertSql, $bind);
+        } catch (\Exception $e) {
+            // A scoped token can reach this INSERT before 6.0.0-b3 has added the column; the driver's
+            // "unknown column" error tells the person who clicked nothing they can act on.
+            if ($accessLevel !== null && $db->isErrNo($e, DbMigration::ERROR_CODE_UNKNOWN_COLUMN)) {
+                throw new \Exception(
+                    Piwik::translate('UsersManager_ExceptionCreateTokenAuthAccessLevelBeforeUpgrade')
+                );
+            }
+
+            throw $e;
+        }
 
         if ($db->rowCount($result) === 0) {
             throw new \Exception('User ' . $login . ' does not exist');
@@ -464,11 +588,19 @@ class Model
             return false;
         }
 
-        $tokenAuth = $this->hashTokenAuth($tokenAuth);
+        // The cache is gated on the request's own token, so sub-request tokens in bulk API and bulk
+        // tracker calls miss and query fresh.
+        $authenticationToken = StaticContainer::get(AuthenticationToken::class);
+        if ($authenticationToken->hasCachedTokenMetadata($tokenAuth, $isTokenSecured)) {
+            $cached = $authenticationToken->getCachedTokenMetadata($tokenAuth, $isTokenSecured);
+            return $cached ?: false;
+        }
+
+        $tokenAuthHashed = $this->hashTokenAuth($tokenAuth);
         $db = $this->getDb();
 
         $expired = $this->getQueryNotExpiredToken();
-        $bind = array_merge(array($tokenAuth), $expired['bind']);
+        $bind = array_merge(array($tokenAuthHashed), $expired['bind']);
 
         $sql = "SELECT * FROM " . $this->tokenTable . " WHERE `password` = ? AND " . $expired['sql'];
 
@@ -478,6 +610,8 @@ class Model
         }
 
         $token = $db->fetchRow($sql, $bind);
+
+        $authenticationToken->cacheTokenMetadata($tokenAuth, $isTokenSecured, $token ?: null);
 
         return $token;
     }
@@ -539,7 +673,24 @@ class Model
         );
     }
 
+    /**
+     * Returns the hashed tokens of all non-expired tokens for the given logins, regardless of access level.
+     *
+     * @deprecated since 6.0.0 - use getAllHashedTokensForTrackerCacheForLogins() for the tracker cache, which
+     *             excludes view-scoped tokens. This method does not apply the access-level filter, so feeding
+     *             its result into `tracking_token_auth` accepts view-scoped tokens for tracking. To be removed
+     *             in Matomo 7.
+     */
     public function getAllHashedTokensForLogins($logins)
+    {
+        return array_column($this->fetchNonExpiredTokenRowsForLogins($logins), 'password');
+    }
+
+    /**
+     * The column list is not narrowed because callers filter on access_level, which cannot be named in the
+     * query while the 6.0.0-b3 upgrade is pending.
+     */
+    private function fetchNonExpiredTokenRowsForLogins($logins): array
     {
         if (empty($logins)) {
             return array();
@@ -551,10 +702,33 @@ class Model
         $expired = $this->getQueryNotExpiredToken();
         $bind = array_merge($logins, $expired['bind']);
 
-        $tokens = $db->fetchAll(
-            "SELECT password FROM " . $this->tokenTable . " WHERE `login` IN (" . $placeholder . ") and " . $expired['sql'],
+        return $db->fetchAll(
+            "SELECT * FROM " . $this->tokenTable . " WHERE `login` IN (" . $placeholder . ")"
+            . " and " . $expired['sql'],
             $bind
         );
+    }
+
+    /**
+     * Returns hashed tokens eligible for the per-site tracker cache (`tracking_token_auth`).
+     *
+     * The access_level filter must stay in sync with the slow-path role check in
+     * {@see \Piwik\Tracker\Request::authenticateSuperUserOrAdminOrWrite()}. It is applied on the row rather
+     * than in the query because the column does not exist until the 6.0.0-b3 upgrade has run, and an absent
+     * value is correctly unscoped.
+     */
+    public function getAllHashedTokensForTrackerCacheForLogins($logins)
+    {
+        $tokens = $this->fetchNonExpiredTokenRowsForLogins($logins);
+
+        $allowedAccessLevels = array(Write::ID, Admin::ID, 'superuser');
+
+        $tokens = array_filter($tokens, function ($token) use ($allowedAccessLevels) {
+            $accessLevel = $token['access_level'] ?? null;
+
+            return $accessLevel === null || in_array($accessLevel, $allowedAccessLevels, true);
+        });
+
         return array_column($tokens, 'password');
     }
 
@@ -641,10 +815,32 @@ class Model
         $token = $this->hashTokenAuth($tokenAuth);
         if (!empty($token)) {
             $db = $this->getDb();
-            return $db->fetchRow("SELECT * FROM " . $this->userTable . " WHERE `invite_token` = ? or `invite_link_token` = ?", [$token ,$token]);
+            // A token is only redeemable while the account is still pending, so one left behind on an
+            // account that has since been accepted resolves to nothing.
+            $sql = "SELECT * FROM " . $this->userTable . "
+                    WHERE (`invite_token` = ? OR `invite_link_token` = ?)
+                      AND `invite_token` IS NOT NULL";
+            return $db->fetchRow($sql, [$token, $token]);
         }
 
         return null;
+    }
+
+    /**
+     * Whether any account holds the given invite token, pending or not.
+     *
+     * Token generation needs to stay globally unique, so this deliberately does not apply the pending
+     * filter that getUserByInviteToken() uses for redemption.
+     */
+    private function inviteTokenExists(
+        #[\SensitiveParameter]
+        string $token
+    ): bool {
+        $hashedToken = $this->hashTokenAuth($token);
+        $sql = "SELECT 1 FROM " . $this->userTable
+             . " WHERE `invite_token` = ? OR `invite_link_token` = ? LIMIT 1";
+
+        return (bool) $this->getDb()->fetchOne($sql, [$hashedToken, $hashedToken]);
     }
 
     /**
@@ -676,17 +872,80 @@ class Model
     }
 
     /**
+     * Returns metadata for a valid, unexpired auth token.
+     *
+     * The transport security state is read from the active `AuthenticationToken` request scope, so
+     * secure-only tokens are excluded for non-secure requests.
+     *
+     * @param string|null $tokenAuth The token to look up.
+     * @return array<string,mixed>|null Token row including at least `login` and `access_level`, or null when not found.
+     */
+    public function getTokenMetadataByTokenAuth(
+        #[\SensitiveParameter]
+        ?string $tokenAuth
+    ): ?array {
+        if ($tokenAuth === 'anonymous') {
+            return $this->getAnonymousTokenMetadata();
+        }
+
+        $authenticationToken = StaticContainer::get(AuthenticationToken::class);
+
+        if ($authenticationToken->isTokenMetadataPreloadedFor($tokenAuth)) {
+            return $authenticationToken->getPreloadedTokenMetadata();
+        }
+
+        return $this->getTokenByTokenAuthIfNotExpired(
+            $tokenAuth,
+            $authenticationToken->wasTokenAuthProvidedSecurely()
+        ) ?: null;
+    }
+
+    /**
+     * @internal Intended only for use by AuthenticationToken during request initialisation; other callers
+     *           use getTokenMetadataByTokenAuth() for the cache and the resolved security state.
+     * @return array<string,mixed>|null
+     */
+    public function getTokenMetadataByTokenAuthWithSecurityState(
+        #[\SensitiveParameter]
+        ?string $tokenAuth,
+        bool $isTokenProvidedSecurely
+    ): ?array {
+        if ($tokenAuth === 'anonymous') {
+            return $this->getAnonymousTokenMetadata();
+        }
+
+        return $this->getTokenByTokenAuthIfNotExpired($tokenAuth, $isTokenProvidedSecurely) ?: null;
+    }
+
+    /**
+     * Synthesises the row for the special 'anonymous' token, or null when that user does not exist.
+     *
+     * @return array<string,mixed>|null
+     */
+    private function getAnonymousTokenMetadata(): ?array
+    {
+        $row = $this->getUser('anonymous');
+        return !empty($row) ? ['login' => 'anonymous', 'access_level' => null] : null;
+    }
+
+    /**
      * @param $userLogin
      * @param $hashedPassword
      * @param $email
      * @param $dateRegistered
+     * @param array $invitation Invitation to issue along with the account, as
+     *                          `['token' => ..., 'expiryInDays' => ..., 'invitedBy' => ...]`. It goes in
+     *                          with the insert, so an invited account carries its invitation from the
+     *                          moment it exists and no later write has to find the row again.
      */
     public function addUser(
         $userLogin,
         #[\SensitiveParameter]
         $hashedPassword,
         $email,
-        $dateRegistered
+        $dateRegistered,
+        #[\SensitiveParameter]
+        array $invitation = []
     ) {
         $user = array(
           'login'                => $userLogin,
@@ -698,6 +957,12 @@ class Model
           'idchange_last_viewed' => null,
           'invited_by'           => null,
         );
+
+        if (!empty($invitation)) {
+            $user['invite_token']      = $this->hashTokenAuth($invitation['token']);
+            $user['invite_expired_at'] = Date::now()->addDay($invitation['expiryInDays'])->getDatetime();
+            $user['invited_by']        = $invitation['invitedBy'];
+        }
 
         $db = $this->getDb();
         $db->insert($this->userTable, $user);
@@ -746,16 +1011,49 @@ class Model
         ]);
     }
 
-    public function attachInviteLinkToken(string $userLogin, string $token, int $expiryInDays): void
-    {
-        $this->updateUserFields($userLogin, [
-            'invite_link_token' => $this->hashTokenAuth($token),
-            'invite_expired_at' => Date::now()->addDay($expiryInDays)->getDatetime(),
+    /**
+     * Attaches a copy-and-paste invitation link to a pending user.
+     *
+     * @return bool Whether the link was attached to the invitation the caller read.
+     */
+    public function attachInviteLinkToken(
+        string $userLogin,
+        #[\SensitiveParameter]
+        string $token,
+        string $expectedInviteToken,
+        int $expiryInDays
+    ): bool {
+        // The link is only attached while the account still carries the invitation the caller read.
+        $sql = sprintf(
+            'UPDATE `%s`
+             SET `invite_link_token` = ?,
+                 `invite_expired_at` = ?
+             WHERE `login` = ?
+               AND `invite_token` = ?',
+            $this->userTable
+        );
+        $query = $this->getDb()->query($sql, [
+            $this->hashTokenAuth($token),
+            Date::now()->addDay($expiryInDays)->getDatetime(),
+            $userLogin,
+            $expectedInviteToken,
         ]);
+
+        return $query->rowCount() === 1;
     }
 
+    /**
+     * Rotates the invite token of a pending user without touching the expiry.
+     *
+     * Used by the password reset flow, which must not extend an invitation. Compare with
+     * reissueInviteTokenForPendingUser(), which renews the expiry because resending an invitation is
+     * meant to revive a lapsed one.
+     *
+     * @return bool Whether the token was replaced on the invitation the caller read.
+     */
     public function replaceInviteTokenForPendingUser(
         string $userLogin,
+        #[\SensitiveParameter]
         string $token,
         string $expectedInviteToken,
         string $expectedEmail
@@ -776,6 +1074,193 @@ class Model
             $userLogin,
             $expectedInviteToken,
             $expectedEmail,
+            Date::now()->getDatetime(),
+        ]);
+
+        return $query->rowCount() === 1;
+    }
+
+    /**
+     * Rotates the invite token of a pending user, renews the expiry and moves the address.
+     *
+     * Unlike replaceInviteTokenForPendingUser() this carries no expiry predicate, because resending an
+     * invitation is meant to revive one that has already lapsed. Pass the current address as $email to
+     * leave it where it is, and $hashedPassword when the same call is also setting a password.
+     *
+     * @return bool Whether the invitation the caller read was the one reissued.
+     */
+    public function reissueInviteTokenForPendingUser(
+        string $userLogin,
+        #[\SensitiveParameter]
+        string $token,
+        string $expectedInviteToken,
+        string $expectedEmail,
+        string $email,
+        int $expiryInDays,
+        #[\SensitiveParameter]
+        ?string $hashedPassword = null
+    ): bool {
+        $set = [
+            '`invite_token` = ?',
+            '`invite_link_token` = NULL',
+            '`invite_expired_at` = ?',
+            '`email` = ?',
+        ];
+        $bind = [
+            $this->hashTokenAuth($token),
+            Date::now()->addDay($expiryInDays)->getDatetime(),
+            $email,
+        ];
+
+        // A password given alongside the address rides on the same statement as everything else.
+        // ts_password_modified is set explicitly here because updateUserFields() is not doing it for us.
+        if (!empty($hashedPassword)) {
+            $set[] = '`password` = ?';
+            $set[] = '`ts_password_modified` = ?';
+            $bind[] = $hashedPassword;
+            $bind[] = Date::now()->getDatetime();
+        }
+
+        // Rotating the token and moving the address are one statement, so an invitation can never be live
+        // for an address the account no longer has.
+        $sql = sprintf(
+            'UPDATE `%s`
+             SET %s
+             WHERE `login` = ?
+               AND `invite_token` = ?
+               AND `email` = ?',
+            $this->userTable,
+            implode(', ', $set)
+        );
+        $query = $this->getDb()->query($sql, array_merge($bind, [
+            $userLogin,
+            $expectedInviteToken,
+            $expectedEmail,
+        ]));
+
+        return $query->rowCount() === 1;
+    }
+
+    /**
+     * Updates a pending user's address and password while leaving their invitation alone.
+     *
+     * The write is pinned to the invitation the caller read, so it only lands while the account is still
+     * that same pending user. Only call it when there is something to write: a statement that changes no
+     * column reports no affected row, and is indistinguishable from one that matched nothing.
+     *
+     * @return bool Whether the pending account the caller read was the one updated.
+     */
+    public function updatePendingUser(
+        string $userLogin,
+        #[\SensitiveParameter]
+        ?string $hashedPassword,
+        string $email,
+        string $expectedInviteToken,
+        string $expectedEmail
+    ): bool {
+        $set = ['`email` = ?'];
+        $bind = [$email];
+
+        // ts_password_modified is set explicitly here because updateUserFields() is not doing it for us
+        if (!empty($hashedPassword)) {
+            $set[] = '`password` = ?';
+            $set[] = '`ts_password_modified` = ?';
+            $bind[] = $hashedPassword;
+            $bind[] = Date::now()->getDatetime();
+        }
+
+        $sql = sprintf(
+            'UPDATE `%s`
+             SET %s
+             WHERE `login` = ?
+               AND `invite_token` = ?
+               AND `email` = ?',
+            $this->userTable,
+            implode(', ', $set)
+        );
+        $query = $this->getDb()->query($sql, array_merge($bind, [
+            $userLogin,
+            $expectedInviteToken,
+            $expectedEmail,
+        ]));
+
+        return $query->rowCount() === 1;
+    }
+
+    /**
+     * Redeems a pending user's invitation and sets their password.
+     *
+     * @return bool Whether the invitation was still redeemable and has now been redeemed.
+     */
+    public function consumeInviteToken(
+        string $userLogin,
+        #[\SensitiveParameter]
+        string $token,
+        #[\SensitiveParameter]
+        string $hashedPassword
+    ): bool {
+        $hashedToken = $this->hashTokenAuth($token);
+        $now = Date::now()->getDatetime();
+
+        // Redeem the invitation and set the password in one statement, so an account is activated at most
+        // once however many of its tokens are presented. ts_password_modified is set explicitly here
+        // because updateUserFields() is not doing it for us.
+        $sql = sprintf(
+            'UPDATE `%s`
+             SET `password` = ?,
+                 `ts_password_modified` = ?,
+                 `invite_token` = NULL,
+                 `invite_link_token` = NULL,
+                 `invite_accept_at` = ?,
+                 `invite_expired_at` = NULL
+             WHERE `login` = ?
+               AND (`invite_token` = ? OR `invite_link_token` = ?)
+               AND `invite_token` IS NOT NULL
+               AND `invite_expired_at` IS NOT NULL
+               AND `invite_expired_at` >= ?',
+            $this->userTable
+        );
+        $query = $this->getDb()->query($sql, [
+            $hashedPassword,
+            $now,
+            $now,
+            $userLogin,
+            $hashedToken,
+            $hashedToken,
+            $now,
+        ]);
+
+        return $query->rowCount() === 1;
+    }
+
+    /**
+     * Deletes the user row of a pending user who declined their invitation.
+     *
+     * The delete carries the invitation in its WHERE clause, so it only ever removes the pending account
+     * it was given. The expiry predicate is deliberately more lenient than the one in
+     * consumeInviteToken(), matching the check the decline page has always applied.
+     *
+     * @return bool Whether a row was removed.
+     */
+    public function deletePendingUserByInviteToken(
+        string $userLogin,
+        #[\SensitiveParameter]
+        string $token
+    ): bool {
+        $hashedToken = $this->hashTokenAuth($token);
+
+        $sql = sprintf(
+            'DELETE FROM `%s`
+             WHERE `login` = ?
+               AND (`invite_token` = ? OR `invite_link_token` = ?)
+               AND `invite_token` IS NOT NULL
+               AND (`invite_expired_at` IS NULL OR `invite_expired_at` >= ?)',
+            $this->userTable
+        );
+        $query = $this->getDb()->query($sql, [
+            $userLogin,
+            $hashedToken,
+            $hashedToken,
             Date::now()->getDatetime(),
         ]);
 
@@ -934,6 +1419,25 @@ class Model
         $db->query("DELETE FROM " . $this->userTable . " WHERE login = ?", $userLogin);
         $db->query("DELETE FROM " . $this->tokenTable . " WHERE login = ?", $userLogin);
 
+        $this->postUserDeletedEvent($userLogin);
+    }
+
+    /**
+     * Removes what a login leaves behind outside the user table: whatever plugins keep for it, its
+     * settings and its options.
+     *
+     * Callers that have already removed one specific account use this rather than deleteUser(), which
+     * resolves the account by login again and so would delete whoever holds that login by then.
+     */
+    public function cleanupDeletedUser(string $userLogin): void
+    {
+        $this->postUserDeletedEvent($userLogin);
+        PluginSettingsTable::removeAllUserSettingsForUser($userLogin);
+        $this->deleteUserOptions($userLogin);
+    }
+
+    private function postUserDeletedEvent(string $userLogin): void
+    {
         /**
          * Triggered after a user has been deleted.
          *
@@ -1226,5 +1730,29 @@ class Model
         foreach ($users as $user) {
             $this->updateUserFields($user['login'], ['ts_inactivity_notified' => $dtNotified]);
         }
+    }
+
+    private function checkValidTokenAccessLevel(string $accessLevel): void
+    {
+        $availableAccessLevels = Access::getTokenAccessLevelsDescending();
+        if (!in_array($accessLevel, $availableAccessLevels, true)) {
+            throw new \Exception(Piwik::translate("UsersManager_ExceptionAccessValues", [implode(", ", $availableAccessLevels), $accessLevel]));
+        }
+    }
+
+    private function checkRequestedTokenAccessLevelIsAllowed(string $requestedAccessLevel, string $maxAccessLevel): void
+    {
+        $accessRankings = $this->getTokenAccessLevelRanking();
+        if ($accessRankings[$requestedAccessLevel] > $accessRankings[$maxAccessLevel]) {
+            throw new \Exception(Piwik::translate('UsersManager_InvalidTokenAccessLevelTooHigh'));
+        }
+    }
+
+    /**
+     * @return array<string,int>
+     */
+    private function getTokenAccessLevelRanking(): array
+    {
+        return Access::getTokenAccessLevelRankings();
     }
 }

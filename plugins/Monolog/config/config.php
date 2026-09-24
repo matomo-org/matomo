@@ -195,12 +195,12 @@ return array(
         $logPath = $c->get('ini.log.logger_file_path');
 
         // Absolute path
-        if (strpos($logPath, '/') === 0) {
+        if (str_starts_with($logPath, '/')) {
             return $logPath;
         }
 
         // Remove 'tmp/' at the beginning
-        if (strpos($logPath, 'tmp/') === 0) {
+        if (str_starts_with($logPath, 'tmp/')) {
             $logPath = substr($logPath, strlen('tmp'));
         }
 

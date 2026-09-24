@@ -1,4 +1,4 @@
-Label	Visits	Actions	Maximum actions in one visit	Total time spent by visitors (in seconds)	Bounces	Visits with Conversions	Unique visitors (daily sum)	Users (daily sum)	Visits (% of total)	Actions (% of total)	Visits with Conversions (% of total)	Bounces (% of total)
+Label	Visits	Actions	Maximum actions in one visit	Total time spent by visitors (in seconds)	Bounces	Visits with Conversions	Unique visitors (daily sum)	Users (daily sum)	Visits (%)	Actions (%)	Visits with Conversions (%)	Bounces (%)
 referrer.com/Other_Page.htm	8	36	5	5776	0	8	8	0	11.3%	27.1%	11.3%	0%
 www.referrer0.com/theReferrerPage0.html	4	4	1	1460	4	4	4	0	5.6%	3%	5.6%	8.2%
 www.referrer0.com/theReferrerPage1.html	3	3	1	1095	3	3	3	0	4.2%	2.3%	4.2%	6.1%

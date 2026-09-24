@@ -200,7 +200,7 @@ class Http
     private static function convertWildcardToPattern(string $wildcardHost): string
     {
         $flexibleStart = $flexibleEnd = false;
-        if (strpos($wildcardHost, '*.') === 0) {
+        if (str_starts_with($wildcardHost, '*.')) {
             $flexibleStart = true;
             $wildcardHost = substr($wildcardHost, 2);
         }
@@ -888,7 +888,7 @@ class Http
                 $header = '';
                 // redirects are included in the output html, so we look for the last line that starts w/ HTTP/...
                 // to split the response
-                while (substr($response, 0, 5) == "HTTP/") {
+                while (str_starts_with($response, "HTTP/")) {
                     $split = explode("\r\n\r\n", $response, 2);
 
                     if (count($split) == 2) {
@@ -1214,7 +1214,7 @@ class Http
 
         foreach ($_SERVER as $key => $value) {
             if (
-                0 === strpos(strtolower($key), strtolower('HTTP_SEC_CH_UA'))
+                str_starts_with(strtolower($key), strtolower('HTTP_SEC_CH_UA'))
                 || 'X_HTTP_REQUESTED_WITH' === strtoupper($key)
             ) {
                 $clientHints[$key] = $value;

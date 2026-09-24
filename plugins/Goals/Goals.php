@@ -51,7 +51,7 @@ class Goals extends \Piwik\Plugin
 
     public static function getGoalIdFromGoalColumn($columnName)
     {
-        if (strpos($columnName, 'goal_') === 0) {
+        if (str_starts_with($columnName, 'goal_')) {
             $column = str_replace(array('goal_'), '', $columnName);
             return (int) $column;
         }

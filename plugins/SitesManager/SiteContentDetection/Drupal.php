@@ -31,7 +31,7 @@ class Drupal extends SiteContentDetectionAbstract
     public function isDetected(?string $data = null, ?array $headers = null): bool
     {
         $needle = '<meta name="Generator" content="Drupal';
-        if (strpos($data, $needle) !== false) {
+        if (str_contains($data, $needle)) {
             return true;
         }
 

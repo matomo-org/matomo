@@ -15,6 +15,7 @@ use Piwik\Common;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\EventDispatcher;
+use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\Plugins\UsersManager\API;
 use Piwik\Plugins\UsersManager\Model;
@@ -115,6 +116,86 @@ class ModelTest extends IntegrationTestCase
         ), $this->model->getSitesAccessFromUser($this->login));
     }
 
+    public function testGetMaxTokenAccessLevelForUserReturnsAdminWhenUserHasAdminAccess()
+    {
+        $this->model->addUserAccess($this->login, Write::ID, array(1));
+        $this->model->addUserAccess($this->login, 'admin', array(2));
+
+        $this->assertSame('admin', $this->model->getMaxTokenAccessLevelForUser($this->login));
+    }
+
+    public function testGetAllowedTokenAccessLevelsForUserReturnsLevelsUpToMaximum()
+    {
+        $this->model->addUserAccess($this->login, Write::ID, array(1));
+
+        $this->assertSame(['view', 'write'], $this->model->getAllowedTokenAccessLevelsForUser($this->login));
+    }
+
+    public function testNormalizeAndValidateTokenAccessLevelForUserDefaultsToMaximum()
+    {
+        $this->model->addUserAccess($this->login, Write::ID, array(1));
+
+        $this->assertSame('write', $this->model->normalizeAndValidateTokenAccessLevelForUser($this->login, null));
+    }
+
+    public function testNormalizeAndValidateTokenAccessLevelForUserKeepsNullWhenDefaultDisabled()
+    {
+        $this->model->addUserAccess($this->login, Write::ID, array(1));
+
+        $this->assertNull($this->model->normalizeAndValidateTokenAccessLevelForUser($this->login, null, false));
+    }
+
+    public function testNormalizeAndValidateTokenAccessLevelForUserRejectsEmptyString()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_ExceptionAccessValues');
+
+        $this->model->addUserAccess($this->login, Write::ID, array(1));
+        $this->model->normalizeAndValidateTokenAccessLevelForUser($this->login, '');
+    }
+
+    public function testNormalizeAndValidateTokenAccessLevelForUserRejectsInvalidFalsyString()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_ExceptionAccessValues');
+
+        $this->model->addUserAccess($this->login, Write::ID, array(1));
+        $this->model->normalizeAndValidateTokenAccessLevelForUser($this->login, '0');
+    }
+
+    public function testNormalizeAndValidateTokenAccessLevelForUserRejectsTooHighLevel()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage(Piwik::translate('UsersManager_InvalidTokenAccessLevelTooHigh'));
+
+        $this->model->addUserAccess($this->login, View::ID, array(1));
+        $this->model->normalizeAndValidateTokenAccessLevelForUser($this->login, 'admin');
+    }
+
+    public function testGetMaxTokenAccessLevelForUserReturnsNullWhenUserHasNoAccess()
+    {
+        $this->assertNull($this->model->getMaxTokenAccessLevelForUser($this->login));
+    }
+
+    public function testGetAllowedTokenAccessLevelsForUserReturnsEmptyWhenUserHasNoAccess()
+    {
+        $this->assertSame([], $this->model->getAllowedTokenAccessLevelsForUser($this->login));
+    }
+
+    public function testNormalizeAndValidateTokenAccessLevelForUserReturnsNullWhenUserHasNoAccessAndNoLevelRequested()
+    {
+        $this->assertNull($this->model->normalizeAndValidateTokenAccessLevelForUser($this->login, null));
+        $this->assertNull($this->model->normalizeAndValidateTokenAccessLevelForUser($this->login, null, false));
+    }
+
+    public function testNormalizeAndValidateTokenAccessLevelForUserRejectsExplicitLevelWhenUserHasNoAccess()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage(Piwik::translate('UsersManager_InvalidTokenAccessLevelTooHigh'));
+
+        $this->model->normalizeAndValidateTokenAccessLevelForUser($this->login, 'view');
+    }
+
     public function testGetAllNonSystemTokensForLoginWhenNoTokenConfigured()
     {
         $tokens = $this->model->getAllNonSystemTokensForLogin($this->login);
@@ -136,6 +217,7 @@ class ModelTest extends IntegrationTestCase
             'date_created' => '2020-01-02 03:04:05',
             'date_expired' => null,
             'secure_only' => '0',
+            'access_level' => null,
             'ts_rotation_notified' => null,
             'ts_expiration_warning_notified' => null,
         )), $tokens);
@@ -157,6 +239,7 @@ class ModelTest extends IntegrationTestCase
             'date_created' => '2020-01-02 03:04:05',
             'date_expired' => '2030-01-05 03:04:05',
             'secure_only' => '0',
+            'access_level' => null,
             'ts_rotation_notified' => null,
             'ts_expiration_warning_notified' => null,
         )), $tokens);
@@ -221,9 +304,17 @@ class ModelTest extends IntegrationTestCase
             'date_created' => '2020-01-02 03:04:05',
             'date_expired' => '2030-01-05 03:04:05',
             'secure_only' => '0',
+            'access_level' => null,
             'ts_rotation_notified' => null,
             'ts_expiration_warning_notified' => null,
         )), $tokens);
+    }
+
+    public function testAddTokenAuthWithAccessLevel()
+    {
+        $this->model->addTokenAuth($this->login, 'token', 'MyDescription', '2020-01-02 03:04:05', null, false, false, 'write');
+        $tokens = $this->model->getAllNonSystemTokensForLogin($this->login);
+        $this->assertSame('write', $tokens[0]['access_level']);
     }
 
     public function testGetUserByTokenAuthFindsUserWhenTokenNotYetExpired()
@@ -252,6 +343,110 @@ class ModelTest extends IntegrationTestCase
         $this->model->addTokenAuth($this->login, 'token', 'MyDescription', '2020-01-02 03:04:05', null, true);
         $user = $this->model->getUserByTokenAuth('token');
         $this->assertSame($this->login, $user['login']);
+    }
+
+    public function testGetTokenMetadataByTokenAuthReturnsToken()
+    {
+        $this->model->addTokenAuth($this->login, 'token', 'MyDescription', '2020-01-02 03:04:05', null, false, false, 'admin');
+        $token = $this->model->getTokenMetadataByTokenAuth('token');
+
+        $this->assertSame($this->login, $token['login']);
+        $this->assertSame('admin', $token['access_level']);
+    }
+
+    public function testGetTokenMetadataByTokenAuthDedupesQueryViaAuthenticationTokenCache()
+    {
+        $this->model->addTokenAuth($this->login, 'cached-token', 'desc', Date::now()->getDatetime(), null, false, false, 'write');
+
+        $_GET['token_auth'] = 'cached-token';
+        \Piwik\Container\StaticContainer::getContainer()->set(\Piwik\Request\AuthenticationToken::class, new \Piwik\Request\AuthenticationToken());
+
+        try {
+            // Trigger the query path; this populates the per-request cache via
+            // Model::getTokenByTokenAuthIfNotExpired().
+            $first = $this->model->getTokenMetadataByTokenAuth('cached-token');
+            $this->assertSame('write', $first['access_level']);
+
+            // Drop the row to prove the second call is served entirely from the cache and never
+            // re-queries user_token_auth.
+            Db::query('DELETE FROM ' . Common::prefixTable('user_token_auth') . ' WHERE login = ?', [$this->login]);
+
+            $second = $this->model->getTokenMetadataByTokenAuth('cached-token');
+            $this->assertSame('write', $second['access_level'], 'second call must be served from cache');
+
+            // A request-scoped reset (new AuthenticationToken instance) clears the cache; the next
+            // call must miss and now reflect the deleted row.
+            \Piwik\Container\StaticContainer::getContainer()->set(\Piwik\Request\AuthenticationToken::class, new \Piwik\Request\AuthenticationToken());
+            $third = $this->model->getTokenMetadataByTokenAuth('cached-token');
+            $this->assertNull($third);
+        } finally {
+            unset($_GET['token_auth']);
+            \Piwik\Container\StaticContainer::getContainer()->set(\Piwik\Request\AuthenticationToken::class, new \Piwik\Request\AuthenticationToken());
+        }
+    }
+
+    public function testGetTokenMetadataByTokenAuthDoesNotCacheTokensThatDoNotMatchTheRequestAuthToken()
+    {
+        $this->model->addTokenAuth($this->login, 'request-token', 'request', Date::now()->getDatetime(), null, false, false, 'write');
+        $this->model->addTokenAuth($this->login, 'sub-token', 'sub-request', Date::now()->getDatetime(), null, false, false, 'admin');
+
+        $_GET['token_auth'] = 'request-token';
+        \Piwik\Container\StaticContainer::getContainer()->set(\Piwik\Request\AuthenticationToken::class, new \Piwik\Request\AuthenticationToken());
+
+        try {
+            // Lookup for the request's own token populates the cache.
+            $this->assertSame('write', $this->model->getTokenMetadataByTokenAuth('request-token')['access_level']);
+            // Lookup for a *different* token (e.g. a bulk-API sub-request) must NOT use the cache.
+            $this->assertSame('admin', $this->model->getTokenMetadataByTokenAuth('sub-token')['access_level']);
+
+            // Drop the sub-token. If it had been cached above, this would still return 'admin'.
+            Db::query(
+                'DELETE FROM ' . Common::prefixTable('user_token_auth') . ' WHERE password = ?',
+                [$this->model->hashTokenAuth('sub-token')]
+            );
+            $this->assertNull($this->model->getTokenMetadataByTokenAuth('sub-token'));
+            // The request's own token is still cached and survives the unrelated delete.
+            $this->assertSame('write', $this->model->getTokenMetadataByTokenAuth('request-token')['access_level']);
+        } finally {
+            unset($_GET['token_auth']);
+            \Piwik\Container\StaticContainer::getContainer()->set(\Piwik\Request\AuthenticationToken::class, new \Piwik\Request\AuthenticationToken());
+        }
+    }
+
+    public function testGetTokenMetadataByTokenAuthReturnsAnonymousMetadataWithoutTokenRow()
+    {
+        if (!$this->model->userExists('anonymous')) {
+            $this->model->addUser('anonymous', 'not_a_hash', 'anonymous@example.org', Date::now()->getDatetime());
+        }
+
+        $this->model->deleteAllTokensForUser('anonymous');
+
+        $token = $this->model->getTokenMetadataByTokenAuth('anonymous');
+
+        $this->assertSame('anonymous', $token['login']);
+        $this->assertNull($token['access_level']);
+    }
+
+    public function testAddTokenAuthCreatesUnscopedTokenWhileAccessLevelMigrationIsStillPending()
+    {
+        // Matomo keeps serving requests between deploying new code and running the database upgrade, and
+        // token creation is reachable in that window: CoreUpdater::dispatch() returns before it looks for
+        // pending updates when auto-updates are off, and CliMulti mints a temporary token on its non-async
+        // path. Naming access_level unconditionally made every such creation fail with "Unknown column".
+        $tokenTable = Common::prefixTable('user_token_auth');
+
+        Db::exec('ALTER TABLE `' . $tokenTable . '` DROP COLUMN `access_level`');
+
+        try {
+            $token = $this->model->generateRandomTokenAuth();
+            $id = $this->model->addTokenAuth($this->login, $token, 'pending upgrade', Date::now()->getDatetime());
+
+            $this->assertNotEmpty($id);
+        } finally {
+            Db::exec(
+                'ALTER TABLE `' . $tokenTable . '` ADD COLUMN `access_level` VARCHAR(50) NULL AFTER `secure_only`'
+            );
+        }
     }
 
     public function testGenerateRandomTokenAuthCorrectFormat()
@@ -295,6 +490,38 @@ class ModelTest extends IntegrationTestCase
             '2265daba0872fc3aef169d079365e590f0cbc8ed46c2a7984c8a642803cfd96cb47804a63cf22a79f6ca469268c29ee9e72a5059b62d0a598fe42dfc8dcc51bc',
             '02c2e43dcb393097a1221465812a4e9b1e1e80f16e92b313fd4ce8c5ee5b8272a17cd8cdc1ce63578494eaba739c6f7abba7890506ef6bf8d607538778f2a849',
         ), $this->model->getAllHashedTokensForLogins(array('foo', $this->login, 'bar')));
+    }
+
+    public function testGetAllHashedTokensForTrackerCacheForLoginsFiltersByTrackerEligibleAccessLevel()
+    {
+        $this->model->addTokenAuth($this->login, 'token-default', 'MyDescription', '2020-01-02 03:04:05');
+        $this->model->addTokenAuth($this->login, 'token-write', 'MyDescription', '2020-01-02 03:04:05', null, false, false, 'write');
+        $this->model->addTokenAuth($this->login, 'token-admin', 'MyDescription', '2020-01-02 03:04:05', null, false, false, 'admin');
+        $this->model->addTokenAuth($this->login, 'token-superuser', 'MyDescription', '2020-01-02 03:04:05', null, false, false, 'superuser');
+        $this->model->addTokenAuth($this->login, 'token-view', 'MyDescription', '2020-01-02 03:04:05', null, false, false, 'view');
+
+        $tokens = $this->model->getAllHashedTokensForTrackerCacheForLogins(array($this->login));
+        sort($tokens);
+
+        $expected = array(
+            $this->model->hashTokenAuth('token-default'),
+            $this->model->hashTokenAuth('token-write'),
+            $this->model->hashTokenAuth('token-admin'),
+            $this->model->hashTokenAuth('token-superuser'),
+        );
+        sort($expected);
+
+        $this->assertSame($expected, $tokens);
+    }
+
+    public function testGetAllHashedTokensForTrackerCacheForLoginsExcludesExpiredTokens()
+    {
+        $this->model->addTokenAuth($this->login, 'token-write', 'MyDescription', '2020-01-02 03:04:05', null, false, false, 'write');
+        $this->model->addTokenAuth($this->login, 'token-expired', 'MyDescription', '2020-01-02 03:04:05', '2019-02-03 00:01:02', false, false, 'admin');
+
+        $this->assertSame(array(
+            $this->model->hashTokenAuth('token-write'),
+        ), $this->model->getAllHashedTokensForTrackerCacheForLogins(array($this->login)));
     }
 
     public function testDeleteToken()
@@ -523,6 +750,7 @@ class ModelTest extends IntegrationTestCase
                 null,
                 false,
                 false,
+                null,
                 $otherDateRegistered
             );
         } catch (\Exception $e) {
@@ -543,6 +771,7 @@ class ModelTest extends IntegrationTestCase
             null,
             false,
             false,
+            null,
             $this->getDateRegistered($this->login)
         );
 
@@ -560,6 +789,247 @@ class ModelTest extends IntegrationTestCase
 
         $this->assertCount(1, $tokens);
         $this->assertEquals($idToken, $tokens[0]['idusertokenauth']);
+    }
+
+    public function testAddUserWritesTheInvitationWithTheAccount()
+    {
+        $this->model->addUser($this->login3, '', 'pending@pending.de', Date::now()->getDatetime(), [
+            'token'        => 'inviteToken',
+            'expiryInDays' => 7,
+            'invitedBy'    => $this->login,
+        ]);
+
+        $stored = $this->model->getUser($this->login3);
+        self::assertSame($this->model->hashTokenAuth('inviteToken'), $stored['invite_token']);
+        self::assertSame($this->login, $stored['invited_by']);
+        self::assertSame(
+            Date::now()->addDay(7)->toString('Y-m-d'),
+            Date::factory($stored['invite_expired_at'])->toString('Y-m-d')
+        );
+    }
+
+    public function testAddUserLeavesTheInvitationFieldsEmptyWhenNoneIsGiven()
+    {
+        $this->model->addUser($this->login3, '', 'pending@pending.de', Date::now()->getDatetime());
+
+        $stored = $this->model->getUser($this->login3);
+        self::assertNull($stored['invite_token']);
+        self::assertNull($stored['invite_expired_at']);
+        self::assertNull($stored['invited_by']);
+    }
+
+    public function testAttachInviteLinkTokenAttachesLinkToPendingUser()
+    {
+        $user = $this->createPendingUser();
+
+        self::assertTrue(
+            $this->model->attachInviteLinkToken($this->login3, 'linkToken', $user['invite_token'], 7)
+        );
+
+        $stored = $this->model->getUser($this->login3);
+        self::assertSame($this->model->hashTokenAuth('linkToken'), $stored['invite_link_token']);
+        // the token mailed to the invitee keeps working alongside the link
+        self::assertSame($user['invite_token'], $stored['invite_token']);
+    }
+
+    public function testAttachInviteLinkTokenRefusesOnceTheInvitationWasAccepted()
+    {
+        $user = $this->createPendingUser();
+        $this->model->consumeInviteToken($this->login3, 'inviteToken', 'hashedPassword');
+
+        self::assertFalse(
+            $this->model->attachInviteLinkToken($this->login3, 'linkToken', $user['invite_token'], 7)
+        );
+
+        $stored = $this->model->getUser($this->login3);
+        self::assertNull($stored['invite_link_token']);
+        self::assertNull($stored['invite_expired_at']);
+    }
+
+    public function testAttachInviteLinkTokenRefusesWhenTheInviteTokenWasRotated()
+    {
+        $user = $this->createPendingUser();
+        $this->model->attachInviteToken($this->login3, 'rotatedToken', 7);
+
+        self::assertFalse(
+            $this->model->attachInviteLinkToken($this->login3, 'linkToken', $user['invite_token'], 7)
+        );
+        self::assertNull($this->model->getUser($this->login3)['invite_link_token']);
+    }
+
+    public function testReissueInviteTokenForPendingUserRotatesTheTokenAndMovesTheAddress()
+    {
+        $user = $this->createPendingUser();
+
+        self::assertTrue($this->model->reissueInviteTokenForPendingUser(
+            $this->login3,
+            'reissuedToken',
+            $user['invite_token'],
+            $user['email'],
+            'moved@pending.de',
+            7
+        ));
+
+        $stored = $this->model->getUser($this->login3);
+        self::assertSame($this->model->hashTokenAuth('reissuedToken'), $stored['invite_token']);
+        self::assertSame('moved@pending.de', $stored['email']);
+        // the address moved and the previous token stopped working in the same statement
+        self::assertEmpty($this->model->getUserByInviteToken('inviteToken'));
+    }
+
+    public function testReissueInviteTokenForPendingUserRefusesWhenTheAddressAlreadyChanged()
+    {
+        $user = $this->createPendingUser();
+        $this->model->updateUser($this->login3, false, 'someone.else@pending.de');
+
+        self::assertFalse($this->model->reissueInviteTokenForPendingUser(
+            $this->login3,
+            'reissuedToken',
+            $user['invite_token'],
+            $user['email'],
+            'moved@pending.de',
+            7
+        ));
+
+        $stored = $this->model->getUser($this->login3);
+        self::assertSame('someone.else@pending.de', $stored['email']);
+        self::assertSame($user['invite_token'], $stored['invite_token']);
+    }
+
+    public function testReissueInviteTokenForPendingUserRenewsALapsedInvitation()
+    {
+        $user = $this->createPendingUser();
+        $this->expireInvitation();
+
+        self::assertTrue($this->model->reissueInviteTokenForPendingUser(
+            $this->login3,
+            'reissuedToken',
+            $user['invite_token'],
+            $user['email'],
+            $user['email'],
+            7
+        ));
+    }
+
+    public function testConsumeInviteTokenActivatesTheAccount()
+    {
+        $this->createPendingUser();
+
+        self::assertTrue($this->model->consumeInviteToken($this->login3, 'inviteToken', 'hashedPassword'));
+
+        $stored = $this->model->getUser($this->login3);
+        self::assertSame('hashedPassword', $stored['password']);
+        self::assertNull($stored['invite_token']);
+        self::assertNull($stored['invite_link_token']);
+        self::assertNull($stored['invite_expired_at']);
+        self::assertNotEmpty($stored['invite_accept_at']);
+        // bypassing updateUserFields() must not lose the password change timestamp
+        self::assertNotEmpty($stored['ts_password_modified']);
+    }
+
+    public function testConsumeInviteTokenAcceptsTheCopiedLinkToken()
+    {
+        $user = $this->createPendingUser();
+        $this->model->attachInviteLinkToken($this->login3, 'linkToken', $user['invite_token'], 7);
+
+        self::assertTrue($this->model->consumeInviteToken($this->login3, 'linkToken', 'hashedPassword'));
+    }
+
+    public function testConsumeInviteTokenAppliesOnlyOnce()
+    {
+        $user = $this->createPendingUser();
+        $this->model->attachInviteLinkToken($this->login3, 'linkToken', $user['invite_token'], 7);
+
+        // a pending account can carry both the mailed token and the copied link
+        self::assertTrue($this->model->consumeInviteToken($this->login3, 'inviteToken', 'invitee'));
+        self::assertFalse($this->model->consumeInviteToken($this->login3, 'linkToken', 'inviter'));
+
+        self::assertSame('invitee', $this->model->getUser($this->login3)['password']);
+    }
+
+    public function testConsumeInviteTokenRefusesAnExpiredInvitation()
+    {
+        $this->createPendingUser();
+        $this->expireInvitation();
+
+        self::assertFalse($this->model->consumeInviteToken($this->login3, 'inviteToken', 'hashedPassword'));
+        self::assertEmpty($this->model->getUser($this->login3)['password']);
+    }
+
+    public function testConsumeInviteTokenRefusesATokenLeftOnAnActiveAccount()
+    {
+        // an active account that still carries a link token from an earlier invitation
+        $this->model->updateUserFields($this->login, [
+            'invite_link_token' => $this->model->hashTokenAuth('orphanToken'),
+            'invite_expired_at' => Date::now()->addDay(7)->getDatetime(),
+        ]);
+
+        self::assertFalse($this->model->consumeInviteToken($this->login, 'orphanToken', 'hashedPassword'));
+        self::assertNotSame('hashedPassword', $this->model->getUser($this->login)['password']);
+    }
+
+    public function testGetUserByInviteTokenIgnoresATokenLeftOnAnActiveAccount()
+    {
+        $this->createPendingUser();
+        self::assertNotEmpty($this->model->getUserByInviteToken('inviteToken'));
+
+        $this->model->consumeInviteToken($this->login3, 'inviteToken', 'hashedPassword');
+
+        // an invitation link left behind on an account that is no longer pending resolves to nothing,
+        // however it got there
+        $this->model->updateUserFields($this->login3, [
+            'invite_link_token' => $this->model->hashTokenAuth('orphanedLinkToken'),
+            'invite_expired_at' => Date::now()->addDay(1)->getDatetime(),
+        ]);
+
+        self::assertEmpty($this->model->getUserByInviteToken('inviteToken'));
+        self::assertEmpty($this->model->getUserByInviteToken('orphanedLinkToken'));
+    }
+
+    public function testGenerateRandomInviteTokenStillSeesTokensOnNonPendingAccounts()
+    {
+        // token uniqueness has to stay global, so a token parked on an active account still collides
+        $this->model->updateUserFields($this->login, [
+            'invite_link_token' => $this->model->hashTokenAuth('orphanToken'),
+        ]);
+
+        self::assertTrue($this->invokeInviteTokenExists('orphanToken'));
+        self::assertFalse($this->invokeInviteTokenExists('neverIssuedToken'));
+    }
+
+    public function testDeletePendingUserByInviteTokenRemovesTheAccount()
+    {
+        $this->createPendingUser();
+
+        self::assertTrue($this->model->deletePendingUserByInviteToken($this->login3, 'inviteToken'));
+        self::assertEmpty($this->model->getUser($this->login3));
+    }
+
+    public function testDeletePendingUserByInviteTokenAppliesOnlyOnce()
+    {
+        $user = $this->createPendingUser();
+        $this->model->attachInviteLinkToken($this->login3, 'linkToken', $user['invite_token'], 7);
+
+        self::assertTrue($this->model->deletePendingUserByInviteToken($this->login3, 'inviteToken'));
+        self::assertFalse($this->model->deletePendingUserByInviteToken($this->login3, 'linkToken'));
+    }
+
+    public function testDeletePendingUserByInviteTokenRefusesOnceTheInvitationWasAccepted()
+    {
+        $this->createPendingUser();
+        $this->model->consumeInviteToken($this->login3, 'inviteToken', 'hashedPassword');
+
+        self::assertFalse($this->model->deletePendingUserByInviteToken($this->login3, 'inviteToken'));
+        self::assertNotEmpty($this->model->getUser($this->login3));
+    }
+
+    public function testDeletePendingUserByInviteTokenToleratesAnInvitationWithoutExpiry()
+    {
+        $this->createPendingUser();
+        $this->model->updateUserFields($this->login3, ['invite_expired_at' => null]);
+
+        // decline has always been more lenient about the expiry than acceptance is
+        self::assertTrue($this->model->deletePendingUserByInviteToken($this->login3, 'inviteToken'));
     }
 
     private function getDateRegistered(string $login): string
@@ -593,6 +1063,29 @@ class ModelTest extends IntegrationTestCase
                 . ' (login, description, password, hash_algo, date_created) VALUES (?, ?, ?, ?, ?)',
             array($login, 'MyDescription', hash('sha512', $login), 'sha512', Date::now()->getDatetime())
         );
+    }
+
+    private function createPendingUser(string $email = 'pending@pending.de'): array
+    {
+        $this->model->addUser($this->login3, '', $email, Date::now()->getDatetime());
+        $this->model->attachInviteToken($this->login3, 'inviteToken', 7);
+
+        return $this->model->getUser($this->login3);
+    }
+
+    private function expireInvitation(): void
+    {
+        $this->model->updateUserFields($this->login3, [
+            'invite_expired_at' => Date::now()->subDay(1)->getDatetime(),
+        ]);
+    }
+
+    private function invokeInviteTokenExists(string $token): bool
+    {
+        $method = new \ReflectionMethod(Model::class, 'inviteTokenExists');
+        $method->setAccessible(true);
+
+        return $method->invoke($this->model, $token);
     }
 
     private function insertSessionRowForLogin(string $login, $prependstring): void

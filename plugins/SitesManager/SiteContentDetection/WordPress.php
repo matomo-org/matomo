@@ -46,7 +46,7 @@ class WordPress extends SiteContentDetectionAbstract
     public function isDetected(?string $data = null, ?array $headers = null): bool
     {
         $needle = '/wp-content';
-        return (strpos($data, $needle) !== false);
+        return (str_contains($data, $needle));
     }
 
     public function renderInstructionsTab(SiteContentDetector $detector): string

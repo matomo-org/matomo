@@ -321,7 +321,7 @@ class API extends \Piwik\Plugin\API
 
     private function assertPreferenceNameIsSupported(string $preference): void
     {
-        if (false !== strpos($preference, self::OPTION_NAME_PREFERENCE_SEPARATOR)) {
+        if (str_contains($preference, self::OPTION_NAME_PREFERENCE_SEPARATOR)) {
             throw new Exception("Preference name cannot contain underscores.");
         }
 
@@ -987,19 +987,49 @@ class API extends \Piwik\Plugin\API
             $this->confirmCurrentUserPassword($passwordConfirmation);
         }
 
-        $this->model->updateUser($userLogin, $password, $email);
+        // A pending user's address and their invitation move in one statement, so the invitation always
+        // belongs to the address it was sent to. A password from the same call goes in there too, so
+        // nothing is left to write afterwards.
+        if ($hasEmailChanged && !empty($userInfo['invite_token'])) {
+            $reinvited = $this->userRepository->reInviteUser(
+                $userLogin,
+                $userInfo['invite_token'],
+                $userInfo['email'],
+                GeneralConfig::getIntegerConfigValue('default_invite_user_token_expiry_days', 0),
+                $email,
+                empty($password) ? null : $password
+            );
+
+            if (!$reinvited) {
+                throw new Exception(Piwik::translate('UsersManager_ExceptionUserDoesNotExist', $userLogin));
+            }
+        } elseif (!empty($userInfo['invite_token'])) {
+            // $hasEmailChanged ignores case, so a case-only edit arrives here with the address still to write
+            $emailNeedsWriting = $email !== $userInfo['email'];
+
+            // Everything below is pinned to the read above, so the write only lands while the account is
+            // still the pending user that was read. Skip it when it would change nothing: a statement that
+            // touches no column reports no affected row, which is how a refused write reports too.
+            if (!empty($password) || $emailNeedsWriting) {
+                $updated = $this->model->updatePendingUser(
+                    $userLogin,
+                    empty($password) ? null : $password,
+                    $email,
+                    $userInfo['invite_token'],
+                    $userInfo['email']
+                );
+
+                if (!$updated) {
+                    throw new Exception(Piwik::translate('UsersManager_ExceptionUserDoesNotExist', $userLogin));
+                }
+            }
+        } else {
+            $this->model->updateUser($userLogin, $password, $email);
+        }
 
         Cache::deleteTrackerCache();
 
-        if ($hasEmailChanged && $this->model->isPendingUser($userLogin)) {
-            // If the email of a user is changed, who was invited and did not yet accept the invitation
-            // we send a new invite to the new address.
-            // this will indirectly invalidate the invitation sent to the previous address
-            $this->userRepository->reInviteUser(
-                $userLogin,
-                GeneralConfig::getIntegerConfigValue('default_invite_user_token_expiry_days', 0)
-            );
-        } elseif ($hasEmailChanged && $isEmailNotificationOnInConfig) {
+        if ($hasEmailChanged && $isEmailNotificationOnInConfig && empty($userInfo['invite_token'])) {
             $this->sendEmailChangedEmail($userInfo, $email);
         }
 
@@ -1012,7 +1042,9 @@ class API extends \Piwik\Plugin\API
          * Event notify about password change.
          *
          * @param string $userLogin The user's login handle.
-         * @param boolean $passwordHasBeenUpdated Flag containing information about password change.
+         * @param bool $passwordHasBeenUpdated Flag containing information about password change.
+         * @param string $email The user's email address.
+         * @param string|false $password The new password hash, or `false` when the password was not changed.
          */
         Piwik::postEvent('UsersManager.updateUser.end', [$userLogin, $passwordHasBeenUpdated, $email, $password]);
     }
@@ -1531,6 +1563,12 @@ class API extends \Piwik\Plugin\API
      * @param int|string $expireHours Optional number of hours before the token expires. Ignored when `$expireDate` is
      *                                set.
      * @param bool $secureOnly `true` if the token must not be accepted in GET requests.
+     * @param string|null $accessLevel Optional maximum permission to embed in the generated token, one of `view`,
+     *                                 `write`, `admin` or `superuser`, and never above the user's own highest
+     *                                 access. Omitted, `null` or empty leaves the token unscoped. When the
+     *                                 request is itself made with a scoped token, the new token may be no less
+     *                                 restricted than that one, so a higher level is refused and so is leaving
+     *                                 this unset - a `view`-scoped token can only issue `view`.
      * @return string Newly generated app-specific token.
      */
     public function createAppSpecificTokenAuth(
@@ -1540,7 +1578,8 @@ class API extends \Piwik\Plugin\API
         string $description,
         $expireDate = null,
         $expireHours = 0,
-        bool $secureOnly = false
+        bool $secureOnly = false,
+        ?string $accessLevel = null
     ) {
         // Only allowed as a top-level request, not nested within another API request. Base this on
         // the actual API call nesting rather than request-scoped cache state, which is not a
@@ -1585,6 +1624,14 @@ class API extends \Piwik\Plugin\API
             $expireDate = Date::factory($expireDate)->getDatetime();
         }
 
+        // Proxy.php preserves empty-string parameters rather than substituting the default, so a caller
+        // sending `access_level=` (the form's "Inherit user access" default) arrives with an empty string.
+        if ($accessLevel === '') {
+            $accessLevel = null;
+        }
+        $accessLevel = $this->model->normalizeAndValidateTokenAccessLevelForUser($userLogin, $accessLevel, false);
+        UsersManager::checkTokenScopeOfRequestAllowsIssuing($accessLevel);
+
         $generatedToken = $this->model->generateRandomTokenAuth();
         $this->model->addTokenAuth(
             $userLogin,
@@ -1594,6 +1641,7 @@ class API extends \Piwik\Plugin\API
             $expireDate,
             false,
             $secureOnly,
+            $accessLevel,
             // bind the token to the account whose password was just confirmed
             $user['date_registered'] ?? null
         );
@@ -1774,25 +1822,37 @@ class API extends \Piwik\Plugin\API
         /** @phpstan-var UserRow $user */
         $user = $this->model->getUser($userLogin);
 
+        // If user is not a super user check if the user was invited by the current user. Authorisation
+        // comes first, so the answer is the same for every login the caller has no claim to, whether it
+        // holds someone else's invitation, an active account or nothing at all.
+        if (!Piwik::hasUserSuperUserAccess() && ($user['invited_by'] ?? null) !== Piwik::getCurrentUserLogin()) {
+            throw new NoAccessException(Piwik::translate('UsersManager_ExceptionResendInviteDenied', $userLogin));
+        }
+
         // Resolve the account by login first and require that same row to still be pending. Checking
         // pending state and reading the account must always answer about the same user.
         if (empty($user['invite_token'])) {
             throw new Exception(Piwik::translate('UsersManager_ExceptionUserDoesNotExist', $userLogin));
         }
 
-        // If user is not a super user check if the user was invited by the current user
-        if (!Piwik::hasUserSuperUserAccess()) {
-            if ($user['invited_by'] !== Piwik::getCurrentUserLogin()) {
-                throw new NoAccessException(Piwik::translate('UsersManager_ExceptionResendInviteDenied', $userLogin));
-            }
+        // The write is pinned to the invitation read above. If the account no longer carries it, it is
+        // treated exactly as if it had never been pending.
+        if (
+            !$this->userRepository->reInviteUser(
+                $userLogin,
+                $user['invite_token'],
+                $user['email'],
+                (int) $expiryInDays
+            )
+        ) {
+            throw new Exception(Piwik::translate('UsersManager_ExceptionUserDoesNotExist', $userLogin));
         }
 
-        $this->userRepository->reInviteUser($userLogin, (int)$expiryInDays);
-
         /**
-         * Triggered after a new user was invited.
+         * Triggered after an invitation was resent.
          *
-         * @param string $userLogin The new user's login.
+         * @param string $userLogin The invited user's login.
+         * @param string $email The invited user's email address.
          */
         Piwik::postEvent('UsersManager.inviteUser.resendInvite', [$userLogin, $user['email']]);
     }
@@ -1825,25 +1885,32 @@ class API extends \Piwik\Plugin\API
         /** @phpstan-var UserRow $user */
         $user = $this->model->getUser($userLogin);
 
+        // If user is not a super user check if the user was invited by the current user. Authorisation
+        // comes first, so the answer is the same for every login the caller has no claim to, whether it
+        // holds someone else's invitation, an active account or nothing at all.
+        if (!Piwik::hasUserSuperUserAccess() && ($user['invited_by'] ?? null) !== Piwik::getCurrentUserLogin()) {
+            throw new NoAccessException(Piwik::translate('UsersManager_ExceptionResendInviteDenied', $userLogin));
+        }
+
         // Resolve the account by login first and require that same row to still be pending. Checking
         // pending state and reading the account must always answer about the same user.
         if (empty($user['invite_token'])) {
             throw new Exception(Piwik::translate('UsersManager_ExceptionUserDoesNotExist', $userLogin));
         }
 
-        // If user is not a super user check if the user was invited by the current user
-        if (!Piwik::hasUserSuperUserAccess()) {
-            if ($user['invited_by'] !== Piwik::getCurrentUserLogin()) {
-                throw new NoAccessException(Piwik::translate('UsersManager_ExceptionResendInviteDenied', $userLogin));
-            }
+        $token = $this->userRepository->generateInviteToken($userLogin, $user['invite_token'], (int)$expiryInDays);
+
+        // The write is pinned to the invitation read above. If the account no longer carries it, it is
+        // treated exactly as if it had never been pending.
+        if (null === $token) {
+            throw new Exception(Piwik::translate('UsersManager_ExceptionUserDoesNotExist', $userLogin));
         }
 
-        $token = $this->userRepository->generateInviteToken($userLogin, (int)$expiryInDays);
-
         /**
-         * Triggered after a new user invite token was generate.
+         * Triggered after a new user invite token was generated.
          *
          * @param string $userLogin The new user's login.
+         * @param string $email The invited user's email address.
          */
         Piwik::postEvent('UsersManager.inviteUser.generateInviteLinkToken', [$userLogin, $user['email']]);
 
