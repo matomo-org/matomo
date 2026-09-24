@@ -333,17 +333,17 @@ describe('Marketplace', () => {
 
     it('opens the plugin a hash written by someone else names', async () => {
       respondWith(makePlugins(3));
-      MatomoUrl.hashParsed.value = { showPlugin: 'Plugin2' };
+      MatomoUrl.hashParsed.value = { showPlugin: 'plugin1' };
 
       const wrapper = mountPage();
       await vi.runOnlyPendingTimersAsync();
 
-      expect(wrapper.vm.selectedPlugin?.name).toBe('Plugin2');
+      expect(wrapper.vm.selectedPlugin?.name).toBe('plugin1');
     });
 
     it('opens the plugin without waiting for the catalogue', () => {
       respondWith(makePlugins(3));
-      MatomoUrl.hashParsed.value = { showPlugin: 'Plugin2' };
+      MatomoUrl.hashParsed.value = { showPlugin: 'plugin1' };
 
       const wrapper = mountPage();
 
@@ -351,16 +351,16 @@ describe('Marketplace', () => {
       // the grid and its skeletons first and replace them once the listing lands - and it opens
       // there rather than fading into it from a catalogue the reader never saw
       expect(wrapper.vm.selectedPlugin).toBe(null);
-      expect(wrapper.vm.viewPluginName).toBe('Plugin2');
+      expect(wrapper.vm.viewPluginName).toBe('plugin1');
       expect(wrapper.vm.switching).toBe(false);
-      expect(wrapper.vm.detailsCard).toEqual({ name: 'Plugin2' });
+      expect(wrapper.vm.detailsCard).toEqual({ name: 'plugin1' });
       expect(wrapper.find('.marketplacePage__catalogue').attributes('style'))
         .toContain('display: none');
     });
 
     it('hands over the card row once the catalogue carries one', async () => {
       respondWith(makePlugins(3));
-      MatomoUrl.hashParsed.value = { showPlugin: 'Plugin2' };
+      MatomoUrl.hashParsed.value = { showPlugin: 'plugin1' };
 
       const wrapper = mountPage();
       await vi.runOnlyPendingTimersAsync();
@@ -420,7 +420,7 @@ describe('Marketplace', () => {
 
     it('replaces the entry for a plugin it never navigated to itself', async () => {
       respondWith(makePlugins(3));
-      MatomoUrl.hashParsed.value = { showPlugin: 'Plugin2' };
+      MatomoUrl.hashParsed.value = { showPlugin: 'plugin1' };
 
       const wrapper = mountPage();
       await vi.runOnlyPendingTimersAsync();
@@ -439,13 +439,13 @@ describe('Marketplace', () => {
 
     it('clears a filter hiding the card a deep linked plugin has to come back to', async () => {
       respondWith(makePlugins(3).map((plugin) => ({ ...plugin, categories: ['insights'] })));
-      MatomoUrl.hashParsed.value = { pluginCategory: 'marketing', showPlugin: 'Plugin2' };
+      MatomoUrl.hashParsed.value = { pluginCategory: 'marketing', showPlugin: 'plugin1' };
 
       const wrapper = mountPage();
       await vi.runOnlyPendingTimersAsync();
 
       expect(wrapper.vm.activeTab).toBe('all');
-      expect(wrapper.vm.filteredPlugins.some((p: PluginCard) => p.name === 'Plugin2')).toBe(true);
+      expect(wrapper.vm.filteredPlugins.some((p: PluginCard) => p.name === 'plugin1')).toBe(true);
     });
 
     it('keeps the catalogue mounted behind the plugin page', async () => {

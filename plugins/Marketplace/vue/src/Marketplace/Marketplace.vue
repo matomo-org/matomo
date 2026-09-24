@@ -338,15 +338,16 @@ export default defineComponent({
       queryHashTimeout: null,
     };
   },
+  created() {
+    // a page loaded on a plugin's URL starts there rather than fading into it from a catalogue
+    // the reader never saw - set before the first render, or that render is the catalogue
+    this.viewPluginName = this.selectedPluginName;
+  },
   mounted() {
     Matomo.postEvent('Marketplace.Marketplace.mounted', { element: this.$refs.root });
 
     this.readStateFromHash();
     watch(() => MatomoUrl.hashParsed.value, () => this.readStateFromHash());
-
-    // a page loaded on a plugin's URL starts there rather than fading into it from a catalogue
-    // the reader never saw
-    this.viewPluginName = this.selectedPluginName;
 
     this.takeOverScrollRestoration();
 
