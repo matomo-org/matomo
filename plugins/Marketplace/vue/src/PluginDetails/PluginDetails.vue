@@ -323,7 +323,7 @@
 
                 <div
                   class="marketplacePluginDetails__metaRow"
-                  v-if="plugin.homepage || pluginChangelogUrl || plugin.repositoryUrl"
+                  v-if="pluginHomepage || pluginChangelogUrl || plugin.repositoryUrl"
                 >
                   <dt class="marketplacePluginDetails__metaLabel">
                     {{ translate('CorePluginsAdmin_Websites') }}
@@ -331,13 +331,13 @@
                   <dd class="marketplacePluginDetails__metaValue">
                     <a
                       class="marketplacePluginDetails__metaLink"
-                      v-if="plugin.homepage"
+                      v-if="pluginHomepage"
                       target="_blank"
                       rel="noreferrer noopener"
-                      :href="plugin.homepage"
+                      :href="pluginHomepage"
                     >{{ translate('Marketplace_PluginWebsite') }}</a>
                     <template v-if="pluginChangelogUrl">
-                      <template v-if="plugin.homepage"> · </template>
+                      <template v-if="pluginHomepage"> · </template>
                       <a
                         class="marketplacePluginDetails__metaLink"
                         target="_blank"
@@ -347,7 +347,7 @@
                     </template>
 
                     <template v-if="plugin.repositoryUrl">
-                      <template v-if="plugin.homepage || pluginChangelogUrl"> · </template>
+                      <template v-if="pluginHomepage || pluginChangelogUrl"> · </template>
                       <a
                         class="marketplacePluginDetails__metaLink"
                         target="_blank"
@@ -606,9 +606,16 @@ export default defineComponent({
     pluginKeywords(): string[] {
       return this.plugin?.keywords || [];
     },
+    // both homepages come from the plugin's own plugin.json, so only a safe scheme is linked
     pluginAuthors(): PluginAuthor[] {
       const authors = (this.plugin.authors || []) as PluginAuthor[];
-      return authors.filter((author) => author.name);
+      return authors.filter((author) => author.name).map((author) => ({
+        ...author,
+        homepage: author.homepage ? this.$sanitizeUrl(author.homepage) : '',
+      }));
+    },
+    pluginHomepage(): string {
+      return this.plugin.homepage ? this.$sanitizeUrl(this.plugin.homepage) : '';
     },
     pluginChangelogUrl(): string {
       return (this.plugin.changelog?.url as string) || '';

@@ -100,6 +100,8 @@ function mountDetails(pluginCard: Record<string, unknown>, renderCta = false) {
         // the template resolves these off the render context, not the module imports
         translate: (key: string) => key,
         $sanitize: (value: string) => value,
+        // stands in for DOMPurify.isValidAttribute: rejects anything not http(s)
+        $sanitizeUrl: (url: string) => (/^https?:\/\//i.test(url) ? url : ''),
         externalRawLink: (url: string) => url,
         externalLink: (url: string) => url,
       },
@@ -350,6 +352,29 @@ describe('PluginDetails', () => {
     expect(external.attributes('rel')).toBe('noreferrer noopener');
     // a link within the readme itself stays in the page
     expect(anchor.attributes('target')).toBeUndefined();
+  });
+
+  it('links only the homepages that carry a safe scheme', async () => {
+    // both come from the plugin's own plugin.json, which its developer writes
+    mockPost.mockResolvedValue({
+      ...detailsResponse,
+      homepage: 'javascript:alert(1)',
+      authors: [
+        { name: 'Safe Author', homepage: 'https://example.org' },
+        { name: 'Unsafe Author', homepage: 'javascript:alert(1)' },
+      ],
+    });
+
+    const wrapper = mountDetails(cardRow);
+    await flushPromises();
+    await wrapper.vm.$nextTick();
+
+    const hrefs = wrapper.findAll('.marketplacePluginDetails__metaLink')
+      .map((link) => link.attributes('href'));
+    expect(hrefs).toEqual(['https://example.org']);
+    // the unsafe author is still named, just not linked
+    expect(wrapper.text()).toContain('Unsafe Author');
+    expect(wrapper.text()).not.toContain('Marketplace_PluginWebsite');
   });
 
   it('prices nothing for a plugin that is already installed', async () => {
