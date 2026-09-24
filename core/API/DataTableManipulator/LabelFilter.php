@@ -204,9 +204,10 @@ class LabelFilter extends DataTableManipulator
      * columns are added for every goal any row has. Left with the target row alone, those checks
      * would only see that row, and the row we return could lose columns it has on the whole table.
      *
-     * So next to the target row, keep one row with a value for each column, and each goal, the rows
-     * kept so far have no value for. The search only returns the target row, so the extra rows
-     * never reach the output.
+     * So next to the target row, keep the first row with a value for each column, and each goal.
+     * Goal columns are added in the order the rows first show each goal, so the rows keep their
+     * order in the table. The search only returns the target row, so the extra rows never reach
+     * the output.
      *
      * @return Row[]
      */
@@ -214,12 +215,10 @@ class LabelFilter extends DataTableManipulator
     {
         $covered = [];
         $coveredKeys = [];
-        $this->coverColumns($target->getColumns(), $covered, $coveredKeys);
-
-        $rows = [$target];
+        $rows = [];
 
         foreach ($dataTable->getRowsWithoutSummaryRow() as $row) {
-            if ($row !== $target && $this->coverColumns($row->getColumns(), $covered, $coveredKeys)) {
+            if ($this->coverColumns($row->getColumns(), $covered, $coveredKeys) || $row === $target) {
                 $rows[] = $row;
             }
         }
@@ -259,7 +258,8 @@ class LabelFilter extends DataTableManipulator
      * Whether a generic filter still to be applied to the subtable decides what to keep by looking
      * at the other rows. ExcludeLowPopulation can derive its threshold from the sum of a column
      * across the whole table, and the row limiting filters keep rows by position, so for those the
-     * rows we are about to drop are part of the result rather than just overhead.
+     * rows we are about to drop are part of the result rather than just overhead. A pattern can
+     * remove the rows kept for the whole table checks, see getRowsForWholeTableChecks().
      *
      * Both row limiting filters are skipped when their own parameter is missing, and an unlimited
      * limit cannot drop anything, so in those cases there is nothing to protect. A truncate of zero
@@ -268,7 +268,7 @@ class LabelFilter extends DataTableManipulator
      */
     private function hasFilterDependingOnOtherRows(array $request): bool
     {
-        if (!empty($request['filter_excludelowpop'])) {
+        if (!empty($request['filter_excludelowpop']) || !empty($request['filter_pattern'])) {
             return true;
         }
 

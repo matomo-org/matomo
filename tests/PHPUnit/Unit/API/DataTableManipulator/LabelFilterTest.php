@@ -111,6 +111,8 @@ class LabelFilterTest extends \PHPUnit\Framework\TestCase
             'truncate to nothing as a string' => [['filter_truncate' => '0']],
             'offset' => [['filter_offset' => 1]],
             'limit' => [['filter_limit' => 10]],
+            // a pattern can drop the rows kept for the whole table checks
+            'pattern' => [['filter_pattern' => 'wanted']],
         ];
     }
 

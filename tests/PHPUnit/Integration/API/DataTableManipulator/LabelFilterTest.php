@@ -13,6 +13,7 @@ use Piwik\API\Request;
 use Piwik\Archive\DataTableFactory;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
+use Piwik\Metrics;
 use Piwik\Period\Factory as PeriodFactory;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -148,6 +149,31 @@ class LabelFilterTest extends IntegrationTestCase
         $this->assertEquals($this->getRowFromPageUrlsWithoutPruning($params), $row);
     }
 
+    public function testRecursiveLabelKeepsColumnsWhenAPatternRemovesTheSiblingThatHasThem()
+    {
+        // the pattern drops the first sibling with a timing sum but keeps the second one, so the
+        // page performance metrics still see a timing sum on the whole subtable
+        self::$subtableShape = 'siblingsWithTiming';
+
+        $params = ['filter_pattern' => '[^0]$'];
+        $row = $this->getRowFromPageUrls($params);
+
+        $this->assertSame(1, $row['nb_hits_with_time_network'] ?? null);
+        $this->assertEquals($this->getRowFromPageUrlsWithoutPruning($params), $row);
+    }
+
+    public function testRecursiveLabelKeepsTheOrderOfTheGoalColumns()
+    {
+        // goal columns are added in the order the rows of the subtable first show each goal, which
+        // is not the order the row we are after lists them in
+        self::$subtableShape = 'goals';
+
+        $params = ['filter_update_columns_when_show_all_goals' => 1, 'idGoal' => 0];
+        $row = $this->getRowFromPageUrls($params);
+
+        $this->assertSame(array_keys($this->getRowFromPageUrlsWithoutPruning($params)), array_keys($row));
+    }
+
     private function getRowFromPageUrls(array $params = []): array
     {
         $table = Request::processRequest('Actions.getPageUrls', array_merge([
@@ -234,13 +260,42 @@ class LabelFilterTest extends IntegrationTestCase
             ];
         }
 
+        if (self::$subtableShape === 'siblingsWithTiming') {
+            foreach ([0, 1] as $index) {
+                $rows[$index] += [
+                    'sum_time_network' => 120,
+                    'nb_hits_with_time_network' => 60,
+                    'min_time_network' => 1,
+                    'max_time_network' => 3,
+                ];
+            }
+            $rows[2] += [
+                'sum_time_network' => 0,
+                'nb_hits_with_time_network' => 1,
+                'min_time_network' => 0,
+                'max_time_network' => 0,
+            ];
+        }
+
+        if (self::$subtableShape === 'goals') {
+            $rows[0]['goals'] = ['idgoal=2' => [Metrics::INDEX_GOAL_NB_CONVERSIONS => 1]];
+            $rows[1]['goals'] = ['idgoal=1' => [Metrics::INDEX_GOAL_NB_CONVERSIONS => 1]];
+            $rows[2]['goals'] = [
+                'idgoal=1' => [Metrics::INDEX_GOAL_NB_CONVERSIONS => 1],
+                'idgoal=2' => [Metrics::INDEX_GOAL_NB_CONVERSIONS => 1],
+            ];
+        }
+
         if (self::$subtableShape === 'labelsEqualOnceDecoded') {
             $rows[] = ['label' => '/a &amp; b', 'nb_visits' => 20, 'nb_hits' => 20];
             $rows[] = ['label' => '/a & b', 'nb_visits' => 5, 'nb_hits' => 5];
         }
 
+        // a simple array cannot hold the goals column, which is an array itself
         $table = new DataTable();
-        $table->addRowsFromSimpleArray($rows);
+        foreach ($rows as $columns) {
+            $table->addRow(new Row([Row::COLUMNS => $columns]));
+        }
 
         return $table;
     }
