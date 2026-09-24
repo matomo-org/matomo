@@ -537,7 +537,7 @@ abstract class Dimension
         $method = new \ReflectionMethod($this, $method);
         $declaringClass = $method->getDeclaringClass();
 
-        return 0 === strpos($declaringClass->name, 'Piwik\Plugins');
+        return str_starts_with($declaringClass->name, 'Piwik\Plugins');
     }
 
     /**
@@ -830,21 +830,21 @@ abstract class Dimension
         if (!empty($this->columnType)) {
             // best guess
             $type = strtolower($this->columnType);
-            if (strpos($type, 'datetime') !== false) {
+            if (str_contains($type, 'datetime')) {
                 return self::TYPE_DATETIME;
-            } elseif (strpos($type, 'timestamp') !== false) {
+            } elseif (str_contains($type, 'timestamp')) {
                 return self::TYPE_TIMESTAMP;
-            } elseif (strpos($type, 'date') !== false) {
+            } elseif (str_contains($type, 'date')) {
                 return self::TYPE_DATE;
-            } elseif (strpos($type, 'time') !== false) {
+            } elseif (str_contains($type, 'time')) {
                 return self::TYPE_TIME;
-            } elseif (strpos($type, 'float') !== false) {
+            } elseif (str_contains($type, 'float')) {
                 return self::TYPE_FLOAT;
-            } elseif (strpos($type, 'decimal') !== false) {
+            } elseif (str_contains($type, 'decimal')) {
                 return self::TYPE_FLOAT;
-            } elseif (strpos($type, 'int') !== false) {
+            } elseif (str_contains($type, 'int')) {
                 return self::TYPE_NUMBER;
-            } elseif (strpos($type, 'binary') !== false) {
+            } elseif (str_contains($type, 'binary')) {
                 return self::TYPE_BINARY;
             }
         }

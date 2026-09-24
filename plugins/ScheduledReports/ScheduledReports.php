@@ -132,6 +132,7 @@ class ScheduledReports extends \Piwik\Plugin
         $translationKeys[] = "ScheduledReports_EvolutionGraphsShowForEachInPeriod";
         $translationKeys[] = "ScheduledReports_EvolutionGraphsShowForPreviousN";
         $translationKeys[] = 'ScheduledReports_ReportFormat';
+        $translationKeys[] = 'ScheduledReports_ReportFormatHelpText';
         $translationKeys[] = 'ScheduledReports_SendReportTo';
         $translationKeys[] = 'ScheduledReports_MustBeLoggedIn';
         $translationKeys[] = 'Login_LogIn';

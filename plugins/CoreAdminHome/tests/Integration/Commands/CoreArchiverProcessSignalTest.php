@@ -114,7 +114,7 @@ class CoreArchiverProcessSignalTest extends IntegrationTestCase
 
         // wait until initialization step is reached
         $result = self::$fixture->stepControl->waitForSuccess(static function () use ($process): bool {
-            return false !== strpos($process->getOutput(), 'Async process archiving supported');
+            return str_contains($process->getOutput(), 'Async process archiving supported');
         });
 
         self::assertTrue($result, 'Archiving initialization check did not succeed');
@@ -298,7 +298,7 @@ class CoreArchiverProcessSignalTest extends IntegrationTestCase
 
         // wait until scheduled tasks are running
         $result = self::$fixture->stepControl->waitForSuccess(static function () use ($process): bool {
-            return false !== strpos($process->getOutput(), 'Scheduler: executing task');
+            return str_contains($process->getOutput(), 'Scheduler: executing task');
         }, $timeoutInSeconds = 60);
 
         self::assertTrue($result, 'Scheduled tasks did not start');
@@ -407,10 +407,7 @@ class CoreArchiverProcessSignalTest extends IntegrationTestCase
 
         $result = self::$fixture->stepControl->waitForSuccess(
             static function () use ($process, $signal): bool {
-                return false !== strpos(
-                    $process->getOutput(),
-                    'Received system signal to stop archiving: ' . $signal
-                );
+                return str_contains($process->getOutput(), 'Received system signal to stop archiving: ' . $signal);
             }
         );
 
@@ -510,7 +507,7 @@ class CoreArchiverProcessSignalTest extends IntegrationTestCase
                 }
 
                 foreach ($needles as $needle) {
-                    if (false === strpos($processOutput, $needle)) {
+                    if (!str_contains($processOutput, $needle)) {
                         return false;
                     }
                 }

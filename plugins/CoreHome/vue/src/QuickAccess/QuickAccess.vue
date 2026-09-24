@@ -365,7 +365,7 @@ export default defineComponent({
       const searchTerm = unprocessedSearchTerm.toLowerCase();
 
       let index = -1;
-      const menuItemsIndex: Record<string, number> = {};
+      const menuItemsIndex: Record<string, number> = Object.create(null);
       const menuItems: MenuItem[] = [];
 
       const moveToCategory = (theSubmenuItem: SubMenuItem) => {

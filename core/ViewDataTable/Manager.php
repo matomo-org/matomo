@@ -132,8 +132,8 @@ class Manager
 
         foreach (static::getAvailableViewDataTables() as $vizId => $vizClass) {
             if (
-                false === strpos($vizClass, 'Piwik\\Plugins\\CoreVisualizations')
-                && false === strpos($vizClass, 'Piwik\\Plugins\\Goals\\Visualizations\\Goals')
+                !str_contains($vizClass, 'Piwik\\Plugins\\CoreVisualizations')
+                && !str_contains($vizClass, 'Piwik\\Plugins\\Goals\\Visualizations\\Goals')
             ) {
                 $result[$vizId] = $vizClass;
             }

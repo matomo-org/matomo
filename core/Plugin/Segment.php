@@ -323,7 +323,7 @@ class Segment
     public function setSuggestedValuesApi($suggestedValuesApi)
     {
         if (!empty($suggestedValuesApi) && is_string($suggestedValuesApi)) {
-            if (Development::isEnabled() && strpos($suggestedValuesApi, '.get') === false) {
+            if (Development::isEnabled() && !str_contains($suggestedValuesApi, '.get')) {
                 throw new Exception('Invalid suggested values API defined, expecting ".get" to be present.');
             }
         } else {

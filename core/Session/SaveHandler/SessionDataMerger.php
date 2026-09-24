@@ -100,7 +100,7 @@ class SessionDataMerger
 
         // this is handed whatever is in the row, so check it looks like a session Matomo stored
         // before unserialize() is asked to read it
-        if (0 !== strncmp($data, self::ENVELOPE_PREFIX, strlen(self::ENVELOPE_PREFIX))) {
+        if (!str_starts_with($data, self::ENVELOPE_PREFIX)) {
             return null;
         }
 
@@ -282,7 +282,7 @@ class SessionDataMerger
             return false;
         }
 
-        return [] === $value || array_keys($value) !== range(0, count($value) - 1);
+        return [] === $value || !array_is_list($value);
     }
 
     private function isSame($left, $right): bool

@@ -258,7 +258,7 @@ class Range extends Period
 
             // we set the timezone in the Date object only if the date is relative eg. 'today', 'yesterday', 'now'
             $timezone = null;
-            if (strpos($strDateEnd, '-') === false) {
+            if (!str_contains($strDateEnd, '-')) {
                 $timezone = $this->timezone;
             }
 
@@ -543,7 +543,7 @@ class Range extends Period
         $timezone = $site->getTimezone();
         $last30Relative = new Range($period, $lastN, $timezone);
 
-        if (strpos($endDate, '-') === false) {
+        if (!str_contains($endDate, '-')) {
             // eg today, yesterday, ... needs the timezone
             $endDate = Date::factoryInTimezone($endDate, $timezone);
         } else {

@@ -101,7 +101,7 @@ class GeneratePlugin extends GeneratePluginBase
     {
         $commandName = $this->getInput()->getFirstArgument();
 
-        return false !== strpos($commandName, 'theme');
+        return str_contains($commandName, 'theme');
     }
 
     protected function generatePluginFolder($pluginName)

@@ -44,7 +44,7 @@ class DigitalOcean implements IpRangeProviderInterface
     public function parseRanges(string $csv): array
     {
         // a UTF-8 BOM would not be removed by trim() and would corrupt the first range
-        if (strpos($csv, "\xEF\xBB\xBF") === 0) {
+        if (str_starts_with($csv, "\xEF\xBB\xBF")) {
             $csv = substr($csv, 3);
         }
 

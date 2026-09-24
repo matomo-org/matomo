@@ -147,7 +147,7 @@ class NumberFormatter
      */
     public function formatPercentEvolution($value)
     {
-        $isPositiveEvolution = !empty($value) && ($value > 0 || substr($value, 0, 1) === '+');
+        $isPositiveEvolution = !empty($value) && ($value > 0 || str_starts_with($value, '+'));
 
         $formatted = self::formatPercent($value);
 
@@ -310,7 +310,7 @@ class NumberFormatter
             return $value;
         }
 
-        $usesGrouping = (strpos($pattern, ',') !== false);
+        $usesGrouping = (str_contains($pattern, ','));
         // if pattern has number groups, parse them.
         if ($usesGrouping) {
             preg_match('/#+0/', $pattern, $primaryGroupMatches);

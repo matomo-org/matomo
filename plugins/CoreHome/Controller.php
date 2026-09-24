@@ -104,22 +104,22 @@ class Controller extends \Piwik\Plugin\Controller
 
         if ($config->getName() && Common::getRequestVar('showtitle', '', 'string') === '1') {
             if (
-                strpos($content, '<h2') !== false
-                || strpos($content, ' content-title=') !== false
-                || strpos($content, 'CoreHome.EnrichedHeadline') !== false
-                || strpos($content, 'CoreHome.ReportHeader') !== false
-                || strpos($content, '<h1') !== false
+                str_contains($content, '<h2')
+                || str_contains($content, ' content-title=')
+                || str_contains($content, 'CoreHome.EnrichedHeadline')
+                || str_contains($content, 'CoreHome.ReportHeader')
+                || str_contains($content, '<h1')
             ) {
                 // already includes title
                 return $content;
             }
 
             if (
-                strpos($content, '<!-- has-content-block -->') === false
-                && strpos($content, 'class="card"') === false
-                && strpos($content, "class='card'") === false
-                && strpos($content, 'class="card-content"') === false
-                && strpos($content, "class='card-content'") === false
+                !str_contains($content, '<!-- has-content-block -->')
+                && !str_contains($content, 'class="card"')
+                && !str_contains($content, "class='card'")
+                && !str_contains($content, 'class="card-content"')
+                && !str_contains($content, "class='card-content'")
             ) {
                 $view = new View('@CoreHome/_singleWidget');
                 $view->title = $config->getName();
@@ -261,7 +261,7 @@ class Controller extends \Piwik\Plugin\Controller
     {
         if (empty($rowEvolution)) {
             $label = Common::getRequestVar('label', '', 'string');
-            $isMultiRowEvolution = strpos($label, ',') !== false;
+            $isMultiRowEvolution = str_contains($label, ',');
 
             $rowEvolution = $this->makeRowEvolution($isMultiRowEvolution, $graphType = 'graphEvolution');
             $rowEvolution->useAvailableMetrics();

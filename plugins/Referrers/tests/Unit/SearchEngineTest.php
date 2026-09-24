@@ -57,7 +57,7 @@ class SearchEngineTest extends \PHPUnit\Framework\TestCase
             if (!array_key_exists($info['name'], $searchEngines)) {
                 $searchEngines[$info['name']] = true;
 
-                $this->assertTrue(strpos($host, '{}') === false, $host . " search URL is the master record and should not contain {}");
+                $this->assertTrue(!str_contains($host, '{}'), $host . " search URL is the master record and should not contain {}");
             }
 
             if (isset($info['charsets']) && $info['charsets'] !== false) {
@@ -65,13 +65,13 @@ class SearchEngineTest extends \PHPUnit\Framework\TestCase
 
                 if (is_string($info['charsets'])) {
                     $this->assertTrue(trim($info['charsets']) !== '', $host . ' charsets cannot be an empty string');
-                    $this->assertTrue(strpos($info['charsets'], ' ') === false, $host . ' charsets cannot contain spaces');
+                    $this->assertTrue(!str_contains($info['charsets'], ' '), $host . ' charsets cannot contain spaces');
                 }
 
                 if (is_array($info['charsets'])) {
                     $this->assertTrue(count($info['charsets']) > 0, $host . ' charsets cannot be an empty array');
-                    $this->assertTrue(strpos(serialize($info['charsets']), '""') === false, $host . ' charsets in array cannot be empty stringss');
-                    $this->assertTrue(strpos(serialize($info['charsets']), ' ') === false, $host . ' charsets in array cannot contain spaces');
+                    $this->assertTrue(!str_contains(serialize($info['charsets']), '""'), $host . ' charsets in array cannot be empty stringss');
+                    $this->assertTrue(!str_contains(serialize($info['charsets']), ' '), $host . ' charsets in array cannot contain spaces');
                 }
             }
         }
@@ -164,7 +164,7 @@ class SearchEngineTest extends \PHPUnit\Framework\TestCase
         // Get list of existing favicons
         $favicons = scandir(PIWIK_PATH_TEST_TO_ROOT . '/plugins/Morpheus/icons/dist/searchEngines/');
         foreach ($favicons as $name) {
-            if ($name[0] == '.' || strpos($name, 'xx.') === 0) {
+            if ($name[0] == '.' || str_starts_with($name, 'xx.')) {
                 continue;
             }
 
