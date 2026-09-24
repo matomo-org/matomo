@@ -43,7 +43,7 @@
         class="pluginCard__titleLink"
         :href="detailsHref"
         :title="plugin.displayName"
-        @click.prevent="$emit('openDetails', plugin)"
+        @click.exact.prevent="$emit('openDetails', plugin)"
       >{{ plugin.displayName }}</a>
     </h3>
 

@@ -5,7 +5,7 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import { mount, VueWrapper } from '@vue/test-utils';
+import { enableAutoUnmount, mount, VueWrapper } from '@vue/test-utils';
 
 // Pulled in dynamically: a vi.mock() factory is hoisted above the file's own imports. The hash is a
 // real ref so the component's watch() on it fires the way it does in the browser.
@@ -13,6 +13,15 @@ vi.mock('CoreHome', async () => {
   const { ref } = await import('vue');
   const { coreHomeMock } = await import('../testCoreHomeMock');
   const hashParsed = ref<Record<string, unknown>>({});
+
+  // replaceHash() goes round MatomoUrl - which has no replace of its own - and reaches the rest of
+  // the page through the hashchange CoreHome itself listens for. Mirror that listener here, or the
+  // page would never see the hash it just wrote.
+  window.addEventListener('hashchange', () => {
+    hashParsed.value = Object.fromEntries(
+      new URLSearchParams(window.location.hash.replace(/^[#?]+/, '')).entries(),
+    );
+  });
 
   return {
     ...coreHomeMock(),
@@ -35,6 +44,11 @@ vi.mock('CoreHome', async () => {
         hashParsed.value = Object.fromEntries(
           Object.entries(params).filter(([, value]) => value !== null && value !== undefined),
         );
+        // CoreHome writes window.location.hash, which pushes a history entry; the page relies on
+        // that for browser Back, and on replaceHash() not doing it
+        window.history.pushState(null, '', `#?${new URLSearchParams(
+          Object.entries(hashParsed.value).map(([key, value]) => [key, String(value)]),
+        ).toString()}`);
       },
     },
   };
@@ -52,6 +66,10 @@ import { AjaxHelper, MatomoUrl } from 'CoreHome';
 import Marketplace from './Marketplace.vue';
 import { makePlugin, makePlugins } from '../testMarketplaceFixtures';
 import { PluginCard } from '../types';
+
+// every page left mounted keeps watching the one shared hash, so it would react to the next
+// spec's navigation as well as its own
+enableAutoUnmount(afterEach);
 
 const PAGE_SIZE = 15;
 const FETCH_TIMEOUT_MS = 30000;
@@ -111,8 +129,7 @@ function mountPage(attachTo?: HTMLElement) {
         PluginSection: true,
         EmptyState: true,
         RequestTrial: true,
-        StartFreeTrial: true,
-        PluginDetailsModal: true,
+        PluginDetails: true,
       },
     },
   });
@@ -255,6 +272,217 @@ describe('Marketplace', () => {
     });
   });
 
+  describe('opening and closing a plugin', () => {
+    beforeEach(() => {
+      window.history.replaceState(null, '', '#?');
+      MatomoUrl.hashParsed.value = {};
+    });
+
+    it('names the plugin in the hash rather than keeping it to itself', async () => {
+      respondWith(makePlugins(3));
+
+      const wrapper = mountPage();
+      await vi.runOnlyPendingTimersAsync();
+
+      wrapper.vm.openDetails(wrapper.vm.allPlugins[0]);
+      await wrapper.vm.$nextTick();
+
+      // the plugin management screen opens a plugin here by writing this parameter itself, so it
+      // has to mean the same thing when this page writes it
+      expect(MatomoUrl.hashParsed.value.showPlugin).toBe(wrapper.vm.allPlugins[0].name);
+      expect(wrapper.vm.selectedPlugin?.name).toBe(wrapper.vm.allPlugins[0].name);
+
+      // and what is rendered follows once the views have changed over
+      await vi.runOnlyPendingTimersAsync();
+      expect(wrapper.vm.viewPluginName).toBe(wrapper.vm.allPlugins[0].name);
+    });
+
+    it('holds the page blank while the two views change places', async () => {
+      respondWith(makePlugins(3));
+
+      const wrapper = mountPage();
+      await vi.runOnlyPendingTimersAsync();
+
+      wrapper.vm.openDetails(wrapper.vm.allPlugins[0]);
+      await wrapper.vm.$nextTick();
+
+      // the scroll position moves during this, and behind the blank the jump is not seen
+      expect(wrapper.vm.switching).toBe(true);
+      expect(wrapper.vm.viewPluginName).toBe('');
+
+      await vi.runOnlyPendingTimersAsync();
+
+      expect(wrapper.vm.switching).toBe(false);
+      expect(wrapper.vm.viewPluginName).toBe(wrapper.vm.allPlugins[0].name);
+    });
+
+    it('does not leave a half-finished change over when another plugin is opened', async () => {
+      respondWith(makePlugins(3));
+
+      const wrapper = mountPage();
+      await vi.runOnlyPendingTimersAsync();
+
+      wrapper.vm.openDetails(wrapper.vm.allPlugins[0]);
+      await wrapper.vm.$nextTick();
+      wrapper.vm.openDetails(wrapper.vm.allPlugins[1]);
+      await vi.runOnlyPendingTimersAsync();
+
+      expect(wrapper.vm.switching).toBe(false);
+      expect(wrapper.vm.viewPluginName).toBe(wrapper.vm.allPlugins[1].name);
+    });
+
+    it('opens the plugin a hash written by someone else names', async () => {
+      respondWith(makePlugins(3));
+      MatomoUrl.hashParsed.value = { showPlugin: 'Plugin2' };
+
+      const wrapper = mountPage();
+      await vi.runOnlyPendingTimersAsync();
+
+      expect(wrapper.vm.selectedPlugin?.name).toBe('Plugin2');
+    });
+
+    it('opens the plugin without waiting for the catalogue', () => {
+      respondWith(makePlugins(3));
+      MatomoUrl.hashParsed.value = { showPlugin: 'Plugin2' };
+
+      const wrapper = mountPage();
+
+      // the details request needs the name and nothing else, so a cold deep link must not paint
+      // the grid and its skeletons first and replace them once the listing lands - and it opens
+      // there rather than fading into it from a catalogue the reader never saw
+      expect(wrapper.vm.selectedPlugin).toBe(null);
+      expect(wrapper.vm.viewPluginName).toBe('Plugin2');
+      expect(wrapper.vm.switching).toBe(false);
+      expect(wrapper.vm.detailsCard).toEqual({ name: 'Plugin2' });
+      expect(wrapper.find('.marketplacePage__catalogue').attributes('style'))
+        .toContain('display: none');
+    });
+
+    it('hands over the card row once the catalogue carries one', async () => {
+      respondWith(makePlugins(3));
+      MatomoUrl.hashParsed.value = { showPlugin: 'Plugin2' };
+
+      const wrapper = mountPage();
+      await vi.runOnlyPendingTimersAsync();
+
+      expect(wrapper.vm.detailsCard.displayName).toBeDefined();
+    });
+
+    it('still opens a plugin the catalogue does not carry, for its own error', async () => {
+      respondWith(makePlugins(3));
+      MatomoUrl.hashParsed.value = { showPlugin: 'NotAPlugin' };
+
+      const wrapper = mountPage();
+      await vi.runOnlyPendingTimersAsync();
+
+      // delisted since the list was cached: the details request says so, which is more use than
+      // dropping the reader on the catalogue with the plugin still named in the hash
+      expect(wrapper.vm.selectedPlugin).toBe(null);
+      expect(wrapper.vm.detailsCard).toEqual({ name: 'NotAPlugin' });
+    });
+
+    it('closes when the hash stops naming a plugin, as browser Back leaves it', async () => {
+      respondWith(makePlugins(3));
+
+      const wrapper = mountPage();
+      await vi.runOnlyPendingTimersAsync();
+
+      wrapper.vm.openDetails(wrapper.vm.allPlugins[0]);
+      await vi.runOnlyPendingTimersAsync();
+      expect(wrapper.vm.selectedPlugin).not.toBe(null);
+
+      MatomoUrl.updateHash({ ...MatomoUrl.hashParsed.value, showPlugin: null });
+      await vi.runOnlyPendingTimersAsync();
+
+      expect(wrapper.vm.selectedPlugin).toBe(null);
+      expect(wrapper.vm.viewPluginName).toBe('');
+    });
+
+    it('goes back through its own history entry rather than adding another', async () => {
+      respondWith(makePlugins(3));
+
+      const wrapper = mountPage();
+      await vi.runOnlyPendingTimersAsync();
+
+      const back = vi.spyOn(window.history, 'back').mockImplementation(() => {});
+      const replace = vi.spyOn(window.history, 'replaceState');
+
+      wrapper.vm.openDetails(wrapper.vm.allPlugins[0]);
+      await vi.runOnlyPendingTimersAsync();
+      wrapper.vm.closeDetails();
+
+      expect(back).toHaveBeenCalled();
+      expect(replace).not.toHaveBeenCalled();
+
+      back.mockRestore();
+      replace.mockRestore();
+    });
+
+    it('replaces the entry for a plugin it never navigated to itself', async () => {
+      respondWith(makePlugins(3));
+      MatomoUrl.hashParsed.value = { showPlugin: 'Plugin2' };
+
+      const wrapper = mountPage();
+      await vi.runOnlyPendingTimersAsync();
+
+      const back = vi.spyOn(window.history, 'back').mockImplementation(() => {});
+
+      wrapper.vm.closeDetails();
+      await wrapper.vm.$nextTick();
+
+      // history back would leave the page that sent the reader here, not the catalogue
+      expect(back).not.toHaveBeenCalled();
+      expect(wrapper.vm.selectedPlugin).toBe(null);
+
+      back.mockRestore();
+    });
+
+    it('clears a filter hiding the card a deep linked plugin has to come back to', async () => {
+      respondWith(makePlugins(3).map((plugin) => ({ ...plugin, categories: ['insights'] })));
+      MatomoUrl.hashParsed.value = { pluginCategory: 'marketing', showPlugin: 'Plugin2' };
+
+      const wrapper = mountPage();
+      await vi.runOnlyPendingTimersAsync();
+
+      expect(wrapper.vm.activeTab).toBe('all');
+      expect(wrapper.vm.filteredPlugins.some((p: PluginCard) => p.name === 'Plugin2')).toBe(true);
+    });
+
+    it('keeps the catalogue mounted behind the plugin page', async () => {
+      respondWith(makePlugins(3));
+
+      const wrapper = mountPage();
+      await vi.runOnlyPendingTimersAsync();
+
+      wrapper.vm.openDetails(wrapper.vm.allPlugins[0]);
+      await vi.runOnlyPendingTimersAsync();
+
+      // v-show, not v-if: coming back has to be a repaint rather than a refetch
+      const catalogue = wrapper.find('.marketplacePage__catalogue');
+      expect(catalogue.exists()).toBe(true);
+      expect(catalogue.attributes('style')).toContain('display: none');
+    });
+
+    it('does not page in more cards while a plugin is open', async () => {
+      const { scrollToBottom } = stubIntersectionObserver();
+      respondWith(makePlugins(40).map((plugin) => ({ ...plugin, categories: ['insights'] })));
+      MatomoUrl.hashParsed.value = { pluginCategory: 'insights' };
+
+      const wrapper = mountPage();
+      await vi.runOnlyPendingTimersAsync();
+
+      wrapper.vm.openDetails(wrapper.vm.allPlugins[0]);
+      await vi.runOnlyPendingTimersAsync();
+
+      // the sentinel is inside the hidden catalogue, so nothing should reach the observer; this
+      // asserts the page does not page in behind the reader's back if something does
+      scrollToBottom();
+      await wrapper.vm.$nextTick();
+
+      expect(wrapper.vm.pageSize).toBe(PAGE_SIZE);
+    });
+  });
+
   describe('reading the hash', () => {
     it('opens the tab, sort and query the hash names', async () => {
       respondWith([]);
@@ -328,8 +556,6 @@ describe('Marketplace', () => {
       await wrapper.vm.$nextTick();
 
       expect(document.activeElement).toBe(wrapper.find('.marketplacePage__backLink').element);
-
-      wrapper.unmount();
     });
 
     it('leaves the tab it was opened over, so going back returns to the overview', async () => {

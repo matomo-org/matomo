@@ -1,0 +1,211 @@
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+// The shells repeat PluginDetails' own so the placeholder occupies the same space the page will;
+// every number they share comes from the `@marketplace-details-*` variables in marketplace.less.
+.pluginDetailsSkeleton {
+  max-width: @marketplace-details-width;
+  // matches PluginDetails, so the page does not change height when the two swap over
+  min-height: 100vh;
+}
+
+.pluginDetailsSkeleton__head,
+.pluginDetailsSkeleton__card {
+  border: 1px solid @theme-color-border-alternative;
+  border-radius: @marketplace-card-radius;
+  background: @theme-color-background-contrast;
+}
+
+.pluginDetailsSkeleton__head {
+  display: flex;
+  align-items: safe center;
+  gap: 24px;
+  padding: 20px;
+}
+
+.pluginDetailsSkeleton__cover,
+.pluginDetailsSkeleton__title,
+.pluginDetailsSkeleton__cardTitle,
+.pluginDetailsSkeleton__textLine,
+.pluginDetailsSkeleton__chipItem,
+.pluginDetailsSkeleton__fact,
+.pluginDetailsSkeleton__shot,
+.pluginDetailsSkeleton__price,
+.pluginDetailsSkeleton__action,
+.pluginDetailsSkeleton__metaRow {
+  display: block;
+  border-radius: 3px;
+  background: @theme-color-background-base;
+  animation: pluginDetailsSkeleton__pulse 1.4s ease-in-out infinite;
+}
+
+.pluginDetailsSkeleton__cover {
+  flex: none;
+  width: 282px;
+  height: @marketplace-card-plate-height;
+  border-radius: 4px;
+}
+
+.pluginDetailsSkeleton__info {
+  flex: auto;
+  min-width: 0;
+}
+
+.pluginDetailsSkeleton__title {
+  width: 240px;
+  height: 24px;
+}
+
+.pluginDetailsSkeleton__textBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.pluginDetailsSkeleton__textLine {
+  height: 12px;
+}
+
+.pluginDetailsSkeleton__textLine--short {
+  width: 60%;
+}
+
+.pluginDetailsSkeleton__facts {
+  display: flex;
+  align-items: safe center;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  margin-top: 18px;
+}
+
+.pluginDetailsSkeleton__chipItem {
+  width: 96px;
+  height: @marketplace-card-chip-height;
+  border-radius: (@marketplace-card-chip-height / 2);
+}
+
+.pluginDetailsSkeleton__chipItem--short {
+  width: 80px;
+}
+
+.pluginDetailsSkeleton__fact {
+  width: 72px;
+  height: 12px;
+}
+
+.pluginDetailsSkeleton__columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) @marketplace-details-aside-width;
+  gap: @marketplace-details-gap;
+  margin-top: @marketplace-details-gap;
+  align-items: start;
+}
+
+.pluginDetailsSkeleton__main,
+.pluginDetailsSkeleton__aside {
+  display: flex;
+  flex-direction: column;
+  gap: @marketplace-details-gap;
+  min-width: 0;
+}
+
+.pluginDetailsSkeleton__card {
+  padding: 24px;
+}
+
+.pluginDetailsSkeleton__cardTitle {
+  width: 128px;
+  height: 20px;
+  margin-bottom: @marketplace-details-gap;
+}
+
+.pluginDetailsSkeleton__shots {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: @marketplace-details-gap;
+}
+
+.pluginDetailsSkeleton__shot {
+  height: 148px;
+  border-radius: 6px;
+}
+
+.pluginDetailsSkeleton__buy {
+  padding: 20px;
+}
+
+.pluginDetailsSkeleton__price {
+  width: 140px;
+  height: 30px;
+}
+
+.pluginDetailsSkeleton__action {
+  height: 36px;
+  margin-top: 24px;
+  border-radius: 8px;
+}
+
+.pluginDetailsSkeleton__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 17px;
+}
+
+.pluginDetailsSkeleton__metaRow {
+  height: 13px;
+}
+
+@keyframes pluginDetailsSkeleton__pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.45;
+  }
+}
+
+@media (max-width: @marketplace-details-stack-width) {
+  .pluginDetailsSkeleton__columns {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 760px) {
+  .pluginDetailsSkeleton__head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: @marketplace-details-gap;
+    padding: @marketplace-details-gap;
+  }
+
+  .pluginDetailsSkeleton__cover {
+    width: 100%;
+    max-width: 360px;
+  }
+
+  .pluginDetailsSkeleton__card {
+    padding: @marketplace-details-gap;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pluginDetailsSkeleton__cover,
+  .pluginDetailsSkeleton__title,
+  .pluginDetailsSkeleton__cardTitle,
+  .pluginDetailsSkeleton__textLine,
+  .pluginDetailsSkeleton__chipItem,
+  .pluginDetailsSkeleton__fact,
+  .pluginDetailsSkeleton__shot,
+  .pluginDetailsSkeleton__price,
+  .pluginDetailsSkeleton__action,
+  .pluginDetailsSkeleton__metaRow {
+    animation: none;
+  }
+}

@@ -1,0 +1,594 @@
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+// The plugin details page. `.pluginDetails` is taken: stylesheets/plugin-details.less styles the
+// older popover the plugin management screen still opens, and both are loaded on every page.
+
+.marketplacePluginDetails {
+  max-width: @marketplace-details-width;
+  // A short plugin page - a bundle, or one with no readme to speak of - is shorter than the
+  // skeleton that stood in for it, and shorter again than the catalogue it replaced. Each of those
+  // shrinks lets the browser pull the scroll position back up to fit, which arrives as a jump well
+  // after the change between the views is over. Holding a screenful keeps the offset reachable.
+  min-height: 100vh;
+  color: @theme-color-text;
+}
+
+// The skeleton is replaced the moment the details arrive, and a whole page appearing in one frame
+// reads as a pop. Longer than the change between the views: that one is covering a jump the reader
+// must not see, where this is the page itself arriving and can afford to be looked at.
+// Opacity only: a transform here would make this the containing block for the sticky sidebar.
+.marketplacePluginDetails__content {
+  animation: marketplacePluginDetails__appear 340ms ease-out;
+}
+
+@keyframes marketplacePluginDetails__appear {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marketplacePluginDetails__content {
+    animation: none;
+  }
+}
+
+.marketplacePluginDetails__back {
+  display: inline-flex;
+  align-items: safe center;
+  gap: 4px;
+  margin-bottom: @marketplace-details-gap;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: @theme-color-link;
+  font-size: 14px;
+  line-height: 20px;
+  cursor: pointer;
+
+  &:hover,
+  &:focus-visible {
+    text-decoration: underline;
+  }
+}
+
+// override: Materialize's global `button:focus` paints its own fill on every bare <button> and
+// outranks a lone class, so the tag has to appear here for this link-styled button to keep its
+// own background on click - as on .marketplacePage__backLink, for the same reason.
+button.marketplacePluginDetails__back:focus {
+  background: none;
+}
+
+// override: Morpheus's legacy `:focus { outline: thin dotted }` in general/_default.less fires on
+// a plain mouse click, so only the keyboard ring - `button:focus-visible` - is wanted here.
+button.marketplacePluginDetails__back:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.marketplacePluginDetails__head {
+  display: flex;
+  align-items: safe center;
+  gap: 24px;
+  padding: 20px;
+  border: 1px solid @theme-color-border-alternative;
+  border-radius: @marketplace-card-radius;
+  background: @theme-color-background-contrast;
+}
+
+.marketplacePluginDetails__cover {
+  display: flex;
+  align-items: safe center;
+  justify-content: safe center;
+  flex: none;
+  width: 282px;
+  height: @marketplace-card-plate-height;
+  border-radius: 4px;
+  background: @theme-color-background-brand-tinyContrast;
+}
+
+.marketplacePluginDetails__coverImage {
+  width: 234px;
+  // from the ratio rather than a second number, so the two stay in step - as on a card
+  aspect-ratio: @marketplace-card-cover-ratio;
+  border-radius: 8px;
+  object-fit: cover;
+  object-position: top;
+  // the design's brand-tinted lift; no theme token carries a tinted glow
+  box-shadow: 0 5px 20px 0 rgba(0, 133, 128, 0.2);
+}
+
+// the stand-in is line art on an opaque white ground, which on a dark page is a bright tile.
+// A real screenshot is left as the plugin shipped it - as on a card.
+.marketplacePluginDetails__coverImage--placeholder {
+  box-shadow: none;
+  filter: @theme-filter-on-illustration;
+}
+
+.marketplacePluginDetails__info {
+  flex: auto;
+  min-width: 0;
+}
+
+.marketplacePluginDetails__title {
+  margin: 0 0 4px;
+  font-size: 24px;
+  font-weight: 600;
+  // set rather than left to the font: the box stays 36 tall while the type is 24
+  line-height: 36px;
+  letter-spacing: -0.24px;
+  color: @theme-color-text-contrast;
+
+  // focus lands here from script only (tabindex -1) so a screen reader starts at the name; the
+  // global dotted `:focus` outline would otherwise frame the heading as if it could be clicked
+  &:focus {
+    outline: none;
+  }
+}
+
+.marketplacePluginDetails__lede {
+  margin: 0 0 18px;
+  // the description is one or two sentences; the head is far wider than that reads well at
+  max-width: 535px;
+  color: @theme-color-text-light;
+}
+
+.marketplacePluginDetails__facts {
+  display: flex;
+  align-items: safe center;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  font-size: 12px;
+  line-height: 14px;
+  color: @theme-color-text-light;
+}
+
+.marketplacePluginDetails__labels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.marketplacePluginDetails__pill {
+  display: inline-flex;
+  align-items: safe center;
+  justify-content: safe center;
+  gap: 6px;
+  height: @marketplace-card-chip-height;
+  padding: 0 10px;
+  border: 1px solid @theme-color-border-alternative;
+  border-radius: 16px;
+  font-size: 12px;
+  line-height: 14px;
+  color: @theme-color-text-light;
+}
+
+.marketplacePluginDetails__pill--matomo {
+  border-color: transparent;
+  background: @theme-color-background-brand-lowContrast;
+  color: @theme-color-text-brand;
+}
+
+.marketplacePluginDetails__rating {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 20px;
+  color: @theme-color-text;
+}
+
+.marketplacePluginDetails__ratingStar {
+  color: #f5a623;
+}
+
+// a button doing a link's job: it scrolls to the reviews rather than going anywhere
+.marketplacePluginDetails__reviewsLink {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: @theme-color-link;
+  font: inherit;
+  cursor: pointer;
+
+  &:hover,
+  &:focus-visible {
+    text-decoration: underline;
+  }
+}
+
+// override: the same Materialize `button:focus` fill and Morpheus dotted outline as on
+// .marketplacePluginDetails__back above
+button.marketplacePluginDetails__reviewsLink:focus {
+  background: none;
+}
+
+button.marketplacePluginDetails__reviewsLink:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.marketplacePluginDetails__columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) @marketplace-details-aside-width;
+  gap: @marketplace-details-gap;
+  margin-top: @marketplace-details-gap;
+  align-items: start;
+}
+
+.marketplacePluginDetails__main {
+  min-width: 0;
+}
+
+// The sidebar travels with the article rather than sticking on its own, so the purchase panel and
+// the details below it stay together. `align-self` keeps it at its natural height inside the grid
+// instead of stretching to the row, which is what gives sticky somewhere to travel. The height cap
+// is for short windows: a sidebar taller than the viewport would have its bottom out of reach.
+.marketplacePluginDetails__aside {
+  display: flex;
+  flex-direction: column;
+  gap: @marketplace-details-gap;
+  position: sticky;
+  top: @marketplace-details-gap;
+  align-self: start;
+  min-width: 0;
+  max-height: ~"calc(100vh - @{marketplace-details-gap} * 2)";
+  overflow-y: auto;
+}
+
+.marketplacePluginDetails__card {
+  padding: 24px;
+  border: 1px solid @theme-color-border-alternative;
+  border-radius: @marketplace-card-radius;
+  background: @theme-color-background-contrast;
+}
+
+// A wrapper of its own rather than the article itself: the alerts above it end in a margin that
+// collapses into theirs, which a flex parent would add to the gap instead.
+.marketplacePluginDetails__cards {
+  display: flex;
+  flex-direction: column;
+  gap: @marketplace-details-gap;
+}
+
+// Morpheus pads every h2 by 16px above and below, which on top of the card's own padding sat the
+// title well down from the card's edge and away from the content it heads
+.marketplacePluginDetails__cardTitle {
+  margin: 0 0 @marketplace-details-gap;
+  padding: 0;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 24px;
+  color: @theme-color-text;
+}
+
+.marketplacePluginDetails__alerts:not(:empty) {
+  margin-bottom: @marketplace-details-gap;
+}
+
+.marketplacePluginDetails__readme {
+  // The page's intro styles colour every p itself, while lists and the rest take the colour around
+  // them; set the paragraphs' colour here so everything in the readme inherits the same one
+  color: @theme-color-headline-alternative;
+
+  // Readme HTML, so this styles tags the Marketplace sends rather than classes of ours. The card
+  // title above is 20px, so a readme's own headings step down from it: a section at 18, the
+  // subsections inside it at 15, and anything deeper at body size.
+  h2, h3, h4, h5, h6 {
+    padding: 0;
+    font-weight: 600;
+    color: @theme-color-text;
+  }
+
+  h2, h3 {
+    margin: 20px 0 8px;
+    font-size: 18px;
+    line-height: 24px;
+  }
+
+  h4 {
+    margin: 14px 0 6px;
+    font-size: 15px;
+    line-height: 22px;
+  }
+
+  h5, h6 {
+    margin: 12px 0 6px;
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  p, ul, ol, li {
+    text-align: left;
+    line-height: 20px;
+  }
+
+  ol {
+    margin: 0 0 12px;
+    padding-left: 20px;
+    list-style-type: decimal;
+  }
+
+  // override: Materialize takes the indent and the marker off every `ul` that is not
+  // `.browser-default`, and the marker off each of its items as well, so a list the item would
+  // otherwise inherit from is not enough. Its selectors carry the `:not()`, so match their shape
+  // to win on specificity rather than reaching for !important.
+  ul:not(.browser-default) {
+    margin: 0 0 12px;
+    padding-left: 20px;
+    list-style-type: disc;
+  }
+
+  ul:not(.browser-default) > li {
+    list-style-type: disc;
+  }
+
+  li {
+    margin-bottom: 4px;
+  }
+
+  p {
+    // a readme is long-form prose, and the card is wider than a comfortable measure
+    max-width: 78ch;
+    margin: 0 0 12px;
+  }
+
+  a {
+    color: @theme-color-link;
+  }
+
+  blockquote {
+    margin: 20px 0;
+    padding-left: 1.5rem;
+    border-left: 5px solid @theme-color-border-brand;
+  }
+
+  img {
+    // screenshots inside the copy arrive at whatever width the author wrote; full-bleed against
+    // the text they are describing is more than the page can read
+    max-width: 640px;
+    width: 100%;
+    height: auto;
+    // the same faint rule the cards and the screenshot gallery use, so a screenshot with a white
+    // edge does not bleed into the card around it
+    border: 1px solid @theme-color-border-alternative;
+    border-radius: 4px;
+  }
+
+  // The Marketplace sends these two side by side with inline widths, which do not survive a
+  // column this narrow.
+  .main-div-readme {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+    height: auto !important;
+  }
+
+  .left-div-readme,
+  .right-div-readme {
+    min-width: 0;
+    width: 50%;
+  }
+
+  // override: the image comes with an inline margin-left to space it from the text, which the gap
+  // already does; on top of its full width it pushed the image through the card's right padding
+  .right-div-readme img {
+    margin-left: 0 !important;
+  }
+}
+
+.marketplacePluginDetails__shots {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: @marketplace-details-gap;
+}
+
+.marketplacePluginDetails__shot {
+  margin: 0;
+}
+
+.marketplacePluginDetails__shotButton {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 1px solid @theme-color-border-alternative;
+  border-radius: 6px;
+  background: @theme-color-background-contrast;
+  line-height: 0;
+  overflow: hidden;
+  cursor: zoom-in;
+
+  &:hover,
+  &:focus {
+    border-color: @theme-color-border-brand;
+  }
+}
+
+.marketplacePluginDetails__shotImage {
+  width: 100%;
+  height: 148px;
+  // top rather than centre: a screenshot's heading is what identifies it in a grid of them
+  object-fit: cover;
+  object-position: top;
+}
+
+.marketplacePluginDetails__shotCaption {
+  margin-top: 6px;
+  font-size: 12px;
+  color: @theme-color-text-light;
+}
+
+.marketplacePluginDetails__reviewSummary {
+  display: flex;
+  align-items: safe center;
+  gap: 12px;
+  margin-bottom: 4px;
+  padding-bottom: @marketplace-details-gap;
+  border-bottom: 1px solid @theme-color-border-alternative;
+}
+
+.marketplacePluginDetails__reviewScore {
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 34px;
+}
+
+.marketplacePluginDetails__reviewCount {
+  font-size: 13px;
+  color: @theme-color-text-light;
+}
+
+.marketplacePluginDetails__reviewFrame {
+  width: 100%;
+  border: 0;
+  background: url('plugins/Morpheus/images/loading.svg') no-repeat center;
+}
+
+.marketplacePluginDetails__buy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+  padding: 20px;
+}
+
+// a price to pay for: given the room and lift of the pricing card on plugins.matomo.org
+.marketplacePluginDetails__buy--highlighted {
+  padding: 32px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px @theme-color-boxShadow;
+}
+
+// the same rhythm as a paid plugin's price and the billing line under it
+.marketplacePluginDetails__freeSummary {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.marketplacePluginDetails__free {
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 30px;
+  letter-spacing: -0.3px;
+  color: @theme-color-text;
+}
+
+.marketplacePluginDetails__freeLicense {
+  font-size: 12px;
+  line-height: 14px;
+  color: @theme-color-text-light;
+}
+
+.marketplacePluginDetails__cta {
+  width: 100%;
+}
+
+// The rules between the rows are the list's own colour showing through a 1px gap, since any row
+// can be the first one shown and so none can be told apart to leave its rule off. The first row
+// keeps the padding the rest have, and the list is pulled up by it instead.
+.marketplacePluginDetails__meta {
+  display: grid;
+  gap: 1px;
+  margin: -8px 0 0;
+  background: @theme-color-border-alternative;
+}
+
+.marketplacePluginDetails__metaRow {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr);
+  gap: 12px;
+  padding: 8px 0;
+  background: @theme-color-background-contrast;
+}
+
+.marketplacePluginDetails__metaLabel {
+  font-size: 13px;
+  color: @theme-color-text-light;
+}
+
+.marketplacePluginDetails__metaValue {
+  margin: 0;
+  font-size: 13px;
+  // licence URLs and support addresses have no spaces to break on
+  overflow-wrap: anywhere;
+}
+
+.marketplacePluginDetails__metaLink {
+  color: @theme-color-link;
+}
+
+.marketplacePluginDetails__keywordList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.marketplacePluginDetails__keywordItem {
+  padding: 1px 8px;
+  border: 1px solid @theme-color-border-alternative;
+  border-radius: 999px;
+  font-size: 12px;
+  color: @theme-color-text-light;
+}
+
+.marketplacePluginDetails__lightboxImage {
+  display: block;
+  max-width: 100%;
+  max-height: ~"calc(100vh - 160px)";
+  margin: 0 auto;
+}
+
+@media (max-width: @marketplace-details-stack-width) {
+  .marketplacePluginDetails__columns {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  // underneath the content there is nothing left to travel against
+  .marketplacePluginDetails__aside {
+    position: static;
+    max-height: none;
+    overflow: visible;
+  }
+
+  .marketplacePluginDetails__readme .main-div-readme {
+    flex-direction: column;
+  }
+
+  .marketplacePluginDetails__readme .left-div-readme,
+  .marketplacePluginDetails__readme .right-div-readme {
+    width: 100%;
+  }
+}
+
+@media (max-width: 760px) {
+  .marketplacePluginDetails__head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: @marketplace-details-gap;
+    padding: @marketplace-details-gap;
+  }
+
+  .marketplacePluginDetails__cover {
+    width: 100%;
+    max-width: 360px;
+  }
+
+  .marketplacePluginDetails__card {
+    padding: @marketplace-details-gap;
+  }
+
+  .marketplacePluginDetails__shots {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  }
+
+  .marketplacePluginDetails__metaRow {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2px;
+  }
+}

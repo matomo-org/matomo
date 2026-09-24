@@ -134,23 +134,50 @@ describe('Marketplace/ShopPricing.vue', () => {
       expect(wrapper.find('.shopPricing__billing').text()).toContain('34,000 EUR');
     });
 
-    it('switches to the flat monthly price and drops the billing note', async () => {
+    it('switches to the flat monthly price and says what paying annually saves', async () => {
       const wrapper = mountPricing(BUNDLE_VARIATIONS, { usePeriodTabs: true });
 
       await wrapper.findAll('.shopPricing__periodInput')[1].setValue(true);
 
       expect(wrapper.find('.shopPricing__amountValue').text()).toBe('3,400');
-      expect(wrapper.find('.shopPricing__billing').exists()).toBe(false);
+      // 3400 * 12 - 34000
+      expect(wrapper.find('.shopPricing__billing').text())
+        .toBe('Marketplace_BilledMonthlyWithSavings(6,800 EUR)');
     });
 
     it('keeps the chosen period when the currency changes', async () => {
       const wrapper = mountPricing(BUNDLE_VARIATIONS, { usePeriodTabs: true });
 
       await wrapper.findAll('.shopPricing__periodInput')[1].setValue(true);
-      await wrapper.find('.shopPricing__currency').setValue('USD');
+      await wrapper.find('.shopPricing__currencySwitch').trigger('click');
 
       expect(wrapper.vm.selectedPeriod).toBe('month');
       expect(wrapper.find('.shopPricing__amountValue').text()).toBe('4,080');
+    });
+
+    it('offers the other of two currencies as a switch rather than a select', async () => {
+      const wrapper = mountPricing(BUNDLE_VARIATIONS, { usePeriodTabs: true });
+      const currencySwitch = wrapper.find('.shopPricing__currencySwitch');
+
+      expect(wrapper.find('.shopPricing__currency').exists()).toBe(false);
+      expect(currencySwitch.text()).toBe('Marketplace_SwitchToCurrency(USD)');
+
+      await currencySwitch.trigger('click');
+
+      expect(wrapper.find('.shopPricing__currencySwitch').text())
+        .toBe('Marketplace_SwitchToCurrency(EUR)');
+    });
+
+    it('keeps the select when there are more than two currencies to choose from', () => {
+      const wrapper = mountPricing([
+        ...BUNDLE_VARIATIONS,
+        {
+          name: 'Up to 50 users', currency: 'GBP', period: 'year', price: '30000',
+        },
+      ], { usePeriodTabs: true });
+
+      expect(wrapper.find('.shopPricing__currency').exists()).toBe(true);
+      expect(wrapper.find('.shopPricing__currencySwitch').exists()).toBe(false);
     });
 
     it('defaults to the first currency the marketplace lists, not the cheapest flag', () => {
@@ -233,12 +260,38 @@ describe('Marketplace/ShopPricing.vue', () => {
       expect(wrapper.find('.shopPricing__amountValue').text()).toBe('300');
     });
 
-    it('shows the free trial lead-in only when asked to', () => {
-      expect(mountPricing(TIERED_VARIATIONS).find('.shopPricing__leadIn').exists()).toBe(false);
-      expect(
-        mountPricing(TIERED_VARIATIONS, { showFreeTrialLeadIn: true })
-          .find('.shopPricing__leadIn').exists(),
-      ).toBe(true);
+    it('names the cart button for the trial when there is one', () => {
+      expect(mountPricing(TIERED_VARIATIONS).find('.addToCartLink').text())
+        .toBe('Marketplace_AddToCart');
+      expect(mountPricing(TIERED_VARIATIONS, { offersFreeTrial: true })
+        .find('.addToCartLink').text()).toBe('Marketplace_StartFree30DayTrial');
+    });
+  });
+
+  describe('the prominent pricing card', () => {
+    it('puts the currency and period in one sentence with the price', () => {
+      const wrapper = mountPricing(TIERED_VARIATIONS, { prominent: true });
+
+      expect(wrapper.find('.shopPricing__amountValue').text()).toBe('150');
+      expect(wrapper.find('.shopPricing__amount').text())
+        .toBe('Marketplace_PricePerYear(150,EUR)');
+      expect(wrapper.find('.shopPricing__amountPeriod').exists()).toBe(false);
+    });
+
+    it('lists the selected tier and unlimited websites', async () => {
+      const wrapper = mountPricing(TIERED_VARIATIONS, { prominent: true });
+      const items = () => wrapper.findAll('.shopPricing__featureItem').map((item) => item.text());
+
+      expect(items()).toEqual(['✓ Up to 4 users', '✓ Marketplace_UnlimitedWebsites']);
+
+      await wrapper.find('.shopPricing__tier').setValue('5 to 15 users');
+
+      expect(items()).toEqual(['✓ 5 to 15 users', '✓ Marketplace_UnlimitedWebsites']);
+    });
+
+    it('leaves the checklist off the plain panel', () => {
+      expect(mountPricing(TIERED_VARIATIONS).find('.shopPricing__featureList').exists())
+        .toBe(false);
     });
   });
 
@@ -328,7 +381,7 @@ describe('Marketplace/ShopPricing.vue', () => {
         },
       ]);
 
-      await wrapper.find('.shopPricing__currency').setValue('USD');
+      await wrapper.find('.shopPricing__currencySwitch').trigger('click');
       expect(wrapper.vm.selectedCurrency).toBe('USD');
 
       // the unlimited tier is EUR only
