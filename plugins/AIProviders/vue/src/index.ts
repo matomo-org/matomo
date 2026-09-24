@@ -6,3 +6,4 @@
  */
 
 export { default as ManageAIProviders } from './ManageAIProviders.vue';
+export { default as AIProcessingSettings } from './AIProcessingSettings.vue';
