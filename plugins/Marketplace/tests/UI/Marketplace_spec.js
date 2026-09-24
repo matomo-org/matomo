@@ -38,9 +38,15 @@ describe("Marketplace", function () {
         );
 
         await elem.click();
-        await page.waitForSelector('#pluginDetailsModal .modal-content__main', { visible: true });
 
-        // give it some time to fetch, animate, and render everything properly
+        // the page swaps in behind a short blank (see switchView()) and shows a skeleton until its
+        // own details request has answered, so wait for the settled view rather than the first paint
+        await page.waitForSelector(
+          '.marketplacePage__views:not(.marketplacePage__views--switching) .marketplacePluginDetails__content',
+          { visible: true }
+        );
+
+        // the reviews embed and the screenshots load after the content renders
         await page.waitForNetworkIdle();
         await page.waitForTimeout(100);
     }
@@ -84,20 +90,7 @@ describe("Marketplace", function () {
 
     async function captureWithPluginDetails(screenshotName)
     {
-        const selector = '#pluginDetailsModal';
-
-        // screenshotting the Materialize modal consistently
-        // clips wrong and captures nothing,
-        // unless the screenshot is attempted twice
-        await page.screenshotSelector(selector);
-
-        //Move modal to the top, so that there is no space when capturing screenshot
-        await page.evaluate((modalSelector) => {
-          const modal = document.querySelector(modalSelector);
-          modal.style.top = '0';
-        }, selector);
-
-        expect(await page.screenshotSelector(selector)).to.matchImage(screenshotName);
+        expect(await page.screenshotSelector('.marketplacePluginDetails')).to.matchImage(screenshotName);
     }
 
     function assumePaidPluginsActivated()
@@ -217,35 +210,35 @@ describe("Marketplace", function () {
             });
         }
 
-        it(mode + ' should open paid plugins modal for paid plugin 1', async function () {
+        it(mode + ' should open the details page of paid plugin 1', async function () {
             setEnvironment(mode, validLicense);
             await loadPluginDetailPage('Paid Plugin 1');
 
             await captureWithPluginDetails('paid_plugin1_plugin_details_' + mode);
         });
 
-        it(mode + ' should open paid plugins modal for paid plugin 2', async function () {
+        it(mode + ' should open the details page of paid plugin 2', async function () {
             setEnvironment(mode, validLicense);
             await loadPluginDetailPage('Paid Plugin 2');
 
             await captureWithPluginDetails('paid_plugin2_plugin_details_' + mode);
         });
 
-        it(mode + ' should open paid plugins modal for paid plugin 3', async function () {
+        it(mode + ' should open the details page of paid plugin 3', async function () {
             setEnvironment(mode, validLicense);
             await loadPluginDetailPage('Paid Plugin 3');
 
             await captureWithPluginDetails('paid_plugin3_plugin_details_' + mode);
         });
 
-        it(mode + ' should open paid plugins modal for paid plugin 4', async function () {
+        it(mode + ' should open the details page of paid plugin 4', async function () {
             setEnvironment(mode, validLicense);
             await loadPluginDetailPage('Paid Plugin 4');
 
             await captureWithPluginDetails('paid_plugin4_plugin_details_' + mode);
         });
 
-        it(mode + ' should open paid plugins modal for paid plugin 5', async function () {
+        it(mode + ' should open the details page of paid plugin 5', async function () {
             setEnvironment(mode, validLicense);
             await loadPluginDetailPage('Paid Plugin 5');
 
@@ -327,7 +320,7 @@ describe("Marketplace", function () {
                 var isFree = false;
                 await loadPluginDetailPage('Enterprise Bundle', isFree);
 
-                await page.waitForSelector('#pluginDetailsModal .shopPricing__periods', { visible: true });
+                await page.waitForSelector('.marketplacePluginDetails .shopPricing__periods', { visible: true });
 
                 await captureWithPluginDetails('bundle_details_annual_' + mode);
             });
@@ -339,7 +332,7 @@ describe("Marketplace", function () {
                 await loadPluginDetailPage('Enterprise Bundle', isFree);
 
                 const monthly = await page.jQuery(
-                  '#pluginDetailsModal .shopPricing__period:contains("Pay monthly")',
+                  '.marketplacePluginDetails .shopPricing__period:contains("Pay monthly")',
                   { waitFor: true }
                 );
                 await monthly.click();

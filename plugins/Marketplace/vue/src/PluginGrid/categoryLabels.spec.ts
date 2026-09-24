@@ -18,7 +18,8 @@ vi.mock('CoreHome', () => ({
 }));
 
 /* eslint-disable import/first */
-import { categoryLabel, tabLabel } from './categoryLabels';
+import { makePlugin } from '../testMarketplaceFixtures';
+import { categoryLabel, chipLabel, tabLabel } from './categoryLabels';
 import { TAB_ALL, TAB_BUNDLES } from './pluginGrouping';
 
 describe('Marketplace/categoryLabels', () => {
@@ -44,6 +45,22 @@ describe('Marketplace/categoryLabels', () => {
 
     it('labels a category tab the way a chip is labelled', () => {
       expect(tabLabel({ id: 'insights', isCategory: true })).toBe('Insights, translated');
+    });
+  });
+
+  describe('chipLabel', () => {
+    it('labels a plugin with its first category', () => {
+      expect(chipLabel(makePlugin({ name: 'a', categories: ['insights', 'other'] })))
+        .toBe('Insights, translated');
+    });
+
+    it('labels a plugin no category claims Other, the tab it is listed under', () => {
+      expect(chipLabel(makePlugin({ name: 'a' }))).toBe('Other');
+    });
+
+    it('labels a bundle as one, whatever it is filed under', () => {
+      expect(chipLabel(makePlugin({ name: 'a', isBundle: true, categories: ['insights'] })))
+        .toBe('Marketplace_Bundles');
     });
   });
 });

@@ -45,7 +45,7 @@
             <span class="marketplacePluginDetails__labels">
               <span
                 class="marketplacePluginDetails__pill marketplacePluginDetails__pill--matomo"
-                v-if="isMatomoPlugin"
+                v-if="isByMatomo"
               >
                 <MatomoGlyph />
                 {{ translate('Marketplace_CategoryMatomo') }}
@@ -429,8 +429,8 @@ import {
 import CTAContainer from '../PluginList/CTAContainer.vue';
 import MatomoGlyph from '../PluginCard/MatomoGlyph.vue';
 import PluginDetailsSkeleton from './PluginDetailsSkeleton.vue';
-import { pluginCategories } from '../PluginGrid/pluginGrouping';
-import { categoryLabel as labelForCategory } from '../PluginGrid/categoryLabels';
+import { isByMatomo, ownerLabel } from '../PluginGrid/pluginGrouping';
+import { chipLabel } from '../PluginGrid/categoryLabels';
 import ShopPricing from './ShopPricing.vue';
 import { hasShopPricing } from './shopPricing';
 import MissingReqsNotice from '../MissingReqsNotice/MissingReqsNotice.vue';
@@ -572,7 +572,7 @@ export default defineComponent({
   computed: {
     plugin(): PluginDetails {
       // the plugin list only carries the fields its cards render, so everything else arrives from
-      // getPluginDetails once the modal opens
+      // getPluginDetails once the page opens
       return {
         ...(this.pluginCard as PluginCard),
         ...(this.fetchedDetails || {}),
@@ -620,11 +620,11 @@ export default defineComponent({
     pluginChangelogUrl(): string {
       return (this.plugin.changelog?.url as string) || '';
     },
-    isMatomoPlugin(): boolean {
-      return ['piwik', 'matomo-org'].includes(this.plugin.owner);
+    isByMatomo(): boolean {
+      return isByMatomo(this.plugin as PluginCard);
     },
     pluginOwner(): string {
-      return this.isMatomoPlugin ? 'Matomo' : this.plugin.owner;
+      return ownerLabel(this.plugin as PluginCard);
     },
     /**
      * The Matomo constraint the latest version declares, as written: `>=6.0.0-b1,<7.0.0-b1`.
@@ -676,7 +676,7 @@ export default defineComponent({
         && !this.plugin.hasExceededLicense
         && (this.plugin.isEligibleForFreeTrial || this.plugin.isNewBundle)
         // the variations come from the details request, so there are none to pick from when it
-        // failed and the modal is left with the card row alone
+        // failed and the page is left with the card row alone
         && hasShopPricing(this.plugin)
       ) as boolean;
     },
@@ -687,13 +687,9 @@ export default defineComponent({
     showPricingCard(): boolean {
       return this.showShopPricing && !this.plugin.isNewBundle;
     },
-    /** The one category chip the head shows, chosen the way a card chooses its own. */
+    /** The same chip the plugin's card carries. */
     categoryLabel(): string {
-      if (this.plugin.isBundle) {
-        return translate('Marketplace_Bundles');
-      }
-
-      return labelForCategory(pluginCategories(this.plugin as PluginCard)[0] ?? '');
+      return chipLabel(this.plugin as PluginCard);
     },
     isPlaceholderCover(): boolean {
       return (this.plugin.coverImage || '').endsWith(PLACEHOLDER_COVER);

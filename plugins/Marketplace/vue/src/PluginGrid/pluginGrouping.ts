@@ -125,6 +125,15 @@ export function ownerLabel(plugin: PluginCard): string {
 }
 
 /**
+ * Whether a plugin is credited to Matomo, on its card and on its page. A bundle always is, whoever
+ * the Marketplace names as its owner: a bundle is Matomo's own packaging of Matomo's plugins, and
+ * it is sold as such.
+ */
+export function isByMatomo(plugin: PluginCard): boolean {
+  return !!plugin.isBundle || ownerLabel(plugin) === 'Matomo';
+}
+
+/**
  * The same fields the Marketplace's own `plugins?query=` search covers, plus the owner as the card
  * credits it - "Matomo" has to find a piwik-owned plugin, since that is the only name on screen.
  */
@@ -378,16 +387,7 @@ export function buildSections(
     }));
 }
 
-/**
- * The promoted rows, in front of the stack {@link buildSections} derives from the tab bar.
- *
- * Kept apart from that one on purpose: those sections are a tab's contents by construction, and
- * these have no tab, so their "See all" opens the promotion's own list - see
- * {@link promotedPlugins}, which is what both the row and that list are cut from.
- *
- * A row the reader has nothing to gain from is left out: Featured hides what they already own, and
- * then hides itself unless {@link FEATURED_MIN_PLUGINS} plugins are left to show.
- */
+/** Whether a section is one of the promoted rows rather than a tab's contents. */
 export function isPromoSection(sectionId: string): boolean {
   return PROMO_SECTIONS.includes(sectionId);
 }
@@ -408,6 +408,16 @@ export function promotedPlugins(plugins: PluginCard[], sectionId: string): Plugi
       || (a.displayName || '').localeCompare(b.displayName || ''));
 }
 
+/**
+ * The promoted rows, in front of the stack {@link buildSections} derives from the tab bar.
+ *
+ * Kept apart from that one on purpose: those sections are a tab's contents by construction, and
+ * these have no tab, so their "See all" opens the promotion's own list - see
+ * {@link promotedPlugins}, which is what both the row and that list are cut from.
+ *
+ * A row the reader has nothing to gain from is left out: Featured hides what they already own, and
+ * then hides itself unless {@link FEATURED_MIN_PLUGINS} plugins are left to show.
+ */
 export function buildPromoSections(plugins: PluginCard[]): PluginSection[] {
   const sections: PluginSection[] = [];
 

@@ -28,6 +28,9 @@ vi.mock('CoreHome', () => ({
     ),
   },
   translate: (key: string) => key,
+  // the category chip: an uncategorised plugin falls back to Other, which is looked up this way
+  translateOrDefault: (key: string) => key,
+  ucfirst: (value: string) => `${value.charAt(0).toUpperCase()}${value.slice(1)}`,
   externalLink: (url: string) => `<a href="${url}">`,
 }));
 
@@ -356,12 +359,14 @@ describe('PluginDetails', () => {
 
   it('links only the homepages that carry a safe scheme', async () => {
     // both come from the plugin's own plugin.json, which its developer writes
+    // eslint-disable-next-line no-script-url -- the unsafe value under test, never navigated to
+    const unsafeUrl = 'javascript:alert(1)';
     mockPost.mockResolvedValue({
       ...detailsResponse,
-      homepage: 'javascript:alert(1)',
+      homepage: unsafeUrl,
       authors: [
         { name: 'Safe Author', homepage: 'https://example.org' },
-        { name: 'Unsafe Author', homepage: 'javascript:alert(1)' },
+        { name: 'Unsafe Author', homepage: unsafeUrl },
       ],
     });
 
@@ -507,5 +512,25 @@ describe('PluginDetails', () => {
 
     expect(vmOf(wrapper).isLoading).toBe(true);
     expect(vmOf(wrapper).fetchErrorMessage).toBe('');
+  });
+
+  it('labels an uncategorised plugin Other, as its card does', async () => {
+    mockPost.mockResolvedValue({ ...detailsResponse, owner: 'openmost' });
+
+    const wrapper = mountDetails({ ...cardRow, owner: 'openmost' });
+    await flushPromises();
+
+    const pills = wrapper.findAll('.marketplacePluginDetails__pill').map((pill) => pill.text());
+    expect(pills).toEqual(['Other']);
+  });
+
+  it('credits a bundle to Matomo whoever owns it, as its card does', async () => {
+    mockPost.mockResolvedValue({ ...detailsResponse, owner: 'InnoCraft', isBundle: true });
+
+    const wrapper = mountDetails({ ...cardRow, owner: 'InnoCraft', isBundle: true });
+    await flushPromises();
+
+    const pills = wrapper.findAll('.marketplacePluginDetails__pill').map((pill) => pill.text());
+    expect(pills).toEqual(['Marketplace_CategoryMatomo', 'Marketplace_Bundles']);
   });
 });

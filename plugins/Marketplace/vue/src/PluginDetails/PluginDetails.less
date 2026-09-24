@@ -185,6 +185,8 @@ button.marketplacePluginDetails__back:focus:not(:focus-visible) {
 }
 
 .marketplacePluginDetails__ratingStar {
+  // the design's rating gold; @theme-color-warning is a darker olive tuned for text contrast, and
+  // no theme token carries a star colour
   color: #f5a623;
 }
 
@@ -366,6 +368,8 @@ button.marketplacePluginDetails__reviewsLink:focus:not(:focus-visible) {
     display: flex;
     align-items: flex-start;
     gap: 24px;
+    // override: beats any height in the inline style the Marketplace sends with this element, so
+    // the reflowed columns are never clipped; nothing short of !important outranks an inline style
     height: auto !important;
   }
 

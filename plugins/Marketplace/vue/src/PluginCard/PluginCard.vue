@@ -86,8 +86,8 @@ import { MatomoUrl, translate } from 'CoreHome';
 import CTAContainer from '../PluginList/CTAContainer.vue';
 import MatomoGlyph from './MatomoGlyph.vue';
 import { MarketplaceContext, PluginCard as PluginCardType } from '../types';
-import { ownerLabel, pluginCategories, TAB_OTHER } from '../PluginGrid/pluginGrouping';
-import { categoryLabel as labelForCategory } from '../PluginGrid/categoryLabels';
+import { isByMatomo, ownerLabel } from '../PluginGrid/pluginGrouping';
+import { chipLabel } from '../PluginGrid/categoryLabels';
 
 /**
  * The one stand-in `Plugins::addPluginCoverImage()` falls back to for a plugin with no screenshot.
@@ -124,27 +124,14 @@ export default defineComponent({
     },
   },
   computed: {
-    /**
-     * Whether the card credits Matomo. A bundle always does, whoever the Marketplace names as its
-     * owner: a bundle is Matomo's own packaging of Matomo's plugins, and it is sold as such.
-     */
     isByMatomo(): boolean {
-      return this.plugin.isBundle || ownerLabel(this.plugin) === 'Matomo';
+      return isByMatomo(this.plugin);
     },
     ownerName(): string {
       return translate('Marketplace_ByAuthor', ownerLabel(this.plugin));
     },
-    /**
-     * The chip beside the card's title. Always a label: a plugin no category claims falls back to
-     * Other, the same tab it is listed under, so that every card in a row carries a chip and the
-     * titles and descriptions below line up across the row.
-     */
     categoryLabel(): string {
-      if (this.plugin.isBundle) {
-        return translate('Marketplace_Bundles');
-      }
-
-      return labelForCategory(pluginCategories(this.plugin)[0] ?? TAB_OTHER);
+      return chipLabel(this.plugin);
     },
     bundleSeatsLabel(): string {
       if (!this.plugin.isBundle || !this.plugin.bundleSeats) {
