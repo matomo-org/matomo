@@ -191,21 +191,6 @@ Currently, these reports exclusively include requests from AI chatbots that do n
 		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
 	</row>
 	<row>
-		<name>Goals Overview (Goals)</name>
-		<documentation>This report gives an overview of how well your visitors convert a specific goal.</documentation>
-		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
-	</row>
-	<row>
-		<name>Goals Overview - Days to Conversion (Goals)</name>
-		<documentation>This report shows how many days pass before your visitors convert a goal.</documentation>
-		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
-	</row>
-	<row>
-		<name>Goals Overview - Visits to Conversion (Goals)</name>
-		<documentation>This report shows the number of visits made before a visitor converts a goal.</documentation>
-		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
-	</row>
-	<row>
 		<name>Human-Favoured Pages (AI Assistants)</name>
 		<documentation>Shows pages that receive significantly more visits from humans than from AI chatbots. Useful for identifying content that resonates strongly with real users but is underrepresented in AI-driven traffic or recommendations.</documentation>
 	</row>
