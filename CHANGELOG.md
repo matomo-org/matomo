@@ -151,6 +151,13 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   `data-matomo-modal-id` to be exempted from its focus trap, which otherwise prevents it from holding focus. The
   exemption applies only to the modal named, so an element belonging to one modal cannot hold focus over another.
 
+## Matomo 5.14.1
+
+### New APIs
+* `Piwik\Http::sendHttpRequest()` and `Piwik\Http::sendHttpRequestBy()` extended info (`$getExtendedInfo = true`)
+  now includes an `effectiveUrl` entry: the final URL after following redirects. Best effort on the `fopen`
+  transport, which follows redirects internally.
+
 ## Matomo 5.14.0
 
 ### Breaking Changes
