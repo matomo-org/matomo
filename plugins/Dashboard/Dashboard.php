@@ -15,6 +15,8 @@ use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Category\Subcategory;
 use Piwik\Widget\WidgetConfig;
+use Piwik\Widget\WidgetContainerConfig;
+use Piwik\Widget\WidgetsList;
 use Piwik\Plugin;
 
 class Dashboard extends \Piwik\Plugin
@@ -250,21 +252,102 @@ class Dashboard extends \Piwik\Plugin
         // we will only return the widgets that are from enabled plugins
 
         if (is_array($layoutObject)) {
-            $layoutObject = (object)array(
-                'config'  => array('layout' => '33-33-33'),
-                'columns' => $layoutObject,
-            );
+            $layoutObject = $this->layoutObjectFromColumns($layoutObject);
         }
 
         if (empty($layoutObject) || empty($layoutObject->columns)) {
-            $layoutObject = (object)array(
-                'config'  => array('layout' => '33-33-33'),
-                'columns' => array(),
-            );
+            $layoutObject = $this->layoutObjectFromColumns(array());
         }
 
         $layout = $this->encodeLayout($layoutObject);
         return $layout;
+    }
+
+    /**
+     * Drops every widget of a stored layout that the current user is not allowed to see.
+     *
+     * A layout can name widgets its owner has no access to: a superuser creating, resetting or
+     * copying a dashboard for someone else builds it from their own widget list, and the result is
+     * never re-checked against the user it is saved for. Serving such a widget makes the browser
+     * request an API method that answers 401, which surfaces as a generic request error.
+     *
+     * Must not be called while the widget list is being built: {@see self::addWidgetConfigs()} runs
+     * at that point and would recurse back into here through the default layout.
+     *
+     * @param string|array|object $layout
+     * @return string
+     */
+    public function removeWidgetsNotAvailableToUser($layout)
+    {
+        $layoutObject = $this->decodeLayout($layout);
+
+        if (is_array($layoutObject)) {
+            $layoutObject = $this->layoutObjectFromColumns($layoutObject);
+        }
+
+        if (empty($layoutObject)) {
+            $layoutObject = $this->layoutObjectFromColumns(array());
+        }
+
+        if (empty($layoutObject->columns)) {
+            return $this->encodeLayout($layoutObject);
+        }
+
+        $availableWidgets = array();
+
+        foreach (WidgetsList::get()->getWidgetConfigs() as $widgetConfig) {
+            $availableWidgets[$widgetConfig->getModule() . '.' . $widgetConfig->getAction()] = true;
+
+            // A widget can exist only inside a container, and the widget list the browser works from
+            // flattens those one level, so a layout names them directly. Index them too, otherwise
+            // reports such as Event Names or Content Names would be dropped from every dashboard.
+            if ($widgetConfig instanceof WidgetContainerConfig) {
+                foreach ($widgetConfig->getWidgetConfigs() as $containedWidget) {
+                    $availableWidgets[$containedWidget->getModule() . '.' . $containedWidget->getAction()] = true;
+                }
+            }
+        }
+
+        $columns = (array)$layoutObject->columns;
+
+        foreach ($columns as $index => $column) {
+            $widgets = array();
+
+            foreach ((array)$column as $widget) {
+                // A layout holds widgets as objects, but a caller may hand one over already decoded
+                // into arrays, so read both shapes through the same cast.
+                $parameters = (array)(((array)$widget)['parameters'] ?? array());
+                $module = $parameters['module'] ?? '';
+                $action = $parameters['action'] ?? '';
+
+                if ('' !== $module && isset($availableWidgets[$module . '.' . $action])) {
+                    $widgets[] = $widget;
+                }
+            }
+
+            $columns[$index] = $widgets;
+        }
+
+        $layoutObject->columns = $columns;
+
+        return $this->encodeLayout($layoutObject);
+    }
+
+    /**
+     * Wraps columns into the object shape of a layout, with the default column widths.
+     *
+     * '33-33-33' is three columns of a third each, the same fallback the dashboard JavaScript
+     * applies. {@see Controller::getAvailableLayouts()} holds the widths a user can choose from.
+     *
+     * @param array $columns
+     * @return object
+     */
+    private function layoutObjectFromColumns(array $columns)
+    {
+        return (object)array(
+            'config'  => array('layout' => '33-33-33'),
+            'columns' => $columns,
+        );
     }
 
     public function decodeLayout($layout)
