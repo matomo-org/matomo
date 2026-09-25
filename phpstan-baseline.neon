@@ -717,7 +717,7 @@ parameters:
 
 		-
 			message: "#^Right side of && is always true\\.$#"
-			count: 2
+			count: 1
 			path: core/Plugin/Controller.php
 
 		-

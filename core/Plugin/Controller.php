@@ -37,6 +37,7 @@ use Piwik\Piwik;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
+use Piwik\Plugins\SitesManager\API as SitesManagerApi;
 use Piwik\Plugins\UsersManager\Model as UsersModel;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
@@ -735,8 +736,6 @@ abstract class Controller
         if (!Piwik::isUserIsAnonymous()) {
             $this->showWhatIsNew($view);
 
-            $view->contactEmail = implode(',', Piwik::getContactEmailAddresses());
-
             // for BC only. Use contactEmail instead
             $view->emailSuperUser = implode(',', Piwik::getAllSuperUserAccessEmailAddresses());
         }
@@ -767,7 +766,7 @@ abstract class Controller
 
         $general = PiwikConfig::getInstance()->General;
         $view->enableFrames = $general['enable_framed_pages']
-            || (isset($general['enable_framed_logins']) && $general['enable_framed_logins']);
+            || !empty($general['enable_framed_logins']);
         $embeddedAsIframe = (Common::getRequestVar('module', '', 'string') === 'Widgetize');
         if (!$view->enableFrames && !$embeddedAsIframe) {
             $view->setXFrameOptions('sameorigin');
@@ -782,11 +781,11 @@ abstract class Controller
          * Executed as super user, so we are able to check if there are other sites (the current user might not have access to)
          */
         $view->isSingleSite = Access::doAsSuperUser(function () {
-            $allSites = Request::processRequest('SitesManager.getAllSitesId', [], []);
+            $allSites = SitesManagerApi::getInstance()->getAllSitesId();
             return count($allSites) === 1;
         });
 
-        if (isset($this->site) && is_object($this->site) && $this->site instanceof Site) {
+        if ($this->site instanceof Site) {
             $view->siteName = $this->site->getName();
         }
 
