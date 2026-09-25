@@ -38,8 +38,9 @@ class LabelFilter extends DataTableManipulator
 
     /**
      * Processed metrics whose beforeCompute() only checks that some row has a value for a column,
-     * which the rows kept by getRowsForWholeTableChecks() preserve. PercentOfReportTotal reads the
-     * totals instead of the rows.
+     * which the rows kept by getRowsForWholeTableChecks() preserve. The average time metrics also read
+     * the top row, see rowsAgreeOnAverageColumns(). PercentOfReportTotal reads the totals instead of
+     * the rows.
      */
     private const BEFORE_COMPUTE_SAFE_ON_PRUNED_TABLE = [
         ProcessedMetric::class,
@@ -177,7 +178,7 @@ class LabelFilter extends DataTableManipulator
 
         $row = $this->findOnlyRowForLabel($this->nextLabelPart, $dataTable);
 
-        // the summary row is still labelled -1 here and only gets its real label later
+        // the summary row may still be labelled -1 here, so compare by identity
         if ($row === null || $row === $dataTable->getSummaryRow()) {
             return $dataTable;
         }
@@ -396,9 +397,40 @@ class LabelFilter extends DataTableManipulator
             if (self::$metricNeedsWholeTable[$class]) {
                 return true;
             }
+
+            if (
+                ($metric instanceof AveragePageGenerationTime || $metric instanceof AveragePerformanceMetric)
+                && !$this->rowsAgreeOnAverageColumns($dataTable, $metric->getName())
+            ) {
+                return true;
+            }
         }
 
         return false;
+    }
+
+    /**
+     * The average time metrics read the average and sum columns of the top row once the table is
+     * sorted, and pruning can change which row that is. That only matters when the rows differ in
+     * which of these columns they have.
+     */
+    private function rowsAgreeOnAverageColumns(DataTable $dataTable, string $averageColumn): bool
+    {
+        // avg_time_network goes with sum_time_network
+        $sumColumn = 'sum_' . substr($averageColumn, strlen('avg_'));
+        $expected = null;
+
+        foreach ($dataTable->getRowsWithoutSummaryRow() as $row) {
+            $columns = [$row->hasColumn($sumColumn), $row->getColumn($averageColumn) !== false];
+
+            if ($expected === null) {
+                $expected = $columns;
+            } elseif ($columns !== $expected) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**

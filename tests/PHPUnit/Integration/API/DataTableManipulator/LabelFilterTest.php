@@ -259,6 +259,30 @@ class LabelFilterTest extends IntegrationTestCase
         $this->assertEquals($this->getRowFromPageUrlsWithoutPruning($params), $row);
     }
 
+    public function testRecursiveLabelKeepsTheTimingColumnsWhenAPrunedRowSortsFirst()
+    {
+        // the most viewed row sorts first and has an average, so the timing columns stay, but it
+        // adds no new column and would be pruned
+        self::$subtableShape = 'popularRowWithAverage';
+
+        $row = $this->getRowFromPageUrls();
+
+        $this->assertSame(1, $row['nb_hits_with_time_network'] ?? null);
+        $this->assertEquals($this->getRowFromPageUrlsWithoutPruning(), $row);
+    }
+
+    public function testRecursiveLabelPicksTheSameGenerationTimeColumnWhenAPrunedRowSortsFirst()
+    {
+        // the most viewed row names the generation time columns while the others use their ids,
+        // and the top row decides which of the two the metric reads
+        self::$subtableShape = 'popularRowWithNamedColumns';
+
+        $row = $this->getRowFromPageUrls();
+
+        $this->assertArrayNotHasKey('avg_time_generation', $row);
+        $this->assertEquals($this->getRowFromPageUrlsWithoutPruning(), $row);
+    }
+
     private function getRowFromPageUrls(array $params = []): array
     {
         $table = Request::processRequest('Actions.getPageUrls', array_merge([
@@ -375,6 +399,24 @@ class LabelFilterTest extends IntegrationTestCase
             $rows[1] += $timing;
             $rows[] = ['label' => '/timed0', 'nb_visits' => 5, 'nb_hits' => 5] + $timing;
             $rows[] = ['label' => '/target0', 'nb_visits' => 1, 'nb_hits' => 1];
+        }
+
+        if (self::$subtableShape === 'popularRowWithAverage') {
+            $rows[1]['avg_time_network'] = 0.2;
+            $rows[2] += ['nb_hits_with_time_network' => 1, 'min_time_network' => 0];
+            $rows[] = ['label' => '/popular', 'nb_visits' => 100, 'nb_hits' => 100, 'avg_time_network' => 0.3];
+        }
+
+        if (self::$subtableShape === 'popularRowWithNamedColumns') {
+            $rows[0] += [Metrics::INDEX_PAGE_SUM_TIME_GENERATION => 5, Metrics::INDEX_PAGE_NB_HITS_WITH_TIME_GENERATION => 1];
+            $rows[2] += [Metrics::INDEX_PAGE_SUM_TIME_GENERATION => 3, Metrics::INDEX_PAGE_NB_HITS_WITH_TIME_GENERATION => 1];
+            $rows[] = [
+                'label' => '/popular',
+                'nb_visits' => 100,
+                'nb_hits' => 100,
+                'sum_time_generation' => 0,
+                'nb_hits_with_time_generation' => 0,
+            ];
         }
 
         if (self::$subtableShape === 'renamedLabel') {

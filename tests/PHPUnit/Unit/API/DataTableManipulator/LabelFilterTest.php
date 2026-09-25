@@ -13,6 +13,7 @@ use Piwik\API\DataTableManipulator\LabelFilter;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Plugins\CoreHome\Columns\Metrics\VisitsPercent;
+use Piwik\Plugins\PagePerformance\Columns\Metrics\AverageTimeNetwork;
 
 class LabelFilterTest extends \PHPUnit\Framework\TestCase
 {
@@ -275,6 +276,46 @@ class LabelFilterTest extends \PHPUnit\Framework\TestCase
         $pruned = $this->pruneFor($filter, $table, 'wanted', [], true);
 
         $this->assertSame(3, $pruned->getRowsCount());
+    }
+
+    /**
+     * @dataProvider getRowsDisagreeingOnTheAverageColumns
+     */
+    public function testPruneLoadedSubtableKeepsTheWholeTableWhenTheRowsDisagreeOnTheAverageColumns(array $otherColumns)
+    {
+        // the average time metrics read the top row, which pruning can change
+        $table = $this->makeTableWithRows([
+            'other' => $otherColumns,
+            'wanted' => ['sum_time_network' => 2],
+            'another' => ['sum_time_network' => 5],
+        ]);
+        $table->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME, [new AverageTimeNetwork()]);
+        $filter = new LabelFilter();
+
+        $pruned = $this->pruneFor($filter, $table, 'wanted', [], true);
+
+        $this->assertSame(3, $pruned->getRowsCount());
+    }
+
+    public function getRowsDisagreeingOnTheAverageColumns(): iterable
+    {
+        yield 'no sum column' => [[]];
+        yield 'an average column' => [['sum_time_network' => 1, 'avg_time_network' => 0.5]];
+    }
+
+    public function testPruneLoadedSubtablePrunesWhenTheRowsAgreeOnTheAverageColumns()
+    {
+        $table = $this->makeTableWithRows([
+            'other' => ['sum_time_network' => 1],
+            'wanted' => ['sum_time_network' => 2],
+            'another' => ['sum_time_network' => 5],
+        ]);
+        $table->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME, [new AverageTimeNetwork()]);
+        $filter = new LabelFilter();
+
+        $pruned = $this->pruneFor($filter, $table, 'wanted', [], true);
+
+        $this->assertSame(['other', 'wanted'], $pruned->getColumn('label'));
     }
 
     public function testPruneLoadedSubtableIgnoresAMetricThatLooksAtEveryRowWhenTheDescentGoesDeeper()
