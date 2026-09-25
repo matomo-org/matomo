@@ -136,6 +136,18 @@ describe('CoreHome/SearchInput', () => {
     expect(wrapperDiv.attributes('title')).toBeUndefined();
   });
 
+  it('carries the ghost modifier on the block, where its stylesheet nests it', () => {
+    const wrapper = mount(SearchInput, {
+      props: {
+        modelValue: '',
+        ghost: true,
+      },
+    });
+
+    expect(wrapper.find('.mtm-searchInput').classes()).toContain('mtm-searchInput--ghost');
+    expect(wrapper.find('input').classes()).not.toContain('mtm-searchInput--ghost');
+  });
+
   it('forwards a listener set on the component to the input exactly once', async () => {
     // guards inheritAttrs: false: otherwise the bubbling event would invoke the listener twice
     const onKeydown = vi.fn();
@@ -214,5 +226,28 @@ describe('CoreHome/SearchInput', () => {
     await input.trigger('compositionend');
 
     expect(wrapper.emitted('update:modelValue')).toEqual([['日本']]);
+  });
+
+  it('offers nothing to clear while the field is empty', () => {
+    const wrapper = mount(SearchInput, {
+      props: {
+        modelValue: '',
+        showClear: true,
+      },
+    });
+
+    expect(wrapper.find('.mtm-searchInput__clear').exists()).toBe(false);
+  });
+
+  it('gives the icon-only clear button an accessible name', () => {
+    const wrapper = mount(SearchInput, {
+      props: {
+        modelValue: 'country',
+        showClear: true,
+      },
+    });
+
+    expect(wrapper.find('.mtm-searchInput__clear').attributes('aria-label')).toBe('General_Clear');
+    expect(wrapper.find('.mtm-searchInput__clear .icon-close').attributes('aria-hidden')).toBe('true');
   });
 });
