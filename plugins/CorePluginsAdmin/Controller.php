@@ -612,7 +612,7 @@ class Controller extends Plugin\ControllerAdmin
         $salt = SettingsPiwik::getSalt();
         if (!empty($salt)) {
             $saltFromRequest = Common::getRequestVar('i_am_super_user', '', 'string');
-            $isAllowedToTroubleshootAsSuperUser = ($salt == $saltFromRequest);
+            $isAllowedToTroubleshootAsSuperUser = ($salt === $saltFromRequest);
         }
         return $isAllowedToTroubleshootAsSuperUser;
     }
