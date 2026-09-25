@@ -219,19 +219,14 @@ abstract class DataTableManipulator
     }
 
     /**
-     * Gives a manipulator the chance to drop rows of a subtable that was just loaded, before it is
-     * post-processed. Post-processing costs time in proportion to the number of rows, so a
-     * manipulator that only needs one of them can save the rest of that work here.
+     * Lets a manipulator drop rows from a subtable it just loaded, before post-processing.
+     * Post-processing a big subtable is slow, so this saves time when only one row is needed.
      *
-     * @param mixed $dataTable
-     * @param array $request The request the subtable was loaded with, so an implementation can tell
-     *                       whether the remaining filters would notice the dropped rows.
-     * @param string $apiModule The module the subtable was loaded with.
-     * @param string $method The method the subtable was loaded with. Together with the module, it is
-     *                       what post-processing looks the report up by.
-     * @return mixed
+     * @param array $request The request the subtable was loaded with.
+     * @param string $apiModule The module of the report the subtable belongs to.
+     * @param string $method The method of the report the subtable belongs to.
      */
-    protected function pruneLoadedSubtable($dataTable, array $request, string $apiModule, string $method)
+    protected function pruneLoadedSubtable(mixed $dataTable, array $request, string $apiModule, string $method): mixed
     {
         return $dataTable;
     }

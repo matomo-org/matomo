@@ -544,8 +544,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
 
     public function testUnserializeRejectsNestedEnumInArrayPayload(): void
     {
-        // enums are restored as real instances even with classes disallowed, so they are the one
-        // kind of object that gets past safe_unserialize()
+        // enums get past safe_unserialize() even with classes disallowed
         $serialized = serialize([
             [
                 Row::COLUMNS => ['label' => 'modern.example', 'bad' => DataTableTestEnum::Value],
@@ -612,11 +611,11 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         return [
             'rows only' => [serialize($rows), false],
             'an object' => [serialize([new \stdClass()]), true],
-            // a class with a custom serializer, which serialize() tags "C:" rather than "O:"
+            // a class with a custom serializer is tagged "C:", not "O:"
             'a custom serializer' => ['a:1:{i:0;C:17:"ProbeSerializable":7:{payload}}', true],
             'an enum' => [serialize([DataTableTestEnum::Value]), true],
             'a recursive array' => [serialize([$recursive]), true],
-            // a back reference to an object cannot appear without the object it points at
+            // a reference to an object always comes with the object
             'a back reference on its own' => ['a:1:{i:0;r:2;}', false],
         ];
     }
@@ -1631,8 +1630,8 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
 }
 
 /**
- * safe_unserialize() disallows classes, but enums are restored anyway, so DataTable has to reject
- * them itself. There is no enum in core to serialize for that test.
+ * An enum for the test above. safe_unserialize() lets enums through, so DataTable rejects them
+ * itself, and core has no enum to use.
  */
 enum DataTableTestEnum: string
 {

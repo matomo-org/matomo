@@ -1580,16 +1580,12 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     }
 
     /**
-     * Whether the payload holds a type marker for anything isValidRowsPayload() is looking for.
-     * With classes disallowed an object can only come from "O:", "C:" or "E:", and the recursive
-     * array that makes the scan fail can only come from "R:", so a payload without any of those
-     * has nothing to find and does not need to be walked at all.
+     * Whether the payload may hold something isValidRowsPayload() rejects. An object can only come
+     * from "O:", "C:" or "E:" (enums get through even with classes disallowed), and a reference from
+     * "R:". Without any of these we can skip the scan.
      *
-     * Enums are the odd one out: they are restored as real instances even though classes are
-     * disallowed, which is why "E:" has to be in the list.
-     *
-     * A marker that is really part of a label just gets the regular scan, so a false positive
-     * costs time rather than safety.
+     * A label that happens to contain a marker just gets the normal scan, so a false match only
+     * costs time.
      */
     private function payloadCanContainObjectsOrReferences(string $serialized): bool
     {

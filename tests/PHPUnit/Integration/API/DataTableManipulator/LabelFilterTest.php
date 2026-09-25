@@ -21,11 +21,9 @@ use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
- * Covers the recursive label descent through the real request pipeline, so that the pruning it does
- * on a loaded subtable is exercised together with the generic filters that run on that subtable.
- *
- * The report is served from an intercept rather than from an archive, because what matters here is
- * the shape of the subtable, not where it came from.
+ * Tests the label search through the real request pipeline, so pruning runs together with the
+ * generic filters. The report comes from an intercept, not an archive, since only the subtable's
+ * shape matters.
  *
  * @group LabelFilterTest
  * @group Core
@@ -36,19 +34,18 @@ class LabelFilterTest extends IntegrationTestCase
     private const SUBTABLE_ID = 42;
 
     /**
-     * Hits on the two siblings of the row the label asks for, which has a single hit. The siblings
-     * alone put the column sum well above the threshold ExcludeLowPopulation derives from it, and
-     * they give the table enough rows for a truncate to have something to drop.
+     * Hits on the two siblings of the row we want, which has 1 hit. They push the low-population
+     * threshold above 1 and give a truncate something to drop.
      */
     private const SIBLING_HITS = [60, 30];
 
     /**
-     * Which subtable the intercept below serves. Most tests want the plain one.
+     * Which subtable the intercept serves. Most tests use the plain one.
      */
     private static string $subtableShape = 'siblings';
 
     /**
-     * The label of the one row of the root table, which a pattern has to match too.
+     * The label of the root table's only row. A pattern has to match it too.
      */
     private static string $rootLabel = 'dir';
 
@@ -59,72 +56,66 @@ class LabelFilterTest extends IntegrationTestCase
         self::$subtableShape = 'siblings';
         self::$rootLabel = 'dir';
 
-        // the descent resolves the method to load subtables with from the report metadata, which
-        // needs a site to look the report up for
+        // the search looks up the report to load subtables, and that needs a site
         Fixture::createWebsite('2018-05-05 09:00:00');
     }
 
-    public function testRecursiveLabelReturnsTheMatchingRow()
+    public function testRecursiveLabelReturnsTheMatchingRow(): void
     {
         $this->assertSame(['/target'], $this->getLabelsFromPageUrls());
     }
 
-    public function testRecursiveLabelReturnsNothingWhenTheLabelDoesNotExist()
+    public function testRecursiveLabelReturnsNothingWhenTheLabelDoesNotExist(): void
     {
         $this->assertSame([], $this->getLabelsFromPageUrls(['label' => 'dir>' . urlencode('/nonExistent')]));
     }
 
-    public function testRecursiveLabelJudgesExcludeLowPopulationAgainstTheWholeSubtable()
+    public function testRecursiveLabelJudgesExcludeLowPopulationAgainstTheWholeSubtable(): void
     {
-        // one hit out of 91 is below the threshold ExcludeLowPopulation derives from the sum of the
-        // column over the whole subtable, so the row has to go even though the label asks for it
+        // 1 hit out of 91 is below the low-population threshold, so the row is removed
         $this->assertSame([], $this->getLabelsFromPageUrls(['filter_excludelowpop' => 'nb_hits']));
     }
 
-    public function testRecursiveLabelKeepsTheRowForAnExplicitExcludeLowPopulationThreshold()
+    public function testRecursiveLabelKeepsTheRowForAnExplicitExcludeLowPopulationThreshold(): void
     {
-        // an explicit threshold is decided per row, so the siblings make no difference to it
+        // a fixed threshold is checked per row, so the siblings don't matter
         $this->assertSame(['/target'], $this->getLabelsFromPageUrls([
             'filter_excludelowpop' => 'nb_hits',
             'filter_excludelowpop_value' => 1,
         ]));
     }
 
-    public function testRecursiveLabelRespectsATruncateOnTheSubtable()
+    public function testRecursiveLabelRespectsATruncateOnTheSubtable(): void
     {
-        // the row the label asks for is the one with the fewest hits, so truncating to one row
-        // leaves it out
+        // the row we want has the fewest hits, so truncating to 1 row removes it
         $this->assertSame([], $this->getLabelsFromPageUrls(['filter_truncate' => 1]));
     }
 
-    public function testRecursiveLabelRespectsATruncateOfZeroOnTheSubtable()
+    public function testRecursiveLabelRespectsATruncateOfZeroOnTheSubtable(): void
     {
-        // zero is a truncate like any other, so everything but the summary row goes
+        // a truncate of 0 removes every row but the summary row
         $this->assertSame([], $this->getLabelsFromPageUrls(['filter_truncate' => 0]));
     }
 
-    public function testRecursiveLabelRespectsAnOffsetOnTheSubtable()
+    public function testRecursiveLabelRespectsAnOffsetOnTheSubtable(): void
     {
-        // the row the label asks for is the last one, so it only survives an offset of two while
-        // its siblings are still in front of it. the limit stays unlimited so that the offset is
-        // the only reason the prune has to stay out of the way
+        // the row we want is last, so an offset of 2 keeps it only if its siblings are still
+        // there. No limit, so the offset is the only reason not to prune
         $this->assertSame(['/target'], $this->getLabelsFromPageUrls(['filter_offset' => 2]));
     }
 
-    public function testRecursiveLabelFindsARowLabelledLikeTheSummaryRow()
+    public function testRecursiveLabelFindsARowLabelledLikeTheSummaryRow(): void
     {
-        // a row can be labelled '-1', which is also the label a summary row carries until
-        // ReplaceSummaryRowLabel renames it during post processing
+        // a real row can be labelled '-1', like the summary row before ReplaceSummaryRowLabel runs
         self::$subtableShape = 'summaryRow';
 
         $this->assertSame(['-1'], $this->getLabelsFromPageUrls(['label' => 'dir>-1']));
     }
 
-    public function testRecursiveLabelSortsTheSubtableByTheReportDefaultBeforeAnOffset()
+    public function testRecursiveLabelSortsTheSubtableByTheReportDefaultBeforeAnOffset(): void
     {
-        // the descent has always sorted the subtable by the report's default column, whatever sort
-        // the request asks for. sorted by label the row we are after would come first and the
-        // offset would drop it
+        // the search sorts subtables by the report's default column, not the requested one.
+        // Sorted by label, the row we want would come first and the offset would remove it
         $this->assertSame(['/target'], $this->getLabelsFromPageUrls([
             'filter_offset' => 2,
             'filter_sort_column' => 'label',
@@ -132,10 +123,10 @@ class LabelFilterTest extends IntegrationTestCase
         ]));
     }
 
-    public function testRecursiveLabelKeepsColumnsOnlyASiblingHasAValueFor()
+    public function testRecursiveLabelKeepsColumnsOnlyASiblingHasAValueFor(): void
     {
-        // the page performance metrics drop their columns when no row in the subtable has a timing
-        // sum, and here only a sibling of the row we are after has one
+        // the page performance columns are dropped if no row has a timing sum, and here only a
+        // sibling has one
         self::$subtableShape = 'siblingWithTiming';
 
         $row = $this->getRowFromPageUrls();
@@ -144,10 +135,10 @@ class LabelFilterTest extends IntegrationTestCase
         $this->assertEquals($this->getRowFromPageUrlsWithoutPruning(), $row);
     }
 
-    public function testRecursiveLabelPicksTheSameRowWhenTwoLabelsAreEqualOnceDecoded()
+    public function testRecursiveLabelPicksTheSameRowWhenTwoLabelsAreEqualOnceDecoded(): void
     {
-        // both labels end up as "/a &amp; b" once post-processing decodes them, and the search then
-        // picks the one the sort puts last, which is the one with fewer hits
+        // both labels become "/a &amp; b" after decoding. The search then picks the last one after
+        // sorting, which has fewer hits
         self::$subtableShape = 'labelsEqualOnceDecoded';
 
         $params = ['label' => 'dir>' . urlencode('/a & b')];
@@ -157,10 +148,10 @@ class LabelFilterTest extends IntegrationTestCase
         $this->assertEquals($this->getRowFromPageUrlsWithoutPruning($params), $row);
     }
 
-    public function testRecursiveLabelKeepsColumnsWhenAPatternRemovesTheSiblingThatHasThem()
+    public function testRecursiveLabelKeepsColumnsWhenAPatternRemovesTheSiblingThatHasThem(): void
     {
-        // the pattern drops the first sibling with a timing sum but keeps the second one, so the
-        // page performance metrics still see a timing sum on the whole subtable
+        // the pattern removes the first sibling with a timing sum but keeps the second, so the
+        // timing columns stay
         self::$subtableShape = 'siblingsWithTiming';
 
         $params = ['filter_pattern' => '[^0]$'];
@@ -170,10 +161,10 @@ class LabelFilterTest extends IntegrationTestCase
         $this->assertEquals($this->getRowFromPageUrlsWithoutPruning($params), $row);
     }
 
-    public function testRecursiveLabelKeepsTheOrderOfTheGoalColumns()
+    public function testRecursiveLabelKeepsTheOrderOfTheGoalColumns(): void
     {
-        // goal columns are added in the order the rows of the subtable first show each goal, which
-        // is not the order the row we are after lists them in
+        // goal columns follow the order goals first appear in the subtable, not the order in the
+        // row we want
         self::$subtableShape = 'goals';
 
         $params = ['filter_update_columns_when_show_all_goals' => 1, 'idGoal' => 0];
@@ -182,10 +173,10 @@ class LabelFilterTest extends IntegrationTestCase
         $this->assertSame(array_keys($this->getRowFromPageUrlsWithoutPruning($params)), array_keys($row));
     }
 
-    public function testRecursiveLabelKeepsColumnsWhenAPatternOfZeroRemovesTheSiblingThatHasThem()
+    public function testRecursiveLabelKeepsColumnsWhenAPatternOfZeroRemovesTheSiblingThatHasThem(): void
     {
-        // "0" is a pattern like any other. It drops the first sibling with a timing sum but keeps
-        // the second one, so the page performance metrics still see a timing sum on the subtable
+        // "0" is a pattern too. It removes the first sibling with a timing sum but keeps the
+        // second, so the timing columns stay
         self::$subtableShape = 'siblingsWithTimingForAPatternOfZero';
         self::$rootLabel = 'dir0';
 
@@ -196,10 +187,10 @@ class LabelFilterTest extends IntegrationTestCase
         $this->assertEquals($this->getRowFromPageUrlsWithoutPruning($params), $row);
     }
 
-    public function testRecursiveLabelPicksTheSameRowWhenAQueuedFilterRenamesALabel()
+    public function testRecursiveLabelPicksTheSameRowWhenAQueuedFilterRenamesALabel(): void
     {
-        // Referrers renames the empty keyword to "Keyword not defined" after the subtable is
-        // loaded, and a real keyword can already read like that
+        // Referrers renames an empty keyword to "Keyword not defined", which can also be a real
+        // keyword
         self::$subtableShape = 'renamedLabel';
 
         $params = ['label' => 'dir>' . urlencode(ReferrersAPI::getKeywordNotDefinedString())];
@@ -208,9 +199,9 @@ class LabelFilterTest extends IntegrationTestCase
         $this->assertEquals($this->getRowFromPageUrlsWithoutPruning($params), $row);
     }
 
-    public function testRecursiveLabelComputesAMetricThatLooksAtEveryRowOnTheWholeSubtable()
+    public function testRecursiveLabelComputesAMetricThatLooksAtEveryRowOnTheWholeSubtable(): void
     {
-        // the share of visits is one visit out of 91 on the whole subtable
+        // the share of visits is 1 out of 91 visits in the whole subtable
         self::$subtableShape = 'visitsPercent';
 
         $row = $this->getRowFromPageUrls();
@@ -219,10 +210,10 @@ class LabelFilterTest extends IntegrationTestCase
         $this->assertEquals($this->getRowFromPageUrlsWithoutPruning(), $row);
     }
 
-    public function testRecursiveLabelPicksTheSameRowWhenAQueuedFilterDeletesTheLabelColumn()
+    public function testRecursiveLabelPicksTheSameRowWhenAQueuedFilterDeletesTheLabelColumn(): void
     {
-        // with the label column gone the rows are identified by their label metadata, which is
-        // another row's label column
+        // without the label column, rows are found by their label metadata, which here matches
+        // another row
         self::$subtableShape = 'deletedLabelColumn';
 
         $row = $this->getRowFromPageUrls();
@@ -231,9 +222,9 @@ class LabelFilterTest extends IntegrationTestCase
         $this->assertEquals($this->getRowFromPageUrlsWithoutPruning(), $row);
     }
 
-    public function testRecursiveLabelPicksTheSameRowWhenTheRequestHidesTheLabelColumn()
+    public function testRecursiveLabelPicksTheSameRowWhenTheRequestHidesTheLabelColumn(): void
     {
-        // hideColumns deletes the label column before the search, see the test above
+        // hideColumns removes the label column before the search, like the test above
         self::$subtableShape = 'conflictingLabelMetadata';
 
         $row = $this->getRowFromPageUrls(['hideColumns' => 'label']);
@@ -242,10 +233,10 @@ class LabelFilterTest extends IntegrationTestCase
         $this->assertEquals($this->getRowFromPageUrlsWithoutPruning(['hideColumns' => 'label']), $row);
     }
 
-    public function testRecursiveLabelKeepsTheGoalColumnsWhenTheRowsWithoutVisitsAreDeleted()
+    public function testRecursiveLabelKeepsTheGoalColumnsWhenTheRowsWithoutVisitsAreDeleted(): void
     {
-        // the first row showing the goal has a conversion but no visit, so it is deleted before
-        // the goal columns are added, and only a later row still shows the goal
+        // the first row with the goal has no visits, so it is removed before the goal columns are
+        // added. Only a later row still has the goal
         self::$subtableShape = 'conversionOnlyGoal';
 
         $params = [
@@ -259,10 +250,10 @@ class LabelFilterTest extends IntegrationTestCase
         $this->assertEquals($this->getRowFromPageUrlsWithoutPruning($params), $row);
     }
 
-    public function testRecursiveLabelKeepsTheTimingColumnsWhenAPrunedRowSortsFirst()
+    public function testRecursiveLabelKeepsTheTimingColumnsWhenAPrunedRowSortsFirst(): void
     {
-        // the most viewed row sorts first and has an average, so the timing columns stay, but it
-        // adds no new column and would be pruned
+        // the most viewed row sorts first and has an average, so the timing columns stay. It adds
+        // no new column, so pruning would drop it
         self::$subtableShape = 'popularRowWithAverage';
 
         $row = $this->getRowFromPageUrls();
@@ -271,10 +262,10 @@ class LabelFilterTest extends IntegrationTestCase
         $this->assertEquals($this->getRowFromPageUrlsWithoutPruning(), $row);
     }
 
-    public function testRecursiveLabelPicksTheSameGenerationTimeColumnWhenAPrunedRowSortsFirst()
+    public function testRecursiveLabelPicksTheSameGenerationTimeColumnWhenAPrunedRowSortsFirst(): void
     {
-        // the most viewed row names the generation time columns while the others use their ids,
-        // and the top row decides which of the two the metric reads
+        // the most viewed row uses column names, the others use ids, and the top row decides
+        // which one the metric reads
         self::$subtableShape = 'popularRowWithNamedColumns';
 
         $row = $this->getRowFromPageUrls();
@@ -300,8 +291,8 @@ class LabelFilterTest extends IntegrationTestCase
     }
 
     /**
-     * A limit the subtable does not reach keeps every row, but it is one of the filters the prune
-     * steps aside for, so the subtable is post-processed whole, as it was before the prune existed.
+     * A limit bigger than the subtable keeps every row, but it turns pruning off. So this returns
+     * the result without pruning.
      */
     private function getRowFromPageUrlsWithoutPruning(array $params = []): array
     {
@@ -328,7 +319,7 @@ class LabelFilterTest extends IntegrationTestCase
 
         $row = new Row([Row::COLUMNS => ['label' => self::$rootLabel, 'nb_visits' => $hits, 'nb_hits' => $hits]]);
         $row->setNonLoadedSubtableId(self::SUBTABLE_ID);
-        // hideColumns deletes the label column on the root table too
+        // hideColumns removes the label column on the root table too
         $row->setMetadata('label', self::$rootLabel);
 
         $table = new DataTable();
@@ -434,8 +425,7 @@ class LabelFilterTest extends IntegrationTestCase
         }
 
         if (self::$subtableShape === 'conversionOnlyGoal') {
-            // the first sibling already has a value for every column, so the second one is the
-            // only row kept for the goal
+            // the first sibling already has every column, so the second is kept only for the goal
             $rows[1]['nb_visits'] = 0;
             $rows[1]['nb_hits'] = 0;
             $rows[1]['goals'] = ['idgoal=3' => [Metrics::INDEX_GOAL_NB_CONVERSIONS => 1]];
@@ -456,7 +446,7 @@ class LabelFilterTest extends IntegrationTestCase
             $rows[] = ['label' => '/a & b', 'nb_visits' => 5, 'nb_hits' => 5];
         }
 
-        // a simple array cannot hold the goals column, which is an array itself
+        // addRowsFromSimpleArray() can't hold the goals array
         $table = new DataTable();
         foreach ($rows as $columns) {
             $table->addRow(new Row([Row::COLUMNS => $columns]));
@@ -483,8 +473,8 @@ class LabelFilterTest extends IntegrationTestCase
     }
 
     /**
-     * A truncated subtable, as an archive would produce it: a summary row still carrying the raw
-     * label the archive stored, and the rename queued for post processing.
+     * A truncated subtable as an archive stores it: the summary row still has its raw label, and
+     * the rename is queued.
      */
     private static function makeSubtableWithASummaryRow(): DataTable
     {
@@ -503,7 +493,7 @@ class LabelFilterTest extends IntegrationTestCase
         return $table;
     }
 
-    public static function provideContainerConfigBeforeClass()
+    public static function provideContainerConfigBeforeClass(): array
     {
         return [
             'observers.global' => \DI\add([
