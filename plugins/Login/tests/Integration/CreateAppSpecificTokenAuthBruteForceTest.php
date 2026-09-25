@@ -130,6 +130,19 @@ class CreateAppSpecificTokenAuthBruteForceTest extends IntegrationTestCase
         $this->assertNotSame('', $token);
     }
 
+    public function testBeforeLoginCheckBruteForceThrowsWhenIpAddressIsBlacklisted(): void
+    {
+        $_SERVER['REMOTE_ADDR'] = '10.55.55.55';
+        $this->settings->blacklistedBruteForceIps->setValue(array('10.55.55.55'));
+
+        $this->expectException(NoAccessException::class);
+        $this->expectExceptionMessage('Login_LoginNotAllowedBecauseBlocked');
+        $this->expectExceptionCode(401);
+
+        $plugin = new LoginPlugin();
+        $plugin->beforeLoginCheckBruteForce();
+    }
+
     public function testBeforeLoginCheckBruteForceThrowsWhenUserLoginIsBlockedUsingEmailInFormLogin(): void
     {
         $this->blockLogin($this->userLogin);
