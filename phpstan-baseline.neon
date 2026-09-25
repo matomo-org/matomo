@@ -706,16 +706,6 @@ parameters:
 			path: core/Plugin/Controller.php
 
 		-
-			message: "#^Property Piwik\\\\Plugin\\\\Controller\\:\\:\\$site \\(Piwik\\\\Site\\) in isset\\(\\) is not nullable\\.$#"
-			count: 1
-			path: core/Plugin/Controller.php
-
-		-
-			message: "#^Result of && is always true\\.$#"
-			count: 1
-			path: core/Plugin/Controller.php
-
-		-
 			message: "#^Right side of && is always true\\.$#"
 			count: 1
 			path: core/Plugin/Controller.php
