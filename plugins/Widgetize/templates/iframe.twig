@@ -10,8 +10,8 @@
     {% set bodyClass = postEvent('Template.bodyClass', 'widgetized') %}
     <body class="app-widgetized widgetized{{ bodyClass }}">
         {# `__reportHeader-onHover` is the ReportHeader context hook, carried here so the report's
-           actions trigger darkens once the pointer is on the widget. It also overlays the actions
-           on the title, which is why an embed promotes none of them out of the menu. #}
+           actions trigger darkens once the pointer is on the widget, and so an embed promotes
+           none of them out of the menu. #}
         <div class="widget __reportHeader-onHover">
             {{ content|raw }}
         </div>

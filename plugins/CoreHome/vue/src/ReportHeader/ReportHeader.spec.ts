@@ -324,10 +324,8 @@ describe('ReportHeader', () => {
       expect(vm.promotedCount).toBe(0);
     });
 
-    // An embed carries the hover hook but no widget controls, so the fit alone would promote, and
-    // the hook overlays the controls on the title: a promoted button would sit on the words for
-    // good rather than fading in over them. A title-less embed has nothing to cover, and the
-    // widgetized graphs are drawn that way.
+    // An embed carries the hover hook but no widget controls, so the fit alone would promote. The
+    // hook is what says an embed keeps every action in its menu, with or without a title.
     function mountInOverlayHost(props: Record<string, unknown>) {
       const host = document.createElement('div');
       host.className = '__reportHeader-onHover';
@@ -355,7 +353,7 @@ describe('ReportHeader', () => {
       host.remove();
     });
 
-    it('should still promote in an overlay host that draws no title', async () => {
+    it('should promote nothing in an overlay host that draws no title either', async () => {
       const { wrapper, host } = mountInOverlayHost({ showTitle: false });
       const vm = wrapper.vm as unknown as {
         updatePromoted: () => Promise<void>; promotedCount: number;
@@ -364,7 +362,7 @@ describe('ReportHeader', () => {
       giveRoom(wrapper, 1200);
       await vm.updatePromoted();
 
-      expect(vm.promotedCount).toBeGreaterThan(0);
+      expect(vm.promotedCount).toBe(0);
 
       wrapper.unmount();
       host.remove();
@@ -425,6 +423,47 @@ describe('ReportHeader', () => {
 
       expect(wrapper.find('.reportHeader__actionsTrigger').exists()).toBe(false);
       expect(vm.actionsSelector.expanded).toBe(false);
+    });
+
+    // Only a full-page report promotes, and no browser test drives the promoted period selector
+    // there, so its own opening and closing is pinned here.
+    async function mountPromotedPeriods() {
+      const wrapper = await mountPromoted(1, {
+        showExport: false,
+        showAnnotations: false,
+        showPeriods: true,
+        selectablePeriods: ['day', 'week'],
+      });
+      document.body.appendChild(wrapper.element);
+
+      // ExpandOnClick binds the expander in a timeout, so the click has to come after it
+      await new Promise((resolve) => { setTimeout(resolve, 0); });
+
+      return { wrapper, trigger: wrapper.find('[data-report-action="periods"] .mtm-selector__trigger') };
+    }
+
+    it('should open the promoted periods panel on a click and fold it on the next', async () => {
+      const { wrapper, trigger } = await mountPromotedPeriods();
+
+      await trigger.trigger('click');
+      expect(trigger.attributes('aria-expanded')).toBe('true');
+
+      await trigger.trigger('click');
+      expect(trigger.attributes('aria-expanded')).toBe('false');
+
+      wrapper.unmount();
+    });
+
+    it('should fold the promoted periods panel once a period is picked', async () => {
+      const { wrapper, trigger } = await mountPromotedPeriods();
+
+      await trigger.trigger('click');
+      expect(trigger.attributes('aria-expanded')).toBe('true');
+
+      await wrapper.find('.dataTablePeriods [data-period="week"]').trigger('click');
+      expect(trigger.attributes('aria-expanded')).toBe('false');
+
+      wrapper.unmount();
     });
 
     it('should promote in priority order, so the least deserving is given back first', async () => {

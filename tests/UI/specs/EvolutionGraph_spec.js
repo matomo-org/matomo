@@ -23,6 +23,34 @@ describe("EvolutionGraph", function () {
         }
     };
 
+    // Open either way: the promoted selector expands itself, the menu entry opens a submenu.
+    const periodsOpen = () => page.evaluate(() => !!document.querySelector(
+      '.mtm-selector--expanded, .mtm-dropdownPanel__submenu--open',
+    ));
+
+    // The trigger that holds the periods: promoted when the header line has room, the menu entry
+    // otherwise.
+    const periodsTrigger = async function () {
+        return await page.$('[data-report-action="periods"]')
+            ? '[data-report-action="periods"] .mtm-selector__trigger'
+            : '.activatePeriodsSelection';
+    };
+
+    // Periods leave the 3-dots menu when the header line has room, so open whichever holds them.
+    const openPeriods = async function () {
+        if (await page.$('[data-report-action="periods"]')) {
+            await page.click('[data-report-action="periods"] .mtm-selector__trigger');
+            return;
+        }
+
+        await page.click('.reportHeader__actionsTrigger');
+
+        // The submenu stays open between visits to the menu, and the entry toggles it.
+        if (!await periodsOpen()) {
+            await page.click('.activatePeriodsSelection');
+        }
+    };
+
     // The promoted toggle is an icon, so its wording is in the title rather than in a label.
     const annotationsLabel = () => page.evaluate(() => {
         const toggle = document.querySelector('.annotationView');
@@ -348,8 +376,7 @@ describe("EvolutionGraph", function () {
         });
         await page.reload();
         await page.waitForNetworkIdle();
-        // wide enough for the header to lift the period selector out of its menu
-        await page.click('[data-report-action="periods"] .mtm-selector__trigger');
+        await openPeriods();
 
         await page.mouse.move(-10, -10);
         await page.waitForTimeout(500); // wait for animation
@@ -489,23 +516,19 @@ describe("EvolutionGraph", function () {
         await page.goto(url);
         await page.waitForNetworkIdle();
 
-        const trigger = '[data-report-action="periods"] .mtm-selector__trigger';
-        await page.click(trigger);
-        await page.waitForSelector('.mtm-selector--expanded', { visible: true });
+        await openPeriods();
+        expect(await periodsOpen(), 'the first click opens it').to.equal(true);
 
-        await page.click(trigger);
-        const stillOpen = await page.evaluate(
-          () => !!document.querySelector('.mtm-selector--expanded'),
-        );
-        expect(stillOpen, 'a second click closes it').to.equal(false);
+        await page.click(await periodsTrigger());
+        expect(await periodsOpen(), 'a second click closes it').to.equal(false);
     });
 
     it("should close the period selector once a period is picked", async function () {
         await page.goto(url);
         await page.waitForNetworkIdle();
 
-        await page.click('[data-report-action="periods"] .mtm-selector__trigger');
-        await page.waitForSelector('.mtm-selector--expanded', { visible: true });
+        await openPeriods();
+        expect(await periodsOpen(), 'the trigger opens it').to.equal(true);
 
         await page.evaluate(
           () => document.querySelector('.dataTablePeriods [data-period="week"]').click(),
@@ -513,20 +536,15 @@ describe("EvolutionGraph", function () {
         await page.waitForNetworkIdle();
         await page.waitForTimeout(500);
 
-        const stillOpen = await page.evaluate(
-          () => !!document.querySelector('.mtm-selector--expanded'),
-        );
-        expect(stillOpen, 'picking a period closes the selector').to.equal(false);
+        expect(await periodsOpen(), 'picking a period closes the selector').to.equal(false);
     });
 
     it("should let the keyboard reach and activate a period", async function () {
         await page.goto(url);
         await page.waitForNetworkIdle();
 
-        await page.evaluate(
-          () => document.querySelector('[data-report-action="periods"] .mtm-selector__trigger').click(),
-        );
-        await page.waitForSelector('.mtm-selector--expanded', { visible: true });
+        await openPeriods();
+        expect(await periodsOpen(), 'the trigger opens it').to.equal(true);
 
         const focused = await page.evaluate(() => {
             const item = document.querySelector('.dataTablePeriods [role^="menuitem"]');
@@ -567,11 +585,11 @@ describe("EvolutionGraph", function () {
             periods: document.querySelectorAll('[data-report-action="periods"]').length,
         }));
         expect(state.headers, 'exactly one, not one per child').to.equal(1);
-        // Everything this report offers is promoted, so the menu holds nothing and is not offered.
-        expect(state.triggers, 'no trigger for an empty menu').to.equal(0);
+        // An embed promotes nothing, so everything this report offers stays in the menu.
+        expect(state.triggers, 'the menu holds it all, so it is offered').to.equal(1);
         expect(state.markers, 'markers render').to.be.above(0);
         expect(state.entries, 'the annotations toggle is in it').to.equal(1);
-        expect(state.periods, 'the period selector is lifted out of it').to.equal(1);
+        expect(state.periods, 'the period selector is not lifted out of it').to.equal(0);
 
         await page.evaluate(() => document.querySelector('.annotationView').click());
         await page.waitForNetworkIdle();
