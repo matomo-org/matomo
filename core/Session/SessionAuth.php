@@ -134,6 +134,12 @@ class SessionAuth implements Auth
             return $this->makeAuthFailure();
         }
 
+        $tsSessionsInvalidated = !empty($user['ts_sessions_invalidated']) ? $user['ts_sessions_invalidated'] : null;
+        if ($this->isSessionStartedBeforeInvalidation($sessionFingerprint, $tsSessionsInvalidated)) {
+            $this->destroyCurrentSession($sessionFingerprint);
+            return $this->makeAuthFailure();
+        }
+
         $this->updateSessionExpireTime($sessionFingerprint);
 
         if (
@@ -151,6 +157,30 @@ class SessionAuth implements Auth
         }
 
         return $this->makeAuthSuccess($user, $tokenAuth);
+    }
+
+    /**
+     * Whether the session started before the user's sessions were last invalidated, ie. before a
+     * "Sign out of all sessions" ({@see \Piwik\Plugins\UsersManager\API::logoutUser()}). Deleting
+     * the session rows does not hold on its own, because an in-flight request can recreate its row at
+     * shutdown; rejecting by start time here does, whether or not the row came back.
+     *
+     * @param string|null $tsSessionsInvalidated
+     */
+    private function isSessionStartedBeforeInvalidation(SessionFingerprint $sessionFingerprint, $tsSessionsInvalidated)
+    {
+        // nothing has invalidated this user's sessions, so there is nothing to reject against
+        if ($tsSessionsInvalidated === null) {
+            return false;
+        }
+
+        // if the session start time doesn't exist for some reason, log the user out
+        $sessionStartTime = $sessionFingerprint->getSessionStartTime();
+        if (empty($sessionStartTime)) {
+            return true;
+        }
+
+        return $sessionStartTime < Date::factory($tsSessionsInvalidated)->getTimestampUTC();
     }
 
     private function isSessionStartedBeforePasswordChange(SessionFingerprint $sessionFingerprint, $tsPasswordModified)

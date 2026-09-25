@@ -39,6 +39,7 @@ use Piwik\Validators\NotEmpty;
  *     superuser_access: int|string,
  *     date_registered: string|null,
  *     ts_password_modified: string|null,
+ *     ts_sessions_invalidated: string|null,
  *     idchange_last_viewed: int|string|null,
  *     invited_by: string|null,
  *     invite_token: string|null,
@@ -1145,6 +1146,23 @@ class Model
      * Deletes all active sessions for the given user from the session table.
      * This effectively signs the user out of all devices. It does not delete any token_auths.
      */
+    /**
+     * Marks every session of a user as invalidated from now on.
+     *
+     * Deleting the session rows is not enough on its own: a request that read a session before the
+     * rows were deleted rewrites its row at shutdown through the session handler's upsert, bringing
+     * the deleted session back. Recording the moment of invalidation lets {@see \Piwik\Session\SessionAuth}
+     * reject any session that started before it, whether or not its row was recreated. Modelled on
+     * ts_password_modified, which invalidates older sessions the same way.
+     */
+    public function invalidateUserSessions(string $userLogin): void
+    {
+        $this->getDb()->query(
+            'UPDATE `' . $this->userTable . '` SET `ts_sessions_invalidated` = ? WHERE `login` = ?',
+            [Date::now()->getDatetime(), $userLogin]
+        );
+    }
+
     public function deleteUserSessions(string $userLogin): void
     {
         $userMarker = strlen(SessionFingerprint::USER_NAME_SESSION_VAR_NAME) . ':"';
