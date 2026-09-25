@@ -233,8 +233,13 @@ class PromotionSelectorTest extends IntegrationTestCase
     {
         $this->triggering = ['segments' => true, 'bounce_rate' => true];
 
+        // `time()`, not the frozen clock. Marketplace's trial storage expires a request
+        // against the real clock rather than `Date::getNowTimestamp()`, so a request
+        // stamped with this suite's frozen 2026-08-27 silently counted as expired once the
+        // real date passed the 28 day window - and the test began failing on its own,
+        // months after it was written, with no change to the code it covers.
         Option::set('Marketplace.PluginTrialRequest.CustomReports', json_encode([
-            'requestTime' => Date::getNowTimestamp(),
+            'requestTime' => time(),
             'displayName' => 'Custom Reports',
             'dismissed' => [],
             'requestedBy' => 'alice',
