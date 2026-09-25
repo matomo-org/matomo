@@ -114,6 +114,13 @@ module.exports = __WEBPACK_EXTERNAL_MODULE__19dc__;
 
 /***/ }),
 
+/***/ "30af":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
 /***/ "4d9d":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -153,6 +160,17 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_a5a2__;
 
 /***/ }),
 
+/***/ "f4ac":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_vue_cli_service_node_modules_mini_css_extract_plugin_dist_loader_js_ref_11_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_11_oneOf_1_1_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_11_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_11_oneOf_1_3_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_1_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_1_1_AIProcessingSettings_vue_vue_type_style_index_0_id_d647037a_lang_less__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("30af");
+/* harmony import */ var _node_modules_vue_cli_service_node_modules_mini_css_extract_plugin_dist_loader_js_ref_11_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_11_oneOf_1_1_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_11_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_11_oneOf_1_3_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_1_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_1_1_AIProcessingSettings_vue_vue_type_style_index_0_id_d647037a_lang_less__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_cli_service_node_modules_mini_css_extract_plugin_dist_loader_js_ref_11_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_11_oneOf_1_1_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_11_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_11_oneOf_1_3_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_1_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_1_1_AIProcessingSettings_vue_vue_type_style_index_0_id_d647037a_lang_less__WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+
+
+/***/ }),
+
 /***/ "fae3":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -162,6 +180,7 @@ __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, "ManageAIProviders", function() { return /* reexport */ ManageAIProviders; });
+__webpack_require__.d(__webpack_exports__, "AIProcessingSettings", function() { return /* reexport */ AIProcessingSettings; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 // This file is imported into lib/wc client bundles.
@@ -791,6 +810,144 @@ var ManageAIProvidersvue_type_style_index_0_id_464239d2_lang_less = __webpack_re
 
 
 /* harmony default export */ var ManageAIProviders = (ManageAIProvidersvue_type_script_setup_true_lang_ts);
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/AIProviders/vue/src/AIProcessingSettings.vue?vue&type=script&setup=true&lang=ts
+
+
+const AIProcessingSettingsvue_type_script_setup_true_lang_ts_hoisted_1 = {
+  class: "contentHelp"
+};
+const AIProcessingSettingsvue_type_script_setup_true_lang_ts_hoisted_2 = {
+  class: "ai-processing-category-body"
+};
+const AIProcessingSettingsvue_type_script_setup_true_lang_ts_hoisted_3 = {
+  class: "ai-processing-category-name"
+};
+const AIProcessingSettingsvue_type_script_setup_true_lang_ts_hoisted_4 = ["href"];
+const AIProcessingSettingsvue_type_script_setup_true_lang_ts_hoisted_5 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+  class: "icon-outlink"
+}, null, -1);
+const AIProcessingSettingsvue_type_script_setup_true_lang_ts_hoisted_6 = {
+  class: "switch"
+};
+const AIProcessingSettingsvue_type_script_setup_true_lang_ts_hoisted_7 = ["onUpdate:modelValue", "aria-label"];
+const AIProcessingSettingsvue_type_script_setup_true_lang_ts_hoisted_8 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+  class: "lever"
+}, null, -1);
+const AIProcessingSettingsvue_type_script_setup_true_lang_ts_hoisted_9 = {
+  class: "ai-processing-footer"
+};
+const AIProcessingSettingsvue_type_script_setup_true_lang_ts_hoisted_10 = {
+  key: 0
+};
+
+
+
+/* harmony default export */ var AIProcessingSettingsvue_type_script_setup_true_lang_ts = (/*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  __name: 'AIProcessingSettings',
+  setup(__props) {
+    const labels = {
+      nonAnalytics: {
+        name: 'AIProviders_NonAnalyticsData',
+        description: 'AIProviders_NonAnalyticsDataDescription'
+      },
+      aggregatedAnalytics: {
+        name: 'AIProviders_AggregatedAnalyticsData',
+        description: 'AIProviders_AggregatedAnalyticsDataDescription'
+      }
+    };
+    const categories = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])([]);
+    const enabled = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])({});
+    const isLoading = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(false);
+    const isSaving = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(false);
+    const hasUnsavedChanges = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => categories.value.some(category => enabled.value[category.id] !== category.enabled));
+    function apply(settings) {
+      categories.value = settings;
+      enabled.value = Object.fromEntries(settings.map(category => [category.id, category.enabled]));
+    }
+    async function save() {
+      isSaving.value = true;
+      try {
+        apply(await external_CoreHome_["AjaxHelper"].post({
+          method: 'AIProviders.setAIProcessingSettings'
+        }, {
+          enabledCategories: categories.value.filter(category => enabled.value[category.id]).map(category => category.id)
+        }, {
+          withTokenInUrl: true
+        }));
+        const id = external_CoreHome_["NotificationsStore"].show({
+          message: Object(external_CoreHome_["translate"])('AIProviders_AIProcessingSaveSuccess'),
+          type: 'transient',
+          id: 'aiProcessingSettings',
+          context: 'success'
+        });
+        external_CoreHome_["NotificationsStore"].scrollToNotification(id);
+      } finally {
+        isSaving.value = false;
+      }
+    }
+    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["onMounted"])(async () => {
+      isLoading.value = true;
+      try {
+        apply(await external_CoreHome_["AjaxHelper"].fetch({
+          method: 'AIProviders.getAIProcessingSettings'
+        }));
+      } finally {
+        isLoading.value = false;
+      }
+    });
+    return (_ctx, _cache) => {
+      return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["unref"])(external_CoreHome_["ContentBlock"]), {
+        "content-title": Object(external_commonjs_vue_commonjs2_vue_root_Vue_["unref"])(external_CoreHome_["translate"])('AIProviders_AIProcessing'),
+        class: "ai-processing"
+      }, {
+        default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", AIProcessingSettingsvue_type_script_setup_true_lang_ts_hoisted_1, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["unref"])(external_CoreHome_["translate"])('AIProviders_AIProcessingHelp')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["unref"])(external_CoreHome_["translate"])('AIProviders_AIProcessingIntro')), 1), isLoading.value ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["unref"])(external_CoreHome_["ActivityIndicator"]), {
+          key: 0,
+          loading: isLoading.value
+        }, null, 8, ["loading"])) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], {
+          key: 1
+        }, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(categories.value, category => {
+          return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
+            key: category.id,
+            class: "ai-processing-category"
+          }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", AIProcessingSettingsvue_type_script_setup_true_lang_ts_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h3", AIProcessingSettingsvue_type_script_setup_true_lang_ts_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["unref"])(external_CoreHome_["translate"])(labels[category.id].name)), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["unref"])(external_CoreHome_["translate"])(labels[category.id].description)), 1), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(category.usedBy, feature => {
+            return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", {
+              key: feature.name,
+              class: "ai-processing-category-used-by"
+            }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["unref"])(external_CoreHome_["translate"])('AIProviders_UsedBy')) + " " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(feature.name) + " ", 1), feature.disclosureUrl ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], {
+              key: 0
+            }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" · "), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+              href: feature.disclosureUrl,
+              rel: "noreferrer noopener",
+              target: "_blank"
+            }, [AIProcessingSettingsvue_type_script_setup_true_lang_ts_hoisted_5, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["unref"])(external_CoreHome_["translate"])('AIProviders_DataProcessingDetails')), 1)], 8, AIProcessingSettingsvue_type_script_setup_true_lang_ts_hoisted_4)], 64)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]);
+          }), 128))]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", AIProcessingSettingsvue_type_script_setup_true_lang_ts_hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+            "onUpdate:modelValue": $event => enabled.value[category.id] = $event,
+            "aria-label": Object(external_commonjs_vue_commonjs2_vue_root_Vue_["unref"])(external_CoreHome_["translate"])(labels[category.id].name),
+            type: "checkbox"
+          }, null, 8, AIProcessingSettingsvue_type_script_setup_true_lang_ts_hoisted_7), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelCheckbox"], enabled.value[category.id]]]), AIProcessingSettingsvue_type_script_setup_true_lang_ts_hoisted_8])])]);
+        }), 128)), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", AIProcessingSettingsvue_type_script_setup_true_lang_ts_hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["unref"])(external_CorePluginsAdmin_["SaveButton"]), {
+          value: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["unref"])(external_CoreHome_["translate"])('AIProviders_SaveSettings'),
+          disabled: !Object(external_commonjs_vue_commonjs2_vue_root_Vue_["unref"])(hasUnsavedChanges),
+          saving: isSaving.value,
+          onConfirm: _cache[0] || (_cache[0] = $event => save())
+        }, null, 8, ["value", "disabled", "saving"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["unref"])(hasUnsavedChanges) ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", AIProcessingSettingsvue_type_script_setup_true_lang_ts_hoisted_10, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["unref"])(external_CoreHome_["translate"])('AIProviders_UnsavedChanges')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])], 64))]),
+        _: 1
+      }, 8, ["content-title"]);
+    };
+  }
+}));
+// CONCATENATED MODULE: ./plugins/AIProviders/vue/src/AIProcessingSettings.vue?vue&type=script&setup=true&lang=ts
+ 
+// EXTERNAL MODULE: ./plugins/AIProviders/vue/src/AIProcessingSettings.vue?vue&type=style&index=0&id=d647037a&lang=less
+var AIProcessingSettingsvue_type_style_index_0_id_d647037a_lang_less = __webpack_require__("f4ac");
+
+// CONCATENATED MODULE: ./plugins/AIProviders/vue/src/AIProcessingSettings.vue
+
+
+
+
+
+/* harmony default export */ var AIProcessingSettings = (AIProcessingSettingsvue_type_script_setup_true_lang_ts);
 // CONCATENATED MODULE: ./plugins/AIProviders/vue/src/index.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -798,6 +955,7 @@ var ManageAIProvidersvue_type_style_index_0_id_464239d2_lang_less = __webpack_re
  * @link    https://matomo.org
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js
 

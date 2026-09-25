@@ -7,6 +7,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ## Matomo 5.14.1
 
 ### New APIs
+* The AIProviders plugin now lets a super user choose which categories of data AI features may send to an AI provider. Plugins check `Piwik\Plugins\AIProviders\Model\AIProcessingSettings::isEnabled()` before sending data, can list their features on the settings page through the `AIProviders.addAIProcessingFeatures` event, and can react to changes through the `AIProviders.aiProcessingSettingsChanged` event. See `AIProcessingSettings` for the available categories.
 * `Piwik\Http::sendHttpRequest()` and `Piwik\Http::sendHttpRequestBy()` extended info (`$getExtendedInfo = true`)
   now includes an `effectiveUrl` entry: the final URL after following redirects. Best effort on the `fopen`
   transport, which follows redirects internally.

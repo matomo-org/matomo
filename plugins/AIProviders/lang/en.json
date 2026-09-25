@@ -1,5 +1,11 @@
 {
     "AIProviders": {
+        "AIProcessing": "AI processing",
+        "AIProcessingHelp": "Both categories are off by default and apply to all websites. AI features only send data from the categories you allow here.",
+        "AIProcessingIntro": "You have the choice to opt in or opt out of using AI-powered tools and features in Matomo. Your data will not be used for model training by our AI service providers. Please remember to avoid sharing any sensitive information in your input data.",
+        "AIProcessingSaveSuccess": "AI processing settings saved.",
+        "AggregatedAnalyticsData": "Aggregated analytics data",
+        "AggregatedAnalyticsDataDescription": "Give the AI tools and features access to your aggregated data from reports including related information such as segments, goals, sites, dimensions. For example visits per page per country per campaign. Raw visit data is not included.",
         "AnthropicDefaultModelDescription": "Default model: claude-haiku-4-5",
         "ApiKey": "API key",
         "ApiKeyAlreadyConfiguredPlaceholder": "Enter a new key to replace the key.",
@@ -11,6 +17,7 @@
         "ClickTestConnectionToShowAvailableModels": "Click test connection to show available models.",
         "ConfigurationIntro": "Configure AI providers and default AI behavior in Matomo.",
         "CustomProviderDescription": "Use your own OpenAI compatible endpoint.",
+        "DataProcessingDetails": "Data processing details",
         "DefaultBadge": "Default",
         "DefaultCapabilityLevel": "Default capability level",
         "DefaultCapabilityLevelHelp": "Choose the default capability Matomo may use. Individual features can override this.",
@@ -27,6 +34,7 @@
         "ErrorInvalidAwsRegion": "The AWS region for %s is invalid.",
         "ErrorInvalidEndpointUrl": "The endpoint URL for %s is invalid.",
         "ErrorProviderNotConfigured": "AI provider \"%s\" is not configured.",
+        "ErrorUnknownAIProcessingCategory": "Unknown AI processing data category \"%s\".",
         "ErrorUnknownCapabilityLevel": "Unknown AI model capability level \"%s\".",
         "ErrorUnknownProvider": "Unknown AI provider \"%s\".",
         "GoogleDefaultModelDescription": "Default model: gemini-3.1-flash-lite",
@@ -36,10 +44,13 @@
         "MenuTitle": "AI Providers",
         "Model": "Model",
         "NoDefaultProviderWarning": "No AI provider can be set as the default yet. Connect a provider first.",
+        "NonAnalyticsData": "Non-analytics data",
+        "NonAnalyticsDataDescription": "Give AI tools access to your non-report data including goals, segments and sites. User data and aggregated report data is not included.",
         "OpenAIDefaultModelDescription": "Default model: gpt-5.4-mini",
         "PluginDescription": "Configure AI provider connections and default model settings used by Matomo AI features.",
         "RefreshModels": "Refresh models",
         "RequestFailed": "AI provider request failed: %s",
+        "SaveSettings": "Save settings",
         "SettingsSaveSuccess": "AI provider settings saved.",
         "StatusConnected": "API key saved",
         "StatusNotConnected": "Not connected",
@@ -49,6 +60,7 @@
         "ThinkingCapability": "Thinking",
         "ThinkingCapabilityDescription": "Better reasoning for complex tasks.",
         "UnexpectedError": "Unexpected error. Please check the Matomo server logs.",
-        "UnsavedChanges": "You have unsaved changes"
+        "UnsavedChanges": "You have unsaved changes",
+        "UsedBy": "Used by"
     }
 }
