@@ -142,6 +142,23 @@ class Timetable
         return $oneHourFromNow;
     }
 
+    public function rescheduleTaskAndRunNow(Task $task)
+    {
+        // save() writes the whole array back, and this one is called from a web request that may
+        // have held its copy since the Scheduler was resolved. Without re-reading, a task another
+        // process rescheduled in between would be restored to its previous, already-past time and
+        // would run a second time.
+        $this->readFromOption();
+
+        $now = Date::factory('now');
+
+        // update the scheduled time
+        $this->timetable[$task->getName()] = $now->getTimestamp();
+        $this->save();
+
+        return $now;
+    }
+
     public function save()
     {
         Option::set(self::TIMETABLE_OPTION_STRING, serialize($this->timetable));

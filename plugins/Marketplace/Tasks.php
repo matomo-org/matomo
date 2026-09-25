@@ -11,6 +11,8 @@ namespace Piwik\Plugins\Marketplace;
 
 use Exception;
 use Piwik\Log\LoggerInterface;
+use Piwik\Scheduler\Schedule\Schedule;
+use Piwik\Scheduler\Task;
 
 class Tasks extends \Piwik\Plugin\Tasks
 {
@@ -43,6 +45,20 @@ class Tasks extends \Piwik\Plugin\Tasks
         // reaches the origin rather than a cache.
         $this->hourly('warmCacheEntries', null, self::LOWEST_PRIORITY);
         $this->daily('sendNotificationIfUpdatesAvailable', null, self::LOWEST_PRIORITY);
+    }
+
+    /**
+     * The same task {@link schedule()} registers, for callers that want it marked due ahead of its
+     * next hourly run. TasksTest pins the two against each other, because a task named here that
+     * schedule() never registered would be marked due and then never run.
+     */
+    public static function getWarmCacheEntriesTask(): Task
+    {
+        // built from the class name rather than an instance, so naming the task costs nothing:
+        // constructing this class pulls in the Marketplace API client, and CoreUpdater.update.end
+        // fires from inside Updater::updateComponents(), where building that graph changes what
+        // other plugins see - it moved PrivacyManager's anonymisation settings in NoVisitTest.
+        return new Task(self::class, 'warmCacheEntries', null, Schedule::factory('hourly'), self::LOWEST_PRIORITY);
     }
 
     public function clearAllCacheEntries()
