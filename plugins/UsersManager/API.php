@@ -1124,6 +1124,10 @@ class API extends \Piwik\Plugin\API
         $this->checkUserIsNotAnonymous($userLogin);
         $this->checkUserExist($userLogin);
 
+        // Stamp the invalidation before deleting the rows: SessionAuth rejects any session that
+        // started earlier, so a request that recreates its deleted row at shutdown still cannot
+        // authenticate the old cookie afterwards.
+        $this->model->invalidateUserSessions($userLogin);
         $this->model->deleteUserSessions($userLogin);
     }
 

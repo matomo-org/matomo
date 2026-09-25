@@ -150,6 +150,11 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   control inside a Materialize modal can set `data-matomo-modal-escapee` to that modal's
   `data-matomo-modal-id` to be exempted from its focus trap, which otherwise prevents it from holding focus. The
   exemption applies only to the modal named, so an element belonging to one modal cannot hold focus over another.
+* `UsersManager.logoutUser` ("Sign out of all sessions") now records a per-user invalidation
+  timestamp on the `user` table (new column `ts_sessions_invalidated`) in addition to deleting the
+  session rows. `Piwik\Session\SessionAuth` rejects any session that started before that timestamp,
+  so a request in flight during the sign-out can no longer resurrect its deleted session row at
+  shutdown and keep the old cookie authenticated. Sessions opened after the sign-out are unaffected.
 
 ## Matomo 5.14.1
 
