@@ -77,7 +77,7 @@
                 lastTimestamp = -1,
                 lastVisits = [],
                 visitSymbols,
-                tokenAuth = '' + config.reqParams.token_auth,
+                tokenAuth = config.reqParams.token_auth ? String(config.reqParams.token_auth) : '',
                 oldest,
                 isFullscreenWidget = $('.widget').parent().get(0) == document.body,
                 now,

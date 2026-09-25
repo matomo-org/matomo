@@ -301,7 +301,7 @@ abstract class Controller
      */
     protected function renderTemplateAs($template, array $variables = array(), $viewType = null)
     {
-        if (false === strpos($template, '@') || false === strpos($template, '/')) {
+        if (!str_contains($template, '@') || !str_contains($template, '/')) {
             $template = '@' . $this->pluginName . '/' . $template;
         }
 

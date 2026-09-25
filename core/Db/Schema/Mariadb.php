@@ -61,7 +61,7 @@ class Mariadb extends Mysql
     public function hasReachedEOL(): bool
     {
         $currentVersion = $this->getVersion();
-        $isEnterprise = false !== strpos($currentVersion, 'enterprise');
+        $isEnterprise = str_contains($currentVersion, 'enterprise');
 
         // End of security update for certain MariaDb versions as of https://mariadb.org/about/#maintenance-policy
 

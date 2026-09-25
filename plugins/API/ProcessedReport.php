@@ -651,7 +651,7 @@ class ProcessedReport
      * Adds column translations, metric types and metric documentation for the percent-of-total
      * metrics the DataTablePostProcessor registered on the table (eg,
      * 'nb_visits_percent_of_total'), so their values are kept in the processed report data
-     * and described in its metadata.
+     * and described in its metadata. Each one is placed directly after the metric it belongs to.
      *
      * @param DataTable|DataTable\Map $dataTable
      * @param array $columns
@@ -662,19 +662,36 @@ class ProcessedReport
     {
         $tables = $dataTable instanceof DataTable\Map ? $dataTable->getDataTables() : [$dataTable];
 
+        $percentMetrics = [];
+
         foreach ($tables as $table) {
             $extraProcessedMetrics = $table->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME) ?: [];
             foreach ($extraProcessedMetrics as $metric) {
                 if ($metric instanceof PercentOfReportTotal) {
-                    $columns[$metric->getName()] = $metric->getTranslatedName();
-                    $reportMetadata['metricTypes'][$metric->getName()] = $metric->getSemanticType();
-
-                    // hideMetricsDoc=1 removes the documentation from the metadata entirely,
-                    // recreating the key here would undo that
-                    if (isset($reportMetadata['metricsDocumentation'])) {
-                        $reportMetadata['metricsDocumentation'][$metric->getName()] = $metric->getDocumentation();
-                    }
+                    $percentMetrics[$metric->getName()] = $metric;
                 }
+            }
+        }
+
+        $percentColumns = [];
+        foreach ($percentMetrics as $name => $metric) {
+            $percentColumns[$name] = $metric->getTranslatedName();
+        }
+
+        $columns = self::insertPercentOfTotalColumns($columns, $percentColumns);
+
+        // only describe the columns that made it into the report
+        foreach ($percentMetrics as $name => $metric) {
+            if (!isset($columns[$name])) {
+                continue;
+            }
+
+            $reportMetadata['metricTypes'][$name] = $metric->getSemanticType();
+
+            // hideMetricsDoc=1 removes the documentation from the metadata entirely,
+            // recreating the key here would undo that
+            if (isset($reportMetadata['metricsDocumentation'])) {
+                $reportMetadata['metricsDocumentation'][$name] = $metric->getDocumentation();
             }
         }
 
@@ -682,28 +699,73 @@ class ProcessedReport
     }
 
     /**
+     * Inserts each percent of the report total column directly after the metric it belongs to,
+     * leaving the position of every other column untouched. Columns whose metric is not part of
+     * $columns are left out: a percentage on its own, without the value it is computed from,
+     * only makes the table wider.
+     *
+     * @param array $columns column name => value
+     * @param array $percentColumns percent of total column name => value
+     * @return array
+     */
+    private static function insertPercentOfTotalColumns(array $columns, array $percentColumns): array
+    {
+        if (empty($percentColumns)) {
+            return $columns;
+        }
+
+        $withPercentages = [];
+
+        foreach ($columns as $columnName => $value) {
+            if (isset($percentColumns[$columnName])) {
+                continue; // already in place from an earlier call
+            }
+
+            $withPercentages[$columnName] = $value;
+
+            $percentColumnName = $columnName . PercentOfReportTotal::COLUMN_NAME_SUFFIX;
+            if (isset($percentColumns[$percentColumnName])) {
+                $withPercentages[$percentColumnName] = $percentColumns[$percentColumnName];
+            }
+        }
+
+        return $withPercentages;
+    }
+
+    /**
      * Removes metrics from the list of columns and the report meta data if they are marked empty
-     * in the data table meta data.
+     * in the data table meta data, then drops the percent of the report total columns left
+     * without the metric they belong to.
      */
     private function removeEmptyColumns(&$columns, &$reportMetadata, $dataTable)
     {
         $emptyColumns = $dataTable->getMetadata(DataTable::EMPTY_COLUMNS_METADATA_NAME);
 
-        if (!is_array($emptyColumns)) {
-            return;
+        if (is_array($emptyColumns)) {
+            $columnsToRemove = $this->getColumnsToRemove();
+            $columnsToKeep   = $this->getColumnsToKeep();
+
+            $columns = $this->hideShowMetricsWithParams($columns, $columnsToRemove, $columnsToKeep, $emptyColumns);
+
+            if (isset($reportMetadata['metrics'])) {
+                $reportMetadata['metrics'] = $this->hideShowMetricsWithParams($reportMetadata['metrics'], $columnsToRemove, $columnsToKeep, $emptyColumns);
+            }
+
+            if (isset($reportMetadata['metricsDocumentation'])) {
+                $reportMetadata['metricsDocumentation'] = $this->hideShowMetricsWithParams($reportMetadata['metricsDocumentation'], $columnsToRemove, $columnsToKeep, $emptyColumns);
+            }
         }
 
-        $columnsToRemove = $this->getColumnsToRemove();
-        $columnsToKeep   = $this->getColumnsToKeep();
+        foreach (array_keys($columns) as $columnName) {
+            $metricName = PercentOfReportTotal::getMetricNameFromColumnName($columnName);
 
-        $columns = $this->hideShowMetricsWithParams($columns, $columnsToRemove, $columnsToKeep, $emptyColumns);
+            if (null === $metricName || isset($columns[$metricName])) {
+                continue;
+            }
 
-        if (isset($reportMetadata['metrics'])) {
-            $reportMetadata['metrics'] = $this->hideShowMetricsWithParams($reportMetadata['metrics'], $columnsToRemove, $columnsToKeep, $emptyColumns);
-        }
-
-        if (isset($reportMetadata['metricsDocumentation'])) {
-            $reportMetadata['metricsDocumentation'] = $this->hideShowMetricsWithParams($reportMetadata['metricsDocumentation'], $columnsToRemove, $columnsToKeep, $emptyColumns);
+            unset($columns[$columnName]);
+            unset($reportMetadata['metricTypes'][$columnName]);
+            unset($reportMetadata['metricsDocumentation'][$columnName]);
         }
     }
 
@@ -918,7 +980,7 @@ class ProcessedReport
     private function calculateTotals($simpleTotals, $totals)
     {
         foreach ($simpleTotals as $metric => $value) {
-            if (0 === strpos($metric, 'avg_') || '_rate' === substr($metric, -5) || '_evolution' === substr($metric, -10)) {
+            if (str_starts_with($metric, 'avg_') || str_ends_with($metric, '_rate') || str_ends_with($metric, '_evolution')) {
                 continue; // skip average, rate and evolution metrics
             }
 
@@ -936,9 +998,9 @@ class ProcessedReport
 
             if (!array_key_exists($metric, $totals)) {
                 $totals[$metric] = $value;
-            } elseif (0 === strpos($metric, 'min_')) {
+            } elseif (str_starts_with($metric, 'min_')) {
                 $totals[$metric] = min($totals[$metric], $value);
-            } elseif (0 === strpos($metric, 'max_')) {
+            } elseif (str_starts_with($metric, 'max_')) {
                 $totals[$metric] = max($totals[$metric], $value);
             } elseif ($value) {
                 $totals[$metric] += $value;
@@ -1019,33 +1081,33 @@ class ProcessedReport
             return $value;
         }
 
-        if (strpos($columnName, '_change') !== false) { // comparison change columns are formatted by DataComparisonFilter
+        if (str_contains($columnName, '_change')) { // comparison change columns are formatted by DataComparisonFilter
             return $value == '0' ? '+0%' : $value;
         }
 
         // percent-of-total metrics are quotients, this must be checked before the money/time
         // formatting below so eg 'revenue_percent_of_total' is not formatted as money
-        if (strpos($columnName, PercentOfReportTotal::COLUMN_NAME_SUFFIX) !== false) {
+        if (str_contains($columnName, PercentOfReportTotal::COLUMN_NAME_SUFFIX)) {
             return $formatter->getPrettyPercentFromQuotient($value);
         }
 
         // Display time in human readable
-        if (in_array($columnName, self::PERFORMANCE_METRICS_TO_FORMAT) || strpos($columnName, 'time_generation') !== false) {
+        if (in_array($columnName, self::PERFORMANCE_METRICS_TO_FORMAT) || str_contains($columnName, 'time_generation')) {
             return $formatter->getPrettyTimeFromSeconds($value, true);
         }
-        if (strpos($columnName, 'time') !== false) {
+        if (str_contains($columnName, 'time')) {
             return $formatter->getPrettyTimeFromSeconds($value);
         }
 
         // Add revenue symbol to revenues
-        $isMoneyMetric = strpos($columnName, 'revenue') !== false || strpos($columnName, 'price') !== false;
-        if ($isMoneyMetric && strpos($columnName, 'evolution') === false) {
+        $isMoneyMetric = str_contains($columnName, 'revenue') || str_contains($columnName, 'price');
+        if ($isMoneyMetric && !str_contains($columnName, 'evolution')) {
             return $formatter->getPrettyMoney($value, $idSite);
         }
 
         // Add % symbol to rates
-        if (strpos($columnName, '_rate') !== false) {
-            if (strpos($value, "%") === false) {
+        if (str_contains($columnName, '_rate')) {
+            if (!str_contains($value, "%")) {
                 return (100 * $value) . "%";
             }
         }

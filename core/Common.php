@@ -111,7 +111,7 @@ class Common
 
         if (
             empty($prefixTable)
-            || strpos($table, $prefixTable) !== 0
+            || !str_starts_with($table, $prefixTable)
         ) {
             return $table;
         }
@@ -165,7 +165,7 @@ class Common
     {
         $sapiType = php_sapi_name();
 
-        return substr($sapiType, 0, 3) === 'cgi';
+        return str_starts_with($sapiType, 'cgi');
     }
 
     /**
@@ -1032,7 +1032,7 @@ class Common
         ];
 
         foreach ($return as &$list) {
-            if (strpos($list, ',') !== false) {
+            if (str_contains($list, ',')) {
                 $list = explode(',', $list);
             } else {
                 $list = array($list);
@@ -1116,7 +1116,7 @@ class Common
     public static function sendHeader($header, $replace = true)
     {
         if (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE) {
-            if (strpos($header, ':') !== false) {
+            if (str_contains($header, ':')) {
                 [$headerName, $headerValue] = explode(':', $header, 2);
             } else {
                 $headerName = $header;
@@ -1202,7 +1202,7 @@ class Common
             throw new Exception('Response code not supported: ' . $code);
         }
 
-        if (strpos(PHP_SAPI, '-fcgi') === false) {
+        if (!str_contains(PHP_SAPI, '-fcgi')) {
             $key = 'HTTP/1.1';
 
             if (

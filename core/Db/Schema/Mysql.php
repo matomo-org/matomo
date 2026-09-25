@@ -86,6 +86,7 @@ class Mysql implements SchemaInterface
                           date_created DATETIME NOT NULL,
                           date_expired DATETIME NULL,
                           secure_only TINYINT(2) unsigned NOT NULL DEFAULT '0',
+                          access_level VARCHAR(50) NULL,
                           ts_rotation_notified DATETIME NULL,
                           ts_expiration_warning_notified DATETIME NULL,
                             PRIMARY KEY(idusertokenauth),
@@ -808,7 +809,7 @@ class Mysql implements SchemaInterface
 
         // Note: This check for MariaDb is here on purpose, so it's working correctly for people
         // having MySQL still configured, when using MariaDb
-        if (strpos($version, "mariadb") === false) {
+        if (!str_contains($version, "mariadb")) {
             return false;
         }
 
