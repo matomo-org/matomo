@@ -83,6 +83,7 @@
         "Themes": "Themes",
         "ThemesDescription": "Themes can change the appearance of Matomo user interface, and provide a completely new visual experience to enjoy your analytics reports.",
         "ThemesManagement": "Manage Themes",
+        "TypeWordToConfirm": "Please type %1$s to acknowledge that this data will be permanently deleted.",
         "UninstallConfirm": "You are about to uninstall a plugin %s. The plugin and all the data it has collected will be completely removed from your platform and it won't be recoverable. Are you sure you want to do this?",
         "Version": "Version",
         "ViewAllMarketplacePlugins": "View all Marketplace plugins",
