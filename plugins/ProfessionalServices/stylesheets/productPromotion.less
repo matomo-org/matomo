@@ -4,19 +4,16 @@
 // lists match those substrings in class names and asset paths alike, and a promotion
 // hidden by a filter list would look like a rendering bug.
 
-// The panel's own inset on the side away from the artwork. The tablet container is drawn
-// with 24px instead, so that layout overrides it. Declared at file scope rather than inside
-// the block, because the `--noFigure` modifier below needs them too and it cannot be nested
-// inside the block without becoming a descendant selector.
-@_paddingRight: 32px;
-@_paddingRightTablet: 24px;
-
 .productPromotion {
   @_gap: 20px;
   // The inset of the stacked panel, once there is no artwork to sit flush against an
   // edge. The design uses the same value as the gap between the copy and the button,
   // which the flex `gap` above already provides.
   @_padding: @_gap;
+  // The panel's own inset on the side away from the artwork. The tablet layout is drawn
+  // with 24px instead, so that layout overrides it.
+  @_paddingRight: 32px;
+  @_paddingRightTablet: 24px;
   @_marginBottom: 16px;
   // Lines the row up with the dashboard's widget columns, which Materialize insets
   // by the same amount.
@@ -325,31 +322,31 @@
       width: 100%;
     }
   }
-}
 
-// Set by the directive when the artwork cannot be loaded. The banner has to stay readable
-// and usable without it, rather than reserving the space for a panel that will never
-// arrive. Written at the top level and in full: the modifier goes on the block's own
-// element, so nesting it inside `.productPromotion` would make it a descendant.
-.productPromotion--noFigure {
-  // The artwork was the row's left inset - the row itself only pads the right - so without
-  // it the copy would sit against the border. Matching the right padding keeps the banner
-  // symmetrical instead.
-  padding-left: @_paddingRight;
+  // Set by the directive when the artwork cannot be loaded. The banner has to stay readable
+  // and usable without it, rather than reserving the space for a panel that will never
+  // arrive. Joined to the block with `&`, not nested under it: the modifier goes on the
+  // block's own element, so a plain nested selector would make it a descendant.
+  &.productPromotion--noFigure {
+    // The artwork was the row's left inset - the row itself only pads the right - so
+    // without it the copy would sit against the border. Matching the right padding keeps
+    // the banner symmetrical instead.
+    padding-left: @_paddingRight;
 
-  .productPromotion__figure {
-    display: none;
-  }
+    .productPromotion__figure {
+      display: none;
+    }
 
-  @media (max-width: 992px) {
-    // The tablet layout is a grid, so the artwork's column has to go as well as the
-    // artwork, or the copy stays in the second track.
-    grid-template-columns: 1fr;
-    padding-left: @_paddingRightTablet;
+    @media (max-width: 992px) {
+      // The tablet layout is a grid, so the artwork's column has to go as well as the
+      // artwork, or the copy stays in the second track.
+      grid-template-columns: 1fr;
+      padding-left: @_paddingRightTablet;
 
-    .productPromotion__content,
-    .productPromotion__cta {
-      grid-column: 1;
+      .productPromotion__content,
+      .productPromotion__cta {
+        grid-column: 1;
+      }
     }
   }
 }

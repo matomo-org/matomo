@@ -130,7 +130,7 @@ class ProfessionalServices extends \Piwik\Plugin
 
     public function deletePromotionTriggerCache($idSite)
     {
-        DailyTriggerCache::deleteForSite((int) $idSite);
+        StaticContainer::get(DailyTriggerCache::class)->deleteForSite((int) $idSite);
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)

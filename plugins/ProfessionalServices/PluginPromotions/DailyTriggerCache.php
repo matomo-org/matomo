@@ -29,6 +29,13 @@ class DailyTriggerCache
 {
     public const OPTION_PREFIX = 'ProfessionalServices.PromotionTrigger.';
 
+    /**
+     * Every trigger's entry for a website, by website, read once per website per request.
+     *
+     * @var array<int, array<string, array<string, mixed>>>
+     */
+    private array $loaded = [];
+
     public function getOrEvaluate(string $triggerName, int $idSite, callable $evaluate): TriggerResult
     {
         $today = $this->getToday($idSite);
@@ -63,17 +70,28 @@ class DailyTriggerCache
     }
 
     /**
-     * Removes every cached trigger outcome for a website. The site id is the last part of
-     * the option name, so a single pattern covers all triggers.
+     * Removes every cached trigger outcome for a website. The site id leads the option
+     * name, so a single pattern covers all triggers and matches on the name's literal part.
+     *
+     * An instance method rather than a static one, so that it can drop what it deletes from
+     * the batch read below: a cache that remembers rows it has just deleted is worse than
+     * no cache at all.
      */
-    public static function deleteForSite(int $idSite): void
+    public function deleteForSite(int $idSite): void
     {
-        Option::deleteLike(self::OPTION_PREFIX . '%.' . $idSite);
+        Option::deleteLike(self::OPTION_PREFIX . $idSite . '.%');
+
+        unset($this->loaded[$idSite]);
     }
 
+    /**
+     * The website comes before the trigger, so that a pattern for one website is a literal
+     * prefix. `option_name` is the table's primary key, which makes {@see loadForSite()} an
+     * index range over this website's dozen entries rather than over every website's.
+     */
     public static function getOptionName(string $triggerName, int $idSite): string
     {
-        return self::OPTION_PREFIX . $triggerName . '.' . $idSite;
+        return self::OPTION_PREFIX . $idSite . '.' . $triggerName;
     }
 
     /**
@@ -81,21 +99,50 @@ class DailyTriggerCache
      */
     private function load(string $triggerName, int $idSite): array
     {
-        $value = Option::get(self::getOptionName($triggerName, $idSite));
-        if (empty($value)) {
-            return [];
+        if (!array_key_exists($idSite, $this->loaded)) {
+            $this->loaded[$idSite] = $this->loadForSite($idSite);
         }
 
-        $decoded = json_decode($value, true);
+        return $this->loaded[$idSite][self::getOptionName($triggerName, $idSite)] ?? [];
+    }
 
-        return is_array($decoded) ? $decoded : [];
+    /**
+     * Every trigger's entry for one website, in one query.
+     *
+     * Twelve triggers are cached here, and a dashboard walks the whole ladder whenever
+     * none of them fires - which is the ordinary case. `Option::get()` issues a query per
+     * name it has not already read, so reading them one at a time was twelve round trips
+     * for what is one set of rows under a shared prefix.
+     *
+     * @return array<string, array<string, mixed>>
+     */
+    private function loadForSite(int $idSite): array
+    {
+        $entries = [];
+
+        foreach (Option::getLike(self::OPTION_PREFIX . $idSite . '.%') as $name => $value) {
+            $decoded = json_decode((string) $value, true);
+
+            $entries[$name] = is_array($decoded) ? $decoded : [];
+        }
+
+        return $entries;
     }
 
     private function store(string $triggerName, int $idSite, string $today, TriggerResult $result): void
     {
         $value = array_merge(['evaluationDate' => $today], $result->toArray());
+        $name = self::getOptionName($triggerName, $idSite);
 
-        Option::set(self::getOptionName($triggerName, $idSite), json_encode($value), $autoload = 0);
+        Option::set($name, json_encode($value), $autoload = 0);
+
+        // The website's entries are read once and then answered from memory, so an entry
+        // written afterwards has to join them. Without this, a second ask for the same
+        // trigger in one request would evaluate it again, which is the cost this cache
+        // exists to avoid.
+        if (array_key_exists($idSite, $this->loaded)) {
+            $this->loaded[$idSite][$name] = $value;
+        }
     }
 
     /**

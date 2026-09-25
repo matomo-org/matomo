@@ -180,11 +180,50 @@ class DailyTriggerCacheTest extends IntegrationTestCase
         $this->cache->getOrEvaluate('conversion_rate_funnels', 1, $this->triggering());
         $this->cache->getOrEvaluate('bounce_rate', 2, $this->triggering());
 
-        DailyTriggerCache::deleteForSite(1);
+        $this->cache->deleteForSite(1);
 
         $this->assertFalse(Option::get(DailyTriggerCache::getOptionName('bounce_rate', 1)));
         $this->assertFalse(Option::get(DailyTriggerCache::getOptionName('conversion_rate_funnels', 1)));
         $this->assertNotFalse(Option::get(DailyTriggerCache::getOptionName('bounce_rate', 2)));
+    }
+
+    /**
+     * A website's entries are read in one query and then answered from memory, so deleting
+     * them has to empty that memory too. Otherwise the website would keep being handed
+     * outcomes that no longer exist for the rest of the request.
+     */
+    public function testDeletingASiteAlsoForgetsWhatWasReadForIt(): void
+    {
+        $this->cache->getOrEvaluate('bounce_rate', 1, $this->triggering());
+        $this->cache->getOrEvaluate('bounce_rate', 2, $this->triggering());
+
+        $this->cache->deleteForSite(1);
+
+        $this->assertSame(2, $this->evaluations);
+
+        // Gone, so it has to be worked out again.
+        $this->cache->getOrEvaluate('bounce_rate', 1, $this->triggering());
+        $this->assertSame(3, $this->evaluations);
+
+        // The other website was not touched, and is still answered from what was read.
+        $this->cache->getOrEvaluate('bounce_rate', 2, $this->triggering());
+        $this->assertSame(3, $this->evaluations);
+    }
+
+    /**
+     * Every trigger's entry for a website is fetched at once, so the pattern that fetches
+     * them has to match the names that are written - and only those. A neighbouring site id
+     * sharing a leading digit is the way that goes wrong.
+     */
+    public function testOneWebsitesEntriesAreNotReadForAnother(): void
+    {
+        $this->cache->getOrEvaluate('bounce_rate', 1, $this->triggering());
+        $this->cache->getOrEvaluate('bounce_rate', 12, $this->notTriggering());
+
+        $this->assertSame(2, $this->evaluations);
+        $this->assertTrue($this->cache->getOrEvaluate('bounce_rate', 1, $this->triggering())->isTriggered());
+        $this->assertFalse($this->cache->getOrEvaluate('bounce_rate', 12, $this->triggering())->isTriggered());
+        $this->assertSame(2, $this->evaluations);
     }
 
     private function triggering(): callable
