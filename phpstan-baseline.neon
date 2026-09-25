@@ -1047,7 +1047,7 @@ parameters:
 		-
 			message: '#^Right side of && is always true\.$#'
 			identifier: booleanAnd.rightAlwaysTrue
-			count: 2
+			count: 1
 			path: core/Plugin/Controller.php
 
 		-
