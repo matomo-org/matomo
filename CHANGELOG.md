@@ -10,6 +10,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * `Piwik\Http::sendHttpRequest()` and `Piwik\Http::sendHttpRequestBy()` extended info (`$getExtendedInfo = true`)
   now includes an `effectiveUrl` entry: the final URL after following redirects. Best effort on the `fopen`
   transport, which follows redirects internally.
+* The new `PrivacyManager.compliancePolicySettingsUpdated` event announces the compliance policy settings a request has just changed, so an audit trail can record who changed what. It is posted by `PrivacyManager.setCompliancePolicySettings` and `PrivacyManager.enforceCompliancePolicySettings` once per call, and only when something actually changed: a request that fails, or that repeats the state a policy is already in, posts nothing. Its single array parameter holds the policy id, the `idSite` the policy was changed for (`null` for the instance wide state), whether every toggleable setting of the policy is enforced afterwards, and the settings whose enforcement state or compliance status changed. It deliberately carries no request parameters, and therefore no password confirmation or authentication token.
 
 ## Matomo 5.14.0
 

@@ -232,6 +232,13 @@ class PolicyManager
                 throw new Exception(sprintf('Invalid enforcement value for the setting "%s"', $settingId));
             }
 
+            // a setting pinned in config.ini.php, or one the current user may not change, is
+            // only refused once it is written. Rejecting it here as well keeps the write
+            // all-or-nothing, so a later setting cannot fail after earlier ones went live
+            if (!$toggleableSettingsById[$settingId]::isEnforcementWritable($idSite)) {
+                throw new Exception(sprintf('The enforcement state of the setting "%s" cannot be changed', $settingId));
+            }
+
             $normalised[$settingId] = $enforced;
         }
 
