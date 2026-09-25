@@ -1,6 +1,7 @@
 .home {
-    // Alerts are a <p> that brings its own padding; :where() adds no specificity, so every other paragraph is unchanged.
-    p:where(:not(.alert)) {
+    // Alerts are a <p> that brings its own padding, and so is the promotion banner's copy;
+    // :where() adds no specificity, so every other paragraph is unchanged.
+    p:where(:not(.alert, .productPromotion__text, .productPromotion__reason)) {
         padding-bottom: 1em;
         margin-right: 1em;
         margin-left: 1em;
