@@ -700,12 +700,10 @@ export default defineComponent({
 
       const promotable = this.promotable.length;
       // Widget controls leave too little of the line to share, so nothing comes out beside them
-      // until the fit is tuned more finely. A host carrying the hover hook overlays the controls
-      // on the title, where anything wider than the trigger would sit on the words for good, so
-      // promotion is off there too - but only where there is a title to cover, and read live,
-      // because a widget drops the hook as it is maximised.
+      // until the fit is tuned more finely. A host carrying the hover hook promotes nothing
+      // either: an embed keeps every action in its menu, whether or not it draws a title.
       if (!promotable || this.hasControls
-        || (this.showTitle && row.closest('.__reportHeader-onHover'))
+        || row.closest('.__reportHeader-onHover')
         || window.matchMedia(NO_PROMOTION_BREAKPOINT).matches) {
         this.demoteAll();
         return;
