@@ -73,6 +73,51 @@ class SessionAuthTest extends IntegrationTestCase
         $this->assertEmpty($_SESSION, 'Expected $_SESSION to be empty. Instead got: ' . var_export($_SESSION, true));
     }
 
+    public function testAuthenticateReturnsFailureIfSessionsInvalidatedAfterSessionCreated()
+    {
+        $this->initializeSession(self::TEST_OTHER_USER);
+
+        sleep(1);
+
+        // "Sign out of all sessions": stamps the invalidation timestamp for the user
+        UsersManagerAPI::getInstance()->logoutUser(self::TEST_OTHER_USER);
+
+        $result = $this->testInstance->authenticate();
+        $this->assertEquals(AuthResult::FAILURE, $result->getCode());
+    }
+
+    public function testAuthenticateRejectsAResurrectedSessionRowAfterSignOut()
+    {
+        // A request in flight during the sign-out recreates its session row at shutdown, so the row
+        // is present again afterwards. Authentication must still reject the old cookie.
+        $this->initializeSession(self::TEST_OTHER_USER);
+
+        sleep(1);
+
+        UsersManagerAPI::getInstance()->logoutUser(self::TEST_OTHER_USER);
+
+        // recreate the deleted row exactly as DbTable::write() would at request shutdown, through the
+        // same handler and config production uses
+        $handler = new DbTable(Session::getDbTableConfig());
+        $handler->write(session_id() ?: 'inflightSid', base64_encode(serialize($_SESSION)));
+
+        $result = $this->testInstance->authenticate();
+        $this->assertEquals(AuthResult::FAILURE, $result->getCode());
+    }
+
+    public function testAuthenticateReturnsSuccessForASessionStartedAfterSignOut()
+    {
+        // Signing out must not lock the user out of sessions they open afterwards.
+        UsersManagerAPI::getInstance()->logoutUser(self::TEST_OTHER_USER);
+
+        sleep(1);
+
+        $this->initializeSession(self::TEST_OTHER_USER);
+
+        $result = $this->testInstance->authenticate();
+        $this->assertEquals(AuthResult::SUCCESS, $result->getCode());
+    }
+
     public function testAuthenticateReturnsFailureIfUsersModelReturnsIncorrectUser()
     {
         $this->initializeSession(self::TEST_OTHER_USER);
