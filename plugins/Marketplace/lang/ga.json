@@ -98,6 +98,7 @@
         "PluginUploadDisabled": "Tá uasluchtú an bhreiseáin díchumasaithe i gcomhad cumraíochta. D'fhonn an ghné seo a chumasú, déan do chumraíocht a nuashonrú nó déan teagmháil le do riarthóir",
         "PluginVersionInfo": "%1$s ó%2$s",
         "PluginWebsite": "Suíomh Gréasáin an Bhreiseáin",
+        "PluginsCouldNotBeUpdated": "Níorbh fhéidir na breiseáin seo a leanas a nuashonrú: %1$s",
         "PriceFromPerPeriod": "Ó %1$s / %2$s",
         "RemoveLicenseKey": "Bain eochair cheadúnais",
         "RequestTrial": "Triail a iarraidh",

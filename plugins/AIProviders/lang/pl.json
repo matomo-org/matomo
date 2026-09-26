@@ -1,6 +1,23 @@
 {
     "AIProviders": {
+        "AnthropicDefaultModelDescription": "Domyślny model: claude-haiku-4-5",
+        "ApiKey": "klucz API",
+        "ApiKeyAlreadyConfiguredPlaceholder": "Wprowadź nowy klucz, aby zastąpić stary.",
+        "ApiKeyPlaceholder": "Podaj twój klucz API",
+        "BedrockDescription": "Miej dostęp do modeli AI poprzez AWS Bedrock.",
+        "BedrockEndpointPlaceholder": "np. eu-central-1",
+        "BedrockEndpointTitle": "Region AWS",
+        "ClickTestConnectionToShowAvailableModels": "Naciśnij test połączenia, aby pokazać dostępne modele.",
+        "ConfigurationIntro": "Skonfiguruj dostawców AI i domyślne zachowanie AI w Matomo.",
         "DefaultBadge": "Domyślne",
+        "DefaultProvider": "Domyślny dostawca",
+        "DefaultProviderHelp": "Podłącz dostawców i wybierz domyślnego dla Matomo.",
+        "DefaultsTitle": "Zmień ustawienia dostawcy i domyślne wartości.",
+        "Disconnect": "Rozłączono",
+        "DisconnectSuccess": "Rozłączono z dostawcą AI.",
+        "Disconnecting": "Rozłączanie…",
+        "EndpointUrl": "Bazowe URL API",
+        "EndpointUrlPlaceholder": "Wprowadź bazowe URL",
         "Model": "Model",
         "TestingConnection": "Testowanie…"
     }

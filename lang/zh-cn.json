@@ -100,7 +100,6 @@
         "ColumnPageGenerationTime": "页面生成时间",
         "ColumnPageviews": "页面浏览",
         "ColumnPageviewsDocumentation": "页面被访问的次数。",
-        "ColumnPercentOfReportTotal": "%1$s（占总数%%）",
         "ColumnPercentOfReportTotalDocumentation": "此行占报告总 %1$s 的百分比。",
         "ColumnPercentageVisits": "%% 访问",
         "ColumnPercentageVisitsDocumentation": "总访问次数的百分比。",

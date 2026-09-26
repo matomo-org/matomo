@@ -100,7 +100,6 @@
         "ColumnPageGenerationTime": "Waktu pembangkitan halaman",
         "ColumnPageviews": "Tampilan Halaman",
         "ColumnPageviewsDocumentation": "Jumlah kunjungan di halaman ini.",
-        "ColumnPercentOfReportTotal": "%1$s (%% dari total)",
         "ColumnPercentOfReportTotalDocumentation": "Persentase dari total %1$s laporan yang diwakili oleh baris ini.",
         "ColumnPercentageVisits": "%% Kunjungan",
         "ColumnPercentageVisitsDocumentation": "Persentase dari total kunjungan.",

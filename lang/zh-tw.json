@@ -100,7 +100,6 @@
         "ColumnPageGenerationTime": "網頁載入時間",
         "ColumnPageviews": "瀏覽數",
         "ColumnPageviewsDocumentation": "這個網頁被訪問的次數。",
-        "ColumnPercentOfReportTotal": "%1$s（佔總計的 %%）",
         "ColumnPercentOfReportTotalDocumentation": "此列佔報表 %1$s 總計的百分比。",
         "ColumnPercentageVisits": "%% 訪問數",
         "ColumnPercentageVisitsDocumentation": "佔總訪問數的百分比。",
