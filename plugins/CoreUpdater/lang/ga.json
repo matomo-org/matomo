@@ -2,6 +2,7 @@
     "CoreUpdater": {
         "AlreadyUpToDate": "Tá gach rud cothrom le dáta cheana féin.",
         "CheckingForPluginUpdates": "Seiceáil le haghaidh nuashonruithe breiseáin nua",
+        "CheckingForPluginUpdatesFailed": "Níorbh fhéidir nuashonruithe breiseán a sheiceáil: %1$s",
         "ClickHereToViewSqlQueries": "Cliceáil anseo chun liosta na gceisteanna SQL agus na n-orduithe consóil a fheiceáil agus a chóipeáil a fhorghníomhófar",
         "CloudHosting": "Óstáil scamall",
         "ConsoleCommandDescription": "Triggers uasghrádú. Bain úsáid as tar éis Matomo croí nó aon chomhaid breiseán a bheith cothrom le dáta. Iarcheangail --yes a uasghrádú gan deimhniú.",
@@ -90,6 +91,7 @@
         "UpdateUsingHttpsFailedForceHttpInfo": "Ar chúiseanna slándála, níor íoslódáil Matomo an nuashonrú trí nasc HTTP neamhshlán. Cinntigh le do thoil go bhfuil HTTPS ag feidhmiú i do thimpeallacht agus déan iarracht arís. Ná ceadaigh nuashonruithe trí HTTP ach amháin má tá tú cinnte go bhfuil an nasc sábháilte, trí an rogha cumraíochta %1$sforce_matomo_http_request%2$s a chumasú.",
         "UpdateUsingHttpsFailedHelp": "Cén fáth ar theip air? Má íoslódálann tú an leagan Matomo is déanaí (thar nasc slán HTTPS) is féidir go dteipfeadh air ar chúiseanna éagsúla, mar shampla mar gheall ar earráid líonra, luas mall líonra nó cumraíocht an chórais mhícheart. Tabhair faoi deara go bhféadfadh sé a chiallaíonn freisin go bhfuil do fhreastalaí an sprioc ionsaí MITM agus tá duine éigin ag iarraidh a chur in ionad an nuashonrú le leagan mailíseach de Matomo.",
         "Updating": "Ag nuashonrú",
+        "UpdatingPluginXFailedY": "Níorbh fhéidir an breiseán %1$s a nuashonrú: %2$s",
         "UpdatingPluginXToVersionY": "Breiseán%1$s á nuashonrú go leagan %2$s",
         "UpgradeComplete": "Uasghrádú críochnaithe!",
         "UpgradePiwik": "Uasghrádú Matomo",
