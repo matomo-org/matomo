@@ -27,6 +27,11 @@ class FakePolicySetting implements PolicyComparisonInterface, SettingValueInterf
     private static $constraintType = PolicyComparisonInterface::POLICY_CONSTRAINT_EXACT;
 
     /**
+     * @var int the position the setting asks for in a compliance dashboard
+     */
+    private static $policyOrder = PolicyComparisonInterface::POLICY_ORDER_LAST;
+
+    /**
      * @var mixed the value the policy requires of this setting
      */
     private static $requiredValue = true;
@@ -52,6 +57,7 @@ class FakePolicySetting implements PolicyComparisonInterface, SettingValueInterf
     {
         self::$enforcementStates = [];
         self::$constraintType = PolicyComparisonInterface::POLICY_CONSTRAINT_EXACT;
+        self::$policyOrder = PolicyComparisonInterface::POLICY_ORDER_LAST;
         self::$requiredValue = true;
         self::$effectiveValue = null;
     }
@@ -106,6 +112,16 @@ class FakePolicySetting implements PolicyComparisonInterface, SettingValueInterf
     public static function getPolicySettingId(): string
     {
         return 'Fake.FakePolicySetting';
+    }
+
+    public static function setPolicyOrder(int $order): void
+    {
+        self::$policyOrder = $order;
+    }
+
+    public static function getPolicyOrder(): int
+    {
+        return self::$policyOrder;
     }
 
     public static function getPolicyConstraintType(string $policy): string

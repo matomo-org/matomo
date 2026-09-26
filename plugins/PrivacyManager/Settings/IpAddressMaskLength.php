@@ -89,6 +89,11 @@ class IpAddressMaskLength implements CustomSettingInterface, PolicyComparisonInt
         return '';
     }
 
+    public static function getPolicyOrder(): int
+    {
+        return 10;
+    }
+
     public static function getPolicyRequirements(): array
     {
         $policies = [];

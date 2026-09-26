@@ -108,6 +108,37 @@ describe("PrivacyManager", function () {
         await page.waitForNetworkIdle();
     }
 
+    // the requirements are listed in the order each setting asks for, not in the order the
+    // plugins holding them happen to be discovered in. The rows Matomo cannot enforce from
+    // the page stay at the end
+    const expectedComplianceOrder = [
+        'IP Anonymisation Enabled',
+        'IP Address Mask Length Configured',
+        'PII Data Filtering Enabled',
+        'User ID Tracking Disabled',
+        'Device Model Detection Disabled',
+        'Screen Resolution Detection Disabled',
+        'Major Browser and OS Versions',
+        'Visits Log and Visitor Profiles Disabled',
+        'Aggregated Real-time Reports Enabled',
+        'Segment Availability Restricted',
+        'Segmented Data Rounding Enabled',
+        'Referrer Anonymisation Enabled',
+        'Campaign Parameter Masking Enabled',
+        'Ecommerce Data Collection Restricted',
+        'Ecommerce Order ID Anonymisation Enabled',
+        'Raw Data Retention Configured',
+        'Third-Party Cookies Disabled',
+        'Opt-Out Configured',
+    ];
+
+    async function complianceSettingNames()
+    {
+        return await page.evaluate(() => Array.from(
+            document.querySelectorAll('table.dataTable.compliance tbody tr td:first-child')
+        ).map((cell) => cell.innerText.trim()));
+    }
+
     async function complianceScopeState()
     {
         return await page.evaluate(() => {
@@ -541,6 +572,8 @@ describe("PrivacyManager", function () {
         expect(state.hasSiteSelector).to.equal(false);
         expect(state.notice).to.equal('You are currently configuring settings for all websites.');
 
+        expect(await complianceSettingNames()).to.deep.equal(expectedComplianceOrder);
+
         expect(await page.screenshotSelector('.compliance')).to.matchImage('compliance');
     });
 
@@ -699,6 +732,8 @@ describe("PrivacyManager", function () {
       expect(state.scope).to.equal('site');
       expect(state.selectedSite).to.equal('Site 1');
       expect(state.notice).to.equal('You are currently configuring settings for Site 1 only.');
+
+      expect(await complianceSettingNames()).to.deep.equal(expectedComplianceOrder);
 
       expect(await page.screenshotSelector('.compliance')).to.matchImage('compliance_granular');
     });
