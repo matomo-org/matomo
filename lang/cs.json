@@ -100,7 +100,6 @@
         "ColumnPageGenerationTime": "Doba generování stránky",
         "ColumnPageviews": "Zobrazení stránek",
         "ColumnPageviewsDocumentation": "Počet návštěv této stránky.",
-        "ColumnPercentOfReportTotal": "%1$s (%% z celku)",
         "ColumnPercentOfReportTotalDocumentation": "Procentní podíl tohoto řádku na celkové hodnotě %1$s v přehledu.",
         "ColumnPercentageVisits": "%% návštěv",
         "ColumnPercentageVisitsDocumentation": "Procento celkových návštěv.",
