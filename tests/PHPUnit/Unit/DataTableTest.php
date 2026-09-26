@@ -542,6 +542,84 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         DataTable::fromSerializedArray($serialized);
     }
 
+    public function testUnserializeRejectsNestedEnumInArrayPayload(): void
+    {
+        // enums get past safe_unserialize() even with classes disallowed
+        $serialized = serialize([
+            [
+                Row::COLUMNS => ['label' => 'modern.example', 'bad' => DataTableTestEnum::Value],
+                Row::METADATA => [],
+                Row::DATATABLE_ASSOCIATED => null,
+            ],
+        ]);
+
+        self::expectException(\Exception::class);
+        self::expectExceptionMessage('The unserialization has failed!');
+
+        DataTable::fromSerializedArray($serialized);
+    }
+
+    public function testUnserializeFailsForAPayloadThatIsNotAnArrayOfRows(): void
+    {
+        self::expectException(\Exception::class);
+        self::expectExceptionMessage('The unserialization has failed!');
+
+        DataTable::fromSerializedArray(serialize('not an array'));
+    }
+
+    public function testUnserializeWorksForAModernPayloadWhoseLabelLooksLikeAnObjectMarker(): void
+    {
+        $serialized = serialize([
+            [
+                Row::COLUMNS => ['label' => 'example.org/O:C:E:R:r:', 2 => 42],
+                Row::METADATA => [],
+                Row::DATATABLE_ASSOCIATED => null,
+            ],
+        ]);
+
+        $table = DataTable::fromSerializedArray($serialized);
+        $row = $table->getFirstRow();
+
+        self::assertSame('example.org/O:C:E:R:r:', $row->getColumn('label'));
+        self::assertSame(42, $row->getColumn(2));
+    }
+
+    /**
+     * @dataProvider getPayloadsThatDoOrDoNotNeedTheFullScan
+     */
+    public function testPayloadCanContainObjectsOrReferences(string $serialized, bool $expected): void
+    {
+        $method = new \ReflectionMethod(DataTable::class, 'payloadCanContainObjectsOrReferences');
+        $method->setAccessible(true);
+
+        self::assertSame($expected, $method->invoke(new DataTable(), $serialized));
+    }
+
+    public function getPayloadsThatDoOrDoNotNeedTheFullScan(): array
+    {
+        $rows = [
+            [
+                Row::COLUMNS => ['label' => 'modern.example', 2 => 42],
+                Row::METADATA => [],
+                Row::DATATABLE_ASSOCIATED => null,
+            ],
+        ];
+
+        $recursive = ['label' => 'recursive'];
+        $recursive['loop'] = &$recursive;
+
+        return [
+            'rows only' => [serialize($rows), false],
+            'an object' => [serialize([new \stdClass()]), true],
+            // a class with a custom serializer is tagged "C:", not "O:"
+            'a custom serializer' => ['a:1:{i:0;C:17:"ProbeSerializable":7:{payload}}', true],
+            'an enum' => [serialize([DataTableTestEnum::Value]), true],
+            'a recursive array' => [serialize([$recursive]), true],
+            // a reference to an object always comes with the object
+            'a back reference on its own' => ['a:1:{i:0;r:2;}', false],
+        ];
+    }
+
     public function testSumRowMetadataCustomAggregationOperation(): void
     {
         $metadata1 = ['mytest' => 'value1'];
@@ -1549,4 +1627,13 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         ];
         return $rows;
     }
+}
+
+/**
+ * An enum for the test above. safe_unserialize() lets enums through, so DataTable rejects them
+ * itself, and core has no enum to use.
+ */
+enum DataTableTestEnum: string
+{
+    case Value = 'value';
 }
