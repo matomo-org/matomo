@@ -77,10 +77,10 @@ abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSet
     protected static function getGranularStatusLegend(): string
     {
         $items = [
-            'General_ComplianceStatusLegendCompliant',
-            'General_ComplianceStatusLegendCompliantEnforced',
-            'General_ComplianceStatusLegendNonCompliant',
-            'General_ComplianceStatusLegendManual',
+            'General_ComplianceCNILStatusLegendCompliant',
+            'General_ComplianceCNILStatusLegendCompliantEnforced',
+            'General_ComplianceCNILStatusLegendNonCompliant',
+            'General_ComplianceCNILStatusLegendManual',
         ];
 
         $legend = '';
@@ -115,7 +115,7 @@ abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSet
         if ($shouldShowWarnings) {
             $warnings = static::generateWarnings();
             if (!empty($warnings)) {
-                $description .= '<br/>' . $warnings;
+                $description .= '<br/><br/>' . $warnings;
             }
         }
 
