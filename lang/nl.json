@@ -94,7 +94,6 @@
         "ColumnPageGenerationTime": "Generatietijd pagina",
         "ColumnPageviews": "Paginaweergaven",
         "ColumnPageviewsDocumentation": "Het aantal keer dat deze pagina werd bezocht.",
-        "ColumnPercentOfReportTotal": "%1$s (%% van totaal)",
         "ColumnPercentOfReportTotalDocumentation": "Het percentage in het rapport van het totaal %1$s dat deze rij weergeeft.",
         "ColumnPercentageVisits": "%% bezoeken",
         "ColumnPercentageVisitsDocumentation": "Het percentage van het totaal aantal bezoeken.",
