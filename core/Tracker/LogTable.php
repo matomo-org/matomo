@@ -71,6 +71,8 @@ abstract class LogTable
      * as the FROM table, a table declaring a join to `log_link_visit_action` is still joined to `log_visit`
      * on idvisit. Declare one when the generic join to that partner would be wrong, e.g. two tables that each
      * hold many rows per visit are joined 1:1 on the declared column instead of being multiplied on idvisit.
+     * A table declaring joins to several available partners is joined to the first of them; before 6.0.0
+     * the last one won.
      *
      * Winning also means the partner's {@see shouldJoinWithSubSelect()} is not consulted for that pair,
      * since that wrapping belongs to the generic join. Declaring a join to a partner that asks for it,
