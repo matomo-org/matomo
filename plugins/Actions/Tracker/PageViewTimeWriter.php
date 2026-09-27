@@ -142,11 +142,15 @@ class PageViewTimeWriter
         // $cap is interpolated rather than bound: PDO_MYSQL emulated prepares (the tracker
         // default) send bound ints as strings, and LEAST('1800', 25) compares lexically, so
         // the cap would always win. It is a validated int from Tracker config.
+        //
+        // Five indexes start with idvisit, and on a short visit the optimiser prefers one of
+        // the others and then sorts. Pinning the index that already provides the order keeps
+        // this a LIMIT 1 walk, which no sort can beat.
         $sql = "UPDATE `$table`
                    SET time_spent = LEAST($cap, GREATEST(time_spent, TIMESTAMPDIFF(SECOND, server_time, ?)))
                  WHERE idpageviewtime = (
                         SELECT idpageviewtime FROM (
-                            SELECT idpageviewtime FROM `$table`
+                            SELECT idpageviewtime FROM `$table` FORCE INDEX (index_idvisit_server_time)
                              WHERE idvisit = ?
                                AND idlink_va <> ?
                                AND server_time < ?
