@@ -331,9 +331,7 @@ class ControllerTest extends IntegrationTestCase
     public function provideContainerConfig()
     {
         // these actions dispatch through the container, so the Client they reach has to answer out
-        // of the fixtures. The repository that backs Http::sendHttpRequest() keys on the full query
-        // string, uid included, so no hand-written manifest entry can match and the request would
-        // otherwise fall through to the real Marketplace.
+        // of the fixtures served by this mock service rather than the real Marketplace.
         $this->service = new Service();
         $this->service->setOnDownloadCallback(function ($action) {
             return $this->service->getFixtureContent($this->fixtureFor($action));

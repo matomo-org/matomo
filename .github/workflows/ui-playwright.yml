@@ -60,7 +60,11 @@ jobs:
         with:
           php-version: ${{ env.PHP_VERSION }}
           extensions: bcmath, curl, zip, pdo_mysql, mysqli, gd, zlib, opcache
-          ini-values: memory_limit=-1, post_max_size=100M, mysqli.allow_local_infile=On
+          # same as matomo-org/github-action-tests; with opcache on, request workers crash without a reply
+          ini-values: >-
+            memory_limit=768M, max_execution_time=10000, error_reporting=E_ALL, log_errors=on,
+            error_log=${{ github.workspace }}/tmp/logs/php-errors.log, display_errors=on,
+            zend.exception_ignore_args=Off, mysqli.allow_local_infile=On, opcache.enable=0
           tools: composer:v2
           coverage: none
 
@@ -121,7 +125,8 @@ jobs:
             sleep 1
           done
           mysql -h127.0.0.1 -uroot -e "SET GLOBAL local_infile = 1"
-          curl -sf -o /dev/null http://localhost/tests/PHPUnit/proxy/index.php || curl -s http://localhost/tests/PHPUnit/proxy/index.php | head -20
+          # the test proxy answers 403 until the fixture setup marks this instance, so check a plain PHP file
+          curl -sf -o /dev/null http://localhost/index.php || { echo 'PHP server is not answering'; exit 1; }
 
       - name: Run Playwright tests
         working-directory: tests/playwright

@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\Marketplace\tests\Framework\Mock;
 
 use Piwik\Filesystem;
+use Piwik\Version;
 
 /**
  * Serves Marketplace HTTP responses from a directory of recorded fixtures.
@@ -45,10 +46,9 @@ class FixtureRepository
         'release_channel',
         'num_users',
         'num_websites',
+        // random per-install id the client sends since #24680, it would make every lookup miss
+        'uid',
     ];
-
-    /** Major Matomo version the test environment normally runs against; piwik=5.x is treated as noise so we don't need per-minor fixtures. */
-    private const CURRENT_PIWIK_MAJOR = '5';
 
     private const MARKETPLACE_HOSTS = [
         'plugins.matomo.org',
@@ -454,8 +454,9 @@ class FixtureRepository
         if ($piwikVersion === '') {
             return true;
         }
-        return $piwikVersion === self::CURRENT_PIWIK_MAJOR
-            || str_starts_with($piwikVersion, self::CURRENT_PIWIK_MAJOR . '.');
+        // the running Matomo major is treated as noise so we don't need per-minor fixtures
+        $currentMajor = explode('.', Version::VERSION)[0];
+        return $piwikVersion === $currentMajor || str_starts_with($piwikVersion, $currentMajor . '.');
     }
 
     private function shouldIntercept(string $url): bool
