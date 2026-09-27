@@ -40,6 +40,9 @@ class DeterministicRecommender
     /** A segment with more dash separated parts than this is an article slug, not a page name. */
     private const MAX_SLUG_PARTS = 3;
 
+    /** Goal names longer than this are rejected by Goals.addGoal. */
+    private const MAX_NAME_LENGTH = 50;
+
     /** Distinct product pages needed before a "viewed a product" goal is offered. */
     private const MIN_PRODUCT_PAGES = 5;
 
@@ -1428,6 +1431,17 @@ class DeterministicRecommender
         return function_exists('mb_substr') ? mb_substr($value, 0, $maxLength) : substr($value, 0, $maxLength);
     }
 
+    /** Ellipsis marks the cut, so a shortened host does not read as a different domain. */
+    private function truncateName(string $name): string
+    {
+        $name = trim($name);
+        $length = function_exists('mb_strlen') ? mb_strlen($name) : strlen($name);
+
+        return $length > self::MAX_NAME_LENGTH
+            ? rtrim($this->truncate($name, self::MAX_NAME_LENGTH - 1)) . '…'
+            : $name;
+    }
+
     /**
      * @param string[] $evidence
      * @param array<string, mixed> $extra
@@ -1490,7 +1504,7 @@ class DeterministicRecommender
         }
 
         return [
-            'name' => $name,
+            'name' => $this->truncateName($name),
             'category' => $candidate['category'],
             'matchAttribute' => $matchAttribute,
             'pattern' => (string) $candidate['pattern'],

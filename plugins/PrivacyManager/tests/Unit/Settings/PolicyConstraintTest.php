@@ -120,4 +120,13 @@ class PolicyConstraintTest extends TestCase
     {
         $this->assertTrue(ReportRetention::isValueCompliantWithPolicy(100000, 'Some\\Other\\Policy'));
     }
+
+    /**
+     * GranularComplianceOverview.vue matches this id to decide whether enforcing the policy
+     * needs the typed delete confirmation. Renaming the class would turn that off silently.
+     */
+    public function testRawDataRetentionPolicySettingIdIsStable(): void
+    {
+        $this->assertSame('PrivacyManager.ReportRetention', ReportRetention::getPolicySettingId());
+    }
 }

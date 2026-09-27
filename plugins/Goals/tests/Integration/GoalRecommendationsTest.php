@@ -64,6 +64,12 @@ class GoalRecommendationsTest extends IntegrationTestCase
         Config::getInstance()->FeatureFlags = ['GoalRecommendations_feature' => 'enabled'];
     }
 
+    public function tearDown(): void
+    {
+        Fixture::resetTranslations();
+        parent::tearDown();
+    }
+
     public function testRecommendationApiRequiresFeatureFlag()
     {
         Config::getInstance()->FeatureFlags = ['GoalRecommendations_feature' => 'disabled'];
@@ -440,6 +446,31 @@ class GoalRecommendationsTest extends IntegrationTestCase
             'clean crawl with three goals needs no excuse' => [$clean, 3, null],
             'homepage itself refused' => [null, 0, 'blocked'],
         ];
+    }
+
+    public function testDeterministicRecommendationWithLongHostCanBeCreated()
+    {
+        Fixture::loadAllTranslations();
+        $host = 'donations.very-long-subdomain-for-testing.example.org';
+        $goals = (new DeterministicRecommender())->recommend([
+            'url' => 'https://www.example.com/',
+            'pagesCrawled' => 10,
+            'externalLinks' => [[
+                'host' => $host,
+                'href' => 'https://' . $host . '/',
+                'labels' => ['Become a sponsor'],
+                'sourcePages' => ['https://www.example.com/', 'https://www.example.com/about'],
+                'examples' => ['https://' . $host . '/'],
+                'count' => 2,
+            ]],
+        ]);
+        $goal = $goals[array_search($host, array_column($goals, 'pattern'), true)];
+
+        $this->assertSame(50, mb_strlen($goal['name']));
+        $this->assertStringEndsWith('…', $goal['name']);
+
+        $idGoal = $this->api->addGoal($this->idSite, $goal['name'], $goal['matchAttribute'], $goal['pattern'], $goal['patternType']);
+        $this->assertGreaterThan(0, $idGoal);
     }
 
     private function makeRecommendationService(
