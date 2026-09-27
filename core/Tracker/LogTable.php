@@ -71,6 +71,11 @@ abstract class LogTable
      * as the FROM table, a table declaring a join to `log_link_visit_action` is still joined to `log_visit`
      * on idvisit. Declare one when the generic join to that partner would be wrong, e.g. two tables that each
      * hold many rows per visit are joined 1:1 on the declared column instead of being multiplied on idvisit.
+     *
+     * Winning also means the partner's {@see shouldJoinWithSubSelect()} is not consulted for that pair,
+     * since that wrapping belongs to the generic join. Declaring a join to a partner that asks for it,
+     * `log_visit` being the only one in core, therefore drops the sub-select that partner would have
+     * requested, which can change what a segmented query aggregates.
      * @return array
      */
     public function getWaysToJoinToOtherLogTables()
@@ -81,6 +86,9 @@ abstract class LogTable
     /**
      * Defines whether this table should be joined via a subselect. Return true if a complex join is needed. (eg when
      * having visits and needing actions, or when having visits and needing conversions, or vice versa).
+     *
+     * Only consulted for the generic idvisit join: a partner reached through a join declared in
+     * {@see getWaysToJoinToOtherLogTables()} is joined directly, whatever this returns.
      * @return bool
      */
     public function shouldJoinWithSubSelect()
