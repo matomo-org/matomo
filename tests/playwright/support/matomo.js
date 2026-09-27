@@ -40,10 +40,31 @@ function writeEnvironment(data) {
   fs.writeFileSync(ENV_FILE, JSON.stringify(data));
 }
 
+/** Reads [database_tests] from config/config.ini.php, for the mysql client calls below. */
+function testDatabaseConfig() {
+  const ini = fs.readFileSync(path.join(ROOT, 'config/config.ini.php'), 'utf8');
+  const section = (ini.split(/^\[database_tests\]\s*$/m)[1] || '').split(/^\[/m)[0];
+  const value = (key, fallback) => {
+    const match = section.match(new RegExp(`^${key}\\s*=\\s*"?([^"\\n]*)"?`, 'm'));
+    return match ? match[1].trim() : fallback;
+  };
+  return { host: value('host', '127.0.0.1'), user: value('username', 'root'), password: value('password', '') };
+}
+
+function mysqlArgs() {
+  const { host, user, password } = testDatabaseConfig();
+  return [`-h${host}`, `-u${user}`, ...(password ? [`-p${password}`] : [])];
+}
+
+function snapshotFile(dbName) {
+  return path.join(ROOT, `tmp/playwright-fixture-${dbName}.sql`);
+}
+
 /**
- * Sets up (or reuses the persisted database of) a PHP fixture, like TestingEnvironment.setupFixture().
- * The PHP side writes the fixture database and plugin list into the environment file, so this merges
- * into it instead of overwriting it.
+ * Sets up (or reuses the persisted database of) a PHP fixture, like TestingEnvironment.setupFixture(),
+ * then dumps the fixture database so every spec file can start from the same state. The PHP side
+ * writes the fixture database and plugin list into the environment file, so this merges into it
+ * instead of overwriting it. PLAYWRIGHT_FIXTURE_DROP=1 rebuilds a persisted database from scratch.
  */
 function setupFixture(fixtureClass = DEFAULT_FIXTURE) {
   writeEnvironment({});
@@ -54,8 +75,23 @@ function setupFixture(fixtureClass = DEFAULT_FIXTURE) {
     '--set-symlinks',
     `--server-global=${JSON.stringify({ HTTP_HOST: MATOMO_URL.host, REQUEST_URI: '/', REMOTE_ADDR: '127.0.0.1' })}`,
     '--persist-fixture-data',
+    ...(process.env.PLAYWRIGHT_FIXTURE_DROP ? ['--drop'] : []),
   ], { cwd: ROOT, stdio: 'inherit' });
 
+  const environment = { ...ENV_DEFAULTS, ...readEnvironment(), fixtureClass };
+  writeEnvironment(environment);
+
+  const dump = execFileSync('mysqldump', [...mysqlArgs(), '--single-transaction', '--skip-lock-tables', '--no-tablespaces', environment.dbName], { maxBuffer: 1024 * 1024 * 1024 });
+  fs.writeFileSync(snapshotFile(environment.dbName), dump);
+}
+
+/**
+ * Restores the fixture database dumped by setupFixture(). Tests change persisted state (report
+ * preferences, options, users), so without this a spec depends on which specs ran before it.
+ */
+function restoreFixture() {
+  const { dbName, fixtureClass } = readEnvironment();
+  execFileSync('mysql', [...mysqlArgs(), dbName], { input: fs.readFileSync(snapshotFile(dbName)), maxBuffer: 1024 * 1024 * 1024 });
   writeEnvironment({ ...ENV_DEFAULTS, ...readEnvironment(), fixtureClass });
 }
 
@@ -91,8 +127,8 @@ const PAGE_SETUP = `(() => {
  * - HTTP 5xx responses and uncaught page errors are collected, and assertClean() fails the test,
  *   unless the test opted out with allowServerErrors()
  */
-async function openSession(browser) {
-  const context = await browser.newContext();
+async function openSession(browser, contextOptions = {}) {
+  const context = await browser.newContext(contextOptions);
   await context.addInitScript(PAGE_SETUP);
 
   const problems = [];
@@ -203,7 +239,15 @@ async function expectAreaScreenshot(session, selectors, name, options = {}) {
   await expect(page).toHaveScreenshot(name, { ...options, clip, fullPage: true });
 }
 
+/** Full-page screenshot once no request is in flight, like page.screenshot({ fullPage: true }) in the Mocha specs. */
+async function expectPageScreenshot(session, name, options = {}) {
+  await session.waitForIdle();
+  await expect(session.page).toHaveScreenshot(name, { fullPage: true, ...options });
+}
+
 module.exports = {
+  expectPageScreenshot,
+  restoreFixture,
   DEFAULT_FIXTURE,
   setupFixture,
   updateEnvironment,

@@ -1,6 +1,6 @@
 # Matomo UI tests on Playwright Test.
 #
-# Runs the specs in tests/playwright against Matomo served by nginx + php-fpm on the runner, with
+# Runs the specs in tests/playwright against Matomo served by PHP's built-in server on the runner, with
 # MySQL in a container. Screenshot baselines live in tests/playwright/screenshots and are only ever
 # written by this workflow: run it with "update screenshots" (or put [update-screenshots] in the
 # commit message) and commit the "playwright-screenshots" artifact.
@@ -104,27 +104,24 @@ jobs:
         # no --with-deps: the runner image already has the system libraries, and apt mirrors have broken UI jobs before
         run: npx playwright install chromium
 
-      - name: Configure Matomo, nginx and php-fpm
+      - name: Configure Matomo and start PHP
         run: |
           set -eu
           cp tests/playwright/ci/config.ini.php config/config.ini.php
           mkdir -p tmp/assets tmp/cache/tracker tmp/latest tmp/logs tmp/sessions tmp/templates_c tmp/tcpdf tmp/climulti
           chmod -R 777 tmp
 
-          socket="/run/php/php$PHP_VERSION-fpm-playwright.sock"
-          sed -e "s!{USER}!$USER!g" -e "s!{PHP_SOCKET}!$socket!g" tests/playwright/ci/php-fpm.conf \
-            | sudo tee "/etc/php/$PHP_VERSION/fpm/pool.d/playwright.conf" > /dev/null
-          sudo systemctl restart "php$PHP_VERSION-fpm.service"
-
-          sed -e "s!{ROOT}!$GITHUB_WORKSPACE!g" -e "s!{PHP_SOCKET}!$socket!g" tests/playwright/ci/nginx.conf > /tmp/nginx-playwright.conf
-          sudo systemctl stop nginx.service || true
-          sudo nginx -c /tmp/nginx-playwright.conf
+          # PHP's built-in server with several workers is enough for one browser, and needs no
+          # nginx or php-fpm pool. Port 80, because Matomo builds some URLs without the port.
+          sudo setcap CAP_NET_BIND_SERVICE=+eip "$(readlink -f "$(command -v php)")"
+          PHP_CLI_SERVER_WORKERS=8 nohup php -S 0.0.0.0:80 -t "$GITHUB_WORKSPACE" > tmp/logs/php-server.log 2>&1 &
 
           for i in $(seq 1 60); do
             mysqladmin ping -h127.0.0.1 -uroot --silent && break
             sleep 1
           done
           mysql -h127.0.0.1 -uroot -e "SET GLOBAL local_infile = 1"
+          curl -sf -o /dev/null http://localhost/tests/PHPUnit/proxy/index.php || curl -s http://localhost/tests/PHPUnit/proxy/index.php | head -20
 
       - name: Run Playwright tests
         working-directory: tests/playwright

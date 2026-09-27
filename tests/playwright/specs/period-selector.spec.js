@@ -7,7 +7,7 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 const { test, expect } = require('@playwright/test');
-const { openSession, expectAreaScreenshot } = require('../support/matomo');
+const { restoreFixture, openSession, expectAreaScreenshot } = require('../support/matomo');
 
 const generalParams = 'idSite=1&period=day&date=2012-01-01';
 const url = `?module=CoreHome&action=index&${generalParams}#?${generalParams}&category=General_Actions&subcategory=General_Pages`;
@@ -31,6 +31,7 @@ test.describe('PeriodSelector', () => {
   });
 
   test.beforeAll(async ({ browser }) => {
+    restoreFixture();
     session = await openSession(browser);
     page = session.page;
   });
@@ -262,6 +263,7 @@ test.describe('PeriodSelector', () => {
       // ensure inputs are properly filled
       await page.locator('.periodSelector .title').click();
       await expect(page.locator('#calendarApply')).toBeVisible();
+      await page.mouse.move(-10, -10);
       await expectAreaScreenshot(session, area, 'custom_comparison_url.png');
     });
   });
