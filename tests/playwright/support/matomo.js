@@ -45,7 +45,7 @@ function testDatabaseConfig() {
   const ini = fs.readFileSync(path.join(ROOT, 'config/config.ini.php'), 'utf8');
   const section = (ini.split(/^\[database_tests\]\s*$/m)[1] || '').split(/^\[/m)[0];
   const value = (key, fallback) => {
-    const match = section.match(new RegExp(`^${key}\\s*=\\s*"?([^"\\n]*)"?`, 'm'));
+    const match = section.match(new RegExp(`^${key}[ \\t]*=[ \\t]*"?([^"\\n]*)"?`, 'm'));
     return match ? match[1].trim() : fallback;
   };
   return { host: value('host', '127.0.0.1'), user: value('username', 'root'), password: value('password', '') };
