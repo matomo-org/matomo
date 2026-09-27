@@ -33,24 +33,24 @@ class ComplianceSettingsProviderTest extends \PHPUnit\Framework\TestCase
 
     public function testDiffPolicySettingsReturnsNothingWhenEverySettingIsUnchanged(): void
     {
-        $payload = $this->payload([
+        $payload = $this->payload(array_merge(
             $this->setting('A.One', false, ComplianceSettingsProvider::STATUS_NON_COMPLIANT),
-            $this->setting('A.Two', true, ComplianceSettingsProvider::STATUS_ENFORCED),
-        ]);
+            $this->setting('A.Two', true, ComplianceSettingsProvider::STATUS_ENFORCED)
+        ));
 
         $this->assertSame([], $this->provider->diffPolicySettings($payload, $payload));
     }
 
     public function testDiffPolicySettingsReportsASettingThatStartedBeingEnforced(): void
     {
-        $before = $this->payload([
+        $before = $this->payload(array_merge(
             $this->setting('A.One', false, ComplianceSettingsProvider::STATUS_NON_COMPLIANT),
-            $this->setting('A.Two', false, ComplianceSettingsProvider::STATUS_NON_COMPLIANT),
-        ]);
-        $after = $this->payload([
+            $this->setting('A.Two', false, ComplianceSettingsProvider::STATUS_NON_COMPLIANT)
+        ));
+        $after = $this->payload(array_merge(
             $this->setting('A.One', true, ComplianceSettingsProvider::STATUS_ENFORCED),
-            $this->setting('A.Two', false, ComplianceSettingsProvider::STATUS_NON_COMPLIANT),
-        ]);
+            $this->setting('A.Two', false, ComplianceSettingsProvider::STATUS_NON_COMPLIANT)
+        ));
 
         $this->assertSame([
             [
@@ -66,12 +66,12 @@ class ComplianceSettingsProviderTest extends \PHPUnit\Framework\TestCase
 
     public function testDiffPolicySettingsReportsAStatusChangeWithoutAnEnforcementChange(): void
     {
-        $before = $this->payload([
-            $this->setting('A.One', false, ComplianceSettingsProvider::STATUS_NON_COMPLIANT),
-        ]);
-        $after = $this->payload([
-            $this->setting('A.One', false, ComplianceSettingsProvider::STATUS_COMPLIANT),
-        ]);
+        $before = $this->payload(array_merge(
+            $this->setting('A.One', false, ComplianceSettingsProvider::STATUS_NON_COMPLIANT)
+        ));
+        $after = $this->payload(array_merge(
+            $this->setting('A.One', false, ComplianceSettingsProvider::STATUS_COMPLIANT)
+        ));
 
         $changes = $this->provider->diffPolicySettings($before, $after);
 
@@ -80,15 +80,35 @@ class ComplianceSettingsProviderTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(ComplianceSettingsProvider::STATUS_NON_COMPLIANT, $changes[0]['previousStatus']);
     }
 
+    public function testDiffPolicySettingsReportsAStoredStateChangeThePolicyWasAlreadyMasking(): void
+    {
+        // while a policy is active the setting already resolves to enforced, so pinning it moves
+        // only the stored state — a durable change that outlives the policy being switched off
+        $before = $this->payload(
+            $this->setting('A.One', true, ComplianceSettingsProvider::STATUS_ENFORCED, null)
+        );
+        $after = $this->payload(
+            $this->setting('A.One', true, ComplianceSettingsProvider::STATUS_ENFORCED, true)
+        );
+
+        $changes = $this->provider->diffPolicySettings($before, $after);
+
+        $this->assertCount(1, $changes);
+        $this->assertSame('A.One', $changes[0]['id']);
+        // the entry reports the resolved state, which is what the compliance page shows
+        $this->assertTrue($changes[0]['enforced']);
+        $this->assertTrue($changes[0]['previousEnforced']);
+    }
+
     public function testDiffPolicySettingsIgnoresASettingThatIsOnlyPresentInOnePayload(): void
     {
-        $before = $this->payload([
+        $before = $this->payload(array_merge(
+            $this->setting('A.One', false, ComplianceSettingsProvider::STATUS_NON_COMPLIANT)
+        ));
+        $after = $this->payload(array_merge(
             $this->setting('A.One', false, ComplianceSettingsProvider::STATUS_NON_COMPLIANT),
-        ]);
-        $after = $this->payload([
-            $this->setting('A.One', false, ComplianceSettingsProvider::STATUS_NON_COMPLIANT),
-            $this->setting('A.Two', true, ComplianceSettingsProvider::STATUS_ENFORCED),
-        ]);
+            $this->setting('A.Two', true, ComplianceSettingsProvider::STATUS_ENFORCED)
+        ));
 
         $this->assertSame([], $this->provider->diffPolicySettings($before, $after));
         $this->assertSame([], $this->provider->diffPolicySettings($after, $before));
@@ -96,14 +116,14 @@ class ComplianceSettingsProviderTest extends \PHPUnit\Framework\TestCase
 
     public function testDiffPolicySettingsMatchesSettingsOnTheirIdRatherThanTheirPosition(): void
     {
-        $before = $this->payload([
+        $before = $this->payload(array_merge(
             $this->setting('A.One', false, ComplianceSettingsProvider::STATUS_NON_COMPLIANT),
+            $this->setting('A.Two', true, ComplianceSettingsProvider::STATUS_ENFORCED)
+        ));
+        $after = $this->payload(array_merge(
             $this->setting('A.Two', true, ComplianceSettingsProvider::STATUS_ENFORCED),
-        ]);
-        $after = $this->payload([
-            $this->setting('A.Two', true, ComplianceSettingsProvider::STATUS_ENFORCED),
-            $this->setting('A.One', false, ComplianceSettingsProvider::STATUS_NON_COMPLIANT),
-        ]);
+            $this->setting('A.One', false, ComplianceSettingsProvider::STATUS_NON_COMPLIANT)
+        ));
 
         $this->assertSame([], $this->provider->diffPolicySettings($before, $after));
     }
@@ -114,12 +134,12 @@ class ComplianceSettingsProviderTest extends \PHPUnit\Framework\TestCase
      */
     public function testDiffPolicySettingsReportsAnExternallyManagedSettingWithoutEnforcementState(): void
     {
-        $before = $this->payload([
-            $this->setting('Core.ThirdPartyCookies', null, ComplianceSettingsProvider::STATUS_NON_COMPLIANT),
-        ]);
-        $after = $this->payload([
-            $this->setting('Core.ThirdPartyCookies', null, ComplianceSettingsProvider::STATUS_ON_BY_DEFAULT),
-        ]);
+        $before = $this->payload(array_merge(
+            $this->setting('Core.ThirdPartyCookies', null, ComplianceSettingsProvider::STATUS_NON_COMPLIANT)
+        ));
+        $after = $this->payload(array_merge(
+            $this->setting('Core.ThirdPartyCookies', null, ComplianceSettingsProvider::STATUS_ON_BY_DEFAULT)
+        ));
 
         $changes = $this->provider->diffPolicySettings($before, $after);
 
@@ -129,27 +149,31 @@ class ComplianceSettingsProviderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param array<int, array<string, mixed>> $settings
+     * @param array<string, array<string, mixed>> $settings
      * @return array<string, mixed>
      */
     private function payload(array $settings): array
     {
         return [
-            'policy' => 'cnil_v1',
+            'policyEnforced' => false,
             'settings' => $settings,
         ];
     }
 
     /**
-     * @return array<string, mixed>
+     * @return array<string, array<string, mixed>>
      */
-    private function setting(string $id, ?bool $enforced, string $status): array
+    private function setting(string $id, ?bool $enforced, string $status, ?bool $storedEnforced = null): array
     {
         return [
-            'id' => $id,
-            'name' => $id . ' name',
-            'enforced' => $enforced,
-            'status' => $status,
+            $id => [
+                'name' => $id . ' name',
+                'enforced' => $enforced,
+                // most cases are not about the stored/resolved distinction, so by default it
+                // simply mirrors the resolved state
+                'storedEnforced' => func_num_args() >= 4 ? $storedEnforced : $enforced,
+                'status' => $status,
+            ],
         ];
     }
 }
