@@ -286,6 +286,8 @@
 				
 				<pageId>7</pageId>
 				<bandwidth />
+				<timeSpent>108</timeSpent>
+				<timeSpentPretty>1 min 48s</timeSpentPretty>
 				<siteSearchKeyword>Banks Own The World</siteSearchKeyword>
 				<siteSearchCategory />
 				<siteSearchCount />

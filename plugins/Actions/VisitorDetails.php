@@ -50,7 +50,11 @@ class VisitorDetails extends VisitorDetailsAbstract
         // Enrich with time spent per action
         $nextActionId = 0;
         foreach ($actionDetails as $idx => &$action) {
-            if ($idx < $nextActionId || !$this->isPageView($action)) {
+            // The writer measures site searches too, and those are not page views. Let anything
+            // carrying its own measured time through, or the seconds it holds reach no row.
+            $hasMeasuredTime = isset($action['pageTimeSpent']) && (int) $action['pageTimeSpent'] > 0;
+
+            if ($idx < $nextActionId || (!$hasMeasuredTime && !$this->isPageView($action))) {
                 unset($action['timeSpentRef'], $action['pageTimeSpent']);
                 continue; // skip to next page view
             }
@@ -58,7 +62,7 @@ class VisitorDetails extends VisitorDetailsAbstract
             // pageTimeSpent already covers events, content impressions and heartbeats, so the
             // legacy walk-forward below would double-count. 0 means the row was never closed
             // (last hit of an open visit, or pre-writer data), so fall through instead.
-            if (isset($action['pageTimeSpent']) && (int) $action['pageTimeSpent'] > 0) {
+            if ($hasMeasuredTime) {
                 $action['timeSpent']       = (int) $action['pageTimeSpent'];
                 $action['timeSpentPretty'] = $formatter->getPrettyTimeFromSeconds($action['timeSpent'], true);
                 $nextActionId              = $idx + 1;
