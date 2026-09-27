@@ -55,16 +55,17 @@ class AIProcessingSettings
     /**
      * Enables the given categories and disables all others.
      *
-     * @param array<string> $categories
+     * @param array<mixed> $categories Category IDs; anything else is rejected.
      */
     public function setEnabledCategories(array $categories): void
     {
-        $unknown = array_diff($categories, self::CATEGORIES);
-
-        if ($unknown !== []) {
-            throw new InvalidArgumentException(
-                Piwik::translate('AIProviders_ErrorUnknownAIProcessingCategory', (string) reset($unknown))
-            );
+        foreach ($categories as $category) {
+            if (!is_string($category) || !in_array($category, self::CATEGORIES, true)) {
+                throw new InvalidArgumentException(Piwik::translate(
+                    'AIProviders_ErrorUnknownAIProcessingCategory',
+                    is_string($category) ? $category : gettype($category)
+                ));
+            }
         }
 
         $previous = $this->getEnabledCategories();
@@ -110,7 +111,23 @@ class AIProcessingSettings
          * @param array<string, list<array{name: string, disclosureUrl: string}>> &$features Keyed by category.
          */
         Piwik::postEvent('AIProviders.addAIProcessingFeatures', [&$features]);
+        /** @var array<mixed> $features listeners may have changed it arbitrarily */
 
-        return array_intersect_key($features, array_flip(self::CATEGORIES));
+        // Every category is always listed, whatever listeners did to the array.
+        $result = [];
+        foreach (self::CATEGORIES as $category) {
+            $result[$category] = [];
+
+            foreach ((array) ($features[$category] ?? []) as $feature) {
+                if (is_array($feature) && is_string($feature['name'] ?? null)) {
+                    $result[$category][] = [
+                        'name' => $feature['name'],
+                        'disclosureUrl' => is_string($feature['disclosureUrl'] ?? null) ? $feature['disclosureUrl'] : '',
+                    ];
+                }
+            }
+        }
+
+        return $result;
     }
 }

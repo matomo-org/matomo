@@ -32,7 +32,7 @@
             :key="feature.name"
             class="ai-processing-category-used-by"
           >
-            {{ translate('AIProviders_UsedBy') }} {{ feature.name }}
+            {{ translate('AIProviders_UsedBy', feature.name) }}
             <template v-if="feature.disclosureUrl">
               ·
               <a
@@ -51,6 +51,7 @@
             <input
               v-model="enabled[category.id]"
               :aria-label="translate(labels[category.id].name)"
+              :disabled="isSaving"
               type="checkbox"
             />
             <span class="lever"></span>

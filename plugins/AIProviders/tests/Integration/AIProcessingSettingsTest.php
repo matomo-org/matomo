@@ -86,12 +86,26 @@ class AIProcessingSettingsTest extends IntegrationTestCase
         $askMatomo = ['name' => 'Ask Matomo', 'disclosureUrl' => 'https://matomo.org/faq/ask-matomo'];
         Piwik::addAction('AIProviders.addAIProcessingFeatures', function (array &$features) use ($askMatomo): void {
             $features[AIProcessingSettings::CATEGORY_AGGREGATED_ANALYTICS][] = $askMatomo;
+            $features[AIProcessingSettings::CATEGORY_AGGREGATED_ANALYTICS][] = ['disclosureUrl' => 'no name'];
             $features['raw'][] = $askMatomo;
         });
 
         self::assertSame(
             [[], [$askMatomo]],
             array_column($this->api->getAIProcessingSettings(), 'usedBy')
+        );
+    }
+
+    public function testCategoriesStayListedWhenAListenerRemovesThem(): void
+    {
+        $this->api->setAIProcessingSettings([AIProcessingSettings::CATEGORY_NON_ANALYTICS]);
+        Piwik::addAction('AIProviders.addAIProcessingFeatures', function (array &$features): void {
+            $features = [];
+        });
+
+        self::assertSame(
+            [['id' => 'nonAnalytics', 'enabled' => true, 'usedBy' => []], ['id' => 'aggregatedAnalytics', 'enabled' => false, 'usedBy' => []]],
+            $this->api->getAIProcessingSettings()
         );
     }
 
@@ -118,6 +132,14 @@ class AIProcessingSettingsTest extends IntegrationTestCase
         $this->expectExceptionMessage('Unknown AI processing data category "raw"');
 
         $this->api->setAIProcessingSettings(['raw']);
+    }
+
+    public function testNestedCategoryValueIsRejected(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Unknown AI processing data category "array"');
+
+        $this->api->setAIProcessingSettings([['nonAnalytics']]);
     }
 
     public function testMenuEntryStaysAvailableInAManagedEnvironment(): void
