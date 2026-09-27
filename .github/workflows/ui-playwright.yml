@@ -1,0 +1,150 @@
+# Matomo UI tests on Playwright Test.
+#
+# Runs the specs in tests/playwright against Matomo served by nginx + php-fpm on the runner, with
+# MySQL in a container. Screenshot baselines live in tests/playwright/screenshots and are only ever
+# written by this workflow: run it with "update screenshots" (or put [update-screenshots] in the
+# commit message) and commit the "playwright-screenshots" artifact.
+
+name: UI tests (Playwright)
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+  push:
+    branches:
+      - '[0-9]+.x-dev'
+      - 'new-ci-cd-test-dont-merge'
+  workflow_dispatch:
+    inputs:
+      update_screenshots:
+        description: 'Write new screenshot baselines instead of comparing'
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ui-playwright-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  PHP_VERSION: '8.1'
+  MYSQL_VERSION: '8.0'
+  NODE_VERSION: '24'
+
+jobs:
+  playwright:
+    name: UI (Playwright)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      CI: 'true'
+      MATOMO_URL: 'http://localhost/'
+      PLAYWRIGHT_UPDATE_SNAPSHOTS: ${{ (inputs.update_screenshots || contains(github.event.head_commit.message, '[update-screenshots]')) && 'changed' || 'none' }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          lfs: false
+          persist-credentials: false
+          submodules: true
+
+      - name: Start MySQL
+        run: |
+          docker run -d --name mysql --tmpfs /var/lib/mysql:rw -p 3306:3306 \
+            -v "$GITHUB_WORKSPACE/tests/playwright/ci/my.cnf:/etc/mysql/conf.d/matomo.cnf:ro" \
+            -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -e MYSQL_DATABASE=matomo_tests -e TZ=UTC \
+            "mirror.gcr.io/library/mysql:$MYSQL_VERSION"
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+          extensions: bcmath, curl, zip, pdo_mysql, mysqli, gd, zlib, opcache
+          ini-values: memory_limit=-1, post_max_size=100M, mysqli.allow_local_infile=On
+          tools: composer:v2
+          coverage: none
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/cache@v6
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: composer-${{ runner.os }}-php${{ env.PHP_VERSION }}-${{ hashFiles('composer.lock') }}
+          restore-keys: composer-${{ runner.os }}-php${{ env.PHP_VERSION }}-
+
+      - name: Composer install
+        run: composer install --no-interaction --no-progress --prefer-dist
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: tests/playwright/package-lock.json
+
+      - name: npm ci
+        working-directory: tests/playwright
+        run: npm ci --no-audit --no-fund
+
+      - name: Get Playwright version
+        id: playwright
+        working-directory: tests/playwright
+        run: echo "version=$(node -p "require('@playwright/test/package.json').version")" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/cache@v6
+        id: playwright-cache
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ steps.playwright.outputs.version }}
+
+      - name: Install Chromium
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        working-directory: tests/playwright
+        # no --with-deps: the runner image already has the system libraries, and apt mirrors have broken UI jobs before
+        run: npx playwright install chromium
+
+      - name: Configure Matomo, nginx and php-fpm
+        run: |
+          set -eu
+          cp tests/playwright/ci/config.ini.php config/config.ini.php
+          mkdir -p tmp/assets tmp/cache/tracker tmp/latest tmp/logs tmp/sessions tmp/templates_c tmp/tcpdf tmp/climulti
+          chmod -R 777 tmp
+
+          socket="/run/php/php$PHP_VERSION-fpm-playwright.sock"
+          sed -e "s!{USER}!$USER!g" -e "s!{PHP_SOCKET}!$socket!g" tests/playwright/ci/php-fpm.conf \
+            | sudo tee "/etc/php/$PHP_VERSION/fpm/pool.d/playwright.conf" > /dev/null
+          sudo systemctl restart "php$PHP_VERSION-fpm.service"
+
+          sed -e "s!{ROOT}!$GITHUB_WORKSPACE!g" -e "s!{PHP_SOCKET}!$socket!g" tests/playwright/ci/nginx.conf > /tmp/nginx-playwright.conf
+          sudo systemctl stop nginx.service || true
+          sudo nginx -c /tmp/nginx-playwright.conf
+
+          for i in $(seq 1 60); do
+            mysqladmin ping -h127.0.0.1 -uroot --silent && break
+            sleep 1
+          done
+          mysql -h127.0.0.1 -uroot -e "SET GLOBAL local_infile = 1"
+
+      - name: Run Playwright tests
+        working-directory: tests/playwright
+        run: npx playwright test
+
+      - name: Upload report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-report
+          path: |
+            tests/playwright/playwright-report
+            tests/playwright/test-results
+            tmp/logs
+          retention-days: 14
+
+      - name: Upload screenshot baselines
+        if: ${{ !cancelled() && env.PLAYWRIGHT_UPDATE_SNAPSHOTS != 'none' }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-screenshots
+          path: tests/playwright/screenshots
+          retention-days: 14
