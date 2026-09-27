@@ -69,12 +69,23 @@ class PageViewTimeWriter
 
         $idSite = (int) $request->getIdSite();
 
-        // idpageview is CHAR(6) CHARACTER SET ascii, so a pv_id containing non-ASCII bytes
-        // (crafted request or non-JS SDK; the byte-based substr can even split a multibyte
-        // character) would make the INSERT fail under strict SQL mode. The JS tracker only
-        // generates [0-9a-zA-Z]{6}; treat anything else as absent rather than lose the row.
-        $pvId = substr((string) $request->getParam('pv_id'), 0, 6);
-        $pvId = preg_match('/^[0-9a-zA-Z]{1,6}$/D', $pvId) ? $pvId : null;
+        // idpageview decides which row a later hit closes, so the whole value has to key it.
+        // Truncating first would let pageview-1 and pageview-2 - which a site can set through
+        // setPageViewId() - select the same row, and rejecting instead would drop attribution
+        // for ids that are merely long, leaving a heartbeat with nothing to credit.
+        //
+        // So anything the column cannot hold verbatim is keyed by a stable hash of it. The
+        // column is CHAR(6) ascii: a non-ASCII byte fails the INSERT under strict SQL mode,
+        // and trailing spaces are stripped on comparison, so ids differing only there would
+        // collide.
+        $rawPvId = (string) $request->getParam('pv_id');
+        if ($rawPvId === '') {
+            $pvId = null;
+        } elseif (preg_match('/^[\x21-\x7e]{1,6}$/D', $rawPvId)) {
+            $pvId = $rawPvId;
+        } else {
+            $pvId = substr(md5($rawPvId), 0, 6);
+        }
 
         $serverTimeSql = date('Y-m-d H:i:s', (int) $request->getCurrentTimestamp());
         $cap = self::getVisitStandardLength();
