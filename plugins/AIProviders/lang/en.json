@@ -61,6 +61,6 @@
         "ThinkingCapabilityDescription": "Better reasoning for complex tasks.",
         "UnexpectedError": "Unexpected error. Please check the Matomo server logs.",
         "UnsavedChanges": "You have unsaved changes",
-        "UsedBy": "Used by"
+        "UsedBy": "Used by %s"
     }
 }
