@@ -186,6 +186,7 @@ import EmptyState from '../PluginGrid/EmptyState.vue';
 import RequestTrial from '../RequestTrial/RequestTrial.vue';
 import PluginDetails from '../PluginDetails/PluginDetails.vue';
 import { MarketplaceContext, PluginCard } from '../types';
+import { FETCH_TIMEOUT_MS } from '../constants';
 import { tabLabel } from '../PluginGrid/categoryLabels';
 import {
   buildPromoSections,
@@ -242,14 +243,6 @@ const LIST_FADE_MS = 280;
 
 /** How long the search box waits after the last keystroke before writing the query to the hash. */
 const QUERY_DEBOUNCE_MS = 250;
-
-/**
- * How long a catalogue request may hang before the page calls it a failure.
- *
- * `AjaxHelper.send()` neither resolves nor rejects when the request never reaches the server
- * (`xhr.status === 0`), so without this the skeletons would sit there for good.
- */
-const FETCH_TIMEOUT_MS = 30000;
 
 /**
  * Whether the page was opened from another Matomo page, such as the plugin management screen,

@@ -158,11 +158,14 @@ describe('Marketplace/PluginCard', () => {
       expect(img.attributes('srcset')).toContain('?w=880&h=480 880w');
     });
 
-    it('drops the image but keeps the frame when the cover 404s', async () => {
+    it('falls back to the stand-in cover when the cover 404s', async () => {
       const wrapper = mountCard();
       await wrapper.find('.pluginCard__shotImage').trigger('error');
-      expect(wrapper.find('.pluginCard__shotImage').exists()).toBe(false);
-      expect(wrapper.find('.pluginCard__plate').exists()).toBe(true);
+
+      const img = wrapper.find('.pluginCard__shotImage');
+      expect(img.attributes('src'))
+        .toBe('plugins/Marketplace/images/categories/uncategorised.png?w=440&h=240');
+      expect(img.classes()).toContain('pluginCard__shotImage--placeholder');
     });
   });
 

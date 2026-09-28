@@ -216,6 +216,7 @@ class Marketplace extends \Piwik\Plugin
         $translationKeys[] = 'Marketplace_PluginKeywords';
         $translationKeys[] = 'Marketplace_PluginLicenseExceededDescription';
         $translationKeys[] = 'Marketplace_PluginLicenseMissingDescription';
+        $translationKeys[] = 'Marketplace_PluginDetailsNotAvailable';
         $translationKeys[] = 'Marketplace_PluginsNotAvailable';
         $translationKeys[] = 'Marketplace_PluginWebsite';
         $translationKeys[] = 'Marketplace_Reviews';

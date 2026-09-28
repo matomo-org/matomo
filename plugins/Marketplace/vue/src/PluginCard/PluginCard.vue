@@ -16,7 +16,6 @@
         <img
           class="pluginCard__shotImage"
           :class="{ 'pluginCard__shotImage--placeholder': isPlaceholderCover }"
-          v-if="!coverImageFailed"
           :src="coverImageUrl(440, 240)"
           :srcset="coverImageSrcset"
           sizes="(max-width: 767px) 100vw, (max-width: 1279px) 50vw, 320px"
@@ -86,15 +85,9 @@ import { MatomoUrl, translate } from 'CoreHome';
 import CTAContainer from '../PluginList/CTAContainer.vue';
 import MatomoGlyph from './MatomoGlyph.vue';
 import { MarketplaceContext, PluginCard as PluginCardType } from '../types';
+import { PLACEHOLDER_COVER } from '../constants';
 import { isByMatomo, ownerLabel } from '../PluginGrid/pluginGrouping';
 import { chipLabel } from '../PluginGrid/categoryLabels';
-
-/**
- * The one stand-in `Plugins::addPluginCoverImage()` falls back to for a plugin with no screenshot.
- * It is line art on a white ground, so on a dark page it needs the same inversion every other
- * Matomo illustration gets - a real screenshot must not be touched.
- */
-const PLACEHOLDER_COVER = 'plugins/Marketplace/images/categories/uncategorised.png';
 
 export interface PluginCardState {
   coverImageFailed: boolean;
@@ -146,8 +139,12 @@ export default defineComponent({
         showPlugin: this.plugin.name,
       })}`;
     },
+    /** The plugin's own cover, or the stand-in once that has failed to load. */
+    coverImage(): string {
+      return this.coverImageFailed ? PLACEHOLDER_COVER : (this.plugin.coverImage || '');
+    },
     isPlaceholderCover(): boolean {
-      return (this.plugin.coverImage || '').endsWith(PLACEHOLDER_COVER);
+      return this.coverImage.endsWith(PLACEHOLDER_COVER);
     },
     coverImageSrcset(): string {
       return `${this.coverImageUrl(440, 240)} 440w, ${this.coverImageUrl(880, 480)} 880w`;
@@ -156,7 +153,7 @@ export default defineComponent({
   methods: {
     translate,
     coverImageUrl(width: number, height: number): string {
-      return `${this.plugin.coverImage}?w=${width}&h=${height}`;
+      return `${this.coverImage}?w=${width}&h=${height}`;
     },
   },
 });

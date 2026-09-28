@@ -30,9 +30,10 @@
             :class="{
               'marketplacePluginDetails__coverImage--placeholder': isPlaceholderCover,
             }"
-            :src="`${plugin.coverImage}?w=468&h=238`"
+            :src="`${coverImage}?w=468&h=238`"
             alt=""
             decoding="async"
+            @error="coverImageFailed = true"
           >
         </div>
 
@@ -169,6 +170,7 @@
                       alt=""
                       loading="lazy"
                       decoding="async"
+                      @error="failedScreenshots.push(screenshot)"
                     >
                   </button>
                   <figcaption class="marketplacePluginDetails__shotCaption">
@@ -432,18 +434,12 @@ import {
 import CTAContainer from '../PluginList/CTAContainer.vue';
 import MatomoGlyph from '../PluginCard/MatomoGlyph.vue';
 import PluginDetailsSkeleton from './PluginDetailsSkeleton.vue';
+import { FETCH_TIMEOUT_MS, PLACEHOLDER_COVER } from '../constants';
 import { isByMatomo, ownerLabel } from '../PluginGrid/pluginGrouping';
 import { chipLabel } from '../PluginGrid/categoryLabels';
 import ShopPricing from './ShopPricing.vue';
 import { hasShopPricing } from './shopPricing';
 import MissingReqsNotice from '../MissingReqsNotice/MissingReqsNotice.vue';
-
-/**
- * The stand-in `Plugins::addPluginCoverImage()` falls back to for a plugin with no screenshot.
- * Line art on a white ground, so a dark theme has to invert it the way it does every other Matomo
- * illustration - a real screenshot must not be touched. Kept in step with PluginCard.vue.
- */
-const PLACEHOLDER_COVER = 'plugins/Marketplace/images/categories/uncategorised.png';
 
 /**
  * Licence names that are open source. The name is free text from the plugin's author, in more
@@ -468,8 +464,12 @@ export interface PluginDetailsState {
   isLoading: boolean;
   fetchedDetails: PluginDetails|null;
   fetchAbortController: AbortController|null;
+  fetchTimeout: ReturnType<typeof setTimeout>|null;
   fetchErrorMessage: string;
   lightboxScreenshot: string;
+  coverImageFailed: boolean;
+  failedScreenshots: string[];
+  baseDocumentTitle: string;
 }
 
 export default defineComponent({
@@ -540,8 +540,12 @@ export default defineComponent({
       isLoading: true,
       fetchedDetails: null,
       fetchAbortController: null,
+      fetchTimeout: null,
       fetchErrorMessage: '',
       lightboxScreenshot: '',
+      coverImageFailed: false,
+      failedScreenshots: [],
+      baseDocumentTitle: '',
     };
   },
   emits: [
@@ -552,7 +556,12 @@ export default defineComponent({
     // the page is mounted per plugin, but the hash can name another one while it is open - a
     // second click from the plugin management table does exactly that
     'pluginCard.name': function onPluginChange() {
+      this.coverImageFailed = false;
+      this.failedScreenshots = [];
       this.fetchPluginDetails();
+    },
+    documentTitle(title: string) {
+      document.title = title;
     },
     isLoading(newValue) {
       if (newValue === false) {
@@ -567,8 +576,16 @@ export default defineComponent({
     // both sides of the change between the two views. Focus follows once there is a heading to put
     // it on; see focusHeading(), since until the details arrive this is a skeleton.
     this.fetchPluginDetails();
+
+    this.baseDocumentTitle = document.title;
   },
   unmounted() {
+    // Left alone once something else has retitled the page: on the reporting page, the hash change
+    // that closes this view has CoreHome title it for the category it returns to before we unmount.
+    if (document.title === this.documentTitle) {
+      document.title = this.baseDocumentTitle;
+    }
+
     this.abortDetailsFetch();
     this.teardownIframeResize();
   },
@@ -713,7 +730,7 @@ export default defineComponent({
       return chipLabel(this.plugin as PluginCard);
     },
     isPlaceholderCover(): boolean {
-      return (this.plugin.coverImage || '').endsWith(PLACEHOLDER_COVER);
+      return this.coverImage.endsWith(PLACEHOLDER_COVER);
     },
     /**
      * How many reviews the score is an average of, or nothing when the shop did not say.
@@ -765,8 +782,26 @@ export default defineComponent({
         ? this.getScreenshotBaseName(this.lightboxScreenshot)
         : '';
     },
+    /**
+     * The plugin's name ahead of the page's own title, the way Matomo titles every page: most
+     * specific first, each part joined with " - ".
+     */
+    documentTitle(): string {
+      if (!this.baseDocumentTitle) {
+        return '';
+      }
+
+      return `${this.plugin.displayName || this.plugin.name} - ${this.baseDocumentTitle}`;
+    },
+    /** The plugin's own cover, or the stand-in once that has failed to load. */
+    coverImage(): string {
+      return this.coverImageFailed ? PLACEHOLDER_COVER : (this.plugin.coverImage || '');
+    },
+    /** A screenshot that fails to load is left out, rather than shown as an empty frame. */
     pluginScreenshots(): string[] {
-      return this.plugin.screenshots || [];
+      return (this.plugin.screenshots || []).filter(
+        (screenshot: string) => !this.failedScreenshots.includes(screenshot),
+      );
     },
     pluginShopRecommendedVariation(): IPluginShopVariation | null {
       const recommendedVariations = this.pluginShopVariations.filter((v) => v.recommended);
@@ -856,6 +891,8 @@ export default defineComponent({
       return filename.substring(0, filename.lastIndexOf('.')).split('_').join(' ');
     },
     abortDetailsFetch() {
+      this.clearFetchTimeout();
+
       if (this.fetchAbortController) {
         this.fetchAbortController.abort();
         this.fetchAbortController = null;
@@ -877,6 +914,19 @@ export default defineComponent({
 
       const abortController = new AbortController();
       this.fetchAbortController = abortController;
+
+      // A request that never reaches the server settles neither way in AjaxHelper, and the
+      // skeleton would stay up for good - see FETCH_TIMEOUT_MS
+      this.fetchTimeout = setTimeout(() => {
+        this.fetchTimeout = null;
+        if (this.fetchAbortController !== abortController) {
+          return;
+        }
+
+        this.abortDetailsFetch();
+        this.fetchErrorMessage = translate('Marketplace_PluginDetailsNotAvailable', pluginName);
+        this.isLoading = false;
+      }, FETCH_TIMEOUT_MS);
 
       AjaxHelper.post(
         {
@@ -909,9 +959,16 @@ export default defineComponent({
           return; // superseded or aborted, whoever replaced it owns the loading state
         }
 
+        this.clearFetchTimeout();
         this.fetchAbortController = null;
         this.isLoading = false;
       });
+    },
+    clearFetchTimeout() {
+      if (this.fetchTimeout) {
+        clearTimeout(this.fetchTimeout);
+        this.fetchTimeout = null;
+      }
     },
     getPendingLicenseHelpText(pluginName: string) {
       return translate(

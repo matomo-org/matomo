@@ -432,6 +432,64 @@ describe('PluginDetails', () => {
     expect(wrapper.text()).toContain('GPL v3+');
   });
 
+  it('gives up on a request that never answers, rather than leaving the skeleton there', async () => {
+    vi.useFakeTimers();
+    try {
+      mockPost.mockReturnValue(new Promise(() => { /* never settles */ }));
+
+      const wrapper = mountDetails(cardRow);
+      await vi.advanceTimersByTimeAsync(30000 - 1);
+      expect(vmOf(wrapper).isLoading).toBe(true);
+
+      await vi.advanceTimersByTimeAsync(1);
+
+      expect(vmOf(wrapper).isLoading).toBe(false);
+      expect(vmOf(wrapper).fetchErrorMessage).toBe('Marketplace_PluginDetailsNotAvailable');
+      expect(wrapper.find('.pluginDetailsSkeleton').exists()).toBe(false);
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it('puts the plugin name ahead of the page title, and takes it off again on close', async () => {
+    document.title = 'Marketplace - Administration - Matomo';
+    mockPost.mockResolvedValue(detailsResponse);
+
+    const wrapper = mountDetails(cardRow);
+    await flushPromises();
+    await wrapper.vm.$nextTick();
+
+    expect(document.title).toBe('Paid Plugin 1 - Marketplace - Administration - Matomo');
+
+    wrapper.unmount();
+
+    expect(document.title).toBe('Marketplace - Administration - Matomo');
+  });
+
+  it('falls back to the stand-in cover when the cover fails to load', async () => {
+    mockPost.mockResolvedValue(detailsResponse);
+
+    const wrapper = mountDetails(cardRow);
+    await flushPromises();
+    await wrapper.find('.marketplacePluginDetails__coverImage').trigger('error');
+
+    const img = wrapper.find('.marketplacePluginDetails__coverImage');
+    expect(img.attributes('src'))
+      .toBe('plugins/Marketplace/images/categories/uncategorised.png?w=468&h=238');
+    expect(img.classes()).toContain('marketplacePluginDetails__coverImage--placeholder');
+  });
+
+  it('leaves out a screenshot that fails to load', async () => {
+    mockPost.mockResolvedValue({ ...detailsResponse, screenshots: ['one.png', 'two.png'] });
+
+    const wrapper = mountDetails(cardRow);
+    await flushPromises();
+    await wrapper.findAll('.marketplacePluginDetails__shotImage')[0].trigger('error');
+
+    expect(vmOf(wrapper).pluginScreenshots).toEqual(['two.png']);
+    expect(wrapper.findAll('.marketplacePluginDetails__shot')).toHaveLength(1);
+  });
+
   it('prices nothing for a plugin that is already installed', async () => {
     mockPost.mockResolvedValue(detailsResponse);
 
