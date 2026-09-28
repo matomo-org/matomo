@@ -128,6 +128,9 @@ button.marketplacePluginDetails__back:focus:not(:focus-visible) {
   line-height: 36px;
   letter-spacing: -0.24px;
   color: @theme-color-text-contrast;
+  // a plugin name is often one long camel-cased word, which would push the page sideways on a
+  // phone or at high zoom rather than wrap
+  overflow-wrap: anywhere;
 
   // focus lands here from script only (tabindex -1) so a screen reader starts at the name; the
   // global dotted `:focus` outline would otherwise frame the heading as if it could be clicked
@@ -141,6 +144,8 @@ button.marketplacePluginDetails__back:focus:not(:focus-visible) {
   // the description is one or two sentences; the head is far wider than that reads well at
   max-width: 535px;
   color: @theme-color-text-light;
+  // an author may paste a URL in as the description, and it would run off a narrow screen
+  overflow-wrap: anywhere;
 }
 
 .marketplacePluginDetails__facts {
@@ -279,6 +284,9 @@ button.marketplacePluginDetails__reviewsLink:focus:not(:focus-visible) {
   // The page's intro styles colour every p itself, while lists and the rest take the colour around
   // them; set the paragraphs' colour here so everything in the readme inherits the same one
   color: @theme-color-headline-alternative;
+  // readme headings and links carry long unbroken words - class names, URLs - that would otherwise
+  // run past the card on a narrow screen
+  overflow-wrap: anywhere;
 
   // Readme HTML, so this styles tags the Marketplace sends rather than classes of ours. The card
   // title above is 20px, so a readme's own headings step down from it: a section at 18, the
