@@ -35,6 +35,22 @@ function unwrap(value) {
   return Array.isArray(value) ? value.map(unwrap) : value;
 }
 
+// Puppeteer's selector prefixes (xpath/, text/) in Playwright's syntax
+function toPlaywrightSelector(value) {
+  if (typeof value !== 'string') {
+    return value;
+  }
+  if (value.startsWith('xpath/')) {
+    return `xpath=${value.slice('xpath/'.length)}`;
+  }
+  if (value.startsWith('text/')) {
+    return `text=${value.slice('text/'.length)}`;
+  }
+  return value;
+}
+
+const isNavigationError = (error) => /Cannot find context with specified id|Execution context was destroyed|Element is not attached|frame was detached/i.test(error.message);
+
 function mapWaitUntil(waitUntil) {
   const value = Array.isArray(waitUntil) ? waitUntil[0] : waitUntil;
   if (value === 'networkidle0' || value === 'networkidle2') {
@@ -104,6 +120,11 @@ class JSHandle {
     return null;
   }
 
+  // like Puppeteer, which some specs rely on when they match a handle against a regexp
+  toString() {
+    return `JSHandle:${this.__pw.toString()}`;
+  }
+
   dispose() {
     return this.__pw.dispose();
   }
@@ -124,10 +145,18 @@ class ElementHandle extends JSHandle {
     try {
       await this.__pw.click({ ...clickOptions, timeout: CLICK_TIMEOUT });
     } catch (error) {
+      // the click navigated (a form that submits itself), so the element's page is gone: that's done
+      if (isNavigationError(error)) {
+        return;
+      }
       if (!isTimeout(error)) {
         throw error;
       }
-      await this.__pw.click({ ...clickOptions, force: true, timeout: DEFAULT_TIMEOUT });
+      await this.__pw.click({ ...clickOptions, force: true, timeout: DEFAULT_TIMEOUT }).catch((forced) => {
+        if (!isNavigationError(forced)) {
+          throw forced;
+        }
+      });
     }
   }
 
@@ -167,11 +196,11 @@ class ElementHandle extends JSHandle {
   }
 
   async $(selector) {
-    return wrapHandle(await this.__pw.$(selector));
+    return wrapHandle(await this.__pw.$(toPlaywrightSelector(selector)));
   }
 
   async $$(selector) {
-    return (await this.__pw.$$(selector)).map(wrapHandle);
+    return (await this.__pw.$$(toPlaywrightSelector(selector))).map(wrapHandle);
   }
 
   async $eval(selector, fn, ...args) {
@@ -183,7 +212,7 @@ class ElementHandle extends JSHandle {
   }
 
   $$eval(selector, fn, ...args) {
-    return this.__pw.$$eval(selector, runOnElements, payload(fn, args));
+    return this.__pw.$$eval(toPlaywrightSelector(selector), runOnElements, payload(fn, args));
   }
 
   uploadFile(...paths) {
@@ -211,6 +240,27 @@ class ElementHandle extends JSHandle {
 
   scrollIntoView() {
     return this.__pw.scrollIntoViewIfNeeded();
+  }
+}
+
+/** What waitForFunction resolves to: the truthy value, as a handle like in Puppeteer. */
+class ValueHandle {
+  constructor(value) {
+    this.value = value;
+  }
+
+  async jsonValue() {
+    return this.value;
+  }
+
+  asElement() {
+    return null;
+  }
+
+  async dispose() {}
+
+  toString() {
+    return `JSHandle:${this.value}`;
   }
 }
 
@@ -360,11 +410,11 @@ class Target {
   }
 
   async $(selector) {
-    return wrapHandle(await this.__pw.$(selector));
+    return wrapHandle(await this.__pw.$(toPlaywrightSelector(selector)));
   }
 
   async $$(selector) {
-    return (await this.__pw.$$(selector)).map(wrapHandle);
+    return (await this.__pw.$$(toPlaywrightSelector(selector))).map(wrapHandle);
   }
 
   async $eval(selector, fn, ...args) {
@@ -376,7 +426,7 @@ class Target {
   }
 
   $$eval(selector, fn, ...args) {
-    return this.__pw.$$eval(selector, runOnElements, payload(fn, args));
+    return this.__pw.$$eval(toPlaywrightSelector(selector), runOnElements, payload(fn, args));
   }
 
   async waitForSelector(selector, options = {}) {
@@ -386,7 +436,7 @@ class Target {
     } else if (options.hidden) {
       state = 'hidden';
     }
-    return wrapHandle(await this.__pw.waitForSelector(selector, { state, timeout: options.timeout ?? DEFAULT_TIMEOUT }));
+    return wrapHandle(await this.__pw.waitForSelector(toPlaywrightSelector(selector), { state, timeout: options.timeout ?? DEFAULT_TIMEOUT }));
   }
 
   // Polls in Node, so async predicates work and a navigation in between doesn't fail the wait.
@@ -399,7 +449,7 @@ class Target {
       try {
         const value = await evaluate(this.__pw, typeof fn === 'string' ? `(${fn})` : fn, args);
         if (value) {
-          return { jsonValue: async () => value, asElement: () => null, dispose: async () => {} };
+          return new ValueHandle(value);
         }
       } catch (error) {
         if (!/Execution context was destroyed|navigat/i.test(error.message)) {
@@ -665,8 +715,13 @@ class Page extends Target {
     return this.__pw.setExtraHTTPHeaders(headers);
   }
 
+  // Chrome takes fullVersionList from the real browser unless given, and Playwright's headless shell
+  // reports "HeadlessChrome" there, which TrackingSpamPrevention blocks.
   async setUserAgent(userAgent, userAgentMetadata) {
-    await this.cdp.send('Emulation.setUserAgentOverride', { userAgent, userAgentMetadata });
+    const metadata = userAgentMetadata && !userAgentMetadata.fullVersionList
+      ? { ...userAgentMetadata, fullVersionList: (userAgentMetadata.brands || []).map(({ brand }) => ({ brand, version: userAgentMetadata.fullVersion || '' })) }
+      : userAgentMetadata;
+    await this.cdp.send('Emulation.setUserAgentOverride', { userAgent, userAgentMetadata: metadata });
   }
 
   async setCacheEnabled(enabled = true) {

@@ -27,6 +27,7 @@ const chaiFiles = require('chai-files');
 const HARNESS = path.join(ROOT, 'tests/lib/screenshot-testing/support');
 const SPEC_TIMEOUT = 240_000; // the Mocha harness default
 const VIEWPORT = { width: 1350, height: 768 };
+const LOCAL_JQUERY = path.join(ROOT, 'node_modules/jquery/dist/jquery.min.js');
 
 let chromeUserAgent;
 
@@ -184,6 +185,20 @@ function run(spec) {
   const root = new Suite('', null);
   suite = root;
 
+  // registered after the spec's own hooks, which Mocha also runs before the harness teardown
+  function registerRootTeardown(rootSuite) {
+    test.afterAll(async () => {
+      const persist = !(rootSuite.optionsOverride && rootSuite.optionsOverride['persist-fixture-data'] === false);
+      if (!persist) {
+        teardownFixture(rootSuite.fixture || DEFAULT_FIXTURE);
+      }
+      if (global.page.browserContext) {
+        await global.page.browserContext.close();
+        global.page.browserContext = null;
+      }
+    });
+  }
+
   function registerRootHooks(rootSuite) {
     test.beforeAll(async ({ browser }, testInfo) => {
       testInfo.setTimeout(0); // fixture setup has no time limit, like in the Mocha harness
@@ -204,17 +219,6 @@ function run(spec) {
       // like TestingEnvironment.setupFixture(): the harness defaults (mock auth, real translations) on top
       global.testEnvironment.reload();
       global.testEnvironment.save();
-    });
-
-    test.afterAll(async () => {
-      const persist = !(rootSuite.optionsOverride && rootSuite.optionsOverride['persist-fixture-data'] === false);
-      if (!persist) {
-        teardownFixture(rootSuite.fixture || DEFAULT_FIXTURE);
-      }
-      if (global.page.browserContext) {
-        await global.page.browserContext.close();
-        global.page.browserContext = null;
-      }
     });
 
     test.beforeEach(async () => {
@@ -244,6 +248,9 @@ function run(spec) {
         registerRootHooks(child);
       }
       fn.call(child);
+      if (parent === root) {
+        registerRootTeardown(child);
+      }
       suite = parent;
     });
     return child;
@@ -327,7 +334,11 @@ function requireSloppy(file) {
  */
 function watchContext(context, page) {
   const localHosts = [MATOMO_URL.hostname, 'localhost', '127.0.0.1'].map((host) => host.replace(/\./g, '\\.')).join('|');
-  context.route(new RegExp(`^https?://(?!(?:${localHosts})(?::\\d+)?(?:/|$))`), (route) => route.fulfill({ status: 200, contentType: 'text/html', body: '' }));
+  context.route(new RegExp(`^https?://(?!(?:${localHosts})(?::\\d+)?(?:/|$))`), (route) => (
+    /\/jquery[.\d-]*(\.min)?\.js$/.test(new URL(route.request().url()).pathname)
+      ? route.fulfill({ path: LOCAL_JQUERY, contentType: 'application/javascript' }) // test sites load it from a CDN
+      : route.fulfill({ status: 200, contentType: 'text/html', body: '' })
+  ));
   context.on('page', async (popup) => {
     if (popup !== page.__pw && page.__pw.listenerCount('popup') === 0) {
       await popup.close().catch(() => {});

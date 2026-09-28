@@ -64,6 +64,20 @@ function restoreDatabase(dbName, sqlFile) {
 }
 
 /**
+ * The fixture setup clears Matomo's file caches, a restore has to do the same: the tracker cache for
+ * example still lists the dimensions of plugins an earlier spec loaded.
+ */
+function clearCaches() {
+  const cacheDir = path.join(ROOT, 'tmp/cache');
+  if (fs.existsSync(cacheDir)) {
+    for (const item of fs.readdirSync(cacheDir)) {
+      fs.rmSync(path.join(cacheDir, item), { recursive: true, force: true });
+    }
+  }
+  fs.mkdirSync(path.join(cacheDir, 'tracker'), { recursive: true });
+}
+
+/**
  * Prepares the database and tmp/testingPathOverride.json for a spec. `plugin` mirrors tests:run-ui --plugin
  * (the fixture loads that plugin). With `persist: false` the fixture is set up from scratch every time and
  * must be torn down with teardownFixture(), like specs that set 'persist-fixture-data': false.
@@ -77,6 +91,7 @@ function prepareFixture({ fixtureClass = DEFAULT_FIXTURE, plugin, persist = true
   if (reuse) {
     const environment = JSON.parse(fs.readFileSync(snapshot.env, 'utf8'));
     restoreDatabase(environment.dbName, snapshot.sql);
+    clearCaches();
     writeEnvironment(environment);
     return environment;
   }
