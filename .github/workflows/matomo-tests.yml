@@ -168,9 +168,11 @@ jobs:
         uses: matomo-org/github-action-tests@main
         with:
           test-type: 'IntegrationTestsCore'
+          # the JUnit timings feed .github/scripts/bucket-timings.json (see list-bucket-tests.php)
           phpunit-test-options: >-
             --configuration tests/PHPUnit/phpunit-bucket-${{ matrix.bucket }}.xml
             --testsuite Bucket
+            --log-junit tests/PHPUnit/junit-bucket.xml
           mysql-driver: ${{ matrix.environment.adapter }}
           mysql-engine: ${{ matrix.environment.mysql-engine }}
           mysql-version: ${{ matrix.environment.mysql-version }}
@@ -180,6 +182,14 @@ jobs:
           upload-artifacts: ${{ matrix.environment.php == '8.1' }}
           testomatio: ${{ secrets.TESTOMATIO_INTEGRATION }}
           testomatio-force-report: ${{ contains('schedule,push', github.event_name) && github.run_attempt < 2 }}
+      - name: Upload test timings
+        if: ${{ always() && matrix.environment.php == '8.1' }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: junit-IntegrationTestsCore-${{ matrix.bucket }}
+          path: matomo/tests/PHPUnit/junit-bucket.xml
+          retention-days: 14
+          if-no-files-found: ignore
   PHP-integration-plugins:
     name: PHP (IntegrationTestsPlugins, bucket ${{ matrix.bucket }}/10, ${{ matrix.environment.php }}, ${{ matrix.environment.adapter }}, ${{ matrix.environment.mysql-engine }}, ${{ matrix.environment.mysql-version }})
     runs-on: ubuntu-24.04
@@ -211,9 +221,11 @@ jobs:
         uses: matomo-org/github-action-tests@main
         with:
           test-type: 'IntegrationTestsPlugins'
+          # the JUnit timings feed .github/scripts/bucket-timings.json (see list-bucket-tests.php)
           phpunit-test-options: >-
             --configuration tests/PHPUnit/phpunit-bucket-${{ matrix.bucket }}.xml
             --testsuite Bucket
+            --log-junit tests/PHPUnit/junit-bucket.xml
           mysql-driver: ${{ matrix.environment.adapter }}
           mysql-engine: ${{ matrix.environment.mysql-engine }}
           mysql-version: ${{ matrix.environment.mysql-version }}
@@ -223,6 +235,14 @@ jobs:
           upload-artifacts: ${{ matrix.environment.php == '8.1' }}
           testomatio: ${{ secrets.TESTOMATIO_INTEGRATION }}
           testomatio-force-report: ${{ contains('schedule,push', github.event_name) && github.run_attempt < 2 }}
+      - name: Upload test timings
+        if: ${{ always() && matrix.environment.php == '8.1' }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: junit-IntegrationTestsPlugins-${{ matrix.bucket }}
+          path: matomo/tests/PHPUnit/junit-bucket.xml
+          retention-days: 14
+          if-no-files-found: ignore
   PHP-system-plugins:
     name: PHP (SystemTestsPlugins, bucket ${{ matrix.bucket }}/10, ${{ matrix.environment.php }}, ${{ matrix.environment.adapter }}, ${{ matrix.environment.mysql-engine }}, ${{ matrix.environment.mysql-version }})
     runs-on: ubuntu-24.04
@@ -254,9 +274,11 @@ jobs:
         uses: matomo-org/github-action-tests@main
         with:
           test-type: 'SystemTestsPlugins'
+          # the JUnit timings feed .github/scripts/bucket-timings.json (see list-bucket-tests.php)
           phpunit-test-options: >-
             --configuration tests/PHPUnit/phpunit-bucket-${{ matrix.bucket }}.xml
             --testsuite Bucket
+            --log-junit tests/PHPUnit/junit-bucket.xml
           mysql-driver: ${{ matrix.environment.adapter }}
           mysql-engine: ${{ matrix.environment.mysql-engine }}
           mysql-version: ${{ matrix.environment.mysql-version }}
@@ -269,6 +291,14 @@ jobs:
           upload-artifacts: false
           testomatio: ${{ secrets.TESTOMATIO_INTEGRATION }}
           testomatio-force-report: ${{ contains('schedule,push', github.event_name) && github.run_attempt < 2 }}
+      - name: Upload test timings
+        if: ${{ always() && matrix.environment.php == '8.1' }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: junit-SystemTestsPlugins-${{ matrix.bucket }}
+          path: matomo/tests/PHPUnit/junit-bucket.xml
+          retention-days: 14
+          if-no-files-found: ignore
       - name: Upload bucket processed-files for aggregation
         if: ${{ always() && matrix.environment.php == '8.1' }}
         uses: actions/upload-artifact@v7

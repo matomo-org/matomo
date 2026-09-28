@@ -101,9 +101,21 @@ function testFiles() {
   return ported.concat(legacy);
 }
 
+/** What a test file belongs to: its plugin, or the spec's own name for core and rewritten specs. */
+function area(file) {
+  const parts = file.split(path.sep);
+  const generated = parts.indexOf('generated');
+  if (generated !== -1 && parts[generated + 1] !== 'core') {
+    return parts[generated + 1];
+  }
+  return path.basename(file).replace(/(_spec)?\.spec\.js$/, '');
+}
+
 /**
- * The files of one shard ("2/10"): longest files first, each onto the shard with the least work so far,
- * so the shards take about the same time.
+ * The files of one shard ("2/10"). A plugin's specs stay together, so a job is named after what it tests
+ * and sets each fixture up once, unless the plugin alone would take longer than a shard's share. The
+ * longest groups go first, each onto the shard with the least work so far, so the shards take about the
+ * same time.
  */
 function shardFiles(shard) {
   const files = testFiles();
@@ -111,13 +123,26 @@ function shardFiles(shard) {
     return files.map(({ file }) => file);
   }
   const [index, total] = shard.split('/').map(Number);
+  const share = files.reduce((sum, { seconds }) => sum + seconds, 0) / total;
+
+  const groups = new Map();
+  for (const entry of files) {
+    const group = groups.get(area(entry.file)) || { seconds: 0, files: [] };
+    group.seconds += entry.seconds;
+    group.files.push(entry);
+    groups.set(area(entry.file), group);
+  }
+  const units = [...groups.values()].flatMap((group) => (group.seconds > share
+    ? group.files.map((entry) => ({ seconds: entry.seconds, files: [entry.file] }))
+    : [{ seconds: group.seconds, files: group.files.map((entry) => entry.file) }]));
+
   const bins = Array.from({ length: total }, () => ({ seconds: 0, files: [] }));
-  for (const entry of files.sort((a, b) => b.seconds - a.seconds || a.file.localeCompare(b.file))) {
+  for (const unit of units.sort((a, b) => b.seconds - a.seconds || a.files[0].localeCompare(b.files[0]))) {
     const bin = bins.reduce((least, candidate) => (candidate.seconds < least.seconds ? candidate : least));
-    bin.seconds += entry.seconds;
-    bin.files.push(entry.file);
+    bin.seconds += unit.seconds;
+    bin.files.push(...unit.files);
   }
   return bins[index - 1].files;
 }
 
-module.exports = { legacySpecs, shardFiles, testFiles };
+module.exports = { area, legacySpecs, shardFiles, testFiles };

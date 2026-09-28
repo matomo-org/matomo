@@ -37,15 +37,35 @@ env:
   NODE_VERSION: '24'
 
 jobs:
+  # Splits the specs into shards up front, so each job can be named after what it tests.
+  plan:
+    name: UI shards
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      shards: ${{ steps.plan.outputs.shards }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          lfs: false
+          persist-credentials: false
+          submodules: false
+          ref: ${{ inputs.ref || github.ref }}
+      - name: Fetch submodules
+        run: git -c protocol.version=2 submodule update --init --force --depth=1 --jobs=8
+      - id: plan
+        run: node tests/playwright/legacy/plan.js 10 >> "$GITHUB_OUTPUT"
+
   playwright:
-    name: UI (Playwright ${{ matrix.shard }}/10)
+    name: UI ${{ matrix.shard }}/10 (${{ matrix.label }})
+    needs: plan
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     strategy:
       fail-fast: false
       max-parallel: ${{ fromJson(vars.MATOMO_UI_MAX_PARALLEL || '10') }}
       matrix:
-        shard: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+        include: ${{ fromJson(needs.plan.outputs.shards) }}
     env:
       CI: 'true'
       MATOMO_URL: 'http://localhost/'
@@ -195,6 +215,13 @@ jobs:
           echo 'PHP server is not answering'
           cat tmp/logs/php-server.log
           exit 1
+
+      - name: List the specs of this shard
+        run: |
+          {
+            echo "### UI shard $PLAYWRIGHT_SHARD"
+            node -e "require('./tests/playwright/legacy/specs').shardFiles(process.env.PLAYWRIGHT_SHARD).forEach((f) => console.log('- ' + require('path').relative(process.cwd(), f)))"
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Run Playwright tests
         working-directory: tests/playwright

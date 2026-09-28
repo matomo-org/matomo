@@ -52,6 +52,28 @@ function runConsole(args) {
   execFileSync(process.env.MATOMO_PHP || 'php', [path.join(ROOT, 'console'), ...args], { cwd: ROOT, stdio: 'inherit' });
 }
 
+// Plugins that tests don't load unless asked to, see TestingEnvironmentVariables::getCoreAndSupportedPlugins()
+// and TestingEnvironmentManipulator::getPluginsToLoadDuringTest(). Only these change what a fixture sets up.
+const NOT_LOADED_BY_DEFAULT = new Set([
+  'ArchivingMetrics', 'ExamplePluginTemplate', 'ExampleTracker', 'ExampleLogTables', 'ExampleReport',
+  'ExampleVue', 'MobileAppMeasurable', 'LoginLdap', 'MarketingCampaignsReporting', 'ExampleVisualization',
+  'DeviceDetectorCache', 'Provider',
+]);
+
+/**
+ * The plugin a fixture has to be set up with for a spec of `plugin`, or null when the tests load that plugin
+ * anyway: then all those specs share one setup instead of rebuilding the same data per plugin. Plugins that
+ * are neither bundled nor submodules (for example premium ones checked out locally) always get their own.
+ */
+function fixturePlugin(plugin) {
+  if (!plugin) {
+    return null;
+  }
+  const isSeparateCheckout = fs.existsSync(path.join(ROOT, 'plugins', plugin, '.git'));
+  const isSubmodule = fs.readFileSync(path.join(ROOT, '.gitmodules'), 'utf8').includes(`plugins/${plugin}\n`);
+  return NOT_LOADED_BY_DEFAULT.has(plugin) || (isSeparateCheckout && !isSubmodule) ? plugin : null;
+}
+
 function snapshotPaths(fixtureClass, plugin) {
   const id = crypto.createHash('sha1').update(`${fixtureClass}|${plugin || ''}`).digest('hex').slice(0, 12);
   return { sql: path.join(SNAPSHOT_DIR, `${id}.sql`), env: path.join(SNAPSHOT_DIR, `${id}.json`) };
@@ -84,12 +106,15 @@ function clearCaches() {
  * PLAYWRIGHT_FIXTURE_DROP=1 ignores snapshots left over from earlier local runs.
  */
 function prepareFixture({ fixtureClass = DEFAULT_FIXTURE, plugin, persist = true } = {}) {
-  const snapshot = snapshotPaths(fixtureClass, plugin);
+  const setupPlugin = fixturePlugin(plugin);
+  // like tests:run-ui --plugin, which loads the plugin during the spec
+  const withPlugin = (environment) => (plugin ? { ...environment, pluginsToLoad: [plugin] } : environment);
+  const snapshot = snapshotPaths(fixtureClass, setupPlugin);
   const reuse = persist && fs.existsSync(snapshot.sql) && fs.existsSync(snapshot.env)
     && (!process.env.PLAYWRIGHT_FIXTURE_DROP || prepareFixture.fresh.has(snapshot.sql));
 
   if (reuse) {
-    const environment = JSON.parse(fs.readFileSync(snapshot.env, 'utf8'));
+    const environment = withPlugin(JSON.parse(fs.readFileSync(snapshot.env, 'utf8')));
     restoreDatabase(environment.dbName, snapshot.sql);
     clearCaches();
     writeEnvironment(environment);
@@ -103,12 +128,11 @@ function prepareFixture({ fixtureClass = DEFAULT_FIXTURE, plugin, persist = true
     '--set-symlinks',
     `--server-global=${JSON.stringify(SERVER_GLOBAL)}`,
     ...(persist ? ['--persist-fixture-data', '--drop'] : []),
-    ...(plugin ? [`--plugins=${plugin}`] : []),
+    ...(setupPlugin ? [`--plugins=${setupPlugin}`] : []),
   ]);
 
   // the PHP side writes the fixture database and plugin list here, so merge into it
-  const environment = { ...readEnvironment(), fixtureClass, ...(plugin ? { pluginsToLoad: [plugin] } : {}) };
-  writeEnvironment(environment);
+  const environment = { ...readEnvironment(), fixtureClass, ...(setupPlugin ? { pluginsToLoad: [setupPlugin] } : {}) };
 
   if (persist) {
     fs.mkdirSync(SNAPSHOT_DIR, { recursive: true });
@@ -117,7 +141,8 @@ function prepareFixture({ fixtureClass = DEFAULT_FIXTURE, plugin, persist = true
     fs.writeFileSync(snapshot.env, JSON.stringify(environment));
     prepareFixture.fresh.add(snapshot.sql);
   }
-  return environment;
+  writeEnvironment(withPlugin(environment));
+  return withPlugin(environment);
 }
 prepareFixture.fresh = new Set();
 
