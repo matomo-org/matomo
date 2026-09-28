@@ -76,6 +76,9 @@ describe("Marketplace", function () {
         await page.evaluate((modalSelector) => {
           const modal = document.querySelector(modalSelector);
           modal.style.top = '0';
+          // clicking the plugin card scrolls the page, and the fixed modal's offset() includes that scroll,
+          // so the capture would start inside the modal by a varying amount
+          window.scrollTo(0, 0);
         }, selector);
 
         expect(await page.screenshotSelector(selector)).to.matchImage(screenshotName);

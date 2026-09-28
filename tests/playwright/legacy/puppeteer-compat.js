@@ -702,8 +702,12 @@ class Page extends Target {
       : undefined;
     // a page in the background (behind a popup) gets no new frames, which stalled Puppeteer for minutes
     await this.__pw.bringToFront();
+    // Full-page mode renders beyond the viewport, which moves position:fixed elements (a Materialize modal
+    // was captured from its middle), so it's only used when the clip doesn't fit the viewport.
+    const viewport = this.__pw.viewportSize();
+    const beyondViewport = clip && viewport && (clip.y + clip.height > viewport.height || clip.x + clip.width > viewport.width);
     return stableCapture(() => this.__pw.screenshot({
-      fullPage: !!(options.fullPage || clip),
+      fullPage: !!(options.fullPage || beyondViewport),
       clip,
       type: options.type,
       omitBackground: options.omitBackground,
