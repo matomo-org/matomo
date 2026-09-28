@@ -829,8 +829,8 @@ parameters:
 			path: core/Filesystem.php
 
 		-
-			message: '#^Negated boolean expression is always true\.$#'
-			identifier: booleanNot.alwaysTrue
+			message: '#^Call to function is_writable\(\) with string will always evaluate to false\.$#'
+			identifier: function.impossibleType
 			count: 1
 			path: core/Filesystem.php
 
