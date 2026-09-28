@@ -136,7 +136,8 @@ jobs:
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v7
         with:
-          name: playwright-report
+          # one artifact per attempt, so a rerun keeps the evidence of the failed attempt
+          name: playwright-report-${{ github.run_attempt }}
           path: |
             tests/playwright/playwright-report
             tests/playwright/test-results
@@ -147,6 +148,7 @@ jobs:
         if: ${{ !cancelled() && env.PLAYWRIGHT_UPDATE_SNAPSHOTS != 'none' }}
         uses: actions/upload-artifact@v7
         with:
-          name: playwright-screenshots
+          # one artifact per attempt, so a rerun keeps the evidence of the failed attempt
+          name: playwright-screenshots-${{ github.run_attempt }}
           path: tests/playwright/screenshots
           retention-days: 14

@@ -263,6 +263,8 @@ test.describe('PeriodSelector', () => {
       // ensure inputs are properly filled
       await page.locator('.periodSelector .title').click();
       await expect(page.locator('#calendarApply')).toBeVisible();
+      await expect(page.locator('#comparePeriodStartDate input')).toHaveValue('2013-01-01');
+      await expect(page.locator('#comparePeriodEndDate input')).toHaveValue('2013-01-02');
       await page.mouse.move(-10, -10);
       await expectAreaScreenshot(session, area, 'custom_comparison_url.png');
     });

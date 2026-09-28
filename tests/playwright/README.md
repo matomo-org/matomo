@@ -21,7 +21,7 @@ Debugging: every failure keeps a trace (`npx playwright show-trace test-results/
 
 ## On GitHub Actions
 
-`.github/workflows/ui-playwright.yml` runs the suite against PHP's built-in server and the MySQL preinstalled on the runner. The baselines in `screenshots/` come only from CI. To update them, push a commit whose message contains `[update-screenshots]` (or run the workflow with "update screenshots"), download the `playwright-screenshots` artifact and commit it.
+`.github/workflows/ui-playwright.yml` runs the suite against PHP's built-in server and the MySQL preinstalled on the runner. The baselines in `screenshots/` come only from CI. To update them, push a commit whose message contains `[update-screenshots]` (or run the workflow with "update screenshots"), download the `playwright-screenshots-<attempt>` artifact and commit it.
 
 ## Writing specs
 
