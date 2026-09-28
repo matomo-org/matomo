@@ -91,6 +91,11 @@ class ReportRetention implements
         return '';
     }
 
+    public static function getPolicyOrder(): int
+    {
+        return 100;
+    }
+
     public static function getPolicyRequirements(): array
     {
         $policyValues = [];
