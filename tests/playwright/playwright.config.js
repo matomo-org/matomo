@@ -50,7 +50,12 @@ module.exports = defineConfig({
     screenshot: 'only-on-failure',
     launchOptions: {
       executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE || undefined,
-      args: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE ? ['--no-sandbox'] : [],
+      args: [
+        // Chrome renders text on composited layers with grayscale instead of LCD anti-aliasing, and
+        // whether a layer gets composited depends on timing, so screenshots flip between the two
+        '--disable-lcd-text',
+        ...(process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE ? ['--no-sandbox'] : []),
+      ],
     },
   },
   projects: [{ name: 'chromium', use: { browserName: 'chromium' } }],
