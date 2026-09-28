@@ -9,6 +9,7 @@
 
 namespace Piwik\Tests\Integration\Settings\Plugin;
 
+use Piwik\Access;
 use Piwik\Db;
 use Piwik\Settings\FieldConfig;
 use Piwik\Settings\Measurable\MeasurableSetting;
@@ -77,6 +78,28 @@ class MeasurableSettingTest extends IntegrationTestCase
 
         $this->assertSame('value1', $site1->getValue());
         $this->assertSame('value1Field2', $site1Field2->getValue());
+    }
+
+    public function testIsWritableByCurrentUserIsDetectedAgainAfterDoAsSuperUser()
+    {
+        $this->setUser();
+        $setting = $this->buildSetting('field1');
+
+        $isWritableInside = Access::doAsSuperUser(function () use ($setting) {
+            return $setting->isWritableByCurrentUser();
+        });
+
+        $this->assertTrue($isWritableInside);
+        $this->assertFalse($setting->isWritableByCurrentUser());
+    }
+
+    public function testIsWritableByCurrentUserKeepsAnExplicitlySetValue()
+    {
+        $this->setUser();
+        $setting = $this->buildSetting('field1');
+        $setting->setIsWritableByCurrentUser(true);
+
+        $this->assertTrue($setting->isWritableByCurrentUser());
     }
 
     private function buildSetting($name, $type = null, $idSite = null)
