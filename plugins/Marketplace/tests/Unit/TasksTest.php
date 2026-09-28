@@ -25,6 +25,7 @@ use Piwik\Plugins\Marketplace\Tasks;
 use Piwik\Plugins\Marketplace\tests\Framework\Mock\Client as ClientBuilder;
 use Piwik\Plugins\Marketplace\tests\Framework\Mock\Service as TestService;
 use Piwik\Plugins\Marketplace\UpdateCommunication;
+use Psr\Log\LogLevel;
 
 /**
  * @group Plugins
@@ -51,6 +52,11 @@ class TasksTest extends \PHPUnit\Framework\TestCase
     private $warmer;
 
     /**
+     * @var bool
+     */
+    private $canSpawn = true;
+
+    /**
      * @var Tasks
      */
     private $tasks;
@@ -62,6 +68,9 @@ class TasksTest extends \PHPUnit\Framework\TestCase
         $this->service = new TestService();
         $this->api = ClientBuilder::build($this->service, new Lazy(new ArrayCache()));
         $this->warmer = $this->createMock(BackgroundWarmer::class);
+        $this->warmer->method('canSpawn')->willReturnCallback(function () {
+            return $this->canSpawn;
+        });
         $this->api->setBackgroundWarmer($this->warmer);
         $this->tasks = $this->buildTasks($this->api, new NullLogger());
     }
@@ -122,6 +131,33 @@ class TasksTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(0, $this->api->getOverviewListsAge());
     }
 
+    public function testWarmCacheEntriesWithoutBackgroundProcessesRefillsTheListsOnceAVisitWouldRefreshThem()
+    {
+        $this->api->refreshOverviewListCaches();
+        Date::$now = self::NOW + ApiClient::PLUGIN_LIST_REFRESH_AFTER_SECONDS;
+        $requests = $this->recordRequests();
+        $this->canSpawn = false;
+
+        $this->warmer->expects($this->never())->method('refreshPeriodically');
+
+        $this->tasks->warmCacheEntries();
+
+        $this->assertNotEmpty($requests);
+        $this->assertSame(0, $this->api->getOverviewListsAge());
+    }
+
+    public function testWarmCacheEntriesWithoutBackgroundProcessesLeavesListsAloneThatAVisitWouldServe()
+    {
+        $this->api->refreshOverviewListCaches();
+        Date::$now = self::NOW + ApiClient::PLUGIN_LIST_REFRESH_AFTER_SECONDS - 1;
+        $requests = $this->recordRequests();
+        $this->canSpawn = false;
+
+        $this->tasks->warmCacheEntries();
+
+        $this->assertSame([], $requests->getArrayCopy());
+    }
+
     public function testWarmCacheEntriesRefillsTheListsItselfOnceABackgroundRefillEvidentlyFailed()
     {
         $this->api->refreshOverviewListCaches();
@@ -135,6 +171,29 @@ class TasksTest extends \PHPUnit\Framework\TestCase
 
         $this->assertNotEmpty($requests);
         $this->assertSame(0, $this->api->getOverviewListsAge());
+    }
+
+    public function testWarmCacheEntriesLogsAnUnreachableMarketplaceBelowAWarning()
+    {
+        // a warning would make core:archive exit 1 over a Marketplace it does not depend on
+        $levels = new ArrayObject();
+        $logger = $this->createMock(LoggerInterface::class);
+        $logger->expects($this->never())->method('warning');
+        $logger->method('log')->willReturnCallback(function ($level) use ($levels) {
+            $levels[] = $level;
+        });
+
+        $api = ClientBuilder::build($this->service, new Lazy(new ArrayCache()), $logger);
+        $api->setBackgroundWarmer($this->warmer);
+        $this->service->setOnFetchCallback(function () {
+            throw new Exception('There was an error reading the response from the Marketplace');
+        });
+        $this->warmer->method('refreshPeriodically')->willReturn(false);
+
+        $this->buildTasks($api, $logger)->warmCacheEntries();
+
+        $this->assertNotEmpty($levels);
+        $this->assertSame([LogLevel::INFO], array_values(array_unique($levels->getArrayCopy())));
     }
 
     public function testWarmCacheEntriesDoesNotFailTheScheduledRunWhenCheckingThrows()
@@ -194,7 +253,7 @@ class TasksTest extends \PHPUnit\Framework\TestCase
 
     private function buildTasks(ApiClient $api, LoggerInterface $logger): Tasks
     {
-        return new Tasks($this->createMock(UpdateCommunication::class), $api, $this->warmer, $logger);
+        return new Tasks($this->createMock(UpdateCommunication::class), $api, $logger, $this->warmer);
     }
 
     /**

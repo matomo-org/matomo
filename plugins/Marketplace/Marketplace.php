@@ -56,14 +56,20 @@ class Marketplace extends \Piwik\Plugin
      */
     public function checkForUpdates()
     {
-        StaticContainer::get(Api\Client::class)->clearCacheEntriesExceptOverviewLists();
+        $client = StaticContainer::get(Api\Client::class);
+        $client->clearCacheEntriesExceptOverviewLists();
         StaticContainer::get(InvalidLicenses::class)->clearCache();
 
-        // not refreshed regardless of age: the flush also took the hold that stops repeated clicks
-        // each fetching the lists. Where nothing can be spawned the kept lists stay until a visit or
-        // the scheduler refreshes them
-        $this->warmCacheSafely('the update check', function (BackgroundWarmer $warmer) {
-            $warmer->refreshNow(Api\Client::PLUGIN_LIST_REFRESH_AFTER_SECONDS);
+        // not refreshed in the request: the flush also took the hold that stops repeated clicks each
+        // fetching the lists. The age is checked here because it took the spawn hold too, so every
+        // click would otherwise start a process. Where nothing can be spawned the kept lists stay
+        // until a visit or the scheduler refreshes them
+        $this->warmCacheSafely('the update check', function (BackgroundWarmer $warmer) use ($client) {
+            $age = $client->getOverviewListsAge();
+
+            if (null === $age || $age >= Api\Client::PLUGIN_LIST_REFRESH_AFTER_SECONDS) {
+                $warmer->refreshNow(Api\Client::PLUGIN_LIST_REFRESH_AFTER_SECONDS);
+            }
         }, StaticContainer::get(LoggerInterface::class));
     }
 

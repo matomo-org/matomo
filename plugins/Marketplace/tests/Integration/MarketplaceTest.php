@@ -43,10 +43,24 @@ class MarketplaceTest extends IntegrationTestCase
         $client = $this->createMock(Client::class);
         $client->expects(self::never())->method('clearAllCacheEntries');
         $client->expects(self::once())->method('clearCacheEntriesExceptOverviewLists');
+        $client->method('getOverviewListsAge')->willReturn(Client::PLUGIN_LIST_REFRESH_AFTER_SECONDS);
         StaticContainer::getContainer()->set(Client::class, $client);
 
         $warmer = $this->createMock(BackgroundWarmer::class);
         $warmer->expects(self::once())->method('refreshNow')->with(Client::PLUGIN_LIST_REFRESH_AFTER_SECONDS)->willReturn(true);
+        StaticContainer::getContainer()->set(BackgroundWarmer::class, $warmer);
+
+        (new Marketplace())->checkForUpdates();
+    }
+
+    public function testCheckForUpdatesStartsNoRefreshWhileTheListsAreFresh(): void
+    {
+        $client = $this->createMock(Client::class);
+        $client->method('getOverviewListsAge')->willReturn(Client::PLUGIN_LIST_REFRESH_AFTER_SECONDS - 1);
+        StaticContainer::getContainer()->set(Client::class, $client);
+
+        $warmer = $this->createMock(BackgroundWarmer::class);
+        $warmer->expects(self::never())->method('refreshNow');
         StaticContainer::getContainer()->set(BackgroundWarmer::class, $warmer);
 
         (new Marketplace())->checkForUpdates();

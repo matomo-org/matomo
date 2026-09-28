@@ -24,10 +24,18 @@ use Piwik\Plugins\Marketplace\Input\PurchaseType;
 use Piwik\Plugins\Marketplace\Input\Sort;
 use Piwik\SettingsServer;
 use Piwik\Log\LoggerInterface;
+use Psr\Log\LogLevel;
 
 class Client
 {
     public const CACHE_TIMEOUT_IN_SECONDS = 3600;
+
+    /**
+     * Long enough to outlive {@link PLUGIN_LIST_REFRESH_IN_REQUEST_AFTER_SECONDS}, so that a list
+     * can still be served while it is refreshed in the background. The prices and requirements
+     * shown from the lists can therefore be a few hours old, a trade made to spread the refreshes
+     * over time rather than send them to the Marketplace on the hour.
+     */
     public const PLUGIN_LIST_CACHE_TIMEOUT_IN_SECONDS = 25200;
     public const PLUGIN_LIST_REFRESH_AFTER_SECONDS = 3600;
     public const PLUGIN_LIST_PERIODIC_REFRESH_AFTER_SECONDS = 14400;
@@ -348,8 +356,12 @@ class Client
     /**
      * Does what {@link refreshOverviewListCaches()} does, and returns whether every list was
      * refreshed. Separate so that method keeps the return type extensions may override it with.
+     *
+     * @param string $failureLogLevel A scheduled run passes {@link LogLevel::INFO}: a warning logged
+     *                                from the console makes the command exit 1, and the Marketplace
+     *                                being unreachable is no failure of `core:archive`.
      */
-    public function tryRefreshOverviewListCaches(): bool
+    public function tryRefreshOverviewListCaches(string $failureLogLevel = LogLevel::WARNING): bool
     {
         $allRefreshed = true;
 
@@ -363,7 +375,7 @@ class Client
                 ], true);
             } catch (PhpException $e) {
                 // per list, so one that cannot be reached does not leave the others cold too
-                $this->logger->warning('Could not refresh the Marketplace {list} list: {message}', [
+                $this->logger->log($failureLogLevel, 'Could not refresh the Marketplace {list} list: {message}', [
                     'list' => self::describeWarmedList($action, $purchaseType),
                     'message' => $e->getMessage(),
                     'ignoreInScreenWriter' => true,
@@ -607,7 +619,7 @@ class Client
             $this->cache->save($cacheId . '.refreshedInRequestAt', $now, self::IN_REQUEST_REFRESH_HOLD_SECONDS);
 
             return true;
-        } catch (PhpException $e) {
+        } catch (\Throwable $e) {
             // without knowing whether this is a visit, refetching could land on the scheduler's minutes
             $this->logger->warning('Could not refresh the Marketplace lists in the background: {message}', [
                 'message' => $e->getMessage(),

@@ -9,7 +9,9 @@
 
 namespace Piwik\Plugins\Marketplace;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Log\LoggerInterface;
+use Psr\Log\LogLevel;
 
 class Tasks extends \Piwik\Plugin\Tasks
 {
@@ -27,13 +29,14 @@ class Tasks extends \Piwik\Plugin\Tasks
     public function __construct(
         UpdateCommunication $updateCommunication,
         Api\Client $api,
-        BackgroundWarmer $backgroundWarmer,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        ?BackgroundWarmer $backgroundWarmer = null
     ) {
         $this->updateCommunication = $updateCommunication;
         $this->api = $api;
-        $this->backgroundWarmer = $backgroundWarmer;
         $this->logger = $logger;
+        // optional and last so that a caller written for the old three-argument signature still works
+        $this->backgroundWarmer = $backgroundWarmer ?? StaticContainer::get(BackgroundWarmer::class);
     }
 
     public function schedule()
@@ -56,7 +59,8 @@ class Tasks extends \Piwik\Plugin\Tasks
      * once they are missing or older than {@link Api\Client::PLUGIN_LIST_PERIODIC_REFRESH_AFTER_SECONDS}.
      * That bounds how stale a visit can find them, and visits refresh them sooner. Where the last
      * such refill evidently never ran, or this installation cannot spawn one, they are refilled in
-     * this run instead.
+     * this run instead, and without background processes already from
+     * {@link Api\Client::PLUGIN_LIST_REFRESH_AFTER_SECONDS}.
      */
     public function warmCacheEntries(): void
     {
@@ -64,18 +68,24 @@ class Tasks extends \Piwik\Plugin\Tasks
             $age = $this->api->getOverviewListsAge();
 
             if (null !== $age && $age < Api\Client::PLUGIN_LIST_PERIODIC_REFRESH_AFTER_SECONDS) {
+                // without background processes a visit would refresh these in the request, so this
+                // run keeps them warm instead, as it did before the refreshes were spread out
+                if ($age >= Api\Client::PLUGIN_LIST_REFRESH_AFTER_SECONDS && !$this->backgroundWarmer->canSpawn()) {
+                    $this->api->tryRefreshOverviewListCaches(LogLevel::INFO);
+                }
+
                 return;
             }
 
             if ($this->backgroundWarmer->claimFailedDelayedRefresh()) {
                 $this->logger->info('The Marketplace lists were not refreshed in the background, refreshing them in the scheduled run');
-                $this->api->tryRefreshOverviewListCaches();
+                $this->api->tryRefreshOverviewListCaches(LogLevel::INFO);
 
                 return;
             }
 
             if (!$this->backgroundWarmer->refreshPeriodically(Api\Client::PLUGIN_LIST_PERIODIC_REFRESH_AFTER_SECONDS)) {
-                $this->api->tryRefreshOverviewListCaches();
+                $this->api->tryRefreshOverviewListCaches(LogLevel::INFO);
             }
         } catch (\Throwable $e) {
             // must not fail the scheduled run, and Scheduler::executeTask() only catches an \Exception

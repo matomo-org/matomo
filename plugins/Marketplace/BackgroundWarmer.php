@@ -48,7 +48,16 @@ class BackgroundWarmer
      */
     private const INSTALLATION_DELAY_SECONDS = 10;
 
-    private const PERIODIC_MAX_DELAY_SECONDS = 3599;
+    /**
+     * Short of the hour by a spawn hold, so that a periodic refresh that never started is claimed
+     * by the next hourly check rather than the one after, which would let the lists expire first.
+     */
+    private const PERIODIC_MAX_DELAY_SECONDS = 3299;
+
+    /**
+     * A spawned run records itself as PHP boots, well within this of the moment it was due.
+     */
+    private const START_GRACE_SECONDS = 60;
 
     private const UPDATE_MAX_DELAY_SECONDS = 119;
 
@@ -175,7 +184,7 @@ class BackgroundWarmer
     {
         $pendingUntil = $this->fetchMarker(self::DELAYED_PENDING_OPTION);
 
-        if (null === $pendingUntil || Date::getNowTimestamp() < $pendingUntil) {
+        if (null === $pendingUntil || Date::getNowTimestamp() < $pendingUntil - self::SPAWN_HOLD_SECONDS + self::START_GRACE_SECONDS) {
             return false;
         }
 
@@ -266,7 +275,7 @@ class BackgroundWarmer
     /**
      * Remembered because finding the binary can run `php` to read its version.
      */
-    private function canSpawn(): bool
+    public function canSpawn(): bool
     {
         if (null === $this->canSpawn) {
             // the property, not supportsAsync(): the constructor already worked it out, and calling

@@ -22,6 +22,7 @@ use Piwik\Plugins\Marketplace\Input\PurchaseType;
 use Piwik\Plugins\Marketplace\Input\Sort;
 use Piwik\Plugins\Marketplace\tests\Framework\Mock\Client as ClientBuilder;
 use Piwik\Plugins\Marketplace\tests\Framework\Mock\Service as TestService;
+use Psr\Log\LogLevel;
 
 /**
  * @group Plugins
@@ -98,6 +99,11 @@ class ClientWarmedListsTest extends \PHPUnit\Framework\TestCase
         $logger = $this->createMock(LoggerInterface::class);
         $logger->method('warning')->willReturnCallback(function ($message, array $context = []) {
             $this->warnings[] = $context;
+        });
+        $logger->method('log')->willReturnCallback(function ($level, $message, array $context = []) {
+            if (LogLevel::WARNING === $level) {
+                $this->warnings[] = $context;
+            }
         });
 
         $this->client = ClientBuilder::build($this->service, new Lazy(new ArrayCache()), $logger);
@@ -300,6 +306,17 @@ class ClientWarmedListsTest extends \PHPUnit\Framework\TestCase
         Date::$now = self::NOW + Client::PLUGIN_LIST_REFRESH_AFTER_SECONDS;
 
         $this->warmer->method('isServingVisit')->willThrowException(new Exception('No container'));
+
+        $this->assertListed('Fetched1', $this->readOverviewList());
+        $this->assertSame(0, $this->requestCount);
+        $this->assertWarningsStayOffScreen(1);
+    }
+
+    public function testAStaleListIsStillServedWhenTheWarmerFailsWithAnError()
+    {
+        Date::$now = self::NOW + Client::PLUGIN_LIST_REFRESH_AFTER_SECONDS;
+
+        $this->warmer->method('isServingVisit')->willThrowException(new \Error('Call to undefined function shell_exec()'));
 
         $this->assertListed('Fetched1', $this->readOverviewList());
         $this->assertSame(0, $this->requestCount);

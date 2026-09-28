@@ -173,7 +173,7 @@ class BackgroundWarmerTest extends \PHPUnit\Framework\TestCase
     {
         $this->buildWarmer(null, true, 1234)->refreshPeriodically(14400);
 
-        $this->assertSame([3599], $this->maxDelays->getArrayCopy());
+        $this->assertSame([3299], $this->maxDelays->getArrayCopy());
     }
 
     public function testARefreshAfterUpdatePicksItsDelayWithinTwoMinutes()
@@ -249,10 +249,11 @@ class BackgroundWarmerTest extends \PHPUnit\Framework\TestCase
         $this->buildWarmer($cache, true, 1234)->refreshPeriodically(14400);
         $dueAt = self::NOW + 1234;
 
-        Date::$now = $dueAt + 299;
+        Date::$now = $dueAt + 59;
         $this->assertFalse($this->buildWarmer($cache)->claimFailedDelayedRefresh());
 
-        Date::$now = $dueAt + 300;
+        // before its hold runs out, so the next hourly check claims it even after a late delay
+        Date::$now = $dueAt + 60;
         $this->assertTrue($this->buildWarmer($cache)->claimFailedDelayedRefresh());
         $this->assertFalse($this->buildWarmer($cache)->claimFailedDelayedRefresh());
 
