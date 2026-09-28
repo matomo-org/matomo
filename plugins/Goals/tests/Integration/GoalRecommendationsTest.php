@@ -17,6 +17,7 @@ use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\AIProviders\Exception\AIProviderClientException;
 use Piwik\Plugins\AIProviders\Exception\AIProviderServerException;
+use Piwik\Plugins\AIProviders\Model\AIProcessingSettings;
 use Piwik\Plugins\Goals\API;
 use Piwik\Plugins\Goals\Recommendations\AiRecommender;
 use Piwik\Plugins\Goals\Recommendations\DeterministicRecommender;
@@ -62,6 +63,7 @@ class GoalRecommendationsTest extends IntegrationTestCase
         self::$aiProviderStatuses = [];
         $this->idSite = Fixture::createWebsite('2024-01-01 00:00:00');
         Config::getInstance()->FeatureFlags = ['GoalRecommendations_feature' => 'enabled'];
+        $this->setAiProcessingCategories([AIProcessingSettings::CATEGORY_NON_ANALYTICS]);
     }
 
     public function tearDown(): void
@@ -99,6 +101,43 @@ class GoalRecommendationsTest extends IntegrationTestCase
                 Piwik::translate('Goals_RecommendAiProviderFallback')
             ),
         ], $result);
+    }
+
+    public function testAiIsNotPermittedUntilNonAnalyticsProcessingIsAllowed()
+    {
+        self::$aiProviderStatuses = [['isDefault' => true, 'isConfigured' => true]];
+        $this->setAiProcessingCategories([AIProcessingSettings::CATEGORY_AGGREGATED_ANALYTICS]);
+
+        $this->assertSame('notPermitted', $this->api->getSavedRecommendedGoals($this->idSite)['aiAvailability']);
+
+        $this->setAiProcessingCategories([AIProcessingSettings::CATEGORY_NON_ANALYTICS]);
+
+        $this->assertSame('available', $this->api->getSavedRecommendedGoals($this->idSite)['aiAvailability']);
+    }
+
+    public function testRevokedAiProcessingFallsBackToRuleBasedRecommendations()
+    {
+        self::$aiProviderStatuses = [['isDefault' => true, 'isConfigured' => true]];
+        $this->setAiProcessingCategories([]);
+
+        $aiRecommender = $this->createMock(AiRecommender::class);
+        $aiRecommender->expects($this->never())->method('recommend');
+
+        $result = $this->makeRecommendationService($aiRecommender)->getRecommendations($this->idSite, true);
+
+        $this->assertSame('deterministic', $result['mode']);
+        $this->assertSame(Piwik::translate('Goals_RecommendationAiNotPermitted'), $result['aiError']);
+        $this->assertSame(0, (new RecommendationStore())->countAiScansToday($this->idSite));
+    }
+
+    public function testRecommendationsAreListedUnderNonAnalyticsProcessing()
+    {
+        $features = StaticContainer::get(AIProcessingSettings::class)->getFeaturesByCategory();
+
+        $this->assertSame(
+            [Piwik::translate('Goals_RecommendedGoals')],
+            array_column($features[AIProcessingSettings::CATEGORY_NON_ANALYTICS], 'name')
+        );
     }
 
     public function testGetSavedRecommendedGoalsReturnsPersistedScan()
@@ -530,6 +569,14 @@ class GoalRecommendationsTest extends IntegrationTestCase
             'description' => 'Contact page goal',
             'source' => 'ai',
         ], $overrides);
+    }
+
+    /**
+     * @param list<string> $categories
+     */
+    private function setAiProcessingCategories(array $categories): void
+    {
+        StaticContainer::get(AIProcessingSettings::class)->setEnabledCategories($categories);
     }
 
     private function setViewOnlyUser(): void

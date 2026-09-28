@@ -241,6 +241,11 @@
         >
           {{ aiUnavailableLabel }}
         </span>
+        <a
+          v-if="aiProcessingSettingsUrl"
+          class="recommendGoals-privacyLink recommendGoals-aiProcessingLink"
+          :href="aiProcessingSettingsUrl"
+        >{{ translate('Goals_RecommendAiAllowProcessing') }}</a>
         <button
           v-if="isAiAvailable"
           type="button"
@@ -265,6 +270,7 @@
 import { computed, ref } from 'vue';
 import {
   Matomo,
+  MatomoUrl,
   AjaxHelper,
   translate,
   ContentBlock,
@@ -338,10 +344,15 @@ const shouldShowRecommendations = computed(() => props.userCanEditGoals);
 const isAiAvailable = computed(() => aiAvailability.value === 'available');
 
 // 'disabled' stays silent: nobody on the instance can enable AI, so there is
-// nothing to act on. The other two states differ in what needs doing.
+// nothing to act on. The other states differ in what needs doing.
 const aiUnavailableLabel = computed(() => {
   if (aiAvailability.value === 'notActivated') {
     return translate('Goals_RecommendAiNotActivated');
+  }
+
+  // only a superuser can allow AI processing, others cannot act on it
+  if (aiAvailability.value === 'notPermitted') {
+    return Matomo.hasSuperUserAccess ? translate('Goals_RecommendAiNotPermitted') : '';
   }
 
   return aiAvailability.value === 'notConfigured'
@@ -349,9 +360,28 @@ const aiUnavailableLabel = computed(() => {
     : '';
 });
 
-const aiUnavailableHelp = computed(() => (aiAvailability.value === 'notActivated'
-  ? translate('Goals_RecommendAiNotActivatedHelp')
-  : translate('Goals_RecommendAiNotConfiguredHelp')));
+const aiUnavailableHelp = computed(() => {
+  if (aiAvailability.value === 'notActivated') {
+    return translate('Goals_RecommendAiNotActivatedHelp');
+  }
+
+  if (aiAvailability.value === 'notPermitted') {
+    return translate('Goals_RecommendAiNotPermittedHelp');
+  }
+
+  return translate('Goals_RecommendAiNotConfiguredHelp');
+});
+
+// only a superuser can allow AI processing, so only they get the link
+const aiProcessingSettingsUrl = computed(() => (
+  aiAvailability.value === 'notPermitted' && Matomo.hasSuperUserAccess
+    ? `?${MatomoUrl.stringify({
+      ...MatomoUrl.urlParsed.value,
+      module: 'AIProviders',
+      action: 'aiProcessing',
+    })}`
+    : ''
+));
 
 const isBusy = computed(() => isLoading.value
   || isCreatingAll.value

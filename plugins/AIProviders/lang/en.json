@@ -1,6 +1,6 @@
 {
     "AIProviders": {
-        "AIProcessing": "AI processing",
+        "AIProcessing": "AI Processing",
         "AIProcessingHelp": "Both categories are off by default and apply to all websites. AI features only send data from the categories you allow here.",
         "AIProcessingIntro": "You have the choice to opt in or opt out of using AI-powered tools and features in Matomo. Your data will not be used for model training by our AI service providers. Please remember to avoid sharing any sensitive information in your input data.",
         "AIProcessingSaveSuccess": "AI processing settings saved.",
@@ -50,7 +50,6 @@
         "PluginDescription": "Configure AI provider connections and default model settings used by Matomo AI features.",
         "RefreshModels": "Refresh models",
         "RequestFailed": "AI provider request failed: %s",
-        "SaveSettings": "Save settings",
         "SettingsSaveSuccess": "AI provider settings saved.",
         "StatusConnected": "API key saved",
         "StatusNotConnected": "Not connected",
@@ -61,6 +60,6 @@
         "ThinkingCapabilityDescription": "Better reasoning for complex tasks.",
         "UnexpectedError": "Unexpected error. Please check the Matomo server logs.",
         "UnsavedChanges": "You have unsaved changes",
-        "UsedBy": "Used by %s"
+        "UsedBy": "Used by"
     }
 }
