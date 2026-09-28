@@ -105,7 +105,7 @@ class Plugins
     public function getPluginInfoPreferringList(string $pluginName): array
     {
         $plugin = $this->marketplaceClient->findInCachedOverviewLists($pluginName);
-        // enrichPluginInformation() only asks about updates for an installed plugin either
+        // like enrichPluginInformation(), only ask about updates for an installed plugin
         $update = null !== $plugin && $this->isPluginInstalled($pluginName)
             ? $this->getPluginUpdateInformation($plugin)
             : null;
