@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\Marketplace;
 
 use Piwik\Container\StaticContainer;
+use Piwik\Log\LoggerInterface;
 use Piwik\Plugin;
 use Piwik\Plugins\Marketplace\Plugins\InvalidLicenses;
 use Piwik\Plugins\Marketplace\PluginTrial\Service as PluginTrialService;
@@ -29,6 +30,8 @@ class Marketplace extends \Piwik\Plugin
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'Controller.CoreHome.checkForUpdates' => 'checkForUpdates',
+            'Installation.defaultSettingsForm.submit' => 'warmCacheAfterInstallation',
+            'CoreUpdater.update.end' => 'warmCacheAfterUpdate',
             'Controller.CoreHome.markNotificationAsRead' => 'dismissPluginTrialNotification',
             'Request.dispatch' => 'createPluginTrialNotification',
             'PluginManager.pluginInstalled' => 'removePluginTrialRequest',
@@ -47,12 +50,82 @@ class Marketplace extends \Piwik\Plugin
         return true;
     }
 
+    /**
+     * Keeps the overview lists through the flush and refreshes them in the background, so that a
+     * click on "check for updates" leaves the next Marketplace page no emptier than it was.
+     */
     public function checkForUpdates()
     {
-        $marketplace = StaticContainer::get('Piwik\Plugins\Marketplace\Api\Client');
-        $marketplace->clearAllCacheEntries();
-
+        StaticContainer::get(Api\Client::class)->clearCacheEntriesExceptOverviewLists();
         StaticContainer::get(InvalidLicenses::class)->clearCache();
+
+        // not refreshed regardless of age: the flush also took the hold that stops repeated clicks
+        // each fetching the lists. Where nothing can be spawned the kept lists stay until a visit or
+        // the scheduler refreshes them
+        $this->warmCacheSafely('the update check', function (BackgroundWarmer $warmer) {
+            $warmer->refreshNow(Api\Client::PLUGIN_LIST_REFRESH_AFTER_SECONDS);
+        }, StaticContainer::get(LoggerInterface::class));
+    }
+
+    /**
+     * Warms the lists as the administrator leaves the installer. The hourly check would get there
+     * much later: the scheduler only books a task it has never seen for its next full hour.
+     */
+    public function warmCacheAfterInstallation(): void
+    {
+        // anything thrown here would stop the installation from being marked as completed
+        $this->warmCacheSafely('the installation', function (BackgroundWarmer $warmer) {
+            // records this request's PHP version, which the child puts in its cache keys in place
+            // of its own; no page has asked the Marketplace for anything yet to record it
+            StaticContainer::get(Environment::class)->getWebPhpVersion();
+            $warmer->refreshAfterInstallation();
+        }, StaticContainer::get(LoggerInterface::class));
+    }
+
+    /**
+     * Refills the lists soon after an update, which clears every cache and changes the cache keys
+     * of a new Matomo version.
+     */
+    public function warmCacheAfterUpdate(): void
+    {
+        // the installer runs the updater too, while Matomo still keeps every cache in memory, and
+        // warmCacheAfterInstallation() covers that case
+        if (!SettingsPiwik::isMatomoInstalled()) {
+            return;
+        }
+
+        // the logger is resolved now: by the time a shutdown function runs the container can be
+        // gone, and looking it up from the catch would then throw out of the shutdown function
+        $logger = StaticContainer::get(LoggerInterface::class);
+
+        // the event fires while the updater is still in flight, and building a warmer - the
+        // scheduler among it - from there has been seen to change what other plugins report: it
+        // moved PrivacyManager's anonymisation settings in NoVisitTest
+        $this->deferToEndOfRequest(function () use ($logger) {
+            $this->warmCacheSafely('the update', function (BackgroundWarmer $warmer) {
+                $warmer->refreshAfterUpdate(Api\Client::PLUGIN_LIST_REFRESH_AFTER_SECONDS);
+            }, $logger);
+        });
+    }
+
+    /**
+     * Separated so a test can run what was deferred, which a shutdown function gives it no way to.
+     */
+    protected function deferToEndOfRequest(callable $callback): void
+    {
+        register_shutdown_function($callback);
+    }
+
+    private function warmCacheSafely(string $occasion, callable $refresh, LoggerInterface $logger): void
+    {
+        try {
+            $refresh(StaticContainer::get(BackgroundWarmer::class));
+        } catch (\Throwable $e) {
+            $logger->warning(
+                'Could not warm the Marketplace cache after {occasion}: {message}',
+                ['occasion' => $occasion, 'message' => $e->getMessage(), 'ignoreInScreenWriter' => true]
+            );
+        }
     }
 
     public function getStylesheetFiles(&$stylesheets)

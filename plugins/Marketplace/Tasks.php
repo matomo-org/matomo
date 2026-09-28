@@ -9,7 +9,6 @@
 
 namespace Piwik\Plugins\Marketplace;
 
-use Exception;
 use Piwik\Log\LoggerInterface;
 
 class Tasks extends \Piwik\Plugin\Tasks
@@ -17,6 +16,8 @@ class Tasks extends \Piwik\Plugin\Tasks
     private UpdateCommunication $updateCommunication;
 
     private Api\Client $api;
+
+    private BackgroundWarmer $backgroundWarmer;
 
     /**
      * @var LoggerInterface
@@ -26,43 +27,61 @@ class Tasks extends \Piwik\Plugin\Tasks
     public function __construct(
         UpdateCommunication $updateCommunication,
         Api\Client $api,
+        BackgroundWarmer $backgroundWarmer,
         LoggerInterface $logger
     ) {
         $this->updateCommunication = $updateCommunication;
         $this->api = $api;
+        $this->backgroundWarmer = $backgroundWarmer;
         $this->logger = $logger;
     }
 
     public function schedule()
     {
         $this->daily('clearAllCacheEntries', null, self::LOWEST_PRIORITY);
-        // more often than the lists expire, so a visitor almost never pays for the requests the
-        // overview page needs. This costs the Marketplace three requests an hour per installation
-        // that has it enabled: the responses carry a long max-age, but every Marketplace call is a
-        // POST (see Api\Service::download()) and is answered as a CloudFront miss, so each refill
-        // reaches the origin rather than a cache.
+        // hourly only to check, and it requests nothing itself unless a background refill evidently
+        // never ran or cannot be spawned: most installations' schedulers run within minutes of the
+        // hour, so refilling from here sent every refresh to the Marketplace at the same time
         $this->hourly('warmCacheEntries', null, self::LOWEST_PRIORITY);
         $this->daily('sendNotificationIfUpdatesAvailable', null, self::LOWEST_PRIORITY);
     }
 
     public function clearAllCacheEntries()
     {
-        $this->api->clearAllCacheEntries();
-
-        // flushing on its own leaves whoever opens the Marketplace next to pay for every request
-        // the page needs, which is the slowest it ever is, so refill it straight away rather than
-        // waiting for the hourly task to come round
-        $this->warmCacheEntries();
+        $this->api->clearCacheEntriesExceptOverviewLists();
     }
 
+    /**
+     * Schedules a refill of the Marketplace overview lists at a random point in the next hour,
+     * once they are missing or older than {@link Api\Client::PLUGIN_LIST_PERIODIC_REFRESH_AFTER_SECONDS}.
+     * That bounds how stale a visit can find them, and visits refresh them sooner. Where the last
+     * such refill evidently never ran, or this installation cannot spawn one, they are refilled in
+     * this run instead.
+     */
     public function warmCacheEntries(): void
     {
         try {
-            $this->api->refreshOverviewListCaches();
-        } catch (Exception $e) {
-            // the Marketplace being unreachable must not fail the scheduled run
+            $age = $this->api->getOverviewListsAge();
+
+            if (null !== $age && $age < Api\Client::PLUGIN_LIST_PERIODIC_REFRESH_AFTER_SECONDS) {
+                return;
+            }
+
+            if ($this->backgroundWarmer->claimFailedDelayedRefresh()) {
+                $this->logger->info('The Marketplace lists were not refreshed in the background, refreshing them in the scheduled run');
+                $this->api->tryRefreshOverviewListCaches();
+
+                return;
+            }
+
+            if (!$this->backgroundWarmer->refreshPeriodically(Api\Client::PLUGIN_LIST_PERIODIC_REFRESH_AFTER_SECONDS)) {
+                $this->api->tryRefreshOverviewListCaches();
+            }
+        } catch (\Throwable $e) {
+            // must not fail the scheduled run, and Scheduler::executeTask() only catches an \Exception
             $this->logger->warning('Could not warm the Marketplace cache: {message}', [
                 'message' => $e->getMessage(),
+                'ignoreInScreenWriter' => true,
             ]);
         }
     }

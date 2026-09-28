@@ -93,8 +93,8 @@ class Plugins
      *
      * The Marketplace answers both with the same payload — a list entry carries the same fields as
      * an info response, including the readme HTML the details modal renders — but the lists are
-     * cached for {@link Api\Client::PLUGIN_LIST_CACHE_TIMEOUT_IN_SECONDS} and refilled by a
-     * scheduled task, where asking for a single plugin costs a round trip to the Marketplace the
+     * cached for {@link Api\Client::PLUGIN_LIST_CACHE_TIMEOUT_IN_SECONDS} and refilled in the
+     * background, where asking for a single plugin costs a round trip to the Marketplace the
      * first time each one is opened.
      *
      * Only an already cached list is used. Fetching one to answer for a single plugin would download
@@ -105,6 +105,16 @@ class Plugins
     public function getPluginInfoPreferringList(string $pluginName): array
     {
         $plugin = $this->marketplaceClient->findInCachedOverviewLists($pluginName);
+        // enrichPluginInformation() only asks about updates for an installed plugin either
+        $update = null !== $plugin && $this->isPluginInstalled($pluginName)
+            ? $this->getPluginUpdateInformation($plugin)
+            : null;
+
+        // as in Api\Client::getInfoOfPluginsHavingUpdate(): shortly after a release the listed entry
+        // can still describe the installed version, which the modal would then offer as the update
+        if (!empty($update) && ($plugin['latestVersion'] ?? null) !== ($update['version'] ?? null)) {
+            $plugin = null;
+        }
 
         if (null !== $plugin) {
             // the raw cached list entry, so only the plugin that was asked for is enriched. Going
