@@ -232,7 +232,7 @@ describe('PluginDetails', () => {
     expect(wrapper.find('.shopPricing').exists()).toBe(false);
   });
 
-  it('offers no trial on a bundle sold without one', async () => {
+  it('offers the trial on a bundle sold with the billing period choice', async () => {
     mockPost.mockResolvedValue({
       ...detailsResponse,
       isBundle: true,
@@ -252,13 +252,13 @@ describe('PluginDetails', () => {
       },
     });
 
-    // Plugins.php makes a new bundle ineligible, which is what tells the page it has no trial
+    // Plugins.php makes a new bundle ineligible, but the page still offers it the trial
     const wrapper = mountDetails({ ...cardRow, isBundle: true, isNewBundle: true }, true);
     await wrapper.vm.$nextTick();
     await flushPromises();
 
     expect(wrapper.find('.shopPricing').exists()).toBe(true);
-    expect(wrapper.find('.addToCartLink').text()).toBe('Marketplace_AddToCart');
+    expect(wrapper.find('.addToCartLink').text()).toBe('Marketplace_StartFree30DayTrial');
   });
 
   it('shows only the error for a plugin nothing but its name is known of', async () => {

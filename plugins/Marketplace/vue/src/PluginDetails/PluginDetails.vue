@@ -227,7 +227,7 @@
               v-if="showShopPricing"
               :plugin="plugin"
               :num-users="numUsers"
-              :offers-free-trial="plugin.isEligibleForFreeTrial"
+              :offers-free-trial="plugin.isEligibleForFreeTrial || plugin.isNewBundle"
               :use-period-tabs="plugin.isNewBundle"
               :stacked="true"
               :prominent="showPricingCard"
