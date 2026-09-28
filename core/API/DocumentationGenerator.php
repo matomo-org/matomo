@@ -239,7 +239,7 @@ class DocumentationGenerator
      */
     public function checkDocumentation($moduleToCheck)
     {
-        if (strpos($moduleToCheck, '@hide') == true) {
+        if (str_contains($moduleToCheck, '@hide')) {
             $moduleToCheck = str_replace(strtok(strstr($moduleToCheck, '@hide'), "\n"), "", $moduleToCheck);
         }
         return $moduleToCheck;
