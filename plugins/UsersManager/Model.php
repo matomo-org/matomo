@@ -1379,10 +1379,9 @@ class Model
     /**
      * Records the moment from which the user's existing sessions should no longer be accepted.
      *
-     * Removing the session rows is not enough on its own: a concurrent request can re-create a row
-     * it read before removal, through the session handler's upsert. Recording the moment here lets
-     * {@see \Piwik\Session\SessionAuth} ignore any session that started before it, whether or not its
-     * row was re-created. Modelled on ts_password_modified, which ends older sessions the same way.
+     * Deleting the session rows is not enough on its own: a concurrent request can re-create a row
+     * it read before the deletion, through the session handler's upsert. {@see \Piwik\Session\SessionAuth}
+     * compares against this moment instead, so such a session is refused whether or not its row came back.
      */
     public function invalidateUserSessions(string $userLogin): void
     {

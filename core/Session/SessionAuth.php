@@ -156,17 +156,8 @@ class SessionAuth implements Auth
         return $this->makeAuthSuccess($user, $tokenAuth);
     }
 
-    /**
-     * Whether the session started before the user's sessions were last ended
-     * ({@see \Piwik\Plugins\UsersManager\API::logoutUser()}). Removing the session rows is not
-     * enough on its own, because a concurrent request can re-create a row it read before removal;
-     * comparing the start time here keeps such a session from being accepted afterwards.
-     *
-     * @param string|null $tsSessionsInvalidated
-     */
     private function isSessionStartedBeforeInvalidation(SessionFingerprint $sessionFingerprint, $tsSessionsInvalidated)
     {
-        // this user's sessions have not been ended, so there is nothing to compare against
         if ($tsSessionsInvalidated === null) {
             return false;
         }

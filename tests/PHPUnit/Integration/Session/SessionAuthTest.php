@@ -79,7 +79,6 @@ class SessionAuthTest extends IntegrationTestCase
 
         sleep(1);
 
-        // ends the user's sessions, recording the moment
         UsersManagerAPI::getInstance()->logoutUser(self::TEST_OTHER_USER);
 
         $result = $this->testInstance->authenticate();
@@ -88,8 +87,6 @@ class SessionAuthTest extends IntegrationTestCase
 
     public function testAuthenticateFailsWhenSessionRowRecreatedAfterEnding()
     {
-        // A concurrent request can re-create its session row after the rows were removed, so the row
-        // is present again afterwards. Authentication must still not accept that session.
         $this->initializeSession(self::TEST_OTHER_USER);
 
         sleep(1);
@@ -107,7 +104,6 @@ class SessionAuthTest extends IntegrationTestCase
 
     public function testAuthenticateReturnsSuccessForSessionStartedAfterSessionsEnded()
     {
-        // Ending a user's sessions must not lock them out of sessions they open afterwards.
         UsersManagerAPI::getInstance()->logoutUser(self::TEST_OTHER_USER);
 
         sleep(1);
@@ -211,14 +207,12 @@ class SessionAuthTest extends IntegrationTestCase
 
     public function testAuthenticateFailsWhenSessionRowRecreatedAfterDestroyAllSessions()
     {
-        // Session::destroyAllSessions() clears the table for every user (e.g. on Login plugin
-        // deactivation); a concurrent request that re-creates its row afterwards must still not be
-        // accepted. destroyAllSessions() also clears the current $_SESSION, so snapshot it first to
-        // stand in for the separate in-flight request that keeps its own session in memory.
         $this->initializeSession(self::TEST_OTHER_USER);
 
         sleep(1);
 
+        // destroyAllSessions() clears $_SESSION as well, so the in-flight request's copy of it has
+        // to be taken before the call
         $sessionData = base64_encode(serialize($_SESSION));
 
         Session::destroyAllSessions();
