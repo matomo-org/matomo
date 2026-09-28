@@ -87,6 +87,7 @@ class ApiTest extends SystemTestCase
                 'password',
                 'token_auth',
                 'ts_password_modified',
+                'ts_sessions_invalidated',
                 'idchange_last_viewed',
                 'invite_status',
                 'ts_changes_shown',
