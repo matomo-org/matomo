@@ -493,6 +493,13 @@ button.marketplacePluginDetails__reviewsLink:focus:not(:focus-visible) {
   width: 100%;
 }
 
+// CTAContainer has nothing to offer some visitors - a view-only user, a cancelled licence - and
+// the card would be left an empty box. What Vue leaves behind is comments, which :empty ignores,
+// as it does for the alerts.
+.marketplacePluginDetails__buy:has(> .marketplacePluginDetails__cta:empty):not(:has(> .marketplacePluginDetails__freeSummary)) {
+  display: none;
+}
+
 // The rules between the rows are the list's own colour showing through a 1px gap, since any row
 // can be the first one shown and so none can be told apart to leave its rule off. The first row
 // keeps the padding the rest have, and the list is pulled up by it instead.

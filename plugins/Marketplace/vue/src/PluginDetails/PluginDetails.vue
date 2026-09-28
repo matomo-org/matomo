@@ -18,6 +18,10 @@
 
     <PluginDetailsSkeleton v-if="isLoading" />
 
+    <div v-else-if="!isKnownPlugin" class="marketplacePluginDetails__content">
+      <div class="alert alert-danger">{{ fetchErrorMessage }}</div>
+    </div>
+
     <div v-else class="marketplacePluginDetails__content">
       <section class="marketplacePluginDetails__head">
         <div class="marketplacePluginDetails__cover" v-if="plugin.coverImage">
@@ -223,7 +227,7 @@
               v-if="showShopPricing"
               :plugin="plugin"
               :num-users="numUsers"
-              :offers-free-trial="plugin.isEligibleForFreeTrial || plugin.isNewBundle"
+              :offers-free-trial="plugin.isEligibleForFreeTrial"
               :use-period-tabs="plugin.isNewBundle"
               :stacked="true"
               :prominent="showPricingCard"
@@ -323,7 +327,7 @@
 
                 <div
                   class="marketplacePluginDetails__metaRow"
-                  v-if="pluginHomepage || pluginChangelogUrl || plugin.repositoryUrl"
+                  v-if="pluginHomepage || pluginChangelogUrl || pluginRepositoryUrl"
                 >
                   <dt class="marketplacePluginDetails__metaLabel">
                     {{ translate('CorePluginsAdmin_Websites') }}
@@ -342,17 +346,17 @@
                         class="marketplacePluginDetails__metaLink"
                         target="_blank"
                         rel="noreferrer noopener"
-                        :href="externalRawLink(pluginChangelogUrl)"
+                        :href="pluginChangelogUrl"
                       >{{ translate('CorePluginsAdmin_Changelog') }}</a>
                     </template>
 
-                    <template v-if="plugin.repositoryUrl">
+                    <template v-if="pluginRepositoryUrl">
                       <template v-if="pluginHomepage || pluginChangelogUrl"> · </template>
                       <a
                         class="marketplacePluginDetails__metaLink"
                         target="_blank"
                         rel="noreferrer noopener"
-                        :href="externalRawLink(plugin.repositoryUrl)"
+                        :href="pluginRepositoryUrl"
                       >{{ translate('General_Source') }}</a>
                     </template>
                   </dd>
@@ -365,9 +369,9 @@
                   <dd class="marketplacePluginDetails__metaValue">
                     <a
                       class="marketplacePluginDetails__metaLink"
-                      v-if="pluginLatestVersion.license?.url"
+                      v-if="pluginLicenseUrl"
                       rel="noreferrer noopener"
-                      :href="pluginLatestVersion.license?.url"
+                      :href="pluginLicenseUrl"
                       target="_blank">{{ pluginLatestVersion.license?.name }}</a>
                     <span v-else>{{ pluginLatestVersion.license?.name }}</span>
                   </dd>
@@ -416,6 +420,7 @@ import {
   MatomoModal,
   translate,
   externalLink,
+  externalRawLink,
 } from 'CoreHome';
 import {
   IPluginShopDetails,
@@ -447,7 +452,7 @@ const PLACEHOLDER_COVER = 'plugins/Marketplace/images/categories/uncategorised.p
  * than one spelling ("GPL v3+", "GPLv3+"), and a free plugin can still ship under a commercial
  * licence - so only these are called open source.
  */
-const OPEN_SOURCE_LICENSE = /\b(?:[AL]?GPL|MIT|Apache|BSD|MPL)/i;
+const OPEN_SOURCE_LICENSE = /\b(?:[AL]?GPL|MIT|Apache|BSD|MPL)(?:v?\d|\b)/i;
 
 export interface PluginVersion {
   readmeHtml?: { description?: string; documentation?: string; faq?: string };
@@ -570,6 +575,15 @@ export default defineComponent({
     this.teardownIframeResize();
   },
   computed: {
+    /**
+     * Whether anything describes the plugin beyond its name. A deep link to a plugin the catalogue
+     * does not carry, or one opened while the Marketplace API is unreachable, has only the name to
+     * go on once its request fails, and the page is then the error alone: the buttons read
+     * `missingRequirements`, which every row Plugins.php enriches carries and a bare name does not.
+     */
+    isKnownPlugin(): boolean {
+      return !!this.fetchedDetails || Array.isArray(this.pluginCard.missingRequirements);
+    },
     plugin(): PluginDetails {
       // the plugin list only carries the fields its cards render, so everything else arrives from
       // getPluginDetails once the page opens
@@ -606,7 +620,7 @@ export default defineComponent({
     pluginKeywords(): string[] {
       return this.plugin?.keywords || [];
     },
-    // both homepages come from the plugin's own plugin.json, so only a safe scheme is linked
+    // the links below come from the plugin's own plugin.json, so only a safe scheme is linked
     pluginAuthors(): PluginAuthor[] {
       const authors = (this.plugin.authors || []) as PluginAuthor[];
       return authors.filter((author) => author.name).map((author) => ({
@@ -618,7 +632,16 @@ export default defineComponent({
       return this.plugin.homepage ? this.$sanitizeUrl(this.plugin.homepage) : '';
     },
     pluginChangelogUrl(): string {
-      return (this.plugin.changelog?.url as string) || '';
+      const url = (this.plugin.changelog?.url as string) || '';
+      return url ? externalRawLink(this.$sanitizeUrl(url)) : '';
+    },
+    pluginRepositoryUrl(): string {
+      const url = (this.plugin.repositoryUrl as string) || '';
+      return url ? externalRawLink(this.$sanitizeUrl(url)) : '';
+    },
+    pluginLicenseUrl(): string {
+      const url = this.pluginLatestVersion?.license?.url || '';
+      return url ? this.$sanitizeUrl(url) : '';
     },
     isByMatomo(): boolean {
       return isByMatomo(this.plugin as PluginCard);

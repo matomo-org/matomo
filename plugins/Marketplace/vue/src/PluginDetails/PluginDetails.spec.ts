@@ -32,6 +32,7 @@ vi.mock('CoreHome', () => ({
   translateOrDefault: (key: string) => key,
   ucfirst: (value: string) => `${value.charAt(0).toUpperCase()}${value.slice(1)}`,
   externalLink: (url: string) => `<a href="${url}">`,
+  externalRawLink: (url: string) => url,
 }));
 
 /* eslint-disable import/first */
@@ -231,6 +232,48 @@ describe('PluginDetails', () => {
     expect(wrapper.find('.shopPricing').exists()).toBe(false);
   });
 
+  it('offers no trial on a bundle sold without one', async () => {
+    mockPost.mockResolvedValue({
+      ...detailsResponse,
+      isBundle: true,
+      isNewBundle: true,
+      shop: {
+        url: 'https://shop.example',
+        variations: [{
+          name: 'Business',
+          prettyPrice: '$100',
+          period: 'year',
+          price: 100,
+          currency: 'USD',
+          recommended: true,
+          addToCartUrl: 'https://shop.example/cart',
+        }],
+        reviews: {},
+      },
+    });
+
+    // Plugins.php makes a new bundle ineligible, which is what tells the page it has no trial
+    const wrapper = mountDetails({ ...cardRow, isBundle: true, isNewBundle: true }, true);
+    await wrapper.vm.$nextTick();
+    await flushPromises();
+
+    expect(wrapper.find('.shopPricing').exists()).toBe(true);
+    expect(wrapper.find('.addToCartLink').text()).toBe('Marketplace_AddToCart');
+  });
+
+  it('shows only the error for a plugin nothing but its name is known of', async () => {
+    mockPost.mockRejectedValue({ message: 'The plugin could not be found' });
+
+    // a deep link to a plugin the catalogue does not carry: the card is the name alone
+    const wrapper = mountDetails({ name: 'NoSuchPlugin' }, true);
+    await wrapper.vm.$nextTick();
+    await flushPromises();
+
+    expect(wrapper.find('.alert-danger').text()).toBe('The plugin could not be found');
+    expect(wrapper.find('.marketplacePluginDetails__head').exists()).toBe(false);
+    expect(wrapper.find('.marketplacePluginDetails__buy').exists()).toBe(false);
+  });
+
   it('offers the purchase link once the details carry a shop variation', async () => {
     mockPost.mockResolvedValue({
       ...detailsResponse,
@@ -357,13 +400,16 @@ describe('PluginDetails', () => {
     expect(anchor.attributes('target')).toBeUndefined();
   });
 
-  it('links only the homepages that carry a safe scheme', async () => {
-    // both come from the plugin's own plugin.json, which its developer writes
+  it('links only the URLs that carry a safe scheme', async () => {
+    // all of them come from the plugin's own plugin.json, which its developer writes
     // eslint-disable-next-line no-script-url -- the unsafe value under test, never navigated to
     const unsafeUrl = 'javascript:alert(1)';
     mockPost.mockResolvedValue({
       ...detailsResponse,
       homepage: unsafeUrl,
+      repositoryUrl: unsafeUrl,
+      changelog: { url: unsafeUrl },
+      versions: [{ name: '1.2.3', license: { name: 'GPL v3+', url: unsafeUrl } }],
       authors: [
         { name: 'Safe Author', homepage: 'https://example.org' },
         { name: 'Unsafe Author', homepage: unsafeUrl },
@@ -380,6 +426,10 @@ describe('PluginDetails', () => {
     // the unsafe author is still named, just not linked
     expect(wrapper.text()).toContain('Unsafe Author');
     expect(wrapper.text()).not.toContain('Marketplace_PluginWebsite');
+    expect(wrapper.text()).not.toContain('CorePluginsAdmin_Changelog');
+    expect(wrapper.text()).not.toContain('General_Source');
+    // the licence is still named, just not linked
+    expect(wrapper.text()).toContain('GPL v3+');
   });
 
   it('prices nothing for a plugin that is already installed', async () => {
@@ -416,6 +466,20 @@ describe('PluginDetails', () => {
 
     expect(wrapper.find('.marketplacePluginDetails__freeLicense').text())
       .toBe('Marketplace_OpenSourceLicense');
+  });
+
+  it('does not take a licence that only starts like an open source one for one', async () => {
+    mockPost.mockResolvedValue({
+      ...detailsResponse,
+      isPaid: false,
+      versions: [{ name: '1.2.3', license: { name: 'Mitsubishi Licence' } }],
+    });
+
+    const wrapper = mountDetails({ ...cardRow, isPaid: false }, true);
+    await flushPromises();
+
+    expect(wrapper.find('.marketplacePluginDetails__freeLicense').text())
+      .toBe('Mitsubishi Licence');
   });
 
   it('shows any other licence under Free by its name alone', async () => {
