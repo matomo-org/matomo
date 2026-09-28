@@ -123,6 +123,8 @@ describe("SitesManager", function () {
 
         it('excludes a custom list of parameters if chosen', async function () {
             await page.click('#exclusionTypecustom');
+            // Vue shows the custom list after the click, so capture once it is there
+            await page.waitForSelector('.siteManagerGlobalExcludedUrlParameters .limited-height-scrolling-textarea', { visible: true });
             await assertExcludedParametersScreenshot('global_url_param_exclusion_custom');
         });
 

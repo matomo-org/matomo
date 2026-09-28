@@ -38,19 +38,20 @@ describe("VisitorMap", function () {
     it("should display the regions layer correctly", async function() {
         await page.goto(urlWithCities);
         await page.waitForNetworkIdle();
-        // getLayer() returns undefined (not null) until the layer has loaded
-        await page.waitForFunction('window.visitorMap && window.visitorMap.map && window.visitorMap.map.getLayer(\'countries\') != null');
-        await page.webpage.evaluate(function () {
-            // zoom into USA
-            var path = window.visitorMap.map.getLayer('countries').getPaths({iso: "USA"})[0].svgPath[0];
-            $(path).click();
+        // The map is redrawn when the window resizes (the harness triggers that after loading), so its layer
+        // can briefly be missing: click USA as soon as it's there, first to zoom in, then for the regions.
+        const clickUsa = () => page.waitForFunction(function () {
+            var layer = window.visitorMap && window.visitorMap.map && window.visitorMap.map.getLayer('countries');
+            var paths = layer ? layer.getPaths({iso: "USA"}) : [];
+            if (!paths.length) {
+                return false;
+            }
+            $(paths[0].svgPath[0]).click();
+            return true;
         });
+        await clickUsa();
         await page.waitForTimeout(1000);
-        await page.webpage.evaluate(function () {
-            // go to regions view
-            var path = window.visitorMap.map.getLayer('countries').getPaths({iso: "USA"})[0].svgPath[0];
-            $(path).click();
-        });
+        await clickUsa();
         await page.waitForTimeout(1000);
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('regions');

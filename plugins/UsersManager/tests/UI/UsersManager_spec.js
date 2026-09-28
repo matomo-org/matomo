@@ -432,6 +432,7 @@ describe("UsersManager", function () {
         await page.evaluate(() => $('.userPermissionsEdit tr.select-all-row a').click());
         await page.waitForTimeout(500);
         await page.mouse.move(0, 0);
+        await waitForAccessHeaderSettled();
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage({
             imageName: 'permissions_all_rows_in_search',
