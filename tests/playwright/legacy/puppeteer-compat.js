@@ -179,12 +179,18 @@ class ElementHandle extends JSHandle {
     return this.click();
   }
 
-  type(text, options = {}) {
-    return this.__pw.type(text, { delay: options.delay });
+  // Puppeteer focuses with element.focus(), which keeps the caret where it was (at the end of the value).
+  // Playwright's own type() moves it to the start, so " changed" would be typed in front of the value.
+  async type(text, options = {}) {
+    await this.__pw.evaluate((element) => element.focus());
+    const frame = await this.__pw.ownerFrame();
+    await frame.page().keyboard.type(text, { delay: options.delay });
   }
 
-  press(key, options = {}) {
-    return this.__pw.press(key, { delay: options.delay });
+  async press(key, options = {}) {
+    await this.__pw.evaluate((element) => element.focus());
+    const frame = await this.__pw.ownerFrame();
+    await frame.page().keyboard.press(key, { delay: options.delay });
   }
 
   screenshot(options = {}) {
