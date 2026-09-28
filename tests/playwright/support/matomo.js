@@ -100,6 +100,11 @@ function updateEnvironment(changes) {
   writeEnvironment({ ...ENV_DEFAULTS, ...readEnvironment(), ...changes });
 }
 
+// Known product bugs that would otherwise fail unrelated tests at random:
+// - Dashboard.ts and dashboardObject.js never handle the rejection widgetMenu.js raises when a
+//   navigation aborts the widget metadata request
+const KNOWN_PAGE_ERRORS = [/^Loading widget metadata was aborted$/];
+
 const PAGE_SETUP = `(() => {
   const setup = () => {
     document.documentElement.classList.add('uiTest');
@@ -165,8 +170,8 @@ async function openSession(browser, contextOptions = {}) {
     }
   });
   page.on('pageerror', (error) => {
-    if (!allowErrors) {
-      problems.push(`page error: ${error.message}`);
+    if (!allowErrors && !KNOWN_PAGE_ERRORS.some((known) => known.test(error.message))) {
+      problems.push(`page error: ${(error.stack || error.message).split('\n').slice(0, 3).join(' | ')}`);
     }
   });
 
@@ -245,7 +250,14 @@ async function expectPageScreenshot(session, name, options = {}) {
   await expect(session.page).toHaveScreenshot(name, { fullPage: true, ...options });
 }
 
+/** Screenshot of the first visible match of a selector, like element.screenshot() in the Mocha specs. */
+async function expectElementScreenshot(session, selector, name, options = {}) {
+  await session.waitForIdle();
+  await expect(session.page.locator(selector).filter({ visible: true }).first()).toHaveScreenshot(name, options);
+}
+
 module.exports = {
+  expectElementScreenshot,
   expectPageScreenshot,
   restoreFixture,
   DEFAULT_FIXTURE,

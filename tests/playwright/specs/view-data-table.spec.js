@@ -7,7 +7,9 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 const { test, expect } = require('@playwright/test');
-const { restoreFixture, openSession, expectPageScreenshot } = require('../support/matomo');
+const {
+  restoreFixture, openSession, expectElementScreenshot, expectPageScreenshot,
+} = require('../support/matomo');
 
 const url = '?module=Widgetize&action=iframe&moduleToWidgetize=Referrers&idSite=1&period=year&date=2012-08-09&'
   + 'actionToWidgetize=getKeywords&viewDataTable=table&filter_limit=5&isFooterExpandedInDashboard=1';
@@ -81,7 +83,7 @@ test.describe('ViewDataTableTest', () => {
     await noHover();
     // The selection is cut off in the screenshot, because the widget's iframe is too small and
     // Materialize crops the selection to the available space.
-    await expect(visible('.dataTableFooterIcons')).toHaveScreenshot('5_visualizations.png');
+    await expectElementScreenshot(session, '.dataTableFooterIcons', '5_visualizations.png');
   });
 
   test('should load goals table when goals footer icon clicked', async () => {
@@ -193,8 +195,7 @@ test.describe('ViewDataTableTest', () => {
   test('should display the export popover when clicking the export icon', async () => {
     await clickVisible('.activateExportSelection');
     await expect(page.locator('#reportExport .btn')).toBeVisible();
-    await session.waitForIdle();
-    await expect(visible('.ui-dialog')).toHaveScreenshot('export_options.png');
+    await expectElementScreenshot(session, '.ui-dialog', 'export_options.png');
   });
 
   test('should display the ENTER_YOUR_TOKEN_AUTH_HERE text in the export url', async () => {
@@ -204,7 +205,7 @@ test.describe('ViewDataTableTest', () => {
     await clickVisible('.toggle-export-url');
     await expect(visible('.exportFullUrl')).toBeVisible();
     await expect(visible('.ui-dialog .tooltip')).toContainText('ENTER_YOUR_TOKEN_AUTH_HERE');
-    await expect(visible('.ui-dialog')).toHaveScreenshot('export_options_2.png');
+    await expectElementScreenshot(session, '.ui-dialog', 'export_options_2.png');
   });
 
   test('should show the totals row when the config link is clicked', async () => {
