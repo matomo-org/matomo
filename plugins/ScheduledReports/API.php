@@ -26,6 +26,7 @@ use Piwik\Log;
 use Piwik\NoAccessException;
 use Piwik\Period;
 use Piwik\Piwik;
+use Piwik\Plugins\API\ProcessedReport;
 use Piwik\Plugins\Dashboard\Dashboard;
 use Piwik\Plugins\ImageGraph\ImageGraph;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
@@ -490,6 +491,25 @@ class API extends \Piwik\Plugin\API
 
             // decode report list
             $report['reports'] = json_decode($report['reports'], true);
+
+            if (is_array($report['reports'])) {
+                $availableReportIds = null;
+
+                // Only a selection naming a retired report needs to know which replacement the site
+                // offers. An owner who lost view access on the site gets the always-available
+                // replacement, as the site lookup would otherwise fail the whole listing.
+                if (
+                    ProcessedReport::hasRenamedReportUniqueId($report['reports'])
+                    && Piwik::isUserHasViewAccess($report['idsite'])
+                ) {
+                    $availableReportIds = ProcessedReport::getRenamedReportUniqueIdsAvailableFor((int) $report['idsite']);
+                }
+
+                $report['reports'] = ProcessedReport::getRenamedReportUniqueIds(
+                    $report['reports'],
+                    $availableReportIds
+                );
+            }
 
             if (
                 !empty($report['parameters']['additionalEmails'])
@@ -1083,6 +1103,8 @@ class API extends \Piwik\Plugin\API
         foreach ($availableReportMetadata as $reportMetadata) {
             $availableReportIds[] = $reportMetadata['uniqueId'];
         }
+
+        $requestedReports = ProcessedReport::getRenamedReportUniqueIds($requestedReports, $availableReportIds);
 
         foreach ($requestedReports as $report) {
             if (!in_array($report, $availableReportIds)) {
