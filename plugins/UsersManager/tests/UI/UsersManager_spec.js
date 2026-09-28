@@ -880,6 +880,8 @@ describe("UsersManager", function () {
 
         await page.waitForTimeout(500); // animation
         await page.waitForNetworkIdle();
+        // the invited user was seen a few seconds ago, and the seconds differ between runs
+        await page.evaluate(() => $('td#last_seen:contains(ago)').text('a moment ago'));
 
       expect(await page.screenshotSelector('.usersManager')).to.matchImage('copied_success');
     });

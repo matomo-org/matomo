@@ -150,6 +150,9 @@ describe("SegmentSelectorEditorTest", function () {
 
     it("should open selector when control clicked", async function() {
         await page.click('.segmentationContainer .title');
+        // the pointer on the title would show its tooltip, depending on how fast the capture follows
+        await page.mouse.move(-10, -10);
+        await page.waitForFunction(() => !$('.ui-tooltip:visible').length);
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('1_selector_open');
     });
 
