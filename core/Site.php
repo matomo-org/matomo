@@ -73,6 +73,7 @@ class Site
         $this->id = (int) $idsite;
 
         if (!empty(self::$infoSites[$this->id])) {
+            Piwik::checkUserHasViewAccess($this->id);
             $site = self::$infoSites[$this->id];
         } else {
             $site = API::getInstance()->getSiteFromId($this->id);
@@ -479,17 +480,6 @@ class Site
     }
 
     /**
-     * Removes the cached data of every site that is not part of the given cache contents.
-     *
-     * @param array $sitesToKeep Cache contents as returned by {@link getSites()}.
-     * @internal
-     */
-    public static function clearCacheExcept(array $sitesToKeep): void
-    {
-        self::$infoSites = array_intersect_key(self::$infoSites, $sitesToKeep);
-    }
-
-    /**
      * Utility function. Returns the value of the specified field for the
      * site with the specified ID.
      *
@@ -499,12 +489,7 @@ class Site
      */
     protected static function getFor(int $idsite, string $field)
     {
-        if (!isset(self::$infoSites[$idsite])) {
-            $site = API::getInstance()->getSiteFromId($idsite);
-            self::setSiteFromArray($idsite, $site);
-        }
-
-        return self::$infoSites[$idsite][$field];
+        return self::getSite($idsite)[$field];
     }
 
     /**
@@ -524,7 +509,10 @@ class Site
     {
         $idsite = (int)$idsite;
 
-        if (!isset(self::$infoSites[$idsite])) {
+        // the cache is shared by everything that runs in this request, so check access on every read
+        if (isset(self::$infoSites[$idsite])) {
+            Piwik::checkUserHasViewAccess($idsite);
+        } else {
             $site = API::getInstance()->getSiteFromId($idsite);
             self::setSiteFromArray($idsite, $site);
         }

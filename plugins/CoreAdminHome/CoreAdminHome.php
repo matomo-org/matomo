@@ -12,6 +12,7 @@ namespace Piwik\Plugins\CoreAdminHome;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
+use Piwik\NoAccessException;
 use Piwik\Piwik;
 use Piwik\Site;
 use Piwik\ProxyHttp;
@@ -91,6 +92,9 @@ class CoreAdminHome extends \Piwik\Plugin
             return false;
         } catch (UnexpectedWebsiteFoundException $exception) {
             return true;
+        } catch (NoAccessException $exception) {
+            // the site exists, it just isn't visible to the current user
+            return false;
         }
     }
 

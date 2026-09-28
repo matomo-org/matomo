@@ -9,6 +9,7 @@
 
 namespace Piwik\Settings\Measurable;
 
+use Piwik\Access;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Exception;
@@ -25,6 +26,13 @@ use Piwik\Settings\Storage\Factory;
  */
 class MeasurableProperty extends \Piwik\Settings\Setting
 {
+    /**
+     * Access scope the detected write permission belongs to, null when it was set explicitly
+     *
+     * @var string|null
+     */
+    private $hasWritePermissionScope = null;
+
     /**
      * @var int
      */
@@ -67,9 +75,17 @@ class MeasurableProperty extends \Piwik\Settings\Setting
      */
     public function isWritableByCurrentUser()
     {
-        if (isset($this->hasWritePermission)) {
+        $scope = Access::getInstance()->getCacheScopeKey();
+
+        // a permission detected for another user, eg. inside Access::doAsSuperUser(), is detected again
+        if (
+            isset($this->hasWritePermission)
+            && ($this->hasWritePermissionScope === null || $this->hasWritePermissionScope === $scope)
+        ) {
             return $this->hasWritePermission;
         }
+
+        $this->hasWritePermissionScope = $scope;
 
         // performance improvement, do not detect this in __construct otherwise likely rather "big" query to DB.
         if ($this->hasSiteBeenCreated()) {

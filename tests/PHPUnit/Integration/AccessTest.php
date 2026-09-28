@@ -13,6 +13,7 @@ use Exception;
 use Piwik\Access;
 use Piwik\AuthResult;
 use Piwik\Common;
+use Piwik\Cache;
 use Piwik\Db;
 use Piwik\NoAccessException;
 use Piwik\Piwik;
@@ -569,29 +570,59 @@ class AccessTest extends IntegrationTestCase
         $this->assertEquals(24, $result);
     }
 
-    public function testDoAsSuperUserOnlyKeepsSiteDataThatWasCachedBeforeTheCallback()
+    public function testSiteDataCachedInsideDoAsSuperUserIsOnlyReturnedForSitesTheUserCanView()
     {
         [$idSite, $otherIdSite] = $this->setUpViewUserForOneOfTwoSites();
 
-        Site::getNameFor($idSite);
         Access::doAsSuperUser(function () use ($idSite, $otherIdSite) {
             Site::getNameFor($idSite);
             Site::getNameFor($otherIdSite);
         });
 
-        $this->assertSame([$idSite], array_keys(Site::getSites()));
+        $this->assertSame(Fixture::DEFAULT_SITE_NAME, Site::getNameFor($idSite));
 
         $this->expectException(NoAccessException::class);
         Site::getNameFor($otherIdSite);
     }
 
-    public function testDoAsSuperUserOnlyKeepsSiteDataThatWasCachedBeforeTheCallbackIfExceptionThrown()
+    public function testSiteCachedInsideDoAsSuperUserIsNotCreatedForAUserWithoutViewAccess()
     {
         [, $otherIdSite] = $this->setUpViewUserForOneOfTwoSites();
 
+        Access::doAsSuperUser(function () use ($otherIdSite) {
+            Site::getSite($otherIdSite);
+        });
+
+        $this->expectException(NoAccessException::class);
+        new Site($otherIdSite);
+    }
+
+    public function testDoAsSuperUserDiscardsTransientCacheEntriesSavedByTheCallback()
+    {
+        $this->setUpViewUserForOneOfTwoSites();
+        $cache = Cache::getTransientCache();
+        $cache->save('savedBefore', 'caller value');
+
+        Access::doAsSuperUser(function () {
+            $cache = Cache::getTransientCache();
+            $this->assertSame('caller value', $cache->fetch('savedBefore'));
+            $cache->save('savedInside', 'callback value');
+            $this->assertSame('callback value', $cache->fetch('savedInside'));
+        });
+
+        $this->assertSame($cache, Cache::getTransientCache());
+        $this->assertFalse($cache->contains('savedInside'));
+        $this->assertSame('caller value', $cache->fetch('savedBefore'));
+    }
+
+    public function testDoAsSuperUserDiscardsTransientCacheEntriesSavedByTheCallbackIfExceptionThrown()
+    {
+        $this->setUpViewUserForOneOfTwoSites();
+        $cache = Cache::getTransientCache();
+
         try {
-            Access::doAsSuperUser(function () use ($otherIdSite) {
-                Site::getNameFor($otherIdSite);
+            Access::doAsSuperUser(function () {
+                Cache::getTransientCache()->save('savedInside', 'callback value');
                 throw new Exception();
             });
 
@@ -600,7 +631,55 @@ class AccessTest extends IntegrationTestCase
             // pass
         }
 
-        $this->assertSame([], Site::getSites());
+        $this->assertSame($cache, Cache::getTransientCache());
+        $this->assertFalse($cache->contains('savedInside'));
+    }
+
+    public function testDoAsSuperUserRemovesCallerTransientCacheEntriesTheCallbackChanged()
+    {
+        $this->setUpViewUserForOneOfTwoSites();
+        $cache = Cache::getTransientCache();
+        $cache->save('overwritten', 'caller value');
+        $cache->save('deleted', 'caller value');
+        $cache->save('untouched', 'caller value');
+
+        Access::doAsSuperUser(function () {
+            $cache = Cache::getTransientCache();
+            $cache->save('overwritten', 'callback value');
+            $cache->delete('deleted');
+            $this->assertFalse($cache->contains('deleted'));
+        });
+
+        $this->assertFalse($cache->contains('overwritten'));
+        $this->assertFalse($cache->contains('deleted'));
+        $this->assertSame('caller value', $cache->fetch('untouched'));
+    }
+
+    public function testDoAsSuperUserFlushesCallerTransientCacheIfTheCallbackFlushedIt()
+    {
+        $this->setUpViewUserForOneOfTwoSites();
+        $cache = Cache::getTransientCache();
+        $cache->save('savedBefore', 'caller value');
+
+        Access::doAsSuperUser(function () {
+            Cache::getTransientCache()->flushAll();
+            $this->assertFalse(Cache::getTransientCache()->contains('savedBefore'));
+        });
+
+        $this->assertFalse($cache->contains('savedBefore'));
+    }
+
+    public function testGetCacheScopeKeyChangesInsideDoAsSuperUser()
+    {
+        $this->setUpViewUserForOneOfTwoSites();
+        $scope = Access::getInstance()->getCacheScopeKey();
+
+        $scopeInside = Access::doAsSuperUser(function () {
+            return Access::getInstance()->getCacheScopeKey();
+        });
+
+        $this->assertNotSame($scope, $scopeInside);
+        $this->assertSame($scope, Access::getInstance()->getCacheScopeKey());
     }
 
     public function testReloadAccessDoesNotRemoveSuperUserAccessIfUsedInDoAsSuperUser()
