@@ -103,11 +103,16 @@ class PromotionSelector
             // Whether to show it is answered afresh for this website; what it says is not.
             // The outcome recorded when the promotion took the slot is shown again, so the
             // number in the copy does not move as later weeks are archived.
-            if (null !== $active && !empty($active['result'])) {
+            //
+            // Only on the website it was read from. A figure, a goal name or an entry page
+            // belongs to one website and says nothing true about another, and the report
+            // behind it would be addressed with this website's id and that one's goal. On
+            // every other website this website's own outcome is what is shown.
+            if (null !== $active && !empty($active['result']) && $active['idSite'] === (int) $idSite) {
                 $result = Trigger\TriggerResult::fromArray($active['result']);
             }
 
-            return new SelectedPromotion($promotion, $result);
+            return new SelectedPromotion($promotion, $result, (int) $idSite);
         }
 
         return null;
@@ -121,7 +126,8 @@ class PromotionSelector
      * allowed a released promotion's recorded outcome to still be applied to a different
      * promotion.
      *
-     * @param array{pluginName: string, triggerName: string}|null $active
+     * @param array{pluginName: string, triggerName: string, idSite: int,
+     *              result: array<string, mixed>|null}|null $active
      */
     private function resolveHeldPromotion(?array $active): ?Promotion
     {
@@ -156,7 +162,8 @@ class PromotionSelector
      * Whether the promotion holding the slot could still be shown to this user somewhere,
      * ignoring whether its trigger fires for the website in front of them.
      *
-     * @param array{pluginName: string, triggerName: string} $active
+     * @param array{pluginName: string, triggerName: string, idSite: int,
+     *              result: array<string, mixed>|null} $active
      */
     private function isStillShowable(array $active): bool
     {

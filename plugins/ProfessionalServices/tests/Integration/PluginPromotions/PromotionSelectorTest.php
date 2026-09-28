@@ -90,6 +90,12 @@ class PromotionSelectorTest extends IntegrationTestCase
     private int $reportedCount = 5;
 
     /**
+     * @var array<int, int> what a firing trigger reports for one website, where a test needs
+     *                      the websites to quote different figures
+     */
+    private array $reportedCountPerSite = [];
+
+    /**
      * @var array<string, int> how often each trigger was evaluated
      */
     private array $evaluations = [];
@@ -110,6 +116,8 @@ class PromotionSelectorTest extends IntegrationTestCase
 
         $this->userState = new UserPromotionState(StaticContainer::get(UserScopedSettingsAccessManager::class));
         $this->triggering = [];
+        $this->triggeringPerSite = [];
+        $this->reportedCountPerSite = [];
         $this->evaluations = [];
     }
 
@@ -344,7 +352,7 @@ class PromotionSelectorTest extends IntegrationTestCase
         $this->asUser('mona');
 
         // A slot held by something the registry has never heard of, with a figure of its own.
-        $this->userState->recordShown('RemovedPlugin', 'removed_trigger', [
+        $this->userState->recordShown('RemovedPlugin', 'removed_trigger', self::SITE_ONE, [
             'triggered' => true,
             'context' => ['count' => 4321],
             'periodStart' => '2026-01-01',
@@ -507,6 +515,56 @@ class PromotionSelectorTest extends IntegrationTestCase
     }
 
     /**
+     * The slot is held across every website, but what the banner says is not: the figure it
+     * quotes, and the goal, entry page or campaign it names, were read from one website and
+     * are true only there. Held across websites, the banner on one would quote another's
+     * number, and the report behind it would be addressed with this website's id and that
+     * one's goal.
+     */
+    public function testAHeldPromotionQuotesEachWebsitesOwnFigure(): void
+    {
+        $this->triggeringPerSite = [
+            self::SITE_ONE => ['segments' => true],
+            self::SITE_TWO => ['segments' => true],
+        ];
+        $this->reportedCountPerSite = [self::SITE_ONE => 9, self::SITE_TWO => 41];
+
+        $this->asUser('ivy');
+
+        $this->assertSame('CustomReports', $this->showOn(self::SITE_ONE));
+        $this->assertSame(9, $this->lastContext['count']);
+
+        // The same promotion still holds the slot, so it is shown again - but saying what is
+        // true of the website in front of the user.
+        $this->assertSame('CustomReports', $this->showOn(self::SITE_TWO));
+        $this->assertSame(41, $this->lastContext['count'], 'the figure must be this website\'s own');
+
+        // And the lock the first website took is still its own, so the number read there
+        // does not move even though the reports behind it have.
+        $this->reportedCountPerSite[self::SITE_ONE] = 77;
+
+        $this->assertSame('CustomReports', $this->showOn(self::SITE_ONE));
+        $this->assertSame(9, $this->lastContext['count'], 'the locked figure must not move');
+    }
+
+    /**
+     * A website whose own trigger does not fire shows nothing, rather than the held
+     * promotion with figures borrowed from where it did.
+     */
+    public function testAHeldPromotionIsNotShownWhereItsTriggerDoesNotFire(): void
+    {
+        $this->triggeringPerSite = [
+            self::SITE_ONE => ['segments' => true],
+            self::SITE_TWO => [],
+        ];
+
+        $this->asUser('jade');
+
+        $this->assertSame('CustomReports', $this->showOn(self::SITE_ONE));
+        $this->assertNull($this->showOn(self::SITE_TWO));
+    }
+
+    /**
      * Selects for one website and records the result the way the dashboard does, since it
      * is displaying a promotion - not choosing one - that claims the single slot.
      *
@@ -525,6 +583,7 @@ class PromotionSelectorTest extends IntegrationTestCase
         $this->userState->recordShown(
             $selected->getPromotion()->getPluginName(),
             $selected->getPromotion()->getTriggerName(),
+            $selected->getIdSite(),
             $selected->getTriggerResult()->toArray()
         );
 
@@ -589,8 +648,10 @@ class PromotionSelectorTest extends IntegrationTestCase
                 ? !empty($this->triggeringPerSite[$idSite][$name])
                 : !empty($this->triggering[$name]);
 
+            $count = $this->reportedCountPerSite[$idSite] ?? $this->reportedCount;
+
             return $fires
-                ? TriggerResult::triggered(['count' => $this->reportedCount])
+                ? TriggerResult::triggered(['count' => $count])
                 : TriggerResult::notTriggered();
         });
 

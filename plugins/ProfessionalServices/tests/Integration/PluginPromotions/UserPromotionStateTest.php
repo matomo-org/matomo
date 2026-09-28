@@ -129,18 +129,18 @@ class UserPromotionStateTest extends IntegrationTestCase
 
         $state = new UserPromotionState($accessManager);
 
-        $state->recordShown('CustomReports', 'segments');
+        $state->recordShown('CustomReports', 'segments', 1);
 
         Date::$now = strtotime('2026-08-27 23:00:00 UTC');
-        $state->recordShown('CustomReports', 'segments');
+        $state->recordShown('CustomReports', 'segments', 1);
 
         Date::$now = strtotime('2026-08-28 00:30:00 UTC');
-        $state->recordShown('CustomReports', 'segments');
+        $state->recordShown('CustomReports', 'segments', 1);
     }
 
     public function testShowingAPromotionStartsNoCooldown(): void
     {
-        $this->state->recordShown('CustomReports', 'segments');
+        $this->state->recordShown('CustomReports', 'segments', 1);
 
         $this->assertFalse($this->state->isInGlobalCooldown());
         $this->assertFalse($this->state->isProductInCooldown('CustomReports'));

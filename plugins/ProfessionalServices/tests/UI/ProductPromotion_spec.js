@@ -108,6 +108,33 @@ describe('ProductPromotion', function () {
     // vitest spec, which exercises the confirm modal, the request and its failure path
     // (plugins/ProfessionalServices/vue/src/ProductPromotion/ProductPromotion.spec.ts).
 
+    // The trial request itself cannot be driven here, for the reason above, but what it
+    // leaves behind is a cascade question rather than a behavioural one: the modifier and
+    // the rule it overrides carry the same weight, so only the one written later wins.
+    // Putting the class on the button already on the page asks exactly that.
+    it('stops looking clickable once the trial has been requested', async function () {
+        await loadDashboard();
+
+        const style = await page.evaluate((sel) => {
+            const node = document.querySelector(sel);
+            const before = getComputedStyle(node).backgroundColor;
+
+            node.classList.add('productPromotion__ctaButton--requested');
+            const after = getComputedStyle(node);
+
+            return {
+                before,
+                background: after.backgroundColor,
+                cursor: after.cursor,
+                pointerEvents: after.pointerEvents,
+            };
+        }, ctaButton);
+
+        expect(style.background).to.not.equal(style.before);
+        expect(style.cursor).to.equal('default');
+        expect(style.pointerEvents).to.equal('none');
+    });
+
     // Last, deliberately: a dismissal starts an 18 day global cooldown for the logged-in
     // user, which would suppress the promotion for every test that ran after it.
     describe('once dismissed', function () {

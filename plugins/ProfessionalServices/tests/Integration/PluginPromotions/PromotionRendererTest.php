@@ -146,7 +146,8 @@ class PromotionRendererTest extends IntegrationTestCase
         foreach ($promotions as $promotion) {
             $selected = new SelectedPromotion(
                 $promotion,
-                TriggerResult::triggered($this->everyContextValue(), '2026-08-17', '2026-08-23')
+                TriggerResult::triggered($this->everyContextValue(), '2026-08-17', '2026-08-23'),
+                1
             );
 
             $html = $renderer->render($selected);
@@ -307,6 +308,29 @@ class PromotionRendererTest extends IntegrationTestCase
     }
 
     /**
+     * The report is addressed with the website the figure was read from, which is not
+     * necessarily the one the request carries. A goal id belongs to one website, so pairing
+     * it with another website's id links to a goal that is not the one the banner names -
+     * or to nothing at all.
+     */
+    public function testTheReportLinkAddressesTheWebsiteTheFigureWasReadFrom(): void
+    {
+        $_GET['idSite'] = 7;
+
+        $html = $this->render(LowConversionRateTrigger::NAME, [
+            'goalId' => 2,
+            'goalName' => 'Newsletter signup',
+            'nbVisits' => 5000,
+            'nbConversions' => 100,
+            'conversionRate' => 0.02,
+        ], 3);
+
+        $this->assertStringContainsString('idSite=3', $html);
+        $this->assertStringNotContainsString('idSite=7', $html);
+        $this->assertStringContainsString('subcategory=2', $html);
+    }
+
+    /**
      * The copy arguments are not in a fixed order - the conversion rate copy leads with the
      * figure, the A/B testing copy leads with the goal name - so linking by position would
      * link the wrong word in one of them.
@@ -377,7 +401,7 @@ class PromotionRendererTest extends IntegrationTestCase
     /**
      * @param array<string, mixed> $context
      */
-    private function render(string $triggerName, array $context): string
+    private function render(string $triggerName, array $context, int $idSite = 1): string
     {
         $definitions = [
             SegmentsTrigger::NAME => [
@@ -414,7 +438,7 @@ class PromotionRendererTest extends IntegrationTestCase
         $promotion = new Promotion(1, $pluginName, $productKey, $trigger, $translationPrefix, $image);
 
         return $this->renderer->render(
-            new SelectedPromotion($promotion, TriggerResult::triggered($context, '2026-08-17', '2026-08-23'))
+            new SelectedPromotion($promotion, TriggerResult::triggered($context, '2026-08-17', '2026-08-23'), $idSite)
         );
     }
 

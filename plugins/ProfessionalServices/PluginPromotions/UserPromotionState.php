@@ -98,11 +98,16 @@ class UserPromotionState
      * free of repeated writes.
      */
     /**
+     * @param int $idSite the website the outcome was read from
      * @param array<string, mixed>|null $lockedResult the trigger outcome to keep showing for
      *                                                as long as this promotion holds the slot
      */
-    public function recordShown(string $pluginName, string $triggerName, ?array $lockedResult = null): void
-    {
+    public function recordShown(
+        string $pluginName,
+        string $triggerName,
+        int $idSite,
+        ?array $lockedResult = null
+    ): void {
         $userLogin = Piwik::getCurrentUserLogin();
         if (empty($userLogin)) {
             return;
@@ -136,13 +141,20 @@ class UserPromotionState
             $state['products'][$pluginName] = $product;
         }
 
+        // The figure the copy quotes is settled when the promotion is first shown and kept,
+        // so a number the user has already read does not change underneath them as each new
+        // week is archived. Only a promotion taking the slot writes it.
+        $keepsLock = $alreadyHeld && isset($active['result']);
+
         $state['activePromotion'] = [
             'pluginName' => $pluginName,
             'triggerName' => $triggerName,
-            // The figure the copy quotes is settled when the promotion is first shown and
-            // kept, so a number the user has already read does not change underneath them
-            // as each new week is archived. Only a promotion taking the slot writes it.
-            'result' => $alreadyHeld ? ($active['result'] ?? $lockedResult) : $lockedResult,
+            // Kept with the outcome, because the outcome only describes this website. The
+            // same promotion seen on another website quotes that website's own figure
+            // instead, and the lock taken here is left alone so that returning to this one
+            // still shows the number first read here.
+            'idSite' => $keepsLock ? (int) ($active['idSite'] ?? 0) : $idSite,
+            'result' => $keepsLock ? $active['result'] : $lockedResult,
         ];
 
         $this->save($userLogin, $state);
@@ -160,9 +172,10 @@ class UserPromotionState
      *
      * `result` is the trigger outcome recorded when the promotion took the slot, so the
      * figure in its copy stays the one the user first read rather than being recalculated
-     * from each new week's reports.
+     * from each new week's reports, and `idSite` is the website it was read from - the only
+     * one it may be shown on.
      *
-     * @return array{pluginName: string, triggerName: string, result: array<string, mixed>|null}|null
+     * @return array{pluginName: string, triggerName: string, idSite: int, result: array<string, mixed>|null}|null
      */
     public function getActivePromotion(): ?array
     {
@@ -175,6 +188,7 @@ class UserPromotionState
         return [
             'pluginName' => (string) $active['pluginName'],
             'triggerName' => (string) $active['triggerName'],
+            'idSite' => (int) ($active['idSite'] ?? 0),
             'result' => isset($active['result']) && is_array($active['result']) ? $active['result'] : null,
         ];
     }

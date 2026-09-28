@@ -14,7 +14,6 @@ use Piwik\Metrics\Formatter;
 use Piwik\NumberFormatter;
 use Piwik\Log\LoggerInterface;
 use Piwik\Piwik;
-use Piwik\Plugins\Marketplace\SiteAwareLinks;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\Marketplace\PluginTrial\Service as PluginTrialService;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\Trigger\BusinessBundleTrigger;
@@ -97,7 +96,8 @@ class PromotionRenderer
                 $this->escapeArguments($copyArguments['text']),
                 $promotion->getTriggerName(),
                 $context,
-                $selected->getTriggerResult()->getPeriodStart()
+                $selected->getTriggerResult()->getPeriodStart(),
+                $selected->getIdSite()
             )
         );
         // The reason reads as a whole sentence of its own, so it is not wrapped in a
@@ -233,21 +233,23 @@ class PromotionRenderer
      *
      * @param array<int, string> $arguments already escaped
      * @param array<string, mixed> $context
+     * @param int $idSite the website the outcome was read from
      * @return array<int, string>
      */
-    private function linkToReport(array $arguments, string $triggerName, array $context, ?string $periodStart): array
-    {
-        if (empty($arguments)) {
+    private function linkToReport(
+        array $arguments,
+        string $triggerName,
+        array $context,
+        ?string $periodStart,
+        int $idSite
+    ): array {
+        if (empty($arguments) || $idSite <= 0) {
             return $arguments;
         }
 
-        $idSite = (new SiteAwareLinks())->getCurrentValidIdSiteOrDefault();
-
-        if (false === $idSite) {
-            return $arguments;
-        }
-
-        $url = $this->reportLink->getUrl($triggerName, (int) $idSite, $context, $periodStart);
+        // The website the outcome was read from, carried here by the selection. Asking the
+        // request again would let the link address this website with another one's goal.
+        $url = $this->reportLink->getUrl($triggerName, $idSite, $context, $periodStart);
 
         if (null === $url) {
             return $arguments;

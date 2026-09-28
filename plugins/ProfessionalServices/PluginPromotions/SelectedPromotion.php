@@ -21,10 +21,13 @@ class SelectedPromotion
 
     private TriggerResult $triggerResult;
 
-    public function __construct(Promotion $promotion, TriggerResult $triggerResult)
+    private int $idSite;
+
+    public function __construct(Promotion $promotion, TriggerResult $triggerResult, int $idSite)
     {
         $this->promotion = $promotion;
         $this->triggerResult = $triggerResult;
+        $this->idSite = $idSite;
     }
 
     public function getPromotion(): Promotion
@@ -35,5 +38,17 @@ class SelectedPromotion
     public function getTriggerResult(): TriggerResult
     {
         return $this->triggerResult;
+    }
+
+    /**
+     * The website the outcome was read from, which everything the banner says belongs to:
+     * the figure it quotes, the goal or entry page it names, and the report it links to.
+     *
+     * Carried with the selection rather than read from the request again, so that the
+     * report link cannot be built from one website's id and another's goal.
+     */
+    public function getIdSite(): int
+    {
+        return $this->idSite;
     }
 }
