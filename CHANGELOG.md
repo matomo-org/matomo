@@ -177,9 +177,10 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   calls. This matters for a plugin that disables a widget for some users: `createNewDashboardForUser`,
   `resetDashboardLayout` and `copyDashboardToUser` build a layout from the *calling* user's widget list
   and store it for someone else, so such a widget could end up saved in a dashboard whose owner has no
-  access to it. The filtering lives in the new
-  `Piwik\Plugins\Dashboard\Dashboard::removeWidgetsNotAvailableToUser()`, which must not be called
-  while the widget list is being built.
+  access to it. The filtering lives in
+  `Piwik\Plugins\Dashboard\Dashboard::removeWidgetsNotAvailableToUser()`, which is `@internal`: it
+  must not be called while the widget list is being built, so it is named here to locate the change
+  rather than to be called from a plugin.
 
 ## Matomo 5.14.1
 
