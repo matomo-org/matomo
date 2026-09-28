@@ -18,6 +18,7 @@ use Piwik\Db;
 use Piwik\NoAccessException;
 use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
+use Piwik\Site;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Version;
@@ -1574,6 +1575,40 @@ class AccessTest extends IntegrationTestCase
         $this->assertEquals(24, $result);
     }
 
+    public function testDoAsSuperUserOnlyKeepsSiteDataThatWasCachedBeforeTheCallback()
+    {
+        [$idSite, $otherIdSite] = $this->setUpViewUserForOneOfTwoSites();
+
+        Site::getNameFor($idSite);
+        Access::doAsSuperUser(function () use ($idSite, $otherIdSite) {
+            Site::getNameFor($idSite);
+            Site::getNameFor($otherIdSite);
+        });
+
+        $this->assertSame([$idSite], array_keys(Site::getSites()));
+
+        $this->expectException(NoAccessException::class);
+        Site::getNameFor($otherIdSite);
+    }
+
+    public function testDoAsSuperUserOnlyKeepsSiteDataThatWasCachedBeforeTheCallbackIfExceptionThrown()
+    {
+        [, $otherIdSite] = $this->setUpViewUserForOneOfTwoSites();
+
+        try {
+            Access::doAsSuperUser(function () use ($otherIdSite) {
+                Site::getNameFor($otherIdSite);
+                throw new Exception();
+            });
+
+            $this->fail("Exception was not propagated by doAsSuperUser.");
+        } catch (Exception $ex) {
+            // pass
+        }
+
+        $this->assertSame([], Site::getSites());
+    }
+
     public function testReloadAccessDoesNotRemoveSuperUserAccessIfUsedInDoAsSuperUser()
     {
         Access::getInstance()->setSuperUserAccess(false);
@@ -1677,6 +1712,23 @@ class AccessTest extends IntegrationTestCase
 
         $this->assertEquals(200, $responseInfo["http_code"]);
         self::assertStringContainsString('<result>' . Version::VERSION . '</result>', $response);
+    }
+
+    /**
+     * @return int[] the site the user can view, and a site the user has no access to
+     */
+    private function setUpViewUserForOneOfTwoSites(): array
+    {
+        $idSite = Fixture::createWebsite('2010-01-02 00:00:00');
+        $otherIdSite = Fixture::createWebsite('2010-01-02 00:00:00');
+        UsersManagerAPI::getInstance()->addUser('testuser', 'testpass', 'testuser@email.com');
+        UsersManagerAPI::getInstance()->setUserAccess('testuser', 'view', $idSite);
+
+        $this->switchUser('testuser');
+        Access::getInstance()->setSuperUserAccess(false);
+        Site::clearCache();
+
+        return [(int) $idSite, (int) $otherIdSite];
     }
 
     private function switchUser($user)
