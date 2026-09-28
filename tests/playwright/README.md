@@ -1,19 +1,24 @@
 # Playwright UI tests
 
-UI tests on [Playwright Test](https://playwright.dev/docs/intro), next to the Mocha/Puppeteer suite in `tests/UI`. Specs are ported one by one from `tests/UI/specs`, keeping the test names.
+All UI tests run on [Playwright Test](https://playwright.dev/docs/intro). There are two kinds of test files:
+
+- `specs/*.spec.js` are written for Playwright (locators, `toHaveScreenshot`, `openSession()`).
+- The Mocha specs of core (`tests/UI/specs`) and plugins (`plugins/*/tests/UI`) run unchanged through `legacy/runtime.js`. It gives them the globals of the old harness (`page`, `testEnvironment`, `expect(...).to.matchImage()`, `describe`/`it`), on a Playwright browser instead of Puppeteer. `legacy/specs.js` generates one Playwright file per Mocha spec into `legacy/generated` (gitignored) whenever the config loads.
+
+A Mocha spec that gets rewritten for Playwright moves to `specs/` and is added to `PORTED` in `legacy/specs.js`, so it doesn't run twice.
 
 ## Running locally
 
-With DDEV (the fixture database is set up on the first run and then reused):
+With DDEV (fixtures are set up on first use and then restored from a dump):
 
 ```bash
 ddev matomo:playwright
-ddev matomo:playwright specs/comparison.spec.js -g subtable
-ddev matomo:playwright --update
+ddev matomo:playwright legacy/generated/TagManager -g preview
+ddev matomo:playwright --update specs/comparison.spec.js
 ddev matomo:playwright --rebuild-fixture
 ```
 
-`--update` writes baselines for new or changed screenshots, and `--rebuild-fixture` drops and rebuilds the persisted fixture database. Local screenshots are rendered differently than CI ones, so they are stored as `*-local.png` next to the CI baselines. Those files are gitignored: create them once with `--update` on a clean branch, then compare against them.
+`--update` writes baselines for new or changed screenshots, and `--rebuild-fixture` sets fixtures up again instead of restoring the dumps in `tmp/playwright-fixtures`. Local screenshots are rendered differently than CI ones, so they are stored as `*-local.png`, which is gitignored: create them once with `--update` on a clean branch, then compare against them. `PLAYWRIGHT_LEGACY_MODE=default` keeps running a Mocha spec after a failed test (on a fresh page), which helps finding many failures at once.
 
 Without DDEV, set `MATOMO_URL` to a Matomo checkout that serves `tests/PHPUnit/proxy/index.php` and has `[database_tests]` configured, then run `npm ci && npx playwright test` in this directory. `PLAYWRIGHT_CHROMIUM_EXECUTABLE` selects a system Chromium instead of the one from `npx playwright install chromium`.
 
@@ -21,7 +26,9 @@ Debugging: every failure keeps a trace (`npx playwright show-trace test-results/
 
 ## On GitHub Actions
 
-`.github/workflows/ui-playwright.yml` runs the suite against PHP's built-in server and the MySQL preinstalled on the runner. The baselines in `screenshots/` come only from CI. To update them, push a commit whose message contains `[update-screenshots]` (or run the workflow with "update screenshots"), download the `playwright-screenshots-<attempt>` artifact and commit it.
+`.github/workflows/ui-playwright.yml`, called by `matomo-tests.yml`, runs the tests in 10 shards against PHP's built-in server and the runner's MySQL on tmpfs. `PLAYWRIGHT_SHARD=3/10` picks a shard: `legacy/specs.js` spreads the files by the durations in `legacy/timings.json`, longest first, so the shards take about the same time.
+
+Baselines are generated on CI only and kept as artifacts, not in git. A run for a commit with `[update-screenshots]` in its message (or started by hand with "update screenshots") writes them as `playwright-baselines-<shard>`, and later runs of the same branch compare against the newest ones.
 
 ## Writing specs
 

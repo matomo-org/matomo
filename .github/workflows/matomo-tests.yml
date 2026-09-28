@@ -55,6 +55,11 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # First, so its shards get runners before the PHP matrices fill the queue.
+  UI:
+    uses: ./.github/workflows/ui-playwright.yml
+    with:
+      ref: ${{ inputs.ref || '' }}
   PHP:
     name: PHP (UnitTests, ${{ matrix.environment.php }}, ${{ matrix.environment.adapter }}, ${{ matrix.environment.mysql-engine }}, ${{ matrix.environment.mysql-version }})
     runs-on: ubuntu-24.04
@@ -79,9 +84,14 @@ jobs:
         with:
           lfs: false
           persist-credentials: false
-          submodules: true
+          submodules: false
           path: matomo
           ref: ${{ inputs.ref || github.ref }}
+      # actions/checkout fetches submodules one after another (about 37 s for 17 of them)
+      - &fetch-submodules
+        name: Fetch submodules
+        working-directory: matomo
+        run: git -c protocol.version=2 submodule update --init --force --depth=1 --jobs=8
       - name: running tests
         uses: matomo-org/github-action-tests@main
         with:
@@ -110,9 +120,10 @@ jobs:
         with:
           lfs: false
           persist-credentials: false
-          submodules: true
+          submodules: false
           path: matomo
           ref: ${{ inputs.ref || github.ref }}
+      - *fetch-submodules
       - name: running tests
         uses: matomo-org/github-action-tests@main
         with:
@@ -140,9 +151,10 @@ jobs:
         with:
           lfs: false
           persist-credentials: false
-          submodules: true
+          submodules: false
           path: matomo
           ref: ${{ inputs.ref || github.ref }}
+      - *fetch-submodules
       - name: Generate bucket phpunit config
         working-directory: matomo
         shell: bash
@@ -182,9 +194,10 @@ jobs:
         with:
           lfs: false
           persist-credentials: false
-          submodules: true
+          submodules: false
           path: matomo
           ref: ${{ inputs.ref || github.ref }}
+      - *fetch-submodules
       - name: Generate bucket phpunit config
         working-directory: matomo
         shell: bash
@@ -224,9 +237,10 @@ jobs:
         with:
           lfs: false
           persist-credentials: false
-          submodules: true
+          submodules: false
           path: matomo
           ref: ${{ inputs.ref || github.ref }}
+      - *fetch-submodules
       - name: Generate bucket phpunit config
         working-directory: matomo
         shell: bash
@@ -309,9 +323,10 @@ jobs:
         with:
           lfs: false
           persist-credentials: false
-          submodules: true
+          submodules: false
           path: matomo
           ref: ${{ inputs.ref || github.ref }}
+      - *fetch-submodules
       - name: running tests
         uses: matomo-org/github-action-tests@main
         with:
@@ -326,129 +341,20 @@ jobs:
         with:
           lfs: false
           persist-credentials: false
-          submodules: true
+          submodules: false
           path: matomo
           ref: ${{ inputs.ref || github.ref }}
+      - *fetch-submodules
       - name: running tests
         uses: matomo-org/github-action-tests@main
         with:
           test-type: 'Client'
           node-version: '24'
           mysql-service: false
-  generate-plugin-ui-matrices:
-    runs-on: ubuntu-24.04
-    outputs:
-      plugin_matrix: ${{ steps.generate.outputs.plugin_matrix }}
-      plugin_count: ${{ steps.generate.outputs.plugin_count }}
-    steps:
-      - uses: actions/checkout@v7
-        with:
-          lfs: false
-          persist-credentials: false
-          submodules: true
-          path: matomo
-          ref: ${{ inputs.ref || github.ref }}
-      - name: Generate Plugin UI Matrices
-        id: generate
-        shell: bash
-        run: |
-          cd matomo
-
-          plugins=$(find plugins -mindepth 2 -path '*/tests/UI/*_spec.js' \
-            ! -path '*/node_modules/*' ! -path '*/vendor/*' \
-            | awk -F/ '{print $2}' | sort -u)
-
-          matrix=$(printf '%s\n' "$plugins" \
-            | jq -Rsc 'split("\n") | map(select(length>0) | {plugin: .}) | {include: .}')
-
-          {
-            echo "plugin_matrix=$matrix"
-            echo "plugin_count=$(printf '%s\n' "$plugins" | grep -c . || echo 0)"
-          } >> "$GITHUB_OUTPUT"
-  UI-plugins:
-    needs: generate-plugin-ui-matrices
-    if: ${{ needs.generate-plugin-ui-matrices.outputs.plugin_count != '0' }}
-    runs-on: ubuntu-24.04
-    timeout-minutes: 30
-    strategy:
-      fail-fast: ${{ inputs.is_preview == true }}
-      max-parallel: &ui-max-parallel ${{ fromJson(vars.MATOMO_UI_MAX_PARALLEL || '10') }}
-      matrix: ${{ fromJson(needs.generate-plugin-ui-matrices.outputs.plugin_matrix) }}
-    steps:
-      - uses: actions/checkout@v7
-        with:
-          lfs: false
-          persist-credentials: false
-          submodules: true
-          path: matomo
-          ref: ${{ inputs.ref || github.ref }}
-      - name: Limit LFS fetch to this plugin's screenshots
-        working-directory: matomo
-        env:
-          PLUGIN: ${{ matrix.plugin }}
-        run: |
-          # Persisted so github-action-tests' own `git lfs pull --exclude=` stays scoped too
-          git config lfs.fetchinclude "plugins/$PLUGIN/tests/UI/expected-screenshots/*"
-          git lfs pull --include "plugins/$PLUGIN/tests/UI/expected-screenshots/*" --exclude=
-
-          # Submodule plugins store expected screenshots in their own repo's LFS.
-          if [ -e "plugins/$PLUGIN/.git" ]; then
-            git -C "plugins/$PLUGIN" lfs pull --include "tests/UI/expected-screenshots/*" --exclude=
-          fi
-      - name: running tests
-        uses: matomo-org/github-action-tests@main
-        with:
-          ui-test-options: '--plugin=${{ matrix.plugin }}'
-          test-type: 'UI'
-          php-version: '8.1'
-          mysql-engine: 'Mysql'
-          mysql-version: '8.0'
-          node-version: '24'
-          redis-service: true
-          artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
-          upload-artifacts: true
-          testomatio: ${{ secrets.TESTOMATIO_INTEGRATION }}
-  UI-core:
-    runs-on: ubuntu-24.04
-    timeout-minutes: 30
-    strategy:
-      fail-fast: ${{ inputs.is_preview == true }}
-      max-parallel: *ui-max-parallel
-      matrix:
-        part: [ 0, 1, 2, 3, 4, 5 ]
-    steps:
-      - uses: actions/checkout@v7
-        with:
-          lfs: false
-          persist-credentials: false
-          submodules: true
-          path: matomo
-          ref: ${{ inputs.ref || github.ref }}
-      - name: Limit LFS fetch to core screenshots
-        working-directory: matomo
-        run: |
-          # Persisted so github-action-tests' own `git lfs pull --exclude=` stays scoped too
-          git config lfs.fetchinclude "tests/UI/expected-screenshots/*"
-          git lfs pull --include "tests/UI/expected-screenshots/*" --exclude=
-      - name: running tests
-        uses: matomo-org/github-action-tests@main
-        with:
-          ui-test-options: >-
-            --core-tests-only --num-test-groups=${{ strategy.job-total }}
-            --test-group=${{ strategy.job-index }}
-          test-type: 'UI'
-          php-version: '8.1'
-          mysql-engine: 'Mysql'
-          mysql-version: '8.0'
-          node-version: '24'
-          redis-service: true
-          artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
-          upload-artifacts: true
-          testomatio: ${{ secrets.TESTOMATIO_INTEGRATION }}
   ci-required:
     name: All required tests passed
     if: ${{ always() }}
-    needs: [ PHP, PHP-integration-core, PHP-integration-plugins, PHP-system-plugins, PHP-system-plugins-collect, Javascript, Client, generate-plugin-ui-matrices, UI-plugins, UI-core ]
+    needs: [ PHP, PHP-integration-core, PHP-integration-plugins, PHP-system-plugins, PHP-system-plugins-collect, Javascript, Client, UI ]
     runs-on: ubuntu-24.04
     steps:
       - name: Verify required jobs succeeded
@@ -458,20 +364,10 @@ jobs:
         with:
           script: |
             const needs = JSON.parse(process.env.NEEDS_JSON);
-            const pluginCount = needs['generate-plugin-ui-matrices'].outputs.plugin_count || '0';
 
             for (const [jobName, jobData] of Object.entries(needs)) {
               const result = jobData.result;
-              if (result === 'failure' || result === 'cancelled') {
-                core.setFailed(`${jobName} did not succeed: ${result}`);
-                return;
-              }
-
-              if (result === 'skipped') {
-                if (jobName === 'UI-plugins' && pluginCount === '0') {
-                  continue;
-                }
-
+              if (result === 'failure' || result === 'cancelled' || result === 'skipped') {
                 core.setFailed(`${jobName} did not succeed: ${result}`);
                 return;
               }

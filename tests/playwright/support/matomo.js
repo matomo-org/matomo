@@ -7,15 +7,10 @@
  * @link    https://matomo.org
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-const fs = require('fs');
-const path = require('path');
-const { execFileSync } = require('child_process');
 const { expect } = require('@playwright/test');
-
-const ROOT = path.resolve(__dirname, '../../..');
-const ENV_FILE = path.join(ROOT, 'tmp/testingPathOverride.json');
-const MATOMO_URL = new URL(process.env.MATOMO_URL || 'http://localhost/');
-const DEFAULT_FIXTURE = 'Piwik\\Tests\\Fixtures\\UITestFixture';
+const {
+  DEFAULT_FIXTURE, MATOMO_URL, prepareFixture, readEnvironment, writeEnvironment,
+} = require('./fixtures');
 
 // same defaults as TestingEnvironment.reload() in tests/lib/screenshot-testing/support/test-environment.js
 const ENV_DEFAULTS = {
@@ -28,71 +23,12 @@ const ENV_DEFAULTS = {
   environmentVariables: {},
 };
 
-function readEnvironment() {
-  try {
-    return JSON.parse(fs.readFileSync(ENV_FILE, 'utf8') || '{}');
-  } catch (e) {
-    return {};
-  }
-}
-
-function writeEnvironment(data) {
-  fs.writeFileSync(ENV_FILE, JSON.stringify(data));
-}
-
-/** Reads [database_tests] from config/config.ini.php, for the mysql client calls below. */
-function testDatabaseConfig() {
-  const ini = fs.readFileSync(path.join(ROOT, 'config/config.ini.php'), 'utf8');
-  const section = (ini.split(/^\[database_tests\]\s*$/m)[1] || '').split(/^\[/m)[0];
-  const value = (key, fallback) => {
-    const match = section.match(new RegExp(`^${key}[ \\t]*=[ \\t]*"?([^"\\n]*)"?`, 'm'));
-    return match ? match[1].trim() : fallback;
-  };
-  return { host: value('host', '127.0.0.1'), user: value('username', 'root'), password: value('password', '') };
-}
-
-function mysqlArgs() {
-  const { host, user, password } = testDatabaseConfig();
-  return [`-h${host}`, `-u${user}`, ...(password ? [`-p${password}`] : [])];
-}
-
-function snapshotFile(dbName) {
-  return path.join(ROOT, `tmp/playwright-fixture-${dbName}.sql`);
-}
-
 /**
- * Sets up (or reuses the persisted database of) a PHP fixture, like TestingEnvironment.setupFixture(),
- * then dumps the fixture database so every spec file can start from the same state. The PHP side
- * writes the fixture database and plugin list into the environment file, so this merges into it
- * instead of overwriting it. PLAYWRIGHT_FIXTURE_DROP=1 rebuilds a persisted database from scratch.
+ * Restores the fixture database for a spec (setting it up on first use). Tests change persisted state
+ * (report preferences, options, users), so without this a spec depends on which specs ran before it.
  */
-function setupFixture(fixtureClass = DEFAULT_FIXTURE) {
-  writeEnvironment({});
-  execFileSync(process.env.MATOMO_PHP || 'php', [
-    path.join(ROOT, 'console'),
-    'tests:setup-fixture',
-    fixtureClass,
-    '--set-symlinks',
-    `--server-global=${JSON.stringify({ HTTP_HOST: MATOMO_URL.host, REQUEST_URI: '/', REMOTE_ADDR: '127.0.0.1' })}`,
-    '--persist-fixture-data',
-    ...(process.env.PLAYWRIGHT_FIXTURE_DROP ? ['--drop'] : []),
-  ], { cwd: ROOT, stdio: 'inherit' });
-
-  const environment = { ...ENV_DEFAULTS, ...readEnvironment(), fixtureClass };
-  writeEnvironment(environment);
-
-  const dump = execFileSync('mysqldump', [...mysqlArgs(), '--single-transaction', '--skip-lock-tables', '--no-tablespaces', environment.dbName], { maxBuffer: 1024 * 1024 * 1024 });
-  fs.writeFileSync(snapshotFile(environment.dbName), dump);
-}
-
-/**
- * Restores the fixture database dumped by setupFixture(). Tests change persisted state (report
- * preferences, options, users), so without this a spec depends on which specs ran before it.
- */
-function restoreFixture() {
-  const { dbName, fixtureClass } = readEnvironment();
-  execFileSync('mysql', [...mysqlArgs(), dbName], { input: fs.readFileSync(snapshotFile(dbName)), maxBuffer: 1024 * 1024 * 1024 });
-  writeEnvironment({ ...ENV_DEFAULTS, ...readEnvironment(), fixtureClass });
+function restoreFixture(fixtureClass = DEFAULT_FIXTURE) {
+  writeEnvironment({ ...ENV_DEFAULTS, ...prepareFixture({ fixtureClass }) });
 }
 
 /** Changes the environment for the following requests, like assigning testEnvironment.x and calling save(). */
@@ -262,7 +198,6 @@ module.exports = {
   expectPageScreenshot,
   restoreFixture,
   DEFAULT_FIXTURE,
-  setupFixture,
   updateEnvironment,
   openSession,
   expectAreaScreenshot,

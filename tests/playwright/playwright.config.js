@@ -5,22 +5,28 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 const { defineConfig, devices } = require('@playwright/test');
+const { shardFiles } = require('./legacy/specs');
 
 // Baselines are only ever written by CI. Any other browser (for example the arm64 Chromium in DDEV)
 // renders slightly differently, so its screenshots get a "-local" suffix and are gitignored.
 const matomoUrl = process.env.MATOMO_URL || 'http://localhost/';
 const snapshotSuffix = process.env.PLAYWRIGHT_SNAPSHOT_SUFFIX ? `-${process.env.PLAYWRIGHT_SNAPSHOT_SUFFIX}` : '';
+const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+// PLAYWRIGHT_SHARD=2/10 runs the second of ten shards of similar duration (see legacy/specs.js).
+// The Mocha specs run through legacy/runtime.js, from wrappers generated into legacy/generated.
+const testMatch = shardFiles(process.env.PLAYWRIGHT_SHARD).map((file) => new RegExp(`${escapeRegExp(file)}$`));
 
 module.exports = defineConfig({
-  testDir: './specs',
+  testDir: '.',
+  testMatch,
   // One Matomo instance and one global tmp/testingPathOverride.json per job, so tests can't run in parallel.
   workers: 1,
   fullyParallel: false,
   forbidOnly: !!process.env.CI,
   retries: 0,
   timeout: 120_000,
-  globalSetup: require.resolve('./support/global-setup.js'),
-  snapshotPathTemplate: `{testDir}/../screenshots/{testFileName}/{arg}${snapshotSuffix}{ext}`,
+  snapshotPathTemplate: `{testDir}/screenshots/{testFilePath}/{arg}${snapshotSuffix}{ext}`,
   // normal runs fail on a missing baseline; `npm run test:update` (re)writes them
   updateSnapshots: process.env.PLAYWRIGHT_UPDATE_SNAPSHOTS || 'none',
   expect: {
