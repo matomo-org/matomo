@@ -14045,7 +14045,7 @@
     return web_urlSearchParams_size;
   }
   requireWeb_urlSearchParams_size();
-  /*! @license DOMPurify 3.4.14 | (c) Cure53 and other contributors | Released under the Apache license 2.0 and Mozilla Public License 2.0 | github.com/cure53/DOMPurify/blob/3.4.14/LICENSE */
+  /*! @license DOMPurify 3.4.15 | (c) Cure53 and other contributors | Released under the Apache license 2.0 and Mozilla Public License 2.0 | github.com/cure53/DOMPurify/blob/3.4.15/LICENSE */
   function _arrayLikeToArray(r, a) {
     (null == a || a > r.length) && (a = r.length);
     for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e];
@@ -14377,7 +14377,7 @@
   function createDOMPurify() {
     let window2 = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : getGlobal();
     const DOMPurify = (root) => createDOMPurify(root);
-    DOMPurify.version = "3.4.14";
+    DOMPurify.version = "3.4.15";
     DOMPurify.removed = [];
     if (!window2 || !window2.document || window2.document.nodeType !== NODE_TYPE.document || !window2.Element) {
       DOMPurify.isSupported = false;
@@ -14394,6 +14394,7 @@
     const ElementPrototype = Element.prototype;
     const cloneNode = lookupGetter(ElementPrototype, "cloneNode");
     const remove = lookupGetter(ElementPrototype, "remove");
+    const removeAttributeNode = lookupGetter(ElementPrototype, "removeAttributeNode");
     const getNextSibling = lookupGetter(ElementPrototype, "nextSibling");
     const getChildNodes = lookupGetter(ElementPrototype, "childNodes");
     const getParentNode = lookupGetter(ElementPrototype, "parentNode");
@@ -14827,7 +14828,7 @@
     };
     const _stripAttributeNode = function _stripAttributeNode2(element, attribute, name) {
       try {
-        element.removeAttributeNode(attribute);
+        removeAttributeNode(element, attribute);
       } catch (_) {
         try {
           element.removeAttribute(name);
@@ -14875,7 +14876,7 @@
       });
       try {
         if (attr) {
-          element.removeAttributeNode(attr);
+          removeAttributeNode(element, attr);
         } else {
           element.removeAttribute(name);
         }
@@ -15063,7 +15064,16 @@
       // makes the direct read diverge from the cached read; a clean form
       // (same-realm OR foreign-realm) has both reads pointing at the same
       // canonical NamedNodeMap.
-      element.attributes !== getAttributes(element) || typeof element.removeAttribute !== "function" || typeof element.setAttribute !== "function" || typeof element.namespaceURI !== "string" || typeof element.insertBefore !== "function" || typeof element.hasChildNodes !== "function" || // NodeType clobbering probe. Cached Node.prototype.nodeType getter
+      element.attributes !== getAttributes(element) || typeof element.removeAttribute !== "function" || // A form descendant named "removeAttributeNode" or "getAttributeNode"
+      // shadows these Attr-node methods via [LegacyOverrideBuiltIns].
+      // _removeAttribute() / _stripAttributeNode() reach for
+      // element.removeAttributeNode(attr) first; when it is shadowed the call
+      // throws and the name-based fallback element.removeAttribute(name)
+      // ASCII-lowercases its lookup key in an HTML document, silently missing
+      // a case-preserved event-handler attribute (e.g. an ONANIMATIONSTART
+      // that reached the sanitizer through an XML/XHTML parse). Flag the form
+      // so it is removed wholesale, exactly as for the other shadowed methods.
+      typeof element.removeAttributeNode !== "function" || typeof element.getAttributeNode !== "function" || typeof element.setAttribute !== "function" || typeof element.namespaceURI !== "string" || typeof element.insertBefore !== "function" || typeof element.hasChildNodes !== "function" || // NodeType clobbering probe. Cached Node.prototype.nodeType getter
       // returns the integer 1 for any Element regardless of realm; direct
       // read on a clobbered form (e.g. <input name="nodeType">) returns
       // the named child element. Cheap addition — nodeType is read from
@@ -15289,11 +15299,12 @@
         }
         if (_isClobbered(currentNode)) {
           _forceRemove(currentNode);
-        } else {
-          arrayPop(DOMPurify.removed);
+          return false;
         }
+        return true;
       } catch (_) {
         _removeAttribute(name, currentNode);
+        return false;
       }
     };
     const _sanitizeAttributes = function _sanitizeAttributes2(currentNode) {
@@ -15318,6 +15329,7 @@
         const lcName = transformCaseFunc(name);
         const initValue = attrValue;
         let value = name === "value" ? initValue : stringTrim(initValue);
+        let recreatedNamedProp = false;
         hookEvent.attrName = lcName;
         hookEvent.attrValue = value;
         hookEvent.keepAttr = true;
@@ -15327,6 +15339,7 @@
         if (SANITIZE_NAMED_PROPS && (lcName === "id" || lcName === "name") && stringIndexOf(value, SANITIZE_NAMED_PROPS_PREFIX) !== 0) {
           _removeAttribute(name, currentNode, attr);
           value = SANITIZE_NAMED_PROPS_PREFIX + value;
+          recreatedNamedProp = true;
         }
         if (SAFE_FOR_XML && regExpTest(/((--!?|])>)|<\/(style|script|title|xmp|textarea|noscript|iframe|noembed|noframes)/i, value)) {
           _removeAttribute(name, currentNode, attr);
@@ -15356,7 +15369,10 @@
         }
         value = _applyTrustedTypesToAttribute(lcTag, lcName, namespaceURI, value);
         if (value !== initValue) {
-          _setAttributeValue(currentNode, name, namespaceURI, value);
+          const cleanWrite = _setAttributeValue(currentNode, name, namespaceURI, value);
+          if (cleanWrite && recreatedNamedProp) {
+            arrayPop(DOMPurify.removed);
+          }
         }
       }
       _executeHooks(hooks.afterSanitizeAttributes, currentNode, null);
@@ -15494,7 +15510,7 @@
         } else {
           body.appendChild(importedNode);
         }
-        _sanitizeAttachedShadowRoots(importedNode);
+        _sanitizeAttachedShadowRoots(body);
       } else {
         if (!RETURN_DOM && !SAFE_FOR_TEMPLATES && !WHOLE_DOCUMENT && // eslint-disable-next-line unicorn/prefer-includes
         dirty.indexOf("<") === -1) {

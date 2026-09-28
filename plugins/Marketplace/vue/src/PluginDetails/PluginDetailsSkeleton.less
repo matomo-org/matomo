@@ -5,8 +5,10 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+@import "../../../stylesheets/_variables.less";
+
 // The shells repeat PluginDetails' own so the placeholder occupies the same space the page will;
-// every number they share comes from the `@marketplace-details-*` variables in marketplace.less.
+// every number they share comes from the `@marketplace-details-*` variables in stylesheets/_variables.less.
 .pluginDetailsSkeleton {
   max-width: @marketplace-details-width;
   // matches PluginDetails, so the page does not change height when the two swap over

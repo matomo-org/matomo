@@ -437,6 +437,29 @@ describe('Marketplace', () => {
       back.mockRestore();
     });
 
+    it('goes back to the Matomo page that opened the plugin', async () => {
+      respondWith(makePlugins(3));
+      MatomoUrl.hashParsed.value = { showPlugin: 'plugin1' };
+      // the plugin management screen links here, so it is what the page was opened from
+      const referrer = vi.spyOn(document, 'referrer', 'get').mockReturnValue(
+        `${window.location.origin}/index.php?module=CorePluginsAdmin&action=plugins`,
+      );
+      const historyLength = vi.spyOn(window.history, 'length', 'get').mockReturnValue(2);
+
+      const wrapper = mountPage();
+      await vi.runOnlyPendingTimersAsync();
+
+      const back = vi.spyOn(window.history, 'back').mockImplementation(() => {});
+
+      wrapper.vm.closeDetails();
+
+      expect(back).toHaveBeenCalled();
+
+      back.mockRestore();
+      historyLength.mockRestore();
+      referrer.mockRestore();
+    });
+
     it('clears a filter hiding the card a deep linked plugin has to come back to', async () => {
       respondWith(makePlugins(3).map((plugin) => ({ ...plugin, categories: ['insights'] })));
       MatomoUrl.hashParsed.value = { pluginCategory: 'marketing', showPlugin: 'plugin1' };

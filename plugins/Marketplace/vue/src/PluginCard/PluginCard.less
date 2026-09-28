@@ -5,6 +5,8 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+@import "../../../stylesheets/_variables.less";
+
 // override: Materialize paints .btn from its own palette and wins on the colour, so the brand fill
 // needs !important to stick. Scoped to this block's actions below.
 .pluginCardFilledButton() {
@@ -21,8 +23,9 @@
   }
 }
 
-// The `@marketplace-card-*` geometry lives in marketplace.less because PluginCardSkeleton has to
-// hold exactly this footprint, so both blocks read those numbers from one place.
+// The `@marketplace-card-*` geometry lives in stylesheets/_variables.less because
+// PluginCardSkeleton has to hold exactly this footprint, so both blocks read those numbers from
+// one place.
 .pluginCard {
   position: relative;
   display: flex;

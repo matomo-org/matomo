@@ -251,6 +251,26 @@ const QUERY_DEBOUNCE_MS = 250;
  */
 const FETCH_TIMEOUT_MS = 30000;
 
+/**
+ * Whether the page was opened from another Matomo page, such as the plugin management screen,
+ * which leaving the details page should then return to. A bookmark, a new tab or an emailed link
+ * has no referrer, and the Marketplace itself shares this page's query.
+ */
+function isOpenedFromAnotherMatomoPage(): boolean {
+  if (!document.referrer || window.history.length < 2) {
+    return false;
+  }
+
+  try {
+    const referrer = new URL(document.referrer);
+
+    return referrer.origin === window.location.origin
+      && referrer.search !== window.location.search;
+  } catch (e) {
+    return false;
+  }
+}
+
 export interface MarketplaceState {
   loading: boolean;
   loadFailed: boolean;
@@ -267,6 +287,7 @@ export interface MarketplaceState {
   switching: boolean;
   viewSwitchTimeout: ReturnType<typeof setTimeout>|null;
   detailsEntryPushed: boolean;
+  openedFromAnotherPage: boolean;
   returnToPlugin: string;
   returnScrollTop: number;
   hasReturnScroll: boolean;
@@ -329,6 +350,7 @@ export default defineComponent({
       switching: false,
       viewSwitchTimeout: null,
       detailsEntryPushed: false,
+      openedFromAnotherPage: false,
       returnToPlugin: '',
       returnScrollTop: 0,
       hasReturnScroll: false,
@@ -342,6 +364,7 @@ export default defineComponent({
     // a page loaded on a plugin's URL starts there rather than fading into it from a catalogue
     // the reader never saw - set before the first render, or that render is the catalogue
     this.viewPluginName = this.selectedPluginName;
+    this.openedFromAnotherPage = !!this.selectedPluginName && isOpenedFromAnotherMatomoPage();
   },
   mounted() {
     Matomo.postEvent('Marketplace.Marketplace.mounted', { element: this.$refs.root });
@@ -357,6 +380,8 @@ export default defineComponent({
   watch: {
     // what is on screen follows the name, but a step behind it - see switchView()
     selectedPluginName(name: string) {
+      // only the plugin the page was opened on returns to the page that opened it
+      this.openedFromAnotherPage = false;
       this.switchView(name);
     },
     // a change of category patches the list in place, then fades it in - see fadeInResults()
@@ -1049,13 +1074,14 @@ export default defineComponent({
     /**
      * Leaves the details page. Goes back through the entry openDetails() pushed where there is one,
      * so the reader is not left with a forward entry pointing at the page they just dismissed. A
-     * plugin opened by URL - a deep link, or the plugin management screen writing showPlugin - has
-     * no such entry, and its history belongs to whoever sent the reader here, so that one is
-     * replaced instead.
+     * plugin opened from another Matomo page, such as the plugin management screen, goes back to
+     * that page. One opened any other way - a bookmark, an emailed link - has nothing to go back
+     * to, so its entry is replaced with the catalogue instead.
      */
     closeDetails() {
-      if (this.detailsEntryPushed) {
+      if (this.detailsEntryPushed || this.openedFromAnotherPage) {
         this.detailsEntryPushed = false;
+        this.openedFromAnotherPage = false;
         window.history.back();
         return;
       }
