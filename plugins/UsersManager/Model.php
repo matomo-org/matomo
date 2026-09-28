@@ -39,6 +39,7 @@ use Piwik\Validators\NotEmpty;
  *     superuser_access: int|string,
  *     date_registered: string|null,
  *     ts_password_modified: string|null,
+ *     ts_sessions_invalidated: string|null,
  *     idchange_last_viewed: int|string|null,
  *     invited_by: string|null,
  *     invite_token: string|null,
@@ -1139,6 +1140,22 @@ class Model
         $this->deleteUserAccess($userLogin);
         PluginSettingsTable::removeAllUserSettingsForUser($userLogin);
         $this->deleteUserOptions($userLogin);
+    }
+
+    /**
+     * Records the moment from which the user's existing sessions should no longer be accepted.
+     *
+     * Removing the session rows is not enough on its own: a concurrent request can re-create a row
+     * it read before removal, through the session handler's upsert. Recording the moment here lets
+     * {@see \Piwik\Session\SessionAuth} ignore any session that started before it, whether or not its
+     * row was re-created. Modelled on ts_password_modified, which ends older sessions the same way.
+     */
+    public function invalidateUserSessions(string $userLogin): void
+    {
+        $this->getDb()->query(
+            'UPDATE `' . $this->userTable . '` SET `ts_sessions_invalidated` = ? WHERE `login` = ?',
+            [Date::now()->getDatetime(), $userLogin]
+        );
     }
 
     /**

@@ -11,6 +11,12 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   now includes an `effectiveUrl` entry: the final URL after following redirects. Best effort on the `fopen`
   transport, which follows redirects internally.
 
+### Internal Changes
+* `UsersManager.logoutUser` now records a per-user `ts_sessions_invalidated` timestamp on the `user`
+  table in addition to removing the session rows, and `Piwik\Session\SessionAuth` ignores any session
+  that started before it. Ending a user's sessions is therefore reliable even when a concurrent
+  request re-creates a session row that was just removed. Sessions opened afterwards are unaffected.
+
 ## Matomo 5.14.0
 
 ### Breaking Changes

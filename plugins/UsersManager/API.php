@@ -1136,6 +1136,10 @@ class API extends \Piwik\Plugin\API
         $this->checkUserIsNotAnonymous($userLogin);
         $this->checkUserExist($userLogin);
 
+        // Record the moment before removing the rows: SessionAuth then ignores any session that
+        // started earlier, so a concurrent request that re-creates a removed row cannot keep the
+        // session usable.
+        $this->model->invalidateUserSessions($userLogin);
         $this->model->deleteUserSessions($userLogin);
     }
 
