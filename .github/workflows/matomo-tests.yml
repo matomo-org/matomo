@@ -66,7 +66,12 @@ jobs:
     strategy:
       fail-fast: ${{ inputs.is_preview == true }}
       matrix:
+        # longest-running first: with max-parallel, the bucket matrices start their jobs in this order
         environment: &php-environments
+          - php: '8.5'
+            adapter: 'MYSQLI'
+            mysql-engine: 'Mysql'
+            mysql-version: '8.0'
           - php: '8.1'
             adapter: 'PDO_MYSQL'
             mysql-engine: 'Mysql'
@@ -75,10 +80,6 @@ jobs:
             adapter: 'PDO_MYSQL'
             mysql-engine: 'Mariadb'
             mysql-version: '10.6'
-          - php: '8.5'
-            adapter: 'MYSQLI'
-            mysql-engine: 'Mysql'
-            mysql-version: '8.0'
     steps:
       - uses: actions/checkout@v7
         with:
@@ -144,8 +145,9 @@ jobs:
       fail-fast: ${{ inputs.is_preview == true }}
       max-parallel: ${{ fromJson(vars.MATOMO_INTEGRATION_CORE_MAX_PARALLEL || '10') }}
       matrix:
-        bucket: &php-buckets [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+        # jobs are created environment by environment, so the slowest PHP version starts first
         environment: *php-environments
+        bucket: &php-buckets [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
     steps:
       - uses: actions/checkout@v7
         with:
@@ -197,8 +199,9 @@ jobs:
       fail-fast: ${{ inputs.is_preview == true }}
       max-parallel: ${{ fromJson(vars.MATOMO_INTEGRATION_PLUGINS_MAX_PARALLEL || '10') }}
       matrix:
-        bucket: *php-buckets
+        # jobs are created environment by environment, so the slowest PHP version starts first
         environment: *php-environments
+        bucket: *php-buckets
     steps:
       - uses: actions/checkout@v7
         with:
@@ -250,8 +253,9 @@ jobs:
       fail-fast: ${{ inputs.is_preview == true }}
       max-parallel: ${{ fromJson(vars.MATOMO_SYSTEM_PLUGINS_MAX_PARALLEL || '10') }}
       matrix:
-        bucket: *php-buckets
+        # jobs are created environment by environment, so the slowest PHP version starts first
         environment: *php-environments
+        bucket: *php-buckets
     steps:
       - uses: actions/checkout@v7
         with:

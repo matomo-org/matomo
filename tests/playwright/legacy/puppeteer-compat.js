@@ -138,7 +138,9 @@ class ElementHandle extends JSHandle {
   // Like Puppeteer: click the element even if something covers it, but first give it the chance to
   // become actionable, which Puppeteer never waited for.
   async click(options = {}) {
-    const clickOptions = { button: options.button, clickCount: options.clickCount ?? options.count, delay: options.delay };
+    // Like Puppeteer, don't wait for a navigation the click starts. Otherwise a slow page makes the click time
+    // out after it happened, and the fallback below would click a second time.
+    const clickOptions = { button: options.button, clickCount: options.clickCount ?? options.count, delay: options.delay, noWaitAfter: true };
     if (options.offset) {
       clickOptions.position = options.offset;
     }
