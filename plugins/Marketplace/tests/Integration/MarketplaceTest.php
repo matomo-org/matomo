@@ -9,14 +9,20 @@
 
 namespace Piwik\Plugins\Marketplace\tests\Integration;
 
+use Matomo\Cache\Backend\ArrayCache;
+use Matomo\Cache\Lazy;
+use Piwik\Access;
 use Piwik\Cache;
+use Piwik\CliMulti\CliPhp;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Log\LoggerInterface;
+use Piwik\Log\NullLogger;
 use Piwik\Plugins\Marketplace\Api\Client;
 use Piwik\Plugins\Marketplace\BackgroundWarmer;
 use Piwik\Plugins\Marketplace\Environment;
 use Piwik\Plugins\Marketplace\Marketplace;
+use Piwik\Scheduler\Scheduler;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
@@ -47,7 +53,45 @@ class MarketplaceTest extends IntegrationTestCase
         StaticContainer::getContainer()->set(Client::class, $client);
 
         $warmer = $this->createMock(BackgroundWarmer::class);
+        $warmer->method('keepSpawnHoldsThrough')->willReturnCallback(function (callable $flush) {
+            $flush();
+        });
         $warmer->expects(self::once())->method('refreshNow')->with(Client::PLUGIN_LIST_REFRESH_AFTER_SECONDS)->willReturn(true);
+        StaticContainer::getContainer()->set(BackgroundWarmer::class, $warmer);
+
+        (new Marketplace())->checkForUpdates();
+    }
+
+    public function testASecondCheckForUpdatesRightAfterTheFirstStartsNoSecondRefresh(): void
+    {
+        $cache = new Lazy(new ArrayCache());
+        $client = $this->createMock(Client::class);
+        $client->method('clearCacheEntriesExceptOverviewLists')->willReturnCallback([$cache, 'flushAll']);
+        $client->method('getOverviewListsAge')->willReturn(null);
+        StaticContainer::getContainer()->set(Client::class, $client);
+
+        $warmer = $this->getMockBuilder(BackgroundWarmer::class)
+            ->setConstructorArgs([$cache, StaticContainer::get(CliPhp::class), StaticContainer::get(Scheduler::class), new NullLogger()])
+            ->onlyMethods(['canSpawn', 'execute'])
+            ->getMock();
+        $warmer->method('canSpawn')->willReturn(true);
+        $warmer->expects(self::once())->method('execute');
+        StaticContainer::getContainer()->set(BackgroundWarmer::class, $warmer);
+
+        (new Marketplace())->checkForUpdates();
+        (new Marketplace())->checkForUpdates();
+    }
+
+    public function testCheckForUpdatesDoesNothingWithoutAdminAccess(): void
+    {
+        Access::getInstance()->setSuperUserAccess(false);
+
+        $client = $this->createMock(Client::class);
+        $client->expects(self::never())->method('clearCacheEntriesExceptOverviewLists');
+        StaticContainer::getContainer()->set(Client::class, $client);
+
+        $warmer = $this->createMock(BackgroundWarmer::class);
+        $warmer->expects(self::never())->method('refreshNow');
         StaticContainer::getContainer()->set(BackgroundWarmer::class, $warmer);
 
         (new Marketplace())->checkForUpdates();

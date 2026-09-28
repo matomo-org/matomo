@@ -142,6 +142,54 @@ class BackgroundWarmerTest extends \PHPUnit\Framework\TestCase
         $this->assertCount(1, $this->commands);
     }
 
+    public function testTheHoldsSurviveAFlushForWhatIsLeftOfThem()
+    {
+        $lifetimes = new ArrayObject();
+        $backend = new class ($lifetimes) extends ArrayCache {
+            private $lifetimes;
+
+            public function __construct(ArrayObject $lifetimes)
+            {
+                $this->lifetimes = $lifetimes;
+            }
+
+            public function doSave($id, $data, $lifeTime = 0)
+            {
+                $this->lifetimes[substr($id, strlen('matomocache_'))] = $lifeTime;
+
+                return parent::doSave($id, $data, $lifeTime);
+            }
+        };
+        $cache = new Lazy($backend);
+
+        $this->buildWarmer($cache)->refreshNow(3600);
+        $cache->save('marketplace.warm.cannotSpawnAt', self::NOW - 100, 300);
+        $cache->save('other', 'value');
+
+        Date::$now = self::NOW + 120;
+        $this->buildWarmer($cache)->keepSpawnHoldsThrough([$cache, 'flushAll']);
+
+        $this->assertFalse($cache->contains('other'));
+        $this->assertSame(['marketplace.warm.spawnedAt' => 180, 'marketplace.warm.cannotSpawnAt' => 80], array_intersect_key(
+            $lifetimes->getArrayCopy(),
+            ['marketplace.warm.spawnedAt' => 0, 'marketplace.warm.cannotSpawnAt' => 0]
+        ));
+
+        $this->assertTrue($this->buildWarmer($cache)->refreshNow(3600));
+        $this->assertCount(1, $this->commands);
+    }
+
+    public function testAHoldThatRanOutIsNotRestoredByAFlush()
+    {
+        $cache = new Lazy(new ArrayCache());
+        $this->buildWarmer($cache)->refreshNow(3600);
+
+        Date::$now = self::NOW + 300;
+        $this->buildWarmer($cache)->keepSpawnHoldsThrough([$cache, 'flushAll']);
+
+        $this->assertFalse($cache->contains('marketplace.warm.spawnedAt'));
+    }
+
     public function testARefreshAfterInstallationWaitsForTheInstallerToSaveTheConfig()
     {
         $warmer = $this->buildWarmer();

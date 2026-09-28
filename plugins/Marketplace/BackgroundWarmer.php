@@ -141,6 +141,30 @@ class BackgroundWarmer
     }
 
     /**
+     * Runs a flush of the cache the holds are kept in, then restores the holds that were still
+     * running, so the flush does not let the next visit spawn another refresh at once.
+     */
+    public function keepSpawnHoldsThrough(callable $flush): void
+    {
+        $now = Date::getNowTimestamp();
+        $held = [];
+
+        foreach ([self::SPAWN_CACHE_ID, self::CANNOT_SPAWN_CACHE_ID] as $id) {
+            $at = $this->cache->fetch($id);
+
+            if (false !== $at && $now - (int) $at < self::SPAWN_HOLD_SECONDS) {
+                $held[$id] = (int) $at;
+            }
+        }
+
+        $flush();
+
+        foreach ($held as $id => $at) {
+            $this->cache->save($id, $at, self::SPAWN_HOLD_SECONDS - ($now - $at));
+        }
+    }
+
+    /**
      * Spawns a refresh for an installation that is just being completed. Nothing is held off: the
      * installer's cache only lives as long as its request.
      */
