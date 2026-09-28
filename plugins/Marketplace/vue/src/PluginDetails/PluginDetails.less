@@ -458,7 +458,6 @@ button.marketplacePluginDetails__reviewsLink:focus:not(:focus-visible) {
 .marketplacePluginDetails__buy {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
   gap: 24px;
   padding: 20px;
 }
@@ -491,14 +490,10 @@ button.marketplacePluginDetails__reviewsLink:focus:not(:focus-visible) {
   color: @theme-color-text-light;
 }
 
-.marketplacePluginDetails__cta {
-  width: 100%;
-}
-
 // CTAContainer has nothing to offer some visitors - a view-only user, a cancelled licence - and
-// the card would be left an empty box. What Vue leaves behind is comments, which :empty ignores,
-// as it does for the alerts.
-.marketplacePluginDetails__buy:has(> .marketplacePluginDetails__cta:empty):not(:has(> .marketplacePluginDetails__freeSummary)) {
+// the card would be left an empty box. What Vue leaves behind is comments and empty text anchors,
+// which :empty ignores, as it does for the alerts.
+.marketplacePluginDetails__buy:empty {
   display: none;
 }
 

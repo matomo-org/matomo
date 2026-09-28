@@ -243,23 +243,21 @@
                 </div>
               </div>
 
-              <div class="marketplacePluginDetails__cta">
-                <CTAContainer
-                  :is-super-user="isSuperUser"
-                  :is-plugins-admin-enabled="isPluginsAdminEnabled"
-                  :is-multi-server-environment="isMultiServerEnvironment"
-                  :is-valid-consumer="isValidConsumer"
-                  :is-auto-update-possible="isAutoUpdatePossible"
-                  :activate-nonce="activateNonce"
-                  :deactivate-nonce="deactivateNonce"
-                  :install-nonce="installNonce"
-                  :update-nonce="updateNonce"
-                  :plugin="plugin"
-                  :in-modal="true"
-                  :shop-variation-url="selectedShopVariationUrl"
-                  @requestTrial="$emit('requestTrial', plugin)"
-                />
-              </div>
+              <CTAContainer
+                :is-super-user="isSuperUser"
+                :is-plugins-admin-enabled="isPluginsAdminEnabled"
+                :is-multi-server-environment="isMultiServerEnvironment"
+                :is-valid-consumer="isValidConsumer"
+                :is-auto-update-possible="isAutoUpdatePossible"
+                :activate-nonce="activateNonce"
+                :deactivate-nonce="deactivateNonce"
+                :install-nonce="installNonce"
+                :update-nonce="updateNonce"
+                :plugin="plugin"
+                :in-modal="true"
+                :shop-variation-url="selectedShopVariationUrl"
+                @requestTrial="$emit('requestTrial', plugin)"
+              />
             </template>
           </section>
 

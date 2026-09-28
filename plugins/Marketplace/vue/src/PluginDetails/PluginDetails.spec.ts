@@ -441,7 +441,7 @@ describe('PluginDetails', () => {
     // purchased or free, the panel is the status and its button alone
     expect(wrapper.find('.shopPricing').exists()).toBe(false);
     expect(wrapper.find('.marketplacePluginDetails__free').exists()).toBe(false);
-    expect(wrapper.find('.marketplacePluginDetails__cta').exists()).toBe(true);
+    expect(wrapper.find('.marketplacePluginDetails__buy').text()).toContain('General_Installed');
   });
 
   it('says Free above the button for a plugin that costs nothing', async () => {
