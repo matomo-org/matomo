@@ -57,12 +57,12 @@ class Overlay extends \Piwik\Plugin
         $comingFromOverlay = Url::isValidHost($referrerUrlHost) && !empty($referrerUrlQueryParams['module']) && $referrerUrlQueryParams['module'] === 'Overlay';
         $isPossibleOverlayRequest = (
             $module === 'Proxy' // JS & CSS requests
-            || ($module === 'API' && 0 === strpos($method, 'Overlay.')) // Overlay API data
+            || ($module === 'API' && str_starts_with($method, 'Overlay.')) // Overlay API data
             || ($module === 'CoreHome' && $action === 'getRowEvolutionPopover') // Row evolution
             || ($module === 'CoreHome' && $action === 'getRowEvolutionGraph') // Row evolution (graph)
             || ($module === 'CoreHome' && $action === 'saveViewDataTableParameters') // store chart changes (within row evolution & transitions)
             || $module === 'Annotations' // required to interact with annotations in evolution charts (within row evolution)
-            || ($module === 'API' && 0 === strpos($method, 'Transitions.')) // Transitions API data
+            || ($module === 'API' && str_starts_with($method, 'Transitions.')) // Transitions API data
             || ($module === 'Live' && $action === 'indexVisitorLog') // Visits Log
             || ($module === 'Live' && $action === 'getLastVisitsDetails') // Visits Log (pagination)
             || ($module === 'Live' && $action === 'getVisitorProfilePopup') // Visitor Profile

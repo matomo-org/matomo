@@ -181,7 +181,7 @@ abstract class ViewDataTable implements ViewInterface
      */
     public function __construct($controllerAction, $apiMethodToRequestDataTable, $overrideParams = array())
     {
-        if (strpos($controllerAction, '.') === false) {
+        if (!str_contains($controllerAction, '.')) {
             $controllerName = '';
             $controllerAction = '';
         } else {
@@ -526,7 +526,7 @@ abstract class ViewDataTable implements ViewInterface
 
         if (
             Period::isMultiplePeriod($date, $period)
-            || strpos($idSite, ',') !== false
+            || str_contains($idSite, ',')
             || $idSite == 'all'
         ) {
             return false;

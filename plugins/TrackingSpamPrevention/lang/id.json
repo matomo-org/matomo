@@ -2,8 +2,6 @@
     "TrackingSpamPrevention": {
         "BanIpNotificationMailSubject": "IP diblokir karena menghasilkan terlalu banyak tindakan.",
         "BlockCloudNoteInternetDisabled": "Karena dalam konfigurasi Matomo Anda internetnya tidak aktif, fitur ini tidak akan berfungsi.",
-        "SettingBlockCloudDescription": "Memblokir permintaan pelacakan yang berasal dari penyedia awan seperti AWS, Azure, Digital Ocean, Google Cloud, dan Oracle dengan mengambil daftar rentang IP mereka. Seharusnya ini aman untuk diaktifkan jika Anda hanya melacak menggunakan pelacak JavaScript karena permintaan pelacakan mereka tidak berasal dari awan, kecuali jika mereka menggunakan VPN yang merutekan data melalui penyedia awan. Pengaturan ini berlaku untuk semua situs Anda.",
-        "SettingBlockCloudTitle": "Blokir permintaan pelacakan dari awan",
         "SettingBlockHeadlessDescription": "Ini adalah peramban web tanpa antarmuka pengguna, sebagian besar digunakan untuk otomatisasi. Seharusnya ini aman untuk diaktifkan jika Anda hanya memiliki situs web atau aplikasi biasa. Hal tersebut dapat memblokir bot tambahan dan permintaan spam yang tidak terdeteksi.",
         "SettingBlockHeadlessTitle": "Blokir peramban web tanpa antarmuka",
         "SettingExcludedCountriesDescription": "Jangan lacak pengunjung dari negara-negara ini. Pengunjung di luar target area Anda kemungkinan besar adalah bot atau penyebar spam, atau Anda dapat menggunakannya untuk menghindari undang-undang privasi di yurisdiksi lain.",

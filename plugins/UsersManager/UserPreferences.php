@@ -177,8 +177,8 @@ class UserPreferences
         }
         // if last7, last30, etc.
         if (
-            strpos($userSettingsDate, 'last') === 0
-            || strpos($userSettingsDate, 'previous') === 0
+            str_starts_with($userSettingsDate, 'last')
+            || str_starts_with($userSettingsDate, 'previous')
         ) {
             return $userSettingsDate;
         }
@@ -204,8 +204,8 @@ class UserPreferences
         }
 
         if (
-            strpos($defaultDate, 'last') === 0
-            || strpos($defaultDate, 'previous') === 0
+            str_starts_with($defaultDate, 'last')
+            || str_starts_with($defaultDate, 'previous')
         ) {
             return 'range';
         }

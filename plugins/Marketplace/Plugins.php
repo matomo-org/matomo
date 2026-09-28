@@ -356,7 +356,7 @@ class Plugins
             !empty($plugin['owner'])
             && strtolower($plugin['owner']) === 'piwikpro'
             && !empty($plugin['homepage'])
-            && strpos($plugin['homepage'], 'pk_campaign') === false
+            && !str_contains($plugin['homepage'], 'pk_campaign')
         ) {
             $plugin['homepage'] = $this->advertising->addPromoCampaignParametersToUrl($plugin['homepage'], Advertising::CAMPAIGN_NAME_PROFESSIONAL_SERVICES, 'Marketplace', $plugin['name']);
         }
@@ -373,8 +373,8 @@ class Plugins
 
         if (
             !empty($plugin['activity']['lastCommitDate'])
-            && false === strpos($plugin['activity']['lastCommitDate'], '0000')
-            && false === strpos($plugin['activity']['lastCommitDate'], '1970')
+            && !str_contains($plugin['activity']['lastCommitDate'], '0000')
+            && !str_contains($plugin['activity']['lastCommitDate'], '1970')
         ) {
             $plugin['activity']['lastCommitDate'] = $this->toLongDate($plugin['activity']['lastCommitDate']);
         } else {

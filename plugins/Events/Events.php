@@ -133,7 +133,7 @@ class Events extends \Piwik\Plugin
         $labels = $this->getLabelTranslations();
         foreach ($labels as $action => $translations) {
             // Events.getActionFromCategoryId returns translation for Events.getAction
-            if (strpos($apiMethod, $action) === 0) {
+            if (str_starts_with($apiMethod, $action)) {
                 $columnLabel = $translations[$index];
                 return Piwik::translate($columnLabel);
             }

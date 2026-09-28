@@ -79,7 +79,7 @@ EOF
 
         if (!empty($plugin)) {
             $plugin = trim((string) $plugin);
-            if (strpos($plugin, 'plugins/') !== 0) {
+            if (!str_starts_with($plugin, 'plugins/')) {
                 $plugin = 'plugins/' . $plugin;
             }
 

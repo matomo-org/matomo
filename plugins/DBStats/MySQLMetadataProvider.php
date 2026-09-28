@@ -333,7 +333,7 @@ class MySQLMetadataProvider
     public function reduceArchiveRowName($name)
     {
         // all 'done...' fields are considered the same
-        if (strpos($name, 'done') === 0) {
+        if (str_starts_with($name, 'done')) {
             return 'done';
         }
 

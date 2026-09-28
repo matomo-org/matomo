@@ -270,7 +270,7 @@ class TestsRun extends ConsoleCommand
 
     private function isCoverageEnabled($options)
     {
-        return false !== strpos($options, '--coverage');
+        return str_contains($options, '--coverage');
     }
 
     private function isXdebugLoaded()
@@ -285,7 +285,7 @@ class TestsRun extends ConsoleCommand
 
     private function fixPathToTestFileOrDirectory($testFile)
     {
-        if ('/' !== substr($testFile, 0, 1)) {
+        if (!str_starts_with($testFile, '/')) {
             $testFile = '../../' . $testFile;
         }
 

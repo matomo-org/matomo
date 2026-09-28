@@ -40,6 +40,7 @@
         "MediaPlayer": "Mediaspeler",
         "MobileApp": "Mobiele app",
         "MobileDevice": "Mobiel apparaat",
+        "OnlyMajorVersionsSettingTitle": "Voornaamste browser- en OS-versies",
         "OperatingSystemCode": "Besturingssysteem code",
         "OperatingSystemFamilies": "Besturingssysteem families",
         "OperatingSystemFamiliesReportDocumentation": "Dit rapport toont de besturingssystemen die uw bezoekers gebruikten, gegroepeerd volgens besturingssysteemfamilie. Een besturingssysteemfamilie bestaat uit verschillende versies en distributies.",

@@ -179,8 +179,8 @@ class FixtureRepository
         // Any directory separator is rejected, plus the bare "parent" name.
         if (
             $filename === '..'
-            || strpos($filename, '/') !== false
-            || strpos($filename, '\\') !== false
+            || str_contains($filename, '/')
+            || str_contains($filename, '\\')
         ) {
             throw new \Exception(sprintf(
                 'Marketplace manifest entry for "%s" contains an unsafe filename: "%s".',
@@ -423,10 +423,10 @@ class FixtureRepository
                     $path
                 ));
             }
-            if (strpos($key, '__') === 0) {
+            if (str_starts_with($key, '__')) {
                 continue;
             }
-            if (strpos($key, '/') !== 0) {
+            if (!str_starts_with($key, '/')) {
                 throw new \Exception(sprintf(
                     'Marketplace fixture manifest "%s" has an unrecognised key "%s" — URL keys must start with "/", documentation keys with "__".',
                     $path,
@@ -455,7 +455,7 @@ class FixtureRepository
             return true;
         }
         return $piwikVersion === self::CURRENT_PIWIK_MAJOR
-            || strpos($piwikVersion, self::CURRENT_PIWIK_MAJOR . '.') === 0;
+            || str_starts_with($piwikVersion, self::CURRENT_PIWIK_MAJOR . '.');
     }
 
     private function shouldIntercept(string $url): bool
@@ -469,7 +469,7 @@ class FixtureRepository
 
     private function isJsonFixture(string $filename): bool
     {
-        return substr($filename, -5) === '.json';
+        return str_ends_with($filename, '.json');
     }
 
     private function logMiss(string $url, string $key): void

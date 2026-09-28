@@ -87,7 +87,6 @@
         "PluginUploadDisabled": "プラグインのアップロードは設定ファイルで無効になっています。 この機能を有効にするには、構成を更新するか、管理者に連絡してください",
         "PluginVersionInfo": "%2$s からの %1$s",
         "PluginWebsite": "プラグインのウェブサイト",
-        "PriceExclTax": "%1$s %2$s 税別",
         "PriceFromPerPeriod": "%1$s / %2$s から",
         "RemoveLicenseKey": "ライセンスキーを削除",
         "RequestTrial": "体験版のお申し込み",

@@ -65,7 +65,6 @@
         "PluginUploadDisabled": "Postavljanje dodataka je isključeno u fajlu sa podešavanjima. Kako biste uključili ovu opciju, izmenite podešavanja ili kontaktirajte vašeg administratora.",
         "PluginVersionInfo": "%1$s sa %2$s",
         "PluginWebsite": "Sajt sa dodacima",
-        "PriceExclTax": "%1$s %2$s plus PDV.",
         "PriceFromPerPeriod": "Od %1$s / %2$s",
         "RemoveLicenseKey": "Ukloni ključ",
         "Reviews": "Recenzije",

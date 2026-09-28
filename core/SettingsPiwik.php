@@ -383,11 +383,11 @@ class SettingsPiwik
         // see checkPiwikIsNotInstalled()
         $expectedStringAlreadyInstalled = 'piwik-is-already-installed';
 
-        $expectedStringNotFound = strpos($fetched, $expectedString) === false
-                                && strpos($fetched, $expectedStringAlt) === false
-                                && strpos($fetched, $expectedStringAlreadyInstalled) === false;
+        $expectedStringNotFound = !str_contains($fetched, $expectedString)
+                                && !str_contains($fetched, $expectedStringAlt)
+                                && !str_contains($fetched, $expectedStringAlreadyInstalled);
 
-        $hasError = false !== strpos($fetched, PAGE_TITLE_WHEN_ERROR);
+        $hasError = str_contains($fetched, PAGE_TITLE_WHEN_ERROR);
 
         if ($hasError || $expectedStringNotFound) {
             throw new Exception("\nMatomo should be running at: "

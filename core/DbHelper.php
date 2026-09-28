@@ -355,22 +355,22 @@ class DbHelper
         ?Segment $segment = null
     ): string {
         $select = 'SELECT';
-        if ($origin && 0 === strpos(trim($sql), $select)) {
+        if ($origin && str_starts_with(trim($sql), $select)) {
             $sql = trim($sql);
             $sql = 'SELECT /* ' . $origin . ' */' . substr($sql, strlen($select));
         }
 
-        if ($dateStart !== null && $dateEnd !== null && 0 === strpos(trim($sql), $select)) {
+        if ($dateStart !== null && $dateEnd !== null && str_starts_with(trim($sql), $select)) {
             $sql = trim($sql);
             $sql = 'SELECT /* ' . $dateStart->toString() . ',' . $dateEnd->toString() . ' */' . substr($sql, strlen($select));
         }
 
-        if ($sites && is_array($sites) && 0 === strpos(trim($sql), $select)) {
+        if ($sites && is_array($sites) && str_starts_with(trim($sql), $select)) {
             $sql = trim($sql);
             $sql = 'SELECT /* ' . 'sites ' . implode(',', array_map('intval', $sites)) . ' */' . substr($sql, strlen($select));
         }
 
-        if ($segment && !$segment->isEmpty() && 0 === strpos(trim($sql), $select)) {
+        if ($segment && !$segment->isEmpty() && str_starts_with(trim($sql), $select)) {
             $sql = trim($sql);
             $sql = 'SELECT /* ' . 'segmenthash ' . $segment->getHash() . ' */' . substr($sql, strlen($select));
         }

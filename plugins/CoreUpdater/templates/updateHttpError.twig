@@ -9,7 +9,7 @@
     <div class="content">
 
         {% for message in feedbackMessages %}
-            <p>&#10003; {{ message }}</p>
+            <p>{{ message starts with '✗' ? message : '✓ ' ~ message }}</p>
         {% endfor %}
 
         <div class="alert alert-danger">

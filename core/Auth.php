@@ -95,7 +95,7 @@ interface Auth
     /**
      * Sets the password to authenticate with.
      *
-     * @param string $password Password (not hashed).
+     * @param string|null $password Password (not hashed), or null to clear any previously set password.
      */
     public function setPassword(
         #[\SensitiveParameter]
@@ -105,8 +105,10 @@ interface Auth
     /**
      * Sets the hash of the password to authenticate with. The hash will be an MD5 hash.
      *
-     * @param string $passwordHash The hashed password.
-     * @throws Exception if authentication by hashed password is not supported.
+     * An implementation that cannot verify a hash may reject any value, including the null a caller passes
+     * only to clear previously set state; that rejection is not an authentication error.
+     *
+     * @param string|null $passwordHash The hashed password, or null to clear any previously set hash.
      */
     public function setPasswordHash(
         #[\SensitiveParameter]

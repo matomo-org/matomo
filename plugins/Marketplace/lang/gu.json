@@ -78,7 +78,6 @@
         "PluginUploadDisabled": "પ્લગઇન અપલોડ કોન્ફિગ ફાઇલમાં અક્ષમ છે. આ ગુણવિશેષને સક્ષમ કરવા માટે કૃપા કરીને તમારું કોન્ફિગુરેશન અપડેટ કરો અથવા તમારા એડમિનિસ્ટ્રેટરનો સંપર્ક કરો",
         "PluginVersionInfo": "%1$s %2$s માંથી",
         "PluginWebsite": "પ્લગઇન વેબસાઇટ",
-        "PriceExclTax": "%1$s %2$s કર વગર.",
         "PriceFromPerPeriod": "%1$s માંથી / %2$s",
         "RemoveLicenseKey": "લાઇસન્સ કી દૂર કરો",
         "RequestTrial": "ટ્રાયલ ની વિનંતી કરો",

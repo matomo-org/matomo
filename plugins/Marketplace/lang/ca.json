@@ -87,7 +87,6 @@
         "PluginUploadDisabled": "La càrrega del connector està desactivada al fitxer de configuració. Per activar aquesta funció, actualitzeu la vostra configuració o poseu-vos en contacte amb el vostre administrador",
         "PluginVersionInfo": "%1$s de %2$s",
         "PluginWebsite": "Lloc web del connector",
-        "PriceExclTax": "%1$s %2$s excl. impost.",
         "PriceFromPerPeriod": "Des de %1$s / %2$s",
         "RemoveLicenseKey": "Elimina la clau de llicència",
         "RequestTrial": "Sol·licitar prova",

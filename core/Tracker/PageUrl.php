@@ -158,7 +158,7 @@ class PageUrl
             return '';
         } else {
             // Remove trailing Hash tag in ?query#hash#
-            if (substr($urlFragment, -1) == '#') {
+            if (str_ends_with($urlFragment, '#')) {
                 $urlFragment = substr($urlFragment, 0, strlen($urlFragment) - 1);
             }
             return $urlFragment;
@@ -371,7 +371,7 @@ class PageUrl
             $hostSiteCache = false;
 
             foreach ($siteUrlCache as $siteUrl) {
-                if (strpos(mb_strtolower($siteUrl), mb_strtolower('https://' . $host)) === 0) {
+                if (str_starts_with(mb_strtolower($siteUrl), mb_strtolower('https://' . $host))) {
                     $hostSiteCache = true;
                     break;
                 }

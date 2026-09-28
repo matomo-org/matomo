@@ -37,7 +37,7 @@ function getPiwikDomain()
 {
     foreach($_SERVER['argv'] as $param) {
         $pattern = '--matomo-domain=';
-        if(false !== strpos($param, $pattern)) {
+        if(str_contains($param, $pattern)) {
             return substr($param, strlen($pattern));
         }
     }

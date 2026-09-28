@@ -217,7 +217,7 @@ class ForecastMetricClassifier
         // pull the running min down or leave it unchanged. The default monotonic-up gate would
         // render upward-projecting forecasts on a metric that cannot rise, so flip to a
         // monotonic-down gate instead.
-        if (strpos($columnName, 'min_') === 0) {
+        if (str_starts_with($columnName, 'min_')) {
             return self::MONOTONICITY_DOWN;
         }
 
@@ -226,7 +226,7 @@ class ForecastMetricClassifier
         // SUM the per-day maxes (≈ days × per-day max), inflating the forecast by an order of
         // magnitude. The "forecast >= current" gate still holds (a running max only rises),
         // so MAX shares UP's gate but combines sub-periods with max() instead of sum().
-        if (strpos($columnName, 'max_') === 0) {
+        if (str_starts_with($columnName, 'max_')) {
             return self::MONOTONICITY_MAX;
         }
 
@@ -282,10 +282,10 @@ class ForecastMetricClassifier
         // unrelated names that happen to contain the literal letters (lifetime_*, wavelength).
         if (
             $this->hasRatioShapedColumnName($columnName)
-            || strpos($columnName, '_time') !== false
-            || strpos($columnName, 'time_') === 0
-            || strpos($columnName, '_length') !== false
-            || strpos($columnName, 'length_') === 0
+            || str_contains($columnName, '_time')
+            || str_starts_with($columnName, 'time_')
+            || str_contains($columnName, '_length')
+            || str_starts_with($columnName, 'length_')
         ) {
             return 2;
         }
@@ -301,9 +301,9 @@ class ForecastMetricClassifier
         // The list carries nine of the ten: nb_keywords already matches the nb_ prefix on the
         // first line, so it reaches 0 either way and is not what the name check is here for.
         if (
-            strpos($columnName, 'nb_') === 0
-            || strpos($columnName, '_nb_') !== false
-            || strpos($columnName, '_count') !== false
+            str_starts_with($columnName, 'nb_')
+            || str_contains($columnName, '_nb_')
+            || str_contains($columnName, '_count')
             || $this->isBlobRowCountColumnName($columnName)
             || in_array($columnName, ['hits', 'items', 'quantity', 'orders', 'goals'], true)
         ) {
@@ -339,7 +339,7 @@ class ForecastMetricClassifier
      */
     private function hasDeduplicatedCountColumnName(string $columnName): bool
     {
-        if (strpos($columnName, 'sum_') === 0) {
+        if (str_starts_with($columnName, 'sum_')) {
             return false;
         }
 
@@ -347,12 +347,12 @@ class ForecastMetricClassifier
             return false;
         }
 
-        if (strpos($columnName, ArchivedMetric::AGGREGATION_UNIQUE_PREFIX) === 0) {
+        if (str_starts_with($columnName, ArchivedMetric::AGGREGATION_UNIQUE_PREFIX)) {
             return true;
         }
 
         foreach (self::DEDUPLICATED_COUNT_BASE_NAMES as $baseName) {
-            if (strpos($columnName, $baseName) !== false) {
+            if (str_contains($columnName, $baseName)) {
                 return true;
             }
         }
@@ -372,9 +372,9 @@ class ForecastMetricClassifier
      */
     private function hasRatioShapedColumnName(string $columnName): bool
     {
-        return strpos($columnName, '_rate') !== false
-            || strpos($columnName, '_percentage') !== false
-            || strpos($columnName, 'avg_') === 0
-            || strpos($columnName, '_per_') !== false;
+        return str_contains($columnName, '_rate')
+            || str_contains($columnName, '_percentage')
+            || str_starts_with($columnName, 'avg_')
+            || str_contains($columnName, '_per_');
     }
 }
