@@ -224,10 +224,11 @@ async function expectAreaScreenshot(session, selectors, name, options = {}) {
     if (!rects.length) {
       return null;
     }
-    const left = Math.floor(Math.min(...rects.map((r) => r.left)) + window.scrollX);
-    const top = Math.floor(Math.min(...rects.map((r) => r.top)) + window.scrollY);
-    const right = Math.ceil(Math.max(...rects.map((r) => r.right)) + window.scrollX);
-    const bottom = Math.ceil(Math.max(...rects.map((r) => r.bottom)) + window.scrollY);
+    // rounded inwards: a partly covered edge pixel would show whatever the page renders behind it
+    const left = Math.ceil(Math.min(...rects.map((r) => r.left)) + window.scrollX);
+    const top = Math.ceil(Math.min(...rects.map((r) => r.top)) + window.scrollY);
+    const right = Math.floor(Math.max(...rects.map((r) => r.right)) + window.scrollX);
+    const bottom = Math.floor(Math.max(...rects.map((r) => r.bottom)) + window.scrollY);
     return { x: left, y: top, width: right - left, height: bottom - top };
   }, selectors);
 
