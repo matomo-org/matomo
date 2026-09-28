@@ -285,7 +285,7 @@ class TestsRun extends ConsoleCommand
 
     private function fixPathToTestFileOrDirectory($testFile)
     {
-        if ('/' !== substr($testFile, 0, 1)) {
+        if (!str_starts_with($testFile, '/')) {
             $testFile = '../../' . $testFile;
         }
 

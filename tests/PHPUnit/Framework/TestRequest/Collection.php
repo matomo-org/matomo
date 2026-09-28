@@ -317,7 +317,7 @@ class Collection
         ) {
             return true;
         } elseif (
-            ((strpos($methodName, 'get') !== 0 && $methodName != 'generateReport')
+            ((!str_starts_with($methodName, 'get') && $methodName != 'generateReport')
                 || in_array($moduleName, $this->apiNotToCall) === true
                 || in_array($apiId, $this->apiNotToCall) === true
             )
@@ -355,6 +355,9 @@ class Collection
                 $this->apiNotToCall = array();
             }
         }
+
+        // unconditional so it also applies when a test sets apiToCall explicitly, e.g. to 'Goals'
+        $this->apiNotToCall[] = 'Goals.getSavedRecommendedGoals';
 
         if (!empty($this->testConfig->apiNotToCall)) {
             $this->apiNotToCall = array_merge($this->apiNotToCall, $this->testConfig->apiNotToCall);

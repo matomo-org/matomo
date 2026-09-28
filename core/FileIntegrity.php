@@ -251,7 +251,7 @@ class FileIntegrity
     {
         $directoriesWillBeDeleted = self::getDirectoriesFoundButNotExpected();
         foreach ($directoriesWillBeDeleted as $directoryWillBeDeleted) {
-            if (strpos($file, $directoryWillBeDeleted) === 0) {
+            if (str_starts_with($file, $directoryWillBeDeleted)) {
                 return true;
             }
         }
@@ -281,7 +281,7 @@ class FileIntegrity
 
         $pluginsInManifest = array();
         foreach ($files as $file => $manifestIntegrityInfo) {
-            if (strpos($file, 'plugins/') === 0) {
+            if (str_starts_with($file, 'plugins/')) {
                 $pluginName = self::getPluginNameFromFilepath($file);
                 $pluginsInManifest[] = $pluginName;
             }
@@ -299,7 +299,7 @@ class FileIntegrity
      */
     protected static function isFileFromPluginNotInManifest($file, $pluginsInManifest)
     {
-        if (strpos($file, 'plugins/') !== 0) {
+        if (!str_starts_with($file, 'plugins/')) {
             return false;
         }
 
@@ -466,7 +466,7 @@ class FileIntegrity
                 continue;
             }
 
-            $isParentDirectory = strpos($directory, $directoryMaybeParent) === 0;
+            $isParentDirectory = str_starts_with($directory, $directoryMaybeParent);
             if ($isParentDirectory) {
                 return $directoryMaybeParent;
             }

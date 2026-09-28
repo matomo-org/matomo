@@ -187,7 +187,7 @@ class Translator
     {
         $clientSideTranslations = array();
         foreach ($this->getClientSideTranslationKeys() as $id) {
-            if (strpos($id, '_') === false) {
+            if (!str_contains($id, '_')) {
                 StaticContainer::get(LoggerInterface::class)->warning(
                     'Unexpected translation key found in client side translations: {translation_key}',
                     ['translation_key' => $id]

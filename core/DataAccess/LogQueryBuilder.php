@@ -276,7 +276,7 @@ class LogQueryBuilder
         $sqlExpression = (string) $sqlExpression;
 
         foreach (SegmentExpression::parseColumnsFromSqlExpr($sqlExpression) as $column) {
-            if (strpos($column, 'log_visit.') !== 0) {
+            if (!str_starts_with($column, 'log_visit.')) {
                 return false;
             }
         }

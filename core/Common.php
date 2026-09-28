@@ -111,7 +111,7 @@ class Common
 
         if (
             empty($prefixTable)
-            || strpos($table, $prefixTable) !== 0
+            || !str_starts_with($table, $prefixTable)
         ) {
             return $table;
         }
@@ -165,7 +165,7 @@ class Common
     {
         $sapiType = php_sapi_name();
 
-        return substr($sapiType, 0, 3) === 'cgi';
+        return str_starts_with($sapiType, 'cgi');
     }
 
     /**
@@ -1202,7 +1202,7 @@ class Common
             throw new Exception('Response code not supported: ' . $code);
         }
 
-        if (strpos(PHP_SAPI, '-fcgi') === false) {
+        if (!str_contains(PHP_SAPI, '-fcgi')) {
             $key = 'HTTP/1.1';
 
             if (

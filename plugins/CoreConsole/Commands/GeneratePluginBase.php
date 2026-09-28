@@ -133,7 +133,7 @@ abstract class GeneratePluginBase extends ConsoleCommand
         $piwikVersion     = Version::VERSION;
         $nextMajorVersion = (int) substr($piwikVersion, 0, strpos($piwikVersion, '.')) + 1;
         $secondPartPiwikVersionRequire = ',<' . $nextMajorVersion . '.0.0-b1';
-        if (false === strpos($piwikVersion, '-')) {
+        if (!str_contains($piwikVersion, '-')) {
             // see https://github.com/composer/composer/issues/4080 we need to specify -stable otherwise it would match
             // $piwikVersion-dev meaning it would also match all pre-released. However, we only want to match a stable
             // release
@@ -161,7 +161,7 @@ abstract class GeneratePluginBase extends ConsoleCommand
             // the piwik version.
 
             foreach (['<>','!=', '<=','==', '^'] as $comparison) {
-                if (strpos($requiredVersion, $comparison) === 0) {
+                if (str_starts_with($requiredVersion, $comparison)) {
                     // user is using custom piwik version require, we do not overwrite anything.
                     return;
                 }
@@ -288,7 +288,7 @@ abstract class GeneratePluginBase extends ConsoleCommand
         // search for namespace line before the class starts
         $useLine = 0;
         foreach (new \LimitIterator($file, 0, $targetClass->getStartLine()) as $index => $line) {
-            if (0 === strpos(trim($line), 'namespace ')) {
+            if (str_starts_with(trim($line), 'namespace ')) {
                 $useLine = $index + 1;
                 break;
             }

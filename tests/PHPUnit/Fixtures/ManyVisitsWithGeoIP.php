@@ -92,12 +92,14 @@ class ManyVisitsWithGeoIP extends Fixture
         }
 
         if (!self::goalExists($this->idSite, $idGoal = 1)) {
-            $this->idGoal = API::getInstance()->addGoal($this->idSite, 'all', 'url', 'http', 'contains', false, 5);
+            $idGoal = API::getInstance()->addGoal($this->idSite, 'all', 'url', 'http', 'contains', false, 5);
         }
+        $this->idGoal = $idGoal;
 
         if (!self::goalExists($this->idSite, $idGoal = 2)) {
-            $this->idGoal2 = API::getInstance()->addGoal($this->idSite, 'two', 'url', 'xxxxxxxxxxxxx', 'contains', false, 5, false, 'twodesc');
+            $idGoal = API::getInstance()->addGoal($this->idSite, 'two', 'url', 'xxxxxxxxxxxxx', 'contains', false, 5, false, 'twodesc');
         }
+        $this->idGoal2 = $idGoal;
     }
 
     protected $calledCounter = 0;

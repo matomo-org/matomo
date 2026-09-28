@@ -718,6 +718,32 @@ describe("UsersManager", function () {
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('manage_users_back');
     });
 
+    // The quick links widget and the no-data screen link here with showadduser=1. That used to
+    // open the edit form with no user, which fetched permissions for an empty login and showed
+    // an error banner.
+    it('should open the invite form when showadduser is in the URL', async function () {
+        let sitesAccessRequests = 0;
+        const requestHandler = (request) => {
+            if (request.url().indexOf('UsersManager.getSitesAccessForUser') !== -1) {
+                sitesAccessRequests += 1;
+            }
+        };
+
+        page.webpage.on('request', requestHandler);
+        try {
+            await page.goto(url + '&showadduser=1');
+            await page.waitForNetworkIdle();
+            await page.waitForSelector('.userInviteForm', { visible: true });
+
+            expect(sitesAccessRequests).to.equal(0);
+            expect(await page.evaluate(() => $('.notification-error:visible').length)).to.equal(0);
+        } finally {
+            page.webpage.off('request', requestHandler);
+            // the next test reloads the current url, so put the users list back
+            await page.goto(url);
+        }
+    });
+
   // Superuser test for editing their own user
   describe('UsersManager_000newuser_view', function () {
     before(async function () {

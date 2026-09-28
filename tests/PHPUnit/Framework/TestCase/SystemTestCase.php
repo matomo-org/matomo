@@ -432,7 +432,7 @@ abstract class SystemTestCase extends TestCase
         }
 
         $response = $processedResponse->getResponseText();
-        if (strpos($response, '<?xml') === 0) {
+        if (str_starts_with($response, '<?xml')) {
             $this->assertValidXML($response);
         }
 
@@ -506,7 +506,7 @@ abstract class SystemTestCase extends TestCase
         }
 
         $response = $processedResponse->getResponseText();
-        if (strpos($response, '<?xml') === 0) {
+        if (str_starts_with($response, '<?xml')) {
             $this->assertValidXML($response);
         }
 

@@ -284,7 +284,7 @@ class Response
 
     private function normalizeSpaces($apiResponse)
     {
-        if (strpos($this->requestUrl['format'], 'json') === 0) {
+        if (str_starts_with($this->requestUrl['format'], 'json')) {
             $apiResponse = str_replace('&nbsp;', '\u00a0', $apiResponse);
         }
 

@@ -62,7 +62,7 @@ class Controller extends \Piwik\Plugin\Controller
         $ApiDocumentation = new DocumentationGenerator();
         $prefixUrls = Common::getRequestVar('prefixUrl', 'https://demo.matomo.cloud/', 'string');
         $parsedUrl = parse_url($prefixUrls);
-        if (empty($parsedUrl['host']) || !UrlHelper::isLookLikeUrl($prefixUrls) || strpos($prefixUrls, 'http') !== 0 || !Url::isValidHost($parsedUrl['host'])) {
+        if (empty($parsedUrl['host']) || !UrlHelper::isLookLikeUrl($prefixUrls) || !str_starts_with($prefixUrls, 'http') || !Url::isValidHost($parsedUrl['host'])) {
             $prefixUrls = '';
         } else {
             // We put together the url based on the parsed parameters manually to ensure it might not contain unexpected locations

@@ -472,7 +472,7 @@ class Csv extends Renderer
         // remove all null byte chars from the beginning
         $value = ltrim($value, "\0");
 
-        while (0 === strpos($value, '%00')) {
+        while (str_starts_with($value, '%00')) {
             $value = ltrim(substr($value, 3), "\0");
         }
 

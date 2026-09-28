@@ -787,7 +787,7 @@ class ArchiveInvalidator
     {
         if (
             $period === 'range'
-            && strpos($date, ',') === false
+            && !str_contains($date, ',')
         ) {
             $date = $date . ',' . $date;
             return new Period\Range('range', $date);

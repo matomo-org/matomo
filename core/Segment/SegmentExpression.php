@@ -375,7 +375,7 @@ class SegmentExpression
         $result = isset($matches[1]) ? $matches[1] : [];
         // remove uses of session vars
         $result = array_filter($result, function ($value) {
-            return strpos($value, '@') === false;
+            return !str_contains($value, '@');
         });
         $result = array_map(function ($item) {
             return str_replace('`', '', $item);

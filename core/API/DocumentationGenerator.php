@@ -391,7 +391,7 @@ class DocumentationGenerator
         foreach ($aParameters as $nameVariable => $parameter) {
             // Do not show API parameters starting with _
             // They are supposed to be used only in internal API calls
-            if (strpos($nameVariable, '_') === 0) {
+            if (str_starts_with($nameVariable, '_')) {
                 continue;
             }
 

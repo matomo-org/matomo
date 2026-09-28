@@ -97,11 +97,13 @@ class Http
      *                            - **status**: the HTTP status code
      *                            - **headers**: the HTTP headers
      *                            - **data**: the HTTP response data
+     *                            - **effectiveUrl**: the final URL after following redirects (best effort on the
+     *                              fopen transport)
      *
      *                            `false` is still returned on failure.
      * @throws Exception if the response cannot be saved to `$destinationPath`, if the HTTP response cannot be sent,
      *                   if there are more than 5 redirects or if the request times out.
-     * @phpstan-return ($destinationPath is null ? ($getExtendedInfo is true ? array{status: ?int, headers?: ?array, data?: ?string} : string|false) : bool)
+     * @phpstan-return ($destinationPath is null ? ($getExtendedInfo is true ? array{status: ?int, headers?: ?array, data?: ?string, effectiveUrl?: string} : string|false) : bool)
      * @api
      */
     public static function sendHttpRequest(
@@ -198,7 +200,7 @@ class Http
     private static function convertWildcardToPattern(string $wildcardHost): string
     {
         $flexibleStart = $flexibleEnd = false;
-        if (strpos($wildcardHost, '*.') === 0) {
+        if (str_starts_with($wildcardHost, '*.')) {
             $flexibleStart = true;
             $wildcardHost = substr($wildcardHost, 2);
         }
@@ -248,7 +250,7 @@ class Http
      *                               manual per-hop redirect re-validation and connection pinning. See
      *                               {@see sendHttpRequest()} for the full contract.
      *
-     * @return ($destinationPath is null ? ($getExtendedInfo is true ? array{status: ?int, headers?: ?array, data?: ?string} : string|false) : bool)
+     * @return ($destinationPath is null ? ($getExtendedInfo is true ? array{status: ?int, headers?: ?array, data?: ?string, effectiveUrl?: string} : string|false) : bool)
      * @throws Exception
      */
     public static function sendHttpRequestBy(
@@ -279,6 +281,8 @@ class Http
 
         $aUrl = preg_replace('/[\x00-\x1F\x7F]/', '', trim($aUrl));
         $parsedUrl = @parse_url($aUrl);
+        // final URL after redirects; curl overrides this below
+        $effectiveUrl = $aUrl;
 
         if (empty($parsedUrl['scheme'])) {
             throw new Exception('Missing scheme in given url');
@@ -884,7 +888,7 @@ class Http
                 $header = '';
                 // redirects are included in the output html, so we look for the last line that starts w/ HTTP/...
                 // to split the response
-                while (substr($response, 0, 5) == "HTTP/") {
+                while (str_starts_with($response, "HTTP/")) {
                     $split = explode("\r\n\r\n", $response, 2);
 
                     if (count($split) == 2) {
@@ -905,6 +909,10 @@ class Http
             $status = @curl_getinfo($ch, CURLINFO_HTTP_CODE);
             $elapsed = (float) @curl_getinfo($ch, CURLINFO_TOTAL_TIME);
             $curlRedirectUrl = (string) @curl_getinfo($ch, CURLINFO_REDIRECT_URL);
+            $curlEffectiveUrl = (string) @curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
+            if ($curlEffectiveUrl !== '') {
+                $effectiveUrl = $curlEffectiveUrl;
+            }
 
             @curl_close($ch);
             unset($ch);
@@ -1006,9 +1014,10 @@ class Http
             return trim($response);
         } else {
             return array(
-                'status'  => $status,
-                'headers' => $headers,
-                'data'    => $response,
+                'status'       => $status,
+                'headers'      => $headers,
+                'data'         => $response,
+                'effectiveUrl' => $effectiveUrl,
             );
         }
     }
@@ -1205,7 +1214,7 @@ class Http
 
         foreach ($_SERVER as $key => $value) {
             if (
-                0 === strpos(strtolower($key), strtolower('HTTP_SEC_CH_UA'))
+                str_starts_with(strtolower($key), strtolower('HTTP_SEC_CH_UA'))
                 || 'X_HTTP_REQUESTED_WITH' === strtoupper($key)
             ) {
                 $clientHints[$key] = $value;

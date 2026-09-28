@@ -330,11 +330,11 @@ class Segment
         if (!empty($availableSegment['unionOfSegments'])) {
             foreach ($availableSegment['unionOfSegments'] as $segmentNameOfUnion) {
                 $unionSegment = $this->getSegmentByName($segmentNameOfUnion);
-                if (strpos($unionSegment['sqlSegment'], 'log_visit.') === 0) {
+                if (str_starts_with($unionSegment['sqlSegment'], 'log_visit.')) {
                     return true;
                 }
             }
-        } elseif (strpos($availableSegment['sqlSegment'], 'log_visit.') === 0) {
+        } elseif (str_starts_with($availableSegment['sqlSegment'], 'log_visit.')) {
             return true;
         }
 

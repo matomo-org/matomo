@@ -850,7 +850,7 @@ class GeoIP2AutoUpdater extends Task
     {
         $content = trim($this->fetchUrl($url));
 
-        if (0 === strpos($content, 'http')) {
+        if (str_starts_with($content, 'http')) {
             return $content;
         }
 

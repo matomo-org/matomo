@@ -633,7 +633,7 @@ class Fixture extends \PHPUnit\Framework\Assert
             $piwikUrl = $piwikUrl . ':' . $piwikPort;
         }
 
-        if (strpos($piwikUrl, 'http://') !== 0) {
+        if (!str_starts_with($piwikUrl, 'http://')) {
             $piwikUrl = 'http://' . $piwikUrl . '/';
         }
 
@@ -811,7 +811,7 @@ class Fixture extends \PHPUnit\Framework\Assert
             }
         } catch (Exception $e) {
             // duplicate entry errors are expected
-            if (strpos($e->getMessage(), 'Duplicate entry') === false) {
+            if (!str_contains($e->getMessage(), 'Duplicate entry')) {
                 throw $e;
             }
         }

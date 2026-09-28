@@ -215,7 +215,7 @@ class IniFileChain
             $this->resetSettingsChain($defaultSettingsFiles, $userSettingsFile);
         }
 
-        $hasAbsoluteConfigFile = !empty($userSettingsFile) && strpos($userSettingsFile, DIRECTORY_SEPARATOR) === 0;
+        $hasAbsoluteConfigFile = !empty($userSettingsFile) && str_starts_with($userSettingsFile, DIRECTORY_SEPARATOR);
         $useConfigCache = !empty($GLOBALS['ENABLE_CONFIG_PHP_CACHE']) && $hasAbsoluteConfigFile;
 
         if ($useConfigCache && is_file($userSettingsFile)) {

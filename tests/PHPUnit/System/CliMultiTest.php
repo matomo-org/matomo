@@ -327,7 +327,7 @@ class CliMultiTest extends SystemTestCase
 
     private function completeUrl($query)
     {
-        if (false === strpos($query, '?')) {
+        if (!str_contains($query, '?')) {
             $query .= '?';
         } else {
             $query .= '&';

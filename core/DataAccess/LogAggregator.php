@@ -397,7 +397,7 @@ class LogAggregator
 
                 if ($logTable->getDateTimeColumn()) {
                     $whereTest = $this->getWhereStatement($logTable->getName(), $logTable->getDateTimeColumn());
-                    if (strpos($where, $whereTest) === 0) {
+                    if (str_starts_with($where, $whereTest)) {
                         // we don't need to apply the where statement again as it would have been applied already
                         // in the temporary table... instead it should join the tables through the idvisit index
                         $where = ltrim(str_replace($whereTest, '', $where));
@@ -811,7 +811,7 @@ class LogAggregator
         foreach ($dimensions as $selectAs => $dimension) {
             $asAlias = $this->getSelectAliasAs($dimension);
             foreach ($additionalSelects as $additionalSelect) {
-                if (strpos($additionalSelect, $asAlias) === false) {
+                if (!str_contains($additionalSelect, $asAlias)) {
                     $dimensionsToSelect[$selectAs] = $dimension;
                 }
             }
@@ -898,7 +898,7 @@ class LogAggregator
      */
     private function prefixColumn(string $column, string $tableName): string
     {
-        if (strpos($column, '.') === false) {
+        if (!str_contains($column, '.')) {
             return $tableName . '.' . $column;
         } else {
             return $column;
@@ -1146,7 +1146,7 @@ class LogAggregator
             foreach ($joinLogActionOnColumn as $i => $joinColumn) {
                 $tableAlias = 'log_action' . ($multiJoin ? $i + 1 : '');
 
-                if (strpos($joinColumn, ' ') === false) {
+                if (!str_contains($joinColumn, ' ')) {
                     $joinOn = $tableAlias . '.idaction = ' . $tableName . '.' . $joinColumn;
                 } else {
                     // more complex join column like if (...)
@@ -1471,7 +1471,7 @@ class LogAggregator
         $extraCondition = '';
 
         $tableColumn = $column;
-        if (strpos($tableColumn, $table) === false) {
+        if (!str_contains($tableColumn, $table)) {
             $tableColumn = "$table.$column";
         }
 
@@ -1524,7 +1524,7 @@ class LogAggregator
         foreach ($row as $label => $count) {
             if (
                 empty($lookForThisPrefix)
-                || strpos($label, $lookForThisPrefix) === 0
+                || str_starts_with($label, $lookForThisPrefix)
             ) {
                 $cleanLabel = substr($label, strlen($lookForThisPrefix));
                 $cleanRow[$cleanLabel] = array($columnName => $count);

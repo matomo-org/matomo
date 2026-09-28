@@ -233,7 +233,7 @@ cd ../../../../../";
     {
         [$org, $repository] = explode('/', $repository, 2);
 
-        if (strpos($repository, 'plugin-') === 0) {
+        if (str_starts_with($repository, 'plugin-')) {
             return substr($repository, strlen('plugin-'));
         }
 

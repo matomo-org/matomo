@@ -980,7 +980,7 @@ class ProcessedReport
     private function calculateTotals($simpleTotals, $totals)
     {
         foreach ($simpleTotals as $metric => $value) {
-            if (0 === strpos($metric, 'avg_') || str_ends_with($metric, '_rate') || str_ends_with($metric, '_evolution')) {
+            if (str_starts_with($metric, 'avg_') || str_ends_with($metric, '_rate') || str_ends_with($metric, '_evolution')) {
                 continue; // skip average, rate and evolution metrics
             }
 
@@ -998,9 +998,9 @@ class ProcessedReport
 
             if (!array_key_exists($metric, $totals)) {
                 $totals[$metric] = $value;
-            } elseif (0 === strpos($metric, 'min_')) {
+            } elseif (str_starts_with($metric, 'min_')) {
                 $totals[$metric] = min($totals[$metric], $value);
-            } elseif (0 === strpos($metric, 'max_')) {
+            } elseif (str_starts_with($metric, 'max_')) {
                 $totals[$metric] = max($totals[$metric], $value);
             } elseif ($value) {
                 $totals[$metric] += $value;
@@ -1101,13 +1101,13 @@ class ProcessedReport
 
         // Add revenue symbol to revenues
         $isMoneyMetric = str_contains($columnName, 'revenue') || str_contains($columnName, 'price');
-        if ($isMoneyMetric && strpos($columnName, 'evolution') === false) {
+        if ($isMoneyMetric && !str_contains($columnName, 'evolution')) {
             return $formatter->getPrettyMoney($value, $idSite);
         }
 
         // Add % symbol to rates
         if (str_contains($columnName, '_rate')) {
-            if (strpos($value, "%") === false) {
+            if (!str_contains($value, "%")) {
                 return (100 * $value) . "%";
             }
         }

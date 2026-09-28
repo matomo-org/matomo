@@ -507,7 +507,7 @@ class CoreArchiverProcessSignalTest extends IntegrationTestCase
                 }
 
                 foreach ($needles as $needle) {
-                    if (false === strpos($processOutput, $needle)) {
+                    if (!str_contains($processOutput, $needle)) {
                         return false;
                     }
                 }
