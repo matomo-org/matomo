@@ -2809,12 +2809,6 @@ parameters:
 			path: plugins/CustomDimensions/GetCustomDimension.php
 
 		-
-			message: '#^Parameter \#3 \$additionalSelects of method Piwik\\DataAccess\\LogAggregator\:\:queryConversionsByDimension\(\) expects array, false given\.$#'
-			identifier: argument.type
-			count: 1
-			path: plugins/CustomDimensions/RecordBuilders/CustomDimension.php
-
-		-
 			message: '#^Variable \$value in isset\(\) always exists and is not nullable\.$#'
 			identifier: isset.variable
 			count: 1
