@@ -120,7 +120,13 @@ jobs:
           PHP_CLI_SERVER_WORKERS=8 nohup php -S 0.0.0.0:80 -t "$GITHUB_WORKSPACE" > tmp/logs/php-server.log 2>&1 &
 
           # the test proxy answers 403 until the fixture setup marks this instance, so check a plain PHP file
-          curl -sf -o /dev/null http://localhost/index.php || { echo 'PHP server is not answering'; exit 1; }
+          for i in $(seq 1 30); do
+            curl -sf -o /dev/null http://localhost/index.php && exit 0
+            sleep 1
+          done
+          echo 'PHP server is not answering'
+          cat tmp/logs/php-server.log
+          exit 1
 
       - name: Run Playwright tests
         working-directory: tests/playwright
