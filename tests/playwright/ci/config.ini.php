@@ -4,7 +4,7 @@
 [database]
 host = 127.0.0.1
 username = root
-password =
+password = "root"
 dbname = matomo_tests
 adapter = PDO_MYSQL
 schema = Mysql
@@ -13,7 +13,7 @@ tables_prefix =
 [database_tests]
 host = 127.0.0.1
 username = root
-password =
+password = "root"
 dbname = matomo_tests
 adapter = PDO_MYSQL
 schema = Mysql

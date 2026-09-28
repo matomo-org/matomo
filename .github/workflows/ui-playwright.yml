@@ -1,7 +1,7 @@
 # Matomo UI tests on Playwright Test.
 #
 # Runs the specs in tests/playwright against Matomo served by PHP's built-in server on the runner, with
-# MySQL in a container. Screenshot baselines live in tests/playwright/screenshots and are only ever
+# the runner's MySQL. Screenshot baselines live in tests/playwright/screenshots and are only ever
 # written by this workflow: run it with "update screenshots" (or put [update-screenshots] in the
 # commit message) and commit the "playwright-screenshots" artifact.
 
@@ -30,7 +30,6 @@ concurrency:
 
 env:
   PHP_VERSION: '8.1'
-  MYSQL_VERSION: '8.0'
   NODE_VERSION: '24'
 
 jobs:
@@ -49,12 +48,12 @@ jobs:
           persist-credentials: false
           submodules: true
 
+      # the MySQL 8.0 preinstalled on the runner image, so no container registry can fail the job
       - name: Start MySQL
         run: |
-          docker run -d --name mysql --tmpfs /var/lib/mysql:rw -p 3306:3306 \
-            -v "$GITHUB_WORKSPACE/tests/playwright/ci/my.cnf:/etc/mysql/conf.d/matomo.cnf:ro" \
-            -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -e MYSQL_DATABASE=matomo_tests -e TZ=UTC \
-            "mirror.gcr.io/library/mysql:$MYSQL_VERSION"
+          sudo cp tests/playwright/ci/my.cnf /etc/mysql/conf.d/matomo.cnf
+          sudo systemctl start mysql
+          mysql -h127.0.0.1 -uroot -proot -e "CREATE DATABASE IF NOT EXISTS matomo_tests; SET GLOBAL local_infile = 1"
 
       - uses: shivammathur/setup-php@v2
         with:
@@ -120,11 +119,6 @@ jobs:
           sudo setcap CAP_NET_BIND_SERVICE=+eip "$(readlink -f "$(command -v php)")"
           PHP_CLI_SERVER_WORKERS=8 nohup php -S 0.0.0.0:80 -t "$GITHUB_WORKSPACE" > tmp/logs/php-server.log 2>&1 &
 
-          for i in $(seq 1 60); do
-            mysqladmin ping -h127.0.0.1 -uroot --silent && break
-            sleep 1
-          done
-          mysql -h127.0.0.1 -uroot -e "SET GLOBAL local_infile = 1"
           # the test proxy answers 403 until the fixture setup marks this instance, so check a plain PHP file
           curl -sf -o /dev/null http://localhost/index.php || { echo 'PHP server is not answering'; exit 1; }
 
