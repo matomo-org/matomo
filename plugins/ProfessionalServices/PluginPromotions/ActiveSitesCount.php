@@ -31,11 +31,11 @@ class ActiveSitesCount
 
     public const MINIMUM_VISITS_PER_SITE = 100;
 
-    /**
-     * An instance can have thousands of websites and the promotion says the same thing
-     * once enough of them qualify, so there is no reason to weigh every one.
-     */
-    public const MAXIMUM_SITES_INSPECTED = 100;
+    // Every website the user can see is weighed, because the copy quotes the answer back to
+    // them as "your %1$s websites" and a capped figure would be wrong on exactly the large
+    // instances these two promotions are aimed at. It stays one query however many there
+    // are: Archive reads them all in one go, and buildArchiveForSites() opts out of
+    // launching archiving, so nothing here is per website.
 
     private ArchivedReportReader $reader;
 
@@ -56,11 +56,13 @@ class ActiveSitesCount
         $idSites = array_map('intval', Access::getInstance()->getSitesIdWithAtLeastViewAccess());
         sort($idSites);
 
-        $inspected = array_slice($idSites, 0, self::MAXIMUM_SITES_INSPECTED);
-        $key = implode(',', $inspected);
+        // Hashed rather than listed: the key is only used to tell one set of websites from
+        // another within a request, and an instance with thousands of them would otherwise
+        // build a string of every id to look one up.
+        $key = md5(implode(',', $idSites));
 
         if (!array_key_exists($key, $this->memo)) {
-            $this->memo[$key] = $this->count($inspected);
+            $this->memo[$key] = $this->count($idSites);
         }
 
         return $this->memo[$key];

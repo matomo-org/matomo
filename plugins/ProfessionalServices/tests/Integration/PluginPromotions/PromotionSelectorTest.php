@@ -565,6 +565,46 @@ class PromotionSelectorTest extends IntegrationTestCase
     }
 
     /**
+     * Nothing else hands the slot back for this. The plugin was not installed, the promotion
+     * was not dismissed and no trial is pending, so without releasing it here the slot stays
+     * claimed by a promotion that can no longer say anything - and because no banner is drawn
+     * there is no dismiss control left to free it with.
+     */
+    public function testAHeldPromotionGivesTheSlotBackOnceItsTriggerStopsFiringWhereItWasRead(): void
+    {
+        $this->triggeringPerSite = [
+            self::SITE_ONE => ['segments' => true, 'conversion_rate_funnels' => true],
+        ];
+
+        $this->asUser('jade');
+
+        $this->assertSame('CustomReports', $this->showOn(self::SITE_ONE));
+
+        // The figure it was built on is gone - the segments were deleted, a later week was
+        // archived - so its trigger no longer fires for this website.
+        $this->triggeringPerSite[self::SITE_ONE] = ['conversion_rate_funnels' => true];
+
+        $this->assertSame('Funnels', $this->showOn(self::SITE_ONE));
+    }
+
+    public function testTheSlotIsNotGivenBackMerelyBecauseAnotherWebsiteDoesNotTrigger(): void
+    {
+        $this->triggeringPerSite = [
+            self::SITE_ONE => ['segments' => true],
+            self::SITE_TWO => ['conversion_rate_funnels' => true],
+        ];
+
+        $this->asUser('jade');
+
+        $this->assertSame('CustomReports', $this->showOn(self::SITE_ONE));
+
+        // Custom Reports says nothing about the second website, but the slot belongs to the
+        // first one and Funnels must not take it over just because this website was opened.
+        $this->assertNull($this->showOn(self::SITE_TWO));
+        $this->assertSame('CustomReports', $this->showOn(self::SITE_ONE));
+    }
+
+    /**
      * Selects for one website and records the result the way the dashboard does, since it
      * is displaying a promotion - not choosing one - that claims the single slot.
      *

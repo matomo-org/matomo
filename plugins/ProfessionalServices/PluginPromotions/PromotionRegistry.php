@@ -111,9 +111,13 @@ class PromotionRegistry
                 'ProfessionalServices_PromotionCustomReportsScheduledReports',
                 'product-promotion-custom-reports.png'
             ),
-            // These three read the shape of the instance rather than a website's reports,
-            // so they sit below every promotion that can say something about the site the
-            // user is actually looking at.
+            // LoginSaml and Crash Analytics read the shape of the instance - how many users
+            // it has, how many websites - rather than a report of the website in front of the
+            // reader, so they are ranked below the promotions that open on a figure from the
+            // site's own reports. They are not below every one of them: both still outrank the
+            // promotions from priority 11 down, which speak about the site but are the weaker
+            // pitch. Media Analytics below reads a site report like those, and only sits here
+            // because the priorities either side of it happen to fall this way.
             new Promotion(
                 10,
                 'LoginSaml',

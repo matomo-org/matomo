@@ -96,8 +96,7 @@ class UserPromotionState
      * Notes that the promotion was displayed. Displaying starts no cooldown, so this is
      * informational only and is written at most once per day to keep dashboard requests
      * free of repeated writes.
-     */
-    /**
+     *
      * @param int $idSite the website the outcome was read from
      * @param array<string, mixed>|null $lockedResult the trigger outcome to keep showing for
      *                                                as long as this promotion holds the slot

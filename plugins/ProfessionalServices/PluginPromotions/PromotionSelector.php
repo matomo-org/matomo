@@ -75,6 +75,47 @@ class PromotionSelector
 
         $candidates = null === $held ? $this->registry->getAllByPriority() : [$held];
 
+        $selected = $this->selectFrom($candidates, (int) $idSite, $active);
+
+        // The held promotion no longer fires on the website it was read from, so it has
+        // nothing left to say anywhere: its outcome was recorded against that website, and
+        // on every other one it is evaluated afresh and had already failed. Nothing else
+        // gives the slot back for this - not the plugin being installed, a dismissal or a
+        // trial - so without this the dashboard stays empty for good, with no banner drawn
+        // and therefore no dismiss control to release it.
+        if (null === $selected && null !== $held && $this->isTheWebsiteItWasReadFrom($active, (int) $idSite)) {
+            $this->userState->releaseActivePromotion();
+
+            // Reconsidered on this very request rather than leaving the reader with one
+            // blank dashboard, the same as resolveHeldPromotion() does when it hands the
+            // slot back.
+            $selected = $this->selectFrom($this->registry->getAllByPriority(), (int) $idSite, null);
+        }
+
+        return $selected;
+    }
+
+    /**
+     * Whether the website in front of the reader is the one the held promotion's recorded
+     * outcome was read from.
+     *
+     * @param array{pluginName: string, triggerName: string, idSite: int,
+     *              result: array<string, mixed>|null}|null $active
+     */
+    private function isTheWebsiteItWasReadFrom(?array $active, int $idSite): bool
+    {
+        return null !== $active && (int) $active['idSite'] === $idSite;
+    }
+
+    /**
+     * The first of the given promotions that can be shown for this website, or null.
+     *
+     * @param Promotion[] $candidates
+     * @param array{pluginName: string, triggerName: string, idSite: int,
+     *              result: array<string, mixed>|null}|null $active
+     */
+    private function selectFrom(array $candidates, int $idSite, ?array $active): ?SelectedPromotion
+    {
         foreach ($candidates as $promotion) {
             $pluginName = $promotion->getPluginName();
 
@@ -86,7 +127,7 @@ class PromotionSelector
                 continue;
             }
 
-            $result = $this->evaluate($promotion, (int) $idSite);
+            $result = $this->evaluate($promotion, $idSite);
 
             if (null === $result || !$result->isTriggered()) {
                 continue;
@@ -108,11 +149,11 @@ class PromotionSelector
             // belongs to one website and says nothing true about another, and the report
             // behind it would be addressed with this website's id and that one's goal. On
             // every other website this website's own outcome is what is shown.
-            if (null !== $active && !empty($active['result']) && $active['idSite'] === (int) $idSite) {
+            if (null !== $active && !empty($active['result']) && (int) $active['idSite'] === $idSite) {
                 $result = Trigger\TriggerResult::fromArray($active['result']);
             }
 
-            return new SelectedPromotion($promotion, $result, (int) $idSite);
+            return new SelectedPromotion($promotion, $result, $idSite);
         }
 
         return null;

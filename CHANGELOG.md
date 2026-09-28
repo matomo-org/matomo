@@ -71,10 +71,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * Added contextual recommendations for Premium products based on how Matomo is being used.
 
 ### New APIs
-* The new `Template.beforeDashboardWidgets` event is posted at the top of the dashboard, above the widgets, and allows
-  a plugin to render its own content there. It is posted by `plugins/Dashboard/templates/embeddedIndex.twig`; like the
-  other `Template.*` events, a listener takes the rendered output by reference (`function (&$out)`) and appends its
-  markup to it.
+* The new `Template.beforeDashboardWidgets` event is posted at the top of the dashboard, above the widgets, and allows a plugin to render its own content there. It is posted by `plugins/Dashboard/templates/embeddedIndex.twig`; like the other `Template.*` events, a listener takes the rendered output by reference (`function (&$out)`) and appends its markup to it.
 * The new `DragHandle` Vue component in CoreHome renders the standard 6-dot drag-handle icon, for use inside `DraggableList` rows. The `DraggableList` component's `handle` option now also works with real browser drags, which retarget `dragstart` to the draggable element (previously the handle was only recognised in synthetically dispatched events).
 * The new `closeTooltips()` helper in CoreHome closes the jQuery UI tooltips bound to a selector's elements, including pending delayed shows — for cases where no mouse event will fire that would close them, eg. once an HTML5 drag has started.
 * The generic dropdown panel (`plugins/Morpheus/stylesheets/ui/_dropdown-panel.less`) gained the elements `.mtm-dropdownPanel__search` (a nest element that hosts a search input inside a panel), `.mtm-dropdownPanel__searchMatch` (the part of a menu label matching the typed term) and `.mtm-dropdownPanel__noResult` (the row shown when a search yields nothing), plus the modifiers `.mtm-dropdownPanel__menu--scrollable` (caps the menu at `calc(80vh - 60px)` and scrolls) and `.mtm-dropdownPanel__menu--gutter` (an 8px horizontal gutter so the rows line up with a search input above them). The panel itself is now a fixed 254px wide rather than a 240px minimum. `.mtm-dropdownPanel__menuLabel` now truncates with an ellipsis instead of only allowing it.

@@ -73,6 +73,12 @@ class ProfessionalServices extends \Piwik\Plugin
                 return;
             }
 
+            // Rendered before it is recorded, so that a promotion which cannot be rendered
+            // does not take the slot. Recording first meant a promotion whose copy threw
+            // held the slot against every other one and was retried on every dashboard,
+            // while never drawing the dismiss control that would have released it.
+            $rendered = StaticContainer::get(PromotionRenderer::class)->render($selected);
+
             StaticContainer::get(UserPromotionState::class)->recordShown(
                 $selected->getPromotion()->getPluginName(),
                 $selected->getPromotion()->getTriggerName(),
@@ -80,7 +86,7 @@ class ProfessionalServices extends \Piwik\Plugin
                 $selected->getTriggerResult()->toArray()
             );
 
-            $out .= StaticContainer::get(PromotionRenderer::class)->render($selected);
+            $out .= $rendered;
         } catch (\Throwable $e) {
             // A promotion is never important enough to break a dashboard. Throwable rather
             // than Exception because the likeliest failure here is not an exception at
@@ -89,9 +95,13 @@ class ProfessionalServices extends \Piwik\Plugin
             // `{exception}` rather than `{message}`: ExceptionToTextProcessor replaces the
             // whole message with the formatted exception when the context carries one and
             // the message does not name it, which would throw this sentence away.
+            // `ignoreInScreenWriter` because the default configuration writes WARN to the
+            // screen (`log_writers[] = screen`, `log_level = WARN` in global.ini.php), which
+            // would put a promotion's own failure in front of the user as a notification on
+            // their dashboard. The log is for whoever runs the instance, not for them.
             StaticContainer::get(LoggerInterface::class)->warning(
                 'Could not render the dashboard plugin promotion: {exception}',
-                ['exception' => $e]
+                ['exception' => $e, 'ignoreInScreenWriter' => true]
             );
         }
     }

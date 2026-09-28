@@ -57,6 +57,33 @@ describe('ProductPromotionBounceRate', function () {
         expect(text).to.not.contain('<script');
     });
 
+    it('looks like the design', async function () {
+        await page.goto(dashboardUrl);
+        await page.waitForSelector(banner, { timeout: 10000 });
+        await page.waitForNetworkIdle();
+
+        // Asserted rather than left to the screenshot alone. The artwork failing to load
+        // leaves a banner that is still a valid layout - that is what the test below is
+        // about - so a baseline captured without it would compare clean forever and this
+        // test would pass whether or not the illustration is there.
+        const artworkVisible = await page.evaluate(() => {
+            const image = document.querySelector('.productPromotion__image');
+            return !!image && image.complete && image.naturalWidth > 0
+                && image.getBoundingClientRect().width > 0;
+        });
+        expect(artworkVisible).to.equal(true);
+
+        // Wait for webfonts before capturing: the screenshot is otherwise sometimes taken
+        // with the fallback face still in use, which changes every glyph and makes the
+        // comparison fail for a reason that has nothing to do with the banner.
+        await page.evaluate(() => document.fonts.ready);
+        expect(await page.screenshotSelector(banner)).to.matchImage('promotion_bounce_rate');
+    });
+
+    // Last in the file: it replaces the artwork with a payload that cannot be decoded, and
+    // navigating back to the same dashboard URL only changes the hash, which does not
+    // rebuild the page. Any screenshot taken after it would capture the banner with its
+    // artwork already dropped.
     it('stays readable and takes back the space when the artwork fails to load', async function () {
         await page.goto(dashboardUrl);
         await page.waitForSelector(banner, { timeout: 10000 });
@@ -89,17 +116,5 @@ describe('ProductPromotionBounceRate', function () {
 
         await page.evaluate(() => document.fonts.ready);
         expect(await page.screenshotSelector(banner)).to.matchImage('promotion_without_artwork');
-    });
-
-    it('looks like the design', async function () {
-        await page.goto(dashboardUrl);
-        await page.waitForSelector(banner, { timeout: 10000 });
-        await page.waitForNetworkIdle();
-
-        // Wait for webfonts before capturing: the screenshot is otherwise sometimes taken
-        // with the fallback face still in use, which changes every glyph and makes the
-        // comparison fail for a reason that has nothing to do with the banner.
-        await page.evaluate(() => document.fonts.ready);
-        expect(await page.screenshotSelector(banner)).to.matchImage('promotion_bounce_rate');
     });
 });

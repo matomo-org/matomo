@@ -84,15 +84,19 @@ class ActiveSitesCountTest extends IntegrationTestCase
         $this->assertSame(9, $this->makeCounter()->countQualifyingSites());
     }
 
-    public function testItNeverLooksAtMoreThanTheInspectionCap(): void
+    /**
+     * The copy quotes this figure back as "your %1$s websites", so it counts them all. It is
+     * still one query: every website goes into the same archive request.
+     */
+    public function testItCountsEveryWebsiteTheUserCanSeeHoweverManyThereAre(): void
     {
-        FakeAccess::$idSitesView = range(1, ActiveSitesCount::MAXIMUM_SITES_INSPECTED + 25);
+        FakeAccess::$idSitesView = range(1, 125);
         $this->visitsPerSite = array_fill_keys(FakeAccess::$idSitesView, 500);
 
         $counter = $this->makeCounter();
 
-        $this->assertSame(ActiveSitesCount::MAXIMUM_SITES_INSPECTED, $counter->countQualifyingSites());
-        $this->assertCount(ActiveSitesCount::MAXIMUM_SITES_INSPECTED, $this->requestedSites);
+        $this->assertSame(125, $counter->countQualifyingSites());
+        $this->assertCount(125, $this->requestedSites);
     }
 
     /**
