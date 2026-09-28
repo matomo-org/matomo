@@ -22,6 +22,7 @@ use Piwik\Plugins\Marketplace\Api\Client;
 use Piwik\Plugins\Marketplace\BackgroundWarmer;
 use Piwik\Plugins\Marketplace\Environment;
 use Piwik\Plugins\Marketplace\Marketplace;
+use Piwik\Request\AuthenticationToken;
 use Piwik\Scheduler\Scheduler;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -79,6 +80,23 @@ class MarketplaceTest extends IntegrationTestCase
         StaticContainer::getContainer()->set(BackgroundWarmer::class, $warmer);
 
         (new Marketplace())->checkForUpdates();
+        (new Marketplace())->checkForUpdates();
+    }
+
+    public function testCheckForUpdatesDoesNothingWithoutTheUsersToken(): void
+    {
+        $token = $this->createMock(AuthenticationToken::class);
+        $token->method('getAuthToken')->willReturn('not-the-users-token');
+        StaticContainer::getContainer()->set(AuthenticationToken::class, $token);
+
+        $client = $this->createMock(Client::class);
+        $client->expects(self::never())->method('clearCacheEntriesExceptOverviewLists');
+        StaticContainer::getContainer()->set(Client::class, $client);
+
+        $warmer = $this->createMock(BackgroundWarmer::class);
+        $warmer->expects(self::never())->method('refreshNow');
+        StaticContainer::getContainer()->set(BackgroundWarmer::class, $warmer);
+
         (new Marketplace())->checkForUpdates();
     }
 

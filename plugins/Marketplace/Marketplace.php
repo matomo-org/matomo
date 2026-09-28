@@ -16,6 +16,7 @@ use Piwik\Plugin;
 use Piwik\Plugins\Marketplace\Plugins\InvalidLicenses;
 use Piwik\Plugins\Marketplace\PluginTrial\Service as PluginTrialService;
 use Piwik\Request;
+use Piwik\Request\AuthenticationToken;
 use Piwik\SettingsPiwik;
 use Piwik\Widget\WidgetsList;
 
@@ -57,9 +58,14 @@ class Marketplace extends \Piwik\Plugin
      */
     public function checkForUpdates()
     {
-        // the event is posted before the controller checks access, so without this any request
-        // could flush the caches and start a refresh process
+        // the event is posted before the controller checks access and the token, so without this any
+        // request could flush the caches and start a refresh process. The token is compared as
+        // Controller::checkTokenInUrl() does, which lets a request with no token for a user with none through
         if (!Piwik::isUserHasSomeAdminAccess()) {
+            return;
+        }
+
+        if (StaticContainer::get(AuthenticationToken::class)->getAuthToken() !== (string) Piwik::getCurrentUserTokenAuth()) {
             return;
         }
 
