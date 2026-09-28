@@ -37,7 +37,6 @@ use Piwik\Piwik;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
-use Piwik\Plugins\SitesManager\API as SitesManagerApi;
 use Piwik\Plugins\UsersManager\Model as UsersModel;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
@@ -781,7 +780,7 @@ abstract class Controller
          * Executed as super user, so we are able to check if there are other sites (the current user might not have access to)
          */
         $view->isSingleSite = Access::doAsSuperUser(function () {
-            $allSites = SitesManagerApi::getInstance()->getAllSitesId();
+            $allSites = Request::processRequest('SitesManager.getAllSitesId', [], []);
             return count($allSites) === 1;
         });
 

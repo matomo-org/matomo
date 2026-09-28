@@ -479,6 +479,17 @@ class Site
     }
 
     /**
+     * Removes the cached data of every site that is not part of the given cache contents.
+     *
+     * @param array $sitesToKeep Cache contents as returned by {@link getSites()}.
+     * @internal
+     */
+    public static function clearCacheExcept(array $sitesToKeep): void
+    {
+        self::$infoSites = array_intersect_key(self::$infoSites, $sitesToKeep);
+    }
+
+    /**
      * Utility function. Returns the value of the specified field for the
      * site with the specified ID.
      *

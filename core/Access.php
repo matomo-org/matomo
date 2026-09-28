@@ -698,9 +698,13 @@ class Access
         $shouldResetLogin = empty($login); // make sure to reset login if a login was set by "makeSureLoginNameIsSet()"
         $access->setSuperUserAccess(true);
 
+        // site data loaded in here is dropped from the cache again afterwards, so later lookups still check access
+        $cachedSites = Site::getSites();
+
         try {
             $result = $function();
         } catch (\Throwable $ex) {
+            Site::clearCacheExcept($cachedSites);
             $access->setSuperUserAccess($isSuperUser);
             if ($shouldResetLogin) {
                 $access->login = null;
@@ -712,6 +716,7 @@ class Access
         if ($shouldResetLogin) {
             $access->login = null;
         }
+        Site::clearCacheExcept($cachedSites);
         $access->setSuperUserAccess($isSuperUser);
 
         return $result;
