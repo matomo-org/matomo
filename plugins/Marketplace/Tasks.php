@@ -51,7 +51,9 @@ class Tasks extends \Piwik\Plugin\Tasks
 
     public function clearAllCacheEntries()
     {
-        $this->api->clearCacheEntriesExceptOverviewLists();
+        $this->backgroundWarmer->keepSpawnHoldsThrough(function () {
+            $this->api->clearCacheEntriesExceptOverviewLists();
+        });
     }
 
     /**

@@ -71,6 +71,9 @@ class TasksTest extends \PHPUnit\Framework\TestCase
         $this->warmer->method('canSpawn')->willReturnCallback(function () {
             return $this->canSpawn;
         });
+        $this->warmer->method('keepSpawnHoldsThrough')->willReturnCallback(function (callable $flush) {
+            $flush();
+        });
         $this->api->setBackgroundWarmer($this->warmer);
         $this->tasks = $this->buildTasks($this->api, new NullLogger());
     }
@@ -220,6 +223,14 @@ class TasksTest extends \PHPUnit\Framework\TestCase
         $logger->expects($this->once())->method('warning');
 
         $this->buildTasks($api, $logger)->warmCacheEntries();
+    }
+
+    public function testTheDailyFlushKeepsTheRefreshHolds()
+    {
+        $this->warmer = $this->createMock(BackgroundWarmer::class);
+        $this->warmer->expects($this->once())->method('keepSpawnHoldsThrough');
+
+        $this->buildTasks($this->api, new NullLogger())->clearAllCacheEntries();
     }
 
     public function testTheDailyFlushKeepsTheOverviewListsAndClearsTheRest()
