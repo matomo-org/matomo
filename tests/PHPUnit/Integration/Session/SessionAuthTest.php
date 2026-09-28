@@ -73,6 +73,51 @@ class SessionAuthTest extends IntegrationTestCase
         $this->assertEmpty($_SESSION, 'Expected $_SESSION to be empty. Instead got: ' . var_export($_SESSION, true));
     }
 
+    public function testAuthenticateReturnsFailureForSessionStartedBeforeSessionsEnded()
+    {
+        $this->initializeSession(self::TEST_OTHER_USER);
+
+        sleep(1);
+
+        // ends the user's sessions, recording the moment
+        UsersManagerAPI::getInstance()->logoutUser(self::TEST_OTHER_USER);
+
+        $result = $this->testInstance->authenticate();
+        $this->assertEquals(AuthResult::FAILURE, $result->getCode());
+    }
+
+    public function testAuthenticateFailsWhenSessionRowRecreatedAfterEnding()
+    {
+        // A concurrent request can re-create its session row after the rows were removed, so the row
+        // is present again afterwards. Authentication must still not accept that session.
+        $this->initializeSession(self::TEST_OTHER_USER);
+
+        sleep(1);
+
+        UsersManagerAPI::getInstance()->logoutUser(self::TEST_OTHER_USER);
+
+        // re-create the removed row exactly as DbTable::write() would at request shutdown, through the
+        // same handler and config production uses
+        $handler = new DbTable(Session::getDbTableConfig());
+        $handler->write(session_id() ?: 'inflightSid', base64_encode(serialize($_SESSION)));
+
+        $result = $this->testInstance->authenticate();
+        $this->assertEquals(AuthResult::FAILURE, $result->getCode());
+    }
+
+    public function testAuthenticateReturnsSuccessForSessionStartedAfterSessionsEnded()
+    {
+        // Ending a user's sessions must not lock them out of sessions they open afterwards.
+        UsersManagerAPI::getInstance()->logoutUser(self::TEST_OTHER_USER);
+
+        sleep(1);
+
+        $this->initializeSession(self::TEST_OTHER_USER);
+
+        $result = $this->testInstance->authenticate();
+        $this->assertEquals(AuthResult::SUCCESS, $result->getCode());
+    }
+
     public function testAuthenticateReturnsFailureIfUsersModelReturnsIncorrectUser()
     {
         $this->initializeSession(self::TEST_OTHER_USER);
