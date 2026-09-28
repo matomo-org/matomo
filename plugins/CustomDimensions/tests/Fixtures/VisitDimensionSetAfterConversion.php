@@ -35,10 +35,11 @@ class VisitDimensionSetAfterConversion extends Fixture
 
     public $dateTime = '2026-08-17 03:00:00';
 
-    /** Allocated by configureNewCustomDimension(), the first one on a fresh site. */
-    public $idDimension = 1;
+    /** Allocated by configureNewCustomDimension() in setUp(). */
+    public $idDimension;
 
-    public $idGoal = 1;
+    /** Allocated by addGoal() in setUp(). */
+    public $idGoal;
 
     public const DIMENSION_NAME = 'Chatbot-Nutzung';
 
@@ -66,14 +67,14 @@ class VisitDimensionSetAfterConversion extends Fixture
             self::createWebsite($this->dateTime);
         }
 
-        CustomDimensionsApi::getInstance()->configureNewCustomDimension(
+        $this->idDimension = (int) CustomDimensionsApi::getInstance()->configureNewCustomDimension(
             $this->idSite,
             self::DIMENSION_NAME,
             CustomDimensions::SCOPE_VISIT,
             $active = true
         );
 
-        GoalsApi::getInstance()->addGoal(
+        $this->idGoal = (int) GoalsApi::getInstance()->addGoal(
             $this->idSite,
             self::GOAL_NAME,
             'url',
