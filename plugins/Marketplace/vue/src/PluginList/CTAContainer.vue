@@ -276,6 +276,7 @@ export default defineComponent({
         module: 'CorePluginsAdmin',
         action: 'activate',
         redirectTo: 'referrer',
+        referrer: this.marketplaceUrl(),
         nonce: this.activateNonce,
         pluginName,
       });
@@ -285,6 +286,7 @@ export default defineComponent({
         module: 'CorePluginsAdmin',
         action: 'deactivate',
         redirectTo: 'referrer',
+        referrer: this.marketplaceUrl(),
         nonce: this.deactivateNonce,
         pluginName,
       });
@@ -293,6 +295,7 @@ export default defineComponent({
       return this.linkTo({
         module: 'Marketplace',
         action: 'installPlugin',
+        referrer: this.marketplaceUrl(),
         nonce: this.installNonce,
         pluginName,
       });
@@ -301,9 +304,23 @@ export default defineComponent({
       return this.linkTo({
         module: 'Marketplace',
         action: 'updatePlugin',
+        referrer: this.marketplaceUrl(),
         nonce: this.updateNonce,
         pluginName,
       });
+    },
+    /**
+     * This page as the one to come back to, fragment and all: the Marketplace keeps its tab, search
+     * and open plugin in the hash, which the Referer header these actions would otherwise return
+     * to never carries. Built from MatomoUrl rather than read off window.location so the links
+     * re-render as the hash changes, instead of keeping the one they were first drawn with.
+     */
+    marketplaceUrl() {
+      const { origin, pathname } = window.location;
+      const query = MatomoUrl.stringify(MatomoUrl.urlParsed.value);
+      const hash = MatomoUrl.stringify(MatomoUrl.hashParsed.value);
+
+      return `${origin}${pathname}?${query}${hash ? `#?${hash}` : ''}`;
     },
     linkTo(params: QueryParameters) {
       return `?${MatomoUrl.stringify({

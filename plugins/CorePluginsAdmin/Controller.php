@@ -420,7 +420,7 @@ class Controller extends Plugin\ControllerAdmin
             'pluginName' => Common::getRequestVar('pluginName'),
             'nonce' => Common::getRequestVar('nonce'),
             'redirectTo' => Common::getRequestVar('redirectTo', '', 'string'),
-            'referrer' => urlencode(Url::getReferrer()),
+            'referrer' => urlencode($this->getReferrerToRedirectTo()),
         ];
 
         if (!$this->passwordVerify->requirePasswordVerifiedRecently($params)) {
@@ -477,7 +477,7 @@ class Controller extends Plugin\ControllerAdmin
             'pluginName' => Common::getRequestVar('pluginName'),
             'nonce' => Common::getRequestVar('nonce'),
             'redirectTo' => Common::getRequestVar('redirectTo'),
-            'referrer' => urlencode(Url::getReferrer()),
+            'referrer' => urlencode($this->getReferrerToRedirectTo()),
         ];
         if (!$this->passwordVerify->requirePasswordVerifiedRecently($params)) {
             return;
@@ -501,7 +501,7 @@ class Controller extends Plugin\ControllerAdmin
             'action' => 'uninstall',
             'pluginName' => Common::getRequestVar('pluginName'),
             'nonce' => Common::getRequestVar('nonce'),
-            'referrer' => urlencode(Url::getReferrer()),
+            'referrer' => urlencode($this->getReferrerToRedirectTo()),
         ];
         if (!$this->passwordVerify->requirePasswordVerifiedRecently($params)) {
             return;
@@ -570,6 +570,18 @@ class Controller extends Plugin\ControllerAdmin
         }
 
         return $pluginName;
+    }
+
+    /**
+     * The page to return to once the modification is done: the one the request names, if any, or
+     * else the HTTP referrer. A page can name itself to keep its URL fragment, which the Referer
+     * header never carries. Validated in {@link redirectAfterModification()}, not here.
+     */
+    private function getReferrerToRedirectTo(): string
+    {
+        $referrer = Common::unsanitizeInputValue(Common::getRequestVar('referrer', '', 'string'));
+
+        return $referrer !== '' ? $referrer : (string) Url::getReferrer();
     }
 
     protected function redirectAfterModification($redirectAfter)

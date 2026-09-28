@@ -553,6 +553,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'mode' => 'admin',
             'pluginName' => Common::getRequestVar('pluginName'),
             'nonce' => Common::getRequestVar('nonce'),
+            'referrer' => urlencode($this->getMarketplaceUrlToReturnTo()),
         );
         if ($this->passwordVerify->requirePasswordVerifiedRecently($params)) {
             $view = $this->createUpdateOrInstallView('installPlugin', static::INSTALL_NONCE);
@@ -618,8 +619,22 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         }
 
         $view->plugins = $pluginInfos;
+        $view->marketplaceUrl = $this->getMarketplaceUrlToReturnTo();
 
         return $view;
+    }
+
+    /**
+     * The Marketplace page the install or update was started from, fragment included, so leaving
+     * this page returns the reader to the tab, search or plugin they were on. The Referer header
+     * cannot stand in for it: it never carries the fragment the Marketplace keeps that state in.
+     * Empty when the request names no page, or one outside this Matomo.
+     */
+    private function getMarketplaceUrlToReturnTo(): string
+    {
+        $referrer = Common::unsanitizeInputValue(Common::getRequestVar('referrer', '', 'string'));
+
+        return $referrer !== '' && Url::isLocalUrl($referrer) ? $referrer : '';
     }
 
     private function getPluginNameIfNonceValid($nonceName)
