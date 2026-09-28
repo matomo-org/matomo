@@ -97,6 +97,8 @@ class AIProcessingSettings
 
         /**
          * Triggered to let plugins list their AI features under the data category they need.
+         * `disclosureUrl` is optional but recommended: an http(s) link to a page explaining how the
+         * feature processes data, shown as "Data processing details".
          *
          * **Example**
          *
@@ -108,7 +110,7 @@ class AIProcessingSettings
          *         ];
          *     }
          *
-         * @param array<string, list<array{name: string, disclosureUrl: string}>> &$features Keyed by category.
+         * @param array<string, list<array{name: string, disclosureUrl?: string}>> &$features Keyed by category.
          */
         Piwik::postEvent('AIProviders.addAIProcessingFeatures', [&$features]);
         /** @var array<mixed> $features listeners may have changed it arbitrarily */
@@ -122,12 +124,20 @@ class AIProcessingSettings
                 if (is_array($feature) && is_string($feature['name'] ?? null)) {
                     $result[$category][] = [
                         'name' => $feature['name'],
-                        'disclosureUrl' => is_string($feature['disclosureUrl'] ?? null) ? $feature['disclosureUrl'] : '',
+                        'disclosureUrl' => $this->getSafeDisclosureUrl($feature['disclosureUrl'] ?? null),
                     ];
                 }
             }
         }
 
         return $result;
+    }
+
+    /**
+     * Only http(s) links are rendered, so a listener cannot inject e.g. a javascript: href.
+     */
+    private function getSafeDisclosureUrl(mixed $url): string
+    {
+        return is_string($url) && preg_match('~^https?://~i', $url) ? $url : '';
     }
 }

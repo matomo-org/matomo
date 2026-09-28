@@ -27,24 +27,27 @@
         <div class="ai-processing-category-body">
           <h3 class="ai-processing-category-name">{{ translate(labels[category.id].name) }}</h3>
           <p>{{ translate(labels[category.id].description) }}</p>
-          <p
-            v-for="feature in category.usedBy"
-            :key="feature.name"
-            class="ai-processing-category-used-by"
+          <div
+            v-if="category.usedBy.length"
+            class="ai-processing-used-by"
           >
-            {{ translate('AIProviders_UsedBy', feature.name) }}
-            <template v-if="feature.disclosureUrl">
-              ·
-              <a
-                :href="feature.disclosureUrl"
-                rel="noreferrer noopener"
-                target="_blank"
+            <span class="ai-processing-used-by-label">{{ translate('AIProviders_UsedBy') }}</span>
+            <ul class="ai-processing-features">
+              <li
+                v-for="feature in category.usedBy"
+                :key="feature.name"
+                class="ai-processing-feature"
               >
-                <span class="icon-outlink" />
-                {{ translate('AIProviders_DataProcessingDetails') }}
-              </a>
-            </template>
-          </p>
+                {{ feature.name }}
+                <a
+                  v-if="feature.disclosureUrl"
+                  :href="feature.disclosureUrl"
+                  rel="noreferrer noopener"
+                  target="_blank"
+                ><span class="icon-outlink" /> {{ translate('AIProviders_DataProcessingDetails') }}</a>
+              </li>
+            </ul>
+          </div>
         </div>
         <div class="switch">
           <label>
@@ -61,7 +64,7 @@
 
       <div class="ai-processing-footer">
         <SaveButton
-          :value="translate('AIProviders_SaveSettings')"
+          :value="translate('General_Save')"
           :disabled="!hasUnsavedChanges"
           :saving="isSaving"
           @confirm="save()"
@@ -171,9 +174,35 @@ onMounted(async () => {
     color: var(--theme-color-text-contrast);
   }
 
-  .ai-processing-category-body .ai-processing-category-used-by {
-    font-size: 13px;
+  .ai-processing-used-by {
+    margin-top: 14px;
+  }
+
+  .ai-processing-used-by-label {
+    display: block;
+    margin-bottom: 6px;
     color: var(--theme-color-text-lighter);
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .ai-processing-features {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .ai-processing-feature {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 12px;
+    margin: 0;
+    font-size: 13px;
+    line-height: 20px;
   }
 
   .ai-processing-footer {
