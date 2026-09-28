@@ -267,6 +267,14 @@ class Session extends Zend_Session
 
     public static function destroyAllSessions(): void
     {
+        // Record the moment on every user before clearing the table, so a concurrent request that
+        // re-creates its row afterwards is no longer accepted by SessionAuth. Same reasoning as the
+        // per-user stamp in UsersManager\API::logoutUser().
+        Db::query(
+            'UPDATE `' . Common::prefixTable('user') . '` SET `ts_sessions_invalidated` = ?',
+            [Date::now()->getDatetime()]
+        );
+
         $config = self::getDbTableConfig();
         $saveHandler = new DbTable($config);
         $saveHandler->destroyAll();

@@ -209,6 +209,29 @@ class SessionAuthTest extends IntegrationTestCase
         $this->assertEmpty($_SESSION);
     }
 
+    public function testAuthenticateFailsWhenSessionRowRecreatedAfterDestroyAllSessions()
+    {
+        // Session::destroyAllSessions() clears the table for every user (e.g. on Login plugin
+        // deactivation); a concurrent request that re-creates its row afterwards must still not be
+        // accepted. destroyAllSessions() also clears the current $_SESSION, so snapshot it first to
+        // stand in for the separate in-flight request that keeps its own session in memory.
+        $this->initializeSession(self::TEST_OTHER_USER);
+
+        sleep(1);
+
+        $sessionData = base64_encode(serialize($_SESSION));
+
+        Session::destroyAllSessions();
+
+        // the in-flight request writes its session back at shutdown, and still holds it in memory
+        $handler = new DbTable(Session::getDbTableConfig());
+        $handler->write(session_id() ?: 'inflightSid', $sessionData);
+        $_SESSION = unserialize(base64_decode($sessionData));
+
+        $result = $this->testInstance->authenticate();
+        $this->assertEquals(AuthResult::FAILURE, $result->getCode());
+    }
+
     private function countActiveSessions(): int
     {
         $tableConfig = Session::getDbTableConfig();
