@@ -8,8 +8,8 @@
 <template>
   <div
     v-if="showFooter && showFooterIcons"
-    :role="isInHeader ? 'menu' : null"
-    :aria-label="isInHeader ? translate('CoreHome_ReportActions') : null"
+    :role="isInHeader ? 'menu' : undefined"
+    :aria-label="isInHeader ? translate('CoreHome_ReportActions') : undefined"
   >
     <!-- Report actions live in the report header, inside the single menu its 3-dots trigger
          opens. Four lists rather than one: `ul.tableConfiguration` and `.dataTableFooterIcons`
@@ -321,7 +321,7 @@ export interface FooterIconGroup {
   class?: string;
 }
 
-interface ConfigState {
+export interface ConfigState {
   flat: boolean;
   dimensions: boolean;
   aggregateRows: boolean;
