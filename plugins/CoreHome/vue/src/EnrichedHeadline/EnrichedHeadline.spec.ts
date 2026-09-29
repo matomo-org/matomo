@@ -107,4 +107,42 @@ describe('EnrichedHeadline', () => {
 
     expect(wrapper.vm.actualFeatureName).toBe('Pages');
   });
+
+  it('should keep the help panel inside the headline when no container is given', () => {
+    const wrapper = createWrapper({ inlineHelp: '<p>What this report shows</p>' });
+
+    expect(wrapper.find('.enrichedHeadline > .inlineHelp').exists()).toBe(true);
+  });
+
+  it('should move the help panel into the container the host provides', () => {
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+
+    const wrapper = createWrapper({
+      inlineHelp: '<p>What this report shows</p>',
+      helpContainer: container,
+    });
+
+    // a panel left in the headline shares the row with the report's actions and displaces them
+    expect(wrapper.find('.enrichedHeadline > .inlineHelp').exists()).toBe(false);
+    expect(container.querySelector('.inlineHelp')?.innerHTML).toContain('What this report shows');
+  });
+
+  it('should still open and close a help panel it has handed to a container', async () => {
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+
+    const wrapper = createWrapper({
+      inlineHelp: '<p>What this report shows</p>',
+      helpContainer: container,
+    });
+
+    const panel = () => container.querySelector('.inlineHelp') as HTMLElement;
+
+    expect(panel().style.display).toBe('none');
+
+    await wrapper.find('.helpIcon').trigger('click');
+
+    expect(panel().style.display).toBe('');
+  });
 });

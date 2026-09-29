@@ -37,6 +37,7 @@
           :report-generated="reportGenerated"
           :edit-url="editUrl"
           :help-url="helpUrl"
+          :help-container="helpContainer"
         ><span>{{ titleText }}</span></EnrichedHeadline>
         <span v-else>{{ titleText }}</span>
       </component>
@@ -236,6 +237,11 @@
         </div>
       </div>
     </div>
+
+    <!-- Where EnrichedHeadline puts its help panel, so it spans the card instead of sharing the
+         header row with the actions and pushing them down. Mounted as soon as the report has
+         help rather than when the panel opens, because a teleport needs its target to exist. -->
+    <div v-if="hasHelpRow" ref="helpRow" class="reportHeader__help" />
 
     <!-- Second line, mounted independently of the first so a titleless report still gets its
          search. Only the search lives here today; a later story adding a sibling must widen the
@@ -505,6 +511,8 @@ export default defineComponent({
       promotedExport: null as unknown as SelectorDropdown,
       periodsBinding: null as unknown as Record<string, unknown>,
       exportBinding: null as unknown as Record<string, unknown>,
+      // Set once the help row is in the DOM; see syncHelpContainer().
+      helpContainer: null as HTMLElement | null,
       // Local mirror of the field, seeded from `searchQuery`.
       // Stands in until the first publish; see the reportKey prop.
       mountedReportKey: '',
@@ -520,8 +528,14 @@ export default defineComponent({
     this.mountedReportKey = reportIdentity(this.$el as HTMLElement, this.reportId);
     this.watchForRoom();
     this.updatePromoted();
+    this.syncHelpContainer();
   },
   watch: {
+    // The row is only in the DOM once there is help, so the teleport target has to be picked up
+    // again whenever that changes - switching to a related report with documentation, say.
+    hasHelpRow() {
+      this.$nextTick(() => this.syncHelpContainer());
+    },
     searchQuery(value: string) {
       // Server-driven update; reflect it into the field without dispatching another search.
       // Skip while a search is pending: a reload syncing the previous pattern back would
@@ -641,9 +655,18 @@ export default defineComponent({
     wrappedInlineHelp(): string {
       return this.inlineHelp ? `<p>${this.inlineHelp}</p>` : '';
     },
+    // Only help this component knows about can be hoisted into its own row. A report whose help
+    // EnrichedHeadline scrapes out of the title instead keeps it inline, as it did before.
+    // `showTitle` is part of it because the headline that owns the panel renders only with one.
+    hasHelpRow(): boolean {
+      return this.showTitle && this.enriched && !!this.wrappedInlineHelp;
+    },
   },
   methods: {
     annotationsWording,
+    syncHelpContainer() {
+      this.helpContainer = (this.$refs.helpRow as HTMLElement | undefined) || null;
+    },
     // Picking a period is the end of the interaction, and the directive never hears it.
     closePromotedPeriods(event: MouseEvent|KeyboardEvent) {
       this.promotedPeriods.closedBy(event);

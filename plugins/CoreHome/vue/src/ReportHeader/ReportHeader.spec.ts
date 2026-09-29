@@ -27,7 +27,7 @@ vi.mock('../translate', () => ({
 // rendered with the right props.
 const EnrichedHeadlineStub = {
   name: 'EnrichedHeadline',
-  props: ['featureName', 'inlineHelp', 'reportGenerated', 'editUrl', 'helpUrl'],
+  props: ['featureName', 'inlineHelp', 'reportGenerated', 'editUrl', 'helpUrl', 'helpContainer'],
   template: '<div class="enrichedHeadline"><slot/></div>',
 };
 
@@ -622,6 +622,8 @@ describe('ReportHeader', () => {
       reportGenerated: 'generated 5 min ago',
       editUrl: 'index.php?module=Foo',
       helpUrl: 'https://matomo.org/guide',
+      // resolved after mount, see the inline help row below
+      helpContainer: null,
     });
     expect(wrapper.find('.reportHeader__title.widgetName .enrichedHeadline span').text())
       .toBe('Visits Over Time');
@@ -827,6 +829,44 @@ describe('ReportHeader', () => {
       } finally {
         vi.useRealTimers();
       }
+    });
+  });
+
+  describe('inline help row', () => {
+    it('should give the headline a row of its own to put the help in', async () => {
+      const wrapper = mountComponent({ enriched: true, inlineHelp: 'What this report shows' });
+      await wrapper.vm.$nextTick();
+
+      const row = wrapper.find('.reportHeader__help');
+
+      expect(row.exists()).toBe(true);
+      // the panel belongs to the card, not to the header line it would otherwise stretch
+      expect(wrapper.find('.reportHeader__header .reportHeader__help').exists()).toBe(false);
+      expect(wrapper.findComponent(EnrichedHeadlineStub).props('helpContainer'))
+        .toBe(row.element);
+    });
+
+    it('should render no help row for a report without documentation', () => {
+      const wrapper = mountComponent({ enriched: true });
+
+      expect(wrapper.find('.reportHeader__help').exists()).toBe(false);
+      expect(wrapper.findComponent(EnrichedHeadlineStub).props('helpContainer')).toBe(null);
+    });
+
+    it('should hand over the row once a related report brings documentation with it', async () => {
+      const wrapper = mountComponent({ enriched: true });
+
+      expect(wrapper.findComponent(EnrichedHeadlineStub).props('helpContainer')).toBe(null);
+
+      await wrapper.setProps({ inlineHelp: 'What this report shows' });
+      // one tick renders the row, the next runs the watcher that picks it up, the third
+      // re-renders the headline with it
+      await wrapper.vm.$nextTick();
+      await wrapper.vm.$nextTick();
+      await wrapper.vm.$nextTick();
+
+      expect(wrapper.findComponent(EnrichedHeadlineStub).props('helpContainer'))
+        .toBe(wrapper.find('.reportHeader__help').element);
     });
   });
 });
