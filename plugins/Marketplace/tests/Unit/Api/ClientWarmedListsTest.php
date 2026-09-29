@@ -16,6 +16,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Piwik\Date;
 use Piwik\Log\LoggerInterface;
 use Piwik\Plugins\Marketplace\Api\Client;
+use Piwik\Plugins\Marketplace\Api\Exception as ClientException;
 use Piwik\Plugins\Marketplace\Api\Service\Exception as ServiceException;
 use Piwik\Plugins\Marketplace\BackgroundWarmer;
 use Piwik\Plugins\Marketplace\Input\PurchaseType;
@@ -74,6 +75,12 @@ class ClientWarmedListsTest extends \PHPUnit\Framework\TestCase
     private $attemptCount = 0;
 
     /**
+     * @var string|array|null What Service::fetch() returns for a response without a plugins list: '' for an
+     *                        empty body, [] for [] or {}, or decoded JSON lacking the list.
+     */
+    private $emptyResponse;
+
+    /**
      * @var array[] The context of each warning logged.
      */
     private $warnings = [];
@@ -88,6 +95,10 @@ class ClientWarmedListsTest extends \PHPUnit\Framework\TestCase
 
             if ($this->nextFailure && in_array($this->failingPurchaseType, [null, $params['purchase_type']], true)) {
                 throw $this->nextFailure;
+            }
+
+            if (null !== $this->emptyResponse) {
+                return $this->emptyResponse;
             }
 
             $this->requestCount++;
@@ -285,6 +296,75 @@ class ClientWarmedListsTest extends \PHPUnit\Framework\TestCase
     {
         yield 'an error from the Marketplace' => [new ServiceException('The Marketplace returned an error')];
         yield 'no connection to it' => [new Exception('Error while connecting to: plugins.matomo.org')];
+    }
+
+    /**
+     * @dataProvider getEmptyResponses
+     */
+    public function testAStaleListIsKeptWhenTheMarketplaceRespondsWithAnEmptyBody($emptyResponse)
+    {
+        Date::$now = self::NOW + Client::PLUGIN_LIST_REFRESH_AFTER_SECONDS;
+
+        $this->warmer->method('isServingVisit')->willReturn(true);
+        $this->warmer->method('refreshNow')->willReturn(false);
+        $this->emptyResponse = $emptyResponse;
+
+        $this->assertListed('Fetched1', $this->readOverviewList());
+        $this->assertSame(1, $this->attemptCount);
+        $this->assertListed('Fetched1', $this->readOverviewList());
+        $this->assertWarningsStayOffScreen(1);
+    }
+
+    /**
+     * @dataProvider getEmptyResponses
+     */
+    public function testRefreshingTheListsReportsAnEmptyBodyAsAFailureAndKeepsTheLists($emptyResponse)
+    {
+        Date::$now = self::NOW + 60;
+        $this->emptyResponse = $emptyResponse;
+
+        $this->assertFalse($this->client->tryRefreshOverviewListCaches());
+        $this->assertNotNull($this->client->findInCachedOverviewLists('Fetched1'));
+        $this->assertSame(60, $this->client->getOverviewListsAge());
+        $this->assertWarningsStayOffScreen(3);
+    }
+
+    /**
+     * @dataProvider getEmptyResponses
+     */
+    public function testAnEmptyBodyIsReportedAsAnErrorWhenNothingIsCached($emptyResponse)
+    {
+        $this->client->clearAllCacheEntries();
+        $this->emptyResponse = $emptyResponse;
+
+        $this->expectException(ClientException::class);
+        $this->readOverviewList();
+    }
+
+    public function getEmptyResponses(): iterable
+    {
+        yield 'an empty body' => [''];
+        yield 'an empty JSON array or object' => [[]];
+        yield 'a body without a plugins list' => [['error' => '']];
+        yield 'a null plugins list' => [['plugins' => null]];
+    }
+
+    public function testAnEmptyBodyToAnyOtherRequestIsNotKept()
+    {
+        $this->emptyResponse = '';
+
+        $this->assertSame([], $this->client->getPluginInfo('SomePlugin'));
+        $this->assertSame([], $this->client->getPluginInfo('SomePlugin'));
+        $this->assertSame(2, $this->attemptCount);
+    }
+
+    public function testAnEmptyListToAnyOtherRequestIsKept()
+    {
+        $this->emptyResponse = [];
+
+        $this->assertSame([], $this->client->getPluginInfo('SomePlugin'));
+        $this->assertSame([], $this->client->getPluginInfo('SomePlugin'));
+        $this->assertSame(1, $this->attemptCount);
     }
 
     public function testAnUnreachableMarketplaceIsReportedAsItIsWhenNothingIsCached()
