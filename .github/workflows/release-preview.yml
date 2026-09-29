@@ -1,10 +1,8 @@
 # Matomo release action for automated PREVIEW releases
 #
 # The branch to build a preview from is selectable. Scheduled runs always use
-# the default (5.x-dev), because Matomo Cloud is still on Matomo 5 and needs to
-# keep receiving 5.x previews even though the repository's default branch is
-# switching to 6.x-dev. Previews for another major can be built by dispatching
-# this workflow manually with a different target branch.
+# the default (6.x-dev). Previews for another major, like 5.x-dev, can be built
+# by dispatching this workflow manually with a different target branch.
 #
 # Slack notifications on failure and automatic retries live in the
 # separate preview-retry-handler.yml workflow, which reacts to this
@@ -53,7 +51,7 @@ on:
 # The default needs to be repeated here, as the concurrency group cannot access
 # the env context.
 concurrency:
-  group: preview-${{ inputs.target_branch || '5.x-dev' }}
+  group: preview-${{ inputs.target_branch || '6.x-dev' }}
   cancel-in-progress: false
 
 env:
@@ -63,7 +61,7 @@ jobs:
     runs-on: ubuntu-24.04
     # inputs is empty for scheduled runs, so the default has to be repeated here
     env:
-      TARGET_BRANCH: ${{ inputs.target_branch || '5.x-dev' }}
+      TARGET_BRANCH: ${{ inputs.target_branch || '6.x-dev' }}
     outputs:
       do_release: ${{ steps.changes.outputs.do_release }}
       has_new_version: ${{ steps.version.outputs.has_new_version }}
