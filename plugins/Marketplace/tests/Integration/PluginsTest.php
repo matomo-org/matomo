@@ -812,6 +812,56 @@ class PluginsTest extends IntegrationTestCase
         $this->assertSame('CustomReports', $plugin['name']);
     }
 
+    public function testGetPluginInfoPreferringListAsksAboutAnUpdateTheCachedListDoesNotYetKnow()
+    {
+        $this->service->returnFixture(['v2.0_plugins.json']);
+        $this->warmOverviewLists();
+
+        $apis = [];
+        $this->service->setOnFetchCallback(function ($action) use (&$apis) {
+            $apis[] = $action;
+
+            if ('plugins/checkUpdates' !== $action) {
+                return null;
+            }
+
+            $updates = json_decode(
+                $this->service->getFixtureContent('v2.0_plugins_checkUpdates-pluginspluginsnameAnonymousPi.json'),
+                true
+            );
+
+            foreach ($updates as &$update) {
+                if ('TreemapVisualization' === $update['name']) {
+                    $update['version'] = '4.0.2';
+                }
+            }
+
+            return $updates;
+        });
+        $this->service->returnFixture(['system_v2.0_plugins_TreemapVisualization_info_piwik4.json']);
+
+        $plugin = $this->plugins->getPluginInfoPreferringList('TreemapVisualization');
+
+        $this->assertSame(['plugins/checkUpdates', 'plugins/TreemapVisualization/info'], $apis);
+        $this->assertSame('4.0.2', $plugin['latestVersion']);
+    }
+
+    public function testGetPluginInfoPreferringListDoesNotAskAboutUpdatesForAPluginThatIsNotInstalled()
+    {
+        $this->service->returnFixture(['v2.0_plugins.json']);
+        $this->warmOverviewLists();
+
+        $apis = [];
+        $this->service->setOnFetchCallback(function ($action) use (&$apis) {
+            $apis[] = $action;
+        });
+
+        $plugin = $this->plugins->getPluginInfoPreferringList('Barometer');
+
+        $this->assertSame([], $apis);
+        $this->assertSame('Barometer', $plugin['name']);
+    }
+
     public function testGetPluginInfoPreferringListDoesNotFetchTheListsWhenTheyAreNotCached()
     {
         $this->service->returnFixture([
@@ -966,6 +1016,40 @@ class PluginsTest extends IntegrationTestCase
             return (bool) preg_match('#^plugins/[^/]+/info$#', $action);
         }));
         $this->assertSame([], $infoRequests);
+    }
+
+    public function testGetPluginsHavingUpdateAsksAboutAnUpdateTheCachedListDoesNotYetKnow()
+    {
+        $this->service->returnFixture(['v2.0_plugins.json', 'v2.0_themes.json']);
+        $this->warmOverviewLists(true);
+
+        $apis = [];
+        $this->service->setOnFetchCallback(function ($action) use (&$apis) {
+            $apis[] = $action;
+
+            if ('plugins/checkUpdates' !== $action) {
+                return null;
+            }
+
+            $updates = json_decode(
+                $this->service->getFixtureContent('v2.0_plugins_checkUpdates-pluginspluginsnameAnonymousPi.json'),
+                true
+            );
+
+            foreach ($updates as &$update) {
+                if ('TreemapVisualization' === $update['name']) {
+                    $update['version'] = '4.0.2';
+                }
+            }
+
+            return $updates;
+        });
+        $this->service->returnFixture(['system_v2.0_plugins_TreemapVisualization_info_piwik4.json']);
+
+        $updates = $this->plugins->getPluginsHavingUpdate();
+
+        $this->assertSame(['plugins/checkUpdates', 'plugins/TreemapVisualization/info'], $apis);
+        $this->assertSame('4.0.2', $updates['TreemapVisualization']['latestVersion']);
     }
 
     private function getExpectedPluginNames()

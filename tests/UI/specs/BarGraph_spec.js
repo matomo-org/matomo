@@ -38,8 +38,10 @@ describe("BarGraph", function () {
 
     it("should display multiple metrics when another metric picked", async function () {
         await page.click('.metrics-picker__toggle');
-        await page.waitForSelector('.metrics-picker__options input');
-        var element = await page.jQuery('.metrics-picker__options input:not(:checked):first');
+        // click the label, not the input: the options sit in the DOM whether the dropdown is open
+        // or not, and the input itself is the hidden half of a Materialize checkbox
+        await page.waitForSelector('.metrics-picker__options label');
+        var element = await page.jQuery('.metrics-picker__options .metrics-picker__label:has(input:not(:checked)):first');
         await element.click();
         await page.waitForNetworkIdle();
         await page.waitForTimeout(500);

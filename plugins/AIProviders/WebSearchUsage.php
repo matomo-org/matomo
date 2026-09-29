@@ -230,7 +230,7 @@ final class WebSearchUsage
 
         // Only when a dotted name remains, so the registered domain `www.com`
         // does not collapse to the meaningless `com`.
-        if (strpos($host, 'www.') === 0 && substr_count($host, '.') > 1) {
+        if (str_starts_with($host, 'www.') && substr_count($host, '.') > 1) {
             $host = substr($host, 4);
         }
 

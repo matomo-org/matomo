@@ -50,20 +50,26 @@
                 return false;
             });
 
-            this.$element.on('click', '.addSegmentToMatomo.dataTableAction', function (e) {
-                e.preventDefault();
-                e.stopPropagation();
+            // The action is rendered in the report header, which twig puts outside the table, so a
+            // handler bound on the table alone never sees it. Delegated because the header's menu is
+            // rendered by Vue after this runs, and namespaced off/on because the scope survives the
+            // reloads that rebuild the table and re-run init().
+            self._findReportScope(this.$element)
+                .off('click.addSegmentToMatomo')
+                .on('click.addSegmentToMatomo', '.addSegmentToMatomo.dataTableAction', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
 
-                var url = window.location.href;
-                url = broadcast.updateParamValue('addSegmentAsNew=' + self.param.segment, url);
-                url = broadcast.updateParamValue('popover=', url);
-                // Show user the Visits Log so that they can easily refine their new segment if needed
-                url = broadcast.updateParamValue('category=General_Visitors', url);
-                url = broadcast.updateParamValue('subcategory=Live_VisitorLog', url);
-                url = broadcast.updateParamValue('segment=' + self.param.segment, url);
+                    var url = window.location.href;
+                    url = broadcast.updateParamValue('addSegmentAsNew=' + self.param.segment, url);
+                    url = broadcast.updateParamValue('popover=', url);
+                    // Show user the Visits Log so that they can easily refine their new segment if needed
+                    url = broadcast.updateParamValue('category=General_Visitors', url);
+                    url = broadcast.updateParamValue('subcategory=Live_VisitorLog', url);
+                    url = broadcast.updateParamValue('segment=' + self.param.segment, url);
 
-                window.open(url, '_blank');
-            });
+                    window.open(url, '_blank');
+                });
         },
 
         _destroy: function () {
