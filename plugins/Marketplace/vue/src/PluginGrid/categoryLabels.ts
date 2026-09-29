@@ -6,12 +6,15 @@
  */
 
 import { translate, translateOrDefault, ucfirst } from 'CoreHome';
+import { PluginCard } from '../types';
 import {
+  pluginCategories,
   PluginTab,
   SECTION_BESTSELLING,
   SECTION_FEATURED,
   TAB_ALL,
   TAB_BUNDLES,
+  TAB_OTHER,
   TAB_THEMES,
 } from './pluginGrouping';
 
@@ -63,4 +66,17 @@ export function tabLabel(tab: Pick<PluginTab, 'id'|'isCategory'>): string {
   }
 
   return categoryLabel(tab.id);
+}
+
+/**
+ * The one category chip a plugin carries, on its card and on its page. Always a label: a plugin no
+ * category claims falls back to Other, the same tab it is listed under, so that every card in a row
+ * carries a chip and the titles and descriptions below line up across the row.
+ */
+export function chipLabel(plugin: PluginCard): string {
+  if (plugin.isBundle) {
+    return translate(TYPE_TAB_KEYS[TAB_BUNDLES]);
+  }
+
+  return categoryLabel(pluginCategories(plugin)[0] ?? TAB_OTHER);
 }

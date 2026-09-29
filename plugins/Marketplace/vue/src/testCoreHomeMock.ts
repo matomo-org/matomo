@@ -23,6 +23,12 @@ export function coreHomeMock() {
     // Returns the key, which is what an untranslated key does in the browser: categoryLabel()
     // then falls back to ucfirst(slug), the path most category slugs really take.
     translateOrDefault: (key: string) => key,
+    // the plugin page's screenshot lightbox; rendered inline rather than teleported to the
+    // document body, so `wrapper.find` can still see what it was handed
+    MatomoModal: {
+      props: ['modelValue'],
+      template: '<div class="matomoModal" v-if="modelValue"><slot /></div>',
+    },
     // honours the locale argument, as CoreHome's does: categoryLabel() passes 'en' on purpose
     ucfirst: (value: string, locale?: string) => `${
       value.charAt(0).toLocaleUpperCase(locale || undefined)}${value.slice(1)}`,
@@ -30,8 +36,11 @@ export function coreHomeMock() {
       urlParsed: { value: {} },
       parsed: { value: { idSite: '1' } },
       hashParsed: { value: {} },
+      // drops emptied parameters, as CoreHome's does - a page clears one by passing null
       stringify: (params: Record<string, unknown>) => new URLSearchParams(
-        Object.entries(params).map(([key, value]) => [key, String(value)]),
+        Object.entries(params)
+          .filter(([, value]) => value !== '' && value !== null && value !== undefined)
+          .map(([key, value]) => [key, String(value)]),
       ).toString(),
     },
   };

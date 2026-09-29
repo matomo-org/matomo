@@ -19,6 +19,60 @@
   }
 }
 
+// A plugin's page is a stack of cards that has to read as raised off the page behind it, so it
+// brings its own surfaces and wants the app's ground under them - see PluginDetails.less. This
+// panel is that same surface, and left painted it would put white cards on white with only their
+// borders between the two. The catalogue keeps it: its grid has no card of its own.
+.marketplacePage--details {
+  padding: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+}
+
+// One cell holding both the catalogue and a plugin's page, so neither is laid out below the other
+// while they are changing over - see the template. Only one of them is ever on screen.
+.marketplacePage__views {
+  display: grid;
+  transition: opacity 220ms ease-out;
+}
+
+.marketplacePage__detailsView,
+.marketplacePage__catalogue {
+  grid-area: 1 / 1;
+  min-width: 0;
+}
+
+// Held blank for the moment the two views change places. Opening a plugin and coming back from one
+// both move the scroll position - to the top, and back to wherever the reader was - and behind this
+// neither jump is there to be seen. The duration is repeated in VIEW_FADE_MS, which waits it out.
+.marketplacePage__views--switching {
+  opacity: 0;
+}
+
+// The catalogue also rises the last few pixels into place. A fade alone, on a grid of cards that
+// are mostly pale, is easy to miss; the movement is what makes it read as the page coming back.
+// Only this view, not the shared box: transforming that would make it the containing block for the
+// plugin page's sticky sidebar for as long as the change lasts.
+.marketplacePage__catalogue {
+  transition: transform 220ms ease-out;
+}
+
+.marketplacePage__views--switching .marketplacePage__catalogue {
+  transform: translateY(10px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marketplacePage__views,
+  .marketplacePage__catalogue {
+    transition: none;
+  }
+
+  .marketplacePage__views--switching .marketplacePage__catalogue {
+    transform: none;
+  }
+}
+
 // Left-aligned onto the same edge as the category tabs below it, so the page keeps one starting
 // column. The spacing is on the button, not this box: the button removes itself when nothing is
 // purchased, and margin here would leave a gap behind where it was.

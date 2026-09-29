@@ -6,7 +6,11 @@
 -->
 
 <template>
-  <div class="shopPricing" v-if="selectedVariation">
+  <div
+    class="shopPricing"
+    :class="{ 'shopPricing--stacked': stacked, 'shopPricing--prominent': prominent }"
+    v-if="selectedVariation"
+  >
     <div
       class="shopPricing__periods"
       role="radiogroup"
@@ -20,7 +24,6 @@
         <input
           class="shopPricing__periodInput"
           type="radio"
-          tabindex="7"
           :name="periodGroupName"
           :checked="selectedPeriod === PERIOD_ANNUAL"
           @change="selectPeriod(PERIOD_ANNUAL)"
@@ -38,7 +41,6 @@
         <input
           class="shopPricing__periodInput"
           type="radio"
-          tabindex="7"
           :name="periodGroupName"
           :checked="selectedPeriod === PERIOD_MONTHLY"
           @change="selectPeriod(PERIOD_MONTHLY)"
@@ -47,21 +49,20 @@
       </label>
     </div>
 
-    <select
-      class="shopPricing__tier"
-      tabindex="7"
-      v-if="tiers.length > 1"
-      :aria-label="translate('Marketplace_NumberOfUsers')"
-      :value="selectedTier"
-      @change="selectTier($event)"
-    >
-      <option v-for="tier in tiers" :key="tier" :value="tier">{{ tier }}</option>
-    </select>
+    <label class="shopPricing__tierField" v-if="tiers.length > 1">
+      <span class="shopPricing__tierLabel">{{ translate('Marketplace_SelectUsers') }}</span>
+      <select
+        class="shopPricing__tier"
+        :value="selectedTier"
+        @change="selectTier($event)"
+      >
+        <option v-for="tier in tiers" :key="tier" :value="tier">{{ tier }}</option>
+      </select>
+    </label>
 
     <select
       class="shopPricing__currency"
-      tabindex="7"
-      v-if="currencies.length > 1"
+      v-if="currencies.length > 2"
       :aria-label="translate('SitesManager_Currency')"
       :value="selectedCurrency"
       @change="selectCurrency($event)"
@@ -72,10 +73,8 @@
     </select>
 
     <div class="shopPricing__price" :title="priceTitle">
-      <div class="shopPricing__amount">
-        <span class="shopPricing__leadIn" v-if="showFreeTrialLeadIn">{{
-          translate('Marketplace_TryFreeTrialTitle')
-        }}</span>
+      <div class="shopPricing__amount" v-if="prominent" v-html="$sanitize(amountLabel)" />
+      <div class="shopPricing__amount" v-else>
         <span class="shopPricing__amountValue">{{ prettyAmount }}</span>
         <span class="shopPricing__amountPeriod">{{ amountPeriod }}</span>
       </div>
@@ -86,15 +85,32 @@
       />
     </div>
 
+    <ul class="shopPricing__featureList" v-if="prominent">
+      <li class="shopPricing__featureItem" v-if="selectedTier">
+        <span class="shopPricing__featureCheck" aria-hidden="true">✓</span>
+        {{ selectedTier }}
+      </li>
+      <li class="shopPricing__featureItem">
+        <span class="shopPricing__featureCheck" aria-hidden="true">✓</span>
+        {{ translate('Marketplace_UnlimitedWebsites') }}
+      </li>
+    </ul>
+
     <div class="shopPricing__cta">
       <a
-        class="btn addToCartLink"
+        class="btn shopPricing__addToCart addToCartLink"
         target="_blank"
-        tabindex="7"
         rel="noreferrer noopener"
         :title="translate('Marketplace_ClickToCompletePurchase')"
         :href="selectedVariation.addToCartUrl"
-      >{{ translate('Marketplace_AddToCart') }}</a>
+      >{{ ctaLabel }}</a>
+
+      <button
+        class="shopPricing__currencySwitch"
+        type="button"
+        v-if="alternativeCurrency"
+        @click="currentCurrency = alternativeCurrency"
+      >{{ translate('Marketplace_SwitchToCurrency', alternativeCurrency) }}</button>
     </div>
   </div>
 </template>
@@ -129,10 +145,13 @@ export interface ShopPricingState {
 
 /**
  * A price normalised to a month rarely divides evenly, so allow decimals without forcing
- * them onto amounts that are already whole.
+ * them onto amounts that are already whole. An amount with cents shows both digits, as money
+ * does: 43.80 rather than 43.8.
  */
 function formatAmount(amount: number): string {
-  return NumberFormatter.formatNumber(amount, 2, 0);
+  const rounded = Math.round(amount * 100) / 100;
+
+  return NumberFormatter.formatNumber(rounded, 2, Number.isInteger(rounded) ? 0 : 2);
 }
 
 export default defineComponent({
@@ -145,13 +164,34 @@ export default defineComponent({
       type: Number,
       required: true,
     },
-    showFreeTrialLeadIn: {
+    // the cart link is also where a trial starts, so it is named for the trial when there is one
+    offersFreeTrial: {
       type: Boolean,
       default: false,
     },
     // only bundles sold without a free trial offer a choice of billing period; everywhere else
     // the period is part of the tier and must not be lifted into its own control
     usePeriodTabs: {
+      type: Boolean,
+      default: false,
+    },
+    /**
+     * Lays the controls out in a column rather than a row.
+     *
+     * The block's own stacking is keyed off the viewport, which says nothing about the width it
+     * was actually given: in the details page's sidebar it is narrow on the widest screen there
+     * is. The parent owns that, so it is a prop rather than another media query.
+     */
+    stacked: {
+      type: Boolean,
+      default: false,
+    },
+    /**
+     * Styles the stacked panel as the pricing card on plugins.matomo.org: the price leads at a
+     * larger size with its currency and period beside it, and a checklist of what the tier
+     * includes sits above a full-width cart button.
+     */
+    prominent: {
       type: Boolean,
       default: false,
     },
@@ -200,6 +240,17 @@ export default defineComponent({
       return this.currencies.includes(this.currentCurrency)
         ? this.currentCurrency
         : this.currencies[0] || '';
+    },
+    /**
+     * The other currency when there are exactly two, which is offered as a one-click switch
+     * rather than a select. Three or more still need the select to choose between.
+     */
+    alternativeCurrency(): string {
+      if (this.currencies.length !== 2) {
+        return '';
+      }
+
+      return this.currencies.find((currency) => currency !== this.selectedCurrency) || '';
     },
     currencyVariations(): IPluginShopVariation[] {
       return this.tierVariations.filter(
@@ -252,6 +303,19 @@ export default defineComponent({
         this.selectedCurrency,
       );
     },
+    /**
+     * The price with its currency and period, as one sentence so translators can order the three.
+     * The amount and currency arrive as spans so the price can outweigh the words around it.
+     */
+    amountLabel(): string {
+      const perMonth = this.hasBothPeriods || this.selectedPeriod === PERIOD_MONTHLY;
+
+      return translate(
+        perMonth ? 'Marketplace_PricePerMonth' : 'Marketplace_PricePerYear',
+        `<span class="shopPricing__amountValue">${this.prettyAmount}</span>`,
+        `<span class="shopPricing__amountCurrency">${this.selectedCurrency}</span>`,
+      );
+    },
     numFreeMonths(): number {
       return freeMonths(this.annualVariation, this.monthlyVariation);
     },
@@ -264,12 +328,29 @@ export default defineComponent({
         ? translate('Marketplace_OneMonthFree')
         : translate('Marketplace_XMonthsFree', this.numFreeMonths);
     },
+    ctaLabel(): string {
+      return this.offersFreeTrial
+        ? translate('Marketplace_StartFree30DayTrial')
+        : translate('Marketplace_AddToCart');
+    },
+    /**
+     * How the price on screen is billed, with what paying annually saves. Both periods have a
+     * note, so switching between them does not change the panel's height.
+     */
     billingNote(): string {
-      if (!this.hasBothPeriods || this.selectedPeriod !== PERIOD_ANNUAL) {
+      if (!this.hasBothPeriods) {
         return '';
       }
 
       const savings = annualSavings(this.annualVariation, this.monthlyVariation);
+      const prettySavings = `<strong>${formatAmount(savings)} ${this.selectedCurrency}</strong>`;
+
+      if (this.selectedPeriod === PERIOD_MONTHLY) {
+        return savings > 0
+          ? translate('Marketplace_BilledMonthlyWithSavings', prettySavings)
+          : translate('Marketplace_BilledMonthly');
+      }
+
       // formatted here rather than taken from the shop's prettyPrice, which puts the
       // currency in front of an unseparated amount and would not match the price above
       const total = `${formatAmount(variationPrice(this.annualVariation) ?? 0)} `
@@ -282,7 +363,7 @@ export default defineComponent({
       return translate(
         'Marketplace_BilledAnnuallyWithSavings',
         `<strong>${total}</strong>`,
-        `<strong>${formatAmount(savings)} ${this.selectedCurrency}</strong>`,
+        prettySavings,
       );
     },
     priceTitle(): string {

@@ -16,7 +16,6 @@
         <img
           class="pluginCard__shotImage"
           :class="{ 'pluginCard__shotImage--placeholder': isPlaceholderCover }"
-          v-if="!coverImageFailed"
           :src="coverImageUrl(440, 240)"
           :srcset="coverImageSrcset"
           sizes="(max-width: 767px) 100vw, (max-width: 1279px) 50vw, 320px"
@@ -43,7 +42,7 @@
         class="pluginCard__titleLink"
         :href="detailsHref"
         :title="plugin.displayName"
-        @click.prevent="$emit('openDetails', plugin)"
+        @click.exact.prevent="$emit('openDetails', plugin)"
       >{{ plugin.displayName }}</a>
     </h3>
 
@@ -86,15 +85,9 @@ import { MatomoUrl, translate } from 'CoreHome';
 import CTAContainer from '../PluginList/CTAContainer.vue';
 import MatomoGlyph from './MatomoGlyph.vue';
 import { MarketplaceContext, PluginCard as PluginCardType } from '../types';
-import { ownerLabel, pluginCategories, TAB_OTHER } from '../PluginGrid/pluginGrouping';
-import { categoryLabel as labelForCategory } from '../PluginGrid/categoryLabels';
-
-/**
- * The one stand-in `Plugins::addPluginCoverImage()` falls back to for a plugin with no screenshot.
- * It is line art on a white ground, so on a dark page it needs the same inversion every other
- * Matomo illustration gets - a real screenshot must not be touched.
- */
-const PLACEHOLDER_COVER = 'plugins/Marketplace/images/categories/uncategorised.png';
+import { PLACEHOLDER_COVER } from '../constants';
+import { isByMatomo, ownerLabel } from '../PluginGrid/pluginGrouping';
+import { chipLabel } from '../PluginGrid/categoryLabels';
 
 export interface PluginCardState {
   coverImageFailed: boolean;
@@ -124,27 +117,14 @@ export default defineComponent({
     },
   },
   computed: {
-    /**
-     * Whether the card credits Matomo. A bundle always does, whoever the Marketplace names as its
-     * owner: a bundle is Matomo's own packaging of Matomo's plugins, and it is sold as such.
-     */
     isByMatomo(): boolean {
-      return this.plugin.isBundle || ownerLabel(this.plugin) === 'Matomo';
+      return isByMatomo(this.plugin);
     },
     ownerName(): string {
       return translate('Marketplace_ByAuthor', ownerLabel(this.plugin));
     },
-    /**
-     * The chip beside the card's title. Always a label: a plugin no category claims falls back to
-     * Other, the same tab it is listed under, so that every card in a row carries a chip and the
-     * titles and descriptions below line up across the row.
-     */
     categoryLabel(): string {
-      if (this.plugin.isBundle) {
-        return translate('Marketplace_Bundles');
-      }
-
-      return labelForCategory(pluginCategories(this.plugin)[0] ?? TAB_OTHER);
+      return chipLabel(this.plugin);
     },
     bundleSeatsLabel(): string {
       if (!this.plugin.isBundle || !this.plugin.bundleSeats) {
@@ -159,8 +139,12 @@ export default defineComponent({
         showPlugin: this.plugin.name,
       })}`;
     },
+    /** The plugin's own cover, or the stand-in once that has failed to load. */
+    coverImage(): string {
+      return this.coverImageFailed ? PLACEHOLDER_COVER : (this.plugin.coverImage || '');
+    },
     isPlaceholderCover(): boolean {
-      return (this.plugin.coverImage || '').endsWith(PLACEHOLDER_COVER);
+      return this.coverImage.endsWith(PLACEHOLDER_COVER);
     },
     coverImageSrcset(): string {
       return `${this.coverImageUrl(440, 240)} 440w, ${this.coverImageUrl(880, 480)} 880w`;
@@ -169,7 +153,7 @@ export default defineComponent({
   methods: {
     translate,
     coverImageUrl(width: number, height: number): string {
-      return `${this.plugin.coverImage}?w=${width}&h=${height}`;
+      return `${this.coverImage}?w=${width}&h=${height}`;
     },
   },
 });

@@ -40,6 +40,14 @@ import Marketplace from '../Marketplace/Marketplace.vue';
 
 import { TObject } from '../types';
 
+/**
+ * The reporting page's site, period and segment selectors. Nothing in the Marketplace is scoped to
+ * a site, a period or a segment, so in the reporting menu they would offer choices that change
+ * nothing. The update notice beside them stays.
+ */
+const REPORTING_SELECTORS = '.top_controls .top_bar_sites_selector, .top_controls #periodString, '
+  + '.top_controls .segmentEditorPanel';
+
 interface OverviewIntroState {
   updating: boolean;
   fetchRequest: Promise<void>|null;
@@ -102,6 +110,13 @@ export default defineComponent({
       installLoading: false,
     };
   },
+  mounted() {
+    this.setReportingSelectorsHidden(true);
+  },
+  unmounted() {
+    // the reporting page is a single page: the next category shown keeps the same top controls
+    this.setReportingSelectorsHidden(false);
+  },
   computed: {
     getIsValidConsumer(): boolean {
       return (this.updateData && typeof this.updateData.isValidConsumer !== 'undefined'
@@ -119,6 +134,15 @@ export default defineComponent({
     },
   },
   methods: {
+    setReportingSelectorsHidden(hidden: boolean) {
+      if (!this.inReportingMenu) {
+        return;
+      }
+
+      document.querySelectorAll<HTMLElement>(REPORTING_SELECTORS).forEach((element) => {
+        element.style.display = hidden ? 'none' : '';
+      });
+    },
     disableInstallAllPlugins(isLoading: boolean) {
       this.installDisabled = true;
       this.installLoading = isLoading;

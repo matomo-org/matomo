@@ -325,7 +325,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     }
 
     /**
-     * Returns everything the plugin details modal renders for a single plugin.
+     * Returns everything a plugin's details page renders for a single plugin.
      *
      * The plugin list deliberately omits these fields, see {@link keepPluginCardFields()}.
      */
@@ -337,7 +337,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         // Every failure path below answers with a JSON error rather than throwing: this is not an
         // API request, so an exception would render the HTML error page with a 500 and log a stack
         // trace at ERROR, and AjaxHelper would replace the message with its own literal. A
-        // result=error body reaches the modal as an ApiResponseError with this text intact.
+        // result=error body reaches the page as an ApiResponseError with this text intact.
         // Validation is inside the guard too, so a malformed request is answered the same way.
         $pluginName = '';
 
@@ -350,7 +350,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             );
         } catch (Exception $e) {
             // the Marketplace being unreachable is this action's most likely failure, not an
-            // exceptional one, since it is requested every time a details modal is opened
+            // exceptional one, since it is requested every time a details page is opened
             return $this->sendPluginDetailsError(
                 Piwik::translate('Marketplace_PluginDetailsNotAvailable', $pluginName)
             );
@@ -383,8 +383,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      *
      * The Marketplace returns every version of every plugin, each with its own rendered readme and
      * FAQ HTML, which no card reads and which dominates the response: against plugins.matomo.org
-     * this trims the list from 1.6 MB to 121 KB. Anything the details modal needs on top of this is
-     * fetched per plugin by {@link getPluginDetails()} when the modal opens.
+     * this trims the list from 1.6 MB to 121 KB. Anything the details page needs on top of this is
+     * fetched per plugin by {@link getPluginDetails()} when the page opens.
      *
      * This is an allow list so that fields added to the Marketplace API cannot silently grow the
      * list response again. A new field rendered on a card has to be added here too.
@@ -428,7 +428,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'lastUpdatedRaw',
             'createdDateTime',
             'bundleSeats',
-            // not rendered on a card, but the modal falls back to the card row when its own request
+            // not rendered on a card, but the details page falls back to the card row when its own request
             // fails, and without these a bundle renders there as an ordinary plugin
             'isBundle',
             'licenseStatus',
@@ -553,6 +553,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'mode' => 'admin',
             'pluginName' => Common::getRequestVar('pluginName'),
             'nonce' => Common::getRequestVar('nonce'),
+            'referrer' => urlencode($this->getMarketplaceUrlToReturnTo()),
         );
         if ($this->passwordVerify->requirePasswordVerifiedRecently($params)) {
             $view = $this->createUpdateOrInstallView('installPlugin', static::INSTALL_NONCE);
@@ -618,8 +619,22 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         }
 
         $view->plugins = $pluginInfos;
+        $view->marketplaceUrl = $this->getMarketplaceUrlToReturnTo();
 
         return $view;
+    }
+
+    /**
+     * The Marketplace page the install or update was started from, fragment included, so leaving
+     * this page returns the reader to the tab, search or plugin they were on. The Referer header
+     * cannot stand in for it: it never carries the fragment the Marketplace keeps that state in.
+     * Empty when the request names no page, or one outside this Matomo.
+     */
+    private function getMarketplaceUrlToReturnTo(): string
+    {
+        $referrer = Common::unsanitizeInputValue(Common::getRequestVar('referrer', '', 'string'));
+
+        return $referrer !== '' && Url::isLocalUrl($referrer) ? $referrer : '';
     }
 
     private function getPluginNameIfNonceValid($nonceName)

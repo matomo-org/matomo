@@ -108,7 +108,7 @@ class Plugins
      * over a request for that plugin on its own.
      *
      * The Marketplace answers both with the same payload — a list entry carries the same fields as
-     * an info response, including the readme HTML the details modal renders — but the lists are
+     * an info response, including the readme HTML the details page renders — but the lists are
      * cached for {@link Api\Client::PLUGIN_LIST_CACHE_TIMEOUT_IN_SECONDS} and refilled by a
      * scheduled task, where asking for a single plugin costs a round trip to the Marketplace the
      * first time each one is opened.

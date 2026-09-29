@@ -5,8 +5,12 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+// Wraps rather than squeezing the label: an action of two buttons - More Details and Download,
+// when a plugin cannot be installed from here - leaves the label no room on a card, and it was
+// drawn underneath them.
 .ctaStatus {
   display: flex;
+  flex-wrap: wrap;
   align-items: safe center;
   justify-content: space-between;
   gap: 8px;
