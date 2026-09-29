@@ -12,8 +12,8 @@ import { isBooleanLikeSet } from './DataTableActions.utils';
 
 type Config = Partial<ReportActionsConfig>;
 
-function params(config: Config): Record<string, unknown> {
-  return config.clientSideParameters || {};
+function params(config: Config): Record<string, string|number|boolean> {
+  return (config.clientSideParameters || {}) as Record<string, string|number|boolean>;
 }
 
 function isTableView(config: Config): boolean {

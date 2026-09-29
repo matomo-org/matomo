@@ -23,7 +23,7 @@
       v-if="showClear && modelValue"
       type="button"
       class="mtm-searchInput__clear"
-      :tabindex="$attrs.tabindex"
+      :tabindex="inputTabindex"
       :title="translate('General_Clear')"
       :aria-label="translate('General_Clear')"
       @click="onClear()"
@@ -81,6 +81,9 @@ export default defineComponent({
     },
     resolvedPlaceholder(): string {
       return this.placeholder || translate('General_Search');
+    },
+    inputTabindex(): string | number | undefined {
+      return this.$attrs.tabindex as string | number | undefined;
     },
   },
   methods: {
