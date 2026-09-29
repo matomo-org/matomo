@@ -195,8 +195,26 @@ class ElementHandle extends JSHandle {
     await frame.page().keyboard.press(key, { delay: options.delay });
   }
 
-  screenshot(options = {}) {
-    return stableCapture(() => this.__pw.screenshot({ type: options.type, omitBackground: options.omitBackground, path: options.path }));
+  // Captures the element's box rounded inwards, like page clips, since Playwright's element screenshots
+  // round outwards and take in edge pixels of whatever renders behind (a modal's backdrop).
+  async screenshot(options = {}) {
+    await this.__pw.scrollIntoViewIfNeeded().catch(() => {});
+    const box = await this.__pw.boundingBox();
+    const page = (await this.__pw.ownerFrame()).page();
+    const settings = { type: options.type, omitBackground: options.omitBackground, path: options.path };
+    if (!box) {
+      return stableCapture(() => this.__pw.screenshot(settings));
+    }
+    const viewport = page.viewportSize();
+    const x = Math.ceil(box.x);
+    const y = Math.ceil(box.y);
+    const clip = { x, y, width: Math.floor(box.x + box.width) - x, height: Math.floor(box.y + box.height) - y };
+    const fits = viewport && x >= 0 && y >= 0 && x + clip.width <= viewport.width && y + clip.height <= viewport.height;
+    if (fits) {
+      return stableCapture(() => page.screenshot({ ...settings, clip }));
+    }
+    const scroll = await page.evaluate(() => ({ x: window.scrollX, y: window.scrollY }));
+    return stableCapture(() => page.screenshot({ ...settings, fullPage: true, clip: { ...clip, x: clip.x + scroll.x, y: clip.y + scroll.y } }));
   }
 
   boundingBox() {
@@ -697,18 +715,31 @@ class Page extends Target {
   }
 
   async screenshot(options = {}) {
-    const clip = options.clip
-      ? { x: options.clip.x, y: options.clip.y, width: options.clip.width, height: options.clip.height }
-      : undefined;
+    // rounded inwards: a partly covered edge pixel shows whatever renders behind it, differently per run
+    const clip = options.clip ? (() => {
+      const x = Math.ceil(options.clip.x);
+      const y = Math.ceil(options.clip.y);
+      return {
+        x,
+        y,
+        width: Math.floor(options.clip.x + options.clip.width) - x,
+        height: Math.floor(options.clip.y + options.clip.height) - y,
+      };
+    })() : undefined;
     // a page in the background (behind a popup) gets no new frames, which stalled Puppeteer for minutes
     await this.__pw.bringToFront();
     // Full-page mode renders beyond the viewport, which moves position:fixed elements (a Materialize modal
-    // was captured from its middle), so it's only used when the clip doesn't fit the viewport.
+    // was captured from its middle), so it's only used when the clip doesn't fit the viewport. Puppeteer's
+    // clips are in page coordinates, a viewport capture's are relative to the scrolled viewport.
     const viewport = this.__pw.viewportSize();
-    const beyondViewport = clip && viewport && (clip.y + clip.height > viewport.height || clip.x + clip.width > viewport.width);
+    const scroll = clip ? await this.__pw.evaluate(() => ({ x: window.scrollX, y: window.scrollY })) : { x: 0, y: 0 };
+    const inViewport = clip && { ...clip, x: clip.x - scroll.x, y: clip.y - scroll.y };
+    const fitsViewport = inViewport && viewport && inViewport.x >= 0 && inViewport.y >= 0
+      && inViewport.y + inViewport.height <= viewport.height && inViewport.x + inViewport.width <= viewport.width;
+    const fullPage = !!(options.fullPage || (clip && !fitsViewport));
     return stableCapture(() => this.__pw.screenshot({
-      fullPage: !!(options.fullPage || beyondViewport),
-      clip,
+      fullPage,
+      clip: fullPage ? clip : inViewport,
       type: options.type,
       omitBackground: options.omitBackground,
       path: options.path,
