@@ -989,7 +989,7 @@ class PluginsTest extends IntegrationTestCase
                 continue;
             }
 
-            self::assertMatchesRegularExpression(
+            self::assertRegExp(
                 '/^\d{4}-\d{2}-\d{2}/',
                 $plugin['lastUpdatedRaw'],
                 sprintf('%s carries a display string where the sortable date belongs', $plugin['name'])

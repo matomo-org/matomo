@@ -100,6 +100,15 @@ class ThemeStyles
     public $colorNewBrand = '#00b4be';
 
     /**
+     * Semantic "all is fine / success / positive" green. Kept theme-independent from
+     * $colorBrand so that success states stay green even when a theme overrides the brand.
+     *
+     * @var string|array<string>
+     * @since Matomo 5.14.1
+     */
+    public $colorSuccess = ['#43a047', '#66bb6a'];
+
+    /**
      * Semantic "needs attention / not yet fatal" amber, the counterpart to $colorSuccess. Kept
      * theme-independent from $colorBrand for the same reason.
      *

@@ -711,7 +711,9 @@ class Plugins
 
         return array_values(array_filter(
             $categories,
-            static fn ($slug) => is_string($slug) && '' !== $slug
+            static function ($slug) {
+                return is_string($slug) && '' !== $slug;
+            }
         ));
     }
 

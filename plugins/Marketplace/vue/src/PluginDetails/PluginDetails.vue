@@ -822,7 +822,10 @@ export default defineComponent({
      */
     focusHeading() {
       this.$nextTick(() => {
-        (this.$refs.heading as HTMLElement|undefined)?.focus({ preventScroll: true });
+        const heading = this.$refs.heading as HTMLElement|undefined;
+        if (heading) {
+          heading.focus({ preventScroll: true });
+        }
       });
     },
     /**
@@ -892,7 +895,12 @@ export default defineComponent({
      */
     teardownIframeResize() {
       this.reviewIframes().forEach((iframe) => {
-        (iframe as unknown as { iFrameResizer?: { close: () => void } }).iFrameResizer?.close();
+        const { iFrameResizer: resizer } = iframe as unknown as {
+          iFrameResizer?: { close: () => void };
+        };
+        if (resizer) {
+          resizer.close();
+        }
       });
     },
     openLightbox(screenshot: string) {
