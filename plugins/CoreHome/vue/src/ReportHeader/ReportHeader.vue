@@ -511,7 +511,6 @@ export default defineComponent({
       promotedExport: null as unknown as SelectorDropdown,
       periodsBinding: null as unknown as Record<string, unknown>,
       exportBinding: null as unknown as Record<string, unknown>,
-      // Set once the help row is in the DOM; see syncHelpContainer().
       helpContainer: null as HTMLElement | null,
       // Local mirror of the field, seeded from `searchQuery`.
       // Stands in until the first publish; see the reportKey prop.

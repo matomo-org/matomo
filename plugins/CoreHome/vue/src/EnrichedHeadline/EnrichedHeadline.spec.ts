@@ -123,7 +123,6 @@ describe('EnrichedHeadline', () => {
       helpContainer: container,
     });
 
-    // a panel left in the headline shares the row with the report's actions and displaces them
     expect(wrapper.find('.enrichedHeadline > .inlineHelp').exists()).toBe(false);
     expect(container.querySelector('.inlineHelp')?.innerHTML).toContain('What this report shows');
   });

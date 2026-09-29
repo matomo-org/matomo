@@ -840,7 +840,6 @@ describe('ReportHeader', () => {
       const row = wrapper.find('.reportHeader__help');
 
       expect(row.exists()).toBe(true);
-      // the panel belongs to the card, not to the header line it would otherwise stretch
       expect(wrapper.find('.reportHeader__header .reportHeader__help').exists()).toBe(false);
       expect(wrapper.findComponent(EnrichedHeadlineStub).props('helpContainer'))
         .toBe(row.element);
