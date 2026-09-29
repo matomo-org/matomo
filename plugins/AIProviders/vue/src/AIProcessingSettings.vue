@@ -10,6 +10,13 @@
     :content-title="translate('AIProviders_AIProcessing')"
     class="ai-processing"
   >
+    <a
+      v-if="returnUrl"
+      :href="returnUrl"
+      class="ai-processing-back"
+    >
+      <span class="icon-arrow-left"></span>{{ translate('AIProviders_BackToPreviousPage') }}
+    </a>
     <div class="contentHelp">{{ translate('AIProviders_AIProcessingHelp') }}</div>
     <p>{{ translate('AIProviders_AIProcessingIntro') }}</p>
 
@@ -98,6 +105,11 @@ const labels: Record<AIProcessingCategory, { name: string, description: string }
   },
 };
 
+// Set by a feature that sent the user here (e.g. Ask Matomo). Only a relative
+// index.php URL is accepted, so the link cannot lead off this Matomo.
+const returnTo = new URLSearchParams(window.location.search).get('returnTo') || '';
+const returnUrl = /^index\.php(?:[?#]|$)/.test(returnTo) ? returnTo : null;
+
 const categories = ref<AIProcessingSetting[]>([]);
 const enabled = ref<Record<string, boolean>>({});
 const isLoading = ref(false);
@@ -150,6 +162,17 @@ onMounted(async () => {
 
 <style lang="less">
 .ai-processing {
+  .ai-processing-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 16px;
+
+    .icon-arrow-left {
+      font-size: 12px;
+    }
+  }
+
   .ai-processing-category {
     display: flex;
     align-items: flex-start;

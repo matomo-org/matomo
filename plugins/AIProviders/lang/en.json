@@ -10,6 +10,7 @@
         "ApiKey": "API key",
         "ApiKeyAlreadyConfiguredPlaceholder": "Enter a new key to replace the key.",
         "ApiKeyPlaceholder": "Enter your API key",
+        "BackToPreviousPage": "Back to previous page",
         "BedrockDescription": "Access AI models through AWS Bedrock.",
         "BedrockEndpointPlaceholder": "e.g. eu-central-1",
         "BedrockEndpointTitle": "AWS region",

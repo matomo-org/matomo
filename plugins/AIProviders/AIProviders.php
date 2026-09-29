@@ -101,6 +101,7 @@ class AIProviders extends Plugin
         $translations[] = 'AIProviders_ApiKey';
         $translations[] = 'AIProviders_ApiKeyAlreadyConfiguredPlaceholder';
         $translations[] = 'AIProviders_ApiKeyPlaceholder';
+        $translations[] = 'AIProviders_BackToPreviousPage';
         $translations[] = 'AIProviders_BedrockDescription';
         $translations[] = 'AIProviders_BedrockEndpointPlaceholder';
         $translations[] = 'AIProviders_BedrockEndpointTitle';
