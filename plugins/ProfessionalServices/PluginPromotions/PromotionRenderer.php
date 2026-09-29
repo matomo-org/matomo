@@ -140,21 +140,21 @@ class PromotionRenderer
 
     /**
      * The outbound link of the banner, and the only place promotion analytics are carried.
-     * No website data is included, only which promotion was clicked and from where.
+     * Every parameter describes the advert - which product, in which slot, from which kind
+     * of instance - and none of them says anything about the website being measured.
      *
-     * `mtm_kwd` is the one dimension of the scheme that `addCampaignParametersToMatomoLink()`
-     * takes no argument for, so the trigger name has to be put on the URL here.
-     *
-     * It is appended afterwards, and only when the helper actually tagged the link. The
-     * helper returns the URL untouched when tagging is off - `disable_tracking_matomo_app_links`
-     * exists so that nothing identifying the app leaves it, and a hand-appended parameter
-     * would sail straight past that opt-out and defeat the setting on its own.
+     * The trigger is deliberately not among them. It was carried as `mtm_kwd` and has been
+     * removed: a trigger name is the reason the promotion fired, so `bounce_rate` or
+     * `woocommerce_add_to_cart_urls` on the URL would tell matomo.org something about the
+     * reports of whoever clicked. Which product interests them is the promotion's business;
+     * what their own analytics look like is not. Nothing is appended by hand here either,
+     * so the link cannot outlive `disable_tracking_matomo_app_links`.
      */
     private function getCampaignUrl(Promotion $promotion): string
     {
         $url = 'https://plugins.matomo.org/' . $promotion->getPluginName();
 
-        $tagged = (string) Url::addCampaignParametersToMatomoLink(
+        return (string) Url::addCampaignParametersToMatomoLink(
             $url,
             self::CAMPAIGN_NAME,
             $this->getCampaignSource(),
@@ -163,12 +163,6 @@ class PromotionRenderer
             $promotion->getPluginName(),
             self::CAMPAIGN_PLACEMENT
         );
-
-        if ($tagged === $url) {
-            return $url;
-        }
-
-        return $tagged . '&mtm_kwd=' . urlencode($promotion->getTriggerName());
     }
 
     /**
