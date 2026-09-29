@@ -11,6 +11,10 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   now includes an `effectiveUrl` entry: the final URL after following redirects. Best effort on the `fopen`
   transport, which follows redirects internally.
 
+### New commands
+
+* New command `marketplace:warm-cache` refetches the plugin and theme lists shown in the Marketplace overview. With `--if-older-than=<seconds>` it only refetches when the lists are missing or at least that old. Matomo runs it in the background to refresh the lists at spread-out times rather than on the hour, so it does not normally need to be run by hand.
+
 ## Matomo 5.14.0
 
 ### Breaking Changes
