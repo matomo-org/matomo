@@ -41,7 +41,6 @@
       <a
         class="pluginCard__titleLink"
         :href="detailsHref"
-        :title="plugin.displayName"
         @click.exact.prevent="$emit('openDetails', plugin)"
       >{{ plugin.displayName }}</a>
     </h3>
@@ -63,7 +62,6 @@
       <span
         v-if="!isByMatomo"
         class="pluginCard__owner"
-        :title="ownerName"
       >{{ ownerName }}</span>
     </div>
 
