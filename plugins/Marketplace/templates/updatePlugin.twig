@@ -37,7 +37,7 @@
                 |
                 <a href="{{ linkTo({'module': 'CorePluginsAdmin', 'action': 'themes'}) }}">{{ 'CorePluginsAdmin_Themes'|translate }}</a>
                 |
-                <a href="{{ linkTo({'module': 'Marketplace', 'action': 'overview'}) }}">{{ 'Marketplace_Marketplace'|translate }}</a></p>
+                <a href="{{ marketplaceUrl ?: linkTo({'module': 'Marketplace', 'action': 'overview'}) }}">{{ 'Marketplace_Marketplace'|translate }}</a></p>
         </div>
     </div>
 

@@ -2,6 +2,9 @@
 
 {% set title %}{{ 'Marketplace_Marketplace'|translate }}{% endset %}
 
+{# The plugin grid lays out up to five cards per row, so it wants the wide content area. #}
+{% block contentClass %}admin--wide{% endblock %}
+
 {% block content %}
 
     <div class="marketplace">
@@ -21,9 +24,7 @@
             update-nonce="{{ updateNonce|default(null)|json_encode }}"
             is-plugin-upload-enabled="{{ isPluginUploadEnabled|default(null)|json_encode }}"
             upload-limit="{{ uploadLimit|default(null)|json_encode }}"
-            plugin-type-options="{{ pluginTypeOptions|json_encode }}"
             default-sort="{{ defaultSort|json_encode }}"
-            plugin-sort-options="{{ pluginSortOptions|json_encode }}"
             num-users="{{ numUsers|json_encode }}"
         ></div>
 
