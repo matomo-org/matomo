@@ -84,6 +84,16 @@ class CnilPolicyTest extends IntegrationTestCase
         $this->assertStringNotContainsString('Matomo Cloud DPA', $description);
     }
 
+    public function testGranularDescriptionBuildsTheStatusLegendAsListMarkup(): void
+    {
+        $description = CloudAwareCnilPolicy::getGranularDescription();
+
+        // the list markup is built in code so translators cannot break it
+        $this->assertStringContainsString("<ul class='browser-default'>", $description);
+        $this->assertSame(4, substr_count($description, '<li>'));
+        $this->assertStringContainsString(Piwik::translate('General_ComplianceCNILStatusLegendManual'), $description);
+    }
+
     public function testLegacyDescriptionNeverMentionsTheDpa(): void
     {
         CloudAwareCnilPolicy::$activatedPlugins = ['Cloud'];
