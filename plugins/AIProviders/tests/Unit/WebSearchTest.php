@@ -992,7 +992,7 @@ class WebSearchRecordingOpenAI extends OpenAI
         $this->sentTimeout = $timeoutSeconds;
 
         // converse() speaks chat completions, so it needs a choices[] body.
-        if (strpos($url, '/chat/completions') !== false) {
+        if (str_contains($url, '/chat/completions')) {
             return ['choices' => [['message' => ['content' => 'ok'], 'finish_reason' => 'stop']]];
         }
 

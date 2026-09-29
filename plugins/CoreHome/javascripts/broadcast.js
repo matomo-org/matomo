@@ -150,9 +150,8 @@ var broadcast = {
           // remove all array query params that are currently set. if we don't do this the array parameters we add
           // just get added to the existing parameters.
           params_vals.forEach(function (param) {
-            if (/\[]=/.test(decodeURIComponent(param))) {
-              var paramName = decodeURIComponent(param).split('[]=')[0];
-              removeParam(paramName);
+            if (isArrayParam(param)) {
+              removeParam(getArrayParamName(param));
             }
           });
 
@@ -167,7 +166,7 @@ var broadcast = {
               return; // updating with empty string would destroy some values
             }
 
-            if (/\[]=/.test(decodeURIComponent(param))) { // array param value
+            if (isArrayParam(param)) { // array param value
               currentSearchStr = broadcast.addArrayParamValue(param, currentSearchStr);
 
               if (currentHashStr.length !== 0) {
@@ -213,8 +212,21 @@ var broadcast = {
         }
         return false;
 
+        // whether a param is an array param is decided by its name only, the part before the first =
+        function getDecodedParamName(param) {
+            return decodeURIComponent(param.split('=')[0]);
+        }
+
+        function isArrayParam(param) {
+            return param.indexOf('=') !== -1 && /\[]$/.test(getDecodedParamName(param));
+        }
+
+        function getArrayParamName(param) {
+            return getDecodedParamName(param).replace(/\[]$/, '');
+        }
+
         function removeParam(paramName) {
-            var paramRegex = new RegExp(paramName + '(\\[]|%5B%5D)?=[^&?#]*&?', 'gi');
+            var paramRegex = new RegExp(broadcast.getQuotedRegex(paramName) + '(\\[]|%5B%5D)?=[^&?#]*&?', 'gi');
             currentSearchStr = currentSearchStr.replace(paramRegex, '');
             currentHashStr = currentHashStr.replace(paramRegex, '');
         }
@@ -250,20 +262,16 @@ var broadcast = {
         if (paramValue == '') {
             newParamValue = '';
         }
-        var getQuotedRegex = function(str) {
-            return (str+'').replace(/([.?*+^$[\]\\(){}|-])/g, "\\$1");
-        };
-
         if (valFromUrl != '' || urlStr.indexOf(paramName + '=') !== -1) {
             // replacing current param=value to newParamValue;
-            valFromUrl = getQuotedRegex(valFromUrl);
+            valFromUrl = broadcast.getQuotedRegex(valFromUrl);
             // the parameter name is also embedded into the regular expression, so escape it as well to make sure
             // it is always matched literally
-            var quotedParamName = getQuotedRegex(paramName);
+            var quotedParamName = broadcast.getQuotedRegex(paramName);
             var regToBeReplace = new RegExp(quotedParamName + '=' + valFromUrl, 'ig');
             if (newParamValue == '') {
                 // if new value is empty remove leading &, as well
-                regToBeReplace = new RegExp('[\&]?(' + quotedParamName + '|' + getQuotedRegex(encodeURIComponent(paramName)) + ')=' + valFromUrl, 'ig');
+                regToBeReplace = new RegExp('[\&]?(' + quotedParamName + '|' + broadcast.getQuotedRegex(encodeURIComponent(paramName)) + ')=' + valFromUrl, 'ig');
             }
             urlStr = urlStr.replace(regToBeReplace, newParamValue);
         } else if (newParamValue != '') {
@@ -271,6 +279,17 @@ var broadcast = {
         }
 
         return urlStr;
+    },
+
+    /**
+     * Escapes all characters that have a special meaning in a regular expression, so the given string is
+     * matched literally when it is embedded into one.
+     *
+     * @param {string} str
+     * @return {string}
+     */
+    getQuotedRegex: function (str) {
+        return (str + '').replace(/([.?*+^$[\]\\(){}|-])/g, "\\$1");
     },
 
     /**
