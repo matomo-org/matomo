@@ -274,6 +274,7 @@ class Dashboard extends \Piwik\Plugin
      * Must not be called while the widget list is being built: {@see self::addWidgetConfigs()} runs
      * at that point and would recurse back into here through the default layout.
      *
+     * @internal
      * @param string|array|object $layout
      * @return string
      */
@@ -296,15 +297,27 @@ class Dashboard extends \Piwik\Plugin
         $availableWidgets = array();
 
         foreach (WidgetsList::get()->getWidgetConfigs() as $widgetConfig) {
-            $availableWidgets[$widgetConfig->getModule() . '.' . $widgetConfig->getAction()] = true;
-
             // A widget can exist only inside a container, and the widget list the browser works from
-            // flattens those one level, so a layout names them directly. Index them too, otherwise
-            // reports such as Event Names or Content Names would be dropped from every dashboard.
+            // flattens those one level, so a layout names them directly. Flatten them the same way,
+            // otherwise reports such as Event Names or Content Names would be dropped from every
+            // dashboard. One level only, as {@see \Piwik\Plugins\API\WidgetMetadata::getWidgetMetadata()}
+            // does.
+            $widgets = array($widgetConfig);
+
             if ($widgetConfig instanceof WidgetContainerConfig) {
-                foreach ($widgetConfig->getWidgetConfigs() as $containedWidget) {
-                    $availableWidgets[$containedWidget->getModule() . '.' . $containedWidget->getAction()] = true;
+                $widgets = array_merge($widgets, $widgetConfig->getWidgetConfigs());
+            }
+
+            foreach ($widgets as $widget) {
+                // The same two conditions the browser's widget list applies, so that the two agree
+                // on what exists: a widget it never offers has no business surviving here either.
+                // Asked of every entry on its own, which is what keeps a container that is not
+                // widgetizable itself from taking the widgets inside it down with it.
+                if (!$widget->isWidgetizeable() || !$widget->getName()) {
+                    continue;
                 }
+
+                $availableWidgets[$widget->getModule() . '.' . $widget->getAction()] = true;
             }
         }
 

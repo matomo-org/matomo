@@ -13,6 +13,7 @@ use Piwik\Plugins\Dashboard\Dashboard;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Widget\WidgetsList;
 
 /**
  * @group Dashboard
@@ -214,6 +215,38 @@ class DashboardTest extends IntegrationTestCase
         $layout = '{"config":{"layout":"100"},'
             . '"columns":{"0":[{"uniqueId":"widgetLivewidget","parameters":{"module":"Live","action":"widget"}},'
             . '{"uniqueId":"widgetNoSuchModulenoSuchAction","parameters":{"module":"NoSuchModule","action":"noSuchAction"}}]}}';
+
+        $columns = $this->getColumnsOfFilteredLayout($layout);
+
+        $this->assertCount(1, $columns[0]);
+        $this->assertSame('widgetLivewidget', $columns[0][0]->uniqueId);
+    }
+
+    /**
+     * The browser's widget list drops anything not widgetizable, so a layout naming one of those
+     * must not be served either: the two have to agree on what exists. Marketplace.overview is the
+     * stable example, always configured and always non-widgetizable, where the Goals pages that
+     * carry the same flag disable themselves without an idSite and would pass for the wrong reason.
+     */
+    public function testRemoveWidgetsNotAvailableToUserRemovesAWidgetThatIsNotWidgetizable()
+    {
+        $notWidgetizable = null;
+
+        foreach (WidgetsList::get()->getWidgetConfigs() as $widgetConfig) {
+            if ('Marketplace' === $widgetConfig->getModule() && 'overview' === $widgetConfig->getAction()) {
+                $notWidgetizable = $widgetConfig;
+                break;
+            }
+        }
+
+        // guards the test itself: the assertion below passes for the wrong reason if the widget
+        // stopped being offered at all, or stopped being the non-widgetizable one it is chosen for
+        $this->assertNotNull($notWidgetizable, 'Marketplace.overview is no longer in the widget list');
+        $this->assertFalse($notWidgetizable->isWidgetizeable());
+        $this->assertNotEmpty($notWidgetizable->getName());
+
+        $layout = '[[{"uniqueId":"widgetMarketplaceoverview","parameters":{"module":"Marketplace","action":"overview"}},'
+            . '{"uniqueId":"widgetLivewidget","parameters":{"module":"Live","action":"widget"}}]]';
 
         $columns = $this->getColumnsOfFilteredLayout($layout);
 
