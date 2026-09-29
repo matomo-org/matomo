@@ -18222,8 +18222,12 @@ function isOnMarketplaceOverview() {
 }
 /**
  * The Marketplace page showing the plugin's details, keeping the site and period the reader is on.
+ *
+ * `returnHere` marks the link with `pluginReturn`, so that leaving the details page goes back to
+ * this page rather than to the catalogue. Only a navigation that leaves a history entry to go back
+ * to may set it - see isOpenedFromAnotherMatomoPage() in the Marketplace's Marketplace.vue.
  */
-function getPluginDetailsUrl(pluginName) {
+function getPluginDetailsUrl(pluginName, returnHere = false) {
   const {
     idSite,
     period,
@@ -18236,9 +18240,11 @@ function getPluginDetailsUrl(pluginName) {
     period,
     date
   });
-  return `?${query}#?${external_CoreHome_["MatomoUrl"].stringify({
-    showPlugin: pluginName
-  })}`;
+  const hash = external_CoreHome_["MatomoUrl"].stringify({
+    showPlugin: pluginName,
+    pluginReturn: returnHere ? 1 : null
+  });
+  return `?${query}#?${hash}`;
 }
 function showPluginDetails(pluginName) {
   if (isOnMarketplaceOverview()) {
@@ -18248,7 +18254,7 @@ function showPluginDetails(pluginName) {
     }));
     return;
   }
-  window.location.href = getPluginDetailsUrl(pluginName);
+  window.location.href = getPluginDetailsUrl(pluginName, true);
 }
 // URLs from before the details page opened the plugin in a popover (`popover=browsePluginDetail$3A
 // Name!tab`). They are sent on to the page, which has no tabs, so the tab is dropped. The popover

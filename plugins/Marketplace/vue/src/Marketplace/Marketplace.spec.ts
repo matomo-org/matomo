@@ -457,7 +457,8 @@ describe('Marketplace', () => {
 
     it('goes back to the Matomo page that opened the plugin', async () => {
       respondWith(makePlugins(3));
-      hash.value = { showPlugin: 'plugin1' };
+      // CorePluginsAdmin's plugin name link marks the page it opens
+      hash.value = { showPlugin: 'plugin1', pluginReturn: '1' };
       // the plugin management screen links here, so it is what the page was opened from
       const referrer = jest.spyOn(document, 'referrer', 'get').mockReturnValue(
         `${window.location.origin}/index.php?module=CorePluginsAdmin&action=plugins`,
@@ -476,6 +477,45 @@ describe('Marketplace', () => {
       back.mockRestore();
       historyLength.mockRestore();
       referrer.mockRestore();
+    });
+
+    it('goes to the catalogue rather than back to the install it has just returned from', async () => {
+      respondWith(makePlugins(3));
+      // "Back to Marketplace" after an install: another Matomo page, but no marker
+      hash.value = { showPlugin: 'plugin1' };
+      const referrer = jest.spyOn(document, 'referrer', 'get').mockReturnValue(
+        `${window.location.origin}/index.php?module=Marketplace&action=installPlugin&pluginName=plugin1`,
+      );
+      const historyLength = jest.spyOn(window.history, 'length', 'get').mockReturnValue(3);
+
+      const wrapper = mountPage();
+      await runOnlyPendingTimersAsync();
+
+      const back = jest.spyOn(window.history, 'back').mockImplementation(() => undefined);
+
+      wrapper.vm.closeDetails();
+
+      // going back would reach the install page again, whose nonce is spent
+      expect(back).not.toHaveBeenCalled();
+      expect(wrapper.vm.selectedPlugin).toBe(null);
+
+      back.mockRestore();
+      historyLength.mockRestore();
+      referrer.mockRestore();
+    });
+
+    it('drops the return marker from the hash once it has read it', async () => {
+      respondWith(makePlugins(3));
+      window.history.replaceState(null, '', '#?showPlugin=plugin1&pluginReturn=1');
+      hash.value = { showPlugin: 'plugin1', pluginReturn: '1' };
+
+      mountPage();
+      await runOnlyPendingTimersAsync();
+
+      // links built from this page's URL - to install or activate it - must not carry it on
+      expect(window.location.hash).not.toContain('pluginReturn');
+      expect(hash.value.pluginReturn).toBeUndefined();
+      expect(hash.value.showPlugin).toBe('plugin1');
     });
 
     it('clears a filter hiding the card a deep linked plugin has to come back to', async () => {

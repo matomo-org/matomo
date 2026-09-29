@@ -18,8 +18,12 @@ function isOnMarketplaceOverview(): boolean {
 
 /**
  * The Marketplace page showing the plugin's details, keeping the site and period the reader is on.
+ *
+ * `returnHere` marks the link with `pluginReturn`, so that leaving the details page goes back to
+ * this page rather than to the catalogue. Only a navigation that leaves a history entry to go back
+ * to may set it - see isOpenedFromAnotherMatomoPage() in the Marketplace's Marketplace.vue.
  */
-function getPluginDetailsUrl(pluginName: string): string {
+function getPluginDetailsUrl(pluginName: string, returnHere = false): string {
   const { idSite, period, date } = MatomoUrl.urlParsed.value;
   const query = MatomoUrl.stringify({
     module: 'Marketplace',
@@ -28,8 +32,12 @@ function getPluginDetailsUrl(pluginName: string): string {
     period,
     date,
   });
+  const hash = MatomoUrl.stringify({
+    showPlugin: pluginName,
+    pluginReturn: returnHere ? 1 : null,
+  });
 
-  return `?${query}#?${MatomoUrl.stringify({ showPlugin: pluginName })}`;
+  return `?${query}#?${hash}`;
 }
 
 function showPluginDetails(pluginName: string) {
@@ -43,7 +51,7 @@ function showPluginDetails(pluginName: string) {
     return;
   }
 
-  window.location.href = getPluginDetailsUrl(pluginName);
+  window.location.href = getPluginDetailsUrl(pluginName, true);
 }
 
 // URLs from before the details page opened the plugin in a popover (`popover=browsePluginDetail$3A

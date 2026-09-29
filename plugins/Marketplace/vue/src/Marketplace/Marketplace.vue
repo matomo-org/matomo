@@ -247,20 +247,26 @@ const LIST_FADE_MS = 280;
 const QUERY_DEBOUNCE_MS = 250;
 
 /**
- * Whether the page was opened from another Matomo page, such as the plugin management screen,
- * which leaving the details page should then return to. A bookmark, a new tab or an emailed link
- * has no referrer, and the Marketplace itself shares this page's query.
+ * The hash parameter CorePluginsAdmin's plugin name links set when they send the reader here from
+ * another Matomo page, which leaving the details page should then return to. The referrer alone
+ * cannot tell that page from one that must not be revisited: coming back from installing a plugin,
+ * the referrer is the install page, whose nonce is spent by then.
+ */
+const RETURN_PARAM = 'pluginReturn';
+
+/**
+ * Whether the page was opened by one of those links. A bookmark, a new tab or an emailed link
+ * carries no marker, and nor does the way back from an install, update or activation.
  */
 function isOpenedFromAnotherMatomoPage(): boolean {
-  if (!document.referrer || window.history.length < 2) {
+  if (!MatomoUrl.hashParsed.value[RETURN_PARAM] || !document.referrer
+    || window.history.length < 2
+  ) {
     return false;
   }
 
   try {
-    const referrer = new URL(document.referrer);
-
-    return referrer.origin === window.location.origin
-      && referrer.search !== window.location.search;
+    return new URL(document.referrer).origin === window.location.origin;
   } catch (e) {
     return false;
   }
@@ -360,6 +366,12 @@ export default defineComponent({
     // the reader never saw - set before the first render, or that render is the catalogue
     this.viewPluginName = this.selectedPluginName;
     this.openedFromAnotherPage = !!this.selectedPluginName && isOpenedFromAnotherMatomoPage();
+
+    // read once, then dropped: the links this page hands the install and activate actions are
+    // built from its URL, and a marker left in it would come straight back with them
+    if (MatomoUrl.hashParsed.value[RETURN_PARAM]) {
+      this.replaceHash({ [RETURN_PARAM]: null });
+    }
   },
   mounted() {
     Matomo.postEvent('Marketplace.Marketplace.mounted', { element: this.$refs.root });

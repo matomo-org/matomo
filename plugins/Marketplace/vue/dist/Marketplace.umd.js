@@ -160,7 +160,7 @@ if (typeof window !== 'undefined') {
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Marketplace/vue/src/Marketplace/Marketplace.vue?vue&type=template&id=020f7942
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Marketplace/vue/src/Marketplace/Marketplace.vue?vue&type=template&id=234c8345
 
 const _hoisted_1 = {
   key: 0,
@@ -296,7 +296,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onReset: _cache[13] || (_cache[13] = $event => _ctx.resetFilters())
   }, null, 8, ["has-query", "can-reset"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.loadFailed && !_ctx.loading ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_10, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Marketplace_PluginsNotAvailable')), 1)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 512), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_11, null, 512)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], !_ctx.viewPluginName]])], 2)], 2);
 }
-// CONCATENATED MODULE: ./plugins/Marketplace/vue/src/Marketplace/Marketplace.vue?vue&type=template&id=020f7942
+// CONCATENATED MODULE: ./plugins/Marketplace/vue/src/Marketplace/Marketplace.vue?vue&type=template&id=234c8345
 
 // EXTERNAL MODULE: external "CoreHome"
 var external_CoreHome_ = __webpack_require__("19dc");
@@ -3922,17 +3922,22 @@ const LIST_FADE_MS = 280;
 /** How long the search box waits after the last keystroke before writing the query to the hash. */
 const QUERY_DEBOUNCE_MS = 250;
 /**
- * Whether the page was opened from another Matomo page, such as the plugin management screen,
- * which leaving the details page should then return to. A bookmark, a new tab or an emailed link
- * has no referrer, and the Marketplace itself shares this page's query.
+ * The hash parameter CorePluginsAdmin's plugin name links set when they send the reader here from
+ * another Matomo page, which leaving the details page should then return to. The referrer alone
+ * cannot tell that page from one that must not be revisited: coming back from installing a plugin,
+ * the referrer is the install page, whose nonce is spent by then.
+ */
+const RETURN_PARAM = 'pluginReturn';
+/**
+ * Whether the page was opened by one of those links. A bookmark, a new tab or an emailed link
+ * carries no marker, and nor does the way back from an install, update or activation.
  */
 function isOpenedFromAnotherMatomoPage() {
-  if (!document.referrer || window.history.length < 2) {
+  if (!external_CoreHome_["MatomoUrl"].hashParsed.value[RETURN_PARAM] || !document.referrer || window.history.length < 2) {
     return false;
   }
   try {
-    const referrer = new URL(document.referrer);
-    return referrer.origin === window.location.origin && referrer.search !== window.location.search;
+    return new URL(document.referrer).origin === window.location.origin;
   } catch (e) {
     return false;
   }
@@ -4020,6 +4025,13 @@ function isOpenedFromAnotherMatomoPage() {
     // the reader never saw - set before the first render, or that render is the catalogue
     this.viewPluginName = this.selectedPluginName;
     this.openedFromAnotherPage = !!this.selectedPluginName && isOpenedFromAnotherMatomoPage();
+    // read once, then dropped: the links this page hands the install and activate actions are
+    // built from its URL, and a marker left in it would come straight back with them
+    if (external_CoreHome_["MatomoUrl"].hashParsed.value[RETURN_PARAM]) {
+      this.replaceHash({
+        [RETURN_PARAM]: null
+      });
+    }
   },
   mounted() {
     external_CoreHome_["Matomo"].postEvent('Marketplace.Marketplace.mounted', {
