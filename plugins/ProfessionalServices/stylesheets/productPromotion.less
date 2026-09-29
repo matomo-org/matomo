@@ -4,6 +4,12 @@
 // lists match those substrings in class names and asset paths alike, and a promotion
 // hidden by a filter list would look like a rendering bug.
 
+// The banner is drawn in the new brand colour rather than this release's `@theme-color-brand`,
+// which is still the old green. Its artwork is the new brand's, so a green call to action
+// sat against a teal illustration; `@theme-color-new-brand` is the value this release
+// carries for exactly this, and it is one colour in both light and dark mode.
+@_productPromotion_brand: @theme-color-new-brand;
+
 // The panel's own inset on the side away from the artwork. The tablet layout is drawn with
 // 24px instead, so that layout overrides it.
 //
@@ -133,7 +139,7 @@
 
     &:hover,
     &:focus-visible {
-      color: @theme-color-brand;
+      color: @_productPromotion_brand;
     }
 
     &:focus-visible {
@@ -162,7 +168,7 @@
     // Square, and a little taller than the 14px line it sits on, which is how the design
     // has it. `icons.css` already sets `line-height: 1`, so the box is exactly this tall.
     font-size: @_reasonIconSize;
-    color: @theme-color-brand;
+    color: @_productPromotion_brand;
   }
 
   .productPromotion__cta {
@@ -180,7 +186,7 @@
     padding: 0 16px;
     border: 0;
     border-radius: 3px;
-    background-color: @theme-color-brand;
+    background-color: @_productPromotion_brand;
     color: @theme-color-brand-contrast;
     font-family: inherit;
     font-size: 13px;
@@ -207,7 +213,7 @@
 
   .productPromotion__ctaButton:hover,
   .productPromotion__ctaButton:focus {
-    background-color: @theme-color-brand;
+    background-color: @_productPromotion_brand;
     color: @theme-color-brand-contrast;
     text-decoration: none;
   }
