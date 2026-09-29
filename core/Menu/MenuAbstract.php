@@ -85,7 +85,7 @@ abstract class MenuAbstract extends Singleton
         $scope = Access::getInstance()->getCacheScopeKey();
 
         if ($this->builtForScope !== null && $this->builtForScope !== $scope) {
-            $this->menu = null;
+            $this->menu = [];
             $this->menuEntries = [];
             $this->menuEntriesToRemove = [];
             $this->edits = [];
