@@ -7,24 +7,17 @@
 
 <template>
   <div class="ai-providers-page">
-    <header class="ai-providers-page-header">
-      <h2 class="ai-providers-page-title">
-        <EnrichedHeadline>
-          {{ translate('AIProviders_MenuTitle') }}
-        </EnrichedHeadline>
-      </h2>
-      <p class="ai-providers-page-subtitle">
-        {{ translate('AIProviders_ConfigurationIntro') }}
-      </p>
-    </header>
-
     <ActivityIndicator
       v-if="isLoading"
       :loading="isLoading"
     />
 
     <template v-else-if="settings">
-      <ContentBlock class="ai-providers-content">
+      <ContentBlock
+        :content-title="translate('AIProviders_MenuTitle')"
+        :help-text="translate('AIProviders_ConfigurationIntro')"
+        class="ai-providers-content"
+      >
       <span
         class="ai-providers-unsaved-changes"
         :class="{ 'is-visible': hasUnsavedChanges }"
@@ -38,10 +31,6 @@
         >
           {{ translate('AIProviders_ManagedConfigurationHelp') }}
         </Alert>
-
-        <h3 class="ai-providers-defaults-title">
-          {{ translate('AIProviders_DefaultsTitle') }}
-        </h3>
 
         <section class="ai-providers-section">
           <h4 class="ai-providers-subsection-title">
@@ -158,7 +147,6 @@ import {
   AjaxHelper,
   Alert,
   ContentBlock,
-  EnrichedHeadline,
   NotificationsStore,
   translate,
 } from 'CoreHome';
@@ -494,28 +482,6 @@ onMounted(loadSettings);
     margin: 0;
     padding: 0;
   }
-}
-
-.ai-providers-page-header {
-  margin-bottom: 24px;
-}
-
-.ai-providers-page-title {
-  font-size: 22px;
-  line-height: 1.3;
-}
-
-.ai-providers-page-subtitle {
-  color: var(--ai-providers-text-muted);
-  font-size: 14px;
-  line-height: 1.5;
-  margin: 4px 0 0;
-}
-
-.ai-providers-defaults-title {
-  font-size: 18px;
-  line-height: 1.4;
-  margin-bottom: 24px!important;
 }
 
 .ai-providers-subsection-title {
