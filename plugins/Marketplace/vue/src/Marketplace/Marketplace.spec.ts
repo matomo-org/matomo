@@ -97,8 +97,10 @@ function respondWith(plugins: PluginCard[], themes: PluginCard[] = []) {
 
 /** A request that never settles, which is what AjaxHelper does when the server is unreachable. */
 function neverRespond() {
+  // an implementation rather than a return value: this Jest prefers a mockReturnValue() over the
+  // one-off responses a spec queues after it, where an implementation yields to them
   (AjaxHelper.post as jest.Mock)
-    .mockReturnValue(new Promise(() => undefined));
+    .mockImplementation(() => new Promise(() => undefined));
 }
 
 /**

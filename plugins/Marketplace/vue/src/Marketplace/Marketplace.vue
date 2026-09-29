@@ -670,7 +670,7 @@ export default defineComponent({
               merged.set(plugin.name, plugin);
             }
           });
-          this.allPlugins = [...merged.values()];
+          this.allPlugins = Array.from(merged.values());
           this.loading = false;
         })
         .catch(() => {

@@ -160,7 +160,7 @@ if (typeof window !== 'undefined') {
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Marketplace/vue/src/Marketplace/Marketplace.vue?vue&type=template&id=5815dab4
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Marketplace/vue/src/Marketplace/Marketplace.vue?vue&type=template&id=020f7942
 
 const _hoisted_1 = {
   key: 0,
@@ -296,7 +296,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onReset: _cache[13] || (_cache[13] = $event => _ctx.resetFilters())
   }, null, 8, ["has-query", "can-reset"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.loadFailed && !_ctx.loading ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_10, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Marketplace_PluginsNotAvailable')), 1)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 512), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_11, null, 512)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], !_ctx.viewPluginName]])], 2)], 2);
 }
-// CONCATENATED MODULE: ./plugins/Marketplace/vue/src/Marketplace/Marketplace.vue?vue&type=template&id=5815dab4
+// CONCATENATED MODULE: ./plugins/Marketplace/vue/src/Marketplace/Marketplace.vue?vue&type=template&id=020f7942
 
 // EXTERNAL MODULE: external "CoreHome"
 var external_CoreHome_ = __webpack_require__("19dc");
@@ -703,7 +703,7 @@ function buildTabs(plugins, labelFor = slugAsLabel) {
   });
   // Ordered by the label rather than the slug: the slug is always English, so any other locale
   // would otherwise get a bar sorted by words its reader never sees.
-  [...categoryCounts.keys()].sort((a, b) => labelFor({
+  Array.from(categoryCounts.keys()).sort((a, b) => labelFor({
     id: a,
     isCategory: true
   }).localeCompare(labelFor({
@@ -4296,7 +4296,7 @@ function isOpenedFromAnotherMatomoPage() {
             merged.set(plugin.name, plugin);
           }
         });
-        this.allPlugins = [...merged.values()];
+        this.allPlugins = Array.from(merged.values());
         this.loading = false;
       }).catch(() => {
         // a fetch this component itself replaced or abandoned leaves the page as it is - an

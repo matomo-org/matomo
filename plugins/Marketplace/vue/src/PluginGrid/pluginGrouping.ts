@@ -351,7 +351,7 @@ export function buildTabs(plugins: PluginCard[], labelFor: TabLabeller = slugAsL
 
   // Ordered by the label rather than the slug: the slug is always English, so any other locale
   // would otherwise get a bar sorted by words its reader never sees.
-  [...categoryCounts.keys()]
+  Array.from(categoryCounts.keys())
     .sort((a, b) => labelFor({ id: a, isCategory: true })
       .localeCompare(labelFor({ id: b, isCategory: true })))
     .forEach((id) => {
