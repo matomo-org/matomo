@@ -33,9 +33,9 @@
         </Alert>
 
         <section class="ai-providers-section">
-          <h4 class="ai-providers-subsection-title">
+          <h3 class="ai-providers-subsection-title">
             {{ translate('AIProviders_DefaultProvider') }}
-          </h4>
+          </h3>
           <p class="ai-providers-section-help">
             {{ translate('AIProviders_DefaultProviderHelp') }}
           </p>
@@ -79,9 +79,9 @@
           v-if="canEditCapabilityLevel"
           class="ai-providers-section"
         >
-          <h4 class="ai-providers-subsection-title">
+          <h3 class="ai-providers-subsection-title">
             {{ translate('AIProviders_DefaultCapabilityLevel') }}
-          </h4>
+          </h3>
           <p class="ai-providers-section-help">
             {{ translate('AIProviders_DefaultCapabilityLevelHelp') }}
           </p>
@@ -477,7 +477,7 @@ onMounted(loadSettings);
   --ai-providers-text-muted: var(--theme-color-text-light);
   --ai-providers-heading: var(--theme-color-headline-alternative);
 
-  h2, h3, h4 {
+  h2, h3 {
     color: var(--ai-providers-heading);
     margin: 0;
     padding: 0;
