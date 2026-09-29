@@ -7,17 +7,17 @@
 
 import { mount, flushPromises } from '@vue/test-utils';
 
-vi.mock('CoreHome', () => ({
+jest.mock('CoreHome', () => ({
   ActivityIndicator: { template: '<div></div>' },
-  AjaxHelper: { fetch: () => Promise.resolve([]), post: vi.fn() },
+  AjaxHelper: { fetch: () => Promise.resolve([]), post: jest.fn() },
   ContentBlock: { template: '<div><slot></slot></div>' },
-  NotificationsStore: { show: vi.fn(), scrollToNotification: vi.fn() },
+  NotificationsStore: { show: jest.fn(), scrollToNotification: jest.fn() },
   translate: (key: string) => key,
-}));
+}), { virtual: true });
 
-vi.mock('CorePluginsAdmin', () => ({
+jest.mock('CorePluginsAdmin', () => ({
   SaveButton: { template: '<button></button>' },
-}));
+}), { virtual: true });
 
 import AIProcessingSettings from './AIProcessingSettings.vue';
 

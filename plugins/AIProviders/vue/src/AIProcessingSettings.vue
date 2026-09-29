@@ -51,7 +51,10 @@
                   :href="feature.disclosureUrl"
                   rel="noreferrer noopener"
                   target="_blank"
-                ><span class="icon-outlink" /> {{ translate('AIProviders_DataProcessingDetails') }}</a>
+                >
+                  <span class="icon-outlink" />
+                  {{ translate('AIProviders_DataProcessingDetails') }}
+                </a>
               </li>
             </ul>
           </div>

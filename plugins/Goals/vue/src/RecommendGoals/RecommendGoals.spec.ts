@@ -8,11 +8,11 @@
 import { nextTick } from 'vue';
 import { mount } from '@vue/test-utils';
 
-const mockFetch = vi.hoisted(() => vi.fn());
+const mockFetch = jest.fn();
 
-const mockMatomo = vi.hoisted(() => ({ idSite: 1, hasSuperUserAccess: false }));
+const mockMatomo = { idSite: 1, hasSuperUserAccess: false };
 
-vi.mock('CoreHome', () => ({
+jest.mock('CoreHome', () => ({
   Matomo: mockMatomo,
   MatomoUrl: {
     urlParsed: { value: { idSite: '1' } },
@@ -24,7 +24,7 @@ vi.mock('CoreHome', () => ({
   ActivityIndicator: { template: '<div/>' },
   Alert: { template: '<div><slot/></div>' },
   Progressbar: { template: '<div/>' },
-}));
+}), { virtual: true });
 
 // eslint-disable-next-line import/first
 import RecommendGoals from './RecommendGoals.vue';
