@@ -9,7 +9,6 @@
 
 namespace Piwik\Tests\Unit\Request;
 
-use Piwik\Cache;
 use Piwik\Plugins\UsersManager\Model as UsersModel;
 
 class StubUsersModel extends UsersModel
@@ -43,7 +42,7 @@ class AuthenticationTokenTest extends \PHPUnit\Framework\TestCase
         $_GET = $_POST = [];
         unset($_SERVER['HTTP_AUTHORIZATION']);
         $this->setNestedApiInvocationCount(0);
-        Cache::getTransientCache()->delete('API.setIsRootRequestApiRequest');
+        \Piwik\API\Request::setIsRootRequestApiRequest(null);
     }
 
     /**
@@ -410,7 +409,7 @@ class AuthenticationTokenTest extends \PHPUnit\Framework\TestCase
         if ($count > 0) {
             \Piwik\API\Request::setIsRootRequestApiRequest('API.getPiwikVersion');
         } else {
-            Cache::getTransientCache()->delete('API.setIsRootRequestApiRequest');
+            \Piwik\API\Request::setIsRootRequestApiRequest(null);
         }
     }
 }

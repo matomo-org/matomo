@@ -68,29 +68,6 @@ abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSet
         return static::generateDescription();
     }
 
-    /**
-     * Returns the status legend of the granular per-setting table as list markup.
-     *
-     * The list is built here rather than in the translations so that translators cannot
-     * break the markup or the class the bullets depend on.
-     */
-    protected static function getGranularStatusLegend(): string
-    {
-        $items = [
-            'General_ComplianceStatusLegendCompliant',
-            'General_ComplianceStatusLegendCompliantEnforced',
-            'General_ComplianceStatusLegendNonCompliant',
-            'General_ComplianceStatusLegendManual',
-        ];
-
-        $legend = '';
-        foreach ($items as $item) {
-            $legend .= '<li>' . Piwik::translate($item) . '</li>';
-        }
-
-        return "<ul class='browser-default'>" . $legend . '</ul>';
-    }
-
     private static function decorateDescription(string $description): string
     {
         /**
@@ -115,7 +92,7 @@ abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSet
         if ($shouldShowWarnings) {
             $warnings = static::generateWarnings();
             if (!empty($warnings)) {
-                $description .= '<br/>' . $warnings;
+                $description .= '<br/><br/>' . $warnings;
             }
         }
 

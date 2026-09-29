@@ -227,7 +227,7 @@ class LogQueryBuilder
 
         // the segment moves into the subquery, so a visitor id in it would leave the outer log_visit
         // without one, and index_idsite_idvisitor_time answers that lookup from a handful of rows
-        if (strpos($segmentWhere, self::LOG_VISIT_VISITOR_COLUMN) !== false) {
+        if (str_contains($segmentWhere, self::LOG_VISIT_VISITOR_COLUMN)) {
             return null;
         }
 
@@ -321,7 +321,7 @@ class LogQueryBuilder
      */
     private function forceVisitTimeIndex($where)
     {
-        if (strpos($where, '.idvisitor') !== false) {
+        if (str_contains($where, '.idvisitor')) {
             return '';
         }
 

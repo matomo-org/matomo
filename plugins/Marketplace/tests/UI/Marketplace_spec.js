@@ -76,6 +76,10 @@ describe("Marketplace", function () {
         await page.evaluate((modalSelector) => {
           const modal = document.querySelector(modalSelector);
           modal.style.top = '0';
+          // Content long enough to make the modal scroll leaves it wherever the first
+          // capture above put it, and screenshotSelector starts from that offset - two
+          // runs of the same commit then differ by most of the image.
+          modal.scrollTop = 0;
         }, selector);
 
         expect(await page.screenshotSelector(selector)).to.matchImage(screenshotName);
