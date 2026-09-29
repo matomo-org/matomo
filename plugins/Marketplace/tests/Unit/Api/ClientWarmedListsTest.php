@@ -16,6 +16,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Piwik\Date;
 use Piwik\Log\LoggerInterface;
 use Piwik\Plugins\Marketplace\Api\Client;
+use Piwik\Plugins\Marketplace\Api\Exception as ClientException;
 use Piwik\Plugins\Marketplace\Api\Service\Exception as ServiceException;
 use Piwik\Plugins\Marketplace\BackgroundWarmer;
 use Piwik\Plugins\Marketplace\Input\PurchaseType;
@@ -74,6 +75,11 @@ class ClientWarmedListsTest extends \PHPUnit\Framework\TestCase
     private $attemptCount = 0;
 
     /**
+     * @var bool Whether the Marketplace answers with an empty body, which Service::fetch() returns as ''.
+     */
+    private $respondsEmpty = false;
+
+    /**
      * @var array[] The context of each warning logged.
      */
     private $warnings = [];
@@ -88,6 +94,10 @@ class ClientWarmedListsTest extends \PHPUnit\Framework\TestCase
 
             if ($this->nextFailure && in_array($this->failingPurchaseType, [null, $params['purchase_type']], true)) {
                 throw $this->nextFailure;
+            }
+
+            if ($this->respondsEmpty) {
+                return '';
             }
 
             $this->requestCount++;
@@ -285,6 +295,40 @@ class ClientWarmedListsTest extends \PHPUnit\Framework\TestCase
     {
         yield 'an error from the Marketplace' => [new ServiceException('The Marketplace returned an error')];
         yield 'no connection to it' => [new Exception('Error while connecting to: plugins.matomo.org')];
+    }
+
+    public function testAStaleListIsKeptWhenTheMarketplaceRespondsWithAnEmptyBody()
+    {
+        Date::$now = self::NOW + Client::PLUGIN_LIST_REFRESH_AFTER_SECONDS;
+
+        $this->warmer->method('isServingVisit')->willReturn(true);
+        $this->warmer->method('refreshNow')->willReturn(false);
+        $this->respondsEmpty = true;
+
+        $this->assertListed('Fetched1', $this->readOverviewList());
+        $this->assertSame(1, $this->attemptCount);
+        $this->assertListed('Fetched1', $this->readOverviewList());
+        $this->assertWarningsStayOffScreen(1);
+    }
+
+    public function testRefreshingTheListsReportsAnEmptyBodyAsAFailureAndKeepsTheLists()
+    {
+        Date::$now = self::NOW + 60;
+        $this->respondsEmpty = true;
+
+        $this->assertFalse($this->client->tryRefreshOverviewListCaches());
+        $this->assertNotNull($this->client->findInCachedOverviewLists('Fetched1'));
+        $this->assertSame(60, $this->client->getOverviewListsAge());
+        $this->assertWarningsStayOffScreen(3);
+    }
+
+    public function testAnEmptyBodyIsReportedAsAnErrorWhenNothingIsCached()
+    {
+        $this->client->clearAllCacheEntries();
+        $this->respondsEmpty = true;
+
+        $this->expectException(ClientException::class);
+        $this->readOverviewList();
     }
 
     public function testAnUnreachableMarketplaceIsReportedAsItIsWhenNothingIsCached()
