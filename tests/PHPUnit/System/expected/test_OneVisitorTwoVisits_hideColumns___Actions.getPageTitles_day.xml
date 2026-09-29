@@ -282,7 +282,7 @@
 		<avg_page_load_time>2.446</avg_page_load_time>
 		<nb_visits_percent_of_total>25%</nb_visits_percent_of_total>
 		<nb_hits_percent_of_total>25%</nb_hits_percent_of_total>
-		<avg_time_on_page>900</avg_time_on_page>
+		<avg_time_on_page>1440</avg_time_on_page>
 		<exit_rate>0%</exit_rate>
 		<segment>pageTitle==Second%2Bpage%2Bview%2B-%2Bshould%2Bbe%2Bregistered%2Bas%2BURL</segment>
 	</row>

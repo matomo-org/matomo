@@ -16,8 +16,8 @@
 				
 				<pageId>46</pageId>
 				<bandwidth />
-				<timeSpent>1621</timeSpent>
-				<timeSpentPretty>27 min 1s</timeSpentPretty>
+				<timeSpent>360</timeSpent>
+				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
@@ -52,6 +52,8 @@
 				
 				<pageId>47</pageId>
 				<bandwidth />
+				<timeSpent>1260</timeSpent>
+				<timeSpentPretty>21 min 0s</timeSpentPretty>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<siteSearchCategory>CAT</siteSearchCategory>
 				<siteSearchCount>48</siteSearchCount>
@@ -415,8 +417,8 @@
 				
 				<pageId>41</pageId>
 				<bandwidth />
-				<timeSpent>1621</timeSpent>
-				<timeSpentPretty>27 min 1s</timeSpentPretty>
+				<timeSpent>1620</timeSpent>
+				<timeSpentPretty>27 min 0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>

@@ -11,6 +11,7 @@ namespace Piwik\Tests\Unit\DataAccess;
 
 use Piwik\DataAccess\LogQueryBuilder\JoinGenerator;
 use Piwik\DataAccess\LogQueryBuilder\JoinTables;
+use Piwik\Plugins\CoreHome\Tracker\LogTable\PageViewTime;
 use Piwik\Tests\Framework\Mock\Plugin\LogTablesProvider;
 
 /**
@@ -275,6 +276,27 @@ class JoinGeneratorTest extends \PHPUnit\Framework\TestCase
         $expected .= 'LEFT JOIN log_visit AS log_visit ON log_visit.idvisit = log_link_visit_action.idvisit ';
         $expected .= 'LEFT JOIN log_conversion AS log_conversion ON log_conversion.idvisit = log_link_visit_action.idvisit ';
         $expected .= 'LEFT JOIN log_conversion_item AS log_conversion_item ON log_conversion_item.idvisit = log_link_visit_action.idvisit AND `log_conversion_item`.deleted = 0';
+        $this->assertEquals($expected, $generator->getJoinString());
+    }
+
+    public function testGenerateGetJoinStringPrefersDeclaredJoinOverPerVisitJoin()
+    {
+        $provider = new class () extends LogTablesProvider {
+            public function getAllLogTables()
+            {
+                $tables = parent::getAllLogTables();
+                $tables[] = new PageViewTime();
+                return $tables;
+            }
+        };
+
+        // both tables could be joined per-visit, but log_page_view_time declares a 1:1 join on
+        // idlink_va which must win: joining two per-action tables on idvisit multiplies their rows
+        $generator = new JoinGenerator(new JoinTables($provider, array('log_page_view_time', 'log_link_visit_action')));
+        $generator->generate();
+
+        $expected  = 'log_page_view_time AS log_page_view_time ';
+        $expected .= 'LEFT JOIN log_link_visit_action AS log_link_visit_action ON `log_link_visit_action`.`idlink_va` = `log_page_view_time`.`idlink_va`';
         $this->assertEquals($expected, $generator->getJoinString());
     }
 

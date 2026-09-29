@@ -295,6 +295,14 @@ class LogDataAnonymizations
             } catch (\Exception $e) {
                 $this->appendToOutput($idLogData, $schedule, 'Failed to unset log_link_visit_action table entries:' . $e->getMessage());
             }
+
+            try {
+                $this->appendToOutput($idLogData, $schedule, 'Starting to unset log_page_view_time table entries (if possible).');
+                $numColumnsUnset = $this->logDataAnonymizer->unsetLogPageViewTimeTableColumns($idSites, $startDate, $endDate, $schedule['unset_link_visit_action_columns']);
+                $this->appendToOutput($idLogData, $schedule, 'Number of unset log_page_view_time table entries: ' . $numColumnsUnset);
+            } catch (\Exception $e) {
+                $this->appendToOutput($idLogData, $schedule, 'Failed to unset log_page_view_time table entries:' . $e->getMessage());
+            }
         }
 
         $this->updateEntry($idLogData, 'job_finish_date', Date::now()->getDatetime());

@@ -4,7 +4,7 @@
 		<label>page_A</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
-		<sum_time_spent>0</sum_time_spent>
+		<sum_time_spent>360</sum_time_spent>
 		<sum_bandwidth>0</sum_bandwidth>
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 		<min_bandwidth />
@@ -37,7 +37,7 @@
 		<entry_nb_visits_percent_of_total>100%</entry_nb_visits_percent_of_total>
 		<entry_nb_actions_percent_of_total>100%</entry_nb_actions_percent_of_total>
 		<exit_nb_visits_percent_of_total>100%</exit_nb_visits_percent_of_total>
-		<avg_time_on_page>0</avg_time_on_page>
+		<avg_time_on_page>360</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fpage_A</segment>
@@ -46,7 +46,7 @@
 				<label>/index.html</label>
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
-				<sum_time_spent>0</sum_time_spent>
+				<sum_time_spent>360</sum_time_spent>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth />
@@ -80,7 +80,7 @@
 				<entry_nb_visits_percent_of_total>100%</entry_nb_visits_percent_of_total>
 				<entry_nb_actions_percent_of_total>100%</entry_nb_actions_percent_of_total>
 				<exit_nb_visits_percent_of_total>100%</exit_nb_visits_percent_of_total>
-				<avg_time_on_page>0</avg_time_on_page>
+				<avg_time_on_page>360</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<url>http://example.org/page_A/index.html</url>

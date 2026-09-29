@@ -62,8 +62,8 @@
 				<productViewName>PRODUCT TWO LEFT in cart</productViewName>
 				<productViewSku>SKU IN ABANDONED CART TWO</productViewSku>
 				<bandwidth />
-				<timeSpent>361</timeSpent>
-				<timeSpentPretty>6 min 1s</timeSpentPretty>
+				<timeSpent>360</timeSpent>
+				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<pageviewPosition>3</pageviewPosition>
 				<title>View product left in cart</title>
 				<subtitle>http://example.org/index.htm</subtitle>
@@ -301,8 +301,8 @@
 				<productViewName>PRODUCT name</productViewName>
 				<productViewSku>SKU VERY nice indeed</productViewSku>
 				<bandwidth />
-				<timeSpent>720</timeSpent>
-				<timeSpentPretty>12 min 0s</timeSpentPretty>
+				<timeSpent>1800</timeSpent>
+				<timeSpentPretty>30 min 0s</timeSpentPretty>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Looking at product page</title>
 				<subtitle>http://example.org/index.htm</subtitle>
@@ -455,8 +455,8 @@
 				<productViewName>PRODUCT TWO LEFT in cart</productViewName>
 				<productViewSku>SKU IN ABANDONED CART TWO</productViewSku>
 				<bandwidth />
-				<timeSpent>361</timeSpent>
-				<timeSpentPretty>6 min 1s</timeSpentPretty>
+				<timeSpent>360</timeSpent>
+				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<pageviewPosition>6</pageviewPosition>
 				<title>View product left in cart</title>
 				<subtitle>http://example.org/index.htm</subtitle>
