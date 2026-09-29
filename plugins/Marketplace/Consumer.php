@@ -27,7 +27,8 @@ class Consumer
 
     private ?array $pluginLicenseStatus = null;
 
-    private ?array $pluginLicenses = null;
+    /** @var array<int, array<string, array<string, mixed>>> keyed by the cached-only flag */
+    private array $pluginLicenses = [];
 
     public function __construct(Api\Client $marketplaceClient)
     {
@@ -50,7 +51,7 @@ class Consumer
         $this->isValid = null;
         $this->consumerAvailable = false;
         $this->pluginLicenseStatus = null;
-        $this->pluginLicenses = null;
+        $this->pluginLicenses = [];
     }
 
     public function getConsumer()
@@ -102,29 +103,46 @@ class Consumer
      * Returns null, rather than an empty list, when the Marketplace could not be reached: the caller
      * then has nothing current to go on and keeps using the copy the plugin carries.
      *
+     * @param bool $cachedOnly Answer from the cached consumer only, returning null when it is cold
+     *                         rather than making the caller wait on plugins.matomo.org. For callers
+     *                         on a request path - the dashboard promotions - where a synchronous
+     *                         request with a 60 second timeout is not acceptable.
+     *                         {@link Tasks::warmCacheEntries()} keeps that entry filled for them.
      * @return array<string, array<string, mixed>>|null
      */
-    public function getConsumerPluginLicenses(): ?array
+    public function getConsumerPluginLicenses(bool $cachedOnly = false): ?array
     {
-        if ($this->pluginLicenses === null) {
-            // populates consumerAvailable, so it has to run before the guard below reads it
-            $consumer = $this->getConsumer();
+        $key = (int) $cachedOnly;
 
-            if (!$this->consumerAvailable) {
+        if (!array_key_exists($key, $this->pluginLicenses)) {
+            if ($cachedOnly) {
+                $consumer = $this->marketplaceClient->getConsumer(true);
+                $available = !empty($consumer);
+            } else {
+                // populates consumerAvailable, so it has to run before the guard below reads it
+                $consumer = $this->getConsumer();
+                $available = $this->consumerAvailable;
+            }
+
+            if (!$available) {
+                // Deliberately not remembered: a cache that is cold now may be warm on the
+                // next request, and a request that failed is not an answer worth keeping.
                 return null;
             }
 
-            $this->pluginLicenses = [];
+            $licenses = [];
 
             if (!empty($consumer['licenses'])) {
                 foreach ($consumer['licenses'] as $license) {
                     if (!empty($license['plugin']['name'])) {
-                        $this->pluginLicenses[$license['plugin']['name']] = $license;
+                        $licenses[$license['plugin']['name']] = $license;
                     }
                 }
             }
+
+            $this->pluginLicenses[$key] = $licenses;
         }
 
-        return $this->pluginLicenses;
+        return $this->pluginLicenses[$key];
     }
 }

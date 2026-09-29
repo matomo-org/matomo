@@ -6,7 +6,7 @@
 -->
 
 <template>
-  <div class="mtm-searchInput">
+  <div class="mtm-searchInput" :class="{ 'mtm-searchInput--ghost': ghost }">
     <span class="mtm-searchInput__icon">
       <span class="icon-search" />
     </span>
@@ -23,10 +23,13 @@
       v-if="showClear && modelValue"
       type="button"
       class="mtm-searchInput__clear"
-      :tabindex="$attrs.tabindex"
+      :tabindex="inputTabindex"
       :title="translate('General_Clear')"
+      :aria-label="translate('General_Clear')"
       @click="onClear()"
-    />
+    >
+      <span class="icon-close" aria-hidden="true" />
+    </button>
   </div>
 </template>
 
@@ -52,6 +55,11 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    // A prop rather than a class on the component: `inheritAttrs: false` sends that to the input.
+    ghost: {
+      type: Boolean,
+      default: false,
+    },
     focused: {
       type: Boolean,
       default: false,
@@ -73,6 +81,9 @@ export default defineComponent({
     },
     resolvedPlaceholder(): string {
       return this.placeholder || translate('General_Search');
+    },
+    inputTabindex(): string | number | undefined {
+      return this.$attrs.tabindex as string | number | undefined;
     },
   },
   methods: {

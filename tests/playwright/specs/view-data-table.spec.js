@@ -25,20 +25,32 @@ test.describe('ViewDataTableTest', () => {
   // like Puppeteer's page.click(): the first visible match (widgets render some controls twice)
   const visible = (selector) => page.locator(selector).filter({ visible: true }).first();
   const clickVisible = (selector) => visible(selector).click();
+  // visualizations and report options are in the report header's actions menu
   const switchVisualization = async (footerIconId) => {
-    await clickVisible('.activateVisualizationSelection > span');
+    await clickVisible('.reportHeader__actionsTrigger');
     await clickVisible(`.tableIcon[data-footer-icon-id=${footerIconId}]`);
   };
   const configure = async (option) => {
-    await clickVisible('.dropdownConfigureIcon');
+    await clickVisible('.reportHeader__actionsTrigger');
     await clickVisible(option);
   };
+  // the header search is debounced, so wait for the reload it triggers
   const search = async (term) => {
-    await clickVisible('.dataTableAction.searchAction');
-    await visible('.searchAction .dataTableSearchInput').fill(term);
-    await clickVisible('.searchAction .icon-search');
+    const reload = page.waitForResponse((response) => response.url().includes(`filter_pattern=${encodeURIComponent(term)}`));
+    await visible('.reportHeader__search .mtm-searchInput__input').fill(term);
+    await reload;
     await session.waitForIdle();
     await page.evaluate(() => document.activeElement.blur());
+  };
+  // export is in the actions menu, unless the header line has room for its own button
+  const openExport = async () => {
+    const exportButton = visible('[data-report-action="export"] .mtm-selector__trigger');
+    if (await exportButton.count()) {
+      await exportButton.click();
+    } else {
+      await clickVisible('.reportHeader__actionsTrigger');
+    }
+    await clickVisible('.activateExportSelection');
   };
 
   test.beforeAll(async ({ browser }) => {
@@ -79,11 +91,9 @@ test.describe('ViewDataTableTest', () => {
   });
 
   test('should show all available visualizations for this report', async () => {
-    await clickVisible('.activateVisualizationSelection > span');
+    await clickVisible('.reportHeader__actionsTrigger');
     await noHover();
-    // The selection is cut off in the screenshot, because the widget's iframe is too small and
-    // Materialize crops the selection to the available space.
-    await expectElementScreenshot(session, '.dataTableFooterIcons', '5_visualizations.png');
+    await expectElementScreenshot(session, '.reportHeader__actionsMenu', '5_visualizations.png');
   });
 
   test('should load goals table when goals footer icon clicked', async () => {
@@ -113,15 +123,20 @@ test.describe('ViewDataTableTest', () => {
     await expectPageScreenshot(session, '9_normal_table.png');
   });
 
+  // the header is mounted outside .dataTable, so the reloads above must not add one each
+  test('should keep a single actions menu after the reloads above', async () => {
+    await expect(page.locator('.reportHeader__actionsTrigger')).toHaveCount(1);
+  });
+
   test('should show the limit selector when the limit selector is clicked', async () => {
-    await clickVisible('.limitSelection input');
+    await clickVisible('.limitSelection .mtm-selector__trigger');
     await noHover();
-    await expect(page.locator('.limitSelection ul')).toBeVisible();
+    await expect(visible('.limitSelection [data-limit="10"]')).toBeVisible();
     await expectPageScreenshot(session, 'limit_selector_open.png');
   });
 
   test('should change the number of rows when new limit selected', async () => {
-    await page.locator('.limitSelection ul li span', { hasText: /^10$/ }).first().click();
+    await clickVisible('.limitSelection [data-limit="10"]');
     // the reloaded table would otherwise show a hover state for the row under the pointer
     await noHover();
     await expectPageScreenshot(session, '10_change_limit.png');
@@ -187,13 +202,13 @@ test.describe('ViewDataTableTest', () => {
     await expectPageScreenshot(session, 'subtables_loaded.png');
   });
 
-  test('should search the table when a search string is entered and the search button clicked', async () => {
+  test('should search the table when a search string is entered in the header search', async () => {
     await search('term');
     await expectPageScreenshot(session, '15_search.png');
   });
 
   test('should display the export popover when clicking the export icon', async () => {
-    await clickVisible('.activateExportSelection');
+    await openExport();
     await expect(page.locator('#reportExport .btn')).toBeVisible();
     await expectElementScreenshot(session, '.ui-dialog', 'export_options.png');
   });
@@ -201,7 +216,7 @@ test.describe('ViewDataTableTest', () => {
   test('should display the ENTER_YOUR_TOKEN_AUTH_HERE text in the export url', async () => {
     await page.goto(flatUrl);
     await session.waitForIdle();
-    await clickVisible('.activateExportSelection');
+    await openExport();
     await clickVisible('.toggle-export-url');
     await expect(visible('.exportFullUrl')).toBeVisible();
     await expect(visible('.ui-dialog .tooltip')).toContainText('ENTER_YOUR_TOKEN_AUTH_HERE');

@@ -69,7 +69,7 @@ class ReportRetention implements
 
     public static function getWhatItDoes(?int $idSite = null): string
     {
-        return Piwik::translate('PrivacyManager_RetentionPeriodPolicySettingWhatItDoes', [
+        return Piwik::translate('PrivacyManager_RetentionPeriodPolicySettingWhatItDoes2', [
             self::getInstance($idSite)->getValue(),
             self::getPolicyRequirements()[CnilPolicy::class],
         ]);
@@ -89,6 +89,11 @@ class ReportRetention implements
     public static function getInlineHelp(): string
     {
         return '';
+    }
+
+    public static function getPolicyOrder(): int
+    {
+        return 100;
     }
 
     public static function getPolicyRequirements(): array

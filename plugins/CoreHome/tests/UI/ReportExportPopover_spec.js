@@ -330,7 +330,8 @@ describe('ReportExportPopover', function () {
     ));
     await page.evaluate(() => {
       const reportElement = document.querySelector('#widgetActionsgetPageUrls [data-report]');
-      const actionsElement = document.querySelector('#widgetActionsgetPageUrls [vue-entry="CoreHome.DataTableActions"]');
+      // the actions render in the report header now, so that is the app holding the menu's state
+      const actionsElement = document.querySelector('#widgetActionsgetPageUrls [vue-entry="CoreHome.ReportHeader"]');
       if (!reportElement || !actionsElement) {
         return;
       }

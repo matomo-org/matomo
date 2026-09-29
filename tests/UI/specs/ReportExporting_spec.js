@@ -12,11 +12,26 @@ describe("ReportExporting", function () {
         referrersGetWebsitesUrl = baseUrl + "&moduleToWidgetize=Referrers&actionToWidgetize=getWebsites&filter_limit=5",
         visitsSummaryGetUrl = baseUrl + "&moduleToWidgetize=VisitsSummary&actionToWidgetize=get&forceView=1&viewDataTable=graphEvolution";
 
+
+    // Export leaves the 3-dots menu when the header line has room for it, so reach it wherever it
+    // is rather than always through the menu.
+    const openExport = async function (scope) {
+        const at = (selector) => (scope ? `${scope} ${selector}` : selector);
+
+        if (await page.$(at('[data-report-action="export"]'))) {
+            await page.click(at('[data-report-action="export"] .mtm-selector__trigger'));
+        } else {
+            await page.click(at('.reportHeader__actionsTrigger'));
+        }
+
+        await page.click(at('.activateExportSelection'));
+    };
+
     function normalReportTest(format) {
         it(`should export a normal report correctly when the ${format} export is chosen`, async function () {
             if (await page.url() !== referrersGetWebsitesUrl) {
                 await page.goto(referrersGetWebsitesUrl);
-                await page.click('.activateExportSelection');
+                await openExport();
             }
 
             await page.waitForSelector('[name="format"] input[value="'+format+'"]');
@@ -42,7 +57,7 @@ describe("ReportExporting", function () {
         it(`should export an evolution graph report correctly when the ${format} export is chosen`, async function () {
             if (await page.url() !== visitsSummaryGetUrl) {
                 await page.goto(visitsSummaryGetUrl);
-                await page.click('.activateExportSelection');
+                await openExport();
             }
 
             await page.waitForSelector('[name="format"] input[value="'+format+'"]');
@@ -78,7 +93,7 @@ describe("ReportExporting", function () {
                 await page.waitForSelector('.ui-dialog');
                 await page.waitForNetworkIdle();
 
-                await page.click('.ui-dialog .activateExportSelection');
+                await openExport('.ui-dialog');
             }
 
             await page.waitForSelector('[name="format"] input[value="'+format+'"]');

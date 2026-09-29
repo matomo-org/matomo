@@ -76,6 +76,10 @@ describe("Marketplace", function () {
         await page.evaluate((modalSelector) => {
           const modal = document.querySelector(modalSelector);
           modal.style.top = '0';
+          // Content long enough to make the modal scroll leaves it wherever the first
+          // capture above put it, and screenshotSelector starts from that offset - two
+          // runs of the same commit then differ by most of the image.
+          modal.scrollTop = 0;
           // clicking the plugin card scrolls the page, and the fixed modal's offset() includes that scroll,
           // so the capture would start inside the modal by a varying amount
           window.scrollTo(0, 0);
