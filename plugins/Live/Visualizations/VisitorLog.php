@@ -145,6 +145,11 @@ class VisitorLog extends Visualization
             $this->config->show_export = false;
             $this->config->show_pagination_control = false;
             $this->config->show_limit_control = false;
+            // Emptying the icons is not enough to keep the actions away: the report header is mounted
+            // for any report whose icons are switched on, and would offer a trigger opening a menu
+            // with nothing but the config toggles left in it. Same lever ViewDataTable uses to keep a
+            // subtable from claiming a header of its own.
+            $this->config->show_footer_icons = false;
         }
         $this->assignTemplateVar('actionsToDisplayCollapsed', StaticContainer::get('Live.pageViewActionsToDisplayCollapsed'));
 

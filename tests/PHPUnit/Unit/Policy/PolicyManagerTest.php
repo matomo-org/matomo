@@ -8,6 +8,8 @@ use Piwik\Policy\Exceptions\CompliancePolicyViolationException;
 use Piwik\Policy\PolicyManager;
 use Piwik\Settings\Interfaces\PolicyComparisonInterface;
 use Piwik\Tests\Framework\Mock\Settings\FakePolicySetting;
+use Piwik\Tests\Framework\Mock\Settings\TraitImpls\ExternallyManagedPolicyComparisonTraitImpl;
+use Piwik\Tests\Framework\Mock\Settings\TraitImpls\PolicyComparisonTraitImpl;
 use Piwik\Tests\Framework\Mock\Policy\PolicyManager as MockPolicyManager;
 use Piwik\Tests\Framework\Mock\Policy\TestPolicy;
 
@@ -24,6 +26,7 @@ class PolicyManagerTest extends TestCase
         // constraint must not leak it into the next one
         TestPolicy::reset();
         FakePolicySetting::reset();
+        MockPolicyManager::setDiscoveredSettings(null);
 
         parent::tearDown();
     }
@@ -58,6 +61,41 @@ class PolicyManagerTest extends TestCase
         $settings = MockPolicyManager::getAllControlledSettings(TestPolicy::class);
         $this->assertCount(1, $settings);
         $this->assertTrue(is_a($settings[0], FakePolicySetting::class, true));
+    }
+
+    public function testGetAllControlledSettingsListsSettingsByTheirOrderHint()
+    {
+        // the only setting asking for a position is discovered last, and the two mocks left on
+        // the trait default are discovered first, so only the hints can produce this order
+        MockPolicyManager::setDiscoveredSettings([
+            PolicyComparisonTraitImpl::class,
+            ExternallyManagedPolicyComparisonTraitImpl::class,
+            FakePolicySetting::class,
+        ]);
+        FakePolicySetting::setPolicyOrder(5);
+
+        $settings = MockPolicyManager::getAllControlledSettings(TestPolicy::class);
+
+        $this->assertSame([
+            FakePolicySetting::class,
+            ExternallyManagedPolicyComparisonTraitImpl::class,
+            PolicyComparisonTraitImpl::class,
+        ], $settings);
+    }
+
+    public function testGetAllControlledSettingsOrdersSettingsSharingAnOrderHintByTheirId()
+    {
+        MockPolicyManager::setDiscoveredSettings([
+            PolicyComparisonTraitImpl::class,
+            ExternallyManagedPolicyComparisonTraitImpl::class,
+        ]);
+
+        $settings = MockPolicyManager::getAllControlledSettings(TestPolicy::class);
+
+        $this->assertSame([
+            ExternallyManagedPolicyComparisonTraitImpl::class,
+            PolicyComparisonTraitImpl::class,
+        ], $settings);
     }
 
     public function testGetAllUnknownSettings()

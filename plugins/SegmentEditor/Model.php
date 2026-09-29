@@ -29,10 +29,8 @@ class Model
     /**
      * Returns all stored segments that haven't been deleted. Ignores the site the segments are enabled
      * for and whether to auto archive or not.
-     *
-     * @return array
      */
-    public function getAllSegmentsAndIgnoreVisibility()
+    public function getAllSegmentsAndIgnoreVisibility(): array
     {
         $sql = "SELECT * FROM `" . $this->getTable() . "` WHERE deleted = 0";
 
@@ -68,11 +66,8 @@ class Model
 
     /**
      * Returns all stored segments that are available to the given login.
-     *
-     * @param  string $userLogin
-     * @return array
      */
-    public function getAllSegments($userLogin)
+    public function getAllSegments(string $userLogin): array
     {
         $bind = array($userLogin);
         $sql  = $this->buildQuerySortedByName('deleted = 0 AND (enable_all_users = 1 OR login = ?)');
@@ -84,12 +79,8 @@ class Model
 
     /**
      * Returns all stored segments that are available for the given site and login.
-     *
-     * @param  int    $idSite Whether to return stored segments for a specific idSite, or all of them. If supplied, must be a valid site ID.
-     * @param  string $userLogin
-     * @return array
      */
-    public function getAllSegmentsForSite($idSite, $userLogin)
+    public function getAllSegmentsForSite(int $idSite, string $userLogin): array
     {
         $bind = array($idSite, $userLogin);
         $sql  = $this->buildQuerySortedByName('(enable_only_idsite = ? OR enable_only_idsite = 0)
@@ -121,13 +112,23 @@ class Model
         return $segments;
     }
 
-    public function getSegmentByDefinition($definition)
+    /**
+     * Returns the first stored segment with the given definition that is available for the given site and login.
+     *
+     * @param string|null $userLogin Pass null to include the segments of all users (Super User only).
+     */
+    public function getSegmentByDefinition(string $definition, int $idSite, ?string $userLogin): ?array
     {
-        $sql = $this->buildQuerySortedByName("definition = ? AND deleted = 0");
-        $bind = [$definition];
+        $where = 'definition = ? AND deleted = 0 AND (enable_only_idsite = ? OR enable_only_idsite = 0)';
+        $bind = [$definition, $idSite];
 
-        $segment = $this->getDb()->fetchRow($sql, $bind);
-        return $segment;
+        if ($userLogin !== null) {
+            $where .= ' AND (enable_all_users = 1 OR login = ?)';
+            $bind[] = $userLogin;
+        }
+
+        $segment = $this->getDb()->fetchRow($this->buildQuerySortedByName($where), $bind);
+        return $segment ?: null;
     }
 
     /**
@@ -136,7 +137,7 @@ class Model
      * @return array of segments. The segments are only populated with the fields needed for archive invalidation
      * (e.g. definition, enable_only_idsite).
      */
-    public function getSegmentsDeletedSince(Date $date)
+    public function getSegmentsDeletedSince(Date $date): array
     {
         $dateStr = $date->getDatetime();
         $sql = "SELECT DISTINCT `definition`, `enable_only_idsite`, `hash` FROM `" . Common::prefixTable('segment') . "`"
@@ -297,7 +298,7 @@ class Model
         return Db::get();
     }
 
-    private function buildQuerySortedByName($where)
+    private function buildQuerySortedByName(string $where): string
     {
         return "SELECT * FROM `" . $this->getTable() . "` WHERE $where ORDER BY name ASC";
     }

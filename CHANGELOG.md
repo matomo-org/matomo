@@ -68,7 +68,11 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The deprecated method `Piwik\Plugins\AIProviders\AIProviderResponse::isWebSearchEnabled()` has been removed, along with the `webSearchEnabled` key of `AIProviderResponse::toArray()`. Use `wasWebSearchUsed()` and the `webSearchUsed` key instead, which say what they mean; `Piwik\Plugins\AIProviders\AIRequest::isWebSearchEnabled()` is unaffected and keeps reporting what the request asked for.
 * The deprecated method `Piwik\Plugins\AIProviders\Provider\AIProvider::isWebSearchUsed()` has been removed and is no longer consulted. A provider that reported a search by overriding it must now override `supportsWebSearch()` to declare the capability and pass a `WebSearchUsage` to `buildResponse()`; an override left in place is simply ignored, so such a provider's answers report no search until it migrates.
 
+### New Features
+* Added contextual recommendations for Premium products based on how Matomo is being used.
+
 ### New APIs
+* The new `Template.beforeDashboardWidgets` event is posted at the top of the dashboard, above the widgets, and allows a plugin to render its own content there. It is posted by `plugins/Dashboard/templates/embeddedIndex.twig`; like the other `Template.*` events, a listener takes the rendered output by reference (`function (&$out)`) and appends its markup to it.
 * The new `DragHandle` Vue component in CoreHome renders the standard 6-dot drag-handle icon, for use inside `DraggableList` rows. The `DraggableList` component's `handle` option now also works with real browser drags, which retarget `dragstart` to the draggable element (previously the handle was only recognised in synthetically dispatched events).
 * The new `closeTooltips()` helper in CoreHome closes the jQuery UI tooltips bound to a selector's elements, including pending delayed shows — for cases where no mouse event will fire that would close them, eg. once an HTML5 drag has started.
 * The generic dropdown panel (`plugins/Morpheus/stylesheets/ui/_dropdown-panel.less`) gained the elements `.mtm-dropdownPanel__search` (a nest element that hosts a search input inside a panel), `.mtm-dropdownPanel__searchMatch` (the part of a menu label matching the typed term) and `.mtm-dropdownPanel__noResult` (the row shown when a search yields nothing), plus the modifiers `.mtm-dropdownPanel__menu--scrollable` (caps the menu at `calc(80vh - 60px)` and scrolls) and `.mtm-dropdownPanel__menu--gutter` (an 8px horizontal gutter so the rows line up with a search input above them). The panel itself is now a fixed 254px wide rather than a 240px minimum. `.mtm-dropdownPanel__menuLabel` now truncates with an ellipsis instead of only allowing it.
@@ -171,6 +175,37 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   control inside a Materialize modal can set `data-matomo-modal-escapee` to that modal's
   `data-matomo-modal-id` to be exempted from its focus trap, which otherwise prevents it from holding focus. The
   exemption applies only to the modal named, so an element belonging to one modal cannot hold focus over another.
+* **A report's actions have moved out of the icon bars above and below the data table into a single report header.**
+  The header is rendered beside the table rather than inside it, so an action element is no longer a descendant of
+  `.dataTable`. A handler bound on the table alone never sees it: bind on the report wrapper instead, or reuse
+  `dataTable._findReportScope()`. Delegate rather than bind directly, because the header's menu is rendered by Vue after
+  a plugin's `init()` runs, and namespace your handler so it survives the reloads that rebuild the table.
+* **A `dataTable` subclass whose `init()` lists its handlers instead of calling the base `bindEventsAndApplyStyle()` must
+  also call `self.syncReportHeaderActions(domElem)`.** Without it the shared header is never told what the report offers,
+  and a dashboard widget - whose header is declared empty and filled from here - shows no actions at all.
+* The classes and ids the old bars carried are gone with them: `.dataTableHeaderControls`, `.searchAction`,
+  `.dataTableSearchInput`, `a.dropdownConfigureIcon`, `.activateVisualizationSelection`, `.periodName`, and the
+  materialize `dropdown-content` wrappers. The action classes themselves are unchanged - `.dataTableAction`,
+  `.activateExportSelection`, `.annotationView` and `.tableIcon[data-footer-icon-id]` still identify the same actions,
+  now inside `.reportHeader__actionsMenu`.
+* **The "rows to display" control is no longer a Materialize select.** `.limitSelection` now holds a
+  `.mtm-selector` - a `button.mtm-selector__trigger` and a panel whose choices are `a[data-limit]`
+  inside `.mtm-dropdownPanel__menu` - so `.select-wrapper`, `input.select-dropdown` and the native
+  `<select>` are gone. Read the current value from the trigger's label and pick one by its
+  `data-limit`. On a report with pagination the control now sits inside
+  `.dataTablePaginationControl` rather than in a row of its own.
+* The "export as image" icon no longer carries the id `dataTableFooterExportAsImageIcon`. It is now scoped to the
+  placement it renders in, `dataTableExportAsImageIcon-header`. A page showing several image-exportable reports still
+  repeats it, so prefer selecting `.dataTableAction.tableIcon` within the report you mean.
+* A dashboard layout is now filtered against the widgets available to the user it is served to, so a
+  widget that user may not use is dropped instead of being rendered and left to fail on its own API
+  calls. This matters for a plugin that disables a widget for some users: `createNewDashboardForUser`,
+  `resetDashboardLayout` and `copyDashboardToUser` build a layout from the *calling* user's widget list
+  and store it for someone else, so such a widget could end up saved in a dashboard whose owner has no
+  access to it. The filtering lives in
+  `Piwik\Plugins\Dashboard\Dashboard::removeWidgetsNotAvailableToUser()`, which is `@internal`: it
+  must not be called while the widget list is being built, so it is named here to locate the change
+  rather than to be called from a plugin.
 
 ## Matomo 5.14.1
 
@@ -179,10 +214,14 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   now includes an `effectiveUrl` entry: the final URL after following redirects. Best effort on the `fopen`
   transport, which follows redirects internally.
 
+### New commands
+
+* New command `marketplace:warm-cache` refetches the plugin and theme lists shown in the Marketplace overview. With `--if-older-than=<seconds>` it only refetches when the lists are missing or at least that old. Matomo runs it in the background to refresh the lists at spread-out times rather than on the hour, so it does not normally need to be run by hand.
+
 ## Matomo 5.14.0
 
 ### Breaking Changes
-* The interface `Piwik\Settings\Interfaces\PolicyComparisonInterface` gained four methods used by the granular compliance dashboard: `getPolicySettingId()`, `isExternallyManagedByPolicyPage()`, `getWhatItDoes()` and `getImpact()`. Plugins that implement the interface directly must implement them. Plugins using `Piwik\Settings\Interfaces\Traits\PolicyComparisonTrait` (as all known implementers do) inherit default implementations and are not affected.
+* The interface `Piwik\Settings\Interfaces\PolicyComparisonInterface` gained five methods used by the granular compliance dashboard: `getPolicySettingId()`, `isExternallyManagedByPolicyPage()`, `getWhatItDoes()`, `getImpact()` and `getPolicyOrder()`. Plugins that implement the interface directly must implement them. Plugins using `Piwik\Settings\Interfaces\Traits\PolicyComparisonTrait` (as all known implementers do) inherit default implementations and are not affected. `getPolicyOrder()` returns an order hint, lowest first, that decides where a compliance dashboard lists the setting, in the same way a menu item asks for its position; `PolicyManager::getAllControlledSettings()` now returns the settings in that order instead of in plugin discovery order, ordering settings that share a hint by their policy setting id. The trait's default, `PolicyComparisonInterface::POLICY_ORDER_LAST`, leaves a setting that does not ask for a position at the end of the list.
 * Exporting a report for a single goal (a goals table or a bar/pie/evolution chart showing one goal's
   conversions or revenue) now returns only the columns shown in the UI, by adding `showColumns` to the
   export request. Previously the export returned the aggregated all-goals columns and every other
