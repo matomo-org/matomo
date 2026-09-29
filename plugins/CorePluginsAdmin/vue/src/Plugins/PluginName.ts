@@ -11,21 +11,29 @@ import ClickEvent = JQuery.ClickEvent;
 
 const { $ } = window;
 
-window.broadcast.addPopoverHandler('browsePluginDetail', (value) => {
-  let pluginName = value;
-  let activeTab = null;
+function isOnMarketplaceOverview(): boolean {
+  return MatomoUrl.urlParsed.value.module === 'Marketplace'
+    && MatomoUrl.urlParsed.value.action === 'overview';
+}
 
-  if (value.indexOf('!') !== -1) {
-    activeTab = value.slice(value.indexOf('!') + 1);
-    pluginName = value.slice(0, value.indexOf('!'));
-  }
+/**
+ * The Marketplace page showing the plugin's details, keeping the site and period the reader is on.
+ */
+function getPluginDetailsUrl(pluginName: string): string {
+  const { idSite, period, date } = MatomoUrl.urlParsed.value;
+  const query = MatomoUrl.stringify({
+    module: 'Marketplace',
+    action: 'overview',
+    idSite,
+    period,
+    date,
+  });
 
-  // use marketplace popover if marketplace is loaded
-  if (
-    MatomoUrl.urlParsed.value.module === 'Marketplace'
-    && MatomoUrl.urlParsed.value.action === 'overview'
-  ) {
-    window.broadcast.propagateNewPopoverParameter('');
+  return `?${query}#?${MatomoUrl.stringify({ showPlugin: pluginName })}`;
+}
+
+function showPluginDetails(pluginName: string) {
+  if (isOnMarketplaceOverview()) {
     MatomoUrl.updateHash({
       ...MatomoUrl.hashParsed.value,
       showPlugin: pluginName,
@@ -35,17 +43,28 @@ window.broadcast.addPopoverHandler('browsePluginDetail', (value) => {
     return;
   }
 
-  let url = `module=Marketplace&action=pluginDetails&pluginName=${encodeURIComponent(pluginName)}`;
-  if (activeTab) {
-    url += `&activeTab=${encodeURIComponent(activeTab)}`;
+  window.location.href = getPluginDetailsUrl(pluginName);
+}
+
+// URLs from before the details page opened the plugin in a popover (`popover=browsePluginDetail$3A
+// Name!tab`). They are sent on to the page, which has no tabs, so the tab is dropped. The popover
+// entry is replaced rather than left behind, or going back to it would open the page again.
+window.broadcast.addPopoverHandler('browsePluginDetail', (value) => {
+  const pluginName = value.indexOf('!') !== -1 ? value.slice(0, value.indexOf('!')) : value;
+
+  if (isOnMarketplaceOverview()) {
+    window.broadcast.propagateNewPopoverParameter('');
+    showPluginDetails(pluginName);
+    return;
   }
 
-  window.Piwik_Popover.createPopupAndLoadUrl(url, 'details');
+  window.location.replace(getPluginDetailsUrl(pluginName));
 });
 
 interface PluginNameDirectiveValue {
   // input
   pluginName: string;
+  /** @deprecated the details page has no tabs, so this is ignored */
   activePluginTab?: string;
 
   // state
@@ -56,16 +75,13 @@ function onClickPluginNameLink(
   binding: DirectiveBinding<PluginNameDirectiveValue>,
   event: ClickEvent,
 ) {
-  let { pluginName } = binding.value;
-  const { activePluginTab } = binding.value;
-
-  event.preventDefault();
-
-  if (activePluginTab) {
-    pluginName += `!${activePluginTab}`;
+  // a new tab or window follows the link's own href
+  if (event.ctrlKey || event.metaKey || event.shiftKey || event.button === 1) {
+    return;
   }
 
-  window.broadcast.propagateNewPopoverParameter('browsePluginDetail', pluginName);
+  event.preventDefault();
+  showPluginDetails(binding.value.pluginName);
 }
 
 export default {
@@ -77,6 +93,7 @@ export default {
 
     binding.value.onClickHandler = onClickPluginNameLink.bind(null, binding);
     $(element).on('click', binding.value.onClickHandler!)
+      .attr('href', getPluginDetailsUrl(pluginName))
       // attribute added for AnonymousPiwikUsageMeasurement
       .attr('matomo-plugin-name', pluginName);
   },
