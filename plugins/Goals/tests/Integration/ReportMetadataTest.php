@@ -183,6 +183,98 @@ class ReportMetadataTest extends IntegrationTestCase
     }
 
     /**
+     * Over HTTP the parameter arrives as the string "0", which `Goals.get` itself does not read as
+     * the ecommerce order goal, so the data has to be requested for the report the metadata names.
+     *
+     * @dataProvider getNumericEcommerceOrderGoalIds
+     * @param int|string $idGoal
+     */
+    public function testAProcessedReportForTheNumericEcommerceOrderGoalIdHoldsTheEcommerceOrderFigures($idGoal): void
+    {
+        $numeric = $this->getProcessedReport()->getProcessedReport(
+            $this->idSite,
+            'day',
+            self::DATE,
+            'Goals',
+            'get',
+            false,
+            ['idGoal' => $idGoal],
+            formatMetrics: false
+        );
+        $ecommerceOrder = $this->getProcessedReport()->getProcessedReport(
+            $this->idSite,
+            'day',
+            self::DATE,
+            'Goals',
+            'get',
+            false,
+            ['idGoal' => 'ecommerceOrder'],
+            formatMetrics: false
+        );
+
+        $row = $numeric['reportData']->getFirstRow()->getColumns();
+
+        self::assertSame($ecommerceOrder['reportData']->getFirstRow()->getColumns(), $row);
+        self::assertEquals(90, $row['revenue_subtotal']);
+        self::assertEquals(10, $row['revenue_tax']);
+    }
+
+    /**
+     * @return iterable<string, array{int|string}>
+     */
+    public function getNumericEcommerceOrderGoalIds(): iterable
+    {
+        yield 'string, as sent over HTTP' => ['0'];
+        yield 'integer' => [0];
+    }
+
+    /**
+     * @dataProvider getRequestsWithoutTheEcommerceOrderReport
+     */
+    public function testAProcessedReportForTheNumericEcommerceOrderGoalIdNamesItsReportWhenNotFound(bool $multipleSites): void
+    {
+        $idSiteWithoutEcommerce = $this->createSiteWithoutEcommerce();
+        $idSite = $multipleSites ? $this->idSite . ',' . $idSiteWithoutEcommerce : $idSiteWithoutEcommerce;
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage(
+            'idGoal=0 is the ecommerce order goal (idGoal=ecommerceOrder), whose report is only available for a single website with ecommerce enabled.'
+        );
+
+        $this->getProcessedReport()->getProcessedReport($idSite, 'day', self::DATE, 'Goals', 'get', false, ['idGoal' => 0]);
+    }
+
+    /**
+     * @return iterable<string, array{bool}>
+     */
+    public function getRequestsWithoutTheEcommerceOrderReport(): iterable
+    {
+        yield 'site without ecommerce' => [false];
+        yield 'several sites' => [true];
+    }
+
+    public function testAProcessedReportForTheEcommerceOrderGoalLabelKeepsTheGenericErrorWhenNotFound(): void
+    {
+        $idSiteWithoutEcommerce = $this->createSiteWithoutEcommerce();
+
+        try {
+            $this->getProcessedReport()->getProcessedReport(
+                $idSiteWithoutEcommerce,
+                'day',
+                self::DATE,
+                'Goals',
+                'get',
+                false,
+                ['idGoal' => 'ecommerceOrder']
+            );
+            self::fail('Expected the report not to be found.');
+        } catch (\Exception $e) {
+            self::assertStringContainsString('not found in the list of available reports', $e->getMessage());
+            self::assertStringNotContainsString('idGoal=0', $e->getMessage());
+        }
+    }
+
+    /**
      * The conversion distributions read `idGoal=0` as all goals, so addressing them numerically
      * resolves to the all-goals report whether or not the site has ecommerce.
      *
