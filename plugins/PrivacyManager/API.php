@@ -13,6 +13,7 @@ use Exception;
 use Piwik\API\Request;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
+use Piwik\Log\LoggerInterface;
 use Piwik\Piwik;
 use Piwik\Config as PiwikConfig;
 use Piwik\Plugin\Manager;
@@ -881,9 +882,15 @@ class API extends \Piwik\Plugin\API
 
         $idSite = $this->resolveCompliancePolicyIdSite($idSite);
 
+        $before = $this->complianceSettingsProvider->getPolicySettings($policy, $idSite);
+
         PolicyManager::setPolicySettingEnforcedStatuses($policy, $settingValues, $idSite);
 
-        return $this->complianceSettingsProvider->getPolicySettings($policy, $idSite);
+        $after = $this->complianceSettingsProvider->getPolicySettings($policy, $idSite);
+
+        $this->postCompliancePolicySettingsUpdated($policy, $idSite, $before, $after);
+
+        return $after;
     }
 
     /**
@@ -918,9 +925,95 @@ class API extends \Piwik\Plugin\API
             $settingValues[$settingClass::getPolicySettingId()] = true;
         }
 
+        $before = $this->complianceSettingsProvider->getPolicySettings($policy, $idSite);
+
         PolicyManager::setPolicySettingEnforcedStatuses($policy, $settingValues, $idSite);
 
-        return $this->complianceSettingsProvider->getPolicySettings($policy, $idSite);
+        $after = $this->complianceSettingsProvider->getPolicySettings($policy, $idSite);
+
+        $this->postCompliancePolicySettingsUpdated($policy, $idSite, $before, $after);
+
+        return $after;
+    }
+
+    /**
+     * Announces the compliance policy settings a request has just changed, so an audit trail
+     * can record who changed what.
+     *
+     * Nothing is posted when the request left every setting as it was, which keeps a save
+     * that repeats the current state out of the audit trail. A request that fails never
+     * reaches this point, and does not need to: the write is validated upfront and is
+     * all-or-nothing, so a failed request leaves nothing behind to announce.
+     *
+     * @param class-string<CompliancePolicy> $policy
+     * @param array<string, mixed> $before payload taken before the settings were written
+     * @param array<string, mixed> $after payload taken after the settings were written
+     */
+    private function postCompliancePolicySettingsUpdated(
+        string $policy,
+        ?int $idSite,
+        array $before,
+        array $after
+    ): void {
+        $changes = $this->complianceSettingsProvider->diffPolicySettings($before, $after);
+
+        if (empty($changes)) {
+            return;
+        }
+
+        /**
+         * Triggered after a request changed the enforcement state of one or more settings of a
+         * compliance policy, for example through the privacy compliance page.
+         *
+         * The event is only triggered when something actually changed, and deliberately carries
+         * nothing but the resulting compliance state: no request parameters, and therefore no
+         * password confirmation or authentication token, are passed on.
+         *
+         * `changes` describes the difference between the compliance state before and after the
+         * request, which is not the same thing as what this caller did: a setting's status also
+         * follows the underlying Matomo setting, so a change another request made to one of those
+         * in the meantime is part of the difference too. Treat it as the resulting state
+         * difference rather than as an attribution of every entry to the acting user.
+         *
+         * **Example**
+         *
+         *     Piwik::addAction('PrivacyManager.compliancePolicySettingsUpdated', function ($update) {
+         *         foreach ($update['changes'] as $change) {
+         *             Log::info($change['id'] . ' is now ' . $change['status']);
+         *         }
+         *     });
+         *
+         * @param array $update Details of the change, containing the following data:
+         *
+         *                      - **policy**: The id of the compliance policy that was changed,
+         *                                    e.g. `cnil_v1`.
+         *                      - **idSite**: The website the policy was changed for, or `null`
+         *                                    when the instance wide state was changed.
+         *                      - **policyEnforced**: Whether every toggleable setting of the
+         *                                            policy is enforced after the change.
+         *                      - **changes**: The settings whose enforcement state or compliance
+         *                                     status changed, each holding its `id`, `name`,
+         *                                     `enforced`, `previousEnforced`, `status` and
+         *                                     `previousStatus`. `id` is the stable identifier to
+         *                                     persist; `name` is a translated title for display
+         *                                     and changes with the interface language.
+         */
+        try {
+            Piwik::postEvent('PrivacyManager.compliancePolicySettingsUpdated', [[
+                'policy' => $policy::getName(),
+                'idSite' => $idSite,
+                'policyEnforced' => !empty($after['policyEnforced']),
+                'changes' => $changes,
+            ]]);
+        } catch (\Throwable $e) {
+            // the settings are already written by the time the change is announced, so a listener
+            // that fails must not report the save as failed: the caller would retry, find nothing
+            // left to change, and the change could then never be announced at all
+            StaticContainer::get(LoggerInterface::class)->warning(
+                'A listener of PrivacyManager.compliancePolicySettingsUpdated failed: {message}',
+                ['message' => $e->getMessage(), 'exception' => $e]
+            );
+        }
     }
 
     /**
