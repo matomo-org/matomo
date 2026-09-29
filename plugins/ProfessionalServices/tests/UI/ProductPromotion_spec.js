@@ -92,7 +92,9 @@ describe('ProductPromotion', function () {
         expect(href).to.contain('mtm_group=triggered_ad');
         expect(href).to.contain('mtm_content=CustomReports');
         expect(href).to.contain('mtm_placement=top_banner');
-        expect(href).to.contain('mtm_kwd=segments');
+        // The trigger name is deliberately not on the link: it is the reason the promotion
+        // fired, and that is a fact about this instance's own reports.
+        expect(href).to.not.contain('mtm_kwd');
 
         // The call to action is the only thing that leaves the app, so it opens in a new
         // tab and withholds the referrer. The headline is plain text.
