@@ -192,6 +192,15 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The "export as image" icon no longer carries the id `dataTableFooterExportAsImageIcon`. It is now scoped to the
   placement it renders in, `dataTableExportAsImageIcon-header`. A page showing several image-exportable reports still
   repeats it, so prefer selecting `.dataTableAction.tableIcon` within the report you mean.
+* A dashboard layout is now filtered against the widgets available to the user it is served to, so a
+  widget that user may not use is dropped instead of being rendered and left to fail on its own API
+  calls. This matters for a plugin that disables a widget for some users: `createNewDashboardForUser`,
+  `resetDashboardLayout` and `copyDashboardToUser` build a layout from the *calling* user's widget list
+  and store it for someone else, so such a widget could end up saved in a dashboard whose owner has no
+  access to it. The filtering lives in
+  `Piwik\Plugins\Dashboard\Dashboard::removeWidgetsNotAvailableToUser()`, which is `@internal`: it
+  must not be called while the widget list is being built, so it is named here to locate the change
+  rather than to be called from a plugin.
 
 ## Matomo 5.14.1
 
