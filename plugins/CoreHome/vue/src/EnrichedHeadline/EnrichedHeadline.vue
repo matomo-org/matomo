@@ -12,16 +12,18 @@
     v-on:mouseleave="showIcons = false"
     ref="root"
   >
+    <!-- `title` carries no styles of ours; it stays in the DOM because third-party code reads
+         the report name from `.enrichedHeadline .title`, eg. the ReportSorter plugin. -->
     <div
       v-if="!editUrl"
-      class="title"
+      class="enrichedHeadline__title title"
       tabindex="6"
     >
       <slot />
     </div>
     <a
       v-if="editUrl"
-      class="title enrichedHeadline__editableTitle"
+      class="enrichedHeadline__title enrichedHeadline__title--editable title"
       :href="editUrl"
       :title="translate('CoreHome_ClickToEditX', htmlEntities(actualFeatureName || ''))"
     >
@@ -29,24 +31,24 @@
     </a>
     <span
       v-show="showIcons || showInlineHelp"
-      class="iconsBar"
+      class="enrichedHeadline__iconsBar"
     >
       <a
         v-if="helpUrl && !actualInlineHelp"
         rel="noreferrer noopener"
         target="_blank"
-        class="helpIcon"
+        class="enrichedHeadline__helpIcon"
         :href="helpUrl"
         :title="translate('CoreHome_ExternalHelp')"
       ><span class="icon-help" /></a>
       <a
         v-if="actualInlineHelp"
         v-on:click="showInlineHelp = !showInlineHelp"
-        class="helpIcon"
-        :class="{ 'active': showInlineHelp }"
+        class="enrichedHeadline__helpIcon"
+        :class="{ 'enrichedHeadline__helpIcon--active': showInlineHelp }"
         :title="translate(reportGenerated ? 'General_HelpReport' : 'General_Help')"
       ><span class="icon-info" /></a>
-      <div class="ratingIcons" v-if="showRateFeature">
+      <div class="enrichedHeadline__ratingIcons" v-if="showRateFeature">
         <component :title="actualFeatureName" :is="asComponent(rateFeature)"></component>
       </div>
     </span>
@@ -55,18 +57,18 @@
          offers nothing and keeps it here. -->
     <Teleport :to="helpContainer" :disabled="!helpContainer">
       <div
-        class="inlineHelp"
+        class="enrichedHeadline__help"
         v-show="showInlineHelp"
       >
         <div v-html="$sanitize(actualInlineHelp)"/>
-        <span class="helpDate"
+        <span class="enrichedHeadline__helpDate"
               v-if="reportGenerated!=''"
               v-html="$sanitize(reportGenerated)"></span>
         <a
           v-if="helpUrl"
           rel="noreferrer noopener"
           target="_blank"
-          class="readMore"
+          class="enrichedHeadline__readMore"
           :href="helpUrl"
         >{{ translate('General_MoreDetails') }}</a>
       </div>
@@ -107,12 +109,6 @@ export interface EnrichedHeadlineData {
  *
  * <h2><EnrichedHeadline inline-help="inlineHelp">Pages report</EnrichedHeadline></h2>
  * -> inlineHelp specified via a attribute shows help icon on headline hover
- *
- * <h2><EnrichedHeadline>All Websites Dashboard
- *     <div class="inlineHelp">My <strong>inline help</strong></div>
- * </EnrichedHeadline></h2>
- * -> alternative definition for inline help
- * -> shows help icon to display inline help on click. Note: You can combine inlinehelp and help-url
  *
  * * <h2><EnrichedHeadline report-generated="generated time">Pages report</EnrichedHeadline></h2>
  * -> reportGenerated specified via this attribute shows a clock icon with a tooltip which
@@ -162,22 +158,6 @@ export default defineComponent({
   mounted() {
     const root = this.$refs.root as HTMLElement;
 
-    if (!this.actualInlineHelp) {
-      const inlineHelpNode = root.querySelector('.title .inlineHelp');
-
-      if (inlineHelpNode) {
-        // hackish solution to get binded html of p tag within the help node
-        // at this point the ng-bind-html is not yet converted into html when report is not
-        // initially loaded. Using $compile doesn't work. So get and set it manually
-        const helpDocs = inlineHelpNode.getAttribute('data-content')?.trim();
-        if (helpDocs && helpDocs.length) {
-          this.actualInlineHelp = `<p>${helpDocs}</p>`;
-          // this alternate inline help node is styled visible, so drop it once consumed
-          setTimeout(() => inlineHelpNode.remove(), 0);
-        }
-      }
-    }
-
     if (!this.actualFeatureName) {
       this.actualFeatureName = this.readReportFeatureName();
     }
@@ -211,7 +191,7 @@ export default defineComponent({
     },
     readReportFeatureName(): string {
       const root = this.$refs.root as HTMLElement;
-      return root?.querySelector('.title')?.textContent?.trim() || '';
+      return root?.querySelector('.enrichedHeadline__title')?.textContent?.trim() || '';
     },
   },
   computed: {
