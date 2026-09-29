@@ -33,7 +33,8 @@ use Piwik\Tracker\Visit\VisitProperties;
  *  - Partial failure: if this writer's INSERT fails while the hit's log_link_visit_action
  *    INSERT succeeded, a later hit grows the previous row across the gap while the legacy
  *    path still credits the missing action, overcounting that interval once. Only the INSERT
- *    does this; a failed close leaves the row at 0, which the anti-join treats as absent.
+ *    does this; a failed close leaves the row as it was, so the legacy value covers the rest
+ *    unless an earlier hit already grew the row, which then suppresses it.
  */
 class PageViewTimeWriter
 {

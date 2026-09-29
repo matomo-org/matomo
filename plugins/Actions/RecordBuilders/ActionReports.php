@@ -843,18 +843,27 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         // legacy value only where the interval it credits overlaps the span a row measured,
         // which is server_time through server_time + time_spent. Matching on the action alone
         // would let one closed row suppress every other view of that page, including views the
-        // writer never captured, whose time would then be counted by neither path; requiring
-        // the hit itself to fall inside the span would miss the hit that closed a row the cap
-        // cut short, and count its interval twice. A row that was never closed spans nothing.
+        // writer never captured, whose time would then be counted by neither path. A row the
+        // cap cut short spans less than the view lasted, so a closed row also covers the hit
+        // that follows it with no other row between, as that hit is the one the writer closed
+        // it with. A row that was never closed spans nothing.
         $spanCovered = "
                  AND NOT EXISTS (
                         SELECT 1 FROM `$pageViewTimeTable` AS pvt
                          WHERE pvt.idvisit = log_link_visit_action.idvisit
                            AND pvt.%s = log_link_visit_action.%s
                            AND pvt.server_time < log_link_visit_action.server_time
-                           AND log_link_visit_action.server_time
-                               - INTERVAL log_link_visit_action.time_spent_ref_action SECOND
-                               < pvt.server_time + INTERVAL pvt.time_spent SECOND
+                           AND (
+                               log_link_visit_action.server_time
+                                   - INTERVAL log_link_visit_action.time_spent_ref_action SECOND
+                                   < pvt.server_time + INTERVAL pvt.time_spent SECOND
+                               OR pvt.time_spent > 0 AND NOT EXISTS (
+                                   SELECT 1 FROM `$pageViewTimeTable` AS pvt_next
+                                    WHERE pvt_next.idvisit = pvt.idvisit
+                                      AND pvt_next.server_time > pvt.server_time
+                                      AND pvt_next.server_time < log_link_visit_action.server_time
+                               )
+                           )
                      )";
 
         $whereUrl = $whereBase . sprintf($spanCovered, 'idaction_url', 'idaction_url_ref');

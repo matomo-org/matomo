@@ -439,6 +439,41 @@ class ActionReportsAccurateArchiveTest extends IntegrationTestCase
         $this->assertSame(1800, (int) ($rows['https://example.org/long']['sum_time_spent'] ?? -1));
     }
 
+    /**
+     * As above, but the last action before leaving comes after the capped span ends.
+     *
+     * The legacy value then starts where the capped span stops, so the two do not overlap,
+     * yet both still describe the one view.
+     */
+    public function testAPageHeldPastTheCapIsNotCountedTwiceWhenTheLastActionFollowsTheCap(): void
+    {
+        $day = '2026-06-30';
+
+        $tracker = Fixture::getTracker($this->idSite, $day . ' 12:00:00', true, true);
+        $tracker->setTokenAuth(Fixture::getTokenAuth());
+        $tracker->setUrl('https://example.org/long');
+        $tracker->setPageviewId('aaaaaa');
+        Fixture::checkResponse($tracker->doTrackPageView('Long'));
+
+        // Two events keep the visit alive past the cap; the second one lands after it.
+        $tracker->setForceVisitDateTime($day . ' 12:20:00');
+        Fixture::checkResponse($tracker->doTrackEvent('Video', 'play'));
+        $tracker->setForceVisitDateTime($day . ' 12:45:00');
+        Fixture::checkResponse($tracker->doTrackEvent('Video', 'pause'));
+
+        $tracker->setForceVisitDateTime($day . ' 12:50:00');
+        $tracker->setUrl('https://example.org/next');
+        $tracker->setPageviewId('bbbbbb');
+        Fixture::checkResponse($tracker->doTrackPageView('Next'));
+
+        (new CronArchive())->main();
+
+        $rows = $this->readPageUrlRows('day', $day);
+
+        // Capped at visit_standard_length, not 1800 + the 300s legacy value on top.
+        $this->assertSame(1800, (int) ($rows['https://example.org/long']['sum_time_spent'] ?? -1));
+    }
+
     private function readPageUrlRows(string $period, string $date, $segment = false): array
     {
         $report = ActionsAPI::getInstance()->getPageUrls($this->idSite, $period, $date, $segment, false, false, -1, false, 'flat');
