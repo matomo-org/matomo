@@ -187,6 +187,11 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * Unlike the layout the controller serves, this is deliberately not filtered against the widgets
+     * available to the user: the method runs inside the building of the widget list itself, reached
+     * through {@see Dashboard::addWidgetConfigs()}, so consulting that list here would recurse. It
+     * reports widget names only, never renders one.
+     *
      * @param DashboardRecord $dashboard
      * @return list<DashboardWidget>
      */
