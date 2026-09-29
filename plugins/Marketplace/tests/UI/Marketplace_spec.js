@@ -336,6 +336,9 @@ describe("Marketplace", function () {
                   { waitFor: true }
                 );
                 await monthly.click();
+                // off the toggle, or its hover colour is in the capture only when the pointer
+                // happens to still be over it
+                await page.mouse.move(-10, -10);
 
                 await captureWithPluginDetails('bundle_details_monthly_' + mode);
             });

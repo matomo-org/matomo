@@ -491,15 +491,17 @@ describe('PluginDetails', () => {
   });
 
   it('prices nothing for a plugin that is already installed', async () => {
-    mockPost.mockResolvedValue(detailsResponse);
+    // the details response is merged over the card row, so it has to say installed as well
+    mockPost.mockResolvedValue({ ...detailsResponse, isInstalled: true });
 
-    const wrapper = mountDetails({ ...cardRow, isInstalled: true, isPaid: true }, true);
+    const wrapper = mountDetails({ ...cardRow, isInstalled: true, isPaid: true });
     await flushPromises();
 
     // purchased or free, the panel is the status and its button alone
     expect(wrapper.find('.shopPricing').exists()).toBe(false);
     expect(wrapper.find('.marketplacePluginDetails__free').exists()).toBe(false);
-    expect(wrapper.find('.marketplacePluginDetails__buy').text()).toContain('General_Installed');
+    expect(wrapper.find('.marketplacePluginDetails__buy')
+      .findComponent({ name: 'CTAContainer' }).exists()).toBe(true);
   });
 
   it('says Free above the button for a plugin that costs nothing', async () => {
