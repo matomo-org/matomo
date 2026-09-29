@@ -42,6 +42,9 @@ describe("ManageGoals", function () {
         const saveButton = await page.waitForSelector('.addEditGoal .matomo-save-button .btn');
         await saveButton.click();
         await page.waitForNetworkIdle();
+        // the list reloads after the save, the network can be idle before that starts
+        await page.waitForSelector('.notification.notification-success', { visible: true });
+        await page.waitForFunction((name) => $('div.manageGoals table.entityTable tbody tr:last-child').text().includes(name), {}, goalName);
     }
 
     it("should show correct notification when creating a new goal", async function () {

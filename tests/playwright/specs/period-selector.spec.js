@@ -275,7 +275,8 @@ test.describe('PeriodSelector', () => {
     session.allowServerErrors();
     await page.goto(url.replace(/date=[^&#]+&/, 'date=2020-08-08,2020-08-09&'));
     await expect(page.locator('.periodSelector .title')).not.toHaveText('');
-    // the site selector shows its arrow once the sites are loaded
+    // the site selector shows its arrow once it is mounted and the sites are loaded
+    await expect(page.locator('.siteSelector .icon-chevron-down')).toBeVisible();
     await expect(page.locator('.siteSelector .icon-chevron-down.iconHidden')).toHaveCount(0);
     await expectAreaScreenshot(session, [...area, '#notificationContainer'], 'invalid.png');
     session.allowServerErrors(false);

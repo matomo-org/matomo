@@ -47,6 +47,27 @@ class PlaywrightPageRenderer extends PageRenderer {
     return this.webpage.screenshot(...args);
   }
 
+  // The clip is measured once, so wait until the element's size stops changing (a late layout change
+  // otherwise moves the capture boundary). Captures anyway after 5 s, like before.
+  async screenshotSelector(selector, shouldResizeViewport = true) {
+    if (shouldResizeViewport) {
+      await this.resizeViewportToFullPage();
+    }
+    const measure = () => this.webpage.__pw.evaluate((sel) => (window.jQuery ? JSON.stringify(window.jQuery(sel)
+      .filter(':visible').toArray().map((node) => [node.offsetWidth, node.offsetHeight])) : ''), selector)
+      .catch(() => '');
+    let previous = await measure();
+    for (let attempt = 0; attempt < 50; attempt += 1) {
+      await new Promise((resolve) => setTimeout(resolve, 100));
+      const size = await measure();
+      if (size === previous && size !== '' && size !== '[]') {
+        break;
+      }
+      previous = size;
+    }
+    return super.screenshotSelector(selector, false);
+  }
+
   async clearCookies() {
     await this.browserContext.__pw.clearCookies();
   }
