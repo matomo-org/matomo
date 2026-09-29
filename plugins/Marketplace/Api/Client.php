@@ -547,6 +547,15 @@ class Client
 
         try {
             $result = $this->service->fetch($action, $params);
+
+            // an error response with an empty body arrives as '', and caching that would replace
+            // the list with nothing until the next refresh
+            if ($isWarmedList && !is_array($result)) {
+                throw new Service\Exception(
+                    'There was an error reading the response from the Marketplace. Please try again later.',
+                    Service\Exception::HTTP_ERROR
+                );
+            }
         } catch (PhpException $e) {
             // not only Service\Exception: core/Http.php reports an unreachable Marketplace as a
             // plain \Exception
