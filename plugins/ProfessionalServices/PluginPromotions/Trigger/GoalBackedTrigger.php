@@ -47,15 +47,22 @@ abstract class GoalBackedTrigger implements PromotionTrigger
     /**
      * The plugins whose archives have to exist first.
      *
-     * Empty for a promotion that only needs the goal metrics: those are read straight from
-     * the numeric archive, which never builds anything. A promotion that goes on to read a
-     * report has to name that report's plugin here.
+     * `Goals` by default, because every promotion here starts from last week's goal
+     * metrics. A promotion that goes on to read a report of its own adds that report's
+     * plugin to this list.
+     *
+     * The gate does two jobs, and the second is the reason this is not empty. It keeps a
+     * report from being built to answer a dashboard - which the goal metrics never do,
+     * since {@see WeeklyGoalMetrics::read()} opts out of launching archiving - and it tells
+     * "cannot tell yet" apart from "does not qualify". Without it a week that has not
+     * finished archiving reads back as a website with no goal worth promoting, and
+     * {@see DailyTriggerCache} remembers that until the website's local midnight.
      *
      * @return string[]
      */
     protected function getRequiredArchives(): array
     {
-        return [];
+        return ['Goals'];
     }
 
     /**
