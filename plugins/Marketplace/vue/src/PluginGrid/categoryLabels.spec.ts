@@ -8,14 +8,14 @@
 // Not the shared CoreHome mock: this spec is about the locale categoryLabel() capitalises in, so
 // ucfirst() defaults to Turkish here - the locale that makes the dotted capital I - to stand in
 // for a reader whose browser is set to it. Passing 'en' is what keeps the key ASCII.
-vi.mock('CoreHome', () => ({
+jest.mock('CoreHome', () => ({
   translate: (key: string) => key,
   translateOrDefault: (key: string) => (
     key === 'Marketplace_CategoryInsights' ? 'Insights, translated' : key
   ),
   ucfirst: (value: string, locale?: string) => `${
     value.charAt(0).toLocaleUpperCase(locale || 'tr')}${value.slice(1)}`,
-}));
+}), { virtual: true });
 
 /* eslint-disable import/first */
 import { makePlugin } from '../testMarketplaceFixtures';

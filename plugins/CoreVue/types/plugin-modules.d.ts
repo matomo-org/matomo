@@ -48,6 +48,11 @@ declare module 'CoreHome' {
     isComparisonEnabled(): boolean | null;
   };
   export function translate(translationStringId: string, values?: unknown[]): string;
+  export function translateOrDefault(
+    translationStringIdOrText?: string,
+    ...values: (string|string[]|number|number[]|boolean|boolean[])[]
+  ): string;
+  export function ucfirst(text?: string, locale?: string): string;
 
   // MatomoUrl's parsed/urlParsed/hashParsed are Vue computed refs over the decoded query.
   type ParsedQueryRef = import('vue').ComputedRef<

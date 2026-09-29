@@ -7,22 +7,28 @@
 
 import { mount, VueWrapper } from '@vue/test-utils';
 
-// Pulled in dynamically: a vi.mock() factory is hoisted above the file's own imports.
-vi.mock('CoreHome', async () => (await import('../testCoreHomeMock')).coreHomeMock());
+// Loaded inside the factory: jest.mock() is hoisted above the file's own imports.
+jest.mock('CoreHome', () => jest.requireActual('../testCoreHomeMock').coreHomeMock(), {
+  virtual: true,
+});
 
 /* eslint-disable import/first */
 import CategoryTabs from './CategoryTabs.vue';
 import { PluginTab } from '../PluginGrid/pluginGrouping';
 import { translateStub } from '../testCoreHomeMock';
 
+// what mount() hands back for an SFC typed by the *.vue shim, whose props it cannot know
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type Wrapper = VueWrapper<any>;
+
 /** The component's own `(max-width: 1400px)` test; `narrow` means the overflow menu is showing. */
 function stubMatchMedia(narrow: boolean) {
   const listeners: (() => void)[] = [];
-  window.matchMedia = vi.fn().mockImplementation((query: string) => ({
+  window.matchMedia = jest.fn().mockImplementation((query: string) => ({
     matches: narrow,
     media: query,
     addEventListener: (_: string, handler: () => void) => listeners.push(handler),
-    removeEventListener: vi.fn(),
+    removeEventListener: jest.fn(),
   })) as unknown as typeof window.matchMedia;
   return listeners;
 }
@@ -48,7 +54,7 @@ async function mountTabs(tabs: PluginTab[], modelValue = 'all') {
 }
 
 /** Only the tabs the bar is actually showing, i.e. not pushed into the overflow menu. */
-const visibleTabLabels = (wrapper: VueWrapper) => wrapper
+const visibleTabLabels = (wrapper: Wrapper) => wrapper
   .findAll('.categoryTabs__tab')
   .filter((t) => !t.classes('categoryTabs__tab--overflow')
     && !t.classes('categoryTabs__tab--more'))
@@ -56,7 +62,7 @@ const visibleTabLabels = (wrapper: VueWrapper) => wrapper
 
 describe('Marketplace/CategoryTabs', () => {
   afterEach(() => {
-    vi.restoreAllMocks();
+    jest.restoreAllMocks();
   });
 
   describe('on a wide screen', () => {

@@ -6,10 +6,15 @@
  */
 
 import { mount } from '@vue/test-utils';
+import {
+  advanceTimersByTimeAsync,
+  useFakeTimers,
+  useRealTimers,
+} from '../testFakeTimers';
 
-const { mockPost } = vi.hoisted(() => ({ mockPost: vi.fn() }));
+const mockPost = jest.fn();
 
-vi.mock('CoreHome', () => ({
+jest.mock('CoreHome', () => ({
   // the screenshot lightbox; rendered inline here rather than teleported to the document body,
   // so `wrapper.find` can still see what it was handed
   MatomoModal: {
@@ -33,10 +38,12 @@ vi.mock('CoreHome', () => ({
   ucfirst: (value: string) => `${value.charAt(0).toUpperCase()}${value.slice(1)}`,
   externalLink: (url: string) => `<a href="${url}">`,
   externalRawLink: (url: string) => url,
-}));
+}), { virtual: true });
 
-/* eslint-disable import/first */
-import PluginDetails from './PluginDetails.vue';
+// required rather than imported: an import would load the component, and so run the factory
+// above, before mockPost is assigned
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const PluginDetails = require('./PluginDetails.vue').default;
 
 // a row exactly as Controller::keepPluginCardFields() leaves it: no shop, versions or screenshots
 const cardRow = {
@@ -163,7 +170,7 @@ describe('PluginDetails', () => {
     // the page replaces the catalogue as soon as a card is clicked, so rendering nothing until
     // the response arrives would read as the marketplace having vanished. A skeleton rather than
     // a spinner, as the catalogue's own cards use.
-    let resolveRequest: (value: unknown) => void = () => {};
+    let resolveRequest: (value: unknown) => void = () => undefined;
     mockPost.mockReturnValue(new Promise((resolve) => {
       resolveRequest = resolve;
     }));
@@ -427,7 +434,8 @@ describe('PluginDetails', () => {
 
   it('links only the URLs that carry a safe scheme', async () => {
     // all of them come from the plugin's own plugin.json, which its developer writes
-    // eslint-disable-next-line no-script-url -- the unsafe value under test, never navigated to
+    // the unsafe value under test, never navigated to
+    // eslint-disable-next-line no-script-url
     const unsafeUrl = 'javascript:alert(1)';
     mockPost.mockResolvedValue({
       ...detailsResponse,
@@ -458,21 +466,21 @@ describe('PluginDetails', () => {
   });
 
   it('gives up on a request that never answers, rather than leaving the skeleton there', async () => {
-    vi.useFakeTimers();
+    useFakeTimers();
     try {
       mockPost.mockReturnValue(new Promise(() => { /* never settles */ }));
 
       const wrapper = mountDetails(cardRow);
-      await vi.advanceTimersByTimeAsync(30000 - 1);
+      await advanceTimersByTimeAsync(30000 - 1);
       expect(vmOf(wrapper).isLoading).toBe(true);
 
-      await vi.advanceTimersByTimeAsync(1);
+      await advanceTimersByTimeAsync(1);
 
       expect(vmOf(wrapper).isLoading).toBe(false);
       expect(vmOf(wrapper).fetchErrorMessage).toBe('Marketplace_PluginDetailsNotAvailable');
       expect(wrapper.find('.pluginDetailsSkeleton').exists()).toBe(false);
     } finally {
-      vi.useRealTimers();
+      useRealTimers();
     }
   });
 
@@ -598,7 +606,7 @@ describe('PluginDetails', () => {
     await wrapper.vm.$nextTick();
 
     const firstController = mockPost.mock.calls[0][2].abortController;
-    const abortSpy = vi.spyOn(firstController, 'abort');
+    const abortSpy = jest.spyOn(firstController, 'abort');
 
     await wrapper.setProps({ pluginCard: { ...cardRow, name: 'PaidPlugin2' } });
 

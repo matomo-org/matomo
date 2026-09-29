@@ -7,11 +7,11 @@
 
 import { enableAutoUnmount, mount, VueWrapper } from '@vue/test-utils';
 
-// Pulled in dynamically: a vi.mock() factory is hoisted above the file's own imports. The hash is a
+// Loaded inside the factory: jest.mock() is hoisted above the file's own imports. The hash is a
 // real ref so the component's watch() on it fires the way it does in the browser.
-vi.mock('CoreHome', async () => {
-  const { ref } = await import('vue');
-  const { coreHomeMock } = await import('../testCoreHomeMock');
+jest.mock('CoreHome', () => {
+  const { ref } = jest.requireActual('vue') as typeof import('vue');
+  const { coreHomeMock } = jest.requireActual('../testCoreHomeMock');
   const hashParsed = ref<Record<string, unknown>>({});
 
   // replaceHash() goes round MatomoUrl - which has no replace of its own - and reaches the rest of
@@ -31,11 +31,11 @@ vi.mock('CoreHome', async () => {
     ContentIntro: { name: 'ContentIntro', template: '<div><slot/></div>' },
     ContentTable: { name: 'ContentTable', template: '<div><slot/></div>' },
     SearchInput: { name: 'SearchInput', template: '<div/>' },
-    NotificationsStore: { show: vi.fn(), remove: vi.fn() },
+    NotificationsStore: { show: jest.fn(), remove: jest.fn() },
     externalLink: (url: string) => url,
     externalRawLink: (url: string) => url,
-    Matomo: { postEvent: vi.fn() },
-    AjaxHelper: { post: vi.fn() },
+    Matomo: { postEvent: jest.fn() },
+    AjaxHelper: { post: jest.fn() },
     MatomoUrl: {
       ...coreHomeMock().MatomoUrl,
       hashParsed,
@@ -52,20 +52,34 @@ vi.mock('CoreHome', async () => {
       },
     },
   };
-});
+}, { virtual: true });
 
-vi.mock('CorePluginsAdmin', () => ({
+jest.mock('CorePluginsAdmin', () => ({
   Field: { name: 'Field', template: '<div/>' },
   SaveButton: { name: 'SaveButton', template: '<div/>' },
   PluginName: { name: 'PluginName', template: '<div/>' },
   InstallAllPaidPluginsButton: { name: 'InstallAllPaidPluginsButton', template: '<div/>' },
-}));
+}), { virtual: true });
 
 /* eslint-disable import/first */
+import { Ref } from 'vue';
 import { AjaxHelper, MatomoUrl } from 'CoreHome';
 import Marketplace from './Marketplace.vue';
 import { makePlugin, makePlugins } from '../testMarketplaceFixtures';
 import { PluginCard } from '../types';
+import {
+  advanceTimersByTimeAsync,
+  runOnlyPendingTimersAsync,
+  useFakeTimers,
+  useRealTimers,
+} from '../testFakeTimers';
+
+// what mount() hands back for an SFC typed by the *.vue shim, whose props it cannot know
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type Wrapper = VueWrapper<any>;
+
+// the mock's hash is a writable ref, where CoreHome's own is a read-only computed
+const hash = MatomoUrl.hashParsed as unknown as Ref<Record<string, unknown>>;
 
 // every page left mounted keeps watching the one shared hash, so it would react to the next
 // spec's navigation as well as its own
@@ -76,15 +90,15 @@ const FETCH_TIMEOUT_MS = 30000;
 
 /** The catalogue is fetched as two requests - plugins, then themes - raced against a timer. */
 function respondWith(plugins: PluginCard[], themes: PluginCard[] = []) {
-  (AjaxHelper.post as ReturnType<typeof vi.fn>)
+  (AjaxHelper.post as jest.Mock)
     .mockResolvedValueOnce(plugins)
     .mockResolvedValueOnce(themes);
 }
 
 /** A request that never settles, which is what AjaxHelper does when the server is unreachable. */
 function neverRespond() {
-  (AjaxHelper.post as ReturnType<typeof vi.fn>)
-    .mockReturnValue(new Promise(() => {}));
+  (AjaxHelper.post as jest.Mock)
+    .mockReturnValue(new Promise(() => undefined));
 }
 
 /**
@@ -99,11 +113,13 @@ function stubIntersectionObserver(): { scrollToBottom: () => void } {
       callback = handler;
     }
 
-    observe() {} // eslint-disable-line class-methods-use-this
+    /* eslint-disable class-methods-use-this, @typescript-eslint/no-empty-function */
+    observe() {}
 
-    unobserve() {} // eslint-disable-line class-methods-use-this
+    unobserve() {}
 
-    disconnect() {} // eslint-disable-line class-methods-use-this
+    disconnect() {}
+    /* eslint-enable class-methods-use-this, @typescript-eslint/no-empty-function */
   } as unknown as typeof window.IntersectionObserver;
 
   return { scrollToBottom: () => callback?.([{ isIntersecting: true }]) };
@@ -147,7 +163,7 @@ function promotedCatalogue(): PluginCard[] {
 }
 
 /** The row with the given id, as the section stack hands it to its PluginSection. */
-function section(wrapper: VueWrapper, sectionId: string): VueWrapper {
+function section(wrapper: Wrapper, sectionId: string): Wrapper {
   const found = wrapper.findAllComponents({ name: 'PluginSection' })
     .find((candidate) => candidate.props('sectionId') === sectionId);
 
@@ -155,29 +171,29 @@ function section(wrapper: VueWrapper, sectionId: string): VueWrapper {
     throw new Error(`no ${sectionId} section on the page`);
   }
 
-  return found as VueWrapper;
+  return found as Wrapper;
 }
 
 /** How many cards the flat grid is currently handed. */
-function gridSize(wrapper: VueWrapper): number {
+function gridSize(wrapper: Wrapper): number {
   const grid = wrapper.findComponent({ name: 'PluginGrid' });
   return grid.exists() ? (grid.props('plugins') as PluginCard[]).length : 0;
 }
 
 describe('Marketplace', () => {
   beforeEach(() => {
-    vi.useFakeTimers();
-    (AjaxHelper.post as ReturnType<typeof vi.fn>).mockReset();
-    MatomoUrl.hashParsed.value = {};
+    useFakeTimers();
+    (AjaxHelper.post as jest.Mock).mockReset();
+    hash.value = {};
     stubIntersectionObserver();
     // jsdom ships no CSS object; the deep-link lookup escapes the plugin name with CSS.escape()
     window.CSS = { escape: (value: string) => value } as unknown as typeof window.CSS;
     // nor scrollIntoView, which opening a deep-linked card calls on it
-    Element.prototype.scrollIntoView = vi.fn();
+    Element.prototype.scrollIntoView = jest.fn();
   });
 
   afterEach(() => {
-    vi.useRealTimers();
+    useRealTimers();
   });
 
   describe('fetching the catalogue', () => {
@@ -185,7 +201,7 @@ describe('Marketplace', () => {
       respondWith([makePlugin({ name: 'Funnels' })], [makePlugin({ name: 'Morpht' })]);
 
       const wrapper = mountPage();
-      await vi.runOnlyPendingTimersAsync();
+      await runOnlyPendingTimersAsync();
 
       expect(wrapper.vm.allPlugins.map((plugin: PluginCard) => plugin.name))
         .toEqual(['Funnels', 'Morpht']);
@@ -197,7 +213,7 @@ describe('Marketplace', () => {
       respondWith([makePlugin({ name: 'Funnels' })], [makePlugin({ name: 'Funnels' })]);
 
       const wrapper = mountPage();
-      await vi.runOnlyPendingTimersAsync();
+      await runOnlyPendingTimersAsync();
 
       expect(wrapper.vm.allPlugins).toHaveLength(1);
     });
@@ -206,11 +222,11 @@ describe('Marketplace', () => {
       neverRespond();
 
       const wrapper = mountPage();
-      await vi.advanceTimersByTimeAsync(FETCH_TIMEOUT_MS - 1);
+      await advanceTimersByTimeAsync(FETCH_TIMEOUT_MS - 1);
       expect(wrapper.vm.loading).toBe(true);
       expect(wrapper.vm.loadFailed).toBe(false);
 
-      await vi.advanceTimersByTimeAsync(1);
+      await advanceTimersByTimeAsync(1);
 
       expect(wrapper.vm.loading).toBe(false);
       expect(wrapper.vm.loadFailed).toBe(true);
@@ -218,10 +234,10 @@ describe('Marketplace', () => {
     });
 
     it('reports a request that fails outright', async () => {
-      (AjaxHelper.post as ReturnType<typeof vi.fn>).mockRejectedValue(new Error('nope'));
+      (AjaxHelper.post as jest.Mock).mockRejectedValue(new Error('nope'));
 
       const wrapper = mountPage();
-      await vi.runOnlyPendingTimersAsync();
+      await runOnlyPendingTimersAsync();
 
       expect(wrapper.vm.loadFailed).toBe(true);
     });
@@ -230,16 +246,16 @@ describe('Marketplace', () => {
       neverRespond();
 
       const wrapper = mountPage();
-      await vi.advanceTimersByTimeAsync(1000);
+      await advanceTimersByTimeAsync(1000);
 
       respondWith([makePlugin({ name: 'Funnels' })]);
       wrapper.vm.refresh();
-      await vi.advanceTimersByTimeAsync(1);
+      await advanceTimersByTimeAsync(1);
 
       expect(wrapper.vm.allPlugins.map((plugin: PluginCard) => plugin.name)).toEqual(['Funnels']);
 
       // the abandoned fetch's own timer only fires here, long after the page has painted
-      await vi.advanceTimersByTimeAsync(FETCH_TIMEOUT_MS);
+      await advanceTimersByTimeAsync(FETCH_TIMEOUT_MS);
 
       expect(wrapper.vm.allPlugins.map((plugin: PluginCard) => plugin.name)).toEqual(['Funnels']);
       expect(wrapper.vm.loadFailed).toBe(false);
@@ -250,7 +266,7 @@ describe('Marketplace', () => {
       respondWith(makePlugins(3).map((plugin) => ({ ...plugin, categories: ['insights'] })));
 
       const wrapper = mountPage();
-      await vi.runOnlyPendingTimersAsync();
+      await runOnlyPendingTimersAsync();
       expect(wrapper.vm.showSections).toBe(true);
 
       neverRespond();
@@ -275,25 +291,25 @@ describe('Marketplace', () => {
   describe('opening and closing a plugin', () => {
     beforeEach(() => {
       window.history.replaceState(null, '', '#?');
-      MatomoUrl.hashParsed.value = {};
+      hash.value = {};
     });
 
     it('names the plugin in the hash rather than keeping it to itself', async () => {
       respondWith(makePlugins(3));
 
       const wrapper = mountPage();
-      await vi.runOnlyPendingTimersAsync();
+      await runOnlyPendingTimersAsync();
 
       wrapper.vm.openDetails(wrapper.vm.allPlugins[0]);
       await wrapper.vm.$nextTick();
 
       // the plugin management screen opens a plugin here by writing this parameter itself, so it
       // has to mean the same thing when this page writes it
-      expect(MatomoUrl.hashParsed.value.showPlugin).toBe(wrapper.vm.allPlugins[0].name);
+      expect(hash.value.showPlugin).toBe(wrapper.vm.allPlugins[0].name);
       expect(wrapper.vm.selectedPlugin?.name).toBe(wrapper.vm.allPlugins[0].name);
 
       // and what is rendered follows once the views have changed over
-      await vi.runOnlyPendingTimersAsync();
+      await runOnlyPendingTimersAsync();
       expect(wrapper.vm.viewPluginName).toBe(wrapper.vm.allPlugins[0].name);
     });
 
@@ -301,7 +317,7 @@ describe('Marketplace', () => {
       respondWith(makePlugins(3));
 
       const wrapper = mountPage();
-      await vi.runOnlyPendingTimersAsync();
+      await runOnlyPendingTimersAsync();
 
       wrapper.vm.openDetails(wrapper.vm.allPlugins[0]);
       await wrapper.vm.$nextTick();
@@ -310,7 +326,7 @@ describe('Marketplace', () => {
       expect(wrapper.vm.switching).toBe(true);
       expect(wrapper.vm.viewPluginName).toBe('');
 
-      await vi.runOnlyPendingTimersAsync();
+      await runOnlyPendingTimersAsync();
 
       expect(wrapper.vm.switching).toBe(false);
       expect(wrapper.vm.viewPluginName).toBe(wrapper.vm.allPlugins[0].name);
@@ -320,12 +336,12 @@ describe('Marketplace', () => {
       respondWith(makePlugins(3));
 
       const wrapper = mountPage();
-      await vi.runOnlyPendingTimersAsync();
+      await runOnlyPendingTimersAsync();
 
       wrapper.vm.openDetails(wrapper.vm.allPlugins[0]);
       await wrapper.vm.$nextTick();
       wrapper.vm.openDetails(wrapper.vm.allPlugins[1]);
-      await vi.runOnlyPendingTimersAsync();
+      await runOnlyPendingTimersAsync();
 
       expect(wrapper.vm.switching).toBe(false);
       expect(wrapper.vm.viewPluginName).toBe(wrapper.vm.allPlugins[1].name);
@@ -333,17 +349,17 @@ describe('Marketplace', () => {
 
     it('opens the plugin a hash written by someone else names', async () => {
       respondWith(makePlugins(3));
-      MatomoUrl.hashParsed.value = { showPlugin: 'plugin1' };
+      hash.value = { showPlugin: 'plugin1' };
 
       const wrapper = mountPage();
-      await vi.runOnlyPendingTimersAsync();
+      await runOnlyPendingTimersAsync();
 
       expect(wrapper.vm.selectedPlugin?.name).toBe('plugin1');
     });
 
     it('opens the plugin without waiting for the catalogue', () => {
       respondWith(makePlugins(3));
-      MatomoUrl.hashParsed.value = { showPlugin: 'plugin1' };
+      hash.value = { showPlugin: 'plugin1' };
 
       const wrapper = mountPage();
 
@@ -360,20 +376,20 @@ describe('Marketplace', () => {
 
     it('hands over the card row once the catalogue carries one', async () => {
       respondWith(makePlugins(3));
-      MatomoUrl.hashParsed.value = { showPlugin: 'plugin1' };
+      hash.value = { showPlugin: 'plugin1' };
 
       const wrapper = mountPage();
-      await vi.runOnlyPendingTimersAsync();
+      await runOnlyPendingTimersAsync();
 
       expect(wrapper.vm.detailsCard.displayName).toBeDefined();
     });
 
     it('still opens a plugin the catalogue does not carry, for its own error', async () => {
       respondWith(makePlugins(3));
-      MatomoUrl.hashParsed.value = { showPlugin: 'NotAPlugin' };
+      hash.value = { showPlugin: 'NotAPlugin' };
 
       const wrapper = mountPage();
-      await vi.runOnlyPendingTimersAsync();
+      await runOnlyPendingTimersAsync();
 
       // delisted since the list was cached: the details request says so, which is more use than
       // dropping the reader on the catalogue with the plugin still named in the hash
@@ -385,14 +401,14 @@ describe('Marketplace', () => {
       respondWith(makePlugins(3));
 
       const wrapper = mountPage();
-      await vi.runOnlyPendingTimersAsync();
+      await runOnlyPendingTimersAsync();
 
       wrapper.vm.openDetails(wrapper.vm.allPlugins[0]);
-      await vi.runOnlyPendingTimersAsync();
+      await runOnlyPendingTimersAsync();
       expect(wrapper.vm.selectedPlugin).not.toBe(null);
 
-      MatomoUrl.updateHash({ ...MatomoUrl.hashParsed.value, showPlugin: null });
-      await vi.runOnlyPendingTimersAsync();
+      MatomoUrl.updateHash({ ...hash.value, showPlugin: null });
+      await runOnlyPendingTimersAsync();
 
       expect(wrapper.vm.selectedPlugin).toBe(null);
       expect(wrapper.vm.viewPluginName).toBe('');
@@ -402,13 +418,13 @@ describe('Marketplace', () => {
       respondWith(makePlugins(3));
 
       const wrapper = mountPage();
-      await vi.runOnlyPendingTimersAsync();
+      await runOnlyPendingTimersAsync();
 
-      const back = vi.spyOn(window.history, 'back').mockImplementation(() => {});
-      const replace = vi.spyOn(window.history, 'replaceState');
+      const back = jest.spyOn(window.history, 'back').mockImplementation(() => undefined);
+      const replace = jest.spyOn(window.history, 'replaceState');
 
       wrapper.vm.openDetails(wrapper.vm.allPlugins[0]);
-      await vi.runOnlyPendingTimersAsync();
+      await runOnlyPendingTimersAsync();
       wrapper.vm.closeDetails();
 
       expect(back).toHaveBeenCalled();
@@ -420,12 +436,12 @@ describe('Marketplace', () => {
 
     it('replaces the entry for a plugin it never navigated to itself', async () => {
       respondWith(makePlugins(3));
-      MatomoUrl.hashParsed.value = { showPlugin: 'plugin1' };
+      hash.value = { showPlugin: 'plugin1' };
 
       const wrapper = mountPage();
-      await vi.runOnlyPendingTimersAsync();
+      await runOnlyPendingTimersAsync();
 
-      const back = vi.spyOn(window.history, 'back').mockImplementation(() => {});
+      const back = jest.spyOn(window.history, 'back').mockImplementation(() => undefined);
 
       wrapper.vm.closeDetails();
       await wrapper.vm.$nextTick();
@@ -439,17 +455,17 @@ describe('Marketplace', () => {
 
     it('goes back to the Matomo page that opened the plugin', async () => {
       respondWith(makePlugins(3));
-      MatomoUrl.hashParsed.value = { showPlugin: 'plugin1' };
+      hash.value = { showPlugin: 'plugin1' };
       // the plugin management screen links here, so it is what the page was opened from
-      const referrer = vi.spyOn(document, 'referrer', 'get').mockReturnValue(
+      const referrer = jest.spyOn(document, 'referrer', 'get').mockReturnValue(
         `${window.location.origin}/index.php?module=CorePluginsAdmin&action=plugins`,
       );
-      const historyLength = vi.spyOn(window.history, 'length', 'get').mockReturnValue(2);
+      const historyLength = jest.spyOn(window.history, 'length', 'get').mockReturnValue(2);
 
       const wrapper = mountPage();
-      await vi.runOnlyPendingTimersAsync();
+      await runOnlyPendingTimersAsync();
 
-      const back = vi.spyOn(window.history, 'back').mockImplementation(() => {});
+      const back = jest.spyOn(window.history, 'back').mockImplementation(() => undefined);
 
       wrapper.vm.closeDetails();
 
@@ -462,10 +478,10 @@ describe('Marketplace', () => {
 
     it('clears a filter hiding the card a deep linked plugin has to come back to', async () => {
       respondWith(makePlugins(3).map((plugin) => ({ ...plugin, categories: ['insights'] })));
-      MatomoUrl.hashParsed.value = { pluginCategory: 'marketing', showPlugin: 'plugin1' };
+      hash.value = { pluginCategory: 'marketing', showPlugin: 'plugin1' };
 
       const wrapper = mountPage();
-      await vi.runOnlyPendingTimersAsync();
+      await runOnlyPendingTimersAsync();
 
       expect(wrapper.vm.activeTab).toBe('all');
       expect(wrapper.vm.filteredPlugins.some((p: PluginCard) => p.name === 'plugin1')).toBe(true);
@@ -475,10 +491,10 @@ describe('Marketplace', () => {
       respondWith(makePlugins(3));
 
       const wrapper = mountPage();
-      await vi.runOnlyPendingTimersAsync();
+      await runOnlyPendingTimersAsync();
 
       wrapper.vm.openDetails(wrapper.vm.allPlugins[0]);
-      await vi.runOnlyPendingTimersAsync();
+      await runOnlyPendingTimersAsync();
 
       // v-show, not v-if: coming back has to be a repaint rather than a refetch
       const catalogue = wrapper.find('.marketplacePage__catalogue');
@@ -489,13 +505,13 @@ describe('Marketplace', () => {
     it('does not page in more cards while a plugin is open', async () => {
       const { scrollToBottom } = stubIntersectionObserver();
       respondWith(makePlugins(40).map((plugin) => ({ ...plugin, categories: ['insights'] })));
-      MatomoUrl.hashParsed.value = { pluginCategory: 'insights' };
+      hash.value = { pluginCategory: 'insights' };
 
       const wrapper = mountPage();
-      await vi.runOnlyPendingTimersAsync();
+      await runOnlyPendingTimersAsync();
 
       wrapper.vm.openDetails(wrapper.vm.allPlugins[0]);
-      await vi.runOnlyPendingTimersAsync();
+      await runOnlyPendingTimersAsync();
 
       // the sentinel is inside the hidden catalogue, so nothing should reach the observer; this
       // asserts the page does not page in behind the reader's back if something does
@@ -509,10 +525,10 @@ describe('Marketplace', () => {
   describe('reading the hash', () => {
     it('opens the tab, sort and query the hash names', async () => {
       respondWith([]);
-      MatomoUrl.hashParsed.value = { pluginCategory: 'insights', sort: 'popular', query: 'fun' };
+      hash.value = { pluginCategory: 'insights', sort: 'popular', query: 'fun' };
 
       const wrapper = mountPage();
-      await vi.runOnlyPendingTimersAsync();
+      await runOnlyPendingTimersAsync();
 
       expect(wrapper.vm.activeTab).toBe('insights');
       expect(wrapper.vm.pluginSort).toBe('popular');
@@ -521,13 +537,13 @@ describe('Marketplace', () => {
 
     it('starts the list over when the hash changes what is listed', async () => {
       respondWith(makePlugins(40).map((plugin) => ({ ...plugin, categories: ['insights'] })));
-      MatomoUrl.hashParsed.value = { pluginCategory: 'insights' };
+      hash.value = { pluginCategory: 'insights' };
 
       const wrapper = mountPage();
-      await vi.runOnlyPendingTimersAsync();
+      await runOnlyPendingTimersAsync();
 
       wrapper.vm.pageSize = 45;
-      MatomoUrl.hashParsed.value = { pluginCategory: 'insights', sort: 'popular' };
+      hash.value = { pluginCategory: 'insights', sort: 'popular' };
       await wrapper.vm.$nextTick();
 
       expect(wrapper.vm.pageSize).toBe(PAGE_SIZE);
@@ -535,14 +551,14 @@ describe('Marketplace', () => {
 
     it('leaves how far the reader scrolled alone when the hash change lists the same thing', async () => {
       respondWith(makePlugins(40).map((plugin) => ({ ...plugin, categories: ['insights'] })));
-      MatomoUrl.hashParsed.value = { pluginCategory: 'insights' };
+      hash.value = { pluginCategory: 'insights' };
 
       const wrapper = mountPage();
-      await vi.runOnlyPendingTimersAsync();
+      await runOnlyPendingTimersAsync();
 
       wrapper.vm.pageSize = 45;
       // closing the details modal writes the hash without touching tab, sort or query
-      MatomoUrl.hashParsed.value = { pluginCategory: 'insights', showPlugin: 'plugin0' };
+      hash.value = { pluginCategory: 'insights', showPlugin: 'plugin0' };
       await wrapper.vm.$nextTick();
 
       expect(wrapper.vm.pageSize).toBe(45);
@@ -554,13 +570,13 @@ describe('Marketplace', () => {
       respondWith(promotedCatalogue());
 
       const wrapper = mountPage();
-      await vi.runOnlyPendingTimersAsync();
+      await runOnlyPendingTimersAsync();
 
       section(wrapper, 'featured').vm.$emit('seeAll', 'featured');
       await wrapper.vm.$nextTick();
 
       expect(wrapper.vm.activePromotion).toBe('featured');
-      expect(MatomoUrl.hashParsed.value).toEqual({ pluginPromotion: 'featured' });
+      expect(hash.value).toEqual({ pluginPromotion: 'featured' });
       expect(wrapper.vm.showSections).toBe(false);
       // a promotion is not a tab, so no tab is left highlighted over it
       expect(wrapper.findComponent({ name: 'CategoryTabs' }).exists()).toBe(false);
@@ -572,7 +588,7 @@ describe('Marketplace', () => {
       respondWith(promotedCatalogue());
 
       const wrapper = mountPage(document.body);
-      await vi.runOnlyPendingTimersAsync();
+      await runOnlyPendingTimersAsync();
 
       section(wrapper, 'featured').vm.$emit('seeAll', 'featured');
       await wrapper.vm.$nextTick();
@@ -583,24 +599,24 @@ describe('Marketplace', () => {
 
     it('leaves the tab it was opened over, so going back returns to the overview', async () => {
       respondWith(promotedCatalogue());
-      MatomoUrl.hashParsed.value = { pluginCategory: 'insights' };
+      hash.value = { pluginCategory: 'insights' };
 
       const wrapper = mountPage();
-      await vi.runOnlyPendingTimersAsync();
+      await runOnlyPendingTimersAsync();
 
       wrapper.vm.openPromotion('featured');
       await wrapper.vm.$nextTick();
 
       expect(wrapper.vm.activeTab).toBe('all');
-      expect(MatomoUrl.hashParsed.value).toEqual({ pluginPromotion: 'featured' });
+      expect(hash.value).toEqual({ pluginPromotion: 'featured' });
     });
 
     it('goes back to the section stack from the back link', async () => {
       respondWith(promotedCatalogue());
-      MatomoUrl.hashParsed.value = { pluginPromotion: 'featured' };
+      hash.value = { pluginPromotion: 'featured' };
 
       const wrapper = mountPage();
-      await vi.runOnlyPendingTimersAsync();
+      await runOnlyPendingTimersAsync();
       expect(wrapper.vm.activePromotion).toBe('featured');
 
       wrapper.vm.pageSize = 45;
@@ -608,7 +624,7 @@ describe('Marketplace', () => {
 
       expect(wrapper.vm.activePromotion).toBe('');
       expect(wrapper.vm.pageSize).toBe(PAGE_SIZE);
-      expect(MatomoUrl.hashParsed.value).toEqual({});
+      expect(hash.value).toEqual({});
       expect(wrapper.vm.showSections).toBe(true);
       expect(wrapper.find('.marketplacePage__backLink').exists()).toBe(false);
     });
@@ -617,22 +633,22 @@ describe('Marketplace', () => {
       respondWith(promotedCatalogue());
 
       const wrapper = mountPage();
-      await vi.runOnlyPendingTimersAsync();
+      await runOnlyPendingTimersAsync();
 
       section(wrapper, 'insights').vm.$emit('seeAll', 'insights');
       await wrapper.vm.$nextTick();
 
       expect(wrapper.vm.activeTab).toBe('insights');
       expect(wrapper.vm.activePromotion).toBe('');
-      expect(MatomoUrl.hashParsed.value).toEqual({ pluginCategory: 'insights' });
+      expect(hash.value).toEqual({ pluginCategory: 'insights' });
     });
 
     it('ignores a promotion in the hash that the page has no row for', async () => {
       respondWith(promotedCatalogue());
-      MatomoUrl.hashParsed.value = { pluginPromotion: 'somethingElse' };
+      hash.value = { pluginPromotion: 'somethingElse' };
 
       const wrapper = mountPage();
-      await vi.runOnlyPendingTimersAsync();
+      await runOnlyPendingTimersAsync();
 
       expect(wrapper.vm.activePromotion).toBe('');
       expect(wrapper.vm.showSections).toBe(true);
@@ -643,10 +659,10 @@ describe('Marketplace', () => {
     it('renders a page at a time and grows as the reader reaches the bottom', async () => {
       const observer = stubIntersectionObserver();
       respondWith(makePlugins(40).map((plugin) => ({ ...plugin, categories: ['insights'] })));
-      MatomoUrl.hashParsed.value = { pluginCategory: 'insights' };
+      hash.value = { pluginCategory: 'insights' };
 
       const wrapper = mountPage();
-      await vi.runOnlyPendingTimersAsync();
+      await runOnlyPendingTimersAsync();
       expect(gridSize(wrapper)).toBe(PAGE_SIZE);
 
       observer.scrollToBottom();
@@ -665,12 +681,12 @@ describe('Marketplace', () => {
 
     it('renders every result where no observer can ask for the next page', async () => {
       const realObserver = window.IntersectionObserver;
-      delete (window as Partial<Window>).IntersectionObserver;
+      delete (window as { IntersectionObserver?: unknown }).IntersectionObserver;
       respondWith(makePlugins(40).map((plugin) => ({ ...plugin, categories: ['insights'] })));
-      MatomoUrl.hashParsed.value = { pluginCategory: 'insights' };
+      hash.value = { pluginCategory: 'insights' };
 
       const wrapper = mountPage();
-      await vi.runOnlyPendingTimersAsync();
+      await runOnlyPendingTimersAsync();
 
       expect(wrapper.vm.paginated).toBe(false);
       expect(gridSize(wrapper)).toBe(40);

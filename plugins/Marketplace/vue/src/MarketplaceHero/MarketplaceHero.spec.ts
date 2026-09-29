@@ -7,11 +7,11 @@
 
 import { mount } from '@vue/test-utils';
 
-// Pulled in dynamically: a vi.mock() factory is hoisted above the file's own imports. CoreHome's
+// Loaded inside the factory: jest.mock() is hoisted above the file's own imports. CoreHome's
 // SearchInput is stubbed here rather than in the shared mock: the hero is the only Marketplace
 // component that renders it, and the stub keeps the search field's contract visible in this spec.
-vi.mock('CoreHome', async () => ({
-  ...(await import('../testCoreHomeMock')).coreHomeMock(),
+jest.mock('CoreHome', () => ({
+  ...jest.requireActual('../testCoreHomeMock').coreHomeMock(),
   SearchInput: {
     name: 'SearchInput',
     props: ['modelValue', 'placeholder', 'showClear'],
@@ -23,7 +23,7 @@ vi.mock('CoreHome', async () => ({
       @input="$emit('update:modelValue', $event.target.value)"
     >`,
   },
-}));
+}), { virtual: true });
 
 /* eslint-disable import/first */
 import MarketplaceHero from './MarketplaceHero.vue';

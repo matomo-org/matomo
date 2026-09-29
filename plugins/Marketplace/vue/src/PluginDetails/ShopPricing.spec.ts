@@ -7,7 +7,7 @@
 
 import { mount } from '@vue/test-utils';
 
-vi.mock('CoreHome', () => ({
+jest.mock('CoreHome', () => ({
   NumberFormatter: {
     // en-US grouping is enough here; the real formatter is locale driven and covered elsewhere
     formatNumber: (value: number, max: number, min: number) => Number(value).toLocaleString(
@@ -18,8 +18,9 @@ vi.mock('CoreHome', () => ({
   translate: (key: string, ...args: unknown[]) => (
     args.length ? `${key}(${args.join(',')})` : key
   ),
-}));
+}), { virtual: true });
 
+// eslint-disable-next-line import/first
 import ShopPricing from './ShopPricing.vue';
 
 interface VariationSeed {
@@ -71,20 +72,19 @@ const TIERED_VARIATIONS = [
 ];
 
 function mountPricing(seeds: VariationSeed[], props: Record<string, unknown> = {}) {
-  return mount(ShopPricing as never, {
+  return mount(ShopPricing, {
     props: {
       plugin: { shop: { variations: seeds.map(variation) } },
       numUsers: 1,
       ...props,
     },
     global: {
-      config: {
-        globalProperties: {
-          translate: (key: string, ...args: unknown[]) => (
-            args.length ? `${key}(${args.join(',')})` : key
-          ),
-          $sanitize: (value: string) => value,
-        },
+      mocks: {
+        // the template resolves these off the render context, not the module imports
+        translate: (key: string, ...args: unknown[]) => (
+          args.length ? `${key}(${args.join(',')})` : key
+        ),
+        $sanitize: (value: string) => value,
       },
     },
   });
@@ -110,8 +110,8 @@ describe('Marketplace/ShopPricing.vue', () => {
       inputs.forEach((input) => expect(input.attributes('type')).toBe('radio'));
       // radios only behave as one choice while they share a name
       expect(new Set(inputs.map((input) => input.attributes('name'))).size).toBe(1);
-      expect(inputs[0].element.checked).toBe(true);
-      expect(inputs[1].element.checked).toBe(false);
+      expect((inputs[0].element as HTMLInputElement).checked).toBe(true);
+      expect((inputs[1].element as HTMLInputElement).checked).toBe(false);
     });
 
     it('gives each mounted instance its own radio group', () => {

@@ -7,8 +7,10 @@
 
 import { mount } from '@vue/test-utils';
 
-// Pulled in dynamically: a vi.mock() factory is hoisted above the file's own imports.
-vi.mock('CoreHome', async () => (await import('../testCoreHomeMock')).coreHomeMock());
+// Loaded inside the factory: jest.mock() is hoisted above the file's own imports.
+jest.mock('CoreHome', () => jest.requireActual('../testCoreHomeMock').coreHomeMock(), {
+  virtual: true,
+});
 
 /* eslint-disable import/first */
 import EmptyState from './EmptyState.vue';

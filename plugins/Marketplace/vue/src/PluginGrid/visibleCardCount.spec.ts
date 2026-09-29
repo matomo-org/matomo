@@ -42,7 +42,7 @@ describe('visibleCardCount', () => {
 
   it('calls back when a breakpoint is crossed', () => {
     const viewport = stubViewport(1900);
-    const onChange = vi.fn();
+    const onChange = jest.fn();
 
     observeVisibleCardCount(onChange);
     viewport.resizeTo(760);
@@ -53,8 +53,8 @@ describe('visibleCardCount', () => {
   it('detaches its own listeners, and only its own, when it unsubscribes', () => {
     const viewport = stubViewport(1900);
 
-    const unobserveA = observeVisibleCardCount(vi.fn());
-    observeVisibleCardCount(vi.fn());
+    const unobserveA = observeVisibleCardCount(jest.fn());
+    observeVisibleCardCount(jest.fn());
 
     unobserveA();
 
@@ -64,7 +64,7 @@ describe('visibleCardCount', () => {
 
   it('stops calling back after unsubscribing', () => {
     const viewport = stubViewport(1900);
-    const onChange = vi.fn();
+    const onChange = jest.fn();
 
     observeVisibleCardCount(onChange)();
     viewport.resizeTo(760);
@@ -74,6 +74,6 @@ describe('visibleCardCount', () => {
 
   it('subscribes without throwing where matchMedia is unavailable', () => {
     delete (window as unknown as { matchMedia?: unknown }).matchMedia;
-    expect(() => observeVisibleCardCount(vi.fn())()).not.toThrow();
+    expect(() => observeVisibleCardCount(jest.fn())()).not.toThrow();
   });
 });

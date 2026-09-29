@@ -6,9 +6,12 @@
  */
 
 import { mount } from '@vue/test-utils';
+import { ComponentPublicInstance } from 'vue';
 
-// Pulled in dynamically: a vi.mock() factory is hoisted above the file's own imports.
-vi.mock('CoreHome', async () => (await import('../testCoreHomeMock')).coreHomeMock());
+// Loaded inside the factory: jest.mock() is hoisted above the file's own imports.
+jest.mock('CoreHome', () => jest.requireActual('../testCoreHomeMock').coreHomeMock(), {
+  virtual: true,
+});
 
 /* eslint-disable import/first */
 import PluginSection from './PluginSection.vue';
@@ -154,16 +157,17 @@ describe('PluginSection', () => {
 
     it.each(['openDetails', 'requestTrial'])('forwards %s', async (event) => {
       const wrapper = await mountSection({});
-      const plugin = wrapper.props('plugins')[0];
+      const plugin = (wrapper.props() as { plugins: unknown[] }).plugins[0];
 
-      wrapper.findComponent({ name: 'PluginGrid' }).vm.$emit(event, plugin);
+      (wrapper.findComponent({ name: 'PluginGrid' }).vm as ComponentPublicInstance)
+        .$emit(event, plugin);
       expect(wrapper.emitted(event)).toEqual([[plugin]]);
     });
   });
 
   it('stops listening for breakpoint changes once unmounted', async () => {
     stubViewport(1900);
-    const removeEventListener = vi.fn();
+    const removeEventListener = jest.fn();
     window.matchMedia = ((query: string) => ({
       matches: false,
       media: query,

@@ -12,10 +12,12 @@ export function translateStub(key: string, ...args: string[]): string {
 
 /**
  * Everything the Marketplace's component specs need from CoreHome, so a missing placeholder cannot
- * fail in one spec and pass in the next. Imports nothing: a vi.mock() factory is hoisted above
- * every import, so pull this in dynamically instead:
+ * fail in one spec and pass in the next. Imports nothing: a jest.mock() factory is hoisted above
+ * every import, so load this inside the factory instead:
  *
- *   vi.mock('CoreHome', async () => (await import('../testCoreHomeMock')).coreHomeMock());
+ *   jest.mock('CoreHome', () => jest.requireActual('../testCoreHomeMock').coreHomeMock(), {
+ *     virtual: true,
+ *   });
  */
 export function coreHomeMock() {
   return {

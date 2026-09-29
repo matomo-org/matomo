@@ -7,8 +7,10 @@
 
 import { mount, VueWrapper } from '@vue/test-utils';
 
-// Pulled in dynamically: a vi.mock() factory is hoisted above the file's own imports.
-vi.mock('CoreHome', async () => (await import('../testCoreHomeMock')).coreHomeMock());
+// Loaded inside the factory: jest.mock() is hoisted above the file's own imports.
+jest.mock('CoreHome', () => jest.requireActual('../testCoreHomeMock').coreHomeMock(), {
+  virtual: true,
+});
 
 /* eslint-disable import/first */
 import SortMenu from './SortMenu.vue';
@@ -20,6 +22,10 @@ import {
 } from '../PluginGrid/pluginGrouping';
 import { translateStub } from '../testCoreHomeMock';
 
+// what mount() hands back for an SFC typed by the *.vue shim, whose props it cannot know
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type Wrapper = VueWrapper<any>;
+
 /** Attached to the document, so focus and the document-level listeners behave as in a page. */
 function mountMenu(modelValue: string = SORT_LAST_UPDATED) {
   return mount(SortMenu, {
@@ -29,9 +35,9 @@ function mountMenu(modelValue: string = SORT_LAST_UPDATED) {
   });
 }
 
-const itemLabels = (wrapper: VueWrapper) => wrapper.findAll('.sortMenu__item').map((i) => i.text());
+const itemLabels = (wrapper: Wrapper) => wrapper.findAll('.sortMenu__item').map((i) => i.text());
 
-async function open(wrapper: VueWrapper) {
+async function open(wrapper: Wrapper) {
   await wrapper.find('.sortMenu__trigger').trigger('click');
   return wrapper;
 }
@@ -139,7 +145,7 @@ describe('Marketplace/SortMenu', () => {
     });
 
     it('drops its document listeners when it goes away', async () => {
-      const removeEventListener = vi.spyOn(document, 'removeEventListener');
+      const removeEventListener = jest.spyOn(document, 'removeEventListener');
       const wrapper = await open(mountMenu());
 
       wrapper.unmount();

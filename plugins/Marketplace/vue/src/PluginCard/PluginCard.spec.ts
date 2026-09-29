@@ -7,14 +7,20 @@
 
 import { mount, VueWrapper } from '@vue/test-utils';
 
-// Pulled in dynamically: a vi.mock() factory is hoisted above the file's own imports.
-vi.mock('CoreHome', async () => (await import('../testCoreHomeMock')).coreHomeMock());
+// Loaded inside the factory: jest.mock() is hoisted above the file's own imports.
+jest.mock('CoreHome', () => jest.requireActual('../testCoreHomeMock').coreHomeMock(), {
+  virtual: true,
+});
 
 /* eslint-disable import/first */
 import PluginCard from './PluginCard.vue';
 import { MarketplaceContext, PluginCard as PluginCardType } from '../types';
 import { CARD_CONTEXT, makePlugin } from '../testMarketplaceFixtures';
 import { translateStub } from '../testCoreHomeMock';
+
+// what mount() hands back for an SFC typed by the *.vue shim, whose props it cannot know
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type Wrapper = VueWrapper<any>;
 
 function mountCard(
   plugin: Partial<PluginCardType> = {},
@@ -37,7 +43,7 @@ function mountCard(
   });
 }
 
-const actions = (wrapper: VueWrapper) => wrapper.find('.pluginCard__actions');
+const actions = (wrapper: Wrapper) => wrapper.find('.pluginCard__actions');
 
 describe('Marketplace/PluginCard', () => {
   describe('presentation', () => {
@@ -117,8 +123,8 @@ describe('Marketplace/PluginCard', () => {
       expect(wrapper.find('.pluginCard__seats').exists()).toBe(false);
     });
 
-    it('pluralises the seat tier through a key that really interpolates the count', async () => {
-      const en = (await import('../../../lang/en.json')).default as
+    it('pluralises the seat tier through a key that really interpolates the count', () => {
+      const en = jest.requireActual('../../../lang/en.json') as
         { Marketplace: Record<string, string> };
 
       expect(en.Marketplace.BundleUpToXUsers).toContain('%1$s');
@@ -145,8 +151,8 @@ describe('Marketplace/PluginCard', () => {
       expect(wrapper.find('.pluginCard__owner').exists()).toBe(false);
     });
 
-    it('bylines through a key that really interpolates the name', async () => {
-      const en = (await import('../../../lang/en.json')).default as
+    it('bylines through a key that really interpolates the name', () => {
+      const en = jest.requireActual('../../../lang/en.json') as
         { Marketplace: Record<string, string> };
 
       expect(en.Marketplace.ByAuthor).toContain('%1$s');
