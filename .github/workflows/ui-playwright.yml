@@ -127,6 +127,16 @@ jobs:
           github-token: ${{ github.token }}
           path: tests/playwright/screenshots
 
+      # Matomo itself calls these (the Marketplace, update checks), and live answers made results depend on
+      # them: the one-click update test downloaded a real plugin update. Nothing listens on 443 locally, so
+      # such calls fail at once, the same way every time.
+      - name: Block Matomo's online services
+        run: |
+          for host in plugins.matomo.org api.matomo.org builds.matomo.org matomo.org www.matomo.org \
+              plugins.piwik.org api.piwik.org builds.piwik.org piwik.org; do
+            echo "127.0.0.1 $host" | sudo tee -a /etc/hosts > /dev/null
+          done
+
       # the runner's own MySQL 8.0, so no container registry can fail the job, with its data on tmpfs
       - name: Start MySQL
         run: |
