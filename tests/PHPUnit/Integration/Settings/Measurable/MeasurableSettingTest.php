@@ -102,6 +102,20 @@ class MeasurableSettingTest extends IntegrationTestCase
         $this->assertTrue($setting->isWritableByCurrentUser());
     }
 
+    public function testIsWritableByCurrentUserKeepsAValueSetAfterItWasDetected()
+    {
+        $this->setUser();
+        $setting = $this->buildSetting('field1');
+        $this->assertFalse($setting->isWritableByCurrentUser());
+        $setting->setIsWritableByCurrentUser(true);
+
+        Access::doAsSuperUser(function () use ($setting) {
+            return $setting->isWritableByCurrentUser();
+        });
+
+        $this->assertTrue($setting->isWritableByCurrentUser());
+    }
+
     private function buildSetting($name, $type = null, $idSite = null)
     {
         if (!isset($type)) {

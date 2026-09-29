@@ -16,7 +16,8 @@ use Matomo\Cache\Transient;
  *
  * Reads fall through to the cache of the caller, writes stay in the overlay. Once the callback
  * returns, {@link applyInvalidationsTo()} drops every entry the callback saved or deleted from the
- * caller's cache, so the caller never reads data that was computed with elevated access.
+ * caller's cache, so the caller does not read entries saved with elevated access. Objects read from
+ * the caller's cache are the same instances, so changes the callback makes to them remain.
  *
  * @internal
  */
