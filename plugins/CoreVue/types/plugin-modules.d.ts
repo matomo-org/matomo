@@ -70,6 +70,12 @@ declare module 'CoreHome' {
     [key: string]: any;
   };
 
+  export function translateOrDefault(
+    translationStringIdOrText?: string,
+    ...values: (string|string[]|number|number[]|boolean|boolean[])[]
+  ): string;
+  export function ucfirst(text?: string, locale?: string): string;
+
   // MatomoUrl's parsed/urlParsed/hashParsed are Vue computed refs over the decoded query.
   type ParsedQueryRef = import('vue').ComputedRef<
     import('vue').DeepReadonly<Record<string, unknown>>

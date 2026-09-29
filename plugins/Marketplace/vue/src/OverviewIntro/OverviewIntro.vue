@@ -7,33 +7,10 @@
 
 <template>
   <div v-content-intro>
-    <h2>
-      <EnrichedHeadline
-        :feature-name="translate('CorePluginsAdmin_Marketplace')"
-      >
-        {{ translate('Marketplace_Marketplace') }}
-      </EnrichedHeadline>
-    </h2>
-
-    <div class="marketplaceIntro">
-      <p v-if="!isSuperUser">
-          {{ translate('Marketplace_Intro') }}
-      </p>
-      <p v-else>
-          {{ translate('Marketplace_IntroSuperUser') }}
-      </p>
-    </div>
-
-    <div class="installAllPaidPlugins" v-if="installAllPaidPluginsVisible">
-      <InstallAllPaidPluginsButton
-        :disabled="installDisabled"
-      />
-    </div>
-
     <Marketplace
-      :plugin-type-options="pluginTypeOptions"
       :default-sort="defaultSort"
-      :plugin-sort-options="pluginSortOptions"
+      :install-all-paid-plugins-visible="installAllPaidPluginsVisible"
+      :install-disabled="installDisabled"
       :current-user-email="currentUserEmail"
       :is-auto-update-possible="isAutoUpdatePossible"
       :is-super-user="isSuperUser"
@@ -57,12 +34,19 @@
 import { defineComponent } from 'vue';
 import {
   AjaxHelper,
-  ContentIntro, EnrichedHeadline, MatomoUrl,
+  ContentIntro,
 } from 'CoreHome';
-import { InstallAllPaidPluginsButton } from 'CorePluginsAdmin';
 import Marketplace from '../Marketplace/Marketplace.vue';
 
 import { TObject } from '../types';
+
+/**
+ * The reporting page's site, period and segment selectors. Nothing in the Marketplace is scoped to
+ * a site, a period or a segment, so in the reporting menu they would offer choices that change
+ * nothing. The update notice beside them stays.
+ */
+const REPORTING_SELECTORS = '.top_controls .top_bar_sites_selector, .top_controls #periodString, '
+  + '.top_controls .segmentEditorPanel';
 
 interface OverviewIntroState {
   updating: boolean;
@@ -101,16 +85,8 @@ export default defineComponent({
     },
     isPluginUploadEnabled: Boolean,
     uploadLimit: [String, Number],
-    pluginTypeOptions: {
-      type: Object,
-      required: true,
-    },
     defaultSort: {
       type: String,
-      required: true,
-    },
-    pluginSortOptions: {
-      type: Object,
       required: true,
     },
     numUsers: {
@@ -119,8 +95,6 @@ export default defineComponent({
     },
   },
   components: {
-    InstallAllPaidPluginsButton,
-    EnrichedHeadline,
     Marketplace,
   },
   directives: {
@@ -135,6 +109,13 @@ export default defineComponent({
       installDisabled: false,
       installLoading: false,
     };
+  },
+  mounted() {
+    this.setReportingSelectorsHidden(true);
+  },
+  unmounted() {
+    // the reporting page is a single page: the next category shown keeps the same top controls
+    this.setReportingSelectorsHidden(false);
   },
   computed: {
     getIsValidConsumer(): boolean {
@@ -151,11 +132,17 @@ export default defineComponent({
         this.installDisabled && this.installLoading
       )) as boolean;
     },
-    showThemes(): boolean {
-      return MatomoUrl.hashParsed.value.pluginType as string === 'themes';
-    },
   },
   methods: {
+    setReportingSelectorsHidden(hidden: boolean) {
+      if (!this.inReportingMenu) {
+        return;
+      }
+
+      document.querySelectorAll<HTMLElement>(REPORTING_SELECTORS).forEach((element) => {
+        element.style.display = hidden ? 'none' : '';
+      });
+    },
     disableInstallAllPlugins(isLoading: boolean) {
       this.installDisabled = true;
       this.installLoading = isLoading;
