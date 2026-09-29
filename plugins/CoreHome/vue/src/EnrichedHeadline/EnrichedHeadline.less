@@ -1,52 +1,75 @@
-.inlineHelp {
-    display: none;
+// Styled on its own class rather than under `.enrichedHeadline`, because a host can take the
+// panel out of the headline - see the `helpContainer` prop - and it has to look the same
+// wherever it ends up. Only its spacing off the heading stays with the headline, below.
+.enrichedHeadline__help {
+    display: block;
+    background: @theme-color-background-base;
+    font-size: 12px;
+    line-height: 1.1;
+    font-weight: normal;
+    border: 1px solid @theme-color-border-alternative;
+    padding: 10px;
+    border-radius: 2px;
+
+    .enrichedHeadline__readMore {
+        margin-top: 10px;
+        display: inline-block;
+        font-weight: bold;
+    }
+
+    // Same look as the DataTable's own `.helpDate`, which the report documentation emits and
+    // dataTable/_dataTable.less styles. Carried here rather than shared, so neither side has to
+    // keep the other's markup in mind.
+    .enrichedHeadline__helpDate {
+        color: @theme-color-text-light;
+        font-size: 11px;
+        font-style: italic;
+        padding: 4px;
+        text-align: right;
+        display: block;
+    }
+
+    // override: the help body is documentation HTML rendered through v-html, so its links carry
+    // no class of ours to hook. Morpheus dressed them with `h2 .inlineHelp a`, which a panel
+    // hoisted out of the heading no longer matches.
+    a,
+    a:hover {
+        text-decoration: underline;
+        color: @theme-color-text;
+    }
 }
 
 .enrichedHeadline {
     min-height: 22px;
 
-    // Not `.title`: that is the hook this component and SegmentedVisitorLog read the text
-    // from, and it is shared with the non-editable case.
-    .enrichedHeadline__editableTitle {
+    .enrichedHeadline__title {
+        display: inline-block;
+    }
+
+    .enrichedHeadline__title--editable {
         cursor: pointer;
         // an editable title still takes the colour of its heading, not the link colour
         color: inherit;
     }
 
-    .title {
-        display: inline-block;
-    }
-
-    .inlineHelp {
-        display: block;
-        background: @theme-color-background-base;
-        font-size: 12px;
-        line-height: 1.1;
-        font-weight: normal;
-        border: 1px solid @theme-color-border-alternative;
+    // Spacing off the heading it sits under, which is the one thing that does not travel with
+    // the panel: hoisted into a row of its own, it takes that row's spacing instead.
+    .enrichedHeadline__help {
         margin: 10px 0 10px 0;
-        padding: 10px;
-        border-radius: 2px;
-
-        .readMore {
-            margin-top: 10px;
-            display: inline-block;
-            font-weight: bold;
-        }
     }
 
-    .iconsBar {
+    .enrichedHeadline__iconsBar {
         line-height: 1 !important;
         display: inline-flex;
         align-items: center;
         // Keeps the bar out of the line box's baseline calculation. An inline-flex box takes its
-        // baseline from its first flex item, and on a report with no help icon that is
-        // `.ratingIcons`, whose own baseline is the bottom edge of the 22px thumb images - more
+        // baseline from its first flex item, and on a report with no help icon that is the
+        // rating icons, whose own baseline is the bottom edge of the 22px thumb images - more
         // room above the baseline than the heading's ascent, so the title dropped on hover.
         vertical-align: top;
     }
 
-    .ratingIcons {
+    .enrichedHeadline__ratingIcons {
         display: inline-block;
         vertical-align: middle;
         margin-left: 6px;
@@ -56,7 +79,7 @@
         }
     }
 
-    .helpIcon {
+    .enrichedHeadline__helpIcon {
         cursor: pointer;
         display: inline-block;
         margin-bottom: -1px;
@@ -66,12 +89,10 @@
         color: @theme-color-text-light !important;
         text-decoration: none;
 
-        &:hover, &.active {
+        &:hover, &.enrichedHeadline__helpIcon--active {
             color: @theme-color-link !important;
             opacity: 0.9;
             text-decoration: none;
         }
     }
 }
-
-

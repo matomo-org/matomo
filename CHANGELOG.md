@@ -185,6 +185,24 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   `Piwik\Plugins\Dashboard\Dashboard::removeWidgetsNotAvailableToUser()`, which is `@internal`: it
   must not be called while the widget list is being built, so it is named here to locate the change
   rather than to be called from a plugin.
+* The `EnrichedHeadline` Vue component renames the elements it renders, so a plugin styling or reading
+  them by class has to follow: `.title` becomes `.enrichedHeadline__title`, `.iconsBar` becomes
+  `.enrichedHeadline__iconsBar`, `.ratingIcons` becomes `.enrichedHeadline__ratingIcons`, `.helpIcon`
+  becomes `.enrichedHeadline__helpIcon` (its open state `.active` becomes
+  `.enrichedHeadline__helpIcon--active`), and the help panel, its read-more link and its date become
+  `.enrichedHeadline__help`, `.enrichedHeadline__readMore` and `.enrichedHeadline__helpDate`. `.title`
+  is still written to the DOM alongside its new name, carrying no styles, because third-party code
+  reads the report name from `.enrichedHeadline .title`. The DataTable keeps its own separate
+  `.helpDate`.
+* The help panel is no longer a descendant of the headline on a report page. `ReportHeader` passes
+  `EnrichedHeadline` a `helpContainer` to render it into, so the panel spans the report card instead of
+  sharing the header line with the report actions and displacing them. Code reading the panel out of
+  `.enrichedHeadline` has to look at the report header instead. The panel keeps its appearance wherever
+  it is placed, its styles no longer being scoped to the headline.
+* Passing help by writing a `<div class="inlineHelp">` into the `EnrichedHeadline` slot has been
+  removed, along with the `.inlineHelp` rule that hid that node and the code that consumed it. Nothing
+  in core or in any of the 128 Marketplace plugins used it. Use the `inline-help` attribute, which is
+  what every caller already does.
 
 ## Matomo 5.14.1
 

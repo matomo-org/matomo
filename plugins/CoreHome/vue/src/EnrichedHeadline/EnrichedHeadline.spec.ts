@@ -38,8 +38,8 @@ describe('EnrichedHeadline', () => {
   it('should take the inline help from its prop', () => {
     const wrapper = createWrapper({ inlineHelp: '<p>What this report shows</p>' });
 
-    expect(wrapper.find('.helpIcon .icon-info').exists()).toBe(true);
-    expect(wrapper.find('.inlineHelp').html()).toContain('What this report shows');
+    expect(wrapper.find('.enrichedHeadline__helpIcon .icon-info').exists()).toBe(true);
+    expect(wrapper.find('.enrichedHeadline__help').html()).toContain('What this report shows');
   });
 
   it('should not read the documentation out of an adjacent DataTable', () => {
@@ -48,8 +48,8 @@ describe('EnrichedHeadline', () => {
 
     const wrapper = createWrapper();
 
-    expect(wrapper.find('.helpIcon').exists()).toBe(false);
-    expect(wrapper.find('.inlineHelp').html()).not.toContain('scraped');
+    expect(wrapper.find('.enrichedHeadline__helpIcon').exists()).toBe(false);
+    expect(wrapper.find('.enrichedHeadline__help').html()).not.toContain('scraped');
   });
 
   it('should follow the inlineHelp prop when the owner swaps in another report', async () => {
@@ -57,8 +57,8 @@ describe('EnrichedHeadline', () => {
 
     await wrapper.setProps({ inlineHelp: '<p>second</p>' });
 
-    expect(wrapper.find('.inlineHelp').html()).toContain('second');
-    expect(wrapper.find('.inlineHelp').html()).not.toContain('first');
+    expect(wrapper.find('.enrichedHeadline__help').html()).toContain('second');
+    expect(wrapper.find('.enrichedHeadline__help').html()).not.toContain('first');
   });
 
   it('should follow the featureName prop, so feedback is filed under the current report', async () => {
@@ -72,13 +72,13 @@ describe('EnrichedHeadline', () => {
   it('should close an open help popup when the new report has no documentation', async () => {
     const wrapper = createWrapper({ inlineHelp: '<p>first</p>' });
 
-    await wrapper.find('.helpIcon').trigger('click');
+    await wrapper.find('.enrichedHeadline__helpIcon').trigger('click');
     expect(wrapper.vm.showInlineHelp).toBe(true);
 
     await wrapper.setProps({ inlineHelp: '' });
 
     expect(wrapper.vm.showInlineHelp).toBe(false);
-    expect(wrapper.find('.helpIcon').exists()).toBe(false);
+    expect(wrapper.find('.enrichedHeadline__helpIcon').exists()).toBe(false);
   });
 
   it('should show the archived-on date in the help panel', () => {
@@ -87,7 +87,7 @@ describe('EnrichedHeadline', () => {
       reportGenerated: 'Report generated on Jul 30, 2026 (UTC)',
     });
 
-    expect(wrapper.find('.inlineHelp .helpDate').text())
+    expect(wrapper.find('.enrichedHeadline__help .enrichedHeadline__helpDate').text())
       .toBe('Report generated on Jul 30, 2026 (UTC)');
   });
 
@@ -99,7 +99,7 @@ describe('EnrichedHeadline', () => {
       reportGenerated: '',
     });
 
-    expect(wrapper.find('.inlineHelp .helpDate').exists()).toBe(false);
+    expect(wrapper.find('.enrichedHeadline__help .enrichedHeadline__helpDate').exists()).toBe(false);
   });
 
   it('should fall back to the rendered title for the feature name', () => {
@@ -111,7 +111,7 @@ describe('EnrichedHeadline', () => {
   it('should keep the help panel inside the headline when no container is given', () => {
     const wrapper = createWrapper({ inlineHelp: '<p>What this report shows</p>' });
 
-    expect(wrapper.find('.enrichedHeadline > .inlineHelp').exists()).toBe(true);
+    expect(wrapper.find('.enrichedHeadline > .enrichedHeadline__help').exists()).toBe(true);
   });
 
   it('should move the help panel into the container the host provides', () => {
@@ -123,8 +123,8 @@ describe('EnrichedHeadline', () => {
       helpContainer: container,
     });
 
-    expect(wrapper.find('.enrichedHeadline > .inlineHelp').exists()).toBe(false);
-    expect(container.querySelector('.inlineHelp')?.innerHTML).toContain('What this report shows');
+    expect(wrapper.find('.enrichedHeadline > .enrichedHeadline__help').exists()).toBe(false);
+    expect(container.querySelector('.enrichedHeadline__help')?.innerHTML).toContain('What this report shows');
   });
 
   it('should still open and close a help panel it has handed to a container', async () => {
@@ -136,11 +136,11 @@ describe('EnrichedHeadline', () => {
       helpContainer: container,
     });
 
-    const panel = () => container.querySelector('.inlineHelp') as HTMLElement;
+    const panel = () => container.querySelector('.enrichedHeadline__help') as HTMLElement;
 
     expect(panel().style.display).toBe('none');
 
-    await wrapper.find('.helpIcon').trigger('click');
+    await wrapper.find('.enrichedHeadline__helpIcon').trigger('click');
 
     expect(panel().style.display).toBe('');
   });
