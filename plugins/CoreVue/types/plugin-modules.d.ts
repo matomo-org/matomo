@@ -47,7 +47,29 @@ declare module 'CoreHome' {
     getSegmentComparisons(): Array<{ params: { segment: string } }>;
     isComparisonEnabled(): boolean | null;
   };
-  export function translate(translationStringId: string, values?: unknown[]): string;
+  // Variadic, matching plugins/CoreHome/vue/src/translate.ts - the previous declaration
+  // took a single array, which rejected the ordinary `translate(key, value)` call.
+  export function translate(
+    translationStringId: string,
+    ...values: (string|string[]|number|number[]|boolean|boolean[])[]
+  ): string;
+
+  // `Matomo` is exported by CoreHome's index but was never declared here, so any plugin
+  // importing it from the module alias failed to type-check.
+  export const Matomo: {
+    helper: {
+      showAjaxLoading(): void;
+      hideAjaxLoading(): void;
+      modalConfirm(
+        element: HTMLElement|string,
+        handles?: Record<string, () => void>,
+        below?: boolean,
+      ): void;
+    };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    [key: string]: any;
+  };
+
   export function translateOrDefault(
     translationStringIdOrText?: string,
     ...values: (string|string[]|number|number[]|boolean|boolean[])[]

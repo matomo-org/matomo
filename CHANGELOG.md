@@ -10,7 +10,11 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * A plugin with no cover image of its own now falls back to the same generic `uncategorised` cover as every other plugin. `Piwik\Plugins\Marketplace\Plugins::addPluginCoverImage()` used to give a paid plugin owned by `piwik` or `matomo-org` the Matomo-branded `matomo.png` cover instead, which the redesigned cards mark with a Matomo chip rather than a whole cover image. The Marketplace's own category stand-ins now count as no cover image as well, so a plugin the Marketplace categorised also takes the generic fallback.
 * The Marketplace's `PluginList` Vue component has been removed along with the plugin list it rendered. The redesigned page is built from the `PluginGrid`, `PluginSection`, `PluginCard`, `CategoryTabs`, `MarketplaceHero` and `SortMenu` components the plugin now exports instead. The translation keys `Marketplace_CreatedBy`, `Marketplace_Intro`, `Marketplace_IntroSuperUser`, `Marketplace_NoThemesFound`, `Marketplace_PriceFromPerPeriod`, `Marketplace_Show`, `Marketplace_Sort` and `Marketplace_SortByPopular` have been removed with the markup that used them. The `pluginType` hash parameter is no longer written and only `themes` and `plugins` are still read back, for the links CorePluginsAdmin makes; `#?pluginType=premium` no longer opens a filtered list and is silently ignored, landing the reader on the full catalogue instead.
 
+### New Features
+* Added contextual recommendations for Premium products based on how Matomo is being used.
+
 ### New APIs
+* The new `Template.beforeDashboardWidgets` event is posted at the top of the dashboard, above the widgets, and allows a plugin to render its own content there. It is posted by `plugins/Dashboard/templates/embeddedIndex.twig`; like the other `Template.*` events, a listener takes the rendered output by reference (`function (&$out)`) and appends its markup to it.
 * `Piwik\Http::sendHttpRequest()` and `Piwik\Http::sendHttpRequestBy()` extended info (`$getExtendedInfo = true`)
   now includes an `effectiveUrl` entry: the final URL after following redirects. Best effort on the `fopen`
   transport, which follows redirects internally.
