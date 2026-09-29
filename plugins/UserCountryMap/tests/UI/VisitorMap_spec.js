@@ -73,8 +73,10 @@ describe("VisitorMap", function () {
         await page.evaluate(function () {
             document.documentElement.setAttribute('data-theme-mode', 'dark');
         });
+        // the mouse may still rest over Russia from the tests above, so leave first to trigger a fresh hover
+        await page.mouse.move(0, 0);
         await page.mouse.move(900, 140);
-        await page.waitForTimeout(100); // wait for tooltip + legend to appear
+        await page.waitForFunction(() => $('.map-stats').text().trim() !== '' && $('.qtip:visible').length > 0);
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('dark_mode');
     });

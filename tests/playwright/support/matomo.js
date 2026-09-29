@@ -60,6 +60,14 @@ const PAGE_SETUP = `(() => {
 })();`;
 
 /**
+ * Pins the font behind the generic `monospace` family (Matomo's code blocks use it): Chromium resolved
+ * it to DejaVu Sans Mono in some CI runs and to Liberation Mono in others.
+ */
+function pinFontFamilies(cdp) {
+  return cdp.send('Page.setFontFamilies', { fontFamilies: { fixed: 'DejaVu Sans Mono' } });
+}
+
+/**
  * Opens a page that is shared by the tests of a serial describe block, since most Matomo UI tests
  * continue from the page the previous test left behind.
  *
@@ -87,6 +95,7 @@ async function openSession(browser, contextOptions = {}) {
   });
 
   const page = await context.newPage();
+  await pinFontFamilies(await context.newCDPSession(page));
   page.on('request', (request) => pending.add(request));
   page.on('requestfinished', (request) => pending.delete(request));
   page.on('requestfailed', (request) => pending.delete(request));
@@ -201,4 +210,5 @@ module.exports = {
   updateEnvironment,
   openSession,
   expectAreaScreenshot,
+  pinFontFamilies,
 };

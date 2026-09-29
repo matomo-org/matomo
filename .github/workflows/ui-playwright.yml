@@ -127,13 +127,13 @@ jobs:
           github-token: ${{ github.token }}
           path: tests/playwright/screenshots
 
-      # Matomo itself calls these (the Marketplace, update checks), and live answers made results depend on
-      # them: the one-click update test downloaded a real plugin update. Nothing listens on 443 locally, so
-      # such calls fail at once, the same way every time.
-      - name: Block Matomo's online services
+      # Matomo calls the live Marketplace outside the PHP fixture (the one-click update test downloaded a
+      # real plugin update), so answers changed between runs. Nothing listens on 443 locally, so those
+      # calls fail at once, the same way every time. The other matomo.org hosts stay reachable, tests
+      # use them on purpose (release downloads, newsletter signup, the logme redirect).
+      - name: Block the live Marketplace
         run: |
-          for host in plugins.matomo.org api.matomo.org builds.matomo.org matomo.org www.matomo.org \
-              plugins.piwik.org api.piwik.org builds.piwik.org piwik.org; do
+          for host in plugins.matomo.org plugins.piwik.org; do
             echo "127.0.0.1 $host" | sudo tee -a /etc/hosts > /dev/null
           done
 

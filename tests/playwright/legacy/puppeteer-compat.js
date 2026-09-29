@@ -8,6 +8,8 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+const { pinFontFamilies } = require('../support/matomo');
+
 const DEFAULT_TIMEOUT = 30_000; // Puppeteer's default for waits
 const CLICK_TIMEOUT = 5_000;
 
@@ -823,7 +825,9 @@ class Page extends Target {
   }
 
   static async create(page, context) {
-    return new Page(page, context, await page.context().newCDPSession(page));
+    const cdp = await page.context().newCDPSession(page);
+    await pinFontFamilies(cdp);
+    return new Page(page, context, cdp);
   }
 
   isClosed() {
