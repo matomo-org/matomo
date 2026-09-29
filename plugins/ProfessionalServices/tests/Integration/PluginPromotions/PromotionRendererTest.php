@@ -163,7 +163,7 @@ class PromotionRendererTest extends IntegrationTestCase
 
             // An unconsumed placeholder means the copy asks for an argument the renderer
             // does not pass for this trigger.
-            $this->assertDoesNotMatchRegularExpression('/%\d+\$s/', $html, $where . ' left a placeholder unfilled');
+            $this->assertNotRegExp('/%\d+\$s/', $html, $where . ' left a placeholder unfilled');
             $this->assertStringNotContainsString('%s', $html, $where . ' left a placeholder unfilled');
         }
     }
@@ -310,7 +310,7 @@ class PromotionRendererTest extends IntegrationTestCase
 
         // Both the rate and the goal it is about lead to the same report.
         $this->assertSame(2, substr_count($html, 'class="productPromotion__metric"'));
-        $this->assertMatchesRegularExpression('/productPromotion__metric[^>]*>Newsletter signup</', $html);
+        $this->assertRegExp('/productPromotion__metric[^>]*>Newsletter signup</', $html);
     }
 
     /**
@@ -352,8 +352,8 @@ class PromotionRendererTest extends IntegrationTestCase
         ]);
 
         $this->assertSame(2, substr_count($html, 'class="productPromotion__metric"'));
-        $this->assertMatchesRegularExpression('/productPromotion__metric[^>]*>Purchase</', $html);
-        $this->assertMatchesRegularExpression('/productPromotion__metric[^>]*>640</', $html);
+        $this->assertRegExp('/productPromotion__metric[^>]*>Purchase</', $html);
+        $this->assertRegExp('/productPromotion__metric[^>]*>640</', $html);
         $this->assertStringContainsString('subcategory=3', $html);
     }
 
