@@ -1,44 +1,3 @@
-// Styled on its own class rather than under `.enrichedHeadline`, because a host can take the
-// panel out of the headline - see the `helpContainer` prop - and it has to look the same
-// wherever it ends up. Only its spacing off the heading stays with the headline, below.
-.enrichedHeadline__help {
-    display: block;
-    background: @theme-color-background-base;
-    font-size: 12px;
-    line-height: 1.1;
-    font-weight: normal;
-    border: 1px solid @theme-color-border-alternative;
-    padding: 10px;
-    border-radius: 2px;
-
-    .enrichedHeadline__readMore {
-        margin-top: 10px;
-        display: inline-block;
-        font-weight: bold;
-    }
-
-    // Same look as the DataTable's own `.helpDate`, which the report documentation emits and
-    // dataTable/_dataTable.less styles. Carried here rather than shared, so neither side has to
-    // keep the other's markup in mind.
-    .enrichedHeadline__helpDate {
-        color: @theme-color-text-light;
-        font-size: 11px;
-        font-style: italic;
-        padding: 4px;
-        text-align: right;
-        display: block;
-    }
-
-    // override: the help body is documentation HTML rendered through v-html, so its links carry
-    // no class of ours to hook. Morpheus dressed them with `h2 .inlineHelp a`, which a panel
-    // hoisted out of the heading no longer matches.
-    a,
-    a:hover {
-        text-decoration: underline;
-        color: @theme-color-text;
-    }
-}
-
 .enrichedHeadline {
     min-height: 22px;
 
@@ -61,7 +20,7 @@
     .enrichedHeadline__iconsBar {
         line-height: 1 !important;
         display: inline-flex;
-        align-items: center;
+        align-items: safe center;
         // Keeps the bar out of the line box's baseline calculation. An inline-flex box takes its
         // baseline from its first flex item, and on a report with no help icon that is the
         // rating icons, whose own baseline is the bottom edge of the 22px thumb images - more
@@ -73,10 +32,6 @@
         display: inline-block;
         vertical-align: middle;
         margin-left: 6px;
-
-        img {
-          filter: @theme-filter-on-illustration;
-        }
     }
 
     .enrichedHeadline__helpIcon {
@@ -88,11 +43,55 @@
         font-size: 16px;
         color: @theme-color-text-light !important;
         text-decoration: none;
-
-        &:hover, &.enrichedHeadline__helpIcon--active {
-            color: @theme-color-link !important;
-            opacity: 0.9;
-            text-decoration: none;
-        }
     }
+
+    // The open state reads like a hover, and sits after the rule above so the two settle by
+    // order rather than by chaining the modifier onto the element.
+    .enrichedHeadline__helpIcon:hover,
+    .enrichedHeadline__helpIcon--active {
+        color: @theme-color-link !important;
+        opacity: 0.9;
+        text-decoration: none;
+    }
+}
+
+// Styled on its own class rather than under `.enrichedHeadline`, because a host can take the
+// panel out of the headline - see the `helpContainer` prop - and it has to look the same
+// wherever it ends up. Only its spacing off the heading stays with the headline, above.
+.enrichedHeadline__help {
+    display: block;
+    background: @theme-color-background-base;
+    font-size: 12px;
+    line-height: 1.1;
+    font-weight: normal;
+    border: 1px solid @theme-color-border-alternative;
+    padding: 10px;
+    border-radius: 2px;
+}
+
+.enrichedHeadline__readMore {
+    margin-top: 10px;
+    display: inline-block;
+    font-weight: bold;
+    // Morpheus dressed this link through `h2 .inlineHelp a`, which a panel hoisted out of the
+    // heading no longer matches. Hover repeats it so the global `a:hover` cannot undo it.
+    text-decoration: underline;
+    color: @theme-color-text;
+
+    &:hover {
+        text-decoration: underline;
+        color: @theme-color-text;
+    }
+}
+
+// Same look as the DataTable's own `.helpDate`, which the report documentation emits and
+// dataTable/_dataTable.less styles. Carried here rather than shared, so neither side has to keep
+// the other's markup in mind.
+.enrichedHeadline__helpDate {
+    color: @theme-color-text-light;
+    font-size: 11px;
+    font-style: italic;
+    padding: 4px;
+    text-align: right;
+    display: block;
 }

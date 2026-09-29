@@ -110,7 +110,11 @@ export interface EnrichedHeadlineData {
  * <h2><EnrichedHeadline inline-help="inlineHelp">Pages report</EnrichedHeadline></h2>
  * -> inlineHelp specified via a attribute shows help icon on headline hover
  *
- * * <h2><EnrichedHeadline report-generated="generated time">Pages report</EnrichedHeadline></h2>
+ * <h2><EnrichedHeadline :help-container="element">Pages report</EnrichedHeadline></h2>
+ * -> renders the help panel into the given element instead of inside the headline, for a host
+ *    that wants it somewhere the heading's own row cannot stretch to
+ *
+ * <h2><EnrichedHeadline report-generated="generated time">Pages report</EnrichedHeadline></h2>
  * -> reportGenerated specified via this attribute shows a clock icon with a tooltip which
  * activated by hover
  * -> the tooltip shows the value of the attribute
@@ -129,7 +133,7 @@ export default defineComponent({
     featureName: String,
     inlineHelp: String,
     helpContainer: {
-      type: [String, Object] as PropType<string|HTMLElement|null>,
+      type: Object as PropType<HTMLElement|null>,
       default: null,
     },
   },
