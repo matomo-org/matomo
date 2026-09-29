@@ -75,9 +75,10 @@ class ClientWarmedListsTest extends \PHPUnit\Framework\TestCase
     private $attemptCount = 0;
 
     /**
-     * @var bool Whether the Marketplace answers with an empty body, which Service::fetch() returns as ''.
+     * @var string|array|null What Service::fetch() returns for a response without a plugins list: '' for an
+     *                        empty body, [] for [] or {}, or decoded JSON lacking the list.
      */
-    private $respondsEmpty = false;
+    private $emptyResponse;
 
     /**
      * @var array[] The context of each warning logged.
@@ -96,8 +97,8 @@ class ClientWarmedListsTest extends \PHPUnit\Framework\TestCase
                 throw $this->nextFailure;
             }
 
-            if ($this->respondsEmpty) {
-                return '';
+            if (null !== $this->emptyResponse) {
+                return $this->emptyResponse;
             }
 
             $this->requestCount++;
@@ -297,13 +298,16 @@ class ClientWarmedListsTest extends \PHPUnit\Framework\TestCase
         yield 'no connection to it' => [new Exception('Error while connecting to: plugins.matomo.org')];
     }
 
-    public function testAStaleListIsKeptWhenTheMarketplaceRespondsWithAnEmptyBody()
+    /**
+     * @dataProvider getEmptyResponses
+     */
+    public function testAStaleListIsKeptWhenTheMarketplaceRespondsWithAnEmptyBody($emptyResponse)
     {
         Date::$now = self::NOW + Client::PLUGIN_LIST_REFRESH_AFTER_SECONDS;
 
         $this->warmer->method('isServingVisit')->willReturn(true);
         $this->warmer->method('refreshNow')->willReturn(false);
-        $this->respondsEmpty = true;
+        $this->emptyResponse = $emptyResponse;
 
         $this->assertListed('Fetched1', $this->readOverviewList());
         $this->assertSame(1, $this->attemptCount);
@@ -311,10 +315,13 @@ class ClientWarmedListsTest extends \PHPUnit\Framework\TestCase
         $this->assertWarningsStayOffScreen(1);
     }
 
-    public function testRefreshingTheListsReportsAnEmptyBodyAsAFailureAndKeepsTheLists()
+    /**
+     * @dataProvider getEmptyResponses
+     */
+    public function testRefreshingTheListsReportsAnEmptyBodyAsAFailureAndKeepsTheLists($emptyResponse)
     {
         Date::$now = self::NOW + 60;
-        $this->respondsEmpty = true;
+        $this->emptyResponse = $emptyResponse;
 
         $this->assertFalse($this->client->tryRefreshOverviewListCaches());
         $this->assertNotNull($this->client->findInCachedOverviewLists('Fetched1'));
@@ -322,13 +329,42 @@ class ClientWarmedListsTest extends \PHPUnit\Framework\TestCase
         $this->assertWarningsStayOffScreen(3);
     }
 
-    public function testAnEmptyBodyIsReportedAsAnErrorWhenNothingIsCached()
+    /**
+     * @dataProvider getEmptyResponses
+     */
+    public function testAnEmptyBodyIsReportedAsAnErrorWhenNothingIsCached($emptyResponse)
     {
         $this->client->clearAllCacheEntries();
-        $this->respondsEmpty = true;
+        $this->emptyResponse = $emptyResponse;
 
         $this->expectException(ClientException::class);
         $this->readOverviewList();
+    }
+
+    public function getEmptyResponses(): iterable
+    {
+        yield 'an empty body' => [''];
+        yield 'an empty JSON array or object' => [[]];
+        yield 'a body without a plugins list' => [['error' => '']];
+        yield 'a null plugins list' => [['plugins' => null]];
+    }
+
+    public function testAnEmptyBodyToAnyOtherRequestIsNotKept()
+    {
+        $this->emptyResponse = '';
+
+        $this->assertSame([], $this->client->getPluginInfo('SomePlugin'));
+        $this->assertSame([], $this->client->getPluginInfo('SomePlugin'));
+        $this->assertSame(2, $this->attemptCount);
+    }
+
+    public function testAnEmptyListToAnyOtherRequestIsKept()
+    {
+        $this->emptyResponse = [];
+
+        $this->assertSame([], $this->client->getPluginInfo('SomePlugin'));
+        $this->assertSame([], $this->client->getPluginInfo('SomePlugin'));
+        $this->assertSame(1, $this->attemptCount);
     }
 
     public function testAnUnreachableMarketplaceIsReportedAsItIsWhenNothingIsCached()
