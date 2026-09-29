@@ -400,6 +400,31 @@ describe('PluginDetails', () => {
     expect(anchor.attributes('target')).toBeUndefined();
   });
 
+  it('leaves a relative readme link as its text, since it would resolve against this Matomo', async () => {
+    mockPost.mockResolvedValue({
+      ...detailsResponse,
+      versions: [{
+        name: '1.2.3',
+        readmeHtml: {
+          description: '<p><a href="/relative/readme">relative</a> <a href="not-a-url">bare</a> '
+            + '<a href="mailto:dev@example.org">mail</a></p>',
+        },
+      }],
+    });
+
+    const wrapper = mountDetails(cardRow, true);
+    await flushPromises();
+    await wrapper.vm.$nextTick();
+    await wrapper.vm.$nextTick();
+
+    const readme = wrapper.find('.marketplacePluginDetails__readme');
+    expect(readme.findAll('a').map((link) => link.attributes('href'))).toEqual([
+      'mailto:dev@example.org',
+    ]);
+    expect(readme.text()).toContain('relative');
+    expect(readme.text()).toContain('bare');
+  });
+
   it('links only the URLs that carry a safe scheme', async () => {
     // all of them come from the plugin's own plugin.json, which its developer writes
     // eslint-disable-next-line no-script-url -- the unsafe value under test, never navigated to

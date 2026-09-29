@@ -825,17 +825,29 @@ export default defineComponent({
         (this.$refs.heading as HTMLElement|undefined)?.focus({ preventScroll: true });
       });
     },
-    /** Opens the readme's own links in a new tab, as every other link off this page does. */
+    /**
+     * Opens the readme's own links in a new tab, as every other link off this page does.
+     *
+     * A readme is written for plugins.matomo.org, so a relative link in it resolves against this
+     * Matomo instead and leads nowhere. Only absolute web and mail links, and anchors within the
+     * readme, are kept; anything else is left as its text.
+     */
     applyExternalTarget() {
       this.$nextTick(() => {
         const root = this.$refs.root as HTMLElement|undefined;
         const links = root?.querySelectorAll<HTMLAnchorElement>(
-          '.marketplacePluginDetails__readme a[href^="http"]',
+          '.marketplacePluginDetails__readme a[href]',
         ) ?? [];
 
         links.forEach((link) => {
-          link.setAttribute('target', '_blank');
-          link.setAttribute('rel', 'noreferrer noopener');
+          const href = (link.getAttribute('href') || '').trim();
+
+          if (/^(https?:)?\/\//i.test(href)) {
+            link.setAttribute('target', '_blank');
+            link.setAttribute('rel', 'noreferrer noopener');
+          } else if (!/^(mailto:|#)/i.test(href)) {
+            link.replaceWith(...link.childNodes);
+          }
         });
       });
     },
