@@ -457,10 +457,20 @@ button.marketplacePluginDetails__reviewsLink:focus:not(:focus-visible) {
   color: @theme-color-text-light;
 }
 
+// The shop draws its reviews embed for a light page, in dark text on a transparent background, so on
+// a dark card they disappear. The frame keeps the light scheme the embed was drawn for, which also
+// stops the browser from swapping in a canvas colour of its own, and in dark mode gives the embed
+// the white surface it assumes.
 .marketplacePluginDetails__reviewFrame {
   width: 100%;
   border: 0;
+  color-scheme: light;
   background: url('plugins/Morpheus/images/loading.svg') no-repeat center;
+
+  .inDarkMode({
+    border-radius: @marketplace-card-radius;
+    background-color: #fff;
+  });
 }
 
 .marketplacePluginDetails__buy {
