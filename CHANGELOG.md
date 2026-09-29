@@ -29,6 +29,10 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * `Piwik\Plugin\ThemeStyles` gained `$colorSuccess`, `$colorWarning`, `$colorDanger`, `$colorTextBrand`, `$colorBackgroundBrandTinyContrast`, `$colorBackgroundBrandLowContrast` and `$colorBorderBrand`, exposed to Less as `@theme-color-success`, `@theme-color-warning`, `@theme-color-danger`, `@theme-color-text-brand`, `@theme-color-background-brand-tinyContrast`, `@theme-color-background-brand-lowContrast` and `@theme-color-border-brand`.
 * A template extending `@Morpheus/admin.twig` can override the new `contentClass` block to put a class on the page's `#content` element. Core provides `admin--wide`, which widens the content area for admin pages that lay out in columns rather than in a single text measure.
 
+### New commands
+
+* New command `marketplace:warm-cache` refetches the plugin and theme lists shown in the Marketplace overview. With `--if-older-than=<seconds>` it only refetches when the lists are missing or at least that old. Matomo runs it in the background to refresh the lists at spread-out times rather than on the hour, so it does not normally need to be run by hand.
+
 ## Matomo 5.14.0
 
 ### Breaking Changes

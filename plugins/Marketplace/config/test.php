@@ -2,6 +2,7 @@
 
 use Piwik\Plugins\Marketplace\Input\PurchaseType;
 use Piwik\Plugins\Marketplace\LicenseKey;
+use Piwik\Plugins\Marketplace\tests\Framework\Mock\BackgroundWarmer as MockBackgroundWarmer;
 use Piwik\Plugins\Marketplace\tests\Framework\Mock\Consumer as MockConsumer;
 use Piwik\Plugins\Marketplace\tests\Framework\Mock\FixtureRepository;
 use Piwik\Plugins\Marketplace\tests\Framework\Mock\Service as MockService;
@@ -64,6 +65,7 @@ return array(
 
         return $previous;
     }),
+    'Piwik\Plugins\Marketplace\BackgroundWarmer' => Piwik\DI::autowire(MockBackgroundWarmer::class),
     'Piwik\Plugins\Marketplace\Api\Client' => Piwik\DI::decorate(function ($previous) {
         /** @var \Piwik\Plugins\Marketplace\Api\Client $previous */
         $previous->clearAllCacheEntries();
